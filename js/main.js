@@ -32,7 +32,8 @@ jQuery(document).ready(function($) {
 		$.getJSON('githash.php', {}, function(json, textStatus) {
 			if (json) {
 				if (json.gitHash != gitHash) {
-					location.reload();
+					window.location.reload();
+					window.location.href=window.location.href;
 				}
 			}
 		});
