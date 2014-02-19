@@ -1,0 +1,66 @@
+body, html {
+	background: #000;
+	padding: 0px;
+	margin: 0px;
+	width:100%;
+	height: 100%;
+
+
+	font-family: "helvetica-neue";
+	color: #fff;
+	font-size: 75px;
+}
+
+.TopLeft
+{
+	position: absolute;
+	top: 50px;
+	left: 50px;
+}
+.TopRight
+{
+	position: absolute;
+	top: 50px;
+	right: 50px;
+}
+.icon {
+	position: relative;
+	top :-10px;
+	display: inline-block;
+	font-size: 35px;
+	padding-right: 5px;
+	font-weight: 100;
+	margin-right: 10px;
+	
+
+}
+.Center 
+{
+	position: absolute;
+	top: 50%;
+	height: 200px;
+	margin-top: -100px;
+	width: 100%;
+	text-align: center;
+}
+.Bottom
+{
+	font-size: 35px;
+	position: absolute;
+	bottom: 50px;
+	right: 50px;
+	left: 50px;
+	overflow: hidden;
+	text-align: center;
+}
+
+@font-face {
+  font-family: 'helvetica-neue';
+  src: url('../font/helvetica-neue-webfont.eot');
+  src: url('../font/helvetica-neue-webfont.eot?#iefix') format('embedded-opentype'), 
+       url('../font/helvetica-neue-webfont.woff') format('woff'), 
+       url('../font/helvetica-neue-webfont.ttf') format('truetype'), 
+       url('../font/helvetica-neue-webfont.svg#helvetica-neue-webfontRg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
