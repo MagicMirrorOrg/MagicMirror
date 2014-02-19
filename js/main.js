@@ -23,6 +23,9 @@ jQuery(document).ready(function($) {
 
 	var news = [];
 	var newsIndex = 0;
+
+	var lastCompliment;
+	var compliment;
 	
 	(function checkVersion()
 	{
@@ -60,13 +63,19 @@ jQuery(document).ready(function($) {
 
 	(function updateCompliment()
 	{
-		var compliments = ['Hey, handsome!','Hi, sexy!','Hello, beauty!', 'You look sexy!', 'Wow, you look hot!'];
-		var i = Math.floor(Math.random()*compliments.length);
-		$('.compliment').updateWithText(compliments[i], 4000);
+		//var compliments = ['Hey, handsome!','Hi, sexy!','Hello, beauty!', 'You look sexy!', 'Wow, you look hot!'];
+		var compliments = ['Testing ...', 'Please wait ...'];
+
+		while (compliment == lastCompliment) {
+			compliment = Math.floor(Math.random()*compliments.length);
+		}
+		$('.compliment').updateWithText(compliments[compliment], 4000);
+
+		lastCompliment = compliment;
 
 		setTimeout(function() {
 			updateCompliment();
-		}, 20000);
+		}, 5000);
 	})();
 
 	(function updateWeather()
