@@ -24,6 +24,23 @@ jQuery(document).ready(function($) {
 	var news = [];
 	var newsIndex = 0;
 	
+	(function checkVersion()
+	{
+		$.getJSON('githash.php', {}, function(json, textStatus) {
+			if (json) {
+				if (json.gitHash != gitHash) {
+					console.log('refresh');
+					location.reload();
+				} else {
+					console.log('up to date');
+				}
+			}
+		});
+		setTimeout(function() {
+			checkVersion();
+		}, 3000);
+	})();
+
 	(function updateTime()
 	{
 		var now = new Date();
@@ -94,7 +111,6 @@ jQuery(document).ready(function($) {
 			updateWeather();
 		}, 60000);
 	})();
-
 
 	(function fetchNews() {
 		$.feedToJson({
