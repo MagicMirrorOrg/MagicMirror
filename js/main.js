@@ -29,10 +29,7 @@ jQuery(document).ready(function($) {
 		$.getJSON('githash.php', {}, function(json, textStatus) {
 			if (json) {
 				if (json.gitHash != gitHash) {
-					console.log('refresh');
 					location.reload();
-				} else {
-					console.log('up to date');
 				}
 			}
 		});
