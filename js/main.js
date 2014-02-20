@@ -64,8 +64,8 @@ jQuery(document).ready(function($) {
 
 	(function updateCompliment()
 	{
-		//var compliments = ['Hey, handsome!','Hi, sexy!','Hello, beauty!', 'You look sexy!', 'Wow, you look hot!'];
-		var compliments = ['Testing ...', 'Please wait ...'];
+		var compliments = ['Hey, handsome!','Hi, sexy!','Hello, beauty!', 'You look sexy!', 'Wow, you look hot!'];
+		//var compliments = ['Testing ...', 'Please wait ...'];
 
 		while (compliment == lastCompliment) {
 			compliment = Math.floor(Math.random()*compliments.length);
