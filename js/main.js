@@ -76,7 +76,7 @@ jQuery(document).ready(function($) {
 
 		setTimeout(function() {
 			updateCompliment();
-		}, 5000);
+		}, 20000);
 	})();
 
 	(function updateWeather()
