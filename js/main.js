@@ -125,7 +125,7 @@ jQuery(document).ready(function($) {
 			var temp_max = roundTemp(json.main.temp_max);
 
 			var iconClass = iconTable[json.weather[0].icon];
-			var icon = $('<span/>').addClass('icon').addClass(iconClass);
+			var icon = $('<span/>').addClass('icon').addClass('dimmed').addClass(iconClass);
 			$('.temp').updateWithText(icon.outerHTML()+temp+'&deg;', 1000);
 
 			// var forecast = 'Min: '+temp_min+'&deg;, Max: '+temp_max+'&deg;';
@@ -178,8 +178,8 @@ jQuery(document).ready(function($) {
 				var row = $('<tr />');
 
 				row.append($('<td/>').addClass('day').html(dayAbbr[dt.getDay()]));
-				row.append($('<td/>').addClass('temp-max').html(roundTemp(forecast.temp_max)+'&deg;'));
-				row.append($('<td/>').addClass('temp-min').html(roundTemp(forecast.temp_min)+'&deg;'));
+				row.append($('<td/>').addClass('temp-max').html(roundTemp(forecast.temp_max)));
+				row.append($('<td/>').addClass('temp-min').html(roundTemp(forecast.temp_min)));
 
 				forecastTable.append(row);
 			}
