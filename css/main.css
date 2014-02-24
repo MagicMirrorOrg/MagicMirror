@@ -62,12 +62,18 @@ body, html {
 	font-size: 35px;
 }
 
+.xdimmed
+{
+	color: #666;
+} 
+
 .dimmed
 {
 	color: #999;
 }
 
-.icon {
+.icon 
+{
 	position: relative;
 	top :-10px;
 	display: inline-block;
@@ -75,6 +81,31 @@ body, html {
 	padding-right: 5px;
 	font-weight: 100;
 	margin-right: 10px;
+}
+
+.forecast-table {
+	float: right;
+	text-align: right;
+	font-size: 20px;
+}
+.forecast-table .day, .forecast-table .temp-min, .forecast-table .temp-max  
+{
+	width: 50px;
+	text-align: right;
+}
+
+.forecast-table .temp-max 
+{
+	width: 60px;
+}
+.forecast-table .temp-min
+{
+	width: 60px;
+}
+
+.forecast-table .day
+{
+	color: #999;
 }
 
 @font-face {
