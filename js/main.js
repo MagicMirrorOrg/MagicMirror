@@ -44,24 +44,31 @@ jQuery(document).ready(function($) {
 
 	(function updateTime()
 	{
+		var months = ['januari','februari','maart','april','mei','juni','juli','augustus','september','oktober','november','december'];
 		var now = new Date();
 		var hh = now.getHours();
 		var mm = now.getMinutes();
 		var ss = now.getSeconds();
 
+		var day = now.getDate();
+		var month = now.getMonth();
+		var year = now.getFullYear();
+
 		hh = (hh < 10) ? '0' + hh : hh;
 		mm = (mm < 10) ? '0' + mm : mm;
 		ss = (ss < 10) ? '0' + ss : ss;
 
+		var date = day + ' ' + months[month] + ' ' + year;
 		var time = hh + ":" + mm;
 
+		$('.date').html(date);
 		$('.time').html(time);
 
 		setTimeout(function() {
 			updateTime();
 		}, 1000);
 	})();
-	
+
 
 /*
 	(function updateCompliment()
@@ -112,9 +119,15 @@ jQuery(document).ready(function($) {
 
 		$.getJSON('http://api.openweathermap.org/data/2.5/weather', params, function(json, textStatus) {
 			var temp = Math.round(json.main.temp * 10) / 10;
+			var temp_min = Math.round(json.main.temp_min * 10) / 10;
+			var temp_max = Math.round(json.main.temp_max * 10) / 10;
+
 			var iconClass = iconTable[json.weather[0].icon];
 			var icon = $('<span/>').addClass('icon').addClass(iconClass);
 			$('.temp').updateWithText(icon.outerHTML()+temp+'&deg;', 1000);
+
+			var forecast = 'Min: '+temp_min+'&deg;, Max: '+temp_max+'&deg;';
+			$('.forecast').updateWithText(forecast, 1000);
 		});
 
 		setTimeout(function() {
@@ -142,7 +155,7 @@ jQuery(document).ready(function($) {
 
 	(function showNews() {
 		var newsItem = news[newsIndex];
-		$('.Bottom').updateWithText(newsItem,2000);
+		$('.news').updateWithText(newsItem,2000);
 
 		newsIndex--;
 		if (newsIndex < 0) newsIndex = news.length - 1;

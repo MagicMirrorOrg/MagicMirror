@@ -9,10 +9,10 @@
 </head>
 <body>
 
-	<div class="TopLeft time"></div>
-	<div class="TopRight temp"></div>
-	<div class="Center compliment"></div>
-	<div class="Bottom">
+	<div class="top left"><div class="date xsmall dimmed"></div><div class="time"></div></div>
+	<div class="top right"><div class="forecast xsmall dimmed"></div><div class="temp"></div></div>
+	<div class="center-ver center-hor"><div class="compliment"></div></div>
+	<div class="bottom center-hor"><div class="news small"></div></div>
 
 </div>
 

@@ -11,18 +11,62 @@ body, html {
 	font-size: 75px;
 }
 
-.TopLeft
+.top
 {
 	position: absolute;
 	top: 50px;
+}
+
+.left
+{
+	position: absolute;
 	left: 50px;
 }
-.TopRight
+.right
 {
 	position: absolute;
-	top: 50px;
 	right: 50px;
+	text-align: right;
 }
+
+.center-ver
+{
+	position: absolute;
+	top: 50%;
+	height: 200px;
+	margin-top: -100px;
+	line-height: 100px;
+}
+
+.center-hor
+{
+	position: absolute;
+	right: 50px;
+	left: 50px;
+	text-align: center;	
+}
+
+.bottom
+{
+	position: absolute;
+	bottom: 50px;
+}
+
+.xsmall
+{
+	font-size: 25px;
+}
+
+.small
+{
+	font-size: 35px;
+}
+
+.dimmed
+{
+	color: #999;
+}
+
 .icon {
 	position: relative;
 	top :-10px;
@@ -31,27 +75,6 @@ body, html {
 	padding-right: 5px;
 	font-weight: 100;
 	margin-right: 10px;
-	
-
-}
-.Center 
-{
-	position: absolute;
-	top: 50%;
-	height: 200px;
-	margin-top: -100px;
-	width: 100%;
-	text-align: center;
-}
-.Bottom
-{
-	font-size: 35px;
-	position: absolute;
-	bottom: 50px;
-	right: 50px;
-	left: 50px;
-	overflow: hidden;
-	text-align: center;
 }
 
 @font-face {
