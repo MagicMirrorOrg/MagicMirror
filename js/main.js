@@ -61,7 +61,9 @@ jQuery(document).ready(function($) {
 			updateTime();
 		}, 1000);
 	})();
+	
 
+/*
 	(function updateCompliment()
 	{
 		var compliments = ['Hey, handsome!','Hi, sexy!','Hello, beauty!', 'You look sexy!', 'Wow, you look hot!'];
@@ -78,6 +80,7 @@ jQuery(document).ready(function($) {
 			updateCompliment();
 		}, 20000);
 	})();
+*/
 
 	(function updateWeather()
 	{
