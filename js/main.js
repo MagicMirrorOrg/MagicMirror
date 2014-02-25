@@ -161,7 +161,10 @@ jQuery(document).ready(function($) {
 			var sunset = new Date(json.sys.sunset*1000).toTimeString().substring(0,5);
 
 			var windString = '<span class="wi-strong-wind xdimmed"></span> ' + kmh2beaufort(wind) ;
-			var sunString = (json.sys.sunrise*1000 > now && json.sys.sunset*1000 > now) ? '<span class="wi-sunrise xdimmed"></span> ' + sunrise : '  <span class="wi-sunset xdimmed"></span> ' + sunset;
+			var sunString = '<span class="wi-sunrise xdimmed"></span> ' + sunrise;
+			if (json.sys.sunrise*1000 > now && json.sys.sunset*1000 > now) {
+				sunString = '<span class="wi-sunset xdimmed"></span> ' + sunset;
+			}
 
 			$('.sun').updateWithText(windString+' '+sunString, 1000);
 		});
