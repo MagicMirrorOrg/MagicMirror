@@ -6,7 +6,8 @@ body, html {
 	height: 100%;
 
 
-	font-family: "HelveticaNeue-UltraLight";
+	font-family: "HelveticaNeue-Light";
+	letter-spacing: -3px;
 	color: #fff;
 	font-size: 75px;
 	 -webkit-font-smoothing: antialiased;
@@ -35,7 +36,7 @@ body, html {
 	position: absolute;
 	top: 50%;
 	height: 200px;
-	margin-top: -100px;
+	/* margin-top: -100px; */
 	line-height: 100px;
 }
 
@@ -56,23 +57,25 @@ body, html {
 .xsmall
 {
 	font-size: 25px;
-	font-family: "HelveticaNeue-Light";
+	letter-spacing: 0px;
+	font-family: "HelveticaNeue-Medium";
 }
 
 .small
 {
 	font-size: 35px;
+	letter-spacing: -1.5px;
 	font-family: "HelveticaNeue-Light";
 }
 
 .xdimmed
 {
-	color: #fff;
+	color: #666;
 } 
 
 .dimmed
 {
-	color: #fff;
+	color: #999;
 }
 
 .icon 
@@ -80,10 +83,10 @@ body, html {
 	position: relative;
 	top :-10px;
 	display: inline-block;
-	font-size: 35px;
+	font-size: 50px;
 	padding-right: 5px;
 	font-weight: 100;
-	margin-right: 10px;
+	margin-right: 0px;
 }
 
 .forecast-table {

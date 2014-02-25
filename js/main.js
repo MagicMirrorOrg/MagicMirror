@@ -19,9 +19,21 @@ jQuery.fn.outerHTML = function(s) {
         : jQuery("<p>").append(this.eq(0).clone()).html();
 };
 
-function roundTemp(temp)
+function roundVal(temp)
 {
 	return Math.round(temp * 10) / 10;
+}
+
+function kmh2beaufort(kmh)
+{
+	var speeds = [1, 5, 11, 19, 28, 38, 49, 61, 74, 88, 102, 117, 1000];
+	for (var beaufort in speeds) {
+		var speed = speeds[beaufort];
+		if (speed > kmh) {
+			return beaufort;
+		}
+	}
+	return 12;
 }
 
 jQuery(document).ready(function($) {
@@ -80,8 +92,16 @@ jQuery(document).ready(function($) {
 
 	(function updateCompliment()
 	{
-		var compliments = ['Hey, handsome!','Hi, sexy!','Hello, beauty!', 'You look sexy!', 'Wow, you look hot!'];
-		//var compliments = ['Testing ...', 'Please wait ...'];
+		var compliments = [
+			'Hey, handsome!',
+			'Hi, sexy!',
+			'Hello, beauty!',
+			'You look sexy!',
+			'Wow, you look hot!',
+			'Looking good today!',
+			'You look nice!',
+			'Enjoy your day!'
+		];
 
 		while (compliment == lastCompliment) {
 			compliment = Math.floor(Math.random()*compliments.length);
@@ -92,7 +112,7 @@ jQuery(document).ready(function($) {
 
 		setTimeout(function() {
 			updateCompliment();
-		}, 20000);
+		}, 30000);
 	})();
 
 	(function updateCurrentWeather()
@@ -120,9 +140,14 @@ jQuery(document).ready(function($) {
 		
 
 		$.getJSON('http://api.openweathermap.org/data/2.5/weather', weatherParams, function(json, textStatus) {
-			var temp = roundTemp(json.main.temp);
-			var temp_min = roundTemp(json.main.temp_min);
-			var temp_max = roundTemp(json.main.temp_max);
+
+			var temp = roundVal(json.main.temp);
+			var temp_min = roundVal(json.main.temp_min);
+			var temp_max = roundVal(json.main.temp_max);
+
+			var wind = roundVal(json.wind.speed);
+
+			console.log(wind);
 
 			var iconClass = iconTable[json.weather[0].icon];
 			var icon = $('<span/>').addClass('icon').addClass('dimmed').addClass(iconClass);
@@ -131,13 +156,14 @@ jQuery(document).ready(function($) {
 			// var forecast = 'Min: '+temp_min+'&deg;, Max: '+temp_max+'&deg;';
 			// $('.forecast').updateWithText(forecast, 1000);
 
-
+			var now = new Date();
 			var sunrise = new Date(json.sys.sunrise*1000).toTimeString().substring(0,5);
 			var sunset = new Date(json.sys.sunset*1000).toTimeString().substring(0,5);
 
-			var sunString = '<span class="wi-sunrise xdimmed"></span> ' + sunrise+'  <span class="wi-sunset xdimmed"></span> ' + sunset;
+			var windString = '<span class="wi-strong-wind xdimmed"></span> ' + kmh2beaufort(wind) ;
+			var sunString = (json.sys.sunrise*1000 > now && json.sys.sunset*1000 > now) ? '<span class="wi-sunrise xdimmed"></span> ' + sunrise : '  <span class="wi-sunset xdimmed"></span> ' + sunset;
 
-			$('.sun').updateWithText(sunString, 1000);
+			$('.sun').updateWithText(windString+' '+sunString, 1000);
 		});
 
 		setTimeout(function() {
@@ -178,8 +204,8 @@ jQuery(document).ready(function($) {
 				var row = $('<tr />');
 
 				row.append($('<td/>').addClass('day').html(dayAbbr[dt.getDay()]));
-				row.append($('<td/>').addClass('temp-max').html(roundTemp(forecast.temp_max)));
-				row.append($('<td/>').addClass('temp-min').html(roundTemp(forecast.temp_min)));
+				row.append($('<td/>').addClass('temp-max').html(roundVal(forecast.temp_max)));
+				row.append($('<td/>').addClass('temp-min').html(roundVal(forecast.temp_min)));
 
 				forecastTable.append(row);
 			}
