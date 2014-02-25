@@ -64,12 +64,12 @@ body, html {
 
 .xdimmed
 {
-	color: #bbb;
+	color: #fff;
 } 
 
 .dimmed
 {
-	color: #ddd;
+	color: #fff;
 }
 
 .icon 
@@ -101,7 +101,7 @@ body, html {
 
 .forecast-table .day
 {
-	color: #ddd;
+	color: #eee;
 }
 
 @font-face {
