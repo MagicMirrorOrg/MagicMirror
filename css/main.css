@@ -7,6 +7,7 @@ body, html {
 
 
 	font-family: "helvetica-neue";
+	font-weight: 200px;
 	color: #fff;
 	font-size: 75px;
 }
@@ -106,11 +107,11 @@ body, html {
 
 @font-face {
   font-family: 'helvetica-neue';
-  src: url('../font/helvetica-neue-webfont.eot');
-  src: url('../font/helvetica-neue-webfont.eot?#iefix') format('embedded-opentype'), 
-       url('../font/helvetica-neue-webfont.woff') format('woff'), 
-       url('../font/helvetica-neue-webfont.ttf') format('truetype'), 
-       url('../font/helvetica-neue-webfont.svg#helvetica-neue-webfontRg') format('svg');
+  src: url('font/helvetica-neue-webfont.eot');
+  src: url('font/helvetica-neue-webfont.eot?#iefix') format('embedded-opentype'), 
+       url('font/helvetica-neue-webfont.woff') format('woff'), 
+       url('font/helvetica-neue-webfont.ttf') format('truetype'), 
+       url('font/helvetica-neue-webfont.svg#helvetica-neue-webfontRg') format('svg');
   font-weight: normal;
   font-style: normal;
 }

@@ -1,7 +1,9 @@
 <html>
 <head>
 	<title>Magic Mirror</title>
-	<link rel="stylesheet" type="text/css" href="css/main.css?nocache=<?php echo md5(microtime()) ?>">
+	<style type="text/css">
+		<?php include('css/main.css') ?>
+	</style>
 	<link rel="stylesheet" type="text/css" href="css/weather-icons.css">
 	<script type="text/javascript">
 		var gitHash = '<?php echo trim(`git rev-parse HEAD`) ?>';
