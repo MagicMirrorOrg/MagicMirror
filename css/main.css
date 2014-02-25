@@ -97,10 +97,10 @@ body, html {
 	position: relative;
 	top :-10px;
 	display: inline-block;
-	font-size: 50px;
+	font-size: 45px;
 	padding-right: 5px;
 	font-weight: 100;
-	margin-right: 0px;
+	margin-right: 10px;
 }
 
 .forecast-table {
