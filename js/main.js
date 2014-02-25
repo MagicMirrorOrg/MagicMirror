@@ -211,7 +211,7 @@ jQuery(document).ready(function($) {
 		}, 60000);
 	})();
 
-	function showNews() {
+	(function showNews() {
 		var newsItem = news[newsIndex];
 		$('.news').updateWithText(newsItem,2000);
 
@@ -220,6 +220,6 @@ jQuery(document).ready(function($) {
 		setTimeout(function() {
 			showNews();
 		}, 5500);
-	};
+	})();
 	
 });
