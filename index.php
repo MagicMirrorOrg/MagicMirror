@@ -13,7 +13,7 @@
 
 	<div class="top left"><div class="date xsmall dimmed"></div><div class="time"></div></div>
 	<div class="top right"><div class="sun xsmall dimmed"></div><div class="temp"></div><div class="forecast xsmall dimmed"></div></div>
-	<div class="center-ver center-hor"><div class="compliment"></div></div>
+	<div class="lower-third center-hor"><div class="compliment light"></div></div>
 	<div class="bottom center-hor"><div class="news small"></div></div>
 
 </div>
