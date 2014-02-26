@@ -150,6 +150,7 @@ body, html {
 }
 .calendar-table .days {
 	padding-left: 20px;
+	text-align: right;
 }
 
 @font-face {
