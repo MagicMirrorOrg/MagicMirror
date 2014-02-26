@@ -152,7 +152,7 @@ jQuery(document).ready(function($) {
 			table.append(row);
 		}
 
-		$('.calendar').html(table);
+		$('.calendar').updateWithText(table,1000);
 
 		setTimeout(function() {
         	updateCalendar();
