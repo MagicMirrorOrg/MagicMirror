@@ -147,7 +147,7 @@ jQuery(document).ready(function($) {
     		}
 			
 			var row = $('<tr/>');
-			row.append($('<td/>').html(e.description).addClass('description light'));
+			row.append($('<td/>').html(e.description).addClass('description'));
 			row.append($('<td/>').html(daysString).addClass('days dimmed'));
 			table.append(row);
 		}
