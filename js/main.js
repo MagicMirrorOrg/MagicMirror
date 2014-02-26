@@ -41,6 +41,8 @@ jQuery(document).ready(function($) {
 	var news = [];
 	var newsIndex = 0;
 
+	var eventList = [];
+
 	var lastCompliment;
 	var compliment;
 
@@ -88,6 +90,73 @@ jQuery(document).ready(function($) {
 		setTimeout(function() {
 			updateTime();
 		}, 1000);
+	})();
+
+	(function updateCalendarData()
+	{
+		new ical_parser("calendar.php", function(cal){
+        	events = cal.getEvents();
+        	eventList = [];
+
+        	for (var i in events) {
+        		var e = events[i];
+        		for (var key in e) {
+        			var value = e[key];
+					var seperator = key.search(';');
+					if (seperator >= 0) {
+						var mainKey = key.substring(0,seperator);
+						var subKey = key.substring(seperator+1);
+
+						var dt;
+						if (subKey == 'VALUE=DATE') {
+							//date
+							dt = new Date(value.substring(0,4), value.substring(4,6) - 1, value.substring(6,8));
+						} else {
+							//time
+							dt = new Date(value.substring(0,4), value.substring(4,6) - 1, value.substring(6,8), value.substring(9,11), value.substring(11,13), value.substring(13,15));
+						}
+
+						if (mainKey == 'DTSTART') e.startDate = dt; 
+						if (mainKey == 'DTEND') e.endDate = dt; 
+					}
+        		}
+
+        		var days = moment(e.startDate).diff(moment(new Date()), 'days');
+
+        		eventList.push({'description':e.SUMMARY,'days':days});
+        	};
+        	eventList.sort(function(a,b){return a.days-b.days});
+
+        	setTimeout(function() {
+        		updateCalendarData();
+        	}, 60000);
+    	});
+	})();
+
+	(function updateCalendar()
+	{
+		table = $('<table/>').addClass('xsmall').addClass('calendar-table');
+
+		for (var i in eventList) {
+			var e = eventList[i];
+			var days = e.days;
+
+			var daysString = (days == 1) ? 'morgen' :  days + ' dagen';
+    		if (days == 0) {
+    			daysString = 'vandaag';
+    		}
+			
+			var row = $('<tr/>');
+			row.append($('<td/>').html(e.description).addClass('description light'));
+			row.append($('<td/>').html(daysString).addClass('days dimmed'));
+			table.append(row);
+		}
+
+		$('.calendar').html(table);
+
+		setTimeout(function() {
+        	updateCalendar();
+        }, 5000);
 	})();
 
 	(function updateCompliment()
@@ -147,10 +216,8 @@ jQuery(document).ready(function($) {
 
 			var wind = roundVal(json.wind.speed);
 
-			console.log(wind);
-
 			var iconClass = iconTable[json.weather[0].icon];
-			var icon = $('<span/>').addClass('icon').addClass('dimmed').addClass(iconClass);
+			var icon = $('<span/>').addClass('icon').addClass('dimmed').addClass('wi').addClass(iconClass);
 			$('.temp').updateWithText(icon.outerHTML()+temp+'&deg;', 1000);
 
 			// var forecast = 'Min: '+temp_min+'&deg;, Max: '+temp_max+'&deg;';
@@ -160,10 +227,10 @@ jQuery(document).ready(function($) {
 			var sunrise = new Date(json.sys.sunrise*1000).toTimeString().substring(0,5);
 			var sunset = new Date(json.sys.sunset*1000).toTimeString().substring(0,5);
 
-			var windString = '<span class="wi-strong-wind xdimmed"></span> ' + kmh2beaufort(wind) ;
-			var sunString = '<span class="wi-sunrise xdimmed"></span> ' + sunrise;
+			var windString = '<span class="wi wi-strong-wind xdimmed"></span> ' + kmh2beaufort(wind) ;
+			var sunString = '<span class="wi wi-sunrise xdimmed"></span> ' + sunrise;
 			if (json.sys.sunrise*1000 > now && json.sys.sunset*1000 > now) {
-				sunString = '<span class="wi-sunset xdimmed"></span> ' + sunset;
+				sunString = '<span class="wi wi-sunset xdimmed"></span> ' + sunset;
 			}
 
 			$('.sun').updateWithText(windString+' '+sunString, 1000);

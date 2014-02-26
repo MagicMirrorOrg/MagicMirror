@@ -12,6 +12,10 @@ body, html {
 	font-size: 75px;
 	 -webkit-font-smoothing: antialiased;
 }
+.wi {
+	line-height: 75px;
+
+}
 
 .top
 {
@@ -65,16 +69,33 @@ body, html {
 
 .xsmall
 {
+	font-size: 20px;
+	letter-spacing: 0px;
+	font-family: "HelveticaNeue-Medium";
+}
+.xsmall .wi {
+	line-height: 20px;
+}
+
+
+.small
+{
 	font-size: 25px;
 	letter-spacing: 0px;
 	font-family: "HelveticaNeue-Medium";
 }
+.small .wi {
+	line-height: 25px;
+}
 
-.small
+.medium
 {
 	font-size: 35px;
 	letter-spacing: -1px;
 	font-family: "HelveticaNeue-Light";
+}
+.medium .wi {
+	line-height: 35px;
 }
 
 .xdimmed
@@ -89,7 +110,7 @@ body, html {
 
 .light
 {
-	font-family: "HelveticaNeue-UltraLight";
+	font-family: "HelveticaNeue-Light";
 }
 
 .icon 
@@ -122,6 +143,13 @@ body, html {
 .forecast-table .day
 {
 	color: #999;
+}
+
+.calendar-table {
+	margin-top: 10px;
+}
+.calendar-table .days {
+	padding-left: 20px;
 }
 
 @font-face {
