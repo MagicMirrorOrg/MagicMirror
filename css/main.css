@@ -67,6 +67,16 @@ body, html {
 	bottom: 50px;
 }
 
+.xxsmall
+{
+	font-size: 15px;
+	letter-spacing: 0px;
+	font-family: "HelveticaNeue-Medium";
+}
+.xxsmall .wi {
+	line-height: 15px;
+}
+
 .xsmall
 {
 	font-size: 20px;
@@ -124,10 +134,19 @@ body, html {
 	margin-right: 10px;
 }
 
+.time .sec {
+	font-size: 25px;
+	color: #666;
+	padding-left: 5px;
+	position: relative;
+	top: -35px;
+}
+
 .forecast-table {
 	float: right;
 	text-align: right;
 	font-size: 20px;
+	line-height: 20px;
 }
 .forecast-table .day, .forecast-table .temp-min, .forecast-table .temp-max  
 {
@@ -146,6 +165,8 @@ body, html {
 }
 
 .calendar-table {
+	font-size: 14px;
+	line-height: 20px;
 	margin-top: 10px;
 }
 .calendar-table .days {

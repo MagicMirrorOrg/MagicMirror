@@ -85,7 +85,7 @@ jQuery(document).ready(function($) {
 
 
 		$('.date').html(date);
-		$('.time').html(now.toTimeString().substring(0,5));
+		$('.time').html(now.toTimeString().substring(0,5) + '<span class="sec">'+now.toTimeString().substring(6,8)+'</span>');
 
 		setTimeout(function() {
 			updateTime();
@@ -136,6 +136,8 @@ jQuery(document).ready(function($) {
 	(function updateCalendar()
 	{
 		table = $('<table/>').addClass('xsmall').addClass('calendar-table');
+		opacity = 1;
+
 
 		for (var i in eventList) {
 			var e = eventList[i];
@@ -146,10 +148,12 @@ jQuery(document).ready(function($) {
     			daysString = 'vandaag';
     		}
 			
-			var row = $('<tr/>');
+			var row = $('<tr/>').css('opacity',opacity);
 			row.append($('<td/>').html(e.description).addClass('description'));
 			row.append($('<td/>').html(daysString).addClass('days dimmed'));
 			table.append(row);
+
+			opacity -= 1 / eventList.length;
 		}
 
 		$('.calendar').updateWithText(table,1000);
@@ -229,11 +233,11 @@ jQuery(document).ready(function($) {
 
 			var windString = '<span class="wi wi-strong-wind xdimmed"></span> ' + kmh2beaufort(wind) ;
 			var sunString = '<span class="wi wi-sunrise xdimmed"></span> ' + sunrise;
-			if (json.sys.sunrise*1000 > now && json.sys.sunset*1000 > now) {
+			if (json.sys.sunrise*1000 < now && json.sys.sunset*1000 > now) {
 				sunString = '<span class="wi wi-sunset xdimmed"></span> ' + sunset;
 			}
 
-			$('.sun').updateWithText(windString+' '+sunString, 1000);
+			$('.windsun').updateWithText(windString+' '+sunString, 1000);
 		});
 
 		setTimeout(function() {
@@ -268,16 +272,18 @@ jQuery(document).ready(function($) {
 
 
 			var forecastTable = $('<table />').addClass('forecast-table');
+			var opacity = 1;
 			for (var i in forecastData) {
 				var forecast = forecastData[i];
 				var dt = new Date(forecast.timestamp);
-				var row = $('<tr />');
+				var row = $('<tr />').css('opacity', opacity);
 
 				row.append($('<td/>').addClass('day').html(dayAbbr[dt.getDay()]));
 				row.append($('<td/>').addClass('temp-max').html(roundVal(forecast.temp_max)));
 				row.append($('<td/>').addClass('temp-min').html(roundVal(forecast.temp_min)));
 
 				forecastTable.append(row);
+				opacity -= 0.155;
 			}
 
 
