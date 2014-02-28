@@ -121,7 +121,10 @@ jQuery(document).ready(function($) {
 					}
         		}
 
-        		var days = moment(e.startDate).diff(moment(new Date()), 'days');
+
+        		var now = new Date();
+        		var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        		var days = moment(e.startDate).diff(moment(today), 'days');
 
         		eventList.push({'description':e.SUMMARY,'days':days});
         	};
@@ -160,7 +163,7 @@ jQuery(document).ready(function($) {
 
 		setTimeout(function() {
         	updateCalendar();
-        }, 5000);
+        }, 1000);
 	})();
 
 	(function updateCompliment()
