@@ -126,7 +126,10 @@ jQuery(document).ready(function($) {
         		var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
         		var days = moment(e.startDate).diff(moment(today), 'days');
 
-        		eventList.push({'description':e.SUMMARY,'days':days});
+        		//only add fututre events
+        		if (days >= 0) {
+	        		eventList.push({'description':e.SUMMARY,'days':days});
+        		}
         	};
         	eventList.sort(function(a,b){return a.days-b.days});
 
