@@ -47,6 +47,15 @@ jQuery(document).ready(function($) {
 	var compliment;
 
 
+	var socket = io.connect('http://rpi-development.local:8080');
+	socket.on('dishwasher', function (dishwasherReady) {
+		if (dishwasherReady) {
+			$('.dishwasher').fadeIn();
+		} else {
+			$('.dishwasher').fadeOut();
+		}
+	});
+
 
 	var weatherParams = {
 		'q':'Baarn,Netherlands',
