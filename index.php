@@ -8,6 +8,7 @@
 	<script type="text/javascript">
 		var gitHash = '<?php echo trim(`git rev-parse HEAD`) ?>';
 	</script>
+	<meta name="google" value="notranslate" />
 </head>
 <body>
 

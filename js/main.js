@@ -50,9 +50,11 @@ jQuery(document).ready(function($) {
 	var socket = io.connect('http://rpi-development.local:8080');
 	socket.on('dishwasher', function (dishwasherReady) {
 		if (dishwasherReady) {
-			$('.dishwasher').fadeIn();
+			$('.dishwasher').fadeIn(2000);
+			$('.lower-third').fadeOut(2000);
 		} else {
-			$('.dishwasher').fadeOut();
+			$('.dishwasher').fadeOut(2000);
+			$('.lower-third').fadeIn(2000);		
 		}
 	});
 
@@ -180,6 +182,7 @@ jQuery(document).ready(function($) {
 
 	(function updateCompliment()
 	{
+
 		var compliments = [
 			'Hey, handsome!',
 			'Hi, sexy!',
@@ -194,13 +197,15 @@ jQuery(document).ready(function($) {
 		while (compliment == lastCompliment) {
 			compliment = Math.floor(Math.random()*compliments.length);
 		}
+
 		$('.compliment').updateWithText(compliments[compliment], 4000);
 
 		lastCompliment = compliment;
 
 		setTimeout(function() {
-			updateCompliment();
+			updateCompliment(true);
 		}, 30000);
+
 	})();
 
 	(function updateCurrentWeather()
