@@ -46,6 +46,31 @@ jQuery(document).ready(function($) {
 	var lastCompliment;
 	var compliment;
 
+    // multi-langugage support according to browser-lang
+    var lang = window.navigator.language;
+    switch (lang)
+    {
+        case 'de':
+            var days = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
+            var months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+            var dayAbbr = ['So','Mo','Di','Mi','Do','Fr','Sa'];
+            var tomorrow = 'morgen';
+            var in_days = 'Tage';
+            break;
+        case 'nl':
+            var days = ['zondag','maandag','dinsdag','woensdag','donderdag','vrijdag','zaterdag'];
+            var months = ['januari','februari','maart','april','mei','juni','juli','augustus','september','oktober','november','december'];
+            var dayAbbr = ['zo','ma','di','wo','do','vr','za'];
+            var tomorrow = 'morgen';
+            var in_days = 'dagen';
+            break;
+        default:
+            var days = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
+            var months = ['january','february','march','april','may','june','july','august','september','oktober','november','december'];
+            var dayAbbr = ['su','mo','tu','we','th','fr','sa'];
+            var tomorrow = 'tomorrow';
+            var in_days = 'days';
+    }
 
 	//connect do Xbee monitor
 	var socket = io.connect('http://rpi-development.local:8080');
@@ -63,7 +88,7 @@ jQuery(document).ready(function($) {
 	var weatherParams = {
 		'q':'Baarn,Netherlands',
 		'units':'metric',
-		'lang':'nl'
+		'lang':lang
 	};
 	
 	(function checkVersion()
@@ -83,9 +108,6 @@ jQuery(document).ready(function($) {
 
 	(function updateTime()
 	{
-		var days = ['zondag','maandag','dinsdag','woensdag','donderdag','vrijdag','zaterdag'];
-		var months = ['januari','februari','maart','april','mei','juni','juli','augustus','september','oktober','november','december'];
-
 		var now = new Date();
 
 		var day = now.getDay();
@@ -161,7 +183,7 @@ jQuery(document).ready(function($) {
 			var e = eventList[i];
 			var days = e.days;
 
-			var daysString = (days == 1) ? 'morgen' :  days + ' dagen';
+			var daysString = (days == 1) ? tomorrow :  days + ' ' + in_days;
     		if (days == 0) {
     			daysString = 'vandaag';
     		}
@@ -268,8 +290,6 @@ jQuery(document).ready(function($) {
 
 	(function updateWeatherForecast()
 	{
-			var dayAbbr = ['zo','ma','di','wo','do','vr','za'];	
-
 			$.getJSON('http://api.openweathermap.org/data/2.5/forecast', weatherParams, function(json, textStatus) {
 
 			var forecastData = {};
