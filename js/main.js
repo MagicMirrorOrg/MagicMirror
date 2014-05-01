@@ -64,6 +64,13 @@ jQuery(document).ready(function($) {
             var tomorrow = 'morgen';
             var in_days = 'dagen';
             break;
+       case 'fr':
+            var days = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+            var months = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+            var dayAbbr = ['dim','lun','mar','mer','jeu','ven','sam'];
+            var tomorrow = 'demain';
+            var in_days = 'jour(s)';
+            break;            
         default:
             var days = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
             var months = ['january','february','march','april','may','june','july','august','september','oktober','november','december'];
