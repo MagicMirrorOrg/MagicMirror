@@ -55,7 +55,7 @@ jQuery(document).ready(function($) {
             var months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
             var dayAbbr = ['So','Mo','Di','Mi','Do','Fr','Sa'];
             var tomorrow = 'morgen';
-            var in_days = 'tage';
+            var in_days = 'Tage';
             break;
         case 'nl':
             var days = ['zondag','maandag','dinsdag','woensdag','donderdag','vrijdag','zaterdag'];
@@ -88,7 +88,7 @@ jQuery(document).ready(function($) {
 	var weatherParams = {
 		'q':'Baarn,Netherlands',
 		'units':'metric',
-		'lang':'nl'
+		'lang':lang
 	};
 	
 	(function checkVersion()
