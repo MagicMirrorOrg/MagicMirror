@@ -54,6 +54,7 @@ jQuery(document).ready(function($) {
             var days = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
             var months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
             var dayAbbr = ['So','Mo','Di','Mi','Do','Fr','Sa'];
+            var today = 'heute';
             var tomorrow = 'morgen';
             var in_days = 'Tage';
             break;
@@ -61,6 +62,7 @@ jQuery(document).ready(function($) {
             var days = ['zondag','maandag','dinsdag','woensdag','donderdag','vrijdag','zaterdag'];
             var months = ['januari','februari','maart','april','mei','juni','juli','augustus','september','oktober','november','december'];
             var dayAbbr = ['zo','ma','di','wo','do','vr','za'];
+            var today = 'vandaag';
             var tomorrow = 'morgen';
             var in_days = 'dagen';
             break;
@@ -68,6 +70,7 @@ jQuery(document).ready(function($) {
             var days = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
             var months = ['january','february','march','april','may','june','july','august','september','oktober','november','december'];
             var dayAbbr = ['su','mo','tu','we','th','fr','sa'];
+            var today = 'today';
             var tomorrow = 'tomorrow';
             var in_days = 'days';
     }
@@ -185,7 +188,7 @@ jQuery(document).ready(function($) {
 
 			var daysString = (days == 1) ? tomorrow :  days + ' ' + in_days;
     		if (days == 0) {
-    			daysString = 'vandaag';
+    			daysString = today;
     		}
 			
 			var row = $('<tr/>').css('opacity',opacity);
