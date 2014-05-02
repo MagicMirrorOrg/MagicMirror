@@ -70,6 +70,7 @@ jQuery(document).ready(function($) {
             var days = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
             var months = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
             var dayAbbr = ['dim','lun','mar','mer','jeu','ven','sam'];
+            var today = 'aujourd\'hui';
             var tomorrow = 'demain';
             var in_days = 'jour(s)';
             break;            
