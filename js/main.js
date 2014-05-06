@@ -77,7 +77,7 @@ jQuery(document).ready(function($) {
         default:
             var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
             var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-            var dayAbbr = ['Sun','Mon','Tues','Wed','Thru','Fri','Sat'];
+            var dayAbbr = ['Sun','Mon','Tues','Wed','Thur','Fri','Sat'];
             var today = 'Today';
             var tomorrow = 'Tomorrow';
             var in_days = 'days';
