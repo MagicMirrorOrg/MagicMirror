@@ -75,11 +75,11 @@ jQuery(document).ready(function($) {
             var in_days = 'jour(s)';
             break;            
         default:
-            var days = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
-            var months = ['january','february','march','april','may','june','july','august','september','oktober','november','december'];
-            var dayAbbr = ['su','mo','tu','we','th','fr','sa'];
-            var today = 'today';
-            var tomorrow = 'tomorrow';
+            var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+            var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+            var dayAbbr = ['Sun','Mon','Tues','Wed','Thru','Fri','Sat'];
+            var today = 'Today';
+            var tomorrow = 'Tomorrow';
             var in_days = 'days';
     }
 
