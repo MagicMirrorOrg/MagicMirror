@@ -5,19 +5,21 @@ var lang = window.navigator.language;
 
 //change weather params here:
 var weatherParams = {
-    'q':'Baarn,Netherlands',
+    'q':'Vienna,Austria',
     'units':'metric',
     'lang':lang
 };
 
 // compliments:
 var compliments = [
-            'Hey, handsome!',
-            'Hallo, Mausl!',
-            'Hello, beauty!',
-            'You look sexy!',
-            'Wow, you look hot!',
-            'Looking good today!',
-            'You look nice!',
-            'Enjoy your day!'
-        ];
+    'Hallo, Mausl!',
+    'Hello, beauty!',
+    'Hallo, es ist schon morgen in der Früh!',
+    'Wow, you look hot!',
+    'Looking good today!',
+    'You look nice!',
+    'Enjoy your day!'
+];
+
+// feed
+var feed = '';
