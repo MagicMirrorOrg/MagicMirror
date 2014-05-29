@@ -297,7 +297,7 @@ jQuery(document).ready(function($) {
 
 	(function fetchNews() {
 		$.feedToJson({
-			feed:'http://derstandard.at/?page=rss',
+			feed: newsfeed,
 			//feed:'http://www.nu.nl/feeds/rss/achterklap.rss',
 			//feed:'http://www.nu.nl/feeds/rss/opmerkelijk.rss',
 			success: function(data){

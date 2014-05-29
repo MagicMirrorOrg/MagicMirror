@@ -22,4 +22,4 @@ var compliments = [
 ];
 
 // feed
-var feed = '';
+var newsfeed = 'http://derStandard.at/?page=rss&ressort=Seite1';
