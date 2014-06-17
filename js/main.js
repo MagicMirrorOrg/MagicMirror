@@ -49,7 +49,7 @@ jQuery(document).ready(function($) {
     moment.lang(lang);
 
 	//connect do Xbee monitor
-	var socket = io.connect('http://rpi-development.local:8080');
+	var socket = io.connect('http://rpi-alarm.local:8082');
 	socket.on('dishwasher', function (dishwasherReady) {
 		if (dishwasherReady) {
 			$('.dishwasher').fadeIn(2000);
