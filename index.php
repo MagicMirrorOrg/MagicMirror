@@ -27,7 +27,7 @@
 <script src="js/moment-with-langs.min.js"></script>
 <script src="js/config.js"></script>
 <script src="js/main.js?nocache=<?php echo md5(microtime()) ?>"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
+<script src="js/socket.io.min.js"></script>
 
 </body>
 </html>
