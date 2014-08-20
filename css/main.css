@@ -134,6 +134,16 @@ body, html {
 	margin-right: 10px;
 }
 
+.icon-small
+{
+	position: relative;
+	display: inline-block;
+	font-size: 20px;
+	padding-left: 10px;
+	padding-right: -10px;
+	font-weight: 100;
+}
+
 .time .sec {
 	font-size: 25px;
 	color: #666;
