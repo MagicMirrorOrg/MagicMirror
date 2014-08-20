@@ -249,6 +249,26 @@ jQuery(document).ready(function($) {
 
 	(function updateWeatherForecast()
 	{
+		var iconTable = {
+			'01d':'wi-day-sunny',
+			'02d':'wi-day-cloudy',
+			'03d':'wi-cloudy',
+			'04d':'wi-cloudy-windy',
+			'09d':'wi-showers',
+			'10d':'wi-rain',
+			'11d':'wi-thunderstorm',
+			'13d':'wi-snow',
+			'50d':'wi-fog',
+			'01n':'wi-night-clear',
+			'02n':'wi-night-cloudy',
+			'03n':'wi-night-cloudy',
+			'04n':'wi-night-cloudy',
+			'09n':'wi-night-showers',
+			'10n':'wi-night-rain',
+			'11n':'wi-night-thunderstorm',
+			'13n':'wi-night-snow',
+			'50n':'wi-night-alt-cloudy-windy'
+		}
 			$.getJSON('http://api.openweathermap.org/data/2.5/forecast', weatherParams, function(json, textStatus) {
 
 			var forecastData = {};
@@ -260,10 +280,12 @@ jQuery(document).ready(function($) {
 				if (forecastData[dateKey] == undefined) {
 					forecastData[dateKey] = {
 						'timestamp':forecast.dt * 1000,
+						'icon':forecast.weather[0].icon,
 						'temp_min':forecast.main.temp,
 						'temp_max':forecast.main.temp
 					};
 				} else {
+					forecastData[dateKey]['icon'] = forecast.weather[0].icon;
 					forecastData[dateKey]['temp_min'] = (forecast.main.temp < forecastData[dateKey]['temp_min']) ? forecast.main.temp : forecastData[dateKey]['temp_min'];
 					forecastData[dateKey]['temp_max'] = (forecast.main.temp > forecastData[dateKey]['temp_max']) ? forecast.main.temp : forecastData[dateKey]['temp_max'];
 				}
@@ -275,10 +297,12 @@ jQuery(document).ready(function($) {
 			var opacity = 1;
 			for (var i in forecastData) {
 				var forecast = forecastData[i];
+			    var iconClass = iconTable[forecast.icon];
 				var dt = new Date(forecast.timestamp);
 				var row = $('<tr />').css('opacity', opacity);
 
 				row.append($('<td/>').addClass('day').html(moment.weekdaysShort(dt.getDay())));
+				row.append($('<td/>').addClass('icon-small').addClass(iconClass));
 				row.append($('<td/>').addClass('temp-max').html(roundVal(forecast.temp_max)));
 				row.append($('<td/>').addClass('temp-min').html(roundVal(forecast.temp_min)));
 
@@ -297,9 +321,7 @@ jQuery(document).ready(function($) {
 
 	(function fetchNews() {
 		$.feedToJson({
-			feed:'http://feeds.nos.nl/nosjournaal?format=rss',
-			//feed:'http://www.nu.nl/feeds/rss/achterklap.rss',
-			//feed:'http://www.nu.nl/feeds/rss/opmerkelijk.rss',
+			feed: feed,
 			success: function(data){
 				news = [];
 				for (var i in data.item) {
