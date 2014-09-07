@@ -19,12 +19,6 @@ var feed = 'http://www.spiegel.de/schlagzeilen/tops/index.rss';
 
 // compliments:
 var compliments = [
-            'Hey, handsome!',
-            'Hi, sexy!',
-            'Hello, beauty!',
-            'You look sexy!',
-            'Wow, you look hot!',
-            'Looking good today!',
-            'You look nice!',
-            'Enjoy your day!'
+            'Gut schaust aus!',
+            'Einen schönen Tag!!'
         ];
