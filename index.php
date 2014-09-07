@@ -10,6 +10,8 @@
 	</script>
 	<meta name="google" value="notranslate" />
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width,  minimal-ui">
+	<meta name="apple-mobile-web-app-capable" content="yes">
 </head>
 <body>
 
