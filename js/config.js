@@ -20,5 +20,5 @@ var feed = 'http://www.spiegel.de/schlagzeilen/tops/index.rss';
 // compliments:
 var compliments = [
             'Gut schaust aus!',
-            'Einen schönen Tag!!'
+            'Einen schoenen Tag!!'
         ];
