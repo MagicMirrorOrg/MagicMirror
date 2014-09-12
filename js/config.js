@@ -20,6 +20,6 @@ var feed = 'http://www.spiegel.de/schlagzeilen/tops/index.rss';
 // compliments:
 var compliments = [
             'Gut schaust aus!',
-	'Viel Spass heute!',
+	'Viel Spa&szlig; heute!',
             'Einen sch&ouml;nen Tag!'
         ];
