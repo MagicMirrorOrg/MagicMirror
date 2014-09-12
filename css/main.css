@@ -47,7 +47,7 @@ body, html {
 .lower-third
 {
 	position: absolute;
-	top: 66.666%;
+	top: 85%;
 	height: 200px;
 	margin-top: -100px;
 	line-height: 100px;	
