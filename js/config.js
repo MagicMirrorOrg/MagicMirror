@@ -1,7 +1,7 @@
 // for navigator language
-var lang = window.navigator.language;
+//var lang = window.navigator.language;
 // you can change the language
-//var lang = 'en';
+var lang = 'de';
 
 //change weather params here:
 //units: metric or imperial
