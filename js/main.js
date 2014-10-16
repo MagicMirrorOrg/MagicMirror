@@ -71,9 +71,14 @@ jQuery(document).ready(function($) {
 				}
 			}
 		});
+        $.getJSON('ontime.php', {}, function(json, textStatus) {
+			if (json) {
+                $('.ontime').html("Aus in "+json.ontime+" Sekunden");
+			}
+		});
 		setTimeout(function() {
 			checkVersion();
-		}, 3000);
+		}, 1000);
 	})();
 
 	(function updateTime()

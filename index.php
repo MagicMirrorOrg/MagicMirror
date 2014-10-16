@@ -17,9 +17,8 @@
 
 	<div class="top left"><div class="date small dimmed"></div><div class="time"></div><div class="calendar xxsmall"></div></div>
 	<div class="top right"><div class="windsun small dimmed"></div><div class="temp"></div><div class="forecast small dimmed"></div></div>
-	<div class="center-ver center-hor"><div class="dishwasher light">Vaatwasser is klaar!</div></div>
 	<div class="lower-third center-hor"><div class="compliment light"></div></div>
-	<div class="bottom center-hor"><div class="news medium"></div></div>
+	<div class="bottom center-hor"><div class="news medium"></div><div class="ontime xxsmall dimmed"></div></div>
 
 </div>
 
