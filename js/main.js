@@ -46,10 +46,11 @@ jQuery(document).ready(function($) {
 	var lastCompliment;
 	var compliment;
 
-    moment.lang(lang);
+    moment.locale(lang);
 
 	//connect do Xbee monitor
-	var socket = io.connect('http://rpi-alarm.local:8082');
+	/*
+    var socket = io.connect('http://rpi-alarm.local:8082');
 	socket.on('dishwasher', function (dishwasherReady) {
 		if (dishwasherReady) {
 			$('.dishwasher').fadeIn(2000);
@@ -59,7 +60,7 @@ jQuery(document).ready(function($) {
 			$('.lower-third').fadeIn(2000);
 		}
 	});
-
+    */
 
 	(function checkVersion()
 	{
@@ -100,7 +101,7 @@ jQuery(document).ready(function($) {
 		new ical_parser("calendar.php", function(cal){
         	events = cal.getEvents();
         	eventList = [];
-
+         // console.log(events);
         	for (var i in events) {
         		var e = events[i];
         		for (var key in e) {
@@ -121,7 +122,7 @@ jQuery(document).ready(function($) {
 
 						if (mainKey == 'DTSTART') e.startDate = dt;
 						if (mainKey == 'DTEND') e.endDate = dt;
-					}
+					} 
         		}
 
                 if (e.startDate == undefined){
@@ -135,17 +136,46 @@ jQuery(document).ready(function($) {
             		var seconds = moment(e.startDate).diff(moment(), 'seconds');
                     var startDate = moment(e.startDate);
                 }
-
+                
         		//only add fututre events, days doesn't work, we need to check seconds
         		if (seconds >= 0) {
-                    if (seconds <= 60*60*5 || seconds >= 60*60*24*2) {
+                    if (seconds <= 60*60*5 || seconds >= 60*60*24*7) {
                         var time_string = moment(startDate).fromNow();
                     }else {
                         var time_string = moment(startDate).calendar()
                     }
 	        		eventList.push({'description':e.SUMMARY,'seconds':seconds,'days':time_string});
+                    e.seconds = seconds;
         		}
-        	};
+                
+                // Special handling for recuring event
+                if (e.RRULE) {
+                    console.log("Rule: "+e.RRULE);
+                    var options = new RRule.parseString(e.RRULE);
+                    options.dtstart=e.startDate;
+                    var rule = new RRule(options);
+                    console.log(rule);
+                    
+                    var dates = rule.between(new Date(), new Date(2016,11,31), true, function (date, i){return i < 10});
+                    console.log(dates);
+                    for (date in dates) {
+                        var dt = new Date(dates[date]);
+                        console.log("dt "+dt);
+                        var days = moment(dt).diff(moment(), 'days');
+                        var seconds = moment(dt).diff(moment(), 'seconds');
+                        var startDate = moment(dt);
+                     	if (seconds >= 0) {
+                            if (seconds <= 60*60*5 || seconds >= 60*60*24*7) {
+                                var time_string = moment(dt).fromNow();
+                            } else {
+                                var time_string = moment(dt).calendar()
+                            }
+                            console.log("Push: "+e.SUMMARY+"-"+seconds+"-"+time_string);
+                            eventList.push({'description':e.SUMMARY,'seconds':seconds,'days':time_string});
+                        }           
+                    }
+                }
+            };
         	eventList.sort(function(a,b){return a.seconds-b.seconds});
 
         	setTimeout(function() {
