@@ -46,8 +46,9 @@ jQuery(document).ready(function($) {
 	var lastCompliment;
 	var compliment;
 
-    moment.lang(lang);
+    moment.locale(lang);
 
+	/*
 	//connect do Xbee monitor
 	var socket = io.connect('http://rpi-alarm.local:8082');
 	socket.on('dishwasher', function (dishwasherReady) {
@@ -59,7 +60,7 @@ jQuery(document).ready(function($) {
 			$('.lower-third').fadeIn(2000);
 		}
 	});
-
+    */
 
 	(function checkVersion()
 	{
@@ -75,7 +76,19 @@ jQuery(document).ready(function($) {
 			checkVersion();
 		}, 3000);
 	})();
-
+	
+    (function checkOnTime()
+	{
+        $.getJSON('ontime.php', {}, function(json, textStatus) {
+			if (json) {
+                $('.ontime').html("Aus in "+json.ontime+" Sekunden");
+			}
+		});
+		setTimeout(function() {
+			checkOnTime();
+		}, 500);
+	})();
+    
 	(function updateTime()
 	{
         var now = moment();
@@ -95,7 +108,7 @@ jQuery(document).ready(function($) {
 		new ical_parser("calendar.php", function(cal){
         	events = cal.getEvents();
         	eventList = [];
-
+            
         	for (var i in events) {
         		var e = events[i];
         		for (var key in e) {
@@ -116,7 +129,7 @@ jQuery(document).ready(function($) {
 
 						if (mainKey == 'DTSTART') e.startDate = dt;
 						if (mainKey == 'DTEND') e.endDate = dt;
-					}
+					} 
         		}
 
                 if (e.startDate == undefined){
@@ -130,17 +143,43 @@ jQuery(document).ready(function($) {
             		var seconds = moment(e.startDate).diff(moment(), 'seconds');
                     var startDate = moment(e.startDate);
                 }
-
+                
         		//only add fututre events, days doesn't work, we need to check seconds
         		if (seconds >= 0) {
-                    if (seconds <= 60*60*5 || seconds >= 60*60*24*2) {
+                    if (seconds <= 60*60*5 || seconds >= 60*60*24*7) {
                         var time_string = moment(startDate).fromNow();
                     }else {
                         var time_string = moment(startDate).calendar()
                     }
-	        		eventList.push({'description':e.SUMMARY,'seconds':seconds,'days':time_string});
+                    if (!e.RRULE) {
+    	        		eventList.push({'description':e.SUMMARY,'seconds':seconds,'days':time_string});
+                    }
+                    e.seconds = seconds;
         		}
-        	};
+                
+                // Special handling for rrule events
+                if (e.RRULE) {
+                    var options = new RRule.parseString(e.RRULE);
+                    options.dtstart = e.startDate;
+                    var rule = new RRule(options);
+                    
+                    var dates = rule.between(new Date(), new Date(2016,11,31), true, function (date, i){return i < 10});
+                    for (date in dates) {
+                        var dt = new Date(dates[date]);
+                        var days = moment(dt).diff(moment(), 'days');
+                        var seconds = moment(dt).diff(moment(), 'seconds');
+                        var startDate = moment(dt);
+                     	if (seconds >= 0) {
+                            if (seconds <= 60*60*5 || seconds >= 60*60*24*7) {
+                                var time_string = moment(dt).fromNow();
+                            } else {
+                                var time_string = moment(dt).calendar()
+                            }
+                            eventList.push({'description':e.SUMMARY,'seconds':seconds,'days':time_string});
+                        }           
+                    }
+                }
+            };
         	eventList.sort(function(a,b){return a.seconds-b.seconds});
 
         	setTimeout(function() {
