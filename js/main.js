@@ -144,7 +144,9 @@ jQuery(document).ready(function($) {
                     }else {
                         var time_string = moment(startDate).calendar()
                     }
-	        		eventList.push({'description':e.SUMMARY,'seconds':seconds,'days':time_string});
+                    if (!e.RRULE) {
+    	        		eventList.push({'description':e.SUMMARY,'seconds':seconds,'days':time_string});
+                    }
                     e.seconds = seconds;
         		}
                 
