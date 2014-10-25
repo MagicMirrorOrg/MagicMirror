@@ -48,9 +48,9 @@ jQuery(document).ready(function($) {
 
     moment.locale(lang);
 
-	//connect do Xbee monitor
 	/*
-    var socket = io.connect('http://rpi-alarm.local:8082');
+	//connect do Xbee monitor
+	var socket = io.connect('http://rpi-alarm.local:8082');
 	socket.on('dishwasher', function (dishwasherReady) {
 		if (dishwasherReady) {
 			$('.dishwasher').fadeIn(2000);
@@ -72,16 +72,23 @@ jQuery(document).ready(function($) {
 				}
 			}
 		});
+		setTimeout(function() {
+			checkVersion();
+		}, 3000);
+	})();
+	
+    (function checkOnTime()
+	{
         $.getJSON('ontime.php', {}, function(json, textStatus) {
 			if (json) {
                 $('.ontime').html("Aus in "+json.ontime+" Sekunden");
 			}
 		});
 		setTimeout(function() {
-			checkVersion();
-		}, 1000);
+			checkOnTime();
+		}, 500);
 	})();
-
+    
 	(function updateTime()
 	{
         var now = moment();
@@ -101,7 +108,7 @@ jQuery(document).ready(function($) {
 		new ical_parser("calendar.php", function(cal){
         	events = cal.getEvents();
         	eventList = [];
-         // console.log(events);
+            
         	for (var i in events) {
         		var e = events[i];
         		for (var key in e) {
@@ -150,19 +157,15 @@ jQuery(document).ready(function($) {
                     e.seconds = seconds;
         		}
                 
-                // Special handling for recuring event
+                // Special handling for rrule events
                 if (e.RRULE) {
-                    console.log("Rule: "+e.RRULE);
                     var options = new RRule.parseString(e.RRULE);
-                    options.dtstart=e.startDate;
+                    options.dtstart = e.startDate;
                     var rule = new RRule(options);
-                    console.log(rule);
                     
                     var dates = rule.between(new Date(), new Date(2016,11,31), true, function (date, i){return i < 10});
-                    console.log(dates);
                     for (date in dates) {
                         var dt = new Date(dates[date]);
-                        console.log("dt "+dt);
                         var days = moment(dt).diff(moment(), 'days');
                         var seconds = moment(dt).diff(moment(), 'seconds');
                         var startDate = moment(dt);
@@ -172,7 +175,6 @@ jQuery(document).ready(function($) {
                             } else {
                                 var time_string = moment(dt).calendar()
                             }
-                            console.log("Push: "+e.SUMMARY+"-"+seconds+"-"+time_string);
                             eventList.push({'description':e.SUMMARY,'seconds':seconds,'days':time_string});
                         }           
                     }
