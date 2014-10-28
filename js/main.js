@@ -138,9 +138,36 @@ jQuery(document).ready(function($) {
                     }else {
                         var time_string = moment(startDate).calendar()
                     }
-	        		eventList.push({'description':e.SUMMARY,'seconds':seconds,'days':time_string});
+                    if (!e.RRULE) {
+    	        		eventList.push({'description':e.SUMMARY,'seconds':seconds,'days':time_string});
+                    }
+                    e.seconds = seconds;
         		}
-        	};
+                
+                // Special handling for rrule events
+                if (e.RRULE) {
+                    var options = new RRule.parseString(e.RRULE);
+                    options.dtstart = e.startDate;
+                    var rule = new RRule(options);
+                    
+                    // TODO: don't use fixed end date here, use something like now() + 1 year
+                    var dates = rule.between(new Date(), new Date(2016,11,31), true, function (date, i){return i < 10});
+                    for (date in dates) {
+                        var dt = new Date(dates[date]);
+                        var days = moment(dt).diff(moment(), 'days');
+                        var seconds = moment(dt).diff(moment(), 'seconds');
+                        var startDate = moment(dt);
+                     	if (seconds >= 0) {
+                            if (seconds <= 60*60*5 || seconds >= 60*60*24*2) {
+                                var time_string = moment(dt).fromNow();
+                            } else {
+                                var time_string = moment(dt).calendar()
+                            }
+                            eventList.push({'description':e.SUMMARY,'seconds':seconds,'days':time_string});
+                        }           
+                    }
+                }
+            };
         	eventList.sort(function(a,b){return a.seconds-b.seconds});
 
         	setTimeout(function() {
