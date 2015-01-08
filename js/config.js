@@ -1,7 +1,7 @@
 // for navigator language
 var lang = window.navigator.language;
 // you can change the language
-//var lang = 'en';
+// var lang = 'en';
 
 //change weather params here:
 //units: metric or imperial
@@ -17,13 +17,20 @@ var feed = 'http://feeds.nos.nl/nosjournaal?format=rss';
 //var feed = 'http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml';
 
 // compliments:
-var compliments = [
-            'Hey, handsome!',
-            'Hi, sexy!',
+var morning = [
+            'Good morning, handsome!',
+            'Enjoy your day!',
+            'How was your sleep?'
+        ];
+        
+var afternoon = [
             'Hello, beauty!',
             'You look sexy!',
+            'Looking good today!'
+        ];
+       
+var evening = [
             'Wow, you look hot!',
-            'Looking good today!',
             'You look nice!',
-            'Enjoy your day!'
+            'Hi, sexy!'
         ];
