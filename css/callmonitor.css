@@ -1,0 +1,40 @@
+#call {
+	background-color: white;
+	color: black;
+	margin: 0 165px;	
+	font-size: 60px;
+	width: auto;
+	border-radius: 20px;
+	display: none;
+}
+
+#call h2{
+	font-size: 70px!important;
+	-webkit-margin-before: 10px!important;
+	-webkit-margin-after: -25px!important;
+	-webkit-margin-start: 0px!important;
+	-webkit-margin-end: 0px!important;
+	font-weight: bold;
+	letter-spacing: 2px;
+}
+
+#caller{
+	font-size: 50px;
+	padding-bottom: 6px;
+	letter-spacing: 2px;
+}
+
+#call img{
+	padding-top: 20px;
+	-webkit-margin-before: 10px!important;
+}
+
+#door img{
+	position: relative;
+	width: 200px;
+}
+#door{
+	position: relative;
+	top: 15px;
+	display: none;
+}
