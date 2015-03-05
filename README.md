@@ -1,8 +1,12 @@
 Smartmirror
 ===========
 
-The super magic interface of my personal Magic Mirror. More information about this project can be found on my [blog](http://michaelteeuw.nl/tagged/magicmirror).
+Added some improvements to MichMichs project [blog](http://michaelteeuw.nl/tagged/magicmirror).
 
-Runs as a php script on a web server with basically no external dependencies. Can use socket.io for XBEE integration, but isn't required for basic functionality.
+Translation to DE/EN
+-compliments,moment.js and UI is translated (auto recognition via browser locale)
+-Updated moment.js to a newer version (more languages)
+-Added OpenHAB Support, News were displayed in two lines.
 
-Modify js/config.js to change some general variables (language, wather location, compliments, news feed RSS) and calendar.php to add your own ICS calendar
+To-Do:
+Override locale-setting with a suffix -> http://127.0.0.1/smartmirror?en (for English)
