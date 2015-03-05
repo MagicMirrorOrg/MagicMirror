@@ -8,10 +8,10 @@ jQuery.fn.updateWithText = function(text, speed)
 			$(this).html(text);
 			$(this).fadeIn(speed/2, function() {
 				//done
-			});
+			});		
 		});
 	}
-}
+} 
 
 jQuery.fn.outerHTML = function(s) {
     return s
@@ -39,28 +39,88 @@ function kmh2beaufort(kmh)
 jQuery(document).ready(function($) {
 
 	var news = [];
+	var newshead = [];
 	var newsIndex = 0;
-
 	var eventList = [];
-
 	var lastCompliment;
 	var compliment;
 
-    moment.lang(lang);
+    // multi-langugage support according to browser-lang
+    var lang = window.navigator.language;
+    switch (lang)
+    {
+        case 'de':
+            var days 		= ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
+            var months 		= ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+            var dayAbbr 	= ['So','Mo','Di','Mi','Do','Fr','Sa'];
+            var today 		= 'heute';
+            var tomorrow 	= 'morgen';
+            var in_days 	= 'Tage';
+            var datelabel 	= 'Tag';
+            var morning 	= ['Guten Morgen, Schönling','Genieße den Tag','Gut geschlafen?'];
+            var afternoon 	= ['Wow, sexy!','Du siehst gut aus!','Heute ist dein Tag!'];
+            var evening 	= ['Wie war dein Tag?','Schöner Anblick!','Du bist sexy!'];
+			moment.locale('de');
+            break;
+        case 'nl':
+            var days 		= ['zondag','maandag','dinsdag','woensdag','donderdag','vrijdag','zaterdag'];
+            var months 		= ['januari','februari','maart','april','mei','juni','juli','augustus','september','oktober','november','december'];
+            var dayAbbr 	= ['zo','ma','di','wo','do','vr','za'];
+            var today 		= 'vandaag';
+            var tomorrow 	= 'morgen';
+            var in_days 	= 'dagen'
+            var datelabel 	= 'Dag';
+            var morning 	= ['Good morning, handsome!','Enjoy your day!','How was your sleep?'];
+            var afternoon 	= ['Hello beauty!','You look sexy!','Looking good today!'];
+            var evening 	= ['Wow, You look hot!','You look nice!','Hi, sexy!'];
+			moment.locale('nl');
+            break;
+       case 'fr':
+            var days 		= ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+            var months 		= ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+            var dayAbbr 	= ['dim','lun','mar','mer','jeu','ven','sam'];
+            var today 		= 'aujourd\'hui';
+            var tomorrow 	= 'demain';
+            var in_days 	= 'jour(s)';
+            var datelabel 	= 'Jour';
+            var morning 	= ['Good morning, handsome!','Enjoy your day!','How was your sleep?'];
+            var afternoon 	= ['Hello beauty!','You look sexy!','Looking good today!'];
+            var evening 	= ['Wow, You look hot!','You look nice!','Hi, sexy!'];
+			moment.locale('fr');
+            break;            
+        default:
+            var days 		= ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+            var months 		= ['January','February','March','April','May','June','July','August','September','October','November','December'];
+            var dayAbbr 	= ['Sun','Mon','Tues','Wed','Thur','Fri','Sat'];
+            var today 		= 'Today';
+            var tomorrow 	= 'Tomorrow';
+            var in_days 	= 'days';
+            var datelabel 	= 'Day';
+            var morning 	= ['Good morning, handsome!','Enjoy your day!','How was your sleep?'];
+            var afternoon 	= ['Hello beauty!','You look sexy!','Looking good today!'];
+            var evening 	= ['Wow, You look hot!','You look nice!','Hi, sexy!'];
+			moment.locale('en');
+    }
 
 	//connect do Xbee monitor
-	var socket = io.connect('http://rpi-alarm.local:8082');
+	var socket = io.connect('http://rpi-development.local:8080');
 	socket.on('dishwasher', function (dishwasherReady) {
 		if (dishwasherReady) {
 			$('.dishwasher').fadeIn(2000);
 			$('.lower-third').fadeOut(2000);
 		} else {
 			$('.dishwasher').fadeOut(2000);
-			$('.lower-third').fadeIn(2000);
+			$('.lower-third').fadeIn(2000);		
 		}
 	});
 
 
+	var weatherParams = {
+		'q':'Düsseldorf,Germany',
+		'units':'metric',
+		'lang':lang
+	};
+	
 	(function checkVersion()
 	{
 		$.getJSON('githash.php', {}, function(json, textStatus) {
@@ -78,18 +138,23 @@ jQuery(document).ready(function($) {
 
 	(function updateTime()
 	{
-        var now = moment();
-        var date = now.format('LLLL').split(' ',4);
-        date = date[0] + ' ' + date[1] + ' ' + date[2] + ' ' + date[3];
+		var now = new Date();
+		var day = now.getDay();
+		var date = now.getDate();
+		var month = now.getMonth();
+		var year = now.getFullYear();
+
+		var date = days[day] + ', ' + date+' ' + months[month] + ' ' + year;
+
 
 		$('.date').html(date);
-		$('.time').html(now.format('HH') + ':' + now.format('mm') + '<span class="sec">'+now.format('ss')+'</span>');
+		$('.time').html(now.toTimeString().substring(0,5) + '<span class="sec">'+now.toTimeString().substring(6,8)+'</span>');
 
 		setTimeout(function() {
 			updateTime();
 		}, 1000);
 	})();
-
+	
 	(function updateCalendarData()
 	{
 		new ical_parser("calendar.php", function(cal){
@@ -151,7 +216,7 @@ jQuery(document).ready(function($) {
                     var rule = new RRule(options);
                     
                     // TODO: don't use fixed end date here, use something like now() + 1 year
-                    var dates = rule.between(new Date(), new Date(2016,11,31), true, function (date, i){return i < 10});
+                    var dates = rule.between(new Date(), new Date(2016,12,31), true, function (date, i){return i < 10});
                     for (date in dates) {
                         var dt = new Date(dates[date]);
                         var days = moment(dt).diff(moment(), 'days');
@@ -202,9 +267,7 @@ jQuery(document).ready(function($) {
 
 	(function updateCompliment()
 	{
-        //see compliments.js
-		while (compliment == lastCompliment) {
-     
+	  while (compliment == lastCompliment) {
       //Check for current time  
       var compliments;
       var date = new Date();
@@ -247,9 +310,9 @@ jQuery(document).ready(function($) {
 			'10n':'wi-night-rain',
 			'11n':'wi-night-thunderstorm',
 			'13n':'wi-night-snow',
-			'50n':'wi-night-alt-cloudy-windy'
+			'50n':'wi-night-alt-cloudy-windy'		
 		}
-
+		
 
 		$.getJSON('http://api.openweathermap.org/data/2.5/weather', weatherParams, function(json, textStatus) {
 
@@ -286,26 +349,6 @@ jQuery(document).ready(function($) {
 
 	(function updateWeatherForecast()
 	{
-		var iconTable = {
-			'01d':'wi-day-sunny',
-			'02d':'wi-day-cloudy',
-			'03d':'wi-cloudy',
-			'04d':'wi-cloudy-windy',
-			'09d':'wi-showers',
-			'10d':'wi-rain',
-			'11d':'wi-thunderstorm',
-			'13d':'wi-snow',
-			'50d':'wi-fog',
-			'01n':'wi-night-clear',
-			'02n':'wi-night-cloudy',
-			'03n':'wi-night-cloudy',
-			'04n':'wi-night-cloudy',
-			'09n':'wi-night-showers',
-			'10n':'wi-night-rain',
-			'11n':'wi-night-thunderstorm',
-			'13n':'wi-night-snow',
-			'50n':'wi-night-alt-cloudy-windy'
-		}
 			$.getJSON('http://api.openweathermap.org/data/2.5/forecast', weatherParams, function(json, textStatus) {
 
 			var forecastData = {};
@@ -317,14 +360,12 @@ jQuery(document).ready(function($) {
 				if (forecastData[dateKey] == undefined) {
 					forecastData[dateKey] = {
 						'timestamp':forecast.dt * 1000,
-						'icon':forecast.weather[0].icon,
 						'temp_min':forecast.main.temp,
 						'temp_max':forecast.main.temp
 					};
 				} else {
-					forecastData[dateKey]['icon'] = forecast.weather[0].icon;
 					forecastData[dateKey]['temp_min'] = (forecast.main.temp < forecastData[dateKey]['temp_min']) ? forecast.main.temp : forecastData[dateKey]['temp_min'];
-					forecastData[dateKey]['temp_max'] = (forecast.main.temp > forecastData[dateKey]['temp_max']) ? forecast.main.temp : forecastData[dateKey]['temp_max'];
+					forecastData[dateKey]['temp_max'] = (forecast.main.temp > forecastData[dateKey]['temp_max']) ? forecast.main.temp : forecastData[dateKey]['temp_max']; 
 				}
 
 			}
@@ -332,16 +373,20 @@ jQuery(document).ready(function($) {
 
 			var forecastTable = $('<table />').addClass('forecast-table');
 			var opacity = 1;
+			var rowhead = $('<tr />').css('opacity', opacity);
+			
+			rowhead.append($('<td/>').addClass('day').html(datelabel));
+			rowhead.append($('<td/>').addClass('temp-min').html('Min.'));
+			rowhead.append($('<td/>').addClass('temp-max').html('Max.'));
+			forecastTable.append(rowhead);
 			for (var i in forecastData) {
 				var forecast = forecastData[i];
-			    var iconClass = iconTable[forecast.icon];
 				var dt = new Date(forecast.timestamp);
 				var row = $('<tr />').css('opacity', opacity);
 
-				row.append($('<td/>').addClass('day').html(moment.weekdaysShort(dt.getDay())));
-				row.append($('<td/>').addClass('icon-small').addClass(iconClass));
-				row.append($('<td/>').addClass('temp-max').html(roundVal(forecast.temp_max)));
+				row.append($('<td/>').addClass('day').html(dayAbbr[dt.getDay()]));
 				row.append($('<td/>').addClass('temp-min').html(roundVal(forecast.temp_min)));
+				row.append($('<td/>').addClass('temp-max').html(roundVal(forecast.temp_max)));
 
 				forecastTable.append(row);
 				opacity -= 0.155;
@@ -358,12 +403,21 @@ jQuery(document).ready(function($) {
 
 	(function fetchNews() {
 		$.feedToJson({
-			feed: feed,
+			feed:'http://www.faz.net/rss/aktuell/',
 			success: function(data){
-				news = [];
+				newshead = [];
+				news 	 = [];
 				for (var i in data.item) {
 					var item = data.item[i];
-					news.push(item.title);
+					
+					var pos = item.description.search("<p>")
+					var desc = item.description.substring(pos, item.description.length);
+					var endpos = desc.search("</p>")
+					var desc = desc.substring(0, endpos);
+					news.push(desc);
+					
+					newshead.push(item.title);
+					
 				}
 			}
 		});
@@ -373,14 +427,41 @@ jQuery(document).ready(function($) {
 	})();
 
 	(function showNews() {
+		var newsHead = newshead[newsIndex];
 		var newsItem = news[newsIndex];
+		
+		$('.newshead').updateWithText(newsHead,2000);
 		$('.news').updateWithText(newsItem,2000);
 
 		newsIndex--;
 		if (newsIndex < 0) newsIndex = news.length - 1;
-		setTimeout(function() {
-			showNews();
-		}, 5500);
+			setTimeout(function() {
+				showNews();
+			}, 7000);	
+		
+		
+
 	})();
 
+	(function updateOpenHAB()
+        {
+                var temp = "";
+                $.getJSON('http://127.0.0.1:8080/rest/items/MagicMirrorTXT/?type=json', {}, function(json, textStatus) {
+                        if (json) {
+                                temp = json.state;
+                        }
+                        $('.openhab').updateWithText(temp,2000);
+                        if (temp != "") {
+                                $('.openhab').fadeIn(2000);
+                                $('.lower-third').fadeOut(2000);
+                        } else {
+                                $('.openhab').fadeOut(2000);
+                                $('.lower-third').fadeIn(2000);
+                        }
+                });
+                setTimeout(function() {
+                        updateOpenHAB();
+                }, 5000);
+        })();
+	
 });
