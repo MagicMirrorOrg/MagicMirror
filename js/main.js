@@ -60,6 +60,7 @@ jQuery(document).ready(function($) {
             var morning 	= ['Guten Morgen, Schönling','Genieße den Tag','Gut geschlafen?'];
             var afternoon 	= ['Wow, sexy!','Du siehst gut aus!','Heute ist dein Tag!'];
             var evening 	= ['Wie war dein Tag?','Schöner Anblick!','Du bist sexy!'];
+			var feed		= 'http://www.faz.net/rss/aktuell/';
 			moment.locale('de');
             break;
         case 'nl':
@@ -73,6 +74,7 @@ jQuery(document).ready(function($) {
             var morning 	= ['Good morning, handsome!','Enjoy your day!','How was your sleep?'];
             var afternoon 	= ['Hello beauty!','You look sexy!','Looking good today!'];
             var evening 	= ['Wow, You look hot!','You look nice!','Hi, sexy!'];
+			var feed		= 'http://feeds.nos.nl/nosjournaal?format=rss';
 			moment.locale('nl');
             break;
        case 'fr':
@@ -86,12 +88,13 @@ jQuery(document).ready(function($) {
             var morning 	= ['Good morning, handsome!','Enjoy your day!','How was your sleep?'];
             var afternoon 	= ['Hello beauty!','You look sexy!','Looking good today!'];
             var evening 	= ['Wow, You look hot!','You look nice!','Hi, sexy!'];
+			var feed		= 'http://lesclesdedemain.lemonde.fr/screens/RSS/sw_getFeed.php?idTheme=HOME';
 			moment.locale('fr');
             break;            
         default:
             var days 		= ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
             var months 		= ['January','February','March','April','May','June','July','August','September','October','November','December'];
-            var dayAbbr 	= ['Sun','Mon','Tues','Wed','Thur','Fri','Sat'];
+            var dayAbbr 	= ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
             var today 		= 'Today';
             var tomorrow 	= 'Tomorrow';
             var in_days 	= 'days';
@@ -99,6 +102,7 @@ jQuery(document).ready(function($) {
             var morning 	= ['Good morning, handsome!','Enjoy your day!','How was your sleep?'];
             var afternoon 	= ['Hello beauty!','You look sexy!','Looking good today!'];
             var evening 	= ['Wow, You look hot!','You look nice!','Hi, sexy!'];
+			var feed		= 'http://rss.cnn.com/rss/edition.rss';
 			moment.locale('en');
     }
 
@@ -403,7 +407,7 @@ jQuery(document).ready(function($) {
 
 	(function fetchNews() {
 		$.feedToJson({
-			feed:'http://www.faz.net/rss/aktuell/',
+			feed: feed,
 			success: function(data){
 				newshead = [];
 				news 	 = [];
