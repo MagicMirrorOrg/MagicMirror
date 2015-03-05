@@ -10,6 +10,11 @@ Translation to DE/EN
 
 -Added OpenHAB Support, News were displayed in two lines.
 
+	
+
+
 To-Do:
+
 Override locale-setting with an identifier -> http://127.0.0.1/smartmirror?en (for English)
+
 Temperatures should be printed in .1f way even if the suffix is zero (10,0°C, for example) 
