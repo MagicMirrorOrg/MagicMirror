@@ -13,6 +13,18 @@ jQuery.fn.updateWithText = function(text, speed)
 	}
 } 
 
+$.urlParam = function(name, url) {
+    if (!url) {
+     url = window.location.href;
+    }
+    var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(url);
+    if (!results) { 
+        return undefined;
+    }
+    return results[1] || undefined;
+}
+
+
 jQuery.fn.outerHTML = function(s) {
     return s
         ? this.before(s).remove()
@@ -44,9 +56,14 @@ jQuery(document).ready(function($) {
 	var eventList = [];
 	var lastCompliment;
 	var compliment;
-
-    // multi-langugage support according to browser-lang
-    var lang = window.navigator.language;
+	var lang;
+	var lang_override = $.urlParam('lang');
+	if (lang_override=='de') {lang='de';}
+	else if (lang_override=='nl') {lang='nl';}
+	else if (lang_override=='fr') {lang='fr';}
+	else if (lang_override=='es') {lang='es';}
+	else if (lang_override=='en') {lang='en';}
+	else {lang = window.navigator.language;}
     switch (lang)
     {
         case 'de':
@@ -90,7 +107,21 @@ jQuery(document).ready(function($) {
             var evening 	= ['Wow, You look hot!','You look nice!','Hi, sexy!'];
 			var feed		= 'http://lesclesdedemain.lemonde.fr/screens/RSS/sw_getFeed.php?idTheme=HOME';
 			moment.locale('fr');
-            break;            
+            break;     
+		case 'es':
+            var days 		= ['domingo','lunes','martes','miécoles','jueves','viernes','sábado'];
+            var months 		= ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','dicembre'];
+            var dayAbbr 	= ['dim','lun','mar','mer','jeu','ven','sam'];
+            var today 		= 'aujourd\'hui';
+            var tomorrow 	= 'demain';
+            var in_days 	= 'jour(s)';
+            var datelabel 	= 'Jour';
+            var morning 	= ['Good morning, handsome!','Enjoy your day!','How was your sleep?'];
+            var afternoon 	= ['Hello beauty!','You look sexy!','Looking good today!'];
+            var evening 	= ['Wow, You look hot!','You look nice!','Hi, sexy!'];
+			var feed		= 'http://lesclesdedemain.lemonde.fr/screens/RSS/sw_getFeed.php?idTheme=HOME';
+			moment.locale('es');
+            break;     			
         default:
             var days 		= ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
             var months 		= ['January','February','March','April','May','June','July','August','September','October','November','December'];
