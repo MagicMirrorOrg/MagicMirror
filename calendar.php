@@ -18,8 +18,14 @@
 	            'header'=>"Accept-Language: en-US,en;q=0.8rn" .
 	                        "Accept-Encoding: gzip,deflate,sdchrn" .
 	                        "Accept-Charset:UTF-8,*;q=0.5rn" .
-	                        "User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:19.0) Gecko/20100101 Firefox/19.0 FirePHP/0.4rn"
-	        )
+	                        "User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:19.0) Gecko/20100101 Firefox/19.0 FirePHP/0.4rn",
+				"ignore_errors" => true	 //Fix problems getting data
+	        ),
+	        //Fixes problems in ssl 
+		"ssl" => array(
+			"verify_peer"=>false,
+			"verify_peer_name"=>false
+		)
 	    );
 	 
 	    $context = stream_context_create($opts);
