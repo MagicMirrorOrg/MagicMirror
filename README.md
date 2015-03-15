@@ -9,11 +9,13 @@ Added some improvements to MichMichs [project](http://michaelteeuw.nl/tagged/mag
 
 -Added OpenHAB Support, News were displayed in two lines.
 
+-Override locale-setting with an identifier -> http://127.0.0.1/smartmirror?en (for English)
+
 	
 
 
 To-Do:
 
-Override locale-setting with an identifier -> http://127.0.0.1/smartmirror?en (for English)
+Switching monitor on and off on a RPi via http trigger (OpenHAB)
 
 Temperatures should be printed in .1f way even if the suffix is zero (10,0°C, for example) 
