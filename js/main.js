@@ -151,7 +151,7 @@ jQuery(document).ready(function($) {
 
 
 	var weatherParams = {
-		'q':'Düsseldorf,Germany',
+		'q':'Duesseldorf,Germany',
 		'units':'metric',
 		'lang':lang
 	};
