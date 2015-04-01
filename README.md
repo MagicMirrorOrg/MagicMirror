@@ -11,11 +11,11 @@ Added some improvements to MichMichs [project](http://michaelteeuw.nl/tagged/mag
 
 -Override locale-setting with an identifier -> http://127.0.0.1/smartmirror?en (for English)
 
+-Temperatures are now printed in .1f way even if the suffix is zero (10,0°C, for example) 
+
 	
 
 
 To-Do:
 
 Switching monitor on and off on a RPi via http trigger (OpenHAB)
-
-Temperatures should be printed in .1f way even if the suffix is zero (10,0°C, for example) 
