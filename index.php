@@ -15,7 +15,7 @@
 
 	<div class="top left"><div class="date small dimmed"></div><div class="time"></div><div class="calendar xxsmall"></div></div>
 	<div class="top right"><div class="windsun small dimmed"></div><div class="temp"></div><div class="forecast small dimmed"></div></div>
-	<div class="center-ver center-hor"><div class="dishwasher light">Vaatwasser is klaar!</div></div>
+	<div class="center-ver center-hor"><!-- <div class="dishwasher light">Vaatwasser is klaar!</div> --></div>
 	<div class="lower-third center-hor"><div class="compliment light"></div></div>
 	<div class="bottom center-hor"><div class="news medium"></div></div>
 
@@ -28,7 +28,7 @@
 <script src="js/config.js"></script>
 <script src="js/rrule.js"></script>
 <script src="js/main.js?nocache=<?php echo md5(microtime()) ?>"></script>
-<script src="js/socket.io.min.js"></script>
+<!-- <script src="js/socket.io.min.js"></script> -->
 
 </body>
 </html>
