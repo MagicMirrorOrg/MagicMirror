@@ -1,8 +1,8 @@
 <?php
 	
 	// Set the url of the calendar feed.
-	$url1 = 'http://www.schulferien.org/iCal/Feiertage/icals/Feiertage_Nordrhein_Westfalen_2015.ics'
-	$url2 = 'http://www.schulferien.org/iCal/Feiertage/icals/Feiertage_Nordrhein_Westfalen_2016.ics'
+	$url1 = 'http://www.schulferien.org/iCal/Feiertage/icals/Feiertage_Nordrhein_Westfalen_2015.ics';
+	$url2 = 'http://www.schulferien.org/iCal/Feiertage/icals/Feiertage_Nordrhein_Westfalen_2016.ics';
 	
 	//user agent is very necessary, otherwise some websites like google.com wont give zipped content
 	    $opts = array(
@@ -15,7 +15,7 @@
 	        )
 	    );
 		
-	// Added Support for multiple Calendars.
+	// Added Support for multiple Calendars. ... url3,url4 etc
 	echo get_url($url1);
 	echo get_url($url2);
 	
