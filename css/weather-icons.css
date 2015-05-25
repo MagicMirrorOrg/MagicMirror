@@ -1,8 +1,9 @@
 /*!
- *  Weather Icons Beta 1
+ *  Weather Icons 1.3
+ *  Updated November 30th, 2014
  *  Weather themed icons for Bootstrap
  *  ------------------------------------------------------------------------------
-  * Maintained at http://erikflowers.github.io/weather-icons
+* Maintained at http://erikflowers.github.io/weather-icons
  *  http://twitter.com/Erik_UX
  *
  *  License
@@ -13,41 +14,29 @@
  *    http://opensource.org/licenses/mit-license.html
  *  - Documentation licensed under CC BY 3.0 -
  *    http://creativecommons.org/licenses/by/3.0/
- *  - Inspired by and works great as a companion with Font Aweosme
+ *  - Inspired by and works great as a companion with Font Awesome
  *    "Font Awesome by Dave Gandy - http://fontawesome.io"
  *
  *  Weather Icons Bootstrap Package Author - Erik Flowers - erik@helloerik.com
- *  Weather Icons gives full credit for inspiration to Font Awesome and makes no 
- *  claim to invention, intellectual property, or ownership of methodology. 
- * 
- *  Support Open Source!
- *
  *  ------------------------------------------------------------------------------
  *  Email: erik@helloerik.com
  *  Twitter: http://twitter.com/Erik_UX
  */
 @font-face {
-  font-family: 'weather';
+  font-family: 'weathericons';
   src: url('../font/weathericons-regular-webfont.eot');
   src: url('../font/weathericons-regular-webfont.eot?#iefix') format('embedded-opentype'), url('../font/weathericons-regular-webfont.woff') format('woff'), url('../font/weathericons-regular-webfont.ttf') format('truetype'), url('../font/weathericons-regular-webfont.svg#weathericons-regular-webfontRg') format('svg');
   font-weight: normal;
   font-style: normal;
 }
-[class^="wi-"],
-[class*=" wi-"] {
-  font-family: weather;
-  font-weight: normal;
-  font-style: normal;
-  text-decoration: inherit;
-  text-transform: none;
-  -webkit-font-smoothing: antialiased;
-  *margin-right: .3em;
-}
-[class^="wi-"]:before,
-[class*=" wi-"]:before {
-  text-decoration: inherit;
+.wi {
   display: inline-block;
-  speak: none;
+  font-family: 'weathericons';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 .wi-day-cloudy-gusts:before {
   content: "\f000";
@@ -220,7 +209,7 @@
 .wi-night-thunderstorm:before {
   content: "\f03b";
 }
-.wi-celcius:before {
+.wi-celsius:before {
   content: "\f03c";
 }
 .wi-cloud-down:before {
@@ -301,27 +290,453 @@
 .wi-up:before {
   content: "\f058";
 }
-.wi-wind-east:before {
+.wi-wind-west:before {
   content: "\f059";
 }
-.wi-wind-north-east:before {
+.wi-wind-south-west:before {
   content: "\f05a";
 }
-.wi-wind-north-west:before {
+.wi-wind-south-east:before {
   content: "\f05b";
 }
-.wi-wind-north:before {
+.wi-wind-south:before {
   content: "\f05c";
 }
-.wi-wind-south-east:before {
+.wi-wind-north-west:before {
   content: "\f05d";
 }
-.wi-wind-south-west:before {
+.wi-wind-north-east:before {
   content: "\f05e";
 }
-.wi-wind-south:before {
+.wi-wind-north:before {
   content: "\f060";
 }
-.wi-wind-west:before {
+.wi-wind-east:before {
   content: "\f061";
+}
+.wi-smoke:before {
+  content: "\f062";
+}
+.wi-dust:before {
+  content: "\f063";
+}
+.wi-snow-wind:before {
+  content: "\f064";
+}
+.wi-day-snow-wind:before {
+  content: "\f065";
+}
+.wi-night-snow-wind:before {
+  content: "\f066";
+}
+.wi-night-alt-snow-wind:before {
+  content: "\f067";
+}
+.wi-day-sleet-storm:before {
+  content: "\f068";
+}
+.wi-night-sleet-storm:before {
+  content: "\f069";
+}
+.wi-night-alt-sleet-storm:before {
+  content: "\f06a";
+}
+.wi-day-snow-thunderstorm:before {
+  content: "\f06b";
+}
+.wi-night-snow-thunderstorm:before {
+  content: "\f06c";
+}
+.wi-night-alt-snow-thunderstorm:before {
+  content: "\f06d";
+}
+.wi-solar-eclipse:before {
+  content: "\f06e";
+}
+.wi-lunar-eclipse:before {
+  content: "\f070";
+}
+.wi-meteor:before {
+  content: "\f071";
+}
+.wi-hot:before {
+  content: "\f072";
+}
+.wi-hurricane:before {
+  content: "\f073";
+}
+.wi-smog:before {
+  content: "\f074";
+}
+.wi-alien:before {
+  content: "\f075";
+}
+.wi-snowflake-cold:before {
+  content: "\f076";
+}
+.wi-stars:before {
+  content: "\f077";
+}
+.wi-night-partly-cloudy:before {
+  content: "\f083";
+}
+.wi-umbrella:before {
+  content: "\f084";
+}
+.wi-day-windy:before {
+  content: "\f085";
+}
+.wi-night-alt-cloudy:before {
+  content: "\f086";
+}
+.wi-up-left:before {
+  content: "\f087";
+}
+.wi-down-right:before {
+  content: "\f088";
+}
+.wi-time-12:before {
+  content: "\f089";
+}
+.wi-time-1:before {
+  content: "\f08a";
+}
+.wi-time-2:before {
+  content: "\f08b";
+}
+.wi-time-3:before {
+  content: "\f08c";
+}
+.wi-time-4:before {
+  content: "\f08d";
+}
+.wi-time-5:before {
+  content: "\f08e";
+}
+.wi-time-6:before {
+  content: "\f08f";
+}
+.wi-time-7:before {
+  content: "\f090";
+}
+.wi-time-8:before {
+  content: "\f091";
+}
+.wi-time-9:before {
+  content: "\f092";
+}
+.wi-time-10:before {
+  content: "\f093";
+}
+.wi-time-11:before {
+  content: "\f094";
+}
+.wi-day-sleet:before {
+  content: "\f0b2";
+}
+.wi-night-sleet:before {
+  content: "\f0b3";
+}
+.wi-night-alt-sleet:before {
+  content: "\f0b4";
+}
+.wi-sleet:before {
+  content: "\f0b5";
+}
+.wi-day-haze:before {
+  content: "\f0b6";
+}
+.wi-beafort-0:before {
+  content: "\f0b7";
+}
+.wi-beafort-1:before {
+  content: "\f0b8";
+}
+.wi-beafort-2:before {
+  content: "\f0b9";
+}
+.wi-beafort-3:before {
+  content: "\f0ba";
+}
+.wi-beafort-4:before {
+  content: "\f0bb";
+}
+.wi-beafort-5:before {
+  content: "\f0bc";
+}
+.wi-beafort-6:before {
+  content: "\f0bd";
+}
+.wi-beafort-7:before {
+  content: "\f0be";
+}
+.wi-beafort-8:before {
+  content: "\f0bf";
+}
+.wi-beafort-9:before {
+  content: "\f0c0";
+}
+.wi-beafort-10:before {
+  content: "\f0c1";
+}
+.wi-beafort-11:before {
+  content: "\f0c2";
+}
+.wi-beafort-12:before {
+  content: "\f0c3";
+}
+.wi-wind-default:before {
+  content: "\f0b1";
+}
+.wi-wind-default._0-deg {
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  transform: rotate(0deg);
+}
+.wi-wind-default._15-deg {
+  -webkit-transform: rotate(15deg);
+  -moz-transform: rotate(15deg);
+  -ms-transform: rotate(15deg);
+  -o-transform: rotate(15deg);
+  transform: rotate(15deg);
+}
+.wi-wind-default._30-deg {
+  -webkit-transform: rotate(30deg);
+  -moz-transform: rotate(30deg);
+  -ms-transform: rotate(30deg);
+  -o-transform: rotate(30deg);
+  transform: rotate(30deg);
+}
+.wi-wind-default._45-deg {
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.wi-wind-default._60-deg {
+  -webkit-transform: rotate(60deg);
+  -moz-transform: rotate(60deg);
+  -ms-transform: rotate(60deg);
+  -o-transform: rotate(60deg);
+  transform: rotate(60deg);
+}
+.wi-wind-default._75-deg {
+  -webkit-transform: rotate(75deg);
+  -moz-transform: rotate(75deg);
+  -ms-transform: rotate(75deg);
+  -o-transform: rotate(75deg);
+  transform: rotate(75deg);
+}
+.wi-wind-default._90-deg {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+.wi-wind-default._105-deg {
+  -webkit-transform: rotate(105deg);
+  -moz-transform: rotate(105deg);
+  -ms-transform: rotate(105deg);
+  -o-transform: rotate(105deg);
+  transform: rotate(105deg);
+}
+.wi-wind-default._120-deg {
+  -webkit-transform: rotate(120deg);
+  -moz-transform: rotate(120deg);
+  -ms-transform: rotate(120deg);
+  -o-transform: rotate(120deg);
+  transform: rotate(120deg);
+}
+.wi-wind-default._135-deg {
+  -webkit-transform: rotate(135deg);
+  -moz-transform: rotate(135deg);
+  -ms-transform: rotate(135deg);
+  -o-transform: rotate(135deg);
+  transform: rotate(135deg);
+}
+.wi-wind-default._150-deg {
+  -webkit-transform: rotate(150deg);
+  -moz-transform: rotate(150deg);
+  -ms-transform: rotate(150deg);
+  -o-transform: rotate(150deg);
+  transform: rotate(150deg);
+}
+.wi-wind-default._165-deg {
+  -webkit-transform: rotate(165deg);
+  -moz-transform: rotate(165deg);
+  -ms-transform: rotate(165deg);
+  -o-transform: rotate(165deg);
+  transform: rotate(165deg);
+}
+.wi-wind-default._180-deg {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+.wi-wind-default._195-deg {
+  -webkit-transform: rotate(195deg);
+  -moz-transform: rotate(195deg);
+  -ms-transform: rotate(195deg);
+  -o-transform: rotate(195deg);
+  transform: rotate(195deg);
+}
+.wi-wind-default._210-deg {
+  -webkit-transform: rotate(210deg);
+  -moz-transform: rotate(210deg);
+  -ms-transform: rotate(210deg);
+  -o-transform: rotate(210deg);
+  transform: rotate(210deg);
+}
+.wi-wind-default._225-deg {
+  -webkit-transform: rotate(225deg);
+  -moz-transform: rotate(225deg);
+  -ms-transform: rotate(225deg);
+  -o-transform: rotate(225deg);
+  transform: rotate(225deg);
+}
+.wi-wind-default._240-deg {
+  -webkit-transform: rotate(240deg);
+  -moz-transform: rotate(240deg);
+  -ms-transform: rotate(240deg);
+  -o-transform: rotate(240deg);
+  transform: rotate(240deg);
+}
+.wi-wind-default._255-deg {
+  -webkit-transform: rotate(255deg);
+  -moz-transform: rotate(255deg);
+  -ms-transform: rotate(255deg);
+  -o-transform: rotate(255deg);
+  transform: rotate(255deg);
+}
+.wi-wind-default._270-deg {
+  -webkit-transform: rotate(270deg);
+  -moz-transform: rotate(270deg);
+  -ms-transform: rotate(270deg);
+  -o-transform: rotate(270deg);
+  transform: rotate(270deg);
+}
+.wi-wind-default._285-deg {
+  -webkit-transform: rotate(295deg);
+  -moz-transform: rotate(295deg);
+  -ms-transform: rotate(295deg);
+  -o-transform: rotate(295deg);
+  transform: rotate(295deg);
+}
+.wi-wind-default._300-deg {
+  -webkit-transform: rotate(300deg);
+  -moz-transform: rotate(300deg);
+  -ms-transform: rotate(300deg);
+  -o-transform: rotate(300deg);
+  transform: rotate(300deg);
+}
+.wi-wind-default._315-deg {
+  -webkit-transform: rotate(315deg);
+  -moz-transform: rotate(315deg);
+  -ms-transform: rotate(315deg);
+  -o-transform: rotate(315deg);
+  transform: rotate(315deg);
+}
+.wi-wind-default._330-deg {
+  -webkit-transform: rotate(330deg);
+  -moz-transform: rotate(330deg);
+  -ms-transform: rotate(330deg);
+  -o-transform: rotate(330deg);
+  transform: rotate(330deg);
+}
+.wi-wind-default._345-deg {
+  -webkit-transform: rotate(345deg);
+  -moz-transform: rotate(345deg);
+  -ms-transform: rotate(345deg);
+  -o-transform: rotate(345deg);
+  transform: rotate(345deg);
+}
+.wi-moon-new:before {
+  content: "\f095";
+}
+.wi-moon-waxing-cresent-1:before {
+  content: "\f096";
+}
+.wi-moon-waxing-cresent-2:before {
+  content: "\f097";
+}
+.wi-moon-waxing-cresent-3:before {
+  content: "\f098";
+}
+.wi-moon-waxing-cresent-4:before {
+  content: "\f099";
+}
+.wi-moon-waxing-cresent-5:before {
+  content: "\f09a";
+}
+.wi-moon-waxing-cresent-6:before {
+  content: "\f09b";
+}
+.wi-moon-first-quarter:before {
+  content: "\f09c";
+}
+.wi-moon-waxing-gibbous-1:before {
+  content: "\f09d";
+}
+.wi-moon-waxing-gibbous-2:before {
+  content: "\f09e";
+}
+.wi-moon-waxing-gibbous-3:before {
+  content: "\f09f";
+}
+.wi-moon-waxing-gibbous-4:before {
+  content: "\f0a0";
+}
+.wi-moon-waxing-gibbous-5:before {
+  content: "\f0a1";
+}
+.wi-moon-waxing-gibbous-6:before {
+  content: "\f0a2";
+}
+.wi-moon-full:before {
+  content: "\f0a3";
+}
+.wi-moon-waning-gibbous-1:before {
+  content: "\f0a4";
+}
+.wi-moon-waning-gibbous-2:before {
+  content: "\f0a5";
+}
+.wi-moon-waning-gibbous-3:before {
+  content: "\f0a6";
+}
+.wi-moon-waning-gibbous-4:before {
+  content: "\f0a7";
+}
+.wi-moon-waning-gibbous-5:before {
+  content: "\f0a8";
+}
+.wi-moon-waning-gibbous-6:before {
+  content: "\f0a9";
+}
+.wi-moon-3rd-quarter:before {
+  content: "\f0aa";
+}
+.wi-moon-waning-crescent-1:before {
+  content: "\f0ab";
+}
+.wi-moon-waning-crescent-2:before {
+  content: "\f0ac";
+}
+.wi-moon-waning-crescent-3:before {
+  content: "\f0ad";
+}
+.wi-moon-waning-crescent-4:before {
+  content: "\f0ae";
+}
+.wi-moon-waning-crescent-5:before {
+  content: "\f0af";
+}
+.wi-moon-waning-crescent-6:before {
+  content: "\f0b0";
 }
