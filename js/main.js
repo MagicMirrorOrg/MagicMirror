@@ -472,7 +472,7 @@ jQuery(document).ready(function($) {
 		if (newsIndex < 0) newsIndex = news.length - 1;
 			setTimeout(function() {
 				showNews();
-			}, 7000);	
+			}, 15000);	
 		
 		
 
