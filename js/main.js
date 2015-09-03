@@ -269,6 +269,7 @@ jQuery(document).ready(function($) {
                 }
             };
         	eventList.sort(function(a,b){return a.seconds-b.seconds});
+        	eventList = eventList.slice(0,8);
 
         	setTimeout(function() {
         		updateCalendarData();
