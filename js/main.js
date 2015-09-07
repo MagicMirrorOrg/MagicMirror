@@ -113,6 +113,10 @@ jQuery(document).ready(function($) {
 							//time
 							dt = new Date(value.substring(0,4), value.substring(4,6) - 1, value.substring(6,8), value.substring(9,11), value.substring(11,13), value.substring(13,15));
 						}
+						if (mainKey == 'SUMMARY' && subKey.length > 0){
+							//time
+							e.SUMMARY = value.substring(':');
+						}
 
 						if (mainKey == 'DTSTART') e.startDate = dt;
 						if (mainKey == 'DTEND') e.endDate = dt;
