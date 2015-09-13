@@ -11,9 +11,12 @@ Added some improvements to MichMichs [project](http://michaelteeuw.nl/tagged/mag
 
 -Updated Weathericons to a newer version
 
--Added OpenHAB Support, 
+-Added OpenHAB Support
+
 -News were now displayed in two lines.
+
 -Temperatures are now printed in .1f way even if the suffix is zero (10,0°C, for example) 
+
 -Display Location next to the sunrise/sunset widget 
 
 
