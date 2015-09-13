@@ -19,3 +19,15 @@ To-Do:
 Display Graph and Values from OpenHAB
 Add support for public transport (efa.vrr.de for example)
 Add support for gas-price monitor (in Germany)
+
+
+
+
+
+
+
+
+Screenshot:
+
+
+![Screenshot](https://cloud.githubusercontent.com/assets/8407566/9839264/4fbd2f7c-5a74-11e5-8d79-078886477cd6.png)
