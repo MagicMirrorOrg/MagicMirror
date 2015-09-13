@@ -440,7 +440,7 @@ jQuery(document).ready(function($) {
 				row.append($('<td/>').addClass('temp-min').html(roundVal(forecast.temp_min).toFixed(1))); 
 				row.append($('<td/>').addClass('temp-max').html(roundVal(forecast.temp_max).toFixed(1)));
 			
-				forecastTable.append(row)
+				forecastTable.append(row);
 				opacity -= 0.155;
 			}
 
@@ -499,7 +499,6 @@ jQuery(document).ready(function($) {
         {
                 var tempstat = "";
                 $.getJSON(OHURL.proto+OHURL.host+':'+OHURL.port+OHURL.suburl+'SmartMirrorTXT'+OHURL.type, {}, function(json, textStatus) {
-//                $.getJSON(OHURL.proto+OHURL.host+':'+OHURL.port+OHURL.suburl+'Measure_Power_All'+OHURL.type, {}, function(json, textStatus) {
                         if (json) {
                                 tempstat = json.state;
                         }
