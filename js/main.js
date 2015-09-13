@@ -57,13 +57,39 @@ jQuery(document).ready(function($) {
 	var lastCompliment;
 	var compliment;
 	var lang;
-	var lang_override = $.urlParam('lang');
-	if (lang_override=='de') {lang='de';}
-	else if (lang_override=='nl') {lang='nl';}
-	else if (lang_override=='fr') {lang='fr';}
-	else if (lang_override=='es') {lang='es';}
-	else if (lang_override=='en') {lang='en';}
-	else {lang = window.navigator.language;}
+	var mirroruser = $.urlParam('user');
+	
+	 switch (mirroruser)
+    {
+        case 'dominicwork':
+            var feed				= 'http://www.faz.net/rss/aktuell/';
+			var lang 				= 'de';
+			var weatherParams 		= {'q':'Duesseldorf,DE','units':'metric','lang':lang};
+			var OHURL				= {'proto':'http://','host':'127.0.0.1','port':'8080','suburl':'/rest/items/','type':'/?type=json'};
+			var EFAURL 				= 'http://efa.vrr.de/vrr/XSLT_DM_REQUEST?language='+lang+'&mode=direct&name_dm='+'Hbf'+'&outputFormat=JSON&place_dm='+'Duesseldorf'+'&type_dm=stop&useRealtime=1';
+			var CALURL 				= 'later';
+			break;
+			
+		case 'dominichilden':
+            var feed				= 'http://www.rp-online.de/nrw/staedte/hilden/feed.rss';
+			var lang 				= 'de';
+			var weatherParams 		= {'q':'Hilden,DE','units':'metric','lang':lang};
+			var OHURL				= {'proto':'http://','host':'127.0.0.1','port':'8080','suburl':'/rest/items/','type':'/?type=json'};
+			var EFAURL 				= 'http://efa.vrr.de/vrr/XSLT_DM_REQUEST?language='+lang+'&mode=direct&name_dm='+'Hbf'+'&outputFormat=JSON&place_dm='+'Duesseldorf'+'&type_dm=stop&useRealtime=1';
+			var CALURL 				= 'later';
+            break;
+
+		default:
+            var feed				= 'http://www.spiegel.de/schlagzeilen/tops/index.rss';
+			var lang 				= 'de';
+			var weatherParams 		= {'q':'Berlin,DE','units':'metric','lang':lang};
+			var OHURL				= {'proto':'http://','host':'127.0.0.1','port':'8080','suburl':'/rest/items/','type':'/?type=json'};
+			var EFAURL 				= 'http://efa.vrr.de/vrr/XSLT_DM_REQUEST?language='+lang+'&mode=direct&name_dm='+'Hbf'+'&outputFormat=JSON&place_dm='+'Berlin'+'&type_dm=stop&useRealtime=1';
+			var CALURL 				= 'later';
+    }
+	
+	if (lang=="undefined")  {var lang = window.navigator.language;}
+	if (lang==null) 		{var lang = window.navigator.language;}
     switch (lang)
     {
         case 'de':
@@ -77,7 +103,6 @@ jQuery(document).ready(function($) {
             var morning 	= ['Guten Morgen, Schönling','Genieße den Tag','Gut geschlafen?'];
             var afternoon 	= ['Wow, sexy!','Du siehst gut aus!','Heute ist dein Tag!'];
             var evening 	= ['Wie war dein Tag?','Schöner Anblick!','Du bist sexy!'];
-			var feed		= 'http://www.faz.net/rss/aktuell/';
 			moment.locale('de');
             break;
         case 'nl':
@@ -91,7 +116,6 @@ jQuery(document).ready(function($) {
             var morning 	= ['Good morning, handsome!','Enjoy your day!','How was your sleep?'];
             var afternoon 	= ['Hello beauty!','You look sexy!','Looking good today!'];
             var evening 	= ['Wow, You look hot!','You look nice!','Hi, sexy!'];
-			var feed		= 'http://feeds.nos.nl/nosjournaal?format=rss';
 			moment.locale('nl');
             break;
        case 'fr':
@@ -105,7 +129,6 @@ jQuery(document).ready(function($) {
             var morning 	= ['Good morning, handsome!','Enjoy your day!','How was your sleep?'];
             var afternoon 	= ['Hello beauty!','You look sexy!','Looking good today!'];
             var evening 	= ['Wow, You look hot!','You look nice!','Hi, sexy!'];
-			var feed		= 'http://lesclesdedemain.lemonde.fr/screens/RSS/sw_getFeed.php?idTheme=HOME';
 			moment.locale('fr');
             break;     
 		case 'es':
@@ -119,7 +142,6 @@ jQuery(document).ready(function($) {
             var morning 	= ['Good morning, handsome!','Enjoy your day!','How was your sleep?'];
             var afternoon 	= ['Hello beauty!','You look sexy!','Looking good today!'];
             var evening 	= ['Wow, You look hot!','You look nice!','Hi, sexy!'];
-			var feed		= 'http://lesclesdedemain.lemonde.fr/screens/RSS/sw_getFeed.php?idTheme=HOME';
 			moment.locale('es');
             break;     			
         default:
@@ -133,7 +155,6 @@ jQuery(document).ready(function($) {
             var morning 	= ['Good morning, handsome!','Enjoy your day!','How was your sleep?'];
             var afternoon 	= ['Hello beauty!','You look sexy!','Looking good today!'];
             var evening 	= ['Wow, You look hot!','You look nice!','Hi, sexy!'];
-			var feed		= 'http://rss.cnn.com/rss/edition.rss';
 			moment.locale('en');
     }
 
@@ -150,11 +171,7 @@ jQuery(document).ready(function($) {
 	});
 
 
-	var weatherParams = {
-		'q':'Duesseldorf,Germany',
-		'units':'metric',
-		'lang':lang
-	};
+	
 	
 	(function checkVersion()
 	{
@@ -375,7 +392,7 @@ jQuery(document).ready(function($) {
 				sunString = '<span class="wi wi-sunset xdimmed"></span> ' + sunset;
 			}
 
-			$('.windsun').updateWithText(windString+' '+sunString, 1000);
+			$('.windsun').updateWithText(windString+' '+sunString+'  '+weatherParams.q, 1000);
 		});
 
 		setTimeout(function() {
@@ -406,7 +423,6 @@ jQuery(document).ready(function($) {
 
 			}
 
-
 			var forecastTable = $('<table />').addClass('forecast-table');
 			var opacity = 1;
 			var rowhead = $('<tr />').css('opacity', opacity);
@@ -421,10 +437,10 @@ jQuery(document).ready(function($) {
 				var row = $('<tr />').css('opacity', opacity);
 
 				row.append($('<td/>').addClass('day').html(dayAbbr[dt.getDay()]));
-				row.append($('<td/>').addClass('temp-min').html(roundVal(forecast.temp_min).toFixed(1))); //convert into specified number of decimals
-				row.append($('<td/>').addClass('temp-max').html(roundVal(forecast.temp_max).toFixed(1))); //Thanks to thk from KNX Userforum
+				row.append($('<td/>').addClass('temp-min').html(roundVal(forecast.temp_min).toFixed(1))); 
+				row.append($('<td/>').addClass('temp-max').html(roundVal(forecast.temp_max).toFixed(1)));
 			
-				forecastTable.append(row);
+				forecastTable.append(row)
 				opacity -= 0.155;
 			}
 
@@ -481,13 +497,14 @@ jQuery(document).ready(function($) {
 
 	(function updateOpenHAB()
         {
-                var temp = "";
-                $.getJSON('http://127.0.0.1:8080/rest/items/MagicMirrorTXT/?type=json', {}, function(json, textStatus) {
+                var tempstat = "";
+                $.getJSON(OHURL.proto+OHURL.host+':'+OHURL.port+OHURL.suburl+'SmartMirrorTXT'+OHURL.type, {}, function(json, textStatus) {
+//                $.getJSON(OHURL.proto+OHURL.host+':'+OHURL.port+OHURL.suburl+'Measure_Power_All'+OHURL.type, {}, function(json, textStatus) {
                         if (json) {
-                                temp = json.state;
+                                tempstat = json.state;
                         }
-                        $('.openhab').updateWithText(temp,2000);
-                        if (temp != "") {
+                        $('.openhab').updateWithText(tempstat,2000);
+                        if (tempstat != "") {
                                 $('.openhab').fadeIn(2000);
                                 $('.lower-third').fadeOut(2000);
                         } else {
@@ -499,5 +516,6 @@ jQuery(document).ready(function($) {
                         updateOpenHAB();
                 }, 5000);
         })();
+
 	
 });
