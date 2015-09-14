@@ -17,7 +17,9 @@ Added some improvements to MichMichs [project](http://michaelteeuw.nl/tagged/mag
 To-Do:
 
 Display Graph and Values from OpenHAB
+
 Add support for public transport (efa.vrr.de for example)
+
 Add support for gas-price monitor (in Germany)
 
 
