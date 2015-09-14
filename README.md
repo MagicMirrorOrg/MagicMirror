@@ -3,11 +3,11 @@ Smartmirror
 
 Added some improvements to MichMichs [project](http://michaelteeuw.nl/tagged/magicmirror).
 
--Translation other Languages (compliments,moment.js and UI is translated) (DE/EN/FR/ES/NL)
+-Translation to other Languages (compliments and DateLabel needs to be translated manually, moment.js for everything else)
 
 -Override system-locale with user profiles -> http://127.0.0.1/smartmirror?user=user1 (for user1). You can define newsfeed,language, weather,openhab URL for each profile.
 
--Inlcuded a newer Version of moment.js and weathericons
+-Inlcuded a newer Version of moment-with-langs.js and weathericons
 
 -Added OpenHAB Support
 
