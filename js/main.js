@@ -81,7 +81,7 @@ jQuery(document).ready(function($) {
 
 		default:
             var feed				= 'http://www.spiegel.de/schlagzeilen/tops/index.rss';
-			var lang 				= 'de';
+			var lang 				= 'en';
 			var weatherParams 		= {'q':'Berlin,DE','units':'metric','lang':lang};
 			var OHURL				= {'proto':'http://','host':'127.0.0.1','port':'8080','suburl':'/rest/items/','type':'/?type=json'};
 			var EFAURL 				= 'http://efa.vrr.de/vrr/XSLT_DM_REQUEST?language='+lang+'&mode=direct&name_dm='+'Hbf'+'&outputFormat=JSON&place_dm='+'Berlin'+'&type_dm=stop&useRealtime=1';
@@ -93,85 +93,47 @@ jQuery(document).ready(function($) {
     switch (lang)
     {
         case 'de':
-            var days 		= ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
-            var months 		= ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
-            var dayAbbr 	= ['So','Mo','Di','Mi','Do','Fr','Sa'];
-            var today 		= 'heute';
-            var tomorrow 	= 'morgen';
-            var in_days 	= 'Tage';
             var datelabel 	= 'Tag';
             var morning 	= ['Guten Morgen, Schönling','Genieße den Tag','Gut geschlafen?'];
             var afternoon 	= ['Wow, sexy!','Du siehst gut aus!','Heute ist dein Tag!'];
             var evening 	= ['Wie war dein Tag?','Schöner Anblick!','Du bist sexy!'];
-			moment.locale('de');
+			moment.locale(lang);
             break;
         case 'nl':
-            var days 		= ['zondag','maandag','dinsdag','woensdag','donderdag','vrijdag','zaterdag'];
-            var months 		= ['januari','februari','maart','april','mei','juni','juli','augustus','september','oktober','november','december'];
-            var dayAbbr 	= ['zo','ma','di','wo','do','vr','za'];
-            var today 		= 'vandaag';
-            var tomorrow 	= 'morgen';
-            var in_days 	= 'dagen'
             var datelabel 	= 'Dag';
             var morning 	= ['Good morning, handsome!','Enjoy your day!','How was your sleep?'];
             var afternoon 	= ['Hello beauty!','You look sexy!','Looking good today!'];
             var evening 	= ['Wow, You look hot!','You look nice!','Hi, sexy!'];
-			moment.locale('nl');
+			moment.locale(lang);
             break;
        case 'fr':
-            var days 		= ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
-            var months 		= ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-            var dayAbbr 	= ['dim','lun','mar','mer','jeu','ven','sam'];
-            var today 		= 'aujourd\'hui';
-            var tomorrow 	= 'demain';
-            var in_days 	= 'jour(s)';
             var datelabel 	= 'Jour';
             var morning 	= ['Good morning, handsome!','Enjoy your day!','How was your sleep?'];
             var afternoon 	= ['Hello beauty!','You look sexy!','Looking good today!'];
             var evening 	= ['Wow, You look hot!','You look nice!','Hi, sexy!'];
-			moment.locale('fr');
+			moment.locale(lang);
             break;     
 		case 'es':
-            var days 		= ['domingo','lunes','martes','miécoles','jueves','viernes','sábado'];
-            var months 		= ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','dicembre'];
-            var dayAbbr 	= ['dim','lun','mar','mer','jeu','ven','sam'];
-            var today 		= 'aujourd\'hui';
-            var tomorrow 	= 'demain';
-            var in_days 	= 'jour(s)';
             var datelabel 	= 'Jour';
             var morning 	= ['Good morning, handsome!','Enjoy your day!','How was your sleep?'];
             var afternoon 	= ['Hello beauty!','You look sexy!','Looking good today!'];
             var evening 	= ['Wow, You look hot!','You look nice!','Hi, sexy!'];
-			moment.locale('es');
-            break;     			
-        default:
-            var days 		= ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-            var months 		= ['January','February','March','April','May','June','July','August','September','October','November','December'];
-            var dayAbbr 	= ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-            var today 		= 'Today';
-            var tomorrow 	= 'Tomorrow';
-            var in_days 	= 'days';
+			moment.locale(lang);
+            break; 
+		case 'en':
             var datelabel 	= 'Day';
             var morning 	= ['Good morning, handsome!','Enjoy your day!','How was your sleep?'];
             var afternoon 	= ['Hello beauty!','You look sexy!','Looking good today!'];
             var evening 	= ['Wow, You look hot!','You look nice!','Hi, sexy!'];
-			moment.locale('en');
+			moment.locale(lang);
+            break; 
+        default:
+            var datelabel 	= 'Day';
+            var morning 	= ['Good morning, handsome!','Enjoy your day!','How was your sleep?'];
+            var afternoon 	= ['Hello beauty!','You look sexy!','Looking good today!'];
+            var evening 	= ['Wow, You look hot!','You look nice!','Hi, sexy!'];
+			moment.locale(lang);
     }
-
-	//connect do Xbee monitor
-	var socket = io.connect('http://rpi-development.local:8080');
-	socket.on('dishwasher', function (dishwasherReady) {
-		if (dishwasherReady) {
-			$('.dishwasher').fadeIn(2000);
-			$('.lower-third').fadeOut(2000);
-		} else {
-			$('.dishwasher').fadeOut(2000);
-			$('.lower-third').fadeIn(2000);		
-		}
-	});
-
-
-	
 	
 	(function checkVersion()
 	{
@@ -195,10 +157,7 @@ jQuery(document).ready(function($) {
 		var date = now.getDate();
 		var month = now.getMonth();
 		var year = now.getFullYear();
-
-		var date = days[day] + ', ' + date+' ' + months[month] + ' ' + year;
-
-
+		var date = moment.weekdays(day) + ', ' + date+' ' + moment.months(month) + ' ' + year;
 		$('.date').html(date);
 		$('.time').html(now.toTimeString().substring(0,5) + '<span class="sec">'+now.toTimeString().substring(6,8)+'</span>');
 
@@ -379,9 +338,6 @@ jQuery(document).ready(function($) {
 			var icon = $('<span/>').addClass('icon').addClass('dimmed').addClass('wi').addClass(iconClass);
 			$('.temp').updateWithText(icon.outerHTML()+temp+'&deg;', 1000);
 
-			// var forecast = 'Min: '+temp_min+'&deg;, Max: '+temp_max+'&deg;';
-			// $('.forecast').updateWithText(forecast, 1000);
-
 			var now = new Date();
 			var sunrise = new Date(json.sys.sunrise*1000).toTimeString().substring(0,5);
 			var sunset = new Date(json.sys.sunset*1000).toTimeString().substring(0,5);
@@ -436,7 +392,7 @@ jQuery(document).ready(function($) {
 				var dt = new Date(forecast.timestamp);
 				var row = $('<tr />').css('opacity', opacity);
 
-				row.append($('<td/>').addClass('day').html(dayAbbr[dt.getDay()]));
+				row.append($('<td/>').addClass('day').html(moment.weekdaysMin(dt.getDay())));
 				row.append($('<td/>').addClass('temp-min').html(roundVal(forecast.temp_min).toFixed(1))); 
 				row.append($('<td/>').addClass('temp-max').html(roundVal(forecast.temp_max).toFixed(1)));
 			
