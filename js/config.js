@@ -1,14 +1,15 @@
 // for navigator language
-var lang = window.navigator.language;
+// var lang = window.navigator.language;
 // you can change the language
-// var lang = 'en';
+var lang = 'nl';
 
 //change weather params here:
 //units: metric or imperial
 var weatherParams = {
     'q':'Baarn,Netherlands',
     'units':'metric',
-    'lang':lang
+    'lang':lang,
+    'APPID':'YOUR_FREE_OPENWEATHER_API_KEY'
 };
 
 var feed = 'http://feeds.nos.nl/nosjournaal?format=rss';
