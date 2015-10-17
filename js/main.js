@@ -64,7 +64,7 @@ jQuery(document).ready(function($) {
         case 'dominicwork':
             var feed				= 'http://www.faz.net/rss/aktuell/';
 			var lang 				= 'de';
-			var weatherParams 		= {'q':'Duesseldorf,DE','units':'metric','lang':lang};
+			var weatherParams 		= {'q':'Duesseldorf,DE','units':'metric','lang':lang,'APPID':'ENTER_YOUR_APIKEY'};
 			var OHURL				= {'proto':'http://','host':'127.0.0.1','port':'8080','suburl':'/rest/items/','type':'/?type=json'};
 			var EFAURL 				= 'http://efa.vrr.de/vrr/XSLT_DM_REQUEST?language='+lang+'&mode=direct&name_dm='+'Hbf'+'&outputFormat=JSON&place_dm='+'Duesseldorf'+'&type_dm=stop&useRealtime=1';
 			var CALURL 				= 'later';
@@ -73,7 +73,7 @@ jQuery(document).ready(function($) {
 		case 'dominichilden':
             var feed				= 'http://www.rp-online.de/nrw/staedte/hilden/feed.rss';
 			var lang 				= 'de';
-			var weatherParams 		= {'q':'Hilden,DE','units':'metric','lang':lang};
+			var weatherParams 		= {'q':'Hilden,DE','units':'metric','lang':lang,'APPID':'ENTER_YOUR_APIKEY'};
 			var OHURL				= {'proto':'http://','host':'127.0.0.1','port':'8080','suburl':'/rest/items/','type':'/?type=json'};
 			var EFAURL 				= 'http://efa.vrr.de/vrr/XSLT_DM_REQUEST?language='+lang+'&mode=direct&name_dm='+'Hbf'+'&outputFormat=JSON&place_dm='+'Duesseldorf'+'&type_dm=stop&useRealtime=1';
 			var CALURL 				= 'later';
@@ -82,7 +82,7 @@ jQuery(document).ready(function($) {
 		default:
             var feed				= 'http://www.spiegel.de/schlagzeilen/tops/index.rss';
 			var lang 				= 'en';
-			var weatherParams 		= {'q':'Berlin,DE','units':'metric','lang':lang};
+			var weatherParams 		= {'q':'Berlin,DE','units':'metric','lang':lang,'APPID':'ENTER_YOUR_APIKEY'};
 			var OHURL				= {'proto':'http://','host':'127.0.0.1','port':'8080','suburl':'/rest/items/','type':'/?type=json'};
 			var EFAURL 				= 'http://efa.vrr.de/vrr/XSLT_DM_REQUEST?language='+lang+'&mode=direct&name_dm='+'Hbf'+'&outputFormat=JSON&place_dm='+'Berlin'+'&type_dm=stop&useRealtime=1';
 			var CALURL 				= 'later';
