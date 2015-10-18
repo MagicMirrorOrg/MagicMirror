@@ -2,12 +2,12 @@ var compliments = {
 	complimentLocation: '.compliment',
 	currentCompliment: '',
 	complimentList: {
-		'morning': morning,
-		'afternoon': afternoon,
-		'evening': evening
+		'morning': config.compliments.morning,
+		'afternoon': config.compliments.afternoon,
+		'evening': config.compliments.evening
 	},
-	updateInterval: 30000,
-	fadeInterval: 4000,
+	updateInterval: config.compliments.interval || 30000,
+	fadeInterval: config.compliments.fadeInterval || 4000,
 	intervalId: null
 };
 
