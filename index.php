@@ -27,6 +27,7 @@
 <script src="js/moment-with-langs.min.js"></script>
 <script src="js/config.js"></script>
 <script src="js/rrule.js"></script>
+<script src="js/compliments/compliments.js" type="text/javascript"></script>
 <script src="js/main.js?nocache=<?php echo md5(microtime()) ?>"></script>
 <!-- <script src="js/socket.io.min.js"></script> -->
 
