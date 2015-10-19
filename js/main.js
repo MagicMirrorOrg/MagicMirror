@@ -34,7 +34,7 @@ jQuery(document).ready(function($) {
 	var lastCompliment;
 	var compliment;
 
-    moment.lang(config.lang);
+    moment.locale(config.lang);
 
 	//connect do Xbee monitor
 	// var socket = io.connect('http://rpi-alarm.local:8082');
@@ -64,19 +64,7 @@ jQuery(document).ready(function($) {
 		}, 3000);
 	})();
 
-	(function updateTime()
-	{
-        var now = moment();
-        var date = now.format('LLLL').split(' ',4);
-        date = date[0] + ' ' + date[1] + ' ' + date[2] + ' ' + date[3];
-
-		$('.date').html(date);
-		$('.time').html(now.format('HH') + ':' + now.format('mm') + '<span class="sec">'+now.format('ss')+'</span>');
-
-		setTimeout(function() {
-			updateTime();
-		}, 1000);
-	})();
+	time.init();
 
 	(function updateCalendarData()
 	{

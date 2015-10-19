@@ -1,5 +1,8 @@
 var config = {
     lang: 'en',
+    time: {
+        timeFormat: 12
+    },
     weather: {
         //change weather params here:
         //units: metric or imperial
