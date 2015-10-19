@@ -135,16 +135,17 @@ weather.updateWeatherForecast = function () {
 
 weather.init = function () {
 
-	if (weather.params.lang === undefined) {
-		weather.params.lang = weather.lang;
+	if (this.params.lang === undefined) {
+		this.params.lang = this.lang;
 	}
 
-	if (weather.params.cnt === undefined) {
-		weather.params.cnt = 5;
+	if (this.params.cnt === undefined) {
+		this.params.cnt = 5;
 	}
 
-	weather.updateCurrentWeather();
-
-	weather.updateWeatherForecast();
+	this.intervalId = setInterval(function () {
+		this.updateCurrentWeather();
+		this.updateWeatherForecast();
+	}.bind(this), this.updateInterval);
 
 }
