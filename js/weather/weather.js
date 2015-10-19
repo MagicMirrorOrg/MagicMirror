@@ -35,7 +35,7 @@ var weather = {
 }
 
 weather.roundValue = function (temperature) {
-	return Math.round(temperature * 10) / 10;
+	return parseFloat(temperature).toFixed(1);
 }
 
 weather.kmh2Beaufort = function(kmh) {
