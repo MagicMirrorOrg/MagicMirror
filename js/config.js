@@ -1,4 +1,16 @@
 var config = {
+    lang: 'en',
+    weather: {
+        //change weather params here:
+        //units: metric or imperial
+        params: {
+            q: 'Philadelphia, Pennsylvania',
+            units: 'imperial',
+            // if you want a different lang for the weather that what is set above, change it here
+            lang: 'en',
+            APPID: 'ba8a928b5152be1d4b371b256554abfc'
+        }
+    },
     compliments: {
         interval: 2000,
         fadeInterval: 4000,
@@ -19,20 +31,6 @@ var config = {
         ]
     }
 }
-
-// for navigator language
-// var lang = window.navigator.language;
-// you can change the language
-var lang = 'en';
-
-//change weather params here:
-//units: metric or imperial
-var weatherParams = {
-    'q':'Philadelphia,Pennsylvania',
-    'units':'imperial',
-    'lang':lang,
-    'APPID':'ba8a928b5152be1d4b371b256554abfc'
-};
 
 // var feed = 'http://feeds.nos.nl/nosjournaal?format=rss';
 //var feed = 'http://www.nu.nl/feeds/rss/achterklap.rss';
