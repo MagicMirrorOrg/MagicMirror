@@ -32,10 +32,8 @@ var config = {
             'I\'d like to kick you in the teeth, but why should I improve your looks?',
             'If I had a face like yours. I\'d sue my parents!'
         ]
+    },
+    news: {
+        feed: 'http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml'
     }
 }
-
-// var feed = 'http://feeds.nos.nl/nosjournaal?format=rss';
-//var feed = 'http://www.nu.nl/feeds/rss/achterklap.rss';
-//var feed = 'http://www.nu.nl/feeds/rss/opmerkelijk.rss';
-var feed = 'http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml';
