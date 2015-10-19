@@ -99,8 +99,6 @@ weather.updateWeatherForecast = function () {
 		data: weather.params,
 		success: function (data) {
 
-			console.log('data', data);
-
 			var _opacity = 1,
 				_forecastHtml = '';
 
