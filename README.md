@@ -6,3 +6,5 @@ The super magic interface of my personal Magic Mirror. More information about th
 Runs as a php script on a web server with basically no external dependencies. Can use socket.io for XBEE integration, but isn't required for basic functionality.
 
 Modify js/config.js to change some general variables (language, wather location, compliments, news feed RSS) and calendar.php to add your own ICS calendar
+
+To use the OpenWeatherMap API, you'll need a free API key. Checkout [this blogpost](http://michaelteeuw.nl/post/131504229357/what-happened-to-the-weather) for more information.
