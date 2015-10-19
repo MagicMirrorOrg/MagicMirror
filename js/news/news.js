@@ -45,7 +45,11 @@ news.fetchFeed = function (yqUrl) {
 		url: yqUrl,
 		success: function (data) {
 
-			this.parseFeed(data.query.results.item);
+			if (data.query.count > 0) {
+				this.parseFeed(data.query.results.item);
+			} else {
+				console.error('No feed results for: ' + yqUrl);
+			}
 
 		}.bind(this),
 		error: function () {
@@ -85,7 +89,7 @@ news.showNews = function () {
 
 		setTimeout(function () {
 			this.showNews();
-		}.bind(this), 30000);
+		}.bind(this), 3000);
 
 	} else if (this.newsItems.length === 0 && this.seenNewsItem.length !== 0) {
 		this.newsItems = this.seenNewsItem.splice(0);
@@ -103,7 +107,7 @@ news.showNews = function () {
 
 news.init = function () {
 
-	if (this.feed === null || this.feed instanceof Array) {
+	if (this.feed === null || (this.feed instanceof Array === false && typeof this.feed !== 'string')) {
 		return false;
 	} else if (typeof this.feed === 'string') {
 		this.feed = [this.feed];
