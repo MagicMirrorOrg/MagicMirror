@@ -83,7 +83,7 @@ jQuery(document).ready(function($) {
         date = date[0] + ' ' + date[1] + ' ' + date[2] + ' ' + date[3];
 
 		$('.date').html(date);
-		$('.time').html(now.format('HH') + ':' + now.format('mm') + '<span class="sec">'+now.format('ss')+'</span>');
+		$('.time').html(now.format('HH') + ':' + now.format('mm') + '<span class="sec">' + ':' + now.format('ss')+'</span>');
 
 		setTimeout(function() {
 			updateTime();
