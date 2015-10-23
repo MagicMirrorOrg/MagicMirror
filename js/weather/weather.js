@@ -34,10 +34,21 @@ var weather = {
 	intervalId: null
 }
 
+/**
+ * Rounds a float to one decimal place
+ * @param  {float} temperature The temperature to be rounded
+ * @return {float}             The new floating point value
+ */
 weather.roundValue = function (temperature) {
 	return parseFloat(temperature).toFixed(1);
 }
 
+/**
+ * Converts the wind speed (km/h) into the values given by the Beaufort Wind Scale
+ * @see http://www.spc.noaa.gov/faq/tornado/beaufort.html
+ * @param  {int} kmh The wind speed in Kilometers Per Hour
+ * @return {int}     The wind speed converted into its corresponding Beaufort number
+ */
 weather.kmh2Beaufort = function(kmh) {
 	var speeds = [1, 5, 11, 19, 28, 38, 49, 61, 74, 88, 102, 117, 1000];
 	for (var beaufort in speeds) {
@@ -49,6 +60,9 @@ weather.kmh2Beaufort = function(kmh) {
 	return 12;
 }
 
+/**
+ * Retrieves the current temperature and weather patter from the OpenWeatherMap API
+ */
 weather.updateCurrentWeather = function () {
 
 	$.ajax({
@@ -91,6 +105,9 @@ weather.updateCurrentWeather = function () {
 
 }
 
+/**
+ * Updates the 5 Day Forecast from the OpenWeatherMap API
+ */
 weather.updateWeatherForecast = function () {
 
 	$.ajax({
