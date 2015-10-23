@@ -3,6 +3,9 @@ var version = {
 	intervalId: null
 }
 
+/**
+ * Checks the version and refreshes the page if a new version has been pulled
+ */
 version.checkVersion = function () {
 
 	$.ajax({
