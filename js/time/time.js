@@ -6,6 +6,9 @@ var time = {
 	intervalId: null
 };
 
+/**
+ * Updates the time that is shown on the screen
+ */
 time.updateTime = function () {
 
 	var _now = moment(),
