@@ -53,7 +53,8 @@ news.fetchFeed = function (yqUrl) {
 
 		}.bind(this),
 		error: function () {
-
+			// non-specific error message that should be updated
+			console.error('No feed results for: ' + yqUrl);
 		}
 	});
 
