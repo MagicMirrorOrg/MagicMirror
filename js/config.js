@@ -1,5 +1,5 @@
 var config = {
-    lang: 'en',
+    lang: 'nl',
     time: {
         timeFormat: 12
     },
@@ -10,7 +10,7 @@ var config = {
             q: 'Baarn,Netherlands',
             units: 'metric',
             // if you want a different lang for the weather that what is set above, change it here
-            lang: 'en',
+            lang: 'nl',
             APPID: 'YOUR_FREE_OPENWEATHER_API_KEY'
         }
     },
