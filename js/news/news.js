@@ -17,12 +17,20 @@ var news = {
 	fetchNewsIntervalId: null
 }
 
+/**
+ * Creates the query string that will be used to grab a converted RSS feed into a JSON object via Yahoo
+ * @param  {string} feed The original location of the RSS feed
+ * @return {string}      The new location of the RSS feed provided by Yahoo
+ */
 news.buildQueryString = function (feed) {
 
 	return this._yqURL + this._yqlQS + '\'' + encodeURIComponent(feed) + '\'';
 
 }
 
+/**
+ * Fetches the news for each feed provided in the config file
+ */
 news.fetchNews = function () {
 
 	// Reset the news feed
@@ -37,6 +45,10 @@ news.fetchNews = function () {
 
 }
 
+/**
+ * Runs a GET request to Yahoo's service
+ * @param  {string} yqUrl The URL being used to grab the RSS feed (in JSON format)
+ */
 news.fetchFeed = function (yqUrl) {
 
 	$.ajax({
@@ -60,6 +72,11 @@ news.fetchFeed = function (yqUrl) {
 
 }
 
+/**
+ * Parses each item in a single news feed
+ * @param  {Object} data The news feed that was returned by Yahoo
+ * @return {boolean}      Confirms that the feed was parsed correctly
+ */
 news.parseFeed = function (data) {
 
 	var _rssItems = [];
@@ -76,6 +93,11 @@ news.parseFeed = function (data) {
 
 }
 
+/**
+ * Loops through each available and unseen news feed after it has been retrieved from Yahoo and shows it on the screen
+ * When all news titles have been exhausted, the list resets and randomly chooses from the original set of items
+ * @return {boolean} Confirms that there is a list of news items to loop through and that one has been shown on the screen
+ */
 news.showNews = function () {
 
 	// If all items have been seen, swap seen to unseen
@@ -103,6 +125,8 @@ news.showNews = function () {
 	this.seenNewsItem.push(_item);
 
 	$(this.newsLocation).updateWithText(_item, this.fadeInterval);
+
+	return true;
 
 }
 
