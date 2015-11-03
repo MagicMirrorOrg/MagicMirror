@@ -16,26 +16,30 @@ var compliments = {
  */
 compliments.updateCompliment = function () {
 
+
+
 	var _list = [];
 
 	var hour = moment().hour();
 
+	// In the followign if statement we use .slice() on the
+	// compliments array to make a copy by value. 
+	// This way the original array of compliments stays in tact.
+
 	if (hour >= 3 && hour < 12) {
 		// Morning compliments
-		_list = compliments.complimentList['morning'];
+		_list = compliments.complimentList['morning'].slice();
 	} else if (hour >= 12 && hour < 17) {
 		// Afternoon compliments
-		_list = compliments.complimentList['afternoon'];
+		_list = compliments.complimentList['afternoon'].slice();
 	} else if (hour >= 17 || hour < 3) {
 		// Evening compliments
-		_list = compliments.complimentList['evening'];
+		_list = compliments.complimentList['evening'].slice();
 	} else {
 		// Edge case in case something weird happens
 		// This will select a compliment from all times of day
 		Object.keys(compliments.complimentList).forEach(function (_curr) {
-
-			_list = _list.concat(compliments.complimentList[_curr]);
-
+			_list = _list.concat(compliments.complimentList[_curr]).slice();
 		});
 	}
 
@@ -44,12 +48,12 @@ compliments.updateCompliment = function () {
 
 	// If it exists, remove it so we don't see it again
 	if (_spliceIndex !== -1) {
-		_list = _list.slice(_spliceIndex, 1);
+		_list.splice(_spliceIndex, 1);
 	}
 
 	// Randomly select a location
-	var _location = Math.floor(Math.random() * _list.length);
-	compliments.currentCompliment = _list[_location];
+	var _randomIndex = Math.floor(Math.random() * _list.length);
+	compliments.currentCompliment = _list[_randomIndex];
 
 	$('.compliment').updateWithText(compliments.currentCompliment, compliments.fadeInterval);
 
