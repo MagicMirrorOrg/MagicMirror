@@ -5,7 +5,8 @@ var calendar = {
 	updateDataInterval: 60000,
 	fadeInterval: 1000,
 	intervalId: null,
-	dataIntervalId: null
+	dataIntervalId: null,
+	maximumEntries: config.calendar.maximumEntries || 10
 }
 
 calendar.updateData = function (callback) {
@@ -15,6 +16,10 @@ calendar.updateData = function (callback) {
 		this.eventList = [];
 
 		for (var i in events) {
+			if (this.eventList.length >= calendar.maximumEntries) {
+				break;
+			}
+
 			var e = events[i];
 			for (var key in e) {
 				var value = e[key];
