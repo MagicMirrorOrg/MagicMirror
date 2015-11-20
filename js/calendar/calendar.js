@@ -16,9 +16,6 @@ calendar.updateData = function (callback) {
 		this.eventList = [];
 
 		for (var i in events) {
-			if (this.eventList.length >= calendar.maximumEntries) {
-				break;
-			}
 
 			var e = events[i];
 			for (var key in e) {
@@ -93,6 +90,9 @@ calendar.updateData = function (callback) {
 		};
 
 		this.eventList = this.eventList.sort(function(a,b){return a.seconds-b.seconds});
+
+		// Limit the number of entries.
+		this.eventList = this.eventList.slice(0, calendar.maximumEntries);
 
 		if (callback !== undefined && Object.prototype.toString.call(callback) === '[object Function]') {
 			callback(this.eventList);
