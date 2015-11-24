@@ -8,10 +8,10 @@ jQuery.fn.updateWithText = function(text, speed)
 			$(this).html(text);
 			$(this).fadeIn(speed/2, function() {
 				//done
-			});		
+			});
 		});
 	}
-} 
+}
 
 $.urlParam = function(name, url) {
     if (!url) {
@@ -23,7 +23,6 @@ $.urlParam = function(name, url) {
     }
     return results[1] || undefined;
 }
-
 
 jQuery.fn.outerHTML = function(s) {
     return s
@@ -49,44 +48,61 @@ function kmh2beaufort(kmh)
 }
 
 jQuery(document).ready(function($) {
+	var iconTable = {
+			'01d':'wi-day-sunny',
+			'02d':'wi-day-cloudy',
+			'03d':'wi-cloudy',
+			'04d':'wi-cloudy-windy',
+			'09d':'wi-showers',
+			'10d':'wi-rain',
+			'11d':'wi-thunderstorm',
+			'13d':'wi-snow',
+			'50d':'wi-fog',
+			'01n':'wi-night-clear',
+			'02n':'wi-night-cloudy',
+			'03n':'wi-night-cloudy',
+			'04n':'wi-night-cloudy',
+			'09n':'wi-night-showers',
+			'10n':'wi-night-rain',
+			'11n':'wi-night-thunderstorm',
+			'13n':'wi-night-snow',
+			'50n':'wi-night-alt-cloudy-windy'
+		}
 
 	var news = [];
 	var newshead = [];
 	var newsIndex = 0;
+
 	var eventList = [];
+	var events = [];
 	var lastCompliment;
 	var compliment;
 	var lang;
+	var APPID = '0000'; 	//enter Your APIKEY
 	var mirroruser = $.urlParam('user');
+	
+	
+	
 	
 	 switch (mirroruser)
     {
-        case 'dominicwork':
+        case 'user1':
             var feed				= 'http://www.faz.net/rss/aktuell/';
 			var lang 				= 'de';
-			var weatherParams 		= {'q':'Duesseldorf,DE','units':'metric','lang':lang,'APPID':'ENTER_YOUR_APIKEY'};
+			var weatherParams 		= {'q':'Düsseldorf,DE','units':'metric','lang':lang,'APPID':APPID};
 			var OHURL				= {'proto':'http://','host':'127.0.0.1','port':'8080','suburl':'/rest/items/','type':'/?type=json'};
 			var EFAURL 				= 'http://efa.vrr.de/vrr/XSLT_DM_REQUEST?language='+lang+'&mode=direct&name_dm='+'Hbf'+'&outputFormat=JSON&place_dm='+'Duesseldorf'+'&type_dm=stop&useRealtime=1';
-			var CALURL 				= 'later';
+			var Calendar 			= {maxItems: 20, calendars: [{url: "http://www.schulferien.org/iCal/Feiertage/icals/Feiertage_Nordrhein_Westfalen_2015.ics",color: "#3399ff",},{url: "http://www.schulferien.org/iCal/Feiertage/icals/Feiertage_Nordrhein_Westfalen_2016.ics",color: "#FFFFFF",},],};
 			break;
 			
-		case 'dominichilden':
-            var feed				= 'http://www.rp-online.de/nrw/staedte/hilden/feed.rss';
-			var lang 				= 'de';
-			var weatherParams 		= {'q':'Hilden,DE','units':'metric','lang':lang,'APPID':'ENTER_YOUR_APIKEY'};
-			var OHURL				= {'proto':'http://','host':'127.0.0.1','port':'8080','suburl':'/rest/items/','type':'/?type=json'};
-			var EFAURL 				= 'http://efa.vrr.de/vrr/XSLT_DM_REQUEST?language='+lang+'&mode=direct&name_dm='+'Hbf'+'&outputFormat=JSON&place_dm='+'Duesseldorf'+'&type_dm=stop&useRealtime=1';
-			var CALURL 				= 'later';
-            break;
-
 		default:
             var feed				= 'http://www.spiegel.de/schlagzeilen/tops/index.rss';
-			var lang 				= 'en';
-			var weatherParams 		= {'q':'Berlin,DE','units':'metric','lang':lang,'APPID':'ENTER_YOUR_APIKEY'};
-			var OHURL				= {'proto':'http://','host':'127.0.0.1','port':'8080','suburl':'/rest/items/','type':'/?type=json'};
+			var lang 				= 'de';
+			var weatherParams 		= {'q':'Berlin,DE','units':'metric','lang':lang,'APPID':APPID};
+			var OHURL				= {'proto':'http://','host':'10.0.0.1','port':'8080','suburl':'/rest/items/','type':'/?type=json'};
 			var EFAURL 				= 'http://efa.vrr.de/vrr/XSLT_DM_REQUEST?language='+lang+'&mode=direct&name_dm='+'Hbf'+'&outputFormat=JSON&place_dm='+'Berlin'+'&type_dm=stop&useRealtime=1';
-			var CALURL 				= 'later';
-    }
+			var Calendar 			= {maxItems: 20, calendars: [{url: "http://www.schulferien.org/iCal/Feiertage/icals/Feiertage_Nordrhein_Westfalen_2015.ics",color: "#3399ff",},{url: "http://www.schulferien.org/iCal/Feiertage/icals/Feiertage_Nordrhein_Westfalen_2016.ics",color: "#FFFFFF",},],};
+	}
 	
 	if (lang=="undefined")  {var lang = window.navigator.language;}
 	if (lang==null) 		{var lang = window.navigator.language;}
@@ -150,6 +166,7 @@ jQuery(document).ready(function($) {
 		}, 3000);
 	})();
 
+
 	(function updateTime()
 	{
 		var now = new Date();
@@ -165,12 +182,14 @@ jQuery(document).ready(function($) {
 			updateTime();
 		}, 1000);
 	})();
-	
+
 	(function updateCalendarData()
 	{
-		new ical_parser("calendar.php", function(cal){
+		eventList = [];
+		new ical_parser("calendar.php?url=" + encodeURIComponent(Calendar.calendars[1].url), function(cal) {
         	events = cal.getEvents();
-        	eventList = [];
+        	
+
 
         	for (var i in events) {
         		var e = events[i];
@@ -207,7 +226,7 @@ jQuery(document).ready(function($) {
                     var startDate = moment(e.startDate);
                 }
 
-        		//only add fututre events, days doesn't work, we need to check seconds
+				//only add future events, days doesn't work, we need to check seconds
         		if (seconds >= 0) {
                     if (seconds <= 60*60*5 || seconds >= 60*60*24*2) {
                         var time_string = moment(startDate).fromNow();
@@ -241,33 +260,38 @@ jQuery(document).ready(function($) {
                             }
                             eventList.push({'description':e.SUMMARY,'seconds':seconds,'days':time_string});
                         }           
+
                     }
                 }
             };
         	eventList.sort(function(a,b){return a.seconds-b.seconds});
-        	eventList = eventList.slice(0,8);
-
+        	//eventList = eventList.slice(0,8);
+			
         	setTimeout(function() {
         		updateCalendarData();
         	}, 60000);
+
     	});
+		
 	})();
+	
+  
 
 	(function updateCalendar()
 	{
 		table = $('<table/>').addClass('xsmall').addClass('calendar-table');
 		opacity = 1;
-
-
-		for (var i in eventList) {
-			var e = eventList[i];
+		var len = eventList.length > Calendar.maxItems ? Calendar.maxItems : eventList.length;
+		for (var i = 0; i < len; i++) {
+		var e = eventList[i];
 
 			var row = $('<tr/>').css('opacity',opacity);
+			row.css('color', e.color);
 			row.append($('<td/>').html(e.description).addClass('description'));
 			row.append($('<td/>').html(e.days).addClass('days dimmed'));
 			table.append(row);
 
-			opacity -= 1 / eventList.length;
+			opacity -= 1 / len;
 		}
 
 		$('.calendar').updateWithText(table,1000);
@@ -277,9 +301,12 @@ jQuery(document).ready(function($) {
         }, 1000);
 	})();
 
+
 	(function updateCompliment()
 	{
+
 	  while (compliment == lastCompliment) {
+
       //Check for current time  
       var compliments;
       var date = new Date();
@@ -304,36 +331,12 @@ jQuery(document).ready(function($) {
 
 	(function updateCurrentWeather()
 	{
-		var iconTable = {
-			'01d':'wi-day-sunny',
-			'02d':'wi-day-cloudy',
-			'03d':'wi-cloudy',
-			'04d':'wi-cloudy-windy',
-			'09d':'wi-showers',
-			'10d':'wi-rain',
-			'11d':'wi-thunderstorm',
-			'13d':'wi-snow',
-			'50d':'wi-fog',
-			'01n':'wi-night-clear',
-			'02n':'wi-night-cloudy',
-			'03n':'wi-night-cloudy',
-			'04n':'wi-night-cloudy',
-			'09n':'wi-night-showers',
-			'10n':'wi-night-rain',
-			'11n':'wi-night-thunderstorm',
-			'13n':'wi-night-snow',
-			'50n':'wi-night-alt-cloudy-windy'		
-		}
-		
-
 		$.getJSON('http://api.openweathermap.org/data/2.5/weather', weatherParams, function(json, textStatus) {
 
 			var temp = roundVal(json.main.temp);
 			var temp_min = roundVal(json.main.temp_min);
 			var temp_max = roundVal(json.main.temp_max);
-
 			var wind = roundVal(json.wind.speed);
-
 			var iconClass = iconTable[json.weather[0].icon];
 			var icon = $('<span/>').addClass('icon').addClass('dimmed').addClass('wi').addClass(iconClass);
 			$('.temp').updateWithText(icon.outerHTML()+temp+'&deg;', 1000);
@@ -369,12 +372,14 @@ jQuery(document).ready(function($) {
 				if (forecastData[dateKey] == undefined) {
 					forecastData[dateKey] = {
 						'timestamp':forecast.dt * 1000,
+						'icon':forecast.weather[0].icon,
 						'temp_min':forecast.main.temp,
 						'temp_max':forecast.main.temp
 					};
 				} else {
+					forecastData[dateKey]['icon'] = forecast.weather[0].icon;
 					forecastData[dateKey]['temp_min'] = (forecast.main.temp < forecastData[dateKey]['temp_min']) ? forecast.main.temp : forecastData[dateKey]['temp_min'];
-					forecastData[dateKey]['temp_max'] = (forecast.main.temp > forecastData[dateKey]['temp_max']) ? forecast.main.temp : forecastData[dateKey]['temp_max']; 
+					forecastData[dateKey]['temp_max'] = (forecast.main.temp > forecastData[dateKey]['temp_max']) ? forecast.main.temp : forecastData[dateKey]['temp_max'];
 				}
 
 			}
@@ -384,17 +389,22 @@ jQuery(document).ready(function($) {
 			var rowhead = $('<tr />').css('opacity', opacity);
 			
 			rowhead.append($('<td/>').addClass('day').html(datelabel));
-			rowhead.append($('<td/>').addClass('temp-min').html('Min.'));
-			rowhead.append($('<td/>').addClass('temp-max').html('Max.'));
+			rowhead.append($('<td/>').addClass('temp-min').html('Min'));
+			rowhead.append($('<td/>').addClass('temp-max').html('Max'));
+			rowhead.append($('<td/>').addClass('icon-small').html(''));
 			forecastTable.append(rowhead);
 			for (var i in forecastData) {
 				var forecast = forecastData[i];
+				var iconClass = iconTable[forecast.icon];
+
 				var dt = new Date(forecast.timestamp);
 				var row = $('<tr />').css('opacity', opacity);
 
 				row.append($('<td/>').addClass('day').html(moment.weekdaysMin(dt.getDay())));
-				row.append($('<td/>').addClass('temp-min').html(roundVal(forecast.temp_min).toFixed(1))); 
+				
+				row.append($('<td/>').addClass('temp-min').html(roundVal(forecast.temp_min).toFixed(1)));
 				row.append($('<td/>').addClass('temp-max').html(roundVal(forecast.temp_max).toFixed(1)));
+				row.append($('<td/>').addClass('icon-small').addClass('wi').addClass(iconClass));
 			
 				forecastTable.append(row);
 				opacity -= 0.155;
@@ -408,7 +418,7 @@ jQuery(document).ready(function($) {
 			updateWeatherForecast();
 		}, 60000);
 	})();
-
+	
 	(function fetchNews() {
 		$.feedToJson({
 			feed: feed,
@@ -423,7 +433,6 @@ jQuery(document).ready(function($) {
 					var endpos = desc.search("</p>")
 					var desc = desc.substring(0, endpos);
 					news.push(desc);
-					
 					newshead.push(item.title);
 					
 				}
@@ -449,12 +458,14 @@ jQuery(document).ready(function($) {
 		
 		
 
+
 	})();
 
 	(function updateOpenHAB()
         {
                 var tempstat = "";
                 $.getJSON(OHURL.proto+OHURL.host+':'+OHURL.port+OHURL.suburl+'SmartMirrorTXT'+OHURL.type, {}, function(json, textStatus) {
+					
                         if (json) {
                                 tempstat = json.state;
                         }
