@@ -47,10 +47,10 @@ body, html {
 .lower-third
 {
 	position: absolute;
-	top: 50.666%;
+	top: 66.666%;
 	height: 200px;
 	margin-top: -100px;
-	line-height: 100px;	
+	line-height: 100px;
 }
 
 .center-hor
@@ -58,7 +58,7 @@ body, html {
 	position: absolute;
 	right: 50px;
 	left: 50px;
-	text-align: center;	
+	text-align: center;
 	font-size: 60px;
 }
 
@@ -118,7 +118,7 @@ body, html {
 .xdimmed
 {
 	color: #666;
-} 
+}
 
 .dimmed
 {
@@ -130,7 +130,7 @@ body, html {
 	font-family: "HelveticaNeue-UltraLight";
 }
 
-.icon 
+.icon
 {
 	position: relative;
 	top :-10px;
@@ -139,6 +139,16 @@ body, html {
 	padding-right: 5px;
 	font-weight: 100;
 	margin-right: 10px;
+}
+
+.icon-small
+{
+	position: relative;
+	display: inline-block;
+	font-size: 20px;
+	padding-left: 10px;
+	padding-right: -10px;
+	font-weight: 100;
 }
 
 .time .sec {
@@ -155,13 +165,13 @@ body, html {
 	font-size: 20px;
 	line-height: 20px;
 }
-.forecast-table .day, .forecast-table .temp-min, .forecast-table .temp-max  
+.forecast-table .day, .forecast-table .temp-min, .forecast-table .temp-max
 {
 	width: 50px;
 	text-align: right;
 }
 
-.forecast-table .temp-max 
+.forecast-table .temp-max
 {
 	width: 60px;
 }
@@ -169,8 +179,14 @@ body, html {
 .forecast-table .day
 {
 	color: #999;
-	
 }
+
+
+
+
+
+
+
 
 .calendar-table {
 	font-size: 14px;
@@ -223,7 +239,7 @@ body, html {
   src: url('font/HelveticaNeue-Medium.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
        url('font/HelveticaNeue-Medium.woff') format('woff'), /* Modern Browsers */
        url('font/HelveticaNeue-Medium.ttf')  format('truetype'), /* Safari, Android, iOS */
-       url('font/HelveticaNeue-Medium.svg#d7af0fd9278f330eed98b60dddea7bd6') format('svg'); /* Legacy iOS */ 
+       url('font/HelveticaNeue-Medium.svg#d7af0fd9278f330eed98b60dddea7bd6') format('svg'); /* Legacy iOS */
   font-style:   normal;
   font-weight:  400;
 }
@@ -234,8 +250,7 @@ body, html {
   src: url('font/HelveticaNeue-Light.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
        url('font/HelveticaNeue-Light.woff') format('woff'), /* Modern Browsers */
        url('font/HelveticaNeue-Light.ttf')  format('truetype'), /* Safari, Android, iOS */
-       url('font/HelveticaNeue-Light.svg#7384ecabcada72f0e077cd45d8e1c705') format('svg'); /* Legacy iOS */      
+       url('font/HelveticaNeue-Light.svg#7384ecabcada72f0e077cd45d8e1c705') format('svg'); /* Legacy iOS */
   font-style:   normal;
   font-weight:  200;
 }
-
