@@ -49,7 +49,8 @@ weather.roundValue = function (temperature) {
  * @param  {int} kmh The wind speed in Kilometers Per Hour
  * @return {int}     The wind speed converted into its corresponding Beaufort number
  */
-weather.kmh2Beaufort = function(kmh) {
+weather.ms2Beaufort = function(ms) {
+	var kmh = ms * 60 * 60 / 1000;
 	var speeds = [1, 5, 11, 19, 28, 38, 49, 61, 74, 88, 102, 117, 1000];
 	for (var beaufort in speeds) {
 		var speed = speeds[beaufort];
@@ -88,7 +89,7 @@ weather.updateCurrentWeather = function () {
 				_sunrise = moment(data.sys.sunrise*1000).format('HH:mm'),
 				_sunset = moment(data.sys.sunset*1000).format('HH:mm');
 
-			var _newWindHtml = '<span class="wi wi-strong-wind xdimmed"></span> ' + this.kmh2Beaufort(_wind),
+			var _newWindHtml = '<span class="wi wi-strong-wind xdimmed"></span> ' + this.ms2Beaufort(_wind),
 				_newSunHtml = '<span class="wi wi-sunrise xdimmed"></span> ' + _sunrise;
 
 			if (_sunrise < _now && _sunset > _now) {
