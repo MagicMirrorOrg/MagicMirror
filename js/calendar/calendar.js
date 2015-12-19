@@ -5,7 +5,8 @@ var calendar = {
 	updateDataInterval: 60000,
 	fadeInterval: 1000,
 	intervalId: null,
-	dataIntervalId: null
+	dataIntervalId: null,
+	maximumEntries: config.calendar.maximumEntries || 10
 }
 
 calendar.updateData = function (callback) {
@@ -15,6 +16,7 @@ calendar.updateData = function (callback) {
 		this.eventList = [];
 
 		for (var i in events) {
+
 			var e = events[i];
 			for (var key in e) {
 				var value = e[key];
@@ -88,6 +90,9 @@ calendar.updateData = function (callback) {
 		};
 
 		this.eventList = this.eventList.sort(function(a,b){return a.seconds-b.seconds});
+
+		// Limit the number of entries.
+		this.eventList = this.eventList.slice(0, calendar.maximumEntries);
 
 		if (callback !== undefined && Object.prototype.toString.call(callback) === '[object Function]') {
 			callback(this.eventList);
