@@ -11,7 +11,7 @@ var calendar = {
 
 calendar.updateData = function (callback) {
 
-	new ical_parser("calendar.php", function(cal) {
+	new ical_parser("calendar.php" + "?url="+encodeURIComponent(config.calendar.url), function(cal) {
 		var events = cal.getEvents();
 		this.eventList = [];
 
