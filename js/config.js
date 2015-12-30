@@ -1,5 +1,5 @@
 var config = {
-    lang: 'nl',
+    lang: 'en',
     time: {
         timeFormat: 24
     },
