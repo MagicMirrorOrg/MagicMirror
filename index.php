@@ -26,6 +26,7 @@
 <script src="js/ical_parser.js"></script>
 <script src="js/moment-with-locales.min.js"></script>
 <script src="js/config.js"></script>
+<script src="js/config.weather.js"></script>
 <script src="js/rrule.js"></script>
 <script src="js/version/version.js" type="text/javascript"></script>
 <script src="js/calendar/calendar.js" type="text/javascript"></script>
