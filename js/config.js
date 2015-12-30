@@ -1,7 +1,7 @@
 var config = {
     lang: 'nl',
     time: {
-        timeFormat: 12
+        timeFormat: 24
     },
     weather: {
         //change weather params here:
