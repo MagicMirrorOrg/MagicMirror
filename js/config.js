@@ -7,11 +7,11 @@ var config = {
         //change weather params here:
         //units: metric or imperial
         params: {
-            q: 'Pearl River, United States of America',
+            id: '5130780',
             units: 'imperial',
             // if you want a different lang for the weather that what is set above, change it here
             lang: 'en',
-            APPID: '2ff9ddbf3b526cdb233c307b7c9e5b14'
+            APPID: '2ff9ddbf3b526cbd233c307b7c9e5b14'
         }
     },
     compliments: {
