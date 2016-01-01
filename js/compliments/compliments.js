@@ -2,6 +2,8 @@ var compliments = {
 	complimentLocation: '.compliment',
 	currentCompliment: '',
 	complimentList: {
+		'birthday': config.compliments.birthday,
+		'christmas': config.compliments.christmas,
 		'morning': config.compliments.morning,
 		'afternoon': config.compliments.afternoon,
 		'evening': config.compliments.evening
@@ -21,12 +23,20 @@ compliments.updateCompliment = function () {
 	var _list = [];
 
 	var hour = moment().hour();
+	var dateDay = moment().date();
+	var dateMonth = moment().month();
 
-	// In the followign if statement we use .slice() on the
+	// In the following if statement we use .slice() on the
 	// compliments array to make a copy by value. 
 	// This way the original array of compliments stays in tact.
 
-	if (hour >= 3 && hour < 12) {
+	if (dateDay == 27 && dateMonth == 4) {
+		// Birthday compliments
+		_list = compliments.complimentList['birthday'].slice();
+	} else if (dateDay == 25 && dateMonth == 11) {
+		// Christmas compliments
+		_list = compliments.complimentList['christmas'].slice();
+	} else if (hour >= 3 && hour < 12) {
 		// Morning compliments
 		_list = compliments.complimentList['morning'].slice();
 	} else if (hour >= 12 && hour < 17) {
