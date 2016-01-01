@@ -33,23 +33,9 @@ jQuery(document).ready(function($) {
 
     moment.locale(config.lang);
 
-	//connect do Xbee monitor
-	// var socket = io.connect('http://rpi-alarm.local:8082');
-	// socket.on('dishwasher', function (dishwasherReady) {
-	// 	if (dishwasherReady) {
-	// 		$('.dishwasher').fadeIn(2000);
-	// 		$('.lower-third').fadeOut(2000);
-	// 	} else {
-	// 		$('.dishwasher').fadeOut(2000);
-	// 		$('.lower-third').fadeIn(2000);
-	// 	}
-	// });
-
 	version.init();
 
 	time.init();
-
-	calendar.init();
 
 	compliments.init();
 
