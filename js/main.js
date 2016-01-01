@@ -55,4 +55,6 @@ jQuery(document).ready(function($) {
 
 	news.init();
 
+        travel.init();
+
 });

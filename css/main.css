@@ -174,12 +174,13 @@ body, html {
 	color: #999;
 }
 
-.calendar-table {
+.travel-table {
+        float: left;
 	font-size: 14px;
 	line-height: 20px;
 	margin-top: 10px;
 }
-.calendar-table .days {
+.travel .days {
 	padding-left: 20px;
 	text-align: right;
 }

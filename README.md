@@ -12,6 +12,8 @@ Runs as a php script on a web server with basically no external dependencies. Ca
 
 Modify js/config.js to change some general variables (language, wather location, compliments, news feed RSS) and calendar.php to add your own ICS calendar
 
+###Weather
+
 To use the OpenWeatherMap API, you'll need a free API key. Checkout [this blogpost](http://michaelteeuw.nl/post/131504229357/what-happened-to-the-weather) for more information.
 
 Since the API secret should not be shared publically, you can create a js/config.weather.js to specify the weather information (including the API secret):
@@ -27,6 +29,25 @@ config.weather = {
         lang: 'en',
         APPID: 'API-KEY-HERE'
     },
+}
+```
+
+###Travel
+
+To see travel times from your home to various locations, you need an API key for Google Maps from the [Google Developer Console](https://console.developers.google.com). To keep this and your locations private, create a js/config.travel.js file to specify these parameters:
+
+```
+config.travel = {
+    params: {
+        origin: 'home address',
+        destinations: [
+            'my first destination',
+            'my second destination',
+        ]
+    },
+    api: {
+        key: 'API-KEY-HERE'
+    }
 }
 ```
 
@@ -60,4 +81,6 @@ Checks the git version and refreshes if a new version has been pulled.
 
 Takes the user's inserted location, language, unit type, and OpenWeatherMap API key and grabs the five day weather forecast from OpenWeatherMap. You need to set the API key in the config for this to work. (See *configuration*.)
 
+###[Travel](js/travel)
 
+Using a home location (origin) and a list of destinations, query Google Maps to determine the travel times from the origin to each location. Unfortunately this doesn't currently utilize traffic information.

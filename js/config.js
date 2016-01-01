@@ -14,6 +14,7 @@ var config = {
             APPID: ''
         }
     },
+    travel: {},
     compliments: {
         interval: 30000,
         fadeInterval: 4000,
