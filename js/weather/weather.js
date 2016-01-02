@@ -25,6 +25,7 @@ var weather = {
 	temperatureLocation: '.temp',
 	windSunLocation: '.windsun',
 	forecastLocation: '.forecast',
+	snowEffectLocation: '.snoweffect',
 	apiVersion: '2.5',
 	apiBase: 'http://api.openweathermap.org/data/',
 	weatherEndpoint: 'weather',
@@ -80,10 +81,18 @@ weather.updateCurrentWeather = function () {
 				_iconClass = this.iconTable[data.weather[0].icon];
 
 			var _icon = '<span class="icon ' + _iconClass + ' dimmed wi"></span>';
+			
+			var _snow = '';
+
+			if(data.weather[0].icon == '02n' || data.weather[0].icon == '03n'){
+				_snow = '<div id="snow"></div>';
+			}
 
 			var _newTempHtml = _icon + '' + _temperature + '&deg;';
 
 			$(this.temperatureLocation).updateWithText(_newTempHtml, this.fadeInterval);
+			
+			$(this.snowEffectLocation).updateWithText(_snow, this.fadeInterval);
 
 			var _now = moment().format('HH:mm'),
 				_sunrise = moment(data.sys.sunrise*1000).format('HH:mm'),
