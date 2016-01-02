@@ -47,10 +47,8 @@ compliments.updateCompliment = function () {
 		_list = compliments.complimentList['evening'].slice();
 	} else {
 		// Edge case in case something weird happens
-		// This will select a compliment from all times of day
-		Object.keys(compliments.complimentList).forEach(function (_curr) {
-			_list = _list.concat(compliments.complimentList[_curr]).slice();
-		});
+		// Just reuse evening
+		_list = compliments.complimentList['evening'].slice();
 	}
 
 	// Search for the location of the current compliment in the list
