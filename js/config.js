@@ -46,6 +46,11 @@ var config = {
 		
     },
     news: {
-        feed: 'http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml'
+        feed: [
+			'http://feeds.reuters.com/reuters/healthNews',
+			'http://feeds.reuters.com/reuters/oddlyEnoughNews',
+			'http://feeds.reuters.com/Reuters/domesticNews',
+			'http://feeds.reuters.com/Reuters/worldNews'
+		]
     }
 }
