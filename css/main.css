@@ -174,9 +174,6 @@ body, html {
 	color: #999;
 }
 
-/*
-Snow effect. Too memory intensive for Raspberry Pi B+, it seems
-
 #snow{
 	background: none;
 	font-family: Androgyne;
@@ -194,8 +191,6 @@ Snow effect. Too memory intensive for Raspberry Pi B+, it seems
   50% {background-position: 250px 500px, 0px 200px, -150px 150px;}
   100% {background-position: 500px 1000px, 0px 400px, -300px 300px;}
 }
-
-*/
 
 @font-face {
   font-family: 'HelveticaNeue-UltraLight';

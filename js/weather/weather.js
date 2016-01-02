@@ -25,7 +25,7 @@ var weather = {
 	temperatureLocation: '.temp',
 	windSunLocation: '.windsun',
 	forecastLocation: '.forecast',
-	//snowEffectLocation: '.snoweffect',
+	snowEffectLocation: '.snoweffect',
 	apiVersion: '2.5',
 	apiBase: 'http://api.openweathermap.org/data/',
 	weatherEndpoint: 'weather',
@@ -82,15 +82,12 @@ weather.updateCurrentWeather = function () {
 
 			var _icon = '<span class="icon ' + _iconClass + ' dimmed wi"></span>';
 			
-		/*
-		* Toggles snow background on when the current forecast calls for snow
-		
 			var _snow = '';
 
 			if(data.weather[0].icon == '13d' || data.weather[0].icon == '13n'){
 				_snow = '<div id="snow"></div>';
 			}
-		*/
+
 			var _newTempHtml = _icon + '' + _temperature + '&deg;';
 
 			$(this.temperatureLocation).updateWithText(_newTempHtml, this.fadeInterval);
