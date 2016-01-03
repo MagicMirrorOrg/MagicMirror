@@ -3,17 +3,6 @@ var config = {
     time: {
         timeFormat: 12
     },
-    weather: {
-        //change weather params here:
-        //units: metric or imperial
-        params: {
-            id: '5130780',
-            units: 'imperial',
-            // if you want a different lang for the weather that what is set above, change it here
-            lang: 'en',
-            APPID: '2ff9ddbf3b526cbd233c307b7c9e5b14'
-        }
-    },
     compliments: {
         interval: 30000,
         fadeInterval: 4000,

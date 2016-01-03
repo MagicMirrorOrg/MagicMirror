@@ -1,7 +1,7 @@
 var weather = {
 	// Default language is Dutch because that is what the original author used
 	lang: config.lang || 'en',
-	params: config.weather.params || null,
+	params: keys.weather.params || null,
 	iconTable: {
 		'01d':'wi-day-sunny',
 		'02d':'wi-day-cloudy',
@@ -30,8 +30,8 @@ var weather = {
 	apiBase: 'http://api.openweathermap.org/data/',
 	weatherEndpoint: 'weather',
 	forecastEndpoint: 'forecast/daily',
-	updateInterval: config.weather.interval || 6000,
-	fadeInterval: config.weather.fadeInterval || 1000,
+	updateInterval: keys.weather.interval || 6000,
+	fadeInterval: keys.weather.fadeInterval || 1000,
 	intervalId: null
 }
 

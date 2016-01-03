@@ -25,6 +25,7 @@
 <script src="js/jquery.feedToJSON.js"></script>
 <script src="js/moment-with-locales.min.js"></script>
 <script src="js/config.js"></script>
+<script src="js/keys.js"></script>
 <script src="js/rrule.js"></script>
 <script src="js/version/version.js" type="text/javascript"></script>
 <script src="js/compliments/compliments.js" type="text/javascript"></script>
