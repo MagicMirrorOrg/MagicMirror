@@ -78,9 +78,45 @@ weather.updateCurrentWeather = function () {
 				_temperatureMin = this.roundValue(data.main.temp_min),
 				_temperatureMax = this.roundValue(data.main.temp_max),
 				_wind = this.roundValue(data.wind.speed),
+				_windDirectionDeg = this.roundValue(data.wind.deg),
+				_windDirection = 'N',
 				_iconClass = this.iconTable[data.weather[0].icon];
 
 			var _icon = '<span class="icon ' + _iconClass + ' dimmed wi"></span>';
+			
+			if (_windDirectionDeg >= 11.25 && _windDirectionDeg < 33.75) {
+				_windDirection = 'NNE';
+			} else if (_windDirectionDeg >= 33.75 && _windDirectionDeg < 56.25) {
+				_windDirection = 'NE';
+			} else if (_windDirectionDeg >= 56.25 && _windDirectionDeg < 78.75) {
+				_windDirection = 'ENE';
+			} else if (_windDirectionDeg >= 78.75 && _windDirectionDeg < 101.25) {
+				_windDirection = 'E';
+			} else if (_windDirectionDeg >= 101.25 && _windDirectionDeg < 123.75) {
+				_windDirection = 'ESE';
+			} else if (_windDirectionDeg >= 123.75 && _windDirectionDeg < 146.25) {
+				_windDirection = 'SE';
+			} else if (_windDirectionDeg >= 146.25 && _windDirectionDeg < 168.75) {
+				_windDirection = 'SSE';
+			} else if (_windDirectionDeg >= 168.75 && _windDirectionDeg < 191.25) {
+				_windDirection = 'S';
+			} else if (_windDirectionDeg >= 191.25 && _windDirectionDeg < 213.75) {
+				_windDirection = 'SSW';
+			} else if (_windDirectionDeg >= 213.75 && _windDirectionDeg < 236.25) {
+				_windDirection = 'SW';
+			} else if (_windDirectionDeg >= 236.25 && _windDirectionDeg < 258.75) {
+				_windDirection = 'WSW';
+			} else if (_windDirectionDeg >= 258.75 && _windDirectionDeg < 281.25) {
+				_windDirection = 'W';
+			} else if (_windDirectionDeg >= 281.25 && _windDirectionDeg < 303.75) {
+				_windDirection = 'WNW';
+			} else if (_windDirectionDeg >= 303.75 && _windDirectionDeg < 326.25) {
+				_windDirection = 'NW';
+			} else if (_windDirectionDeg >= 326.25 && _windDirectionDeg < 348.75) {
+				_windDirection = 'NNW';
+			} else {
+				_windDirection = 'N';
+			} 
 			
 			var _snow = '';
 
@@ -95,11 +131,13 @@ weather.updateCurrentWeather = function () {
 			$(this.snowEffectLocation).updateWithText(_snow, this.fadeInterval);
 
 			var _now = moment().format('HH:mm'),
-				_sunrise = moment(data.sys.sunrise*1000).format('HH:mm'),
+				_sunrise = moment(data.sys.sunrise*1000).format('HH:mm') + 'AM',
 				_sunset = moment(data.sys.sunset*1000).format('HH:mm');
-				_sunset12 = moment(data.sys.sunset*1000).format('hh:mm');
+				_sunset12 = moment(data.sys.sunset*1000).format('hh:mm') + 'PM';
+				
+			
 
-			var _newWindHtml = '<span class="wi wi-strong-wind xdimmed"></span> ' + _wind, //this.ms2Beaufort(_wind),
+			var _newWindHtml = '<span class="wi wi-strong-wind xdimmed"></span> ' + _wind + 'mph ' + _windDirection, //this.ms2Beaufort(_wind),
 				_newSunHtml = '<span class="wi wi-sunrise xdimmed"></span> ' + _sunrise;
 
 			if (_sunrise < _now && _sunset > _now) {
