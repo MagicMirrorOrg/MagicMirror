@@ -208,7 +208,7 @@ window.onload = function(){
 
 			_snowEffectActive = 'N';
 
-			if(data.weather[0].icon == '02d' || data.weather[0].icon == '03d'){
+			if(data.weather[0].icon == '13d' || data.weather[0].icon == '13n'){
 				_snowEffectActive = 'Y';
 			}
 
@@ -219,7 +219,7 @@ window.onload = function(){
 	});
 	
 	//snowflake particles
-	var mp = 45; //max particles
+	var mp = 25; //max particles
 	var particles = [];
 	for(var i = 0; i < mp; i++)
 	{
