@@ -1,3 +1,6 @@
+/*Simple reset*/
+* {margin: 0; padding: 0;}
+
 body, html {
 	background: #000;
 	padding: 0px;
@@ -12,6 +15,11 @@ body, html {
 	font-size: 75px;
 	 -webkit-font-smoothing: antialiased;
 }
+
+canvas {
+	display: block;
+}
+
 .wi {
 	line-height: 75px;
 
@@ -172,24 +180,6 @@ body, html {
 .forecast-table .day
 {
 	color: #999;
-}
-
-#snow{
-	background: none;
-	font-family: Androgyne;
-	background-image: url('img/s1.png'), url('img/s2.png'), url('img/s3.png');
-	height: 100%;
-	left: 0;
-	position: absolute;
-	top: 0;
-	width: 100%;
-	z-index:1;
-	-webkit-animation: snow 10s linear infinite;
-}
-@-webkit-keyframes snow {
-  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
-  50% {background-position: 250px 500px, 0px 200px, -150px 150px;}
-  100% {background-position: 500px 1000px, 0px 400px, -300px 300px;}
 }
 
 @font-face {
