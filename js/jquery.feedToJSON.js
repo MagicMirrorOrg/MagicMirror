@@ -21,7 +21,7 @@
   
   //defaults
   $.feedToJson.defaults = {
-  	yqlURL : 'http://query.yahooapis.com/v1/public/yql',  //yql 
+  	yqlURL : 'https://query.yahooapis.com/v1/public/yql',  //yql 
   	yqlQS : '?format=json&callback=?&q=select%20*%20from%20rss%20where%20url%3D',  //yql query string
   	feed:'http://instagr.am/tags/tacos/feed/recent.rss', //instagram recent posts tagged 'tacos'
   	cachebuster: Math.floor((new Date().getTime()) / 1200 / 1000), //yql caches feeds, so we change the feed url every 20min
@@ -30,5 +30,3 @@
   
 })(jQuery);
 // eo feedToJson
-
-
