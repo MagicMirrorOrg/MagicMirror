@@ -13,7 +13,7 @@
 </head>
 <body>
 	<!--<canvas id="canvas"></canvas>   //Temporarily removed until the Pi graphics driver improves-->
-	<div class="top left"><div class="date small dimmed"></div><div class="time"></div><div class="traffic xsmall dimmed"></div></div>
+	<div class="top left"><div class="date small dimmed"></div><div class="time"></div><div class="traffic xsmall light"></div></div>
 	<div class="top right"><div class="windsun small dimmed"></div><div class="temp"></div><div class="forecast small dimmed"></div></div>
 	<div class="center-ver center-hor"></div>
 	<div class="lower-third center-hor"><div class="compliment light"></div></div>
