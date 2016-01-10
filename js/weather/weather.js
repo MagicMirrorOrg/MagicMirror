@@ -29,8 +29,8 @@ var weather = {
 	apiBase: 'http://api.openweathermap.org/data/',
 	weatherEndpoint: 'weather',
 	forecastEndpoint: 'forecast/daily',
-	updateInterval: keys.weather.interval || 6000,
-	fadeInterval: keys.weather.fadeInterval || 1000,
+	updateInterval: 6000,
+	fadeInterval: 1000,
 	intervalId: null
 }
 
@@ -68,7 +68,7 @@ weather.updateCurrentWeather = function () {
 
 	$.ajax({
 		type: 'GET',
-		url: weather.apiBase + '/' + weather.apiVersion + '/' + weather.weatherEndpoint,
+		url: weather.apiBase + weather.apiVersion + '/' + weather.weatherEndpoint,
 		dataType: 'json',
 		data: weather.params,
 		success: function (data) {

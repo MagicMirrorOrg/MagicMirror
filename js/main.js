@@ -39,8 +39,10 @@ jQuery(document).ready(function($) {
 
 	compliments.init();
 
+	traffic.init();	
+	
 	weather.init();
 
 	news.init();
-
+	
 });
