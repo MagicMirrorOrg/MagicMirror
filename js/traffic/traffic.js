@@ -52,9 +52,7 @@ traffic.updateCurrentTraffic = function () {
 
 traffic.init = function () {
 
-	//if (this.params.cnt === undefined) {
-	//	this.params.cnt = 5;
-	//}
+	this.updateCurrentTraffic();
 
 	this.intervalId = setInterval(function () {
 		this.updateCurrentTraffic();
