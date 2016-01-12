@@ -15,7 +15,7 @@ time.updateTime = function () {
 		_date = _now.format('dddd, LL');
 
 	$(this.dateLocation).html(_date);
-	$(this.timeLocation).html(_now.format(this._timeFormat+':mm[<span class="sec">]ss[</span>]'));
+	$(this.timeLocation).html(_now.format(this._timeFormat+':mm[<span class="sec">]:ss[</span>]'));
 
 }
 
