@@ -37,20 +37,8 @@ Checks the git version and refreshes if a new version has been pulled. Additiona
 
 ###[Weather](js/weather)
 
-Takes the user's inserted location, language, unit type, and OpenWeatherMap API key and grabs the five day weather forecast from OpenWeatherMap. You need to set the API key in a separate file for this to work. This file is excluded from the repository, for obvious reasons, but the contents are as follows, with appropriate variables given useful values
+Takes the user's inserted location, language, unit type, and OpenWeatherMap API key and grabs the five day weather forecast from OpenWeatherMap. You need to set the API key in a separate file for this to work. 
 
-var keys = {
-    weather: {
-        //change weather params here:
-        //units: metric or imperial
-        params: {
-            id: 'CITY_ID',
-            units: 'imperial',
-            // if you want a different lang for the weather that what is set above, change it here
-            lang: 'en',
-            APPID: 'OPENWEATHER_API_KEY',
-			interval: 6000,
-			fadeInterval: 1000
-        }
-    },
-}
+###[Keys](js/keys_TEMPLATE.js)
+
+Stores private data, primarily API keys, but also locations and birthdays
