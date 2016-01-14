@@ -10,7 +10,8 @@ var compliments = {
 	},
 	updateInterval: config.compliments.interval || 30000,
 	fadeInterval: config.compliments.fadeInterval || 4000,
-	intervalId: null
+	intervalId: null,
+	birthdayList: keys.birthdays
 };
 
 /**
@@ -25,12 +26,20 @@ compliments.updateCompliment = function () {
 	var hour = moment().hour();
 	var dateDay = moment().date();
 	var dateMonth = moment().month();
-
+	var birthdayToday = false;
+	var count = this.birthdayList.length;
+	
 	// In the following if statement we use .slice() on the
 	// compliments array to make a copy by value. 
 	// This way the original array of compliments stays in tact.
 
-	if (dateDay == 27 && dateMonth == 4) {
+	for (var i = 0; i < count; i++) {
+		if(dateDay == this.birthdayList[i].day && dateMonth == this.birthdayList[i].month){
+			birthdayToday = true;
+		};
+	}
+
+	if (birthdayToday) {
 		// Birthday compliments
 		_list = compliments.complimentList['birthday'].slice();
 	} else if (dateDay == 25 && dateMonth == 11) {
