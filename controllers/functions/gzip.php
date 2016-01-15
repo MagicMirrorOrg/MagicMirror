@@ -30,7 +30,7 @@
 	     * @note If http response header mentions that content is gzipped, then uncompress it.
 	    */
 	    foreach($http_response_header as $c => $h) {
-	        if(stristr($h, "content-encoding") and stristr($h, "gzip") {
+	        if(stristr($h, "content-encoding") and stristr($h, "gzip")) {
 	            /*
 	             * @note Now, let's begin the actual purpose of this function:
 	            */
