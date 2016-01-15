@@ -28,8 +28,8 @@
  */
 @font-face {
   font-family: 'weather';
-  src: url('../font/weathericons-regular-webfont.eot');
-  src: url('../font/weathericons-regular-webfont.eot?#iefix') format('embedded-opentype'), url('../font/weathericons-regular-webfont.woff') format('woff'), url('../font/weathericons-regular-webfont.ttf') format('truetype'), url('../font/weathericons-regular-webfont.svg#weathericons-regular-webfontRg') format('svg');
+  src: url('../font/weather-icons/weathericons-regular-webfont.eot');
+  src: url('../font/weather-icons/weathericons-regular-webfont.eot?#iefix') format('embedded-opentype'), url('../font/weather-icons/weathericons-regular-webfont.woff') format('woff'), url('../font/weather-icons/weathericons-regular-webfont.ttf') format('truetype'), url('../font/weather-icons/weathericons-regular-webfont.svg#weathericons-regular-webfontRg') format('svg');
   font-weight: normal;
   font-style: normal;
 }

@@ -6,7 +6,7 @@ body, html {
 	height: 100%;
 
 
-	font-family: "HelveticaNeue-Light";
+	font-family: "HelveticaNeue-Light", "Roboto-Light", sans;
 	letter-spacing: -2px;
 	color: #fff;
 	font-size: 75px;
@@ -71,7 +71,7 @@ body, html {
 {
 	font-size: 15px;
 	letter-spacing: 0px;
-	font-family: "HelveticaNeue-Medium";
+	font-family: "HelveticaNeue-Medium", "Roboto-Regular", sans;
 }
 .xxsmall .wi {
 	line-height: 15px;
@@ -81,7 +81,7 @@ body, html {
 {
 	font-size: 20px;
 	letter-spacing: 0px;
-	font-family: "HelveticaNeue-Medium";
+	font-family: "HelveticaNeue-Medium", "Roboto-Regular", sans;
 }
 .xsmall .wi {
 	line-height: 20px;
@@ -92,7 +92,7 @@ body, html {
 {
 	font-size: 25px;
 	letter-spacing: 0px;
-	font-family: "HelveticaNeue-Medium";
+	font-family: "HelveticaNeue-Medium", "Roboto-Regular", sans;
 }
 .small .wi {
 	line-height: 25px;
@@ -102,7 +102,7 @@ body, html {
 {
 	font-size: 35px;
 	letter-spacing: -1px;
-	font-family: "HelveticaNeue-Light";
+	font-family: "HelveticaNeue-Light", "Roboto-Light", sans;
 }
 .medium .wi {
 	line-height: 35px;
@@ -120,7 +120,7 @@ body, html {
 
 .light
 {
-	font-family: "HelveticaNeue-UltraLight";
+	font-family: "HelveticaNeue-UltraLight", "Roboto-Thin", sans;
 }
 
 .icon 
@@ -195,12 +195,47 @@ body, html {
 }
 
 @font-face {
+  font-family: 'Roboto-Thin';
+  src: url('font/roboto/Roboto-Thin.eot'); /* IE9 Compat Modes */
+  src: url('font/roboto/Roboto-Thin.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('font/roboto/Roboto-Thin.woff') format('woff'), /* Modern Browsers */
+       url('font/roboto/Roboto-Thin.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('font/roboto/Roboto-Thin.svg#robotothin') format('svg'); /* Legacy iOS */
+  font-style:   normal;
+  font-weight:  100;
+}
+
+
+
+@font-face {
+  font-family: 'Roboto-Regular';
+  src: url('font/roboto/Roboto-Regular.eot'); /* IE9 Compat Modes */
+  src: url('font/roboto/Roboto-Regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('font/roboto/Roboto-Regular.woff') format('woff'), /* Modern Browsers */
+       url('font/roboto/Roboto-Regular.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('font/roboto/Roboto-Regular.svg#robotoregular') format('svg'); /* Legacy iOS */ 
+  font-style:   normal;
+  font-weight:  400;
+}
+
+@font-face {
+  font-family: 'Roboto-Light';
+  src: url('font/roboto/Roboto-Light.eot'); /* IE9 Compat Modes */
+  src: url('font/roboto/Roboto-Light.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('font/roboto/Roboto-Light.woff') format('woff'), /* Modern Browsers */
+       url('font/roboto/Roboto-Light.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('font/roboto/Roboto-Light.svg#robotolight') format('svg'); /* Legacy iOS */      
+  font-style:   normal;
+  font-weight:  200;
+}
+
+@font-face {
   font-family: 'HelveticaNeue-UltraLight';
-  src: url('font/HelveticaNeue-UltraLight.eot'); /* IE9 Compat Modes */
-  src: url('font/HelveticaNeue-UltraLight.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('font/HelveticaNeue-UltraLight.woff') format('woff'), /* Modern Browsers */
-       url('font/HelveticaNeue-UltraLight.ttf')  format('truetype'), /* Safari, Android, iOS */
-       url('font/HelveticaNeue-UltraLight.svg#9453ea8da727d260bcdbfa605bdbb5d2') format('svg'); /* Legacy iOS */
+  src: url('font/helvetica-neue/HelveticaNeue-UltraLight.eot'); /* IE9 Compat Modes */
+  src: url('font/helvetica-neue/HelveticaNeue-UltraLight.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('font/helvetica-neue/HelveticaNeue-UltraLight.woff') format('woff'), /* Modern Browsers */
+       url('font/helvetica-neue/HelveticaNeue-UltraLight.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('font/helvetica-neue/HelveticaNeue-UltraLight.svg#9453ea8da727d260bcdbfa605bdbb5d2') format('svg'); /* Legacy iOS */
   font-style:   normal;
   font-weight:  100;
 }
@@ -209,22 +244,22 @@ body, html {
 
 @font-face {
   font-family: 'HelveticaNeue-Medium';
-  src: url('font/HelveticaNeue-Medium.eot'); /* IE9 Compat Modes */
-  src: url('font/HelveticaNeue-Medium.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('font/HelveticaNeue-Medium.woff') format('woff'), /* Modern Browsers */
-       url('font/HelveticaNeue-Medium.ttf')  format('truetype'), /* Safari, Android, iOS */
-       url('font/HelveticaNeue-Medium.svg#d7af0fd9278f330eed98b60dddea7bd6') format('svg'); /* Legacy iOS */ 
+  src: url('font/helvetica-neue/HelveticaNeue-Medium.eot'); /* IE9 Compat Modes */
+  src: url('font/helvetica-neue/HelveticaNeue-Medium.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('font/helvetica-neue/HelveticaNeue-Medium.woff') format('woff'), /* Modern Browsers */
+       url('font/helvetica-neue/HelveticaNeue-Medium.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('font/helvetica-neue/HelveticaNeue-Medium.svg#d7af0fd9278f330eed98b60dddea7bd6') format('svg'); /* Legacy iOS */ 
   font-style:   normal;
   font-weight:  400;
 }
 
 @font-face {
   font-family: 'HelveticaNeue-Light';
-  src: url('font/HelveticaNeue-Light.eot'); /* IE9 Compat Modes */
-  src: url('font/HelveticaNeue-Light.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('font/HelveticaNeue-Light.woff') format('woff'), /* Modern Browsers */
-       url('font/HelveticaNeue-Light.ttf')  format('truetype'), /* Safari, Android, iOS */
-       url('font/HelveticaNeue-Light.svg#7384ecabcada72f0e077cd45d8e1c705') format('svg'); /* Legacy iOS */      
+  src: url('font/helvetica-neue/HelveticaNeue-Light.eot'); /* IE9 Compat Modes */
+  src: url('font/helvetica-neue/HelveticaNeue-Light.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('font/helvetica-neue/HelveticaNeue-Light.woff') format('woff'), /* Modern Browsers */
+       url('font/helvetica-neue/HelveticaNeue-Light.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('font/helvetica-neue/HelveticaNeue-Light.svg#7384ecabcada72f0e077cd45d8e1c705') format('svg'); /* Legacy iOS */      
   font-style:   normal;
   font-weight:  200;
 }
