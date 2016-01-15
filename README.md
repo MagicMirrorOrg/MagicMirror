@@ -10,7 +10,7 @@ Runs as a php script on a web server with basically no external dependencies. Ca
 
 ##Configuration
 
-Modify js/config.js to change some general variables (language, wather location, compliments, news feed RSS) and calendar.php to add your own ICS calendar
+Modify js/config.js to change some general variables (language, wather location, compliments, news feed RSS and to add your own ICS calendar)
 
 To use the OpenWeatherMap API, you'll need a free API key. Checkout [this blogpost](http://michaelteeuw.nl/post/131504229357/what-happened-to-the-weather) for more information.
 
@@ -44,4 +44,9 @@ Checks the git version and refreshes if a new version has been pulled.
 
 Takes the user's inserted location, language, unit type, and OpenWeatherMap API key and grabs the five day weather forecast from OpenWeatherMap. You need to set the API key in the config for this to work. (See *configuration*.)
 
+##Extensions
 
+###[MagicMirror-Extensions by PaViRo](https://github.com/paviro/MagicMirror-Extensions)
+
+**Current features:** FRITZ!Box Callmonitor <br>
+**Future features:** Faceregognition, personalized views, online banking through HBCI and multiple calenders based on faceregognition.
