@@ -36,6 +36,8 @@ jQuery(document).ready(function($) {
 	version.init();
 
 	time.init();
+	
+	calendar.init();
 
 	compliments.init();
 

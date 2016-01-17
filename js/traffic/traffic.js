@@ -17,7 +17,7 @@ traffic.updateCurrentTraffic = function () {
 	var dayOfWeek = moment().day();
 	
 	//Only displays traffic in the mornings of weekdays
-	if(hour >= 0 && hour <= 23 && dayOfWeek >= 1 && dayOfWeek <= 5){	
+	if(hour >= 0 && hour <= 23 && dayOfWeek >= 0 && dayOfWeek <= 6){	
 
 	$.ajax({
 			type: 'GET',
@@ -48,7 +48,7 @@ traffic.updateCurrentTraffic = function () {
 					_trafficPhrase = 'Severe traffic going to work';
 				}
 				
-				$(this.trafficLocation).updateWithText(_trafficPhrase + '<br> Expected commute is ' + _durationInTrafficMinutes, this.fadeInterval);				
+				$(this.trafficLocation).updateWithText(_trafficPhrase + '<br> Expected commute is ' + _durationInTrafficMinutes + '<br>', this.fadeInterval);				
 
 			}.bind(this),
 			error: function () {

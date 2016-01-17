@@ -126,6 +126,11 @@ canvas {
 	color: #aaa;
 }
 
+.underlined
+{
+	text-decoration: underline;
+}
+
 .light
 {
 	font-family: "HelveticaNeue-UltraLight";
@@ -180,6 +185,16 @@ canvas {
 .forecast-table .day
 {
 	color: #999;
+}
+
+.calendar-table {
+	font-size: 14px;
+	line-height: 20px;
+	margin-top: 10px;
+}
+.calendar-table .days {
+	padding-left: 20px;
+	text-align: right;
 }
 
 @font-face {
