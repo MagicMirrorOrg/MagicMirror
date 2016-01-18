@@ -23,7 +23,7 @@ var keys = {
         url: "CALENDAR.ics ADDRESS"
     },
 	birthdays: [
-		{	//remember to subtract 1 from the month, moment.js returns month as 0-11, not 1-12
+		{
 			day:DAY_OF_FIRST_BIRTHDAY,
 			month:MONTH_OF_FIRST_BIRTHDAY
 		},{

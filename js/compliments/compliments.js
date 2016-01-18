@@ -19,13 +19,11 @@ var compliments = {
  */
 compliments.updateCompliment = function () {
 
-
-
 	var _list = [];
 
 	var hour = moment().hour();
 	var dateDay = moment().date();
-	var dateMonth = moment().month();
+	var dateMonth = moment().month() + 1;	//moment().month() returns 0-11, we need to change that to 1-12
 	var birthdayToday = false;
 	var count = this.birthdayList.length;
 	
@@ -42,7 +40,7 @@ compliments.updateCompliment = function () {
 	if (birthdayToday) {
 		// Birthday compliments
 		_list = compliments.complimentList['birthday'].slice();
-	} else if (dateDay == 25 && dateMonth == 11) {
+	} else if (dateDay == 25 && dateMonth == 12) {
 		// Christmas compliments
 		_list = compliments.complimentList['christmas'].slice();
 	} else if (hour >= 3 && hour < 12) {
