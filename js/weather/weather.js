@@ -61,6 +61,42 @@ weather.ms2Beaufort = function(ms) {
 	return 12;
 }
 
+weather.windDirection = function (windAngle){
+	if (windAngle >= 11.25 && windAngle < 33.75) {
+		return 'NNE';
+	} else if (windAngle >= 33.75 && windAngle < 56.25) {
+		return 'NE';
+	} else if (windAngle >= 56.25 && windAngle < 78.75) {
+		return 'ENE';
+	} else if (windAngle >= 78.75 && windAngle < 101.25) {
+		return 'E';
+	} else if (windAngle >= 101.25 && windAngle < 123.75) {
+		return 'ESE';
+	} else if (windAngle >= 123.75 && windAngle < 146.25) {
+		return 'SE';
+	} else if (windAngle >= 146.25 && windAngle < 168.75) {
+		return 'SSE';
+	} else if (windAngle >= 168.75 && windAngle < 191.25) {
+		return 'S';
+	} else if (windAngle >= 191.25 && windAngle < 213.75) {
+		return 'SSW';
+	} else if (windAngle >= 213.75 && windAngle < 236.25) {
+		return 'SW';
+	} else if (windAngle >= 236.25 && windAngle < 258.75) {
+		return 'WSW';
+	} else if (windAngle >= 258.75 && windAngle < 281.25) {
+		return 'W';
+	} else if (windAngle >= 281.25 && windAngle < 303.75) {
+		return 'WNW';
+	} else if (windAngle >= 303.75 && windAngle < 326.25) {
+		return 'NW';
+	} else if (windAngle >= 326.25 && windAngle < 348.75) {
+		return 'NNW';
+	} else {
+		return 'N';
+	} 
+}
+
 /**
  * Retrieves the current temperature and weather patter from the OpenWeatherMap API
  */
@@ -77,45 +113,10 @@ weather.updateCurrentWeather = function () {
 				_temperatureMin = this.roundValue(data.main.temp_min),
 				_temperatureMax = this.roundValue(data.main.temp_max),
 				_wind = this.roundValue(data.wind.speed),
-				_windDirectionDeg = this.roundValue(data.wind.deg),
-				_windDirection = 'N',
+				_windDirection = this.windDirection(this.roundValue(data.wind.deg)),
 				_iconClass = this.iconTable[data.weather[0].icon];
 
 			var _icon = '<span class="icon ' + _iconClass + ' dimmed wi"></span>';
-			
-			if (_windDirectionDeg >= 11.25 && _windDirectionDeg < 33.75) {
-				_windDirection = 'NNE';
-			} else if (_windDirectionDeg >= 33.75 && _windDirectionDeg < 56.25) {
-				_windDirection = 'NE';
-			} else if (_windDirectionDeg >= 56.25 && _windDirectionDeg < 78.75) {
-				_windDirection = 'ENE';
-			} else if (_windDirectionDeg >= 78.75 && _windDirectionDeg < 101.25) {
-				_windDirection = 'E';
-			} else if (_windDirectionDeg >= 101.25 && _windDirectionDeg < 123.75) {
-				_windDirection = 'ESE';
-			} else if (_windDirectionDeg >= 123.75 && _windDirectionDeg < 146.25) {
-				_windDirection = 'SE';
-			} else if (_windDirectionDeg >= 146.25 && _windDirectionDeg < 168.75) {
-				_windDirection = 'SSE';
-			} else if (_windDirectionDeg >= 168.75 && _windDirectionDeg < 191.25) {
-				_windDirection = 'S';
-			} else if (_windDirectionDeg >= 191.25 && _windDirectionDeg < 213.75) {
-				_windDirection = 'SSW';
-			} else if (_windDirectionDeg >= 213.75 && _windDirectionDeg < 236.25) {
-				_windDirection = 'SW';
-			} else if (_windDirectionDeg >= 236.25 && _windDirectionDeg < 258.75) {
-				_windDirection = 'WSW';
-			} else if (_windDirectionDeg >= 258.75 && _windDirectionDeg < 281.25) {
-				_windDirection = 'W';
-			} else if (_windDirectionDeg >= 281.25 && _windDirectionDeg < 303.75) {
-				_windDirection = 'WNW';
-			} else if (_windDirectionDeg >= 303.75 && _windDirectionDeg < 326.25) {
-				_windDirection = 'NW';
-			} else if (_windDirectionDeg >= 326.25 && _windDirectionDeg < 348.75) {
-				_windDirection = 'NNW';
-			} else {
-				_windDirection = 'N';
-			} 
 			
 			var _newTempHtml = _icon + '' + _temperature + '&deg;';
 
@@ -198,7 +199,7 @@ window.onload = function(){
 	var H = window.innerHeight;
 	canvas.width = W;
 	canvas.height = H;
-	
+
 	$.ajax({
 		type: 'GET',
 		url: weather.apiBase + '/' + weather.apiVersion + '/' + weather.weatherEndpoint,
@@ -219,7 +220,7 @@ window.onload = function(){
 	});
 	
 	//snowflake particles
-	var mp = 25; //max particles
+	var mp = 50; //max particles
 	var particles = [];
 	for(var i = 0; i < mp; i++)
 	{
