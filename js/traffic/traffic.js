@@ -30,25 +30,25 @@ traffic.updateCurrentTraffic = function () {
 					_durationInTraffic = data.routes[0].legs[0].duration_in_traffic.value,
 					_durationInTrafficMinutes = data.routes[0].legs[0].duration_in_traffic.text,
 					_trafficTime = _durationInTraffic - _duration,
-					_trafficPhrase = 'No traffic on the way to work';
+					_trafficPhrase = 'No traffic';
 	
 				//Convert _trafficTime from seconds to minutes
 				_trafficTime = _trafficTime / 60;
 	
 				//Verbal traffic conditions
 				if(_trafficTime <= 2){
-					_trafficPhrase = 'No traffic on the way to work';
+					_trafficPhrase = 'No traffic';
 				} else if (_trafficTime > 2 && _trafficTime <= 5){
-					_trafficPhrase = 'Light traffic on the way to work';
+					_trafficPhrase = 'Light traffic';
 				} else if (_trafficTime > 5 && _trafficTime <= 10){
-					_trafficPhrase = 'Moderate traffic on the way to work';
+					_trafficPhrase = 'Moderate traffic';
 				} else if (_trafficTime > 10 && _trafficTime <= 15){
-					_trafficPhrase = 'Heavy minute delay going to work';
+					_trafficPhrase = 'Heavy delays';
 				} else {
-					_trafficPhrase = 'Severe traffic going to work';
+					_trafficPhrase = 'Severe traffic';
 				}
 				
-				$(this.trafficLocation).updateWithText(_trafficPhrase + '<br> Expected commute is ' + _durationInTrafficMinutes + '<br>', this.fadeInterval);				
+				$(this.trafficLocation).updateWithText(_trafficPhrase + ', current commute is ' + _durationInTrafficMinutes, this.fadeInterval);				
 
 			}.bind(this),
 			error: function () {
