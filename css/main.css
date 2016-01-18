@@ -79,7 +79,7 @@ canvas {
 {
 	font-size: 15px;
 	letter-spacing: 0px;
-	font-family: "HelveticaNeue-Medium";
+	/*font-family: "HelveticaNeue-Medium";*/
 }
 .xxsmall .wi {
 	line-height: 15px;
@@ -89,7 +89,7 @@ canvas {
 {
 	font-size: 20px;
 	letter-spacing: 0px;
-	font-family: "HelveticaNeue-Medium";
+	/*font-family: "HelveticaNeue-Medium";*/
 }
 .xsmall .wi {
 	line-height: 20px;
@@ -100,7 +100,7 @@ canvas {
 {
 	font-size: 25px;
 	letter-spacing: 0px;
-	font-family: "HelveticaNeue-Medium";
+	/*font-family: "HelveticaNeue-Medium";*/
 }
 .small .wi {
 	line-height: 25px;
@@ -109,8 +109,8 @@ canvas {
 .medium
 {
 	font-size: 35px;
-	letter-spacing: -1px;
-	font-family: "HelveticaNeue-Light";
+	letter-spacing: 0px;
+	/*font-family: "HelveticaNeue-Light";*/
 }
 .medium .wi {
 	line-height: 35px;
@@ -123,7 +123,7 @@ canvas {
 
 .dimmed
 {
-	color: #aaa;
+	color: #bbb;
 }
 
 .underlined
@@ -159,7 +159,7 @@ canvas {
 
 .time .sec {
 	font-size: 25px;
-	color: #666;
+	color: #aaa;
 	padding-left: 5px;
 	position: relative;
 	top: -35px;
@@ -188,9 +188,15 @@ canvas {
 }
 
 .calendar-table {
-	font-size: 14px;
+	font-size: 16px;
 	line-height: 20px;
 	margin-top: 10px;
+	font-family: "HelveticaNeue-Medium";
+	padding-top: 15px;
+}
+.calendar-table .description {
+	padding-right: 10px;
+	text-align: left;
 }
 .calendar-table .days {
 	padding-left: 20px;
