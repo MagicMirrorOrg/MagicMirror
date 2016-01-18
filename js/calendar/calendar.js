@@ -70,8 +70,9 @@ calendar.updateData = function (callback) {
 				options.dtstart = e.startDate;
 				var rule = new RRule(options);
 				
-				// TODO: don't use fixed end date here, use something like now() + 1 year
-				var dates = rule.between(new Date(), new Date(2016,11,31), true, function (date, i){return i < 10});
+				var today = new Date();
+				var twoWeeks = new Date(today.getFullYear(), today.getMonth(), today.getDate()+14);
+				var dates = rule.between(today, twoWeeks, true, function (date, i){return i < 10});
 				for (date in dates) {
 					var dt = new Date(dates[date]);
 					var days = moment(dt).diff(moment(), 'days');
@@ -108,23 +109,26 @@ calendar.updateCalendar = function (eventList) {
 	opacity = 1;
 	
 	if(eventList.length > 0){
-		var row = $('<tr/>').css('opacity',opacity);
-		row.append($('<td/>').html('Upcoming Events').addClass('description underlined'));
-		table.append(row);	
+		//var row = $('<tr/>').css('opacity',opacity);
+		//row.append($('<td/>').html('Upcoming Events').addClass('description underlined dimmed'));
+		//table.append(row);	
 
 		for (var i in eventList) {
 			var e = eventList[i];
 	
-			row = $('<tr/>').css('opacity',opacity);
+			var row = $('<tr/>').css('opacity',opacity);
 			row.append($('<td/>').html(e.description).addClass('description'));
 			row.append($('<td/>').html(e.days).addClass('days dimmed'));
 			table.append(row);
 
 			opacity -= 1 / eventList.length;
 		}
+		$(this.calendarLocation).updateWithText(table, this.fadeInterval);
+	}else{
+		$(this.calendarLocation).updateWithText('', this.fadeInterval);
 	}
 
-	$(this.calendarLocation).updateWithText(table, this.fadeInterval);
+
 
 }
 
