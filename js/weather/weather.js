@@ -23,6 +23,7 @@ var weather = {
 		'50n':'wi-night-alt-cloudy-windy'
 	},
 	temperatureLocation: '.temp',
+	feelsLikeTempLocation: '.feelsliketemp',
 	windSunLocation: '.windsun',
 	forecastLocation: '.forecast',
 	apiVersion: '2.5',
@@ -41,6 +42,27 @@ var weather = {
  */
 weather.roundValue = function (temperature) {
 	return parseFloat(temperature).toFixed(1);
+}
+
+weather.calculateWindChill = function (temperature,windSpeed) {
+	return (35.74 + (0.6215 * temperature) - (35.75 * Math.pow(windSpeed,0.16)) + (0.4275 * temperature * Math.pow(windSpeed,0.16)));
+}
+
+weather.calculateHeatIndex = function (temperature,RH) {
+	return (16.923 + (1.85212 * Math.pow(10,-1) * temperature) + (5.37941 * RH)
+			- (1.00254 * Math.pow(10,-1) * temperature * RH)
+			+ (9.41695 * Math.pow(10,-3) * Math.pow(temperature,2))
+			+ (7.28898 * Math.pow(10,-3) * Math.pow(RH,2))
+			+ (3.45372 * Math.pow(10,-4) * Math.pow(temperature,2) * RH)
+			- (8.14971 * Math.pow(10,-4) * temperature * Math.pow(RH,2))
+			+ (1.02102 * Math.pow(10,-5) * Math.pow(temperature,2) * Math.pow(RH,2))
+			+ (3.8646 * Math.pow(10,-5) * Math.pow(temperature,3))
+			+ (2.91583 * Math.pow(10,-5) * Math.pow(RH,3))
+			+ (1.42721 * Math.pow(10,-6) * Math.pow(temperature,3) * RH)
+			+ (1.97483 * Math.pow(10,-7) * temperature * Math.pow(RH,3))
+			- (2.18429 * Math.pow(10,-8) * Math.pow(temperature,3) * Math.pow(RH,2))
+			+ (8.43296 * Math.pow(10,-10) * Math.pow(temperature,2) * Math.pow(RH,3))
+			- (4.81975 * Math.pow(10,-11) * Math.pow(temperature,3) * Math.pow(RH,3)));
 }
 
 /**
@@ -110,17 +132,30 @@ weather.updateCurrentWeather = function () {
 		success: function (data) {
 
 			var _temperature = this.roundValue(data.main.temp),
+				_RH = this.roundValue(data.main.humidity),
 				_temperatureMin = this.roundValue(data.main.temp_min),
 				_temperatureMax = this.roundValue(data.main.temp_max),
 				_wind = this.roundValue(data.wind.speed),
 				_windDirection = this.windDirection(this.roundValue(data.wind.deg)),
-				_iconClass = this.iconTable[data.weather[0].icon];
+				_iconClass = this.iconTable[data.weather[0].icon],
+				_windChill = this.roundValue(this.calculateWindChill(_temperature,_wind)),
+				_heatIndex = this.roundValue(this.calculateHeatIndex(_temperature,_RH));
 
 			var _icon = '<span class="icon ' + _iconClass + ' dimmed wi"></span>';
 			
 			var _newTempHtml = _icon + '' + _temperature + '&deg;';
-
+			
 			$(this.temperatureLocation).updateWithText(_newTempHtml, this.fadeInterval);
+			
+			var _newFeelsLikeHtml = '';
+			
+			if(_temperature < 50){
+				_newFeelsLikeHtml = 'Feels like ' + _windChill + '&deg;';
+			} else if (_temperature > 80){
+				_newFeelsLikeHtml = 'Feels like ' + _heatIndex + '&deg;';
+			}
+			
+			$(this.feelsLikeTempLocation).updateWithText(_newFeelsLikeHtml, this.fadeInterval);			
 
 			var _now = moment().format('HH:mm'),
 				_sunrise = moment(data.sys.sunrise*1000).format('HH:mm') + 'AM',

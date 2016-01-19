@@ -182,6 +182,14 @@ canvas {
 	width: 60px;
 }
 
+.feelsliketemp
+{
+	font-size: 25px;
+	letter-spacing: 0px;
+	padding-bottom: 15px;
+	/*font-family: "HelveticaNeue-Medium";*/
+}
+
 .forecast-table .day
 {
 	color: #999;

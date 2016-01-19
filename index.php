@@ -14,7 +14,7 @@
 <body>
 	<!--<canvas id="canvas"></canvas>   <!--//Temporarily removed until the Pi graphics driver improves-->
 	<div class="top left"><div class="date small dimmed"></div><div class="time light"></div><div class="traffic xxsmall dimmed"></div><div class="calendar"></div></div>
-	<div class="top right"><div class="windsun small dimmed"></div><div class="temp light"></div><div class="forecast small dimmed"></div></div>
+	<div class="top right"><div class="windsun small dimmed"></div><div class="temp light"></div><div class="feelsliketemp"></div><div class="forecast small dimmed"></div></div>
 	<div class="center-ver center-hor"></div>
 	<div class="lower-third center-hor"><div class="compliment light"></div></div>
 	<div class="bottom center-hor"><div class="news medium"></div></div>
