@@ -21,7 +21,7 @@ canvas {
 }
 
 .wi {
-	line-height: 75px;
+	line-height: 65px;
 
 }
 
@@ -186,7 +186,7 @@ canvas {
 }
 
 .feelsliketemp {
-	font-size: 25px;
+	font-size: 20px;
 	letter-spacing: 0px;
 	/*font-family: "HelveticaNeue-Medium";*/
 }
@@ -196,11 +196,11 @@ canvas {
 }
 
 .calendar-table {
-	font-size: 16px;
+	font-size: 20px;
 	line-height: 20px;
 	margin-top: 10px;
-	font-family: "HelveticaNeue-Medium";
-	padding-top: 15px;
+	font-family: "HelveticaNeue-Light";
+	padding-top: 5px;
 }
 .calendar-table .description {
 	padding-right: 10px;
