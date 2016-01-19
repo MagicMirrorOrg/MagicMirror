@@ -140,6 +140,7 @@ weather.updateCurrentWeather = function () {
 				_iconClass = this.iconTable[data.weather[0].icon],
 				_windChill = this.roundValue(this.calculateWindChill(_temperature,_wind)),
 				_heatIndex = this.roundValue(this.calculateHeatIndex(_temperature,_RH));
+				_feelsLikeDifferential = 5;
 
 			var _icon = '<span class="icon ' + _iconClass + ' dimmed wi"></span>';
 			
@@ -149,9 +150,9 @@ weather.updateCurrentWeather = function () {
 			
 			var _newFeelsLikeHtml = '';
 			
-			if(_temperature < 50){
+			if(_temperature < 50 && (_temperature - _windChill) > _feelsLikeDifferential){
 				_newFeelsLikeHtml = 'Feels like ' + _windChill + '&deg;';
-			} else if (_temperature > 80){
+			} else if (_temperature > 80 && (_heatIndex - _temperature) > _feelsLikeDifferential){
 				_newFeelsLikeHtml = 'Feels like ' + _heatIndex + '&deg;';
 			}
 			
