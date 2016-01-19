@@ -22,9 +22,9 @@ var config = {
             'Dogs, better than people, since forever'
         ],
         birthday: [
-            'Happy Birthday!',
-            'Have a great birthday today!',
-            'Yay, your birthday is today!'
+            'Happy Birthday',
+            'Have a great birthday today',
+            'Yay, your birthday is today,'
         ],
         christmas: [
             'Merry Christmas!',

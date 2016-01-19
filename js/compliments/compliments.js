@@ -34,6 +34,7 @@ compliments.updateCompliment = function () {
 	for (var i = 0; i < count; i++) {
 		if(dateDay == this.birthdayList[i].day && dateMonth == this.birthdayList[i].month){
 			birthdayToday = true;
+			var birthdayName = this.birthdayList[i].name;
 		};
 	}
 
@@ -68,8 +69,13 @@ compliments.updateCompliment = function () {
 
 	// Randomly select a location
 	var _randomIndex = Math.floor(Math.random() * _list.length);
-	compliments.currentCompliment = _list[_randomIndex];
-
+	
+	if(birthdayToday){
+		compliments.currentCompliment = _list[_randomIndex] + ' ' + birthdayName + '!';
+	} else{
+		compliments.currentCompliment = _list[_randomIndex];
+	}	
+	
 	$(this.complimentLocation).updateWithText(compliments.currentCompliment, compliments.fadeInterval);
 
 }
