@@ -151,9 +151,9 @@ weather.updateCurrentWeather = function () {
 			var _newFeelsLikeHtml = '';
 			
 			if(_temperature < 50 && (_temperature - _windChill) > _feelsLikeDifferential){
-				_newFeelsLikeHtml = 'Feels like ' + _windChill + '&deg;';
+				_newFeelsLikeHtml = '<p class="padding">Feels like ' + _windChill + '&deg;</span>';
 			} else if (_temperature > 80 && (_heatIndex - _temperature) > _feelsLikeDifferential){
-				_newFeelsLikeHtml = 'Feels like ' + _heatIndex + '&deg;';
+				_newFeelsLikeHtml = '<p class="padding">Feels like ' + _heatIndex + '&deg;</span>';
 			}
 			
 			$(this.feelsLikeTempLocation).updateWithText(_newFeelsLikeHtml, this.fadeInterval);			

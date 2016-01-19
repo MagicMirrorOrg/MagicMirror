@@ -177,22 +177,22 @@ canvas {
 	text-align: right;
 }
 
-.forecast-table .temp-max 
-{
+.forecast-table .temp-max {
 	width: 60px;
 }
 
-.feelsliketemp
-{
+.forecast-table .day {
+	color: #999;
+}
+
+.feelsliketemp {
 	font-size: 25px;
 	letter-spacing: 0px;
-	padding-bottom: 15px;
 	/*font-family: "HelveticaNeue-Medium";*/
 }
 
-.forecast-table .day
-{
-	color: #999;
+.feelsliketemp .padding {
+	padding-bottom: 15px;
 }
 
 .calendar-table {
