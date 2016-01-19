@@ -70,8 +70,8 @@ calendar.updateData = function (callback) {
 				options.dtstart = e.startDate;
 				var rule = new RRule(options);
 
-        var oneYear = new Date();
-        oneYear.setFullYear(oneYear.getFullYear() + 1);
+				var oneYear = new Date();
+				oneYear.setFullYear(oneYear.getFullYear() + 1);
 
 				var dates = rule.between(new Date(), oneYear, true, function (date, i){return i < 10});
 				for (date in dates) {
