@@ -71,7 +71,7 @@ compliments.updateCompliment = function () {
 	var _randomIndex = Math.floor(Math.random() * _list.length);
 	
 	if(birthdayToday){
-		compliments.currentCompliment = _list[_randomIndex] + ' ' + birthdayName + '!';
+		compliments.currentCompliment = _list[_randomIndex] + birthdayName + '!';
 	} else{
 		compliments.currentCompliment = _list[_randomIndex];
 	}	
