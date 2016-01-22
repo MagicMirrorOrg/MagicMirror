@@ -53,13 +53,22 @@ calendar.updateData = function (callback) {
 
 			//only add future events, days doesn't work, we need to check seconds
 			if (seconds >= 0) {
-				if (seconds <= 60*60*5 || seconds >= 60*60*24*2) {
+				if (seconds <= 60*60*5) {
+					var time_string = moment(startDate).fromNow();
+					if (e.LOCATION !== undefined){
+						var eventLocation = e.LOCATION;						
+					}
+				}else if (seconds >= 60*60*24*2){
 					var time_string = moment(startDate).fromNow();
 				}else {
 					var time_string = moment(startDate).calendar()
 				}
 				if (!e.RRULE) {
-					this.eventList.push({'description':e.SUMMARY,'seconds':seconds,'days':time_string});
+					if (typeof eventLocation !== 'undefined') {
+						this.eventList.push({'description':e.SUMMARY,'location':eventLocation,'seconds':seconds,'days':time_string});
+					} else{
+						this.eventList.push({'description':e.SUMMARY,'seconds':seconds,'days':time_string});
+					}					
 				}
 				e.seconds = seconds;
 			}
@@ -84,7 +93,7 @@ calendar.updateData = function (callback) {
 						} else {
 							var time_string = moment(dt).calendar()
 						}
-						this.eventList.push({'description':e.SUMMARY,'seconds':seconds,'days':time_string});
+						this.eventList.push({'description':e.SUMMARY,'location':e.LOCATION,'seconds':seconds,'days':time_string});
 					}           
 				}
 			}
@@ -118,6 +127,9 @@ calendar.updateCalendar = function (eventList) {
 	
 			var row = $('<tr/>').css('opacity',opacity);
 			row.append($('<td/>').html(e.description).addClass('description'));
+			if (typeof e.location !== 'undefined') {
+				row.append($('<td/>').html(e.location).addClass('description'));
+			}
 			row.append($('<td/>').html(e.days).addClass('days dimmed'));
 			table.append(row);
 
