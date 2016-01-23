@@ -1,11 +1,17 @@
 var calendar = {
 	eventList: [],
 	calendarLocation: '.calendar',
-	updateInterval: 1000,
+	updateInterval: 30000,
 	updateDataInterval: 60000,
 	fadeInterval: 1000,
 	intervalId: null,
 	dataIntervalId: null,
+	params: {
+		origin: keys.traffic.params.origin,
+		destination: '0,0',
+		departure_time: keys.traffic.params.departure_time,
+		key: keys.traffic.params.key,		
+	},
 	maximumEntries: keys.calendar.maximumEntries || 10
 }
 
@@ -119,30 +125,61 @@ calendar.updateCalendar = function (eventList) {
 	opacity = 1;
 	
 	if(eventList.length > 0){
-		//var row = $('<tr/>').css('opacity',opacity);
-		//row.append($('<td/>').html('Upcoming Events').addClass('description underlined dimmed'));
-		//table.append(row);	
 
 		for (var i in eventList) {
 			var e = eventList[i];
 	
 			var row = $('<tr/>').css('opacity',opacity);
 			row.append($('<td/>').html(e.description).addClass('description'));
-			//if (typeof e.location !== 'undefined') {
-			//	row.append($('<td/>').html(e.location).addClass('description'));
-			//	row.append($('<td/>').html(e.unixTime).addClass('description'));
-			//}
 			row.append($('<td/>').html(e.days).addClass('days dimmed'));
 			table.append(row);
+			
+			if (typeof e.location !== 'undefined' && i==0) {
+			
+				var geocoder = new google.maps.Geocoder();
+	
+				geocoder.geocode( { 'address': e.location}, function(results, status) {
 
+					if (status === google.maps.GeocoderStatus.OK) {
+						var latitude = results[0].geometry.location.lat();
+						var longitude = results[0].geometry.location.lng();
+						calendar.params.destination = latitude + ',' + longitude;
+
+						$.ajax({
+							type: 'GET',
+							url: 'controllers/traffic.php?',
+							dataType: 'json',
+							data: calendar.params,
+							success: function (data) {
+		
+								var _durationInTraffic = data.routes[0].legs[0].duration_in_traffic.value,
+									_durationInTrafficMinutes = data.routes[0].legs[0].duration_in_traffic.text;
+				
+								//row.append($('<td/>').html(_durationInTraffic).addClass('description'));
+
+								/*
+								row = $('<tr/>').css('opacity',opacity);
+								row.append($('<td/>').html(_durationInTrafficMinutes).addClass('days dimmed'));
+								table.append(row);
+
+								*/
+								
+							}.bind(this),
+							error: function () {
+							}
+						});						
+
+					} 
+				}); 
+				
+			}
+			
 			opacity -= 1 / eventList.length;
 		}
 		$(this.calendarLocation).updateWithText(table, this.fadeInterval);
 	}else{
 		$(this.calendarLocation).updateWithText('', this.fadeInterval);
 	}
-
-
 
 }
 

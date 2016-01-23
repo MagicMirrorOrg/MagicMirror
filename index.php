@@ -28,6 +28,7 @@
 <script src="js/config.js"></script>
 <script src="js/keys.js"></script>
 <script src="js/rrule.js"></script>
+<script src="http://maps.google.com/maps/api/js" type="text/javascript"></script>
 <script src="js/version/version.js" type="text/javascript"></script>
 <script src="js/calendar/calendar.js" type="text/javascript"></script>
 <script src="js/compliments/compliments.js" type="text/javascript"></script>
