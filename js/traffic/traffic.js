@@ -22,7 +22,7 @@ traffic.updateCurrentTraffic = function () {
 
 	$.ajax({
 			type: 'GET',
-			url: '/MagicMirror/controllers/traffic.php?',
+			url: 'controllers/traffic.php?',
 			dataType: 'json',
 			data: traffic.params,
 			success: function (data) {
