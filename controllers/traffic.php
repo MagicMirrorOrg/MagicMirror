@@ -17,17 +17,32 @@ if (isset($_GET['destination'])) {
 if (isset($_GET['departure_time'])) {
     $departure_time = $_GET['departure_time'];
 }
-if (isset($_GET['arrivel_time'])) {
-    $departure_time = $_GET['arrival_time'];
+if (isset($_GET['arrival_time'])) {
+    $arrival_time = $_GET['arrival_time'];
 }
 
-// query string
-$fields = array(
-    'key' => $key,
-    'origin' => $origin,
-	'destination' => $destination,
-	'departure_time' => $departure_time
-);
+if (isset($departure_time)){
+	$fields = array(
+		'key' => $key,
+		'origin' => $origin,
+		'destination' => $destination,
+		'departure_time' => $departure_time
+	);
+} else if (isset($arrival_time)){
+	$fields = array(
+		'key' => $key,
+		'origin' => $origin,
+		'destination' => $destination,
+		'arrival_time' => $arrival_time
+	);
+} else {
+	$fields = array(
+		'key' => $key,
+		'origin' => $origin,
+		'destination' => $destination,
+	);
+}
+
 
 $url = 'https://maps.googleapis.com/maps/api/directions/json?' . http_build_query($fields);
 
