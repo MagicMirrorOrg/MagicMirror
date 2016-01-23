@@ -15,13 +15,14 @@ traffic.updateCurrentTraffic = function () {
 
 	var hour = moment().hour();
 	var dayOfWeek = moment().day();
+	var url = traffic.apiBase + traffic.apiType;
 	
 	//Only displays traffic in the mornings of weekdays
 	if(hour >= 0 && hour <= 23 && dayOfWeek >= 0 && dayOfWeek <= 6){	
 
 	$.ajax({
 			type: 'GET',
-			url: traffic.apiBase + traffic.apiType,
+			url: '/MagicMirror/controllers/traffic.php?',
 			dataType: 'json',
 			data: traffic.params,
 			success: function (data) {
