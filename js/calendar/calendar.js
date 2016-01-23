@@ -130,9 +130,7 @@ calendar.updateCalendar = function (eventList) {
 			var e = eventList[i];
 	
 			var row = $('<tr/>').css('opacity',opacity);
-			row.append($('<td/>').html(e.description).addClass('description'));
-			row.append($('<td/>').html(e.days).addClass('days dimmed'));
-			table.append(row);
+
 			
 			if (typeof e.location !== 'undefined' && i==0) {
 			
@@ -156,14 +154,7 @@ calendar.updateCalendar = function (eventList) {
 									_durationInTrafficMinutes = data.routes[0].legs[0].duration_in_traffic.text;
 				
 								//row.append($('<td/>').html(_durationInTraffic).addClass('description'));
-
-								/*
-								row = $('<tr/>').css('opacity',opacity);
-								row.append($('<td/>').html(_durationInTrafficMinutes).addClass('days dimmed'));
-								table.append(row);
-
-								*/
-								
+																
 							}.bind(this),
 							error: function () {
 							}
@@ -173,6 +164,15 @@ calendar.updateCalendar = function (eventList) {
 				}); 
 				
 			}
+			
+			
+			if (typeof _durationInTraffic !== 'undefined'){
+				row.append($('<td/>').html(_durationInTraffic).addClass('description'));
+			}			
+			
+			row.append($('<td/>').html(e.description).addClass('description'));
+			row.append($('<td/>').html(e.days).addClass('days dimmed'));
+			table.append(row);
 			
 			opacity -= 1 / eventList.length;
 		}
