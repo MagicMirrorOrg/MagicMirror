@@ -2,7 +2,7 @@ var calendar = {
 	eventList: [],
 	calendarLocation: '.calendar',
 	updateInterval: 180000,
-	updateDataInterval: 90000,
+	updateDataInterval: 180000,
 	fadeInterval: 1000,
 	intervalId: null,
 	dataIntervalId: null,
@@ -138,7 +138,6 @@ calendar.updateCalendar = function (eventList) {
 
 			if(i==0){
 				if (typeof e.location !== 'undefined') {
-			
 					var geocoder = new google.maps.Geocoder();
 	
 					geocoder.geocode( { 'address': e.location}, function(results, status) {
@@ -159,7 +158,7 @@ calendar.updateCalendar = function (eventList) {
 										_durationInTrafficMinutes = data.routes[0].legs[0].duration_in_traffic.text;
 				
 									calendar.travelTime = _durationInTraffic;
-																
+																									
 								}.bind(this),
 								error: function () {
 									calendar.travelTime = 0;
@@ -172,7 +171,6 @@ calendar.updateCalendar = function (eventList) {
 				} else {
 					calendar.travelTime = 0;
 				}
-			
 			
 				if(calendar.travelTime > 0){
 					var leaveByTimeSeconds = e.unixTime - (calendar.travelTime + calendar.travelBuffer);
@@ -210,12 +208,13 @@ calendar.updateCalendar = function (eventList) {
 calendar.init = function () {
 
 	this.updateData(this.updateCalendar.bind(this));
+/*
 	this.updateCalendar(this.eventList);
 
 	this.intervalId = setInterval(function () {
 		this.updateCalendar(this.eventList)
 	}.bind(this), this.updateInterval);
-
+*/
 	this.dataIntervalId = setInterval(function () {
 		this.updateData(this.updateCalendar.bind(this));
 	}.bind(this), this.updateDataInterval);
