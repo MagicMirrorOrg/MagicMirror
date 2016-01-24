@@ -1,3 +1,5 @@
+//rename this file to keys.js after you fill in the relevant information to enable functionality
+
 var keys = {
     weather: {
         //change weather params here:
