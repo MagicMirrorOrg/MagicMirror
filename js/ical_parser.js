@@ -80,7 +80,6 @@ function ical_parser(feed_url, callback){
 		
 		//Keep track of when we are activly parsing an event
 		var in_event = false;
-		var summary_set = false;
 		//Use as a holder for the current event being proccessed.
 		var cur_event = null;
 		for(var i=0;i<cal_array.length;i++){
@@ -95,7 +94,6 @@ function ical_parser(feed_url, callback){
 				in_event = false;
 				this.events.push(cur_event);
 				cur_event = null;
-				summary_set = false;
 			}
 			//If we are in an event
                         else if(in_event){
@@ -110,12 +108,9 @@ function ical_parser(feed_url, callback){
 				type = ln.substr(0,idx).replace(/^\s\s*/, '').replace(/\s\s*$/, '');//Trim
 				val = ln.substr(idx+1).replace(/^\s\s*/, '').replace(/\s\s*$/, '');
 				
-				//Ensure summary is not overwritten by VAlARM Summary
-				if(type =='SUMMARY' && !summary_set){
-					summary_set = true;
-				}else if(type =='SUMMARY' && summary_set){
+				if(typeof cur_event[type]  !== 'undefined'){
 					continue;
-				}	
+				}
 				
 				//If the type is a start date, proccess it and store details
 				if(type =='DTSTART'){
