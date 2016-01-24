@@ -10,7 +10,7 @@ var calendar = {
 		origin: keys.traffic.params.origin,
 		destination: '0,0',
 		departure_time: keys.traffic.params.departure_time,
-		key: keys.traffic.params.key,		
+		key: keys.traffic.params.key
 	},
 	travelTime: 0,
 	travelBuffer: 300,
