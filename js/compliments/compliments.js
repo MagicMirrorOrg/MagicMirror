@@ -8,7 +8,8 @@ var compliments = {
 	},
 	updateInterval: config.compliments.interval || 30000,
 	fadeInterval: config.compliments.fadeInterval || 4000,
-	intervalId: null
+	intervalId: null,
+	display: config.display || 'quote'
 };
 
 /**
@@ -60,11 +61,14 @@ compliments.updateCompliment = function () {
 }
 
 compliments.init = function () {
-
-	this.updateCompliment();
-
-	this.intervalId = setInterval(function () {
+	
+	if(this.display.toLowerCase() == 'compliment' || this.display.toLowerCase() == 'both'){ 
 		this.updateCompliment();
+	}
+	this.intervalId = setInterval(function () {
+		if(this.display.toLowerCase() == 'compliment' || this.display.toLowerCase() == 'both'){ 
+			this.updateCompliment();
+		}
 	}.bind(this), this.updateInterval)
 
 }

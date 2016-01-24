@@ -18,6 +18,7 @@
 	<div class="center-ver center-hor"><!-- <div class="dishwasher light">Vaatwasser is klaar!</div> --></div>
 	<div class="lower-third center-hor"><div class="compliment light"></div></div>
 	<div class="bottom center-hor"><div class="news medium"></div></div>
+	<div class="bottom center-hor"><div class="quote medium"></div></div>
 
 </div>
 
@@ -33,6 +34,7 @@
 <script src="js/weather/weather.js" type="text/javascript"></script>
 <script src="js/time/time.js" type="text/javascript"></script>
 <script src="js/news/news.js" type="text/javascript"></script>
+<script src="js/quote/quote.js" type="text/javascript"></script>
 <script src="js/main.js?nocache=<?php echo md5(microtime()) ?>"></script>
 <!-- <script src="js/socket.io.min.js"></script> -->
 

@@ -1,5 +1,5 @@
 var config = {
-    lang: 'nl',
+    lang: 'en',
     time: {
         timeFormat: 12
     },
@@ -7,11 +7,10 @@ var config = {
         //change weather params here:
         //units: metric or imperial
         params: {
-            q: 'Baarn,Netherlands',
-            units: 'metric',
-            // if you want a different lang for the weather that what is set above, change it here
-            lang: 'nl',
-            APPID: 'YOUR_FREE_OPENWEATHER_API_KEY'
+            q: 'Charlotte,US',
+            units: 'imperial',
+            lang: 'en',
+            APPID: 'bfb1239b4a4b0a366862fc3be59c5be6'
         }
     },
     compliments: {
@@ -35,7 +34,7 @@ var config = {
     },
     calendar: {
         maximumEntries: 10,
-        url: "ICAL URL Here"
+        url: "https://calendar.google.com/calendar/ical/scottr2015%40gmail.com/private-53abbe11f63ebf48a1f88dd61a796995/basic.ics"
     },
     news: {
         feed: 'http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml'
