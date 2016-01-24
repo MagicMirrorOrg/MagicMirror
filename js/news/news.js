@@ -6,7 +6,7 @@ var news = {
 	newsLocation: '.news',
 	newsItems: [],
 	seenNewsItem: [],
-	_yqURL: 'http://query.yahooapis.com/v1/public/yql',
+	_yqURL: 'https://query.yahooapis.com/v1/public/yql',
 	_yqlQS: '?format=json&q=select%20*%20from%20rss%20where%20url%3D',
 	_cacheBuster: Math.floor((new Date().getTime()) / 1200 / 1000),
 	_failedAttempts: 0,

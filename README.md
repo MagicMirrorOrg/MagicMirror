@@ -5,12 +5,12 @@ MagicMirror
 
 The super magic interface of my personal Magic Mirror. More information about this project can be found on my [blog](http://michaelteeuw.nl/tagged/magicmirror).
 
-Runs as a php script on a web server with basically no external dependencies. Can use socket.io for XBEE integration, but isn't required for basic functionality.
+Runs as a php script on a web server with basically no external dependencies. *Can use socket.io for XBEE integration, but isn't required for basic functionality*.
 
 
 ##Configuration
 
-Modify js/config.js to change some general variables (language, wather location, compliments, news feed RSS and to add your own ICS calendar)
+Modify `js/config.js` to change some general variables (language, weather location, compliments, news feed RSS and to add your own ICS calendar)
 
 To use the OpenWeatherMap API, you'll need a free API key. Checkout [this blogpost](http://michaelteeuw.nl/post/131504229357/what-happened-to-the-weather) for more information.
 
@@ -22,7 +22,7 @@ This file initiates the separate pieces of functionality that will appear in the
 
 ###[Calendar](js/calendar)
 
-Parsing functionality for the Calendar that retrieves and updates the calendar based on the interval set at the top of the [calendar.js](js/calendar/calendar.js) file. This was actually a straight pull from the original main.js file but the parsing code may deserve an upgrade.
+Parsing functionality for the calendar that retrieves and updates the calendar based on the interval set at the top of the [calendar.js](js/calendar/calendar.js) file. This was actually a straight pull from the original main.js file but the parsing code may deserve an upgrade.
 
 ###[Compliments](js/compliments)
 
