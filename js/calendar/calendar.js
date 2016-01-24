@@ -1,9 +1,9 @@
 var calendar = {
 	eventList: [],
 	calendarLocation: '.calendar',
-	updateInterval: 180000,
-	updateDataInterval: 180000,
-	fadeInterval: 1000,
+	updateInterval: 60000,
+	updateDataInterval: 60000,
+	fadeInterval: 0,
 	intervalId: null,
 	dataIntervalId: null,
 	params: {
