@@ -210,6 +210,10 @@ canvas {
 	padding-left: 20px;
 	text-align: right;
 }
+.calendar-table .leaveby {
+	padding-left: 20px;
+	text-align: left;
+}
 
 @font-face {
   font-family: 'HelveticaNeue-UltraLight';

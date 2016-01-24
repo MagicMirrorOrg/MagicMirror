@@ -1,8 +1,8 @@
 var calendar = {
 	eventList: [],
 	calendarLocation: '.calendar',
-	updateInterval: 30000,
-	updateDataInterval: 60000,
+	updateInterval: 180000,
+	updateDataInterval: 90000,
 	fadeInterval: 1000,
 	intervalId: null,
 	dataIntervalId: null,
@@ -12,6 +12,8 @@ var calendar = {
 		departure_time: keys.traffic.params.departure_time,
 		key: keys.traffic.params.key,		
 	},
+	travelTime: 0,
+	travelBuffer: 300,
 	maximumEntries: keys.calendar.maximumEntries || 10
 }
 
@@ -130,49 +132,71 @@ calendar.updateCalendar = function (eventList) {
 			var e = eventList[i];
 	
 			var row = $('<tr/>').css('opacity',opacity);
-
-			
-			if (typeof e.location !== 'undefined' && i==0) {
-			
-				var geocoder = new google.maps.Geocoder();
-	
-				geocoder.geocode( { 'address': e.location}, function(results, status) {
-
-					if (status === google.maps.GeocoderStatus.OK) {
-						var latitude = results[0].geometry.location.lat();
-						var longitude = results[0].geometry.location.lng();
-						calendar.params.destination = latitude + ',' + longitude;
-
-						$.ajax({
-							type: 'GET',
-							url: 'controllers/traffic.php?',
-							dataType: 'json',
-							data: calendar.params,
-							success: function (data) {
-		
-								var _durationInTraffic = data.routes[0].legs[0].duration_in_traffic.value,
-									_durationInTrafficMinutes = data.routes[0].legs[0].duration_in_traffic.text;
-				
-								//row.append($('<td/>').html(_durationInTraffic).addClass('description'));
-																
-							}.bind(this),
-							error: function () {
-							}
-						});						
-
-					} 
-				}); 
-				
-			}
-			
-			
-			if (typeof _durationInTraffic !== 'undefined'){
-				row.append($('<td/>').html(_durationInTraffic).addClass('description'));
-			}			
-			
 			row.append($('<td/>').html(e.description).addClass('description'));
 			row.append($('<td/>').html(e.days).addClass('days dimmed'));
 			table.append(row);
+
+			if(i==0){
+				if (typeof e.location !== 'undefined') {
+			
+					var geocoder = new google.maps.Geocoder();
+	
+					geocoder.geocode( { 'address': e.location}, function(results, status) {
+
+						if (status === google.maps.GeocoderStatus.OK) {
+							var latitude = results[0].geometry.location.lat();
+							var longitude = results[0].geometry.location.lng();
+							calendar.params.destination = latitude + ',' + longitude;
+
+							$.ajax({
+								type: 'GET',
+								url: 'controllers/traffic.php?',
+								dataType: 'json',
+								data: calendar.params,
+								success: function (data) {
+		
+									var _durationInTraffic = data.routes[0].legs[0].duration_in_traffic.value,
+										_durationInTrafficMinutes = data.routes[0].legs[0].duration_in_traffic.text;
+				
+									calendar.travelTime = _durationInTraffic;
+																
+								}.bind(this),
+								error: function () {
+									calendar.travelTime = 0;
+								}
+							});						
+						} else {
+							calendar.travelTime = 0;
+						}
+					}); 
+				} else {
+					calendar.travelTime = 0;
+				}
+			
+			
+				if(calendar.travelTime > 0){
+					var leaveByTimeSeconds = e.unixTime - (calendar.travelTime + calendar.travelBuffer);
+					var unix_time = moment().unix();
+					if (leaveByTimeSeconds > (unix_time + calendar.travelBuffer)){
+						var leaveByTime = new Date(leaveByTimeSeconds*1000);
+						var hours = leaveByTime.getHours();
+					
+						if(hours>12){
+							hours-=12;
+						}
+				
+						var minutes = "0" + leaveByTime.getMinutes();
+						var formattedTime = hours + ':' + minutes.substr(-2);
+						row = $('<tr/>').css('opacity',opacity);
+						row.append($('<td/>').html('Leave by ' + formattedTime).addClass('leaveby'));
+					} else {
+						row = $('<tr/>').css('opacity',opacity);
+						row.append($('<td/>').html('Leave now').addClass('leaveby'));
+					}
+								
+					table.append(row);
+				}
+			}
 			
 			opacity -= 1 / eventList.length;
 		}
@@ -186,6 +210,7 @@ calendar.updateCalendar = function (eventList) {
 calendar.init = function () {
 
 	this.updateData(this.updateCalendar.bind(this));
+	this.updateCalendar(this.eventList);
 
 	this.intervalId = setInterval(function () {
 		this.updateCalendar(this.eventList)
