@@ -32,7 +32,7 @@ var weather = {
 	updateInterval: config.weather.interval || 6000,
 	fadeInterval: config.weather.fadeInterval || 1000,
 	intervalId: null,
-	orientation: 'vertical',
+	orientation: config.weather.orientation || 'vertical',
 }
 
 /**
