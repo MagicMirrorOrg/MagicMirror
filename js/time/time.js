@@ -44,6 +44,7 @@ time.init = function () {
 
 	this.intervalId = setInterval(function () {
 		this.updateTime();
-	}.bind(this), 1000);
+	}.bind(this), this.updateInterval);
+	this.updateTime();
 
 }
