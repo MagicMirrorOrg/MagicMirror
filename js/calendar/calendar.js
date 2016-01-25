@@ -151,25 +151,34 @@ calendar.updateData = function (callback) {
 }
 
 calendar.updateCalendar = function (eventList) {
-
+	var _is_new = true;
+	if ($('.calendar-table').length) {
+		_is_new = false;
+	}
 	table = $('<table/>').addClass('xsmall').addClass('calendar-table');
 	opacity = 1;
 
 	for (var i in eventList) {
 		var e = eventList[i];
-
-		var row = $('<tr/>').css('opacity',opacity);
+		var row = $('<tr/>').attr('id', 'event'+i).css('opacity',opacity).addClass('event');
 		if (this.displaySymbol) {
 			row.append($('<td/>').addClass('fa').addClass('fa-'+e.symbol).addClass('calendar-icon'));
 		}
 		row.append($('<td/>').html(e.description).addClass('description'));
 		row.append($('<td/>').html(e.days).addClass('days dimmed'));
+		if (! _is_new && $('#event'+i).length) {
+			$('#event'+i).updateWithText(row.children(), this.fadeInterval);
+		} else {
+			// Something wrong - replace whole table
+			_is_new = true;
+		}
 		table.append(row);
 
 		opacity -= 1 / eventList.length;
 	}
-
+	if (_is_new) {
 		$(this.calendarLocation).updateWithText(table, this.fadeInterval);
+	}
 
 }
 
