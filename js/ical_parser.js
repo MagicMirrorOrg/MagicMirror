@@ -108,6 +108,10 @@ function ical_parser(feed_url, callback){
 				type = ln.substr(0,idx).replace(/^\s\s*/, '').replace(/\s\s*$/, '');//Trim
 				val = ln.substr(idx+1).replace(/^\s\s*/, '').replace(/\s\s*$/, '');
 				
+				if(typeof cur_event[type]  !== 'undefined'){
+					continue;
+				}
+				
 				//If the type is a start date, proccess it and store details
 				if(type =='DTSTART'){
 					dt = this.makeDate(val);
