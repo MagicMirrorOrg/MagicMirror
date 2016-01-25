@@ -186,9 +186,9 @@ calendar.init = function () {
 
 	this.updateData(this.updateCalendar.bind(this));
 
-	this.intervalId = setInterval(function () {
-		this.updateCalendar(this.eventList)
-	}.bind(this), this.updateInterval);
+	// this.intervalId = setInterval(function () {
+		// this.updateCalendar(this.eventList)
+	// }.bind(this), this.updateInterval);
 
 	this.dataIntervalId = setInterval(function () {
 		this.updateData(this.updateCalendar.bind(this));
