@@ -169,6 +169,13 @@ html {
   margin-top: 10px;
 }
 
+.calendar-table .calendar-icon {
+  width: 1em;
+  min-width: 1em;
+  margin-right: 5px;
+  text-align: center;
+}
+
 .calendar-table .days {
   padding-left: 20px;
   text-align: right;

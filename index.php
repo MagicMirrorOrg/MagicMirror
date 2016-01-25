@@ -5,6 +5,7 @@
 		<?php include('css/main.css') ?>
 	</style>
 	<link rel="stylesheet" type="text/css" href="css/weather-icons.css">
+	<link rel="stylesheet" type="text/css" href="css/font-awesome.css">
 	<script type="text/javascript">
 		var gitHash = '<?php echo trim(`git rev-parse HEAD`) ?>';
 	</script>
