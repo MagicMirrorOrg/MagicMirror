@@ -12,6 +12,8 @@ var calendar = {
 	defaultSymbol: config.calendar.defaultSymbol || 'none',
 	calendarSymbol: (typeof config.calendar.urls == 'undefined') ? config.calendar.defaultSymbol || 'none' : config.calendar.urls[0].symbol,
 	displaySymbol: (typeof config.calendar.displaySymbol == 'undefined') ? false : config.calendar.displaySymbol,
+	shortRunningText: 'still',
+	longRunningText: 'until',
 }
 
 calendar.processEvents = function (url, events) {
@@ -54,10 +56,16 @@ calendar.processEvents = function (url, events) {
 			var days = moment(e.DTSTART).diff(moment(), 'days');
 			var seconds = moment(e.DTSTART).diff(moment(), 'seconds');
 			var startDate = moment(e.DTSTART);
+			var endDays = moment(e.DTEND).diff(moment(), 'days');
+			var endSeconds = moment(e.DTEND).diff(moment(), 'seconds');
+			var endDate = moment(e.DTEND);
 		} else {
 			var days = moment(e.startDate).diff(moment(), 'days');
 			var seconds = moment(e.startDate).diff(moment(), 'seconds');
 			var startDate = moment(e.startDate);
+			var endDays = moment(e.endDate).diff(moment(), 'days');
+			var endSeconds = moment(e.endDate).diff(moment(), 'seconds');
+			var endDate = moment(e.endDate);
 		}
 
 		//only add fututre events, days doesn't work, we need to check seconds
@@ -71,6 +79,17 @@ calendar.processEvents = function (url, events) {
 				this.eventList.push({'description':e.SUMMARY,'seconds':seconds,'days':time_string,'url': url, symbol: this.calendarSymbol});
 			}
 			e.seconds = seconds;
+		} else if  (endSeconds >= 0) {
+			// TODO: Replace with better lang handling
+			if (endSeconds <= 60*60*5 || endSeconds >= 60*60*24*2) {
+				var time_string = this.shortRunningText + ' ' + moment(endDate).fromNow(true);
+			}else {
+				var time_string = this.longRunningText + ' ' + moment(endDate).calendar()
+			}
+			if (!e.RRULE) {
+				this.eventList.push({'description':e.SUMMARY,'seconds':seconds,'days':time_string,'url': url, symbol: this.calendarSymbol});
+			}
+			e.seconds = endSeconds;
 		}
 		// Special handling for rrule events
 		if (e.RRULE) {
