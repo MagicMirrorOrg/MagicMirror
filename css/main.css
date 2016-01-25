@@ -195,12 +195,16 @@ canvas {
 	padding-bottom: 15px;
 }
 
+.traffic .padding {
+	padding-bottom: 15px;
+}
+
 .calendar-table {
 	font-size: 20px;
 	line-height: 20px;
-	margin-top: 10px;
+	/*margin-top: 10px;*/
 	font-family: "HelveticaNeue-Light";
-	padding-top: 5px;
+	/*padding-top: 5px;*/
 }
 .calendar-table .description {
 	padding-right: 10px;

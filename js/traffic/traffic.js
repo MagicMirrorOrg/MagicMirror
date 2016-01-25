@@ -49,7 +49,7 @@ traffic.updateCurrentTraffic = function () {
 					_trafficPhrase = 'Severe traffic';
 				}
 				
-				$(this.trafficLocation).updateWithText(_trafficPhrase + ', current commute is ' + _durationInTrafficMinutes, this.fadeInterval);				
+				$(this.trafficLocation).updateWithText('<p class="padding">' + _trafficPhrase + ', current commute is ' + _durationInTrafficMinutes, this.fadeInterval);				
 
 			}.bind(this),
 			error: function () {
