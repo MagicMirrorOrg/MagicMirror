@@ -12,6 +12,7 @@ var calendar = {
 		departure_time: keys.traffic.params.departure_time,
 		key: keys.traffic.params.key
 	},
+	traffic: config.calendar.traffic,
 	travelTime: 0,
 	travelBuffer: 300,
 	maximumEntries: keys.calendar.maximumEntries || 10
@@ -128,7 +129,7 @@ calendar.updateCalendar = function (eventList) {
 	
 	if(eventList.length > 0){
 
-		if (typeof eventList[0].location !== 'undefined') {
+		if (typeof eventList[0].location !== 'undefined' && calendar.traffic) {
 			var geocoder = new google.maps.Geocoder();
 
 			geocoder.geocode( { 'address': eventList[0].location}, function(results, status) {
