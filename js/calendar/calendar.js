@@ -128,82 +128,100 @@ calendar.updateCalendar = function (eventList) {
 	
 	if(eventList.length > 0){
 
-		for (var i in eventList) {
-			var e = eventList[i];
-	
-			var row = $('<tr/>').css('opacity',opacity);
-			row.append($('<td/>').html(e.description).addClass('description'));
-			row.append($('<td/>').html(e.days).addClass('days dimmed'));
-			table.append(row);
-            opacity -= 1 / (eventList.length + 5);
+		if (typeof eventList[0].location !== 'undefined') {
+			var geocoder = new google.maps.Geocoder();
 
-			if(i==0){
-				if (typeof e.location !== 'undefined') {
-					var geocoder = new google.maps.Geocoder();
-	
-					geocoder.geocode( { 'address': e.location}, function(results, status) {
+			geocoder.geocode( { 'address': eventList[0].location}, function(results, status) {
 
-						if (status === google.maps.GeocoderStatus.OK) {
-							var latitude = results[0].geometry.location.lat();
-							var longitude = results[0].geometry.location.lng();
-							calendar.params.destination = latitude + ',' + longitude;
+				if (status === google.maps.GeocoderStatus.OK) {
+					var latitude = results[0].geometry.location.lat();
+					var longitude = results[0].geometry.location.lng();
+					calendar.params.destination = latitude + ',' + longitude;
 
-							$.ajax({
-								type: 'GET',
-								url: 'controllers/traffic.php?',
-								dataType: 'json',
-								data: calendar.params,
-								success: function (data) {
-		
-									var _durationInTraffic = data.routes[0].legs[0].duration_in_traffic.value,
-										_durationInTrafficMinutes = data.routes[0].legs[0].duration_in_traffic.text;
-				
-									calendar.travelTime = _durationInTraffic;
-																									
-								}.bind(this),
-								error: function () {
-									calendar.travelTime = 0;
+					$.ajax({
+						type: 'GET',
+						url: 'controllers/traffic.php?',
+						dataType: 'json',
+						data: calendar.params,
+						success: function (data) {
+
+							var row = $('<tr/>').css('opacity', opacity);
+							row.append($('<td/>').html(eventList[0].description).addClass('description'));
+							row.append($('<td/>').html(eventList[0].days).addClass('days dimmed'));
+							table.append(row);
+							opacity -= 1 / (eventList.length + 5);
+
+							var travelTime = data.routes[0].legs[0].duration_in_traffic.value;
+
+							if(travelTime > 0){
+								var leaveByTimeSeconds = eventList[0].unixTime - (travelTime + calendar.travelBuffer);
+								var unix_time = moment().unix();
+								if (leaveByTimeSeconds > (unix_time + calendar.travelBuffer)){
+									var leaveByTime = new Date(leaveByTimeSeconds*1000);
+									var hours = leaveByTime.getHours();
+
+									if(hours>12){
+										hours-=12;
+									}
+
+									var minutes = "0" + leaveByTime.getMinutes();
+									var formattedTime = hours + ':' + minutes.substr(-2);
+									row = $('<tr/>').css('opacity',opacity);
+									row.append($('<td/>').html('Leave by ' + formattedTime).addClass('leaveby'));
+								} else {
+									row = $('<tr/>').css('opacity',opacity);
+									row.append($('<td/>').html('Leave now').addClass('leaveby'));
 								}
-							});						
-						} else {
-							calendar.travelTime = 0;
+
+								table.append(row);
+								opacity -= 1 / (eventList.length + 5);
+							}
+
+							for (var i in eventList) {
+								if(i>0) {
+									var e = eventList[i];
+
+									row = $('<tr/>').css('opacity', opacity);
+									row.append($('<td/>').html(e.description).addClass('description'));
+									row.append($('<td/>').html(e.days).addClass('days dimmed'));
+									table.append(row);
+									opacity -= 1 / (eventList.length + 5);
+								}
+							}
+							$(calendar.calendarLocation).updateWithText(table, this.fadeInterval);
+
+						}.bind(this),
+						error: function () {
+							calendar.fillTable(eventList,table);
 						}
-					}); 
+					});
 				} else {
-					calendar.travelTime = 0;
+					calendar.fillTable(eventList,table);
 				}
-			
-				if(calendar.travelTime > 0){
-					var leaveByTimeSeconds = e.unixTime - (calendar.travelTime + calendar.travelBuffer);
-					var unix_time = moment().unix();
-					if (leaveByTimeSeconds > (unix_time + calendar.travelBuffer)){
-						var leaveByTime = new Date(leaveByTimeSeconds*1000);
-						var hours = leaveByTime.getHours();
-					
-						if(hours>12){
-							hours-=12;
-						}
-				
-						var minutes = "0" + leaveByTime.getMinutes();
-						var formattedTime = hours + ':' + minutes.substr(-2);
-						row = $('<tr/>').css('opacity',opacity);
-						row.append($('<td/>').html('Leave by ' + formattedTime).addClass('leaveby'));
-					} else {
-						row = $('<tr/>').css('opacity',opacity);
-						row.append($('<td/>').html('Leave now').addClass('leaveby'));
-					}
-								
-					table.append(row);
-                    opacity -= 1 / (eventList.length + 5);
-				}
-			}
-			
+			});
+		} else {
+			calendar.fillTable(eventList,table);
 		}
-		$(this.calendarLocation).updateWithText(table, this.fadeInterval);
+
 	}else{
 		$(this.calendarLocation).updateWithText('', this.fadeInterval);
 	}
 
+}
+
+calendar.fillTable = function(eventList,table){
+	var opacity = 1;
+
+	for (var i in eventList) {
+		var e = eventList[i];
+
+		row = $('<tr/>').css('opacity', opacity);
+		row.append($('<td/>').html(e.description).addClass('description'));
+		row.append($('<td/>').html(e.days).addClass('days dimmed'));
+		table.append(row);
+		opacity -= 1 / (eventList.length + 5);
+	}
+	$(calendar.calendarLocation).updateWithText(table, this.fadeInterval);
 }
 
 calendar.init = function () {
