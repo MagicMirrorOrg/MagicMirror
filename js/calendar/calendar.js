@@ -188,7 +188,6 @@ calendar.updateCalendar = function (eventList) {
 									opacity -= 1 / (eventList.length + 5);
 								}
 							}
-							
 							$(calendar.calendarLocation).updateWithText(table, this.fadeInterval);
 
 						}.bind(this),
