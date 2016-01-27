@@ -16,7 +16,7 @@ var calendar = {
 	travelTime: 0,
 	travelBuffer: 300,
 	maximumEntries: keys.calendar.maximumEntries || 10
-}
+};
 
 calendar.updateData = function (callback) {
 
@@ -29,10 +29,10 @@ calendar.updateData = function (callback) {
 			var e = events[i];
 			for (var key in e) {
 				var value = e[key];
-				var seperator = key.search(';');
-				if (seperator >= 0) {
-					var mainKey = key.substring(0,seperator);
-					var subKey = key.substring(seperator+1);
+				var separator = key.search(';');
+				if (separator >= 0) {
+					var mainKey = key.substring(0,separator);
+					var subKey = key.substring(separator+1);
 
 					var dt;
 					if (subKey == 'VALUE=DATE') {
@@ -92,7 +92,7 @@ calendar.updateData = function (callback) {
 				var today = new Date();
 				var twoWeeks = new Date(today.getFullYear(), today.getMonth(), today.getDate()+14);
 				var dates = rule.between(today, twoWeeks, true, function (date, i){return i < 10});
-				for (date in dates) {
+				for (var date in dates) {
 					var dt = new Date(dates[date]);
 					var days = moment(dt).diff(moment(), 'days');
 					var seconds = moment(dt).diff(moment(), 'seconds');
@@ -107,7 +107,7 @@ calendar.updateData = function (callback) {
 					}           
 				}
 			}
-		};
+		}
 
 		this.eventList = this.eventList.sort(function(a,b){return a.seconds-b.seconds});
 
@@ -120,12 +120,12 @@ calendar.updateData = function (callback) {
 
 	}.bind(this));
 
-}
+};
 
 calendar.updateCalendar = function (eventList) {
 
-	table = $('<table/>').addClass('xsmall').addClass('calendar-table');
-	opacity = 1;
+	var table = $('<table/>').addClass('xsmall').addClass('calendar-table');
+	var opacity = 1;
 	
 	if(eventList.length > 0){
 
@@ -208,7 +208,7 @@ calendar.updateCalendar = function (eventList) {
 		$(this.calendarLocation).updateWithText('', this.fadeInterval);
 	}
 
-}
+};
 
 calendar.fillTable = function(eventList,table){
 	var opacity = 1;
@@ -216,14 +216,14 @@ calendar.fillTable = function(eventList,table){
 	for (var i in eventList) {
 		var e = eventList[i];
 
-		row = $('<tr/>').css('opacity', opacity);
+		var row = $('<tr/>').css('opacity', opacity);
 		row.append($('<td/>').html(e.description).addClass('description'));
 		row.append($('<td/>').html(e.days).addClass('days dimmed'));
 		table.append(row);
 		opacity -= 1 / (eventList.length + 5);
 	}
 	$(calendar.calendarLocation).updateWithText(table, this.fadeInterval);
-}
+};
 
 calendar.init = function () {
 
@@ -239,4 +239,4 @@ calendar.init = function () {
 		this.updateData(this.updateCalendar.bind(this));
 	}.bind(this), this.updateDataInterval);
 
-}
+};
