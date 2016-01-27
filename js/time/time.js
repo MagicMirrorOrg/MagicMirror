@@ -17,7 +17,7 @@ time.updateTime = function () {
 	$(this.dateLocation).html(_date);
 	$(this.timeLocation).html(_now.format(this.timeFormat+':mm[<span class="sec">]ss[</span>]'));
 
-}
+};
 
 time.init = function () {
 
@@ -31,4 +31,4 @@ time.init = function () {
 		this.updateTime();
 	}.bind(this), 1000);
 
-}
+};

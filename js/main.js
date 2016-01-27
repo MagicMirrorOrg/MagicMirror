@@ -11,7 +11,7 @@ jQuery.fn.updateWithText = function(text, speed)
 			});
 		});
 	}
-}
+};
 
 jQuery.fn.outerHTML = function(s) {
     return s

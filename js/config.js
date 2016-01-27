@@ -20,7 +20,7 @@ var config = {
         ],
         afternoon: [
             'You look nice!',
-            'You look terrifc!',
+            'You look terrific!',
             "You're not a total idiot!",
 			'Well done!',
 			'Nice fine motor control!',

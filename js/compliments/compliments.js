@@ -35,7 +35,7 @@ compliments.updateCompliment = function () {
 		if(dateDay == this.birthdayList[i].day && dateMonth == this.birthdayList[i].month){
 			birthdayToday = true;
 			var birthdayName = this.birthdayList[i].name;
-		};
+		}
 	}
 
 	if (birthdayToday) {
@@ -78,7 +78,7 @@ compliments.updateCompliment = function () {
 	
 	$(this.complimentLocation).updateWithText(compliments.currentCompliment, compliments.fadeInterval);
 
-}
+};
 
 compliments.init = function () {
 
@@ -88,4 +88,4 @@ compliments.init = function () {
 		this.updateCompliment();
 	}.bind(this), this.updateInterval)
 
-}
+};

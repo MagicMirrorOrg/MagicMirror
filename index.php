@@ -19,7 +19,7 @@
 	<div class="lower-third center-hor"><div class="compliment light"></div></div>
 	<div class="bottom center-hor"><div class="news medium"></div></div>
 
-</div>
+
 
 <script src="js/jquery.js"></script>
 <script src="js/jquery.feedToJSON.js"></script>
