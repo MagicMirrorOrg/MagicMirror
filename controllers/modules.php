@@ -25,12 +25,12 @@
 				print_r('<link rel="stylesheet" type="text/css" href="/modules/'.$module.'/'.$file.'">'."\xA");
 			}
 		};
-		
-		//Get and add HTML Elements
-		print_r(file_get_contents($module.'/elements.html'));
+	
 		//Add the modules JS file
 		print_r('<script src="'.$module.'/main.js" type="text/javascript"></script>'."\xA");
 		//Add the modules CSS file
 		print_r('<link rel="stylesheet" type="text/css" href="'.$module.'/style.css">'."\xA");
+		//Get and add HTML Elements
+		print_r(file_get_contents($module.'/elements.html'));
 	}
 ?>
