@@ -73,9 +73,9 @@ var config = {
 		weekEnd: 5,				//Day of the week, Sunday = 0, etc
 		startTimeHour: 9, 		//Hour of the day you at which you start work, in 24H format
 		startTimeMinute: 0, 	//Minute of the day you at which you start work
-		preTime: 3				//How many hours before work you'd like to see traffic info		
+		preTime: 3				//How many hours before work you'd like to see traffic info
 	},
 	calendar: {
 		traffic: true
 	}
-}
+};
