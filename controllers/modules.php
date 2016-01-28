@@ -31,6 +31,6 @@
 		//Add the modules CSS file
 		print_r('<link rel="stylesheet" type="text/css" href="'.$module.'/style.css">'."\xA");
 		//Get and add HTML Elements
-		print_r(file_get_contents($module.'/elements.html'));
+		print_r(str_replace("[module]",$module ,file_get_contents($module.'/elements.html')));
 	}
 ?>
