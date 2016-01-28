@@ -1,6 +1,10 @@
 <?php
-	$modules = array_filter(glob('modules/*'), 'is_dir');
+	$modules_folder = 'modules/';
+	$modules = array_filter(glob($modules_folder."*"), 'is_dir');
 	foreach ($modules as &$module) {
+		//Add container arround module
+		print_r( '<div id="'.substr($module, strlen($modules_folder)).'">' );
+		
 		//Load files to include
 		$include_files = include($module."/include.php");
 		//Add Javascript files
@@ -32,5 +36,8 @@
 		print_r('<link rel="stylesheet" type="text/css" href="'.$module.'/style.css">'."\xA");
 		//Get and add HTML Elements
 		print_r(str_replace("[module]",$module ,file_get_contents($module.'/elements.html')));
+		
+		//Close module container
+		print_r("</div>");
 	}
 ?>
