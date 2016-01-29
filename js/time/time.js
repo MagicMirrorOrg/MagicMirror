@@ -2,8 +2,10 @@ var time = {
 	timeFormat: config.time.timeFormat || 24,
 	dateLocation: '.date',
 	timeLocation: '#time',
-	updateInterval: 10000,
-	intervalId: null
+	updateInterval: 1000,
+	intervalId: undefined,
+	displaySeconds: (typeof config.time.displaySeconds == 'undefined') ? true : config.time.displaySeconds,
+
 };
 
 /**
@@ -16,21 +18,56 @@ time.updateTime = function () {
 	
 	$(this.dateLocation).updateWithText(_date, 1000);
 	$('.fade').removeClass('fade')
-	var diff = $('<div>').html(_now.format(this._timeFormat+':mm').replace(/./g, "<span>$&</span>"));
-	diff.children().each(function( index ) {
+	var html = ''
+	if (this.displaySeconds) {
+		html = _now.format(this._timeFormat+':mm').replace(/./g, '<span class="digit">$&</span>') + 
+			'<span class="sec">' + _now.format('ss').replace(/./g, '<span class="digit">$&</span>') + '</span>';
+		if (typeof this.intervalId == 'undefined') {
+			this.intervalId = setInterval(function () {
+				this.updateTime();
+			}.bind(this), this.updateInterval);
+		}
+	} else {
+		html = _now.format(this._timeFormat+':mm').replace(/./g, '<span class="digit">$&</span>');
+		if (this.intervalId) {
+			clearInterval(this.intervalId);
+			this.intervalId = undefined;
+		}
+		seconds = 60 - (new Date()).getSeconds();
+		setTimeout(function () {
+			this.updateTime();
+		}.bind(this), seconds*1000);
+	}
+	var diff = $('<div>').html(html);
+	diff.find('.digit').each(function( index ) {
 		var _text  = $( this ).text();
 		var _i = index+1;
-		var _text2 = $(timeLocation + ' span:nth-child('+_i+')').text();
-		if (_text != _text2) {
-			$(timeLocation +' span:nth-child('+_i+')').addClass('fade');
+		var liveNode = $(timeLocation).find('.digit')[index] 
+		if (typeof liveNode != 'undefined') {
+			liveNode = $(liveNode);
+			var _text2 = liveNode.text();
+			if (_text != _text2) {
+				
+				liveNode.addClass('fade');
+				$(this).addClass('fade');
+			}
+		} else {
 			$(this).addClass('fade');
 		}
 	});
-	$('.fade').fadeTo(400, 0.25, function() {
+	if ($('.fade').length == 0) {
+		// Initial Update
 		$(timeLocation).html(diff.html());
-		$(timeLocation).children().fadeTo(400, 1).removeClass('fade');
-	}).bind(this);
-
+		diff = undefined;
+	} else {
+		$('.fade').fadeTo(400, 0.25, function() {
+			if (typeof diff != 'undefined') {
+				$(timeLocation).html(diff.html());
+				diff = undefined;
+			}
+			$('.fade').fadeTo(400, 1).removeClass('fade');
+		}).bind(this);
+	}
 }
 
 time.init = function () {
@@ -40,11 +77,6 @@ time.init = function () {
 	} else {
 		time._timeFormat = 'HH';
 	}
-	$(this.timeLocation).html('<span class="fade"></span>');
-
-	this.intervalId = setInterval(function () {
-		this.updateTime();
-	}.bind(this), this.updateInterval);
 	this.updateTime();
 
 }
