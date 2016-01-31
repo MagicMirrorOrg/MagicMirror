@@ -34,7 +34,9 @@ Takes an array of news feeds (or a single string) from the config file and retri
 
 ###[Time](js/time)
 
-Updates the time on the screen on one second interval.
+Updates the time on the screen on one second interval. Can be changed to omit displaying seconds by adding the config option ```displaySeconds = false``` in [config.js](js/config.js). When the seconds are disabled the interval is set to 60 seconds on the full minute.
+
+With the option ```digitFade = true```, changing digits are faded. This looks best if the seconds are omitted.
 
 ###[Version](js/version)
 
