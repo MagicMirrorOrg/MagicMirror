@@ -1,0 +1,3 @@
+[submodule "modules/test-module"]
+	path = modules/test-module
+	url = https://github.com/bitte-ein-bit/Magic-Mirror_Test-Module.git
