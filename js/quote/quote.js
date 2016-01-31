@@ -5,14 +5,13 @@ var quote = {
 	feed: config.quote.feed || null,
 	quoteLocation: '.quote',
 	quoteItems: [],
-	seenquoteItems: [],
-	allSeen: false,
+	seenquoteItem: [],
 	_yqURL: 'http://query.yahooapis.com/v1/public/yql',
 	_yqlQS: '?format=json&q=select%20*%20from%20rss%20where%20url%3D',
 	_cacheBuster: Math.floor((new Date().getTime()) / 1200 / 1000),
 	_failedAttempts: 0,
 	fetchInterval: config.quote.fetchInterval || 7000000,
-	updateInterval: config.quote.updateInterval || 20000,
+	updateInterval: config.quote.interval || 5500,
 	fadeInterval: 2000,
 	intervalId: null,
 	fetchquoteIntervalId: null,
@@ -88,15 +87,9 @@ quote.parseFeed = function (data) {
 		_rssItems.push(data[i].description);
 
 	}
-	// Over write old quotes if all quotes have been seen
-	if(this.allSeen === true){
-		this.quoteItems = _rssItems;
-		this.allSeen = false;
-	}
-	else{
-		this.quoteItems = this.quoteItems.concat(_rssItems);
-	}
-	
+
+	this.quoteItems = this.quoteItems.concat(_rssItems);
+
 	return true;
 
 }
@@ -109,31 +102,28 @@ quote.parseFeed = function (data) {
 quote.showquote = function () {
 
 	// If all items have been seen, swap seen to unseen
-	// if (this.quoteItems.length === 0 && this.seenquoteItems.length !== 0) {
+	if (this.quoteItems.length === 0 && this.seenquoteItem.length !== 0) {
 
-		// if (this._failedAttempts === 20) {
-			// console.error('Failed to show a quote story 20 times, stopping any attempts');
-			// return false;
-		// }
+		if (this._failedAttempts === 20) {
+			console.error('Failed to show a quote story 20 times, stopping any attempts');
+			return false;
+		}
 
-		// this._failedAttempts++;
+		this._failedAttempts++;
 
-		// setTimeout(function () {
-			// this.showquote();
-		// }.bind(this), 3000);
+		setTimeout(function () {
+			this.showquote();
+		}.bind(this), 3000);
 
-	// } else 
-		if (this.quoteItems.length === 0 && this.seenquoteItems.length !== 0) {
-		// this.quoteItems = this.seenquoteItems.splice(0);
-		this.quoteItems = this.seenquoteItems.filter(Boolean);
-		this.allSeen = true;
+	} else if (this.quoteItems.length === 0 && this.seenquoteItem.length !== 0) {
+		this.quoteItems = this.seenquoteItem.splice(0);
 	}
 
 	var _location = Math.floor(Math.random() * this.quoteItems.length);
 
 	var _item = quote.quoteItems.splice(_location, 1)[0];
 
-	this.seenquoteItems.push(_item);
+	this.seenquoteItem.push(_item);
 
 	$(this.quoteLocation).updateWithText(_item, this.fadeInterval);
 
