@@ -3,7 +3,7 @@ var config = {
     time: {
         timeFormat: 12
     },
-	// Choose to display a 'quote' (rotating quotes of the day), 'compliment' (from the list below) or 'both'
+	// Choose to display a 'quote' (rotating quotes of the day), 'compliment' (from the list below) or 'both', or 'none' (show neither)
     display: 'quote',
     weather: {
         //change weather params here:
