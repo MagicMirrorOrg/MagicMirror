@@ -27,9 +27,11 @@
 					}
 				}
 			}
-			$all_modules[$name][] = array (
-				'type' => 'elements',
-				'data' => str_replace("[module]",$module ,file_get_contents($module.'/elements.html')),
-			);
+			if (file_exists($module."/elements.html")) {
+				$all_modules[$name][] = array (
+					'type' => 'elements',
+					'data' => str_replace("[module]",$module ,file_get_contents($module.'/elements.html')),
+				);
+			}
 		}
 	}
