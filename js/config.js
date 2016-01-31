@@ -3,6 +3,8 @@ var config = {
     time: {
         timeFormat: 12
     },
+	// Choose to display a 'quote' (rotating quotes of the day), 'compliment' (from the list below) or 'both'
+    display: 'quote',
     weather: {
         //change weather params here:
         //units: metric or imperial
@@ -66,7 +68,7 @@ var config = {
 	quote: {
         // fadeInterval: 4000,
 		fetchInterval: 3700000,
-		updateInterval: 7000,
+		updateInterval: 20000,
 		feed: 'http://feeds.feedburner.com/theysaidso/qod'
 	}
 }
