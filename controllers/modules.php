@@ -35,3 +35,24 @@
 			}
 		}
 	}
+	
+	$elements = '';
+	$scripts = '';
+	$css = '';
+	foreach($all_modules as $name => $module_data) {
+		foreach($module_data as $data) {
+			switch ($data['type']) {
+				case 'js':
+					$scripts .= sprintf("\t".'<script src="%s" type="text/javascript"></script>'."\n", $data['url']);
+					break;
+				case 'css':
+					$css .= sprintf("\t".'<link rel="stylesheet" type="text/css" href="%s" />'."\n", $data['url']);
+					break;
+				case 'elements':
+					$elements .= sprintf('<div id="%s">%s</div>'."\n", $name, $data['data']);
+					break;
+				default:
+					break;
+			}
+		}
+	}
