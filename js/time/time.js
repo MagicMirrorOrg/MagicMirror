@@ -5,7 +5,7 @@ var time = {
 	updateInterval: 1000,
 	intervalId: undefined,
 	displaySeconds: (typeof config.time.displaySeconds == 'undefined') ? true : config.time.displaySeconds,
-	digitFade: (typeof config.time.digitFade == 'undefined') ? true : config.time.digitFade,
+	digitFade: (typeof config.time.digitFade == 'undefined') ? false : config.time.digitFade,
 };
 
 /**
