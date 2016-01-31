@@ -79,7 +79,7 @@ calendar.processEvents = function (url, events) {
 				this.eventList.push({'description':e.SUMMARY,'seconds':seconds,'days':time_string,'url': url, symbol: this.calendarSymbol});
 			}
 			e.seconds = seconds;
-		} else if  (endSeconds >= 0) {
+		} else if  (endSeconds > 0) {
 			// TODO: Replace with better lang handling
 			if (endSeconds <= 60*60*5 || endSeconds >= 60*60*24*2) {
 				var time_string = this.shortRunningText + ' ' + moment(endDate).fromNow(true);
