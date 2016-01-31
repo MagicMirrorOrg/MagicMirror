@@ -3,11 +3,13 @@
 return array(
 	'js_files' => array(
 		//"http://spiegel.local:1234/socket.io/socket.io.js",
-		//"js/somefile.js"
+		//"js/somefile.js",
+		'main.js',
 	),
 	'css_files' => array(
 		//"css/randomfile.css",
-		//"https://example.com/test.css"
+		//"https://example.com/test.css",
+		'main.css',
 	)
 );
 ?>

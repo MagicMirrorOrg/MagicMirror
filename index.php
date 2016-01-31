@@ -1,11 +1,37 @@
 <html>
 <head>
+	<?php include('controllers/modules.php');?>
 	<title>Magic Mirror</title>
 	<style type="text/css">
 		<?php include('css/main.css') ?>
 	</style>
 	<link rel="stylesheet" type="text/css" href="css/weather-icons.css">
 	<link rel="stylesheet" type="text/css" href="css/font-awesome.css">
+<?php 
+	$elements = '';
+	foreach($all_modules as $name => $module_data) {
+		foreach($module_data as $data) {
+			$print = true;
+			switch ($data['type']) {
+				case 'js':
+					$node_template = '<script src="%s" type="text/javascript"></script>';
+					break;
+				case 'css':
+					$node_template = '<link rel="stylesheet" type="text/css" href="%s">';
+					break;
+				case 'elements':
+					$elements .= sprintf('<div id="%s">%s</div>', $name, $data['data']);
+					$print = false;
+					break;
+				default:
+					$node_template = '<!-- %s -->';
+					break;
+			}
+			if ($print) {
+				printf("\t".$node_template."\n", $data['url']);
+			}
+		}
+	} ?>
 	<script type="text/javascript">
 		var gitHash = '<?php echo trim(`git rev-parse HEAD`) ?>';
 	</script>
@@ -19,8 +45,7 @@
 	<div class="center-ver center-hor"><!-- <div class="dishwasher light">Vaatwasser is klaar!</div> --></div>
 	<div class="lower-third center-hor"><div class="compliment light"></div></div>
 	<div class="bottom center-hor"><div class="news medium"></div></div>
-
-</div>
+	<?php echo $elements; ?>
 
 <script src="js/jquery.js"></script>
 <script src="js/jquery.feedToJSON.js"></script>
@@ -36,6 +61,6 @@
 <script src="js/news/news.js"></script>
 <script src="js/main.js?nocache=<?php echo md5(microtime()) ?>"></script>
 <!-- <script src="js/socket.io.min.js"></script> -->
-<?php  include(dirname(__FILE__).'/controllers/modules.php');?>
+
 </body>
 </html>
