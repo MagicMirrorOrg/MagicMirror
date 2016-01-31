@@ -38,7 +38,7 @@ var config = {
     calendar: {
         maximumEntries: 10, // Total Maximum Entries
 		displaySymbol: true,
-		defaultSymbol: 'ICAL URL Here', // Fontawsome Symbol see http://fontawesome.io/cheatsheet/
+		defaultSymbol: 'calendar', // Fontawsome Symbol see http://fontawesome.io/cheatsheet/
         urls: [
 		{
 			symbol: 'calendar-plus-o', 
