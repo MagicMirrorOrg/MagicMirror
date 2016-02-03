@@ -7,7 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="css/weather-icons.css">
 	<link rel="stylesheet" type="text/css" href="css/font-awesome.css">
 	<script type="text/javascript">
-		var gitHash = '<?php echo trim(`git rev-parse HEAD`) ?>';
+		var gitHash = '<?php include('controllers/hash.php') ?>';
 	</script>
 	<meta name="google" value="notranslate" />
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
