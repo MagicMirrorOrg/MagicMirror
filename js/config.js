@@ -5,6 +5,8 @@ var config = {
         displaySeconds: true,
         digitFade: false,
     },
+	// Choose to display a 'quote' (rotating quotes of the day), 'compliment' (from the list below) or 'both', or 'none' (show neither)
+    display: 'quote',
     weather: {
         //change weather params here:
         //units: metric or imperial
@@ -64,5 +66,11 @@ var config = {
     },
     news: {
         feed: 'http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml'
-    }
+    },
+	quote: {
+        // fadeInterval: 4000,
+		fetchInterval: 3700000,
+		updateInterval: 20000,
+		feed: 'http://feeds.feedburner.com/theysaidso/qod'
+	}
 }

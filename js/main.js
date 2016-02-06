@@ -56,5 +56,7 @@ jQuery(document).ready(function($) {
 	weather.init();
 
 	news.init();
+	
+	quote.init();
 
 });

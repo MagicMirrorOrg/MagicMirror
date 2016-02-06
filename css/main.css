@@ -181,6 +181,10 @@ html {
   text-align: right;
 }
 
+.quotes {
+	line-height: 60px;
+}
+
 .dishwasher {
   background-color: white;
   color: black;
