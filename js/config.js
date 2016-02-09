@@ -3,7 +3,7 @@ var config = {
     time: {
         timeFormat: 24,
         displaySeconds: true,
-        digitFade: true,
+        digitFade: false,
     },
     weather: {
         //change weather params here:
@@ -13,7 +13,7 @@ var config = {
             units: 'metric',
             // if you want a different lang for the weather that what is set above, change it here
             lang: 'de',
-            APPID: 'a250e3c3974146ebdd0d8dc7531a18d0'
+            APPID: 'YOUR_FREE_OPENWEATHER_API_KEY'
         }
     },
     compliments: {
@@ -41,18 +41,21 @@ var config = {
 		defaultSymbol: 'calendar', // Fontawsome Symbol see http://fontawesome.io/cheatsheet/
         urls: [
 		{
-			symbol: 'fa fa-car',
-			url: 'http://www.f1calendar.com/download/f1-calendar_gp.ics',
+			symbol: 'calendar-plus-o', 
+			url: 'https://p01-calendarws.icloud.com/ca/subscribe/1/n6x7Farxpt7m9S8bHg1TGArSj7J6kanm_2KEoJPL5YIAk3y70FpRo4GyWwO-6QfHSY5mXtHcRGVxYZUf7U3HPDOTG5x0qYnno1Zr_VuKH2M'
 		},
 		{
-			symbol: ' fa-thumbs-o-up',
-			url: "http://www.ifeiertage.de/by-sk.ics",
+			symbol: 'soccer-ball-o',
+			url: 'https://www.google.com/calendar/ical/akvbisn5iha43idv0ktdalnor4%40group.calendar.google.com/public/basic.ics',
 		},
-		//kalender ronny
-		{
-			symbol: ' fa-calendar',
-			url: "https://p03-calendarws.icloud.com/ca/subscribe/1/wS3q4HczPRliFU8O_5VcP12D70dxo6siCCozpQEC84vpL7DeDbLbhNz5oYvNkR36",
-		},
+		// {
+			// symbol: 'mars',
+			// url: "https://server/url/to/his.ics",
+		// },
+		// {
+			// symbol: 'venus',
+			// url: "https://server/url/to/hers.ics",
+		// },
 		// {
 			// symbol: 'venus-mars',
 			// url: "https://server/url/to/theirs.ics",
@@ -60,6 +63,6 @@ var config = {
 		]
     },
     news: {
-        feed: 'http://www.tagesschau.de/xml/rss2'
+        feed: 'http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml'
     }
 }
