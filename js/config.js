@@ -1,24 +1,23 @@
 var config = {
-    lang: 'nl',
+    lang: 'en',
     time: {
         timeFormat: 12,
         displaySeconds: true,
         digitFade: false,
     },
     weather: {
-        //change weather params here:
         //units: metric or imperial
         params: {
-            q: 'Baarn,Netherlands',
-            units: 'metric',
+            q: 'Chicago,IL,USA',
+            units: 'imperial',
             // if you want a different lang for the weather that what is set above, change it here
-            lang: 'nl',
-            APPID: 'YOUR_FREE_OPENWEATHER_API_KEY'
+            lang: 'en',
+            APPID: 'b227a533d15d3d8af2396ed411cb56a6'
         }
     },
     compliments: {
         interval: 30000,
-        fadeInterval: 4000,
+        fadeInterval: 1000,
         morning: [
             'Good morning, handsome!',
             'Enjoy your day!',
@@ -42,27 +41,11 @@ var config = {
         urls: [
 		{
 			symbol: 'calendar-plus-o', 
-			url: 'https://p01-calendarws.icloud.com/ca/subscribe/1/n6x7Farxpt7m9S8bHg1TGArSj7J6kanm_2KEoJPL5YIAk3y70FpRo4GyWwO-6QfHSY5mXtHcRGVxYZUf7U3HPDOTG5x0qYnno1Zr_VuKH2M'
+			url: 'https://calendar.google.com/calendar/ical/ryancowan%40gmail.com/private-5faa219a5c3a60dcc4672772db012b05/basic.ics'
 		},
-		{
-			symbol: 'soccer-ball-o',
-			url: 'https://www.google.com/calendar/ical/akvbisn5iha43idv0ktdalnor4%40group.calendar.google.com/public/basic.ics',
-		},
-		// {
-			// symbol: 'mars',
-			// url: "https://server/url/to/his.ics",
-		// },
-		// {
-			// symbol: 'venus',
-			// url: "https://server/url/to/hers.ics",
-		// },
-		// {
-			// symbol: 'venus-mars',
-			// url: "https://server/url/to/theirs.ics",
-		// },
 		]
     },
     news: {
-        feed: 'http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml'
+        feed: 'http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/front_page/rss.xml'
     }
 }
