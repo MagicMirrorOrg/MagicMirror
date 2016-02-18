@@ -26,9 +26,9 @@ function roundVal(temp)
 
 jQuery(document).ready(function($) {
 
-	var eventList = [];
+    var eventList = [];
 
-	var lastCompliment;
+    var lastCompliment;
 	var compliment;
 
     moment.locale(config.lang);
@@ -49,7 +49,7 @@ jQuery(document).ready(function($) {
 
 	time.init();
 
-	calendar.init();
+	//calendar.init();
 
 	compliments.init();
 
