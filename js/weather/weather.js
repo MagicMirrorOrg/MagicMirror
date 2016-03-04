@@ -129,7 +129,11 @@ weather.updateWeatherForecast = function () {
 			for (var i = 0, count = data.list.length; i < count; i++) {
 
 				var _forecast = data.list[i];
-				
+
+				//don't show yesterday's forecast; each date, .dt is 12p local;
+				var _12hours = 60 * 60 * 12 * 1000;
+				if (_forecast.dt < Math.floor((Date.now() - _12hours) / 1000)) continue;
+
 				if (this.orientation == 'vertical') {
 					_forecastHtml2 = '';
 					_forecastHtml3 = '';
