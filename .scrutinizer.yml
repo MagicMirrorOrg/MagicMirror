@@ -1,0 +1,7 @@
+checks:
+  php:
+    code_rating: true
+    duplication: false
+tools:
+  js_hint:
+    use_native_config: true
