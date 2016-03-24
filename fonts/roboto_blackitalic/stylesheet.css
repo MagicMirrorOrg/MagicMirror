@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'robotoblack_italic';
+    src: url('Roboto-BlackItalic-webfont.eot');
+    src: url('Roboto-BlackItalic-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Roboto-BlackItalic-webfont.woff') format('woff'),
+         url('Roboto-BlackItalic-webfont.ttf') format('truetype'),
+         url('Roboto-BlackItalic-webfont.svg#robotoblack_italic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
