@@ -1,0 +1,27 @@
+{
+  "name": "Magic-Mirror",
+  "version": "2.0.0",
+  "description": "A modular interface for smart mirrors.",
+  "main": "js/electron.js",
+  "scripts": {
+    "start": "electron js/electron.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MichMich/MagicMirror.git"
+  },
+  "keywords": [
+    "magic mirror",
+    "smart mirror",
+    "mirror UI"
+  ],
+  "author": "MichMich and others",
+  "license": "?",
+  "bugs": {
+    "url": "https://github.com/MichMich/MagicMirror/issues"
+  },
+  "homepage": "https://github.com/MichMich/MagicMirror#readme",
+  "devDependencies": {
+    "electron-prebuilt": "^0.36.0"
+  }
+}
