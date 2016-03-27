@@ -15,7 +15,7 @@ let mainWindow;
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600, fullscreen: true});
+  mainWindow = new BrowserWindow({width: 800, height: 600, fullscreen: true, "node-integration": false});
 
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname + '../../index.html');
@@ -33,9 +33,9 @@ function createWindow () {
 }
 
 //Start helper scripts
-var walker  = walk.walk(__dirname + '/../modules', { followLinks: false });
+var module_loader  = walk.walk(__dirname + '/../modules', { followLinks: false });
 
-walker.on('file', function(root, stat, next) {
+module_loader.on('file', function(root, stat, next) {
   if (stat.name == "node_helper.js"){
     require(root + '/' + stat.name);
   }
@@ -43,7 +43,7 @@ walker.on('file', function(root, stat, next) {
   next();
 });
 
-walker.on('end', function() {
+module_loader.on('end', function() {
   console.log("Helpers startet");
 });  
 
