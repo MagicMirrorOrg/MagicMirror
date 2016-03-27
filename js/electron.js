@@ -15,7 +15,7 @@ let mainWindow;
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600, fullscreen: true, "node-integration": false});
+  mainWindow = new BrowserWindow({width: 800, height: 600,  fullscreen: true, "auto-hide-menu-bar": true, "node-integration": false});
 
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname + '../../index.html');
@@ -32,19 +32,23 @@ function createWindow () {
   });
 }
 
-//Start helper scripts
+//Walk module folder and get file names
 var module_loader  = walk.walk(__dirname + '/../modules', { followLinks: false });
 
+//for each file in modules
 module_loader.on('file', function(root, stat, next) {
+  //if file is called node_helper.js load it
   if (stat.name == "node_helper.js"){
     require(root + '/' + stat.name);
+    //Log module name  
+    var module = (root + '/' + stat.name).split("/")
+    console.log("Started helper script for module " + module[module.length-2] + ".");
   }
-
   next();
 });
 
 module_loader.on('end', function() {
-  console.log("Helpers startet");
+  console.log("All helpers started.");
 });  
 
 // This method will be called when Electron has finished
