@@ -1,5 +1,8 @@
 'use strict';
 
+//for searching modules
+const walk = require('walk');
+
 const electron = require('electron');
 // Module to control application life.
 const app = electron.app;
@@ -28,6 +31,21 @@ function createWindow () {
     mainWindow = null;
   });
 }
+
+//Start helper scripts
+var walker  = walk.walk(__dirname + '/../modules', { followLinks: false });
+
+walker.on('file', function(root, stat, next) {
+  if (stat.name == "node_helper.js"){
+    require(root + '/' + stat.name);
+  }
+
+  next();
+});
+
+walker.on('end', function() {
+  console.log("Helpers startet");
+});  
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
