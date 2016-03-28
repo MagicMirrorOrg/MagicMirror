@@ -2,6 +2,7 @@
 
 //for searching modules
 const walk = require('walk');
+const spawn = require('child_process').spawn;
 
 const electron = require('electron');
 // Module to control application life.
@@ -39,7 +40,8 @@ var module_loader  = walk.walk(__dirname + '/../modules', { followLinks: false }
 module_loader.on('file', function(root, stat, next) {
   //if file is called node_helper.js load it
   if (stat.name == "node_helper.js"){
-    require(root + '/' + stat.name);
+    //start module as child
+    spawn('node', [root + '/' + stat.name])
     //Log module name  
     var module = (root + '/' + stat.name).split("/")
     console.log("Started helper script for module " + module[module.length-2] + ".");
