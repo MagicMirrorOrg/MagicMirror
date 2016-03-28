@@ -13,16 +13,20 @@
   "keywords": [
     "magic mirror",
     "smart mirror",
-    "mirror UI"
+    "mirror UI",
+    "modular"
   ],
-  "author": "MichMich and others",
+  "author": "Michael Teeuw",
+  "contributors": "https://github.com/MichMich/MagicMirror/graphs/contributors",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/MichMich/MagicMirror/issues"
   },
   "homepage": "https://github.com/MichMich/MagicMirror#readme",
   "devDependencies": {
-    "electron-prebuilt": "^0.36.0",
+    "electron-prebuilt": "latest"
+  },
+  "Dependencies": {
     "walk": "latest"
-  }
+    }
 }
