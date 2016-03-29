@@ -19,5 +19,6 @@ Things that still have to be implemented or changed.
 ####Helper scripts
 - Only start helper scripts of modules that are actually loaded in the UI (config.js)
 - Notification system, so that not every helper scripts needs it's own socket to the UI.
+- `modules/newsfeed/node_helper.js` now spawns it's own epxress webserver on port 8080. We need to create a solution for every module that needs a server side url.
 
 

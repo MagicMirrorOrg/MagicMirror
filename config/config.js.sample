@@ -38,10 +38,11 @@ var config = {
 			}
 		},
 		{
-			module: 'helloworld',
+			module: 'newsfeed',
 			position: 'bottom_bar',
 			config: {
-				text: 'Magic Mirror V2'
+				feedUrl: 'http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml',
+				showPublishDate: true,
 			}
 		},
 	]
