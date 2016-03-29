@@ -40,11 +40,29 @@ var module_loader  = walk.walk(__dirname + '/../modules', { followLinks: false }
 module_loader.on('file', function(root, stat, next) {
   //if file is called node_helper.js load it
   if (stat.name == "node_helper.js"){
+    var module = (root + '/' + stat.name).split("/");
+    var moduleName = module[module.length-2];
+
     //start module as child
-    spawn('node', [root + '/' + stat.name])
+    var child = spawn('node', [root + '/' + stat.name])
+
+    // Make sure the output is logged.
+    child.stdout.on('data', function(data) {
+        process.stdout.write(moduleName + ': ' + data);
+    });
+
+    child.stderr.on('data', function(data) {
+        process.stdout.write(moduleName + ': ' + data);
+    });
+    
+    child.on('close', function(code) {
+        console.log(moduleName + ' closing code: ' + code);
+    });
+
+
     //Log module name  
-    var module = (root + '/' + stat.name).split("/")
-    console.log("Started helper script for module " + module[module.length-2] + ".");
+    
+    console.log("Started helper script for module " + moduleName + ".");
   }
   next();
 });
