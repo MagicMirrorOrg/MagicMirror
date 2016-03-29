@@ -22,10 +22,18 @@ var MM = (function() {
 		for (var m in modules) {
 			var module = modules[m];
 			if (module.data.position) {
-				var dom = document.createElement("div");
-				dom.id = module.identifier;
 
 				var wrapper = selectWrapper(module.data.position);
+
+				if (typeof module.data.header !== 'undefined' && module.data.header !== '') {
+					var header = document.createElement("header");
+					header.innerHTML = module.data.header;
+					wrapper.appendChild(header);
+				}
+
+				var dom = document.createElement("div");
+				dom.id = module.identifier;
+				dom.className = module.name;
 				wrapper.appendChild(dom);
 
 				dom.appendChild(module.getDom());
@@ -75,10 +83,19 @@ var MM = (function() {
 	 */
 	var updateDom = function(module, speed) {
 		var wrapper = document.getElementById(module.identifier);
+		var newContent = module.getDom();
+
+		var tempWrapper = document.createElement('div');
+		tempWrapper.appendChild(newContent);
+
+		if (tempWrapper.innerHTML === wrapper.innerHTML) {
+			// Content did not change. Abort update.
+			return;
+		}
 
 		if (!speed) {
 			wrapper.innerHTML = null;
-			wrapper.appendChild(module.getDom());
+			wrapper.appendChild(newContent);
 			return;
 		}
 
@@ -88,7 +105,7 @@ var MM = (function() {
 
 		setTimeout(function() {
 			wrapper.innerHTML = null;
-			wrapper.appendChild(module.getDom());
+			wrapper.appendChild(newContent);
 
 			wrapper.style.opacity = 1;			
 		}, speed / 2);

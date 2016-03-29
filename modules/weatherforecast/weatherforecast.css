@@ -1,0 +1,18 @@
+.weatherforecast .day {
+	padding-left: 0px;
+	padding-right: 20px;
+}
+
+.weatherforecast .weather-icon {
+	padding-right: 30px;
+}
+
+.weatherforecast .min-temp {
+	padding-left: 10px;
+	padding-right: 0px;
+}
+
+.weatherforecast table {
+	border-spacing: 0px;
+    border-collapse: separate;
+}

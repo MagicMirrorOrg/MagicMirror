@@ -80,6 +80,7 @@ var Loader = (function() {
 				path: config.paths.modules + '/' +  module,
 				file: module + '.js',
 				position: moduleData.position,
+				header: moduleData.header,
 				config: moduleData.config
 			});
 

@@ -9,6 +9,7 @@
 var config = {
 
 	language: 'en',
+	timeFormat: 24,
 
 	modules: [
 		{
@@ -20,8 +21,21 @@ var config = {
 			position: 'lower_third',
 		},
 		{
-			module: 'helloworld',
-			position: 'top_right'
+			module: 'currentweather',
+			position: 'top_right',
+			config: {
+				location: 'New York',
+				appid: 'YOUR_OPENWEATHER_API_KEY'
+			}
+		},
+		{
+			module: 'weatherforecast',
+			position: 'top_right',
+			header: 'Weather Forecast',
+			config: {
+	            location: 'New York',
+	            appid: 'YOUR_OPENWEATHER_API_KEY'
+			}
 		},
 		{
 			module: 'helloworld',

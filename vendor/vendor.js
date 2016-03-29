@@ -9,4 +9,5 @@
 
 var vendor = {
 	'moment.js' : 'moment/moment-with-locales.min.js',
+	'weather-icons.css': 'weather-icons/weather-icons.css'
 };

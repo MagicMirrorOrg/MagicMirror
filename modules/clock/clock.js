@@ -11,7 +11,7 @@ Module.create({
 
 	// Module config defaults.
 	defaults: {
-		timeFormat: 24,
+		timeFormat: config.timeFormat,
 		displaySeconds: true,
 	},
 

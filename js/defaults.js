@@ -10,6 +10,7 @@
 var defaults = {
 
 	language: 'en',
+	timeFormat: 24,
 
 	modules: [
 		{
