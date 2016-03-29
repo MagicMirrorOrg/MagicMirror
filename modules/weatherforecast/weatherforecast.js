@@ -18,6 +18,8 @@ Module.create({
         animationSpeed: 1000,
         timeFormat: config.timeFormat,
 		lang: config.language,
+		fade: true, 
+		fadePoint: 0.25, // Start on 1/4th of the list.
 
 		initialLoadDelay: 5000, // 5 seconds delay. This delay is used to keep the OpenWeather API happy.
 		retryDelay: 2500,
@@ -128,6 +130,21 @@ Module.create({
 			minTempCell.innerHTML = forecast.minTemp;
 			minTempCell.className = 'align-right min-temp';
 			row.appendChild(minTempCell);
+
+
+			if (this.config.fade && this.config.fadePoint < 1) {
+				if (this.config.fadePoint < 0) {
+					this.config.fadePoint = 0;
+				}
+				var startingPoint = this.forecast.length * this.config.fadePoint;
+				var steps = this.forecast.length - startingPoint;
+				if (f >= startingPoint) {
+					var currentStep = f - startingPoint;
+					row.style.opacity = 1 - (1 / steps * currentStep);
+				}
+			}
+
+			
 
 		}
 	
