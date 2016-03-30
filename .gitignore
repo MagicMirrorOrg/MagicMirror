@@ -1,2 +1,2 @@
 node_modules
-!modules/node_modules/node_helper
+!modules/node_modules/*
