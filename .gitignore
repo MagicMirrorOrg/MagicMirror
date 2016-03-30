@@ -2,3 +2,11 @@
 
 !/modules/node_helper
 !/modules/node_helper/**
+
+/modules/*
+!/modules/clock
+!/modules/compliments
+!/modules/currentweather
+!/modules/helloworld
+!/modules/newsfeed
+!/modules/weatherforecast
