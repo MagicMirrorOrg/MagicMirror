@@ -52,3 +52,8 @@ Takes the user's inserted location, language, unit type, and OpenWeatherMap API 
 
 **Current features:** FRITZ!Box Callmonitor <br>
 **Future features:** Faceregognition, personalized views, online banking through HBCI and multiple calenders based on faceregognition.
+
+###[MagicMirror-Netatmo-Module by cfenner](https://github.com/CFenner/MagicMirror-Netatmo-Module)
+
+**Current features:** display data of Netatmo weather station (inside/outside)<br>
+**Future features:** display of local warnings (severe weather)
