@@ -1,3 +1,4 @@
+/* jshint ignore:start */
 /*!
  * rrule.js - Library for working with recurrence rules for calendar dates.
  * https://github.com/jakubroztocil/rrule
@@ -1908,3 +1909,5 @@ if (typeof define === "function" && define.amd) {
 }
 
 }(this));
+
+/* jshint ignore:end */
