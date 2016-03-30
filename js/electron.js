@@ -56,30 +56,19 @@ function loadConfig (callback) {
 
 function loadModule(moduleName) {
 	var helperPath = __dirname + '/../modules/' + moduleName + '/node_helper.js';
-
+	var loadModule = true;
 	try {
 	    fs.accessSync(helperPath, fs.R_OK);
-
-		var child = spawn('node', [helperPath]);
-
-		// Make sure the output is logged.
-		child.stdout.on('data', function(data) {
-				process.stdout.write('[' + moduleName + '] ' + data);
-		});
-
-		child.stderr.on('data', function(data) {
-				process.stdout.write('[' + moduleName + '] ' + data);
-		});
-		
-		child.on('close', function(code) {
-				console.log(moduleName + ' closing code: ' + code);
-		});
-
-		//Log module name  
-		console.log("Started helper script for module: " + moduleName + ".");
-
 	} catch (e) {
+		loadModule = false;
 		console.log("No helper found for module: " + moduleName + ".");
+	}
+
+	if (loadModule) {
+		var Module = require(helperPath);
+		var m = new Module();
+	    m.setName(moduleName);
+	    m.start();
 	}
 }
 
@@ -112,7 +101,9 @@ loadConfig(function(c) {
 // initialization and is ready to create browser windows.
 app.on('ready', function() {
 	var server = new Server(config, function() {
-		createWindow();
+		setTimeout(function() {
+			createWindow();
+		}, 1000);
 	});
 });
 
