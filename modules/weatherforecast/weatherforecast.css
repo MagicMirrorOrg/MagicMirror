@@ -1,6 +1,6 @@
 .weatherforecast .day {
 	padding-left: 0px;
-	padding-right: 20px;
+	padding-right: 25px;
 }
 
 .weatherforecast .weather-icon {
@@ -9,7 +9,7 @@
 }
 
 .weatherforecast .min-temp {
-	padding-left: 10px;
+	padding-left: 20px;
 	padding-right: 0px;
 }
 

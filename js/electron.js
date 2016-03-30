@@ -15,6 +15,8 @@ const app = electron.app;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
 
+var nodeHelpers = [];
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
@@ -68,7 +70,7 @@ function loadModule(moduleName) {
 		var Module = require(helperPath);
 		var m = new Module();
 	    m.setName(moduleName);
-	    m.start();
+	    nodeHelpers.push(m);
 	}
 }
 
@@ -95,16 +97,26 @@ loadConfig(function(c) {
 	}
 
 	loadModules(modules);
+
+	var server = new Server(config, function(io) {
+		console.log('Server started ...');
+
+		for (var h in nodeHelpers) {
+			var nodeHelper = nodeHelpers[h];
+			nodeHelper.setSocketIO(io);
+			nodeHelper.start();
+		}
+
+		console.log('Sockets connected & modules started ...');
+
+	});
 });
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.on('ready', function() {
-	var server = new Server(config, function() {
-		setTimeout(function() {
-			createWindow();
-		}, 1000);
-	});
+	console.log('Launching application.');
+	createWindow();
 });
 
 // Quit when all windows are closed.

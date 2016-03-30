@@ -13,16 +13,27 @@ This version of the Magic Mirror software focusses on a modular plugin system. B
 
 ##Todo
 Things that still have to be implemented or changed.
+
 ####Loader
 - Loading of module uses `eval()`. We might want to look into a better solution. [loader.js#L112](https://github.com/MichMich/MagicMirror/blob/v2-beta/js/loader.js#L112).
 
-##Modules 
-###[MMM-FRITZ-Box-Callmonitor by PaViRo](https://github.com/paviro/MMM-FRITZ-Box-Callmonitor)
 
+##Modules 
+
+### Default modules
+##### Clock
+##### Current Weather
+##### Weather Forecast
+##### News Feed
+##### Compliments
+##### Hello World
+
+### 3rd Party Modules
+
+#####[MMM-FRITZ-Box-Callmonitor by PaViRo](https://github.com/paviro/MMM-FRITZ-Box-Callmonitor)
 **Features:** FRITZ!Box Callmonitor (displays alert when someone is calling)
 
-####NodeHelper
-- The node_helper superclass creates a seperate socket connection for each module. It's preferred to use the overall socket connection of the server.
+
 
 
 
