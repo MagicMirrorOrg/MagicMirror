@@ -1,5 +1,4 @@
 var MMSocket = function(moduleName) {
-
 	var self = this;
 
 	if (typeof moduleName !== 'string') {
@@ -9,38 +8,25 @@ var MMSocket = function(moduleName) {
 	self.moduleName = moduleName;
 
 	// Private Methods
-	var socketBase = (typeof window === 'undefined') ? 'http://localhost:'+config.port : '';
-	socket = io(socketBase + '/' + self.moduleName);
-	console.log(socketBase + '/' + self.moduleName);
-
+	socket = io.connect('/' + self.moduleName);
 	var notificationCallback = function() {};
 
-	socket.on('connect', function(s) {
+	var onevent = socket.onevent;
+	socket.onevent = function (packet) {
+		var args = packet.data || [];
+		onevent.call (this, packet);    // original call
+		packet.data = ["*"].concat(args);
+		onevent.call(this, packet);      // additional call to catch-all
+	};
 
-		// add a catch all event.
-		var onevent = socket.onevent;
-		socket.onevent = function (packet) {
-			var args = packet.data || [];
-			onevent.call (this, packet);    // original call
-			packet.data = ["*"].concat(args);
-			onevent.call(this, packet);      // additional call to catch-all
-		};
-
-		// register catch all.
-		socket.on('*', function (notification, payload) {
-			if (notification !== '*') {
-				//console.log('Received notification: ' + notification +', payload: ' + payload);
-				notificationCallback(notification, payload);
-			}
-		});
-
-
+	// register catch all.
+	socket.on('*', function (notification, payload) {
+		if (notification !== '*') {
+			//console.log('Received notification: ' + notification +', payload: ' + payload);
+			notificationCallback(notification, payload);
+		}
 	});
 
-	var sendNotification = function(notification, payload) {
-		//console.log('Send notification: ' + notification +', payload: ' + payload);
-		socket.emit(notification, payload);
-	};
 
 	// Public Methods
 	this.setNotificationCallback = function(callback) {
@@ -51,6 +37,6 @@ var MMSocket = function(moduleName) {
 		if (typeof payload === 'undefined') {
 			payload = {};
 		}
-		sendNotification(notification, payload);
+		socket.emit(notification, payload);
 	};
 };
