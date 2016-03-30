@@ -7,7 +7,8 @@ var calendar = {
 	intervalId: null,
 	dataIntervalId: null,
 	maximumEntries: config.calendar.maximumEntries || 10,
-	calendarUrl: (typeof config.calendar.urls == 'undefined') ? config.calendar.url : config.calendar.urls[0].url,
+    useGapi: (typeof config.calendar.urls == 'undefined') ? false : config.calendar.urls[0].googleOauthApi,
+    calendarUrl: (typeof config.calendar.urls == 'undefined') ? config.calendar.url : config.calendar.urls[0].url,
 	calendarPos: 0,
 	defaultSymbol: config.calendar.defaultSymbol || 'none',
 	calendarSymbol: (typeof config.calendar.urls == 'undefined') ? config.calendar.defaultSymbol || 'none' : config.calendar.urls[0].symbol,
@@ -17,7 +18,8 @@ var calendar = {
 }
 
 calendar.processEvents = function (url, events) {
-	tmpEventList = [];
+	//remove this calendar's events before re-adding them
+    tmpEventList = [];
 	var eventListLength = this.eventList.length;
 	for (var i = 0; i < eventListLength; i++) {
 		if (this.eventList[i]['url'] != url) {
@@ -124,29 +126,110 @@ calendar.processEvents = function (url, events) {
 	this.eventList = this.eventList.slice(0, calendar.maximumEntries);
 }
 
-calendar.updateData = function (callback) {
-	new ical_parser("controllers/calendar.php" + "?url="+encodeURIComponent(this.calendarUrl), function(cal) {
-		this.processEvents(this.calendarUrl, cal.getEvents());
+calendar.processGapiEvents = function( url, resp){
+    var events = resp.items;
 
+	//remove this calendar's events before re-adding them
+    tmpEventList = [];
+	var eventListLength = this.eventList.length;
+	for (var i = 0; i < eventListLength; i++) {
+		if (this.eventList[i]['url'] != url) {
+			tmpEventList.push(this.eventList[i]);
+		}
+	}
+	this.eventList = tmpEventList;
+
+	for (var i in events)
+    {
+        var e = events[i];
+        //all day events use date insted of dateTime,
+        //dateTime is preferred try to use it first then fall back to date
+		if (typeof e.start.dateTime != 'undefined')
+        {
+            var days = moment(e.start.dateTime).diff(moment(), 'days');
+			var seconds = moment(e.start.dateTime).diff(moment(), 'seconds');
+			var startDate = moment(e.start.dateTime);
+			var endDays = moment(e.end.dateTime).diff(moment(), 'days');
+			var endSeconds = moment(e.end.dateTime).diff(moment(), 'seconds');
+			var endDate = moment(e.end.dateTime);
+        }
+        else
+        {
+            var days = moment(e.start.date).diff(moment(), 'days');
+			var seconds = moment(e.start.date).diff(moment(), 'seconds');
+			var startDate = moment(e.start.date);
+			var endDays = moment(e.end.date).diff(moment(), 'days');
+			var endSeconds = moment(e.end.date).diff(moment(), 'seconds');
+			var endDate = moment(e.end.date);
+        }
+
+		//get the text string for the event start/end display
+		if (seconds >= 0) {
+			if (seconds <= 60*60*5 || seconds >= 60*60*24*6) {
+				var time_string = moment(startDate).fromNow();
+			}else {
+				var time_string = moment(startDate).calendar()
+            }
+			e.seconds = seconds;
+		} else if  (endSeconds > 0) {
+			// TODO: Replace with better lang handling
+			if (endSeconds <= 60*60*5 || endSeconds >= 60*60*24*6) {
+				var time_string = this.shortRunningText + ' ' + moment(endDate).fromNow(true);
+			}else {
+				var time_string = this.longRunningText + ' ' + moment(endDate).calendar()
+            }
+			e.seconds = endSeconds;
+        }
+        this.eventList.push({'description':e.summary,'seconds':seconds,'days':time_string,'url': url, symbol: this.calendarSymbol});
+    }
+
+	this.eventList = this.eventList.sort(function(a,b){return a.seconds-b.seconds});
+
+	// Limit the number of entries.
+	this.eventList = this.eventList.slice(0, calendar.maximumEntries);
+}
+
+calendar.updateData = function () {
+
+    if(this.useGapi == false)
+    {
+        new ical_parser("controllers/calendar.php" + "?url="+encodeURIComponent(this.calendarUrl), calendar.updateDataCallback.bind(this));
+    }
+    else{
+        //google cal
+        console.log("gcal found");
+        //loadCalendarApi();
+        //listUpcomingEvents(this.calendarUrl, calendar.updateDataCallback.bind(this));
+        this.listUpcomingEvents();
+    }
+
+
+}
+
+calendar.updateDataCallback = function(cal) {
+    if( this.useGapi == false)
+    {
+		this.processEvents(this.calendarUrl, cal.getEvents());
+    }
+    else {
+        this.processGapiEvents(this.calendarUrl, cal);
+    }
 		this.calendarPos++;
 		if ((typeof config.calendar.urls == 'undefined') || (this.calendarPos >= config.calendar.urls.length)) {
 			this.calendarPos = 0;
-			// Last Calendar in List is updated, run Callback (i.e. updateScreen)
-			if (callback !== undefined && Object.prototype.toString.call(callback) === '[object Function]') {
-				callback(this.eventList);
-			}
+            // Last Calendar in List is updated, run Callback (i.e. updateScreen)
+            this.updateCalendar(this.eventList);
 		} else {
 			// Loading all Calendars in parallel does not work, load them one by one.
 			setTimeout(function () {
-				this.updateData(this.updateCalendar.bind(this));
+				this.updateData();
 			}.bind(this), 10);
 		}
 		if (typeof config.calendar.urls != 'undefined') {
 			this.calendarUrl = config.calendar.urls[this.calendarPos].url;
 			this.calendarSymbol = config.calendar.urls[this.calendarPos].symbol || this.defaultSymbol;
+            this.useGapi = config.calendar.urls[this.calendarPos].googleOauthApi;
 		}
-
-	}.bind(this));
 
 }
 
@@ -182,16 +265,95 @@ calendar.updateCalendar = function (eventList) {
 
 }
 
+// the scope for the auth.  we are going to request read only.
+var SCOPES = ["https://www.googleapis.com/auth/calendar.readonly"];
+
+/**
+ * Check if current user has authorized this application.
+ */
+checkAuth = function () {
+    if(typeof config.calendar.googleCalendarApiId != 'undefined')
+    {
+        gapi.auth.authorize(
+                {
+                    'client_id': config.calendar.googleCalendarApiId,
+                    'scope': SCOPES.join(' '),
+                    'immediate': true
+                }, calendar.handleAuthResult);
+    }
+    else { calendar.init(); }
+}
+
+/**
+ * Handle response from authorization server.
+ *
+ * @param {Object} authResult Authorization result.
+ */
+calendar.handleAuthResult = function(authResult) {
+    var authorizeDiv = document.getElementById('authorize-div');
+    console.log("auth callback");
+    if (authResult && !authResult.error) {
+        // Hide auth UI, then load client library.
+        authorizeDiv.style.display = 'none';
+        console.log("loading gcal api");
+        calendar.loadCalendarApi();
+    } else {
+        // Show auth UI, allowing the user to initiate authorization by
+        // clicking authorize button.
+        console.log("gcal not authed");
+        authorizeDiv.style.display = 'inline';
+    }
+}
+
+/**
+ * Initiate auth flow in response to user clicking authorize button.
+ *
+ * @param {Event} event Button click event.
+ */
+calendar.handleAuthClick = function(event) {
+    gapi.auth.authorize(
+            {client_id: config.calendar.googleCalendarApiId, scope: SCOPES, immediate: false},
+            calendar.handleAuthResult);
+    return false;
+}
+
+/**
+ * Load Google Calendar client library. List upcoming events
+ * once client library is loaded.
+ */
+calendar.loadCalendarApi = function () {
+    console.log("loaded g api");
+    window.gapi.client.load('calendar', 'v3', calendar.init.bind(this));
+}
+
+/**
+ * Print the summary and start datetime/date of the next ten events in
+ * the authorized user's calendar. If no events are found an
+ * appropriate message is printed.
+ */
+calendar.listUpcomingEvents = function () {
+    var request = window.gapi.client.calendar.events.list({
+            'calendarId': this.calendarUrl,
+            'timeMin': (new Date()).toISOString(),
+            'showDeleted': false,
+            'singleEvents': true,
+            'maxResults': calendar.maximumEntries,
+            'orderBy': 'startTime'
+            });
+
+    request.execute(this.updateDataCallback.bind(this));
+}
+
 calendar.init = function () {
 
-	this.updateData(this.updateCalendar.bind(this));
+    this.updateData();
 
 	// this.intervalId = setInterval(function () {
 		// this.updateCalendar(this.eventList)
 	// }.bind(this), this.updateInterval);
 
 	this.dataIntervalId = setInterval(function () {
-		this.updateData(this.updateCalendar.bind(this));
+		this.updateData();
 	}.bind(this), this.updateDataInterval);
 
 }

@@ -31,11 +31,19 @@
 <script src="js/rrule.js"></script>
 <script src="js/version/version.js"></script>
 <script src="js/calendar/calendar.js"></script>
+<script src="https://apis.google.com/js/client.js?onload=checkAuth"></script>
 <script src="js/compliments/compliments.js"></script>
 <script src="js/weather/weather.js"></script>
 <script src="js/time/time.js"></script>
 <script src="js/news/news.js"></script>
 <script src="js/main.js?nocache=<?php echo md5(microtime()) ?>"></script>
+<div id="authorize-div" style="display: none">
+    <span>Authorize access to Google Calendar API</span>
+    <!--Button for the user to click to initiate auth sequence -->
+    <button id="authorize-button" onclick="calendar.handleAuthClick(event)">
+        Authorize
+    </button>
+</div>
 <!-- <script src="js/socket.io.min.js"></script> -->
 <?php  include(dirname(__FILE__).'/controllers/modules.php');?>
 </body>
