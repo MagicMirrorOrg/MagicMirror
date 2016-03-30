@@ -1,27 +1,3 @@
-if (typeof window === 'undefined') {
-	// Only perfom this part if is isn't running in the browser.
-
-	// Load socket client
-	var io = require('socket.io-client');
-
-	// Load config
-	var fs = require('fs');
-
-	var config = {};
-
-	var defaults = require(__dirname + '/defaults.js');
-	var configFilename = __dirname + '/../config/config.js';
-
-	try {
-	    fs.accessSync(configFilename, fs.R_OK);
-	    var c = require(configFilename);
-		config = Object.assign(defaults, c);
-	} catch (e) {
-	    config = defaults;
-	}
-}
-
-
 var MMSocket = function(moduleName) {
 
 	var self = this;
@@ -35,6 +11,7 @@ var MMSocket = function(moduleName) {
 	// Private Methods
 	var socketBase = (typeof window === 'undefined') ? 'http://localhost:'+config.port : '';
 	socket = io(socketBase + '/' + self.moduleName);
+	console.log(socketBase + '/' + self.moduleName);
 
 	var notificationCallback = function() {};
 
@@ -77,7 +54,3 @@ var MMSocket = function(moduleName) {
 		sendNotification(notification, payload);
 	};
 };
-
-if (typeof module !== 'undefined') {
-	module.exports = MMSocket;
-}

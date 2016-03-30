@@ -17,8 +17,6 @@ Things that still have to be implemented or changed.
 ####Loader
 - Loading of module uses `eval()`. We might want to look into a better solution. [loader.js#L112](https://github.com/MichMich/MagicMirror/blob/v2-beta/js/loader.js#L112).
 
-####NodeHelper
-- The node_helper superclass creates a seperate socket connection for each module. It's preferred to use the overall socket connection of the server.
 
 ##Modules 
 
