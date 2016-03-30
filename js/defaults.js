@@ -8,6 +8,7 @@
  */
 
 var defaults = {
+	port: 80,
 
 	language: 'en',
 	timeFormat: 24,
@@ -51,3 +52,7 @@ var defaults = {
 		vendor: 'vendor'
 	},
 };
+
+
+/*************** DO NOT EDIT THE LINE BELOW ***************/
+if (typeof module !== 'undefined') {module.exports = defaults;}

@@ -27,10 +27,13 @@
 		"electron-prebuilt": "latest"
 	},
 	"dependencies": {
+		"socket.io":"latest",
 		"express":"latest",
 		"request":"latest",
 		"walk": "latest",
 		"feedme": "latest",
-		"valid-url": "latest"
+		"valid-url": "latest",
+		"ical": "latest",
+		"moment": "latest"
 	}
 }

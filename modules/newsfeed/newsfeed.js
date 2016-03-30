@@ -16,11 +16,6 @@ Module.create({
 		reloadInterval:  10 * 60 * 1000, // every 10 minutes
 	    updateInterval: 7.5 * 1000, 
         animationSpeed: 2.5 * 1000, 
-
-
-		proxyUrl: 'http://localhost:8080/?url=',
-		initialLoadDelay: 0, // 5 seconds delay. This delay is used to keep the OpenWeather API happy.
-		retryDelay: 2500,
 	},
 
 	// Define required scripts.
@@ -37,14 +32,28 @@ Module.create({
 		
 		this.newsItems = [];
 		this.loaded = false;
-		this.scheduleFetch(this.config.initialLoadDelay);
-
-		this.fetchTimer = null;
 		this.activeItem = 0;
+
+		this.fetchNews();
+	},
+
+	// Override socket notification handler.
+	socketNotificationReceived: function(notification, payload) {
+		if (notification === 'NEWS_ITEMS') {
+			if (payload.url === this.config.feedUrl) {
+				this.newsItems = payload.items;
+				if (!this.loaded) {
+					this.scheduleUpdateInterval();
+				}
+
+				this.loaded = true;
+			}
+		}
 	},
 
 	// Override dom generator.
 	getDom: function() {
+
 		var wrapper = document.createElement("div");
 
 		if (this.activeItem >= this.newsItems.length) {
@@ -57,6 +66,7 @@ Module.create({
 				var timestamp = document.createElement("div");
 				timestamp.className = "light small dimmed";
 				timestamp.innerHTML = this.capitalizeFirstLetter(moment(new Date(this.newsItems[this.activeItem].pubdate)).fromNow() + ':');
+				//timestamp.innerHTML = this.config.feedUrl;
 				wrapper.appendChild(timestamp);
 			}
 
@@ -77,30 +87,11 @@ Module.create({
 	 * Requests new data from news proxy.
 	 */
 	fetchNews: function() {
-		var url = this.config.proxyUrl + encodeURIComponent(this.config.feedUrl);
-		var self = this;	
-
-		var newsRequest = new XMLHttpRequest();
-		newsRequest.open("GET", url, true);
-		newsRequest.onreadystatechange = function() {
-		  if(this.readyState === 4) {
-			if(this.status === 200) {
-				self.newsItems = JSON.parse(this.response);
-
-				if (!self.loaded) {
-					self.scheduleUpdateInterval();
-				}
-
-				self.loaded = true;
-			} else {
-				Log.error(self.name + ": Could not load news.");
-			}
-
-			self.scheduleFetch((self.loaded) ? -1 : self.config.retryDelay);
-			
-		  }
-		};
-		newsRequest.send();
+		Log.log('Add news feed to fetcher: ' + this.config.feedUrl);
+		this.sendSocketNotification('ADD_FEED', {
+			url: this.config.feedUrl,
+			reloadInterval: this.config.reloadInterval
+		});
 	},
 
 	/* scheduleUpdateInterval()
@@ -115,24 +106,6 @@ Module.create({
 			self.activeItem++;
 			self.updateDom(self.config.animationSpeed);
 		}, this.config.updateInterval);
-	},
-
-	/* scheduleFetch()
-	 * Schedule next news fetch.
-	 *
-	 * argument delay number - Milliseconds before next update. If empty, this.config.reloadInterval is used.
-	 */
-	scheduleFetch: function(delay) {
-		var nextLoad = this.config.reloadInterval;
-		if (typeof delay !== 'undefined' && delay >= 0) {
-			nextLoad = delay;
-		} 
-
-		var self = this;
-		clearTimeout(this.fetchTimer);
-		this.fetchTimer = setTimeout(function() {
-			self.fetchNews();
-		}, nextLoad);
 	},
 
 	/* capitalizeFirstLetter(string)

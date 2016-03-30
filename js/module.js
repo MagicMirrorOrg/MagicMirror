@@ -88,7 +88,15 @@ var Module = Class.extend({
 		}
 	},
 
-
+	/* socketNotificationReceived(notification, payload)
+	 * This method is called when a socket notification arrives.
+	 *
+	 * argument notification string - The identifier of the noitication.
+	 * argument payload mixed - The payload of the notification.
+	 */
+	socketNotificationReceived: function(notification, payload) {
+		Log.log(this.name + ' received a socket notification: ' + notification + ' - Payload: ' + payload);
+	},
 
 
 
@@ -116,6 +124,23 @@ var Module = Class.extend({
 	 */
 	setConfig: function(config) {
 		this.config = Object.assign(this.defaults, config);
+	},
+
+	/* socket()
+	 * Returns a socket object. If it doesn't exsist, it's created.
+	 * It also registers the notification callback.
+	 */
+	socket: function() {
+		if (typeof this._socket === 'undefined') {
+			this._socket = this._socket = new MMSocket(this.name);
+		}
+
+		var self = this;
+		this._socket.setNotificationCallback(function(notification, payload) {
+			self.socketNotificationReceived(notification, payload);
+		});
+
+		return this._socket;
 	},
 
 	/* file(file)
@@ -170,6 +195,16 @@ var Module = Class.extend({
 	 */
 	sendNotification: function(notification, payload) {
 		MM.sendNotification(notification, payload, this);
+	},
+
+	/* sendSocketNotification(notification, payload)
+	 * Send a socket notification to the node helper.
+	 *
+	 * argument notification string - The identifier of the noitication.
+	 * argument payload mixed - The payload of the notification.
+	 */
+	sendSocketNotification: function(notification, payload) {
+		this.socket().sendNotification(notification, payload);
 	}
 });
 
