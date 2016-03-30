@@ -5,6 +5,7 @@
 
 .weatherforecast .weather-icon {
 	padding-right: 30px;
+	text-align: center;
 }
 
 .weatherforecast .min-temp {
