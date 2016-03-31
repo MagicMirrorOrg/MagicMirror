@@ -95,35 +95,100 @@ var MM = (function() {
 	 * argument speed Number - The number of microseconds for the animation. (optional)
 	 */
 	var updateDom = function(module, speed) {
+		var newContent = module.getDom();
+
+		if (!module.hidden) {
+
+
+			if (!moduleNeedsUpdate(module, newContent)) {
+				return;
+			}
+
+			if (!speed) {
+				updateModuleContent(module, newContent);
+				return;
+			}
+
+			hideModule(module, speed / 2, function() {
+				updateModuleContent(module, newContent);
+				if (!module.hidden) {
+					showModule(module, speed / 2);
+				}
+			});
+		} else {
+			updateModuleContent(module, newContent);
+		}
+	};
+
+
+	/* moduleNeedsUpdate(module, newContent)
+	 * Check if the content has changed.
+	 *
+	 * argument module Module - The module to check.
+	 * argument newContent Domobject - The new content that is generated.
+	 *
+	 * return bool - Does the module need an update?
+	 */
+	var moduleNeedsUpdate = function(module, newContent) {
 		var moduleWrapper = document.getElementById(module.identifier);
 		var contentWrapper = moduleWrapper.getElementsByClassName('module-content')[0];
-		var newContent = module.getDom();
 
 		var tempWrapper = document.createElement('div');
 		tempWrapper.appendChild(newContent);
 
-		if (tempWrapper.innerHTML === contentWrapper.innerHTML) {
-			// Content did not change. Abort update.
-			return;
+		return tempWrapper.innerHTML !== contentWrapper.innerHTML;
+	};
+
+	/* moduleNeedsUpdate(module, newContent)
+	 * Update the content of a module on screen.
+	 *
+	 * argument module Module - The module to check.
+	 * argument newContent Domobject - The new content that is generated.
+	 */
+	var updateModuleContent = function(module, content) {
+		var moduleWrapper = document.getElementById(module.identifier);
+		var contentWrapper = moduleWrapper.getElementsByClassName('module-content')[0];
+
+		contentWrapper.innerHTML = null;
+		contentWrapper.appendChild(content);
+	};
+
+	/* hideModule(module, speed, callback)
+	 * Hide the module.
+	 *
+	 * argument module Module - The module to hide.
+	 * argument speed Number - The speed of the hide animation.
+	 * argument callback function - Called when the animation is done.
+	 */
+	var hideModule = function(module, speed, callback) {
+		var moduleWrapper = document.getElementById(module.identifier);
+		if (moduleWrapper !== null) {
+			moduleWrapper.style.transition = "opacity " + speed / 1000 + "s";
+			moduleWrapper.style.opacity = 0;
+
+			setTimeout(function() {
+				if (typeof callback === 'function') { callback(); }		
+			}, speed);
 		}
+	};
 
-		if (!speed) {
-			contentWrapper.innerHTML = null;
-			contentWrapper.appendChild(newContent);
-			return;
+	/* showModule(module, speed, callback)
+	 * Show the module.
+	 *
+	 * argument module Module - The module to show.
+	 * argument speed Number - The speed of the show animation.
+	 * argument callback function - Called when the animation is done.
+	 */
+	var showModule = function(module, speed, callback) {
+		var moduleWrapper = document.getElementById(module.identifier);
+		if (moduleWrapper !== null) {
+			moduleWrapper.style.transition = "opacity " + speed / 1000 + "s";
+			moduleWrapper.style.opacity = 1;
+
+			setTimeout(function() {
+				if (typeof callback === 'function') { callback(); }				
+			}, speed);
 		}
-
-		moduleWrapper.style.opacity = 1;
-		moduleWrapper.style.transition = "opacity " + speed / 2 / 1000 + "s";
-		moduleWrapper.style.opacity = 0;
-
-		setTimeout(function() {
-			contentWrapper.innerHTML = null;
-			contentWrapper.appendChild(newContent);
-
-			moduleWrapper.style.opacity = 1;			
-		}, speed / 2);
-
 	};
 
 	/* loadConfig()
@@ -245,11 +310,16 @@ var MM = (function() {
 			}
 		};
 
-		Object.defineProperty(modules, 'withClass',  {value: withClass, enumerable: false});
-		Object.defineProperty(modules, 'exceptWithClass',  {value: exceptWithClass, enumerable: false});
-		Object.defineProperty(modules, 'exceptModule',  {value: exceptModule, enumerable: false});
-		Object.defineProperty(modules, 'enumerate',  {value: enumerate, enumerable: false});
+
+
+		if (typeof modules.withClass === 'undefined') { Object.defineProperty(modules, 'withClass',  {value: withClass, enumerable: false}); }
+		if (typeof modules.exceptWithClass === 'undefined') { Object.defineProperty(modules, 'exceptWithClass',  {value: exceptWithClass, enumerable: false}); }
+		if (typeof modules.exceptModule === 'undefined') { Object.defineProperty(modules, 'exceptModule',  {value: exceptModule, enumerable: false}); }
+		if (typeof modules.enumerate === 'undefined') { Object.defineProperty(modules, 'enumerate',  {value: enumerate, enumerable: false}); }
 	};
+
+
+	
 	
 	return {
 		/* Public Methods */
@@ -332,6 +402,32 @@ var MM = (function() {
 		getModules: function() {
 			setSelectionMethodsForModules(modules);
 			return modules;
+		},
+
+		/* hideModule(module, speed, callback)
+		 * Hide the module.
+		 *
+		 * argument module Module - The module hide.
+		 * argument speed Number - The speed of the hide animation.
+		 * argument callback function - Called when the animation is done.
+		 */
+		hideModule: function(module, speed, callback) {
+			hideModule(module, speed, function() {
+				module.hidden = true;
+				callback();
+			});
+		},
+
+		/* showModule(module, speed, callback)
+		 * Show the module.
+		 *
+		 * argument module Module - The module show.
+		 * argument speed Number - The speed of the show animation.
+		 * argument callback function - Called when the animation is done.
+		 */
+		showModule: function(module, speed, callback) {
+			module.hidden = false;
+			showModule(module, speed, callback);
 		}
 	};
 

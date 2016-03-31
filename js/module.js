@@ -113,6 +113,7 @@ var Module = Class.extend({
 		this.data = data;
 		this.name = data.name;
 		this.identifier = data.identifier;
+		this.hidden = false;
 
 		this.setConfig(data.config);
 	},
@@ -229,6 +230,26 @@ var Module = Class.extend({
 	 */
 	sendSocketNotification: function(notification, payload) {
 		this.socket().sendNotification(notification, payload);
+	},
+
+	/* hideModule(module, speed, callback)
+	 * Hide this module.
+	 *
+	 * argument speed Number - The speed of the hide animation.
+	 * argument callback function - Called when the animation is done.
+	 */
+	hide: function(speed, callback) {
+		MM.hideModule(this, speed, callback);
+	},
+
+	/* showModule(module, speed, callback)
+	 * Show this module.
+	 *
+	 * argument speed Number - The speed of the show animation.
+	 * argument callback function - Called when the animation is done.
+	 */
+	show: function(speed, callback) {
+		MM.showModule(this, speed, callback);
 	}
 });
 
