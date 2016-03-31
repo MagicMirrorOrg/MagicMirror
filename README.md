@@ -20,18 +20,18 @@ Things that still have to be implemented or changed.
 
 ##Modules 
 
-### Default modules
-##### Clock
-##### Current Weather
-##### Weather Forecast
-##### News Feed
-##### Compliments
-##### Hello World
+### Default modules:
+- **Clock**
+- **Calendar**
+- **Current Weather**
+- **Weather Forecast**
+- **News Feed**
+- **Compliments**
+- **Hello World**
 
-### 3rd Party Modules
+### 3rd Party Modules:
 
-#####[MMM-FRITZ-Box-Callmonitor by PaViRo](https://github.com/paviro/MMM-FRITZ-Box-Callmonitor)
-**Features:** FRITZ!Box Callmonitor (displays alert when someone is calling)
+- **[MMM-FRITZ-Box-Callmonitor by PaViRo](https://github.com/paviro/MMM-FRITZ-Box-Callmonitor)** <br> FRITZ!Box Callmonitor (Display an alert when someone is calling ...)
 
 
 
