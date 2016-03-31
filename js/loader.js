@@ -87,7 +87,8 @@ var Loader = (function() {
 				file: module + '.js',
 				position: moduleData.position,
 				header: moduleData.header,
-				config: moduleData.config
+				config: moduleData.config,
+				classes: (typeof moduleData.classes !== 'undefined') ? moduleData.classes + ' ' + module : module
 			});
 
 

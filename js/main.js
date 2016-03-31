@@ -21,22 +21,35 @@ var MM = (function() {
 	var createDomObjects = function() {
 		for (var m in modules) {
 			var module = modules[m];
-			if (module.data.position) {
+			
+			if (typeof module.data.position === 'string') {
 
 				var wrapper = selectWrapper(module.data.position);
-
-				if (typeof module.data.header !== 'undefined' && module.data.header !== '') {
-					var header = document.createElement("header");
-					header.innerHTML = module.data.header;
-					wrapper.appendChild(header);
-				}
 
 				var dom = document.createElement("div");
 				dom.id = module.identifier;
 				dom.className = module.name;
+
+				if (typeof module.data.classes === 'string') {
+					dom.className = dom.className + ' ' + module.data.classes;
+				}
+
+				dom.opacity = 0;
 				wrapper.appendChild(dom);
 
-				dom.appendChild(module.getDom());
+				if (typeof module.data.header !== 'undefined' && module.data.header !== '') {
+					var moduleHeader = document.createElement("header");
+					moduleHeader.innerHTML = module.data.header;
+					dom.appendChild(moduleHeader);
+				}
+
+				var moduleContent = document.createElement("div");
+				moduleContent.className = "module-content";
+				dom.appendChild(moduleContent);
+
+				
+
+				updateDom(module, 500);
 			}
 		}
 
@@ -82,32 +95,33 @@ var MM = (function() {
 	 * argument speed Number - The number of microseconds for the animation. (optional)
 	 */
 	var updateDom = function(module, speed) {
-		var wrapper = document.getElementById(module.identifier);
+		var moduleWrapper = document.getElementById(module.identifier);
+		var contentWrapper = moduleWrapper.getElementsByClassName('module-content')[0];
 		var newContent = module.getDom();
 
 		var tempWrapper = document.createElement('div');
 		tempWrapper.appendChild(newContent);
 
-		if (tempWrapper.innerHTML === wrapper.innerHTML) {
+		if (tempWrapper.innerHTML === contentWrapper.innerHTML) {
 			// Content did not change. Abort update.
 			return;
 		}
 
 		if (!speed) {
-			wrapper.innerHTML = null;
-			wrapper.appendChild(newContent);
+			contentWrapper.innerHTML = null;
+			contentWrapper.appendChild(newContent);
 			return;
 		}
 
-		wrapper.style.opacity = 1;
-		wrapper.style.transition = "opacity " + speed / 2 / 1000 + "s";
-		wrapper.style.opacity = 0;
+		moduleWrapper.style.opacity = 1;
+		moduleWrapper.style.transition = "opacity " + speed / 2 / 1000 + "s";
+		moduleWrapper.style.opacity = 0;
 
 		setTimeout(function() {
-			wrapper.innerHTML = null;
-			wrapper.appendChild(newContent);
+			contentWrapper.innerHTML = null;
+			contentWrapper.appendChild(newContent);
 
-			wrapper.style.opacity = 1;			
+			moduleWrapper.style.opacity = 1;			
 		}, speed / 2);
 
 	};
@@ -125,9 +139,119 @@ var MM = (function() {
 		config = Object.assign(defaults, config);
 	};
 
+	/* setSelectionMethodsForModules()
+	 * Adds special selectors on a collection of modules.
+	 * 
+	 * argument modules array - Array of modules.
+	 */
+	var setSelectionMethodsForModules = function(modules) {
+
+		/* withClass(className)
+		 * filters a collection of modules based on classname(s).
+		 * 
+		 * argument className string/array - one or multiple classnames. (array or space devided)
+		 *
+		 * return array - Filtered collection of modules.
+		 */
+		var withClass = function(className) {
+			var newModules = [];
+
+			var searchClasses = className;
+			if (typeof className === 'string') {
+				searchClasses = className.split(' ');
+			}
+
+			for (var m in modules) {
+				var module = modules[m];
+				var classes = module.data.classes.toLowerCase().split(' ');
+
+				for (var c in searchClasses) {
+					var searchClass = searchClasses[c];
+					if (classes.indexOf(searchClass.toLowerCase()) !== -1) {
+						newModules.push(module);
+					}
+				}	
+			}
+
+			setSelectionMethodsForModules(newModules);
+			return newModules;
+		};
+
+		/* exceptWithClass(className)
+		 * filters a collection of modules based on classname(s). (NOT)
+		 * 
+		 * argument className string/array - one or multiple classnames. (array or space devided)
+		 *
+		 * return array - Filtered collection of modules.
+		 */
+		var exceptWithClass  = function(className) {
+			var newModules = [];
+
+			var searchClasses = className;
+			if (typeof className === 'string') {
+				searchClasses = className.split(' ');
+			}
+
+			for (var m in modules) {
+				var module = modules[m];
+				var classes = module.data.classes.toLowerCase().split(' ');
+				var foundClass = false;
+				for (var c in searchClasses) {
+					var searchClass = searchClasses[c];
+					if (classes.indexOf(searchClass.toLowerCase()) !== -1) {
+						foundClass = true;
+						break;
+					}
+				}
+				if (!foundClass) {
+					newModules.push(module);
+				}	
+			}
+
+			setSelectionMethodsForModules(newModules);
+			return newModules;
+		};
+
+		/* exceptModule(module)
+		 * Removes a module instance from the collection.
+		 * 
+		 * argument module Module object - The module instance to remove from the collection.
+		 *
+		 * return array - Filtered collection of modules.
+		 */
+		var exceptModule = function(module) {
+			var newModules = [];
+
+			for (var m in modules) {
+				var mod = modules[m];
+				if (mod.identifier !== module.identifier) {
+					newModules.push(mod);
+				}
+			}
+
+			setSelectionMethodsForModules(newModules);
+			return newModules;
+		};
+
+		/* enumerate(callback)
+		 * Walks thru a collection of modules and executes the callback with the module as an argument.
+		 * 
+		 * argument callback function - The function to execute with the module as an argument.
+		 */
+		var enumerate = function(callback) {
+			for (var m in modules) {
+				var module = modules[m];
+				callback(module);
+			}
+		};
+
+		Object.defineProperty(modules, 'withClass',  {value: withClass, enumerable: false});
+		Object.defineProperty(modules, 'exceptWithClass',  {value: exceptWithClass, enumerable: false});
+		Object.defineProperty(modules, 'exceptModule',  {value: exceptModule, enumerable: false});
+		Object.defineProperty(modules, 'enumerate',  {value: enumerate, enumerable: false});
+	};
 	
 	return {
-
 		/* Public Methods */
 
 		/* init()
@@ -198,8 +322,12 @@ var MM = (function() {
 			
 			// Further implementation is done in the private method.
 			updateDom(module, speed);
+		},
+
+		getModules: function() {
+			setSelectionMethodsForModules(modules);
+			return modules;
 		}
-		
 	};
 
 })();
