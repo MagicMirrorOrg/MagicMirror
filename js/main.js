@@ -324,6 +324,11 @@ var MM = (function() {
 			updateDom(module, speed);
 		},
 
+		/* getModules(module, speed)
+		 * Returns a collection of all modules currently active.
+		 *
+		 * return array - A collection of all modules currently active.
+		 */
 		getModules: function() {
 			setSelectionMethodsForModules(modules);
 			return modules;
