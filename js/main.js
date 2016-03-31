@@ -167,6 +167,7 @@ var MM = (function() {
 			moduleWrapper.style.opacity = 0;
 
 			setTimeout(function() {
+				moduleWrapper.style.display = 'none';
 				if (typeof callback === 'function') { callback(); }		
 			}, speed);
 		}
@@ -184,6 +185,7 @@ var MM = (function() {
 		if (moduleWrapper !== null) {
 			moduleWrapper.style.transition = "opacity " + speed / 1000 + "s";
 			moduleWrapper.style.opacity = 1;
+			moduleWrapper.style.display = 'block';
 
 			setTimeout(function() {
 				if (typeof callback === 'function') { callback(); }				
