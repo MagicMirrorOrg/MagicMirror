@@ -1,7 +1,9 @@
 body {
 	cursor: none;
 	margin: 60px;
-	position: relative;
+	position: absolute;
+	height: calc(100% - 120px);
+	width: calc(100% - 120px);
 	background: #000;
 	color: #aaa;
 	font-family: 'roboto_condensedregular', arial;
@@ -33,7 +35,7 @@ body {
 
 
 header {
-	margin-top: 40px;
+	margin-top: 30px;
 	text-transform: uppercase;
 	font-size: 15px;
 	font-family: 'roboto_condensedregular';
@@ -42,10 +44,6 @@ header {
 	padding-bottom: 10px;
 	margin-bottom: 10px;
 	color: #666;
-}
-
-header:first-child {
-	margin-top: 0px;
 }
 
 sup {
