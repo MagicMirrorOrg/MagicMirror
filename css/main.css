@@ -1,7 +1,9 @@
 body {
 	cursor: none;
 	margin: 60px;
-	position: relative;
+	position: absolute;
+	height: calc(100% - 120px);
+	width: calc(100% - 120px);
 	background: #000;
 	color: #aaa;
 	font-family: 'roboto_condensedregular', arial;
