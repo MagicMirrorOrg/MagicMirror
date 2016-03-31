@@ -1,0 +1,29 @@
+.calendar .symbol {
+	padding-left: 0px;
+	padding-right: 10px;
+	font-size: 80%;
+}
+
+.calendar .symbol span {
+	display: inline-block;
+
+	-ms-transform: translate(0px,2px); /* IE 9 */
+   	-webkit-transform: translate(0px,2px); /* Safari */
+    transform: translate(0px,2px);
+}
+
+.calendar .title {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.calendar .time {
+	padding-left: 30px;
+	text-align: right;
+}
+
+.calendar table {
+	width: 100%;
+	border-spacing: 0px;
+    border-collapse: separate;
+}

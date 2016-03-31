@@ -13,7 +13,7 @@ Module.create({
 	defaults: {
 		feedUrl: 'http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml',
 		showPublishDate: true,
-		reloadInterval:  10 * 60 * 1000, // every 10 minutes
+		reloadInterval:  5 * 60 * 1000, // every 5 minutes
 	    updateInterval: 7.5 * 1000, 
         animationSpeed: 2.5 * 1000, 
 	},
