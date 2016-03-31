@@ -7,7 +7,7 @@
  * MIT Licensed.
  */
 
-Module.create({
+Module.register('currentweather',{
 
 	// Default module config.
 	defaults: {

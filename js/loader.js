@@ -14,12 +14,9 @@ var Loader = (function() {
 
 	/* Create helper valiables */
 
+	var loadedModuleFiles = [];
 	var loadedFiles = [];
 	var moduleObjects = [];
-
-	var totalFiles = 0;
-	var moduleLoadCount = 0;
-	var fileLoadCount = 0;
 
 
 	/* Private Methods */
@@ -32,10 +29,19 @@ var Loader = (function() {
 
 		var moduleData = getModuleData();
 
-		for (var m in moduleData) {
-			var module = moduleData[m];
-			loadModule(module);
-		}
+		var loadNextModule = function() {
+			if (moduleData.length > 0) {
+				var nextModule = moduleData[0];
+				loadModule(nextModule, function() {
+					moduleData = moduleData.slice(1);
+					loadNextModule();
+				});
+			} else {
+				startModules();
+			}
+		};
+
+		loadNextModule();		
 	};
 
 	/* startModules()
@@ -94,33 +100,28 @@ var Loader = (function() {
 	/* loadModule(module)
 	 * Load modules via ajax request and create module objects.
 	 *
+	 * argument callback function - Function called when done.
 	 * argument module object - Information about the module we want to load.
 	 */
-	var loadModule = function(module) {
-		Log.log('Loading module: <' + module.name + '> from: ' + module.path + '/' + module.file);
-
+	var loadModule = function(module, callback) {
 		var url = module.path + '/' + module.file;
-		var moduleRequest = new XMLHttpRequest();
-		moduleRequest.open("GET", url, true);
-		moduleRequest.onreadystatechange = function() {
-		  if(this.readyState === 4) {
-			if(this.status === 200) {
 
-				// FIXME: 
-				// Create the module by evaluating the response.
-				// This might not be the best way.
-				var ModuleDefinition = eval(this.response);
-				var moduleObject = new ModuleDefinition();
-	
-				bootstrapModule(module, moduleObject);
-				moduleProcessed();
-			} else {
-				Log.error("Could not load module: " + module.name);
-				moduleProcessed();
-			}
-		  }
+		var afterLoad = function() {
+			var moduleObject = Module.create(module.name);
+			bootstrapModule(module, moduleObject, function() {
+				callback();
+			});
 		};
-		moduleRequest.send();
+
+		if (loadedModuleFiles.indexOf(url) !== -1) {
+			afterLoad();
+		} else {
+			loadFile(url, function() {
+				loadedModuleFiles.push(url);
+				afterLoad();
+			});
+		}
+		
 	};	
 
 	/* bootstrapModule(module, mObj)
@@ -128,14 +129,21 @@ var Loader = (function() {
 	 *
 	 * argument module object - Information about the module we want to load.
 	 * argument mObj object - Modules instance.
+	 * argument callback function - Function called when done.
 	 */
-	var bootstrapModule = function(module, mObj) {
+	var bootstrapModule = function(module, mObj, callback) {
 		Log.info('Bootstrapping module: ' + module.name);
 
 		mObj.setData(module);
 
-		mObj.loadScripts();
-		mObj.loadStyles();
+		mObj.loadScripts(function() {
+			Log.log('Scripts loaded for: ' + module.name);
+			mObj.loadStyles(function(){
+				Log.log('Styles loaded for: ' + module.name);
+				callback();
+			});
+		});
+		
 
 		moduleObjects.push(mObj);
 	};
@@ -144,9 +152,9 @@ var Loader = (function() {
 	 * Load a script or stylesheet by adding it to the dom.
 	 *
 	 * argument fileName string - Path of the file we want to load.
+	 * argument callback function - Function called when done.
 	 */
-	var loadFile = function(fileName) {
-		totalFiles++;
+	var loadFile = function(fileName, callback) {
 
 		var extension =  fileName.slice((Math.max(0, fileName.lastIndexOf(".")) || Infinity) + 1);
 
@@ -158,7 +166,7 @@ var Loader = (function() {
 				script.type = "text/javascript";
 				script.src = fileName;
 				script.onload = function() {
-					fileProcessed();
+					if (typeof callback === 'function') {callback();}
 				};
 
 				document.getElementsByTagName("body")[0].appendChild(script);
@@ -172,47 +180,13 @@ var Loader = (function() {
 				stylesheet.type = "text/css";
 				stylesheet.href = fileName;
 				stylesheet.onload = function() {
-					fileProcessed();
+					if (typeof callback === 'function') {callback();}
 				};
 
 				document.getElementsByTagName("head")[0].appendChild(stylesheet);
 			break;				
 		}
 
-	};
-
-	/* fileProcessed()
-	 * Increase the fileLoadCount and check if we are ready to start all modules.
-	 */
-	var fileProcessed = function() {
-		fileLoadCount++;
-		prepareForStart();
-	};
-
-	/* moduleProcessed()
-	 * Increase the moduleLoadCount and check if we are ready to start all modules.
-	 */
-	var moduleProcessed = function() {
-		moduleLoadCount++;
-		prepareForStart();
-	};
-
-	/* prepareForStart()
-	 * Check if all files and modules are loaded. If so, start all modules.
-	 */
-	var prepareForStart = function() {
-		if (moduleLoadCount !== getAllModules().length) {
-			Log.log("Waiting for all modules to be loaded.");
-			return;
-		}
-
-		if (fileLoadCount !== totalFiles) {
-			Log.log("Waiting for all files to be loaded.");
-			return;
-		}
-
-		Log.info('Ready to start!');
-		startModules();
 	};
 
 	/* Public Methods */
@@ -228,21 +202,24 @@ var Loader = (function() {
 		/* loadFile()
 		 * Load a file (script or stylesheet).
 		 * Prevent double loading and search for files in the vendor folder.
+		 *
+		 * argument fileName string - Path of the file we want to load.
+		 * argument module Module Object - the module that calls the loadFile function.
+		 * argument callback function - Function called when done.
 		 */
-		loadFile: function(fileName, module) {
+		loadFile: function(fileName, module, callback) {
 
-			if (fileName.indexOf(config.paths.modules + '/') === 0) {
-				// This is a module specific files.
-				// Load it and then return.
-				loadFile(fileName);
+			if (loadedFiles.indexOf(fileName.toLowerCase()) !== -1) {
+				Log.log('File already loaded: ' + fileName);
+				callback();
 				return;
 			}
 
-			if (fileName.indexOf('/') !== -1) {
-				// This is an external file.
-				// External files will always be loaded.
+			if (fileName.indexOf('http://') === 0 || fileName.indexOf('https://') === 0 || fileName.indexOf('/') !== -1) {
+				// This is an absolute or relative path.
 				// Load it and then return.
-				loadFile(fileName);
+				loadedFiles.push(fileName.toLowerCase());
+				loadFile(fileName, callback);
 				return;
 			}
 
@@ -250,19 +227,14 @@ var Loader = (function() {
 				// This file is available in the vendor folder.
 				// Load it from this vendor folder.
 				loadedFiles.push(fileName.toLowerCase());
-				loadFile(config.paths.vendor+'/'+vendor[fileName]);
+				loadFile(config.paths.vendor+'/'+vendor[fileName], callback);
 				return;
 			}
 
-			if (loadedFiles.indexOf(fileName.toLowerCase()) === -1) {
-				// File not loaded yet.
-				// Load it based on the module path.
-				loadedFiles.push(fileName.toLowerCase());
-				loadFile(module.file(fileName));
-				return;
-			}
-
-			Log.log('File already loaded: ' + fileName);
+			// File not loaded yet.
+			// Load it based on the module path.
+			loadedFiles.push(fileName.toLowerCase());
+			loadFile(module.file(fileName), callback);
 		}
 	};
 

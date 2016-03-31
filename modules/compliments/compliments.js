@@ -7,7 +7,7 @@
  * MIT Licensed.
  */
 
-Module.create({
+Module.register('compliments',{
 
 	// Module config defaults.
 	defaults: {

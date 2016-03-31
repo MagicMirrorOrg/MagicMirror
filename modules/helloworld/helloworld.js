@@ -7,7 +7,7 @@
  * MIT Licensed.
  */
 
-Module.create({
+Module.register('helloworld',{
 
 	// Default module config.
 	defaults: {

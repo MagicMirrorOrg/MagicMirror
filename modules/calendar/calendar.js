@@ -7,7 +7,7 @@
  * MIT Licensed.
  */
 
-Module.create({
+Module.register('calendar',{
 
 	// Define module defaults
 	defaults: {
