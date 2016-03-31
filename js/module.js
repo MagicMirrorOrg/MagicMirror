@@ -156,26 +156,50 @@ var Module = Class.extend({
 
 	/* loadStyles()
 	 * Load all required stylesheets by requesting the MM object to load the files.
+	 *
+	 * argument callback function - Function called when done.
 	 */
-	loadStyles: function() {
+	loadStyles: function(callback) {
+		var self = this;
 		var styles = this.getStyles();
-		for (var s in styles) {
-			var style = styles[s];
 
-			Loader.loadFile(style, this);
-		}
+		var loadNextStyle = function() {
+			if (styles.length > 0) {
+				var nextStyle = styles[0];
+				Loader.loadFile(nextStyle, self, function() {
+					styles = styles.slice(1);
+					loadNextStyle();
+				});
+			} else {
+				callback();
+			}
+		};
+
+		loadNextStyle();
 	},
 
 	/* loadScripts()
 	 * Load all required scripts by requesting the MM object to load the files.
+	 *
+	 * argument callback function - Function called when done.
 	 */
-	loadScripts: function() {
+	loadScripts: function(callback) {
+		var self = this;
 		var scripts = this.getScripts();
-		for (var s in scripts) {
-			var script = scripts[s];
 
-			Loader.loadFile(script, this);
-		}
+		var loadNextScript = function() {
+			if (scripts.length > 0) {
+				var nextScript = scripts[0];
+				Loader.loadFile(nextScript, self, function() {
+					scripts = scripts.slice(1);
+					loadNextScript();
+				});
+			} else {
+				callback();
+			}
+		};
+
+		loadNextScript();
 	},
 
 	/* updateDom(speed)
@@ -208,6 +232,38 @@ var Module = Class.extend({
 	}
 });
 
-Module.create = function(moduleDefinition) {
-	return Module.extend(moduleDefinition);
+Module.definitions = {};
+
+Module.create = function(name) {
+
+	//Define the clone method for later use.
+	function cloneObject(obj) {
+	    if (obj === null || typeof obj !== 'object') {
+	        return obj;
+	    }
+	 
+	    var temp = obj.constructor(); // give temp the original obj's constructor
+	    for (var key in obj) {
+	        temp[key] = cloneObject(obj[key]);
+	    }
+	 
+	    return temp;
+	}
+
+	var moduleDefinition = Module.definitions[name];
+	var clonedDefinition = cloneObject(moduleDefinition);
+
+	// Note that we clone the definition. Otherwise the objects are shared, which gives problems.
+	var ModuleClass = Module.extend(clonedDefinition);
+
+	return new ModuleClass();
+	
 };
+
+Module.register = function(name, moduleDefinition) {
+	Log.log('Module registered: ' + name);
+	Module.definitions[name] = moduleDefinition;
+};
+
+
+

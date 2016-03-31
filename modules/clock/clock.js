@@ -7,7 +7,7 @@
  * MIT Licensed.
  */
 
-Module.create({
+Module.register('clock',{
 
 	// Module config defaults.
 	defaults: {

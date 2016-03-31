@@ -7,7 +7,7 @@
  * MIT Licensed.
  */
 
-Module.create({
+Module.register('newsfeed',{
 
 	// Default module config.
 	defaults: {
@@ -35,6 +35,7 @@ Module.create({
 		this.activeItem = 0;
 
 		this.fetchNews();
+
 	},
 
 	// Override socket notification handler.
@@ -53,7 +54,6 @@ Module.create({
 
 	// Override dom generator.
 	getDom: function() {
-
 		var wrapper = document.createElement("div");
 
 		if (this.activeItem >= this.newsItems.length) {

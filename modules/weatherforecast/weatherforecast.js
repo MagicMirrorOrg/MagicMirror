@@ -7,7 +7,7 @@
  * MIT Licensed.
  */
 
-Module.create({
+Module.register('weatherforecast',{
 
 	// Default module config.
 	defaults: {
