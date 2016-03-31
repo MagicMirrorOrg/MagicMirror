@@ -414,7 +414,7 @@ var MM = (function() {
 		hideModule: function(module, speed, callback) {
 			hideModule(module, speed, function() {
 				module.hidden = true;
-				callback();
+				if (typeof callback === 'function') { callback(); }	
 			});
 		},
 
