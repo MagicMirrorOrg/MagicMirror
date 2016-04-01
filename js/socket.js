@@ -7,8 +7,6 @@
  * MIT Licensed.
  */
 
-
-
 var MMSocket = function(moduleName) {
 
 	var self = this;
@@ -18,7 +16,7 @@ var MMSocket = function(moduleName) {
 	}
 
 	self.moduleName = moduleName;
-	
+
 
 	self.socket = io('http://localhost:8080');
 	self.socket.on('notification', function (data) {
@@ -35,6 +33,4 @@ var MMSocket = function(moduleName) {
 			});
 		}
 	};
-};  
-
-  
+};

@@ -40,7 +40,7 @@ Module.register('compliments',{
 	// Define start sequence.
 	start: function() {
 		Log.info('Starting module: ' + this.name);
-		
+
 		this.lastComplimentIndex = -1;
 
 		// Schedule update timer.
@@ -105,19 +105,18 @@ Module.register('compliments',{
 		var index = this.randomIndex(compliments);
 
 		return compliments[index];
-	},	
+	},
 
 	// Override dom generator.
 	getDom: function() {
 		var complimentText = this.randomCompliment();
 
-		var compliment = document.createTextNode(complimentText);       
+		var compliment = document.createTextNode(complimentText);
 		var wrapper = document.createElement("div");
 		wrapper.className = 'thin xlarge bright';
 		wrapper.appendChild(compliment);
 
-		return wrapper; 
+		return wrapper;
 	}
-	
-});
 
+});

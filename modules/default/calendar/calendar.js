@@ -14,10 +14,10 @@ Module.register('calendar',{
 		maximumEntries: 10, // Total Maximum Entries
 		displaySymbol: true,
 		defaultSymbol: 'calendar', // Fontawsome Symbol see http://fontawesome.io/cheatsheet/
-		maxTitleLength: 25, 
+		maxTitleLength: 25,
 		fetchInterval: 5 * 60 * 1000, // Update every 5 minutes.
 		animationSpeed: 2000,
-		fade: true, 
+		fade: true,
 		fadePoint: 0.25, // Start on 1/4th of the list.
         calendars: [
 			{
@@ -58,7 +58,7 @@ Module.register('calendar',{
 
 	// Override socket notification handler.
 	socketNotificationReceived: function(notification, payload) {
-		if (notification === 'CALENDAR_EVENTS') {			
+		if (notification === 'CALENDAR_EVENTS') {
 			if (this.hasCalendarURL(payload.url)) {
 				this.calendarData[payload.url] = payload.events;
 			}

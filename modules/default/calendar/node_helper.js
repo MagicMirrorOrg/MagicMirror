@@ -42,7 +42,7 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries) {
 
 			for (var e in data) {
 				var event = data[e];
-	
+
 				if (event.type === 'VEVENT') {
 					var startDate = (event.start.length === 8) ? moment(event.start, 'YYYYMMDD') : moment(new Date(event.start));
 
@@ -62,7 +62,7 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries) {
 							rule.timeset[0].minute = startDate.format('m');
 							rule.timeset[0].second = startDate.format('s');
 						}
-						
+
 						var oneYear = new Date();
 						oneYear.setFullYear(oneYear.getFullYear() + 1);
 
@@ -92,7 +92,7 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries) {
 			newEvents.sort(function(a,b) {
 				return a.startDate - b.startDate;
 			});
-			
+
 			events = newEvents.slice(0, maximumEntries);
 
 			self.broadcastEvents();
@@ -180,7 +180,7 @@ module.exports = NodeHelper.create({
 
 		console.log('Starting node helper for: ' + this.name);
 
-		
+
 	},
 
 	// Override socketNotificationReceived method.
@@ -211,7 +211,7 @@ module.exports = NodeHelper.create({
 		if (typeof self.fetchers[url] === 'undefined') {
 			console.log('Create new calendar fetcher for url: ' + url + ' - Interval: ' + fetchInterval);
 			fetcher = new CalendarFetcher(url, fetchInterval, maximumEntries);
-			
+
 			fetcher.onReceive(function(fetcher) {
 				//console.log('Broadcast events.');
 				//console.log(fetcher.events());
@@ -239,4 +239,3 @@ module.exports = NodeHelper.create({
 		fetcher.startFetch();
 	}
 });
-
