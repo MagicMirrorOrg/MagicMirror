@@ -33,9 +33,9 @@ The following properties can be configured:
 	<tbody>
 		<tr>
 			<td><code>timeFormat</code></td>
-			<td>Use 12 of 24 hour format.<br>
+			<td>Use 12 or 24 hour format.<br>
 				<br><b>Possible values:</b> <code>12</code> or <code>24</code>
-				<br><b>Default value:</b> <code>24</code>
+				<br><b>Default value:</b> uses value of <i>config.timeFormat</i>
 			</td>
 		</tr>
 		<tr>

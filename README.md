@@ -26,11 +26,11 @@ Things that still have to be implemented or changed.
 ### Default modules:
 - [**Clock**](modules/clock)
 - [**Calendar**](modules/calendar)
-- **Current Weather**
-- **Weather Forecast**
-- **News Feed**
+- [**Current Weather**](modules/currentweather)
+- [**Weather Forecast**](modules/weatherforecast)
+- [**News Feed**](modules/newsfeed)
 - [**Compliments**](modules/compliments)
-- **Hello World**
+- [**Hello World**](modules/helloworld)
 
 ### 3rd Party Modules:
 
