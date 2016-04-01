@@ -96,6 +96,16 @@ The following properties can be configured:
 				<br><b>Default value:</b> <i>An example calendar.</i>
 			</td>
 		</tr>
+		<tr>
+			<td><code>titleReplace</code></td>
+			<td>An object of textual replacements applied to the tile of the event. This allow to remove or replace certains words in the title.<br>
+				<br><b>Example:</b> <br>
+				
+				<code>
+					titleReplace: {'Birthday of ' : '', 'foo':'bar'}
+				</code>
+			</td>
+		</tr>
 	</tbody>
 </table>
 
