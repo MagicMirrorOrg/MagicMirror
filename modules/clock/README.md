@@ -22,12 +22,12 @@ modules: [
 
 The following properties can be configured:
 
-<table>
+<table width="100%">
 	<!-- why, markdown... -->
 	<thead>
 		<tr>
 			<th>Option</th>
-			<th>Description</th>
+			<th width="100%">Description</th>
 		</tr>
 	<thead>
 	<tbody>
