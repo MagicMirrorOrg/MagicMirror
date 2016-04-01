@@ -113,7 +113,7 @@ Module.register('compliments',{
 
 		var compliment = document.createTextNode(complimentText);       
 		var wrapper = document.createElement("div");
-		wrapper.className = 'thin xlarge';
+		wrapper.className = 'thin xlarge bright';
 		wrapper.appendChild(compliment);
 
 		return wrapper; 

@@ -422,10 +422,8 @@ var MM = (function() {
 		 * argument callback function - Called when the animation is done.
 		 */
 		hideModule: function(module, speed, callback) {
-			hideModule(module, speed, function() {
-				module.hidden = true;
-				if (typeof callback === 'function') { callback(); }	
-			});
+			module.hidden = true;
+			hideModule(module, speed, callback);
 		},
 
 		/* showModule(module, speed, callback)

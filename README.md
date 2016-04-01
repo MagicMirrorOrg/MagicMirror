@@ -14,6 +14,9 @@ This version of the Magic Mirror software focusses on a modular plugin system. B
 ##Todo
 Things that still have to be implemented or changed.
 
+####Main
+- Allow show/hide animations to animate the height. This way the other modules won't jump around.
+
 ####Documentation
 - Write all the documentation. :)
 
