@@ -34,8 +34,8 @@ The following properties can be configured:
 		<tr>
 			<td><code>timeFormat</code></td>
 			<td>Use 12 of 24 hour format.<br>
-				<br><b>Possible values:</b>
-				<br><b>Default value:</b>
+				<br><b>Possible values: <code>12</code> or <code>24</code></b>
+				<br><b>Default value:<code>24</code></b>
 			</td>
 		</tr>
 		<tr>
