@@ -23,3 +23,8 @@ modules: [
 	}
 ]
 ```
+
+As a developer your module can send an alert to this module by using:
+```
+self.sendNotification("SHOW_ALERT", {message: "Hello!"}); 
+```
