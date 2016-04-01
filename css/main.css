@@ -35,7 +35,6 @@ body {
 
 
 header {
-	margin-top: 30px;
 	text-transform: uppercase;
 	font-size: 15px;
 	font-family: 'roboto_condensedregular';
@@ -50,6 +49,18 @@ sup {
 	font-size: 50%;
 	line-height: 50%;
 }
+
+/**
+ * Module styles.
+ */
+
+.module {
+	margin-top: 30px;
+}
+.module:first-child {
+	margin-top: 0px;
+}
+
 /**
  * Region Definitions.
  */
@@ -120,6 +131,8 @@ sup {
 .region.right {
 	text-align: right;
 }
-.region.right  table {
-	float: right;
+.region  table {
+	width: 100%;
+	border-spacing: 0px;
+    border-collapse: separate;
 }

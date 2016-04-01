@@ -31,7 +31,7 @@ var MM = (function() {
 				dom.className = module.name;
 
 				if (typeof module.data.classes === 'string') {
-					dom.className = dom.className + ' ' + module.data.classes;
+					dom.className = 'module '+ dom.className + ' ' + module.data.classes;
 				}
 
 				dom.opacity = 0;
@@ -167,7 +167,12 @@ var MM = (function() {
 			moduleWrapper.style.opacity = 0;
 
 			setTimeout(function() {
-				moduleWrapper.style.display = 'none';
+				// To not take up any space, we just make the position absolute.
+				// since it's fade out anyway, we can see it lay above or
+				// below other modules. This works way better than adjusting
+				// the .display property.
+				moduleWrapper.style.position = 'absolute';
+
 				if (typeof callback === 'function') { callback(); }		
 			}, speed);
 		}
@@ -184,12 +189,15 @@ var MM = (function() {
 		var moduleWrapper = document.getElementById(module.identifier);
 		if (moduleWrapper !== null) {
 			moduleWrapper.style.transition = "opacity " + speed / 1000 + "s";
+			// Restore the postition. See hideModule() for more info.
+			moduleWrapper.style.position = 'static';
 			moduleWrapper.style.opacity = 1;
-			moduleWrapper.style.display = 'block';
 
 			setTimeout(function() {
 				if (typeof callback === 'function') { callback(); }				
 			}, speed);
+
+			
 		}
 	};
 
