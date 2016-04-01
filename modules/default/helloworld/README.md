@@ -9,7 +9,7 @@ modules: [
 		module: 'helloworld',
 		position: 'bottom_bar',	// This can be any of the regions.
 		config: {
-			// See 'Configuration options' for more information. 
+			// See 'Configuration options' for more information.
 			text: 'Hello world!',
 		}
 	}
@@ -46,6 +46,6 @@ The following properties can be configured:
 			</td>
 		</tr>
 
-		
+
 	</tbody>
 </table>

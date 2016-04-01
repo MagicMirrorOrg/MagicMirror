@@ -61,7 +61,7 @@ function loadModule(module) {
 	var elements = module.split('/');
 	var moduleName = elements[elements.length - 1];
 	var moduleFolder =  __dirname + '/../modules/' + module;
-	
+
 	if (defaultModules.indexOf(moduleName) !== -1) {
 		moduleFolder =  __dirname + '/../modules/default/' + module;
 	}

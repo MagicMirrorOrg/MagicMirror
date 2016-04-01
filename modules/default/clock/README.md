@@ -12,7 +12,7 @@ modules: [
 		position: 'top_left',	// This can be any of the regions.
 		config: {
 			// The config property is optional.
-			// See 'Configuration options' for more information. 
+			// See 'Configuration options' for more information.
 		}
 	}
 ]

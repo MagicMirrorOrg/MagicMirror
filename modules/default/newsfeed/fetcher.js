@@ -5,7 +5,7 @@
  * MIT Licensed.
  */
 
-var NewsFetcher = require('./newsfetcher.js'); 
+var NewsFetcher = require('./newsfetcher.js');
 
 /* Fetcher
  * Responsible for requesting an update on the set interval and broadcasting the data.
@@ -20,7 +20,7 @@ var Fetcher = function(url, reloadInterval) {
 	if (reloadInterval < 1000) {
 		reloadInterval = 1000;
 	}
-	
+
 	var reloadTimer = null;
 	var items = [];
 
