@@ -57,11 +57,11 @@ var Module = Class.extend({
 	 */
 	getDom: function() {
 		var nameWrapper = document.createElement("div");
-		var name = document.createTextNode(this.name);       
+		var name = document.createTextNode(this.name);
 		nameWrapper.appendChild(name);
 
 		var identifierWrapper = document.createElement("div");
-		var identifier = document.createTextNode(this.identifier);       
+		var identifier = document.createTextNode(this.identifier);
 		identifierWrapper.appendChild(identifier);
 		identifierWrapper.className = "small dimmed";
 
@@ -69,7 +69,7 @@ var Module = Class.extend({
 		div.appendChild(nameWrapper);
 		div.appendChild(identifierWrapper);
 
-		return div; 
+		return div;
 	},
 
 	/* notificationReceived(notification, payload, sender)
@@ -97,7 +97,6 @@ var Module = Class.extend({
 	socketNotificationReceived: function(notification, payload) {
 		Log.log(this.name + ' received a socket notification: ' + notification + ' - Payload: ' + payload);
 	},
-
 
 
 	/*********************************************
@@ -262,12 +261,12 @@ Module.create = function(name) {
 	    if (obj === null || typeof obj !== 'object') {
 	        return obj;
 	    }
-	 
+
 	    var temp = obj.constructor(); // give temp the original obj's constructor
 	    for (var key in obj) {
 	        temp[key] = cloneObject(obj[key]);
 	    }
-	 
+
 	    return temp;
 	}
 
@@ -278,13 +277,10 @@ Module.create = function(name) {
 	var ModuleClass = Module.extend(clonedDefinition);
 
 	return new ModuleClass();
-	
+
 };
 
 Module.register = function(name, moduleDefinition) {
 	Log.log('Module registered: ' + name);
 	Module.definitions[name] = moduleDefinition;
 };
-
-
-

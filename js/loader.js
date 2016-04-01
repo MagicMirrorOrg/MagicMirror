@@ -41,7 +41,7 @@ var Loader = (function() {
 			}
 		};
 
-		loadNextModule();		
+		loadNextModule();
 	};
 
 	/* startModules()
@@ -60,7 +60,7 @@ var Loader = (function() {
 	/* getAllModules()
 	 * Retrieve list of all modules.
 	 *
-	 * return array - module data as configured in config 
+	 * return array - module data as configured in config
 	 */
 	var getAllModules = function() {
 		return config.modules;
@@ -79,12 +79,20 @@ var Loader = (function() {
 			var moduleData = modules[m];
 			var module = moduleData.module;
 
+			var elements = module.split('/');
+			var moduleName = elements[elements.length - 1];
+			var moduleFolder =  config.paths.modules + '/' + module;
+
+			if (defaultModules.indexOf(moduleName) !== -1) {
+				moduleFolder =  config.paths.modules + '/default/' + module;
+			}
+
 			moduleFiles.push({
 				index: m,
 				identifier: 'module_' + m + '_' + module,
-				name: module,
-				path: config.paths.modules + '/' +  module,
-				file: module + '.js',
+				name: moduleName,
+				path: moduleFolder + '/' ,
+				file: moduleName + '.js',
 				position: moduleData.position,
 				header: moduleData.header,
 				config: moduleData.config,
@@ -122,8 +130,8 @@ var Loader = (function() {
 				afterLoad();
 			});
 		}
-		
-	};	
+
+	};
 
 	/* bootstrapModule(module, mObj)
 	 * Bootstrap modules by setting the module data and loading the scripts & styles.
@@ -146,8 +154,8 @@ var Loader = (function() {
 				callback();
 			});
 		});
-		
-		
+
+
 	};
 
 	/* loadFile(fileName)
@@ -186,7 +194,7 @@ var Loader = (function() {
 				};
 
 				document.getElementsByTagName("head")[0].appendChild(stylesheet);
-			break;				
+			break;
 		}
 
 	};
@@ -241,10 +249,3 @@ var Loader = (function() {
 	};
 
 })();
-
-
-
-
-
-
-

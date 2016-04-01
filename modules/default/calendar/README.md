@@ -1,6 +1,6 @@
 # Module: Calendar
 The `calendar` module is one of the default modules of the MagicMirror.
-This module displays events from a public .ical calendar. It can combine multiple calendars. 
+This module displays events from a public .ical calendar. It can combine multiple calendars.
 
 ## Using the module
 
@@ -13,7 +13,7 @@ modules: [
 		config: {
 			// The config property is optional.
 			// If no config is set, an example calendar is shown.
-			// See 'Configuration options' for more information. 
+			// See 'Configuration options' for more information.
 		}
 	}
 ]
@@ -65,7 +65,7 @@ The following properties can be configured:
 			<td><code>fetchInterval</code></td>
 			<td>How often does the content needs to be fetched? (Milliseconds)<br>
 				<br><b>Possible values:</b> <code>1000</code> - <code>86400000</code>
-				<br><b>Default value:</b> <code>30000</code> (5 minutes)
+				<br><b>Default value:</b> <code>300000</code> (5 minutes)
 			</td>
 		</tr>
 		<tr>
@@ -96,12 +96,22 @@ The following properties can be configured:
 				<br><b>Default value:</b> <i>An example calendar.</i>
 			</td>
 		</tr>
+		<tr>
+			<td><code>titleReplace</code></td>
+			<td>An object of textual replacements applied to the tile of the event. This allow to remove or replace certains words in the title.<br>
+				<br><b>Example:</b> <br>
+
+				<code>
+					titleReplace: {'Birthday of ' : '', 'foo':'bar'}
+				</code>
+			</td>
+		</tr>
 	</tbody>
 </table>
 
 ### Calendar configuration
 
-The `calendar` property contains an array of the configured calendars.
+The `calendars` property contains an array of the configured calendars.
 
 #### Default value:
 ````javascript

@@ -14,8 +14,8 @@ Module.register('newsfeed',{
 		feedUrl: 'http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml',
 		showPublishDate: true,
 		reloadInterval:  5 * 60 * 1000, // every 5 minutes
-	    updateInterval: 7.5 * 1000, 
-        animationSpeed: 2.5 * 1000, 
+	    updateInterval: 7.5 * 1000,
+        animationSpeed: 2.5 * 1000,
 	},
 
 	// Define required scripts.
@@ -29,7 +29,7 @@ Module.register('newsfeed',{
 
 		// Set locale.
 		moment.locale(config.language);
-		
+
 		this.newsItems = [];
 		this.loaded = false;
 		this.activeItem = 0;
@@ -61,7 +61,7 @@ Module.register('newsfeed',{
 		}
 
 		if (this.newsItems.length > 0) {
-			
+
 			if (this.config.showPublishDate) {
 				var timestamp = document.createElement("div");
 				timestamp.className = "light small dimmed";
@@ -119,5 +119,3 @@ Module.register('newsfeed',{
 	    return string.charAt(0).toUpperCase() + string.slice(1);
 	}
 });
-
-

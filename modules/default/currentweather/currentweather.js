@@ -1,13 +1,13 @@
 /* global Module */
 
 /* Magic Mirror
- * Module: WeatherForecast
+ * Module: CurrentWeather
  *
  * By Michael Teeuw http://michaelteeuw.nl
  * MIT Licensed.
  */
 
-Module.register('weatherforecast',{
+Module.register('currentweather',{
 
 	// Default module config.
 	defaults: {
@@ -18,15 +18,13 @@ Module.register('weatherforecast',{
         animationSpeed: 1000,
         timeFormat: config.timeFormat,
 		lang: config.language,
-		fade: true, 
-		fadePoint: 0.25, // Start on 1/4th of the list.
 
-		initialLoadDelay: 2500, // 2.5 seconds delay. This delay is used to keep the OpenWeather API happy.
+		initialLoadDelay: 0, // 0 seconds delay
 		retryDelay: 2500,
 
 		apiVersion: '2.5',
 		apiBase: 'http://api.openweathermap.org/data/',
-		forecastEndpoint: 'forecast/daily',
+		weatherEndpoint: 'weather',
 
 		iconTable: {
 			'01d':'wi-day-sunny',
@@ -57,7 +55,7 @@ Module.register('weatherforecast',{
 
 	// Define required scripts.
 	getStyles: function() {
-		return ['weather-icons.css', 'weatherforecast.css'];
+		return ['weather-icons.css', 'currentweather.css'];
 	},
 
 
@@ -67,8 +65,13 @@ Module.register('weatherforecast',{
 
 		// Set locale.
 		moment.locale(config.language);
-		
-		this.forecast = [];
+
+		this.windSpeed = null;
+		this.sunriseSunsetTime = null;
+		this.sunriseSunsetIcon = null;
+		this.temperature = null;
+		this.weatherType = null;
+
 		this.loaded = false;
 		this.scheduleUpdate(this.config.initialLoadDelay);
 
@@ -99,58 +102,44 @@ Module.register('weatherforecast',{
 		}
 
 
-		var table = document.createElement("table");
-		table.className = "small";
+		var small = document.createElement("div");
+		small.className = "normal medium";
 
-		for (var f in this.forecast) {
-			var forecast = this.forecast[f];
+		var windIcon = document.createElement("span");
+		windIcon.className = "wi wi-strong-wind dimmed";
+		small.appendChild(windIcon);
 
-			var row = document.createElement("tr");
-			table.appendChild(row);
+		var windSpeed = document.createElement("span");
+		windSpeed.innerHTML = " " + this.windSpeed;
+		small.appendChild(windSpeed);
 
-			var dayCell = document.createElement("td");
-			dayCell.className = 'day';
-			dayCell.innerHTML = forecast.day;
-			row.appendChild(dayCell);
+		var spacer = document.createElement("span");
+		spacer.innerHTML = "&nbsp;";
+		small.appendChild(spacer);
 
-			var iconCell = document.createElement("td");
-			iconCell.className = "bright weather-icon";
-			row.appendChild(iconCell);
+		var sunriseSunsetIcon = document.createElement("span");
+		sunriseSunsetIcon.className = "wi dimmed " + this.sunriseSunsetIcon;
+		small.appendChild(sunriseSunsetIcon);
 
-			var icon = document.createElement("span");
-			icon.className = forecast.icon;
-			iconCell.appendChild(icon);
+		var sunriseSunsetTime = document.createElement("span");
+		sunriseSunsetTime.innerHTML = " " + this.sunriseSunsetTime;
+		small.appendChild(sunriseSunsetTime);
 
-			var maxTempCell = document.createElement("td");
-			maxTempCell.innerHTML = forecast.maxTemp;
-			maxTempCell.className = 'align-right bright max-temp';
-			row.appendChild(maxTempCell);
+		var large = document.createElement("div");
+		large.className = "large light";
 
-			var minTempCell = document.createElement("td");
-			minTempCell.innerHTML = forecast.minTemp;
-			minTempCell.className = 'align-right min-temp';
-			row.appendChild(minTempCell);
+		var weatherIcon = document.createElement("span");
+		weatherIcon.className = "wi weathericon " + this.weatherType;
+		large.appendChild(weatherIcon);
 
+		var temperature = document.createElement("span");
+		temperature.className = "bright";
+		temperature.innerHTML = " " + this.temperature + '&deg;';
+		large.appendChild(temperature);
 
-			if (this.config.fade && this.config.fadePoint < 1) {
-				if (this.config.fadePoint < 0) {
-					this.config.fadePoint = 0;
-				}
-				var startingPoint = this.forecast.length * this.config.fadePoint;
-				var steps = this.forecast.length - startingPoint;
-				if (f >= startingPoint) {
-					var currentStep = f - startingPoint;
-					row.style.opacity = 1 - (1 / steps * currentStep);
-				}
-			}
-
-			
-
-		}
-	
-
-
-		return table;
+		wrapper.appendChild(small);
+		wrapper.appendChild(large);
+		return wrapper;
 	},
 
 
@@ -159,7 +148,7 @@ Module.register('weatherforecast',{
 	 * Calls processWeather on succesfull response.
 	 */
 	updateWeather: function() {
-		var url = this.config.apiBase + this.config.apiVersion + '/' + this.config.forecastEndpoint + this.getParams();
+		var url = this.config.apiBase + this.config.apiVersion + '/' + this.config.weatherEndpoint + this.getParams();
 		var self = this;
 		var retry = true;
 
@@ -208,22 +197,25 @@ Module.register('weatherforecast',{
 	 * argument data object - Weather information received form openweather.org.
 	 */
 	processWeather: function(data) {
+		this.temperature = this.roundValue(data.main.temp);
+		this.windSpeed = this.ms2Beaufort(this.roundValue(data.wind.speed));
+		this.weatherType = this.config.iconTable[data.weather[0].icon];
 
-		this.forecast = [];
-		for (var i = 0, count = data.list.length; i < count; i++) {
 
-			var forecast = data.list[i];
-			this.forecast.push({
 
-				day: moment(forecast.dt, 'X').format('ddd.'),
-				icon: this.config.iconTable[forecast.weather[0].icon],
-				maxTemp: this.roundValue(forecast.temp.max),
-				minTemp: this.roundValue(forecast.temp.min)
+		var now = moment().format('x');
+		var sunrise = moment(data.sys.sunrise*1000).format('x');
+		var sunset = moment(data.sys.sunset*1000).format('x');
 
-			});
+
+		if (sunrise < now && sunset > now) {
+			this.sunriseSunsetTime = moment(data.sys.sunset*1000).format((this.config.timeFormat === 24) ? 'HH:mm' : 'hh:mm a');
+			this.sunriseSunsetIcon = 'wi-sunset';
+		} else {
+			this.sunriseSunsetTime = moment(data.sys.sunrise*1000).format((this.config.timeFormat === 24) ? 'HH:mm' : 'hh:mm a');
+			this.sunriseSunsetIcon = 'wi-sunrise';
+
 		}
-
-		//Log.log(this.forecast);
 
 		this.loaded = true;
 		this.updateDom(this.config.animationSpeed);
@@ -238,11 +230,10 @@ Module.register('weatherforecast',{
 		var nextLoad = this.config.updateInterval;
 		if (typeof delay !== 'undefined' && delay >= 0) {
 			nextLoad = delay;
-		} 
+		}
 
 		var self = this;
-		clearTimeout(this.updateTimer);
-		this.updateTimer = setTimeout(function() {
+		setTimeout(function() {
 			self.updateWeather();
 		}, nextLoad);
 	},
@@ -277,4 +268,3 @@ Module.register('weatherforecast',{
 		return parseFloat(temperature).toFixed(1);
 	}
 });
-
