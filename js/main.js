@@ -49,7 +49,7 @@ var MM = (function() {
 
 				
 
-				updateDom(module, 500);
+				updateDom(module, 0);
 			}
 		}
 

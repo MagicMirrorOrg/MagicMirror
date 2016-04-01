@@ -79,12 +79,20 @@ var Loader = (function() {
 			var moduleData = modules[m];
 			var module = moduleData.module;
 
+			var elements = module.split('/');
+			var moduleName = elements[elements.length - 1];
+			var moduleFolder =  config.paths.modules + '/' + module;
+			
+			if (defaultModules.indexOf(moduleName) !== -1) {
+				moduleFolder =  config.paths.modules + '/default/' + module;
+			}
+
 			moduleFiles.push({
 				index: m,
 				identifier: 'module_' + m + '_' + module,
-				name: module,
-				path: config.paths.modules + '/' +  module,
-				file: module + '.js',
+				name: moduleName,
+				path: moduleFolder + '/' ,
+				file: moduleName + '.js',
 				position: moduleData.position,
 				header: moduleData.header,
 				config: moduleData.config,

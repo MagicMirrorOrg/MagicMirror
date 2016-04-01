@@ -24,13 +24,13 @@ Things that still have to be implemented or changed.
 ##Modules 
 
 ### Default modules:
-- **Clock**
-- **Calendar**
-- **Current Weather**
-- **Weather Forecast**
-- **News Feed**
-- **Compliments**
-- **Hello World**
+- [**Clock**](modules/default/clock)
+- [**Calendar**](modules/default/calendar)
+- [**Current Weather**](modules/default/currentweather)
+- [**Weather Forecast**](modules/default/weatherforecast)
+- [**News Feed**](modules/default/newsfeed)
+- [**Compliments**](modules/default/compliments)
+- [**Hello World**](modules/default/helloworld)
 
 ### 3rd Party Modules:
 
