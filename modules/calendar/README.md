@@ -65,7 +65,7 @@ The following properties can be configured:
 			<td><code>fetchInterval</code></td>
 			<td>How often does the content needs to be fetched? (Milliseconds)<br>
 				<br><b>Possible values:</b> <code>1000</code> - <code>86400000</code>
-				<br><b>Default value:</b> <code>30000</code> (5 minutes)
+				<br><b>Default value:</b> <code>300000</code> (5 minutes)
 			</td>
 		</tr>
 		<tr>
@@ -111,7 +111,7 @@ The following properties can be configured:
 
 ### Calendar configuration
 
-The `calendar` property contains an array of the configured calendars.
+The `calendars` property contains an array of the configured calendars.
 
 #### Default value:
 ````javascript
