@@ -38,19 +38,53 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries) {
 			//console.log(data);
 			newEvents = [];
 
+			var limitFunction = function (date, i){return i < maximumEntries;};
+
 			for (var e in data) {
 				var event = data[e];
-
+	
 				if (event.type === 'VEVENT') {
 					var startDate = (event.start.length === 8) ? moment(event.start, 'YYYYMMDD') : moment(new Date(event.start));
 
-					var today = moment().startOf('day');
+					if (typeof event.rrule != 'undefined') {
+						var rule = event.rrule;
 
-					if (startDate > today) {
-						newEvents.push({
-							title: event.summary,
-							startDate: startDate.format('x')
-						});
+						// Check if the timeset is set to this current time.
+						// If so, the RRULE line does not contain any BYHOUR, BYMINUTE, BYSECOND params.
+						// This causes the times of the recurring event to be incorrect.
+						// By adjusting the timeset property, this issue is solved.
+						var now = new Date();
+						if (rule.timeset[0].hour == now.getHours(),
+							rule.timeset[0].minute == now.getMinutes(),
+							rule.timeset[0].second == now.getSeconds()) {
+
+							rule.timeset[0].hour = startDate.format('H');
+							rule.timeset[0].minute = startDate.format('m');
+							rule.timeset[0].second = startDate.format('s');
+						}
+						
+						var oneYear = new Date();
+						oneYear.setFullYear(oneYear.getFullYear() + 1);
+
+						var dates = rule.between(new Date(), oneYear, true, limitFunction);
+						//console.log(dates);
+						for (var d in dates) {
+							startDate = moment(new Date(dates[d]));
+							newEvents.push({
+								title: event.summary,
+								startDate: startDate.format('x')
+							});
+						}
+					} else {
+						// Single event.
+
+						var today = moment().startOf('day');
+						if (startDate > today) {
+							newEvents.push({
+								title: event.summary,
+								startDate: startDate.format('x')
+							});
+						}
 					}
 				}
 			}
@@ -197,7 +231,7 @@ module.exports = NodeHelper.create({
 
 			self.fetchers[url] = fetcher;
 		} else {
-			console.log('Use exsisting news fetcher for url: ' + url);
+			//console.log('Use exsisting news fetcher for url: ' + url);
 			fetcher = self.fetchers[url];
 			fetcher.broadcastEvents();
 		}
