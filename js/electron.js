@@ -6,7 +6,7 @@ const fs = require('fs');
 const Server = require(__dirname + '/server.js');
 const spawn = require('child_process').spawn;
 const electron = require('electron');
-
+const defaultModules = require(__dirname + '/../modules/default/defaultmodules.js');
 
 // Config
 var config = {};
@@ -56,8 +56,18 @@ function loadConfig (callback) {
 	}
 }
 
-function loadModule(moduleName) {
-	var helperPath = __dirname + '/../modules/' + moduleName + '/node_helper.js';
+function loadModule(module) {
+
+	var elements = module.split('/');
+	var moduleName = elements[elements.length - 1];
+	var moduleFolder =  __dirname + '/../modules/' + module;
+	
+	if (defaultModules.indexOf(moduleName) !== -1) {
+		moduleFolder =  __dirname + '/../modules/default/' + module;
+	}
+
+	var helperPath = moduleFolder + '/node_helper.js';
+
 	var loadModule = true;
 	try {
 	    fs.accessSync(helperPath, fs.R_OK);
