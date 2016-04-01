@@ -1,0 +1,31 @@
+/* Based on work by http://tympanus.net/codrops/licensing/ */
+/* Common, default styles for the notification box */
+
+.ns-box {
+	position: fixed;
+	background: #fff;
+	padding: 22px;
+	line-height: 1.4;
+	z-index: 1000;
+	pointer-events: none;
+	color: black;
+	font-size: 70%;
+}
+
+.ns-box.ns-show {
+	pointer-events: auto;
+}
+
+.ns-box a {
+	color: inherit;
+	opacity: 0.7;
+	font-weight: 700;
+}
+.ns-box p {
+	margin: 0;
+}
+
+.ns-box.ns-show,
+.ns-box.ns-visible {
+	pointer-events: auto;
+}
