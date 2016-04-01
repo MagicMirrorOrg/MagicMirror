@@ -1,5 +1,8 @@
-body {
+html {
 	cursor: none;
+}
+
+body {
 	margin: 60px;
 	position: absolute;
 	height: calc(100% - 120px);
