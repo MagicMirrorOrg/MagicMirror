@@ -29,7 +29,7 @@ Things that still have to be implemented or changed.
 - **Current Weather**
 - **Weather Forecast**
 - **News Feed**
-- **Compliments**
+- [**Compliments**](modules/compliments)
 - **Hello World**
 
 ### 3rd Party Modules:
