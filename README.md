@@ -24,8 +24,8 @@ Things that still have to be implemented or changed.
 ##Modules 
 
 ### Default modules:
-- **Clock**
-- **Calendar**
+- [**Clock**](modules/clock)
+- [**Calendar**](modules/clock)
 - **Current Weather**
 - **Weather Forecast**
 - **News Feed**
