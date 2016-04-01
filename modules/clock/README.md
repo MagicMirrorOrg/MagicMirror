@@ -34,15 +34,15 @@ The following properties can be configured:
 		<tr>
 			<td><code>timeFormat</code></td>
 			<td>Use 12 of 24 hour format.<br>
-				<br><b>Possible values: <code>12</code> or <code>24</code></b>
-				<br><b>Default value:<code>24</code></b>
+				<br><b>Possible values:</b> <code>12</code> or <code>24</code>
+				<br><b>Default value:</b> <code>24</code>
 			</td>
 		</tr>
 		<tr>
 			<td><code>displaySeconds</code></td>
 			<td>Display seconds.<br>
-				<br><b>Possible values: <code>true</code> or <code>false</code></b>
-				<br><b>Default value: <code>true</code></b>
+				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
+				<br><b>Default value:</b> <code>true</code>
 			</td>
 		</tr>
 	</tbody>
