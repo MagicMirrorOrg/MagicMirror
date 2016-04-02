@@ -33,21 +33,29 @@ The following properties can be configured:
 		<tr>
 			<td><code>effect</code></td>
 			<td>The animation effect to use.<br>
-				<br><b>Possible values:</b> <code>scale</code>, <code>slide</code>, <code>genie</code>, <code>jelly</code>, <code>flip</code>, <code>exploader</code> & <code>bouncyflip</code>
+				<br><b>Possible values:</b> <code>scale</code> <code>slide</code> <code>genie</code> <code>jelly</code> <code>flip</code> <code>exploader</code> <code>bouncyflip</code>
 				<br><b>Default value:</b> <code>slide</code>
 			</td>
 		</tr>
 		<tr>
 			<td><code>display_time</code></td>
 			<td>Time a notification is displayed.<br>
-				<br><b>Possible values:</b> any <code>int</code>
+				<br><b>Possible values:</b> <code>int</code>
+				<br><b>Default value:</b> <code>3500</code>
+			</td>
+		</tr>
+		<tr>
+		<tr>
+			<td><code>position</code></td>
+			<td>Position where the notifications should be displayed.<br>
+				<br><b>Possible values:</b> <code>left</code> <code>center</code> <code>right</code>
 				<br><b>Default value:</b> <code>3500</code>
 			</td>
 		</tr>
 		<tr>
 			<td><code>welcome_message</code></td>
 			<td>Message shown at startup.<br>
-				<br><b>Possible values:</b> any <code>string</code> & <code>false</code>
+				<br><b>Possible values:</b> <code>string</code> <code>false</code>
 				<br><b>Default value:</b> <code>Welcome, start was successfull!</code>
 			</td>
 		</tr>
@@ -73,13 +81,13 @@ self.sendNotification("SHOW_NOTIFICATION", {title: "Hello", message: "This is a 
 		<tr>
 			<td><code>title</code></td>
 			<td>The title of the notification.<br>
-				<br><b>Possible values:</b> <code>text</code> or <code>html</code> as a  <code>string</code>
+				<br><b>Possible values:</b> <code>text</code> or <code>html</code>
 			</td>
 		</tr>
 		<tr>
 			<td><code>message</code></td>
 			<td>The message of the notification.<br>
-				<br><b>Possible values:</b> <code>text</code> or <code>html</code> as a  <code>string</code>
+				<br><b>Possible values:</b> <code>text</code> or <code>html</code>
 			</td>
 		</tr>
 	</tbody>
@@ -101,40 +109,40 @@ self.sendNotification("SHOW_ALERT", {title: "Hello", message: "This is a test!",
 		<tr>
 			<td><code>title</code></td>
 			<td>The title of the alert.<br>
-				<br><b>Possible values:</b> <code>text</code> or <code>html</code> as a  <code>string</code>
+				<br><b>Possible values:</b> <code>text</code> or <code>html</code>
 			</td>
 		</tr>
 		<tr>
 			<td><code>message</code></td>
 			<td>The message of the alert.<br>
-				<br><b>Possible values:</b> <code>text</code> or <code>html</code> as a  <code>string</code>
+				<br><b>Possible values:</b> <code>text</code> or <code>html</code>
 			</td>
 		</tr>
 		<tr>
 			<td><code>type</code> (optional)</td>
 			<td>The type of the alert.<br>
-				<br><b>Possible values:</b> <code>error</code>, <code>warning</code>, <code>info</code> & <code>success</code>
+				<br><b>Possible values:</b> <code>error</code> <code>warning</code> <code>info</code> <code>success</code>
 				<br><b>Default value:</b> <code>none</code>
 			</td>
 		</tr>
 		<tr>
 			<td><code>imageUrl</code> (optional)</td>
 			<td>Image to show in the alert<br>
-				<br><b>Possible values:</b> <code>url</code> as <code>string</code>
+				<br><b>Possible values:</b> <code>url</code>
 				<br><b>Default value:</b> <code>none</code>
 			</td>
 		</tr>
 		<tr>
 			<td><code>imageSize</code> (optional even with imageUrl set)</td>
 			<td>Size of the image<br>
-				<br><b>Possible values:</b> "<code>width</code>x<code>height</code>" as <code>string</code>
+				<br><b>Possible values:</b> "<code>width</code>x<code>height</code>"
 				<br><b>Default value:</b> <code>none</code>
 			</td>
 		</tr>
 		<tr>
 			<td><code>timer</code> (optional)</td>
 			<td>How long the alert should stay visible.<br>
-				<br><b>Possible values:</b> any <code>int</code>
+				<br><b>Possible values:</b> <code>int</code>
 				<br><b>Default value:</b> <code>none</code>
 				<br><b>Important:</b> If you do not use the `timer`, it is your duty to hide the alert by using <code>self.sendNotification("HIDE_ALERT");</code>!
 			</td>

@@ -5,17 +5,15 @@
 	background: #fff;
 	padding: 22px;
 	line-height: 1.4;
-	margin-top: 10px;
+	margin-bottom: 10px;
 	z-index: 1000;
 	color: black;
 	font-size: 70%;
 	position: relative;
-	float: left;
-	clear: both;
+	display: table;
 
-	top: auto;
-	left: 30px;
-	
+
+	word-wrap:break-word;
 	max-width: 100%;
 	border-radius: 5px;
 }

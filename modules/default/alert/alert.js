@@ -13,6 +13,8 @@ Module.register('alert',{
 		effect: "slide",
 		//time a notification is displayed
 		display_time: 3500,
+		//Position
+		position: "center",
 		//shown at startup
 		welcome_message: "Welcome, start was successfull!"
 	},
@@ -23,7 +25,7 @@ Module.register('alert',{
 		return ['ns-default.css', 'sweetalert.css'];
 	},
 	show_notification: function (message) {
-		message = "<font class='thin' style='line-height: 26px; font-size:24px' color='#4A4A4A'>" + message.title + "</font><br /><font class='light' style='font-size:28px'>" + message.message + "</font>"
+		message = "<font class='thin' style='line-height: 35px; font-size:24px' color='#4A4A4A'>" + message.title + "</font><br /><font class='light' style='font-size:28px;line-height: 30px;'>" + message.message + "</font>"
 		new NotificationFx({
 			message : message,
 			layout : "growl",
@@ -50,6 +52,14 @@ Module.register('alert',{
 	hide_alert: function () {
 		swal.close()
 	},
+	setPosition: function (pos) {
+		var sheet = document.createElement('style')
+		if (pos == "center"){sheet.innerHTML = ".ns-box {margin-left: auto; margin-right: auto;}";}
+		if (pos == "right"){sheet.innerHTML = ".ns-box {margin-left: auto;}";}
+		if (pos == "left"){sheet.innerHTML = ".ns-box {margin-right: auto;}";}
+		document.body.appendChild(sheet);
+		
+	},
 	notificationReceived: function(notification, payload, sender) {
 		if (notification === 'SHOW_NOTIFICATION') {
 			this.show_notification(payload)
@@ -65,6 +75,7 @@ Module.register('alert',{
 		if (this.config.welcome_message){
 			this.show_notification({title: "Welcome", message: this.config.welcome_message})
 		}
+		this.setPosition(this.config.position)
 		Log.info('Starting module: ' + this.name);
 	}
 
