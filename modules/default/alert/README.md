@@ -33,16 +33,16 @@ The following properties can be configured:
 		<tr>
 			<td><code>style</code></td>
 			<td>The style of the notifications.<br>
-				<br><b>Possible values:</b> <code>growl</code>, <code>attached</code> and <code>bar</code>
+				<br><b>Possible values:</b> <code>growl</code>, <code>attached</code> & <code>bar</code>
 				<br><b>Default value:</b> <code>growl</code>
 			</td>
 		</tr>
 		<tr>
 			<td><code>effect</code></td>
 			<td>The animation effect of the notification style to use.<br>
-				<br><b>Possible values for <code>growl</code> style:</b> <code>scale</code>, <code>slide</code>, <code>genie</code> and <code>jelly</code>
-				<br><b>Possible values for <code>attached</code> style:</b> <code>flip</code> and <code>bouncyflip</code>
-				<br><b>Possible values for <code>bar</code> style:</b> <code>slidetop</code> and <code>exploader</code>
+				<br><b>Possible values for <code>growl</code> style:</b> <code>scale</code>, <code>slide</code>, <code>genie</code> & <code>jelly</code>
+				<br><b>Possible values for <code>attached</code> style:</b> <code>flip</code> & <code>bouncyflip</code>
+				<br><b>Possible values for <code>bar</code> style:</b> <code>slidetop</code> & <code>exploader</code>
 				<br><b>Default value:</b> <code>slide</code>
 			</td>
 		</tr>
@@ -56,7 +56,7 @@ The following properties can be configured:
 		<tr>
 			<td><code>welcome_message</code></td>
 			<td>Message shown at startup.<br>
-				<br><b>Possible values:</b> any <code>string</code>
+				<br><b>Possible values:</b> any <code>string</code> & <code>false</code>
 				<br><b>Default value:</b> <code>Welcome, start was successfull!</code>
 			</td>
 		</tr>
@@ -100,7 +100,7 @@ self.sendNotification("SHOW_ALERT", {title: "Hello", message: "This is a test!",
 		<tr>
 			<td><code>type</code> (optional)</td>
 			<td>The type of the alert.<br>
-				<br><b>Possible values:</b> <code>error</code>, <code>warning</code>, <code>info</code> and <code>success</code>
+				<br><b>Possible values:</b> <code>error</code>, <code>warning</code>, <code>info</code> & <code>success</code>
 				<br><b>Default value:</b> <code>none</code>
 			</td>
 		</tr>

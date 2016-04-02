@@ -71,7 +71,9 @@ Module.register('alert',{
 		}
 	},
 	start: function() {
-		this.show_notification(this.config.welcome_message)
+		if (this.config.welcome_message){
+			this.show_notification(this.config.welcome_message)
+		}
 		Log.info('Starting module: ' + this.name);
 	}
 
