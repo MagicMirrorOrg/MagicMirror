@@ -76,7 +76,60 @@ self.sendNotification("SHOW_NOTIFICATION", message);
 ```
 self.sendNotification("SHOW_ALERT", {title: "Hello", message: "This is a test!", type: "success", imageUrl:"url", imageSize: "50x50", timer:1000}); 
 ```
-All parameters exept for `title` and `message` are optional. Possible types are `error`, `warning`, `info` and `success`. If you do not use the `timer` parameter, it is your responsibility to manually hide the alert by using `self.sendNotification("HIDE_ALERT");`!
+<table width="100%">
+	<!-- why, markdown... -->
+	<thead>
+		<tr>
+			<th>Option</th>
+			<th width="100%">Description</th>
+		</tr>
+	<thead>
+	<tbody>
+		<tr>
+			<td><code>title</code></td>
+			<td>The title of the alert.<br>
+				<br><b>Possible values:</b> <code>text</code> or <code>html</code> as a  <code>string</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>message</code></td>
+			<td>The message of the alert.<br>
+				<br><b>Possible values:</b> <code>text</code> or <code>html</code> as a  <code>string</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>type</code> (optional)</td>
+			<td>The type of the alert.<br>
+				<br><b>Possible values:</b> <code>error</code>, <code>warning</code>, <code>info</code> and <code>success</code>
+				<br><b>Default value:</b> <code>none</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>imageUrl</code> (optional)</td>
+			<td>Image to show in the alert<br>
+				<br><b>Possible values:</b> <code>url</code> as <code>string</code>
+				<br><b>Default value:</b> <code>none</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>imageSize</code> (optional even with imageUrl set)</td>
+			<td>Size of the image<br>
+				<br><b>Possible values:</b> "<code>width</code>x<code>height</code>" as <code>string</code>
+				<br><b>Default value:</b> <code>none</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>timer</code> (optional)</td>
+			<td>How long the alert should stay visible.<br>
+				<br><b>Possible values:</b> any <code>int</code>
+				<br><b>Default value:</b> <code>none</code>
+				<br><b>Important:</b> If you do not use the `timer`, it is your duty to hide the alert by using <code>self.sendNotification("HIDE_ALERT");</code>!
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+
 
 ## Open Source Licenses
 ###[SweetAlert](http://t4t5.github.io/sweetalert/)
