@@ -31,18 +31,9 @@ The following properties can be configured:
 	<thead>
 	<tbody>
 		<tr>
-			<td><code>style</code></td>
-			<td>The style of the notifications.<br>
-				<br><b>Possible values:</b> <code>growl</code>, <code>attached</code> & <code>bar</code>
-				<br><b>Default value:</b> <code>growl</code>
-			</td>
-		</tr>
-		<tr>
 			<td><code>effect</code></td>
-			<td>The animation effect of the notification style to use.<br>
-				<br><b>Possible values for <code>growl</code> style:</b> <code>scale</code>, <code>slide</code>, <code>genie</code> & <code>jelly</code>
-				<br><b>Possible values for <code>attached</code> style:</b> <code>flip</code> & <code>bouncyflip</code>
-				<br><b>Possible values for <code>bar</code> style:</b> <code>slidetop</code> & <code>exploader</code>
+			<td>The animation effect to use.<br>
+				<br><b>Possible values:</b> <code>scale</code>, <code>slide</code>, <code>genie</code>, <code>jelly</code>, <code>flip</code>, <code>exploader</code> & <code>bouncyflip</code>
 				<br><b>Default value:</b> <code>slide</code>
 			</td>
 		</tr>

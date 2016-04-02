@@ -9,12 +9,7 @@
 
 Module.register('alert',{
 	defaults: {
-		// style type: growl|attached|bar
-		style: "growl",
-		// effects for the specified style:
-		// for growl style: scale|slide|genie|jelly
-		// for attached style: flip|bouncyflip
-		// for bar style: slidetop|exploader
+		// scale|slide|genie|jelly|flip|bouncyflip|exploader
 		effect: "slide",
 		//time a notification is displayed
 		display_time: 3500,
@@ -25,20 +20,15 @@ Module.register('alert',{
 		return ["classie.js", "modernizr.custom.js", 'notificationFx.js', 'sweetalert.js'];
 	},
 	getStyles: function() {
-		return ['ns-style-growl.css', 'ns-style-bar.css', 'ns-style-attached.css', 'ns-default.css', 'sweetalert.css'];
+		return ['ns-default.css', 'sweetalert.css'];
 	},
 	show_notification: function (message) {
-		//If another alert is in view remove it first
-		if (this.alert){
-		this.alert.dismiss()
-		}
-		this.alert = new NotificationFx({
+		new NotificationFx({
 			message : message,
-			layout : this.config.style,
+			layout : "growl",
 			effect : this.config.effect,
 			ttl: this.config.display_time
-		});
-		this.alert.show()
+		}).show();
 	},
 	show_alert: function (params) {
 		if (typeof params["type"] === 'undefined') { params["type"] = null; }
