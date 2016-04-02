@@ -167,8 +167,19 @@ Module.register('calendar',{
 		events.sort(function(a,b) {
 			return a.startDate - b.startDate;
 		});
-
-		return events.slice(0, this.config.maximumEntries);
+		events = events.slice(0, this.config.maximumEntries);
+		
+		if(this.config.maximumNumberOfDays){
+			// don't display events that are further in the future than this.config.maximumNumberOfDays
+			var today = new Date();
+			for (var i = 0; i < events.length; i++) {
+				var eventDate = new Date(Number(events[i].startDate));
+				if(Math.floor((eventDate - today) / (1000*60*60*24)) > this.config.maximumNumberOfDays){
+					return events.slice(0, i);
+				}
+			}
+		}
+		return events;
 	},
 
 	/* createEventList(url)

@@ -41,6 +41,13 @@ The following properties can be configured:
 			</td>
 		</tr>
 		<tr>
+			<td><code>maximumNumberOfDays</code></td>
+			<td>The maximum number of day from today, in which events get displayed.<br>
+				<br><b>Possible values:</b> 
+				<br><b>Default value:</b> <i>no limit</i>
+			</td>
+		</tr>
+		<tr>
 			<td><code>displaySymbol</code></td>
 			<td>Display a symbol in front of an entry.<br>
 				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
