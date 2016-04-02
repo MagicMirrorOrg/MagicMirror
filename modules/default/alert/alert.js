@@ -23,7 +23,7 @@ Module.register('alert',{
 		return ['ns-default.css', 'sweetalert.css'];
 	},
 	show_notification: function (message) {
-		message = "<font size='4px' color='#4A4A4A'>" + message.title + "</font><br /><font size='5px'>" + message.message + "</font>"
+		message = "<font class='thin' style='line-height: 26px; font-size:24px' color='#4A4A4A'>" + message.title + "</font><br /><font class='light' style='font-size:28px'>" + message.message + "</font>"
 		new NotificationFx({
 			message : message,
 			layout : "growl",
