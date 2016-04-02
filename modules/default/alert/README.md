@@ -56,12 +56,34 @@ The following properties can be configured:
 
 
 ## Developer notes
-The `message` and the `title` parameters accept text as well as html.
 
 ### Display notification
 ```
-self.sendNotification("SHOW_NOTIFICATION", message); 
+self.sendNotification("SHOW_NOTIFICATION", {title: "Hello", message: "This is a test!"}); 
 ```
+<table width="100%">
+	<!-- why, markdown... -->
+	<thead>
+		<tr>
+			<th>Option</th>
+			<th width="100%">Description</th>
+		</tr>
+	<thead>
+	<tbody>
+		<tr>
+			<td><code>title</code></td>
+			<td>The title of the notification.<br>
+				<br><b>Possible values:</b> <code>text</code> or <code>html</code> as a  <code>string</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>message</code></td>
+			<td>The message of the notification.<br>
+				<br><b>Possible values:</b> <code>text</code> or <code>html</code> as a  <code>string</code>
+			</td>
+		</tr>
+	</tbody>
+</table>
 
 ### Display alert
 ```

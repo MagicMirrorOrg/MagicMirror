@@ -23,6 +23,7 @@ Module.register('alert',{
 		return ['ns-default.css', 'sweetalert.css'];
 	},
 	show_notification: function (message) {
+		message = "<font size='4px' color='#4A4A4A'>" + message.title + "</font><br /><font size='5px'>" + message.message + "</font>"
 		new NotificationFx({
 			message : message,
 			layout : "growl",
@@ -62,7 +63,7 @@ Module.register('alert',{
 	},
 	start: function() {
 		if (this.config.welcome_message){
-			this.show_notification(this.config.welcome_message)
+			this.show_notification({title: "Welcome", message: this.config.welcome_message})
 		}
 		Log.info('Starting module: ' + this.name);
 	}
