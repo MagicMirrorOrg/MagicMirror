@@ -23,8 +23,16 @@ modules: [
 	}
 ]
 ```
+##Developer notes
+The `message` and the `title` parameters accept text as well as html.
 
-As a developer your module can send an alert to this module by using:
+###Display notification
 ```
-self.sendNotification("SHOW_ALERT", {message: "Hello!"}); 
+self.sendNotification("SHOW_NOTIFICATION", message); 
 ```
+
+###Display alert
+```
+self.sendNotification("SHOW_ALERT", {title: "Hello", message: "This is a test!", type: "success", imageUrl:"url", imageSize: "50x50", timer:1000}); 
+```
+All parameters exept for `title` and `message` are optional. Possible types are `error`, `warning`, `info` and `success`. If you do not use the `timer` parameter, it is your responsibility to manually hide the alert by using `self.sendNotification("HIDE_ALERT");`!

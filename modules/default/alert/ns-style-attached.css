@@ -2,7 +2,7 @@
 /* Growl-style notifications */
 .ns-attached {
     left: 30px;
-    max-width: 300px;
+    max-width: 100%;
 }
 
 [class^="ns-effect-"].ns-attached.ns-hide,
@@ -21,7 +21,7 @@
     bottom: 0px;
     font-size: 1.15em;
     padding: 1.5em;
-    max-width: 280px;
+    max-width: 100%;
     backface-visibility: hidden;
 }
 
