@@ -9,36 +9,76 @@ modules: [
 	{
 		module: 'alert',
 		config: {
-			// style type: growl|attached|bar
-			style: "growl",
-			// effects for the specified style:
-			// for growl style: scale|slide|genie|jelly
-			// for attached style: flip|bouncyflip
-			// for bar style: slidetop|exploader
-			effect: "slide",
-			//time a notification is displayed
-			display_time: 3500,
-			//shown at startup
-			welcome_message: "Welcome, start was successfull!"
+			// The config property is optional.
+			// See 'Configuration options' for more information. 
 		}
 	}
 ]
 ```
-##Developer notes
+
+## Configuration options
+
+The following properties can be configured:
+
+
+<table width="100%">
+	<!-- why, markdown... -->
+	<thead>
+		<tr>
+			<th>Option</th>
+			<th width="100%">Description</th>
+		</tr>
+	<thead>
+	<tbody>
+		<tr>
+			<td><code>style</code></td>
+			<td>The style of the notifications.<br>
+				<br><b>Possible values:</b> <code>growl</code>, <code>attached</code> and <code>bar</code>
+				<br><b>Default value:</b> <code>growl</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>effect</code></td>
+			<td>The animation effect of the notification style to use.<br>
+				<br><b>Possible values for <code>growl</code> style:</b> <code>scale</code>, <code>slide</code>, <code>genie</code> and <code>jelly</code>
+				<br><b>Possible values for <code>attached</code> style:</b> <code>flip</code> and <code>bouncyflip</code>
+				<br><b>Possible values for <code>bar</code> style:</b> <code>slidetop</code> and <code>exploader</code>
+				<br><b>Default value:</b> <code>slide</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>display_time</code></td>
+			<td>Time a notification is displayed.<br>
+				<br><b>Possible values:</b> any <code>int</code>
+				<br><b>Default value:</b> <code>3500</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>welcome_message</code></td>
+			<td>Message shown at startup.<br>
+				<br><b>Possible values:</b> any <code>string</code>
+				<br><b>Default value:</b> <code>Welcome, start was successfull!</code>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+
+## Developer notes
 The `message` and the `title` parameters accept text as well as html.
 
-###Display notification
+### Display notification
 ```
 self.sendNotification("SHOW_NOTIFICATION", message); 
 ```
 
-###Display alert
+### Display alert
 ```
 self.sendNotification("SHOW_ALERT", {title: "Hello", message: "This is a test!", type: "success", imageUrl:"url", imageSize: "50x50", timer:1000}); 
 ```
 All parameters exept for `title` and `message` are optional. Possible types are `error`, `warning`, `info` and `success`. If you do not use the `timer` parameter, it is your responsibility to manually hide the alert by using `self.sendNotification("HIDE_ALERT");`!
 
-##Open Source Licenses
+## Open Source Licenses
 ###[SweetAlert](http://t4t5.github.io/sweetalert/)
 The MIT License (MIT)
 
