@@ -9,13 +9,15 @@
 
 Module.register('alert',{
 	defaults: {
-		// layout type: growl|attached|bar
-		layout: "growl",
-		// effects for the specified layout:
-		// for growl layout: scale|slide|genie|jelly
-		// for attached layout: flip|bouncyflip
-		// for bar layout: slidetop|exploader
+		// style type: growl|attached|bar
+		style: "growl",
+		// effects for the specified style:
+		// for growl style: scale|slide|genie|jelly
+		// for attached style: flip|bouncyflip
+		// for bar style: slidetop|exploader
 		effect: "slide",
+		//time a notification is displayed
+		display_time: 3500,
 		//shown at startup
 		welcome_message: "Welcome, start was successfull!"
 	},
@@ -32,10 +34,9 @@ Module.register('alert',{
 		}
 		this.alert = new NotificationFx({
 			message : message,
-			layout : this.config.layout,
+			layout : this.config.style,
 			effect : this.config.effect,
-			type : 'notice', 
-			ttl: 6000
+			ttl: this.config.display_time
 		});
 		this.alert.show()
 	},

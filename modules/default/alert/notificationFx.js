@@ -63,7 +63,7 @@
 		effect : 'slide',
 		// notice, warning, error, success
 		// will add class ns-type-warning, ns-type-error or ns-type-success
-		type : 'error',
+		type : 'notice',
 		// if the user doesn´t close the notification then we remove it 
 		// after the following time
 		ttl : 6000,
