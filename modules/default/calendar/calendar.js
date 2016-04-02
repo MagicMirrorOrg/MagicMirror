@@ -12,6 +12,7 @@ Module.register('calendar',{
 	// Define module defaults
 	defaults: {
 		maximumEntries: 10, // Total Maximum Entries
+		maximumNumberOfDays: 365,
 		displaySymbol: true,
 		defaultSymbol: 'calendar', // Fontawsome Symbol see http://fontawesome.io/cheatsheet/
 		maxTitleLength: 25,
@@ -180,6 +181,7 @@ Module.register('calendar',{
 		this.sendSocketNotification('ADD_CALENDAR', {
 			url: url,
 			maximumEntries: this.config.maximumEntries,
+			maximumNumberOfDays: this.config.maximumNumberOfDays,
 			fetchInterval: this.config.fetchInterval
 		});
 	},
