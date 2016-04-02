@@ -41,8 +41,8 @@ The following properties can be configured:
 			</td>
 		</tr>
 		<tr>
-			<td><code>maximumDistance</code></td>
-			<td>The period of time from today, in which events get displayed.<br>
+			<td><code>maximumNumberOfDays</code></td>
+			<td>The maximum number of day from today, in which events get displayed.<br>
 				<br><b>Possible values:</b> 
 				<br><b>Default value:</b> <i>no limit</i>
 			</td>
