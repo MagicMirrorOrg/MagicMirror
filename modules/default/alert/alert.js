@@ -25,7 +25,7 @@ Module.register('alert',{
 		return ['ns-default.css', 'sweetalert.css'];
 	},
 	show_notification: function (message) {
-		message = "<font class='thin' style='line-height: 35px; font-size:24px' color='#4A4A4A'>" + message.title + "</font><br /><font class='light' style='font-size:28px;line-height: 30px;'>" + message.message + "</font>"
+		message = "<span class='thin' style='line-height: 35px; font-size:24px' color='#4A4A4A'>" + message.title + "</span><br /><span class='light' style='font-size:28px;line-height: 30px;'>" + message.message + "</span>"
 		new NotificationFx({
 			message : message,
 			layout : "growl",
@@ -54,9 +54,9 @@ Module.register('alert',{
 	},
 	setPosition: function (pos) {
 		var sheet = document.createElement('style')
-		if (pos == "center"){sheet.innerHTML = ".ns-box {margin-left: auto; margin-right: auto;}";}
-		if (pos == "right"){sheet.innerHTML = ".ns-box {margin-left: auto;}";}
-		if (pos == "left"){sheet.innerHTML = ".ns-box {margin-right: auto;}";}
+		if (pos == "center"){sheet.innerHTML = ".ns-box {margin-left: auto; margin-right: auto;text-align: center;}";}
+		if (pos == "right"){sheet.innerHTML = ".ns-box {margin-left: auto;text-align: right;}";}
+		if (pos == "left"){sheet.innerHTML = ".ns-box {margin-right: auto;text-align: left;}";}
 		document.body.appendChild(sheet);
 		
 	},
@@ -73,7 +73,7 @@ Module.register('alert',{
 	},
 	start: function() {
 		if (this.config.welcome_message){
-			this.show_notification({title: "Welcome", message: this.config.welcome_message})
+			this.show_notification({title: "MagicMirror Notification", message: this.config.welcome_message})
 		}
 		this.setPosition(this.config.position)
 		Log.info('Starting module: ' + this.name);
