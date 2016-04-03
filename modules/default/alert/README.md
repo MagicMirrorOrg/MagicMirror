@@ -78,7 +78,7 @@ self.sendNotification("SHOW_ALERT", {type: "notification"});
 For alerts use:
 
 ```
-self.sendNotification("SHOW_ALERT", {type: "alert"}); 
+self.sendNotification("SHOW_ALERT", {}); 
 ```
 
 ### Notification params

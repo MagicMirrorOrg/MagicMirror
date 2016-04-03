@@ -94,6 +94,7 @@ Module.register('alert',{
 		
 	},
 	notificationReceived: function(notification, payload, sender) {
+		if (typeof payload.type === 'undefined') { payload.type = "alert"; }
 		if (notification === 'SHOW_ALERT') {
 			if (payload.type == "alert"){
 				this.show_alert(payload, sender)	
