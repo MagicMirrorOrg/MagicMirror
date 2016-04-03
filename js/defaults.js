@@ -8,7 +8,7 @@
  */
 
 var defaults = {
-	port: 80,
+	port: 8080,
 
 	language: 'en',
 	timeFormat: 24,
