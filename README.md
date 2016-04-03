@@ -1,8 +1,9 @@
 # MagicMirror V2
-This version of the Magic Mirror software focusses on a modular plugin system. Besides that, the Magic Mirror software now also uses [Electron](http://electron.atom.io/), so no more webserver or browser installs necessary. 
+This version of the Magic Mirror software focusses on a modular plugin system. Besides that, the Magic Mirror software now also uses [Electron](http://electron.atom.io/), so no more webserver or browser installs necessary.
 
 #WARNING: THIS VERSION IS IN A VERY EARLY STAGE. IT IS NOT COMPLETED YET. PLEASE USE THE MASTER BRANCH.
 
+<<<<<<< HEAD
 ##Usage 
 1. Download the latest node version:
 `wget https://nodejs.org/dist/latest/node-v5.10.0-linux-armv6l.tar.gz` for Pi 1
@@ -13,6 +14,11 @@ This version of the Magic Mirror software focusses on a modular plugin system. B
 5. `npm install && npm start` (You may have to restart your terminal before this works)
 
 **Important:** `npm start` does NOT work via SSH you have to execute it in a terminal session running in a window-manager.
+=======
+##Usage
+1. Install [Node.js](https://nodejs.org/en/)
+2. Execute `npm install && npm start`.
+>>>>>>> v2-beta
 
 ##Configuration
 1. Duplicate `config/config.js.sample` to `config/config.js`.
@@ -28,7 +34,7 @@ Things that still have to be implemented or changed.
 ####Documentation
 - Write all the documentation. :)
 
-##Modules 
+##Modules
 
 ### Default modules:
 - [**Clock**](modules/default/clock)
@@ -47,6 +53,3 @@ Things that still have to be implemented or changed.
 - **[MMM-Facial-Recognition by PaViRo](https://github.com/paviro/MMM-Facial-Recognition)** <br> Facial recognition and module swapping based on the current user ...
 
 - **[MMM-Wunderlist by PaViRo](https://github.com/paviro/MMM-Wunderlist)** <br> Displays your Wunderlist todos on your mirror ...
-
-
-

@@ -13,7 +13,7 @@ modules: [
 		config: {
 			// The config property is optional.
 			// If no config is set, an example calendar is shown.
-			// See 'Configuration options' for more information. 
+			// See 'Configuration options' for more information.
 		}
 	}
 ]
@@ -40,7 +40,7 @@ The following properties can be configured:
 				<br><b>Default value:</b> <code>'http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml'</code>
 			</td>
 		</tr>
-		
+
 		<tr>
 			<td><code>showPublishDate</code></td>
 			<td>Display the publish date of an headline.<br>
@@ -48,7 +48,7 @@ The following properties can be configured:
 				<br><b>Default value:</b> <code>true</code> or <code>false</code>
 			</td>
 		</tr>
-		
+
 		<tr>
 			<td><code>reloadInterval</code></td>
 			<td>How often does the content needs to be fetched? (Milliseconds)<br>
@@ -70,7 +70,6 @@ The following properties can be configured:
 				<br><b>Default value:</b> <code>2000</code> (2.5 seconds)
 			</td>
 		</tr>
-	
+
 	</tbody>
 </table>
-

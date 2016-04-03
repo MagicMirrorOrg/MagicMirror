@@ -18,7 +18,7 @@ Module.register('weatherforecast',{
         animationSpeed: 1000,
         timeFormat: config.timeFormat,
 		lang: config.language,
-		fade: true, 
+		fade: true,
 		fadePoint: 0.25, // Start on 1/4th of the list.
 
 		initialLoadDelay: 2500, // 2.5 seconds delay. This delay is used to keep the OpenWeather API happy.
@@ -67,7 +67,7 @@ Module.register('weatherforecast',{
 
 		// Set locale.
 		moment.locale(config.language);
-		
+
 		this.forecast = [];
 		this.loaded = false;
 		this.scheduleUpdate(this.config.initialLoadDelay);
@@ -144,10 +144,10 @@ Module.register('weatherforecast',{
 				}
 			}
 
-			
+
 
 		}
-	
+
 
 
 		return table;
@@ -238,7 +238,7 @@ Module.register('weatherforecast',{
 		var nextLoad = this.config.updateInterval;
 		if (typeof delay !== 'undefined' && delay >= 0) {
 			nextLoad = delay;
-		} 
+		}
 
 		var self = this;
 		clearTimeout(this.updateTimer);
@@ -277,4 +277,3 @@ Module.register('weatherforecast',{
 		return parseFloat(temperature).toFixed(1);
 	}
 });
-

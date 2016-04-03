@@ -65,7 +65,7 @@ Module.register('currentweather',{
 
 		// Set locale.
 		moment.locale(config.language);
-		
+
 		this.windSpeed = null;
 		this.sunriseSunsetTime = null;
 		this.sunriseSunsetIcon = null;
@@ -76,7 +76,7 @@ Module.register('currentweather',{
 		this.scheduleUpdate(this.config.initialLoadDelay);
 
 		this.updateTimer = null;
-		
+
 	},
 
 	// Override dom generator.
@@ -110,7 +110,7 @@ Module.register('currentweather',{
 		small.appendChild(windIcon);
 
 		var windSpeed = document.createElement("span");
-		windSpeed.innerHTML = " " + this.windSpeed;		
+		windSpeed.innerHTML = " " + this.windSpeed;
 		small.appendChild(windSpeed);
 
 		var spacer = document.createElement("span");
@@ -122,7 +122,7 @@ Module.register('currentweather',{
 		small.appendChild(sunriseSunsetIcon);
 
 		var sunriseSunsetTime = document.createElement("span");
-		sunriseSunsetTime.innerHTML = " " + this.sunriseSunsetTime;		
+		sunriseSunsetTime.innerHTML = " " + this.sunriseSunsetTime;
 		small.appendChild(sunriseSunsetTime);
 
 		var large = document.createElement("div");
@@ -134,7 +134,7 @@ Module.register('currentweather',{
 
 		var temperature = document.createElement("span");
 		temperature.className = "bright";
-		temperature.innerHTML = " " + this.temperature + '&deg;';		
+		temperature.innerHTML = " " + this.temperature + '&deg;';
 		large.appendChild(temperature);
 
 		wrapper.appendChild(small);
@@ -206,7 +206,7 @@ Module.register('currentweather',{
 		var now = moment().format('x');
 		var sunrise = moment(data.sys.sunrise*1000).format('x');
 		var sunset = moment(data.sys.sunset*1000).format('x');
-		
+
 
 		if (sunrise < now && sunset > now) {
 			this.sunriseSunsetTime = moment(data.sys.sunset*1000).format((this.config.timeFormat === 24) ? 'HH:mm' : 'hh:mm a');
@@ -230,7 +230,7 @@ Module.register('currentweather',{
 		var nextLoad = this.config.updateInterval;
 		if (typeof delay !== 'undefined' && delay >= 0) {
 			nextLoad = delay;
-		} 
+		}
 
 		var self = this;
 		setTimeout(function() {
@@ -268,4 +268,3 @@ Module.register('currentweather',{
 		return parseFloat(temperature).toFixed(1);
 	}
 });
-

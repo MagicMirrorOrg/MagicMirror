@@ -6,7 +6,7 @@
  */
 
 var FeedMe = require('feedme');
-var request = require('request'); 
+var request = require('request');
 
 var NewsFetcher = function() {
 	var self = this;
@@ -40,8 +40,8 @@ var NewsFetcher = function() {
 	 * Fetch the new news items.
 	 *
 	 * attribute url string - The url to fetch.
-	 * attribute success function(items) - Callback on succes. 
-	 * attribute error function(error) - Callback on error. 
+	 * attribute success function(items) - Callback on succes.
+	 * attribute error function(error) - Callback on error.
 	 */
 	self.fetchNews = function(url, success, error) {
 		self.successCallback = success;

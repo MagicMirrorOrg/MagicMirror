@@ -41,7 +41,7 @@ var Loader = (function() {
 			}
 		};
 
-		loadNextModule();		
+		loadNextModule();
 	};
 
 	/* startModules()
@@ -60,7 +60,7 @@ var Loader = (function() {
 	/* getAllModules()
 	 * Retrieve list of all modules.
 	 *
-	 * return array - module data as configured in config 
+	 * return array - module data as configured in config
 	 */
 	var getAllModules = function() {
 		return config.modules;
@@ -82,7 +82,7 @@ var Loader = (function() {
 			var elements = module.split('/');
 			var moduleName = elements[elements.length - 1];
 			var moduleFolder =  config.paths.modules + '/' + module;
-			
+
 			if (defaultModules.indexOf(moduleName) !== -1) {
 				moduleFolder =  config.paths.modules + '/default/' + module;
 			}
@@ -130,8 +130,8 @@ var Loader = (function() {
 				afterLoad();
 			});
 		}
-		
-	};	
+
+	};
 
 	/* bootstrapModule(module, mObj)
 	 * Bootstrap modules by setting the module data and loading the scripts & styles.
@@ -154,8 +154,8 @@ var Loader = (function() {
 				callback();
 			});
 		});
-		
-		
+
+
 	};
 
 	/* loadFile(fileName)
@@ -194,7 +194,7 @@ var Loader = (function() {
 				};
 
 				document.getElementsByTagName("head")[0].appendChild(stylesheet);
-			break;				
+			break;
 		}
 
 	};
@@ -249,10 +249,3 @@ var Loader = (function() {
 	};
 
 })();
-
-
-
-
-
-
-

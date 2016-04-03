@@ -15,13 +15,13 @@ var MM = (function() {
 	/* Private Methods */
 
 	/* createDomObjects()
-	 * Create dom objects for all modules that 
+	 * Create dom objects for all modules that
 	 * are configured for a specific position.
 	 */
 	var createDomObjects = function() {
 		for (var m in modules) {
 			var module = modules[m];
-			
+
 			if (typeof module.data.position === 'string') {
 
 				var wrapper = selectWrapper(module.data.position);
@@ -47,13 +47,11 @@ var MM = (function() {
 				moduleContent.className = "module-content";
 				dom.appendChild(moduleContent);
 
-				
-
 				updateDom(module, 0);
 			}
 		}
 
-		sendNotification('DOM_OBJECTS_CREATED');	
+		sendNotification('DOM_OBJECTS_CREATED');
 	};
 
 	/* selectWrapper(position)
@@ -98,7 +96,6 @@ var MM = (function() {
 		var newContent = module.getDom();
 
 		if (!module.hidden) {
-
 
 			if (!moduleNeedsUpdate(module, newContent)) {
 				return;
@@ -173,7 +170,7 @@ var MM = (function() {
 				// the .display property.
 				moduleWrapper.style.position = 'absolute';
 
-				if (typeof callback === 'function') { callback(); }		
+				if (typeof callback === 'function') { callback(); }
 			}, speed);
 		}
 	};
@@ -194,10 +191,9 @@ var MM = (function() {
 			moduleWrapper.style.opacity = 1;
 
 			setTimeout(function() {
-				if (typeof callback === 'function') { callback(); }				
+				if (typeof callback === 'function') { callback(); }
 			}, speed);
 
-			
 		}
 	};
 
@@ -216,14 +212,14 @@ var MM = (function() {
 
 	/* setSelectionMethodsForModules()
 	 * Adds special selectors on a collection of modules.
-	 * 
+	 *
 	 * argument modules array - Array of modules.
 	 */
 	var setSelectionMethodsForModules = function(modules) {
 
 		/* withClass(className)
 		 * filters a collection of modules based on classname(s).
-		 * 
+		 *
 		 * argument className string/array - one or multiple classnames. (array or space devided)
 		 *
 		 * return array - Filtered collection of modules.
@@ -245,7 +241,7 @@ var MM = (function() {
 					if (classes.indexOf(searchClass.toLowerCase()) !== -1) {
 						newModules.push(module);
 					}
-				}	
+				}
 			}
 
 			setSelectionMethodsForModules(newModules);
@@ -254,7 +250,7 @@ var MM = (function() {
 
 		/* exceptWithClass(className)
 		 * filters a collection of modules based on classname(s). (NOT)
-		 * 
+		 *
 		 * argument className string/array - one or multiple classnames. (array or space devided)
 		 *
 		 * return array - Filtered collection of modules.
@@ -280,7 +276,7 @@ var MM = (function() {
 				}
 				if (!foundClass) {
 					newModules.push(module);
-				}	
+				}
 			}
 
 			setSelectionMethodsForModules(newModules);
@@ -289,7 +285,7 @@ var MM = (function() {
 
 		/* exceptModule(module)
 		 * Removes a module instance from the collection.
-		 * 
+		 *
 		 * argument module Module object - The module instance to remove from the collection.
 		 *
 		 * return array - Filtered collection of modules.
@@ -310,7 +306,7 @@ var MM = (function() {
 
 		/* enumerate(callback)
 		 * Walks thru a collection of modules and executes the callback with the module as an argument.
-		 * 
+		 *
 		 * argument callback function - The function to execute with the module as an argument.
 		 */
 		var enumerate = function(callback) {
@@ -320,8 +316,6 @@ var MM = (function() {
 			}
 		};
 
-
-
 		if (typeof modules.withClass === 'undefined') { Object.defineProperty(modules, 'withClass',  {value: withClass, enumerable: false}); }
 		if (typeof modules.exceptWithClass === 'undefined') { Object.defineProperty(modules, 'exceptWithClass',  {value: exceptWithClass, enumerable: false}); }
 		if (typeof modules.exceptModule === 'undefined') { Object.defineProperty(modules, 'exceptModule',  {value: exceptModule, enumerable: false}); }
@@ -329,8 +323,6 @@ var MM = (function() {
 	};
 
 
-	
-	
 	return {
 		/* Public Methods */
 
@@ -399,7 +391,7 @@ var MM = (function() {
 				Log.error('updateDom: Sender should be a module.');
 				return;
 			}
-			
+
 			// Further implementation is done in the private method.
 			updateDom(module, speed);
 		},
@@ -442,8 +434,3 @@ var MM = (function() {
 })();
 
 MM.init();
-
-
-
-
-
