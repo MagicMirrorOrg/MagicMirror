@@ -32,9 +32,15 @@ The following properties can be configured:
 	<tbody>
 		<tr>
 			<td><code>effect</code></td>
-			<td>The animation effect to use.<br>
+			<td>The animation effect to use for notifications.<br>
 				<br><b>Possible values:</b> <code>scale</code> <code>slide</code> <code>genie</code> <code>jelly</code> <code>flip</code> <code>exploader</code> <code>bouncyflip</code>
 				<br><b>Default value:</b> <code>slide</code>
+			</td>
+		</tr>
+		<td><code>alert_effect</code></td>
+			<td>The animation effect to use for alerts.<br>
+				<br><b>Possible values:</b> <code>scale</code> <code>slide</code> <code>genie</code> <code>jelly</code> <code>flip</code> <code>exploader</code> <code>bouncyflip</code>
+				<br><b>Default value:</b> <code>jelly</code>
 			</td>
 		</tr>
 		<tr>
@@ -119,13 +125,6 @@ self.sendNotification("SHOW_ALERT", {title: "Hello", message: "This is a test!",
 			</td>
 		</tr>
 		<tr>
-			<td><code>type</code> (optional)</td>
-			<td>The type of the alert.<br>
-				<br><b>Possible values:</b> <code>error</code> <code>warning</code> <code>info</code> <code>success</code>
-				<br><b>Default value:</b> <code>none</code>
-			</td>
-		</tr>
-		<tr>
 			<td><code>imageUrl</code> (optional)</td>
 			<td>Image to show in the alert<br>
 				<br><b>Possible values:</b> <code>url</code>
@@ -133,10 +132,10 @@ self.sendNotification("SHOW_ALERT", {title: "Hello", message: "This is a test!",
 			</td>
 		</tr>
 		<tr>
-			<td><code>imageSize</code> (optional even with imageUrl set)</td>
-			<td>Size of the image<br>
-				<br><b>Possible values:</b> "<code>width</code>x<code>height</code>"
-				<br><b>Default value:</b> <code>none</code>
+			<td><code>imageHeight</code> (optional even with imageUrl set)</td>
+			<td>Height of the image<br>
+				<br><b>Possible values:</b> "<code>int</code><code>px</code>"
+				<br><b>Default value:</b> <code>80px</code>
 			</td>
 		</tr>
 		<tr>

@@ -3,25 +3,55 @@
 
 .ns-box {
 	background: #fff;
-	padding: 22px;
+	padding: 17px;
 	line-height: 1.4;
 	margin-bottom: 10px;
-	z-index: 1000;
+	z-index: 1;
 	color: black;
 	font-size: 70%;
 	position: relative;
 	display: table;
-
-
 	word-wrap:break-word;
 	max-width: 100%;
 	border-radius: 5px;
 }
 
-.ns-box a {
-	color: inherit;
-	opacity: 0.7;
-	font-weight: 700;
+.ns-alert {
+	/*background: #fff;*/
+	border-style: solid;
+	border-color: #fff;
+	padding: 17px;
+	line-height: 1.4;
+	margin-bottom: 10px;
+	z-index: 3;
+	color: white;
+	font-size: 70%;
+	position: fixed;
+	text-align: center;
+	/* center the element */
+	right: 0;
+	left: 0;
+	margin-right: auto;
+	margin-left: auto;
+	top:40%;
+	width: 40%;
+	height: auto;
+	word-wrap:break-word;
+	border-radius: 20px;
+}
+
+.black_overlay {
+	position: fixed;
+	z-index:2;
+	background-color: rgba(0,0,0, 0.93);
+	width: 100%;
+	height: 100%;
+}
+
+[class^="ns-effect-"].ns-growl.ns-hide,
+[class*=" ns-effect-"].ns-growl.ns-hide {
+	-webkit-animation-direction: reverse;
+	animation-direction: reverse;
 }
 
 /* Flip */
@@ -65,15 +95,6 @@
 }
 
 /* Bouncy Flip adapted from animate.css by Dan Eden: http://daneden.github.io/animate.css/ */
-.ns-effect-bouncyflip {
-		-webkit-transform-origin: 50% 0%;
-		transform-origin: 50% 0%;
-		top: 0;
-}
-
-.ns-effect-bouncyflip p {
-		padding: 0.5em 0.8em 0.8em 3.5em;
-}
 
 .ns-effect-bouncyflip.ns-show,
 .ns-effect-bouncyflip.ns-hide {
@@ -181,10 +202,6 @@
 .ns-effect-exploader {
 	-webkit-transform-origin: 0 0;
 	transform-origin: 0 0;
-}
-
-.ns-effect-exploader .ns-box-inner {
-	position: relative;
 }
 
 .ns-effect-exploader p {
