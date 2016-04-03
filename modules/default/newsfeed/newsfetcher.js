@@ -7,6 +7,7 @@
 
 var FeedMe = require('feedme');
 var request = require('request');
+var iconv = require('iconv-lite');
 
 var NewsFetcher = function() {
 	var self = this;
@@ -19,7 +20,6 @@ var NewsFetcher = function() {
 	var parser = new FeedMe();
 
 	parser.on('item', function(item) {
-		//console.log(item);
 		self.items.push({
 			title: item.title,
 			pubdate: item.pubdate,
@@ -46,7 +46,7 @@ var NewsFetcher = function() {
 	self.fetchNews = function(url, success, error) {
 		self.successCallback = success;
 		self.errorCallback = error;
-		request(url).pipe(parser);
+		request({uri:url, encoding:null}).pipe(iconv.decodeStream('ISO-8859-1')).pipe(parser);
 	};
 };
 

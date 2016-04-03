@@ -70,7 +70,7 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 						for (var d in dates) {
 							startDate = moment(new Date(dates[d]));
 							newEvents.push({
-								title: event.summary,
+								title: (typeof event.summary.val !== 'undefined') ? event.summary.val : event.summary,
 								startDate: startDate.format('x')
 							});
 						}
@@ -80,7 +80,7 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 						
 						if (startDate > today && startDate <= today.add(maximumNumberOfDays, 'days')) {
 							newEvents.push({
-								title: event.summary,
+								title: (typeof event.summary.val !== 'undefined') ? event.summary.val : event.summary,
 								startDate: startDate.format('x')
 							});
 						}
