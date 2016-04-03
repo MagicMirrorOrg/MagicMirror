@@ -23,7 +23,10 @@ Things that still have to be implemented or changed.
 
 ####Main
 - Allow show/hide animations to animate the height. This way the other modules won't jump around.
-- Unified alerts (Blocking overlay & slide in notification) maybe using this [library](http://tympanus.net/Development/NotificationStyles/js/notificationFx.js) (from [this](http://tympanus.net/Development/NotificationStyles/growl-jelly.html) example) and [sweetalert](https://github.com/t4t5/sweetalert) for blocking?
+
+####Alert
+- Vertical centering of alerts
+- Rewrite the alert module in vanilla JavaScript
 
 ####Documentation
 - Write all the documentation. :)
