@@ -55,7 +55,7 @@ The following properties can be configured:
 			<td><code>position</code></td>
 			<td>Position where the notifications should be displayed.<br>
 				<br><b>Possible values:</b> <code>left</code> <code>center</code> <code>right</code>
-				<br><b>Default value:</b> <code>3500</code>
+				<br><b>Default value:</b> <code>center</code>
 			</td>
 		</tr>
 		<tr>
@@ -127,23 +127,23 @@ self.sendNotification("SHOW_ALERT", {title: "Hello", message: "This is a test!",
 		<tr>
 			<td><code>imageUrl</code> (optional)</td>
 			<td>Image to show in the alert<br>
-				<br><b>Possible values:</b> <code>url</code>
+				<br><b>Possible values:</b> <code>url</code> <code>path</code>
 				<br><b>Default value:</b> <code>none</code>
 			</td>
 		</tr>
 		<tr>
 			<td><code>imageHeight</code> (optional even with imageUrl set)</td>
 			<td>Height of the image<br>
-				<br><b>Possible values:</b> "<code>int</code><code>px</code>"
+				<br><b>Possible values:</b> <code>intpx</code>
 				<br><b>Default value:</b> <code>80px</code>
 			</td>
 		</tr>
 		<tr>
 			<td><code>timer</code> (optional)</td>
-			<td>How long the alert should stay visible in seconds.<br>
+			<td>How long the alert should stay visible in seconds.
+			<br><b>Important:</b> If you do not use the <code>timer</code>, it is your duty to hide the alert by using <code>self.sendNotification("HIDE_ALERT");</code>!<br>
 				<br><b>Possible values:</b> <code>int</code> <code>float</code>
 				<br><b>Default value:</b> <code>none</code>
-				<br><b>Important:</b> If you do not use the `timer`, it is your duty to hide the alert by using <code>self.sendNotification("HIDE_ALERT");</code>!
 			</td>
 		</tr>
 	</tbody>
