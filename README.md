@@ -4,8 +4,15 @@ This version of the Magic Mirror software focusses on a modular plugin system. B
 #WARNING: THIS VERSION IS IN A VERY EARLY STAGE. IT IS NOT COMPLETED YET. PLEASE USE THE MASTER BRANCH.
 
 ##Usage 
-1. Install [Node.js](https://nodejs.org/en/)
-2. Execute `npm install && npm start`.
+1. Download the latest node version:
+`wget https://nodejs.org/dist/latest/node-v5.10.0-linux-armv6l.tar.gz` for Pi 1
+`wget https://nodejs.org/dist/latest/node-v5.10.0-linux-armv7l.tar.gz` for Pi 2
+2. Unpack file `tar -xvf filename`
+3. Install `cd foldername && sudo cp -R * /usr/local/`
+4. Set loglevel `npm config set loglevel info`
+5. `npm install && npm start` (You may have to restart your terminal before this works)
+
+**Important:** `npm start` does NOT work via SSH you have to execute it in a terminal session running in a window-manager.
 
 ##Configuration
 1. Duplicate `config/config.js.sample` to `config/config.js`.
