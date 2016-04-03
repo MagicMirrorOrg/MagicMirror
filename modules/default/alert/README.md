@@ -101,7 +101,7 @@ self.sendNotification("SHOW_NOTIFICATION", {title: "Hello", message: "This is a 
 
 ### Display alert
 ```
-self.sendNotification("SHOW_ALERT", {title: "Hello", message: "This is a test!", type: "success", imageUrl:"url", imageSize: "50x50", timer:1000}); 
+self.sendNotification("SHOW_ALERT", {title: "Hello", message: "This is a test!", imageUrl:"url", imageHeight: "30px", timer:2}); 
 ```
 <table width="100%">
 	<!-- why, markdown... -->
