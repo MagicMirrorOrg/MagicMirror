@@ -70,11 +70,18 @@ The following properties can be configured:
 
 
 ## Developer notes
+For notifications use:
 
-### Display notification
 ```
-self.sendNotification("SHOW_NOTIFICATION", {title: "Hello", message: "This is a test!"}); 
+self.sendNotification("SHOW_ALERT", {type: "notification"}); 
 ```
+For alerts use:
+
+```
+self.sendNotification("SHOW_ALERT", {}); 
+```
+
+### Notification params
 <table width="100%">
 	<!-- why, markdown... -->
 	<thead>
@@ -99,10 +106,7 @@ self.sendNotification("SHOW_NOTIFICATION", {title: "Hello", message: "This is a 
 	</tbody>
 </table>
 
-### Display alert
-```
-self.sendNotification("SHOW_ALERT", {title: "Hello", message: "This is a test!", imageUrl:"url", imageHeight: "30px", timer:2}); 
-```
+### Alert params
 <table width="100%">
 	<!-- why, markdown... -->
 	<thead>
@@ -140,7 +144,7 @@ self.sendNotification("SHOW_ALERT", {title: "Hello", message: "This is a test!",
 		</tr>
 		<tr>
 			<td><code>timer</code> (optional)</td>
-			<td>How long the alert should stay visible in seconds.
+			<td>How long the alert should stay visible in ms.
 			<br><b>Important:</b> If you do not use the <code>timer</code>, it is your duty to hide the alert by using <code>self.sendNotification("HIDE_ALERT");</code>!<br>
 				<br><b>Possible values:</b> <code>int</code> <code>float</code>
 				<br><b>Default value:</b> <code>none</code>
@@ -148,8 +152,6 @@ self.sendNotification("SHOW_ALERT", {title: "Hello", message: "This is a test!",
 		</tr>
 	</tbody>
 </table>
-
-
 
 ## Open Source Licenses
 ###[NotificationStyles](https://github.com/codrops/NotificationStyles)

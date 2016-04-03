@@ -14,7 +14,7 @@ Module.register('alert',{
 		// scale|slide|genie|jelly|flip|bouncyflip|exploader
 		alert_effect:"jelly",
 		//time a notification is displayed in seconds
-		display_time: 3.5,
+		display_time: 3500,
 		//Position
 		position: "center",
 		//shown at startup
@@ -32,18 +32,13 @@ Module.register('alert',{
 			message : message,
 			layout : "growl",
 			effect : this.config.effect,
-			ttl: this.config.display_time * 1000
+			ttl: this.config.display_time
 		}).show();
 	},
 	show_alert: function (params, sender) {
 		var self = this
 		//Set standard params if not provided by module
-		if (typeof params.timer === 'undefined') { 
-			params.timer = null; 
-		}
-		else {
-			params.timer = params.timer * 1000
-		}
+		if (typeof params.timer === 'undefined') { params.timer = null; }
 		if (typeof params.imageHeight === 'undefined') { params.imageHeight = "80px"; }
 		if (typeof params.imageUrl === 'undefined') { 
 			params.imageUrl = null;
@@ -99,11 +94,14 @@ Module.register('alert',{
 		
 	},
 	notificationReceived: function(notification, payload, sender) {
-		if (notification === 'SHOW_NOTIFICATION') {
-			this.show_notification(payload)
-		}
-		else if (notification === 'SHOW_ALERT') {
-			this.show_alert(payload, sender)
+		if (typeof payload.type === 'undefined') { payload.type = "alert"; }
+		if (notification === 'SHOW_ALERT') {
+			if (payload.type == "alert"){
+				this.show_alert(payload, sender)	
+			}
+			else if (payload.type = "notification"){
+				this.show_notification(payload)
+			}
 		}
 		else if (notification === 'HIDE_ALERT') {
 			this.hide_alert(sender)
