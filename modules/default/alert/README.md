@@ -45,9 +45,9 @@ The following properties can be configured:
 		</tr>
 		<tr>
 			<td><code>display_time</code></td>
-			<td>Time a notification is displayed.<br>
-				<br><b>Possible values:</b> <code>int</code>
-				<br><b>Default value:</b> <code>3500</code>
+			<td>Time a notification is displayed in seconds.<br>
+				<br><b>Possible values:</b> <code>float</code> <code>int</code>
+				<br><b>Default value:</b> <code>3.5</code>
 			</td>
 		</tr>
 		<tr>
@@ -140,8 +140,8 @@ self.sendNotification("SHOW_ALERT", {title: "Hello", message: "This is a test!",
 		</tr>
 		<tr>
 			<td><code>timer</code> (optional)</td>
-			<td>How long the alert should stay visible.<br>
-				<br><b>Possible values:</b> <code>int</code>
+			<td>How long the alert should stay visible in seconds.<br>
+				<br><b>Possible values:</b> <code>int</code> <code>float</code>
 				<br><b>Default value:</b> <code>none</code>
 				<br><b>Important:</b> If you do not use the `timer`, it is your duty to hide the alert by using <code>self.sendNotification("HIDE_ALERT");</code>!
 			</td>

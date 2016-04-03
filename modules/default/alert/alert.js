@@ -13,8 +13,8 @@ Module.register('alert',{
 		effect: "slide",
 		// scale|slide|genie|jelly|flip|bouncyflip|exploader
 		alert_effect:"jelly",
-		//time a notification is displayed
-		display_time: 3500,
+		//time a notification is displayed in seconds
+		display_time: 3.5,
 		//Position
 		position: "center",
 		//shown at startup
@@ -32,13 +32,18 @@ Module.register('alert',{
 			message : message,
 			layout : "growl",
 			effect : this.config.effect,
-			ttl: this.config.display_time
+			ttl: this.config.display_time * 1000
 		}).show();
 	},
 	show_alert: function (params, sender) {
 		var self = this
 		//Set standard params if not provided by module
-		if (typeof params.timer === 'undefined') { params.timer = null; }
+		if (typeof params.timer === 'undefined') { 
+			params.timer = null; 
+		}
+		else {
+			params.timer = params.timer * 1000
+		}
 		if (typeof params.imageHeight === 'undefined') { params.imageHeight = "80px"; }
 		if (typeof params.imageUrl === 'undefined') { 
 			params.imageUrl = null;
@@ -63,7 +68,7 @@ Module.register('alert',{
 		this.alerts[sender.name] = new NotificationFx({
 			message : image + message,
 			effect : this.config.alert_effect,
-			ttl: null,
+			ttl: params.timer,
 			al_no: "ns-alert"
 		});
 		//Show alert
