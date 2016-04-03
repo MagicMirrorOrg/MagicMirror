@@ -1,9 +1,10 @@
-# MagicMirror V2
+# MagicMirror²
+
 This version of the Magic Mirror software focusses on a modular plugin system. Besides that, the Magic Mirror software now also uses [Electron](http://electron.atom.io/), so no more webserver or browser installs necessary.
 
-#WARNING: THIS VERSION IS IN A VERY EARLY STAGE. IT IS NOT COMPLETED YET. PLEASE USE THE MASTER BRANCH.
+**WARNING!** THIS VERSION IS IN A *VERY* EARLY STAGE. IT IS **NOT** COMPLETED YET. **PLEASE** USE THE MASTER BRANCH.
 
-##Usage 
+## Usage 
 1. Download the latest node version:
 `wget https://nodejs.org/dist/latest/node-v5.10.0-linux-armv6l.tar.gz` for Pi 1
 `wget https://nodejs.org/dist/latest/node-v5.10.0-linux-armv7l.tar.gz` for Pi 2
@@ -14,26 +15,22 @@ This version of the Magic Mirror software focusses on a modular plugin system. B
 
 **Important:** `npm start` does NOT work via SSH you have to execute it in a terminal session running in a window-manager.
 
-##Configuration
+## Configuration
 1. Duplicate `config/config.js.sample` to `config/config.js`.
 2. Modify your required settings.
 
-##Todo
+## Todo List
 Things that still have to be implemented or changed.
 
-####Main
-- Allow show/hide animations to animate the height. This way the other modules won't jump around.
+- [ ] Allow show/hide animations to animate the height. This way, the other modules won't jump around.
+- [ ] Allow vertical centering of alerts.
+- [ ] Rewrite the [alert](modules/default/alert) module in vanilla JavaScript.
+- [ ] Write all the documentation.
 
-####Alert
-- Vertical centering of alerts
-- Rewrite the alert module in vanilla JavaScript
+## Modules
 
-####Documentation
-- Write all the documentation. :)
+The following modules are installed by default.
 
-##Modules
-
-### Default modules:
 - [**Clock**](modules/default/clock)
 - [**Calendar**](modules/default/calendar)
 - [**Current Weather**](modules/default/currentweather)
@@ -43,7 +40,7 @@ Things that still have to be implemented or changed.
 - [**Hello World**](modules/default/helloworld)
 - [**Alert**](modules/default/alert)
 
-### 3rd Party Modules:
+The following modules are created by their respective authors.
 
 - **[MMM-FRITZ-Box-Callmonitor by PaViRo](https://github.com/paviro/MMM-FRITZ-Box-Callmonitor)** <br> FRITZ!Box Callmonitor (Display an alert when someone is calling ...)
 
@@ -51,15 +48,15 @@ Things that still have to be implemented or changed.
 
 - **[MMM-Wunderlist by PaViRo](https://github.com/paviro/MMM-Wunderlist)** <br> Displays your Wunderlist todos on your mirror ...
 
-##Contributing
+## Contributing
+
 Contributions of all kinds are welcome, not only in the form of code but also with regards bug reports and documentation.
 
-But please keep the following in mind:
+Please keep the following in mind:
 
-- **Bug reports**:  Make sure you're running the latest version. If the issue still persist: please open a clearly documented issue with a clear title. 
-- **Minor bug fixes**: Please send a pull request with a clear explanation of the issue or a link to the isssue it solves.
-- **Major bug fixes**: please discuss your approach in an github issue before you start to alter a big part of the code.
-- **New features**: please please discuss in an github issue before you start to alter a big part of the code. Without discussion upfront, pull request will not be accepted / merged.
+- **Bug Reports**:  Make sure you're running the latest version. If the issue(s) still persist: please open a clearly documented issue with a clear title. 
+- **Minor Bug Fixes**: Please send a pull request with a clear explanation of the issue or a link to the isssue it solves.
+- **Major Bug Fixes**: please discuss your approach in an GitHub issue before you start to alter a big part of the code.
+- **New Features**: please please discuss in a GitHub issue before you start to alter a big part of the code. Without discussion upfront, the pull request will not be accepted / merged.
 
 Thanks for your help in making Magic Mirror better! 
-
