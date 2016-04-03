@@ -12,7 +12,7 @@ modules: [
 		position: 'top_right',	// This can be any of the regions.
 									// Best results in left or right regions.
 		config: {
-			// See 'Configuration options' for more information. 
+			// See 'Configuration options' for more information.
 			location: 'Amsterdam,Netherlands',
 			appid: 'abcde12345abcde12345abcde12345ab' //openweathermap.org API key.
 		}
@@ -148,6 +148,6 @@ The following properties can be configured:
 		}</code>
 			</td>
 		</tr>
-		
+
 	</tbody>
 </table>

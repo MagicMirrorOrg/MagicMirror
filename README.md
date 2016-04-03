@@ -1,5 +1,5 @@
 # MagicMirror V2
-This version of the Magic Mirror software focusses on a modular plugin system. Besides that, the Magic Mirror software now also uses [Electron](http://electron.atom.io/), so no more webserver or browser installs necessary. 
+This version of the Magic Mirror software focusses on a modular plugin system. Besides that, the Magic Mirror software now also uses [Electron](http://electron.atom.io/), so no more webserver or browser installs necessary.
 
 #WARNING: THIS VERSION IS IN A VERY EARLY STAGE. IT IS NOT COMPLETED YET. PLEASE USE THE MASTER BRANCH.
 
@@ -28,7 +28,7 @@ Things that still have to be implemented or changed.
 ####Documentation
 - Write all the documentation. :)
 
-##Modules 
+##Modules
 
 ### Default modules:
 - [**Clock**](modules/default/clock)
@@ -47,6 +47,3 @@ Things that still have to be implemented or changed.
 - **[MMM-Facial-Recognition by PaViRo](https://github.com/paviro/MMM-Facial-Recognition)** <br> Facial recognition and module swapping based on the current user ...
 
 - **[MMM-Wunderlist by PaViRo](https://github.com/paviro/MMM-Wunderlist)** <br> Displays your Wunderlist todos on your mirror ...
-
-
-

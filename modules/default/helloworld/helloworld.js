@@ -19,9 +19,8 @@ Module.register('helloworld',{
 	getDom: function() {
 		var wrapper = document.createElement("div");
 		wrapper.className = this.config.classes;
-		wrapper.innerHTML = this.config.text;  
+		wrapper.innerHTML = this.config.text;
 
 		return wrapper;
 	}
 });
-

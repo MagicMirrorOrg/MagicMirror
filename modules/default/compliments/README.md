@@ -1,6 +1,6 @@
 # Module: Compliments
 The `compliments` module is one of the default modules of the MagicMirror.
-This module displays a random compliment. 
+This module displays a random compliment.
 
 ## Using the module
 
@@ -14,7 +14,7 @@ modules: [
 		config: {
 			// The config property is optional.
 			// If no config is set, an example calendar is shown.
-			// See 'Configuration options' for more information. 
+			// See 'Configuration options' for more information.
 		}
 	}
 ]

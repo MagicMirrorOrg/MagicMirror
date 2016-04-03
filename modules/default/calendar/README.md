@@ -1,6 +1,6 @@
 # Module: Calendar
 The `calendar` module is one of the default modules of the MagicMirror.
-This module displays events from a public .ical calendar. It can combine multiple calendars. 
+This module displays events from a public .ical calendar. It can combine multiple calendars.
 
 ## Using the module
 
@@ -13,7 +13,7 @@ modules: [
 		config: {
 			// The config property is optional.
 			// If no config is set, an example calendar is shown.
-			// See 'Configuration options' for more information. 
+			// See 'Configuration options' for more information.
 		}
 	}
 ]
@@ -38,6 +38,12 @@ The following properties can be configured:
 			<td>The maximum number of events shown.<br>
 				<br><b>Possible values:</b> <code>0</code> - <code>100</code>
 				<br><b>Default value:</b> <code>10</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>maximumNumberOfDays</code></td>
+			<td>The maximum number of days in the future.<br>
+				<br><b>Default value:</b> <code>365</code>
 			</td>
 		</tr>
 		<tr>
@@ -100,7 +106,7 @@ The following properties can be configured:
 			<td><code>titleReplace</code></td>
 			<td>An object of textual replacements applied to the tile of the event. This allow to remove or replace certains words in the title.<br>
 				<br><b>Example:</b> <br>
-				
+
 				<code>
 					titleReplace: {'Birthday of ' : '', 'foo':'bar'}
 				</code>

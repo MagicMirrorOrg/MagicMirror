@@ -7,7 +7,7 @@
 
 var NodeHelper = require('node_helper');
 var validUrl = require('valid-url');
-var Fetcher = require('./fetcher.js'); 
+var Fetcher = require('./fetcher.js');
 
 module.exports = NodeHelper.create({
 	// Subclass start method.
@@ -44,7 +44,7 @@ module.exports = NodeHelper.create({
 		if (typeof self.fetchers[url] === 'undefined') {
 			console.log('Create new news fetcher for url: ' + url + ' - Interval: ' + reloadInterval);
 			fetcher = new Fetcher(url, reloadInterval);
-			
+
 			fetcher.onReceive(function(fetcher) {
 				self.sendSocketNotification('NEWS_ITEMS', {
 					url: fetcher.url(),
@@ -70,7 +70,3 @@ module.exports = NodeHelper.create({
 		fetcher.startFetch();
 	}
 });
-
-
- 
-

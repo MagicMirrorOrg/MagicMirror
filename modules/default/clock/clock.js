@@ -33,7 +33,7 @@ Module.register('clock',{
 		// Set locale.
 		moment.locale(config.language);
 	},
-	
+
 
 	// Override dom generator.
 	getDom: function() {
@@ -52,16 +52,15 @@ Module.register('clock',{
 		dateWrapper.innerHTML = moment().format('dddd, LL');
 		timeWrapper.innerHTML = moment().format((this.config.timeFormat === 24) ? 'HH:mm' : ('hh:mm'));
 		secondsWrapper.innerHTML = moment().format('ss');
-		
+
 		// Combine wrappers.
 		wrapper.appendChild(dateWrapper);
 		wrapper.appendChild(timeWrapper);
 		if (this.config.displaySeconds) {
 			timeWrapper.appendChild(secondsWrapper);
 		}
-		
+
 		// Return the wrapper to the dom.
 		return wrapper;
 	}
 });
-
