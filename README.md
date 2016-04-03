@@ -31,6 +31,7 @@ Things that still have to be implemented or changed.
 - [**News Feed**](modules/default/newsfeed)
 - [**Compliments**](modules/default/compliments)
 - [**Hello World**](modules/default/helloworld)
+- [**Alert**](modules/default/alert)
 
 ### 3rd Party Modules:
 
