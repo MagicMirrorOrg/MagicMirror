@@ -50,3 +50,16 @@ Things that still have to be implemented or changed.
 - **[MMM-Facial-Recognition by PaViRo](https://github.com/paviro/MMM-Facial-Recognition)** <br> Facial recognition and module swapping based on the current user ...
 
 - **[MMM-Wunderlist by PaViRo](https://github.com/paviro/MMM-Wunderlist)** <br> Displays your Wunderlist todos on your mirror ...
+
+##Contributing
+Contributions of all kinds are welcome, not only in the form of code but also with regards bug reports and documentation.
+
+But please keep the following in mind:
+
+- **Bug reports**:  Make sure you're running the latest version. If the issue still persist: please open a clearly documented issue with a clear title. 
+- **Minor bug fixes**: Please send a pull request with a clear explanation of the issue or a link to the isssue it solves.
+- **Major bug fixes**: please discuss your approach in an github issue before you start to alter a big part of the code.
+- **New features**: please please discuss in an github issue before you start to alter a big part of the code. Without discussion upfront, pull request will not be accepted / merged.
+
+Thanks for your help in making Magic Mirror better! 
+
