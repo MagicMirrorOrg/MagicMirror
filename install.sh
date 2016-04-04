@@ -60,8 +60,10 @@ rm -rf node*
 # Run Node checks to make sure Node works properly.
 curl -sL https://deb.nodesource.com/test | bash -
 npm config set loglevel info
-wget https://github.com/nhubbard/MagicMirror/archive/v2-beta.zip
-unzip v2-beta.zip
-cd MagicMirror-2-beta
+if [ ! -f package.json ]; then
+	wget https://github.com/nhubbard/MagicMirror/archive/v2-beta.zip
+	unzip v2-beta.zip
+	cd MagicMirror-2-beta
+fi
 npm install
 echo "We're ready! Run `npm start` from the MagicMirror-2-beta directory (not over SSH) and enjoy MagicMirror2!"
