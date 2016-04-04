@@ -4,38 +4,28 @@
  * By Michael Teeuw http://michaelteeuw.nl
  * MIT Licensed.
  */
-
-var FeedMe = require('feedme');
-var request = require('request');
-var iconv = require('iconv-lite');
-
+var FeedMe = require("feedme");
+var request = require("request");
+var iconv = require("iconv-lite");
 var NewsFetcher = function() {
 	var self = this;
-
-	self.successCallback = function(){};
-	self.errorCallback = function(){};
-
+	self.successCallback = function() {};
+	self.errorCallback = function() {};
 	self.items = [];
-
 	var parser = new FeedMe();
-
-	parser.on('item', function(item) {
+	parser.on("item", function(item) {
 		self.items.push({
 			title: item.title,
 			pubdate: item.pubdate,
 		});
 	});
-
-	parser.on('end', function(item) {
+	parser.on("end", function(item) {
 		self.successCallback(self.items);
 	});
-
-	parser.on('error', function(error) {
+	parser.on("error", function(error) {
 		self.errorCallback(error);
 	});
-
 	/* public methods */
-
 	/* fetchNews()
 	 * Fetch the new news items.
 	 *
@@ -46,8 +36,7 @@ var NewsFetcher = function() {
 	self.fetchNews = function(url, success, error) {
 		self.successCallback = success;
 		self.errorCallback = error;
-		request({uri:url, encoding:null}).pipe(iconv.decodeStream('ISO-8859-1')).pipe(parser);
+		request({uri: url, encoding: null}).pipe(iconv.decodeStream("ISO-8859-1")).pipe(parser);
 	};
 };
-
 module.exports = NewsFetcher;
