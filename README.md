@@ -9,22 +9,38 @@ This version of the Magic Mirror software focusses on a modular plugin system. B
 **WARNING!** This version is in a *very* early stage. It is **not** completed yet. **Please** use the master branch.
 
 ## Usage 
-1. Download the latest node version:
+
+#### Automatic Installer
+
+1. Clone the repository: `git clone -b v2-beta https://github.com/MichMich/MagicMirror`
+2. Enter the new directory: `cd MagicMirror`
+3. Give the installer permission to run: `sudo chmod +x install.sh`
+4. Start the installer: `sudo ./install.sh`
+
+
+#### Manual Installation
+
+1. Download the latest Node.js version:
   - `wget https://nodejs.org/dist/latest/node-v5.10.0-linux-armv6l.tar.gz` for Raspberry Pi
   - `wget https://nodejs.org/dist/latest/node-v5.10.0-linux-armv7l.tar.gz` for Raspberry Pi 2
-2. Unpack the archive file: `tar -xvf filename`
-3. Install `cd foldername && sudo cp -R * /usr/local/`
+  - `wget https://nodejs.org/dist/latest/node-v5.10.0-linux-arm64.tar.gz` for Raspberry Pi 3
+2. Unpack the archive file: `tar -xvf filename.tar.gz`
+3. Install Node.js: `cd foldername && sudo cp -R * /usr/local/`
 4. Set loglevel `npm config set loglevel info`
-5. `npm install && npm start` (You may have to restart your terminal before this works)
+5. Clone the repository and check out the beta branch: `git clone -b v2-beta https://github.com/MichMich/MagicMirror`
+6. Enter the repository: `cd MagicMirror`
+7. `npm install && npm start` (You may have to restart your terminal before this works!)
 
-**Important:** `npm start` does NOT work via SSH you have to execute it in a terminal session running in a window-manager.
+**Important:** `npm start` does **not** work via SSH! You will have to execute it in a terminal session running in a window manager.
 
 ## Configuration
+
 1. Duplicate `config/config.js.sample` to `config/config.js`.
 2. Modify your required settings.
 
 ## Todo List
-Things that still have to be implemented or changed.
+
+Here is a list of various things that still have to be implemented or changed.
 
 - [ ] Allow show/hide animations to animate the height. This way, the other modules won't jump around.
 - [ ] Allow vertical centering of alerts.
