@@ -4,5 +4,5 @@
 	"validateIndentation": "\t",
 	"validateQuoteMarks": "\"",
 	"requireLineFeedAtFileEnd": false,
-	"maximumLineLength": 175
+	"maximumLineLength": 250
 }
