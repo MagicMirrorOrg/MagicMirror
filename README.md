@@ -1,14 +1,18 @@
 # MagicMirror²
 
+[![Dependency Status](https://david-dm.org/MichMich/MagicMirror/v2-beta.svg)](https://david-dm.org/MichMich/MagicMirror/v2-beta)
+
+[![devDependency Status](https://david-dm.org/MichMich/MagicMirror/v2-beta/dev-status.svg)](https://david-dm.org/MichMich/MagicMirror/v2-beta#info=devDependencies)
+
 This version of the Magic Mirror software focusses on a modular plugin system. Besides that, the Magic Mirror software now also uses [Electron](http://electron.atom.io/), so no more webserver or browser installs necessary.
 
-**WARNING!** THIS VERSION IS IN A *VERY* EARLY STAGE. IT IS **NOT** COMPLETED YET. **PLEASE** USE THE MASTER BRANCH.
+**WARNING!** This version is in a *very* early stage. It is **not** completed yet. **Please** use the master branch.
 
 ## Usage 
 1. Download the latest node version:
-`wget https://nodejs.org/dist/latest/node-v5.10.0-linux-armv6l.tar.gz` for Pi 1
-`wget https://nodejs.org/dist/latest/node-v5.10.0-linux-armv7l.tar.gz` for Pi 2
-2. Unpack file `tar -xvf filename`
+  - `wget https://nodejs.org/dist/latest/node-v5.10.0-linux-armv6l.tar.gz` for Raspberry Pi
+  - `wget https://nodejs.org/dist/latest/node-v5.10.0-linux-armv7l.tar.gz` for Raspberry Pi 2
+2. Unpack the archive file: `tar -xvf filename`
 3. Install `cd foldername && sudo cp -R * /usr/local/`
 4. Set loglevel `npm config set loglevel info`
 5. `npm install && npm start` (You may have to restart your terminal before this works)
