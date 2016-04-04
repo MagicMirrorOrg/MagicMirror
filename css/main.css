@@ -9,7 +9,7 @@ body {
 	width: calc(100% - 120px);
 	background: #000;
 	color: #aaa;
-	font-family: 'Roboto Condensed';
+	font-family: 'Roboto Condensed', sans-serif;
 	font-weight: 400;
 	font-size: 2em;
 	line-height: 1.5em;
@@ -30,10 +30,10 @@ body {
 .large {font-size: 65px; line-height: 65px;}
 .xlarge {font-size: 75px; line-height: 75px; letter-spacing: -3px;}
 
-.thin {font-family: 'Roboto'; font-weight: 100;}
-.light {font-family: 'Roboto Condensed'; font-weight: 300;}
-.regular {font-family: 'Roboto Condensed'; font-weight: 400;}
-.bold {font-family: 'Roboto Condensed'; font-weight: 700;}
+.thin {font-family: 'Roboto', sans-serif; font-weight: 100;}
+.light {font-family: 'Roboto Condensed', sans-serif; font-weight: 300;}
+.regular {font-family: 'Roboto Condensed', sans-serif; font-weight: 400;}
+.bold {font-family: 'Roboto Condensed', sans-serif; font-weight: 700;}
 
 .align-right {text-align: right;}
 
