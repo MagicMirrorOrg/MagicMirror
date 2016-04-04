@@ -1,7 +1,6 @@
 # MagicMirror²
 
 [![Dependency Status](https://david-dm.org/MichMich/MagicMirror/v2-beta.svg)](https://david-dm.org/MichMich/MagicMirror/v2-beta)
-
 [![devDependency Status](https://david-dm.org/MichMich/MagicMirror/v2-beta/dev-status.svg)](https://david-dm.org/MichMich/MagicMirror/v2-beta#info=devDependencies)
 
 This version of the Magic Mirror software focusses on a modular plugin system. Besides that, the Magic Mirror software now also uses [Electron](http://electron.atom.io/), so no more webserver or browser installs necessary.
