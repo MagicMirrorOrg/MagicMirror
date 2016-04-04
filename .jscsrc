@@ -1,0 +1,8 @@
+{
+	"preset": "google",
+	"maxErrors": 100,
+	"validateIndentation": "\t",
+	"validateQuoteMarks": "\"",
+	"requireLineFeedAtFileEnd": false,
+	"maximumLineLength": 250
+}
