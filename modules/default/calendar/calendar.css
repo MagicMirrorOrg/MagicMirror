@@ -5,11 +5,9 @@
 }
 
 .calendar .symbol span {
-	display: inline-block;
-
-	-ms-transform: translate(0px,2px); /* IE 9 */
-   	-webkit-transform: translate(0px,2px); /* Safari */
-    transform: translate(0px,2px);
+	display: inline-block; /* IE 9 */
+	-webkit-transform: translate(0px,2px); /* Safari */
+	transform: translate(0px,2px);
 }
 
 .calendar .title {

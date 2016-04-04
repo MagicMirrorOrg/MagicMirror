@@ -5,19 +5,17 @@
  * MIT Licensed.
  */
 
-// Modules listed below can be loaded without the 'default/' prefix. Omitting the default folder name.
+// Modules listed below can be loaded without the "default/" prefix. Omitting the default folder name.
 
 var defaultModules = [
-	'alert',
-	'calendar',
-	'clock',
-	'compliments',
-	'currentweather',
-	'helloworld',
-	'newsfeed',
-	'weatherforecast'
+	"alert",
+	"calendar",
+	"clock",
+	"compliments",
+	"currentweather",
+	"helloworld",
+	"newsfeed",
+	"weatherforecast"
 ];
-
-
 /*************** DO NOT EDIT THE LINE BELOW ***************/
-if (typeof module !== 'undefined') {module.exports = defaultModules;}
+if (typeof module !== "undefined") {module.exports = defaultModules;}
