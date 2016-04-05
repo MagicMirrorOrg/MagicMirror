@@ -27,6 +27,7 @@ Module.register('alert',{
 		return ['ns-default.css'];
 	},
 	show_notification: function (message) {
+		if (this.config.effect == "slide"){this.config.effect=this.config.effect + "-" + this.config.position}
 		message = "<span class='thin' style='line-height: 35px; font-size:24px' color='#4A4A4A'>" + message.title + "</span><br /><span class='light' style='font-size:28px;line-height: 30px;'>" + message.message + "</span>"
 		new NotificationFx({
 			message : message,
