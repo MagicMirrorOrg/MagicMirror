@@ -28,7 +28,9 @@ Module.register('calendar',{
 		],
 		titleReplace: {
 			'De verjaardag van ' : ''
-		}
+		},
+		loadingText: 'Loading events &hellip;',
+		emptyCalendarText: 'No upcoming events.'
 	},
 
 	// Define required scripts.
@@ -55,6 +57,7 @@ Module.register('calendar',{
 		}
 
 		this.calendarData = {};
+		this.loaded = false;
 	},
 
 	// Override socket notification handler.
@@ -62,6 +65,7 @@ Module.register('calendar',{
 		if (notification === 'CALENDAR_EVENTS') {
 			if (this.hasCalendarURL(payload.url)) {
 				this.calendarData[payload.url] = payload.events;
+				this.loaded = true;
 			}
 		} else if(notification === 'FETCH_ERROR') {
 			Log.error('Calendar Error. Could not fetch calendar: ' + payload.url);
@@ -82,7 +86,7 @@ Module.register('calendar',{
 		wrapper.className = "small";
 
 		if (events.length === 0) {
-			wrapper.innerHTML = "Loading events ...";
+			wrapper.innerHTML = (this.loaded) ? this.config.emptyCalendarText : this.config.loadingText;
 			wrapper.className = "small dimmed";
 			return wrapper;
 		}

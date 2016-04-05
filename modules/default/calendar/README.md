@@ -112,6 +112,18 @@ The following properties can be configured:
 				</code>
 			</td>
 		</tr>
+		<tr>
+			<td><code>loadingText</code></td>
+			<td>Text to display while loading item.<br>
+				<br><b>Default value:</b> <code>'Loading events &hellip;'</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>emptyCalendarText</code></td>
+			<td>Text to display when there are no upcoming events.<br>
+				<br><b>Default value:</b> <code>''No upcoming events.'</code>
+			</td>
+		</tr>
 	</tbody>
 </table>
 

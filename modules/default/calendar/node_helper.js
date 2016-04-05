@@ -123,10 +123,6 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 	 * Broadcast the exsisting events.
 	 */
 	this.broadcastEvents = function() {
-		if (events.length <= 0) {
-			//console.log('No events to broadcast yet.');
-			return;
-		}
 		//console.log('Broadcasting ' + events.length + ' events.');
 		eventsReceivedCallback(self);
 	};
