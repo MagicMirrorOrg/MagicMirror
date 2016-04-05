@@ -1,0 +1,4 @@
+{
+	"extends": "stylelint-config-standard",
+	"font-family-name-quotes": "double-where-recommended"
+}
