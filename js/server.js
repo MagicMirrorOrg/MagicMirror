@@ -27,7 +27,7 @@ var Server = function(config, callback) {
 	});
 
 	if (typeof callback === 'function') {
-		callback(io);
+		callback(app, io);
 	}
 };
 

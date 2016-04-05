@@ -7,12 +7,15 @@
  */
 
 var config = {
-	port: 80,
+	port: 8080,
 
 	language: 'en',
 	timeFormat: 24,
 
 	modules: [
+		{
+			module: 'alert',
+		},
 		{
 			module: 'clock',
 			position: 'top_left'

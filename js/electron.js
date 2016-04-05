@@ -7,6 +7,7 @@ const Server = require(__dirname + '/server.js');
 const spawn = require('child_process').spawn;
 const electron = require('electron');
 const defaultModules = require(__dirname + '/../modules/default/defaultmodules.js');
+const path = require('path');
 
 // Config
 var config = {};
@@ -80,6 +81,7 @@ function loadModule(module) {
 		var Module = require(helperPath);
 		var m = new Module();
 	    m.setName(moduleName);
+	    m.setPath(path.resolve(moduleFolder));
 	    nodeHelpers.push(m);
 	}
 }
@@ -108,11 +110,12 @@ loadConfig(function(c) {
 
 	loadModules(modules);
 
-	var server = new Server(config, function(io) {
+	var server = new Server(config, function(app, io) {
 		console.log('Server started ...');
 
 		for (var h in nodeHelpers) {
 			var nodeHelper = nodeHelpers[h];
+			nodeHelper.setExpressApp(app);
 			nodeHelper.setSocketIO(io);
 			nodeHelper.start();
 		}

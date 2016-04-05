@@ -14,7 +14,7 @@ var NewsFetcher = require('./newsfetcher.js');
  * attribute reloadInterval number - Reload interval in milliseconds.
  */
 
-var Fetcher = function(url, reloadInterval) {
+var Fetcher = function(url, reloadInterval, encoding) {
 	var self = this;
 	var newsFetcher = new NewsFetcher();
 	if (reloadInterval < 1000) {
@@ -44,7 +44,7 @@ var Fetcher = function(url, reloadInterval) {
 		}, function(error) {
 			fetchFailedCallback(self, error);
 			scheduleTimer();
-		});
+		}, encoding);
 	};
 
 	/* scheduleTimer()

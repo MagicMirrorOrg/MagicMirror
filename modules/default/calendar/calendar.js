@@ -12,6 +12,7 @@ Module.register('calendar',{
 	// Define module defaults
 	defaults: {
 		maximumEntries: 10, // Total Maximum Entries
+		maximumNumberOfDays: 365,
 		displaySymbol: true,
 		defaultSymbol: 'calendar', // Fontawsome Symbol see http://fontawesome.io/cheatsheet/
 		maxTitleLength: 25,
@@ -27,7 +28,12 @@ Module.register('calendar',{
 		],
 		titleReplace: {
 			'De verjaardag van ' : ''
-		}
+		},
+		loadingText: 'Loading events &hellip;',
+		emptyCalendarText: 'No upcoming events.',
+
+		// TODO: It would be nice if there is a way to get this from the Moment.js locale.
+		todayText: 'Today'
 	},
 
 	// Define required scripts.
@@ -54,6 +60,7 @@ Module.register('calendar',{
 		}
 
 		this.calendarData = {};
+		this.loaded = false;
 	},
 
 	// Override socket notification handler.
@@ -61,6 +68,7 @@ Module.register('calendar',{
 		if (notification === 'CALENDAR_EVENTS') {
 			if (this.hasCalendarURL(payload.url)) {
 				this.calendarData[payload.url] = payload.events;
+				this.loaded = true;
 			}
 		} else if(notification === 'FETCH_ERROR') {
 			Log.error('Calendar Error. Could not fetch calendar: ' + payload.url);
@@ -81,7 +89,7 @@ Module.register('calendar',{
 		wrapper.className = "small";
 
 		if (events.length === 0) {
-			wrapper.innerHTML = "Loading events ...";
+			wrapper.innerHTML = (this.loaded) ? this.config.emptyCalendarText : this.config.loadingText;
 			wrapper.className = "small dimmed";
 			return wrapper;
 		}
@@ -107,7 +115,8 @@ Module.register('calendar',{
 			eventWrapper.appendChild(titleWrapper);
 
 			var timeWrapper =  document.createElement("td");
-			timeWrapper.innerHTML = moment(event.startDate,'x').fromNow();
+			timeWrapper.innerHTML = (event.today) ? this.config.todayText : moment(event.startDate,'x').fromNow();
+			// timeWrapper.innerHTML = moment(event.startDate,'x').format('lll');
 			timeWrapper.className = "time light";
 			eventWrapper.appendChild(timeWrapper);
 
@@ -155,11 +164,13 @@ Module.register('calendar',{
 	 */
 	createEventList: function() {
 		var events = [];
+		var today = moment().startOf('day');
 		for (var c in this.calendarData) {
 			var calendar = this.calendarData[c];
 			for (var e in calendar) {
 				var event = calendar[e];
 				event.url = c;
+				event.today = event.startDate >= today && event.startDate < (today + 24 * 60 * 60 * 1000);
 				events.push(event);
 			}
 		}
@@ -180,6 +191,7 @@ Module.register('calendar',{
 		this.sendSocketNotification('ADD_CALENDAR', {
 			url: url,
 			maximumEntries: this.config.maximumEntries,
+			maximumNumberOfDays: this.config.maximumNumberOfDays,
 			fetchInterval: this.config.fetchInterval
 		});
 	},

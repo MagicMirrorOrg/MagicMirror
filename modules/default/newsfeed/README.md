@@ -70,6 +70,13 @@ The following properties can be configured:
 				<br><b>Default value:</b> <code>2000</code> (2.5 seconds)
 			</td>
 		</tr>
+		<tr>
+			<td><code>encoding</code></td>
+			<td>The encoding of the news feed.<br>
+				<br><b>Possible values:</b><code>'UTF-8'</code>, <code>'ISO-8859-1'</code>, etc ...
+				<br><b>Default value:</b> <code>'UTF-8'</code> 
+			</td>
+		</tr>
 
 	</tbody>
 </table>

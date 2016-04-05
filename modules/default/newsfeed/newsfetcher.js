@@ -7,6 +7,7 @@
 
 var FeedMe = require('feedme');
 var request = require('request');
+var iconv = require('iconv-lite');
 
 var NewsFetcher = function() {
 	var self = this;
@@ -16,26 +17,6 @@ var NewsFetcher = function() {
 
 	self.items = [];
 
-	var parser = new FeedMe();
-
-	parser.on('item', function(item) {
-		//console.log(item);
-		self.items.push({
-			title: item.title,
-			pubdate: item.pubdate,
-		});
-	});
-
-	parser.on('end', function(item) {
-		self.successCallback(self.items);
-	});
-
-	parser.on('error', function(error) {
-		self.errorCallback(error);
-	});
-
-	/* public methods */
-
 	/* fetchNews()
 	 * Fetch the new news items.
 	 *
@@ -43,10 +24,28 @@ var NewsFetcher = function() {
 	 * attribute success function(items) - Callback on succes.
 	 * attribute error function(error) - Callback on error.
 	 */
-	self.fetchNews = function(url, success, error) {
+	self.fetchNews = function(url, success, error, encoding) {
 		self.successCallback = success;
 		self.errorCallback = error;
-		request(url).pipe(parser);
+
+		var parser = new FeedMe();
+
+		parser.on('item', function(item) {
+			self.items.push({
+				title: item.title,
+				pubdate: item.pubdate,
+			});
+		});
+
+		parser.on('end', function(item) {
+			self.successCallback(self.items);
+		});
+
+		parser.on('error', function(error) {
+			self.errorCallback(error);
+		});
+
+		request({uri:url, encoding:null}).pipe(iconv.decodeStream(encoding)).pipe(parser);
 	};
 };
 

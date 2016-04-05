@@ -41,6 +41,12 @@ The following properties can be configured:
 			</td>
 		</tr>
 		<tr>
+			<td><code>maximumNumberOfDays</code></td>
+			<td>The maximum number of days in the future.<br>
+				<br><b>Default value:</b> <code>365</code>
+			</td>
+		</tr>
+		<tr>
 			<td><code>displaySymbol</code></td>
 			<td>Display a symbol in front of an entry.<br>
 				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
@@ -104,6 +110,24 @@ The following properties can be configured:
 				<code>
 					titleReplace: {'Birthday of ' : '', 'foo':'bar'}
 				</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>loadingText</code></td>
+			<td>Text to display while loading item.<br>
+				<br><b>Default value:</b> <code>'Loading events &hellip;'</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>emptyCalendarText</code></td>
+			<td>Text to display when there are no upcoming events.<br>
+				<br><b>Default value:</b> <code>'No upcoming events.'</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>todayText</code></td>
+			<td>Text to display when an event is planned for today.<br>
+				<br><b>Default value:</b> <code>'Today'</code>
 			</td>
 		</tr>
 	</tbody>
