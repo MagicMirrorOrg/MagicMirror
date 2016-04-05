@@ -17,25 +17,6 @@ var NewsFetcher = function() {
 
 	self.items = [];
 
-	var parser = new FeedMe();
-
-	parser.on('item', function(item) {
-		self.items.push({
-			title: item.title,
-			pubdate: item.pubdate,
-		});
-	});
-
-	parser.on('end', function(item) {
-		self.successCallback(self.items);
-	});
-
-	parser.on('error', function(error) {
-		self.errorCallback(error);
-	});
-
-	/* public methods */
-
 	/* fetchNews()
 	 * Fetch the new news items.
 	 *
@@ -46,6 +27,24 @@ var NewsFetcher = function() {
 	self.fetchNews = function(url, success, error, encoding) {
 		self.successCallback = success;
 		self.errorCallback = error;
+
+		var parser = new FeedMe();
+
+		parser.on('item', function(item) {
+			self.items.push({
+				title: item.title,
+				pubdate: item.pubdate,
+			});
+		});
+
+		parser.on('end', function(item) {
+			self.successCallback(self.items);
+		});
+
+		parser.on('error', function(error) {
+			self.errorCallback(error);
+		});
+
 		request({uri:url, encoding:null}).pipe(iconv.decodeStream(encoding)).pipe(parser);
 	};
 };
