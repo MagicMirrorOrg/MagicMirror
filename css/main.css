@@ -74,6 +74,13 @@ sup {
 .region {
 	position: absolute;
 }
+.region.fullscreen {
+	position: absolute;
+	top: -60px;
+	left: -60px;
+	right: -60px;
+	bottom: -60px;
+}
 .region.right {
 	right: 0;
 }
