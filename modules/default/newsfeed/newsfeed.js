@@ -16,6 +16,7 @@ Module.register('newsfeed',{
 		reloadInterval:  5 * 60 * 1000, // every 5 minutes
 	    updateInterval: 7.5 * 1000,
         animationSpeed: 2.5 * 1000,
+        encoding: 'UTF-8' //ISO-8859-1
 	},
 
 	// Define required scripts.
@@ -56,6 +57,13 @@ Module.register('newsfeed',{
 	getDom: function() {
 		var wrapper = document.createElement("div");
 
+		// wrapper.className = "small";
+		// for (var n in this.newsItems) {
+		// 	var item = this.newsItems[n];
+		// 	wrapper.innerHTML += item.title + '<br>';
+		// }
+		// return wrapper;
+
 		if (this.activeItem >= this.newsItems.length) {
 			this.activeItem = 0;
 		}
@@ -90,7 +98,8 @@ Module.register('newsfeed',{
 		Log.log('Add news feed to fetcher: ' + this.config.feedUrl);
 		this.sendSocketNotification('ADD_FEED', {
 			url: this.config.feedUrl,
-			reloadInterval: this.config.reloadInterval
+			reloadInterval: this.config.reloadInterval,
+			encoding: this.config.encoding
 		});
 	},
 

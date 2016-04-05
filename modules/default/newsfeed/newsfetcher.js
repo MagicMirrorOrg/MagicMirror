@@ -43,10 +43,10 @@ var NewsFetcher = function() {
 	 * attribute success function(items) - Callback on succes.
 	 * attribute error function(error) - Callback on error.
 	 */
-	self.fetchNews = function(url, success, error) {
+	self.fetchNews = function(url, success, error, encoding) {
 		self.successCallback = success;
 		self.errorCallback = error;
-		request({uri:url, encoding:null}).pipe(iconv.decodeStream('ISO-8859-1')).pipe(parser);
+		request({uri:url, encoding:null}).pipe(iconv.decodeStream(encoding)).pipe(parser);
 	};
 };
 
