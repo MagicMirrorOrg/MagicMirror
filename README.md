@@ -31,7 +31,7 @@ This version of the Magic Mirror software focusses on a modular plugin system. B
 6. Enter the repository: `cd MagicMirror`
 7. `npm install && npm start` (You may have to restart your terminal before this works!)
 
-**Important:** `npm start` does **not** work via SSH! You will have to execute it in a terminal session running in a window manager.
+**Important:** `npm start` does **not** work via SSH, use `DISPLAY=:0 nohup npm start &` instead.
 
 ## Configuration
 
