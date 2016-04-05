@@ -121,7 +121,13 @@ The following properties can be configured:
 		<tr>
 			<td><code>emptyCalendarText</code></td>
 			<td>Text to display when there are no upcoming events.<br>
-				<br><b>Default value:</b> <code>''No upcoming events.'</code>
+				<br><b>Default value:</b> <code>'No upcoming events.'</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>todayText</code></td>
+			<td>Text to display when an event is planned for today.<br>
+				<br><b>Default value:</b> <code>'Today'</code>
 			</td>
 		</tr>
 	</tbody>

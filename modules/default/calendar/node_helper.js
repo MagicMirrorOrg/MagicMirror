@@ -42,19 +42,35 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 
 			for (var e in data) {
 				var event = data[e];
+				var now = new Date();
 				var today = moment().startOf('day');
+
+				//console.log(event);
+
+				// FIXME: 
+				// Ugly fix to solve the facebook birthday issue.
+				// Otherwise, the recurring events only show the birthday for next year.
+				var isFacebookBirthday = false;
+				if (typeof event.uid !== 'undefined') {
+					if (event.uid.indexOf('@facebook.com') !== -1) {
+						isFacebookBirthday = true;
+					}
+				}
 
 				if (event.type === 'VEVENT') {
 					var startDate = (event.start.length === 8) ? moment(event.start, 'YYYYMMDD') : moment(new Date(event.start));
+					if (event.start.length === 8) {
+						startDate = startDate.startOf('day');
+					}
 
-					if (typeof event.rrule != 'undefined') {
+					if (typeof event.rrule != 'undefined' && !isFacebookBirthday) {
 						var rule = event.rrule;
 
 						// Check if the timeset is set to this current time.
 						// If so, the RRULE line does not contain any BYHOUR, BYMINUTE, BYSECOND params.
 						// This causes the times of the recurring event to be incorrect.
 						// By adjusting the timeset property, this issue is solved.
-						var now = new Date();
+						
 
 						if (rule.timeset[0].hour == now.getHours(),
 							rule.timeset[0].minute == now.getMinutes(),
@@ -65,23 +81,24 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 							rule.timeset[0].second = startDate.format('s');
 						}
 
-						var dates = rule.between(new Date(), today.add(maximumNumberOfDays, 'days') , true, limitFunction);
-						//console.log(dates);
+						var dates = rule.between(today, today.add(maximumNumberOfDays, 'days') , true, limitFunction);
+						console.log(dates);
 						for (var d in dates) {
 							startDate = moment(new Date(dates[d]));
 							newEvents.push({
 								title: (typeof event.summary.val !== 'undefined') ? event.summary.val : event.summary,
-								startDate: startDate.format('x')
+								startDate: startDate.format('x'),
+								fullDayEvent: (event.start.length === 8)
+								
 							});
 						}
 					} else {
 						// Single event.
-
-						
-						if (startDate > today && startDate <= today.add(maximumNumberOfDays, 'days')) {
+						if (startDate >= today && startDate <= today.add(maximumNumberOfDays, 'days')) {
 							newEvents.push({
 								title: (typeof event.summary.val !== 'undefined') ? event.summary.val : event.summary,
-								startDate: startDate.format('x')
+								startDate: startDate.format('x'),
+								fullDayEvent: (event.start.length === 8)
 							});
 						}
 					}
