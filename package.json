@@ -1,40 +1,42 @@
 {
-	"name": "magicmirror",
-	"version": "2.0.0",
-	"description": "A modular interface for smart mirrors.",
-	"main": "js/electron.js",
-	"scripts": {
-		"start": "electron js/electron.js"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/MichMich/MagicMirror.git"
-	},
-	"keywords": [
-		"magic mirror",
-		"smart mirror",
-		"mirror UI",
-		"modular"
-	],
-	"author": "Michael Teeuw",
-	"contributors": "https://github.com/MichMich/MagicMirror/graphs/contributors",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/MichMich/MagicMirror/issues"
-	},
-	"homepage": "https://github.com/MichMich/MagicMirror#readme",
-	"devDependencies": {
-		"electron-prebuilt": "latest"
-	},
-	"dependencies": {
-		"socket.io":"latest",
-		"express":"latest",
-		"request":"latest",
-		"walk": "latest",
-		"feedme": "latest",
-		"valid-url": "latest",
-		"ical": "latest",
-		"moment": "latest",
-		"iconv-lite": "latest"
-	}
+  "name": "magicmirror",
+  "version": "2.0.0",
+  "description": "A modular interface for smart mirrors.",
+  "main": "js/electron.js",
+  "scripts": {
+    "start": "electron js/electron.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MichMich/MagicMirror.git"
+  },
+  "keywords": [
+    "magic mirror",
+    "smart mirror",
+    "mirror UI",
+    "modular"
+  ],
+  "author": "Michael Teeuw",
+  "contributors": "https://github.com/MichMich/MagicMirror/graphs/contributors",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MichMich/MagicMirror/issues"
+  },
+  "homepage": "https://github.com/MichMich/MagicMirror#readme",
+  "devDependencies": {
+    "electron-prebuilt": "latest"
+  },
+  "dependencies": {
+    "express": "latest",
+    "feedme": "latest",
+    "ical": "latest",
+    "iconv-lite": "latest",
+    "moment": "latest",
+    "request": "latest",
+    "socket.io": "latest",
+    "stylelint": "^5.2.1",
+    "stylelint-config-standard": "^4.0.1",
+    "valid-url": "latest",
+    "walk": "latest"
+  }
 }

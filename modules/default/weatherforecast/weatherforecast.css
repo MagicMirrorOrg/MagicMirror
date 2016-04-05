@@ -1,14 +1,14 @@
 .weatherforecast .day {
-	padding-left: 0px;
-	padding-right: 25px;
+  padding-left: 0;
+  padding-right: 25px;
 }
 
 .weatherforecast .weather-icon {
-	padding-right: 30px;
-	text-align: center;
+  padding-right: 30px;
+  text-align: center;
 }
 
 .weatherforecast .min-temp {
-	padding-left: 20px;
-	padding-right: 0px;
+  padding-left: 20px;
+  padding-right: 0;
 }

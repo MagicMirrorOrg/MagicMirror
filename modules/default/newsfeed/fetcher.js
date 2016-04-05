@@ -5,7 +5,7 @@
  * MIT Licensed.
  */
 
-var NewsFetcher = require('./newsfetcher.js');
+var NewsFetcher = require("./newsfetcher.js");
 
 /* Fetcher
  * Responsible for requesting an update on the set interval and broadcasting the data.

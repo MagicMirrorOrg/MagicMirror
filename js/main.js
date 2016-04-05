@@ -22,7 +22,7 @@ var MM = (function() {
 		for (var m in modules) {
 			var module = modules[m];
 
-			if (typeof module.data.position === 'string') {
+			if (typeof module.data.position === "string") {
 
 				var wrapper = selectWrapper(module.data.position);
 
@@ -30,14 +30,14 @@ var MM = (function() {
 				dom.id = module.identifier;
 				dom.className = module.name;
 
-				if (typeof module.data.classes === 'string') {
-					dom.className = 'module '+ dom.className + ' ' + module.data.classes;
+				if (typeof module.data.classes === "string") {
+					dom.className = "module " + dom.className + " " + module.data.classes;
 				}
 
 				dom.opacity = 0;
 				wrapper.appendChild(dom);
 
-				if (typeof module.data.header !== 'undefined' && module.data.header !== '') {
+				if (typeof module.data.header !== "undefined" && module.data.header !== "") {
 					var moduleHeader = document.createElement("header");
 					moduleHeader.innerHTML = module.data.header;
 					dom.appendChild(moduleHeader);
@@ -51,7 +51,7 @@ var MM = (function() {
 			}
 		}
 
-		sendNotification('DOM_OBJECTS_CREATED');
+		sendNotification("DOM_OBJECTS_CREATED");
 	};
 
 	/* selectWrapper(position)
@@ -60,10 +60,10 @@ var MM = (function() {
 	 * argument position string - The name of the position.
 	 */
 	var selectWrapper = function(position) {
-		var classes = position.replace('_',' ');
+		var classes = position.replace("_"," ");
 		var parentWrapper = document.getElementsByClassName(classes);
 		if (parentWrapper.length > 0) {
-			var wrapper =  parentWrapper[0].getElementsByClassName('container');
+			var wrapper =  parentWrapper[0].getElementsByClassName("container");
 			if (wrapper.length > 0) {
 				return wrapper[0];
 			}
@@ -117,7 +117,6 @@ var MM = (function() {
 		}
 	};
 
-
 	/* moduleNeedsUpdate(module, newContent)
 	 * Check if the content has changed.
 	 *
@@ -128,9 +127,9 @@ var MM = (function() {
 	 */
 	var moduleNeedsUpdate = function(module, newContent) {
 		var moduleWrapper = document.getElementById(module.identifier);
-		var contentWrapper = moduleWrapper.getElementsByClassName('module-content')[0];
+		var contentWrapper = moduleWrapper.getElementsByClassName("module-content")[0];
 
-		var tempWrapper = document.createElement('div');
+		var tempWrapper = document.createElement("div");
 		tempWrapper.appendChild(newContent);
 
 		return tempWrapper.innerHTML !== contentWrapper.innerHTML;
@@ -144,7 +143,7 @@ var MM = (function() {
 	 */
 	var updateModuleContent = function(module, content) {
 		var moduleWrapper = document.getElementById(module.identifier);
-		var contentWrapper = moduleWrapper.getElementsByClassName('module-content')[0];
+		var contentWrapper = moduleWrapper.getElementsByClassName("module-content")[0];
 
 		contentWrapper.innerHTML = null;
 		contentWrapper.appendChild(content);
@@ -168,9 +167,9 @@ var MM = (function() {
 				// since it's fade out anyway, we can see it lay above or
 				// below other modules. This works way better than adjusting
 				// the .display property.
-				moduleWrapper.style.position = 'absolute';
+				moduleWrapper.style.position = "absolute";
 
-				if (typeof callback === 'function') { callback(); }
+				if (typeof callback === "function") { callback(); }
 			}, speed);
 		}
 	};
@@ -187,11 +186,11 @@ var MM = (function() {
 		if (moduleWrapper !== null) {
 			moduleWrapper.style.transition = "opacity " + speed / 1000 + "s";
 			// Restore the postition. See hideModule() for more info.
-			moduleWrapper.style.position = 'static';
+			moduleWrapper.style.position = "static";
 			moduleWrapper.style.opacity = 1;
 
 			setTimeout(function() {
-				if (typeof callback === 'function') { callback(); }
+				if (typeof callback === "function") { callback(); }
 			}, speed);
 
 		}
@@ -201,9 +200,9 @@ var MM = (function() {
 	 * Loads the core config and combines it with de system defaults.
 	 */
 	var loadConfig = function() {
-		if (typeof config === 'undefined') {
+		if (typeof config === "undefined") {
 			config = defaults;
-			Log.error('Config file is missing! Please create a config file.');
+			Log.error("Config file is missing! Please create a config file.");
 			return;
 		}
 
@@ -228,13 +227,13 @@ var MM = (function() {
 			var newModules = [];
 
 			var searchClasses = className;
-			if (typeof className === 'string') {
-				searchClasses = className.split(' ');
+			if (typeof className === "string") {
+				searchClasses = className.split(" ");
 			}
 
 			for (var m in modules) {
 				var module = modules[m];
-				var classes = module.data.classes.toLowerCase().split(' ');
+				var classes = module.data.classes.toLowerCase().split(" ");
 
 				for (var c in searchClasses) {
 					var searchClass = searchClasses[c];
@@ -259,13 +258,13 @@ var MM = (function() {
 			var newModules = [];
 
 			var searchClasses = className;
-			if (typeof className === 'string') {
-				searchClasses = className.split(' ');
+			if (typeof className === "string") {
+				searchClasses = className.split(" ");
 			}
 
 			for (var m in modules) {
 				var module = modules[m];
-				var classes = module.data.classes.toLowerCase().split(' ');
+				var classes = module.data.classes.toLowerCase().split(" ");
 				var foundClass = false;
 				for (var c in searchClasses) {
 					var searchClass = searchClasses[c];
@@ -316,12 +315,11 @@ var MM = (function() {
 			}
 		};
 
-		if (typeof modules.withClass === 'undefined') { Object.defineProperty(modules, 'withClass',  {value: withClass, enumerable: false}); }
-		if (typeof modules.exceptWithClass === 'undefined') { Object.defineProperty(modules, 'exceptWithClass',  {value: exceptWithClass, enumerable: false}); }
-		if (typeof modules.exceptModule === 'undefined') { Object.defineProperty(modules, 'exceptModule',  {value: exceptModule, enumerable: false}); }
-		if (typeof modules.enumerate === 'undefined') { Object.defineProperty(modules, 'enumerate',  {value: enumerate, enumerable: false}); }
+		if (typeof modules.withClass === "undefined") { Object.defineProperty(modules, "withClass",  {value: withClass, enumerable: false}); }
+		if (typeof modules.exceptWithClass === "undefined") { Object.defineProperty(modules, "exceptWithClass",  {value: exceptWithClass, enumerable: false}); }
+		if (typeof modules.exceptModule === "undefined") { Object.defineProperty(modules, "exceptModule",  {value: exceptModule, enumerable: false}); }
+		if (typeof modules.enumerate === "undefined") { Object.defineProperty(modules, "enumerate",  {value: enumerate, enumerable: false}); }
 	};
-
 
 	return {
 		/* Public Methods */
@@ -330,7 +328,7 @@ var MM = (function() {
 		 * Main init method.
 		 */
 		init: function() {
-			Log.info('Initializing MagicMirror.');
+			Log.info("Initializing MagicMirror.");
 			loadConfig();
 			Loader.loadModules();
 		},
@@ -347,8 +345,8 @@ var MM = (function() {
 				modules[module.data.index] = module;
 			}
 
-			Log.info('All modules started!');
-			sendNotification('ALL_MODULES_STARTED');
+			Log.info("All modules started!");
+			sendNotification("ALL_MODULES_STARTED");
 
 			createDomObjects();
 		},
@@ -362,17 +360,17 @@ var MM = (function() {
 		 */
 		sendNotification: function(notification, payload, sender) {
 			if (arguments.length < 3) {
-				Log.error('sendNotification: Missing arguments.');
+				Log.error("sendNotification: Missing arguments.");
 				return;
 			}
 
-			if (typeof notification !== 'string') {
-				Log.error('sendNotification: Notification should be a string.');
+			if (typeof notification !== "string") {
+				Log.error("sendNotification: Notification should be a string.");
 				return;
 			}
 
 			if (!(sender instanceof Module)) {
-				Log.error('sendNotification: Sender should be a module.');
+				Log.error("sendNotification: Sender should be a module.");
 				return;
 			}
 
@@ -388,7 +386,7 @@ var MM = (function() {
 		 */
 		updateDom: function(module, speed) {
 			if (!(module instanceof Module)) {
-				Log.error('updateDom: Sender should be a module.');
+				Log.error("updateDom: Sender should be a module.");
 				return;
 			}
 

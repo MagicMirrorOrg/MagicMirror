@@ -8,10 +8,8 @@
  * MIT Licensed.
  */
 
-
 // This logger is very simple, but needs to be extended.
 // This system can eventually be used to push the log messages to an external target.
-
 
 var Log = (function() {
 	return {
