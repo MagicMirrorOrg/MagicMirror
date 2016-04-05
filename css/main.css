@@ -36,6 +36,7 @@ body {
 .bold {font-family: 'Roboto Condensed', sans-serif; font-weight: 700;}
 
 .align-right {text-align: right;}
+.align-left {text-align: left;}
 
 
 header {
