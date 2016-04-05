@@ -5,15 +5,15 @@
  * MIT Licensed.
  */
 
-var FeedMe = require('feedme');
-var request = require('request');
-var iconv = require('iconv-lite');
+var FeedMe = require("feedme");
+var request = require("request");
+var iconv = require("iconv-lite");
 
 var NewsFetcher = function() {
 	var self = this;
 
-	self.successCallback = function(){};
-	self.errorCallback = function(){};
+	self.successCallback = function() {};
+	self.errorCallback = function() {};
 
 	self.items = [];
 
@@ -30,22 +30,22 @@ var NewsFetcher = function() {
 
 		var parser = new FeedMe();
 
-		parser.on('item', function(item) {
+		parser.on("item", function(item) {
 			self.items.push({
 				title: item.title,
 				pubdate: item.pubdate,
 			});
 		});
 
-		parser.on('end', function(item) {
+		parser.on("end", function(item) {
 			self.successCallback(self.items);
 		});
 
-		parser.on('error', function(error) {
+		parser.on("error", function(error) {
 			self.errorCallback(error);
 		});
 
-		request({uri:url, encoding:null}).pipe(iconv.decodeStream(encoding)).pipe(parser);
+		request({uri: url, encoding: null}).pipe(iconv.decodeStream(encoding)).pipe(parser);
 	};
 };
 

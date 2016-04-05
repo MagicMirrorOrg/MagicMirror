@@ -7,55 +7,55 @@
  * MIT Licensed.
  */
 
-Module.register('calendar',{
+Module.register("calendar",{
 
 	// Define module defaults
 	defaults: {
 		maximumEntries: 10, // Total Maximum Entries
 		maximumNumberOfDays: 365,
 		displaySymbol: true,
-		defaultSymbol: 'calendar', // Fontawsome Symbol see http://fontawesome.io/cheatsheet/
+		defaultSymbol: "calendar", // Fontawsome Symbol see http://fontawesome.io/cheatsheet/
 		maxTitleLength: 25,
 		fetchInterval: 5 * 60 * 1000, // Update every 5 minutes.
 		animationSpeed: 2000,
 		fade: true,
 		fadePoint: 0.25, // Start on 1/4th of the list.
-        calendars: [
+		calendars: [
 			{
-				symbol: 'calendar',
-				url: 'http://www.calendarlabs.com/templates/ical/US-Holidays.ics',
+				symbol: "calendar",
+				url: "http://www.calendarlabs.com/templates/ical/US-Holidays.ics",
 			},
 		],
 		titleReplace: {
-			'De verjaardag van ' : ''
+			"De verjaardag van ": ""
 		},
-		loadingText: 'Loading events &hellip;',
-		emptyCalendarText: 'No upcoming events.',
+		loadingText: "Loading events &hellip;",
+		emptyCalendarText: "No upcoming events.",
 
 		// TODO: It would be nice if there is a way to get this from the Moment.js locale.
-		todayText: 'Today'
+		todayText: "Today"
 	},
 
 	// Define required scripts.
 	getStyles: function() {
-		return ['calendar.css', 'font-awesome.css'];
+		return ["calendar.css", "font-awesome.css"];
 	},
 
 	// Define required scripts.
 	getScripts: function() {
-		return ['moment.js'];
+		return ["moment.js"];
 	},
 
 	// Override start method.
 	start: function() {
-		Log.log('Starting module: ' + this.name);
+		Log.log("Starting module: " + this.name);
 
 		// Set locale.
 		moment.locale(config.language);
 
 		for (var c in this.config.calendars) {
 			var calendar = this.config.calendars[c];
-			calendar.url = calendar.url.replace('webcal://', 'http://');
+			calendar.url = calendar.url.replace("webcal://", "http://");
 			this.addCalendar(calendar.url);
 		}
 
@@ -65,17 +65,17 @@ Module.register('calendar',{
 
 	// Override socket notification handler.
 	socketNotificationReceived: function(notification, payload) {
-		if (notification === 'CALENDAR_EVENTS') {
+		if (notification === "CALENDAR_EVENTS") {
 			if (this.hasCalendarURL(payload.url)) {
 				this.calendarData[payload.url] = payload.events;
 				this.loaded = true;
 			}
-		} else if(notification === 'FETCH_ERROR') {
-			Log.error('Calendar Error. Could not fetch calendar: ' + payload.url);
-		} else if(notification === 'INCORRECT_URL') {
-			Log.error('Calendar Error. Incorrect url: ' + payload.url);
+		} else if (notification === "FETCH_ERROR") {
+			Log.error("Calendar Error. Could not fetch calendar: " + payload.url);
+		} else if (notification === "INCORRECT_URL") {
+			Log.error("Calendar Error. Incorrect url: " + payload.url);
 		} else {
-			Log.log('Calendar received an unknown socket notification: '+notification);
+			Log.log("Calendar received an unknown socket notification: " + notification);
 		}
 
 		this.updateDom(this.config.animationSpeed);
@@ -115,7 +115,7 @@ Module.register('calendar',{
 			eventWrapper.appendChild(titleWrapper);
 
 			var timeWrapper =  document.createElement("td");
-			timeWrapper.innerHTML = (event.today) ? this.config.todayText : moment(event.startDate,'x').fromNow();
+			timeWrapper.innerHTML = (event.today) ? this.config.todayText : moment(event.startDate,"x").fromNow();
 			// timeWrapper.innerHTML = moment(event.startDate,'x').format('lll');
 			timeWrapper.className = "time light";
 			eventWrapper.appendChild(timeWrapper);
@@ -164,7 +164,7 @@ Module.register('calendar',{
 	 */
 	createEventList: function() {
 		var events = [];
-		var today = moment().startOf('day');
+		var today = moment().startOf("day");
 		for (var c in this.calendarData) {
 			var calendar = this.calendarData[c];
 			for (var e in calendar) {
@@ -175,7 +175,7 @@ Module.register('calendar',{
 			}
 		}
 
-		events.sort(function(a,b) {
+		events.sort(function(a, b) {
 			return a.startDate - b.startDate;
 		});
 
@@ -188,7 +188,7 @@ Module.register('calendar',{
 	 * argument url sting - Url to add.
 	 */
 	addCalendar: function(url) {
-		this.sendSocketNotification('ADD_CALENDAR', {
+		this.sendSocketNotification("ADD_CALENDAR", {
 			url: url,
 			maximumEntries: this.config.maximumEntries,
 			maximumNumberOfDays: this.config.maximumNumberOfDays,
@@ -206,7 +206,7 @@ Module.register('calendar',{
 	symbolForUrl: function(url) {
 		for (var c in this.config.calendars) {
 			var calendar = this.config.calendars[c];
-			if (calendar.url === url && typeof calendar.symbol === 'string')  {
+			if (calendar.url === url && typeof calendar.symbol === "string")  {
 				return calendar.symbol;
 			}
 		}
