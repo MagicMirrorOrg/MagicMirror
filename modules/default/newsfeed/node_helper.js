@@ -20,7 +20,7 @@ module.exports = NodeHelper.create({
 	// Subclass socketNotificationReceived received.
 	socketNotificationReceived: function(notification, payload) {
 		if(notification === 'ADD_FEED') {
-			this.createFetcher(payload.url, payload.reloadInterval);
+			this.createFetcher(payload.url, payload.reloadInterval, payload.encoding);
 		}
 	},
 
@@ -32,7 +32,7 @@ module.exports = NodeHelper.create({
 	 * attribute reloadInterval number - Reload interval in milliseconds.
 	 */
 
-	createFetcher: function(url, reloadInterval) {
+	createFetcher: function(url, reloadInterval, encoding) {
 		var self = this;
 
 		if (!validUrl.isUri(url)){
@@ -43,7 +43,7 @@ module.exports = NodeHelper.create({
 		var fetcher;
 		if (typeof self.fetchers[url] === 'undefined') {
 			console.log('Create new news fetcher for url: ' + url + ' - Interval: ' + reloadInterval);
-			fetcher = new Fetcher(url, reloadInterval);
+			fetcher = new Fetcher(url, reloadInterval, encoding);
 
 			fetcher.onReceive(function(fetcher) {
 				self.sendSocketNotification('NEWS_ITEMS', {

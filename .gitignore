@@ -1,7 +1,13 @@
+# Ignore all node modules.
 /node_modules
 
+# Don't ignore the node_helper nore module.
 !/modules/node_helper
 !/modules/node_helper/**
 
+# Ignore all modules except the default modules.
 /modules/**
 !/modules/default/**
+
+# Ignore changes to the custom css files.
+/css/custom.css
