@@ -16,7 +16,7 @@
 # and then download and run MagicMirror2.
 sudo apt-get install curl wget build-essential unzip || exit
 ARM=$(uname -m) # Determine which Pi is running.
-NODE_LATEST="v5.10.0" # Set the latest version here.
+NODE_LATEST="v5.10.1" # Set the latest version here.
 DOWNLOAD_URL="https://nodejs.org/dist/latest/node-$NODE_LATEST-linux-$ARM.tar.gz" # Construct the download URL.
 wget $DOWNLOAD_URL || exit # Download the file given.
 tar xvf node-$NODE_LATEST-linux-$ARM.tar.gz || exit
