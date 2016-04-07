@@ -22,9 +22,9 @@ compliments.updateCompliment = function () {
 
 	var hour = moment().hour();
 
-	// In the followign if statement we use .slice() on the
+	// In the following if statement we use .slice() on the
 	// compliments array to make a copy by value. 
-	// This way the original array of compliments stays in tact.
+	// This way the original array of compliments stays intact.
 
 	if (hour >= 3 && hour < 12) {
 		// Morning compliments
