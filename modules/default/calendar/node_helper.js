@@ -80,7 +80,7 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 						}
 
 						var dates = rule.between(today, today.add(maximumNumberOfDays, "days") , true, limitFunction);
-						console.log(dates);
+						//console.log(dates);
 						for (var d in dates) {
 							startDate = moment(new Date(dates[d]));
 							newEvents.push({
