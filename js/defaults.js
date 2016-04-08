@@ -18,7 +18,7 @@ var defaults = {
 			module: "helloworld",
 			position: "upper_third",
 			config: {
-				text: "Magic Mirror V2",
+				text: "Magic Mirror<sup>2</sup>",
 				classes: "large thin"
 			}
 		},
