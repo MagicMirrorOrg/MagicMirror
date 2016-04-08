@@ -1,13 +1,8 @@
 "use strict";
 
-//load modules
-const walk = require("walk");
-const fs = require("fs");
 const Server = require(__dirname + "/server.js");
-const spawn = require("child_process").spawn;
 const electron = require("electron");
-const defaultModules = require(__dirname + "/../modules/default/defaultmodules.js");
-const path = require("path");
+const core = require(__dirname + "/app.js");
 
 // Config
 var config = {};
@@ -15,8 +10,6 @@ var config = {};
 const app = electron.app;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
-
-var nodeHelpers = [];
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -42,89 +35,6 @@ function createWindow() {
 	});
 }
 
-function loadConfig(callback) {
-	console.log("Loading config ...");
-	var defaults = require(__dirname + "/defaults.js");
-	var configFilename = __dirname + "/../config/config.js";
-
-	try {
-		fs.accessSync(configFilename, fs.R_OK);
-		var c = require(configFilename);
-		var config = Object.assign(defaults, c);
-		callback(config);
-	} catch (e) {
-		callback(defaults);
-	}
-}
-
-function loadModule(module) {
-
-	var elements = module.split("/");
-	var moduleName = elements[elements.length - 1];
-	var moduleFolder =  __dirname + "/../modules/" + module;
-
-	if (defaultModules.indexOf(moduleName) !== -1) {
-		moduleFolder =  __dirname + "/../modules/default/" + module;
-	}
-
-	var helperPath = moduleFolder + "/node_helper.js";
-
-	var loadModule = true;
-	try {
-		fs.accessSync(helperPath, fs.R_OK);
-	} catch (e) {
-		loadModule = false;
-		console.log("No helper found for module: " + moduleName + ".");
-	}
-
-	if (loadModule) {
-		var Module = require(helperPath);
-		var m = new Module();
-		m.setName(moduleName);
-		m.setPath(path.resolve(moduleFolder));
-		nodeHelpers.push(m);
-	}
-}
-
-function loadModules(modules) {
-	console.log("Loading module helpers ...");
-
-	for (var m in modules) {
-		loadModule(modules[m]);
-	}
-
-	console.log("All module helpers loaded.");
-}
-
-loadConfig(function(c) {
-	config = c;
-
-	var modules = [];
-
-	for (var m in config.modules) {
-		var module = config.modules[m];
-		if (modules.indexOf(module.module) === -1) {
-			modules.push(module.module);
-		}
-	}
-
-	loadModules(modules);
-
-	var server = new Server(config, function(app, io) {
-		console.log("Server started ...");
-
-		for (var h in nodeHelpers) {
-			var nodeHelper = nodeHelpers[h];
-			nodeHelper.setExpressApp(app);
-			nodeHelper.setSocketIO(io);
-			nodeHelper.start();
-		}
-
-		console.log("Sockets connected & modules started ...");
-
-	});
-});
-
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.on("ready", function() {
@@ -147,4 +57,10 @@ app.on("activate", function() {
 	if (mainWindow === null) {
 		createWindow();
 	}
+});
+
+// Start the core application.
+// This starts all node helpers and starts the webserver.
+core.start(function(c) {
+	config = c;
 });

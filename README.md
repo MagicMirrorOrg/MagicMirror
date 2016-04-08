@@ -16,7 +16,6 @@ This version of the Magic Mirror software focusses on a modular plugin system. B
 3. Give the installer permission to run: `sudo chmod +x install.sh`
 4. Start the installer: `sudo ./install.sh`
 
-
 #### Manual Installation
 
 1. Download the latest Node.js version:
@@ -31,6 +30,10 @@ This version of the Magic Mirror software focusses on a modular plugin system. B
 7. `npm install && npm start` (You may have to restart your terminal before this works!)
 
 **Important:** `npm start` does **not** work via SSH, use `DISPLAY=:0 nohup npm start &` instead. This starts the mirror on the remote display.
+
+#### Server only
+
+In some cases, you want to start the application without an actual app window. In this case, exectute the following command from the MagicMirror folder: `node serveronly`. This will start the server, after which you can open the application in your browser of choice.
 
 ## Configuration
 
