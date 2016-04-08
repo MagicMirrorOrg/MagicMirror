@@ -162,7 +162,8 @@ var MM = (function() {
 			moduleWrapper.style.transition = "opacity " + speed / 1000 + "s";
 			moduleWrapper.style.opacity = 0;
 
-			setTimeout(function() {
+			clearTimeout(module.showHideTimer);
+			module.showHideTimer = setTimeout(function() {
 				// To not take up any space, we just make the position absolute.
 				// since it's fade out anyway, we can see it lay above or
 				// below other modules. This works way better than adjusting
@@ -189,7 +190,8 @@ var MM = (function() {
 			moduleWrapper.style.position = "static";
 			moduleWrapper.style.opacity = 1;
 
-			setTimeout(function() {
+			clearTimeout(module.showHideTimer);
+			module.showHideTimer = setTimeout(function() {
 				if (typeof callback === "function") { callback(); }
 			}, speed);
 

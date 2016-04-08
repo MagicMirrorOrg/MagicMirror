@@ -17,6 +17,9 @@ var Module = Class.extend({
 	// Module config defaults.
 	defaults: {},
 
+	// Timer reference used for showHide animation callbacks.
+	showHideTimer: null,
+
 	/* init()
 	 * Is called when the module is instantiated.
 	 */
