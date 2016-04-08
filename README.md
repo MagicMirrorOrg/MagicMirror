@@ -1,7 +1,6 @@
 # MagicMirror²
 
 [![Dependency Status](https://david-dm.org/MichMich/MagicMirror/v2-beta.svg)](https://david-dm.org/MichMich/MagicMirror/v2-beta)
-
 [![devDependency Status](https://david-dm.org/MichMich/MagicMirror/v2-beta/dev-status.svg)](https://david-dm.org/MichMich/MagicMirror/v2-beta#info=devDependencies)
 
 This version of the Magic Mirror software focusses on a modular plugin system. Besides that, the Magic Mirror software now also uses [Electron](http://electron.atom.io/), so no more webserver or browser installs necessary.
@@ -31,7 +30,7 @@ This version of the Magic Mirror software focusses on a modular plugin system. B
 6. Enter the repository: `cd MagicMirror`
 7. `npm install && npm start` (You may have to restart your terminal before this works!)
 
-**Important:** `npm start` does **not** work via SSH, use `DISPLAY=:0 nohup npm start &` instead.
+**Important:** `npm start` does **not** work via SSH, use `DISPLAY=:0 nohup npm start &` instead. This starts the mirror on the remote display.
 
 ## Configuration
 
@@ -62,13 +61,19 @@ The following modules are installed by default.
 
 The following modules are created by their respective authors.
 
-- **[MMM-FRITZ-Box-Callmonitor by PaViRo](https://github.com/paviro/MMM-FRITZ-Box-Callmonitor)** <br> FRITZ!Box Callmonitor (Display an alert when someone is calling ...)
+| **Module Name**         | **Author**                                      | **Link**            |
+|------------------------	|------------------------------------------------	|-------------------	|
+| FRITZ!Box Call Monitor 	| Paul Vincent-Roll ([paviro](paviro))     	      | [Click Here](fcm) 	|
+| Facial Recognition     	| Paul Vincent-Roll ([paviro](paviro))     	      | [Click Here](fr) 	  |
+| Wunderlist             	| Paul Vincent-Roll ([paviro](paviro))     	      | [Click Here](wl) 	  |
+| WordNik                	| Sam Vendittelli ([SVendittelli](svendittelli))  | [Click Here](wn) 	  |
 
-- **[MMM-Facial-Recognition by PaViRo](https://github.com/paviro/MMM-Facial-Recognition)** <br> Facial recognition and module swapping based on the current user ...
-
-- **[MMM-Wunderlist by PaViRo](https://github.com/paviro/MMM-Wunderlist)** <br> Displays your Wunderlist todos on your mirror ...
- 
-- **[MMM-wordnik by Vendittelli](https://github.com/SVendittelli/MMM-wordnik)** <br> Get the word of the day, its definition, and origin ...
+[svendittelli]: https://github.com/SVendittelli
+[paviro]: https://github.com/paviro
+[fcm]: https://github.com/paviro/MMM-FRITZ-Box-Callmonitor
+[fr]: https://github.com/paviro/MMM-Facial-Recognition
+[wl]: https://github.com/paviro/MMM-Wunderlist
+[wn]: https://github.com/SVendittelli/MMM-wordnik
 
 ## Contributing
 
