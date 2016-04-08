@@ -9,7 +9,7 @@ This version of the Magic Mirror software focusses on a modular plugin system. B
 
 ## Usage 
 
-#### Automatic Installer
+#### Automatic Installer (Raspberry Pi Only!)
 
 1. Clone the repository: `git clone -b v2-beta https://github.com/MichMich/MagicMirror`
 2. Enter the new directory: `cd MagicMirror`
