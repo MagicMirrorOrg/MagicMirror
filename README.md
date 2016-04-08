@@ -61,19 +61,13 @@ The following modules are installed by default.
 
 The following modules are created by their respective authors.
 
-| **Module Name**         | **Author**                                      | **Link**            |
-|------------------------	|------------------------------------------------	|-------------------	|
-| FRITZ!Box Call Monitor 	| Paul Vincent-Roll ([paviro](paviro))     	      | [Click Here](fcm) 	|
-| Facial Recognition     	| Paul Vincent-Roll ([paviro](paviro))     	      | [Click Here](fr) 	  |
-| Wunderlist             	| Paul Vincent-Roll ([paviro](paviro))     	      | [Click Here](wl) 	  |
-| WordNik                	| Sam Vendittelli ([SVendittelli](svendittelli))  | [Click Here](wn) 	  |
+- **[MMM-FRITZ-Box-Callmonitor by PaViRo](https://github.com/paviro/MMM-FRITZ-Box-Callmonitor)** <br> FRITZ!Box Callmonitor (Display an alert when someone is calling ...)
 
-[svendittelli]: https://github.com/SVendittelli
-[paviro]: https://github.com/paviro
-[fcm]: https://github.com/paviro/MMM-FRITZ-Box-Callmonitor
-[fr]: https://github.com/paviro/MMM-Facial-Recognition
-[wl]: https://github.com/paviro/MMM-Wunderlist
-[wn]: https://github.com/SVendittelli/MMM-wordnik
+- **[MMM-Facial-Recognition by PaViRo](https://github.com/paviro/MMM-Facial-Recognition)** <br> Facial recognition and module swapping based on the current user ...
+
+- **[MMM-Wunderlist by PaViRo](https://github.com/paviro/MMM-Wunderlist)** <br> Displays your Wunderlist todos on your mirror ...
+ 
+- **[MMM-wordnik by Vendittelli](https://github.com/SVendittelli/MMM-wordnik)** <br> Get the word of the day, its definition, and origin ...
 
 ## Contributing
 
