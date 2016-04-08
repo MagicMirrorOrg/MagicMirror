@@ -24,7 +24,9 @@
   },
   "homepage": "https://github.com/MichMich/MagicMirror#readme",
   "devDependencies": {
-    "electron-prebuilt": "latest"
+    "electron-prebuilt": "latest",
+    "stylelint": "latest",
+    "stylelint-config-standard": "latest"
   },
   "dependencies": {
     "express": "latest",
@@ -34,8 +36,6 @@
     "moment": "latest",
     "request": "latest",
     "socket.io": "latest",
-    "stylelint": "^5.2.1",
-    "stylelint-config-standard": "^4.0.1",
     "valid-url": "latest",
     "walk": "latest"
   }
