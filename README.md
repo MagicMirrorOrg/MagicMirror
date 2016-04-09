@@ -187,6 +187,8 @@ The following modules are created by their respective authors.
  
 - **[MMM-wordnik by Vendittelli](https://github.com/SVendittelli/MMM-wordnik)** <br> Get the word of the day, its definition, and origin ...
 
+**Note:** If you want to build your own modules, check out the [MagicMirror² Module Development Documentation](modules)
+
 ## Todo List
 
 Here is a list of various things that still have to be implemented or changed.
