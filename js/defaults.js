@@ -17,9 +17,9 @@ var defaults = {
 		{
 			module: "helloworld",
 			position: "upper_third",
+			classes: "large thin",
 			config: {
-				text: "Magic Mirror<sup>2</sup>",
-				classes: "large thin"
+				text: "Magic Mirror<sup>2</sup>"
 			}
 		},
 		{
@@ -32,17 +32,17 @@ var defaults = {
 		{
 			module: "helloworld",
 			position: "middle_center",
+			classes: "small dimmed",
 			config: {
-				text: "See README for more information.",
-				classes: "small dimmed"
+				text: "See README for more information."
 			}
 		},
 		{
 			module: "helloworld",
 			position: "bottom_bar",
+			classes: "xsmall dimmed",
 			config: {
-				text: "www.michaelteeuw.nl",
-				classes: "xsmall dimmed"
+				text: "www.michaelteeuw.nl"
 			}
 		},
 	],
