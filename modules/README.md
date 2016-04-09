@@ -266,6 +266,8 @@ To show a module, you can call the `show(speed, callback)` method. You can call 
 
 The node helper is a Node.js script that is able to do some backend task to support your module. For every module type, only one node helper instance will be created. For example: if your MagicMirror uses two calendar modules, there will be only one calendar node helper instantiated. 
 
+**Note:** Because there is only one node helper per module type, there is no default config available within your module. It's your task to send the desired config from your module to your node helper.
+
 In it's most simple form, the node_helper.js file must contain:
 
 ````javascript
