@@ -64,6 +64,17 @@ This represents if the module is currently hidden (faded away).
 
 The configuration of the module instance as set in the user's config.js file. This config will also contain the module's defaults if these properties are not over written by the user config.
 
+####`this.config`
+**Boolean**
+
+The data object contains additional metadata about the module instance:
+- `data.classes` - The classes which are added to the module dom wrapper.
+- `data.file` - The filename of the core module file.
+- `data.path` - The path of the module folder.
+- `data.header` - The header added to the module.
+- `data.position` - The position in which the instance will be shown.
+
+
 ####`defaults: {}`
 Any properties defined in the defaults object, will be merged with the module config as defined in the user's config.js file. This is the best place to set your modules's configuration defaults. Any of the module configuration properties can be accessed using `this.config.propertyName`, but more about that later.
 

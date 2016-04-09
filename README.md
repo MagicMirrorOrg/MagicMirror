@@ -118,6 +118,12 @@ Module configuration:
 			</td>
 		</tr>
 		<tr>
+			<td><code>header</code></td>
+			<td>To display a header above the module, add the header property. (String)
+				<br><b>Note:</b> This field is optional.
+			</td>
+		</tr>
+		<tr>
 			<td><code>config</code></td>
 			<td>An object with the module configuration properties. Check the documentation of the module for more info.<br>
 				<b>Note:</b> This field is optional
