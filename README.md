@@ -11,23 +11,17 @@ This version of the Magic Mirror software focusses on a modular plugin system. B
 
 #### Automatic Installer (Raspberry Pi Only!)
 
-1. Clone the repository: `git clone -b v2-beta https://github.com/MichMich/MagicMirror`
-2. Enter the new directory: `cd MagicMirror`
-3. Give the installer permission to run: `sudo chmod +x install.sh`
-4. Start the installer: `sudo ./install.sh`
+Execute the following command on your Raspberry Pi to install MagicMirror²:
+````
+curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/v2-beta/installers/raspberry.sh | bash
+````
 
 #### Manual Installation
 
-1. Download the latest Node.js version:
-  - `wget https://nodejs.org/dist/latest/node-v5.10.0-linux-armv6l.tar.gz` for Raspberry Pi
-  - `wget https://nodejs.org/dist/latest/node-v5.10.0-linux-armv7l.tar.gz` for Raspberry Pi 2
-  - `wget https://nodejs.org/dist/latest/node-v5.10.0-linux-arm64.tar.gz` for Raspberry Pi 3
-2. Unpack the archive file: `tar -xvf filename.tar.gz`
-3. Install Node.js: `cd foldername && sudo cp -R * /usr/local/`
-4. Set loglevel `npm config set loglevel info`
-5. Clone the repository and check out the beta branch: `git clone -b v2-beta https://github.com/MichMich/MagicMirror`
-6. Enter the repository: `cd MagicMirror`
-7. `npm install && npm start` (You may have to restart your terminal before this works!)
+1. Download and install the latest Node.js version.
+2. Clone the repository and check out the beta branch: `git clone -b v2-beta https://github.com/MichMich/MagicMirror`
+3. Enter the repository: `cd MagicMirror`
+4. Install and run the app: `npm install && npm start` (You may have to restart your terminal before this works!)
 
 **Important:** `npm start` does **not** work via SSH, use `DISPLAY=:0 nohup npm start &` instead. This starts the mirror on the remote display.
 
