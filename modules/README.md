@@ -64,8 +64,8 @@ This represents if the module is currently hidden (faded away).
 
 The configuration of the module instance as set in the user's config.js file. This config will also contain the module's defaults if these properties are not over written by the user config.
 
-####`this.config`
-**Boolean**
+####`this.data`
+**Object**
 
 The data object contains additional metadata about the module instance:
 - `data.classes` - The classes which are added to the module dom wrapper.
