@@ -119,7 +119,7 @@ Module configuration:
 		</tr>
 		<tr>
 			<td><code>header</code></td>
-			<td>To display a header above the module, add the header property. (String)
+			<td>To display a header text above the module, add the header property.
 				<br><b>Note:</b> This field is optional.
 			</td>
 		</tr>
