@@ -2,4 +2,4 @@
 
 * If so, can you reference the issue?
 
-* What does the pull request accomplish? (please accomplish)
+* What does the pull request accomplish? (please list)
