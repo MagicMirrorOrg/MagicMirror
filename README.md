@@ -107,7 +107,8 @@ Module configuration:
 			<td><code>position</code></td>
 			<td>The location of the module in which the module will be loaded. 
 				<br><b>Possible values:</b><code>top_bar</code>, <code>top_left</code>, <code>top_center</code>, <code>top_right</code>, <code>upper_third</code>, <code>middle_center</code>, <code>lower_third</code>, <code>bottom_left</code>, <code>bottom_center</code>, <code>bottom_right</code>, <code>bottom_bar</code>, <code>fullscreen_above</code>, <code>fullscreen_below</code><br>
-				<b>Note:</b> This field is optional, but most modules require this field to be set. Check the documentation of the module for more info.
+				<b>Note:</b> This field is optional, but most modules require this field to be set. Check the documentation of the module for more info.<br>
+				<b>Note:</b> Multiple modules with the same position will be ordered based on the order in the config file.
 			</td>
 		</tr>
 		<tr>
@@ -144,7 +145,7 @@ var config = {
 		},
 		{
 			module: "helloworld",
-			position: "middle_center",
+			position: "lower_third",
 			classes: "small"
 			config: {
 				text: "Hello world!"
