@@ -41,7 +41,7 @@ Module.register("helloworld",{
 
 As you can see, the `Module.register()` method takes two arguments: the name of the module and an object with the module properties.
 
-### Available module properties
+### Available module instance properties
 After the module is initialized, the module instance has a few available module properties:
 
 ####`this.name`
