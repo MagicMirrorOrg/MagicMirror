@@ -264,7 +264,100 @@ To show a module, you can call the `show(speed, callback)` method. You can call 
 
 ## The Node Helper: node_helper.js
 
-TODO
+The node helper is a Node.js script that is able to do some backend task to support your module. For every module type, only one node helper instance will be created. For example: if your MagicMirror uses two calendar modules, there will be only one calendar node helper instantiated. 
+
+In it's most simple form, the node_helper.js file must contain:
+
+````javascript
+var NodeHelper = require("node_helper");
+module.exports = NodeHelper.create({});
+````
+
+Of course, the above helper would not do anything usefull. So with the information above, you should be able to make it a bit more sophisticated.
+
+### Available module instance properties
+
+####`this.name`
+**String**
+
+The name of the module
+
+####`this.path`
+**String**
+
+The path of the module
+
+####`this.expressApp`
+**Express App Instance**
+
+This is a link to the express instance. It will allow you to define extra routes.
+
+**Example:**
+````javascript
+start: function() {
+	this.expressApp.get('/foobar', function (req, res) {
+		res.send('GET request to /foobar');
+	});
+}
+````
+
+**Note: ** By default, a public path to your module's public folder will be created:
+````javascript
+this.expressApp.use("/" + this.name, express.static(this.path + "/public"));
+````
+
+####`this.io`
+**Socket IO Instance**
+
+This is a link to the IO instance. It will allow you to do some Socket.IO magic. In most cases you won't need this, since the Node Helper has a few convenience methods to make this simple.
+
+### Subclassable module methods
+
+####`init()`
+This method is called when a node helper gets instantiated. In most cases you do not need to subclass this method.
+
+####`start()`
+This method is called when all node helper are loaded an the system is ready to boot up. The start method is a perfect place to define any additional module properties:
+
+**Example:**
+````javascript
+start: function() {
+	this.mySpecialProperty = "So much wow!";
+	Log.log(this.name + ' is started!');
+}
+````
+
+####`socketNotificationReceived: function(notification, payload)`
+With this method, your node helper can receive notifications form your modules. When this method is called, it has 2 arguments:
+
+- `notification` - String - The notification identifier.
+- `payload` - AnyType - The payload of a notification.
+
+**Note:** The socket connection is established as soon as the module sends it's first message using [sendSocketNotification](thissendsocketnotificationnotification-payload).
+
+**Example:**
+````javascript
+socketNotificationReceived: function(notification, payload) {
+	Log.log(this.name + " received a socket notification: " + notification + " - Payload: " + payload);
+}, 
+````
+
+### Module instance methods
+
+Each node helper has some handy methods which can be helpfull building your module.
+
+####`this.sendSocketNotification(notification, payload)`
+***notification* String** - The notification identifier.<br>
+***payload* AnyType** - Optional. A notification payload.<br>
+
+If you want to send a notification to all your modules, use the `sendSocketNotification(notification, payload)`. Only the module of your module type will recieve the socket notification.
+
+**Note:** Since all instances of you module will receive the notifications, it's your task to make sure the right module responds to your messages. 
+
+**Example:**
+````javascript
+this.sendSocketNotification('SET_CONFIG', this.config);
+````
 
 ## MagicMirror Helper Methods
 
