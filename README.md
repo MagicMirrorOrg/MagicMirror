@@ -20,7 +20,7 @@ curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/v2-beta/installe
 
 1. Download and install the latest Node.js version.
 2. Clone the repository and check out the beta branch: `git clone -b v2-beta https://github.com/MichMich/MagicMirror`
-3. Enter the repository: `cd MagicMirror`
+3. Enter the repository: `cd ~/MagicMirror`
 4. Install and run the app: `npm install && npm start` (You may have to restart your terminal before this works!)
 
 **Important:** `npm start` does **not** work via SSH, use `DISPLAY=:0 nohup npm start &` instead. This starts the mirror on the remote display.
