@@ -4,7 +4,9 @@
   "description": "A modular interface for smart mirrors.",
   "main": "js/electron.js",
   "scripts": {
-    "start": "electron js/electron.js"
+    "start": "electron js/electron.js",
+    "eslint": "eslint .",
+    "jscs": "jscs **/**/**/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -26,7 +28,9 @@
   "devDependencies": {
     "electron-prebuilt": "latest",
     "stylelint": "latest",
-    "stylelint-config-standard": "latest"
+    "stylelint-config-standard": "latest",
+    "eslint": "latest",
+    "eslint-config-google": "latest"
   },
   "dependencies": {
     "express": "latest",
@@ -38,5 +42,8 @@
     "socket.io": "latest",
     "valid-url": "latest",
     "walk": "latest"
+  },
+  "eslintConfig": {
+    "extends": "google"
   }
 }
