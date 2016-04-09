@@ -180,7 +180,8 @@ When using a node_helper, the node helper can send your module notifications. Wh
 - `notification` - String - The notification identifier.
 - `payload` - AnyType - The payload of a notification.
 
-**Note:** When a node helper send a notification, all modules of that module type receive the same notifications. 
+**Note 1:** When a node helper send a notification, all modules of that module type receive the same notifications. <br>
+**Note 2:** The socket connection is established as soon as the module sends it's first message using [sendSocketNotification](thissendsocketnotificationnotification-payload).
 
 **Example:**
 ````javascript
@@ -189,10 +190,77 @@ socketNotificationReceived: function(notification, payload) {
 }, 
 ````
 
-
 ### Module instance methods
 
-TODO
+Each module instance has some handy methods which can be helpfull building your module.
+
+
+####`this.file(filename)`
+***filename* String** - The name of the file you want to create the path for.<br>
+**Returns String**
+
+If you want to create a path to a file in your module folder, use the `file()` method. It returns the path to the filename given as the attribute. Is method comes in handy when configuring the [getScripts](#getscripts) and [getStyles](#getstyles) methods.
+
+####`this.updateDom(speed)`
+***speed* Number** - Optional. Animation speed in milliseconds.<br>
+
+Whenever your module need to be updated, call the `updateDom(speed)` method. It requests the MagicMirror core to update it's dom object. If you define the speed, the content update will be animated, but only if the content will realy change.
+
+As an example: the clock modules calls this method every second:
+
+````javascript
+...
+start: function() {
+	var self = this;
+	setInterval(function() {
+		self.updateDom(); // no speed defined, so it updates instantly.
+	}, 1000); //perform every 1000 milliseconds.
+},
+...
+```` 
+
+####`this.sendNotification(notification, payload)`
+***notification* String** - The notification identifier.<br>
+***payload* AnyType** - Optional. A notification payload.<br>
+
+If you want to send a notification to all other modules, use the `sendNotification(notification, payload)`. All other modules will receive the message via the [notificationReceived](#notificationreceivednotification-payload-sender) method. In that case, the sender is automaticly set to the instance calling the sendNotification method.
+
+**Example:**
+````javascript
+this.sendNotification('MYMODULE_READY_FOR_ACTION', {foo:bar});
+````
+
+####`this.sendSocketNotification(notification, payload)`
+***notification* String** - The notification identifier.<br>
+***payload* AnyType** - Optional. A notification payload.<br>
+
+If you want to send a notification to the node_helper, use the `sendSocketNotification(notification, payload)`. Only the node_helper of this module will recieve the socket notification.
+
+**Example:**
+````javascript
+this.sendSocketNotification('SET_CONFIG', this.config);
+````
+
+####`this.hide(speed, callback)`
+***speed* Number** - Optional, The speed of the hide animation in milliseconds.
+***callback* Function** - Optional, The callback after the hide animation is finished.
+
+To hide a module, you can call the `hide(speed, callback)` method. You can call the hide method on the module instance itselve using `this.hide()`, but of course you can also hide an other module using `anOtherModule.hide()`.
+
+**Note 1:** If the hide animation is canceled, for instance because the show method is called before the hide animation was finished, the callback will not be called.<br>
+**Note 2:** If the hide animation is hijacked (an other method calls hide on the same module), the callback will not be called.<br>
+**Note 3:** If the dom is not yet created, the hide method won't work. Wait for the `DOM_OBJECTS_CREATED` [notification](#notificationreceivednotification-payload-sender).
+
+####`this.show(speed, callback)`
+***speed* Number** - Optional, The speed of the show animation in milliseconds.
+***callback* Function** - Optional, The callback after the show animation is finished.
+
+To show a module, you can call the `show(speed, callback)` method. You can call the show method on the module instance itselve using `this.show()`, but of course you can also show an other module using `anOtherModule.show()`.
+
+**Note 1:** If the show animation is canceled, for instance because the hide method is called before the show animation was finished, the callback will not be called.<br>
+**Note 2:** If the show animation is hijacked (an other method calls show on the same module), the callback will not be called.<br>
+**Note 3:** If the dom is not yet created, the show method won't work. Wait for the `DOM_OBJECTS_CREATED` [notification](#notificationreceivednotification-payload-sender).
+
 
 ## The Node Helper: node_helper.js
 
@@ -200,8 +268,99 @@ TODO
 
 ## MagicMirror Helper Methods
 
-TODO
+The core Magic Mirror object: `MM` has some handy method that will help you in controlling your and other modules. Most of the `MM` methods are available via convenience methods on the Module instance. 
+
+### Module selection
+The only additional method available for your module, is the feature to retrieve references to other modules. This can be used to hide and show other modules.
+
+####`MM.getModules()`
+**Returns Array** - An array with module instances.<br>
+
+To make a selection of all currently loaded module instances, run the `MM.getModules()` method. It will return an array with all currently loaded module instances. The returned array has a lot of filtering methods. See below for more info.
+
+**Note:** This method returns an empty array if not all modules are started yet. Wait for the `ALL_MODULES_STARTED` [notification](#notificationreceivednotification-payload-sender).
+
+
+#####`.withClass(classnames)`
+***classnames* String or Array** - The class names on which you want to filer.
+**Returns Array** - An array with module instances.<br>
+
+If you want to make a selection based on one ore more class names, use the withClass method on a result of the `MM.getModules()` method. The argument of the `withClass(classname)` method can be an array, or space separated string.
+
+**Examples:**
+````javascript
+var modules = MM.getModules().withClass('classname');
+var modules = MM.getModules().withClass('classname1 classname2');
+var modules = MM.getModules().withClass(['classname1','classname2']);
+````
+
+#####`.exceptWithClass(classnames)`
+***classnames* String or Array** - The class names of the modules you want to remove from the results.
+**Returns Array** - An array with module instances.<br>
+
+If you to remove some modules from a selection based on a classname, use the exceptWithClass method on a result of the `MM.getModules()` method. The argument of the `exceptWithClass(classname)` method can be an array, or space separated string.
+
+**Examples:**
+````javascript
+var modules = MM.getModules().exceptWithClass('classname');
+var modules = MM.getModules().exceptWithClass('classname1 classname2');
+var modules = MM.getModules().exceptWithClass(['classname1','classname2']);
+````
+
+#####`.exceptModule(module)`
+***module* Module Object** - The reference to a module you want to remove from the results.
+**Returns Array** - An array with module instances.<br>
+
+If you to remove a specific module instance from a selection based on a classname, use the exceptWithClass method on a result of the `MM.getModules()` method. This can be helpfull if you want to select all module instances except the instance of your module.
+
+**Examples:**
+````javascript
+var modules = MM.getModules().exceptModule(this);
+````
+
+Of course, you can combine all of the above filters:
+
+**Example:**
+````javascript
+var modules = MM.getModules().withClass('classname1').exceptwithClass('classname2').exceptModule(aModule);
+````
+
+#####`.enumerate(callback)`
+***callback* Function(module)** - The callback run on every instance.
+
+If you want to perform an action on all selected modules, you can use the `enumerate` function:
+
+````javascript
+MM.getModules().enumerate(function(module) {
+    Log.log(module.name);
+});
+````
+
+**Example:**
+To hide all modules except the your module instance, you could write something like:
+````javascript
+Module.register("modulename",{
+	//...
+	notificationReceived: function(notification, payload, sender) {
+		if (notification === 'DOM_OBJECTS_CREATED') {
+			MM.getModules().exceptModule(this).enumerate(function(module) {
+				module.hide(1000, function() {
+					//Module hidden.
+				});
+			});
+		}
+	}, 
+	//...
+});
+```` 
 
 ## MagicMirror Logger
 
-TODO
+The Magic Mirror contains a convenience wrapper for logging. Currently, this logger is a simple proxy to the original `console.log` methods. But it might get additional features in the future. The Loggers is currently only available in the core module file (not in the node_helper).
+
+**Examples:**
+````javascript
+Log.info('error');
+Log.log('log');
+Log.error('info');
+```
