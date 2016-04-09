@@ -6,7 +6,9 @@
   "scripts": {
     "start": "electron js/electron.js",
     "eslint": "eslint .",
-    "jscs": "jscs **/**/**/**/*.js"
+    "jscs": "jscs **/**/**/**/*.js",
+    "stylelint": "stylelint css/main.css fonts/roboto.css",
+    "htmlvalidator": "html-validator --file=index.html"
   },
   "repository": {
     "type": "git",
