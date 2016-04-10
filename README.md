@@ -1,10 +1,10 @@
-![MagicMirror²: The open source modular Smart Mirror platform. ](.github/header.png)
+![MagicMirror²: The open source modular smart mirror platform. ](.github/header.png)
 
 <p align="center">
-	<a href="https://david-dm.org/MichMich/MagicMirror/v2-beta"><img src="https://david-dm.org/MichMich/MagicMirror/v2-beta.svg" alt="Dependency Status" title=""></a>
-	<a href="https://david-dm.org/MichMich/MagicMirror/v2-beta#info=devDependencies"><img src="https://david-dm.org/MichMich/MagicMirror/v2-beta/dev-status.svg" alt="devDependency Status" title=""></a>
-	<a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-v5.10.1-brightgreen.svg" alt="Node Version" title=""></a>
-	<a href="http://choosealicense.com/licenses/mit"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" title=""></a>
+	<a href="https://david-dm.org/MichMich/MagicMirror/v2-beta"><img src="https://david-dm.org/MichMich/MagicMirror/v2-beta.svg" alt="Dependency Status"></a>
+	<a href="https://david-dm.org/MichMich/MagicMirror/v2-beta#info=devDependencies"><img src="https://david-dm.org/MichMich/MagicMirror/v2-beta/dev-status.svg" alt="devDependency Status"></a>
+	<a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-v5.10.1-brightgreen.svg" alt="Node Version"></a>
+	<a href="http://choosealicense.com/licenses/mit"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
 </p>
 
 
@@ -12,7 +12,7 @@ This version of the Magic Mirror software focusses on a modular plugin system. B
 
 **WARNING!** This version is in a *very* early stage. It is **not** completed yet. **Please** use the master branch.
 
-## Table of contents
+## Table Of Contents
 
 - [Usage](#usage)
 - [Configuration](#configuration)
