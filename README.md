@@ -56,61 +56,22 @@ The following wiki links are helpful in the cofiguration of your MagicMirror² o
 The following properties can be configured:
 
 
-| Option | Description |
+| **Option** | **Description** |
 | --- | --- |
-| port | The port on which the MagicMirror² server will run on. The default value is `8080`. |
-| language | The language of the interface. (Note: Not all elements will be localized.) Possible values are `en`, `nl`, `ru`, `fr`, etc., but the default value is `en`. |
-| timeFormat | The form of time notation that will be used. Possible values are `12` or `24`. The default is `24`. |
-| module | An array of active modules. **The array must contain objects. See the next table below for more information.** |
+| `port` | The port on which the MagicMirror² server will run on. The default value is `8080`. |
+| `language` | The language of the interface. (Note: Not all elements will be localized.) Possible values are `en`, `nl`, `ru`, `fr`, etc., but the default value is `en`. |
+| `timeFormat` | The form of time notation that will be used. Possible values are `12` or `24`. The default is `24`. |
+| `modules` | An array of active modules. **The array must contain objects. See the next table below for more information.** |
+
 Module configuration:
 
-| Option | Description |
+| **Option | Description** |
 | --- | --- |
-| `module` | The name of the module. This can also contain the subfolder:
-**Example:** `clock`
-**Example:** `default/calendar`
-**Example:** `custommodules/mymodule` |
-| `position` | The location of the module in which the module will be loaded.
-**Possible values:**`top_bar`, `top_left`, `top_center`, `top_right`, `upper_third`, `middle_center`, `lower_third`, `bottom_left`, `bottom_center`, `bottom_right`, `bottom_bar`, `fullscreen_above`, `fullscreen_below`
-**Note:** This field is optional, but most modules require this field to be set. Check the documentation of the module for more info.
-**Note:** Multiple modules with the same position will be ordered based on the order in the config file. |
-| `classes` | Additional classed which are added to the module.
-**Note:** This field is optional. |
-| `header` | To display a header text above the module, add the header property.
-**Note:** This field is optional. |
-| `config` | An object with the module configuration properties. Check the documentation of the module for more info.
-**Note:** This field is optional |
-
-Configuration example:
-
-````javascript
-var config = {
-	port: 8080,
-	language: 'en',
-	timeFormat: 24,
-
-	modules: [
-		{
-			module: "helloworld",
-			position: "middle_center",
-			classes: "large thin bright"
-			config: {
-				text: "MagicMirror²"
-			}
-		},
-		{
-			module: "helloworld",
-			position: "lower_third",
-			classes: "small"
-			config: {
-				text: "Hello world!"
-			}
-		}
-	]
-};
-
-// See the config.js.sample for additional required code.
-````
+| `module` | The name of the module. This can also contain the subfolder. Valid examples include `clock`, `default/calendar` and `custommodules/mymodule`. |
+| `position` | The location of the module in which the module will be loaded. Possible values are `top_ bar`, `top_left`, `top_center`, `top_right`, `upper_third`, `middle_center`, `lower_third`, `bottom_left`, `bottom_center`, `bottom_right`, `bottom_bar`, `fullscreen_above`, and `fullscreen_below`. This field is optional but most modules require this field to set. Check the documentation of the module for more information. Multiple modules with the same position will be ordered based on the order in the configuration file. |
+| `classes` | Additional classes which are passed to the module. The field is optional. |
+| `header` | To display a header text above the module, add the header property. This field is optional. |
+| `config` | An object with the module configuration properties. Check the documentation of the module for more information. This field is optional, unless the module requires extra configuration. |
 
 ## Modules
 
