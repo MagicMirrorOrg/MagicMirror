@@ -1,8 +1,10 @@
-# MagicMirror²
+![MagicMirror²: The open source modular Smart Mirror platform. ](.github/header.png)
+
 
 [![Dependency Status](https://david-dm.org/MichMich/MagicMirror/v2-beta.svg)](https://david-dm.org/MichMich/MagicMirror/v2-beta)
 [![devDependency Status](https://david-dm.org/MichMich/MagicMirror/v2-beta/dev-status.svg)](https://david-dm.org/MichMich/MagicMirror/v2-beta#info=devDependencies)
 [![Node Version](https://img.shields.io/badge/node-v5.10.1-brightgreen.svg)](https://nodejs.org/dist/latest)
+
 
 This version of the Magic Mirror software focusses on a modular plugin system. Besides that, the MagicMirror² software now also uses [Electron](http://electron.atom.io/), so no more webserver or browser installs necessary.
 
@@ -37,6 +39,12 @@ curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/v2-beta/installe
 #### Server Only
 
 In some cases, you want to start the application without an actual app window. In this case, exectute the following command from the MagicMirror folder: `node serveronly`. This will start the server, after which you can open the application in your browser of choice.
+
+#### Auto Start & Raspberry Configuration.
+
+The following wiki links are helpful in the cofiguration of your MagicMirror² operating system:
+- [Auto Starting MagicMirror](https://github.com/MichMich/MagicMirror/wiki/Auto-Starting-MagicMirror)
+- [Configuring the Raspberry Pi](https://github.com/MichMich/MagicMirror/wiki/Configuring-the-Raspberry-Pi)
 
 ## Configuration
 
