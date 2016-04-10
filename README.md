@@ -8,7 +8,7 @@
 </p>
 
 
-This version of the Magic Mirror software focusses on a modular plugin system. Besides that, the MagicMirror² software now also uses [Electron](http://electron.atom.io/), so no more webserver or browser installs necessary.
+This version of the Magic Mirror software focuses on a modular plugin system. Besides that, the MagicMirror² software now also uses [Electron](http://electron.atom.io/), so no more web server or browser installs necessary.
 
 **WARNING!** This version is in a *very* early stage. It is **not** completed yet. **Please** use the master branch.
 
@@ -56,92 +56,37 @@ The following wiki links are helpful in the cofiguration of your MagicMirror² o
 The following properties can be configured:
 
 
-<table width="100%">
-	<!-- why, markdown... -->
-	<thead>
-		<tr>
-			<th>Option</th>
-			<th width="100%">Description</th>
-		</tr>
-	<thead>
-	<tbody>
-
-		<tr>
-			<td><code>port</code></td>
-			<td>HThe port on which the MagicMirror² server will run.
-				<br><b>Default value:</b> <code>8080</code> 
-			</td>
-		</tr>
-		<tr>
-			<td><code>language</code></td>
-			<td>The language of the interface. (Note: Not all elements will be translated.)
-				<br><b>Possible values:</b><code>en</code>, <code>nl</code>, <code>ru</code>, <code>fr</code>, etc ...
-				<br><b>Default value:</b> <code>en</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>timeFormat</code></td>
-			<td>The time notation.
-				<br><b>Possible values:</b> <code>24</code> or <code>12</code>
-				<br><b>Default value:</b> <code>24</code> 
-			</td>
-		</tr>
-		<tr>
-			<td><code>modules</code></td>
-			<td>An array of of the active modules.<br> The array should contain objects. See <i>module configuration</i> below for more information.
-			</td>
-		</tr>
-	</tbody>
-</table>
+| Option | Description |
+| --- | --- |
+| `port` | HThe port on which the MagicMirror² server will run.
+**Default value:** `8080` |
+| `language` | The language of the interface. (Note: Not all elements will be translated.)
+**Possible values:**`en`, `nl`, `ru`, `fr`, etc ...
+**Default value:** `en` |
+| `timeFormat` | The time notation.
+**Possible values:** `24` or `12`
+**Default value:** `24` |
+| `modules` | An array of of the active modules.
+The array should contain objects. See _module configuration_ below for more information. |
 
 Module configuration:
 
-<table width="100%">
-	<!-- why, markdown... -->
-	<thead>
-		<tr>
-			<th>Option</th>
-			<th width="100%">Description</th>
-		</tr>
-	<thead>
-	<tbody>
-
-		<tr>
-			<td><code>module</code></td>
-			<td>The name of the module. This can also contain the subfolder:
-				<br><b>Example:</b> <code>clock</code>
-				<br><b>Example:</b> <code>default/calendar</code>
-				<br><b>Example:</b> <code>custommodules/mymodule</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>position</code></td>
-			<td>The location of the module in which the module will be loaded. 
-				<br><b>Possible values:</b><code>top_bar</code>, <code>top_left</code>, <code>top_center</code>, <code>top_right</code>, <code>upper_third</code>, <code>middle_center</code>, <code>lower_third</code>, <code>bottom_left</code>, <code>bottom_center</code>, <code>bottom_right</code>, <code>bottom_bar</code>, <code>fullscreen_above</code>, <code>fullscreen_below</code><br>
-				<b>Note:</b> This field is optional, but most modules require this field to be set. Check the documentation of the module for more info.<br>
-				<b>Note:</b> Multiple modules with the same position will be ordered based on the order in the config file.
-			</td>
-		</tr>
-		<tr>
-			<td><code>classes</code></td>
-			<td>Additional classed which are added to the module. 
-				<br><b>Note:</b> This field is optional.
-			</td>
-		</tr>
-		<tr>
-			<td><code>header</code></td>
-			<td>To display a header text above the module, add the header property.
-				<br><b>Note:</b> This field is optional.
-			</td>
-		</tr>
-		<tr>
-			<td><code>config</code></td>
-			<td>An object with the module configuration properties. Check the documentation of the module for more info.<br>
-				<b>Note:</b> This field is optional
-			</td>
-		</tr>
-	</tbody>
-</table>
+| Option | Description |
+| --- | --- |
+| `module` | The name of the module. This can also contain the subfolder:
+**Example:** `clock`
+**Example:** `default/calendar`
+**Example:** `custommodules/mymodule` |
+| `position` | The location of the module in which the module will be loaded.
+**Possible values:**`top_bar`, `top_left`, `top_center`, `top_right`, `upper_third`, `middle_center`, `lower_third`, `bottom_left`, `bottom_center`, `bottom_right`, `bottom_bar`, `fullscreen_above`, `fullscreen_below`
+**Note:** This field is optional, but most modules require this field to be set. Check the documentation of the module for more info.
+**Note:** Multiple modules with the same position will be ordered based on the order in the config file. |
+| `classes` | Additional classed which are added to the module.
+**Note:** This field is optional. |
+| `header` | To display a header text above the module, add the header property.
+**Note:** This field is optional. |
+| `config` | An object with the module configuration properties. Check the documentation of the module for more info.
+**Note:** This field is optional |
 
 Configuration example:
 
