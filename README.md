@@ -1,11 +1,11 @@
 ![MagicMirror²: The open source modular Smart Mirror platform. ](.github/header.png)
 
-<span align="center">
+<p align="center">
 	<a href="https://david-dm.org/MichMich/MagicMirror/v2-beta"><img src="https://david-dm.org/MichMich/MagicMirror/v2-beta.svg" alt="Dependency Status" title=""></a>
 	<a href="https://david-dm.org/MichMich/MagicMirror/v2-beta#info=devDependencies"><img src="https://david-dm.org/MichMich/MagicMirror/v2-beta/dev-status.svg" alt="devDependency Status" title=""></a>
 	<a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-v5.10.1-brightgreen.svg" alt="Node Version" title=""></a>
 	<a href="http://choosealicense.com/licenses/mit"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" title=""></a>
-</span>
+</p>
 
 
 This version of the Magic Mirror software focusses on a modular plugin system. Besides that, the MagicMirror² software now also uses [Electron](http://electron.atom.io/), so no more webserver or browser installs necessary.
