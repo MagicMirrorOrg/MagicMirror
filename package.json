@@ -8,7 +8,8 @@
     "eslint": "eslint .",
     "jscs": "jscs **/**/**/**/*.js",
     "stylelint": "stylelint css/main.css fonts/roboto.css",
-    "htmlvalidator": "html-validator --file=index.html"
+    "htmlvalidator": "html-validator --file=index.html",
+    "test": "snyk test"
   },
   "repository": {
     "type": "git",
@@ -41,6 +42,7 @@
     "iconv-lite": "latest",
     "moment": "latest",
     "request": "latest",
+    "snyk": "^1.13.2",
     "socket.io": "latest",
     "valid-url": "latest",
     "walk": "latest"
