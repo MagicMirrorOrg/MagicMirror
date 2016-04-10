@@ -58,17 +58,10 @@ The following properties can be configured:
 
 | Option | Description |
 | --- | --- |
-| `port` | HThe port on which the MagicMirror² server will run.
-**Default value:** `8080` |
-| `language` | The language of the interface. (Note: Not all elements will be translated.)
-**Possible values:**`en`, `nl`, `ru`, `fr`, etc ...
-**Default value:** `en` |
-| `timeFormat` | The time notation.
-**Possible values:** `24` or `12`
-**Default value:** `24` |
-| `modules` | An array of of the active modules.
-The array should contain objects. See _module configuration_ below for more information. |
-
+| port | The port on which the MagicMirror² server will run on. The default value is `8080`. |
+| language | The language of the interface. (Note: Not all elements will be localized.) Possible values are `en`, `nl`, `ru`, `fr`, etc., but the default value is `en`. |
+| timeFormat | The form of time notation that will be used. Possible values are `12` or `24`. The default is `24`. |
+| module | An array of active modules. **The array must contain objects. See the next table below for more information.** |
 Module configuration:
 
 | Option | Description |
