@@ -102,7 +102,7 @@ The following modules are created by their respective authors.
 ## Known issues
 
 - Electron seems to have some issues on certain Raspberry Pi 2's. See [#145](https://github.com/MichMich/MagicMirror/issues/145).
-- MagicMirror² (Electron) sometimes quits without an error after an extended period of use. See [#150]( See https://github.com/MichMich/MagicMirror/issues/150). 
+- MagicMirror² (Electron) sometimes quits without an error after an extended period of use. See [#150](https://github.com/MichMich/MagicMirror/issues/150). 
 
 ## Contributing Guidelines
 
