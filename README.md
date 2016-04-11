@@ -11,13 +11,14 @@
 
 MagicMirror² focuses on a modular plugin system and uses [Electron](http://electron.atom.io/) as an application wrapper. So no more web server or browser installs necessary!
 
-**WARNING!** This version is in a early stage. It is **not** completed yet. **Please** use the master branch.
+**WARNING!** This version is in a early beta stage. **Please** use the master branch if you need a thoroughly tested version.
 
 ## Table Of Contents
 
 - [Usage](#usage)
 - [Configuration](#configuration)
 - [Modules](#modules)
+- [Known Issues](#known-issues)
 - [Contributing Guidelines](#contributing-guidelines)
 
 ## Usage 
@@ -97,6 +98,11 @@ The following modules are created by their respective authors.
 - **[MMM-wordnik by Vendittelli](https://github.com/SVendittelli/MMM-wordnik)** <br> Get the word of the day, its definition, and origin ...
 
 **Note:** If you want to build your own modules, check out the [MagicMirror² Module Development Documentation](modules)
+
+## Known issues
+
+- Electron seems to have some issues on certain Raspberry Pi 2's. See [#145](https://github.com/MichMich/MagicMirror/issues/145).
+- MagicMirror² (Electron) sometimes quits without an error after an extended period of use. See [#150]( See https://github.com/MichMich/MagicMirror/issues/150). 
 
 ## Contributing Guidelines
 
