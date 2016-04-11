@@ -1,6 +1,8 @@
 MagicMirror
 ===========
 
+Note: Please check out the [v2-beta](https://github.com/MichMich/MagicMirror/tree/v2-beta) branch if you are looking for a modular system with simple installer.
+
 ##Introduction
 
 The super magic interface of my personal Magic Mirror. More information about this project can be found on my [blog](http://michaelteeuw.nl/tagged/magicmirror).
