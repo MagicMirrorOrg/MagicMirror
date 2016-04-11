@@ -1,7 +1,7 @@
 MagicMirror
 ===========
 
-Note: Please check out the [v2-beta](https://github.com/MichMich/MagicMirror/tree/v2-beta) branch if you are looking for a modular system with simple installer.
+**Note:** Please check out the [v2-beta](https://github.com/MichMich/MagicMirror/tree/v2-beta) branch if you are looking for a modular system with simple installer.
 
 ##Introduction
 
