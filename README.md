@@ -7,17 +7,17 @@
 	<a href="http://choosealicense.com/licenses/mit"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
 </p>
 
+**MagicMirror²** is an open source modular smart mirror platform. With a growing list of installable modules, the **MagicMirror²** allows you to convert your hallway or bathroom mirror into your personal assistant. **MagicMirror²** is built by the creator of [the original MagicMirror](http://michaelteeuw.nl/tagged/magicmirror) with the incredible help of a [growing community of contributors](https://github.com/MichMich/MagicMirror/graphs/contributors). 
 
-This version of the Magic Mirror software focuses on a modular plugin system. Besides that, the MagicMirror² software now also uses [Electron](http://electron.atom.io/), so no more web server or browser installs necessary.
+MagicMirror² focuses on a modular plugin system and uses [Electron](http://electron.atom.io/) as an application wrapper. So no more web server or browser installs necessary!
 
-**WARNING!** This version is in a *very* early stage. It is **not** completed yet. **Please** use the master branch.
+**WARNING!** This version is in a early stage. It is **not** completed yet. **Please** use the master branch.
 
 ## Table Of Contents
 
 - [Usage](#usage)
 - [Configuration](#configuration)
 - [Modules](#modules)
-- [Todo List](#todo-list)
 - [Contributing Guidelines](#contributing-guidelines)
 
 ## Usage 
@@ -42,11 +42,11 @@ curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/v2-beta/installe
 
 In some cases, you want to start the application without an actual app window. In this case, exectute the following command from the MagicMirror folder: `node serveronly`. This will start the server, after which you can open the application in your browser of choice.
 
-#### Auto Start & Raspberry Configuration.
+#### Raspberry Configuration & Auto Start.
 
 The following wiki links are helpful in the cofiguration of your MagicMirror² operating system:
-- [Auto Starting MagicMirror](https://github.com/MichMich/MagicMirror/wiki/Auto-Starting-MagicMirror)
 - [Configuring the Raspberry Pi](https://github.com/MichMich/MagicMirror/wiki/Configuring-the-Raspberry-Pi)
+- [Auto Starting MagicMirror](https://github.com/MichMich/MagicMirror/wiki/Auto-Starting-MagicMirror)
 
 ## Configuration
 
@@ -97,14 +97,6 @@ The following modules are created by their respective authors.
 - **[MMM-wordnik by Vendittelli](https://github.com/SVendittelli/MMM-wordnik)** <br> Get the word of the day, its definition, and origin ...
 
 **Note:** If you want to build your own modules, check out the [MagicMirror² Module Development Documentation](modules)
-
-## Todo List
-
-Here is a list of various things that still have to be implemented or changed.
-
-- [ ] Allow show/hide animations to animate the height. This way, the other modules won't jump around.
-- [ ] Allow vertical centering of alerts.
-- [ ] Write all the documentation.
 
 ## Contributing Guidelines
 
