@@ -7,7 +7,7 @@
 var config = {
 	port: 8080,
 
-	language: 'en',
+	language: 'de',
 	timeFormat: 24,
 
 	modules: [
@@ -20,17 +20,32 @@ var config = {
 		},
 		{
 			module: 'calendar',
-			header: 'US Holidays',
-			position: 'top_left',
-			config: {
-				calendars: [
-					{
-						symbol: 'calendar-check-o ',
-						url: 'webcal://www.calendarlabs.com/templates/ical/US-Holidays.ics'
-					}
-				]
-			}
-		},
+                        header: 'Termine',
+                        position: 'top_left',
+                        config: {
+                                calendars: [
+                                        {
+                                                symbol: 'mars ', /* Maennlich, Mein Google Kalender */
+                                                url: '.....'
+                                        },
+                                        {
+                                                symbol: 'mars ', /* Maennlich, Mein iCloud Kalender */
+                                                url: '.....'
+                                        },
+                                        {
+                                                symbol: 'venus ', /* Weiblich, Mein Google Kalender */
+                                                url: '.....'
+                                        }
+                                ]
+                        }
+                },
+		{
+                        module: "helloworld",
+                        position: "top_center",
+                        config: {
+                        text: 'Hello world'
+                        }
+                },
 		{
 			module: 'compliments',
 			position: 'lower_third',
@@ -39,7 +54,7 @@ var config = {
 			module: 'currentweather',
 			position: 'top_right',
 			config: {
-				location: 'New York',
+				location: 'Stuttgart, DE',
 				appid: 'YOUR_OPENWEATHER_API_KEY'
 			}
 		},
@@ -48,7 +63,7 @@ var config = {
 			position: 'top_right',
 			header: 'Weather Forecast',
 			config: {
-	            location: 'New York',
+	            location: 'Stuttgart, DE',
 	            appid: 'YOUR_OPENWEATHER_API_KEY'
 			}
 		},
@@ -56,7 +71,7 @@ var config = {
 			module: 'newsfeed',
 			position: 'bottom_bar',
 			config: {
-				feedUrl: 'http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml',
+				feedUrl: 'http://www.tagesschau.de/xml/rss2',
 				showPublishDate: true,
 			}
 		},
