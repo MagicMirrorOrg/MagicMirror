@@ -7,26 +7,26 @@
  * MIT Licensed.
  */
 
-Module.register('compliments',{
+Module.register("compliments",{
 
 	// Module config defaults.
 	defaults: {
 		compliments: {
 			morning: [
-	            'Good morning, handsome!',
-	            'Enjoy your day!',
-	            'How was your sleep?'
-	        ],
-	        afternoon: [
-	            'Hello, beauty!',
-	            'You look sexy!',
-	            'Looking good today!'
-	        ],
-	        evening: [
-	            'Wow, you look hot!',
-	            'You look nice!',
-	            'Hi, sexy!'
-	        ]
+				"Good morning, handsome!",
+				"Enjoy your day!",
+				"How was your sleep?"
+			],
+			afternoon: [
+				"Hello, beauty!",
+				"You look sexy!",
+				"Looking good today!"
+			],
+			evening: [
+				"Wow, you look hot!",
+				"You look nice!",
+				"Hi, sexy!"
+			]
 		},
 		updateInterval: 30000,
 		fadeSpeed: 4000
@@ -34,12 +34,12 @@ Module.register('compliments',{
 
 	// Define required scripts.
 	getScripts: function() {
-		return ['moment.js'];
+		return ["moment.js"];
 	},
 
 	// Define start sequence.
 	start: function() {
-		Log.info('Starting module: ' + this.name);
+		Log.info("Starting module: " + this.name);
 
 		this.lastComplimentIndex = -1;
 
@@ -49,7 +49,6 @@ Module.register('compliments',{
 			self.updateDom(self.config.fadeSpeed);
 		}, this.config.updateInterval);
 	},
-
 
 	/* randomIndex(compliments)
 	 * Generate a random index for a list of compliments.
@@ -113,7 +112,7 @@ Module.register('compliments',{
 
 		var compliment = document.createTextNode(complimentText);
 		var wrapper = document.createElement("div");
-		wrapper.className = 'thin xlarge bright';
+		wrapper.className = "thin xlarge bright";
 		wrapper.appendChild(compliment);
 
 		return wrapper;

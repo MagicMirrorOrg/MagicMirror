@@ -7,61 +7,60 @@
  * MIT Licensed.
  */
 
-Module.register('currentweather',{
+Module.register("currentweather",{
 
 	// Default module config.
 	defaults: {
-		location: '',
-        appid: '',
-        units: 'metric',
-        updateInterval: 10 * 60 * 1000, // every 10 minutes
-        animationSpeed: 1000,
-        timeFormat: config.timeFormat,
+		location: "",
+		appid: "",
+		units: "metric",
+		updateInterval: 10 * 60 * 1000, // every 10 minutes
+		animationSpeed: 1000,
+		timeFormat: config.timeFormat,
 		lang: config.language,
 
 		initialLoadDelay: 0, // 0 seconds delay
 		retryDelay: 2500,
 
-		apiVersion: '2.5',
-		apiBase: 'http://api.openweathermap.org/data/',
-		weatherEndpoint: 'weather',
+		apiVersion: "2.5",
+		apiBase: "http://api.openweathermap.org/data/",
+		weatherEndpoint: "weather",
 
 		iconTable: {
-			'01d':'wi-day-sunny',
-			'02d':'wi-day-cloudy',
-			'03d':'wi-cloudy',
-			'04d':'wi-cloudy-windy',
-			'09d':'wi-showers',
-			'10d':'wi-rain',
-			'11d':'wi-thunderstorm',
-			'13d':'wi-snow',
-			'50d':'wi-fog',
-			'01n':'wi-night-clear',
-			'02n':'wi-night-cloudy',
-			'03n':'wi-night-cloudy',
-			'04n':'wi-night-cloudy',
-			'09n':'wi-night-showers',
-			'10n':'wi-night-rain',
-			'11n':'wi-night-thunderstorm',
-			'13n':'wi-night-snow',
-			'50n':'wi-night-alt-cloudy-windy'
+			"01d": "wi-day-sunny",
+			"02d": "wi-day-cloudy",
+			"03d": "wi-cloudy",
+			"04d": "wi-cloudy-windy",
+			"09d": "wi-showers",
+			"10d": "wi-rain",
+			"11d": "wi-thunderstorm",
+			"13d": "wi-snow",
+			"50d": "wi-fog",
+			"01n": "wi-night-clear",
+			"02n": "wi-night-cloudy",
+			"03n": "wi-night-cloudy",
+			"04n": "wi-night-cloudy",
+			"09n": "wi-night-showers",
+			"10n": "wi-night-rain",
+			"11n": "wi-night-thunderstorm",
+			"13n": "wi-night-snow",
+			"50n": "wi-night-alt-cloudy-windy"
 		},
 	},
 
 	// Define required scripts.
 	getScripts: function() {
-		return ['moment.js'];
+		return ["moment.js"];
 	},
 
 	// Define required scripts.
 	getStyles: function() {
-		return ['weather-icons.css', 'currentweather.css'];
+		return ["weather-icons.css", "currentweather.css"];
 	},
-
 
 	// Define start sequence.
 	start: function() {
-		Log.info('Starting module: ' + this.name);
+		Log.info("Starting module: " + this.name);
 
 		// Set locale.
 		moment.locale(config.language);
@@ -83,13 +82,13 @@ Module.register('currentweather',{
 	getDom: function() {
 		var wrapper = document.createElement("div");
 
-		if (this.config.appid === '') {
+		if (this.config.appid === "") {
 			wrapper.innerHTML = "Please set the correct openweather <i>appid</i> in the config for module: " + this.name + ".";
 			wrapper.className = "dimmed light small";
 			return wrapper;
 		}
 
-		if (this.config.location === '') {
+		if (this.config.location === "") {
 			wrapper.innerHTML = "Please set the openweather <i>location</i> in the config for module: " + this.name + ".";
 			wrapper.className = "dimmed light small";
 			return wrapper;
@@ -100,7 +99,6 @@ Module.register('currentweather',{
 			wrapper.className = "dimmed light small";
 			return wrapper;
 		}
-
 
 		var small = document.createElement("div");
 		small.className = "normal medium";
@@ -134,7 +132,7 @@ Module.register('currentweather',{
 
 		var temperature = document.createElement("span");
 		temperature.className = "bright";
-		temperature.innerHTML = " " + this.temperature + '&deg;';
+		temperature.innerHTML = " " + this.temperature + "&deg;";
 		large.appendChild(temperature);
 
 		wrapper.appendChild(small);
@@ -142,36 +140,35 @@ Module.register('currentweather',{
 		return wrapper;
 	},
 
-
 	/* updateWeather(compliments)
 	 * Requests new data from openweather.org.
 	 * Calls processWeather on succesfull response.
 	 */
 	updateWeather: function() {
-		var url = this.config.apiBase + this.config.apiVersion + '/' + this.config.weatherEndpoint + this.getParams();
+		var url = this.config.apiBase + this.config.apiVersion + "/" + this.config.weatherEndpoint + this.getParams();
 		var self = this;
 		var retry = true;
 
 		var weatherRequest = new XMLHttpRequest();
 		weatherRequest.open("GET", url, true);
 		weatherRequest.onreadystatechange = function() {
-		  if(this.readyState === 4) {
-			if(this.status === 200) {
-				self.processWeather(JSON.parse(this.response));
-			} else if (this.status === 401) {
-				self.config.appid = '';
-				self.updateDom(self.config.animationSpeed);
+			if (this.readyState === 4) {
+				if (this.status === 200) {
+					self.processWeather(JSON.parse(this.response));
+				} else if (this.status === 401) {
+					self.config.appid = "";
+					self.updateDom(self.config.animationSpeed);
 
-				Log.error(self.name + ": Incorrect APPID.");
-				retry = false;
-			} else {
-				Log.error(self.name + ": Could not load weather.");
-			}
+					Log.error(self.name + ": Incorrect APPID.");
+					retry = false;
+				} else {
+					Log.error(self.name + ": Could not load weather.");
+				}
 
-			if (retry) {
-				self.scheduleUpdate((self.loaded) ? -1 : self.config.retryDelay);
+				if (retry) {
+					self.scheduleUpdate((self.loaded) ? -1 : self.config.retryDelay);
+				}
 			}
-		  }
 		};
 		weatherRequest.send();
 	},
@@ -183,10 +180,10 @@ Module.register('currentweather',{
 	 */
 	getParams: function() {
 		var params = "?";
-		params += 'q=' + this.config.location;
-		params += '&units=' + this.config.units;
-		params += '&lang=' + this.config.lang;
-		params += '&APPID=' + this.config.appid;
+		params += "q=" + this.config.location;
+		params += "&units=" + this.config.units;
+		params += "&lang=" + this.config.lang;
+		params += "&APPID=" + this.config.appid;
 
 		return params;
 	},
@@ -201,19 +198,16 @@ Module.register('currentweather',{
 		this.windSpeed = this.ms2Beaufort(this.roundValue(data.wind.speed));
 		this.weatherType = this.config.iconTable[data.weather[0].icon];
 
-
-
-		var now = moment().format('x');
-		var sunrise = moment(data.sys.sunrise*1000).format('x');
-		var sunset = moment(data.sys.sunset*1000).format('x');
-
+		var now = moment().format("x");
+		var sunrise = moment(data.sys.sunrise * 1000).format("x");
+		var sunset = moment(data.sys.sunset * 1000).format("x");
 
 		if (sunrise < now && sunset > now) {
-			this.sunriseSunsetTime = moment(data.sys.sunset*1000).format((this.config.timeFormat === 24) ? 'HH:mm' : 'hh:mm a');
-			this.sunriseSunsetIcon = 'wi-sunset';
+			this.sunriseSunsetTime = moment(data.sys.sunset * 1000).format((this.config.timeFormat === 24) ? "HH:mm" : "hh:mm a");
+			this.sunriseSunsetIcon = "wi-sunset";
 		} else {
-			this.sunriseSunsetTime = moment(data.sys.sunrise*1000).format((this.config.timeFormat === 24) ? 'HH:mm' : 'hh:mm a');
-			this.sunriseSunsetIcon = 'wi-sunrise';
+			this.sunriseSunsetTime = moment(data.sys.sunrise * 1000).format((this.config.timeFormat === 24) ? "HH:mm" : "hh:mm a");
+			this.sunriseSunsetIcon = "wi-sunrise";
 
 		}
 
@@ -228,7 +222,7 @@ Module.register('currentweather',{
 	 */
 	scheduleUpdate: function(delay) {
 		var nextLoad = this.config.updateInterval;
-		if (typeof delay !== 'undefined' && delay >= 0) {
+		if (typeof delay !== "undefined" && delay >= 0) {
 			nextLoad = delay;
 		}
 
@@ -264,7 +258,7 @@ Module.register('currentweather',{
 	 *
 	 * return number - Rounded Temperature.
 	 */
-	roundValue: function (temperature) {
+	roundValue: function(temperature) {
 		return parseFloat(temperature).toFixed(1);
 	}
 });

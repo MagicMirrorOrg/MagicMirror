@@ -1,1 +1,2 @@
-config.js
+*
+!config.js.sample

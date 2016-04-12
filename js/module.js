@@ -17,6 +17,9 @@ var Module = Class.extend({
 	// Module config defaults.
 	defaults: {},
 
+	// Timer reference used for showHide animation callbacks.
+	showHideTimer: null,
+
 	/* init()
 	 * Is called when the module is instantiated.
 	 */
@@ -28,7 +31,7 @@ var Module = Class.extend({
 	 * Is called when the module is started.
 	 */
 	start: function() {
-		Log.info('Starting module: ' + this.name);
+		Log.info("Starting module: " + this.name);
 	},
 
 	/* getScripts()
@@ -82,9 +85,9 @@ var Module = Class.extend({
 	 */
 	notificationReceived: function(notification, payload, sender) {
 		if (sender) {
-			Log.log(this.name + ' received a module notification: ' + notification + ' from sender: ' + sender.name);
+			Log.log(this.name + " received a module notification: " + notification + " from sender: " + sender.name);
 		} else {
-			Log.log(this.name + ' received a system notification: ' + notification);
+			Log.log(this.name + " received a system notification: " + notification);
 		}
 	},
 
@@ -95,9 +98,8 @@ var Module = Class.extend({
 	 * argument payload mixed - The payload of the notification.
 	 */
 	socketNotificationReceived: function(notification, payload) {
-		Log.log(this.name + ' received a socket notification: ' + notification + ' - Payload: ' + payload);
+		Log.log(this.name + " received a socket notification: " + notification + " - Payload: " + payload);
 	},
-
 
 	/*********************************************
 	 * The methods below don't need subclassing. *
@@ -131,7 +133,7 @@ var Module = Class.extend({
 	 * It also registers the notification callback.
 	 */
 	socket: function() {
-		if (typeof this._socket === 'undefined') {
+		if (typeof this._socket === "undefined") {
 			this._socket = this._socket = new MMSocket(this.name);
 		}
 
@@ -151,7 +153,7 @@ var Module = Class.extend({
 	 * return string - File path.
 	 */
 	file: function(file) {
-		return this.data.path + '/' + file;
+		return this.data.path + "/" + file;
 	},
 
 	/* loadStyles()
@@ -258,16 +260,16 @@ Module.create = function(name) {
 
 	//Define the clone method for later use.
 	function cloneObject(obj) {
-	    if (obj === null || typeof obj !== 'object') {
-	        return obj;
-	    }
+		if (obj === null || typeof obj !== "object") {
+			return obj;
+		}
 
-	    var temp = obj.constructor(); // give temp the original obj's constructor
-	    for (var key in obj) {
-	        temp[key] = cloneObject(obj[key]);
-	    }
+		var temp = obj.constructor(); // give temp the original obj's constructor
+		for (var key in obj) {
+			temp[key] = cloneObject(obj[key]);
+		}
 
-	    return temp;
+		return temp;
 	}
 
 	var moduleDefinition = Module.definitions[name];
@@ -281,6 +283,6 @@ Module.create = function(name) {
 };
 
 Module.register = function(name, moduleDefinition) {
-	Log.log('Module registered: ' + name);
+	Log.log("Module registered: " + name);
 	Module.definitions[name] = moduleDefinition;
 };

@@ -5,7 +5,9 @@
  * MIT Licensed.
  */
 
-var NewsFetcher = require('./newsfetcher.js');
+var FeedMe = require("feedme");
+var request = require("request");
+var iconv = require("iconv-lite");
 
 /* Fetcher
  * Responsible for requesting an update on the set interval and broadcasting the data.
@@ -16,7 +18,6 @@ var NewsFetcher = require('./newsfetcher.js');
 
 var Fetcher = function(url, reloadInterval, encoding) {
 	var self = this;
-	var newsFetcher = new NewsFetcher();
 	if (reloadInterval < 1000) {
 		reloadInterval = 1000;
 	}
@@ -30,21 +31,40 @@ var Fetcher = function(url, reloadInterval, encoding) {
 	/* private methods */
 
 	/* fetchNews()
-	 * Request the new items from the newsFetcher.
+	 * Request the new items.
 	 */
 
 	var fetchNews = function() {
-		//console.log('Fetch news.');
 		clearTimeout(reloadTimer);
 		reloadTimer = null;
-		newsFetcher.fetchNews(url, function(fetchedItems) {
-			items = fetchedItems;
+		items = [];
+
+		var parser = new FeedMe();
+
+		parser.on("item", function(item) {
+			var description = item.description || '';
+			var regex = /(<([^>]+)>)/ig;
+			description = description.replace(regex, "");
+
+			items.push({
+				title: item.title,
+				description: description,
+				pubdate: item.pubdate,
+			});
+		});
+
+		parser.on("end", function() {
 			self.broadcastItems();
 			scheduleTimer();
-		}, function(error) {
+		});
+
+		parser.on("error", function(error) {
 			fetchFailedCallback(self, error);
 			scheduleTimer();
-		}, encoding);
+		});
+
+		request({uri: url, encoding: null}).pipe(iconv.decodeStream(encoding)).pipe(parser);
+
 	};
 
 	/* scheduleTimer()

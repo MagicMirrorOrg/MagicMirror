@@ -44,8 +44,15 @@ The following properties can be configured:
 		<tr>
 			<td><code>showPublishDate</code></td>
 			<td>Display the publish date of an headline.<br>
+				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
 				<br><b>Default value:</b> <code>true</code>
-				<br><b>Default value:</b> <code>true</code> or <code>false</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>showDescription</code></td>
+			<td>Display the description of an item.<br>
+				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
+				<br><b>Default value:</b> <code>false</code>
 			</td>
 		</tr>
 
@@ -60,7 +67,7 @@ The following properties can be configured:
 			<td><code>updateInterval</code></td>
 			<td>How often do you want to display a new headline? (Milliseconds)<br>
 				<br><b>Possible values:</b><code>1000</code> - <code>60000</code>
-				<br><b>Default value:</b> <code>7500</code> (7.5 seconds)
+				<br><b>Default value:</b> <code>10000</code> (10 seconds)
 			</td>
 		</tr>
 		<tr>

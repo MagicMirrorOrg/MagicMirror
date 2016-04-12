@@ -7,7 +7,7 @@
  * MIT Licensed.
  */
 
-Module.register('clock',{
+Module.register("clock",{
 
 	// Module config defaults.
 	defaults: {
@@ -17,12 +17,12 @@ Module.register('clock',{
 
 	// Define required scripts.
 	getScripts: function() {
-		return ['moment.js'];
+		return ["moment.js"];
 	},
 
 	// Define start sequence.
 	start: function() {
-		Log.info('Starting module: ' + this.name);
+		Log.info("Starting module: " + this.name);
 
 		// Schedule update interval.
 		var self = this;
@@ -33,7 +33,6 @@ Module.register('clock',{
 		// Set locale.
 		moment.locale(config.language);
 	},
-
 
 	// Override dom generator.
 	getDom: function() {
@@ -49,9 +48,9 @@ Module.register('clock',{
 		secondsWrapper.className = "dimmed";
 
 		// Set content of wrappers.
-		dateWrapper.innerHTML = moment().format('dddd, LL');
-		timeWrapper.innerHTML = moment().format((this.config.timeFormat === 24) ? 'HH:mm' : ('hh:mm'));
-		secondsWrapper.innerHTML = moment().format('ss');
+		dateWrapper.innerHTML = moment().format("dddd, LL");
+		timeWrapper.innerHTML = moment().format((this.config.timeFormat === 24) ? "HH:mm" : ("hh:mm"));
+		secondsWrapper.innerHTML = moment().format("ss");
 
 		// Combine wrappers.
 		wrapper.appendChild(dateWrapper);

@@ -5,10 +5,10 @@
  * MIT Licensed.
  */
 
-var NodeHelper = require('node_helper');
-var ical = require('ical');
-var moment = require('moment');
-var validUrl = require('valid-url');
+var NodeHelper = require("node_helper");
+var ical = require("ical");
+var moment = require("moment");
+var validUrl = require("valid-url");
 
 var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumberOfDays) {
 	var self = this;
@@ -27,7 +27,6 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 		clearTimeout(reloadTimer);
 		reloadTimer = null;
 
-
 		ical.fromURL(url, {}, function(err, data) {
 			if (err) {
 				fetchFailedCallback(self, err);
@@ -38,66 +37,65 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 			//console.log(data);
 			newEvents = [];
 
-			var limitFunction = function (date, i){return i < maximumEntries;};
+			var limitFunction = function(date, i) {return i < maximumEntries;};
 
 			for (var e in data) {
 				var event = data[e];
 				var now = new Date();
-				var today = moment().startOf('day');
+				var today = moment().startOf("day");
 
 				//console.log(event);
 
-				// FIXME: 
+				// FIXME:
 				// Ugly fix to solve the facebook birthday issue.
 				// Otherwise, the recurring events only show the birthday for next year.
 				var isFacebookBirthday = false;
-				if (typeof event.uid !== 'undefined') {
-					if (event.uid.indexOf('@facebook.com') !== -1) {
+				if (typeof event.uid !== "undefined") {
+					if (event.uid.indexOf("@facebook.com") !== -1) {
 						isFacebookBirthday = true;
 					}
 				}
 
-				if (event.type === 'VEVENT') {
-					var startDate = (event.start.length === 8) ? moment(event.start, 'YYYYMMDD') : moment(new Date(event.start));
+				if (event.type === "VEVENT") {
+					var startDate = (event.start.length === 8) ? moment(event.start, "YYYYMMDD") : moment(new Date(event.start));
 					if (event.start.length === 8) {
-						startDate = startDate.startOf('day');
+						startDate = startDate.startOf("day");
 					}
 
-					if (typeof event.rrule != 'undefined' && !isFacebookBirthday) {
+					if (typeof event.rrule != "undefined" && !isFacebookBirthday) {
 						var rule = event.rrule;
 
 						// Check if the timeset is set to this current time.
 						// If so, the RRULE line does not contain any BYHOUR, BYMINUTE, BYSECOND params.
 						// This causes the times of the recurring event to be incorrect.
 						// By adjusting the timeset property, this issue is solved.
-						
 
 						if (rule.timeset[0].hour == now.getHours(),
 							rule.timeset[0].minute == now.getMinutes(),
 							rule.timeset[0].second == now.getSeconds()) {
 
-							rule.timeset[0].hour = startDate.format('H');
-							rule.timeset[0].minute = startDate.format('m');
-							rule.timeset[0].second = startDate.format('s');
+							rule.timeset[0].hour = startDate.format("H");
+							rule.timeset[0].minute = startDate.format("m");
+							rule.timeset[0].second = startDate.format("s");
 						}
 
-						var dates = rule.between(today, today.add(maximumNumberOfDays, 'days') , true, limitFunction);
-						console.log(dates);
+						var dates = rule.between(today, today.add(maximumNumberOfDays, "days") , true, limitFunction);
+						//console.log(dates);
 						for (var d in dates) {
 							startDate = moment(new Date(dates[d]));
 							newEvents.push({
-								title: (typeof event.summary.val !== 'undefined') ? event.summary.val : event.summary,
-								startDate: startDate.format('x'),
+								title: (typeof event.summary.val !== "undefined") ? event.summary.val : event.summary,
+								startDate: startDate.format("x"),
 								fullDayEvent: (event.start.length === 8)
-								
+
 							});
 						}
 					} else {
 						// Single event.
-						if (startDate >= today && startDate <= today.add(maximumNumberOfDays, 'days')) {
+						if (startDate >= today && startDate <= today.add(maximumNumberOfDays, "days")) {
 							newEvents.push({
-								title: (typeof event.summary.val !== 'undefined') ? event.summary.val : event.summary,
-								startDate: startDate.format('x'),
+								title: (typeof event.summary.val !== "undefined") ? event.summary.val : event.summary,
+								startDate: startDate.format("x"),
 								fullDayEvent: (event.start.length === 8)
 							});
 						}
@@ -105,7 +103,7 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 				}
 			}
 
-			newEvents.sort(function(a,b) {
+			newEvents.sort(function(a, b) {
 				return a.startDate - b.startDate;
 			});
 
@@ -190,14 +188,13 @@ module.exports = NodeHelper.create({
 
 		this.fetchers = [];
 
-		console.log('Starting node helper for: ' + this.name);
-
+		console.log("Starting node helper for: " + this.name);
 
 	},
 
 	// Override socketNotificationReceived method.
 	socketNotificationReceived: function(notification, payload) {
-		if (notification === 'ADD_CALENDAR') {
+		if (notification === "ADD_CALENDAR") {
 			//console.log('ADD_CALENDAR: ');
 			this.createFetcher(payload.url, payload.fetchInterval, payload.maximumEntries, payload.maximumNumberOfDays);
 		}
@@ -214,28 +211,28 @@ module.exports = NodeHelper.create({
 	createFetcher: function(url, fetchInterval, maximumEntries, maximumNumberOfDays) {
 		var self = this;
 
-		if (!validUrl.isUri(url)){
-			self.sendSocketNotification('INCORRECT_URL', {url:url});
+		if (!validUrl.isUri(url)) {
+			self.sendSocketNotification("INCORRECT_URL", {url: url});
 			return;
 		}
 
 		var fetcher;
-		if (typeof self.fetchers[url] === 'undefined') {
-			console.log('Create new calendar fetcher for url: ' + url + ' - Interval: ' + fetchInterval);
+		if (typeof self.fetchers[url] === "undefined") {
+			console.log("Create new calendar fetcher for url: " + url + " - Interval: " + fetchInterval);
 			fetcher = new CalendarFetcher(url, fetchInterval, maximumEntries, maximumNumberOfDays);
 
 			fetcher.onReceive(function(fetcher) {
 				//console.log('Broadcast events.');
 				//console.log(fetcher.events());
 
-				self.sendSocketNotification('CALENDAR_EVENTS', {
+				self.sendSocketNotification("CALENDAR_EVENTS", {
 					url: fetcher.url(),
 					events: fetcher.events()
 				});
 			});
 
 			fetcher.onError(function(fetcher, error) {
-				self.sendSocketNotification('FETCH_ERROR', {
+				self.sendSocketNotification("FETCH_ERROR", {
 					url: fetcher.url(),
 					error: error
 				});
