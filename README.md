@@ -97,6 +97,8 @@ The following modules are created by their respective authors.
  
 - **[MMM-wordnik by Vendittelli](https://github.com/SVendittelli/MMM-wordnik)** <br> Get the word of the day, its definition, and origin ...
 
+- **[MMM-SystemTemperature by MichMich](https://github.com/MichMich/mmm-systemtemperature)** <br> Display your Raspberry Pi's processor temperature on your MagicMirror.
+
 **Note:** If you want to build your own modules, check out the [MagicMirror² Module Development Documentation](modules)
 
 ## Known issues
