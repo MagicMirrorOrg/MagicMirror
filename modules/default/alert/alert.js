@@ -41,11 +41,13 @@ Module.register("alert",{
 		//Set standard params if not provided by module
 		if (typeof params.timer === "undefined") { params.timer = null; }
 		if (typeof params.imageHeight === "undefined") { params.imageHeight = "80px"; }
-		if (typeof params.imageUrl === "undefined") {
+		if (typeof params.imageUrl === "undefined" && typeof params.imageFA === "undefined") {
 			params.imageUrl = null;
 			image = "";
-		} else {
+		} else if (typeof params.imageFA === "undefined"){
 			image = "<img src='" + (params.imageUrl).toString() + "' height=" + (params.imageHeight).toString() + " style='margin-bottom: 10px;'/><br />";
+		} else if (typeof params.imageUrl === "undefined"){
+			image = "<span class='" + "fa fa-" + params.imageFA + "' style='margin-bottom: 10px;color: #fff;font-size:" + (params.imageHeight).toString() + ";'/></span><br />";
 		}
 		//Create overlay
 		var overlay = document.createElement("div");
