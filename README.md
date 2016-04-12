@@ -41,11 +41,11 @@ curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/v2-beta/installe
 
 #### Server Only
 
-In some cases, you want to start the application without an actual app window. In this case, exectute the following command from the MagicMirror folder: `node serveronly`. This will start the server, after which you can open the application in your browser of choice.
+In some cases, you want to start the application without an actual app window. In this case, execute the following command from the MagicMirror folder: `node serveronly`. This will start the server, after which you can open the application in your browser of choice.
 
 #### Raspberry Configuration & Auto Start.
 
-The following wiki links are helpful in the cofiguration of your MagicMirror² operating system:
+The following wiki links are helpful in the configuration of your MagicMirror² operating system:
 - [Configuring the Raspberry Pi](https://github.com/MichMich/MagicMirror/wiki/Configuring-the-Raspberry-Pi)
 - [Auto Starting MagicMirror](https://github.com/MichMich/MagicMirror/wiki/Auto-Starting-MagicMirror)
 
@@ -113,7 +113,7 @@ Contributions of all kinds are welcome, not only in the form of code but also wi
 Please keep the following in mind:
 
 - **Bug Reports**:  Make sure you're running the latest version. If the issue(s) still persist: please open a clearly documented issue with a clear title. 
-- **Minor Bug Fixes**: Please send a pull request with a clear explanation of the issue or a link to the isssue it solves.
+- **Minor Bug Fixes**: Please send a pull request with a clear explanation of the issue or a link to the issue it solves.
 - **Major Bug Fixes**: please discuss your approach in an GitHub issue before you start to alter a big part of the code.
 - **New Features**: please please discuss in a GitHub issue before you start to alter a big part of the code. Without discussion upfront, the pull request will not be accepted / merged.
 
