@@ -1,8 +1,10 @@
 html {
   cursor: none;
+  overflow:hidden;
 }
 
 body {
+  overflow:hidden;
   margin: 60px;
   position: absolute;
   height: calc(100% - 120px);
