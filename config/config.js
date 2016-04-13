@@ -37,7 +37,7 @@ var config = {
 		position: "top_right",
 		config: {
 			location: "New York",
-			appid: "58eeb77494bacb047874d3efe73aef95",
+			appid: "YOUR_OPENWEATHER_API_KEY_HERE",
 			units: "imperial"
 		}
 	},
@@ -47,7 +47,7 @@ var config = {
 		header: "Weather Forecast",
 		config: {
 			location: "New York",
-			appid: "58eeb77494bacb047874d3efe73aef95",
+			appid: "YOUR_OPENWEATHER_API_KEY_HERE",
 			units: "imperial"
 		}
 	},
