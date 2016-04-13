@@ -3,8 +3,11 @@ html {
   overflow:hidden;
 }
 
+::-webkit-scrollbar { 
+    display: none; 
+}
+
 body {
-  overflow:hidden;
   margin: 60px;
   position: absolute;
   height: calc(100% - 120px);
