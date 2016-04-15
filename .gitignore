@@ -12,7 +12,3 @@
 
 # Ignore changes to the custom css files.
 /css/custom.css
-
-# Ignore your config.js file.
-
-/config/config.js
