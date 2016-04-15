@@ -100,20 +100,17 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 						var title = (typeof event.summary.val !== "undefined") ? event.summary.val : event.summary;
 
 						if (!fullDayEvent && endDate < new Date()) {
-							// it's not a fullday event, and it is in the past. So skip.
-							console.log("It's not a fullday event, and it is in the past. So skip: " + title);
+							//console.log("It's not a fullday event, and it is in the past. So skip: " + title);
 							continue;
 						}
 
 						if (fullDayEvent && endDate < today) {
-							// it's a fullday event, and it is before today. So skip.
-							console.log("It's a fullday event, and it is before today. So skip: " + title);
+							//console.log("It's a fullday event, and it is before today. So skip: " + title);
 							continue;
 						}
 
 						if (startDate > future) {
-							// it exceeds the maximumNumberOfDays limit. So skip
-							console.log("It exceeds the maximumNumberOfDays limit. So skip: " + title);
+							//console.log("It exceeds the maximumNumberOfDays limit. So skip: " + title);
 							continue;
 						}
 
