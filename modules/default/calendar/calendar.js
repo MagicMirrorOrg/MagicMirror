@@ -33,7 +33,8 @@ Module.register("calendar",{
 		emptyCalendarText: "No upcoming events.",
 
 		// TODO: It would be nice if there is a way to get this from the Moment.js locale.
-		todayText: "Today"
+		todayText: "Today",
+		runningText: "Ends in"
 	},
 
 	// Define required scripts.
@@ -119,7 +120,11 @@ Module.register("calendar",{
 			if (event.fullDayEvent) {
 				timeWrapper.innerHTML = (event.today) ? this.config.todayText : moment(event.startDate,"x").fromNow();
 			} else {
-				timeWrapper.innerHTML = moment(event.startDate,"x").fromNow();
+				if (event.startDate >= new Date()) {
+					timeWrapper.innerHTML = moment(event.startDate,"x").fromNow();
+				} else {
+					timeWrapper.innerHTML =  this.config.runningText + ' ' + moment(event.endDate,"x").fromNow(true);
+				}
 			}
 			// timeWrapper.innerHTML = moment(event.startDate,'x').format('lll');
 			timeWrapper.className = "time light";

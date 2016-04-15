@@ -58,6 +58,7 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 				if (event.type === "VEVENT") {
 
 					var startDate = (event.start.length === 8) ? moment(event.start, "YYYYMMDD") : moment(new Date(event.start));
+					var endDate = (event.end.length === 8) ? moment(event.end, "YYYYMMDD") : moment(new Date(event.end));
 					if (event.start.length === 8) {
 						startDate = startDate.startOf("day");
 					}
@@ -88,8 +89,8 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 							newEvents.push({
 								title: (typeof event.summary.val !== "undefined") ? event.summary.val : event.summary,
 								startDate: startDate.format("x"),
+								endDate: endDate.format("x"),
 								fullDayEvent: (event.start.length === 8)
-
 							});
 						}
 					} else {
@@ -98,13 +99,13 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 						var fullDayEvent = (event.start.length === 8);
 						var title = (typeof event.summary.val !== "undefined") ? event.summary.val : event.summary;
 
-						if (!fullDayEvent && startDate < new Date()) {
+						if (!fullDayEvent && endDate < new Date()) {
 							// it's not a fullday event, and it is in the past. So skip.
 							console.log("It's not a fullday event, and it is in the past. So skip: " + title);
 							continue;
 						}
 
-						if (fullDayEvent && startDate < today) {
+						if (fullDayEvent && endDate < today) {
 							// it's a fullday event, and it is before today. So skip.
 							console.log("It's a fullday event, and it is before today. So skip: " + title);
 							continue;
@@ -120,6 +121,7 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 						newEvents.push({
 							title: title,
 							startDate: startDate.format("x"),
+							endDate: endDate.format("x"),
 							fullDayEvent: fullDayEvent
 						});
 						

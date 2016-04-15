@@ -8,7 +8,7 @@
 
 var CalendarFetcher = require("./calendarfetcher.js");
 
-var url = 'https://github.com/MichMich/MagicMirror/files/217285/reachcalendar.txt';
+var url = 'http://p35-calendars.icloud.com/published/2/qsud2R2XlRhT3puEVfrzkeSd3X_QSfCMBmpgTsjVqOD2W_fyy0Y-5QskbvWw2jOQB_cPsmcjpGtcg1a3jBQ_QIS2H0XWSxjqCa8LX0dznpE';
 var fetchInterval = 60 * 60 * 1000;
 var maximumEntries = 10;
 var maximumNumberOfDays = 365;
