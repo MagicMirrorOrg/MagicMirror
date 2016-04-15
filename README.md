@@ -90,21 +90,9 @@ The following modules are installed by default.
 - [**Hello World**](modules/default/helloworld)
 - [**Alert**](modules/default/alert)
 
-The following modules are created by their respective authors.
+For more available modules, check out out the wiki page: [MagicMirror² Modules](https://github.com/MichMich/MagicMirror/wiki/MagicMirror²-Modules).
 
-- **[MMM-FRITZ-Box-Callmonitor by PaViRo](https://github.com/paviro/MMM-FRITZ-Box-Callmonitor)** <br> FRITZ!Box Callmonitor (Display an alert when someone is calling ...)
-
-- **[MMM-Facial-Recognition by PaViRo](https://github.com/paviro/MMM-Facial-Recognition)** <br> Facial recognition and module swapping based on the current user ...
-
-- **[MMM-Wunderlist by PaViRo](https://github.com/paviro/MMM-Wunderlist)** <br> Displays your Wunderlist todos on your mirror ...
- 
-- **[MMM-wordnik by Vendittelli](https://github.com/SVendittelli/MMM-wordnik)** <br> Get the word of the day, its definition, and origin ...
-
-- **[MMM-SystemTemperature by MichMich](https://github.com/MichMich/mmm-systemtemperature)** <br> Display your Raspberry Pi's processor temperature on your MagicMirror.
-
-- **[MMM-Netatmo by CFenner](https://github.com/CFenner/MagicMirror-Netatmo-Module)** <br> Display your Netatmo in/outdoor weather station data on your MagicMirror.
-
-**Note:** If you want to build your own modules, check out the [MagicMirror² Module Development Documentation](modules)
+**Note:** If you want to build your own modules, check out the [MagicMirror² Module Development Documentation](modules).
 
 ## Known issues
 
