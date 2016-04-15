@@ -54,7 +54,35 @@ The following wiki links are helpful in the configuration of your MagicMirror² 
 1. Duplicate `config/config.js.sample` to `config/config.js`.
 2. Modify your required settings.
 
+<<<<<<< HEAD
+### Module Positioning
+
+In the config file, most of the module have a `position` property so define the position the module is rendered in.
+
+The following positions are available:
+
+|Name|Description|
+|---|---|
+|top_bar|right at the top, covers the whole width|
+|top_left|below `top_bar`, left aligned|
+|top_right|below `top_bar`, right aligned|
+|top_center|below `top_bar`, centered|
+|upper_third|at the upper third, covers the whole width|
+|middle_center|directly in the middle, covers the whole width|
+|lower_third|at the lower third, covers the whole width|
+|bottom_bar|right at the bottom, covers the whole width|
+|bottom_left|above the `bottom_bar`, left aligned|
+|bottom_right|above the `bottom_bar`, right aligned|
+|bottom_center|above the `bottom_bar`, centered|
+
+![](http://s21.postimg.org/oa2pfe2xz/Bildschirmfoto_2016_04_05_um_22_38_37.png)
+
+
+
+## Todo List
+=======
 The following properties can be configured:
+>>>>>>> MichMich/v2-beta
 
 
 | **Option** | **Description** |
