@@ -207,7 +207,7 @@ Module.register("weatherforecast",{
 			var forecast = data.list[i];
 			this.forecast.push({
 
-				day: moment(forecast.dt, "X").format("ddd."),
+				day: moment(forecast.dt, "X").format("ddd"),
 				icon: this.config.iconTable[forecast.weather[0].icon],
 				maxTemp: this.roundValue(forecast.temp.max),
 				minTemp: this.roundValue(forecast.temp.min)

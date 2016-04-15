@@ -136,6 +136,13 @@ self.sendNotification("SHOW_ALERT", {});
 			</td>
 		</tr>
 		<tr>
+			<td><code>imageFA</code> (optional)</td>
+			<td>Font Awesome icon to show in the alert<br>
+				<br><b>Possible values:</b> See <a href="http://fontawesome.io/icons/" target="_blank">Font Awsome</a> website.
+				<br><b>Default value:</b> <code>none</code>
+			</td>
+		</tr>
+		<tr>
 			<td><code>imageHeight</code> (optional even with imageUrl set)</td>
 			<td>Height of the image<br>
 				<br><b>Possible values:</b> <code>intpx</code>

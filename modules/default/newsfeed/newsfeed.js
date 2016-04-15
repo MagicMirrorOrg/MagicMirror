@@ -13,8 +13,9 @@ Module.register("newsfeed",{
 	defaults: {
 		feedUrl: "http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml",
 		showPublishDate: true,
+		showDescription: false,
 		reloadInterval:  5 * 60 * 1000, // every 5 minutes
-		updateInterval: 7.5 * 1000,
+		updateInterval: 10 * 1000,
 		animationSpeed: 2.5 * 1000,
 		encoding: "UTF-8" //ISO-8859-1
 	},
@@ -82,6 +83,13 @@ Module.register("newsfeed",{
 			title.className = "bright medium light";
 			title.innerHTML = this.newsItems[this.activeItem].title;
 			wrapper.appendChild(title);
+
+			if (this.config.showDescription) {
+				var description = document.createElement("div");
+				description.className = "small light";
+				description.innerHTML = this.newsItems[this.activeItem].description;
+				wrapper.appendChild(description);
+			}
 
 		} else {
 			wrapper.innerHTML = "Loading news ...";

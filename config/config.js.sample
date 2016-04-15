@@ -1,6 +1,4 @@
-/* exported config */
-
-/* Magic Mirror Config
+/* Magic Mirror Config Sample
  *
  * By Michael Teeuw http://michaelteeuw.nl
  * MIT Licensed.
@@ -35,7 +33,7 @@ var config = {
 		},
 		{
 			module: 'compliments',
-			position: 'lower_third',
+			position: 'lower_third'
 		},
 		{
 			module: 'currentweather',
@@ -59,13 +57,12 @@ var config = {
 			position: 'bottom_bar',
 			config: {
 				feedUrl: 'http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml',
-				showPublishDate: true,
+				showPublishDate: true
 			}
 		},
 	]
 
 };
-
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/
 if (typeof module !== 'undefined') {module.exports = config;}

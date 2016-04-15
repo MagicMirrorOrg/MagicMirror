@@ -10,7 +10,7 @@ modules: [
 		position: 'bottom_bar',	// This can be any of the regions.
 		config: {
 			// See 'Configuration options' for more information.
-			text: 'Hello world!',
+			text: 'Hello world!'
 		}
 	}
 ]
@@ -38,14 +38,5 @@ The following properties can be configured:
 				<br><b>Default value:</b> <code>'Hello world!'</code>
 			</td>
 		</tr>
-		<tr>
-			<td><code>classes</code></td>
-			<td>Classes to apply to the text.<br>
-				<br><b>Example:</b> <code>'xsmall bold'</code>
-				<br><b>Default value:</b> <code>'normal medium'</code>
-			</td>
-		</tr>
-
-
 	</tbody>
 </table>
