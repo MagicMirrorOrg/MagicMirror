@@ -49,7 +49,7 @@ Module.register("clock",{
 
 		// Set content of wrappers.
 		dateWrapper.innerHTML = moment().format("dddd, LL");
-		timeWrapper.innerHTML = moment().format((this.config.timeFormat === 24) ? "HH:mm" : ("hh:mm"));
+		timeWrapper.innerHTML = moment().format((this.config.timeFormat === 24) ? "HH[<span class=\"clockbold\">]mm[</span>]" : ("hh[<span class=\"clockbold\">]mm[</span>]"));
 		secondsWrapper.innerHTML = moment().format("ss");
 
 		// Combine wrappers.
