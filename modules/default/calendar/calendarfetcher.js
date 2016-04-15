@@ -95,13 +95,34 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 					} else {
 						// console.log("Single event ...");
 						// Single event.
-						if (startDate >= today && startDate <= future) {
-							newEvents.push({
-								title: (typeof event.summary.val !== "undefined") ? event.summary.val : event.summary,
-								startDate: startDate.format("x"),
-								fullDayEvent: (event.start.length === 8)
-							});
+						var fullDayEvent = (event.start.length === 8);
+						var title = (typeof event.summary.val !== "undefined") ? event.summary.val : event.summary;
+
+						if (!fullDayEvent && startDate < new Date()) {
+							// it's not a fullday event, and it is in the past. So skip.
+							console.log("It's not a fullday event, and it is in the past. So skip: " + title);
+							continue;
 						}
+
+						if (fullDayEvent && startDate < today) {
+							// it's a fullday event, and it is before today. So skip.
+							console.log("It's a fullday event, and it is before today. So skip: " + title);
+							continue;
+						}
+
+						if (startDate > future) {
+							// it exceeds the maximumNumberOfDays limit. So skip
+							console.log("It exceeds the maximumNumberOfDays limit. So skip: " + title);
+							continue;
+						}
+
+						// Every thing is good. Add it to the list.					
+						newEvents.push({
+							title: title,
+							startDate: startDate.format("x"),
+							fullDayEvent: fullDayEvent
+						});
+						
 					}
 				}
 			}

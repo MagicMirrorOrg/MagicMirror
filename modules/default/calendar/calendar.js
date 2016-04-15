@@ -115,7 +115,12 @@ Module.register("calendar",{
 			eventWrapper.appendChild(titleWrapper);
 
 			var timeWrapper =  document.createElement("td");
-			timeWrapper.innerHTML = (event.today) ? this.config.todayText : moment(event.startDate,"x").fromNow();
+			//console.log(event.today);
+			if (event.fullDayEvent) {
+				timeWrapper.innerHTML = (event.today) ? this.config.todayText : moment(event.startDate,"x").fromNow();
+			} else {
+				timeWrapper.innerHTML = moment(event.startDate,"x").fromNow();
+			}
 			// timeWrapper.innerHTML = moment(event.startDate,'x').format('lll');
 			timeWrapper.className = "time light";
 			eventWrapper.appendChild(timeWrapper);
