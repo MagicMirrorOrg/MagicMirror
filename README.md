@@ -99,6 +99,8 @@ The following modules are created by their respective authors.
 
 - **[MMM-SystemTemperature by MichMich](https://github.com/MichMich/mmm-systemtemperature)** <br> Display your Raspberry Pi's processor temperature on your MagicMirror.
 
+- **[MMM-Netatmo by CFenner](https://github.com/CFenner/MagicMirror-Netatmo-Module)** <br> Display your Netatmo in/outdoor weather station data on your MagicMirror.
+
 **Note:** If you want to build your own modules, check out the [MagicMirror² Module Development Documentation](modules)
 
 ## Known issues
