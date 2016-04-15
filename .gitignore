@@ -12,3 +12,6 @@
 
 # Ignore changes to the custom css files.
 /css/custom.css
+
+# Ignore Desktop Services Store files (OS X)
+**/.DS_Store
