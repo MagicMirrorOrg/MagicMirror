@@ -53,7 +53,29 @@ The following wiki links are helpful in the cofiguration of your MagicMirror² o
 ## Configuration
 
 1. Duplicate `config/config.js.sample` to `config/config.js`.
-2. Modify your required settings.
+2. Modify your required settings. **If you have sensitive items, follow the instructions below.**
+
+For sensitive items (like API keys, private calendars and other items, use a [.env](https://github.com/motdotla/dotenv) file. This file is ignored by Git to protect your privacy. To use the .env file:
+
+1. Follow the instructions to create a new configuration file.
+2. Replace the configuration strings with the .env file reference in the following form:
+
+```javascript
+// Instead of this:
+{
+	"key": "value"
+}
+// Use this:
+{
+	"key": process.env.VALUE
+}
+```
+
+3. Create a `.env` file in the root of the project in the following form:
+
+```
+VALUE=This is a private value.
+```
 
 The following properties can be configured:
 

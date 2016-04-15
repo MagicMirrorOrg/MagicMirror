@@ -4,6 +4,7 @@
  * MIT Licensed.
  */
 
+require("dotenv").config();
 var config = {
 	port: 8080,
 
