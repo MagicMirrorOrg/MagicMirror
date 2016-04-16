@@ -203,10 +203,14 @@ Module.register("currentweather",{
 		var sunset = moment(data.sys.sunset * 1000).format("x");
 
 		if (sunrise < now && sunset > now) {
-			this.sunriseSunsetTime = moment(data.sys.sunset * 1000).format((this.config.timeFormat === 24) ? "HH:mm" : "hh:mm a");
+			if (sunrise.isValid()) {
+				this.sunriseSunsetTime = moment(data.sys.sunset * 1000).format((this.config.timeFormat === 24) ? "HH:mm" : "hh:mm a");
+			}
 			this.sunriseSunsetIcon = "wi-sunset";
 		} else {
-			this.sunriseSunsetTime = moment(data.sys.sunrise * 1000).format((this.config.timeFormat === 24) ? "HH:mm" : "hh:mm a");
+			if (sunset.isValid()) {
+				this.sunriseSunsetTime = moment(data.sys.sunrise * 1000).format((this.config.timeFormat === 24) ? "HH:mm" : "hh:mm a");
+			}
 			this.sunriseSunsetIcon = "wi-sunrise";
 
 		}
