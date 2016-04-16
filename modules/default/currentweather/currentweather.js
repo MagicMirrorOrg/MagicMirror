@@ -198,18 +198,18 @@ Module.register("currentweather",{
 		this.windSpeed = this.ms2Beaufort(this.roundValue(data.wind.speed));
 		this.weatherType = this.config.iconTable[data.weather[0].icon];
 
-		var now = moment().format("x");
-		var sunrise = moment(data.sys.sunrise * 1000).format("x");
-		var sunset = moment(data.sys.sunset * 1000).format("x");
+		var now = moment();
+		var sunrise = moment(data.sys.sunrise * 1000);
+		var sunset = moment(data.sys.sunset * 1000);
 
 		if (sunrise < now && sunset > now) {
 			if (sunrise.isValid()) {
-				this.sunriseSunsetTime = moment(data.sys.sunset * 1000).format((this.config.timeFormat === 24) ? "HH:mm" : "hh:mm a");
+				this.sunriseSunsetTime = sunset.format((this.config.timeFormat === 24) ? "HH:mm" : "hh:mm a");
 			}
 			this.sunriseSunsetIcon = "wi-sunset";
 		} else {
 			if (sunset.isValid()) {
-				this.sunriseSunsetTime = moment(data.sys.sunrise * 1000).format((this.config.timeFormat === 24) ? "HH:mm" : "hh:mm a");
+				this.sunriseSunsetTime = sunrise.format((this.config.timeFormat === 24) ? "HH:mm" : "hh:mm a");
 			}
 			this.sunriseSunsetIcon = "wi-sunrise";
 
