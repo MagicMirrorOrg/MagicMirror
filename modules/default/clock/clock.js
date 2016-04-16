@@ -48,8 +48,9 @@ Module.register("clock",{
 		secondsWrapper.className = "dimmed";
 
 		// Set content of wrappers.
+		var format = (this.config.timeFormat === 24) ? "HH:mm" : "hh:mm a";
 		dateWrapper.innerHTML = moment().format("dddd, LL");
-		timeWrapper.innerHTML = moment().format((this.config.timeFormat === 24) ? "HH:mm" : ("hh:mm"));
+		timeWrapper.innerHTML = moment().format(format);
 		secondsWrapper.innerHTML = moment().format("ss");
 
 		// Combine wrappers.

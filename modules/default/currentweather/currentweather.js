@@ -201,18 +201,14 @@ Module.register("currentweather",{
 		var now = moment();
 		var sunrise = moment(data.sys.sunrise * 1000);
 		var sunset = moment(data.sys.sunset * 1000);
+		var format = (this.config.timeFormat === 24) ? "HH:mm" : "hh:mm a";
 
 		if (sunrise < now && sunset > now) {
-			if (sunrise.isValid()) {
-				this.sunriseSunsetTime = sunset.format((this.config.timeFormat === 24) ? "HH:mm" : "hh:mm a");
-			}
+			this.sunriseSunsetTime = sunset.format(format);
 			this.sunriseSunsetIcon = "wi-sunset";
 		} else {
-			if (sunset.isValid()) {
-				this.sunriseSunsetTime = sunrise.format((this.config.timeFormat === 24) ? "HH:mm" : "hh:mm a");
-			}
+			this.sunriseSunsetTime = sunrise.format(format);
 			this.sunriseSunsetIcon = "wi-sunrise";
-
 		}
 
 		this.loaded = true;
