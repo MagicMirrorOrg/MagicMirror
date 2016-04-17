@@ -4,7 +4,7 @@
   "description": "A modular interface for smart mirrors.",
   "main": "js/electron.js",
   "scripts": {
-    "start": "electron js/electron.js"
+    "start": "electron js/electron.js",
     "jscs": "jscs **/**/**/**/*.js",
     "stylelint": "stylelint css/main.css fonts/roboto.css",
     "htmlvalidator": "html-validator --file=index.html",
