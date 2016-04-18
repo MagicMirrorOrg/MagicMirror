@@ -48,9 +48,18 @@ Module.register("clock",{
 		secondsWrapper.className = "dimmed";
 
 		// Set content of wrappers.
-		var format = (this.config.timeFormat === 24) ? "HH:mm" : "hh:mm a";
+		// The moment().format('h') method has a bug on the Raspberry Pi. 
+		// So we need to generate the timestring manually.
+		// See issue: https://github.com/MichMich/MagicMirror/issues/181
+		var timeString = moment().format('HH:mm');
+		if (this.config.timeFormat !== 24) {
+			var now = new Date();
+			var hours = now.getHours() % 12 || 12;
+			timeString = hours + moment().format(':mm a');
+		}
+
 		dateWrapper.innerHTML = moment().format("dddd, LL");
-		timeWrapper.innerHTML = moment().format(format);
+		timeWrapper.innerHTML = timeString;
 		secondsWrapper.innerHTML = moment().format("ss");
 
 		// Combine wrappers.

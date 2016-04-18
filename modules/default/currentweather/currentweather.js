@@ -198,18 +198,24 @@ Module.register("currentweather",{
 		this.windSpeed = this.ms2Beaufort(this.roundValue(data.wind.speed));
 		this.weatherType = this.config.iconTable[data.weather[0].icon];
 
-		var now = moment();
-		var sunrise = moment(data.sys.sunrise * 1000);
-		var sunset = moment(data.sys.sunset * 1000);
-		var format = (this.config.timeFormat === 24) ? "HH:mm" : "hh:mm a";
+		var now = new Date();
+		var sunrise = new Date(data.sys.sunrise * 1000);
+		var sunset = new Date(data.sys.sunset * 1000);
 
-		if (sunrise < now && sunset > now) {
-			this.sunriseSunsetTime = sunset.format(format);
-			this.sunriseSunsetIcon = "wi-sunset";
-		} else {
-			this.sunriseSunsetTime = sunrise.format(format);
-			this.sunriseSunsetIcon = "wi-sunrise";
+		// The moment().format('h') method has a bug on the Raspberry Pi. 
+		// So we need to generate the timestring manually.
+		// See issue: https://github.com/MichMich/MagicMirror/issues/181
+		var sunriseSunsetDateObject = (sunrise < now && sunset > now) ? sunset : sunrise;
+		var timeString = moment(sunriseSunsetDateObject).format('HH:mm');
+		if (this.config.timeFormat !== 24) {
+			var hours = sunriseSunsetDateObject.getHours() % 12 || 12;
+			timeString = hours + moment(sunriseSunsetDateObject).format(':mm a');
 		}
+
+		this.sunriseSunsetTime = timeString;
+		this.sunriseSunsetIcon = (sunrise < now && sunset > now) ? "wi-sunset" : "wi-sunrise";
+
+
 
 		this.loaded = true;
 		this.updateDom(this.config.animationSpeed);
