@@ -9,17 +9,6 @@ var FeedMe = require("feedme");
 var request = require("request");
 var iconv = require("iconv-lite");
 
-
-// The next part is here to prevent a major exception when there
-// is no internet connection. This could probable be solved better.
-// If this is not here, the request on line 75 crashes when there
-// is no internet connection available.
-process.on('uncaughtException', function (err) {
-  console.log("There was an uncaught exception...");
-  console.error(err);
-  console.log("MagicMirror will not quit, but it might be a good idea to check why this happened. Maybe no internet connection?");
-});
-
 /* Fetcher
  * Responsible for requesting an update on the set interval and broadcasting the data.
  *
