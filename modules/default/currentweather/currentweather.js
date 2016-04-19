@@ -17,6 +17,8 @@ Module.register("currentweather",{
 		updateInterval: 10 * 60 * 1000, // every 10 minutes
 		animationSpeed: 1000,
 		timeFormat: config.timeFormat,
+		showPeriod: true,
+		showPeriodUpper: false,
 		lang: config.language,
 
 		initialLoadDelay: 0, // 0 seconds delay
@@ -209,7 +211,15 @@ Module.register("currentweather",{
 		var timeString = moment(sunriseSunsetDateObject).format('HH:mm');
 		if (this.config.timeFormat !== 24) {
 			var hours = sunriseSunsetDateObject.getHours() % 12 || 12;
-			timeString = hours + moment(sunriseSunsetDateObject).format(':mm a');
+			if (this.config.showPeriod) {
+				if (this.config.showPeriodUpper) {
+					timeString = hours + moment(sunriseSunsetDateObject).format(':mm A');
+				} else {
+					timeString = hours + moment(sunriseSunsetDateObject).format(':mm a');
+				}
+			} else {
+    				timeString = hours + moment(sunriseSunsetDateObject).format(':mm');
+			}
 		}
 
 		this.sunriseSunsetTime = timeString;

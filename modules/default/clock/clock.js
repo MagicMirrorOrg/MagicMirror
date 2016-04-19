@@ -13,6 +13,8 @@ Module.register("clock",{
 	defaults: {
 		timeFormat: config.timeFormat,
 		displaySeconds: true,
+		showPeriod: true,
+		showPeriodUpper: false,
 	},
 
 	// Define required scripts.
@@ -55,7 +57,15 @@ Module.register("clock",{
 		if (this.config.timeFormat !== 24) {
 			var now = new Date();
 			var hours = now.getHours() % 12 || 12;
-			timeString = hours + moment().format(':mm a');
+			if (this.config.showPeriod) {
+				if (this.config.showPeriodUpper) {
+					timeString = hours + moment().format(':mm A');
+				} else {
+					timeString = hours + moment().format(':mm a');
+				}
+			} else {
+	    			timeString = hours + moment().format(':mm');
+			}
 		}
 
 		dateWrapper.innerHTML = moment().format("dddd, LL");
