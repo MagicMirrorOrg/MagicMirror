@@ -121,7 +121,13 @@ Module.register("calendar",{
 				timeWrapper.innerHTML = (event.today) ? this.config.todayText : moment(event.startDate,"x").fromNow();
 			} else {
 				if (event.startDate >= new Date()) {
-					timeWrapper.innerHTML = moment(event.startDate,"x").fromNow();
+					var now = new Date();
+					if (event.startDate - now > 48 * 60 * 60 * 1000) {
+						// if the event is no longer than 2 days away, display the absolute time.
+						timeWrapper.innerHTML = moment(event.startDate,"x").fromNow();
+					} else {
+						timeWrapper.innerHTML = moment(event.startDate,"x").calendar();
+					}
 				} else {
 					timeWrapper.innerHTML =  this.config.runningText + ' ' + moment(event.endDate,"x").fromNow(true);
 				}

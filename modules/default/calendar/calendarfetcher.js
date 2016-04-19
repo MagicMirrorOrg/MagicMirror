@@ -96,13 +96,13 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 								title: (typeof event.summary.val !== "undefined") ? event.summary.val : event.summary,
 								startDate: startDate.format("x"),
 								endDate: endDate.format("x"),
-								fullDayEvent: (event.start.length === 8)
+								fullDayEvent: isFullDayEvent(event)
 							});
 						}
 					} else {
 						// console.log("Single event ...");
 						// Single event.
-						var fullDayEvent = (event.start.length === 8);
+						var fullDayEvent = isFullDayEvent(event);
 						var title = (typeof event.summary.val !== "undefined") ? event.summary.val : event.summary;
 
 						if (!fullDayEvent && endDate < new Date()) {
@@ -152,6 +152,30 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 		reloadTimer = setTimeout(function() {
 			fetchCalendar();
 		}, reloadInterval);
+	};
+
+	/* isFullDayEvent(event)
+	 * Checks if an event is a fullday event.
+	 *
+	 * argument event obejct - The event object to check.
+	 *
+	 * return bool - The event is a fullday event.
+	 */
+	var isFullDayEvent = function(event) {
+		if (event.start.length === 8) {
+			return true;
+		}
+
+		var start = event.start || 0;
+		var startDate = new Date(start);
+		var end = event.end || 0;
+
+		if (end - start === 24 * 60 * 60 * 1000 && startDate.getHours() === 0 && startDate.getMinutes() === 0) {
+			// Is 24 hours, and starts on the middle of the night.
+			return true;			
+		}
+
+		return false;
 	};
 
 	/* public methods */
