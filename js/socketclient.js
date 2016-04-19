@@ -8,11 +8,11 @@ var MMSocket = function(moduleName) {
 	self.moduleName = moduleName;
 
 	// Private Methods
-	socket = io.connect("/" + self.moduleName);
+	self.socket = io("/" + self.moduleName);
 	var notificationCallback = function() {};
 
-	var onevent = socket.onevent;
-	socket.onevent = function(packet) {
+	var onevent = self.socket.onevent;
+	self.socket.onevent = function(packet) {
 		var args = packet.data || [];
 		onevent.call(this, packet);    // original call
 		packet.data = ["*"].concat(args);
@@ -20,7 +20,7 @@ var MMSocket = function(moduleName) {
 	};
 
 	// register catch all.
-	socket.on("*", function(notification, payload) {
+	self.socket.on("*", function(notification, payload) {
 		if (notification !== "*") {
 			//console.log('Received notification: ' + notification +', payload: ' + payload);
 			notificationCallback(notification, payload);
@@ -36,6 +36,6 @@ var MMSocket = function(moduleName) {
 		if (typeof payload === "undefined") {
 			payload = {};
 		}
-		socket.emit(notification, payload);
+		self.socket.emit(notification, payload);
 	};
 };
