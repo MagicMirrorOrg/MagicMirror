@@ -41,7 +41,7 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 				var event = data[e];
 				var now = new Date();
 				var today = moment().startOf("day").toDate();
-				var future = moment().startOf("day").add(maximumNumberOfDays, "days").toDate();
+				var future = moment().startOf("day").add(maximumNumberOfDays, "days").subtract(1,"seconds").toDate(); // Subtract 1 second so that events that start on the middle of the night will not repeat.
 
 				
 
@@ -88,6 +88,7 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 							rule.timeset[0].second = startDate.format("s");
 						}
 
+						rule.options.dtstart = startDate.toDate();
 						var dates = rule.between(today, future, true, limitFunction);
 						
 						for (var d in dates) {
