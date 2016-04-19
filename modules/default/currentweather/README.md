@@ -77,6 +77,20 @@ The following properties can be configured:
 			</td>
 		</tr>
 		<tr>
+			<td><code>showPeriod</code></td>
+			<td>Show the period (am/pm) with 12 hour format<br>
+				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
+				<br><b>Default value:</b> <code>true</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>showPeriodUpper</code></td>
+			<td>Show the period (AM/PM) with 12 hour format as uppercase<br>
+				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
+				<br><b>Default value:</b> <code>false</code>
+			</td>
+		</tr>
+		<tr>
 			<td><code>lang</code></td>
 			<td>The language of the days.<br>
 				<br><b>Possible values:</b> <code>en</code>, <code>nl</code>, <code>ru</code>, etc ...
@@ -140,6 +154,5 @@ The following properties can be configured:
 		}</code>
 			</td>
 		</tr>
-
 	</tbody>
 </table>
