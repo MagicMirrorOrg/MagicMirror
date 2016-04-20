@@ -5,7 +5,7 @@
  * MIT Licensed.
  */
 
-var ical = require("ical");
+var ical = require("./vendor/ical.js");
 var moment = require("moment");
 
 var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumberOfDays) {
@@ -71,26 +71,8 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 
 					if (typeof event.rrule != "undefined" && !isFacebookBirthday) {
 						var rule = event.rrule;
-						// console.log("Repeating event ...");
-						
-						// Check if the timeset is set to this current time.
-						// If so, the RRULE line does not contain any BYHOUR, BYMINUTE, BYSECOND params.
-						// This causes the times of the recurring event to be incorrect.
-						// By adjusting the timeset property, this issue is solved.
-
-						
-						if (rule.timeset[0].hour == now.getHours(),
-							rule.timeset[0].minute == now.getMinutes(),
-							rule.timeset[0].second == now.getSeconds()) {
-
-							rule.timeset[0].hour = startDate.format("H");
-							rule.timeset[0].minute = startDate.format("m");
-							rule.timeset[0].second = startDate.format("s");
-						}
-
-						rule.options.dtstart = startDate.toDate();
 						var dates = rule.between(today, future, true, limitFunction);
-						
+
 						for (var d in dates) {
 							startDate = moment(new Date(dates[d]));
 							newEvents.push({
