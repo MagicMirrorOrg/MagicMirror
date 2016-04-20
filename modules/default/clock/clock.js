@@ -79,7 +79,7 @@ Module.register("clock",{
 		if (this.config.displaySeconds) {
 			timeWrapper.appendChild(secondsWrapper);
 		}
-		if (this.config.showPeriod) {
+		if (this.config.showPeriod && this.config.timeFormat !== 24) {
 			timeWrapper.appendChild(periodWrapper);
 		}
 
