@@ -33,8 +33,6 @@ Module.register("calendar",{
 		emptyCalendarText: "No upcoming events.",
 
 		// TODO: It would be nice if there is a way to get this from the Moment.js locale.
-		todayText: "Today",
-		tomorrowText: "Tomorrow",
 		runningText: "Ends in"
 	},
 
@@ -118,17 +116,15 @@ Module.register("calendar",{
 
 			var timeWrapper =  document.createElement("td");
 			//console.log(event.today);
-			var now = new Date();
 			if (event.fullDayEvent) {
-				if (event.today) {
-					timeWrapper.innerHTML = this.config.todayText;
-				} else if (event.startDate - now < 24 * 60 * 60 * 1000) {
-					timeWrapper.innerHTML = this.config.tomorrowText;
-				} else {
-					timeWrapper.innerHTML =  moment(event.startDate,"x").fromNow();
+				if(event.today || event.tomorrow){
+					timeWrapper.innerHTML = moment(event.startDate,"x").calendar();
+				}else{
+					timeWrapper.innerHTML = moment(event.startDate,"x").fromNow();
 				}
 			} else {
 				if (event.startDate >= new Date()) {
+					var now = new Date();
 					if (event.startDate - now > 48 * 60 * 60 * 1000) {
 						// if the event is no longer than 2 days away, display the absolute time.
 						timeWrapper.innerHTML = moment(event.startDate,"x").fromNow();
@@ -194,6 +190,7 @@ Module.register("calendar",{
 				var event = calendar[e];
 				event.url = c;
 				event.today = event.startDate >= today && event.startDate < (today + 24 * 60 * 60 * 1000);
+				event.tomorrow = event.startDate >= today && event.startDate < (today + 2 * 24 * 60 * 60 * 1000);
 				events.push(event);
 			}
 		}
