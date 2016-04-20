@@ -43,8 +43,6 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 				var today = moment().startOf("day").toDate();
 				var future = moment().startOf("day").add(maximumNumberOfDays, "days").subtract(1,"seconds").toDate(); // Subtract 1 second so that events that start on the middle of the night will not repeat.
 
-				
-
 				// FIXME:
 				// Ugly fix to solve the facebook birthday issue.
 				// Otherwise, the recurring events only show the birthday for next year.
@@ -57,6 +55,8 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 
 				if (event.type === "VEVENT") {
 
+					//console.log(event);
+
 					var startDate = (event.start.length === 8) ? moment(event.start, "YYYYMMDD") : moment(new Date(event.start));
 					var endDate;
 					if (typeof event.end !== "undefined") {
@@ -64,6 +64,9 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 					} else {
 						endDate = startDate;
 					}
+
+					// calculate the duration f the event for use with recurring events.
+					var duration = parseInt(endDate.format("x")) - parseInt(startDate.format("x"));
 
 					if (event.start.length === 8) {
 						startDate = startDate.startOf("day");
@@ -75,12 +78,15 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 
 						for (var d in dates) {
 							startDate = moment(new Date(dates[d]));
-							newEvents.push({
-								title: (typeof event.summary.val !== "undefined") ? event.summary.val : event.summary,
-								startDate: startDate.format("x"),
-								endDate: endDate.format("x"),
-								fullDayEvent: isFullDayEvent(event)
-							});
+							endDate  = moment(parseInt(startDate.format("x")) + duration, 'x');
+							if (endDate.format("x") > now) {
+								newEvents.push({
+									title: (typeof event.summary.val !== "undefined") ? event.summary.val : event.summary,
+									startDate: startDate.format("x"),
+									endDate: endDate.format("x"),
+									fullDayEvent: isFullDayEvent(event)
+								});
+							}
 						}
 					} else {
 						// console.log("Single event ...");
@@ -118,6 +124,8 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 			newEvents.sort(function(a, b) {
 				return a.startDate - b.startDate;
 			});
+
+			//console.log(newEvents);
 
 			events = newEvents.slice(0, maximumEntries);
 

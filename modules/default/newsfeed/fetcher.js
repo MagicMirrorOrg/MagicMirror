@@ -46,11 +46,13 @@ var Fetcher = function(url, reloadInterval, encoding) {
 			var regex = /(<([^>]+)>)/ig;
 			description = description.replace(regex, "");
 
-			items.push({
-				title: item.title,
-				description: description,
-				pubdate: item.pubdate,
-			});
+			if (item.title && description && item.pubdate) {
+				items.push({
+					title: item.title,
+					description: description,
+					pubdate: item.pubdate,
+				});
+			}
 		});
 
 		parser.on("end", function() {
