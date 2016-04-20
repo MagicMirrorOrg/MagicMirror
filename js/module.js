@@ -146,7 +146,7 @@ var Module = Class.extend({
 	},
 
 	/* file(file)
-	 * Retrieve the path to a module fike.
+	 * Retrieve the path to a module file.
 	 *
 	 * argument file string - Filename.
 	 *
