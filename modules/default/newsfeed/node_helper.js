@@ -13,14 +13,14 @@ module.exports = NodeHelper.create({
 	// Subclass start method.
 	start: function() {
 		console.log("Starting module: " + this.name);
-
 		this.fetchers = [];
 	},
 
 	// Subclass socketNotificationReceived received.
 	socketNotificationReceived: function(notification, payload) {
 		if (notification === "ADD_FEED") {
-			this.createFetcher(payload.url, payload.reloadInterval, payload.encoding);
+			this.createFetcher(payload.feed, payload.config);
+			return;
 		}
 	},
 
@@ -32,8 +32,12 @@ module.exports = NodeHelper.create({
 	 * attribute reloadInterval number - Reload interval in milliseconds.
 	 */
 
-	createFetcher: function(url, reloadInterval, encoding) {
+	createFetcher: function(feed, config) {
 		var self = this;
+
+		var url = feed.url || '';
+		var encoding = feed.encoding || 'UTF-8';
+		var reloadInterval = config.reloadInterval || 5 * 60 * 1000;
 
 		if (!validUrl.isUri(url)) {
 			self.sendSocketNotification("INCORRECT_URL", url);
@@ -46,10 +50,7 @@ module.exports = NodeHelper.create({
 			fetcher = new Fetcher(url, reloadInterval, encoding);
 
 			fetcher.onReceive(function(fetcher) {
-				self.sendSocketNotification("NEWS_ITEMS", {
-					url: fetcher.url(),
-					items: fetcher.items()
-				});
+				self.broadcastFeeds();
 			});
 
 			fetcher.onError(function(fetcher, error) {
@@ -68,5 +69,17 @@ module.exports = NodeHelper.create({
 		}
 
 		fetcher.startFetch();
+	},
+
+	/* broadcastFeeds()
+	 * Creates an object with all feed items of the different registered feeds, 
+	 * and broadcasts these using sendSocketNotification.
+	 */
+	broadcastFeeds: function() {
+		var feeds = {};
+		for (var f in this.fetchers) {
+			feeds[f] = this.fetchers[f].items();
+		}
+		this.sendSocketNotification("NEWS_ITEMS", feeds);
 	}
 });
