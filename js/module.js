@@ -52,6 +52,15 @@ var Module = Class.extend({
 		return [];
 	},
 
+	/* getTranslations()
+	 * Returns a map of translation files the module requires to be loaded.
+	 *
+	 * return Map<String, String> - A map with langKeys and filenames.
+	 */
+	getTranslations: function() {
+		return {};
+	},
+
 	/* getDom()
 	 * This method generates the dom which needs to be displayed. This method is called by the Magic Mirror core.
 	 * This method needs to be subclassed if the module wants to display info on the mirror.
@@ -202,6 +211,32 @@ var Module = Class.extend({
 		};
 
 		loadNextScript();
+	},
+
+	/* loadScripts()
+	 * Load all required scripts by requesting the MM object to load the files.
+	 *
+	 * argument callback function - Function called when done.
+	 */
+	loadTranslations: function(callback) {
+		var self = this;
+		var translations = this.getTranslations();
+		var translationFile = translations && (translations[config.language] || translations["en"]) || undefined;
+		if(translationFile) {
+ 			Translator.load(this, translationFile, callback);
+		} else {
+ 			callback();
+		}
+	},
+
+ 	/* translate(key, defaultValue)
+ 	 * Request the translation for a given key.
+ 	 *
+ 	 * argument key string - The key of the string to translage
+	 * argument defaultValue string - The default value if no translation was found. (Optional)
+ 	 */
+	translate: function(key, defaultValue) {
+		return Translator.translate(this, key) || defaultValue || '';
 	},
 
 	/* updateDom(speed)
