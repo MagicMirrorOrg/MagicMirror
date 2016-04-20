@@ -5,6 +5,7 @@
 	<a href="https://david-dm.org/MichMich/MagicMirror/v2-beta#info=devDependencies"><img src="https://david-dm.org/MichMich/MagicMirror/v2-beta/dev-status.svg" alt="devDependency Status"></a>
 	<a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-v5.10.1-brightgreen.svg" alt="Node Version"></a>
 	<a href="http://choosealicense.com/licenses/mit"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
+	<a href="https://snyk.io/test/github/MichMich/MagicMirror/v2-beta"><img src="https://snyk.io/test/github/MichMich/MagicMirror/v2-beta/badge.svg" alt="Known Vulnerabilities" data-canonical-src="https://snyk.io/test/github/MichMich/MagicMirror/v2-beta" style="max-width:100%;"></a>
 </p>
 
 **MagicMirror²** is an open source modular smart mirror platform. With a growing list of installable modules, the **MagicMirror²** allows you to convert your hallway or bathroom mirror into your personal assistant. **MagicMirror²** is built by the creator of [the original MagicMirror](http://michaelteeuw.nl/tagged/magicmirror) with the incredible help of a [growing community of contributors](https://github.com/MichMich/MagicMirror/graphs/contributors). 
@@ -22,6 +23,9 @@ MagicMirror² focuses on a modular plugin system and uses [Electron](http://elec
 - [Contributing Guidelines](#contributing-guidelines)
 
 ## Usage 
+
+#### Raspberry Pi Support
+Electron, the app wrapper around MagicMirror², only supports the Raspberry Pi 2 & 3. The Raspberry Pi 1 is currently **not** supported. If you want to run this on a Raspberry Pi 1, use the [server only](#server-only) feature and setup a fullscreen browser yourself. Note the only Jessie is currently supported. If you want to use Wheezy, check out [this issue](https://github.com/MichMich/MagicMirror/issues/188).
 
 #### Automatic Installer (Raspberry Pi Only!)
 
@@ -87,19 +91,7 @@ The following modules are installed by default.
 - [**Hello World**](modules/default/helloworld)
 - [**Alert**](modules/default/alert)
 
-The following modules are created by their respective authors.
-
-- **[MMM-FRITZ-Box-Callmonitor by PaViRo](https://github.com/paviro/MMM-FRITZ-Box-Callmonitor)** <br> FRITZ!Box Callmonitor (Display an alert when someone is calling ...)
-
-- **[MMM-Facial-Recognition by PaViRo](https://github.com/paviro/MMM-Facial-Recognition)** <br> Facial recognition and module swapping based on the current user ...
-
-- **[MMM-Wunderlist by PaViRo](https://github.com/paviro/MMM-Wunderlist)** <br> Displays your Wunderlist todos on your mirror ...
- 
-- **[MMM-wordnik by Vendittelli](https://github.com/SVendittelli/MMM-wordnik)** <br> Get the word of the day, its definition, and origin ...
-
-- **[MMM-SystemTemperature by MichMich](https://github.com/MichMich/mmm-systemtemperature)** <br> Display your Raspberry Pi's processor temperature on your MagicMirror.
-
-**Note:** If you want to build your own modules, check out the [MagicMirror² Module Development Documentation](modules)
+For more available modules, check out out the wiki page: [MagicMirror² Modules](https://github.com/MichMich/MagicMirror/wiki/MagicMirror²-Modules). If you want to build your own modules, check out the [MagicMirror² Module Development Documentation](modules).
 
 ## Known issues
 

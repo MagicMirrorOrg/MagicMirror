@@ -33,7 +33,7 @@ var config = {
 		},
 		{
 			module: 'compliments',
-			position: 'lower_third',
+			position: 'lower_third'
 		},
 		{
 			module: 'currentweather',
@@ -57,7 +57,7 @@ var config = {
 			position: 'bottom_bar',
 			config: {
 				feedUrl: 'http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml',
-				showPublishDate: true,
+				showPublishDate: true
 			}
 		},
 	]

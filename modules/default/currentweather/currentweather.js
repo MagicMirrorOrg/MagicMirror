@@ -17,6 +17,8 @@ Module.register("currentweather",{
 		updateInterval: 10 * 60 * 1000, // every 10 minutes
 		animationSpeed: 1000,
 		timeFormat: config.timeFormat,
+		showPeriod: true,
+		showPeriodUpper: false,
 		lang: config.language,
 
 		initialLoadDelay: 0, // 0 seconds delay
@@ -198,18 +200,32 @@ Module.register("currentweather",{
 		this.windSpeed = this.ms2Beaufort(this.roundValue(data.wind.speed));
 		this.weatherType = this.config.iconTable[data.weather[0].icon];
 
-		var now = moment().format("x");
-		var sunrise = moment(data.sys.sunrise * 1000).format("x");
-		var sunset = moment(data.sys.sunset * 1000).format("x");
+		var now = new Date();
+		var sunrise = new Date(data.sys.sunrise * 1000);
+		var sunset = new Date(data.sys.sunset * 1000);
 
-		if (sunrise < now && sunset > now) {
-			this.sunriseSunsetTime = moment(data.sys.sunset * 1000).format((this.config.timeFormat === 24) ? "HH:mm" : "hh:mm a");
-			this.sunriseSunsetIcon = "wi-sunset";
-		} else {
-			this.sunriseSunsetTime = moment(data.sys.sunrise * 1000).format((this.config.timeFormat === 24) ? "HH:mm" : "hh:mm a");
-			this.sunriseSunsetIcon = "wi-sunrise";
-
+		// The moment().format('h') method has a bug on the Raspberry Pi. 
+		// So we need to generate the timestring manually.
+		// See issue: https://github.com/MichMich/MagicMirror/issues/181
+		var sunriseSunsetDateObject = (sunrise < now && sunset > now) ? sunset : sunrise;
+		var timeString = moment(sunriseSunsetDateObject).format('HH:mm');
+		if (this.config.timeFormat !== 24) {
+			var hours = sunriseSunsetDateObject.getHours() % 12 || 12;
+			if (this.config.showPeriod) {
+				if (this.config.showPeriodUpper) {
+					timeString = hours + moment(sunriseSunsetDateObject).format(':mm A');
+				} else {
+					timeString = hours + moment(sunriseSunsetDateObject).format(':mm a');
+				}
+			} else {
+    				timeString = hours + moment(sunriseSunsetDateObject).format(':mm');
+			}
 		}
+
+		this.sunriseSunsetTime = timeString;
+		this.sunriseSunsetIcon = (sunrise < now && sunset > now) ? "wi-sunset" : "wi-sunrise";
+
+
 
 		this.loaded = true;
 		this.updateDom(this.config.animationSpeed);

@@ -3,8 +3,11 @@ html {
   overflow:hidden;
 }
 
+::-webkit-scrollbar { 
+    display: none; 
+}
+
 body {
-  overflow:hidden;
   margin: 60px;
   position: absolute;
   height: calc(100% - 120px);
@@ -94,8 +97,8 @@ header {
   font-family: "Roboto Condensed";
   font-weight: 400;
   border-bottom: 1px solid #666;
-  line-height: 0.35em;
-  padding-bottom: 10px;
+  line-height: 15px;
+  padding-bottom: 5px;
   margin-bottom: 10px;
   color: #999;
 }

@@ -12,13 +12,13 @@ First, before you run the linters, you will need to install them all **and** ins
 npm install
 ```
 
-### JavaScript: Run JSCS and ESLint
+### JavaScript: Run JSCS
 
-We use [JSCS](http://jscs.info) and [ESLint](http://eslint.org) on our JavaScript files.
+We use [JSCS](http://jscs.info) on our JavaScript files.
 
-Our JSCS configuration is in our .jscsrc file, and we use [eslint-config-google](https://www.npmjs.com/package/eslint-config-google) in ESLint.
+Our JSCS configuration is in our .jscsrc file.
 
-To run ESLint, use `npm run eslint`. To run JSCS, use `npm run jscs`.
+To run JSCS, use `npm run jscs`.
 
 ### CSS: Run StyleLint
 
