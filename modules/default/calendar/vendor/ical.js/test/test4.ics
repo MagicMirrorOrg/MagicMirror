@@ -1,0 +1,747 @@
+BEGIN:VCALENDAR
+X-WR-CALNAME:John Doe (TripIt)
+X-WR-CALDESC:TripIt Calendar
+X-PUBLISHED-TTL:PT15M
+PRODID:-//John Doe/NONSGML Bennu 0.1//EN
+VERSION:2.0
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+UID:c32a5eaba2354bb29e012ec18da827db90550a3b@tripit.com
+DTSTART;VALUE=DATE:20111011
+DTEND;VALUE=DATE:20111014
+SUMMARY:South San Francisco\, CA\, October 2011\;
+LOCATION:South San Francisco\, CA
+GEO:37.654656;-122.40775
+TRANSP:TRANSPARENT
+DESCRIPTION:John Doe is in South San Francisco\, CA from Oct 11 
+ to Oct 13\, 2011\nView and/or edit details in TripIt : http://www.tripit.c
+ om/trip/show/id/23710889\nTripIt - organize your travel at http://www.trip
+ it.com\n
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+TRANSP:TRANSPARENT
+UID:item-ee275ccffa83f492d9eb63b01953b39f18d4f944@tripit.com
+DTSTART:20111011T100500
+DTEND:20111011T110500
+SUMMARY:Directions from SFO to Embassy Suites San Francisco Airport - Sout
+ h San Francisco
+LOCATION:250 GATEWAY BLVD\, South San Francisco\, CA\, 94080
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/1234\n \n[Directions] 10/11/2011 10:05am - Directions from S
+ FO to Embassy Suites San Francisco Airport - South San Francisco \nfrom: S
+ FO \nto: 250 GATEWAY BLVD\, South San Francisco\, CA\, 94080 \nView direct
+ ions here: http://maps.google.com/maps?output=mobile&saddr=SFO&daddr=250+G
+ ATEWAY+BLVD%2C+South+San+Francisco%2C+CA%2C+94080 \n \n \n\nTripIt - organ
+ ize your travel at http://www.tripit.com
+GEO:37.655634;-122.401273
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+DTEND:20111011T165500Z
+SUMMARY:US403 PHX to SFO
+LOCATION:Phoenix (PHX)
+UID:item-c576afd397cf1f90578b4ba35e781b61ba8897db@tripit.com
+DTSTART:20111011T144500Z
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/1234\n \n[Flight] 10/11/2011 US Airways(US) #403 dep PHX 7:4
+ 5am MST arr SFO 9:55am PDT\; John Doe\; seat(s) 8B\; conf #DXH9K
+ Z\, BXQ9WH \nBooked on http://www.americanexpress-travel.com/\; Reference 
+ #: 4127 8626 9715\; http://www.americanexpress-travel.com/\; US:1-800-297-
+ 2977\, Outside:210-582-2716 \n \n \n\nTripIt - organize your travel at htt
+ p://www.tripit.com
+GEO:37.618889;-122.375
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+SUMMARY:Pick-up Rental Car: Dollar Rent A Car
+TRANSP:TRANSPARENT
+UID:item-e99a90ee1c7e4f5b68a4e551009e5bb6c475940c@tripit.com
+DTSTART:20111011T172500Z
+DTEND:20111011T182500Z
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/1234\n \n[Car Rental] Dollar Rent A Car\; San Francisco Inte
+ rnational Airport\; primary driver John Doe\; conf #R9508361 \np
+ ickup 10/11/2011 10:25am\; dropoff 10/13/2011 6:49pm \nEconomy \nBooked on
+  http://www.americanexpress-travel.com/\; Reference #: 4127 8626 9715\; ht
+ tp://www.americanexpress-travel.com/\; US:1-800-297-2977\, Outside:210-582
+ -2716 \n \n \n\nTripIt - organize your travel at http://www.tripit.com
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+SUMMARY:Check-in: Embassy Suites San Francisco Airport - South San Francis
+ co
+TRANSP:TRANSPARENT
+UID:item-7f3288d418bed063cc82b4512e792fbb5d8ae761@tripit.com
+DTSTART:20111011T185500Z
+DTEND:20111011T195500Z
+LOCATION:250 GATEWAY BLVD\, South San Francisco\, CA\, 94080
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/23710889\n \n[Lodging] Embassy Suites San Francisco Airport - So
+ uth San Francisco\; primary guest John Doe\; conf #R9508361 \n25
+ 0 GATEWAY BLVD\, South San Francisco\, CA\, 94080\; tel 1.650.589.3400 \na
+ rrive 10/11/2011\; depart 10/13/2011\; rooms: 1 \nBooked on http://www.ame
+ ricanexpress-travel.com/\; Reference #: 4127 8626 9715\; http://www.americ
+ anexpress-travel.com/\; US:1-800-297-2977\, Outside:210-582-2716 \n \n \n\
+ nTripIt - organize your travel at http://www.tripit.com
+GEO:37.655634;-122.401273
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+SUMMARY:Check-out: Embassy Suites San Francisco Airport - South San Franci
+ sco
+TRANSP:TRANSPARENT
+UID:item-5eb4cb5fc25c55b0423921e18336e57f8c34598d@tripit.com
+DTSTART:20111014T011900Z
+DTEND:20111014T021900Z
+LOCATION:250 GATEWAY BLVD\, South San Francisco\, CA\, 94080
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/23710889\n \n[Lodging] Embassy Suites San Francisco Airport - So
+ uth San Francisco\; primary guest John Doe\; conf #R9508361 \n25
+ 0 GATEWAY BLVD\, South San Francisco\, CA\, 94080\; tel 1.650.589.3400 \na
+ rrive 10/11/2011\; depart 10/13/2011\; rooms: 1 \nBooked on http://www.ame
+ ricanexpress-travel.com/\; Reference #: 4127 8626 9715\; http://www.americ
+ anexpress-travel.com/\; US:1-800-297-2977\, Outside:210-582-2716 \n \n \n\
+ nTripIt - organize your travel at http://www.tripit.com
+GEO:37.655634;-122.401273
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+SUMMARY:Drop-off Rental Car: Dollar Rent A Car
+TRANSP:TRANSPARENT
+UID:item-11fdbf5d02e84646025716d9f9c7a4158e1fb025@tripit.com
+DTSTART:20111014T014900Z
+DTEND:20111014T024900Z
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/23710889\n \n[Car Rental] Dollar Rent A Car\; San Francisco Inte
+ rnational Airport\; primary driver John Doe\; conf #R9508361 \np
+ ickup 10/11/2011 10:25am\; dropoff 10/13/2011 6:49pm \nEconomy \nBooked on
+  http://www.americanexpress-travel.com/\; Reference #: 4127 8626 9715\; ht
+ tp://www.americanexpress-travel.com/\; US:1-800-297-2977\, Outside:210-582
+ -2716 \n \n \n\nTripIt - organize your travel at http://www.tripit.com
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+DTEND:20111014T051900Z
+SUMMARY:CO6256 SFO to PHX
+LOCATION:San Francisco (SFO)
+UID:item-cb485a571a01972d6bdc74c2b829905d6e3786bf@tripit.com
+DTSTART:20111014T031900Z
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/23710889\n \n[Flight] 10/13/2011 Continental Airlines(CO) #6256 
+ dep SFO 8:19pm PDT arr PHX 10:19pm MST\; John Doe\; conf #DXH9KZ
+ \, BXQ9WH(Operated by United Airlines flight 6256) \nBooked on http://www.
+ americanexpress-travel.com/\; Reference #: 4127 8626 9715\; http://www.ame
+ ricanexpress-travel.com/\; US:1-800-297-2977\, Outside:210-582-2716 \n \n 
+ \n\nTripIt - organize your travel at http://www.tripit.com
+GEO:33.436111;-112.009444
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+UID:c7b133db1e7be2713a4a63b75dcbad209690cab5@tripit.com
+DTSTART;VALUE=DATE:20111023
+DTEND;VALUE=DATE:20111028
+SUMMARY:Santa Barbara\, CA\, October 2011
+LOCATION:Santa Barbara\, CA
+GEO:34.420831;-119.69819
+TRANSP:TRANSPARENT
+DESCRIPTION:John Doe is in Santa Barbara\, CA from Oct 23 to Oct
+  27\, 2011\nView and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/24259445\nTripIt - organize your travel at http://www.tripit.com
+ \n
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+DTEND:20111023T191200Z
+SUMMARY:US2719 PHX to SBA
+LOCATION:Phoenix (PHX)
+UID:item-c4375369e9070fcc04df39ed18c4d93087577591@tripit.com
+DTSTART:20111023T173500Z
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/24259445\n \n[Flight] 10/23/2011 US Airways(US) #2719 dep PHX 10
+ :35am MST arr SBA 12:12pm PDT\; John Doe Ticket #0378717202638\;
+  conf #A44XS5\, PRX98G\, FYYJZ4 \nBooked on http://www.americanexpress-tra
+ vel.com/\; Reference #: 7128 8086 8504\; http://www.americanexpress-travel
+ .com/\; US:1-800-297-2977\, Outside:210-582-2716\; Total Cost: $699.99 \n 
+ \n \n\nTripIt - organize your travel at http://www.tripit.com
+GEO:34.427778;-119.839444
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+TRANSP:TRANSPARENT
+UID:item-962e4f045d12149319d1837ec096bf43770abd6e@tripit.com
+DTSTART:20111025T094000
+DTEND:20111025T104000
+SUMMARY:Directions from Hertz to Sofitel San Francisco Bay
+LOCATION:223 Twin Dolphin Drive\, Redwood City\, CA\, 94065
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/24259445\n \n[Directions] 10/25/2011 9:40am - Directions from He
+ rtz to Sofitel San Francisco Bay \nfrom: 780 McDonnell Road\, San Francisc
+ o\, CA\, 94128 \nto: 223 Twin Dolphin Drive\, Redwood City\, CA\, 94065 \n
+ View directions here: http://maps.google.com/maps?output=mobile&saddr=780+
+ McDonnell+Road%2C+San+Francisco%2C+CA%2C+94128&daddr=223+Twin+Dolphin+Driv
+ e%2C+Redwood+City%2C+CA%2C+94065 \n \n \n\nTripIt - organize your travel a
+ t http://www.tripit.com
+GEO:37.5232475;-122.261296
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+DTEND:20111025T162600Z
+SUMMARY:UA5304 SBA to SFO
+LOCATION:Santa Barbara (SBA)
+UID:item-ae300a6934c3820974dba2c9c5b8fae843c67693@tripit.com
+DTSTART:20111025T150900Z
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/24259445\n \n[Flight] 10/25/2011 United Airlines(UA) #5304 dep S
+ BA 8:09am PDT arr SFO 9:26am PDT\; John Doe Ticket #037871720263
+ 8\; seat(s) 11B\; conf #A44XS5\, PRX98G\, FYYJZ4 \nBooked on http://www.am
+ ericanexpress-travel.com/\; Reference #: 7128 8086 8504\; http://www.ameri
+ canexpress-travel.com/\; US:1-800-297-2977\, Outside:210-582-2716\; Total 
+ Cost: $699.99 \n \n \n\nTripIt - organize your travel at http://www.tripit
+ .com
+GEO:37.618889;-122.375
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+SUMMARY:Pick-up Rental Car: Hertz
+TRANSP:TRANSPARENT
+UID:item-2a9fd5a57a4cdda4677fc6ce23738e1954fdbe2a@tripit.com
+DTSTART:20111025T163000Z
+DTEND:20111025T173000Z
+LOCATION:780 McDonnell Road\, San Francisco\, CA\, 94128
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/24259445\n \n[Car Rental] Hertz\; San Francisco International Ai
+ rport\; primary driver John Doe\; conf #F2633064194 \n780 McDonn
+ ell Road\, San Francisco\, CA\, 94128 \npickup 10/25/2011 9:30am\; dropoff
+  10/27/2011 7:00pm \nToyota Corolla or similar\; 84.57 USD \nBooked on htt
+ p://www.hertz.com/\; Reference #: F2633064194\; http://www.hertz.com/\; 80
+ 0-654-3131\; Booking Rate: 84.57 USD\; Total Cost: 333.76 USD \n \n \n\nTr
+ ipIt - organize your travel at http://www.tripit.com
+GEO:37.6297569;-122.4000351
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+TRANSP:TRANSPARENT
+UID:item-98dfcb0bcfdcffcce9c58a84947212ed67cadda6@tripit.com
+DTSTART:20111025T163600Z
+DTEND:20111025T173600Z
+SUMMARY:Directions from SFO to Sofitel San Francisco Bay
+LOCATION:223 Twin Dolphin Drive\, Redwood City\, CA\, 94065
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/24259445\n \n[Directions] 10/25/2011 9:36am - Directions from SF
+ O to Sofitel San Francisco Bay \nfrom: SFO \nto: 223 Twin Dolphin Drive\, 
+ Redwood City\, CA\, 94065 \nView directions here: http://maps.google.com/m
+ aps?output=mobile&saddr=SFO&daddr=223+Twin+Dolphin+Drive%2C+Redwood+City%2
+ C+CA%2C+94065 \n \n \n\nTripIt - organize your travel at http://www.tripit
+ .com
+GEO:37.5232475;-122.261296
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+SUMMARY:Check-in: Sofitel San Francisco Bay
+TRANSP:TRANSPARENT
+UID:item-8de3937b336c333faf2d55ad0a41c5ca6cc02393@tripit.com
+DTSTART:20111025T220000Z
+DTEND:20111025T230000Z
+LOCATION:223 Twin Dolphin Drive\, Redwood City\, CA\, 94065
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/24259445\n \n[Lodging] Sofitel San Francisco Bay\; primary guest
+  John Doe\; conf #F80-0GMW \n223 Twin Dolphin Drive\, Redwood Ci
+ ty\, CA\, 94065\; tel (+1)650/598-9000 \narrive 10/25/2011\; depart 10/27/
+ 2011\; rooms: 1 \nBooked on http://www.sofitel.com/\; http://www.sofitel.c
+ om/\; Total Cost: 564.00 USD \n \n \n\nTripIt - organize your travel at ht
+ tp://www.tripit.com
+GEO:37.5232475;-122.261296
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+SUMMARY:Check-out: Sofitel San Francisco Bay
+TRANSP:TRANSPARENT
+UID:item-f3ade58646964bde101616a6d26ea7784a1a81e8@tripit.com
+DTSTART:20111027T190000Z
+DTEND:20111027T200000Z
+LOCATION:223 Twin Dolphin Drive\, Redwood City\, CA\, 94065
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/24259445\n \n[Lodging] Sofitel San Francisco Bay\; primary guest
+  John Doe\; conf #F80-0GMW \n223 Twin Dolphin Drive\, Redwood Ci
+ ty\, CA\, 94065\; tel (+1)650/598-9000 \narrive 10/25/2011\; depart 10/27/
+ 2011\; rooms: 1 \nBooked on http://www.sofitel.com/\; http://www.sofitel.c
+ om/\; Total Cost: 564.00 USD \n \n \n\nTripIt - organize your travel at ht
+ tp://www.tripit.com
+GEO:37.5232475;-122.261296
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+SUMMARY:Drop-off Rental Car: Hertz
+TRANSP:TRANSPARENT
+UID:item-50620273fea0614d37775649034d5e1de92ae361@tripit.com
+DTSTART:20111028T020000Z
+DTEND:20111028T030000Z
+LOCATION:780 McDonnell Road\, San Francisco\, CA\, 94128
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/24259445\n \n[Car Rental] Hertz\; San Francisco International Ai
+ rport\; primary driver John Doe\; conf #F2633064194 \n780 McDonn
+ ell Road\, San Francisco\, CA\, 94128 \npickup 10/25/2011 9:30am\; dropoff
+  10/27/2011 7:00pm \nToyota Corolla or similar\; 84.57 USD \nBooked on htt
+ p://www.hertz.com/\; Reference #: F2633064194\; http://www.hertz.com/\; 80
+ 0-654-3131\; Booking Rate: 84.57 USD\; Total Cost: 333.76 USD \n \n \n\nTr
+ ipIt - organize your travel at http://www.tripit.com
+GEO:37.6297569;-122.4000351
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+DTEND:20111028T051900Z
+SUMMARY:CO6256 SFO to PHX
+LOCATION:San Francisco (SFO)
+UID:item-71d327f30d8beeaf7bf50c8fa63ce16005b9b0df@tripit.com
+DTSTART:20111028T031900Z
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/24259445\n \n[Flight] 10/27/2011 Continental Airlines(CO) #6256 
+ dep SFO 8:19pm PDT arr PHX 10:19pm MST\; John Doe Ticket #037871
+ 7202638\; seat(s) 17D\; conf #A44XS5\, PRX98G\, FYYJZ4(Operated by United 
+ Airlines flight 6256) \nBooked on http://www.americanexpress-travel.com/\;
+  Reference #: 7128 8086 8504\; http://www.americanexpress-travel.com/\; US
+ :1-800-297-2977\, Outside:210-582-2716\; Total Cost: $699.99 \n \n \n\nTri
+ pIt - organize your travel at http://www.tripit.com
+GEO:33.436111;-112.009444
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+UID:2d4b446e63a94ade7dab0f0e9546b2d1965f011c@tripit.com
+DTSTART;VALUE=DATE:20111108
+DTEND;VALUE=DATE:20111111
+SUMMARY:Redwood City\, CA\, November 2011
+LOCATION:Redwood City\, CA
+GEO:37.485215;-122.236355
+TRANSP:TRANSPARENT
+DESCRIPTION:John Doe is in Redwood City\, CA from Nov 8 to Nov 1
+ 0\, 2011\nView and/or edit details in TripIt : http://www.tripit.com/trip/
+ show/id/24913749\nTripIt - organize your travel at http://www.tripit.com\n
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+DTEND:20111108T175700Z
+SUMMARY:US403 PHX to SFO
+LOCATION:Phoenix (PHX)
+UID:item-7de7d829b2f95991de6d01c3d68f24b84770168c@tripit.com
+DTSTART:20111108T154500Z
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/24913749\n \n[Flight] 11/8/2011 US Airways(US) #403 dep PHX 8:45
+ am MST arr SFO 9:57am PST\; John Doe\; seat(s) 21C\; conf #FJDX0
+ J\, I2W8HW \nBooked on http://www.americanexpress-travel.com/\; Reference 
+ #: 4129 9623 4732\; http://www.americanexpress-travel.com/\; US:1-800-297-
+ 2977\, Outside:210-582-2716 \n \n \n\nTripIt - organize your travel at htt
+ p://www.tripit.com
+GEO:37.618889;-122.375
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+SUMMARY:Pick-up Rental Car: Dollar Rent A Car
+TRANSP:TRANSPARENT
+UID:item-1ac6982fefdd79bc5ea849785f415a6291c450b1@tripit.com
+DTSTART:20111108T182700Z
+DTEND:20111108T192700Z
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/24913749\n \n[Car Rental] Dollar Rent A Car\; San Francisco Inte
+ rnational Airport\; primary driver John Doe\; conf #Q0058133 \np
+ ickup 11/8/2011 10:27am\; dropoff 11/10/2011 6:25pm \nEconomy \nBooked on 
+ http://www.americanexpress-travel.com/\; Reference #: 4129 9623 4732\; htt
+ p://www.americanexpress-travel.com/\; US:1-800-297-2977\, Outside:210-582-
+ 2716 \n \n \n\nTripIt - organize your travel at http://www.tripit.com
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+SUMMARY:Check-in: Sofitel San Francisco Bay
+TRANSP:TRANSPARENT
+UID:item-126e584ffbefbec32a15ca503f0bdf8d3f9cc2f4@tripit.com
+DTSTART:20111108T195700Z
+DTEND:20111108T205700Z
+LOCATION:223 TWIN DOLPHIN DR\, Redwood City\, CA\, 94065-1514
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/24913749\n \n[Lodging] Sofitel San Francisco Bay\; primary guest
+  John Doe\; conf #Q0058133 \n223 TWIN DOLPHIN DR\, Redwood City\
+ , CA\, 94065-1514\; tel 1.650.598.9000 \narrive 11/8/2011\; depart 11/10/2
+ 011\; rooms: 1 \nBooked on http://www.americanexpress-travel.com/\; Refere
+ nce #: 4129 9623 4732\; http://www.americanexpress-travel.com/\; US:1-800-
+ 297-2977\, Outside:210-582-2716 \n \n \n\nTripIt - organize your travel at
+  http://www.tripit.com
+GEO:37.5232475;-122.261296
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+SUMMARY:Check-out: Sofitel San Francisco Bay
+TRANSP:TRANSPARENT
+UID:item-ff48c502022356ccaa862ebb61761a0de08a1ce9@tripit.com
+DTSTART:20111111T015500Z
+DTEND:20111111T025500Z
+LOCATION:223 TWIN DOLPHIN DR\, Redwood City\, CA\, 94065-1514
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/24913749\n \n[Lodging] Sofitel San Francisco Bay\; primary guest
+  John Doe\; conf #Q0058133 \n223 TWIN DOLPHIN DR\, Redwood City\
+ , CA\, 94065-1514\; tel 1.650.598.9000 \narrive 11/8/2011\; depart 11/10/2
+ 011\; rooms: 1 \nBooked on http://www.americanexpress-travel.com/\; Refere
+ nce #: 4129 9623 4732\; http://www.americanexpress-travel.com/\; US:1-800-
+ 297-2977\, Outside:210-582-2716 \n \n \n\nTripIt - organize your travel at
+  http://www.tripit.com
+GEO:37.5232475;-122.261296
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+SUMMARY:Drop-off Rental Car: Dollar Rent A Car
+TRANSP:TRANSPARENT
+UID:item-c0273c03ddbb68a9b05d5d43a489bc318136ca42@tripit.com
+DTSTART:20111111T022500Z
+DTEND:20111111T032500Z
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/24913749\n \n[Car Rental] Dollar Rent A Car\; San Francisco Inte
+ rnational Airport\; primary driver John Doe\; conf #Q0058133 \np
+ ickup 11/8/2011 10:27am\; dropoff 11/10/2011 6:25pm \nEconomy \nBooked on 
+ http://www.americanexpress-travel.com/\; Reference #: 4129 9623 4732\; htt
+ p://www.americanexpress-travel.com/\; US:1-800-297-2977\, Outside:210-582-
+ 2716 \n \n \n\nTripIt - organize your travel at http://www.tripit.com
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+DTEND:20111111T055400Z
+SUMMARY:CO496 SFO to PHX
+LOCATION:San Francisco (SFO)
+UID:item-3473cf9275326ac393b37859df3b04306b4849aa@tripit.com
+DTSTART:20111111T035500Z
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/24913749\n \n[Flight] 11/10/2011 Continental Airlines(CO) #496 d
+ ep SFO 7:55pm PST arr PHX 10:54pm MST\; John Doe\; seat(s) 26B\;
+  conf #FJDX0J\, I2W8HW(Operated by United Airlines flight 496) \nBooked on
+  http://www.americanexpress-travel.com/\; Reference #: 4129 9623 4732\; ht
+ tp://www.americanexpress-travel.com/\; US:1-800-297-2977\, Outside:210-582
+ -2716 \n \n \n\nTripIt - organize your travel at http://www.tripit.com
+GEO:33.436111;-112.009444
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+UID:4ee5ded058432990e3d8808f48ca851e04923b6d@tripit.com
+DTSTART;VALUE=DATE:20111129
+DTEND;VALUE=DATE:20111202
+SUMMARY:Milpitas\, CA\, November 2011
+LOCATION:Milpitas\, CA
+GEO:37.428272;-121.906624
+TRANSP:TRANSPARENT
+DESCRIPTION:John Doe is in Milpitas\, CA from Nov 29 to Dec 1\, 
+ 2011\nView and/or edit details in TripIt : http://www.tripit.com/trip/show
+ /id/25671681\nTripIt - organize your travel at http://www.tripit.com\n
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+DTEND:20111129T172400Z
+SUMMARY:US282 PHX to SJC
+LOCATION:Phoenix (PHX)
+UID:item-644d5973b50d521d50e475ccf5321605d54bd0d5@tripit.com
+DTSTART:20111129T152500Z
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/25671681\n \n[Flight] 11/29/2011 US Airways(US) #282 dep PHX 8:2
+ 5am MST arr SJC 9:24am PST\; John Doe\; seat(s) 17C\; conf #DQKD
+ GY \nBooked on http://www.americanexpress-travel.com/\; Reference #: 4131 
+ 3301 9911\; http://www.americanexpress-travel.com/\; US:1-800-297-2977\, O
+ utside:210-582-2716 \n \n \n\nTripIt - organize your travel at http://www.
+ tripit.com
+GEO:37.361111;-121.925556
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+SUMMARY:Pick-up Rental Car: Alamo
+TRANSP:TRANSPARENT
+UID:item-10368bbdbc9b6f26f83098500633cc4eb604c751@tripit.com
+DTSTART:20111129T175400Z
+DTEND:20111129T185400Z
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/25671681\n \n[Car Rental] Alamo\; San Jose International Airport
+ \; primary driver John Doe\; conf #372828149COUNT \npickup 11/29
+ /2011 9:54am\; dropoff 12/1/2011 5:45pm \nIntermediate \nBooked on http://
+ www.americanexpress-travel.com/\; Reference #: 4131 3301 9911\; http://www
+ .americanexpress-travel.com/\; US:1-800-297-2977\, Outside:210-582-2716 \n
+  \n \n\nTripIt - organize your travel at http://www.tripit.com
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+SUMMARY:Check-in: The Beverly Heritage Hotel
+TRANSP:TRANSPARENT
+UID:item-98d8638d3f1c011d03cb8f58b3a14a0f1203339b@tripit.com
+DTSTART:20111129T192400Z
+DTEND:20111129T202400Z
+LOCATION:1820 Barber Lane\, Milpitas\, CA\, 95035
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/25671681\n \n[Lodging] The Beverly Heritage Hotel\; primary gues
+ t John Doe\; conf #372828149COUNT \n1820 Barber Lane\, Milpitas\
+ , CA\, 95035\; tel 1.408.943.9080 \narrive 11/29/2011\; depart 12/1/2011\;
+  rooms: 1 \nBooked on http://www.americanexpress-travel.com/\; Reference #
+ : 4131 3301 9911\; http://www.americanexpress-travel.com/\; US:1-800-297-2
+ 977\, Outside:210-582-2716 \n \n \n\nTripIt - organize your travel at http
+ ://www.tripit.com
+GEO:37.4010467;-121.9116284
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+DTEND:20111201T194400Z
+SUMMARY:US273 SJC to PHX
+LOCATION:San Jose (SJC)
+UID:item-7b9ee9bb4edfe69743e32b33f9be55753956a883@tripit.com
+DTSTART:20111201T175900Z
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/25671681\n \n[Flight] 12/1/2011 US Airways(US) #273 dep SJC 9:59
+ am PST arr PHX 12:44pm MST\; John Doe Ticket #0378727451156\; co
+ nf #EMF71T \nBooked on http://www.americanexpress-travel.com/\; Reference 
+ #: 5133 5264 1627\; http://www.americanexpress-travel.com/\; US:1-800-297-
+ 2977\, Outside:210-582-2716\; Total Cost: $316.69 \n \n \n\nTripIt - organ
+ ize your travel at http://www.tripit.com
+GEO:33.436111;-112.009444
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+SUMMARY:Check-out: The Beverly Heritage Hotel
+TRANSP:TRANSPARENT
+UID:item-f79f203072002b8f06598dcb2be0e36af17b625b@tripit.com
+DTSTART:20111202T011500Z
+DTEND:20111202T021500Z
+LOCATION:1820 Barber Lane\, Milpitas\, CA\, 95035
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/25671681\n \n[Lodging] The Beverly Heritage Hotel\; primary gues
+ t John Doe\; conf #372828149COUNT \n1820 Barber Lane\, Milpitas\
+ , CA\, 95035\; tel 1.408.943.9080 \narrive 11/29/2011\; depart 12/1/2011\;
+  rooms: 1 \nBooked on http://www.americanexpress-travel.com/\; Reference #
+ : 4131 3301 9911\; http://www.americanexpress-travel.com/\; US:1-800-297-2
+ 977\, Outside:210-582-2716 \n \n \n\nTripIt - organize your travel at http
+ ://www.tripit.com
+GEO:37.4010467;-121.9116284
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+SUMMARY:Drop-off Rental Car: Alamo
+TRANSP:TRANSPARENT
+UID:item-69f526ad49fa8ca0a74486f4fc77cc3f9d23a72f@tripit.com
+DTSTART:20111202T014500Z
+DTEND:20111202T024500Z
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/25671681\n \n[Car Rental] Alamo\; San Jose International Airport
+ \; primary driver John Doe\; conf #372828149COUNT \npickup 11/29
+ /2011 9:54am\; dropoff 12/1/2011 5:45pm \nIntermediate \nBooked on http://
+ www.americanexpress-travel.com/\; Reference #: 4131 3301 9911\; http://www
+ .americanexpress-travel.com/\; US:1-800-297-2977\, Outside:210-582-2716 \n
+  \n \n\nTripIt - organize your travel at http://www.tripit.com
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+DTEND:20111202T045900Z
+SUMMARY:US288 SJC to PHX
+LOCATION:San Jose (SJC)
+UID:item-dab68a87c8dd49064ab0ba1dec5ba75ba46ff1d3@tripit.com
+DTSTART:20111202T031500Z
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/25671681\n \n[Flight] 12/1/2011 US Airways(US) #288 dep SJC 7:15
+ pm PST arr PHX 9:59pm MST\; John Doe\; seat(s) 13C\; conf #DQKDG
+ Y \nBooked on http://www.americanexpress-travel.com/\; Reference #: 4131 3
+ 301 9911\; http://www.americanexpress-travel.com/\; US:1-800-297-2977\, Ou
+ tside:210-582-2716 \n \n \n\nTripIt - organize your travel at http://www.t
+ ripit.com
+GEO:33.436111;-112.009444
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+UID:67d48ddde166a2e9bbac2cf7d93fe493b0860008@tripit.com
+DTSTART;VALUE=DATE:20111213
+DTEND;VALUE=DATE:20111216
+SUMMARY:San Jose\, CA\, December 2011
+LOCATION:San Jose\, CA
+GEO:37.339386;-121.894955
+TRANSP:TRANSPARENT
+DESCRIPTION:John Doe is in San Jose\, CA from Dec 13 to Dec 15\,
+  2011\nView and/or edit details in TripIt : http://www.tripit.com/trip/sho
+ w/id/27037117\nTripIt - organize your travel at http://www.tripit.com\n
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+DTEND:20111213T172400Z
+SUMMARY:US282 PHX to SJC
+LOCATION:Phoenix (PHX)
+UID:item-2b1b9021be548a87dd335f190b60ab78c33b619d@tripit.com
+DTSTART:20111213T152500Z
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/27037117\n \n[Flight] 12/13/2011 US Airways(US) #282 dep PHX 8:2
+ 5am MST arr SJC 9:24am PST\; John Doe Ticket #0378728465928\; se
+ at(s) 15C\; conf #GGNV29 \nBooked on http://www.americanexpress-travel.com
+ /\; Reference #: 3134 0525 5102\; http://www.americanexpress-travel.com/\;
+  US:1-800-297-2977\, Outside:210-582-2716\; Total Cost: $406.39 \n \n \n\n
+ TripIt - organize your travel at http://www.tripit.com
+GEO:37.361111;-121.925556
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+SUMMARY:Pick-up Rental Car: Advantage
+TRANSP:TRANSPARENT
+UID:item-619d345bb08aaef68e8767b672277243697f5bff@tripit.com
+DTSTART:20111213T180000Z
+DTEND:20111213T190000Z
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/27037117\n \n[Car Rental] Advantage\; San Jose International Air
+ port\; primary driver John Doe\; conf #F31539020E7 \npickup 12/1
+ 3/2011 10:00am\; dropoff 12/15/2011 7:00pm \nStandard Convertible \nRefere
+ nce #: 3134 0526 3890 \n \n \n\nTripIt - organize your travel at http://ww
+ w.tripit.com
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+SUMMARY:Check-in: Crestview Hotel:
+TRANSP:TRANSPARENT
+UID:item-fbe6c08e7523c82fac69b40ad1d0899f3d8d5982@tripit.com
+DTSTART:20111213T192400Z
+DTEND:20111213T202400Z
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/27037117\n \n[Lodging] Crestview Hotel:\; conf #CR31342159 \ntel
+  650-966-8848 \narrive 12/13/2011\; depart 12/15/2011 \nBooking Rate: 153.
+ 30 \n \n \n\nTripIt - organize your travel at http://www.tripit.com
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+SUMMARY:Check-out: Crestview Hotel:
+TRANSP:TRANSPARENT
+UID:item-7ed8b84628e650a6b37161c7825bac9e72add49f@tripit.com
+DTSTART:20111216T011500Z
+DTEND:20111216T021500Z
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/27037117\n \n[Lodging] Crestview Hotel:\; conf #CR31342159 \ntel
+  650-966-8848 \narrive 12/13/2011\; depart 12/15/2011 \nBooking Rate: 153.
+ 30 \n \n \n\nTripIt - organize your travel at http://www.tripit.com
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+SUMMARY:Drop-off Rental Car: Advantage
+TRANSP:TRANSPARENT
+UID:item-623b54ebe07ffd48845f1a120a86940ce79c698b@tripit.com
+DTSTART:20111216T030000Z
+DTEND:20111216T040000Z
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/27037117\n \n[Car Rental] Advantage\; San Jose International Air
+ port\; primary driver John Doe\; conf #F31539020E7 \npickup 12/1
+ 3/2011 10:00am\; dropoff 12/15/2011 7:00pm \nStandard Convertible \nRefere
+ nce #: 3134 0526 3890 \n \n \n\nTripIt - organize your travel at http://ww
+ w.tripit.com
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+DTEND:20111216T045900Z
+SUMMARY:US288 SJC to PHX
+LOCATION:San Jose (SJC)
+UID:item-52481e672972d2e88d5eaa5cf49bb801562c6014@tripit.com
+DTSTART:20111216T031500Z
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/27037117\n \n[Flight] 12/15/2011 US Airways(US) #288 dep SJC 7:1
+ 5pm PST arr PHX 9:59pm MST\; John Doe Ticket #0378728465928\; se
+ at(s) 7B\; conf #GGNV29 \nBooked on http://www.americanexpress-travel.com/
+ \; Reference #: 3134 0525 5102\; http://www.americanexpress-travel.com/\; 
+ US:1-800-297-2977\, Outside:210-582-2716\; Total Cost: $406.39 \n \n \n\nT
+ ripIt - organize your travel at http://www.tripit.com
+GEO:33.436111;-112.009444
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+UID:7299ff29daed7d5c3e2ed4acc74deec5b7942bd5@tripit.com
+DTSTART;VALUE=DATE:20120103
+DTEND;VALUE=DATE:20120106
+SUMMARY:San Francisco\, CA\, January 2012
+LOCATION:San Francisco\, CA
+GEO:37.774929;-122.419415
+TRANSP:TRANSPARENT
+DESCRIPTION:John Doe is in San Francisco\, CA from Jan 3 to Jan 
+ 5\, 2012\nView and/or edit details in TripIt : http://www.tripit.com/trip/
+ show/id/27863159\nTripIt - organize your travel at http://www.tripit.com\n
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+DTEND:20120103T175700Z
+SUMMARY:US403 PHX to SFO
+LOCATION:Phoenix (PHX)
+UID:item-f099e76114bf43ef3b122432579d8b40995412a7@tripit.com
+DTSTART:20120103T154500Z
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/27863159\n \n[Flight] 1/3/2012 US Airways(US) #403 dep PHX 8:45a
+ m MST arr SFO 9:57am PST\; John Doe Ticket #0378731791515\; conf
+  #FH9B72\, L4F9M5 \nBooked on http://www.americanexpress-travel.com/\; Ref
+ erence #: 6135 7391 6119\; http://www.americanexpress-travel.com/\; US:1-8
+ 00-297-2977\, Outside:210-582-2716\; Total Cost: $668.39 \n \n \n\nTripIt 
+ - organize your travel at http://www.tripit.com
+GEO:37.618889;-122.375
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+SUMMARY:Pick-up Rental Car: Alamo
+TRANSP:TRANSPARENT
+UID:item-fae4b4b07b66fc87df125238e0aaf645106cf4f3@tripit.com
+DTSTART:20120103T180000Z
+DTEND:20120103T190000Z
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/27863159\n \n[Car Rental] Alamo\; San Francisco International Ai
+ rport\; primary driver John Doe\; conf #373525981COUNT \npickup 
+ 1/3/2012 10:00am\; dropoff 1/5/2012 6:00pm \nCompact \nReference #: 6135 7
+ 391 6898 \n \n \n\nTripIt - organize your travel at http://www.tripit.com
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+SUMMARY:Check-in: Grand Hotel Sunnyvale
+TRANSP:TRANSPARENT
+UID:item-d89a856eb9da9dfdcb4da46f42e49af3a838fcbb@tripit.com
+DTSTART:20120103T195700Z
+DTEND:20120103T205700Z
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/27863159\n \n[Lodging] Grand Hotel Sunnyvale\; conf #22084SY0361
+ 18 \ntel 1-408-7208500 \narrive 1/3/2012\; depart 1/5/2012 \nBooking Rate:
+  USD 169.00 \nPolicies: Guarantee to valid form of payment is required at 
+ time of booking\; Cancel 1 day prior to arrival date to avoid penalty of 1
+  Nights Room Charge. Change fee may apply for early departures and changes
+  made to confirmed reservations.\; \n \n \n\nTripIt - organize your travel
+  at http://www.tripit.com
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+SUMMARY:Check-out: Grand Hotel Sunnyvale
+TRANSP:TRANSPARENT
+UID:item-6edc82f6411fd0b66f2f7f6baafa41623a8623a9@tripit.com
+DTSTART:20120106T010900Z
+DTEND:20120106T020900Z
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/27863159\n \n[Lodging] Grand Hotel Sunnyvale\; conf #22084SY0361
+ 18 \ntel 1-408-7208500 \narrive 1/3/2012\; depart 1/5/2012 \nBooking Rate:
+  USD 169.00 \nPolicies: Guarantee to valid form of payment is required at 
+ time of booking\; Cancel 1 day prior to arrival date to avoid penalty of 1
+  Nights Room Charge. Change fee may apply for early departures and changes
+  made to confirmed reservations.\; \n \n \n\nTripIt - organize your travel
+  at http://www.tripit.com
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+SUMMARY:Drop-off Rental Car: Alamo
+TRANSP:TRANSPARENT
+UID:item-58a31b96066ffd09b800af49de59a84f7b7a3a06@tripit.com
+DTSTART:20120106T020000Z
+DTEND:20120106T030000Z
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/27863159\n \n[Car Rental] Alamo\; San Francisco International Ai
+ rport\; primary driver John Doe\; conf #373525981COUNT \npickup 
+ 1/3/2012 10:00am\; dropoff 1/5/2012 6:00pm \nCompact \nReference #: 6135 7
+ 391 6898 \n \n \n\nTripIt - organize your travel at http://www.tripit.com
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20120101T215311Z
+DTEND:20120106T050500Z
+SUMMARY:CO496 SFO to PHX
+LOCATION:San Francisco (SFO)
+UID:item-7884351ce42d503b90ccc48c33c7c30bd4f44767@tripit.com
+DTSTART:20120106T030900Z
+DESCRIPTION:View and/or edit details in TripIt : http://www.tripit.com/tri
+ p/show/id/27863159\n \n[Flight] 1/5/2012 Continental Airlines(CO) #496 dep
+  SFO 7:09pm PST arr PHX 10:05pm MST\; John Doe Ticket #037873179
+ 1515\; conf #FH9B72\, L4F9M5(Operated by United Airlines flight 496) \nBoo
+ ked on http://www.americanexpress-travel.com/\; Reference #: 6135 7391 611
+ 9\; http://www.americanexpress-travel.com/\; US:1-800-297-2977\, Outside:2
+ 10-582-2716\; Total Cost: $668.39 \n \n \n\nTripIt - organize your travel 
+ at http://www.tripit.com
+GEO:33.436111;-112.009444
+END:VEVENT
+END:VCALENDAR

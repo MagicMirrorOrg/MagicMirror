@@ -35,7 +35,6 @@
   "dependencies": {
     "express": "latest",
     "feedme": "latest",
-    "ical": "latest",
     "iconv-lite": "latest",
     "moment": "latest",
     "request": "latest",

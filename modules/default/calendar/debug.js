@@ -8,7 +8,7 @@
 
 var CalendarFetcher = require("./calendarfetcher.js");
 
-var url = 'http://p35-calendars.icloud.com/published/2/qsud2R2XlRhT3puEVfrzkeSd3X_QSfCMBmpgTsjVqOD2W_fyy0Y-5QskbvWw2jOQB_cPsmcjpGtcg1a3jBQ_QIS2H0XWSxjqCa8LX0dznpE';
+var url = 'https://calendar.google.com/calendar/ical/pkm1t2uedjbp0uvq1o7oj1jouo%40group.calendar.google.com/private-08ba559f89eec70dd74bbd887d0a3598/basic.ics';
 var fetchInterval = 60 * 60 * 1000;
 var maximumEntries = 10;
 var maximumNumberOfDays = 365;
