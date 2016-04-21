@@ -53,6 +53,17 @@ The following wiki links are helpful in the configuration of your MagicMirror² 
 - [Configuring the Raspberry Pi](https://github.com/MichMich/MagicMirror/wiki/Configuring-the-Raspberry-Pi)
 - [Auto Starting MagicMirror](https://github.com/MichMich/MagicMirror/wiki/Auto-Starting-MagicMirror)
 
+#### Updating you MagicMirror²
+
+If you want to update your MagicMirror² to the latest version, use your terminal to go to your Magic Mirror folder and type the following command:
+
+````
+git pull
+```` 
+
+If you changed nothing more than the config or the modules, this should work without any problems. 
+Type `git status` to see your changes, if there are any, you can reset them with `git reset --hard`. After that, git pull should be possible.
+
 ## Configuration
 
 1. Duplicate `config/config.js.sample` to `config/config.js`.
