@@ -221,7 +221,7 @@ var Module = Class.extend({
 	loadTranslations: function(callback) {
 		var self = this;
 		var translations = this.getTranslations();
-		var translationFile = translations && (translations[config.language] || translations["en"]) || undefined;
+		var translationFile = translations && (translations[config.language.toLowerCase()] || translations.en) || undefined;
 		if(translationFile) {
  			Translator.load(this, translationFile, callback);
 		} else {
