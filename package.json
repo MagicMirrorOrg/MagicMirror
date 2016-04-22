@@ -41,6 +41,7 @@
     "snyk": "^1.13.2",
     "socket.io": "latest",
     "valid-url": "latest",
-    "walk": "latest"
+    "walk": "latest",
+    "rrule": "latest"
   }
 }
