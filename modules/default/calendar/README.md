@@ -126,8 +126,14 @@ The following properties can be configured:
 		</tr>
 		<tr>
 			<td><code>todayText</code></td>
-			<td>Text to display when an event is planned for today.<br>
+			<td>Text to display when a fullday event is planned for today.<br>
 				<br><b>Default value:</b> <code>'Today'</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>tomorrowText</code></td>
+			<td>Text to display when a fullday event is planned for tomorrow.<br>
+				<br><b>Default value:</b> <code>'Tomorrow'</code>
 			</td>
 		</tr>
 		<tr>
