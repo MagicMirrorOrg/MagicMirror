@@ -18,13 +18,20 @@ Module.register("alert",{
 		//Position
 		position: "center",
 		//shown at startup
-		welcome_message: "Welcome, start was successful!"
+		welcome_message: true,
 	},
 	getScripts: function() {
 		return ["classie.js", "modernizr.custom.js", "notificationFx.js"];
 	},
 	getStyles: function() {
 		return ["ns-default.css"];
+	},
+	// Define required translations.
+	getTranslations: function() {
+		return {
+			en: "translations/en.json",
+			de: "translations/de.json"
+		};
 	},
 	show_notification: function(message) {
 		if (this.config.effect == "slide") {this.config.effect = this.config.effect + "-" + this.config.position;}
@@ -111,7 +118,12 @@ Module.register("alert",{
 		this.alerts = {};
 		this.setPosition(this.config.position);
 		if (this.config.welcome_message) {
-			this.show_notification({title: "MagicMirror Notification", message: this.config.welcome_message});
+			if (this.config.welcome_message == true){
+				this.show_notification({title: this.translate("sysTitle"), message: this.translate("welcome")});
+			}
+			else{
+				this.show_notification({title: this.translate("sysTitle"), message: this.config.welcome_message});
+			}
 		}
 		Log.info("Starting module: " + this.name);
 	}
