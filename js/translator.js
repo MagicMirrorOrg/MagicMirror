@@ -34,6 +34,8 @@ var Translator = (function() {
 					self.translations[module.name] = json;
 					callback();
 				});
+			} else {
+				callback();
 			}
 		},
 		/* _loadJSON(file, callback)
