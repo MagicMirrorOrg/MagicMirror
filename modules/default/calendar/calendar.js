@@ -124,7 +124,7 @@ Module.register("calendar",{
 			if (event.fullDayEvent) {
 				if (event.today) {
 					timeWrapper.innerHTML = this.translate("TODAY");
-				} else if (event.startDate - now < 24 * 60 * 60 * 1000) {
+				} else if (event.startDate - now < 24 * 60 * 60 * 1000 && event.startDate - now > 0) {
 					timeWrapper.innerHTML = this.translate("TOMORROW");
 				} else {
 					timeWrapper.innerHTML =  moment(event.startDate,"x").fromNow();
@@ -141,7 +141,8 @@ Module.register("calendar",{
 					timeWrapper.innerHTML =  this.translate("RUNNING") + ' ' + moment(event.endDate,"x").fromNow(true);
 				}
 			}
-			// timeWrapper.innerHTML = moment(event.startDate,'x').format('lll');
+			//timeWrapper.innerHTML += ' - '+ moment(event.startDate,'x').format('lll');
+			//console.log(event);
 			timeWrapper.className = "time light";
 			eventWrapper.appendChild(timeWrapper);
 

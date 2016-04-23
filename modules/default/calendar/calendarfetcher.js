@@ -99,7 +99,7 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 							continue;
 						}
 
-						if (fullDayEvent && endDate < today) {
+						if (fullDayEvent && endDate <= today) {
 							//console.log("It's a fullday event, and it is before today. So skip: " + title);
 							continue;
 						}
