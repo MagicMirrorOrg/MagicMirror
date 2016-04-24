@@ -284,7 +284,7 @@ Module.register("currentweather",{
 	 * return number - Rounded Temperature.
 	 */
 	 
-	deg2Card: function(deg) {
+	deg2Cardinal: function(deg) {
                 if (deg>11.25 && deg<33.75){
                         return "NNE";
                 }else if (deg>33.75 && deg<56.25){
