@@ -13,7 +13,7 @@ Module.register("weatherforecast",{
 	defaults: {
 		location: "",
 		appid: "",
-		units: "metric",
+		units: config.units,
 		updateInterval: 10 * 60 * 1000, // every 10 minutes
 		animationSpeed: 1000,
 		timeFormat: config.timeFormat,
