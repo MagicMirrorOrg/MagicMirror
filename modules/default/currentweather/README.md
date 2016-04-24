@@ -14,7 +14,8 @@ modules: [
 		config: {
 			// See 'Configuration options' for more information.
 			location: 'Amsterdam,Netherlands',
-			appid: 'abcde12345abcde12345abcde12345ab' //openweathermap.org API key.
+			appid: 'abcde12345abcde12345abcde12345ab', //openweathermap.org API key.
+			showWindDirection: true
 		}
 	}
 ]
@@ -86,6 +87,13 @@ The following properties can be configured:
 		<tr>
 			<td><code>showPeriodUpper</code></td>
 			<td>Show the period (AM/PM) with 12 hour format as uppercase<br>
+				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
+				<br><b>Default value:</b> <code>false</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>showWindDirection</code></td>
+			<td>Show the wind direction next to the wind speed.<br>
 				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
 				<br><b>Default value:</b> <code>false</code>
 			</td>
