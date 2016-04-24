@@ -50,9 +50,9 @@ The following properties can be configured:
 		</tr>
 		<tr>
 			<td><code>units</code></td>
-			<td>What units to use?<br>
-				<br><b>Possible values:</b> <code>default</code> = Kelvin, <code>metric</code> = Celsius, <code>imperial</code> =Fahrenheit
-				<br><b>Default value:</b> <code>metric</code>
+			<td>What units to use. Specified by config.js<br>
+				<br><b>Possible values:</b> <code>config.units</code> = Specified by config.js, <code>default</code> = Kelvin, <code>metric</code> = Celsius, <code>imperial</code> =Fahrenheit
+				<br><b>Default value:</b> <code>config.units</code>
 			</td>
 		</tr>
 		<tr>
