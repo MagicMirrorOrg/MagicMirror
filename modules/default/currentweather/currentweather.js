@@ -19,7 +19,7 @@ Module.register("currentweather",{
 		timeFormat: config.timeFormat,
 		showPeriod: true,
 		showPeriodUpper: false,
-		showDirection: true,
+		showDirection: false,
 		lang: config.language,
 
 		initialLoadDelay: 0, // 0 seconds delay
@@ -114,13 +114,12 @@ Module.register("currentweather",{
 		var windSpeed = document.createElement("span");
 		windSpeed.innerHTML = " " + this.windSpeed;
 		small.appendChild(windSpeed);
-		
-		if (this.showDirection) {
+	
+		if (this.config.showDirection) {
 			var windDirection = document.createElement("span");
 			windDirection.innerHTML = " " + this.windDirection;
 			small.appendChild(windDirection);
 		}
-		
 		var spacer = document.createElement("span");
 		spacer.innerHTML = "&nbsp;";
 		small.appendChild(spacer);
@@ -206,9 +205,7 @@ Module.register("currentweather",{
 	processWeather: function(data) {
 		this.temperature = this.roundValue(data.main.temp);
 		this.windSpeed = this.ms2Beaufort(this.roundValue(data.wind.speed));
-		if (this.showDirection) {
-			this.windDirection = this.deg2Cardinal(data.wind.deg);
-		} else {}
+		this.windDirection = this.deg2Cardinal(data.wind.deg);
 		this.weatherType = this.config.iconTable[data.weather[0].icon];
 
 		var now = new Date();
