@@ -19,7 +19,7 @@ Module.register("currentweather",{
 		timeFormat: config.timeFormat,
 		showPeriod: true,
 		showPeriodUpper: false,
-		showDirection: false,
+		showWindDirection: false,
 		lang: config.language,
 
 		initialLoadDelay: 0, // 0 seconds delay
@@ -115,7 +115,7 @@ Module.register("currentweather",{
 		windSpeed.innerHTML = " " + this.windSpeed;
 		small.appendChild(windSpeed);
 	
-		if (this.config.showDirection) {
+		if (this.config.showWindDirection) {
 			var windDirection = document.createElement("span");
 			windDirection.innerHTML = " " + this.windDirection;
 			small.appendChild(windDirection);
