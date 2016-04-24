@@ -19,7 +19,7 @@ Module.register("currentweather",{
 		timeFormat: config.timeFormat,
 		showPeriod: true,
 		showPeriodUpper: false,
-		showDirection: false,
+		showDirection: true,
 		lang: config.language,
 
 		initialLoadDelay: 0, // 0 seconds delay
@@ -110,15 +110,17 @@ Module.register("currentweather",{
 		var windIcon = document.createElement("span");
 		windIcon.className = "wi wi-strong-wind dimmed";
 		small.appendChild(windIcon);
-
+		
 		var windSpeed = document.createElement("span");
 		windSpeed.innerHTML = " " + this.windSpeed;
 		small.appendChild(windSpeed);
 		
-		var windDirection = document.createElement("span");
-		windDirection.innerHTML = " " + this.windDirection;
-		small.appendChild(windDirection);
-
+		if (this.showDirection) {
+			var windDirection = document.createElement("span");
+			windDirection.innerHTML = " " + this.windDirection;
+			small.appendChild(windDirection);
+		}
+		
 		var spacer = document.createElement("span");
 		spacer.innerHTML = "&nbsp;";
 		small.appendChild(spacer);
@@ -318,7 +320,7 @@ Module.register("currentweather",{
                 }else{
                          return "N";
                 }
-	}
+	},
 
 	 
 	roundValue: function(temperature) {
