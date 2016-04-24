@@ -97,7 +97,7 @@ start: function() {
 ####`getScripts()`
 **Should return: Array**
 
-The getScripts method is called to request any additional scripts that need to be loaded. This method should therefor return an array with strings. If you want to return a full path to a file in the module folder, use the `this.file('filename.js')` method. In all cases the loader will only load a file once. It even checks if the file is available in the default vendor folder. 
+The getScripts method is called to request any additional scripts that need to be loaded. This method should therefore return an array with strings. If you want to return a full path to a file in the module folder, use the `this.file('filename.js')` method. In all cases the loader will only load a file once. It even checks if the file is available in the default vendor folder. 
 
 **Example:**
 ````javascript
@@ -117,7 +117,7 @@ getScripts: function() {
 ####`getStyles()` 
 **Should return: Array**
 
-The getStyles method is called to request any additional scripts that need to be loaded. This method should therefor return an array with strings. If you want to return a full path to a file in the module folder, use the `this.file('filename.css')` method. In all cases the loader will only load a file once. It even checks if the file is available in the default vendor folder. 
+The getStyles method is called to request any additional stylesheets that need to be loaded. This method should therefore return an array with strings. If you want to return a full path to a file in the module folder, use the `this.file('filename.css')` method. In all cases the loader will only load a file once. It even checks if the file is available in the default vendor folder. 
 
 **Example:**
 ````javascript
@@ -132,6 +132,22 @@ getStyles: function() {
 
 ````
 **Note:** If a file can not be loaded, the boot up of the mirror will stall. Therefore it's advised not to use any external urls.
+
+####`getTranslations()` 
+**Should return: Dictionary**
+
+The getTranslations method is called to request translation files that need to be loaded. This method should therefore return a dictionary with the files to load, identified by the country's short name.
+
+**Example:**
+````javascript
+getTranslations: function() {
+	return {
+			en: "translations/en.json",
+			de: "translations/de.json"
+	}
+}
+
+````
 
 ####`getDom()` 
 **Should return:** Dom Object
@@ -448,6 +464,21 @@ Module.register("modulename",{
 	//...
 });
 ```` 
+## MagicMirror Translation
+
+The Magic Mirror contains a convenience wrapper for `l18n`. You can use this to automatically serve different translations for your modules based on the user's `language` configuration.
+
+**Example:**
+````javascript
+this.translate("INFO") //Will return a translated string for the identifier INFO
+````
+
+**Example json file:**
+````javascript
+{
+  "INFO": "Really important information!"
+}
+````
 
 ## MagicMirror Logger
 
@@ -458,4 +489,4 @@ The Magic Mirror contains a convenience wrapper for logging. Currently, this log
 Log.info('error');
 Log.log('log');
 Log.error('info');
-```
+````
