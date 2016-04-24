@@ -77,6 +77,7 @@ The following properties can be configured:
 | `port` | The port on which the MagicMirror² server will run on. The default value is `8080`. |
 | `language` | The language of the interface. (Note: Not all elements will be localized.) Possible values are `en`, `nl`, `ru`, `fr`, etc., but the default value is `en`. |
 | `timeFormat` | The form of time notation that will be used. Possible values are `12` or `24`. The default is `24`. |
+| `units` | The units that will be used in the default weather modules. Possible values are `metric` or `imperial`. The default is `metric`. |
 | `modules` | An array of active modules. **The array must contain objects. See the next table below for more information.** |
 
 Module configuration:
