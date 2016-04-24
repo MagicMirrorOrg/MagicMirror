@@ -277,6 +277,25 @@ To show a module, you can call the `show(speed, callback)` method. You can call 
 **Note 2:** If the show animation is hijacked (an other method calls show on the same module), the callback will not be called.<br>
 **Note 3:** If the dom is not yet created, the show method won't work. Wait for the `DOM_OBJECTS_CREATED` [notification](#notificationreceivednotification-payload-sender).
 
+####`this.translate(identifier)`
+***identifier* String** - Identifier of the string that should be translated.
+
+The Magic Mirror contains a convenience wrapper for `l18n`. You can use this to automatically serve different translations for your modules based on the user's `language` configuration.
+
+**Example:**
+````javascript
+this.translate("INFO") //Will return a translated string for the identifier INFO
+````
+
+**Example json file:**
+````javascript
+{
+  "INFO": "Really important information!"
+}
+````
+
+**Note:** Currently there is no fallback if a translation identifier does not exist in one language. Right now you always have to add all identifier to all your translations even if they are not translated yet (see [#191](https://github.com/MichMich/MagicMirror/issues/191)).
+
 
 ## The Node Helper: node_helper.js
 
@@ -464,23 +483,6 @@ Module.register("modulename",{
 	//...
 });
 ```` 
-## MagicMirror Translation
-
-The Magic Mirror contains a convenience wrapper for `l18n`. You can use this to automatically serve different translations for your modules based on the user's `language` configuration.
-
-**Example:**
-````javascript
-this.translate("INFO") //Will return a translated string for the identifier INFO
-````
-
-**Example json file:**
-````javascript
-{
-  "INFO": "Really important information!"
-}
-````
-
-**Note:** Currently there is no fallback if a translation identifier does not exist in one language. Right now you always have to add all identifier to all your translations even if they are not translated yet (see [#191](https://github.com/MichMich/MagicMirror/issues/191)).
 
 ## MagicMirror Logger
 
