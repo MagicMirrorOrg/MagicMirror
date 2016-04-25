@@ -14,7 +14,7 @@ modules: [
 		config: {
 			// See 'Configuration options' for more information.
 			location: 'Amsterdam,Netherlands',
-			appid: 'abcde12345abcde12345abcde12345ab', //openweathermap.org API key.
+			appid: 'abcde12345abcde12345abcde12345ab' //openweathermap.org API key.
 		}
 	}
 ]
