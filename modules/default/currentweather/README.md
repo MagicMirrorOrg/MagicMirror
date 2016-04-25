@@ -15,7 +15,6 @@ modules: [
 			// See 'Configuration options' for more information.
 			location: 'Amsterdam,Netherlands',
 			appid: 'abcde12345abcde12345abcde12345ab', //openweathermap.org API key.
-			showWindDirection: true,
 		}
 	}
 ]
