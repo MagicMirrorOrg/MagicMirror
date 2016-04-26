@@ -1,3 +1,4 @@
+// jscs:disable
 var ical = require('./ical')
   , request = require('request')
   , fs = require('fs')
