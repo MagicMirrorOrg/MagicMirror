@@ -42,7 +42,7 @@ var Fetcher = function(url, reloadInterval, encoding) {
 		var parser = new FeedMe();
 
 		parser.on("item", function(item) {
-			var description = item.description || '';
+			var description = item.description || "";
 			var regex = /(<([^>]+)>)/ig;
 			description = description.replace(regex, "");
 
@@ -72,7 +72,7 @@ var Fetcher = function(url, reloadInterval, encoding) {
 	 */
 
 	var scheduleTimer = function() {
-		//console.log('Schedule update timer.');
+		//console.log("Schedule update timer.");
 		clearTimeout(reloadTimer);
 		reloadTimer = setTimeout(function() {
 			fetchNews();
@@ -104,10 +104,10 @@ var Fetcher = function(url, reloadInterval, encoding) {
 	 */
 	this.broadcastItems = function() {
 		if (items.length <= 0) {
-			//console.log('No items to broadcast yet.');
+			//console.log("No items to broadcast yet.");
 			return;
 		}
-		//console.log('Broadcasting ' + items.length + ' items.');
+		//console.log("Broadcasting " + items.length + " items.");
 		itemsReceivedCallback(self);
 	};
 

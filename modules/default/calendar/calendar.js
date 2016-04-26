@@ -129,10 +129,10 @@ Module.register("calendar",{
 						timeWrapper.innerHTML = moment(event.startDate,"x").calendar();
 					}
 				} else {
-					timeWrapper.innerHTML =  this.config.runningText + ' ' + moment(event.endDate,"x").fromNow(true);
+					timeWrapper.innerHTML =  this.config.runningText + " " + moment(event.endDate,"x").fromNow(true);
 				}
 			}
-			// timeWrapper.innerHTML = moment(event.startDate,'x').format('lll');
+			// timeWrapper.innerHTML = moment(event.startDate,"x").format("lll");
 			timeWrapper.className = "time light";
 			eventWrapper.appendChild(timeWrapper);
 
@@ -231,7 +231,7 @@ Module.register("calendar",{
 	},
 
 	/* shorten(string, maxLength)
-	 * Shortens a sting if it's longer than maxLenthg.
+	 * Shortens a sting if it"s longer than maxLenthg.
 	 * Adds an ellipsis to the end.
 	 *
 	 * argument string string - The string to shorten.
