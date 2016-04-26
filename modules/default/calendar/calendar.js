@@ -15,6 +15,8 @@ Module.register("calendar",{
 		maximumNumberOfDays: 365,
 		displaySymbol: true,
 		defaultSymbol: "calendar", // Fontawsome Symbol see http://fontawesome.io/cheatsheet/
+		displayRepeatingCountTitle: false,
+		defaultRepeatingCountTitle: '',
 		maxTitleLength: 25,
 		fetchInterval: 5 * 60 * 1000, // Update every 5 minutes.
 		animationSpeed: 2000,
@@ -113,8 +115,24 @@ Module.register("calendar",{
 				eventWrapper.appendChild(symbolWrapper);
 			}
 
-			var titleWrapper =  document.createElement("td");
-			titleWrapper.innerHTML = this.titleTransform(event.title);
+			var titleWrapper = document.createElement("td"),
+				repeatingCountTitle = '';
+				
+				
+			if (this.config.displayRepeatingCountTitle) {							
+					
+				repeatingCountTitle = this.countTitleForUrl(event.url)
+				
+				if(repeatingCountTitle != '') {
+					
+					var thisYear = new Date().getFullYear(),
+						yearDiff = thisYear - event.firstYear;
+					
+					repeatingCountTitle = ', '+ yearDiff + '. ' + repeatingCountTitle;
+				}
+			}	
+			
+			titleWrapper.innerHTML = this.titleTransform(event.title) + repeatingCountTitle;
 			titleWrapper.className = "title bright";
 			eventWrapper.appendChild(titleWrapper);
 
@@ -238,6 +256,23 @@ Module.register("calendar",{
 		}
 
 		return this.config.defaultSymbol;
+	},
+	/* countTitleForUrl(url)
+	 * Retrieves the name for a specific url.
+	 *
+	 * argument url sting - Url to look for.
+	 *
+	 * return string - The Symbol
+	 */
+	countTitleForUrl: function(url) {
+		for (var c in this.config.calendars) {
+			var calendar = this.config.calendars[c];
+			if (calendar.url === url && typeof calendar.repeatingCountTitle === "string")  {
+				return calendar.repeatingCountTitle;
+			}
+		}
+
+		return this.config.defaultRepeatingCountTitle;
 	},
 
 	/* shorten(string, maxLength)

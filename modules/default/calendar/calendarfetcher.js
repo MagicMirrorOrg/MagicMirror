@@ -84,7 +84,8 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 									title: (typeof event.summary.val !== "undefined") ? event.summary.val : event.summary,
 									startDate: startDate.format("x"),
 									endDate: endDate.format("x"),
-									fullDayEvent: isFullDayEvent(event)
+									fullDayEvent: isFullDayEvent(event),
+									firstYear: event.start.getFullYear()
 								});
 							}
 						}

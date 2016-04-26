@@ -1,0 +1,68 @@
+
+> magicmirror@2.0.0 start /home/pi/MagicMirror
+> electron js/electron.js
+
+Loading config ...
+Loading module helpers ...
+No helper found for module: alert.
+No helper found for module: clock.
+Initializing new module helper ...
+No helper found for module: compliments.
+No helper found for module: currentweather.
+No helper found for module: weatherforecast.
+Initializing new module helper ...
+All module helpers loaded.
+Starting server op port 8080 ... 
+Server started ...
+Connecting socket for: calendar
+Starting node helper for: calendar
+Connecting socket for: newsfeed
+Starting module: newsfeed
+Sockets connected & modules started ...
+[1m[47m[31mA JavaScript error occurred in the main process
+[30mUncaught Exception:
+Error: listen EADDRINUSE :::8080
+    at Object.exports._errnoException (util.js:890:11)
+    at exports._exceptionWithHostPort (util.js:913:20)
+    at Server._listen2 (net.js:1234:14)
+    at listen (net.js:1270:10)
+    at Server.listen (net.js:1366:5)
+    at new Server (/home/pi/MagicMirror/js/server.js:17:9)
+    at /home/pi/MagicMirror/js/app.js:112:17
+    at loadConfig (/home/pi/MagicMirror/js/app.js:33:4)
+    at start (/home/pi/MagicMirror/js/app.js:98:3)
+    at Object.<anonymous> (/home/pi/MagicMirror/js/electron.js:64:6)[0m
+Launching application.
+
+> magicmirror@2.0.0 start /home/pi/MagicMirror
+> electron js/electron.js
+
+Loading config ...
+Loading module helpers ...
+No helper found for module: clock.
+Initializing new module helper ...
+No helper found for module: currentweather.
+No helper found for module: weatherforecast.
+No helper found for module: voice.
+Initializing new module helper ...
+All module helpers loaded.
+Starting server op port 8080 ... 
+Server started ...
+Connecting socket for: custom-calendar
+Starting node helper for: custom-calendar
+Connecting socket for: MMM-Wunderlist
+Sockets connected & modules started ...
+[1m[47m[31mA JavaScript error occurred in the main process
+[30mUncaught Exception:
+Error: listen EADDRINUSE :::8080
+    at Object.exports._errnoException (util.js:890:11)
+    at exports._exceptionWithHostPort (util.js:913:20)
+    at Server._listen2 (net.js:1234:14)
+    at listen (net.js:1270:10)
+    at Server.listen (net.js:1366:5)
+    at new Server (/home/pi/MagicMirror/js/server.js:17:9)
+    at /home/pi/MagicMirror/js/app.js:112:17
+    at loadConfig (/home/pi/MagicMirror/js/app.js:33:4)
+    at start (/home/pi/MagicMirror/js/app.js:98:3)
+    at Object.<anonymous> (/home/pi/MagicMirror/js/electron.js:64:6)[0m
+Launching application.
