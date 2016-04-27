@@ -4,5 +4,6 @@
 	"validateQuoteMarks": "\"",
 	"maximumLineLength": 250,
 	"requireCurlyBraces": [],
-	"requireCamelCaseOrUpperCaseIdentifiers": false
+	"requireCamelCaseOrUpperCaseIdentifiers": false,
+	"excludeFiles": [".jscsrc"],
 }
