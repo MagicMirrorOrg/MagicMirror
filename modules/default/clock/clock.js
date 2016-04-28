@@ -12,6 +12,7 @@ Module.register("clock",{
 		displaySeconds: true,
 		showPeriod: true,
 		showPeriodUpper: false,
+		clockBold: false
 	},
 	// Define required scripts.
 	getScripts: function() {
@@ -44,11 +45,19 @@ Module.register("clock",{
 		// The moment().format("h") method has a bug on the Raspberry Pi.
 		// So we need to generate the timestring manually.
 		// See issue: https://github.com/MichMich/MagicMirror/issues/181
-		var timeString = moment().format("HH[<span class=\"bold\">]mm[</span>]");
+		if (this.config.clockBold === true) {
+			var timeString = moment().format("HH[<span class=\"bold\">]mm[</span>]");
+		} else {
+			var timeString = moment().format("HH:mm");
+		}
 		if (this.config.timeFormat !== 24) {
 			var now = new Date();
 			var hours = now.getHours() % 12 || 12;
-			timeString = hours + moment().format("[<span class=\"bold\">]mm[</span>]");
+			if (this.config.clockBold === true) {
+				timeString = hours + moment().format("[<span class=\"bold\">]mm[</span>]");
+			} else {
+				timeString = hours + moment().format(":mm");
+			}
 		}
 		dateWrapper.innerHTML = moment().format("dddd, LL");
 		timeWrapper.innerHTML = timeString;
