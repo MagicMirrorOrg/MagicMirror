@@ -47,14 +47,21 @@ The following properties can be configured:
 		</tr>
 		<tr>
 			<td><code>showPeriod</code></td>
-			<td>Show the period (am/pm) with 12 hour format<br>
+			<td>Show the period (am/pm) with 12 hour format.<br>
 				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
 				<br><b>Default value:</b> <code>true</code>
 			</td>
 		</tr>
 		<tr>
 			<td><code>showPeriodUpper</code></td>
-			<td>Show the period (AM/PM) with 12 hour format as uppercase<br>
+			<td>Show the period (AM/PM) with 12 hour format as uppercase.<br>
+				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
+				<br><b>Default value:</b> <code>false</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>clockBold</code></td>
+			<td>Remove the colon and bold the minutes to make a more modern look.<br>
 				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
 				<br><b>Default value:</b> <code>false</code>
 			</td>
