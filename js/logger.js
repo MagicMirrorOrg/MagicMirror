@@ -30,7 +30,7 @@ var Log = (function() {
 		},
 		groupCollapsed: function(message) {
 			console.groupCollapsed(message);
-		}
+		},
 		groupEnd: function() {
 			console.groupEnd();
 		},
