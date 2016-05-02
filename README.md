@@ -20,6 +20,7 @@ MagicMirror² focuses on a modular plugin system and uses [Electron](http://elec
 - [Configuration](#configuration)
 - [Modules](#modules)
 - [Known Issues](#known-issues)
+- [community](#community)
 - [Contributing Guidelines](#contributing-guidelines)
 
 ## Usage 
@@ -109,6 +110,10 @@ For more available modules, check out out the wiki page: [MagicMirror² Modules]
 
 - Electron seems to have some issues on certain Raspberry Pi 2's. See [#145](https://github.com/MichMich/MagicMirror/issues/145).
 - MagicMirror² (Electron) sometimes quits without an error after an extended period of use. See [#150](https://github.com/MichMich/MagicMirror/issues/150). 
+
+## Community
+
+The community around the MagicMirror² is constantly growing. We even have a [forum](https://forum.magicmirror.builders) now where you can share your ideas, ask questions, help others and get inspired by other builders. We would love to see you there!
 
 ## Contributing Guidelines
 
