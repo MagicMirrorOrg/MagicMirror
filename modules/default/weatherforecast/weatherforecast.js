@@ -13,7 +13,8 @@ Module.register("weatherforecast",{
 	defaults: {
 		location: "",
 		appid: "",
-		units: "metric",
+		units: config.units,
+		maxNumberOfDays: 7,
 		updateInterval: 10 * 60 * 1000, // every 10 minutes
 		animationSpeed: 1000,
 		timeFormat: config.timeFormat,
@@ -189,6 +190,12 @@ Module.register("weatherforecast",{
 		params += "q=" + this.config.location;
 		params += "&units=" + this.config.units;
 		params += "&lang=" + this.config.lang;
+		/*
+		 * Submit a specific number of days to forecast, between 1 to 16 days.
+		 * The OpenWeatherMap API properly handles values outside of the 1 - 16 range and returns 7 days by default.
+		 * This is simply being pedantic and doing it ourselves.
+		 */
+		params += "&cnt=" + (((this.config.maxNumberOfDays < 1) || (this.config.maxNumberOfDays > 16)) ? 7 : this.config.maxNumberOfDays);
 		params += "&APPID=" + this.config.appid;
 
 		return params;

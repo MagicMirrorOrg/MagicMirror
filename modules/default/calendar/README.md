@@ -112,36 +112,6 @@ The following properties can be configured:
 				</code>
 			</td>
 		</tr>
-		<tr>
-			<td><code>loadingText</code></td>
-			<td>Text to display while loading item.<br>
-				<br><b>Default value:</b> <code>'Loading events &hellip;'</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>emptyCalendarText</code></td>
-			<td>Text to display when there are no upcoming events.<br>
-				<br><b>Default value:</b> <code>'No upcoming events.'</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>todayText</code></td>
-			<td>Text to display when a fullday event is planned for today.<br>
-				<br><b>Default value:</b> <code>'Today'</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>tomorrowText</code></td>
-			<td>Text to display when a fullday event is planned for tomorrow.<br>
-				<br><b>Default value:</b> <code>'Tomorrow'</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>runningText</code></td>
-			<td>Text to display when an event is still running.<br>
-				<br><b>Default value:</b> <code>'Ends in'</code>
-			</td>
-		</tr>
 	</tbody>
 </table>
 

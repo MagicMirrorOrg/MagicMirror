@@ -28,6 +28,14 @@ ical.objectHandlers['END'] = function(val, params, curr, stack){
   if (curr.rrule) {
     var rule = curr.rrule.replace('RRULE:', '');
     if (rule.indexOf('DTSTART') === -1) {
+
+      if (curr.start.length === 8) {
+        var comps = /^(\d{4})(\d{2})(\d{2})$/.exec(curr.start);
+        if (comps) {
+         curr.start = new Date (comps[1], comps[2], comps[3]);
+        }
+      }
+
       rule += ';DTSTART=' + curr.start.toISOString().replace(/[-:]/g, '');
       rule = rule.replace(/\.[0-9]{3}/, '');
     }

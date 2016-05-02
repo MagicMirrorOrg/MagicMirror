@@ -50,9 +50,17 @@ The following properties can be configured:
 		</tr>
 		<tr>
 			<td><code>units</code></td>
-			<td>What units to use?<br>
-				<br><b>Possible values:</b> <code>default</code> = Kelvin, <code>metric</code> = Celsius, <code>imperial</code> =Fahrenheit
-				<br><b>Default value:</b> <code>metric</code>
+			<td>What units to use. Specified by config.js<br>
+				<br><b>Possible values:</b> <code>config.units</code> = Specified by config.js, <code>default</code> = Kelvin, <code>metric</code> = Celsius, <code>imperial</code> =Fahrenheit
+				<br><b>Default value:</b> <code>config.units</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>maxNumberOfDays</code></td>
+			<td>How many days of forecast to return. Specified by config.js<br>
+				<br><b>Possible values:</b> <code>1</code> - <code>16</code>
+				<br><b>Default value:</b> <code>7</code> (7 days)
+				<br>This value is optional. By default the weatherforecast module will return 7 days.
 			</td>
 		</tr>
 		<tr>

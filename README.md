@@ -25,7 +25,7 @@ MagicMirror² focuses on a modular plugin system and uses [Electron](http://elec
 ## Usage 
 
 #### Raspberry Pi Support
-Electron, the app wrapper around MagicMirror², only supports the Raspberry Pi 2 & 3. The Raspberry Pi 1 is currently **not** supported. If you want to run this on a Raspberry Pi 1, use the [server only](#server-only) feature and setup a fullscreen browser yourself. Note the only Jessie is currently supported. If you want to use Wheezy, check out [this issue](https://github.com/MichMich/MagicMirror/issues/188).
+Electron, the app wrapper around MagicMirror², only supports the Raspberry Pi 2 & 3. The Raspberry Pi 1 is currently **not** supported. If you want to run this on a Raspberry Pi 1, use the [server only](#server-only) feature and setup a fullscreen browser yourself.
 
 #### Automatic Installer (Raspberry Pi Only!)
 
@@ -39,7 +39,7 @@ curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/v2-beta/installe
 1. Download and install the latest Node.js version.
 2. Clone the repository and check out the beta branch: `git clone -b v2-beta https://github.com/MichMich/MagicMirror`
 3. Enter the repository: `cd ~/MagicMirror`
-4. Install and run the app: `npm install && npm start` (You may have to restart your terminal before this works!)
+4. Install and run the app: `npm install && npm start`
 
 **Important:** `npm start` does **not** work via SSH, use `DISPLAY=:0 nohup npm start &` instead. This starts the mirror on the remote display.
 
@@ -77,6 +77,7 @@ The following properties can be configured:
 | `port` | The port on which the MagicMirror² server will run on. The default value is `8080`. |
 | `language` | The language of the interface. (Note: Not all elements will be localized.) Possible values are `en`, `nl`, `ru`, `fr`, etc., but the default value is `en`. |
 | `timeFormat` | The form of time notation that will be used. Possible values are `12` or `24`. The default is `24`. |
+| `units` | The units that will be used in the default weather modules. Possible values are `metric` or `imperial`. The default is `metric`. |
 | `modules` | An array of active modules. **The array must contain objects. See the next table below for more information.** |
 
 Module configuration:
