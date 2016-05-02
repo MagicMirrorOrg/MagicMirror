@@ -112,6 +112,14 @@ The following properties can be configured:
 				</code>
 			</td>
 		</tr>
+		<tr>
+			<td><code>displayRepeatingCountTitle</code></td>
+			<td>Show count title for yearly repeating events (e.g. "X. Birthday", "X. Anniversary")<br>
+					
+				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
+				<br><b>Default value:</b> <code>false</code>
+			</td>
+		</tr>	
 	</tbody>
 </table>
 
@@ -152,6 +160,13 @@ config: {
 			<td><code> symbol </code></td>
 			<td>The symbol to show in front of an event. This property is optional.<br>
 				<br><b>Possible values:</b> See <a href="http://fontawesome.io/icons/" target="_blank">Font Awsome</a> website.
+			</td>
+		</tr>
+		<tr>
+			<td><code> repeatingCountTitle </code></td>
+			<td>The count title for yearly repating events in this calendar. <br>
+				<br><b>Example:</b> <br>
+				<code>'Birthday'</code>
 			</td>
 		</tr>
 		</tbody>
