@@ -18,7 +18,7 @@ Module.register("alert",{
 		//Position
 		position: "center",
 		//shown at startup
-		welcome_message: true,
+		welcome_message: false,
 	},
 	getScripts: function() {
 		return ["classie.js", "modernizr.custom.js", "notificationFx.js"];

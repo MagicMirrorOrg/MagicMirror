@@ -32,7 +32,7 @@ ical.objectHandlers['END'] = function(val, params, curr, stack){
       if (curr.start.length === 8) {
         var comps = /^(\d{4})(\d{2})(\d{2})$/.exec(curr.start);
         if (comps) {
-         curr.start = new Date (comps[1], comps[2], comps[3]);
+         curr.start = new Date (comps[1], comps[2] - 1, comps[3]);
         }
       }
 

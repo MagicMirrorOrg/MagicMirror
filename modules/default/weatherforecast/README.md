@@ -56,6 +56,14 @@ The following properties can be configured:
 			</td>
 		</tr>
 		<tr>
+			<td><code>maxNumberOfDays</code></td>
+			<td>How many days of forecast to return. Specified by config.js<br>
+				<br><b>Possible values:</b> <code>1</code> - <code>16</code>
+				<br><b>Default value:</b> <code>7</code> (7 days)
+				<br>This value is optional. By default the weatherforecast module will return 7 days.
+			</td>
+		</tr>
+		<tr>
 			<td><code>updateInterval</code></td>
 			<td>How often does the content needs to be fetched? (Milliseconds)<br>
 				<br><b>Possible values:</b> <code>1000</code> - <code>86400000</code>
