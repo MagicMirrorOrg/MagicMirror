@@ -1,5 +1,4 @@
 /* global  Log, Loader, Module, config, defaults */
-/* jshint -W020 */
 
 /* Magic Mirror
  * Main System
@@ -165,7 +164,7 @@ var MM = (function() {
 			clearTimeout(module.showHideTimer);
 			module.showHideTimer = setTimeout(function() {
 				// To not take up any space, we just make the position absolute.
-				// since it's fade out anyway, we can see it lay above or
+				// since it"s fade out anyway, we can see it lay above or
 				// below other modules. This works way better than adjusting
 				// the .display property.
 				moduleWrapper.style.position = "absolute";
@@ -434,7 +433,27 @@ var MM = (function() {
 })();
 
 // Add polyfill for Object.assign.
-if (typeof Object.assign != 'function') { (function () { Object.assign = function (target) { 'use strict'; if (target === undefined || target === null) { throw new TypeError('Cannot convert undefined or null to object'); } var output = Object(target); for (var index = 1; index < arguments.length; index++) { var source = arguments[index]; if (source !== undefined && source !== null) { for (var nextKey in source) { if (source.hasOwnProperty(nextKey)) { output[nextKey] = source[nextKey]; } } } } return output; }; })(); } 
-
+if (typeof Object.assign != "function") {
+	(function() {
+		Object.assign = function(target) {
+			"use strict";
+			if (target === undefined || target === null) {
+				throw new TypeError("Cannot convert undefined or null to object");
+			}
+			var output = Object(target);
+			for (var index = 1; index < arguments.length; index++) {
+				var source = arguments[index];
+				if (source !== undefined && source !== null) {
+					for (var nextKey in source) {
+						if (source.hasOwnProperty(nextKey)) {
+							output[nextKey] = source[nextKey];
+						}
+					}
+				}
+			}
+			return output;
+		};
+	})();
+}
 
 MM.init();

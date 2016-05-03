@@ -12,11 +12,11 @@ var path = require("path");
 
 // The next part is here to prevent a major exception when there
 // is no internet connection. This could probable be solved better.
-process.on('uncaughtException', function (err) {
-  console.log("Whoops! There was an uncaught exception...");
-  console.error(err);
-  console.log("MagicMirror will not quit, but it might be a good idea to check why this happened. Maybe no internet connection?");
-  console.log("If you think this really is an issue, please open an issue on GitHub: https://github.com/MichMich/MagicMirror/issues");
+process.on("uncaughtException", function (err) {
+	console.log("Whoops! There was an uncaught exception...");
+	console.error(err);
+	console.log("MagicMirror will not quit, but it might be a good idea to check why this happened. Maybe no internet connection?");
+	console.log("If you think this really is an issue, please open an issue on GitHub: https://github.com/MichMich/MagicMirror/issues");
 });
 
 /* App - The core app.
@@ -41,7 +41,7 @@ var App = function() {
 			var config = Object.assign(defaults, c);
 			callback(config);
 		} catch (e) {
-			console.error('WARNING! Could not find config. Please create one.');
+			console.error("WARNING! Could not find config. Please create one.");
 			callback(defaults);
 		}
 	};
@@ -98,7 +98,7 @@ var App = function() {
 	/* start(callback)
 	 * This methods starts the core app.
 	 * It loads the config, then it loads all modules.
-	 * When it's done it executs the callback with the config as argument.
+	 * When it"s done it executs the callback with the config as argument.
 	 *
 	 * argument callback function - The callback function.
 	 */
@@ -130,7 +130,7 @@ var App = function() {
 
 				console.log("Sockets connected & modules started ...");
 
-				if (typeof callback === 'function') {
+				if (typeof callback === "function") {
 					callback(config);
 				}
 

@@ -111,7 +111,7 @@ var Module = Class.extend({
 	},
 
 	/*********************************************
-	 * The methods below don't need subclassing. *
+	 * The methods below don"t need subclassing. *
 	 *********************************************/
 
 	/* setData(data)
@@ -138,7 +138,7 @@ var Module = Class.extend({
 	},
 
 	/* socket()
-	 * Returns a socket object. If it doesn't exsist, it's created.
+	 * Returns a socket object. If it doesn"t exsist, it"s created.
 	 * It also registers the notification callback.
 	 */
 	socket: function() {
@@ -223,9 +223,9 @@ var Module = Class.extend({
 		var translations = this.getTranslations();
 		var translationFile = translations && (translations[config.language.toLowerCase()] || translations.en) || undefined;
 		if(translationFile) {
- 			Translator.load(this, translationFile, callback);
+			Translator.load(this, translationFile, callback);
 		} else {
- 			callback();
+			callback();
 		}
 	},
 
@@ -236,7 +236,7 @@ var Module = Class.extend({
 	 * argument defaultValue string - The default value if no translation was found. (Optional)
  	 */
 	translate: function(key, defaultValue) {
-		return Translator.translate(this, key) || defaultValue || '';
+		return Translator.translate(this, key) || defaultValue || "";
 	},
 
 	/* updateDom(speed)
@@ -299,7 +299,7 @@ Module.create = function(name) {
 			return obj;
 		}
 
-		var temp = obj.constructor(); // give temp the original obj's constructor
+		var temp = obj.constructor(); // give temp the original obj"s constructor
 		for (var key in obj) {
 			temp[key] = cloneObject(obj[key]);
 		}
