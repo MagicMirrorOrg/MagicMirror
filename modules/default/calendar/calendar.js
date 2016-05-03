@@ -48,7 +48,8 @@ Module.register("calendar",{
 		return {
 			en: "translations/en.json",
 			de: "translations/de.json",
-			nl: "translations/nl.json"
+			nl: "translations/nl.json",
+			fr: "translations/fr.json"
 		};
 	},
 
