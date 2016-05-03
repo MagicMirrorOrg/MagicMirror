@@ -121,10 +121,9 @@ Module.register("calendar",{
 				
 			if (this.config.displayRepeatingCountTitle) {							
 					
-				repeatingCountTitle = this.countTitleForUrl(event.url)
+				repeatingCountTitle = this.countTitleForUrl(event.url);
 				
-				if(repeatingCountTitle != '') {
-					
+				if(repeatingCountTitle !== '') {
 					var thisYear = new Date().getFullYear(),
 						yearDiff = thisYear - event.firstYear;
 					
