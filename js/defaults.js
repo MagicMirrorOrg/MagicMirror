@@ -43,7 +43,7 @@ var defaults = {
 			position: "middle_center",
 			classes: "xsmall",
 			config: {
-				text: "If you get this message while your config file is already<br>created, your config file probably contains an error.<br>Use a javascript linter to validate your file."
+				text: "If you get this message while your config file is already<br>created, your config file probably contains an error.<br>Use a JavaScript linter to validate your file."
 			}
 		},
 		{
