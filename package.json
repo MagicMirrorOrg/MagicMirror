@@ -29,8 +29,13 @@
   "homepage": "https://github.com/MichMich/MagicMirror#readme",
   "devDependencies": {
     "electron-prebuilt": "latest",
+    "grunt": "latest",
+    "grunt-eslint": "latest",
+    "grunt-postcss": "latest",
+    "postcss-reporter": "latest",
     "stylelint": "latest",
-    "stylelint-config-standard": "latest"
+    "stylelint-config-standard": "latest",
+    "time-grunt": "latest"
   },
   "dependencies": {
     "express": "latest",
@@ -38,7 +43,7 @@
     "iconv-lite": "latest",
     "moment": "latest",
     "request": "latest",
-    "snyk": "^1.13.2",
+    "snyk": "latest",
     "socket.io": "latest",
     "valid-url": "latest",
     "walk": "latest",
