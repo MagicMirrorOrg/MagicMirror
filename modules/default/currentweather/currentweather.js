@@ -20,6 +20,7 @@ Module.register("currentweather",{
 		showPeriod: true,
 		showPeriodUpper: false,
 		showWindDirection: false,
+		useBeaufort: true,
 		lang: config.language,
 
 		initialLoadDelay: 0, // 0 seconds delay
@@ -204,7 +205,14 @@ Module.register("currentweather",{
 	 */
 	processWeather: function(data) {
 		this.temperature = this.roundValue(data.main.temp);
-		this.windSpeed = this.ms2Beaufort(this.roundValue(data.wind.speed));
+		
+		if (this.config.useBeaufort){
+			this.windSpeed = this.ms2Beaufort(this.roundValue(data.wind.speed));
+		}else {
+			this.windSpeed = parseFloat(data.wind.speed).toFixed(0);
+		}
+		
+
 		this.windDirection = this.deg2Cardinal(data.wind.deg);
 		this.weatherType = this.config.iconTable[data.weather[0].icon];
 
