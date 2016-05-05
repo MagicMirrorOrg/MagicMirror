@@ -18,7 +18,7 @@
 echo "Installing helper tools ..."
 sudo apt-get install curl wget build-essential unzip || exit
 ARM=$(uname -m) # Determine which Pi is running.
-NODE_LATEST="v6.0.0" # Set the latest version here.
+NODE_LATEST=$(curl -l http://api.jordidepoortere.com/nodejs-latest/) # Fetch the latest version of Node.js.
 DOWNLOAD_URL="https://nodejs.org/dist/latest/node-$NODE_LATEST-linux-$ARM.tar.gz" # Construct the download URL.
 
 echo "Installing Latest Node.js ..."
