@@ -18,8 +18,13 @@
 echo "Installing helper tools ..."
 sudo apt-get install curl wget build-essential unzip || exit
 ARM=$(uname -m) # Determine which Pi is running.
-NODE_LATEST=$(curl -l http://api.jordidepoortere.com/nodejs-latest/) # Fetch the latest version of Node.js.
-DOWNLOAD_URL="https://nodejs.org/dist/latest/node-$NODE_LATEST-linux-$ARM.tar.gz" # Construct the download URL.
+
+#NODE_LATEST=$(curl -l http://api.jordidepoortere.com/nodejs-latest/) # Fetch the latest version of Node.js.
+#DOWNLOAD_URL="https://nodejs.org/dist/latest/node-$NODE_LATEST-linux-$ARM.tar.gz" # Construct the download URL.
+
+#Node 6 should not be used at the moment...
+NODE_LATEST="v5.9.1" # Fetch the latest version of Node.js.
+DOWNLOAD_URL="https://nodejs.org/dist/v5.9.1/node-$NODE_LATEST-linux-$ARM.tar.gz" # Construct the download URL.
 
 echo "Installing Latest Node.js ..."
 mkdir ~/.MagicMirrorInstaller || exit
