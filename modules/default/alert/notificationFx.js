@@ -144,7 +144,10 @@
 				if (ev.target !== self.ntf) return false;
 				this.removeEventListener(animEndEventName, onEndAnimationFn);
 			}
-			self.options.wrapper.removeChild(this);
+
+			if (this.parentNode === self.options.wrapper) {
+				self.options.wrapper.removeChild(this);
+			}
 		};
 
 		if (support.animations) {

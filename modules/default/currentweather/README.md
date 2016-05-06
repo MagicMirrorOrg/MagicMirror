@@ -98,6 +98,13 @@ The following properties can be configured:
 			</td>
 		</tr>
 		<tr>
+			<td><code>useBeaufort</code></td>
+			<td>Pick between using the Beaufort scale for wind speed or using the default units.<br>
+				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
+				<br><b>Default value:</b> <code>true</code>
+			</td>
+		</tr>
+		<tr>
 			<td><code>lang</code></td>
 			<td>The language of the days.<br>
 				<br><b>Possible values:</b> <code>en</code>, <code>nl</code>, <code>ru</code>, etc ...

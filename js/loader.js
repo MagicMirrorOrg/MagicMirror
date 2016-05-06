@@ -1,7 +1,4 @@
 /* global config, vendor, MM, Log, Module */
-/* jshint unused:false */
-/* jshint -W061 */
-
 /* Magic Mirror
  * Module and File loaders.
  *
@@ -34,7 +31,15 @@ var Loader = (function() {
 					loadNextModule();
 				});
 			} else {
-				startModules();
+				// All modules loaded. Load custom.css
+				// This is done after all the moduels so we can
+				// overwrite all the defined styls.
+				
+				loadFile('css/custom.css', function() {
+					// custom.css loaded. Start all modules.
+					startModules();
+				});
+
 			}
 		};
 
@@ -165,31 +170,26 @@ var Loader = (function() {
 		var extension =  fileName.slice((Math.max(0, fileName.lastIndexOf(".")) || Infinity) + 1);
 
 		switch (extension.toLowerCase()) {
-			case "js":
-				Log.log("Load script: " + fileName);
-
-				var script = document.createElement("script");
-				script.type = "text/javascript";
-				script.src = fileName;
-				script.onload = function() {
-					if (typeof callback === "function") {callback();}
-				};
-
-				document.getElementsByTagName("body")[0].appendChild(script);
+		case "js":
+			Log.log("Load script: " + fileName);
+			var script = document.createElement("script");
+			script.type = "text/javascript";
+			script.src = fileName;
+			script.onload = function() {
+				if (typeof callback === "function") {callback();}
+			};
+			document.getElementsByTagName("body")[0].appendChild(script);
 			break;
-
-			case "css":
-				Log.log("Load stylesheet: " + fileName);
-
-				var stylesheet = document.createElement("link");
-				stylesheet.rel = "stylesheet";
-				stylesheet.type = "text/css";
-				stylesheet.href = fileName;
-				stylesheet.onload = function() {
-					if (typeof callback === "function") {callback();}
-				};
-
-				document.getElementsByTagName("head")[0].appendChild(stylesheet);
+		case "css":
+			Log.log("Load stylesheet: " + fileName);
+			var stylesheet = document.createElement("link");
+			stylesheet.rel = "stylesheet";
+			stylesheet.type = "text/css";
+			stylesheet.href = fileName;
+			stylesheet.onload = function() {
+				if (typeof callback === "function") {callback();}
+			};
+			document.getElementsByTagName("head")[0].appendChild(stylesheet);
 			break;
 		}
 

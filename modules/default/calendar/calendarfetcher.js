@@ -55,14 +55,16 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 
 				if (event.type === "VEVENT") {
 
-					//console.log(event);
-
 					var startDate = (event.start.length === 8) ? moment(event.start, "YYYYMMDD") : moment(new Date(event.start));
 					var endDate;
 					if (typeof event.end !== "undefined") {
 						endDate = (event.end.length === 8) ? moment(event.end, "YYYYMMDD") : moment(new Date(event.end));
 					} else {
-						endDate = startDate;
+						if (!isFacebookBirthday) {
+							endDate = startDate;
+						} else {
+							endDate = moment(startDate).add(1, 'days');
+						}
 					}
 
 					// calculate the duration f the event for use with recurring events.
@@ -84,14 +86,15 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 									title: (typeof event.summary.val !== "undefined") ? event.summary.val : event.summary,
 									startDate: startDate.format("x"),
 									endDate: endDate.format("x"),
-									fullDayEvent: isFullDayEvent(event)
+									fullDayEvent: isFullDayEvent(event),
+									firstYear: event.start.getFullYear()
 								});
 							}
 						}
 					} else {
 						// console.log("Single event ...");
 						// Single event.
-						var fullDayEvent = isFullDayEvent(event);
+						var fullDayEvent = (isFacebookBirthday) ? true : isFullDayEvent(event);
 						var title = (typeof event.summary.val !== "undefined") ? event.summary.val : event.summary;
 
 						if (!fullDayEvent && endDate < new Date()) {
