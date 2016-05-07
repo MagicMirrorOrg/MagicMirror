@@ -21,8 +21,7 @@ Module.register("calendar",{
 		fetchInterval: 5 * 60 * 1000, // Update every 5 minutes.
 		animationSpeed: 2000,
 		fade: true,
-		urgency: false,
-		urgencyTimeFrame: 7,
+		urgency: 7,
 		timeFormat: "relative",
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		calendars: [
@@ -151,8 +150,8 @@ Module.register("calendar",{
 					timeWrapper.innerHTML = this.translate("TOMORROW");
 				} else {
 					if (this.config.timeFormat === "absolute") {
-						if (this.config.urgency && (this.config.urgencyTimeFrame > 1) && (event.startDate - now < this.config.urgencyTimeFrame * one_day)) {
-							// This event falls within the config.urgencyTimeFrame period that the user has set
+						if ((this.config.urgency > 1) && (event.startDate - now < (this.config.urgency * one_day))) {
+							// This event falls within the config.urgency time frame (in days) that the user has set
 							timeWrapper.innerHTML = moment(event.startDate, "x").fromNow();
 						} else {
 							timeWrapper.innerHTML = moment(event.startDate, "x").format("MMM Do");
@@ -174,8 +173,8 @@ Module.register("calendar",{
 						}
 					} else {
 						if (this.config.timeFormat === "absolute") {
-							if (this.config.urgency && (this.config.urgencyTimeFrame > 1) && (event.startDate - now < this.config.urgencyTimeFrame * one_day)) {
-								// This event falls within the config.urgencyTimeFrame period that the user has set
+							if ((this.config.urgency > 1) && (event.startDate - now < (this.config.urgency * one_day))) {
+								// This event falls within the config.urgency time frame (in days) that the user has set
 								timeWrapper.innerHTML = moment(event.startDate, "x").fromNow();
 							} else {
 								timeWrapper.innerHTML = moment(event.startDate, "x").format("MMM Do");
