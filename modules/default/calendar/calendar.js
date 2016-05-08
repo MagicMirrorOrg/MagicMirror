@@ -14,13 +14,15 @@ Module.register("calendar",{
 		maximumEntries: 10, // Total Maximum Entries
 		maximumNumberOfDays: 365,
 		displaySymbol: true,
-		defaultSymbol: "calendar", // Fontawsome Symbol see http://fontawesome.io/cheatsheet/
+		defaultSymbol: "calendar", // Fontawesome Symbol see http://fontawesome.io/cheatsheet/
 		displayRepeatingCountTitle: false,
 		defaultRepeatingCountTitle: '',
 		maxTitleLength: 25,
 		fetchInterval: 5 * 60 * 1000, // Update every 5 minutes.
 		animationSpeed: 2000,
 		fade: true,
+		urgency: 7,
+		timeFormat: "relative",
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		calendars: [
 			{
@@ -139,21 +141,64 @@ Module.register("calendar",{
 			var timeWrapper =  document.createElement("td");
 			//console.log(event.today);
 			var now = new Date();
+			// Define second, minute, hour, and day variables
+			var one_second = 1000; // 1,000 milliseconds
+			var one_minute = one_second * 60;
+			var one_hour = one_minute * 60;
+			var one_day = one_hour * 24;
 			if (event.fullDayEvent) {
 				if (event.today) {
 					timeWrapper.innerHTML = this.translate("TODAY");
-				} else if (event.startDate - now < 24 * 60 * 60 * 1000 && event.startDate - now > 0) {
+				} else if (event.startDate - now < one_day && event.startDate - now > 0) {
 					timeWrapper.innerHTML = this.translate("TOMORROW");
 				} else {
-					timeWrapper.innerHTML =  moment(event.startDate,"x").fromNow();
+					/* Check to see if the user displays absolute or relative dates with their events
+					 * Also check to see if an event is happening within an 'urgency' time frameElement
+					 * For example, if the user set an .urgency of 7 days, those events that fall within that
+					 * time frame will be displayed with 'in xxx' time format or moment.fromNow()
+					 *
+					 * Note: this needs to be put in its own function, as the whole thing repeats again verbatim
+					 */
+					if (this.config.timeFormat === "absolute") {
+						if ((this.config.urgency > 1) && (event.startDate - now < (this.config.urgency * one_day))) {
+							// This event falls within the config.urgency period that the user has set
+							timeWrapper.innerHTML = moment(event.startDate, "x").fromNow();
+						} else {
+							timeWrapper.innerHTML = moment(event.startDate, "x").format("MMM Do");
+						}
+					} else {
+						timeWrapper.innerHTML =  moment(event.startDate, "x").fromNow();
+					}
 				}
 			} else {
 				if (event.startDate >= new Date()) {
-					if (event.startDate - now > 48 * 60 * 60 * 1000) {
-						// if the event is no longer than 2 days away, display the absolute time.
-						timeWrapper.innerHTML = moment(event.startDate,"x").fromNow();
+					if (event.startDate - now < 2 * one_day) {
+						// This event is within the next 48 hours (2 days)
+						if (event.startDate - now < 6 * one_hour) {
+							// If event is within 6 hour, display 'in xxx' time format or moment.fromNow()
+							timeWrapper.innerHTML = moment(event.startDate, "x").fromNow();
+						} else {
+							// Otherwise just say 'Today/Tomorrow at such-n-such time'
+							timeWrapper.innerHTML = moment(event.startDate, "x").calendar();
+						}
 					} else {
-						timeWrapper.innerHTML = moment(event.startDate,"x").calendar();
+						/* Check to see if the user displays absolute or relative dates with their events
+						 * Also check to see if an event is happening within an 'urgency' time frameElement
+						 * For example, if the user set an .urgency of 7 days, those events that fall within that
+						 * time frame will be displayed with 'in xxx' time format or moment.fromNow()
+						 *
+						 * Note: this needs to be put in its own function, as the whole thing repeats again verbatim
+						 */
+						if (this.config.timeFormat === "absolute") {
+							if ((this.config.urgency > 1) && (event.startDate - now < (this.config.urgency * one_day))) {
+								// This event falls within the config.urgency period that the user has set
+								timeWrapper.innerHTML = moment(event.startDate, "x").fromNow();
+							} else {
+								timeWrapper.innerHTML = moment(event.startDate, "x").format("MMM Do");
+							}
+						} else {
+							timeWrapper.innerHTML = moment(event.startDate, "x").fromNow();
+						}
 					}
 				} else {
 					timeWrapper.innerHTML =  this.translate("RUNNING") + ' ' + moment(event.endDate,"x").fromNow(true);
@@ -311,3 +356,4 @@ Module.register("calendar",{
 		return title;
 	}
 });
+
