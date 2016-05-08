@@ -259,7 +259,7 @@ Module.register("calendar",{
 			for (var e in calendar) {
 				var event = calendar[e];
 				event.url = c;
-				event.today = event.startDate >= today && event.startDate < (today + this.one_day);
+				event.today = event.startDate >= today && event.startDate < (today + 24 * 60 * 60 * 1000);
 				events.push(event);
 			}
 		}
@@ -356,3 +356,4 @@ Module.register("calendar",{
 		return title;
 	}
 });
+
