@@ -115,29 +115,25 @@ The following properties can be configured:
 		<tr>
 			<td><code>displayRepeatingCountTitle</code></td>
 			<td>Show count title for yearly repeating events (e.g. "X. Birthday", "X. Anniversary")<br>
-					
 				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
 				<br><b>Default value:</b> <code>false</code>
 			</td>
-		</tr>	
+		</tr>
 		<tr>
 			<td><code>timeFormat</code></td>
-			<td>How to display the time on calendar events<br>
-					
-				<br><b>Possible values:</b> <code>relative</code> or <code>absolute</code>
+			<td>Display event times as absolute dates, or relative time<br>
+				<br><b>Possible values:</b> <code>absolute</code> or <code>relative</code>
 				<br><b>Default value:</b> <code>relative</code>
 			</td>
-		</tr>	
+		</tr>
 		<tr>
 			<td><code>urgency</code></td>
-			<td>When .timeFormat is set to <code>absolute</code>, this option allows you to set a specific number of days from now to display as relative.<br>
-			For example, if urgency is set to <code>5</code>, any events happening within those 5 days will be displayed as 'in x days'.<br>
-			Any events outside of the urgency range will be displayed with an absolute date.<br>
-			
-				<br><b>Possible values:</b> <code>positive integer</code> for example <code>5</code> (for 5 days)
-				<br><b>Default value:</b> <code>0</code>
+			<td>When using a timeFormat of <code>absolute</code>, the <code>urgency</code> setting allows you to display events within a specific time frame as <code>relative</code>
+			    This allows events within a certain time frame to be displayed as relative (in xx days) while others are displayed as absolute dates<br>
+				<br><b>Possible values:</b> a positive integer representing the number of days for which you want a relative date, for example <code>7</code> (for 7 days)<br>
+				<br><b>Default value:</b> <code>0</code> (disabled)
 			</td>
-		</tr>	
+		</tr>
 	</tbody>
 </table>
 
