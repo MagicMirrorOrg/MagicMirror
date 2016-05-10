@@ -226,15 +226,18 @@ Module.register("currentweather",{
 		var sunriseSunsetDateObject = (sunrise < now && sunset > now) ? sunset : sunrise;
 		var timeString = moment(sunriseSunsetDateObject).format('HH:mm');
 		if (this.config.timeFormat !== 24) {
-			var hours = sunriseSunsetDateObject.getHours() % 12 || 12;
+			//var hours = sunriseSunsetDateObject.getHours() % 12 || 12;
 			if (this.config.showPeriod) {
 				if (this.config.showPeriodUpper) {
-					timeString = hours + moment(sunriseSunsetDateObject).format(':mm A');
+					//timeString = hours + moment(sunriseSunsetDateObject).format(':mm A');
+					timeString = moment(sunriseSunsetDateObject).format('h:mm A');
 				} else {
-					timeString = hours + moment(sunriseSunsetDateObject).format(':mm a');
+					//timeString = hours + moment(sunriseSunsetDateObject).format(':mm a');
+					timeString = moment(sunriseSunsetDateObject).format('h:mm a');
 				}
 			} else {
-    				timeString = hours + moment(sunriseSunsetDateObject).format(':mm');
+				//timeString = hours + moment(sunriseSunsetDateObject).format(':mm');
+				timeString = moment(sunriseSunsetDateObject).format('h:mm');
 			}
 		}
 
