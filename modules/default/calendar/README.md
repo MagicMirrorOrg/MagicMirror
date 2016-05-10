@@ -120,6 +120,24 @@ The following properties can be configured:
 				<br><b>Default value:</b> <code>false</code>
 			</td>
 		</tr>	
+		<tr>
+			<td><code>timeFormat</code></td>
+			<td>How to display the time on calendar events<br>
+					
+				<br><b>Possible values:</b> <code>relative</code> or <code>absolute</code>
+				<br><b>Default value:</b> <code>relative</code>
+			</td>
+		</tr>	
+		<tr>
+			<td><code>urgency</code></td>
+			<td>When .timeFormat is set to <code>absolute</code>, this option allows you to set a specific number of days from now to display as relative.<br>
+			For example, if urgency is set to <code>5</code>, any events happening within those 5 days will be displayed as 'in x days'.<br>
+			Any events outside of the urgency range will be displayed with an absolute date.<br>
+			
+				<br><b>Possible values:</b> <code>positive integer</code> for example <code>5</code> (for 5 days)
+				<br><b>Default value:</b> <code>0</code>
+			</td>
+		</tr>	
 	</tbody>
 </table>
 

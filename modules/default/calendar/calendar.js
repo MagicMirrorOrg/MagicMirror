@@ -21,6 +21,8 @@ Module.register("calendar",{
 		fetchInterval: 5 * 60 * 1000, // Update every 5 minutes.
 		animationSpeed: 2000,
 		fade: true,
+		urgency: 7,
+		timeFormat: "relative",
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		calendars: [
 			{
@@ -139,21 +141,47 @@ Module.register("calendar",{
 			var timeWrapper =  document.createElement("td");
 			//console.log(event.today);
 			var now = new Date();
+			var one_hour = 1000 * 60 * 60;
+			var one_day = one_hour * 24;
 			if (event.fullDayEvent) {
 				if (event.today) {
 					timeWrapper.innerHTML = this.translate("TODAY");
-				} else if (event.startDate - now < 24 * 60 * 60 * 1000 && event.startDate - now > 0) {
+				} else if (event.startDate - now < 24 * one_hour && event.startDate - now > 0) {
 					timeWrapper.innerHTML = this.translate("TOMORROW");
 				} else {
-					timeWrapper.innerHTML =  moment(event.startDate,"x").fromNow();
+					if (this.config.timeFormat === "absolute") {
+						if ((this.config.urgency > 1) && (event.startDate - now < (this.config.urgency * one_day))) {
+							// This event falls within the config.urgency time frame (in days) that the user has set
+							timeWrapper.innerHTML = moment(event.startDate, "x").fromNow();
+						} else {
+							timeWrapper.innerHTML = moment(event.startDate, "x").format("MMM Do");
+						}
+					} else {
+						timeWrapper.innerHTML =  moment(event.startDate, "x").fromNow();
+					}
 				}
 			} else {
 				if (event.startDate >= new Date()) {
-					if (event.startDate - now > 48 * 60 * 60 * 1000) {
-						// if the event is no longer than 2 days away, display the absolute time.
-						timeWrapper.innerHTML = moment(event.startDate,"x").fromNow();
+					if (event.startDate - now < 2 * one_day) {
+						// This event is within the next 48 hours (2 days)
+						if (event.startDate - now < 6 * one_hour) {
+							// If event is within 6 hour, display 'in xxx' time format
+							timeWrapper.innerHTML = moment(event.startDate, "x").fromNow();
+						} else {
+							// Otherwise just say 'Today/Tomorrow at such-n-such time'
+							timeWrapper.innerHTML = moment(event.startDate, "x").calendar();
+						}
 					} else {
-						timeWrapper.innerHTML = moment(event.startDate,"x").calendar();
+						if (this.config.timeFormat === "absolute") {
+							if ((this.config.urgency > 1) && (event.startDate - now < (this.config.urgency * one_day))) {
+								// This event falls within the config.urgency time frame (in days) that the user has set
+								timeWrapper.innerHTML = moment(event.startDate, "x").fromNow();
+							} else {
+								timeWrapper.innerHTML = moment(event.startDate, "x").format("MMM Do");
+							}
+						} else {
+							timeWrapper.innerHTML = moment(event.startDate, "x").fromNow();
+						}
 					}
 				} else {
 					timeWrapper.innerHTML =  this.translate("RUNNING") + ' ' + moment(event.endDate,"x").fromNow(true);
