@@ -74,6 +74,13 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 						startDate = startDate.startOf("day");
 					}
 
+					var title = "Event";
+					if (event.summary) {
+						title = (typeof event.summary.val !== "undefined") ? event.summary.val : event.summary;
+					} else if(event.description) {
+						title = event.description;
+					}
+
 					if (typeof event.rrule != "undefined" && !isFacebookBirthday) {
 						var rule = event.rrule;
 						var dates = rule.between(today, future, true, limitFunction);
@@ -83,7 +90,7 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 							endDate  = moment(parseInt(startDate.format("x")) + duration, 'x');
 							if (endDate.format("x") > now) {
 								newEvents.push({
-									title: (typeof event.summary.val !== "undefined") ? event.summary.val : event.summary,
+									title: title,
 									startDate: startDate.format("x"),
 									endDate: endDate.format("x"),
 									fullDayEvent: isFullDayEvent(event),
@@ -95,7 +102,6 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 						// console.log("Single event ...");
 						// Single event.
 						var fullDayEvent = (isFacebookBirthday) ? true : isFullDayEvent(event);
-						var title = (typeof event.summary.val !== "undefined") ? event.summary.val : event.summary;
 
 						if (!fullDayEvent && endDate < new Date()) {
 							//console.log("It's not a fullday event, and it is in the past. So skip: " + title);
