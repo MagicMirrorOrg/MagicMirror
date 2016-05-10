@@ -42,16 +42,27 @@ var Fetcher = function(url, reloadInterval, encoding) {
 		var parser = new FeedMe();
 
 		parser.on("item", function(item) {
-			var description = item.description || '';
-			var regex = /(<([^>]+)>)/ig;
-			description = description.replace(regex, "");
 
-			if (item.title && description && item.pubdate) {
+			var title = item.title;
+			var description = item.description || item.summary || item.content || '';
+			var pubdate = item.pubdate || item.published || item.updated;
+
+			if (title && description && pubdate) {
+
+				var regex = /(<([^>]+)>)/ig;
+				description = description.replace(regex, "");
+
 				items.push({
-					title: item.title,
+					title: title,
 					description: description,
-					pubdate: item.pubdate,
+					pubdate: pubdate,
 				});
+
+			} else {
+
+				console.log("Can't parse feed item:");
+				console.log(item);
+			
 			}
 		});
 
