@@ -1,0 +1,27 @@
+{
+	/* GENERAL */
+	"LOADING": "Cargando &hellip;",
+
+	/* CALENDAR */
+	"TODAY": "Hoy",
+	"TOMORROW": "Mañana",
+	"RUNNING": "Termina en",
+	"EMPTY": "No hay eventos programados.",
+
+	/* WEATHER */
+	"N": 	"N",
+	"NNE": 	"NNE",
+	"ENE": 	"ENE",
+	"E":	"E",
+	"ESE": 	"ESE",
+	"SE": 	"SE",
+	"SSE": 	"SSE",
+	"S": 	"S",
+	"SSW": 	"SSO",
+	"SW": 	"SO",
+	"WSW": 	"OSO",
+	"W": 	"O",
+	"WNW": 	"ONO",
+	"NW": 	"NO",
+	"NNW": 	"NNO"
+}
