@@ -306,11 +306,11 @@ Module.register("currentweather",{
                 if (deg>11.25 && deg<=33.75){
                         return "NNE";
                 } else if (deg > 33.75 && deg <= 56.25) {
-                        return "ENE";
+                        return "NE";
                 } else if (deg > 56.25 && deg <= 78.75) {
-                        return "E";
+                        return "ENE";
                 } else if (deg > 78.75 && deg <= 101.25) {
-                        return "ESE";
+                        return "E";
                 } else if (deg > 101.25 && deg <= 123.75) {
                         return "ESE";
                 } else if (deg > 123.75 && deg <= 146.25) {
