@@ -5,6 +5,7 @@
 	<a href="https://david-dm.org/MichMich/MagicMirror/v2-beta#info=devDependencies"><img src="https://david-dm.org/MichMich/MagicMirror/v2-beta/dev-status.svg" alt="devDependency Status"></a>
 	<a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-v5.10.1-brightgreen.svg" alt="Node Version"></a>
 	<a href="http://choosealicense.com/licenses/mit"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
+	<a href="https://travis-ci.org/MichMich/MagicMirror"><img src="https://travis-ci.org/MichMich/MagicMirror.svg?branch=v2-beta" alt="Travis"></a>
 	<a href="https://snyk.io/test/github/MichMich/MagicMirror/v2-beta"><img src="https://snyk.io/test/github/MichMich/MagicMirror/v2-beta/badge.svg" alt="Known Vulnerabilities" data-canonical-src="https://snyk.io/test/github/MichMich/MagicMirror/v2-beta" style="max-width:100%;"></a>
 </p>
 
