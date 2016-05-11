@@ -110,6 +110,20 @@ var Module = Class.extend({
 		Log.log(this.name + " received a socket notification: " + notification + " - Payload: " + payload);
 	},
 
+	/* suspend()
+	 * This method is called when a module is hidden.
+	 */
+	suspend: function() {
+		Log.log(this.name + " is suspend.");
+	},
+
+	/* resume()
+	 * This method is called when a module is shown.
+	 */
+	resume: function() {
+		Log.log(this.name + " is resumed.");
+	},
+
 	/*********************************************
 	 * The methods below don"t need subclassing. *
 	 *********************************************/
@@ -291,7 +305,13 @@ var Module = Class.extend({
 	 * argument callback function - Called when the animation is done.
 	 */
 	hide: function(speed, callback) {
-		MM.hideModule(this, speed, callback);
+		callback = callback || function() {};
+
+		var self = this;
+		MM.hideModule(self, speed, function() {
+			self.suspend();
+			callback();
+		});
 	},
 
 	/* showModule(module, speed, callback)
@@ -301,6 +321,7 @@ var Module = Class.extend({
 	 * argument callback function - Called when the animation is done.
 	 */
 	show: function(speed, callback) {
+		this.resume();
 		MM.showModule(this, speed, callback);
 	}
 });
