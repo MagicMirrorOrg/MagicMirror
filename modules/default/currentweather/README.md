@@ -94,7 +94,7 @@ The following properties can be configured:
 			<td><code>showWindDirection</code></td>
 			<td>Show the wind direction next to the wind speed.<br>
 				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
-				<br><b>Default value:</b> <code>false</code>
+				<br><b>Default value:</b> <code>true</code>
 			</td>
 		</tr>
 		<tr>
