@@ -125,7 +125,7 @@ Module.register("currentweather",{
 		small.appendChild(windSpeed);
 
 		if (this.config.showWindDirection) {
-			var windDirection = document.createElement("span");
+			var windDirection = document.createElement("sup");
 			windDirection.innerHTML = " " + this.translate(this.windDirection);
 			small.appendChild(windDirection);
 		}
