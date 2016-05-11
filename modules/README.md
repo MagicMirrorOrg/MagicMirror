@@ -4,9 +4,9 @@ This document describes the way to develop your own MagicMirror² modules.
 
 ## Module structure
 
-All modules are loaded in de `modules` folder. The default modules are grouped together in the `modules/default` folder. Your module should be placed in a subfolder of `modules`. Note that any file or folder your create in the `modules` folder will be ignored by git, allowing you to upgrade the MagicMirror² without the loss of your files. 
+All modules are loaded in de `modules` folder. The default modules are grouped together in the `modules/default` folder. Your module should be placed in a subfolder of `modules`. Note that any file or folder your create in the `modules` folder will be ignored by git, allowing you to upgrade the MagicMirror² without the loss of your files.
 
-A module can be placed in one single folder. Or multiple modules can be grouped in a subfoler. Note that name of the module must be unique. Even when a module with a similar name is placed in a different folder, they can't be loaded at the same time. 
+A module can be placed in one single folder. Or multiple modules can be grouped in a subfoler. Note that name of the module must be unique. Even when a module with a similar name is placed in a different folder, they can't be loaded at the same time.
 
 ### Files
 - **modulename/modulename.js** - This is your core module script.
@@ -47,12 +47,12 @@ After the module is initialized, the module instance has a few available module 
 ####`this.name`
 **String**
 
-The name of the module. 
+The name of the module.
 
 ####`this.identifier`
 **String**
 
-This is a unique identifier for the module instance. 
+This is a unique identifier for the module instance.
 
 ####`this.hidden`
 **Boolean**
@@ -97,7 +97,7 @@ start: function() {
 ####`getScripts()`
 **Should return: Array**
 
-The getScripts method is called to request any additional scripts that need to be loaded. This method should therefore return an array with strings. If you want to return a full path to a file in the module folder, use the `this.file('filename.js')` method. In all cases the loader will only load a file once. It even checks if the file is available in the default vendor folder. 
+The getScripts method is called to request any additional scripts that need to be loaded. This method should therefore return an array with strings. If you want to return a full path to a file in the module folder, use the `this.file('filename.js')` method. In all cases the loader will only load a file once. It even checks if the file is available in the default vendor folder.
 
 **Example:**
 ````javascript
@@ -114,10 +114,10 @@ getScripts: function() {
 **Note:** If a file can not be loaded, the boot up of the mirror will stall. Therefore it's advised not to use any external urls.
 
 
-####`getStyles()` 
+####`getStyles()`
 **Should return: Array**
 
-The getStyles method is called to request any additional stylesheets that need to be loaded. This method should therefore return an array with strings. If you want to return a full path to a file in the module folder, use the `this.file('filename.css')` method. In all cases the loader will only load a file once. It even checks if the file is available in the default vendor folder. 
+The getStyles method is called to request any additional stylesheets that need to be loaded. This method should therefore return an array with strings. If you want to return a full path to a file in the module folder, use the `this.file('filename.css')` method. In all cases the loader will only load a file once. It even checks if the file is available in the default vendor folder.
 
 **Example:**
 ````javascript
@@ -133,10 +133,12 @@ getStyles: function() {
 ````
 **Note:** If a file can not be loaded, the boot up of the mirror will stall. Therefore it's advised not to use any external urls.
 
-####`getTranslations()` 
+####`getTranslations()`
 **Should return: Dictionary**
 
 The getTranslations method is called to request translation files that need to be loaded. This method should therefore return a dictionary with the files to load, identified by the country's short name.
+
+If the module does not have any module specific translations, the function can just be omitted or return `false`.
 
 **Example:**
 ````javascript
@@ -149,7 +151,7 @@ getTranslations: function() {
 
 ````
 
-####`getDom()` 
+####`getDom()`
 **Should return:** Dom Object
 
 Whenever the MagicMirror needs to update the information on screen (because it starts, or because your module asked a refresh using `this.updateDom()`), the system calls the getDom method. This method should therefor return a dom object.
@@ -203,7 +205,7 @@ When using a node_helper, the node helper can send your module notifications. Wh
 ````javascript
 socketNotificationReceived: function(notification, payload) {
 	Log.log(this.name + " received a socket notification: " + notification + " - Payload: " + payload);
-}, 
+},
 ````
 
 ### Module instance methods
@@ -233,7 +235,7 @@ start: function() {
 	}, 1000); //perform every 1000 milliseconds.
 },
 ...
-```` 
+````
 
 ####`this.sendNotification(notification, payload)`
 ***notification* String** - The notification identifier.<br>
@@ -282,6 +284,13 @@ To show a module, you can call the `show(speed, callback)` method. You can call 
 
 The Magic Mirror contains a convenience wrapper for `l18n`. You can use this to automatically serve different translations for your modules based on the user's `language` configuration.
 
+If no translation is found, a fallback will be used. The fallback sequence is as follows:
+1. Translation as defined in module translation file of the user's preferred language.
+2. Translation as defined in core translation file of the user's preferred language.
+3. Translation as defined in module translation file of the fallback language (the first defined module translation file).
+4. Translation as defined in core translation file of the fallback language (the first defined core translation file).
+5. The key (identifier) of the translation.
+
 **Example:**
 ````javascript
 this.translate("INFO") //Will return a translated string for the identifier INFO
@@ -294,12 +303,12 @@ this.translate("INFO") //Will return a translated string for the identifier INFO
 }
 ````
 
-**Note:** Currently there is no fallback if a translation identifier does not exist in one language. Right now you always have to add all identifier to all your translations even if they are not translated yet (see [#191](https://github.com/MichMich/MagicMirror/issues/191)).
+**Note:** although comments are officially not supported in JSON files, MagicMirror allows it by stripping the comments before parsing the JSON file. Comments in translation files could help other translators.
 
 
 ## The Node Helper: node_helper.js
 
-The node helper is a Node.js script that is able to do some backend task to support your module. For every module type, only one node helper instance will be created. For example: if your MagicMirror uses two calendar modules, there will be only one calendar node helper instantiated. 
+The node helper is a Node.js script that is able to do some backend task to support your module. For every module type, only one node helper instance will be created. For example: if your MagicMirror uses two calendar modules, there will be only one calendar node helper instantiated.
 
 **Note:** Because there is only one node helper per module type, there is no default config available within your module. It's your task to send the desired config from your module to your node helper.
 
@@ -376,7 +385,7 @@ With this method, your node helper can receive notifications form your modules. 
 ````javascript
 socketNotificationReceived: function(notification, payload) {
 	Log.log(this.name + " received a socket notification: " + notification + " - Payload: " + payload);
-}, 
+},
 ````
 
 ### Module instance methods
@@ -389,7 +398,7 @@ Each node helper has some handy methods which can be helpfull building your modu
 
 If you want to send a notification to all your modules, use the `sendSocketNotification(notification, payload)`. Only the module of your module type will recieve the socket notification.
 
-**Note:** Since all instances of you module will receive the notifications, it's your task to make sure the right module responds to your messages. 
+**Note:** Since all instances of you module will receive the notifications, it's your task to make sure the right module responds to your messages.
 
 **Example:**
 ````javascript
@@ -398,7 +407,7 @@ this.sendSocketNotification('SET_CONFIG', this.config);
 
 ## MagicMirror Helper Methods
 
-The core Magic Mirror object: `MM` has some handy method that will help you in controlling your and other modules. Most of the `MM` methods are available via convenience methods on the Module instance. 
+The core Magic Mirror object: `MM` has some handy method that will help you in controlling your and other modules. Most of the `MM` methods are available via convenience methods on the Module instance.
 
 ### Module selection
 The only additional method available for your module, is the feature to retrieve references to other modules. This can be used to hide and show other modules.
@@ -479,10 +488,10 @@ Module.register("modulename",{
 				});
 			});
 		}
-	}, 
+	},
 	//...
 });
-```` 
+````
 
 ## MagicMirror Logger
 

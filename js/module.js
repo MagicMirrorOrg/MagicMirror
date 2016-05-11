@@ -58,7 +58,7 @@ var Module = Class.extend({
 	 * return Map<String, String> - A map with langKeys and filenames.
 	 */
 	getTranslations: function() {
-		return {};
+		return false;
 	},
 
 	/* getDom()
@@ -221,9 +221,25 @@ var Module = Class.extend({
 	loadTranslations: function(callback) {
 		var self = this;
 		var translations = this.getTranslations();
-		var translationFile = translations && (translations[config.language.toLowerCase()] || translations.en) || undefined;
-		if(translationFile) {
-			Translator.load(this, translationFile, callback);
+		var lang = config.language.toLowerCase();
+
+		// The variable `first` will contain the first
+		// defined translation after the following line.
+		for (var first in translations) {break;}
+
+		if (translations) {
+			var translationFile = translations[lang] || undefined;
+			var translationsFallbackFile = translations[first];
+
+			// If a translation file is set, load it and then also load the fallback translation file.
+			// Otherwise only load the fallback translation file.
+			if (translationFile !== undefined) {
+				Translator.load(self, translationFile, false, function() {
+					Translator.load(self, translationsFallbackFile, true, callback);
+				});
+			} else {
+				Translator.load(self, translationsFallbackFile, true, callback);
+			}
 		} else {
 			callback();
 		}

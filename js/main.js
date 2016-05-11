@@ -331,6 +331,7 @@ var MM = (function() {
 		init: function() {
 			Log.info("Initializing MagicMirror.");
 			loadConfig();
+			Translator.loadCoreTranslations(config.language);
 			Loader.loadModules();
 		},
 

@@ -1,0 +1,27 @@
+{
+	/* GENERAL */
+	"LOADING": "Bezig met laden &hellip;",
+
+	/* CALENDAR */
+	"TODAY": "Vandaag",
+	"TOMORROW": "Morgen",
+	"RUNNING": "Eindigd over",
+	"EMPTY": "Geen geplande afspraken.",
+
+	/* WEATHER */
+	"N": 	"N",
+	"NNE": 	"NNO",
+	"ENE": 	"ONO",
+	"E":	"O",
+	"ESE": 	"OZO",
+	"SE": 	"ZO",
+	"SSE": 	"ZZO",
+	"S": 	"Z",
+	"SSW": 	"ZZW",
+	"SW": 	"ZW",
+	"WSW": 	"WZW",
+	"W": 	"W",
+	"WNW": 	"WNW",
+	"NW": 	"NW",
+	"NNW": 	"NNW"
+}

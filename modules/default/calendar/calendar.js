@@ -47,12 +47,10 @@ Module.register("calendar",{
 
 	// Define required translations.
 	getTranslations: function() {
-		return {
-			en: "translations/en.json",
-			de: "translations/de.json",
-			nl: "translations/nl.json",
-			fr: "translations/fr.json"
-		};
+		// The translations for the defaut modules are defined in the core translation files.
+		// Therefor we can just return false. Otherwise we should have returned a dictionairy.
+		// If you're trying to build yiur own module including translations, check out the documentation.
+		return false;
 	},
 
 	// Override start method.
@@ -120,20 +118,20 @@ Module.register("calendar",{
 
 			var titleWrapper = document.createElement("td"),
 				repeatingCountTitle = '';
-				
-				
-			if (this.config.displayRepeatingCountTitle) {							
-					
+
+
+			if (this.config.displayRepeatingCountTitle) {
+
 				repeatingCountTitle = this.countTitleForUrl(event.url);
-				
+
 				if(repeatingCountTitle !== '') {
 					var thisYear = new Date().getFullYear(),
 						yearDiff = thisYear - event.firstYear;
-					
+
 					repeatingCountTitle = ', '+ yearDiff + '. ' + repeatingCountTitle;
 				}
-			}	
-			
+			}
+
 			titleWrapper.innerHTML = this.titleTransform(event.title) + repeatingCountTitle;
 			titleWrapper.className = "title bright";
 			eventWrapper.appendChild(titleWrapper);
@@ -356,4 +354,3 @@ Module.register("calendar",{
 		return title;
 	}
 });
-

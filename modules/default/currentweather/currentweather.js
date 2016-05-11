@@ -62,6 +62,14 @@ Module.register("currentweather",{
 		return ["weather-icons.css", "currentweather.css"];
 	},
 
+	// Define required translations.
+	getTranslations: function() {
+		// The translations for the defaut modules are defined in the core translation files.
+		// Therefor we can just return false. Otherwise we should have returned a dictionairy.
+		// If you're trying to build yiur own module including translations, check out the documentation.
+		return false;
+	},
+
 	// Define start sequence.
 	start: function() {
 		Log.info("Starting module: " + this.name);
@@ -100,7 +108,7 @@ Module.register("currentweather",{
 		}
 
 		if (!this.loaded) {
-			wrapper.innerHTML = "Loading weather ...";
+			wrapper.innerHTML = this.translate('LOADING');
 			wrapper.className = "dimmed light small";
 			return wrapper;
 		}
@@ -111,14 +119,14 @@ Module.register("currentweather",{
 		var windIcon = document.createElement("span");
 		windIcon.className = "wi wi-strong-wind dimmed";
 		small.appendChild(windIcon);
-		
+
 		var windSpeed = document.createElement("span");
 		windSpeed.innerHTML = " " + this.windSpeed;
 		small.appendChild(windSpeed);
-	
+
 		if (this.config.showWindDirection) {
 			var windDirection = document.createElement("span");
-			windDirection.innerHTML = " " + this.windDirection;
+			windDirection.innerHTML = " " + this.translate(this.windDirection);
 			small.appendChild(windDirection);
 		}
 		var spacer = document.createElement("span");
@@ -205,13 +213,13 @@ Module.register("currentweather",{
 	 */
 	processWeather: function(data) {
 		this.temperature = this.roundValue(data.main.temp);
-		
+
 		if (this.config.useBeaufort){
 			this.windSpeed = this.ms2Beaufort(this.roundValue(data.wind.speed));
 		}else {
 			this.windSpeed = parseFloat(data.wind.speed).toFixed(0);
 		}
-		
+
 
 		this.windDirection = this.deg2Cardinal(data.wind.deg);
 		this.weatherType = this.config.iconTable[data.weather[0].icon];
@@ -220,7 +228,7 @@ Module.register("currentweather",{
 		var sunrise = new Date(data.sys.sunrise * 1000);
 		var sunset = new Date(data.sys.sunset * 1000);
 
-		// The moment().format('h') method has a bug on the Raspberry Pi. 
+		// The moment().format('h') method has a bug on the Raspberry Pi.
 		// So we need to generate the timestring manually.
 		// See issue: https://github.com/MichMich/MagicMirror/issues/181
 		var sunriseSunsetDateObject = (sunrise < now && sunset > now) ? sunset : sunrise;
@@ -293,7 +301,7 @@ Module.register("currentweather",{
 	 *
 	 * return number - Rounded Temperature.
 	 */
-	 
+
 	deg2Cardinal: function(deg) {
                 if (deg>11.25 && deg<=33.75){
                         return "NNE";
@@ -330,7 +338,7 @@ Module.register("currentweather",{
                 }
 	},
 
-	 
+
 	roundValue: function(temperature) {
 		return parseFloat(temperature).toFixed(1);
 	}

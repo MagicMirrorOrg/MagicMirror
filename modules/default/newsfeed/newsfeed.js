@@ -31,6 +31,14 @@ Module.register("newsfeed",{
 		return ["moment.js"];
 	},
 
+	// Define required translations.
+	getTranslations: function() {
+		// The translations for the defaut modules are defined in the core translation files.
+		// Therefor we can just return false. Otherwise we should have returned a dictionairy.
+		// If you're trying to build yiur own module including translations, check out the documentation.
+		return false;
+	},
+
 	// Define start sequence.
 	start: function() {
 		Log.info("Starting module: " + this.name);
@@ -55,7 +63,7 @@ Module.register("newsfeed",{
 				this.scheduleUpdateInterval();
 			}
 
-			this.loaded = true;	
+			this.loaded = true;
 		}
 	},
 
@@ -100,7 +108,7 @@ Module.register("newsfeed",{
 			}
 
 		} else {
-			wrapper.innerHTML = "Loading news ...";
+			wrapper.innerHTML = this.translate("LOADING");
 			wrapper.className = "small dimmed";
 		}
 
