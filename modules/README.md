@@ -285,11 +285,13 @@ To show a module, you can call the `show(speed, callback)` method. You can call 
 The Magic Mirror contains a convenience wrapper for `l18n`. You can use this to automatically serve different translations for your modules based on the user's `language` configuration.
 
 If no translation is found, a fallback will be used. The fallback sequence is as follows:
-1. Translation as defined in module translation file of the user's preferred language.
-2. Translation as defined in core translation file of the user's preferred language.
-3. Translation as defined in module translation file of the fallback language (the first defined module translation file).
-4. Translation as defined in core translation file of the fallback language (the first defined core translation file).
-5. The key (identifier) of the translation.
+- 1. Translation as defined in module translation file of the user's preferred language.
+- 2. Translation as defined in core translation file of the user's preferred language.
+- 3. Translation as defined in module translation file of the fallback language (the first defined module translation file).
+- 4. Translation as defined in core translation file of the fallback language (the first defined core translation file).
+- 5. The key (identifier) of the translation.
+
+When adding translations to your module, it's a good idea to see if an apropriate translation is already available in the [core translation files](https://github.com/MichMich/MagicMirror/tree/v2-beta/translations). This way, your module can benefit from the exsisting translations.
 
 **Example:**
 ````javascript
