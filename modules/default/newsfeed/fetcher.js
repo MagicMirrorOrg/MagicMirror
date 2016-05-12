@@ -47,7 +47,7 @@ var Fetcher = function(url, reloadInterval, encoding) {
 			var description = item.description || item.summary || item.content || '';
 			var pubdate = item.pubdate || item.published || item.updated;
 
-			if (title && description && pubdate) {
+			if (title && pubdate) {
 
 				var regex = /(<([^>]+)>)/ig;
 				description = description.replace(regex, "");
@@ -62,7 +62,10 @@ var Fetcher = function(url, reloadInterval, encoding) {
 
 				console.log("Can't parse feed item:");
 				console.log(item);
-			
+				console.log('Title: ' + title);
+				console.log('Description: ' + description);
+				console.log('Pubdate: ' + pubdate);
+
 			}
 		});
 
