@@ -33,7 +33,7 @@ Electron, the app wrapper around MagicMirror², only supports the Raspberry Pi 2
 
 Execute the following command on your Raspberry Pi to install MagicMirror²:
 ````
-curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/installers/raspberry.sh | bash
+curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/master/installers/raspberry.sh | bash
 ````
 
 #### Manual Installation
