@@ -70,47 +70,13 @@ fi
 
 # Install or upgare node if nessecery.
 if $NODE_INSTALL; then
-
-	echo -e "\e[96mStart Node download ...\e[0m"
-
-	#Fetch the latest version of Node.js.
-	#TODO: Is there a native way to fetch the latest node version?
-	echo -e "\e[39mRetrieving latest node version."
-	NODE_LATEST=$(curl -l http://api.jordidepoortere.com/nodejs-latest/ 2> /dev/null) 
-
-	if [ "$NODE_LATEST" == "" ]; then
-		echo -e "\e[91mCould not retreive latest node version."
-		echo -e "\e[91mPlease try again or open an issue on GitHub."
-		exit
-	fi
-
-	echo -e "Latest node version: \e[1m$NODE_LATEST\e[0m"
-
-	#Construct the download URL.
-	DOWNLOAD_URL="https://nodejs.org/dist/latest/node-$NODE_LATEST-linux-$ARM.tar.gz" 
-
-	#Create Download Directory
-	rm -Rf ~/.MagicMirrorNodeInstaller || exit
-	mkdir ~/.MagicMirrorNodeInstaller || exit
-	cd  ~/.MagicMirrorNodeInstaller || exit
-
-	#Download Installer
-	echo -e "\e[39mDownloading node ... \e[90m"
-	if wget $DOWNLOAD_URL --no-verbose --show-progress; then
-		echo -e "\e[39mDownload complete."
-	else
-		echo -e "\e[91mCould not download node."
-		exit;
-	fi
-
-	#Unpack and copy.
-	echo -e "\e[96mStart Node installation ...\e[90m"
-	tar xvf node-$NODE_LATEST-linux-$ARM.tar.gz || exit
-	cd node* || exit
-	sudo cp -R * /usr/local || exit
-
-	#Cleanup
-	rm -Rf ~/.MagicMirrorNodeInstaller || exit
+	
+	#Fetch the latest version of Node.js from the selected branch
+	#The NODE_STABLE_BRANCH variable will need to be manually adjusted when a new branch is released. (e.g. 7.x)
+	#Only tested (stable) versions are recommended as newer versions could break MagicMirror.
+	NODE_STABLE_BRANCH="6.x"
+	curl -sL https://deb.nodesource.com/setup_$NODE_STABLE_BRANCH | sudo -E bash -
+	sudo apt-get install -y nodejs
 fi
 
 #Install magic mirror
