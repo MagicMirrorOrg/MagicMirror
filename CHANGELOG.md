@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
 - Changelog
+- Italian Translation
 
 ### Changed
 - Improve the installer by fetching the latest Node.js without any 3rd party interferences.
