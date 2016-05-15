@@ -23,6 +23,8 @@ function createWindow() {
 	//mainWindow.loadURL('file://' + __dirname + '../../index.html');
 	mainWindow.loadURL("http://localhost:" + config.port);
 
+
+
 	// Open the DevTools.
 	//mainWindow.webContents.openDevTools();
 
@@ -33,6 +35,12 @@ function createWindow() {
 		// when you should delete the corresponding element.
 		mainWindow = null;
 	});
+
+	// Open the DevTools if run with "npm start dev"
+    if(process.argv[2] == "dev"){
+    	mainWindow.webContents.openDevTools();
+    }
+
 }
 
 // This method will be called when Electron has finished
