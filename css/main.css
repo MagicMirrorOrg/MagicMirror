@@ -211,7 +211,8 @@ sup {
 }
 
 .region.lower.third {
-  top: 66%;
+  top: 74%;
+
 }
 
 .region.left {
@@ -226,4 +227,10 @@ sup {
   width: 100%;
   border-spacing: 0;
   border-collapse: separate;
+}
+
+#map {
+  height: 460px;
+  width: 380px;
+  margin-top: -10px;
 }

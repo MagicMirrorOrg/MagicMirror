@@ -7,7 +7,9 @@
 	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<link rel="stylesheet" type="text/css" href="fonts/roboto.css">
-	<!-- custom.css is loaded by the loader.js to make sure it's loaded after the module css files. -->
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzhz8D9MXy1LY7cOkKR-iUOjm3M09z-i0"></script>
+	<script type="text/javascript" src="js/gmaps.js"></script>
+
 </head>
 <body>
 	<div class="region fullscreen below"><div class="container"></div></div>
@@ -18,7 +20,56 @@
 		<div class="region top right"><div class="container"></div></div>
 	</div>
 	<div class="region upper third"><div class="container"></div></div>
-	<div class="region middle center"><div class="container"></div></div>
+	<div class="region middle center">
+		<div class="container">
+			<div id="map"></div>
+
+			    <script>
+    				var map = new GMaps({
+      					el: '#map',
+      					lat: 37.7924449,
+      					lng: -122.341294,
+      					Zoom: 11,
+      					disableDefaultUI: true,
+      					overviewMapControl: false,
+      					mapTypeControl: false,
+    				});
+    				map.addLayer('traffic');
+
+    				var styles = [
+					  {
+					    stylers: [
+					      { saturation: -100 },
+					      { invert_lightness: 'true' },
+					      { lightness: 1 },
+					    ]
+					  },{
+					    featureType: "road",
+					    elementType: "geometry",
+					    stylers: [
+					      { lightness: 100 },
+					      { visibility: "simplified" }
+					    ]
+					  },{
+					    featureType: "road",
+					    elementType: "labels",
+					    stylers: [
+					      { visibility: "off" }
+					    ]
+					  }
+					];
+
+					map.addStyle({
+			            styledMapName:"Styled Map",
+			            styles: styles,
+			            mapTypeId: "map_style"  
+			        });
+			        
+			        map.setStyle("map_style");
+
+  				</script>
+		</div>
+	</div>
 	<div class="region lower third"><div class="container"><br/></div></div>
 	<div class="region bottom bar">
 		<div class="container"></div>
@@ -40,5 +91,16 @@
 	<script type="text/javascript" src="js/loader.js"></script>
 	<script type="text/javascript" src="js/socketclient.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
+	<script>
+		function refreshMap() {
+			trafficLayer.setMap(null);
+			trafficLayer = null;
+			map.setZoom(map.getZoom()); // this renews the view and forces new data to be requested
+			setTimeout(function () {
+				trafficLayer = new google.maps.TrafficLayer();
+				trafficLayer.setMap(map);
+			}, 300000);
+		}
+     </script>
 </body>
 </html>
