@@ -7,55 +7,9 @@
 	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<link rel="stylesheet" type="text/css" href="fonts/roboto.css">
-	<script>
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzhz8D9MXy1LY7cOkKR-iUOjm3M09z-i0"></script>
+	<script type="text/javascript" src="js/gmaps.js"></script>
 
-		function initMap() {
-			var map = new google.maps.Map(document.getElementById("map"),
-		    {
-		        zoom: 11,
-		        center: new google.maps.LatLng(37.7924449, -122.341294),
-		        mapTypeId: google.maps.MapTypeId.ROADMAP,
-		        disableDoubleClickZoom: true,
-			    draggable: false,
-			    scrollwheel: false,
-			    panControl: false,
-			    disableDefaultUI: true
-		    });
-
-		    var trafficLayer = new google.maps.TrafficLayer();
-		    trafficLayer.setMap(map);
-		    
-		    var styles = [
-			  {
-			    stylers: [
-			      { saturation: -100 },
-			      { invert_lightness: 'true' },
-			      { lightness: 1 },
-			    ]
-			  },{
-			    featureType: "road",
-			    elementType: "geometry",
-			    stylers: [
-			      { lightness: 100 },
-			      { visibility: "simplified" }
-			    ]
-			  },{
-			    featureType: "road",
-			    elementType: "labels",
-			    stylers: [
-			      { visibility: "off" }
-			    ]
-			  }
-			];
-
-		map.setOptions({styles: styles});	
-		      
-		}
-    </script>
-
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzhz8D9MXy1LY7cOkKR-iUOjm3M09z-i0&callback=initMap"></script>
-
-	<!-- custom.css is loaded by the loader.js to make sure it's loaded after the module css files. -->
 </head>
 <body>
 	<div class="region fullscreen below"><div class="container"></div></div>
@@ -66,7 +20,56 @@
 		<div class="region top right"><div class="container"></div></div>
 	</div>
 	<div class="region upper third"><div class="container"></div></div>
-	<div class="region middle center"><div class="container"><div id="map"></div></div></div>
+	<div class="region middle center">
+		<div class="container">
+			<div id="map"></div>
+
+			    <script>
+    				var map = new GMaps({
+      					el: '#map',
+      					lat: 37.7924449,
+      					lng: -122.341294,
+      					Zoom: 11,
+      					disableDefaultUI: true,
+      					overviewMapControl: false,
+      					mapTypeControl: false,
+    				});
+    				map.addLayer('traffic');
+
+    				var styles = [
+					  {
+					    stylers: [
+					      { saturation: -100 },
+					      { invert_lightness: 'true' },
+					      { lightness: 1 },
+					    ]
+					  },{
+					    featureType: "road",
+					    elementType: "geometry",
+					    stylers: [
+					      { lightness: 100 },
+					      { visibility: "simplified" }
+					    ]
+					  },{
+					    featureType: "road",
+					    elementType: "labels",
+					    stylers: [
+					      { visibility: "off" }
+					    ]
+					  }
+					];
+
+					map.addStyle({
+			            styledMapName:"Styled Map",
+			            styles: styles,
+			            mapTypeId: "map_style"  
+			        });
+			        
+			        map.setStyle("map_style");
+
+  				</script>
+		</div>
+	</div>
 	<div class="region lower third"><div class="container"><br/></div></div>
 	<div class="region bottom bar">
 		<div class="container"></div>
