@@ -27,6 +27,7 @@ Module.register('MMM-Traffic', {
         show_summary: true
     },
 
+
     start: function() {
         Log.info('Starting module: ' + this.name);
         if (this.data.classes === 'MMM-Traffic') {
@@ -43,6 +44,7 @@ Module.register('MMM-Traffic', {
         this.commute = '';
         this.summary = '';
         this.updateCommute(this);
+
     },
 
     updateCommute: function(self) {
@@ -97,7 +99,9 @@ Module.register('MMM-Traffic', {
           wrapper.appendChild(routeName);
         }
 
-        return wrapper;
+
+    return wrapper;
+
     },
 
     getParams: function() {

@@ -7,6 +7,56 @@
 	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<link rel="stylesheet" type="text/css" href="fonts/roboto.css">
+	<script>
+
+	function initMap() {
+		var map = new google.maps.Map(document.getElementById("map"),
+	    {
+	        zoom: 11,
+	        center: new google.maps.LatLng(37.7924449, -122.341294),
+	        mapTypeId: google.maps.MapTypeId.ROADMAP,
+	        disableDoubleClickZoom: true,
+		    draggable: false,
+		    scrollwheel: false,
+		    panControl: false,
+		    disableDefaultUI: true
+	    });
+
+	    var trafficLayer = new google.maps.TrafficLayer();
+	    trafficLayer.setMap(map);
+	    
+	    var styles = [
+		  {
+		    stylers: [
+		      { saturation: -100 },
+		      { invert_lightness: 'true' },
+		      { lightness: 1 },
+		    ]
+		  },{
+		    featureType: "road",
+		    elementType: "geometry",
+		    stylers: [
+		      { lightness: 100 },
+		      { visibility: "simplified" }
+		    ]
+		  },{
+		    featureType: "road",
+		    elementType: "labels",
+		    stylers: [
+		      { visibility: "off" }
+		    ]
+		  }
+		];
+
+	map.setOptions({styles: styles});	
+	      
+	}
+
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB44_iBWciC6fwBWKduEOx4_9uf7HQBtbY&callback=initMap">
+    </script>
+
+    </script>
 	<!-- custom.css is loaded by the loader.js to make sure it's loaded after the module css files. -->
 </head>
 <body>
@@ -18,7 +68,7 @@
 		<div class="region top right"><div class="container"></div></div>
 	</div>
 	<div class="region upper third"><div class="container"></div></div>
-	<div class="region middle center"><div class="container"></div></div>
+	<div class="region middle center"><div class="container"><div id="map"></div></div></div>
 	<div class="region lower third"><div class="container"><br/></div></div>
 	<div class="region bottom bar">
 		<div class="container"></div>
@@ -40,5 +90,16 @@
 	<script type="text/javascript" src="js/loader.js"></script>
 	<script type="text/javascript" src="js/socketclient.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
+	<script>
+		function refreshMap() {
+			trafficLayer.setMap(null);
+			trafficLayer = null;
+			map.setZoom(map.getZoom()); // this renews the view and forces new data to be requested
+			setTimeout(function () {
+				trafficLayer = new google.maps.TrafficLayer();
+				trafficLayer.setMap(map);
+			}, 100);
+		}
+     </script>
 </body>
 </html>
