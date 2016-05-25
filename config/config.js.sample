@@ -41,7 +41,7 @@ var config = {
 			position: 'top_right',
 			config: {
 				location: 'New York',
-				locationID: '5128581',  //ID from bulk.openweather.org/sample/
+				locationID: '',  //ID from bulk.openweather.org/sample/
 				appid: 'YOUR_OPENWEATHER_API_KEY'
 			}
 		},
