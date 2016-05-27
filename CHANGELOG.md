@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Norwegian Translations (nb and nn)
 - Portuguese Translation
+- Swedish Translation
 
 ### Chagned
 - Add option to use locationID in weather modules.
