@@ -18,6 +18,8 @@ Module.register("calendar",{
 		displayRepeatingCountTitle: false,
 		defaultRepeatingCountTitle: '',
 		maxTitleLength: 25,
+		showLocation: false,
+		maxLocationLength: 50,
 		fetchInterval: 5 * 60 * 1000, // Update every 5 minutes.
 		animationSpeed: 2000,
 		fade: true,
@@ -209,6 +211,16 @@ Module.register("calendar",{
 
 			wrapper.appendChild(eventWrapper);
 
+			if (this.config.showLocation){
+				var locationWrapper = document.createElement("tr");
+	            var locationLine = document.createElement("td");
+	            locationLine.innerHTML = this.locationTransform(event.location);
+	            locationLine.className = "location"
+	            locationLine.colSpan = 3;
+	            locationWrapper.appendChild(locationLine);
+	            wrapper.appendChild(locationWrapper);
+			}
+
 			// Create fade effect.
 			if (this.config.fade && this.config.fadePoint < 1) {
 				if (this.config.fadePoint < 0) {
@@ -219,6 +231,10 @@ Module.register("calendar",{
 				if (e >= startingPoint) {
 					var currentStep = e - startingPoint;
 					eventWrapper.style.opacity = 1 - (1 / steps * currentStep);
+					if (this.config.showLocation){
+						locationWrapper.style.opacity = 1 - (1 / steps * currentStep);
+					}
+
 				}
 			}
 		}
@@ -352,5 +368,19 @@ Module.register("calendar",{
 
 		title = this.shorten(title, this.config.maxTitleLength);
 		return title;
-	}
+	},
+
+	/* locationTransform(location)
+     * Transforms the location of an event for usage.
+     * Shortens title based on config.maxLocationLength
+     *
+     * argument location string - The location to transform.
+     *
+     * return string - The transformed location.
+     */
+	locationTransform: function(location) {
+        location = this.shorten(location, this.config.maxLocationLength);
+        return location;
+    }
+
 });

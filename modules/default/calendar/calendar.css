@@ -20,3 +20,7 @@
   padding-left: 30px;
   text-align: right;
 }
+
+.calendar .location {
+  font-size: 80%;
+}
