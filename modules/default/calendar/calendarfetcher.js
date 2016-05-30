@@ -81,6 +81,13 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 						title = event.description;
 					}
 
+					var location = "Location";
+					if (event.location) {
+						location = event.location;
+					} else {
+						location = "/"
+					}
+
 					if (typeof event.rrule != "undefined" && !isFacebookBirthday) {
 						var rule = event.rrule;
 						var dates = rule.between(today, future, true, limitFunction);
@@ -91,6 +98,7 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 							if (endDate.format("x") > now) {
 								newEvents.push({
 									title: title,
+									location: location,
 									startDate: startDate.format("x"),
 									endDate: endDate.format("x"),
 									fullDayEvent: isFullDayEvent(event),
@@ -121,6 +129,7 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 						// Every thing is good. Add it to the list.					
 						newEvents.push({
 							title: title,
+							location, location,
 							startDate: startDate.format("x"),
 							endDate: endDate.format("x"),
 							fullDayEvent: fullDayEvent
