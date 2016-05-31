@@ -23,6 +23,7 @@ Module.register("calendar",{
 		fade: true,
 		urgency: 7,
 		timeFormat: "relative",
+		blankCalendar: false,
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		calendars: [
 			{
@@ -37,12 +38,12 @@ Module.register("calendar",{
 
 	// Define required scripts.
 	getStyles: function() {
-		return ["calendar.css", "font-awesome.css"];
+		return ["calendar.css", "font-awesome.css", "blank_calendar.css"];
 	},
 
 	// Define required scripts.
 	getScripts: function() {
-		return ["moment.js"];
+		return ["moment.js", "blank_calendar.js"];
 	},
 
 	// Define required translations.
@@ -91,6 +92,16 @@ Module.register("calendar",{
 	// Override dom generator.
 	getDom: function() {
 
+		if (this.config.blankCalendar) {
+			var cal = new Calendar();
+			cal.generateHTML();
+			var wrapper = document.createElement("div");
+			wrapper.className = 'xsmall';
+			wrapper.innerHTML = cal.getHTML();
+
+			return wrapper;
+		} else {
+
 		var events = this.createEventList();
 		var wrapper = document.createElement("table");
 		wrapper.className = "small";
@@ -98,7 +109,6 @@ Module.register("calendar",{
 		if (events.length === 0) {
 			wrapper.innerHTML = (this.loaded) ? this.translate("EMPTY") : this.translate("LOADING");
 			wrapper.className = "small dimmed";
-			return wrapper;
 		}
 
 		for (var e in events) {
@@ -221,6 +231,7 @@ Module.register("calendar",{
 					eventWrapper.style.opacity = 1 - (1 / steps * currentStep);
 				}
 			}
+		}
 		}
 
 		return wrapper;
