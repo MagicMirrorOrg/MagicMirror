@@ -42,82 +42,73 @@
 	// Override dom generator
 	getDom: function() {
 
-	// Labels for the days of the week
-	calendar_days_labels = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-
-	// The current date
-	cal_current_date = new Date();
-
-	var month = moment().month();
-	var year = moment().year();
+		var month = moment().month();
+		var year = moment().year();
 	
-	
-	// Find first day of the month
-	var firstDay = moment().date(1);
-	var startingDay = firstDay.day();
+		// Find first day of the month
+		var firstDay = moment().date(1);
+		var startingDay = firstDay.day();
 
-	// Find number of days in month
-	var monthLength = moment().daysInMonth();
+		// Find number of days in month
+		var monthLength = moment().daysInMonth();
 
-	var wrapper = document.createElement("div");
-	wrapper.className = 'xsmall';
+		var wrapper = document.createElement("div");
+		wrapper.className = 'xsmall';
 	
-	// Header
-	var monthName = moment().format("MMM");
-	var html = '<table id="calendar-table">';
+		// Header
+		var monthName = moment().format("MMM");
+		var html = '<table id="calendar-table">';
 
-	html += '<thead>';
-	html += '<tr><th scope="col" colspan="7" id="calendar-th">';
-	html += monthName + "&nbsp;" + year;
-	html += '</th></tr>';
-	html += '</thead>';
+		html += '<thead>';
+		html += '<tr><th scope="col" colspan="7" id="calendar-th">';
+		html += monthName + "&nbsp;" + year;
+		html += '</th></tr>';
+		html += '</thead>';
 	
-	html += '<tfoot>';
-	html += '<tr><td>&nbsp;</td></tr>';
-	html += '</tfoot>';
+		html += '<tfoot>';
+		html += '<tr><td>&nbsp;</td></tr>';
+		html += '</tfoot>';
 	
-	html += '<tbody>';
-	html += '<tr id="calendar-header">';
-	for(var i = 0; i <= 6; i++ ){
-		html += '<td id="calendar-header-day">';
-		Log.log("From moment: " + moment().isoWeekday(0 + i).format("ddd"));
-		html += moment().isoWeekday(0 + i).format("ddd");
-		html += '</td>';
-	}
-	html += '</tr><tr>';
-
-	// Fill in the days
-	var day = 1;
-	// Loop for amount of weeks (as rows)
-	for (var i = 0; i < 9; i++) {
-		// Loop for each weekday (as individual cells)
-		for (var j = 0; j <= 6; j++) {
-			if (day == moment().date()) {
-				html += '<td class="calendar-day today">';
-			} else {
-				html += '<td class="calendar-day">';
-			}
-			if (day <= monthLength && (i > 0 || j >= startingDay)) {
-				html += day;
-				day++;
-			}
+		html += '<tbody>';
+		html += '<tr id="calendar-header">';
+		for(var i = 0; i <= 6; i++ ){
+			html += '<td id="calendar-header-day">';
+			html += moment().isoWeekday(0 + i).format("ddd");
 			html += '</td>';
 		}
-		// Don't need any more rows if we've run out of days
-		if (day > monthLength) {
-			break;
-		} else {
-			html += '</tr><tr>';
-		}
-	}	
-	html += '</tr>';
-	html += '</tbody>'
-	html += '</table>';
+		html += '</tr><tr>';
 
-    wrapper.innerHTML = html;
-	
-	return wrapper;
+		// Fill in the days
+		var day = 1;
+		// Loop for amount of weeks (as rows)
+		for (var i = 0; i < 9; i++) {
+			// Loop for each weekday (as individual cells)
+			for (var j = 0; j <= 6; j++) {
+				if (day == moment().date()) {
+					html += '<td class="calendar-day today">';
+				} else {
+					html += '<td class="calendar-day">';
+				}
+				if (day <= monthLength && (i > 0 || j >= startingDay)) {
+					html += day;
+					day++;
+				}
+				html += '</td>';
+			}
+			// Don't need any more rows if we've run out of days
+			if (day > monthLength) {
+				break;
+			} else {
+				html += '</tr><tr>';
+			}
+		}	
+		html += '</tr>';
+		html += '</tbody>'
+		html += '</table>';
+
+		wrapper.innerHTML = html;
 		
+		return wrapper;
 	},
 	
  });
