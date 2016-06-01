@@ -63,12 +63,12 @@
 	wrapper.className = 'xsmall';
 	
 	// Header
-	var monthName = this.translate(moment().format("MMM").toUpperCase());
+	var monthName = moment().format("MMM");
 	var html = '<table id="calendar-table">';
 
 	html += '<thead>';
 	html += '<tr><th scope="col" colspan="7" id="calendar-th">';
-	html +=  monthName + "&nbsp;" + year;
+	html += monthName + "&nbsp;" + year;
 	html += '</th></tr>';
 	html += '</thead>';
 	
@@ -80,7 +80,8 @@
 	html += '<tr id="calendar-header">';
 	for(var i = 0; i <= 6; i++ ){
 		html += '<td id="calendar-header-day">';
-		html += this.translate(calendar_days_labels[i]);
+		Log.log("From moment: " + moment().isoWeekday(0 + i).format("ddd"));
+		html += moment().isoWeekday(0 + i).format("ddd");
 		html += '</td>';
 	}
 	html += '</tr><tr>';
