@@ -16,4 +16,5 @@ var translations = {
 	"nn" : "translations/nn.json",
 	"pt" : "translations/pt.json",
 	"sv" : "translations/sv.json",
+	"pl" : "translations/pl.json",
 };
