@@ -1,0 +1,35 @@
+#calendar-table {
+	border: 2px solid #666;
+	border-radius: 10px;
+	padding: 5px;
+	display: table;
+	width: 100%;
+}
+
+#calendar-th {
+	font-weight: bold;
+	text-align: center;
+	font-size: 1.6em;
+	padding-bottom: 10px;
+}
+
+#calendar-header-day {
+	text-align: center;
+	background-color: #ccc;
+	color: #222;
+	font-weight: bold;
+	margin: 2px 0px;
+}
+
+.calendar-day {
+	text-align: center;
+	padding: 2px 0px;
+	width: 14.2%;
+}
+
+.today {
+  font-weight: bold;
+  color: #222;
+  background: #ccc;
+}
+
