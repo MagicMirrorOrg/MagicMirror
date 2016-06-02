@@ -1,36 +1,3 @@
-#calendar-table {
-/*	border: 2px solid #666; */
-/*	border-radius: 10px; */
-	padding: 5px;
-	display: table;
-	width: 100%;
-}
-
-#calendar-th {
-	font-weight: bold;
-	text-align: center;
-	font-size: 1.6em;
-	padding-bottom: 10px;
-}
-
-#calendar-header-day {
-	text-align: center;
-	color: #ccc;
-	font-weight: bold;
-	margin: 2px 0px;
-	border-top: 1px solid #ccc;
-}
-
-.calendar-day {
-	text-align: center;
-	width: 14.2%;
-}
-
-#today {
-	color: #fff;
-	font-weight: bold;
-}
-
 /* Extra styling for square boxes and a border around #today */
 
 .square-box {
@@ -68,5 +35,4 @@
 	display: table-cell;
 	text-align: center;
 	vertical-align: middle;
-	color: #ccc;
 }
