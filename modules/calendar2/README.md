@@ -9,19 +9,17 @@ forum, at least till it's officially released.*
 
 **If you're here to test ...**<br />
 Please follow these steps:<br />
-1. Download the following files:
-   <code>calendar2.js</code>
+1. Download the following files:<br />
+   <code>calendar2.js</code><br />
    <code>styleDefault.css</code>
-2. Put them in a folder at <code>~/MagicMirror/modules/calendar2/</code>
+2. Put them in a folder at <code>~/MagicMirror/modules/calendar2/</code><br />
 3. Add the following to your `config.js`:
-
 ````javascript
 	{
 		module: 'calendar2',
 		position: 'top_left'
 	}
 ````
-
 4. Reload your MM task and see what gets displayed.
 	
 ---
