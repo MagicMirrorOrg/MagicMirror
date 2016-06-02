@@ -69,9 +69,9 @@ The full element tree is as follows:
 <table id="calendar-table">
   <thead>
     <tr>
-	  <th id="calendar-th" ...>
+	  <th id="calendar-th">
 	    <span id="monthName">...</span>
-		<span id="yearDigits>...</span>
+		<span id="yearDigits">...</span>
 	  </th>
 	</tr>
   </thead>
