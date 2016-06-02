@@ -21,6 +21,10 @@ Please follow these steps:<br />
 	}
 ````
 Reload your MM task and see what gets displayed.
+
+If you feel adventurous and want to play with CSS as well, at the very least you need
+the <code>styleCustom.css</code> file as well. Depending on your config settings, you
+would need the others as well, otherwise it will break your MM process.
 	
 ---
 # Module: Calendar2
