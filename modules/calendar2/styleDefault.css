@@ -19,7 +19,7 @@
 	border-bottom: 1px solid #ccc;
 }
 
-#calendar-header-day {
+.calendar-header-day {
 	text-align: center;
 	color: #ccc;
 	margin: 2px 0px;

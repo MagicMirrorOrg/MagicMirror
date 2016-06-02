@@ -1,6 +1,6 @@
 /* Extra styling for square boxes and a underline for #today */
 
-#calendar-header-day {
+.calendar-header-day {
 	color: #bbf;
 }
 

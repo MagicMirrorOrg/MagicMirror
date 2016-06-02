@@ -82,13 +82,13 @@
 		html += '</thead>';
 	
 		html += '<tfoot>';
-		html += '<tr><td>&nbsp;</td></tr>';
+		html += '<tr><th>&nbsp;</th></tr>';
 		html += '</tfoot>';
 	
 		html += '<tbody>';
 		html += '<tr id="calendar-header">';
 		for(var i = 0; i <= 6; i++ ){
-			html += '<td id="calendar-header-day">';
+			html += '<td class="calendar-header-day">';
 			html += moment().weekday(i).format("ddd");
 			html += '</td>';
 		}
