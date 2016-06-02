@@ -1,4 +1,4 @@
-# Module: Calendar2
+## WARNING!
 
 **NOTE: This module is still actively being developed!**<br />
 **What to expect:** Things can suddenly break!<br />
@@ -6,6 +6,9 @@
 *If you are using this, it's likely because I told you to come try it. As such, if you
 encounter a problem, please let me know personally as opposed to putting it up on the
 forum, at least till it's officially released.*
+
+---
+# Module: Calendar2
 
 The `calendar2` module is (currently) a simple month view calendar.
 
