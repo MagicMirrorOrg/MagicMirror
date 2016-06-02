@@ -70,8 +70,8 @@ The full element tree is as follows:
   <thead>
     <tr>
 	  <th id="calendar-th">
-	    <span id="monthName">...</span>
-		<span id="yearDigits">...</span>
+	    <span id="monthName">[month name]</span>
+		<span id="yearDigits">[4 digit year]</span>
 	  </th>
 	</tr>
   </thead>
@@ -86,13 +86,14 @@ The full element tree is as follows:
     <tr id="calendar-header">
 	  <td class="calendar-header-day">[day name]</td>
 	  /* Repeat above block 7 times for each day of the week, Sun/Mon/Tue/etc. */
+	  /* ... */
 	</tr>
 	<tr>
 	  <td class="calendar-day">
 	    <div class="square-box">
 		  <div class="square-content">
 		    <div>
-			  <span [class=..." (read Note #1 below)"]>[date number]</span>
+			  <span [class="... read Note #1 below ..."]>[date number]</span>
 			</div>
 		  </div>
 		</div>
