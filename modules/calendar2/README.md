@@ -41,7 +41,7 @@ The `calendar2` module has several optional properties that can be used to chang
 	</thead>
 	<tfoot>
 		<tr>
-			<th></th>
+			<th colspan="3">*More options may get added later.*</th>
 		</tr>
 	</tfoot>
 	<tbody>
