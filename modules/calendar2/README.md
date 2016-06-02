@@ -92,7 +92,7 @@ The full element tree is as follows:
 	    <div class="square-box">
 		  <div class="square-content">
 		    <div>
-			  <span [class=..." (read Note #1 below)]>[date number]</span>
+			  <span [class=..." (read Note #1 below)"]>[date number]</span>
 			</div>
 		  </div>
 		</div>
