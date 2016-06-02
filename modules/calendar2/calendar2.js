@@ -11,8 +11,8 @@
 	defaults: {
 		updateInterval: 60 * 1000,	// every minute
 		fadeSpeed: 2 * 1000,		// fade out and in for 3 seconds
-		displayHeader: true,
 		view: "monthly",
+		showHeader: true,
 		cssStyle: "default"
 	},
 
@@ -59,11 +59,8 @@
 		var month = moment().month();
 		var year = moment().year();
 	
-		// Find first day of the month
-		var firstDay = moment().date(1);
-		var startingDay = firstDay.day();
-		Log.log("firstDay: " + firstDay);
-		Log.log("startingDay: " + startingDay);
+		// Find first day of the month, LOCALE aware
+		var startingDay = moment().date(1).weekday();
 
 		// Find number of days in month
 		var monthLength = moment().daysInMonth();
@@ -76,7 +73,8 @@
 		var html = '<table id="calendar-table">';
 
 		html += '<thead>';
-		if (this.config.displayHeader) {
+		Log.log("showHeader: " + this.config.showHeader);
+		if (this.config.showHeader) {
 			html += '<tr><th scope="col" colspan="7" id="calendar-th">';
 			html += '<span id="monthName">' + monthName + '</span>&nbsp;<span id="yearDigits">' + year + '</span>';
 			html += '</th></tr>';
@@ -91,7 +89,7 @@
 		html += '<tr id="calendar-header">';
 		for(var i = 0; i <= 6; i++ ){
 			html += '<td id="calendar-header-day">';
-			html += moment().isoWeekday(0 + i).format("ddd");
+			html += moment().weekday(i).format("ddd");
 			html += '</td>';
 		}
 		html += '</tr><tr>';
