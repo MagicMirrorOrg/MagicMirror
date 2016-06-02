@@ -1,8 +1,8 @@
 # Module: Calendar2
 
-**NOTE: This module is still actively being developed!**
-**What to expect:** Things can suddenly break! 
-**What not to expect:** Things not to break!
+**NOTE: This module is still actively being developed!**<br />
+**What to expect:** Things can suddenly break!<br />
+**What not to expect:** Things not to break!<br />
 *If you are using this, it's likely because I told you to come try it. As such, if you
 encounter a problem, please let me know personally as opposed to putting it up on the
 forum, at least till it's officially released.*
@@ -46,7 +46,7 @@ The `calendar2` module has several optional properties that can be used to chang
 			<td><code>showHeader</code></td>
 			<td>This allows you to turn on or off the header on the calendar.
 			    The header consists of the month and year.</td>
-			<td><code>true</code></td>
+			<td><code>true</code> Other option is <code>false</code>.</td>
 		</tr>
 		<tr>
 			<td><code>cssStyle</code></td>
