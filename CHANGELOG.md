@@ -8,7 +8,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Portuguese Translation
 - Swedish Translation
 
-### Chagned
+### Fixed
+- Added reference to Italian Translation.
+- Added the missing NE translation to all languages. [#334](https://github.com/MichMich/MagicMirror/issues/344)
+
+### Changed
 - Add option to use locationID in weather modules.
 
 ## [2.0.1] - 2016-05-18
