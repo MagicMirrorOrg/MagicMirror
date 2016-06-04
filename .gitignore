@@ -66,4 +66,4 @@ Temporary Items
 /css/custom.css
 
 # Ignore the calendar2 submodule
-!/modules/calendar2
+/modules/calendar2
