@@ -57,6 +57,10 @@ Temporary Items
 !/modules/node_helper
 !/modules/node_helper/**
 
+# Ignore the calendar2 submodule
+/modules/calendar2
+/modules/calendar2/**
+
 # Ignore all modules except the default modules.
 /modules/**
 !/modules/default/**
@@ -64,3 +68,4 @@ Temporary Items
 
 # Ignore changes to the custom css files.
 /css/custom.css
+

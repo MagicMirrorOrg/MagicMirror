@@ -1,0 +1,3 @@
+[submodule "modules/calendar2"]
+	path = modules/calendar2
+	url = https://github.com/KirAsh4/calendar2

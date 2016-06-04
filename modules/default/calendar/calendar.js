@@ -49,7 +49,7 @@ Module.register("calendar",{
 	getTranslations: function() {
 		// The translations for the defaut modules are defined in the core translation files.
 		// Therefor we can just return false. Otherwise we should have returned a dictionairy.
-		// If you're trying to build yiur own module including translations, check out the documentation.
+		// If you're trying to build your own module including translations, check out the documentation.
 		return false;
 	},
 
@@ -98,7 +98,6 @@ Module.register("calendar",{
 		if (events.length === 0) {
 			wrapper.innerHTML = (this.loaded) ? this.translate("EMPTY") : this.translate("LOADING");
 			wrapper.className = "small dimmed";
-			return wrapper;
 		}
 
 		for (var e in events) {
@@ -118,7 +117,6 @@ Module.register("calendar",{
 
 			var titleWrapper = document.createElement("td"),
 				repeatingCountTitle = '';
-
 
 			if (this.config.displayRepeatingCountTitle) {
 
