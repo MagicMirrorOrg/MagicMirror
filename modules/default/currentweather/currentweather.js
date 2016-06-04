@@ -12,6 +12,7 @@ Module.register("currentweather",{
 	// Default module config.
 	defaults: {
 		location: "",
+		locationID: "",
 		appid: "",
 		units: config.units,
 		updateInterval: 10 * 60 * 1000, // every 10 minutes
@@ -198,7 +199,11 @@ Module.register("currentweather",{
 	 */
 	getParams: function() {
 		var params = "?";
-		params += "q=" + this.config.location;
+		if(this.config.locationID !== "") {
+			params += "id=" + this.config.locationID;
+		} else { 
+			params += "q=" + this.config.location;
+		}
 		params += "&units=" + this.config.units;
 		params += "&lang=" + this.config.lang;
 		params += "&APPID=" + this.config.appid;
