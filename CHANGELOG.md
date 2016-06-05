@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Added reference to Italian Translation.
 - Added the missing NE translation to all languages. [#334](https://github.com/MichMich/MagicMirror/issues/344)
+- Added proper User-Agent string to calendar call.
 
 ### Changed
 - Add option to use locationID in weather modules.
