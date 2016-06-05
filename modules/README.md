@@ -298,7 +298,7 @@ If no translation is found, a fallback will be used. The fallback sequence is as
 - 4. Translation as defined in core translation file of the fallback language (the first defined core translation file).
 - 5. The key (identifier) of the translation.
 
-When adding translations to your module, it's a good idea to see if an apropriate translation is already available in the [core translation files](https://github.com/MichMich/MagicMirror/tree/master/translations). This way, your module can benefit from the exsisting translations.
+When adding translations to your module, it's a good idea to see if an apropriate translation is already available in the [core translation files](https://github.com/MichMich/MagicMirror/tree/master/translations). This way, your module can benefit from the existing translations.
 
 **Example:**
 ````javascript

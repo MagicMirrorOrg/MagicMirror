@@ -25,7 +25,12 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 		clearTimeout(reloadTimer);
 		reloadTimer = null;
 
-		ical.fromURL(url, {}, function(err, data) {
+		var opts = {
+			headers: {
+				'User-Agent': 'Mozilla/5.0 (Node.js 6.0.0) MagicMirror/v2 (https://github.com/MichMich/MagicMirror/)'
+			}
+		}
+		ical.fromURL(url, opts, function(err, data) {
 			if (err) {
 				fetchFailedCallback(self, err);
 				scheduleTimer();
@@ -188,7 +193,7 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 	};
 
 	/* broadcastItems()
-	 * Broadcast the exsisting events.
+	 * Broadcast the existing events.
 	 */
 	this.broadcastEvents = function() {
 		//console.log('Broadcasting ' + events.length + ' events.');

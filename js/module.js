@@ -152,7 +152,7 @@ var Module = Class.extend({
 	},
 
 	/* socket()
-	 * Returns a socket object. If it doesn"t exsist, it"s created.
+	 * Returns a socket object. If it doesn"t exist, it"s created.
 	 * It also registers the notification callback.
 	 */
 	socket: function() {

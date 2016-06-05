@@ -117,7 +117,7 @@ var Fetcher = function(url, reloadInterval, encoding) {
 	};
 
 	/* broadcastItems()
-	 * Broadcast the exsisting items.
+	 * Broadcast the existing items.
 	 */
 	this.broadcastItems = function() {
 		if (items.length <= 0) {
