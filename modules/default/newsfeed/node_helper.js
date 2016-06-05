@@ -25,8 +25,8 @@ module.exports = NodeHelper.create({
 	},
 
 	/* createFetcher(url, reloadInterval)
-	 * Creates a fetcher for a new url if it doesn't exsist yet.
-	 * Otherwise it reoses the exsisting one.
+	 * Creates a fetcher for a new url if it doesn't exist yet.
+	 * Otherwise it reoses the existing one.
 	 *
 	 * attribute url string - URL of the news feed.
 	 * attribute reloadInterval number - Reload interval in milliseconds.
@@ -62,7 +62,7 @@ module.exports = NodeHelper.create({
 
 			self.fetchers[url] = fetcher;
 		} else {
-			console.log("Use exsisting news fetcher for url: " + url);
+			console.log("Use existing news fetcher for url: " + url);
 			fetcher = self.fetchers[url];
 			fetcher.setReloadInterval(reloadInterval);
 			fetcher.broadcastItems();
