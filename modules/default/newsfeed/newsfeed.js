@@ -24,6 +24,7 @@ Module.register("newsfeed",{
 		reloadInterval:  5 * 60 * 1000, // every 5 minutes
 		updateInterval: 10 * 1000,
 		animationSpeed: 2.5 * 1000,
+		maxNewsItems: 0 // 0 for unlimited
 	},
 
 	// Define required scripts.
@@ -151,7 +152,9 @@ Module.register("newsfeed",{
 			var dateB = new Date(b.pubdate);
 			return dateB - dateA;
 		});
-
+		if(this.config.maxNewsItems > 0) {
+			newsItems = newsItems.slice(0, this.config.maxNewsItems);
+		}
 		this.newsItems = newsItems;
 	},
 
