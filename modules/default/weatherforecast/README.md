@@ -14,6 +14,7 @@ modules: [
 		config: {
 			// See 'Configuration options' for more information.
 			location: 'Amsterdam,Netherlands',
+			locationID: '', //Location ID from http://bulk.openweather.org/sample/ 
 			appid: 'abcde12345abcde12345abcde12345ab' //openweathermap.org API key.
 		}
 	}
@@ -40,6 +41,13 @@ The following properties can be configured:
 			<td>The location used for weather information.<br>
 				<br><b>Example:</b> <code>Amsterdam,Netherlands</code>
 				<br><b>Default value:</b> <code>New York</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>locationID</code></td>
+			<td>Location ID from <a href="http://bulk.openweather.org/sample/">OpenWeather</a> <b>This will override anything you put in location.</b><br>Leave blank if you want to use location.
+				<br><b>Example:</b> <code>1234567</code>
+				<br><b>Default value:</b> <code></code>
 			</td>
 		</tr>
 		<tr>

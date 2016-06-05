@@ -1,0 +1,28 @@
+{
+	/* GENERAL */
+	"LOADING": "Laster &hellip;",
+
+	/* CALENDAR */
+	"TODAY": "I dag",
+	"TOMORROW": "I morgen",
+	"RUNNING": "Slutter om",
+	"EMPTY": "Ingen kommende arrangementer.",
+
+	/* WEATHER */
+	"N": 	"N",
+	"NNE":  "NNØ",
+	"NE":   "NØ",
+	"ENE": 	"ØNØ",
+	"E":	"Ø",
+	"ESE": 	"ØSØ",
+	"SE": 	"SØ",
+	"SSE": 	"SSØ",
+	"S": 	"S",
+	"SSW": 	"SSV",
+	"SW": 	"SV",
+	"WSW": 	"VSV",
+	"W": 	"V",
+	"WNW": 	"VNV",
+	"NW": 	"NV",
+	"NNW": 	"NNV"
+}

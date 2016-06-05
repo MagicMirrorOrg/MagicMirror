@@ -1,17 +1,17 @@
 {
 	/* GENERAL */
-	"LOADING": "Cargando &hellip;",
+	"LOADING": "A carregar &hellip;",
 
 	/* CALENDAR */
-	"TODAY": "Hoy",
-	"TOMORROW": "Mañana",
-	"RUNNING": "Termina en",
-	"EMPTY": "No hay eventos programados.",
+	"TODAY": "Hoje",
+	"TOMORROW": "Amanhã",
+	"RUNNING": "Termina em",
+	"EMPTY": "Sem eventos a chegar.",
 
 	/* WEATHER */
 	"N": 	"N",
-	"NNE": 	"NNE",
-	"NE": 	"NE",
+	"NNE":  "NNE",
+	"NE":   "NE",
 	"ENE": 	"ENE",
 	"E":	"E",
 	"ESE": 	"ESE",

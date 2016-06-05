@@ -12,6 +12,7 @@ Module.register("weatherforecast",{
 	// Default module config.
 	defaults: {
 		location: "",
+		locationID: "",
 		appid: "",
 		units: config.units,
 		maxNumberOfDays: 7,
@@ -195,7 +196,11 @@ Module.register("weatherforecast",{
 	 */
 	getParams: function() {
 		var params = "?";
-		params += "q=" + this.config.location;
+		if(this.config.locationID !== "") {
+			params += "id=" + this.config.locationID;
+		} else { 
+			params += "q=" + this.config.location;
+		}
 		params += "&units=" + this.config.units;
 		params += "&lang=" + this.config.lang;
 		/*

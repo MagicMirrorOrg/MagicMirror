@@ -2,6 +2,20 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.2] - 2016-06-05
+### Added
+- Norwegian Translations (nb and nn)
+- Portuguese Translation
+- Swedish Translation
+
+### Fixed
+- Added reference to Italian Translation.
+- Added the missing NE translation to all languages. [#334](https://github.com/MichMich/MagicMirror/issues/344)
+- Added proper User-Agent string to calendar call.
+
+### Changed
+- Add option to use locationID in weather modules.
+
 ## [2.0.1] - 2016-05-18
 ### Added
 - Changelog

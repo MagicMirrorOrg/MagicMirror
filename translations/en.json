@@ -1,27 +1,28 @@
 {
-  /* GENERAL */
-  "LOADING": "Loading &hellip;",
+	/* GENERAL */
+	"LOADING": "Loading &hellip;",
 
-  /* CALENDAR */
-  "TODAY": "Today",
-  "TOMORROW": "Tomorrow",
-  "RUNNING": "Ends in",
-  "EMPTY": "No upcoming events.",
+	/* CALENDAR */
+	"TODAY": "Today",
+	"TOMORROW": "Tomorrow",
+	"RUNNING": "Ends in",
+	"EMPTY": "No upcoming events.",
 
-  /* WEATHER */
-  "N": 		"N",
-  "NNE": 	"NNE",
-  "ENE": 	"ENE",
-  "E":		"E",
-  "ESE": 	"ESE",
-  "SE": 	"SE",
-  "SSE": 	"SSE",
-  "S": 		"S",
-  "SSW": 	"SSW",
-  "SW": 	"SW",
-  "WSW": 	"WSW",
-  "W": 		"W",
-  "WNW": 	"WNW",
-  "NW": 	"NW",
-  "NNW": 	"NNW"
+	/* WEATHER */
+	"N": 	"N",
+	"NNE":  "NNE",
+	"NE":   "NE",
+	"ENE": 	"ENE",
+	"E":	"E",
+	"ESE": 	"ESE",
+	"SE": 	"SE",
+	"SSE": 	"SSE",
+	"S": 	"S",
+	"SSW": 	"SSW",
+	"SW": 	"SW",
+	"WSW": 	"WSW",
+	"W": 	"W",
+	"WNW": 	"WNW",
+	"NW": 	"NW",
+	"NNW": 	"NNW"
 }
