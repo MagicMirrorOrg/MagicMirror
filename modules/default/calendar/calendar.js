@@ -31,7 +31,8 @@ Module.register("calendar",{
 			},
 		],
 		titleReplace: {
-			"De verjaardag van ": ""
+			"De verjaardag van ": "",
+			"'s birthday": ""
 		},
 	},
 
