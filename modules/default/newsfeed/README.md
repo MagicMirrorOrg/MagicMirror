@@ -101,7 +101,13 @@ The following properties can be configured:
 				<br><b>Default value:</b> <code>2000</code> (2.5 seconds)
 			</td>
 		</tr>
-		
+		<tr>
+			<td><code>maxNewsItems</code></td>
+			<td>Total amount of news items to cycle through. (0 for unlimited)<br>
+				<br><b>Possible values:</b><code>0</code> - <code>...</code>
+				<br><b>Default value:</b> <code>0</code>
+			</td>
+		</tr>
 
 	</tbody>
 </table>
