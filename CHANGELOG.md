@@ -10,7 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 ### Changed
-
+- Added default string to calendar titleReplace.
 
 ## [2.0.2] - 2016-06-05
 ### Added
