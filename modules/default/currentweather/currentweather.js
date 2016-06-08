@@ -102,8 +102,8 @@ Module.register("currentweather",{
 			return wrapper;
 		}
 
-		if (this.config.location === "") {
-			wrapper.innerHTML = "Please set the openweather <i>location</i> in the config for module: " + this.name + ".";
+		if (this.config.location === "" && this.config.locationID) {
+			wrapper.innerHTML = "Please set the openweather <i>location</i> or <i>locationID</i> in the config for module: " + this.name + ".";
 			wrapper.className = "dimmed light small";
 			return wrapper;
 		}
