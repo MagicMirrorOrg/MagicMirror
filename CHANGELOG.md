@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Add max newsitems parameter to the newsfeed module.
 - Translations for Simplified Chinese, Traditional Chinese and Japanese.
+- Polish Translation
 
 ### Fixed
 
