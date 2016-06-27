@@ -41,7 +41,10 @@ Module.register("alert",{
 			msg += "<span class='thin' style='line-height: 35px; font-size:24px' color='#4A4A4A'>" + message.title + "</span>";
 		}
 		if (message.message){
-			msg += "<br /><span class='light' style='font-size:28px;line-height: 30px;'>" + message.message + "</span>";
+			if (msg != ""){
+				msg+= "<br />";
+			}
+			msg += "<span class='light' style='font-size:28px;line-height: 30px;'>" + message.message + "</span>";
 		}
 		
 		new NotificationFx({
@@ -81,7 +84,11 @@ Module.register("alert",{
 			message += "<span class='light' style='line-height: 35px; font-size:30px' color='#4A4A4A'>" + params.title + "</span>"
 		}
 		if (params.message) {
-			message += "<br /><span class='thin' style='font-size:22px;line-height: 30px;'>" + params.message + "</span>";
+			if (message != ""){
+				message += "<br />";
+			}
+
+			message += "<span class='thin' style='font-size:22px;line-height: 30px;'>" + params.message + "</span>";
 		}
 
 		//Store alert in this.alerts
