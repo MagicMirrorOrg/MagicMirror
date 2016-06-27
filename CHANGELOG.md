@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Polish Translation
 
 ### Fixed
+- Edit Alert Module to display title & message if they are provided in the notification (Issue #300)
 
 ### Changed
 - Added default string to calendar titleReplace.
