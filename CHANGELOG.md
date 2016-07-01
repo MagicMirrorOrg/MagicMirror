@@ -11,7 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Edit Alert Module to display title & message if they are provided in the notification (Issue #300)
-- Removed 'null' reference from updateModuleContent(). This fixes recent Edge and Internet Explorer browser displays
+- Removed 'null' reference from updateModuleContent(). This fixes recent Edge and Internet Explorer browser displays (Issue #319)
 
 ### Changed
 - Added default string to calendar titleReplace.
