@@ -66,5 +66,33 @@ The following properties can be configured:
 				<br><b>Default value:</b> <code>false</code>
 			</td>
 		</tr>
+		<tr>
+			<td><code>displayType</code></td>
+			<td>Display a digital clock, analog clock, or both together.<br>
+				<br><b>Possible values:</b> <code>digital</code>, <code>analog</code>, or <code>both</code>
+				<br><b>Default value:</b> <code>digital</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>analogSize</code></td>
+			<td>**Specific to the analog clock** Defines how large the analog display is.<br>
+				<br><b>Possible values:</b> A positive number of pixels</code>
+				<br><b>Default value:</b> <code>200px</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>analogFace</code></td>
+			<td>**Specific to the analog clock** Specifies which clock face to use.<br>
+				<br><b>Possible values:</b> <code>false</code> for a default border, <code>none</code> for no face or border, or <code>face-###</code> (where ### is currently a value between 001 and 008, inclusive)
+				<br><b>Default value:</b> <code>false</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>analogPlacement</code></td>
+			<td>**Specific to the analog clock** *(requires displayType set to <code>'both'</code>)* Specifies where the analog clock is in relation to the digital clock<br>
+				<br><b>Possible values:</b> <code>top</code>, <code>right</code>, <code>bottom</code>, or <code>left</code>
+				<br><b>Default value:</b> <code>bottom</code>
+			</td>
+		</tr>
 	</tbody>
 </table>
