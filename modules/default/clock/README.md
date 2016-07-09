@@ -75,28 +75,28 @@ The following properties can be configured:
 		</tr>
 		<tr>
 			<td><code>analogSize</code></td>
-			<td>**Specific to the analog clock** Defines how large the analog display is.<br>
+			<td><strong>Specific to the analog clock.</strong> Defines how large the analog display is.<br>
 				<br><b>Possible values:</b> A positive number of pixels</code>
 				<br><b>Default value:</b> <code>200px</code>
 			</td>
 		</tr>
 		<tr>
 			<td><code>analogFace</code></td>
-			<td>**Specific to the analog clock** Specifies which clock face to use.<br>
+			<td><strong>Specific to the analog clock.</strong> Specifies which clock face to use.<br>
 				<br><b>Possible values:</b> <code>false</code> for a default border, <code>none</code> for no face or border, or <code>face-###</code> (where ### is currently a value between 001 and 008, inclusive)
 				<br><b>Default value:</b> <code>false</code>
 			</td>
 		</tr>
 		<tr>
 			<td><code>secondsColor</code></td>
-			<td>**Specific to the analog clock** Specifies what color to make the 'seconds' hand.<br>
+			<td><strong>Specific to the analog clock.</strong> Specifies what color to make the 'seconds' hand.<br>
 				<br><b>Possible values:</b> <code>any HTML RGB Color</code>
 				<br><b>Default value:</b> <code>#888888</code>
 			</td>
 		</tr>
 		<tr>
 			<td><code>analogPlacement</code></td>
-			<td>**Specific to the analog clock** *(requires displayType set to <code>'both'</code>)* Specifies where the analog clock is in relation to the digital clock<br>
+			<td><strong>Specific to the analog clock. <em>(requires displayType set to <code>'both'</code>)</em</strong> Specifies where the analog clock is in relation to the digital clock<br>
 				<br><b>Possible values:</b> <code>top</code>, <code>right</code>, <code>bottom</code>, or <code>left</code>
 				<br><b>Default value:</b> <code>bottom</code>
 			</td>
