@@ -17,4 +17,5 @@ var translations = {
 	"pt" : "translations/pt.json", // Português
 	"sv" : "translations/sv.json", // Svenska
 	"it" : "translations/it.json", // Italian
+	"ru" : "translations/ru.json", // Russian
 };
