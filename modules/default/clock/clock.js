@@ -8,16 +8,18 @@
 Module.register("clock",{
 	// Module config defaults.
 	defaults: {
+		displayType: 'digital', // options: digital, analog, both
+
 		timeFormat: config.timeFormat,
 		displaySeconds: true,
 		showPeriod: true,
 		showPeriodUpper: false,
 		clockBold: false,
-		displayType: 'digital', // options: digital, analog, both
+
 		/* specific to the analog clock */
 		analogSize: '200px',
-		analogFace: false,
-		analogPlacement: 'bottom',
+		analogFace: 'simple', // options: 'none', 'simple', 'face-###' (where ### is 001 to 012 inclusive)
+		analogPlacement: 'bottom', // options: top, bottom, left, right
 		secondsColor: '#888888',
 	},
 	// Define required scripts.
@@ -40,6 +42,7 @@ Module.register("clock",{
 
 		// Set locale.
 		moment.locale(config.language);
+
 	},
 	// Override dom generator.
 	getDom: function() {
@@ -108,24 +111,25 @@ Module.register("clock",{
 
 		 if (this.config.displayType !== 'digital') {
 			// If it isn't 'digital', then an 'analog' clock was also requested
+
+			// Calculate the degree offset for each hand of the clock
 			var now = moment(),
 				second = now.seconds() * 6,
 				minute = now.minute() * 6 + second / 60,
 				hour = ((now.hours() % 12) / 12) * 360 + 90 + minute / 12;
 
 			// Create wrappers
-
 			var wrapper = document.createElement("div");
 			var clockCircle = document.createElement("div");
 			clockCircle.className = "clockCircle";
 			clockCircle.style.width = this.config.analogSize;
 			clockCircle.style.height = this.config.analogSize;
 
-			if ((this.config.analogFace != '' || this.config.analogFace != false) && this.config.analogFace !== 'none') {
-				clockCircle.style.background = "url("+ this.data.path + "/faces/" + this.config.analogFace + ".svg)"
+			if (this.config.analogFace != '' && this.config.analogFace != 'simple' && this.config.analogFace != 'none') {
+				clockCircle.style.background = "url("+ this.data.path + "faces/" + this.config.analogFace + ".svg)";
 				clockCircle.style.backgroundSize = "100%";
 			} else if (this.config.analogFace != 'none') {
-				clockCircle.style.border = "5px double white";
+				clockCircle.style.border = "2px solid white";
 			}
 			var clockFace = document.createElement("div");
 			clockFace.className = "clockFace";
@@ -138,16 +142,17 @@ Module.register("clock",{
 			clockMinute.id = "clockMinute";
 			clockMinute.style.transform = "rotate(" + minute + "deg)";
 			clockMinute.className = "clockMinute";
-			var clockSecond = document.createElement("div");
-			clockSecond.id = "clockSecond";
-			clockSecond.style.transform = "rotate(" + second + "deg)";
-			clockSecond.className = "clockSecond";
-			clockSecond.style.backgroundColor = this.config.secondsColor;
 
 			// Combine analog wrappers
 			clockFace.appendChild(clockHour);
 			clockFace.appendChild(clockMinute);
+
 			if (this.config.displaySeconds) {
+				var clockSecond = document.createElement("div");
+				clockSecond.id = "clockSecond";
+				clockSecond.style.transform = "rotate(" + second + "deg)";
+				clockSecond.className = "clockSecond";
+				clockSecond.style.backgroundColor = this.config.secondsColor;
 				clockFace.appendChild(clockSecond);
 			}
 			clockCircle.appendChild(clockFace);
@@ -164,7 +169,7 @@ Module.register("clock",{
 		} else if (this.config.displayType === 'analog') {
 			// Display only an analog clock
 			dateWrapper.style.textAlign = "center";
-			dateWrapper.style.paddingBottom = "10px";
+			dateWrapper.style.paddingBottom = "15px";
 			wrapper.appendChild(dateWrapper);
 			wrapper.appendChild(clockCircle);
 		} else {

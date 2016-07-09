@@ -83,7 +83,7 @@ The following properties can be configured:
 		<tr>
 			<td><code>analogFace</code></td>
 			<td><strong>Specific to the analog clock.</strong> Specifies which clock face to use.<br>
-				<br><b>Possible values:</b> <code>false</code> for a default border, <code>none</code> for no face or border, or <code>face-###</code> (where ### is currently a value between 001 and 008, inclusive)
+				<br><b>Possible values:</b> <code>simple</code> for a simple border, <code>none</code> for no face or border, or <code>face-###</code> (where ### is currently a value between 001 and 012, inclusive)
 				<br><b>Default value:</b> <code>false</code>
 			</td>
 		</tr>
