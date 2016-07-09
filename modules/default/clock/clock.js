@@ -122,7 +122,7 @@ Module.register("clock",{
 			clockCircle.style.height = this.config.analogSize;
 
 			if ((this.config.analogFace != '' || this.config.analogFace != false) && this.config.analogFace !== 'none') {
-				clockCircle.style.background = "url("+ this.data.path + "/faces/" + this.config.analogFace + ".png)"
+				clockCircle.style.background = "url("+ this.data.path + "/faces/" + this.config.analogFace + ".svg)"
 				clockCircle.style.backgroundSize = "100%";
 			} else if (this.config.analogFace != 'none') {
 				clockCircle.style.border = "5px double white";
