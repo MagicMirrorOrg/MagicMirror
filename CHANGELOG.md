@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add max newsitems parameter to the newsfeed module.
 - Translations for Simplified Chinese, Traditional Chinese and Japanese.
 - Polish Translation
+- Add an analog clock in addition to the digital one.
 
 ### Fixed
 - Edit Alert Module to display title & message if they are provided in the notification (Issue #300)
