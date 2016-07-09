@@ -18,6 +18,7 @@ Module.register("clock",{
 		analogSize: '200px',
 		analogFace: false,
 		analogPlacement: 'bottom',
+		secondsColor: '#888888',
 	},
 	// Define required scripts.
 	getScripts: function() {
@@ -141,11 +142,14 @@ Module.register("clock",{
 			clockSecond.id = "clockSecond";
 			clockSecond.style.transform = "rotate(" + second + "deg)";
 			clockSecond.className = "clockSecond";
+			clockSecond.style.backgroundColor = this.config.secondsColor;
 
 			// Combine analog wrappers
 			clockFace.appendChild(clockHour);
 			clockFace.appendChild(clockMinute);
-			clockFace.appendChild(clockSecond);
+			if (this.config.displaySeconds) {
+				clockFace.appendChild(clockSecond);
+			}
 			clockCircle.appendChild(clockFace);
 		}
 

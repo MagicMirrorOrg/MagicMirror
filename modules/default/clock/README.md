@@ -88,6 +88,13 @@ The following properties can be configured:
 			</td>
 		</tr>
 		<tr>
+			<td><code>secondsColor</code></td>
+			<td>**Specific to the analog clock** Specifies what color to make the 'seconds' hand.<br>
+				<br><b>Possible values:</b> <code>any HTML RGB Color</code>
+				<br><b>Default value:</b> <code>#888888</code>
+			</td>
+		</tr>
+		<tr>
 			<td><code>analogPlacement</code></td>
 			<td>**Specific to the analog clock** *(requires displayType set to <code>'both'</code>)* Specifies where the analog clock is in relation to the digital clock<br>
 				<br><b>Possible values:</b> <code>top</code>, <code>right</code>, <code>bottom</code>, or <code>left</code>
