@@ -96,7 +96,7 @@ The following properties can be configured:
 		</tr>
 		<tr>
 			<td><code>analogPlacement</code></td>
-			<td><strong>Specific to the analog clock. <em>(requires displayType set to <code>'both'</code>)</em</strong> Specifies where the analog clock is in relation to the digital clock<br>
+			<td><strong>Specific to the analog clock. <em>(requires displayType set to <code>'both'</code>)</em></strong> Specifies where the analog clock is in relation to the digital clock<br>
 				<br><b>Possible values:</b> <code>top</code>, <code>right</code>, <code>bottom</code>, or <code>left</code>
 				<br><b>Default value:</b> <code>bottom</code>
 			</td>
