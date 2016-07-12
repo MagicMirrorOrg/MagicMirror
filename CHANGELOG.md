@@ -2,6 +2,20 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.3] - 2016-07-12
+### Added
+- Add max newsitems parameter to the newsfeed module.
+- Translations for Simplified Chinese, Traditional Chinese and Japanese.
+- Polish Translation
+- Add an analog clock in addition to the digital one.
+
+### Fixed
+- Edit Alert Module to display title & message if they are provided in the notification (Issue #300)
+- Removed 'null' reference from updateModuleContent(). This fixes recent Edge and Internet Explorer browser displays (Issue #319)
+
+### Changed
+- Added default string to calendar titleReplace.
+
 ## [2.0.2] - 2016-06-05
 ### Added
 - Norwegian Translations (nb and nn)

@@ -144,7 +144,7 @@ var MM = (function() {
 		var moduleWrapper = document.getElementById(module.identifier);
 		var contentWrapper = moduleWrapper.getElementsByClassName("module-content")[0];
 
-		contentWrapper.innerHTML = null;
+		contentWrapper.innerHTML = "";
 		contentWrapper.appendChild(content);
 	};
 
