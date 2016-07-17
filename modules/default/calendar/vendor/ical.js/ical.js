@@ -55,36 +55,42 @@
     return val;
   }
 
-  var storeParam = function(name){
-    return function(val, params, curr){
-      var data;
-      if (params && params.length && !(params.length==1 && params[0]==='CHARSET=utf-8')){
-        data = {params:parseParams(params), val:text(val)}
-      }
-      else
-        data = text(val)
+  var storeValParam = function (name) {
+      return function (val, curr) {
+          var current = curr[name];
+          if (Array.isArray(current)) {
+              current.push(val);
+              return curr;
+          }
 
-      var current = curr[name];
-      if (Array.isArray(current)){
-        current.push(data);
-        return curr;
-      }
+          if (current != null) {
+              curr[name] = [current, val];
+              return curr;
+          }
 
-      if (current != null){
-        curr[name] = [current, data];
-        return curr;
+          curr[name] = val;
+          return curr
       }
-
-      curr[name] = data;
-      return curr
-    }
   }
 
-  var addTZ = function(dt, name, params){
+  var storeParam = function (name) {
+      return function (val, params, curr) {
+          var data;
+          if (params && params.length && !(params.length == 1 && params[0] === 'CHARSET=utf-8')) {
+              data = { params: parseParams(params), val: text(val) }
+          }
+          else
+              data = text(val)
+
+          return storeValParam(name)(data, curr);
+      }
+  }
+
+  var addTZ = function (dt, params) {
     var p = parseParams(params);
 
     if (params && p){
-      dt[name].tz = p.TZID
+      dt.tz = p.TZID
     }
 
     return dt
@@ -92,10 +98,10 @@
 
 
   var dateParam = function(name){
-    return function(val, params, curr){
+      return function (val, params, curr) {
 
-      // Store as string - worst case scenario
-      storeParam(name)(val, undefined, curr)
+      var newDate = text(val);
+
 
       if (params && params[0] === "VALUE=DATE") {
         // Just Date
@@ -103,13 +109,16 @@
         var comps = /^(\d{4})(\d{2})(\d{2})$/.exec(val);
         if (comps !== null) {
           // No TZ info - assume same timezone as this computer
-          curr[name] = new Date(
+          newDate = new Date(
             comps[1],
             parseInt(comps[2], 10)-1,
             comps[3]
           );
 
-          return addTZ(curr, name, params);
+          newDate = addTZ(newDate, params);
+
+          // Store as string - worst case scenario
+          return storeValParam(name)(newDate, curr)
         }
       }
 
@@ -118,7 +127,7 @@
       var comps = /^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})(Z)?$/.exec(val);
       if (comps !== null) {
         if (comps[7] == 'Z'){ // GMT
-          curr[name] = new Date(Date.UTC(
+          newDate = new Date(Date.UTC(
             parseInt(comps[1], 10),
             parseInt(comps[2], 10)-1,
             parseInt(comps[3], 10),
@@ -128,7 +137,7 @@
           ));
           // TODO add tz
         } else {
-          curr[name] = new Date(
+          newDate = new Date(
             parseInt(comps[1], 10),
             parseInt(comps[2], 10)-1,
             parseInt(comps[3], 10),
@@ -137,10 +146,14 @@
             parseInt(comps[6], 10)
           );
         }
-      }
 
-      return addTZ(curr, name, params)
+        newDate = addTZ(newDate, params);
     }
+
+
+          // Store as string - worst case scenario
+      return storeValParam(name)(newDate, curr)
+      }
   }
 
 
@@ -166,7 +179,27 @@
     }
   }
 
-  var addFBType = function(fb, params){
+  // EXDATE is an entry that represents exceptions to a recurrence rule (ex: "repeat every day except on 7/4").
+  // There can be more than one of these in a calendar record, so we create an array of them.
+  // The index into the array is the ISO string of the date itself, for ease of use.
+  // i.e. You can check if ((curr.exdate != undefined) && (curr.exdate[date iso string] != undefined)) to see if a date is an exception.
+  var exdateParam = function (name) {
+      return function (val, params, curr) {
+          var exdate = new Array();
+          dateParam(name)(val, params, exdate);
+          curr[name] = curr[name] || [];
+          curr[name][exdate[name].toISOString()] = exdate[name];
+          return curr;
+      }
+  }
+
+  // RECURRENCE-ID is the ID of a specific recurrence within a recurrence rule.
+  // TODO:  It's also possible for it to have a range, like "THISANDPRIOR", "THISANDFUTURE".  This isn't currently handled.
+  var recurrenceParam = function (name) {
+      return dateParam(name);
+  }
+
+  var addFBType = function (fb, params) {
     var p = parseParams(params);
 
     if (params && p){
@@ -226,7 +259,47 @@
         var par = stack.pop()
 
         if (curr.uid)
-          par[curr.uid] = curr
+        {
+            // If this is the first time we run into this UID, just save it.
+            if (par[curr.uid] === undefined)
+            {
+                par[curr.uid] = curr
+            }
+            else
+            {
+                // If we have multiple ical entries with the same UID, it's either going to be a
+                // modification to a recurrence (RECURRENCE-ID), and/or a significant modification
+                // to the entry (SEQUENCE).
+
+                // TODO: Look into proper sequence logic.
+
+                // If we have recurrence-id entries, list them as an array of recurrences keyed off of recurrence-id.
+                // To use - as you're running through the dates of an rrule, you can try looking it up in the recurrences
+                // array.  If it exists, then use the data from the calendar object in the recurrence instead of the parent
+                // for that day.
+
+                var parent = par[curr.uid];
+                if (curr.recurrenceid != null) {
+                    if (parent.recurrences === undefined) {
+                        parent.recurrences = new Array();
+                    }
+
+                    // TODO:  Is there ever a case where we have to worry about overwriting an existing entry here?
+
+                    parent.recurrences[curr.recurrenceid.toISOString()] = curr;
+                }
+                else
+                {
+                    // If we have the same UID as an existing record, and it *isn't* a specific recurrence ID,
+                    // not quite sure what the correct behaviour should be.  For now, just take the new information
+                    // and merge it with the old record by overwriting only the fields that appear in the new record.
+                    var key;
+                    for (key in curr) {
+                        par[key] = curr[key];
+                    }
+                }
+            }
+        }
         else
           par[Math.random()*100000] = curr  // Randomly assign ID : TODO - use true GUID
 
@@ -247,6 +320,12 @@
       , 'COMPLETED': dateParam('completed')
       , 'CATEGORIES': categoriesParam('categories')
       , 'FREEBUSY': freebusyParam('freebusy')
+      , 'DTSTAMP': dateParam('dtstamp')
+      , 'EXDATE': exdateParam('exdate')
+      , 'CREATED': dateParam('created')
+      , 'LAST-MODIFIED': dateParam('lastmodified')
+      , 'RECURRENCE-ID': recurrenceParam('recurrenceid')
+
     },
 
 

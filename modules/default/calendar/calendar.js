@@ -23,6 +23,8 @@ Module.register("calendar",{
 		fade: true,
 		urgency: 7,
 		timeFormat: "relative",
+		calendarFormat: "list",     // use either "list" for list view or "monthly" for a monthly calendar view
+        startDate: "today",         // useful for debugging purposes, you can view any start date you want
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		calendars: [
 			{
@@ -54,6 +56,44 @@ Module.register("calendar",{
 		return false;
 	},
 
+	// Get the current date.  By default, we use today's date, but we might want to force a different
+	// date for debugging purposes.
+	getCurrentDate: function () {
+	    // By default, use today's date
+	    var currentDate = new Date();
+
+	    // If the config has a specific start date, use that as our current date instead.
+	    if (this.config.startDate != "today") {
+	        currentDate = new Date(this.config.startDate);
+	    }
+
+	    return currentDate;
+	},
+
+	// Get the starting date for grabbing calendar events.
+	getStartDate: function () {
+	    // By default, use today's date for our calendar.
+	    var startDate = this.getCurrentDate();
+
+	    // If we have a monthly calendar, bump the start date back to the beginning of the month.
+	    if (this.config.calendarFormat === "monthly") {
+	    	startDate = moment(startDate).startOf('month').toDate();
+        }
+
+	    return startDate;
+	},
+
+	// Get the maximum number of days that we want to view from our start date.
+	// The passed-in config is max days in the *future*, and monthly views have a start
+	// date in the past (the beginning of the month), so we adjust to account for that.
+	getMaxDays: function () {
+		var maxFutureDays = moment.duration(this.config.maximumNumberOfDays, 'days');
+		var extraDays = moment.duration(this.getCurrentDate() - this.getStartDate());
+		var maxDays = maxFutureDays.add(extraDays);
+
+		return maxDays.as('days');
+	},
+
 	// Override start method.
 	start: function() {
 		Log.log("Starting module: " + this.name);
@@ -61,10 +101,12 @@ Module.register("calendar",{
 		// Set locale.
 		moment.locale(config.language);
 
+		var fetchStartDate = this.getStartDate();
+
 		for (var c in this.config.calendars) {
 			var calendar = this.config.calendars[c];
 			calendar.url = calendar.url.replace("webcal://", "http://");
-			this.addCalendar(calendar.url);
+			this.addCalendar(calendar.url, fetchStartDate);
 		}
 
 		this.calendarData = {};
@@ -80,7 +122,8 @@ Module.register("calendar",{
 			}
 		} else if (notification === "FETCH_ERROR") {
 			Log.error("Calendar Error. Could not fetch calendar: " + payload.url);
-		} else if (notification === "INCORRECT_URL") {
+			Log.error("Fetcher Error: %o", payload.error);
+        } else if (notification === "INCORRECT_URL") {
 			Log.error("Calendar Error. Incorrect url: " + payload.url);
 		} else {
 			Log.log("Calendar received an unknown socket notification: " + notification);
@@ -89,8 +132,102 @@ Module.register("calendar",{
 		this.updateDom(this.config.animationSpeed);
 	},
 
-	// Override dom generator.
-	getDom: function() {
+	getEvents: function(events, year, month, day)
+	{
+	    var startOfNextDay = new Date(year, month, day + 1);
+
+        // Add 1 millisecond to the start of today to filter out events that end exactly at midnight of this day.
+	    var startOfThisDay = new Date(year, month, day, 0, 0, 0, 1);
+
+	    var html = '';
+
+	    for (var e in events) {
+	        var event = events[e];
+
+	        if (event.startDate < startOfNextDay && event.endDate >= startOfThisDay) {
+	            html += '<p>' + event.title + '</p>';
+	            //html += '<p>' + moment(event.endDate, "x").format("MMM Do") + '</p>';
+	        }
+	    }
+
+	    return html;
+	},
+
+    // Override dom generator.
+	getDomMonthView: function () {
+	    var events = this.createEventList();
+
+	    var wrapper = document.createElement("div");
+
+	    // this is the current date
+	    var currentDate = this.getCurrentDate();
+	    var month = currentDate.getMonth();
+	    var year = currentDate.getFullYear();
+	    var today = currentDate.getDate();
+
+	    // get first day of month
+	    var startingDay = moment(currentDate).startOf('month').weekday();
+
+	    // find number of days in month
+	    var monthLength = moment(currentDate).daysInMonth();
+
+	    // get last day of month
+	    var lastDay = new Date(year, month, monthLength);
+        var endingDay = moment(lastDay).weekday();
+
+	    // Create the month/year calendar header
+	    var html = '<span class="calendar-monthly">';
+	    html += '<h1>' + moment().month(month).format('MMMM') + "&nbsp;" + year + '</h1>';
+	    html += '<ol class="month" start="6">';
+
+		// Add in the day-of-week column headers
+	    html += '<li id="days"><ol>';
+	    for (var i = 0; i < 7; i++)
+	    {
+	    	html += '<li>' + moment().weekday(i).format('ddd') + '</li>';
+	    }
+	    html += '</ol></li>';
+
+        // Fill in empty placeholder days from last month
+	    if (startingDay != 0)
+	    {
+	        html += '<li id="lastmonth"><ol>';
+	        for (var i = 0; i < startingDay; i++) {
+	            html += '<li>' + ' ' + '</li>';
+	        }
+	        html += '</ol></li>';
+	    }
+
+        // Fill in days from this month
+	    html += '<li id="thismonth"><ol>';
+	    for (var i = 1; i <= monthLength; i++) {
+	        if (i == today) { html += '<li class="today">'; }
+	        else { html += '<li>'; }
+
+	        html += i;
+	        html += this.getEvents(events, year, month, i);
+	        html += '</li>';
+	    }
+	    html += '</ol></li>';
+
+		// Fill in days from next month
+		// (Note: the date library automatically handles the case where "month+1" takes us to the next year)
+	    if (endingDay != 6) {
+	        html += '<li id="nextmonth"><ol>';
+	        for (var i = endingDay + 1; i < 7; i++) {
+	            var day = i - endingDay;
+	            html += '<li>' + day + this.getEvents(events, year, month+1, day) + '</li>';
+	        }
+	        html += '</ol></li>';
+	    }
+
+	    html += '</ol>';
+	    html += '</span>';
+
+	    wrapper.innerHTML = html;
+	    return wrapper;
+	},
+	getDomListView: function() {
 
 		var events = this.createEventList();
 		var wrapper = document.createElement("table");
@@ -104,6 +241,7 @@ Module.register("calendar",{
 
 		for (var e in events) {
 			var event = events[e];
+			var now = this.getCurrentDate();
 
 			var eventWrapper = document.createElement("tr");
 			eventWrapper.className = "normal";
@@ -126,7 +264,7 @@ Module.register("calendar",{
 				repeatingCountTitle = this.countTitleForUrl(event.url);
 
 				if(repeatingCountTitle !== '') {
-					var thisYear = new Date().getFullYear(),
+					var thisYear = now.getFullYear(),
 						yearDiff = thisYear - event.firstYear;
 
 					repeatingCountTitle = ', '+ yearDiff + '. ' + repeatingCountTitle;
@@ -139,7 +277,6 @@ Module.register("calendar",{
 
 			var timeWrapper =  document.createElement("td");
 			//console.log(event.today);
-			var now = new Date();
 			// Define second, minute, hour, and day variables
 			var one_second = 1000; // 1,000 milliseconds
 			var one_minute = one_second * 60;
@@ -161,21 +298,21 @@ Module.register("calendar",{
 					if (this.config.timeFormat === "absolute") {
 						if ((this.config.urgency > 1) && (event.startDate - now < (this.config.urgency * one_day))) {
 							// This event falls within the config.urgency period that the user has set
-							timeWrapper.innerHTML = moment(event.startDate, "x").fromNow();
+							timeWrapper.innerHTML = moment(event.startDate, "x").from(now);
 						} else {
 							timeWrapper.innerHTML = moment(event.startDate, "x").format("MMM Do");
 						}
 					} else {
-						timeWrapper.innerHTML =  moment(event.startDate, "x").fromNow();
+						timeWrapper.innerHTML =  moment(event.startDate, "x").from(now);
 					}
 				}
 			} else {
-				if (event.startDate >= new Date()) {
+				if (event.startDate >= now) {
 					if (event.startDate - now < 2 * one_day) {
 						// This event is within the next 48 hours (2 days)
 						if (event.startDate - now < 6 * one_hour) {
 							// If event is within 6 hour, display 'in xxx' time format or moment.fromNow()
-							timeWrapper.innerHTML = moment(event.startDate, "x").fromNow();
+							timeWrapper.innerHTML = moment(event.startDate, "x").from(now);
 						} else {
 							// Otherwise just say 'Today/Tomorrow at such-n-such time'
 							timeWrapper.innerHTML = moment(event.startDate, "x").calendar();
@@ -191,16 +328,16 @@ Module.register("calendar",{
 						if (this.config.timeFormat === "absolute") {
 							if ((this.config.urgency > 1) && (event.startDate - now < (this.config.urgency * one_day))) {
 								// This event falls within the config.urgency period that the user has set
-								timeWrapper.innerHTML = moment(event.startDate, "x").fromNow();
+								timeWrapper.innerHTML = moment(event.startDate, "x").from(now);
 							} else {
 								timeWrapper.innerHTML = moment(event.startDate, "x").format("MMM Do");
 							}
 						} else {
-							timeWrapper.innerHTML = moment(event.startDate, "x").fromNow();
+							timeWrapper.innerHTML = moment(event.startDate, "x").from(now);
 						}
 					}
 				} else {
-					timeWrapper.innerHTML =  this.translate("RUNNING") + ' ' + moment(event.endDate,"x").fromNow(true);
+					timeWrapper.innerHTML =  this.translate("RUNNING") + ' ' + moment(event.endDate,"x").from(now,true);
 				}
 			}
 			//timeWrapper.innerHTML += ' - '+ moment(event.startDate,'x').format('lll');
@@ -225,6 +362,16 @@ Module.register("calendar",{
 		}
 
 		return wrapper;
+    },
+	getDom: function () {
+	    if (this.config.calendarFormat === "monthly")
+	    {
+	        return this.getDomMonthView();
+	    }
+	    else
+	    {
+	        return this.getDomListView();
+	    }
 	},
 
 	/* hasCalendarURL(url)
@@ -252,11 +399,12 @@ Module.register("calendar",{
 	 */
 	createEventList: function() {
 		var events = [];
-		var today = moment().startOf("day");
+		var now = this.getCurrentDate();
+		var today = moment(now).startOf("day");
 		for (var c in this.calendarData) {
 			var calendar = this.calendarData[c];
 			for (var e in calendar) {
-				var event = calendar[e];
+			    var event = calendar[e];
 				event.url = c;
 				event.today = event.startDate >= today && event.startDate < (today + 24 * 60 * 60 * 1000);
 				events.push(event);
@@ -275,12 +423,13 @@ Module.register("calendar",{
 	 *
 	 * argument url sting - Url to add.
 	 */
-	addCalendar: function(url) {
+	addCalendar: function(url, startDate) {
 		this.sendSocketNotification("ADD_CALENDAR", {
 			url: url,
 			maximumEntries: this.config.maximumEntries,
-			maximumNumberOfDays: this.config.maximumNumberOfDays,
-			fetchInterval: this.config.fetchInterval
+			maximumNumberOfDays: this.getMaxDays(),
+			fetchInterval: this.config.fetchInterval,
+            startDate: startDate
 		});
 	},
 
