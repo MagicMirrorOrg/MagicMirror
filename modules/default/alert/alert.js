@@ -35,9 +35,20 @@ Module.register("alert",{
 	},
 	show_notification: function(message) {
 		if (this.config.effect == "slide") {this.config.effect = this.config.effect + "-" + this.config.position;}
-		message = "<span class='thin' style='line-height: 35px; font-size:24px' color='#4A4A4A'>" + message.title + "</span><br /><span class='light' style='font-size:28px;line-height: 30px;'>" + message.message + "</span>";
+		
+		msg = "";
+		if (message.title) {
+			msg += "<span class='thin' style='line-height: 35px; font-size:24px' color='#4A4A4A'>" + message.title + "</span>";
+		}
+		if (message.message){
+			if (msg != ""){
+				msg+= "<br />";
+			}
+			msg += "<span class='light' style='font-size:28px;line-height: 30px;'>" + message.message + "</span>";
+		}
+		
 		new NotificationFx({
-			message: message,
+			message: msg,
 			layout: "growl",
 			effect: this.config.effect,
 			ttl: this.config.display_time
@@ -67,7 +78,19 @@ Module.register("alert",{
 			this.hide_alert(sender);
 		}
 
-		message = "<span class='light' style='line-height: 35px; font-size:30px' color='#4A4A4A'>" + params.title + "</span><br /><span class='thin' style='font-size:22px;line-height: 30px;'>" + params.message + "</span>";
+		//Display title and message only if they are provided in notification parameters
+		message ="";
+		if (params.title) {
+			message += "<span class='light' style='line-height: 35px; font-size:30px' color='#4A4A4A'>" + params.title + "</span>"
+		}
+		if (params.message) {
+			if (message != ""){
+				message += "<br />";
+			}
+
+			message += "<span class='thin' style='font-size:22px;line-height: 30px;'>" + params.message + "</span>";
+		}
+
 		//Store alert in this.alerts
 		this.alerts[sender.name] = new NotificationFx({
 			message: image + message,

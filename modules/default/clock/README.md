@@ -66,5 +66,40 @@ The following properties can be configured:
 				<br><b>Default value:</b> <code>false</code>
 			</td>
 		</tr>
+		<tr>
+			<td><code>displayType</code></td>
+			<td>Display a digital clock, analog clock, or both together.<br>
+				<br><b>Possible values:</b> <code>digital</code>, <code>analog</code>, or <code>both</code>
+				<br><b>Default value:</b> <code>digital</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>analogSize</code></td>
+			<td><strong>Specific to the analog clock.</strong> Defines how large the analog display is.<br>
+				<br><b>Possible values:</b> A positive number of pixels</code>
+				<br><b>Default value:</b> <code>200px</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>analogFace</code></td>
+			<td><strong>Specific to the analog clock.</strong> Specifies which clock face to use.<br>
+				<br><b>Possible values:</b> <code>simple</code> for a simple border, <code>none</code> for no face or border, or <code>face-###</code> (where ### is currently a value between 001 and 012, inclusive)
+				<br><b>Default value:</b> <code>simple</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>secondsColor</code></td>
+			<td><strong>Specific to the analog clock.</strong> Specifies what color to make the 'seconds' hand.<br>
+				<br><b>Possible values:</b> <code>any HTML RGB Color</code>
+				<br><b>Default value:</b> <code>#888888</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>analogPlacement</code></td>
+			<td><strong>Specific to the analog clock. <em>(requires displayType set to <code>'both'</code>)</em></strong> Specifies where the analog clock is in relation to the digital clock<br>
+				<br><b>Possible values:</b> <code>top</code>, <code>right</code>, <code>bottom</code>, or <code>left</code>
+				<br><b>Default value:</b> <code>bottom</code>
+			</td>
+		</tr>
 	</tbody>
 </table>
