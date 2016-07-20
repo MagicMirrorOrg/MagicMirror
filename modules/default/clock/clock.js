@@ -19,7 +19,8 @@ Module.register("clock",{
 		/* specific to the analog clock */
 		analogSize: '200px',
 		analogFace: 'simple', // options: 'none', 'simple', 'face-###' (where ### is 001 to 012 inclusive)
-		analogPlacement: 'bottom', // options: top, bottom, left, right
+		analogPlacement: 'bottom', // options: 'top', 'bottom', 'left', 'right'
+		analogShowDate: 'top', // options: false, 'top', or 'bottom'
 		secondsColor: '#888888',
 	},
 	// Define required scripts.
@@ -170,8 +171,15 @@ Module.register("clock",{
 			// Display only an analog clock
 			dateWrapper.style.textAlign = "center";
 			dateWrapper.style.paddingBottom = "15px";
-			wrapper.appendChild(dateWrapper);
-			wrapper.appendChild(clockCircle);
+			if (this.config.analogShowDate === 'top') {
+				wrapper.appendChild(dateWrapper);
+				wrapper.appendChild(clockCircle);
+			} else if (this.config.analogShowDate === 'bottom') {
+				wrapper.appendChild(clockCircle);
+				wrapper.appendChild(dateWrapper);
+			} else {
+				wrapper.appendChild(clockCircle);
+			}
 		} else {
 			// Both clocks have been configured, check position
 			var placement = this.config.analogPlacement;
