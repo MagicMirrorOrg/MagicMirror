@@ -114,7 +114,7 @@ var Module = Class.extend({
 	 * This method is called when a module is hidden.
 	 */
 	suspend: function() {
-		Log.log(this.name + " is suspend.");
+		Log.log(this.name + " is suspended.");
 	},
 
 	/* resume()

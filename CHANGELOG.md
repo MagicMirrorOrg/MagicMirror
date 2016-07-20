@@ -7,6 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Prevent `getModules()` selectors from returning duplicate entries.
 - Append endpoints of weather modules with `/` to retreive the correct data. (Issue [#337](https://github.com/MichMich/MagicMirror/issues/337))
+- Corrected grammer in `module.js` from 'suspend' to 'suspended'.
+- Added ability to turn off the date display in `clock.js` when in analog mode.
 
 ## [2.0.3] - 2016-07-12
 ### Added
