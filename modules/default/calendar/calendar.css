@@ -1,3 +1,4 @@
+/* List view CSS */
 .calendar .symbol {
   padding-left: 0;
   padding-right: 10px;
@@ -20,3 +21,45 @@
   padding-left: 30px;
   text-align: right;
 }
+
+/* 
+ * Monthly view CSS
+ * Based on: https://css-tricks.com/elastic-calendar-styling-with-pure-css/
+ *
+ -----------------------------*/
+.calendar-monthly *                   {margin:0;padding:0;font:24px Verdana, Arial, Helvetica, sans-serif;}
+.calendar-monthly h1                  {text-align:center;padding:0;display:block;}
+.calendar-monthly ol.month            {width:924px;margin:0 auto;display:inline-block;}
+.calendar-monthly li                  {list-style:none;}
+
+/*
+ * Day-of-week headers
+ -------------------------*/
+li#days li                            {background:#222;border:1px solid #999;height:1.5em;text-align:center}
+
+/*
+ * Day styles
+ ------------------------- */
+.calendar-monthly li li               {width:130px;height:125px;float:left;text-align:left;margin:0;border:1px solid #999;padding:0;overflow:auto;}
+
+/*
+ * Day content (UL/OL & P)
+ ------------------------- */
+.calendar-monthly li li p             {font-size:.5em;display:block;border-top:1px dotted #777;}
+.calendar-monthly li li ol            {width:auto;}
+.calendar-monthly li li ul li,
+.calendar-monthly li li ol li         {font-size:.5em;display:block;height:auto;width:auto;margin:0;padding:.2em 0;float:none;border:0;border-top:1px dotted #777;}
+
+/*
+ * Today
+ ------------------------- */
+.calendar-monthly li li.today         {color:#fff; border:1px solid #fff;}
+
+/*
+ * Days on last/next months
+ ------------------------- */
+.calendar-monthly li#lastmonth li,
+.calendar-monthly li#nextmonth li     {color:#666;background:#222;border:1px solid #444;}
+
+
+

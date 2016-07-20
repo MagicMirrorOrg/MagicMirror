@@ -12,10 +12,11 @@ var url = 'https://calendar.google.com/calendar/ical/pkm1t2uedjbp0uvq1o7oj1jouo%
 var fetchInterval = 60 * 60 * 1000;
 var maximumEntries = 10;
 var maximumNumberOfDays = 365;
+var fetchStartDate = new Date();
 
 console.log('Create fetcher ...');
 
-fetcher = new CalendarFetcher(url, fetchInterval, maximumEntries, maximumNumberOfDays);
+fetcher = new CalendarFetcher(url, fetchInterval, maximumEntries, maximumNumberOfDays, fetchStartDate);
 
 fetcher.onReceive(function(fetcher) {
 	console.log(fetcher.events());	

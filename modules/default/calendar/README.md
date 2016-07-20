@@ -134,6 +134,22 @@ The following properties can be configured:
 				<br><b>Default value:</b> <code>0</code> (disabled)
 			</td>
 		</tr>
+		<tr>
+			<td><code>calendarFormat</code></td>
+			<td>Display calendar in list view or monthly view<br>
+				<br><b>Possible values:</b> <code>list</code> or <code>monthly</code>
+				<br><b>Default value:</b> <code>list</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>startDate</code></td>
+			<td>View the calendar event list from a specific start date<br>
+				<br><b>Possible values:</b> <code>today</code> (for the current date) or an RFC2822 / ISO 8601 compliant date string (see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse)
+				<br><b>Default value:</b> <code>today</code>
+				<br><b>Example:</b> <code>"2016-07-01"</code><br>
+			</td>
+		</tr>
+        startDate: "today",         // useful for debugging purposes, you can view any start date you want
 	</tbody>
 </table>
 
