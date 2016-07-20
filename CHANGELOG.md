@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Prevent `getModules()` selectors from returning duplicate entries.
+- Append endpoints of weather modules with `/` to retreive the correct data. (Issue [#337](https://github.com/MichMich/MagicMirror/issues/337))
 
 ## [2.0.3] - 2016-07-12
 ### Added
@@ -15,8 +16,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add an analog clock in addition to the digital one.
 
 ### Fixed
-- Edit Alert Module to display title & message if they are provided in the notification (Issue #300)
-- Removed 'null' reference from updateModuleContent(). This fixes recent Edge and Internet Explorer browser displays (Issue #319)
+- Edit Alert Module to display title & message if they are provided in the notification (Issue [#300](https://github.com/MichMich/MagicMirror/issues/300))
+- Removed 'null' reference from updateModuleContent(). This fixes recent Edge and Internet Explorer browser displays (Issue [#319](https://github.com/MichMich/MagicMirror/issues/319))
 
 ### Changed
 - Added default string to calendar titleReplace.
