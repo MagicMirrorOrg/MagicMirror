@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unpublished
 
+### Added
+- Brazilian Portuguese Translation
+
 ### Fixed
 - Prevent `getModules()` selectors from returning duplicate entries.
 - Append endpoints of weather modules with `/` to retreive the correct data. (Issue [#337](https://github.com/MichMich/MagicMirror/issues/337))
