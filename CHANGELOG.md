@@ -5,7 +5,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## Unpublished
 
 ### Added
-- Brazilian Portuguese Translation
+- Brazilian Portuguese Translation.
+- Option to enable Kios mode.
 
 ### Fixed
 - Prevent `getModules()` selectors from returning duplicate entries.
