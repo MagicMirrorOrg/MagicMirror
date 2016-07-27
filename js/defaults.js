@@ -9,11 +9,12 @@
 
 var defaults = {
 	port: 8080,
+	kioskmode: false,
 
 	language: "en",
 	timeFormat: 24,
 	units: "metric",
-	
+
 	modules: [
 		{
 			module: "helloworld",
