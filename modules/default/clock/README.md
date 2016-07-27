@@ -101,5 +101,12 @@ The following properties can be configured:
 				<br><b>Default value:</b> <code>bottom</code>
 			</td>
 		</tr>
+		<tr>
+			<td><code>analogShowDate</code></td>
+			<td><strong>Specific to the analog clock.</strong> If the clock is used as a separate module and set to analog only, this configures whether a date is also displayed with the clock.<br>
+				<br><b>Possible values:</b> <code>false</code>, <code>top</code>, or <code>bottom</code>
+				<br><b>Default value:</b> <code>top</code>
+			</td>
+		</tr>
 	</tbody>
 </table>
