@@ -41,7 +41,7 @@ var config = {
 			position: 'top_right',
 			config: {
 				location: 'New York',
-				locationID: '',  //ID from bulk.openweather.org/sample/
+				locationID: '',  //ID from http://www.openweathermap.org
 				appid: 'YOUR_OPENWEATHER_API_KEY'
 			}
 		},
@@ -51,7 +51,7 @@ var config = {
 			header: 'Weather Forecast',
 			config: {
 	            location: 'New York',
-				locationID: '5128581',  //ID from bulk.openweather.org/sample/
+				locationID: '5128581',  //ID from http://www.openweathermap.org
 	            appid: 'YOUR_OPENWEATHER_API_KEY'
 			}
 		},
