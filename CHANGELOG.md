@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### Added optional "dev" parameter to start with dev tools
+
 ## [2.0.3] - 2016-07-12
 ### Added
 - Add max newsitems parameter to the newsfeed module.
