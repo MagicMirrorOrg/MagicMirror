@@ -43,6 +43,8 @@ curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/master/installer
 
 **Important:** `npm start` does **not** work via SSH, use `DISPLAY=:0 nohup npm start &` instead. This starts the mirror on the remote display.
 
+**Note:** if want to debug on Raspberry Pi you could run `npm start dev` which will start the MagicMirror app with Dev Tools openned.
+
 #### Server Only
 
 In some cases, you want to start the application without an actual app window. In this case, execute the following command from the MagicMirror folder: `node serveronly`. This will start the server, after which you can open the application in your browser of choice.
