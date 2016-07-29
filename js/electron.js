@@ -25,6 +25,11 @@ function createWindow() {
 
 	// Open the DevTools.
 	//mainWindow.webContents.openDevTools();
+	
+	// Open the DevTools if run with "npm start dev"
+  	if(process.argv[2] == "dev"){
+    	      mainWindow.webContents.openDevTools();
+  	}
 
 	// Emitted when the window is closed.
 	mainWindow.on("closed", function() {
