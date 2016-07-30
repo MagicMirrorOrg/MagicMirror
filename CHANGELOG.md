@@ -2,6 +2,22 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unpublished
+
+### Added
+- Brazilian Portuguese Translation.
+- Option to enable Kios mode.
+
+### Fixed
+- Prevent `getModules()` selectors from returning duplicate entries.
+- Append endpoints of weather modules with `/` to retreive the correct data. (Issue [#337](https://github.com/MichMich/MagicMirror/issues/337))
+- Corrected grammer in `module.js` from 'suspend' to 'suspended'.
+- Fixed openweathermap.org URL in config sample.
+
+### Added
+- Added ability to turn off the date display in `clock.js` when in analog mode.
+- Greek Translation
+
 ## [2.0.3] - 2016-07-12
 ### Added
 - Add max newsitems parameter to the newsfeed module.
@@ -10,8 +26,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add an analog clock in addition to the digital one.
 
 ### Fixed
-- Edit Alert Module to display title & message if they are provided in the notification (Issue #300)
-- Removed 'null' reference from updateModuleContent(). This fixes recent Edge and Internet Explorer browser displays (Issue #319)
+- Edit Alert Module to display title & message if they are provided in the notification (Issue [#300](https://github.com/MichMich/MagicMirror/issues/300))
+- Removed 'null' reference from updateModuleContent(). This fixes recent Edge and Internet Explorer browser displays (Issue [#319](https://github.com/MichMich/MagicMirror/issues/319))
 
 ### Changed
 - Added default string to calendar titleReplace.
