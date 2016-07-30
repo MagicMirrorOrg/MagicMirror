@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Brazilian Portuguese Translation.
 - Option to enable Kios mode.
+- Added ability to start the app with Dev Tools.
 
 ### Fixed
 - Prevent `getModules()` selectors from returning duplicate entries.
