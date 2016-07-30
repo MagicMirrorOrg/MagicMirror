@@ -8,6 +8,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Brazilian Portuguese Translation.
 - Option to enable Kios mode.
 - Added ability to start the app with Dev Tools.
+- Added ability to turn off the date display in `clock.js` when in analog mode.
+- Greek Translation
 
 ### Fixed
 - Prevent `getModules()` selectors from returning duplicate entries.
@@ -15,9 +17,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Corrected grammer in `module.js` from 'suspend' to 'suspended'.
 - Fixed openweathermap.org URL in config sample.
 
-### Added
-- Added ability to turn off the date display in `clock.js` when in analog mode.
-- Greek Translation
+### Updated
+- Updated package.json to fix possible vulnerabilities. (Using snyk)
 
 ## [2.0.3] - 2016-07-12
 ### Added
