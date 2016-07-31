@@ -217,6 +217,13 @@ Module.register("currentweather",{
 	 * argument data object - Weather information received form openweather.org.
 	 */
 	processWeather: function(data) {
+
+		if (!data || !data.main || !data.main.temp) {
+			// Did not receive usable new data.
+			// Maybe this needs a better check?
+			return;
+		}
+
 		this.temperature = this.roundValue(data.main.temp);
 
 		if (this.config.useBeaufort){
