@@ -4,6 +4,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unpublished
 
+### Updated
+- Updated weathericons
+- Updated default weatherforecast to work with the new icons (Currentweather didn't have an issue oddly)
+
+
 ### Added
 - Brazilian Portuguese Translation.
 - Option to enable Kios mode.

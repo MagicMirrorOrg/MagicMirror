@@ -126,7 +126,7 @@ Module.register("weatherforecast",{
 			row.appendChild(iconCell);
 
 			var icon = document.createElement("span");
-			icon.className = forecast.icon;
+			icon.className = "wi weathericon " + forecast.icon;
 			iconCell.appendChild(icon);
 
 			var maxTempCell = document.createElement("td");
