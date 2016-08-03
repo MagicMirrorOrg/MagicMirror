@@ -4,11 +4,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unpublished
 
-### Updated
-- Updated weathericons
-- Updated default weatherforecast to work with the new icons (Currentweather didn't have an issue oddly)
-
-
 ### Added
 - Brazilian Portuguese Translation.
 - Option to enable Kios mode.
@@ -25,7 +20,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix issue where translation loading prevented the UI start-up when the language was set to 'en'. (Issue [#388](https://github.com/MichMich/MagicMirror/issues/388))
 
 ### Updated
-- Updated package.json to fix possible vulnerabilities. (Using snyk)
+- Updated package.json to fix possible vulnerabilities. (Using Snyk)
+- Updated weathericons
+- Updated default weatherforecast to work with the new icons.
 
 ## [2.0.3] - 2016-07-12
 ### Added
