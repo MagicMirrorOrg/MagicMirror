@@ -8,7 +8,9 @@
     "jscs": "jscs **/**/**/**/*.js",
     "stylelint": "stylelint css/main.css fonts/roboto.css",
     "htmlvalidator": "html-validator --file=index.html",
-    "test": "snyk test"
+    "test": "snyk test",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -38,15 +40,16 @@
     "time-grunt": "latest"
   },
   "dependencies": {
-    "express": "latest",
+    "express": "^4.14.0",
     "feedme": "latest",
     "iconv-lite": "latest",
     "moment": "latest",
-    "request": "latest",
-    "snyk": "latest",
-    "socket.io": "latest",
+    "request": "^2.74.0",
+    "rrule": "latest",
+    "snyk": "^1.14.1",
+    "socket.io": "^1.4.6",
     "valid-url": "latest",
-    "walk": "latest",
-    "rrule": "latest"
-  }
+    "walk": "latest"
+  },
+  "snyk": true
 }

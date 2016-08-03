@@ -126,7 +126,7 @@ Module.register("weatherforecast",{
 			row.appendChild(iconCell);
 
 			var icon = document.createElement("span");
-			icon.className = forecast.icon;
+			icon.className = "wi weathericon " + forecast.icon;
 			iconCell.appendChild(icon);
 
 			var maxTempCell = document.createElement("td");
@@ -161,7 +161,7 @@ Module.register("weatherforecast",{
 	 * Calls processWeather on succesfull response.
 	 */
 	updateWeather: function() {
-		var url = this.config.apiBase + this.config.apiVersion + "/" + this.config.forecastEndpoint + this.getParams();
+		var url = this.config.apiBase + this.config.apiVersion + "/" + this.config.forecastEndpoint + '/' + this.getParams();
 		var self = this;
 		var retry = true;
 
@@ -198,7 +198,7 @@ Module.register("weatherforecast",{
 		var params = "?";
 		if(this.config.locationID !== "") {
 			params += "id=" + this.config.locationID;
-		} else { 
+		} else {
 			params += "q=" + this.config.location;
 		}
 		params += "&units=" + this.config.units;

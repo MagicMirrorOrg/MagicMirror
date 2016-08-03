@@ -164,7 +164,7 @@ Module.register("currentweather",{
 	 * Calls processWeather on succesfull response.
 	 */
 	updateWeather: function() {
-		var url = this.config.apiBase + this.config.apiVersion + "/" + this.config.weatherEndpoint + this.getParams();
+		var url = this.config.apiBase + this.config.apiVersion + "/" + this.config.weatherEndpoint + '/' + this.getParams();
 		var self = this;
 		var retry = true;
 
@@ -201,7 +201,7 @@ Module.register("currentweather",{
 		var params = "?";
 		if(this.config.locationID !== "") {
 			params += "id=" + this.config.locationID;
-		} else { 
+		} else {
 			params += "q=" + this.config.location;
 		}
 		params += "&units=" + this.config.units;
@@ -217,6 +217,13 @@ Module.register("currentweather",{
 	 * argument data object - Weather information received form openweather.org.
 	 */
 	processWeather: function(data) {
+
+		if (!data || !data.main || !data.main.temp) {
+			// Did not receive usable new data.
+			// Maybe this needs a better check?
+			return;
+		}
+
 		this.temperature = this.roundValue(data.main.temp);
 
 		if (this.config.useBeaufort){

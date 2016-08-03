@@ -1,0 +1,28 @@
+{
+	/* GENERAL */
+	"LOADING": "Φόρτωση &hellip;",
+
+	/* CALENDAR */
+	"TODAY": "Σήμερα",
+	"TOMORROW": "Αύριο",
+	"RUNNING": "Λήγει σε",
+	"EMPTY": "Δεν υπάρχουν προσεχείς εκδηλώσεις.",
+
+	/* WEATHER */
+	"N": 	"B",
+	"NNE":  "BBA",
+	"NE":   "BA",
+	"ENE": 	"ABA",
+	"E":	"A",
+	"ESE": 	"ANA",
+	"SE": 	"NA",
+	"SSE": 	"NNA",
+	"S": 	"N",
+	"SSW": 	"NNΔ",
+	"SW": 	"NΔ",
+	"WSW": 	"ΔNΔ",
+	"W": 	"Δ",
+	"WNW": 	"ΔΒΔ",
+	"NW": 	"ΒΔ",
+	"NNW": 	"ΒΒΔ"
+}
