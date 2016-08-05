@@ -23,6 +23,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Updated package.json to fix possible vulnerabilities. (Using Snyk)
 - Updated weathericons
 - Updated default weatherforecast to work with the new icons.
+- More detailed error message in case config file couldn't be loaded.
 
 ## [2.0.3] - 2016-07-12
 ### Added
