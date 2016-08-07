@@ -114,7 +114,7 @@ var Module = Class.extend({
 	 * This method is called when a module is hidden.
 	 */
 	suspend: function() {
-		Log.log(this.name + " is suspend.");
+		Log.log(this.name + " is suspended.");
 	},
 
 	/* resume()
@@ -247,7 +247,7 @@ var Module = Class.extend({
 
 			// If a translation file is set, load it and then also load the fallback translation file.
 			// Otherwise only load the fallback translation file.
-			if (translationFile !== undefined) {
+			if (translationFile !== undefined && translationFile !== translationsFallbackFile) {
 				Translator.load(self, translationFile, false, function() {
 					Translator.load(self, translationsFallbackFile, true, callback);
 				});

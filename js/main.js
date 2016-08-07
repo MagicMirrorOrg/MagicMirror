@@ -1,4 +1,5 @@
 /* global  Log, Loader, Module, config, defaults */
+/* jshint -W020 */
 
 /* Magic Mirror
  * Main System
@@ -225,24 +226,23 @@ var MM = (function() {
 		 * return array - Filtered collection of modules.
 		 */
 		var withClass = function(className) {
-			var newModules = [];
-
 			var searchClasses = className;
 			if (typeof className === "string") {
 				searchClasses = className.split(" ");
 			}
 
-			for (var m in modules) {
-				var module = modules[m];
+			var newModules = modules.filter(function(module) {
 				var classes = module.data.classes.toLowerCase().split(" ");
 
 				for (var c in searchClasses) {
 					var searchClass = searchClasses[c];
 					if (classes.indexOf(searchClass.toLowerCase()) !== -1) {
-						newModules.push(module);
+						return true;
 					}
 				}
-			}
+
+				return false;
+			});
 
 			setSelectionMethodsForModules(newModules);
 			return newModules;
@@ -256,28 +256,23 @@ var MM = (function() {
 		 * return array - Filtered collection of modules.
 		 */
 		var exceptWithClass  = function(className) {
-			var newModules = [];
-
 			var searchClasses = className;
 			if (typeof className === "string") {
 				searchClasses = className.split(" ");
 			}
 
-			for (var m in modules) {
-				var module = modules[m];
+			var newModules = modules.filter(function(module) {
 				var classes = module.data.classes.toLowerCase().split(" ");
-				var foundClass = false;
+
 				for (var c in searchClasses) {
 					var searchClass = searchClasses[c];
 					if (classes.indexOf(searchClass.toLowerCase()) !== -1) {
-						foundClass = true;
-						break;
+						return false;
 					}
 				}
-				if (!foundClass) {
-					newModules.push(module);
-				}
-			}
+
+				return true;
+			});
 
 			setSelectionMethodsForModules(newModules);
 			return newModules;
@@ -291,14 +286,9 @@ var MM = (function() {
 		 * return array - Filtered collection of modules.
 		 */
 		var exceptModule = function(module) {
-			var newModules = [];
-
-			for (var m in modules) {
-				var mod = modules[m];
-				if (mod.identifier !== module.identifier) {
-					newModules.push(mod);
-				}
-			}
+			var newModules = modules.filter(function(mod) {
+				return mod.identifier !== module.identifier;
+			});
 
 			setSelectionMethodsForModules(newModules);
 			return newModules;
@@ -310,10 +300,9 @@ var MM = (function() {
 		 * argument callback function - The function to execute with the module as an argument.
 		 */
 		var enumerate = function(callback) {
-			for (var m in modules) {
-				var module = modules[m];
+			modules.map(function(module) {
 				callback(module);
-			}
+			});
 		};
 
 		if (typeof modules.withClass === "undefined") { Object.defineProperty(modules, "withClass",  {value: withClass, enumerable: false}); }
