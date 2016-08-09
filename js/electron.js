@@ -45,7 +45,6 @@ function createWindow() {
 		});
 
 		mainWindow.on("leave-full-screen", function() {
-			// console.log("leave-full-screen");
 			mainWindow.setFullScreen(true);
 		});
 
