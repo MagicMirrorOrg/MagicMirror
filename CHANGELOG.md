@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.5] - 2016-08-12
+
+### Added
+- Express has been hardened by adding the helmet library and using it to remove the X-Powered-By heading in all responses.
+- The iCal parser library has been harded by replacing the use of `Math.random()` with a custom `getRandNum()` function.
+
 ## [2.0.4] - 2016-08-07
 
 ### Added
