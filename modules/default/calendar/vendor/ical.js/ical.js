@@ -16,7 +16,26 @@
   }
 
 }('ical', function(){
-
+  var crypto = global.crypto || global.msCrypto;
+  var randomBytes = function(size, cb) {
+    if(size > 65536) {
+      throw new Error("You have requested too many random bytes. Try changing it to lower than 65,536.");
+    }
+    var rawBytes = new global.Uint8Array(size);
+    if(size > 0) {
+      crypto.getRandomValues(rawBytes);
+    }
+    var bytes = new Buffer(rawBytes.buffer);
+    if(typeof cb === "function") {
+      return process.nextTick(function() {
+        cb(null, bytes);
+      });
+    }
+  }
+  var getRandNum = function() {
+    var res = ('0.' + parseInt(crypto.randomBytes(8).toString('hex'), 16)).replace(/(^0)|(0$)/g, '');
+    return parseFloat(res);
+  }
    // Unescape Text re RFC 4.3.11
   var text = function(t){
     t = t || "";
@@ -228,7 +247,7 @@
         if (curr.uid)
           par[curr.uid] = curr
         else
-          par[Math.random()*100000] = curr  // Randomly assign ID : TODO - use true GUID
+          par[getRandNum()*100000] = curr  // Randomly assign ID : TODO - use true GUID
 
         return par
       }
