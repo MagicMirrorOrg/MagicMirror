@@ -49,7 +49,8 @@
     "snyk": "^1.14.1",
     "socket.io": "^1.4.6",
     "valid-url": "latest",
-    "walk": "latest"
+    "walk": "latest",
+    "helmet": "latest"
   },
   "snyk": true
 }
