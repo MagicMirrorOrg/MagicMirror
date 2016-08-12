@@ -7,6 +7,7 @@
 
 var express = require("express");
 var app = require("express")();
+var helmet = require("helmet");
 var server = require("http").Server(app);
 var io = require("socket.io")(server);
 var path = require("path");
@@ -22,6 +23,7 @@ var Server = function(config, callback) {
 	app.use("/modules", express.static(path.resolve(__dirname + "/../modules")));
 	app.use("/vendor", express.static(path.resolve(__dirname + "/../vendor")));
 	app.use("/translations", express.static(path.resolve(__dirname + "/../translations")));
+	app.use(helmet.hidePoweredBy());
 
 	app.get("/", function(req, res) {
 		res.sendFile(path.resolve(__dirname + "/../index.html"));
