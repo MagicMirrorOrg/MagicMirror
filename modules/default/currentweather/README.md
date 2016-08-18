@@ -14,7 +14,7 @@ modules: [
 		config: {
 			// See 'Configuration options' for more information.
 			location: 'Amsterdam,Netherlands',
-			locationID: '', //Location ID from http://bulk.openweather.org/sample/ 
+			locationID: '', //Location ID from http://bulk.openweather.org/sample/
 			appid: 'abcde12345abcde12345abcde12345ab' //openweathermap.org API key.
 		}
 	}
@@ -35,7 +35,7 @@ The following properties can be configured:
 		</tr>
 	<thead>
 	<tbody>
-	
+
 		<tr>
 			<td><code>location</code></td>
 			<td>The location used for weather information.<br>
@@ -106,6 +106,13 @@ The following properties can be configured:
 			</td>
 		</tr>
 		<tr>
+			<td><code>showHumidity</code></td>
+			<td>Show the current humidity<br>
+				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
+				<br><b>Default value:</b> <code>false</code>
+			</td>
+		</tr>
+    <tr>
 			<td><code>useBeaufort</code></td>
 			<td>Pick between using the Beaufort scale for wind speed or using the default units.<br>
 				<br><b>Possible values:</b> <code>true</code> or <code>false</code>

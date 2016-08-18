@@ -6,3 +6,7 @@
   -webkit-transform: translate(0, -3px); /* Safari */
   transform: translate(0, -3px);
 }
+
+.currentweather .humidity-padding {
+  padding-bottom: 6px;
+}
