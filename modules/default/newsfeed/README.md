@@ -116,8 +116,8 @@ The following properties can be configured:
 		
 		<tr>
 			<td><code>removeStartTags</code></td>
-			<td>Some newsfeeds feature tags at the <B>beginning</B> of their titles or descriptions, such as "[VIDEO]".
-			This setting allows for the removal of specified tags from the beginning of an item's description and / or title.<br>
+			<td>Some newsfeeds feature tags at the <B>beginning</B> of their titles or descriptions, such as <em>VIDEO</em>.
+			This setting allows for the removal of specified tags from the beginning of an item's description and/or title.<br>
 				<br><b>Possible values:</b><code>'none'</code>,<code>description</code>, <code>title</code>, <code>both</code> 
 			</td>
 		</tr>
@@ -129,7 +129,7 @@ The following properties can be configured:
 		</tr>
 		<tr>
 			<td><code>removeEndTags</code></td>
-			<td>Remove specified tags from the <B>end</B> of an item's description and / or title.<br>
+			<td>Remove specified tags from the <B>end</B> of an item's description and/or title.<br>
 				<br><b>Possible values:</b><code>description</code>, <code>title</code>, <code>both</code> 
 			</td>
 		</tr>
