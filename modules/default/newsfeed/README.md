@@ -108,18 +108,35 @@ The following properties can be configured:
 				<br><b>Default value:</b> <code>0</code>
 			</td>
 		</tr>
+			removeStartTags: false,
+		removeEndTags: false,
+		startTags: [],
+		endTags: []
+		
+		
 		<tr>
-			<td><code>showMore</code></td>
-			<td>Remove "more..." tags from the end of the item description.<br>
-				<br><b>Possible values:</b><code>true</code> or <code>false</code>
-				<br><b>Default value:</b> <code>false</code>
+			<td><code>removeStartTags</code></td>
+			<td>Some newsfeeds feature tags at the <B>beginning</B> of their titles or descriptions, such as "[VIDEO]".
+			This setting allows for the removal of specified tags from the beginning of an item's description and / or title.<br>
+				<br><b>Possible values:</b><code>'none'</code>,<code>description</code>, <code>title</code>, <code>both</code> 
 			</td>
 		</tr>
 		<tr>
-			<td><code>moreTag</code></td>
-			<td>Specify the exact wording of the "more..." tag.<br>
-				<br><b>Possible values:</b> 'YOUR_MORE_TAG_HERE'
-				<br><b>Default value:</b> <code>'more'</code>
+			<td><code>startTags</code></td>
+			<td>List the tags you would like to have removed at the beginning of the feed item<br>
+				<br><b>Possible values:</b> ['TAG'] or ['TAG1','TAG2',...]
+			</td>
+		</tr>
+		<tr>
+			<td><code>removeEndTags</code></td>
+			<td>Remove specified tags from the <B>end</B> of an item's description and / or title.<br>
+				<br><b>Possible values:</b><code>description</code>, <code>title</code>, <code>both</code> 
+			</td>
+		</tr>
+		<tr>
+			<td><code>endTags</code></td>
+			<td>List the tags you would like to have removed at the end of the feed item<br>
+				<br><b>Possible values:</b> ['TAG'] or ['TAG1','TAG2',...]
 			</td>
 		</tr>
 	</tbody>
