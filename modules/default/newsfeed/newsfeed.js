@@ -24,7 +24,9 @@ Module.register("newsfeed",{
 		reloadInterval:  5 * 60 * 1000, // every 5 minutes
 		updateInterval: 10 * 1000,
 		animationSpeed: 2.5 * 1000,
-		maxNewsItems: 0 // 0 for unlimited
+		maxNewsItems: 0, // 0 for unlimited
+		more: false,
+		moreTag: 'more'
 	},
 
 	// Define required scripts.
@@ -100,7 +102,16 @@ Module.register("newsfeed",{
 			title.className = "bright medium light";
 			title.innerHTML = this.newsItems[this.activeItem].title;
 			wrapper.appendChild(title);
-
+			
+			//Remove "more" tag from description of rss feeds
+			
+			if (this.config.showMore) {
+					if (this.newsItems[this.activeItem].description.slice(-this.config.moreTag.length)==this.config.moreTag) {
+					this.newsItems[this.activeItem].description = this.newsItems[this.activeItem].description.slice(0,-this.config.moreTag.length);
+				}
+			}
+			
+			
 			if (this.config.showDescription) {
 				var description = document.createElement("div");
 				description.className = "small light";

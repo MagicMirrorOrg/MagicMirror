@@ -108,7 +108,20 @@ The following properties can be configured:
 				<br><b>Default value:</b> <code>0</code>
 			</td>
 		</tr>
-
+		<tr>
+			<td><code>showMore</code></td>
+			<td>Remove "more..." tags from the end of the item description.<br>
+				<br><b>Possible values:</b><code>true</code> or <code>false</code>
+				<br><b>Default value:</b> <code>false</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>moreTag</code></td>
+			<td>Specify the exact wording of the "more..." tag.<br>
+				<br><b>Possible values:</b> 'YOUR_MORE_TAG_HERE'
+				<br><b>Default value:</b> <code>''</code>
+			</td>
+		</tr>
 	</tbody>
 </table>
 
