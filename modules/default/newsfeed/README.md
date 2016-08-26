@@ -119,7 +119,7 @@ The following properties can be configured:
 			<td><code>moreTag</code></td>
 			<td>Specify the exact wording of the "more..." tag.<br>
 				<br><b>Possible values:</b> 'YOUR_MORE_TAG_HERE'
-				<br><b>Default value:</b> <code>''</code>
+				<br><b>Default value:</b> <code>'more'</code>
 			</td>
 		</tr>
 	</tbody>
