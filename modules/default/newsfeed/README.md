@@ -130,7 +130,7 @@ The following properties can be configured:
 		<tr>
 			<td><code>removeEndTags</code></td>
 			<td>Remove specified tags from the <B>end</B> of an item's description and/or title.<br>
-				<br><b>Possible values:</b><code>description</code>, <code>title</code>, <code>both</code> 
+				<br><b>Possible values:</b><code>'title'</code>, <code>'description'</code>, <code>'both'</code> 
 			</td>
 		</tr>
 		<tr>
