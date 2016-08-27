@@ -173,7 +173,7 @@ config: {
 		<tr>
 			<td><code> symbol </code></td>
 			<td>The symbol to show in front of an event. This property is optional.<br>
-				<br><b>Possible values:</b> See <a href="http://fontawesome.io/icons/" target="_blank">Font Awsome</a> website.
+				<br><b>Possible values:</b> See <a href="http://fontawesome.io/icons/" target="_blank">Font Awesome</a> website.
 			</td>
 		</tr>
 		<tr>
