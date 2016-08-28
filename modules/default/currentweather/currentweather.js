@@ -149,10 +149,15 @@ Module.register("currentweather",{
 			var middle = document.createElement("div");
 			middle.className = "normal small humidity-padding";
 
+      var humidityIcon = document.createElement("span");
+  		humidityIcon.className = "wi wi-humidity humidityIcon";
+  		small.appendChild(sunriseSunsetIcon);
+
 			var humidity = document.createElement("span");
-			humidity.innerHTML = "Humidity: " + this.humidity + "%"; // TODO: Localization
+			humidity.innerHTML = this.humidity + "%";
 			var br = document.createElement("br");
 
+      middle.appendChild(humidityIcon);
 			middle.appendChild(humidity);
 			middle.appendChild(br);
 			wrapper.appendChild(middle);
