@@ -150,6 +150,12 @@ Module.register("calendar",{
 					timeWrapper.innerHTML = this.translate("TODAY");
 				} else if (event.startDate - now < one_day && event.startDate - now > 0) {
 					timeWrapper.innerHTML = this.translate("TOMORROW");
+				} else if (event.startDate - now < 2*one_day && event.startDate - now > 0) {
+					if (config.language == 'de') {
+						timeWrapper.innerHTML = this.translate("DAYAFTERTOMORROW");
+					} else {
+						timeWrapper.innerHTML = moment(event.startDate, "x").fromNow();
+					}
 				} else {
 					/* Check to see if the user displays absolute or relative dates with their events
 					 * Also check to see if an event is happening within an 'urgency' time frameElement
