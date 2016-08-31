@@ -5,7 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## Unpublished
 
 ### Updated
-- Force fullscreen when kioskmode is active.
+- Force fullscreen when kioskmode is active. 
 
 ### Added
 - Added ability to remove tags from the beginning or end of newsfeed items in 'newsfeed.js'.
