@@ -5,6 +5,7 @@
 	/* CALENDAR */
 	"TODAY": "Vandaag",
 	"TOMORROW": "Morgen",
+	"DAYAFTERTOMORROW": "Overmorgen",
 	"RUNNING": "Eindigt over",
 	"EMPTY": "Geen geplande afspraken.",
 
