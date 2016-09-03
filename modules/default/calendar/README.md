@@ -127,6 +127,13 @@ The following properties can be configured:
 			</td>
 		</tr>
 		<tr>
+			<td><code>getRelative</code></td>
+			<td>Determine how much time (in hours) should be left when calendar events start getting relative (If you want this to start half an hour before an event occurs)<br>
+				<br><b>Possible values:</b> <code>0 (never)</code> - <code>48 (48 hours before the event)</code>
+				<br><b>Default value:</b> <code>6</code>
+			</td>
+		</tr>
+		<tr>
 			<td><code>urgency</code></td>
 			<td>When using a timeFormat of <code>absolute</code>, the <code>urgency</code> setting allows you to display events within a specific time frame as <code>relative</code>
 			    This allows events within a certain time frame to be displayed as relative (in xx days) while others are displayed as absolute dates<br>
