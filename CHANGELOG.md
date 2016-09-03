@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Added ability to remove tags from the beginning or end of newsfeed items in 'newsfeed.js'.
 - Added ability to define "the day after tomorrow" for calendar events (Definition for German and Dutch already included).
+- Added CII Badge (we are compliant with the CII Best Practices)
 
 ## [2.0.4] - 2016-08-07
 
