@@ -10,6 +10,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Added ability to remove tags from the beginning or end of newsfeed items in 'newsfeed.js'.
 - Added ability to define "the day after tomorrow" for calendar events (Definition for German and Dutch already included).
+- Added ability to change the point of time when calendar events get relative.
+
+### Changed
+- Calendar times are now uniformly capitalized
+
 
 ## [2.0.4] - 2016-08-07
 
