@@ -23,6 +23,7 @@ Module.register("calendar",{
 		fade: true,
 		urgency: 7,
 		timeFormat: "relative",
+		getRelative: '6',
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		calendars: [
 			{
@@ -179,7 +180,7 @@ Module.register("calendar",{
 				if (event.startDate >= new Date()) {
 					if (event.startDate - now < 2 * one_day) {
 						// This event is within the next 48 hours (2 days)
-						if (event.startDate - now < 6 * one_hour) {
+						if (event.startDate - now < this.config.getRelative * one_hour) {
 							// If event is within 6 hour, display 'in xxx' time format or moment.fromNow()
 							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 						} else {
