@@ -128,7 +128,7 @@ The following properties can be configured:
 		</tr>
 		<tr>
 			<td><code>getRelative</code></td>
-			<td>Determine how much time (in hours) should be left until calendar events start getting relative<br>
+			<td>How much time (in hours) should be left until calendar events start getting relative?<br>
 				<br><b>Possible values:</b> <code>0</code> (events stay absolute) - <code>48</code> (48 hours before the event starts)
 				<br><b>Default value:</b> <code>6</code>
 			</td>
