@@ -23,7 +23,7 @@ Module.register("calendar",{
 		fade: true,
 		urgency: 7,
 		timeFormat: "relative",
-		getRelative: '6',
+		getRelative: 6,
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		calendars: [
 			{
