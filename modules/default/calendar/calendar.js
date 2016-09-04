@@ -207,7 +207,7 @@ Module.register("calendar",{
 						}
 					}
 				} else {
-					timeWrapper.innerHTML =  this.capFirst(this.translate("RUNNING")) + ' ' + this.capFirst(moment(event.endDate,"x").fromNow(true));
+					timeWrapper.innerHTML =  this.capFirst(this.translate("RUNNING")) + ' ' + moment(event.endDate,"x").fromNow(true);
 				}
 			}
 			//timeWrapper.innerHTML += ' - '+ moment(event.startDate,'x').format('lll');
