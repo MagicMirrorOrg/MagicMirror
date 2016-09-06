@@ -8,7 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added ability to remove tags from the beginning or end of newsfeed items in 'newsfeed.js'.
 - Added ability to define "the day after tomorrow" for calendar events (Definition for German and Dutch already included).
 - Added CII Badge (we are compliant with the CII Best Practices)
-- 
+
 ### Fixed
 - Fix typo in installer.
 - Fix API url for weather API.
