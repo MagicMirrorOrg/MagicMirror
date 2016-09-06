@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Fix typo in installer.
+- Add message to unsupported Pi error to mention that Pi Zeros must use server only mode, as ARMv6 is unsupported. Closes #374.
 - Fix API url for weather API.
 
 ### Updated
@@ -20,7 +21,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - Brazilian Portuguese Translation.
-- Option to enable Kios mode.
+- Option to enable Kiosk mode.
 - Added ability to start the app with Dev Tools.
 - Added ability to turn off the date display in `clock.js` when in analog mode.
 - Greek Translation
