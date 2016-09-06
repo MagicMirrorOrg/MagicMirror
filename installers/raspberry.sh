@@ -68,7 +68,7 @@ else
 	NODE_INSTALL=true
 fi
 
-# Install or upgare node if nessecery.
+# Install or upgrade node if necessary.
 if $NODE_INSTALL; then
 	
 	echo -e "\e[96mInstalling Node.js ...\e[90m"
