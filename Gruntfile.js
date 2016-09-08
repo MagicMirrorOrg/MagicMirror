@@ -8,21 +8,16 @@ module.exports = function(grunt) {
 			},
 			target: ["js/*.js", "modules/default/*.js", "serveronly/*.js", "*.js"]
 		},
-		postcss: {
-			lint: {
+		stylelint: {
+			simple: {
 				options: {
-					processors: [
-						require("stylelint")({"extends": "stylelint-config-standard", "font-family-name-quotes": "double-where-recommended"}),
-						require("postcss-reporter")({ clearMessages: true })
-					]
+					configFile: ".stylelintrc"
 				},
-				dist: {
-					src: "**/**/**/**/**/**/**/**.css"
-				}
+				src: "**/**/**/**/**/**/**/**/*.css"
 			}
 		}
 	});
 	grunt.loadNpmTasks("grunt-eslint");
-	grunt.loadNpmTasks("grunt-postcss");
-	grunt.registerTask("default", ["eslint", "postcss:lint"]);
+	grunt.loadNpmTasks("grunt-stylelint");
+	grunt.registerTask("default", ["eslint", "stylelint"]);
 };
