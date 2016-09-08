@@ -5,34 +5,21 @@ Thanks for contributing to MagicMirror²!
 
 We hold our code to standard, and these standards are documented below. 
 
-First, before you run the linters, you will need to install them all **and** install the development dependencies:
+### JavaScript: Run ESLint
 
-```bash
-(sudo) npm install -g jscs stylelint html-validator-cli
-npm install
-```
+We use [ESLint](http://eslint.org) on our JavaScript files.
 
-### JavaScript: Run JSCS
+Our ESLint configuration is in our .eslintrc.json and .eslintignore files.
 
-We use [JSCS](http://jscs.info) on our JavaScript files.
-
-Our JSCS configuration is in our .jscsrc file.
-
-To run JSCS, use `npm run jscs`.
+To run ESLint, use `grunt eslint`.
 
 ### CSS: Run StyleLint
 
 We use [StyleLint](http://stylelint.io) to lint our CSS. Our configuration is in our .stylelintrc file.
 
-To run StyleLint, use `npm run stylelint`.
+To run StyleLint, use `grunt postcss:lint`.
 
-### HTML: Run HTML Validator
-
-We use [NU Validator](https://validator.w3.org/nu) to validate our HTML. The configuration is in the command in the package.json file.
-
-To run HTML Validator, use `npm run htmlvalidator`.
-
-## Submitting Issues
+### Submitting Issues
 
 Please only submit reproducible issues. 
 
