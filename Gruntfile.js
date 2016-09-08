@@ -13,7 +13,7 @@ module.exports = function(grunt) {
 				options: {
 					configFile: ".stylelintrc"
 				},
-				src: "**/**/**/**/**/**/**/**/*.css"
+				src: ["css/custom.css", "css/main.css", "modules/default/calendar/calendar.css", "modules/default/clock/clock_styles.css", "modules/default/currentweather/currentweather.css", "modules/default/weatherforcast/weatherforcast.css"]
 			}
 		}
 	});
