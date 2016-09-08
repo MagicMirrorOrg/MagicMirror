@@ -64,7 +64,7 @@ Module.register("calendar",{
 		for (var c in this.config.calendars) {
 			var calendar = this.config.calendars[c];
 			calendar.url = calendar.url.replace("webcal://", "http://");
-			this.addCalendar(calendar.url);
+			this.addCalendar(calendar.url, calendar.user, calendar.pass);
 		}
 
 		this.calendarData = {};
@@ -285,12 +285,14 @@ Module.register("calendar",{
 	 *
 	 * argument url sting - Url to add.
 	 */
-	addCalendar: function(url) {
+	addCalendar: function(url, user, pass) {
 		this.sendSocketNotification("ADD_CALENDAR", {
 			url: url,
 			maximumEntries: this.config.maximumEntries,
 			maximumNumberOfDays: this.config.maximumNumberOfDays,
-			fetchInterval: this.config.fetchInterval
+			fetchInterval: this.config.fetchInterval,
+			user: user,
+			pass: pass
 		});
 	},
 
