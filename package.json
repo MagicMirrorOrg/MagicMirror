@@ -5,9 +5,6 @@
   "main": "js/electron.js",
   "scripts": {
     "start": "electron js/electron.js",
-    "jscs": "jscs **/**/**/**/*.js",
-    "stylelint": "stylelint css/main.css fonts/roboto.css",
-    "htmlvalidator": "html-validator --file=index.html",
     "test": "snyk test",
     "snyk-protect": "snyk protect",
     "prepublish": "npm run snyk-protect"
@@ -33,11 +30,9 @@
     "electron-prebuilt": "latest",
     "grunt": "latest",
     "grunt-eslint": "latest",
-    "grunt-postcss": "latest",
-    "postcss-reporter": "latest",
-    "stylelint": "latest",
     "stylelint-config-standard": "latest",
-    "time-grunt": "latest"
+    "time-grunt": "latest",
+    "grunt-stylelint": "latest"
   },
   "dependencies": {
     "express": "^4.14.0",
