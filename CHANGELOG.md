@@ -16,6 +16,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Updated
 - Force fullscreen when kioskmode is active.
+- Update the .github templates and information with more modern information.
+- Update the Gruntfile with a more functional StyleLint implementation.
 
 ## [2.0.4] - 2016-08-07
 
