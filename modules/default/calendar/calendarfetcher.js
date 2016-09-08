@@ -8,7 +8,7 @@
 var ical = require("./vendor/ical.js");
 var moment = require("moment");
 
-var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumberOfDays) {
+var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumberOfDays, user, pass) {
 	var self = this;
 
 	var reloadTimer = null;
@@ -29,7 +29,16 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 			headers: {
 				'User-Agent': 'Mozilla/5.0 (Node.js 6.0.0) MagicMirror/v2 (https://github.com/MichMich/MagicMirror/)'
 			}
+		};
+
+		if (user && pass) {
+			opts.auth = {
+				user: user,
+				pass: pass,
+				sendImmediately: true
+			}
 		}
+
 		ical.fromURL(url, opts, function(err, data) {
 			if (err) {
 				fetchFailedCallback(self, err);

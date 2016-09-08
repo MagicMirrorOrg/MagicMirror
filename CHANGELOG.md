@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### Added
+- Calendar module now supports http basic auth for calendars
+
 ## [2.0.4] - 2016-08-07
 
 ### Added
