@@ -183,5 +183,13 @@ config: {
 				<code>'Birthday'</code>
 			</td>
 		</tr>
+		<tr>
+			<td><code> user </code></td>
+			<td>The username for HTTP Basic authentication.</td>
+		</tr>
+		<tr>
+			<td><code> pass </code></td>
+			<td>The password for HTTP Basic authentication.</td>
+		</tr>
 		</tbody>
 </table>
