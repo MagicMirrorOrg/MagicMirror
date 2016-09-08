@@ -1,9 +1,3 @@
-#analog {
-}
-
-#digital {
-}
-
 .clockCircle {
   margin: 0 auto;
   position: relative;
@@ -16,7 +10,7 @@
   height: 100%;
 }
 
-.clockFace:after {
+.clockFace::after {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -31,6 +25,7 @@
 
 .clockHour {
   width: 0;
+  
   height: 0;
   position: absolute;
   top: 50%;
@@ -67,7 +62,7 @@
   left: 50%;
   margin: -38% -1px 0 0;  /* numbers must match negative length & thickness */
   padding: 38% 1px 0 0;   /* indicator length & thickness */
-  background: #888888;
+  background: #888;
   -webkit-transform-origin: 50% 100%;
   -ms-transform-origin: 50% 100%;
   transform-origin: 50% 100%;
