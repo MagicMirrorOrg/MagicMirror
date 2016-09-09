@@ -1,10 +1,10 @@
 html {
   cursor: none;
-  overflow:hidden;
+  overflow: hidden;
 }
 
-::-webkit-scrollbar { 
-    display: none; 
+::-webkit-scrollbar {
+  display: none;
 }
 
 body {
