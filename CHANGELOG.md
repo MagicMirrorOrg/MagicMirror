@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added ability to define "the day after tomorrow" for calendar events (Definition for German and Dutch already included).
 - Added CII Badge (we are compliant with the CII Best Practices)
 - Add support for doing http basic auth when loading calendars 
+- Add the abilty to turn off and on the date display in the Clock Module
 
 ### Fixed
 - Fix typo in installer.
