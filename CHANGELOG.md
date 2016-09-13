@@ -90,4 +90,4 @@ It includes (but is not limited to) the following features:
 
 ## [1.0.0] - 2014-02-16
 ### Initial release of MagicMirror.
-This was part of the blogpost: http://michaelteeuw.nl/post/83916869600/magic-mirror-part-vi-production-of-the
+This was part of the blogpost: [http://michaelteeuw.nl/post/83916869600/magic-mirror-part-vi-production-of-the](http://michaelteeuw.nl/post/83916869600/magic-mirror-part-vi-production-of-the)
