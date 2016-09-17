@@ -38,8 +38,9 @@ var MM = (function() {
 				wrapper.appendChild(dom);
 
 				if (typeof module.data.header !== "undefined" && module.data.header !== "") {
-					var moduleHeader = document.createElement("header");
+					var moduleHeader = document.createElement("div");
 					moduleHeader.innerHTML = module.data.header;
+					moduleHeader.className = "header";
 					dom.appendChild(moduleHeader);
 				}
 
@@ -132,7 +133,13 @@ var MM = (function() {
 		var tempWrapper = document.createElement("div");
 		tempWrapper.appendChild(newContent);
 
-		return tempWrapper.innerHTML !== contentWrapper.innerHTML;
+		var headerNeedsUpdate = false;
+		if (typeof module.data.header !== "undefined" && module.data.header !== "") {
+			var header = moduleWrapper.getElementsByClassName("header")[0];
+			headerNeedsUpdate = header.innerHTML !== module.data.header + module.getHeaderAppendix();
+		}
+
+		return headerNeedsUpdate || tempWrapper.innerHTML !== contentWrapper.innerHTML;
 	};
 
 	/* moduleNeedsUpdate(module, newContent)
@@ -147,6 +154,11 @@ var MM = (function() {
 
 		contentWrapper.innerHTML = "";
 		contentWrapper.appendChild(content);
+
+		if (typeof module.data.header !== "undefined" && module.data.header !== "") {
+			var header = moduleWrapper.getElementsByClassName("header")[0];
+			header.innerHTML = module.data.header + module.getHeaderAppendix();
+		}
 	};
 
 	/* hideModule(module, speed, callback)

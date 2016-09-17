@@ -84,6 +84,16 @@ var Module = Class.extend({
 		return div;
 	},
 
+	/* getHeaderAppendix()
+	 * If the module wants to display some additional information in the header it can override the function.
+	 * This method is called everytime when the DOM ist updated.
+	 *
+	 * return appendix - The appendix to display (string).
+	 */
+	getHeaderAppendix: function() {
+		return ""
+	},
+
 	/* notificationReceived(notification, payload, sender)
 	 * This method is called when a notification arrives.
 	 * This method is called by the Magic Mirror core.
