@@ -102,7 +102,7 @@ Module.register("weatherforecast",{
 		}
 
 		if (!this.loaded) {
-			wrapper.innerHTML = this.translate('LOADING');
+			wrapper.innerHTML = this.translate("LOADING");
 			wrapper.className = "dimmed light small";
 			return wrapper;
 		}
@@ -161,7 +161,7 @@ Module.register("weatherforecast",{
 	 * Calls processWeather on succesfull response.
 	 */
 	updateWeather: function() {
-		var url = this.config.apiBase + this.config.apiVersion + "/" + this.config.forecastEndpoint + '/' + this.getParams();
+		var url = this.config.apiBase + this.config.apiVersion + "/" + this.config.forecastEndpoint + this.getParams();
 		var self = this;
 		var retry = true;
 
