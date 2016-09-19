@@ -91,7 +91,7 @@ body {
   text-align: left;
 }
 
-header {
+.header {
   text-transform: uppercase;
   font-size: 15px;
   font-family: "Roboto Condensed";

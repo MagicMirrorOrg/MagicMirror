@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added CII Badge (we are compliant with the CII Best Practices)
 - Add support for doing http basic auth when loading calendars 
 - Add the abilty to turn off and on the date display in the Clock Module
+- Added first implementation of header appendix
 
 ### Fixed
 - Fix typo in installer.
