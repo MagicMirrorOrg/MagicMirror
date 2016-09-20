@@ -40,6 +40,7 @@ var MM = (function() {
 				if (typeof module.data.header !== "undefined" && module.data.header !== "") {
 					var moduleHeader = document.createElement("header");
 					moduleHeader.innerHTML = module.data.header;
+					moduleHeader.className = "module-header";
 					dom.appendChild(moduleHeader);
 				}
 
@@ -94,26 +95,27 @@ var MM = (function() {
 	 */
 	var updateDom = function(module, speed) {
 		var newContent = module.getDom();
+		var newHeader = module.getHeader();
 
 		if (!module.hidden) {
 
-			if (!moduleNeedsUpdate(module, newContent)) {
+			if (!moduleNeedsUpdate(module, newHeader, newContent)) {
 				return;
 			}
 
 			if (!speed) {
-				updateModuleContent(module, newContent);
+				updateModuleContent(module, newHeader, newContent);
 				return;
 			}
 
 			hideModule(module, speed / 2, function() {
-				updateModuleContent(module, newContent);
+				updateModuleContent(module, newHeader, newContent);
 				if (!module.hidden) {
 					showModule(module, speed / 2);
 				}
 			});
 		} else {
-			updateModuleContent(module, newContent);
+			updateModuleContent(module, newHeader, newContent);
 		}
 	};
 
@@ -125,14 +127,23 @@ var MM = (function() {
 	 *
 	 * return bool - Does the module need an update?
 	 */
-	var moduleNeedsUpdate = function(module, newContent) {
+	var moduleNeedsUpdate = function(module, newHeader, newContent) {
 		var moduleWrapper = document.getElementById(module.identifier);
-		var contentWrapper = moduleWrapper.getElementsByClassName("module-content")[0];
+		var contentWrapper = moduleWrapper.getElementsByClassName("module-content");
+		var headerWrapper = moduleWrapper.getElementsByClassName("module-header");
 
-		var tempWrapper = document.createElement("div");
-		tempWrapper.appendChild(newContent);
+		var headerNeedsUpdate = false;
+		var contentNeedsUpdate = false;
 
-		return tempWrapper.innerHTML !== contentWrapper.innerHTML;
+		if (headerWrapper.length > 0) {
+			headerNeedsUpdate = newHeader !== headerWrapper.innerHTML;
+		}
+
+		var tempContentWrapper = document.createElement("div");
+		tempContentWrapper.appendChild(newContent);
+		contentNeedsUpdate = tempContentWrapper.innerHTML !== contentWrapper[0].innerHTML;
+
+		return headerNeedsUpdate || contentNeedsUpdate;
 	};
 
 	/* moduleNeedsUpdate(module, newContent)
@@ -141,12 +152,19 @@ var MM = (function() {
 	 * argument module Module - The module to check.
 	 * argument newContent Domobject - The new content that is generated.
 	 */
-	var updateModuleContent = function(module, content) {
+	var updateModuleContent = function(module, newHeader, newContent) {
 		var moduleWrapper = document.getElementById(module.identifier);
-		var contentWrapper = moduleWrapper.getElementsByClassName("module-content")[0];
+		var headerWrapper = moduleWrapper.getElementsByClassName("module-header");
+		var contentWrapper = moduleWrapper.getElementsByClassName("module-content");
 
-		contentWrapper.innerHTML = "";
-		contentWrapper.appendChild(content);
+		contentWrapper[0].innerHTML = "";
+		contentWrapper[0].appendChild(newContent);
+
+		if( headerWrapper.length > 0 && newHeader) {
+			headerWrapper[0].innerHTML = newHeader;
+		}
+
+
 	};
 
 	/* hideModule(module, speed, callback)

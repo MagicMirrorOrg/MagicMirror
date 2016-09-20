@@ -2,13 +2,19 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [2.1.0] - Unreleased
+
+### Added
+- Method to overwrite the module's header. [See documentation.](https://github.com/MichMich/MagicMirror/tree/develop/modules#getheader) 
+
 ## [2.0.5] - 2016-09-20
 
 ### Added
 - Added ability to remove tags from the beginning or end of newsfeed items in 'newsfeed.js'.
 - Added ability to define "the day after tomorrow" for calendar events (Definition for German and Dutch already included).
 - Added CII Badge (we are compliant with the CII Best Practices)
-- Add support for doing http basic auth when loading calendars 
+- Add support for doing http basic auth when loading calendars
 - Add the abilty to turn off and on the date display in the Clock Module
 
 ### Fixed

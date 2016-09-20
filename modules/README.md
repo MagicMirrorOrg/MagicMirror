@@ -166,6 +166,23 @@ getDom: function() {
 
 ````
 
+####`getHeader()`
+**Should return:** String
+
+Whenever the MagicMirror needs to update the information on screen (because it starts, or because your module asked a refresh using `this.updateDom()`), the system calls the getHeader method to retrieve the module's header. This method should therefor return a string. If this method is not subclassed, this function will return the user's configured header.
+
+If you want to use the original user's configured header, reference `this.data.header`.
+
+**NOTE:** If the user did not confiugure a default header, no header will be displayed and thus this method will not be called.
+
+**Example:**
+````javascript
+getHeader: function() {
+	return this.data.header + ' Foo Bar';
+}
+
+````
+
 ####`notificationReceived(notification, payload, sender)`
 
 That MagicMirror core has the ability to send notifications to modules. Or even better: the modules have the possibility to send notifications to other modules. When this module is called, it has 3 arguments:

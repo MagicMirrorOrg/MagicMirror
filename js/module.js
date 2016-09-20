@@ -84,6 +84,17 @@ var Module = Class.extend({
 		return div;
 	},
 
+	/* getHeader()
+	 * This method generates the header string which needs to be displayed if a user has a header configured for this module.
+	 * This method is called by the Magic Mirror core, but only if the user has configured a default header for the module.
+	 * This method needs to be subclassed if the module wants to display modified headers on the mirror.
+	 *
+	 * return string - The header to display above the header.
+	 */
+	getHeader: function() {
+		return this.data.header;
+	},
+
 	/* notificationReceived(notification, payload, sender)
 	 * This method is called when a notification arrives.
 	 * This method is called by the Magic Mirror core.
