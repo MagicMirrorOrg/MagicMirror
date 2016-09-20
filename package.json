@@ -5,9 +5,6 @@
   "main": "js/electron.js",
   "scripts": {
     "start": "electron js/electron.js",
-    "jscs": "jscs **/**/**/**/*.js",
-    "stylelint": "stylelint css/main.css fonts/roboto.css",
-    "htmlvalidator": "html-validator --file=index.html",
     "test": "snyk test",
     "snyk-protect": "snyk protect",
     "prepublish": "npm run snyk-protect"
@@ -30,26 +27,27 @@
   },
   "homepage": "https://github.com/MichMich/MagicMirror#readme",
   "devDependencies": {
-    "electron-prebuilt": "latest",
     "grunt": "latest",
     "grunt-eslint": "latest",
-    "grunt-postcss": "latest",
-    "postcss-reporter": "latest",
-    "stylelint": "latest",
+    "grunt-jsonlint": "latest",
+    "grunt-markdownlint": "^1.0.4",
+    "grunt-stylelint": "latest",
+    "grunt-yamllint": "latest",
     "stylelint-config-standard": "latest",
     "time-grunt": "latest"
   },
   "dependencies": {
+    "electron-prebuilt": "latest",
     "express": "^4.14.0",
     "feedme": "latest",
     "iconv-lite": "latest",
     "moment": "latest",
     "request": "^2.74.0",
     "rrule": "latest",
-    "snyk": "^1.14.1",
     "socket.io": "^1.4.6",
     "valid-url": "latest",
-    "walk": "latest"
+    "walk": "latest",
+    "snyk": "^1.14.1"
   },
   "snyk": true
 }

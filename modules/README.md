@@ -4,7 +4,7 @@ This document describes the way to develop your own MagicMirror² modules.
 
 ## Module structure
 
-All modules are loaded in de `modules` folder. The default modules are grouped together in the `modules/default` folder. Your module should be placed in a subfolder of `modules`. Note that any file or folder your create in the `modules` folder will be ignored by git, allowing you to upgrade the MagicMirror² without the loss of your files.
+All modules are loaded in the `modules` folder. The default modules are grouped together in the `modules/default` folder. Your module should be placed in a subfolder of `modules`. Note that any file or folder your create in the `modules` folder will be ignored by git, allowing you to upgrade the MagicMirror² without the loss of your files.
 
 A module can be placed in one single folder. Or multiple modules can be grouped in a subfoler. Note that name of the module must be unique. Even when a module with a similar name is placed in a different folder, they can't be loaded at the same time.
 

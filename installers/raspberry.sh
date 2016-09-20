@@ -28,6 +28,7 @@ ARM=$(uname -m)
 if [ "$ARM" != "armv7l" ]; then
 	echo -e "\e[91mSorry, your Raspberry Pi is not supported."
 	echo -e "\e[91mPlease run MagicMirror on a Raspberry Pi 2 or 3."
+	echo -e "\e[91mIf this is a Pi Zero, you are in the same boat as the original Raspberry Pi. You must run in server only mode."
 	exit;
 fi
 
@@ -68,7 +69,7 @@ else
 	NODE_INSTALL=true
 fi
 
-# Install or upgare node if nessecery.
+# Install or upgrade node if necessary.
 if $NODE_INSTALL; then
 	
 	echo -e "\e[96mInstalling Node.js ...\e[90m"

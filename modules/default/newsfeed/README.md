@@ -98,7 +98,7 @@ The following properties can be configured:
 			<td><code>animationSpeed</code></td>
 			<td>Speed of the update animation. (Milliseconds)<br>
 				<br><b>Possible values:</b><code>0</code> - <code>5000</code>
-				<br><b>Default value:</b> <code>2000</code> (2.5 seconds)
+				<br><b>Default value:</b> <code>2000</code> (2 seconds)
 			</td>
 		</tr>
 		<tr>
@@ -108,7 +108,37 @@ The following properties can be configured:
 				<br><b>Default value:</b> <code>0</code>
 			</td>
 		</tr>
-
+			removeStartTags: false,
+		removeEndTags: false,
+		startTags: [],
+		endTags: []
+		
+		
+		<tr>
+			<td><code>removeStartTags</code></td>
+			<td>Some newsfeeds feature tags at the <B>beginning</B> of their titles or descriptions, such as <em>[VIDEO]</em>.
+			This setting allows for the removal of specified tags from the beginning of an item's description and/or title.<br>
+				<br><b>Possible values:</b><code>'title'</code>, <code>'description'</code>, <code>'both'</code> 
+			</td>
+		</tr>
+		<tr>
+			<td><code>startTags</code></td>
+			<td>List the tags you would like to have removed at the beginning of the feed item<br>
+				<br><b>Possible values:</b> <code>['TAG']</code> or <code>['TAG1','TAG2',...]</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>removeEndTags</code></td>
+			<td>Remove specified tags from the <B>end</B> of an item's description and/or title.<br>
+				<br><b>Possible values:</b><code>'title'</code>, <code>'description'</code>, <code>'both'</code> 
+			</td>
+		</tr>
+		<tr>
+			<td><code>endTags</code></td>
+			<td>List the tags you would like to have removed at the end of the feed item<br>
+				<br><b>Possible values:</b> <code>['TAG']</code> or <code>['TAG1','TAG2',...]</code>
+			</td>
+		</tr>
 	</tbody>
 </table>
 

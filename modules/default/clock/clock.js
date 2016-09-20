@@ -15,6 +15,7 @@ Module.register("clock",{
 		showPeriod: true,
 		showPeriodUpper: false,
 		clockBold: false,
+		showDate: true,
 
 		/* specific to the analog clock */
 		analogSize: '200px',
@@ -85,7 +86,9 @@ Module.register("clock",{
 				timeString = moment().format("h:mm");
 			}
 		}
+		if(this.config.showDate){
 		dateWrapper.innerHTML = moment().format("dddd, LL");
+		}
 		timeWrapper.innerHTML = timeString;
 		secondsWrapper.innerHTML = moment().format("ss");
 		if (this.config.showPeriodUpper) {

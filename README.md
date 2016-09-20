@@ -3,7 +3,7 @@
 <p align="center">
 	<a href="https://david-dm.org/MichMich/MagicMirror"><img src="https://david-dm.org/MichMich/MagicMirror.svg" alt="Dependency Status"></a>
 	<a href="https://david-dm.org/MichMich/MagicMirror#info=devDependencies"><img src="https://david-dm.org/MichMich/MagicMirror/dev-status.svg" alt="devDependency Status"></a>
-	<a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-v5.10.1-brightgreen.svg" alt="Node Version"></a>
+	<a href="https://bestpractices.coreinfrastructure.org/projects/347"><img src="https://bestpractices.coreinfrastructure.org/projects/347/badge"></a>
 	<a href="http://choosealicense.com/licenses/mit"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
 	<a href="https://travis-ci.org/MichMich/MagicMirror"><img src="https://travis-ci.org/MichMich/MagicMirror.svg" alt="Travis"></a>
 	<a href="https://snyk.io/test/github/MichMich/MagicMirror"><img src="https://snyk.io/test/github/MichMich/MagicMirror/badge.svg" alt="Known Vulnerabilities" data-canonical-src="https://snyk.io/test/github/MichMich/MagicMirror" style="max-width:100%;"></a>
@@ -24,17 +24,17 @@ MagicMirror² focuses on a modular plugin system and uses [Electron](http://elec
 
 ## Usage
 
-#### Raspberry Pi Support
+### Raspberry Pi Support
 Electron, the app wrapper around MagicMirror², only supports the Raspberry Pi 2 & 3. The Raspberry Pi 1 is currently **not** supported. If you want to run this on a Raspberry Pi 1, use the [server only](#server-only) feature and setup a fullscreen browser yourself.
 
-#### Automatic Installer (Raspberry Pi Only!)
+### Automatic Installer (Raspberry Pi Only!)
 
 Execute the following command on your Raspberry Pi to install MagicMirror²:
 ````
 curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/master/installers/raspberry.sh | bash
 ````
 
-#### Manual Installation
+### Manual Installation
 
 1. Download and install the latest Node.js version.
 2. Clone the repository and check out the beta branch: `git clone https://github.com/MichMich/MagicMirror`
@@ -45,23 +45,23 @@ curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/master/installer
 
 **Note:** if you want to debug on Raspberry Pi you can use `npm start dev` which will start the MagicMirror app with Dev Tools enabled.
 
-#### Server Only
+### Server Only
 
 In some cases, you want to start the application without an actual app window. In this case, execute the following command from the MagicMirror folder: `node serveronly`. This will start the server, after which you can open the application in your browser of choice.
 
-#### Raspberry Configuration & Auto Start.
+### Raspberry Configuration & Auto Start.
 
 The following wiki links are helpful in the configuration of your MagicMirror² operating system:
 - [Configuring the Raspberry Pi](https://github.com/MichMich/MagicMirror/wiki/Configuring-the-Raspberry-Pi)
 - [Auto Starting MagicMirror](https://github.com/MichMich/MagicMirror/wiki/Auto-Starting-MagicMirror)
 
-#### Updating you MagicMirror²
+### Updating your MagicMirror²
 
 If you want to update your MagicMirror² to the latest version, use your terminal to go to your Magic Mirror folder and type the following command:
 
-````
+```bash
 git pull
-````
+```
 
 If you changed nothing more than the config or the modules, this should work without any problems.
 Type `git status` to see your changes, if there are any, you can reset them with `git reset --hard`. After that, git pull should be possible.

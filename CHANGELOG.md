@@ -2,11 +2,30 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.5] - 2016-09-20
+
+### Added
+- Added ability to remove tags from the beginning or end of newsfeed items in 'newsfeed.js'.
+- Added ability to define "the day after tomorrow" for calendar events (Definition for German and Dutch already included).
+- Added CII Badge (we are compliant with the CII Best Practices)
+- Add support for doing http basic auth when loading calendars 
+- Add the abilty to turn off and on the date display in the Clock Module
+
+### Fixed
+- Fix typo in installer.
+- Add message to unsupported Pi error to mention that Pi Zeros must use server only mode, as ARMv6 is unsupported. Closes #374.
+- Fix API url for weather API.
+
+### Updated
+- Force fullscreen when kioskmode is active.
+- Update the .github templates and information with more modern information.
+- Update the Gruntfile with a more functional StyleLint implementation.
+
 ## [2.0.4] - 2016-08-07
 
 ### Added
 - Brazilian Portuguese Translation.
-- Option to enable Kios mode.
+- Option to enable Kiosk mode.
 - Added ability to start the app with Dev Tools.
 - Added ability to turn off the date display in `clock.js` when in analog mode.
 - Greek Translation
@@ -71,4 +90,4 @@ It includes (but is not limited to) the following features:
 
 ## [1.0.0] - 2014-02-16
 ### Initial release of MagicMirror.
-This was part of the blogpost: http://michaelteeuw.nl/post/83916869600/magic-mirror-part-vi-production-of-the
+This was part of the blogpost: [http://michaelteeuw.nl/post/83916869600/magic-mirror-part-vi-production-of-the](http://michaelteeuw.nl/post/83916869600/magic-mirror-part-vi-production-of-the)
