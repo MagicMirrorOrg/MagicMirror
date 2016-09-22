@@ -6,10 +6,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [2.1.0] - Unreleased
 
 ### Added
-- Method to overwrite the module's header. [See documentation.](https://github.com/MichMich/MagicMirror/tree/develop/modules#getheader) 
+- Method to overwrite the module's header. [See documentation.](https://github.com/MichMich/MagicMirror/tree/develop/modules#getheader)
 
 ### Updated
 - Modified translations for Frysk.
+- Updated package.json as a result of Snyk security update.
 
 ## [2.0.5] - 2016-09-20
 
