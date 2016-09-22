@@ -193,3 +193,23 @@ config: {
 		</tr>
 		</tbody>
 </table>
+
+#### Multiple calendars:
+````javascript
+config: {
+	calendars: [
+		{
+			url: 'calendar url',
+			symbol: 'calendar-check-o'
+		},
+		{
+			url: 'calendar url',
+			symbol: 'calendar-plus-o'
+		},
+		{
+			url: 'calendar url',
+			symbol: 'birthday-cake'
+		},
+	],
+}
+````
