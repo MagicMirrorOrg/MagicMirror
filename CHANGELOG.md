@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [unreleased] - 2016-09-24
+
+### Added
+- Danish translation
+
 ## [2.0.5] - 2016-09-20
 
 ### Added
