@@ -6,11 +6,11 @@ This document describes the way to develop your own MagicMirror² modules.
 
 All modules are loaded in the `modules` folder. The default modules are grouped together in the `modules/default` folder. Your module should be placed in a subfolder of `modules`. Note that any file or folder your create in the `modules` folder will be ignored by git, allowing you to upgrade the MagicMirror² without the loss of your files.
 
-A module can be placed in one single folder. Or multiple modules can be grouped in a subfoler. Note that name of the module must be unique. Even when a module with a similar name is placed in a different folder, they can't be loaded at the same time.
+A module can be placed in one single folder. Or multiple modules can be grouped in a subfolder. Note that name of the module must be unique. Even when a module with a similar name is placed in a different folder, they can't be loaded at the same time.
 
 ### Files
 - **modulename/modulename.js** - This is your core module script.
-- **modulename/node_helper.js** - This is an optional helper that whill be loaded by the node script. The node helper and module script can communicate with each other using an intergrated socket system.
+- **modulename/node_helper.js** - This is an optional helper that will be loaded by the node script. The node helper and module script can communicate with each other using an intergrated socket system.
 - **modulename/public** - Any files in this folder can be accesed via the browser on `/modulename/filename.ext`.
 - **modulename/anyfileorfolder** Any other file or folder in the module folder can be used by the core module script. For example: *modulename/css/modulename.css* would be a good path for your additional module styles.
 
@@ -104,7 +104,7 @@ The getScripts method is called to request any additional scripts that need to b
 getScripts: function() {
 	return [
 		'script.js', // will try to load it from the vendor folder, otherwise it will load is from the module folder.
-		'moment.js', // this file is available in the vendor folder, so it doesn't need to be avialable in the module folder.
+    'moment.js', // this file is available in the vendor folder, so it doesn't need to be available in the module folder.
 		this.file('anotherfile.js'), // this file will be loaded straight from the module folder.
 		'https://code.jquery.com/jquery-2.2.3.min.js',  // this file will be loaded from the jquery servers.
 	]
@@ -154,7 +154,7 @@ getTranslations: function() {
 ####`getDom()`
 **Should return:** Dom Object
 
-Whenever the MagicMirror needs to update the information on screen (because it starts, or because your module asked a refresh using `this.updateDom()`), the system calls the getDom method. This method should therefor return a dom object.
+Whenever the MagicMirror needs to update the information on screen (because it starts, or because your module asked a refresh using `this.updateDom()`), the system calls the getDom method. This method should therefore return a dom object.
 
 **Example:**
 ````javascript
@@ -202,7 +202,7 @@ notificationReceived: function(notification, payload, sender) {
 }
 ````
 
-**Note:** the system sends two notifiations when starting up. These notifications could come in handy!
+**Note:** the system sends two notifications when starting up. These notifications could come in handy!
 
 
 - `ALL_MODULES_STARTED` - All modules are started. You can now send notifications to other modules.
@@ -215,8 +215,8 @@ When using a node_helper, the node helper can send your module notifications. Wh
 - `notification` - String - The notification identifier.
 - `payload` - AnyType - The payload of a notification.
 
-**Note 1:** When a node helper send a notification, all modules of that module type receive the same notifications. <br>
-**Note 2:** The socket connection is established as soon as the module sends it's first message using [sendSocketNotification](thissendsocketnotificationnotification-payload).
+**Note 1:** When a node helper sends a notification, all modules of that module type receive the same notifications. <br>
+**Note 2:** The socket connection is established as soon as the module sends its first message using [sendSocketNotification](thissendsocketnotificationnotification-payload).
 
 **Example:**
 ````javascript
@@ -234,7 +234,7 @@ When a module will be shown after it was previously hidden (using the `module.sh
 
 ### Module instance methods
 
-Each module instance has some handy methods which can be helpfull building your module.
+Each module instance has some handy methods which can be helpful building your module.
 
 
 ####`this.file(filename)`
@@ -246,7 +246,7 @@ If you want to create a path to a file in your module folder, use the `file()` m
 ####`this.updateDom(speed)`
 ***speed* Number** - Optional. Animation speed in milliseconds.<br>
 
-Whenever your module need to be updated, call the `updateDom(speed)` method. It requests the MagicMirror core to update it's dom object. If you define the speed, the content update will be animated, but only if the content will realy change.
+Whenever your module need to be updated, call the `updateDom(speed)` method. It requests the MagicMirror core to update its dom object. If you define the speed, the content update will be animated, but only if the content will really change.
 
 As an example: the clock modules calls this method every second:
 
@@ -265,7 +265,7 @@ start: function() {
 ***notification* String** - The notification identifier.<br>
 ***payload* AnyType** - Optional. A notification payload.<br>
 
-If you want to send a notification to all other modules, use the `sendNotification(notification, payload)`. All other modules will receive the message via the [notificationReceived](#notificationreceivednotification-payload-sender) method. In that case, the sender is automaticly set to the instance calling the sendNotification method.
+If you want to send a notification to all other modules, use the `sendNotification(notification, payload)`. All other modules will receive the message via the [notificationReceived](#notificationreceivednotification-payload-sender) method. In that case, the sender is automatically set to the instance calling the sendNotification method.
 
 **Example:**
 ````javascript
@@ -276,7 +276,7 @@ this.sendNotification('MYMODULE_READY_FOR_ACTION', {foo:bar});
 ***notification* String** - The notification identifier.<br>
 ***payload* AnyType** - Optional. A notification payload.<br>
 
-If you want to send a notification to the node_helper, use the `sendSocketNotification(notification, payload)`. Only the node_helper of this module will recieve the socket notification.
+If you want to send a notification to the node_helper, use the `sendSocketNotification(notification, payload)`. Only the node_helper of this module will receive the socket notification.
 
 **Example:**
 ````javascript
@@ -287,7 +287,7 @@ this.sendSocketNotification('SET_CONFIG', this.config);
 ***speed* Number** - Optional, The speed of the hide animation in milliseconds.
 ***callback* Function** - Optional, The callback after the hide animation is finished.
 
-To hide a module, you can call the `hide(speed, callback)` method. You can call the hide method on the module instance itselve using `this.hide()`, but of course you can also hide an other module using `anOtherModule.hide()`.
+To hide a module, you can call the `hide(speed, callback)` method. You can call the hide method on the module instance itself using `this.hide()`, but of course you can also hide another module using `anOtherModule.hide()`.
 
 **Note 1:** If the hide animation is canceled, for instance because the show method is called before the hide animation was finished, the callback will not be called.<br>
 **Note 2:** If the hide animation is hijacked (an other method calls hide on the same module), the callback will not be called.<br>
@@ -297,7 +297,7 @@ To hide a module, you can call the `hide(speed, callback)` method. You can call 
 ***speed* Number** - Optional, The speed of the show animation in milliseconds.
 ***callback* Function** - Optional, The callback after the show animation is finished.
 
-To show a module, you can call the `show(speed, callback)` method. You can call the show method on the module instance itselve using `this.show()`, but of course you can also show an other module using `anOtherModule.show()`.
+To show a module, you can call the `show(speed, callback)` method. You can call the show method on the module instance itself using `this.show()`, but of course you can also show another module using `anOtherModule.show()`.
 
 **Note 1:** If the show animation is canceled, for instance because the hide method is called before the show animation was finished, the callback will not be called.<br>
 **Note 2:** If the show animation is hijacked (an other method calls show on the same module), the callback will not be called.<br>
@@ -345,7 +345,7 @@ var NodeHelper = require("node_helper");
 module.exports = NodeHelper.create({});
 ````
 
-Of course, the above helper would not do anything usefull. So with the information above, you should be able to make it a bit more sophisticated.
+Of course, the above helper would not do anything useful. So with the information above, you should be able to make it a bit more sophisticated.
 
 ### Available module instance properties
 
@@ -389,7 +389,7 @@ This is a link to the IO instance. It will allow you to do some Socket.IO magic.
 This method is called when a node helper gets instantiated. In most cases you do not need to subclass this method.
 
 ####`start()`
-This method is called when all node helper are loaded an the system is ready to boot up. The start method is a perfect place to define any additional module properties:
+This method is called when all node helpers are loaded and the system is ready to boot up. The start method is a perfect place to define any additional module properties:
 
 **Example:**
 ````javascript
@@ -400,12 +400,12 @@ start: function() {
 ````
 
 ####`socketNotificationReceived: function(notification, payload)`
-With this method, your node helper can receive notifications form your modules. When this method is called, it has 2 arguments:
+With this method, your node helper can receive notifications from your modules. When this method is called, it has 2 arguments:
 
 - `notification` - String - The notification identifier.
 - `payload` - AnyType - The payload of a notification.
 
-**Note:** The socket connection is established as soon as the module sends it's first message using [sendSocketNotification](thissendsocketnotificationnotification-payload).
+**Note:** The socket connection is established as soon as the module sends its first message using [sendSocketNotification](thissendsocketnotificationnotification-payload).
 
 **Example:**
 ````javascript
@@ -416,15 +416,15 @@ socketNotificationReceived: function(notification, payload) {
 
 ### Module instance methods
 
-Each node helper has some handy methods which can be helpfull building your module.
+Each node helper has some handy methods which can be helpful building your module.
 
 ####`this.sendSocketNotification(notification, payload)`
 ***notification* String** - The notification identifier.<br>
 ***payload* AnyType** - Optional. A notification payload.<br>
 
-If you want to send a notification to all your modules, use the `sendSocketNotification(notification, payload)`. Only the module of your module type will recieve the socket notification.
+If you want to send a notification to all your modules, use the `sendSocketNotification(notification, payload)`. Only the module of your module type will receive the socket notification.
 
-**Note:** Since all instances of you module will receive the notifications, it's your task to make sure the right module responds to your messages.
+**Note:** Since all instances of your module will receive the notifications, it's your task to make sure the right module responds to your messages.
 
 **Example:**
 ````javascript
@@ -447,10 +447,10 @@ To make a selection of all currently loaded module instances, run the `MM.getMod
 
 
 #####`.withClass(classnames)`
-***classnames* String or Array** - The class names on which you want to filer.
+***classnames* String or Array** - The class names on which you want to filter.
 **Returns Array** - An array with module instances.<br>
 
-If you want to make a selection based on one ore more class names, use the withClass method on a result of the `MM.getModules()` method. The argument of the `withClass(classname)` method can be an array, or space separated string.
+If you want to make a selection based on one or more class names, use the withClass method on a result of the `MM.getModules()` method. The argument of the `withClass(classname)` method can be an array, or space separated string.
 
 **Examples:**
 ````javascript
@@ -476,7 +476,7 @@ var modules = MM.getModules().exceptWithClass(['classname1','classname2']);
 ***module* Module Object** - The reference to a module you want to remove from the results.
 **Returns Array** - An array with module instances.<br>
 
-If you to remove a specific module instance from a selection based on a classname, use the exceptWithClass method on a result of the `MM.getModules()` method. This can be helpfull if you want to select all module instances except the instance of your module.
+If you to remove a specific module instance from a selection based on a classname, use the exceptWithClass method on a result of the `MM.getModules()` method. This can be helpful if you want to select all module instances except the instance of your module.
 
 **Examples:**
 ````javascript
