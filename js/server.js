@@ -22,6 +22,7 @@ var Server = function(config, callback) {
 			if (err === undefined) {
 				return next();
 			}
+			console.log(err.message);
 			res.status(403).send("This device is not allowed to access your mirror. <br> Please check your config.js or config.js.sample to change this.");
 		});
 	});
