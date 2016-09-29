@@ -16,10 +16,6 @@ var Server = function(config, callback) {
 	console.log("Starting server op port " + config.port + " ... ");
 
 	server.listen(config.port);
-	if (config.ipWhitelist === undefined) {
-		config.ipWhitelist = ["127.0.0.1", "::ffff:127.0.0.1"];
-		console.log("Warning: Missing value (ipWhitelist) from config.js, assuming default (localhost access only): " + config.ipWhitelist);
-	}
 
 	app.use(function(req, res, next) {
 		var result = ipfilter(config.ipWhitelist, {mode: "allow", log: false})(req, res, function(err) {
