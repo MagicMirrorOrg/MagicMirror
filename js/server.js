@@ -10,11 +10,17 @@ var app = require("express")();
 var server = require("http").Server(app);
 var io = require("socket.io")(server);
 var path = require("path");
+var ipfilter = require('express-ipfilter').IpFilter;
 
 var Server = function(config, callback) {
 	console.log("Starting server op port " + config.port + " ... ");
 
 	server.listen(config.port);
+	if (config.ipWhitelist === undefined) {
+		config.ipWhitelist = ['127.0.0.1', '::ffff:127.0.0.1'];
+		console.log("Warning: Missing value (ipWhitelist) from config.js, assuming default (localhost access only): " + config.ipWhitelist);
+	}
+	app.use(ipfilter(config.ipWhitelist, {mode: 'allow', log: false}));
 	app.use("/js", express.static(__dirname));
 	app.use("/config", express.static(path.resolve(__dirname + "/../config")));
 	app.use("/css", express.static(path.resolve(__dirname + "/../css")));

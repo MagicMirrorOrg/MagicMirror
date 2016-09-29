@@ -6,6 +6,9 @@
 
 var config = {
 	port: 8080,
+	ipWhitelist: ['127.0.0.1', '::ffff:127.0.0.1'],
+	// you use ips with subnet mask: ['127.0.0.1', '127.0.0.1/24']
+	// you use also use ip ranges: ['127.0.0.1', ['192.168.0.1', '192.168.0.100']]
 
 	language: 'en',
 	timeFormat: 24,
