@@ -10,11 +10,23 @@ var app = require("express")();
 var server = require("http").Server(app);
 var io = require("socket.io")(server);
 var path = require("path");
+var ipfilter = require("express-ipfilter").IpFilter;
 
 var Server = function(config, callback) {
 	console.log("Starting server op port " + config.port + " ... ");
 
 	server.listen(config.port);
+
+	app.use(function(req, res, next) {
+		var result = ipfilter(config.ipWhitelist, {mode: "allow", log: false})(req, res, function(err) {
+			if (err === undefined) {
+				return next();
+			}
+			console.log(err.message);
+			res.status(403).send("This device is not allowed to access your mirror. <br> Please check your config.js or config.js.sample to change this.");
+		});
+	});
+
 	app.use("/js", express.static(__dirname));
 	app.use("/config", express.static(path.resolve(__dirname + "/../config")));
 	app.use("/css", express.static(path.resolve(__dirname + "/../css")));
