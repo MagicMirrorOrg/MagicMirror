@@ -20,7 +20,16 @@ var Server = function(config, callback) {
 		config.ipWhitelist = ['127.0.0.1', '::ffff:127.0.0.1'];
 		console.log("Warning: Missing value (ipWhitelist) from config.js, assuming default (localhost access only): " + config.ipWhitelist);
 	}
-	app.use(ipfilter(config.ipWhitelist, {mode: 'allow', log: false}));
+
+	app.use(function(req, res, next) {
+		var result = ipfilter(config.ipWhitelist, {mode: 'allow', log: false})(req, res, function(err) {
+			if (err === undefined) {
+				return next();
+			}
+			res.status(403).send("This device is not allowed to access your mirror. <br> Please check your config.js or config.js.sample to change this.");
+		});
+	});
+
 	app.use("/js", express.static(__dirname));
 	app.use("/config", express.static(path.resolve(__dirname + "/../config")));
 	app.use("/css", express.static(path.resolve(__dirname + "/../css")));
