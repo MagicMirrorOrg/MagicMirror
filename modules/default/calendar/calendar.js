@@ -23,6 +23,7 @@ Module.register("calendar",{
 		fade: true,
 		urgency: 7,
 		timeFormat: "relative",
+		getRelative: 6,
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		calendars: [
 			{
@@ -147,18 +148,14 @@ Module.register("calendar",{
 			var one_day = one_hour * 24;
 			if (event.fullDayEvent) {
 				if (event.today) {
-					timeWrapper.innerHTML = this.translate("TODAY");
+					timeWrapper.innerHTML = this.capFirst(this.translate("TODAY"));
 				} else if (event.startDate - now < one_day && event.startDate - now > 0) {
-					timeWrapper.innerHTML = this.translate("TOMORROW");
+					timeWrapper.innerHTML = this.capFirst(this.translate("TOMORROW"));
 				} else if (event.startDate - now < 2*one_day && event.startDate - now > 0) {
-				/*Provide ability to show "the day after tomorrow" instead of "in a day" 
-				 *if "DAYAFTERTOMORROW" is configured in a language's translation .json file, 
-				 *,which can be found in MagicMirror/translations/
-				 */
 					if (this.translate('DAYAFTERTOMORROW') !== 'DAYAFTERTOMORROW') {
-    						timeWrapper.innerHTML = this.translate("DAYAFTERTOMORROW");
+					timeWrapper.innerHTML = this.capFirst(this.translate("DAYAFTERTOMORROW"));
 					} else {
-    						timeWrapper.innerHTML = moment(event.startDate, "x").fromNow();
+					timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 					}
 				} else {
 					/* Check to see if the user displays absolute or relative dates with their events
@@ -171,24 +168,24 @@ Module.register("calendar",{
 					if (this.config.timeFormat === "absolute") {
 						if ((this.config.urgency > 1) && (event.startDate - now < (this.config.urgency * one_day))) {
 							// This event falls within the config.urgency period that the user has set
-							timeWrapper.innerHTML = moment(event.startDate, "x").fromNow();
+							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 						} else {
-							timeWrapper.innerHTML = moment(event.startDate, "x").format("MMM Do");
+							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").format("MMM Do"));
 						}
 					} else {
-						timeWrapper.innerHTML =  moment(event.startDate, "x").fromNow();
+						timeWrapper.innerHTML =  this.capFirst(moment(event.startDate, "x").fromNow());
 					}
 				}
 			} else {
 				if (event.startDate >= new Date()) {
 					if (event.startDate - now < 2 * one_day) {
 						// This event is within the next 48 hours (2 days)
-						if (event.startDate - now < 6 * one_hour) {
+						if (event.startDate - now < this.config.getRelative * one_hour) {
 							// If event is within 6 hour, display 'in xxx' time format or moment.fromNow()
-							timeWrapper.innerHTML = moment(event.startDate, "x").fromNow();
+							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 						} else {
 							// Otherwise just say 'Today/Tomorrow at such-n-such time'
-							timeWrapper.innerHTML = moment(event.startDate, "x").calendar();
+							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").calendar());
 						}
 					} else {
 						/* Check to see if the user displays absolute or relative dates with their events
@@ -201,16 +198,16 @@ Module.register("calendar",{
 						if (this.config.timeFormat === "absolute") {
 							if ((this.config.urgency > 1) && (event.startDate - now < (this.config.urgency * one_day))) {
 								// This event falls within the config.urgency period that the user has set
-								timeWrapper.innerHTML = moment(event.startDate, "x").fromNow();
+								timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 							} else {
-								timeWrapper.innerHTML = moment(event.startDate, "x").format("MMM Do");
+								timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").format("MMM Do"));
 							}
 						} else {
-							timeWrapper.innerHTML = moment(event.startDate, "x").fromNow();
+							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 						}
 					}
 				} else {
-					timeWrapper.innerHTML =  this.translate("RUNNING") + ' ' + moment(event.endDate,"x").fromNow(true);
+					timeWrapper.innerHTML =  this.capFirst(this.translate("RUNNING")) + ' ' + moment(event.endDate,"x").fromNow(true);
 				}
 			}
 			//timeWrapper.innerHTML += ' - '+ moment(event.startDate,'x').format('lll');
@@ -346,6 +343,15 @@ Module.register("calendar",{
 		}
 
 		return string;
+	},
+
+	/* capFirst(string)
+	 * Capitalize the first letter of a string
+	 * Eeturn capitalized string
+	 */
+	
+	capFirst: function(string) {
+		return string.charAt(0).toUpperCase() + string.slice(1);
 	},
 
 	/* titleTransform(title)
