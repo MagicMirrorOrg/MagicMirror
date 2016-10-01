@@ -6,13 +6,17 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - Finnish translation.
-- Danish translation
+- Danish translation.
 - Method to overwrite the module's header. [See documentation.](https://github.com/MichMich/MagicMirror/tree/develop/modules#getheader)
-- Option to limit access to certain IP addresses based on the value of `ipWhitelist` in the `config.js`, default is access from localhost only (Issue [#456](https://github.com/MichMich/MagicMirror/issues/456))
+- Option to limit access to certain IP addresses based on the value of `ipWhitelist` in the `config.js`, default is access from localhost only (Issue [#456](https://github.com/MichMich/MagicMirror/issues/456)).
+- Added ability to change the point of time when calendar events get relative.
 
 ### Updated
 - Modified translations for Frysk.
 - Updated package.json as a result of Snyk security update.
+
+### Changed
+- Calendar times are now uniformly capitalized.
 
 ## [2.0.5] - 2016-09-20
 
