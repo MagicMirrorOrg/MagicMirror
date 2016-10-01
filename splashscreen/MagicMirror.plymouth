@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=MagicMirror
+Description=Mirror Splash
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/MagicMirror
+ScriptFile=/usr/share/plymouth/themes/MagicMirror/MagicMirror.script
