@@ -106,6 +106,13 @@ The following properties can be configured:
 			</td>
 		</tr>
 		<tr>
+			<td><code>showHumidity</code></td>
+			<td>Show the current humidity<br>
+				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
+				<br><b>Default value:</b> <code>false</code>
+			</td>
+		</tr>
+    		<tr>
 			<td><code>useBeaufort</code></td>
 			<td>Pick between using the Beaufort scale for wind speed or using the default units.<br>
 				<br><b>Possible values:</b> <code>true</code> or <code>false</code>

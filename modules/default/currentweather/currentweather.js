@@ -23,6 +23,7 @@ Module.register("currentweather",{
 		showWindDirection: true,
 		useBeaufort: true,
 		lang: config.language,
+		showHumidity: false,
 
 		initialLoadDelay: 0, // 0 seconds delay
 		retryDelay: 2500,
@@ -142,6 +143,26 @@ Module.register("currentweather",{
 		sunriseSunsetTime.innerHTML = " " + this.sunriseSunsetTime;
 		small.appendChild(sunriseSunsetTime);
 
+		wrapper.appendChild(small);
+
+		if (this.config.showHumidity) {
+			var middle = document.createElement("div");
+			middle.className = "normal small humidity-padding";
+
+      var humidityIcon = document.createElement("span");
+  		humidityIcon.className = "wi wi-humidity humidityIcon";
+  		small.appendChild(sunriseSunsetIcon);
+
+			var humidity = document.createElement("span");
+			humidity.innerHTML = this.humidity + "%";
+			var br = document.createElement("br");
+
+      middle.appendChild(humidityIcon);
+			middle.appendChild(humidity);
+			middle.appendChild(br);
+			wrapper.appendChild(middle);
+		}
+
 		var large = document.createElement("div");
 		large.className = "large light";
 
@@ -154,7 +175,6 @@ Module.register("currentweather",{
 		temperature.innerHTML = " " + this.temperature + "&deg;";
 		large.appendChild(temperature);
 
-		wrapper.appendChild(small);
 		wrapper.appendChild(large);
 		return wrapper;
 	},
@@ -224,6 +244,7 @@ Module.register("currentweather",{
 			return;
 		}
 
+		this.humidity = parseFloat(data.main.humidity);
 		this.temperature = this.roundValue(data.main.temp);
 
 		if (this.config.useBeaufort){
