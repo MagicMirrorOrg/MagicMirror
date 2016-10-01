@@ -118,6 +118,7 @@ Module.register("currentweather",{
 		var small = document.createElement("div");
 		small.className = "normal medium";
 
+
 		var windIcon = document.createElement("span");
 		windIcon.className = "wi wi-strong-wind dimmed";
 		small.appendChild(windIcon);
@@ -135,6 +136,18 @@ Module.register("currentweather",{
 		spacer.innerHTML = "&nbsp;";
 		small.appendChild(spacer);
 
+		if (this.config.showHumidity) {
+			var humidity = document.createElement("span");
+			humidity.innerHTML = this.humidity;
+
+			var humidityIcon = document.createElement("sup");
+			humidityIcon.className = "wi wi-humidity humidityIcon";
+			humidityIcon.innerHTML = "&nbsp;";
+
+			small.appendChild(humidity);
+			small.appendChild(humidityIcon);
+		}
+
 		var sunriseSunsetIcon = document.createElement("span");
 		sunriseSunsetIcon.className = "wi dimmed " + this.sunriseSunsetIcon;
 		small.appendChild(sunriseSunsetIcon);
@@ -144,24 +157,6 @@ Module.register("currentweather",{
 		small.appendChild(sunriseSunsetTime);
 
 		wrapper.appendChild(small);
-
-		if (this.config.showHumidity) {
-			var middle = document.createElement("div");
-			middle.className = "normal small humidity-padding";
-
-      var humidityIcon = document.createElement("span");
-  		humidityIcon.className = "wi wi-humidity humidityIcon";
-  		small.appendChild(sunriseSunsetIcon);
-
-			var humidity = document.createElement("span");
-			humidity.innerHTML = this.humidity + "%";
-			var br = document.createElement("br");
-
-      middle.appendChild(humidityIcon);
-			middle.appendChild(humidity);
-			middle.appendChild(br);
-			wrapper.appendChild(middle);
-		}
 
 		var large = document.createElement("div");
 		large.className = "large light";
