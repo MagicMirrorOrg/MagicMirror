@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [2.1.0] - Unreleased
 
 ### Added
+- Run `npm install` to install the new dependency `express-ipfilter`, before launching your mirror the next time.
 - Finnish translation.
 - Danish translation.
 - Method to overwrite the module's header. [See documentation.](https://github.com/MichMich/MagicMirror/tree/develop/modules#getheader)
