@@ -60,7 +60,7 @@ The following wiki links are helpful in the configuration of your MagicMirror² 
 If you want to update your MagicMirror² to the latest version, use your terminal to go to your Magic Mirror folder and type the following command:
 
 ```bash
-git pull
+git pull && npm install
 ```
 
 If you changed nothing more than the config or the modules, this should work without any problems.
