@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [2.1.0] - Unreleased
 
+**Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
+
 ### Added
 - Finnish translation.
 - Danish translation.
