@@ -14,10 +14,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added ability to change the point of time when calendar events get relative.
 - Add Splash screen on boot.
 - Add option to show humidity in currentWeather module.
+- Add Visibility locking to module system. See [documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules#visibility-locking) for more information.
+- Add VSCode IntelliSense support.
 
 ### Updated
 - Modified translations for Frysk.
 - Updated package.json as a result of Snyk security update.
+- Improve object instantiation to prevent reference errors.
+- Improve logger. `Log.log()` now accepts multiple arguments.
 
 ### Changed
 - Calendar times are now uniformly capitalized.
