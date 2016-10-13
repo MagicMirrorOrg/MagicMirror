@@ -86,7 +86,10 @@ A string that defines the minimum version of the MagicMirror framework. If it is
 
 **Note:** Since this check is introduced in version 2.1.0, this check will not be run in older versions. Keep this in mind if you get issue reports on your module.
 
-Example: `"2.1.0"`
+Example: 
+````
+requiresVersion: "2.1.0",
+````
 
 ### Subclassable module methods
 
@@ -471,7 +474,10 @@ A string that defines the minimum version of the MagicMirror framework. If it is
 
 **Note:** Since this check is introduced in version 2.1.0, this check will not be run in older versions. Keep this in mind if you get issue reports on your module.
 
-Example: `"2.1.0"`
+Example: 
+````
+requiresVersion: "2.1.0",
+````
 
 ### Subclassable module methods
 
