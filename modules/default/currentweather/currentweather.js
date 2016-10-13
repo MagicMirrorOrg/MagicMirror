@@ -140,11 +140,15 @@ Module.register("currentweather",{
 			var humidity = document.createElement("span");
 			humidity.innerHTML = this.humidity;
 
+			var spacer = document.createElement("sup");
+			spacer.innerHTML = "&nbsp;"; 
+
 			var humidityIcon = document.createElement("sup");
 			humidityIcon.className = "wi wi-humidity humidityIcon";
 			humidityIcon.innerHTML = "&nbsp;";
 
 			small.appendChild(humidity);
+			small.appendChild(spacer);
 			small.appendChild(humidityIcon);
 		}
 
