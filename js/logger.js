@@ -14,34 +14,34 @@
 var Log = (function() {
 	return {
 		info: function() {
-			console.info.apply(this, arguments);
+			console.info.apply(console, arguments);
 		},
 		log: function() {
-			console.log.apply(this, arguments);
+			console.log.apply(console, arguments);
 		},
 		error: function() {
-			console.error.apply(this, arguments);
+			console.error.apply(console, arguments);
 		},
 		warn: function() {
-			console.warn.apply(this, arguments);	
+			console.warn.apply(console, arguments);	
 		},
 		group: function() {
-			console.group.apply(this, arguments);	
+			console.group.apply(console, arguments);	
 		},
 		groupCollapsed: function() {
-			console.groupCollapsed.apply(this, arguments);
+			console.groupCollapsed.apply(console, arguments);
 		},
 		groupEnd: function() {
 			console.groupEnd();
 		},
 		time: function() {
-			console.time.apply(this, arguments);
+			console.time.apply(console, arguments);
 		},
 		timeEnd: function() {
-			console.timeEnd.apply(this, arguments);
+			console.timeEnd.apply(console, arguments);
 		},
 		timeStamp: function() {
-			console.timeStamp.apply(this, arguments);
+			console.timeStamp.apply(console, arguments);
 		}
 	};
 })();
