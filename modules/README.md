@@ -87,7 +87,7 @@ A string that defines the minimum version of the MagicMirror framework. If it is
 **Note:** Since this check is introduced in version 2.1.0, this check will not be run in older versions. Keep this in mind if you get issue reports on your module.
 
 Example: 
-````
+````javascript
 requiresVersion: "2.1.0",
 ````
 
@@ -336,48 +336,48 @@ Possible configurable options:
 Visiblity locking helps the module system to prevent unwanted hide/show actions. The following scenario explains the concept:
 
 **Module B asks module A to hide:**
-````
+````javascript
 moduleA.hide(0, {lockString: "module_b_identifier"});
 ````
 Module A is now hidden, and has an lock array with the following strings: 
-````
+````javascript
 moduleA.lockStrings == ["module_b_identifier"]
 moduleA.hidden == true
 ````
 **Module C asks module A to hide:**
-````
+````javascript
 moduleA.hide(0, {lockString: "module_c_identifier"});
 ````
 Module A is now hidden, and has an lock array with the following strings:
-````
+````javascript
 moduleA.lockStrings == ["module_b_identifier", "module_c_identifier"]
 moduleA.hidden == true
 ````
 **Module B asks module A to show:**
-````
+````javascript
 moduleA.show(0, {lockString: "module_b_identifier"});
 ````
 The lockString will be removed from moduleA’s locks array, but since there still is an other lock string available, the module remains hidden:
-````
+````javascript
 moduleA.lockStrings == ["module_c_identifier"]
 moduleA.hidden == true
 ````
 **Module C asks module A to show:**
-````
+````javascript
 moduleA.show(0, {lockString: "module_c_identifier"});
 ````
 The lockString will be removed from moduleA’s locks array, and since this will result in an empty lock array, the module will be visible:
-````
+````javascript
 moduleA.lockStrings == []
 moduleA.hidden == false
 ````
 
 **Note:** The locking mechanism can be overwritten by using the force tag:
-````
+````javascript
 moduleA.show(0, {force: true});
 ````
 This will reset the lockstring array, and will show the module.
-````
+````javascript
 moduleA.lockStrings == []
 moduleA.hidden == false
 ````
@@ -475,7 +475,7 @@ A string that defines the minimum version of the MagicMirror framework. If it is
 **Note:** Since this check is introduced in version 2.1.0, this check will not be run in older versions. Keep this in mind if you get issue reports on your module.
 
 Example: 
-````
+````javascript
 requiresVersion: "2.1.0",
 ````
 
