@@ -11,6 +11,24 @@
 	// The base Class implementation (does nothing)
 	this.Class = function() {};
 
+	//Define the clone method for later use.
+	function cloneObject(obj) {
+		if (obj === null || typeof obj !== "object") {
+			return obj;
+		}
+
+		var temp = obj.constructor(); // give temp the original obj's constructor
+		for (var key in obj) {
+			temp[key] = cloneObject(obj[key]);
+		
+			if (key === "lockStrings") {
+				Log.log(key);
+			}
+		}
+
+		return temp;
+	}
+
 	// Create a new Class that inherits from this class
 	Class.extend = function(prop) {
 		var _super = this.prototype;
@@ -20,6 +38,11 @@
 		initializing = true;
 		var prototype = new this();
 		initializing = false;
+
+		// Make a copy of all prototype properies, to prevent reference issues.
+		for (var name in prototype) {
+			prototype[name] = cloneObject(prototype[name]);
+		}
 
 		// Copy the properties over onto the new prototype
 		for (var name in prop) {
