@@ -14,6 +14,9 @@ var Module = Class.extend({
 	 * All methods (and properties) below can be subclassed. *
 	 *********************************************************/
 
+	// Set the minimum MagicMirror module version for this module.
+	requiresVersion: "2.0.0",
+
 	// Module config defaults.
 	defaults: {},
 
@@ -27,14 +30,14 @@ var Module = Class.extend({
 	/* init()
 	 * Is called when the module is instantiated.
 	 */
-	init: function() {
+	init: function () {
 		//Log.log(this.defaults);
 	},
 
 	/* start()
 	 * Is called when the module is started.
 	 */
-	start: function() {
+	start: function () {
 		Log.info("Starting module: " + this.name);
 	},
 
@@ -43,7 +46,7 @@ var Module = Class.extend({
 	 *
 	 * return Array<String> - An array with filenames.
 	 */
-	getScripts: function() {
+	getScripts: function () {
 		return [];
 	},
 
@@ -52,7 +55,7 @@ var Module = Class.extend({
 	 *
 	 * return Array<String> - An array with filenames.
 	 */
-	getStyles: function() {
+	getStyles: function () {
 		return [];
 	},
 
@@ -61,7 +64,7 @@ var Module = Class.extend({
 	 *
 	 * return Map<String, String> - A map with langKeys and filenames.
 	 */
-	getTranslations: function() {
+	getTranslations: function () {
 		return false;
 	},
 
@@ -71,7 +74,7 @@ var Module = Class.extend({
 	 *
 	 * return domobject - The dom to display.
 	 */
-	getDom: function() {
+	getDom: function () {
 		var nameWrapper = document.createElement("div");
 		var name = document.createTextNode(this.name);
 		nameWrapper.appendChild(name);
@@ -95,7 +98,7 @@ var Module = Class.extend({
 	 *
 	 * return string - The header to display above the header.
 	 */
-	getHeader: function() {
+	getHeader: function () {
 		return this.data.header;
 	},
 
@@ -107,7 +110,7 @@ var Module = Class.extend({
 	 * argument payload mixed - The payload of the notification.
 	 * argument sender Module - The module that sent the notification.
 	 */
-	notificationReceived: function(notification, payload, sender) {
+	notificationReceived: function (notification, payload, sender) {
 		if (sender) {
 			Log.log(this.name + " received a module notification: " + notification + " from sender: " + sender.name);
 		} else {
@@ -121,21 +124,21 @@ var Module = Class.extend({
 	 * argument notification string - The identifier of the noitication.
 	 * argument payload mixed - The payload of the notification.
 	 */
-	socketNotificationReceived: function(notification, payload) {
+	socketNotificationReceived: function (notification, payload) {
 		Log.log(this.name + " received a socket notification: " + notification + " - Payload: " + payload);
 	},
 
 	/* suspend()
 	 * This method is called when a module is hidden.
 	 */
-	suspend: function() {
+	suspend: function () {
 		Log.log(this.name + " is suspended.");
 	},
 
 	/* resume()
 	 * This method is called when a module is shown.
 	 */
-	resume: function() {
+	resume: function () {
 		Log.log(this.name + " is resumed.");
 	},
 
@@ -148,7 +151,7 @@ var Module = Class.extend({
 	 *
 	 * argument data obejct - Module data.
 	 */
-	setData: function(data) {
+	setData: function (data) {
 		this.data = data;
 		this.name = data.name;
 		this.identifier = data.identifier;
@@ -162,7 +165,7 @@ var Module = Class.extend({
 	 *
 	 * argument config obejct - Module config.
 	 */
-	setConfig: function(config) {
+	setConfig: function (config) {
 		this.config = Object.assign(this.defaults, config);
 	},
 
@@ -170,13 +173,13 @@ var Module = Class.extend({
 	 * Returns a socket object. If it doesn"t exist, it"s created.
 	 * It also registers the notification callback.
 	 */
-	socket: function() {
+	socket: function () {
 		if (typeof this._socket === "undefined") {
 			this._socket = this._socket = new MMSocket(this.name);
 		}
 
 		var self = this;
-		this._socket.setNotificationCallback(function(notification, payload) {
+		this._socket.setNotificationCallback(function (notification, payload) {
 			self.socketNotificationReceived(notification, payload);
 		});
 
@@ -190,7 +193,7 @@ var Module = Class.extend({
 	 *
 	 * return string - File path.
 	 */
-	file: function(file) {
+	file: function (file) {
 		return this.data.path + "/" + file;
 	},
 
@@ -199,14 +202,14 @@ var Module = Class.extend({
 	 *
 	 * argument callback function - Function called when done.
 	 */
-	loadStyles: function(callback) {
+	loadStyles: function (callback) {
 		var self = this;
 		var styles = this.getStyles();
 
-		var loadNextStyle = function() {
+		var loadNextStyle = function () {
 			if (styles.length > 0) {
 				var nextStyle = styles[0];
-				Loader.loadFile(nextStyle, self, function() {
+				Loader.loadFile(nextStyle, self, function () {
 					styles = styles.slice(1);
 					loadNextStyle();
 				});
@@ -223,14 +226,14 @@ var Module = Class.extend({
 	 *
 	 * argument callback function - Function called when done.
 	 */
-	loadScripts: function(callback) {
+	loadScripts: function (callback) {
 		var self = this;
 		var scripts = this.getScripts();
 
-		var loadNextScript = function() {
+		var loadNextScript = function () {
 			if (scripts.length > 0) {
 				var nextScript = scripts[0];
-				Loader.loadFile(nextScript, self, function() {
+				Loader.loadFile(nextScript, self, function () {
 					scripts = scripts.slice(1);
 					loadNextScript();
 				});
@@ -247,14 +250,14 @@ var Module = Class.extend({
 	 *
 	 * argument callback function - Function called when done.
 	 */
-	loadTranslations: function(callback) {
+	loadTranslations: function (callback) {
 		var self = this;
 		var translations = this.getTranslations();
 		var lang = config.language.toLowerCase();
 
 		// The variable `first` will contain the first
 		// defined translation after the following line.
-		for (var first in translations) {break;}
+		for (var first in translations) { break; }
 
 		if (translations) {
 			var translationFile = translations[lang] || undefined;
@@ -263,7 +266,7 @@ var Module = Class.extend({
 			// If a translation file is set, load it and then also load the fallback translation file.
 			// Otherwise only load the fallback translation file.
 			if (translationFile !== undefined && translationFile !== translationsFallbackFile) {
-				Translator.load(self, translationFile, false, function() {
+				Translator.load(self, translationFile, false, function () {
 					Translator.load(self, translationsFallbackFile, true, callback);
 				});
 			} else {
@@ -274,13 +277,13 @@ var Module = Class.extend({
 		}
 	},
 
- 	/* translate(key, defaultValue)
- 	 * Request the translation for a given key.
- 	 *
- 	 * argument key string - The key of the string to translage
-	 * argument defaultValue string - The default value if no translation was found. (Optional)
- 	 */
-	translate: function(key, defaultValue) {
+	/* translate(key, defaultValue)
+	 * Request the translation for a given key.
+	 *
+	 * argument key string - The key of the string to translage
+   * argument defaultValue string - The default value if no translation was found. (Optional)
+	 */
+	translate: function (key, defaultValue) {
 		return Translator.translate(this, key) || defaultValue || "";
 	},
 
@@ -289,7 +292,7 @@ var Module = Class.extend({
 	 *
 	 * argument speed Number - The speed of the animation. (Optional)
 	 */
-	updateDom: function(speed) {
+	updateDom: function (speed) {
 		MM.updateDom(this, speed);
 	},
 
@@ -299,7 +302,7 @@ var Module = Class.extend({
 	 * argument notification string - The identifier of the noitication.
 	 * argument payload mixed - The payload of the notification.
 	 */
-	sendNotification: function(notification, payload) {
+	sendNotification: function (notification, payload) {
 		MM.sendNotification(notification, payload, this);
 	},
 
@@ -309,7 +312,7 @@ var Module = Class.extend({
 	 * argument notification string - The identifier of the noitication.
 	 * argument payload mixed - The payload of the notification.
 	 */
-	sendSocketNotification: function(notification, payload) {
+	sendSocketNotification: function (notification, payload) {
 		this.socket().sendNotification(notification, payload);
 	},
 
@@ -320,17 +323,17 @@ var Module = Class.extend({
 	 * argument callback function - Called when the animation is done.
 	 * argument options object - Optional settings for the hide method.
 	 */
-	hide: function(speed, callback, options) {
+	hide: function (speed, callback, options) {
 		if (typeof callback === "object") {
 			options = callback;
-			callback = function() {};
+			callback = function () { };
 		}
 
-		callback = callback || function() {};
+		callback = callback || function () { };
 		options = options || {};
 
 		var self = this;
-		MM.hideModule(self, speed, function() {
+		MM.hideModule(self, speed, function () {
 			self.suspend();
 			callback();
 		}, options);
@@ -345,13 +348,13 @@ var Module = Class.extend({
 	 * argument callback function - Called when the animation is done.
 	 * argument options object - Optional settings for the hide method.
 	 */
-	show: function(speed, callback, options) {
+	show: function (speed, callback, options) {
 		if (typeof callback === "object") {
 			options = callback;
-			callback = function() {};
+			callback = function () { };
 		}
 
-		callback = callback || function() {};
+		callback = callback || function () { };
 		options = options || {};
 
 		this.resume();
@@ -361,7 +364,12 @@ var Module = Class.extend({
 
 Module.definitions = {};
 
-Module.create = function(name) {
+Module.create = function (name) {
+
+	// Make sure module definition is available.
+	if (!Module.definitions[name]) {
+		return;
+	}
 
 	//Define the clone method for later use.
 	function cloneObject(obj) {
@@ -387,7 +395,39 @@ Module.create = function(name) {
 
 };
 
-Module.register = function(name, moduleDefinition) {
+/* cmpVersions(a,b)
+* Compare two symantic version numbers and return the difference.
+*
+* argument a string - Version number a.
+* argument a string - Version number b.
+*/
+function cmpVersions(a, b) {
+	var i, diff;
+	var regExStrip0 = /(\.0+)+$/;
+	var segmentsA = a.replace(regExStrip0, "").split(".");
+	var segmentsB = b.replace(regExStrip0, "").split(".");
+	var l = Math.min(segmentsA.length, segmentsB.length);
+
+	for (i = 0; i < l; i++) {
+		diff = parseInt(segmentsA[i], 10) - parseInt(segmentsB[i], 10);
+		if (diff) {
+			return diff;
+		}
+	}
+	return segmentsA.length - segmentsB.length;
+}
+
+Module.register = function (name, moduleDefinition) {
+
+	if (moduleDefinition.requiresVersion) {
+		Log.log("Check MagicMirror version for module '" + name + "' - Minimum version:  " + moduleDefinition.requiresVersion + " - Current version: " + version);
+		if (cmpVersions(version, moduleDefinition.requiresVersion) >= 0) {
+			Log.log("Version is ok!");
+		} else {
+			Log.log("Version is incorrect. Skip module: '" + name + "'");
+			return;
+		}
+	}
 	Log.log("Module registered: " + name);
 	Module.definitions[name] = moduleDefinition;
 };

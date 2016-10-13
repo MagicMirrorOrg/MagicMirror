@@ -10,6 +10,10 @@ var Server = require(__dirname + "/server.js");
 var defaultModules = require(__dirname + "/../modules/default/defaultmodules.js");
 var path = require("path");
 
+// Get version number.
+global.version = JSON.parse(fs.readFileSync("package.json", "utf8")).version;
+console.log("Starting MagicMirror: v" + global.version);
+
 // The next part is here to prevent a major exception when there
 // is no internet connection. This could probable be solved better.
 process.on("uncaughtException", function (err) {
@@ -82,6 +86,17 @@ var App = function() {
 		if (loadModule) {
 			var Module = require(helperPath);
 			var m = new Module();
+
+			if (m.requiresVersion) {
+				console.log("Check MagicMirror version for node helper '" + moduleName + "' - Minimum version:  " + m.requiresVersion + " - Current version: " + global.version);
+				if (cmpVersions(global.version, m.requiresVersion) >= 0) {
+					console.log("Version is ok!");
+				} else {
+					console.log("Version is incorrect. Skip module: '" + moduleName + "'");
+					return;
+				}
+			}
+
 			m.setName(moduleName);
 			m.setPath(path.resolve(moduleFolder));
 			nodeHelpers.push(m);
@@ -102,6 +117,28 @@ var App = function() {
 
 		console.log("All module helpers loaded.");
 	};
+
+	/* cmpVersions(a,b)
+	 * Compare two symantic version numbers and return the difference.
+	 *
+	 * argument a string - Version number a.
+	 * argument a string - Version number b.
+	 */
+	function cmpVersions(a, b) {
+		var i, diff;
+		var regExStrip0 = /(\.0+)+$/;
+		var segmentsA = a.replace(regExStrip0, "").split(".");
+		var segmentsB = b.replace(regExStrip0, "").split(".");
+		var l = Math.min(segmentsA.length, segmentsB.length);
+
+		for (i = 0; i < l; i++) {
+			diff = parseInt(segmentsA[i], 10) - parseInt(segmentsB[i], 10);
+			if (diff) {
+				return diff;
+			}
+		}
+		return segmentsA.length - segmentsB.length;
+	}
 
 	/* start(callback)
 	 * This methods starts the core app.

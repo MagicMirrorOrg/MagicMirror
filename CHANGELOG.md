@@ -9,13 +9,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Finnish translation.
 - Danish translation.
-- Method to overwrite the module's header. [See documentation.](https://github.com/MichMich/MagicMirror/tree/develop/modules#getheader)
 - Option to limit access to certain IP addresses based on the value of `ipWhitelist` in the `config.js`, default is access from localhost only (Issue [#456](https://github.com/MichMich/MagicMirror/issues/456)).
 - Added ability to change the point of time when calendar events get relative.
 - Add Splash screen on boot.
 - Add option to show humidity in currentWeather module.
-- Add Visibility locking to module system. See [documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules#visibility-locking) for more information.
 - Add VSCode IntelliSense support.
+- Module API: Add Visibility locking to module system. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules#visibility-locking) for more information.
+- Module API: Method to overwrite the module's header. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules#getheader) for more information.
+- Module API: Option to define the minimumn MagicMirror verion to run a module. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules#requiresVersion) for more information.
 
 ### Updated
 - Modified translations for Frysk.

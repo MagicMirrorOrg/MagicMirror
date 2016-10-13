@@ -78,6 +78,16 @@ The data object contains additional metadata about the module instance:
 ####`defaults: {}`
 Any properties defined in the defaults object, will be merged with the module config as defined in the user's config.js file. This is the best place to set your modules's configuration defaults. Any of the module configuration properties can be accessed using `this.config.propertyName`, but more about that later.
 
+####'requiresVersion:'
+
+*Introduced in version: 2.1.0.*
+
+A string that defines the minimum version of the MagicMirror framework. If it is set, the system compares the required version with the users version. If the version of the user is out of date, it won't run the module. Make sure to also set this value in the Node helper. 
+
+**Note:** Since this check is introduced in version 2.1.0, this check will not be run in older versions. Keep this in mind if you get issue reports on your module.
+
+Example: `"2.1.0"`
+
 ### Subclassable module methods
 
 ####`init()`
@@ -286,7 +296,7 @@ this.sendSocketNotification('SET_CONFIG', this.config);
 ####`this.hide(speed, callback, options)`
 ***speed* Number** - Optional (Required when setting callback or options), The speed of the hide animation in milliseconds.
 ***callback* Function** - Optional, The callback after the hide animation is finished.
-***options* Function** - Optional, Object with additional options for the hide action (see below).
+***options* Function** - Optional, Object with additional options for the hide action (see below). (*Introduced in version: 2.1.0.*)
 
 To hide a module, you can call the `hide(speed, callback)` method. You can call the hide method on the module instance itself using `this.hide()`, but of course you can also hide another module using `anOtherModule.hide()`.
 
@@ -303,7 +313,7 @@ Possible configurable options:
 ####`this.show(speed, callback, options)`
 ***speed* Number** - Optional (Required when setting callback or options), The speed of the show animation in milliseconds.
 ***callback* Function** - Optional, The callback after the show animation is finished.
-***options* Function** - Optional, Object with additional options for the show action (see below).
+***options* Function** - Optional, Object with additional options for the show action (see below). (*Introduced in version: 2.1.0.*)
 
 To show a module, you can call the `show(speed, callback)` method. You can call the show method on the module instance itself using `this.show()`, but of course you can also show another module using `anOtherModule.show()`.
 
@@ -317,6 +327,9 @@ Possible configurable options:
 **Note 3:** If the dom is not yet created, the show method won't work. Wait for the `DOM_OBJECTS_CREATED` [notification](#notificationreceivednotification-payload-sender).
 
 ####Visibility locking
+
+(*Introduced in version: 2.1.0.*)
+
 Visiblity locking helps the module system to prevent unwanted hide/show actions. The following scenario explains the concept:
 
 **Module B asks module A to hide:**
@@ -449,6 +462,16 @@ this.expressApp.use("/" + this.name, express.static(this.path + "/public"));
 **Socket IO Instance**
 
 This is a link to the IO instance. It will allow you to do some Socket.IO magic. In most cases you won't need this, since the Node Helper has a few convenience methods to make this simple.
+
+
+####'requiresVersion:'
+*Introduced in version: 2.1.0.*
+
+A string that defines the minimum version of the MagicMirror framework. If it is set, the system compares the required version with the users version. If the version of the user is out of date, it won't run the module.
+
+**Note:** Since this check is introduced in version 2.1.0, this check will not be run in older versions. Keep this in mind if you get issue reports on your module.
+
+Example: `"2.1.0"`
 
 ### Subclassable module methods
 

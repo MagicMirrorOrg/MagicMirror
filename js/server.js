@@ -11,6 +11,7 @@ var server = require("http").Server(app);
 var io = require("socket.io")(server);
 var path = require("path");
 var ipfilter = require("express-ipfilter").IpFilter;
+var fs = require("fs");
 
 var Server = function(config, callback) {
 	console.log("Starting server op port " + config.port + " ... ");
@@ -35,8 +36,15 @@ var Server = function(config, callback) {
 	app.use("/vendor", express.static(path.resolve(__dirname + "/../vendor")));
 	app.use("/translations", express.static(path.resolve(__dirname + "/../translations")));
 
+	app.get("/version", function(req,res) {
+		res.send(global.version);
+	});
+	
 	app.get("/", function(req, res) {
-		res.sendFile(path.resolve(__dirname + "/../index.html"));
+		var html = fs.readFileSync(path.resolve(__dirname + "/../index.html"), {encoding: "utf8"});
+		html = html.replace("#VERSION#", global.version);
+
+		res.send(html);
 	});
 
 	if (typeof callback === "function") {
