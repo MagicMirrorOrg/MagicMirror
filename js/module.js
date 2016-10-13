@@ -20,6 +20,10 @@ var Module = Class.extend({
 	// Timer reference used for showHide animation callbacks.
 	showHideTimer: null,
 
+	// Array to store lockStrings. These stings are used to lock 
+	// visibility when hiding and showing module.
+	lockStrings: [],
+
 	/* init()
 	 * Is called when the module is instantiated.
 	 */
@@ -314,15 +318,24 @@ var Module = Class.extend({
 	 *
 	 * argument speed Number - The speed of the hide animation.
 	 * argument callback function - Called when the animation is done.
+	 * argument options object - Optional settings for the hide method.
 	 */
-	hide: function(speed, callback) {
+	hide: function(speed, callback, options) {
+		if (typeof callback === "object") {
+			options = callback;
+			callback = function() {};
+		}
+
 		callback = callback || function() {};
+		options = options || {};
 
 		var self = this;
 		MM.hideModule(self, speed, function() {
 			self.suspend();
 			callback();
-		});
+		}, options);
+
+		Log.log(options);
 	},
 
 	/* showModule(module, speed, callback)
@@ -330,10 +343,19 @@ var Module = Class.extend({
 	 *
 	 * argument speed Number - The speed of the show animation.
 	 * argument callback function - Called when the animation is done.
+	 * argument options object - Optional settings for the hide method.
 	 */
-	show: function(speed, callback) {
+	show: function(speed, callback, options) {
+		if (typeof callback === "object") {
+			options = callback;
+			callback = function() {};
+		}
+
+		callback = callback || function() {};
+		options = options || {};
+
 		this.resume();
-		MM.showModule(this, speed, callback);
+		MM.showModule(this, speed, callback, options);
 	}
 });
 
@@ -347,7 +369,7 @@ Module.create = function(name) {
 			return obj;
 		}
 
-		var temp = obj.constructor(); // give temp the original obj"s constructor
+		var temp = obj.constructor(); // give temp the original obj's constructor
 		for (var key in obj) {
 			temp[key] = cloneObject(obj[key]);
 		}
