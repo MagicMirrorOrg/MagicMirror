@@ -283,25 +283,92 @@ If you want to send a notification to the node_helper, use the `sendSocketNotifi
 this.sendSocketNotification('SET_CONFIG', this.config);
 ````
 
-####`this.hide(speed, callback)`
-***speed* Number** - Optional, The speed of the hide animation in milliseconds.
+####`this.hide(speed, callback, options)`
+***speed* Number** - Optional (Required when setting callback or options), The speed of the hide animation in milliseconds.
 ***callback* Function** - Optional, The callback after the hide animation is finished.
+***options* Function** - Optional, Object with additional options for the hide action (see below).
 
 To hide a module, you can call the `hide(speed, callback)` method. You can call the hide method on the module instance itself using `this.hide()`, but of course you can also hide another module using `anOtherModule.hide()`.
+
+Possible configurable options:
+
+- `lockString` - String - When setting lock string, the module can not be shown without passing the correct lockstring. This way (multiple) modules can prevent a module from showing. It's considered best practice to use your modules identifier as the locksString: `this.identifier`. See *visibility locking* below.
+
 
 **Note 1:** If the hide animation is canceled, for instance because the show method is called before the hide animation was finished, the callback will not be called.<br>
 **Note 2:** If the hide animation is hijacked (an other method calls hide on the same module), the callback will not be called.<br>
 **Note 3:** If the dom is not yet created, the hide method won't work. Wait for the `DOM_OBJECTS_CREATED` [notification](#notificationreceivednotification-payload-sender).
 
-####`this.show(speed, callback)`
-***speed* Number** - Optional, The speed of the show animation in milliseconds.
+
+####`this.show(speed, callback, options)`
+***speed* Number** - Optional (Required when setting callback or options), The speed of the show animation in milliseconds.
 ***callback* Function** - Optional, The callback after the show animation is finished.
+***options* Function** - Optional, Object with additional options for the show action (see below).
 
 To show a module, you can call the `show(speed, callback)` method. You can call the show method on the module instance itself using `this.show()`, but of course you can also show another module using `anOtherModule.show()`.
+
+Possible configurable options:
+
+- `lockString` - String - When setting lock string, the module can not be shown without passing the correct lockstring. This way (multiple) modules can prevent a module from showing. See *visibility locking- below.
+- `force` - Boolean - When setting the force tag to `true`, the locking mechanism will be overwritten. Use this option with caution. It's considered best practice to let the usage of the force option be use- configurable. See *visibility locking* below.
 
 **Note 1:** If the show animation is canceled, for instance because the hide method is called before the show animation was finished, the callback will not be called.<br>
 **Note 2:** If the show animation is hijacked (an other method calls show on the same module), the callback will not be called.<br>
 **Note 3:** If the dom is not yet created, the show method won't work. Wait for the `DOM_OBJECTS_CREATED` [notification](#notificationreceivednotification-payload-sender).
+
+####Visibility locking
+Visiblity locking helps the module system to prevent unwanted hide/show actions. The following scenario explains the concept:
+
+**Module B asks module A to hide:**
+````
+moduleA.hide(0, {lockString: "module_b_identifier"});
+````
+Module A is now hidden, and has an lock array with the following strings: 
+````
+moduleA.lockStrings == ["module_b_identifier"]
+moduleA.hidden == true
+````
+**Module C asks module A to hide:**
+````
+moduleA.hide(0, {lockString: "module_c_identifier"});
+````
+Module A is now hidden, and has an lock array with the following strings:
+````
+moduleA.lockStrings == ["module_b_identifier", "module_c_identifier"]
+moduleA.hidden == true
+````
+**Module B asks module A to show:**
+````
+moduleA.show(0, {lockString: "module_b_identifier"});
+````
+The lockString will be removed from moduleA’s locks array, but since there still is an other lock string available, the module remains hidden:
+````
+moduleA.lockStrings == ["module_c_identifier"]
+moduleA.hidden == true
+````
+**Module C asks module A to show:**
+````
+moduleA.show(0, {lockString: "module_c_identifier"});
+````
+The lockString will be removed from moduleA’s locks array, and since this will result in an empty lock array, the module will be visible:
+````
+moduleA.lockStrings == []
+moduleA.hidden == false
+````
+
+**Note:** The locking mechanism can be overwritten by using the force tag:
+````
+moduleA.show(0, {force: true});
+````
+This will reset the lockstring array, and will show the module.
+````
+moduleA.lockStrings == []
+moduleA.hidden == false
+````
+
+Use this `force` method with caution. See `show()` method for more information.
+
+
 
 ####`this.translate(identifier)`
 ***identifier* String** - Identifier of the string that should be translated.

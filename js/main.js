@@ -174,7 +174,17 @@ var MM = (function() {
 	 * argument speed Number - The speed of the hide animation.
 	 * argument callback function - Called when the animation is done.
 	 */
-	var hideModule = function(module, speed, callback) {
+	var hideModule = function(module, speed, callback, options) {
+		options = options || {};
+
+		// set lockString if set in options.
+		if (options.lockString) {
+			Log.log("Has lockstring: " + options.lockString);
+			if (module.lockStrings.indexOf(options.lockString) === -1) {
+				module.lockStrings.push(options.lockString);
+			}
+		}
+
 		var moduleWrapper = document.getElementById(module.identifier);
 		if (moduleWrapper !== null) {
 			moduleWrapper.style.transition = "opacity " + speed / 1000 + "s";
@@ -183,7 +193,7 @@ var MM = (function() {
 			clearTimeout(module.showHideTimer);
 			module.showHideTimer = setTimeout(function() {
 				// To not take up any space, we just make the position absolute.
-				// since it"s fade out anyway, we can see it lay above or
+				// since it's fade out anyway, we can see it lay above or
 				// below other modules. This works way better than adjusting
 				// the .display property.
 				moduleWrapper.style.position = "absolute";
@@ -200,7 +210,30 @@ var MM = (function() {
 	 * argument speed Number - The speed of the show animation.
 	 * argument callback function - Called when the animation is done.
 	 */
-	var showModule = function(module, speed, callback) {
+	var showModule = function(module, speed, callback, options) {
+		options = options || {};
+
+		// remove lockString if set in options.
+		if (options.lockString) {
+			var index = module.lockStrings.indexOf(options.lockString)
+			if ( index !== -1) {
+				module.lockStrings.splice(index, 1);
+			}
+		}
+
+		// Check if there are no more lockstrings set, or the force option is set.
+		// Otherwise cancel show action.
+		if (module.lockStrings.length !== 0 && options.force !== true) {
+			Log.log("Will not show " + module.name + ". LockStrings active: " + module.lockStrings.join(","));
+			return;
+		}
+
+		// If forced show, clean current lockstrings.
+		if (module.lockStrings.length !== 0 && options.force === true) {
+			Log.log("Force show of module: " + module.name);
+			module.lockStrings = [];
+		}
+
 		var moduleWrapper = document.getElementById(module.identifier);
 		if (moduleWrapper !== null) {
 			moduleWrapper.style.transition = "opacity " + speed / 1000 + "s";
@@ -419,10 +452,11 @@ var MM = (function() {
 		 * argument module Module - The module hide.
 		 * argument speed Number - The speed of the hide animation.
 		 * argument callback function - Called when the animation is done.
+		 * argument options object - Optional settings for the hide method.
 		 */
-		hideModule: function(module, speed, callback) {
+		hideModule: function(module, speed, callback, options) {
 			module.hidden = true;
-			hideModule(module, speed, callback);
+			hideModule(module, speed, callback, options);
 		},
 
 		/* showModule(module, speed, callback)
@@ -431,10 +465,11 @@ var MM = (function() {
 		 * argument module Module - The module show.
 		 * argument speed Number - The speed of the show animation.
 		 * argument callback function - Called when the animation is done.
+		 * argument options object - Optional settings for the hide method.
 		 */
-		showModule: function(module, speed, callback) {
+		showModule: function(module, speed, callback, options) {
 			module.hidden = false;
-			showModule(module, speed, callback);
+			showModule(module, speed, callback, options);
 		}
 	};
 
