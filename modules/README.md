@@ -309,7 +309,7 @@ To show a module, you can call the `show(speed, callback)` method. You can call 
 
 Possible configurable options:
 
-- `lockString` - String - When setting lock string, the module can not be shown without passing the correct lockstring. This way (multiple) modules can prevent a module from showing. See *visibility locking- below.
+- `lockString` - String - When setting lock string, the module can not be shown without passing the correct lockstring. This way (multiple) modules can prevent a module from showing. See *visibility locking* below.
 - `force` - Boolean - When setting the force tag to `true`, the locking mechanism will be overwritten. Use this option with caution. It's considered best practice to let the usage of the force option be use- configurable. See *visibility locking* below.
 
 **Note 1:** If the show animation is canceled, for instance because the hide method is called before the show animation was finished, the callback will not be called.<br>
