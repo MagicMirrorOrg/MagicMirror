@@ -13,35 +13,35 @@
 
 var Log = (function() {
 	return {
-		info: function(message) {
-			console.info(message);
+		info: function() {
+			console.info.apply(this, arguments);
 		},
-		log: function(message) {
-			console.log(message);
+		log: function() {
+			console.log.apply(this, arguments);
 		},
-		error: function(message) {
-			console.error(message);
+		error: function() {
+			console.error.apply(this, arguments);
 		},
-		warn: function(message) {
-			console.warn(message);	
+		warn: function() {
+			console.warn.apply(this, arguments);	
 		},
-		group: function(message) {
-			console.group(message);	
+		group: function() {
+			console.group.apply(this, arguments);	
 		},
-		groupCollapsed: function(message) {
-			console.groupCollapsed(message);
+		groupCollapsed: function() {
+			console.groupCollapsed.apply(this, arguments);
 		},
 		groupEnd: function() {
 			console.groupEnd();
 		},
-		time: function(message) {
-			console.time(message);
+		time: function() {
+			console.time.apply(this, arguments);
 		},
-		timeEnd: function(message) {
-			console.timeEnd(message);
+		timeEnd: function() {
+			console.timeEnd.apply(this, arguments);
 		},
-		timeStamp: function(message) {
-			console.timeStamp(message);
+		timeStamp: function() {
+			console.timeStamp.apply(this, arguments);
 		}
 	};
 })();
