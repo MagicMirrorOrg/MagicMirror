@@ -179,7 +179,7 @@ var MM = (function() {
 
 		// set lockString if set in options.
 		if (options.lockString) {
-			Log.log("Has lockstring: " + options.lockString);
+			// Log.log("Has lockstring: " + options.lockString);
 			if (module.lockStrings.indexOf(options.lockString) === -1) {
 				module.lockStrings.push(options.lockString);
 			}

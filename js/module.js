@@ -337,8 +337,6 @@ var Module = Class.extend({
 			self.suspend();
 			callback();
 		}, options);
-
-		Log.log(options);
 	},
 
 	/* showModule(module, speed, callback)

@@ -11,8 +11,8 @@ Module.register("currentweather",{
 
 	// Default module config.
 	defaults: {
-		location: "",
-		locationID: "",
+		location: false,
+		locationID: false,
 		appid: "",
 		units: config.units,
 		updateInterval: 10 * 60 * 1000, // every 10 minutes
@@ -31,6 +31,9 @@ Module.register("currentweather",{
 		apiVersion: "2.5",
 		apiBase: "http://api.openweathermap.org/data/",
 		weatherEndpoint: "weather",
+
+		appendLocationNameToHeader: true,
+		calendarClass: "calendar",
 
 		iconTable: {
 			"01d": "wi-day-sunny",
@@ -53,6 +56,12 @@ Module.register("currentweather",{
 			"50n": "wi-night-alt-cloudy-windy"
 		},
 	},
+
+	// create a variable for the first upcoming calendaar event. Used if no location is specified.
+	firstEvent: false,
+
+	// create a variable to hold the location name based on the API result.
+	fetchedLocatioName: "",
 
 	// Define required scripts.
 	getScripts: function() {
@@ -99,12 +108,6 @@ Module.register("currentweather",{
 
 		if (this.config.appid === "") {
 			wrapper.innerHTML = "Please set the correct openweather <i>appid</i> in the config for module: " + this.name + ".";
-			wrapper.className = "dimmed light small";
-			return wrapper;
-		}
-
-		if (this.config.location === "") {
-			wrapper.innerHTML = "Please set the openweather <i>location</i> in the config for module: " + this.name + ".";
 			wrapper.className = "dimmed light small";
 			return wrapper;
 		}
@@ -178,11 +181,50 @@ Module.register("currentweather",{
 		return wrapper;
 	},
 
+	// Override getHeader method.
+	getHeader: function() {
+		if (this.config.appendLocationNameToHeader) {
+			return this.data.header + " " + this.fetchedLocatioName;
+		}
+
+		return this.data.header;
+	},
+
+	// Override notification handler.
+	notificationReceived: function(notification, payload, sender) {
+		if (notification === "DOM_OBJECTS_CREATED") {
+			if (this.config.appendLocationNameToHeader) {
+				this.hide(0, {lockString: this.identifier});
+			}
+		}
+		if (notification === "CALENDAR_EVENTS") {
+			var senderClasses = sender.data.classes.toLowerCase().split(" ");
+			if (senderClasses.indexOf(this.config.calendarClass.toLowerCase()) !== -1) {					
+				var lastEvent =  this.firstEvent;
+				this.firstEvent = false;
+				
+				for (e in payload) {
+					var event = payload[e];
+					if (event.location || event.geo) {
+						this.firstEvent = event;
+						//Log.log("First upcoming event with location: ", event);	
+						break;
+					}
+				}
+			}
+		}
+	},
+
 	/* updateWeather(compliments)
 	 * Requests new data from openweather.org.
 	 * Calls processWeather on succesfull response.
 	 */
 	updateWeather: function() {
+		if (this.config.appid === "") {
+			Log.error("CurrentWeather: APPID not set!");
+			return;
+		}
+	
 		var url = this.config.apiBase + this.config.apiVersion + "/" + this.config.weatherEndpoint + this.getParams();
 		var self = this;
 		var retry = true;
@@ -194,11 +236,10 @@ Module.register("currentweather",{
 				if (this.status === 200) {
 					self.processWeather(JSON.parse(this.response));
 				} else if (this.status === 401) {
-					self.config.appid = "";
 					self.updateDom(self.config.animationSpeed);
 
 					Log.error(self.name + ": Incorrect APPID.");
-					retry = false;
+					retry = true;
 				} else {
 					Log.error(self.name + ": Could not load weather.");
 				}
@@ -218,11 +259,19 @@ Module.register("currentweather",{
 	 */
 	getParams: function() {
 		var params = "?";
-		if(this.config.locationID !== "") {
+		if(this.config.locationID !== false) {
 			params += "id=" + this.config.locationID;
-		} else {
+		} else if(this.config.location !== false) {
 			params += "q=" + this.config.location;
+		} else if (this.firstEvent && this.firstEvent.geo) {
+			params += "lat=" + this.firstEvent.geo.lat + "&lon=" + this.firstEvent.geo.lon
+		} else if (this.firstEvent && this.firstEvent.location) {
+			params += "q=" + this.firstEvent.location;
+		} else {
+			this.hide(this.config.animationSpeed, {lockString:this.identifier});
+			return;
 		}
+
 		params += "&units=" + this.config.units;
 		params += "&lang=" + this.config.lang;
 		params += "&APPID=" + this.config.appid;
@@ -285,7 +334,7 @@ Module.register("currentweather",{
 		this.sunriseSunsetIcon = (sunrise < now && sunset > now) ? "wi-sunset" : "wi-sunrise";
 
 
-
+		this.show(this.config.animationSpeed, {lockString:this.identifier});
 		this.loaded = true;
 		this.updateDom(this.config.animationSpeed);
 	},
