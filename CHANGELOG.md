@@ -23,8 +23,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Updated package.json as a result of Snyk security update.
 - Improve object instantiation to prevent reference errors.
 - Improve logger. `Log.log()` now accepts multiple arguments.
-
-### Changed
+- Remove extensive logging in newsfeed node helper.
 - Calendar times are now uniformly capitalized.
 
 ## [2.0.5] - 2016-09-20
