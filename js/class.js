@@ -11,24 +11,6 @@
 	// The base Class implementation (does nothing)
 	this.Class = function() {};
 
-	//Define the clone method for later use.
-	function cloneObject(obj) {
-		if (obj === null || typeof obj !== "object") {
-			return obj;
-		}
-
-		var temp = obj.constructor(); // give temp the original obj's constructor
-		for (var key in obj) {
-			temp[key] = cloneObject(obj[key]);
-		
-			if (key === "lockStrings") {
-				Log.log(key);
-			}
-		}
-
-		return temp;
-	}
-
 	// Create a new Class that inherits from this class
 	Class.extend = function(prop) {
 		var _super = this.prototype;
@@ -86,6 +68,25 @@
 		return Class;
 	};
 })();
+
+//Define the clone method for later use.
+//Helper Method
+function cloneObject(obj) {
+	if (obj === null || typeof obj !== "object") {
+		return obj;
+	}
+
+	var temp = obj.constructor(); // give temp the original obj's constructor
+	for (var key in obj) {
+		temp[key] = cloneObject(obj[key]);
+	
+		if (key === "lockStrings") {
+			Log.log(key);
+		}
+	}
+
+	return temp;
+}
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/
 if (typeof module !== "undefined") {module.exports = Class;}

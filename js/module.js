@@ -371,20 +371,6 @@ Module.create = function (name) {
 		return;
 	}
 
-	//Define the clone method for later use.
-	function cloneObject(obj) {
-		if (obj === null || typeof obj !== "object") {
-			return obj;
-		}
-
-		var temp = obj.constructor(); // give temp the original obj's constructor
-		for (var key in obj) {
-			temp[key] = cloneObject(obj[key]);
-		}
-
-		return temp;
-	}
-
 	var moduleDefinition = Module.definitions[name];
 	var clonedDefinition = cloneObject(moduleDefinition);
 

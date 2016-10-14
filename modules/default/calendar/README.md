@@ -106,7 +106,6 @@ The following properties can be configured:
 			<td><code>titleReplace</code></td>
 			<td>An object of textual replacements applied to the tile of the event. This allow to remove or replace certains words in the title.<br>
 				<br><b>Example:</b> <br>
-
 				<code>
 					titleReplace: {'Birthday of ' : '', 'foo':'bar'}
 				</code>
@@ -139,6 +138,13 @@ The following properties can be configured:
 			    This allows events within a certain time frame to be displayed as relative (in xx days) while others are displayed as absolute dates<br>
 				<br><b>Possible values:</b> a positive integer representing the number of days for which you want a relative date, for example <code>7</code> (for 7 days)<br>
 				<br><b>Default value:</b> <code>0</code> (disabled)
+			</td>
+		</tr>
+		<tr>
+			<td><code>broadcastEvents</code></td>
+			<td>If this property is set to true, the calendar will broadcast all the events to all other modules with the notification message: <code>CALENDAR_EVENTS</code>. The event objects are stored in an array and contain the following fields: <code>title</code>, <code>startDate</code>, <code>endDate</code>, <code>fullDayEvent</code>, <code>location</code> and <code>geo</code>.<br>
+				<br><b>Possible values:</b> <code>true</code>, <code>false</code>  <br>
+				<br><b>Default value:</b> <code>true</code> 
 			</td>
 		</tr>
 	</tbody>
