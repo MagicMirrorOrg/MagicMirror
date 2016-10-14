@@ -16,6 +16,7 @@ Module.register("weatherforecast",{
 		appid: "",
 		units: config.units,
 		maxNumberOfDays: 7,
+		showRainAmount: false,
 		updateInterval: 10 * 60 * 1000, // every 10 minutes
 		animationSpeed: 1000,
 		timeFormat: config.timeFormat,
@@ -141,6 +142,17 @@ Module.register("weatherforecast",{
 			minTempCell.innerHTML = forecast.minTemp;
 			minTempCell.className = "align-right min-temp";
 			row.appendChild(minTempCell);
+
+			if (this.config.showRainAmount) {
+				var rainCell = document.createElement("td");
+				if (isNaN(forecast.rain)) {
+					rainCell.innerHTML = "";
+				} else {
+					rainCell.innerHTML = forecast.rain + " mm";
+				}
+				rainCell.className = "align-right bright rain";
+				row.appendChild(rainCell);
+			}
 
 			if (this.config.fade && this.config.fadePoint < 1) {
 				if (this.config.fadePoint < 0) {
@@ -280,7 +292,8 @@ Module.register("weatherforecast",{
 				day: moment(forecast.dt, "X").format("ddd"),
 				icon: this.config.iconTable[forecast.weather[0].icon],
 				maxTemp: this.roundValue(forecast.temp.max),
-				minTemp: this.roundValue(forecast.temp.min)
+				minTemp: this.roundValue(forecast.temp.min),
+				rain: this.roundValue(forecast.rain)
 
 			});
 		}
