@@ -45,6 +45,7 @@
     "moment": "latest",
     "request": "^2.74.0",
     "rrule": "latest",
+    "simple-git": "^1.54.0",
     "snyk": "^1.14.1",
     "socket.io": "^1.4.6",
     "valid-url": "latest",

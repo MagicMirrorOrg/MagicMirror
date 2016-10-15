@@ -17,6 +17,10 @@ var config = {
 			module: 'alert',
 		},
 		{
+			module: "updatenotification",
+			position: "top_center"
+		},
+		{
 			module: 'clock',
 			position: 'top_left'
 		},
