@@ -456,7 +456,7 @@ start: function() {
 }
 ````
 
-**Note: ** By default, a public path to your module's public folder will be created:
+**Note:** By default, a public path to your module's public folder will be created:
 ````javascript
 this.expressApp.use("/" + this.name, express.static(this.path + "/public"));
 ````
