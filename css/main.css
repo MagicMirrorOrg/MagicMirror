@@ -118,9 +118,8 @@ sup {
 
 .region.bottom .module {
   margin-top: 30px;
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
-
 
 /**
  * Region Definitions.
