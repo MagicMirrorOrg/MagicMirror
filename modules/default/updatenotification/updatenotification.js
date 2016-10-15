@@ -10,19 +10,28 @@ Module.register("updatenotification", {
 
 	start: function () {
 		Log.log("Start updatenotification");
-		var self = this;
+		
 	},
 
 	notificationReceived: function(notification, payload, sender) {
 		if (notification === "DOM_OBJECTS_CREATED") {
 			this.sendSocketNotification("CONFIG", this.config);
+			this.hide(0,{lockString: self.identifier});
 		}
 	},
 
 	socketNotificationReceived: function (notification, payload) {
 		if (notification === "STATUS") {
 			this.status = payload;
-			this.updateDom(1000);
+			this.updateUI();
+		}
+	},
+
+	updateUI: function() {
+		var self = this;
+		if (this.status && this.status.behind > 0) {
+			self.updateDom(0);
+			self.show(1000, {lockString: self.identifier});
 		}
 	},
 

@@ -30,6 +30,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Remove extensive logging in newsfeed node helper.
 - Calendar times are now uniformly capitalized.
 
+### Fixed
+- Solve an issue where module margins would appear when the first module of a section was hidden.
+
 ## [2.0.5] - 2016-09-20
 
 ### Added

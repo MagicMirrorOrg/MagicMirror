@@ -113,12 +113,14 @@ sup {
  */
 
 .module {
-  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
-.module:first-child {
-  margin-top: 0;
+.region.bottom .module {
+  margin-top: 30px;
+  margin-bottom: 0px;
 }
+
 
 /**
  * Region Definitions.
