@@ -73,6 +73,14 @@ The following properties can be configured:
 			</td>
 		</tr>
 		<tr>
+			<td><code>showRainAmount</code></td>
+			<td>Should the predicted rain amount be displayed?<br>
+				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
+				<br><b>Default value:</b> <code>false</code>
+				<br>This value is optional. By default the weatherforecast module will not display the predicted amount of rain.
+			</td>
+		</tr>
+		<tr>
 			<td><code>updateInterval</code></td>
 			<td>How often does the content needs to be fetched? (Milliseconds)<br>
 				<br><b>Possible values:</b> <code>1000</code> - <code>86400000</code>
