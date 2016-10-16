@@ -32,7 +32,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Solve an issue where module margins would appear when the first module of a section was hidden.
-- Solve visual display errors on chrome, if all modules in one of the right sections are hidden
+- Solved visual display errors on chrome, if all modules in one of the right sections are hidden
 
 ## [2.0.5] - 2016-09-20
 
