@@ -196,7 +196,7 @@ var MM = (function() {
 				// since it's fade out anyway, we can see it lay above or
 				// below other modules. This works way better than adjusting
 				// the .display property.
-				moduleWrapper.style.position = "absolute";
+				moduleWrapper.style.position = "fixed";
 
 				if (typeof callback === "function") { callback(); }
 			}, speed);
