@@ -34,7 +34,6 @@ module.exports = NodeHelper.create({
 			delay = 60 * 1000
 		}
 
-		console.log(delay);
 		var self = this;
 		clearTimeout(this.updateTimer);
 		this.updateTimer = setTimeout(function() {
