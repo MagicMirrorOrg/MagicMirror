@@ -80,6 +80,7 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 							endDate = moment(startDate).add(1, "days");
 						}
 					}
+                    
 
 					// calculate the duration f the event for use with recurring events.
 					var duration = parseInt(endDate.format("x")) - parseInt(startDate.format("x"));
@@ -95,6 +96,10 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 						title = event.description;
 					}
 
+                    var location = event.location || false;
+                    var geo = event.geo || false;
+                    var description = event.description || false;
+                    
 					if (typeof event.rrule != "undefined" && !isFacebookBirthday) {
 						var rule = event.rrule;
 						var dates = rule.between(today, future, true, limitFunction);
@@ -108,7 +113,10 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 									startDate: startDate.format("x"),
 									endDate: endDate.format("x"),
 									fullDayEvent: isFullDayEvent(event),
-									firstYear: event.start.getFullYear()
+									firstYear: event.start.getFullYear(),
+                                    location: location,
+                                    geo: geo,
+                                    description: description
 								});
 							}
 						}
@@ -132,10 +140,6 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 							continue;
 						}
 
-
-						var location = event.location || false;
-						var geo = event.geo || false;
-
 						// Every thing is good. Add it to the list.		
 
 						newEvents.push({
@@ -143,8 +147,9 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 							startDate: startDate.format("x"),
 							endDate: endDate.format("x"),
 							fullDayEvent: fullDayEvent,
-							location: location,
-							geo: geo
+                            location: location,
+                            geo: geo,
+                            description: description
 						});
 						
 					}
