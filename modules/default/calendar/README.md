@@ -106,7 +106,6 @@ The following properties can be configured:
 			<td><code>titleReplace</code></td>
 			<td>An object of textual replacements applied to the tile of the event. This allow to remove or replace certains words in the title.<br>
 				<br><b>Example:</b> <br>
-
 				<code>
 					titleReplace: {'Birthday of ' : '', 'foo':'bar'}
 				</code>
@@ -127,11 +126,25 @@ The following properties can be configured:
 			</td>
 		</tr>
 		<tr>
+			<td><code>getRelative</code></td>
+			<td>How much time (in hours) should be left until calendar events start getting relative?<br>
+				<br><b>Possible values:</b> <code>0</code> (events stay absolute) - <code>48</code> (48 hours before the event starts)
+				<br><b>Default value:</b> <code>6</code>
+			</td>
+		</tr>
+		<tr>
 			<td><code>urgency</code></td>
 			<td>When using a timeFormat of <code>absolute</code>, the <code>urgency</code> setting allows you to display events within a specific time frame as <code>relative</code>
 			    This allows events within a certain time frame to be displayed as relative (in xx days) while others are displayed as absolute dates<br>
 				<br><b>Possible values:</b> a positive integer representing the number of days for which you want a relative date, for example <code>7</code> (for 7 days)<br>
 				<br><b>Default value:</b> <code>0</code> (disabled)
+			</td>
+		</tr>
+		<tr>
+			<td><code>broadcastEvents</code></td>
+			<td>If this property is set to true, the calendar will broadcast all the events to all other modules with the notification message: <code>CALENDAR_EVENTS</code>. The event objects are stored in an array and contain the following fields: <code>title</code>, <code>startDate</code>, <code>endDate</code>, <code>fullDayEvent</code>, <code>location</code> and <code>geo</code>.<br>
+				<br><b>Possible values:</b> <code>true</code>, <code>false</code>  <br>
+				<br><b>Default value:</b> <code>true</code> 
 			</td>
 		</tr>
 	</tbody>
@@ -173,7 +186,7 @@ config: {
 		<tr>
 			<td><code> symbol </code></td>
 			<td>The symbol to show in front of an event. This property is optional.<br>
-				<br><b>Possible values:</b> See <a href="http://fontawesome.io/icons/" target="_blank">Font Awsome</a> website.
+				<br><b>Possible values:</b> See <a href="http://fontawesome.io/icons/" target="_blank">Font Awesome</a> website.
 			</td>
 		</tr>
 		<tr>
@@ -182,6 +195,14 @@ config: {
 				<br><b>Example:</b> <br>
 				<code>'Birthday'</code>
 			</td>
+		</tr>
+		<tr>
+			<td><code> user </code></td>
+			<td>The username for HTTP Basic authentication.</td>
+		</tr>
+		<tr>
+			<td><code> pass </code></td>
+			<td>The password for HTTP Basic authentication.</td>
 		</tr>
 		</tbody>
 </table>

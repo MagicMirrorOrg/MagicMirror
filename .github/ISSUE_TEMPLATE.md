@@ -1,21 +1,24 @@
 Please only submit reproducible issues. 
 
-If you're not sure if it's a real bug or if it's just you, please open a topic on the forum: https://forum.magicmirror.builders/category/15/bug-hunt - Problems installing or configuring your MagicMirror? Check out: https://forum.magicmirror.builders/category/10/troubleshooting
+If you're not sure if it's a real bug or if it's just you, please open a topic on the forum: [https://forum.magicmirror.builders/category/15/bug-hunt](https://forum.magicmirror.builders/category/15/bug-hunt)
+Problems installing or configuring your MagicMirror? Check out: [https://forum.magicmirror.builders/category/10/troubleshooting](https://forum.magicmirror.builders/category/10/troubleshooting)
 
-**Platform** [ Raspberry Pi 2/3, Windows, Mac OS X, Linux, Etc ... ]:
+When submitting a new issue, please supply the following information:
 
-**Node Version** [ 0.12.13 or later ]:
+**Platform**: Place your platform here... give us your web browser/Electron version *and* your hardware (Raspberry Pi 2/3, Windows, Mac, Linux, System V UNIX).
 
-**MagicMirror Version** [ V1 / V2-Beta ]:
+**Node Version**: Make sure it's version 0.12.13 or later.
 
-**Description:** Provide a detailed description about the issue and include specific details to help us understand the problem. Adding screenshots will help describing the problem.
+**MagicMirror Version**: Now that the versions have split, tell us if you are using the PHP version (v1) or the newer JavaScript version (v2).
 
-**Steps to Reproduce:** List the step by step process to reproduce the issue.
+**Description**: Provide a detailed description about the issue and include specific details to help us understand the problem. Adding screenshots will help describing the problem.
 
-**Expected Results:** Describe what you expected to see.
+**Steps to Reproduce**: List the step by step process to reproduce the issue.
 
-**Actual Results:** Describe what you actually saw.
+**Expected Results**: Describe what you expected to see.
 
-**Configuration:** What does the used config.js file look like? (Don't forget to remove any sensitive information.)
+**Actual Results**: Describe what you actually saw.
 
-**Additional Notes:** Provide any other relevant notes not previously mentioned (optional)
+**Configuration**: What does the used config.js file look like? Don't forget to remove any sensitive information!
+
+**Additional Notes**: Provide any other relevant notes not previously mentioned. This is optional.

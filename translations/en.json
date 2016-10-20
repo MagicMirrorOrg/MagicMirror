@@ -24,5 +24,9 @@
 	"W": 	"W",
 	"WNW": 	"WNW",
 	"NW": 	"NW",
-	"NNW": 	"NNW"
+	"NNW": 	"NNW",
+
+	/* UPDATE INFO */
+	"UPDATE_NOTIFICATION": "MagicMirror² update available.",
+	"UPDATE_INFO": "The current installation is COMMIT_COUNT behind on the BRANCH_NAME branch."
 }

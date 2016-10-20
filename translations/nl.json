@@ -5,7 +5,8 @@
 	/* CALENDAR */
 	"TODAY": "Vandaag",
 	"TOMORROW": "Morgen",
-	"RUNNING": "Eindigd over",
+	"DAYAFTERTOMORROW": "Overmorgen",
+	"RUNNING": "Eindigt over",
 	"EMPTY": "Geen geplande afspraken.",
 
 	/* WEATHER */
@@ -24,5 +25,9 @@
 	"W": 	"W",
 	"WNW": 	"WNW",
 	"NW": 	"NW",
-	"NNW": 	"NNW"
+	"NNW": 	"NNW",
+
+	/* UPDATE INFO */
+	"UPDATE_NOTIFICATION": "MagicMirror² update beschikbaar.",
+	"UPDATE_INFO": "De huidige installatie loopt COMMIT_COUNT achter op de BRANCH_NAME branch."
 }

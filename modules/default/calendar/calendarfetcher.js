@@ -8,7 +8,7 @@
 var ical = require("./vendor/ical.js");
 var moment = require("moment");
 
-var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumberOfDays) {
+var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumberOfDays, user, pass) {
 	var self = this;
 
 	var reloadTimer = null;
@@ -27,9 +27,18 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 
 		var opts = {
 			headers: {
-				'User-Agent': 'Mozilla/5.0 (Node.js 6.0.0) MagicMirror/v2 (https://github.com/MichMich/MagicMirror/)'
+				"User-Agent": "Mozilla/5.0 (Node.js 6.0.0) MagicMirror/v2 (https://github.com/MichMich/MagicMirror/)"
+			}
+		};
+
+		if (user && pass) {
+			opts.auth = {
+				user: user,
+				pass: pass,
+				sendImmediately: true
 			}
 		}
+
 		ical.fromURL(url, opts, function(err, data) {
 			if (err) {
 				fetchFailedCallback(self, err);
@@ -68,7 +77,7 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 						if (!isFacebookBirthday) {
 							endDate = startDate;
 						} else {
-							endDate = moment(startDate).add(1, 'days');
+							endDate = moment(startDate).add(1, "days");
 						}
 					}
 
@@ -92,7 +101,7 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 
 						for (var d in dates) {
 							startDate = moment(new Date(dates[d]));
-							endDate  = moment(parseInt(startDate.format("x")) + duration, 'x');
+							endDate  = moment(parseInt(startDate.format("x")) + duration, "x");
 							if (endDate.format("x") > now) {
 								newEvents.push({
 									title: title,
@@ -123,12 +132,19 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 							continue;
 						}
 
-						// Every thing is good. Add it to the list.					
+
+						var location = event.location || false;
+						var geo = event.geo || false;
+
+						// Every thing is good. Add it to the list.		
+
 						newEvents.push({
 							title: title,
 							startDate: startDate.format("x"),
 							endDate: endDate.format("x"),
-							fullDayEvent: fullDayEvent
+							fullDayEvent: fullDayEvent,
+							location: location,
+							geo: geo
 						});
 						
 					}
