@@ -20,7 +20,7 @@
     "modular"
   ],
   "author": "Michael Teeuw",
-  "contributors": "https://github.com/MichMich/MagicMirror/graphs/contributors",
+  "contributors": ["https://github.com/MichMich/MagicMirror/graphs/contributors"],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/MichMich/MagicMirror/issues"
