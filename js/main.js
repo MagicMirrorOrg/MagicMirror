@@ -136,7 +136,7 @@ var MM = (function() {
 		var contentNeedsUpdate = false;
 
 		if (headerWrapper.length > 0) {
-			headerNeedsUpdate = newHeader !== headerWrapper.innerHTML;
+			headerNeedsUpdate = newHeader !== headerWrapper[0].innerHTML;
 		}
 
 		var tempContentWrapper = document.createElement("div");
