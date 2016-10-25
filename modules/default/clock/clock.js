@@ -23,10 +23,11 @@ Module.register("clock",{
 		analogPlacement: 'bottom', // options: 'top', 'bottom', 'left', 'right'
 		analogShowDate: 'top', // options: false, 'top', or 'bottom'
 		secondsColor: '#888888',
+		timezone: null,
 	},
 	// Define required scripts.
 	getScripts: function() {
-		return ["moment.js"];
+		return ["moment.js", "moment-timezone.js"];
 	},
 	// Define styles.
 	getStyles: function() {
@@ -69,10 +70,14 @@ Module.register("clock",{
 		// So we need to generate the timestring manually.
 		// See issue: https://github.com/MichMich/MagicMirror/issues/181
 		var timeString;
+		var now = moment();
+		if (this.config.timezone) {
+			now.tz(this.config.timezone);
+		}
 		if (this.config.clockBold === true) {
-			timeString = moment().format("HH[<span class=\"bold\">]mm[</span>]");
+			timeString = now.format("HH[<span class=\"bold\">]mm[</span>]");
 		} else {
-			timeString = moment().format("HH:mm");
+			timeString = now.format("HH:mm");
 		}
 
 		if (this.config.timeFormat !== 24) {
@@ -80,21 +85,21 @@ Module.register("clock",{
 			// var hours = now.getHours() % 12 || 12;
 			if (this.config.clockBold === true) {
 				//timeString = hours + moment().format("[<span class=\"bold\">]mm[</span>]");
-				timeString = moment().format("h[<span class=\"bold\">]mm[</span>]");
+				timeString = now.format("h[<span class=\"bold\">]mm[</span>]");
 			} else {
 				//timeString = hours + moment().format(":mm");
-				timeString = moment().format("h:mm");
+				timeString = now.format("h:mm");
 			}
 		}
 		if(this.config.showDate){
-		dateWrapper.innerHTML = moment().format("dddd, LL");
+		dateWrapper.innerHTML = now.format("dddd, LL");
 		}
 		timeWrapper.innerHTML = timeString;
-		secondsWrapper.innerHTML = moment().format("ss");
+		secondsWrapper.innerHTML = now.format("ss");
 		if (this.config.showPeriodUpper) {
-			periodWrapper.innerHTML = moment().format("A");
+			periodWrapper.innerHTML = now.format("A");
 		} else {
-			periodWrapper.innerHTML = moment().format("a");
+			periodWrapper.innerHTML = now.format("a");
 		}
 		if (this.config.displaySeconds) {
 			timeWrapper.appendChild(secondsWrapper);
@@ -117,8 +122,11 @@ Module.register("clock",{
 			// If it isn't 'digital', then an 'analog' clock was also requested
 
 			// Calculate the degree offset for each hand of the clock
-			var now = moment(),
-				second = now.seconds() * 6,
+			var now = moment();
+			if (this.config.timezone) {
+				now.tz(this.config.timezone);
+			}
+			var	second = now.seconds() * 6,
 				minute = now.minute() * 6 + second / 60,
 				hour = ((now.hours() % 12) / 12) * 360 + 90 + minute / 12;
 
