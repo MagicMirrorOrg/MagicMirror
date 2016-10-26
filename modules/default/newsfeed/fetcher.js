@@ -60,11 +60,11 @@ var Fetcher = function(url, reloadInterval, encoding) {
 
 			} else {
 
-				console.log("Can't parse feed item:");
-				console.log(item);
-				console.log('Title: ' + title);
-				console.log('Description: ' + description);
-				console.log('Pubdate: ' + pubdate);
+				// console.log("Can't parse feed item:");
+				// console.log(item);
+				// console.log('Title: ' + title);
+				// console.log('Description: ' + description);
+				// console.log('Pubdate: ' + pubdate);
 
 			}
 		});

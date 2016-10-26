@@ -45,9 +45,9 @@ The following properties can be configured:
 		</tr>
 		<tr>
 			<td><code>display_time</code></td>
-			<td>Time a notification is displayed in seconds.<br>
-				<br><b>Possible values:</b> <code>float</code> <code>int</code>
-				<br><b>Default value:</b> <code>3.5</code>
+			<td>Time a notification is displayed in milliseconds.<br>
+				<br><b>Possible values:</b> <code>int</code>
+				<br><b>Default value:</b> <code>3500</code>
 			</td>
 		</tr>
 		<tr>

@@ -115,5 +115,13 @@ The following properties can be configured:
 				<br><b>Default value:</b> <code>top</code>
 			</td>
 		</tr>
+		<tr>
+			<td><code>timezone</code></td>
+			<td>Specific a timezone to show clock.<br>
+				<br><b>Possible examples values:</b> <code>America/New_York</code>, <code>America/Santiago</code>, <code>Etc/GMT+10</code>
+				<br><b>Default value:</b> <code>none</code>
+			</td>
+		</tr>
+
 	</tbody>
 </table>

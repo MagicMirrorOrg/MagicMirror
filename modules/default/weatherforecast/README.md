@@ -35,19 +35,20 @@ The following properties can be configured:
 		</tr>
 	<thead>
 	<tbody>
-
 		<tr>
 			<td><code>location</code></td>
 			<td>The location used for weather information.<br>
-				<br><b>Example:</b> <code>Amsterdam,Netherlands</code>
-				<br><b>Default value:</b> <code>New York</code>
+				<br><b>Example:</b> <code>'Amsterdam,Netherlands'</code>
+				<br><b>Default value:</b> <code>New York</code><br><br>
+				<strong>Note:</strong> When the <code>location</code> and <code>locationID</code> are both not set, the location will be based on the information provided by the calendar module. The first upcoming event with location data will be used.
 			</td>
 		</tr>
 		<tr>
 			<td><code>locationID</code></td>
 			<td>Location ID from <a href="http://bulk.openweather.org/sample/">OpenWeather</a> <b>This will override anything you put in location.</b><br>Leave blank if you want to use location.
 				<br><b>Example:</b> <code>1234567</code>
-				<br><b>Default value:</b> <code></code>
+				<br><b>Default value:</b> <code></code><br><br>
+				<strong>Note:</strong> When the <code>location</code> and <code>locationID</code> are both not set, the location will be based on the information provided by the calendar module. The first upcoming event with location data will be used.
 			</td>
 		</tr>
 		<tr>
@@ -72,6 +73,14 @@ The following properties can be configured:
 			</td>
 		</tr>
 		<tr>
+			<td><code>showRainAmount</code></td>
+			<td>Should the predicted rain amount be displayed?<br>
+				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
+				<br><b>Default value:</b> <code>false</code>
+				<br>This value is optional. By default the weatherforecast module will not display the predicted amount of rain.
+			</td>
+		</tr>
+		<tr>
 			<td><code>updateInterval</code></td>
 			<td>How often does the content needs to be fetched? (Milliseconds)<br>
 				<br><b>Possible values:</b> <code>1000</code> - <code>86400000</code>
@@ -85,7 +94,6 @@ The following properties can be configured:
 				<br><b>Default value:</b> <code>2000</code> (2 seconds)
 			</td>
 		</tr>
-
 		<tr>
 			<td><code>lang</code></td>
 			<td>The language of the days.<br>
@@ -140,6 +148,18 @@ The following properties can be configured:
 			</td>
 		</tr>
 		<tr>
+			<td><code>appendLocationNameToHeader</code></td>
+			<td>If set to <code>true</code>, the returned location name will be appended to the header of the module, if the header is enabled. This is mainly intresting when using calender based weather.<br>
+				<br><b>Default value:</b>  <code>true</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>calendarClass</code></td>
+			<td>The class for the calender module to base the event based weather information on.<br>
+				<br><b>Default value:</b>  <code>'calendar'</code>
+			</td>
+		</tr>
+		<tr>
 			<td><code>iconTable</code></td>
 			<td>The conversion table to convert the weather conditions to weather-icons.<br>
 				<br><b>Default value:</b>  <code>iconTable: {
@@ -164,6 +184,5 @@ The following properties can be configured:
 		}</code>
 			</td>
 		</tr>
-
 	</tbody>
 </table>

@@ -117,9 +117,13 @@ var Loader = (function() {
 
 		var afterLoad = function() {
 			var moduleObject = Module.create(module.name);
-			bootstrapModule(module, moduleObject, function() {
+			if (moduleObject) {
+				bootstrapModule(module, moduleObject, function() {
+					callback();
+				});
+			} else {
 				callback();
-			});
+			}
 		};
 
 		if (loadedModuleFiles.indexOf(url) !== -1) {

@@ -2,14 +2,47 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.1.0] - Unreleased
+
+**Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
+
+### Added
+- Finnish translation.
+- Danish translation.
+- Option to limit access to certain IP addresses based on the value of `ipWhitelist` in the `config.js`, default is access from localhost only (Issue [#456](https://github.com/MichMich/MagicMirror/issues/456)).
+- Added ability to change the point of time when calendar events get relative.
+- Add Splash screen on boot.
+- Add option to show humidity in currentWeather module.
+- Add VSCode IntelliSense support.
+- Module API: Add Visibility locking to module system. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules#visibility-locking) for more information.
+- Module API: Method to overwrite the module's header. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules#getheader) for more information.
+- Module API: Option to define the minimumn MagicMirror version to run a module. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules#requiresversion) for more information.
+- Calendar module now broadcasts the event list to all other modules using the notification system. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules/default/calendar) for more information.
+- Possibility to use the the calendar feed as the source for the weather (currentweather & weatherforecast) location data. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules/default/weatherforecast) for more information.
+- Added option to show rain amount in the weatherforecast default module
+- Add module `updatenotification` to get an update whenever a new version is availabe. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules/default/updatenotification) for more information.
+
+### Updated
+- Modified translations for Frysk.
+- Updated package.json as a result of Snyk security update.
+- Improve object instantiation to prevent reference errors.
+- Improve logger. `Log.log()` now accepts multiple arguments.
+- Remove extensive logging in newsfeed node helper.
+- Calendar times are now uniformly capitalized.
+
+### Fixed
+- Solve an issue where module margins would appear when the first module of a section was hidden.
+- Solved visual display errors on chrome, if all modules in one of the right sections are hidden
+
 ## [2.0.5] - 2016-09-20
 
 ### Added
 - Added ability to remove tags from the beginning or end of newsfeed items in 'newsfeed.js'.
 - Added ability to define "the day after tomorrow" for calendar events (Definition for German and Dutch already included).
 - Added CII Badge (we are compliant with the CII Best Practices)
-- Add support for doing http basic auth when loading calendars 
+- Add support for doing http basic auth when loading calendars
 - Add the abilty to turn off and on the date display in the Clock Module
+- Add the abilty to set timezone on the date display in the Clock Module
 
 ### Fixed
 - Fix typo in installer.
