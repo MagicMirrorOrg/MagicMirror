@@ -259,9 +259,9 @@ Module.register("currentweather",{
 	 */
 	getParams: function() {
 		var params = "?";
-		if(this.config.locationID !== false) {
+		if(this.config.locationID) {
 			params += "id=" + this.config.locationID;
-		} else if(this.config.location !== false) {
+		} else if(this.config.location) {
 			params += "q=" + this.config.location;
 		} else if (this.firstEvent && this.firstEvent.geo) {
 			params += "lat=" + this.firstEvent.geo.lat + "&lon=" + this.firstEvent.geo.lon
