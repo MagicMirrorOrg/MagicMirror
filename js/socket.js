@@ -17,6 +17,7 @@ var MMSocket = function(moduleName) {
 
 	self.moduleName = moduleName;
 
+	// FIXME: hostname & port should be configurable throughout
 	self.socket = io("http://localhost:8080");
 	self.socket.on("notification", function(data) {
 		MM.sendNotification(data.notification, data.payload, Socket);
