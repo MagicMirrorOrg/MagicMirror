@@ -9,7 +9,12 @@
 
 var defaults = {
 	port: 8080,
+	hostname: "localhost",
 	kioskmode: false,
+	window_width: 800,
+	window_height: 600,
+	window_x: 0,
+	window_y: 0,
 
 	language: "en",
 	timeFormat: 24,

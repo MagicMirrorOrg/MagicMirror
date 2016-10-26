@@ -14,7 +14,7 @@ var path = require("path");
 var Server = function(config, callback) {
 	console.log("Starting server op port " + config.port + " ... ");
 
-	server.listen(config.port);
+	server.listen(config.port, config.hostname);
 	app.use("/js", express.static(__dirname));
 	app.use("/config", express.static(path.resolve(__dirname + "/../config")));
 	app.use("/css", express.static(path.resolve(__dirname + "/../css")));
