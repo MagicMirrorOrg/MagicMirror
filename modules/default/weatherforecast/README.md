@@ -84,7 +84,7 @@ The following properties can be configured:
 			<td><code>updateInterval</code></td>
 			<td>How often does the content needs to be fetched? (Milliseconds)<br>
 				<br><b>Possible values:</b> <code>1000</code> - <code>86400000</code>
-				<br><b>Default value:</b> <code>300000</code> (10 minutes)
+				<br><b>Default value:</b> <code>600000</code> (10 minutes)
 			</td>
 		</tr>
 		<tr>
