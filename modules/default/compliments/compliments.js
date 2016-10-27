@@ -29,6 +29,7 @@ Module.register("compliments",{
 			]
 		},
 		updateInterval: 30000,
+		fileName: null,
 		fadeSpeed: 4000
 	},
 
@@ -42,6 +43,12 @@ Module.register("compliments",{
 		Log.info("Starting module: " + this.name);
 
 		this.lastComplimentIndex = -1;
+
+		if (this.config.fileName != null) {
+			this.complimentFile((response) => {
+				this.config.compliments = JSON.parse(response);
+		});
+		}
 
 		// Schedule update timer.
 		var self = this;
@@ -92,6 +99,21 @@ Module.register("compliments",{
 		} else {
 			return this.config.compliments.evening;
 		}
+	},
+
+	/* complimentFile(callback)
+	 * Retrieve a file from the local disk
+	 */
+	complimentFile: function(callback) {
+		var xobj = new XMLHttpRequest();
+		xobj.overrideMimeType("application/json");
+		xobj.open('GET', this.file(this.config.fileName), true);
+		xobj.onreadystatechange = function () {
+			if (xobj.readyState == 4 && xobj.status == "200") {
+				callback(xobj.responseText);
+			}
+		};
+		xobj.send(null);
 	},
 
 	/* complimentArray()
