@@ -186,7 +186,7 @@ Whenever the MagicMirror needs to update the information on screen (because it s
 
 If you want to use the original user's configured header, reference `this.data.header`.
 
-**NOTE:** If the user did not confiugure a default header, no header will be displayed and thus this method will not be called.
+**NOTE:** If the user did not configure a default header, no header will be displayed and thus this method will not be called.
 
 **Example:**
 ````javascript
