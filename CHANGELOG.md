@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Finnish translation.
 - Danish translation.
+- Turkish translation.
 - Option to limit access to certain IP addresses based on the value of `ipWhitelist` in the `config.js`, default is access from localhost only (Issue [#456](https://github.com/MichMich/MagicMirror/issues/456)).
 - Added ability to change the point of time when calendar events get relative.
 - Add Splash screen on boot.
