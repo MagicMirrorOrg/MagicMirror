@@ -25,7 +25,7 @@ var config = {
 		},
 		{
 		    module: 'calendar',
-		    header: 'Prochains rendez-vous de Thibaut',
+		    header: 'Prochains rendez-vous de Thibaut (Pull test)',
 		    position: 'top_left',
 		    config: {
 		        calendars: [
