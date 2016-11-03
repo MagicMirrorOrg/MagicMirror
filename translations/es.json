@@ -25,4 +25,8 @@
 	"WNW": 	"ONO",
 	"NW": 	"NO",
 	"NNW": 	"NNO"
+
+	/* UPDATE INFO */
+	"UPDATE_NOTIFICATION": "MagicMirror² actualización disponible.",
+	"UPDATE_INFO": "Tu actual instalación está COMMIT_COUNT cambios detrás de la rama BRANCH_NAME."
 }
