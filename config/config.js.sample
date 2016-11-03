@@ -7,7 +7,7 @@
 var config = {
 	port: 8080,
 
-	language: 'en',
+	language: 'fr',
 	timeFormat: 24,
 	units: 'metric',
 
