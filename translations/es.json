@@ -24,7 +24,7 @@
 	"W": 	"O",
 	"WNW": 	"ONO",
 	"NW": 	"NO",
-	"NNW": 	"NNO"
+	"NNW": 	"NNO",
 
 	/* UPDATE INFO */
 	"UPDATE_NOTIFICATION": "MagicMirror² actualización disponible.",
