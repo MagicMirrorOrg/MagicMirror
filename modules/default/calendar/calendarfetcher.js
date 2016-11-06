@@ -80,7 +80,7 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 							endDate = moment(startDate).add(1, "days");
 						}
 					}
-                    
+
 
 					// calculate the duration f the event for use with recurring events.
 					var duration = parseInt(endDate.format("x")) - parseInt(startDate.format("x"));
@@ -96,10 +96,10 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 						title = event.description;
 					}
 
-                    var location = event.location || false;
-                    var geo = event.geo || false;
-                    var description = event.description || false;
-                    
+					var location = event.location || false;
+					var geo = event.geo || false;
+					var description = event.description || false;
+
 					if (typeof event.rrule != "undefined" && !isFacebookBirthday) {
 						var rule = event.rrule;
 						var dates = rule.between(today, future, true, limitFunction);
@@ -114,9 +114,9 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 									endDate: endDate.format("x"),
 									fullDayEvent: isFullDayEvent(event),
 									firstYear: event.start.getFullYear(),
-                                    location: location,
-                                    geo: geo,
-                                    description: description
+									location: location,
+									geo: geo,
+									description: description
 								});
 							}
 						}
@@ -140,18 +140,18 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 							continue;
 						}
 
-						// Every thing is good. Add it to the list.		
+						// Every thing is good. Add it to the list.
 
 						newEvents.push({
 							title: title,
 							startDate: startDate.format("x"),
 							endDate: endDate.format("x"),
 							fullDayEvent: fullDayEvent,
-                            location: location,
-                            geo: geo,
-                            description: description
+							location: location,
+							geo: geo,
+							description: description
 						});
-						
+
 					}
 				}
 			}
@@ -198,7 +198,7 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 
 		if (end - start === 24 * 60 * 60 * 1000 && startDate.getHours() === 0 && startDate.getMinutes() === 0) {
 			// Is 24 hours, and starts on the middle of the night.
-			return true;			
+			return true;
 		}
 
 		return false;
