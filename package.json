@@ -5,9 +5,6 @@
   "main": "js/electron.js",
   "scripts": {
     "start": "electron js/electron.js",
-    "test": "snyk test",
-    "snyk-protect": "snyk protect",
-    "prepublish": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -46,10 +43,8 @@
     "request": "^2.74.0",
     "rrule": "latest",
     "simple-git": "^1.54.0",
-    "snyk": "^1.14.1",
     "socket.io": "^1.4.6",
     "valid-url": "latest",
     "walk": "latest"
-  },
-  "snyk": true
+  }
 }
