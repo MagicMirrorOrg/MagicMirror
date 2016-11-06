@@ -22,6 +22,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Possibility to use the the calendar feed as the source for the weather (currentweather & weatherforecast) location data. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules/default/weatherforecast) for more information.
 - Added option to show rain amount in the weatherforecast default module
 - Add module `updatenotification` to get an update whenever a new version is availabe. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules/default/updatenotification) for more information.
+- Add the abilty to set timezone on the date display in the Clock Module
 
 ### Updated
 - Modified translations for Frysk.
@@ -44,7 +45,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added CII Badge (we are compliant with the CII Best Practices)
 - Add support for doing http basic auth when loading calendars
 - Add the abilty to turn off and on the date display in the Clock Module
-- Add the abilty to set timezone on the date display in the Clock Module
 
 ### Fixed
 - Fix typo in installer.
