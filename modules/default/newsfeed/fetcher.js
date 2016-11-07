@@ -46,6 +46,7 @@ var Fetcher = function(url, reloadInterval, encoding) {
 			var title = item.title;
 			var description = item.description || item.summary || item.content || '';
 			var pubdate = item.pubdate || item.published || item.updated;
+			var url = item.url || item.link;
 
 			if (title && pubdate) {
 
@@ -56,6 +57,7 @@ var Fetcher = function(url, reloadInterval, encoding) {
 					title: title,
 					description: description,
 					pubdate: pubdate,
+					url: url,
 				});
 
 			} else {
