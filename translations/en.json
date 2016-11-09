@@ -5,6 +5,7 @@
 	/* CALENDAR */
 	"TODAY": "Today",
 	"TOMORROW": "Tomorrow",
+	"DAYAFTERTOMORROW": "The day after tomorrow",
 	"RUNNING": "Ends in",
 	"EMPTY": "No upcoming events.",
 

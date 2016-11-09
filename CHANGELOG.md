@@ -26,6 +26,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Updated
 - Modified translations for Frysk.
+- Modified core English translations.
 - Updated package.json as a result of Snyk security update.
 - Improve object instantiation to prevent reference errors.
 - Improve logger. `Log.log()` now accepts multiple arguments.
