@@ -63,6 +63,44 @@ The following properties can be configured:
 
 The `compliments` property contains an object with three arrays: <code>morning</code>, <code>afternoon</code> and<code>evening</code>. Based on the time of the day, the compliments will be picked out of one of these arrays. The arrays contain one or multiple compliments.
 
+
+If use the currentweather is possible use a actual weather for set compliments. The availables properties are:
+* <code>day_sunny</code>
+* <code>day_cloudy</code>
+* <code>cloudy</code>
+* <code>cloudy_windy</code>
+* <code>showers</code>
+* <code>rain</code>
+* <code>thunderstorm</code>
+* <code>snow</code>
+* <code>fog</code>
+* <code>night_clear</code>
+* <code>night_cloudy</code>
+* <code>night_showers</code>
+* <code>night_rain</code>
+* <code>night_thunderstorm</code>
+* <code>night_snow</code>
+* <code>night_alt_cloudy_windy<code>
+
+#### Example use with currentweather module
+````javascript
+config: {
+	compliments: {
+		day_sunny: [
+			'Today is a sunny day',
+			'It\'s a beautiful day'
+		],
+		snow: [
+			'Snowball battle!'
+		],
+		rain: [
+			'Don\'t forget your umbrella'
+		]
+	}
+}
+````
+
+
 #### Default value:
 ````javascript
 config: {
