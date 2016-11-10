@@ -14,7 +14,7 @@ modules: [
 		config: {
 			// See 'Configuration options' for more information.
 			location: 'Amsterdam,Netherlands',
-			locationID: '', //Location ID from http://bulk.openweather.org/sample/ 
+			locationID: '', //Location ID from http://openweathermap.org/help/city_list.txt
 			appid: 'abcde12345abcde12345abcde12345ab' //openweathermap.org API key.
 		}
 	}
@@ -35,19 +35,20 @@ The following properties can be configured:
 		</tr>
 	<thead>
 	<tbody>
-	
 		<tr>
 			<td><code>location</code></td>
 			<td>The location used for weather information.<br>
-				<br><b>Example:</b> <code>Amsterdam,Netherlands</code>
-				<br><b>Default value:</b> <code>New York</code>
+				<br><b>Example:</b> <code>'Amsterdam,Netherlands'</code>
+				<br><b>Default value:</b> <code>New York</code><br><br>
+				<strong>Note:</strong> When the <code>location</code> and <code>locationID</code> are both not set, the location will be based on the information provided by the calendar module. The first upcoming event with location data will be used.
 			</td>
 		</tr>
 		<tr>
 			<td><code>locationID</code></td>
-			<td>Location ID from <a href="http://bulk.openweather.org/sample/">OpenWeather</a> <b>This will override anything you put in location.</b><br>Leave blank if you want to use location.
+			<td>Location ID from <a href="http://openweathermap.org/help/city_list.txt">OpenWeatherMap</a> <b>This will override anything you put in location.</b><br>Leave blank if you want to use location.
 				<br><b>Example:</b> <code>1234567</code>
-				<br><b>Default value:</b> <code></code>
+				<br><b>Default value:</b> <code></code><br><br>
+				<strong>Note:</strong> When the <code>location</code> and <code>locationID</code> are both not set, the location will be based on the information provided by the calendar module. The first upcoming event with location data will be used.
 			</td>
 		</tr>
 		<tr>
@@ -67,7 +68,7 @@ The following properties can be configured:
 			<td><code>updateInterval</code></td>
 			<td>How often does the content needs to be fetched? (Milliseconds)<br>
 				<br><b>Possible values:</b> <code>1000</code> - <code>86400000</code>
-				<br><b>Default value:</b> <code>300000</code> (10 minutes)
+				<br><b>Default value:</b> <code>600000</code> (10 minutes)
 			</td>
 		</tr>
 		<tr>
@@ -106,6 +107,13 @@ The following properties can be configured:
 			</td>
 		</tr>
 		<tr>
+			<td><code>showHumidity</code></td>
+			<td>Show the current humidity<br>
+				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
+				<br><b>Default value:</b> <code>false</code>
+			</td>
+		</tr>
+    		<tr>
 			<td><code>useBeaufort</code></td>
 			<td>Pick between using the Beaufort scale for wind speed or using the default units.<br>
 				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
@@ -149,6 +157,18 @@ The following properties can be configured:
 			<td><code>weatherEndpoint</code></td>
 			<td>The OpenWeatherMap API endPoint.<br>
 				<br><b>Default value:</b>  <code>'weather'</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>appendLocationNameToHeader</code></td>
+			<td>If set to <code>true</code>, the returned location name will be appended to the header of the module, if the header is enabled. This is mainly intresting when using calender based weather.<br>
+				<br><b>Default value:</b>  <code>true</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>calendarClass</code></td>
+			<td>The class for the calender module to base the event based weather information on.<br>
+				<br><b>Default value:</b>  <code>'calendar'</code>
 			</td>
 		</tr>
 		<tr>
