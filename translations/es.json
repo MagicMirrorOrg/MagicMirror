@@ -5,6 +5,7 @@
 	/* CALENDAR */
 	"TODAY": "Hoy",
 	"TOMORROW": "Mañana",
+	"DAYAFTERTOMORROW": "Pasado mañana",
 	"RUNNING": "Termina en",
 	"EMPTY": "No hay eventos programados.",
 
