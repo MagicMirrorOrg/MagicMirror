@@ -98,8 +98,6 @@ Module.register("currentweather",{
 		this.loaded = false;
 		this.scheduleUpdate(this.config.initialLoadDelay);
 
-		this.updateTimer = null;
-
 	},
 
 	// Override dom generator.
