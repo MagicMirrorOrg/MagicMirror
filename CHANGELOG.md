@@ -23,6 +23,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added option to show rain amount in the weatherforecast default module
 - Add module `updatenotification` to get an update whenever a new version is availabe. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules/default/updatenotification) for more information.
 - Add the abilty to set timezone on the date display in the Clock Module
+- Ability to set date format in calendar module
 
 ### Updated
 - Modified translations for Frysk.
