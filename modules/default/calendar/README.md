@@ -119,6 +119,13 @@ The following properties can be configured:
 			</td>
 		</tr>
 		<tr>
+			<td><code>dateFormat</code></td>
+			<td>Format to use for the date of events (when using absolute dates)<br>
+				<br><b>Possible values:</b> See <a href="http://momentjs.com/docs/#/parsing/string-format/">Moment.js formats</a>
+				<br><b>Default value:</b> <code>MMM Do</code> (e.g. Jan 18th)
+			</td>
+		</tr>
+		<tr>
 			<td><code>timeFormat</code></td>
 			<td>Display event times as absolute dates, or relative time<br>
 				<br><b>Possible values:</b> <code>absolute</code> or <code>relative</code>
