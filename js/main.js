@@ -274,9 +274,7 @@ var MM = (function() {
 
 			var showWrapper = false;
 			Array.prototype.forEach.call(moduleWrappers, function(moduleWrapper) { 
-				if (moduleWrapper.style.position == "static") {
-					showWrapper = true;
-				} 
+				showWrapper = true;
 			});
 
 			wrapper.style.display = showWrapper ? "block" : "none";
