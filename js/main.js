@@ -274,7 +274,6 @@ var MM = (function() {
 
 			var showWrapper = false;
 			Array.prototype.forEach.call(moduleWrappers, function(moduleWrapper) { 
-				console.log(moduleWrapper, moduleWrapper.style.position);
 				if (moduleWrapper.style.position == "static") {
 					showWrapper = true;
 				} 
