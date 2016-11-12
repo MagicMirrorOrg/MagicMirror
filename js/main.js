@@ -52,6 +52,8 @@ var MM = (function() {
 			}
 		}
 
+		updateWrapperStates();
+
 		sendNotification("DOM_OBJECTS_CREATED");
 	};
 
@@ -274,16 +276,10 @@ var MM = (function() {
 
 			var showWrapper = false;
 			Array.prototype.forEach.call(moduleWrappers, function(moduleWrapper) { 
-				if (moduleWrapper.style.position == "static" || moduleWrapper.style.position == "") {
+				if (moduleWrapper.style.position == "" || moduleWrapper.style.position == "static") {
 					showWrapper = true;
 				} 
 			});
-
-			// if (showWrapper) {
-			// 	console.log('Hide wrapper: ' + position);
-			// } else {
-			// 	console.log('Show wrapper: ' + position);
-			// }
 
 			wrapper.style.display = showWrapper ? "block" : "none";
 		});
