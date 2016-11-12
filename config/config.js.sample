@@ -18,7 +18,7 @@ var config = {
 		},
 		{
 			module: "updatenotification",
-			position: "top_center"
+			position: "top_bar"
 		},
 		{
 			module: 'clock',

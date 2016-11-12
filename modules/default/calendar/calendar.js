@@ -23,6 +23,7 @@ Module.register("calendar", {
 		fade: true,
 		urgency: 7,
 		timeFormat: "relative",
+		dateFormat: "MMM Do",
 		getRelative: 6,
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		calendars: [
@@ -175,7 +176,7 @@ Module.register("calendar", {
 							// This event falls within the config.urgency period that the user has set
 							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 						} else {
-							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").format("MMM Do"));
+							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").format(this.config.dateFormat));
 						}
 					} else {
 						timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
@@ -205,7 +206,7 @@ Module.register("calendar", {
 								// This event falls within the config.urgency period that the user has set
 								timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 							} else {
-								timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").format("MMM Do"));
+								timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").format(this.config.dateFormat));
 							}
 						} else {
 							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
