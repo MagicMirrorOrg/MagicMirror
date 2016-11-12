@@ -274,10 +274,16 @@ var MM = (function() {
 
 			var showWrapper = false;
 			Array.prototype.forEach.call(moduleWrappers, function(moduleWrapper) { 
-				if (moduleWrapper.style.position == "static") {
+				if (moduleWrapper.style.position == "static" || moduleWrapper.style.position == "") {
 					showWrapper = true;
 				} 
 			});
+
+			// if (showWrapper) {
+			// 	console.log('Hide wrapper: ' + position);
+			// } else {
+			// 	console.log('Show wrapper: ' + position);
+			// }
 
 			wrapper.style.display = showWrapper ? "block" : "none";
 		});
