@@ -40,6 +40,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Solved visual display errors on chrome, if all modules in one of the right sections are hidden.
 - Module default config values are no longer modified when setting config values.
 - Hide a region if all modules in a region are hidden. Prevention unwanted margins. 
+- Default config definition conforms now with the JSON specification.
 
 ## [2.0.5] - 2016-09-20
 
