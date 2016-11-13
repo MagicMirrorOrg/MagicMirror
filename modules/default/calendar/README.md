@@ -191,24 +191,24 @@ config: {
 			</td>
 		</tr>
 		<tr>
-			<td><code> symbol </code></td>
+			<td><code>symbol</code></td>
 			<td>The symbol to show in front of an event. This property is optional.<br>
 				<br><b>Possible values:</b> See <a href="http://fontawesome.io/icons/" target="_blank">Font Awesome</a> website.
 			</td>
 		</tr>
 		<tr>
-			<td><code> repeatingCountTitle </code></td>
+			<td><code>repeatingCountTitle</code></td>
 			<td>The count title for yearly repating events in this calendar. <br>
 				<br><b>Example:</b> <br>
 				<code>'Birthday'</code>
 			</td>
 		</tr>
 		<tr>
-			<td><code> user </code></td>
+			<td><code>user</code></td>
 			<td>The username for HTTP Basic authentication.</td>
 		</tr>
 		<tr>
-			<td><code> pass </code></td>
+			<td><code>pass</code></td>
 			<td>The password for HTTP Basic authentication.</td>
 		</tr>
 		</tbody>
