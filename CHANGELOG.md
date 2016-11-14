@@ -25,6 +25,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add the abilty to set timezone on the date display in the Clock Module
 - Ability to set date format in calendar module
 - Possibility to use currentweather for the compliments
+- Added option `disabled` for modules.
 
 ### Updated
 - Modified translations for Frysk.

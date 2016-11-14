@@ -156,7 +156,7 @@ var App = function() {
 
 			for (var m in config.modules) {
 				var module = config.modules[m];
-				if (modules.indexOf(module.module) === -1) {
+				if (modules.indexOf(module.module) === -1 && !module.disabled) {
 					modules.push(module.module);
 				}
 			}

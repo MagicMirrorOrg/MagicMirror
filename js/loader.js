@@ -89,6 +89,10 @@ var Loader = (function() {
 				moduleFolder =  config.paths.modules + "/default/" + module;
 			}
 
+			if (moduleData.disabled === true) {
+				continue;
+			}
+
 			moduleFiles.push({
 				index: m,
 				identifier: "module_" + m + "_" + module,
