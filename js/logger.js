@@ -13,35 +13,15 @@
 
 var Log = (function() {
 	return {
-		info: function() {
-			console.info.apply(console, arguments);
-		},
-		log: function() {
-			console.log.apply(console, arguments);
-		},
-		error: function() {
-			console.error.apply(console, arguments);
-		},
-		warn: function() {
-			console.warn.apply(console, arguments);	
-		},
-		group: function() {
-			console.group.apply(console, arguments);	
-		},
-		groupCollapsed: function() {
-			console.groupCollapsed.apply(console, arguments);
-		},
-		groupEnd: function() {
-			console.groupEnd();
-		},
-		time: function() {
-			console.time.apply(console, arguments);
-		},
-		timeEnd: function() {
-			console.timeEnd.apply(console, arguments);
-		},
-		timeStamp: function() {
-			console.timeStamp.apply(console, arguments);
-		}
+		info: Function.prototype.bind.call(console.info, console),
+		log:  Function.prototype.bind.call(console.log, console),
+		error: Function.prototype.bind.call(console.error, console),
+		warn: Function.prototype.bind.call(console.warn, console),
+		group: Function.prototype.bind.call(console.group, console),
+		groupCollapsed: Function.prototype.bind.call(console.groupCollapsed, console),
+		groupEnd: Function.prototype.bind.call(console.groupEnd, console),
+		time: Function.prototype.bind.call(console.time, console),
+		timeEnd: Function.prototype.bind.call(console.timeEnd, console),
+		timeStamp: Function.prototype.bind.call(console.timeStamp, console)
 	};
 })();
