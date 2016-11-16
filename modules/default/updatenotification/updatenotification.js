@@ -49,7 +49,11 @@ Module.register("updatenotification", {
 			message.appendChild(icon);
 
 			var text = document.createElement("span");
-			text.innerHTML = this.translate("UPDATE_NOTIFICATION");
+			if (this.status.module == "default") {
+				text.innerHTML = this.translate("UPDATE_NOTIFICATION");
+			} else {
+				text.innerHTML = this.translate("UPDATE_NOTIFICATION_MODULE").replace("MODULE_NAME", this.status.module);
+			}
 			message.appendChild(text);
 
 			wrapper.appendChild(message);

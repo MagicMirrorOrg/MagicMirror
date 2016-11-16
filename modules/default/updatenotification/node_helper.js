@@ -1,4 +1,7 @@
-var simpleGit = require("simple-git")(__dirname + "/../..");
+var SimpleGit = require("simple-git");
+var simpleGits = [];
+var fs = require("fs");
+var path = require("path");
 var NodeHelper = require("node_helper");
 
 module.exports = NodeHelper.create({
@@ -8,7 +11,19 @@ module.exports = NodeHelper.create({
 	updateTimer: null,
 
 	start: function () {
-		
+		var srcdir = __dirname + "/../../";
+		fs.readdir(srcdir, function(err, names) {
+			if (err) {
+				console.error("Error reading dir " + srcdir + ": " + err);
+				return;
+			}
+
+			names.filter(function(name) {
+				return fs.statSync(path.join(srcdir, name)).isDirectory() && name != "node_modules";
+			}).forEach(function(name) {
+				simpleGits.push({"module": name, "git": SimpleGit(path.join(srcdir, name))});
+			});
+		});
 	},
 
 	socketNotificationReceived: function (notification, payload) {
@@ -20,10 +35,14 @@ module.exports = NodeHelper.create({
 
 	preformFetch() {
 		var self = this;
-		simpleGit.fetch().status(function(err, data) {
-			if (!err) {
-				self.sendSocketNotification("STATUS", data);
-			}
+
+		simpleGits.forEach(function(sg) {
+			sg.git.fetch().status(function(err, data) {
+				data.module = sg.module;
+				if (!err) {
+					self.sendSocketNotification("STATUS", data);
+				}
+			});
 		});
 
 		this.scheduleNextFetch(this.config.updateInterval);
