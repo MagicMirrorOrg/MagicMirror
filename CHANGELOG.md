@@ -35,6 +35,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Improve logger. `Log.log()` now accepts multiple arguments.
 - Remove extensive logging in newsfeed node helper.
 - Calendar times are now uniformly capitalized.
+- Modules are now secure, and Helmet is now used to prevent abuse of the Mirror's API.
 
 ### Fixed
 - Solve an issue where module margins would appear when the first module of a section was hidden.
