@@ -12,6 +12,7 @@ var io = require("socket.io")(server);
 var path = require("path");
 var ipfilter = require("express-ipfilter").IpFilter;
 var fs = require("fs");
+var helmet = require("helmet");
 
 var Server = function(config, callback) {
 	console.log("Starting server op port " + config.port + " ... ");
@@ -27,6 +28,7 @@ var Server = function(config, callback) {
 			res.status(403).send("This device is not allowed to access your mirror. <br> Please check your config.js or config.js.sample to change this.");
 		});
 	});
+	app.use(helmet());
 
 	app.use("/js", express.static(__dirname));
 	app.use("/config", express.static(path.resolve(__dirname + "/../config")));
