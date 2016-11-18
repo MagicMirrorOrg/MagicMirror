@@ -2,6 +2,7 @@ var SimpleGit = require("simple-git");
 var simpleGits = [];
 var fs = require("fs");
 var path = require("path");
+var defaultModules = require(__dirname + "/../defaultmodules.js");
 var NodeHelper = require("node_helper");
 
 module.exports = NodeHelper.create({
@@ -11,24 +12,36 @@ module.exports = NodeHelper.create({
 	updateTimer: null,
 
 	start: function () {
-		var srcdir = __dirname + "/../../";
-		fs.readdir(srcdir, function(err, names) {
-			if (err) {
-				console.error("Error reading dir " + srcdir + ": " + err);
-				return;
-			}
+	},
 
-			names.filter(function(name) {
-				return fs.statSync(path.join(srcdir, name)).isDirectory() && name != "node_modules";
-			}).forEach(function(name) {
-				simpleGits.push({"module": name, "git": SimpleGit(path.join(srcdir, name))});
-			});
-		});
+	configureModules: function(modules) {
+		for (moduleName in modules) {
+			if (defaultModules.indexOf(moduleName) < 0) {
+				// Default modules are included in the main MagicMirror repo
+				var moduleFolder =  path.normalize(__dirname + "/../../" + moduleName);
+
+				var stat;
+				try {
+					stat = fs.statSync(path.join(moduleFolder, '.git'));
+				} catch(err) {
+					// Error when directory .git doesn't exist
+					// This module is not managed with git, skip
+					continue;
+				}
+
+				simpleGits.push({"module": moduleName, "git": SimpleGit(moduleFolder)});
+			}
+		}
+
+		// Push MagicMirror itself last, biggest chance it'll show up last in UI and isn't overwritten
+		simpleGits.push({"module": "default", "git": SimpleGit(path.normalize(__dirname + "/../../../"))});
 	},
 
 	socketNotificationReceived: function (notification, payload) {
 		if (notification === "CONFIG") {
 			this.config = payload;
+		} else if(notification === "MODULES") {
+			this.configureModules(payload);
 			this.preformFetch();
 		}
 	},
