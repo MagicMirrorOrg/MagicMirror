@@ -43,6 +43,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Module default config values are no longer modified when setting config values.
 - Hide a region if all modules in a region are hidden. Prevention unwanted margins. 
 - Replaced `electron-prebuilt` package with `electron` in order to fix issues that would happen after 2017.
+- Documentation of alert module
 
 ## [2.0.5] - 2016-09-20
 
