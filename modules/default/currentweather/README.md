@@ -113,7 +113,14 @@ The following properties can be configured:
 				<br><b>Default value:</b> <code>false</code>
 			</td>
 		</tr>
-    		<tr>
+		<tr>
+			<td><code>onlyTemp</code></td>
+			<td>Show only current Temperature and weather icon.<br>
+				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
+				<br><b>Default value:</b> <code>false</code>
+			</td>
+		</tr>
+		<tr>
 			<td><code>useBeaufort</code></td>
 			<td>Pick between using the Beaufort scale for wind speed or using the default units.<br>
 				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
