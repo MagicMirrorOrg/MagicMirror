@@ -132,7 +132,7 @@ Module.register("currentweather",{
 			humidity.innerHTML = this.humidity;
 
 			var spacer = document.createElement("sup");
-			spacer.innerHTML = "&nbsp;"; 
+			spacer.innerHTML = "&nbsp;";
 
 			var humidityIcon = document.createElement("sup");
 			humidityIcon.className = "wi wi-humidity humidityIcon";
@@ -208,15 +208,15 @@ Module.register("currentweather",{
 		}
 		if (notification === "CALENDAR_EVENTS") {
 			var senderClasses = sender.data.classes.toLowerCase().split(" ");
-			if (senderClasses.indexOf(this.config.calendarClass.toLowerCase()) !== -1) {					
+			if (senderClasses.indexOf(this.config.calendarClass.toLowerCase()) !== -1) {
 				var lastEvent =  this.firstEvent;
 				this.firstEvent = false;
-				
+
 				for (e in payload) {
 					var event = payload[e];
 					if (event.location || event.geo) {
 						this.firstEvent = event;
-						//Log.log("First upcoming event with location: ", event);	
+						//Log.log("First upcoming event with location: ", event);
 						break;
 					}
 				}
@@ -233,7 +233,7 @@ Module.register("currentweather",{
 			Log.error("CurrentWeather: APPID not set!");
 			return;
 		}
-	
+
 		var url = this.config.apiBase + this.config.apiVersion + "/" + this.config.weatherEndpoint + this.getParams();
 		var self = this;
 		var retry = true;
