@@ -35,6 +35,8 @@ Module.register("currentweather",{
 		appendLocationNameToHeader: true,
 		calendarClass: "calendar",
 
+		onlyTemp: false,
+
 		iconTable: {
 			"01d": "wi-day-sunny",
 			"02d": "wi-day-cloudy",
@@ -100,21 +102,9 @@ Module.register("currentweather",{
 
 	},
 
-	// Override dom generator.
-	getDom: function() {
-		var wrapper = document.createElement("div");
-
-		if (this.config.appid === "") {
-			wrapper.innerHTML = "Please set the correct openweather <i>appid</i> in the config for module: " + this.name + ".";
-			wrapper.className = "dimmed light small";
-			return wrapper;
-		}
-
-		if (!this.loaded) {
-			wrapper.innerHTML = this.translate('LOADING');
-			wrapper.className = "dimmed light small";
-			return wrapper;
-		}
+	// add extra information of current weather
+	// windDirection, humidity, sunrise and sunset
+	addExtraInfoWeather: function(wrapper) {
 
 		var small = document.createElement("div");
 		small.className = "normal medium";
@@ -142,7 +132,7 @@ Module.register("currentweather",{
 			humidity.innerHTML = this.humidity;
 
 			var spacer = document.createElement("sup");
-			spacer.innerHTML = "&nbsp;"; 
+			spacer.innerHTML = "&nbsp;";
 
 			var humidityIcon = document.createElement("sup");
 			humidityIcon.className = "wi wi-humidity humidityIcon";
@@ -162,6 +152,27 @@ Module.register("currentweather",{
 		small.appendChild(sunriseSunsetTime);
 
 		wrapper.appendChild(small);
+	},
+
+	// Override dom generator.
+	getDom: function() {
+		var wrapper = document.createElement("div");
+
+		if (this.config.appid === "") {
+			wrapper.innerHTML = "Please set the correct openweather <i>appid</i> in the config for module: " + this.name + ".";
+			wrapper.className = "dimmed light small";
+			return wrapper;
+		}
+
+		if (!this.loaded) {
+			wrapper.innerHTML = this.translate('LOADING');
+			wrapper.className = "dimmed light small";
+			return wrapper;
+		}
+
+		if (this.config.onlyTemp === false) {
+			this.addExtraInfoWeather(wrapper);
+		}
 
 		var large = document.createElement("div");
 		large.className = "large light";
@@ -197,15 +208,15 @@ Module.register("currentweather",{
 		}
 		if (notification === "CALENDAR_EVENTS") {
 			var senderClasses = sender.data.classes.toLowerCase().split(" ");
-			if (senderClasses.indexOf(this.config.calendarClass.toLowerCase()) !== -1) {					
+			if (senderClasses.indexOf(this.config.calendarClass.toLowerCase()) !== -1) {
 				var lastEvent =  this.firstEvent;
 				this.firstEvent = false;
-				
+
 				for (e in payload) {
 					var event = payload[e];
 					if (event.location || event.geo) {
 						this.firstEvent = event;
-						//Log.log("First upcoming event with location: ", event);	
+						//Log.log("First upcoming event with location: ", event);
 						break;
 					}
 				}
@@ -222,7 +233,7 @@ Module.register("currentweather",{
 			Log.error("CurrentWeather: APPID not set!");
 			return;
 		}
-	
+
 		var url = this.config.apiBase + this.config.apiVersion + "/" + this.config.weatherEndpoint + this.getParams();
 		var self = this;
 		var retry = true;
