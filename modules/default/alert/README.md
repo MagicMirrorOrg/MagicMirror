@@ -62,7 +62,7 @@ The following properties can be configured:
 			<td><code>welcome_message</code></td>
 			<td>Message shown at startup.<br>
 				<br><b>Possible values:</b> <code>string</code> <code>false</code>
-				<br><b>Default value:</b> <code>Welcome, start was successfull!</code>
+				<br><b>Default value:</b> <code>false</code> (no message at startup)
 			</td>
 		</tr>
 	</tbody>
