@@ -23,7 +23,7 @@ var Module = Class.extend({
 	// Timer reference used for showHide animation callbacks.
 	showHideTimer: null,
 
-	// Array to store lockStrings. These stings are used to lock 
+	// Array to store lockStrings. These strings are used to lock
 	// visibility when hiding and showing module.
 	lockStrings: [],
 
@@ -106,7 +106,7 @@ var Module = Class.extend({
 	 * This method is called when a notification arrives.
 	 * This method is called by the Magic Mirror core.
 	 *
-	 * argument notification string - The identifier of the noitication.
+	 * argument notification string - The identifier of the notification.
 	 * argument payload mixed - The payload of the notification.
 	 * argument sender Module - The module that sent the notification.
 	 */
@@ -121,7 +121,7 @@ var Module = Class.extend({
 	/* socketNotificationReceived(notification, payload)
 	 * This method is called when a socket notification arrives.
 	 *
-	 * argument notification string - The identifier of the noitication.
+	 * argument notification string - The identifier of the notification.
 	 * argument payload mixed - The payload of the notification.
 	 */
 	socketNotificationReceived: function (notification, payload) {
@@ -299,7 +299,7 @@ var Module = Class.extend({
 	/* sendNotification(notification, payload)
 	 * Send a notification to all modules.
 	 *
-	 * argument notification string - The identifier of the noitication.
+	 * argument notification string - The identifier of the notification.
 	 * argument payload mixed - The payload of the notification.
 	 */
 	sendNotification: function (notification, payload) {
@@ -309,7 +309,7 @@ var Module = Class.extend({
 	/* sendSocketNotification(notification, payload)
 	 * Send a socket notification to the node helper.
 	 *
-	 * argument notification string - The identifier of the noitication.
+	 * argument notification string - The identifier of the notification.
 	 * argument payload mixed - The payload of the notification.
 	 */
 	sendSocketNotification: function (notification, payload) {
