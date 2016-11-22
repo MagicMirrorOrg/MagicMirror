@@ -11,12 +11,21 @@
 // This logger is very simple, but needs to be extended.
 // This system can eventually be used to push the log messages to an external target.
 
+var JLinst = JL('client');
+
+var LogTee = function(i1, f1, i2, f2) {
+	return function() {
+		f1.apply(i1, arguments);
+		f2.apply(i2, arguments);
+	};
+};
+
 var Log = (function() {
 	return {
-		info: Function.prototype.bind.call(console.info, console),
-		log:  Function.prototype.bind.call(console.log, console),
-		error: Function.prototype.bind.call(console.error, console),
-		warn: Function.prototype.bind.call(console.warn, console),
+		info: LogTee(JLinst, JLinst.info, console, console.info),
+		log: LogTee(JLinst, JLinst.log, console, console.log),
+		error: LogTee(JLinst, JLinst.error, console, console.error),
+		warn: LogTee(JLinst, JLinst.warn, console, console.warn),
 		group: Function.prototype.bind.call(console.group, console),
 		groupCollapsed: Function.prototype.bind.call(console.groupCollapsed, console),
 		groupEnd: Function.prototype.bind.call(console.groupEnd, console),

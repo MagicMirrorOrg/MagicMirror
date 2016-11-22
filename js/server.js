@@ -13,11 +13,16 @@ var path = require("path");
 var ipfilter = require("express-ipfilter").IpFilter;
 var fs = require("fs");
 var helmet = require("helmet");
+var JL = require('jsnlog').JL;
+var jsnlog_nodejs = require('jsnlog-nodejs').jsnlog_nodejs;
+var bodyParser = require('body-parser');
 
 var Server = function(config, callback) {
 	console.log("Starting server op port " + config.port + " ... ");
 
 	server.listen(config.port);
+
+	app.use(bodyParser.json());
 
 	app.use(function(req, res, next) {
 		var result = ipfilter(config.ipWhitelist, {mode: "allow", log: false})(req, res, function(err) {
@@ -47,6 +52,11 @@ var Server = function(config, callback) {
 		html = html.replace("#VERSION#", global.version);
 
 		res.send(html);
+	});
+
+	app.post("*.logger", function(req, res) {
+		jsnlog_nodejs(JL, req.body);
+		res.send('');
 	});
 
 	if (typeof callback === "function") {
