@@ -11,7 +11,7 @@
 // This logger is very simple, but needs to be extended.
 // This system can eventually be used to push the log messages to an external target.
 
-var JLinst = JL('client');
+var JLinst = JL("client");
 
 var LogTee = function(i1, f1, i2, f2) {
 	return function() {
