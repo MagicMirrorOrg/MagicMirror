@@ -76,7 +76,7 @@ var MM = (function() {
 	/* sendNotification(notification, payload, sender)
 	 * Send a notification to all modules.
 	 *
-	 * argument notification string - The identifier of the noitication.
+	 * argument notification string - The identifier of the notification.
 	 * argument payload mixed - The payload of the notification.
 	 * argument sender Module - The module that sent the notification.
 	 */
@@ -258,27 +258,27 @@ var MM = (function() {
 	/* updateWrapperStates()
 	 * Checks for all positions if it has visible content.
 	 * If not, if will hide the position to prevent unwanted margins.
-	 * This method schould be called by the show and hide methods.  
-	 * 
-	 * Example: 
+	 * This method schould be called by the show and hide methods.
+	 *
+	 * Example:
 	 * If the top_bar only contains the update notification. And no update is available,
 	 * the update notification is hidden. The top bar still occupies space making for
-	 * an ugly top margin. By using this function, the top bar will be hidden if the 
-	 * update notification is not visible. 
+	 * an ugly top margin. By using this function, the top bar will be hidden if the
+	 * update notification is not visible.
 	 */
 
 	var updateWrapperStates = function() {
 		var positions = ["top_bar", "top_left", "top_center", "top_right", "upper_third", "middle_center", "lower_third", "bottom_left", "bottom_center", "bottom_right", "bottom_bar", "fullscreen_above", "fullscreen_below"];
-		
+
 		positions.forEach(function(position) {
-			var wrapper = selectWrapper(position);	
+			var wrapper = selectWrapper(position);
 			var moduleWrappers = wrapper.getElementsByClassName("module");
 
 			var showWrapper = false;
-			Array.prototype.forEach.call(moduleWrappers, function(moduleWrapper) { 
+			Array.prototype.forEach.call(moduleWrappers, function(moduleWrapper) {
 				if (moduleWrapper.style.position == "" || moduleWrapper.style.position == "static") {
 					showWrapper = true;
-				} 
+				}
 			});
 
 			wrapper.style.display = showWrapper ? "block" : "none";
@@ -308,7 +308,7 @@ var MM = (function() {
 		/* withClass(className)
 		 * filters a collection of modules based on classname(s).
 		 *
-		 * argument className string/array - one or multiple classnames. (array or space devided)
+		 * argument className string/array - one or multiple classnames. (array or space divided)
 		 *
 		 * return array - Filtered collection of modules.
 		 */
@@ -338,7 +338,7 @@ var MM = (function() {
 		/* exceptWithClass(className)
 		 * filters a collection of modules based on classname(s). (NOT)
 		 *
-		 * argument className string/array - one or multiple classnames. (array or space devided)
+		 * argument className string/array - one or multiple classnames. (array or space divided)
 		 *
 		 * return array - Filtered collection of modules.
 		 */
