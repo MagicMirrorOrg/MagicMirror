@@ -26,6 +26,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Ability to set date format in calendar module
 - Possibility to use currentweather for the compliments
 - Added option `disabled` for modules.
+- Added option `address` to set bind address.
+- Added option `onlyTemp` for currentweather module to show show only current temperature and weather icon.
 
 ### Updated
 - Modified translations for Frysk.
