@@ -42,7 +42,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Solve an issue where module margins would appear when the first module of a section was hidden.
 - Solved visual display errors on chrome, if all modules in one of the right sections are hidden.
-- Module default config values are no longer modified when setting config values.
+- Global and Module default config values are no longer modified when setting config values.
 - Hide a region if all modules in a region are hidden. Prevention unwanted margins. 
 - Replaced `electron-prebuilt` package with `electron` in order to fix issues that would happen after 2017.
 - Documentation of alert module
