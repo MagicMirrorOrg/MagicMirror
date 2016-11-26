@@ -295,7 +295,7 @@ var MM = (function() {
 			return;
 		}
 
-		config = Object.assign(defaults, config);
+		config = Object.assign({}, defaults, config);
 	};
 
 	/* setSelectionMethodsForModules()
