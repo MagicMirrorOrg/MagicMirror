@@ -108,6 +108,7 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 									startDate: startDate.format("x"),
 									endDate: endDate.format("x"),
 									fullDayEvent: isFullDayEvent(event),
+									class: event.class,
 									firstYear: event.start.getFullYear()
 								});
 							}
@@ -137,7 +138,8 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 							title: title,
 							startDate: startDate.format("x"),
 							endDate: endDate.format("x"),
-							fullDayEvent: fullDayEvent
+							fullDayEvent: fullDayEvent,
+							class: event.class
 						});
 						
 					}
