@@ -24,6 +24,7 @@ Module.register("calendar",{
 		urgency: 7,
 		timeFormat: "relative",
 		fadePoint: 0.25, // Start on 1/4th of the list.
+		hidePrivate: false,
 		calendars: [
 			{
 				symbol: "calendar",
