@@ -2,6 +2,16 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## Unpublished
+
+### Added
+- Calendar module: option to hide private events
+
+### Fixed
+
+### Updated
+
 ## [2.0.5] - 2016-09-20
 
 ### Added
