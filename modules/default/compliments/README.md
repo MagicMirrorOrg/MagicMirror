@@ -56,6 +56,15 @@ The following properties can be configured:
 				<br><b>Default value:</b> See <i>compliment configuration</i> below.
 			</td>
 		</tr>
+		<tr>
+            <td><code>remoteFile</code></td>
+            <td>External file from which to load the compliments<br>
+                <br><b>Possible values:</b>Path to a JSON file containing compliments, configured
+                as per the value of the <i>compliments configuration</i> (see below). An object with three arrays:
+                morning, afternoon and evening. - <code>compliments.json</code>
+                <br><b>Default value:</b> <code>null</code> (Do not load from file)
+            </td>
+        </tr>
 	</tbody>
 </table>
 
@@ -123,3 +132,32 @@ config: {
 	}
 }
 ````
+
+### External Compliment File
+You may specify an external file that contains the three compliment arrays. This is particularly useful if you have a
+large number of compliments and do not wish to crowd your `config.js` file with a large array of compliments.
+Adding the `remoteFile` variable will override an array you specify in the configuration file. 
+
+This file must be straight JSON. Note that the array names need quotes
+around them ("morning", "afternoon", "evening", "snow", "rain", etc.).
+#### Example compliments.json file:
+````json
+{
+    "morning" : [
+        "Good morning, sunshine!",
+        "Who needs coffee when you have your smile?",
+        "Go get 'em, Tiger!"
+    ],
+    "afternoon" : [
+        "Hitting your stride!",
+        "You are making a difference!",
+        "You're more fun than bubble wrap!"
+    ],
+    "evening" : [
+        "You made someone smile today, I know it.",
+        "You are making a difference.",
+        "The day was better for your efforts."
+    ]
+}
+````
+
