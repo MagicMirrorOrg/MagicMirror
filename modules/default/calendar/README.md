@@ -134,6 +134,13 @@ The following properties can be configured:
 				<br><b>Default value:</b> <code>0</code> (disabled)
 			</td>
 		</tr>
+		<tr>
+			<td><code>hidePrivate</code></td>
+			<td>Hides private calendar events.<br>
+				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
+				<br><b>Default value:</b> <code>false</code>
+			</td>
+		</tr>
 	</tbody>
 </table>
 
