@@ -6,7 +6,7 @@ module.exports = function(grunt) {
 			options: {
 				configFile: ".eslintrc.json"
 			},
-			target: ["js/*.js", "modules/default/*.js", "serveronly/*.js", "*.js"]
+			target: ["js/*.js", "modules/default/*.js", "modules/default/*/*.js", "serveronly/*.js", "*.js"]
 		},
 		stylelint: {
 			simple: {
