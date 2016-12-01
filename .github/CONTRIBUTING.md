@@ -15,6 +15,8 @@ Our ESLint configuration is in our .eslintrc.json and .eslintignore files.
 
 To run ESLint, use `grunt eslint`.
 
+Follow the  [MagicMirror² Javascript Code Guide](JAVASCRIPT_CODESTYLE.md)
+
 ### CSS: Run StyleLint
 
 We use [StyleLint](http://stylelint.io) to lint our CSS. Our configuration is in our .stylelintrc file.
