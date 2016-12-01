@@ -29,7 +29,7 @@ Module.register("compliments",{
 			]
 		},
 		updateInterval: 30000,
-        remoteFile: null,
+		remoteFile: null,
 		fadeSpeed: 4000
 	},
 
@@ -47,11 +47,11 @@ Module.register("compliments",{
 
 		this.lastComplimentIndex = -1;
 
-        if (this.config.remoteFile != null) {
-            this.complimentFile((response) => {
-                this.config.compliments = JSON.parse(response);
-        	});
-        }
+		if (this.config.remoteFile != null) {
+			this.complimentFile((response) => {
+				this.config.compliments = JSON.parse(response);
+			});
+		}
 
 		// Schedule update timer.
 		var self = this;
@@ -114,17 +114,17 @@ Module.register("compliments",{
 	/* complimentFile(callback)
 	 * Retrieve a file from the local filesystem
 	 */
-    complimentFile: function(callback) {
-        var xobj = new XMLHttpRequest();
-        xobj.overrideMimeType("application/json");
-        xobj.open('GET', this.file(this.config.remoteFile), true);
-        xobj.onreadystatechange = function () {
-            if (xobj.readyState == 4 && xobj.status == "200") {
-                callback(xobj.responseText);
-            }
-        };
-        xobj.send(null);
-    },
+	complimentFile: function(callback) {
+		var xobj = new XMLHttpRequest();
+		xobj.overrideMimeType("application/json");
+		xobj.open("GET", this.file(this.config.remoteFile), true);
+		xobj.onreadystatechange = function () {
+			if (xobj.readyState == 4 && xobj.status == "200") {
+				callback(xobj.responseText);
+			}
+		};
+		xobj.send(null);
+	},
 
 	/* complimentArray()
 	 * Retrieve a random compliment.

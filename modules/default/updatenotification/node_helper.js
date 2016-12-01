@@ -22,7 +22,7 @@ module.exports = NodeHelper.create({
 
 				var stat;
 				try {
-					stat = fs.statSync(path.join(moduleFolder, '.git'));
+					stat = fs.statSync(path.join(moduleFolder, ".git"));
 				} catch(err) {
 					// Error when directory .git doesn't exist
 					// This module is not managed with git, skip
