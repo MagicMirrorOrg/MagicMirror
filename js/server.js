@@ -10,9 +10,14 @@ var app = require("express")();
 var server = require("http").Server(app);
 var io = require("socket.io")(server);
 var path = require("path");
+var reload = require('reload');
 
 var Server = function(config, callback) {
 	console.log("Starting server op port " + config.port + " ... ");
+
+	if (config.reload) {
+		reload(server, app);
+	}
 
 	server.listen(config.port);
 	app.use("/js", express.static(__dirname));

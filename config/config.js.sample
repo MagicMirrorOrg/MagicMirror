@@ -6,6 +6,7 @@
 
 var config = {
 	port: 8080,
+	reload: false,
 
 	language: 'en',
 	timeFormat: 24,
