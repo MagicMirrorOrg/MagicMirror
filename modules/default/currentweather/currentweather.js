@@ -15,7 +15,6 @@ Module.register("currentweather",{
 		locationID: false,
 		appid: "",
 		units: config.units,
-		roundTemperature: false,
 		updateInterval: 10 * 60 * 1000, // every 10 minutes
 		animationSpeed: 1000,
 		timeFormat: config.timeFormat,
@@ -37,7 +36,8 @@ Module.register("currentweather",{
 		calendarClass: "calendar",
 
 		onlyTemp: false,
-
+		roundTemp: false,
+		
 		iconTable: {
 			"01d": "wi-day-sunny",
 			"02d": "wi-day-cloudy",
@@ -183,7 +183,7 @@ Module.register("currentweather",{
 		large.appendChild(weatherIcon);
 
 		var temp = this.temperature;
-		if (this.config.roundTemperature) {
+		if (this.config.roundTemp) {
 			temp = Math.round(temp);
 		}
 		var temperature = document.createElement("span");

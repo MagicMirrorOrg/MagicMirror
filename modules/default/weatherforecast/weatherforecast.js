@@ -15,7 +15,6 @@ Module.register("weatherforecast",{
 		locationID: false,
 		appid: "",
 		units: config.units,
-		roundTemperature: false,
 		maxNumberOfDays: 7,
 		showRainAmount: false,
 		updateInterval: 10 * 60 * 1000, // every 10 minutes
@@ -35,6 +34,8 @@ Module.register("weatherforecast",{
 		appendLocationNameToHeader: true,
 		calendarClass: "calendar",
 
+		roundTemp: false,
+		
 		iconTable: {
 			"01d": "wi-day-sunny",
 			"02d": "wi-day-cloudy",
@@ -136,7 +137,7 @@ Module.register("weatherforecast",{
 
 			var maxTemp = forecast.maxTemp;
 			var minTemp = forecast.minTemp;
-			if (this.config.roundTemperature) {
+			if (this.config.roundTemp) {
 				maxTemp = Math.round(maxTemp);
 				minTemp = Math.round(minTemp);
 			}

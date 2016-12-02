@@ -65,7 +65,7 @@ The following properties can be configured:
 			</td>
 		</tr>
 		<tr>
-			<td><code>roundTemperature</code></td>
+			<td><code>roundTemp</code></td>
 			<td>Round temperature values to nearest integer.<br>
 				<br><b>Possible values:</b> <code>true</code> (round to integer) or <code>false</code> (display exact value with decimal point)
 				<br><b>Default value:</b> <code>false</code>
