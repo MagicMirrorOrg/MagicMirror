@@ -423,7 +423,7 @@ Module.register("currentweather",{
 	},
 
 	/* function(temperature)
-	 * Rounds a temperature to 1 decimal.
+	 * Rounds a temperature to 1 decimal or integer (depending on config.roundTemp).
 	 *
 	 * argument temperature number - Temperature.
 	 *
