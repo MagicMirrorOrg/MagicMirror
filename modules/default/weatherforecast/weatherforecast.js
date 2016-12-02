@@ -135,20 +135,13 @@ Module.register("weatherforecast",{
 			icon.className = "wi weathericon " + forecast.icon;
 			iconCell.appendChild(icon);
 
-			var maxTemp = forecast.maxTemp;
-			var minTemp = forecast.minTemp;
-			if (this.config.roundTemp) {
-				maxTemp = Math.round(maxTemp);
-				minTemp = Math.round(minTemp);
-			}
-			
 			var maxTempCell = document.createElement("td");
-			maxTempCell.innerHTML = maxTemp;
+			maxTempCell.innerHTML = forecast.maxTemp;
 			maxTempCell.className = "align-right bright max-temp";
 			row.appendChild(maxTempCell);
 
 			var minTempCell = document.createElement("td");
-			minTempCell.innerHTML = minTemp;
+			minTempCell.innerHTML = forecast.minTemp;
 			minTempCell.className = "align-right min-temp";
 			row.appendChild(minTempCell);
 
@@ -351,14 +344,15 @@ Module.register("weatherforecast",{
 	},
 
 	/* function(temperature)
-	 * Rounds a temperature to 1 decimal.
+	 * Rounds a temperature to 1 decimal or integer (depending on config.roundTemp).
 	 *
 	 * argument temperature number - Temperature.
 	 *
 	 * return number - Rounded Temperature.
 	 */
 	roundValue: function(temperature) {
-		return parseFloat(temperature).toFixed(1);
+		var decimals = this.config.roundTemp ? 0 : 1;
+		return parseFloat(temperature).toFixed(decimals);
 	}
 });
 

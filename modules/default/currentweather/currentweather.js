@@ -182,13 +182,9 @@ Module.register("currentweather",{
 		weatherIcon.className = "wi weathericon " + this.weatherType;
 		large.appendChild(weatherIcon);
 
-		var temp = this.temperature;
-		if (this.config.roundTemp) {
-			temp = Math.round(temp);
-		}
 		var temperature = document.createElement("span");
 		temperature.className = "bright";
-		temperature.innerHTML = " " + temp + "&deg;";
+		temperature.innerHTML = " " + this.temperature + "&deg;";
 		large.appendChild(temperature);
 
 		wrapper.appendChild(large);
@@ -436,6 +432,7 @@ Module.register("currentweather",{
 
 
 	roundValue: function(temperature) {
-		return parseFloat(temperature).toFixed(1);
+		var decimals = this.config.roundTemp ? 0 : 1;
+		return parseFloat(temperature).toFixed(decimals);
 	}
 });
