@@ -9,6 +9,7 @@ var fs = require("fs");
 var Server = require(__dirname + "/server.js");
 var defaultModules = require(__dirname + "/../modules/default/defaultmodules.js");
 var path = require("path");
+var SimpleGit = require("simple-git");
 
 // Get version number.
 global.version = JSON.parse(fs.readFileSync("package.json", "utf8")).version;
@@ -57,6 +58,38 @@ var App = function() {
 			}
 		}
 	};
+
+	/* installModule(module)
+	 * Installs a missing module if it has a git repository.
+	 *
+	 * argument module object - The module from config to check and install.
+	 */
+	var installModule = function(module) {
+		var elements = module.module.split("/");
+		var moduleName = elements[elements.length - 1];
+		var moduleFolder =  __dirname + "/../modules/" + module.module;
+
+		if (defaultModules.indexOf(moduleName) !== -1) {
+			// Don't install default modules
+			return;
+		}
+
+		try {
+			fs.accessSync(moduleFolder, fs.R_OK);
+			// No exception, so dir exists
+			return;
+		} catch (e) {
+			//console.log(e);
+			console.log("Missing module: " + moduleName + ".");
+		}
+
+		if (module.repository === undefined) {
+			// No repository configured
+			return;
+		}
+		console.log("Install "+moduleName+" from "+module.repository);
+		SimpleGit().clone(module.repository, moduleFolder);
+	}
 
 	/* loadModule(module)
 	 * Loads a specific module.
@@ -158,6 +191,8 @@ var App = function() {
 				var module = config.modules[m];
 				if (modules.indexOf(module.module) === -1 && !module.disabled) {
 					modules.push(module.module);
+
+					installModule(module);
 				}
 			}
 
