@@ -29,6 +29,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added option `address` to set bind address.
 - Added option `onlyTemp` for currentweather module to show show only current temperature and weather icon.
 - Added option `remoteFile` to compliments module to load compliment array from filesystem.
+- Added option `repository` to modules to allow auto installation.
 
 ### Updated
 - Modified translations for Frysk.
