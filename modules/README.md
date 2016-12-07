@@ -96,6 +96,21 @@ requiresVersion: "2.1.0",
 ####`init()`
 This method is called when a module gets instantiated. In most cases you do not need to subclass this method.
 
+####`loaded(callback)`
+
+*Introduced in version: 2.1.1.*
+
+This method is called when a module is loaded. Subsequent modules in the config are not yet loaded. The `callback` function MUST be called when the module is done loading. In most cases you do not need to subclass this method.
+
+**Example:**
+````javascript
+loaded: function(callback) {
+	this.finishLoading();
+	Log.log(this.name + ' is loaded!');
+	callback();
+}
+````
+
 ####`start()`
 This method is called when all modules are loaded an the system is ready to boot up. Keep in mind that the dom object for the module is not yet created. The start method is a perfect place to define any additional module properties:
 
