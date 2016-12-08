@@ -29,7 +29,18 @@ module.exports = NodeHelper.create({
 					continue;
 				}
 
-				simpleGits.push({"module": moduleName, "git": SimpleGit(moduleFolder)});
+				var res = function(mn, mf) {
+					var git = SimpleGit(mf);
+					git.getRemotes(true, function(err, remotes) {
+						if (remotes.length < 1 || remotes[0].name.length < 1) {
+							// No valid remote for folder, skip
+							return;
+						}
+
+						// Folder has .git and has at least one git remote, watch this folder
+						simpleGits.push({"module": mn, "git": git});
+					});
+				}(moduleName, moduleFolder);
 			}
 		}
 

@@ -34,6 +34,8 @@ Module.register("weatherforecast",{
 		appendLocationNameToHeader: true,
 		calendarClass: "calendar",
 
+		roundTemp: false,
+		
 		iconTable: {
 			"01d": "wi-day-sunny",
 			"02d": "wi-day-cloudy",
@@ -342,13 +344,15 @@ Module.register("weatherforecast",{
 	},
 
 	/* function(temperature)
-	 * Rounds a temperature to 1 decimal.
+	 * Rounds a temperature to 1 decimal or integer (depending on config.roundTemp).
 	 *
 	 * argument temperature number - Temperature.
 	 *
 	 * return number - Rounded Temperature.
 	 */
 	roundValue: function(temperature) {
-		return parseFloat(temperature).toFixed(1);
+		var decimals = this.config.roundTemp ? 0 : 1;
+		return parseFloat(temperature).toFixed(decimals);
 	}
 });
+
