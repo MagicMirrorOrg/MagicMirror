@@ -11,10 +11,11 @@ var defaults = {
 	port: 8080,
 	kioskmode: false,
 	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1"],
-
+	
 	language: "en",
 	timeFormat: 24,
 	units: "metric",
+	zoom: 1,
 
 	modules: [
 		{
