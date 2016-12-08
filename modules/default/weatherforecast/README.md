@@ -65,6 +65,13 @@ The following properties can be configured:
 			</td>
 		</tr>
 		<tr>
+			<td><code>roundTemp</code></td>
+			<td>Round temperature values to nearest integer.<br>
+				<br><b>Possible values:</b> <code>true</code> (round to integer) or <code>false</code> (display exact value with decimal point)
+				<br><b>Default value:</b> <code>false</code>
+			</td>
+		</tr>
+		<tr>
 			<td><code>maxNumberOfDays</code></td>
 			<td>How many days of forecast to return. Specified by config.js<br>
 				<br><b>Possible values:</b> <code>1</code> - <code>16</code>

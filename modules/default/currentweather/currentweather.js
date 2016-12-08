@@ -36,7 +36,8 @@ Module.register("currentweather",{
 		calendarClass: "calendar",
 
 		onlyTemp: false,
-
+		roundTemp: false,
+		
 		iconTable: {
 			"01d": "wi-day-sunny",
 			"02d": "wi-day-cloudy",
@@ -385,14 +386,6 @@ Module.register("currentweather",{
 		return 12;
 	},
 
-	/* function(temperature)
-	 * Rounds a temperature to 1 decimal.
-	 *
-	 * argument temperature number - Temperature.
-	 *
-	 * return number - Rounded Temperature.
-	 */
-
 	deg2Cardinal: function(deg) {
                 if (deg>11.25 && deg<=33.75){
                         return "NNE";
@@ -429,8 +422,15 @@ Module.register("currentweather",{
                 }
 	},
 
-
+	/* function(temperature)
+	 * Rounds a temperature to 1 decimal or integer (depending on config.roundTemp).
+	 *
+	 * argument temperature number - Temperature.
+	 *
+	 * return number - Rounded Temperature.
+	 */
 	roundValue: function(temperature) {
-		return parseFloat(temperature).toFixed(1);
+		var decimals = this.config.roundTemp ? 0 : 1;
+		return parseFloat(temperature).toFixed(decimals);
 	}
 });
