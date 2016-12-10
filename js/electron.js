@@ -19,7 +19,7 @@ let mainWindow;
 
 function createWindow() {
 	
-	var electronOptions = {
+	var electronOptionsDefaults = {
 		width: 800, 
 		height: 600, 
 		x: 0, 
@@ -31,12 +31,16 @@ function createWindow() {
 		}
 	}
 
+	// DEPRECATED: "kioskmode" backwards compatibility, to be removed
+	// settings these options directly instead provides cleaner interface
 	if (config.kioskmode) {
-		electronOptions.kiosk = true;	
+		electronOptionsDefaults.kiosk = true;
 	} else {
-		electronOptions.fullscreen = true;
-		electronOptions.autoHideMenuBar = true;
+		electronOptionsDefaults.fullscreen = true;
+		electronOptionsDefaults.autoHideMenuBar = true;
 	}
+
+	var electronOptions = Object.assign({}, electronOptionsDefaults, config.electronOptions);
 
 	// Create the browser window.
 	mainWindow = new BrowserWindow(electronOptions);
