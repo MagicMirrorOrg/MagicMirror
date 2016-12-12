@@ -32,10 +32,7 @@ Module.register("calendar", {
 				url: "http://www.calendarlabs.com/templates/ical/US-Holidays.ics",
 			},
 		],
-		titleReplace: {
-			"De verjaardag van ": "",
-			"'s birthday": ""
-		},
+		titleReplace: {},
 		broadcastEvents: true
 	},
 

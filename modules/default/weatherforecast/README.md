@@ -39,7 +39,7 @@ The following properties can be configured:
 			<td><code>location</code></td>
 			<td>The location used for weather information.<br>
 				<br><b>Example:</b> <code>'Amsterdam,Netherlands'</code>
-				<br><b>Default value:</b> <code>New York</code><br><br>
+				<br><b>Default value:</b> <code>false</code><br><br>
 				<strong>Note:</strong> When the <code>location</code> and <code>locationID</code> are both not set, the location will be based on the information provided by the calendar module. The first upcoming event with location data will be used.
 			</td>
 		</tr>
@@ -47,7 +47,7 @@ The following properties can be configured:
 			<td><code>locationID</code></td>
 			<td>Location ID from <a href="http://openweathermap.org/help/city_list.txt">OpenWeatherMap</a> <b>This will override anything you put in location.</b><br>Leave blank if you want to use location.
 				<br><b>Example:</b> <code>1234567</code>
-				<br><b>Default value:</b> <code></code><br><br>
+				<br><b>Default value:</b> <code>false</code><br><br>
 				<strong>Note:</strong> When the <code>location</code> and <code>locationID</code> are both not set, the location will be based on the information provided by the calendar module. The first upcoming event with location data will be used.
 			</td>
 		</tr>
@@ -98,7 +98,7 @@ The following properties can be configured:
 			<td><code>animationSpeed</code></td>
 			<td>Speed of the update animation. (Milliseconds)<br>
 				<br><b>Possible values:</b><code>0</code> - <code>5000</code>
-				<br><b>Default value:</b> <code>2000</code> (2 seconds)
+				<br><b>Default value:</b> <code>1000</code> (1 second)
 			</td>
 		</tr>
 		<tr>
@@ -126,7 +126,7 @@ The following properties can be configured:
 			<td><code>initialLoadDelay</code></td>
 			<td>The initial delay before loading. If you have multiple modules that use the same API key, you might want to delay one of the requests. (Milliseconds)<br>
 				<br><b>Possible values:</b> <code>1000</code> - <code>5000</code>
-				<br><b>Default value:</b>  <code>0</code>
+				<br><b>Default value:</b>  <code>2500</code> (2.5 seconds delay. This delay is used to keep the OpenWeather API happy.)
 			</td>
 		</tr>
 		<tr>
@@ -149,7 +149,7 @@ The following properties can be configured:
 			</td>
 		</tr>
 		<tr>
-			<td><code>weatherEndpoint</code></td>
+			<td><code>forecastEndpoint</code></td>
 			<td>The OpenWeatherMap API endPoint.<br>
 				<br><b>Default value:</b>  <code>'forecast/daily'</code>
 			</td>
