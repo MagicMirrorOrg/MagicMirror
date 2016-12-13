@@ -109,6 +109,13 @@ The following properties can be configured:
 				<code>
 					titleReplace: {'Birthday of ' : '', 'foo':'bar'}
 				</code>
+				<br><b>Default value:</b> 
+				<code>
+				{
+					"De verjaardag van ": "",
+					"'s birthday": ""
+				}
+				</code>
 			</td>
 		</tr>
 		<tr>
