@@ -57,14 +57,14 @@ The following properties can be configured:
 			</td>
 		</tr>
 		<tr>
-            <td><code>remoteFile</code></td>
-            <td>External file from which to load the compliments<br>
-                <br><b>Possible values:</b>Path to a JSON file containing compliments, configured
-                as per the value of the <i>compliments configuration</i> (see below). An object with three arrays:
-                morning, afternoon and evening. - <code>compliments.json</code>
-                <br><b>Default value:</b> <code>null</code> (Do not load from file)
-            </td>
-        </tr>
+			<td><code>remoteFile</code></td> 
+			<td>External file from which to load the compliments<br>
+				<br><b>Possible values:</b>Path to a JSON file containing compliments, configured
+				as per the value of the <i>compliments configuration</i> (see below). An object with three arrays:
+				morning, afternoon and evening. - <code>compliments.json</code>
+				<br><b>Default value:</b> <code>null</code> (Do not load from file)
+			</td>
+		</tr>
 	</tbody>
 </table>
 
@@ -89,7 +89,7 @@ If use the currentweather is possible use a actual weather for set compliments. 
 * <code>night_rain</code>
 * <code>night_thunderstorm</code>
 * <code>night_snow</code>
-* <code>night_alt_cloudy_windy<code>
+* <code>night_alt_cloudy_windy</code>
 
 #### Example use with currentweather module
 ````javascript

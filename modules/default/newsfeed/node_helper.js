@@ -35,8 +35,8 @@ module.exports = NodeHelper.create({
 	createFetcher: function(feed, config) {
 		var self = this;
 
-		var url = feed.url || '';
-		var encoding = feed.encoding || 'UTF-8';
+		var url = feed.url || "";
+		var encoding = feed.encoding || "UTF-8";
 		var reloadInterval = config.reloadInterval || 5 * 60 * 1000;
 
 		if (!validUrl.isUri(url)) {

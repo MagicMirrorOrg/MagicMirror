@@ -44,9 +44,9 @@ var Fetcher = function(url, reloadInterval, encoding) {
 		parser.on("item", function(item) {
 
 			var title = item.title;
-			var description = item.description || item.summary || item.content || '';
+			var description = item.description || item.summary || item.content || "";
 			var pubdate = item.pubdate || item.published || item.updated;
-			var url = item.url || item.link || '';
+			var url = item.url || item.link || "";
 
 			if (title && pubdate) {
 
