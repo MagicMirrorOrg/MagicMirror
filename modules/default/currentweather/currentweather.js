@@ -166,7 +166,7 @@ Module.register("currentweather",{
 		}
 
 		if (!this.loaded) {
-			wrapper.innerHTML = this.translate('LOADING');
+			wrapper.innerHTML = this.translate("LOADING");
 			wrapper.className = "dimmed light small";
 			return wrapper;
 		}
@@ -323,20 +323,20 @@ Module.register("currentweather",{
 		// So we need to generate the timestring manually.
 		// See issue: https://github.com/MichMich/MagicMirror/issues/181
 		var sunriseSunsetDateObject = (sunrise < now && sunset > now) ? sunset : sunrise;
-		var timeString = moment(sunriseSunsetDateObject).format('HH:mm');
+		var timeString = moment(sunriseSunsetDateObject).format("HH:mm");
 		if (this.config.timeFormat !== 24) {
 			//var hours = sunriseSunsetDateObject.getHours() % 12 || 12;
 			if (this.config.showPeriod) {
 				if (this.config.showPeriodUpper) {
 					//timeString = hours + moment(sunriseSunsetDateObject).format(':mm A');
-					timeString = moment(sunriseSunsetDateObject).format('h:mm A');
+					timeString = moment(sunriseSunsetDateObject).format("h:mm A");
 				} else {
 					//timeString = hours + moment(sunriseSunsetDateObject).format(':mm a');
-					timeString = moment(sunriseSunsetDateObject).format('h:mm a');
+					timeString = moment(sunriseSunsetDateObject).format("h:mm a");
 				}
 			} else {
 				//timeString = hours + moment(sunriseSunsetDateObject).format(':mm');
-				timeString = moment(sunriseSunsetDateObject).format('h:mm');
+				timeString = moment(sunriseSunsetDateObject).format("h:mm");
 			}
 		}
 
@@ -387,39 +387,39 @@ Module.register("currentweather",{
 	},
 
 	deg2Cardinal: function(deg) {
-                if (deg>11.25 && deg<=33.75){
-                        return "NNE";
-                } else if (deg > 33.75 && deg <= 56.25) {
-                        return "NE";
-                } else if (deg > 56.25 && deg <= 78.75) {
-                        return "ENE";
-                } else if (deg > 78.75 && deg <= 101.25) {
-                        return "E";
-                } else if (deg > 101.25 && deg <= 123.75) {
-                        return "ESE";
-                } else if (deg > 123.75 && deg <= 146.25) {
-                        return "SE";
-                } else if (deg > 146.25 && deg <= 168.75) {
-                        return "SSE";
-                } else if (deg > 168.75 && deg <= 191.25) {
-                        return "S";
-                } else if (deg > 191.25 && deg <= 213.75) {
-                        return "SSW";
-                } else if (deg > 213.75 && deg <= 236.25) {
-                        return "SW";
-                } else if (deg > 236.25 && deg <= 258.75) {
-                        return "WSW";
-                } else if (deg > 258.75 && deg <= 281.25) {
-                        return "W";
-                } else if (deg > 281.25 && deg <= 303.75) {
-                        return "WNW";
-                } else if (deg > 303.75 && deg <= 326.25) {
-                        return "NW";
-                } else if (deg > 326.25 && deg <= 348.75) {
-                        return "NNW";
-                } else {
-                         return "N";
-                }
+		if (deg>11.25 && deg<=33.75){
+			return "NNE";
+		} else if (deg > 33.75 && deg <= 56.25) {
+			return "NE";
+		} else if (deg > 56.25 && deg <= 78.75) {
+			return "ENE";
+		} else if (deg > 78.75 && deg <= 101.25) {
+			return "E";
+		} else if (deg > 101.25 && deg <= 123.75) {
+			return "ESE";
+		} else if (deg > 123.75 && deg <= 146.25) {
+			return "SE";
+		} else if (deg > 146.25 && deg <= 168.75) {
+			return "SSE";
+		} else if (deg > 168.75 && deg <= 191.25) {
+			return "S";
+		} else if (deg > 191.25 && deg <= 213.75) {
+			return "SSW";
+		} else if (deg > 213.75 && deg <= 236.25) {
+			return "SW";
+		} else if (deg > 236.25 && deg <= 258.75) {
+			return "WSW";
+		} else if (deg > 258.75 && deg <= 281.25) {
+			return "W";
+		} else if (deg > 281.25 && deg <= 303.75) {
+			return "WNW";
+		} else if (deg > 303.75 && deg <= 326.25) {
+			return "NW";
+		} else if (deg > 326.25 && deg <= 348.75) {
+			return "NNW";
+		} else {
+			return "N";
+		}
 	},
 
 	/* function(temperature)

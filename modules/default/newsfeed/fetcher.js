@@ -44,9 +44,9 @@ var Fetcher = function(url, reloadInterval, encoding) {
 		parser.on("item", function(item) {
 
 			var title = item.title;
-			var description = item.description || item.summary || item.content || '';
+			var description = item.description || item.summary || item.content || "";
 			var pubdate = item.pubdate || item.published || item.updated;
-			var url = item.url || item.link || '';
+			var url = item.url || item.link || "";
 
 			if (title && pubdate) {
 
@@ -81,7 +81,7 @@ var Fetcher = function(url, reloadInterval, encoding) {
 			scheduleTimer();
 		});
 
-		var headers = {'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A'};
+		var headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A"};
 		request({uri: url, encoding: null, headers: headers}).pipe(iconv.decodeStream(encoding)).pipe(parser);
 
 	};
