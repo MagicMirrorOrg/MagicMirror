@@ -8,8 +8,6 @@ image_height = theme_image.GetHeight();
 scale_x = image_width / screen_width;
 scale_y = image_height / screen_height;
 
-flag = 1;
-
 if (scale_x > 1 || scale_y > 1)
 {
 	if (scale_x > scale_y)
