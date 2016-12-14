@@ -25,9 +25,10 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 		clearTimeout(reloadTimer);
 		reloadTimer = null;
 
+		nodeVersion = Number(process.version.match(/^v(\d+\.\d+)/)[1]);
 		var opts = {
 			headers: {
-				"User-Agent": "Mozilla/5.0 (Node.js 6.0.0) MagicMirror/v2 (https://github.com/MichMich/MagicMirror/)"
+				"User-Agent": "Mozilla/5.0 (Node.js "+ nodeVersion + ") MagicMirror/"  + global.version +  " (https://github.com/MichMich/MagicMirror/)"
 			}
 		};
 

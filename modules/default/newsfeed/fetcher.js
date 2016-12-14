@@ -81,7 +81,9 @@ var Fetcher = function(url, reloadInterval, encoding) {
 			scheduleTimer();
 		});
 
-		var headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A"};
+		nodeVersion = Number(process.version.match(/^v(\d+\.\d+)/)[1]);
+		headers =  {"User-Agent": "Mozilla/5.0 (Node.js "+ nodeVersion + ") MagicMirror/"  + global.version +  " (https://github.com/MichMich/MagicMirror/)"}
+
 		request({uri: url, encoding: null, headers: headers}).pipe(iconv.decodeStream(encoding)).pipe(parser);
 
 	};
