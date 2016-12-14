@@ -109,6 +109,13 @@ The following properties can be configured:
 				<code>
 					titleReplace: {'Birthday of ' : '', 'foo':'bar'}
 				</code>
+				<br><b>Default value:</b> 
+				<code>
+				{
+					"De verjaardag van ": "",
+					"'s birthday": ""
+				}
+				</code>
 			</td>
 		</tr>
 		<tr>
@@ -144,7 +151,7 @@ The following properties can be configured:
 			<td>When using a timeFormat of <code>absolute</code>, the <code>urgency</code> setting allows you to display events within a specific time frame as <code>relative</code>
 			    This allows events within a certain time frame to be displayed as relative (in xx days) while others are displayed as absolute dates<br>
 				<br><b>Possible values:</b> a positive integer representing the number of days for which you want a relative date, for example <code>7</code> (for 7 days)<br>
-				<br><b>Default value:</b> <code>0</code> (disabled)
+				<br><b>Default value:</b> <code>7</code>
 			</td>
 		</tr>
 		<tr>
