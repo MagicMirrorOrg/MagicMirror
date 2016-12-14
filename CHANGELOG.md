@@ -32,6 +32,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added option `zoom` to scale the whole mirror display with a given factor.
 - Added option `roundTemp` for currentweather and weatherforecast modules to display temperatures rounded to nearest integer.
 - Added abilty set the classes option to compliments module for style and text size of compliments.
+- Added ability to configure electronOptions
 
 ### Updated
 - Modified translations for Frysk.
