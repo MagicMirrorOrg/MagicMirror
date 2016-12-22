@@ -149,7 +149,7 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 							startDate: startDate.format("x"),
 							endDate: endDate.format("x"),
 							fullDayEvent: fullDayEvent,
-							class: event.class
+							class: event.class,
 							location: location,
 							geo: geo,
 							description: description
