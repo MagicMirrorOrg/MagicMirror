@@ -45,9 +45,9 @@ The following properties can be configured:
 		</tr>
 		<tr>
 			<td><code>display_time</code></td>
-			<td>Time a notification is displayed in seconds.<br>
-				<br><b>Possible values:</b> <code>float</code> <code>int</code>
-				<br><b>Default value:</b> <code>3.5</code>
+			<td>Time a notification is displayed in milliseconds.<br>
+				<br><b>Possible values:</b> <code>int</code>
+				<br><b>Default value:</b> <code>3500</code>
 			</td>
 		</tr>
 		<tr>
@@ -62,7 +62,7 @@ The following properties can be configured:
 			<td><code>welcome_message</code></td>
 			<td>Message shown at startup.<br>
 				<br><b>Possible values:</b> <code>string</code> <code>false</code>
-				<br><b>Default value:</b> <code>Welcome, start was successfull!</code>
+				<br><b>Default value:</b> <code>false</code> (no message at startup)
 			</td>
 		</tr>
 	</tbody>

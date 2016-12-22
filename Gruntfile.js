@@ -6,7 +6,10 @@ module.exports = function(grunt) {
 			options: {
 				configFile: ".eslintrc.json"
 			},
-			target: ["js/*.js", "modules/default/*.js", "serveronly/*.js", "*.js"]
+			target: ["js/*.js", "modules/default/*.js", "modules/default/*/*.js",
+				"serveronly/*.js", "*.js", "!modules/default/alert/notificationFx.js",
+				"!modules/default/alert/modernizr.custom.js", "!modules/default/alert/classie.js"
+			]
 		},
 		stylelint: {
 			simple: {
@@ -47,7 +50,6 @@ module.exports = function(grunt) {
 						"MD018": false,
 						"MD012": false,
 						"MD026": false,
-						"MD036": false,
 						"MD038": false
 					}
 				},

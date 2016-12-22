@@ -1,0 +1,28 @@
+{
+	/* GENERAL */
+	"LOADING": "Lataa &hellip;",
+
+	/* CALENDAR */
+	"TODAY": "Tänään",
+	"TOMORROW": "Huomenna",
+	"RUNNING": "Meneillään",
+	"EMPTY": "Ei tulevia tapahtumia.",
+
+	/* WEATHER */
+	"N": "P",
+	"NNE": "PPI",
+	"NE": "PI",
+	"ENE": "IPI",
+	"E": "I",
+	"ESE": "IEI",
+	"SE": "EI",
+	"SSE": "EEI",
+	"S": "E",
+	"SSW": "EEL",
+	"SW": "EL",
+	"WSW": "LEL",
+	"W": "L",
+	"WNW": "LPL",
+	"NW": "PL",
+	"NNW": "PPL"
+}

@@ -53,6 +53,7 @@ The following properties can be configured:
 					{
 						title: "New York Times",
 						url: "http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml",
+						encoding: "UTF-8"
 					}
 				]</code>
 			</td>
@@ -98,7 +99,7 @@ The following properties can be configured:
 			<td><code>animationSpeed</code></td>
 			<td>Speed of the update animation. (Milliseconds)<br>
 				<br><b>Possible values:</b><code>0</code> - <code>5000</code>
-				<br><b>Default value:</b> <code>2000</code> (2 seconds)
+				<br><b>Default value:</b> <code>2500</code> (2.5 seconds)
 			</td>
 		</tr>
 		<tr>

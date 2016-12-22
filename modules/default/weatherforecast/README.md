@@ -14,7 +14,7 @@ modules: [
 		config: {
 			// See 'Configuration options' for more information.
 			location: 'Amsterdam,Netherlands',
-			locationID: '', //Location ID from http://bulk.openweather.org/sample/ 
+			locationID: '', //Location ID from http://openweathermap.org/help/city_list.txt
 			appid: 'abcde12345abcde12345abcde12345ab' //openweathermap.org API key.
 		}
 	}
@@ -35,19 +35,20 @@ The following properties can be configured:
 		</tr>
 	<thead>
 	<tbody>
-
 		<tr>
 			<td><code>location</code></td>
 			<td>The location used for weather information.<br>
-				<br><b>Example:</b> <code>Amsterdam,Netherlands</code>
-				<br><b>Default value:</b> <code>New York</code>
+				<br><b>Example:</b> <code>'Amsterdam,Netherlands'</code>
+				<br><b>Default value:</b> <code>false</code><br><br>
+				<strong>Note:</strong> When the <code>location</code> and <code>locationID</code> are both not set, the location will be based on the information provided by the calendar module. The first upcoming event with location data will be used.
 			</td>
 		</tr>
 		<tr>
 			<td><code>locationID</code></td>
-			<td>Location ID from <a href="http://bulk.openweather.org/sample/">OpenWeather</a> <b>This will override anything you put in location.</b><br>Leave blank if you want to use location.
+			<td>Location ID from <a href="http://openweathermap.org/help/city_list.txt">OpenWeatherMap</a> <b>This will override anything you put in location.</b><br>Leave blank if you want to use location.
 				<br><b>Example:</b> <code>1234567</code>
-				<br><b>Default value:</b> <code></code>
+				<br><b>Default value:</b> <code>false</code><br><br>
+				<strong>Note:</strong> When the <code>location</code> and <code>locationID</code> are both not set, the location will be based on the information provided by the calendar module. The first upcoming event with location data will be used.
 			</td>
 		</tr>
 		<tr>
@@ -64,6 +65,13 @@ The following properties can be configured:
 			</td>
 		</tr>
 		<tr>
+			<td><code>roundTemp</code></td>
+			<td>Round temperature values to nearest integer.<br>
+				<br><b>Possible values:</b> <code>true</code> (round to integer) or <code>false</code> (display exact value with decimal point)
+				<br><b>Default value:</b> <code>false</code>
+			</td>
+		</tr>
+		<tr>
 			<td><code>maxNumberOfDays</code></td>
 			<td>How many days of forecast to return. Specified by config.js<br>
 				<br><b>Possible values:</b> <code>1</code> - <code>16</code>
@@ -72,20 +80,27 @@ The following properties can be configured:
 			</td>
 		</tr>
 		<tr>
+			<td><code>showRainAmount</code></td>
+			<td>Should the predicted rain amount be displayed?<br>
+				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
+				<br><b>Default value:</b> <code>false</code>
+				<br>This value is optional. By default the weatherforecast module will not display the predicted amount of rain.
+			</td>
+		</tr>
+		<tr>
 			<td><code>updateInterval</code></td>
 			<td>How often does the content needs to be fetched? (Milliseconds)<br>
 				<br><b>Possible values:</b> <code>1000</code> - <code>86400000</code>
-				<br><b>Default value:</b> <code>300000</code> (10 minutes)
+				<br><b>Default value:</b> <code>600000</code> (10 minutes)
 			</td>
 		</tr>
 		<tr>
 			<td><code>animationSpeed</code></td>
 			<td>Speed of the update animation. (Milliseconds)<br>
 				<br><b>Possible values:</b><code>0</code> - <code>5000</code>
-				<br><b>Default value:</b> <code>2000</code> (2 seconds)
+				<br><b>Default value:</b> <code>1000</code> (1 second)
 			</td>
 		</tr>
-
 		<tr>
 			<td><code>lang</code></td>
 			<td>The language of the days.<br>
@@ -111,7 +126,7 @@ The following properties can be configured:
 			<td><code>initialLoadDelay</code></td>
 			<td>The initial delay before loading. If you have multiple modules that use the same API key, you might want to delay one of the requests. (Milliseconds)<br>
 				<br><b>Possible values:</b> <code>1000</code> - <code>5000</code>
-				<br><b>Default value:</b>  <code>0</code>
+				<br><b>Default value:</b>  <code>2500</code> (2.5 seconds delay. This delay is used to keep the OpenWeather API happy.)
 			</td>
 		</tr>
 		<tr>
@@ -134,9 +149,21 @@ The following properties can be configured:
 			</td>
 		</tr>
 		<tr>
-			<td><code>weatherEndpoint</code></td>
+			<td><code>forecastEndpoint</code></td>
 			<td>The OpenWeatherMap API endPoint.<br>
 				<br><b>Default value:</b>  <code>'forecast/daily'</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>appendLocationNameToHeader</code></td>
+			<td>If set to <code>true</code>, the returned location name will be appended to the header of the module, if the header is enabled. This is mainly intresting when using calender based weather.<br>
+				<br><b>Default value:</b>  <code>true</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>calendarClass</code></td>
+			<td>The class for the calender module to base the event based weather information on.<br>
+				<br><b>Default value:</b>  <code>'calendar'</code>
 			</td>
 		</tr>
 		<tr>
@@ -164,6 +191,5 @@ The following properties can be configured:
 		}</code>
 			</td>
 		</tr>
-
 	</tbody>
 </table>

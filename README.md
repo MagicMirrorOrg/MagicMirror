@@ -60,7 +60,7 @@ The following wiki links are helpful in the configuration of your MagicMirror² 
 If you want to update your MagicMirror² to the latest version, use your terminal to go to your Magic Mirror folder and type the following command:
 
 ```bash
-git pull
+git pull && npm install
 ```
 
 If you changed nothing more than the config or the modules, this should work without any problems.
@@ -73,15 +73,18 @@ Type `git status` to see your changes, if there are any, you can reset them with
 
 The following properties can be configured:
 
-
 | **Option** | **Description** |
 | --- | --- |
 | `port` | The port on which the MagicMirror² server will run on. The default value is `8080`. |
-| `kioskmode` | This allows MagicMirror² to run in Kiosk Mode. It protects from other programs popping on top of your screen. The default value is `false`|
+| `address` | The ip address the accept connections. The  default open bind `::` is IPv6 is available or `0.0.0.0` IPv4 run on.  Example config: `192.168.10.100`. |
+| `ipWhitelist` | The list of IPs from which you are allowed to access the MagicMirror². The default value is `["127.0.0.1", "::ffff:127.0.0.1", "::1"]`. It is possible to specify IPs with subnet masks (`["127.0.0.1", "127.0.0.1/24"]`) or define ip ranges (`["127.0.0.1", ["192.168.0.1", "192.168.0.100"]]`).|
+| `zoom` | This allows to scale the mirror contents with a given zoom factor. The default value is `1.0`|
 | `language` | The language of the interface. (Note: Not all elements will be localized.) Possible values are `en`, `nl`, `ru`, `fr`, etc., but the default value is `en`. |
 | `timeFormat` | The form of time notation that will be used. Possible values are `12` or `24`. The default is `24`. |
 | `units` | The units that will be used in the default weather modules. Possible values are `metric` or `imperial`. The default is `metric`. |
 | `modules` | An array of active modules. **The array must contain objects. See the next table below for more information.** |
+| `electronOptions` | An optional array of Electron (browser) options. This allows configuration of e.g. the browser screen size and position (defaults `.width = 800` & `.height = 600`). Kiosk mode can be enabled by setting `.kiosk = true`, `.autoHideMenuBar = false`, `.fullscreen = false`. More options can be found [here](https://github.com/electron/electron/blob/master/docs/api/browser-window.md). |
+
 
 Module configuration:
 
@@ -91,6 +94,7 @@ Module configuration:
 | `position` | The location of the module in which the module will be loaded. Possible values are `top_ bar`, `top_left`, `top_center`, `top_right`, `upper_third`, `middle_center`, `lower_third`, `bottom_left`, `bottom_center`, `bottom_right`, `bottom_bar`, `fullscreen_above`, and `fullscreen_below`. This field is optional but most modules require this field to set. Check the documentation of the module for more information. Multiple modules with the same position will be ordered based on the order in the configuration file. |
 | `classes` | Additional classes which are passed to the module. The field is optional. |
 | `header` | To display a header text above the module, add the header property. This field is optional. |
+| `disabled` | Set disabled to `true` to skip creating the module. This field is optional. |
 | `config` | An object with the module configuration properties. Check the documentation of the module for more information. This field is optional, unless the module requires extra configuration. |
 
 ## Modules
@@ -129,3 +133,8 @@ Please keep the following in mind:
 - **New Features**: please please discuss in a GitHub issue before you start to alter a big part of the code. Without discussion upfront, the pull request will not be accepted / merged.
 
 Thanks for your help in making MagicMirror² better!
+
+<p align="center">
+<br>
+	<a href="https://forum.magicmirror.builders/topic/728/magicmirror-is-voted-number-1-in-the-magpi-top-50"><img src="https://magicmirror.builders/img/magpi-best-watermark-custom.png" width="150" alt="MagPi Top 50"></a>
+</p>
