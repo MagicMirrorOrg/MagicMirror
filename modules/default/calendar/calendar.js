@@ -26,6 +26,7 @@ Module.register("calendar", {
 		dateFormat: "MMM Do",
 		getRelative: 6,
 		fadePoint: 0.25, // Start on 1/4th of the list.
+		hidePrivate: false,
 		calendars: [
 			{
 				symbol: "calendar",
@@ -270,6 +271,12 @@ Module.register("calendar", {
 			var calendar = this.calendarData[c];
 			for (var e in calendar) {
 				var event = calendar[e];
+				if(this.config.hidePrivate) {
+					if(event.class === "PRIVATE") {
+					      // do not add the current event, skip it
+					      continue;
+					}
+				}
 				event.url = c;
 				event.today = event.startDate >= today && event.startDate < (today + 24 * 60 * 60 * 1000);
 				events.push(event);

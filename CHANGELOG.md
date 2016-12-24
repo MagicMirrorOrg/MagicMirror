@@ -33,6 +33,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added option `roundTemp` for currentweather and weatherforecast modules to display temperatures rounded to nearest integer.
 - Added abilty set the classes option to compliments module for style and text size of compliments.
 - Added ability to configure electronOptions
+- Calendar module: option to hide private events
 
 ### Updated
 - Modified translations for Frysk.
