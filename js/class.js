@@ -41,8 +41,8 @@
 
 		return ret;
 	};
-        })(name, prop[name]) :
-        prop[name];
+})(name, prop[name]) :
+prop[name];
 		}
 
 		// The dummy class constructor
