@@ -14,6 +14,9 @@ var path = require("path");
 global.version = JSON.parse(fs.readFileSync("package.json", "utf8")).version;
 console.log("Starting MagicMirror: v" + global.version);
 
+// global absolute root path
+global.root_path = path.resolve(__dirname + "/../");
+
 // The next part is here to prevent a major exception when there
 // is no internet connection. This could probable be solved better.
 process.on("uncaughtException", function (err) {
