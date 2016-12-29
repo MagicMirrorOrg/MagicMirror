@@ -31,19 +31,19 @@ var Server = function(config, callback) {
 	app.use(helmet());
 
 	app.use("/js", express.static(__dirname));
-	app.use("/config", express.static(path.resolve(__dirname + "/../config")));
-	app.use("/css", express.static(path.resolve(__dirname + "/../css")));
-	app.use("/fonts", express.static(path.resolve(__dirname + "/../fonts")));
-	app.use("/modules", express.static(path.resolve(__dirname + "/../modules")));
-	app.use("/vendor", express.static(path.resolve(__dirname + "/../vendor")));
-	app.use("/translations", express.static(path.resolve(__dirname + "/../translations")));
+	app.use("/config", express.static(path.resolve(global.root_path + "/config")));
+	app.use("/css", express.static(path.resolve(global.root_path + "/css")));
+	app.use("/fonts", express.static(path.resolve(global.root_path + "/fonts")));
+	app.use("/modules", express.static(path.resolve(global.root_path + "/modules")));
+	app.use("/vendor", express.static(path.resolve(global.root_path + "/vendor")));
+	app.use("/translations", express.static(path.resolve(global.root_path + "/translations")));
 
 	app.get("/version", function(req,res) {
 		res.send(global.version);
 	});
 	
 	app.get("/", function(req, res) {
-		var html = fs.readFileSync(path.resolve(__dirname + "/../index.html"), {encoding: "utf8"});
+		var html = fs.readFileSync(path.resolve(global.root_path + "/index.html"), {encoding: "utf8"});
 		html = html.replace("#VERSION#", global.version);
 
 		res.send(html);
