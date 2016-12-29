@@ -134,7 +134,7 @@ Module.register("calendar", {
 				repeatingCountTitle = this.countTitleForUrl(event.url);
 
 				if (repeatingCountTitle !== "") {
-					var thisYear = new Date().getFullYear(),
+					var thisYear = new Date(parseInt(event.startDate)).getFullYear(),
 						yearDiff = thisYear - event.firstYear;
 
 					repeatingCountTitle = ", " + yearDiff + ". " + repeatingCountTitle;
