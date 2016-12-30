@@ -388,7 +388,7 @@ Module.register("calendar", {
 
 	/* broadcastEvents()
 	 * Broadcasts the events to all other modules for reuse.
-	 * The all events available in one array, sorted on startdate. 
+	 * The all events available in one array, sorted on startdate.
 	 */
 	broadcastEvents: function () {
 		var eventList = [];

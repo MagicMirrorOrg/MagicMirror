@@ -72,7 +72,7 @@ module.exports = NodeHelper.create({
 	},
 
 	/* broadcastFeeds()
-	 * Creates an object with all feed items of the different registered feeds, 
+	 * Creates an object with all feed items of the different registered feeds,
 	 * and broadcasts these using sendSocketNotification.
 	 */
 	broadcastFeeds: function() {
