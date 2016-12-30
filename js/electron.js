@@ -18,15 +18,15 @@ const BrowserWindow = electron.BrowserWindow;
 let mainWindow;
 
 function createWindow() {
-	
+
 	var electronOptionsDefaults = {
-		width: 800, 
-		height: 600, 
-		x: 0, 
+		width: 800,
+		height: 600,
+		x: 0,
 		y: 0,
-		darkTheme: true, 
+		darkTheme: true,
 		webPreferences: {
-			nodeIntegration: false, 
+			nodeIntegration: false,
 			zoomFactor: config.zoom
 		}
 	}

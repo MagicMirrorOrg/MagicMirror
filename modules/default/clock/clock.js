@@ -220,7 +220,7 @@ Module.register("clock",{
 					wrapper.appendChild(digitalWrapper);
 				} else {
 					analogWrapper.style.padding = "20px 0 0 0";
-					wrapper.appendChild(digitalWrapper);					
+					wrapper.appendChild(digitalWrapper);
 					wrapper.appendChild(analogWrapper);
 				}
 			}

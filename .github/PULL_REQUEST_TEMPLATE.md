@@ -1,4 +1,4 @@
-> Please send your pull requests the develop branch. 
+> Please send your pull requests the develop branch.
 > Don't forget to add the change to CHANGELOG.md.
 
 * Does the pull request solve a **related** issue?

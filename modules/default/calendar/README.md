@@ -109,7 +109,7 @@ The following properties can be configured:
 				<code>
 					titleReplace: {'Birthday of ' : '', 'foo':'bar'}
 				</code>
-				<br><b>Default value:</b> 
+				<br><b>Default value:</b>
 				<code>
 				{
 					"De verjaardag van ": "",
@@ -158,7 +158,7 @@ The following properties can be configured:
 			<td><code>broadcastEvents</code></td>
 			<td>If this property is set to true, the calendar will broadcast all the events to all other modules with the notification message: <code>CALENDAR_EVENTS</code>. The event objects are stored in an array and contain the following fields: <code>title</code>, <code>startDate</code>, <code>endDate</code>, <code>fullDayEvent</code>, <code>location</code> and <code>geo</code>.<br>
 				<br><b>Possible values:</b> <code>true</code>, <code>false</code>  <br>
-				<br><b>Default value:</b> <code>true</code> 
+				<br><b>Default value:</b> <code>true</code>
 			</td>
 		</tr>
 		<tr>

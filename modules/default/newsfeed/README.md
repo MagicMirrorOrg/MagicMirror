@@ -113,13 +113,13 @@ The following properties can be configured:
 		removeEndTags: false,
 		startTags: [],
 		endTags: []
-		
-		
+
+
 		<tr>
 			<td><code>removeStartTags</code></td>
 			<td>Some newsfeeds feature tags at the <B>beginning</B> of their titles or descriptions, such as <em>[VIDEO]</em>.
 			This setting allows for the removal of specified tags from the beginning of an item's description and/or title.<br>
-				<br><b>Possible values:</b><code>'title'</code>, <code>'description'</code>, <code>'both'</code> 
+				<br><b>Possible values:</b><code>'title'</code>, <code>'description'</code>, <code>'both'</code>
 			</td>
 		</tr>
 		<tr>
@@ -131,7 +131,7 @@ The following properties can be configured:
 		<tr>
 			<td><code>removeEndTags</code></td>
 			<td>Remove specified tags from the <B>end</B> of an item's description and/or title.<br>
-				<br><b>Possible values:</b><code>'title'</code>, <code>'description'</code>, <code>'both'</code> 
+				<br><b>Possible values:</b><code>'title'</code>, <code>'description'</code>, <code>'both'</code>
 			</td>
 		</tr>
 		<tr>
@@ -173,7 +173,7 @@ The `feeds` property contains an array with multiple objects. These objects have
 			<td>The encoding of the news feed.<br>
 				<br>This property is optional.
 				<br><b>Possible values:</b><code>'UTF-8'</code>, <code>'ISO-8859-1'</code>, etc ...
-				<br><b>Default value:</b> <code>'UTF-8'</code> 
+				<br><b>Default value:</b> <code>'UTF-8'</code>
 			</td>
 		</tr>
 

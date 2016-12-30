@@ -29,7 +29,7 @@ Module.register("newsfeed",{
 		removeEndTags: "",
 		startTags: [],
 		endTags: []
-		
+
 	},
 
 	// Define required scripts.
@@ -112,17 +112,17 @@ Module.register("newsfeed",{
 			//Remove selected tags from the beginning of rss feed items (title or description)
 
 			if (this.config.removeStartTags == "title" || "both") {
-				
+
 				for (f=0; f<this.config.startTags.length;f++) {
 					if (this.newsItems[this.activeItem].title.slice(0,this.config.startTags[f].length) == this.config.startTags[f]) {
 						this.newsItems[this.activeItem].title = this.newsItems[this.activeItem].title.slice(this.config.startTags[f].length,this.newsItems[this.activeItem].title.length);
 					}
 				}
-				
+
 			}
-				
+
 			if (this.config.removeStartTags == "description" || "both") {
-				
+
 				if (this.config.showDescription) {
 					for (f=0; f<this.config.startTags.length;f++) {
 						if (this.newsItems[this.activeItem].description.slice(0,this.config.startTags[f].length) == this.config.startTags[f]) {
@@ -130,9 +130,9 @@ Module.register("newsfeed",{
 						}
 					}
 				}
-			
+
 			}
-			
+
 			//Remove selected tags from the end of rss feed items (title or description)
 
 			if (this.config.removeEndTags) {
@@ -141,7 +141,7 @@ Module.register("newsfeed",{
 						this.newsItems[this.activeItem].title = this.newsItems[this.activeItem].title.slice(0,-this.config.endTags[f].length);
 					}
 				}
-				
+
 				if (this.config.showDescription) {
 					for (f=0; f<this.config.endTags.length;f++) {
 						if (this.newsItems[this.activeItem].description.slice(-this.config.endTags[f].length)==this.config.endTags[f]) {
@@ -149,14 +149,14 @@ Module.register("newsfeed",{
 						}
 					}
 				}
-			
+
 			}
-			
+
 			var title = document.createElement("div");
 			title.className = "bright medium light";
 			title.innerHTML = this.newsItems[this.activeItem].title;
 			wrapper.appendChild(title);
-				
+
 			if (this.config.showDescription) {
 				var description = document.createElement("div");
 				description.className = "small light";

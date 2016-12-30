@@ -57,7 +57,7 @@ The following properties can be configured:
 			</td>
 		</tr>
 		<tr>
-			<td><code>remoteFile</code></td> 
+			<td><code>remoteFile</code></td>
 			<td>External file from which to load the compliments<br>
 				<br><b>Possible values:</b>Path to a JSON file containing compliments, configured
 				as per the value of the <i>compliments configuration</i> (see below). An object with three arrays:
@@ -136,7 +136,7 @@ config: {
 ### External Compliment File
 You may specify an external file that contains the three compliment arrays. This is particularly useful if you have a
 large number of compliments and do not wish to crowd your `config.js` file with a large array of compliments.
-Adding the `remoteFile` variable will override an array you specify in the configuration file. 
+Adding the `remoteFile` variable will override an array you specify in the configuration file.
 
 This file must be straight JSON. Note that the array names need quotes
 around them ("morning", "afternoon", "evening", "snow", "rain", etc.).
