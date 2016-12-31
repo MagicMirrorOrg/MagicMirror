@@ -43,6 +43,7 @@
 					var ret = fn.apply(this, arguments);
 					this._super = tmp;
 
+
 					return ret;
 				};
 			})(name, prop[name]) : prop[name];
