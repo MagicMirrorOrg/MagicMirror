@@ -41,7 +41,7 @@ var App = function() {
 	var loadConfig = function(callback) {
 		console.log("Loading config ...");
 		var defaults = require(__dirname + "/defaults.js");
-		var configFilename = path.resolve(__dirname + "/../config/config.js");
+		var configFilename = path.resolve(global.root_path + "/config/config.js");
 		try {
 			fs.accessSync(configFilename, fs.F_OK);
 			var c = require(configFilename);
