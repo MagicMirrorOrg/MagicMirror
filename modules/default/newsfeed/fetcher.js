@@ -80,7 +80,12 @@ var Fetcher = function(url, reloadInterval, encoding) {
 		});
 
 		var headers = {'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A'};
-		request({uri: url, encoding: null, headers: headers}).pipe(iconv.decodeStream(encoding)).pipe(parser);
+		request({uri: url, encoding: null, headers: headers})
+			.on('error', function(error) {
+				fetchFailedCallback(self, error);
+				scheduleTimer();
+			})
+			.pipe(iconv.decodeStream(encoding)).pipe(parser);
 
 	};
 
