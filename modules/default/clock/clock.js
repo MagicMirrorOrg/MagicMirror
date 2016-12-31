@@ -8,7 +8,7 @@
 Module.register("clock",{
 	// Module config defaults.
 	defaults: {
-		displayType: 'digital', // options: digital, analog, both
+		displayType: "digital", // options: digital, analog, both
 
 		timeFormat: config.timeFormat,
 		displaySeconds: true,
@@ -18,15 +18,16 @@ Module.register("clock",{
 		showDate: true,
 
 		/* specific to the analog clock */
-		analogSize: '200px',
-		analogFace: 'simple', // options: 'none', 'simple', 'face-###' (where ### is 001 to 012 inclusive)
-		analogPlacement: 'bottom', // options: 'top', 'bottom', 'left', 'right'
-		analogShowDate: 'top', // options: false, 'top', or 'bottom'
-		secondsColor: '#888888',
+		analogSize: "200px",
+		analogFace: "simple", // options: 'none', 'simple', 'face-###' (where ### is 001 to 012 inclusive)
+		analogPlacement: "bottom", // options: 'top', 'bottom', 'left', 'right'
+		analogShowDate: "top", // options: false, 'top', or 'bottom'
+		secondsColor: "#888888",
+		timezone: null,
 	},
 	// Define required scripts.
 	getScripts: function() {
-		return ["moment.js"];
+		return ["moment.js", "moment-timezone.js"];
 	},
 	// Define styles.
 	getStyles: function() {
@@ -69,10 +70,14 @@ Module.register("clock",{
 		// So we need to generate the timestring manually.
 		// See issue: https://github.com/MichMich/MagicMirror/issues/181
 		var timeString;
+		var now = moment();
+		if (this.config.timezone) {
+			now.tz(this.config.timezone);
+		}
 		if (this.config.clockBold === true) {
-			timeString = moment().format("HH[<span class=\"bold\">]mm[</span>]");
+			timeString = now.format("HH[<span class=\"bold\">]mm[</span>]");
 		} else {
-			timeString = moment().format("HH:mm");
+			timeString = now.format("HH:mm");
 		}
 
 		if (this.config.timeFormat !== 24) {
@@ -80,27 +85,21 @@ Module.register("clock",{
 			// var hours = now.getHours() % 12 || 12;
 			if (this.config.clockBold === true) {
 				//timeString = hours + moment().format("[<span class=\"bold\">]mm[</span>]");
-				timeString = moment().format("h[<span class=\"bold\">]mm[</span>]");
+				timeString = now.format("h[<span class=\"bold\">]mm[</span>]");
 			} else {
 				//timeString = hours + moment().format(":mm");
-				timeString = moment().format("h:mm");
+				timeString = now.format("h:mm");
 			}
 		}
 		if(this.config.showDate){
-		dateWrapper.innerHTML = moment().format("dddd, LL");
+			dateWrapper.innerHTML = now.format("dddd, LL");
 		}
 		timeWrapper.innerHTML = timeString;
-		secondsWrapper.innerHTML = moment().format("ss");
+		secondsWrapper.innerHTML = now.format("ss");
 		if (this.config.showPeriodUpper) {
-			periodWrapper.innerHTML = moment().format("A");
+			periodWrapper.innerHTML = now.format("A");
 		} else {
-			periodWrapper.innerHTML = moment().format("a");
-		}
-		if (this.config.displaySeconds) {
-			timeWrapper.appendChild(secondsWrapper);
-		}
-		if (this.config.showPeriod && this.config.timeFormat !== 24) {
-			timeWrapper.appendChild(periodWrapper);
+			periodWrapper.innerHTML = now.format("a");
 		}
 		if (this.config.displaySeconds) {
 			timeWrapper.appendChild(secondsWrapper);
@@ -113,12 +112,15 @@ Module.register("clock",{
 		 * Create wrappers for ANALOG clock, only if specified in config
 		 */
 
-		 if (this.config.displayType !== 'digital') {
+		 if (this.config.displayType !== "digital") {
 			// If it isn't 'digital', then an 'analog' clock was also requested
 
 			// Calculate the degree offset for each hand of the clock
-			var now = moment(),
-				second = now.seconds() * 6,
+			var now = moment();
+			if (this.config.timezone) {
+				now.tz(this.config.timezone);
+			}
+			var	second = now.seconds() * 6,
 				minute = now.minute() * 6 + second / 60,
 				hour = ((now.hours() % 12) / 12) * 360 + 90 + minute / 12;
 
@@ -129,10 +131,10 @@ Module.register("clock",{
 			clockCircle.style.width = this.config.analogSize;
 			clockCircle.style.height = this.config.analogSize;
 
-			if (this.config.analogFace != '' && this.config.analogFace != 'simple' && this.config.analogFace != 'none') {
+			if (this.config.analogFace != "" && this.config.analogFace != "simple" && this.config.analogFace != "none") {
 				clockCircle.style.background = "url("+ this.data.path + "faces/" + this.config.analogFace + ".svg)";
 				clockCircle.style.backgroundSize = "100%";
-			} else if (this.config.analogFace != 'none') {
+			} else if (this.config.analogFace != "none") {
 				clockCircle.style.border = "2px solid white";
 			}
 			var clockFace = document.createElement("div");
@@ -166,18 +168,18 @@ Module.register("clock",{
 		 * Combine wrappers, check for .displayType
 		 */
 
-		if (this.config.displayType === 'digital') {
+		if (this.config.displayType === "digital") {
 			// Display only a digital clock
 			wrapper.appendChild(dateWrapper);
 			wrapper.appendChild(timeWrapper);
-		} else if (this.config.displayType === 'analog') {
+		} else if (this.config.displayType === "analog") {
 			// Display only an analog clock
 			dateWrapper.style.textAlign = "center";
 			dateWrapper.style.paddingBottom = "15px";
-			if (this.config.analogShowDate === 'top') {
+			if (this.config.analogShowDate === "top") {
 				wrapper.appendChild(dateWrapper);
 				wrapper.appendChild(clockCircle);
-			} else if (this.config.analogShowDate === 'bottom') {
+			} else if (this.config.analogShowDate === "bottom") {
 				wrapper.appendChild(clockCircle);
 				wrapper.appendChild(dateWrapper);
 			} else {
@@ -197,11 +199,11 @@ Module.register("clock",{
 			digitalWrapper.appendChild(dateWrapper);
 			digitalWrapper.appendChild(timeWrapper);
 
-			if (placement === 'left' || placement === 'right') {
+			if (placement === "left" || placement === "right") {
 				digitalWrapper.style.display = "inline-block";
 				digitalWrapper.style.verticalAlign = "top";
 				analogWrapper.style.display = "inline-block";
-				if (placement === 'left') {
+				if (placement === "left") {
 					analogWrapper.style.padding = "0 20px 0 0";
 					wrapper.appendChild(analogWrapper);
 					wrapper.appendChild(digitalWrapper);
@@ -212,13 +214,13 @@ Module.register("clock",{
 				}
 			} else {
 				digitalWrapper.style.textAlign = "center";
-				if (placement === 'top') {
+				if (placement === "top") {
 					analogWrapper.style.padding = "0 0 20px 0";
 					wrapper.appendChild(analogWrapper);
 					wrapper.appendChild(digitalWrapper);
 				} else {
 					analogWrapper.style.padding = "20px 0 0 0";
-					wrapper.appendChild(digitalWrapper);					
+					wrapper.appendChild(digitalWrapper);
 					wrapper.appendChild(analogWrapper);
 				}
 			}

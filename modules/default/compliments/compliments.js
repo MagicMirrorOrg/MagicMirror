@@ -29,8 +29,12 @@ Module.register("compliments",{
 			]
 		},
 		updateInterval: 30000,
+		remoteFile: null,
 		fadeSpeed: 4000
 	},
+
+	// Set currentweather from module
+	currentWeatherType: "",
 
 	// Define required scripts.
 	getScripts: function() {
@@ -42,6 +46,12 @@ Module.register("compliments",{
 		Log.info("Starting module: " + this.name);
 
 		this.lastComplimentIndex = -1;
+
+		if (this.config.remoteFile != null) {
+			this.complimentFile((response) => {
+				this.config.compliments = JSON.parse(response);
+			});
+		}
 
 		// Schedule update timer.
 		var self = this;
@@ -84,14 +94,36 @@ Module.register("compliments",{
 	 */
 	complimentArray: function() {
 		var hour = moment().hour();
+		var compliments  = null;
 
 		if (hour >= 3 && hour < 12) {
-			return this.config.compliments.morning;
+			compliments = this.config.compliments.morning;
 		} else if (hour >= 12 && hour < 17) {
-			return this.config.compliments.afternoon;
+			compliments = this.config.compliments.afternoon;
 		} else {
-			return this.config.compliments.evening;
+			compliments = this.config.compliments.evening;
 		}
+
+		if ( this.currentWeatherType in this.config.compliments) {
+			compliments.push.apply(compliments, this.config.compliments[this.currentWeatherType]);
+		}
+		return compliments;
+
+	},
+
+	/* complimentFile(callback)
+	 * Retrieve a file from the local filesystem
+	 */
+	complimentFile: function(callback) {
+		var xobj = new XMLHttpRequest();
+		xobj.overrideMimeType("application/json");
+		xobj.open("GET", this.file(this.config.remoteFile), true);
+		xobj.onreadystatechange = function () {
+			if (xobj.readyState == 4 && xobj.status == "200") {
+				callback(xobj.responseText);
+			}
+		};
+		xobj.send(null);
 	},
 
 	/* complimentArray()
@@ -112,10 +144,44 @@ Module.register("compliments",{
 
 		var compliment = document.createTextNode(complimentText);
 		var wrapper = document.createElement("div");
-		wrapper.className = "thin xlarge bright";
+		wrapper.className = this.config.classes ? this.config.classes : "thin xlarge bright";
 		wrapper.appendChild(compliment);
 
 		return wrapper;
-	}
+	},
+
+
+	// From data currentweather set weather type
+	setCurrentWeatherType: function(data) {
+		var weatherIconTable = {
+			"01d": "day_sunny",
+			"02d": "day_cloudy",
+			"03d": "cloudy",
+			"04d": "cloudy_windy",
+			"09d": "showers",
+			"10d": "rain",
+			"11d": "thunderstorm",
+			"13d": "snow",
+			"50d": "fog",
+			"01n": "night_clear",
+			"02n": "night_cloudy",
+			"03n": "night_cloudy",
+			"04n": "night_cloudy",
+			"09n": "night_showers",
+			"10n": "night_rain",
+			"11n": "night_thunderstorm",
+			"13n": "night_snow",
+			"50n": "night_alt_cloudy_windy"
+		};
+		this.currentWeatherType = weatherIconTable[data.weather[0].icon];
+	},
+
+
+	// Override notification handler.
+	notificationReceived: function(notification, payload, sender) {
+		if (notification == "CURRENTWEATHER_DATA") {
+			this.setCurrentWeatherType(payload.data);
+		}
+	},
 
 });

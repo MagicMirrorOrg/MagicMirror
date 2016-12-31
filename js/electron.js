@@ -18,12 +18,32 @@ const BrowserWindow = electron.BrowserWindow;
 let mainWindow;
 
 function createWindow() {
-	// Create the browser window.
-	if (config.kioskmode) {
-		mainWindow = new BrowserWindow({width: 800, height: 600, x: 0, y: 0, kiosk:true, darkTheme: true, webPreferences: {nodeIntegration: false}});
-	} else {
-		mainWindow = new BrowserWindow({width: 800, height: 600, x: 0, y: 0, fullscreen: true, autoHideMenuBar: true, darkTheme: true, webPreferences: {nodeIntegration: false}});
+
+	var electronOptionsDefaults = {
+		width: 800,
+		height: 600,
+		x: 0,
+		y: 0,
+		darkTheme: true,
+		webPreferences: {
+			nodeIntegration: false,
+			zoomFactor: config.zoom
+		}
 	}
+
+	// DEPRECATED: "kioskmode" backwards compatibility, to be removed
+	// settings these options directly instead provides cleaner interface
+	if (config.kioskmode) {
+		electronOptionsDefaults.kiosk = true;
+	} else {
+		electronOptionsDefaults.fullscreen = true;
+		electronOptionsDefaults.autoHideMenuBar = true;
+	}
+
+	var electronOptions = Object.assign({}, electronOptionsDefaults, config.electronOptions);
+
+	// Create the browser window.
+	mainWindow = new BrowserWindow(electronOptions);
 
 	// and load the index.html of the app.
 	//mainWindow.loadURL('file://' + __dirname + '../../index.html');

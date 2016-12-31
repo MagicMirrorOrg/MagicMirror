@@ -6,6 +6,7 @@
 
 var config = {
 	port: 8080,
+	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1"],
 
 	language: 'en',
 	timeFormat: 24,
@@ -14,6 +15,10 @@ var config = {
 	modules: [
 		{
 			module: 'alert',
+		},
+		{
+			module: "updatenotification",
+			position: "top_bar"
 		},
 		{
 			module: 'clock',
@@ -50,9 +55,9 @@ var config = {
 			position: 'top_right',
 			header: 'Weather Forecast',
 			config: {
-	            location: 'New York',
+				location: 'New York',
 				locationID: '5128581',  //ID from http://www.openweathermap.org
-	            appid: 'YOUR_OPENWEATHER_API_KEY'
+				appid: 'YOUR_OPENWEATHER_API_KEY'
 			}
 		},
 		{

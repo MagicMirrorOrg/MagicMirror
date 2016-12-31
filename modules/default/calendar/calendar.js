@@ -7,7 +7,7 @@
  * MIT Licensed.
  */
 
-Module.register("calendar",{
+Module.register("calendar", {
 
 	// Define module defaults
 	defaults: {
@@ -16,14 +16,17 @@ Module.register("calendar",{
 		displaySymbol: true,
 		defaultSymbol: "calendar", // Fontawesome Symbol see http://fontawesome.io/cheatsheet/
 		displayRepeatingCountTitle: false,
-		defaultRepeatingCountTitle: '',
+		defaultRepeatingCountTitle: "",
 		maxTitleLength: 25,
 		fetchInterval: 5 * 60 * 1000, // Update every 5 minutes.
 		animationSpeed: 2000,
 		fade: true,
 		urgency: 7,
 		timeFormat: "relative",
+		dateFormat: "MMM Do",
+		getRelative: 6,
 		fadePoint: 0.25, // Start on 1/4th of the list.
+		hidePrivate: false,
 		calendars: [
 			{
 				symbol: "calendar",
@@ -34,20 +37,21 @@ Module.register("calendar",{
 			"De verjaardag van ": "",
 			"'s birthday": ""
 		},
+		broadcastEvents: true
 	},
 
 	// Define required scripts.
-	getStyles: function() {
+	getStyles: function () {
 		return ["calendar.css", "font-awesome.css"];
 	},
 
 	// Define required scripts.
-	getScripts: function() {
+	getScripts: function () {
 		return ["moment.js"];
 	},
 
 	// Define required translations.
-	getTranslations: function() {
+	getTranslations: function () {
 		// The translations for the defaut modules are defined in the core translation files.
 		// Therefor we can just return false. Otherwise we should have returned a dictionairy.
 		// If you're trying to build your own module including translations, check out the documentation.
@@ -55,7 +59,7 @@ Module.register("calendar",{
 	},
 
 	// Override start method.
-	start: function() {
+	start: function () {
 		Log.log("Starting module: " + this.name);
 
 		// Set locale.
@@ -72,11 +76,15 @@ Module.register("calendar",{
 	},
 
 	// Override socket notification handler.
-	socketNotificationReceived: function(notification, payload) {
+	socketNotificationReceived: function (notification, payload) {
 		if (notification === "CALENDAR_EVENTS") {
 			if (this.hasCalendarURL(payload.url)) {
 				this.calendarData[payload.url] = payload.events;
 				this.loaded = true;
+
+				if (this.config.broadcastEvents) {
+					this.broadcastEvents();
+				}
 			}
 		} else if (notification === "FETCH_ERROR") {
 			Log.error("Calendar Error. Could not fetch calendar: " + payload.url);
@@ -90,7 +98,7 @@ Module.register("calendar",{
 	},
 
 	// Override dom generator.
-	getDom: function() {
+	getDom: function () {
 
 		var events = this.createEventList();
 		var wrapper = document.createElement("table");
@@ -109,27 +117,27 @@ Module.register("calendar",{
 			eventWrapper.className = "normal";
 
 			if (this.config.displaySymbol) {
-				var symbolWrapper =  document.createElement("td");
+				var symbolWrapper = document.createElement("td");
 				symbolWrapper.className = "symbol";
-				var symbol =  document.createElement("span");
+				var symbol = document.createElement("span");
 				symbol.className = "fa fa-" + this.symbolForUrl(event.url);
 				symbolWrapper.appendChild(symbol);
 				eventWrapper.appendChild(symbolWrapper);
 			}
 
 			var titleWrapper = document.createElement("td"),
-				repeatingCountTitle = '';
+				repeatingCountTitle = "";
 
 
 			if (this.config.displayRepeatingCountTitle) {
 
 				repeatingCountTitle = this.countTitleForUrl(event.url);
 
-				if(repeatingCountTitle !== '') {
-					var thisYear = new Date().getFullYear(),
+				if (repeatingCountTitle !== "") {
+					var thisYear = new Date(parseInt(event.startDate)).getFullYear(),
 						yearDiff = thisYear - event.firstYear;
 
-					repeatingCountTitle = ', '+ yearDiff + '. ' + repeatingCountTitle;
+					repeatingCountTitle = ", " + yearDiff + ". " + repeatingCountTitle;
 				}
 			}
 
@@ -137,28 +145,24 @@ Module.register("calendar",{
 			titleWrapper.className = "title bright";
 			eventWrapper.appendChild(titleWrapper);
 
-			var timeWrapper =  document.createElement("td");
+			var timeWrapper = document.createElement("td");
 			//console.log(event.today);
 			var now = new Date();
 			// Define second, minute, hour, and day variables
-			var one_second = 1000; // 1,000 milliseconds
-			var one_minute = one_second * 60;
-			var one_hour = one_minute * 60;
-			var one_day = one_hour * 24;
+			var oneSecond = 1000; // 1,000 milliseconds
+			var oneMinute = oneSecond * 60;
+			var oneHour = oneMinute * 60;
+			var oneDay = oneHour * 24;
 			if (event.fullDayEvent) {
 				if (event.today) {
-					timeWrapper.innerHTML = this.translate("TODAY");
-				} else if (event.startDate - now < one_day && event.startDate - now > 0) {
-					timeWrapper.innerHTML = this.translate("TOMORROW");
-				} else if (event.startDate - now < 2*one_day && event.startDate - now > 0) {
-				/*Provide ability to show "the day after tomorrow" instead of "in a day" 
-				 *if "DAYAFTERTOMORROW" is configured in a language's translation .json file, 
-				 *,which can be found in MagicMirror/translations/
-				 */
-					if (this.translate('DAYAFTERTOMORROW') !== 'DAYAFTERTOMORROW') {
-    						timeWrapper.innerHTML = this.translate("DAYAFTERTOMORROW");
+					timeWrapper.innerHTML = this.capFirst(this.translate("TODAY"));
+				} else if (event.startDate - now < oneDay && event.startDate - now > 0) {
+					timeWrapper.innerHTML = this.capFirst(this.translate("TOMORROW"));
+				} else if (event.startDate - now < 2 * oneDay && event.startDate - now > 0) {
+					if (this.translate("DAYAFTERTOMORROW") !== "DAYAFTERTOMORROW") {
+						timeWrapper.innerHTML = this.capFirst(this.translate("DAYAFTERTOMORROW"));
 					} else {
-    						timeWrapper.innerHTML = moment(event.startDate, "x").fromNow();
+						timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 					}
 				} else {
 					/* Check to see if the user displays absolute or relative dates with their events
@@ -169,26 +173,26 @@ Module.register("calendar",{
 					 * Note: this needs to be put in its own function, as the whole thing repeats again verbatim
 					 */
 					if (this.config.timeFormat === "absolute") {
-						if ((this.config.urgency > 1) && (event.startDate - now < (this.config.urgency * one_day))) {
+						if ((this.config.urgency > 1) && (event.startDate - now < (this.config.urgency * oneDay))) {
 							// This event falls within the config.urgency period that the user has set
-							timeWrapper.innerHTML = moment(event.startDate, "x").fromNow();
+							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 						} else {
-							timeWrapper.innerHTML = moment(event.startDate, "x").format("MMM Do");
+							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").format(this.config.dateFormat));
 						}
 					} else {
-						timeWrapper.innerHTML =  moment(event.startDate, "x").fromNow();
+						timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 					}
 				}
 			} else {
 				if (event.startDate >= new Date()) {
-					if (event.startDate - now < 2 * one_day) {
+					if (event.startDate - now < 2 * oneDay) {
 						// This event is within the next 48 hours (2 days)
-						if (event.startDate - now < 6 * one_hour) {
+						if (event.startDate - now < this.config.getRelative * oneHour) {
 							// If event is within 6 hour, display 'in xxx' time format or moment.fromNow()
-							timeWrapper.innerHTML = moment(event.startDate, "x").fromNow();
+							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 						} else {
 							// Otherwise just say 'Today/Tomorrow at such-n-such time'
-							timeWrapper.innerHTML = moment(event.startDate, "x").calendar();
+							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").calendar());
 						}
 					} else {
 						/* Check to see if the user displays absolute or relative dates with their events
@@ -199,18 +203,18 @@ Module.register("calendar",{
 						 * Note: this needs to be put in its own function, as the whole thing repeats again verbatim
 						 */
 						if (this.config.timeFormat === "absolute") {
-							if ((this.config.urgency > 1) && (event.startDate - now < (this.config.urgency * one_day))) {
+							if ((this.config.urgency > 1) && (event.startDate - now < (this.config.urgency * oneDay))) {
 								// This event falls within the config.urgency period that the user has set
-								timeWrapper.innerHTML = moment(event.startDate, "x").fromNow();
+								timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 							} else {
-								timeWrapper.innerHTML = moment(event.startDate, "x").format("MMM Do");
+								timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").format(this.config.dateFormat));
 							}
 						} else {
-							timeWrapper.innerHTML = moment(event.startDate, "x").fromNow();
+							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 						}
 					}
 				} else {
-					timeWrapper.innerHTML =  this.translate("RUNNING") + ' ' + moment(event.endDate,"x").fromNow(true);
+					timeWrapper.innerHTML = this.capFirst(this.translate("RUNNING")) + " " + moment(event.endDate, "x").fromNow(true);
 				}
 			}
 			//timeWrapper.innerHTML += ' - '+ moment(event.startDate,'x').format('lll');
@@ -244,7 +248,7 @@ Module.register("calendar",{
 	 *
 	 * return bool - Has calendar url
 	 */
-	hasCalendarURL: function(url) {
+	hasCalendarURL: function (url) {
 		for (var c in this.config.calendars) {
 			var calendar = this.config.calendars[c];
 			if (calendar.url === url) {
@@ -260,20 +264,26 @@ Module.register("calendar",{
 	 *
 	 * return array - Array with events.
 	 */
-	createEventList: function() {
+	createEventList: function () {
 		var events = [];
 		var today = moment().startOf("day");
 		for (var c in this.calendarData) {
 			var calendar = this.calendarData[c];
 			for (var e in calendar) {
 				var event = calendar[e];
+				if(this.config.hidePrivate) {
+					if(event.class === "PRIVATE") {
+					      // do not add the current event, skip it
+					      continue;
+					}
+				}
 				event.url = c;
 				event.today = event.startDate >= today && event.startDate < (today + 24 * 60 * 60 * 1000);
 				events.push(event);
 			}
 		}
 
-		events.sort(function(a, b) {
+		events.sort(function (a, b) {
 			return a.startDate - b.startDate;
 		});
 
@@ -285,7 +295,7 @@ Module.register("calendar",{
 	 *
 	 * argument url sting - Url to add.
 	 */
-	addCalendar: function(url, user, pass) {
+	addCalendar: function (url, user, pass) {
 		this.sendSocketNotification("ADD_CALENDAR", {
 			url: url,
 			maximumEntries: this.config.maximumEntries,
@@ -303,10 +313,10 @@ Module.register("calendar",{
 	 *
 	 * return string - The Symbol
 	 */
-	symbolForUrl: function(url) {
+	symbolForUrl: function (url) {
 		for (var c in this.config.calendars) {
 			var calendar = this.config.calendars[c];
-			if (calendar.url === url && typeof calendar.symbol === "string")  {
+			if (calendar.url === url && typeof calendar.symbol === "string") {
 				return calendar.symbol;
 			}
 		}
@@ -320,10 +330,10 @@ Module.register("calendar",{
 	 *
 	 * return string - The Symbol
 	 */
-	countTitleForUrl: function(url) {
+	countTitleForUrl: function (url) {
 		for (var c in this.config.calendars) {
 			var calendar = this.config.calendars[c];
-			if (calendar.url === url && typeof calendar.repeatingCountTitle === "string")  {
+			if (calendar.url === url && typeof calendar.repeatingCountTitle === "string") {
 				return calendar.repeatingCountTitle;
 			}
 		}
@@ -340,12 +350,21 @@ Module.register("calendar",{
 	 *
 	 * return string - The shortened string.
 	 */
-	shorten: function(string, maxLength) {
+	shorten: function (string, maxLength) {
 		if (string.length > maxLength) {
-			return string.slice(0,maxLength) + "&hellip;";
+			return string.slice(0, maxLength) + "&hellip;";
 		}
 
 		return string;
+	},
+
+	/* capFirst(string)
+	 * Capitalize the first letter of a string
+	 * Eeturn capitalized string
+	 */
+
+	capFirst: function (string) {
+		return string.charAt(0).toUpperCase() + string.slice(1);
 	},
 
 	/* titleTransform(title)
@@ -357,7 +376,7 @@ Module.register("calendar",{
 	 *
 	 * return string - The transformed title.
 	 */
-	titleTransform: function(title) {
+	titleTransform: function (title) {
 		for (var needle in this.config.titleReplace) {
 			var replacement = this.config.titleReplace[needle];
 			title = title.replace(needle, replacement);
@@ -365,5 +384,28 @@ Module.register("calendar",{
 
 		title = this.shorten(title, this.config.maxTitleLength);
 		return title;
+	},
+
+	/* broadcastEvents()
+	 * Broadcasts the events to all other modules for reuse.
+	 * The all events available in one array, sorted on startdate.
+	 */
+	broadcastEvents: function () {
+		var eventList = [];
+		for (url in this.calendarData) {
+			var calendar = this.calendarData[url];
+			for (e in calendar) {
+				var event = cloneObject(calendar[e]);
+				delete event.url;
+				eventList.push(event);
+			}
+		}
+
+		eventList.sort(function(a,b) {
+			return a.startDate - b.startDate;
+		});
+
+		this.sendNotification("CALENDAR_EVENTS", eventList);
+
 	}
 });

@@ -9,6 +9,7 @@ var translations = {
 	"en" : "translations/en.json", // English
 	"nl" : "translations/nl.json", // Dutch
 	"de" : "translations/de.json", // German
+	"fi" : "translations/fi.json", // Suomi
 	"fr" : "translations/fr.json", // French
 	"fy" : "translations/fy.json", // Frysk
 	"es" : "translations/es.json", // Spanish
@@ -23,4 +24,6 @@ var translations = {
 	"ja" : "translations/ja.json", // Japanese
 	"pl" : "translations/pl.json", // Polish
 	"gr" : "translations/gr.json",  // Greek
+	"da" : "translations/da.json", // Danish
+	"tr" : "translations/tr.json", // Turkish
 };

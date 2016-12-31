@@ -11,8 +11,8 @@ Module.register("currentweather",{
 
 	// Default module config.
 	defaults: {
-		location: "",
-		locationID: "",
+		location: false,
+		locationID: false,
 		appid: "",
 		units: config.units,
 		updateInterval: 10 * 60 * 1000, // every 10 minutes
@@ -23,6 +23,7 @@ Module.register("currentweather",{
 		showWindDirection: true,
 		useBeaufort: true,
 		lang: config.language,
+		showHumidity: false,
 
 		initialLoadDelay: 0, // 0 seconds delay
 		retryDelay: 2500,
@@ -30,6 +31,12 @@ Module.register("currentweather",{
 		apiVersion: "2.5",
 		apiBase: "http://api.openweathermap.org/data/",
 		weatherEndpoint: "weather",
+
+		appendLocationNameToHeader: true,
+		calendarClass: "calendar",
+
+		onlyTemp: false,
+		roundTemp: false,
 
 		iconTable: {
 			"01d": "wi-day-sunny",
@@ -52,6 +59,12 @@ Module.register("currentweather",{
 			"50n": "wi-night-alt-cloudy-windy"
 		},
 	},
+
+	// create a variable for the first upcoming calendaar event. Used if no location is specified.
+	firstEvent: false,
+
+	// create a variable to hold the location name based on the API result.
+	fetchedLocatioName: "",
 
 	// Define required scripts.
 	getScripts: function() {
@@ -88,34 +101,15 @@ Module.register("currentweather",{
 		this.loaded = false;
 		this.scheduleUpdate(this.config.initialLoadDelay);
 
-		this.updateTimer = null;
-
 	},
 
-	// Override dom generator.
-	getDom: function() {
-		var wrapper = document.createElement("div");
-
-		if (this.config.appid === "") {
-			wrapper.innerHTML = "Please set the correct openweather <i>appid</i> in the config for module: " + this.name + ".";
-			wrapper.className = "dimmed light small";
-			return wrapper;
-		}
-
-		if (this.config.location === "") {
-			wrapper.innerHTML = "Please set the openweather <i>location</i> in the config for module: " + this.name + ".";
-			wrapper.className = "dimmed light small";
-			return wrapper;
-		}
-
-		if (!this.loaded) {
-			wrapper.innerHTML = this.translate('LOADING');
-			wrapper.className = "dimmed light small";
-			return wrapper;
-		}
+	// add extra information of current weather
+	// windDirection, humidity, sunrise and sunset
+	addExtraInfoWeather: function(wrapper) {
 
 		var small = document.createElement("div");
 		small.className = "normal medium";
+
 
 		var windIcon = document.createElement("span");
 		windIcon.className = "wi wi-strong-wind dimmed";
@@ -134,6 +128,22 @@ Module.register("currentweather",{
 		spacer.innerHTML = "&nbsp;";
 		small.appendChild(spacer);
 
+		if (this.config.showHumidity) {
+			var humidity = document.createElement("span");
+			humidity.innerHTML = this.humidity;
+
+			var spacer = document.createElement("sup");
+			spacer.innerHTML = "&nbsp;";
+
+			var humidityIcon = document.createElement("sup");
+			humidityIcon.className = "wi wi-humidity humidityIcon";
+			humidityIcon.innerHTML = "&nbsp;";
+
+			small.appendChild(humidity);
+			small.appendChild(spacer);
+			small.appendChild(humidityIcon);
+		}
+
 		var sunriseSunsetIcon = document.createElement("span");
 		sunriseSunsetIcon.className = "wi dimmed " + this.sunriseSunsetIcon;
 		small.appendChild(sunriseSunsetIcon);
@@ -141,6 +151,29 @@ Module.register("currentweather",{
 		var sunriseSunsetTime = document.createElement("span");
 		sunriseSunsetTime.innerHTML = " " + this.sunriseSunsetTime;
 		small.appendChild(sunriseSunsetTime);
+
+		wrapper.appendChild(small);
+	},
+
+	// Override dom generator.
+	getDom: function() {
+		var wrapper = document.createElement("div");
+
+		if (this.config.appid === "") {
+			wrapper.innerHTML = "Please set the correct openweather <i>appid</i> in the config for module: " + this.name + ".";
+			wrapper.className = "dimmed light small";
+			return wrapper;
+		}
+
+		if (!this.loaded) {
+			wrapper.innerHTML = this.translate("LOADING");
+			wrapper.className = "dimmed light small";
+			return wrapper;
+		}
+
+		if (this.config.onlyTemp === false) {
+			this.addExtraInfoWeather(wrapper);
+		}
 
 		var large = document.createElement("div");
 		large.className = "large light";
@@ -154,9 +187,42 @@ Module.register("currentweather",{
 		temperature.innerHTML = " " + this.temperature + "&deg;";
 		large.appendChild(temperature);
 
-		wrapper.appendChild(small);
 		wrapper.appendChild(large);
 		return wrapper;
+	},
+
+	// Override getHeader method.
+	getHeader: function() {
+		if (this.config.appendLocationNameToHeader) {
+			return this.data.header + " " + this.fetchedLocatioName;
+		}
+
+		return this.data.header;
+	},
+
+	// Override notification handler.
+	notificationReceived: function(notification, payload, sender) {
+		if (notification === "DOM_OBJECTS_CREATED") {
+			if (this.config.appendLocationNameToHeader) {
+				this.hide(0, {lockString: this.identifier});
+			}
+		}
+		if (notification === "CALENDAR_EVENTS") {
+			var senderClasses = sender.data.classes.toLowerCase().split(" ");
+			if (senderClasses.indexOf(this.config.calendarClass.toLowerCase()) !== -1) {
+				var lastEvent =  this.firstEvent;
+				this.firstEvent = false;
+
+				for (e in payload) {
+					var event = payload[e];
+					if (event.location || event.geo) {
+						this.firstEvent = event;
+						//Log.log("First upcoming event with location: ", event);
+						break;
+					}
+				}
+			}
+		}
 	},
 
 	/* updateWeather(compliments)
@@ -164,6 +230,11 @@ Module.register("currentweather",{
 	 * Calls processWeather on succesfull response.
 	 */
 	updateWeather: function() {
+		if (this.config.appid === "") {
+			Log.error("CurrentWeather: APPID not set!");
+			return;
+		}
+
 		var url = this.config.apiBase + this.config.apiVersion + "/" + this.config.weatherEndpoint + this.getParams();
 		var self = this;
 		var retry = true;
@@ -175,11 +246,10 @@ Module.register("currentweather",{
 				if (this.status === 200) {
 					self.processWeather(JSON.parse(this.response));
 				} else if (this.status === 401) {
-					self.config.appid = "";
 					self.updateDom(self.config.animationSpeed);
 
 					Log.error(self.name + ": Incorrect APPID.");
-					retry = false;
+					retry = true;
 				} else {
 					Log.error(self.name + ": Could not load weather.");
 				}
@@ -199,11 +269,19 @@ Module.register("currentweather",{
 	 */
 	getParams: function() {
 		var params = "?";
-		if(this.config.locationID !== "") {
+		if(this.config.locationID) {
 			params += "id=" + this.config.locationID;
-		} else {
+		} else if(this.config.location) {
 			params += "q=" + this.config.location;
+		} else if (this.firstEvent && this.firstEvent.geo) {
+			params += "lat=" + this.firstEvent.geo.lat + "&lon=" + this.firstEvent.geo.lon
+		} else if (this.firstEvent && this.firstEvent.location) {
+			params += "q=" + this.firstEvent.location;
+		} else {
+			this.hide(this.config.animationSpeed, {lockString:this.identifier});
+			return;
 		}
+
 		params += "&units=" + this.config.units;
 		params += "&lang=" + this.config.lang;
 		params += "&APPID=" + this.config.appid;
@@ -224,6 +302,7 @@ Module.register("currentweather",{
 			return;
 		}
 
+		this.humidity = parseFloat(data.main.humidity);
 		this.temperature = this.roundValue(data.main.temp);
 
 		if (this.config.useBeaufort){
@@ -244,20 +323,20 @@ Module.register("currentweather",{
 		// So we need to generate the timestring manually.
 		// See issue: https://github.com/MichMich/MagicMirror/issues/181
 		var sunriseSunsetDateObject = (sunrise < now && sunset > now) ? sunset : sunrise;
-		var timeString = moment(sunriseSunsetDateObject).format('HH:mm');
+		var timeString = moment(sunriseSunsetDateObject).format("HH:mm");
 		if (this.config.timeFormat !== 24) {
 			//var hours = sunriseSunsetDateObject.getHours() % 12 || 12;
 			if (this.config.showPeriod) {
 				if (this.config.showPeriodUpper) {
 					//timeString = hours + moment(sunriseSunsetDateObject).format(':mm A');
-					timeString = moment(sunriseSunsetDateObject).format('h:mm A');
+					timeString = moment(sunriseSunsetDateObject).format("h:mm A");
 				} else {
 					//timeString = hours + moment(sunriseSunsetDateObject).format(':mm a');
-					timeString = moment(sunriseSunsetDateObject).format('h:mm a');
+					timeString = moment(sunriseSunsetDateObject).format("h:mm a");
 				}
 			} else {
 				//timeString = hours + moment(sunriseSunsetDateObject).format(':mm');
-				timeString = moment(sunriseSunsetDateObject).format('h:mm');
+				timeString = moment(sunriseSunsetDateObject).format("h:mm");
 			}
 		}
 
@@ -265,9 +344,10 @@ Module.register("currentweather",{
 		this.sunriseSunsetIcon = (sunrise < now && sunset > now) ? "wi-sunset" : "wi-sunrise";
 
 
-
+		this.show(this.config.animationSpeed, {lockString:this.identifier});
 		this.loaded = true;
 		this.updateDom(this.config.animationSpeed);
+		this.sendNotification("CURRENTWEATHER_DATA", {data: data});
 	},
 
 	/* scheduleUpdate()
@@ -306,52 +386,51 @@ Module.register("currentweather",{
 		return 12;
 	},
 
+	deg2Cardinal: function(deg) {
+		if (deg>11.25 && deg<=33.75){
+			return "NNE";
+		} else if (deg > 33.75 && deg <= 56.25) {
+			return "NE";
+		} else if (deg > 56.25 && deg <= 78.75) {
+			return "ENE";
+		} else if (deg > 78.75 && deg <= 101.25) {
+			return "E";
+		} else if (deg > 101.25 && deg <= 123.75) {
+			return "ESE";
+		} else if (deg > 123.75 && deg <= 146.25) {
+			return "SE";
+		} else if (deg > 146.25 && deg <= 168.75) {
+			return "SSE";
+		} else if (deg > 168.75 && deg <= 191.25) {
+			return "S";
+		} else if (deg > 191.25 && deg <= 213.75) {
+			return "SSW";
+		} else if (deg > 213.75 && deg <= 236.25) {
+			return "SW";
+		} else if (deg > 236.25 && deg <= 258.75) {
+			return "WSW";
+		} else if (deg > 258.75 && deg <= 281.25) {
+			return "W";
+		} else if (deg > 281.25 && deg <= 303.75) {
+			return "WNW";
+		} else if (deg > 303.75 && deg <= 326.25) {
+			return "NW";
+		} else if (deg > 326.25 && deg <= 348.75) {
+			return "NNW";
+		} else {
+			return "N";
+		}
+	},
+
 	/* function(temperature)
-	 * Rounds a temperature to 1 decimal.
+	 * Rounds a temperature to 1 decimal or integer (depending on config.roundTemp).
 	 *
 	 * argument temperature number - Temperature.
 	 *
 	 * return number - Rounded Temperature.
 	 */
-
-	deg2Cardinal: function(deg) {
-                if (deg>11.25 && deg<=33.75){
-                        return "NNE";
-                } else if (deg > 33.75 && deg <= 56.25) {
-                        return "NE";
-                } else if (deg > 56.25 && deg <= 78.75) {
-                        return "ENE";
-                } else if (deg > 78.75 && deg <= 101.25) {
-                        return "E";
-                } else if (deg > 101.25 && deg <= 123.75) {
-                        return "ESE";
-                } else if (deg > 123.75 && deg <= 146.25) {
-                        return "SE";
-                } else if (deg > 146.25 && deg <= 168.75) {
-                        return "SSE";
-                } else if (deg > 168.75 && deg <= 191.25) {
-                        return "S";
-                } else if (deg > 191.25 && deg <= 213.75) {
-                        return "SSW";
-                } else if (deg > 213.75 && deg <= 236.25) {
-                        return "SW";
-                } else if (deg > 236.25 && deg <= 258.75) {
-                        return "WSW";
-                } else if (deg > 258.75 && deg <= 281.25) {
-                        return "W";
-                } else if (deg > 281.25 && deg <= 303.75) {
-                        return "WNW";
-                } else if (deg > 303.75 && deg <= 326.25) {
-                        return "NW";
-                } else if (deg > 326.25 && deg <= 348.75) {
-                        return "NNW";
-                } else {
-                         return "N";
-                }
-	},
-
-
 	roundValue: function(temperature) {
-		return parseFloat(temperature).toFixed(1);
+		var decimals = this.config.roundTemp ? 0 : 1;
+		return parseFloat(temperature).toFixed(decimals);
 	}
 });

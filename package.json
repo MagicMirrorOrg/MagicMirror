@@ -1,13 +1,10 @@
 {
   "name": "magicmirror",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "A modular interface for smart mirrors.",
   "main": "js/electron.js",
   "scripts": {
-    "start": "electron js/electron.js",
-    "test": "snyk test",
-    "snyk-protect": "snyk protect",
-    "prepublish": "npm run snyk-protect"
+    "start": "electron js/electron.js"
   },
   "repository": {
     "type": "git",
@@ -20,7 +17,9 @@
     "modular"
   ],
   "author": "Michael Teeuw",
-  "contributors": "https://github.com/MichMich/MagicMirror/graphs/contributors",
+  "contributors": [
+    "https://github.com/MichMich/MagicMirror/graphs/contributors"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/MichMich/MagicMirror/issues"
@@ -30,24 +29,25 @@
     "grunt": "latest",
     "grunt-eslint": "latest",
     "grunt-jsonlint": "latest",
-    "grunt-markdownlint": "^1.0.4",
+    "grunt-markdownlint": "^1.0.13",
     "grunt-stylelint": "latest",
     "grunt-yamllint": "latest",
     "stylelint-config-standard": "latest",
     "time-grunt": "latest"
   },
   "dependencies": {
-    "electron-prebuilt": "latest",
+    "electron": "^1.4.7",
     "express": "^4.14.0",
+    "express-ipfilter": "latest",
     "feedme": "latest",
+    "helmet": "^3.1.0",
     "iconv-lite": "latest",
     "moment": "latest",
-    "request": "^2.74.0",
+    "request": "^2.78.0",
     "rrule": "latest",
-    "socket.io": "^1.4.6",
+    "simple-git": "^1.62.0",
+    "socket.io": "^1.5.1",
     "valid-url": "latest",
-    "walk": "latest",
-    "snyk": "^1.14.1"
-  },
-  "snyk": true
+    "walk": "latest"
+  }
 }

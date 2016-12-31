@@ -89,6 +89,10 @@ var Loader = (function() {
 				moduleFolder =  config.paths.modules + "/default/" + module;
 			}
 
+			if (moduleData.disabled === true) {
+				continue;
+			}
+
 			moduleFiles.push({
 				index: m,
 				identifier: "module_" + m + "_" + module,
@@ -117,9 +121,13 @@ var Loader = (function() {
 
 		var afterLoad = function() {
 			var moduleObject = Module.create(module.name);
-			bootstrapModule(module, moduleObject, function() {
+			if (moduleObject) {
+				bootstrapModule(module, moduleObject, function() {
+					callback();
+				});
+			} else {
 				callback();
-			});
+			}
 		};
 
 		if (loadedModuleFiles.indexOf(url) !== -1) {

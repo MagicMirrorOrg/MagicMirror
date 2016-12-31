@@ -106,9 +106,15 @@ The following properties can be configured:
 			<td><code>titleReplace</code></td>
 			<td>An object of textual replacements applied to the tile of the event. This allow to remove or replace certains words in the title.<br>
 				<br><b>Example:</b> <br>
-
 				<code>
 					titleReplace: {'Birthday of ' : '', 'foo':'bar'}
+				</code>
+				<br><b>Default value:</b>
+				<code>
+				{
+					"De verjaardag van ": "",
+					"'s birthday": ""
+				}
 				</code>
 			</td>
 		</tr>
@@ -120,6 +126,13 @@ The following properties can be configured:
 			</td>
 		</tr>
 		<tr>
+			<td><code>dateFormat</code></td>
+			<td>Format to use for the date of events (when using absolute dates)<br>
+				<br><b>Possible values:</b> See <a href="http://momentjs.com/docs/#/parsing/string-format/">Moment.js formats</a>
+				<br><b>Default value:</b> <code>MMM Do</code> (e.g. Jan 18th)
+			</td>
+		</tr>
+		<tr>
 			<td><code>timeFormat</code></td>
 			<td>Display event times as absolute dates, or relative time<br>
 				<br><b>Possible values:</b> <code>absolute</code> or <code>relative</code>
@@ -127,11 +140,32 @@ The following properties can be configured:
 			</td>
 		</tr>
 		<tr>
+			<td><code>getRelative</code></td>
+			<td>How much time (in hours) should be left until calendar events start getting relative?<br>
+				<br><b>Possible values:</b> <code>0</code> (events stay absolute) - <code>48</code> (48 hours before the event starts)
+				<br><b>Default value:</b> <code>6</code>
+			</td>
+		</tr>
+		<tr>
 			<td><code>urgency</code></td>
 			<td>When using a timeFormat of <code>absolute</code>, the <code>urgency</code> setting allows you to display events within a specific time frame as <code>relative</code>
 			    This allows events within a certain time frame to be displayed as relative (in xx days) while others are displayed as absolute dates<br>
 				<br><b>Possible values:</b> a positive integer representing the number of days for which you want a relative date, for example <code>7</code> (for 7 days)<br>
-				<br><b>Default value:</b> <code>0</code> (disabled)
+				<br><b>Default value:</b> <code>7</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>broadcastEvents</code></td>
+			<td>If this property is set to true, the calendar will broadcast all the events to all other modules with the notification message: <code>CALENDAR_EVENTS</code>. The event objects are stored in an array and contain the following fields: <code>title</code>, <code>startDate</code>, <code>endDate</code>, <code>fullDayEvent</code>, <code>location</code> and <code>geo</code>.<br>
+				<br><b>Possible values:</b> <code>true</code>, <code>false</code>  <br>
+				<br><b>Default value:</b> <code>true</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>hidePrivate</code></td>
+			<td>Hides private calendar events.<br>
+				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
+				<br><b>Default value:</b> <code>false</code>
 			</td>
 		</tr>
 	</tbody>
@@ -171,24 +205,24 @@ config: {
 			</td>
 		</tr>
 		<tr>
-			<td><code> symbol </code></td>
+			<td><code>symbol</code></td>
 			<td>The symbol to show in front of an event. This property is optional.<br>
 				<br><b>Possible values:</b> See <a href="http://fontawesome.io/icons/" target="_blank">Font Awesome</a> website.
 			</td>
 		</tr>
 		<tr>
-			<td><code> repeatingCountTitle </code></td>
+			<td><code>repeatingCountTitle</code></td>
 			<td>The count title for yearly repating events in this calendar. <br>
 				<br><b>Example:</b> <br>
 				<code>'Birthday'</code>
 			</td>
 		</tr>
 		<tr>
-			<td><code> user </code></td>
+			<td><code>user</code></td>
 			<td>The username for HTTP Basic authentication.</td>
 		</tr>
 		<tr>
-			<td><code> pass </code></td>
+			<td><code>pass</code></td>
 			<td>The password for HTTP Basic authentication.</td>
 		</tr>
 		</tbody>

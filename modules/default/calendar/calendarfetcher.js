@@ -25,9 +25,10 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 		clearTimeout(reloadTimer);
 		reloadTimer = null;
 
+		nodeVersion = Number(process.version.match(/^v(\d+\.\d+)/)[1]);
 		var opts = {
 			headers: {
-				'User-Agent': 'Mozilla/5.0 (Node.js 6.0.0) MagicMirror/v2 (https://github.com/MichMich/MagicMirror/)'
+				"User-Agent": "Mozilla/5.0 (Node.js "+ nodeVersion + ") MagicMirror/"  + global.version +  " (https://github.com/MichMich/MagicMirror/)"
 			}
 		};
 
@@ -77,9 +78,10 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 						if (!isFacebookBirthday) {
 							endDate = startDate;
 						} else {
-							endDate = moment(startDate).add(1, 'days');
+							endDate = moment(startDate).add(1, "days");
 						}
 					}
+
 
 					// calculate the duration f the event for use with recurring events.
 					var duration = parseInt(endDate.format("x")) - parseInt(startDate.format("x"));
@@ -95,20 +97,28 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 						title = event.description;
 					}
 
+					var location = event.location || false;
+					var geo = event.geo || false;
+					var description = event.description || false;
+
 					if (typeof event.rrule != "undefined" && !isFacebookBirthday) {
 						var rule = event.rrule;
 						var dates = rule.between(today, future, true, limitFunction);
 
 						for (var d in dates) {
 							startDate = moment(new Date(dates[d]));
-							endDate  = moment(parseInt(startDate.format("x")) + duration, 'x');
+							endDate  = moment(parseInt(startDate.format("x")) + duration, "x");
 							if (endDate.format("x") > now) {
 								newEvents.push({
 									title: title,
 									startDate: startDate.format("x"),
 									endDate: endDate.format("x"),
 									fullDayEvent: isFullDayEvent(event),
-									firstYear: event.start.getFullYear()
+									class: event.class,
+									firstYear: event.start.getFullYear(),
+									location: location,
+									geo: geo,
+									description: description
 								});
 							}
 						}
@@ -132,14 +142,19 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 							continue;
 						}
 
-						// Every thing is good. Add it to the list.					
+						// Every thing is good. Add it to the list.
+
 						newEvents.push({
 							title: title,
 							startDate: startDate.format("x"),
 							endDate: endDate.format("x"),
-							fullDayEvent: fullDayEvent
+							fullDayEvent: fullDayEvent,
+							class: event.class,
+							location: location,
+							geo: geo,
+							description: description
 						});
-						
+
 					}
 				}
 			}
@@ -186,7 +201,7 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 
 		if (end - start === 24 * 60 * 60 * 1000 && startDate.getHours() === 0 && startDate.getMinutes() === 0) {
 			// Is 24 hours, and starts on the middle of the night.
-			return true;			
+			return true;
 		}
 
 		return false;

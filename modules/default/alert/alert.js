@@ -35,7 +35,6 @@ Module.register("alert",{
 	},
 	show_notification: function(message) {
 		if (this.config.effect == "slide") {this.config.effect = this.config.effect + "-" + this.config.position;}
-		
 		msg = "";
 		if (message.title) {
 			msg += "<span class='thin' style='line-height: 35px; font-size:24px' color='#4A4A4A'>" + message.title + "</span>";
@@ -46,7 +45,7 @@ Module.register("alert",{
 			}
 			msg += "<span class='light' style='font-size:28px;line-height: 30px;'>" + message.message + "</span>";
 		}
-		
+
 		new NotificationFx({
 			message: msg,
 			layout: "growl",

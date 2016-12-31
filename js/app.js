@@ -10,6 +10,13 @@ var Server = require(__dirname + "/server.js");
 var defaultModules = require(__dirname + "/../modules/default/defaultmodules.js");
 var path = require("path");
 
+// Get version number.
+global.version = JSON.parse(fs.readFileSync("package.json", "utf8")).version;
+console.log("Starting MagicMirror: v" + global.version);
+
+// global absolute root path
+global.root_path = path.resolve(__dirname + "/../");
+
 // The next part is here to prevent a major exception when there
 // is no internet connection. This could probable be solved better.
 process.on("uncaughtException", function (err) {
@@ -34,7 +41,7 @@ var App = function() {
 	var loadConfig = function(callback) {
 		console.log("Loading config ...");
 		var defaults = require(__dirname + "/defaults.js");
-		var configFilename = path.resolve(__dirname + "/../config/config.js");
+		var configFilename = path.resolve(global.root_path + "/config/config.js");
 		try {
 			fs.accessSync(configFilename, fs.F_OK);
 			var c = require(configFilename);
@@ -82,6 +89,17 @@ var App = function() {
 		if (loadModule) {
 			var Module = require(helperPath);
 			var m = new Module();
+
+			if (m.requiresVersion) {
+				console.log("Check MagicMirror version for node helper '" + moduleName + "' - Minimum version:  " + m.requiresVersion + " - Current version: " + global.version);
+				if (cmpVersions(global.version, m.requiresVersion) >= 0) {
+					console.log("Version is ok!");
+				} else {
+					console.log("Version is incorrect. Skip module: '" + moduleName + "'");
+					return;
+				}
+			}
+
 			m.setName(moduleName);
 			m.setPath(path.resolve(moduleFolder));
 			nodeHelpers.push(m);
@@ -103,6 +121,28 @@ var App = function() {
 		console.log("All module helpers loaded.");
 	};
 
+	/* cmpVersions(a,b)
+	 * Compare two symantic version numbers and return the difference.
+	 *
+	 * argument a string - Version number a.
+	 * argument a string - Version number b.
+	 */
+	function cmpVersions(a, b) {
+		var i, diff;
+		var regExStrip0 = /(\.0+)+$/;
+		var segmentsA = a.replace(regExStrip0, "").split(".");
+		var segmentsB = b.replace(regExStrip0, "").split(".");
+		var l = Math.min(segmentsA.length, segmentsB.length);
+
+		for (i = 0; i < l; i++) {
+			diff = parseInt(segmentsA[i], 10) - parseInt(segmentsB[i], 10);
+			if (diff) {
+				return diff;
+			}
+		}
+		return segmentsA.length - segmentsB.length;
+	}
+
 	/* start(callback)
 	 * This methods starts the core app.
 	 * It loads the config, then it loads all modules.
@@ -119,7 +159,7 @@ var App = function() {
 
 			for (var m in config.modules) {
 				var module = config.modules[m];
-				if (modules.indexOf(module.module) === -1) {
+				if (modules.indexOf(module.module) === -1 && !module.disabled) {
 					modules.push(module.module);
 				}
 			}

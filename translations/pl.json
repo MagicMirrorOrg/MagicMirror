@@ -9,20 +9,25 @@
 	"EMPTY": "Brak wydarzeń.",
 
 	/* WEATHER */
-	"N": 	"N",
-	"NNE":  "NNE",
-	"NE":   "NE",
-	"ENE": 	"ENE",
-	"E":	"E",
-	"ESE": 	"ESE",
-	"SE": 	"SE",
-	"SSE": 	"SSE",
-	"S": 	"S",
-	"SSW": 	"SSW",
-	"SW": 	"SW",
-	"WSW": 	"WSW",
-	"W": 	"W",
-	"WNW": 	"WNW",
-	"NW": 	"NW",
-	"NNW": 	"NNW"
+	"N": "N",
+	"NNE": "NNE",
+	"NE": "NE",
+	"ENE": "ENE",
+	"E": "E",
+	"ESE": "ESE",
+	"SE": "SE",
+	"SSE": "SSE",
+	"S": "S",
+	"SSW": "SSW",
+	"SW": "SW",
+	"WSW": "WSW",
+	"W": "W",
+	"WNW": "WNW",
+	"NW": "NW",
+	"NNW": "NNW"
+	
+	/* UPDATE INFO */
+	"UPDATE_NOTIFICATION": "Dostępna jest aktualizacja MagicMirror².",
+	"UPDATE_NOTIFICATION_MODULE": "Dostępna jest aktualizacja modułu MODULE_NAME.",
+	"UPDATE_INFO": "The current installation is COMMIT_COUNT behind on the BRANCH_NAME branch."
 }

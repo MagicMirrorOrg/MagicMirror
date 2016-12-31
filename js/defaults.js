@@ -10,12 +10,19 @@
 var defaults = {
 	port: 8080,
 	kioskmode: false,
+	electronOptions: {},
+	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1"],
 
 	language: "en",
 	timeFormat: 24,
 	units: "metric",
+	zoom: 1,
 
 	modules: [
+		{
+			module: "updatenotification",
+			position: "top_center"
+		},
 		{
 			module: "helloworld",
 			position: "upper_third",

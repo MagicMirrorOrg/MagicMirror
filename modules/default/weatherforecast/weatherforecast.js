@@ -11,11 +11,12 @@ Module.register("weatherforecast",{
 
 	// Default module config.
 	defaults: {
-		location: "",
-		locationID: "",
+		location: false,
+		locationID: false,
 		appid: "",
 		units: config.units,
 		maxNumberOfDays: 7,
+		showRainAmount: false,
 		updateInterval: 10 * 60 * 1000, // every 10 minutes
 		animationSpeed: 1000,
 		timeFormat: config.timeFormat,
@@ -29,6 +30,11 @@ Module.register("weatherforecast",{
 		apiVersion: "2.5",
 		apiBase: "http://api.openweathermap.org/data/",
 		forecastEndpoint: "forecast/daily",
+
+		appendLocationNameToHeader: true,
+		calendarClass: "calendar",
+
+		roundTemp: false,
 
 		iconTable: {
 			"01d": "wi-day-sunny",
@@ -51,6 +57,12 @@ Module.register("weatherforecast",{
 			"50n": "wi-night-alt-cloudy-windy"
 		},
 	},
+
+	// create a variable for the first upcoming calendaar event. Used if no location is specified.
+	firstEvent: false,
+
+	// create a variable to hold the location name based on the API result.
+	fetchedLocatioName: "",
 
 	// Define required scripts.
 	getScripts: function() {
@@ -95,12 +107,6 @@ Module.register("weatherforecast",{
 			return wrapper;
 		}
 
-		if (this.config.location === "") {
-			wrapper.innerHTML = "Please set the openweather <i>location</i> in the config for module: " + this.name + ".";
-			wrapper.className = "dimmed light small";
-			return wrapper;
-		}
-
 		if (!this.loaded) {
 			wrapper.innerHTML = this.translate("LOADING");
 			wrapper.className = "dimmed light small";
@@ -139,6 +145,17 @@ Module.register("weatherforecast",{
 			minTempCell.className = "align-right min-temp";
 			row.appendChild(minTempCell);
 
+			if (this.config.showRainAmount) {
+				var rainCell = document.createElement("td");
+				if (isNaN(forecast.rain)) {
+					rainCell.innerHTML = "";
+				} else {
+					rainCell.innerHTML = forecast.rain + " mm";
+				}
+				rainCell.className = "align-right bright rain";
+				row.appendChild(rainCell);
+			}
+
 			if (this.config.fade && this.config.fadePoint < 1) {
 				if (this.config.fadePoint < 0) {
 					this.config.fadePoint = 0;
@@ -156,11 +173,50 @@ Module.register("weatherforecast",{
 		return table;
 	},
 
+	// Override getHeader method.
+	getHeader: function() {
+		if (this.config.appendLocationNameToHeader) {
+			return this.data.header + " " + this.fetchedLocatioName;
+		}
+
+		return this.data.header;
+	},
+
+	// Override notification handler.
+	notificationReceived: function(notification, payload, sender) {
+		if (notification === "DOM_OBJECTS_CREATED") {
+			if (this.config.appendLocationNameToHeader) {
+				this.hide(0, {lockString: this.identifier});
+			}
+		}
+		if (notification === "CALENDAR_EVENTS") {
+			var senderClasses = sender.data.classes.toLowerCase().split(" ");
+			if (senderClasses.indexOf(this.config.calendarClass.toLowerCase()) !== -1) {
+				var lastEvent =  this.firstEvent;
+				this.firstEvent = false;
+
+				for (e in payload) {
+					var event = payload[e];
+					if (event.location || event.geo) {
+						this.firstEvent = event;
+						//Log.log("First upcoming event with location: ", event);
+						break;
+					}
+				}
+			}
+		}
+	},
+
 	/* updateWeather(compliments)
 	 * Requests new data from openweather.org.
 	 * Calls processWeather on succesfull response.
 	 */
 	updateWeather: function() {
+		if (this.config.appid === "") {
+			Log.error("WeatherForecast: APPID not set!");
+			return;
+		}
+
 		var url = this.config.apiBase + this.config.apiVersion + "/" + this.config.forecastEndpoint + this.getParams();
 		var self = this;
 		var retry = true;
@@ -172,11 +228,10 @@ Module.register("weatherforecast",{
 				if (this.status === 200) {
 					self.processWeather(JSON.parse(this.response));
 				} else if (this.status === 401) {
-					self.config.appid = "";
 					self.updateDom(self.config.animationSpeed);
 
 					Log.error(self.name + ": Incorrect APPID.");
-					retry = false;
+					retry = true;
 				} else {
 					Log.error(self.name + ": Could not load weather.");
 				}
@@ -196,11 +251,19 @@ Module.register("weatherforecast",{
 	 */
 	getParams: function() {
 		var params = "?";
-		if(this.config.locationID !== "") {
+		if(this.config.locationID) {
 			params += "id=" + this.config.locationID;
-		} else {
+		} else if(this.config.location) {
 			params += "q=" + this.config.location;
+		} else if (this.firstEvent && this.firstEvent.geo) {
+			params += "lat=" + this.firstEvent.geo.lat + "&lon=" + this.firstEvent.geo.lon
+		} else if (this.firstEvent && this.firstEvent.location) {
+			params += "q=" + this.firstEvent.location;
+		} else {
+			this.hide(this.config.animationSpeed, {lockString:this.identifier});
+			return;
 		}
+
 		params += "&units=" + this.config.units;
 		params += "&lang=" + this.config.lang;
 		/*
@@ -220,6 +283,7 @@ Module.register("weatherforecast",{
 	 * argument data object - Weather information received form openweather.org.
 	 */
 	processWeather: function(data) {
+		this.fetchedLocatioName = data.city.name + ", " + data.city.country;
 
 		this.forecast = [];
 		for (var i = 0, count = data.list.length; i < count; i++) {
@@ -230,13 +294,14 @@ Module.register("weatherforecast",{
 				day: moment(forecast.dt, "X").format("ddd"),
 				icon: this.config.iconTable[forecast.weather[0].icon],
 				maxTemp: this.roundValue(forecast.temp.max),
-				minTemp: this.roundValue(forecast.temp.min)
+				minTemp: this.roundValue(forecast.temp.min),
+				rain: this.roundValue(forecast.rain)
 
 			});
 		}
 
 		//Log.log(this.forecast);
-
+		this.show(this.config.animationSpeed, {lockString:this.identifier});
 		this.loaded = true;
 		this.updateDom(this.config.animationSpeed);
 	},
@@ -279,13 +344,14 @@ Module.register("weatherforecast",{
 	},
 
 	/* function(temperature)
-	 * Rounds a temperature to 1 decimal.
+	 * Rounds a temperature to 1 decimal or integer (depending on config.roundTemp).
 	 *
 	 * argument temperature number - Temperature.
 	 *
 	 * return number - Rounded Temperature.
 	 */
 	roundValue: function(temperature) {
-		return parseFloat(temperature).toFixed(1);
+		var decimals = this.config.roundTemp ? 0 : 1;
+		return parseFloat(temperature).toFixed(decimals);
 	}
 });
