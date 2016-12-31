@@ -79,7 +79,7 @@ function cloneObject(obj) {
 	var temp = obj.constructor(); // give temp the original obj's constructor
 	for (var key in obj) {
 		temp[key] = cloneObject(obj[key]);
-	
+
 		if (key === "lockStrings") {
 			Log.log(key);
 		}
