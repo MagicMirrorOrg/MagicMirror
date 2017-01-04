@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [develop] - release date to be defined
-- Made default newsfeed module aware of gesture events from https://github.com/thobach/MMM-Gestures
+- Made default newsfeed module aware of gesture events from [MMM-Gestures](https://github.com/thobach/MMM-Gestures)
 
 ## [2.1.0] - 2016-12-31
 
