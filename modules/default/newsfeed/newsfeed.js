@@ -152,21 +152,21 @@ Module.register("newsfeed",{
 				}
 
 			}
-			
+
 			if(!this.config.showFullArticle){
 				var title = document.createElement("div");
 				title.className = "bright medium light";
 				title.innerHTML = this.newsItems[this.activeItem].title;
 				wrapper.appendChild(title);
 			}
-				
+
 			if (this.config.showDescription) {
 				var description = document.createElement("div");
 				description.className = "small light";
 				description.innerHTML = this.newsItems[this.activeItem].description;
 				wrapper.appendChild(description);
 			}
-			
+
 			if (this.config.showFullArticle) {
 				var fullArticle = document.createElement("iframe");
 				fullArticle.className = "";
@@ -176,8 +176,8 @@ Module.register("newsfeed",{
 				fullArticle.src = this.newsItems[this.activeItem].url;
 				wrapper.appendChild(fullArticle);
 			}
-			
-			
+
+
 
 		} else {
 			wrapper.innerHTML = this.translate("LOADING");
@@ -287,14 +287,14 @@ Module.register("newsfeed",{
 	capitalizeFirstLetter: function(string) {
 		return string.charAt(0).toUpperCase() + string.slice(1);
 	},
-	
+
 	notificationReceived: function(notification, payload, sender) {
 		Log.info(this.name + " - received event");
-		if(notification == 'GESTURE'){
+		if(notification == "GESTURE"){
 			Log.info(this.name + " - received gesture");
 			var gesture = payload.gesture;
 			// actually RIGHT, because gesture sensor is built in upside down
-			if(gesture == 'LEFT'){
+			if(gesture == "LEFT"){
 				Log.info(this.name + " - received right");
 				var before = this.activeItem;
 				this.activeItem++;
@@ -310,7 +310,7 @@ Module.register("newsfeed",{
 				this.updateDom(100);
 			}
 			// actually LEFT, because gesture sensor is built in upside down
-			else if(gesture == 'RIGHT'){
+			else if(gesture == "RIGHT"){
 				Log.info(this.name + " - received left");
 				var before = this.activeItem;
 				this.activeItem--;
@@ -326,7 +326,7 @@ Module.register("newsfeed",{
 				this.updateDom(100);
 			}
 			// actually UP, because gesture sensor is built in upside down
-			else if(gesture == 'DOWN' && !this.config.showDescription){
+			else if(gesture == "DOWN" && !this.config.showDescription){
 				Log.info(this.name + " - received up");
 				this.config.showDescription = true;
 				this.config.showFullArticle = false;
@@ -335,7 +335,7 @@ Module.register("newsfeed",{
 				this.updateDom(100);
 			}
 			// actually DOWN, because gesture sensor is built in upside down
-			else if(gesture == 'UP'){
+			else if(gesture == "UP"){
 				Log.info(this.name + " - received down");
 				this.config.showDescription = false;
 				this.config.showFullArticle = false;
@@ -345,7 +345,7 @@ Module.register("newsfeed",{
 				this.updateDom(100);
 			}
 			// actually UP, because gesture sensor is built in upside down
-			else if(gesture == 'DOWN' && this.config.showDescription){
+			else if(gesture == "DOWN" && this.config.showDescription){
 				Log.info(this.name + " - received up again");
 				this.config.showFullArticle = true;
 				this.config.showDescription = false;
