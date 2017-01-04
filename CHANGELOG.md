@@ -7,6 +7,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Add loaded function to modules, providing an async callback.
 
+### Fixed
+- Remove white flash on boot up
+
 ## [2.1.0] - 2016-12-31
 
 **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
