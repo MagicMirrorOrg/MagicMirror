@@ -6,6 +6,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - Add loaded function to modules, providing an async callback.
+- Russian Translation
+
+### Fixed
+- corrected .gitignore rules for default modules
 
 ## [2.1.0] - 2016-12-31
 
