@@ -47,7 +47,10 @@ var Fetcher = function(url, reloadInterval, encoding) {
 			var description = item.description || item.summary || item.content || "";
 			var pubdate = item.pubdate || item.published || item.updated;
 			var url = item.url || item.link || "";
-			var enclosureUrl = item.enclosure.url;
+			var enclosureUrl = "";
+			if (item.enclosure !== undefined) {
+			  enclosureUrl = item.enclosure.url
+			}
 
 			if (title && pubdate) {
 
