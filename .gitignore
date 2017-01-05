@@ -53,12 +53,6 @@ Temporary Items
 
 # Various Magic Mirror ignoramuses and anti-ignoramuses.
 
-#!/modules/
-#!/modules/README.md**
-#/modules/*
-#!/modules/default/
-
-
 # Don't ignore the node_helper nore module.
 !/modules/node_helper
 !/modules/node_helper/**
