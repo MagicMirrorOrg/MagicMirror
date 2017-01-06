@@ -89,7 +89,7 @@ Module.register("newsfeed",{
 
 		if (this.newsItems.length > 0) {
 
-			// this.config.showFullArticle is a run-time configuration, triggered by optional gestures
+			// this.config.showFullArticle is a run-time configuration, triggered by optional notifications
 			if (!this.config.showFullArticle && (this.config.showSourceTitle || this.config.showPublishDate)) {
 				var sourceAndTimestamp = document.createElement("div");
 				sourceAndTimestamp.className = "light small dimmed";
@@ -289,74 +289,62 @@ Module.register("newsfeed",{
 	},
 
 	notificationReceived: function(notification, payload, sender) {
-		Log.info(this.name + " - received event");
-		if(notification == "GESTURE"){
-			Log.info(this.name + " - received gesture");
-			var gesture = payload.gesture;
-			// actually RIGHT, because gesture sensor is built in upside down
-			if(gesture == "LEFT"){
-				Log.info(this.name + " - received right");
-				var before = this.activeItem;
-				this.activeItem++;
-				if (this.activeItem >= this.newsItems.length) {
-					this.activeItem = 0;
-				}
-				this.config.showDescription = false;
-				this.config.showFullArticle = false;
-				if(!timer){
-					this.scheduleUpdateInterval();
-				}
-				Log.info(this.name + " - going from " + before + " to " + this.activeItem + " (of " + this.newsItems.length + ")");
-				this.updateDom(100);
+		Log.info(this.name + " - received notification: " + notification);
+		if(notification == "ARTICLE_NEXT"){
+			var before = this.activeItem;
+			this.activeItem++;
+			if (this.activeItem >= this.newsItems.length) {
+				this.activeItem = 0;
 			}
-			// actually LEFT, because gesture sensor is built in upside down
-			else if(gesture == "RIGHT"){
-				Log.info(this.name + " - received left");
-				var before = this.activeItem;
-				this.activeItem--;
-				if (this.activeItem < 0) {
-					this.activeItem = this.newsItems.length - 1;
-				}
-				this.config.showDescription = false;
-				this.config.showFullArticle = false;
-				if(!timer){
-					this.scheduleUpdateInterval();
-				}
-				Log.info(this.name + " - going from " + before + " to " + this.activeItem + " (of " + this.newsItems.length + ")");
-				this.updateDom(100);
+			this.config.showDescription = false;
+			this.config.showFullArticle = false;
+			if(!timer){
+				this.scheduleUpdateInterval();
 			}
-			// actually UP, because gesture sensor is built in upside down
-			else if(gesture == "DOWN" && !this.config.showDescription){
-				Log.info(this.name + " - received up");
-				this.config.showDescription = true;
-				this.config.showFullArticle = false;
-				clearInterval(timer);
-				timer = null;
-				this.updateDom(100);
+			Log.info(this.name + " - going from article #" + before + " to #" + this.activeItem + " (of " + this.newsItems.length + ")");
+			this.updateDom(100);
+		} else if(notification == "ARTICLE_PREVIOUS"){
+			var before = this.activeItem;
+			this.activeItem--;
+			if (this.activeItem < 0) {
+				this.activeItem = this.newsItems.length - 1;
 			}
-			// actually DOWN, because gesture sensor is built in upside down
-			else if(gesture == "UP"){
-				Log.info(this.name + " - received down");
-				this.config.showDescription = false;
-				this.config.showFullArticle = false;
-				if(!timer){
-					this.scheduleUpdateInterval();
-				}
-				this.updateDom(100);
+			this.config.showDescription = false;
+			this.config.showFullArticle = false;
+			if(!timer){
+				this.scheduleUpdateInterval();
 			}
-			// actually UP, because gesture sensor is built in upside down
-			else if(gesture == "DOWN" && this.config.showDescription){
-				Log.info(this.name + " - received up again");
-				this.config.showFullArticle = true;
-				this.config.showDescription = false;
-				clearInterval(timer);
-				timer = null;
-				this.updateDom(100);
-			} else {
-				Log.info(this.name + " - received other: " + gesture);
+			Log.info(this.name + " - going from article #" + before + " to #" + this.activeItem + " (of " + this.newsItems.length + ")");
+			this.updateDom(100);
+		}
+		// received "more details" the first time, so showing article summary
+		else if(notification == "ARTICLE_MORE_DETAILS" && !this.config.showDescription){
+			this.config.showDescription = true;
+			this.config.showFullArticle = false;
+			clearInterval(timer);
+			timer = null;
+			Log.info(this.name + " - showing article description");
+			this.updateDom(100);
+		} else if(notification == "ARTICLE_LESS_DETAILS"){
+			this.config.showDescription = false;
+			this.config.showFullArticle = false;
+			if(!timer){
+				this.scheduleUpdateInterval();
 			}
+			Log.info(this.name + " - showing only article titles again");
+			this.updateDom(100);
+		}
+		// received "more details" a second time, so showing full article
+		else if(notification == "ARTICLE_MORE_DETAILS" && this.config.showDescription){
+			this.config.showFullArticle = true;
+			this.config.showDescription = false;
+			clearInterval(timer);
+			timer = null;
+			Log.info(this.name + " - showing full article");
+			this.updateDom(100);
+		} else {
+			Log.info(this.name + " - unknown notification, ignoring: " + notification);
 		}
 	},
-
 
 });
