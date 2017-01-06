@@ -159,18 +159,18 @@ Module.register("newsfeed",{
 			title.innerHTML = this.newsItems[this.activeItem].title;
 			wrapper.appendChild(title);
 
-      if (this.config.showEnclosureImage && this.newsItems[this.activeItem].enclosureUrl !== "") {
-        var encImg = document.createElement("div");
-        encImg.innerHTML = "<img height='" + this.config.enclosureImageWidth + "' src='" + this.newsItems[this.activeItem].enclosureUrl + "' border=0/>";
-        wrapper.appendChild(encImg);
-      }
+			if (this.config.showEnclosureImage && this.newsItems[this.activeItem].enclosureUrl !== "") {
+				var encImg = document.createElement("div");
+				encImg.innerHTML = "<img height='" + this.config.enclosureImageWidth + "' src='" + this.newsItems[this.activeItem].enclosureUrl + "' border=0/>";
+				wrapper.appendChild(encImg);
+			}
 
-      if (this.config.showDescription) {
-        var description = document.createElement("div");
-        description.className = "small light";
-        description.innerHTML = this.newsItems[this.activeItem].description;
-        wrapper.appendChild(description);
-      }
+			if (this.config.showDescription) {
+				var description = document.createElement("div");
+				description.className = "small light";
+				description.innerHTML = this.newsItems[this.activeItem].description;
+				wrapper.appendChild(description);
+			}
 
 		} else {
 			wrapper.innerHTML = this.translate("LOADING");

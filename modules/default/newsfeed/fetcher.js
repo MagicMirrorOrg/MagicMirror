@@ -49,7 +49,7 @@ var Fetcher = function(url, reloadInterval, encoding) {
 			var url = item.url || item.link || "";
 			var enclosureUrl = "";
 			if (item.enclosure !== undefined) {
-			  enclosureUrl = item.enclosure.url
+				enclosureUrl = item.enclosure.url
 			}
 
 			if (title && pubdate) {
