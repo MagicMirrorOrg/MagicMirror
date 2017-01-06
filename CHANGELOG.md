@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [2.1.1] - Unreleased
 
 ### Added
+- Add loaded function to modules, providing an async callback.
 - Russian Translation
 
 ### Fixed
