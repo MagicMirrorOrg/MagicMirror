@@ -291,6 +291,14 @@ Module.register("newsfeed",{
 		return string.charAt(0).toUpperCase() + string.slice(1);
 	},
 
+	resetDescrOrFullArticleAndTimer: function() {
+		this.config.showDescription = false;
+		this.config.showFullArticle = false;
+		if(!timer){
+			this.scheduleUpdateInterval();
+		}
+	},
+
 	notificationReceived: function(notification, payload, sender) {
 		Log.info(this.name + " - received notification: " + notification);
 		if(notification == "ARTICLE_NEXT"){
@@ -299,11 +307,7 @@ Module.register("newsfeed",{
 			if (this.activeItem >= this.newsItems.length) {
 				this.activeItem = 0;
 			}
-			this.config.showDescription = false;
-			this.config.showFullArticle = false;
-			if(!timer){
-				this.scheduleUpdateInterval();
-			}
+			this.resetDescrOrFullArticleAndTimer();
 			Log.info(this.name + " - going from article #" + before + " to #" + this.activeItem + " (of " + this.newsItems.length + ")");
 			this.updateDom(100);
 		} else if(notification == "ARTICLE_PREVIOUS"){
@@ -312,38 +316,21 @@ Module.register("newsfeed",{
 			if (this.activeItem < 0) {
 				this.activeItem = this.newsItems.length - 1;
 			}
-			this.config.showDescription = false;
-			this.config.showFullArticle = false;
-			if(!timer){
-				this.scheduleUpdateInterval();
-			}
+			this.resetDescrOrFullArticleAndTimer();
 			Log.info(this.name + " - going from article #" + before + " to #" + this.activeItem + " (of " + this.newsItems.length + ")");
 			this.updateDom(100);
 		}
-		// received "more details" the first time, so showing article summary
-		else if(notification == "ARTICLE_MORE_DETAILS" && !this.config.showDescription){
-			this.config.showDescription = true;
-			this.config.showFullArticle = false;
+		// if "more details" is received the first time: show article summary, on second time show full article
+		else if(notification == "ARTICLE_MORE_DETAILS"){
+			this.config.showDescription = !this.config.showDescription;
+			this.config.showFullArticle = !this.config.showDescription;
 			clearInterval(timer);
 			timer = null;
-			Log.info(this.name + " - showing article description");
+			Log.info(this.name + " - showing " + this.config.showDescription ? "article description" : "full article");
 			this.updateDom(100);
 		} else if(notification == "ARTICLE_LESS_DETAILS"){
-			this.config.showDescription = false;
-			this.config.showFullArticle = false;
-			if(!timer){
-				this.scheduleUpdateInterval();
-			}
+			this.resetDescrOrFullArticleAndTimer();
 			Log.info(this.name + " - showing only article titles again");
-			this.updateDom(100);
-		}
-		// received "more details" a second time, so showing full article
-		else if(notification == "ARTICLE_MORE_DETAILS" && this.config.showDescription){
-			this.config.showFullArticle = true;
-			this.config.showDescription = false;
-			clearInterval(timer);
-			timer = null;
-			Log.info(this.name + " - showing full article");
 			this.updateDom(100);
 		} else {
 			Log.info(this.name + " - unknown notification, ignoring: " + notification);
