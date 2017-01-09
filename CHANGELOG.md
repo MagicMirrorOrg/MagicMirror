@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - Add loaded function to modules, providing an async callback.
+- Add use pm2 for manager process into Installer RaspberryPi script
 
 ## [2.1.0] - 2016-12-31
 

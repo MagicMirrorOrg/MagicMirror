@@ -141,6 +141,12 @@ else
 	echo -e "\e[93mplymouth is not installed.\e[0m";
 fi
 
+# Use pm2 control like a service MagicMirror
+sudo npm install -g pm2
+sudo su -c "env PATH=$PATH:/usr/bin pm2 startup linux -u pi --hp /home/pi"
+pm2 start ~/MagicMirror/installers/pm2_MagicMirror.json
+pm2 save
+
 echo " "
 echo -e "\e[92mWe're ready! Run \e[1m\e[97mDISPLAY=:0 npm start\e[0m\e[92m from the ~/MagicMirror directory to start your MagicMirror.\e[0m"
 echo " "
