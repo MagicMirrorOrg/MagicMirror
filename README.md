@@ -56,7 +56,7 @@ The following wiki links are helpful in the configuration of your MagicMirror² 
 - [Auto Starting MagicMirror](https://github.com/MichMich/MagicMirror/wiki/Auto-Starting-MagicMirror)
 
 ### Updating your MagicMirror²
-
+8
 If you want to update your MagicMirror² to the latest version, use your terminal to go to your Magic Mirror folder and type the following command:
 
 ```bash
@@ -83,7 +83,7 @@ The following properties can be configured:
 | `timeFormat` | The form of time notation that will be used. Possible values are `12` or `24`. The default is `24`. |
 | `units` | The units that will be used in the default weather modules. Possible values are `metric` or `imperial`. The default is `metric`. |
 | `modules` | An array of active modules. **The array must contain objects. See the next table below for more information.** |
-| `electronOptions` | An optional array of Electron (browser) options. This allows configuration of e.g. the browser screen size and position (defaults `.width = 800` & `.height = 600`). Kiosk mode can be enabled by setting `.kiosk = true`, `.autoHideMenuBar = false`, `.fullscreen = false`. More options can be found [here](https://github.com/electron/electron/blob/master/docs/api/browser-window.md). |
+| `electronOptions` | An optional array of Electron (browser) options. This allows configuration of e.g. the browser screen size and position (example: `electronOptions: { fullscreen: false, width: 800, height: 600 }`). Kiosk mode can be enabled by setting `.kiosk = true`, `.autoHideMenuBar = false`, `.fullscreen = false`. More options can be found [here](https://github.com/electron/electron/blob/master/docs/api/browser-window.md). |
 
 
 Module configuration:
