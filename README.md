@@ -56,6 +56,7 @@ The following wiki links are helpful in the configuration of your MagicMirror² 
 - [Auto Starting MagicMirror](https://github.com/MichMich/MagicMirror/wiki/Auto-Starting-MagicMirror)
 
 ### Updating your MagicMirror²
+
 If you want to update your MagicMirror² to the latest version, use your terminal to go to your Magic Mirror folder and type the following command:
 
 ```bash
