@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [2.1.1] - Unreleased
 
+### Changed
+- Installer: Use init config.js from config.js.sample.
+
 ### Added
 - Add loaded function to modules, providing an async callback.
 
