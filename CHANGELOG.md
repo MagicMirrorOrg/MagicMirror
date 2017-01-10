@@ -4,11 +4,16 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [2.1.1] - Unreleased
 
+### Changed
+- Installer: Use init config.js from config.js.sample.
+
 ### Added
 - Add loaded function to modules, providing an async callback.
 
 ### Fixed
-- Update .gitignore to not ignore default modules folder
+- Update .gitignore to not ignore default modules folder.
+- Remove white flash on boot up.
+
 
 ## [2.1.0] - 2016-12-31
 
