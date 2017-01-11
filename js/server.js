@@ -10,12 +10,17 @@ var app = require("express")();
 var server = require("http").Server(app);
 var io = require("socket.io")(server);
 var path = require("path");
+var reload = require("reload");
 var ipfilter = require("express-ipfilter").IpFilter;
 var fs = require("fs");
 var helmet = require("helmet");
 
 var Server = function(config, callback) {
 	console.log("Starting server op port " + config.port + " ... ");
+
+	if (config.reload) {
+		reload(server, app);
+	}
 
 	server.listen(config.port, config.address ? config.address : null);
 
