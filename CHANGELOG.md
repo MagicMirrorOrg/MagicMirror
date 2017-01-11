@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Update .gitignore to not ignore default modules folder.
 - Remove white flash on boot up.
 
+
 ## [2.1.0] - 2016-12-31
 
 **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
