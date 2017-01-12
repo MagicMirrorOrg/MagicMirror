@@ -3,18 +3,22 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [2.1.1] - Unreleased
+- Make mouse events pass through the region fullscreen_above to modules below.
 
 ### Changed
 - Installer: Use init config.js from config.js.sample.
 
 ### Added
 - Add loaded function to modules, providing an async callback.
-- Afrikaans translation.
+- Made default newsfeed module aware of gesture events from [MMM-Gestures](https://github.com/thobach/MMM-Gestures)
+- Add use pm2 for manager process into Installer RaspberryPi script
+- Russian Translation
+- Afrikaans Translation
 
 ### Fixed
 - Update .gitignore to not ignore default modules folder.
 - Remove white flash on boot up.
-
+- Added `update` in Raspberry Pi installation script.
 
 ## [2.1.0] - 2016-12-31
 
