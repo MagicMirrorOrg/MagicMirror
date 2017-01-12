@@ -38,7 +38,7 @@ function command_exists () { type "$1" &> /dev/null ;}
 
 # Update before first apt-get
 echo -e "\e[96mUpdating packages ...\e[90m"
-sudo apt-get update || exit
+sudo apt-get update || echo -e "\e[91mUpdate failed, carrying on installation ...\e[90m"
 
 # Installing helper tools
 echo -e "\e[96mInstalling helper tools ...\e[90m"
