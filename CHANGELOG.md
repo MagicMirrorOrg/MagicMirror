@@ -12,7 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add loaded function to modules, providing an async callback.
 - Made default newsfeed module aware of gesture events from [MMM-Gestures](https://github.com/thobach/MMM-Gestures)
 - Add use pm2 for manager process into Installer RaspberryPi script
-
+- Russian Translation
 
 ### Fixed
 - Update .gitignore to not ignore default modules folder.
