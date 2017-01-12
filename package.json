@@ -36,6 +36,7 @@
     "time-grunt": "latest"
   },
   "dependencies": {
+    "chart.js": "^2.4.0",
     "electron": "^1.4.7",
     "express": "^4.14.0",
     "express-ipfilter": "latest",

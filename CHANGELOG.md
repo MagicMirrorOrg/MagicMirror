@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [2.1.1] - Unreleased
+- Add chart.js to vendor modules, can be used to render charts.
 
 ### Changed
 - Installer: Use init config.js from config.js.sample.
