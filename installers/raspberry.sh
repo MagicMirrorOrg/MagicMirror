@@ -36,6 +36,10 @@ fi
 function version_gt() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" != "$1"; }
 function command_exists () { type "$1" &> /dev/null ;}
 
+# Update before first apt-get
+echo -e "\e[96mUpdating packages ...\e[90m"
+sudo apt-get update || echo -e "\e[91mUpdate failed, carrying on installation ...\e[90m"
+
 # Installing helper tools
 echo -e "\e[96mInstalling helper tools ...\e[90m"
 sudo apt-get install curl wget git build-essential unzip || exit
@@ -112,6 +116,9 @@ else
 	echo -e "\e[91mUnable to install dependencies!"
 	exit;
 fi
+
+# Use sample config for start MagicMirror
+cp config/config.js.sample config/config.js
 
 # Check if plymouth is installed (default with PIXEL desktop environment), then install custom splashscreen.
 echo -e "\e[96mCheck plymouth installation ...\e[0m"
