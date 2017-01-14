@@ -3,10 +3,13 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [2.1.1] - Unreleased
-- Make mouse events pass through the region fullscreen_above to modules below.
+
+**Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
 
 ### Changed
 - Installer: Use init config.js from config.js.sample.
+- Switched out `rrule` package for `rrule-alt` in order to improve calendar issues. (Experimental: [#565](https://github.com/MichMich/MagicMirror/issues/565))
+- Make mouse events pass through the region fullscreen_above to modules below.
 
 ### Added
 - Add loaded function to modules, providing an async callback.
@@ -136,7 +139,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Added reference to Italian Translation.
-- Added the missing NE translation to all languages. [#334](https://github.com/MichMich/MagicMirror/issues/344)
+- Added the missing NE translation to all languages. [#565](https://github.com/MichMich/MagicMirror/issues/344)
 - Added proper User-Agent string to calendar call.
 
 ### Changed
