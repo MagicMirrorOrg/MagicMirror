@@ -19,7 +19,7 @@ MagicMirror² focuses on a modular plugin system and uses [Electron](http://elec
 - [Configuration](#configuration)
 - [Modules](#modules)
 - [Known Issues](#known-issues)
-- [community](#community)
+- [Community](#community)
 - [Contributing Guidelines](#contributing-guidelines)
 
 ## Usage

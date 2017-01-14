@@ -1,6 +1,6 @@
 {
   "name": "magicmirror",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "A modular interface for smart mirrors.",
   "main": "js/electron.js",
   "scripts": {
@@ -45,7 +45,7 @@
     "iconv-lite": "latest",
     "moment": "latest",
     "request": "^2.78.0",
-    "rrule": "latest",
+    "rrule-alt": "^2.2.3",
     "simple-git": "^1.62.0",
     "socket.io": "^1.5.1",
     "valid-url": "latest",
