@@ -9,7 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Installer: Use init config.js from config.js.sample.
 - Switched out `rrule` package for `rrule-alt` in order to improve calendar issues. (Experimental: [#565](https://github.com/MichMich/MagicMirror/issues/565))
-- Make mouse events pass through the region fullscreen_above to modules below.
+- Make mouse events pass through the region fullscreen\_above to modules below.
 
 ### Added
 - Add loaded function to modules, providing an async callback.
@@ -17,6 +17,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add use pm2 for manager process into Installer RaspberryPi script
 - Russian Translation
 - Afrikaans Translation
+- Add postinstall script to notify user that MagicMirror installed successfully despite warnings from NPM.
 
 ### Fixed
 - Update .gitignore to not ignore default modules folder.
