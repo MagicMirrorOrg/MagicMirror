@@ -5,7 +5,7 @@
   "main": "js/electron.js",
   "scripts": {
     "start": "electron js/electron.js",
-    "postinstall": "sh installers/postinstall.sh"
+    "postinstall": "sh installers/postinstall/postinstall.sh"
   },
   "repository": {
     "type": "git",
