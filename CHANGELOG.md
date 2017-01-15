@@ -17,6 +17,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add use pm2 for manager process into Installer RaspberryPi script
 - Russian Translation
 - Afrikaans Translation
+- Add postinstall script to notify user that MagicMirror installed successfully despite warnings from NPM.
 
 ### Fixed
 - Update .gitignore to not ignore default modules folder.
@@ -139,7 +140,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Added reference to Italian Translation.
-- Added the missing NE translation to all languages. [#565](https://github.com/MichMich/MagicMirror/issues/344)
+- Added the missing NE translation to all languages. [#344](https://github.com/MichMich/MagicMirror/issues/344)
 - Added proper User-Agent string to calendar call.
 
 ### Changed
