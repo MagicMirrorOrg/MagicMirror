@@ -120,7 +120,7 @@ The following properties can be configured:
      <td><code>enclosureImageWidth</code></td>
      <td>The absolute width of the enclosure image.<br>
         <br><b>Possible values:</b><code>0</code> - <code>...</code>
-        <br><b>Default value:</b> <code>153</code>
+        <br><b>Default value:</b> <code>230</code>
      </td>
    </tr>
 			removeStartTags: false,

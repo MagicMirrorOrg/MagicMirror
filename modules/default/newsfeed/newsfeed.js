@@ -26,7 +26,7 @@ Module.register("newsfeed",{
 		updateInterval: 10 * 1000,
 		animationSpeed: 2.5 * 1000,
 		maxNewsItems: 0, // 0 for unlimited
-		enclosureImageWidth: 153,
+		enclosureImageWidth: 230,
 		removeStartTags: "",
 		removeEndTags: "",
 		startTags: [],
@@ -161,7 +161,7 @@ Module.register("newsfeed",{
 
 			if (this.config.showEnclosureImage && this.newsItems[this.activeItem].enclosureUrl !== "") {
 				var encImg = document.createElement("div");
-				encImg.innerHTML = "<img height='" + this.config.enclosureImageWidth + "' src='" + this.newsItems[this.activeItem].enclosureUrl + "' border=0/>";
+				encImg.innerHTML = "<img width='" + this.config.enclosureImageWidth + "' src='" + this.newsItems[this.activeItem].enclosureUrl + "' border=0/>";
 				wrapper.appendChild(encImg);
 			}
 
