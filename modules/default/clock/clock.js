@@ -137,7 +137,7 @@ Module.register("clock",{
 
 				// The following line solves issue: https://github.com/MichMich/MagicMirror/issues/611
 				clockCircle.style.border = "1px solid black";
-				
+
 			} else if (this.config.analogFace != "none") {
 				clockCircle.style.border = "2px solid white";
 			}
