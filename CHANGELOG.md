@@ -24,6 +24,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Remove white flash on boot up.
 - Added `update` in Raspberry Pi installation script.
 - Fix an issue where the analog clock looked scrambled. ([#611](https://github.com/MichMich/MagicMirror/issues/611))
+- If units is set to imperial, the showRainAmount option of weatherforecast will show the correct unit.
 
 ## [2.1.0] - 2016-12-31
 
