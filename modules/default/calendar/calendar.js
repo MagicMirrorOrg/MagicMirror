@@ -382,7 +382,7 @@ Module.register("calendar", {
 
 			var regParts = needle.match(/^\/(.+)\/([gim]*)$/);
 			if (regParts) {
-			  // the parsed pattern is a regexp. 
+			  // the parsed pattern is a regexp.
 			  needle = new RegExp(regParts[1], regParts[2]);
 			}
 
