@@ -379,6 +379,13 @@ Module.register("calendar", {
 	titleTransform: function (title) {
 		for (var needle in this.config.titleReplace) {
 			var replacement = this.config.titleReplace[needle];
+
+			var regParts = needle.match(/^\/(.+)\/([gim]*)$/);
+			if (regParts) {
+			  // the parsed pattern is a regexp. 
+			  needle = new RegExp(regParts[1], regParts[2]);
+			}
+
 			title = title.replace(needle, replacement);
 		}
 
