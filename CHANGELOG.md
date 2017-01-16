@@ -18,6 +18,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Russian Translation
 - Afrikaans Translation
 - Add postinstall script to notify user that MagicMirror installed successfully despite warnings from NPM.
+- Init tests using mocha.
 
 ### Fixed
 - Update .gitignore to not ignore default modules folder.
