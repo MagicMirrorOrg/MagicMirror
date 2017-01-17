@@ -22,21 +22,6 @@ modules: [
 
 The following properties can be configured:
 
-<table width="100%">
-	<!-- why, markdown... -->
-	<thead>
-		<tr>
-			<th>Option</th>
-			<th width="100%">Description</th>
-		</tr>
-	<thead>
-	<tbody>
-		<tr>
-			<td><code>updateInterval</code></td>
-			<td>How often do you want to check for a new version? This value represents the interval in milliseconds.<br>
-				<br><b>Possible values:</b> Any value above <code>60000</code> (1 minute);
-				<br><b>Default value:</b> <code>600000</code> (10 minutes);
-			</td>
-		</tr>
-	</tbody>
-</table>
+| Option           | Description
+| ---------------- | -----------
+| `updateInterval` | How often do you want to check for a new version? This value represents the interval in milliseconds. <br><br> **Possible values:** Any value above `60000` (1 minute) <br> **Default value:** `600000` (10 minutes);
