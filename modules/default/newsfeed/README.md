@@ -1,9 +1,10 @@
 # Module: News Feed
 The `newsfeed ` module is one of the default modules of the MagicMirror.
-This module displays news headlines based on an RSS feed.
+This module displays news headlines based on an RSS feed. Scrolling through news headlines happens time-based (````updateInterval````), but can also be controlled by sending news feed specific notifications to the module.
 
 ## Using the module
 
+### Configuration
 To use this module, add it to the modules array in the `config/config.js` file:
 ````javascript
 modules: [
@@ -29,6 +30,51 @@ modules: [
 	}
 ]
 ````
+
+### Notifications
+#### Interacting with the module
+MagicMirror's [notification mechanism](https://github.com/MichMich/MagicMirror/tree/master/modules#thissendnotificationnotification-payload) allows to send notifications to the ````newsfeed```` module. The following notifications are supported:
+
+<table width="100%">
+	<!-- why, markdown... -->
+	<thead>
+		<tr>
+			<th>Notification Identifier</th>
+			<th width="100%">Description</th>
+		</tr>
+	<thead>
+	<tbody>
+		<tr>
+			<td><code>ARTICLE_NEXT</code></td>
+			<td>Shows the next news title (hiding the summary or previously fully displayed article)</td>
+		</tr>
+		<tr>
+			<td><code>ARTICLE_PREVIOUS</code></td>
+			<td>Shows the previous news title (hiding the summary or previously fully displayed article)</td>
+		</tr>
+		<tr>
+			<td><code>ARTICLE_MORE_DETAILS</code></td>
+			<td><p>When received the *first time*, shows the corresponding description of the currently displayed news title.<br />The module expects that the module's configuration option ````showDescription```` is set to ````false```` (default value).</p>
+			When received a *second consecutive time*, shows the full news article in an IFRAME.<br />
+			This requires that the news page can be embedded in an IFRAME, e.g. doesn't have the HTTP response header [X-Frame-Options](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options) set to e.g. ````DENY````.</td>
+		</tr>
+		<tr>
+			<td><code>ARTICLE_LESS_DETAILS</code></td>
+			<td>Hides the summary or full news article and only displays the news title of the currently viewed news item.</td>
+		</tr>
+	</tbody>
+</table>
+
+Note the payload of the sent notification event is ignored.
+
+#### Example
+The following example shows how the next news article title can be displayed on the MagicMirror.
+````javascript
+this.sendNotification('ARTICLE_NEXT');
+````
+
+#### ````newsfeed```` specific notification emitting modules
+The third party [MMM-Gestures](https://github.com/thobach/MMM-Gestures) module supports above notifications when moving your hand up, down, left or right in front of a gesture sensor attached to the MagicMirror. See module's readme for more details.
 
 ## Configuration options
 

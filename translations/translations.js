@@ -26,4 +26,6 @@ var translations = {
 	"gr" : "translations/gr.json",  // Greek
 	"da" : "translations/da.json", // Danish
 	"tr" : "translations/tr.json", // Turkish
+	"ru" : "translations/ru.json", // Russian
+	"af" : "translations/af.json", // Afrikaans
 };
