@@ -21,10 +21,12 @@ Module.register("newsfeed",{
 		showSourceTitle: true,
 		showPublishDate: true,
 		showDescription: false,
+		showEnclosureImage: false,
 		reloadInterval:  5 * 60 * 1000, // every 5 minutes
 		updateInterval: 10 * 1000,
 		animationSpeed: 2.5 * 1000,
 		maxNewsItems: 0, // 0 for unlimited
+		enclosureImageWidth: 230,
 		removeStartTags: "",
 		removeEndTags: "",
 		startTags: [],
@@ -158,6 +160,12 @@ Module.register("newsfeed",{
 				title.className = "bright medium light";
 				title.innerHTML = this.newsItems[this.activeItem].title;
 				wrapper.appendChild(title);
+			}
+
+			if (this.config.showEnclosureImage && this.newsItems[this.activeItem].enclosureUrl !== "") {
+				var encImg = document.createElement("div");
+				encImg.innerHTML = "<img width='" + this.config.enclosureImageWidth + "' src='" + this.newsItems[this.activeItem].enclosureUrl + "' border=0/>";
+				wrapper.appendChild(encImg);
 			}
 
 			if (this.config.showDescription) {

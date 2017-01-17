@@ -126,6 +126,13 @@ The following properties can be configured:
 				<br><b>Default value:</b> <code>false</code>
 			</td>
 		</tr>
+   <tr>
+     <td><code>showEnclosureImage</code></td>
+     <td>Display the enclosure image of an item.<br>
+       <br><b>Possible values:</b> <code>true</code> or <code>false</code>
+       <br><b>Default value:</b> <code>false</code>
+     </td>
+   </tr>
 
 		<tr>
 			<td><code>reloadInterval</code></td>
@@ -155,6 +162,13 @@ The following properties can be configured:
 				<br><b>Default value:</b> <code>0</code>
 			</td>
 		</tr>
+   <tr>
+     <td><code>enclosureImageWidth</code></td>
+     <td>The absolute width of the enclosure image.<br>
+        <br><b>Possible values:</b><code>0</code> - <code>...</code>
+        <br><b>Default value:</b> <code>230</code>
+     </td>
+   </tr>
 			removeStartTags: false,
 		removeEndTags: false,
 		startTags: [],

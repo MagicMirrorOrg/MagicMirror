@@ -47,6 +47,10 @@ var Fetcher = function(url, reloadInterval, encoding) {
 			var description = item.description || item.summary || item.content || "";
 			var pubdate = item.pubdate || item.published || item.updated;
 			var url = item.url || item.link || "";
+			var enclosureUrl = "";
+			if (item.enclosure !== undefined) {
+				enclosureUrl = item.enclosure.url
+			}
 
 			if (title && pubdate) {
 
@@ -58,6 +62,7 @@ var Fetcher = function(url, reloadInterval, encoding) {
 					description: description,
 					pubdate: pubdate,
 					url: url,
+					enclosureUrl: enclosureUrl,
 				});
 
 			} else {
@@ -66,7 +71,8 @@ var Fetcher = function(url, reloadInterval, encoding) {
 				// console.log(item);
 				// console.log('Title: ' + title);
 				// console.log('Description: ' + description);
-				// console.log('Pubdate: ' + pubdate);
+        // console.log('Pubdate: ' + pubdate);
+        // console.log('EnclosureUrl: ' + enclosureUrl);
 
 			}
 		});

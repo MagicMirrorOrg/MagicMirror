@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.1.2] - Unreleased
+
+### Added
+- Added ability to the newsfeed module to display the enclosure image of a news item.
+
 ## [2.1.1] - Unreleased
 
 **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
