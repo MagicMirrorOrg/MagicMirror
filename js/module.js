@@ -415,3 +415,7 @@ Module.register = function (name, moduleDefinition) {
 	Log.log("Module registered: " + name);
 	Module.definitions[name] = moduleDefinition;
 };
+
+exports._test = {
+	cmpVersions: cmpVersions
+}
