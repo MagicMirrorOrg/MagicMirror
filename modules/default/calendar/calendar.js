@@ -360,7 +360,7 @@ Module.register("calendar", {
 
 	/* capFirst(string)
 	 * Capitalize the first letter of a string
-	 * Eeturn capitalized string
+	 * Return capitalized string
 	 */
 
 	capFirst: function (string) {
