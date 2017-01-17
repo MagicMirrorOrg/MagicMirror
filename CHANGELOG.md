@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Switched out `rrule` package for `rrule-alt` in order to improve calendar issues. (Experimental: [#565](https://github.com/MichMich/MagicMirror/issues/565))
 - Make mouse events pass through the region fullscreen_above to modules below.
 - Scaled the splash screen down to make it a bit more subtle.
+- Replace HTML tables with markdown tables in README files.
 
 ### Added
 - Add loaded function to modules, providing an async callback.
