@@ -296,7 +296,7 @@ Module.register("currentweather",{
 	 */
 	processWeather: function(data) {
 
-		if (!data || !data.main || typeof data.main.temp === 'undefined') {
+		if (!data || !data.main || typeof data.main.temp === "undefined") {
 			// Did not receive usable new data.
 			// Maybe this needs a better check?
 			return;
