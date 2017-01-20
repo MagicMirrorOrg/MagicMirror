@@ -211,6 +211,17 @@ config: {
 			</td>
 		</tr>
 		<tr>
+			<td><code>maximumEntries</code></td>
+			<td>The maximum number of events shown. Overrides the universal maximumEntries setting.<br>
+				<br><b>Possible values:</b> <code>0</code> - <code>100</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>maximumNumberOfDays</code></td>
+			<td>The maximum number of days in the future.  Overrides the universal maximumEntries setting.
+			</td>
+		</tr>
+		<tr>
 			<td><code>repeatingCountTitle</code></td>
 			<td>The count title for yearly repating events in this calendar. <br>
 				<br><b>Example:</b> <br>
