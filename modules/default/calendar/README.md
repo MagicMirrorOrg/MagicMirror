@@ -61,13 +61,14 @@ config: {
 }
 ````
 
+
 #### Calendar configuration options:
 | Option                | Description
 | --------------------- | -----------
 | `url`	                | The url of the calendar .ical. This property is required. <br><br> **Possible values:** Any public accessble .ical calendar.
 | `symbol`              | The symbol to show in front of an event. This property is optional. <br><br> **Possible values:** See [Font Awesome](http://fontawesome.io/icons/) website.
-| `maximumNumberOfDays` | The maximum number of days in the future.  This property is optional.  Overrides the universal maximumEntries setting.
-| `maximumEntries`      | The maximum number of events shown. / **Possible values:** `0` - `100`
+| `maximumNumberOfDays` | The maximum number of days in the future.  This property is optional.  Overrides the universal maximumNumberOfDays setting.
+| `maximumEntries`      | The maximum number of events shown.  This property is optional.  Overrides the universal maximumEntries setting.<br><br>**Possible values:** `0` - `100`
 | `repeatingCountTitle`	| The count title for yearly repating events in this calendar.  <br><br> **Example:** `'Birthday'`
 | `user`                | The username for HTTP Basic authentication.
 | `pass`                | The password for HTTP Basic authentication.
