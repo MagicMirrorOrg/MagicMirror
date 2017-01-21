@@ -61,7 +61,7 @@ config: {
 }
 ````
 
-
+#### Calendar configuration options:
 | Option                | Description
 | --------------------- | -----------
 | `url`	                | The url of the calendar .ical. This property is required. <br><br> **Possible values:** Any public accessble .ical calendar.
