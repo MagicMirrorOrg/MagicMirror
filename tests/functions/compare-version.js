@@ -3,7 +3,7 @@ var expect = chai.expect;
 var classMM = require('../../js/class.js'); // require for load module.js
 var moduleMM =  require('../../js/module.js')
 
-describe('Test function cmpVersions into js/module.js', function() {
+describe('Test function cmpVersions in js/module.js', function() {
 
 	it('Should be return -1 ', function() {
 		expect(moduleMM._test.cmpVersions('2.1', '2.2')).to.equal(-1);
