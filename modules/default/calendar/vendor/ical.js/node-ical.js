@@ -17,7 +17,7 @@ exports.parseFile = function(filename){
 }
 
 
-var rrule = require('rrule').RRule
+var rrule = require('rrule-alt').RRule
 
 ical.objectHandlers['RRULE'] = function(val, params, curr, stack, line){
   curr.rrule = line;

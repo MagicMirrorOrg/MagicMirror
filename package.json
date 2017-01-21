@@ -1,10 +1,12 @@
 {
   "name": "magicmirror",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "A modular interface for smart mirrors.",
   "main": "js/electron.js",
   "scripts": {
-    "start": "electron js/electron.js"
+    "start": "electron js/electron.js",
+    "postinstall": "sh installers/postinstall/postinstall.sh",
+	"test": "./node_modules/mocha/bin/mocha tests --recursive"
   },
   "repository": {
     "type": "git",
@@ -26,12 +28,14 @@
   },
   "homepage": "https://github.com/MichMich/MagicMirror#readme",
   "devDependencies": {
+    "chai": "^3.5.0",
     "grunt": "latest",
     "grunt-eslint": "latest",
     "grunt-jsonlint": "latest",
     "grunt-markdownlint": "^1.0.13",
     "grunt-stylelint": "latest",
     "grunt-yamllint": "latest",
+    "mocha": "^3.2.0",
     "stylelint-config-standard": "latest",
     "time-grunt": "latest"
   },
@@ -44,7 +48,7 @@
     "iconv-lite": "latest",
     "moment": "latest",
     "request": "^2.78.0",
-    "rrule": "latest",
+    "rrule-alt": "^2.2.3",
     "simple-git": "^1.62.0",
     "socket.io": "^1.5.1",
     "valid-url": "latest",
