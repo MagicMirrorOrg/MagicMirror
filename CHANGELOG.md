@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.2.0] - 2017-01-22
+
+### Added
+- Support calendar-specific controls for `maximumNumberOfDays` and `maximumEntries`
+
 ## [2.1.0] - 2016-12-31
 
 **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
