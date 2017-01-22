@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Make mouse events pass through the region fullscreen_above to modules below.
 - Scaled the splash screen down to make it a bit more subtle.
 - Replace HTML tables with markdown tables in README files.
+- Added `DAYAFTERTOMORROW`, `UPDATE_NOTIFICATION` and `UPDATE_NOTIFICATION_MODULE` to Finnish translations.
 
 ### Added
 - Add loaded function to modules, providing an async callback.
