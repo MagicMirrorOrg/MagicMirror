@@ -17,7 +17,12 @@ exports.parseFile = function(filename){
 }
 
 
+<<<<<<< HEAD
 var rrule = require('rrule').RRule
+=======
+var rrule = require('rrule-alt').RRule
+var rrulestr = rrule.rrulestr
+>>>>>>> MichMich/develop
 
 ical.objectHandlers['RRULE'] = function(val, params, curr, stack, line){
   curr.rrule = line;
@@ -26,7 +31,7 @@ ical.objectHandlers['RRULE'] = function(val, params, curr, stack, line){
 var originalEnd = ical.objectHandlers['END'];
 ical.objectHandlers['END'] = function(val, params, curr, stack){
   if (curr.rrule) {
-    var rule = curr.rrule.replace('RRULE:', '');
+    var rule = curr.rrule;
     if (rule.indexOf('DTSTART') === -1) {
 
       if (curr.start.length === 8) {
@@ -36,10 +41,14 @@ ical.objectHandlers['END'] = function(val, params, curr, stack){
         }
       }
 
-      rule += ';DTSTART=' + curr.start.toISOString().replace(/[-:]/g, '');
+      rule += ' DTSTART:' + curr.start.toISOString().replace(/[-:]/g, '');
       rule = rule.replace(/\.[0-9]{3}/, '');
     }
-    curr.rrule = rrule.fromString(rule);
+    for (var i in curr.exdates) {
+      rule += ' EXDATE:' + curr.exdates[i].toISOString().replace(/[-:]/g, '');
+      rule = rule.replace(/\.[0-9]{3}/, '');
+    }
+    curr.rrule = rrulestr(rule);
   }
   return originalEnd.call(this, val, params, curr, stack);
 }
