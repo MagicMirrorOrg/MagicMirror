@@ -12,6 +12,7 @@ var CalendarFetcher = require("./calendarfetcher.js");
 module.exports = NodeHelper.create({
 	// Override start method.
 	start: function() {
+		var self = this;
 		var events = [];
 
 		this.fetchers = [];
