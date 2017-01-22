@@ -90,6 +90,7 @@
     return dt
   }
 
+
   var dateParam = function(name){
     return function(val, params, curr){
 
@@ -142,16 +143,6 @@
     }
   }
 
-  var exdateParam = function(name){
-    return function(val, params, curr){
-      var date = dateParam(name)(val, params, curr);
-      if (date.exdates === undefined) {
-        date.exdates = [];
-      }
-      date.exdates.push(date.exdate);
-      return date;
-    }
-  }
 
   var geoParam = function(name){
     return function(val, params, curr){
@@ -249,7 +240,6 @@
       , 'LOCATION' : storeParam('location')
       , 'DTSTART' : dateParam('start')
       , 'DTEND' : dateParam('end')
-      , 'EXDATE' : exdateParam('exdate')
       ,' CLASS' : storeParam('class')
       , 'TRANSP' : storeParam('transparency')
       , 'GEO' : geoParam('geo')

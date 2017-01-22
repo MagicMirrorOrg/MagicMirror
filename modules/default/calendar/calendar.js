@@ -68,7 +68,13 @@ Module.register("calendar", {
 		for (var c in this.config.calendars) {
 			var calendar = this.config.calendars[c];
 			calendar.url = calendar.url.replace("webcal://", "http://");
-			this.addCalendar(calendar.url, calendar.user, calendar.pass);
+
+			var calendarConfig = {
+				maximumEntries: calendar.maximumEntries,
+				maximumNumberOfDays: calendar.maximumNumberOfDays,
+			};
+
+			this.addCalendar(calendar.url, calendar.user, calendar.pass, calendarConfig);
 		}
 
 		this.calendarData = {};
@@ -295,11 +301,12 @@ Module.register("calendar", {
 	 *
 	 * argument url sting - Url to add.
 	 */
-	addCalendar: function (url, user, pass) {
+	addCalendar: function (url, user, pass, calendarConfig) {
+
 		this.sendSocketNotification("ADD_CALENDAR", {
 			url: url,
-			maximumEntries: this.config.maximumEntries,
-			maximumNumberOfDays: this.config.maximumNumberOfDays,
+			maximumEntries: calendarConfig.maximumEntries || this.config.maximumEntries,
+			maximumNumberOfDays: calendarConfig.maximumNumberOfDays || this.config.maximumNumberOfDays,
 			fetchInterval: this.config.fetchInterval,
 			user: user,
 			pass: pass
@@ -360,7 +367,7 @@ Module.register("calendar", {
 
 	/* capFirst(string)
 	 * Capitalize the first letter of a string
-	 * Return capitalized string
+	 * Eeturn capitalized string
 	 */
 
 	capFirst: function (string) {
@@ -379,13 +386,6 @@ Module.register("calendar", {
 	titleTransform: function (title) {
 		for (var needle in this.config.titleReplace) {
 			var replacement = this.config.titleReplace[needle];
-
-			var regParts = needle.match(/^\/(.+)\/([gim]*)$/);
-			if (regParts) {
-			  // the parsed pattern is a regexp.
-			  needle = new RegExp(regParts[1], regParts[2]);
-			}
-
 			title = title.replace(needle, replacement);
 		}
 

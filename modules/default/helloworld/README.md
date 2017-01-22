@@ -20,6 +20,23 @@ modules: [
 
 The following properties can be configured:
 
-| Option | Description
-| ------ | -----------
-| `text` | The text to display. <br><br> **Example:** `'Hello world!'` <br> **Default value:** `'Hello world!'`
+
+<table width="100%">
+	<!-- why, markdown... -->
+	<thead>
+		<tr>
+			<th>Option</th>
+			<th width="100%">Description</th>
+		</tr>
+	<thead>
+	<tbody>
+
+		<tr>
+			<td><code>text</code></td>
+			<td>The text to display.<br>
+				<br><b>Example:</b> <code>'Hello world!'</code>
+				<br><b>Default value:</b> <code>'Hello world!'</code>
+			</td>
+		</tr>
+	</tbody>
+</table>

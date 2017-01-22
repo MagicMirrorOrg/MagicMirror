@@ -66,7 +66,7 @@ var App = function() {
 	 *
 	 * argument module string - The name of the module (including subpath).
 	 */
-	var loadModule = function(module, callback) {
+	var loadModule = function(module) {
 
 		var elements = module.split("/");
 		var moduleName = elements[elements.length - 1];
@@ -103,10 +103,6 @@ var App = function() {
 			m.setName(moduleName);
 			m.setPath(path.resolve(moduleFolder));
 			nodeHelpers.push(m);
-
-			m.loaded(callback);
-		} else {
-			callback();
 		}
 	};
 
@@ -115,24 +111,14 @@ var App = function() {
 	 *
 	 * argument module string - The name of the module (including subpath).
 	 */
-	var loadModules = function(modules, callback) {
+	var loadModules = function(modules) {
 		console.log("Loading module helpers ...");
 
-		var loadNextModule = function() {
-			if (modules.length > 0) {
-				var nextModule = modules[0];
-				loadModule(nextModule, function() {
-					modules = modules.slice(1);
-					loadNextModule();
-				});
-			} else {
-				// All modules are loaded
-				console.log("All module helpers loaded.");
-				callback();
-			}
-		};
+		for (var m in modules) {
+			loadModule(modules[m]);
+		}
 
-		loadNextModule();
+		console.log("All module helpers loaded.");
 	};
 
 	/* cmpVersions(a,b)
@@ -178,24 +164,24 @@ var App = function() {
 				}
 			}
 
-			loadModules(modules, function() {
-				var server = new Server(config, function(app, io) {
-					console.log("Server started ...");
+			loadModules(modules);
 
-					for (var h in nodeHelpers) {
-						var nodeHelper = nodeHelpers[h];
-						nodeHelper.setExpressApp(app);
-						nodeHelper.setSocketIO(io);
-						nodeHelper.start();
-					}
+			var server = new Server(config, function(app, io) {
+				console.log("Server started ...");
 
-					console.log("Sockets connected & modules started ...");
+				for (var h in nodeHelpers) {
+					var nodeHelper = nodeHelpers[h];
+					nodeHelper.setExpressApp(app);
+					nodeHelper.setSocketIO(io);
+					nodeHelper.start();
+				}
 
-					if (typeof callback === "function") {
-						callback(config);
-					}
+				console.log("Sockets connected & modules started ...");
 
-				});
+				if (typeof callback === "function") {
+					callback(config);
+				}
+
 			});
 		});
 	};

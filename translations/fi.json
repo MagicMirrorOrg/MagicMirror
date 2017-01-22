@@ -5,7 +5,6 @@
 	/* CALENDAR */
 	"TODAY": "Tänään",
 	"TOMORROW": "Huomenna",
-	"DAYAFTERTOMORROW": "Ylihuomenna",
 	"RUNNING": "Meneillään",
 	"EMPTY": "Ei tulevia tapahtumia.",
 
@@ -25,9 +24,5 @@
 	"W": "L",
 	"WNW": "LPL",
 	"NW": "PL",
-	"NNW": "PPL",
-	
-	/* UPDATE INFO */
-	"UPDATE_NOTIFICATION": "MagicMirror² päivitys saatavilla.",
-	"UPDATE_NOTIFICATION_MODULE": "Päivitys saatavilla moduulille MODULE_NAME."
+	"NNW": "PPL"
 }

@@ -28,8 +28,7 @@ function createWindow() {
 		webPreferences: {
 			nodeIntegration: false,
 			zoomFactor: config.zoom
-		},
-		backgroundColor: "#000000"
+		}
 	}
 
 	// DEPRECATED: "kioskmode" backwards compatibility, to be removed
