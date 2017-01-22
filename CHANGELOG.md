@@ -2,21 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-<<<<<<< HEAD
 ## [2.2.0] - 2017-01-22
-=======
-## [2.1.1] - Unreleased
-
-**Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
-
-### Changed
-- Installer: Use init config.js from config.js.sample.
-- Switched out `rrule` package for `rrule-alt` and fixes in `ical.js` in order to fix calendar issues. ([#565](https://github.com/MichMich/MagicMirror/issues/565))
-- Make mouse events pass through the region fullscreen_above to modules below.
-- Scaled the splash screen down to make it a bit more subtle.
-- Replace HTML tables with markdown tables in README files.
-- Added `DAYAFTERTOMORROW`, `UPDATE_NOTIFICATION` and `UPDATE_NOTIFICATION_MODULE` to Finnish translations.
->>>>>>> MichMich/develop
 
 ### Added
 - Support calendar-specific controls for `maximumNumberOfDays` and `maximumEntries`
