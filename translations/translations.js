@@ -26,5 +26,8 @@ var translations = {
 	"gr" : "translations/gr.json",  // Greek
 	"da" : "translations/da.json", // Danish
 	"tr" : "translations/tr.json", // Turkish
-	"is" : "translations/is.json", // Icelandic
+	"ru" : "translations/ru.json", // Russian
+	"af" : "translations/af.json", // Afrikaans
+  "hu" : "translations/hu.json", // Hungarian
+  "is" : "translations/is.json", // Icelandic
 };
