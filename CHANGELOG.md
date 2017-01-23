@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
 
 ### Added
+- Icelandic translation.
 - Finnish translation.
 - Danish translation.
 - Turkish translation.
