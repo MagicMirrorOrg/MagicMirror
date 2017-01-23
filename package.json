@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron js/electron.js",
     "postinstall": "sh installers/postinstall/postinstall.sh",
-	"test": "./node_modules/mocha/bin/mocha tests --recursive"
+    "test": "./node_modules/mocha/bin/mocha tests --recursive"
   },
   "repository": {
     "type": "git",
