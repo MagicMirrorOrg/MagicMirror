@@ -29,4 +29,5 @@ var translations = {
 	"ru" : "translations/ru.json", // Russian
 	"af" : "translations/af.json", // Afrikaans
   "hu" : "translations/hu.json", // Hungarian
+  "is" : "translations/is.json", // Icelandic
 };

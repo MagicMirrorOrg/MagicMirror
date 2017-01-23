@@ -24,6 +24,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Init tests using mocha.
 - Option to use RegExp in Calendar's titleReplace.
 - Hungarian Translation.
+- Icelandic Translation.
 
 ### Fixed
 - Update .gitignore to not ignore default modules folder.
