@@ -19,11 +19,12 @@ var translations = {
 	"pt_br" : "translations/pt_br.json", // Português Brasileiro
 	"sv" : "translations/sv.json", // Svenska
 	"it" : "translations/it.json", // Italian
-	"zh_cn" : "translations/zh_cn.json", // Simplified Chinese
+	"zh_cn" : "translations/zh_cn.jsona", // Simplified Chinese
 	"zh_tw" : "translations/zh_tw.json", // Traditional Chinese
 	"ja" : "translations/ja.json", // Japanese
 	"pl" : "translations/pl.json", // Polish
 	"gr" : "translations/gr.json",  // Greek
 	"da" : "translations/da.json", // Danish
 	"tr" : "translations/tr.json", // Turkish
+	"is" : "translations/is.json", // Icelandic
 };
