@@ -9,6 +9,7 @@ module.exports = function(grunt) {
 			target: ["js/*.js", "modules/default/*.js", "modules/default/*/*.js",
 				"serveronly/*.js", "*.js", "tests/*/*.js", "!modules/default/alert/notificationFx.js",
 				"!modules/default/alert/modernizr.custom.js", "!modules/default/alert/classie.js",
+				"config/*",
 			]
 		},
 		stylelint: {
