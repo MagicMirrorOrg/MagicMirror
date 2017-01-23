@@ -4,7 +4,9 @@ node_js:
  - "5.1"
 before_script:
  - npm install grunt-cli -g
-script: grunt
+script:
+- grunt
+- npm test
 cache:
  directories:
   - node_modules

@@ -13,6 +13,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Scaled the splash screen down to make it a bit more subtle.
 - Replace HTML tables with markdown tables in README files.
 - Added `DAYAFTERTOMORROW`, `UPDATE_NOTIFICATION` and `UPDATE_NOTIFICATION_MODULE` to Finnish translations.
+- Run `npm test` on Travis automatically
 
 ### Added
 - Add loaded function to modules, providing an async callback.
