@@ -150,7 +150,11 @@ Module.register("weatherforecast",{
 				if (isNaN(forecast.rain)) {
 					rainCell.innerHTML = "";
 				} else {
-					rainCell.innerHTML = forecast.rain + " mm";
+					if(config.units !== "imperial") {
+						rainCell.innerHTML = forecast.rain + " mm";
+					} else {
+						rainCell.innerHTML = (parseFloat(forecast.rain) / 25.4).toFixed(2) + " in";
+					}
 				}
 				rainCell.className = "align-right bright rain";
 				row.appendChild(rainCell);

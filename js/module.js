@@ -415,3 +415,11 @@ Module.register = function (name, moduleDefinition) {
 	Log.log("Module registered: " + name);
 	Module.definitions[name] = moduleDefinition;
 };
+
+if (typeof exports != "undefined") { // For testing purpose only
+	// A good a idea move the function cmpversions a helper file.
+	// It's used into other side.
+	exports._test = {
+		cmpVersions: cmpVersions
+	}
+}
