@@ -8,8 +8,8 @@ To use this module, add it to the modules array in the `config/config.js` file:
 ````javascript
 modules: [
 	{
-		module: 'compliments',
-		position: 'lower_third',	// This can be any of the regions.
+		module: "compliments",
+		position: "lower_third",	// This can be any of the regions.
 									// Best results in one of the middle regions like: lower_third
 		config: {
 			// The config property is optional.
@@ -60,14 +60,14 @@ If use the currentweather is possible use a actual weather for set compliments. 
 config: {
 	compliments: {
 		day_sunny: [
-			'Today is a sunny day',
-			'It\'s a beautiful day'
+			"Today is a sunny day",
+			"It's a beautiful day"
 		],
 		snow: [
-			'Snowball battle!'
+			"Snowball battle!"
 		],
 		rain: [
-			'Don\'t forget your umbrella'
+			"Don't forget your umbrella"
 		]
 	}
 }
@@ -79,19 +79,19 @@ config: {
 config: {
 	compliments: {
 		morning: [
-			'Good morning, handsome!',
-			'Enjoy your day!',
-			'How was your sleep?'
+			"Good morning, handsome!",
+			"Enjoy your day!",
+			"How was your sleep?"
 		],
 		afternoon: [
-			'Hello, beauty!',
+			"Hello, beauty!",
 			'You look sexy!',
-			'Looking good today!'
+			"Looking good today!"
 		],
 		evening: [
-			'Wow, you look hot!',
-			'You look nice!',
-			'Hi, sexy!'
+			"Wow, you look hot!",
+			"You look nice!",
+			"Hi, sexy!"
 		]
 	}
 }
