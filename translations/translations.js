@@ -28,6 +28,6 @@ var translations = {
 	"tr" : "translations/tr.json", // Turkish
 	"ru" : "translations/ru.json", // Russian
 	"af" : "translations/af.json", // Afrikaans
-  "hu" : "translations/hu.json", // Hungarian
-  "is" : "translations/is.json", // Icelandic
+	"hu" : "translations/hu.json", // Hungarian
+	"is" : "translations/is.json", // Icelandic
 };
