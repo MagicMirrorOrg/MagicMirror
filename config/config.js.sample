@@ -79,4 +79,11 @@ var config = {
 };
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/
+try {
+	var json = require("./config.json");
+} catch (e) {
+	console.log('Could not load config.json');
+	console.log(e);
+}
+config = Object.assign(config, json);
 if (typeof module !== 'undefined') {module.exports = config;}
