@@ -48,7 +48,6 @@ var App = function() {
 
 		// For this check proposed to TestSuite
 		// https://forum.magicmirror.builders/topic/1456/test-suite-for-magicmirror/8
-		console.log(global.configuration_file);
 		if (global.configuration_file === undefined ) {
 			var configFilename = path.resolve(global.root_path + "/config/config.js");
 		} else {
