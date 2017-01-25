@@ -2,17 +2,18 @@ var fs = require("fs");
 var path = require("path");
 var chai = require("chai");
 var expect = chai.expect;
-var appMM =  require("../../js/app.js")
 
 describe("Test global.root_path, set in js/app.js", function() {
+	var appMM =  require("../../js/app.js")
+
 	var expectedSubPaths = [
-		'modules',
-		'serveronly',
-		'js',
-		'js/app.js',
-		'js/main.js',
-		'js/electron.js',
-		'config'
+		"modules",
+		"serveronly",
+		"js",
+		"js/app.js",
+		"js/main.js",
+		"js/electron.js",
+		"config"
 	];
 
 	expectedSubPaths.forEach(subpath => {
