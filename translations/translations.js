@@ -31,3 +31,5 @@ var translations = {
 	"hu" : "translations/hu.json", // Hungarian
 	"is" : "translations/is.json", // Icelandic
 };
+
+if (typeof module !== "undefined") {module.exports = translations;}
