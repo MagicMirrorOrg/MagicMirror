@@ -7,7 +7,7 @@ To use this module, add it to the modules array in the config/config.js file:
 ```
 modules: [
 	{
-		module: 'alert',
+		module: "alert",
 		config: {
 			// The config property is optional.
 			// See 'Configuration options' for more information. 

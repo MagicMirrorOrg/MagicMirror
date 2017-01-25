@@ -9,8 +9,8 @@ To use this module, add it to the modules array in the `config/config.js` file:
 ````javascript
 modules: [
 	{
-		module: 'newsfeed',
-		position: 'bottom_bar',	// This can be any of the regions. Best results in center regions.
+		module: "newsfeed",
+		position: "bottom_bar",	// This can be any of the regions. Best results in center regions.
 		config: {
 			// The config property is optional.
 			// If no config is set, an example calendar is shown.
