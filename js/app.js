@@ -17,6 +17,10 @@ console.log("Starting MagicMirror: v" + global.version);
 // global absolute root path
 global.root_path = path.resolve(__dirname + "/../");
 
+if (process.env.MM_CONFIG_FILE) {
+	global.configuration_file = process.env.MM_CONFIG_FILE;
+}
+
 // The next part is here to prevent a major exception when there
 // is no internet connection. This could probable be solved better.
 process.on("uncaughtException", function (err) {
@@ -41,7 +45,15 @@ var App = function() {
 	var loadConfig = function(callback) {
 		console.log("Loading config ...");
 		var defaults = require(__dirname + "/defaults.js");
-		var configFilename = path.resolve(global.root_path + "/config/config.js");
+
+		// For this check proposed to TestSuite
+		// https://forum.magicmirror.builders/topic/1456/test-suite-for-magicmirror/8
+		if (global.configuration_file === undefined ) {
+			var configFilename = path.resolve(global.root_path + "/config/config.js");
+		} else {
+			var configFilename = path.resolve(global.configuration_file);
+		}
+
 		try {
 			fs.accessSync(configFilename, fs.F_OK);
 			var c = require(configFilename);
