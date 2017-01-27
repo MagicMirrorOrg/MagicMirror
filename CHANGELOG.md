@@ -26,6 +26,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Option to use RegExp in Calendar's titleReplace.
 - Hungarian Translation.
 - Icelandic Translation.
+- Enable ability to set configuration file by the enviroment variable called MM_CONFIG_FILE.
 
 ### Fixed
 - Update .gitignore to not ignore default modules folder.
