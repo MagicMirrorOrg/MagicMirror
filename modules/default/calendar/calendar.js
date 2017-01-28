@@ -27,7 +27,7 @@ Module.register("calendar", {
 		getRelative: 6,
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		hidePrivate: false,
-        colored: false,
+		colored: false,
 		calendars: [
 			{
 				symbol: "calendar",
@@ -116,9 +116,9 @@ Module.register("calendar", {
 
 			var eventWrapper = document.createElement("tr");
 
-            if (this.config.colored) {
-                eventWrapper.style.cssText = 'color:' + this.colorForUrl(event.url);
-            }
+			if (this.config.colored) {
+				eventWrapper.style.cssText = "color:" + this.colorForUrl(event.url);
+			}
 
 			eventWrapper.className = "normal";
 
@@ -149,11 +149,11 @@ Module.register("calendar", {
 
 			titleWrapper.innerHTML = this.titleTransform(event.title) + repeatingCountTitle;
 
-            if (!this.config.colored) {
-                titleWrapper.className = "title bright";
-            } else {
-                titleWrapper.className = "title";
-            }
+			if (!this.config.colored) {
+				titleWrapper.className = "title bright";
+			} else {
+				titleWrapper.className = "title";
+			}
 
 			eventWrapper.appendChild(titleWrapper);
 
@@ -285,8 +285,8 @@ Module.register("calendar", {
 				var event = calendar[e];
 				if(this.config.hidePrivate) {
 					if(event.class === "PRIVATE") {
-					      // do not add the current event, skip it
-					      continue;
+						  // do not add the current event, skip it
+						  continue;
 					}
 				}
 				event.url = c;
@@ -336,7 +336,7 @@ Module.register("calendar", {
 		return this.config.defaultSymbol;
 	},
 
-    /* colorForUrl(url)
+	/* colorForUrl(url)
 	 * Retrieves the color for a specific url.
 	 *
 	 * argument url sting - Url to look for.
@@ -351,7 +351,7 @@ Module.register("calendar", {
 			}
 		}
 
-		return '#fff';
+		return "#fff";
 	},
 	/* countTitleForUrl(url)
 	 * Retrieves the name for a specific url.
