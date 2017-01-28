@@ -40,12 +40,14 @@
     "time-grunt": "latest"
   },
   "dependencies": {
+    "body-parser": "^1.15.2",
     "electron": "^1.4.7",
     "express": "^4.14.0",
     "express-ipfilter": "latest",
     "feedme": "latest",
     "helmet": "^3.1.0",
     "iconv-lite": "latest",
+    "jsnlog": "^2.20.1",
     "moment": "latest",
     "request": "^2.78.0",
     "rrule-alt": "^2.2.3",
