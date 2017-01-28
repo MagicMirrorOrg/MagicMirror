@@ -5,6 +5,7 @@
 	/* CALENDAR */
 	"TODAY": "Idag",
 	"TOMORROW": "Imorgon",
+	"DAYAFTERTOMORROW": "Iövermorgon",
 	"RUNNING": "Slutar",
 	"EMPTY": "Inga kommande händelser.",
 
@@ -25,4 +26,9 @@
 	"WNW": "VNV",
 	"NW": "NV",
 	"NNW": "NNV"
+
+	/* UPDATE INFO */
+	"UPDATE_NOTIFICATION": "MagicMirror² uppdatering finns tillgänglig.",
+	"UPDATE_NOTIFICATION_MODULE": "Uppdatering finns tillgänglig av MODULE_NAME modulen.",
+	"UPDATE_INFO": "Denna installation ligger COMMIT_COUNT steg bakom BRANCH_NAME grenen."
 }
