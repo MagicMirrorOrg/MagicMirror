@@ -232,6 +232,8 @@ var MM = (function() {
 			return;
 		}
 
+		module.hidden = false;
+
 		// If forced show, clean current lockstrings.
 		if (module.lockStrings.length !== 0 && options.force === true) {
 			Log.log("Force show of module: " + module.name);
@@ -504,7 +506,7 @@ var MM = (function() {
 		 * argument options object - Optional settings for the hide method.
 		 */
 		showModule: function(module, speed, callback, options) {
-			module.hidden = false;
+			// do not change module.hidden yet, only if we really show it later
 			showModule(module, speed, callback, options);
 		}
 	};
