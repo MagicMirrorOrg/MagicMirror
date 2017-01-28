@@ -390,7 +390,7 @@ Module.register("calendar", {
 
 	/* capFirst(string)
 	 * Capitalize the first letter of a string
-	 * Eeturn capitalized string
+	 * Return capitalized string
 	 */
 
 	capFirst: function (string) {
@@ -409,6 +409,13 @@ Module.register("calendar", {
 	titleTransform: function (title) {
 		for (var needle in this.config.titleReplace) {
 			var replacement = this.config.titleReplace[needle];
+
+			var regParts = needle.match(/^\/(.+)\/([gim]*)$/);
+			if (regParts) {
+			  // the parsed pattern is a regexp.
+			  needle = new RegExp(regParts[1], regParts[2]);
+			}
+
 			title = title.replace(needle, replacement);
 		}
 

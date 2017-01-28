@@ -7,7 +7,7 @@ To use this module, add it to the modules array in the config/config.js file:
 ```
 modules: [
 	{
-		module: 'alert',
+		module: "alert",
 		config: {
 			// The config property is optional.
 			// See 'Configuration options' for more information. 
@@ -21,52 +21,13 @@ modules: [
 The following properties can be configured:
 
 
-<table width="100%">
-	<!-- why, markdown... -->
-	<thead>
-		<tr>
-			<th>Option</th>
-			<th width="100%">Description</th>
-		</tr>
-	<thead>
-	<tbody>
-		<tr>
-			<td><code>effect</code></td>
-			<td>The animation effect to use for notifications.<br>
-				<br><b>Possible values:</b> <code>scale</code> <code>slide</code> <code>genie</code> <code>jelly</code> <code>flip</code> <code>exploader</code> <code>bouncyflip</code>
-				<br><b>Default value:</b> <code>slide</code>
-			</td>
-		</tr>
-		<td><code>alert_effect</code></td>
-			<td>The animation effect to use for alerts.<br>
-				<br><b>Possible values:</b> <code>scale</code> <code>slide</code> <code>genie</code> <code>jelly</code> <code>flip</code> <code>exploader</code> <code>bouncyflip</code>
-				<br><b>Default value:</b> <code>jelly</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>display_time</code></td>
-			<td>Time a notification is displayed in milliseconds.<br>
-				<br><b>Possible values:</b> <code>int</code>
-				<br><b>Default value:</b> <code>3500</code>
-			</td>
-		</tr>
-		<tr>
-		<tr>
-			<td><code>position</code></td>
-			<td>Position where the notifications should be displayed.<br>
-				<br><b>Possible values:</b> <code>left</code> <code>center</code> <code>right</code>
-				<br><b>Default value:</b> <code>center</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>welcome_message</code></td>
-			<td>Message shown at startup.<br>
-				<br><b>Possible values:</b> <code>string</code> <code>false</code>
-				<br><b>Default value:</b> <code>false</code> (no message at startup)
-			</td>
-		</tr>
-	</tbody>
-</table>
+| Option            | Description
+| ----------------- | -----------
+| `effect`          | The animation effect to use for notifications. <br><br> **Possible values:** `scale` `slide` `genie` `jelly` `flip` `exploader` `bouncyflip` <br> **Default value:** `slide`
+| `alert_effect`    | The animation effect to use for alerts. <br><br> **Possible values:** `scale` `slide` `genie` `jelly` `flip` `exploader` `bouncyflip` <br> **Default value:** `jelly`
+| `display_time`    | Time a notification is displayed in milliseconds. <br><br> **Possible values:** `int` <br> **Default value:** `3500`
+| `position`        | Position where the notifications should be displayed. <br><br> **Possible values:** `left` `center` `right` <br> **Default value:** `center`
+| `welcome_message` | Message shown at startup. <br><br> **Possible values:** `string` `false` <br> **Default value:** `false` (no message at startup)
 
 
 ## Developer notes
@@ -82,83 +43,21 @@ self.sendNotification("SHOW_ALERT", {});
 ```
 
 ### Notification params
-<table width="100%">
-	<!-- why, markdown... -->
-	<thead>
-		<tr>
-			<th>Option</th>
-			<th width="100%">Description</th>
-		</tr>
-	<thead>
-	<tbody>
-		<tr>
-			<td><code>title</code></td>
-			<td>The title of the notification.<br>
-				<br><b>Possible values:</b> <code>text</code> or <code>html</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>message</code></td>
-			<td>The message of the notification.<br>
-				<br><b>Possible values:</b> <code>text</code> or <code>html</code>
-			</td>
-		</tr>
-	</tbody>
-</table>
+| Option    | Description
+| --------- | -----------
+| `title`   | The title of the notification. <br><br> **Possible values:** `text` or `html`
+| `message`	| The message of the notification. <br><br> **Possible values:** `text` or `html`
+
 
 ### Alert params
-<table width="100%">
-	<!-- why, markdown... -->
-	<thead>
-		<tr>
-			<th>Option</th>
-			<th width="100%">Description</th>
-		</tr>
-	<thead>
-	<tbody>
-		<tr>
-			<td><code>title</code></td>
-			<td>The title of the alert.<br>
-				<br><b>Possible values:</b> <code>text</code> or <code>html</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>message</code></td>
-			<td>The message of the alert.<br>
-				<br><b>Possible values:</b> <code>text</code> or <code>html</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>imageUrl</code> (optional)</td>
-			<td>Image to show in the alert<br>
-				<br><b>Possible values:</b> <code>url</code> <code>path</code>
-				<br><b>Default value:</b> <code>none</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>imageFA</code> (optional)</td>
-			<td>Font Awesome icon to show in the alert<br>
-				<br><b>Possible values:</b> See <a href="http://fontawesome.io/icons/" target="_blank">Font Awsome</a> website.
-				<br><b>Default value:</b> <code>none</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>imageHeight</code> (optional even with imageUrl set)</td>
-			<td>Height of the image<br>
-				<br><b>Possible values:</b> <code>intpx</code>
-				<br><b>Default value:</b> <code>80px</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>timer</code> (optional)</td>
-			<td>How long the alert should stay visible in ms.
-			<br><b>Important:</b> If you do not use the <code>timer</code>, it is your duty to hide the alert by using <code>self.sendNotification("HIDE_ALERT");</code>!<br>
-				<br><b>Possible values:</b> <code>int</code> <code>float</code>
-				<br><b>Default value:</b> <code>none</code>
-			</td>
-		</tr>
-	</tbody>
-</table>
+| Option                                          | Description
+| ----------------------------------------------- | -----------
+| `title`                                         | The title of the alert. <br><br> **Possible values:** `text` or `html`
+| `message`                                       | The message of the alert. <br><br> **Possible values:** `text` or `html`
+| `imageUrl` (optional)                           | Image to show in the alert <br><br> **Possible values:** `url` `path` <br> **Default value:** `none`
+| `imageFA` (optional)                            | Font Awesome icon to show in the alert <br><br> **Possible values:** See [Font Awsome](http://fontawesome.io/icons/) website. <br> **Default value:** `none`
+| `imageHeight` (optional even with imageUrl set) | Height of the image <br><br> **Possible values:** `intpx` <br> **Default value:** `80px`
+| `timer` (optional)                              | How long the alert should stay visible in ms. <br> **Important:** If you do not use the `timer`, it is your duty to hide the alert by using `self.sendNotification("HIDE_ALERT");`! <br><br>**Possible values:** `int` `float` <br> **Default value:** `none`
 
 ## Open Source Licenses
 ###[NotificationStyles](https://github.com/codrops/NotificationStyles)
