@@ -174,10 +174,12 @@ The following properties can be configured:
 ### Calendar configuration
 
 The `calendars` property contains an array of the configured calendars.
+The `colored` property gives the option for an individual color for each calendar.
 
 #### Default value:
 ````javascript
 config: {
+    colored: false,
 	calendars: [
 		{
 			url: 'http://www.calendarlabs.com/templates/ical/US-Holidays.ics',
@@ -208,6 +210,12 @@ config: {
 			<td><code>symbol</code></td>
 			<td>The symbol to show in front of an event. This property is optional.<br>
 				<br><b>Possible values:</b> See <a href="http://fontawesome.io/icons/" target="_blank">Font Awesome</a> website.
+			</td>
+		</tr>
+        <tr>
+			<td><code>color</code></td>
+			<td>The font color of an event from this calendar. This property should be set if the config is set to colored: true.<br>
+				<br><b>Possible values:</b> HEX, RGB or RGBA values (#efefef, rgb(242,242,242), rgba(242,242,242,0.5)).
 			</td>
 		</tr>
 		<tr>

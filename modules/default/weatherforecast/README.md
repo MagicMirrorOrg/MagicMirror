@@ -191,5 +191,11 @@ The following properties can be configured:
 		}</code>
 			</td>
 		</tr>
+        <tr>
+			<td><code>colored</code></td>
+			<td>If set 'colored' to true the min-temp get a blue tone and the max-temp get a red tone.<br>
+				<br><b>Default value:</b>  <code>false</code>
+			</td>
+		</tr>
 	</tbody>
 </table>
