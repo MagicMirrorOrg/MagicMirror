@@ -53,6 +53,52 @@ The following wiki links are helpful in the configuration of your MagicMirror² 
 - [Configuring the Raspberry Pi](https://github.com/MichMich/MagicMirror/wiki/Configuring-the-Raspberry-Pi)
 - [Auto Starting MagicMirror](https://github.com/MichMich/MagicMirror/wiki/Auto-Starting-MagicMirror)
 
+
+sudo nano /boot/config.txt
+  - avoid_warnings=1
+
+sudo reboot
+
+Hide Cursor:
+  sudo apt-get install unclutter
+
+Enable file-sharing OS X
+sudo apt-get install netatalk
+
+Check config file with http://jshint.com
+
+
+Sudo raspi-config
+  - Expand Filesystem
+  - Internationalisation Options
+  - Change Locale
+  - Advanced Options
+    - Modi-Pi
+    - ssh enabled
+
+Remove Unnecessary Software Packages
+  1. sudo apt-get remove --purge idle3 java-common libreoffice* minecraft-pi scratch nuscratch penguinspuzzle python-minecraftpi python3-minecraftpi smartsim sonic-pi wolfram-engine
+
+  2. Auto remove as well
+      sudo apt-get autoremove -y
+
+Upgrade the system:
+  sudo apt-get update ; sudo apt-get upgrade ; sudo rpi-update ; sudo reboot
+
+
+***************
+AutoStart MM2
+
+
+
+
+
+
+
+
+
+
+
 #### Updating you MagicMirror²
 
 If you want to update your MagicMirror² to the latest version, use your terminal to go to your Magic Mirror folder and type the following command:
