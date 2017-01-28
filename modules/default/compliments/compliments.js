@@ -13,18 +13,18 @@ Module.register("compliments",{
 	defaults: {
 		compliments: {
 			morning: [
-				"Good morning, handsome!",
-				"Enjoy your day!",
-				"How was your sleep?"
+				"How was your sleep?",
+				"Crush dat Rails",
+				"Enjoy your day!"
 			],
 			afternoon: [
-				"Hello, beauty!",
-				"You look sexy!",
+				"Did you eat yet?",
+				"Go get some fresh air! ",
 				"Looking good today!"
 			],
 			evening: [
-				"Wow, you look hot!",
-				"You look nice!",
+				"Wrap it up!! - DC",
+				"Time to catch the train!!",
 				"Hi, sexy!"
 			]
 		},
