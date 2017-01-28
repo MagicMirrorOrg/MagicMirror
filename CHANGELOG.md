@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added `DAYAFTERTOMORROW`, `UPDATE_NOTIFICATION` and `UPDATE_NOTIFICATION_MODULE` to Finnish translations.
 - Run `npm test` on Travis automatically
 - Show the splash screen image even when is reboot or halted.
+- Added some missing translaton strings in the sv.json file.
 
 ### Added
 - Add loaded function to modules, providing an async callback.
