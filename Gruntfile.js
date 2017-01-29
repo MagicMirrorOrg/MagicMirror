@@ -22,7 +22,7 @@ module.exports = function(grunt) {
 		},
 		jsonlint: {
 			main: {
-				src: ["package.json", ".eslintrc.json", ".stylelint"],
+				src: ["package.json", ".eslintrc.json", ".stylelintrc"],
 				options: {
 					reporter: "jshint"
 				}
