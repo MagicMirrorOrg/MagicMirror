@@ -65,48 +65,13 @@ config: {
 
 
 #### Calendar configuration options:
-<table width="100%">
-	<!-- why, markdown... -->
-	<thead>
-		<tr>
-			<th>Option</th>
-			<th width="100%">Description</th>
-		</tr>
-	<thead>
-	<tbody>
-		<tr>
-			<td><code>url</code></td>
-			<td>The url of the calendar .ical. This property is required.<br>
-				<br><b>Possible values:</b> Any public accessble .ical calendar.
-			</td>
-		</tr>
-		<tr>
-			<td><code>symbol</code></td>
-			<td>The symbol to show in front of an event. This property is optional.<br>
-				<br><b>Possible values:</b> See <a href="http://fontawesome.io/icons/" target="_blank">Font Awesome</a> website.
-			</td>
-		</tr>
-		<tr>
-			<td><code>color</code></td>
-			<td>The font color of an event from this calendar. This property should be set if the config is set to colored: true.<br>
-				<br><b>Possible values:</b> HEX, RGB or RGBA values (#efefef, rgb(242,242,242), rgba(242,242,242,0.5)).
-			</td>
-		</tr>
-		<tr>
-		<tr>
-			<td><code>repeatingCountTitle</code></td>
-			<td>The count title for yearly repating events in this calendar. <br>
-				<br><b>Example:</b> <br>
-				<code>'Birthday'</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>user</code></td>
-			<td>The username for HTTP Basic authentication.</td>
-		</tr>
-		<tr>
-			<td><code>pass</code></td>
-			<td>The password for HTTP Basic authentication.</td>
-		</tr>
-		</tbody>
-</table>
+
+-| Option                | Description
+ -| --------------------- | -----------
+ -| `url`	                | The url of the calendar .ical. This property is required. <br><br> **Possible values:** Any public accessble .ical calendar.
+ -| `symbol`              | The symbol to show in front of an event. This property is optional. <br><br> **Possible values:** See [Font Awesome](http://fontawesome.io/icons/) website.
+  -| `color`              | The font color of an event from this calendar. This property should be set if the config is set to colored: true. <br><br> **Possible values:** HEX, RGB or RGBA values (#efefef, rgb(242,242,242), rgba(242,242,242,0.5)).
+ -| `repeatingCountTitle`	| The count title for yearly repating events in this calendar.  <br><br> **Example:** `'Birthday'`
+ -| `user`                | The username for HTTP Basic authentication.
+ -| `pass`                | The password for HTTP Basic authentication.
+ 
