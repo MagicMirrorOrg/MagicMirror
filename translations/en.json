@@ -1,15 +1,12 @@
 {
-	/* GENERAL */
 	"LOADING": "Loading &hellip;",
 
-	/* CALENDAR */
 	"TODAY": "Today",
 	"TOMORROW": "Tomorrow",
 	"DAYAFTERTOMORROW": "The day after tomorrow",
 	"RUNNING": "Ends in",
 	"EMPTY": "No upcoming events.",
 
-	/* WEATHER */
 	"N": "N",
 	"NNE": "NNE",
 	"NE": "NE",
@@ -27,7 +24,6 @@
 	"NW": "NW",
 	"NNW": "NNW",
 
-	/* UPDATE INFO */
 	"UPDATE_NOTIFICATION": "MagicMirror² update available.",
 	"UPDATE_NOTIFICATION_MODULE": "Update available for MODULE_NAME module.",
 	"UPDATE_INFO": "The current installation is COMMIT_COUNT behind on the BRANCH_NAME branch."

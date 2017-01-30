@@ -1,15 +1,12 @@
 {
-	/* GENERAL */
 	"LOADING": "Bezich mei laden &hellip;",
 
-	/* CALENDAR */
 	"TODAY": "Hjoed",
 	"TOMORROW": "Moarn",
 	"DAYAFTERTOMORROW": "Oaremoarn",
 	"RUNNING": "Einigest oer",
 	"EMPTY": "Gjin plande &ocirc;fspraken.",
 
-	/* WEATHER */
 	"N": "N",
 	"NNE": "NNE",
 	"NE": "NE",

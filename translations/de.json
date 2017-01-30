@@ -1,15 +1,12 @@
 {
-	/* GENERAL */
 	"LOADING": "Lade &hellip;",
 
-	/* CALENDAR */
 	"TODAY": "Heute",
 	"TOMORROW": "Morgen",
 	"DAYAFTERTOMORROW": "&Uuml;bermorgen",
 	"RUNNING": "noch",
 	"EMPTY": "Keine Termine.",
 
-	/* WEATHER */
 	"N": "N",
 	"NNE": "NNO",
 	"NE": "NO",
@@ -27,7 +24,6 @@
 	"NW": "NW",
 	"NNW": "NNW",
 
-	/* UPDATE INFO */
 	"UPDATE_NOTIFICATION": "Aktualisierung für MagicMirror² verfügbar.",
 	"UPDATE_NOTIFICATION_MODULE": "Aktualisierung für das MODULE_NAME Modul verfügbar.",
 	"UPDATE_INFO": "Die aktuelle Installation ist COMMIT_COUNT hinter dem BRANCH_NAME branch."
