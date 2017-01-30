@@ -30,6 +30,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Icelandic Translation.
 - Add use a script to prevent when is run by SSH session set DISPLAY enviroment.
 - Enable ability to set configuration file by the enviroment variable called MM_CONFIG_FILE.
+- Option to give each calendar a different color
+- Option for colored min-temp and max-temp
 - Add test e2e helloworld
 - Add test e2e enviroment
 
