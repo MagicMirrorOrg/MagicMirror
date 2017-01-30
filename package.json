@@ -37,6 +37,7 @@
     "grunt-stylelint": "latest",
     "grunt-yamllint": "latest",
     "mocha": "^3.2.0",
+    "spectron": "^3.4.1",
     "stylelint-config-standard": "latest",
     "time-grunt": "latest"
   },

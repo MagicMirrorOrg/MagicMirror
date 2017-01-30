@@ -30,6 +30,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Icelandic Translation.
 - Add use a script to prevent when is run by SSH session set DISPLAY enviroment.
 - Enable ability to set configuration file by the enviroment variable called MM_CONFIG_FILE.
+- Add test e2e helloworld
 
 ### Fixed
 - Update .gitignore to not ignore default modules folder.
