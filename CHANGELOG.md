@@ -18,6 +18,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added some missing translaton strings in the sv.json file.
 
 ### Added
+- Calendar-specific support for `maximumEntries`, and ` maximumNumberOfDays`
 - Add loaded function to modules, providing an async callback.
 - Made default newsfeed module aware of gesture events from [MMM-Gestures](https://github.com/thobach/MMM-Gestures)
 - Add use pm2 for manager process into Installer RaspberryPi script

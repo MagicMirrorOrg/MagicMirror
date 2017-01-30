@@ -74,4 +74,5 @@ config: {
  -| `repeatingCountTitle`	| The count title for yearly repating events in this calendar.  <br><br> **Example:** `'Birthday'`
  -| `user`                | The username for HTTP Basic authentication.
  -| `pass`                | The password for HTTP Basic authentication.
- 
+ -| `maximumEntries`      | The maximum number of events shown.  Overrides global setting. **Possible values:** `0` - `100`
+ -| `maximumNumberOfDays` | The maximum number of days in the future.  Overrides global setting
