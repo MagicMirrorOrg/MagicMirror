@@ -30,6 +30,7 @@
   "homepage": "https://github.com/MichMich/MagicMirror#readme",
   "devDependencies": {
     "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
     "grunt": "latest",
     "grunt-eslint": "latest",
     "grunt-jsonlint": "latest",
