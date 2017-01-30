@@ -14,6 +14,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Replace HTML tables with markdown tables in README files.
 - Added `DAYAFTERTOMORROW`, `UPDATE_NOTIFICATION` and `UPDATE_NOTIFICATION_MODULE` to Finnish translations.
 - Run `npm test` on Travis automatically
+- Show the splash screen image even when is reboot or halted.
+- Added some missing translaton strings in the sv.json file.
 
 ### Added
 - Add loaded function to modules, providing an async callback.
@@ -30,6 +32,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Enable ability to set configuration file by the enviroment variable called MM_CONFIG_FILE.
 - Option to give each calendar a different color
 - Option for colored min-temp and max-temp
+- Add test e2e helloworld
+- Add test e2e enviroment
 
 ### Fixed
 - Update .gitignore to not ignore default modules folder.
@@ -38,6 +42,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix an issue where the analog clock looked scrambled. ([#611](https://github.com/MichMich/MagicMirror/issues/611))
 - If units is set to imperial, the showRainAmount option of weatherforecast will show the correct unit.
 - Module currentWeather: check if temperature received from api is defined.
+- Fix an issue with module hidden status changing to `true` although lock string prevented showing it
 
 ## [2.1.0] - 2016-12-31
 

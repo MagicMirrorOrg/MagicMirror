@@ -6,7 +6,8 @@
   "scripts": {
     "start": "sh run-start.sh",
     "postinstall": "sh installers/postinstall/postinstall.sh",
-    "test": "./node_modules/mocha/bin/mocha tests --recursive"
+    "test": "./node_modules/mocha/bin/mocha $(find tests -path '*js*' ! -ipath '*e2e*')",
+    "test:e2e": "./node_modules/mocha/bin/mocha tests/e2e --recursive"
   },
   "repository": {
     "type": "git",
@@ -36,6 +37,7 @@
     "grunt-stylelint": "latest",
     "grunt-yamllint": "latest",
     "mocha": "^3.2.0",
+    "spectron": "^3.4.1",
     "stylelint-config-standard": "latest",
     "time-grunt": "latest"
   },

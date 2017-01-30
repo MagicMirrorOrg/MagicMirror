@@ -49,7 +49,7 @@ var App = function() {
 		// For this check proposed to TestSuite
 		// https://forum.magicmirror.builders/topic/1456/test-suite-for-magicmirror/8
 		var configFilename = path.resolve(global.root_path + "/config/config.js");
-		if (typeof(global.configuration_file) === "undefined" ) {
+		if (typeof(global.configuration_file) !== "undefined") {
 		    configFilename = path.resolve(global.configuration_file);
 		}
 
