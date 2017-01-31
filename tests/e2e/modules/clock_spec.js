@@ -74,7 +74,7 @@ describe("Clock module", function () {
 		});
 
 		it("shows time in 12hr format", function() {
-			const timeRegex = /^(?:1[0-2]|[0]\d):[0-5]\d[0-5]\d[ap]m$/;
+			const timeRegex = /^(?:1[0-2]|[1-9]):[0-5]\d[0-5]\d[ap]m$/;
 			return app.client.waitUntilWindowLoaded()
 		 		.getText(".clock .time").should.eventually.match(timeRegex);
 		});
@@ -95,7 +95,7 @@ describe("Clock module", function () {
 		});
 
 		it("shows 12hr time with upper case AM/PM", function() {
-			const timeRegex = /^(?:1[0-2]|[0]\d):[0-5]\d[0-5]\d[AP]M$/;
+			const timeRegex = /^(?:1[0-2]|[1-9]):[0-5]\d[0-5]\d[AP]M$/;
 			return app.client.waitUntilWindowLoaded()
 		 		.getText(".clock .time").should.eventually.match(timeRegex);
 		});
