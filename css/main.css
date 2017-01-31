@@ -135,6 +135,11 @@ sup {
   left: -60px;
   right: -60px;
   bottom: -60px;
+  pointer-events: none;
+}
+
+.region.fullscreen * {
+  pointer-events: auto;
 }
 
 .region.right {

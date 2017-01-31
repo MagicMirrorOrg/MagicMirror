@@ -2,10 +2,52 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.1.1] - 2017-01-31
+
+## [2.1.1] - Unreleased
+
+**Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
+
+### Changed
+- Installer: Use init config.js from config.js.sample.
+- Switched out `rrule` package for `rrule-alt` and fixes in `ical.js` in order to fix calendar issues. ([#565](https://github.com/MichMich/MagicMirror/issues/565))
+- Make mouse events pass through the region fullscreen_above to modules below.
+- Scaled the splash screen down to make it a bit more subtle.
+- Replace HTML tables with markdown tables in README files.
+- Added `DAYAFTERTOMORROW`, `UPDATE_NOTIFICATION` and `UPDATE_NOTIFICATION_MODULE` to Finnish translations.
+- Run `npm test` on Travis automatically
+- Show the splash screen image even when is reboot or halted.
+- Added some missing translaton strings in the sv.json file.
+- Run task jsonlint to check translation files.
 
 ### Added
 - Added Docker support (Pull Request [#673](https://github.com/MichMich/MagicMirror/pull/673))
+- Calendar-specific support for `maximumEntries`, and ` maximumNumberOfDays`
+- Add loaded function to modules, providing an async callback.
+- Made default newsfeed module aware of gesture events from [MMM-Gestures](https://github.com/thobach/MMM-Gestures)
+- Add use pm2 for manager process into Installer RaspberryPi script
+- Russian Translation
+- Afrikaans Translation
+- Add postinstall script to notify user that MagicMirror installed successfully despite warnings from NPM.
+- Init tests using mocha.
+- Option to use RegExp in Calendar's titleReplace.
+- Hungarian Translation.
+- Icelandic Translation.
+- Add use a script to prevent when is run by SSH session set DISPLAY enviroment.
+- Enable ability to set configuration file by the enviroment variable called MM_CONFIG_FILE.
+- Option to give each calendar a different color
+- Option for colored min-temp and max-temp
+- Add test e2e helloworld
+- Add test e2e enviroment
+- Add `chai-as-promised` npm module to devDependencies
+
+### Fixed
+- Update .gitignore to not ignore default modules folder.
+- Remove white flash on boot up.
+- Added `update` in Raspberry Pi installation script.
+- Fix an issue where the analog clock looked scrambled. ([#611](https://github.com/MichMich/MagicMirror/issues/611))
+- If units is set to imperial, the showRainAmount option of weatherforecast will show the correct unit.
+- Module currentWeather: check if temperature received from api is defined.
+- Fix an issue with module hidden status changing to `true` although lock string prevented showing it
 
 ## [2.1.0] - 2016-12-31
 
@@ -123,7 +165,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Added reference to Italian Translation.
-- Added the missing NE translation to all languages. [#334](https://github.com/MichMich/MagicMirror/issues/344)
+- Added the missing NE translation to all languages. [#344](https://github.com/MichMich/MagicMirror/issues/344)
 - Added proper User-Agent string to calendar call.
 
 ### Changed

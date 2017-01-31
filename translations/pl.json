@@ -1,14 +1,11 @@
 {
-	/* GENERAL */
 	"LOADING": "Ładowanie &hellip;",
 
-	/* CALENDAR */
 	"TODAY": "Dziś",
 	"TOMORROW": "Jutro",
 	"RUNNING": "Koniec za",
 	"EMPTY": "Brak wydarzeń.",
 
-	/* WEATHER */
 	"N": "N",
 	"NNE": "NNE",
 	"NE": "NE",
@@ -24,10 +21,9 @@
 	"W": "W",
 	"WNW": "WNW",
 	"NW": "NW",
-	"NNW": "NNW"
-	
-	/* UPDATE INFO */
+	"NNW": "NNW",
+
 	"UPDATE_NOTIFICATION": "Dostępna jest aktualizacja MagicMirror².",
 	"UPDATE_NOTIFICATION_MODULE": "Dostępna jest aktualizacja modułu MODULE_NAME.",
-	"UPDATE_INFO": "The current installation is COMMIT_COUNT behind on the BRANCH_NAME branch."
+	"UPDATE_INFO": "Zainstalowana wersja odbiega o COMMIT_COUNT commitów od gałęzi BRANCH_NAME."
 }

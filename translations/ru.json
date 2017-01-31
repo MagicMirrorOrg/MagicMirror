@@ -1,0 +1,30 @@
+{
+	"LOADING": "Загрузка &hellip;",
+
+	"TODAY": "Сегодня",
+	"TOMORROW": "Завтра",
+	"DAYAFTERTOMORROW": "Послезавтра",
+	"RUNNING": "Заканчивается через",
+	"EMPTY": "Нет предстоящих событий",
+
+	"N": "С",
+	"NNE": "ССВ",
+	"NE": "СВ",
+	"ENE": "ВСВ",
+	"E": "В",
+	"ESE": "ВЮВ",
+	"SE": "ЮВ",
+	"SSE": "ЮЮВ",
+	"S": "Ю",
+	"SSW": "ЮЮЗ",
+	"SW": "ЮЗ",
+	"WSW": "ЗЮЗ",
+	"W": "З",
+	"WNW": "ЗСЗ",
+	"NW": "СЗ",
+	"NNW": "ССЗ",
+
+	"UPDATE_NOTIFICATION": "Есть обновление для MagicMirror².",
+	"UPDATE_NOTIFICATION_MODULE": "Есть обновление для MODULE_NAME модуля.",
+	"UPDATE_INFO": "Данная инсталляция позади BRANCH_NAME ветки на COMMIT_COUNT коммитов."
+}

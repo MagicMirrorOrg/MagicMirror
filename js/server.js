@@ -37,6 +37,7 @@ var Server = function(config, callback) {
 	app.use("/modules", express.static(path.resolve(global.root_path + "/modules")));
 	app.use("/vendor", express.static(path.resolve(global.root_path + "/vendor")));
 	app.use("/translations", express.static(path.resolve(global.root_path + "/translations")));
+	app.use("/tests/confs", express.static(path.resolve(global.root_path + "/tests/confs")));
 
 	app.get("/version", function(req,res) {
 		res.send(global.version);
@@ -45,6 +46,12 @@ var Server = function(config, callback) {
 	app.get("/", function(req, res) {
 		var html = fs.readFileSync(path.resolve(global.root_path + "/index.html"), {encoding: "utf8"});
 		html = html.replace("#VERSION#", global.version);
+
+		configFile = "config/config.js";
+		if (typeof(global.configuration_file) !== "undefined") {
+		    configFile = global.configuration_file;
+		}
+		html = html.replace("#CONFIG_FILE#", configFile);
 
 		res.send(html);
 	});

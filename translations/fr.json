@@ -1,14 +1,11 @@
 {
-	/* GENERAL */
 	"LOADING": "Chargement &hellip;",
 
-	/* CALENDAR */
 	"TODAY": "Aujourd'hui",
 	"TOMORROW": "Demain",
 	"RUNNING": "Se termine dans",
 	"EMPTY": "Aucun RDV.",
 
-	/* WEATHER */
 	"N": "N",
 	"NNE": "NNE",
 	"NE": "NE",

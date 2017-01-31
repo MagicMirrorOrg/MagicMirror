@@ -1,14 +1,11 @@
 {
-	/* GENERAL */
 	"LOADING": "Laster &hellip;",
 
-	/* CALENDAR */
 	"TODAY": "I dag",
 	"TOMORROW": "I morgen",
 	"RUNNING": "Slutter om",
 	"EMPTY": "Ingen kommende arrangementer.",
 
-	/* WEATHER */
 	"N": "N",
 	"NNE": "NNØ",
 	"NE": "NØ",

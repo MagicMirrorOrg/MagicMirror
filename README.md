@@ -19,7 +19,7 @@ MagicMirror² focuses on a modular plugin system and uses [Electron](http://elec
 - [Configuration](#configuration)
 - [Modules](#modules)
 - [Known Issues](#known-issues)
-- [community](#community)
+- [Community](#community)
 - [Contributing Guidelines](#contributing-guidelines)
 
 ## Usage
@@ -101,7 +101,7 @@ Type `git status` to see your changes, if there are any, you can reset them with
 
 ## Configuration
 
-1. Duplicate `config/config.js.sample` to `config/config.js`.
+1. Duplicate `config/config.js.sample` to `config/config.js`. **Note:** If you used the installer script. This step is already done for you.
 2. Modify your required settings.
 
 The following properties can be configured:
@@ -116,7 +116,7 @@ The following properties can be configured:
 | `timeFormat` | The form of time notation that will be used. Possible values are `12` or `24`. The default is `24`. |
 | `units` | The units that will be used in the default weather modules. Possible values are `metric` or `imperial`. The default is `metric`. |
 | `modules` | An array of active modules. **The array must contain objects. See the next table below for more information.** |
-| `electronOptions` | An optional array of Electron (browser) options. This allows configuration of e.g. the browser screen size and position (defaults `.width = 800` & `.height = 600`). Kiosk mode can be enabled by setting `.kiosk = true`, `.autoHideMenuBar = false`, `.fullscreen = false`. More options can be found [here](https://github.com/electron/electron/blob/master/docs/api/browser-window.md). |
+| `electronOptions` | An optional array of Electron (browser) options. This allows configuration of e.g. the browser screen size and position (example: `electronOptions: { fullscreen: false, width: 800, height: 600 }`). Kiosk mode can be enabled by setting `.kiosk = true`, `.autoHideMenuBar = false`, `.fullscreen = false`. More options can be found [here](https://github.com/electron/electron/blob/master/docs/api/browser-window.md). |
 
 
 Module configuration:
