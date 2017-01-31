@@ -3,8 +3,6 @@ const path = require("path");
 const chai = require("chai");
 const chaiAsPromised = require("chai-as-promised");
 
-
-
 var electronPath = path.join(__dirname, "../../../", "node_modules", ".bin", "electron");
 
 if (process.platform === "win32") {

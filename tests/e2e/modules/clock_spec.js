@@ -3,8 +3,6 @@ const path = require("path");
 const chai = require("chai");
 const chaiAsPromised = require("chai-as-promised");
 
-
-
 var electronPath = path.join(__dirname, "../../../", "node_modules", ".bin", "electron");
 
 if (process.platform === "win32") {
@@ -43,13 +41,13 @@ describe("Clock module", function () {
 		it("shows date with correct format", function () {
 			const dateRegex = /^(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), (?:January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, \d{4}$/;
 			return app.client.waitUntilWindowLoaded()
-		 		.getText(".clock .date").should.eventually.match(dateRegex);
+				.getText(".clock .date").should.eventually.match(dateRegex);
 		});
 
 		it("shows time in 24hr format", function() {
 			const timeRegex = /^(?:2[0-3]|[01]\d):[0-5]\d[0-5]\d$/
 			return app.client.waitUntilWindowLoaded()
-		 		.getText(".clock .time").should.eventually.match(timeRegex);
+				.getText(".clock .time").should.eventually.match(timeRegex);
 		});
 	});
 
@@ -70,13 +68,13 @@ describe("Clock module", function () {
 		it("shows date with correct format", function () {
 			const dateRegex = /^(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), (?:January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, \d{4}$/;
 			return app.client.waitUntilWindowLoaded()
-		 		.getText(".clock .date").should.eventually.match(dateRegex);
+				.getText(".clock .date").should.eventually.match(dateRegex);
 		});
 
 		it("shows time in 12hr format", function() {
 			const timeRegex = /^(?:1[0-2]|[1-9]):[0-5]\d[0-5]\d[ap]m$/;
 			return app.client.waitUntilWindowLoaded()
-		 		.getText(".clock .time").should.eventually.match(timeRegex);
+				.getText(".clock .time").should.eventually.match(timeRegex);
 		});
 	});
 
@@ -97,7 +95,7 @@ describe("Clock module", function () {
 		it("shows 12hr time with upper case AM/PM", function() {
 			const timeRegex = /^(?:1[0-2]|[1-9]):[0-5]\d[0-5]\d[AP]M$/;
 			return app.client.waitUntilWindowLoaded()
-		 		.getText(".clock .time").should.eventually.match(timeRegex);
+				.getText(".clock .time").should.eventually.match(timeRegex);
 		});
 	});
 });
