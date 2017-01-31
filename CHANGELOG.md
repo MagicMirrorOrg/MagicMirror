@@ -34,6 +34,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Option for colored min-temp and max-temp
 - Add test e2e helloworld
 - Add test e2e enviroment
+- Add `chai-as-promised` npm module to devDependencies
 
 ### Fixed
 - Update .gitignore to not ignore default modules folder.
