@@ -3,9 +3,6 @@ const path = require("path");
 const chai = require("chai");
 const chaiAsPromised = require("chai-as-promised");
 
-// Set config sample for use in test
-process.env.MM_CONFIG_FILE = "tests/confs/env.js";
-
 var electronPath = path.join(__dirname, "../../", "node_modules", ".bin", "electron");
 
 if (process.platform === "win32") {
@@ -24,8 +21,13 @@ global.before(function () {
 	chai.use(chaiAsPromised);
 });
 
-describe("Test enviroment app electron", function () {
+describe("Electron app environment", function () {
 	this.timeout(10000);
+
+	before(function() {
+		// Set config sample for use in test
+		process.env.MM_CONFIG_FILE = "tests/configs/env.js";
+	});
 
 	beforeEach(function (done) {
 		app.start().then(function() { done(); } );
@@ -36,12 +38,12 @@ describe("Test enviroment app electron", function () {
 	});
 
 
-	it("open a window app and test if is open", function () {
+	it("is set to open new app window", function () {
 		return app.client.waitUntilWindowLoaded()
 			.getWindowCount().should.eventually.equal(1);
 	});
 
-	it("tests the title", function () {
+	it("sets correct window title", function () {
 		return app.client.waitUntilWindowLoaded()
 			.getTitle().should.eventually.equal("Magic Mirror");
 	});

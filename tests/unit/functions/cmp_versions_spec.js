@@ -1,7 +1,7 @@
 var chai = require("chai");
 var expect = chai.expect;
-var classMM = require("../../js/class.js"); // require for load module.js
-var moduleMM =  require("../../js/module.js")
+var classMM = require("../../../js/class.js"); // require for load module.js
+var moduleMM =  require("../../../js/module.js")
 
 describe("Test function cmpVersions in js/module.js", function() {
 
