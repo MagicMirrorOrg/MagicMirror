@@ -1,15 +1,12 @@
 {
-	/* GENERAL */
 	"LOADING": "Bezig met laden &hellip;",
 
-	/* CALENDAR */
 	"TODAY": "Vandaag",
 	"TOMORROW": "Morgen",
 	"DAYAFTERTOMORROW": "Overmorgen",
 	"RUNNING": "Eindigt over",
 	"EMPTY": "Geen geplande afspraken.",
 
-	/* WEATHER */
 	"N": "N",
 	"NNE": "NNO",
 	"NE": "NO",
@@ -27,7 +24,6 @@
 	"NW": "NW",
 	"NNW": "NNW",
 
-	/* UPDATE INFO */
 	"UPDATE_NOTIFICATION": "MagicMirror² update beschikbaar.",
 	"UPDATE_NOTIFICATION_MODULE": "Update beschikbaar voor MODULE_NAME module.",
 	"UPDATE_INFO": "De huidige installatie loopt COMMIT_COUNT achter op de BRANCH_NAME branch."

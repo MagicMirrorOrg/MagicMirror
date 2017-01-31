@@ -1,14 +1,11 @@
 {
-	/* GENERAL */
 	"LOADING": "正在加载 &hellip;",
 
-	/* CALENDAR */
 	"TODAY": "今天",
 	"TOMORROW": "明天",
 	"RUNNING": "结束日期",
 	"EMPTY": "没有更多的活动。",
 
-	/* WEATHER */
 	"N": "北风",
 	"NNE": "北偏东风",
 	"NE": "东北风",
