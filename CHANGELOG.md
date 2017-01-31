@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.1.1] - 2017-01-31
+
+### Added
+- Added Docker support (Pull Request [#673](https://github.com/MichMich/MagicMirror/pull/673))
+
 ## [2.1.0] - 2016-12-31
 
 **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
