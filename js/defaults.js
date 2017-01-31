@@ -8,7 +8,7 @@
  */
 
 var defaults = {
-	port: 8080,
+	port: process.env.MM_PORT || 8080,
 	kioskmode: false,
 	electronOptions: {},
 	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1"],

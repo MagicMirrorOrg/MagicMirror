@@ -46,8 +46,41 @@ curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/master/installer
 **Note:** if you want to debug on Raspberry Pi you can use `npm start dev` which will start the MagicMirror app with Dev Tools enabled.
 
 ### Server Only
+In some cases, you want to start the application without an actual app window. In this case, you can start MagicMirror² in server only mode by manually running `node serveronly` or using Docker. This will start the server, after which you can open the application in your browser of choice. Detailed description below.
 
-In some cases, you want to start the application without an actual app window. In this case, execute the following command from the MagicMirror folder: `node serveronly`. This will start the server, after which you can open the application in your browser of choice.
+#### Docker
+
+MagicMirror² in server only mode can be deployed using [Docker](https://docker.com). After a successful [Docker installation](https://docs.docker.com/engine/installation/) you just need to execute the following command in the shell:
+
+```bash
+docker run  -d \
+			--publish 80:8080 \
+			--restart always \
+			--volume ~/magic_mirror/config:/opt/magic_mirror/config \
+			--volume ~/magic_mirror/modules:/opt/magic_mirror/modules \
+			--name magic_mirror \
+			MichMich/MagicMirror
+```
+
+| **Volumes** | **Description** |
+| --- | --- |
+| `/opt/magic_mirror/config` | Mount this volume to insert your own config into the docker container. |
+| `/opt/magic_mirror/modules` | Mount this volume to add your own custom modules into the docker container. |
+
+You may need to add your Docker Host IP to your `ipWhitelist` option. If you have some issues setting up this configuration, check [this forum post](https://forum.magicmirror.builders/topic/1326/ipwhitelist-howto).
+
+```javascript
+var config = {
+	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1", "::ffff:172.17.0.1"]
+};
+```
+
+#### Manual
+
+1. Download and install the latest Node.js version.
+2. Clone the repository and check out the master branch: `git clone https://github.com/MichMich/MagicMirror`
+3. Enter the repository: `cd ~/MagicMirror`
+4. Install and run the app: `npm install && node serveronly`
 
 ### Raspberry Configuration & Auto Start.
 

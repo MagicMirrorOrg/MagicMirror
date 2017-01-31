@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
 ## [2.1.1] - Unreleased
 
 **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
@@ -19,6 +20,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Run task jsonlint to check translation files.
 
 ### Added
+- Added Docker support (Pull Request [#673](https://github.com/MichMich/MagicMirror/pull/673))
 - Calendar-specific support for `maximumEntries`, and ` maximumNumberOfDays`
 - Add loaded function to modules, providing an async callback.
 - Made default newsfeed module aware of gesture events from [MMM-Gestures](https://github.com/thobach/MMM-Gestures)
