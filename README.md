@@ -50,16 +50,29 @@ In some cases, you want to start the application without an actual app window. I
 
 #### Docker
 
-The simplest way to start MagicMirror² in server only mode is using [Docker](https://docker.com). After a successful [Docker installation](https://docs.docker.com/engine/installation/) you just need to execute the following command in the shell:
+MagicMirror² in server only mode can be deployed using [Docker](https://docker.com). After a successful [Docker installation](https://docs.docker.com/engine/installation/) you just need to execute the following command in the shell:
 
 ```bash
 docker run  -d \
 			--publish 80:8080 \
 			--restart always \
-			--volume ~/Documents/docker_volumes/mm/config:/opt/magic_mirror/config \
-			--volume ~/Documents/docker_volumes/mm/modules:/opt/magic_mirror/modules \
+			--volume ~/magic_mirror/config:/opt/magic_mirror/config \
+			--volume ~/magic_mirror/modules:/opt/magic_mirror/modules \
 			--name magic_mirror \
-			magic_mirror
+			MichMich/MagicMirror
+```
+
+| **Volumes** | **Description** |
+| --- | --- |
+| `/opt/magic_mirror/config` | Mount this volume to insert your own config into the docker container. |
+| `/opt/magic_mirror/modules` | Mount this volume to add your own custom modules into the docker container. |
+
+You may need to add your Docker Host IP to your `ipWhitelist` option. If you have some issues setting up this configuration, check [this forum post](https://forum.magicmirror.builders/topic/1326/ipwhitelist-howto).
+
+```javascript
+var config = {
+	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1", "::ffff:172.17.0.1"]
+};
 ```
 
 #### Manual
