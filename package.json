@@ -6,7 +6,8 @@
   "scripts": {
     "start": "sh run-start.sh",
     "postinstall": "sh installers/postinstall/postinstall.sh",
-    "test": "./node_modules/mocha/bin/mocha $(find tests -path '*js*' ! -ipath '*e2e*')",
+    "test": "./node_modules/mocha/bin/mocha tests/unit --recursive",
+    "test:unit": "./node_modules/mocha/bin/mocha tests/unit --recursive",
     "test:e2e": "./node_modules/mocha/bin/mocha tests/e2e --recursive"
   },
   "repository": {

@@ -17,6 +17,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Show the splash screen image even when is reboot or halted.
 - Added some missing translaton strings in the sv.json file.
 - Run task jsonlint to check translation files.
+- Restructured Test Suite
 
 ### Added
 - Calendar-specific support for `maximumEntries`, and ` maximumNumberOfDays`
@@ -37,6 +38,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add test e2e helloworld
 - Add test e2e enviroment
 - Add `chai-as-promised` npm module to devDependencies
+- Basic set of tests for clock module
 
 ### Fixed
 - Update .gitignore to not ignore default modules folder.

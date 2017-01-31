@@ -3,8 +3,7 @@ const path = require("path");
 const chai = require("chai");
 const chaiAsPromised = require("chai-as-promised");
 
-// Set config sample for use in test
-process.env.MM_CONFIG_FILE = "tests/confs/helloworld.js";
+
 
 var electronPath = path.join(__dirname, "../../../", "node_modules", ".bin", "electron");
 
@@ -26,6 +25,11 @@ global.before(function () {
 
 describe("Test helloworld module", function () {
 	this.timeout(10000);
+
+	before(function() {
+		// Set config sample for use in test
+		process.env.MM_CONFIG_FILE = "tests/configs/modules/helloworld/helloworld.js";
+	});
 
 	beforeEach(function (done) {
 		app.start().then(function() { done(); } );
