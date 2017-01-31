@@ -37,7 +37,7 @@ curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/master/installer
 ### Manual Installation
 
 1. Download and install the latest Node.js version.
-2. Clone the repository and check out the beta branch: `git clone https://github.com/MichMich/MagicMirror`
+2. Clone the repository and check out the master branch: `git clone https://github.com/MichMich/MagicMirror`
 3. Enter the repository: `cd ~/MagicMirror`
 4. Install and run the app: `npm install && npm start`
 
@@ -46,7 +46,7 @@ curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/master/installer
 **Note:** if you want to debug on Raspberry Pi you can use `npm start dev` which will start the MagicMirror app with Dev Tools enabled.
 
 ### Server Only
-In some cases, you want to start the application without an actual app window. In this case, you can start MagicMirror² in server only mode. This will start the server, after which you can open the application in your browser of choice.
+In some cases, you want to start the application without an actual app window. In this case, you can start MagicMirror² in server only mode by manually running `node serveronly` or using Docker. This will start the server, after which you can open the application in your browser of choice. Detailed description below.
 
 #### Docker
 
@@ -78,9 +78,9 @@ var config = {
 #### Manual
 
 1. Download and install the latest Node.js version.
-2. Clone the repository and check out the beta branch: `git clone https://github.com/MichMich/MagicMirror`
+2. Clone the repository and check out the master branch: `git clone https://github.com/MichMich/MagicMirror`
 3. Enter the repository: `cd ~/MagicMirror`
-4. Install and run the app: `node serveronly`
+4. Install and run the app: `npm install && node serveronly`
 
 ### Raspberry Configuration & Auto Start.
 
