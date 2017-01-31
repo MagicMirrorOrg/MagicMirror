@@ -60,7 +60,13 @@ Temporary Items
 # Ignore all modules except the default modules.
 /modules/**
 !/modules/default/**
-!/modules/README.md**
 
 # Ignore changes to the custom css files.
 /css/custom.css
+
+# Ignore unnecessary files for docker
+CHANGELOG.md
+LICENSE.md
+README.md
+Gruntfile.js
+.*
