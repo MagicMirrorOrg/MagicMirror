@@ -21,13 +21,13 @@ global.before(function () {
 	chai.use(chaiAsPromised);
 });
 
-describe("Clock module", function () {
+describe("Clock set to spanish language module", function () {
 	this.timeout(10000);
 
 	describe("with default 24hr clock config", function() {
 		before(function() {
 			// Set config sample for use in test
-			process.env.MM_CONFIG_FILE = "tests/configs/modules/clock/clock_24hr.js";
+			process.env.MM_CONFIG_FILE = "tests/configs/modules/clock/es/clock_24hr.js";
 		});
 
 		beforeEach(function (done) {
@@ -39,7 +39,7 @@ describe("Clock module", function () {
 		});
 
 		it("shows date with correct format", function () {
-			const dateRegex = /^(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), (?:January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, \d{4}$/;
+			const dateRegex = /^(?:lunes|martes|miércoles|jueves|viernes|sabado|domingo), \d{1,2} de (?:enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre) de \d{4}$/;
 			return app.client.waitUntilWindowLoaded()
 				.getText(".clock .date").should.eventually.match(dateRegex);
 		});
@@ -54,7 +54,7 @@ describe("Clock module", function () {
 	describe("with default 12hr clock config", function() {
 		before(function() {
 			// Set config sample for use in test
-			process.env.MM_CONFIG_FILE = "tests/configs/modules/clock/clock_12hr.js";
+			process.env.MM_CONFIG_FILE = "tests/configs/modules/clock/es/clock_12hr.js";
 		});
 
 		beforeEach(function (done) {
@@ -66,7 +66,7 @@ describe("Clock module", function () {
 		});
 
 		it("shows date with correct format", function () {
-			const dateRegex = /^(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), (?:January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, \d{4}$/;
+			const dateRegex = /^(?:lunes|martes|miércoles|jueves|viernes|sabado|domingo), \d{1,2} de (?:enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre) de \d{4}$/;
 			return app.client.waitUntilWindowLoaded()
 				.getText(".clock .date").should.eventually.match(dateRegex);
 		});
@@ -81,7 +81,7 @@ describe("Clock module", function () {
 	describe("with showPeriodUpper config enabled", function() {
 		before(function() {
 			// Set config sample for use in test
-			process.env.MM_CONFIG_FILE = "tests/configs/modules/clock/clock_showPeriodUpper.js";
+			process.env.MM_CONFIG_FILE = "tests/configs/modules/clock/es/clock_showPeriodUpper.js";
 		});
 
 		beforeEach(function (done) {
