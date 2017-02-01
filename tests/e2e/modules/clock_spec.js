@@ -98,4 +98,26 @@ describe("Clock module", function () {
 				.getText(".clock .time").should.eventually.match(timeRegex);
 		});
 	});
+
+	describe("with displaySeconds config disabled", function() {
+		before(function() {
+			// Set config sample for use in test
+			process.env.MM_CONFIG_FILE = "tests/configs/modules/clock/clock_displaySeconds_false.js";
+		});
+
+		beforeEach(function (done) {
+			app.start().then(function() { done(); } );
+		});
+
+		afterEach(function (done) {
+			app.stop().then(function() { done(); });
+		});
+
+		it("shows 12hr time without seconds am/pm", function() {
+			const timeRegex = /^(?:1[0-2]|[1-9]):[0-5]\d[ap]m$/;
+			return app.client.waitUntilWindowLoaded()
+				.getText(".clock .time").should.eventually.match(timeRegex);
+		});
+	});
+
 });
