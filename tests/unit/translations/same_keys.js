@@ -13,11 +13,24 @@ describe("Translations have the same keys as en.js", function() {
 
 	Object.keys(translations).forEach(function(tr) {
 		var fileName = translations[tr];
-		it.skip(fileName + " should match", function() {
+		it(fileName + " should match", function() {
 			var fileContent = stripComments(fs.readFileSync(fileName, "utf8"));
 			var fileTranslations = JSON.parse(fileContent);
 			var fileKeys = Object.keys(fileTranslations).sort();
-			expect(fileKeys).to.deep.equal(baseKeys);
+
+			// TODO: when all translations are fixed, use
+			// expect(fileKeys).to.deep.equal(baseKeys);
+
+			// Then delete this block:
+			try {
+				expect(fileKeys).to.deep.equal(baseKeys);
+			} catch(e) {
+				if (e instanceof chai.AssertionError) {
+					this.skip();
+				} else {
+					throw e;
+				}
+			}
 		});
 	});
 });
