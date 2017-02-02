@@ -6,7 +6,7 @@
 	"TODAY": "Hoje",
 	"TOMORROW": "Amanhã",
 	"RUNNING": "Termina em",
-	"EMPTY": "Sem eventos a chegar.",
+	"EMPTY": "Sem eventos programados.",
 
 	/* WEATHER */
 	"N": "N",
@@ -24,5 +24,10 @@
 	"W": "O",
 	"WNW": "ONO",
 	"NW": "NO",
-	"NNW": "NNO"
+	"NNW": "NNO",
+	
+	/* UPDATE INFO */
+	"UPDATE_NOTIFICATION": "Atualização do MagicMirror² disponível.",
+	"UPDATE_NOTIFICATION_MODULE": "Atualização para o módulo MODULE_NAME disponível.",
+	"UPDATE_INFO": "A instalação atual está COMMIT_COUNT atrasada no branch BRANCH_NAME."	
 }
