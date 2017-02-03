@@ -3,9 +3,6 @@ var path = require("path");
 var chai = require("chai");
 var expect = chai.expect;
 
-// Disabled for now, because of too many errors
-// Remove .skip from it to enable
-
 describe("Translations have the same keys as en.js", function() {
 	var translations = require("../../../translations/translations.js");
 	var base = JSON.parse(stripComments(fs.readFileSync("translations/en.json", "utf8")));
@@ -13,24 +10,33 @@ describe("Translations have the same keys as en.js", function() {
 
 	Object.keys(translations).forEach(function(tr) {
 		var fileName = translations[tr];
-		it(fileName + " should match", function() {
-			var fileContent = stripComments(fs.readFileSync(fileName, "utf8"));
-			var fileTranslations = JSON.parse(fileContent);
-			var fileKeys = Object.keys(fileTranslations).sort();
+		var fileContent = stripComments(fs.readFileSync(fileName, "utf8"));
+		var fileTranslations = JSON.parse(fileContent);
+		var fileKeys = Object.keys(fileTranslations).sort();
 
-			// TODO: when all translations are fixed, use
-			// expect(fileKeys).to.deep.equal(baseKeys);
+		it(fileName + " keys should be in base", function() {
+			fileKeys.forEach(function(key) {
+				expect( baseKeys.indexOf(key) ).to.be.at.least(0);
+			});
+		});
 
-			// Then delete this block:
-			try {
-				expect(fileKeys).to.deep.equal(baseKeys);
-			} catch(e) {
-				if (e instanceof chai.AssertionError) {
-					this.skip();
-				} else {
-					throw e;
+		it(fileName + " should contain all base keys", function() {
+			var test = this;
+			baseKeys.forEach(function(key) {
+				// TODO: when all translations are fixed, use
+				// expect(fileKeys).to.deep.equal(baseKeys);
+				// instead of the try-catch-block
+
+				try {
+					expect(fileKeys).to.deep.equal(baseKeys);
+				} catch(e) {
+					if (e instanceof chai.AssertionError) {
+						test.skip();
+					} else {
+						throw e;
+					}
 				}
-			}
+			});
 		});
 	});
 });
