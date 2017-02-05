@@ -42,6 +42,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add `chai-as-promised` npm module to devDependencies
 - Basic set of tests for clock module
 - Run e2e test in Travis
+- Add  test for compliments module for parts of day
 
 ### Fixed
 - Update .gitignore to not ignore default modules folder.
