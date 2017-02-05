@@ -42,7 +42,7 @@ describe("Argument 'dev'", function () {
 	});
 
 	it("should open dev console when provided", function () {
-		app.args = [appPath, 'dev'];
+		app.args = [appPath, "dev"];
 
 		return app.start().then(function() {
 			return app.client.waitUntilWindowLoaded()
