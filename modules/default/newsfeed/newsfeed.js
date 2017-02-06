@@ -112,7 +112,7 @@ Module.register("newsfeed",{
 
 			//Remove selected tags from the beginning of rss feed items (title or description)
 
-			if (this.config.removeStartTags == "title" || "both") {
+			if (this.config.removeStartTags == "title" || this.config.removeStartTags == "both") {
 
 				for (f=0; f<this.config.startTags.length;f++) {
 					if (this.newsItems[this.activeItem].title.slice(0,this.config.startTags[f].length) == this.config.startTags[f]) {
@@ -122,7 +122,7 @@ Module.register("newsfeed",{
 
 			}
 
-			if (this.config.removeStartTags == "description" || "both") {
+			if (this.config.removeStartTags == "description" || this.config.removeStartTags == "both") {
 
 				if (this.config.showDescription) {
 					for (f=0; f<this.config.startTags.length;f++) {
