@@ -3,8 +3,8 @@ var path = require("path");
 var chai = require("chai");
 var expect = chai.expect;
 
-describe("Test global.root_path, set in js/app.js", function() {
-	var appMM =  require("../../js/app.js")
+describe("'global.root_path' set in js/app.js", function() {
+	var appMM =  require("../../../js/app.js")
 
 	var expectedSubPaths = [
 		"modules",
@@ -17,7 +17,7 @@ describe("Test global.root_path, set in js/app.js", function() {
 	];
 
 	expectedSubPaths.forEach(subpath => {
-		it(`should contain a file/folder "${subpath}"`, function() {
+		it(`contains a file/folder "${subpath}"`, function() {
 			expect(fs.existsSync(path.join(global.root_path, subpath))).to.equal(true);
 		});
 	});

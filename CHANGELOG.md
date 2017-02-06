@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
 ## [2.1.1] - Unreleased
 
 **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
@@ -16,8 +17,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Run `npm test` on Travis automatically
 - Show the splash screen image even when is reboot or halted.
 - Added some missing translaton strings in the sv.json file.
+- Run task jsonlint to check translation files.
+- Restructured Test Suite
 
 ### Added
+- Added Docker support (Pull Request [#673](https://github.com/MichMich/MagicMirror/pull/673))
 - Calendar-specific support for `maximumEntries`, and ` maximumNumberOfDays`
 - Add loaded function to modules, providing an async callback.
 - Made default newsfeed module aware of gesture events from [MMM-Gestures](https://github.com/thobach/MMM-Gestures)
@@ -35,6 +39,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Option for colored min-temp and max-temp
 - Add test e2e helloworld
 - Add test e2e enviroment
+- Add `chai-as-promised` npm module to devDependencies
+- Basic set of tests for clock module
+- Run e2e test in Travis
 
 ### Fixed
 - Update .gitignore to not ignore default modules folder.

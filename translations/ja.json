@@ -1,14 +1,11 @@
 {
-	 /* GENERAL */
-	 "LOADING": "ローディング &hellip;",
+	"LOADING": "ローディング &hellip;",
 
-	/* CALENDAR */
 	"TODAY": "今日",
 	"TOMORROW": "明日",
 	"RUNNING": "で終わります",
 	"EMPTY": "直近のイベントはありません",
 
-	/* WEATHER */
 	"N": "北",
 	"NNE": "北北東",
 	"NE": "北東",

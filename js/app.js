@@ -21,6 +21,11 @@ if (process.env.MM_CONFIG_FILE) {
 	global.configuration_file = process.env.MM_CONFIG_FILE;
 }
 
+//Hotfix PullRequest #673
+if (process.env.MM_PORT) {
+	global.mmPort = process.env.MM_PORT;
+}
+
 // The next part is here to prevent a major exception when there
 // is no internet connection. This could probable be solved better.
 process.on("uncaughtException", function (err) {
