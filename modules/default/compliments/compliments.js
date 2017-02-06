@@ -12,6 +12,9 @@ Module.register("compliments",{
 	// Module config defaults.
 	defaults: {
 		compliments: {
+			anytime: [
+				"Hey there sexy!"
+			],
 			morning: [
 				"Good morning, handsome!",
 				"Enjoy your day!",
@@ -107,6 +110,9 @@ Module.register("compliments",{
 		if ( this.currentWeatherType in this.config.compliments) {
 			compliments.push.apply(compliments, this.config.compliments[this.currentWeatherType]);
 		}
+
+		compliments.push.apply(compliments, this.config.compliments.anytime);
+
 		return compliments;
 
 	},
