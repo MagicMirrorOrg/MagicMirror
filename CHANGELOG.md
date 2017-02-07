@@ -20,6 +20,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added some missing translaton strings in the sv.json file.
 - Run task jsonlint to check translation files.
 - Restructured Test Suite
+- Added bower support:
+	- Install external frontend dependencies into `public/components`.
+	- Removed folders `fonts` and `vendor`. Its content is installed via bower into the folder `public/components`.
+	- Changed `paths.vendor` file `js/defaults.js` to load vendor libraries from `public/components`.
+	- Update resource paths in `index.html`.
+	
 
 ### Added
 - Added Docker support (Pull Request [#673](https://github.com/MichMich/MagicMirror/pull/673))
@@ -43,6 +49,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add `chai-as-promised` npm module to devDependencies
 - Basic set of tests for clock module
 - Run e2e test in Travis
+- Add `.editorconfig` file to set some global code style settings in supported IDEs.
+- Add [nodemon](https://github.com/remy/nodemon) to automatically reload Node.js in `serveronly` mode for development purposes.
+- Test some more Node.js versions.
 
 ### Fixed
 - Update .gitignore to not ignore default modules folder.
