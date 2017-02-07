@@ -52,6 +52,10 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 
 			var limitFunction = function(date, i) {return i < maximumEntries;};
 
+			var eventDate = function(event, time) {
+				return (event[time].length === 8) ? moment(event[time], "YYYYMMDD") : moment(new Date(event[time]));
+			};
+
 			for (var e in data) {
 				var event = data[e];
 				var now = new Date();
@@ -70,10 +74,10 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 
 				if (event.type === "VEVENT") {
 
-					var startDate = (event.start.length === 8) ? moment(event.start, "YYYYMMDD") : moment(new Date(event.start));
+					var startDate = eventDate(event, "start");
 					var endDate;
 					if (typeof event.end !== "undefined") {
-						endDate = (event.end.length === 8) ? moment(event.end, "YYYYMMDD") : moment(new Date(event.end));
+						endDate = eventDate(event, "end");
 					} else {
 						if (!isFacebookBirthday) {
 							endDate = startDate;
