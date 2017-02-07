@@ -30,6 +30,7 @@ var translations = {
 	"af" : "translations/af.json", // Afrikaans
 	"hu" : "translations/hu.json", // Hungarian
 	"is" : "translations/is.json", // Icelandic
+	"et" : "translations/et.json", // Estonian
 };
 
 if (typeof module !== "undefined") {module.exports = translations;}
