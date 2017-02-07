@@ -209,7 +209,7 @@ Module.register("clock",{
 					wrapper.appendChild(digitalWrapper);
 					wrapper.appendChild(analogWrapper);
 				}
-            };
+			};
 
 			if (placement === "left" || placement === "right") {
 				digitalWrapper.style.display = "inline-block";
