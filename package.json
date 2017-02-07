@@ -5,6 +5,8 @@
   "main": "js/electron.js",
   "scripts": {
     "start": "sh run-start.sh",
+	"start:serveronly": "node serveronly",
+	"start:dev": "nodemon serveronly",
     "postinstall": "sh installers/postinstall/postinstall.sh",
     "test": "./node_modules/mocha/bin/mocha tests --recursive",
     "test:unit": "./node_modules/mocha/bin/mocha tests/unit --recursive",
@@ -39,6 +41,7 @@
     "grunt-stylelint": "latest",
     "grunt-yamllint": "latest",
     "mocha": "^3.2.0",
+    "nodemon": "^1.11.0",
     "spectron": "^3.4.1",
     "stylelint-config-standard": "latest",
     "time-grunt": "latest"
