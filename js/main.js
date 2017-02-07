@@ -326,7 +326,7 @@ var MM = (function() {
 		 * return array - Filtered collection of modules.
 		 */
 		var exceptWithClass  = function(className) {
-            return modulesByClass(className, false);
+			return modulesByClass(className, false);
 		};
 
 		/* modulesByClass(className, include)
@@ -338,27 +338,27 @@ var MM = (function() {
 		 * return array - Filtered collection of modules.
 		 */
 		var modulesByClass = function(className, include) {
-            var searchClasses = className;
-            if (typeof className === "string") {
-                searchClasses = className.split(" ");
-            }
+			var searchClasses = className;
+			if (typeof className === "string") {
+				searchClasses = className.split(" ");
+			}
 
-            var newModules = modules.filter(function(module) {
-                var classes = module.data.classes.toLowerCase().split(" ");
+			var newModules = modules.filter(function(module) {
+				var classes = module.data.classes.toLowerCase().split(" ");
 
-                for (var c in searchClasses) {
-                    var searchClass = searchClasses[c];
-                    if (classes.indexOf(searchClass.toLowerCase()) !== -1) {
-                        return include;
-                    }
-                }
+				for (var c in searchClasses) {
+					var searchClass = searchClasses[c];
+					if (classes.indexOf(searchClass.toLowerCase()) !== -1) {
+						return include;
+					}
+				}
 
-                return !include;
-            });
+				return !include;
+			});
 
-            setSelectionMethodsForModules(newModules);
-            return newModules;
-        };
+			setSelectionMethodsForModules(newModules);
+			return newModules;
+		};
 
 		/* exceptModule(module)
 		 * Removes a module instance from the collection.

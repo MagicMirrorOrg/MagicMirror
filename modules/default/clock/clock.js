@@ -76,9 +76,9 @@ Module.register("clock",{
 		}
 
 		var hourSymbol = "HH";
-        if (this.config.timeFormat !== 24) {
-            hourSymbol = "h";
-        }
+		if (this.config.timeFormat !== 24) {
+			hourSymbol = "h";
+		}
 
 		if (this.config.clockBold === true) {
 			timeString = now.format(hourSymbol + "[<span class=\"bold\">]mm[</span>]");
@@ -199,17 +199,17 @@ Module.register("clock",{
 			digitalWrapper.appendChild(timeWrapper);
 
 			var appendClocks = function(condition, pos1, pos2) {
-                var padding = [0,0,0,0];
-                padding[(placement === condition) ? pos1 : pos2] = "20px";
-                analogWrapper.style.padding = padding.join(" ");
-                if (placement === condition) {
-                    wrapper.appendChild(analogWrapper);
-                    wrapper.appendChild(digitalWrapper);
-                } else {
-                    wrapper.appendChild(digitalWrapper);
-                    wrapper.appendChild(analogWrapper);
-                }
-            }
+				var padding = [0,0,0,0];
+				padding[(placement === condition) ? pos1 : pos2] = "20px";
+				analogWrapper.style.padding = padding.join(" ");
+				if (placement === condition) {
+					wrapper.appendChild(analogWrapper);
+					wrapper.appendChild(digitalWrapper);
+				} else {
+					wrapper.appendChild(digitalWrapper);
+					wrapper.appendChild(analogWrapper);
+				}
+            };
 
 			if (placement === "left" || placement === "right") {
 				digitalWrapper.style.display = "inline-block";
@@ -220,7 +220,7 @@ Module.register("clock",{
 			} else {
 				digitalWrapper.style.textAlign = "center";
 
-                appendClocks("top", 2, 0);
+				appendClocks("top", 2, 0);
 			}
 		}
 

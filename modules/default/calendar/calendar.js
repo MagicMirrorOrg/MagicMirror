@@ -332,7 +332,7 @@ Module.register("calendar", {
 	 * return string - The Symbol
 	 */
 	symbolForUrl: function (url) {
-        return this.getCalendarProperty(url, "symbol", this.config.defaultSymbol);
+		return this.getCalendarProperty(url, "symbol", this.config.defaultSymbol);
 	},
 
 	/* colorForUrl(url)
@@ -343,7 +343,7 @@ Module.register("calendar", {
 	 * return string - The Color
 	 */
 	colorForUrl: function (url) {
-        return this.getCalendarProperty(url, "color", "#fff");
+		return this.getCalendarProperty(url, "color", "#fff");
 	},
 
 	/* countTitleForUrl(url)
@@ -367,14 +367,14 @@ Module.register("calendar", {
 	 * return string - The Property
 	 */
 	getCalendarProperty: function (url, property, defaultValue) {
-        for (var c in this.config.calendars) {
-            var calendar = this.config.calendars[c];
-            if (calendar.url === url && typeof calendar[property] === "string") {
-                return calendar[property];
-            }
-        }
+		for (var c in this.config.calendars) {
+			var calendar = this.config.calendars[c];
+			if (calendar.url === url && typeof calendar[property] === "string") {
+				return calendar[property];
+			}
+		}
 
-        return defaultValue;
+		return defaultValue;
 	},
 
 	/* shorten(string, maxLength)

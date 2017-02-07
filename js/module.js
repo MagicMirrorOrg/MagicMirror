@@ -203,7 +203,7 @@ var Module = Class.extend({
 	 * argument callback function - Function called when done.
 	 */
 	loadStyles: function (callback) {
-        this.loadDependencies("getStyles", callback);
+		this.loadDependencies("getStyles", callback);
 	},
 
 	/* loadScripts()
@@ -221,24 +221,24 @@ var Module = Class.extend({
 	 * argument funcName string - Function name to call to get scripts or styles.
 	 * argument callback function - Function called when done.
 	 */
-    loadDependencies: function (funcName, callback) {
-        var self = this;
-        var dependencies = this[funcName]();
+	loadDependencies: function (funcName, callback) {
+		var self = this;
+		var dependencies = this[funcName]();
 
-        var loadNextDependency = function () {
-            if (dependencies.length > 0) {
-                var nextDependency = dependencies[0];
-                Loader.loadFile(nextDependency, self, function () {
-                    dependencies = dependencies.slice(1);
-                    loadNextDependency();
-                });
-            } else {
-                callback();
-            }
-        };
+		var loadNextDependency = function () {
+			if (dependencies.length > 0) {
+				var nextDependency = dependencies[0];
+				Loader.loadFile(nextDependency, self, function () {
+					dependencies = dependencies.slice(1);
+					loadNextDependency();
+				});
+			} else {
+				callback();
+			}
+		};
 
-        loadNextDependency();
-    },
+		loadNextDependency();
+	},
 
 	/* loadScripts()
 	 * Load all required scripts by requesting the MM object to load the files.
