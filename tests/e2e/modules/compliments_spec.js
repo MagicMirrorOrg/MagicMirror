@@ -1,8 +1,8 @@
 const Application = require("spectron").Application;
 const path = require("path");
 const chai = require("chai");
+const expect = chai.expect;
 const chaiAsPromised = require("chai-as-promised");
-const moment = require("../../../vendor/moment/moment-with-locales.js");
 
 var electronPath = path.join(__dirname, "../../../", "node_modules", ".bin", "electron");
 
@@ -39,20 +39,40 @@ describe("Compliments module", function () {
 			app.stop().then(function() { done(); });
 		});
 
-		it("shows correct compliments for part of day", function () {
 
-			var hour = moment().hour();
+		it("if Morning compliments for that part of day", function () {
+			var hour = new Date().getHours();
 			if (hour >= 3 && hour < 12) {
-				compliment = "Morning test";
-			} else if (hour >= 12 && hour < 17) {
-				compliment = "Afternoon test";
-			} else {
-				compliment = "Evening test";
+				// if morning check
+				return app.client.waitUntilWindowLoaded()
+					.getText(".compliments").then(function (text) {
+						expect(text).to.be.oneOf(["Hi", "Good Morning", "Morning test"]);
+					})
 			}
-
-			return app.client.waitUntilWindowLoaded()
-				.getText(".compliments").should.eventually.equal(compliment);
 		});
+
+		it("if Afternoon show Compliments for that part of day", function () {
+			var hour = new Date().getHours();
+			if (hour >= 12 && hour < 17) {
+				// if morning check
+				return app.client.waitUntilWindowLoaded()
+					.getText(".compliments").then(function (text) {
+						expect(text).to.be.oneOf(["Hello", "Good Afternoon", "Afternoon test"]);
+					})
+			}
+		});
+
+		it("if Evening show Compliments for that part of day", function () {
+			var hour = new Date().getHours();
+			if (!(hour >= 3 && hour < 12) && !(hour >= 12 && hour < 17)) {
+				// if evening check
+				return app.client.waitUntilWindowLoaded()
+					.getText(".compliments").then(function (text) {
+						expect(text).to.be.oneOf(["Hello There", "Good Evening", "Evening test"]);
+					})
+			}
+		});
+
 	});
 
 });

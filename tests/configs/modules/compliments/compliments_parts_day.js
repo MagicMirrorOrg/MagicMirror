@@ -24,13 +24,13 @@ var config = {
 			config: {
 				compliments: {
 					morning: [
-						"Morning test"
+						"Hi", "Good Morning", "Morning test"
 					],
 					afternoon: [
-						"Afternoon test"
+						"Hello", "Good Afternoon", "Afternoon test"
 					],
 					evening: [
-						"Evening test"
+						"Hello There", "Good Evening", "Evening test"
 					]
 				}
 			}
