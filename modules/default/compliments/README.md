@@ -29,12 +29,12 @@ The following properties can be configured:
 | ---------------- | -----------
 | `updateInterval` | How often does the compliment have to change? (Milliseconds) <br><br> **Possible values:** `1000` - `86400000` <br> **Default value:** `30000` (30 seconds)
 | `fadeSpeed`      | Speed of the update animation. (Milliseconds) <br><br> **Possible values:**`0` - `5000` <br> **Default value:** `4000` (4 seconds)
-| `compliments`	   | The list of compliments. <br><br> **Possible values:** An object with three arrays: `morning`, `afternoon` and`evening`. See _compliment configuration_ below. <br> **Default value:** See _compliment configuration_ below.
-| `remoteFile`     | External file from which to load the compliments <br><br> **Possible values:** Path to a JSON file containing compliments, configured as per the value of the _compliments configuration_ (see below). An object with three arrays: `morning`, `afternoon` and `evening`. - `compliments.json` <br> **Default value:** `null` (Do not load from file)
+| `compliments`	   | The list of compliments. <br><br> **Possible values:** An object with four arrays: `morning`, `afternoon`, `evening` and `anytime`. See _compliment configuration_ below. <br> **Default value:** See _compliment configuration_ below.
+| `remoteFile`     | External file from which to load the compliments <br><br> **Possible values:** Path to a JSON file containing compliments, configured as per the value of the _compliments configuration_ (see below). An object with four arrays: `morning`, `afternoon`, `evening` and `anytime`. - `compliments.json` <br> **Default value:** `null` (Do not load from file)
 
 ### Compliment configuration
 
-The `compliments` property contains an object with three arrays: <code>morning</code>, <code>afternoon</code> and<code>evening</code>. Based on the time of the day, the compliments will be picked out of one of these arrays. The arrays contain one or multiple compliments.
+The `compliments` property contains an object with four arrays: <code>morning</code>, <code>afternoon</code>, <code>evening</code> and <code>anytime</code>. Based on the time of the day, the compliments will be picked out of one of these arrays. The arrays contain one or multiple compliments.
 
 
 If use the currentweather is possible use a actual weather for set compliments. The availables properties are:
@@ -78,6 +78,9 @@ config: {
 ````javascript
 config: {
 	compliments: {
+		anytime: [
+			"Hey there sexy!"
+		],
 		morning: [
 			"Good morning, handsome!",
 			"Enjoy your day!",
@@ -107,6 +110,9 @@ around them ("morning", "afternoon", "evening", "snow", "rain", etc.).
 #### Example compliments.json file:
 ````json
 {
+	"anytime" : [
+		"Hey there sexy!"
+	],
     "morning" : [
         "Good morning, sunshine!",
         "Who needs coffee when you have your smile?",
