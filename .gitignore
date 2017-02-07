@@ -12,6 +12,7 @@ coverage
 .lock-wscript
 build/Release
 node_modules
+public/components
 jspm_modules
 .npm
 .node_repl_history

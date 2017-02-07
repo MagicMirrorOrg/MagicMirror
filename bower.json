@@ -1,0 +1,23 @@
+{
+  "name": "magicmirror",
+  "description": "A modular interface for smart mirrors.",
+  "main": "js/electron.js",
+  "authors": [
+    "https://github.com/MichMich/MagicMirror/graphs/contributors"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "magic mirror",
+    "smart mirror",
+    "mirror UI",
+    "modular"
+  ],
+  "homepage": "https://github.com/MichMich/MagicMirror#readme",
+  "dependencies": {
+    "roboto-fontface": "^0.7.0",
+    "font-awesome": "fontawesome#4.5.0",
+    "moment-timezone": "^0.5.11",
+    "moment": "^2.17.1",
+    "weather-icons": "^2.0.8"
+  }
+}
