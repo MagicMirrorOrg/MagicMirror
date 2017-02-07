@@ -70,7 +70,7 @@ var defaults = {
 
 	paths: {
 		modules: "modules",
-		vendor: "vendor"
+		vendor: "public/components"
 	},
 };
 
