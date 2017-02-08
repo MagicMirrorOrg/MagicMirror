@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - Add `anytime` group for Compliments module.
+- Compliments module can use remoteFile without default daytime arrays defined
 - Installer: Use init config.js from config.js.sample.
 - Switched out `rrule` package for `rrule-alt` and fixes in `ical.js` in order to fix calendar issues. ([#565](https://github.com/MichMich/MagicMirror/issues/565))
 - Make mouse events pass through the region fullscreen_above to modules below.
@@ -43,7 +44,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add `chai-as-promised` npm module to devDependencies
 - Basic set of tests for clock module
 - Run e2e test in Travis
+- Estonian Translation.
 - Add  test for compliments module for parts of day
+
 
 ### Fixed
 - Update .gitignore to not ignore default modules folder.
