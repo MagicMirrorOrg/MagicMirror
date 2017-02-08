@@ -107,6 +107,8 @@ Module.register("compliments",{
 			compliments = this.config.compliments.evening;
 		}
 
+		if (typeof compliments === 'undefined' ) compliments = new Array();
+
 		if ( this.currentWeatherType in this.config.compliments) {
 			compliments.push.apply(compliments, this.config.compliments[this.currentWeatherType]);
 		}
