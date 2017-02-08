@@ -45,6 +45,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Basic set of tests for clock module
 - Run e2e test in Travis
 - Estonian Translation.
+- Add  test for compliments module for parts of day
 
 
 ### Fixed

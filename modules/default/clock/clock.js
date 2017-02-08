@@ -74,23 +74,18 @@ Module.register("clock",{
 		if (this.config.timezone) {
 			now.tz(this.config.timezone);
 		}
-		if (this.config.clockBold === true) {
-			timeString = now.format("HH[<span class=\"bold\">]mm[</span>]");
-		} else {
-			timeString = now.format("HH:mm");
+
+		var hourSymbol = "HH";
+		if (this.config.timeFormat !== 24) {
+			hourSymbol = "h";
 		}
 
-		if (this.config.timeFormat !== 24) {
-			// var now = new Date();
-			// var hours = now.getHours() % 12 || 12;
-			if (this.config.clockBold === true) {
-				//timeString = hours + moment().format("[<span class=\"bold\">]mm[</span>]");
-				timeString = now.format("h[<span class=\"bold\">]mm[</span>]");
-			} else {
-				//timeString = hours + moment().format(":mm");
-				timeString = now.format("h:mm");
-			}
+		if (this.config.clockBold === true) {
+			timeString = now.format(hourSymbol + "[<span class=\"bold\">]mm[</span>]");
+		} else {
+			timeString = now.format(hourSymbol + ":mm");
 		}
+
 		if(this.config.showDate){
 			dateWrapper.innerHTML = now.format("dddd, LL");
 		}
@@ -203,30 +198,29 @@ Module.register("clock",{
 			digitalWrapper.appendChild(dateWrapper);
 			digitalWrapper.appendChild(timeWrapper);
 
+			var appendClocks = function(condition, pos1, pos2) {
+				var padding = [0,0,0,0];
+				padding[(placement === condition) ? pos1 : pos2] = "20px";
+				analogWrapper.style.padding = padding.join(" ");
+				if (placement === condition) {
+					wrapper.appendChild(analogWrapper);
+					wrapper.appendChild(digitalWrapper);
+				} else {
+					wrapper.appendChild(digitalWrapper);
+					wrapper.appendChild(analogWrapper);
+				}
+			};
+
 			if (placement === "left" || placement === "right") {
 				digitalWrapper.style.display = "inline-block";
 				digitalWrapper.style.verticalAlign = "top";
 				analogWrapper.style.display = "inline-block";
-				if (placement === "left") {
-					analogWrapper.style.padding = "0 20px 0 0";
-					wrapper.appendChild(analogWrapper);
-					wrapper.appendChild(digitalWrapper);
-				} else {
-					analogWrapper.style.padding = "0 0 0 20px";
-					wrapper.appendChild(digitalWrapper);
-					wrapper.appendChild(analogWrapper);
-				}
+
+				appendClocks("left", 1, 3);
 			} else {
 				digitalWrapper.style.textAlign = "center";
-				if (placement === "top") {
-					analogWrapper.style.padding = "0 0 20px 0";
-					wrapper.appendChild(analogWrapper);
-					wrapper.appendChild(digitalWrapper);
-				} else {
-					analogWrapper.style.padding = "20px 0 0 0";
-					wrapper.appendChild(digitalWrapper);
-					wrapper.appendChild(analogWrapper);
-				}
+
+				appendClocks("top", 2, 0);
 			}
 		}
 

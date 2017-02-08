@@ -203,22 +203,7 @@ var Module = Class.extend({
 	 * argument callback function - Function called when done.
 	 */
 	loadStyles: function (callback) {
-		var self = this;
-		var styles = this.getStyles();
-
-		var loadNextStyle = function () {
-			if (styles.length > 0) {
-				var nextStyle = styles[0];
-				Loader.loadFile(nextStyle, self, function () {
-					styles = styles.slice(1);
-					loadNextStyle();
-				});
-			} else {
-				callback();
-			}
-		};
-
-		loadNextStyle();
+		this.loadDependencies("getStyles", callback);
 	},
 
 	/* loadScripts()
@@ -227,22 +212,32 @@ var Module = Class.extend({
 	 * argument callback function - Function called when done.
 	 */
 	loadScripts: function (callback) {
-		var self = this;
-		var scripts = this.getScripts();
+		this.loadDependencies("getScripts", callback);
+	},
 
-		var loadNextScript = function () {
-			if (scripts.length > 0) {
-				var nextScript = scripts[0];
-				Loader.loadFile(nextScript, self, function () {
-					scripts = scripts.slice(1);
-					loadNextScript();
+	/* loadDependencies(funcName, callback)
+	 * Helper method to load all dependencies.
+	 *
+	 * argument funcName string - Function name to call to get scripts or styles.
+	 * argument callback function - Function called when done.
+	 */
+	loadDependencies: function (funcName, callback) {
+		var self = this;
+		var dependencies = this[funcName]();
+
+		var loadNextDependency = function () {
+			if (dependencies.length > 0) {
+				var nextDependency = dependencies[0];
+				Loader.loadFile(nextDependency, self, function () {
+					dependencies = dependencies.slice(1);
+					loadNextDependency();
 				});
 			} else {
 				callback();
 			}
 		};
 
-		loadNextScript();
+		loadNextDependency();
 	},
 
 	/* loadScripts()

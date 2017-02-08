@@ -327,54 +327,54 @@ Module.register("calendar", {
 	/* symbolForUrl(url)
 	 * Retrieves the symbol for a specific url.
 	 *
-	 * argument url sting - Url to look for.
+	 * argument url string - Url to look for.
 	 *
 	 * return string - The Symbol
 	 */
 	symbolForUrl: function (url) {
-		for (var c in this.config.calendars) {
-			var calendar = this.config.calendars[c];
-			if (calendar.url === url && typeof calendar.symbol === "string") {
-				return calendar.symbol;
-			}
-		}
-
-		return this.config.defaultSymbol;
+		return this.getCalendarProperty(url, "symbol", this.config.defaultSymbol);
 	},
 
 	/* colorForUrl(url)
 	 * Retrieves the color for a specific url.
 	 *
-	 * argument url sting - Url to look for.
+	 * argument url string - Url to look for.
 	 *
 	 * return string - The Color
 	 */
 	colorForUrl: function (url) {
-		for (var c in this.config.calendars) {
-			var calendar = this.config.calendars[c];
-			if (calendar.url === url && typeof calendar.color === "string") {
-				return calendar.color;
-			}
-		}
-
-		return "#fff";
+		return this.getCalendarProperty(url, "color", "#fff");
 	},
+
 	/* countTitleForUrl(url)
 	 * Retrieves the name for a specific url.
 	 *
-	 * argument url sting - Url to look for.
+	 * argument url string - Url to look for.
 	 *
 	 * return string - The Symbol
 	 */
 	countTitleForUrl: function (url) {
+		return this.getCalendarProperty(url, "repeatingCountTitle", this.config.defaultRepeatingCountTitle);
+	},
+
+	/* getCalendarProperty(url, property, defaultValue)
+	 * Helper method to retrieve the property for a specific url.
+	 *
+	 * argument url string - Url to look for.
+	 * argument property string - Property to look for.
+	 * argument defaultValue string - Value if property is not found.
+	 *
+	 * return string - The Property
+	 */
+	getCalendarProperty: function (url, property, defaultValue) {
 		for (var c in this.config.calendars) {
 			var calendar = this.config.calendars[c];
-			if (calendar.url === url && typeof calendar.repeatingCountTitle === "string") {
-				return calendar.repeatingCountTitle;
+			if (calendar.url === url && typeof calendar[property] === "string") {
+				return calendar[property];
 			}
 		}
 
-		return this.config.defaultRepeatingCountTitle;
+		return defaultValue;
 	},
 
 	/* shorten(string, maxLength)
