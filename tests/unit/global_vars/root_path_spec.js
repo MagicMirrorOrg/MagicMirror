@@ -61,5 +61,11 @@ describe("'global.root_path' set in js/app.js", function() {
 	it("should not modify global.version for testing", function() {
 		expect(global.version).to.equal(undefined);
 	});
+
+	it("should expect the global.version equals package.json file", function() {
+		version_package = JSON.parse(fs.readFileSync("package.json", "utf8")).version;
+		expect(this.sandbox.global.version).to.equal(version_package);
+	});
+
 });
 
