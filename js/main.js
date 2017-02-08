@@ -308,43 +308,36 @@ var MM = (function() {
 	var setSelectionMethodsForModules = function(modules) {
 
 		/* withClass(className)
-		 * filters a collection of modules based on classname(s).
+		 * calls modulesByClass to filter modules with the specified classes.
 		 *
 		 * argument className string/array - one or multiple classnames. (array or space divided)
 		 *
 		 * return array - Filtered collection of modules.
 		 */
 		var withClass = function(className) {
-			var searchClasses = className;
-			if (typeof className === "string") {
-				searchClasses = className.split(" ");
-			}
-
-			var newModules = modules.filter(function(module) {
-				var classes = module.data.classes.toLowerCase().split(" ");
-
-				for (var c in searchClasses) {
-					var searchClass = searchClasses[c];
-					if (classes.indexOf(searchClass.toLowerCase()) !== -1) {
-						return true;
-					}
-				}
-
-				return false;
-			});
-
-			setSelectionMethodsForModules(newModules);
-			return newModules;
+			return modulesByClass(className, true);
 		};
 
 		/* exceptWithClass(className)
-		 * filters a collection of modules based on classname(s). (NOT)
+		 * calls modulesByClass to filter modules without the specified classes.
 		 *
 		 * argument className string/array - one or multiple classnames. (array or space divided)
 		 *
 		 * return array - Filtered collection of modules.
 		 */
 		var exceptWithClass  = function(className) {
+			return modulesByClass(className, false);
+		};
+
+		/* modulesByClass(className, include)
+		 * filters a collection of modules based on classname(s).
+		 *
+		 * argument className string/array - one or multiple classnames. (array or space divided)
+		 * argument include boolean - if the filter should include or exclude the modules with the specific classes.
+		 *
+		 * return array - Filtered collection of modules.
+		 */
+		var modulesByClass = function(className, include) {
 			var searchClasses = className;
 			if (typeof className === "string") {
 				searchClasses = className.split(" ");
@@ -356,11 +349,11 @@ var MM = (function() {
 				for (var c in searchClasses) {
 					var searchClass = searchClasses[c];
 					if (classes.indexOf(searchClass.toLowerCase()) !== -1) {
-						return false;
+						return include;
 					}
 				}
 
-				return true;
+				return !include;
 			});
 
 			setSelectionMethodsForModules(newModules);
