@@ -31,6 +31,7 @@ var translations = {
 	"hu" : "translations/hu.json", // Hungarian
 	"is" : "translations/is.json", // Icelandic
 	"et" : "translations/et.json", // Estonian
+	"kr" : "translations/kr.json", // Korean
 };
 
 if (typeof module !== "undefined") {module.exports = translations;}

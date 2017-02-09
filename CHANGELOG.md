@@ -46,6 +46,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Run e2e test in Travis
 - Estonian Translation.
 - Add  test for compliments module for parts of day
+- Korean Translation.
 
 
 ### Fixed
