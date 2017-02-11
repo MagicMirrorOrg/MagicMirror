@@ -39,7 +39,7 @@ describe("Clock set to spanish language module", function () {
 		});
 
 		it("shows date with correct format", function () {
-			const dateRegex = /^(?:lunes|martes|miércoles|jueves|viernes|sabado|domingo), \d{1,2} de (?:enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre) de \d{4}$/;
+			const dateRegex = /^(?:lunes|martes|miércoles|jueves|viernes|sábado|domingo), \d{1,2} de (?:enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre) de \d{4}$/;
 			return app.client.waitUntilWindowLoaded()
 				.getText(".clock .date").should.eventually.match(dateRegex);
 		});
@@ -66,7 +66,7 @@ describe("Clock set to spanish language module", function () {
 		});
 
 		it("shows date with correct format", function () {
-			const dateRegex = /^(?:lunes|martes|miércoles|jueves|viernes|sabado|domingo), \d{1,2} de (?:enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre) de \d{4}$/;
+			const dateRegex = /^(?:lunes|martes|miércoles|jueves|viernes|sábado|domingo), \d{1,2} de (?:enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre) de \d{4}$/;
 			return app.client.waitUntilWindowLoaded()
 				.getText(".clock .date").should.eventually.match(dateRegex);
 		});
