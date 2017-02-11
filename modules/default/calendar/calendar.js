@@ -262,7 +262,7 @@ Module.register("calendar", {
 	/* hasCalendarURL(url)
 	 * Check if this config contains the calendar url.
 	 *
-	 * argument url sting - Url to look for.
+	 * argument url string - Url to look for.
 	 *
 	 * return bool - Has calendar url
 	 */
@@ -311,7 +311,7 @@ Module.register("calendar", {
 	/* createEventList(url)
 	 * Requests node helper to add calendar url.
 	 *
-	 * argument url sting - Url to add.
+	 * argument url string - Url to add.
 	 */
 	addCalendar: function (url, user, pass, calendarConfig) {
 		this.sendSocketNotification("ADD_CALENDAR", {
@@ -378,7 +378,7 @@ Module.register("calendar", {
 	},
 
 	/* shorten(string, maxLength)
-	 * Shortens a sting if it's longer than maxLenthg.
+	 * Shortens a string if it's longer than maxLenthg.
 	 * Adds an ellipsis to the end.
 	 *
 	 * argument string string - The string to shorten.
