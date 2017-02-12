@@ -186,6 +186,11 @@ var Loader = (function() {
 			script.onload = function() {
 				if (typeof callback === "function") {callback();}
 			};
+			script.onerror = function() {
+				console.error("Error on loading script:", fileName);
+				if (typeof callback === "function") {callback();}
+			};
+
 			document.getElementsByTagName("body")[0].appendChild(script);
 			break;
 		case "css":
@@ -197,6 +202,11 @@ var Loader = (function() {
 			stylesheet.onload = function() {
 				if (typeof callback === "function") {callback();}
 			};
+			stylesheet.onerror = function() {
+				console.error("Error on loading stylesheet:", fileName);
+				if (typeof callback === "function") {callback();}
+			};
+
 			document.getElementsByTagName("head")[0].appendChild(stylesheet);
 			break;
 		}
