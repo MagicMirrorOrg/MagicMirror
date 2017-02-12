@@ -22,7 +22,7 @@ global.before(function () {
 });
 
 describe("Electron app environment", function () {
-	this.timeout(10000);
+	this.timeout(20000);
 
 	before(function() {
 		// Set config sample for use in test

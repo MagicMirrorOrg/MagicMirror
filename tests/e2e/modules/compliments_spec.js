@@ -23,7 +23,7 @@ global.before(function () {
 });
 
 describe("Compliments module", function () {
-	this.timeout(10000);
+	this.timeout(20000);
 
 	describe("parts of days", function() {
 		before(function() {

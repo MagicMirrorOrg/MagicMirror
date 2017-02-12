@@ -22,7 +22,7 @@ global.before(function () {
 });
 
 describe("Clock set to spanish language module", function () {
-	this.timeout(10000);
+	this.timeout(20000);
 
 	describe("with default 24hr clock config", function() {
 		before(function() {
