@@ -10,7 +10,7 @@ modules: [
 		module: "alert",
 		config: {
 			// The config property is optional.
-			// See 'Configuration options' for more information. 
+			// See 'Configuration options' for more information.
 		}
 	}
 ]
@@ -34,12 +34,12 @@ The following properties can be configured:
 For notifications use:
 
 ```
-self.sendNotification("SHOW_ALERT", {type: "notification"}); 
+self.sendNotification("SHOW_ALERT", {type: "notification"});
 ```
 For alerts use:
 
 ```
-self.sendNotification("SHOW_ALERT", {}); 
+self.sendNotification("SHOW_ALERT", {});
 ```
 
 ### Notification params
