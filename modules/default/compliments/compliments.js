@@ -18,14 +18,14 @@ Module.register("compliments",{
 				"How was your sleep?"
 			],
 			afternoon: [
-				"Hello, beauty!",
-				"You look sexy!",
-				"Looking good today!"
+				"Soft pretzels.",
+				"Lookin good yungbull",
+				"Yoooo where's my cheesesteak?"
 			],
 			evening: [
-				"Wow, you look hot!",
-				"You look nice!",
-				"Hi, sexy!"
+				"Yoooo where's my cheesesteak?",
+				"Lookin good yungbull",
+				"Soft pretzels."
 			]
 		},
 		updateInterval: 30000,
@@ -144,7 +144,7 @@ Module.register("compliments",{
 
 		var compliment = document.createTextNode(complimentText);
 		var wrapper = document.createElement("div");
-		wrapper.className = this.config.classes ? this.config.classes : "thin xlarge bright";
+		wrapper.className = this.config.classes ? this.config.classes : "sketch-font xlarge bright";
 		wrapper.appendChild(compliment);
 
 		return wrapper;
