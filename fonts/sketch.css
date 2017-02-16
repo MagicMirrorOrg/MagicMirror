@@ -1,0 +1,10 @@
+@font-face {
+  font-family: "Sketch 3D";
+  font-style: normal;
+  font-weight: 300;
+  src:
+    local("Roboto Condensed Light"),
+    local("RobotoCondensed-Light"),
+    url("Sketch-3d/Sketch-3D.woff") format("woff"),
+    url("Sketch-3d/Sketch-3D.otf") format("otf");
+}
