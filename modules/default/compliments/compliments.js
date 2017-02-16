@@ -13,9 +13,9 @@ Module.register("compliments",{
 	defaults: {
 		compliments: {
 			morning: [
-				"Good morning, handsome!",
-				"Enjoy your day!",
-				"How was your sleep?"
+				"Good morning, yungbull",
+				"Ard, good morning - real talk",
+				"Soft pretzels."
 			],
 			afternoon: [
 				"Soft pretzels.",
