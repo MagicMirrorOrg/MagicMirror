@@ -54,7 +54,7 @@
     "request": "^2.78.0",
     "rrule-alt": "^2.2.3",
     "simple-git": "^1.62.0",
-    "socket.io": "^1.5.1",
+    "socket.io": "^1.7.3",
     "valid-url": "latest",
     "walk": "latest"
   }
