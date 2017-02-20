@@ -1,26 +1,7 @@
-const Application = require("spectron").Application;
-const path = require("path");
+const globalSetup = require("../global-setup");
+const app = globalSetup.app;
 const chai = require("chai");
 const expect = chai.expect;
-const chaiAsPromised = require("chai-as-promised");
-
-var electronPath = path.join(__dirname, "../../../", "node_modules", ".bin", "electron");
-
-if (process.platform === "win32") {
-	electronPath += ".cmd";
-}
-
-var appPath = path.join(__dirname, "../../../js/electron.js");
-
-var app = new Application({
-	path: electronPath,
-	args: [appPath]
-});
-
-global.before(function () {
-	chai.should();
-	chai.use(chaiAsPromised);
-});
 
 describe("Compliments module", function () {
 	this.timeout(20000);
