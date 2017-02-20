@@ -6,20 +6,22 @@ const expect = chai.expect;
 describe("Compliments module", function () {
 	this.timeout(20000);
 
+
+	beforeEach(function (done) {
+		app.start().then(function() { done(); } );
+	});
+
+	afterEach(function (done) {
+		app.stop().then(function() { done(); });
+	});
+
+
 	describe("parts of days", function() {
+
 		before(function() {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/compliments/compliments_parts_day.js";
 		});
-
-		beforeEach(function (done) {
-			app.start().then(function() { done(); } );
-		});
-
-		afterEach(function (done) {
-			app.stop().then(function() { done(); });
-		});
-
 
 		it("if Morning compliments for that part of day", function () {
 			var hour = new Date().getHours();
@@ -58,15 +60,6 @@ describe("Compliments module", function () {
 
 
 	describe("Feature anytime in compliments module", function() {
-
-		beforeEach(function (done) {
-			app.start().then(function() { done(); } );
-		});
-
-		afterEach(function (done) {
-			app.stop().then(function() { done(); });
-		});
-
 
 		describe("Set anytime and empty compliments for morning, evening and afternoon ", function() {
 			before(function() {
