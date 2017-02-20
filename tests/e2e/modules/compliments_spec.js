@@ -56,4 +56,27 @@ describe("Compliments module", function () {
 
 	});
 
+
+	describe("Tests anytime for compliments", function() {
+		before(function() {
+			// Set config sample for use in test
+			process.env.MM_CONFIG_FILE = "tests/configs/modules/compliments/compliments_anytime.js";
+		});
+
+		beforeEach(function (done) {
+			app.start().then(function() { done(); } );
+		});
+
+		afterEach(function (done) {
+			app.stop().then(function() { done(); });
+		});
+
+		it("Show anytime because if configure empty parts of day compliments and set anytime compliments", function () {
+			return app.client.waitUntilWindowLoaded()
+				.getText(".compliments").then(function (text) {
+					expect(text).to.be.oneOf(["Anytime here"]);
+				})
+		});
+	});
+
 });
