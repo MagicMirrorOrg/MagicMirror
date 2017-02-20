@@ -23,9 +23,9 @@ var config = {
 			position: "middle_center",
 			config: {
 				compliments: {
-					morning: ["Good Morning"],
-					afternoon: ["Good Afternoon"],
-					evening: ["Good Evening"],
+					morning: [],
+					afternoon: [],
+					evening: [],
 					anytime: ["Anytime here"]
 
 				}

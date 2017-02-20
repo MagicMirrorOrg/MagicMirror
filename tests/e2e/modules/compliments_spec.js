@@ -90,10 +90,10 @@ describe("Compliments module", function () {
 			app.stop().then(function() { done(); });
 		});
 
-		it("Show anytime or parts of day compliments", function () {
+		it("Show anytime because if configure empty parts of day compliments and set anytime compliments", function () {
 			return app.client.waitUntilWindowLoaded()
 				.getText(".compliments").then(function (text) {
-					expect(text).to.be.oneOf(["Good Morning", "Good Evening", "Good Afternoon", "Anytime here"]);
+					expect(text).to.be.oneOf(["Anytime here"]);
 				})
 		});
 	});
