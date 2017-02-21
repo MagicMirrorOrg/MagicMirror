@@ -79,7 +79,9 @@ var App = function() {
 	};
 
 	var checkDeprecatedOptions = function(userConfig) {
-		var deprecatedOptions = require(global.root_path + "/js/deprecated.js").configs;
+		var deprecated = require(global.root_path + "/js/deprecated.js");
+		var deprecatedOptions = deprecated.configs;
+
 		var usedDeprecated = [];
 
 		deprecatedOptions.forEach(function(option) {
@@ -89,10 +91,10 @@ var App = function() {
 		});
 
 		if (usedDeprecated.length > 0) {
-			console.warn(
-				"WARNING! Your config is using deprecated options: ",
-				usedDeprecated.join(", "),
-				". Check README and CHANGELOG for more up-to-date ways of getting the same functionality."
+			console.warn(deprecated.colors.warn(
+				"WARNING! Your config is using deprecated options: " +
+				usedDeprecated.join(", ") +
+				". Check README and CHANGELOG for more up-to-date ways of getting the same functionality.")
 			);
 		}
 	}

@@ -5,9 +5,12 @@
  *
  * Olex S. original idea this deprecated option
  */
+var colors = require("colors/safe");
+colors.setTheme({warn: "yellow"})
 
 var deprecated = {
-	configs: ["kioskmode"]
+	configs: ["kioskmode"],
+	colors: colors
 };
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/
