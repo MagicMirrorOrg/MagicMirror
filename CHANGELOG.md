@@ -47,6 +47,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Estonian Translation.
 - Add  test for compliments module for parts of day
 - Korean Translation.
+- Added console warning on startup when deprecated config options are used
 
 
 ### Fixed
@@ -92,7 +93,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added ability to configure electronOptions
 - Calendar module: option to hide private events
 - Add root_path for global vars
-- Added console warning on startup when deprecated config options are used 
 
 ### Updated
 - Modified translations for Frysk.
