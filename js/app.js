@@ -61,6 +61,7 @@ var App = function() {
 		try {
 			fs.accessSync(configFilename, fs.F_OK);
 			var c = require(configFilename);
+			checkDeprecatedOptions(c);
 			var config = Object.assign(defaults, c);
 			callback(config);
 		} catch (e) {
@@ -76,6 +77,21 @@ var App = function() {
 			}
 		}
 	};
+
+	var checkDeprecatedOptions = function(userConfig) {
+		var deprecatedOptions = require(__dirname + "/../config/deprecated.js");
+		var usedDeprecated = [];
+
+		deprecatedOptions.forEach(function(option) {
+			if (userConfig.hasOwnProperty(option)) {
+				usedDeprecated.push(option);
+			}
+		});
+
+		if (usedDeprecated.length > 0) {
+			console.error("WARNING! Your config is using deprecated options: " + usedDeprecated.join(", ") + ". Check README and CHANGELOG for more up-to-date ways of getting the same functionality.");
+		}
+	}
 
 	/* loadModule(module)
 	 * Loads a specific module.
