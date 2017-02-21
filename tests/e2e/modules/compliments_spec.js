@@ -6,20 +6,22 @@ const expect = chai.expect;
 describe("Compliments module", function () {
 	this.timeout(20000);
 
+
+	beforeEach(function (done) {
+		app.start().then(function() { done(); } );
+	});
+
+	afterEach(function (done) {
+		app.stop().then(function() { done(); });
+	});
+
+
 	describe("parts of days", function() {
+
 		before(function() {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/compliments/compliments_parts_day.js";
 		});
-
-		beforeEach(function (done) {
-			app.start().then(function() { done(); } );
-		});
-
-		afterEach(function (done) {
-			app.stop().then(function() { done(); });
-		});
-
 
 		it("if Morning compliments for that part of day", function () {
 			var hour = new Date().getHours();
@@ -57,26 +59,37 @@ describe("Compliments module", function () {
 	});
 
 
-	describe("Tests anytime for compliments", function() {
-		before(function() {
-			// Set config sample for use in test
-			process.env.MM_CONFIG_FILE = "tests/configs/modules/compliments/compliments_anytime.js";
+	describe("Feature anytime in compliments module", function() {
+
+		describe("Set anytime and empty compliments for morning, evening and afternoon ", function() {
+			before(function() {
+				// Set config sample for use in test
+				process.env.MM_CONFIG_FILE = "tests/configs/modules/compliments/compliments_anytime.js";
+			});
+
+			it("Show anytime because if configure empty parts of day compliments and set anytime compliments", function () {
+				return app.client.waitUntilWindowLoaded()
+					.getText(".compliments").then(function (text) {
+						expect(text).to.be.oneOf(["Anytime here"]);
+					})
+			});
 		});
 
-		beforeEach(function (done) {
-			app.start().then(function() { done(); } );
+		describe("Only anytime present in configuration compliments", function() {
+			before(function() {
+				// Set config sample for use in test
+				process.env.MM_CONFIG_FILE = "tests/configs/modules/compliments/compliments_only_anytime.js";
+			});
+
+			it("Show anytime compliments", function () {
+				return app.client.waitUntilWindowLoaded()
+					.getText(".compliments").then(function (text) {
+						expect(text).to.be.oneOf(["Anytime here"]);
+					})
+			});
 		});
 
-		afterEach(function (done) {
-			app.stop().then(function() { done(); });
-		});
 
-		it("Show anytime because if configure empty parts of day compliments and set anytime compliments", function () {
-			return app.client.waitUntilWindowLoaded()
-				.getText(".compliments").then(function (text) {
-					expect(text).to.be.oneOf(["Anytime here"]);
-				})
-		});
 	});
 
 });
