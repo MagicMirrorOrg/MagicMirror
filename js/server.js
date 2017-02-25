@@ -31,13 +31,12 @@ var Server = function(config, callback) {
 	app.use(helmet());
 
 	app.use("/js", express.static(__dirname));
-	app.use("/config", express.static(path.resolve(global.root_path + "/config")));
-	app.use("/css", express.static(path.resolve(global.root_path + "/css")));
-	app.use("/fonts", express.static(path.resolve(global.root_path + "/fonts")));
-	app.use("/modules", express.static(path.resolve(global.root_path + "/modules")));
-	app.use("/vendor", express.static(path.resolve(global.root_path + "/vendor")));
-	app.use("/translations", express.static(path.resolve(global.root_path + "/translations")));
-	app.use("/tests/configs", express.static(path.resolve(global.root_path + "/tests/configs")));
+	var directories = ["/config", "/css", "/fonts", "/modules", "/vendor", "/translations", "/tests/configs"];
+	var directory;
+	for (i in directories) {
+		directory = directories[i];
+		app.use(directory, express.static(path.resolve(global.root_path + directory)));
+	}
 
 	app.get("/version", function(req,res) {
 		res.send(global.version);
