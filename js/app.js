@@ -21,7 +21,8 @@ if (process.env.MM_CONFIG_FILE) {
 	global.configuration_file = process.env.MM_CONFIG_FILE;
 }
 
-//Hotfix PullRequest #673
+// FIXME: Hotfix Pull Request
+// https://github.com/MichMich/MagicMirror/pull/673
 if (process.env.MM_PORT) {
 	global.mmPort = process.env.MM_PORT;
 }
