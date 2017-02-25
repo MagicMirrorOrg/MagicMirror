@@ -47,6 +47,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Estonian Translation.
 - Add  test for compliments module for parts of day
 - Korean Translation.
+- Added console warning on startup when deprecated config options are used
 
 
 ### Fixed
