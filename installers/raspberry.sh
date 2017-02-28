@@ -36,6 +36,10 @@ fi
 function version_gt() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" != "$1"; }
 function command_exists () { type "$1" &> /dev/null ;}
 
+# Update before first apt-get
+echo -e "\e[96mUpdating packages ...\e[90m"
+sudo apt-get update || echo -e "\e[91mUpdate failed, carrying on installation ...\e[90m"
+
 # Installing helper tools
 echo -e "\e[96mInstalling helper tools ...\e[90m"
 sudo apt-get install curl wget git build-essential unzip || exit
@@ -113,6 +117,9 @@ else
 	exit;
 fi
 
+# Use sample config for start MagicMirror
+cp config/config.js.sample config/config.js
+
 # Check if plymouth is installed (default with PIXEL desktop environment), then install custom splashscreen.
 echo -e "\e[96mCheck plymouth installation ...\e[0m"
 if command_exists plymouth; then
@@ -139,6 +146,16 @@ if command_exists plymouth; then
 	fi
 else
 	echo -e "\e[93mplymouth is not installed.\e[0m";
+fi
+
+# Use pm2 control like a service MagicMirror
+read -p "Do you want use pm2 for auto starting of your MagicMirror (y/n)?" choice
+if [[ $choice =~ ^[Yy]$ ]]
+then
+    sudo npm install -g pm2
+    sudo su -c "env PATH=$PATH:/usr/bin pm2 startup linux -u pi --hp /home/pi"
+    pm2 start ~/MagicMirror/installers/pm2_MagicMirror.json
+    pm2 save
 fi
 
 echo " "

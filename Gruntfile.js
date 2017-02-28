@@ -7,8 +7,11 @@ module.exports = function(grunt) {
 				configFile: ".eslintrc.json"
 			},
 			target: ["js/*.js", "modules/default/*.js", "modules/default/*/*.js",
-				"serveronly/*.js", "*.js", "!modules/default/alert/notificationFx.js",
-				"!modules/default/alert/modernizr.custom.js", "!modules/default/alert/classie.js"
+				"serveronly/*.js", "*.js", "tests/*/*.js", "!modules/default/alert/notificationFx.js",
+				"!modules/default/alert/modernizr.custom.js", "!modules/default/alert/classie.js",
+				"config/*",
+				"translations/translations.js"
+
 			]
 		},
 		stylelint: {
@@ -21,7 +24,7 @@ module.exports = function(grunt) {
 		},
 		jsonlint: {
 			main: {
-				src: ["package.json", ".eslintrc.json", ".stylelint"],
+				src: ["package.json", ".eslintrc.json", ".stylelintrc", "translations/*.json", "modules/default/*/translations/*.json"],
 				options: {
 					reporter: "jshint"
 				}

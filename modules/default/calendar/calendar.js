@@ -27,6 +27,7 @@ Module.register("calendar", {
 		getRelative: 6,
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		hidePrivate: false,
+		colored: false,
 		calendars: [
 			{
 				symbol: "calendar",
@@ -68,7 +69,13 @@ Module.register("calendar", {
 		for (var c in this.config.calendars) {
 			var calendar = this.config.calendars[c];
 			calendar.url = calendar.url.replace("webcal://", "http://");
-			this.addCalendar(calendar.url, calendar.user, calendar.pass);
+
+			var calendarConfig = {
+				maximumEntries: calendar.maximumEntries,
+				maximumNumberOfDays: calendar.maximumNumberOfDays,
+			};
+
+			this.addCalendar(calendar.url, calendar.user, calendar.pass, calendarConfig);
 		}
 
 		this.calendarData = {};
@@ -114,6 +121,11 @@ Module.register("calendar", {
 			var event = events[e];
 
 			var eventWrapper = document.createElement("tr");
+
+			if (this.config.colored) {
+				eventWrapper.style.cssText = "color:" + this.colorForUrl(event.url);
+			}
+
 			eventWrapper.className = "normal";
 
 			if (this.config.displaySymbol) {
@@ -142,7 +154,13 @@ Module.register("calendar", {
 			}
 
 			titleWrapper.innerHTML = this.titleTransform(event.title) + repeatingCountTitle;
-			titleWrapper.className = "title bright";
+
+			if (!this.config.colored) {
+				titleWrapper.className = "title bright";
+			} else {
+				titleWrapper.className = "title";
+			}
+
 			eventWrapper.appendChild(titleWrapper);
 
 			var timeWrapper = document.createElement("td");
@@ -244,7 +262,7 @@ Module.register("calendar", {
 	/* hasCalendarURL(url)
 	 * Check if this config contains the calendar url.
 	 *
-	 * argument url sting - Url to look for.
+	 * argument url string - Url to look for.
 	 *
 	 * return bool - Has calendar url
 	 */
@@ -273,8 +291,8 @@ Module.register("calendar", {
 				var event = calendar[e];
 				if(this.config.hidePrivate) {
 					if(event.class === "PRIVATE") {
-					      // do not add the current event, skip it
-					      continue;
+						  // do not add the current event, skip it
+						  continue;
 					}
 				}
 				event.url = c;
@@ -293,13 +311,13 @@ Module.register("calendar", {
 	/* createEventList(url)
 	 * Requests node helper to add calendar url.
 	 *
-	 * argument url sting - Url to add.
+	 * argument url string - Url to add.
 	 */
-	addCalendar: function (url, user, pass) {
+	addCalendar: function (url, user, pass, calendarConfig) {
 		this.sendSocketNotification("ADD_CALENDAR", {
 			url: url,
-			maximumEntries: this.config.maximumEntries,
-			maximumNumberOfDays: this.config.maximumNumberOfDays,
+			maximumEntries: calendarConfig.maximumEntries || this.config.maximumEntries,
+			maximumNumberOfDays: calendarConfig.maximumNumberOfDays || this.config.maximumNumberOfDays,
 			fetchInterval: this.config.fetchInterval,
 			user: user,
 			pass: pass
@@ -309,40 +327,58 @@ Module.register("calendar", {
 	/* symbolForUrl(url)
 	 * Retrieves the symbol for a specific url.
 	 *
-	 * argument url sting - Url to look for.
+	 * argument url string - Url to look for.
 	 *
 	 * return string - The Symbol
 	 */
 	symbolForUrl: function (url) {
-		for (var c in this.config.calendars) {
-			var calendar = this.config.calendars[c];
-			if (calendar.url === url && typeof calendar.symbol === "string") {
-				return calendar.symbol;
-			}
-		}
-
-		return this.config.defaultSymbol;
+		return this.getCalendarProperty(url, "symbol", this.config.defaultSymbol);
 	},
+
+	/* colorForUrl(url)
+	 * Retrieves the color for a specific url.
+	 *
+	 * argument url string - Url to look for.
+	 *
+	 * return string - The Color
+	 */
+	colorForUrl: function (url) {
+		return this.getCalendarProperty(url, "color", "#fff");
+	},
+
 	/* countTitleForUrl(url)
 	 * Retrieves the name for a specific url.
 	 *
-	 * argument url sting - Url to look for.
+	 * argument url string - Url to look for.
 	 *
 	 * return string - The Symbol
 	 */
 	countTitleForUrl: function (url) {
+		return this.getCalendarProperty(url, "repeatingCountTitle", this.config.defaultRepeatingCountTitle);
+	},
+
+	/* getCalendarProperty(url, property, defaultValue)
+	 * Helper method to retrieve the property for a specific url.
+	 *
+	 * argument url string - Url to look for.
+	 * argument property string - Property to look for.
+	 * argument defaultValue string - Value if property is not found.
+	 *
+	 * return string - The Property
+	 */
+	getCalendarProperty: function (url, property, defaultValue) {
 		for (var c in this.config.calendars) {
 			var calendar = this.config.calendars[c];
-			if (calendar.url === url && typeof calendar.repeatingCountTitle === "string") {
-				return calendar.repeatingCountTitle;
+			if (calendar.url === url && typeof calendar[property] === "string") {
+				return calendar[property];
 			}
 		}
 
-		return this.config.defaultRepeatingCountTitle;
+		return defaultValue;
 	},
 
 	/* shorten(string, maxLength)
-	 * Shortens a sting if it's longer than maxLenthg.
+	 * Shortens a string if it's longer than maxLenthg.
 	 * Adds an ellipsis to the end.
 	 *
 	 * argument string string - The string to shorten.
@@ -360,7 +396,7 @@ Module.register("calendar", {
 
 	/* capFirst(string)
 	 * Capitalize the first letter of a string
-	 * Eeturn capitalized string
+	 * Return capitalized string
 	 */
 
 	capFirst: function (string) {
@@ -379,6 +415,13 @@ Module.register("calendar", {
 	titleTransform: function (title) {
 		for (var needle in this.config.titleReplace) {
 			var replacement = this.config.titleReplace[needle];
+
+			var regParts = needle.match(/^\/(.+)\/([gim]*)$/);
+			if (regParts) {
+			  // the parsed pattern is a regexp.
+			  needle = new RegExp(regParts[1], regParts[2]);
+			}
+
 			title = title.replace(needle, replacement);
 		}
 

@@ -1,0 +1,72 @@
+# Various Node ignoramuses.
+
+logs
+*.log
+npm-debug.log*
+pids
+*.pid
+*.seed
+lib-cov
+coverage
+.grunt
+.lock-wscript
+build/Release
+node_modules
+jspm_modules
+.npm
+.node_repl_history
+
+# Various Windows ignoramuses.
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+*.lnk
+
+# Various OSX ignoramuses.
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Various Linux ignoramuses.
+
+.fuse_hidden*
+.directory
+.Trash-*
+
+# Various Magic Mirror ignoramuses and anti-ignoramuses.
+
+# Don't ignore the node_helper core module.
+!/modules/node_helper
+!/modules/node_helper/**
+
+# Ignore all modules except the default modules.
+/modules/**
+!/modules/default/**
+
+# Ignore changes to the custom css files.
+/css/custom.css
+
+# Ignore unnecessary files for docker
+CHANGELOG.md
+LICENSE.md
+README.md
+Gruntfile.js
+.*

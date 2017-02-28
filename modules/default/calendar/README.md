@@ -8,8 +8,8 @@ To use this module, add it to the modules array in the `config/config.js` file:
 ````javascript
 modules: [
 	{
-		module: 'calendar',
-		position: 'top_left',	// This can be any of the regions. Best results in left or right regions.
+		module: "calendar",
+		position: "top_left",	// This can be any of the regions. Best results in left or right regions.
 		config: {
 			// The config property is optional.
 			// If no config is set, an example calendar is shown.
@@ -24,160 +24,36 @@ modules: [
 The following properties can be configured:
 
 
-<table width="100%">
-	<!-- why, markdown... -->
-	<thead>
-		<tr>
-			<th>Option</th>
-			<th width="100%">Description</th>
-		</tr>
-	<thead>
-	<tbody>
-		<tr>
-			<td><code>maximumEntries</code></td>
-			<td>The maximum number of events shown.<br>
-				<br><b>Possible values:</b> <code>0</code> - <code>100</code>
-				<br><b>Default value:</b> <code>10</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>maximumNumberOfDays</code></td>
-			<td>The maximum number of days in the future.<br>
-				<br><b>Default value:</b> <code>365</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>displaySymbol</code></td>
-			<td>Display a symbol in front of an entry.<br>
-				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
-				<br><b>Default value:</b> <code>true</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>defaultSymbol</code></td>
-			<td>The default symbol.<br>
-				<br><b>Possible values:</b> See <a href="http://fontawesome.io/icons/" target="_blank">Font Awsome</a> website.
-				<br><b>Default value:</b> <code>calendar</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>maxTitleLength</code></td>
-			<td>The maximum title length.<br>
-				<br><b>Possible values:</b> <code>10</code> - <code>50</code>
-				<br><b>Default value:</b> <code>25</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>fetchInterval</code></td>
-			<td>How often does the content needs to be fetched? (Milliseconds)<br>
-				<br><b>Possible values:</b> <code>1000</code> - <code>86400000</code>
-				<br><b>Default value:</b> <code>300000</code> (5 minutes)
-			</td>
-		</tr>
-		<tr>
-			<td><code>animationSpeed</code></td>
-			<td>Speed of the update animation. (Milliseconds)<br>
-				<br><b>Possible values:</b><code>0</code> - <code>5000</code>
-				<br><b>Default value:</b> <code>2000</code> (2 seconds)
-			</td>
-		</tr>
-		<tr>
-			<td><code>fade</code></td>
-			<td>Fade the future events to black. (Gradient)<br>
-				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
-				<br><b>Default value:</b> <code>true</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>fadePoint</code></td>
-			<td>Where to start fade?<br>
-				<br><b>Possible values:</b> <code>0</code> (top of the list) - <code>1</code> (bottom of list)
-				<br><b>Default value:</b> <code>0.25</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>calendars</code></td>
-			<td>The list of calendars.<br>
-				<br><b>Possible values:</b> An array, see <i>calendar configuration</i> below.
-				<br><b>Default value:</b> <i>An example calendar.</i>
-			</td>
-		</tr>
-		<tr>
-			<td><code>titleReplace</code></td>
-			<td>An object of textual replacements applied to the tile of the event. This allow to remove or replace certains words in the title.<br>
-				<br><b>Example:</b> <br>
-				<code>
-					titleReplace: {'Birthday of ' : '', 'foo':'bar'}
-				</code>
-				<br><b>Default value:</b>
-				<code>
-				{
-					"De verjaardag van ": "",
-					"'s birthday": ""
-				}
-				</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>displayRepeatingCountTitle</code></td>
-			<td>Show count title for yearly repeating events (e.g. "X. Birthday", "X. Anniversary")<br>
-				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
-				<br><b>Default value:</b> <code>false</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>dateFormat</code></td>
-			<td>Format to use for the date of events (when using absolute dates)<br>
-				<br><b>Possible values:</b> See <a href="http://momentjs.com/docs/#/parsing/string-format/">Moment.js formats</a>
-				<br><b>Default value:</b> <code>MMM Do</code> (e.g. Jan 18th)
-			</td>
-		</tr>
-		<tr>
-			<td><code>timeFormat</code></td>
-			<td>Display event times as absolute dates, or relative time<br>
-				<br><b>Possible values:</b> <code>absolute</code> or <code>relative</code>
-				<br><b>Default value:</b> <code>relative</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>getRelative</code></td>
-			<td>How much time (in hours) should be left until calendar events start getting relative?<br>
-				<br><b>Possible values:</b> <code>0</code> (events stay absolute) - <code>48</code> (48 hours before the event starts)
-				<br><b>Default value:</b> <code>6</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>urgency</code></td>
-			<td>When using a timeFormat of <code>absolute</code>, the <code>urgency</code> setting allows you to display events within a specific time frame as <code>relative</code>
-			    This allows events within a certain time frame to be displayed as relative (in xx days) while others are displayed as absolute dates<br>
-				<br><b>Possible values:</b> a positive integer representing the number of days for which you want a relative date, for example <code>7</code> (for 7 days)<br>
-				<br><b>Default value:</b> <code>7</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>broadcastEvents</code></td>
-			<td>If this property is set to true, the calendar will broadcast all the events to all other modules with the notification message: <code>CALENDAR_EVENTS</code>. The event objects are stored in an array and contain the following fields: <code>title</code>, <code>startDate</code>, <code>endDate</code>, <code>fullDayEvent</code>, <code>location</code> and <code>geo</code>.<br>
-				<br><b>Possible values:</b> <code>true</code>, <code>false</code>  <br>
-				<br><b>Default value:</b> <code>true</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>hidePrivate</code></td>
-			<td>Hides private calendar events.<br>
-				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
-				<br><b>Default value:</b> <code>false</code>
-			</td>
-		</tr>
-	</tbody>
-</table>
+| Option                       | Description
+| ---------------------------- | -----------
+| `maximumEntries`             | The maximum number of events shown. / **Possible values:** `0` - `100` <br> **Default value:** `10`
+| `maximumNumberOfDays`        | The maximum number of days in the future. <br><br> **Default value:** `365`
+| `displaySymbol`              | Display a symbol in front of an entry. <br><br> **Possible values:** `true` or `false` <br> **Default value:** `true`
+| `defaultSymbol`              | The default symbol. <br><br> **Possible values:** See [Font Awsome](http://fontawesome.io/icons/) website. <br> **Default value:** `calendar`
+| `maxTitleLength`             | The maximum title length. <br><br> **Possible values:** `10` - `50` <br> **Default value:** `25`
+| `fetchInterval`              | How often does the content needs to be fetched? (Milliseconds) <br><br> **Possible values:** `1000` - `86400000` <br> **Default value:** `300000` (5 minutes)
+| `animationSpeed`             | Speed of the update animation. (Milliseconds) <br><br> **Possible values:**`0` - `5000` <br> **Default value:** `2000` (2 seconds)
+| `fade`                       | Fade the future events to black. (Gradient) <br><br> **Possible values:** `true` or `false` <br> **Default value:** `true`
+| `fadePoint`                  | Where to start fade? <br><br> **Possible values:** `0` (top of the list) - `1` (bottom of list) <br> **Default value:** `0.25`
+| `calendars`                  | The list of calendars. <br><br> **Possible values:** An array, see _calendar configuration_ below. <br> **Default value:** _An example calendar._
+| `titleReplace`               | An object of textual replacements applied to the tile of the event. This allow to remove or replace certains words in the title. <br><br> **Example:** `{'Birthday of ' : '', 'foo':'bar'}` <br> **Default value:** `{	"De verjaardag van ": "", "'s birthday": ""	}`
+| `displayRepeatingCountTitle` | Show count title for yearly repeating events (e.g. "X. Birthday", "X. Anniversary") <br><br> **Possible values:** `true` or `false` <br> **Default value:** `false`
+| `dateFormat`                 | Format to use for the date of events (when using absolute dates) <br><br> **Possible values:** See [Moment.js formats](http://momentjs.com/docs/#/parsing/string-format/) <br> **Default value:** `MMM Do` (e.g. Jan 18th)
+| `timeFormat`                 | Display event times as absolute dates, or relative time <br><br> **Possible values:** `absolute` or `relative` <br> **Default value:** `relative`
+| `getRelative`                | How much time (in hours) should be left until calendar events start getting relative? <br><br> **Possible values:** `0` (events stay absolute) - `48` (48 hours before the event starts) <br> **Default value:** `6`
+| `urgency`                    | When using a timeFormat of `absolute`, the `urgency` setting allows you to display events within a specific time frame as `relative`. This allows events within a certain time frame to be displayed as relative (in xx days) while others are displayed as absolute dates <br><br> **Possible values:** a positive integer representing the number of days for which you want a relative date, for example `7` (for 7 days) <br><br> **Default value:** `7`
+| `broadcastEvents`            | If this property is set to true, the calendar will broadcast all the events to all other modules with the notification message: `CALENDAR_EVENTS`. The event objects are stored in an array and contain the following fields: `title`, `startDate`, `endDate`, `fullDayEvent`, `location` and `geo`. <br><br> **Possible values:** `true`, `false` <br><br> **Default value:** `true`
+| `hidePrivate`                | Hides private calendar events. <br><br> **Possible values:** `true` or `false` <br> **Default value:** `false`
 
 ### Calendar configuration
 
 The `calendars` property contains an array of the configured calendars.
+The `colored` property gives the option for an individual color for each calendar.
 
 #### Default value:
 ````javascript
 config: {
+    	colored: false,
 	calendars: [
 		{
 			url: 'http://www.calendarlabs.com/templates/ical/US-Holidays.ics',
@@ -189,41 +65,13 @@ config: {
 
 
 #### Calendar configuration options:
-<table width="100%">
-	<!-- why, markdown... -->
-	<thead>
-		<tr>
-			<th>Option</th>
-			<th width="100%">Description</th>
-		</tr>
-	<thead>
-	<tbody>
-		<tr>
-			<td><code>url</code></td>
-			<td>The url of the calendar .ical. This property is required.<br>
-				<br><b>Possible values:</b> Any public accessble .ical calendar.
-			</td>
-		</tr>
-		<tr>
-			<td><code>symbol</code></td>
-			<td>The symbol to show in front of an event. This property is optional.<br>
-				<br><b>Possible values:</b> See <a href="http://fontawesome.io/icons/" target="_blank">Font Awesome</a> website.
-			</td>
-		</tr>
-		<tr>
-			<td><code>repeatingCountTitle</code></td>
-			<td>The count title for yearly repating events in this calendar. <br>
-				<br><b>Example:</b> <br>
-				<code>'Birthday'</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>user</code></td>
-			<td>The username for HTTP Basic authentication.</td>
-		</tr>
-		<tr>
-			<td><code>pass</code></td>
-			<td>The password for HTTP Basic authentication.</td>
-		</tr>
-		</tbody>
-</table>
+| Option                | Description
+| --------------------- | -----------
+| `url`	                | The url of the calendar .ical. This property is required. <br><br> **Possible values:** Any public accessble .ical calendar.
+| `symbol`              | The symbol to show in front of an event. This property is optional. <br><br> **Possible values:** See [Font Awesome](http://fontawesome.io/icons/) website.
+| `color`              | The font color of an event from this calendar. This property should be set if the config is set to colored: true. <br><br> **Possible values:** HEX, RGB or RGBA values (#efefef, rgb(242,242,242), rgba(242,242,242,0.5)).
+| `repeatingCountTitle`	| The count title for yearly repating events in this calendar.  <br><br> **Example:** `'Birthday'`
+| `user`                | The username for HTTP Basic authentication.
+| `pass`                | The password for HTTP Basic authentication.
+| `maximumEntries`      | The maximum number of events shown.  Overrides global setting. **Possible values:** `0` - `100`
+| `maximumNumberOfDays` | The maximum number of days in the future.  Overrides global setting

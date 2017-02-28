@@ -23,6 +23,7 @@ Module.register("weatherforecast",{
 		lang: config.language,
 		fade: true,
 		fadePoint: 0.25, // Start on 1/4th of the list.
+		colored: false,
 
 		initialLoadDelay: 2500, // 2.5 seconds delay. This delay is used to keep the OpenWeather API happy.
 		retryDelay: 2500,
@@ -120,6 +121,9 @@ Module.register("weatherforecast",{
 			var forecast = this.forecast[f];
 
 			var row = document.createElement("tr");
+			if (this.config.colored) {
+				row.className = "colored";
+			}
 			table.appendChild(row);
 
 			var dayCell = document.createElement("td");
@@ -150,7 +154,11 @@ Module.register("weatherforecast",{
 				if (isNaN(forecast.rain)) {
 					rainCell.innerHTML = "";
 				} else {
-					rainCell.innerHTML = forecast.rain + " mm";
+					if(config.units !== "imperial") {
+						rainCell.innerHTML = forecast.rain + " mm";
+					} else {
+						rainCell.innerHTML = (parseFloat(forecast.rain) / 25.4).toFixed(2) + " in";
+					}
 				}
 				rainCell.className = "align-right bright rain";
 				row.appendChild(rainCell);
