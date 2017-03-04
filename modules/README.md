@@ -321,7 +321,7 @@ To hide a module, you can call the `hide(speed, callback)` method. You can call 
 Possible configurable options:
 
 - `lockString` - String - When setting lock string, the module can not be shown without passing the correct lockstring. This way (multiple) modules can prevent a module from showing. It's considered best practice to use your modules identifier as the locksString: `this.identifier`. See *visibility locking* below.
-
+- `hiddenWrapperStyle` - String - If your module is alone in a region and you want to temporary hide and later show it using animation, you will notice the animation don't work. The module will instead be shown instantly without the animation. To prevent this you have to set `hiddenWrapperStyle` to `static` when calling `this.hide()`. It is recommended that you make this option available for the user of the module. If not set by the user, it should be `fixed` to not break existing functionallity.
 
 **Note 1:** If the hide animation is canceled, for instance because the show method is called before the hide animation was finished, the callback will not be called.<br>
 **Note 2:** If the hide animation is hijacked (an other method calls hide on the same module), the callback will not be called.<br>
