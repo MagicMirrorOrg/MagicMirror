@@ -7,6 +7,7 @@
 
 var fs = require("fs");
 var Server = require(__dirname + "/server.js");
+var Utils = require(__dirname + "/utils.js");
 var defaultModules = require(__dirname + "/../modules/default/defaultmodules.js");
 var path = require("path");
 
@@ -90,9 +91,8 @@ var App = function() {
 				usedDeprecated.push(option);
 			}
 		});
-
 		if (usedDeprecated.length > 0) {
-			console.warn(deprecated.colors.warn(
+			console.warn(Utils.colors.warn(
 				"WARNING! Your config is using deprecated options: " +
 				usedDeprecated.join(", ") +
 				". Check README and CHANGELOG for more up-to-date ways of getting the same functionality.")
