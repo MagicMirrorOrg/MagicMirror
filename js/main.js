@@ -249,8 +249,8 @@ var MM = (function() {
 			updateWrapperStates();
 
 			// Waiting for DOM-changes done in updateWrapperStates before we can start the animation.
-			var dummy = moduleWrapper.parentElement.parentElement.offsetHeight; 
-			
+			var dummy = moduleWrapper.parentElement.parentElement.offsetHeight;
+
 			moduleWrapper.style.opacity = 1;
 
 			clearTimeout(module.showHideTimer);
