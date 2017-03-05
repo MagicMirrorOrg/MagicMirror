@@ -245,14 +245,12 @@ var MM = (function() {
 			moduleWrapper.style.transition = "opacity " + speed / 1000 + "s";
 			// Restore the postition. See hideModule() for more info.
 			moduleWrapper.style.position = "static";
-			
+
 			updateWrapperStates();
 
 			// Waiting for DOM-changes done in updateWrapperStates before we can start the animation.
 			setTimeout(function(){
 				moduleWrapper.style.opacity = 1;
-
-
 
 				clearTimeout(module.showHideTimer);
 				module.showHideTimer = setTimeout(function() {
