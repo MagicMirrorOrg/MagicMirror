@@ -249,14 +249,14 @@ var MM = (function() {
 			updateWrapperStates();
 
 			// Waiting for DOM-changes done in updateWrapperStates before we can start the animation.
-			setTimeout(function(){
-				moduleWrapper.style.opacity = 1;
+			var dummy = moduleWrapper.parentElement.parentElement.offsetHeight; 
+			
+			moduleWrapper.style.opacity = 1;
 
-				clearTimeout(module.showHideTimer);
-				module.showHideTimer = setTimeout(function() {
-					if (typeof callback === "function") { callback(); }
-				}, speed);
-			}, 0);
+			clearTimeout(module.showHideTimer);
+			module.showHideTimer = setTimeout(function() {
+				if (typeof callback === "function") { callback(); }
+			}, speed);
 		}
 	};
 
