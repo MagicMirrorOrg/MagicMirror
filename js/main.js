@@ -198,7 +198,12 @@ var MM = (function() {
 				// since it's fade out anyway, we can see it lay above or
 				// below other modules. This works way better than adjusting
 				// the .display property.
-				moduleWrapper.style.position = "fixed";
+
+				if (options.hiddenWrapperStyle === undefined || options.hiddenWrapperStyle != "static" ) {
+					options.hiddenWrapperStyle = "fixed";
+				}
+
+				moduleWrapper.style.position = options.hiddenWrapperStyle;
 
 				updateWrapperStates();
 
