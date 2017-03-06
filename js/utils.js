@@ -10,7 +10,8 @@ var colors = require("colors/safe");
 
 var Utils = {
 	colors: {
-		warn: colors.yellow
+		warn: colors.yellow,
+		error: colors.red
 	}
 };
 
