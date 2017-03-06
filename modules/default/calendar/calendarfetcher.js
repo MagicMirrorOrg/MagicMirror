@@ -33,22 +33,22 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 		};
 
 		if (auth) {
-            if(auth.method === 'bearer'){
-                opts.auth = {
-                    bearer: auth.pass
-                }
+			if(auth.method === "bearer"){
+				opts.auth = {
+					bearer: auth.pass
+				}
 
-            }else{
-                opts.auth = {
-                    user: auth.user,
-                    pass: auth.pass
-                };
+			}else{
+				opts.auth = {
+					user: auth.user,
+					pass: auth.pass
+				};
 
-                if(auth.method === 'digest'){
-                    opts.auth.sendImmediately = false;
-                }else{
-                    opts.auth.sendImmediately = true;
-                }
+				if(auth.method === "digest"){
+					opts.auth.sendImmediately = false;
+				}else{
+					opts.auth.sendImmediately = true;
+				}
 			}
 		}
 
