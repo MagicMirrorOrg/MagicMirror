@@ -48,7 +48,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add  test for compliments module for parts of day
 - Korean Translation.
 - Added console warning on startup when deprecated config options are used
-
+- Added `DAYAFTERTOMORROW`, `UPDATE_NOTIFICATION`, `UPDATE_NOTIFICATION_MODULE`, `UPDATE_INFO` to Norwegian translations (`nn` and `nb`).
 
 ### Fixed
 - Update .gitignore to not ignore default modules folder.
