@@ -25,7 +25,8 @@ Module.register("compliments",{
 			evening: [
 				"Wow, you look hot!",
 				"You look nice!",
-				"Hi, sexy!"
+				"Hi, sexy!",
+				"Hi, Johnny Boy"
 			]
 		},
 		updateInterval: 30000,
@@ -40,6 +41,10 @@ Module.register("compliments",{
 	getScripts: function() {
 		return ["moment.js"];
 	},
+	
+	getStyles: function() {
+         return ["compliments.css"];
+     },
 
 	// Define start sequence.
 	start: function() {
@@ -141,10 +146,20 @@ Module.register("compliments",{
 	// Override dom generator.
 	getDom: function() {
 		var complimentText = this.randomCompliment();
-
-		var compliment = document.createTextNode(complimentText);
-		var wrapper = document.createElement("div");
-		wrapper.className = this.config.classes ? this.config.classes : "thin xlarge bright";
+		var hour = moment().hour();
+		if (hour >= 3 && hour < 12) {
+			var compliment = document.createTextNode(complimentText);
+		    var wrapper = document.createElement("div");
+			wrapper.classList.add("morning", "thin", "xlarge", "bright");
+		} else if (hour >= 12 && hour < 17) {
+			var compliment = document.createTextNode(complimentText);
+		    var wrapper = document.createElement("div");
+			wrapper.classList.add("afternoon", "thin", "xlarge", "bright");
+		} else {
+			var compliment = document.createTextNode(complimentText);
+		    var wrapper = document.createElement("div");
+			wrapper.classList.add("evening", "thin", "xlarge", "bright");
+		}
 		wrapper.appendChild(compliment);
 
 		return wrapper;
