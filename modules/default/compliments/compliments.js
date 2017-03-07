@@ -25,8 +25,7 @@ Module.register("compliments",{
 			evening: [
 				"Wow, you look hot!",
 				"You look nice!",
-				"Hi, sexy!",
-				"Hi, Johnny Boy"
+				"Hi, sexy!"
 			]
 		},
 		updateInterval: 30000,
