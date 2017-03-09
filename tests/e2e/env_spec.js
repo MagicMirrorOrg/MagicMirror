@@ -37,4 +37,11 @@ describe("Electron app environment", function () {
 		});
 	});
 
+	it("get request from http://localhost:8080/nothing should return 404", function (done) {
+		request.get("http://localhost:8080/nothing", function (err, res, body) {
+			expect(res.statusCode).to.equal(404);
+			done();
+		});
+	});
+
 });
