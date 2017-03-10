@@ -165,6 +165,19 @@ Module.register("newsfeed",{
 				wrapper.appendChild(description);
 			}
 
+			if (this.config.showFullArticle) {
+				var fullArticle = document.createElement("iframe");
+				fullArticle.className = "";
+				fullArticle.style.width = "100%";
+				fullArticle.style.top = "0";
+				fullArticle.style.left = "0";
+				fullArticle.style.position = "fixed";
+				fullArticle.height = window.innerHeight;
+				fullArticle.style.border = "none";
+				fullArticle.src = this.newsItems[this.activeItem].url;
+				wrapper.appendChild(fullArticle);
+			}
+
 			if (this.config.hideLoading) {
 				this.show();
 			}
