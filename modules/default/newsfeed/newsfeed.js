@@ -178,6 +178,8 @@ Module.register("newsfeed",{
 				wrapper.appendChild(fullArticle);
 			}
 
+
+
 			if (this.config.hideLoading) {
 				this.show();
 			}
