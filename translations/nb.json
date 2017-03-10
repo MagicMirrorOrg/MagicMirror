@@ -3,6 +3,7 @@
 
 	"TODAY": "I dag",
 	"TOMORROW": "I morgen",
+	"DAYAFTERTOMORROW": "Dagen etter i morgen",
 	"RUNNING": "Slutter om",
 	"EMPTY": "Ingen kommende arrangementer.",
 
@@ -21,5 +22,9 @@
 	"W": "V",
 	"WNW": "VNV",
 	"NW": "NV",
-	"NNW": "NNV"
+	"NNW": "NNV",
+	
+	/* UPDATE INFO */
+	"UPDATE_NOTIFICATION": "MagicMirror² oppdatering tilgjengelig.",
+	"UPDATE_NOTIFICATION_MODULE": "Oppdatering tilgjengelig for MODULE_NAME modulen."
 }
