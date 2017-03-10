@@ -180,11 +180,11 @@ Module.register("newsfeed",{
 				fullArticle.src = this.newsItems[this.activeItem].url;
 				wrapper.appendChild(fullArticle);
 			}
-			
+
 			if (this.config.hideLoading) {
 				this.show();
 			}
-		
+
 		} else {
 			if (this.config.hideLoading) {
 				this.hide();
