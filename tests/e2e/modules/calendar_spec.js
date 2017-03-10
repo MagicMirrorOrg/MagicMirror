@@ -41,5 +41,17 @@ describe("Calendar module", function () {
 	});
 
 
+	describe("Basic auth by default", function() {
+		before(function() {
+			serverBasicAuth.listen(8011);
+			// Set config sample for use in test
+			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/auth-default.js";
+		});
+
+		it("Should return TestEvents", function () {
+			return app.client.waitUntilTextExists(".calendar", "TestEvent", 10000);
+		});
+	});
+
 
 });
