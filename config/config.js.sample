@@ -45,9 +45,9 @@ var config = {
 			module: 'currentweather',
 			position: 'top_right',
 			config: {
-				location: 'New York',
-				locationID: '',  //ID from http://openweathermap.org/help/city_list.txt
-				appid: 'YOUR_OPENWEATHER_API_KEY'
+				location: "New York",
+				locationID: "",  //ID from http://openweathermap.org/help/city_list.txt
+				appid: "YOUR_OPENWEATHER_API_KEY"
 			}
 		},
 		{
@@ -55,9 +55,9 @@ var config = {
 			position: 'top_right',
 			header: 'Weather Forecast',
 			config: {
-				location: 'New York',
-				locationID: '5128581',  //ID from http://openweathermap.org/help/city_list.txt
-				appid: 'YOUR_OPENWEATHER_API_KEY'
+				location: "New York",
+				locationID: "5128581",  //ID from http://openweathermap.org/help/city_list.txt
+				appid: "YOUR_OPENWEATHER_API_KEY"
 			}
 		},
 		{
