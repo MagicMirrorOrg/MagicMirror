@@ -25,8 +25,8 @@ var config = {
 			config: {
 				feeds: [
 					{
-						title: "New York Times",
-						url: "http://localhost:8080/tests/configs/data/feed_test_newtimes.xml"
+						title: "Rodrigo Ramirez Blog",
+						url: "http://localhost:8080/tests/configs/data/feed_test_rodrigoramirez.xml"
 					},
 				]
 			}
