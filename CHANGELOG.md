@@ -59,6 +59,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Module currentWeather: check if temperature received from api is defined.
 - Fix an issue with module hidden status changing to `true` although lock string prevented showing it
 - Fix newsfeed module bug (removeStartTags)
+- Fix when is set MM_PORT enviroment variable.
 
 ## [2.1.0] - 2016-12-31
 

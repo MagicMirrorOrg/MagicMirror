@@ -15,9 +15,15 @@ var fs = require("fs");
 var helmet = require("helmet");
 
 var Server = function(config, callback) {
-	console.log("Starting server op port " + config.port + " ... ");
 
-	server.listen(config.port, config.address ? config.address : null);
+	var port = config.port;
+	if (process.env.MM_PORT) {
+		port = process.env.MM_PORT;
+	}
+
+	console.log("Starting server op port " + port + " ... ");
+
+	server.listen(port, config.address ? config.address : null);
 
 	app.use(function(req, res, next) {
 		var result = ipfilter(config.ipWhitelist, {mode: "allow", log: false})(req, res, function(err) {
