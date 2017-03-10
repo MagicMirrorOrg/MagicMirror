@@ -53,5 +53,18 @@ describe("Calendar module", function () {
 		});
 	});
 
+	describe("Basic auth backward compatibilty configuration", function() {
+		before(function() {
+			serverBasicAuth.listen(8012);
+			// Set config sample for use in test
+			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/old-basic-auth.js";
+		});
+
+		it("Should return TestEvents", function () {
+			return app.client.waitUntilTextExists(".calendar", "TestEvent", 10000);
+		});
+	});
+
+
 
 });
