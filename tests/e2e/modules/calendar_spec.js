@@ -65,6 +65,17 @@ describe("Calendar module", function () {
 		});
 	});
 
+	describe("Fail Basic auth", function() {
+		before(function() {
+			serverBasicAuth.listen(8020);
+			// Set config sample for use in test
+			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/fail-basic-auth.js";
+		});
+
+		it("Should return No upcoming events", function () {
+			return app.client.waitUntilTextExists(".calendar", "No upcoming events.", 10000);
+		});
+	});
 
 
 });
