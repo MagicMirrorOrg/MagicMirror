@@ -178,7 +178,9 @@ Module.register("newsfeed",{
 				wrapper.appendChild(fullArticle);
 			}
 
-
+			if (this.config.hideLoading) {
+				this.show();
+			}
 
 		} else {
 			if (this.config.hideLoading) {
