@@ -21,6 +21,7 @@ Module.register("newsfeed",{
 		showSourceTitle: true,
 		showPublishDate: true,
 		showDescription: false,
+		hideLoading: false,
 		reloadInterval:  5 * 60 * 1000, // every 5 minutes
 		updateInterval: 10 * 1000,
 		animationSpeed: 2.5 * 1000,
@@ -163,10 +164,18 @@ Module.register("newsfeed",{
 				description.innerHTML = this.newsItems[this.activeItem].description;
 				wrapper.appendChild(description);
 			}
+			
+			if (this.config.hideLoading) {
+				this.show();
+			}
 
 		} else {
-			wrapper.innerHTML = this.translate("LOADING");
-			wrapper.className = "small dimmed";
+			if (this.config.hideLoading) {
+				this.hide();
+			} else {
+				wrapper.innerHTML = this.translate("LOADING");
+				wrapper.className = "small dimmed";
+			}
 		}
 
 		return wrapper;
