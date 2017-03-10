@@ -164,7 +164,7 @@ Module.register("newsfeed",{
 				description.innerHTML = this.newsItems[this.activeItem].description;
 				wrapper.appendChild(description);
 			}
-			
+
 			if (this.config.hideLoading) {
 				this.show();
 			}
