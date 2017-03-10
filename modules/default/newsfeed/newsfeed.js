@@ -183,7 +183,6 @@ Module.register("newsfeed",{
 			if (this.config.hideLoading) {
 				this.show();
 			}
-
 		} else {
 			if (this.config.hideLoading) {
 				this.hide();
