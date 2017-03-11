@@ -18,14 +18,11 @@ describe("Newsfeed module", function () {
 	describe("Default configuration", function() {
 
 		before(function() {
-			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/newsfeed/default.js";
 		});
 
-		it("Check here", function () {
-			return app.client.waitUntilTextExists(".newsfeed .small", "New York Times, in day:", 10000);
+		it("show title newsfeed", function () {
+			return app.client.waitUntilTextExists(".newsfeed .small", "Rodrigo Ramirez Blog", 10000).should.be.fulfilled;
 		});
-
 	});
-
 });
