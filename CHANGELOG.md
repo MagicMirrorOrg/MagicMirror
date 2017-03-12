@@ -49,6 +49,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Korean Translation.
 - Added console warning on startup when deprecated config options are used
 - Added `DAYAFTERTOMORROW`, `UPDATE_NOTIFICATION`, `UPDATE_NOTIFICATION_MODULE`, `UPDATE_INFO` to Norwegian translations (`nn` and `nb`).
+- Added in the ability to hide events in the calendar module based on simple string filters.
 
 ### Fixed
 - Update .gitignore to not ignore default modules folder.
