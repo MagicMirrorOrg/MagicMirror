@@ -38,7 +38,10 @@ Module.register("calendar", {
 			"De verjaardag van ": "",
 			"'s birthday": ""
 		},
-		broadcastEvents: true
+		broadcastEvents: true,
+		excludedEvents: [
+		  ""
+		]
 	},
 
 	// Define required scripts.
@@ -120,6 +123,19 @@ Module.register("calendar", {
 		for (var e in events) {
 			var event = events[e];
 
+			var excluded = false;
+			for (var f in this.config.excludedEvents) {
+				var filter = this.config.excludedEvents[f];
+				if (event.title.toLowerCase().includes(filter.toLowerCase())) {
+					excluded = true;
+					break;
+				}
+			}
+
+			if (excluded) {
+				continue;
+			}
+      
 			var eventWrapper = document.createElement("tr");
 
 			if (this.config.colored) {
