@@ -183,21 +183,21 @@ Module.register("currentweather",{
 		weatherIcon.className = "wi weathericon " + this.weatherType;
 		large.appendChild(weatherIcon);
 
-    var degreeLabel = "";
-    if (this.config.degreeLabel) {
-      switch (this.config.units ) {
-      case "metric":
-        degreeLabel = "C";
-        break;
-      case "imperial":
-        degreeLabel = "F";
-        break;
-      case "default":
-        degreeLabel = "K";
-        break;
-      }
-    }
-    
+		var degreeLabel = "";
+		if (this.config.degreeLabel) {
+			switch (this.config.units ) {
+			case "metric":
+				degreeLabel = "C";
+				break;
+			case "imperial":
+				degreeLabel = "F";
+				break;
+			case "default":
+				degreeLabel = "K";
+				break;
+			}
+		}
+
 		var temperature = document.createElement("span");
 		temperature.className = "bright";
 		temperature.innerHTML = " " + this.temperature + "&deg;" + degreeLabel;
