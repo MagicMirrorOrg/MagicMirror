@@ -1,0 +1,16 @@
+{
+
+  "name": "magicmirror-vendors",
+  "description": "Package for vendors use by MagicMirror Core.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MichMich/MagicMirror.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MichMich/MagicMirror/issues"
+  },
+  "dependencies": {
+    "font-awesome": "^4.7.0"
+  }
+}
