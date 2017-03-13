@@ -39,9 +39,7 @@ Module.register("calendar", {
 			"'s birthday": ""
 		},
 		broadcastEvents: true,
-		excludedEvents: [
-		  ""
-		]
+		excludedEvents: []
 	},
 
 	// Define required scripts.
@@ -135,7 +133,7 @@ Module.register("calendar", {
 			if (excluded) {
 				continue;
 			}
-      
+
 			var eventWrapper = document.createElement("tr");
 
 			if (this.config.colored) {

@@ -44,7 +44,7 @@ The following properties can be configured:
 | `urgency`                    | When using a timeFormat of `absolute`, the `urgency` setting allows you to display events within a specific time frame as `relative`. This allows events within a certain time frame to be displayed as relative (in xx days) while others are displayed as absolute dates <br><br> **Possible values:** a positive integer representing the number of days for which you want a relative date, for example `7` (for 7 days) <br><br> **Default value:** `7`
 | `broadcastEvents`            | If this property is set to true, the calendar will broadcast all the events to all other modules with the notification message: `CALENDAR_EVENTS`. The event objects are stored in an array and contain the following fields: `title`, `startDate`, `endDate`, `fullDayEvent`, `location` and `geo`. <br><br> **Possible values:** `true`, `false` <br><br> **Default value:** `true`
 | `hidePrivate`                | Hides private calendar events. <br><br> **Possible values:** `true` or `false` <br> **Default value:** `false`
-| `excludedEvents`             | An array of words / phrases from event titles that will be excluded from being shown. <br><br> **Example:** `['Birthday', 'Hide This Event']` <br> **Default value:** `[""]`
+| `excludedEvents`             | An array of words / phrases from event titles that will be excluded from being shown. <br><br> **Example:** `['Birthday', 'Hide This Event']` <br> **Default value:** `[]`
 
 ### Calendar configuration
 
