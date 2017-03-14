@@ -5,7 +5,7 @@
   "main": "js/electron.js",
   "scripts": {
     "start": "sh run-start.sh",
-    "install": "npm install --prefix vendor",
+    "install": "cd vendor && npm install",
     "postinstall": "sh installers/postinstall/postinstall.sh",
     "test": "./node_modules/mocha/bin/mocha tests --recursive",
     "test:unit": "./node_modules/mocha/bin/mocha tests/unit --recursive",
@@ -50,7 +50,6 @@
     "express": "^4.14.0",
     "express-ipfilter": "latest",
     "feedme": "latest",
-    "font-awesome": "^4.7.0",
     "helmet": "^3.1.0",
     "iconv-lite": "latest",
     "moment": "latest",
