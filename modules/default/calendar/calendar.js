@@ -138,10 +138,20 @@ Module.register("calendar", {
 
 			if (this.config.displaySymbol) {
 				var symbolWrapper = document.createElement("td");
-				symbolWrapper.className = "symbol";
-				var symbol = document.createElement("span");
-				symbol.className = "fa fa-" + this.symbolForUrl(event.url);
-				symbolWrapper.appendChild(symbol);
+				symbolWrapper.className = "symbol align-right";
+				var symbols = this.symbolsForUrl(event.url);
+				if(typeof symbols === "string") {
+					symbols = [symbols];
+				}
+
+				for(var i = 0; i < symbols.length; i++) {
+					var symbol = document.createElement("span");
+					symbol.className = "fa fa-" + symbols[i];
+					if(i > 0){
+						symbol.style.paddingLeft = "5px";
+					}
+					symbolWrapper.appendChild(symbol);
+				}
 				eventWrapper.appendChild(symbolWrapper);
 			}
 
@@ -331,14 +341,14 @@ Module.register("calendar", {
 		});
 	},
 
-	/* symbolForUrl(url)
-	 * Retrieves the symbol for a specific url.
+	/* symbolsForUrl(url)
+	 * Retrieves the symbols for a specific url.
 	 *
 	 * argument url string - Url to look for.
 	 *
-	 * return string - The Symbol
+	 * return string/array - The Symbols
 	 */
-	symbolForUrl: function (url) {
+	symbolsForUrl: function (url) {
 		return this.getCalendarProperty(url, "symbol", this.config.defaultSymbol);
 	},
 
@@ -376,7 +386,7 @@ Module.register("calendar", {
 	getCalendarProperty: function (url, property, defaultValue) {
 		for (var c in this.config.calendars) {
 			var calendar = this.config.calendars[c];
-			if (calendar.url === url && typeof calendar[property] === "string") {
+			if (calendar.url === url && calendar.hasOwnProperty(property)) {
 				return calendar[property];
 			}
 		}
