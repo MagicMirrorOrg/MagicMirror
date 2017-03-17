@@ -16,6 +16,7 @@ Module.register("clock",{
 		showPeriodUpper: false,
 		clockBold: false,
 		showDate: true,
+		dateFormat: "dddd, LL",
 
 		/* specific to the analog clock */
 		analogSize: "200px",
@@ -87,7 +88,7 @@ Module.register("clock",{
 		}
 
 		if(this.config.showDate){
-			dateWrapper.innerHTML = now.format("dddd, LL");
+			dateWrapper.innerHTML = now.format(this.config.dateFormat);
 		}
 		timeWrapper.innerHTML = timeString;
 		secondsWrapper.innerHTML = now.format("ss");
