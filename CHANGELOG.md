@@ -50,6 +50,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added console warning on startup when deprecated config options are used
 - Add option to display temperature unit label to the current weather module
 - Added ability to disable wrapping of news items
+- Added `DAYAFTERTOMORROW`, `UPDATE_NOTIFICATION`, `UPDATE_NOTIFICATION_MODULE`, `UPDATE_INFO` to Norwegian translations (`nn` and `nb`).
+- Added hideLoading option for News Feed module
 
 ### Fixed
 - Update .gitignore to not ignore default modules folder.

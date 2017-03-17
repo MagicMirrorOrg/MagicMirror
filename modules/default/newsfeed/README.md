@@ -65,6 +65,7 @@ The following properties can be configured:
 | `showDescription` | Display the description of an item. <br><br> **Possible values:** `true` or `false` <br> **Default value:** `false`
 | `wrapTitle`       | Wrap the title of the item to multiple lines. <br><br> **Possible values:** `true` or `false` <br> **Default value:** `true`
 | `wrapDescription` | Wrap the description of the item to multiple lines. <br><br> **Possible values:** `true` or `false` <br> **Default value:** `true`
+| `hideLoading`     | Hide module instead of showing LOADING status. <br><br> **Possible values:** `true` or `false` <br> **Default value:** `false`
 | `reloadInterval`  | How often does the content needs to be fetched? (Milliseconds) <br><br> **Possible values:** `1000` - `86400000` <br> **Default value:** `300000` (5 minutes)
 | `updateInterval`  | How often do you want to display a new headline? (Milliseconds) <br><br> **Possible values:**`1000` - `60000` <br> **Default value:** `10000` (10 seconds)
 | `animationSpeed`  | Speed of the update animation. (Milliseconds) <br><br> **Possible values:**`0` - `5000` <br> **Default value:** `2500` (2.5 seconds)
