@@ -50,6 +50,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added console warning on startup when deprecated config options are used
 - Add option to display temperature unit label to the current weather module
 - Added ability to disable wrapping of news items
+- Added in the ability to hide events in the calendar module based on simple string filters.
 - Updated Norwegian translation.
 - Added hideLoading option for News Feed module
 - Added configurable dateFormat to clock module.
