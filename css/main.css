@@ -121,6 +121,12 @@ sup {
   margin-bottom: 0;
 }
 
+.no-wrap {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /**
  * Region Definitions.
  */

@@ -49,6 +49,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Korean Translation.
 - Added console warning on startup when deprecated config options are used
 - Add option to display temperature unit label to the current weather module
+- Added ability to disable wrapping of news items
 
 ### Fixed
 - Update .gitignore to not ignore default modules folder.
