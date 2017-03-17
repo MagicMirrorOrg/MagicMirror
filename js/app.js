@@ -69,12 +69,14 @@ var App = function() {
 		} catch (e) {
 			if (e.code == "ENOENT") {
 				console.error("WARNING! Could not find config file. Please create one. Starting with default configuration.");
+				callback(defaults);
 			} else if (e instanceof ReferenceError || e instanceof SyntaxError) {
 				console.error("WARNING! Could not validate config file. Please correct syntax errors. Starting with default configuration.");
+				callback(defaults);
 			} else {
 				console.error("WARNING! Could not load config file. Starting with default configuration. Error found: " + e);
+				callback(defaults);
 			}
-			callback(defaults);
 		}
 	};
 

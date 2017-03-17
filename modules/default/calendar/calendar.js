@@ -72,10 +72,18 @@ Module.register("calendar", {
 
 			var calendarConfig = {
 				maximumEntries: calendar.maximumEntries,
-				maximumNumberOfDays: calendar.maximumNumberOfDays,
+				maximumNumberOfDays: calendar.maximumNumberOfDays
 			};
 
-			this.addCalendar(calendar.url, calendar.user, calendar.pass, calendarConfig);
+			// we check user and password here for backwards compatibility with old configs
+			if(calendar.user && calendar.pass){
+				calendar.auth = {
+					user: calendar.user,
+					pass: calendar.pass
+				}
+			}
+
+			this.addCalendar(calendar.url, calendar.auth, calendarConfig);
 		}
 
 		this.calendarData = {};
@@ -313,14 +321,13 @@ Module.register("calendar", {
 	 *
 	 * argument url string - Url to add.
 	 */
-	addCalendar: function (url, user, pass, calendarConfig) {
+	addCalendar: function (url, auth, calendarConfig) {
 		this.sendSocketNotification("ADD_CALENDAR", {
 			url: url,
 			maximumEntries: calendarConfig.maximumEntries || this.config.maximumEntries,
 			maximumNumberOfDays: calendarConfig.maximumNumberOfDays || this.config.maximumNumberOfDays,
 			fetchInterval: this.config.fetchInterval,
-			user: user,
-			pass: pass
+			auth: auth
 		});
 	},
 
