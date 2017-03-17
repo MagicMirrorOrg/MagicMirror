@@ -18,7 +18,6 @@ var translations = {
 	"pt" : "translations/pt.json", // Português
 	"pt_br" : "translations/pt_br.json", // Português Brasileiro
 	"sv" : "translations/sv.json", // Svenska
-	"id" : "translations/id.json", // Indonesian
 	"it" : "translations/it.json", // Italian
 	"zh_cn" : "translations/zh_cn.json", // Simplified Chinese
 	"zh_tw" : "translations/zh_tw.json", // Traditional Chinese

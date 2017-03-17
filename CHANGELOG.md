@@ -48,7 +48,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add  test for compliments module for parts of day
 - Korean Translation.
 - Added console warning on startup when deprecated config options are used
-- Added `DAYAFTERTOMORROW`, `UPDATE_NOTIFICATION`, `UPDATE_NOTIFICATION_MODULE`, `UPDATE_INFO` to Norwegian translations (`nn` and `nb`).
+- Add option to display temperature unit label to the current weather module
 - Added in the ability to hide events in the calendar module based on simple string filters.
 
 ### Fixed
@@ -60,7 +60,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Module currentWeather: check if temperature received from api is defined.
 - Fix an issue with module hidden status changing to `true` although lock string prevented showing it
 - Fix newsfeed module bug (removeStartTags)
-- Fixed missing animation on `this.show(speed)` when module is alone in a region.
 
 ## [2.1.0] - 2016-12-31
 
