@@ -54,6 +54,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Updated Norwegian translation.
 - Added hideLoading option for News Feed module
 - Added configurable dateFormat to clock module.
+- Added multiple calendar icon support.
 
 ### Fixed
 - Update .gitignore to not ignore default modules folder.
