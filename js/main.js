@@ -66,7 +66,7 @@ var MM = (function() {
 		var classes = position.replace("_"," ");
 		var parentWrapper = document.getElementsByClassName(classes);
 		if (parentWrapper.length > 0) {
-			var wrapper =  parentWrapper[0].getElementsByClassName("container");
+			var wrapper = parentWrapper[0].getElementsByClassName("container");
 			if (wrapper.length > 0) {
 				return wrapper[0];
 			}
