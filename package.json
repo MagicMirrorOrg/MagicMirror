@@ -6,9 +6,10 @@
   "scripts": {
     "start": "sh run-start.sh",
     "postinstall": "sh installers/postinstall/postinstall.sh",
-    "test": "./node_modules/mocha/bin/mocha tests --recursive",
-    "test:unit": "./node_modules/mocha/bin/mocha tests/unit --recursive",
-    "test:e2e": "./node_modules/mocha/bin/mocha tests/e2e --recursive"
+    "test": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests --recursive",
+    "test:unit": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests/unit --recursive",
+    "test:e2e": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests/e2e --recursive",
+    "config:check": "node tests/configs/check_config.js"
   },
   "repository": {
     "type": "git",
@@ -38,6 +39,7 @@
     "grunt-markdownlint": "^1.0.13",
     "grunt-stylelint": "latest",
     "grunt-yamllint": "latest",
+    "jshint": "^2.9.4",
     "mocha": "^3.2.0",
     "spectron": "^3.4.1",
     "stylelint-config-standard": "latest",
