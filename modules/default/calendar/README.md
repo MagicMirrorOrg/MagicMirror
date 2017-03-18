@@ -54,7 +54,7 @@ The `colored` property gives the option for an individual color for each calenda
 #### Default value:
 ````javascript
 config: {
-    colored: false,
+	colored: false,
 	calendars: [
 		{
 			url: 'http://www.calendarlabs.com/templates/ical/US-Holidays.ics',
