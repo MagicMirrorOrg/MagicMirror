@@ -14,3 +14,5 @@ var vendor = {
 	"weather-icons-wind.css": "node_modules/weathericons/css/weather-icons-wind.css",
 	"font-awesome.css": "node_modules/font-awesome/css/font-awesome.min.css"
 };
+
+if (typeof module !== "undefined"){module.exports = vendor;}
