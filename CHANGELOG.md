@@ -65,6 +65,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Module currentWeather: check if temperature received from api is defined.
 - Fix an issue with module hidden status changing to `true` although lock string prevented showing it
 - Fix newsfeed module bug (removeStartTags)
+- Fixed missing animation on `this.show(speed)` when module is alone in a region.
 
 ## [2.1.0] - 2016-12-31
 
