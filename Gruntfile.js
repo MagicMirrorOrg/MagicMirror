@@ -25,7 +25,8 @@ module.exports = function(grunt) {
 		jsonlint: {
 			main: {
 				src: ["package.json", ".eslintrc.json", ".stylelintrc", "translations/*.json",
-					"modules/default/*/translations/*.json", "installers/pm2_MagicMirror.json"],
+					"modules/default/*/translations/*.json", "installers/pm2_MagicMirror.json",
+					"vendor/package.js"],
 				options: {
 					reporter: "jshint"
 				}
