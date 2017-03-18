@@ -68,11 +68,11 @@ var App = function() {
 			callback(config);
 		} catch (e) {
 			if (e.code == "ENOENT") {
-				console.error("WARNING! Could not find config file. Please create one. Starting with default configuration.");
+				console.error(Utils.colors.error("WARNING! Could not find config file. Please create one. Starting with default configuration."));
 			} else if (e instanceof ReferenceError || e instanceof SyntaxError) {
-				console.error("WARNING! Could not validate config file. Please correct syntax errors. Starting with default configuration.");
+				console.error(Utils.colors.error("WARNING! Could not validate config file. Please correct syntax errors. Starting with default configuration."));
 			} else {
-				console.error("WARNING! Could not load config file. Starting with default configuration. Error found: " + e);
+				console.error(Utils.colors.error("WARNING! Could not load config file. Starting with default configuration. Error found: " + e));
 			}
 			callback(defaults);
 		}
