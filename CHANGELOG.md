@@ -55,6 +55,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added hideLoading option for News Feed module
 - Added configurable dateFormat to clock module.
 - Added multiple calendar icon support.
+- Added `ignoreOldItems` and `ignoreOlderThan` options to the News Feed module
 
 ### Fixed
 - Update .gitignore to not ignore default modules folder.
