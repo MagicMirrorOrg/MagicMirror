@@ -55,6 +55,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added hideLoading option for News Feed module
 - Added configurable dateFormat to clock module.
 - Added multiple calendar icon support.
+- Added meta tags to support fullscreen mode on iOS (for server mode)
+- Added fullscreen toggle: within browser, clicking on the page turns it into fullscreen
 
 ### Fixed
 - Update .gitignore to not ignore default modules folder.
