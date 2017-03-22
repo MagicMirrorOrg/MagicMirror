@@ -4,58 +4,58 @@
 * (c) Sindre Sorhus; MIT License
 */
 (function () {
-	'use strict';
+	"use strict";
 
-	var isCommonjs = typeof module !== 'undefined' && module.exports;
-	var keyboardAllowed = typeof Element !== 'undefined' && 'ALLOW_KEYBOARD_INPUT' in Element;
+	var isCommonjs = typeof module !== "undefined" && module.exports;
+	var keyboardAllowed = typeof Element !== "undefined" && "ALLOW_KEYBOARD_INPUT" in Element;
 
 	var fn = (function () {
 		var val;
 
 		var fnMap = [
 			[
-				'requestFullscreen',
-				'exitFullscreen',
-				'fullscreenElement',
-				'fullscreenEnabled',
-				'fullscreenchange',
-				'fullscreenerror'
+				"requestFullscreen",
+				"exitFullscreen",
+				"fullscreenElement",
+				"fullscreenEnabled",
+				"fullscreenchange",
+				"fullscreenerror"
 			],
 			// new WebKit
 			[
-				'webkitRequestFullscreen',
-				'webkitExitFullscreen',
-				'webkitFullscreenElement',
-				'webkitFullscreenEnabled',
-				'webkitfullscreenchange',
-				'webkitfullscreenerror'
+				"webkitRequestFullscreen",
+				"webkitExitFullscreen",
+				"webkitFullscreenElement",
+				"webkitFullscreenEnabled",
+				"webkitfullscreenchange",
+				"webkitfullscreenerror"
 
 			],
 			// old WebKit (Safari 5.1)
 			[
-				'webkitRequestFullScreen',
-				'webkitCancelFullScreen',
-				'webkitCurrentFullScreenElement',
-				'webkitCancelFullScreen',
-				'webkitfullscreenchange',
-				'webkitfullscreenerror'
+				"webkitRequestFullScreen",
+				"webkitCancelFullScreen",
+				"webkitCurrentFullScreenElement",
+				"webkitCancelFullScreen",
+				"webkitfullscreenchange",
+				"webkitfullscreenerror"
 
 			],
 			[
-				'mozRequestFullScreen',
-				'mozCancelFullScreen',
-				'mozFullScreenElement',
-				'mozFullScreenEnabled',
-				'mozfullscreenchange',
-				'mozfullscreenerror'
+				"mozRequestFullScreen",
+				"mozCancelFullScreen",
+				"mozFullScreenElement",
+				"mozFullScreenEnabled",
+				"mozfullscreenchange",
+				"mozfullscreenerror"
 			],
 			[
-				'msRequestFullscreen',
-				'msExitFullscreen',
-				'msFullscreenElement',
-				'msFullscreenEnabled',
-				'MSFullscreenChange',
-				'MSFullscreenError'
+				"msRequestFullscreen",
+				"msExitFullscreen",
+				"msFullscreenElement",
+				"msFullscreenEnabled",
+				"MSFullscreenChange",
+				"MSFullscreenError"
 			]
 		];
 
@@ -83,7 +83,7 @@
 			elem = elem || document.documentElement;
 
 			// Work around Safari 5.1 bug: reports support for
-			// keyboard in fullscreen even though it doesn't.
+			// keyboard in fullscreen even though it doesn"t.
 			// Browser sniffing, since the alternative with
 			// setTimeout is even worse.
 			if (/5\.1[.\d]* Safari/.test(navigator.userAgent)) {
