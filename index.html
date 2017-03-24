@@ -19,7 +19,7 @@
 		var version = "#VERSION#";
 	</script>
 </head>
-<body id="fullscreen">
+<body>
 	<div class="region fullscreen below"><div class="container"></div></div>
 	<div class="region top bar">
 		<div class="container"></div>
@@ -50,14 +50,5 @@
 	<script type="text/javascript" src="js/loader.js"></script>
 	<script type="text/javascript" src="js/socketclient.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
-	<!-- Using https://github.com/sindresorhus/screenfull.js --> 
-	<script type="text/javascript" src="js/screenfull.js"></script>
-	<script type="text/javascript">
-		var b = document.getElementById("fullscreen");
-		document.addEventListener("click", function() {
-			screenfull.toggle(b);
-			window.dispatchEvent(new Event("resize"));
-		});
-	</script>
 </body>
 </html>
