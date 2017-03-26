@@ -335,6 +335,10 @@ Module.register("weatherforecast",{
 	/* ms2Beaufort(ms)
 	 * Converts m2 to beaufort (windspeed).
 	 *
+	 * see:
+	 *  http://www.spc.noaa.gov/faq/tornado/beaufort.html
+	 *  https://en.wikipedia.org/wiki/Beaufort_scale#Modern_scale
+	 *
 	 * argument ms number - Windspeed in m/s.
 	 *
 	 * return number - Windspeed in beaufort.
