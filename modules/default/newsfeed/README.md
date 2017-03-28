@@ -70,6 +70,8 @@ The following properties can be configured:
 | `updateInterval`  | How often do you want to display a new headline? (Milliseconds) <br><br> **Possible values:**`1000` - `60000` <br> **Default value:** `10000` (10 seconds)
 | `animationSpeed`  | Speed of the update animation. (Milliseconds) <br><br> **Possible values:**`0` - `5000` <br> **Default value:** `2500` (2.5 seconds)
 | `maxNewsItems`    | Total amount of news items to cycle through. (0 for unlimited) <br><br> **Possible values:**`0` - `...` <br> **Default value:** `0`
+| `ignoreOldItems`  | Ignore news items that are outdated. <br><br> **Possible values:**`true` or `false <br> **Default value:** `false`
+| `ignoreOlderThan` | How old should news items be before they are considered outdated? (Milliseconds) <br><br> **Possible values:**`1` - `...` <br> **Default value:** `86400000` (1 day)
 | `removeStartTags` | Some newsfeeds feature tags at the **beginning** of their titles or descriptions, such as _[VIDEO]_. This setting allows for the removal of specified tags from the beginning of an item's description and/or title. <br><br> **Possible values:**`'title'`, `'description'`, `'both'`
 | `startTags`       | List the tags you would like to have removed at the beginning of the feed item <br><br> **Possible values:** `['TAG']` or `['TAG1','TAG2',...]`
 | `removeEndTags`   | Remove specified tags from the **end** of an item's description and/or title. <br><br> **Possible values:**`'title'`, `'description'`, `'both'`
