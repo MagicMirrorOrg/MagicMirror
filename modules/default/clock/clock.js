@@ -29,7 +29,7 @@ Module.register("clock",{
 	},
 	// Define required scripts.
 	getScripts: function() {
-		return ["moment.js", "moment-timezone.js"];
+		return ["moment.js", "moment-timezone-with-data.js"];
 	},
 	// Define styles.
 	getStyles: function() {
