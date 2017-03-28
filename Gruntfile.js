@@ -10,7 +10,7 @@ module.exports = function(grunt) {
 				"serveronly/*.js", "*.js", "tests/*/*.js", "!modules/default/alert/notificationFx.js",
 				"!modules/default/alert/modernizr.custom.js", "!modules/default/alert/classie.js",
 				"config/*",
-				"translations/translations.js"
+				"translations/translations.js", "vendor/vendor.js"
 
 			]
 		},
@@ -25,7 +25,8 @@ module.exports = function(grunt) {
 		jsonlint: {
 			main: {
 				src: ["package.json", ".eslintrc.json", ".stylelintrc", "translations/*.json",
-					"modules/default/*/translations/*.json", "installers/pm2_MagicMirror.json"],
+					"modules/default/*/translations/*.json", "installers/pm2_MagicMirror.json",
+					"vendor/package.js"],
 				options: {
 					reporter: "jshint"
 				}

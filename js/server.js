@@ -25,6 +25,10 @@ var Server = function(config, callback) {
 
 	server.listen(port, config.address ? config.address : null);
 
+	if (config.ipWhitelist instanceof Array && config.ipWhitelist.length == 0) {
+		console.info("You're using a full whitelist configuration to allow for all IPs")
+	}
+
 	app.use(function(req, res, next) {
 		var result = ipfilter(config.ipWhitelist, {mode: "allow", log: false})(req, res, function(err) {
 			if (err === undefined) {

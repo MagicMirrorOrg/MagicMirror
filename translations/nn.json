@@ -3,6 +3,7 @@
 
 	"TODAY": "I dag",
 	"TOMORROW": "I morgon",
+	"DAYAFTERTOMORROW": "I overmorgon",
 	"RUNNING": "Sluttar om",
 	"EMPTY": "Ingen komande hendingar.",
 
@@ -21,5 +22,9 @@
 	"W": "V",
 	"WNW": "VNV",
 	"NW": "NV",
-	"NNW": "NNV"
+	"NNW": "NNV",
+
+	"UPDATE_NOTIFICATION": "MagicMirror² oppdatering er tilgjengeleg.",
+	"UPDATE_NOTIFICATION_MODULE": "Oppdatering tilgjengeleg for modulen MODULE_NAME.",
+	"UPDATE_INFO": "noverande installasjon er COMMIT_COUNT bak BRANCH_NAME greinen."
 }

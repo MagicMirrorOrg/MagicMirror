@@ -6,7 +6,7 @@
 
 var config = {
 	port: 8080,
-	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1"],
+	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1"], // Set [] to allow all IP addresses.
 
 	language: "en",
 	timeFormat: 24,
@@ -46,7 +46,7 @@ var config = {
 			position: "top_right",
 			config: {
 				location: "New York",
-				locationID: "",  //ID from http://www.openweathermap.org
+				locationID: "",  //ID from http://www.openweathermap.org/help/city_list.txt
 				appid: "YOUR_OPENWEATHER_API_KEY"
 			}
 		},
@@ -56,7 +56,7 @@ var config = {
 			header: "Weather Forecast",
 			config: {
 				location: "New York",
-				locationID: "5128581",  //ID from http://www.openweathermap.org
+				locationID: "5128581",  //ID from http://www.openweathermap.org/help/city_list.txt
 				appid: "YOUR_OPENWEATHER_API_KEY"
 			}
 		},

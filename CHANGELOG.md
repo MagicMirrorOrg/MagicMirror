@@ -23,13 +23,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Restructured Test Suite
 
 ### Added
-- Added Docker support (Pull Request [#673](https://github.com/MichMich/MagicMirror/pull/673))
-- Calendar-specific support for `maximumEntries`, and ` maximumNumberOfDays`
+- Added Docker support (Pull Request [#673](https://github.com/MichMich/MagicMirror/pull/673)).
+- Calendar-specific support for `maximumEntries`, and ` maximumNumberOfDays`.
 - Add loaded function to modules, providing an async callback.
 - Made default newsfeed module aware of gesture events from [MMM-Gestures](https://github.com/thobach/MMM-Gestures)
-- Add use pm2 for manager process into Installer RaspberryPi script
-- Russian Translation
-- Afrikaans Translation
+- Add use pm2 for manager process into Installer RaspberryPi script.
+- Russian Translation.
+- Afrikaans Translation.
 - Add postinstall script to notify user that MagicMirror installed successfully despite warnings from NPM.
 - Init tests using mocha.
 - Option to use RegExp in Calendar's titleReplace.
@@ -37,18 +37,26 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Icelandic Translation.
 - Add use a script to prevent when is run by SSH session set DISPLAY enviroment.
 - Enable ability to set configuration file by the enviroment variable called MM_CONFIG_FILE.
-- Option to give each calendar a different color
-- Option for colored min-temp and max-temp
-- Add test e2e helloworld
-- Add test e2e enviroment
-- Add `chai-as-promised` npm module to devDependencies
-- Basic set of tests for clock module
-- Run e2e test in Travis
+- Option to give each calendar a different color.
+- Option for colored min-temp and max-temp.
+- Add test e2e helloworld.
+- Add test e2e enviroment.
+- Add `chai-as-promised` npm module to devDependencies.
+- Basic set of tests for clock module.
+- Run e2e test in Travis.
 - Estonian Translation.
-- Add  test for compliments module for parts of day
+- Add test for compliments module for parts of day.
 - Korean Translation.
-- Added console warning on startup when deprecated config options are used
-
+- Added console warning on startup when deprecated config options are used.
+- Add option to display temperature unit label to the current weather module.
+- Added ability to disable wrapping of news items.
+- Added in the ability to hide events in the calendar module based on simple string filters.
+- Updated Norwegian translation.
+- Added hideLoading option for News Feed module.
+- Added configurable dateFormat to clock module.
+- Added multiple calendar icon support.
+- Added meta tags to support fullscreen mode on iOS (for server mode)
+- Added `ignoreOldItems` and `ignoreOlderThan` options to the News Feed module
 
 ### Fixed
 - Update .gitignore to not ignore default modules folder.
@@ -57,9 +65,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix an issue where the analog clock looked scrambled. ([#611](https://github.com/MichMich/MagicMirror/issues/611))
 - If units is set to imperial, the showRainAmount option of weatherforecast will show the correct unit.
 - Module currentWeather: check if temperature received from api is defined.
-- Fix an issue with module hidden status changing to `true` although lock string prevented showing it
+- Fix an issue with module hidden status changing to `true` although lock string prevented showing it.
 - Fix newsfeed module bug (removeStartTags)
 - Fix when is set MM_PORT enviroment variable.
+- Fixed missing animation on `this.show(speed)` when module is alone in a region.
 
 ## [2.1.0] - 2016-12-31
 

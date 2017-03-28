@@ -1,4 +1,4 @@
-vendor/
+vendor/*
 !/vendor/vendor.js
 !/modules/default/**
 !/modules/node_helper

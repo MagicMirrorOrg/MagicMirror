@@ -21,10 +21,15 @@ Module.register("newsfeed",{
 		showSourceTitle: true,
 		showPublishDate: true,
 		showDescription: false,
+		wrapTitle: true,
+		wrapDescription: true,
+		hideLoading: false,
 		reloadInterval:  5 * 60 * 1000, // every 5 minutes
 		updateInterval: 10 * 1000,
 		animationSpeed: 2.5 * 1000,
 		maxNewsItems: 0, // 0 for unlimited
+		ignoreOldItems: false,
+		ignoreOlderThan: 24 * 60 * 60 * 1000, // 1 day
 		removeStartTags: "",
 		removeEndTags: "",
 		startTags: [],
@@ -155,14 +160,14 @@ Module.register("newsfeed",{
 
 			if(!this.config.showFullArticle){
 				var title = document.createElement("div");
-				title.className = "bright medium light";
+				title.className = "bright medium light" + (!this.config.wrapTitle ? " no-wrap" : "");
 				title.innerHTML = this.newsItems[this.activeItem].title;
 				wrapper.appendChild(title);
 			}
 
 			if (this.config.showDescription) {
 				var description = document.createElement("div");
-				description.className = "small light";
+				description.className = "small light" + (!this.config.wrapDescription ? " no-wrap" : "");
 				description.innerHTML = this.newsItems[this.activeItem].description;
 				wrapper.appendChild(description);
 			}
@@ -180,11 +185,17 @@ Module.register("newsfeed",{
 				wrapper.appendChild(fullArticle);
 			}
 
-
+			if (this.config.hideLoading) {
+				this.show();
+			}
 
 		} else {
-			wrapper.innerHTML = this.translate("LOADING");
-			wrapper.className = "small dimmed";
+			if (this.config.hideLoading) {
+				this.hide();
+			} else {
+				wrapper.innerHTML = this.translate("LOADING");
+				wrapper.className = "small dimmed";
+			}
 		}
 
 		return wrapper;
@@ -217,7 +228,9 @@ Module.register("newsfeed",{
 				for (var i in feedItems) {
 					var item = feedItems[i];
 					item.sourceTitle = this.titleForFeed(feed);
-					newsItems.push(item);
+					if (!(this.config.ignoreOldItems && ((Date.now() - new Date(item.pubdate)) > this.config.ignoreOlderThan))) {
+						newsItems.push(item);
+					}
 				}
 			}
 		}

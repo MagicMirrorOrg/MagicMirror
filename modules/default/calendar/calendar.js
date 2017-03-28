@@ -38,7 +38,8 @@ Module.register("calendar", {
 			"De verjaardag van ": "",
 			"'s birthday": ""
 		},
-		broadcastEvents: true
+		broadcastEvents: true,
+		excludedEvents: []
 	},
 
 	// Define required scripts.
@@ -72,10 +73,18 @@ Module.register("calendar", {
 
 			var calendarConfig = {
 				maximumEntries: calendar.maximumEntries,
-				maximumNumberOfDays: calendar.maximumNumberOfDays,
+				maximumNumberOfDays: calendar.maximumNumberOfDays
 			};
 
-			this.addCalendar(calendar.url, calendar.user, calendar.pass, calendarConfig);
+			// we check user and password here for backwards compatibility with old configs
+			if(calendar.user && calendar.pass){
+				calendar.auth = {
+					user: calendar.user,
+					pass: calendar.pass
+				}
+			}
+
+			this.addCalendar(calendar.url, calendar.auth, calendarConfig);
 		}
 
 		this.calendarData = {};
@@ -120,6 +129,19 @@ Module.register("calendar", {
 		for (var e in events) {
 			var event = events[e];
 
+			var excluded = false;
+			for (var f in this.config.excludedEvents) {
+				var filter = this.config.excludedEvents[f];
+				if (event.title.toLowerCase().includes(filter.toLowerCase())) {
+					excluded = true;
+					break;
+				}
+			}
+
+			if (excluded) {
+				continue;
+			}
+
 			var eventWrapper = document.createElement("tr");
 
 			if (this.config.colored) {
@@ -130,10 +152,20 @@ Module.register("calendar", {
 
 			if (this.config.displaySymbol) {
 				var symbolWrapper = document.createElement("td");
-				symbolWrapper.className = "symbol";
-				var symbol = document.createElement("span");
-				symbol.className = "fa fa-" + this.symbolForUrl(event.url);
-				symbolWrapper.appendChild(symbol);
+				symbolWrapper.className = "symbol align-right";
+				var symbols = this.symbolsForUrl(event.url);
+				if(typeof symbols === "string") {
+					symbols = [symbols];
+				}
+
+				for(var i = 0; i < symbols.length; i++) {
+					var symbol = document.createElement("span");
+					symbol.className = "fa fa-" + symbols[i];
+					if(i > 0){
+						symbol.style.paddingLeft = "5px";
+					}
+					symbolWrapper.appendChild(symbol);
+				}
 				eventWrapper.appendChild(symbolWrapper);
 			}
 
@@ -313,25 +345,24 @@ Module.register("calendar", {
 	 *
 	 * argument url string - Url to add.
 	 */
-	addCalendar: function (url, user, pass, calendarConfig) {
+	addCalendar: function (url, auth, calendarConfig) {
 		this.sendSocketNotification("ADD_CALENDAR", {
 			url: url,
 			maximumEntries: calendarConfig.maximumEntries || this.config.maximumEntries,
 			maximumNumberOfDays: calendarConfig.maximumNumberOfDays || this.config.maximumNumberOfDays,
 			fetchInterval: this.config.fetchInterval,
-			user: user,
-			pass: pass
+			auth: auth
 		});
 	},
 
-	/* symbolForUrl(url)
-	 * Retrieves the symbol for a specific url.
+	/* symbolsForUrl(url)
+	 * Retrieves the symbols for a specific url.
 	 *
 	 * argument url string - Url to look for.
 	 *
-	 * return string - The Symbol
+	 * return string/array - The Symbols
 	 */
-	symbolForUrl: function (url) {
+	symbolsForUrl: function (url) {
 		return this.getCalendarProperty(url, "symbol", this.config.defaultSymbol);
 	},
 
@@ -369,7 +400,7 @@ Module.register("calendar", {
 	getCalendarProperty: function (url, property, defaultValue) {
 		for (var c in this.config.calendars) {
 			var calendar = this.config.calendars[c];
-			if (calendar.url === url && typeof calendar[property] === "string") {
+			if (calendar.url === url && calendar.hasOwnProperty(property)) {
 				return calendar[property];
 			}
 		}
