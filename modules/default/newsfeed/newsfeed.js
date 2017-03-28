@@ -28,6 +28,8 @@ Module.register("newsfeed",{
 		updateInterval: 10 * 1000,
 		animationSpeed: 2.5 * 1000,
 		maxNewsItems: 0, // 0 for unlimited
+		ignoreOldItems: false,
+		ignoreOlderThan: 24 * 60 * 60 * 1000, // 1 day
 		removeStartTags: "",
 		removeEndTags: "",
 		startTags: [],
@@ -226,7 +228,9 @@ Module.register("newsfeed",{
 				for (var i in feedItems) {
 					var item = feedItems[i];
 					item.sourceTitle = this.titleForFeed(feed);
-					newsItems.push(item);
+					if (!(this.config.ignoreOldItems && ((Date.now() - new Date(item.pubdate)) > this.config.ignoreOlderThan))) {
+						newsItems.push(item);
+					}
 				}
 			}
 		}
