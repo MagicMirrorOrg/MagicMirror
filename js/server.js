@@ -15,7 +15,7 @@ var fs = require("fs");
 var helmet = require("helmet");
 
 var Server = function(config, callback) {
-	console.log("Starting server op port " + config.port + " ... ");
+	console.log("Starting server on port " + config.port + " ... ");
 
 	server.listen(config.port, config.address ? config.address : null);
 
