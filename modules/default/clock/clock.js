@@ -16,6 +16,7 @@ Module.register("clock",{
 		showPeriodUpper: false,
 		clockBold: false,
 		showDate: true,
+		showWeek: false,
 		dateFormat: "dddd, LL",
 
 		/* specific to the analog clock */
@@ -61,10 +62,12 @@ Module.register("clock",{
 		var timeWrapper = document.createElement("div");
 		var secondsWrapper = document.createElement("sup");
 		var periodWrapper = document.createElement("span");
+		var weekWrapper = document.createElement("div")
 		// Style Wrappers
 		dateWrapper.className = "date normal medium";
 		timeWrapper.className = "time bright large light";
 		secondsWrapper.className = "dimmed";
+		weekWrapper.className = "week dimmed medium"
 
 		// Set content of wrappers.
 		// The moment().format("h") method has a bug on the Raspberry Pi.
@@ -89,6 +92,9 @@ Module.register("clock",{
 
 		if(this.config.showDate){
 			dateWrapper.innerHTML = now.format(this.config.dateFormat);
+		}
+		if (this.config.showWeek) {
+			weekWrapper.innerHTML = this.translate("WEEK") + " " + now.week();
 		}
 		timeWrapper.innerHTML = timeString;
 		secondsWrapper.innerHTML = now.format("ss");
@@ -172,16 +178,25 @@ Module.register("clock",{
 			// Display only a digital clock
 			wrapper.appendChild(dateWrapper);
 			wrapper.appendChild(timeWrapper);
+			wrapper.appendChild(weekWrapper);
 		} else if (this.config.displayType === "analog") {
 			// Display only an analog clock
 			dateWrapper.style.textAlign = "center";
-			dateWrapper.style.paddingBottom = "15px";
+
+			if (this.config.showWeek) {
+				weekWrapper.style.paddingBottom = "15px";
+			} else {
+				dateWrapper.style.paddingBottom = "15px";
+			}
+
 			if (this.config.analogShowDate === "top") {
 				wrapper.appendChild(dateWrapper);
+				wrapper.appendChild(weekWrapper);
 				wrapper.appendChild(clockCircle);
 			} else if (this.config.analogShowDate === "bottom") {
 				wrapper.appendChild(clockCircle);
 				wrapper.appendChild(dateWrapper);
+				wrapper.appendChild(weekWrapper);
 			} else {
 				wrapper.appendChild(clockCircle);
 			}
@@ -198,6 +213,7 @@ Module.register("clock",{
 			digitalWrapper.style.cssFloat = "none";
 			digitalWrapper.appendChild(dateWrapper);
 			digitalWrapper.appendChild(timeWrapper);
+			digitalWrapper.appendChild(weekWrapper);
 
 			var appendClocks = function(condition, pos1, pos2) {
 				var padding = [0,0,0,0];

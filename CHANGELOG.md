@@ -58,6 +58,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added meta tags to support fullscreen mode on iOS (for server mode)
 - Added `ignoreOldItems` and `ignoreOlderThan` options to the News Feed module
 - Added test for MM_PORT enviroment variable.
+- Added a configurable Week section to the clock module.
 
 ### Fixed
 - Update .gitignore to not ignore default modules folder.

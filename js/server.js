@@ -15,6 +15,7 @@ var fs = require("fs");
 var helmet = require("helmet");
 
 var Server = function(config, callback) {
+	console.log("Starting server on port " + config.port + " ... ");
 
 	var port = config.port;
 	if (process.env.MM_PORT) {
