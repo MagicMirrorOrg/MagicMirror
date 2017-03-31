@@ -54,8 +54,8 @@ Module.register("calendar", {
 
 	// Define required translations.
 	getTranslations: function () {
-		// The translations for the defaut modules are defined in the core translation files.
-		// Therefor we can just return false. Otherwise we should have returned a dictionairy.
+		// The translations for the default modules are defined in the core translation files.
+		// Therefor we can just return false. Otherwise we should have returned a dictionary.
 		// If you're trying to build your own module including translations, check out the documentation.
 		return false;
 	},
@@ -409,11 +409,11 @@ Module.register("calendar", {
 	},
 
 	/* shorten(string, maxLength)
-	 * Shortens a string if it's longer than maxLenthg.
+	 * Shortens a string if it's longer than maxLength.
 	 * Adds an ellipsis to the end.
 	 *
 	 * argument string string - The string to shorten.
-	 * argument maxLength number - The max lenth of the string.
+	 * argument maxLength number - The max length of the string.
 	 *
 	 * return string - The shortened string.
 	 */
