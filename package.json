@@ -1,10 +1,15 @@
 {
   "name": "magicmirror",
-  "version": "2.1.0",
-  "description": "A modular interface for smart mirrors.",
+  "version": "2.1.1",
+  "description": "The open source modular smart mirror platform.",
   "main": "js/electron.js",
   "scripts": {
-    "start": "electron js/electron.js"
+    "start": "sh run-start.sh",
+    "install": "cd vendor && npm install",
+    "postinstall": "sh installers/postinstall/postinstall.sh",
+    "test": "./node_modules/mocha/bin/mocha tests --recursive",
+    "test:unit": "./node_modules/mocha/bin/mocha tests/unit --recursive",
+    "test:e2e": "./node_modules/mocha/bin/mocha tests/e2e --recursive"
   },
   "repository": {
     "type": "git",
@@ -26,16 +31,22 @@
   },
   "homepage": "https://github.com/MichMich/MagicMirror#readme",
   "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
     "grunt": "latest",
     "grunt-eslint": "latest",
     "grunt-jsonlint": "latest",
     "grunt-markdownlint": "^1.0.13",
     "grunt-stylelint": "latest",
     "grunt-yamllint": "latest",
+    "http-auth": "^3.1.3",
+    "mocha": "^3.2.0",
+    "spectron": "^3.4.1",
     "stylelint-config-standard": "latest",
     "time-grunt": "latest"
   },
   "dependencies": {
+    "colors": "^1.1.2",
     "electron": "^1.4.7",
     "express": "^4.14.0",
     "express-ipfilter": "latest",
@@ -44,9 +55,9 @@
     "iconv-lite": "latest",
     "moment": "latest",
     "request": "^2.78.0",
-    "rrule": "latest",
+    "rrule-alt": "^2.2.3",
     "simple-git": "^1.62.0",
-    "socket.io": "^1.5.1",
+    "socket.io": "^1.7.3",
     "valid-url": "latest",
     "walk": "latest"
   }

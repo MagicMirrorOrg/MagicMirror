@@ -1,0 +1,30 @@
+{
+	"LOADING": "Betöltés &hellip;",
+
+	"TODAY": "Ma",
+	"TOMORROW": "Holnap",
+	"DAYAFTERTOMORROW": "Holnapután",
+	"RUNNING": "Vége lesz",
+	"EMPTY": "Nincs közelgő esemény.",
+
+	"N": "É",
+	"NNE": "ÉÉK",
+	"NE": "ÉK",
+	"ENE": "KÉK",
+	"E": "K",
+	"ESE": "KDK",
+	"SE": "DK",
+	"SSE": "DDK",
+	"S": "D",
+	"SSW": "DDNy",
+	"SW": "DNy",
+	"WSW": "NyDNy",
+	"W": "Ny",
+	"WNW": "NyÉNy",
+	"NW": "ÉNy",
+	"NNW": "ÉÉNy",
+
+	"UPDATE_NOTIFICATION": "MagicMirror² elérhető egy frissítés!",
+	"UPDATE_NOTIFICATION_MODULE": "A frissítés MODULE_NAME modul néven érhető el.",
+	"UPDATE_INFO": "A jelenlegi telepítés COMMIT_COUNT mögött BRANCH_NAME ágon található."
+}

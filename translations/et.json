@@ -1,0 +1,30 @@
+{
+	"LOADING": "Laen &hellip;",
+
+	"TODAY": "Täna",
+	"TOMORROW": "Homme",
+	"DAYAFTERTOMORROW": "Ülehomme",
+	"RUNNING": "Teoksil",
+	"EMPTY": "Pole tulevasi sündmuseid.",
+
+	"N": "Põhi",
+	"NNE": "Põhikirre",
+	"NE": "Kirre",
+	"ENE": "Idakirre",
+	"E": "Ida",
+	"ESE": "Idakagu",
+	"SE": "Kagu",
+	"SSE": "Lõunakagu",
+	"S": "Lõuna",
+	"SSW": "Lõunaedel",
+	"SW": "Edel",
+	"WSW": "Lääneedel",
+	"W": "Lääs",
+	"WNW": "Lääneloe",
+	"NW": "Loe",
+	"NNW": "Põhjaloe",
+
+	"UPDATE_NOTIFICATION": "MagicMirror²´le uuendus saadaval.",
+	"UPDATE_NOTIFICATION_MODULE": "Uuendus saadaval MODULE_NAME moodulile.",
+	"UPDATE_INFO": "Praegune paigaldus on COMMIT_COUNT tagapool BRANCH_NAME harul."
+}

@@ -1,14 +1,12 @@
 {
-	/* GENERAL */
 	"LOADING": "Laster &hellip;",
 
-	/* CALENDAR */
 	"TODAY": "I dag",
 	"TOMORROW": "I morgen",
+	"DAYAFTERTOMORROW": "I overmorgen",
 	"RUNNING": "Slutter om",
 	"EMPTY": "Ingen kommende arrangementer.",
 
-	/* WEATHER */
 	"N": "N",
 	"NNE": "NNØ",
 	"NE": "NØ",
@@ -24,5 +22,9 @@
 	"W": "V",
 	"WNW": "VNV",
 	"NW": "NV",
-	"NNW": "NNV"
+	"NNW": "NNV",
+
+	"UPDATE_NOTIFICATION": "MagicMirror² oppdatering er tilgjengelig.",
+	"UPDATE_NOTIFICATION_MODULE": "Oppdatering tilgjengelig for modulen MODULE_NAME.",
+	"UPDATE_INFO": "Nåværende installasjon er COMMIT_COUNT bak BRANCH_NAME grenen."
 }

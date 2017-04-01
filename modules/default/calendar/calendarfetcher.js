@@ -8,7 +8,7 @@
 var ical = require("./vendor/ical.js");
 var moment = require("moment");
 
-var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumberOfDays, user, pass) {
+var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumberOfDays, auth) {
 	var self = this;
 
 	var reloadTimer = null;
@@ -32,11 +32,23 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 			}
 		};
 
-		if (user && pass) {
-			opts.auth = {
-				user: user,
-				pass: pass,
-				sendImmediately: true
+		if (auth) {
+			if(auth.method === "bearer"){
+				opts.auth = {
+					bearer: auth.pass
+				}
+
+			}else{
+				opts.auth = {
+					user: auth.user,
+					pass: auth.pass
+				};
+
+				if(auth.method === "digest"){
+					opts.auth.sendImmediately = false;
+				}else{
+					opts.auth.sendImmediately = true;
+				}
 			}
 		}
 
@@ -47,10 +59,14 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 				return;
 			}
 
-			//console.log(data);
+			// console.log(data);
 			newEvents = [];
 
 			var limitFunction = function(date, i) {return i < maximumEntries;};
+
+			var eventDate = function(event, time) {
+				return (event[time].length === 8) ? moment(event[time], "YYYYMMDD") : moment(new Date(event[time]));
+			};
 
 			for (var e in data) {
 				var event = data[e];
@@ -70,10 +86,10 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 
 				if (event.type === "VEVENT") {
 
-					var startDate = (event.start.length === 8) ? moment(event.start, "YYYYMMDD") : moment(new Date(event.start));
+					var startDate = eventDate(event, "start");
 					var endDate;
 					if (typeof event.end !== "undefined") {
-						endDate = (event.end.length === 8) ? moment(event.end, "YYYYMMDD") : moment(new Date(event.end));
+						endDate = eventDate(event, "end");
 					} else {
 						if (!isFacebookBirthday) {
 							endDate = startDate;

@@ -24,6 +24,7 @@ Module.register("currentweather",{
 		useBeaufort: true,
 		lang: config.language,
 		showHumidity: false,
+		degreeLabel: false,
 
 		initialLoadDelay: 0, // 0 seconds delay
 		retryDelay: 2500,
@@ -78,8 +79,8 @@ Module.register("currentweather",{
 
 	// Define required translations.
 	getTranslations: function() {
-		// The translations for the defaut modules are defined in the core translation files.
-		// Therefor we can just return false. Otherwise we should have returned a dictionairy.
+		// The translations for the default modules are defined in the core translation files.
+		// Therefor we can just return false. Otherwise we should have returned a dictionary.
 		// If you're trying to build yiur own module including translations, check out the documentation.
 		return false;
 	},
@@ -182,9 +183,24 @@ Module.register("currentweather",{
 		weatherIcon.className = "wi weathericon " + this.weatherType;
 		large.appendChild(weatherIcon);
 
+		var degreeLabel = "";
+		if (this.config.degreeLabel) {
+			switch (this.config.units ) {
+			case "metric":
+				degreeLabel = "C";
+				break;
+			case "imperial":
+				degreeLabel = "F";
+				break;
+			case "default":
+				degreeLabel = "K";
+				break;
+			}
+		}
+
 		var temperature = document.createElement("span");
 		temperature.className = "bright";
-		temperature.innerHTML = " " + this.temperature + "&deg;";
+		temperature.innerHTML = " " + this.temperature + "&deg;" + degreeLabel;
 		large.appendChild(temperature);
 
 		wrapper.appendChild(large);
@@ -296,7 +312,7 @@ Module.register("currentweather",{
 	 */
 	processWeather: function(data) {
 
-		if (!data || !data.main || !data.main.temp) {
+		if (!data || !data.main || typeof data.main.temp === "undefined") {
 			// Did not receive usable new data.
 			// Maybe this needs a better check?
 			return;
