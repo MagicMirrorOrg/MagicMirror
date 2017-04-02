@@ -7,9 +7,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 ### Added
-- Add in option to wrap long calendar events to multiple lines using `wrapEvents` configuration option
+- Add in option to wrap long calendar events to multiple lines using `wrapEvents` configuration option.
 
 ### Updated
+- Added missing keys to Polish translation.
 
 ## [2.1.1] - 2017-04-01
 
