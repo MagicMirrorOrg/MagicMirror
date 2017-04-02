@@ -2,6 +2,7 @@
   padding-left: 0;
   padding-right: 10px;
   font-size: 80%;
+  vertical-align: top;
 }
 
 .calendar .symbol span {
@@ -19,4 +20,5 @@
 .calendar .time {
   padding-left: 30px;
   text-align: right;
+  vertical-align: top;
 }
