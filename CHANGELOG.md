@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Updated
 - Added missing keys to Polish translation.
+- Added missing key to German translation.
 
 ## [2.1.1] - 2017-04-01
 
