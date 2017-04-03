@@ -6,12 +6,20 @@ module.exports = function(grunt) {
 			options: {
 				configFile: ".eslintrc.json"
 			},
-			target: ["js/*.js", "modules/default/*.js", "modules/default/*/*.js",
-				"serveronly/*.js", "*.js", "tests/*/*.js", "!modules/default/alert/notificationFx.js",
-				"!modules/default/alert/modernizr.custom.js", "!modules/default/alert/classie.js",
+			target: [
+				"js/*.js",
+				"modules/default/*.js",
+				"modules/default/*/*.js",
+				"serveronly/*.js",
+				"*.js",
+				"tests/**/*.js",
+				"!modules/default/alert/notificationFx.js",
+				"!modules/default/alert/modernizr.custom.js",
+				"!modules/default/alert/classie.js",
 				"config/*",
-				"translations/translations.js"
-
+				"translations/translations.js",
+				"vendor/vendor.js",
+				"modules/node_modules/node_helper/index.js"
 			]
 		},
 		stylelint: {
@@ -19,12 +27,26 @@ module.exports = function(grunt) {
 				options: {
 					configFile: ".stylelintrc"
 				},
-				src: ["css/main.css", "modules/default/calendar/calendar.css", "modules/default/clock/clock_styles.css", "modules/default/currentweather/currentweather.css", "modules/default/weatherforcast/weatherforcast.css"]
+				src: [
+					"css/main.css",
+					"modules/default/calendar/calendar.css",
+					"modules/default/clock/clock_styles.css",
+					"modules/default/currentweather/currentweather.css",
+					"modules/default/weatherforcast/weatherforcast.css"
+				]
 			}
 		},
 		jsonlint: {
 			main: {
-				src: ["package.json", ".eslintrc.json", ".stylelintrc", "translations/*.json", "modules/default/*/translations/*.json"],
+				src: [
+					"package.json",
+					".eslintrc.json",
+					".stylelintrc",
+					"translations/*.json",
+					"modules/default/*/translations/*.json",
+					"installers/pm2_MagicMirror.json",
+					"vendor/package.js"
+				],
 				options: {
 					reporter: "jshint"
 				}
@@ -56,11 +78,20 @@ module.exports = function(grunt) {
 						"MD038": false
 					}
 				},
-				src: ["README.md", "CHANGELOG.md", "LICENSE.md", "modules/README.md", "modules/default/**/*.md", "!modules/default/calendar/vendor/ical.js/readme.md"]
+				src: [
+					"README.md",
+					"CHANGELOG.md",
+					"LICENSE.md",
+					"modules/README.md",
+					"modules/default/**/*.md",
+					"!modules/default/calendar/vendor/ical.js/readme.md"
+				]
 			}
 		},
 		yamllint: {
-			all: [".travis.yml"]
+			all: [
+				".travis.yml"
+			]
 		}
 	});
 	grunt.loadNpmTasks("grunt-eslint");

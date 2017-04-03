@@ -1,6 +1,7 @@
 html {
   cursor: none;
   overflow: hidden;
+  background: #000;
 }
 
 ::-webkit-scrollbar {
@@ -119,6 +120,12 @@ sup {
 .region.bottom .module {
   margin-top: 30px;
   margin-bottom: 0;
+}
+
+.no-wrap {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /**
