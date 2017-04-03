@@ -7,10 +7,18 @@ module.exports = function(grunt) {
 				configFile: ".eslintrc.json"
 			},
 			target: [
-				"js/*.js", "modules/default/*.js", "modules/default/*/*.js",
-				"serveronly/*.js", "*.js", "tests/*/*.js", "!modules/default/alert/notificationFx.js",
-				"!modules/default/alert/modernizr.custom.js", "!modules/default/alert/classie.js",
-				"config/*", "translations/translations.js", "vendor/vendor.js",
+				"js/*.js",
+				"modules/default/*.js",
+				"modules/default/*/*.js",
+				"serveronly/*.js",
+				"*.js",
+				"tests/**/*.js",
+				"!modules/default/alert/notificationFx.js",
+				"!modules/default/alert/modernizr.custom.js",
+				"!modules/default/alert/classie.js",
+				"config/*",
+				"translations/translations.js",
+				"vendor/vendor.js",
 				"modules/node_modules/node_helper/index.js"
 			]
 		},
@@ -20,7 +28,8 @@ module.exports = function(grunt) {
 					configFile: ".stylelintrc"
 				},
 				src: [
-					"css/main.css", "modules/default/calendar/calendar.css",
+					"css/main.css",
+					"modules/default/calendar/calendar.css",
 					"modules/default/clock/clock_styles.css",
 					"modules/default/currentweather/currentweather.css",
 					"modules/default/weatherforcast/weatherforcast.css"
@@ -30,8 +39,12 @@ module.exports = function(grunt) {
 		jsonlint: {
 			main: {
 				src: [
-					"package.json", ".eslintrc.json", ".stylelintrc", "translations/*.json",
-					"modules/default/*/translations/*.json", "installers/pm2_MagicMirror.json",
+					"package.json",
+					".eslintrc.json",
+					".stylelintrc",
+					"translations/*.json",
+					"modules/default/*/translations/*.json",
+					"installers/pm2_MagicMirror.json",
 					"vendor/package.js"
 				],
 				options: {
@@ -66,8 +79,12 @@ module.exports = function(grunt) {
 					}
 				},
 				src: [
-					"README.md", "CHANGELOG.md", "LICENSE.md", "modules/README.md",
-					"modules/default/**/*.md", "!modules/default/calendar/vendor/ical.js/readme.md"
+					"README.md",
+					"CHANGELOG.md",
+					"LICENSE.md",
+					"modules/README.md",
+					"modules/default/**/*.md",
+					"!modules/default/calendar/vendor/ical.js/readme.md"
 				]
 			}
 		},
