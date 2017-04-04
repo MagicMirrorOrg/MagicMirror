@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [2.1.2] - Unreleased
 
 ### Changed
+- Fix the dockerfile to have it running from the first time.
 
 ### Added
 - Add in option to wrap long calendar events to multiple lines using `wrapEvents` configuration option.
