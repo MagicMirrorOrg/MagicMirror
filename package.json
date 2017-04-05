@@ -29,7 +29,7 @@
   "bugs": {
     "url": "https://github.com/MichMich/MagicMirror/issues"
   },
-  "homepage": "https://github.com/MichMich/MagicMirror#readme",
+  "homepage": "https://magicmirror.builders",
   "devDependencies": {
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
