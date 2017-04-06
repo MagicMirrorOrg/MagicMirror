@@ -13,6 +13,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added missing keys to Polish translation.
 - Added missing key to German translation.
 
+### Fixed
+- Fix instruction in README for using automatically installer script.
+
 ## [2.1.1] - 2017-04-01
 
 **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
