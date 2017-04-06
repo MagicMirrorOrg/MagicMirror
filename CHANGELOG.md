@@ -9,10 +9,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - Add in option to wrap long calendar events to multiple lines using `wrapEvents` configuration option.
+- Add test e2e `show title newsfeed` for newsfeed module.
 
 ### Updated
 - Added missing keys to Polish translation.
 - Added missing key to German translation.
+
+### Fixed
+- Fix instruction in README for using automatically installer script.
 
 ## [2.1.1] - 2017-04-01
 

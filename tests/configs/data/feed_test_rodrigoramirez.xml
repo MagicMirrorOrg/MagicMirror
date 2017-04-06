@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Rodrigo Ramírez Norambuena</title>
+	<atom:link href="https://rodrigoramirez.com/feed/" rel="self" type="application/rss+xml" />
+	<link>https://rodrigoramirez.com</link>
+	<description>Temas sobre Linux, VoIP, Open Source, tecnología y lo relacionado.</description>
+	<lastBuildDate>Fri, 21 Oct 2016 21:30:22 +0000</lastBuildDate>
+	<language>es-ES</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.3</generator>
+	<item>
+		<title>QPanel 0.13.0</title>
+		<link>https://rodrigoramirez.com/qpanel-0-13-0/</link>
+		<comments>https://rodrigoramirez.com/qpanel-0-13-0/#comments</comments>
+		<pubDate>Tue, 20 Sep 2016 11:16:08 +0000</pubDate>
+		<dc:creator><![CDATA[decipher]]></dc:creator>
+				<category><![CDATA[Software]]></category>
+		<category><![CDATA[app_queue]]></category>
+		<category><![CDATA[asterisk]]></category>
+		<category><![CDATA[FreeSWITCH]]></category>
+		<category><![CDATA[qpanel]]></category>
+		<category><![CDATA[queue]]></category>
+		<category><![CDATA[spy]]></category>
+		<category><![CDATA[supervision]]></category>
+		<category><![CDATA[templates]]></category>
+		<category><![CDATA[whisper]]></category>
+
+		<guid isPermaLink="false">https://rodrigoramirez.com/?p=1299</guid>
+		<description><![CDATA[<p>Ya está disponible la versión 0.13.0 de QPanel Para instalar esta nueva versión, la debes descargar de https://github.com/roramirez/qpanel/tree/0.13.0 En al README.md puedes encontrar las instrucciones para hacer que funcione en tu sistema. En esta nueva versión cuenta con los siguientes cambios: Se establece un limite para el reciclado del tiempo de conexión a la base [&#8230;]</p>
+<p>La entrada <a rel="nofollow" href="https://rodrigoramirez.com/qpanel-0-13-0/">QPanel 0.13.0</a> aparece primero en <a rel="nofollow" href="https://rodrigoramirez.com">Rodrigo Ramírez Norambuena</a>.</p>
+]]></description>
+				<content:encoded><![CDATA[<p><img class="aligncenter" src="https://raw.githubusercontent.com/roramirez/qpanel/e55aa16bbd85b579ee82e56469526270c5afa462/samples/animation.gif" alt="Panel monitor callcenter | Qpanel Monitor Colas" width="685" height="385" />Ya está disponible la versión 0.13.0 de QPanel</p>
+<p>Para instalar esta nueva versión, la debes descargar de</p>
+<ul>
+<li><a href="https://github.com/roramirez/qpanel/tree/0.13.0">https://github.com/roramirez/qpanel/tree/0.13.0</a></li>
+</ul>
+<p>En al README.md puedes encontrar las instrucciones para hacer que funcione en tu sistema.</p>
+<p>En esta nueva versión cuenta con los siguientes cambios:</p>
+<ul>
+<li>Se establece un limite para el reciclado del tiempo de conexión a la base de datos que contenga QueueLog. Esto evita problemas en bases de datos como MySQL que finaliza o da timeout a las conexiones.</li>
+<li>Ahora la py-asterisk va dentro del archivo requirements.txt y no como submodulo del proyecto.</li>
+<li>Se remueven la mayoría de las libs externas para Javascript y CSS para manejarlos desde ahora con <a href="https://bower.io/">Bower</a>.</li>
+<li>Se incluye un script para WSGI que permite su utilización con Apache.</li>
+<li>Actualización para los idiomas Ruso y Portugues.</li>
+</ul>
+<p>Si deseas colaborar con el proyecto puedes agregar nuevas sugerencias mediante un <a href="https://github.com/roramirez/qpanel/issues/new?title=[Feature]">issue</a> ó colaborar mediante <a href="https://github.com/roramirez/qpanel/blob/dd42cf0f534408505f57b0d387dffee2f3688711/README.md#how-to-contribute">mediante un Pull Request.</a></p>
+<p>Ahora si necesitas <a href="https://boxtub.com/qpanel/">soporte comercial para instalaciones, personalizaciones o nuevas características  lo puedes solicitar en https://boxtub.com/qpanel/</a></p>
+<p>&nbsp;</p>
+<p>La entrada <a rel="nofollow" href="https://rodrigoramirez.com/qpanel-0-13-0/">QPanel 0.13.0</a> aparece primero en <a rel="nofollow" href="https://rodrigoramirez.com">Rodrigo Ramírez Norambuena</a>.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://rodrigoramirez.com/qpanel-0-13-0/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>Problema VirtualBox &#8220;starting virtual machine&#8221; &#8230;</title>
+		<link>https://rodrigoramirez.com/problema-virtualbox-starting-virtual-machine/</link>
+		<comments>https://rodrigoramirez.com/problema-virtualbox-starting-virtual-machine/#respond</comments>
+		<pubDate>Sat, 10 Sep 2016 22:50:13 +0000</pubDate>
+		<dc:creator><![CDATA[decipher]]></dc:creator>
+				<category><![CDATA[Linux]]></category>
+		<category><![CDATA[no arranca]]></category>
+		<category><![CDATA[Problema]]></category>
+		<category><![CDATA[VirtualBox]]></category>
+
+		<guid isPermaLink="false">https://rodrigoramirez.com/?p=1284</guid>
+		<description><![CDATA[<p>Después de una actualización de Debian, de la rama stretch/sid, tuve un problema con VirtualBox.  La versión que se actualizó fue a la virtualbox 5.1.4-dfsg-1+b1. El gran problema era que ninguna maquina virtual quería arrancar, se quedaba en un largo limbo con el mensaje &#8220;starting virtual machine&#8221;, como el de la imagen de a continuación. [&#8230;]</p>
+<p>La entrada <a rel="nofollow" href="https://rodrigoramirez.com/problema-virtualbox-starting-virtual-machine/">Problema VirtualBox &#8220;starting virtual machine&#8221; &#8230;</a> aparece primero en <a rel="nofollow" href="https://rodrigoramirez.com">Rodrigo Ramírez Norambuena</a>.</p>
+]]></description>
+				<content:encoded><![CDATA[<p>Después de una actualización de Debian, de la rama stretch/sid, tuve un problema con VirtualBox.  La versión que se actualizó fue a la virtualbox 5.1.4-dfsg-1+b1. El gran problema era que ninguna maquina virtual quería arrancar, se quedaba en un largo limbo con el mensaje &#8220;starting virtual machine&#8221;, como el de la imagen de a continuación.</p>
+<p><a href="https://rodrigoramirez.com/wp-content/uploads/Screenshot-at-2016-09-10-19-25-09.png"><img class="aligncenter wp-image-1290 size-full" src="https://rodrigoramirez.com/wp-content/uploads/Screenshot-at-2016-09-10-19-25-09.png" alt="Starting virtual machine ... VirtualBox" width="648" height="554" srcset="https://rodrigoramirez.com/wp-content/uploads/Screenshot-at-2016-09-10-19-25-09.png 648w, https://rodrigoramirez.com/wp-content/uploads/Screenshot-at-2016-09-10-19-25-09-300x256.png 300w" sizes="(max-width: 648px) 100vw, 648px" /></a></p>
+<p>Ninguna, pero ninguna maquina arrancó, se quedaban en ese mensaje. Fue de esos instantes en que sudas helado &#8230; <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="😉" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>Con un poco de investigación fue a parar al archivo<em> ~/.VirtualBox/VBoxSVC.log </em>que indicaba</p>
+<pre>$ tail -f ~/.VirtualBox/VBoxSVC.log
+ 00:08:32.932717 nspr-7 Failed to open "/dev/vboxdrvu", errno=13, rc=VERR_VM_DRIVER_NOT_ACCESSIBLE
+ 00:08:33.555836 nspr-6 Failed to open "/dev/vboxdrvu", errno=13, rc=VERR_VM_DRIVER_NOT_ACCESSIBLE</pre>
+<p>&nbsp;</p>
+<p>Fui&#8230; algo de donde agarrarse. Mirando un poco mas se trataba de problemas con los permisos al vboxdrvu, mirando indicaba que tenía 0600.</p>
+<p>&nbsp;</p>
+<pre>$ ls -lh /dev/vboxdrvu 
+ crw------- 1 root root 10, 56 Sep 10 12:47 /dev/vboxdrvu</pre>
+<p>&nbsp;</p>
+<p>El tema es que deben estar en 0666,  le cambias los permisos y eso soluciona el problema <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="🙂" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<pre>
+$ sudo chmod 0666 /dev/vboxdrvu
+$ ls -lh /dev/vboxdrvu
+ crw-rw-rw- 1 root root 10, 56 Sep 10 12:47 /dev/vboxdrvu</pre>
+<p>La entrada <a rel="nofollow" href="https://rodrigoramirez.com/problema-virtualbox-starting-virtual-machine/">Problema VirtualBox &#8220;starting virtual machine&#8221; &#8230;</a> aparece primero en <a rel="nofollow" href="https://rodrigoramirez.com">Rodrigo Ramírez Norambuena</a>.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://rodrigoramirez.com/problema-virtualbox-starting-virtual-machine/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Mejorando la consola interactiva de Python</title>
+		<link>https://rodrigoramirez.com/mejorando-la-consola-interactiva-python/</link>
+		<comments>https://rodrigoramirez.com/mejorando-la-consola-interactiva-python/#comments</comments>
+		<pubDate>Tue, 06 Sep 2016 04:24:43 +0000</pubDate>
+		<dc:creator><![CDATA[decipher]]></dc:creator>
+				<category><![CDATA[desarrollo]]></category>
+		<category><![CDATA[Desarrollo]]></category>
+		<category><![CDATA[Python]]></category>
+
+		<guid isPermaLink="false">https://rodrigoramirez.com/?p=1247</guid>
+		<description><![CDATA[<p>Cuando estás desarrollando en Python es muy cool estar utilizando la consola interactiva para ir probando cosas antes de ponerlas dentro del archivo de código fuente. La consola de Python funciona y cumple su cometido. Solo al tipear  python  te permite entrar en modo interactivo e ir probando cosas. El punto es que a veces [&#8230;]</p>
+<p>La entrada <a rel="nofollow" href="https://rodrigoramirez.com/mejorando-la-consola-interactiva-python/">Mejorando la consola interactiva de Python</a> aparece primero en <a rel="nofollow" href="https://rodrigoramirez.com">Rodrigo Ramírez Norambuena</a>.</p>
+]]></description>
+				<content:encoded><![CDATA[<p>Cuando estás desarrollando en Python es muy <em>cool</em> estar utilizando la consola interactiva para ir probando cosas antes de ponerlas dentro del archivo de código fuente.</p>
+<p>La consola de Python funciona y cumple su cometido. Solo al tipear  <em>python  </em>te permite entrar en modo interactivo e ir probando cosas.</p>
+<p>El punto es que a veces uno necesita ir un poco más allá. Como autocomentado de código o resaltado de sintaxis, para eso tengo dos truco que utilizo generalmente.</p>
+<h2>Truco a)</h2>
+<p>Este permite añadirle algunos esteriodes a la consolta, en realidad uno, el autocompletado. Esto es de gran ayuda para ir conociendo los metodo que puede tener un objecto, funciones u operaciones.</p>
+<p>Para esto se ocupo <em>rlcompleter</em> y  <em>readline. </em></p>
+<p>&nbsp;</p>
+<p>Lo que hace que hacer luego de tipear python es agregar lo siguiente dentro de la consola interativa</p>
+<p><em>import rlcompleter, readline</em><br />
+<em>readline.parse_and_bind(&#8216;tab:complete&#8217;)</em></p>
+<p>Ya con esto te permite autocomentar código <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="🙂" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p><a href="https://rodrigoramirez.com/wp-content/uploads/Screenshot-at-2016-09-03-01-14-32.png"><img class="aligncenter wp-image-1279 size-full" src="https://rodrigoramirez.com/wp-content/uploads/Screenshot-at-2016-09-03-01-14-32.png" width="689" height="421" srcset="https://rodrigoramirez.com/wp-content/uploads/Screenshot-at-2016-09-03-01-14-32.png 689w, https://rodrigoramirez.com/wp-content/uploads/Screenshot-at-2016-09-03-01-14-32-300x183.png 300w" sizes="(max-width: 689px) 100vw, 689px" /></a></p>
+<p>&nbsp;</p>
+<h2>Truco b)</h2>
+<p>Esto es mejorar un poco más. Es utilizar embed de <a href="https://ipython.org/">IPython,</a>  ya en la consola digita (copias o pegas) lo siguiente</p>
+<p><em>from IPython import embed</em><br />
+<em>embed()</em></p>
+<p>Y el resultado será lo que se ve a continuación&#8230; bueno, no?</p>
+<p>&nbsp;</p>
+<p><a href="https://rodrigoramirez.com/wp-content/uploads/Screenshot-at-2016-07-25-15-48-39.png"><img class="aligncenter wp-image-1262 size-full" src="https://rodrigoramirez.com/wp-content/uploads/Screenshot-at-2016-07-25-15-48-39.png" width="743" height="293" srcset="https://rodrigoramirez.com/wp-content/uploads/Screenshot-at-2016-07-25-15-48-39.png 743w, https://rodrigoramirez.com/wp-content/uploads/Screenshot-at-2016-07-25-15-48-39-300x118.png 300w" sizes="(max-width: 743px) 100vw, 743px" /></a></p>
+<p>&nbsp;</p>
+<p>Si no quieres estar escribiendo cada vez que entras, agregas estas instrucciones en tu archivo  <em>~/.pythonrc.py </em> y lo hará cada vez que entras en el modo interactivo de la consola de Python. Lo que si, tu archivo pythonrc.py debe estar seteado en variable de entorno PYTHONSTARTUP</p>
+<p>ejemplo</p>
+<p><em>export  PYTHONSTARTUP=~/.pythonrc.py</em></p>
+<p>O lo agregas a un bashrc, zshrc o la shell que ocupes.</p>
+<p>La entrada <a rel="nofollow" href="https://rodrigoramirez.com/mejorando-la-consola-interactiva-python/">Mejorando la consola interactiva de Python</a> aparece primero en <a rel="nofollow" href="https://rodrigoramirez.com">Rodrigo Ramírez Norambuena</a>.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://rodrigoramirez.com/mejorando-la-consola-interactiva-python/feed/</wfw:commentRss>
+		<slash:comments>4</slash:comments>
+		</item>
+		<item>
+		<title>QPanel 0.12.0 con estadísticas</title>
+		<link>https://rodrigoramirez.com/qpanel-0-12-0-estadisticas/</link>
+		<comments>https://rodrigoramirez.com/qpanel-0-12-0-estadisticas/#respond</comments>
+		<pubDate>Mon, 22 Aug 2016 04:19:03 +0000</pubDate>
+		<dc:creator><![CDATA[decipher]]></dc:creator>
+				<category><![CDATA[Software]]></category>
+		<category><![CDATA[app_queue]]></category>
+		<category><![CDATA[asterisk]]></category>
+		<category><![CDATA[FreeSWITCH]]></category>
+		<category><![CDATA[qpanel]]></category>
+		<category><![CDATA[queue]]></category>
+		<category><![CDATA[spy]]></category>
+		<category><![CDATA[supervision]]></category>
+		<category><![CDATA[templates]]></category>
+		<category><![CDATA[whisper]]></category>
+
+		<guid isPermaLink="false">https://rodrigoramirez.com/?p=1268</guid>
+		<description><![CDATA[<p>Ya está disponible una nueva versión de QPanel, esta es la 0.12.0 Para instalar esta nueva versión, debes visitar la siguiente URL https://github.com/roramirez/qpanel/tree/0.12.0 En esta nueva versión las funcionalidades agregadas son: Permite remover los agentes de las cola Posibilidad de cancelar llamadas que están en espera de atención Estadísticas por rango de fecha obtenidas desde [&#8230;]</p>
+<p>La entrada <a rel="nofollow" href="https://rodrigoramirez.com/qpanel-0-12-0-estadisticas/">QPanel 0.12.0 con estadísticas</a> aparece primero en <a rel="nofollow" href="https://rodrigoramirez.com">Rodrigo Ramírez Norambuena</a>.</p>
+]]></description>
+				<content:encoded><![CDATA[<p><img class="aligncenter" src="https://raw.githubusercontent.com/roramirez/qpanel/e55aa16bbd85b579ee82e56469526270c5afa462/samples/animation.gif" alt="Panel monitor callcenter | Qpanel Monitor Colas" width="685" height="385" />Ya está disponible una nueva versión de QPanel, esta es la 0.12.0</p>
+<p>Para instalar esta nueva versión, debes visitar la siguiente URL</p>
+<ul>
+<li><a href="https://github.com/roramirez/qpanel/tree/0.12.0">https://github.com/roramirez/qpanel/tree/0.12.0</a></li>
+</ul>
+<p>En esta nueva versión las funcionalidades agregadas son:</p>
+<ul>
+<li>Permite remover los agentes de las cola</li>
+<li>Posibilidad de cancelar llamadas que están en espera de atención</li>
+<li>Estadísticas por rango de fecha obtenidas desde el queue_log de Asterisk</li>
+<li>Se actualiza a Flask 0.11</li>
+</ul>
+<p>Si deseas colaborar con el proyecto puedes agregar nuevas sugerencias mediante un <a href="https://github.com/roramirez/qpanel/issues/new?title=[Feature]">issue</a> ó colaborar mediante <a href="https://github.com/roramirez/qpanel/blob/dd42cf0f534408505f57b0d387dffee2f3688711/README.md#how-to-contribute">mediante un Pull Request</a></p>
+<p>La entrada <a rel="nofollow" href="https://rodrigoramirez.com/qpanel-0-12-0-estadisticas/">QPanel 0.12.0 con estadísticas</a> aparece primero en <a rel="nofollow" href="https://rodrigoramirez.com">Rodrigo Ramírez Norambuena</a>.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://rodrigoramirez.com/qpanel-0-12-0-estadisticas/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>QPanel 0.11.0 con Spy, Whisper  y mas</title>
+		<link>https://rodrigoramirez.com/qpanel-spy-supervisor/</link>
+		<comments>https://rodrigoramirez.com/qpanel-spy-supervisor/#comments</comments>
+		<pubDate>Thu, 21 Jul 2016 01:53:21 +0000</pubDate>
+		<dc:creator><![CDATA[decipher]]></dc:creator>
+				<category><![CDATA[Software]]></category>
+		<category><![CDATA[app_queue]]></category>
+		<category><![CDATA[asterisk]]></category>
+		<category><![CDATA[FreeSWITCH]]></category>
+		<category><![CDATA[qpanel]]></category>
+		<category><![CDATA[queue]]></category>
+		<category><![CDATA[spy]]></category>
+		<category><![CDATA[supervision]]></category>
+		<category><![CDATA[templates]]></category>
+		<category><![CDATA[whisper]]></category>
+
+		<guid isPermaLink="false">https://rodrigoramirez.com/?p=1245</guid>
+		<description><![CDATA[<p>Ya está disponible una nueva versión de QPanel, esta es la 0.11.0 Para instalar esta nueva versión, debes visitar la siguiente URL https://github.com/roramirez/qpanel/tree/0.11.0 Esta versión hemos agregado  algunas funcionalidades que los usuarios  han ido solicitando. Para esta versión es posible realizar Spy, Whisper o Barge a un canal para la supervisión de los miembros que [&#8230;]</p>
+<p>La entrada <a rel="nofollow" href="https://rodrigoramirez.com/qpanel-spy-supervisor/">QPanel 0.11.0 con Spy, Whisper  y mas</a> aparece primero en <a rel="nofollow" href="https://rodrigoramirez.com">Rodrigo Ramírez Norambuena</a>.</p>
+]]></description>
+				<content:encoded><![CDATA[<p><img class="aligncenter" src="https://raw.githubusercontent.com/roramirez/qpanel/e55aa16bbd85b579ee82e56469526270c5afa462/samples/animation.gif" alt="Panel monitor callcenter | Qpanel Monitor Colas" width="685" height="385" />Ya está disponible una nueva versión de QPanel, esta es la 0.11.0</p>
+<p>Para instalar esta nueva versión, debes visitar la siguiente URL</p>
+<ul>
+<li><a href="https://github.com/roramirez/qpanel/tree/0.11.0">https://github.com/roramirez/qpanel/tree/0.11.0</a></li>
+</ul>
+<p>Esta versión hemos agregado  algunas funcionalidades que los usuarios  han ido solicitando.</p>
+<p>Para esta versión es posible realizar Spy, Whisper o Barge a un canal para la supervisión de los miembros que están en una cola.</p>
+<p>También el sistema de plantillas se hecho una refactorización para eliminar exceso de codigo HTML usando uno de base.</p>
+<p>Se han agregado una suite de tests unitarios que al contar del avance del proyecto deberían ir incrementando.</p>
+<p>Se ha solucionado un bug con la actualización del color del estado del agente cuando es uno nuevo agregado a la cola.</p>
+<p>&nbsp;</p>
+<p>El proyecto siempre está abierto a nuevas sugerencias las cuales puedes agregar mediante un <a href="https://github.com/roramirez/qpanel/issues/new?title=[Feature]">issue</a>.</p>
+<p>La entrada <a rel="nofollow" href="https://rodrigoramirez.com/qpanel-spy-supervisor/">QPanel 0.11.0 con Spy, Whisper  y mas</a> aparece primero en <a rel="nofollow" href="https://rodrigoramirez.com">Rodrigo Ramírez Norambuena</a>.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://rodrigoramirez.com/qpanel-spy-supervisor/feed/</wfw:commentRss>
+		<slash:comments>4</slash:comments>
+		</item>
+		<item>
+		<title>Añadir Swap a un sistema</title>
+		<link>https://rodrigoramirez.com/crear-swap/</link>
+		<comments>https://rodrigoramirez.com/crear-swap/#respond</comments>
+		<pubDate>Fri, 15 Jul 2016 05:07:43 +0000</pubDate>
+		<dc:creator><![CDATA[decipher]]></dc:creator>
+				<category><![CDATA[Linux]]></category>
+
+		<guid isPermaLink="false">https://rodrigoramirez.com/?p=1234</guid>
+		<description><![CDATA[<p>Algo que me toma generalmente hacer es cuando trabajo con maquina virtuales es asignar una cantidad determinada de Swap. La  memoria swap es un espacio de intercambio en disco para cuando el sistema ya no puede utilizar más memoria RAM. El problema para mi es que algunos sistemas de maquinas virtuales no asignan por defecto [&#8230;]</p>
+<p>La entrada <a rel="nofollow" href="https://rodrigoramirez.com/crear-swap/">Añadir Swap a un sistema</a> aparece primero en <a rel="nofollow" href="https://rodrigoramirez.com">Rodrigo Ramírez Norambuena</a>.</p>
+]]></description>
+				<content:encoded><![CDATA[<p>Algo que me toma generalmente hacer es cuando trabajo con maquina virtuales es asignar una cantidad determinada de Swap.</p>
+<p>La  memoria swap es un espacio de intercambio en disco para cuando el sistema ya no puede utilizar más memoria RAM.</p>
+<p>El problema para mi es que algunos sistemas de maquinas virtuales no asignan por defecto un espacio para la Swap, lo que te lleva a que el sistema pueda tener crash durante la ejecución.</p>
+<p>Para comprobar la asignación de memoria, al ejecutar el comando <em>free</em> nos debería mostrar como algo similar a lo siguiente</p>
+<p>&nbsp;</p>
+<pre>$  free -m
+             total       used       free     shared    buffers     cached
+Mem:           494        488          6          1         54         75
+-/+ buffers/cache:        357        136
+Swap:            0          0          0</pre>
+<p>En la zona de swap indica que no asignada, valor 0.</p>
+<p>Para asignar swap al sistema se debe  un archivo en disco para que sea utilizado como espacio de intercambio, en este caso lo vamos  crear uno  de 3GB en la raíz del sistema</p>
+<pre class="code-pre "><code>fallocate -l 3G /swapfile</code></pre>
+<p>Comprobamos que ha sido creado</p>
+<pre>$ ls -lh /swapfile
+-rw-r--r-- 1 root root 3.0G Jul 11 13:10 /swapfile
+</pre>
+<h3>Habilitación del archivo Swap</h3>
+<p>Ahora nos toca habilitar el archivo creado. Para eso le asignaremos los permisos</p>
+<pre>chmod 600 /swapfile</pre>
+<p>Lo siguiente es para convertir el  archivo para swap</p>
+<pre>mkswap /swapfile</pre>
+<p>Para habilitar y asignarla eso como memoria swap al sistema usamos</p>
+<pre>swapon /swapfile</pre>
+<p>Ya con esto podrémos ver en nuestro sistema la memoria asignada para swap</p>
+<pre>$ free -m
+             total       used       free     shared    buffers     cached
+Mem:           494        486          7          1         51         77
+-/+ buffers/cache:        358        136
+Swap:         3071          0       3071</pre>
+<p>&nbsp;</p>
+<p>Para que al reiniciar el sistema esto se mantenga, debemos agregar la siguiente línea al archivo /etc/fstab</p>
+<pre><span class="pl-s">/swapfile none swap sw 0 0</span></pre>
+<p>&nbsp;</p>
+<p>Podemos editar /etc/fstab con algún editor como vim, nano o podemos agregar la linea directamente en la desde la cli de la siguiente manera</p>
+<pre><span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>/swapfile none swap sw 0 0<span class="pl-pds">"</span></span> <span class="pl-k">&gt;&gt;</span> /etc/fstab</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>La entrada <a rel="nofollow" href="https://rodrigoramirez.com/crear-swap/">Añadir Swap a un sistema</a> aparece primero en <a rel="nofollow" href="https://rodrigoramirez.com">Rodrigo Ramírez Norambuena</a>.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://rodrigoramirez.com/crear-swap/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>QPanel 0.10.0 con vista consolidada</title>
+		<link>https://rodrigoramirez.com/qpanel-0-10-0-vista-consolidada/</link>
+		<comments>https://rodrigoramirez.com/qpanel-0-10-0-vista-consolidada/#respond</comments>
+		<pubDate>Mon, 20 Jun 2016 19:32:55 +0000</pubDate>
+		<dc:creator><![CDATA[decipher]]></dc:creator>
+				<category><![CDATA[Linux]]></category>
+		<category><![CDATA[app_queue]]></category>
+		<category><![CDATA[asterisk]]></category>
+		<category><![CDATA[FreeSWITCH]]></category>
+		<category><![CDATA[qpanel]]></category>
+		<category><![CDATA[queue]]></category>
+
+		<guid isPermaLink="false">https://rodrigoramirez.com/?p=1227</guid>
+		<description><![CDATA[<p>Ya con la release numero 28 la nueva versión 0.10.0 de QPanel ya está disponible. Para instalar esta nueva versión, debes visitar la siguiente URL https://github.com/roramirez/qpanel/tree/0.10.0 Esta versión versión nos preocupamos de realizar mejoras, refactorizaciones y agregamos una nueva funcionalidad. La nueva funcionalidad incluida es  que ahora es posible contar con una vista consolidada para [&#8230;]</p>
+<p>La entrada <a rel="nofollow" href="https://rodrigoramirez.com/qpanel-0-10-0-vista-consolidada/">QPanel 0.10.0 con vista consolidada</a> aparece primero en <a rel="nofollow" href="https://rodrigoramirez.com">Rodrigo Ramírez Norambuena</a>.</p>
+]]></description>
+				<content:encoded><![CDATA[<p><img class="alignleft" src="https://raw.githubusercontent.com/roramirez/qpanel/0.10.0/samples/animation.gif" alt="Panel monitor callcenter | Qpanel Monitor Colas" width="403" height="227" />Ya con la release numero 28 la nueva versión 0.10.0 de QPanel ya está disponible.</p>
+<p>Para instalar esta nueva versión, debes visitar la siguiente URL</p>
+<ul>
+<li><a href="https://github.com/roramirez/qpanel/tree/0.10.0">https://github.com/roramirez/qpanel/tree/0.10.0</a></li>
+</ul>
+<p>Esta versión versión nos preocupamos de realizar mejoras, refactorizaciones y agregamos una nueva funcionalidad.</p>
+<p>La nueva funcionalidad incluida es  que ahora es posible contar con una vista consolidada para la información de todas las colas. Que hace tener un mejor control y visualización de lo que está pasando en las colas.</p>
+<p>El proyecto siempre está abierto a nuevas sugerencias las cuales puedes agregar mediante un <a href="https://github.com/roramirez/qpanel/issues/new?title=[Feature]">issue</a>.</p>
+<p>La entrada <a rel="nofollow" href="https://rodrigoramirez.com/qpanel-0-10-0-vista-consolidada/">QPanel 0.10.0 con vista consolidada</a> aparece primero en <a rel="nofollow" href="https://rodrigoramirez.com">Rodrigo Ramírez Norambuena</a>.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://rodrigoramirez.com/qpanel-0-10-0-vista-consolidada/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Nerdearla 2016, WebRTC Glue</title>
+		<link>https://rodrigoramirez.com/nerdearla-2016/</link>
+		<comments>https://rodrigoramirez.com/nerdearla-2016/#respond</comments>
+		<pubDate>Wed, 15 Jun 2016 17:55:41 +0000</pubDate>
+		<dc:creator><![CDATA[decipher]]></dc:creator>
+				<category><![CDATA[Linux]]></category>
+		<category><![CDATA[baires]]></category>
+		<category><![CDATA[charla]]></category>
+		<category><![CDATA[Computación]]></category>
+		<category><![CDATA[informatica]]></category>
+		<category><![CDATA[tech]]></category>
+		<category><![CDATA[ti]]></category>
+		<category><![CDATA[webrtc]]></category>
+
+		<guid isPermaLink="false">https://rodrigoramirez.com/?p=1218</guid>
+		<description><![CDATA[<p>Días atrás estuve participando en el evento llamado Nerdearla en Buenos Aires.  El ambiente era genial si eres de esas personas que desde niño sintio curiosidad por ver como funcionan las cosas, donde desarmabas para volver armar lo juguetes. Habían muchas cosas interesantes tanto en las presentaciones, co-working y workshop que se hubieron. Si te [&#8230;]</p>
+<p>La entrada <a rel="nofollow" href="https://rodrigoramirez.com/nerdearla-2016/">Nerdearla 2016, WebRTC Glue</a> aparece primero en <a rel="nofollow" href="https://rodrigoramirez.com">Rodrigo Ramírez Norambuena</a>.</p>
+]]></description>
+				<content:encoded><![CDATA[<p>Días atrás estuve participando en el evento llamado <a href="http://nerdear.la/">Nerdearla</a> en Buenos Aires.  El ambiente era genial si eres de esas personas que desde niño sintio curiosidad por ver como funcionan las cosas, donde desarmabas para volver armar lo juguetes.</p>
+<p>Habían muchas cosas interesantes tanto en las presentaciones, co-working y workshop que se hubieron. Si te lo perdiste te recomiendo que estés pendiente para el proximo año.</p>
+<p>&nbsp;</p>
+<p>Te podias encontrar con una nuestra como esta<a href="https://rodrigoramirez.com/wp-content/uploads/CkhnO83XAAAfaxS.jpg"><img class="aligncenter size-medium wp-image-1221" src="https://rodrigoramirez.com/wp-content/uploads/CkhnO83XAAAfaxS-300x169.jpg" alt="Kaypro II" width="300" height="169" srcset="https://rodrigoramirez.com/wp-content/uploads/CkhnO83XAAAfaxS-300x169.jpg 300w, https://rodrigoramirez.com/wp-content/uploads/CkhnO83XAAAfaxS-768x432.jpg 768w, https://rodrigoramirez.com/wp-content/uploads/CkhnO83XAAAfaxS-1024x576.jpg 1024w, https://rodrigoramirez.com/wp-content/uploads/CkhnO83XAAAfaxS.jpg 1200w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Puedes dar un vistaso a lo registrado por algunos <a href="https://twitter.com/hashtag/nerdearla?f=tweets&amp;vertical=default&amp;src=hash">usuarios en Twitter</a></p>
+<p>El primer día hice un workshop denominado WebRTC Glue, donde muestra como hacer como unificar la experiencia de atención del centro de contacto directamente en la web. Es una presentación práctica donde puedes ver los ejemplos y usarlos como gustes. Están en <a href="https://gitlab.com/roramirez/webrtc-glue">el repositorio en Gitlab</a>. La presentación <a href="/charlas/webrtc-glue/index.html">la puedes ver aquí</a></p>
+<p>&nbsp;</p>
+<p><a href="https://rodrigoramirez.com/wp-content/uploads/CkhxulgWYAAp7fW.jpg"><img class="aligncenter size-medium wp-image-1222" src="https://rodrigoramirez.com/wp-content/uploads/CkhxulgWYAAp7fW-300x169.jpg" alt="WebRTC Glue" width="300" height="169" srcset="https://rodrigoramirez.com/wp-content/uploads/CkhxulgWYAAp7fW-300x169.jpg 300w, https://rodrigoramirez.com/wp-content/uploads/CkhxulgWYAAp7fW-768x432.jpg 768w, https://rodrigoramirez.com/wp-content/uploads/CkhxulgWYAAp7fW-1024x576.jpg 1024w, https://rodrigoramirez.com/wp-content/uploads/CkhxulgWYAAp7fW.jpg 1200w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Haber si nos vemos el próximo año.</p>
+<p>&nbsp;</p>
+<p><strong>Update</strong>: Puedes ver una parte sin la demostración del workshop</p>
+<p><iframe src="https://www.youtube.com/embed/qDreeYk-UK4?list=PLTTdzfRyGY1vQukK8L4QeAfYdbURSzFq5" width="560" height="315" frameborder="0" allowfullscreen="allowfullscreen"></iframe><br />
+&nbsp;</p>
+<p>La entrada <a rel="nofollow" href="https://rodrigoramirez.com/nerdearla-2016/">Nerdearla 2016, WebRTC Glue</a> aparece primero en <a rel="nofollow" href="https://rodrigoramirez.com">Rodrigo Ramírez Norambuena</a>.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://rodrigoramirez.com/nerdearla-2016/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>QPanel 0.9.0</title>
+		<link>https://rodrigoramirez.com/qpanel-0-9-0/</link>
+		<comments>https://rodrigoramirez.com/qpanel-0-9-0/#respond</comments>
+		<pubDate>Mon, 09 May 2016 18:40:23 +0000</pubDate>
+		<dc:creator><![CDATA[decipher]]></dc:creator>
+				<category><![CDATA[Software]]></category>
+		<category><![CDATA[asterisk]]></category>
+		<category><![CDATA[callcenter]]></category>
+		<category><![CDATA[colas]]></category>
+		<category><![CDATA[monitor]]></category>
+		<category><![CDATA[monitoreo]]></category>
+		<category><![CDATA[panel]]></category>
+		<category><![CDATA[qpanel]]></category>
+		<category><![CDATA[queues]]></category>
+
+		<guid isPermaLink="false">http://rodrigoramirez.com/?p=1206</guid>
+		<description><![CDATA[<p>El Panel monitor callcenter para colas de Asterisk ya cuenta con una nueva versión, la 0.9.0 Para instalar esta nueva versión, debes visitar la siguiente URL https://github.com/roramirez/qpanel/tree/0.9.0 Esta versión versión nos preocupamos de realizar mejoras y refactorizaciones en el codigo para dar un mejor rendimiento, como también de la compatibilidad con la versión 11 de [&#8230;]</p>
+<p>La entrada <a rel="nofollow" href="https://rodrigoramirez.com/qpanel-0-9-0/">QPanel 0.9.0</a> aparece primero en <a rel="nofollow" href="https://rodrigoramirez.com">Rodrigo Ramírez Norambuena</a>.</p>
+]]></description>
+				<content:encoded><![CDATA[<p><img class="alignleft" src="https://raw.githubusercontent.com/roramirez/qpanel/0.9.0/samples/animation.gif" alt="Panel monitor callcenter | Qpanel Monitor Colas" width="403" height="227" />El Panel monitor callcenter para colas de Asterisk ya cuenta con una nueva versión, la 0.9.0</p>
+<p>Para instalar esta nueva versión, debes visitar la siguiente URL</p>
+<ul>
+<li><a href="https://github.com/roramirez/qpanel/tree/0.9.0">https://github.com/roramirez/qpanel/tree/0.9.0</a></li>
+</ul>
+<p>Esta versión versión nos preocupamos de realizar mejoras y refactorizaciones en el codigo para dar un mejor rendimiento, como también de la compatibilidad con la versión 11 de Asterisk.</p>
+<p>Dentro de las cosas que podamos mencionar:</p>
+<ul>
+<li> Actualización del repositorio y versión de py-asterisk, biblioteca para trabajar con Asterisk. Acá la ocupamos principalmente para uso del Manager.</li>
+<li>Portación de parche de funcionalidades como pausa, tiempo, razón de una pausa para Asterisk 11.</li>
+<li>Cambio del comportamiento en el conteo cuando el participante en una cola está ocupado (busy)</li>
+</ul>
+<p>El proyecto siempre está abierto a nuevas sugerencias las cuales puedes agregar mediante un <a href="https://github.com/roramirez/qpanel/issues/new?title=[Feature]">issue</a>.</p>
+<p>La entrada <a rel="nofollow" href="https://rodrigoramirez.com/qpanel-0-9-0/">QPanel 0.9.0</a> aparece primero en <a rel="nofollow" href="https://rodrigoramirez.com">Rodrigo Ramírez Norambuena</a>.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://rodrigoramirez.com/qpanel-0-9-0/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Mandar un email desde la shell</title>
+		<link>https://rodrigoramirez.com/mandar-un-email-desde-la-shell/</link>
+		<comments>https://rodrigoramirez.com/mandar-un-email-desde-la-shell/#comments</comments>
+		<pubDate>Wed, 13 Apr 2016 13:05:13 +0000</pubDate>
+		<dc:creator><![CDATA[decipher]]></dc:creator>
+				<category><![CDATA[Linux]]></category>
+		<category><![CDATA[mini-tips]]></category>
+		<category><![CDATA[bash]]></category>
+		<category><![CDATA[cli]]></category>
+		<category><![CDATA[Email]]></category>
+		<category><![CDATA[mail]]></category>
+		<category><![CDATA[sh]]></category>
+		<category><![CDATA[shell]]></category>
+
+		<guid isPermaLink="false">http://rodrigoramirez.com/?p=1172</guid>
+		<description><![CDATA[<p>Dejo esto por acá ya que es algo que siempre me olvido como es. El tema es enviar un email mediante el comando mail en un servidor con Linux. Si usas mail a secas te va pidiendo los datos para crear el correo, principalmente el body del correo. Para automatizar esto a través de un [&#8230;]</p>
+<p>La entrada <a rel="nofollow" href="https://rodrigoramirez.com/mandar-un-email-desde-la-shell/">Mandar un email desde la shell</a> aparece primero en <a rel="nofollow" href="https://rodrigoramirez.com">Rodrigo Ramírez Norambuena</a>.</p>
+]]></description>
+				<content:encoded><![CDATA[<p>Dejo esto por acá ya que es algo que siempre me olvido como es. El tema es enviar un email mediante el comando <em>mail</em> en un servidor con Linux.</p>
+<p>Si usas mail a secas te va pidiendo los datos para crear el correo, principalmente el body del correo. Para automatizar esto a través de un <em>echo</em> le pasas por pipe a <em>mail</em></p>
+<pre>echo "Cuerpo del mensaje" | mail -s Asunto a@rodrigoramirez.com</pre>
+<p>La entrada <a rel="nofollow" href="https://rodrigoramirez.com/mandar-un-email-desde-la-shell/">Mandar un email desde la shell</a> aparece primero en <a rel="nofollow" href="https://rodrigoramirez.com">Rodrigo Ramírez Norambuena</a>.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://rodrigoramirez.com/mandar-un-email-desde-la-shell/feed/</wfw:commentRss>
+		<slash:comments>4</slash:comments>
+		</item>
+	</channel>
+</rss>
