@@ -3,8 +3,11 @@
 
 	"TODAY": "Dziś",
 	"TOMORROW": "Jutro",
+	"DAYAFTERTOMORROW": "Pojutrze",
 	"RUNNING": "Koniec za",
 	"EMPTY": "Brak wydarzeń.",
+
+	"WEEK": "Tydzień",
 
 	"N": "N",
 	"NNE": "NNE",

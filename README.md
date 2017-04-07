@@ -31,7 +31,7 @@ Electron, the app wrapper around MagicMirror², only supports the Raspberry Pi 2
 
 Execute the following command on your Raspberry Pi to install MagicMirror²:
 ````
-curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/master/installers/raspberry.sh | bash
+bash -c "$(curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/master/installers/raspberry.sh)"
 ````
 
 ### Manual Installation
@@ -103,6 +103,11 @@ Type `git status` to see your changes, if there are any, you can reset them with
 
 1. Duplicate `config/config.js.sample` to `config/config.js`. **Note:** If you used the installer script. This step is already done for you.
 2. Modify your required settings.
+
+Note: You'll can check your configuration running the follow command:
+```bash
+npm run config:check
+```
 
 The following properties can be configured:
 
