@@ -104,6 +104,11 @@ Type `git status` to see your changes, if there are any, you can reset them with
 1. Duplicate `config/config.js.sample` to `config/config.js`. **Note:** If you used the installer script. This step is already done for you.
 2. Modify your required settings.
 
+Note: You'll can check your configuration running the follow command:
+```bash
+npm run config:check
+```
+
 The following properties can be configured:
 
 | **Option** | **Description** |
