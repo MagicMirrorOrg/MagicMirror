@@ -65,7 +65,7 @@ if command_exists node; then
 		fi
 
 	else
-		echo -e "\e[92mNo Node.js upgrade nessecery.\e[0m"
+		echo -e "\e[92mNo Node.js upgrade necessary.\e[0m"
 	fi
 
 else

@@ -66,7 +66,7 @@ var MM = (function() {
 		var classes = position.replace("_"," ");
 		var parentWrapper = document.getElementsByClassName(classes);
 		if (parentWrapper.length > 0) {
-			var wrapper =  parentWrapper[0].getElementsByClassName("container");
+			var wrapper = parentWrapper[0].getElementsByClassName("container");
 			if (wrapper.length > 0) {
 				return wrapper[0];
 			}
@@ -250,13 +250,13 @@ var MM = (function() {
 
 			// Waiting for DOM-changes done in updateWrapperStates before we can start the animation.
 			var dummy = moduleWrapper.parentElement.parentElement.offsetHeight;
-
 			moduleWrapper.style.opacity = 1;
 
 			clearTimeout(module.showHideTimer);
 			module.showHideTimer = setTimeout(function() {
 				if (typeof callback === "function") { callback(); }
 			}, speed);
+
 		}
 	};
 
