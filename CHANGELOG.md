@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add in option to wrap long calendar events to multiple lines using `wrapEvents` configuration option.
 - Add test e2e `show title newsfeed` for newsfeed module.
 - Add task to check configuration file.
+- Add test e2e showWeek feature in spanish language.
 
 ### Updated
 - Added missing keys to Polish translation.
