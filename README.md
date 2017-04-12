@@ -59,7 +59,7 @@ docker run  -d \
 			--volume ~/magic_mirror/config:/opt/magic_mirror/config \
 			--volume ~/magic_mirror/modules:/opt/magic_mirror/modules \
 			--name magic_mirror \
-			MichMich/MagicMirror
+			michmich/magicmirror
 ```
 
 | **Volumes** | **Description** |

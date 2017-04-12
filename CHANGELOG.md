@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [2.1.2] - Unreleased
 
 ### Changed
+- Change Docker base image (Debian + Node) to an arm based distro (AlpineARM + Node) ([#846](https://github.com/MichMich/MagicMirror/pull/846))
 - Fix the dockerfile to have it running from the first time.
 
 ### Added
