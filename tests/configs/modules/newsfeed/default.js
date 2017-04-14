@@ -1,4 +1,4 @@
-/* Magic Mirror Test config for default compliments
+/* Magic Mirror Test config newsfeed module
  *
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.
@@ -19,20 +19,16 @@ var config = {
 
 	modules: [
 		{
-			module: "compliments",
-			position: "middle_center",
+
+			module: "newsfeed",
+			position: "bottom_bar",
 			config: {
-				compliments: {
-					morning: [
-						"Hi", "Good Morning", "Morning test"
-					],
-					afternoon: [
-						"Hello", "Good Afternoon", "Afternoon test"
-					],
-					evening: [
-						"Hello There", "Good Evening", "Evening test"
-					]
-				}
+				feeds: [
+					{
+						title: "Rodrigo Ramirez Blog",
+						url: "http://localhost:8080/tests/configs/data/feed_test_rodrigoramirez.xml"
+					},
+				]
 			}
 		}
 	]

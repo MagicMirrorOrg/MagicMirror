@@ -1,15 +1,15 @@
-/* Magic Mirror Test config for default compliments
+/* Magic Mirror Test config sample enviroment set por 8090
  *
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.
  */
 
 var config = {
-	port: 8080,
+	port: 8090,
 	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1"],
 
 	language: "en",
-	timeFormat: 12,
+	timeFormat: 24,
 	units: "metric",
 	electronOptions: {
 		webPreferences: {
@@ -18,23 +18,6 @@ var config = {
 	},
 
 	modules: [
-		{
-			module: "compliments",
-			position: "middle_center",
-			config: {
-				compliments: {
-					morning: [
-						"Hi", "Good Morning", "Morning test"
-					],
-					afternoon: [
-						"Hello", "Good Afternoon", "Afternoon test"
-					],
-					evening: [
-						"Hello There", "Good Evening", "Evening test"
-					]
-				}
-			}
-		}
 	]
 };
 

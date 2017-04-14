@@ -1,15 +1,16 @@
 {
   "name": "magicmirror",
-  "version": "2.1.1",
-  "description": "A modular interface for smart mirrors.",
+  "version": "2.1.2-dev",
+  "description": "The open source modular smart mirror platform.",
   "main": "js/electron.js",
   "scripts": {
     "start": "sh run-start.sh",
     "install": "cd vendor && npm install",
     "postinstall": "sh installers/postinstall/postinstall.sh",
-    "test": "./node_modules/mocha/bin/mocha tests --recursive",
-    "test:unit": "./node_modules/mocha/bin/mocha tests/unit --recursive",
-    "test:e2e": "./node_modules/mocha/bin/mocha tests/e2e --recursive"
+    "test": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests --recursive",
+    "test:unit": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests/unit --recursive",
+    "test:e2e": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests/e2e --recursive",
+    "config:check": "node tests/configs/check_config.js"
   },
   "repository": {
     "type": "git",
@@ -29,7 +30,7 @@
   "bugs": {
     "url": "https://github.com/MichMich/MagicMirror/issues"
   },
-  "homepage": "https://github.com/MichMich/MagicMirror#readme",
+  "homepage": "https://magicmirror.builders",
   "devDependencies": {
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
@@ -39,6 +40,7 @@
     "grunt-markdownlint": "^1.0.13",
     "grunt-stylelint": "latest",
     "grunt-yamllint": "latest",
+    "jshint": "^2.9.4",
     "http-auth": "^3.1.3",
     "mocha": "^3.2.0",
     "spectron": "^3.4.1",
@@ -46,6 +48,7 @@
     "time-grunt": "latest"
   },
   "dependencies": {
+    "body-parser": "^1.17.1",
     "colors": "^1.1.2",
     "electron": "^1.4.7",
     "express": "^4.14.0",

@@ -15,9 +15,16 @@ var fs = require("fs");
 var helmet = require("helmet");
 
 var Server = function(config, callback) {
-	console.log("Starting server op port " + config.port + " ... ");
+	console.log("Starting server on port " + config.port + " ... ");
 
-	server.listen(config.port, config.address ? config.address : null);
+	var port = config.port;
+	if (process.env.MM_PORT) {
+		port = process.env.MM_PORT;
+	}
+
+	console.log("Starting server op port " + port + " ... ");
+
+	server.listen(port, config.address ? config.address : null);
 
 	if (config.ipWhitelist instanceof Array && config.ipWhitelist.length == 0) {
 		console.info("You're using a full whitelist configuration to allow for all IPs")
