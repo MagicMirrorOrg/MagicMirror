@@ -5,7 +5,8 @@
 	"TOMORROW": "Demain",
 	"RUNNING": "Se termine dans",
 	"EMPTY": "Aucun RDV.",
-
+	"DAYAFTERTOMORROW": "Après-demain",
+	"WEEK": "Semaine",
 	"N": "N",
 	"NNE": "NNE",
 	"NE": "NE",
@@ -22,4 +23,8 @@
 	"WNW": "ONO",
 	"NW": "NO",
 	"NNW": "NNO"
+	
+	"UPDATE_NOTIFICATION": "Mise à jour de MagicMirror² disponible.",
+	"UPDATE_NOTIFICATION_MODULE": "Mise à jour disponible pour MODULE_NAME module.",
+	  
 }
