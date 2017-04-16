@@ -2,6 +2,25 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.1.2] - Unreleased
+
+### Changed
+- Change Docker base image (Debian + Node) to an arm based distro (AlpineARM + Node) ([#846](https://github.com/MichMich/MagicMirror/pull/846))
+- Fix the dockerfile to have it running from the first time.
+
+### Added
+- Add in option to wrap long calendar events to multiple lines using `wrapEvents` configuration option.
+- Add test e2e `show title newsfeed` for newsfeed module.
+- Add task to check configuration file.
+- Add test check URLs of vendors.
+- Add test default modules present modules/default/defaultmodules.js.
+
+### Updated
+- Added missing keys to Polish translation.
+- Added missing key to German translation.
+
+### Fixed
+- Fix instruction in README for using automatically installer script.
 
 ## [2.1.1] - 2017-04-01
 

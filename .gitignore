@@ -65,3 +65,13 @@ Temporary Items
 
 # Ignore changes to the custom css files.
 /css/custom.css
+
+# Vim
+## swap
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+
+## diff patch
+*.orig
+*.rej
+*.bak
