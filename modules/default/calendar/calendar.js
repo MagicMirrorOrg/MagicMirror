@@ -18,6 +18,7 @@ Module.register("calendar", {
 		displayRepeatingCountTitle: false,
 		defaultRepeatingCountTitle: "",
 		maxTitleLength: 25,
+		wrapEvents: false, // wrap events to multiple lines breaking at maxTitleLength
 		fetchInterval: 5 * 60 * 1000, // Update every 5 minutes.
 		animationSpeed: 2000,
 		fade: true,
@@ -54,8 +55,8 @@ Module.register("calendar", {
 
 	// Define required translations.
 	getTranslations: function () {
-		// The translations for the defaut modules are defined in the core translation files.
-		// Therefor we can just return false. Otherwise we should have returned a dictionairy.
+		// The translations for the default modules are defined in the core translation files.
+		// Therefor we can just return false. Otherwise we should have returned a dictionary.
 		// If you're trying to build your own module including translations, check out the documentation.
 		return false;
 	},
@@ -409,20 +410,43 @@ Module.register("calendar", {
 	},
 
 	/* shorten(string, maxLength)
-	 * Shortens a string if it's longer than maxLenthg.
+	 * Shortens a string if it's longer than maxLength.
 	 * Adds an ellipsis to the end.
 	 *
 	 * argument string string - The string to shorten.
-	 * argument maxLength number - The max lenth of the string.
+	 * argument maxLength number - The max length of the string.
+   * argument wrapEvents - Wrap the text after the line has reached maxLength
 	 *
 	 * return string - The shortened string.
 	 */
-	shorten: function (string, maxLength) {
-		if (string.length > maxLength) {
-			return string.slice(0, maxLength) + "&hellip;";
-		}
+	shorten: function (string, maxLength, wrapEvents) {
+		if (wrapEvents) {
+			var temp = "";
+			var currentLine = "";
+			var words = string.split(" ");
 
-		return string;
+			for (var i = 0; i < words.length; i++) {
+				var word = words[i];
+				if (currentLine.length + word.length < 25 - 1) { // max - 1 to account for a space
+					currentLine += (word + " ");
+				} else {
+					if (currentLine.length > 0) {
+						temp += (currentLine + "<br>" + word + " ");
+					} else {
+						temp += (word + "<br>");
+					}
+					currentLine = "";
+				}
+			}
+
+			return temp + currentLine;
+		} else {
+			if (string.length > maxLength) {
+				return string.slice(0, maxLength) + "&hellip;";
+			} else {
+				return string;
+			}
+		}
 	},
 
 	/* capFirst(string)
@@ -437,7 +461,7 @@ Module.register("calendar", {
 	/* titleTransform(title)
 	 * Transforms the title of an event for usage.
 	 * Replaces parts of the text as defined in config.titleReplace.
-	 * Shortens title based on config.maxTitleLength
+	 * Shortens title based on config.maxTitleLength and config.wrapEvents
 	 *
 	 * argument title string - The title to transform.
 	 *
@@ -456,7 +480,7 @@ Module.register("calendar", {
 			title = title.replace(needle, replacement);
 		}
 
-		title = this.shorten(title, this.config.maxTitleLength);
+		title = this.shorten(title, this.config.maxTitleLength, this.config.wrapEvents);
 		return title;
 	},
 
