@@ -51,7 +51,7 @@ function createWindow() {
 	mainWindow.loadURL("http://localhost:" + config.port);
 
 	// Open the DevTools if run with "npm start dev"
-	if(process.argv[2] == "dev") {
+	if (process.argv.includes("dev")) {
 		mainWindow.webContents.openDevTools();
 	}
 
