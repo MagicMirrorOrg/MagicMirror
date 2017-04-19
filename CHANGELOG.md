@@ -13,6 +13,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add test e2e `show title newsfeed` for newsfeed module.
 - Add task to check configuration file.
 - Add test check URLs of vendors.
+- Add test of match current week number on clock module with showWeek configuration.
 - Add test default modules present modules/default/defaultmodules.js.
 
 ### Updated

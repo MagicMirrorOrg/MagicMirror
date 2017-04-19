@@ -34,6 +34,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
+    "current-week-number": "^1.0.7",
     "grunt": "latest",
     "grunt-eslint": "latest",
     "grunt-jsonlint": "latest",
