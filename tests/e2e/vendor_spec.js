@@ -32,5 +32,14 @@ describe("Vendors", function () {
 				});
 			});
 		});
+
+		Object.keys(vendors).forEach(vendor => {
+			it(`should return 404 HTTP code for vendor https://localhost/"${vendor}"`, function() {
+				urlVendor = "http://localhost:8080/" + vendors[vendor];
+				request.get(urlVendor, function (err, res, body) {
+					expect(res.statusCode).to.equal(404);
+				});
+			});
+		});
 	});
 });

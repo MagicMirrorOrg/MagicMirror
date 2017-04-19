@@ -12,7 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add in option to wrap long calendar events to multiple lines using `wrapEvents` configuration option.
 - Add test e2e `show title newsfeed` for newsfeed module.
 - Add task to check configuration file.
-- Add test check URLs of vendors.
+- Add test check URLs of vendors 200 and 404 HTTP CODE.
 - Add test default modules present modules/default/defaultmodules.js.
 
 ### Updated
