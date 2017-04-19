@@ -59,7 +59,7 @@ docker run  -d \
 			--volume ~/magic_mirror/config:/opt/magic_mirror/config \
 			--volume ~/magic_mirror/modules:/opt/magic_mirror/modules \
 			--name magic_mirror \
-			michmich/magicmirror
+			bastilimbach/docker-magicmirror
 ```
 
 | **Volumes** | **Description** |
@@ -74,6 +74,8 @@ var config = {
 	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1", "::ffff:172.17.0.1"]
 };
 ```
+
+If you want to run the server on a raspberry pi, use the `raspberry` tag. (bastilimbach/docker-magicmirror:raspberry)
 
 #### Manual
 
