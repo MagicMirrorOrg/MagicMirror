@@ -15,14 +15,13 @@ var fs = require("fs");
 var helmet = require("helmet");
 
 var Server = function(config, callback) {
-	console.log("Starting server on port " + config.port + " ... ");
 
 	var port = config.port;
 	if (process.env.MM_PORT) {
 		port = process.env.MM_PORT;
 	}
 
-	console.log("Starting server op port " + port + " ... ");
+	console.log("Starting server on port " + port + " ... ");
 
 	server.listen(port, config.address ? config.address : null);
 
