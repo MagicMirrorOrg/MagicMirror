@@ -102,6 +102,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
 
 ### Added
+- Run `npm install` to install the new dependency `express-ipfilter`, before launching your mirror the next time.
 - Finnish translation.
 - Danish translation.
 - Turkish translation.
