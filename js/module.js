@@ -264,6 +264,8 @@ var Module = Class.extend({
 				Translator.load(self, translationFile, false, function () {
 					Translator.load(self, translationsFallbackFile, true, callback);
 				});
+			} else if (translationFile !== undefined) {
+				Translator.load(self, translationFile, false, callback);
 			} else {
 				Translator.load(self, translationsFallbackFile, true, callback);
 			}
