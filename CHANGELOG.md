@@ -16,6 +16,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add test check URLs of vendors.
 - Add test of match current week number on clock module with showWeek configuration.
 - Add test default modules present modules/default/defaultmodules.js.
+- Add unit test calendar_modules function capFirst.
 
 ### Updated
 - Added missing keys to Polish translation.
@@ -24,6 +25,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Fix instruction in README for using automatically installer script.
 - Bug of duplicated compliments as described in [here](https://forum.magicmirror.builders/topic/2381/compliments-module-stops-cycling-compliments).
+- Fix double message about port when server is starting
 
 ## [2.1.1] - 2017-04-01
 
