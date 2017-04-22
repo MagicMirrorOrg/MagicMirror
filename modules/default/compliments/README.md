@@ -88,7 +88,7 @@ config: {
 		],
 		afternoon: [
 			"Hello, beauty!",
-			'You look sexy!',
+			"You look sexy!",
 			"Looking good today!"
 		],
 		evening: [
@@ -110,9 +110,9 @@ around them ("morning", "afternoon", "evening", "snow", "rain", etc.).
 #### Example compliments.json file:
 ````json
 {
-	"anytime" : [
-		"Hey there sexy!"
-	],
+    "anytime" : [
+        "Hey there sexy!"
+    ],
     "morning" : [
         "Good morning, sunshine!",
         "Who needs coffee when you have your smile?",
