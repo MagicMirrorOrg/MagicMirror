@@ -33,6 +33,10 @@ Module.register("calendar", {
 				symbol: "calendar",
 				url: "http://www.calendarlabs.com/templates/ical/US-Holidays.ics",
 			},
+			{
+				symbol: "gCal",
+				url: "https://use.fontawesome.com/7a7f2dc046.js"
+			}
 		],
 		titleReplace: {
 			"De verjaardag van ": "",
