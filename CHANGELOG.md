@@ -24,6 +24,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Fix instruction in README for using automatically installer script.
+- Fix double message about port when server is starting
 
 ## [2.1.1] - 2017-04-01
 
