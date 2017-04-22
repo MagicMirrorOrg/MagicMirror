@@ -96,7 +96,7 @@ Module.register("compliments", {
 	 */
 	complimentArray: function() {
 		var hour = moment().hour();
-		var compliments = null;
+		var compliments;
 
 		if (hour >= 3 && hour < 12 && this.config.compliments.hasOwnProperty("morning")) {
 			compliments = this.config.compliments.morning.slice(0);
