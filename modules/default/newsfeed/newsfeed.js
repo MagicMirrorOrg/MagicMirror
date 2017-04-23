@@ -28,6 +28,8 @@ Module.register("newsfeed",{
 		updateInterval: 10 * 1000,
 		animationSpeed: 2.5 * 1000,
 		maxNewsItems: 0, // 0 for unlimited
+		ignoreOldItems: false,
+		ignoreOlderThan: 24 * 60 * 60 * 1000, // 1 day
 		removeStartTags: "",
 		removeEndTags: "",
 		startTags: [],
@@ -42,9 +44,9 @@ Module.register("newsfeed",{
 
 	// Define required translations.
 	getTranslations: function() {
-		// The translations for the defaut modules are defined in the core translation files.
-		// Therefor we can just return false. Otherwise we should have returned a dictionairy.
-		// If you're trying to build yiur own module including translations, check out the documentation.
+		// The translations for the default modules are defined in the core translation files.
+		// Therefor we can just return false. Otherwise we should have returned a dictionary.
+		// If you're trying to build your own module including translations, check out the documentation.
 		return false;
 	},
 
@@ -202,7 +204,6 @@ Module.register("newsfeed",{
 	/* registerFeeds()
 	 * registers the feeds to be used by the backend.
 	 */
-
 	registerFeeds: function() {
 		for (var f in this.config.feeds) {
 			var feed = this.config.feeds[f];
@@ -213,10 +214,10 @@ Module.register("newsfeed",{
 		}
 	},
 
-	/* registerFeeds()
+	/* generateFeed()
 	 * Generate an ordered list of items for this configured module.
 	 *
-	 * attribute feeds object - An object with feeds returned by the nod helper.
+	 * attribute feeds object - An object with feeds returned by the node helper.
 	 */
 	generateFeed: function(feeds) {
 		var newsItems = [];
@@ -226,7 +227,9 @@ Module.register("newsfeed",{
 				for (var i in feedItems) {
 					var item = feedItems[i];
 					item.sourceTitle = this.titleForFeed(feed);
-					newsItems.push(item);
+					if (!(this.config.ignoreOldItems && ((Date.now() - new Date(item.pubdate)) > this.config.ignoreOlderThan))) {
+						newsItems.push(item);
+					}
 				}
 			}
 		}
@@ -258,7 +261,7 @@ Module.register("newsfeed",{
 		return false;
 	},
 
-	/* subscribedToFeed(feedUrl)
+	/* titleForFeed(feedUrl)
 	 * Returns title for a specific feed Url.
 	 *
 	 * attribute feedUrl string - Url of the feed to check.
