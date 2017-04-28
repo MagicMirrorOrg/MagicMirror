@@ -25,6 +25,7 @@ Module.register("calendar", {
 		urgency: 7,
 		timeFormat: "relative",
 		dateFormat: "MMM Do",
+    fullDayEventDateFormat: "MMM Do",
 		getRelative: 6,
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		hidePrivate: false,
@@ -228,7 +229,7 @@ Module.register("calendar", {
 							// This event falls within the config.urgency period that the user has set
 							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 						} else {
-							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").format(this.config.dateFormat));
+							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").format(this.config.fullDayEventDateFormat));
 						}
 					} else {
 						timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
