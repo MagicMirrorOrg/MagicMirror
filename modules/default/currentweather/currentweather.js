@@ -21,6 +21,7 @@ Module.register("currentweather",{
 		showPeriod: true,
 		showPeriodUpper: false,
 		showWindDirection: true,
+		showWindDirectionAsArrow: false,
 		useBeaufort: true,
 		lang: config.language,
 		showHumidity: false,
