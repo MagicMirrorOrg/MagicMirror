@@ -17,6 +17,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add test of match current week number on clock module with showWeek configuration.
 - Add test default modules present modules/default/defaultmodules.js.
 - Add unit test calendar_modules function capFirst.
+- Add support for showing wind direction as an arrow instead of abbreviation in currentWeather module.
 
 ### Updated
 - Added missing keys to Polish translation.
