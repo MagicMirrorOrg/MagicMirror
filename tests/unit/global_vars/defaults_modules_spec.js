@@ -57,4 +57,10 @@ describe("Default modules set in modules/default/defaultmodules.js", function() 
 		});
 	});
 
+	expectedDefaultModules.forEach(defaultModule => {
+		it(`contains a folder for modules/default/${defaultModule}"`, function() {
+			expect(fs.existsSync(path.join(this.sandbox.global.root_path, "modules/default", defaultModule))).to.equal(true);
+		});
+	});
+
 });
