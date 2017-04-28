@@ -17,10 +17,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add test of match current week number on clock module with showWeek configuration.
 - Add test default modules present modules/default/defaultmodules.js.
 - Add unit test calendar_modules function capFirst.
+- Add support for writing translation fucntions to support flexible word order
 
 ### Updated
 - Added missing keys to Polish translation.
 - Added missing key to German translation.
+- Added better translation with flexible word order to Finnish translation
 
 ### Fixed
 - Fix instruction in README for using automatically installer script.
