@@ -18,6 +18,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add test default modules present modules/default/defaultmodules.js.
 - Add unit test calendar_modules function capFirst.
 - Add support for writing translation fucntions to support flexible word order
+- Add test for check if exits the directories present in defaults modules.
+
 
 ### Updated
 - Added missing keys to Polish translation.
