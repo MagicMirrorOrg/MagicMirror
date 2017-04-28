@@ -18,6 +18,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add test default modules present modules/default/defaultmodules.js.
 - Add unit test calendar_modules function capFirst.
 - Add support for showing wind direction as an arrow instead of abbreviation in currentWeather module.
+- Add test for check if exits the directories present in defaults modules.
+
 
 ### Updated
 - Added missing keys to Polish translation.
