@@ -429,6 +429,51 @@ this.translate("INFO") //Will return a translated string for the identifier INFO
 
 **Note:** although comments are officially not supported in JSON files, MagicMirror allows it by stripping the comments before parsing the JSON file. Comments in translation files could help other translators.
 
+#####`this.translate(identifier, variables)`
+***identifier* String** - Identifier of the string that should be translated.
+***variables* Object** - Object of variables to be used in translation.
+
+This improved and backwards compatible way to handle translations behaves like the normal translation function and follows the rules described above. It's recommended to use this new format for translating everywhere. It allows translator to change the word order in the sentence to be translated.
+
+
+**Example:**
+````javascript
+var timeUntilEnd = moment(event.endDate, "x").fromNow(true);
+this.translate("RUNNING", { "timeUntilEnd": timeUntilEnd) }); // Will return a translated string for the identifier RUNNING, replacing `{timeUntilEnd}` with the contents of the variable `timeUntilEnd` in the order that translator intended.
+````
+
+**Example English .json file:**
+````javascript
+{
+	"RUNNING": "Ends in {timeUntilEnd}",
+}
+````
+
+**Example Finnish .json file:**
+````javascript
+{
+	"RUNNING": "Päättyy {timeUntilEnd} päästä",
+}
+````
+
+**Note:** The *variables* Object has an special case called `fallback`. It's used to support old translations in translation files that do not have the variables in them. If you are upgrading an old module that had translations that did not support the word order, it is recommended to have the fallback layout.
+
+**Example:**
+````javascript
+var timeUntilEnd = moment(event.endDate, "x").fromNow(true);
+this.translate("RUNNING", {
+	"fallback": this.translate("RUNNING") + " {timeUntilEnd}"
+	"timeUntilEnd": timeUntilEnd
+)}); // Will return a translated string for the identifier RUNNING, replacing `{timeUntilEnd}` with the contents of the variable `timeUntilEnd` in the order that translator intended. (has a fallback)
+````
+
+**Example swedish .json file that does not have the variable in it:**
+````javascript
+{
+	"RUNNING": "Slutar",
+}
+
+In this case the `translate`-function will not find any variables in the translation, will look for `fallback` variable and use that if possible to create the translation.
 
 ## The Node Helper: node_helper.js
 

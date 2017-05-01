@@ -26,6 +26,7 @@ Module.register("currentweather",{
 		lang: config.language,
 		showHumidity: false,
 		degreeLabel: false,
+		showIndoorTemperature: false,
 
 		initialLoadDelay: 0, // 0 seconds delay
 		retryDelay: 2500,
@@ -99,6 +100,7 @@ Module.register("currentweather",{
 		this.sunriseSunsetTime = null;
 		this.sunriseSunsetIcon = null;
 		this.temperature = null;
+		this.indoorTemperature = null;
 		this.weatherType = null;
 
 		this.loaded = false;
@@ -211,6 +213,17 @@ Module.register("currentweather",{
 		temperature.innerHTML = " " + this.temperature + "&deg;" + degreeLabel;
 		large.appendChild(temperature);
 
+		if (this.config.showIndoorTemperature && this.indoorTemperature) {
+			var indoorIcon = document.createElement("span");
+			indoorIcon.className = "fa fa-home";
+			large.appendChild(indoorIcon);
+
+			var indoorTemperatureElem = document.createElement("span");
+			indoorTemperatureElem.className = "bright";
+			indoorTemperatureElem.innerHTML = " " + this.indoorTemperature + "&deg;" + degreeLabel;
+			large.appendChild(indoorTemperatureElem);
+		}
+
 		wrapper.appendChild(large);
 		return wrapper;
 	},
@@ -246,6 +259,10 @@ Module.register("currentweather",{
 					}
 				}
 			}
+		}
+		if (notification === "INDOOR_TEMPERATURE") {
+			this.indoorTemperature = this.roundValue(payload);
+			this.updateDom(self.config.animationSpeed);
 		}
 	},
 
