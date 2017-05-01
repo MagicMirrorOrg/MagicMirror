@@ -21,6 +21,7 @@ Module.register("currentweather",{
 		showPeriod: true,
 		showPeriodUpper: false,
 		showWindDirection: true,
+		showWindDirectionAsArrow: false,
 		useBeaufort: true,
 		lang: config.language,
 		showHumidity: false,
@@ -95,6 +96,7 @@ Module.register("currentweather",{
 
 		this.windSpeed = null;
 		this.windDirection = null;
+		this.windDeg = null;
 		this.sunriseSunsetTime = null;
 		this.sunriseSunsetIcon = null;
 		this.temperature = null;
@@ -124,7 +126,13 @@ Module.register("currentweather",{
 
 		if (this.config.showWindDirection) {
 			var windDirection = document.createElement("sup");
-			windDirection.innerHTML = " " + this.translate(this.windDirection);
+			if (this.config.showWindDirectionAsArrow) {
+				if(this.windDeg !== null) {
+					windDirection.innerHTML = " &nbsp;<i class=\"fa fa-long-arrow-down\" style=\"transform:rotate("+this.windDeg+"deg);\"></i>&nbsp;";
+				}
+			} else {
+				windDirection.innerHTML = " " + this.translate(this.windDirection);
+			}
 			small.appendChild(windDirection);
 		}
 		var spacer = document.createElement("span");
@@ -346,6 +354,7 @@ Module.register("currentweather",{
 
 
 		this.windDirection = this.deg2Cardinal(data.wind.deg);
+		this.windDeg = data.wind.deg;
 		this.weatherType = this.config.iconTable[data.weather[0].icon];
 
 		var now = new Date();

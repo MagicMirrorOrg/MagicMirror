@@ -17,10 +17,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add test of match current week number on clock module with showWeek configuration.
 - Add test default modules present modules/default/defaultmodules.js.
 - Add unit test calendar_modules function capFirst.
+- Add support for showing wind direction as an arrow instead of abbreviation in currentWeather module.
 - Add support for writing translation fucntions to support flexible word order
 - Add test for check if exits the directories present in defaults modules.
 - Add ability for `currentweather` module to display indoor temperature via INDOOR_TEMPERATURE notification
-
 
 ### Updated
 - Added missing keys to Polish translation.

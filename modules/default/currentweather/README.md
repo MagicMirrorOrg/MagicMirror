@@ -40,6 +40,7 @@ The following properties can be configured:
 | `showPeriod`                 | Show the period (am/pm) with 12 hour format <br><br> **Possible values:** `true` or `false` <br> **Default value:** `true`
 | `showPeriodUpper`	           | Show the period (AM/PM) with 12 hour format as uppercase <br><br> **Possible values:** `true` or `false` <br> **Default value:** `false`
 | `showWindDirection`          | Show the wind direction next to the wind speed. <br><br> **Possible values:** `true` or `false` <br> **Default value:** `true`
+| `showWindDirectionAsArrow`   | Show the wind direction as an arrow instead of abbreviation <br><br> **Possible values:** `true` or `false` <br> **Default value:** `false`
 | `showHumidity`               | Show the current humidity <br><br> **Possible values:** `true` or `false` <br> **Default value:** `false`
 | `showIndoorTemperature`      | If you have another module that emits the INDOOR_TEMPERATURE notification, the indoor temperature will be displayed <br> **Default value:** `false`
 | `onlyTemp`                   | Show only current Temperature and weather icon. <br><br> **Possible values:** `true` or `false` <br> **Default value:** `false`
