@@ -4,7 +4,7 @@
 	"TODAY": "Tänään",
 	"TOMORROW": "Huomenna",
 	"DAYAFTERTOMORROW": "Ylihuomenna",
-	"RUNNING": "Meneillään",
+	"RUNNING": "Päättyy {timeUntilEnd} päästä",
 	"EMPTY": "Ei tulevia tapahtumia.",
 
 	"N": "P",
