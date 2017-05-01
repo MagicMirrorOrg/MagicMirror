@@ -1,4 +1,5 @@
-.currentweather .weathericon {
+.currentweather .weathericon,
+.currentweather .fa-home {
   font-size: 75%;
   line-height: 65px;
   display: inline-block;

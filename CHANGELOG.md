@@ -18,6 +18,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add test default modules present modules/default/defaultmodules.js.
 - Add unit test calendar_modules function capFirst.
 - Add test for check if exits the directories present in defaults modules.
+- Add ability for `currentweather` module to display indoor temperature via INDOOR_TEMPERATURE notification
 
 ### Updated
 - Added missing keys to Polish translation.
