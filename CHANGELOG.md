@@ -18,10 +18,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add test default modules present modules/default/defaultmodules.js.
 - Add unit test calendar_modules function capFirst.
 - Add test for check if exists the directories present in defaults modules.
+- Add support for showing wind direction as an arrow instead of abbreviation in currentWeather module.
+- Add support for writing translation fucntions to support flexible word order
+- Add ability for `currentweather` module to display indoor temperature via INDOOR_TEMPERATURE notification
 
 ### Updated
 - Added missing keys to Polish translation.
 - Added missing key to German translation.
+- Added better translation with flexible word order to Finnish translation
 
 ### Fixed
 - Fix instruction in README for using automatically installer script.

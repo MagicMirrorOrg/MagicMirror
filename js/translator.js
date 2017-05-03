@@ -111,32 +111,47 @@ var Translator = (function() {
 		translations: {},
 		translationsFallback: {},
 
-		/* translate(module, key)
+		/* translate(module, key, variables)
 		 * Load a translation for a given key for a given module.
 		 *
 		 * argument module Module - The module to load the translation for.
 		 * argument key string - The key of the text to translate.
+		 * argument variables - The variables to use within the translation template (optional)
 		 */
-		translate: function(module, key) {
+		translate: function(module, key, variables) {
+			variables = variables || {}; //Empty object by default
+
+			// Combines template and variables like:
+			// template: "Please wait for {timeToWait} before continuing with {work}."
+			// variables: {timeToWait: "2 hours", work: "painting"}
+			// to: "Please wait for 2 hours before continuing with painting."
+			function createStringFromTemplate(template, variables) {
+				if(variables.fallback && !template.match(new RegExp("\{.+\}"))) {
+					template = variables.fallback;
+				}
+				return template.replace(new RegExp("\{([^\}]+)\}", "g"), function(_unused, varName){
+					return variables[varName] || "{"+varName+"}";
+				});
+			}
 
 			if(this.translations[module.name] && key in this.translations[module.name]) {
 				// Log.log("Got translation for " + key + " from module translation: ");
-				return this.translations[module.name][key];
+				return createStringFromTemplate(this.translations[module.name][key], variables);
 			}
 
 			if (key in this.coreTranslations) {
 				// Log.log("Got translation for " + key + " from core translation.");
-				return this.coreTranslations[key];
+				return createStringFromTemplate(this.coreTranslations[key], variables);
 			}
 
 			if (this.translationsFallback[module.name] && key in this.translationsFallback[module.name]) {
 				// Log.log("Got translation for " + key + " from module translation fallback.");
-				return this.translationsFallback[module.name][key];
+				return createStringFromTemplate(this.translationsFallback[module.name][key], variables);
 			}
 
 			if (key in this.coreTranslationsFallback) {
 				// Log.log("Got translation for " + key + " from core translation fallback.");
-				return this.coreTranslationsFallback[key];
+				return createStringFromTemplate(this.coreTranslationsFallback[key], variables);
 			}
 
 			return key;

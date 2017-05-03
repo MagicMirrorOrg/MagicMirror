@@ -265,7 +265,12 @@ Module.register("calendar", {
 						}
 					}
 				} else {
-					timeWrapper.innerHTML = this.capFirst(this.translate("RUNNING")) + " " + moment(event.endDate, "x").fromNow(true);
+					timeWrapper.innerHTML = this.capFirst(
+						this.translate("RUNNING", {
+							fallback: this.translate("RUNNING") + " {timeUntilEnd}",
+							timeUntilEnd: moment(event.endDate, "x").fromNow(true)
+						})
+					);
 				}
 			}
 			//timeWrapper.innerHTML += ' - '+ moment(event.startDate,'x').format('lll');
