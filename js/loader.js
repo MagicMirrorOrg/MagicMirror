@@ -32,8 +32,8 @@ var Loader = (function() {
 				});
 			} else {
 				// All modules loaded. Load custom.css
-				// This is done after all the moduels so we can
-				// overwrite all the defined styls.
+				// This is done after all the modules so we can
+				// overwrite all the defined styles.
 
 				loadFile("css/custom.css", function() {
 					// custom.css loaded. Start all modules.
