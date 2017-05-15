@@ -1,7 +1,17 @@
 module.exports = function(grunt) {
-	require("time-grunt")(grunt);
+	require("time-grunt", "load-grunt-tasks")(grunt);
 	grunt.initConfig({
 		pkg: grunt.file.readJSON("package.json"),
+		sass: {
+			options: {
+				sourceMap: false
+			},
+			dist: {
+				files: {
+					"css/main.css": "sass/main.scss"
+				}
+			}
+		},
 		eslint: {
 			options: {
 				configFile: ".eslintrc.json"
@@ -27,13 +37,7 @@ module.exports = function(grunt) {
 				options: {
 					configFile: ".stylelintrc"
 				},
-				src: [
-					"css/main.css",
-					"modules/default/calendar/calendar.css",
-					"modules/default/clock/clock_styles.css",
-					"modules/default/currentweather/currentweather.css",
-					"modules/default/weatherforcast/weatherforcast.css"
-				]
+				src: ["css/main.css"]
 			}
 		},
 		jsonlint: {
@@ -94,10 +98,13 @@ module.exports = function(grunt) {
 			]
 		}
 	});
+	grunt.loadNpmTasks("grunt-sass");
 	grunt.loadNpmTasks("grunt-eslint");
 	grunt.loadNpmTasks("grunt-stylelint");
 	grunt.loadNpmTasks("grunt-jsonlint");
 	grunt.loadNpmTasks("grunt-yamllint");
 	grunt.loadNpmTasks("grunt-markdownlint");
-	grunt.registerTask("default", ["eslint", "stylelint", "jsonlint", "markdownlint", "yamllint"]);
+	grunt.registerTask("default", ["sass", "eslint", "jsonlint", "markdownlint", "yamllint"]);
+	// grunt.registerTask("default", ["eslint", "stylelint", "jsonlint", "markdownlint", "yamllint"]);
+	grunt.registerTask("dev", ["sass"]);
 };

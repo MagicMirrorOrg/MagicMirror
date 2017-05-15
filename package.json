@@ -39,6 +39,7 @@
     "grunt-eslint": "latest",
     "grunt-jsonlint": "latest",
     "grunt-markdownlint": "^1.0.13",
+    "grunt-sass": "^2.0.0",
     "grunt-stylelint": "latest",
     "grunt-yamllint": "latest",
     "http-auth": "^3.1.3",

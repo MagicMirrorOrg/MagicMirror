@@ -1,12 +1,11 @@
 html {
+  /** testing **/
   cursor: none;
   overflow: hidden;
-  background: #000;
-}
+  background: #000; }
 
 ::-webkit-scrollbar {
-  display: none;
-}
+  display: none; }
 
 body {
   margin: 60px;
@@ -19,78 +18,187 @@ body {
   font-weight: 400;
   font-size: 2em;
   line-height: 1.5em;
-  -webkit-font-smoothing: antialiased;
-}
+  -webkit-font-smoothing: antialiased; }
 
-/**
- * Default styles.
- */
+.calendar .symbol {
+  padding-left: 0;
+  padding-right: 10px;
+  font-size: 80%; }
+
+.calendar .symbol span {
+  display: inline-block;
+  -ms-transform: translate(0, 2px);
+  /* IE 9 */
+  -webkit-transform: translate(0, 2px);
+  /* Safari */
+  transform: translate(0, 2px); }
+
+.calendar .title {
+  padding-left: 0;
+  padding-right: 0; }
+
+.calendar .time {
+  padding-left: 30px;
+  text-align: right; }
+
+.clockCircle {
+  margin: 0 auto;
+  position: relative;
+  border-radius: 50%;
+  background-size: 100%; }
+
+.clockFace {
+  width: 100%;
+  height: 100%; }
+
+.clockFace::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  background: white;
+  border-radius: 3px;
+  content: "";
+  display: block; }
+
+.clockHour {
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -2px 0 -2px -25%;
+  /* numbers much match negative length & thickness */
+  padding: 2px 0 2px 25%;
+  /* indicator length & thickness */
+  background: white;
+  -webkit-transform-origin: 100% 50%;
+  -ms-transform-origin: 100% 50%;
+  transform-origin: 100% 50%;
+  border-radius: 3px 0 0 3px; }
+
+.clockMinute {
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -35% -2px 0;
+  /* numbers must match negative length & thickness */
+  padding: 35% 2px 0;
+  /* indicator length & thickness */
+  background: white;
+  -webkit-transform-origin: 50% 100%;
+  -ms-transform-origin: 50% 100%;
+  transform-origin: 50% 100%;
+  border-radius: 3px 0 0 3px; }
+
+.clockSecond {
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -38% -1px 0 0;
+  /* numbers must match negative length & thickness */
+  padding: 38% 1px 0 0;
+  /* indicator length & thickness */
+  background: #888;
+  -webkit-transform-origin: 50% 100%;
+  -ms-transform-origin: 50% 100%;
+  transform-origin: 50% 100%; }
+
+.currentweather .weathericon {
+  font-size: 75%;
+  line-height: 65px;
+  display: inline-block;
+  -ms-transform: translate(0, -3px);
+  /* IE 9 */
+  -webkit-transform: translate(0, -3px);
+  /* Safari */
+  transform: translate(0, -3px); }
+
+.currentweather .humidityIcon {
+  padding-right: 4px; }
+
+.currentweather .humidity-padding {
+  padding-bottom: 6px; }
+
+.weatherforecast .day {
+  padding-left: 0;
+  padding-right: 25px; }
+
+.weatherforecast .weather-icon {
+  padding-right: 30px;
+  text-align: center; }
+
+.weatherforecast .min-temp {
+  padding-left: 20px;
+  padding-right: 0; }
+
+.weatherforecast .rain {
+  padding-left: 20px;
+  padding-right: 0; }
+
+.weatherforecast tr.colored .min-temp {
+  color: #BCDDFF; }
+
+.weatherforecast tr.colored .max-temp {
+  color: #FF8E99; }
 
 .dimmed {
-  color: #666;
-}
+  color: #666; }
 
 .normal {
-  color: #999;
-}
+  color: #999; }
 
 .bright {
-  color: #fff;
-}
+  color: #FFF; }
 
 .xsmall {
   font-size: 15px;
-  line-height: 20px;
-}
+  line-height: 20px; }
 
 .small {
   font-size: 20px;
-  line-height: 25px;
-}
+  line-height: 25px; }
 
 .medium {
   font-size: 30px;
-  line-height: 35px;
-}
+  line-height: 35px; }
 
 .large {
   font-size: 65px;
-  line-height: 65px;
-}
+  line-height: 65px; }
 
 .xlarge {
   font-size: 75px;
   line-height: 75px;
-  letter-spacing: -3px;
-}
+  letter-spacing: -3px; }
 
 .thin {
   font-family: Roboto, sans-serif;
-  font-weight: 100;
-}
+  font-weight: 100; }
 
 .light {
   font-family: "Roboto Condensed", sans-serif;
-  font-weight: 300;
-}
+  font-weight: 300; }
 
 .regular {
   font-family: "Roboto Condensed", sans-serif;
-  font-weight: 400;
-}
+  font-weight: 400; }
 
 .bold {
   font-family: "Roboto Condensed", sans-serif;
-  font-weight: 700;
-}
+  font-weight: 700; }
 
 .align-right {
-  text-align: right;
-}
+  text-align: right; }
 
 .align-left {
-  text-align: left;
-}
+  text-align: left; }
 
 header {
   text-transform: uppercase;
@@ -101,69 +209,52 @@ header {
   line-height: 15px;
   padding-bottom: 5px;
   margin-bottom: 10px;
-  color: #999;
-}
+  color: #999; }
 
 sup {
   font-size: 50%;
-  line-height: 50%;
-}
-
-/**
- * Module styles.
- */
+  line-height: 50%; }
 
 .module {
-  margin-bottom: 30px;
-}
+  margin-bottom: 30px; }
 
 .region.bottom .module {
   margin-top: 30px;
-  margin-bottom: 0;
-}
+  margin-bottom: 0; }
 
 .no-wrap {
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/**
- * Region Definitions.
- */
+  text-overflow: ellipsis; }
 
 .region {
-  position: absolute;
-}
-
-.region.fullscreen {
-  position: absolute;
-  top: -60px;
-  left: -60px;
-  right: -60px;
-  bottom: -60px;
-  pointer-events: none;
-}
-
-.region.fullscreen * {
-  pointer-events: auto;
-}
-
-.region.right {
-  right: 0;
-}
-
-.region.top {
-  top: 0;
-}
+  position: absolute; }
+  .region .fullscreen {
+    position: absolute;
+    top: -60px;
+    left: -60px;
+    right: -60px;
+    bottom: -60px;
+    pointer-events: none; }
+    .region .fullscreen * {
+      pointer-events: auto; }
+  .region .left {
+    text-align: left; }
+  .region .right {
+    right: 0;
+    text-align: right; }
+  .region .top {
+    top: 0; }
+  .region table {
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: separate; }
 
 .region.top .container {
-  margin-bottom: 25px;
-}
+  margin-bottom: 25px; }
 
 .region.top .container:empty {
-  margin-bottom: 0;
-}
+  margin-bottom: 0; }
 
 .region.top.center,
 .region.bottom.center {
@@ -172,37 +263,30 @@ sup {
   -o-transform: translateX(-50%);
   -webkit-transform: translateX(-50%);
   -ms-transform: translateX(-50%);
-  transform: translateX(-50%);
-}
+  transform: translateX(-50%); }
 
 .region.top.right,
 .region.top.left,
 .region.top.center {
-  top: 100%;
-}
+  top: 100%; }
 
 .region.bottom {
-  bottom: 0;
-}
+  bottom: 0; }
 
 .region.bottom .container {
-  margin-top: 25px;
-}
+  margin-top: 25px; }
 
 .region.bottom .container:empty {
-  margin-top: 0;
-}
+  margin-top: 0; }
 
 .region.bottom.right,
 .region.bottom.center,
 .region.bottom.left {
-  bottom: 100%;
-}
+  bottom: 100%; }
 
 .region.bar {
   width: 100%;
-  text-align: center;
-}
+  text-align: center; }
 
 .region.third,
 .region.middle.center {
@@ -212,31 +296,13 @@ sup {
   -o-transform: translateY(-50%);
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-}
+  transform: translateY(-50%); }
 
 .region.upper.third {
-  top: 33%;
-}
+  top: 33%; }
 
 .region.middle.center {
-  top: 50%;
-}
+  top: 50%; }
 
 .region.lower.third {
-  top: 66%;
-}
-
-.region.left {
-  text-align: left;
-}
-
-.region.right {
-  text-align: right;
-}
-
-.region table {
-  width: 100%;
-  border-spacing: 0;
-  border-collapse: separate;
-}
+  top: 66%; }

@@ -31,10 +31,7 @@ Module.register("clock",{
 	getScripts: function() {
 		return ["moment.js", "moment-timezone.js"];
 	},
-	// Define styles.
-	getStyles: function() {
-		return ["clock_styles.css"];
-	},
+
 	// Define start sequence.
 	start: function() {
 		Log.info("Starting module: " + this.name);

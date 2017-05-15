@@ -1,0 +1,218 @@
+@import 'variables';
+@import 'global';
+@import 'calendar';
+@import 'clock';
+@import 'weather';
+@import 'weatherforcast';
+
+
+
+// Default styles.
+
+.dimmed {
+  color: $light-gray;
+}
+
+.normal {
+  color: $dark-gray;
+}
+
+.bright {
+  color: $white;
+}
+
+.xsmall {
+  font-size: 15px;
+  line-height: 20px;
+}
+
+.small {
+  font-size: 20px;
+  line-height: 25px;
+}
+
+.medium {
+  font-size: 30px;
+  line-height: 35px;
+}
+
+.large {
+  font-size: 65px;
+  line-height: 65px;
+}
+
+.xlarge {
+  font-size: 75px;
+  line-height: 75px;
+  letter-spacing: -3px;
+}
+
+.thin {
+  font-family: Roboto, sans-serif;
+  font-weight: 100;
+}
+
+.light {
+  font-family: $main-font-condensed;
+  font-weight: 300;
+}
+
+.regular {
+  font-family: $main-font-condensed;
+  font-weight: 400;
+}
+
+.bold {
+  font-family: $main-font-condensed;
+  font-weight: 700;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.align-left {
+  text-align: left;
+}
+
+header {
+  text-transform: uppercase;
+  font-size: 15px;
+  font-family: "Roboto Condensed";
+  font-weight: 400;
+  border-bottom: 1px solid #666;
+  line-height: 15px;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+  color: #999;
+}
+
+sup {
+  font-size: 50%;
+  line-height: 50%;
+}
+
+// Module styles.
+
+.module {
+  margin-bottom: 30px;
+}
+
+.region.bottom .module {
+  margin-top: 30px;
+  margin-bottom: 0;
+}
+
+.no-wrap {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// Region Definitions.
+
+.region {
+  position: absolute;
+
+  .fullscreen {
+    position: absolute;
+    top: -60px;
+    left: -60px;
+    right: -60px;
+    bottom: -60px;
+    pointer-events: none;
+
+    * {
+      pointer-events: auto;
+    }
+  }
+
+  .left {
+    text-align: left;
+  }
+
+  .right {
+    right: 0;
+    text-align: right;
+  }
+
+  .top {
+    top: 0;
+  }
+
+  table {
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: separate;
+  }
+}
+
+.region.top .container {
+  margin-bottom: 25px;
+}
+
+.region.top .container:empty {
+  margin-bottom: 0;
+}
+
+.region.top.center,
+.region.bottom.center {
+  left: 50%;
+  -moz-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+
+.region.top.right,
+.region.top.left,
+.region.top.center {
+  top: 100%;
+}
+
+.region.bottom {
+  bottom: 0;
+}
+
+.region.bottom .container {
+  margin-top: 25px;
+}
+
+.region.bottom .container:empty {
+  margin-top: 0;
+}
+
+.region.bottom.right,
+.region.bottom.center,
+.region.bottom.left {
+  bottom: 100%;
+}
+
+.region.bar {
+  width: 100%;
+  text-align: center;
+}
+
+.region.third,
+.region.middle.center {
+  width: 100%;
+  text-align: center;
+  -moz-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.region.upper.third {
+  top: 33%;
+}
+
+.region.middle.center {
+  top: 50%;
+}
+
+.region.lower.third {
+  top: 66%;
+}
