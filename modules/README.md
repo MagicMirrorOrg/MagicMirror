@@ -257,7 +257,7 @@ socketNotificationReceived: function(notification, payload) {
 When a module is hidden (using the `module.hide()` method), the `suspend()` method will be called. By subclassing this method you can perform tasks like halting the update timers.
 
 ####`resume()`
-When a module will be shown after it was previously hidden (using the `module.show()` method), the `resume()` method will be called. By subclassing this method you can perform tasks restarting the update timers.
+When a module is requested to be shown (using the `module.show()` method), the `resume()` method will be called. By subclassing this method you can perform tasks restarting the update timers.
 
 
 ### Module instance methods
