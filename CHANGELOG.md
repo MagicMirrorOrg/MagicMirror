@@ -20,6 +20,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add test for check if exists the directories present in defaults modules.
 - Add support for showing wind direction as an arrow instead of abbreviation in currentWeather module.
 - Add support for writing translation fucntions to support flexible word order
+- Add test for check if exits the directories present in defaults modules.
+- Add calendar option to set a separate date format for full day events.
 - Add ability for `currentweather` module to display indoor temperature via INDOOR_TEMPERATURE notification
 
 ### Updated
