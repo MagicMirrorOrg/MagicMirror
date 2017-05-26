@@ -63,6 +63,7 @@
     "rrule-alt": "^2.2.5",
     "simple-git": "^1.73.0",
     "socket.io": "^2.0.1",
+    "stylelint": "^7.10.1",
     "valid-url": "latest",
     "walk": "latest"
   }
