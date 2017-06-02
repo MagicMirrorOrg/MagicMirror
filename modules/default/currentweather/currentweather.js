@@ -115,7 +115,6 @@ Module.register("currentweather",{
 		var small = document.createElement("div");
 		small.className = "normal medium";
 
-
 		var windIcon = document.createElement("span");
 		windIcon.className = "wi wi-strong-wind dimmed";
 		small.appendChild(windIcon);
@@ -247,10 +246,9 @@ Module.register("currentweather",{
 		if (notification === "CALENDAR_EVENTS") {
 			var senderClasses = sender.data.classes.toLowerCase().split(" ");
 			if (senderClasses.indexOf(this.config.calendarClass.toLowerCase()) !== -1) {
-				var lastEvent =  this.firstEvent;
 				this.firstEvent = false;
 
-				for (e in payload) {
+				for (var e in payload) {
 					var event = payload[e];
 					if (event.location || event.geo) {
 						this.firstEvent = event;
@@ -348,10 +346,9 @@ Module.register("currentweather",{
 
 		if (this.config.useBeaufort){
 			this.windSpeed = this.ms2Beaufort(this.roundValue(data.wind.speed));
-		}else {
+		} else {
 			this.windSpeed = parseFloat(data.wind.speed).toFixed(0);
 		}
-
 
 		this.windDirection = this.deg2Cardinal(data.wind.deg);
 		this.windDeg = data.wind.deg;
@@ -384,7 +381,6 @@ Module.register("currentweather",{
 
 		this.sunriseSunsetTime = timeString;
 		this.sunriseSunsetIcon = (sunrise < now && sunset > now) ? "wi-sunset" : "wi-sunrise";
-
 
 		this.show(this.config.animationSpeed, {lockString:this.identifier});
 		this.loaded = true;

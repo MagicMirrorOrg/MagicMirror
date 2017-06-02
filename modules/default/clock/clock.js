@@ -127,7 +127,6 @@ Module.register("clock",{
 				hour = ((now.hours() % 12) / 12) * 360 + 90 + minute / 12;
 
 			// Create wrappers
-			var wrapper = document.createElement("div");
 			var clockCircle = document.createElement("div");
 			clockCircle.className = "clockCircle";
 			clockCircle.style.width = this.config.analogSize;
