@@ -21,6 +21,7 @@ var defaults = {
 	timeFormat: 24,
 	units: "metric",
 	zoom: 1,
+	customCss: "css/custom.css",
 
 	modules: [
 		{
