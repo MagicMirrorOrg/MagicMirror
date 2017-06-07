@@ -15,6 +15,7 @@ modules: [
 			// See 'Configuration options' for more information.
 			location: "Amsterdam,Netherlands",
 			locationID: "", //Location ID from http://openweathermap.org/help/city_list.txt
+			units: "imperial", // add this line to change from Kelvin to Celsius or Fahrenheit.  Example is to change to Fahrenheit.
 			appid: "abcde12345abcde12345abcde12345ab" //openweathermap.org API key.
 		}
 	}
