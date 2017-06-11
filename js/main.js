@@ -165,8 +165,6 @@ var MM = (function() {
 		if( headerWrapper.length > 0 && newHeader) {
 			headerWrapper[0].innerHTML = newHeader;
 		}
-
-
 	};
 
 	/* hideModule(module, speed, callback)
@@ -219,7 +217,7 @@ var MM = (function() {
 
 		// remove lockString if set in options.
 		if (options.lockString) {
-			var index = module.lockStrings.indexOf(options.lockString)
+			var index = module.lockStrings.indexOf(options.lockString);
 			if ( index !== -1) {
 				module.lockStrings.splice(index, 1);
 			}
