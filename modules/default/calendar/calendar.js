@@ -174,7 +174,6 @@ Module.register("calendar", {
 			var titleWrapper = document.createElement("td"),
 				repeatingCountTitle = "";
 
-
 			if (this.config.displayRepeatingCountTitle) {
 
 				repeatingCountTitle = this.countTitleForUrl(event.url);
@@ -421,7 +420,7 @@ Module.register("calendar", {
 	 *
 	 * argument string string - The string to shorten.
 	 * argument maxLength number - The max length of the string.
-   * argument wrapEvents - Wrap the text after the line has reached maxLength
+	 * argument wrapEvents - Wrap the text after the line has reached maxLength
 	 *
 	 * return string - The shortened string.
 	 */
@@ -496,9 +495,9 @@ Module.register("calendar", {
 	 */
 	broadcastEvents: function () {
 		var eventList = [];
-		for (url in this.calendarData) {
+		for (var url in this.calendarData) {
 			var calendar = this.calendarData[url];
-			for (e in calendar) {
+			for (var e in calendar) {
 				var event = cloneObject(calendar[e]);
 				delete event.url;
 				eventList.push(event);

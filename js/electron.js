@@ -30,7 +30,7 @@ function createWindow() {
 			zoomFactor: config.zoom
 		},
 		backgroundColor: "#000000"
-	}
+	};
 
 	// DEPRECATED: "kioskmode" backwards compatibility, to be removed
 	// settings these options directly instead provides cleaner interface

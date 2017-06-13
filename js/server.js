@@ -43,7 +43,7 @@ var Server = function(config, callback) {
 	app.use("/js", express.static(__dirname));
 	var directories = ["/config", "/css", "/fonts", "/modules", "/vendor", "/translations", "/tests/configs"];
 	var directory;
-	for (i in directories) {
+	for (var i in directories) {
 		directory = directories[i];
 		app.use(directory, express.static(path.resolve(global.root_path + directory)));
 	}
