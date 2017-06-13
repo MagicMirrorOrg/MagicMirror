@@ -24,6 +24,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add calendar option to set a separate date format for full day events.
 - Add ability for `currentweather` module to display indoor temperature via INDOOR_TEMPERATURE notification
 - Add ability to change the path of the `custom.css`.
+- Add translation Dutch to Alert module.
 
 ### Updated
 - Added missing keys to Polish translation.
