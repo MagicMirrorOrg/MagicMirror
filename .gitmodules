@@ -1,0 +1,3 @@
+[submodule "modules/mvg"]
+	path = modules/mvg
+	url = git@github.com:DHWG/magicmirror-module-mvg.git
