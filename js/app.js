@@ -207,11 +207,12 @@ var App = function() {
 			config = c;
 
 			var modules = [];
-
-			for (var m in config.modules) {
-				var module = config.modules[m];
-				if (modules.indexOf(module.module) === -1 && !module.disabled) {
-					modules.push(module.module);
+			for (var screen_idx in config.modules){ 
+				for (var m in config.modules[screen_idx]) {
+					var module = config.modules[screen_idx][m];
+					if (modules.indexOf(module.module) === -1 && !module.disabled) {
+						modules.push(module.module);
+					}
 				}
 			}
 

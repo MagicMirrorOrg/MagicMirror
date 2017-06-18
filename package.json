@@ -50,6 +50,7 @@
     "colors": "^1.1.2",
     "electron": "^1.4.7",
     "express": "^4.14.0",
+    "redis":"latest",
     "express-ipfilter": "latest",
     "feedme": "latest",
     "helmet": "^3.1.0",

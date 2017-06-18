@@ -8,6 +8,20 @@
  * MIT Licensed.
  */
 
+function findGetParameter(parameterName) {
+    var result = null,
+        tmp = [];
+    location.search
+        .substr(1)
+        .split("&")
+        .forEach(function (item) {
+          tmp = item.split("=");
+          if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+        });
+    return result;
+}
+
+
 var MM = (function() {
 
 	var modules = [];
@@ -406,7 +420,15 @@ var MM = (function() {
 			Log.info("Initializing MagicMirror.");
 			loadConfig();
 			Translator.loadCoreTranslations(config.language);
-			Loader.loadModules();
+			var screenIdx = findGetParameter("screen");
+			if(screenIdx!=null){
+				Log.info("Screen Index "+screenIdx)
+				Loader.loadModules(parseInt(screenIdx));
+			}
+			else{
+				Log.error("Could not get parameter screen from URL. Loading screen 0")
+				Loader.loadModules(0);
+			}
 		},
 
 		/* modulesStarted(moduleObjects)

@@ -19,10 +19,8 @@ var Loader = (function() {
 	/* loadModules()
 	 * Loops thru all modules and requests load for every module.
 	 */
-	var loadModules = function() {
-
-		var moduleData = getModuleData();
-
+	var loadModules = function(screenIdx) {
+		var moduleData = getModuleData(screenIdx);
 		var loadNextModule = function() {
 			if (moduleData.length > 0) {
 				var nextModule = moduleData[0];
@@ -64,8 +62,8 @@ var Loader = (function() {
 	 *
 	 * return array - module data as configured in config
 	 */
-	var getAllModules = function() {
-		return config.modules;
+	var getAllModules = function(screenIdx) {
+		return config.modules[screenIdx];
 	};
 
 	/* getModuleData()
@@ -73,8 +71,8 @@ var Loader = (function() {
 	 *
 	 * return array - Module information.
 	 */
-	var getModuleData = function() {
-		var modules = getAllModules();
+	var getModuleData = function(screenIdx) {
+		var modules = getAllModules(screenIdx);
 		var moduleFiles = [];
 
 		for (var m in modules) {
@@ -219,8 +217,8 @@ var Loader = (function() {
 		/* loadModules()
 		 * Load all modules as defined in the config.
 		 */
-		loadModules: function() {
-			loadModules();
+		loadModules: function(screenIdx) {
+			loadModules(screenIdx);
 		},
 
 		/* loadFile()
