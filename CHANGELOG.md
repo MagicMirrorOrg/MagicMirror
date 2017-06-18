@@ -35,6 +35,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Bug of duplicated compliments as described in [here](https://forum.magicmirror.builders/topic/2381/compliments-module-stops-cycling-compliments).
 - Fix double message about port when server is starting
 - Corrected Swedish translations for TODAY/TOMORROW/DAYAFTERTOMORROW.
+- Removed unused import from js/electron.js
 
 ## [2.1.1] - 2017-04-01
 

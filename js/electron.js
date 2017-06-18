@@ -2,7 +2,6 @@
 
 "use strict";
 
-const Server = require(__dirname + "/server.js");
 const electron = require("electron");
 const core = require(__dirname + "/app.js");
 
