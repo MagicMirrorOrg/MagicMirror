@@ -5,6 +5,7 @@
 const Server = require(__dirname + "/server.js");
 const electron = require("electron");
 const core = require(__dirname + "/app.js");
+const screenSwitcher = require(__dirname + "/screenswitch.js");
 
 // Config
 var config = {};
@@ -12,6 +13,10 @@ var config = {};
 const app = electron.app;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
+// Current screen index 
+var currentScreen = 0;
+// Total screens 
+var totalScreens = 1;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -101,4 +106,11 @@ app.on("activate", function() {
 // This starts all node helpers and starts the webserver.
 core.start(function(c) {
 	config = c;
+	totalScreens = config.modules.length;
 });
+
+// Setup the screenswitcher
+screenSwitcher.start(1000,function(cmd){
+	currentScreen = (currentScreen + 1) % totalScreens;
+	mainWindow.loadURL("http://localhost:" + config.port+"/?screen="+currentScreen);
+})
