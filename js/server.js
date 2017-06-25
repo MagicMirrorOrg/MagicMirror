@@ -62,6 +62,9 @@ var Server = function(config, callback) {
 		}
 		html = html.replace("#CONFIG_FILE#", configFile);
 
+		// Set a temporary cookie called "config" to the JSON encoded config object
+		res.cookie("config", JSON.stringify(config));
+
 		res.send(html);
 	});
 

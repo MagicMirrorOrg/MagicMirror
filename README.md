@@ -48,6 +48,11 @@ bash -c "$(curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/maste
 ### Server Only
 In some cases, you want to start the application without an actual app window. In this case, you can start MagicMirror² in server only mode by manually running `node serveronly` or using Docker. This will start the server, after which you can open the application in your browser of choice. Detailed description below.
 
+### Client Only
+When you have a server running remotely and want to connect a standalone client to this instance, you can manually run `node clientonly --address 192.168.1.5 --port 8080`. (Specify the ip address and port number of the server)
+
+**Important:** Make sure that you whitelist the interface/ip in the server config where you want the client to connect to, otherwise it will not be allowed to connect to the server
+
 #### Docker
 
 MagicMirror² in server only mode can be deployed using [Docker](https://docker.com). After a successful [Docker installation](https://docs.docker.com/engine/installation/) you just need to execute the following command in the shell:

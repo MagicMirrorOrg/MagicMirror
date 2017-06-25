@@ -33,6 +33,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add ability to change the path of the `custom.css`.
 - Add translation Dutch to Alert module.
 - Added Romanian translation.
+- Add `clientonly` script to start only the electron client for a remote server
 
 ### Updated
 - Added missing keys to Polish translation.
