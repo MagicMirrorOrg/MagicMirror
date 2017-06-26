@@ -37,6 +37,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix double message about port when server is starting
 - Corrected Swedish translations for TODAY/TOMORROW/DAYAFTERTOMORROW.
 - Removed unused import from js/electron.js
+- Fixed alignment of analog clock when a large calendar is displayed in the same side bar
 
 ## [2.1.1] - 2017-04-01
 
