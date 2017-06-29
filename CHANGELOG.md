@@ -25,6 +25,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add ability for `currentweather` module to display indoor temperature via INDOOR_TEMPERATURE notification
 - Add ability to change the path of the `custom.css`.
 - Add translation Dutch to Alert module.
+- Added Romanian translation.
 
 ### Updated
 - Added missing keys to Polish translation.
