@@ -69,6 +69,29 @@ Module.register("calendar", {
 		// Set locale.
 		moment.locale(config.language);
 
+		switch (config.timeFormat) {
+		case 12: {
+			moment.updateLocale(config.language, {
+				longDateFormat: {
+					LT: "h:mm A"
+				}
+			});
+			break;
+		}
+		case 24: {
+			moment.updateLocale(config.language, {
+				longDateFormat: {
+					LT: "hh:mm"
+				}
+			});
+			break;
+		}
+		// If config.timeFormat was not given (or has invalid format) default to locale default
+		default: {
+			break;
+		}
+		}
+
 		for (var c in this.config.calendars) {
 			var calendar = this.config.calendars[c];
 			calendar.url = calendar.url.replace("webcal://", "http://");
