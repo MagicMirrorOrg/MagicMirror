@@ -180,7 +180,6 @@ Module.register("clock",{
 			wrapper.appendChild(weekWrapper);
 		} else if (this.config.displayType === "analog") {
 			// Display only an analog clock
-			dateWrapper.style.textAlign = "center";
 
 			if (this.config.showWeek) {
 				weekWrapper.style.paddingBottom = "15px";

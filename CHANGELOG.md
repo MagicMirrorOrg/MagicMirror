@@ -25,6 +25,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add ability for `currentweather` module to display indoor temperature via INDOOR_TEMPERATURE notification
 - Add ability to change the path of the `custom.css`.
 - Add translation Dutch to Alert module.
+- Added Romanian translation.
 
 ### Updated
 - Added missing keys to Polish translation.
@@ -38,6 +39,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Corrected Swedish translations for TODAY/TOMORROW/DAYAFTERTOMORROW.
 - Removed unused import from js/electron.js
 - Made calendar.js respect config.timeFormat irrespecive of locale setting
+- Fixed alignment of analog clock when a large calendar is displayed in the same side bar
 
 ## [2.1.1] - 2017-04-01
 
