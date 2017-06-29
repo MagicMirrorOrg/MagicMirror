@@ -52,6 +52,10 @@ var Server = function(config, callback) {
 		res.send(global.version);
 	});
 
+	app.get("/config", function(req,res) {
+		res.send(config);
+	});
+
 	app.get("/", function(req, res) {
 		var html = fs.readFileSync(path.resolve(global.root_path + "/index.html"), {encoding: "utf8"});
 		html = html.replace("#VERSION#", global.version);
@@ -61,9 +65,6 @@ var Server = function(config, callback) {
 		    configFile = global.configuration_file;
 		}
 		html = html.replace("#CONFIG_FILE#", configFile);
-
-		// Set a temporary cookie called "config" to the JSON encoded config object
-		res.cookie("config", JSON.stringify(config));
 
 		res.send(html);
 	});
