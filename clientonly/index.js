@@ -5,31 +5,22 @@
 // Use seperate scope to prevent global scope pollution
 (function () {
 	const cookie = require("cookie");
-
 	var config = {};
 
-	// Parse command line arguments, if any
-	var addressIndex = process.argv.indexOf("--address");
-	var portIndex = process.argv.indexOf("--port");
-
-	if (addressIndex > -1) {
-		config.address = process.argv[addressIndex + 1];
-	} else {
-		fail();
-	}
-	if (portIndex > -1) {
-		config.port = process.argv[portIndex + 1];
-	} else {
-		fail();
-	}
-
-	function fail(message, code = 1) {
-		if (message !== undefined && typeof message === "string") {
-			console.log(message);
-		} else {
-			console.log("Usage: 'node clientonly --address 192.168.1.10 --port 8080'");
+	// Helper function to get server address/hostname from either the commandline or env
+	function getServerAddress() {
+		// Helper function to get command line parameters
+		// Assumes that a cmdline parameter is defined with `--key [value]`
+		function getCommandLineParameter(key, defaultValue = undefined) {
+			var index = process.argv.indexOf(`--${key}`);
+			var value = index > -1 ? process.argv[index + 1] : undefined;
+			return value !== undefined ? String(value) : defaultValue;
 		}
-		process.exit(code);
+
+		// Prefer command line arguments over environment variables
+		["address", "port"].forEach((key) => {
+			config[key] = getCommandLineParameter(key, process.env[key.toUpperCase()]);
+		})
 	}
 
 	function getServerConfig(url) {
@@ -55,6 +46,19 @@
 			});
 		})
 	};
+
+	function fail(message, code = 1) {
+		if (message !== undefined && typeof message === "string") {
+			console.log(message);
+		} else {
+			console.log("Usage: 'node clientonly --address 192.168.1.10 --port 8080'");
+		}
+		process.exit(code);
+	}
+
+	getServerAddress();
+
+	(config.address && config.port) || fail();
 
 	// Only start the client if a non-local server was provided
 	if (["localhost", "127.0.0.1", "::1", "::ffff:127.0.0.1", undefined].indexOf(config.address) === -1) {
