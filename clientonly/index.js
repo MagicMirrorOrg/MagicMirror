@@ -4,7 +4,6 @@
 
 // Use seperate scope to prevent global scope pollution
 (function () {
-	const cookie = require("cookie");
 	var config = {};
 
 	// Helper function to get server address/hostname from either the commandline or env
