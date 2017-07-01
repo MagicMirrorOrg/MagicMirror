@@ -2,6 +2,44 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.1.2] - 2017-07-01
+
+### Changed
+- Revert Docker related changes in favor of [docker-MagicMirror](https://github.com/bastilimbach/docker-MagicMirror). All Docker images are outsourced. ([#856](https://github.com/MichMich/MagicMirror/pull/856))
+- Change Docker base image (Debian + Node) to an arm based distro (AlpineARM + Node) ([#846](https://github.com/MichMich/MagicMirror/pull/846))
+- Fix the dockerfile to have it running from the first time.
+
+### Added
+- Add in option to wrap long calendar events to multiple lines using `wrapEvents` configuration option.
+- Add test e2e `show title newsfeed` for newsfeed module.
+- Add task to check configuration file.
+- Add test check URLs of vendors.
+- Add test of match current week number on clock module with showWeek configuration.
+- Add test default modules present modules/default/defaultmodules.js.
+- Add unit test calendar_modules function capFirst.
+- Add test for check if exists the directories present in defaults modules.
+- Add support for showing wind direction as an arrow instead of abbreviation in currentWeather module.
+- Add support for writing translation fucntions to support flexible word order
+- Add test for check if exits the directories present in defaults modules.
+- Add calendar option to set a separate date format for full day events.
+- Add ability for `currentweather` module to display indoor temperature via INDOOR_TEMPERATURE notification
+- Add ability to change the path of the `custom.css`.
+- Add translation Dutch to Alert module.
+- Added Romanian translation.
+
+### Updated
+- Added missing keys to Polish translation.
+- Added missing key to German translation.
+- Added better translation with flexible word order to Finnish translation
+
+### Fixed
+- Fix instruction in README for using automatically installer script.
+- Bug of duplicated compliments as described in [here](https://forum.magicmirror.builders/topic/2381/compliments-module-stops-cycling-compliments).
+- Fix double message about port when server is starting
+- Corrected Swedish translations for TODAY/TOMORROW/DAYAFTERTOMORROW.
+- Removed unused import from js/electron.js
+- Made calendar.js respect config.timeFormat irrespecive of locale setting
+- Fixed alignment of analog clock when a large calendar is displayed in the same side bar
 
 ## [2.1.1] - 2017-04-01
 

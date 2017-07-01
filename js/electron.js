@@ -2,7 +2,6 @@
 
 "use strict";
 
-const Server = require(__dirname + "/server.js");
 const electron = require("electron");
 const core = require(__dirname + "/app.js");
 
@@ -30,7 +29,7 @@ function createWindow() {
 			zoomFactor: config.zoom
 		},
 		backgroundColor: "#000000"
-	}
+	};
 
 	// DEPRECATED: "kioskmode" backwards compatibility, to be removed
 	// settings these options directly instead provides cleaner interface
@@ -51,7 +50,7 @@ function createWindow() {
 	mainWindow.loadURL("http://localhost:" + config.port);
 
 	// Open the DevTools if run with "npm start dev"
-	if(process.argv[2] == "dev") {
+	if (process.argv.includes("dev")) {
 		mainWindow.webContents.openDevTools();
 	}
 

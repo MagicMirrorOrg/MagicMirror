@@ -63,7 +63,7 @@ Module.register("weatherforecast",{
 	firstEvent: false,
 
 	// create a variable to hold the location name based on the API result.
-	fetchedLocatioName: "",
+	fetchedLocationName: "",
 
 	// Define required scripts.
 	getScripts: function() {
@@ -175,7 +175,6 @@ Module.register("weatherforecast",{
 					row.style.opacity = 1 - (1 / steps * currentStep);
 				}
 			}
-
 		}
 
 		return table;
@@ -184,7 +183,7 @@ Module.register("weatherforecast",{
 	// Override getHeader method.
 	getHeader: function() {
 		if (this.config.appendLocationNameToHeader) {
-			return this.data.header + " " + this.fetchedLocatioName;
+			return this.data.header + " " + this.fetchedLocationName;
 		}
 
 		return this.data.header;
@@ -200,10 +199,9 @@ Module.register("weatherforecast",{
 		if (notification === "CALENDAR_EVENTS") {
 			var senderClasses = sender.data.classes.toLowerCase().split(" ");
 			if (senderClasses.indexOf(this.config.calendarClass.toLowerCase()) !== -1) {
-				var lastEvent =  this.firstEvent;
 				this.firstEvent = false;
 
-				for (e in payload) {
+				for (var e in payload) {
 					var event = payload[e];
 					if (event.location || event.geo) {
 						this.firstEvent = event;
@@ -291,7 +289,7 @@ Module.register("weatherforecast",{
 	 * argument data object - Weather information received form openweather.org.
 	 */
 	processWeather: function(data) {
-		this.fetchedLocatioName = data.city.name + ", " + data.city.country;
+		this.fetchedLocationName = data.city.name + ", " + data.city.country;
 
 		this.forecast = [];
 		for (var i = 0, count = data.list.length; i < count; i++) {
@@ -334,6 +332,10 @@ Module.register("weatherforecast",{
 
 	/* ms2Beaufort(ms)
 	 * Converts m2 to beaufort (windspeed).
+	 *
+	 * see:
+	 *  http://www.spc.noaa.gov/faq/tornado/beaufort.html
+	 *  https://en.wikipedia.org/wiki/Beaufort_scale#Modern_scale
 	 *
 	 * argument ms number - Windspeed in m/s.
 	 *

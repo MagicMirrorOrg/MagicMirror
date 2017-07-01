@@ -15,14 +15,13 @@ var fs = require("fs");
 var helmet = require("helmet");
 
 var Server = function(config, callback) {
-	console.log("Starting server on port " + config.port + " ... ");
 
 	var port = config.port;
 	if (process.env.MM_PORT) {
 		port = process.env.MM_PORT;
 	}
 
-	console.log("Starting server op port " + port + " ... ");
+	console.log("Starting server on port " + port + " ... ");
 
 	server.listen(port, config.address ? config.address : null);
 
@@ -44,7 +43,7 @@ var Server = function(config, callback) {
 	app.use("/js", express.static(__dirname));
 	var directories = ["/config", "/css", "/fonts", "/modules", "/vendor", "/translations", "/tests/configs"];
 	var directory;
-	for (i in directories) {
+	for (var i in directories) {
 		directory = directories[i];
 		app.use(directory, express.static(path.resolve(global.root_path + directory)));
 	}

@@ -18,12 +18,14 @@ Module.register("calendar", {
 		displayRepeatingCountTitle: false,
 		defaultRepeatingCountTitle: "",
 		maxTitleLength: 25,
+		wrapEvents: false, // wrap events to multiple lines breaking at maxTitleLength
 		fetchInterval: 5 * 60 * 1000, // Update every 5 minutes.
 		animationSpeed: 2000,
 		fade: true,
 		urgency: 7,
 		timeFormat: "relative",
 		dateFormat: "MMM Do",
+		fullDayEventDateFormat: "MMM Do",
 		getRelative: 6,
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		hidePrivate: false,
@@ -66,6 +68,29 @@ Module.register("calendar", {
 
 		// Set locale.
 		moment.locale(config.language);
+
+		switch (config.timeFormat) {
+		case 12: {
+			moment.updateLocale(config.language, {
+				longDateFormat: {
+					LT: "h:mm A"
+				}
+			});
+			break;
+		}
+		case 24: {
+			moment.updateLocale(config.language, {
+				longDateFormat: {
+					LT: "hh:mm"
+				}
+			});
+			break;
+		}
+		// If config.timeFormat was not given (or has invalid format) default to locale default
+		default: {
+			break;
+		}
+		}
 
 		for (var c in this.config.calendars) {
 			var calendar = this.config.calendars[c];
@@ -172,7 +197,6 @@ Module.register("calendar", {
 			var titleWrapper = document.createElement("td"),
 				repeatingCountTitle = "";
 
-
 			if (this.config.displayRepeatingCountTitle) {
 
 				repeatingCountTitle = this.countTitleForUrl(event.url);
@@ -227,7 +251,7 @@ Module.register("calendar", {
 							// This event falls within the config.urgency period that the user has set
 							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 						} else {
-							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").format(this.config.dateFormat));
+							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").format(this.config.fullDayEventDateFormat));
 						}
 					} else {
 						timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
@@ -264,7 +288,12 @@ Module.register("calendar", {
 						}
 					}
 				} else {
-					timeWrapper.innerHTML = this.capFirst(this.translate("RUNNING")) + " " + moment(event.endDate, "x").fromNow(true);
+					timeWrapper.innerHTML = this.capFirst(
+						this.translate("RUNNING", {
+							fallback: this.translate("RUNNING") + " {timeUntilEnd}",
+							timeUntilEnd: moment(event.endDate, "x").fromNow(true)
+						})
+					);
 				}
 			}
 			//timeWrapper.innerHTML += ' - '+ moment(event.startDate,'x').format('lll');
@@ -414,15 +443,38 @@ Module.register("calendar", {
 	 *
 	 * argument string string - The string to shorten.
 	 * argument maxLength number - The max length of the string.
+	 * argument wrapEvents - Wrap the text after the line has reached maxLength
 	 *
 	 * return string - The shortened string.
 	 */
-	shorten: function (string, maxLength) {
-		if (string.length > maxLength) {
-			return string.slice(0, maxLength) + "&hellip;";
-		}
+	shorten: function (string, maxLength, wrapEvents) {
+		if (wrapEvents) {
+			var temp = "";
+			var currentLine = "";
+			var words = string.split(" ");
 
-		return string;
+			for (var i = 0; i < words.length; i++) {
+				var word = words[i];
+				if (currentLine.length + word.length < 25 - 1) { // max - 1 to account for a space
+					currentLine += (word + " ");
+				} else {
+					if (currentLine.length > 0) {
+						temp += (currentLine + "<br>" + word + " ");
+					} else {
+						temp += (word + "<br>");
+					}
+					currentLine = "";
+				}
+			}
+
+			return temp + currentLine;
+		} else {
+			if (string.length > maxLength) {
+				return string.slice(0, maxLength) + "&hellip;";
+			} else {
+				return string;
+			}
+		}
 	},
 
 	/* capFirst(string)
@@ -437,7 +489,7 @@ Module.register("calendar", {
 	/* titleTransform(title)
 	 * Transforms the title of an event for usage.
 	 * Replaces parts of the text as defined in config.titleReplace.
-	 * Shortens title based on config.maxTitleLength
+	 * Shortens title based on config.maxTitleLength and config.wrapEvents
 	 *
 	 * argument title string - The title to transform.
 	 *
@@ -456,7 +508,7 @@ Module.register("calendar", {
 			title = title.replace(needle, replacement);
 		}
 
-		title = this.shorten(title, this.config.maxTitleLength);
+		title = this.shorten(title, this.config.maxTitleLength, this.config.wrapEvents);
 		return title;
 	},
 
@@ -466,9 +518,9 @@ Module.register("calendar", {
 	 */
 	broadcastEvents: function () {
 		var eventList = [];
-		for (url in this.calendarData) {
+		for (var url in this.calendarData) {
 			var calendar = this.calendarData[url];
-			for (e in calendar) {
+			for (var e in calendar) {
 				var event = cloneObject(calendar[e]);
 				delete event.url;
 				eventList.push(event);
