@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 ### Added
+- Add symbol and color properties of event when `CALENDAR_EVENTS` notification is broadcasted from `defaultcalendar` module.
 ### Updated
 ### Fixed
 
