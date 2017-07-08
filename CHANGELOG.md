@@ -9,6 +9,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Updated
 ### Fixed
 
+- Fixed issue with incorrect allignment of analog clock when displayed in the center column of the MM
+
 ## [2.1.2] - 2017-07-01
 
 ### Changed
