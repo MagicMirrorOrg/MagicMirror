@@ -52,6 +52,10 @@ var Server = function(config, callback) {
 		res.send(global.version);
 	});
 
+	app.get("/config", function(req,res) {
+		res.send(config);
+	});
+
 	app.get("/", function(req, res) {
 		var html = fs.readFileSync(path.resolve(global.root_path + "/index.html"), {encoding: "utf8"});
 		html = html.replace("#VERSION#", global.version);
