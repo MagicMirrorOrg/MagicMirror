@@ -81,7 +81,7 @@ Module.register("calendar", {
 		case 24: {
 			moment.updateLocale(config.language, {
 				longDateFormat: {
-					LT: "hh:mm"
+					LT: "HH:mm"
 				}
 			});
 			break;
