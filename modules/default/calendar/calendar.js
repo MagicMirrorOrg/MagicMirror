@@ -81,7 +81,7 @@ Module.register("calendar", {
 		case 24: {
 			moment.updateLocale(config.language, {
 				longDateFormat: {
-					LT: "hh:mm"
+					LT: "HH:mm"
 				}
 			});
 			break;
@@ -522,6 +522,8 @@ Module.register("calendar", {
 			var calendar = this.calendarData[url];
 			for (var e in calendar) {
 				var event = cloneObject(calendar[e]);
+				event.symbol = this.symbolsForUrl(url);
+				event.color = this.colorForUrl(url);
 				delete event.url;
 				eventList.push(event);
 			}

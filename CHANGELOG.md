@@ -5,10 +5,16 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [2.1.3] - Unreleased
 
 ### Changed
+
 ### Added
-- Add `clientonly` script to start only the electron client for a remote server
+- Add `clientonly` script to start only the electron client for a remote server.
+- Add symbol and color properties of event when `CALENDAR_EVENTS` notification is broadcasted from `default/calendar` module.
+
 ### Updated
+
 ### Fixed
+
+- Fixed issue with incorrect allignment of analog clock when displayed in the center column of the MM
 
 ## [2.1.2] - 2017-07-01
 
