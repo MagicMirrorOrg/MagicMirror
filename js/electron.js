@@ -46,8 +46,9 @@ function createWindow() {
 	mainWindow = new BrowserWindow(electronOptions);
 
 	// and load the index.html of the app.
-	//mainWindow.loadURL('file://' + __dirname + '../../index.html');
-	mainWindow.loadURL(`http://${config.address}:${config.port}`);
+	// If config.address is not defined or is an empty string (listening on all interfaces), connect to localhost
+	var address = config.address === void 0 | config.address === "" ? config.address = "localhost" : config.address;
+	mainWindow.loadURL(`http://${address}:${config.port}`);
 
 	// Open the DevTools if run with "npm start dev"
 	if (process.argv.includes("dev")) {

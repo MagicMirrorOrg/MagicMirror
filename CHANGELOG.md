@@ -11,10 +11,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add symbol and color properties of event when `CALENDAR_EVENTS` notification is broadcasted from `default/calendar` module.
 
 ### Updated
+- Changed 'default.js' - listen on all attached interfaces by default
 
 ### Fixed
 
 - Fixed issue with incorrect allignment of analog clock when displayed in the center column of the MM
+- Fixed ipWhitelist behaviour to make empty whitelist ([]) allow any and all hosts access to the MM
 
 ## [2.1.2] - 2017-07-01
 

@@ -30,7 +30,7 @@ var Server = function(config, callback) {
 	}
 
 	app.use(function(req, res, next) {
-		var result = ipfilter(config.ipWhitelist, {mode: "allow", log: false})(req, res, function(err) {
+		var result = ipfilter(config.ipWhitelist, {mode: config.ipWhitelist.length === 0 ? "deny" : "allow", log: false})(req, res, function(err) {
 			if (err === undefined) {
 				return next();
 			}

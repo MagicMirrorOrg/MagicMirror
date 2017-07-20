@@ -8,7 +8,7 @@
  */
 
 var port = 8080;
-var address = "localhost";
+var address = ""; // Default to listening on all interfaces
 if (typeof(mmPort) !== "undefined") {
 	port = mmPort;
 }
