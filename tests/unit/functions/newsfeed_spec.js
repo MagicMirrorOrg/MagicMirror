@@ -18,10 +18,10 @@ describe("Functions into modules/default/newsfeed/newsfeed.js", function() {
 
 	describe("capitalizeFirstLetter", function() {
 		words = {
-			'rodrigo': 'Rodrigo',
-			'123m': '123m',
-			'magic mirror': 'Magic mirror',
-			',a': ',a',
+			"rodrigo": "Rodrigo",
+			"123m": "123m",
+			"magic mirror": "Magic mirror",
+			",a": ",a",
 			"ñandú": "Ñandú",
 			".!": ".!"
 		};
