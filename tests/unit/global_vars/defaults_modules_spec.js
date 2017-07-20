@@ -37,35 +37,30 @@ after(function() {
 	//console.log(global);
 });
 
-describe("'global.root_path' set in js/app.js", function() {
-	var expectedSubPaths = [
-		"modules",
-		"serveronly",
-		"js",
-		"js/app.js",
-		"js/main.js",
-		"js/electron.js",
-		"config"
+describe("Default modules set in modules/default/defaultmodules.js", function() {
+
+	var expectedDefaultModules = [
+		"alert",
+		"calendar",
+		"clock",
+		"compliments",
+		"currentweather",
+		"helloworld",
+		"newsfeed",
+		"weatherforecast",
+		"updatenotification"
 	];
 
-	expectedSubPaths.forEach(subpath => {
-		it(`contains a file/folder "${subpath}"`, function() {
-			expect(fs.existsSync(path.join(this.sandbox.global.root_path, subpath))).to.equal(true);
+	expectedDefaultModules.forEach(defaultModule => {
+		it(`contains default module "${defaultModule}"`, function() {
+			expect(this.sandbox.defaultModules).to.include(defaultModule);
 		});
 	});
 
-	it("should not modify global.root_path for testing", function() {
-		expect(global.root_path).to.equal(undefined);
-	});
-
-	it("should not modify global.version for testing", function() {
-		expect(global.version).to.equal(undefined);
-	});
-
-	it("should expect the global.version equals package.json file", function() {
-		versionPackage = JSON.parse(fs.readFileSync("package.json", "utf8")).version;
-		expect(this.sandbox.global.version).to.equal(versionPackage);
+	expectedDefaultModules.forEach(defaultModule => {
+		it(`contains a folder for modules/default/${defaultModule}"`, function() {
+			expect(fs.existsSync(path.join(this.sandbox.global.root_path, "modules/default", defaultModule))).to.equal(true);
+		});
 	});
 
 });
-

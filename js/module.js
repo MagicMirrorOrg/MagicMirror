@@ -272,14 +272,18 @@ var Module = Class.extend({
 		}
 	},
 
-	/* translate(key, defaultValue)
-	 * Request the translation for a given key.
+	/* translate(key, defaultValueOrVariables, defaultValue)
+	 * Request the translation for a given key with optional variables and default value.
 	 *
-	 * argument key string - The key of the string to translage
-   * argument defaultValue string - The default value if no translation was found. (Optional)
+	 * argument key string - The key of the string to translate
+   * argument defaultValueOrVariables string/object - The default value or variables for translating. (Optional)
+   * argument defaultValue string - The default value with variables. (Optional)
 	 */
-	translate: function (key, defaultValue) {
-		return Translator.translate(this, key) || defaultValue || "";
+	translate: function (key, defaultValueOrVariables, defaultValue) {
+		if(typeof defaultValueOrVariables === "object") {
+			return Translator.translate(this, key, defaultValueOrVariables) || defaultValue || "";
+		}
+		return Translator.translate(this, key) || defaultValueOrVariables || "";
 	},
 
 	/* updateDom(speed)

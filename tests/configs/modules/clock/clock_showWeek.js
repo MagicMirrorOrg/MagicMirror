@@ -1,6 +1,6 @@
-/* Magic Mirror Test config for default compliments
+/* Magic Mirror Test config for default clock module
  *
- * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
+ * By Johan Hammar
  * MIT Licensed.
  */
 
@@ -19,20 +19,10 @@ var config = {
 
 	modules: [
 		{
-			module: "compliments",
+			module: "clock",
 			position: "middle_center",
 			config: {
-				compliments: {
-					morning: [
-						"Hi", "Good Morning", "Morning test"
-					],
-					afternoon: [
-						"Hello", "Good Afternoon", "Afternoon test"
-					],
-					evening: [
-						"Hello There", "Good Evening", "Evening test"
-					]
-				}
+				showWeek: true
 			}
 		}
 	]

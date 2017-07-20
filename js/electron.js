@@ -2,12 +2,11 @@
 
 "use strict";
 
-const Server = require(__dirname + "/server.js");
 const electron = require("electron");
 const core = require(__dirname + "/app.js");
 
 // Config
-var config = {};
+var config = process.env.config ? JSON.parse(process.env.config) : {};
 // Module to control application life.
 const app = electron.app;
 // Module to create native browser window.
@@ -30,7 +29,7 @@ function createWindow() {
 			zoomFactor: config.zoom
 		},
 		backgroundColor: "#000000"
-	}
+	};
 
 	// DEPRECATED: "kioskmode" backwards compatibility, to be removed
 	// settings these options directly instead provides cleaner interface
@@ -47,11 +46,12 @@ function createWindow() {
 	mainWindow = new BrowserWindow(electronOptions);
 
 	// and load the index.html of the app.
-	//mainWindow.loadURL('file://' + __dirname + '../../index.html');
-	mainWindow.loadURL("http://localhost:" + config.port);
+	// If config.address is not defined or is an empty string (listening on all interfaces), connect to localhost
+	var address = config.address === void 0 | config.address === "" ? config.address = "localhost" : config.address;
+	mainWindow.loadURL(`http://${address}:${config.port}`);
 
 	// Open the DevTools if run with "npm start dev"
-	if(process.argv[2] == "dev") {
+	if (process.argv.includes("dev")) {
 		mainWindow.webContents.openDevTools();
 	}
 
@@ -97,8 +97,10 @@ app.on("activate", function() {
 	}
 });
 
-// Start the core application.
+// Start the core application if server is run on localhost
 // This starts all node helpers and starts the webserver.
-core.start(function(c) {
-	config = c;
-});
+if (["localhost", "127.0.0.1", "::1", "::ffff:127.0.0.1", undefined].indexOf(config.address) > -1) {
+	core.start(function (c) {
+		config = c;
+	});
+}

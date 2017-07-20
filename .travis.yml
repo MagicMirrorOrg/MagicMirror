@@ -10,7 +10,7 @@ before_script:
  - sleep 5
 script:
 - grunt
-- npm test
+- npm run test:unit
 cache:
  directories:
   - node_modules
