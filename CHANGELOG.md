@@ -6,6 +6,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 ### Added
+- Add ability for `currentweather` module to display indoor humidity via INDOOR_HUMIDITY notification
+
 ### Updated
 ### Fixed
 
