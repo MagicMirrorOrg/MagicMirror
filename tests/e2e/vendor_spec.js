@@ -1,34 +1,38 @@
-const globalSetup = require("./global-setup");
-const app = globalSetup.app;
+const helpers = require("./global-setup");
+const path = require("path");
 const request = require("request");
-const chai = require("chai");
-const expect = chai.expect;
 
+const expect = require("chai").expect;
+
+const describe = global.describe;
+const it = global.it;
+const beforeEach = global.beforeEach;
+const afterEach = global.afterEach;
 
 describe("Vendors", function () {
+	helpers.setupTimeout(this);
 
-	this.timeout(20000);
+	var app = null;
 
-	// FIXME: This test fail in Travis
-	return true;
-
-	beforeEach(function (done) {
-		app.start().then(function() { done(); } );
+	beforeEach(function () {
+		return helpers.startApplication({
+			args: ["js/electron.js"]
+		}).then(function (startedApp) { app = startedApp; })
 	});
 
-	afterEach(function (done) {
-		app.stop().then(function() { done(); });
+	afterEach(function () {
+		return helpers.stopApplication(app);
 	});
 
 	describe("Get list vendors", function () {
 
-		before(function() {
+		before(function () {
 			process.env.MM_CONFIG_FILE = "tests/configs/env.js";
 		});
 
 		var vendors = require(__dirname + "/../../vendor/vendor.js");
 		Object.keys(vendors).forEach(vendor => {
-			it(`should return 200 HTTP code for vendor "${vendor}"`, function() {
+			it(`should return 200 HTTP code for vendor "${vendor}"`, function () {
 				urlVendor = "http://localhost:8080/vendor/" + vendors[vendor];
 				request.get(urlVendor, function (err, res, body) {
 					expect(res.statusCode).to.equal(200);
