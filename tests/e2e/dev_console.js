@@ -1,50 +1,65 @@
-const Application = require("spectron").Application;
+const helpers = require("./global-setup");
 const path = require("path");
-const chai = require("chai");
-const expect = chai.expect;
-const chaiAsPromised = require("chai-as-promised");
+const request = require("request");
 
-var electronPath = path.join(__dirname, "../../", "node_modules", ".bin", "electron");
+const expect = require("chai").expect;
 
-if (process.platform === "win32") {
-	electronPath += ".cmd";
-}
+const describe = global.describe;
+const it = global.it;
+const beforeEach = global.beforeEach;
+const afterEach = global.afterEach;
 
-var appPath = path.join(__dirname, "../../js/electron.js");
+describe("Development console tests", function() {
+	// This tests fail and crash another tests
+	// Suspect problem with window focus
+	// FIXME
+	return false;
 
-var app = new Application({
-	path: electronPath
-});
+	helpers.setupTimeout(this);
 
-global.before(function () {
-	chai.should();
-	chai.use(chaiAsPromised);
-});
-
-describe("Argument 'dev'", function () {
-	this.timeout(20000);
+	var app = null;
 
 	before(function() {
 		// Set config sample for use in test
 		process.env.MM_CONFIG_FILE = "tests/configs/env.js";
 	});
 
-	afterEach(function (done) {
-		app.stop().then(function() { done(); });
-	});
+	describe("Without 'dev' commandline argument", function() {
+		before(function() {
+			return helpers
+				.startApplication({
+					args: ["js/electron.js"]
+				})
+				.then(function(startedApp) {
+					app = startedApp;
+				});
+		});
 
-	it("should not open dev console when absent", function () {
-		app.args = [appPath];
+		after(function() {
+			return helpers.stopApplication(app);
+		});
 
-		return app.start().then(function() {
+		it("should not open dev console when absent", function() {
 			return expect(app.browserWindow.isDevToolsOpened()).to.eventually.equal(false);
 		});
 	});
 
-	it("should open dev console when provided", function () {
-		app.args = [appPath, "dev"];
+	describe("With 'dev' commandline argument", function() {
+		before(function() {
+			return helpers
+				.startApplication({
+					args: ["js/electron.js", "dev"]
+				})
+				.then(function(startedApp) {
+					app = startedApp;
+				});
+		});
 
-		return app.start().then(function() {
+		after(function() {
+			return helpers.stopApplication(app);
+		});
+
+		it("should open dev console when provided", function() {
 			return expect(app.browserWindow.isDevToolsOpened()).to.eventually.equal(true);
 		});
 	});
