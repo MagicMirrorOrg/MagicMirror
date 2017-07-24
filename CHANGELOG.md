@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Add `clientonly` script to start only the electron client for a remote server.
 - Add symbol and color properties of event when `CALENDAR_EVENTS` notification is broadcasted from `default/calendar` module.
+- Add `.vscode/` folder to `.gitignore` to keep custom Visual Studio Code config out of git
 
 ### Updated
 - Changed 'default.js' - listen on all attached interfaces by default

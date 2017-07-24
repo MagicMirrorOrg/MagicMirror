@@ -17,7 +17,6 @@ const BrowserWindow = electron.BrowserWindow;
 let mainWindow;
 
 function createWindow() {
-
 	var electronOptionsDefaults = {
 		width: 800,
 		height: 600,
@@ -47,7 +46,7 @@ function createWindow() {
 
 	// and load the index.html of the app.
 	// If config.address is not defined or is an empty string (listening on all interfaces), connect to localhost
-	var address = config.address === void 0 | config.address === "" ? config.address = "localhost" : config.address;
+	var address = (config.address === void 0) | (config.address === "") ? (config.address = "localhost") : config.address;
 	mainWindow.loadURL(`http://${address}:${config.port}`);
 
 	// Open the DevTools if run with "npm start dev"
@@ -100,7 +99,7 @@ app.on("activate", function() {
 // Start the core application if server is run on localhost
 // This starts all node helpers and starts the webserver.
 if (["localhost", "127.0.0.1", "::1", "::ffff:127.0.0.1", undefined].indexOf(config.address) > -1) {
-	core.start(function (c) {
+	core.start(function(c) {
 		config = c;
 	});
 }
