@@ -16,6 +16,9 @@ jspm_modules
 .npm
 .node_repl_history
 
+# Visual Studio Code ignoramuses.
+.vscode/
+
 # Various Windows ignoramuses.
 Thumbs.db
 ehthumbs.db
