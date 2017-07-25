@@ -14,8 +14,10 @@ describe("Functions into modules/default/calendar/calendar.js", function() {
 		Module.definitions[name] = moduleDefinition;
 	};
 
-	// load calendar.js
-	require("../../../modules/default/calendar/calendar.js");
+	before(function() {
+		// load calendar.js
+		require("../../../modules/default/calendar/calendar.js");
+	});
 
 	describe("capFirst", function() {
 		words = {
