@@ -1,42 +1,32 @@
-const Application = require("spectron").Application;
+const helpers = require("./global-setup");
 const path = require("path");
-const chai = require("chai");
-const chaiAsPromised = require("chai-as-promised");
+const request = require("request");
 
-var electronPath = path.join(__dirname, "../../", "node_modules", ".bin", "electron");
+const expect = require("chai").expect;
 
-if (process.platform === "win32") {
-	electronPath += ".cmd";
-}
-
-var appPath = path.join(__dirname, "../../js/electron.js");
-
-var app = new Application({
-	path: electronPath,
-	args: [appPath]
-});
-
-global.before(function () {
-	chai.should();
-	chai.use(chaiAsPromised);
-});
-
-
+const describe = global.describe;
+const it = global.it;
+const beforeEach = global.beforeEach;
+const afterEach = global.afterEach;
 
 describe("Check configuration without modules", function () {
-	this.timeout(20000);
+	helpers.setupTimeout(this);
 
-	before(function() {
-		// Set config sample for use in test
+	var app = null;
+
+	beforeEach(function () {
+		return helpers.startApplication({
+			args: ["js/electron.js"]
+		}).then(function (startedApp) { app = startedApp; })
+	});
+
+	afterEach(function () {
+		return helpers.stopApplication(app);
+	});
+
+	before(function () {
+		// Set config sample for use in test 
 		process.env.MM_CONFIG_FILE = "tests/configs/without_modules.js";
-	});
-
-	beforeEach(function (done) {
-		app.start().then(function() { done(); } );
-	});
-
-	afterEach(function (done) {
-		app.stop().then(function() { done(); });
 	});
 
 	it("Show the message MagicMirror title", function () {

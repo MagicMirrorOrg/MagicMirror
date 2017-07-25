@@ -25,6 +25,7 @@ Module.register("calendar", {
 		urgency: 7,
 		timeFormat: "relative",
 		dateFormat: "MMM Do",
+		fullDayEventDateFormat: "MMM Do",
 		getRelative: 6,
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		hidePrivate: false,
@@ -67,6 +68,29 @@ Module.register("calendar", {
 
 		// Set locale.
 		moment.locale(config.language);
+
+		switch (config.timeFormat) {
+		case 12: {
+			moment.updateLocale(config.language, {
+				longDateFormat: {
+					LT: "h:mm A"
+				}
+			});
+			break;
+		}
+		case 24: {
+			moment.updateLocale(config.language, {
+				longDateFormat: {
+					LT: "HH:mm"
+				}
+			});
+			break;
+		}
+		// If config.timeFormat was not given (or has invalid format) default to locale default
+		default: {
+			break;
+		}
+		}
 
 		for (var c in this.config.calendars) {
 			var calendar = this.config.calendars[c];
@@ -173,7 +197,6 @@ Module.register("calendar", {
 			var titleWrapper = document.createElement("td"),
 				repeatingCountTitle = "";
 
-
 			if (this.config.displayRepeatingCountTitle) {
 
 				repeatingCountTitle = this.countTitleForUrl(event.url);
@@ -228,7 +251,7 @@ Module.register("calendar", {
 							// This event falls within the config.urgency period that the user has set
 							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 						} else {
-							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").format(this.config.dateFormat));
+							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").format(this.config.fullDayEventDateFormat));
 						}
 					} else {
 						timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
@@ -265,7 +288,12 @@ Module.register("calendar", {
 						}
 					}
 				} else {
-					timeWrapper.innerHTML = this.capFirst(this.translate("RUNNING")) + " " + moment(event.endDate, "x").fromNow(true);
+					timeWrapper.innerHTML = this.capFirst(
+						this.translate("RUNNING", {
+							fallback: this.translate("RUNNING") + " {timeUntilEnd}",
+							timeUntilEnd: moment(event.endDate, "x").fromNow(true)
+						})
+					);
 				}
 			}
 			//timeWrapper.innerHTML += ' - '+ moment(event.startDate,'x').format('lll');
@@ -415,7 +443,7 @@ Module.register("calendar", {
 	 *
 	 * argument string string - The string to shorten.
 	 * argument maxLength number - The max length of the string.
-   * argument wrapEvents - Wrap the text after the line has reached maxLength
+	 * argument wrapEvents - Wrap the text after the line has reached maxLength
 	 *
 	 * return string - The shortened string.
 	 */
@@ -490,10 +518,12 @@ Module.register("calendar", {
 	 */
 	broadcastEvents: function () {
 		var eventList = [];
-		for (url in this.calendarData) {
+		for (var url in this.calendarData) {
 			var calendar = this.calendarData[url];
-			for (e in calendar) {
+			for (var e in calendar) {
 				var event = cloneObject(calendar[e]);
+				event.symbol = this.symbolsForUrl(url);
+				event.color = this.colorForUrl(url);
 				delete event.url;
 				eventList.push(event);
 			}

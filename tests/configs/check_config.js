@@ -14,7 +14,7 @@ var path = require("path");
 var fs = require("fs");
 var Utils = require(__dirname + "/../../js/utils.js");
 
-if (process.env.NODE_ENV == "test") {return 0};
+if (process.env.NODE_ENV == "test") { return 0 };
 
 /* getConfigFile()
  * Return string with path of configuration file
@@ -48,9 +48,9 @@ try {
 // In case the there errors show messages and
 // return
 console.info(Utils.colors.info("Checking file... ", configFileName));
-                            // I'm not sure if all ever is utf-8
-fs.readFile(configFileName, "utf-8", function(err, data) {
-	if (err) {throw err;}
+// I'm not sure if all ever is utf-8
+fs.readFile(configFileName, "utf-8", function (err, data) {
+	if (err) { throw err; }
 	v.JSHINT(data); // Parser by jshint
 
 	if (v.JSHINT.errors.length == 0) {
