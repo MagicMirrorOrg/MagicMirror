@@ -6,21 +6,21 @@ const expect = require("chai").expect;
 
 const describe = global.describe;
 const it = global.it;
-const beforeEach = global.beforeEach;
-const afterEach = global.afterEach;
+const before = global.before;
+const after = global.after;
 
 describe("Vendors", function () {
 	helpers.setupTimeout(this);
 
 	var app = null;
 
-	beforeEach(function () {
+	before(function () {
 		return helpers.startApplication({
 			args: ["js/electron.js"]
 		}).then(function (startedApp) { app = startedApp; })
 	});
 
-	afterEach(function () {
+	after(function () {
 		return helpers.stopApplication(app);
 	});
 
