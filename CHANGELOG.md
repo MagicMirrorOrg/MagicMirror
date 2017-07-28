@@ -18,6 +18,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Fixed issue with incorrect allignment of analog clock when displayed in the center column of the MM
 - Fixed ipWhitelist behaviour to make empty whitelist ([]) allow any and all hosts access to the MM
+- Fixed issue with calendar module where 'excludedEvents' count towards 'maximumEntries'
+- Fixed issue with calendar module where global configuration of maximumEntries was not overridden by calendar specific config (see module doc)
 
 ## [2.1.2] - 2017-07-01
 
