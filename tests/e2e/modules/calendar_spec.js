@@ -72,7 +72,7 @@ describe("Calendar module", function() {
 		});
 	});
 
-	describe("Basic auth backward compatibilty configuration", function() {
+	describe("Basic auth backward compatibilty configuration: DEPRECATED", function() {
 		before(function() {
 			serverBasicAuth.listen(8012);
 			// Set config sample for use in test
