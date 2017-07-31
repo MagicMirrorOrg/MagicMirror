@@ -13,6 +13,8 @@ script:
 - grunt
 - npm run test:unit
 - npm run test:e2e
+after_script:
+ - npm list
 cache:
  directories:
   - node_modules
