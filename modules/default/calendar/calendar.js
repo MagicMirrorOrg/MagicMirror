@@ -153,20 +153,6 @@ Module.register("calendar", {
 
 		for (var e in events) {
 			var event = events[e];
-
-			var excluded = false;
-			for (var f in this.config.excludedEvents) {
-				var filter = this.config.excludedEvents[f];
-				if (event.title.toLowerCase().includes(filter.toLowerCase())) {
-					excluded = true;
-					break;
-				}
-			}
-
-			if (excluded) {
-				continue;
-			}
-
 			var eventWrapper = document.createElement("tr");
 
 			if (this.config.colored) {
@@ -366,7 +352,7 @@ Module.register("calendar", {
 			return a.startDate - b.startDate;
 		});
 
-		return events.slice(0, this.config.maximumEntries);
+		return events;
 	},
 
 	/* createEventList(url)
@@ -377,6 +363,7 @@ Module.register("calendar", {
 	addCalendar: function (url, auth, calendarConfig) {
 		this.sendSocketNotification("ADD_CALENDAR", {
 			url: url,
+			excludedEvents: calendarConfig.excludedEvents || this.config.excludedEvents,
 			maximumEntries: calendarConfig.maximumEntries || this.config.maximumEntries,
 			maximumNumberOfDays: calendarConfig.maximumNumberOfDays || this.config.maximumNumberOfDays,
 			fetchInterval: this.config.fetchInterval,
