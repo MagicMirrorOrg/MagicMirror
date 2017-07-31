@@ -67,30 +67,7 @@ Module.register("calendar", {
 		Log.log("Starting module: " + this.name);
 
 		// Set locale.
-		moment.locale(config.language);
-
-		switch (config.timeFormat) {
-		case 12: {
-			moment.updateLocale(config.language, {
-				longDateFormat: {
-					LT: "h:mm A"
-				}
-			});
-			break;
-		}
-		case 24: {
-			moment.updateLocale(config.language, {
-				longDateFormat: {
-					LT: "HH:mm"
-				}
-			});
-			break;
-		}
-		// If config.timeFormat was not given (or has invalid format) default to locale default
-		default: {
-			break;
-		}
-		}
+		moment.updateLocale(config.language, this.getLocaleSpecification(config.timeFormat));
 
 		for (var c in this.config.calendars) {
 			var calendar = this.config.calendars[c];
@@ -304,6 +281,31 @@ Module.register("calendar", {
 		}
 
 		return wrapper;
+	},
+
+	/**
+	 * This function accepts a number (either 12 or 24) and returns a moment.js LocaleSpecification with the
+	 * corresponding timeformat to be used in the calendar display. If no number is given (or otherwise invalid input)
+	 * it will a localeSpecification object with the system locale time format.
+	 * 
+	 * @param {number} timeFormat Specifies either 12 or 24 hour time format
+	 * @returns {moment.LocaleSpecification} 
+	 */
+	getLocaleSpecification: function(timeFormat) {
+		switch (timeFormat) {
+		case 12: {
+			return { longDateFormat: {LT: "h:mm A"} };
+			break;
+		}
+		case 24: {
+			return { longDateFormat: {LT: "HH:mm"} };
+			break;
+		}
+		default: {
+			return { longDateFormat: {LT: moment.localeData().longDateFormat("LT")} };
+			break;
+		}
+		}
 	},
 
 	/* hasCalendarURL(url)
