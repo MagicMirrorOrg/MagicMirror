@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add `clientonly` script to start only the electron client for a remote server.
 - Add symbol and color properties of event when `CALENDAR_EVENTS` notification is broadcasted from `default/calendar` module.
 - Add `.vscode/` folder to `.gitignore` to keep custom Visual Studio Code config out of git.
+- Add unit test the capitalizeFirstLetter function of newfeed module
 
 ### Updated
 - Changed 'default.js' - listen on all attached interfaces by default.
@@ -17,7 +18,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Fixed issue with incorrect allignment of analog clock when displayed in the center column of the MM.
 - Fixed ipWhitelist behaviour to make empty whitelist ([]) allow any and all hosts access to the MM.
-
+- Fixed issue with calendar module where 'excludedEvents' count towards 'maximumEntries'.
+- Fixed issue with calendar module where global configuration of maximumEntries was not overridden by calendar specific config (see module doc).
 
 ## [2.1.2] - 2017-07-01
 
