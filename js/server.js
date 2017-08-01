@@ -38,7 +38,7 @@ var Server = function(config, callback) {
 			res.status(403).send("This device is not allowed to access your mirror. <br> Please check your config.js or config.js.sample to change this.");
 		});
 	});
-	app.use(helmet({ frameguard: config.frameguard === false ? false : config.frameguard || true }));
+	app.use(helmet(config.helmetOptions));
 
 	app.use("/js", express.static(__dirname));
 	var directories = ["/config", "/css", "/fonts", "/modules", "/vendor", "/translations", "/tests/configs"];
