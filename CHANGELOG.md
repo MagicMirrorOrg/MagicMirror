@@ -16,6 +16,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Updated
 - Changed 'default.js' - listen on all attached interfaces by default.
 - Add execution of `npm list` after the test are ran in Travis CI.
+- Change hooks for the vendors e2e tests.
 
 ### Fixed
 - Fixed issue with incorrect allignment of analog clock when displayed in the center column of the MM.
