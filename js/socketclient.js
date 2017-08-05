@@ -22,7 +22,6 @@ var MMSocket = function(moduleName) {
 	// register catch all.
 	self.socket.on("*", function(notification, payload) {
 		if (notification !== "*") {
-			//console.log('Received notification: ' + notification +', payload: ' + payload);
 			notificationCallback(notification, payload);
 		}
 	});
