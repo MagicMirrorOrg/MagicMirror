@@ -50,7 +50,7 @@ describe("Electron app environment", function() {
 			.should.eventually.have.property("height")
 			.and.be.above(0)
 			.browserWindow.getTitle()
-			.should.eventually.equal("Magic Mirror");
+			.should.eventually.equal("MagicMirror²");
 	});
 
 	it("get request from http://localhost:8080 should return 200", function(done) {
