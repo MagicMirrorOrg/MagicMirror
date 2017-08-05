@@ -153,20 +153,6 @@ Module.register("calendar", {
 
 		for (var e in events) {
 			var event = events[e];
-
-			var excluded = false;
-			for (var f in this.config.excludedEvents) {
-				var filter = this.config.excludedEvents[f];
-				if (event.title.toLowerCase().includes(filter.toLowerCase())) {
-					excluded = true;
-					break;
-				}
-			}
-
-			if (excluded) {
-				continue;
-			}
-
 			var eventWrapper = document.createElement("tr");
 
 			if (this.config.colored) {
@@ -366,7 +352,7 @@ Module.register("calendar", {
 			return a.startDate - b.startDate;
 		});
 
-		return events.slice(0, this.config.maximumEntries);
+		return events;
 	},
 
 	/* createEventList(url)
@@ -377,6 +363,7 @@ Module.register("calendar", {
 	addCalendar: function (url, auth, calendarConfig) {
 		this.sendSocketNotification("ADD_CALENDAR", {
 			url: url,
+			excludedEvents: calendarConfig.excludedEvents || this.config.excludedEvents,
 			maximumEntries: calendarConfig.maximumEntries || this.config.maximumEntries,
 			maximumNumberOfDays: calendarConfig.maximumNumberOfDays || this.config.maximumNumberOfDays,
 			fetchInterval: this.config.fetchInterval,
@@ -437,25 +424,27 @@ Module.register("calendar", {
 		return defaultValue;
 	},
 
-	/* shorten(string, maxLength)
-	 * Shortens a string if it's longer than maxLength.
-	 * Adds an ellipsis to the end.
-	 *
-	 * argument string string - The string to shorten.
-	 * argument maxLength number - The max length of the string.
-	 * argument wrapEvents - Wrap the text after the line has reached maxLength
-	 *
-	 * return string - The shortened string.
+	/**
+	 * Shortens a string if it's longer than maxLength and add a ellipsis to the end
+	 * 
+	 * @param {string} string Text string to shorten
+	 * @param {number} maxLength The max length of the string
+	 * @param {boolean} wrapEvents Wrap the text after the line has reached maxLength
+	 * @returns {string} The shortened string
 	 */
 	shorten: function (string, maxLength, wrapEvents) {
-		if (wrapEvents) {
+		if (typeof string !== "string") {
+			return "";
+		}
+
+		if (wrapEvents === true) {
 			var temp = "";
 			var currentLine = "";
 			var words = string.split(" ");
 
 			for (var i = 0; i < words.length; i++) {
 				var word = words[i];
-				if (currentLine.length + word.length < 25 - 1) { // max - 1 to account for a space
+				if (currentLine.length + word.length < (typeof maxLength === "number" ? maxLength : 25) - 1) { // max - 1 to account for a space
 					currentLine += (word + " ");
 				} else {
 					if (currentLine.length > 0) {
@@ -467,12 +456,12 @@ Module.register("calendar", {
 				}
 			}
 
-			return temp + currentLine;
+			return (temp + currentLine).trim();
 		} else {
-			if (string.length > maxLength) {
-				return string.slice(0, maxLength) + "&hellip;";
+			if (maxLength && typeof maxLength === "number" && string.length > maxLength) {
+				return string.trim().slice(0, maxLength) + "&hellip;";
 			} else {
-				return string;
+				return string.trim();
 			}
 		}
 	},
