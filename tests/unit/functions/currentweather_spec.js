@@ -7,13 +7,17 @@ var vm = require("vm");
 
 describe("Functions module currentweather", function() {
 
+
+	// Fake for use by currentweather.js
+	Module = {};
+	config = {};
+	Module.definitions = {};
+	Module.register = function (name, moduleDefinition) {
+		Module.definitions[name] = moduleDefinition;
+	};
+
+
 	before(function(){
-		Module = {};
-		config = {};
-		Module.definitions = {};
-		Module.register = function (name, moduleDefinition) {
-			Module.definitions[name] = moduleDefinition;
-		};
 		require("../../../modules/default/currentweather/currentweather.js");
 		Module.definitions.currentweather.config = {};
 	});
