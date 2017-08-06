@@ -74,19 +74,10 @@ describe("Clock set to spanish language module", function() {
 		});
 	});
 
-
 	describe("with showWeek config enabled", function() {
 		before(function() {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/clock/es/clock_showWeek.js";
-		});
-
-		beforeEach(function (done) {
-			app.start().then(function() { done(); } );
-		});
-
-		afterEach(function (done) {
-			app.stop().then(function() { done(); });
 		});
 
 		it("shows week with correct format", function() {
