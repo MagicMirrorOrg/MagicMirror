@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add `.vscode/` folder to `.gitignore` to keep custom Visual Studio Code config out of git.
 - Add unit test the capitalizeFirstLetter function of newfeed module.
 - Add new unit tests for function `shorten` in calendar module.
+- Add unit test for js/class.js.
 - Add unit tests for function `roundValue` in currentweather module.
 - Add test e2e showWeek feature in spanish language.
 
