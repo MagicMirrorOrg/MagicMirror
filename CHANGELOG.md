@@ -12,17 +12,23 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add `.vscode/` folder to `.gitignore` to keep custom Visual Studio Code config out of git.
 - Add unit test the capitalizeFirstLetter function of newfeed module.
 - Add new unit tests for function `shorten` in calendar module.
+- Add unit test for js/class.js.
+- Add unit tests for function `roundValue` in currentweather module.
+- Add test e2e showWeek feature in spanish language.
 
 ### Updated
 - Changed 'default.js' - listen on all attached interfaces by default.
 - Add execution of `npm list` after the test are ran in Travis CI.
 - Change hooks for the vendors e2e tests.
+- Add log when clientonly failed on starting. 
+- Add warning color when are using full ip whitelist.
 
 ### Fixed
 - Fixed issue with incorrect allignment of analog clock when displayed in the center column of the MM.
 - Fixed ipWhitelist behaviour to make empty whitelist ([]) allow any and all hosts access to the MM.
 - Fixed issue with calendar module where 'excludedEvents' count towards 'maximumEntries'.
 - Fixed issue with calendar module where global configuration of maximumEntries was not overridden by calendar specific config (see module doc).
+- Fixed issue where `this.file(filename)` returns a path with two hashes
 
 ## [2.1.2] - 2017-07-01
 
