@@ -469,7 +469,7 @@ Module.register("currentweather",{
 	 *
 	 * argument temperature number - Temperature.
 	 *
-	 * return number - Rounded Temperature.
+	 * return string - Rounded Temperature.
 	 */
 	roundValue: function(temperature) {
 		var decimals = this.config.roundTemp ? 0 : 1;
