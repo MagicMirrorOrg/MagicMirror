@@ -18,6 +18,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Changed 'default.js' - listen on all attached interfaces by default.
 - Add execution of `npm list` after the test are ran in Travis CI.
 - Change hooks for the vendors e2e tests.
+- Add log when clientonly failed on starting. 
 - Add warning color when are using full ip whitelist.
 
 ### Fixed
