@@ -73,4 +73,18 @@ describe("Clock set to spanish language module", function() {
 			return app.client.waitUntilWindowLoaded().getText(".clock .time").should.eventually.match(timeRegex);
 		});
 	});
+
+	describe("with showWeek config enabled", function() {
+		before(function() {
+			// Set config sample for use in test
+			process.env.MM_CONFIG_FILE = "tests/configs/modules/clock/es/clock_showWeek.js";
+		});
+
+		it("shows week with correct format", function() {
+			const weekRegex = /^Semana [0-9]{1,2}$/;
+			return app.client.waitUntilWindowLoaded()
+				.getText(".clock .week").should.eventually.match(weekRegex);
+		});
+	});
+
 });
