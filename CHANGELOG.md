@@ -5,20 +5,33 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [2.1.3] - Unreleased
 
 ### Changed
+- Remove Roboto fonts files inside  `fonts` and these are installed by npm install command.
 
 ### Added
 - Add `clientonly` script to start only the electron client for a remote server.
 - Add symbol and color properties of event when `CALENDAR_EVENTS` notification is broadcasted from `default/calendar` module.
-- Add `.vscode/` folder to `.gitignore` to keep custom Visual Studio Code config out of git
+- Add `.vscode/` folder to `.gitignore` to keep custom Visual Studio Code config out of git.
+- Add unit test the capitalizeFirstLetter function of newfeed module.
+- Add new unit tests for function `shorten` in calendar module.
+- Add new unit tests for function `getLocaleSpecification` in calendar module.
+- Add unit test for js/class.js.
+- Add unit tests for function `roundValue` in currentweather module.
+- Add test e2e showWeek feature in spanish language.
 - Add warning Log when is used old authentication method in the calendar module.
 
 ### Updated
-- Changed 'default.js' - listen on all attached interfaces by default
+- Changed 'default.js' - listen on all attached interfaces by default.
+- Add execution of `npm list` after the test are ran in Travis CI.
+- Change hooks for the vendors e2e tests.
+- Add log when clientonly failed on starting. 
+- Add warning color when are using full ip whitelist.
 
 ### Fixed
-
-- Fixed issue with incorrect allignment of analog clock when displayed in the center column of the MM
-- Fixed ipWhitelist behaviour to make empty whitelist ([]) allow any and all hosts access to the MM
+- Fixed issue with incorrect allignment of analog clock when displayed in the center column of the MM.
+- Fixed ipWhitelist behaviour to make empty whitelist ([]) allow any and all hosts access to the MM.
+- Fixed issue with calendar module where 'excludedEvents' count towards 'maximumEntries'.
+- Fixed issue with calendar module where global configuration of maximumEntries was not overridden by calendar specific config (see module doc).
+- Fixed issue where `this.file(filename)` returns a path with two hashes
 
 ## [2.1.2] - 2017-07-01
 
@@ -48,7 +61,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Updated
 - Added missing keys to Polish translation.
 - Added missing key to German translation.
-- Added better translation with flexible word order to Finnish translation
+- Added better translation with flexible word order to Finnish translation.
 
 ### Fixed
 - Fix instruction in README for using automatically installer script.
@@ -56,8 +69,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix double message about port when server is starting
 - Corrected Swedish translations for TODAY/TOMORROW/DAYAFTERTOMORROW.
 - Removed unused import from js/electron.js
-- Made calendar.js respect config.timeFormat irrespecive of locale setting
-- Fixed alignment of analog clock when a large calendar is displayed in the same side bar
+- Made calendar.js respect config.timeFormat irrespecive of locale setting.
+- Fixed alignment of analog clock when a large calendar is displayed in the same side bar.
 
 ## [2.1.1] - 2017-04-01
 
@@ -65,18 +78,18 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - Add `anytime` group for Compliments module.
-- Compliments module can use remoteFile without default daytime arrays defined
+- Compliments module can use remoteFile without default daytime arrays defined.
 - Installer: Use init config.js from config.js.sample.
 - Switched out `rrule` package for `rrule-alt` and fixes in `ical.js` in order to fix calendar issues. ([#565](https://github.com/MichMich/MagicMirror/issues/565))
 - Make mouse events pass through the region fullscreen_above to modules below.
 - Scaled the splash screen down to make it a bit more subtle.
 - Replace HTML tables with markdown tables in README files.
 - Added `DAYAFTERTOMORROW`, `UPDATE_NOTIFICATION` and `UPDATE_NOTIFICATION_MODULE` to Finnish translations.
-- Run `npm test` on Travis automatically
+- Run `npm test` on Travis automatically.
 - Show the splash screen image even when is reboot or halted.
 - Added some missing translaton strings in the sv.json file.
 - Run task jsonlint to check translation files.
-- Restructured Test Suite
+- Restructured Test Suite.
 
 ### Added
 - Added Docker support (Pull Request [#673](https://github.com/MichMich/MagicMirror/pull/673)).

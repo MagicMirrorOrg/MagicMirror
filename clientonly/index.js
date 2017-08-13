@@ -87,6 +87,13 @@
 				child.on("error", function (err) {
 					process.stdout.write(`Client: ${err}`);
 				});
+
+				child.on('close', (code) => {
+					if (code != 0) {
+						console.log(`There something wrong. The clientonly is not running code ${code}`);
+					}
+				});
+
 			})
 			.catch(function (reason) {
 				fail(`Unable to connect to server: (${reason})`);
