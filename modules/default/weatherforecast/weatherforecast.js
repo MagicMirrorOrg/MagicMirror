@@ -142,10 +142,10 @@ Module.register("weatherforecast",{
 
 			var maxTempCell = document.createElement("td");
 			maxTempCell.innerHTML = forecast.maxTemp;
-			if (this.config.scale == "C" || this.config.scale == "c") {
+			if(this.config.scale == "C" || this.config.scale == "c") {
 				maxTempCell.innerHTML += " °C";
 			} else {
-				if (this.config.scale == "F" || this.config.scale == "f") {
+				if(this.config.scale == "F" || this.config.scale == "f") {
 					maxTempCell.innerHTML += " °F";
 				}
 			}
@@ -154,10 +154,10 @@ Module.register("weatherforecast",{
 
 			var minTempCell = document.createElement("td");
 			minTempCell.innerHTML = forecast.minTemp;
-			if (scale == "C" || scale == "c") {
+			if(this.config.scale == "C" || this.config.scale == "c") {
 				minTempCell.innerHTML += " °C";
 			} else {
-				if (scale == "F" || scale == "f") {
+				if(this.config.scale == "F" || this.config.scale == "f") {
 					minTempCell.innerHTML += " °F";
 				}
 			}
