@@ -24,6 +24,7 @@ Module.register("weatherforecast",{
 		fade: true,
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		colored: false,
+		scale: false, // "C" or "F"
 
 		initialLoadDelay: 2500, // 2.5 seconds delay. This delay is used to keep the OpenWeather API happy.
 		retryDelay: 2500,
@@ -141,11 +142,25 @@ Module.register("weatherforecast",{
 
 			var maxTempCell = document.createElement("td");
 			maxTempCell.innerHTML = forecast.maxTemp;
+			if (this.config.scale == "C" || this.config.scale == "c") {
+				maxTempCell.innerHTML += " °C";
+			} else {
+				if (this.config.scale == "F" || this.config.scale == "f") {
+					maxTempCell.innerHTML += " °F";
+				}
+			}
 			maxTempCell.className = "align-right bright max-temp";
 			row.appendChild(maxTempCell);
 
 			var minTempCell = document.createElement("td");
 			minTempCell.innerHTML = forecast.minTemp;
+			if (scale == "C" || scale == "c") {
+				minTempCell.innerHTML += " °C";
+			} else {
+				if (scale == "F" || scale == "f") {
+					minTempCell.innerHTML += " °F";
+				}
+			}
 			minTempCell.className = "align-right min-temp";
 			row.appendChild(minTempCell);
 
