@@ -681,7 +681,7 @@ The Magic Mirror contains a convenience wrapper for logging. Currently, this log
 
 **Examples:**
 ````javascript
-Log.info('error');
+Log.info('info');
 Log.log('log');
-Log.error('info');
+Log.error('error');
 ````
