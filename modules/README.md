@@ -681,7 +681,17 @@ The Magic Mirror contains a convenience wrapper for logging. Currently, this log
 
 **Examples:**
 ````javascript
-Log.info('info');
-Log.log('log');
-Log.error('error');
+Log.info('This is an Information from the Module');
+Log.log('This is a normal Log from the Module');
+Log.error('This is an Error from the Module');
 ````
+
+You will find these logs in your Electron console.
+
+
+To log messages in your node_helper you can use.
+
+````javascript
+console.log('This is a Log from your node_helper');
+````
+
