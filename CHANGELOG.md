@@ -18,6 +18,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add unit tests for function `roundValue` in currentweather module.
 - Add test e2e showWeek feature in spanish language.
 - Add warning Log when is used old authentication method in the calendar module.
+- Add test e2e for helloworld module with default config text
 
 ### Updated
 - Changed 'default.js' - listen on all attached interfaces by default.
