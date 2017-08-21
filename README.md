@@ -31,7 +31,7 @@ Electron, the app wrapper around MagicMirror², only supports the Raspberry Pi 2
 
 Execute the following command on your Raspberry Pi to install MagicMirror²:
 ````
-curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/master/installers/raspberry.sh | bash
+bash -c "$(curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/master/installers/raspberry.sh)"
 ````
 
 ### Manual Installation
@@ -48,6 +48,11 @@ curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/master/installer
 ### Server Only
 In some cases, you want to start the application without an actual app window. In this case, you can start MagicMirror² in server only mode by manually running `node serveronly` or using Docker. This will start the server, after which you can open the application in your browser of choice. Detailed description below.
 
+### Client Only
+When you have a server running remotely and want to connect a standalone client to this instance, you can manually run `node clientonly --address 192.168.1.5 --port 8080`. (Specify the ip address and port number of the server)
+
+**Important:** Make sure that you whitelist the interface/ip in the server config where you want the client to connect to, otherwise it will not be allowed to connect to the server
+
 #### Docker
 
 MagicMirror² in server only mode can be deployed using [Docker](https://docker.com). After a successful [Docker installation](https://docs.docker.com/engine/installation/) you just need to execute the following command in the shell:
@@ -59,7 +64,7 @@ docker run  -d \
 			--volume ~/magic_mirror/config:/opt/magic_mirror/config \
 			--volume ~/magic_mirror/modules:/opt/magic_mirror/modules \
 			--name magic_mirror \
-			MichMich/MagicMirror
+			bastilimbach/docker-magicmirror
 ```
 
 | **Volumes** | **Description** |
@@ -74,6 +79,8 @@ var config = {
 	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1", "::ffff:172.17.0.1"]
 };
 ```
+
+If you want to run the server on a raspberry pi, use the `raspberry` tag. (bastilimbach/docker-magicmirror:raspberry)
 
 #### Manual
 
@@ -104,6 +111,11 @@ Type `git status` to see your changes, if there are any, you can reset them with
 1. Duplicate `config/config.js.sample` to `config/config.js`. **Note:** If you used the installer script. This step is already done for you.
 2. Modify your required settings.
 
+Note: You'll can check your configuration running the follow command:
+```bash
+npm run config:check
+```
+
 The following properties can be configured:
 
 | **Option** | **Description** |
@@ -117,7 +129,7 @@ The following properties can be configured:
 | `units` | The units that will be used in the default weather modules. Possible values are `metric` or `imperial`. The default is `metric`. |
 | `modules` | An array of active modules. **The array must contain objects. See the next table below for more information.** |
 | `electronOptions` | An optional array of Electron (browser) options. This allows configuration of e.g. the browser screen size and position (example: `electronOptions: { fullscreen: false, width: 800, height: 600 }`). Kiosk mode can be enabled by setting `kiosk = true`, `autoHideMenuBar = false` and `fullscreen = false`. More options can be found [here](https://github.com/electron/electron/blob/master/docs/api/browser-window.md). |
-
+| `customCss` | The path of the `custom.css` stylesheet. The default is `css/custom.css`. |
 
 Module configuration:
 

@@ -1,6 +1,7 @@
 html {
   cursor: none;
   overflow: hidden;
+  background: #000;
 }
 
 ::-webkit-scrollbar {

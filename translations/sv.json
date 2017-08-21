@@ -1,11 +1,13 @@
 {
 	"LOADING": "Laddar &hellip;",
 
-	"TODAY": "Idag",
-	"TOMORROW": "Imorgon",
-	"DAYAFTERTOMORROW": "Iövermorgon",
+	"TODAY": "I dag",
+	"TOMORROW": "I morgon",
+	"DAYAFTERTOMORROW": "I övermorgon",
 	"RUNNING": "Slutar",
 	"EMPTY": "Inga kommande händelser.",
+
+	"WEEK": "Vecka",
 
 	"N": "N",
 	"NNE": "NNO",

@@ -96,14 +96,14 @@ Module.register("compliments", {
 	 */
 	complimentArray: function() {
 		var hour = moment().hour();
-		var compliments = null;
+		var compliments;
 
-		if (hour >= 3 && hour < 12) {
-			compliments = this.config.compliments.morning;
-		} else if (hour >= 12 && hour < 17) {
-			compliments = this.config.compliments.afternoon;
-		} else {
-			compliments = this.config.compliments.evening;
+		if (hour >= 3 && hour < 12 && this.config.compliments.hasOwnProperty("morning")) {
+			compliments = this.config.compliments.morning.slice(0);
+		} else if (hour >= 12 && hour < 17 && this.config.compliments.hasOwnProperty("afternoon")) {
+			compliments = this.config.compliments.afternoon.slice(0);
+		} else if(this.config.compliments.hasOwnProperty("evening")) {
+			compliments = this.config.compliments.evening.slice(0);
 		}
 
 		if (typeof compliments === "undefined") {
@@ -117,7 +117,6 @@ Module.register("compliments", {
 		compliments.push.apply(compliments, this.config.compliments.anytime);
 
 		return compliments;
-
 	},
 
 	/* complimentFile(callback)

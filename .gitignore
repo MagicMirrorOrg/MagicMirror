@@ -16,6 +16,9 @@ jspm_modules
 .npm
 .node_repl_history
 
+# Visual Studio Code ignoramuses.
+.vscode/
+
 # Various Windows ignoramuses.
 Thumbs.db
 ehthumbs.db
@@ -65,3 +68,13 @@ Temporary Items
 
 # Ignore changes to the custom css files.
 /css/custom.css
+
+# Vim
+## swap
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+
+## diff patch
+*.orig
+*.rej
+*.bak

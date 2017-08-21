@@ -65,7 +65,7 @@ if command_exists node; then
 		fi
 
 	else
-		echo -e "\e[92mNo Node.js upgrade nessecery.\e[0m"
+		echo -e "\e[92mNo Node.js upgrade necessary.\e[0m"
 	fi
 
 else
@@ -150,8 +150,7 @@ fi
 
 # Use pm2 control like a service MagicMirror
 read -p "Do you want use pm2 for auto starting of your MagicMirror (y/n)?" choice
-if [[ $choice =~ ^[Yy]$ ]]
-then
+if [[ $choice =~ ^[Yy]$ ]]; then
     sudo npm install -g pm2
     sudo su -c "env PATH=$PATH:/usr/bin pm2 startup linux -u pi --hp /home/pi"
     pm2 start ~/MagicMirror/installers/pm2_MagicMirror.json
