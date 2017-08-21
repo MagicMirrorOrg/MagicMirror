@@ -7,7 +7,7 @@
     local("Roboto-Thin"),
     url("node_modules/roboto-fontface/fonts/roboto/Roboto-Thin.woff2") format("woff2"),
     url("node_modules/roboto-fontface/fonts/roboto/Roboto-Thin.woff") format("woff"),
-    url("node_modules/roboto-fontface/fonts/roboto/Roboto-Thin/Roboto-Thin.ttf") format("truetype");
+    url("node_modules/roboto-fontface/fonts/roboto/Roboto-Thin.ttf") format("truetype");
 }
 
 @font-face {
@@ -17,9 +17,9 @@
   src:
     local("Roboto Condensed Light"),
     local("RobotoCondensed-Light"),
-    url("node_modules/roboto-fontface/fonts/roboto-condensed/RobotoCondensed-Light.woff2") format("woff2"),
-    url("node_modules/roboto-fontface/fonts/roboto-condensed/RobotoCondensed-Light.woff") format("woff"),
-    url("node_modules/roboto-fontface/fonts/roboto-condensed/RobotoCondensed-Light.ttf") format("truetype");
+    url("node_modules/roboto-fontface/fonts/roboto-condensed/Roboto-Condensed-Light.woff2") format("woff2"),
+    url("node_modules/roboto-fontface/fonts/roboto-condensed/Roboto-Condensed-Light.woff") format("woff"),
+    url("node_modules/roboto-fontface/fonts/roboto-condensed/Roboto-Condensed-Light.ttf") format("truetype");
 }
 
 @font-face {
@@ -29,9 +29,9 @@
   src:
     local("Roboto Condensed"),
     local("RobotoCondensed-Regular"),
-    url("node_modules/roboto-fontface/fonts/roboto-condensed/RobotoCondensed-Regular.woff2") format("woff2"),
-    url("node_modules/roboto-fontface/fonts/roboto-condensed/RobotoCondensed-Regular.woff") format("woff"),
-    url("node_modules/roboto-fontface/fonts/roboto-condensed/RobotoCondensed-Regular.ttf") format("truetype");
+    url("node_modules/roboto-fontface/fonts/roboto-condensed/Roboto-Condensed-Regular.woff2") format("woff2"),
+    url("node_modules/roboto-fontface/fonts/roboto-condensed/Roboto-Condensed-Regular.woff") format("woff"),
+    url("node_modules/roboto-fontface/fonts/roboto-condensed/Roboto-Condensed-Regular.ttf") format("truetype");
 }
 
 @font-face {
@@ -41,9 +41,9 @@
   src:
     local("Roboto Condensed Bold"),
     local("RobotoCondensed-Bold"),
-    url("node_modules/roboto-fontface/fonts/roboto-condensed/RobotoCondensed-Bold.woff2") format("woff2"),
-    url("node_modules/roboto-fontface/fonts/roboto-condensed/RobotoCondensed-Bold.woff") format("woff"),
-    url("node_modules/roboto-fontface/fonts/roboto-condensed/RobotoCondensed-Bold.ttf") format("truetype");
+    url("node_modules/roboto-fontface/fonts/roboto-condensed/Roboto-Condensed-Bold.woff2") format("woff2"),
+    url("node_modules/roboto-fontface/fonts/roboto-condensed/Roboto-Condensed-Bold.woff") format("woff"),
+    url("node_modules/roboto-fontface/fonts/roboto-condensed/Roboto-Condensed-Bold.ttf") format("truetype");
 }
 
 @font-face {
