@@ -2,6 +2,7 @@ var fs = require("fs");
 var path = require("path");
 var chai = require("chai");
 var expect = chai.expect;
+var mlog = require("mocha-logger");
 
 describe("Translations have the same keys as en.js", function() {
 	var translations = require("../../../translations/translations.js");
@@ -31,6 +32,8 @@ describe("Translations have the same keys as en.js", function() {
 					expect(fileKeys).to.deep.equal(baseKeys);
 				} catch(e) {
 					if (e instanceof chai.AssertionError) {
+						diff = baseKeys.filter(function(x) { return fileKeys.indexOf(x) < 0 });
+						mlog.pending("Missing Translations for language " + tr + ": ", diff);
 						test.skip();
 					} else {
 						throw e;
