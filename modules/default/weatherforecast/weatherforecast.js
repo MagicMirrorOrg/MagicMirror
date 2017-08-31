@@ -140,27 +140,28 @@ Module.register("weatherforecast",{
 			icon.className = "wi weathericon " + forecast.icon;
 			iconCell.appendChild(icon);
 
-			var maxTempCell = document.createElement("td");
-			maxTempCell.innerHTML = forecast.maxTemp;
-			if(typeof(this.config.scale) == "string" && this.config.scale.toUpperCase() == "C") {
-				maxTempCell.innerHTML += " °C";
-			} else {
-				if(typeof(this.config.scale) == "string" && this.config.scale.toUpperCase() == "F") {
-					maxTempCell.innerHTML += " °F";
+			var degreeLabel = "";
+			if(this.config.scale) {
+				switch(this.config.units) {
+					case "metric":
+						degreeLabel = " &deg;C";
+						break;
+					case "imperial":
+						degreeLabel = " &deg;F";
+						break;
+					case "default":
+						degreeLabel = "K";
+						break;
 				}
 			}
+
+			var maxTempCell = document.createElement("td");
+			maxTempCell.innerHTML = forecast.maxTemp + degreeLabel;
 			maxTempCell.className = "align-right bright max-temp";
 			row.appendChild(maxTempCell);
 
 			var minTempCell = document.createElement("td");
-			minTempCell.innerHTML = forecast.minTemp;
-			if(typeof(this.config.scale) == "string" && this.config.scale.toUpperCase() == "C") {
-				minTempCell.innerHTML += " °C";
-			} else {
-				if(typeof(this.config.scale) == "string" && this.config.scale.toUpperCase() == "F") {
-					minTempCell.innerHTML += " °F";
-				}
-			}
+			minTempCell.innerHTML = forecast.minTemp + degreeLabel;
 			minTempCell.className = "align-right min-temp";
 			row.appendChild(minTempCell);
 
