@@ -26,6 +26,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Change hooks for the vendors e2e tests.
 - Add log when clientonly failed on starting. 
 - Add warning color when are using full ip whitelist.
+- Set version of the `express-ipfilter` on 0.3.1.
 
 ### Fixed
 - Fixed issue with incorrect allignment of analog clock when displayed in the center column of the MM.
