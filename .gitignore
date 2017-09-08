@@ -53,14 +53,25 @@ Temporary Items
 
 # Various Magic Mirror ignoramuses and anti-ignoramuses.
 
-# Don't ignore the node_helper nore module.
+# Don't ignore the node_helper core module.
 !/modules/node_helper
 !/modules/node_helper/**
 
 # Ignore all modules except the default modules.
 /modules/**
+!/modules/default
 !/modules/default/**
 !/modules/README.md**
 
 # Ignore changes to the custom css files.
 /css/custom.css
+
+# Vim
+## swap
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+
+## diff patch
+*.orig
+*.rej
+*.bak

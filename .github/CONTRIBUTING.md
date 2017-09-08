@@ -23,7 +23,7 @@ To run StyleLint, use `grunt stylelint`.
 
 ### Submitting Issues
 
-Please only submit reproducible issues. 
+Please only submit reproducible issues.
 
 If you're not sure if it's a real bug or if it's just you, please open a topic on the forum: [https://forum.magicmirror.builders/category/15/bug-hunt](https://forum.magicmirror.builders/category/15/bug-hunt)
 Problems installing or configuring your MagicMirror? Check out: [https://forum.magicmirror.builders/category/10/troubleshooting](https://forum.magicmirror.builders/category/10/troubleshooting)

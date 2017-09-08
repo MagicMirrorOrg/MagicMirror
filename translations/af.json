@@ -1,0 +1,30 @@
+{
+	"LOADING": "Besig om te laai &hellip;",
+
+	"TODAY": "Vandag",
+	"TOMORROW": "Môre",
+	"DAYAFTERTOMORROW": "Oormôre",
+	"RUNNING": "Eindig in",
+	"EMPTY": "Geen komende gebeurtenisse.",
+
+	"N": "N",
+	"NNE": "NNO",
+	"NE": "NO",
+	"ENE": "ONO",
+	"E": "O",
+	"ESE": "OSO",
+	"SE": "SO",
+	"SSE": "SSO",
+	"S": "S",
+	"SSW": "SSW",
+	"SW": "SW",
+	"WSW": "WSW",
+	"W": "W",
+	"WNW": "WNW",
+	"NW": "NW",
+	"NNW": "NNW",
+
+	"UPDATE_NOTIFICATION": "MagicMirror² update beskikbaar.",
+	"UPDATE_NOTIFICATION_MODULE": "Update beskikbaar vir MODULE_NAME module.",
+	"UPDATE_INFO": "Die huidige installasie is COMMIT_COUNT agter op die BRANCH_NAME branch."
+}

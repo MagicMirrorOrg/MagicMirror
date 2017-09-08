@@ -1,0 +1,25 @@
+{
+	"LOADING": "Yükleniyor &hellip;",
+
+	"TODAY": "Bugün",
+	"TOMORROW": "Yarın",
+	"RUNNING": "Biten",
+	"EMPTY": "Yakında etkinlik yok.",
+
+	"N": "K",
+	"NNE": "KKD",
+	"NE": "KD",
+	"ENE": "DKD",
+	"E": "D",
+	"ESE": "DGD",
+	"SE": "GD",
+	"SSE": "GGD",
+	"S": "G",
+	"SSW": "GGB",
+	"SW": "GB",
+	"WSW": "BGB",
+	"W": "B",
+	"WNW": "BKB",
+	"NW": "KB",
+	"NNW": "KKB"
+}

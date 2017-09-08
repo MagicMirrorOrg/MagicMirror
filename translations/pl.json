@@ -1,28 +1,32 @@
 {
-	/* GENERAL */
 	"LOADING": "Ładowanie &hellip;",
 
-	/* CALENDAR */
 	"TODAY": "Dziś",
 	"TOMORROW": "Jutro",
+	"DAYAFTERTOMORROW": "Pojutrze",
 	"RUNNING": "Koniec za",
 	"EMPTY": "Brak wydarzeń.",
 
-	/* WEATHER */
-	"N": 	"N",
-	"NNE":  "NNE",
-	"NE":   "NE",
-	"ENE": 	"ENE",
-	"E":	"E",
-	"ESE": 	"ESE",
-	"SE": 	"SE",
-	"SSE": 	"SSE",
-	"S": 	"S",
-	"SSW": 	"SSW",
-	"SW": 	"SW",
-	"WSW": 	"WSW",
-	"W": 	"W",
-	"WNW": 	"WNW",
-	"NW": 	"NW",
-	"NNW": 	"NNW"
+	"WEEK": "Tydzień",
+
+	"N": "N",
+	"NNE": "NNE",
+	"NE": "NE",
+	"ENE": "ENE",
+	"E": "E",
+	"ESE": "ESE",
+	"SE": "SE",
+	"SSE": "SSE",
+	"S": "S",
+	"SSW": "SSW",
+	"SW": "SW",
+	"WSW": "WSW",
+	"W": "W",
+	"WNW": "WNW",
+	"NW": "NW",
+	"NNW": "NNW",
+
+	"UPDATE_NOTIFICATION": "Dostępna jest aktualizacja MagicMirror².",
+	"UPDATE_NOTIFICATION_MODULE": "Dostępna jest aktualizacja modułu MODULE_NAME.",
+	"UPDATE_INFO": "Zainstalowana wersja odbiega o COMMIT_COUNT commitów od gałęzi BRANCH_NAME."
 }

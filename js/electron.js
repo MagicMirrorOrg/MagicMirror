@@ -2,7 +2,6 @@
 
 "use strict";
 
-const Server = require(__dirname + "/server.js");
 const electron = require("electron");
 const core = require(__dirname + "/app.js");
 
@@ -18,19 +17,40 @@ const BrowserWindow = electron.BrowserWindow;
 let mainWindow;
 
 function createWindow() {
-	// Create the browser window.
+
+	var electronOptionsDefaults = {
+		width: 800,
+		height: 600,
+		x: 0,
+		y: 0,
+		darkTheme: true,
+		webPreferences: {
+			nodeIntegration: false,
+			zoomFactor: config.zoom
+		},
+		backgroundColor: "#000000"
+	};
+
+	// DEPRECATED: "kioskmode" backwards compatibility, to be removed
+	// settings these options directly instead provides cleaner interface
 	if (config.kioskmode) {
-		mainWindow = new BrowserWindow({width: 800, height: 600, x: 0, y: 0, kiosk:true, darkTheme: true, webPreferences: {nodeIntegration: false}});
+		electronOptionsDefaults.kiosk = true;
 	} else {
-		mainWindow = new BrowserWindow({width: 800, height: 600, x: 0, y: 0, fullscreen: true, autoHideMenuBar: true, darkTheme: true, webPreferences: {nodeIntegration: false}});
+		electronOptionsDefaults.fullscreen = true;
+		electronOptionsDefaults.autoHideMenuBar = true;
 	}
+
+	var electronOptions = Object.assign({}, electronOptionsDefaults, config.electronOptions);
+
+	// Create the browser window.
+	mainWindow = new BrowserWindow(electronOptions);
 
 	// and load the index.html of the app.
 	//mainWindow.loadURL('file://' + __dirname + '../../index.html');
 	mainWindow.loadURL("http://localhost:" + config.port);
 
 	// Open the DevTools if run with "npm start dev"
-	if(process.argv[2] == "dev") {
+	if (process.argv.includes("dev")) {
 		mainWindow.webContents.openDevTools();
 	}
 

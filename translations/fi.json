@@ -1,0 +1,29 @@
+{
+	"LOADING": "Lataa &hellip;",
+
+	"TODAY": "Tänään",
+	"TOMORROW": "Huomenna",
+	"DAYAFTERTOMORROW": "Ylihuomenna",
+	"RUNNING": "Päättyy {timeUntilEnd} päästä",
+	"EMPTY": "Ei tulevia tapahtumia.",
+
+	"N": "P",
+	"NNE": "PPI",
+	"NE": "PI",
+	"ENE": "IPI",
+	"E": "I",
+	"ESE": "IEI",
+	"SE": "EI",
+	"SSE": "EEI",
+	"S": "E",
+	"SSW": "EEL",
+	"SW": "EL",
+	"WSW": "LEL",
+	"W": "L",
+	"WNW": "LPL",
+	"NW": "PL",
+	"NNW": "PPL",
+	
+	"UPDATE_NOTIFICATION": "MagicMirror² päivitys saatavilla.",
+	"UPDATE_NOTIFICATION_MODULE": "Päivitys saatavilla moduulille MODULE_NAME."
+}

@@ -21,28 +21,32 @@
 		var prototype = new this();
 		initializing = false;
 
+		// Make a copy of all prototype properies, to prevent reference issues.
+		for (var name in prototype) {
+			prototype[name] = cloneObject(prototype[name]);
+		}
+
 		// Copy the properties over onto the new prototype
 		for (var name in prop) {
 			// Check if we're overwriting an existing function
 			prototype[name] = typeof prop[name] == "function" &&
-			typeof _super[name] == "function" && fnTest.test(prop[name]) ?
-        (function(name, fn) {
-	return function() {
-		var tmp = this._super;
+			typeof _super[name] == "function" && fnTest.test(prop[name]) ? (function(name, fn) {
+				return function() {
+					var tmp = this._super;
 
-		// Add a new ._super() method that is the same method
-		// but on the super-class
-		this._super = _super[name];
+					// Add a new ._super() method that is the same method
+					// but on the super-class
+					this._super = _super[name];
 
-		// The method only need to be bound temporarily, so we
-		// remove it when we're done executing
-		var ret = fn.apply(this, arguments);
-		this._super = tmp;
+					// The method only need to be bound temporarily, so we
+					// remove it when we're done executing
+					var ret = fn.apply(this, arguments);
+					this._super = tmp;
 
-		return ret;
-	};
-        })(name, prop[name]) :
-        prop[name];
+
+					return ret;
+				};
+			})(name, prop[name]) : prop[name];
 		}
 
 		// The dummy class constructor
@@ -65,6 +69,25 @@
 		return Class;
 	};
 })();
+
+//Define the clone method for later use.
+//Helper Method
+function cloneObject(obj) {
+	if (obj === null || typeof obj !== "object") {
+		return obj;
+	}
+
+	var temp = obj.constructor(); // give temp the original obj's constructor
+	for (var key in obj) {
+		temp[key] = cloneObject(obj[key]);
+
+		if (key === "lockStrings") {
+			Log.log(key);
+		}
+	}
+
+	return temp;
+}
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/
 if (typeof module !== "undefined") {module.exports = Class;}

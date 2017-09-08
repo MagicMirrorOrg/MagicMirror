@@ -1,13 +1,16 @@
 {
   "name": "magicmirror",
-  "version": "2.0.0",
-  "description": "A modular interface for smart mirrors.",
+  "version": "2.1.2",
+  "description": "The open source modular smart mirror platform.",
   "main": "js/electron.js",
   "scripts": {
-    "start": "electron js/electron.js",
-    "test": "snyk test",
-    "snyk-protect": "snyk protect",
-    "prepublish": "npm run snyk-protect"
+    "start": "sh run-start.sh",
+    "install": "cd vendor && npm install",
+    "postinstall": "sh installers/postinstall/postinstall.sh",
+    "test": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests --recursive",
+    "test:unit": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests/unit --recursive",
+    "test:e2e": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests/e2e --recursive",
+    "config:check": "node tests/configs/check_config.js"
   },
   "repository": {
     "type": "git",
@@ -20,34 +23,47 @@
     "modular"
   ],
   "author": "Michael Teeuw",
-  "contributors": "https://github.com/MichMich/MagicMirror/graphs/contributors",
+  "contributors": [
+    "https://github.com/MichMich/MagicMirror/graphs/contributors"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/MichMich/MagicMirror/issues"
   },
-  "homepage": "https://github.com/MichMich/MagicMirror#readme",
+  "homepage": "https://magicmirror.builders",
   "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
+    "current-week-number": "^1.0.7",
     "grunt": "latest",
     "grunt-eslint": "latest",
     "grunt-jsonlint": "latest",
-    "grunt-markdownlint": "^1.0.4",
+    "grunt-markdownlint": "^1.0.39",
     "grunt-stylelint": "latest",
     "grunt-yamllint": "latest",
+    "http-auth": "^3.1.3",
+    "jshint": "^2.9.4",
+    "mocha": "^3.4.2",
+    "spectron": "^3.6.4",
+    "stylelint": "^7.11.0",
     "stylelint-config-standard": "latest",
     "time-grunt": "latest"
   },
   "dependencies": {
-    "electron-prebuilt": "latest",
-    "express": "^4.14.0",
+    "body-parser": "^1.17.2",
+    "colors": "^1.1.2",
+    "electron": "^1.6.10",
+    "express": "^4.15.3",
+    "express-ipfilter": "latest",
     "feedme": "latest",
+    "helmet": "^3.6.1",
     "iconv-lite": "latest",
     "moment": "latest",
-    "request": "^2.74.0",
-    "rrule": "latest",
-    "socket.io": "^1.4.6",
+    "request": "^2.81.0",
+    "rrule-alt": "^2.2.5",
+    "simple-git": "^1.73.0",
+    "socket.io": "^2.0.2",
     "valid-url": "latest",
-    "walk": "latest",
-    "snyk": "^1.14.1"
-  },
-  "snyk": true
+    "walk": "latest"
+  }
 }

@@ -2,13 +2,177 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.1.2] - 2017-07-01
+
+### Changed
+- Revert Docker related changes in favor of [docker-MagicMirror](https://github.com/bastilimbach/docker-MagicMirror). All Docker images are outsourced. ([#856](https://github.com/MichMich/MagicMirror/pull/856))
+- Change Docker base image (Debian + Node) to an arm based distro (AlpineARM + Node) ([#846](https://github.com/MichMich/MagicMirror/pull/846))
+- Fix the dockerfile to have it running from the first time.
+
+### Added
+- Add in option to wrap long calendar events to multiple lines using `wrapEvents` configuration option.
+- Add test e2e `show title newsfeed` for newsfeed module.
+- Add task to check configuration file.
+- Add test check URLs of vendors.
+- Add test of match current week number on clock module with showWeek configuration.
+- Add test default modules present modules/default/defaultmodules.js.
+- Add unit test calendar_modules function capFirst.
+- Add test for check if exists the directories present in defaults modules.
+- Add support for showing wind direction as an arrow instead of abbreviation in currentWeather module.
+- Add support for writing translation fucntions to support flexible word order
+- Add test for check if exits the directories present in defaults modules.
+- Add calendar option to set a separate date format for full day events.
+- Add ability for `currentweather` module to display indoor temperature via INDOOR_TEMPERATURE notification
+- Add ability to change the path of the `custom.css`.
+- Add translation Dutch to Alert module.
+- Added Romanian translation.
+
+### Updated
+- Added missing keys to Polish translation.
+- Added missing key to German translation.
+- Added better translation with flexible word order to Finnish translation
+
+### Fixed
+- Fix instruction in README for using automatically installer script.
+- Bug of duplicated compliments as described in [here](https://forum.magicmirror.builders/topic/2381/compliments-module-stops-cycling-compliments).
+- Fix double message about port when server is starting
+- Corrected Swedish translations for TODAY/TOMORROW/DAYAFTERTOMORROW.
+- Removed unused import from js/electron.js
+- Made calendar.js respect config.timeFormat irrespecive of locale setting
+- Fixed alignment of analog clock when a large calendar is displayed in the same side bar
+
+## [2.1.1] - 2017-04-01
+
+**Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
+
+### Changed
+- Add `anytime` group for Compliments module.
+- Compliments module can use remoteFile without default daytime arrays defined
+- Installer: Use init config.js from config.js.sample.
+- Switched out `rrule` package for `rrule-alt` and fixes in `ical.js` in order to fix calendar issues. ([#565](https://github.com/MichMich/MagicMirror/issues/565))
+- Make mouse events pass through the region fullscreen_above to modules below.
+- Scaled the splash screen down to make it a bit more subtle.
+- Replace HTML tables with markdown tables in README files.
+- Added `DAYAFTERTOMORROW`, `UPDATE_NOTIFICATION` and `UPDATE_NOTIFICATION_MODULE` to Finnish translations.
+- Run `npm test` on Travis automatically
+- Show the splash screen image even when is reboot or halted.
+- Added some missing translaton strings in the sv.json file.
+- Run task jsonlint to check translation files.
+- Restructured Test Suite
+
+### Added
+- Added Docker support (Pull Request [#673](https://github.com/MichMich/MagicMirror/pull/673)).
+- Calendar-specific support for `maximumEntries`, and ` maximumNumberOfDays`.
+- Add loaded function to modules, providing an async callback.
+- Made default newsfeed module aware of gesture events from [MMM-Gestures](https://github.com/thobach/MMM-Gestures)
+- Add use pm2 for manager process into Installer RaspberryPi script.
+- Russian Translation.
+- Afrikaans Translation.
+- Add postinstall script to notify user that MagicMirror installed successfully despite warnings from NPM.
+- Init tests using mocha.
+- Option to use RegExp in Calendar's titleReplace.
+- Hungarian Translation.
+- Icelandic Translation.
+- Add use a script to prevent when is run by SSH session set DISPLAY enviroment.
+- Enable ability to set configuration file by the enviroment variable called MM_CONFIG_FILE.
+- Option to give each calendar a different color.
+- Option for colored min-temp and max-temp.
+- Add test e2e helloworld.
+- Add test e2e enviroment.
+- Add `chai-as-promised` npm module to devDependencies.
+- Basic set of tests for clock module.
+- Run e2e test in Travis.
+- Estonian Translation.
+- Add test for compliments module for parts of day.
+- Korean Translation.
+- Added console warning on startup when deprecated config options are used.
+- Add option to display temperature unit label to the current weather module.
+- Added ability to disable wrapping of news items.
+- Added in the ability to hide events in the calendar module based on simple string filters.
+- Updated Norwegian translation.
+- Added hideLoading option for News Feed module.
+- Added configurable dateFormat to clock module.
+- Added multiple calendar icon support.
+- Added tests for Translations, dev argument, version, dev console.
+- Added test anytime feature compliments module.
+- Added test ipwhitelist configuration directive.
+- Added test for calendar module: default, basic-auth, backward compability, fail-basic-auth.
+- Added meta tags to support fullscreen mode on iOS (for server mode)
+- Added `ignoreOldItems` and `ignoreOlderThan` options to the News Feed module
+- Added test for MM_PORT enviroment variable.
+- Added a configurable Week section to the clock module.
+
+### Fixed
+- Update .gitignore to not ignore default modules folder.
+- Remove white flash on boot up.
+- Added `update` in Raspberry Pi installation script.
+- Fix an issue where the analog clock looked scrambled. ([#611](https://github.com/MichMich/MagicMirror/issues/611))
+- If units is set to imperial, the showRainAmount option of weatherforecast will show the correct unit.
+- Module currentWeather: check if temperature received from api is defined.
+- Fix an issue with module hidden status changing to `true` although lock string prevented showing it.
+- Fix newsfeed module bug (removeStartTags)
+- Fix when is set MM_PORT enviroment variable.
+- Fixed missing animation on `this.show(speed)` when module is alone in a region.
+
+## [2.1.0] - 2016-12-31
+
+**Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
+
+### Added
+- Finnish translation.
+- Danish translation.
+- Turkish translation.
+- Option to limit access to certain IP addresses based on the value of `ipWhitelist` in the `config.js`, default is access from localhost only (Issue [#456](https://github.com/MichMich/MagicMirror/issues/456)).
+- Added ability to change the point of time when calendar events get relative.
+- Add Splash screen on boot.
+- Add option to show humidity in currentWeather module.
+- Add VSCode IntelliSense support.
+- Module API: Add Visibility locking to module system. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules#visibility-locking) for more information.
+- Module API: Method to overwrite the module's header. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules#getheader) for more information.
+- Module API: Option to define the minimum MagicMirror version to run a module. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules#requiresversion) for more information.
+- Calendar module now broadcasts the event list to all other modules using the notification system. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules/default/calendar) for more information.
+- Possibility to use the the calendar feed as the source for the weather (currentweather & weatherforecast) location data. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules/default/weatherforecast) for more information.
+- Added option to show rain amount in the weatherforecast default module
+- Add module `updatenotification` to get an update whenever a new version is availabe. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules/default/updatenotification) for more information.
+- Add the abilty to set timezone on the date display in the Clock Module
+- Ability to set date format in calendar module
+- Possibility to use currentweather for the compliments
+- Added option `disabled` for modules.
+- Added option `address` to set bind address.
+- Added option `onlyTemp` for currentweather module to show show only current temperature and weather icon.
+- Added option `remoteFile` to compliments module to load compliment array from filesystem.
+- Added option `zoom` to scale the whole mirror display with a given factor.
+- Added option `roundTemp` for currentweather and weatherforecast modules to display temperatures rounded to nearest integer.
+- Added abilty set the classes option to compliments module for style and text size of compliments.
+- Added ability to configure electronOptions
+- Calendar module: option to hide private events
+- Add root_path for global vars
+
+### Updated
+- Modified translations for Frysk.
+- Modified core English translations.
+- Updated package.json as a result of Snyk security update.
+- Improve object instantiation to prevent reference errors.
+- Improve logger. `Log.log()` now accepts multiple arguments.
+- Remove extensive logging in newsfeed node helper.
+- Calendar times are now uniformly capitalized.
+- Modules are now secure, and Helmet is now used to prevent abuse of the Mirror's API.
+
+### Fixed
+- Solve an issue where module margins would appear when the first module of a section was hidden.
+- Solved visual display errors on chrome, if all modules in one of the right sections are hidden.
+- Global and Module default config values are no longer modified when setting config values.
+- Hide a region if all modules in a region are hidden. Prevention unwanted margins.
+- Replaced `electron-prebuilt` package with `electron` in order to fix issues that would happen after 2017.
+- Documentation of alert module
+
 ## [2.0.5] - 2016-09-20
 
 ### Added
 - Added ability to remove tags from the beginning or end of newsfeed items in 'newsfeed.js'.
 - Added ability to define "the day after tomorrow" for calendar events (Definition for German and Dutch already included).
 - Added CII Badge (we are compliant with the CII Best Practices)
-- Add support for doing http basic auth when loading calendars 
+- Add support for doing http basic auth when loading calendars
 - Add the abilty to turn off and on the date display in the Clock Module
 
 ### Fixed
@@ -66,7 +230,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Added reference to Italian Translation.
-- Added the missing NE translation to all languages. [#334](https://github.com/MichMich/MagicMirror/issues/344)
+- Added the missing NE translation to all languages. [#344](https://github.com/MichMich/MagicMirror/issues/344)
 - Added proper User-Agent string to calendar call.
 
 ### Changed

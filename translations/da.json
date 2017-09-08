@@ -1,0 +1,31 @@
+{
+	"LOADING": "Indlæser &hellip;",
+
+	"TODAY": "I dag",
+	"TOMORROW": "I morgen",
+	"DAYAFTERTOMORROW": "I overmorgen",
+	"RUNNING": "Slutter om",
+	"EMPTY": "Ingen kommende begivenheder.",
+
+	"N": "N",
+	"NNE": "NNØ",
+	"NE": "NØ",
+	"ENE": "ØNØ",
+	"E": "Ø",
+	"ESE": "ØSØ",
+	"SE": "SØ",
+	"SSE": "SSØ",
+	"S": "S",
+	"SSW": "SSV",
+	"SW": "SV",
+	"WSW": "VSV",
+	"W": "V",
+	"WNW": "VNV",
+	"NW": "NV",
+	"NNW": "NNV",
+
+
+	"UPDATE_NOTIFICATION": "MagicMirror² opdatering tilgængelig.",
+	"UPDATE_NOTIFICATION_MODULE": "Opdatering tilgængelig for MODULE_NAME modulet.",
+	"UPDATE_INFO": "Den nuværende installation er COMMIT_COUNT bagud på BRANCH_NAME branch'en."
+}
