@@ -29,7 +29,7 @@ var config = {
 		},
 		{
 			module: "clock",
-			position: "bottom_bar",
+			position: "top_right",
 		},
 		{
 			module: "calendar",
