@@ -252,7 +252,11 @@ Module.register("weatherforecast",{
 				} else if (this.status === 401) {
 					self.updateDom(self.config.animationSpeed);
 
-					Log.error(self.name + ": Incorrect APPID.");
+					if (self.config.forecastEndpoint == "forecast/daily") {
+						self.config.forecastEndpoint = "forecast";
+						Log.error(self.name + ": Incorrect APPID.");
+					}
+
 					retry = true;
 				} else {
 					Log.error(self.name + ": Could not load weather.");
@@ -299,6 +303,20 @@ Module.register("weatherforecast",{
 		return params;
 	},
 
+	/*
+	 * parserDataWeather(data)
+	 *
+	 * Use the parse to keep the same struct between daily and forecast Endpoint
+	 * from Openweather
+	 *
+	 */
+	parserDataWeather: function(data) {
+		if (data.hasOwnProperty("main")) {
+			data["temp"] = {"min": data.main.temp_min, "max": data.main.temp_max}
+		}
+		return data;
+	},
+
 	/* processWeather(data)
 	 * Uses the received data to set the various values.
 	 *
@@ -311,6 +329,7 @@ Module.register("weatherforecast",{
 		for (var i = 0, count = data.list.length; i < count; i++) {
 
 			var forecast = data.list[i];
+			this.parserDataWeather(forecast); // hack issue #1017
 			this.forecast.push({
 
 				day: moment(forecast.dt, "X").format("ddd"),
