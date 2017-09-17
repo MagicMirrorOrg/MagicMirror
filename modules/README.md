@@ -472,7 +472,7 @@ this.translate("RUNNING", {
 {
 	"RUNNING": "Slutar",
 }
-
+````
 In this case the `translate`-function will not find any variables in the translation, will look for `fallback` variable and use that if possible to create the translation.
 
 ## The Node Helper: node_helper.js

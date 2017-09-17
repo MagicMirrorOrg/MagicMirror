@@ -194,7 +194,7 @@ var Module = Class.extend({
 	 * return string - File path.
 	 */
 	file: function (file) {
-		return this.data.path + "/" + file;
+		return (this.data.path + "/" + file).replace("//", "/");
 	},
 
 	/* loadStyles()

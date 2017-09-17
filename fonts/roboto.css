@@ -5,9 +5,9 @@
   src:
     local("Roboto Thin"),
     local("Roboto-Thin"),
-    url("Roboto-Thin/Roboto-Thin.woff2") format("woff2"),
-    url("Roboto-Thin/Roboto-Thin.woff") format("woff"),
-    url("Roboto-Thin/Roboto-Thin.ttf") format("truetype");
+    url("node_modules/roboto-fontface/fonts/roboto/Roboto-Thin.woff2") format("woff2"),
+    url("node_modules/roboto-fontface/fonts/roboto/Roboto-Thin.woff") format("woff"),
+    url("node_modules/roboto-fontface/fonts/roboto/Roboto-Thin.ttf") format("truetype");
 }
 
 @font-face {
@@ -17,9 +17,9 @@
   src:
     local("Roboto Condensed Light"),
     local("RobotoCondensed-Light"),
-    url("RobotoCondensed-Light/RobotoCondensed-Light.woff2") format("woff2"),
-    url("RobotoCondensed-Light/RobotoCondensed-Light.woff") format("woff"),
-    url("RobotoCondensed-Light/RobotoCondensed-Light.ttf") format("truetype");
+    url("node_modules/roboto-fontface/fonts/roboto-condensed/Roboto-Condensed-Light.woff2") format("woff2"),
+    url("node_modules/roboto-fontface/fonts/roboto-condensed/Roboto-Condensed-Light.woff") format("woff"),
+    url("node_modules/roboto-fontface/fonts/roboto-condensed/Roboto-Condensed-Light.ttf") format("truetype");
 }
 
 @font-face {
@@ -29,9 +29,9 @@
   src:
     local("Roboto Condensed"),
     local("RobotoCondensed-Regular"),
-    url("RobotoCondensed-Regular/RobotoCondensed-Regular.woff2") format("woff2"),
-    url("RobotoCondensed-Regular/RobotoCondensed-Regular.woff") format("woff"),
-    url("RobotoCondensed-Regular/RobotoCondensed-Regular.ttf") format("truetype");
+    url("node_modules/roboto-fontface/fonts/roboto-condensed/Roboto-Condensed-Regular.woff2") format("woff2"),
+    url("node_modules/roboto-fontface/fonts/roboto-condensed/Roboto-Condensed-Regular.woff") format("woff"),
+    url("node_modules/roboto-fontface/fonts/roboto-condensed/Roboto-Condensed-Regular.ttf") format("truetype");
 }
 
 @font-face {
@@ -41,9 +41,9 @@
   src:
     local("Roboto Condensed Bold"),
     local("RobotoCondensed-Bold"),
-    url("RobotoCondensed-Bold/RobotoCondensed-Bold.woff2") format("woff2"),
-    url("RobotoCondensed-Bold/RobotoCondensed-Bold.woff") format("woff"),
-    url("RobotoCondensed-Bold/RobotoCondensed-Bold.ttf") format("truetype");
+    url("node_modules/roboto-fontface/fonts/roboto-condensed/Roboto-Condensed-Bold.woff2") format("woff2"),
+    url("node_modules/roboto-fontface/fonts/roboto-condensed/Roboto-Condensed-Bold.woff") format("woff"),
+    url("node_modules/roboto-fontface/fonts/roboto-condensed/Roboto-Condensed-Bold.ttf") format("truetype");
 }
 
 @font-face {
@@ -53,9 +53,9 @@
   src:
     local("Roboto"),
     local("Roboto-Regular"),
-    url("Roboto-Regular/Roboto-Regular.woff2") format("woff2"),
-    url("Roboto-Regular/Roboto-Regular.woff") format("woff"),
-    url("Roboto-Regular/Roboto-Regular.ttf") format("truetype");
+    url("node_modules/roboto-fontface/fonts/roboto/Roboto-Regular.woff2") format("woff2"),
+    url("node_modules/roboto-fontface/fonts/roboto/Roboto-Regular.woff") format("woff"),
+    url("node_modules/roboto-fontface/fonts/roboto/Roboto-Regular.ttf") format("truetype");
 }
 
 @font-face {
@@ -65,9 +65,9 @@
   src:
     local("Roboto Medium"),
     local("Roboto-Medium"),
-    url("Roboto-Medium/Roboto-Medium.woff2") format("woff2"),
-    url("Roboto-Medium/Roboto-Medium.woff") format("woff"),
-    url("Roboto-Medium/Roboto-Medium.ttf") format("truetype");
+    url("node_modules/roboto-fontface/fonts/roboto/Roboto-Medium.woff2") format("woff2"),
+    url("node_modules/roboto-fontface/fonts/roboto/Roboto-Medium.woff") format("woff"),
+    url("node_modules/roboto-fontface/fonts/roboto/Roboto-Medium.ttf") format("truetype");
 }
 
 @font-face {
@@ -77,9 +77,9 @@
   src:
     local("Roboto Bold"),
     local("Roboto-Bold"),
-    url("Roboto-Bold/Roboto-Bold.woff2") format("woff2"),
-    url("Roboto-Bold/Roboto-Bold.woff") format("woff"),
-    url("Roboto-Bold/Roboto-Bold.ttf") format("truetype");
+    url("node_modules/roboto-fontface/fonts/roboto/Roboto-Bold.woff2") format("woff2"),
+    url("node_modules/roboto-fontface/fonts/roboto/Roboto-Bold.woff") format("woff"),
+    url("node_modules/roboto-fontface/fonts/roboto/Roboto-Bold.ttf") format("truetype");
 }
 
 @font-face {
@@ -89,7 +89,7 @@
   src:
     local("Roboto Light"),
     local("Roboto-Light"),
-    url("Roboto-Light/Roboto-Light.woff2") format("woff2"),
-    url("Roboto-Light/Roboto-Light.woff") format("woff"),
-    url("Roboto-Light/Roboto-Light.ttf") format("truetype");
+    url("node_modules/roboto-fontface/fonts/roboto/Roboto-Light.woff2") format("woff2"),
+    url("node_modules/roboto-fontface/fonts/roboto/Roboto-Light.woff") format("woff"),
+    url("node_modules/roboto-fontface/fonts/roboto/Roboto-Light.ttf") format("truetype");
 }

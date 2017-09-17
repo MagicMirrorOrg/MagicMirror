@@ -24,6 +24,7 @@ Module.register("weatherforecast",{
 		fade: true,
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		colored: false,
+		scale: false,
 
 		initialLoadDelay: 2500, // 2.5 seconds delay. This delay is used to keep the OpenWeather API happy.
 		retryDelay: 2500,
@@ -139,13 +140,28 @@ Module.register("weatherforecast",{
 			icon.className = "wi weathericon " + forecast.icon;
 			iconCell.appendChild(icon);
 
+			var degreeLabel = "";
+			if(this.config.scale) {
+				switch(this.config.units) {
+				case "metric":
+					degreeLabel = " &deg;C";
+					break;
+				case "imperial":
+					degreeLabel = " &deg;F";
+					break;
+				case "default":
+					degreeLabel = "K";
+					break;
+				}
+			}
+
 			var maxTempCell = document.createElement("td");
-			maxTempCell.innerHTML = forecast.maxTemp;
+			maxTempCell.innerHTML = forecast.maxTemp + degreeLabel;
 			maxTempCell.className = "align-right bright max-temp";
 			row.appendChild(maxTempCell);
 
 			var minTempCell = document.createElement("td");
-			minTempCell.innerHTML = forecast.minTemp;
+			minTempCell.innerHTML = forecast.minTemp + degreeLabel;
 			minTempCell.className = "align-right min-temp";
 			row.appendChild(minTempCell);
 
@@ -358,7 +374,7 @@ Module.register("weatherforecast",{
 	 *
 	 * argument temperature number - Temperature.
 	 *
-	 * return number - Rounded Temperature.
+	 * return string - Rounded Temperature.
 	 */
 	roundValue: function(temperature) {
 		var decimals = this.config.roundTemp ? 0 : 1;

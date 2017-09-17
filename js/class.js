@@ -4,15 +4,15 @@
  */
 
 // Inspired by base2 and Prototype
-(function() {
+(function () {
 	var initializing = false;
-	var fnTest = /xyz/.test(function() {xyz;}) ? /\b_super\b/ : /.*/;
+	var fnTest = /xyz/.test(function () { xyz; }) ? /\b_super\b/ : /.*/;
 
 	// The base Class implementation (does nothing)
-	this.Class = function() {};
+	this.Class = function () { };
 
 	// Create a new Class that inherits from this class
-	Class.extend = function(prop) {
+	Class.extend = function (prop) {
 		var _super = this.prototype;
 
 		// Instantiate a base class (but only create the instance,
@@ -30,23 +30,23 @@
 		for (var name in prop) {
 			// Check if we're overwriting an existing function
 			prototype[name] = typeof prop[name] == "function" &&
-			typeof _super[name] == "function" && fnTest.test(prop[name]) ? (function(name, fn) {
-				return function() {
-					var tmp = this._super;
+				typeof _super[name] == "function" && fnTest.test(prop[name]) ? (function (name, fn) {
+					return function () {
+						var tmp = this._super;
 
-					// Add a new ._super() method that is the same method
-					// but on the super-class
-					this._super = _super[name];
+						// Add a new ._super() method that is the same method
+						// but on the super-class
+						this._super = _super[name];
 
-					// The method only need to be bound temporarily, so we
-					// remove it when we're done executing
-					var ret = fn.apply(this, arguments);
-					this._super = tmp;
+						// The method only need to be bound temporarily, so we
+						// remove it when we're done executing
+						var ret = fn.apply(this, arguments);
+						this._super = tmp;
 
 
-					return ret;
-				};
-			})(name, prop[name]) : prop[name];
+						return ret;
+					};
+				})(name, prop[name]) : prop[name];
 		}
 
 		// The dummy class constructor
@@ -90,4 +90,9 @@ function cloneObject(obj) {
 }
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/
-if (typeof module !== "undefined") {module.exports = Class;}
+if (typeof module !== "undefined") {
+	module.exports = Class;
+	module.exports._test = {
+		cloneObject: cloneObject
+	}
+}

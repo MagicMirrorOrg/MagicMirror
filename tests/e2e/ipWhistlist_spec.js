@@ -1,24 +1,31 @@
-const globalSetup = require("./global-setup");
-const app = globalSetup.app;
+const helpers = require("./global-setup");
+const path = require("path");
 const request = require("request");
-const chai = require("chai");
-const expect = chai.expect;
 
+const expect = require("chai").expect;
+
+const describe = global.describe;
+const it = global.it;
+const beforeEach = global.beforeEach;
+const afterEach = global.afterEach;
 
 describe("ipWhitelist directive configuration", function () {
+	helpers.setupTimeout(this);
 
-	this.timeout(20000);
+	var app = null;
 
-	beforeEach(function (done) {
-		app.start().then(function() { done(); } );
+	beforeEach(function () {
+		return helpers.startApplication({
+			args: ["js/electron.js"]
+		}).then(function (startedApp) { app = startedApp; })
 	});
 
-	afterEach(function (done) {
-		app.stop().then(function() { done(); });
+	afterEach(function () {
+		return helpers.stopApplication(app);
 	});
 
 	describe("Set ipWhitelist without access", function () {
-		before(function() {
+		before(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/noIpWhiteList.js";
 		});
@@ -31,7 +38,7 @@ describe("ipWhitelist directive configuration", function () {
 	});
 
 	describe("Set ipWhitelist []", function () {
-		before(function() {
+		before(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/empty_ipWhiteList.js";
 		});
