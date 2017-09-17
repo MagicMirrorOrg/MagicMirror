@@ -19,6 +19,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add test e2e showWeek feature in spanish language.
 - Add warning Log when is used old authentication method in the calendar module.
 - Add test e2e for helloworld module with default config text
+- Add ability for `currentweather` module to display indoor humidity via INDOOR_HUMIDITY notification
 
 ### Updated
 - Changed 'default.js' - listen on all attached interfaces by default.
