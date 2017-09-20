@@ -54,8 +54,9 @@ var config = {
 			position: "top_right",
 			config: {
 				location: "New York",
-				locationID: "",  //ID from http://www.openweathermap.org/help/city_list.txt
-				appid: "YOUR_OPENWEATHER_API_KEY"
+				locationID: "5128581",  //Deprecated - ID from http://www.openweathermap.org/help/city_list.txt
+                appid: "YOUR_OPENWEATHER_API_KEY"  //Deprecated
+                apiXuKey: "YOUR_APIXU_API_KEY" //https://www.apixu.com/
 			}
 		},
 		{
