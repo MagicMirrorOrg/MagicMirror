@@ -278,7 +278,7 @@ Module.register("compliments", {
     if(data.weather) {
       this.currentWeatherType = weatherIconTable[data.weather[0].icon];
     } else {
-      this.currentWeatherType = iconApiXuTable[data.current.condition.code];
+      this.currentWeatherType = iconApiXuTable[data.current.condition.icon];
 
     }
 	},
