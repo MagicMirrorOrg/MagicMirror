@@ -30,7 +30,7 @@ Module.register("weatherforecast",{
 
 		apiVersion: "2.5",
 		apiBase: "http://api.openweathermap.org/data/",
-		forecastEndpoint: "forecast/daily",
+		forecastEndpoint: "forecast",
 
 		appendLocationNameToHeader: true,
 		calendarClass: "calendar",
@@ -299,8 +299,8 @@ Module.register("weatherforecast",{
 
 				day: moment(forecast.dt, "X").format("ddd"),
 				icon: this.config.iconTable[forecast.weather[0].icon],
-				maxTemp: this.roundValue(forecast.temp.max),
-				minTemp: this.roundValue(forecast.temp.min),
+				maxTemp: this.roundValue(forecast.main.temp_max),
+				minTemp: this.roundValue(forecast.main.temp_min),
 				rain: this.roundValue(forecast.rain)
 
 			});
