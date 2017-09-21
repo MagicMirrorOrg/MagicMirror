@@ -14,6 +14,7 @@ Module.register("currentweather", {
 		location: false,
 		locationID: false,
 		appid: "",
+		apiType: "OPENWEATHERMAP",
 		units: config.units,
 		updateInterval: 10 * 60 * 1000, // every 10 minutes
 		animationSpeed: 1000,
@@ -204,7 +205,7 @@ Module.register("currentweather", {
 		this.weatherType = null;
 
 		this.loaded = false;
-		if (!this.isOpenWeatherAPI()) {
+		if (this.isApiXuUAPI()) {
 			this.config.apiBase = this.config.apiXuBase;
 			this.config.apiVersion = this.config.apiXuVersion;
 			this.config.weatherEndpoint = this.config.apiXuWeatherEndpoint;
@@ -214,8 +215,17 @@ Module.register("currentweather", {
 	},
 
 	//which API to use
-	isOpenWeatherAPI: function() {
-		return this.config.appid ? true : false;
+	isApiXuUAPI: function() {
+		if (this.config.apiType && this.config.apiType === "APIXU") {
+			return true;
+		}
+		return false;
+	},
+	isOpenWeatherMapAPI: function() {
+		if (this.config.apiType && this.config.apiType === "OPENWEATHERMAP") {
+			return true;
+		}
+		return false;
 	},
 	// add extra information of current weather
 	// windDirection, humidity, sunrise and sunset
@@ -278,8 +288,14 @@ Module.register("currentweather", {
 	getDom: function() {
 		var wrapper = document.createElement("div");
 
-		if (this.config.appid === "" && this.config.apiXuKey === "") {
-			wrapper.innerHTML = "Please set the correct openweather <i>appid</i> in the config for module: " + this.name + ".";
+		if (this.config.appid === "") {
+			wrapper.innerHTML = "Please set the correct openweather or apixu <i>appid</i> in the config for module: " + this.name + ".";
+			wrapper.className = "dimmed light small";
+			return wrapper;
+		}
+
+		if(!this.isOpenWeatherMapAPI() && !this.isApiXuUAPI()) {
+			wrapper.innerHTML = "Invalid apiType <i>apiType</i> in the config for module: " + this.name + ".";
 			wrapper.className = "dimmed light small";
 			return wrapper;
 		}
@@ -393,7 +409,7 @@ Module.register("currentweather", {
 	 * Calls processWeather on succesfull response.
 	 */
 	updateWeather: function() {
-		if (this.config.appid === "" && this.config.apiXuKey === "") {
+		if (this.config.appid === "") {
 			Log.error("CurrentWeather: APPID or APIXUKEY not set!");
 			return;
 		}
@@ -431,7 +447,7 @@ Module.register("currentweather", {
 	 */
 	getParams: function() {
 		var params = "?";
-		if (!this.isOpenWeatherAPI()) {
+		if (this.isApiXuUAPI()) {
 			if (this.config.location) {
 				params += "q=" + this.config.location;
 			} else if (this.firstEvent && this.firstEvent.location) {
@@ -442,9 +458,9 @@ Module.register("currentweather", {
 				this.hide(this.config.animationSpeed, { lockString: this.identifier });
 				return;
 			}
-			params += "&key=" + this.config.apiXuKey;
+			params += "&key=" + this.config.appid;
 			params += "&days=1";
-		} else {
+		} else if (this.isOpenWeatherMapAPI()) {
 			if (this.config.locationID) {
 				params += "id=" + this.config.locationID;
 			} else if (this.config.location) {
@@ -457,8 +473,6 @@ Module.register("currentweather", {
 				this.hide(this.config.animationSpeed, { lockString: this.identifier });
 				return;
 			}
-
-
 			params += "&units=" + this.config.units;
 			params += "&lang=" + this.config.lang;
 			params += "&APPID=" + this.config.appid;
@@ -473,10 +487,10 @@ Module.register("currentweather", {
 	 * argument data object - Weather information received form openweather.org.
 	 */
 	processWeather: function(data) {
-		if (this.isOpenWeatherAPI()) {
-			this.processWeatherOpenApi(data);
-		} else {
+		if (this.isApiXuUAPI()) {
 			this.procesWeatherXuApi(data);
+		} else if (this.isOpenWeatherMapAPI()) {
+			this.processWeatherOpenApi(data);
 		}
 	},
 
