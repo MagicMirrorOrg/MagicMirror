@@ -6,7 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - Remove Roboto fonts files inside  `fonts` and these are installed by npm install command.
-- Added support for apixu [https://www.apixu.com/](https://www.apixu.com/)  for weatherforecast and currentweather modules. 
+- Added support for apixu [https://www.apixu.com/](https://www.apixu.com/)  for weatherforecast and currentweather modules.
 
 ### Added
 - Add `clientonly` script to start only the electron client for a remote server.
