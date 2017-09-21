@@ -252,8 +252,8 @@ Module.register("weatherforecast", {
 			iconCell.appendChild(icon);
 
 			var degreeLabel = "";
-			if (this.config.scale) {
-				switch (this.config.units) {
+			if(this.config.scale) {
+				switch(this.config.units) {
 				case "metric":
 					degreeLabel = " &deg;C";
 					break;
@@ -265,6 +265,7 @@ Module.register("weatherforecast", {
 					break;
 				}
 			}
+
 			var maxTempCell = document.createElement("td");
 			maxTempCell.innerHTML = forecast.maxTemp + degreeLabel;
 			maxTempCell.className = "align-right bright max-temp";
