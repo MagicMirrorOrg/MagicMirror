@@ -102,7 +102,7 @@ Module.register("compliments", {
 			compliments = this.config.compliments.morning.slice(0);
 		} else if (hour >= 12 && hour < 17 && this.config.compliments.hasOwnProperty("afternoon")) {
 			compliments = this.config.compliments.afternoon.slice(0);
-		} else if(this.config.compliments.hasOwnProperty("evening")) {
+		} else if (this.config.compliments.hasOwnProperty("evening")) {
 			compliments = this.config.compliments.evening.slice(0);
 		}
 
@@ -182,11 +182,11 @@ Module.register("compliments", {
 			"50n": "night_alt_cloudy_windy"
 		};
 
-    if(data.weather) {
-      this.currentWeatherType = weatherIconTable[data.weather[0].icon];
-    } else {
-      this.currentWeatherType = data.current.condition.weatherIcon;
-    }
+		if (data.weather) {
+			this.currentWeatherType = weatherIconTable[data.weather[0].icon];
+		} else {
+			this.currentWeatherType = data.current.condition.weatherIcon;
+		}
 	},
 
 
