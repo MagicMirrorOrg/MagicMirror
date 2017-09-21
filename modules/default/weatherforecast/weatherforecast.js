@@ -253,15 +253,15 @@ Module.register("weatherforecast", {
 			var degreeLabel = "";
 			if (this.config.scale) {
 				switch (this.config.units) {
-					case "metric":
-						degreeLabel = " &deg;C";
-						break;
-					case "imperial":
-						degreeLabel = " &deg;F";
-						break;
-					case "default":
-						degreeLabel = " &deg;C";
-						break;
+				case "metric":
+					degreeLabel = " &deg;C";
+					break;
+				case "imperial":
+					degreeLabel = " &deg;F";
+					break;
+				case "default":
+					degreeLabel = " &deg;C";
+					break;
 				}
 			}
 			var maxTempCell = document.createElement("td");
@@ -446,21 +446,21 @@ Module.register("weatherforecast", {
 			var minTemp = 0;
 			var rain = 0;
 			switch (this.config.units) {
-				case "metric":
-					maxTemp = forecast.day.maxtemp_c;
-					minTemp = forecast.day.mintemp_c;
-					rain = forecast.day.totalprecip_mm;
-					break;
-				case "imperial":
-					maxTemp = forecast.day.maxtemp_f;
-					minTemp = forecast.day.mintemp_f;
-					rain = forecast.day.totalprecip_in;
-					break;
-				case "default":
-					maxTemp = forecast.day.maxtemp_c;
-					minTemp = forecast.day.mintemp_c;
-					rain = forecast.day.totalprecip_mm;
-					break;
+			case "metric":
+				maxTemp = forecast.day.maxtemp_c;
+				minTemp = forecast.day.mintemp_c;
+				rain = forecast.day.totalprecip_mm;
+				break;
+			case "imperial":
+				maxTemp = forecast.day.maxtemp_f;
+				minTemp = forecast.day.mintemp_f;
+				rain = forecast.day.totalprecip_in;
+				break;
+			case "default":
+				maxTemp = forecast.day.maxtemp_c;
+				minTemp = forecast.day.mintemp_c;
+				rain = forecast.day.totalprecip_mm;
+				break;
 			}
 
 			this.forecast.push({

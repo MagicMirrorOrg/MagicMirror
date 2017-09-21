@@ -302,15 +302,15 @@ Module.register("currentweather", {
 		var degreeLabel = "";
 		if (this.config.degreeLabel) {
 			switch (this.config.units) {
-				case "metric":
-					degreeLabel = "C";
-					break;
-				case "imperial":
-					degreeLabel = "F";
-					break;
-				case "default":
-					degreeLabel = "K";
-					break;
+			case "metric":
+				degreeLabel = "C";
+				break;
+			case "imperial":
+				degreeLabel = "F";
+				break;
+			case "default":
+				degreeLabel = "K";
+				break;
 			}
 		}
 
@@ -474,18 +474,18 @@ Module.register("currentweather", {
 		var currentTemp = 0;
 		var windSpeed = 0;
 		switch (this.config.units) {
-			case "metric":
-				currentTemp = data.current.temp_c;
-				windSpeed = data.current.wind_kph;
-				break;
-			case "imperial":
-				currentTemp = data.current.temp_f;
-				windSpeed = data.current.wind_mph;
-				break;
-			case "default":
-				currentTemp = data.current.temp_c;
-				windSpeed = data.current.wind_kph;
-				break;
+		case "metric":
+			currentTemp = data.current.temp_c;
+			windSpeed = data.current.wind_kph;
+			break;
+		case "imperial":
+			currentTemp = data.current.temp_f;
+			windSpeed = data.current.wind_mph;
+			break;
+		case "default":
+			currentTemp = data.current.temp_c;
+			windSpeed = data.current.wind_kph;
+			break;
 		}
 
 		this.temperature = this.roundValue(currentTemp);
