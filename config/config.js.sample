@@ -9,11 +9,6 @@
  */
 
 var config = {
-	address: "localhost", // Address to listen on, can be:
-	                      // - "localhost", "127.0.0.1", "::1" to listen on loopback interface
-	                      // - another specific IPv4/6 to listen on a specific interface
-	                      // - "", "0.0.0.0", "::" to listen on any interface
-	                      // Default, when address config is left out, is "localhost"
 	port: 8080,
 	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1"], // Set [] to allow all IP addresses
 	                                                       // or add a specific IPv4 of 192.168.1.5 :
@@ -60,13 +55,13 @@ var config = {
 			config: {
 				location: "New York",
 				locationID: "5128581",  //Deprecated - ID from http://www.openweathermap.org/help/city_list.txt
-                appid: "YOUR_OPENWEATHER_API_KEY",  //Deprecated
-                apiXuKey: "YOUR_APIXU_API_KEY" //https://www.apixu.com/
+        appid: "YOUR_OPENWEATHER_API_KEY",  //Deprecated
+        apiXuKey: "YOUR_APIXU_API_KEY" //https://www.apixu.com/
 			}
 		},
 		{
-			module: "weatherforecast",
-			position: "top_right",
+      module: "weatherforecast",
+      position: "top_right",
 			header: "Weather Forecast",
 			config: {
 				location: "New York",
