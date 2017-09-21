@@ -1,4 +1,3 @@
-# Module: Current Weather
 The `currentweather` module is one of the default modules of the MagicMirror.
 This module displays the current weather, including the windspeed, the sunset or sunrise time, the temperature and an icon to display the current conditions.
 
@@ -15,8 +14,8 @@ modules: [
 			// See 'Configuration options' for more information.
 			location: "Amsterdam,Netherlands",
 			locationID: "",  //Deprecated - ID from http://www.openweathermap.org/help/city_list.txt
-			appid: "abcde12345abcde12345abcde12345ab",  //Deprecated openweathermap.org API key.
-			apiXuKey: "abcde12345abcde12345abcde12345ab" //https://www.apixu.com/ API key.
+			appid: "abcde12345abcde12345abcde12345ab",  //openweathermap.org or apixu.com API key.
+			apiType: "APIXU"  //Default OPENWEATHERMAP
 		}
 	}
 ]

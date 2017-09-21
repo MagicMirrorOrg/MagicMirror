@@ -61,8 +61,7 @@ var config = {
 				location: "New York",
 				locationID: "5128581",  //Deprecated - ID from http://www.openweathermap.org/help/city_list.txt
 			    appid: "YOUR_OPENWEATHER_API_KEY OR YOUR_APIXU_API_KEY",
-			    apiXuKey: "YOUR_APIXU_API_KEY" //https://www.apixu.com/,
-          apiType: "APIXU"  //Default OPENWEATHERMAP
+				apiType: "APIXU"  //Default OPENWEATHERMAP
 			}
 		},
 		{
@@ -73,7 +72,7 @@ var config = {
 				location: "New York",
 				locationID: "5128581",  //Deprecated - ID from http://www.openweathermap.org/help/city_list.txt
 				appid: "YOUR_OPENWEATHER_API_KEY OR YOUR_APIXU_API_KEY",
-        apiType: "APIXU" //Default OPENWEATHERMAP
+				apiType: "APIXU" //Default OPENWEATHERMAP
 			}
 		},
 		{
