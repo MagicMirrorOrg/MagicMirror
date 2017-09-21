@@ -24,6 +24,7 @@ Module.register("weatherforecast", {
 		fade: true,
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		colored: false,
+		scale: false,
 
 		initialLoadDelay: 2500, // 2.5 seconds delay. This delay is used to keep the OpenWeather API happy.
 		retryDelay: 2500,
@@ -549,7 +550,7 @@ Module.register("weatherforecast", {
 	 *
 	 * argument temperature number - Temperature.
 	 *
-	 * return number - Rounded Temperature.
+	 * return string - Rounded Temperature.
 	 */
 	roundValue: function(temperature) {
 		var decimals = this.config.roundTemp ? 0 : 1;
