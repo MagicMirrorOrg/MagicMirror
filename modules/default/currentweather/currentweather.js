@@ -498,9 +498,10 @@ Module.register("currentweather",{
 
     this.windDirection = data.current.wind_dir;
     this.windDeg = data.current.wind_degree;
-    data.current.condition.icon = data.current.condition.code + data.current.is_day == 1 ? "-day":"-night"
-    this.weatherType = this.config.iconApiXuTable[data.current.condition.icon ];
-
+    var iconType = data.current.condition.code + (data.current.is_day == 1 ? "-day":"-night");
+    var icon = this.config.iconApiXuTable[iconType]
+    this.weatherType = icon;
+    data.current.condition["weatherIcon"] = icon;
     var now = new Date();
     var sunrise = data.forecast.forecastday[0].astro.sunrise;
     var sunset = data.forecast.forecastday[0].astro.sunset;

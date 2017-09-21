@@ -349,7 +349,6 @@ Module.register("weatherforecast",{
       return;
     }
     var url = this.config.apiBase + this.config.apiVersion + "/" + this.config.forecastEndpoint + this.getParams();
-    console.log(url);
     var self = this;
     var retry = true;
 
