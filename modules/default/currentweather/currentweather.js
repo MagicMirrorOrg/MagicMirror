@@ -7,7 +7,7 @@
  * MIT Licensed.
  */
 
-Module.register("currentweather",{
+Module.register("currentweather", {
 
 	// Default module config.
 	defaults: {
@@ -35,6 +35,10 @@ Module.register("currentweather",{
 		apiBase: "http://api.openweathermap.org/data/",
 		weatherEndpoint: "weather",
 
+		apiXuVersion: "v1",
+		apiXuBase: "https://api.apixu.com/",
+		apiXuWeatherEndpoint: "forecast.json",
+
 		appendLocationNameToHeader: true,
 		calendarClass: "calendar",
 
@@ -60,6 +64,100 @@ Module.register("currentweather",{
 			"11n": "wi-night-thunderstorm",
 			"13n": "wi-night-snow",
 			"50n": "wi-night-alt-cloudy-windy"
+		},
+		iconApiXuTable: {
+			"1000-day": "wi-day-sunny",
+			"1003-day": "wi-day-cloudy",
+			"1006-day": "wi-cloud",
+			"1009-day": "wi-cloudy",
+			"1030-day": "wi-day-fog",
+			"1063-day": "wi-day-showers",
+			"1066-day": "wi-day-snow",
+			"1069-day": "wi-day-sleet",
+			"1072-day": "wi-day-rain-mix",
+			"1087-day": "wi-day-thunderstorm",
+			"1114-day": "wi-snow",
+			"1117-day": "wi-snow-wind",
+			"1135-day": "wi-day-fog",
+			"1147-day": "wi-day-fog",
+			"1153-day": "wi-day-showers",
+			"1168-day": "wi-day-rain-mix",
+			"1171-day": "wi-rain-mix",
+			"1183-day": "wi-day-rain",
+			"1186-day": "wi-day-rain",
+			"1189-day": "wi-day-rain",
+			"1192-day": "wi-rain",
+			"1195-day": "wi-rain",
+			"1198-day": "wi-day-rain-mix",
+			"1201-day": "wi-rain-mix",
+			"1204-day": "wi-day-sleet",
+			"1207-day": "wi-sleet",
+			"1210-day": "wi-day-snow",
+			"1213-day": "wi-day-snow",
+			"1216-day": "wi-day-snow",
+			"1219-day": "wi-snow",
+			"1222-day": "wi-day-snow",
+			"1225-day": "wi-day-snow",
+			"1237-day": "wi-hail",
+			"1240-day": "wi-day-rain",
+			"1243-day": "wi-rain",
+			"1246-day": "wi-rain",
+			"1249-day": "wi-day-sleet",
+			"1252-day": "wi-day-sleet",
+			"1255-day": "wi-day-snow",
+			"1258-day": "wi-snow",
+			"1261-day": "wi-day-hail",
+			"1264-day": "wi-hail",
+			"1273-day": "wi-day-lightning",
+			"1276-day": "wi-thunderstorm",
+			"1279-day": "wi-day-snow-thunderstorm",
+			"1282-day": "wi-day-snow-thunderstorm",
+			"1000-night": "wi-night-clear",
+			"1003-night": "wi-night-alt-cloudy",
+			"1006-night": "wi-cloud",
+			"1009-night": "wi-cloudy",
+			"1030-night": "wi-night-fog",
+			"1063-night": "wi-night-showers",
+			"1066-night": "wi-night-snow",
+			"1069-night": "wi-night-sleet",
+			"1072-night": "wi-night-rain-mix",
+			"1087-night": "wi-night-storm-showers",
+			"1114-night": "wi-snow",
+			"1117-night": "wi-snow-wind",
+			"1135-night": "wi-night-fog",
+			"1147-night": "wi-night-fog",
+			"1153-night": "wi-night-showers",
+			"1168-night": "wi-night-rain-mix",
+			"1171-night": "wi-rain-mix",
+			"1183-night": "wi-night-rain",
+			"1186-night": "wi-night-rain",
+			"1189-night": "wi-night-rain",
+			"1192-night": "wi-rain",
+			"1195-night": "wi-rain",
+			"1198-night": "wi-night-rain-mix",
+			"1201-night": "wi-rain-mix",
+			"1204-night": "wi-night-sleet",
+			"1207-night": "wi-sleet",
+			"1210-night": "wi-night-snow",
+			"1213-night": "wi-night-snow",
+			"1216-night": "wi-night-snow",
+			"1219-night": "wi-snow",
+			"1222-night": "wi-night-snow",
+			"1225-night": "wi-night-snow",
+			"1237-night": "wi-hail",
+			"1240-night": "wi-night-rain",
+			"1243-night": "wi-rain",
+			"1246-night": "wi-rain",
+			"1249-night": "wi-night-sleet",
+			"1252-night": "wi-night-sleet",
+			"1255-night": "wi-night-snow",
+			"1258-night": "wi-snow",
+			"1261-night": "wi-night-hail",
+			"1264-night": "wi-hail",
+			"1273-night": "wi-night-lightning",
+			"1276-night": "wi-thunderstorm",
+			"1279-night": "wi-night-snow-thunderstorm",
+			"1282-night": "wi-night-snow-thunderstorm",
 		},
 	},
 
@@ -104,10 +202,19 @@ Module.register("currentweather",{
 		this.weatherType = null;
 
 		this.loaded = false;
+		if (!this.isOpenWeatherAPI()) {
+			this.config.apiBase = this.config.apiXuBase;
+			this.config.apiVersion = this.config.apiXuVersion;
+			this.config.weatherEndpoint = this.config.apiXuWeatherEndpoint;
+		}
 		this.scheduleUpdate(this.config.initialLoadDelay);
 
 	},
 
+	//which API to use
+	isOpenWeatherAPI: function() {
+		return this.config.appid ? true : false;
+	},
 	// add extra information of current weather
 	// windDirection, humidity, sunrise and sunset
 	addExtraInfoWeather: function(wrapper) {
@@ -126,8 +233,8 @@ Module.register("currentweather",{
 		if (this.config.showWindDirection) {
 			var windDirection = document.createElement("sup");
 			if (this.config.showWindDirectionAsArrow) {
-				if(this.windDeg !== null) {
-					windDirection.innerHTML = " &nbsp;<i class=\"fa fa-long-arrow-down\" style=\"transform:rotate("+this.windDeg+"deg);\"></i>&nbsp;";
+				if (this.windDeg !== null) {
+					windDirection.innerHTML = " &nbsp;<i class=\"fa fa-long-arrow-down\" style=\"transform:rotate(" + this.windDeg + "deg);\"></i>&nbsp;";
 				}
 			} else {
 				windDirection.innerHTML = " " + this.translate(this.windDirection);
@@ -169,7 +276,7 @@ Module.register("currentweather",{
 	getDom: function() {
 		var wrapper = document.createElement("div");
 
-		if (this.config.appid === "") {
+		if (this.config.appid === "" && this.config.apiXuKey === "") {
 			wrapper.innerHTML = "Please set the correct openweather <i>appid</i> in the config for module: " + this.name + ".";
 			wrapper.className = "dimmed light small";
 			return wrapper;
@@ -194,7 +301,7 @@ Module.register("currentweather",{
 
 		var degreeLabel = "";
 		if (this.config.degreeLabel) {
-			switch (this.config.units ) {
+			switch (this.config.units) {
 			case "metric":
 				degreeLabel = "C";
 				break;
@@ -240,7 +347,7 @@ Module.register("currentweather",{
 	notificationReceived: function(notification, payload, sender) {
 		if (notification === "DOM_OBJECTS_CREATED") {
 			if (this.config.appendLocationNameToHeader) {
-				this.hide(0, {lockString: this.identifier});
+				this.hide(0, { lockString: this.identifier });
 			}
 		}
 		if (notification === "CALENDAR_EVENTS") {
@@ -269,11 +376,10 @@ Module.register("currentweather",{
 	 * Calls processWeather on succesfull response.
 	 */
 	updateWeather: function() {
-		if (this.config.appid === "") {
-			Log.error("CurrentWeather: APPID not set!");
+		if (this.config.appid === "" && this.config.apiXuKey === "") {
+			Log.error("CurrentWeather: APPID or APIXUKEY not set!");
 			return;
 		}
-
 		var url = this.config.apiBase + this.config.apiVersion + "/" + this.config.weatherEndpoint + this.getParams();
 		var self = this;
 		var retry = true;
@@ -308,22 +414,38 @@ Module.register("currentweather",{
 	 */
 	getParams: function() {
 		var params = "?";
-		if(this.config.locationID) {
-			params += "id=" + this.config.locationID;
-		} else if(this.config.location) {
-			params += "q=" + this.config.location;
-		} else if (this.firstEvent && this.firstEvent.geo) {
-			params += "lat=" + this.firstEvent.geo.lat + "&lon=" + this.firstEvent.geo.lon
-		} else if (this.firstEvent && this.firstEvent.location) {
-			params += "q=" + this.firstEvent.location;
+		if (!this.isOpenWeatherAPI()) {
+			if (this.config.location) {
+				params += "q=" + this.config.location;
+			} else if (this.firstEvent && this.firstEvent.location) {
+				params += "q=" + this.firstEvent.location;
+			} else if (this.firstEvent && this.firstEvent.geo) {
+				params += "q=" + this.firstEvent.geo.lat + "," + this.firstEvent.geo.lon
+			} else {
+				this.hide(this.config.animationSpeed, { lockString: this.identifier });
+				return;
+			}
+			params += "&key=" + this.config.apiXuKey;
+			params += "&days=1";
 		} else {
-			this.hide(this.config.animationSpeed, {lockString:this.identifier});
-			return;
-		}
+			if (this.config.locationID) {
+				params += "id=" + this.config.locationID;
+			} else if (this.config.location) {
+				params += "q=" + this.config.location;
+			} else if (this.firstEvent && this.firstEvent.geo) {
+				params += "lat=" + this.firstEvent.geo.lat + "&lon=" + this.firstEvent.geo.lon
+			} else if (this.firstEvent && this.firstEvent.location) {
+				params += "q=" + this.firstEvent.location;
+			} else {
+				this.hide(this.config.animationSpeed, { lockString: this.identifier });
+				return;
+			}
 
-		params += "&units=" + this.config.units;
-		params += "&lang=" + this.config.lang;
-		params += "&APPID=" + this.config.appid;
+
+			params += "&units=" + this.config.units;
+			params += "&lang=" + this.config.lang;
+			params += "&APPID=" + this.config.appid;
+		}
 
 		return params;
 	},
@@ -334,7 +456,66 @@ Module.register("currentweather",{
 	 * argument data object - Weather information received form openweather.org.
 	 */
 	processWeather: function(data) {
+		if (this.isOpenWeatherAPI()) {
+			this.processWeatherOpenApi(data);
+		} else {
+			this.procesWeatherXuApi(data);
+		}
+	},
 
+	procesWeatherXuApi: function(data) {
+		if (!data || !data.current || typeof data.current.temp_c === "undefined") {
+			// Did not receive usable new data.
+			// Maybe this needs a better check?
+			return;
+		}
+
+		this.humidity = parseFloat(data.current.humidity);
+		var currentTemp = 0;
+		var windSpeed = 0;
+		switch (this.config.units) {
+		case "metric":
+			currentTemp = data.current.temp_c;
+			windSpeed = data.current.wind_kph;
+			break;
+		case "imperial":
+			currentTemp = data.current.temp_f;
+			windSpeed = data.current.wind_mph;
+			break;
+		case "default":
+			currentTemp = data.current.temp_c;
+			windSpeed = data.current.wind_kph;
+			break;
+		}
+
+		this.temperature = this.roundValue(currentTemp);
+
+		if (this.config.useBeaufort) {
+			this.windSpeed = this.ms2Beaufort(this.roundValue(windSpeed));
+		} else {
+			this.windSpeed = parseFloat(windSpeed).toFixed(0);
+		}
+
+		this.windDirection = data.current.wind_dir;
+		this.windDeg = data.current.wind_degree;
+		var iconType = data.current.condition.code + (data.current.is_day == 1 ? "-day" : "-night");
+		var icon = this.config.iconApiXuTable[iconType]
+		this.weatherType = icon;
+		data.current.condition["weatherIcon"] = icon;
+		var now = new Date();
+		var sunrise = data.forecast.forecastday[0].astro.sunrise;
+		var sunset = data.forecast.forecastday[0].astro.sunset;
+
+		this.sunriseSunsetTime = sunset;
+		this.sunriseSunsetIcon = (data.current.is_day === 1) ? "wi-sunset" : "wi-sunrise";
+
+		this.show(this.config.animationSpeed, { lockString: this.identifier });
+		this.loaded = true;
+		this.updateDom(this.config.animationSpeed);
+		this.sendNotification("CURRENTWEATHER_DATA", { data: data });
+	},
+
+	processWeatherOpenApi: function(data) {
 		if (!data || !data.main || typeof data.main.temp === "undefined") {
 			// Did not receive usable new data.
 			// Maybe this needs a better check?
@@ -344,7 +525,7 @@ Module.register("currentweather",{
 		this.humidity = parseFloat(data.main.humidity);
 		this.temperature = this.roundValue(data.main.temp);
 
-		if (this.config.useBeaufort){
+		if (this.config.useBeaufort) {
 			this.windSpeed = this.ms2Beaufort(this.roundValue(data.wind.speed));
 		} else {
 			this.windSpeed = parseFloat(data.wind.speed).toFixed(0);
@@ -382,12 +563,11 @@ Module.register("currentweather",{
 		this.sunriseSunsetTime = timeString;
 		this.sunriseSunsetIcon = (sunrise < now && sunset > now) ? "wi-sunset" : "wi-sunrise";
 
-		this.show(this.config.animationSpeed, {lockString:this.identifier});
+		this.show(this.config.animationSpeed, { lockString: this.identifier });
 		this.loaded = true;
 		this.updateDom(this.config.animationSpeed);
-		this.sendNotification("CURRENTWEATHER_DATA", {data: data});
+		this.sendNotification("CURRENTWEATHER_DATA", { data: data });
 	},
-
 	/* scheduleUpdate()
 	 * Schedule next update.
 	 *
@@ -429,7 +609,7 @@ Module.register("currentweather",{
 	},
 
 	deg2Cardinal: function(deg) {
-		if (deg>11.25 && deg<=33.75){
+		if (deg > 11.25 && deg <= 33.75) {
 			return "NNE";
 		} else if (deg > 33.75 && deg <= 56.25) {
 			return "NE";
