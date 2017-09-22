@@ -48,7 +48,7 @@ try {
 // In case the there errors show messages and
 // return
 console.info(Utils.colors.info("Checking file... ", configFileName));
-                            // I'm not sure if all ever is utf-8
+// I'm not sure if all ever is utf-8
 fs.readFile(configFileName, "utf-8", function(err, data) {
 	if (err) {throw err;}
 	v.JSHINT(data); // Parser by jshint
