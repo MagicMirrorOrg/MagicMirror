@@ -1,4 +1,4 @@
-/* global WeatherProvider, WeatherDay */
+/* global WeatherProvider, WeatherObject */
 
 /* Magic Mirror
  * Module: Weather
@@ -34,7 +34,7 @@ WeatherProvider.register("openweathermap", {
 					return;
 				}
 
-				var currentWeather = this.generateWeatherDayFromCurrentWeather(data)
+				var currentWeather = this.generateWeatherObjectFromCurrentWeather(data)
 				this.setCurrentWeather(currentWeather)
 			})
 			.catch(function(request) {
@@ -47,18 +47,18 @@ WeatherProvider.register("openweathermap", {
 
 
 	/* 
-	 * Generate a WeatherDay based on currentWeatherInformation
+	 * Generate a WeatherObject based on currentWeatherInformation
 	 */
-	generateWeatherDayFromCurrentWeather: function(currentWeatherData) {
-		var currentWeather = new WeatherDay()
+	generateWeatherObjectFromCurrentWeather: function(currentWeatherData) {
+		var currentWeather = new WeatherObject()
 
-		currentWeather.humidity = parseFloat(currentWeatherData.main.humidity)
-		currentWeather.temperature = parseFloat(currentWeatherData.main.temp)
-		currentWeather.windSpeed = parseFloat(currentWeatherData.wind.speed)
-		currentWeather.windDirection = currentWeatherData.wind.deg
-		currentWeather.weatherType = this.convertWeatherType(currentWeatherData.weather[0].icon)
-		currentWeather.sunrise = new Date(currentWeatherData.sys.sunrise * 1000)
-		currentWeather.sunset = new Date(currentWeatherData.sys.sunset * 1000)
+		currentWeather.humidity = currentWeatherData.main.humidity ? parseFloat(currentWeatherData.main.humidity) : null
+		currentWeather.temperature = currentWeatherData.main.temp ? parseFloat(currentWeatherData.main.temp) : null
+		currentWeather.windSpeed = currentWeatherData.wind.speed ? parseFloat(currentWeatherData.wind.speed) : null
+		currentWeather.windDirection = currentWeatherData.wind.deg ? currentWeatherData.wind.deg : null
+		currentWeather.weatherType = currentWeatherData.weather[0].icon ? this.convertWeatherType(currentWeatherData.weather[0].icon) : null
+		currentWeather.sunrise = currentWeatherData.sys.sunrise ? new Date(currentWeatherData.sys.sunrise * 1000) : null
+		currentWeather.sunset = currentWeatherData.sys.sunset ? new Date(currentWeatherData.sys.sunset * 1000) : null
 
 		return currentWeather
 	},

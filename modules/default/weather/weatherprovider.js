@@ -19,7 +19,7 @@ var WeatherProvider = Class.extend({
 
 	// The following properties have accestor methods.
 	// Try to not access them directly.
-	currentWeatherDay: null,
+	currentWeatherObject: null,
 	weatherForecastArray: null,
 
 	// The following properties will be set automaticly.
@@ -63,7 +63,7 @@ var WeatherProvider = Class.extend({
 
 	// This returns a WeatherDay object for the current weather.
 	currentWeather: function() {
-		return this.currentWeatherDay
+		return this.currentWeatherObject
 	},
 
 	// This returns an array of WeatherDay objects for the weather forecast.
@@ -72,9 +72,9 @@ var WeatherProvider = Class.extend({
 	},
 
 	// Set the currentWeather and notify the delegate that new information is availabe.
-	setCurrentWeather: function(currentWeatherDay) {
+	setCurrentWeather: function(currentWeatherObject) {
 		// We should check here if we are passing a WeatherDay
-		this.currentWeatherDay = currentWeatherDay
+		this.currentWeatherObject = currentWeatherObject
 
 		this.updateAvailable()
 	},
