@@ -14,11 +14,14 @@
 
 class WeatherObject {
 	constructor() {
+		this.date = null
 		this.windSpeed = null
 		this.windDirection = null
 		this.sunrise = null
 		this.sunset = null
 		this.temperature = null
+		this.minTemperature = null,
+		this.maxTemperature = null,
 		this.weatherType = null
 	}
 

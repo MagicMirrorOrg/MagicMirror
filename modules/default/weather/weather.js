@@ -14,7 +14,8 @@ Module.register("weather",{
 		updateInterval: 10 * 60 * 1000,
 		weatherProvider: "openweathermap",
 		units: config.units,
-		roundTemp: false
+		roundTemp: false,
+		displayType: "full" //current, forecast, full
 	},
 
 	// Module properties.
@@ -52,7 +53,17 @@ Module.register("weather",{
 
 	// Generate the dom. This is now pretty simple for debugging.
 	getDom: function() {
-		return this.currentWeatherView(this.weatherProvider.currentWeather())
+		switch (this.config.displayType) {
+		case "current":
+			return this.currentWeatherView()
+			break;
+		case "forecast":
+			return this.weatherForecastView()
+			break;
+		default:
+			return this.fullWeatherView()
+			break;
+		}
 	},
 
 	// What to do when the weather provider has new information available?
@@ -70,19 +81,27 @@ Module.register("weather",{
 		}
 
 		setTimeout(() => {
-			// Currently we are fetching the currentWeather.
-			// In the future, it depends what we want to show.
-			// So there needs to be some logic here...
-			// if config.weatherType == 'current', do this...
-			// if config.weatherType === 'forecast, do that ...
-			this.weatherProvider.fetchCurrentWeather()
+			switch (this.config.displayType) {
+			case "current":
+				this.weatherProvider.fetchCurrentWeather()
+				break;
+			case "forecast":
+				this.weatherProvider.fetchWeatherForecast()
+				break;
+			default:
+				this.weatherProvider.fetchCurrentWeather()
+				this.weatherProvider.fetchWeatherForecast()
+				break;
+			}
 		}, nextLoad);
 	},
 
 	/* Views */
 
 	// Generate the current weather view
-	currentWeatherView: function (currentWeather) {
+	currentWeatherView: function () {
+
+		var currentWeather = this.weatherProvider.currentWeather()
 		var wrapper = document.createElement("div")
 
 		if (currentWeather === null) {
@@ -95,7 +114,7 @@ Module.register("weather",{
 
 		this.addValueToWrapper(detailBar, null, "wi wi-strong-wind dimmed", "span", true) // Wind Icon
 		this.addValueToWrapper(detailBar, currentWeather.windSpeed ? Math.round(currentWeather.windSpeed) : null) // WindSpeed
-		this.addValueToWrapper(detailBar, currentWeather.windDirection ? this.translate(currentWeather.cardinalWindDirection()) + "&nbsp;&nbsp;" : null, "", "sup") // WindDirection	
+		this.addValueToWrapper(detailBar, currentWeather.windDirection ? this.translate(currentWeather.cardinalWindDirection()) + "&nbsp;&nbsp;" : "&nbsp;", "", "sup") // WindDirection	
 
 		var now = new Date();
 		var sunriseSunsetTime = (currentWeather.sunrise < now && currentWeather.sunset > now) ?  currentWeather.sunset : currentWeather.sunrise
@@ -111,10 +130,43 @@ Module.register("weather",{
 		var mainInfo = document.createElement("div")
 
 		this.addValueToWrapper(mainInfo, null, "weathericon wi wi-" + currentWeather.weatherType, "span", true) // Wind Icon	
-		this.addValueToWrapper(mainInfo, parseFloat(currentWeather.temperature).toFixed(this.config.roundTemp ? 0 : 1) + "&deg;", "bright" ) // WindSpeed
+		this.addValueToWrapper(mainInfo, currentWeather.temperature.toFixed(this.config.roundTemp ? 0 : 1) + "&deg;", "bright" ) // WindSpeed
 
 		mainInfo.className = "large light"
 		wrapper.appendChild(mainInfo)
+
+		return wrapper
+	},
+
+	weatherForecastView: function() {
+		// This is just a dummy view to test it ... it needs A LOT of work :)
+		// Currently it outputs a div, it should be a table.
+
+		var wrapper = document.createElement("div")
+		wrapper.className = "small"
+
+		if (this.weatherProvider.weatherForecast() === null) {
+			return wrapper
+		}
+
+		this.weatherProvider.weatherForecast().forEach((weatherObject) => {
+			var day = document.createElement("div")
+
+			this.addValueToWrapper(day, moment(weatherObject.date).format("dd"))
+			this.addValueToWrapper(day, weatherObject.maxTemperature ? weatherObject.maxTemperature.toFixed(this.config.roundTemp ? 0 : 1) : null, "bright")
+			this.addValueToWrapper(day, weatherObject.minTemperature ? weatherObject.minTemperature.toFixed(this.config.roundTemp ? 0 : 1) : null, "dimmed")
+
+			wrapper.appendChild(day)
+		});
+
+		return wrapper
+	},
+
+	fullWeatherView: function() {
+		var wrapper = document.createElement("div")
+
+		wrapper.appendChild(this.currentWeatherView())
+		wrapper.appendChild(this.weatherForecastView())
 
 		return wrapper
 	},

@@ -42,6 +42,28 @@ WeatherProvider.register("openweathermap", {
 			})
 	},
 
+	// Overwrite the fetchCurrentWeather method.
+	fetchWeatherForecast: function() {
+
+		// I haven't yet implemented the real api call, so let's just generate some random data.
+
+		var forecast = []
+		var today = moment()
+
+		for (var i = 0; i < 5; i++ ) {
+			var weatherObject = new WeatherObject()
+
+			weatherObject.date = moment(today).add(i, "days")
+			weatherObject.minTemperature = Math.random() * 10 + 10
+			weatherObject.maxTemperature = Math.random() * 15 + 10
+
+			forecast.push(weatherObject)
+		}
+
+		this.setWeatherForecast(forecast)
+	},
+
+
 
 	/** OpenWeatherMap Specific Methods - These are not part of the default provider methods */
 
@@ -51,6 +73,8 @@ WeatherProvider.register("openweathermap", {
 	 */
 	generateWeatherObjectFromCurrentWeather: function(currentWeatherData) {
 		var currentWeather = new WeatherObject()
+
+		currentWeather.date = new Date
 
 		currentWeather.humidity = currentWeatherData.main.humidity ? parseFloat(currentWeatherData.main.humidity) : null
 		currentWeather.temperature = currentWeatherData.main.temp ? parseFloat(currentWeatherData.main.temp) : null

@@ -57,8 +57,8 @@ var WeatherProvider = Class.extend({
 
 	// This method should start the API request to fetch the weather forecast.
 	// This method should definetly be overwritten in the provider.
-	fetchWeatherForeCast: function() {
-		Log.warn("Weather provider: " + this.providerName + " does not subclass the fetchWeatherForeCast method.")
+	fetchWeatherForecast: function() {
+		Log.warn("Weather provider: " + this.providerName + " does not subclass the fetchWeatherForecast method.")
 	},
 
 	// This returns a WeatherDay object for the current weather.
@@ -71,10 +71,18 @@ var WeatherProvider = Class.extend({
 		return this.weatherForecastArray
 	},
 
-	// Set the currentWeather and notify the delegate that new information is availabe.
+	// Set the currentWeather and notify the delegate that new information is available.
 	setCurrentWeather: function(currentWeatherObject) {
 		// We should check here if we are passing a WeatherDay
 		this.currentWeatherObject = currentWeatherObject
+
+		this.updateAvailable()
+	},
+
+	// Set the weatherForecastArray and notify the delegate that new information is available.
+	setWeatherForecast: function(weatherForecastArray) {
+		// We should check here if we are passing a WeatherDay
+		this.weatherForecastArray = weatherForecastArray
 
 		this.updateAvailable()
 	},
