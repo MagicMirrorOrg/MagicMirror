@@ -278,7 +278,7 @@ Module.register("currentweather",{
 		if (notification === "INDOOR_HUMIDITY") {
 			this.indoorHumidity = this.roundValue(payload);
 			this.updateDom(self.config.animationSpeed);
-		}		
+		}
 	},
 
 	/* updateWeather(compliments)

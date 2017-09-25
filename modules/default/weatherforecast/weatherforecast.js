@@ -326,35 +326,36 @@ Module.register("weatherforecast",{
 	 * argument data object - Weather information received form openweather.org.
 	 */
 	processWeather: function(data) {
-		var days_forecast = [];
+		var daysForecast = [];
 
 		this.fetchedLocationName = data.city.name + ", " + data.city.country;
 		this.forecast = [];
 
 		for (var i = 0, count = data.list.length; i < count; i++) {
-			let forecast = data.list[i];
-			let day = forecast.dt_txt.split(" ")[0];
+			var forecast = data.list[i];
+			var day = forecast.dt_txt.split(" ")[0];
 
-			if (!(day in days_forecast)) 
-				days_forecast[day] = {"dt":[], "icon":[], "temp":[]};
+			if (!(day in daysForecast)) {
+				daysForecast[day] = {"dt":[], "icon":[], "temp":[]};
+			}
 
-			days_forecast[day].dt.push(forecast.dt);
-			days_forecast[day].icon.push(forecast.weather[0].icon);
-			days_forecast[day].temp.push(forecast.main.temp_min);
-			days_forecast[day].temp.push(forecast.main.temp_max);
+			daysForecast[day].dt.push(forecast.dt);
+			daysForecast[day].icon.push(forecast.weather[0].icon);
+			daysForecast[day].temp.push(forecast.main.temp_min);
+			daysForecast[day].temp.push(forecast.main.temp_max);
 		}
 
-		for (let i in days_forecast) {
-			let min = days_forecast[i].temp.reduce((previous, current) => current = previous < current ? previous : current);
-			let max = days_forecast[i].temp.reduce((previous, current) => current = previous > current ? previous : current);
-			let icon = days_forecast[i].icon.reduce((previous, current) => current = this.config.iconTableOrdered.indexOf(previous) < this.config.iconTableOrdered.indexOf(current) ? previous : current);
-			
+		for (var i in daysForecast) {
+			var min = daysForecast[i].temp.reduce((previous, current) => current = previous < current ? previous : current);
+			var max = daysForecast[i].temp.reduce((previous, current) => current = previous > current ? previous : current);
+			var icon = daysForecast[i].icon.reduce((previous, current) => current = this.config.iconTableOrdered.indexOf(previous) < this.config.iconTableOrdered.indexOf(current) ? previous : current);
+
 			this.forecast.push({
-				day: moment(days_forecast[i].dt[0], "X").format("ddd"),
+				day: moment(daysForecast[i].dt[0], "X").format("ddd"),
 				icon: this.config.iconTable[icon],
 				maxTemp: this.roundValue(min),
 				minTemp: this.roundValue(max)
-//				rain: this.roundValue(forecast.rain)
+				//rain: this.roundValue(forecast.rain)
 			});
 		}
 
