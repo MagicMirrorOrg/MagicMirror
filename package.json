@@ -10,7 +10,9 @@
     "test": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests --recursive",
     "test:unit": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests/unit --recursive",
     "test:e2e": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests/e2e --recursive",
-    "config:check": "node tests/configs/check_config.js"
+    "config:check": "node tests/configs/check_config.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -64,6 +66,8 @@
     "simple-git": "^1.73.0",
     "socket.io": "^2.0.2",
     "valid-url": "latest",
-    "walk": "latest"
-  }
+    "walk": "latest",
+    "snyk": "^1.41.1"
+  },
+  "snyk": true
 }

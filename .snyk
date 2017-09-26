@@ -1,5 +1,7 @@
-version: v1.5.2
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.7.1
 ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
 patch:
   'npm:minimatch:20160620':
     - snyk > recursive-readdir > minimatch:
@@ -12,3 +14,10 @@ patch:
         patched: '2016-07-30T14:02:31.280Z'
     - socket.io > socket.io-client > engine.io-client > ws:
         patched: '2016-07-30T14:02:31.280Z'
+  'npm:debug:20170905':
+    - electron > extract-zip > debug:
+        patched: '2017-09-26T07:44:05.398Z'
+    - helmet > connect > debug:
+        patched: '2017-09-26T07:44:05.398Z'
+    - helmet > connect > finalhandler > debug:
+        patched: '2017-09-26T07:44:05.398Z'
