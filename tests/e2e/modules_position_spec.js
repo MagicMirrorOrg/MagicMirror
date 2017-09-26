@@ -14,21 +14,19 @@ describe("Position of modules", function () {
 
 	var app = null;
 
-	beforeEach(function () {
-		return helpers.startApplication({
-			args: ["js/electron.js"]
-		}).then(function (startedApp) { app = startedApp; })
-	});
-
-	afterEach(function () {
-		return helpers.stopApplication(app);
-	});
-
 	describe("Using helloworld", function () {
+
+		after(function () {
+			return helpers.stopApplication(app);
+		});
 
 		before(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/positions.js";
+			return helpers.startApplication({
+				args: ["js/electron.js"]
+			}).then(function (startedApp) { app = startedApp; })
+
 		});
 
 		var positions = ["top_bar", "top_left", "top_center", "top_right", "upper_third",
