@@ -59,18 +59,20 @@ var config = {
 			position: "top_right",
 			config: {
 				location: "New York",
-				locationID: "",  //ID from http://www.openweathermap.org/help/city_list.txt
-				appid: "YOUR_OPENWEATHER_API_KEY"
+				locationID: "5128581",  //Deprecated - ID from http://www.openweathermap.org/help/city_list.txt
+			    appid: "YOUR_OPENWEATHER_API_KEY OR YOUR_APIXU_API_KEY",
+				apiType: "APIXU"  //Default OPENWEATHERMAP
 			}
 		},
 		{
-			module: "weatherforecast",
-			position: "top_right",
+		    module: "weatherforecast",
+		    position: "top_right",
 			header: "Weather Forecast",
 			config: {
 				location: "New York",
-				locationID: "5128581",  //ID from http://www.openweathermap.org/help/city_list.txt
-				appid: "YOUR_OPENWEATHER_API_KEY"
+				locationID: "5128581",  //Deprecated - ID from http://www.openweathermap.org/help/city_list.txt
+				appid: "YOUR_OPENWEATHER_API_KEY OR YOUR_APIXU_API_KEY",
+				apiType: "APIXU" //Default OPENWEATHERMAP
 			}
 		},
 		{
