@@ -81,22 +81,25 @@ var Module = Class.extend({
 	 * return domobject - The dom to display.
 	 */
 	getDom: function () {
+		var div = document.createElement("div");
 		var template = this.getTemplate();
 		var templateData = this.getTemplateData();
 
 		// Check to see if we need to render a template string or a file.
 		if (/^.*(\.html)$/.test(template)) {
 			// the template is a filename
-			var filename = this.file(template);
-			var content = this.nunjucksEnvironment().render(filename, templateData);
+			this.nunjucksEnvironment().render(template, templateData, function (err, res) {
+				// The inner content of the div will be set after the template is received.
+				// This isn't the most optimal way, but since it's near instant
+				// it probably won't be an issue.
+				// If it gives problems, we can always add a way to pre fetch the templates.
+				// Let's not over optimise this ... KISS! :)
+				div.innerHTML = res;
+			});
 		} else {
 			// the template is a template string.
-			var content = this.nunjucksEnvironment().renderString(template, templateData);
+			div.innerHTML = this.nunjucksEnvironment().renderString(template, templateData);
 		}
-
-		var div = document.createElement("div");
-
-		div.innerHTML = content;
 
 		return div;
 	},
@@ -163,7 +166,7 @@ var Module = Class.extend({
 
 		var self = this;
 
-		this._nunjucksEnvironment = new nunjucks.Environment(new nunjucks.WebLoader());
+		this._nunjucksEnvironment = new nunjucks.Environment(new nunjucks.WebLoader(this.file(""), {async: true}));
 		this._nunjucksEnvironment.addFilter("translate", function(str) {
 			return self.translate(str)
 		});
