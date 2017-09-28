@@ -15,7 +15,7 @@ Module.register("weatherforecast",{
 		locationID: false,
 		appid: "",
 		units: config.units,
-		maxNumberOfDays: 7,
+		maxNumberOfDays: 5,
 		showRainAmount: false,
 		updateInterval: 10 * 60 * 1000, // every 10 minutes
 		animationSpeed: 1000,
@@ -31,7 +31,7 @@ Module.register("weatherforecast",{
 
 		apiVersion: "2.5",
 		apiBase: "http://api.openweathermap.org/data/",
-		forecastEndpoint: "forecast/daily",
+		forecastEndpoint: "forecast", //forecast/daily
 
 		appendLocationNameToHeader: true,
 		calendarClass: "calendar",
@@ -58,6 +58,27 @@ Module.register("weatherforecast",{
 			"13n": "wi-night-snow",
 			"50n": "wi-night-alt-cloudy-windy"
 		},
+
+		iconTableOrdered: [
+			"11d",
+			"09d",
+			"13d",
+			"10d",
+			"50d",
+			"04d",
+			"03d",
+			"02d",
+			"01d",
+			"11n",
+			"09n",
+			"13n",
+			"10n",
+			"50n",
+			"02n",
+			"03n",
+			"04n",
+			"01n"
+		],
 	},
 
 	// create a variable for the first upcoming calendaar event. Used if no location is specified.
@@ -289,11 +310,11 @@ Module.register("weatherforecast",{
 		params += "&units=" + this.config.units;
 		params += "&lang=" + this.config.lang;
 		/*
-		 * Submit a specific number of days to forecast, between 1 to 16 days.
-		 * The OpenWeatherMap API properly handles values outside of the 1 - 16 range and returns 7 days by default.
+		 * Submit a specific number of days to forecast, between 1 to 5 days.
+		 * The OpenWeatherMap API properly handles values outside of the 1 - 5 range and returns 5 days by default.
 		 * This is simply being pedantic and doing it ourselves.
 		 */
-		params += "&cnt=" + (((this.config.maxNumberOfDays < 1) || (this.config.maxNumberOfDays > 16)) ? 7 : this.config.maxNumberOfDays);
+		params += "&cnt=" + ((this.config.maxNumberOfDays < 1 || this.config.maxNumberOfDays > 5) ? 5 : this.config.maxNumberOfDays)*8;
 		params += "&APPID=" + this.config.appid;
 
 		return params;
@@ -305,20 +326,36 @@ Module.register("weatherforecast",{
 	 * argument data object - Weather information received form openweather.org.
 	 */
 	processWeather: function(data) {
+		var daysForecast = [];
+
 		this.fetchedLocationName = data.city.name + ", " + data.city.country;
-
 		this.forecast = [];
+
 		for (var i = 0, count = data.list.length; i < count; i++) {
-
 			var forecast = data.list[i];
+			var day = forecast.dt_txt.split(" ")[0];
+
+			if (!(day in daysForecast)) {
+				daysForecast[day] = {"dt":[], "icon":[], "temp":[]};
+			}
+
+			daysForecast[day].dt.push(forecast.dt);
+			daysForecast[day].icon.push(forecast.weather[0].icon);
+			daysForecast[day].temp.push(forecast.main.temp_min);
+			daysForecast[day].temp.push(forecast.main.temp_max);
+		}
+
+		for (var i in daysForecast) {
+			var min = daysForecast[i].temp.reduce((previous, current) => current = previous < current ? previous : current);
+			var max = daysForecast[i].temp.reduce((previous, current) => current = previous > current ? previous : current);
+			var icon = daysForecast[i].icon.reduce((previous, current) => current = this.config.iconTableOrdered.indexOf(previous) < this.config.iconTableOrdered.indexOf(current) ? previous : current);
+
 			this.forecast.push({
-
-				day: moment(forecast.dt, "X").format("ddd"),
-				icon: this.config.iconTable[forecast.weather[0].icon],
-				maxTemp: this.roundValue(forecast.temp.max),
-				minTemp: this.roundValue(forecast.temp.min),
-				rain: this.roundValue(forecast.rain)
-
+				day: moment(daysForecast[i].dt[0], "X").format("ddd"),
+				icon: this.config.iconTable[icon],
+				maxTemp: this.roundValue(min),
+				minTemp: this.roundValue(max)
+				//rain: this.roundValue(forecast.rain)
 			});
 		}
 

@@ -36,6 +36,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fixed issue with calendar module where 'excludedEvents' count towards 'maximumEntries'.
 - Fixed issue with calendar module where global configuration of maximumEntries was not overridden by calendar specific config (see module doc).
 - Fixed issue where `this.file(filename)` returns a path with two hashes
+- Fixed issue with weatherforecast, using 5 days / 3 hours api instead of daily api
 
 ## [2.1.2] - 2017-07-01
 
