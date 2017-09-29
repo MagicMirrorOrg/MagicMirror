@@ -30,9 +30,23 @@ WeatherProvider.register("darksky", {
 			Log.error("Could not load data!", request);
 		});
 	},
+	fetchWeatherForecast: function() {
+		// Also, fake data.
+		var forecast = [];
+		var today = moment();
+		for(var i = 0; i < 5; i++) {
+			var weatherObject = new WeatherObject();
+			weatherObject.date = moment(today).add(i, "days");
+			weatherObject.minTemperature = Math.random() * 10 + 10;
+			weatherObject.maxTemperature = Math.random() * 15 + 10;
+			forecast.push(weatherObject);
+		}
+		this.setWeatherForecast();
+	},
 	// Implement WeatherDay generator.
 	generateWeatherDayFromCurrentWeather: function(currentWeatherData) {
-		var currentWeather = new WeatherDay();
+		var currentWeather = new WeatherObject();
+		currentWeather.date = new Date();
 		currentWeather.humidity = parseFloat(currentWeatherData.currently.humidity);
 		currentWeather.temperature = parseFloat(currentWeatherData.currently.temperature);
 		currentWeather.windSpeed = parseFloat(currentWeatherData.currently.windSpeed);
