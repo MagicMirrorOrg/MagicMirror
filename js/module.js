@@ -154,10 +154,10 @@ var Module = Class.extend({
 	},
 
 	/** nunjucksEnvironment()
-	 * Returns the nunchuck environment for the current module.
+	 * Returns the nunjucks environment for the current module.
 	 * The environment is checked in the _nunjucksEnvironment instance variable.
 	 * 
-	 * @returns Nunjuck Enviroment
+	 * @returns Nunjucks Environment
 	 */
 	nunjucksEnvironment: function() {
 		if (this._nunjucksEnvironment != null) {
