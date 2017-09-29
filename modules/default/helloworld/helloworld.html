@@ -1,2 +1,5 @@
-<div class="small dimmed">HelloWorld module says:</div>
-<div class="normal">{{text}}</div>
+<!--
+	Use | striptags(true) for HTML rendering
+	https://mozilla.github.io/nunjucks/templating.html#striptags-value-preserve_linebreaks
+-->
+<div class="normal">{{text | striptags(true)}}</div>
