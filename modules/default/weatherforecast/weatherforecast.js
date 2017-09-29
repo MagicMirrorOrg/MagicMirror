@@ -254,7 +254,8 @@ Module.register("weatherforecast",{
 
 					if (self.config.forecastEndpoint == "forecast/daily") {
 						self.config.forecastEndpoint = "forecast";
-						Log.error(self.name + ": Incorrect APPID.");
+						self.config.maxNumberOfDays = self.config.maxNumberOfDays * 8;
+						Log.warn(self.name + ": Your AppID does not support long term forecasts. Switching to fallback endpoint.");
 					}
 
 					retry = true;
@@ -297,7 +298,7 @@ Module.register("weatherforecast",{
 		 * The OpenWeatherMap API properly handles values outside of the 1 - 16 range and returns 7 days by default.
 		 * This is simply being pedantic and doing it ourselves.
 		 */
-		params += "&cnt=" + (((this.config.maxNumberOfDays < 1) || (this.config.maxNumberOfDays > 16)) ? 7 : this.config.maxNumberOfDays);
+		params += "&cnt=" + (((this.config.maxNumberOfDays < 1) || (this.config.maxNumberOfDays > 16)) ? 7 * 8 : this.config.maxNumberOfDays);
 		params += "&APPID=" + this.config.appid;
 
 		return params;
@@ -326,19 +327,40 @@ Module.register("weatherforecast",{
 		this.fetchedLocationName = data.city.name + ", " + data.city.country;
 
 		this.forecast = [];
+		var lastDay = null;
+		var forecastData = {}
+
 		for (var i = 0, count = data.list.length; i < count; i++) {
 
 			var forecast = data.list[i];
 			this.parserDataWeather(forecast); // hack issue #1017
-			this.forecast.push({
 
-				day: moment(forecast.dt, "X").format("ddd"),
-				icon: this.config.iconTable[forecast.weather[0].icon],
-				maxTemp: this.roundValue(forecast.temp.max),
-				minTemp: this.roundValue(forecast.temp.min),
-				rain: this.roundValue(forecast.rain)
+			var day = moment(forecast.dt, "X").format("ddd");
+			var hour = moment(forecast.dt, "X").format("H");
 
-			});
+			if (day !== lastDay) {
+				var forecastData = {
+					day: day,
+					icon: this.config.iconTable[forecast.weather[0].icon],
+					maxTemp: this.roundValue(forecast.temp.max),
+					minTemp: this.roundValue(forecast.temp.min),
+					rain: this.roundValue(forecast.rain)
+				};
+
+				this.forecast.push(forecastData);
+				lastDay = day;
+			} else {
+				//Log.log("Compare max: ", forecast.temp.max, parseFloat(forecastData.maxTemp));
+				forecastData.maxTemp = forecast.temp.max > parseFloat(forecastData.maxTemp) ? this.roundValue(forecast.temp.max) : forecastData.maxTemp;
+				//Log.log("Compare min: ", forecast.temp.min, parseFloat(forecastData.minTemp));
+				forecastData.minTemp = forecast.temp.min < parseFloat(forecastData.minTemp) ? this.roundValue(forecast.temp.min) : forecastData.minTemp;
+
+				// Since we don't want an icon from the start of the day (in the middle of the night)
+				// we update the icon as long as it's somewhere during the day.
+				if (hour >= 8 && hour <= 17) {
+					forecastData.icon = this.config.iconTable[forecast.weather[0].icon];
+				}
+			}
 		}
 
 		//Log.log(this.forecast);
