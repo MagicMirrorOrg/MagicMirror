@@ -21,6 +21,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add test e2e for helloworld module with default config text.
 - Add ability for `currentweather` module to display indoor humidity via INDOOR_HUMIDITY notification.
 - Add Welsh (Cymraeg) translation.
+- Add Slack badge to Readme.
 
 ### Updated
 - Changed 'default.js' - listen on all attached interfaces by default.
