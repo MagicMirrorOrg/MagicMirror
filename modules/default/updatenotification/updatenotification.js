@@ -58,7 +58,9 @@ Module.register("updatenotification", {
 			wrapper.appendChild(message);
 
 			var subtext = document.createElement("div");
-			subtext.innerHTML = this.translate("UPDATE_INFO").replace("COMMIT_COUNT", this.status.behind + " " + ((this.status.behind == 1)? "commit" : "commits")).replace("BRANCH_NAME", this.status.current);
+			subtext.innerHTML = this.translate("UPDATE_INFO")
+									.replace("COMMIT_COUNT", this.status.behind + " " + ((this.status.behind == 1)? "commit" : "commits"))
+									.replace("BRANCH_NAME", this.status.current);
 			subtext.className = "xsmall dimmed";
 			wrapper.appendChild(subtext);
 		}
