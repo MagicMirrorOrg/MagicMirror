@@ -356,7 +356,7 @@ Module.register("calendar", {
 			return a.startDate - b.startDate;
 		});
 
-		return events;
+		return events.slice(0, this.config.maximumEntries);
 	},
 
 	/* createEventList(url)
