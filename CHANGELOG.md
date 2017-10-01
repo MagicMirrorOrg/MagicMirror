@@ -13,6 +13,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Updated
 
+### Fixed
+- Fixed issue with calendar module showing more than `maximumEntries` allows
+
 ## [2.1.3] - 2017-10-01
 
 **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
