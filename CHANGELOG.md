@@ -4,9 +4,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [2.2.0] - Unreleased
 
+**Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
+
 ### Changed
 
 ### Added
+- Add option to use [Nunjucks](https://mozilla.github.io/nunjucks/) templates in modules. (See `helloworld` module as an example.)
 
 ### Updated
 
