@@ -8,7 +8,6 @@
  */
 
 Module.register("weather",{
-
 	// Default module config.
 	defaults: {
 		updateInterval: 10 * 60 * 1000,
@@ -90,8 +89,5 @@ Module.register("weather",{
 				break;
 			}
 		}, nextLoad);
-	},
-
-	
-
+	}
 });
