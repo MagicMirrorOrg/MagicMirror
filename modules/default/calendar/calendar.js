@@ -67,30 +67,7 @@ Module.register("calendar", {
 		Log.log("Starting module: " + this.name);
 
 		// Set locale.
-		moment.locale(config.language);
-
-		switch (config.timeFormat) {
-		case 12: {
-			moment.updateLocale(config.language, {
-				longDateFormat: {
-					LT: "h:mm A"
-				}
-			});
-			break;
-		}
-		case 24: {
-			moment.updateLocale(config.language, {
-				longDateFormat: {
-					LT: "hh:mm"
-				}
-			});
-			break;
-		}
-		// If config.timeFormat was not given (or has invalid format) default to locale default
-		default: {
-			break;
-		}
-		}
+		moment.updateLocale(config.language, this.getLocaleSpecification(config.timeFormat));
 
 		for (var c in this.config.calendars) {
 			var calendar = this.config.calendars[c];
@@ -102,7 +79,9 @@ Module.register("calendar", {
 			};
 
 			// we check user and password here for backwards compatibility with old configs
-			if(calendar.user && calendar.pass){
+			if(calendar.user && calendar.pass) {
+				Log.warn("Deprecation warning: Please update your calendar authentication configuration.");
+				Log.warn("https://github.com/MichMich/MagicMirror/tree/v2.1.2/modules/default/calendar#calendar-authentication-options");
 				calendar.auth = {
 					user: calendar.user,
 					pass: calendar.pass
@@ -153,20 +132,6 @@ Module.register("calendar", {
 
 		for (var e in events) {
 			var event = events[e];
-
-			var excluded = false;
-			for (var f in this.config.excludedEvents) {
-				var filter = this.config.excludedEvents[f];
-				if (event.title.toLowerCase().includes(filter.toLowerCase())) {
-					excluded = true;
-					break;
-				}
-			}
-
-			if (excluded) {
-				continue;
-			}
-
 			var eventWrapper = document.createElement("tr");
 
 			if (this.config.colored) {
@@ -320,6 +285,31 @@ Module.register("calendar", {
 		return wrapper;
 	},
 
+	/**
+	 * This function accepts a number (either 12 or 24) and returns a moment.js LocaleSpecification with the
+	 * corresponding timeformat to be used in the calendar display. If no number is given (or otherwise invalid input)
+	 * it will a localeSpecification object with the system locale time format.
+	 * 
+	 * @param {number} timeFormat Specifies either 12 or 24 hour time format
+	 * @returns {moment.LocaleSpecification} 
+	 */
+	getLocaleSpecification: function(timeFormat) {
+		switch (timeFormat) {
+		case 12: {
+			return { longDateFormat: {LT: "h:mm A"} };
+			break;
+		}
+		case 24: {
+			return { longDateFormat: {LT: "HH:mm"} };
+			break;
+		}
+		default: {
+			return { longDateFormat: {LT: moment.localeData().longDateFormat("LT")} };
+			break;
+		}
+		}
+	},
+
 	/* hasCalendarURL(url)
 	 * Check if this config contains the calendar url.
 	 *
@@ -366,7 +356,7 @@ Module.register("calendar", {
 			return a.startDate - b.startDate;
 		});
 
-		return events.slice(0, this.config.maximumEntries);
+		return events;
 	},
 
 	/* createEventList(url)
@@ -377,6 +367,7 @@ Module.register("calendar", {
 	addCalendar: function (url, auth, calendarConfig) {
 		this.sendSocketNotification("ADD_CALENDAR", {
 			url: url,
+			excludedEvents: calendarConfig.excludedEvents || this.config.excludedEvents,
 			maximumEntries: calendarConfig.maximumEntries || this.config.maximumEntries,
 			maximumNumberOfDays: calendarConfig.maximumNumberOfDays || this.config.maximumNumberOfDays,
 			fetchInterval: this.config.fetchInterval,
@@ -437,25 +428,27 @@ Module.register("calendar", {
 		return defaultValue;
 	},
 
-	/* shorten(string, maxLength)
-	 * Shortens a string if it's longer than maxLength.
-	 * Adds an ellipsis to the end.
-	 *
-	 * argument string string - The string to shorten.
-	 * argument maxLength number - The max length of the string.
-	 * argument wrapEvents - Wrap the text after the line has reached maxLength
-	 *
-	 * return string - The shortened string.
+	/**
+	 * Shortens a string if it's longer than maxLength and add a ellipsis to the end
+	 * 
+	 * @param {string} string Text string to shorten
+	 * @param {number} maxLength The max length of the string
+	 * @param {boolean} wrapEvents Wrap the text after the line has reached maxLength
+	 * @returns {string} The shortened string
 	 */
 	shorten: function (string, maxLength, wrapEvents) {
-		if (wrapEvents) {
+		if (typeof string !== "string") {
+			return "";
+		}
+
+		if (wrapEvents === true) {
 			var temp = "";
 			var currentLine = "";
 			var words = string.split(" ");
 
 			for (var i = 0; i < words.length; i++) {
 				var word = words[i];
-				if (currentLine.length + word.length < 25 - 1) { // max - 1 to account for a space
+				if (currentLine.length + word.length < (typeof maxLength === "number" ? maxLength : 25) - 1) { // max - 1 to account for a space
 					currentLine += (word + " ");
 				} else {
 					if (currentLine.length > 0) {
@@ -467,12 +460,12 @@ Module.register("calendar", {
 				}
 			}
 
-			return temp + currentLine;
+			return (temp + currentLine).trim();
 		} else {
-			if (string.length > maxLength) {
-				return string.slice(0, maxLength) + "&hellip;";
+			if (maxLength && typeof maxLength === "number" && string.length > maxLength) {
+				return string.trim().slice(0, maxLength) + "&hellip;";
 			} else {
-				return string;
+				return string.trim();
 			}
 		}
 	},
@@ -522,6 +515,8 @@ Module.register("calendar", {
 			var calendar = this.calendarData[url];
 			for (var e in calendar) {
 				var event = cloneObject(calendar[e]);
+				event.symbol = this.symbolsForUrl(url);
+				event.color = this.colorForUrl(url);
 				delete event.url;
 				eventList.push(event);
 			}
