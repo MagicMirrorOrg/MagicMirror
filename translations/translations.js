@@ -24,7 +24,7 @@ var translations = {
 	"zh_tw" : "translations/zh_tw.json", // Traditional Chinese
 	"ja" : "translations/ja.json", // Japanese
 	"pl" : "translations/pl.json", // Polish
-	"gr" : "translations/gr.json",  // Greek
+	"gr" : "translations/gr.json", // Greek
 	"da" : "translations/da.json", // Danish
 	"tr" : "translations/tr.json", // Turkish
 	"ru" : "translations/ru.json", // Russian
@@ -34,6 +34,9 @@ var translations = {
 	"et" : "translations/et.json", // Estonian
 	"kr" : "translations/kr.json", // Korean
 	"ro" : "translations/ro.json", // Romanian
+	"cy" : "translations/cy.json"  // Welsh (Cymraeg)
 };
 
 if (typeof module !== "undefined") {module.exports = translations;}
+
+

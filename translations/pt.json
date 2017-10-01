@@ -1,11 +1,13 @@
 {
 	"LOADING": "A carregar &hellip;",
-
 	"TODAY": "Hoje",
 	"TOMORROW": "Amanhã",
+	"DAYAFTERTOMORROW": "O dia depois de amanhã",
 	"RUNNING": "Termina em",
 	"EMPTY": "Sem eventos programados.",
-
+  
+	"WEEK": "Semana",
+  
 	"N": "N",
 	"NNE": "NNE",
 	"NE": "NE",
@@ -22,8 +24,8 @@
 	"WNW": "ONO",
 	"NW": "NO",
 	"NNW": "NNO",
-	
+  
 	"UPDATE_NOTIFICATION": "Atualização do MagicMirror² disponível.",
 	"UPDATE_NOTIFICATION_MODULE": "Atualização para o módulo MODULE_NAME disponível.",
-	"UPDATE_INFO": "A instalação atual está COMMIT_COUNT atrasada no branch BRANCH_NAME."	
+	"UPDATE_INFO": "A instalação atual está COMMIT_COUNT atrasada no branch BRANCH_NAME."
 }

@@ -8,7 +8,7 @@
 var ical = require("./vendor/ical.js");
 var moment = require("moment");
 
-var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumberOfDays, auth) {
+var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth) {
 	var self = this;
 
 	var reloadTimer = null;
@@ -111,6 +111,19 @@ var CalendarFetcher = function(url, reloadInterval, maximumEntries, maximumNumbe
 						title = (typeof event.summary.val !== "undefined") ? event.summary.val : event.summary;
 					} else if(event.description) {
 						title = event.description;
+					}
+
+					var excluded = false;
+					for (var f in excludedEvents) {
+						var filter = excludedEvents[f];
+						if (title.toLowerCase().includes(filter.toLowerCase())) {
+							excluded = true;
+							break;
+						}
+					}
+
+					if (excluded) {
+						continue;
 					}
 
 					var location = event.location || false;
