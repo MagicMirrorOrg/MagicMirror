@@ -122,7 +122,7 @@ The following properties can be configured:
 | **Option** | **Description** |
 | --- | --- |
 | `port` | The port on which the MagicMirror² server will run on. The default value is `8080`. |
-| `address` | The ip address the accept connections. The  default open bind `::` is IPv6 is available or `0.0.0.0` IPv4 run on.  Example config: `192.168.10.100`. |
+| `address` | The ip address the accept connections. The  default open bind `localhost`.  Example config: `192.168.10.100`. |
 | `ipWhitelist` | The list of IPs from which you are allowed to access the MagicMirror². The default value is `["127.0.0.1", "::ffff:127.0.0.1", "::1"]`. It is possible to specify IPs with subnet masks (`["127.0.0.1", "127.0.0.1/24"]`) or define ip ranges (`["127.0.0.1", ["192.168.0.1", "192.168.0.100"]]`). Set `[]` to allow all IP addresses. For more information about how configure this directive see the [follow post ipWhitelist HowTo](https://forum.magicmirror.builders/topic/1326/ipwhitelist-howto) |
 | `zoom` | This allows to scale the mirror contents with a given zoom factor. The default value is `1.0`|
 | `language` | The language of the interface. (Note: Not all elements will be localized.) Possible values are `en`, `nl`, `ru`, `fr`, etc., but the default value is `en`. |
