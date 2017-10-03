@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
 
 ### Changed
+- calender week is now handled with a variable translation in order to move number language specific
 
 ### Added
 - Add option to use [Nunjucks](https://mozilla.github.io/nunjucks/) templates in modules. (See `helloworld` module as an example.)

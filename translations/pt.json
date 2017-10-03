@@ -6,7 +6,7 @@
 	"RUNNING": "Termina em",
 	"EMPTY": "Sem eventos programados.",
   
-	"WEEK": "Semana",
+	"WEEK": "Semana {weekNumber}",
   
 	"N": "N",
 	"NNE": "NNE",
