@@ -2,8 +2,20 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.2.0] - Unreleased
+
+**Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
+
 ### Changed
 - calender week is now handled with a variable translation in order to move number language specific
+
+### Added
+- Add option to use [Nunjucks](https://mozilla.github.io/nunjucks/) templates in modules. (See `helloworld` module as an example.)
+
+### Updated
+
+### Fixed
+- Fixed issue with calendar module showing more than `maximumEntries` allows
 
 ## [2.1.3] - 2017-10-01
 
