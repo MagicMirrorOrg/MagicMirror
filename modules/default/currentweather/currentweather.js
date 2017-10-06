@@ -33,7 +33,7 @@ Module.register("currentweather",{
 		retryDelay: 2500,
 
 		apiVersion: "2.5",
-		apiBase: "http://api.openweathermap.org/data/",
+		apiBase: "https://api.openweathermap.org/data/",
 		weatherEndpoint: "weather",
 
 		appendLocationNameToHeader: true,
