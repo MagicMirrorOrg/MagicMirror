@@ -78,3 +78,6 @@ Temporary Items
 *.orig
 *.rej
 *.bak
+
+# all package-lock.json
+package-lock.json*
