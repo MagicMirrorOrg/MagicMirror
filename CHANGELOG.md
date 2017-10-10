@@ -17,6 +17,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Fixed issue with calendar module showing more than `maximumEntries` allows
 - WeatherForecast and CurrentWeather are now using HTTPS instead of HTTP
+- Correcting translation for Indonesian language
 
 ## [2.1.3] - 2017-10-01
 
