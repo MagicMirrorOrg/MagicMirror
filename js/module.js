@@ -27,7 +27,7 @@ var Module = Class.extend({
 	// visibility when hiding and showing module.
 	lockStrings: [],
 
-	// Storage of the nunjuck Environment, 
+	// Storage of the nunjuck Environment,
 	// This should not be referenced directly.
 	// Use the nunjucksEnvironment() to get it.
 	_nunjucksEnvironment: null,
@@ -156,7 +156,7 @@ var Module = Class.extend({
 	/** nunjucksEnvironment()
 	 * Returns the nunjucks environment for the current module.
 	 * The environment is checked in the _nunjucksEnvironment instance variable.
-	 * 
+
 	 * @returns Nunjucks Environment
 	 */
 	nunjucksEnvironment: function() {

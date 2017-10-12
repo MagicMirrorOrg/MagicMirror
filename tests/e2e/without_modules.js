@@ -25,7 +25,7 @@ describe("Check configuration without modules", function () {
 	});
 
 	before(function () {
-		// Set config sample for use in test 
+		// Set config sample for use in test
 		process.env.MM_CONFIG_FILE = "tests/configs/without_modules.js";
 	});
 
