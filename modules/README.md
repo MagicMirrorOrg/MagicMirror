@@ -555,6 +555,17 @@ start: function() {
 }
 ````
 
+#### `stop()`
+This method is called when the MagicMirror server receives a `SIGINT` command and is shutting down. This method should include any commands needed to close any open connections, stop any sub-processes and gracefully exit the module.
+
+**Example:**
+````javascript
+stop: function() {
+	console.log("Shutting down MyModule");
+	this.connection.close();
+}
+````
+
 #### `socketNotificationReceived: function(notification, payload)`
 With this method, your node helper can receive notifications from your modules. When this method is called, it has 2 arguments:
 
