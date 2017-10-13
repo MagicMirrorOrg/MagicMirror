@@ -34,7 +34,8 @@ var translations = {
 	"et" : "translations/et.json", // Estonian
 	"kr" : "translations/kr.json", // Korean
 	"ro" : "translations/ro.json", // Romanian
-	"cy" : "translations/cy.json"  // Welsh (Cymraeg)
+	"cy" : "translations/cy.json", // Welsh (Cymraeg)
+	"bg" : "translations/bg.json"  // Bulgarian
 };
 
 if (typeof module !== "undefined") {module.exports = translations;}
