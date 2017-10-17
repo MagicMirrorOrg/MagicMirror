@@ -13,6 +13,7 @@ var translations = {
 	"fr" : "translations/fr.json", // French
 	"fy" : "translations/fy.json", // Frysk
 	"es" : "translations/es.json", // Spanish
+	"ca" : "translations/ca.json", // Catalan
 	"nb" : "translations/nb.json", // Norsk bokmål
 	"nn" : "translations/nn.json", // Norsk nynorsk
 	"pt" : "translations/pt.json", // Português
