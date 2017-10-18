@@ -93,8 +93,7 @@ Module.register("weather",{
 		return {
 			config: this.config,
 			current: this.weatherProvider.currentWeather(),
-			forecast: this.weatherProvider.weatherForecast(),
-			myBoolean: true
+			forecast: this.weatherProvider.weatherForecast()
 		}
 	},
 

@@ -10,7 +10,7 @@
     </div>
     <div class="large light">
         <span class="wi weathericon wi-{{current.weatherType}}"></span>
-        <span class="bright"> {{current.temperature | round(1)}}°</span></div> <!-- should show in correct number of decimals -->
+        <span class="bright"> {{current.temperature | round(0 if config.roundTemp else 1)}}°</span></div>
     </div>
 {% endif %}
 
