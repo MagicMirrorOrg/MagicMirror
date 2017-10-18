@@ -94,7 +94,7 @@ Module.register("clock",{
 			dateWrapper.innerHTML = now.format(this.config.dateFormat);
 		}
 		if (this.config.showWeek) {
-			weekWrapper.innerHTML = this.translate("WEEK") + " " + now.week();
+			weekWrapper.innerHTML = this.translate("WEEK", { weekNumber: now.week() });
 		}
 		timeWrapper.innerHTML = timeString;
 		secondsWrapper.innerHTML = now.format("ss");

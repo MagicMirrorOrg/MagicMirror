@@ -7,7 +7,7 @@
 	"RUNNING": "Slutter om",
 	"EMPTY": "Ingen kommende arrangementer.",
 
-	"WEEK": "Uke",
+	"WEEK": "Uke {weekNumber}",
 
 	"N": "N",
 	"NNE": "NNØ",
