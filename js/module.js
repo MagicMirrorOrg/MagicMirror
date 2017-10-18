@@ -86,7 +86,7 @@ var Module = Class.extend({
 		var templateData = this.getTemplateData();
 
 		// Check to see if we need to render a template string or a file.
-		if (/^.*(\.html)$/.test(template)) {
+		if (/^.*((\.html)|(\.njk))$/.test(template)) {
 			// the template is a filename
 			this.nunjucksEnvironment().render(template, templateData, function (err, res) {
 				if (err) {
@@ -170,7 +170,10 @@ var Module = Class.extend({
 
 		var self = this;
 
-		this._nunjucksEnvironment = new nunjucks.Environment(new nunjucks.WebLoader(this.file(""), {async: true}));
+		this._nunjucksEnvironment = new nunjucks.Environment(new nunjucks.WebLoader(this.file(""), {async: true}), {
+			trimBlocks: true,
+			lstripBlocks: true
+		});
 		this._nunjucksEnvironment.addFilter("translate", function(str) {
 			return self.translate(str)
 		});
