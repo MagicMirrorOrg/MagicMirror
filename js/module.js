@@ -89,6 +89,10 @@ var Module = Class.extend({
 		if (/^.*(\.html)$/.test(template)) {
 			// the template is a filename
 			this.nunjucksEnvironment().render(template, templateData, function (err, res) {
+				if (err) {
+					Log.error(err)
+				}
+				
 				// The inner content of the div will be set after the template is received.
 				// This isn't the most optimal way, but since it's near instant
 				// it probably won't be an issue.
