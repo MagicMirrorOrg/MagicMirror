@@ -15,7 +15,7 @@ Module.register("helloworld",{
 	},
 
 	getTemplate: function () {
-		return "helloworld.html"
+		return "helloworld.njk"
 	},
 
 	getTemplateData: function () {
