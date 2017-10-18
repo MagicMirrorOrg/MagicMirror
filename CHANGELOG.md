@@ -11,9 +11,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - Add option to use [Nunjucks](https://mozilla.github.io/nunjucks/) templates in modules. (See `helloworld` module as an example.)
-- Add Bulgarian translations for MagicMirror² and Alert module
+- Add Bulgarian translations for MagicMirror² and Alert module.
 - Add graceful shutdown of modules by calling `stop` function of each `node_helper` on SIGINT before exiting.
 - Link update subtext to Github diff of current version versus tracking branch.
+- Add Catalan translation.
 
 ### Updated
 
