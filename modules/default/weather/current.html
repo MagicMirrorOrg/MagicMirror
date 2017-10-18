@@ -1,16 +1,18 @@
-<div class="normal medium">
-    <span class="wi wi-strong-wind dimmed"></span>
-    <span>
-        {{current.windSpeed}} <!-- should be converted to wind speed in correct unit ... -->
-        <sup>{{current.cardinalWindDirection()}}</sup>
-    </span>
-    <span class="wi dimmed wi-sunset"></span> <!-- hard coded, should use logic ... -->
-    <span> 00:00</span> <!-- hard coded, should use logic ... -->
-</div>
-<div class="large light">
-    <span class="wi weathericon wi-{{current.weatherType}}"></span>
-    <span class="bright"> {{current.temperature}}°</span></div> <!-- should show in correct number of decimals -->
-</div>
+{% if current %}
+    <div class="normal medium">
+        <span class="wi wi-strong-wind dimmed"></span>
+        <span>
+            {{current.windSpeed}} <!-- should be converted to wind speed in correct unit ... -->
+            <sup>{{current.cardinalWindDirection()}}</sup>
+        </span>
+        <span class="wi dimmed wi-sunset"></span> <!-- hard coded, should use logic ... -->
+        <span> 00:00</span> <!-- hard coded, should use logic ... -->
+    </div>
+    <div class="large light">
+        <span class="wi weathericon wi-{{current.weatherType}}"></span>
+        <span class="bright"> {{current.temperature | round(1)}}°</span></div> <!-- should show in correct number of decimals -->
+    </div>
+{% endif %}
 
 <!-- Unclomment the line below to see the contents of the `current` object. -->
 <!-- <div style="word-wrap:break-word" class="xsmall dimmed">{{current | dump}}</div> -->

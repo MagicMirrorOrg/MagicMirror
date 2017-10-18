@@ -14,7 +14,40 @@ Module.register("weather",{
 		weatherProvider: "openweathermap",
 		units: config.units,
 		roundTemp: false,
-		type: "current" //current, forecast
+		type: "current", //current, forecast
+
+		//
+
+		location: false,
+		locationID: false,
+		appid: "",
+		units: config.units,
+		updateInterval: 10 * 60 * 1000, // every 10 minutes
+		animationSpeed: 1000,
+		timeFormat: config.timeFormat,
+		showPeriod: true,
+		showPeriodUpper: false,
+		showWindDirection: true,
+		showWindDirectionAsArrow: false,
+		useBeaufort: true,
+		lang: config.language,
+		showHumidity: false,
+		degreeLabel: false,
+		showIndoorTemperature: false,
+		showIndoorHumidity: false,
+
+		initialLoadDelay: 0, // 0 seconds delay
+		retryDelay: 2500,
+
+		apiVersion: "2.5",
+		apiBase: "http://api.openweathermap.org/data/",
+		weatherEndpoint: "weather",
+
+		appendLocationNameToHeader: true,
+		calendarClass: "calendar",
+
+		onlyTemp: false,
+		roundTemp: false
 	},
 
 	// Module properties.
@@ -60,7 +93,8 @@ Module.register("weather",{
 		return {
 			config: this.config,
 			current: this.weatherProvider.currentWeather(),
-			forecast: this.weatherProvider.weatherForecast()
+			forecast: this.weatherProvider.weatherForecast(),
+			myBoolean: true
 		}
 	},
 
