@@ -5,7 +5,7 @@
  *
  * By Michael Teeuw http://michaelteeuw.nl
  * MIT Licensed.
- * 
+ *
  * This class is the blueprint for a weather provider.
  */
 

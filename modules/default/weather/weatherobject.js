@@ -5,11 +5,11 @@
  *
  * By Michael Teeuw http://michaelteeuw.nl
  * MIT Licensed.
- * 
+ *
  * This class is the blueprint for a day which includes weather information.
  */
 
-// Currently this is focused on the information which is nessecery for the current weather.
+// Currently this is focused on the information which is necessary for the current weather.
 // As soon as we start implementing the forecast, mode properties will be added.
 
 class WeatherObject {
@@ -59,5 +59,22 @@ class WeatherObject {
 		} else {
 			return "N";
 		}
+	}
+
+	beaufortWindSpeed () {
+		var kmh = this.windSpeed * 60 * 60 / 1000;
+		var speeds = [1, 5, 11, 19, 28, 38, 49, 61, 74, 88, 102, 117, 1000];
+		for (var beaufort in speeds) {
+			var speed = speeds[beaufort];
+			if (speed > kmh) {
+				return beaufort;
+			}
+		}
+		return 12;
+	}
+
+	nextSunAction () {
+		var now = new Date();
+		return (this.sunrise < now && this.sunset > now) ? "sunset" : "sunrise";
 	}
 };

@@ -55,7 +55,7 @@ Module.register("weather",{
 
 	// Define required scripts.
 	getStyles: function() {
-		return ["weather-icons.css", "weather.css"];
+		return ["font-awesome.css", "weather-icons.css", "weather.css"];
 	},
 
 	// Return the scripts that are nessecery for the weather module.
@@ -78,6 +78,9 @@ Module.register("weather",{
 
 		// Let the weather provider know we are starting.
 		this.weatherProvider.start()
+
+		// Add custom filters
+		this.addFilters()
 
 		// Schedule the first update.
 		this.scheduleUpdate(0)
@@ -122,5 +125,26 @@ Module.register("weather",{
 				break;
 			}
 		}, nextLoad);
+	},
+
+	addFilters() {
+		var self = this
+		this.nunjucksEnvironment().addFilter("formatTime", function(date) {
+			date = moment(date)
+
+			if (self.config.timeFormat !== 24) {
+				if (self.config.showPeriod) {
+					if (self.config.showPeriodUpper) {
+						return date.format("h:mm A")
+					} else {
+						return date.format("h:mm a")
+					}
+				} else {
+					return date.format("h:mm")
+				}
+			}
+
+			return date.format("HH:mm")
+		});
 	}
 });
