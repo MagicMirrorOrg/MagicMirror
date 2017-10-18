@@ -88,7 +88,7 @@ Module.register("weather",{
 
 	// Select the template depending on the display type.
 	getTemplate: function () {
-		return this.config.type.toLowerCase() + ".html"
+		return this.config.type.toLowerCase() + ".njk"
 	},
 
 	// Add all the data to the template.
