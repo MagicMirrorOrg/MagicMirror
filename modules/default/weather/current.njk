@@ -1,7 +1,6 @@
 {#
     TODO:
     - Show Humidity
-    - Show Units
     _ Show Indoor Temperature
     _ Show Indoor Humidity
 #}
@@ -22,7 +21,7 @@
                         {% if config.showWindDirectionAsArrow %}
                             <i class="fa fa-long-arrow-up" style="transform:rotate({{current.windDirection}}deg);"></i>    
                         {% else %}
-                            {{current.cardinalWindDirection()}}
+                            {{current.cardinalWindDirection() | translate}}
                         {% endif %}
                         &nbsp;
                     </sup>
@@ -40,7 +39,13 @@
     {% endif %}
     <div class="large light">
         <span class="wi weathericon wi-{{current.weatherType}}"></span>
-        <span class="bright"> {{current.temperature | round(0 if config.roundTemp else 1)}}°</span></div>
+        <span class="bright">
+            {{current.temperature | round(0 if config.roundTemp else 1)}}°{% if config.degreeLabel %}
+                {% if config.units == "metric" %}C{% endif %}
+                {% if config.units == "imperial" %}F{% endif %}
+                {% if config.units == "default" %}K{% endif %}
+			{% endif %}
+        </span>
     </div>
 {% endif %}
 
