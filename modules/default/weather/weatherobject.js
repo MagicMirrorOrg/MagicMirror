@@ -20,9 +20,10 @@ class WeatherObject {
 		this.sunrise = null
 		this.sunset = null
 		this.temperature = null
-		this.minTemperature = null,
-		this.maxTemperature = null,
+		this.minTemperature = null
+		this.maxTemperature = null
 		this.weatherType = null
+		this.humidity = null
 	}
 
 	cardinalWindDirection () {
