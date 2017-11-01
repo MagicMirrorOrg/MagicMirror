@@ -33,7 +33,8 @@ Module.register("newsfeed",{
 		removeStartTags: "",
 		removeEndTags: "",
 		startTags: [],
-		endTags: []
+		endTags: [],
+		prohibitedWords: []
 
 	},
 
@@ -241,6 +242,18 @@ Module.register("newsfeed",{
 		if(this.config.maxNewsItems > 0) {
 			newsItems = newsItems.slice(0, this.config.maxNewsItems);
 		}
+
+		if(this.config.prohibitedWords.length > 0) {
+			newsItems = newsItems.filter(function(value){
+				for (var i=0; i < this.config.prohibitedWords.length; i++) {
+					if (value["title"].toLowerCase().indexOf(this.config.prohibitedWords[i].toLowerCase()) > -1) {
+						return false;
+					}
+				}
+				return true;
+			}, this);
+		}
+
 		this.newsItems = newsItems;
 	},
 
