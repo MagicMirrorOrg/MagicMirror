@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add graceful shutdown of modules by calling `stop` function of each `node_helper` on SIGINT before exiting.
 - Link update subtext to Github diff of current version versus tracking branch.
 - Add Catalan translation.
+- Add ability to filter out newsfeed items based on prohibited words found in title (resolves #1071)
 
 ### Updated
 

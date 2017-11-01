@@ -76,6 +76,7 @@ The following properties can be configured:
 | `startTags`       | List the tags you would like to have removed at the beginning of the feed item <br><br> **Possible values:** `['TAG']` or `['TAG1','TAG2',...]`
 | `removeEndTags`   | Remove specified tags from the **end** of an item's description and/or title. <br><br> **Possible values:**`'title'`, `'description'`, `'both'`
 | `endTags`         | List the tags you would like to have removed at the end of the feed item <br><br> **Possible values:** `['TAG']` or `['TAG1','TAG2',...]`
+| `prohibitedWords` | Remove news feed item if one of these words is found anywhere in the title (case insensitive and greedy matching) <br><br> **Possible values:** `['word']` or `['word1','word2',...]`
 
 The `feeds` property contains an array with multiple objects. These objects have the following properties:
 
