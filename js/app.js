@@ -236,6 +236,33 @@ var App = function() {
 			});
 		});
 	};
+
+	/* stop()
+	 * This methods stops the core app.
+	 * This calls each node_helper's STOP() function, if it exists.
+	 * Added to fix #1056
+	 */
+	this.stop = function() {
+		for (var h in nodeHelpers) {
+			var nodeHelper = nodeHelpers[h];
+			if (typeof nodeHelper.stop === "function") {
+				nodeHelper.stop();
+			}
+		}
+	};
+
+	/* Listen for SIGINT signal and call stop() function.
+	 *
+	 * Added to fix #1056
+	 * Note: this is only used if running `server-only`. Otherwise
+	 * this.stop() is called by app.on("before-quit"... in `electron.js`
+	 */
+	process.on("SIGINT", () => {
+		console.log("[SIGINT] Received. Shutting down server...");
+		setTimeout(() => { process.exit(0); }, 3000);  // Force quit after 3 seconds
+		this.stop();
+		process.exit(0);
+	});
 };
 
 module.exports = new App();

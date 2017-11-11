@@ -7,7 +7,7 @@
 	"RUNNING": "Koniec za",
 	"EMPTY": "Brak wydarzeń.",
 
-	"WEEK": "Tydzień",
+	"WEEK": "Tydzień {weekNumber}",
 
 	"N": "N",
 	"NNE": "NNE",
