@@ -23,14 +23,14 @@ Module.register("newsfeed",{
 		showDescription: false,
 		wrapTitle: true,
 		wrapDescription: true,
-    truncDescription: true,
-    lengthDescription: 400,
+		truncDescription: true,
+		lengthDescription: 400,
 		hideLoading: false,
-		reloadInterval:  5 * 60 * 1000, // every 5 minutes
+		reloadInterval:	5 * 60 * 1000, // every 5 minutes
 		updateInterval: 10 * 1000,
 		animationSpeed: 2.5 * 1000,
 		maxNewsItems: 0, // 0 for unlimited
-    maxLatestFeed: 5,
+		maxLatestFeed: 5,
 		ignoreOldItems: false,
 		ignoreOlderThan: 24 * 60 * 60 * 1000, // 1 day
 		removeStartTags: "",
@@ -53,56 +53,66 @@ Module.register("newsfeed",{
 		return false;
 	},
 
-  getCommands: function(commander) {
-    commander.add({
-      command: 'newsfeed',
-      description: this.translate("TXT_NEWSFEED_DESC"),
-      callback: 'cmd_newsfeed'
-    });
-    commander.add({
-      command: 'newssrc',
-      description: this.translate("TXT_NEWSSRC_DESC"),
-      callback: 'cmd_newssrc'
-    });
-  },
+	getCommands: function(commander) {
+		commander.add({
+			command: "newsfeed",
+			description: this.translate("TXT_NEWSFEED_DESC"),
+			callback: "cmd_newsfeed"
+		});
+		commander.add({
+			command: "newssrc",
+			description: this.translate("TXT_NEWSSRC_DESC"),
+			callback: "cmd_newssrc"
+		});
+	},
 
-  cmd_newsfeed: function(command, handler) {
-    var newsItems = this.newsItems.slice(0, this.newsItems.length);
-    var text = "*" + this.translate("TXT_NEWSFEED");
-    if (handler.args != null) text += " - " + handler.args;
-    text += "*\n";
-    var n = 1;
-    for (var i in newsItems) {
-      if (handler.args != null) {
-        if (handler.args.toLowerCase() == newsItems[i].sourceTitle.toLowerCase()) {
-          text += moment(new Date(newsItems[i].pubdate)).fromNow() + "\n[" + newsItems[i].title + "](" + newsItems[i].url + ")\n";
-          if (n >= this.config.maxLatestFeed) break; else n++;
-        }
-      }
-      else {
-        text += "*" + newsItems[i].sourceTitle + "*, " + moment(new Date(newsItems[i].pubdate)).fromNow() + "\n[" + newsItems[i].title + "](" + newsItems[i].url + ")\n";
-        if (n >= this.config.maxLatestFeed * 2) break; else n++;
-      }
-      //text += newsItems[i].description + "\n";
-    }
+	cmd_newsfeed: function(command, handler) {
+		var newsItems = this.newsItems.slice(0, this.newsItems.length);
+		var text = "*" + this.translate("TXT_NEWSFEED");
+		if (handler.args != null) {
+			text += " - " + handler.args;
+		}
+		text += "*\n";
+		var n = 1;
+		for (var i in newsItems) {
+			if (handler.args != null) {
+				if (handler.args.toLowerCase() == newsItems[i].sourceTitle.toLowerCase()) {
+					text += moment(new Date(newsItems[i].pubdate)).fromNow() + "\n[" + newsItems[i].title + "](" + newsItems[i].url + ")\n";
+					if (n >= this.config.maxLatestFeed) {
+						break;
+					} else {
+						n++;
+					}
+				}
+			}
+			else {
+				text += "*" + newsItems[i].sourceTitle + "*, " + moment(new Date(newsItems[i].pubdate)).fromNow() + "\n[" + newsItems[i].title + "](" + newsItems[i].url + ")\n";
+				if (n >= this.config.maxLatestFeed * 2) {
+					break;
+				} else {
+					n++;
+				}
+			}
+			//text += newsItems[i].description + "\n";
+		}
 
-    handler.reply("TEXT", text, {parse_mode:'Markdown'});
-  },
+		handler.reply("TEXT", text, {parse_mode:"Markdown"});
+	},
 
-  cmd_newssrc: function(command, handler) {
-    //var feeds = this.config.feeds.slice(0, this.feeds.length);
-    var feeds = this.config.feeds;
-    Log.info('feeds.length=' + feeds.length);
-    var text = "*" + this.translate("TXT_NEWSSRC") + "*\n";
-    var textSrc = "";
-    for (var i in feeds) {
-      textSrc += feeds[i].title + ", ";
-    }
-    //textSrc = textSrc.trim(', ');
-    text += (textSrc.trim()).replace(/([,]*)$/g, '');
+	cmd_newssrc: function(command, handler) {
+		//var feeds = this.config.feeds.slice(0, this.feeds.length);
+		var feeds = this.config.feeds;
+		//Log.info("feeds.length=" + feeds.length);
+		var text = "*" + this.translate("TXT_NEWSSRC") + "*\n";
+		var textSrc = "";
+		for (var i in feeds) {
+			textSrc += feeds[i].title + ", ";
+		}
+		//textSrc = textSrc.trim(', ');
+		text += (textSrc.trim()).replace(/([,]*)$/g, "");
 
-    handler.reply("TEXT", text, {parse_mode:'Markdown'});
-  },
+		handler.reply("TEXT", text, {parse_mode:"Markdown"});
+	},
 
 	// Define start sequence.
 	start: function() {
@@ -222,9 +232,9 @@ Module.register("newsfeed",{
 			if (this.config.showDescription) {
 				var description = document.createElement("div");
 				description.className = "small light" + (!this.config.wrapDescription ? " no-wrap" : "");
-        var txtDesc = this.newsItems[this.activeItem].description;
-        //Log.info('txtDesc.length = ' + txtDesc.length + " - " + this.config.lengthDescription);
-				description.innerHTML = (this.config.truncDescription ? (txtDesc.length > this.config.lengthDescription ? txtDesc.substring(0, this.config.lengthDescription) + '...' : txtDesc) : txtDesc);
+				var txtDesc = this.newsItems[this.activeItem].description;
+				//Log.info('txtDesc.length = ' + txtDesc.length + " - " + this.config.lengthDescription);
+				description.innerHTML = (this.config.truncDescription ? (txtDesc.length > this.config.lengthDescription ? txtDesc.substring(0, this.config.lengthDescription) + "..." : txtDesc) : txtDesc);
 				wrapper.appendChild(description);
 			}
 
