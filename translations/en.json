@@ -7,7 +7,7 @@
 	"RUNNING": "Ends in",
 	"EMPTY": "No upcoming events.",
 
-	"WEEK": "Week {weekNumber}",
+	"WEEK": "Week",
 
 	"N": "N",
 	"NNE": "NNE",
@@ -28,5 +28,10 @@
 
 	"UPDATE_NOTIFICATION": "MagicMirror² update available.",
 	"UPDATE_NOTIFICATION_MODULE": "Update available for MODULE_NAME module.",
-	"UPDATE_INFO": "The current installation is COMMIT_COUNT behind on the BRANCH_NAME branch."
+	"UPDATE_INFO": "The current installation is COMMIT_COUNT behind on the BRANCH_NAME branch.",
+
+	"TXT_NEWSFEED": "HEADLINE",
+	"TXT_NEWSFEED_DESC" : "display headlines (RSS feed) from several online media. `/newsfeed [news_source]`",
+	"TXT_NEWSSRC" : "NEWS SOURCE",
+        "TXT_NEWSSRC_DESC" : "display list of news source. `/newssrc`"
 }
