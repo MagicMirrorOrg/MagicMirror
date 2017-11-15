@@ -16,6 +16,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Link update subtext to Github diff of current version versus tracking branch.
 - Add Catalan translation.
 - Add ability to filter out newsfeed items based on prohibited words found in title (resolves #1071)
+- Add options to truncate description support of a feed in newsfeed module
+- Add reloadInterval option for particular feed in newsfeed module
+- Add no-cache entries of HTTP headers in newsfeed module (fetcher)
 
 ### Updated
 
@@ -51,7 +54,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Changed 'default.js' - listen on all attached interfaces by default.
 - Add execution of `npm list` after the test are ran in Travis CI.
 - Change hooks for the vendors e2e tests.
-- Add log when clientonly failed on starting. 
+- Add log when clientonly failed on starting.
 - Add warning color when are using full ip whitelist.
 - Set version of the `express-ipfilter` on 0.3.1.
 
