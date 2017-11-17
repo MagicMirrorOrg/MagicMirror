@@ -19,6 +19,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add options to truncate description support of a feed in newsfeed module
 - Add reloadInterval option for particular feed in newsfeed module
 - Add no-cache entries of HTTP headers in newsfeed module (fetcher)
+- Add Czech translation.
 
 ### Updated
 
