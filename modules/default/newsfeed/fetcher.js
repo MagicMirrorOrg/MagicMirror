@@ -51,7 +51,7 @@ var Fetcher = function(url, reloadInterval, encoding) {
 			if (title && pubdate) {
 
 				var regex = /(<([^>]+)>)/ig;
-				description = description.replace(regex, "");
+				description = description.toString().replace(regex, "");
 
 				items.push({
 					title: title,
