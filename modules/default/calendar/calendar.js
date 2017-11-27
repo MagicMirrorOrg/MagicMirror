@@ -150,7 +150,7 @@ Module.register("calendar", {
 
 				for(var i = 0; i < symbols.length; i++) {
 					var symbol = document.createElement("span");
-					symbol.className = "fa fa-" + symbols[i];
+					symbol.className = "fa fa-fw fa-" + symbols[i];
 					if(i > 0){
 						symbol.style.paddingLeft = "5px";
 					}
@@ -289,9 +289,9 @@ Module.register("calendar", {
 	 * This function accepts a number (either 12 or 24) and returns a moment.js LocaleSpecification with the
 	 * corresponding timeformat to be used in the calendar display. If no number is given (or otherwise invalid input)
 	 * it will a localeSpecification object with the system locale time format.
-	 * 
+	 *
 	 * @param {number} timeFormat Specifies either 12 or 24 hour time format
-	 * @returns {moment.LocaleSpecification} 
+	 * @returns {moment.LocaleSpecification}
 	 */
 	getLocaleSpecification: function(timeFormat) {
 		switch (timeFormat) {
@@ -356,7 +356,7 @@ Module.register("calendar", {
 			return a.startDate - b.startDate;
 		});
 
-		return events;
+		return events.slice(0, this.config.maximumEntries);
 	},
 
 	/* createEventList(url)
@@ -430,7 +430,7 @@ Module.register("calendar", {
 
 	/**
 	 * Shortens a string if it's longer than maxLength and add a ellipsis to the end
-	 * 
+	 *
 	 * @param {string} string Text string to shorten
 	 * @param {number} maxLength The max length of the string
 	 * @param {boolean} wrapEvents Wrap the text after the line has reached maxLength

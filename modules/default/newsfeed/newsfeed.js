@@ -23,8 +23,10 @@ Module.register("newsfeed",{
 		showDescription: false,
 		wrapTitle: true,
 		wrapDescription: true,
+		truncDescription: true,
+		lengthDescription: 400,
 		hideLoading: false,
-		reloadInterval:  5 * 60 * 1000, // every 5 minutes
+		reloadInterval: 5 * 60 * 1000, // every 5 minutes
 		updateInterval: 10 * 1000,
 		animationSpeed: 2.5 * 1000,
 		maxNewsItems: 0, // 0 for unlimited
@@ -33,8 +35,8 @@ Module.register("newsfeed",{
 		removeStartTags: "",
 		removeEndTags: "",
 		startTags: [],
-		endTags: []
-
+		endTags: [],
+		prohibitedWords: []
 	},
 
 	// Define required scripts.
@@ -168,7 +170,9 @@ Module.register("newsfeed",{
 			if (this.config.showDescription) {
 				var description = document.createElement("div");
 				description.className = "small light" + (!this.config.wrapDescription ? " no-wrap" : "");
-				description.innerHTML = this.newsItems[this.activeItem].description;
+				var txtDesc = this.newsItems[this.activeItem].description;
+				//Log.info('txtDesc.length = ' + txtDesc.length + " - " + this.config.lengthDescription);
+				description.innerHTML = (this.config.truncDescription ? (txtDesc.length > this.config.lengthDescription ? txtDesc.substring(0, this.config.lengthDescription) + "..." : txtDesc) : txtDesc);
 				wrapper.appendChild(description);
 			}
 
@@ -241,6 +245,18 @@ Module.register("newsfeed",{
 		if(this.config.maxNewsItems > 0) {
 			newsItems = newsItems.slice(0, this.config.maxNewsItems);
 		}
+
+		if(this.config.prohibitedWords.length > 0) {
+			newsItems = newsItems.filter(function(value){
+				for (var i=0; i < this.config.prohibitedWords.length; i++) {
+					if (value["title"].toLowerCase().indexOf(this.config.prohibitedWords[i].toLowerCase()) > -1) {
+						return false;
+					}
+				}
+				return true;
+			}, this);
+		}
+
 		this.newsItems = newsItems;
 	},
 
