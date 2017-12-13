@@ -54,7 +54,7 @@ fs.readFile(configFileName, "utf-8", function (err, data) {
 	v.JSHINT(data); // Parser by jshint
 
 	if (v.JSHINT.errors.length == 0) {
-		console.log("Your configuration file don't containt syntax error :)");
+		console.log("Your configuration file doesn't contain syntax errors :)");
 		return true;
 	} else {
 		errors = v.JSHINT.data().errors;
