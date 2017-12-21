@@ -13,6 +13,7 @@ var path = require("path");
 var ipfilter = require("express-ipfilter").IpFilter;
 var fs = require("fs");
 var helmet = require("helmet");
+var Utils = require(__dirname + "/utils.js");
 
 var Server = function(config, callback) {
 
@@ -26,11 +27,11 @@ var Server = function(config, callback) {
 	server.listen(port, config.address ? config.address : null);
 
 	if (config.ipWhitelist instanceof Array && config.ipWhitelist.length == 0) {
-		console.info("You're using a full whitelist configuration to allow for all IPs")
+		console.info(Utils.colors.warn("You're using a full whitelist configuration to allow for all IPs"))
 	}
 
 	app.use(function(req, res, next) {
-		var result = ipfilter(config.ipWhitelist, {mode: "allow", log: false})(req, res, function(err) {
+		var result = ipfilter(config.ipWhitelist, {mode: config.ipWhitelist.length === 0 ? "deny" : "allow", log: false})(req, res, function(err) {
 			if (err === undefined) {
 				return next();
 			}
@@ -50,6 +51,10 @@ var Server = function(config, callback) {
 
 	app.get("/version", function(req,res) {
 		res.send(global.version);
+	});
+
+	app.get("/config", function(req,res) {
+		res.send(config);
 	});
 
 	app.get("/", function(req, res) {

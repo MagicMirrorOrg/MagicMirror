@@ -1,26 +1,32 @@
-const globalSetup = require("./global-setup");
-const app = globalSetup.app;
-const chai = require("chai");
-const expect = chai.expect;
+const helpers = require("./global-setup");
+const path = require("path");
+const request = require("request");
+
+const expect = require("chai").expect;
+
+const describe = global.describe;
+const it = global.it;
+const beforeEach = global.beforeEach;
+const afterEach = global.afterEach;
 
 describe("Position of modules", function () {
-	this.timeout(20000);
+	helpers.setupTimeout(this);
 
+	var app = null;
 
-	beforeEach(function (done) {
-		app.start().then(function() { done(); } );
-	});
+	describe("Using helloworld", function () {
 
-	afterEach(function (done) {
-		app.stop().then(function() { done(); });
-	});
+		after(function () {
+			return helpers.stopApplication(app);
+		});
 
-
-	describe("Using helloworld", function() {
-
-		before(function() {
+		before(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/positions.js";
+			return helpers.startApplication({
+				args: ["js/electron.js"]
+			}).then(function (startedApp) { app = startedApp; })
+
 		});
 
 		var positions = ["top_bar", "top_left", "top_center", "top_right", "upper_third",
@@ -32,7 +38,7 @@ describe("Position of modules", function () {
 		for (idx in positions) {
 			position = positions[idx];
 			className = position.replace("_", ".");
-			it("show text in " + position , function () {
+			it("show text in " + position, function () {
 				return app.client.waitUntilWindowLoaded()
 					.getText("." + className).should.eventually.equal("Text in " + position);
 			});
