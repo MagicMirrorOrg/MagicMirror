@@ -24,6 +24,7 @@ Module.register("currentweather",{
 		showWindDirectionAsArrow: false,
 		useBeaufort: true,
 		lang: config.language,
+		decimalComma: false,
 		showHumidity: false,
 		degreeLabel: false,
 		showIndoorTemperature: false,
@@ -211,7 +212,12 @@ Module.register("currentweather",{
 
 		var temperature = document.createElement("span");
 		temperature.className = "bright";
-		temperature.innerHTML = " " + this.temperature + "&deg;" + degreeLabel;
+		if (this.config.decimalComma) {
+			temperature.innerHTML = " " + this.temperature.replace(".",",") + "&deg;" + degreeLabel;
+		}
+		else {
+			temperature.innerHTML = " " + this.temperature + "&deg;" + degreeLabel;
+		}
 		large.appendChild(temperature);
 
 		if (this.config.showIndoorTemperature && this.indoorTemperature) {
@@ -221,7 +227,12 @@ Module.register("currentweather",{
 
 			var indoorTemperatureElem = document.createElement("span");
 			indoorTemperatureElem.className = "bright";
-			indoorTemperatureElem.innerHTML = " " + this.indoorTemperature + "&deg;" + degreeLabel;
+			if (this.config.decimalComma) {
+				indoorTemperatureElem.innerHTML = " " + this.indoorTemperature.replace(".",",") + "&deg;" + degreeLabel;
+			}
+			else {
+				indoorTemperatureElem.innerHTML = " " + this.indoorTemperature + "&deg;" + degreeLabel;
+			}
 			large.appendChild(indoorTemperatureElem);
 		}
 
