@@ -75,7 +75,8 @@ Module.register("calendar", {
 
 			var calendarConfig = {
 				maximumEntries: calendar.maximumEntries,
-				maximumNumberOfDays: calendar.maximumNumberOfDays
+				maximumNumberOfDays: calendar.maximumNumberOfDays,
+				instance: this.config.instance || ''
 			};
 
 			// we check user and password here for backwards compatibility with old configs
@@ -97,7 +98,8 @@ Module.register("calendar", {
 
 	// Override socket notification handler.
 	socketNotificationReceived: function (notification, payload) {
-		if (notification === "CALENDAR_EVENTS") {
+		console.log('>> calendar socketNotificationReceived, payload.instance:', payload.instance);
+		if (notification === "CALENDAR_EVENTS" && this.config.instance === payload.instance) {
 			if (this.hasCalendarURL(payload.url)) {
 				this.calendarData[payload.url] = payload.events;
 				this.loaded = true;
@@ -289,24 +291,24 @@ Module.register("calendar", {
 	 * This function accepts a number (either 12 or 24) and returns a moment.js LocaleSpecification with the
 	 * corresponding timeformat to be used in the calendar display. If no number is given (or otherwise invalid input)
 	 * it will a localeSpecification object with the system locale time format.
-	 * 
+	 *
 	 * @param {number} timeFormat Specifies either 12 or 24 hour time format
-	 * @returns {moment.LocaleSpecification} 
+	 * @returns {moment.LocaleSpecification}
 	 */
 	getLocaleSpecification: function(timeFormat) {
 		switch (timeFormat) {
-		case 12: {
-			return { longDateFormat: {LT: "h:mm A"} };
-			break;
-		}
-		case 24: {
-			return { longDateFormat: {LT: "HH:mm"} };
-			break;
-		}
-		default: {
-			return { longDateFormat: {LT: moment.localeData().longDateFormat("LT")} };
-			break;
-		}
+			case 12: {
+				return { longDateFormat: {LT: "h:mm A"} };
+				break;
+			}
+			case 24: {
+				return { longDateFormat: {LT: "HH:mm"} };
+				break;
+			}
+			default: {
+				return { longDateFormat: {LT: moment.localeData().longDateFormat("LT")} };
+				break;
+			}
 		}
 	},
 
@@ -342,8 +344,8 @@ Module.register("calendar", {
 				var event = calendar[e];
 				if(this.config.hidePrivate) {
 					if(event.class === "PRIVATE") {
-						  // do not add the current event, skip it
-						  continue;
+						// do not add the current event, skip it
+						continue;
 					}
 				}
 				event.url = c;
@@ -371,7 +373,8 @@ Module.register("calendar", {
 			maximumEntries: calendarConfig.maximumEntries || this.config.maximumEntries,
 			maximumNumberOfDays: calendarConfig.maximumNumberOfDays || this.config.maximumNumberOfDays,
 			fetchInterval: this.config.fetchInterval,
-			auth: auth
+			auth: auth,
+			instance: calendarConfig.instance || this.config.instance
 		});
 	},
 
@@ -430,7 +433,7 @@ Module.register("calendar", {
 
 	/**
 	 * Shortens a string if it's longer than maxLength and add a ellipsis to the end
-	 * 
+	 *
 	 * @param {string} string Text string to shorten
 	 * @param {number} maxLength The max length of the string
 	 * @param {boolean} wrapEvents Wrap the text after the line has reached maxLength
@@ -494,8 +497,8 @@ Module.register("calendar", {
 
 			var regParts = needle.match(/^\/(.+)\/([gim]*)$/);
 			if (regParts) {
-			  // the parsed pattern is a regexp.
-			  needle = new RegExp(regParts[1], regParts[2]);
+				// the parsed pattern is a regexp.
+				needle = new RegExp(regParts[1], regParts[2]);
 			}
 
 			title = title.replace(needle, replacement);
