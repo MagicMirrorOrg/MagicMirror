@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - calender week is now handled with a variable translation in order to move number language specific
+- Reverted the Electron dependency back to 1.4.15 since newer version don't seem to work on the Raspberry Pi very well.
 
 ### Added
 - Add option to use [Nunjucks](https://mozilla.github.io/nunjucks/) templates in modules. (See `helloworld` module as an example.)
