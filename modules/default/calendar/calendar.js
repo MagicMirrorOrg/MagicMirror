@@ -357,8 +357,10 @@ Module.register("calendar", {
 		events.sort(function (a, b) {
 			return a.startDate - b.startDate;
 		});
-		
-		if (events.length > displayEntries) events.length = displayEntries; // if there are more events than the displayEntries value, restrict the number as defined.
+
+		if (events.length > displayEntries) {
+			events.length = displayEntries; // if there are more events than the displayEntries value, restrict the number as defined.
+		}
 
 		return events;
 	},
