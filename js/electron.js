@@ -96,6 +96,20 @@ app.on("activate", function() {
 	}
 });
 
+/* This method will be called when SIGINT is received and will call
+ * each node_helper's stop function if it exists. Added to fix #1056
+ *
+ * Note: this is only used if running Electron. Otherwise
+ * core.stop() is called by process.on("SIGINT"... in `app.js`
+ */
+app.on("before-quit", (event) => {
+	console.log("Shutting down server...");
+	event.preventDefault();
+	setTimeout(() => { process.exit(0); }, 3000); // Force-quit after 3 seconds.
+	core.stop();
+	process.exit(0);
+});
+
 // Start the core application if server is run on localhost
 // This starts all node helpers and starts the webserver.
 if (["localhost", "127.0.0.1", "::1", "::ffff:127.0.0.1", undefined].indexOf(config.address) > -1) {

@@ -7,7 +7,7 @@
 	"RUNNING": "noch",
 	"EMPTY": "Keine Termine.",
 
-	"WEEK": "Woche",
+	"WEEK": "{weekNumber}. Kalenderwoche",
 
 	"N": "N",
 	"NNE": "NNO",

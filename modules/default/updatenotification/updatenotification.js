@@ -34,6 +34,17 @@ Module.register("updatenotification", {
 		}
 	},
 
+	diffLink: function(text) {
+		var localRef = this.status.hash;
+		var remoteRef = this.status.tracking.replace(/.*\//, "");
+		return "<a href=\"https://github.com/MichMich/MagicMirror/compare/"+localRef+"..."+remoteRef+"\" "+
+			"class=\"xsmall dimmed\" "+
+			"style=\"text-decoration: none;\" "+
+			"target=\"_blank\" >" +
+			text +
+			"</a>";
+	},
+
 	// Override dom generator.
 	getDom: function () {
 		var wrapper = document.createElement("div");
@@ -47,9 +58,14 @@ Module.register("updatenotification", {
 			icon.innerHTML = "&nbsp;";
 			message.appendChild(icon);
 
+			var subtextHtml = this.translate("UPDATE_INFO")
+				.replace("COMMIT_COUNT", this.status.behind + " " + ((this.status.behind == 1) ? "commit" : "commits"))
+				.replace("BRANCH_NAME", this.status.current);
+
 			var text = document.createElement("span");
 			if (this.status.module == "default") {
 				text.innerHTML = this.translate("UPDATE_NOTIFICATION");
+				subtextHtml = this.diffLink(subtextHtml);
 			} else {
 				text.innerHTML = this.translate("UPDATE_NOTIFICATION_MODULE").replace("MODULE_NAME", this.status.module);
 			}
@@ -58,9 +74,7 @@ Module.register("updatenotification", {
 			wrapper.appendChild(message);
 
 			var subtext = document.createElement("div");
-			subtext.innerHTML = this.translate("UPDATE_INFO")
-				.replace("COMMIT_COUNT", this.status.behind + " " + ((this.status.behind == 1) ? "commit" : "commits"))
-				.replace("BRANCH_NAME", this.status.current);
+			subtext.innerHTML = subtextHtml;
 			subtext.className = "xsmall dimmed";
 			wrapper.appendChild(subtext);
 		}

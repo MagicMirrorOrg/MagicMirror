@@ -64,7 +64,10 @@ module.exports = NodeHelper.create({
 			sg.git.fetch().status(function(err, data) {
 				data.module = sg.module;
 				if (!err) {
-					self.sendSocketNotification("STATUS", data);
+					sg.git.log({"-1": null}, function(err, data2) {
+						data.hash = data2.latest.hash;
+						self.sendSocketNotification("STATUS", data);
+					});
 				}
 			});
 		});

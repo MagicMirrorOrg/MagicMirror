@@ -31,7 +31,7 @@ Module.register("weatherforecast",{
 		retryDelay: 2500,
 
 		apiVersion: "2.5",
-		apiBase: "http://api.openweathermap.org/data/",
+		apiBase: "https://api.openweathermap.org/data/",
 		forecastEndpoint: "forecast/daily",
 
 		appendLocationNameToHeader: true,

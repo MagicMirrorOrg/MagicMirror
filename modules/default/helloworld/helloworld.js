@@ -14,10 +14,11 @@ Module.register("helloworld",{
 		text: "Hello World!"
 	},
 
-	// Override dom generator.
-	getDom: function() {
-		var wrapper = document.createElement("div");
-		wrapper.innerHTML = this.config.text;
-		return wrapper;
+	getTemplate: function () {
+		return "helloworld.njk"
+	},
+
+	getTemplateData: function () {
+		return this.config
 	}
 });
