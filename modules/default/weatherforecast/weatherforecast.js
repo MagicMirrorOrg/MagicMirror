@@ -21,7 +21,7 @@ Module.register("weatherforecast",{
 		animationSpeed: 1000,
 		timeFormat: config.timeFormat,
 		lang: config.language,
-		decimalComma: false,
+		decimalSymbol: ".",
 		fade: true,
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		colored: false,
@@ -156,23 +156,17 @@ Module.register("weatherforecast",{
 				}
 			}
 
+			if (this.config.decimalSymbol === "" || this.config.decimalSymbol === " ") {
+				this.config.decimalSymbol = ".";
+			}
+
 			var maxTempCell = document.createElement("td");
-			if (this.config.decimalComma) {
-				maxTempCell.innerHTML = forecast.maxTemp.replace(".",",") + degreeLabel;
-			}
-			else {
-				maxTempCell.innerHTML = forecast.maxTemp + degreeLabel;
-			}
+				maxTempCell.innerHTML = forecast.maxTemp.replace(".", this.config.decimalSymbol) + degreeLabel;
 			maxTempCell.className = "align-right bright max-temp";
 			row.appendChild(maxTempCell);
 
 			var minTempCell = document.createElement("td");
-			if (this.config.decimalComma) {
-				minTempCell.innerHTML = forecast.minTemp.replace(".",",") + degreeLabel;
-			}
-			else {
-				minTempCell.innerHTML = forecast.minTemp + degreeLabel;
-			}
+				minTempCell.innerHTML = forecast.minTemp.replace(".", this.config.decimalSymbol) + degreeLabel;
 			minTempCell.className = "align-right min-temp";
 			row.appendChild(minTempCell);
 

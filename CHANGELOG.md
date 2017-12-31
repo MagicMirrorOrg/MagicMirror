@@ -2,6 +2,34 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.2.0] - Unreleased
+
+**Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
+
+### Changed
+- calender week is now handled with a variable translation in order to move number language specific
+
+### Added
+- Add option to use [Nunjucks](https://mozilla.github.io/nunjucks/) templates in modules. (See `helloworld` module as an example.)
+- Add Bulgarian translations for MagicMirror² and Alert module.
+- Add graceful shutdown of modules by calling `stop` function of each `node_helper` on SIGINT before exiting.
+- Link update subtext to Github diff of current version versus tracking branch.
+- Add Catalan translation.
+- Add ability to filter out newsfeed items based on prohibited words found in title (resolves #1071)
+- Add options to truncate description support of a feed in newsfeed module
+- Add reloadInterval option for particular feed in newsfeed module
+- Add no-cache entries of HTTP headers in newsfeed module (fetcher)
+- Add Czech translation.
+- Add option for decimal symbols other than the decimal point for temperature values in both default weather modules: WeatherForecast and CurrentWeather.
+
+### Updated
+
+### Fixed
+- Fixed issue with calendar module showing more than `maximumEntries` allows
+- WeatherForecast and CurrentWeather are now using HTTPS instead of HTTP
+- Correcting translation for Indonesian language
+- Fix issue where calendar icons wouldn't align correctly
+
 ## [2.1.3] - 2017-10-01
 
 **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
@@ -29,7 +57,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Changed 'default.js' - listen on all attached interfaces by default.
 - Add execution of `npm list` after the test are ran in Travis CI.
 - Change hooks for the vendors e2e tests.
-- Add log when clientonly failed on starting. 
+- Add log when clientonly failed on starting.
 - Add warning color when are using full ip whitelist.
 - Set version of the `express-ipfilter` on 0.3.1.
 

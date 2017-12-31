@@ -24,7 +24,7 @@ Module.register("currentweather",{
 		showWindDirectionAsArrow: false,
 		useBeaufort: true,
 		lang: config.language,
-		decimalComma: false,
+		decimalSymbol: ".",
 		showHumidity: false,
 		degreeLabel: false,
 		showIndoorTemperature: false,
@@ -210,14 +210,13 @@ Module.register("currentweather",{
 			}
 		}
 
+		if (this.config.decimalSymbol === "") {
+			this.config.decimalSymbol = ".";
+		}
+
 		var temperature = document.createElement("span");
 		temperature.className = "bright";
-		if (this.config.decimalComma) {
-			temperature.innerHTML = " " + this.temperature.replace(".",",") + "&deg;" + degreeLabel;
-		}
-		else {
-			temperature.innerHTML = " " + this.temperature + "&deg;" + degreeLabel;
-		}
+		temperature.innerHTML = " " + this.temperature.replace(".", this.config.decimalSymbol) + "&deg;" + degreeLabel;
 		large.appendChild(temperature);
 
 		if (this.config.showIndoorTemperature && this.indoorTemperature) {
@@ -227,12 +226,7 @@ Module.register("currentweather",{
 
 			var indoorTemperatureElem = document.createElement("span");
 			indoorTemperatureElem.className = "bright";
-			if (this.config.decimalComma) {
-				indoorTemperatureElem.innerHTML = " " + this.indoorTemperature.replace(".",",") + "&deg;" + degreeLabel;
-			}
-			else {
-				indoorTemperatureElem.innerHTML = " " + this.indoorTemperature + "&deg;" + degreeLabel;
-			}
+			indoorTemperatureElem.innerHTML = " " + this.indoorTemperature.replace(".", this.config.decimalSymbol) + "&deg;" + degreeLabel;
 			large.appendChild(indoorTemperatureElem);
 		}
 
