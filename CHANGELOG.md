@@ -7,7 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
 
 ### Changed
-- calender week is now handled with a variable translation in order to move number language specific
+- Calender week is now handled with a variable translation in order to move number language specific.
 - Reverted the Electron dependency back to 1.4.15 since newer version don't seem to work on the Raspberry Pi very well.
 
 ### Added
@@ -21,6 +21,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add reloadInterval option for particular feed in newsfeed module
 - Add no-cache entries of HTTP headers in newsfeed module (fetcher)
 - Add Czech translation.
+- Add option for decimal symbols other than the decimal point for temperature values in both default weather modules: WeatherForecast and CurrentWeather.
 
 ### Updated
 
