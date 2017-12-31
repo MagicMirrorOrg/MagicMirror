@@ -11,7 +11,8 @@ Module.register("calendar", {
 
 	// Define module defaults
 	defaults: {
-		maximumEntries: 10, // Total Maximum Entries
+		maximumEntries: 10, // Total Maximum Entries (fetched per calendar)
+		displayEntries: 6, // Number of entries to display
 		maximumNumberOfDays: 365,
 		displaySymbol: true,
 		defaultSymbol: "calendar", // Fontawesome Symbol see http://fontawesome.io/cheatsheet/
@@ -334,6 +335,7 @@ Module.register("calendar", {
 	 * return array - Array with events.
 	 */
 	createEventList: function () {
+		displayEntries = this.config.displayEntries;
 		var events = [];
 		var today = moment().startOf("day");
 		for (var c in this.calendarData) {
@@ -355,6 +357,8 @@ Module.register("calendar", {
 		events.sort(function (a, b) {
 			return a.startDate - b.startDate;
 		});
+		
+		if (events.length > displayEntries) events.length = displayEntries; // if there are more events than the displayEntries value, restrict the number as defined.
 
 		return events;
 	},
