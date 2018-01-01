@@ -161,12 +161,12 @@ Module.register("weatherforecast",{
 			}
 
 			var maxTempCell = document.createElement("td");
-				maxTempCell.innerHTML = forecast.maxTemp.replace(".", this.config.decimalSymbol) + degreeLabel;
+			maxTempCell.innerHTML = forecast.maxTemp.replace(".", this.config.decimalSymbol) + degreeLabel;
 			maxTempCell.className = "align-right bright max-temp";
 			row.appendChild(maxTempCell);
 
 			var minTempCell = document.createElement("td");
-				minTempCell.innerHTML = forecast.minTemp.replace(".", this.config.decimalSymbol) + degreeLabel;
+			minTempCell.innerHTML = forecast.minTemp.replace(".", this.config.decimalSymbol) + degreeLabel;
 			minTempCell.className = "align-right min-temp";
 			row.appendChild(minTempCell);
 
