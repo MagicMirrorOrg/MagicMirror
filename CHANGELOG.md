@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [2.2.1] - 2018-01-01
+
+### Fixed
+
+- Fixed linting errors.
+
 ## [2.2.0] - 2018-01-01
 
 **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
