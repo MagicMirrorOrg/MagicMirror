@@ -2,6 +2,17 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.3.0] - Unreleased
+
+*This release is scheduled to be released on 2018-04-01.*
+
+### Changed
+- Changed Electron dependency to v1.7.10.
+
+### Added
+
+### Fixed
+
 ## [2.2.0] - 2018-01-01
 
 **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
