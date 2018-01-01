@@ -85,7 +85,7 @@ var Module = Class.extend({
 			var div = document.createElement("div");
 			var template = this.getTemplate();
 			var templateData = this.getTemplateData();
-	
+
 			// Check to see if we need to render a template string or a file.
 			if (/^.*((\.html)|(\.njk))$/.test(template)) {
 				// the template is a filename

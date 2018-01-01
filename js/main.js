@@ -95,22 +95,22 @@ var MM = (function() {
 	 *
 	 * argument module Module - The module that needs an update.
 	 * argument speed Number - The number of microseconds for the animation. (optional)
-	 * 
+	 *
 	 * return Promise - Resolved when the dom is fully updated.
 	 */
 	var updateDom = function(module, speed) {
 		return new Promise((resolve) => {
 			var newContentPromise = module.getDom();
 			var newHeader = module.getHeader();
-	
+
 			if (!(newContentPromise instanceof Promise)) {
 				// convert to a promise if not already one to avoid if/else's everywhere
 				newContentPromise = Promise.resolve(newContentPromise);
 			}
-	
+
 			newContentPromise.then((newContent) => {
 				var updatePromise = updateDomWithContent(module, speed, newHeader, newContent);
-	
+
 				updatePromise.then(resolve).catch(Log.error);
 			}).catch(Log.error);
 		});
@@ -118,12 +118,12 @@ var MM = (function() {
 
 	/* updateDomWithContent(module, speed, newHeader, newContent)
 	 * Update the dom with the specified content
-	 * 
+	 *
 	 * argument module Module - The module that needs an update.
 	 * argument speed Number - The number of microseconds for the animation. (optional)
 	 * argument newHeader String - The new header that is generated.
 	 * argument newContent Domobject - The new content that is generated.
-	 * 
+	 *
 	 * return Promise - Resolved when the module dom has been updated.
 	 */
 	var updateDomWithContent = function(module, speed, newHeader, newContent) {
