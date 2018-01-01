@@ -19,38 +19,39 @@ var MM = (function() {
 	 * are configured for a specific position.
 	 */
 	var createDomObjects = function() {
-		for (var m in modules) {
-			var module = modules[m];
-
-			if (typeof module.data.position === "string") {
-
-				var wrapper = selectWrapper(module.data.position);
-
-				var dom = document.createElement("div");
-				dom.id = module.identifier;
-				dom.className = module.name;
-
-				if (typeof module.data.classes === "string") {
-					dom.className = "module " + dom.className + " " + module.data.classes;
-				}
-
-				dom.opacity = 0;
-				wrapper.appendChild(dom);
-
-				if (typeof module.data.header !== "undefined" && module.data.header !== "") {
-					var moduleHeader = document.createElement("header");
-					moduleHeader.innerHTML = module.data.header;
-					moduleHeader.className = "module-header";
-					dom.appendChild(moduleHeader);
-				}
-
-				var moduleContent = document.createElement("div");
-				moduleContent.className = "module-content";
-				dom.appendChild(moduleContent);
-
-				updateDom(module, 0);
+		modules.forEach(module => {
+			if (typeof module.data.position !== "string") {
+				return;
 			}
-		}
+
+			var wrapper = selectWrapper(module.data.position);
+
+			var dom = document.createElement("div");
+			dom.id = module.identifier;
+			dom.className = module.name;
+
+			if (typeof module.data.classes === "string") {
+				dom.className = "module " + dom.className + " " + module.data.classes;
+			}
+
+			dom.opacity = 0;
+			wrapper.appendChild(dom);
+
+			if (typeof module.data.header !== "undefined" && module.data.header !== "") {
+				var moduleHeader = document.createElement("header");
+				moduleHeader.innerHTML = module.data.header;
+				moduleHeader.className = "module-header";
+				dom.appendChild(moduleHeader);
+			}
+
+			var moduleContent = document.createElement("div");
+			moduleContent.className = "module-content";
+			dom.appendChild(moduleContent);
+
+			updateDom(module, 0).then(() => {
+				sendNotification("MODULE_DOM_CREATED", null, null, module);
+			}).catch(Log.error);
+		});
 
 		updateWrapperStates();
 
@@ -80,10 +81,9 @@ var MM = (function() {
 	 * argument payload mixed - The payload of the notification.
 	 * argument sender Module - The module that sent the notification.
 	 */
-	var sendNotification = function(notification, payload, sender) {
-		for (var m in modules) {
-			var module = modules[m];
-			if (module !== sender) {
+	var sendNotification = function(notification, payload, sender, sendTo) {
+		for (var module of modules) {
+			if (module !== sender && (!sendTo || module === sendTo)) {
 				module.notificationReceived(notification, payload, sender);
 			}
 		}
@@ -96,25 +96,20 @@ var MM = (function() {
 	 * argument speed Number - The number of microseconds for the animation. (optional)
 	 */
 	var updateDom = function(module, speed) {
-		var newContentPromise = module.getDom();
-		var newHeader = module.getHeader();
-
-		if (!(newContentPromise instanceof Promise)) {
-			// convert to a promise if not already one to avoid if/else's everywhere
-			newContentPromise = Promise.resolve(newContentPromise);
-		}
-
-		newContentPromise.then((newContent) => {
-			var updatePromise = updateDomWithContent(module, speed, newHeader, newContent);
-
-			updatePromise.then(() => {
-				// dom has been updated
-				sendNotification("MODULE_DOM_CREATED", { module: module.name });
-			}).catch((err) => {
-				Log.error(err);
-			});
-		}).catch((err) => {
-			Log.error(err);
+		return new Promise((resolve) => {
+			var newContentPromise = module.getDom();
+			var newHeader = module.getHeader();
+	
+			if (!(newContentPromise instanceof Promise)) {
+				// convert to a promise if not already one to avoid if/else's everywhere
+				newContentPromise = Promise.resolve(newContentPromise);
+			}
+	
+			newContentPromise.then((newContent) => {
+				var updatePromise = updateDomWithContent(module, speed, newHeader, newContent);
+	
+				updatePromise.then(resolve).catch(Log.error);
+			}).catch(Log.error);
 		});
 	};
 
