@@ -23,8 +23,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add Czech translation.
 - Add option for decimal symbols other than the decimal point for temperature values in both default weather modules: WeatherForecast and CurrentWeather.
 
-### Updated
-
 ### Fixed
 - Fixed issue with calendar module showing more than `maximumEntries` allows
 - WeatherForecast and CurrentWeather are now using HTTPS instead of HTTP
