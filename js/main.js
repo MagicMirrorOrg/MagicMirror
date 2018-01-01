@@ -96,17 +96,44 @@ var MM = (function() {
 	 * argument speed Number - The number of microseconds for the animation. (optional)
 	 */
 	var updateDom = function(module, speed) {
-		var newContent = module.getDom();
+		var newContentPromise = module.getDom();
 		var newHeader = module.getHeader();
 
-		if (!module.hidden) {
+		if (!(newContentPromise instanceof Promise)) {
+			// convert to a promise if not already one to avoid if/else's everywhere
+			newContentPromise = Promise.resolve(newContentPromise);
+		}
+
+		newContentPromise.then((newContent) => {
+			var updatePromise = updateDomWithContent(module, speed, newHeader, newContent);
+
+			updatePromise.then(() => {
+				// dom has been updated
+				sendNotification("MODULE_DOM_CREATED", { module: module.name });
+			}).catch((err) => {
+				Log.error(err);
+			});
+		}).catch((err) => {
+			Log.error(err);
+		});
+	};
+
+	var updateDomWithContent = function(module, speed, newHeader, newContent) {
+		return new Promise((resolve) => {
+			if (module.hidden || !speed) {
+				updateModuleContent(module, newHeader, newContent);
+				resolve();
+				return;
+			}
 
 			if (!moduleNeedsUpdate(module, newHeader, newContent)) {
+				resolve();
 				return;
 			}
 
 			if (!speed) {
 				updateModuleContent(module, newHeader, newContent);
+				resolve();
 				return;
 			}
 
@@ -115,10 +142,9 @@ var MM = (function() {
 				if (!module.hidden) {
 					showModule(module, speed / 2);
 				}
+				resolve();
 			});
-		} else {
-			updateModuleContent(module, newHeader, newContent);
-		}
+		});
 	};
 
 	/* moduleNeedsUpdate(module, newContent)
