@@ -78,7 +78,7 @@ var Module = Class.extend({
 	 * This method can to be subclassed if the module wants to display info on the mirror.
 	 * Alternatively, the getTemplete method could be subclassed.
 	 *
-	 * return domobject - The dom to display.
+	 * return DomObject | Promise - The dom or a promise with the dom to display.
 	 */
 	getDom: function () {
 		return new Promise((resolve) => {
