@@ -80,6 +80,7 @@ var MM = (function() {
 	 * argument notification string - The identifier of the notification.
 	 * argument payload mixed - The payload of the notification.
 	 * argument sender Module - The module that sent the notification.
+	 * argument sendTo Module - The module to send the notification to. (optional)
 	 */
 	var sendNotification = function(notification, payload, sender, sendTo) {
 		for (var module of modules) {
@@ -94,6 +95,8 @@ var MM = (function() {
 	 *
 	 * argument module Module - The module that needs an update.
 	 * argument speed Number - The number of microseconds for the animation. (optional)
+	 * 
+	 * return Promise - Resolved when the dom is fully updated.
 	 */
 	var updateDom = function(module, speed) {
 		return new Promise((resolve) => {
@@ -113,6 +116,16 @@ var MM = (function() {
 		});
 	};
 
+	/* updateDomWithContent(module, speed, newHeader, newContent)
+	 * Update the dom with the specified content
+	 * 
+	 * argument module Module - The module that needs an update.
+	 * argument speed Number - The number of microseconds for the animation. (optional)
+	 * argument newHeader String - The new header that is generated.
+	 * argument newContent Domobject - The new content that is generated.
+	 * 
+	 * return Promise - Resolved when the module dom has been updated.
+	 */
 	var updateDomWithContent = function(module, speed, newHeader, newContent) {
 		return new Promise((resolve) => {
 			if (module.hidden || !speed) {
@@ -146,6 +159,7 @@ var MM = (function() {
 	 * Check if the content has changed.
 	 *
 	 * argument module Module - The module to check.
+	 * argument newHeader String - The new header that is generated.
 	 * argument newContent Domobject - The new content that is generated.
 	 *
 	 * return bool - Does the module need an update?
@@ -173,6 +187,7 @@ var MM = (function() {
 	 * Update the content of a module on screen.
 	 *
 	 * argument module Module - The module to check.
+	 * argument newHeader String - The new header that is generated.
 	 * argument newContent Domobject - The new content that is generated.
 	 */
 	var updateModuleContent = function(module, newHeader, newContent) {
