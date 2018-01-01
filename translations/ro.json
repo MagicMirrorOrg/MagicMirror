@@ -7,7 +7,7 @@
 	"RUNNING": "Se termină în",
 	"EMPTY": "Nici un eveniment.",
 
-	"WEEK": "Săptămâna",
+	"WEEK": "Săptămâna {weekNumber}",
 
 	"N": "N",
 	"NNE": "NNE",

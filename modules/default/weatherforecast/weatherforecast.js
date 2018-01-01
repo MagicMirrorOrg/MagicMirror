@@ -21,6 +21,7 @@ Module.register("weatherforecast",{
 		animationSpeed: 1000,
 		timeFormat: config.timeFormat,
 		lang: config.language,
+		decimalSymbol: ".",
 		fade: true,
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		colored: false,
@@ -30,7 +31,7 @@ Module.register("weatherforecast",{
 		retryDelay: 2500,
 
 		apiVersion: "2.5",
-		apiBase: "http://api.openweathermap.org/data/",
+		apiBase: "https://api.openweathermap.org/data/",
 		forecastEndpoint: "forecast/daily",
 
 		appendLocationNameToHeader: true,
@@ -155,13 +156,17 @@ Module.register("weatherforecast",{
 				}
 			}
 
+			if (this.config.decimalSymbol === "" || this.config.decimalSymbol === " ") {
+				this.config.decimalSymbol = ".";
+			}
+
 			var maxTempCell = document.createElement("td");
-			maxTempCell.innerHTML = forecast.maxTemp + degreeLabel;
+				maxTempCell.innerHTML = forecast.maxTemp.replace(".", this.config.decimalSymbol) + degreeLabel;
 			maxTempCell.className = "align-right bright max-temp";
 			row.appendChild(maxTempCell);
 
 			var minTempCell = document.createElement("td");
-			minTempCell.innerHTML = forecast.minTemp + degreeLabel;
+				minTempCell.innerHTML = forecast.minTemp.replace(".", this.config.decimalSymbol) + degreeLabel;
 			minTempCell.className = "align-right min-temp";
 			row.appendChild(minTempCell);
 
