@@ -2,7 +2,15 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+<<<<<<< HEAD
 ## [2.3.0] - Unreleased
+=======
+## [2.2.2] - 2018-01-02
+
+### Added
+
+- Add missing `package-lock.json`.
+>>>>>>> master
 
 *This release is scheduled to be released on 2018-04-01.*
 
