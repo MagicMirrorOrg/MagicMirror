@@ -2,24 +2,23 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-<<<<<<< HEAD
 ## [2.3.0] - Unreleased
-=======
+
+### Added
+
+- Add system notification `MODULE_DOM_CREATED` for notifying each module when their Dom has been fully loaded.
+
+*This release is scheduled to be released on 2018-04-01.*
+
 ## [2.2.2] - 2018-01-02
 
 ### Added
 
 - Add missing `package-lock.json`.
->>>>>>> master
-
-*This release is scheduled to be released on 2018-04-01.*
 
 ### Changed
+
 - Changed Electron dependency to v1.7.10.
-
-### Added
-
-### Fixed
 
 ## [2.2.1] - 2018-01-01
 

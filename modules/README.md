@@ -230,11 +230,12 @@ notificationReceived: function(notification, payload, sender) {
 }
 ````
 
-**Note:** the system sends two notifications when starting up. These notifications could come in handy!
+**Note:** the system sends three notifications when starting up. These notifications could come in handy!
 
 
 - `ALL_MODULES_STARTED` - All modules are started. You can now send notifications to other modules.
 - `DOM_OBJECTS_CREATED` - All dom objects are created. The system is now ready to perform visual changes.
+- `MODULE_DOM_CREATED` - This module's dom has been fully loaded. You can now access your module's dom objects.
 
 
 #### `socketNotificationReceived: function(notification, payload)`
