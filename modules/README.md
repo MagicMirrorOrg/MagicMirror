@@ -4,15 +4,15 @@ This document describes the way to develop your own MagicMirror² modules.
 
 ## General Advice
 
-As MM has gained huge popularity, so has the number of available modules. For new users and developers alike, it is very time consuming to navigate around the various repositories in order to find out what exactly a certain modules does, how it looks and what it depends on. Unfortunately, this information is rarely available, nor easily obtained without having to install it first. 
-Therefore **we highly recomend you to include the following information in your README file.**
+As MagicMirror has gained huge popularity, so has the number of available modules. For new users and developers alike, it is very time consuming to navigate around the various repositories in order to find out what exactly a certain modules does, how it looks and what it depends on. Unfortunately, this information is rarely available, nor easily obtained without having to install it first. 
+Therefore **we highly recommend you to include the following information in your README file.**
 
 - A high quality screenshot of your working module
 - A short, one sentence, clear description what it does (duh!)
 - What external API's it depend on, including web links to those
 - Wheteher the API/request require a key and the user limitations of those. (Is it free?)
 
-Surely this also help you get better reconition and feedback for your work. 
+Surely this also help you get better recognition and feedback for your work. 
 
 ## Module structure
 
