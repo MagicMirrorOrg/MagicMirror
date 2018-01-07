@@ -2,6 +2,18 @@
 
 This document describes the way to develop your own MagicMirror² modules.
 
+## General Advice
+
+As MagicMirror has gained huge popularity, so has the number of available modules. For new users and developers alike, it is very time consuming to navigate around the various repositories in order to find out what exactly a certain modules does, how it looks and what it depends on. Unfortunately, this information is rarely available, nor easily obtained without having to install it first. 
+Therefore **we highly recommend you to include the following information in your README file.**
+
+- A high quality screenshot of your working module
+- A short, one sentence, clear description what it does (duh!)
+- What external API's it depend on, including web links to those
+- Wheteher the API/request require a key and the user limitations of those. (Is it free?)
+
+Surely this also help you get better recognition and feedback for your work. 
+
 ## Module structure
 
 All modules are loaded in the `modules` folder. The default modules are grouped together in the `modules/default` folder. Your module should be placed in a subfolder of `modules`. Note that any file or folder your create in the `modules` folder will be ignored by git, allowing you to upgrade the MagicMirror² without the loss of your files.
@@ -230,11 +242,12 @@ notificationReceived: function(notification, payload, sender) {
 }
 ````
 
-**Note:** the system sends two notifications when starting up. These notifications could come in handy!
+**Note:** the system sends three notifications when starting up. These notifications could come in handy!
 
 
 - `ALL_MODULES_STARTED` - All modules are started. You can now send notifications to other modules.
 - `DOM_OBJECTS_CREATED` - All dom objects are created. The system is now ready to perform visual changes.
+- `MODULE_DOM_CREATED` - This module's dom has been fully loaded. You can now access your module's dom objects.
 
 
 #### `socketNotificationReceived: function(notification, payload)`
