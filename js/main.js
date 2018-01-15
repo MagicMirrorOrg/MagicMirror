@@ -19,6 +19,8 @@ var MM = (function() {
 	 * are configured for a specific position.
 	 */
 	var createDomObjects = function() {
+		var domCreationPromises = [];
+
 		modules.forEach(module => {
 			if (typeof module.data.position !== "string") {
 				return;
@@ -48,14 +50,18 @@ var MM = (function() {
 			moduleContent.className = "module-content";
 			dom.appendChild(moduleContent);
 
-			updateDom(module, 0).then(() => {
+			var domCreationPromise = updateDom(module, 0);
+			domCreationPromises.push(domCreationPromise);
+			domCreationPromise.then(() => {
 				sendNotification("MODULE_DOM_CREATED", null, null, module);
 			}).catch(Log.error);
 		});
 
 		updateWrapperStates();
 
-		sendNotification("DOM_OBJECTS_CREATED");
+		Promise.all(domCreationPromises).then(() => {
+			sendNotification("DOM_OBJECTS_CREATED");
+		});
 	};
 
 	/* selectWrapper(position)
