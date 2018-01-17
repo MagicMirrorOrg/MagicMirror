@@ -1,5 +1,5 @@
 /* global  Log, Loader, Module, config, defaults */
-/* jshint -W020 */
+/* jshint -W020, esversion: 6 */
 
 /* Magic Mirror
  * Main System
@@ -89,7 +89,8 @@ var MM = (function() {
 	 * argument sendTo Module - The module to send the notification to. (optional)
 	 */
 	var sendNotification = function(notification, payload, sender, sendTo) {
-		for (var module of modules) {
+		for (var m in modules) {
+			var module = modules[m];
 			if (module !== sender && (!sendTo || module === sendTo)) {
 				module.notificationReceived(notification, payload, sender);
 			}
