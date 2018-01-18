@@ -34,7 +34,7 @@ describe("Newsfeed module", function() {
 		});
 
 		it("checks for newsfeed class", function() {
-			expect(vm.$el.querySelector('.rod') !== null).to.be.true;
+			return app.client.waitForExist(".rod", 10000).should.be.fulfilled;
 		});
 	});
 });
