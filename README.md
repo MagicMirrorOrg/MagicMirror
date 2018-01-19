@@ -28,23 +28,32 @@ MagicMirror² focuses on a modular plugin system and uses [Electron](http://elec
 ### Raspberry Pi Support
 Electron, the app wrapper around MagicMirror², only supports the Raspberry Pi 2 & 3. The Raspberry Pi 1 is currently **not** supported. If you want to run this on a Raspberry Pi 1, use the [server only](#server-only) feature and setup a fullscreen browser yourself.
 
-### Automatic Installer (Raspberry Pi Only!)
+#### Automatic Installer (Raspberry Pi Only!)
 
 Execute the following command on your Raspberry Pi to install MagicMirror²:
 ````
 bash -c "$(curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/master/installers/raspberry.sh)"
 ````
 
-### Manual Installation
+#### Manual Installation
 
 1. Download and install the latest Node.js version.
 2. Clone the repository and check out the master branch: `git clone https://github.com/MichMich/MagicMirror`
 3. Enter the repository: `cd ~/MagicMirror`
 4. Install and run the app: `npm install && npm start`
 
-**Important:** `npm start` does **not** work via SSH, use `DISPLAY=:0 nohup npm start &` instead. This starts the mirror on the remote display.
+**:warning: Important!** 
 
-**Note:** if you want to debug on Raspberry Pi you can use `npm start dev` which will start the MagicMirror app with Dev Tools enabled.
+**The installation step for `npm install` will take a very long time**, often with little or no terminal response!
+
+For the RPi3 this is **~10** minutes and for the Rpi2 **~25** minutes. Do not interrupt or you risk :broken_heart:.
+
+Also note that: 
+
+- `npm start` does **not** work via SSH. But you can use `DISPLAY=:0 nohup npm start &` instead. This starts the mirror on the remote display.
+
+- If you want to debug on Raspberry Pi you can use `npm start dev` which will start the MagicMirror app with Dev Tools enabled.
+
 
 ### Server Only
 In some cases, you want to start the application without an actual app window. In this case, you can start MagicMirror² in server only mode by manually running `node serveronly` or using Docker. This will start the server, after which you can open the application in your browser of choice. Detailed description below.
