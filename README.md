@@ -50,9 +50,9 @@ For the RPi3 this is **~10** minutes and for the Rpi2 **~25** minutes. Do not in
 
 Also note that: 
 
-* `npm start` does **not** work via SSH. But you can use `DISPLAY=:0 nohup npm start &` instead. This starts the mirror on the remote display.
+- `npm start` does **not** work via SSH. But you can use `DISPLAY=:0 nohup npm start &` instead. This starts the mirror on the remote display.
 
-* If you want to debug on Raspberry Pi you can use `npm start dev` which will start the MagicMirror app with Dev Tools enabled.
+- If you want to debug on Raspberry Pi you can use `npm start dev` which will start the MagicMirror app with Dev Tools enabled.
 
 
 ### Server Only
