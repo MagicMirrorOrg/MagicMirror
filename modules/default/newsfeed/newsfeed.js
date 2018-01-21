@@ -186,6 +186,7 @@ Module.register("newsfeed",{
 				fullArticle.height = window.innerHeight;
 				fullArticle.style.border = "none";
 				fullArticle.src = this.newsItems[this.activeItem].url;
+				fullArticle.style.zIndex = 1;
 				wrapper.appendChild(fullArticle);
 			}
 

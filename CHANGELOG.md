@@ -9,6 +9,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add system notification `MODULE_DOM_CREATED` for notifying each module when their Dom has been fully loaded.
 - Add types for module.
 
+### Fixed
+- News article in fullscreen (iframe) is now shown in front of modules.
+
 *This release is scheduled to be released on 2018-04-01.*
 
 ## [2.2.2] - 2018-01-02
