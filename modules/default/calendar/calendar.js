@@ -18,6 +18,7 @@ Module.register("calendar", {
 		displayRepeatingCountTitle: false,
 		defaultRepeatingCountTitle: "",
 		maxTitleLength: 25,
+		maxLocationLength: 30,
 		wrapEvents: false, // wrap events to multiple lines breaking at maxTitleLength
 		fetchInterval: 5 * 60 * 1000, // Update every 5 minutes.
 		animationSpeed: 2000,
@@ -30,6 +31,7 @@ Module.register("calendar", {
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		hidePrivate: false,
 		colored: false,
+		displayLocation: true,
 		calendars: [
 			{
 				symbol: "calendar",
@@ -172,10 +174,15 @@ Module.register("calendar", {
 
 					repeatingCountTitle = ", " + yearDiff + ". " + repeatingCountTitle;
 				}
+			}			
+			
+			//add location in the event title
+			if (this.config.displayLocation && event.location) {
+				titleWrapper.innerHTML = this.titleTransform(event.title+repeatingCountTitle)+'<br><font size="3">'+event.location.trim().slice(0, this.config.maxLocationLength) +'</font>';
+			} else {
+				titleWrapper.innerHTML = this.titleTransform(event.title) + repeatingCountTitle;
 			}
-
-			titleWrapper.innerHTML = this.titleTransform(event.title) + repeatingCountTitle;
-
+			
 			if (!this.config.colored) {
 				titleWrapper.className = "title bright";
 			} else {
