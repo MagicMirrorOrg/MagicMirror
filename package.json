@@ -44,6 +44,7 @@
     "grunt-stylelint": "latest",
     "grunt-yamllint": "latest",
     "http-auth": "^3.2.3",
+    "jest": "^22.1.4",
     "jshint": "^2.9.5",
     "mocha": "^4.1.0",
     "mocha-each": "^1.1.0",
@@ -69,5 +70,12 @@
     "socket.io": "^2.0.4",
     "valid-url": "latest",
     "walk": "latest"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
+    },
+    "testPathIgnorePatterns": ["\\.snap$", "<rootDir>/build", "<rootDir>/node_modules/" , "<rootDir>/modules/"],
+    "cacheDirectory": ".jest/cache"
   }
 }
