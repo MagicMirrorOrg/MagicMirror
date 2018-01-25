@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Add system notification `MODULE_DOM_CREATED` for notifying each module when their Dom has been fully loaded.
 - Add types for module.
+- Implement Danger.js to notify contributors when CHANGELOG.md is missing in PR.
 
 ### Fixed
 - News article in fullscreen (iframe) is now shown in front of modules.
