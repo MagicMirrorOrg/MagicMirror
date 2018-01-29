@@ -188,6 +188,7 @@ Module.register("newsfeed",{
 				fullArticle.style.left = "0";
 				fullArticle.style.border = "none";
 				fullArticle.src = typeof this.newsItems[this.activeItem].url  === "string" ? this.newsItems[this.activeItem].url : this.newsItems[this.activeItem].url.href;
+				fullArticle.style.zIndex = 1;
 				wrapper.appendChild(fullArticle);
 			}
 
