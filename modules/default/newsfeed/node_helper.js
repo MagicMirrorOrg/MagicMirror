@@ -24,20 +24,19 @@ module.exports = NodeHelper.create({
 		}
 	},
 
-	/* createFetcher(url, reloadInterval)
-	 * Creates a fetcher for a new url if it doesn't exist yet.
-	 * Otherwise it reoses the existing one.
+	/* createFetcher(feed, config)
+	 * Creates a fetcher for a new feed if it doesn't exist yet.
+	 * Otherwise it reuses the existing one.
 	 *
-	 * attribute url string - URL of the news feed.
-	 * attribute reloadInterval number - Reload interval in milliseconds.
+	 * attribute feed object - A feed object.
+	 * attribute config object - A configuration object containing reload interval in milliseconds.
 	 */
-
 	createFetcher: function(feed, config) {
 		var self = this;
 
 		var url = feed.url || "";
 		var encoding = feed.encoding || "UTF-8";
-		var reloadInterval = config.reloadInterval || 5 * 60 * 1000;
+		var reloadInterval = feed.reloadInterval || config.reloadInterval || 5 * 60 * 1000;
 
 		if (!validUrl.isUri(url)) {
 			self.sendSocketNotification("INCORRECT_URL", url);

@@ -1,6 +1,7 @@
 html {
   cursor: none;
   overflow: hidden;
+  background: #000;
 }
 
 ::-webkit-scrollbar {
@@ -94,7 +95,7 @@ body {
 header {
   text-transform: uppercase;
   font-size: 15px;
-  font-family: "Roboto Condensed";
+  font-family: "Roboto Condensed", Arial, Helvetica, sans-serif;
   font-weight: 400;
   border-bottom: 1px solid #666;
   line-height: 15px;
@@ -121,6 +122,12 @@ sup {
   margin-bottom: 0;
 }
 
+.no-wrap {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /**
  * Region Definitions.
  */
@@ -135,10 +142,16 @@ sup {
   left: -60px;
   right: -60px;
   bottom: -60px;
+  pointer-events: none;
+}
+
+.region.fullscreen * {
+  pointer-events: auto;
 }
 
 .region.right {
   right: 0;
+  text-align: right;
 }
 
 .region.top {
@@ -147,6 +160,10 @@ sup {
 
 .region.top .container {
   margin-bottom: 25px;
+}
+
+.region.bottom .container {
+  margin-top: 25px;
 }
 
 .region.top .container:empty {
@@ -171,10 +188,6 @@ sup {
 
 .region.bottom {
   bottom: 0;
-}
-
-.region.bottom .container {
-  margin-top: 25px;
 }
 
 .region.bottom .container:empty {
@@ -217,10 +230,6 @@ sup {
 
 .region.left {
   text-align: left;
-}
-
-.region.right {
-  text-align: right;
 }
 
 .region table {

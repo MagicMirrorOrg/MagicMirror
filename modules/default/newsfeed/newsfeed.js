@@ -21,15 +21,22 @@ Module.register("newsfeed",{
 		showSourceTitle: true,
 		showPublishDate: true,
 		showDescription: false,
-		reloadInterval:  5 * 60 * 1000, // every 5 minutes
+		wrapTitle: true,
+		wrapDescription: true,
+		truncDescription: true,
+		lengthDescription: 400,
+		hideLoading: false,
+		reloadInterval: 5 * 60 * 1000, // every 5 minutes
 		updateInterval: 10 * 1000,
 		animationSpeed: 2.5 * 1000,
 		maxNewsItems: 0, // 0 for unlimited
+		ignoreOldItems: false,
+		ignoreOlderThan: 24 * 60 * 60 * 1000, // 1 day
 		removeStartTags: "",
 		removeEndTags: "",
 		startTags: [],
-		endTags: []
-
+		endTags: [],
+		prohibitedWords: []
 	},
 
 	// Define required scripts.
@@ -39,9 +46,9 @@ Module.register("newsfeed",{
 
 	// Define required translations.
 	getTranslations: function() {
-		// The translations for the defaut modules are defined in the core translation files.
-		// Therefor we can just return false. Otherwise we should have returned a dictionairy.
-		// If you're trying to build yiur own module including translations, check out the documentation.
+		// The translations for the default modules are defined in the core translation files.
+		// Therefor we can just return false. Otherwise we should have returned a dictionary.
+		// If you're trying to build your own module including translations, check out the documentation.
 		return false;
 	},
 
@@ -112,7 +119,7 @@ Module.register("newsfeed",{
 
 			//Remove selected tags from the beginning of rss feed items (title or description)
 
-			if (this.config.removeStartTags == "title" || "both") {
+			if (this.config.removeStartTags == "title" || this.config.removeStartTags == "both") {
 
 				for (f=0; f<this.config.startTags.length;f++) {
 					if (this.newsItems[this.activeItem].title.slice(0,this.config.startTags[f].length) == this.config.startTags[f]) {
@@ -122,7 +129,7 @@ Module.register("newsfeed",{
 
 			}
 
-			if (this.config.removeStartTags == "description" || "both") {
+			if (this.config.removeStartTags == "description" || this.config.removeStartTags == "both") {
 
 				if (this.config.showDescription) {
 					for (f=0; f<this.config.startTags.length;f++) {
@@ -155,15 +162,17 @@ Module.register("newsfeed",{
 
 			if(!this.config.showFullArticle){
 				var title = document.createElement("div");
-				title.className = "bright medium light";
+				title.className = "bright medium light" + (!this.config.wrapTitle ? " no-wrap" : "");
 				title.innerHTML = this.newsItems[this.activeItem].title;
 				wrapper.appendChild(title);
 			}
 
 			if (this.config.showDescription) {
 				var description = document.createElement("div");
-				description.className = "small light";
-				description.innerHTML = this.newsItems[this.activeItem].description;
+				description.className = "small light" + (!this.config.wrapDescription ? " no-wrap" : "");
+				var txtDesc = this.newsItems[this.activeItem].description;
+				//Log.info('txtDesc.length = ' + txtDesc.length + " - " + this.config.lengthDescription);
+				description.innerHTML = (this.config.truncDescription ? (txtDesc.length > this.config.lengthDescription ? txtDesc.substring(0, this.config.lengthDescription) + "..." : txtDesc) : txtDesc);
 				wrapper.appendChild(description);
 			}
 
@@ -180,11 +189,17 @@ Module.register("newsfeed",{
 				wrapper.appendChild(fullArticle);
 			}
 
-
+			if (this.config.hideLoading) {
+				this.show();
+			}
 
 		} else {
-			wrapper.innerHTML = this.translate("LOADING");
-			wrapper.className = "small dimmed";
+			if (this.config.hideLoading) {
+				this.hide();
+			} else {
+				wrapper.innerHTML = this.translate("LOADING");
+				wrapper.className = "small dimmed";
+			}
 		}
 
 		return wrapper;
@@ -193,7 +208,6 @@ Module.register("newsfeed",{
 	/* registerFeeds()
 	 * registers the feeds to be used by the backend.
 	 */
-
 	registerFeeds: function() {
 		for (var f in this.config.feeds) {
 			var feed = this.config.feeds[f];
@@ -204,10 +218,10 @@ Module.register("newsfeed",{
 		}
 	},
 
-	/* registerFeeds()
+	/* generateFeed()
 	 * Generate an ordered list of items for this configured module.
 	 *
-	 * attribute feeds object - An object with feeds returned by the nod helper.
+	 * attribute feeds object - An object with feeds returned by the node helper.
 	 */
 	generateFeed: function(feeds) {
 		var newsItems = [];
@@ -217,7 +231,9 @@ Module.register("newsfeed",{
 				for (var i in feedItems) {
 					var item = feedItems[i];
 					item.sourceTitle = this.titleForFeed(feed);
-					newsItems.push(item);
+					if (!(this.config.ignoreOldItems && ((Date.now() - new Date(item.pubdate)) > this.config.ignoreOlderThan))) {
+						newsItems.push(item);
+					}
 				}
 			}
 		}
@@ -229,6 +245,18 @@ Module.register("newsfeed",{
 		if(this.config.maxNewsItems > 0) {
 			newsItems = newsItems.slice(0, this.config.maxNewsItems);
 		}
+
+		if(this.config.prohibitedWords.length > 0) {
+			newsItems = newsItems.filter(function(value){
+				for (var i=0; i < this.config.prohibitedWords.length; i++) {
+					if (value["title"].toLowerCase().indexOf(this.config.prohibitedWords[i].toLowerCase()) > -1) {
+						return false;
+					}
+				}
+				return true;
+			}, this);
+		}
+
 		this.newsItems = newsItems;
 	},
 
@@ -249,7 +277,7 @@ Module.register("newsfeed",{
 		return false;
 	},
 
-	/* subscribedToFeed(feedUrl)
+	/* titleForFeed(feedUrl)
 	 * Returns title for a specific feed Url.
 	 *
 	 * attribute feedUrl string - Url of the feed to check.

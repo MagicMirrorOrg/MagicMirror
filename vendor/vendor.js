@@ -8,9 +8,12 @@
  */
 
 var vendor = {
-	'moment.js' : 'moment/moment-with-locales.js',
-	'moment-timezone.js' : 'moment/moment-timezone.js',
-	'weather-icons.css': 'weather-icons/css/weather-icons.css',
-	'weather-icons-wind.css': 'weather-icons/css/weather-icons-wind.css',
-	'font-awesome.css': 'font-awesome-4.5.0/css/font-awesome.min.css'
+	"moment.js" : "node_modules/moment/min/moment-with-locales.js",
+	"moment-timezone.js" : "node_modules/moment-timezone/builds/moment-timezone-with-data.js",
+	"weather-icons.css": "node_modules/weathericons/css/weather-icons.css",
+	"weather-icons-wind.css": "node_modules/weathericons/css/weather-icons-wind.css",
+	"font-awesome.css": "node_modules/font-awesome/css/font-awesome.min.css",
+	"nunjucks.js": "node_modules/nunjucks/browser/nunjucks.min.js"
 };
+
+if (typeof module !== "undefined"){module.exports = vendor;}

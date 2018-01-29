@@ -17,3 +17,11 @@
   padding-left: 20px;
   padding-right: 0;
 }
+
+.weatherforecast tr.colored .min-temp {
+    color: #BCDDFF;
+}
+
+.weatherforecast tr.colored .max-temp {
+    color: #FF8E99;
+}

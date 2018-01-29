@@ -1,0 +1,32 @@
+{
+	"LOADING": "Memuat &hellip;",
+
+	"TODAY": "Hari ini",
+	"TOMORROW": "Besok",
+	"DAYAFTERTOMORROW": "Lusa",
+	"RUNNING": "Berakhir dalam",
+	"EMPTY": "Tidak ada agenda",
+	
+	"WEEK": "Pekan",
+	
+	"N": "U",
+	"NNE": "UTL",
+	"NE": "TL",
+	"ENE": "TTL",
+	"E": "T",
+	"ESE": "TMg",
+	"SE": "TG",
+	"SSE": "SMg",
+	"S": "S",
+	"SSW": "SBD",
+	"SW": "BD",
+	"WSW": "BBD",
+	"W": "B",
+	"WNW": "BBL",
+	"NW": "BL",
+	"NNW": "UBL",
+
+	"UPDATE_NOTIFICATION": "Memperbarui MagicMirror² tersedia.",
+	"UPDATE_NOTIFICATION_MODULE": "Memperbarui tersedia untuk modul MODULE_NAME.",
+	"UPDATE_INFO": "Instalasi saat ini tertinggal COMMIT_COUNT pada cabang BRANCH_NAME."
+}

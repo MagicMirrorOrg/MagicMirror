@@ -66,7 +66,7 @@ var MM = (function() {
 		var classes = position.replace("_"," ");
 		var parentWrapper = document.getElementsByClassName(classes);
 		if (parentWrapper.length > 0) {
-			var wrapper =  parentWrapper[0].getElementsByClassName("container");
+			var wrapper = parentWrapper[0].getElementsByClassName("container");
 			if (wrapper.length > 0) {
 				return wrapper[0];
 			}
@@ -165,8 +165,6 @@ var MM = (function() {
 		if( headerWrapper.length > 0 && newHeader) {
 			headerWrapper[0].innerHTML = newHeader;
 		}
-
-
 	};
 
 	/* hideModule(module, speed, callback)
@@ -219,7 +217,7 @@ var MM = (function() {
 
 		// remove lockString if set in options.
 		if (options.lockString) {
-			var index = module.lockStrings.indexOf(options.lockString)
+			var index = module.lockStrings.indexOf(options.lockString);
 			if ( index !== -1) {
 				module.lockStrings.splice(index, 1);
 			}
@@ -232,6 +230,8 @@ var MM = (function() {
 			return;
 		}
 
+		module.hidden = false;
+
 		// If forced show, clean current lockstrings.
 		if (module.lockStrings.length !== 0 && options.force === true) {
 			Log.log("Force show of module: " + module.name);
@@ -243,9 +243,12 @@ var MM = (function() {
 			moduleWrapper.style.transition = "opacity " + speed / 1000 + "s";
 			// Restore the postition. See hideModule() for more info.
 			moduleWrapper.style.position = "static";
-			moduleWrapper.style.opacity = 1;
 
 			updateWrapperStates();
+
+			// Waiting for DOM-changes done in updateWrapperStates before we can start the animation.
+			var dummy = moduleWrapper.parentElement.parentElement.offsetHeight;
+			moduleWrapper.style.opacity = 1;
 
 			clearTimeout(module.showHideTimer);
 			module.showHideTimer = setTimeout(function() {
@@ -306,43 +309,36 @@ var MM = (function() {
 	var setSelectionMethodsForModules = function(modules) {
 
 		/* withClass(className)
-		 * filters a collection of modules based on classname(s).
+		 * calls modulesByClass to filter modules with the specified classes.
 		 *
 		 * argument className string/array - one or multiple classnames. (array or space divided)
 		 *
 		 * return array - Filtered collection of modules.
 		 */
 		var withClass = function(className) {
-			var searchClasses = className;
-			if (typeof className === "string") {
-				searchClasses = className.split(" ");
-			}
-
-			var newModules = modules.filter(function(module) {
-				var classes = module.data.classes.toLowerCase().split(" ");
-
-				for (var c in searchClasses) {
-					var searchClass = searchClasses[c];
-					if (classes.indexOf(searchClass.toLowerCase()) !== -1) {
-						return true;
-					}
-				}
-
-				return false;
-			});
-
-			setSelectionMethodsForModules(newModules);
-			return newModules;
+			return modulesByClass(className, true);
 		};
 
 		/* exceptWithClass(className)
-		 * filters a collection of modules based on classname(s). (NOT)
+		 * calls modulesByClass to filter modules without the specified classes.
 		 *
 		 * argument className string/array - one or multiple classnames. (array or space divided)
 		 *
 		 * return array - Filtered collection of modules.
 		 */
 		var exceptWithClass  = function(className) {
+			return modulesByClass(className, false);
+		};
+
+		/* modulesByClass(className, include)
+		 * filters a collection of modules based on classname(s).
+		 *
+		 * argument className string/array - one or multiple classnames. (array or space divided)
+		 * argument include boolean - if the filter should include or exclude the modules with the specific classes.
+		 *
+		 * return array - Filtered collection of modules.
+		 */
+		var modulesByClass = function(className, include) {
 			var searchClasses = className;
 			if (typeof className === "string") {
 				searchClasses = className.split(" ");
@@ -354,11 +350,11 @@ var MM = (function() {
 				for (var c in searchClasses) {
 					var searchClass = searchClasses[c];
 					if (classes.indexOf(searchClass.toLowerCase()) !== -1) {
-						return false;
+						return include;
 					}
 				}
 
-				return true;
+				return !include;
 			});
 
 			setSelectionMethodsForModules(newModules);
@@ -504,7 +500,7 @@ var MM = (function() {
 		 * argument options object - Optional settings for the hide method.
 		 */
 		showModule: function(module, speed, callback, options) {
-			module.hidden = false;
+			// do not change module.hidden yet, only if we really show it later
 			showModule(module, speed, callback, options);
 		}
 	};

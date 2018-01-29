@@ -6,12 +6,14 @@
  * By Michael Teeuw http://michaelteeuw.nl
  * MIT Licensed.
  */
-
-Module.register("compliments",{
+Module.register("compliments", {
 
 	// Module config defaults.
 	defaults: {
 		compliments: {
+			anytime: [
+				"Hey there sexy!"
+			],
 			morning: [
 				"Good morning, handsome!",
 				"Enjoy your day!",
@@ -94,21 +96,27 @@ Module.register("compliments",{
 	 */
 	complimentArray: function() {
 		var hour = moment().hour();
-		var compliments  = null;
+		var compliments;
 
-		if (hour >= 3 && hour < 12) {
-			compliments = this.config.compliments.morning;
-		} else if (hour >= 12 && hour < 17) {
-			compliments = this.config.compliments.afternoon;
-		} else {
-			compliments = this.config.compliments.evening;
+		if (hour >= 3 && hour < 12 && this.config.compliments.hasOwnProperty("morning")) {
+			compliments = this.config.compliments.morning.slice(0);
+		} else if (hour >= 12 && hour < 17 && this.config.compliments.hasOwnProperty("afternoon")) {
+			compliments = this.config.compliments.afternoon.slice(0);
+		} else if(this.config.compliments.hasOwnProperty("evening")) {
+			compliments = this.config.compliments.evening.slice(0);
 		}
 
-		if ( this.currentWeatherType in this.config.compliments) {
+		if (typeof compliments === "undefined") {
+			compliments = new Array();
+		}
+
+		if (this.currentWeatherType in this.config.compliments) {
 			compliments.push.apply(compliments, this.config.compliments[this.currentWeatherType]);
 		}
-		return compliments;
 
+		compliments.push.apply(compliments, this.config.compliments.anytime);
+
+		return compliments;
 	},
 
 	/* complimentFile(callback)
@@ -118,7 +126,7 @@ Module.register("compliments",{
 		var xobj = new XMLHttpRequest();
 		xobj.overrideMimeType("application/json");
 		xobj.open("GET", this.file(this.config.remoteFile), true);
-		xobj.onreadystatechange = function () {
+		xobj.onreadystatechange = function() {
 			if (xobj.readyState == 4 && xobj.status == "200") {
 				callback(xobj.responseText);
 			}

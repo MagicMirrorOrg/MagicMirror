@@ -21,14 +21,17 @@ Module.register("weatherforecast",{
 		animationSpeed: 1000,
 		timeFormat: config.timeFormat,
 		lang: config.language,
+		decimalSymbol: ".",
 		fade: true,
 		fadePoint: 0.25, // Start on 1/4th of the list.
+		colored: false,
+		scale: false,
 
 		initialLoadDelay: 2500, // 2.5 seconds delay. This delay is used to keep the OpenWeather API happy.
 		retryDelay: 2500,
 
 		apiVersion: "2.5",
-		apiBase: "http://api.openweathermap.org/data/",
+		apiBase: "https://api.openweathermap.org/data/",
 		forecastEndpoint: "forecast/daily",
 
 		appendLocationNameToHeader: true,
@@ -62,7 +65,7 @@ Module.register("weatherforecast",{
 	firstEvent: false,
 
 	// create a variable to hold the location name based on the API result.
-	fetchedLocatioName: "",
+	fetchedLocationName: "",
 
 	// Define required scripts.
 	getScripts: function() {
@@ -76,8 +79,8 @@ Module.register("weatherforecast",{
 
 	// Define required translations.
 	getTranslations: function() {
-		// The translations for the defaut modules are defined in the core translation files.
-		// Therefor we can just return false. Otherwise we should have returned a dictionairy.
+		// The translations for the default modules are defined in the core translation files.
+		// Therefor we can just return false. Otherwise we should have returned a dictionary.
 		// If you're trying to build yiur own module including translations, check out the documentation.
 		return false;
 	},
@@ -120,6 +123,9 @@ Module.register("weatherforecast",{
 			var forecast = this.forecast[f];
 
 			var row = document.createElement("tr");
+			if (this.config.colored) {
+				row.className = "colored";
+			}
 			table.appendChild(row);
 
 			var dayCell = document.createElement("td");
@@ -135,13 +141,32 @@ Module.register("weatherforecast",{
 			icon.className = "wi weathericon " + forecast.icon;
 			iconCell.appendChild(icon);
 
+			var degreeLabel = "";
+			if(this.config.scale) {
+				switch(this.config.units) {
+				case "metric":
+					degreeLabel = " &deg;C";
+					break;
+				case "imperial":
+					degreeLabel = " &deg;F";
+					break;
+				case "default":
+					degreeLabel = "K";
+					break;
+				}
+			}
+
+			if (this.config.decimalSymbol === "" || this.config.decimalSymbol === " ") {
+				this.config.decimalSymbol = ".";
+			}
+
 			var maxTempCell = document.createElement("td");
-			maxTempCell.innerHTML = forecast.maxTemp;
+			maxTempCell.innerHTML = forecast.maxTemp.replace(".", this.config.decimalSymbol) + degreeLabel;
 			maxTempCell.className = "align-right bright max-temp";
 			row.appendChild(maxTempCell);
 
 			var minTempCell = document.createElement("td");
-			minTempCell.innerHTML = forecast.minTemp;
+			minTempCell.innerHTML = forecast.minTemp.replace(".", this.config.decimalSymbol) + degreeLabel;
 			minTempCell.className = "align-right min-temp";
 			row.appendChild(minTempCell);
 
@@ -150,7 +175,11 @@ Module.register("weatherforecast",{
 				if (isNaN(forecast.rain)) {
 					rainCell.innerHTML = "";
 				} else {
-					rainCell.innerHTML = forecast.rain + " mm";
+					if(config.units !== "imperial") {
+						rainCell.innerHTML = forecast.rain + " mm";
+					} else {
+						rainCell.innerHTML = (parseFloat(forecast.rain) / 25.4).toFixed(2) + " in";
+					}
 				}
 				rainCell.className = "align-right bright rain";
 				row.appendChild(rainCell);
@@ -167,7 +196,6 @@ Module.register("weatherforecast",{
 					row.style.opacity = 1 - (1 / steps * currentStep);
 				}
 			}
-
 		}
 
 		return table;
@@ -176,7 +204,7 @@ Module.register("weatherforecast",{
 	// Override getHeader method.
 	getHeader: function() {
 		if (this.config.appendLocationNameToHeader) {
-			return this.data.header + " " + this.fetchedLocatioName;
+			return this.data.header + " " + this.fetchedLocationName;
 		}
 
 		return this.data.header;
@@ -192,10 +220,9 @@ Module.register("weatherforecast",{
 		if (notification === "CALENDAR_EVENTS") {
 			var senderClasses = sender.data.classes.toLowerCase().split(" ");
 			if (senderClasses.indexOf(this.config.calendarClass.toLowerCase()) !== -1) {
-				var lastEvent =  this.firstEvent;
 				this.firstEvent = false;
 
-				for (e in payload) {
+				for (var e in payload) {
 					var event = payload[e];
 					if (event.location || event.geo) {
 						this.firstEvent = event;
@@ -230,7 +257,12 @@ Module.register("weatherforecast",{
 				} else if (this.status === 401) {
 					self.updateDom(self.config.animationSpeed);
 
-					Log.error(self.name + ": Incorrect APPID.");
+					if (self.config.forecastEndpoint == "forecast/daily") {
+						self.config.forecastEndpoint = "forecast";
+						self.config.maxNumberOfDays = self.config.maxNumberOfDays * 8;
+						Log.warn(self.name + ": Your AppID does not support long term forecasts. Switching to fallback endpoint.");
+					}
+
 					retry = true;
 				} else {
 					Log.error(self.name + ": Could not load weather.");
@@ -271,10 +303,24 @@ Module.register("weatherforecast",{
 		 * The OpenWeatherMap API properly handles values outside of the 1 - 16 range and returns 7 days by default.
 		 * This is simply being pedantic and doing it ourselves.
 		 */
-		params += "&cnt=" + (((this.config.maxNumberOfDays < 1) || (this.config.maxNumberOfDays > 16)) ? 7 : this.config.maxNumberOfDays);
+		params += "&cnt=" + (((this.config.maxNumberOfDays < 1) || (this.config.maxNumberOfDays > 16)) ? 7 * 8 : this.config.maxNumberOfDays);
 		params += "&APPID=" + this.config.appid;
 
 		return params;
+	},
+
+	/*
+	 * parserDataWeather(data)
+	 *
+	 * Use the parse to keep the same struct between daily and forecast Endpoint
+	 * from Openweather
+	 *
+	 */
+	parserDataWeather: function(data) {
+		if (data.hasOwnProperty("main")) {
+			data["temp"] = {"min": data.main.temp_min, "max": data.main.temp_max}
+		}
+		return data;
 	},
 
 	/* processWeather(data)
@@ -283,21 +329,43 @@ Module.register("weatherforecast",{
 	 * argument data object - Weather information received form openweather.org.
 	 */
 	processWeather: function(data) {
-		this.fetchedLocatioName = data.city.name + ", " + data.city.country;
+		this.fetchedLocationName = data.city.name + ", " + data.city.country;
 
 		this.forecast = [];
+		var lastDay = null;
+		var forecastData = {}
+
 		for (var i = 0, count = data.list.length; i < count; i++) {
 
 			var forecast = data.list[i];
-			this.forecast.push({
+			this.parserDataWeather(forecast); // hack issue #1017
 
-				day: moment(forecast.dt, "X").format("ddd"),
-				icon: this.config.iconTable[forecast.weather[0].icon],
-				maxTemp: this.roundValue(forecast.temp.max),
-				minTemp: this.roundValue(forecast.temp.min),
-				rain: this.roundValue(forecast.rain)
+			var day = moment(forecast.dt, "X").format("ddd");
+			var hour = moment(forecast.dt, "X").format("H");
 
-			});
+			if (day !== lastDay) {
+				var forecastData = {
+					day: day,
+					icon: this.config.iconTable[forecast.weather[0].icon],
+					maxTemp: this.roundValue(forecast.temp.max),
+					minTemp: this.roundValue(forecast.temp.min),
+					rain: this.roundValue(forecast.rain)
+				};
+
+				this.forecast.push(forecastData);
+				lastDay = day;
+			} else {
+				//Log.log("Compare max: ", forecast.temp.max, parseFloat(forecastData.maxTemp));
+				forecastData.maxTemp = forecast.temp.max > parseFloat(forecastData.maxTemp) ? this.roundValue(forecast.temp.max) : forecastData.maxTemp;
+				//Log.log("Compare min: ", forecast.temp.min, parseFloat(forecastData.minTemp));
+				forecastData.minTemp = forecast.temp.min < parseFloat(forecastData.minTemp) ? this.roundValue(forecast.temp.min) : forecastData.minTemp;
+
+				// Since we don't want an icon from the start of the day (in the middle of the night)
+				// we update the icon as long as it's somewhere during the day.
+				if (hour >= 8 && hour <= 17) {
+					forecastData.icon = this.config.iconTable[forecast.weather[0].icon];
+				}
+			}
 		}
 
 		//Log.log(this.forecast);
@@ -327,6 +395,10 @@ Module.register("weatherforecast",{
 	/* ms2Beaufort(ms)
 	 * Converts m2 to beaufort (windspeed).
 	 *
+	 * see:
+	 *  http://www.spc.noaa.gov/faq/tornado/beaufort.html
+	 *  https://en.wikipedia.org/wiki/Beaufort_scale#Modern_scale
+	 *
 	 * argument ms number - Windspeed in m/s.
 	 *
 	 * return number - Windspeed in beaufort.
@@ -348,7 +420,7 @@ Module.register("weatherforecast",{
 	 *
 	 * argument temperature number - Temperature.
 	 *
-	 * return number - Rounded Temperature.
+	 * return string - Rounded Temperature.
 	 */
 	roundValue: function(temperature) {
 		var decimals = this.config.roundTemp ? 0 : 1;

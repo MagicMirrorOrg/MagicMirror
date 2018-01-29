@@ -1,7 +1,20 @@
 language: node_js
 node_js:
+ - "8"
+ - "7"
  - "6"
  - "5.1"
 before_script:
  - npm install grunt-cli -g
-script: grunt
+ - "export DISPLAY=:99.0"
+ - "sh -e /etc/init.d/xvfb start"
+ - sleep 5
+script:
+- grunt
+- npm run test:unit
+- npm run test:e2e
+after_script:
+ - npm list
+cache:
+ directories:
+  - node_modules

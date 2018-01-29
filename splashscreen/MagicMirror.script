@@ -1,7 +1,15 @@
 screen_width = Window.GetWidth();
 screen_height = Window.GetHeight();
 
-theme_image = Image("splash.png");
+if (Plymouth.GetMode() != "shutdown")
+{
+	theme_image = Image("splash.png");
+}
+else
+{
+	theme_image = Image("splash_halt.png");
+}
+
 image_width = theme_image.GetWidth();
 image_height = theme_image.GetHeight();
 
@@ -30,11 +38,8 @@ else
 	image_y = (screen_height - image_height) / 2;
 }
 
-if (Plymouth.GetMode() != "shutdown")
-{
-	sprite = Sprite (resized_image);
-	sprite.SetPosition (image_x, image_y, -100);
-}
+sprite = Sprite (resized_image);
+sprite.SetPosition (image_x, image_y, -100);
 
 message_sprite = Sprite();
 message_sprite.SetPosition(screen_width * 0.1, screen_height * 0.9, 10000);

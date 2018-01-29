@@ -2,12 +2,11 @@
 
 "use strict";
 
-const Server = require(__dirname + "/server.js");
 const electron = require("electron");
 const core = require(__dirname + "/app.js");
 
 // Config
-var config = {};
+var config = process.env.config ? JSON.parse(process.env.config) : {};
 // Module to control application life.
 const app = electron.app;
 // Module to create native browser window.
@@ -18,7 +17,6 @@ const BrowserWindow = electron.BrowserWindow;
 let mainWindow;
 
 function createWindow() {
-
 	var electronOptionsDefaults = {
 		width: 800,
 		height: 600,
@@ -30,7 +28,7 @@ function createWindow() {
 			zoomFactor: config.zoom
 		},
 		backgroundColor: "#000000"
-	}
+	};
 
 	// DEPRECATED: "kioskmode" backwards compatibility, to be removed
 	// settings these options directly instead provides cleaner interface
@@ -47,11 +45,12 @@ function createWindow() {
 	mainWindow = new BrowserWindow(electronOptions);
 
 	// and load the index.html of the app.
-	//mainWindow.loadURL('file://' + __dirname + '../../index.html');
-	mainWindow.loadURL("http://localhost:" + config.port);
+	// If config.address is not defined or is an empty string (listening on all interfaces), connect to localhost
+	var address = (config.address === void 0) | (config.address === "") ? (config.address = "localhost") : config.address;
+	mainWindow.loadURL(`http://${address}:${config.port}`);
 
 	// Open the DevTools if run with "npm start dev"
-	if(process.argv[2] == "dev") {
+	if (process.argv.includes("dev")) {
 		mainWindow.webContents.openDevTools();
 	}
 
@@ -97,8 +96,24 @@ app.on("activate", function() {
 	}
 });
 
-// Start the core application.
-// This starts all node helpers and starts the webserver.
-core.start(function(c) {
-	config = c;
+/* This method will be called when SIGINT is received and will call
+ * each node_helper's stop function if it exists. Added to fix #1056
+ *
+ * Note: this is only used if running Electron. Otherwise
+ * core.stop() is called by process.on("SIGINT"... in `app.js`
+ */
+app.on("before-quit", (event) => {
+	console.log("Shutting down server...");
+	event.preventDefault();
+	setTimeout(() => { process.exit(0); }, 3000); // Force-quit after 3 seconds.
+	core.stop();
+	process.exit(0);
 });
+
+// Start the core application if server is run on localhost
+// This starts all node helpers and starts the webserver.
+if (["localhost", "127.0.0.1", "::1", "::ffff:127.0.0.1", undefined].indexOf(config.address) > -1) {
+	core.start(function(c) {
+		config = c;
+	});
+}
