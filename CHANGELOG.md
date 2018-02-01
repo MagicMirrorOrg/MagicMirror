@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add types for module.
 - Implement Danger.js to notify contributors when CHANGELOG.md is missing in PR.
 - Allow to scroll in full page article view of default newsfeed module with gesture events from [MMM-Gestures](https://github.com/thobach/MMM-Gestures)
+- Changed 'compliments.js' - update DOM if remote compliments are loaded instead of waiting one updateInterval to show custom compliments
 
 ### Fixed
 - News article in fullscreen (iframe) is now shown in front of modules.

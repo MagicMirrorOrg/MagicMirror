@@ -49,14 +49,15 @@ Module.register("compliments", {
 
 		this.lastComplimentIndex = -1;
 
+		var self = this;
 		if (this.config.remoteFile != null) {
 			this.complimentFile((response) => {
 				this.config.compliments = JSON.parse(response);
+				self.updateDom();
 			});
 		}
 
 		// Schedule update timer.
-		var self = this;
 		setInterval(function() {
 			self.updateDom(self.config.fadeSpeed);
 		}, this.config.updateInterval);
