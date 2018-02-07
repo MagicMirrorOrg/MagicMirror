@@ -1,5 +1,5 @@
 /* global  Log, Loader, Module, config, defaults */
-/* jshint -W020 */
+/* jshint -W020, esversion: 6 */
 
 /* Magic Mirror
  * Main System
@@ -19,42 +19,49 @@ var MM = (function() {
 	 * are configured for a specific position.
 	 */
 	var createDomObjects = function() {
-		for (var m in modules) {
-			var module = modules[m];
+		var domCreationPromises = [];
 
-			if (typeof module.data.position === "string") {
-
-				var wrapper = selectWrapper(module.data.position);
-
-				var dom = document.createElement("div");
-				dom.id = module.identifier;
-				dom.className = module.name;
-
-				if (typeof module.data.classes === "string") {
-					dom.className = "module " + dom.className + " " + module.data.classes;
-				}
-
-				dom.opacity = 0;
-				wrapper.appendChild(dom);
-
-				if (typeof module.data.header !== "undefined" && module.data.header !== "") {
-					var moduleHeader = document.createElement("header");
-					moduleHeader.innerHTML = module.data.header;
-					moduleHeader.className = "module-header";
-					dom.appendChild(moduleHeader);
-				}
-
-				var moduleContent = document.createElement("div");
-				moduleContent.className = "module-content";
-				dom.appendChild(moduleContent);
-
-				updateDom(module, 0);
+		modules.forEach(module => {
+			if (typeof module.data.position !== "string") {
+				return;
 			}
-		}
+
+			var wrapper = selectWrapper(module.data.position);
+
+			var dom = document.createElement("div");
+			dom.id = module.identifier;
+			dom.className = module.name;
+
+			if (typeof module.data.classes === "string") {
+				dom.className = "module " + dom.className + " " + module.data.classes;
+			}
+
+			dom.opacity = 0;
+			wrapper.appendChild(dom);
+
+			if (typeof module.data.header !== "undefined" && module.data.header !== "") {
+				var moduleHeader = document.createElement("header");
+				moduleHeader.innerHTML = module.data.header;
+				moduleHeader.className = "module-header";
+				dom.appendChild(moduleHeader);
+			}
+
+			var moduleContent = document.createElement("div");
+			moduleContent.className = "module-content";
+			dom.appendChild(moduleContent);
+
+			var domCreationPromise = updateDom(module, 0);
+			domCreationPromises.push(domCreationPromise);
+			domCreationPromise.then(() => {
+				sendNotification("MODULE_DOM_CREATED", null, null, module);
+			}).catch(Log.error);
+		});
 
 		updateWrapperStates();
 
-		sendNotification("DOM_OBJECTS_CREATED");
+		Promise.all(domCreationPromises).then(() => {
+			sendNotification("DOM_OBJECTS_CREATED");
+		});
 	};
 
 	/* selectWrapper(position)
@@ -79,11 +86,12 @@ var MM = (function() {
 	 * argument notification string - The identifier of the notification.
 	 * argument payload mixed - The payload of the notification.
 	 * argument sender Module - The module that sent the notification.
+	 * argument sendTo Module - The module to send the notification to. (optional)
 	 */
-	var sendNotification = function(notification, payload, sender) {
+	var sendNotification = function(notification, payload, sender, sendTo) {
 		for (var m in modules) {
 			var module = modules[m];
-			if (module !== sender) {
+			if (module !== sender && (!sendTo || module === sendTo)) {
 				module.notificationReceived(notification, payload, sender);
 			}
 		}
@@ -94,19 +102,53 @@ var MM = (function() {
 	 *
 	 * argument module Module - The module that needs an update.
 	 * argument speed Number - The number of microseconds for the animation. (optional)
+	 *
+	 * return Promise - Resolved when the dom is fully updated.
 	 */
 	var updateDom = function(module, speed) {
-		var newContent = module.getDom();
-		var newHeader = module.getHeader();
+		return new Promise((resolve) => {
+			var newContentPromise = module.getDom();
+			var newHeader = module.getHeader();
 
-		if (!module.hidden) {
+			if (!(newContentPromise instanceof Promise)) {
+				// convert to a promise if not already one to avoid if/else's everywhere
+				newContentPromise = Promise.resolve(newContentPromise);
+			}
+
+			newContentPromise.then((newContent) => {
+				var updatePromise = updateDomWithContent(module, speed, newHeader, newContent);
+
+				updatePromise.then(resolve).catch(Log.error);
+			}).catch(Log.error);
+		});
+	};
+
+	/* updateDomWithContent(module, speed, newHeader, newContent)
+	 * Update the dom with the specified content
+	 *
+	 * argument module Module - The module that needs an update.
+	 * argument speed Number - The number of microseconds for the animation. (optional)
+	 * argument newHeader String - The new header that is generated.
+	 * argument newContent Domobject - The new content that is generated.
+	 *
+	 * return Promise - Resolved when the module dom has been updated.
+	 */
+	var updateDomWithContent = function(module, speed, newHeader, newContent) {
+		return new Promise((resolve) => {
+			if (module.hidden || !speed) {
+				updateModuleContent(module, newHeader, newContent);
+				resolve();
+				return;
+			}
 
 			if (!moduleNeedsUpdate(module, newHeader, newContent)) {
+				resolve();
 				return;
 			}
 
 			if (!speed) {
 				updateModuleContent(module, newHeader, newContent);
+				resolve();
 				return;
 			}
 
@@ -115,16 +157,16 @@ var MM = (function() {
 				if (!module.hidden) {
 					showModule(module, speed / 2);
 				}
+				resolve();
 			});
-		} else {
-			updateModuleContent(module, newHeader, newContent);
-		}
+		});
 	};
 
 	/* moduleNeedsUpdate(module, newContent)
 	 * Check if the content has changed.
 	 *
 	 * argument module Module - The module to check.
+	 * argument newHeader String - The new header that is generated.
 	 * argument newContent Domobject - The new content that is generated.
 	 *
 	 * return bool - Does the module need an update?
@@ -152,6 +194,7 @@ var MM = (function() {
 	 * Update the content of a module on screen.
 	 *
 	 * argument module Module - The module to check.
+	 * argument newHeader String - The new header that is generated.
 	 * argument newContent Domobject - The new content that is generated.
 	 */
 	var updateModuleContent = function(module, newHeader, newContent) {

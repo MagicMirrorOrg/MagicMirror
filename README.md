@@ -16,45 +16,80 @@ MagicMirror² focuses on a modular plugin system and uses [Electron](http://elec
 
 ## Table Of Contents
 
-- [Usage](#usage)
+- [Installation](#installation)
+  - [Raspberry Pi](#raspberrypi)
+  - [General](#general)
+  - [Server Only](#server-only)
+  - [Client Only](#client-only)
+  - [Docker](#docker)
 - [Configuration](#configuration)
 - [Modules](#modules)
+- [Updating](#updating)
 - [Known Issues](#known-issues)
 - [Community](#community)
 - [Contributing Guidelines](#contributing-guidelines)
 
-## Usage
+## Installation
 
-### Raspberry Pi Support
-Electron, the app wrapper around MagicMirror², only supports the Raspberry Pi 2 & 3. The Raspberry Pi 1 is currently **not** supported. If you want to run this on a Raspberry Pi 1, use the [server only](#server-only) feature and setup a fullscreen browser yourself.
+### Raspberry Pi
 
-### Automatic Installer (Raspberry Pi Only!)
+*Electron*, the app wrapper around MagicMirror², only supports the Raspberry Pi 2/3. The Raspberry Pi 0/1 is currently **not** supported. If you want to run this on a Raspberry Pi 1, use the [server only](#server-only) feature and setup a fullscreen browser yourself. (Yes, people have managed to run MM² also on a Pi0, so if you insist, search in the forums.)
+
+#### Automatic Installation (Raspberry Pi only!)
 
 Execute the following command on your Raspberry Pi to install MagicMirror²:
-````
+
+```bash
 bash -c "$(curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/master/installers/raspberry.sh)"
-````
+```
 
-### Manual Installation
+#### Manual Installation
 
-1. Download and install the latest Node.js version.
+1. Download and install the latest *Node.js* version.
 2. Clone the repository and check out the master branch: `git clone https://github.com/MichMich/MagicMirror`
 3. Enter the repository: `cd ~/MagicMirror`
-4. Install and run the app: `npm install && npm start`
+4. Install and run the app with: `npm install && npm start` \
+   For **Server Only** use: `npm install && node serveronly` .
 
-**Important:** `npm start` does **not** work via SSH, use `DISPLAY=:0 nohup npm start &` instead. This starts the mirror on the remote display.
 
-**Note:** if you want to debug on Raspberry Pi you can use `npm start dev` which will start the MagicMirror app with Dev Tools enabled.
+**:warning: Important!** 
+
+- **The installation step for `npm install` will take a very long time**, often with little or no terminal response! \
+  For the RPi3 this is **~10** minutes and for the Rpi2 **~25** minutes. \
+  Do not interrupt or you risk getting a :broken_heart: by Raspberry Jam.
+
+
+Also note that: 
+
+- `npm start` does **not** work via SSH. But you can use `DISPLAY=:0 nohup npm start &` instead. \
+  This starts the mirror on the remote display.
+- If you want to debug on Raspberry Pi you can use `npm start dev` which will start MM with *Dev Tools* enabled.
+- To access toolbar menu when in mirror mode, hit `ALT` key. 
+- To toggle the (web) `Developer Tools` from mirror mode, use `CTRL-SHIFT-I` or `ALT` and select `View`.
+
 
 ### Server Only
+
 In some cases, you want to start the application without an actual app window. In this case, you can start MagicMirror² in server only mode by manually running `node serveronly` or using Docker. This will start the server, after which you can open the application in your browser of choice. Detailed description below.
 
+**Important:** Make sure that you whitelist the interface/ip (`ipWhitelist`) in the server config where you want the client to connect to, otherwise it will not be allowed to connect to the server. You also need to set the local host `address` field to `0.0.0.0` in order for the RPi to listen on all interfaces and not only `localhost` (default). 
+
+```javascript
+var config = {
+	address: "0.0.0.0",	// default is "localhost"
+	port: 8080,		// default 
+	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1", "::ffff:172.17.0.1"], // default -- need to add your IP here
+	...
+};
+```
+
+
 ### Client Only
-When you have a server running remotely and want to connect a standalone client to this instance, you can manually run `node clientonly --address 192.168.1.5 --port 8080`. (Specify the ip address and port number of the server)
 
-**Important:** Make sure that you whitelist the interface/ip in the server config where you want the client to connect to, otherwise it will not be allowed to connect to the server
+This is when you already have a server running remotely and want your RPi to connect as a standalone client to this instance, to show the MM from the server. Then from your RPi, you run it with: `node clientonly --address 192.168.1.5 --port 8080`. (Specify the ip address and port number of the server)
 
-#### Docker
+
+### Docker
 
 MagicMirror² in server only mode can be deployed using [Docker](https://docker.com). After a successful [Docker installation](https://docs.docker.com/engine/installation/) you just need to execute the following command in the shell:
 
@@ -75,55 +110,34 @@ docker run  -d \
 
 You may need to add your Docker Host IP to your `ipWhitelist` option. If you have some issues setting up this configuration, check [this forum post](https://forum.magicmirror.builders/topic/1326/ipwhitelist-howto).
 
-```javascript
-var config = {
-	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1", "::ffff:172.17.0.1"]
-};
-```
-
 If you want to run the server on a raspberry pi, use the `raspberry` tag. (bastilimbach/docker-magicmirror:raspberry)
 
-#### Manual
-
-1. Download and install the latest Node.js version.
-2. Clone the repository and check out the master branch: `git clone https://github.com/MichMich/MagicMirror`
-3. Enter the repository: `cd ~/MagicMirror`
-4. Install and run the app: `npm install && node serveronly`
-
-### Raspberry Configuration & Auto Start.
-
-The following wiki links are helpful in the configuration of your MagicMirror² operating system:
-- [Configuring the Raspberry Pi](https://github.com/MichMich/MagicMirror/wiki/Configuring-the-Raspberry-Pi)
-- [Auto Starting MagicMirror](https://github.com/MichMich/MagicMirror/wiki/Auto-Starting-MagicMirror)
-
-### Updating your MagicMirror²
-
-If you want to update your MagicMirror² to the latest version, use your terminal to go to your Magic Mirror folder and type the following command:
-
-```bash
-git pull && npm install
-```
-
-If you changed nothing more than the config or the modules, this should work without any problems.
-Type `git status` to see your changes, if there are any, you can reset them with `git reset --hard`. After that, git pull should be possible.
 
 ## Configuration
 
-1. Duplicate `config/config.js.sample` to `config/config.js`. **Note:** If you used the installer script. This step is already done for you.
-2. Modify your required settings.
+### Raspberry Specific 
 
-Note: You'll can check your configuration running the follow command:
-```bash
-npm run config:check
-```
+The following wiki links are helpful for the initial configuration of your MagicMirror² operating system:
+- [Configuring the Raspberry Pi](https://github.com/MichMich/MagicMirror/wiki/Configuring-the-Raspberry-Pi)
+- [Auto Starting MagicMirror](https://github.com/MichMich/MagicMirror/wiki/Auto-Starting-MagicMirror)
+
+
+### General 
+
+1. Copy `config/config.js.sample` to `config/config.js`. \
+   **Note:** If you used the installer script. This step is already done for you.
+
+2. Modify your required settings. \ 
+   Note: You'll can check your configuration running `npm run config:check`.
+
 
 The following properties can be configured:
 
 | **Option** | **Description** |
 | --- | --- |
 | `port` | The port on which the MagicMirror² server will run on. The default value is `8080`. |
-| `address` | The ip address the accept connections. The  default open bind `localhost`.  Example config: `192.168.10.100`. |
-| `ipWhitelist` | The list of IPs from which you are allowed to access the MagicMirror². The default value is `["127.0.0.1", "::ffff:127.0.0.1", "::1"]`. It is possible to specify IPs with subnet masks (`["127.0.0.1", "127.0.0.1/24"]`) or define ip ranges (`["127.0.0.1", ["192.168.0.1", "192.168.0.100"]]`). Set `[]` to allow all IP addresses. For more information about how configure this directive see the [follow post ipWhitelist HowTo](https://forum.magicmirror.builders/topic/1326/ipwhitelist-howto) |
+| `address` | The *interface* ip address on which to accept connections. The default is `localhost`, which would prevent exposing the built-in webserver to machines on the local network. To expose it to other machines, use: `0.0.0.0`. |
+| `ipWhitelist` | The list of IPs from which you are allowed to access the MagicMirror². The default value is `["127.0.0.1", "::ffff:127.0.0.1", "::1"]`, which is from `localhost` only. Add your IP when needed. You can also specify IP ranges with subnet masks (`["127.0.0.1", "127.0.0.1/24"]`) or directly with (`["127.0.0.1", ["192.168.0.1", "192.168.0.100"]]`). Set `[]` to allow all IP addresses. For more information see: [follow post ipWhitelist HowTo](https://forum.magicmirror.builders/topic/1326/ipwhitelist-howto) |
 | `zoom` | This allows to scale the mirror contents with a given zoom factor. The default value is `1.0`|
 | `language` | The language of the interface. (Note: Not all elements will be localized.) Possible values are `en`, `nl`, `ru`, `fr`, etc., but the default value is `en`. |
 | `timeFormat` | The form of time notation that will be used. Possible values are `12` or `24`. The default is `24`. |
@@ -156,7 +170,19 @@ The following modules are installed by default.
 - [**Hello World**](modules/default/helloworld)
 - [**Alert**](modules/default/alert)
 
-For more available modules, check out out the wiki page: [MagicMirror² Modules](https://github.com/MichMich/MagicMirror/wiki/MagicMirror²-Modules). If you want to build your own modules, check out the [MagicMirror² Module Development Documentation](modules) and don't forget to add it to the wiki and the [forum](https://forum.magicmirror.builders/category/7/showcase)!
+For more available modules, check out out the wiki page [MagicMirror² 3rd Party Modules](https://github.com/MichMich/MagicMirror/wiki/3rd-party-modules). If you want to build your own modules, check out the [MagicMirror² Module Development Documentation](modules) and don't forget to add it to the wiki and the [forum](https://forum.magicmirror.builders/category/7/showcase)!
+
+
+## Updating
+
+If you want to update your MagicMirror² to the latest version, use your terminal to go to your Magic Mirror folder and type the following command:
+
+```bash
+git pull && npm install
+```
+
+If you changed nothing more than the config or the modules, this should work without any problems.
+Type `git status` to see your changes, if there are any, you can reset them with `git reset --hard`. After that, git pull should be possible.
 
 ## Known issues
 
