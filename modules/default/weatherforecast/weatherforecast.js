@@ -259,7 +259,6 @@ Module.register("weatherforecast",{
 
 					if (self.config.forecastEndpoint == "forecast/daily") {
 						self.config.forecastEndpoint = "forecast";
-						self.config.maxNumberOfDays = self.config.maxNumberOfDays * 8;
 						Log.warn(self.name + ": Your AppID does not support long term forecasts. Switching to fallback endpoint.");
 					}
 
@@ -298,12 +297,6 @@ Module.register("weatherforecast",{
 
 		params += "&units=" + this.config.units;
 		params += "&lang=" + this.config.lang;
-		/*
-		 * Submit a specific number of days to forecast, between 1 to 16 days.
-		 * The OpenWeatherMap API properly handles values outside of the 1 - 16 range and returns 7 days by default.
-		 * This is simply being pedantic and doing it ourselves.
-		 */
-		params += "&cnt=" + (((this.config.maxNumberOfDays < 1) || (this.config.maxNumberOfDays > 16)) ? 7 * 8 : this.config.maxNumberOfDays);
 		params += "&APPID=" + this.config.appid;
 
 		return params;
@@ -354,6 +347,11 @@ Module.register("weatherforecast",{
 
 				this.forecast.push(forecastData);
 				lastDay = day;
+
+				// Stop processing when maxNumberOfDays is reached
+				if (this.forecast.length === this.config.maxNumberOfDays) {
+					break;
+				}
 			} else {
 				//Log.log("Compare max: ", forecast.temp.max, parseFloat(forecastData.maxTemp));
 				forecastData.maxTemp = forecast.temp.max > parseFloat(forecastData.maxTemp) ? this.roundValue(forecast.temp.max) : forecastData.maxTemp;
