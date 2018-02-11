@@ -241,4 +241,38 @@ describe("Translator", function() {
 			};
 		});
 	});
+
+    describe("loadCoreTranslationsFallback", function() {
+        it("should load core translations fallback", function(done) {
+            const dom = new JSDOM(`<script>var translations = {en: "http://localhost:3000/translations/en.json"}; var Log = {log: function(){}};</script>\
+                    <script src="${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously",
+                resources: "usable" });
+            dom.window.onload = function() {
+                const {Translator} = dom.window;
+                Translator.loadCoreTranslationsFallback();
+
+                const en = require(path.join(__dirname, "..", "..", "..", "tests", "configs", "data", "en.json"));
+                setTimeout(function() {
+                    expect(Translator.coreTranslationsFallback).to.be.deep.equal(en);
+                    done();
+                }, 500);
+            };
+        });
+
+        it("should load core fallback if language cannot be found", function(done) {
+            const dom = new JSDOM(`<script>var translations = {}; var Log = {log: function(){}};</script>\
+                    <script src="${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously",
+                resources: "usable" });
+            dom.window.onload = function() {
+                const {Translator} = dom.window;
+                Translator.loadCoreTranslations();
+
+                const en = require(path.join(__dirname, "..", "..", "..", "tests", "configs", "data", "en.json"));
+                setTimeout(function() {
+                    expect(Translator.coreTranslationsFallback).to.be.deep.equal({});
+                    done();
+                }, 500);
+            };
+        });
+    });
 });
