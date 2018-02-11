@@ -217,10 +217,12 @@ var Translator = (function() {
 			// defined translation after the following line.
 			for (var first in translations) {break;}
 
-			Log.log("Loading core translation fallback file: " + translations[first]);
-			loadJSON(translations[first], function(translations) {
-				self.coreTranslationsFallback = translations;
-			});
+			if (first) {
+                Log.log("Loading core translation fallback file: " + translations[first]);
+                loadJSON(translations[first], function(translations) {
+                    self.coreTranslationsFallback = translations;
+                });
+			}
 		},
 	};
 })();
