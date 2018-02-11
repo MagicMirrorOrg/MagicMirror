@@ -5,48 +5,66 @@ const fs = require("fs");
 const {JSDOM} = require("jsdom");
 const express = require("express");
 
-const translations = {
-	"MMM-Module": {
-		"Hello": "Hallo",
-		"Hello {username}": "Hallo {username}"
-	}
-};
-
-const coreTranslations = {
-	"Hello": "XXX",
-	"Hello {username}": "XXX",
-	"FOO": "Foo",
-	"BAR {something}": "Bar {something}"
-};
-
-const translationsFallback = {
-	"MMM-Module": {
-		"Hello": "XXX",
-		"Hello {username}": "XXX",
-		"FOO": "XXX",
-		"BAR {something}": "XXX",
-		"A key": "A translation"
-	}
-};
-
-const coreTranslationsFallback = {
-	"FOO": "XXX",
-	"BAR {something}": "XXX",
-	"Hello": "XXX",
-	"Hello {username}": "XXX",
-	"A key": "XXX",
-	"Fallback": "core fallback"
-};
-
-function setTranslations(Translator) {
-	Translator.translations = translations;
-	Translator.coreTranslations = coreTranslations;
-	Translator.translationsFallback = translationsFallback;
-	Translator.coreTranslationsFallback = coreTranslationsFallback;
-}
-
 describe("Translator", function() {
+	let server;
+
+	before(function() {
+		const app = express();
+
+		app.get("/translations/:file", function(req, res) {
+			res.status(200)
+				.header("Access-Control-Allow-Origin", "*")
+				.json(require(path.join(__dirname, "..", "..", "..", "tests", "configs", "data", req.params.file)));
+		});
+
+		server = app.listen(3000);
+	});
+
+	after(function() {
+		server.close();
+	});
+
 	describe("translate", function() {
+		const translations = {
+			"MMM-Module": {
+				"Hello": "Hallo",
+				"Hello {username}": "Hallo {username}"
+			}
+		};
+
+		const coreTranslations = {
+			"Hello": "XXX",
+			"Hello {username}": "XXX",
+			"FOO": "Foo",
+			"BAR {something}": "Bar {something}"
+		};
+
+		const translationsFallback = {
+			"MMM-Module": {
+				"Hello": "XXX",
+				"Hello {username}": "XXX",
+				"FOO": "XXX",
+				"BAR {something}": "XXX",
+				"A key": "A translation"
+			}
+		};
+
+		const coreTranslationsFallback = {
+			"FOO": "XXX",
+			"BAR {something}": "XXX",
+			"Hello": "XXX",
+			"Hello {username}": "XXX",
+			"A key": "XXX",
+			"Fallback": "core fallback"
+		};
+
+		function setTranslations(Translator) {
+			Translator.translations = translations;
+			Translator.coreTranslations = coreTranslations;
+			Translator.translationsFallback = translationsFallback;
+			Translator.coreTranslationsFallback = coreTranslationsFallback;
+		}
+
 		it("should return custom module translation", function(done) {
 			const dom = new JSDOM(`<script src="${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously",
 				resources: "usable" });
@@ -132,24 +150,6 @@ describe("Translator", function() {
 			}
 		};
 
-		let server;
-
-		before(function() {
-			const app = express();
-
-			app.get("/translations/:file", function(req, res) {
-				res.status(200)
-					.header("Access-Control-Allow-Origin", "*")
-					.json(require(path.join(__dirname, "..", "..", "..", "tests", "configs", "data", req.params.file)));
-			});
-
-			server = app.listen(3000);
-		});
-
-		after(function() {
-			server.close();
-		});
-
 		it("should load translations", function(done) {
 			const dom = new JSDOM(`<script>var Log = {log: function(){}};</script><script src="${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously",
 				resources: "usable" });
@@ -202,6 +202,42 @@ describe("Translator", function() {
 					});
 					done();
 				});
+			};
+		});
+	});
+
+	describe("loadCoreTranslations", function() {
+		it("should load core translations and fallback", function(done) {
+			const dom = new JSDOM(`<script>var translations = {en: "http://localhost:3000/translations/en.json"}; var Log = {log: function(){}};</script>\
+                    <script src="${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously",
+				resources: "usable" });
+			dom.window.onload = function() {
+				const {Translator} = dom.window;
+				Translator.loadCoreTranslations("en");
+
+				const en = require(path.join(__dirname, "..", "..", "..", "tests", "configs", "data", "en.json"));
+				setTimeout(function() {
+					expect(Translator.coreTranslations).to.be.deep.equal(en);
+					expect(Translator.coreTranslationsFallback).to.be.deep.equal(en);
+					done();
+				}, 500);
+			};
+		});
+
+		it("should load core fallback if language cannot be found", function(done) {
+			const dom = new JSDOM(`<script>var translations = {en: "http://localhost:3000/translations/en.json"}; var Log = {log: function(){}};</script>\
+                    <script src="${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously",
+				resources: "usable" });
+			dom.window.onload = function() {
+				const {Translator} = dom.window;
+				Translator.loadCoreTranslations("MISSINGLANG");
+
+				const en = require(path.join(__dirname, "..", "..", "..", "tests", "configs", "data", "en.json"));
+				setTimeout(function() {
+					expect(Translator.coreTranslations).to.be.deep.equal({});
+					expect(Translator.coreTranslationsFallback).to.be.deep.equal(en);
+					done();
+				}, 500);
 			};
 		});
 	});
