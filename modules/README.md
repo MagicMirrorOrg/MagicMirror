@@ -2,6 +2,30 @@
 
 This document describes the way to develop your own MagicMirror² modules.
 
+Table of Contents:
+
+- Module structure
+  - Files
+
+- The Core module file: modulename.js
+  - Available module instance properties
+  - Subclassable module methods
+  - Module instance methods
+  - Visibility locking
+
+- The Node Helper: node_helper.js
+  - Available module instance properties
+  - Subclassable module methods
+  - Module instance methods
+  
+- MagicMirror Helper Methods
+  - Module Selection
+
+- MagicMirror Logger
+
+
+---
+
 ## Module structure
 
 All modules are loaded in the `modules` folder. The default modules are grouped together in the `modules/default` folder. Your module should be placed in a subfolder of `modules`. Note that any file or folder your create in the `modules` folder will be ignored by git, allowing you to upgrade the MagicMirror² without the loss of your files.
@@ -475,6 +499,8 @@ this.translate("RUNNING", {
 ````
 In this case the `translate`-function will not find any variables in the translation, will look for `fallback` variable and use that if possible to create the translation.
 
+---
+
 ## The Node Helper: node_helper.js
 
 The node helper is a Node.js script that is able to do some backend task to support your module. For every module type, only one node helper instance will be created. For example: if your MagicMirror uses two calendar modules, there will be only one calendar node helper instantiated.
@@ -489,6 +515,8 @@ module.exports = NodeHelper.create({});
 ````
 
 Of course, the above helper would not do anything useful. So with the information above, you should be able to make it a bit more sophisticated.
+
+---
 
 ### Available module instance properties
 
@@ -581,6 +609,8 @@ socketNotificationReceived: function(notification, payload) {
 },
 ````
 
+---
+
 ### Module instance methods
 
 Each node helper has some handy methods which can be helpful building your module.
@@ -597,6 +627,8 @@ If you want to send a notification to all your modules, use the `sendSocketNotif
 ````javascript
 this.sendSocketNotification('SET_CONFIG', this.config);
 ````
+
+---
 
 ## MagicMirror Helper Methods
 
@@ -685,6 +717,8 @@ Module.register("modulename",{
 	//...
 });
 ````
+
+---
 
 ## MagicMirror Logger
 
