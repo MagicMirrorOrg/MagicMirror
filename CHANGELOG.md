@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - News article in fullscreen (iframe) is now shown in front of modules.
+- Forecast respects maxNumberOfDays regardless of endpoint.
 
 *This release is scheduled to be released on 2018-04-01.*
 
