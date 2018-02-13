@@ -218,10 +218,10 @@ var Translator = (function() {
 			for (var first in translations) {break;}
 
 			if (first) {
-                Log.log("Loading core translation fallback file: " + translations[first]);
-                loadJSON(translations[first], function(translations) {
-                    self.coreTranslationsFallback = translations;
-                });
+				Log.log("Loading core translation fallback file: " + translations[first]);
+				loadJSON(translations[first], function(translations) {
+					self.coreTranslationsFallback = translations;
+				});
 			}
 		},
 	};
