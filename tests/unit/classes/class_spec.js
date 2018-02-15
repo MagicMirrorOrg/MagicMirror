@@ -1,36 +1,47 @@
-var chai = require("chai");
-var expect = chai.expect;
-var jsClass = require("../../../js/class.js");
+const chai = require("chai");
+const expect = chai.expect;
+const path = require("path");
+const {JSDOM} = require("jsdom");
 
 describe("File js/class", function() {
 	describe("Test function cloneObject", function() {
-		var cloneObject = jsClass._test.cloneObject;
+        let clone;
+
+        before(function(done) {
+            const dom = new JSDOM(`<script src="${path.join(__dirname, "..", "..", "..", "js", "class.js")}">`, { runScripts: "dangerously",
+                resources: "usable" });
+            dom.window.onload = function() {
+                const {cloneObject} = dom.window;
+                clone = cloneObject;
+                done();
+            };
+        });
 
 		it("should be return equals object", function() {
-			var expected = {name: "Rodrigo", web: "https://rodrigoramirez.com", project: "MagicMirror"};
-			var obj = {};
-			obj = cloneObject(expected);
+            const expected = {name: "Rodrigo", web: "https://rodrigoramirez.com", project: "MagicMirror"};
+            let obj = {};
+			obj = clone(expected);
 			expect(expected).to.deep.equal(obj);
 		});
 
 		it("should be return equals int", function() {
-			var expected = 1;
-			var obj = {};
-			obj = cloneObject(expected);
+            const expected = 1;
+			let obj = {};
+			obj = clone(expected);
 			expect(expected).to.equal(obj);
 		});
 
 		it("should be return equals string", function() {
-			var expected = "Perfect stranger";
-			var obj = {};
-			obj = cloneObject(expected);
+            const expected = "Perfect stranger";
+			let obj = {};
+			obj = clone(expected);
 			expect(expected).to.equal(obj);
 		});
 
 		it("should be return equals undefined", function() {
-			var expected = undefined;
-			var obj = {};
-			obj = cloneObject(expected);
+            const expected = undefined;
+			let obj = {};
+			obj = clone(expected);
 			expect(undefined).to.equal(obj);
 		});
 
@@ -38,9 +49,9 @@ describe("File js/class", function() {
 		/*
 		context("Test lockstring code", function() {
 			it("should be return equals object", function() {
-				var expected = {name: "Module", lockStrings: "stringLock"};
-				var obj = {};
-				obj = cloneObject(expected);
+				const expected = {name: "Module", lockStrings: "stringLock"};
+				let obj = {};
+				obj = clone(expected);
 				expect(expected).to.deep.equal(obj);
 			});
 		});
