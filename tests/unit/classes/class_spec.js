@@ -19,33 +19,69 @@ describe("File js/class", function() {
 			};
 		});
 
-		it("should be return equals object", function() {
+		it("should clone object", function() {
 			const expected = {name: "Rodrigo", web: "https://rodrigoramirez.com", project: "MagicMirror"};
-			let obj = {};
-			obj = clone(expected);
-			expect(expected).to.deep.equal(obj);
+			const obj = clone(expected);
+			expect(obj).to.deep.equal(expected);
+			expect(expected === obj).to.equal(false);
 		});
 
-		it("should be return equals int", function() {
-			const expected = 1;
-			let obj = {};
-			obj = clone(expected);
-			expect(expected).to.equal(obj);
+		it("should clone array", function() {
+			const expected = [1, null, undefined, "TEST"];
+			const obj = clone(expected);
+			expect(obj).to.deep.equal(expected);
+			expect(expected === obj).to.equal(false);
+        });
+
+		it("should clone number", function() {
+			let expected = 1;
+			let obj = clone(expected);
+			expect(obj).to.equal(expected);
+
+            expected = 1.23;
+            obj = clone(expected);
+            expect(obj).to.equal(expected);
 		});
 
-		it("should be return equals string", function() {
+		it("should clone string", function() {
 			const expected = "Perfect stranger";
-			let obj = {};
-			obj = clone(expected);
-			expect(expected).to.equal(obj);
+			const obj = clone(expected);
+            expect(obj).to.equal(expected);
 		});
 
-		it("should be return equals undefined", function() {
+		it("should clone undefined", function() {
 			const expected = undefined;
-			let obj = {};
-			obj = clone(expected);
-			expect(undefined).to.equal(obj);
+			const obj = clone(expected);
+            expect(obj).to.equal(expected);
 		});
+
+        it("should clone null", function() {
+            const expected = null;
+            const obj = clone(expected);
+            expect(obj).to.equal(expected);
+        });
+
+        it("should clone nested object", function() {
+			const expected = {
+				name: "fewieden",
+				link: "https://github.com/fewieden",
+				versions: ["2.0", "2.1", "2.2"],
+				answerForAllQuestions: 42,
+				properties: {
+					items: [{foo: "bar"}, {lorem: "ipsum"}],
+					invalid: undefined,
+					nothing: null
+				}
+			};
+			const obj = clone(expected);
+			expect(obj).to.deep.equal(expected);
+			expect(expected === obj).to.equal(false);
+			expect(expected.versions === obj.versions).to.equal(false);
+			expect(expected.properties === obj.properties).to.equal(false);
+			expect(expected.properties.items === obj.properties.items).to.equal(false);
+			expect(expected.properties.items[0] === obj.properties.items[0]).to.equal(false);
+			expect(expected.properties.items[1] === obj.properties.items[1]).to.equal(false);
+        });
 
 		describe("Test lockstring code", function() {
 			let log;
@@ -61,15 +97,13 @@ describe("File js/class", function() {
                 dom.window.Log.log = log;
             });
 
-			it("should be return equals object and log lockStrings", function() {
+			it("should clone object and log lockStrings", function() {
                 const expected = {name: "Module", lockStrings: "stringLock"};
-				let obj = {};
-				obj = clone(expected);
-				expect(expected).to.deep.equal(obj);
+				const obj = clone(expected);
+                expect(obj).to.deep.equal(expected);
+                expect(expected === obj).to.equal(false);
 			});
-
 		});
-
 	});
 });
 
