@@ -59,8 +59,8 @@ Module.register("updatenotification", {
 			message.appendChild(icon);
 
 			var subtextHtml = this.translate("UPDATE_INFO", {
-                COMMIT_COUNT: this.status.behind + " " + ((this.status.behind == 1) ? "commit" : "commits"),
-                BRANCH_NAME: this.status.current
+				COMMIT_COUNT: this.status.behind + " " + ((this.status.behind == 1) ? "commit" : "commits"),
+				BRANCH_NAME: this.status.current
 			});
 
 			var text = document.createElement("span");
@@ -69,7 +69,7 @@ Module.register("updatenotification", {
 				subtextHtml = this.diffLink(subtextHtml);
 			} else {
 				text.innerHTML = this.translate("UPDATE_NOTIFICATION_MODULE", {
-                    MODULE_NAME: this.status.module
+					MODULE_NAME: this.status.module
 				});
 			}
 			message.appendChild(text);

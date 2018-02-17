@@ -13,6 +13,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Allow to scroll in full page article view of default newsfeed module with gesture events from [MMM-Gestures](https://github.com/thobach/MMM-Gestures)
 - Changed 'compliments.js' - update DOM if remote compliments are loaded instead of waiting one updateInterval to show custom compliments
 
+### Changed
+
+- Update notifications use now translation templates instead of normal strings.
+
 ### Fixed
 - News article in fullscreen (iframe) is now shown in front of modules.
 
