@@ -31,37 +31,37 @@ describe("File js/class", function() {
 			const obj = clone(expected);
 			expect(obj).to.deep.equal(expected);
 			expect(expected === obj).to.equal(false);
-        });
+		});
 
 		it("should clone number", function() {
 			let expected = 1;
 			let obj = clone(expected);
 			expect(obj).to.equal(expected);
 
-            expected = 1.23;
-            obj = clone(expected);
-            expect(obj).to.equal(expected);
+			expected = 1.23;
+			obj = clone(expected);
+			expect(obj).to.equal(expected);
 		});
 
 		it("should clone string", function() {
 			const expected = "Perfect stranger";
 			const obj = clone(expected);
-            expect(obj).to.equal(expected);
+			expect(obj).to.equal(expected);
 		});
 
 		it("should clone undefined", function() {
 			const expected = undefined;
 			const obj = clone(expected);
-            expect(obj).to.equal(expected);
+			expect(obj).to.equal(expected);
 		});
 
-        it("should clone null", function() {
-            const expected = null;
-            const obj = clone(expected);
-            expect(obj).to.equal(expected);
-        });
+		it("should clone null", function() {
+			const expected = null;
+			const obj = clone(expected);
+			expect(obj).to.equal(expected);
+		});
 
-        it("should clone nested object", function() {
+		it("should clone nested object", function() {
 			const expected = {
 				name: "fewieden",
 				link: "https://github.com/fewieden",
@@ -81,27 +81,27 @@ describe("File js/class", function() {
 			expect(expected.properties.items === obj.properties.items).to.equal(false);
 			expect(expected.properties.items[0] === obj.properties.items[0]).to.equal(false);
 			expect(expected.properties.items[1] === obj.properties.items[1]).to.equal(false);
-        });
+		});
 
 		describe("Test lockstring code", function() {
 			let log;
 
 			before(function() {
-                log = dom.window.Log.log;
-                dom.window.Log.log = function cmp(str) {
-                    expect(str).to.equal("lockStrings");
-                };
+				log = dom.window.Log.log;
+				dom.window.Log.log = function cmp(str) {
+					expect(str).to.equal("lockStrings");
+				};
 			});
 
-            after(function() {
-                dom.window.Log.log = log;
-            });
+			after(function() {
+				dom.window.Log.log = log;
+			});
 
 			it("should clone object and log lockStrings", function() {
-                const expected = {name: "Module", lockStrings: "stringLock"};
+				const expected = {name: "Module", lockStrings: "stringLock"};
 				const obj = clone(expected);
-                expect(obj).to.deep.equal(expected);
-                expect(expected === obj).to.equal(false);
+				expect(obj).to.deep.equal(expected);
+				expect(expected === obj).to.equal(false);
 			});
 		});
 	});
