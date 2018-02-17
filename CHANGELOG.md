@@ -18,6 +18,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Optimized automated unit tests cloneObject, cmpVersions
 
+### Changed
+
+- Update notifications use now translation templates instead of normal strings.
+
 ### Fixed
 - News article in fullscreen (iframe) is now shown in front of modules.
 

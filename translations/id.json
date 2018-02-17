@@ -27,6 +27,6 @@
 	"NNW": "UBL",
 
 	"UPDATE_NOTIFICATION": "Memperbarui MagicMirror² tersedia.",
-	"UPDATE_NOTIFICATION_MODULE": "Memperbarui tersedia untuk modul MODULE_NAME.",
-	"UPDATE_INFO": "Instalasi saat ini tertinggal COMMIT_COUNT pada cabang BRANCH_NAME."
+	"UPDATE_NOTIFICATION_MODULE": "Memperbarui tersedia untuk modul {MODULE_NAME}.",
+	"UPDATE_INFO": "Instalasi saat ini tertinggal {COMMIT_COUNT} pada cabang {BRANCH_NAME}."
 }

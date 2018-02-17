@@ -27,6 +27,6 @@
 	"NNW": "NNW",
 
 	"UPDATE_NOTIFICATION": "Dostępna jest aktualizacja MagicMirror².",
-	"UPDATE_NOTIFICATION_MODULE": "Dostępna jest aktualizacja modułu MODULE_NAME.",
-	"UPDATE_INFO": "Zainstalowana wersja odbiega o COMMIT_COUNT commitów od gałęzi BRANCH_NAME."
+	"UPDATE_NOTIFICATION_MODULE": "Dostępna jest aktualizacja modułu {MODULE_NAME}.",
+	"UPDATE_INFO": "Zainstalowana wersja odbiega o {COMMIT_COUNT} commitów od gałęzi {BRANCH_NAME}."
 }
