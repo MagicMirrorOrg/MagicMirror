@@ -29,6 +29,7 @@ MagicMirror² focuses on a modular plugin system and uses [Electron](http://elec
 Electron, the app wrapper around MagicMirror², only supports the Raspberry Pi 2 & 3. The Raspberry Pi 1 is currently **not** supported. If you want to run this on a Raspberry Pi 1, use the [server only](#server-only) feature and setup a fullscreen browser yourself.
 
 ### Automatic Installer (Raspberry Pi Only!)
+Install the lastest full version of Raspbian, don't use the Lite version.
 
 Execute the following command on your Raspberry Pi to install MagicMirror²:
 ````
