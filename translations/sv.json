@@ -27,6 +27,6 @@
 	"NNW": "NNV",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² uppdatering finns tillgänglig.",
-	"UPDATE_NOTIFICATION_MODULE": "Uppdatering finns tillgänglig av MODULE_NAME modulen.",
-	"UPDATE_INFO": "Denna installation ligger COMMIT_COUNT steg bakom BRANCH_NAME grenen."
+	"UPDATE_NOTIFICATION_MODULE": "Uppdatering finns tillgänglig av {MODULE_NAME} modulen.",
+	"UPDATE_INFO": "Denna installation ligger {COMMIT_COUNT} steg bakom {BRANCH_NAME} grenen."
 }

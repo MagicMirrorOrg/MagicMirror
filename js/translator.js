@@ -156,11 +156,12 @@ var Translator = (function() {
 
 			return key;
 		},
-		/* load(module, file, callback)
+		/* load(module, file, isFallback, callback)
 		 * Load a translation file (json) and remember the data.
 		 *
 		 * argument module Module - The module to load the translation file for.
 		 * argument file string - Path of the file we want to load.
+		 * argument isFallback boolean - Flag to indicate fallback translations.
 		 * argument callback function - Function called when done.
 		 */
 		load: function(module, file, isFallback, callback) {
@@ -216,10 +217,12 @@ var Translator = (function() {
 			// defined translation after the following line.
 			for (var first in translations) {break;}
 
-			Log.log("Loading core translation fallback file: " + translations[first]);
-			loadJSON(translations[first], function(translations) {
-				self.coreTranslationsFallback = translations;
-			});
+			if (first) {
+				Log.log("Loading core translation fallback file: " + translations[first]);
+				loadJSON(translations[first], function(translations) {
+					self.coreTranslationsFallback = translations;
+				});
+			}
 		},
 	};
 })();
