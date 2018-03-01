@@ -80,30 +80,16 @@ As you can see, the `Module.register()` method takes two arguments: the name of 
 ### Available module instance properties
 After the module is initialized, the module instance has a few available module properties:
 
-#### `this.name`
-**String**
+| Instance Property | Type | Description |
+|:----------------- |:---- |:----------- |
+| `this.name` | String | The name of the module. |
+| `this.identifier` | String | This is a unique identifier for the module instance. |
+| `this.hidden` | Boolean | This represents if the module is currently hidden (faded away). |
+| `this.config` | Boolean | The configuration of the module instance as set in the user's `config.js` file. This config will also contain the module's defaults if these properties are not over-written by the user config. |
+| `this.data` | Object | The data object contain additional metadata about the module instance. (See below) |
 
-The name of the module.
 
-#### `this.identifier`
-**String**
-
-This is a unique identifier for the module instance.
-
-#### `this.hidden`
-**Boolean**
-
-This represents if the module is currently hidden (faded away).
-
-#### `this.config`
-**Boolean**
-
-The configuration of the module instance as set in the user's config.js file. This config will also contain the module's defaults if these properties are not over written by the user config.
-
-#### `this.data`
-**Object**
-
-The data object contains additional metadata about the module instance:
+The `this.data` data object contain the follwoing metadata:
 - `data.classes` - The classes which are added to the module dom wrapper.
 - `data.file` - The filename of the core module file.
 - `data.path` - The path of the module folder.
