@@ -395,11 +395,14 @@ Module.register("currentweather",{
 
 		var tempInF = 0;
 		switch (this.config.units){
-			case "metric": tempInF = 1.8 * this.temperature + 32; break;
-			case "imperial": tempInF = this.temperature; break;
-			case "default": 
-				var tc = this.temperature - 273.15;
-				tempInF = 1.8 * tc + 32; break;
+		case "metric": tempInF = 1.8 * this.temperature + 32; 
+			break;
+		case "imperial": tempInF = this.temperature; 
+			break;
+		case "default": 
+			var tc = this.temperature - 273.15;
+			tempInF = 1.8 * tc + 32; 
+			break;
 		}
 
 		if (windInMph > 3 && tempInF < 50){
@@ -409,11 +412,14 @@ Module.register("currentweather",{
 			// this.feelsLike = windChillInC.toFixed(0);
 
 			switch (this.config.units){
-				case "metric": this.feelsLike = windChillInC.toFixed(0); break;
-				case "imperial": this.feelsLike = windChillInF.toFixed(0); break;
-				case "default": 
-					var tc = windChillInC - 273.15;
-					this.feelsLike = tc.toFixed(0); break;
+			case "metric": this.feelsLike = windChillInC.toFixed(0); 
+				break;
+			case "imperial": this.feelsLike = windChillInF.toFixed(0); 
+				break;
+			case "default": 
+				var tc = windChillInC - 273.15;
+				this.feelsLike = tc.toFixed(0); 
+				break;
 			}
 
 		} else if (tempInF > 80 && this.humidity > 40){
@@ -428,11 +434,14 @@ Module.register("currentweather",{
 			// this.feelsLike = Hindex.toFixed(0);
 
 			switch (this.config.units){
-				case "metric": this.feelsLike = Hindex.toFixed(0); break;
-				case "imperial": this.feelsLike = parseFloat(Hindex * 1.8 + 32).toFixed(0); break;
-				case "default": 
-					var tc = Hindex - 273.15;
-					this.feelsLike = tc.toFixed(0); break;
+			case "metric": this.feelsLike = Hindex.toFixed(0); 
+				break;
+			case "imperial": this.feelsLike = parseFloat(Hindex * 1.8 + 32).toFixed(0); 
+				break;
+			case "default": 
+				var tc = Hindex - 273.15;
+				this.feelsLike = tc.toFixed(0); 
+				break;
 			}
 
 		} else {
