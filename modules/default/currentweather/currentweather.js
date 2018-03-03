@@ -399,7 +399,7 @@ Module.register("currentweather",{
 			break;
 		case "imperial": tempInF = this.temperature;
 			break;
-		case "default": 
+		case "default":
 			var tc = this.temperature - 273.15;
 			tempInF = 1.8 * tc + 32;
 			break;
@@ -424,11 +424,11 @@ Module.register("currentweather",{
 
 		} else if (tempInF > 80 && this.humidity > 40){
 			// heat index
-			var Hindex = -42.379 + 2.04901523*tempInF + 10.14333127*this.humidity 
+			var Hindex = -42.379 + 2.04901523*tempInF + 10.14333127*this.humidity
 				- 0.22475541*tempInF*this.humidity - 6.83783*Math.pow(10,-3)*tempInF*tempInF
 				- 5.481717*Math.pow(10,-2)*this.humidity*this.humidity
-				+ 1.22874*Math.pow(10,-3)*tempInF*tempInF*this.humidity 
-				+ 8.5282*Math.pow(10,-4)*tempInF*this.humidity*this.humidity 
+				+ 1.22874*Math.pow(10,-3)*tempInF*tempInF*this.humidity
+				+ 8.5282*Math.pow(10,-4)*tempInF*this.humidity*this.humidity
 				- 1.99*Math.pow(10,-6)*tempInF*tempInF*this.humidity*this.humidity;
 			// this.feelsLike = Hindex.toFixed(0);
 			switch (this.config.units){
