@@ -395,13 +395,13 @@ Module.register("currentweather",{
 
 		var tempInF = 0;
 		switch (this.config.units){
-		case "metric": tempInF = 1.8 * this.temperature + 32; 
+		case "metric": tempInF = 1.8 * this.temperature + 32;
 			break;
-		case "imperial": tempInF = this.temperature; 
+		case "imperial": tempInF = this.temperature;
 			break;
 		case "default": 
 			var tc = this.temperature - 273.15;
-			tempInF = 1.8 * tc + 32; 
+			tempInF = 1.8 * tc + 32;
 			break;
 		}
 
@@ -412,13 +412,13 @@ Module.register("currentweather",{
 			// this.feelsLike = windChillInC.toFixed(0);
 
 			switch (this.config.units){
-			case "metric": this.feelsLike = windChillInC.toFixed(0); 
+			case "metric": this.feelsLike = windChillInC.toFixed(0);
 				break;
-			case "imperial": this.feelsLike = windChillInF.toFixed(0); 
+			case "imperial": this.feelsLike = windChillInF.toFixed(0);
 				break;
-			case "default": 
+			case "default":
 				var tc = windChillInC - 273.15;
-				this.feelsLike = tc.toFixed(0); 
+				this.feelsLike = tc.toFixed(0);
 				break;
 			}
 
@@ -430,25 +430,20 @@ Module.register("currentweather",{
 				+ 1.22874*Math.pow(10,-3)*tempInF*tempInF*this.humidity 
 				+ 8.5282*Math.pow(10,-4)*tempInF*this.humidity*this.humidity 
 				- 1.99*Math.pow(10,-6)*tempInF*tempInF*this.humidity*this.humidity;
-			
 			// this.feelsLike = Hindex.toFixed(0);
-
 			switch (this.config.units){
-			case "metric": this.feelsLike = Hindex.toFixed(0); 
+			case "metric": this.feelsLike = Hindex.toFixed(0);
 				break;
-			case "imperial": this.feelsLike = parseFloat(Hindex * 1.8 + 32).toFixed(0); 
+			case "imperial": this.feelsLike = parseFloat(Hindex * 1.8 + 32).toFixed(0);
 				break;
-			case "default": 
+			case "default":
 				var tc = Hindex - 273.15;
-				this.feelsLike = tc.toFixed(0); 
+				this.feelsLike = tc.toFixed(0);
 				break;
 			}
-
 		} else {
 			this.feelsLike = parseFloat(this.temperature).toFixed(0);
 		}
-		
-
 
 		this.windDirection = this.deg2Cardinal(data.wind.deg);
 		this.windDeg = data.wind.deg;
