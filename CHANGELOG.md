@@ -16,10 +16,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Automated integration tests translations
 
 ### Changed
+- Add link to GitHub repository which contains the respective Dockerfile.
 - Optimized automated unit tests cloneObject, cmpVersions
-
-### Changed
-
 - Update notifications use now translation templates instead of normal strings.
 
 ### Fixed
