@@ -55,19 +55,19 @@ bash -c "$(curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/maste
    For **Server Only** use: `npm install && node serveronly` .
 
 
-**:warning: Important!** 
+**:warning: Important!**
 
 - **The installation step for `npm install` will take a very long time**, often with little or no terminal response! \
   For the RPi3 this is **~10** minutes and for the Rpi2 **~25** minutes. \
   Do not interrupt or you risk getting a :broken_heart: by Raspberry Jam.
 
 
-Also note that: 
+Also note that:
 
 - `npm start` does **not** work via SSH. But you can use `DISPLAY=:0 nohup npm start &` instead. \
   This starts the mirror on the remote display.
 - If you want to debug on Raspberry Pi you can use `npm start dev` which will start MM with *Dev Tools* enabled.
-- To access toolbar menu when in mirror mode, hit `ALT` key. 
+- To access toolbar menu when in mirror mode, hit `ALT` key.
 - To toggle the (web) `Developer Tools` from mirror mode, use `CTRL-SHIFT-I` or `ALT` and select `View`.
 
 
@@ -75,12 +75,12 @@ Also note that:
 
 In some cases, you want to start the application without an actual app window. In this case, you can start MagicMirror² in server only mode by manually running `node serveronly` or using Docker. This will start the server, after which you can open the application in your browser of choice. Detailed description below.
 
-**Important:** Make sure that you whitelist the interface/ip (`ipWhitelist`) in the server config where you want the client to connect to, otherwise it will not be allowed to connect to the server. You also need to set the local host `address` field to `0.0.0.0` in order for the RPi to listen on all interfaces and not only `localhost` (default). 
+**Important:** Make sure that you whitelist the interface/ip (`ipWhitelist`) in the server config where you want the client to connect to, otherwise it will not be allowed to connect to the server. You also need to set the local host `address` field to `0.0.0.0` in order for the RPi to listen on all interfaces and not only `localhost` (default).
 
 ```javascript
 var config = {
 	address: "0.0.0.0",	// default is "localhost"
-	port: 8080,		// default 
+	port: 8080,		// default
 	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1", "::ffff:172.17.0.1"], // default -- need to add your IP here
 	...
 };
@@ -98,39 +98,31 @@ MagicMirror² in server only mode can be deployed using [Docker](https://docker.
 
 ```bash
 docker run  -d \
-			--publish 80:8080 \
-			--restart always \
-			--volume ~/magic_mirror/config:/opt/magic_mirror/config \
-			--volume ~/magic_mirror/modules:/opt/magic_mirror/modules \
-			--name magic_mirror \
-			bastilimbach/docker-magicmirror
+	--publish 80:8080 \
+	--restart always \
+	--volume ~/magic_mirror/config:/opt/magic_mirror/config \
+	--volume ~/magic_mirror/modules:/opt/magic_mirror/modules \
+	--name magic_mirror \
+	bastilimbach/docker-magicmirror
 ```
-
-| **Volumes** | **Description** |
-| --- | --- |
-| `/opt/magic_mirror/config` | Mount this volume to insert your own config into the docker container. |
-| `/opt/magic_mirror/modules` | Mount this volume to add your own custom modules into the docker container. |
-
-You may need to add your Docker Host IP to your `ipWhitelist` option. If you have some issues setting up this configuration, check [this forum post](https://forum.magicmirror.builders/topic/1326/ipwhitelist-howto).
-
-If you want to run the server on a raspberry pi, use the `raspberry` tag. (bastilimbach/docker-magicmirror:raspberry)
+To get more information about the available Dockerfile versions and configurations head over to the respective [GitHub repository](https://github.com/bastilimbach/docker-MagicMirror).
 
 
 ## Configuration
 
-### Raspberry Specific 
+### Raspberry Specific
 
 The following wiki links are helpful for the initial configuration of your MagicMirror² operating system:
 - [Configuring the Raspberry Pi](https://github.com/MichMich/MagicMirror/wiki/Configuring-the-Raspberry-Pi)
 - [Auto Starting MagicMirror](https://github.com/MichMich/MagicMirror/wiki/Auto-Starting-MagicMirror)
 
 
-### General 
+### General
 
 1. Copy `config/config.js.sample` to `config/config.js`. \
    **Note:** If you used the installer script. This step is already done for you.
 
-2. Modify your required settings. \ 
+2. Modify your required settings. \
    Note: You'll can check your configuration running `npm run config:check`.
 
 
