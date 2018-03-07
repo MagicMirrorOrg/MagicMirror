@@ -108,7 +108,7 @@ vows.describe('node-ical').addBatch({
         assert.equal(topic.end.getFullYear(), 1998);
         assert.equal(topic.end.getUTCMonth(), 2);
         assert.equal(topic.end.getUTCDate(), 15);
-        assert.equal(topic.end.getUTCHours(), 00);
+        assert.equal(topic.end.getUTCHours(), 0);
         assert.equal(topic.end.getUTCMinutes(), 30);
       }
     }
@@ -146,7 +146,7 @@ vows.describe('node-ical').addBatch({
       }
       , 'has a start datetime' : function(topic) {
         assert.equal(topic.start.getFullYear(), 2011);
-        assert.equal(topic.start.getMonth(), 09);
+        assert.equal(topic.start.getMonth(), 9);
         assert.equal(topic.start.getDate(), 11);
       }
 
@@ -192,7 +192,7 @@ vows.describe('node-ical').addBatch({
       }
       , 'has a start' : function(topic){
         assert.equal(topic.start.tz, 'America/Phoenix')
-        assert.equal(topic.start.toISOString(), new Date(2011, 10, 09, 19, 0,0).toISOString())
+        assert.equal(topic.start.toISOString(), new Date(2011, 10, 9, 19, 0,0).toISOString())
       }
     }
   }
@@ -208,7 +208,7 @@ vows.describe('node-ical').addBatch({
         })[0];
       }
       , 'has a start' : function(topic){
-        assert.equal(topic.start.toISOString(), new Date(2011, 07, 04, 12, 0,0).toISOString())
+        assert.equal(topic.start.toISOString(), new Date(2011, 7, 4, 12, 0,0).toISOString())
       }
     }
   , 'event with rrule' :{
@@ -249,7 +249,7 @@ vows.describe('node-ical').addBatch({
         },
         'task completed': function(task){
             assert.equal(task.completion, 100);
-            assert.equal(task.completed.toISOString(), new Date(2013, 06, 16, 10, 57, 45).toISOString());
+            assert.equal(task.completed.toISOString(), new Date(2013, 6, 16, 10, 57, 45).toISOString());
         }
     }
   }
@@ -367,7 +367,7 @@ vows.describe('node-ical').addBatch({
         assert.equal(topic.end.getFullYear(), 2014);
         assert.equal(topic.end.getMonth(), 3);
         assert.equal(topic.end.getUTCHours(), 19);
-        assert.equal(topic.end.getUTCMinutes(), 00);
+        assert.equal(topic.end.getUTCMinutes(), 0);
       }
     }
   },

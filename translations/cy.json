@@ -27,6 +27,6 @@
 	"NNW": "GoGoGe",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² mwy diweddar yn barod.",
-	"UPDATE_NOTIFICATION_MODULE": "Mae diweddaraiad ar gyfer y modiwl MODULE_NAME.",
-	"UPDATE_INFO": "Mae'r fersiwn bresenol COMMIT_COUNT commit tu ôl i'r gangen BRANCH_NAME."
+	"UPDATE_NOTIFICATION_MODULE": "Mae diweddaraiad ar gyfer y modiwl {MODULE_NAME}.",
+	"UPDATE_INFO": "Mae'r fersiwn bresenol {COMMIT_COUNT} commit tu ôl i'r gangen {BRANCH_NAME}."
 }
