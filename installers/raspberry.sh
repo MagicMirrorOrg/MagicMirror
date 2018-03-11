@@ -42,7 +42,7 @@ sudo apt-get update || echo -e "\e[91mUpdate failed, carrying on installation ..
 
 # Installing helper tools
 echo -e "\e[96mInstalling helper tools ...\e[90m"
-sudo apt-get install curl wget git build-essential unzip || exit
+sudo apt-get --assume-yes install curl wget git build-essential unzip || exit
 
 # Check if we need to install or upgrade Node.js.
 echo -e "\e[96mCheck current Node installation ...\e[0m"
