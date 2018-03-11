@@ -22,6 +22,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - News article in fullscreen (iframe) is now shown in front of modules.
+- Compliments module now loads properly in Midori 0.4.3.
 
 *This release is scheduled to be released on 2018-04-01.*
 
