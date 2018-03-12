@@ -25,6 +25,6 @@
 	"NNW": "ÉÉNy",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² elérhető egy frissítés!",
-	"UPDATE_NOTIFICATION_MODULE": "A frissítés MODULE_NAME modul néven érhető el.",
-	"UPDATE_INFO": "A jelenlegi telepítés COMMIT_COUNT mögött BRANCH_NAME ágon található."
+	"UPDATE_NOTIFICATION_MODULE": "A frissítés {MODULE_NAME} modul néven érhető el.",
+	"UPDATE_INFO": "A jelenlegi telepítés {COMMIT_COUNT} mögött {BRANCH_NAME} ágon található."
 }

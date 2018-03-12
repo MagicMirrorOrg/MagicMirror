@@ -25,6 +25,6 @@
 	"NNW": "北偏西风",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² 有新的更新",
-	"UPDATE_NOTIFICATION_MODULE": "模块 MODULE_NAME 可更新",
-	"UPDATE_INFO": "当前已安装版本为 COMMIT_COUNT 落后于分支 BRANCH_NAME "
+	"UPDATE_NOTIFICATION_MODULE": "模块 {MODULE_NAME} 可更新",
+	"UPDATE_INFO": "当前已安装版本为 {COMMIT_COUNT} 落后于分支 {BRANCH_NAME} "
 }

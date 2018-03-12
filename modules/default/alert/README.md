@@ -60,5 +60,5 @@ self.sendNotification("SHOW_ALERT", {});
 | `timer` (optional)                              | How long the alert should stay visible in ms. <br> **Important:** If you do not use the `timer`, it is your duty to hide the alert by using `self.sendNotification("HIDE_ALERT");`! <br><br>**Possible values:** `int` `float` <br> **Default value:** `none`
 
 ## Open Source Licenses
-###[NotificationStyles](https://github.com/codrops/NotificationStyles)
+### [NotificationStyles](https://github.com/codrops/NotificationStyles)
 See [ympanus.net](http://tympanus.net/codrops/licensing/) for license.

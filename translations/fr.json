@@ -27,6 +27,6 @@
 	"NNW": "NNO",
 	
 	"UPDATE_NOTIFICATION": "Une mise à jour de MagicMirror² est disponible",
-	"UPDATE_NOTIFICATION_MODULE": "Une mise à jour est disponible pour le module MODULE_NAME .",
-"UPDATE_INFO": "L'installation actuelle est COMMIT_COUNT en retard sur la branche BRANCH_NAME ."
+	"UPDATE_NOTIFICATION_MODULE": "Une mise à jour est disponible pour le module {MODULE_NAME} .",
+"UPDATE_INFO": "L'installation actuelle est {COMMIT_COUNT} en retard sur la branche {BRANCH_NAME} ."
 }

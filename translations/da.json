@@ -26,6 +26,6 @@
 
 
 	"UPDATE_NOTIFICATION": "MagicMirror² opdatering tilgængelig.",
-	"UPDATE_NOTIFICATION_MODULE": "Opdatering tilgængelig for MODULE_NAME modulet.",
-	"UPDATE_INFO": "Den nuværende installation er COMMIT_COUNT bagud på BRANCH_NAME branch'en."
+	"UPDATE_NOTIFICATION_MODULE": "Opdatering tilgængelig for {MODULE_NAME} modulet.",
+	"UPDATE_INFO": "Den nuværende installation er {COMMIT_COUNT} bagud på {BRANCH_NAME} branch'en."
 }
