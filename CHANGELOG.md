@@ -19,6 +19,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add link to GitHub repository which contains the respective Dockerfile.
 - Optimized automated unit tests cloneObject, cmpVersions
 - Update notifications use now translation templates instead of normal strings.
+- Yarn can be used now as an installation tool
 
 ### Fixed
 - News article in fullscreen (iframe) is now shown in front of modules.
