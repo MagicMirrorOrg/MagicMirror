@@ -430,7 +430,7 @@ Module.register("currentweather",{
 				+ 1.22874*Math.pow(10,-3)*tempInF*tempInF*this.humidity
 				+ 8.5282*Math.pow(10,-4)*tempInF*this.humidity*this.humidity
 				- 1.99*Math.pow(10,-6)*tempInF*tempInF*this.humidity*this.humidity;
-			// this.feelsLike = Hindex.toFixed(0);
+
 			switch (this.config.units){
 			case "metric": this.feelsLike = Hindex.toFixed(0);
 				break;

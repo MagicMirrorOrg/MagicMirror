@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.4.0] - Unreleased
+
+### Added
+
+ - Add two new configuration options for currentweather module.
+ - `showFeelsLike`: Shows how it actually feels like (wind chill or heat index)
+ - `useKMPHwind`: adds an option to see wind speed in Kmph instead of just m/s or Beaufort
+
 ## [2.3.0] - Unreleased
 
 ### Added
