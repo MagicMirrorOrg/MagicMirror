@@ -82,7 +82,7 @@ if $NODE_INSTALL; then
 	# The NODE_STABLE_BRANCH variable will need to be manually adjusted when a new branch is released. (e.g. 7.x)
 	# Only tested (stable) versions are recommended as newer versions could break MagicMirror.
 	
-	NODE_STABLE_BRANCH="6.x"
+	NODE_STABLE_BRANCH="9.x"
 	curl -sL https://deb.nodesource.com/setup_$NODE_STABLE_BRANCH | sudo -E bash -
 	sudo apt-get install -y nodejs
 	echo -e "\e[92mNode.js installation Done!\e[0m"
