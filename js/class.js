@@ -92,7 +92,4 @@ function cloneObject(obj) {
 /*************** DO NOT EDIT THE LINE BELOW ***************/
 if (typeof module !== "undefined") {
 	module.exports = Class;
-	module.exports._test = {
-		cloneObject: cloneObject
-	}
 }

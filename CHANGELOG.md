@@ -2,11 +2,30 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.1.4] - 2018-03-18
+## [2.3.0] - Unreleased
 
 ### Added
 
+- Add new settings in compliments module: setting time intervals for morning and afternoon
+- Add system notification `MODULE_DOM_CREATED` for notifying each module when their Dom has been fully loaded.
+- Add types for module.
+- Implement Danger.js to notify contributors when CHANGELOG.md is missing in PR.
+- Allow to scroll in full page article view of default newsfeed module with gesture events from [MMM-Gestures](https://github.com/thobach/MMM-Gestures)
+- Changed 'compliments.js' - update DOM if remote compliments are loaded instead of waiting one updateInterval to show custom compliments
+- Automated unit tests utils, deprecated, translator, cloneObject(lockstrings)
+- Automated integration tests translations
 - Add advanced filtering to the excludedEvents configuration of the default calendar module
+
+### Changed
+- Add link to GitHub repository which contains the respective Dockerfile.
+- Optimized automated unit tests cloneObject, cmpVersions
+- Update notifications use now translation templates instead of normal strings.
+- Yarn can be used now as an installation tool
+
+### Fixed
+- News article in fullscreen (iframe) is now shown in front of modules.
+
+*This release is scheduled to be released on 2018-04-01.*
 
 ## [2.2.2] - 2018-01-02
 
@@ -14,10 +33,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Add missing `package-lock.json`.
 
+### Changed
+
+- Changed Electron dependency to v1.7.10.
+
 ## [2.2.1] - 2018-01-01
 
 ### Fixed
-
 - Fixed linting errors.
 
 ## [2.2.0] - 2018-01-01
