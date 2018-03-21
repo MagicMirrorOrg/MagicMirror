@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Changed 'compliments.js' - update DOM if remote compliments are loaded instead of waiting one updateInterval to show custom compliments
 - Automated unit tests utils, deprecated, translator, cloneObject(lockstrings)
 - Automated integration tests translations
+- Add advanced filtering to the excludedEvents configuration of the default calendar module
 
 ### Changed
 - Add link to GitHub repository which contains the respective Dockerfile.
