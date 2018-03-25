@@ -15,6 +15,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Automated unit tests utils, deprecated, translator, cloneObject(lockstrings)
 - Automated integration tests translations
 - Add advanced filtering to the excludedEvents configuration of the default calendar module
+- New currentweather module config option: `showFeelsLike`: Shows how it actually feels like. (wind chill or heat index)
+- New currentweather module config option: `useKMPHwind`: adds an option to see wind speed in Kmph instead of just m/s or Beaufort.
 
 ### Changed
 - Add link to GitHub repository which contains the respective Dockerfile.
