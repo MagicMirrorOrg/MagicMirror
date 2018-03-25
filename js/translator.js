@@ -126,7 +126,7 @@ var Translator = (function() {
 			// variables: {timeToWait: "2 hours", work: "painting"}
 			// to: "Please wait for 2 hours before continuing with painting."
 			function createStringFromTemplate(template, variables) {
-				if(Object.prototype.toString.call(template) !== '[object String]') {
+				if(Object.prototype.toString.call(template) !== "[object String]") {
 					return template;
 				}
 				if(variables.fallback && !template.match(new RegExp("\{.+\}"))) {
