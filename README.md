@@ -50,7 +50,7 @@ bash -c "$(curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/maste
 
 1. Download and install the latest *Node.js* version.
 2. Clone the repository and check out the master branch: `git clone https://github.com/MichMich/MagicMirror`
-3. Enter the repository: `cd ~/MagicMirror`
+3. Enter the repository: `cd MagicMirror/`
 4. Install and run the app with: `npm install && npm start` \
    For **Server Only** use: `npm install && node serveronly` .
 
@@ -179,10 +179,6 @@ git pull && npm install
 If you changed nothing more than the config or the modules, this should work without any problems.
 Type `git status` to see your changes, if there are any, you can reset them with `git reset --hard`. After that, git pull should be possible.
 
-## Known issues
-
-- Electron seems to have some issues on certain Raspberry Pi 2's. See [#145](https://github.com/MichMich/MagicMirror/issues/145).
-- MagicMirror² (Electron) sometimes quits without an error after an extended period of use. See [#150](https://github.com/MichMich/MagicMirror/issues/150).
 
 ## Community
 
