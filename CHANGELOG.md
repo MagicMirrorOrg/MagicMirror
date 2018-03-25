@@ -2,14 +2,6 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.4.0] - Unreleased
-
-### Added
-
-- Add two new configuration options for currentweather module.
-- `showFeelsLike`: Shows how it actually feels like. (wind chill or heat index)
-- `useKMPHwind`: adds an option to see wind speed in Kmph instead of just m/s or Beaufort.
-
 ## [2.3.0] - Unreleased
 
 ### Added
@@ -22,6 +14,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Changed 'compliments.js' - update DOM if remote compliments are loaded instead of waiting one updateInterval to show custom compliments
 - Automated unit tests utils, deprecated, translator, cloneObject(lockstrings)
 - Automated integration tests translations
+- New currentweather module config option: `showFeelsLike`: Shows how it actually feels like. (wind chill or heat index)
+- New currentweather module config option: `useKMPHwind`: adds an option to see wind speed in Kmph instead of just m/s or Beaufort.
 
 ### Changed
 - Add link to GitHub repository which contains the respective Dockerfile.
