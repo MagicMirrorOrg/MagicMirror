@@ -5,13 +5,14 @@
   "main": "js/electron.js",
   "scripts": {
     "start": "sh run-start.sh",
-    "install": "cd vendor && npm install",
-    "install-fonts": "cd fonts && npm install",
-    "postinstall": "sh installers/postinstall/postinstall.sh && npm run install-fonts",
+    "install": "cd vendor && yon install",
+    "install-fonts": "cd fonts && yon install",
+    "postinstall": "sh installers/postinstall/postinstall.sh && yon run install-fonts",
     "test": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests --recursive",
     "test:unit": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests/unit --recursive",
     "test:e2e": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests/e2e --recursive",
-    "config:check": "node tests/configs/check_config.js"
+    "config:check": "node tests/configs/check_config.js",
+    "lint": "grunt"
   },
   "repository": {
     "type": "git",
@@ -44,13 +45,15 @@
     "grunt-stylelint": "latest",
     "grunt-yamllint": "latest",
     "http-auth": "^3.2.3",
+    "jsdom": "^11.6.2",
     "jshint": "^2.9.5",
     "mocha": "^4.1.0",
     "mocha-each": "^1.1.0",
     "spectron": "3.7.x",
     "stylelint": "^8.4.0",
     "stylelint-config-standard": "latest",
-    "time-grunt": "latest"
+    "time-grunt": "latest",
+    "yarn-or-npm": "^2.0.4"
   },
   "dependencies": {
     "body-parser": "^1.18.2",

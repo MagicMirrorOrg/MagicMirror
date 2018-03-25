@@ -2,6 +2,30 @@
 
 This document describes the way to develop your own MagicMirror² modules.
 
+Table of Contents:
+
+- Module structure
+  - Files
+
+- The Core module file: modulename.js
+  - Available module instance properties
+  - Subclassable module methods
+  - Module instance methods
+  - Visibility locking
+
+- The Node Helper: node_helper.js
+  - Available module instance properties
+  - Subclassable module methods
+  - Module instance methods
+  
+- MagicMirror Helper Methods
+  - Module Selection
+
+- MagicMirror Logger
+
+---
+
+
 ## General Advice
 
 As MagicMirror has gained huge popularity, so has the number of available modules. For new users and developers alike, it is very time consuming to navigate around the various repositories in order to find out what exactly a certain modules does, how it looks and what it depends on. Unfortunately, this information is rarely available, nor easily obtained without having to install it first. 
@@ -26,7 +50,7 @@ A module can be placed in one single folder. Or multiple modules can be grouped 
 - **modulename/public** - Any files in this folder can be accesed via the browser on `/modulename/filename.ext`.
 - **modulename/anyfileorfolder** Any other file or folder in the module folder can be used by the core module script. For example: *modulename/css/modulename.css* would be a good path for your additional module styles.
 
-## Core module file: modulename.js
+## The Core module file: modulename.js
 This is the script in which the module will be defined. This script is required in order for the module to be used. In it's most simple form, the core module file must contain:
 ````javascript
 Module.register("modulename",{});
@@ -56,30 +80,16 @@ As you can see, the `Module.register()` method takes two arguments: the name of 
 ### Available module instance properties
 After the module is initialized, the module instance has a few available module properties:
 
-#### `this.name`
-**String**
+| Instance Property | Type | Description |
+|:----------------- |:---- |:----------- |
+| `this.name` | String | The name of the module. |
+| `this.identifier` | String | This is a unique identifier for the module instance. |
+| `this.hidden` | Boolean | This represents if the module is currently hidden (faded away). |
+| `this.config` | Boolean | The configuration of the module instance as set in the user's `config.js` file. This config will also contain the module's defaults if these properties are not over-written by the user config. |
+| `this.data` | Object | The data object contain additional metadata about the module instance. (See below) |
 
-The name of the module.
 
-#### `this.identifier`
-**String**
-
-This is a unique identifier for the module instance.
-
-#### `this.hidden`
-**Boolean**
-
-This represents if the module is currently hidden (faded away).
-
-#### `this.config`
-**Boolean**
-
-The configuration of the module instance as set in the user's config.js file. This config will also contain the module's defaults if these properties are not over written by the user config.
-
-#### `this.data`
-**Object**
-
-The data object contains additional metadata about the module instance:
+The `this.data` data object contain the follwoing metadata:
 - `data.classes` - The classes which are added to the module dom wrapper.
 - `data.file` - The filename of the core module file.
 - `data.path` - The path of the module folder.
