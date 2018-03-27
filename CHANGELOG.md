@@ -24,6 +24,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Optimized automated unit tests cloneObject, cmpVersions
 - Update notifications use now translation templates instead of normal strings.
 - Yarn can be used now as an installation tool
+- Changed Electron dependency to v1.7.13.
 
 ### Fixed
 - News article in fullscreen (iframe) is now shown in front of modules.
