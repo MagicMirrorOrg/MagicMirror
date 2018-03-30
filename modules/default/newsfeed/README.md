@@ -13,7 +13,7 @@ modules: [
 		position: "bottom_bar",	// This can be any of the regions. Best results in center regions.
 		config: {
 			// The config property is optional.
-			// If no config is set, an example calendar is shown.
+			// If no config is set, the New York Times feed is shown.
 			// See 'Configuration options' for more information.
 
 			feeds: [
