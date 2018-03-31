@@ -47,6 +47,7 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+.gitignore
 
 # Various Linux ignoramuses.
 
@@ -61,10 +62,11 @@ Temporary Items
 !/modules/node_helper/**
 
 # Ignore all modules except the default modules.
-/modules/**
+!/modules/** #except for my personal branch
 !/modules/default
 !/modules/default/**
 !/modules/README.md**
+modules/default/.DS_Store
 
 # Ignore changes to the custom css files.
 /css/custom.css

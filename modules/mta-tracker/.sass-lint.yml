@@ -1,0 +1,75 @@
+options:
+  merge-default-rules: false
+files:
+  ignore:
+    - 'node_modules/**'
+    - 'build/**'
+    - 'reports/**'
+rules:
+  border-zero:
+    - 2
+    - convention: none
+  brace-style:
+    - 2
+    - style: 1tbs
+    - allow-single-line: false
+  class-name-format:
+    - 2
+    - convention: camelcase # because we're doing modular CSS and references class names in JS
+  declarations-before-nesting: 2
+  empty-args: 2
+  empty-line-between-blocks: 2
+  extends-before-declarations: 2
+  extends-before-mixins: 2
+  final-newline: 2
+  hex-notation:
+    - 2
+    - style: lowercase
+  indentation:
+    - 2
+    - size: 2
+  nesting-depth:
+    - 1
+    - max-depth: 3
+  no-color-keywords: 2
+  no-color-literals: 2
+  no-css-comments: 2
+  no-debug: 2
+  no-duplicate-properties: 2
+  no-empty-rulesets: 2
+  no-important: 2
+  no-invalid-hex: 2
+  no-mergeable-selectors: 2
+  no-misspelled-properties: 2
+  no-trailing-whitespace: 2
+  no-universal-selectors: 2
+  no-vendor-prefixes: 2 # we have autoprefixer for this
+  one-declaration-per-line: 2
+  placeholder-name-format:
+    - 2
+    - convention: camelcase
+  pseudo-element: 2
+  quotes:
+    - 2
+    - style: single
+  shorthand-values: 2
+  single-line-per-selector: 2
+  space-after-bang:
+    - 2
+    - include: false
+  space-after-colon: 2
+  space-after-comma: 2
+  space-around-operator: 2
+  space-before-bang: 2
+  space-before-brace: 2
+  space-before-colon:
+    - 2
+    - include: false
+  trailing-semicolon: 2
+  url-quotes: 2
+  variable-for-property:
+    - 2
+    - properties:
+      - background-color
+      - color
+      - font-family

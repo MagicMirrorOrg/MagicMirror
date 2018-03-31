@@ -1,0 +1,134 @@
+//
+// NYCT Subway extensions for the GTFS-realtime protocol.
+//
+option java_package = "com.google.transit.realtime"; 
+
+import "gtfs-realtime.proto";
+
+message TripReplacementPeriod {
+  // The replacement period is for this route
+  optional string route_id = 1;
+  // The start time is omitted, the end time is currently now + 30 minutes for
+  // all routes of the A division
+  optional transit_realtime.TimeRange replacement_period = 2;
+}
+
+// NYCT Subway extensions for the feed header
+message NyctFeedHeader {
+  // Version of the NYCT Subway extensions
+  // The current version is 1.0
+  required string nyct_subway_version = 1;
+  // For the NYCT Subway, the GTFS-realtime feed replaces any scheduled
+  // trip within the trip_replacement_period.
+  // This feed is a full dataset, it contains all trips starting
+  // in the trip_replacement_period. If a trip from the static GTFS is not
+  // found in the GTFS-realtime feed, it should be considered as cancelled.
+  // The replacement period can be different for each route, so here is
+  // a list of the routes where the trips in the feed replace all
+  // scheduled trips within the replacement period.
+  repeated TripReplacementPeriod trip_replacement_period = 2;
+}
+
+extend transit_realtime.FeedHeader {
+ optional NyctFeedHeader nyct_feed_header = 1001;
+}
+
+// NYCT Subway extensions for the trip descriptor
+message NyctTripDescriptor {
+  // The nyct_train_id is meant for internal use only. It provides an
+  // easy way to associated GTFS-realtime trip identifiers with NYCT rail
+  // operations identifier
+  //
+  // The ATS office system assigns unique train identification (Train ID) to
+  // each train operating within or ready to enter the mainline of the
+  // monitored territory. An example of this is 06 0123+ PEL/BBR and is decoded
+  // as follows:
+  //
+  // The first character represents the trip type designator. 0 identifies a
+  // scheduled revenue trip. Other revenue trip values that are a result of a
+  // change to the base schedule include; [= reroute], [/ skip stop], [$ turn
+  // train] also known as shortly lined service.
+  //
+  // The second character 6 represents the trip line i.e. number 6 train The
+  // third set of characters identify the decoded origin time. The last
+  // character may be blank "on the whole minute" or + "30 seconds"
+  //
+  // Note: Origin times will not change when there is a trip type change.  This
+  // is followed by a three character "Origin Location" / "Destination
+  // Location"
+  optional string train_id = 1;
+
+  // This trip has been assigned to a physical train. If true, this trip is
+  // already underway or most likely will depart shortly.
+  //
+  // Train Assignment is a function of the Automatic Train Supervision (ATS)
+  // office system used by NYCT Rail Operations to monitor and track train
+  // movements. ATS provides the ability to "assign" the nyct_train_id
+  // attribute when a physical train is at its origin terminal. These assigned
+  // trips have the is_assigned field set in the TripDescriptor.
+  //
+  // When a train is at a terminal but has not been given a work program it is
+  // declared unassigned and is tagged as such. Unassigned trains can be moved
+  // to a storage location or assigned a nyct_train_id when a determination for
+  // service is made.
+  optional bool is_assigned = 2;
+
+  // The direction the train is moving.
+  enum Direction {
+    NORTH = 1;
+    EAST = 2;
+    SOUTH = 3;
+    WEST = 4;
+  }
+  // Uptown and Bronx-bound trains are moving NORTH.
+  // Times Square Shuttle to Grand Central is also northbound.
+  //
+  // Downtown and Brooklyn-bound trains are moving SOUTH.
+  // Times Square Shuttle to Times Square is also southbound.
+  //
+  // EAST and WEST are not used currently.
+  optional Direction direction = 3;
+}
+
+extend transit_realtime.TripDescriptor {
+  optional NyctTripDescriptor nyct_trip_descriptor = 1001;
+}
+
+// NYCT Subway extensions for the stop time update
+message NyctStopTimeUpdate {
+  // Provides the planned station arrival track. The following is the Manhattan
+  // track configurations:
+  // 1: southbound local
+  // 2: southbound express
+  // 3: northbound express
+  // 4: northbound local
+  //
+  // In the Bronx (except Dyre Ave line)
+  // M: bi-directional express (in the AM express to Manhattan, in the PM
+  // express away).
+  //
+  // The Dyre Ave line is configured:
+  // 1: southbound
+  // 2: northbound
+  // 3: bi-directional
+  optional string scheduled_track = 1;
+
+  // This is the actual track that the train is operating on and can be used to
+  // determine if a train is operating according to its current schedule
+  // (plan).
+  //
+  // The actual track is known only shortly before the train reaches a station,
+  // typically not before it leaves the previous station. Therefore, the NYCT
+  // feed sets this field only for the first station of the remaining trip.
+  //
+  // Different actual and scheduled track is the result of manually rerouting a
+  // train off it scheduled path.  When this occurs, prediction data may become
+  // unreliable since the train is no longer operating in accordance to its
+  // schedule.  The rules engine for the 'countdown' clocks will remove this
+  // train from all schedule stations.
+  optional string actual_track = 2;
+}
+
+extend transit_realtime.TripUpdate.StopTimeUpdate {
+  optional NyctStopTimeUpdate nyct_stop_time_update = 1001;
+}

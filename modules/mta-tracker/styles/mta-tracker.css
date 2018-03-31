@@ -1,0 +1,87 @@
+.mta-tracker {
+	display: flex;
+	width: 100%;
+	font-family: "Roboto Condensed", sans-serif;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+	color: white;
+	margin: 0 auto;
+	flex-direction: column;
+	font-size: 20px;
+}
+
+.mta-tracker-title {
+	display: flex;
+	width: 100%;
+	justify-content: flex-start;
+	flex-direction: column;
+	margin-bottom: 5px;
+}
+
+.mta-tracker-title h3 {
+	margin: 0;
+	font-weight: 500;
+	line-height: 25px;
+}
+
+.train {
+  border: solid 1px white;
+  width: 300px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+	justify-content: center;
+	text-transform: uppercase;
+}
+  
+.train :not(:first-child):not(:last-child) {
+	border-top: none;
+}
+
+.train:last-child {
+	border-top: none;
+}
+
+.train > div {
+	display: flex;
+	height: 100%;
+	margin: 0 10px;
+	align-items: center;
+}
+  
+.train .logo {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	flex-grow: 1;
+}
+	
+.train .logo .name {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	border-radius: 100%;
+	color: white;
+}
+
+.train .logo .name.G {
+	background: #6CBE45;
+}
+
+.train .logo .name.L {
+	background: #A7A9AC;
+}
+
+  
+.train .direction {
+	flex-grow: 3;
+	justify-content: center;
+}
+
+.train .time {
+	justify-content: flex-end;
+	flex-grow: 1;
+}
