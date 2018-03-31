@@ -52,6 +52,7 @@
     "time-grunt": "latest"
   },
   "dependencies": {
+    "async": "^2.6.0",
     "body-parser": "^1.18.2",
     "colors": "^1.1.2",
     "electron": "1.4.15",
@@ -63,6 +64,7 @@
     "mocha-logger": "^1.0.5",
     "moment": "latest",
     "request": "^2.83.0",
+    "request-promise": "^4.2.2",
     "rrule-alt": "^2.2.7",
     "simple-git": "^1.85.0",
     "socket.io": "^2.0.4",
