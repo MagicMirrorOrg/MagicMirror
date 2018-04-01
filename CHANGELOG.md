@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.3.0] - Unreleased
+## [2.3.0] - 2018-04-01
 
 ### Added
 
@@ -30,8 +30,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - News article in fullscreen (iframe) is now shown in front of modules.
 - Forecast respects maxNumberOfDays regardless of endpoint.
 - Fix exception on translation of objects.
-
-*This release is scheduled to be released on 2018-04-01.*
 
 ## [2.2.2] - 2018-01-02
 
