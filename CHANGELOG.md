@@ -12,6 +12,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [2.3.1] - 2018-04-01
+
+### Fixed
+
+- Downgrade electron to 1.4.15 to solve the black screen issue.[#1243](https://github.com/MichMich/MagicMirror/issues/1243)
+
 ## [2.3.0] - 2018-04-01
 
 ### Added
