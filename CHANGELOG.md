@@ -12,6 +12,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+### Updated
+- Updated italian translation
+
 ## [2.3.1] - 2018-04-01
 
 ### Fixed
