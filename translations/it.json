@@ -3,8 +3,11 @@
 
 	"TODAY": "Oggi",
 	"TOMORROW": "Domani",
+	"DAYAFTERTOMORROW": "Dopodomani",
 	"RUNNING": "Termina entro",
-	"EMPTY": "Nessun evento in arrivo.",
+	"EMPTY": "Nessun evento imminente.",
+
+	"WEEK": "Settimana {weekNumber}",
 
 	"N": "N",
 	"NNE": "NNE",
@@ -15,11 +18,15 @@
 	"SE": "SE",
 	"SSE": "SSE",
 	"S": "S",
-	"SSW": "SSW",
-	"SW": "SW",
-	"WSW": "WSW",
-	"W": "W",
-	"WNW": "WNW",
-	"NW": "NW",
-	"NNW": "NNW"
+	"SSW": "SSO",
+	"SW": "SO",
+	"WSW": "OSO",
+	"W": "O",
+	"WNW": "ONO",
+	"NW": "NO",
+	"NNW": "NNO",
+
+	"UPDATE_NOTIFICATION": "E' disponibile un aggiornamento di MagicMirror².",
+	"UPDATE_NOTIFICATION_MODULE": "E' disponibile un aggiornamento del modulo {MODULE_NAME}.",
+	"UPDATE_INFO": "L'installazione è {COMMIT_COUNT} indietro rispetto all'attuale branch {BRANCH_NAME}."
 }
