@@ -25,6 +25,6 @@
 	"NNW": "NNV",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² uppfærsla í boði.",
-	"UPDATE_NOTIFICATION_MODULE": "Uppfærsla í boði fyrir MODULE_NAME module.",
-	"UPDATE_INFO": "Núverandi kerfi er COMMIT_COUNT á eftir BRANCH_NAME branchinu."
+	"UPDATE_NOTIFICATION_MODULE": "Uppfærsla í boði fyrir {MODULE_NAME} module.",
+	"UPDATE_INFO": "Núverandi kerfi er {COMMIT_COUNT} á eftir {BRANCH_NAME} branchinu."
 }

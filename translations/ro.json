@@ -27,6 +27,6 @@
 	"NNW": "NNW",
 
 	"UPDATE_NOTIFICATION": "Un update este disponibil pentru MagicMirror².",
-	"UPDATE_NOTIFICATION_MODULE": "Un update este disponibil pentru modulul MODULE_NAME.",
-	"UPDATE_INFO": "Există COMMIT_COUNT commit-uri noi pe branch-ul BRANCH_NAME."
+	"UPDATE_NOTIFICATION_MODULE": "Un update este disponibil pentru modulul {MODULE_NAME}.",
+	"UPDATE_INFO": "Există {COMMIT_COUNT} commit-uri noi pe branch-ul {BRANCH_NAME}."
 }

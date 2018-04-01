@@ -2,16 +2,48 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.3.0] - 2018-04-01
+
+### Added
+
+- Add new settings in compliments module: setting time intervals for morning and afternoon
+- Add system notification `MODULE_DOM_CREATED` for notifying each module when their Dom has been fully loaded.
+- Add types for module.
+- Implement Danger.js to notify contributors when CHANGELOG.md is missing in PR.
+- Allow to scroll in full page article view of default newsfeed module with gesture events from [MMM-Gestures](https://github.com/thobach/MMM-Gestures)
+- Changed 'compliments.js' - update DOM if remote compliments are loaded instead of waiting one updateInterval to show custom compliments
+- Automated unit tests utils, deprecated, translator, cloneObject(lockstrings)
+- Automated integration tests translations
+- Add advanced filtering to the excludedEvents configuration of the default calendar module
+- New currentweather module config option: `showFeelsLike`: Shows how it actually feels like. (wind chill or heat index)
+- New currentweather module config option: `useKMPHwind`: adds an option to see wind speed in Kmph instead of just m/s or Beaufort.
+- Add dc:date to parsing in newsfeed module, which allows parsing of more rss feeds.
+
+### Changed
+- Add link to GitHub repository which contains the respective Dockerfile.
+- Optimized automated unit tests cloneObject, cmpVersions
+- Update notifications use now translation templates instead of normal strings.
+- Yarn can be used now as an installation tool
+- Changed Electron dependency to v1.7.13.
+
+### Fixed
+- News article in fullscreen (iframe) is now shown in front of modules.
+- Forecast respects maxNumberOfDays regardless of endpoint.
+- Fix exception on translation of objects.
+
 ## [2.2.2] - 2018-01-02
 
 ### Added
 
 - Add missing `package-lock.json`.
 
+### Changed
+
+- Changed Electron dependency to v1.7.10.
+
 ## [2.2.1] - 2018-01-01
 
 ### Fixed
-
 - Fixed linting errors.
 
 ## [2.2.0] - 2018-01-01

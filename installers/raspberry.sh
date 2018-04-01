@@ -42,7 +42,7 @@ sudo apt-get update || echo -e "\e[91mUpdate failed, carrying on installation ..
 
 # Installing helper tools
 echo -e "\e[96mInstalling helper tools ...\e[90m"
-sudo apt-get install curl wget git build-essential unzip || exit
+sudo apt-get --assume-yes install curl wget git build-essential unzip || exit
 
 # Check if we need to install or upgrade Node.js.
 echo -e "\e[96mCheck current Node installation ...\e[0m"
@@ -82,7 +82,7 @@ if $NODE_INSTALL; then
 	# The NODE_STABLE_BRANCH variable will need to be manually adjusted when a new branch is released. (e.g. 7.x)
 	# Only tested (stable) versions are recommended as newer versions could break MagicMirror.
 	
-	NODE_STABLE_BRANCH="6.x"
+	NODE_STABLE_BRANCH="9.x"
 	curl -sL https://deb.nodesource.com/setup_$NODE_STABLE_BRANCH | sudo -E bash -
 	sudo apt-get install -y nodejs
 	echo -e "\e[92mNode.js installation Done!\e[0m"
@@ -101,7 +101,7 @@ if [ -d "$HOME/MagicMirror" ] ; then
 fi
 
 echo -e "\e[96mCloning MagicMirror ...\e[90m"
-if git clone https://github.com/MichMich/MagicMirror.git; then 
+if git clone --depth=1 https://github.com/MichMich/MagicMirror.git; then 
 	echo -e "\e[92mCloning MagicMirror Done!\e[0m"
 else
 	echo -e "\e[91mUnable to clone MagicMirror."
@@ -149,7 +149,7 @@ else
 fi
 
 # Use pm2 control like a service MagicMirror
-read -p "Do you want use pm2 for auto starting of your MagicMirror (y/n)?" choice
+read -p "Do you want use pm2 for auto starting of your MagicMirror (y/N)?" choice
 if [[ $choice =~ ^[Yy]$ ]]; then
     sudo npm install -g pm2
     sudo su -c "env PATH=$PATH:/usr/bin pm2 startup linux -u pi --hp /home/pi"

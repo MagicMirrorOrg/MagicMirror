@@ -23,12 +23,14 @@ Module.register("currentweather",{
 		showWindDirection: true,
 		showWindDirectionAsArrow: false,
 		useBeaufort: true,
+		useKMPHwind: false,
 		lang: config.language,
 		decimalSymbol: ".",
 		showHumidity: false,
 		degreeLabel: false,
 		showIndoorTemperature: false,
 		showIndoorHumidity: false,
+		showFeelsLike: true,
 
 		initialLoadDelay: 0, // 0 seconds delay
 		retryDelay: 2500,
@@ -105,7 +107,7 @@ Module.register("currentweather",{
 		this.indoorTemperature = null;
 		this.indoorHumidity = null;
 		this.weatherType = null;
-
+		this.feelsLike = null;
 		this.loaded = false;
 		this.scheduleUpdate(this.config.initialLoadDelay);
 
@@ -242,6 +244,19 @@ Module.register("currentweather",{
 		}
 
 		wrapper.appendChild(large);
+
+		if (this.config.showFeelsLike && this.config.onlyTemp === false){
+			var small = document.createElement("div");
+			small.className = "normal medium";
+
+			var feelsLike = document.createElement("span");
+			feelsLike.className = "dimmed";
+			feelsLike.innerHTML = "Feels " + this.feelsLike + "&deg;" + degreeLabel;
+			small.appendChild(feelsLike);
+
+			wrapper.appendChild(small);
+		}
+
 		return wrapper;
 	},
 
@@ -365,11 +380,69 @@ Module.register("currentweather",{
 
 		this.humidity = parseFloat(data.main.humidity);
 		this.temperature = this.roundValue(data.main.temp);
+		this.feelsLike = 0;
 
 		if (this.config.useBeaufort){
 			this.windSpeed = this.ms2Beaufort(this.roundValue(data.wind.speed));
+		} else if (this.config.useKMPHwind) {
+			this.windSpeed = parseFloat((data.wind.speed * 60 * 60) / 1000).toFixed(0);
 		} else {
 			this.windSpeed = parseFloat(data.wind.speed).toFixed(0);
+		}
+
+		// ONLY WORKS IF TEMP IN C //
+		var windInMph = parseFloat(data.wind.speed * 2.23694);
+
+		var tempInF = 0;
+		switch (this.config.units){
+		case "metric": tempInF = 1.8 * this.temperature + 32;
+			break;
+		case "imperial": tempInF = this.temperature;
+			break;
+		case "default":
+			var tc = this.temperature - 273.15;
+			tempInF = 1.8 * tc + 32;
+			break;
+		}
+
+		if (windInMph > 3 && tempInF < 50){
+			// windchill
+			var windchillinF = Math.round(35.74+0.6215*tempInF-35.75*Math.pow(windInMph,0.16)+0.4275*tempInF*Math.pow(windInMph,0.16));
+			var windChillInC = (windchillinF - 32) * (5/9);
+			// this.feelsLike = windChillInC.toFixed(0);
+
+			switch (this.config.units){
+			case "metric": this.feelsLike = windChillInC.toFixed(0);
+				break;
+			case "imperial": this.feelsLike = windChillInF.toFixed(0);
+				break;
+			case "default":
+				var tc = windChillInC - 273.15;
+				this.feelsLike = tc.toFixed(0);
+				break;
+			}
+
+		} else if (tempInF > 80 && this.humidity > 40){
+			// heat index
+			var Hindex = -42.379 + 2.04901523*tempInF + 10.14333127*this.humidity
+				- 0.22475541*tempInF*this.humidity - 6.83783*Math.pow(10,-3)*tempInF*tempInF
+				- 5.481717*Math.pow(10,-2)*this.humidity*this.humidity
+				+ 1.22874*Math.pow(10,-3)*tempInF*tempInF*this.humidity
+				+ 8.5282*Math.pow(10,-4)*tempInF*this.humidity*this.humidity
+				- 1.99*Math.pow(10,-6)*tempInF*tempInF*this.humidity*this.humidity;
+
+			switch (this.config.units){
+			case "metric": this.feelsLike = Hindex.toFixed(0);
+				break;
+			case "imperial": this.feelsLike = parseFloat(Hindex * 1.8 + 32).toFixed(0);
+				break;
+			case "default":
+				var tc = Hindex - 273.15;
+				this.feelsLike = tc.toFixed(0);
+				break;
+			}
+		} else {
+			this.feelsLike = parseFloat(this.temperature).toFixed(0);
 		}
 
 		this.windDirection = this.deg2Cardinal(data.wind.deg);
@@ -497,4 +570,5 @@ Module.register("currentweather",{
 		var decimals = this.config.roundTemp ? 0 : 1;
 		return parseFloat(temperature).toFixed(decimals);
 	}
+
 });
