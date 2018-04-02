@@ -109,14 +109,14 @@ Module.register("alert",{
 
 	},
 	hide_alert: function(sender) {
-                //Dismiss alert and remove from this.alerts
-                if (this.alerts[sender.name]) {
-                        this.alerts[sender.name].dismiss();
-                        this.alerts[sender.name] = null;
-                        //Remove overlay
-                        var overlay = document.getElementById("overlay");
-                        overlay.parentNode.removeChild(overlay);
-                }
+		//Dismiss alert and remove from this.alerts
+		if (this.alerts[sender.name]) {
+			this.alerts[sender.name].dismiss();
+			this.alerts[sender.name] = null;
+			//Remove overlay
+			var overlay = document.getElementById("overlay");
+			overlay.parentNode.removeChild(overlay);
+		}
 	},
 	setPosition: function(pos) {
 		//Add css to body depending on the set position for notifications
