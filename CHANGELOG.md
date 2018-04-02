@@ -12,7 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Fixed issue where wind chill could not be displayed in Fahrenheit. [#1247](https://github.com/MichMich/MagicMirror/issues/1247)
-- Fix issues where a module crashes when it tries to dismiss a non exsisting alert. [#1240](https://github.com/MichMich/MagicMirror/issues/1240)
+- Fixed issues where a module crashes when it tries to dismiss a non exsisting alert. [#1240](https://github.com/MichMich/MagicMirror/issues/1240)
 
 ### Updated
 - Updated italian translation
