@@ -293,11 +293,11 @@ Module.register("currentweather",{
 		}
 		if (notification === "INDOOR_TEMPERATURE") {
 			this.indoorTemperature = this.roundValue(payload);
-			this.updateDom(self.config.animationSpeed);
+			this.updateDom(this.config.animationSpeed);
 		}
 		if (notification === "INDOOR_HUMIDITY") {
 			this.indoorHumidity = this.roundValue(payload);
-			this.updateDom(self.config.animationSpeed);
+			this.updateDom(this.config.animationSpeed);
 		}
 	},
 
