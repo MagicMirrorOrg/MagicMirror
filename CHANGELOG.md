@@ -22,6 +22,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Updated German translation
 - Updated Dutch translation
 
+## [2.3.1] - 2018-04-06
+
+### Fixed
+
+- In default module currentWeather/currentWeather.js line 296, 300, self.config.animationSpeed can not be found because the notificationReceived function does not have "self" variable.
+
 ## [2.3.1] - 2018-04-01
 
 ### Fixed
