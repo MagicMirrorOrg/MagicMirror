@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Enabled translation of feelsLike for module currentweather
 
 ### Changed
+- Use Electron 2 Beta. **Please test!**
 
 ### Fixed
 - Fixed issue where wind chill could not be displayed in Fahrenheit. [#1247](https://github.com/MichMich/MagicMirror/issues/1247)

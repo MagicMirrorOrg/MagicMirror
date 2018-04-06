@@ -58,7 +58,7 @@
   "dependencies": {
     "body-parser": "^1.18.2",
     "colors": "^1.1.2",
-    "electron": "^1.4.15",
+    "electron": "beta",
     "express": "^4.16.2",
     "express-ipfilter": "0.3.1",
     "feedme": "latest",
