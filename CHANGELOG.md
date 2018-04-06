@@ -18,6 +18,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Updated
 - Updated Italian translation
+- Updated German translation
+- Updated Dutch translation
 
 ## [2.3.1] - 2018-04-01
 
