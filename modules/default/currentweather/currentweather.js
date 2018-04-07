@@ -407,8 +407,8 @@ Module.register("currentweather",{
 
 		if (windInMph > 3 && tempInF < 50){
 			// windchill
-			var windchillinF = Math.round(35.74+0.6215*tempInF-35.75*Math.pow(windInMph,0.16)+0.4275*tempInF*Math.pow(windInMph,0.16));
-			var windChillInC = (windchillinF - 32) * (5/9);
+			var windChillInF = Math.round(35.74+0.6215*tempInF-35.75*Math.pow(windInMph,0.16)+0.4275*tempInF*Math.pow(windInMph,0.16));
+			var windChillInC = (windChillInF - 32) * (5/9);
 			// this.feelsLike = windChillInC.toFixed(0);
 
 			switch (this.config.units){
