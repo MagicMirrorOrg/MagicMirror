@@ -55,8 +55,8 @@ Module.register("compliments", {
 
 		var self = this;
 		if (this.config.remoteFile != null) {
-			this.complimentFile((response) => {
-				this.config.compliments = JSON.parse(response);
+			this.complimentFile(function(response) {
+				self.config.compliments = JSON.parse(response);
 				self.updateDom();
 			});
 		}
