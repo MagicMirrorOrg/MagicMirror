@@ -29,6 +29,7 @@ Module.register("calendar", {
 		getRelative: 6,
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		hidePrivate: false,
+		hideOngoing: false,
 		colored: false,
 		calendars: [
 			{
@@ -336,6 +337,7 @@ Module.register("calendar", {
 	createEventList: function () {
 		var events = [];
 		var today = moment().startOf("day");
+		var now = new Date();
 		for (var c in this.calendarData) {
 			var calendar = this.calendarData[c];
 			for (var e in calendar) {
@@ -344,6 +346,11 @@ Module.register("calendar", {
 					if(event.class === "PRIVATE") {
 						  // do not add the current event, skip it
 						  continue;
+					}
+				}
+				if(this.config.hideOngoing) {
+					if(event.startDate < now) {
+						continue;
 					}
 				}
 				event.url = c;
