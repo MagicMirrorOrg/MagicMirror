@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - Enabled translation of feelsLike for module currentweather
+- Added support for on-going calendar events
 
 ### Changed
 - Use Electron 2 Beta. **Please test!**
