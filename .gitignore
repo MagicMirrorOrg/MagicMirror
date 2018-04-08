@@ -78,3 +78,6 @@ Temporary Items
 *.orig
 *.rej
 *.bak
+
+# config.js
+/config/config.js
