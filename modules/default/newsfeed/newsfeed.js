@@ -180,10 +180,10 @@ Module.register("newsfeed",{
 			if (this.config.showFullArticle) {
 				var fullArticle = document.createElement("iframe");
 				fullArticle.className = "";
-				fullArticle.style.width = "100%";
+				fullArticle.style.width = "100vw";
 				// very large height value to allow scrolling
-				fullArticle.height = "10000";
-				fullArticle.style.height = "10000";
+				fullArticle.height = "3000";
+				fullArticle.style.height = "3000";
 				fullArticle.style.top = "0";
 				fullArticle.style.left = "0";
 				fullArticle.style.border = "none";
@@ -377,6 +377,13 @@ Module.register("newsfeed",{
 				timer = null;
 				Log.info(this.name + " - showing " + this.config.showDescription ? "article description" : "full article");
 				this.updateDom(100);
+			}
+		} else if(notification == "ARTICLE_SCROLL_UP"){
+			if(this.config.showFullArticle == true){
+				this.scrollPosition -= this.config.scrollLength;
+				window.scrollTo(0, this.scrollPosition);
+				Log.info(this.name + " - scrolling up");
+				Log.info(this.name + " - ARTICLE_SCROLL_UP, scroll position: " + this.config.scrollLength);
 			}
 		} else if(notification == "ARTICLE_LESS_DETAILS"){
 			this.resetDescrOrFullArticleAndTimer();
