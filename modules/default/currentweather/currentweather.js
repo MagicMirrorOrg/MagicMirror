@@ -432,9 +432,9 @@ Module.register("currentweather",{
 				- 1.99*Math.pow(10,-6)*tempInF*tempInF*this.humidity*this.humidity;
 
 			switch (this.config.units){
-			case "metric": this.feelsLike = Hindex.toFixed(0);
+			case "metric": this.feelsLike = parseFloat((Hindex - 32) / 1.8).toFixed(0);
 				break;
-			case "imperial": this.feelsLike = parseFloat(Hindex * 1.8 + 32).toFixed(0);
+			case "imperial": this.feelsLike = Hindex.toFixed(0);
 				break;
 			case "default":
 				var tc = Hindex - 273.15;
