@@ -31,6 +31,7 @@ Module.register("calendar", {
 		hidePrivate: false,
 		hideOngoing: false,
 		colored: false,
+		coloredSymbolOnly: false,
 		calendars: [
 			{
 				symbol: "calendar",
@@ -135,7 +136,7 @@ Module.register("calendar", {
 			var event = events[e];
 			var eventWrapper = document.createElement("tr");
 
-			if (this.config.colored) {
+			if (this.config.colored && !this.config.coloredSymbolOnly) {
 				eventWrapper.style.cssText = "color:" + this.colorForUrl(event.url);
 			}
 
@@ -143,6 +144,11 @@ Module.register("calendar", {
 
 			if (this.config.displaySymbol) {
 				var symbolWrapper = document.createElement("td");
+
+				if (this.config.colored && this.config.coloredSymbolOnly) {
+					symbolWrapper.style.cssText = "color:" + this.colorForUrl(event.ulr);
+				}
+
 				symbolWrapper.className = "symbol align-right";
 				var symbols = this.symbolsForUrl(event.url);
 				if(typeof symbols === "string") {

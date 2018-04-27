@@ -53,11 +53,13 @@ The following properties can be configured:
 
 The `calendars` property contains an array of the configured calendars.
 The `colored` property gives the option for an individual color for each calendar.
+The `coloredSymbolOnly` property will apply color to the symbol only, not the whole line. This is only applicable when `colored` is also enabled.
 
 #### Default value:
 ````javascript
 config: {
 	colored: false,
+	coloredSymbolOnly: false,
 	calendars: [
 		{
 			url: 'http://www.calendarlabs.com/templates/ical/US-Holidays.ics',
