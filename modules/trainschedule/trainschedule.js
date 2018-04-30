@@ -26,9 +26,11 @@ Module.register("trainschedule", {
 
     // Define start sequence.
     start: function () {
+        Log.info("Tchou tchou")
         // Schedule update interval.
         var self = this;
         setInterval(function () {
+            Log.info("setInterval")
             self.updateTrains();
         }, 10000);
     },
@@ -41,9 +43,11 @@ Module.register("trainschedule", {
         req.onreadystatechange = function() {
             if (this.readyState === 4) {
                 if (this.status === 200) {
+                    Log.info("Oui monsieur " + req.responseText)
                     console.log("Oui monsieur " + req.responseText);
                     self.updateDom();
                 } else {
+                    Log.error("Oh Oh")
                     console.log("hoho");
                 }
             }
