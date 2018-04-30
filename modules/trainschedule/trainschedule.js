@@ -26,13 +26,29 @@ Module.register("trainschedule", {
 
     // Define start sequence.
     start: function () {
-
         // Schedule update interval.
         var self = this;
         setInterval(function () {
-            self.updateDom();
-        }, 1000);
+            self.updateTrains();
+        }, 10000);
+    },
 
+    updateTrains: function() {
+        var req = new XMLHttpRequest();
+        var url = "http://api.transilien.com/gare/"+stationFrom+"/depart/"+stationTo;
+        // Requête HTTP GET synchrone vers le serveur SNCF
+        req.open("GET", url, false, config.apiConfig.APILogin, config.apiConfig.APIKey);
+        req.onreadystatechange = function() {
+            if (this.readyState === 4) {
+                if (this.status === 200) {
+                    console.log("Oui monsieur " + req.responseText);
+                    self.updateDom();
+                } else {
+                    console.log("hoho");
+                }
+            }
+        };
+        req.send();
     },
 
     // Override dom generator.
