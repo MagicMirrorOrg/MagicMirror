@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added support for on-going calendar events
 - Added scroll up in fullscreen newsfeed article view
 - Changed fullscreen newsfeed width from 100% to 100vw (better results)
+- Added option to calendar module that colors only the symbol instead of the whole line
 
 ### Changed
 - Use Electron 2 Beta. **Please test!**
