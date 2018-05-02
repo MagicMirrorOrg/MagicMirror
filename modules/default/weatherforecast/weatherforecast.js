@@ -26,6 +26,7 @@ Module.register("weatherforecast",{
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		colored: false,
 		scale: false,
+        showNextDayAfter: null,
 
 		initialLoadDelay: 2500, // 2.5 seconds delay. This delay is used to keep the OpenWeather API happy.
 		retryDelay: 2500,
@@ -118,6 +119,40 @@ Module.register("weatherforecast",{
 
 		var table = document.createElement("table");
 		table.className = "small";
+
+        var showNextDayAfterHours = null;
+        var showNextDayAfterMinutes = 0;
+        if(typeof this.config.showNextDayAfter == 'string') {
+            // parse the cutoff date if in string format, support hh:mm am/pm, HH:mm, HHmm.
+            // In all case minutes are optional
+            var parts = this.config.showNextDayAfter.match(/(\d{1,2})(?::?(\d{1,2}))?\s*((?:a|p)m)?/);
+            showNextDayAfterHours = parts[1] * 1;
+            showNextDayAfterMinutes = parts[2] ? parts[2]*1 : 0;
+
+            // if it has the pm marker and is bellow 11, add 12
+            if(parts[3] == 'pm' && showNextDayAfterHours > 0 && showNextDayAfterHours <= 11) {
+                showNextDayAfterHours+=12;
+            }
+        } else if(this.config.showNextDayAfter < 24) {
+            // only hours, no minutes
+            showNextDayAfterHours = this.config.showNextDayAfter;
+        } else if(this.config.showNextDayAfter < 2400) {
+            // military time
+            showNextDayAfterMinutes = this.config.showNextDayAfter % 100;
+            showNextDayAfterHours = (this.config.showNextDayAfter - showNextDayAfterMinutes) / 100;
+        }
+
+        if(showNextDayAfterHours !== null) {
+            var cutoffTime = new Date(),
+                now = new Date();
+            cutoffTime.setHours(showNextDayAfterHours);
+            cutoffTime.setMinutes(showNextDayAfterMinutes);
+            cutoffTime.setSeconds(0);
+            if(cutoffTime < now) {
+                // if it is after the cutoff time remove the first element (today)
+                this.forecast.shift();
+            }
+        }
 
 		for (var f in this.forecast) {
 			var forecast = this.forecast[f];
