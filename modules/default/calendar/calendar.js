@@ -146,7 +146,7 @@ Module.register("calendar", {
 				var symbolWrapper = document.createElement("td");
 
 				if (this.config.colored && this.config.coloredSymbolOnly) {
-					symbolWrapper.style.cssText = "color:" + this.colorForUrl(event.ulr);
+					symbolWrapper.style.cssText = "color:" + this.colorForUrl(event.url);
 				}
 
 				symbolWrapper.className = "symbol align-right";
