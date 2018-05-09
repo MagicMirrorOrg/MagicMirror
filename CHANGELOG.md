@@ -24,6 +24,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - In default module currentWeather/currentWeather.js line 296, 300, self.config.animationSpeed can not be found because the notificationReceived function does not have "self" variable.
 - Fixed browser-side code to work on the Midori browser.
 - Fixed issue where heat index was reporting incorrect values in Celsius and Fahrenheit. [#1263](https://github.com/MichMich/MagicMirror/issues/1263)
+- Fixed weatherforecast to use dt_txt field instead of dt to handle timezones better
 
 ### Updated
 - Updated Italian translation
