@@ -13,6 +13,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added scroll up in fullscreen newsfeed article view
 - Changed fullscreen newsfeed width from 100% to 100vw (better results)
 - Added option to calendar module that colors only the symbol instead of the whole line
+- Added option for new display format in the calendar module with date headers with times/events below.
 
 ### Changed
 - Use Electron 2 Beta. **Please test!**

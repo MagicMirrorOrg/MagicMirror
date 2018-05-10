@@ -132,7 +132,7 @@ Module.register("calendar", {
 			return wrapper;
 		}
 
-		var lastSeenDate = '';
+		var lastSeenDate = "";
 
 		for (var e in events) {
 			var event = events[e];
@@ -154,7 +154,7 @@ Module.register("calendar", {
 			}
 
 
-			
+
 			var eventWrapper = document.createElement("tr");
 
 			if (this.config.colored && !this.config.coloredSymbolOnly) {
@@ -215,11 +215,11 @@ Module.register("calendar", {
 			}
 
 			if(this.config.timeFormat === "dateheaders"){
-				
+
 				if (event.fullDayEvent) {
 					titleWrapper.colSpan = "2";
 					titleWrapper.align = "left";
-					
+
 				}else{
 					var timeWrapper = document.createElement("td");
 					timeWrapper.className = "time light";
@@ -227,24 +227,24 @@ Module.register("calendar", {
 					timeWrapper.style.paddingLeft = "2px";
 					var timeFormatString = "";
 					switch (config.timeFormat) {
-						case 12: {
-							timeFormatString = "h:mm A";
-							break;
-						}
-						case 24: {
-							timeFormatString = "HH:mm";
-							break;
-						}
-						default: {
-							timeFormatString = "HH:mm";
-							break;
-						}
+					case 12: {
+						timeFormatString = "h:mm A";
+						break;
+					}
+					case 24: {
+						timeFormatString = "HH:mm";
+						break;
+					}
+					default: {
+						timeFormatString = "HH:mm";
+						break;
+					}
 					}
 					timeWrapper.innerHTML = moment(event.startDate, "x").format(timeFormatString);
 					eventWrapper.appendChild(timeWrapper);
 					titleWrapper.align = "right";
 				}
-				
+
 				eventWrapper.appendChild(titleWrapper);
 			}else{
 				var timeWrapper = document.createElement("td");
@@ -418,7 +418,7 @@ Module.register("calendar", {
 						continue;
 					}
 				}
-        if(this.listContainsEvent(events,event)){
+				if(this.listContainsEvent(events,event)){
 					continue;
 				}
 				event.url = c;
