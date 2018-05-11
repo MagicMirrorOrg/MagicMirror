@@ -16,7 +16,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added option for new display format in the calendar module with date headers with times/events below.
 
 ### Changed
-- Use Electron 2 Beta. **Please test!**
+- Upgrade to Electron 2.0.0. **Please test!**
 - Remove yarn-or-npm which breaks production builds.
 
 ### Fixed
