@@ -67,6 +67,7 @@ Module.register("newsfeed",{
 
 		this.registerFeeds();
 
+		this.isShowingDescription = this.config.showDescription;
 	},
 
 	// Override socket notification handler.
@@ -133,7 +134,7 @@ Module.register("newsfeed",{
 
 			if (this.config.removeStartTags == "description" || this.config.removeStartTags == "both") {
 
-				if (this.config.showDescription) {
+				if (this.isShowingDescription) {
 					for (f=0; f<this.config.startTags.length;f++) {
 						if (this.newsItems[this.activeItem].description.slice(0,this.config.startTags[f].length) == this.config.startTags[f]) {
 							this.newsItems[this.activeItem].title = this.newsItems[this.activeItem].description.slice(this.config.startTags[f].length,this.newsItems[this.activeItem].description.length);
@@ -152,7 +153,7 @@ Module.register("newsfeed",{
 					}
 				}
 
-				if (this.config.showDescription) {
+				if (this.isShowingDescription) {
 					for (f=0; f<this.config.endTags.length;f++) {
 						if (this.newsItems[this.activeItem].description.slice(-this.config.endTags[f].length)==this.config.endTags[f]) {
 							this.newsItems[this.activeItem].description = this.newsItems[this.activeItem].description.slice(0,-this.config.endTags[f].length);
@@ -169,7 +170,7 @@ Module.register("newsfeed",{
 				wrapper.appendChild(title);
 			}
 
-			if (this.config.showDescription) {
+			if (this.isShowingDescription) {
 				var description = document.createElement("div");
 				description.className = "small light" + (!this.config.wrapDescription ? " no-wrap" : "");
 				var txtDesc = this.newsItems[this.activeItem].description;
@@ -323,7 +324,7 @@ Module.register("newsfeed",{
 	},
 
 	resetDescrOrFullArticleAndTimer: function() {
-		this.config.showDescription = false;
+		this.isShowingDescription = this.config.showDescription;
 		this.config.showFullArticle = false;
 		this.scrollPosition = 0;
 		// reset bottom bar alignment
@@ -366,8 +367,8 @@ Module.register("newsfeed",{
 			}
 			// display full article
 			else {
-				this.config.showDescription = !this.config.showDescription;
-				this.config.showFullArticle = !this.config.showDescription;
+				this.isShowingDescription = !this.isShowingDescription;
+				this.config.showFullArticle = !this.isShowingDescription;
 				// make bottom bar align to top to allow scrolling
 				if(this.config.showFullArticle == true){
 					document.getElementsByClassName("region bottom bar")[0].style.bottom = "inherit";
@@ -375,7 +376,7 @@ Module.register("newsfeed",{
 				}
 				clearInterval(timer);
 				timer = null;
-				Log.info(this.name + " - showing " + this.config.showDescription ? "article description" : "full article");
+				Log.info(this.name + " - showing " + this.isShowingDescription ? "article description" : "full article");
 				this.updateDom(100);
 			}
 		} else if(notification == "ARTICLE_SCROLL_UP"){
