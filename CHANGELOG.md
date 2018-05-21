@@ -6,6 +6,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 *This release is scheduled to be released on 2018-07-01.*
 
+⚠️ **Warning:** This release includes an updated version of Electron. This requires a Raspberry Pi configuration change to allow the best performance and prevent the CPU from overheating. Please read the information on the [MagicMirror Wiki](https://github.com/michmich/magicmirror/wiki/configuring-the-raspberry-pi#enable-the-open-gl-driver-to-decrease-electrons-cpu-usage).
+
+ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
+
 ### Added
 
 - Enabled translation of feelsLike for module currentweather
@@ -16,7 +20,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added option for new display format in the calendar module with date headers with times/events below.
 
 ### Changed
-- Upgrade to Electron 2.0.0. **Please test!**
+- Upgrade to Electron 2.0.0.
 - Remove yarn-or-npm which breaks production builds.
 
 ### Fixed
@@ -26,7 +30,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fixed browser-side code to work on the Midori browser.
 - Fixed issue where heat index was reporting incorrect values in Celsius and Fahrenheit. [#1263](https://github.com/MichMich/MagicMirror/issues/1263)
 - Fixed weatherforecast to use dt_txt field instead of dt to handle timezones better
-- newsfeed now remembers to show the description when `"ARTICLE_LESS_DETAILS"` is called if the user wants to always show the description. [#1282](https://github.com/MichMich/MagicMirror/issues/1282)
+- Newsfeed now remembers to show the description when `"ARTICLE_LESS_DETAILS"` is called if the user wants to always show the description. [#1282](https://github.com/MichMich/MagicMirror/issues/1282)
 
 ### Updated
 - Updated Italian translation
