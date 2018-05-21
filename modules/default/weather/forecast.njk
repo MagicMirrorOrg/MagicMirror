@@ -1,3 +1,21 @@
-<div class="small">Forecast template not yet implemented.</div>
+{% if forecast %}
+    <div class="normal medium">
+        <table class="small">
+            {% for f in forecast %}
+                <tr class="{% if config.colored %}colored{% endif %}">
+                    <td class="day">{{f.day}}</td>
+                    <td class="bright weather-icon"><span class="wi weathericon {{f.icon}}"></span></td>
+                    <td class="align-right bright max-temp">
+                        {{f.maxTemperature | round(0 if config.roundTemp else 1) | unit("temperature")}}
+                    </td>
+                    <td class="align-right min-temp">
+                        {{f.minTemperature | round(0 if config.roundTemp else 1) | unit("temperature")}}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endif %}
 
-<div style="word-wrap:break-word" class="xsmall dimmed">{{forecast | dump}}</div>
+<!-- Unclomment the line below to see the contents of the `current` object. -->
+<!-- <div style="word-wrap:break-word" class="xsmall dimmed">{{forecast | dump}}</div> -->
