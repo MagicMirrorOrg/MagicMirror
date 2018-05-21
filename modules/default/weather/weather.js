@@ -16,8 +16,6 @@ Module.register("weather",{
 		roundTemp: false,
 		type: "current", //current, forecast
 
-		//
-
 		location: false,
 		locationID: false,
 		appid: "",
@@ -61,12 +59,13 @@ Module.register("weather",{
 	// Return the scripts that are nessecery for the weather module.
 	getScripts: function () {
 		var scripts = [
+			"moment.js",
 			"weatherprovider.js",
 			"weatherobject.js"
 		];
 
 		// Add the provider file to the required scripts.
-		scripts.push(this.file("providers/" + this.config.weatherProvider.toLowerCase() + ".js"))
+		scripts.push(this.file("providers/" + this.config.weatherProvider.toLowerCase() + ".js"));
 
 		return scripts
 	},
@@ -74,16 +73,16 @@ Module.register("weather",{
 	// Start the weather module.
 	start: function () {
 		// Initialize the weather provider.
-		this.weatherProvider = WeatherProvider.initialize(this.config.weatherProvider, this)
+		this.weatherProvider = WeatherProvider.initialize(this.config.weatherProvider, this);
 
 		// Let the weather provider know we are starting.
-		this.weatherProvider.start()
+		this.weatherProvider.start();
 
 		// Add custom filters
-		this.addFilters()
+		this.addFilters();
 
 		// Schedule the first update.
-		this.scheduleUpdate(0)
+		this.scheduleUpdate(0);
 	},
 
 	// Select the template depending on the display type.
@@ -102,10 +101,9 @@ Module.register("weather",{
 
 	// What to do when the weather provider has new information available?
 	updateAvailable: function() {
-		Log.log("New weather information available.")
-		console.info(this.weatherProvider.currentWeather())
-		this.updateDom(0)
-		this.scheduleUpdate()
+		Log.log("New weather information available.");
+		this.updateDom(0);
+		this.scheduleUpdate(5000);
 	},
 
 	scheduleUpdate: function(delay = null) {
@@ -117,34 +115,50 @@ Module.register("weather",{
 		setTimeout(() => {
 			switch (this.config.type) {
 			case "forecast":
-				this.weatherProvider.fetchWeatherForecast()
+				this.weatherProvider.fetchWeatherForecast();
 				break;
 			default:
 			case "current":
-				this.weatherProvider.fetchCurrentWeather()
+				this.weatherProvider.fetchCurrentWeather();
 				break;
 			}
 		}, nextLoad);
 	},
 
 	addFilters() {
-		var self = this
 		this.nunjucksEnvironment().addFilter("formatTime", function(date) {
-			date = moment(date)
+			date = moment(date);
 
-			if (self.config.timeFormat !== 24) {
-				if (self.config.showPeriod) {
-					if (self.config.showPeriodUpper) {
-						return date.format("h:mm A")
+			if (this.config.timeFormat !== 24) {
+				if (this.config.showPeriod) {
+					if (this.config.showPeriodUpper) {
+						return date.format("h:mm A");
 					} else {
-						return date.format("h:mm a")
+						return date.format("h:mm a");
 					}
 				} else {
-					return date.format("h:mm")
+					return date.format("h:mm");
 				}
 			}
 
-			return date.format("HH:mm")
-		});
+			return date.format("HH:mm");
+		}.bind(this));
+
+		this.nunjucksEnvironment().addFilter("unit", function (value, type) {
+			if (type === "temperature") {
+				value += "°";
+				if (this.config.scale || this.config.degreeLabel) {
+					if (this.config.units === "metric") {
+						value += "C";
+					} else if (this.config.units === "imperial") {
+						value += "F";
+					} else {
+						value += "K";
+					}
+				}
+			}
+
+			return value;
+		}.bind(this));
 	}
 });

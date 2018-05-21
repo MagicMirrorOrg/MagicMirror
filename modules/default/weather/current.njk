@@ -42,11 +42,7 @@
     <div class="large light">
         <span class="wi weathericon wi-{{current.weatherType}}"></span>
         <span class="bright">
-            {{current.temperature | round(0 if config.roundTemp else 1)}}°{% if config.degreeLabel %}
-                {% if config.units == "metric" %}C{% endif %}
-                {% if config.units == "imperial" %}F{% endif %}
-                {% if config.units == "default" %}K{% endif %}
-			{% endif %}
+            {{current.temperature | round(0 if config.roundTemp else 1) | unit("temperature")}}
         </span>
     </div>
 {% endif %}
