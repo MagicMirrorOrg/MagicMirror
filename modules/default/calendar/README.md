@@ -1,6 +1,7 @@
 # Module: Calendar
 The `calendar` module is one of the default modules of the MagicMirror.
 This module displays events from a public .ical calendar. It can combine multiple calendars.
+Note that calendars may not contain any entry before 1st January 1970, otherwise the calendar won't be displayed and the module will crash.
 
 ## Using the module
 
