@@ -88,7 +88,7 @@
 					process.stdout.write(`Client: ${err}`);
 				});
 
-				child.on('close', (code) => {
+				child.on("close", (code) => {
 					if (code != 0) {
 						console.log(`There something wrong. The clientonly is not running code ${code}`);
 					}
