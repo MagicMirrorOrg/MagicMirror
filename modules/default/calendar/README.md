@@ -1,6 +1,7 @@
 # Module: Calendar
 The `calendar` module is one of the default modules of the MagicMirror.
 This module displays events from a public .ical calendar. It can combine multiple calendars.
+Note that calendars may not contain any entry before 1st January 1970, otherwise the calendar won't be displayed and the module will crash.
 
 ## Using the module
 
@@ -41,22 +42,25 @@ The following properties can be configured:
 | `displayRepeatingCountTitle` | Show count title for yearly repeating events (e.g. "X. Birthday", "X. Anniversary") <br><br> **Possible values:** `true` or `false` <br> **Default value:** `false`
 | `dateFormat`                 | Format to use for the date of events (when using absolute dates) <br><br> **Possible values:** See [Moment.js formats](http://momentjs.com/docs/#/parsing/string-format/) <br> **Default value:** `MMM Do` (e.g. Jan 18th)
 | `fullDayEventDateFormat`     | Format to use for the date of full day events (when using absolute dates) <br><br> **Possible values:** See [Moment.js formats](http://momentjs.com/docs/#/parsing/string-format/) <br> **Default value:** `MMM Do` (e.g. Jan 18th)
-| `timeFormat`                 | Display event times as absolute dates, or relative time <br><br> **Possible values:** `absolute` or `relative` <br> **Default value:** `relative`
+| `timeFormat`                 | Display event times as absolute dates, or relative time, or using absolute date headers with times for each event next to it <br><br> **Possible values:** `absolute` or `relative` or `dateheaders` <br> **Default value:** `relative`
 | `getRelative`                | How much time (in hours) should be left until calendar events start getting relative? <br><br> **Possible values:** `0` (events stay absolute) - `48` (48 hours before the event starts) <br> **Default value:** `6`
 | `urgency`                    | When using a timeFormat of `absolute`, the `urgency` setting allows you to display events within a specific time frame as `relative`. This allows events within a certain time frame to be displayed as relative (in xx days) while others are displayed as absolute dates <br><br> **Possible values:** a positive integer representing the number of days for which you want a relative date, for example `7` (for 7 days) <br><br> **Default value:** `7`
 | `broadcastEvents`            | If this property is set to true, the calendar will broadcast all the events to all other modules with the notification message: `CALENDAR_EVENTS`. The event objects are stored in an array and contain the following fields: `title`, `startDate`, `endDate`, `fullDayEvent`, `location` and `geo`. <br><br> **Possible values:** `true`, `false` <br><br> **Default value:** `true`
 | `hidePrivate`                | Hides private calendar events. <br><br> **Possible values:** `true` or `false` <br> **Default value:** `false`
+| `hideOngoing`                | Hides calendar events that have already started. <br><br> **Possible values:** `true` or `false` <br> **Default value:** `false`
 | `excludedEvents`             | An array of words / phrases from event titles that will be excluded from being shown. <br><br>Additionally advanced filter objects can be passed in. Below is the configuration for the advance filtering object.<br>**Required**<br>`filterBy` - string used to determine if filter is applied.<br>**Optional**<br>`until` - Time before an event to display it  Ex: [`'3 days'`, `'2 months'`, `'1 week'`]<br>`caseSensitive` - By default, excludedEvents are case insensitive, set this to true to enforce case sensitivity<br><br> **Example:** `['Birthday', 'Hide This Event', {filterBy: 'Payment', until: '6 days', caseSensitive: true}]` <br> **Default value:** `[]`
 
 ### Calendar configuration
 
 The `calendars` property contains an array of the configured calendars.
 The `colored` property gives the option for an individual color for each calendar.
+The `coloredSymbolOnly` property will apply color to the symbol only, not the whole line. This is only applicable when `colored` is also enabled.
 
 #### Default value:
 ````javascript
 config: {
 	colored: false,
+	coloredSymbolOnly: false,
 	calendars: [
 		{
 			url: 'http://www.calendarlabs.com/templates/ical/US-Holidays.ics',

@@ -21,7 +21,7 @@ var MM = (function() {
 	var createDomObjects = function() {
 		var domCreationPromises = [];
 
-		modules.forEach(module => {
+		modules.forEach(function(module) {
 			if (typeof module.data.position !== "string") {
 				return;
 			}
@@ -52,14 +52,14 @@ var MM = (function() {
 
 			var domCreationPromise = updateDom(module, 0);
 			domCreationPromises.push(domCreationPromise);
-			domCreationPromise.then(() => {
+			domCreationPromise.then(function() {
 				sendNotification("MODULE_DOM_CREATED", null, null, module);
 			}).catch(Log.error);
 		});
 
 		updateWrapperStates();
 
-		Promise.all(domCreationPromises).then(() => {
+		Promise.all(domCreationPromises).then(function() {
 			sendNotification("DOM_OBJECTS_CREATED");
 		});
 	};
@@ -106,7 +106,7 @@ var MM = (function() {
 	 * return Promise - Resolved when the dom is fully updated.
 	 */
 	var updateDom = function(module, speed) {
-		return new Promise((resolve) => {
+		return new Promise(function(resolve) {
 			var newContentPromise = module.getDom();
 			var newHeader = module.getHeader();
 
@@ -115,7 +115,7 @@ var MM = (function() {
 				newContentPromise = Promise.resolve(newContentPromise);
 			}
 
-			newContentPromise.then((newContent) => {
+			newContentPromise.then(function(newContent) {
 				var updatePromise = updateDomWithContent(module, speed, newHeader, newContent);
 
 				updatePromise.then(resolve).catch(Log.error);
@@ -134,7 +134,7 @@ var MM = (function() {
 	 * return Promise - Resolved when the module dom has been updated.
 	 */
 	var updateDomWithContent = function(module, speed, newHeader, newContent) {
-		return new Promise((resolve) => {
+		return new Promise(function(resolve) {
 			if (module.hidden || !speed) {
 				updateModuleContent(module, newHeader, newContent);
 				resolve();

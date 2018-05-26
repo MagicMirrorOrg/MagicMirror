@@ -1,13 +1,13 @@
 {
   "name": "magicmirror",
-  "version": "2.3.1",
+  "version": "2.4.0-dev",
   "description": "The open source modular smart mirror platform.",
   "main": "js/electron.js",
   "scripts": {
     "start": "sh run-start.sh",
-    "install": "cd vendor && yon install",
-    "install-fonts": "cd fonts && yon install",
-    "postinstall": "sh installers/postinstall/postinstall.sh && yon run install-fonts",
+    "install": "cd vendor && npm install",
+    "install-fonts": "cd fonts && npm install",
+    "postinstall": "sh installers/postinstall/postinstall.sh && npm run install-fonts",
     "test": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests --recursive",
     "test:unit": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests/unit --recursive",
     "test:e2e": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests/e2e --recursive",
@@ -52,13 +52,12 @@
     "spectron": "3.7.x",
     "stylelint": "^8.4.0",
     "stylelint-config-standard": "latest",
-    "time-grunt": "latest",
-    "yarn-or-npm": "^2.0.4"
+    "time-grunt": "latest"
   },
   "dependencies": {
     "body-parser": "^1.18.2",
     "colors": "^1.1.2",
-    "electron": "^1.4.15",
+    "electron": "^2.0.0",
     "express": "^4.16.2",
     "express-ipfilter": "0.3.1",
     "feedme": "latest",
