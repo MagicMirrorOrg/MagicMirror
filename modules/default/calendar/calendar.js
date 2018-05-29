@@ -30,6 +30,7 @@ Module.register("calendar", {
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		hidePrivate: false,
 		colored: false,
+		coloredSymbolOnly: false,
 		calendars: [
 			{
 				symbol: "calendar",
@@ -134,10 +135,6 @@ Module.register("calendar", {
 			var event = events[e];
 			var eventWrapper = document.createElement("tr");
 
-			if (this.config.colored) {
-				eventWrapper.style.cssText = "color:" + this.colorForUrl(event.url);
-			}
-
 			eventWrapper.className = "normal";
 
 			if (this.config.displaySymbol) {
@@ -156,6 +153,11 @@ Module.register("calendar", {
 					}
 					symbolWrapper.appendChild(symbol);
 				}
+
+				if (this.config.colored) {
+					symbolWrapper.style.cssText = "color:" + this.colorForUrl(event.url);
+				}
+
 				eventWrapper.appendChild(symbolWrapper);
 			}
 
@@ -172,6 +174,10 @@ Module.register("calendar", {
 
 					repeatingCountTitle = ", " + yearDiff + ". " + repeatingCountTitle;
 				}
+			}
+
+			if (this.config.colored && !this.config.coloredSymbolOnly) {
+				titleWrapper.style.cssText = "color:" + this.colorForUrl(event.url);
 			}
 
 			titleWrapper.innerHTML = this.titleTransform(event.title) + repeatingCountTitle;
