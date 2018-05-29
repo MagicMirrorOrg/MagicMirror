@@ -11,7 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [2.3.0] - 2018-04-01
 
 ### Added
-
+- Add new settings in calendar module: To set colors in symbol only
 - Add new settings in compliments module: setting time intervals for morning and afternoon
 - Add system notification `MODULE_DOM_CREATED` for notifying each module when their Dom has been fully loaded.
 - Add types for module.
