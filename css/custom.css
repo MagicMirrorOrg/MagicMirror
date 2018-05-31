@@ -9,6 +9,68 @@
  * Changes to this files will be ignored by GIT. *
  *****************************************************/
 
- body {
- 	
- }
+body {
+  margin: 20px;
+  position: absolute;
+  height: calc(100% - 40px);
+  width: calc(100% - 40px);
+  font-family: "Roboto Condensed", sans-serif;
+}
+
+header {
+	text-transform: none;
+}
+
+.region.top.left {
+    width: calc(40%);
+}
+
+.region.top.center {
+    width: calc(20%);
+}
+
+.region.top.right {
+    width: calc(40%);
+}
+
+.region.bottom.left {
+    width: calc(50%);
+}
+
+.region.bottom.right {
+    width: calc(50%);
+}
+
+.calendar .symbol {
+	vertical-align: center;
+  	padding-right: 5px;
+}
+
+.calendar .time {
+	font-size: 70%;
+}
+
+.calendar .title {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.calendar .time {
+	padding-left: 10px;
+	text-align: right;
+	vertical-align: top;
+	white-space: nowrap;
+}
+
+.MMM-NetworkScanner .date {
+	font-size: 70%;
+	white-space: nowrap;
+}
+
+.clock div.time.bright.large.light span.bold {
+	font-size: 75pt;
+}
+
+.clock div.time.bright.large.light {
+	font-size: 75pt;
+}
