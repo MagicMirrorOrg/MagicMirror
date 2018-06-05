@@ -19,6 +19,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added option to calendar module that colors only the symbol instead of the whole line
 - Added option for new display format in the calendar module with date headers with times/events below.
 - Ability to fetch compliments from a remote server
+- Add regex filtering to calendar module
 
 ### Changed
 - Upgrade to Electron 2.0.0.
