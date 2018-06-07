@@ -119,11 +119,17 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 					for (var f in excludedEvents) {
 						var filter = excludedEvents[f],
 							testTitle = title.toLowerCase(),
-							until = null;
+							until = null,
+							useRegex = false,
+							regexFlags = "g";
 
 						if (filter instanceof Object) {
 							if (typeof filter.until !== "undefined") {
 								until = filter.until;
+							}
+
+							if (typeof filter.regex !== "undefined") {
+								useRegex = filter.regex;
 							}
 
 							// If additional advanced filtering is added in, this section
@@ -132,6 +138,10 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 							if (filter.caseSensitive) {
 								filter = filter.filterBy;
 								testTitle = title;
+							} else if (useRegex) {
+								filter = filter.filterBy;
+								testTitle = title;
+								regexFlags += "i";
 							} else {
 								filter = filter.filterBy.toLowerCase();
 							}
@@ -139,7 +149,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 							filter = filter.toLowerCase();
 						}
 
-						if (testTitle.includes(filter)) {
+						if (testTitleByFilter(testTitle, filter, useRegex, regexFlags)) {
 							if (until) {
 								dateFilter = until;
 							} else {
@@ -293,6 +303,22 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 
 		return false;
 	};
+
+	var testTitleByFilter = function (title, filter, useRegex, regexFlags) {
+		if (useRegex) {
+			// Assume if leading slash, there is also trailing slash
+			if (filter[0] === "/") {
+				// Strip leading and trailing slashes
+				filter = filter.substr(1).slice(0, -1);
+			}
+
+			filter = new RegExp(filter, regexFlags);
+
+			return filter.test(title);
+		} else {
+			return title.includes(filter);
+		}
+	}
 
 	/* public methods */
 

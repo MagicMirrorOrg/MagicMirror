@@ -29,7 +29,9 @@ Module.register("calendar", {
 		getRelative: 6,
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		hidePrivate: false,
+		hideOngoing: false,
 		colored: false,
+		coloredSymbolOnly: false,
 		calendars: [
 			{
 				symbol: "calendar",
@@ -130,11 +132,32 @@ Module.register("calendar", {
 			return wrapper;
 		}
 
+		var lastSeenDate = "";
+
 		for (var e in events) {
 			var event = events[e];
+			var dateAsString = moment(event.startDate, "x").format(this.config.dateFormat);
+			if(this.config.timeFormat === "dateheaders"){
+				if(lastSeenDate !== dateAsString){
+					var dateRow = document.createElement("tr");
+					dateRow.className = "normal"
+					var dateCell = document.createElement("td");
+
+					dateCell.colSpan = "3";
+					dateCell.innerHTML = dateAsString;
+					dateRow.appendChild(dateCell);
+					wrapper.appendChild(dateRow);
+
+
+					lastSeenDate = dateAsString;
+				}
+			}
+
+
+
 			var eventWrapper = document.createElement("tr");
 
-			if (this.config.colored) {
+			if (this.config.colored && !this.config.coloredSymbolOnly) {
 				eventWrapper.style.cssText = "color:" + this.colorForUrl(event.url);
 			}
 
@@ -142,6 +165,11 @@ Module.register("calendar", {
 
 			if (this.config.displaySymbol) {
 				var symbolWrapper = document.createElement("td");
+
+				if (this.config.colored && this.config.coloredSymbolOnly) {
+					symbolWrapper.style.cssText = "color:" + this.colorForUrl(event.url);
+				}
+
 				symbolWrapper.className = "symbol align-right";
 				var symbols = this.symbolsForUrl(event.url);
 				if(typeof symbols === "string") {
@@ -157,6 +185,10 @@ Module.register("calendar", {
 					symbolWrapper.appendChild(symbol);
 				}
 				eventWrapper.appendChild(symbolWrapper);
+			}else if(this.config.timeFormat === "dateheaders"){
+				var blankCell = document.createElement("td");
+				blankCell.innerHTML = "&nbsp;&nbsp;&nbsp;"
+				eventWrapper.appendChild(blankCell);
 			}
 
 			var titleWrapper = document.createElement("td"),
@@ -182,89 +214,123 @@ Module.register("calendar", {
 				titleWrapper.className = "title";
 			}
 
-			eventWrapper.appendChild(titleWrapper);
+			if(this.config.timeFormat === "dateheaders"){
 
-			var timeWrapper = document.createElement("td");
-			//console.log(event.today);
-			var now = new Date();
-			// Define second, minute, hour, and day variables
-			var oneSecond = 1000; // 1,000 milliseconds
-			var oneMinute = oneSecond * 60;
-			var oneHour = oneMinute * 60;
-			var oneDay = oneHour * 24;
-			if (event.fullDayEvent) {
-				if (event.today) {
-					timeWrapper.innerHTML = this.capFirst(this.translate("TODAY"));
-				} else if (event.startDate - now < oneDay && event.startDate - now > 0) {
-					timeWrapper.innerHTML = this.capFirst(this.translate("TOMORROW"));
-				} else if (event.startDate - now < 2 * oneDay && event.startDate - now > 0) {
-					if (this.translate("DAYAFTERTOMORROW") !== "DAYAFTERTOMORROW") {
-						timeWrapper.innerHTML = this.capFirst(this.translate("DAYAFTERTOMORROW"));
-					} else {
-						timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
+				if (event.fullDayEvent) {
+					titleWrapper.colSpan = "2";
+					titleWrapper.align = "left";
+
+				}else{
+					var timeWrapper = document.createElement("td");
+					timeWrapper.className = "time light";
+					timeWrapper.align = "left";
+					timeWrapper.style.paddingLeft = "2px";
+					var timeFormatString = "";
+					switch (config.timeFormat) {
+					case 12: {
+						timeFormatString = "h:mm A";
+						break;
 					}
-				} else {
-					/* Check to see if the user displays absolute or relative dates with their events
-					 * Also check to see if an event is happening within an 'urgency' time frameElement
-					 * For example, if the user set an .urgency of 7 days, those events that fall within that
-					 * time frame will be displayed with 'in xxx' time format or moment.fromNow()
-					 *
-					 * Note: this needs to be put in its own function, as the whole thing repeats again verbatim
-					 */
-					if (this.config.timeFormat === "absolute") {
-						if ((this.config.urgency > 1) && (event.startDate - now < (this.config.urgency * oneDay))) {
-							// This event falls within the config.urgency period that the user has set
-							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
-						} else {
-							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").format(this.config.fullDayEventDateFormat));
-						}
-					} else {
-						timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
+					case 24: {
+						timeFormatString = "HH:mm";
+						break;
 					}
+					default: {
+						timeFormatString = "HH:mm";
+						break;
+					}
+					}
+					timeWrapper.innerHTML = moment(event.startDate, "x").format(timeFormatString);
+					eventWrapper.appendChild(timeWrapper);
+					titleWrapper.align = "right";
 				}
-			} else {
-				if (event.startDate >= new Date()) {
-					if (event.startDate - now < 2 * oneDay) {
-						// This event is within the next 48 hours (2 days)
-						if (event.startDate - now < this.config.getRelative * oneHour) {
-							// If event is within 6 hour, display 'in xxx' time format or moment.fromNow()
-							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
+
+				eventWrapper.appendChild(titleWrapper);
+			}else{
+				var timeWrapper = document.createElement("td");
+
+				eventWrapper.appendChild(titleWrapper);
+				//console.log(event.today);
+				var now = new Date();
+				// Define second, minute, hour, and day variables
+				var oneSecond = 1000; // 1,000 milliseconds
+				var oneMinute = oneSecond * 60;
+				var oneHour = oneMinute * 60;
+				var oneDay = oneHour * 24;
+				if (event.fullDayEvent) {
+					if (event.today) {
+						timeWrapper.innerHTML = this.capFirst(this.translate("TODAY"));
+					} else if (event.startDate - now < oneDay && event.startDate - now > 0) {
+						timeWrapper.innerHTML = this.capFirst(this.translate("TOMORROW"));
+					} else if (event.startDate - now < 2 * oneDay && event.startDate - now > 0) {
+						if (this.translate("DAYAFTERTOMORROW") !== "DAYAFTERTOMORROW") {
+							timeWrapper.innerHTML = this.capFirst(this.translate("DAYAFTERTOMORROW"));
 						} else {
-							// Otherwise just say 'Today/Tomorrow at such-n-such time'
-							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").calendar());
+							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 						}
 					} else {
 						/* Check to see if the user displays absolute or relative dates with their events
-						 * Also check to see if an event is happening within an 'urgency' time frameElement
-						 * For example, if the user set an .urgency of 7 days, those events that fall within that
-						 * time frame will be displayed with 'in xxx' time format or moment.fromNow()
-						 *
-						 * Note: this needs to be put in its own function, as the whole thing repeats again verbatim
-						 */
+						* Also check to see if an event is happening within an 'urgency' time frameElement
+						* For example, if the user set an .urgency of 7 days, those events that fall within that
+						* time frame will be displayed with 'in xxx' time format or moment.fromNow()
+						*
+						* Note: this needs to be put in its own function, as the whole thing repeats again verbatim
+						*/
 						if (this.config.timeFormat === "absolute") {
 							if ((this.config.urgency > 1) && (event.startDate - now < (this.config.urgency * oneDay))) {
 								// This event falls within the config.urgency period that the user has set
 								timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 							} else {
-								timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").format(this.config.dateFormat));
+								timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").format(this.config.fullDayEventDateFormat));
 							}
 						} else {
 							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 						}
 					}
 				} else {
-					timeWrapper.innerHTML = this.capFirst(
-						this.translate("RUNNING", {
-							fallback: this.translate("RUNNING") + " {timeUntilEnd}",
-							timeUntilEnd: moment(event.endDate, "x").fromNow(true)
-						})
-					);
+					if (event.startDate >= new Date()) {
+						if (event.startDate - now < 2 * oneDay) {
+							// This event is within the next 48 hours (2 days)
+							if (event.startDate - now < this.config.getRelative * oneHour) {
+								// If event is within 6 hour, display 'in xxx' time format or moment.fromNow()
+								timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
+							} else {
+								// Otherwise just say 'Today/Tomorrow at such-n-such time'
+								timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").calendar());
+							}
+						} else {
+							/* Check to see if the user displays absolute or relative dates with their events
+							* Also check to see if an event is happening within an 'urgency' time frameElement
+							* For example, if the user set an .urgency of 7 days, those events that fall within that
+							* time frame will be displayed with 'in xxx' time format or moment.fromNow()
+							*
+							* Note: this needs to be put in its own function, as the whole thing repeats again verbatim
+							*/
+							if (this.config.timeFormat === "absolute") {
+								if ((this.config.urgency > 1) && (event.startDate - now < (this.config.urgency * oneDay))) {
+									// This event falls within the config.urgency period that the user has set
+									timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
+								} else {
+									timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").format(this.config.dateFormat));
+								}
+							} else {
+								timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
+							}
+						}
+					} else {
+						timeWrapper.innerHTML = this.capFirst(
+							this.translate("RUNNING", {
+								fallback: this.translate("RUNNING") + " {timeUntilEnd}",
+								timeUntilEnd: moment(event.endDate, "x").fromNow(true)
+							})
+						);
+					}
 				}
+				//timeWrapper.innerHTML += ' - '+ moment(event.startDate,'x').format('lll');
+				//console.log(event);
+				timeWrapper.className = "time light";
+				eventWrapper.appendChild(timeWrapper);
 			}
-			//timeWrapper.innerHTML += ' - '+ moment(event.startDate,'x').format('lll');
-			//console.log(event);
-			timeWrapper.className = "time light";
-			eventWrapper.appendChild(timeWrapper);
 
 			wrapper.appendChild(eventWrapper);
 
@@ -336,6 +402,7 @@ Module.register("calendar", {
 	createEventList: function () {
 		var events = [];
 		var today = moment().startOf("day");
+		var now = new Date();
 		for (var c in this.calendarData) {
 			var calendar = this.calendarData[c];
 			for (var e in calendar) {
@@ -345,6 +412,14 @@ Module.register("calendar", {
 						  // do not add the current event, skip it
 						  continue;
 					}
+				}
+				if(this.config.hideOngoing) {
+					if(event.startDate < now) {
+						continue;
+					}
+				}
+				if(this.listContainsEvent(events,event)){
+					continue;
 				}
 				event.url = c;
 				event.today = event.startDate >= today && event.startDate < (today + 24 * 60 * 60 * 1000);
@@ -357,6 +432,17 @@ Module.register("calendar", {
 		});
 
 		return events.slice(0, this.config.maximumEntries);
+	},
+
+
+	listContainsEvent: function(eventList, event){
+		for(let evt of eventList){
+			if(evt.title === event.title && parseInt(evt.startDate) === parseInt(event.startDate)){
+				return true;
+			}
+		}
+		return false;
+
 	},
 
 	/* createEventList(url)
