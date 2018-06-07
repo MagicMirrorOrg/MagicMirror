@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+[ unreleased]
+### fixes
+
+- invoke module suspend even if no dom content. [#1308](https://github.com/MichMich/MagicMirror/issues/1308)
+
 ## [2.3.1] - 2018-04-01
 
 ### Fixed
