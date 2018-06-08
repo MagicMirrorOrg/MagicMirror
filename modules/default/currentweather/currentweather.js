@@ -251,8 +251,7 @@ Module.register("currentweather",{
 
 			var feelsLike = document.createElement("span");
 			feelsLike.className = "dimmed";
-            feelsLike.innerHTML = this.translate("FEELS") + " " + this.feelsLike + "&deg;" + degreeLabel;
-
+			feelsLike.innerHTML = this.translate("FEELS") + " " + this.feelsLike + "&deg;" + degreeLabel;
             small.appendChild(feelsLike);
 
 			wrapper.appendChild(small);
