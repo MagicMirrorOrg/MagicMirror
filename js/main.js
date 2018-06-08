@@ -245,7 +245,7 @@ var MM = (function() {
 
 				if (typeof callback === "function") { callback(); }
 			}, speed);
-		} else {  
+		} else {
 			// invoke callback even if no content, issue 1308
 			if (typeof callback === "function") { callback(); }
 		}
