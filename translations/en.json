@@ -25,6 +25,7 @@
 	"WNW": "WNW",
 	"NW": "NW",
 	"NNW": "NNW",
+	"FEELS": "Feels",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² update available.",
 	"UPDATE_NOTIFICATION_MODULE": "Update available for {MODULE_NAME} module.",
