@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+=======
 ## [2.4.0] - Unreleased (Current Develop Branch)
 
 *This release is scheduled to be released on 2018-07-01.*
@@ -24,6 +25,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Upgrade to Electron 2.0.0.
 - Remove yarn-or-npm which breaks production builds.
+- Invoke module suspend even if no dom content. [#1308](https://github.com/MichMich/MagicMirror/issues/1308)
 
 ### Fixed
 - Fixed issue where wind chill could not be displayed in Fahrenheit. [#1247](https://github.com/MichMich/MagicMirror/issues/1247)
