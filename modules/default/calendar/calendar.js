@@ -1,15 +1,15 @@
 /* global Module */
 
 /* Magic Mirror
- * Module: Calendar
- *
- * By Michael Teeuw http://michaelteeuw.nl
- * MIT Licensed.
- */
+* Module: Calendar
+*
+* By Michael Teeuw http://michaelteeuw.nl
+* MIT Licensed.
+*/
 
 Module.register("calendar", {
 
-	// Define module defaults
+// Define module defaults
 	defaults: {
 		maximumEntries: 10, // Total Maximum Entries
 		maximumNumberOfDays: 365,
@@ -82,7 +82,7 @@ Module.register("calendar", {
 			};
 
 			// we check user and password here for backwards compatibility with old configs
-			if(calendar.user && calendar.pass) {
+			if (calendar.user && calendar.pass) {
 				Log.warn("Deprecation warning: Please update your calendar authentication configuration.");
 				Log.warn("https://github.com/MichMich/MagicMirror/tree/v2.1.2/modules/default/calendar#calendar-authentication-options");
 				calendar.auth = {
@@ -138,8 +138,8 @@ Module.register("calendar", {
 		for (var e in events) {
 			var event = events[e];
 			var dateAsString = moment(event.startDate, "x").format(this.config.dateFormat);
-			if(this.config.timeFormat === "dateheaders"){
-				if(lastSeenDate !== dateAsString){
+			if (this.config.timeFormat === "dateheaders") {
+				if (lastSeenDate !== dateAsString) {
 					var dateRow = document.createElement("tr");
 					dateRow.className = "normal"
 					var dateCell = document.createElement("td");
@@ -153,7 +153,6 @@ Module.register("calendar", {
 					lastSeenDate = dateAsString;
 				}
 			}
-
 
 
 			var eventWrapper = document.createElement("tr");
@@ -173,20 +172,20 @@ Module.register("calendar", {
 
 				symbolWrapper.className = "symbol align-right";
 				var symbols = this.symbolsForUrl(event.url);
-				if(typeof symbols === "string") {
+				if (typeof symbols === "string") {
 					symbols = [symbols];
 				}
 
-				for(var i = 0; i < symbols.length; i++) {
+				for (var i = 0; i < symbols.length; i++) {
 					var symbol = document.createElement("span");
 					symbol.className = "fa fa-fw fa-" + symbols[i];
-					if(i > 0){
+					if (i > 0) {
 						symbol.style.paddingLeft = "5px";
 					}
 					symbolWrapper.appendChild(symbol);
 				}
 				eventWrapper.appendChild(symbolWrapper);
-			}else if(this.config.timeFormat === "dateheaders"){
+			} else if (this.config.timeFormat === "dateheaders") {
 				var blankCell = document.createElement("td");
 				blankCell.innerHTML = "&nbsp;&nbsp;&nbsp;"
 				eventWrapper.appendChild(blankCell);
@@ -215,13 +214,13 @@ Module.register("calendar", {
 				titleWrapper.className = "title";
 			}
 
-			if(this.config.timeFormat === "dateheaders"){
+			if (this.config.timeFormat === "dateheaders") {
 
 				if (event.fullDayEvent) {
 					titleWrapper.colSpan = "2";
 					titleWrapper.align = "left";
 
-				}else{
+				} else {
 					var timeWrapper = document.createElement("td");
 					timeWrapper.className = "time light";
 					timeWrapper.align = "left";
@@ -247,7 +246,7 @@ Module.register("calendar", {
 				}
 
 				eventWrapper.appendChild(titleWrapper);
-			}else{
+			} else {
 				var timeWrapper = document.createElement("td");
 
 				eventWrapper.appendChild(titleWrapper);
@@ -271,12 +270,12 @@ Module.register("calendar", {
 						}
 					} else {
 						/* Check to see if the user displays absolute or relative dates with their events
-						* Also check to see if an event is happening within an 'urgency' time frameElement
-						* For example, if the user set an .urgency of 7 days, those events that fall within that
-						* time frame will be displayed with 'in xxx' time format or moment.fromNow()
-						*
-						* Note: this needs to be put in its own function, as the whole thing repeats again verbatim
-						*/
+* Also check to see if an event is happening within an 'urgency' time frameElement
+* For example, if the user set an .urgency of 7 days, those events that fall within that
+* time frame will be displayed with 'in xxx' time format or moment.fromNow()
+*
+* Note: this needs to be put in its own function, as the whole thing repeats again verbatim
+*/
 						if (this.config.timeFormat === "absolute") {
 							if ((this.config.urgency > 1) && (event.startDate - now < (this.config.urgency * oneDay))) {
 								// This event falls within the config.urgency period that the user has set
@@ -301,12 +300,12 @@ Module.register("calendar", {
 							}
 						} else {
 							/* Check to see if the user displays absolute or relative dates with their events
-							* Also check to see if an event is happening within an 'urgency' time frameElement
-							* For example, if the user set an .urgency of 7 days, those events that fall within that
-							* time frame will be displayed with 'in xxx' time format or moment.fromNow()
-							*
-							* Note: this needs to be put in its own function, as the whole thing repeats again verbatim
-							*/
+* Also check to see if an event is happening within an 'urgency' time frameElement
+* For example, if the user set an .urgency of 7 days, those events that fall within that
+* time frame will be displayed with 'in xxx' time format or moment.fromNow()
+*
+* Note: this needs to be put in its own function, as the whole thing repeats again verbatim
+*/
 							if (this.config.timeFormat === "absolute") {
 								if ((this.config.urgency > 1) && (event.startDate - now < (this.config.urgency * oneDay))) {
 									// This event falls within the config.urgency period that the user has set
@@ -353,37 +352,37 @@ Module.register("calendar", {
 	},
 
 	/**
-	 * This function accepts a number (either 12 or 24) and returns a moment.js LocaleSpecification with the
-	 * corresponding timeformat to be used in the calendar display. If no number is given (or otherwise invalid input)
-	 * it will a localeSpecification object with the system locale time format.
-	 *
-	 * @param {number} timeFormat Specifies either 12 or 24 hour time format
-	 * @returns {moment.LocaleSpecification}
-	 */
-	getLocaleSpecification: function(timeFormat) {
+* This function accepts a number (either 12 or 24) and returns a moment.js LocaleSpecification with the
+* corresponding timeformat to be used in the calendar display. If no number is given (or otherwise invalid input)
+* it will a localeSpecification object with the system locale time format.
+*
+* @param {number} timeFormat Specifies either 12 or 24 hour time format
+* @returns {moment.LocaleSpecification}
+*/
+	getLocaleSpecification: function (timeFormat) {
 		switch (timeFormat) {
 		case 12: {
-			return { longDateFormat: {LT: "h:mm A"} };
+			return {longDateFormat: {LT: "h:mm A"}};
 			break;
 		}
 		case 24: {
-			return { longDateFormat: {LT: "HH:mm"} };
+			return {longDateFormat: {LT: "HH:mm"}};
 			break;
 		}
 		default: {
-			return { longDateFormat: {LT: moment.localeData().longDateFormat("LT")} };
+			return {longDateFormat: {LT: moment.localeData().longDateFormat("LT")}};
 			break;
 		}
 		}
 	},
 
 	/* hasCalendarURL(url)
-	 * Check if this config contains the calendar url.
-	 *
-	 * argument url string - Url to look for.
-	 *
-	 * return bool - Has calendar url
-	 */
+* Check if this config contains the calendar url.
+*
+* argument url string - Url to look for.
+*
+* return bool - Has calendar url
+*/
 	hasCalendarURL: function (url) {
 		for (var c in this.config.calendars) {
 			var calendar = this.config.calendars[c];
@@ -396,10 +395,10 @@ Module.register("calendar", {
 	},
 
 	/* createEventList()
-	 * Creates the sorted list of all events.
-	 *
-	 * return array - Array with events.
-	 */
+* Creates the sorted list of all events.
+*
+* return array - Array with events.
+*/
 	createEventList: function () {
 		var events = [];
 		var today = moment().startOf("day");
@@ -408,18 +407,18 @@ Module.register("calendar", {
 			var calendar = this.calendarData[c];
 			for (var e in calendar) {
 				var event = calendar[e];
-				if(this.config.hidePrivate) {
-					if(event.class === "PRIVATE") {
-						  // do not add the current event, skip it
-						  continue;
-					}
-				}
-				if(this.config.hideOngoing) {
-					if(event.startDate < now) {
+				if (this.config.hidePrivate) {
+					if (event.class === "PRIVATE") {
+						// do not add the current event, skip it
 						continue;
 					}
 				}
-				if(this.listContainsEvent(events,event)){
+				if (this.config.hideOngoing) {
+					if (event.startDate < now) {
+						continue;
+					}
+				}
+				if (this.listContainsEvent(events, event)) {
 					continue;
 				}
 				event.url = c;
@@ -436,9 +435,9 @@ Module.register("calendar", {
 	},
 
 
-	listContainsEvent: function(eventList, event){
-		for(let evt of eventList){
-			if(evt.title === event.title && parseInt(evt.startDate) === parseInt(event.startDate)){
+	listContainsEvent: function (eventList, event) {
+		for (let evt of eventList) {
+			if (evt.title === event.title && parseInt(evt.startDate) === parseInt(event.startDate)) {
 				return true;
 			}
 		}
@@ -447,10 +446,10 @@ Module.register("calendar", {
 	},
 
 	/* createEventList(url)
-	 * Requests node helper to add calendar url.
-	 *
-	 * argument url string - Url to add.
-	 */
+* Requests node helper to add calendar url.
+*
+* argument url string - Url to add.
+*/
 	addCalendar: function (url, auth, calendarConfig) {
 		this.sendSocketNotification("ADD_CALENDAR", {
 			url: url,
@@ -463,47 +462,47 @@ Module.register("calendar", {
 	},
 
 	/* symbolsForUrl(url)
-	 * Retrieves the symbols for a specific url.
-	 *
-	 * argument url string - Url to look for.
-	 *
-	 * return string/array - The Symbols
-	 */
+* Retrieves the symbols for a specific url.
+*
+* argument url string - Url to look for.
+*
+* return string/array - The Symbols
+*/
 	symbolsForUrl: function (url) {
 		return this.getCalendarProperty(url, "symbol", this.config.defaultSymbol);
 	},
 
 	/* colorForUrl(url)
-	 * Retrieves the color for a specific url.
-	 *
-	 * argument url string - Url to look for.
-	 *
-	 * return string - The Color
-	 */
+* Retrieves the color for a specific url.
+*
+* argument url string - Url to look for.
+*
+* return string - The Color
+*/
 	colorForUrl: function (url) {
 		return this.getCalendarProperty(url, "color", "#fff");
 	},
 
 	/* countTitleForUrl(url)
-	 * Retrieves the name for a specific url.
-	 *
-	 * argument url string - Url to look for.
-	 *
-	 * return string - The Symbol
-	 */
+* Retrieves the name for a specific url.
+*
+* argument url string - Url to look for.
+*
+* return string - The Symbol
+*/
 	countTitleForUrl: function (url) {
 		return this.getCalendarProperty(url, "repeatingCountTitle", this.config.defaultRepeatingCountTitle);
 	},
 
 	/* getCalendarProperty(url, property, defaultValue)
-	 * Helper method to retrieve the property for a specific url.
-	 *
-	 * argument url string - Url to look for.
-	 * argument property string - Property to look for.
-	 * argument defaultValue string - Value if property is not found.
-	 *
-	 * return string - The Property
-	 */
+* Helper method to retrieve the property for a specific url.
+*
+* argument url string - Url to look for.
+* argument property string - Property to look for.
+* argument defaultValue string - Value if property is not found.
+*
+* return string - The Property
+*/
 	getCalendarProperty: function (url, property, defaultValue) {
 		for (var c in this.config.calendars) {
 			var calendar = this.config.calendars[c];
@@ -516,13 +515,13 @@ Module.register("calendar", {
 	},
 
 	/**
-	 * Shortens a string if it's longer than maxLength and add a ellipsis to the end
-	 *
-	 * @param {string} string Text string to shorten
-	 * @param {number} maxLength The max length of the string
-	 * @param {boolean} wrapEvents Wrap the text after the line has reached maxLength
-	 * @returns {string} The shortened string
-	 */
+* Shortens a string if it's longer than maxLength and add a ellipsis to the end
+*
+* @param {string} string Text string to shorten
+* @param {number} maxLength The max length of the string
+* @param {boolean} wrapEvents Wrap the text after the line has reached maxLength
+* @returns {string} The shortened string
+*/
 	shorten: function (string, maxLength, wrapEvents) {
 		if (typeof string !== "string") {
 			return "";
@@ -558,31 +557,31 @@ Module.register("calendar", {
 	},
 
 	/* capFirst(string)
-	 * Capitalize the first letter of a string
-	 * Return capitalized string
-	 */
+* Capitalize the first letter of a string
+* Return capitalized string
+*/
 
 	capFirst: function (string) {
 		return string.charAt(0).toUpperCase() + string.slice(1);
 	},
 
 	/* titleTransform(title)
-	 * Transforms the title of an event for usage.
-	 * Replaces parts of the text as defined in config.titleReplace.
-	 * Shortens title based on config.maxTitleLength and config.wrapEvents
-	 *
-	 * argument title string - The title to transform.
-	 *
-	 * return string - The transformed title.
-	 */
+* Transforms the title of an event for usage.
+* Replaces parts of the text as defined in config.titleReplace.
+* Shortens title based on config.maxTitleLength and config.wrapEvents
+*
+* argument title string - The title to transform.
+*
+* return string - The transformed title.
+*/
 	titleTransform: function (title) {
 		for (var needle in this.config.titleReplace) {
 			var replacement = this.config.titleReplace[needle];
 
 			var regParts = needle.match(/^\/(.+)\/([gim]*)$/);
 			if (regParts) {
-			  // the parsed pattern is a regexp.
-			  needle = new RegExp(regParts[1], regParts[2]);
+				// the parsed pattern is a regexp.
+				needle = new RegExp(regParts[1], regParts[2]);
 			}
 
 			title = title.replace(needle, replacement);
@@ -593,9 +592,9 @@ Module.register("calendar", {
 	},
 
 	/* broadcastEvents()
-	 * Broadcasts the events to all other modules for reuse.
-	 * The all events available in one array, sorted on startdate.
-	 */
+* Broadcasts the events to all other modules for reuse.
+* The all events available in one array, sorted on startdate.
+*/
 	broadcastEvents: function () {
 		var eventList = [];
 		for (var url in this.calendarData) {
@@ -609,7 +608,7 @@ Module.register("calendar", {
 			}
 		}
 
-		eventList.sort(function(a,b) {
+		eventList.sort(function (a, b) {
 			return a.startDate - b.startDate;
 		});
 
