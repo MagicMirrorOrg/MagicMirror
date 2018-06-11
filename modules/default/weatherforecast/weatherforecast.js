@@ -1,15 +1,15 @@
 /* global Module */
 
 /* Magic Mirror
-* Module: WeatherForecast
-*
-* By Michael Teeuw http://michaelteeuw.nl
-* MIT Licensed.
-*/
+ * Module: WeatherForecast
+ *
+ * By Michael Teeuw http://michaelteeuw.nl
+ * MIT Licensed.
+ */
 
 Module.register("weatherforecast",{
 
-// Default module config.
+	// Default module config.
 	defaults: {
 		location: false,
 		locationID: false,
@@ -236,9 +236,9 @@ Module.register("weatherforecast",{
 	},
 
 	/* updateWeather(compliments)
-* Requests new data from openweather.org.
-* Calls processWeather on succesfull response.
-*/
+	 * Requests new data from openweather.org.
+	 * Calls processWeather on succesfull response.
+	 */
 	updateWeather: function() {
 		if (this.config.appid === "") {
 			Log.error("WeatherForecast: APPID not set!");
@@ -277,10 +277,10 @@ Module.register("weatherforecast",{
 	},
 
 	/* getParams(compliments)
-* Generates an url with api parameters based on the config.
-*
-* return String - URL params.
-*/
+	 * Generates an url with api parameters based on the config.
+	 *
+	 * return String - URL params.
+	 */
 	getParams: function() {
 		var params = "?";
 		if(this.config.locationID) {
@@ -304,12 +304,12 @@ Module.register("weatherforecast",{
 	},
 
 	/*
-* parserDataWeather(data)
-*
-* Use the parse to keep the same struct between daily and forecast Endpoint
-* from Openweather
-*
-*/
+	 * parserDataWeather(data)
+	 *
+	 * Use the parse to keep the same struct between daily and forecast Endpoint
+	 * from Openweather
+	 *
+	 */
 	parserDataWeather: function(data) {
 		if (data.hasOwnProperty("main")) {
 			data["temp"] = {"min": data.main.temp_min, "max": data.main.temp_max}
@@ -318,10 +318,10 @@ Module.register("weatherforecast",{
 	},
 
 	/* processWeather(data)
-* Uses the received data to set the various values.
-*
-* argument data object - Weather information received form openweather.org.
-*/
+	 * Uses the received data to set the various values.
+	 *
+	 * argument data object - Weather information received form openweather.org.
+	 */
 	processWeather: function(data) {
 		this.fetchedLocationName = data.city.name + ", " + data.city.country;
 
@@ -374,10 +374,10 @@ Module.register("weatherforecast",{
 	},
 
 	/* scheduleUpdate()
-* Schedule next update.
-*
-* argument delay number - Milliseconds before next update. If empty, this.config.updateInterval is used.
-*/
+	 * Schedule next update.
+	 *
+	 * argument delay number - Milliseconds before next update. If empty, this.config.updateInterval is used.
+	 */
 	scheduleUpdate: function(delay) {
 		var nextLoad = this.config.updateInterval;
 		if (typeof delay !== "undefined" && delay >= 0) {
@@ -392,16 +392,16 @@ Module.register("weatherforecast",{
 	},
 
 	/* ms2Beaufort(ms)
-* Converts m2 to beaufort (windspeed).
-*
-* see:
-*  http://www.spc.noaa.gov/faq/tornado/beaufort.html
-*  https://en.wikipedia.org/wiki/Beaufort_scale#Modern_scale
-*
-* argument ms number - Windspeed in m/s.
-*
-* return number - Windspeed in beaufort.
-*/
+	 * Converts m2 to beaufort (windspeed).
+	 *
+	 * see:
+	 *  http://www.spc.noaa.gov/faq/tornado/beaufort.html
+	 *  https://en.wikipedia.org/wiki/Beaufort_scale#Modern_scale
+	 *
+	 * argument ms number - Windspeed in m/s.
+	 *
+	 * return number - Windspeed in beaufort.
+	 */
 	ms2Beaufort: function(ms) {
 		var kmh = ms * 60 * 60 / 1000;
 		var speeds = [1, 5, 11, 19, 28, 38, 49, 61, 74, 88, 102, 117, 1000];
@@ -415,12 +415,12 @@ Module.register("weatherforecast",{
 	},
 
 	/* function(temperature)
-* Rounds a temperature to 1 decimal or integer (depending on config.roundTemp).
-*
-* argument temperature number - Temperature.
-*
-* return string - Rounded Temperature.
-*/
+	 * Rounds a temperature to 1 decimal or integer (depending on config.roundTemp).
+	 *
+	 * argument temperature number - Temperature.
+	 *
+	 * return string - Rounded Temperature.
+	 */
 	roundValue: function(temperature) {
 		var decimals = this.config.roundTemp ? 0 : 1;
 		return parseFloat(temperature).toFixed(decimals);
