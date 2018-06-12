@@ -21,6 +21,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added option for new display format in the calendar module with date headers with times/events below.
 - Ability to fetch compliments from a remote server
 - Add regex filtering to calendar module
+- Customize classes for table
 
 ### Changed
 - Upgrade to Electron 2.0.0.

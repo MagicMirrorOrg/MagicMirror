@@ -32,6 +32,7 @@ Module.register("calendar", {
 		hideOngoing: false,
 		colored: false,
 		coloredSymbolOnly: false,
+		tableClass: "small",
 		calendars: [
 			{
 				symbol: "calendar",
@@ -124,11 +125,11 @@ Module.register("calendar", {
 
 		var events = this.createEventList();
 		var wrapper = document.createElement("table");
-		wrapper.className = "small";
+		wrapper.className = this.config.tableClass;
 
 		if (events.length === 0) {
 			wrapper.innerHTML = (this.loaded) ? this.translate("EMPTY") : this.translate("LOADING");
-			wrapper.className = "small dimmed";
+			wrapper.className = this.config.tableClass + " dimmed";
 			return wrapper;
 		}
 
@@ -152,7 +153,6 @@ Module.register("calendar", {
 					lastSeenDate = dateAsString;
 				}
 			}
-
 
 
 			var eventWrapper = document.createElement("tr");
