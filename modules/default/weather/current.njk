@@ -1,9 +1,3 @@
-{#
-    TODO:
-    - Show Indoor Temperature
-    - Show Indoor Humidity
-#}
-
 {% if current %}
     {% if not config.onlyTemp %}
         <div class="normal medium">
@@ -44,6 +38,22 @@
         <span class="bright">
             {{current.temperature | round(0 if config.roundTemp else 1) | unit("temperature")}}
         </span>
+        {% if config.showIndoorTemperature and indoor.temperature %}
+            <span class="fa fa-home"></span>
+            <span class="bright">
+                {{indoor.temperature | round(0 if config.roundTemp else 1) | unit("temperature")}}
+            </span>
+        {% endif %}
+        {% if config.showIndoorHumidity and indoor.humidity %}
+            <span class="fa fa-tint"></span>
+            <span class="bright">
+                {{indoor.humidity | round(0 if config.roundTemp else 1)}}%
+            </span>
+        {% endif %}
+    </div>
+{% else %}
+    <div class="dimmed light small">
+        {{"LOADING" | translate}}
     </div>
 {% endif %}
 
