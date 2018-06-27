@@ -21,7 +21,7 @@
 	"W": "O",
 	"WNW": "ONO",
 	"NW": "NO",
-	"NNW": "NNO"
+	"NNW": "NNO",
 	
 	"UPDATE_NOTIFICATION": "Nova atualização para MagicMirror disponível.",
 	"UPDATE_NOTIFICATION_MODULE": "Atualização para o módulo {MODULE_NAME} disponível.",
