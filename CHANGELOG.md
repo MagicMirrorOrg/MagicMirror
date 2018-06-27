@@ -23,6 +23,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add regex filtering to calendar module
 - Customize classes for table
 - Added option to newsfeed module to only log error parsing a news article if enabled
+- Add update translations for Português Brasileiro
 
 ### Changed
 - Upgrade to Electron 2.0.0.
