@@ -38,6 +38,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fixed weatherforecast to use dt_txt field instead of dt to handle timezones better
 - Newsfeed now remembers to show the description when `"ARTICLE_LESS_DETAILS"` is called if the user wants to always show the description. [#1282](https://github.com/MichMich/MagicMirror/issues/1282)
 - `clientonly/*.js` is now linted, and one linting error is fixed
+- Fix issue #1196 by changing underscore to hyphen in locale id, in align with momentjs.
 
 ### Updated
 - Updated Italian translation
