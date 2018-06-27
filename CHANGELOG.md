@@ -22,6 +22,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Ability to fetch compliments from a remote server
 - Add regex filtering to calendar module
 - Customize classes for table
+- Added option to newsfeed module to only log error parsing a news article if enabled
 
 ### Changed
 - Upgrade to Electron 2.0.0.
