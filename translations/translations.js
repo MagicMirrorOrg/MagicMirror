@@ -17,12 +17,12 @@ var translations = {
 	"nb" : "translations/nb.json", // Norsk bokmål
 	"nn" : "translations/nn.json", // Norsk nynorsk
 	"pt" : "translations/pt.json", // Português
-	"pt_br" : "translations/pt_br.json", // Português Brasileiro
+	"pt-br" : "translations/pt-br.json", // Português Brasileiro
 	"sv" : "translations/sv.json", // Svenska
 	"id" : "translations/id.json", // Indonesian
 	"it" : "translations/it.json", // Italian
-	"zh_cn" : "translations/zh_cn.json", // Simplified Chinese
-	"zh_tw" : "translations/zh_tw.json", // Traditional Chinese
+	"zh-cn" : "translations/zh-cn.json", // Simplified Chinese
+	"zh-tw" : "translations/zh-tw.json", // Traditional Chinese
 	"ja" : "translations/ja.json", // Japanese
 	"pl" : "translations/pl.json", // Polish
 	"gr" : "translations/gr.json", // Greek
