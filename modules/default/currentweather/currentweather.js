@@ -417,7 +417,7 @@ Module.register("currentweather",{
 			case "imperial": this.feelsLike = windChillInF.toFixed(0);
 				break;
 			case "default":
-				var tc = windChillInC - 273.15;
+				var tc = windChillInC + 273.15;
 				this.feelsLike = tc.toFixed(0);
 				break;
 			}
