@@ -437,7 +437,7 @@ Module.register("currentweather",{
 			case "imperial": this.feelsLike = Hindex.toFixed(0);
 				break;
 			case "default":
-				var tc = Hindex - 273.15;
+				var tc = parseFloat((Hindex - 32) / 1.8) + 273.15;
 				this.feelsLike = tc.toFixed(0);
 				break;
 			}
