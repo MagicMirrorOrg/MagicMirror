@@ -81,15 +81,16 @@ var Module = Class.extend({
 	 * return DomObject | Promise - The dom or a promise with the dom to display.
 	 */
 	getDom: function () {
-		return new Promise((resolve) => {
+		var self = this;
+		return new Promise(function(resolve) {
 			var div = document.createElement("div");
-			var template = this.getTemplate();
-			var templateData = this.getTemplateData();
+			var template = self.getTemplate();
+			var templateData = self.getTemplateData();
 
 			// Check to see if we need to render a template string or a file.
 			if (/^.*((\.html)|(\.njk))$/.test(template)) {
 				// the template is a filename
-				this.nunjucksEnvironment().render(template, templateData, function (err, res) {
+				self.nunjucksEnvironment().render(template, templateData, function (err, res) {
 					if (err) {
 						Log.error(err)
 					}
@@ -100,7 +101,7 @@ var Module = Class.extend({
 				});
 			} else {
 				// the template is a template string.
-				div.innerHTML = this.nunjucksEnvironment().renderString(template, templateData);
+				div.innerHTML = self.nunjucksEnvironment().renderString(template, templateData);
 
 				resolve(div);
 			}

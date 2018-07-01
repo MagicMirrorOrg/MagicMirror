@@ -17,7 +17,7 @@ MagicMirror² focuses on a modular plugin system and uses [Electron](http://elec
 ## Table Of Contents
 
 - [Installation](#installation)
-  - [Raspberry Pi](#raspberrypi)
+  - [Raspberry Pi](#raspberry-pi)
   - [General](#general)
   - [Server Only](#server-only)
   - [Client Only](#client-only)
@@ -119,11 +119,11 @@ The following wiki links are helpful for the initial configuration of your Magic
 
 ### General
 
-1. Copy `config/config.js.sample` to `config/config.js`. \
+1. Copy `/home/pi/MagicMirror/config/config.js.sample` to `/home/pi/MagicMirror/config/config.js`. \
    **Note:** If you used the installer script. This step is already done for you.
 
 2. Modify your required settings. \
-   Note: You'll can check your configuration running `npm run config:check`.
+   Note: You'll can check your configuration running `npm run config:check` in `/home/pi/MagicMirror`.
 
 
 The following properties can be configured:
@@ -146,7 +146,7 @@ Module configuration:
 | **Option** | **Description** |
 | --- | --- |
 | `module` | The name of the module. This can also contain the subfolder. Valid examples include `clock`, `default/calendar` and `custommodules/mymodule`. |
-| `position` | The location of the module in which the module will be loaded. Possible values are `top_ bar`, `top_left`, `top_center`, `top_right`, `upper_third`, `middle_center`, `lower_third`, `bottom_left`, `bottom_center`, `bottom_right`, `bottom_bar`, `fullscreen_above`, and `fullscreen_below`. This field is optional but most modules require this field to set. Check the documentation of the module for more information. Multiple modules with the same position will be ordered based on the order in the configuration file. |
+| `position` | The location of the module in which the module will be loaded. Possible values are `top_bar`, `top_left`, `top_center`, `top_right`, `upper_third`, `middle_center`, `lower_third`, `bottom_left`, `bottom_center`, `bottom_right`, `bottom_bar`, `fullscreen_above`, and `fullscreen_below`. This field is optional but most modules require this field to set. Check the documentation of the module for more information. Multiple modules with the same position will be ordered based on the order in the configuration file. |
 | `classes` | Additional classes which are passed to the module. The field is optional. |
 | `header` | To display a header text above the module, add the header property. This field is optional. |
 | `disabled` | Set disabled to `true` to skip creating the module. This field is optional. |

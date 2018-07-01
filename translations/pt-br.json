@@ -21,5 +21,9 @@
 	"W": "O",
 	"WNW": "ONO",
 	"NW": "NO",
-	"NNW": "NNO"
+	"NNW": "NNO",
+
+	"UPDATE_NOTIFICATION": "Nova atualização para MagicMirror disponível.",
+	"UPDATE_NOTIFICATION_MODULE": "Atualização para o módulo {MODULE_NAME} disponível.",
+	"UPDATE_INFO": "Sua versão atual é a {COMMIT_COUNT} dentro do seguinte branch {BRANCH_NAME}."
 }

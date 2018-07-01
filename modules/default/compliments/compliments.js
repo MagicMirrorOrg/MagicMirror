@@ -55,8 +55,8 @@ Module.register("compliments", {
 
 		var self = this;
 		if (this.config.remoteFile != null) {
-			this.complimentFile((response) => {
-				this.config.compliments = JSON.parse(response);
+			this.complimentFile(function(response) {
+				self.config.compliments = JSON.parse(response);
 				self.updateDom();
 			});
 		}
@@ -128,9 +128,11 @@ Module.register("compliments", {
 	 * Retrieve a file from the local filesystem
 	 */
 	complimentFile: function(callback) {
-		var xobj = new XMLHttpRequest();
+		var xobj = new XMLHttpRequest(),
+			isRemote = this.config.remoteFile.indexOf("http://") === 0 || this.config.remoteFile.indexOf("https://") === 0,
+			path = isRemote ? this.config.remoteFile : this.file(this.config.remoteFile);
 		xobj.overrideMimeType("application/json");
-		xobj.open("GET", this.file(this.config.remoteFile), true);
+		xobj.open("GET", path, true);
 		xobj.onreadystatechange = function() {
 			if (xobj.readyState == 4 && xobj.status == "200") {
 				callback(xobj.responseText);

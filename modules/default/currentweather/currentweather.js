@@ -67,7 +67,7 @@ Module.register("currentweather",{
 		},
 	},
 
-	// create a variable for the first upcoming calendaar event. Used if no location is specified.
+	// create a variable for the first upcoming calendar event. Used if no location is specified.
 	firstEvent: false,
 
 	// create a variable to hold the location name based on the API result.
@@ -87,7 +87,7 @@ Module.register("currentweather",{
 	getTranslations: function() {
 		// The translations for the default modules are defined in the core translation files.
 		// Therefor we can just return false. Otherwise we should have returned a dictionary.
-		// If you're trying to build yiur own module including translations, check out the documentation.
+		// If you're trying to build your own module including translations, check out the documentation.
 		return false;
 	},
 
@@ -251,7 +251,7 @@ Module.register("currentweather",{
 
 			var feelsLike = document.createElement("span");
 			feelsLike.className = "dimmed";
-			feelsLike.innerHTML = "Feels " + this.feelsLike + "&deg;" + degreeLabel;
+			feelsLike.innerHTML = this.translate("FEELS") + " " + this.feelsLike + "&deg;" + degreeLabel;
 			small.appendChild(feelsLike);
 
 			wrapper.appendChild(small);
@@ -293,11 +293,11 @@ Module.register("currentweather",{
 		}
 		if (notification === "INDOOR_TEMPERATURE") {
 			this.indoorTemperature = this.roundValue(payload);
-			this.updateDom(self.config.animationSpeed);
+			this.updateDom(this.config.animationSpeed);
 		}
 		if (notification === "INDOOR_HUMIDITY") {
 			this.indoorHumidity = this.roundValue(payload);
-			this.updateDom(self.config.animationSpeed);
+			this.updateDom(this.config.animationSpeed);
 		}
 	},
 
@@ -407,8 +407,8 @@ Module.register("currentweather",{
 
 		if (windInMph > 3 && tempInF < 50){
 			// windchill
-			var windchillinF = Math.round(35.74+0.6215*tempInF-35.75*Math.pow(windInMph,0.16)+0.4275*tempInF*Math.pow(windInMph,0.16));
-			var windChillInC = (windchillinF - 32) * (5/9);
+			var windChillInF = Math.round(35.74+0.6215*tempInF-35.75*Math.pow(windInMph,0.16)+0.4275*tempInF*Math.pow(windInMph,0.16));
+			var windChillInC = (windChillInF - 32) * (5/9);
 			// this.feelsLike = windChillInC.toFixed(0);
 
 			switch (this.config.units){
@@ -417,7 +417,7 @@ Module.register("currentweather",{
 			case "imperial": this.feelsLike = windChillInF.toFixed(0);
 				break;
 			case "default":
-				var tc = windChillInC - 273.15;
+				var tc = windChillInC + 273.15;
 				this.feelsLike = tc.toFixed(0);
 				break;
 			}
@@ -432,12 +432,12 @@ Module.register("currentweather",{
 				- 1.99*Math.pow(10,-6)*tempInF*tempInF*this.humidity*this.humidity;
 
 			switch (this.config.units){
-			case "metric": this.feelsLike = Hindex.toFixed(0);
+			case "metric": this.feelsLike = parseFloat((Hindex - 32) / 1.8).toFixed(0);
 				break;
-			case "imperial": this.feelsLike = parseFloat(Hindex * 1.8 + 32).toFixed(0);
+			case "imperial": this.feelsLike = Hindex.toFixed(0);
 				break;
 			case "default":
-				var tc = Hindex - 273.15;
+				var tc = parseFloat((Hindex - 32) / 1.8) + 273.15;
 				this.feelsLike = tc.toFixed(0);
 				break;
 			}

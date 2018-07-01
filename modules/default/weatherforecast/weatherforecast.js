@@ -36,6 +36,7 @@ Module.register("weatherforecast",{
 
 		appendLocationNameToHeader: true,
 		calendarClass: "calendar",
+		tableClass: "small",
 
 		roundTemp: false,
 
@@ -117,7 +118,7 @@ Module.register("weatherforecast",{
 		}
 
 		var table = document.createElement("table");
-		table.className = "small";
+		table.className = this.config.tableClass;
 
 		for (var f in this.forecast) {
 			var forecast = this.forecast[f];
@@ -333,8 +334,8 @@ Module.register("weatherforecast",{
 			var forecast = data.list[i];
 			this.parserDataWeather(forecast); // hack issue #1017
 
-			var day = moment(forecast.dt, "X").format("ddd");
-			var hour = moment(forecast.dt, "X").format("H");
+			var day = moment(forecast.dt_txt, "YYYY-MM-DD hh:mm:ss").format("ddd");
+			var hour = moment(forecast.dt_txt, "YYYY-MM-DD hh:mm:ss").format("H");
 
 			if (day !== lastDay) {
 				var forecastData = {
