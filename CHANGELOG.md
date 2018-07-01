@@ -1,11 +1,11 @@
 # MagicMirror² Change Log
+
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-=======
-## [2.4.0] - Unreleased (Current Develop Branch)
+---
 
-*This release is scheduled to be released on 2018-07-01.*
+## [2.4.0] - 2018-07-01
 
 ⚠️ **Warning:** This release includes an updated version of Electron. This requires a Raspberry Pi configuration change to allow the best performance and prevent the CPU from overheating. Please read the information on the [MagicMirror Wiki](https://github.com/michmich/magicmirror/wiki/configuring-the-raspberry-pi#enable-the-open-gl-driver-to-decrease-electrons-cpu-usage).
 
@@ -40,7 +40,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Newsfeed now remembers to show the description when `"ARTICLE_LESS_DETAILS"` is called if the user wants to always show the description. [#1282](https://github.com/MichMich/MagicMirror/issues/1282)
 - `clientonly/*.js` is now linted, and one linting error is fixed
 - Fix issue #1196 by changing underscore to hyphen in locale id, in align with momentjs.
-- Fixed issue where heat index and wind chill were reporting incorrect values in Kelvin. [#1263](https://github.com/MichMich/MagicMirror/issues/1263) 
+- Fixed issue where heat index and wind chill were reporting incorrect values in Kelvin. [#1263](https://github.com/MichMich/MagicMirror/issues/1263)
 
 ### Updated
 - Updated Italian translation
