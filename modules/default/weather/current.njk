@@ -36,18 +36,18 @@
     <div class="large light">
         <span class="wi weathericon wi-{{current.weatherType}}"></span>
         <span class="bright">
-            {{current.temperature | round(0 if config.roundTemp else 1) | unit("temperature")}}
+            {{current.temperature | roundValue | unit("temperature")}}
         </span>
         {% if config.showIndoorTemperature and indoor.temperature %}
             <span class="fa fa-home"></span>
             <span class="bright">
-                {{indoor.temperature | round(0 if config.roundTemp else 1) | unit("temperature")}}
+                {{indoor.temperature | roundValue | unit("temperature")}}
             </span>
         {% endif %}
         {% if config.showIndoorHumidity and indoor.humidity %}
             <span class="fa fa-tint"></span>
             <span class="bright">
-                {{indoor.humidity | round(0 if config.roundTemp else 1)}}%
+                {{indoor.humidity | roundValue}}%
             </span>
         {% endif %}
     </div>

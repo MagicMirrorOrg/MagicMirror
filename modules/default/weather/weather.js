@@ -85,6 +85,38 @@ Module.register("weather",{
 		this.scheduleUpdate(0);
 	},
 
+	// Override notification handler.
+	notificationReceived: function(notification, payload, sender) {
+		if (notification === "DOM_OBJECTS_CREATED") {
+			if (this.config.appendLocationNameToHeader) {
+				this.hide(0, {lockString: this.identifier});
+			}
+		}
+		if (notification === "CALENDAR_EVENTS") {
+			var senderClasses = sender.data.classes.toLowerCase().split(" ");
+			if (senderClasses.indexOf(this.config.calendarClass.toLowerCase()) !== -1) {
+				this.firstEvent = false;
+
+				for (var e in payload) {
+					var event = payload[e];
+					if (event.location || event.geo) {
+						this.firstEvent = event;
+						//Log.log("First upcoming event with location: ", event);
+						break;
+					}
+				}
+			}
+		}
+		if (notification === "INDOOR_TEMPERATURE") {
+			this.indoorTemperature = this.roundValue(payload);
+			this.updateDom(300);
+		}
+		if (notification === "INDOOR_HUMIDITY") {
+			this.indoorHumidity = this.roundValue(payload);
+			this.updateDom(300);
+		}
+	},
+
 	// Select the template depending on the display type.
 	getTemplate: function () {
 		return this.config.type.toLowerCase() + ".njk"
@@ -95,14 +127,18 @@ Module.register("weather",{
 		return {
 			config: this.config,
 			current: this.weatherProvider.currentWeather(),
-			forecast: this.weatherProvider.weatherForecast()
+			forecast: this.weatherProvider.weatherForecast(),
+			indoor: {
+				humidity: this.indoorHumidity,
+				temperature: this.indoorTemperature
+			}
 		}
 	},
 
 	// What to do when the weather provider has new information available?
 	updateAvailable: function() {
 		Log.log("New weather information available.");
-		this.updateDom(0);
+		this.updateDom(300);
 		this.scheduleUpdate(5000);
 	},
 
@@ -113,17 +149,18 @@ Module.register("weather",{
 		}
 
 		setTimeout(() => {
-			switch (this.config.type) {
-			case "forecast":
+			if (this.config.type === "forecast") {
 				this.weatherProvider.fetchWeatherForecast();
-				break;
-			default:
-			case "current":
+			} else {
 				this.weatherProvider.fetchCurrentWeather();
-				break;
 			}
 		}, nextLoad);
 	},
+
+	roundValue: function(temperature) {
+		var decimals = this.config.roundTemp ? 0 : 1;
+		return parseFloat(temperature).toFixed(decimals);
+	}
 
 	addFilters() {
 		this.nunjucksEnvironment().addFilter("formatTime", function(date) {
@@ -159,6 +196,10 @@ Module.register("weather",{
 			}
 
 			return value;
+		}.bind(this));
+
+		this.nunjucksEnvironment().addFilter("roundValue", function(value) {
+			return this.roundValue(value);
 		}.bind(this));
 	}
 });
