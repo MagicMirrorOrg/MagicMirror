@@ -5,15 +5,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## [2.5.0] - Unreleased
-
-*This release is scheduled to be released on 2018-10-01.*
-
-### Added
+## [2.4.1] - 2018-07-04
 
 ### Fixed
 
-### Updated
+- Fix weather parsing issue #1332.
 
 ## [2.4.0] - 2018-07-01
 
