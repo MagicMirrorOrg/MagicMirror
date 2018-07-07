@@ -10,6 +10,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- Support for toggling news article in fullscreen
+
 ### Fixed
 
 ### Updated
