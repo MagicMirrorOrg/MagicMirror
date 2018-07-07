@@ -17,7 +17,7 @@ MagicMirror² focuses on a modular plugin system and uses [Electron](http://elec
 ## Table Of Contents
 
 - [Installation](#installation)
-  - [Raspberry Pi](#raspberrypi)
+  - [Raspberry Pi](#raspberry-pi)
   - [General](#general)
   - [Server Only](#server-only)
   - [Client Only](#client-only)

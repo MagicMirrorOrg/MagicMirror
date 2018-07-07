@@ -334,8 +334,15 @@ Module.register("weatherforecast",{
 			var forecast = data.list[i];
 			this.parserDataWeather(forecast); // hack issue #1017
 
-			var day = moment(forecast.dt_txt, "YYYY-MM-DD hh:mm:ss").format("ddd");
-			var hour = moment(forecast.dt_txt, "YYYY-MM-DD hh:mm:ss").format("H");
+			var day;
+			var hour;
+			if(!!forecast.dt_txt) {
+				day = moment(forecast.dt_txt, "YYYY-MM-DD hh:mm:ss").format("ddd");
+				hour = moment(forecast.dt_txt, "YYYY-MM-DD hh:mm:ss").format("H");
+			} else {
+				day = moment(forecast.dt, "X").format("ddd");
+				hour = moment(forecast.dt, "X").format("H");
+			}
 
 			if (day !== lastDay) {
 				var forecastData = {
