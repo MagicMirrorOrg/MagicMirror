@@ -53,6 +53,11 @@ body {
   line-height: 35px;
 }
 
+.midsize {
+  font-size: 47px;
+  line-height: 50px;
+}
+
 .large {
   font-size: 65px;
   line-height: 65px;
