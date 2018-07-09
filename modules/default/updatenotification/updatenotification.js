@@ -64,7 +64,7 @@ Module.register("updatenotification", {
 			});
 
 			var text = document.createElement("span");
-			if (this.status.module == "default") {
+			if (this.status.module === "default") {
 				text.innerHTML = this.translate("UPDATE_NOTIFICATION");
 				subtextHtml = this.diffLink(subtextHtml);
 			} else {

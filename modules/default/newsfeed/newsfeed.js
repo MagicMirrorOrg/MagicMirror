@@ -126,7 +126,7 @@ Module.register("newsfeed",{
 			if (this.config.removeStartTags === "title" || this.config.removeStartTags === "both") {
 
 				for (f=0; f<this.config.startTags.length;f++) {
-					if (this.newsItems[this.activeItem].title.slice(0,this.config.startTags[f].length) == this.config.startTags[f]) {
+					if (this.newsItems[this.activeItem].title.slice(0,this.config.startTags[f].length) === this.config.startTags[f]) {
 						this.newsItems[this.activeItem].title = this.newsItems[this.activeItem].title.slice(this.config.startTags[f].length,this.newsItems[this.activeItem].title.length);
 					}
 				}
