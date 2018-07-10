@@ -366,19 +366,8 @@ Module.register("newsfeed",{
 				Log.info(this.name + " - scrolling down");
 				Log.info(this.name + " - ARTICLE_MORE_DETAILS, scroll position: " + this.config.scrollLength);
 			}
-			// display full article
 			else {
-				this.isShowingDescription = !this.isShowingDescription;
-				this.config.showFullArticle = !this.isShowingDescription;
-				// make bottom bar align to top to allow scrolling
-				if(this.config.showFullArticle == true){
-					document.getElementsByClassName("region bottom bar")[0].style.bottom = "inherit";
-					document.getElementsByClassName("region bottom bar")[0].style.top = "-90px";
-				}
-				clearInterval(timer);
-				timer = null;
-				Log.info(this.name + " - showing " + this.isShowingDescription ? "article description" : "full article");
-				this.updateDom(100);
+				this.showFullArticle();
 			}
 		} else if(notification == "ARTICLE_SCROLL_UP"){
 			if(this.config.showFullArticle == true){
@@ -391,9 +380,30 @@ Module.register("newsfeed",{
 			this.resetDescrOrFullArticleAndTimer();
 			Log.info(this.name + " - showing only article titles again");
 			this.updateDom(100);
+		} else if (notification == "ARTICLE_TOGGLE_FULL"){
+			if (this.config.showFullArticle){
+				this.activeItem++;
+				this.resetDescrOrFullArticleAndTimer();
+			} else {
+				this.showFullArticle();
+			}
 		} else {
 			Log.info(this.name + " - unknown notification, ignoring: " + notification);
 		}
 	},
+
+	showFullArticle: function() {
+		this.isShowingDescription = !this.isShowingDescription;
+		this.config.showFullArticle = !this.isShowingDescription;
+		// make bottom bar align to top to allow scrolling
+		if(this.config.showFullArticle == true){
+			document.getElementsByClassName("region bottom bar")[0].style.bottom = "inherit";
+			document.getElementsByClassName("region bottom bar")[0].style.top = "-90px";
+		}
+		clearInterval(timer);
+		timer = null;
+		Log.info(this.name + " - showing " + this.isShowingDescription ? "article description" : "full article");
+		this.updateDom(100);
+	}
 
 });
