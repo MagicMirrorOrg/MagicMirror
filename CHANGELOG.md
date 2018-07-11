@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Support for toggling news article in fullscreen
 
 ### Fixed
+- Mixup between german and spanish translation for newsfeed.
 
 ### Updated
 
