@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Support for toggling news article in fullscreen
 - Hungarian translation for "Feels" and "Week"
 - Spanish translation for "Feels"
+- Add classes instead of inline style to the message from the module Alert
 
 ### Fixed
 - Mixup between german and spanish translation for newsfeed.
