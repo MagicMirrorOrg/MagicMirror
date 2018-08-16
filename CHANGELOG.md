@@ -24,6 +24,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Swedish translations
 - Hungarian translations for the updatenotification module
+- Updated Norsk bokmål translation
+- Updated Norsk nynorsk translation
 
 ## [2.4.1] - 2018-07-04
 
