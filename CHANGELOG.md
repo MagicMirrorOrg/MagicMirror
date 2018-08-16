@@ -19,6 +19,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Mixup between german and spanish translation for newsfeed.
+- Fixed close dates to be absolute, if no configured in the config.js - module Calendar
 
 ### Updated
 
