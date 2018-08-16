@@ -1,0 +1,32 @@
+{
+        "LOADING": "Aktualizácia &hellip;",
+
+        "TODAY": "Dnes",
+        "TOMORROW": "Zajtra",
+        "DAYAFTERTOMORROW": "Pozajtra",
+        "RUNNING": "Končí o",
+        "EMPTY": "Žiadne nové udalosti.",
+
+        "WEEK": "{weekNumber}. týždeň",
+
+        "N": "S",
+        "NNE": "SSV",
+        "NE": "SV",
+        "ENE": "VSV",
+        "E": "V",
+        "ESE": "VJV",
+        "SE": "JV",
+        "SSE": "JJV",
+        "S": "J",
+        "SSW": "JJZ",
+        "SW": "JZ",
+        "WSW": "ZJZ",
+        "W": "Z",
+        "WNW": "ZSZ",
+        "NW": "SZ",
+        "NNW": "SSZ",
+
+        "UPDATE_NOTIFICATION": "Dostupná aktualizácia pre MagicMirror².",
+        "UPDATE_NOTIFICATION_MODULE": "Dostupná aktualizácia pre modul {MODULE_NAME}.",
+        "UPDATE_INFO": "Súčasná inštalácia je staršia ako {BRANCH_NAME} o {COMMIT_COUNT}."
+}
