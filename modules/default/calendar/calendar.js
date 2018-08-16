@@ -436,7 +436,7 @@ Module.register("calendar", {
 
 
 	listContainsEvent: function(eventList, event){
-		for(let evt of eventList){
+		for(var evt of eventList){
 			if(evt.title === event.title && parseInt(evt.startDate) === parseInt(event.startDate)){
 				return true;
 			}
