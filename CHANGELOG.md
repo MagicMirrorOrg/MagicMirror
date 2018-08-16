@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Hungarian translation for "Feels" and "Week"
 - Spanish translation for "Feels"
 - Add classes instead of inline style to the message from the module Alert
+- Fix for weatherforecast rainfall rounding [#1374](https://github.com/MichMich/MagicMirror/issues/1374)
 
 ### Fixed
 - Mixup between german and spanish translation for newsfeed.
