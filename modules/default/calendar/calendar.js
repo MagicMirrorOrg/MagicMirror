@@ -295,8 +295,12 @@ Module.register("calendar", {
 								// If event is within 6 hour, display 'in xxx' time format or moment.fromNow()
 								timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 							} else {
-								// Otherwise just say 'Today/Tomorrow at such-n-such time'
-								timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").calendar());
+								if(this.config.timeFormat === "absolute") {
+									timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").format(this.config.dateFormat));
+								} else {
+									// Otherwise just say 'Today/Tomorrow at such-n-such time'
+									timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").calendar());
+								}
 							}
 						} else {
 							/* Check to see if the user displays absolute or relative dates with their events

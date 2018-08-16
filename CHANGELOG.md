@@ -4,11 +4,36 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ---
-## [2.4.2] - 2018-08-16
+
+## [2.5.1] - 2018-08-16
 
 ### Fixed
 
 - Fix calendar parsing issue for Midori on RasperryPi Zero w, realted to issue #694.
+
+## [2.5.0] - Unreleased
+
+*This release is scheduled to be released on 2018-10-01.*
+
+### Added
+- French translate for "Feels"
+- Translations for newsfeed module
+- Support for toggling news article in fullscreen
+- Hungarian translation for "Feels" and "Week"
+- Spanish translation for "Feels"
+- Add classes instead of inline style to the message from the module Alert
+- Fix for weatherforecast rainfall rounding [#1374](https://github.com/MichMich/MagicMirror/issues/1374)
+
+### Fixed
+- Mixup between german and spanish translation for newsfeed.
+- Fixed close dates to be absolute, if no configured in the config.js - module Calendar
+
+### Updated
+
+- Swedish translations
+- Hungarian translations for the updatenotification module
+- Updated Norsk bokmål translation
+- Updated Norsk nynorsk translation
 
 ## [2.4.1] - 2018-07-04
 

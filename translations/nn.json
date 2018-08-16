@@ -26,5 +26,7 @@
 
 	"UPDATE_NOTIFICATION": "MagicMirror² oppdatering er tilgjengeleg.",
 	"UPDATE_NOTIFICATION_MODULE": "Oppdatering tilgjengeleg for modulen {MODULE_NAME}.",
-	"UPDATE_INFO": "noverande installasjon er {COMMIT_COUNT} bak {BRANCH_NAME} greinen."
+	"UPDATE_INFO": "noverande installasjon er {COMMIT_COUNT} bak {BRANCH_NAME} greinen.",
+	
+	"FEELS": "Kjenst som"
 }
