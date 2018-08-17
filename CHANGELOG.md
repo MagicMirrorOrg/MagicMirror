@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ---
+
+## [2.5.1] - 2018-08-16
+
+### Fixed
+
+- Fix calendar parsing issue for Midori on RasperryPi Zero w, realted to issue #694.
+
 ## [2.5.0] - Unreleased
 
 *This release is scheduled to be released on 2018-10-01.*
