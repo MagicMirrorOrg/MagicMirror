@@ -28,5 +28,5 @@
 
 	"UPDATE_NOTIFICATION": "MagicMirror² actualizació disponible.",
 	"UPDATE_NOTIFICATION_MODULE": "Disponible una actualizació per al mòdul {MODULE_NAME}.",
-	"UPDATE_INFO": "La teva instal·lació actual està {COMMIT_COUNT} canvis darrere de la branca {BRANCH_NAME}."
+	"UPDATE_INFO": "La teva instal·lació actual està {COMMIT_COUNT} commit(s) canvis darrere de la branca {BRANCH_NAME}."
 }

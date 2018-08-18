@@ -25,5 +25,5 @@
 
 	"UPDATE_NOTIFICATION": "Nova atualização para MagicMirror disponível.",
 	"UPDATE_NOTIFICATION_MODULE": "Atualização para o módulo {MODULE_NAME} disponível.",
-	"UPDATE_INFO": "Sua versão atual é a {COMMIT_COUNT} dentro do seguinte branch {BRANCH_NAME}."
+	"UPDATE_INFO": "Sua versão atual é a {COMMIT_COUNT} commit(s) dentro do seguinte branch {BRANCH_NAME}."
 }

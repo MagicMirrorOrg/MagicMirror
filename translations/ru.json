@@ -28,5 +28,5 @@
 
 	"UPDATE_NOTIFICATION": "Есть обновление для MagicMirror².",
 	"UPDATE_NOTIFICATION_MODULE": "Есть обновление для {MODULE_NAME} модуля.",
-	"UPDATE_INFO": "Данная инсталляция позади {BRANCH_NAME} ветки на {COMMIT_COUNT} коммитов."
+	"UPDATE_INFO": "Данная инсталляция позади {BRANCH_NAME} commit(s) ветки на {COMMIT_COUNT} коммитов."
 }

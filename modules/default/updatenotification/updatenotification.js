@@ -59,7 +59,7 @@ Module.register("updatenotification", {
 			message.appendChild(icon);
 
 			var subtextHtml = this.translate("UPDATE_INFO", {
-				COMMIT_COUNT: this.status.behind + " " + ((this.status.behind == 1) ? "commit" : "commits"),
+				COMMIT_COUNT: this.status.behind,
 				BRANCH_NAME: this.status.current
 			});
 
