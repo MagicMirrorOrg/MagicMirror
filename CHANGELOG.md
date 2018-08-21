@@ -9,7 +9,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
-- Fix calendar parsing issue for Midori on RasperryPi Zero w, realted to issue #694.
+- Fix calendar parsing issue for Midori on RasperryPi Zero w, related to issue #694.
+- Fix weather city ID link in sample config
 
 ## [2.5.0] - Unreleased
 
