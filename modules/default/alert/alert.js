@@ -38,13 +38,13 @@ Module.register("alert",{
 		if (this.config.effect == "slide") {this.config.effect = this.config.effect + "-" + this.config.position;}
 		msg = "";
 		if (message.title) {
-			msg += "<span class='thin' style='line-height: 35px; font-size:24px' color='#4A4A4A'>" + message.title + "</span>";
+			msg += "<span class='thin dimmed medium'>" + message.title + "</span>";
 		}
 		if (message.message){
 			if (msg != ""){
 				msg+= "<br />";
 			}
-			msg += "<span class='light' style='font-size:28px;line-height: 30px;'>" + message.message + "</span>";
+			msg += "<span class='light bright small'>" + message.message + "</span>";
 		}
 
 		new NotificationFx({
@@ -63,9 +63,9 @@ Module.register("alert",{
 			params.imageUrl = null;
 			image = "";
 		} else if (typeof params.imageFA === "undefined"){
-			image = "<img src='" + (params.imageUrl).toString() + "' height=" + (params.imageHeight).toString() + " style='margin-bottom: 10px;'/><br />";
+			image = "<img src='" + (params.imageUrl).toString() + "' height='" + (params.imageHeight).toString() + "' style='margin-bottom: 10px;'/><br />";
 		} else if (typeof params.imageUrl === "undefined"){
-			image = "<span class='" + "fa fa-" + params.imageFA + "' style='margin-bottom: 10px;color: #fff;font-size:" + (params.imageHeight).toString() + ";'/></span><br />";
+			image = "<span class='bright " + "fa fa-" + params.imageFA + "' style='margin-bottom: 10px;font-size:" + (params.imageHeight).toString() + ";'/></span><br />";
 		}
 		//Create overlay
 		var overlay = document.createElement("div");
@@ -79,16 +79,16 @@ Module.register("alert",{
 		}
 
 		//Display title and message only if they are provided in notification parameters
-		message ="";
+		var message = "";
 		if (params.title) {
-			message += "<span class='light' style='line-height: 35px; font-size:30px' color='#4A4A4A'>" + params.title + "</span>"
+			message += "<span class='light dimmed medium'>" + params.title + "</span>";
 		}
 		if (params.message) {
-			if (message != ""){
+			if (message !== ""){
 				message += "<br />";
 			}
 
-			message += "<span class='thin' style='font-size:22px;line-height: 30px;'>" + params.message + "</span>";
+			message += "<span class='thin bright small'>" + params.message + "</span>";
 		}
 
 		//Store alert in this.alerts
@@ -121,16 +121,16 @@ Module.register("alert",{
 	setPosition: function(pos) {
 		//Add css to body depending on the set position for notifications
 		var sheet = document.createElement("style");
-		if (pos == "center") {sheet.innerHTML = ".ns-box {margin-left: auto; margin-right: auto;text-align: center;}";}
-		if (pos == "right") {sheet.innerHTML = ".ns-box {margin-left: auto;text-align: right;}";}
-		if (pos == "left") {sheet.innerHTML = ".ns-box {margin-right: auto;text-align: left;}";}
+		if (pos === "center") {sheet.innerHTML = ".ns-box {margin-left: auto; margin-right: auto;text-align: center;}";}
+		if (pos === "right") {sheet.innerHTML = ".ns-box {margin-left: auto;text-align: right;}";}
+		if (pos === "left") {sheet.innerHTML = ".ns-box {margin-right: auto;text-align: left;}";}
 		document.body.appendChild(sheet);
 
 	},
 	notificationReceived: function(notification, payload, sender) {
 		if (notification === "SHOW_ALERT") {
 			if (typeof payload.type === "undefined") { payload.type = "alert"; }
-			if (payload.type == "alert") {
+			if (payload.type === "alert") {
 				this.show_alert(payload, sender);
 			} else if (payload.type = "notification") {
 				this.show_notification(payload);
@@ -143,7 +143,7 @@ Module.register("alert",{
 		this.alerts = {};
 		this.setPosition(this.config.position);
 		if (this.config.welcome_message) {
-			if (this.config.welcome_message == true){
+			if (this.config.welcome_message === true){
 				this.show_notification({title: this.translate("sysTitle"), message: this.translate("welcome")});
 			}
 			else{
