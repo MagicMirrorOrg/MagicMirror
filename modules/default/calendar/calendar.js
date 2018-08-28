@@ -25,7 +25,9 @@ Module.register("calendar", {
 		urgency: 7,
 		timeFormat: "relative",
 		dateFormat: "MMM Do",
+		dateEndFormat: "HH:mm",
 		fullDayEventDateFormat: "MMM Do",
+		showEnd: true,
 		getRelative: 6,
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		hidePrivate: false,
@@ -287,6 +289,10 @@ Module.register("calendar", {
 							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 						}
 					}
+					if(this.config.showEnd){
+						timeWrapper.innerHTML += "-" ;
+						timeWrapper.innerHTML += this.capFirst(moment(event.endDate  , "x").format(this.config.fullDayEventDateFormat));
+					}
 				} else {
 					if (event.startDate >= new Date()) {
 						if (event.startDate - now < 2 * oneDay) {
@@ -324,6 +330,11 @@ Module.register("calendar", {
 								timeUntilEnd: moment(event.endDate, "x").fromNow(true)
 							})
 						);
+					}
+					if (this.config.showEnd) {
+						timeWrapper.innerHTML += "-";
+						timeWrapper.innerHTML += this.capFirst(moment(event.endDate, "x").format(this.config.dateEndFormat));
+
 					}
 				}
 				//timeWrapper.innerHTML += ' - '+ moment(event.startDate,'x').format('lll');
