@@ -5,6 +5,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
+## develop
+
+- Consider multi days events as full day events.
+
 ## [2.4.1] - 2018-07-04
 
 ### Fixed
