@@ -59,7 +59,7 @@ var config = {
 			position: "top_right",
 			config: {
 				location: "New York",
-				locationID: "",  //ID from http://www.openweathermap.org/help/city_list.txt
+				locationID: "",  //ID from http://bulk.openweathermap.org/sample/; unzip the gz file and find your city
 				appid: "YOUR_OPENWEATHER_API_KEY"
 			}
 		},
