@@ -16,11 +16,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Hungarian translation for "Feels" and "Week"
 - Spanish translation for "Feels"
 - Add classes instead of inline style to the message from the module Alert
-- Fix for weatherforecast rainfall rounding [#1374](https://github.com/MichMich/MagicMirror/issues/1374)
 
 ### Fixed
 - Mixup between german and spanish translation for newsfeed.
 - Fixed close dates to be absolute, if no configured in the config.js - module Calendar
+- Fix for weatherforecast rainfall rounding [#1374](https://github.com/MichMich/MagicMirror/issues/1374)
 - Fix calendar parsing issue for Midori on RasperryPi Zero w, related to issue #694.
 - Fix weather city ID link in sample config
 - Fixed issue with clientonly not updating with IP address and port provided on command line.
