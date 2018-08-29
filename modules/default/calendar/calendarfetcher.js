@@ -90,6 +90,9 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 					var endDate;
 					if (typeof event.end !== "undefined") {
 						endDate = eventDate(event, "end");
+					} else if(typeof event.duration !== "undefined") {
+						dur=moment.duration(event.duration);
+						endDate = startDate.clone().add(dur);
 					} else {
 						if (!isFacebookBirthday) {
 							endDate = startDate;
@@ -273,8 +276,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 		var start = event.start || 0;
 		var startDate = new Date(start);
 		var end = event.end || 0;
-
-		if (end - start === 24 * 60 * 60 * 1000 && startDate.getHours() === 0 && startDate.getMinutes() === 0) {
+		if (((end - start) % (24 * 60 * 60 * 1000)) === 0 && startDate.getHours() === 0 && startDate.getMinutes() === 0) {
 			// Is 24 hours, and starts on the middle of the night.
 			return true;
 		}

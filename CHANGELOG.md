@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ---
+
 ## [2.5.0] - Unreleased
 
 *This release is scheduled to be released on 2018-10-01.*
@@ -15,11 +16,16 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Hungarian translation for "Feels" and "Week"
 - Spanish translation for "Feels"
 - Add classes instead of inline style to the message from the module Alert
-- Fix for weatherforecast rainfall rounding [#1374](https://github.com/MichMich/MagicMirror/issues/1374)
+- Support for events having a duration instead of an end
+- Support for showing end of events through config parameters showEnd and dateEndFormat
 
 ### Fixed
 - Mixup between german and spanish translation for newsfeed.
 - Fixed close dates to be absolute, if no configured in the config.js - module Calendar
+- Fix for weatherforecast rainfall rounding [#1374](https://github.com/MichMich/MagicMirror/issues/1374)
+- Fix calendar parsing issue for Midori on RasperryPi Zero w, related to issue #694.
+- Fix weather city ID link in sample config
+- Fixed issue with clientonly not updating with IP address and port provided on command line.
 
 ### Updated
 
@@ -27,6 +33,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Hungarian translations for the updatenotification module
 - Updated Norsk bokmål translation
 - Updated Norsk nynorsk translation
+- Consider multi days event as full day events
 
 ## [2.4.1] - 2018-07-04
 
