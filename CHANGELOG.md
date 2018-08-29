@@ -16,6 +16,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Hungarian translation for "Feels" and "Week"
 - Spanish translation for "Feels"
 - Add classes instead of inline style to the message from the module Alert
+- Support for events having a duration instead of an end
+- Support for showing end of events through config parameters showEnd and dateEndFormat
 
 ### Fixed
 - Mixup between german and spanish translation for newsfeed.
@@ -31,6 +33,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Hungarian translations for the updatenotification module
 - Updated Norsk bokmål translation
 - Updated Norsk nynorsk translation
+- Consider multi days event as full day events
 
 ## [2.4.1] - 2018-07-04
 
