@@ -23,6 +23,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Mixup between german and spanish translation for newsfeed.
 - Fixed close dates to be absolute, if no configured in the config.js - module Calendar
+- Fixed the UpdateNotification module message about new commits in the repository, so they can be correctly localized in singular and plural form.
 - Fix for weatherforecast rainfall rounding [#1374](https://github.com/MichMich/MagicMirror/issues/1374)
 - Fix calendar parsing issue for Midori on RasperryPi Zero w, related to issue #694.
 - Fix weather city ID link in sample config

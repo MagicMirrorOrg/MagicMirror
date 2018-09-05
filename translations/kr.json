@@ -26,5 +26,6 @@
 
 	"UPDATE_NOTIFICATION": "새로운 MagicMirror² 업데이트가 있습니다.",
 	"UPDATE_NOTIFICATION_MODULE": "{MODULE_NAME} 모듈에서 사용 가능한 업데이트 입니다.",
-	"UPDATE_INFO": "설치할 {COMMIT_COUNT} 는 {BRANCH_NAME} 분기에 해당됩니다."
+	"UPDATE_INFO_SINGLE": "설치할 {COMMIT_COUNT} commit 는 {BRANCH_NAME} 분기에 해당됩니다.",
+	"UPDATE_INFO_MULTIPLE": "설치할 {COMMIT_COUNT} commits 는 {BRANCH_NAME} 분기에 해당됩니다."
 }

@@ -58,8 +58,9 @@ Module.register("updatenotification", {
 			icon.innerHTML = "&nbsp;";
 			message.appendChild(icon);
 
-			var subtextHtml = this.translate("UPDATE_INFO", {
-				COMMIT_COUNT: this.status.behind + " " + ((this.status.behind == 1) ? "commit" : "commits"),
+			var updateInfoKeyName = this.status.behind == 1 ? "UPDATE_INFO_SINGLE" : "UPDATE_INFO_MULTIPLE";
+			var subtextHtml = this.translate(updateInfoKeyName, {
+				COMMIT_COUNT: this.status.behind,
 				BRANCH_NAME: this.status.current
 			});
 
