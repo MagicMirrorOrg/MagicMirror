@@ -28,8 +28,8 @@
 
 	"UPDATE_NOTIFICATION": "DostÄ™pna jest aktualizacja MagicMirrorÂ².",
 	"UPDATE_NOTIFICATION_MODULE": "DostÄ™pna jest aktualizacja moduÅ‚u {MODULE_NAME}.",
-	"UPDATE_INFO_SINGLE": "Zainstalowana wersja odbiega o {COMMIT_COUNT} commitów od ga³êzi {BRANCH_NAME}.", 
-	"UPDATE_INFO_MULTIPLE": "Zainstalowana wersja odbiega o {COMMIT_COUNT} commitów od ga³êzi {BRANCH_NAME}.",	
-		
+	"UPDATE_INFO_SINGLE": "Zainstalowana wersja odbiega o {COMMIT_COUNT} commitÃ³w od gaÅ‚Ä™zi {BRANCH_NAME}.",
+	"UPDATE_INFO_MULTIPLE": "Zainstalowana wersja odbiega o {COMMIT_COUNT} commitÃ³w od gaÅ‚Ä™zi {BRANCH_NAME}.",
+
 	"FEELS": "Odczuwalna"
 }
