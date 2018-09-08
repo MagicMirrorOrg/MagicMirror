@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ---
+## [2.4.2]
+
+### Fixed
+
+- Fix gzip encoded calendar loading issue #1400.
 
 ## [2.4.1] - 2018-07-04
 
