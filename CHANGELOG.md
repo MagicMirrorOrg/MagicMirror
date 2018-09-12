@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 *This release is scheduled to be released on 2018-10-01.*
 
 ### Added
+- Simplified Chinese translation for "Feels"
 - Polish translate for "Feels"
 - French translate for "Feels"
 - Translations for newsfeed module
@@ -31,6 +32,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Updated
 
+- Updated Simplified Chinese translation
 - Swedish translations
 - Hungarian translations for the updatenotification module
 - Updated Norsk bokmål translation
