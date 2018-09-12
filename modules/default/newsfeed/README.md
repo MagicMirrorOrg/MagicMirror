@@ -41,6 +41,7 @@ MagicMirror's [notification mechanism](https://github.com/MichMich/MagicMirror/t
 | `ARTICLE_PREVIOUS`      | Shows the previous news title (hiding the summary or previously fully displayed article)
 | `ARTICLE_MORE_DETAILS`  | When received the _first time_, shows the corresponding description of the currently displayed news title. <br> The module expects that the module's configuration option `showDescription` is set to `false` (default value). <br><br> When received a _second consecutive time_, shows the full news article in an IFRAME. <br> This requires that the news page can be embedded in an IFRAME, e.g. doesn't have the HTTP response header [X-Frame-Options](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options) set to e.g. `DENY`.<br><br>When received the _next consecutive times_, reloads the page and scrolls down by `scrollLength` pixels to paginate through the article.
 | `ARTICLE_LESS_DETAILS`  | Hides the summary or full news article and only displays the news title of the currently viewed news item.
+| `ARTICLE_TOGGLE_FULL`   | Toogles article in fullscreen.
 
 Note the payload of the sent notification event is ignored.
 

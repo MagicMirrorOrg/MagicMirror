@@ -7,6 +7,8 @@
 	"RUNNING": "Vége lesz",
 	"EMPTY": "Nincs közelgő esemény.",
 
+	"WEEK": "{weekNumber}. hét",
+
 	"N": "É",
 	"NNE": "ÉÉK",
 	"NE": "ÉK",
@@ -24,7 +26,10 @@
 	"NW": "ÉNy",
 	"NNW": "ÉÉNy",
 
-	"UPDATE_NOTIFICATION": "MagicMirror² elérhető egy frissítés!",
-	"UPDATE_NOTIFICATION_MODULE": "A frissítés {MODULE_NAME} modul néven érhető el.",
-	"UPDATE_INFO": "A jelenlegi telepítés {COMMIT_COUNT} mögött {BRANCH_NAME} ágon található."
+	"UPDATE_NOTIFICATION": "MagicMirror²-hoz frissítés érhető el.",
+	"UPDATE_NOTIFICATION_MODULE": "A {MODULE_NAME} modulhoz frissítés érhető el.",
+	"UPDATE_INFO_SINGLE": "A jelenlegi telepítés óta {COMMIT_COUNT} új commit jelent meg a {BRANCH_NAME} ágon.",
+	"UPDATE_INFO_MULTIPLE": "A jelenlegi telepítés óta {COMMIT_COUNT} új commit jelent meg a {BRANCH_NAME} ágon.",
+
+	"FEELS": "Érzet"
 }
