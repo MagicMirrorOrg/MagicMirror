@@ -160,7 +160,7 @@ Module.register("compliments", {
 		var compliment = document.createTextNode(complimentText);
 		var wrapper = document.createElement("div");
 		wrapper.className = this.config.classes ? this.config.classes : "thin xlarge bright";
-		wrapper.appendChild(compliment);
+		wrapper.innerHTML = complimentText.replace(/\n/g, '<br>');
 
 		return wrapper;
 	},
