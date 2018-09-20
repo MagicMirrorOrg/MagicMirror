@@ -107,6 +107,13 @@ config: {
 }
 ````
 
+#### Multi-line compliments:
+Use `\n` to split compliment text into multiple lines, e.g. `First line.\nSecond line.` will be shown as:
+```
+First line.
+Second line.
+```
+
 ### External Compliment File
 You may specify an external file that contains the three compliment arrays. This is particularly useful if you have a
 large number of compliments and do not wish to crowd your `config.js` file with a large array of compliments.
