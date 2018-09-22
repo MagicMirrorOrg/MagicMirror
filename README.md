@@ -197,6 +197,10 @@ Please keep the following in mind:
 
 Thanks for your help in making MagicMirror² better!
 
+## Creative Implementation
+
+- [Smart Mirror](https://github.com/akshaybahadur21/Smart_Mirror) by [Raghav Patnecha](https://raghavpatnecha.github.io/) and [Akshay Bahadur](http://akshaybahadur.com/)
+
 ## Manifesto
 
 A real Manifesto is still to be written. Till then, Michael's response on [one of the repository issues](https://github.com/MichMich/MagicMirror/issues/1174) gives a great summary:
