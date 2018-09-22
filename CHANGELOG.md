@@ -5,6 +5,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
+### Added
+- Added link for a creative project that could be taken as a reference.
+
 ## [2.4.1] - 2018-07-04
 
 ### Fixed
