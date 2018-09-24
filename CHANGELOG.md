@@ -7,6 +7,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [2.4.1] - 2018-07-04
 
+### Added
+
+- Add Thai language
+
 ### Fixed
 
 - Fix weather parsing issue #1332.
