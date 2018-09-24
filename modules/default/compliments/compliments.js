@@ -157,15 +157,10 @@ Module.register("compliments", {
 	getDom: function() {
 		var complimentText = this.randomCompliment();
 
+		var compliment = document.createTextNode(complimentText);
 		var wrapper = document.createElement("div");
-		wrapper.className = this.config.classes ? this.config.classes : "thin xlarge bright";
-		complimentText.split("\n").forEach(function(line, index) {
-			if (index > 0) {
-				wrapper.appendChild(document.createElement("br"));
-			}
-			wrapper.appendChild(document.createTextNode(line));
-
-		});
+		wrapper.className = this.config.classes ? this.config.classes : "thin xlarge bright pre-line";
+		wrapper.appendChild(compliment);
 
 		return wrapper;
 	},
