@@ -48,7 +48,9 @@ bash -c "$(curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/maste
 
 #### Manual Installation
 
-1. Download and install the latest *Node.js* version.
+1. Download and install the latest *Node.js* version:
+- `curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -`
+- `sudo apt install -y nodejs`
 2. Clone the repository and check out the master branch: `git clone https://github.com/MichMich/MagicMirror`
 3. Enter the repository: `cd MagicMirror/`
 4. Install and run the app with: `npm install && npm start` \
