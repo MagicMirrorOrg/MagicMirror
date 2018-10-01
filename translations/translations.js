@@ -35,7 +35,6 @@ var translations = {
 	"ru" : "translations/ru.json", // Russian
 	"ro" : "translations/ro.json", // Romanian
 	"sv" : "translations/sv.json", // Svenska
-	"th" : "translations/th.json", // Thai
 	"tr" : "translations/tr.json", // Turkish
 	"zh-cn" : "translations/zh-cn.json", // Simplified Chinese
 	"zh-tw" : "translations/zh-tw.json" // Traditional Chinese
