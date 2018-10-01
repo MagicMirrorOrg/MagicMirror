@@ -15,6 +15,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Updated
 
+## [2.5.1] - 2018-10-01
+
+### Added
+- th.json entry in translations.js
+
+### Fixed
+- Order in translations.js
+
 ## [2.5.0] - 2018-10-01
 
 ### Added
