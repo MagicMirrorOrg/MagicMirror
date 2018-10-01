@@ -26,5 +26,6 @@
 
 	"UPDATE_NOTIFICATION": "MagicMirror²´le uuendus saadaval.",
 	"UPDATE_NOTIFICATION_MODULE": "Uuendus saadaval {MODULE_NAME} moodulile.",
-	"UPDATE_INFO": "Praegune paigaldus on {COMMIT_COUNT} tagapool {BRANCH_NAME} harul."
+	"UPDATE_INFO_SINGLE": "Praegune paigaldus on {COMMIT_COUNT} commit tagapool {BRANCH_NAME} harul.",
+	"UPDATE_INFO_MULTIPLE": "Praegune paigaldus on {COMMIT_COUNT} commits tagapool {BRANCH_NAME} harul."
 }

@@ -25,7 +25,9 @@ Module.register("calendar", {
 		urgency: 7,
 		timeFormat: "relative",
 		dateFormat: "MMM Do",
+		dateEndFormat: "HH:mm",
 		fullDayEventDateFormat: "MMM Do",
+		showEnd: true,
 		getRelative: 6,
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		hidePrivate: false,
@@ -287,6 +289,10 @@ Module.register("calendar", {
 							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 						}
 					}
+					if(this.config.showEnd){
+						timeWrapper.innerHTML += "-" ;
+						timeWrapper.innerHTML += this.capFirst(moment(event.endDate  , "x").format(this.config.fullDayEventDateFormat));
+					}
 				} else {
 					if (event.startDate >= new Date()) {
 						if (event.startDate - now < 2 * oneDay) {
@@ -295,8 +301,12 @@ Module.register("calendar", {
 								// If event is within 6 hour, display 'in xxx' time format or moment.fromNow()
 								timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 							} else {
-								// Otherwise just say 'Today/Tomorrow at such-n-such time'
-								timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").calendar());
+								if(this.config.timeFormat === "absolute") {
+									timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").format(this.config.dateFormat));
+								} else {
+									// Otherwise just say 'Today/Tomorrow at such-n-such time'
+									timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").calendar());
+								}
 							}
 						} else {
 							/* Check to see if the user displays absolute or relative dates with their events
@@ -324,6 +334,11 @@ Module.register("calendar", {
 								timeUntilEnd: moment(event.endDate, "x").fromNow(true)
 							})
 						);
+					}
+					if (this.config.showEnd) {
+						timeWrapper.innerHTML += "-";
+						timeWrapper.innerHTML += this.capFirst(moment(event.endDate, "x").format(this.config.dateEndFormat));
+
 					}
 				}
 				//timeWrapper.innerHTML += ' - '+ moment(event.startDate,'x').format('lll');
@@ -436,7 +451,7 @@ Module.register("calendar", {
 
 
 	listContainsEvent: function(eventList, event){
-		for(let evt of eventList){
+		for(var evt of eventList){
 			if(evt.title === event.title && parseInt(evt.startDate) === parseInt(event.startDate)){
 				return true;
 			}

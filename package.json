@@ -1,6 +1,6 @@
 {
   "name": "magicmirror",
-  "version": "2.4.1",
+  "version": "2.5.0",
   "description": "The open source modular smart mirror platform.",
   "main": "js/electron.js",
   "scripts": {

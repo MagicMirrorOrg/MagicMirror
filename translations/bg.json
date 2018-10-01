@@ -28,5 +28,6 @@
 
 	"UPDATE_NOTIFICATION": "Налична актуализация за MagicMirror².",
 	"UPDATE_NOTIFICATION_MODULE": "Налична актуализация за {MODULE_NAME} модул.",
-	"UPDATE_INFO": "Текущата инсталация е изостанала с {COMMIT_COUNT} къмита на клон {BRANCH_NAME}."
+	"UPDATE_INFO_SINGLE": "Текущата инсталация е изостанала с {COMMIT_COUNT} commit къмита на клон {BRANCH_NAME}.",
+	"UPDATE_INFO_MULTIPLE": "Текущата инсталация е изостанала с {COMMIT_COUNT} commits къмита на клон {BRANCH_NAME}."
 }
