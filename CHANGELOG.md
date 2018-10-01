@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ---
+
+## [2.6.0] - Unreleased
+
+*This release is scheduled to be released on 2018-10-01.*
+
+### Added
+
+### Fixed
+
+### Updated
+
 ## [2.5.0] - 2018-10-01
 
 ### Added
