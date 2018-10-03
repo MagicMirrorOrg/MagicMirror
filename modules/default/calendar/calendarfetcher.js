@@ -173,6 +173,14 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 
 					if (typeof event.rrule != "undefined" && !isFacebookBirthday) {
 						var rule = event.rrule;
+						
+						// can cause problems with birthdays before 1970
+						if(rule.origOptions && rule.origOptions.dtstart && rule.origOptions.dtstart.getFullYear() < 1970 || 
+							rule.options && rule.options.dtstart && rule.options.dtstart.getFullYear() < 1970){
+							rule.origOptions.dtstart.setYear(1970);
+							rule.options.dtstart.setYear(1970);
+						}
+						
 						var dates = rule.between(today, future, true, limitFunction);
 
 						for (var d in dates) {
