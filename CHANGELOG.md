@@ -12,7 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 ### Fixed
-- Allow to parse recurring calendar events where the start date is before 1970
+- Allow to parse recurring calendar events where the start date is before 1900
 
 ### Updated
 
