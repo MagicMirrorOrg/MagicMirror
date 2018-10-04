@@ -86,6 +86,9 @@ config: {
 | `maximumEntries`      | The maximum number of events shown.  Overrides global setting. **Possible values:** `0` - `100`
 | `maximumNumberOfDays` | The maximum number of days in the future.  Overrides global setting
 | `auth`                | The object containing options for authentication against the calendar.
+| `symbolClass`         | Add a class to the cell of symbol.
+| `titleClass`          | Add a class to the title's cell.
+| `timeClass`           | Add a class to the time's cell.
 
 
 #### Calendar authentication options:
