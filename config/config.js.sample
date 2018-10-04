@@ -44,7 +44,7 @@ var config = {
 			config: {
 				calendars: [
 					{
-						symbol: "calendar-check-o ",
+						symbol: "calendar-check",
 						url: "webcal://www.calendarlabs.com/templates/ical/US-Holidays.ics"
 					}
 				]
