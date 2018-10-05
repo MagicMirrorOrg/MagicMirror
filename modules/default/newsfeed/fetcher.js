@@ -8,6 +8,8 @@
 var FeedMe = require("feedme");
 var request = require("request");
 var iconv = require("iconv-lite");
+var jsdom = require("jsdom");
+const { JSDOM }  = jsdom;
 
 /* Fetcher
  * Responsible for requesting an update on the set interval and broadcasting the data.
@@ -48,6 +50,18 @@ var Fetcher = function(url, reloadInterval, encoding, logFeedWarnings) {
 			var description = item.description || item.summary || item.content || "";
 			var pubdate = item.pubdate || item.published || item.updated || item["dc:date"];
 			var url = item.url || item.link || "";
+			var media = item["media:content"] || item["content:encoded"] || "";
+                        var content = item["content:encoded"] || "";
+                        url_img = "";
+                        if (content != "") {
+                                frag = JSDOM.fragment(content);
+                                img = frag.querySelector("img");
+                                if (img != null) {
+                                        url_img = img.getAttribute('src');
+                                }
+                        }
+
+                        var image = media.url || url_img || "";
 
 			if (title && pubdate) {
 
@@ -59,6 +73,7 @@ var Fetcher = function(url, reloadInterval, encoding, logFeedWarnings) {
 					description: description,
 					pubdate: pubdate,
 					url: url,
+					media: image,
 				});
 
 			} else if (logFeedWarnings) {
