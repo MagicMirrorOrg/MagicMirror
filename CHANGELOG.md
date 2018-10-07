@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 *This release is scheduled to be released on 2018-10-01.*
 
 ### Added
+- Screenshot to the weather forecast module
 
 ### Fixed
 
