@@ -11,6 +11,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- Added in screenshot for the current weather
+
 ### Fixed
 
 ### Updated
