@@ -49,22 +49,22 @@ The `compliments` property contains an object with four arrays: <code>morning</c
 
 
 If use the currentweather is possible use a actual weather for set compliments. The availables properties are:
-* `day_sunny`
-* `day_cloudy`
-* `cloudy`
-* `cloudy_windy`
-* `showers`
-* `rain`
-* `thunderstorm`
-* `snow`
-* `fog`
-* `night_clear`
-* `night_cloudy`
-* `night_showers`
-* `night_rain`
-* `night_thunderstorm`
-* `night_snow`
-* `night_alt_cloudy_windy`
+- `day_sunny`
+- `day_cloudy`
+- `cloudy`
+- `cloudy_windy`
+- `showers`
+- `rain`
+- `thunderstorm`
+- `snow`
+- `fog`
+- `night_clear`
+- `night_cloudy`
+- `night_showers`
+- `night_rain`
+- `night_thunderstorm`
+- `night_snow`
+- `night_alt_cloudy_windy`
 
 #### Example use with currentweather module
 ````javascript
