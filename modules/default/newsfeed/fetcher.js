@@ -45,24 +45,24 @@ var Fetcher = function(url, reloadInterval, encoding, logFeedWarnings) {
 		var parser = new FeedMe();
 
 		parser.on("item", function(item) {
-            var title = item.title;
+			var title = item.title;
 			var description = item.description || item.summary || item.content || "";
 			var pubdate = item.pubdate || item.published || item.updated || item["dc:date"];
 			var url = item.url || item.link || "";
 			var media = item["media:content"] || item["content:encoded"] || "";
-            var content = item["content:encoded"] || "";
-            urlImage = "";
-            if (content != "") {
-                frag = JSDOM.fragment(content);
-                img = frag.querySelector("img");
-                if (img != null) {
-                    urlImage = img.getAttribute('src');
-                }
-            }
-            var image = media.url || urlImage || "";
-
-            if (title && pubdate) {
-                var regex = /(<([^>]+)>)/ig;
+			var content = item["content:encoded"] || "";
+ 			urlImage = "";
+  			if (content != "") {
+				frag = JSDOM.fragment(content);
+				img = frag.querySelector("img");
+				if (img != null) {
+					urlImage = img.getAttribute("src");
+				}
+			}
+			var image = media.url || urlImage || "";
+			
+			if (title && pubdate) {
+				var regex = /(<([^>]+)>)/ig;
 				description = description.toString().replace(regex, "");
 
 				items.push({
