@@ -21,6 +21,7 @@ Module.register("newsfeed",{
 		showSourceTitle: true,
 		showPublishDate: true,
 		showDescription: false,
+		showImage: false,
 		wrapTitle: true,
 		wrapDescription: true,
 		truncDescription: true,
@@ -99,10 +100,19 @@ Module.register("newsfeed",{
 		}
 
 		if (this.newsItems.length > 0) {
+            if (this.config.showImage) {
+                var image = document.createElement("img");
+                if (this.newsItems[this.activeItem].media !="") {
+                    image.src = this.newsItems[this.activeItem].media;
+                } else {
+                    image.src = this.config.defaultImage;
+                }
+                wrapper.appendChild(image)
+            }
 
 			// this.config.showFullArticle is a run-time configuration, triggered by optional notifications
 			if (!this.config.showFullArticle && (this.config.showSourceTitle || this.config.showPublishDate)) {
-				var sourceAndTimestamp = document.createElement("div");
+                var sourceAndTimestamp = document.createElement("div");
 				sourceAndTimestamp.className = "light small dimmed";
 
 				if (this.config.showSourceTitle && this.newsItems[this.activeItem].sourceTitle !== "") {

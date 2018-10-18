@@ -63,6 +63,7 @@
     "feedme": "latest",
     "helmet": "^3.9.0",
     "iconv-lite": "latest",
+    "jsdom": "^11.6.2",
     "mocha-logger": "^1.0.5",
     "moment": "latest",
     "request": "^2.83.0",
