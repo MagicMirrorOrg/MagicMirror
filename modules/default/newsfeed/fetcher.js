@@ -60,7 +60,7 @@ var Fetcher = function(url, reloadInterval, encoding, logFeedWarnings) {
 				}
 			}
 			var image = media.url || urlImage || "";
-			
+
 			if (title && pubdate) {
 				var regex = /(<([^>]+)>)/ig;
 				description = description.toString().replace(regex, "");
