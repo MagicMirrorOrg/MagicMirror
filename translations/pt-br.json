@@ -3,8 +3,11 @@
 
 	"TODAY": "Hoje",
 	"TOMORROW": "Amanhã",
+	"DAYAFTERTOMORROW": "Daqui a 2 dias",
 	"RUNNING": "Acaba em",
 	"EMPTY": "Nenhum evento novo.",
+
+	"WEEK": "{weekNumber}a. Semana",
 
 	"N": "N",
 	"NNE": "NNE",
