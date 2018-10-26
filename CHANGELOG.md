@@ -10,7 +10,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 *This release is scheduled to be released on 2018-10-01.*
 
 ### Added
-- Added `showEnd` documentation
+- Font-awesome 5, still has 4 for backwards compatibility.
+- Missing `showEnd` in calendar documentation
 - Screenshot for the new feed module
 - Screenshot for the compliments module
 - Screenshot for the clock module
