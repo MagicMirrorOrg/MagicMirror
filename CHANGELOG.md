@@ -10,9 +10,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 *This release is scheduled to be released on 2018-10-01.*
 
 ### Added
-- Screenshot to the weather forecast module
+- Added `showEnd` documentation
+- Screenshot for the new feed module
+- Screenshot for the compliments module
+- Screenshot for the clock module
+- Screenshot for the current weather
+- Screenshot for the weather forecast module
 
 ### Fixed
+- Fixed Polish translation for Single Update Info
 
 ### Updated
 
