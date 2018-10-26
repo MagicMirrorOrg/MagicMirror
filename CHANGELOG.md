@@ -14,6 +14,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Added in screenshot for the new feed module
 
+- Added in screenshot for the compliments module
+
 ### Fixed
 - Fixed Polish translation for Single Update Info
 
