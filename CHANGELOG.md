@@ -18,6 +18,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 Added in a screenshot for the clock module
 
+- Added in screenshot for the current weather
+
 ### Fixed
 - Fixed Polish translation for Single Update Info
 

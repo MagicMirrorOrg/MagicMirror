@@ -2,6 +2,11 @@
 The `currentweather` module is one of the default modules of the MagicMirror.
 This module displays the current weather, including the windspeed, the sunset or sunrise time, the temperature and an icon to display the current conditions.
 
+## Screenshot
+
+- Current weather screenshot
+![Current Weather Screenshot](weather_screenshot.png)
+
 ## Using the module
 
 To use this module, add it to the modules array in the `config/config.js` file:
