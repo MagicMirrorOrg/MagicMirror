@@ -2,6 +2,11 @@
 The `weatherforecast` module is one of the default modules of the MagicMirror.
 This module displays the weather forecast for the coming week, including an an icon to display the current conditions, the minimum temperature and the maximum temperature.
 
+## Screenshots
+
+- 5 day forecast
+![Screenshot of 5 day forecast](forecast_screenshot.png)
+
 ## Using the module
 
 To use this module, add it to the modules array in the `config/config.js` file:
