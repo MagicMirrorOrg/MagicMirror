@@ -11,8 +11,16 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - Possibility to add classes to the cell of symbol, title and time of the events of calendar.
+- Font-awesome 5, still has 4 for backwards compatibility.
+- Missing `showEnd` in calendar documentation
+- Screenshot for the new feed module
+- Screenshot for the compliments module
+- Screenshot for the clock module
+- Screenshot for the current weather
+- Screenshot for the weather forecast module
 
 ### Fixed
+- Fixed Polish translation for Single Update Info
 
 ### Updated
 
