@@ -23,6 +23,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fixed Polish translation for Single Update Info
 
 ### Updated
+- The default calendar setting `showEnd` is changed to `false`.
 
 ## [2.5.0] - 2018-10-01
 
