@@ -12,6 +12,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - added `showEnd` documentation
 
+- Added in screenshot for the new feed module
+
 ### Fixed
 - Fixed Polish translation for Single Update Info
 
