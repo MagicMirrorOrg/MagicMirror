@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 *This release is scheduled to be released on 2018-10-01.*
 
 ### Added
+- added `showEnd` documentation
 
 ### Fixed
 - Fixed Polish translation for Single Update Info
