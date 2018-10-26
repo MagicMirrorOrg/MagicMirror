@@ -16,6 +16,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Added in screenshot for the compliments module
 
+Added in a screenshot for the clock module
+
 ### Fixed
 - Fixed Polish translation for Single Update Info
 
