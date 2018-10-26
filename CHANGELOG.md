@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 ### Fixed
+- Fixed Polish translation for Single Update Info
 
 ### Updated
 
