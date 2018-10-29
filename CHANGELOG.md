@@ -10,11 +10,21 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 *This release is scheduled to be released on 2018-10-01.*
 
 ### Added
+- Possibility to add classes to the cell of symbol, title and time of the events of calendar.
+- Font-awesome 5, still has 4 for backwards compatibility.
+- Missing `showEnd` in calendar documentation
+- Screenshot for the new feed module
+- Screenshot for the compliments module
+- Screenshot for the clock module
+- Screenshot for the current weather
+- Screenshot for the weather forecast module
 
 ### Fixed
 - Allow to parse recurring calendar events where the start date is before 1900
+- Fixed Polish translation for Single Update Info
 
 ### Updated
+- The default calendar setting `showEnd` is changed to `false`.
 
 ## [2.5.0] - 2018-10-01
 

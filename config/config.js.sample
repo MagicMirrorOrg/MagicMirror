@@ -44,7 +44,7 @@ var config = {
 			config: {
 				calendars: [
 					{
-						symbol: "calendar-check-o ",
+						symbol: "calendar-check",
 						url: "webcal://www.calendarlabs.com/templates/ical/US-Holidays.ics"
 					}
 				]
@@ -69,7 +69,7 @@ var config = {
 			header: "Weather Forecast",
 			config: {
 				location: "New York",
-				locationID: "5128581",  //ID from http://www.openweathermap.org/help/city_list.txt
+				locationID: "5128581",  //ID from https://openweathermap.org/city
 				appid: "YOUR_OPENWEATHER_API_KEY"
 			}
 		},
