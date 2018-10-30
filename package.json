@@ -66,7 +66,7 @@
     "mocha-logger": "^1.0.6",
     "moment": "latest",
     "request": "^2.87.0",
-    "rrule-alt": "^2.2.7",
+    "rrule-alt": "^2.2.8",
     "simple-git": "^1.85.0",
     "socket.io": "^2.1.1",
     "valid-url": "latest",
