@@ -18,6 +18,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Screenshot for the clock module
 - Screenshot for the current weather
 - Screenshot for the weather forecast module
+- Portuguese translation for "Feels"
 
 ### Fixed
 - Allow to parse recurring calendar events where the start date is before 1900

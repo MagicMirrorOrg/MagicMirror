@@ -5,9 +5,9 @@
 	"DAYAFTERTOMORROW": "O dia depois de amanhã",
 	"RUNNING": "Termina em",
 	"EMPTY": "Sem eventos programados.",
-  
+
 	"WEEK": "Semana {weekNumber}",
-  
+
 	"N": "N",
 	"NNE": "NNE",
 	"NE": "NE",
@@ -24,9 +24,11 @@
 	"WNW": "ONO",
 	"NW": "NO",
 	"NNW": "NNO",
-  
+
 	"UPDATE_NOTIFICATION": "Atualização do MagicMirror² disponível.",
 	"UPDATE_NOTIFICATION_MODULE": "Atualização para o módulo {MODULE_NAME} disponível.",
 	"UPDATE_INFO_SINGLE": "A instalação atual está {COMMIT_COUNT} commit atrasada no branch {BRANCH_NAME}.",
-	"UPDATE_INFO_MULTIPLE": "A instalação atual está {COMMIT_COUNT} commits atrasada no branch {BRANCH_NAME}."
+	"UPDATE_INFO_MULTIPLE": "A instalação atual está {COMMIT_COUNT} commits atrasada no branch {BRANCH_NAME}.",
+
+	"FEELS": "Sentida"
 }
