@@ -44,7 +44,13 @@ ical.objectHandlers['END'] = function(val, params, curr, stack){
       rule += ' EXDATE:' + curr.exdates[i].toISOString().replace(/[-:]/g, '');
       rule = rule.replace(/\.[0-9]{3}/, '');
     }
-    curr.rrule = rrulestr(rule);
+    try {
+      curr.rrule = rrulestr(rule);
+    }
+    catch(err) {
+      console.log("Unrecognised element in calendar feed, ignoring: " + rule);
+      curr.rrule = null;
+    }
   }
   return originalEnd.call(this, val, params, curr, stack);
 }

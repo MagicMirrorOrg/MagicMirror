@@ -22,6 +22,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Allow to parse recurring calendar events where the start date is before 1900
 - Fixed Polish translation for Single Update Info
+- Ignore entries with unparseable details in the calendar module
 
 ### Updated
 - The default calendar setting `showEnd` is changed to `false`.

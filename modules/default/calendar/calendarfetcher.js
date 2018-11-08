@@ -171,7 +171,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 					var geo = event.geo || false;
 					var description = event.description || false;
 
-					if (typeof event.rrule != "undefined" && !isFacebookBirthday) {
+					if (typeof event.rrule != "undefined" && event.rrule != null && !isFacebookBirthday) {
 						var rule = event.rrule;
 
 						// can cause problems with e.g. birthdays before 1900
