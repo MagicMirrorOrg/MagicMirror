@@ -4,9 +4,24 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ---
+## [2.5.1] -
+
+### Added
+
+- Danish translation for "Feels" and "Week"
+
+### Fixed
+
+- 
+
+### Updated
+
+- Danish translations
+
 ## [2.5.0] - 2018-10-01
 
 ### Added
+
 - Support multi-line compliments
 - Simplified Chinese translation for "Feels"
 - Polish translate for "Feels"
@@ -20,6 +35,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Support for showing end of events through config parameters showEnd and dateEndFormat
 
 ### Fixed
+
 - Fixed gzip encoded calendar loading issue #1400.
 - Mixup between german and spanish translation for newsfeed.
 - Fixed close dates to be absolute, if no configured in the config.js - module Calendar
