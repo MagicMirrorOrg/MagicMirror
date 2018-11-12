@@ -27,7 +27,7 @@ Module.register("calendar", {
 		dateFormat: "MMM Do",
 		dateEndFormat: "HH:mm",
 		fullDayEventDateFormat: "MMM Do",
-		showEnd: true,
+		showEnd: false,
 		getRelative: 6,
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		hidePrivate: false,
@@ -51,7 +51,7 @@ Module.register("calendar", {
 
 	// Define required scripts.
 	getStyles: function () {
-		return ["calendar.css", "font-awesome.css"];
+		return ["calendar.css", "font-awesome5.css", "font-awesome5.v4shims.css"];
 	},
 
 	// Define required scripts.
@@ -82,6 +82,15 @@ Module.register("calendar", {
 				maximumEntries: calendar.maximumEntries,
 				maximumNumberOfDays: calendar.maximumNumberOfDays
 			};
+			if (calendar.symbolClass === "undefined" || calendar.symbolClass === null) {
+				calendarConfig.symbolClass = "";
+			}
+			if (calendar.titleClass === "undefined" || calendar.titleClass === null) {
+				calendarConfig.titleClass = "";
+			}
+			if (calendar.timeClass === "undefined" || calendar.timeClass === null) {
+				calendarConfig.timeClass = "";
+			}
 
 			// we check user and password here for backwards compatibility with old configs
 			if(calendar.user && calendar.pass) {
@@ -143,7 +152,7 @@ Module.register("calendar", {
 			if(this.config.timeFormat === "dateheaders"){
 				if(lastSeenDate !== dateAsString){
 					var dateRow = document.createElement("tr");
-					dateRow.className = "normal"
+					dateRow.className = "normal";
 					var dateCell = document.createElement("td");
 
 					dateCell.colSpan = "3";
@@ -172,7 +181,9 @@ Module.register("calendar", {
 					symbolWrapper.style.cssText = "color:" + this.colorForUrl(event.url);
 				}
 
-				symbolWrapper.className = "symbol align-right";
+				var symbolClass = this.symbolClassForUrl(event.url);
+				symbolWrapper.className = "symbol align-right " + symbolClass;
+
 				var symbols = this.symbolsForUrl(event.url);
 				if(typeof symbols === "string") {
 					symbols = [symbols];
@@ -189,7 +200,7 @@ Module.register("calendar", {
 				eventWrapper.appendChild(symbolWrapper);
 			}else if(this.config.timeFormat === "dateheaders"){
 				var blankCell = document.createElement("td");
-				blankCell.innerHTML = "&nbsp;&nbsp;&nbsp;"
+				blankCell.innerHTML = "&nbsp;&nbsp;&nbsp;";
 				eventWrapper.appendChild(blankCell);
 			}
 
@@ -210,10 +221,12 @@ Module.register("calendar", {
 
 			titleWrapper.innerHTML = this.titleTransform(event.title) + repeatingCountTitle;
 
+			var titleClass = this.titleClassForUrl(event.url);
+
 			if (!this.config.colored) {
-				titleWrapper.className = "title bright";
+				titleWrapper.className = "title bright " + titleClass;
 			} else {
-				titleWrapper.className = "title";
+				titleWrapper.className = "title " + titleClass;
 			}
 
 			if(this.config.timeFormat === "dateheaders"){
@@ -223,8 +236,10 @@ Module.register("calendar", {
 					titleWrapper.align = "left";
 
 				}else{
+
+					var timeClass = this.timeClassForUrl(event.url);
 					var timeWrapper = document.createElement("td");
-					timeWrapper.className = "time light";
+					timeWrapper.className = "time light " + timeClass;
 					timeWrapper.align = "left";
 					timeWrapper.style.paddingLeft = "2px";
 					var timeFormatString = "";
@@ -343,7 +358,8 @@ Module.register("calendar", {
 				}
 				//timeWrapper.innerHTML += ' - '+ moment(event.startDate,'x').format('lll');
 				//console.log(event);
-				timeWrapper.className = "time light";
+				var timeClass = this.timeClassForUrl(event.url);
+				timeWrapper.className = "time light " + timeClass;
 				eventWrapper.appendChild(timeWrapper);
 			}
 
@@ -472,11 +488,15 @@ Module.register("calendar", {
 			maximumEntries: calendarConfig.maximumEntries || this.config.maximumEntries,
 			maximumNumberOfDays: calendarConfig.maximumNumberOfDays || this.config.maximumNumberOfDays,
 			fetchInterval: this.config.fetchInterval,
+			symbolClass: calendarConfig.symbolClass,
+			titleClass: calendarConfig.titleClass,
+			timeClass: calendarConfig.timeClass,
 			auth: auth
 		});
 	},
 
-	/* symbolsForUrl(url)
+	/**
+	 * symbolsForUrl(url)
 	 * Retrieves the symbols for a specific url.
 	 *
 	 * argument url string - Url to look for.
@@ -485,6 +505,42 @@ Module.register("calendar", {
 	 */
 	symbolsForUrl: function (url) {
 		return this.getCalendarProperty(url, "symbol", this.config.defaultSymbol);
+	},
+
+	/**
+	 * symbolClassForUrl(url)
+	 * Retrieves the symbolClass for a specific url.
+	 *
+	 * @param url string - Url to look for.
+	 *
+	 * @returns string
+	 */
+	symbolClassForUrl: function (url) {
+		return this.getCalendarProperty(url, "symbolClass", "");
+	},
+
+	/**
+	 * titleClassForUrl(url)
+	 * Retrieves the titleClass for a specific url.
+	 *
+	 * @param url string - Url to look for.
+	 *
+	 * @returns string
+	 */
+	titleClassForUrl: function (url) {
+		return this.getCalendarProperty(url, "titleClass", "");
+	},
+
+	/**
+	 * timeClassForUrl(url)
+	 * Retrieves the timeClass for a specific url.
+	 *
+	 * @param url string - Url to look for.
+	 *
+	 * @returns string
+	 */
+	timeClassForUrl: function (url) {
+		return this.getCalendarProperty(url, "timeClass", "");
 	},
 
 	/* colorForUrl(url)

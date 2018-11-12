@@ -2,6 +2,11 @@
 The `currentweather` module is one of the default modules of the MagicMirror.
 This module displays the current weather, including the windspeed, the sunset or sunrise time, the temperature and an icon to display the current conditions.
 
+## Screenshot
+
+- Current weather screenshot
+![Current Weather Screenshot](weather_screenshot.png)
+
 ## Using the module
 
 To use this module, add it to the modules array in the `config/config.js` file:
@@ -29,7 +34,7 @@ The following properties can be configured:
 | Option                       | Description
 | ---------------------------- | -----------
 | `location`                   | The location used for weather information. <br><br> **Example:** `'Amsterdam,Netherlands'` <br> **Default value:** `false` <br><br> **Note:** When the `location` and `locationID` are both not set, the location will be based on the information provided by the calendar module. The first upcoming event with location data will be used.
-| `locationID`                 | Location ID from [OpenWeatherMap](http://openweathermap.org/help/city_list.txt) **This will override anything you put in location.** <br> Leave blank if you want to use location. <br> **Example:** `1234567` <br> **Default value:** `false` <br><br> **Note:** When the `location` and `locationID` are both not set, the location will be based on the information provided by the calendar module. The first upcoming event with location data will be used.
+| `locationID`                 | Location ID from [OpenWeatherMap](https://openweathermap.org/find) **This will override anything you put in location.** <br> Leave blank if you want to use location. <br> **Example:** `1234567` <br> **Default value:** `false` <br><br> **Note:** When the `location` and `locationID` are both not set, the location will be based on the information provided by the calendar module. The first upcoming event with location data will be used.
 | `appid`                      | The [OpenWeatherMap](https://home.openweathermap.org) API key, which can be obtained by creating an OpenWeatherMap account. <br><br>  This value is **REQUIRED**
 | `units`                      | What units to use. Specified by config.js <br><br> **Possible values:** `config.units` = Specified by config.js, `default` = Kelvin, `metric` = Celsius, `imperial` =Fahrenheit <br> **Default value:** `config.units`
 | `roundTemp`                  | Round temperature value to nearest integer. <br><br> **Possible values:** `true` (round to integer) or `false` (display exact value with decimal point) <br> **Default value:** `false`
