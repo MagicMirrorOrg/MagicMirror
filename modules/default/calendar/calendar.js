@@ -151,7 +151,7 @@ Module.register("calendar", {
 			var startFade = events.length * this.config.fadePoint;
 			var fadeSteps = events.length - startFade;
 		}
-		
+
 		var currentFadeStep = 0;
 		var lastSeenDate = "";
 
@@ -255,7 +255,7 @@ Module.register("calendar", {
 					timeWrapper.className = "time light " + timeClass;
 					timeWrapper.align = "left";
 					timeWrapper.style.paddingLeft = "2px";
-					timeWrapper.innerHTML = moment(event.startDate, "x").format('LT');
+					timeWrapper.innerHTML = moment(event.startDate, "x").format("LT");
 					eventWrapper.appendChild(timeWrapper);
 					titleWrapper.align = "right";
 				}
@@ -274,7 +274,7 @@ Module.register("calendar", {
 				var oneDay = oneHour * 24;
 				if (event.fullDayEvent) {
 					//subtract one second so that fullDayEvents end at 23:59:59, and not at 0:00:00 one the next day
-					event.endDate -= oneSecond;		
+					event.endDate -= oneSecond;
 					if (event.today) {
 						timeWrapper.innerHTML = this.capFirst(this.translate("TODAY"));
 					} else if (event.startDate - now < oneDay && event.startDate - now > 0) {
@@ -371,7 +371,7 @@ Module.register("calendar", {
 				eventWrapper.style.opacity = 1 - (1 / fadeSteps * currentFadeStep);
 			}
 		}
-		
+
 		return wrapper;
 	},
 
