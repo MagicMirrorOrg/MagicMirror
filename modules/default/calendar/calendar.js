@@ -144,6 +144,15 @@ Module.register("calendar", {
 			return wrapper;
 		}
 
+		if (this.config.fade && this.config.fadePoint < 1) {
+			if (this.config.fadePoint < 0) {
+				this.config.fadePoint = 0;
+			}
+			var startFade = events.length * this.config.fadePoint;
+			var fadeSteps = events.length - startFade;
+		}
+		
+		var currentFadeStep = 0;
 		var lastSeenDate = "";
 
 		for (var e in events) {
@@ -160,6 +169,10 @@ Module.register("calendar", {
 					dateRow.appendChild(dateCell);
 					wrapper.appendChild(dateRow);
 
+					if (e >= startFade) {			//fading
+						currentFadeStep = e - startFade;
+						dateRow.style.opacity = 1 - (1 / fadeSteps * currentFadeStep);
+					}
 
 					lastSeenDate = dateAsString;
 				}
@@ -242,22 +255,7 @@ Module.register("calendar", {
 					timeWrapper.className = "time light " + timeClass;
 					timeWrapper.align = "left";
 					timeWrapper.style.paddingLeft = "2px";
-					var timeFormatString = "";
-					switch (config.timeFormat) {
-					case 12: {
-						timeFormatString = "h:mm A";
-						break;
-					}
-					case 24: {
-						timeFormatString = "HH:mm";
-						break;
-					}
-					default: {
-						timeFormatString = "HH:mm";
-						break;
-					}
-					}
-					timeWrapper.innerHTML = moment(event.startDate, "x").format(timeFormatString);
+					timeWrapper.innerHTML = moment(event.startDate, "x").format('LT');
 					eventWrapper.appendChild(timeWrapper);
 					titleWrapper.align = "right";
 				}
@@ -275,6 +273,8 @@ Module.register("calendar", {
 				var oneHour = oneMinute * 60;
 				var oneDay = oneHour * 24;
 				if (event.fullDayEvent) {
+					//subtract one second so that fullDayEvents end at 23:59:59, and not at 0:00:00 one the next day
+					event.endDate -= oneSecond;		
 					if (event.today) {
 						timeWrapper.innerHTML = this.capFirst(this.translate("TODAY"));
 					} else if (event.startDate - now < oneDay && event.startDate - now > 0) {
@@ -366,19 +366,12 @@ Module.register("calendar", {
 			wrapper.appendChild(eventWrapper);
 
 			// Create fade effect.
-			if (this.config.fade && this.config.fadePoint < 1) {
-				if (this.config.fadePoint < 0) {
-					this.config.fadePoint = 0;
-				}
-				var startingPoint = events.length * this.config.fadePoint;
-				var steps = events.length - startingPoint;
-				if (e >= startingPoint) {
-					var currentStep = e - startingPoint;
-					eventWrapper.style.opacity = 1 - (1 / steps * currentStep);
-				}
+			if (e >= startFade) {
+				currentFadeStep = e - startFade;
+				eventWrapper.style.opacity = 1 - (1 / fadeSteps * currentFadeStep);
 			}
 		}
-
+		
 		return wrapper;
 	},
 
