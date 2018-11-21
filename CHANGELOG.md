@@ -19,11 +19,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Screenshot for the current weather
 - Screenshot for the weather forecast module
 - Portuguese translation for "Feels"
+- Fading for dateheaders timeFormat in Calendar [#1464](https://github.com/MichMich/MagicMirror/issues/1464)
 
 ### Fixed
 - Allow to parse recurring calendar events where the start date is before 1900
 - Fixed Polish translation for Single Update Info
 - Ignore entries with unparseable details in the calendar module
+- Bug showing FullDayEvents one day too long in calendar fixed 
 
 ### Updated
 - The default calendar setting `showEnd` is changed to `false`.
