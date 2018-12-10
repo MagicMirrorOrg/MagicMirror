@@ -26,7 +26,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fixed Polish translation for Single Update Info
 - Ignore entries with unparseable details in the calendar module
 - Bug showing FullDayEvents one day too long in calendar fixed
-- Bug in newsfeed when `removeStartTags` is used on the description
+- Bug in newsfeed when `removeStartTags` is used on the description [#1478](https://github.com/MichMich/MagicMirror/issues/1478)
 
 ### Updated
 - The default calendar setting `showEnd` is changed to `false`.
