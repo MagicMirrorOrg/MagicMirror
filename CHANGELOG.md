@@ -20,6 +20,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Screenshot for the weather forecast module
 - Portuguese translation for "Feels"
 - Fading for dateheaders timeFormat in Calendar [#1464](https://github.com/MichMich/MagicMirror/issues/1464)
+- Documentation for the existing `scale` option in the Weather Forecast module.
 
 ### Fixed
 - Allow to parse recurring calendar events where the start date is before 1900
@@ -29,6 +30,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Updated
 - The default calendar setting `showEnd` is changed to `false`.
+
+### Changed
+- The Weather Forecast module by default displays the &deg; symbol after every numeric value to be consistent with the Current Weather module.
+
 
 ## [2.5.0] - 2018-10-01
 
