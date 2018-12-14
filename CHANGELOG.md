@@ -5,11 +5,36 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## [2.5.0] - Unreleased
+## [2.6.0] - Unreleased
 
 *This release is scheduled to be released on 2018-10-01.*
 
 ### Added
+- Possibility to add classes to the cell of symbol, title and time of the events of calendar.
+- Font-awesome 5, still has 4 for backwards compatibility.
+- Missing `showEnd` in calendar documentation
+- Screenshot for the new feed module
+- Screenshot for the compliments module
+- Screenshot for the clock module
+- Screenshot for the current weather
+- Screenshot for the weather forecast module
+- Portuguese translation for "Feels"
+- Fading for dateheaders timeFormat in Calendar [#1464](https://github.com/MichMich/MagicMirror/issues/1464)
+
+### Fixed
+- Allow to parse recurring calendar events where the start date is before 1900
+- Fixed Polish translation for Single Update Info
+- Ignore entries with unparseable details in the calendar module
+- Bug showing FullDayEvents one day too long in calendar fixed 
+
+### Updated
+- The default calendar setting `showEnd` is changed to `false`.
+
+## [2.5.0] - 2018-10-01
+
+### Added
+- Support multi-line compliments
+- Simplified Chinese translation for "Feels"
 - Polish translate for "Feels"
 - French translate for "Feels"
 - Translations for newsfeed module
@@ -21,8 +46,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Support for showing end of events through config parameters showEnd and dateEndFormat
 
 ### Fixed
+- Fixed gzip encoded calendar loading issue #1400.
 - Mixup between german and spanish translation for newsfeed.
 - Fixed close dates to be absolute, if no configured in the config.js - module Calendar
+- Fixed the UpdateNotification module message about new commits in the repository, so they can be correctly localized in singular and plural form.
 - Fix for weatherforecast rainfall rounding [#1374](https://github.com/MichMich/MagicMirror/issues/1374)
 - Fix calendar parsing issue for Midori on RasperryPi Zero w, related to issue #694.
 - Fix weather city ID link in sample config
@@ -30,6 +57,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Updated
 
+- Updated Simplified Chinese translation
 - Swedish translations
 - Hungarian translations for the updatenotification module
 - Updated Norsk bokmål translation
