@@ -26,7 +26,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Allow to parse recurring calendar events where the start date is before 1900
 - Fixed Polish translation for Single Update Info
 - Ignore entries with unparseable details in the calendar module
-- Bug showing FullDayEvents one day too long in calendar fixed 
+- Bug showing FullDayEvents one day too long in calendar fixed
+- Bug in newsfeed when `removeStartTags` is used on the description [#1478](https://github.com/MichMich/MagicMirror/issues/1478)
 
 ### Updated
 - The default calendar setting `showEnd` is changed to `false`.
