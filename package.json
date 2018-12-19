@@ -55,6 +55,7 @@
     "time-grunt": "latest"
   },
   "dependencies": {
+    "ajv": "6.5.5",
     "body-parser": "^1.18.2",
     "colors": "^1.1.2",
     "electron": "^2.0.4",
