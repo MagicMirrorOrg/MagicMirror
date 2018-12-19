@@ -19,6 +19,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Screenshot for the current weather
 - Screenshot for the weather forecast module
 - Portuguese translation for "Feels"
+- Croatian translation
 - Fading for dateheaders timeFormat in Calendar [#1464](https://github.com/MichMich/MagicMirror/issues/1464)
 - Documentation for the existing `scale` option in the Weather Forecast module.
 
