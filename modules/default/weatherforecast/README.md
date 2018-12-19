@@ -51,10 +51,11 @@ The following properties can be configured:
 | `apiBase`                    | The OpenWeatherMap base URL. <br><br> **Default value:**  `'http://api.openweathermap.org/data/'`
 | `forecastEndpoint`           | The OpenWeatherMap API endPoint. <br><br> **Default value:**  `'forecast/daily'`
 | `appendLocationNameToHeader` | If set to `true`, the returned location name will be appended to the header of the module, if the header is enabled. This is mainly intresting when using calender based weather. <br><br> **Default value:**  `true`
-| `calendarClass`              | The class for the calender module to base the event based weather information on. <br><br> **Default value:** `'calendar'`
+| `calendarClass`              | The class for the calendar module to base the event based weather information on. <br><br> **Default value:** `'calendar'`
 | `tableClass`                  | Name of the classes issued from `main.css`. <br><br> **Possible values:** xsmall, small, medium, large, xlarge. <br> **Default value:** _small._
 | `iconTable`                  | The conversion table to convert the weather conditions to weather-icons. <br><br> **Default value:** view table below
-  `colored`                    | If set 'colored' to true the min-temp get a blue tone and the max-temp get a red tone. <br><br> **Default value:** `'false'`
+| `colored`                    | If set `colored` to `true` the min-temp gets a blue tone and the max-temp gets a red tone. <br><br> **Default value:** `'false'`
+| `scale  `                    | If set to `true` the module will display `C` for Celsius degrees and `F` for Fahrenheit degrees after the number, based on the value of the `units` option, otherwise only the &deg; character is displayed. <br><br> **Default value:** `false`
 
 #### Default Icon Table
 ````javascript
