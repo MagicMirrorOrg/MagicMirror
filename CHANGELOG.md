@@ -1,13 +1,180 @@
 # MagicMirror² Change Log
+
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.2.0] - Unreleased
+---
+
+## [2.6.0] - Unreleased
+
+*This release is scheduled to be released on 2018-10-01.*
+
+### Added
+- Possibility to add classes to the cell of symbol, title and time of the events of calendar.
+- Font-awesome 5, still has 4 for backwards compatibility.
+- Missing `showEnd` in calendar documentation
+- Screenshot for the new feed module
+- Screenshot for the compliments module
+- Screenshot for the clock module
+- Screenshot for the current weather
+- Screenshot for the weather forecast module
+- Portuguese translation for "Feels"
+- Croatian translation
+- Fading for dateheaders timeFormat in Calendar [#1464](https://github.com/MichMich/MagicMirror/issues/1464)
+- Documentation for the existing `scale` option in the Weather Forecast module.
+
+### Fixed
+- Allow to parse recurring calendar events where the start date is before 1900
+- Fixed Polish translation for Single Update Info
+- Ignore entries with unparseable details in the calendar module
+- Bug showing FullDayEvents one day too long in calendar fixed
+- Bug in newsfeed when `removeStartTags` is used on the description [#1478](https://github.com/MichMich/MagicMirror/issues/1478)
+
+### Updated
+- The default calendar setting `showEnd` is changed to `false`.
+
+### Changed
+- The Weather Forecast module by default displays the &deg; symbol after every numeric value to be consistent with the Current Weather module.
+
+
+## [2.5.0] - 2018-10-01
+
+### Added
+- Support multi-line compliments
+- Simplified Chinese translation for "Feels"
+- Polish translate for "Feels"
+- French translate for "Feels"
+- Translations for newsfeed module
+- Support for toggling news article in fullscreen
+- Hungarian translation for "Feels" and "Week"
+- Spanish translation for "Feels"
+- Add classes instead of inline style to the message from the module Alert
+- Support for events having a duration instead of an end
+- Support for showing end of events through config parameters showEnd and dateEndFormat
+
+### Fixed
+- Fixed gzip encoded calendar loading issue #1400.
+- Mixup between german and spanish translation for newsfeed.
+- Fixed close dates to be absolute, if no configured in the config.js - module Calendar
+- Fixed the UpdateNotification module message about new commits in the repository, so they can be correctly localized in singular and plural form.
+- Fix for weatherforecast rainfall rounding [#1374](https://github.com/MichMich/MagicMirror/issues/1374)
+- Fix calendar parsing issue for Midori on RasperryPi Zero w, related to issue #694.
+- Fix weather city ID link in sample config
+- Fixed issue with clientonly not updating with IP address and port provided on command line.
+
+### Updated
+
+- Updated Simplified Chinese translation
+- Swedish translations
+- Hungarian translations for the updatenotification module
+- Updated Norsk bokmål translation
+- Updated Norsk nynorsk translation
+- Consider multi days event as full day events
+
+## [2.4.1] - 2018-07-04
+
+### Fixed
+
+- Fix weather parsing issue #1332.
+
+## [2.4.0] - 2018-07-01
+
+⚠️ **Warning:** This release includes an updated version of Electron. This requires a Raspberry Pi configuration change to allow the best performance and prevent the CPU from overheating. Please read the information on the [MagicMirror Wiki](https://github.com/michmich/magicmirror/wiki/configuring-the-raspberry-pi#enable-the-open-gl-driver-to-decrease-electrons-cpu-usage).
+
+ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
+
+### Added
+
+- Enabled translation of feelsLike for module currentweather
+- Added support for on-going calendar events
+- Added scroll up in fullscreen newsfeed article view
+- Changed fullscreen newsfeed width from 100% to 100vw (better results)
+- Added option to calendar module that colors only the symbol instead of the whole line
+- Added option for new display format in the calendar module with date headers with times/events below.
+- Ability to fetch compliments from a remote server
+- Add regex filtering to calendar module
+- Customize classes for table
+- Added option to newsfeed module to only log error parsing a news article if enabled
+- Add update translations for Português Brasileiro
+
+### Changed
+- Upgrade to Electron 2.0.0.
+- Remove yarn-or-npm which breaks production builds.
+- Invoke module suspend even if no dom content. [#1308](https://github.com/MichMich/MagicMirror/issues/1308)
+
+### Fixed
+- Fixed issue where wind chill could not be displayed in Fahrenheit. [#1247](https://github.com/MichMich/MagicMirror/issues/1247)
+- Fixed issues where a module crashes when it tries to dismiss a non existing alert. [#1240](https://github.com/MichMich/MagicMirror/issues/1240)
+- In default module currentWeather/currentWeather.js line 296, 300, self.config.animationSpeed can not be found because the notificationReceived function does not have "self" variable.
+- Fixed browser-side code to work on the Midori browser.
+- Fixed issue where heat index was reporting incorrect values in Celsius and Fahrenheit. [#1263](https://github.com/MichMich/MagicMirror/issues/1263)
+- Fixed weatherforecast to use dt_txt field instead of dt to handle timezones better
+- Newsfeed now remembers to show the description when `"ARTICLE_LESS_DETAILS"` is called if the user wants to always show the description. [#1282](https://github.com/MichMich/MagicMirror/issues/1282)
+- `clientonly/*.js` is now linted, and one linting error is fixed
+- Fix issue #1196 by changing underscore to hyphen in locale id, in align with momentjs.
+- Fixed issue where heat index and wind chill were reporting incorrect values in Kelvin. [#1263](https://github.com/MichMich/MagicMirror/issues/1263)
+
+### Updated
+- Updated Italian translation
+- Updated German translation
+- Updated Dutch translation
+
+## [2.3.1] - 2018-04-01
+
+### Fixed
+- Downgrade electron to 1.4.15 to solve the black screen issue.[#1243](https://github.com/MichMich/MagicMirror/issues/1243)
+
+## [2.3.0] - 2018-04-01
+
+### Added
+
+- Add new settings in compliments module: setting time intervals for morning and afternoon
+- Add system notification `MODULE_DOM_CREATED` for notifying each module when their Dom has been fully loaded.
+- Add types for module.
+- Implement Danger.js to notify contributors when CHANGELOG.md is missing in PR.
+- Allow to scroll in full page article view of default newsfeed module with gesture events from [MMM-Gestures](https://github.com/thobach/MMM-Gestures)
+- Changed 'compliments.js' - update DOM if remote compliments are loaded instead of waiting one updateInterval to show custom compliments
+- Automated unit tests utils, deprecated, translator, cloneObject(lockstrings)
+- Automated integration tests translations
+- Add advanced filtering to the excludedEvents configuration of the default calendar module
+- New currentweather module config option: `showFeelsLike`: Shows how it actually feels like. (wind chill or heat index)
+- New currentweather module config option: `useKMPHwind`: adds an option to see wind speed in Kmph instead of just m/s or Beaufort.
+- Add dc:date to parsing in newsfeed module, which allows parsing of more rss feeds.
+
+### Changed
+- Add link to GitHub repository which contains the respective Dockerfile.
+- Optimized automated unit tests cloneObject, cmpVersions
+- Update notifications use now translation templates instead of normal strings.
+- Yarn can be used now as an installation tool
+- Changed Electron dependency to v1.7.13.
+
+### Fixed
+- News article in fullscreen (iframe) is now shown in front of modules.
+- Forecast respects maxNumberOfDays regardless of endpoint.
+- Fix exception on translation of objects.
+
+## [2.2.2] - 2018-01-02
+
+### Added
+
+- Add missing `package-lock.json`.
+
+### Changed
+
+- Changed Electron dependency to v1.7.10.
+
+## [2.2.1] - 2018-01-01
+
+### Fixed
+- Fixed linting errors.
+
+## [2.2.0] - 2018-01-01
 
 **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
 
 ### Changed
-- calender week is now handled with a variable translation in order to move number language specific
+- Calender week is now handled with a variable translation in order to move number language specific.
+- Reverted the Electron dependency back to 1.4.15 since newer version don't seem to work on the Raspberry Pi very well.
 
 ### Added
 - Add option to use [Nunjucks](https://mozilla.github.io/nunjucks/) templates in modules. (See `helloworld` module as an example.)
@@ -15,13 +182,18 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add graceful shutdown of modules by calling `stop` function of each `node_helper` on SIGINT before exiting.
 - Link update subtext to Github diff of current version versus tracking branch.
 - Add Catalan translation.
-
-### Updated
+- Add ability to filter out newsfeed items based on prohibited words found in title (resolves #1071)
+- Add options to truncate description support of a feed in newsfeed module
+- Add reloadInterval option for particular feed in newsfeed module
+- Add no-cache entries of HTTP headers in newsfeed module (fetcher)
+- Add Czech translation.
+- Add option for decimal symbols other than the decimal point for temperature values in both default weather modules: WeatherForecast and CurrentWeather.
 
 ### Fixed
 - Fixed issue with calendar module showing more than `maximumEntries` allows
 - WeatherForecast and CurrentWeather are now using HTTPS instead of HTTP
 - Correcting translation for Indonesian language
+- Fix issue where calendar icons wouldn't align correctly
 
 ## [2.1.3] - 2017-10-01
 
@@ -50,7 +222,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Changed 'default.js' - listen on all attached interfaces by default.
 - Add execution of `npm list` after the test are ran in Travis CI.
 - Change hooks for the vendors e2e tests.
-- Add log when clientonly failed on starting. 
+- Add log when clientonly failed on starting.
 - Add warning color when are using full ip whitelist.
 - Set version of the `express-ipfilter` on 0.3.1.
 

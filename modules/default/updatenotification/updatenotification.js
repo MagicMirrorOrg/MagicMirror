@@ -58,16 +58,20 @@ Module.register("updatenotification", {
 			icon.innerHTML = "&nbsp;";
 			message.appendChild(icon);
 
-			var subtextHtml = this.translate("UPDATE_INFO")
-				.replace("COMMIT_COUNT", this.status.behind + " " + ((this.status.behind == 1) ? "commit" : "commits"))
-				.replace("BRANCH_NAME", this.status.current);
+			var updateInfoKeyName = this.status.behind == 1 ? "UPDATE_INFO_SINGLE" : "UPDATE_INFO_MULTIPLE";
+			var subtextHtml = this.translate(updateInfoKeyName, {
+				COMMIT_COUNT: this.status.behind,
+				BRANCH_NAME: this.status.current
+			});
 
 			var text = document.createElement("span");
 			if (this.status.module == "default") {
 				text.innerHTML = this.translate("UPDATE_NOTIFICATION");
 				subtextHtml = this.diffLink(subtextHtml);
 			} else {
-				text.innerHTML = this.translate("UPDATE_NOTIFICATION_MODULE").replace("MODULE_NAME", this.status.module);
+				text.innerHTML = this.translate("UPDATE_NOTIFICATION_MODULE", {
+					MODULE_NAME: this.status.module
+				});
 			}
 			message.appendChild(text);
 

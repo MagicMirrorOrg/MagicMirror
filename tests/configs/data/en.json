@@ -1,0 +1,33 @@
+{
+  "LOADING": "Loading &hellip;",
+
+  "TODAY": "Today",
+  "TOMORROW": "Tomorrow",
+  "DAYAFTERTOMORROW": "In 2 days",
+  "RUNNING": "Ends in",
+  "EMPTY": "No upcoming events.",
+
+  "WEEK": "Week {weekNumber}",
+
+  "N": "N",
+  "NNE": "NNE",
+  "NE": "NE",
+  "ENE": "ENE",
+  "E": "E",
+  "ESE": "ESE",
+  "SE": "SE",
+  "SSE": "SSE",
+  "S": "S",
+  "SSW": "SSW",
+  "SW": "SW",
+  "WSW": "WSW",
+  "W": "W",
+  "WNW": "WNW",
+  "NW": "NW",
+  "NNW": "NNW",
+
+  "UPDATE_NOTIFICATION": "MagicMirror² update available.",
+  "UPDATE_NOTIFICATION_MODULE": "Update available for MODULE_NAME module.",
+  "UPDATE_INFO_SINGLE": "The current installation is COMMIT_COUNT commit behind on the BRANCH_NAME branch.",
+  "UPDATE_INFO_MULTIPLE": "The current installation is COMMIT_COUNT commits behind on the BRANCH_NAME branch."
+}

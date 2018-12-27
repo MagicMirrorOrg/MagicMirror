@@ -29,7 +29,8 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 		var opts = {
 			headers: {
 				"User-Agent": "Mozilla/5.0 (Node.js "+ nodeVersion + ") MagicMirror/"  + global.version +  " (https://github.com/MichMich/MagicMirror/)"
-			}
+			},
+			gzip: true
 		};
 
 		if (auth) {
@@ -90,6 +91,9 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 					var endDate;
 					if (typeof event.end !== "undefined") {
 						endDate = eventDate(event, "end");
+					} else if(typeof event.duration !== "undefined") {
+						dur=moment.duration(event.duration);
+						endDate = startDate.clone().add(dur);
 					} else {
 						if (!isFacebookBirthday) {
 							endDate = startDate;
@@ -113,11 +117,48 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 						title = event.description;
 					}
 
-					var excluded = false;
+					var excluded = false,
+						dateFilter = null;
+
 					for (var f in excludedEvents) {
-						var filter = excludedEvents[f];
-						if (title.toLowerCase().includes(filter.toLowerCase())) {
-							excluded = true;
+						var filter = excludedEvents[f],
+							testTitle = title.toLowerCase(),
+							until = null,
+							useRegex = false,
+							regexFlags = "g";
+
+						if (filter instanceof Object) {
+							if (typeof filter.until !== "undefined") {
+								until = filter.until;
+							}
+
+							if (typeof filter.regex !== "undefined") {
+								useRegex = filter.regex;
+							}
+
+							// If additional advanced filtering is added in, this section
+							// must remain last as we overwrite the filter object with the
+							// filterBy string
+							if (filter.caseSensitive) {
+								filter = filter.filterBy;
+								testTitle = title;
+							} else if (useRegex) {
+								filter = filter.filterBy;
+								testTitle = title;
+								regexFlags += "i";
+							} else {
+								filter = filter.filterBy.toLowerCase();
+							}
+						} else {
+							filter = filter.toLowerCase();
+						}
+
+						if (testTitleByFilter(testTitle, filter, useRegex, regexFlags)) {
+							if (until) {
+								dateFilter = until;
+							} else {
+								excluded = true;
+							}
 							break;
 						}
 					}
@@ -130,13 +171,26 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 					var geo = event.geo || false;
 					var description = event.description || false;
 
-					if (typeof event.rrule != "undefined" && !isFacebookBirthday) {
+					if (typeof event.rrule != "undefined" && event.rrule != null && !isFacebookBirthday) {
 						var rule = event.rrule;
+
+						// can cause problems with e.g. birthdays before 1900
+						if(rule.origOptions && rule.origOptions.dtstart && rule.origOptions.dtstart.getFullYear() < 1900 ||
+							rule.options && rule.options.dtstart && rule.options.dtstart.getFullYear() < 1900){
+							rule.origOptions.dtstart.setYear(1900);
+							rule.options.dtstart.setYear(1900);
+						}
+
 						var dates = rule.between(today, future, true, limitFunction);
 
 						for (var d in dates) {
 							startDate = moment(new Date(dates[d]));
 							endDate  = moment(parseInt(startDate.format("x")) + duration, "x");
+
+							if (timeFilterApplies(now, endDate, dateFilter)) {
+								continue;
+							}
+
 							if (endDate.format("x") > now) {
 								newEvents.push({
 									title: title,
@@ -168,6 +222,10 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 
 						if (startDate > future) {
 							//console.log("It exceeds the maximumNumberOfDays limit. So skip: " + title);
+							continue;
+						}
+
+						if (timeFilterApplies(now, endDate, dateFilter)) {
 							continue;
 						}
 
@@ -227,14 +285,51 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 		var start = event.start || 0;
 		var startDate = new Date(start);
 		var end = event.end || 0;
-
-		if (end - start === 24 * 60 * 60 * 1000 && startDate.getHours() === 0 && startDate.getMinutes() === 0) {
+		if (((end - start) % (24 * 60 * 60 * 1000)) === 0 && startDate.getHours() === 0 && startDate.getMinutes() === 0) {
 			// Is 24 hours, and starts on the middle of the night.
 			return true;
 		}
 
 		return false;
 	};
+
+	/* timeFilterApplies()
+	 * Determines if the user defined time filter should apply
+	 *
+	 * argument now Date - Date object using previously created object for consistency
+	 * argument endDate Moment - Moment object representing the event end date
+	 * argument filter string - The time to subtract from the end date to determine if an event should be shown
+	 *
+	 * return bool - The event should be filtered out
+	 */
+	var timeFilterApplies = function(now, endDate, filter) {
+		if (filter) {
+			var until = filter.split(" "),
+				value = parseInt(until[0]),
+				increment = until[1].slice("-1") === "s" ? until[1] : until[1] + "s", // Massage the data for moment js
+				filterUntil = moment(endDate.format()).subtract(value, increment);
+
+			return now < filterUntil.format("x");
+		}
+
+		return false;
+	};
+
+	var testTitleByFilter = function (title, filter, useRegex, regexFlags) {
+		if (useRegex) {
+			// Assume if leading slash, there is also trailing slash
+			if (filter[0] === "/") {
+				// Strip leading and trailing slashes
+				filter = filter.substr(1).slice(0, -1);
+			}
+
+			filter = new RegExp(filter, regexFlags);
+
+			return filter.test(title);
+		} else {
+			return title.includes(filter);
+		}
+	}
 
 	/* public methods */
 

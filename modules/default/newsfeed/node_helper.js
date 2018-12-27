@@ -36,7 +36,7 @@ module.exports = NodeHelper.create({
 
 		var url = feed.url || "";
 		var encoding = feed.encoding || "UTF-8";
-		var reloadInterval = config.reloadInterval || 5 * 60 * 1000;
+		var reloadInterval = feed.reloadInterval || config.reloadInterval || 5 * 60 * 1000;
 
 		if (!validUrl.isUri(url)) {
 			self.sendSocketNotification("INCORRECT_URL", url);
@@ -46,7 +46,7 @@ module.exports = NodeHelper.create({
 		var fetcher;
 		if (typeof self.fetchers[url] === "undefined") {
 			console.log("Create new news fetcher for url: " + url + " - Interval: " + reloadInterval);
-			fetcher = new Fetcher(url, reloadInterval, encoding);
+			fetcher = new Fetcher(url, reloadInterval, encoding, config.logFeedWarnings);
 
 			fetcher.onReceive(function(fetcher) {
 				self.broadcastFeeds();

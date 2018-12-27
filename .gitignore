@@ -19,6 +19,9 @@ jspm_modules
 # Visual Studio Code ignoramuses.
 .vscode/
 
+# IDE Code ignoramuses.
+.idea/
+
 # Various Windows ignoramuses.
 Thumbs.db
 ehthumbs.db

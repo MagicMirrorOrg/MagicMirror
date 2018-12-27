@@ -62,13 +62,13 @@
 	// Only start the client if a non-local server was provided
 	if (["localhost", "127.0.0.1", "::1", "::ffff:127.0.0.1", undefined].indexOf(config.address) === -1) {
 		getServerConfig(`http://${config.address}:${config.port}/config/`)
-			.then(function (config) {
+			.then(function (configReturn) {
 				// Pass along the server config via an environment variable
 				var env = Object.create(process.env);
 				var options = { env: env };
-				config.address = config.address;
-				config.port = config.port;
-				env.config = JSON.stringify(config);
+				configReturn.address = config.address;
+				configReturn.port = config.port;
+				env.config = JSON.stringify(configReturn);
 
 				// Spawn electron application
 				const electron = require("electron");
@@ -88,7 +88,7 @@
 					process.stdout.write(`Client: ${err}`);
 				});
 
-				child.on('close', (code) => {
+				child.on("close", (code) => {
 					if (code != 0) {
 						console.log(`There something wrong. The clientonly is not running code ${code}`);
 					}

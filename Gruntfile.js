@@ -11,6 +11,7 @@ module.exports = function(grunt) {
 				"modules/default/*.js",
 				"modules/default/*/*.js",
 				"serveronly/*.js",
+				"clientonly/*.js",
 				"*.js",
 				"tests/**/*.js",
 				"!modules/default/alert/notificationFx.js",

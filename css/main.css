@@ -95,7 +95,7 @@ body {
 header {
   text-transform: uppercase;
   font-size: 15px;
-  font-family: "Roboto Condensed", sans-serif;
+  font-family: "Roboto Condensed", Arial, Helvetica, sans-serif;
   font-weight: 400;
   border-bottom: 1px solid #666;
   line-height: 15px;
@@ -126,6 +126,10 @@ sup {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.pre-line {
+  white-space: pre-line;
 }
 
 /**

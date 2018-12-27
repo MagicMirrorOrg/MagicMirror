@@ -1,0 +1,30 @@
+{
+	"LOADING": "Carregando &hellip;",
+
+	"TODAY": "Hoje",
+	"TOMORROW": "Amanhã",
+	"RUNNING": "Acaba em",
+	"EMPTY": "Nenhum evento novo.",
+
+	"N": "N",
+	"NNE": "NNE",
+	"NE": "NE",
+	"ENE": "ENE",
+	"E": "E",
+	"ESE": "ESE",
+	"SE": "SE",
+	"SSE": "SSE",
+	"S": "S",
+	"SSW": "SSO",
+	"SW": "SO",
+	"WSW": "OSO",
+	"W": "O",
+	"WNW": "ONO",
+	"NW": "NO",
+	"NNW": "NNO",
+
+	"UPDATE_NOTIFICATION": "Nova atualização para MagicMirror disponível.",
+	"UPDATE_NOTIFICATION_MODULE": "Atualização para o módulo {MODULE_NAME} disponível.",
+	"UPDATE_INFO_SINGLE": "Sua versão atual é a {COMMIT_COUNT} commit dentro do seguinte branch {BRANCH_NAME}.",
+	"UPDATE_INFO_MULTIPLE": "Sua versão atual é a {COMMIT_COUNT} commits dentro do seguinte branch {BRANCH_NAME}."
+}
