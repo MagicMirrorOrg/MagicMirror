@@ -36,71 +36,71 @@ var WeatherProvider = Class.extend({
 	// Called when a weather provider is initialized.
 	init: function(config) {
 		this.config = config;
-		Log.info("Weather provider: " + this.providerName + " initialized.")
+		Log.info(`Weather provider: ${this.providerName} initialized.`);
 	},
 
 	// Called to set the config, this config is the same as the weather module's config.
 	setConfig: function(config) {
-		this.config = config
-		Log.info("Weather provider: " + this.providerName + " config set.", this.config)
+		this.config = config;
+		Log.info(`Weather provider: ${this.providerName} config set.`, this.config);
 	},
 
 	// Called when the weather provider is about to start.
 	start: function(config) {
-		Log.info("Weather provider: " + this.providerName + " started.")
+		Log.info(`Weather provider: ${this.providerName} started.`);
 	},
 
 	// This method should start the API request to fetch the current weather.
 	// This method should definetly be overwritten in the provider.
 	fetchCurrentWeather: function() {
-		Log.warn("Weather provider: " + this.providerName + " does not subclass the fetchCurrentWeather method.")
+		Log.warn(`Weather provider: ${this.providerName} does not subclass the fetchCurrentWeather method.`);
 	},
 
 	// This method should start the API request to fetch the weather forecast.
 	// This method should definetly be overwritten in the provider.
 	fetchWeatherForecast: function() {
-		Log.warn("Weather provider: " + this.providerName + " does not subclass the fetchWeatherForecast method.")
+		Log.warn(`Weather provider: ${this.providerName} does not subclass the fetchWeatherForecast method.`);
 	},
 
 	// This returns a WeatherDay object for the current weather.
 	currentWeather: function() {
-		return this.currentWeatherObject
+		return this.currentWeatherObject;
 	},
 
 	// This returns an array of WeatherDay objects for the weather forecast.
 	weatherForecast: function() {
-		return this.weatherForecastArray
+		return this.weatherForecastArray;
 	},
 
 	// This returns the name of the fetched location or an empty string
 	fetchedLocation: function() {
-		return this.fetchedLocationName || ''
+		return this.fetchedLocationName || "";
 	},
 
 	// Set the currentWeather and notify the delegate that new information is available.
 	setCurrentWeather: function(currentWeatherObject) {
 		// We should check here if we are passing a WeatherDay
-		this.currentWeatherObject = currentWeatherObject
+		this.currentWeatherObject = currentWeatherObject;
 
-		this.updateAvailable()
+		this.updateAvailable();
 	},
 
 	// Set the weatherForecastArray and notify the delegate that new information is available.
 	setWeatherForecast: function(weatherForecastArray) {
 		// We should check here if we are passing a WeatherDay
-		this.weatherForecastArray = weatherForecastArray
+		this.weatherForecastArray = weatherForecastArray;
 
-		this.updateAvailable()
+		this.updateAvailable();
 	},
 
 	// Set the fetched location name
 	setFetchedLocation: function(name) {
-		this.fetchedLocationName = name
+		this.fetchedLocationName = name;
 	},
 
 	// Notify the delegate that new weather is available.
 	updateAvailable: function() {
-		this.delegate.updateAvailable(this)
+		this.delegate.updateAvailable(this);
 	},
 
 	// A convinience function to make requests. It returns a promise.
@@ -125,30 +125,30 @@ var WeatherProvider = Class.extend({
 /**
  * Collection of registered weather providers.
  */
-WeatherProvider.providers = []
+WeatherProvider.providers = [];
 
 /**
  * Static method to register a new weather provider.
  */
 WeatherProvider.register = function(providerIdentifier, providerDetails) {
-	WeatherProvider.providers[providerIdentifier.toLowerCase()] = WeatherProvider.extend(providerDetails)
-}
+	WeatherProvider.providers[providerIdentifier.toLowerCase()] = WeatherProvider.extend(providerDetails);
+};
 
 /**
  * Static method to initialize a new weather provider.
  */
 WeatherProvider.initialize = function(providerIdentifier, delegate) {
-	providerIdentifier = providerIdentifier.toLowerCase()
+	providerIdentifier = providerIdentifier.toLowerCase();
 
-	var provider = new WeatherProvider.providers[providerIdentifier]()
+	var provider = new WeatherProvider.providers[providerIdentifier]();
 
-	provider.delegate = delegate
-	provider.setConfig(delegate.config)
+	provider.delegate = delegate;
+	provider.setConfig(delegate.config);
 
 	provider.providerIdentifier = providerIdentifier;
 	if (!provider.providerName) {
-		provider.providerName = providerIdentifier
+		provider.providerName = providerIdentifier;
 	}
 
 	return provider;
-}
+};

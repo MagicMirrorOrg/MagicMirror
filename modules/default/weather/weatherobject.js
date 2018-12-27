@@ -14,16 +14,16 @@
 
 class WeatherObject {
 	constructor() {
-		this.date = null
-		this.windSpeed = null
-		this.windDirection = null
-		this.sunrise = null
-		this.sunset = null
-		this.temperature = null
-		this.minTemperature = null
-		this.maxTemperature = null
-		this.weatherType = null
-		this.humidity = null
+		this.date = null;
+		this.windSpeed = null;
+		this.windDirection = null;
+		this.sunrise = null;
+		this.sunset = null;
+		this.temperature = null;
+		this.minTemperature = null;
+		this.maxTemperature = null;
+		this.weatherType = null;
+		this.humidity = null;
 	}
 
 	cardinalWindDirection () {
@@ -78,4 +78,4 @@ class WeatherObject {
 		var now = new Date();
 		return (this.sunrise < now && this.sunset > now) ? "sunset" : "sunrise";
 	}
-};
+}

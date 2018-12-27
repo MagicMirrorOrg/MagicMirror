@@ -59,16 +59,12 @@ Module.register("weather",{
 
 	// Return the scripts that are nessecery for the weather module.
 	getScripts: function () {
-		var scripts = [
+		return [
 			"moment.js",
 			"weatherprovider.js",
-			"weatherobject.js"
+			"weatherobject.js",
+			this.file("providers/" + this.config.weatherProvider.toLowerCase() + ".js")
 		];
-
-		// Add the provider file to the required scripts.
-		scripts.push(this.file("providers/" + this.config.weatherProvider.toLowerCase() + ".js"));
-
-		return scripts
 	},
 
 	// Override getHeader method.
@@ -93,7 +89,7 @@ Module.register("weather",{
 		this.addFilters();
 
 		// Schedule the first update.
-		this.scheduleUpdate(0);
+		this.scheduleUpdate(this.config.initialLoadDelay);
 	},
 
 	// Override notification handler.
@@ -112,12 +108,10 @@ Module.register("weather",{
 					}
 				}
 			}
-		}
-		if (notification === "INDOOR_TEMPERATURE") {
+		} else if (notification === "INDOOR_TEMPERATURE") {
 			this.indoorTemperature = this.roundValue(payload);
 			this.updateDom(300);
-		}
-		if (notification === "INDOOR_HUMIDITY") {
+		} else if (notification === "INDOOR_HUMIDITY") {
 			this.indoorHumidity = this.roundValue(payload);
 			this.updateDom(300);
 		}
@@ -125,7 +119,7 @@ Module.register("weather",{
 
 	// Select the template depending on the display type.
 	getTemplate: function () {
-		return this.config.type.toLowerCase() + ".njk"
+		return `${this.config.type.toLowerCase()}.njk`;
 	},
 
 	// Add all the data to the template.
@@ -144,8 +138,8 @@ Module.register("weather",{
 	// What to do when the weather provider has new information available?
 	updateAvailable: function() {
 		Log.log("New weather information available.");
-		this.updateDom(300);
-		this.scheduleUpdate(60000);
+		this.updateDom(0);
+		this.scheduleUpdate();
 	},
 
 	scheduleUpdate: function(delay = null) {
@@ -214,9 +208,9 @@ Module.register("weather",{
 			}
 
 			if(this.config.units === "imperial") {
-				return (parseFloat(value) / 25.4).toFixed(2) + " in";
+				return `${(parseFloat(value) / 25.4).toFixed(2)} in`;
 			} else {
-				return parseFloat(value).toFixed(1) + " mm";
+				return `${parseFloat(value).toFixed(1)} mm`;
 			}
 		}.bind(this));
 	}

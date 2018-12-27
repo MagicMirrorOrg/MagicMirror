@@ -17,30 +17,30 @@ WeatherProvider.register("darksky", {
 	fetchCurrentWeather: function() {
 		this.fetchData(this.getUrl())
 			.then(data => {
-				Log.log(data);
 				if(!data || !data.currently || typeof data.currently.temperature === "undefined") {
 					// No usable data?
 					return;
 				}
+
 				var currentWeather = this.generateWeatherDayFromCurrentWeather(data);
 				this.setCurrentWeather(currentWeather);
 			}).catch(function(request) {
-				Log.error("Could not load data!", request);
+				Log.error("Could not load data ... ", request);
 			});
 	},
 
 	fetchWeatherForecast: function() {
 		this.fetchData(this.getUrl())
 			.then(data => {
-				Log.log(data);
 				if(!data || !data.daily || !data.daily.data.length) {
 					// No usable data?
 					return;
 				}
+
 				var forecast = this.generateWeatherObjectsFromForecast(data.daily.data);
 				this.setWeatherForecast(forecast);
 			}).catch(function(request) {
-				Log.error("Could not load data!", request);
+				Log.error("Could not load data ... ", request);
 			});
 	},
 

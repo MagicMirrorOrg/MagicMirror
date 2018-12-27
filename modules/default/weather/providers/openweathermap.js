@@ -26,13 +26,13 @@ WeatherProvider.register("openweathermap", {
 					return;
 				}
 
-				this.setFetchedLocation(data.name + ', ' + data.sys.country)
+				this.setFetchedLocation(`${data.name}, ${data.sys.country}`);
 
-				var currentWeather = this.generateWeatherObjectFromCurrentWeather(data)
-				this.setCurrentWeather(currentWeather)
+				var currentWeather = this.generateWeatherObjectFromCurrentWeather(data);
+				this.setCurrentWeather(currentWeather);
 			})
 			.catch(function(request) {
-				Log.error("Could not load data ... ", request)
+				Log.error("Could not load data ... ", request);
 			})
 	},
 
@@ -46,13 +46,13 @@ WeatherProvider.register("openweathermap", {
 					return;
 				}
 
-				this.setFetchedLocation(data.city.name + ', ' + data.city.country)
+				this.setFetchedLocation(`${data.city.name}, ${data.city.country}`);
 
-				var forecast = this.generateWeatherObjectsFromForecast(data.list)
-				this.setWeatherForecast(forecast)
+				var forecast = this.generateWeatherObjectsFromForecast(data.list);
+				this.setWeatherForecast(forecast);
 			})
 			.catch(function(request) {
-				Log.error("Could not load data ... ", request)
+				Log.error("Could not load data ... ", request);
 			})
 	},
 
@@ -63,45 +63,45 @@ WeatherProvider.register("openweathermap", {
 	 * Gets the complete url for the request
 	 */
 	getUrl: function() {
-		return this.config.apiBase + this.config.apiVersion + this.config.weatherEndpoint + this.getParams()
+		return this.config.apiBase + this.config.apiVersion + this.config.weatherEndpoint + this.getParams();
 	},
 
 	/* 
 	 * Generate a WeatherObject based on currentWeatherInformation
 	 */
 	generateWeatherObjectFromCurrentWeather: function(currentWeatherData) {
-		var currentWeather = new WeatherObject()
+		var currentWeather = new WeatherObject();
 
-		currentWeather.humidity = currentWeatherData.main.humidity
-		currentWeather.temperature = currentWeatherData.main.temp
-		currentWeather.windSpeed = currentWeatherData.wind.speed
-		currentWeather.windDirection = currentWeatherData.wind.deg
-		currentWeather.weatherType = this.convertWeatherType(currentWeatherData.weather[0].icon)
-		currentWeather.sunrise = moment(currentWeatherData.sys.sunrise, "X")
-		currentWeather.sunset = moment(currentWeatherData.sys.sunset, "X")
+		currentWeather.humidity = currentWeatherData.main.humidity;
+		currentWeather.temperature = currentWeatherData.main.temp;
+		currentWeather.windSpeed = currentWeatherData.wind.speed;
+		currentWeather.windDirection = currentWeatherData.wind.deg;
+		currentWeather.weatherType = this.convertWeatherType(currentWeatherData.weather[0].icon);
+		currentWeather.sunrise = moment(currentWeatherData.sys.sunrise, "X");
+		currentWeather.sunset = moment(currentWeatherData.sys.sunset, "X");
 
-		return currentWeather
+		return currentWeather;
 	},
 
 	/*
 	 * Generate WeatherObjects based on forecast information
 	 */
 	generateWeatherObjectsFromForecast: function(forecasts) {
-		var days = []
+		var days = [];
 
 		for (var forecast of forecasts) {
-			var weather = new WeatherObject()
+			var weather = new WeatherObject();
 
-			weather.date = moment(forecast.dt, "X")
-			weather.minTemperature = forecast.temp.min
-			weather.maxTemperature = forecast.temp.max
-			weather.weatherType = this.convertWeatherType(forecast.weather[0].icon)
-			weather.rain = forecast.rain
+			weather.date = moment(forecast.dt, "X");
+			weather.minTemperature = forecast.temp.min;
+			weather.maxTemperature = forecast.temp.max;
+			weather.weatherType = this.convertWeatherType(forecast.weather[0].icon);
+			weather.rain = forecast.rain;
 
-			days.push(weather)
+			days.push(weather);
 		}
 
-		return days
+		return days;
 	},
 
 	/*
@@ -127,9 +127,9 @@ WeatherProvider.register("openweathermap", {
 			"11n": "night-thunderstorm",
 			"13n": "night-snow",
 			"50n": "night-alt-cloudy-windy"
-		}
+		};
 
-		return weatherTypes.hasOwnProperty(weatherType) ? weatherTypes[weatherType] : null
+		return weatherTypes.hasOwnProperty(weatherType) ? weatherTypes[weatherType] : null;
 	},
 
 	/* getParams(compliments)
@@ -144,7 +144,7 @@ WeatherProvider.register("openweathermap", {
 		} else if(this.config.location) {
 			params += "q=" + this.config.location;
 		} else if (this.firstEvent && this.firstEvent.geo) {
-			params += "lat=" + this.firstEvent.geo.lat + "&lon=" + this.firstEvent.geo.lon
+			params += "lat=" + this.firstEvent.geo.lat + "&lon=" + this.firstEvent.geo.lon;
 		} else if (this.firstEvent && this.firstEvent.location) {
 			params += "q=" + this.firstEvent.location;
 		} else {
@@ -157,5 +157,5 @@ WeatherProvider.register("openweathermap", {
 		params += "&APPID=" + this.config.apiKey;
 
 		return params;
-	},
+	}
 });
