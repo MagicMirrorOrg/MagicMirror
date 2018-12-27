@@ -12,27 +12,21 @@
 WeatherProvider.register("openweathermap", {
 
 	// Set the name of the provider.
-	// This isn't strictly nessecery, since it will fallback to the provider identifier
+	// This isn't strictly necessary, since it will fallback to the provider identifier
 	// But for debugging (and future alerts) it would be nice to have the real name.
 	providerName: "OpenWeatherMap",
 
 	// Overwrite the fetchCurrentWeather method.
 	fetchCurrentWeather: function() {
-		var  apiVersion = "2.5"
-		var  apiBase =  "http://api.openweathermap.org/data/"
-		var  weatherEndpoint = "weather"
-
-		var url = apiBase + apiVersion + "/" + weatherEndpoint + this.getParams()
-
-		this.fetchData(url)
+		this.fetchData(this.getUrl())
 			.then(data => {
-				Log.log(data)
-
 				if (!data || !data.main || typeof data.main.temp === "undefined") {
 					// Did not receive usable new data.
 					// Maybe this needs a better check?
 					return;
 				}
+
+				this.setFetchedLocation(data.name + ', ' + data.sys.country)
 
 				var currentWeather = this.generateWeatherObjectFromCurrentWeather(data)
 				this.setCurrentWeather(currentWeather)
@@ -44,29 +38,33 @@ WeatherProvider.register("openweathermap", {
 
 	// Overwrite the fetchCurrentWeather method.
 	fetchWeatherForecast: function() {
+		this.fetchData(this.getUrl())
+			.then(data => {
+				if (!data || !data.list || !data.list.length) {
+					// Did not receive usable new data.
+					// Maybe this needs a better check?
+					return;
+				}
 
-		// I haven't yet implemented the real api call, so let's just generate some random data.
+				this.setFetchedLocation(data.city.name + ', ' + data.city.country)
 
-		var forecast = []
-		var today = moment()
-
-		for (var i = 0; i < 5; i++ ) {
-			var weatherObject = new WeatherObject()
-
-			weatherObject.date = moment(today).add(i, "days")
-			weatherObject.minTemperature = Math.random() * 10 + 10
-			weatherObject.maxTemperature = Math.random() * 15 + 10
-
-			forecast.push(weatherObject)
-		}
-
-		this.setWeatherForecast(forecast)
+				var forecast = this.generateWeatherObjectsFromForecast(data.list)
+				this.setWeatherForecast(forecast)
+			})
+			.catch(function(request) {
+				Log.error("Could not load data ... ", request)
+			})
 	},
 
 
 
 	/** OpenWeatherMap Specific Methods - These are not part of the default provider methods */
-
+	/*
+	 * Gets the complete url for the request
+	 */
+	getUrl: function() {
+		return this.config.apiBase + this.config.apiVersion + this.config.weatherEndpoint + this.getParams()
+	},
 
 	/* 
 	 * Generate a WeatherObject based on currentWeatherInformation
@@ -74,17 +72,36 @@ WeatherProvider.register("openweathermap", {
 	generateWeatherObjectFromCurrentWeather: function(currentWeatherData) {
 		var currentWeather = new WeatherObject()
 
-		currentWeather.date = new Date
-
-		currentWeather.humidity = currentWeatherData.main.humidity ? parseFloat(currentWeatherData.main.humidity) : null
-		currentWeather.temperature = currentWeatherData.main.temp ? parseFloat(currentWeatherData.main.temp) : null
-		currentWeather.windSpeed = currentWeatherData.wind.speed ? parseFloat(currentWeatherData.wind.speed) : null
-		currentWeather.windDirection = currentWeatherData.wind.deg ? currentWeatherData.wind.deg : null
-		currentWeather.weatherType = currentWeatherData.weather[0].icon ? this.convertWeatherType(currentWeatherData.weather[0].icon) : null
-		currentWeather.sunrise = currentWeatherData.sys.sunrise ? new Date(currentWeatherData.sys.sunrise * 1000) : null
-		currentWeather.sunset = currentWeatherData.sys.sunset ? new Date(currentWeatherData.sys.sunset * 1000) : null
+		currentWeather.humidity = currentWeatherData.main.humidity
+		currentWeather.temperature = currentWeatherData.main.temp
+		currentWeather.windSpeed = currentWeatherData.wind.speed
+		currentWeather.windDirection = currentWeatherData.wind.deg
+		currentWeather.weatherType = this.convertWeatherType(currentWeatherData.weather[0].icon)
+		currentWeather.sunrise = moment(currentWeatherData.sys.sunrise, "X")
+		currentWeather.sunset = moment(currentWeatherData.sys.sunset, "X")
 
 		return currentWeather
+	},
+
+	/*
+	 * Generate WeatherObjects based on forecast information
+	 */
+	generateWeatherObjectsFromForecast: function(forecasts) {
+		var days = []
+
+		for (var forecast of forecasts) {
+			var weather = new WeatherObject()
+
+			weather.date = moment(forecast.dt, "X")
+			weather.minTemperature = forecast.temp.min
+			weather.maxTemperature = forecast.temp.max
+			weather.weatherType = this.convertWeatherType(forecast.weather[0].icon)
+			weather.rain = forecast.rain
+
+			days.push(weather)
+		}
+
+		return days
 	},
 
 	/*
