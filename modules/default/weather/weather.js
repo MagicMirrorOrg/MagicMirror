@@ -12,7 +12,6 @@ Module.register("weather",{
 	defaults: {
 		updateInterval: 10 * 60 * 1000,
 		weatherProvider: "openweathermap",
-		units: config.units,
 		roundTemp: false,
 		type: "current", //current, forecast
 
@@ -43,11 +42,11 @@ Module.register("weather",{
 
 		appendLocationNameToHeader: true,
 		calendarClass: "calendar",
-		tableClass: 'small',
+		tableClass: "small",
 
 		onlyTemp: false,
-		roundTemp: false,
-		showRainAmount: true
+		showRainAmount: true,
+		colored: false
 	},
 
 	// Module properties.
@@ -191,7 +190,7 @@ Module.register("weather",{
 		this.nunjucksEnvironment().addFilter("unit", function (value, type) {
 			if (type === "temperature") {
 				value += "°";
-				if (this.config.scale || this.config.degreeLabel) {
+				if (this.config.degreeLabel) {
 					if (this.config.units === "metric") {
 						value += "C";
 					} else if (this.config.units === "imperial") {
