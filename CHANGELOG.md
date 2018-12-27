@@ -7,7 +7,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [2.6.0] - Unreleased
 
-*This release is scheduled to be released on 2018-10-01.*
+*This release is scheduled to be released on 2019-01-01.*
+
+### Experimental
+- New default [module weather](modules/default/weather).
 
 ### Added
 - Possibility to add classes to the cell of symbol, title and time of the events of calendar.
