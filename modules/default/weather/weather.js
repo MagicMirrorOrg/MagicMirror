@@ -39,13 +39,15 @@ Module.register("weather",{
 
 		apiVersion: "2.5",
 		apiBase: "http://api.openweathermap.org/data/",
-		weatherEndpoint: "weather",
+		weatherEndpoint: "/weather",
 
 		appendLocationNameToHeader: true,
 		calendarClass: "calendar",
+		tableClass: 'small',
 
 		onlyTemp: false,
-		roundTemp: false
+		roundTemp: false,
+		showRainAmount: true
 	},
 
 	// Module properties.
@@ -70,8 +72,18 @@ Module.register("weather",{
 		return scripts
 	},
 
+	// Override getHeader method.
+	getHeader: function() {
+		if (this.config.appendLocationNameToHeader && this.weatherProvider) {
+			return this.data.header + " " + this.weatherProvider.fetchedLocation();
+		}
+
+		return this.data.header;
+	},
+
 	// Start the weather module.
 	start: function () {
+		moment.locale(this.config.lang);
 		// Initialize the weather provider.
 		this.weatherProvider = WeatherProvider.initialize(this.config.weatherProvider, this);
 
@@ -87,11 +99,6 @@ Module.register("weather",{
 
 	// Override notification handler.
 	notificationReceived: function(notification, payload, sender) {
-		if (notification === "DOM_OBJECTS_CREATED") {
-			if (this.config.appendLocationNameToHeader) {
-				this.hide(0, {lockString: this.identifier});
-			}
-		}
 		if (notification === "CALENDAR_EVENTS") {
 			var senderClasses = sender.data.classes.toLowerCase().split(" ");
 			if (senderClasses.indexOf(this.config.calendarClass.toLowerCase()) !== -1) {
@@ -139,7 +146,7 @@ Module.register("weather",{
 	updateAvailable: function() {
 		Log.log("New weather information available.");
 		this.updateDom(300);
-		this.scheduleUpdate(5000);
+		this.scheduleUpdate(60000);
 	},
 
 	scheduleUpdate: function(delay = null) {
@@ -160,7 +167,7 @@ Module.register("weather",{
 	roundValue: function(temperature) {
 		var decimals = this.config.roundTemp ? 0 : 1;
 		return parseFloat(temperature).toFixed(decimals);
-	}
+	},
 
 	addFilters() {
 		this.nunjucksEnvironment().addFilter("formatTime", function(date) {
@@ -200,6 +207,18 @@ Module.register("weather",{
 
 		this.nunjucksEnvironment().addFilter("roundValue", function(value) {
 			return this.roundValue(value);
+		}.bind(this));
+
+		this.nunjucksEnvironment().addFilter("formatRain", function(value) {
+			if (isNaN(value)) {
+				return "";
+			}
+
+			if(this.config.units === "imperial") {
+				return (parseFloat(value) / 25.4).toFixed(2) + " in";
+			} else {
+				return parseFloat(value).toFixed(1) + " mm";
+			}
 		}.bind(this));
 	}
 });

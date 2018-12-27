@@ -27,7 +27,7 @@ class WeatherObject {
 	}
 
 	cardinalWindDirection () {
-		if (this.windDirection>11.25 && this.windDirection<=33.75){
+		if (this.windDirection > 11.25 && this.windDirection <= 33.75){
 			return "NNE";
 		} else if (this.windDirection > 33.75 && this.windDirection <= 56.25) {
 			return "NE";
