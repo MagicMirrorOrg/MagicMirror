@@ -21,6 +21,7 @@ var WeatherProvider = Class.extend({
 	// Try to not access them directly.
 	currentWeatherObject: null,
 	weatherForecastArray: null,
+	fetchedLocationName: null,
 
 	// The following properties will be set automaticly.
 	// You do not need to overwrite these properties.
@@ -71,6 +72,11 @@ var WeatherProvider = Class.extend({
 		return this.weatherForecastArray
 	},
 
+	// This returns the name of the fetched location or an empty string
+	fetchedLocation: function() {
+		return this.fetchedLocationName || ''
+	},
+
 	// Set the currentWeather and notify the delegate that new information is available.
 	setCurrentWeather: function(currentWeatherObject) {
 		// We should check here if we are passing a WeatherDay
@@ -85,6 +91,11 @@ var WeatherProvider = Class.extend({
 		this.weatherForecastArray = weatherForecastArray
 
 		this.updateAvailable()
+	},
+
+	// Set the fetched location name
+	setFetchedLocation: function(name) {
+		this.fetchedLocationName = name
 	},
 
 	// Notify the delegate that new weather is available.
