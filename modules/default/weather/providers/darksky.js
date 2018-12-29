@@ -14,6 +14,11 @@ WeatherProvider.register("darksky", {
 	// Not strictly required, but helps for debugging.
 	providerName: "Dark Sky",
 
+	units: {
+		imperial: 'us',
+		metric: 'ca'
+	},
+
 	fetchCurrentWeather: function() {
 		this.fetchData(this.getUrl())
 			.then(data => {
@@ -46,7 +51,8 @@ WeatherProvider.register("darksky", {
 
 	// Create a URL from the config and base URL.
 	getUrl: function() {
-		return `${this.config.apiBase}${this.config.weatherEndpoint}/${this.config.apiKey}/${this.config.lat},${this.config.lon}`;
+		var units = this.units[this.config.units] || 'auto';
+		return `${this.config.apiBase}${this.config.weatherEndpoint}/${this.config.apiKey}/${this.config.lat},${this.config.lon}?units=${units}&lang=${this.config.lang}`;
 	},
 
 	// Implement WeatherDay generator.
