@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [2.5.0] - 2018-10-01
 
 ### Added
+- Romanian translation for "Feels"
 - Support multi-line compliments
 - Simplified Chinese translation for "Feels"
 - Polish translate for "Feels"
