@@ -13,7 +13,8 @@
 // As soon as we start implementing the forecast, mode properties will be added.
 
 class WeatherObject {
-	constructor() {
+	constructor(units) {
+		this.units = units;
 		this.date = null;
 		this.windSpeed = null;
 		this.windDirection = null;
@@ -26,7 +27,7 @@ class WeatherObject {
 		this.humidity = null;
 	}
 
-	cardinalWindDirection () {
+	cardinalWindDirection() {
 		if (this.windDirection > 11.25 && this.windDirection <= 33.75){
 			return "NNE";
 		} else if (this.windDirection > 33.75 && this.windDirection <= 56.25) {
@@ -62,20 +63,18 @@ class WeatherObject {
 		}
 	}
 
-	beaufortWindSpeed () {
-		var kmh = this.windSpeed * 60 * 60 / 1000;
-		var speeds = [1, 5, 11, 19, 28, 38, 49, 61, 74, 88, 102, 117, 1000];
-		for (var beaufort in speeds) {
-			var speed = speeds[beaufort];
-			if (speed > kmh) {
-				return beaufort;
+	beaufortWindSpeed() {
+		const windInKmh = this.units === "imperial" ? this.windSpeed * 1.609344 : this.windSpeed * 60 * 60 / 1000;
+		const speeds = [1, 5, 11, 19, 28, 38, 49, 61, 74, 88, 102, 117, 1000];
+		for (const [index, speed] of speeds.entries()) {
+			if (speed > windInKmh) {
+				return index;
 			}
 		}
 		return 12;
 	}
 
-	nextSunAction () {
-		var now = new Date();
-		return (this.sunrise < now && this.sunset > now) ? "sunset" : "sunrise";
+	nextSunAction() {
+		return moment().isBetween(this.sunrise, this.sunset) ? "sunset" : "sunrise";
 	}
 }
