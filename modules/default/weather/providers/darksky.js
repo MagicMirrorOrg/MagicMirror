@@ -81,7 +81,11 @@ WeatherProvider.register("darksky", {
 			weather.minTemperature = forecast.temperatureMin;
 			weather.maxTemperature = forecast.temperatureMax;
 			weather.weatherType = this.convertWeatherType(forecast.icon);
-			weather.rain = forecast.precipAccumulation;
+			if (this.config.units === "metric" && !isNaN(forecast.precipAccumulation)) {
+				weather.rain = forecast.precipAccumulation * 10;
+			} else {
+				weather.rain = forecast.precipAccumulation;
+			}
 
 			days.push(weather);
 		}

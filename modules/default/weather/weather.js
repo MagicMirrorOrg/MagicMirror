@@ -194,6 +194,12 @@ Module.register("weather",{
 						value += "K";
 					}
 				}
+			} else if (type === "rain") {
+				if (isNaN(value)) {
+					value = "";
+				} else {
+					value = `${value.toFixed(2)} ${this.config.units === "imperial" ? "in" : "mm"}`;
+				}
 			}
 
 			return value;
@@ -201,18 +207,6 @@ Module.register("weather",{
 
 		this.nunjucksEnvironment().addFilter("roundValue", function(value) {
 			return this.roundValue(value);
-		}.bind(this));
-
-		this.nunjucksEnvironment().addFilter("formatRain", function(value) {
-			if (isNaN(value)) {
-				return "";
-			}
-
-			if(this.config.units === "imperial") {
-				return `${(parseFloat(value) / 25.4).toFixed(2)} in`;
-			} else {
-				return `${parseFloat(value).toFixed(1)} mm`;
-			}
 		}.bind(this));
 	}
 });

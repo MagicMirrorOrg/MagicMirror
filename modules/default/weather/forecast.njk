@@ -12,7 +12,7 @@
                 </td>
                 {% if config.showRainAmount %}
                     <td class="align-right bright rain">
-                        {{f.rain | formatRain}}
+                        {{f.rain | unit("rain")}}
                     </td>
                 {% endif %}
             </tr>
