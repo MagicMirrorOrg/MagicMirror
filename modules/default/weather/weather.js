@@ -46,7 +46,8 @@ Module.register("weather",{
 
 		onlyTemp: false,
 		showRainAmount: true,
-		colored: false
+		colored: false,
+		showFeelsLike: true
 	},
 
 	// Module properties.

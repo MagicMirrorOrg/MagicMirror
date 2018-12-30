@@ -17,7 +17,7 @@ WeatherProvider.register("openweathermap", {
 	providerName: "OpenWeatherMap",
 
 	// Overwrite the fetchCurrentWeather method.
-	fetchCurrentWeather: function() {
+	fetchCurrentWeather() {
 		this.fetchData(this.getUrl())
 			.then(data => {
 				if (!data || !data.main || typeof data.main.temp === "undefined") {
@@ -28,7 +28,7 @@ WeatherProvider.register("openweathermap", {
 
 				this.setFetchedLocation(`${data.name}, ${data.sys.country}`);
 
-				var currentWeather = this.generateWeatherObjectFromCurrentWeather(data);
+				const currentWeather = this.generateWeatherObjectFromCurrentWeather(data);
 				this.setCurrentWeather(currentWeather);
 			})
 			.catch(function(request) {
@@ -37,7 +37,7 @@ WeatherProvider.register("openweathermap", {
 	},
 
 	// Overwrite the fetchCurrentWeather method.
-	fetchWeatherForecast: function() {
+	fetchWeatherForecast() {
 		this.fetchData(this.getUrl())
 			.then(data => {
 				if (!data || !data.list || !data.list.length) {
@@ -48,7 +48,7 @@ WeatherProvider.register("openweathermap", {
 
 				this.setFetchedLocation(`${data.city.name}, ${data.city.country}`);
 
-				var forecast = this.generateWeatherObjectsFromForecast(data.list);
+				const forecast = this.generateWeatherObjectsFromForecast(data.list);
 				this.setWeatherForecast(forecast);
 			})
 			.catch(function(request) {
@@ -62,15 +62,15 @@ WeatherProvider.register("openweathermap", {
 	/*
 	 * Gets the complete url for the request
 	 */
-	getUrl: function() {
+	getUrl() {
 		return this.config.apiBase + this.config.apiVersion + this.config.weatherEndpoint + this.getParams();
 	},
 
 	/* 
 	 * Generate a WeatherObject based on currentWeatherInformation
 	 */
-	generateWeatherObjectFromCurrentWeather: function(currentWeatherData) {
-		var currentWeather = new WeatherObject();
+	generateWeatherObjectFromCurrentWeather(currentWeatherData) {
+		const currentWeather = new WeatherObject(this.config.units);
 
 		currentWeather.humidity = currentWeatherData.main.humidity;
 		currentWeather.temperature = currentWeatherData.main.temp;
@@ -86,11 +86,11 @@ WeatherProvider.register("openweathermap", {
 	/*
 	 * Generate WeatherObjects based on forecast information
 	 */
-	generateWeatherObjectsFromForecast: function(forecasts) {
-		var days = [];
+	generateWeatherObjectsFromForecast(forecasts) {
+		const days = [];
 
-		for (var forecast of forecasts) {
-			var weather = new WeatherObject();
+		for (const forecast of forecasts) {
+			const weather = new WeatherObject(this.config.units);
 
 			weather.date = moment(forecast.dt, "X");
 			weather.minTemperature = forecast.temp.min;
@@ -107,8 +107,8 @@ WeatherProvider.register("openweathermap", {
 	/*
 	 * Convert the OpenWeatherMap icons to a more usable name.
 	 */
-	convertWeatherType: function(weatherType) {
-		var weatherTypes = {
+	convertWeatherType(weatherType) {
+		const weatherTypes = {
 			"01d": "day-sunny",
 			"02d": "day-cloudy",
 			"03d": "cloudy",
@@ -137,8 +137,8 @@ WeatherProvider.register("openweathermap", {
 	 *
 	 * return String - URL params.
 	 */
-	getParams: function() {
-		var params = "?";
+	getParams() {
+		let params = "?";
 		if(this.config.locationID) {
 			params += "id=" + this.config.locationID;
 		} else if(this.config.location) {
