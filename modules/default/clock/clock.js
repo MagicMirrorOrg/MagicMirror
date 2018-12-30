@@ -137,7 +137,7 @@ Module.register("clock",{
 				clockCircle.style.backgroundSize = "100%";
 
 				// The following line solves issue: https://github.com/MichMich/MagicMirror/issues/611
-				clockCircle.style.border = "1px solid black";
+				clockCircle.style.border = "2px solid white";
 
 			} else if (this.config.analogFace != "none") {
 				clockCircle.style.border = "2px solid white";
