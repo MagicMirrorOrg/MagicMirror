@@ -16,10 +16,10 @@ WeatherProvider.register("darksky", {
 
 	units: {
 		imperial: 'us',
-		metric: 'ca'
+		metric: 'si'
 	},
 
-	fetchCurrentWeather: function() {
+	fetchCurrentWeather() {
 		this.fetchData(this.getUrl())
 			.then(data => {
 				if(!data || !data.currently || typeof data.currently.temperature === "undefined") {
@@ -27,14 +27,14 @@ WeatherProvider.register("darksky", {
 					return;
 				}
 
-				var currentWeather = this.generateWeatherDayFromCurrentWeather(data);
+				const currentWeather = this.generateWeatherDayFromCurrentWeather(data);
 				this.setCurrentWeather(currentWeather);
 			}).catch(function(request) {
 				Log.error("Could not load data ... ", request);
 			});
 	},
 
-	fetchWeatherForecast: function() {
+	fetchWeatherForecast() {
 		this.fetchData(this.getUrl())
 			.then(data => {
 				if(!data || !data.daily || !data.daily.data.length) {
@@ -42,7 +42,7 @@ WeatherProvider.register("darksky", {
 					return;
 				}
 
-				var forecast = this.generateWeatherObjectsFromForecast(data.daily.data);
+				const forecast = this.generateWeatherObjectsFromForecast(data.daily.data);
 				this.setWeatherForecast(forecast);
 			}).catch(function(request) {
 				Log.error("Could not load data ... ", request);
@@ -50,14 +50,14 @@ WeatherProvider.register("darksky", {
 	},
 
 	// Create a URL from the config and base URL.
-	getUrl: function() {
-		var units = this.units[this.config.units] || 'auto';
+	getUrl() {
+		const units = this.units[this.config.units] || "auto";
 		return `${this.config.apiBase}${this.config.weatherEndpoint}/${this.config.apiKey}/${this.config.lat},${this.config.lon}?units=${units}&lang=${this.config.lang}`;
 	},
 
 	// Implement WeatherDay generator.
-	generateWeatherDayFromCurrentWeather: function(currentWeatherData) {
-		var currentWeather = new WeatherObject();
+	generateWeatherDayFromCurrentWeather(currentWeatherData) {
+		const currentWeather = new WeatherObject(this.config.units);
 
 		currentWeather.date = moment();
 		currentWeather.humidity = parseFloat(currentWeatherData.currently.humidity);
@@ -71,11 +71,11 @@ WeatherProvider.register("darksky", {
 		return currentWeather;
 	},
 
-	generateWeatherObjectsFromForecast: function(forecasts) {
-		var days = [];
+	generateWeatherObjectsFromForecast(forecasts) {
+		const days = [];
 
-		for (var forecast of forecasts) {
-			var weather = new WeatherObject();
+		for (const forecast of forecasts) {
+			const weather = new WeatherObject(this.config.units);
 
 			weather.date = moment(forecast.time, "X");
 			weather.minTemperature = forecast.temperatureMin;
@@ -83,15 +83,15 @@ WeatherProvider.register("darksky", {
 			weather.weatherType = this.convertWeatherType(forecast.icon);
 			weather.rain = forecast.precipAccumulation;
 
-			days.push(weather)
+			days.push(weather);
 		}
 
-		return days
+		return days;
 	},
 
 	// Map icons from Dark Sky to our icons.
-	convertWeatherType: function(weatherType) {
-		var weatherTypes = {
+	convertWeatherType(weatherType) {
+		const weatherTypes = {
 			"clear-day": "day-sunny",
 			"clear-night": "night-clear",
 			"rain": "rain",
@@ -103,6 +103,7 @@ WeatherProvider.register("darksky", {
 			"partly-cloudy-day": "day-cloudy",
 			"partly-cloudy-night": "night-cloudy"
 		};
+
 		return weatherTypes.hasOwnProperty(weatherType) ? weatherTypes[weatherType] : null;
 	}
 });
