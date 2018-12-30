@@ -92,3 +92,7 @@ The following properties can be configured:
 | `apiKey`                     | The [DarkSky](https://darksky.net/dev/register) API key, which can be obtained by creating an DarkSky account. <br><br>  This value is **REQUIRED**
 | `lat`                        | The geo coordinate latitude. <br><br>  This value is **REQUIRED**
 | `lon`                        | The geo coordinate longitude. <br><br>  This value is **REQUIRED**
+
+## API Provider Development
+
+If you want to add another API provider checkout the [Guide](providers).
