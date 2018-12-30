@@ -51,6 +51,13 @@
             </span>
         {% endif %}
     </div>
+    {% if config.showFeelsLike and not config.onlyTemp %}
+        <div class="normal medium">
+            <span class="dimmed">
+                {{ "FEELS" | translate }} {{ current.feelsLike() | roundValue | unit("temperature") }}
+            </span>
+        </div>
+    {% endif %}
 {% else %}
     <div class="dimmed light small">
         {{"LOADING" | translate}}
