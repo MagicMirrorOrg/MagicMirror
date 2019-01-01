@@ -7,7 +7,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [2.6.0] - 2019-01-01
 
-### Experimental ✨
+ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
+
+### ✨ Experimental ✨
 - New default [module weather](modules/default/weather). This module will eventually replace the current `currentweather` and `weatherforecast` modules. The new module is still pretty experimental, but it's included so you can give it a try and help us improve this module. Please give us you feedback using [this forum post](https://forum.magicmirror.builders/topic/9335/default-weather-module-refactoring).
 
 ### Added
