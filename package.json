@@ -63,6 +63,7 @@
     "express-ipfilter": "0.3.1",
     "feedme": "latest",
     "helmet": "^3.9.0",
+    "home-path": "^1.0.6",
     "iconv-lite": "latest",
     "mocha-logger": "^1.0.6",
     "moment": "latest",
