@@ -5,12 +5,24 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
+## [2.7.0] - Unreleased
+
+*This release is scheduled to be released on 2019-04-01.*
+
+### Added
+
+### Updated
+
+### Fixed
+
 ## [2.6.0] - 2019-01-01
 
 ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`. If you are having issues updating, make sure you are running the latest version of Node.
 
 ### ✨ Experimental ✨
 - New default [module weather](modules/default/weather). This module will eventually replace the current `currentweather` and `weatherforecast` modules. The new module is still pretty experimental, but it's included so you can give it a try and help us improve this module. Please give us you feedback using [this forum post](https://forum.magicmirror.builders/topic/9335/default-weather-module-refactoring).
+
+A huge, huge, huge thanks to user @fewieden for all his hard work on the new `weather` module!
 
 ### Added
 - Possibility to add classes to the cell of symbol, title and time of the events of calendar.
