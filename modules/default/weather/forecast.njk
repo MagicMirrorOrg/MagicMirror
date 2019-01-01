@@ -1,0 +1,26 @@
+{% if forecast %}
+    <table class="{{config.tableClass}}">
+        {% for f in forecast %}
+            <tr {% if config.colored %}class="colored"{% endif %}>
+                <td class="day">{{f.date.format('ddd')}}</td>
+                <td class="bright weather-icon"><span class="wi weathericon wi-{{f.weatherType}}"></span></td>
+                <td class="align-right bright max-temp">
+                    {{f.maxTemperature | roundValue | unit("temperature")}}
+                </td>
+                <td class="align-right min-temp">
+                    {{f.minTemperature | roundValue | unit("temperature")}}
+                </td>
+                {% if config.showRainAmount %}
+                    <td class="align-right bright rain">
+                        {{f.rain | unit("rain")}}
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    {{"LOADING" | translate}}
+{% endif %}
+
+<!-- Unclomment the line below to see the contents of the `current` object. -->
+<!-- <div style="word-wrap:break-word" class="xsmall dimmed">{{forecast | dump}}</div> -->
