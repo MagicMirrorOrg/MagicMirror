@@ -25,6 +25,7 @@ class WeatherObject {
 		this.maxTemperature = null;
 		this.weatherType = null;
 		this.humidity = null;
+		this.rain = null;
 	}
 
 	cardinalWindDirection() {

@@ -96,7 +96,11 @@ WeatherProvider.register("openweathermap", {
 			weather.minTemperature = forecast.temp.min;
 			weather.maxTemperature = forecast.temp.max;
 			weather.weatherType = this.convertWeatherType(forecast.weather[0].icon);
-			weather.rain = forecast.rain;
+			if (this.config.units === "imperial" && !isNaN(forecast.rain)) {
+				weather.rain = forecast.rain / 25.4
+			} else {
+				weather.rain = forecast.rain;
+			}
 
 			days.push(weather);
 		}
