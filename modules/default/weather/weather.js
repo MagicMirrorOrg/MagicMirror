@@ -30,6 +30,7 @@ Module.register("weather",{
 		lang: config.language,
 		showHumidity: false,
 		degreeLabel: false,
+		decimalSymbol: ".",
 		showIndoorTemperature: false,
 		showIndoorHumidity: false,
 
@@ -184,7 +185,9 @@ Module.register("weather",{
 
 		this.nunjucksEnvironment().addFilter("unit", function (value, type) {
 			if (type === "temperature") {
-				value += "°";
+				if (this.config.units === "metric" || this.config.units === "imperial") {
+					value += "°";
+				}
 				if (this.config.degreeLabel) {
 					if (this.config.units === "metric") {
 						value += "C";
@@ -200,6 +203,8 @@ Module.register("weather",{
 				} else {
 					value = `${value.toFixed(2)} ${this.config.units === "imperial" ? "in" : "mm"}`;
 				}
+			} else if (type === "humidity") {
+				value += "%"
 			}
 
 			return value;
@@ -207,6 +212,10 @@ Module.register("weather",{
 
 		this.nunjucksEnvironment().addFilter("roundValue", function(value) {
 			return this.roundValue(value);
+		}.bind(this));
+
+		this.nunjucksEnvironment().addFilter("decimalSymbol", function(value) {
+			return value.replace(/\./g, this.config.decimalSymbol);
 		}.bind(this));
 	}
 });
