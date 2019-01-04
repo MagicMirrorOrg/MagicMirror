@@ -87,16 +87,21 @@ WeatherProvider.register("openweathermap", {
 	 * Generate WeatherObjects based on forecast information
 	 */
 	generateWeatherObjectsFromForecast(forecasts) {
+		// initial variable declaration
 		const days = [];
+		// variables for temperature range and rain
 		var minTemp = [];
 		var maxTemp = [];
 		var rain = 0;
+		// variable for date
 		let date = "";
 		var weather = new WeatherObject(this.config.units);
 
 		for (const forecast of forecasts) {
 			
 			if (date === moment(forecast.dt, "X").format("YYYY-MM-DD")) {
+				// the same day as before
+				// add values from forecast to corresponding variables
 				minTemp.push(forecast.main.temp_min);
 				maxTemp.push(forecast.main.temp_max);
 				if (this.config.units === "imperial" && !isNaN(forecast.rain["3h"])) {
@@ -105,20 +110,30 @@ WeatherProvider.register("openweathermap", {
 					rain += forecast.rain["3h"];
 				}
 			} else {
+				// a new day
+				// calculate minimum/maximum temperature, specify rain amount
 				weather.minTemperature = Math.min.apply(null, minTemp);
 				weather.maxTemperature = Math.max.apply(null, maxTemp);
 				weather.rain = rain;
+				// push weather information to days array
 				days.push(weather);
+				// create new weather-object
 				weather = new WeatherObject(this.config.units);
 				
 				minTemp = [];
 				maxTemp = [];
 				rain *= 0;
+				
+				// set new date
 				date = moment(forecast.dt, "X").format("YYYY-MM-DD");
 				
+				// specify date
 				weather.date = moment(forecast.dt, "X");
+				
+				// select weather type by first forecast value of a day, is this reasonable?
 				weather.weatherType = this.convertWeatherType(forecast.weather[0].icon);
 				
+				// add values from first forecast of this day to corresponding variables
 				minTemp.push(forecast.main.temp_min);
 				maxTemp.push(forecast.main.temp_max);
 				if (this.config.units === "imperial" && !isNaN(forecast.rain["3h"])) {
