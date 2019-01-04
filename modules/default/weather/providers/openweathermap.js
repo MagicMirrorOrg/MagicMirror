@@ -88,24 +88,48 @@ WeatherProvider.register("openweathermap", {
 	 */
 	generateWeatherObjectsFromForecast(forecasts) {
 		const days = [];
+		var minTemp = [];
+		var maxTemp = [];
+		var rain = 0;
+		let date = "";
+		var weather = new WeatherObject(this.config.units);
 
 		for (const forecast of forecasts) {
-			const weather = new WeatherObject(this.config.units);
-
-			weather.date = moment(forecast.dt, "X");
-			weather.minTemperature = forecast.temp.min;
-			weather.maxTemperature = forecast.temp.max;
-			weather.weatherType = this.convertWeatherType(forecast.weather[0].icon);
-			if (this.config.units === "imperial" && !isNaN(forecast.rain)) {
-				weather.rain = forecast.rain / 25.4
+			
+			if (date === moment(forecast.dt, "X").format("YYYY-MM-DD")) {
+				minTemp.push(forecast.main.temp_min);
+				maxTemp.push(forecast.main.temp_max);
+				if (this.config.units === "imperial" && !isNaN(forecast.rain["3h"])) {
+					rain += forecast.rain["3h"] / 25.4;
+				} else {
+					rain += forecast.rain["3h"];
+				}
 			} else {
-				weather.rain = forecast.rain;
+				weather.minTemperature = Math.min.apply(null, minTemp);
+				weather.maxTemperature = Math.max.apply(null, maxTemp);
+				weather.rain = rain;
+				days.push(weather);
+				weather = new WeatherObject(this.config.units);
+				
+				minTemp = [];
+				maxTemp = [];
+				rain *= 0;
+				date = moment(forecast.dt, "X").format("YYYY-MM-DD");
+				
+				weather.date = moment(forecast.dt, "X");
+				weather.weatherType = this.convertWeatherType(forecast.weather[0].icon);
+				
+				minTemp.push(forecast.main.temp_min);
+				maxTemp.push(forecast.main.temp_max);
+				if (this.config.units === "imperial" && !isNaN(forecast.rain["3h"])) {
+					rain += forecast.rain["3h"] / 25.4;
+				} else {
+					rain += forecast.rain["3h"];
+				}
 			}
-
-			days.push(weather);
 		}
-
-		return days;
+		
+		return days.slice(1);
 	},
 
 	/*
