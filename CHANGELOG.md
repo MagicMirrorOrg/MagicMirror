@@ -17,7 +17,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Bumped the Electron dependency to v3.0.13 to support the most recent Raspbian. [#1500](https://github.com/MichMich/MagicMirror/issues/1500)
 
 ### Fixed
-- Fixed temperature displays in currentweather and weatherforecast modules [#1503](https://github.com/MichMich/MagicMirror/issues/1503).
+- Fixed temperature displays in currentweather and weatherforecast modules [#1503](https://github.com/MichMich/MagicMirror/issues/1503), [#1511](https://github.com/MichMich/MagicMirror/issues/1511).
 - Fixed unhandled error on bad git data in updatenotiifcation module [#1285](https://github.com/MichMich/MagicMirror/issues/1285).
 - Weather forecast now works with openweathermap in new weather module. Daily data are displayed, see issue [#1504](https://github.com/MichMich/MagicMirror/issues/1504).
 
