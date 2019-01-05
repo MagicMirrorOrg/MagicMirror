@@ -56,8 +56,6 @@ WeatherProvider.register("openweathermap", {
 			})
 	},
 
-
-
 	/** OpenWeatherMap Specific Methods - These are not part of the default provider methods */
 	/*
 	 * Gets the complete url for the request
@@ -87,6 +85,21 @@ WeatherProvider.register("openweathermap", {
 	 * Generate WeatherObjects based on forecast information
 	 */
 	generateWeatherObjectsFromForecast(forecasts) {
+		
+		if (this.config.weatherEndpoint == "/forecast") {
+			return this.fetchForecastHourly(forecasts);
+		} else if (this.config.weatherEndpoint == "/forecast/daily") {
+			return this.fetchForecastDaily(forecasts);
+		}
+		// if weatherEndpoint does not match forecast or forecast/daily, what should be returned?
+		const days = [new WeatherObject(this.config.units)];
+		return days;
+	},
+	
+	/*
+	 * fetch forecast information for 3-hourly forecast (available for free subscription).
+	 */
+	fetchForecastHourly(forecasts) {
 		// initial variable declaration
 		const days = [];
 		// variables for temperature range and rain
@@ -96,7 +109,7 @@ WeatherProvider.register("openweathermap", {
 		// variable for date
 		let date = "";
 		var weather = new WeatherObject(this.config.units);
-
+		
 		for (const forecast of forecasts) {
 			
 			if (date === moment(forecast.dt, "X").format("YYYY-MM-DD")) {
@@ -104,10 +117,17 @@ WeatherProvider.register("openweathermap", {
 				// add values from forecast to corresponding variables
 				minTemp.push(forecast.main.temp_min);
 				maxTemp.push(forecast.main.temp_max);
-				if (this.config.units === "imperial" && !isNaN(forecast.rain["3h"])) {
-					rain += forecast.rain["3h"] / 25.4;
+				
+				if (forecast.hasOwnProperty("rain")) {
+					if (this.config.units === "imperial" && !isNaN(forecast.rain["3h"])) {
+						rain += forecast.rain["3h"] / 25.4;
+					} else if (!isNaN(forecast.rain["3h"])){
+						rain += forecast.rain["3h"];
+					} else {
+						rain += 0;
+					}
 				} else {
-					rain += forecast.rain["3h"];
+					rain += 0;
 				}
 			} else {
 				// a new day
@@ -122,7 +142,7 @@ WeatherProvider.register("openweathermap", {
 				
 				minTemp = [];
 				maxTemp = [];
-				rain *= 0;
+				rain = 0;
 				
 				// set new date
 				date = moment(forecast.dt, "X").format("YYYY-MM-DD");
@@ -138,15 +158,48 @@ WeatherProvider.register("openweathermap", {
 				maxTemp.push(forecast.main.temp_max);
 				if (this.config.units === "imperial" && !isNaN(forecast.rain["3h"])) {
 					rain += forecast.rain["3h"] / 25.4;
-				} else {
+				} else if (!isNaN(forecast.rain["3h"])){
 					rain += forecast.rain["3h"];
 				}
 			}
 		}
-		
 		return days.slice(1);
 	},
+	
+	/*
+	 * fetch forecast information for daily forecast (available for paid subscription or old apiKey).
+	 */
+	fetchForecastDaily(forecasts) {
+		// initial variable declaration
+		const days = [];
 
+		for (const forecast of forecasts) {
+			const weather = new WeatherObject(this.config.units);
+
+			weather.date = moment(forecast.dt, "X");
+			weather.minTemperature = forecast.temp.min;
+			weather.maxTemperature = forecast.temp.max;
+			weather.weatherType = this.convertWeatherType(forecast.weather[0].icon);
+			
+			// forecast.rain not available if amount is zero
+			if (forecast.hasOwnProperty("rain")) {
+				if (this.config.units === "imperial" && !isNaN(forecast.rain)) {
+					weather.rain = forecast.rain / 25.4;
+				} else if (!isNaN(forecast.rain["3h"])){
+					weather.rain = forecast.rain;
+				} else {
+					weather.rain = 0;
+				}
+			} else {
+				weather.rain = 0;
+			}
+
+			days.push(weather);
+		}
+
+	return days;
+	},
+	
 	/*
 	 * Convert the OpenWeatherMap icons to a more usable name.
 	 */
