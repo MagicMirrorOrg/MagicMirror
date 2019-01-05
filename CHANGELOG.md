@@ -22,10 +22,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Weather forecast now works with openweathermap in new weather module. Daily data are displayed, see issue [#1504](https://github.com/MichMich/MagicMirror/issues/1504).
 
 ### New weather module
-- Fixed weather forecast table display.
+- Fixed weather forecast table display [#1499](https://github.com/MichMich/MagicMirror/issues/1499).
 - Dimmed loading indicator for weather forecast.
-- Implemented config option `decimalSymbol`.
-- Aligned indoor values in current weather vertical.
+- Implemented config option `decimalSymbol` [#1499](https://github.com/MichMich/MagicMirror/issues/1499).
+- Aligned indoor values in current weather vertical [#1499](https://github.com/MichMich/MagicMirror/issues/1499).
 - Added humidity support to nunjuck unit filter.
 - Do not display degree symbol for temperature in Kelvin.
 
