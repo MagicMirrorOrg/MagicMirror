@@ -4,9 +4,46 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ---
+
+## [2.6.0] - Unreleased
+
+*This release is scheduled to be released on 2019-01-01.*
+
+### Experimental
+- New default [module weather](modules/default/weather).
+
+### Added
+- Possibility to add classes to the cell of symbol, title and time of the events of calendar.
+- Font-awesome 5, still has 4 for backwards compatibility.
+- Missing `showEnd` in calendar documentation
+- Screenshot for the new feed module
+- Screenshot for the compliments module
+- Screenshot for the clock module
+- Screenshot for the current weather
+- Screenshot for the weather forecast module
+- Portuguese translation for "Feels"
+- Croatian translation
+- Fading for dateheaders timeFormat in Calendar [#1464](https://github.com/MichMich/MagicMirror/issues/1464)
+- Documentation for the existing `scale` option in the Weather Forecast module.
+
+### Fixed
+- Allow to parse recurring calendar events where the start date is before 1900
+- Fixed Polish translation for Single Update Info
+- Ignore entries with unparseable details in the calendar module
+- Bug showing FullDayEvents one day too long in calendar fixed
+- Bug in newsfeed when `removeStartTags` is used on the description [#1478](https://github.com/MichMich/MagicMirror/issues/1478)
+
+### Updated
+- The default calendar setting `showEnd` is changed to `false`.
+
+### Changed
+- The Weather Forecast module by default displays the &deg; symbol after every numeric value to be consistent with the Current Weather module.
+
+
 ## [2.5.0] - 2018-10-01
 
 ### Added
+- Romanian translation for "Feels"
 - Support multi-line compliments
 - Simplified Chinese translation for "Feels"
 - Polish translate for "Feels"
