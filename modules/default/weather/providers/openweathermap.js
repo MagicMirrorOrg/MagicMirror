@@ -185,7 +185,7 @@ WeatherProvider.register("openweathermap", {
 			if (forecast.hasOwnProperty("rain")) {
 				if (this.config.units === "imperial" && !isNaN(forecast.rain)) {
 					weather.rain = forecast.rain / 25.4;
-				} else if (!isNaN(forecast.rain["3h"])){
+				} else if (!isNaN(forecast.rain)){
 					weather.rain = forecast.rain;
 				} else {
 					weather.rain = 0;
