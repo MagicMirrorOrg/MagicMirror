@@ -19,7 +19,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Fixed temperature displays in currentweather and weatherforecast modules [#1503](https://github.com/MichMich/MagicMirror/issues/1503).
 - Fixed unhandled error on bad git data in updatenotiifcation module [#1285](https://github.com/MichMich/MagicMirror/issues/1285).
-- Weather forecast now works with openweathermap in new weather module. Daily data are displayed, see issue [#1504](https://github.com/MichMich/MagicMirror/issues/1504).
 
 ### New weather module
 - Fixed weather forecast table display [#1499](https://github.com/MichMich/MagicMirror/issues/1499).
@@ -28,6 +27,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Aligned indoor values in current weather vertical [#1499](https://github.com/MichMich/MagicMirror/issues/1499).
 - Added humidity support to nunjuck unit filter.
 - Do not display degree symbol for temperature in Kelvin [#1503](https://github.com/MichMich/MagicMirror/issues/1503).
+- Weather forecast now works with openweathermap for both, `/forecast` and `/forecast/daily`, in new weather module. If you use the `/forecast`-weatherEndpoint, the hourly data are converted to daily data, see issues [#1504](https://github.com/MichMich/MagicMirror/issues/1504), [#1513](https://github.com/MichMich/MagicMirror/issues/1513).
 
 ## [2.6.0] - 2019-01-01
 
