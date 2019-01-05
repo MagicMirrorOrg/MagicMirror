@@ -38,7 +38,7 @@ MagicMirror² focuses on a modular plugin system and uses [Electron](http://elec
 
 *Electron*, the app wrapper around MagicMirror², only supports the Raspberry Pi 2/3. The Raspberry Pi 0/1 is currently **not** supported. If you want to run this on a Raspberry Pi 1, use the [server only](#server-only) feature and setup a fullscreen browser yourself. (Yes, people have managed to run MM² also on a Pi0, so if you insist, search in the forums.)
 
-Note that you will need to install the lastest full version of Raspbian, **don't use the Lite version**.
+Note that you will need to install the latest full version of Raspbian, **don't use the Lite version**.
 
 Execute the following command on your Raspberry Pi to install MagicMirror²:
 
@@ -140,7 +140,7 @@ The following properties can be configured:
 | `timeFormat` | The form of time notation that will be used. Possible values are `12` or `24`. The default is `24`. |
 | `units` | The units that will be used in the default weather modules. Possible values are `metric` or `imperial`. The default is `metric`. |
 | `modules` | An array of active modules. **The array must contain objects. See the next table below for more information.** |
-| `electronOptions` | An optional array of Electron (browser) options. This allows configuration of e.g. the browser screen size and position (example: `electronOptions: { fullscreen: false, width: 800, height: 600 }`). Kiosk mode can be enabled by setting `kiosk = true`, `autoHideMenuBar = false` and `fullscreen = false`. More options can be found [here](https://github.com/electron/electron/blob/master/docs/api/browser-window.md). |
+| `electronOptions` | An optional array of Electron (browser) options. This allows configuration of e.g. the browser screen size and position (example: `electronOptions: { fullscreen: false, width: 800, height: 600 }`). Kiosk mode can be enabled by setting `kiosk: true`, `autoHideMenuBar: false` and `fullscreen: false`. More options can be found [here](https://github.com/electron/electron/blob/master/docs/api/browser-window.md). |
 | `customCss` | The path of the `custom.css` stylesheet. The default is `css/custom.css`. |
 
 Module configuration:

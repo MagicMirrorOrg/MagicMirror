@@ -1,6 +1,6 @@
 {
   "name": "magicmirror",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "description": "The open source modular smart mirror platform.",
   "main": "js/electron.js",
   "scripts": {
@@ -49,26 +49,28 @@
     "jshint": "^2.9.5",
     "mocha": "^4.1.0",
     "mocha-each": "^1.1.0",
-    "spectron": "3.7.x",
+    "spectron": "^3.8.0",
     "stylelint": "^8.4.0",
     "stylelint-config-standard": "latest",
     "time-grunt": "latest"
   },
   "dependencies": {
+    "ajv": "6.5.5",
     "body-parser": "^1.18.2",
     "colors": "^1.1.2",
-    "electron": "^2.0.0",
+    "electron": "^2.0.16",
     "express": "^4.16.2",
     "express-ipfilter": "0.3.1",
     "feedme": "latest",
     "helmet": "^3.9.0",
+    "home-path": "^1.0.6",
     "iconv-lite": "latest",
-    "mocha-logger": "^1.0.5",
+    "mocha-logger": "^1.0.6",
     "moment": "latest",
-    "request": "^2.83.0",
-    "rrule-alt": "^2.2.7",
+    "request": "^2.87.0",
+    "rrule-alt": "^2.2.8",
     "simple-git": "^1.85.0",
-    "socket.io": "^2.0.4",
+    "socket.io": "^2.1.1",
     "valid-url": "latest",
     "walk": "latest"
   }

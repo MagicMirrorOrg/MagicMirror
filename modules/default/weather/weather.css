@@ -1,0 +1,45 @@
+.weather .weathericon,
+.weather .fa-home {
+  font-size: 75%;
+  line-height: 65px;
+  display: inline-block;
+  -ms-transform: translate(0, -3px); /* IE 9 */
+  -webkit-transform: translate(0, -3px); /* Safari */
+  transform: translate(0, -3px);
+}
+
+.weather .humidityIcon {
+  padding-right: 4px;
+}
+
+.weather .humidity-padding {
+  padding-bottom: 6px;
+}
+
+.weather .day {
+  padding-left: 0;
+  padding-right: 25px;
+}
+
+.weather .weather-icon {
+  padding-right: 30px;
+  text-align: center;
+}
+
+.weather .min-temp {
+  padding-left: 20px;
+  padding-right: 0;
+}
+
+.weather .rain {
+  padding-left: 20px;
+  padding-right: 0;
+}
+
+.weather tr.colored .min-temp {
+  color: #bcddff;
+}
+
+.weather tr.colored .max-temp {
+  color: #ff8e99;
+}

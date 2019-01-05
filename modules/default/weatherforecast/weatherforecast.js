@@ -142,14 +142,14 @@ Module.register("weatherforecast",{
 			icon.className = "wi weathericon " + forecast.icon;
 			iconCell.appendChild(icon);
 
-			var degreeLabel = "";
+			var degreeLabel = "&deg;";
 			if(this.config.scale) {
 				switch(this.config.units) {
 				case "metric":
-					degreeLabel = " &deg;C";
+					degreeLabel += " C";
 					break;
 				case "imperial":
-					degreeLabel = " &deg;F";
+					degreeLabel += " F";
 					break;
 				case "default":
 					degreeLabel = "K";
