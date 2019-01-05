@@ -5,7 +5,7 @@
  *
  * By Michael Teeuw http://michaelteeuw.nl
  * MIT Licensed.
- * 
+ *
  * This class is the blueprint for a weather provider.
  */
 
@@ -64,7 +64,7 @@ WeatherProvider.register("openweathermap", {
 		return this.config.apiBase + this.config.apiVersion + this.config.weatherEndpoint + this.getParams();
 	},
 
-	/* 
+	/*
 	 * Generate a WeatherObject based on currentWeatherInformation
 	 */
 	generateWeatherObjectFromCurrentWeather(currentWeatherData) {
@@ -85,7 +85,7 @@ WeatherProvider.register("openweathermap", {
 	 * Generate WeatherObjects based on forecast information
 	 */
 	generateWeatherObjectsFromForecast(forecasts) {
-		
+
 		if (this.config.weatherEndpoint == "/forecast") {
 			return this.fetchForecastHourly(forecasts);
 		} else if (this.config.weatherEndpoint == "/forecast/daily") {
@@ -95,7 +95,7 @@ WeatherProvider.register("openweathermap", {
 		const days = [new WeatherObject(this.config.units)];
 		return days;
 	},
-	
+
 	/*
 	 * fetch forecast information for 3-hourly forecast (available for free subscription).
 	 */
@@ -109,15 +109,15 @@ WeatherProvider.register("openweathermap", {
 		// variable for date
 		let date = "";
 		var weather = new WeatherObject(this.config.units);
-		
+
 		for (const forecast of forecasts) {
-			
+
 			if (date === moment(forecast.dt, "X").format("YYYY-MM-DD")) {
 				// the same day as before
 				// add values from forecast to corresponding variables
 				minTemp.push(forecast.main.temp_min);
 				maxTemp.push(forecast.main.temp_max);
-				
+
 				if (forecast.hasOwnProperty("rain")) {
 					if (this.config.units === "imperial" && !isNaN(forecast.rain["3h"])) {
 						rain += forecast.rain["3h"] / 25.4;
@@ -139,33 +139,40 @@ WeatherProvider.register("openweathermap", {
 				days.push(weather);
 				// create new weather-object
 				weather = new WeatherObject(this.config.units);
-				
+
 				minTemp = [];
 				maxTemp = [];
 				rain = 0;
-				
+
 				// set new date
 				date = moment(forecast.dt, "X").format("YYYY-MM-DD");
-				
+
 				// specify date
 				weather.date = moment(forecast.dt, "X");
-				
+
 				// select weather type by first forecast value of a day, is this reasonable?
 				weather.weatherType = this.convertWeatherType(forecast.weather[0].icon);
-				
+
 				// add values from first forecast of this day to corresponding variables
 				minTemp.push(forecast.main.temp_min);
 				maxTemp.push(forecast.main.temp_max);
-				if (this.config.units === "imperial" && !isNaN(forecast.rain["3h"])) {
-					rain += forecast.rain["3h"] / 25.4;
-				} else if (!isNaN(forecast.rain["3h"])){
-					rain += forecast.rain["3h"];
+
+				if (forecast.hasOwnProperty("rain")) {
+					if (this.config.units === "imperial" && !isNaN(forecast.rain["3h"])) {
+						rain += forecast.rain["3h"] / 25.4;
+					} else if (!isNaN(forecast.rain["3h"])){
+						rain += forecast.rain["3h"];
+					} else {
+						rain += 0;
+					}
+				} else {
+					rain += 0;
 				}
 			}
 		}
 		return days.slice(1);
 	},
-	
+
 	/*
 	 * fetch forecast information for daily forecast (available for paid subscription or old apiKey).
 	 */
@@ -180,7 +187,7 @@ WeatherProvider.register("openweathermap", {
 			weather.minTemperature = forecast.temp.min;
 			weather.maxTemperature = forecast.temp.max;
 			weather.weatherType = this.convertWeatherType(forecast.weather[0].icon);
-			
+
 			// forecast.rain not available if amount is zero
 			if (forecast.hasOwnProperty("rain")) {
 				if (this.config.units === "imperial" && !isNaN(forecast.rain)) {
@@ -199,7 +206,7 @@ WeatherProvider.register("openweathermap", {
 
 	return days;
 	},
-	
+
 	/*
 	 * Convert the OpenWeatherMap icons to a more usable name.
 	 */
