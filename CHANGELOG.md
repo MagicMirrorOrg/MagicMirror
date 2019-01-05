@@ -21,6 +21,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fixed unhandled error on bad git data in updatenotiifcation module [#1285](https://github.com/MichMich/MagicMirror/issues/1285).
 - Weather forecast now works with openweathermap in new weather module. Daily data are displayed, see issue [#1504](https://github.com/MichMich/MagicMirror/issues/1504).
 
+### New weather module
+- Fixed weather forecast table display [#1499](https://github.com/MichMich/MagicMirror/issues/1499).
+- Dimmed loading indicator for weather forecast.
+- Implemented config option `decimalSymbol` [#1499](https://github.com/MichMich/MagicMirror/issues/1499).
+- Aligned indoor values in current weather vertical [#1499](https://github.com/MichMich/MagicMirror/issues/1499).
+- Added humidity support to nunjuck unit filter.
+- Do not display degree symbol for temperature in Kelvin [#1503](https://github.com/MichMich/MagicMirror/issues/1503).
+
 ## [2.6.0] - 2019-01-01
 
 ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`. If you are having issues updating, make sure you are running the latest version of Node.
