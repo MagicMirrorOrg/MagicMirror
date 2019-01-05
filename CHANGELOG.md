@@ -27,7 +27,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Implemented config option `decimalSymbol` [#1499](https://github.com/MichMich/MagicMirror/issues/1499).
 - Aligned indoor values in current weather vertical [#1499](https://github.com/MichMich/MagicMirror/issues/1499).
 - Added humidity support to nunjuck unit filter.
-- Do not display degree symbol for temperature in Kelvin.
+- Do not display degree symbol for temperature in Kelvin [#1503](https://github.com/MichMich/MagicMirror/issues/1503).
 
 ## [2.6.0] - 2019-01-01
 
