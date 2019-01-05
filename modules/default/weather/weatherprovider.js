@@ -46,7 +46,7 @@ var WeatherProvider = Class.extend({
 	},
 
 	// Called when the weather provider is about to start.
-	start: function(config) {
+	start: function() {
 		Log.info(`Weather provider: ${this.providerName} started.`);
 	},
 
@@ -72,7 +72,7 @@ var WeatherProvider = Class.extend({
 		return this.weatherForecastArray;
 	},
 
-	// This returns the name of the fetched location or an empty string
+	// This returns the name of the fetched location or an empty string.
 	fetchedLocation: function() {
 		return this.fetchedLocationName || "";
 	},
@@ -93,7 +93,7 @@ var WeatherProvider = Class.extend({
 		this.updateAvailable();
 	},
 
-	// Set the fetched location name
+	// Set the fetched location name.
 	setFetchedLocation: function(name) {
 		this.fetchedLocationName = name;
 	},
