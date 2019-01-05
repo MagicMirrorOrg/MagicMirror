@@ -65,7 +65,7 @@ module.exports = NodeHelper.create({
 				data.module = sg.module;
 				if (!err) {
 					sg.git.log({"-1": null}, function(err, data2) {
-						if (!err) {
+						if (!err && data2.latest && "hash" in data2.latest) {
 							data.hash = data2.latest.hash;
 							self.sendSocketNotification("STATUS", data);
 						}
