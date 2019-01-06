@@ -33,7 +33,7 @@ Module.register("weather",{
 		decimalSymbol: ".",
 		showIndoorTemperature: false,
 		showIndoorHumidity: false,
-		maxNumberOfDays: 3,
+		maxNumberOfDays: 5,
 		fade: true,
 		fadePoint: 0.25, // Start on 1/4th of the list.
 
