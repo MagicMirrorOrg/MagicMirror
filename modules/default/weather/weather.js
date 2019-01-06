@@ -198,7 +198,7 @@ Module.register("weather",{
 					}
 				}
 			} else if (type === "rain") {
-				if (isNaN(value)) {
+				if (isNaN(value) || value === 0) {
 					value = "";
 				} else {
 					value = `${value.toFixed(2)} ${this.config.units === "imperial" ? "in" : "mm"}`;
