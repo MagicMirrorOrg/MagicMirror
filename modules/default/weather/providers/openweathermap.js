@@ -112,24 +112,7 @@ WeatherProvider.register("openweathermap", {
 
 		for (const forecast of forecasts) {
 
-			if (date === moment(forecast.dt, "X").format("YYYY-MM-DD")) {
-				// the same day as before
-				// add values from forecast to corresponding variables
-				minTemp.push(forecast.main.temp_min);
-				maxTemp.push(forecast.main.temp_max);
-
-				if (forecast.hasOwnProperty("rain")) {
-					if (this.config.units === "imperial" && !isNaN(forecast.rain["3h"])) {
-						rain += forecast.rain["3h"] / 25.4;
-					} else if (!isNaN(forecast.rain["3h"])){
-						rain += forecast.rain["3h"];
-					} else {
-						rain += 0;
-					}
-				} else {
-					rain += 0;
-				}
-			} else {
+			if (date !== moment(forecast.dt, "X").format("YYYY-MM-DD")) {
 				// a new day
 				// calculate minimum/maximum temperature, specify rain amount
 				weather.minTemperature = Math.min.apply(null, minTemp);
@@ -152,22 +135,24 @@ WeatherProvider.register("openweathermap", {
 
 				// select weather type by first forecast value of a day, is this reasonable?
 				weather.weatherType = this.convertWeatherType(forecast.weather[0].icon);
+				
+			}
+			
+			// the same day as before
+			// add values from forecast to corresponding variables
+			minTemp.push(forecast.main.temp_min);
+			maxTemp.push(forecast.main.temp_max);
 
-				// add values from first forecast of this day to corresponding variables
-				minTemp.push(forecast.main.temp_min);
-				maxTemp.push(forecast.main.temp_max);
-
-				if (forecast.hasOwnProperty("rain")) {
-					if (this.config.units === "imperial" && !isNaN(forecast.rain["3h"])) {
-						rain += forecast.rain["3h"] / 25.4;
-					} else if (!isNaN(forecast.rain["3h"])){
-						rain += forecast.rain["3h"];
-					} else {
-						rain += 0;
-					}
+			if (forecast.hasOwnProperty("rain")) {
+				if (this.config.units === "imperial" && !isNaN(forecast.rain["3h"])) {
+					rain += forecast.rain["3h"] / 25.4;
+				} else if (!isNaN(forecast.rain["3h"])){
+					rain += forecast.rain["3h"];
 				} else {
 					rain += 0;
 				}
+			} else {
+				rain += 0;
 			}
 		}
 		return days.slice(1);
