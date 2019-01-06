@@ -71,6 +71,9 @@ The following properties can be configured:
 | `tableClass`                 | The class for the forecast table. <br><br> **Default value:**  `'small'`
 | `colored`                    | If set to `true`, the min and max temperature are color coded. <br><br> **Default value:**  `false`
 | `showRainAmount`             | Show the amount of rain in the forecast <br><br> **Possible values:** `true` or `false` <br> **Default value:** `true`
+| `fade`                       | Fade the future events to black. (Gradient) <br><br> **Possible values:** `true` or `false` <br> **Default value:** `true`
+| `fadePoint`                  | Where to start fade? <br><br> **Possible values:** `0` (top of the list) - `1` (bottom of list) <br> **Default value:** `0.25`
+| `maxNumberOfDays`            | How many days of forecast to return. Specified by config.js <br><br> **Possible values:** `1` - `16` <br> **Default value:** `5` (5 days) <br> This value is optional. By default the weatherforecast module will return 5 days.
 
 ### Openweathermap options
 
