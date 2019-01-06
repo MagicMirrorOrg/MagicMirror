@@ -1,7 +1,10 @@
 {% if forecast %}
+	{% set numSteps = forecast | calcNumSteps %}
+	{% set currentStep = 0 %}
     <table class="{{ config.tableClass }}">
+		{% set forecast = forecast.slice(0, numSteps) %}
         {% for f in forecast %}
-            <tr {% if config.colored %}class="colored"{% endif %}>
+            <tr {% if config.colored %}class="colored"{% endif %} {% if config.fade %}style="opacity: {{ currentStep | opacity(numSteps) }};"{% endif %}>
                 <td class="day">{{ f.date.format('ddd') }}</td>
                 <td class="bright weather-icon"><span class="wi weathericon wi-{{ f.weatherType }}"></span></td>
                 <td class="align-right bright max-temp">
@@ -16,6 +19,7 @@
                     </td>
                 {% endif %}
             </tr>
+			{% set currentStep = currentStep + 1 %}
         {% endfor %}
     </table>
 {% else %}
