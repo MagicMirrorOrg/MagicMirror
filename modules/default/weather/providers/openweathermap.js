@@ -113,7 +113,6 @@ WeatherProvider.register("openweathermap", {
 		for (const forecast of forecasts) {
 
 			if (date !== moment(forecast.dt, "X").format("YYYY-MM-DD")) {
-				// a new day
 				// calculate minimum/maximum temperature, specify rain amount
 				weather.minTemperature = Math.min.apply(null, minTemp);
 				weather.maxTemperature = Math.max.apply(null, maxTemp);
@@ -135,9 +134,9 @@ WeatherProvider.register("openweathermap", {
 
 				// select weather type by first forecast value of a day, is this reasonable?
 				weather.weatherType = this.convertWeatherType(forecast.weather[0].icon);
-				
+
 			}
-			
+
 			// the same day as before
 			// add values from forecast to corresponding variables
 			minTemp.push(forecast.main.temp_min);
@@ -155,6 +154,13 @@ WeatherProvider.register("openweathermap", {
 				rain += 0;
 			}
 		}
+		// last day
+		// calculate minimum/maximum temperature, specify rain amount
+		weather.minTemperature = Math.min.apply(null, minTemp);
+		weather.maxTemperature = Math.max.apply(null, maxTemp);
+		weather.rain = rain;
+		// push weather information to days array
+		days.push(weather);
 		return days.slice(1);
 	},
 
