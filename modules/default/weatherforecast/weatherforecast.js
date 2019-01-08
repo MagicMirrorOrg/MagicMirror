@@ -143,16 +143,19 @@ Module.register("weatherforecast",{
 			iconCell.appendChild(icon);
 
 			var degreeLabel = "";
+			if (this.config.units === "metric" || this.config.units === "imperial") {
+				degreeLabel += "°";
+			}
 			if(this.config.scale) {
 				switch(this.config.units) {
 				case "metric":
-					degreeLabel = " &deg;C";
+					degreeLabel += "C";
 					break;
 				case "imperial":
-					degreeLabel = " &deg;F";
+					degreeLabel += "F";
 					break;
 				case "default":
-					degreeLabel = " K";
+					degreeLabel = "K";
 					break;
 				}
 			}
