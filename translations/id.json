@@ -28,5 +28,6 @@
 
 	"UPDATE_NOTIFICATION": "Memperbarui MagicMirror² tersedia.",
 	"UPDATE_NOTIFICATION_MODULE": "Memperbarui tersedia untuk modul {MODULE_NAME}.",
-	"UPDATE_INFO": "Instalasi saat ini tertinggal {COMMIT_COUNT} pada cabang {BRANCH_NAME}."
+	"UPDATE_INFO_SINGLE": "Instalasi saat ini tertinggal {COMMIT_COUNT} commit pada cabang {BRANCH_NAME}.",
+	"UPDATE_INFO_MULTIPLE": "Instalasi saat ini tertinggal {COMMIT_COUNT} commits pada cabang {BRANCH_NAME}."
 }

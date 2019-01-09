@@ -28,7 +28,8 @@
 
 	"UPDATE_NOTIFICATION": "Aktualisierung für MagicMirror² verfügbar.",
 	"UPDATE_NOTIFICATION_MODULE": "Aktualisierung für das {MODULE_NAME} Modul verfügbar.",
-	"UPDATE_INFO": "Die aktuelle Installation ist {COMMIT_COUNT} hinter dem {BRANCH_NAME} Branch.",
+	"UPDATE_INFO_SINGLE": "Die aktuelle Installation ist {COMMIT_COUNT} Commit hinter dem {BRANCH_NAME} Branch.",
+	"UPDATE_INFO_MULTIPLE": "Die aktuelle Installation ist {COMMIT_COUNT} Commits hinter dem {BRANCH_NAME} Branch.",
 	
 	"FEELS": "Gefühlt"
 }

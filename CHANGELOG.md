@@ -4,26 +4,105 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ---
-## [2.5.0] - Unreleased
 
-*This release is scheduled to be released on 2018-10-01.*
+## [2.7.0] - Unreleased
+
+*This release is scheduled to be released on 2019-04-01.*
+
+ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`. If you are having issues running Electron, make sure your [Raspbian is up to date](https://www.raspberrypi.org/documentation/raspbian/updating.md).
 
 ### Added
+- Italian translation for "Feels"
+
+### Updated
+- Bumped the Electron dependency to v3.0.13 to support the most recent Raspbian. [#1500](https://github.com/MichMich/MagicMirror/issues/1500)
+
+### Fixed
+- Fixed temperature displays in currentweather and weatherforecast modules [#1503](https://github.com/MichMich/MagicMirror/issues/1503), [#1511](https://github.com/MichMich/MagicMirror/issues/1511).
+- Fixed unhandled error on bad git data in updatenotiifcation module [#1285](https://github.com/MichMich/MagicMirror/issues/1285).
+- Weather forecast now works with openweathermap in new weather module. Daily data are displayed, see issue [#1504](https://github.com/MichMich/MagicMirror/issues/1504).
+- Fixed analogue clock border display issue where non-black backgrounds used (previous fix for issue 611)
+
+### New weather module
+- Fixed weather forecast table display [#1499](https://github.com/MichMich/MagicMirror/issues/1499).
+- Dimmed loading indicator for weather forecast.
+- Implemented config option `decimalSymbol` [#1499](https://github.com/MichMich/MagicMirror/issues/1499).
+- Aligned indoor values in current weather vertical [#1499](https://github.com/MichMich/MagicMirror/issues/1499).
+- Added humidity support to nunjuck unit filter.
+- Do not display degree symbol for temperature in Kelvin [#1503](https://github.com/MichMich/MagicMirror/issues/1503).
+- Added fade, fadePoint and maxNumberOfDays properties to the forecast mode [#1516](https://github.com/MichMich/MagicMirror/issues/1516)
+
+## [2.6.0] - 2019-01-01
+
+ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`. If you are having issues updating, make sure you are running the latest version of Node.
+
+### ✨ Experimental ✨
+- New default [module weather](modules/default/weather). This module will eventually replace the current `currentweather` and `weatherforecast` modules. The new module is still pretty experimental, but it's included so you can give it a try and help us improve this module. Please give us you feedback using [this forum post](https://forum.magicmirror.builders/topic/9335/default-weather-module-refactoring).
+
+A huge, huge, huge thanks to user @fewieden for all his hard work on the new `weather` module!
+
+### Added
+- Possibility to add classes to the cell of symbol, title and time of the events of calendar.
+- Font-awesome 5, still has 4 for backwards compatibility.
+- Missing `showEnd` in calendar documentation
+- Screenshot for the new feed module
+- Screenshot for the compliments module
+- Screenshot for the clock module
+- Screenshot for the current weather
+- Screenshot for the weather forecast module
+- Portuguese translation for "Feels"
+- Croatian translation
+- Fading for dateheaders timeFormat in Calendar [#1464](https://github.com/MichMich/MagicMirror/issues/1464)
+- Documentation for the existing `scale` option in the Weather Forecast module.
+
+### Fixed
+- Allow to parse recurring calendar events where the start date is before 1900
+- Fixed Polish translation for Single Update Info
+- Ignore entries with unparseable details in the calendar module
+- Bug showing FullDayEvents one day too long in calendar fixed
+- Bug in newsfeed when `removeStartTags` is used on the description [#1478](https://github.com/MichMich/MagicMirror/issues/1478)
+
+### Updated
+- The default calendar setting `showEnd` is changed to `false`.
+
+### Changed
+- The Weather Forecast module by default displays the &deg; symbol after every numeric value to be consistent with the Current Weather module.
+
+
+## [2.5.0] - 2018-10-01
+
+### Added
+- Romanian translation for "Feels"
+- Support multi-line compliments
+- Simplified Chinese translation for "Feels"
+- Polish translate for "Feels"
 - French translate for "Feels"
 - Translations for newsfeed module
 - Support for toggling news article in fullscreen
 - Hungarian translation for "Feels" and "Week"
 - Spanish translation for "Feels"
 - Add classes instead of inline style to the message from the module Alert
-- Fix for weatherforecast rainfall rounding [#1374](https://github.com/MichMich/MagicMirror/issues/1374)
+- Support for events having a duration instead of an end
+- Support for showing end of events through config parameters showEnd and dateEndFormat
 
 ### Fixed
+- Fixed gzip encoded calendar loading issue #1400.
 - Mixup between german and spanish translation for newsfeed.
+- Fixed close dates to be absolute, if no configured in the config.js - module Calendar
+- Fixed the UpdateNotification module message about new commits in the repository, so they can be correctly localized in singular and plural form.
+- Fix for weatherforecast rainfall rounding [#1374](https://github.com/MichMich/MagicMirror/issues/1374)
+- Fix calendar parsing issue for Midori on RasperryPi Zero w, related to issue #694.
+- Fix weather city ID link in sample config
+- Fixed issue with clientonly not updating with IP address and port provided on command line.
 
 ### Updated
 
+- Updated Simplified Chinese translation
 - Swedish translations
 - Hungarian translations for the updatenotification module
+- Updated Norsk bokmål translation
+- Updated Norsk nynorsk translation
+- Consider multi days event as full day events
 
 ## [2.4.1] - 2018-07-04
 

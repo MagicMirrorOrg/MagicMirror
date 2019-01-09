@@ -1,0 +1,35 @@
+{
+	"LOADING": "Učitavanje &hellip;",
+
+	"TODAY": "Danas",
+	"TOMORROW": "Sutra",
+	"DAYAFTERTOMORROW": "Prekosutra",
+	"RUNNING": "Završava za",
+	"EMPTY": "Nema nadolazećih događaja.",
+
+	"WEEK": "Tjedan {weekNumber}",
+
+	"N": "N",
+	"NNE": "NNE",
+	"NE": "NE",
+	"ENE": "ENE",
+	"E": "E",
+	"ESE": "ESE",
+	"SE": "SE",
+	"SSE": "SSE",
+	"S": "S",
+	"SSW": "SSW",
+	"SW": "SW",
+	"WSW": "WSW",
+	"W": "W",
+	"WNW": "WNW",
+	"NW": "NW",
+	"NNW": "NNW",
+
+	"UPDATE_NOTIFICATION": "Dostupna je aktualizacija MagicMirror².",
+	"UPDATE_NOTIFICATION_MODULE": "Dostupna je aktualizacija modula {MODULE_NAME}.",
+	"UPDATE_INFO_SINGLE": "Instalirana verzija {COMMIT_COUNT} commit kasni za branch-om {BRANCH_NAME}.",
+	"UPDATE_INFO_MULTIPLE": "Instalirana verzija {COMMIT_COUNT} commit-ova kasni za branch-om {BRANCH_NAME}.",
+	
+	"FEELS": "Osjeća"
+}
