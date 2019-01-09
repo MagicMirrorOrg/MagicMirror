@@ -51,7 +51,7 @@ Module.register("calendar", {
 
 	// Define required scripts.
 	getStyles: function () {
-		return ["calendar.css", "font-awesome5.css", "font-awesome5.v4shims.css"];
+		return ["calendar.css", "font-awesome.css"];
 	},
 
 	// Define required scripts.
