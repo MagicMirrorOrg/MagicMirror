@@ -5,11 +5,36 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
+## [2.7.0] - Unreleased
+
+*This release is scheduled to be released on 2019-04-01.*
+
+ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`. If you are having issues running Electron, make sure your [Raspbian is up to date](https://www.raspberrypi.org/documentation/raspbian/updating.md).
+
+### Added
+- Italian translation for "Feels"
+- Disabled the screensaver on raspbian with installation script 
+
+
+### Updated
+- Bumped the Electron dependency to v3.0.13 to support the most recent Raspbian. [#1500](https://github.com/MichMich/MagicMirror/issues/1500)
+
 ### Fixed
+- Fixed temperature displays in currentweather and weatherforecast modules [#1503](https://github.com/MichMich/MagicMirror/issues/1503), [#1511](https://github.com/MichMich/MagicMirror/issues/1511).
+- Fixed unhandled error on bad git data in updatenotiifcation module [#1285](https://github.com/MichMich/MagicMirror/issues/1285).
+- Weather forecast now works with openweathermap in new weather module. Daily data are displayed, see issue [#1504](https://github.com/MichMich/MagicMirror/issues/1504).
+- Fixed analogue clock border display issue where non-black backgrounds used (previous fix for issue 611)
+- Fixed compatibility issues caused when modules request different versions of Font Awesome, see issue [#1522](https://github.com/MichMich/MagicMirror/issues/1522). MagicMirror now uses [Font Awesome 5 with v4 shims included for backwards compatibility](https://fontawesome.com/how-to-use/on-the-web/setup/upgrading-from-version-4#shims).
 - Installation script problems with raspbian
 
-#### Added
-- Disabled the screensaver on raspbian
+### New weather module
+- Fixed weather forecast table display [#1499](https://github.com/MichMich/MagicMirror/issues/1499).
+- Dimmed loading indicator for weather forecast.
+- Implemented config option `decimalSymbol` [#1499](https://github.com/MichMich/MagicMirror/issues/1499).
+- Aligned indoor values in current weather vertical [#1499](https://github.com/MichMich/MagicMirror/issues/1499).
+- Added humidity support to nunjuck unit filter.
+- Do not display degree symbol for temperature in Kelvin [#1503](https://github.com/MichMich/MagicMirror/issues/1503).
+- Added fade, fadePoint and maxNumberOfDays properties to the forecast mode [#1516](https://github.com/MichMich/MagicMirror/issues/1516)
 
 ## [2.6.0] - 2019-01-01
 
@@ -17,6 +42,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### ✨ Experimental ✨
 - New default [module weather](modules/default/weather). This module will eventually replace the current `currentweather` and `weatherforecast` modules. The new module is still pretty experimental, but it's included so you can give it a try and help us improve this module. Please give us you feedback using [this forum post](https://forum.magicmirror.builders/topic/9335/default-weather-module-refactoring).
+
+A huge, huge, huge thanks to user @fewieden for all his hard work on the new `weather` module!
 
 ### Added
 - Possibility to add classes to the cell of symbol, title and time of the events of calendar.
