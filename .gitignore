@@ -11,7 +11,7 @@ coverage
 .grunt
 .lock-wscript
 build/Release
-node_modules
+/node_modules/**/*
 jspm_modules
 .npm
 .node_repl_history
@@ -82,4 +82,4 @@ Temporary Items
 *.rej
 *.bak
 
-!/tests/node_modules/webdriverajaxstub/index.js
+!/tests/node_modules/**/*
