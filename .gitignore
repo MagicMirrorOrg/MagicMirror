@@ -81,3 +81,5 @@ Temporary Items
 *.orig
 *.rej
 *.bak
+
+!/tests/node_modules/webdriverajaxstub/index.js

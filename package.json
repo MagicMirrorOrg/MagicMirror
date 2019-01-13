@@ -65,6 +65,7 @@
     "helmet": "^3.9.0",
     "home-path": "^1.0.6",
     "iconv-lite": "latest",
+    "lodash": "^4.17.11",
     "mocha-logger": "^1.0.6",
     "moment": "latest",
     "request": "^2.87.0",
