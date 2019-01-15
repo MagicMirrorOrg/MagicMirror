@@ -163,7 +163,7 @@ fi
 # Disable Screensaver
 read -p "Do you want to disable the screen saver? (y/N)?" choice
 if [[ $choice =~ ^[Yy]$ ]]; then
-	su -c "echo -e '@xset s noblank\n@xset s off\n@xset -dpms' >> /etc/xdg/lxsession/LXDE-pi/autostart"
+	sudo su -c "echo -e '@xset s noblank\n@xset s off\n@xset -dpms' >> /etc/xdg/lxsession/LXDE-pi/autostart"
 	export DISPLAY=:0; xset s noblank;xset s off;xset -dpms
 fi
 
