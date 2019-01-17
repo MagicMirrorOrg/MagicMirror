@@ -14,7 +14,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Italian translation for "Feels"
 - Disabled the screensaver on raspbian with installation script 
-
+- Added option to truncate the number of vertical lines a calendar item can span if `wrapEvents` is enabled.
 
 ### Updated
 - Bumped the Electron dependency to v3.0.13 to support the most recent Raspbian. [#1500](https://github.com/MichMich/MagicMirror/issues/1500)
