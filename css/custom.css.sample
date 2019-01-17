@@ -5,10 +5,10 @@
  * By Michael Teeuw http://michaelteeuw.nl           *
  * MIT Licensed.                                     *
  *                                                   *
- * Add any custom CSS below.                         *
- * Changes to this files will be ignored by GIT. *
+ * Make a copy of this file named custom.css and     *
+ * then add your own rules to it.                    *
  *****************************************************/
 
- body {
- 	
- }
+body {
+
+}
