@@ -62,7 +62,7 @@ Module.register("weather",{
 		return ["font-awesome.css", "weather-icons.css", "weather.css"];
 	},
 
-	// Return the scripts that are nessecery for the weather module.
+	// Return the scripts that are necessary for the weather module.
 	getScripts: function () {
 		return [
 			"moment.js",
@@ -218,7 +218,7 @@ Module.register("weather",{
 		}.bind(this));
 
 		this.nunjucksEnvironment().addFilter("decimalSymbol", function(value) {
-			return value.replace(/\./g, this.config.decimalSymbol);
+			return value.toString().replace(/\./g, this.config.decimalSymbol);
 		}.bind(this));
 
 		this.nunjucksEnvironment().addFilter("calcNumSteps", function(forecast) {
