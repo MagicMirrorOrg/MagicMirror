@@ -13,6 +13,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - Italian translation for "Feels"
+- Disabled the screensaver on raspbian with installation script 
+
 
 ### Updated
 - Bumped the Electron dependency to v3.0.13 to support the most recent Raspbian. [#1500](https://github.com/MichMich/MagicMirror/issues/1500)
@@ -22,6 +24,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fixed unhandled error on bad git data in updatenotiifcation module [#1285](https://github.com/MichMich/MagicMirror/issues/1285).
 - Weather forecast now works with openweathermap in new weather module. Daily data are displayed, see issue [#1504](https://github.com/MichMich/MagicMirror/issues/1504).
 - Fixed analogue clock border display issue where non-black backgrounds used (previous fix for issue 611)
+- Fixed compatibility issues caused when modules request different versions of Font Awesome, see issue [#1522](https://github.com/MichMich/MagicMirror/issues/1522). MagicMirror now uses [Font Awesome 5 with v4 shims included for backwards compatibility](https://fontawesome.com/how-to-use/on-the-web/setup/upgrading-from-version-4#shims).
+- Installation script problems with raspbian
+- Calendar: only show repeating count if the event is actually repeating [#1534](https://github.com/MichMich/MagicMirror/pull/1534)
 
 ### New weather module
 - Fixed weather forecast table display [#1499](https://github.com/MichMich/MagicMirror/issues/1499).
