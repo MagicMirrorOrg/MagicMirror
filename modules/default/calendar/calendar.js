@@ -606,7 +606,9 @@ Module.register("calendar", {
 				} else {
 					line++;
 					if (line > maxTitleLines - 1) {
-						if (i < words.length) currentLine += "&hellip;";
+						if (i < words.length) {
+							currentLine += "&hellip;";
+						}
 						break;
 					}
 
