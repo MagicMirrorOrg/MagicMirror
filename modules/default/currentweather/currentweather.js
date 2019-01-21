@@ -31,6 +31,7 @@ Module.register("currentweather",{
 		showIndoorTemperature: false,
 		showIndoorHumidity: false,
 		showFeelsLike: true,
+		showExtraWeatherInfo: true,
 
 		initialLoadDelay: 0, // 0 seconds delay
 		retryDelay: 2500,
@@ -42,7 +43,7 @@ Module.register("currentweather",{
 		appendLocationNameToHeader: true,
 		calendarClass: "calendar",
 
-		onlyTemp: false,
+		onlyTemp: false, //deprecated. use showExtraWeatherInfo instead
 		roundTemp: false,
 
 		iconTable: {
@@ -186,7 +187,14 @@ Module.register("currentweather",{
 			return wrapper;
 		}
 
-		if (this.config.onlyTemp === false) {
+		// adding this here for legacy support of onlyTemp,
+		// but using the "showXXX: false" config options is more consistent
+		if (this.config.onlyTemp === "true") {
+			this.config.showExtraWeatherInfo = false;
+			this.config.showFeelsLike = false;
+		}
+
+		if (this.config.showExtraWeatherInfo == "true") {
 			this.addExtraInfoWeather(wrapper);
 		}
 
@@ -245,7 +253,7 @@ Module.register("currentweather",{
 
 		wrapper.appendChild(large);
 
-		if (this.config.showFeelsLike && this.config.onlyTemp === false){
+		if (this.config.showFeelsLike){
 			var small = document.createElement("div");
 			small.className = "normal medium";
 
