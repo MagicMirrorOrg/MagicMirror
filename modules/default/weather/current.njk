@@ -1,0 +1,68 @@
+{% if current %}
+    {% if not config.onlyTemp %}
+        <div class="normal medium">
+            <span class="wi wi-strong-wind dimmed"></span>
+            <span>
+                {% if config.useBeaufort %}
+                    {{current.beaufortWindSpeed() | round}}
+                {% else %}
+                    {{current.windSpeed | round}}
+                {% endif %}
+                
+                {% if config.showWindDirection %}
+                    <sup> 
+                        {% if config.showWindDirectionAsArrow %}
+                            <i class="fa fa-long-arrow-up" style="transform:rotate({{current.windDirection}}deg);"></i>    
+                        {% else %}
+                            {{current.cardinalWindDirection() | translate}}
+                        {% endif %}
+                        &nbsp;
+                    </sup>
+                {% endif %}
+            </span>
+            {% if config.showHumidity and current.humidity %}
+                <span>{{ current.humidity }}</span><sup>&nbsp;<i class="wi wi-humidity humidityIcon"></i></sup>
+            {% endif %}
+            <span class="wi dimmed wi-{{current.nextSunAction()}}"></span>
+            <span>
+                {% if current.nextSunAction() == "sunset" %}
+                    {{current.sunset | formatTime}}
+                {% else %}
+                    {{current.sunrise | formatTime}}
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
+    <div class="large light">
+        <span class="wi weathericon wi-{{current.weatherType}}"></span>
+        <span class="bright">
+            {{current.temperature | roundValue | unit("temperature")}}
+        </span>
+        {% if config.showIndoorTemperature and indoor.temperature %}
+            <span class="fa fa-home"></span>
+            <span class="bright">
+                {{indoor.temperature | roundValue | unit("temperature")}}
+            </span>
+        {% endif %}
+        {% if config.showIndoorHumidity and indoor.humidity %}
+            <span class="fa fa-tint"></span>
+            <span class="bright">
+                {{indoor.humidity | roundValue}}%
+            </span>
+        {% endif %}
+    </div>
+    {% if config.showFeelsLike and not config.onlyTemp %}
+        <div class="normal medium">
+            <span class="dimmed">
+                {{ "FEELS" | translate }} {{ current.feelsLike() | roundValue | unit("temperature") }}
+            </span>
+        </div>
+    {% endif %}
+{% else %}
+    <div class="dimmed light small">
+        {{"LOADING" | translate}}
+    </div>
+{% endif %}
+
+<!-- Unclomment the line below to see the contents of the `current` object. -->
+<!-- <div style="word-wrap:break-word" class="xsmall dimmed">{{current | dump}}</div> -->
