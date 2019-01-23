@@ -24,9 +24,9 @@
     </table>
 {% else %}
     <div class="dimmed light small">
-        {{ "LOADING" | translate }}
+        {{ "LOADING" | translate | safe }}
     </div>
 {% endif %}
 
-<!-- Unclomment the line below to see the contents of the `current` object. -->
+<!-- Uncomment the line below to see the contents of the `current` object. -->
 <!-- <div style="word-wrap:break-word" class="xsmall dimmed">{{forecast | dump}}</div> -->
