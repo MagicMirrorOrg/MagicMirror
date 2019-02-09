@@ -97,7 +97,7 @@ Module.register("weatherforecast",{
 		this.forecast = [];
 		this.loaded = false;
 		this.updateTimer = null;
-		
+
 		if (this.config.autoLocation) {
 			this.sendSocketNotification("AUTO_LOCATION");
 		} else {
