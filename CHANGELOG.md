@@ -27,6 +27,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fixed compatibility issues caused when modules request different versions of Font Awesome, see issue [#1522](https://github.com/MichMich/MagicMirror/issues/1522). MagicMirror now uses [Font Awesome 5 with v4 shims included for backwards compatibility](https://fontawesome.com/how-to-use/on-the-web/setup/upgrading-from-version-4#shims).
 - Installation script problems with raspbian
 - Calendar: only show repeating count if the event is actually repeating [#1534](https://github.com/MichMich/MagicMirror/pull/1534)
+- Calendar: Fix exdate handling when multiple values are specified (comma separated)
 
 ### New weather module
 - Fixed weather forecast table display [#1499](https://github.com/MichMich/MagicMirror/issues/1499).

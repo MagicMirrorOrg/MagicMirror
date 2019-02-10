@@ -80,14 +80,43 @@
     }
   }
 
-  var addTZ = function(dt, name, params){
+  var addTZ = function(dt, params){
     var p = parseParams(params);
 
-    if (params && p){
-      dt[name].tz = p.TZID
+    if (params && p && dt){
+      dt.tz = p.TZID
     }
 
     return dt
+  }
+
+  var parseTimestamp = function(val){
+    //typical RFC date-time format
+    var comps = /^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})(Z)?$/.exec(val);
+    if (comps !== null) {
+      if (comps[7] == 'Z'){ // GMT
+        return new Date(Date.UTC(
+          parseInt(comps[1], 10),
+          parseInt(comps[2], 10)-1,
+          parseInt(comps[3], 10),
+          parseInt(comps[4], 10),
+          parseInt(comps[5], 10),
+          parseInt(comps[6], 10 )
+        ));
+        // TODO add tz
+      } else {
+        return new Date(
+          parseInt(comps[1], 10),
+          parseInt(comps[2], 10)-1,
+          parseInt(comps[3], 10),
+          parseInt(comps[4], 10),
+          parseInt(comps[5], 10),
+          parseInt(comps[6], 10)
+        );
+      }
+    }
+
+    return undefined;
   }
 
   var dateParam = function(name){
@@ -108,37 +137,24 @@
             comps[3]
           );
 
-          return addTZ(curr, name, params);
+          curr[name] = addTZ(curr[name], params);
+	  return curr;
         }
       }
 
+      curr[name] = []
+      val.split(',').forEach(function(val){
+        var newDate = parseTimestamp(val);
+        curr[name].push(addTZ(newDate, params));
+      });
 
-      //typical RFC date-time format
-      var comps = /^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})(Z)?$/.exec(val);
-      if (comps !== null) {
-        if (comps[7] == 'Z'){ // GMT
-          curr[name] = new Date(Date.UTC(
-            parseInt(comps[1], 10),
-            parseInt(comps[2], 10)-1,
-            parseInt(comps[3], 10),
-            parseInt(comps[4], 10),
-            parseInt(comps[5], 10),
-            parseInt(comps[6], 10 )
-          ));
-          // TODO add tz
-        } else {
-          curr[name] = new Date(
-            parseInt(comps[1], 10),
-            parseInt(comps[2], 10)-1,
-            parseInt(comps[3], 10),
-            parseInt(comps[4], 10),
-            parseInt(comps[5], 10),
-            parseInt(comps[6], 10)
-          );
-        }
+      if (curr[name].length === 0){
+        delete curr[name];
+      } else if (curr[name].length === 1){
+	 curr[name] = curr[name][0];
       }
 
-      return addTZ(curr, name, params)
+      return curr;
     }
   }
 
@@ -148,7 +164,11 @@
       if (date.exdates === undefined) {
         date.exdates = [];
       }
-      date.exdates.push(date.exdate);
+      if (Array.isArray(date.exdate)){
+        date.exdates = date.exdates.concat(date.exdate);
+      } else {
+        date.exdates.push(date.exdate);
+      }
       return date;
     }
   }
