@@ -16,18 +16,22 @@ MagicMirror² focuses on a modular plugin system and uses [Electron](http://elec
 
 ## Table Of Contents
 
+- [Table Of Contents](#table-of-contents)
 - [Installation](#installation)
-  - [Raspberry Pi](#raspberry-pi)
-  - [General](#general)
-  - [Server Only](#server-only)
-  - [Client Only](#client-only)
-  - [Docker](#docker)
+	- [Raspberry Pi](#raspberry-pi)
+		- [Automatic Installation (Raspberry Pi only!)](#automatic-installation-raspberry-pi-only)
+		- [Manual Installation](#manual-installation)
+	- [Server Only](#server-only)
+	- [Client Only](#client-only)
+	- [Docker](#docker)
 - [Configuration](#configuration)
+	- [Raspberry Specific](#raspberry-specific)
+	- [General](#general)
 - [Modules](#modules)
 - [Updating](#updating)
-- [Known Issues](#known-issues)
 - [Community](#community)
 - [Contributing Guidelines](#contributing-guidelines)
+- [Enjoying MagicMirror? Consider a donation!](#enjoying-magicmirror-consider-a-donation)
 - [Manifesto](#manifesto)
 
 ## Installation
@@ -198,6 +202,16 @@ Please keep the following in mind:
 - **New Features**: please please discuss in a GitHub issue before you start to alter a big part of the code. Without discussion upfront, the pull request will not be accepted / merged.
 
 Thanks for your help in making MagicMirror² better!
+
+
+## Enjoying MagicMirror? Consider a donation!
+
+MagicMirror² is opensource and free. That doesn't mean we don't need any money.
+
+Please consider a donation to help us cover the ongoing costs like webservers and email services.
+If we recieve enough donations we might even be able to free up some working hours and spend some extra time improving the MagicMirror² core.
+
+To donate, please follow [this](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=G5D8E9MR5DTD2&source=url) link.
 
 ## Manifesto
 
