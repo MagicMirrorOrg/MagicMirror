@@ -12,13 +12,25 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`. If you are having issues running Electron, make sure your [Raspbian is up to date](https://www.raspberrypi.org/documentation/raspbian/updating.md).
 
 ### Added
+- Italian translation for "Feels"
+- Disabled the screensaver on raspbian with installation script 
+- Added option to truncate the number of vertical lines a calendar item can span if `wrapEvents` is enabled.
+- Added autoLocation options for weather forcast and current weather modules.
+- Added autoTimezone option for the default clock module.
+- Danish translation for "Feels" and "Weeks"
 
 ### Updated
 - Bumped the Electron dependency to v3.0.13 to support the most recent Raspbian. [#1500](https://github.com/MichMich/MagicMirror/issues/1500)
 
 ### Fixed
-- Fixed temperature displays in currentweather and weatherforecast modules [#1503](https://github.com/MichMich/MagicMirror/issues/1503).
+- Fixed temperature displays in currentweather and weatherforecast modules [#1503](https://github.com/MichMich/MagicMirror/issues/1503), [#1511](https://github.com/MichMich/MagicMirror/issues/1511).
 - Fixed unhandled error on bad git data in updatenotiifcation module [#1285](https://github.com/MichMich/MagicMirror/issues/1285).
+- Weather forecast now works with openweathermap in new weather module. Daily data are displayed, see issue [#1504](https://github.com/MichMich/MagicMirror/issues/1504).
+- Fixed analogue clock border display issue where non-black backgrounds used (previous fix for issue 611)
+- Fixed compatibility issues caused when modules request different versions of Font Awesome, see issue [#1522](https://github.com/MichMich/MagicMirror/issues/1522). MagicMirror now uses [Font Awesome 5 with v4 shims included for backwards compatibility](https://fontawesome.com/how-to-use/on-the-web/setup/upgrading-from-version-4#shims).
+- Installation script problems with raspbian
+- Calendar: only show repeating count if the event is actually repeating [#1534](https://github.com/MichMich/MagicMirror/pull/1534)
+- Calendar: Fix exdate handling when multiple values are specified (comma separated)
 
 ### New weather module
 - Fixed weather forecast table display [#1499](https://github.com/MichMich/MagicMirror/issues/1499).
@@ -28,6 +40,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added humidity support to nunjuck unit filter.
 - Do not display degree symbol for temperature in Kelvin [#1503](https://github.com/MichMich/MagicMirror/issues/1503).
 - Weather forecast now works with openweathermap for both, `/forecast` and `/forecast/daily`, in new weather module. If you use the `/forecast`-weatherEndpoint, the hourly data are converted to daily data, see issues [#1504](https://github.com/MichMich/MagicMirror/issues/1504), [#1513](https://github.com/MichMich/MagicMirror/issues/1513).
+- Added fade, fadePoint and maxNumberOfDays properties to the forecast mode [#1516](https://github.com/MichMich/MagicMirror/issues/1516)
+- Fixed Loading string and decimalSymbol string replace [#1538](https://github.com/MichMich/MagicMirror/issues/1538)
 
 ## [2.6.0] - 2019-01-01
 

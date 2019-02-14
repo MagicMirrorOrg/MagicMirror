@@ -11,6 +11,7 @@ Module.register("weatherforecast",{
 
 	// Default module config.
 	defaults: {
+		autoLocation: false,
 		location: false,
 		locationID: false,
 		appid: "",
@@ -95,10 +96,20 @@ Module.register("weatherforecast",{
 
 		this.forecast = [];
 		this.loaded = false;
-		this.scheduleUpdate(this.config.initialLoadDelay);
-
 		this.updateTimer = null;
 
+		if (this.config.autoLocation) {
+			this.sendSocketNotification("AUTO_LOCATION");
+		} else {
+			this.scheduleUpdate(this.config.initialLoadDelay);
+		}
+	},
+
+	socketNotificationReceived: function (notification, payload) {
+		if (notification === "UPDATE_LOCATION") {
+			this.config.location = payload.location;
+			this.scheduleUpdate(this.config.initialLoadDelay);
+		}
 	},
 
 	// Override dom generator.
@@ -143,16 +154,19 @@ Module.register("weatherforecast",{
 			iconCell.appendChild(icon);
 
 			var degreeLabel = "";
+			if (this.config.units === "metric" || this.config.units === "imperial") {
+				degreeLabel += "°";
+			}
 			if(this.config.scale) {
 				switch(this.config.units) {
 				case "metric":
-					degreeLabel = " &deg;C";
+					degreeLabel += "C";
 					break;
 				case "imperial":
-					degreeLabel = " &deg;F";
+					degreeLabel += "F";
 					break;
 				case "default":
-					degreeLabel = " K";
+					degreeLabel = "K";
 					break;
 				}
 			}

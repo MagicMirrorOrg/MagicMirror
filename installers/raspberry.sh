@@ -47,7 +47,7 @@ sudo apt-get --assume-yes install curl wget git build-essential unzip || exit
 # Check if we need to install or upgrade Node.js.
 echo -e "\e[96mCheck current Node installation ...\e[0m"
 NODE_INSTALL=false
-if command_exists node; then
+if command_exists node && command_exists npm; then
 	echo -e "\e[0mNode currently installed. Checking version number.";
 	NODE_CURRENT=$(node -v)
 	echo -e "\e[0mMinimum Node version: \e[1m$NODE_TESTED\e[0m"
@@ -152,9 +152,19 @@ fi
 read -p "Do you want use pm2 for auto starting of your MagicMirror (y/N)?" choice
 if [[ $choice =~ ^[Yy]$ ]]; then
     sudo npm install -g pm2
-    sudo su -c "env PATH=$PATH:/usr/bin pm2 startup linux -u pi --hp /home/pi"
-    pm2 start ~/MagicMirror/installers/pm2_MagicMirror.json
-    pm2 save
+	if [[ "$(ps --no-headers -o comm 1)" =~ systemd ]]; then #Checking for systemd
+		sudo pm2 startup systemd -u pi --hp /home/pi
+	else
+		sudo su -c "env PATH=$PATH:/usr/bin pm2 startup linux -u pi --hp /home/pi"
+	fi
+	pm2 start ~/MagicMirror/installers/pm2_MagicMirror.json
+	pm2 save
+fi
+# Disable Screensaver
+read -p "Do you want to disable the screen saver? (y/N)?" choice
+if [[ $choice =~ ^[Yy]$ ]]; then
+	sudo su -c "echo -e '@xset s noblank\n@xset s off\n@xset -dpms' >> /etc/xdg/lxsession/LXDE-pi/autostart"
+	export DISPLAY=:0; xset s noblank;xset s off;xset -dpms
 fi
 
 echo " "

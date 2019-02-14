@@ -33,6 +33,9 @@ Module.register("weather",{
 		decimalSymbol: ".",
 		showIndoorTemperature: false,
 		showIndoorHumidity: false,
+		maxNumberOfDays: 5,
+		fade: true,
+		fadePoint: 0.25, // Start on 1/4th of the list.
 
 		initialLoadDelay: 0, // 0 seconds delay
 		retryDelay: 2500,
@@ -59,7 +62,7 @@ Module.register("weather",{
 		return ["font-awesome.css", "weather-icons.css", "weather.css"];
 	},
 
-	// Return the scripts that are nessecery for the weather module.
+	// Return the scripts that are necessary for the weather module.
 	getScripts: function () {
 		return [
 			"moment.js",
@@ -215,7 +218,28 @@ Module.register("weather",{
 		}.bind(this));
 
 		this.nunjucksEnvironment().addFilter("decimalSymbol", function(value) {
-			return value.replace(/\./g, this.config.decimalSymbol);
+			return value.toString().replace(/\./g, this.config.decimalSymbol);
+		}.bind(this));
+
+		this.nunjucksEnvironment().addFilter("calcNumSteps", function(forecast) {
+			return Math.min(forecast.length, this.config.maxNumberOfDays);
+		}.bind(this));
+
+		this.nunjucksEnvironment().addFilter("opacity", function(currentStep, numSteps) {
+			if (this.config.fade && this.config.fadePoint < 1) {
+				if (this.config.fadePoint < 0) {
+					this.config.fadePoint = 0;
+				}
+				var startingPoint = numSteps * this.config.fadePoint;
+				var numFadesteps = numSteps - startingPoint;
+				if (currentStep >= startingPoint) {
+					return 1 - (currentStep - startingPoint) / numFadesteps;
+				} else {
+					return 1;
+				}
+			} else {
+				return 1;
+			}
 		}.bind(this));
 	}
 });

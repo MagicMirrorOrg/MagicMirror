@@ -19,6 +19,7 @@ Module.register("calendar", {
 		defaultRepeatingCountTitle: "",
 		maxTitleLength: 25,
 		wrapEvents: false, // wrap events to multiple lines breaking at maxTitleLength
+		maxTitleLines: 3,
 		fetchInterval: 5 * 60 * 1000, // Update every 5 minutes.
 		animationSpeed: 2000,
 		fade: true,
@@ -51,7 +52,7 @@ Module.register("calendar", {
 
 	// Define required scripts.
 	getStyles: function () {
-		return ["calendar.css", "font-awesome5.css", "font-awesome5.v4shims.css"];
+		return ["calendar.css", "font-awesome.css"];
 	},
 
 	// Define required scripts.
@@ -220,7 +221,7 @@ Module.register("calendar", {
 			var titleWrapper = document.createElement("td"),
 				repeatingCountTitle = "";
 
-			if (this.config.displayRepeatingCountTitle) {
+			if (this.config.displayRepeatingCountTitle && event.firstYear !== undefined) {
 
 				repeatingCountTitle = this.countTitleForUrl(event.url);
 
@@ -584,9 +585,10 @@ Module.register("calendar", {
 	 * @param {string} string Text string to shorten
 	 * @param {number} maxLength The max length of the string
 	 * @param {boolean} wrapEvents Wrap the text after the line has reached maxLength
+	 * @param {number} maxTitleLines The max number of vertical lines before cutting event title
 	 * @returns {string} The shortened string
 	 */
-	shorten: function (string, maxLength, wrapEvents) {
+	shorten: function (string, maxLength, wrapEvents, maxTitleLines) {
 		if (typeof string !== "string") {
 			return "";
 		}
@@ -595,12 +597,21 @@ Module.register("calendar", {
 			var temp = "";
 			var currentLine = "";
 			var words = string.split(" ");
+			var line = 0;
 
 			for (var i = 0; i < words.length; i++) {
 				var word = words[i];
 				if (currentLine.length + word.length < (typeof maxLength === "number" ? maxLength : 25) - 1) { // max - 1 to account for a space
 					currentLine += (word + " ");
 				} else {
+					line++;
+					if (line > maxTitleLines - 1) {
+						if (i < words.length) {
+							currentLine += "&hellip;";
+						}
+						break;
+					}
+
 					if (currentLine.length > 0) {
 						temp += (currentLine + "<br>" + word + " ");
 					} else {
@@ -651,7 +662,7 @@ Module.register("calendar", {
 			title = title.replace(needle, replacement);
 		}
 
-		title = this.shorten(title, this.config.maxTitleLength, this.config.wrapEvents);
+		title = this.shorten(title, this.config.maxTitleLength, this.config.wrapEvents, this.config.maxTitleLines);
 		return title;
 	},
 
