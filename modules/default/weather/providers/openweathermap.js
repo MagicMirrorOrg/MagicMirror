@@ -106,6 +106,7 @@ WeatherProvider.register("openweathermap", {
 		var minTemp = [];
 		var maxTemp = [];
 		var rain = 0;
+		var snow = 0;
 		// variable for date
 		let date = "";
 		var weather = new WeatherObject(this.config.units);
@@ -117,6 +118,8 @@ WeatherProvider.register("openweathermap", {
 				weather.minTemperature = Math.min.apply(null, minTemp);
 				weather.maxTemperature = Math.max.apply(null, maxTemp);
 				weather.rain = rain;
+				weather.snow = snow;
+				weather.precipitation = weather.rain + weather.snow;
 				// push weather information to days array
 				days.push(weather);
 				// create new weather-object
@@ -125,6 +128,7 @@ WeatherProvider.register("openweathermap", {
 				minTemp = [];
 				maxTemp = [];
 				rain = 0;
+				snow = 0;
 
 				// set new date
 				date = moment(forecast.dt, "X").format("YYYY-MM-DD");
@@ -149,20 +153,27 @@ WeatherProvider.register("openweathermap", {
 			if (forecast.hasOwnProperty("rain")) {
 				if (this.config.units === "imperial" && !isNaN(forecast.rain["3h"])) {
 					rain += forecast.rain["3h"] / 25.4;
-				} else if (!isNaN(forecast.rain["3h"])){
+				} else if (!isNaN(forecast.rain["3h"])) {
 					rain += forecast.rain["3h"];
-				} else {
-					rain += 0;
 				}
-			} else {
-				rain += 0;
+			}
+
+			if (forecast.hasOwnProperty("snow")) {
+				if (this.config.units === "imperial" && !isNaN(forecast.snow["3h"])) {
+					snow += forecast.snow["3h"] / 25.4;
+				} else if (!isNaN(forecast.snow["3h"])) {
+					snow += forecast.snow["3h"];
+				}
 			}
 		}
+
 		// last day
 		// calculate minimum/maximum temperature, specify rain amount
 		weather.minTemperature = Math.min.apply(null, minTemp);
 		weather.maxTemperature = Math.max.apply(null, maxTemp);
 		weather.rain = rain;
+		weather.snow = snow;
+		weather.precipitation = weather.rain + weather.snow;
 		// push weather information to days array
 		days.push(weather);
 		return days.slice(1);
@@ -182,19 +193,30 @@ WeatherProvider.register("openweathermap", {
 			weather.minTemperature = forecast.temp.min;
 			weather.maxTemperature = forecast.temp.max;
 			weather.weatherType = this.convertWeatherType(forecast.weather[0].icon);
+			weather.rain = 0;
+			weather.snow = 0;
 
 			// forecast.rain not available if amount is zero
+			// The API always returns in millimeters
 			if (forecast.hasOwnProperty("rain")) {
 				if (this.config.units === "imperial" && !isNaN(forecast.rain)) {
 					weather.rain = forecast.rain / 25.4;
-				} else if (!isNaN(forecast.rain)){
+				} else if (!isNaN(forecast.rain)) {
 					weather.rain = forecast.rain;
-				} else {
-					weather.rain = 0;
 				}
-			} else {
-				weather.rain = 0;
 			}
+
+			// forecast.snow not available if amount is zero
+			// The API always returns in millimeters
+			if (forecast.hasOwnProperty("snow")) {
+				if (this.config.units === "imperial" && !isNaN(forecast.snow)) {
+					weather.snow = forecast.snow / 25.4;
+				} else if (!isNaN(forecast.snow)) {
+					weather.snow = forecast.snow;
+				}
+			}
+
+			weather.precipitation = weather.rain + weather.snow;
 
 			days.push(weather);
 		}

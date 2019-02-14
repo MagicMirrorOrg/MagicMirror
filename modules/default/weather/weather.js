@@ -49,7 +49,7 @@ Module.register("weather",{
 		tableClass: "small",
 
 		onlyTemp: false,
-		showRainAmount: true,
+		showPrecipitationAmount: false,
 		colored: false,
 		showFeelsLike: true
 	},
@@ -200,8 +200,8 @@ Module.register("weather",{
 						value += "K";
 					}
 				}
-			} else if (type === "rain") {
-				if (isNaN(value) || value === 0) {
+			} else if (type === "precip") {
+				if (isNaN(value) || value === 0 || value.toFixed(2) === "0.00") {
 					value = "";
 				} else {
 					value = `${value.toFixed(2)} ${this.config.units === "imperial" ? "in" : "mm"}`;
