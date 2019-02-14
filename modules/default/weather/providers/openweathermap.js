@@ -132,9 +132,13 @@ WeatherProvider.register("openweathermap", {
 				// specify date
 				weather.date = moment(forecast.dt, "X");
 
-				// select weather type by first forecast value of a day, is this reasonable?
+				// If the first value of today is later than 17:00, we have an icon at least!
 				weather.weatherType = this.convertWeatherType(forecast.weather[0].icon);
 
+			}
+				
+			if (moment(forecast.dt, "X").format("H") >= 8 && moment(forecast.dt, "X").format("H") <= 17) {
+				weather.weatherType = this.convertWeatherType(forecast.weather[0].icon);
 			}
 
 			// the same day as before
