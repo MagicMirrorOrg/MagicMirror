@@ -13,9 +13,9 @@
                 <td class="align-right min-temp">
                     {{ f.minTemperature | roundValue | unit("temperature") }}
                 </td>
-                {% if config.showRainAmount %}
-                    <td class="align-right bright rain">
-                        {{ f.rain | unit("rain") }}
+                {% if config.showPrecipitationAmount %}
+                    <td class="align-right bright precipitation">
+                        {{ f.precipitation | unit("precip") }}
                     </td>
                 {% endif %}
             </tr>
