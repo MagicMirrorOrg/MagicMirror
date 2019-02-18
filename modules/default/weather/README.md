@@ -2,7 +2,7 @@
 
 This module is aimed to be the replacement for the current `currentweather` and `weatherforcast` modules. The module will be configurable to be used as a current weather view, or to show the forecast. This way the module can be used twice to fullfil both purposes. 
 
-The biggest cange is the use of weather providers. This way we are not bound to one API source. And users can choose which API they want to use as their source.
+The biggest change is the use of weather providers. This way we are not bound to one API source. And users can choose which API they want to use as their source.
 
 The module is in a very early stage, and needs a lot of work. It's API isn't set in stone, so keep that in mind when you want to contribute.
 
@@ -70,7 +70,10 @@ The following properties can be configured:
 | ---------------------------- | -----------
 | `tableClass`                 | The class for the forecast table. <br><br> **Default value:**  `'small'`
 | `colored`                    | If set to `true`, the min and max temperature are color coded. <br><br> **Default value:**  `false`
-| `showRainAmount`             | Show the amount of rain in the forecast <br><br> **Possible values:** `true` or `false` <br> **Default value:** `true`
+| `showPrecipitationAmount`    | Show the amount of rain/snow in the forecast <br><br> **Possible values:** `true` or `false` <br> **Default value:** `false`
+| `fade`                       | Fade the future events to black. (Gradient) <br><br> **Possible values:** `true` or `false` <br> **Default value:** `true`
+| `fadePoint`                  | Where to start fade? <br><br> **Possible values:** `0` (top of the list) - `1` (bottom of list) <br> **Default value:** `0.25`
+| `maxNumberOfDays`            | How many days of forecast to return. Specified by config.js <br><br> **Possible values:** `1` - `16` <br> **Default value:** `5` (5 days) <br> This value is optional. By default the weatherforecast module will return 5 days.
 
 ### Openweathermap options
 
@@ -78,17 +81,17 @@ The following properties can be configured:
 | ---------------------------- | -----------
 | `apiVersion`                 | The OpenWeatherMap API version to use. <br><br> **Default value:**  `2.5`
 | `apiBase`                    | The OpenWeatherMap base URL. <br><br> **Default value:**  `'http://api.openweathermap.org/data/'`
-| `weatherEndpoint`	           | The OpenWeatherMap API endPoint. <br><br> **Possible values:** `/weather` or `/forecast/daily` <br> **Default value:**  `'/weather'`
+| `weatherEndpoint`	       | The OpenWeatherMap API endPoint. <br><br> **Possible values:** `/weather`, `/forecast` (free users) or `/forecast/daily` (paying users or old apiKey only) <br> **Default value:**  `'/weather'`
 | `locationID`                 | Location ID from [OpenWeatherMap](https://openweathermap.org/find) **This will override anything you put in location.** <br> Leave blank if you want to use location. <br> **Example:** `1234567` <br> **Default value:** `false` <br><br> **Note:** When the `location` and `locationID` are both not set, the location will be based on the information provided by the calendar module. The first upcoming event with location data will be used.
 | `location`                   | The location used for weather information. <br><br> **Example:** `'Amsterdam,Netherlands'` <br> **Default value:** `false` <br><br> **Note:** When the `location` and `locationID` are both not set, the location will be based on the information provided by the calendar module. The first upcoming event with location data will be used.
-| `apiKey`                      | The [OpenWeatherMap](https://home.openweathermap.org) API key, which can be obtained by creating an OpenWeatherMap account. <br><br>  This value is **REQUIRED**
+| `apiKey`                     | The [OpenWeatherMap](https://home.openweathermap.org) API key, which can be obtained by creating an OpenWeatherMap account. <br><br>  This value is **REQUIRED**
 
 ### Darksky options
 
 | Option                       | Description
 | ---------------------------- | -----------
 | `apiBase`                    | The DarkSky base URL. The darksky api has disabled [cors](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS), therefore a proxy is required. <br><br> **Possible value:**  `'https://cors-anywhere.herokuapp.com/https://api.darksky.net'` <br>  This value is **REQUIRED**
-| `weatherEndpoint`	           | The DarkSky API endPoint. <br><br> **Possible values:** `/forecast` <br>  This value is **REQUIRED**
+| `weatherEndpoint`	       | The DarkSky API endPoint. <br><br> **Possible values:** `/forecast` <br>  This value is **REQUIRED**
 | `apiKey`                     | The [DarkSky](https://darksky.net/dev/register) API key, which can be obtained by creating an DarkSky account. <br><br>  This value is **REQUIRED**
 | `lat`                        | The geo coordinate latitude. <br><br>  This value is **REQUIRED**
 | `lon`                        | The geo coordinate longitude. <br><br>  This value is **REQUIRED**

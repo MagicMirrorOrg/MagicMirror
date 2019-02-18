@@ -11,6 +11,7 @@ Module.register("currentweather",{
 
 	// Default module config.
 	defaults: {
+		autoLocation: false,
 		location: false,
 		locationID: false,
 		appid: "",
@@ -109,8 +110,19 @@ Module.register("currentweather",{
 		this.weatherType = null;
 		this.feelsLike = null;
 		this.loaded = false;
-		this.scheduleUpdate(this.config.initialLoadDelay);
 
+		if (this.config.autoLocation) {
+			this.sendSocketNotification("AUTO_LOCATION");
+		} else {
+			this.scheduleUpdate(this.config.initialLoadDelay);
+		}
+	},
+
+	socketNotificationReceived: function (notification, payload) {
+		if (notification === "UPDATE_LOCATION") {
+			this.config.location = payload.location;
+			this.scheduleUpdate(this.config.initialLoadDelay);
+		}
 	},
 
 	// add extra information of current weather
@@ -198,16 +210,19 @@ Module.register("currentweather",{
 		large.appendChild(weatherIcon);
 
 		var degreeLabel = "";
-		if (this.config.degreeLabel) {
-			switch (this.config.units ) {
+		if (this.config.units === "metric" || this.config.units === "imperial") {
+			degreeLabel += "°";
+		}
+		if(this.config.degreeLabel) {
+			switch(this.config.units) {
 			case "metric":
-				degreeLabel = "C";
+				degreeLabel += "C";
 				break;
 			case "imperial":
-				degreeLabel = "F";
+				degreeLabel += "F";
 				break;
 			case "default":
-				degreeLabel = "K";
+				degreeLabel += "K";
 				break;
 			}
 		}
@@ -218,7 +233,7 @@ Module.register("currentweather",{
 
 		var temperature = document.createElement("span");
 		temperature.className = "bright";
-		temperature.innerHTML = " " + this.temperature.replace(".", this.config.decimalSymbol) + "&deg;" + degreeLabel;
+		temperature.innerHTML = " " + this.temperature.replace(".", this.config.decimalSymbol) + degreeLabel;
 		large.appendChild(temperature);
 
 		if (this.config.showIndoorTemperature && this.indoorTemperature) {
@@ -228,7 +243,7 @@ Module.register("currentweather",{
 
 			var indoorTemperatureElem = document.createElement("span");
 			indoorTemperatureElem.className = "bright";
-			indoorTemperatureElem.innerHTML = " " + this.indoorTemperature.replace(".", this.config.decimalSymbol) + "&deg;" + degreeLabel;
+			indoorTemperatureElem.innerHTML = " " + this.indoorTemperature.replace(".", this.config.decimalSymbol) + degreeLabel;
 			large.appendChild(indoorTemperatureElem);
 		}
 
@@ -251,7 +266,7 @@ Module.register("currentweather",{
 
 			var feelsLike = document.createElement("span");
 			feelsLike.className = "dimmed";
-			feelsLike.innerHTML = this.translate("FEELS") + " " + this.feelsLike + "&deg;" + degreeLabel;
+			feelsLike.innerHTML = this.translate("FEELS") + " " + this.feelsLike + degreeLabel;
 			small.appendChild(feelsLike);
 
 			wrapper.appendChild(small);
