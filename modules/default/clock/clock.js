@@ -26,6 +26,7 @@ Module.register("clock",{
 		analogShowDate: "top", // options: false, 'top', or 'bottom'
 		secondsColor: "#888888",
 		timezone: null,
+		autoTimezone: false
 	},
 	// Define required scripts.
 	getScripts: function() {
@@ -39,16 +40,31 @@ Module.register("clock",{
 	start: function() {
 		Log.info("Starting module: " + this.name);
 
-		// Schedule update interval.
-		var self = this;
-		setInterval(function() {
-			self.updateDom();
-		}, 1000);
+		if (this.config.autoTimezone) {
+			this.sendSocketNotification("AUTO_TIMEZONE");
+		} else {
+			// Schedule update interval.
+			var self = this;
+			setInterval(function() {
+				self.updateDom();
+			}, 1000);
+		}
 
 		// Set locale.
 		moment.locale(config.language);
 
 	},
+
+	socketNotificationReceived: function (notification, payload) {
+		if (notification === "UPDATE_TIMEZONE") {
+			var self = this;
+			self.config.timezone = payload.timezone;
+			setInterval(function() {
+				self.updateDom();
+			}, 1000);
+		}
+	},
+
 	// Override dom generator.
 	getDom: function() {
 
@@ -137,7 +153,8 @@ Module.register("clock",{
 				clockCircle.style.backgroundSize = "100%";
 
 				// The following line solves issue: https://github.com/MichMich/MagicMirror/issues/611
-				clockCircle.style.border = "1px solid black";
+				// clockCircle.style.border = "1px solid black";
+				clockCircle.style.border = "rgba(0, 0, 0, 0.1)"; //Updated fix for Issue 611 where non-black backgrounds are used
 
 			} else if (this.config.analogFace != "none") {
 				clockCircle.style.border = "2px solid white";
