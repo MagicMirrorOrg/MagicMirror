@@ -456,13 +456,13 @@ Module.register("calendar", {
 				if (this.config.sliceMultiDayEvents) {
 					var midnight = moment(event.startDate, "x").clone().startOf("day").add(1, "day").format("x");			//next midnight
 					var count = 1;
-					var maxCount = Math.ceil(((event.endDate - 1) - moment(event.startDate, "x").endOf('day').format("x"))/(1000*60*60*24)) + 1
+					var maxCount = Math.ceil(((event.endDate - 1) - moment(event.startDate, "x").endOf("day").format("x"))/(1000*60*60*24)) + 1
 					if (event.endDate > midnight) {
 						while (event.endDate > midnight) {
 							var nextEvent = JSON.parse(JSON.stringify(event));	//make a copy without reference to the original event
  							nextEvent.startDate = midnight;
  							event.endDate = midnight;
- 							event.title += " ("+count+"/"+maxCount+")";
+ 							event.title += " (" + count + "/" + maxCount + ")";
  							events.push(event);
  							event = nextEvent;
  							count += 1;
