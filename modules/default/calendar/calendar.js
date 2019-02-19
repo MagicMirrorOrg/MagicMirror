@@ -26,7 +26,7 @@ Module.register("calendar", {
 		urgency: 7,
 		timeFormat: "relative",
 		dateFormat: "MMM Do",
-		dateEndFormat: "HH:mm",
+		dateEndFormat: "LT",
 		fullDayEventDateFormat: "MMM Do",
 		showEnd: false,
 		getRelative: 6,
