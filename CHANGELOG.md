@@ -33,6 +33,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Calendar: only show repeating count if the event is actually repeating [#1534](https://github.com/MichMich/MagicMirror/pull/1534)
 - Calendar: Fix exdate handling when multiple values are specified (comma separated)
 - Fix null dereference in moduleNeedsUpdate when the module isn't visible
+- Calendar: Fixed event end times by setting default calendarEndTime to "LT" (Local time format). [#1479]
 
 ### New weather module
 - Fixed weather forecast table display [#1499](https://github.com/MichMich/MagicMirror/issues/1499).
