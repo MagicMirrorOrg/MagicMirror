@@ -47,7 +47,8 @@ Module.register("calendar", {
 			"'s birthday": ""
 		},
 		broadcastEvents: true,
-		excludedEvents: []
+		excludedEvents: [],
+		sliceMultiDayEvents: false
 	},
 
 	// Define required scripts.
@@ -448,7 +449,31 @@ Module.register("calendar", {
 				}
 				event.url = c;
 				event.today = event.startDate >= today && event.startDate < (today + 24 * 60 * 60 * 1000);
-				events.push(event);
+
+				/* if sliceMultiDayEvents is set to true, multiday events (events exceeding at least one midnight) are sliced into days,
+				* otherwise, esp. in dateheaders mode it is not clear how long these events are.
+				*/
+				if (this.config.sliceMultiDayEvents) {
+					var midnight = moment(event.startDate, "x").clone().startOf("day").add(1, "day").format("x");			//next midnight
+					var count = 1;
+					var maxCount = Math.ceil(((event.endDate - 1) - moment(event.startDate, "x").endOf("day").format("x"))/(1000*60*60*24)) + 1
+					if (event.endDate > midnight) {
+						while (event.endDate > midnight) {
+							var nextEvent = JSON.parse(JSON.stringify(event));	//make a copy without reference to the original event
+ 							nextEvent.startDate = midnight;
+ 							event.endDate = midnight;
+ 							event.title += " (" + count + "/" + maxCount + ")";
+ 							events.push(event);
+ 							event = nextEvent;
+ 							count += 1;
+ 							midnight = moment(midnight, "x").add(1, "day").format("x");		//move further one day for next split
+ 						}
+ 						event.title += " ("+count+"/"+maxCount+")";
+ 					}
+					events.push(event);
+				} else {
+					events.push(event);
+				}
 			}
 		}
 
