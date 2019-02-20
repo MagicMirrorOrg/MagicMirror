@@ -26,6 +26,8 @@ class WeatherObject {
 		this.weatherType = null;
 		this.humidity = null;
 		this.rain = null;
+		this.snow = null;
+		this.precipitation = null;
 	}
 
 	cardinalWindDirection() {
