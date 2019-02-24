@@ -20,6 +20,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Danish translation for "Feels" and "Weeks"
 - Added option to split multiple day events in calendar to separate numbered events
 - Slovakian translation
+- Alerts now can contain Font Awesome icons
 
 ### Updated
 - Bumped the Electron dependency to v3.0.13 to support the most recent Raspbian. [#1500](https://github.com/MichMich/MagicMirror/issues/1500)
