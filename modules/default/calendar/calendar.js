@@ -105,6 +105,13 @@ Module.register("calendar", {
 			}
 
 			this.addCalendar(calendar.url, calendar.auth, calendarConfig);
+
+			// Trigger ADD_CALENDAR every fetchInterval to make sure there is always a calendar
+			// fetcher running on the server side.
+			var self = this;
+			setInterval(function() {
+				self.addCalendar(calendar.url, calendar.auth, calendarConfig);
+			}, self.config.fetchInterval);
 		}
 
 		this.calendarData = {};
