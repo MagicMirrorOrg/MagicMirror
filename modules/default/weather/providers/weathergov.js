@@ -263,6 +263,8 @@ WeatherProvider.register("weathergov", {
 			return 326.25;
 		} else if (direction === "NNW") {
 			return 348.75;
+		} else {
+			return 0;
 		}
 	}
 });
