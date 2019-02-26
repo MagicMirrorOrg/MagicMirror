@@ -18,6 +18,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added autoLocation options for weather forcast and current weather modules.
 - Added autoTimezone option for the default clock module.
 - Danish translation for "Feels" and "Weeks"
+- Added option to split multiple day events in calendar to separate numbered events
+- Slovakian translation
+- Alerts now can contain Font Awesome icons
 
 ### Updated
 - Bumped the Electron dependency to v3.0.13 to support the most recent Raspbian. [#1500](https://github.com/MichMich/MagicMirror/issues/1500)
@@ -31,6 +34,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Installation script problems with raspbian
 - Calendar: only show repeating count if the event is actually repeating [#1534](https://github.com/MichMich/MagicMirror/pull/1534)
 - Calendar: Fix exdate handling when multiple values are specified (comma separated)
+- Calendar: Fix relative date handling for fulldate events, calculate difference always from start of day  [#1572](https://github.com/MichMich/MagicMirror/issues/1572)
+- Fix null dereference in moduleNeedsUpdate when the module isn't visible
+- Calendar: Fixed event end times by setting default calendarEndTime to "LT" (Local time format). [#1479]
+- Calendar: Fixed missing calendar fetchers after server process restarts [#1589](https://github.com/MichMich/MagicMirror/issues/1589)
 
 ### New weather module
 - Fixed weather forecast table display [#1499](https://github.com/MichMich/MagicMirror/issues/1499).

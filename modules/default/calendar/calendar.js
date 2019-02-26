@@ -26,7 +26,7 @@ Module.register("calendar", {
 		urgency: 7,
 		timeFormat: "relative",
 		dateFormat: "MMM Do",
-		dateEndFormat: "HH:mm",
+		dateEndFormat: "LT",
 		fullDayEventDateFormat: "MMM Do",
 		showEnd: false,
 		getRelative: 6,
@@ -47,7 +47,8 @@ Module.register("calendar", {
 			"'s birthday": ""
 		},
 		broadcastEvents: true,
-		excludedEvents: []
+		excludedEvents: [],
+		sliceMultiDayEvents: false
 	},
 
 	// Define required scripts.
@@ -104,6 +105,13 @@ Module.register("calendar", {
 			}
 
 			this.addCalendar(calendar.url, calendar.auth, calendarConfig);
+
+			// Trigger ADD_CALENDAR every fetchInterval to make sure there is always a calendar
+			// fetcher running on the server side.
+			var self = this;
+			setInterval(function() {
+				self.addCalendar(calendar.url, calendar.auth, calendarConfig);
+			}, self.config.fetchInterval);
 		}
 
 		this.calendarData = {};
@@ -297,12 +305,12 @@ Module.register("calendar", {
 						if (this.config.timeFormat === "absolute") {
 							if ((this.config.urgency > 1) && (event.startDate - now < (this.config.urgency * oneDay))) {
 								// This event falls within the config.urgency period that the user has set
-								timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
+								timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").from(moment().format("YYYYMMDD")));
 							} else {
 								timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").format(this.config.fullDayEventDateFormat));
 							}
 						} else {
-							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
+							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").from(moment().format("YYYYMMDD")));
 						}
 					}
 					if(this.config.showEnd){
@@ -448,7 +456,31 @@ Module.register("calendar", {
 				}
 				event.url = c;
 				event.today = event.startDate >= today && event.startDate < (today + 24 * 60 * 60 * 1000);
-				events.push(event);
+
+				/* if sliceMultiDayEvents is set to true, multiday events (events exceeding at least one midnight) are sliced into days,
+				* otherwise, esp. in dateheaders mode it is not clear how long these events are.
+				*/
+				if (this.config.sliceMultiDayEvents) {
+					var midnight = moment(event.startDate, "x").clone().startOf("day").add(1, "day").format("x");			//next midnight
+					var count = 1;
+					var maxCount = Math.ceil(((event.endDate - 1) - moment(event.startDate, "x").endOf("day").format("x"))/(1000*60*60*24)) + 1
+					if (event.endDate > midnight) {
+						while (event.endDate > midnight) {
+							var nextEvent = JSON.parse(JSON.stringify(event));	//make a copy without reference to the original event
+ 							nextEvent.startDate = midnight;
+ 							event.endDate = midnight;
+ 							event.title += " (" + count + "/" + maxCount + ")";
+ 							events.push(event);
+ 							event = nextEvent;
+ 							count += 1;
+ 							midnight = moment(midnight, "x").add(1, "day").format("x");		//move further one day for next split
+ 						}
+ 						event.title += " ("+count+"/"+maxCount+")";
+ 					}
+					events.push(event);
+				} else {
+					events.push(event);
+				}
 			}
 		}
 

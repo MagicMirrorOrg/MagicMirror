@@ -24,7 +24,7 @@ Module.register("alert",{
 		return ["classie.js", "modernizr.custom.js", "notificationFx.js"];
 	},
 	getStyles: function() {
-		return ["ns-default.css"];
+		return ["ns-default.css", "font-awesome.css"];
 	},
 	// Define required translations.
 	getTranslations: function() {
