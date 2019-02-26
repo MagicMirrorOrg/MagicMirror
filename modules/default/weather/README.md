@@ -81,7 +81,7 @@ The following properties can be configured:
 | ---------------------------- | -----------
 | `apiVersion`                 | The OpenWeatherMap API version to use. <br><br> **Default value:**  `2.5`
 | `apiBase`                    | The OpenWeatherMap base URL. <br><br> **Default value:**  `'http://api.openweathermap.org/data/'`
-| `weatherEndpoint`	       | The OpenWeatherMap API endPoint. <br><br> **Possible values:** `/weather`, `/forecast` (free users) or `/forecast/daily` (paying users or old apiKey only) <br> **Default value:**  `'/weather'`
+| `weatherEndpoint`	           | The OpenWeatherMap API endPoint. <br><br> **Possible values:** `/weather`, `/forecast` (free users) or `/forecast/daily` (paying users or old apiKey only) <br> **Default value:**  `'/weather'`
 | `locationID`                 | Location ID from [OpenWeatherMap](https://openweathermap.org/find) **This will override anything you put in location.** <br> Leave blank if you want to use location. <br> **Example:** `1234567` <br> **Default value:** `false` <br><br> **Note:** When the `location` and `locationID` are both not set, the location will be based on the information provided by the calendar module. The first upcoming event with location data will be used.
 | `location`                   | The location used for weather information. <br><br> **Example:** `'Amsterdam,Netherlands'` <br> **Default value:** `false` <br><br> **Note:** When the `location` and `locationID` are both not set, the location will be based on the information provided by the calendar module. The first upcoming event with location data will be used.
 | `apiKey`                     | The [OpenWeatherMap](https://home.openweathermap.org) API key, which can be obtained by creating an OpenWeatherMap account. <br><br>  This value is **REQUIRED**
@@ -91,8 +91,17 @@ The following properties can be configured:
 | Option                       | Description
 | ---------------------------- | -----------
 | `apiBase`                    | The DarkSky base URL. The darksky api has disabled [cors](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS), therefore a proxy is required. <br><br> **Possible value:**  `'https://cors-anywhere.herokuapp.com/https://api.darksky.net'` <br>  This value is **REQUIRED**
-| `weatherEndpoint`	       | The DarkSky API endPoint. <br><br> **Possible values:** `/forecast` <br>  This value is **REQUIRED**
+| `weatherEndpoint`	           | The DarkSky API endPoint. <br><br> **Possible values:** `/forecast` <br>  This value is **REQUIRED**
 | `apiKey`                     | The [DarkSky](https://darksky.net/dev/register) API key, which can be obtained by creating an DarkSky account. <br><br>  This value is **REQUIRED**
+| `lat`                        | The geo coordinate latitude. <br><br>  This value is **REQUIRED**
+| `lon`                        | The geo coordinate longitude. <br><br>  This value is **REQUIRED**
+
+### Weather.gov options
+
+| Option                       | Description
+| ---------------------------- | -----------
+| `apiBase`                    | The weather.gov base URL. <br><br> **Possible value:**  `'https://api.weather.gov/points/'` <br>  This value is **REQUIRED**
+| `weatherEndpoint`	           | The weather.gov API endPoint. <br><br> **Possible values:** `/forecast` for forecast and `/forecast/hourly` for current. <br>  This value is **REQUIRED**
 | `lat`                        | The geo coordinate latitude. <br><br>  This value is **REQUIRED**
 | `lon`                        | The geo coordinate longitude. <br><br>  This value is **REQUIRED**
 
