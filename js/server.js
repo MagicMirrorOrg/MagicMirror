@@ -14,6 +14,7 @@ var ipfilter = require("express-ipfilter").IpFilter;
 var fs = require("fs");
 var helmet = require("helmet");
 var Utils = require(__dirname + "/utils.js");
+var request = require("request");
 
 var Server = function(config, callback) {
 
@@ -55,6 +56,28 @@ var Server = function(config, callback) {
 
 	app.get("/config", function(req,res) {
 		res.send(config);
+	});
+
+	var locationPromise = null;
+	app.get("/location", function(req, res) {
+		if (!locationPromise) {
+			locationPromise = new Promise(function (resolve, reject) {
+				request("http://ip-api.com/json", { timeout: 5000 }, function(error, response, body) {
+					if (!error && response.statusCode === 200) {
+						return resolve(body);
+					}
+					locationPromise = null;
+					reject(error);
+				});
+			});
+		}
+
+		locationPromise.then(function(location) {
+			res.send(location);
+		}).catch(function() {
+			res.status(500);
+			res.send();
+		});
 	});
 
 	app.get("/", function(req, res) {

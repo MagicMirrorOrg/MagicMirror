@@ -41,7 +41,7 @@ Module.register("clock",{
 		Log.info("Starting module: " + this.name);
 
 		if (this.config.autoTimezone) {
-			this.sendSocketNotification("AUTO_TIMEZONE");
+			this.sendSocketNotification("AUTO_LOCATION");
 		} else {
 			// Schedule update interval.
 			var self = this;
@@ -56,12 +56,14 @@ Module.register("clock",{
 	},
 
 	socketNotificationReceived: function (notification, payload) {
-		if (notification === "UPDATE_TIMEZONE") {
+		if (notification === "UPDATE_LOCATION") {
 			var self = this;
 			self.config.timezone = payload.timezone;
 			setInterval(function() {
 				self.updateDom();
 			}, 1000);
+		} else if (notification === "LOCATION_ERROR") {
+			this.sendSocketNotification("AUTO_LOCATION");
 		}
 	},
 

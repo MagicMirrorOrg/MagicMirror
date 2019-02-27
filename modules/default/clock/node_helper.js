@@ -8,21 +8,16 @@ module.exports = NodeHelper.create({
 	socketNotificationReceived: function (notification, payload) {
 		var self = this;
 
-		if (notification === "AUTO_TIMEZONE") {
-			console.log("Loading timezone...");
-			http.get("http://ip-api.com/json", function (req) {
-				var data = "";
-				req.on("data", function (d) {
-					data += d;
-				});
-				req.on("end", function () {
-					var body = JSON.parse(data);
-					payload.timezone = body.timezone;
-					self.sendSocketNotification("UPDATE_TIMEZONE", payload);
-				});
-			}).on("error", function () {
+		if (notification === "AUTO_LOCATION") {
+			request("http://localhost:8080/location", function (err, res, body) {
+				if (!err && res.statusCode === 200) {
+					var location = JSON.parse(body);
+					payload.timezone = location.timezone;
+					self.sendSocketNotification("UPDATE_LOCATION", payload);
+					return;
+				}
 				payload.error = "Could not figure out the timezone.";
-				self.sendSocketNotification("UPDATE_TIMEZONE", payload);
+				self.sendSocketNotification("LOCATION_ERROR", payload);
 			});
 		}
 	}

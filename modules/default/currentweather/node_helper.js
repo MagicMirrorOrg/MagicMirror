@@ -1,5 +1,6 @@
 var http = require("http");
 var NodeHelper = require("node_helper");
+var request = require("request");
 
 module.exports = NodeHelper.create({
 	start: function () {
@@ -9,20 +10,15 @@ module.exports = NodeHelper.create({
 		var self = this;
 
 		if (notification === "AUTO_LOCATION") {
-			console.log("Loading timezone...");
-			http.get("http://ip-api.com/json", function (req) {
-				var data = "";
-				req.on("data", function (d) {
-					data += d;
-				});
-				req.on("end", function () {
-					var body = JSON.parse(data);
-					payload.location = body.city + ", " + body.regionName;
+			request("http://localhost:8080/location", function (err, res, body) {
+				if (!err && res.statusCode === 200) {
+					var location = JSON.parse(body);
+					payload.location = location.city + ", " + location.regionName;
 					self.sendSocketNotification("UPDATE_LOCATION", payload);
-				});
-			}).on("error", function () {
+					return;
+				}
 				payload.error = "Could not figure out the timezone.";
-				self.sendSocketNotification("UPDATE_LOCATION", payload);
+				self.sendSocketNotification("LOCATION_ERROR", payload);
 			});
 		}
 	}

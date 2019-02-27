@@ -122,6 +122,8 @@ Module.register("currentweather",{
 		if (notification === "UPDATE_LOCATION") {
 			this.config.location = payload.location;
 			this.scheduleUpdate(this.config.initialLoadDelay);
+		} else if (notification === "LOCATION_ERROR") {
+			this.sendSocketNotification("AUTO_LOCATION");
 		}
 	},
 
