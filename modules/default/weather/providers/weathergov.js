@@ -29,8 +29,6 @@ WeatherProvider.register("weathergov", {
 					return;
 				}
 
-				//this.setFetchedLocation(`${data.name}, ${data.sys.country}`);
-
 				const currentWeather = this.generateWeatherObjectFromCurrentWeather(data.properties.periods[0]);
 				this.setCurrentWeather(currentWeather);
 			})
@@ -48,8 +46,6 @@ WeatherProvider.register("weathergov", {
 					// Maybe this needs a better check?
 					return;
 				}
-
-				//this.setFetchedLocation(`${data.city.name}, ${data.city.country}`);
 
 				const forecast = this.generateWeatherObjectsFromForecast(data.properties.periods);
 				this.setWeatherForecast(forecast);
@@ -73,13 +69,10 @@ WeatherProvider.register("weathergov", {
 	generateWeatherObjectFromCurrentWeather(currentWeatherData) {
 		const currentWeather = new WeatherObject(this.config.units);
 
-		//currentWeather.humidity = currentWeatherData.main.humidity;
 		currentWeather.temperature = currentWeatherData.temperature;
 		currentWeather.windSpeed = currentWeatherData.windSpeed.split(" ", 1);
 		currentWeather.windDirection = this.convertDirectiontoDegrees(currentWeatherData.windDirection);
 		currentWeather.weatherType = this.convertWeatherType(currentWeatherData.shortForecast, currentWeatherData.isDaytime);
-		//currentWeather.sunrise = moment(currentWeatherData.sys.sunrise, "X");
-		//currentWeather.sunset = moment(currentWeatherData.sys.sunset, "X");
 
 		return currentWeather;
 	},
@@ -98,11 +91,11 @@ WeatherProvider.register("weathergov", {
 		// initial variable declaration
 		const days = [];
 		// variables for temperature range and rain
-		var minTemp = [];
-		var maxTemp = [];
+		let minTemp = [];
+		let maxTemp = [];
 		// variable for date
 		let date = "";
-		var weather = new WeatherObject(this.config.units);
+		let weather = new WeatherObject(this.config.units);
 		weather.precipitation = 0;
 
 		for (const forecast of forecasts) {
@@ -162,53 +155,55 @@ WeatherProvider.register("weathergov", {
 		if (weatherType.includes("Cloudy") || weatherType.includes("Partly")) {
 			if (isDaytime) {
 				return "day-cloudy";
-			} else {
-				return "night-cloudy";
 			}
+
+			return "night-cloudy";
 		} else if (weatherType.includes("Overcast")) {
 			if (isDaytime) {
 				return "cloudy";
-			} else {
-				return "night-cloudy";
 			}
+
+			return "night-cloudy";
 		} else if (weatherType.includes("Freezing") || weatherType.includes("Ice")) {
 			return "rain-mix";
 		} else if (weatherType.includes("Snow")) {
 			if (isDaytime) {
 				return "snow";
-			} else {
-				return "night-snow";
 			}
+
+			return "night-snow";
 		} else if (weatherType.includes("Thunderstorm")) {
 			if (isDaytime) {
 				return "thunderstorm";
-			} else {
-				return "night-thunderstorm";
 			}
+
+			return "night-thunderstorm";
 		} else if (weatherType.includes("Showers")) {
 			if (isDaytime) {
 				return "showers";
-			} else {
-				return "night-showers";
 			}
-		} else if (weatherType.includes("Rain")) {
+
+			return "night-showers";
+		} else if (weatherType.includes("Rain") || weatherType.includes("Drizzle")) {
 			if (isDaytime) {
 				return "rain";
-			} else {
-				return "night-rain";
 			}
+
+			return "night-rain";
 		} else if (weatherType.includes("Breezy") || weatherType.includes("Windy")) {
 			if (isDaytime) {
 				return "cloudy-windy";
-			} else {
-				return "night-alt-cloudy-windy";
 			}
-		} else if (weatherType.includes("Fair") || weatherType.includes("Clear") || weatherType.includes("Few")) {
+
+			return "night-alt-cloudy-windy";
+		} else if (weatherType.includes("Fair") || weatherType.includes("Clear") || weatherType.includes("Few") || weatherType.includes("Sunny")) {
 			if (isDaytime) {
 				return "day-sunny";
-			} else {
-				return "night-clear";
 			}
+
+			return "night-clear";
+		} else if (weatherType.includes("Dust") || weatherType.includes("Sand")) {	
+			return "dust";
 		} else if (weatherType.includes("Fog")) {
 			return "fog";
 		} else if (weatherType.includes("Smoke")) {
@@ -218,15 +213,6 @@ WeatherProvider.register("weathergov", {
 		}
 
 		return null;
-	},
-
-	/* getParams(compliments)
-	 * Generates an url with api parameters based on the config.
-	 *
-	 * return String - URL params.
-	 */
-	getParams() {
-		
 	},
 
 	/*

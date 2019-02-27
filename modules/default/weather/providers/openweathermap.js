@@ -103,13 +103,13 @@ WeatherProvider.register("openweathermap", {
 		// initial variable declaration
 		const days = [];
 		// variables for temperature range and rain
-		var minTemp = [];
-		var maxTemp = [];
-		var rain = 0;
-		var snow = 0;
+		let minTemp = [];
+		let maxTemp = [];
+		let rain = 0;
+		let snow = 0;
 		// variable for date
 		let date = "";
-		var weather = new WeatherObject(this.config.units);
+		let weather = new WeatherObject(this.config.units);
 
 		for (const forecast of forecasts) {
 
