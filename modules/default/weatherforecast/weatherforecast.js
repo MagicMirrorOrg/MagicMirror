@@ -11,7 +11,6 @@ Module.register("weatherforecast",{
 
 	// Default module config.
 	defaults: {
-		autoLocation: false,
 		location: false,
 		locationID: false,
 		appid: "",
@@ -96,20 +95,10 @@ Module.register("weatherforecast",{
 
 		this.forecast = [];
 		this.loaded = false;
+		this.scheduleUpdate(this.config.initialLoadDelay);
+
 		this.updateTimer = null;
 
-		if (this.config.autoLocation) {
-			this.sendSocketNotification("AUTO_LOCATION");
-		} else {
-			this.scheduleUpdate(this.config.initialLoadDelay);
-		}
-	},
-
-	socketNotificationReceived: function (notification, payload) {
-		if (notification === "UPDATE_LOCATION") {
-			this.config.location = payload.location;
-			this.scheduleUpdate(this.config.initialLoadDelay);
-		}
 	},
 
 	// Override dom generator.

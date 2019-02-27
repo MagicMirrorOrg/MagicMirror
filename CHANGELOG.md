@@ -15,8 +15,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Italian translation for "Feels"
 - Disabled the screensaver on raspbian with installation script 
 - Added option to truncate the number of vertical lines a calendar item can span if `wrapEvents` is enabled.
-- Added autoLocation options for weather forcast and current weather modules.
-- Added autoTimezone option for the default clock module.
 - Danish translation for "Feels" and "Weeks"
 - Added option to split multiple day events in calendar to separate numbered events
 - Slovakian translation
