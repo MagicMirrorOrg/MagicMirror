@@ -61,4 +61,4 @@ self.sendNotification("SHOW_ALERT", {});
 
 ## Open Source Licenses
 ### [NotificationStyles](https://github.com/codrops/NotificationStyles)
-See [ympanus.net](http://tympanus.net/codrops/licensing/) for license.
+See [tympanus.net](http://tympanus.net/codrops/licensing/) for license.
