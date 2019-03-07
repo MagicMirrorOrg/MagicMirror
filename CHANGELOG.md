@@ -50,6 +50,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added fade, fadePoint and maxNumberOfDays properties to the forecast mode [#1516](https://github.com/MichMich/MagicMirror/issues/1516)
 - Fixed Loading string and decimalSymbol string replace [#1538](https://github.com/MichMich/MagicMirror/issues/1538)
 - Show Snow amounts in new weather module [#1545](https://github.com/MichMich/MagicMirror/issues/1545)
+- Added weather.gov as a new weather provider for US locations
 
 ## [2.6.0] - 2019-01-01
 

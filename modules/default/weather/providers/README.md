@@ -85,7 +85,7 @@ Notify the delegate that new weather is available.
 
 #### `fetchData(url, method, data)`
 
-A convinience function to make requests. It returns a promise.
+A convenience function to make requests. It returns a promise.
 
 ### WeatherObject
 
