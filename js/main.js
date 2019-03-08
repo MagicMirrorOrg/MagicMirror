@@ -44,7 +44,7 @@ var MM = (function() {
 				moduleHeader.innerHTML = module.getHeader();
 				moduleHeader.className = "module-header";
 				dom.appendChild(moduleHeader);
-			} 
+			}
 
 			var moduleContent = document.createElement("div");
 			moduleContent.className = "module-content";
