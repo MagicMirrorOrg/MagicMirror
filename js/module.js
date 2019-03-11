@@ -278,8 +278,7 @@ var Module = Class.extend({
 		this.loadDependencies("getScripts", callback);
 	},
 
-	/* 
-  encies(funcName, callback)
+	/* loadDependencies(funcName, callback)
 	 * Helper method to load all dependencies.
 	 *
 	 * argument funcName string - Function name to call to get scripts or styles.
