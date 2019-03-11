@@ -31,7 +31,7 @@ Module.register('SampleModule', {
    getScripts: function() {
      return 
       [  
-        // sample of list of files to specify here, if no files,do not use this routine
+        // sample of list of files to specify here, if no files,do not use this routine, or return empty list
         
         //'script.js', // will try to load it from the vendor folder, otherwise it will load is from the module folder.
         //'moment.js', // this file is available in the vendor folder, so it doesn't need to be available in the module folder.
@@ -44,25 +44,25 @@ Module.register('SampleModule', {
    getStyles: function() {
     return 
      [ 
-      // sample of list of files to specify here, if no files, do not use this routine
+      // sample of list of files to specify here, if no files, do not use this routine, , or return empty list
       
       //'script.css', // will try to load it from the vendor folder, otherwise it will load is from the module folder.
       //'font-awesome.css', // this file is available in the vendor folder, so it doesn't need to be avialable in the module folder.
       //this.file('anotherfile.css'), // this file will be loaded straight from the module folder.
       //'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css',  // this file will be loaded from the bootstrapcdn servers.
      ]
-     }, 
+   }, 
       
      // return list of translation files to use, if any
    getTranslations: function() {
-      return 
-      [ 
-        // sample of list of files to specify here, if no files, do not use this routine
-        
-        // en: "translations/en.json",  (folders and filenames in your module folder)
-        // de: "translations/de.json"
-    ]
-  }, 
+    return 
+     [ 
+       // sample of list of files to specify here, if no files, do not use this routine, , or return empty list
+       
+       // en: "translations/en.json",  (folders and filenames in your module folder)
+       // de: "translations/de.json"
+     ]
+   }, 
   
   // this is the major worker of the module, it provides the displayable content for this module
   getDom: function() {
