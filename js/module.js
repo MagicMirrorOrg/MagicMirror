@@ -278,7 +278,8 @@ var Module = Class.extend({
 		this.loadDependencies("getScripts", callback);
 	},
 
-	/* loadDependencies(funcName, callback)
+	/* 
+  encies(funcName, callback)
 	 * Helper method to load all dependencies.
 	 *
 	 * argument funcName string - Function name to call to get scripts or styles.
@@ -289,7 +290,7 @@ var Module = Class.extend({
 		var dependencies = this[funcName]();
 
 		var loadNextDependency = function () {
-			if (dependencies.length > 0) {
+			if (dependencies && (Array.isArray(dependencies) && dependencies.length > 0)) {
 				var nextDependency = dependencies[0];
 				Loader.loadFile(nextDependency, self, function () {
 					dependencies = dependencies.slice(1);
@@ -317,7 +318,7 @@ var Module = Class.extend({
 		// defined translation after the following line.
 		for (var first in translations) { break; }
 
-		if (translations) {
+		if (translations && (Array.isArray(translations) && translations.length>0)) {
 			var translationFile = translations[lang] || undefined;
 			var translationsFallbackFile = translations[first];
 
