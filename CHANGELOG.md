@@ -39,6 +39,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix null dereference in moduleNeedsUpdate when the module isn't visible
 - Calendar: Fixed event end times by setting default calendarEndTime to "LT" (Local time format). [#1479]
 - Calendar: Fixed missing calendar fetchers after server process restarts [#1589](https://github.com/MichMich/MagicMirror/issues/1589)
+- Notification: fixed background color (was white text on white background)
 
 ### New weather module
 - Fixed weather forecast table display [#1499](https://github.com/MichMich/MagicMirror/issues/1499).
