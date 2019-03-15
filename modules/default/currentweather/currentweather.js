@@ -23,7 +23,7 @@ Module.register("currentweather",{
 		showWindDirection: true,
 		showWindDirectionAsArrow: false,
 		useBeaufort: true,
-		useKMPHwind: false,
+		useKMPHWind: false,
 		lang: config.language,
 		decimalSymbol: ".",
 		showHumidity: false,
@@ -384,7 +384,7 @@ Module.register("currentweather",{
 
 		if (this.config.useBeaufort){
 			this.windSpeed = this.ms2Beaufort(this.roundValue(data.wind.speed));
-		} else if (this.config.useKMPHwind) {
+		} else if (this.config.useKMPHWind) {
 			this.windSpeed = parseFloat((data.wind.speed * 60 * 60) / 1000).toFixed(0);
 		} else {
 			this.windSpeed = parseFloat(data.wind.speed).toFixed(0);
