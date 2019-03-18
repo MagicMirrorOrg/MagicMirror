@@ -39,9 +39,9 @@ var MM = (function() {
 			dom.opacity = 0;
 			wrapper.appendChild(dom);
 
-			if (typeof module.data.header !== "undefined" && module.data.header !== "") {
+			if (typeof module.getHeader() !== "undefined" && module.getHeader() !== "") {
 				var moduleHeader = document.createElement("header");
-				moduleHeader.innerHTML = module.data.header;
+				moduleHeader.innerHTML = module.getHeader();
 				moduleHeader.className = "module-header";
 				dom.appendChild(moduleHeader);
 			}
