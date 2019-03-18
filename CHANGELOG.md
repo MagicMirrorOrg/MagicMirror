@@ -40,6 +40,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Calendar: Fixed event end times by setting default calendarEndTime to "LT" (Local time format). [#1479]
 - Calendar: Fixed missing calendar fetchers after server process restarts [#1589](https://github.com/MichMich/MagicMirror/issues/1589)
 - Notification: fixed background color (was white text on white background)
+- Use getHeader instead of data.header when creating the DOM so overwriting the function also propagates into it
 
 ### New weather module
 - Fixed weather forecast table display [#1499](https://github.com/MichMich/MagicMirror/issues/1499).
