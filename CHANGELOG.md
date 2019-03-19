@@ -19,6 +19,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added option to split multiple day events in calendar to separate numbered events
 - Slovakian translation
 - Alerts now can contain Font Awesome icons
+- Notifications display time can be set in request
 
 ### Updated
 - Bumped the Electron dependency to v3.0.13 to support the most recent Raspbian. [#1500](https://github.com/MichMich/MagicMirror/issues/1500)
@@ -39,6 +40,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix null dereference in moduleNeedsUpdate when the module isn't visible
 - Calendar: Fixed event end times by setting default calendarEndTime to "LT" (Local time format). [#1479]
 - Calendar: Fixed missing calendar fetchers after server process restarts [#1589](https://github.com/MichMich/MagicMirror/issues/1589)
+- Notification: fixed background color (was white text on white background)
 - Use getHeader instead of data.header when creating the DOM so overwriting the function also propagates into it
 
 ### New weather module
