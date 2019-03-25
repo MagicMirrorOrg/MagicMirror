@@ -125,7 +125,7 @@ The following wiki links are helpful for the initial configuration of your Magic
    **Note:** If you used the installer script. This step is already done for you.
 
 2. Modify your required settings. \
-   Note: You'll can check your configuration running `npm run config:check` in `/home/pi/MagicMirror`.
+   Note: You can check your configuration running `npm run config:check` in `/home/pi/MagicMirror`.
 
 
 The following properties can be configured:
