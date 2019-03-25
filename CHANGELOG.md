@@ -20,6 +20,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Slovakian translation
 - Alerts now can contain Font Awesome icons
 - Notifications display time can be set in request
+- newsfeed: added support for `ARTICLE_INFO_REQUEST` notification
 
 ### Updated
 - Bumped the Electron dependency to v3.0.13 to support the most recent Raspbian. [#1500](https://github.com/MichMich/MagicMirror/issues/1500)
