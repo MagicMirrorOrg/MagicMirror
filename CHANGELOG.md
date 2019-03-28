@@ -20,6 +20,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Slovakian translation
 - Alerts now can contain Font Awesome icons
 - Notifications display time can be set in request
+- Newsfeed: added support for `ARTICLE_INFO_REQUEST` notification
 - Add `name` config option for calendars to be sent along with event broadcasts
 
 ### Updated

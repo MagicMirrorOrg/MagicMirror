@@ -189,7 +189,7 @@ Module.register("newsfeed",{
 				fullArticle.style.top = "0";
 				fullArticle.style.left = "0";
 				fullArticle.style.border = "none";
-				fullArticle.src = typeof this.newsItems[this.activeItem].url  === "string" ? this.newsItems[this.activeItem].url : this.newsItems[this.activeItem].url.href;
+				fullArticle.src = this.getActiveItemURL()
 				fullArticle.style.zIndex = 1;
 				wrapper.appendChild(fullArticle);
 			}
@@ -208,6 +208,10 @@ Module.register("newsfeed",{
 		}
 
 		return wrapper;
+	},
+
+	getActiveItemURL: function() {
+		return typeof this.newsItems[this.activeItem].url  === "string" ? this.newsItems[this.activeItem].url : this.newsItems[this.activeItem].url.href;
 	},
 
 	/* registerFeeds()
@@ -387,6 +391,14 @@ Module.register("newsfeed",{
 			} else {
 				this.showFullArticle();
 			}
+		} else if (notification === "ARTICLE_INFO_REQUEST"){
+			this.sendNotification("ARTICLE_INFO_RESPONSE", {
+				title:  this.newsItems[this.activeItem].title,
+				source: this.newsItems[this.activeItem].sourceTitle,
+				date:   this.newsItems[this.activeItem].pubdate,
+				desc:   this.newsItems[this.activeItem].description,
+				url:    this.getActiveItemURL()
+			})
 		} else {
 			Log.info(this.name + " - unknown notification, ignoring: " + notification);
 		}
