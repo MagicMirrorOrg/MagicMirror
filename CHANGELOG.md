@@ -20,7 +20,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Slovakian translation
 - Alerts now can contain Font Awesome icons
 - Notifications display time can be set in request
-- newsfeed: added support for `ARTICLE_INFO_REQUEST` notification
+- Newsfeed: added support for `ARTICLE_INFO_REQUEST` notification
+- Add `name` config option for calendars to be sent along with event broadcasts
 
 ### Updated
 - Bumped the Electron dependency to v3.0.13 to support the most recent Raspbian. [#1500](https://github.com/MichMich/MagicMirror/issues/1500)
@@ -43,6 +44,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Calendar: Fixed missing calendar fetchers after server process restarts [#1589](https://github.com/MichMich/MagicMirror/issues/1589)
 - Notification: fixed background color (was white text on white background)
 - Use getHeader instead of data.header when creating the DOM so overwriting the function also propagates into it
+- Fix documentation of `useKMPHwind` option in currentweather
 
 ### New weather module
 - Fixed weather forecast table display [#1499](https://github.com/MichMich/MagicMirror/issues/1499).
@@ -86,7 +88,6 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 - Ignore entries with unparseable details in the calendar module
 - Bug showing FullDayEvents one day too long in calendar fixed
 - Bug in newsfeed when `removeStartTags` is used on the description [#1478](https://github.com/MichMich/MagicMirror/issues/1478)
-- Fix documentation of `useKMPHwind` option in currentweather
 
 ### Updated
 - The default calendar setting `showEnd` is changed to `false`.

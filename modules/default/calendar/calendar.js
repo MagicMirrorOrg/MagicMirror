@@ -569,6 +569,17 @@ Module.register("calendar", {
 		return this.getCalendarProperty(url, "timeClass", "");
 	},
 
+	/* calendarNameForUrl(url)
+	 * Retrieves the calendar name for a specific url.
+	 *
+	 * argument url string - Url to look for.
+	 *
+	 * return string - The name of the calendar
+	 */
+	calendarNameForUrl: function (url) {
+		return this.getCalendarProperty(url, "name", "");
+	},
+
 	/* colorForUrl(url)
 	 * Retrieves the color for a specific url.
 	 *
@@ -709,6 +720,7 @@ Module.register("calendar", {
 			for (var e in calendar) {
 				var event = cloneObject(calendar[e]);
 				event.symbol = this.symbolsForUrl(url);
+				event.calendarName = this.calendarNameForUrl(url);
 				event.color = this.colorForUrl(url);
 				delete event.url;
 				eventList.push(event);
