@@ -13,6 +13,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - Italian translation for "Feels"
+- Basic Klingon (tlhIngan Hol) translations
 - Disabled the screensaver on raspbian with installation script 
 - Added option to truncate the number of vertical lines a calendar item can span if `wrapEvents` is enabled.
 - Danish translation for "Feels" and "Weeks"
