@@ -39,7 +39,8 @@ var translations = {
 	"bg" : "translations/bg.json",  // Bulgarian
 	"cs" : "translations/cs.json",  // Czech
 	"hr" : "translations/hr.json", // Croatian
-	"sk" : "translations/sk.json"  // Slovak
+	"sk" : "translations/sk.json",  // Slovak
+	"tlh" : "translations/tlh.json" // Klingon
 };
 
 if (typeof module !== "undefined") {module.exports = translations;}
