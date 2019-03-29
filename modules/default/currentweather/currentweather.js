@@ -265,7 +265,7 @@ Module.register("currentweather",{
 
 	// Override getHeader method.
 	getHeader: function() {
-		if (this.config.appendLocationNameToHeader) {
+		if (this.config.appendLocationNameToHeader && this.data.header !== undefined) {
 			return this.data.header + " " + this.fetchedLocationName;
 		}
 
