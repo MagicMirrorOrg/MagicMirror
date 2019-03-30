@@ -38,9 +38,9 @@ Module.register("Taiwan-Bus", {
 	},
 
 	// Define required scripts.
-	getStyles: function () {
-		return ["font-awesome5.css", "font-awesome5.v4shims.css"];
-	},
+	// getStyles: function () {
+	// 	return ["font-awesome5.css", "font-awesome5.v4shims.css"];
+	// },
 
 	// Define required scripts.
 	getScripts: function () {
@@ -201,5 +201,8 @@ Module.register("Taiwan-Bus", {
 
 		//this.sendNotification("BUS_EVENTS", eventList);
 
+	},
+	getStyles: function () {
+		return ["bus.css", "font-awesome5.css", "font-awesome5.v4shims.css"];
 	}
 });

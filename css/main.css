@@ -16,8 +16,8 @@ body {
   background: #000;
   color: #aaa;
   font-family: "Roboto Condensed", sans-serif;
-  font-weight: 400;
-  font-size: 2em;
+  font-weight: 800;
+  font-size: 4em;
   line-height: 1.5em;
   -webkit-font-smoothing: antialiased;
 }
@@ -39,49 +39,49 @@ body {
 }
 
 .xsmall {
-  font-size: 15px;
-  line-height: 20px;
+  font-size: 30px;
+  line-height: 40px;
 }
 
 .small {
-  font-size: 20px;
-  line-height: 25px;
+  font-size: 40px;
+  line-height: 50px;
 }
 
 .medium {
-  font-size: 30px;
-  line-height: 35px;
+  font-size: 60px;
+  line-height: 70px;
 }
 
 .large {
-  font-size: 65px;
-  line-height: 65px;
+  font-size: 130px;
+  line-height: 130px;
 }
 
 .xlarge {
-  font-size: 75px;
-  line-height: 75px;
-  letter-spacing: -3px;
+  font-size: 150px;
+  line-height: 150px;
+  letter-spacing: -5px;
 }
 
 .thin {
   font-family: Roboto, sans-serif;
-  font-weight: 100;
+  font-weight: 400;
 }
 
 .light {
   font-family: "Roboto Condensed", sans-serif;
-  font-weight: 300;
+  font-weight: 600;
 }
 
 .regular {
   font-family: "Roboto Condensed", sans-serif;
-  font-weight: 400;
+  font-weight: 800;
 }
 
 .bold {
   font-family: "Roboto Condensed", sans-serif;
-  font-weight: 700;
+  font-weight: 1400;
 }
 
 .align-right {
