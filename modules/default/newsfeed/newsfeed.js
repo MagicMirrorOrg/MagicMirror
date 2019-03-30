@@ -7,6 +7,7 @@
  * MIT Licensed.
  */
 
+
 Module.register("newsfeed",{
 
 	// Default module config.
