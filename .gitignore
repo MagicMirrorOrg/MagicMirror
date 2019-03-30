@@ -64,7 +64,7 @@ Temporary Items
 !/modules/node_helper/**
 
 # Ignore all modules except the default modules.
-/modules/**
+/modules/node_modules
 !/modules/default
 !/modules/default/**
 !/modules/README.md**

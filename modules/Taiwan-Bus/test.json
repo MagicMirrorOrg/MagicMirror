@@ -1,0 +1,887 @@
+[
+    {
+        "StopName": {
+            "Zh_tw": "重陽橋",
+            "En": "Chongyang Bridge"
+        },
+        "RouteName": {
+            "Zh_tw": "669",
+            "En": "669"
+        },
+        "Direction": 1,
+        "EstimateTime": 133,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+
+    {
+        "StopName": { "Zh_tw": "葫蘆堵市場", "En": "Huludu Market" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 3109,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "海光新村", "En": "Haiguang New Village" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 3071,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "社子消防分隊", "En": "Shezi Fire Department" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 3024,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "污水處理廠", "En": "Sewage Treatment Plant" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 2969,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "鄰江里", "En": "Linjiang Li" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 2894,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "天師宮", "En": "Tianshi Temple" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 2804,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "延平國小", "En": "Yanping Elementary School" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 2761,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "延三觀光夜市",
+            "En": "Yanping N. Rd. Night Market"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 2670,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "臺北橋", "En": "Taipei Bridge" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 2600,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "保安街口", "En": "Baoan St. Entrance" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 2536,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "民生西路口(大稻埕碼頭)",
+            "En": "Minsheng W. Rd. Entrance (Dadaocheng Wharf)"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 2456,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopNPame": {
+            "Zh_tw": "南京西路口(鈕釦街)",
+            "En": "Nanjing W. Rd. Entrance"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 2364,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "延平長安路口",
+            "En": "Yanping and Changan Intersection"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 2319,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "延平鄭州路口",
+            "En": "Yanping and Zhengzhou Intersection"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 2234,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "臺北車站(鄭州)",
+            "En": "Taipei Main Sta. (Zhengzhou)"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 2066,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "市民林森路口",
+            "En": "Civic Blvd. and Linsen Intersection"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 1955,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "華山公園(市民)",
+            "En": "Huashan Park (Civic Blvd.)"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 1875,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "華山公園(市民大道一)",
+            "En": "Huashan Park (Civic Blvd. 1)"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 1846,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "光華商場", "En": "Guanghua Market" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 1785,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "懷生國宅",
+            "En": "Huaisheng Public Housing Complex"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 1701,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "忠泰美術館", "En": "Jut Art Museum" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 1619,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "懷生國小",
+            "En": "Huaisheng Elementary School"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 1561,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "市民復興路口",
+            "En": "Civic Blvd. and Fuxing Intersection"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 1516,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "微風廣場", "En": "Breeze Center" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 1433,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "市民敦化路口",
+            "En": "Civic Blvd. and Dunhua Intersection"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 1396,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "市民延吉街口",
+            "En": "Civic Blvd. and Yanji Intersection"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 1271,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "市民光復路口",
+            "En": "Civic Blvd. and Guangfu Intersection"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 1141,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "京華城", "En": "Living Mall" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 1079,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "東興路", "En": "Dongxing Rd." },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 921,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "松山高中(基隆路)",
+            "En": "Songshan High School(Keelung Rd.)"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 730,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "市政府(松智)",
+            "En": "Taipei City Hall(Songzhi )"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 462,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "101國際購物中心", "En": "Taipei 101" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 348,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "松廉路", "En": "Songlian Rd." },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 288,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "信義行政中心(松仁)",
+            "En": "Xinyi Dist. Admin. Center(Songren)"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 251,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "松壽路口", "En": "Songshou Rd. Entrance" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 183,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "市政府(松智)",
+            "En": "Taipei City Hall(Songzhi )"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 3576,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "市政府(松高)",
+            "En": "Taipei City Hall(Songgao Rd.)"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 3376,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "松山高中(基隆路)",
+            "En": "Songshan High School(Keelung Rd.)"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 3261,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "東興路", "En": "Dongxing Rd." },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 3150,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "京華城", "En": "Living Mall" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 3055,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "市民光復路口",
+            "En": "Civic Blvd. and Guangfu Intersection"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 3011,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "市民延吉街口",
+            "En": "Civic Blvd. and Yanji Intersection"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 2889,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "市民敦化路口",
+            "En": "Civic Blvd. and Dunhua Intersection"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 2805,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "微風廣場", "En": "Breeze Center" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 2668,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "懷生國小",
+            "En": "Huaisheng Elementary School"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 2575,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "忠泰美術館", "En": "Jut Art Museum" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 2523,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "懷生國宅",
+            "En": "Huaisheng Public Housing Complex"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 2474,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "光華商場", "En": "Guanghua Market" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 2355,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "華山公園(市民大道一)",
+            "En": "Huashan Park (Civic Blvd. 1)"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 2268,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "華山公園(市民)",
+            "En": "Huashan Park (Civic Blvd.)"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 2239,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "市民林森路口",
+            "En": "Civic Blvd. and Linsen Intersection"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 2176,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "臺北車站(鄭州)",
+            "En": "Taipei Main Sta. (Zhengzhou)"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 2048,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "延平鄭州路口",
+            "En": "Yanping and Zhengzhou Intersection"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 1774,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "延平長安路口",
+            "En": "Yanping and Changan Intersection"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 1703,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "南京西路口(鈕釦街)",
+            "En": "Nanjing W. Rd. Entrance"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 1620,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "民生西路口(大稻埕碼頭)",
+            "En": "Dadaocheng Wharf"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 1501,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "保安街口", "En": "Baoan St. Entrance" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 1422,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "臺北橋", "En": "Taipei Bridge" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 1367,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "延三觀光夜市",
+            "En": "Yanping N. Rd. Night Market"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 1256,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "延平國小", "En": "Yanping Elementary School" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 1210,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "天師宮", "En": "Tianshi Temple" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 1139,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "鄰江里", "En": "Linjiang Li" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 1060,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "重陽橋", "En": "Chongyang Bridge" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 612,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "五華國小", "En": "Wuhua Elementary School" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 469,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "吉祥街口", "En": "Jixiang St. Entrance" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 368,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "自然公園", "En": "Nature Park" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 351,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "自然公園", "En": "Nature Park" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 523,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "吉祥街口", "En": "Jixiang St. Entrance" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 493,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "五華國小", "En": "Wuhua Elementary School" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 391,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "污水處理廠", "En": "Sewage Treatment Plant" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 968,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "社子消防分隊", "En": "Shezi Fire Department" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 896,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "海光新村", "En": "Haiguang New Village" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 845,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "葫蘆堵市場", "En": "Huludu Market" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 783,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "葫蘆寺", "En": "Hulu Temple" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 0,
+        "EstimateTime": 691,
+        "StopStatus": 1,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": { "Zh_tw": "復盛京華(往西)", "En": "Fusheng Jinhua" },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 1110,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    },
+    {
+        "StopName": {
+            "Zh_tw": "民生西路口(大稻埕碼頭)",
+            "En": "Dadaocheng Wharf"
+        },
+        "RouteName": { "Zh_tw": "669", "En": "669" },
+        "Direction": 1,
+        "EstimateTime": 2409,
+        "StopStatus": 0,
+        "MessageType": 0,
+        "SrcUpdateTime": "2019-03-30T12:54:20+08:00",
+        "UpdateTime": "2019-03-30T12:54:20+08:00"
+    }
+]
