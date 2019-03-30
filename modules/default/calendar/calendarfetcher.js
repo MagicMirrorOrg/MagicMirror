@@ -7,20 +7,19 @@
 
 var ical = require("./vendor/ical.js");
 var moment = require("moment");
-
-var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth) {
+var CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth) {
 	var self = this;
 
 	var reloadTimer = null;
 	var events = [];
 
-	var fetchFailedCallback = function() {};
-	var eventsReceivedCallback = function() {};
+	var fetchFailedCallback = function () {};
+	var eventsReceivedCallback = function () {};
 
 	/* fetchCalendar()
 	 * Initiates calendar fetch.
 	 */
-	var fetchCalendar = function() {
+	var fetchCalendar = function () {
 
 		clearTimeout(reloadTimer);
 		reloadTimer = null;
@@ -28,32 +27,32 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 		nodeVersion = Number(process.version.match(/^v(\d+\.\d+)/)[1]);
 		var opts = {
 			headers: {
-				"User-Agent": "Mozilla/5.0 (Node.js "+ nodeVersion + ") MagicMirror/"  + global.version +  " (https://github.com/MichMich/MagicMirror/)"
+				"User-Agent": "Mozilla/5.0 (Node.js " + nodeVersion + ") MagicMirror/" + global.version + " (https://github.com/MichMich/MagicMirror/)"
 			},
 			gzip: true
 		};
 
 		if (auth) {
-			if(auth.method === "bearer"){
+			if (auth.method === "bearer") {
 				opts.auth = {
 					bearer: auth.pass
 				}
 
-			}else{
+			} else {
 				opts.auth = {
 					user: auth.user,
 					pass: auth.pass
 				};
 
-				if(auth.method === "digest"){
+				if (auth.method === "digest") {
 					opts.auth.sendImmediately = false;
-				}else{
+				} else {
 					opts.auth.sendImmediately = true;
 				}
 			}
 		}
 
-		ical.fromURL(url, opts, function(err, data) {
+		ical.fromURL(url, opts, function (err, data) {
 			if (err) {
 				fetchFailedCallback(self, err);
 				scheduleTimer();
@@ -63,9 +62,11 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 			// console.log(data);
 			newEvents = [];
 
-			var limitFunction = function(date, i) {return i < maximumEntries;};
+			var limitFunction = function (date, i) {
+				return i < maximumEntries;
+			};
 
-			var eventDate = function(event, time) {
+			var eventDate = function (event, time) {
 				return (event[time].length === 8) ? moment(event[time], "YYYYMMDD") : moment(new Date(event[time]));
 			};
 
@@ -73,7 +74,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 				var event = data[e];
 				var now = new Date();
 				var today = moment().startOf("day").toDate();
-				var future = moment().startOf("day").add(maximumNumberOfDays, "days").subtract(1,"seconds").toDate(); // Subtract 1 second so that events that start on the middle of the night will not repeat.
+				var future = moment().startOf("day").add(maximumNumberOfDays, "days").subtract(1, "seconds").toDate(); // Subtract 1 second so that events that start on the middle of the night will not repeat.
 
 				// FIXME:
 				// Ugly fix to solve the facebook birthday issue.
@@ -91,8 +92,8 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 					var endDate;
 					if (typeof event.end !== "undefined") {
 						endDate = eventDate(event, "end");
-					} else if(typeof event.duration !== "undefined") {
-						dur=moment.duration(event.duration);
+					} else if (typeof event.duration !== "undefined") {
+						dur = moment.duration(event.duration);
 						endDate = startDate.clone().add(dur);
 					} else {
 						if (!isFacebookBirthday) {
@@ -113,7 +114,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 					var title = "Event";
 					if (event.summary) {
 						title = (typeof event.summary.val !== "undefined") ? event.summary.val : event.summary;
-					} else if(event.description) {
+					} else if (event.description) {
 						title = event.description;
 					}
 
@@ -175,8 +176,8 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 						var rule = event.rrule;
 
 						// can cause problems with e.g. birthdays before 1900
-						if(rule.origOptions && rule.origOptions.dtstart && rule.origOptions.dtstart.getFullYear() < 1900 ||
-							rule.options && rule.options.dtstart && rule.options.dtstart.getFullYear() < 1900){
+						if (rule.origOptions && rule.origOptions.dtstart && rule.origOptions.dtstart.getFullYear() < 1900 ||
+							rule.options && rule.options.dtstart && rule.options.dtstart.getFullYear() < 1900) {
 							rule.origOptions.dtstart.setYear(1900);
 							rule.options.dtstart.setYear(1900);
 						}
@@ -185,7 +186,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 
 						for (var d in dates) {
 							startDate = moment(new Date(dates[d]));
-							endDate  = moment(parseInt(startDate.format("x")) + duration, "x");
+							endDate = moment(parseInt(startDate.format("x")) + duration, "x");
 
 							if (timeFilterApplies(now, endDate, dateFilter)) {
 								continue;
@@ -246,7 +247,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 				}
 			}
 
-			newEvents.sort(function(a, b) {
+			newEvents.sort(function (a, b) {
 				return a.startDate - b.startDate;
 			});
 
@@ -262,10 +263,10 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 	/* scheduleTimer()
 	 * Schedule the timer for the next update.
 	 */
-	var scheduleTimer = function() {
+	var scheduleTimer = function () {
 		//console.log('Schedule update timer.');
 		clearTimeout(reloadTimer);
-		reloadTimer = setTimeout(function() {
+		reloadTimer = setTimeout(function () {
 			fetchCalendar();
 		}, reloadInterval);
 	};
@@ -277,7 +278,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 	 *
 	 * return bool - The event is a fullday event.
 	 */
-	var isFullDayEvent = function(event) {
+	var isFullDayEvent = function (event) {
 		if (event.start.length === 8) {
 			return true;
 		}
@@ -302,7 +303,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 	 *
 	 * return bool - The event should be filtered out
 	 */
-	var timeFilterApplies = function(now, endDate, filter) {
+	var timeFilterApplies = function (now, endDate, filter) {
 		if (filter) {
 			var until = filter.split(" "),
 				value = parseInt(until[0]),
@@ -336,14 +337,14 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 	/* startFetch()
 	 * Initiate fetchCalendar();
 	 */
-	this.startFetch = function() {
+	this.startFetch = function () {
 		fetchCalendar();
 	};
 
 	/* broadcastItems()
 	 * Broadcast the existing events.
 	 */
-	this.broadcastEvents = function() {
+	this.broadcastEvents = function () {
 		//console.log('Broadcasting ' + events.length + ' events.');
 		eventsReceivedCallback(self);
 	};
@@ -353,7 +354,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 	 *
 	 * argument callback function - The on success callback.
 	 */
-	this.onReceive = function(callback) {
+	this.onReceive = function (callback) {
 		eventsReceivedCallback = callback;
 	};
 
@@ -362,7 +363,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 	 *
 	 * argument callback function - The on error callback.
 	 */
-	this.onError = function(callback) {
+	this.onError = function (callback) {
 		fetchFailedCallback = callback;
 	};
 
@@ -371,7 +372,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 	 *
 	 * return string - The url of this fetcher.
 	 */
-	this.url = function() {
+	this.url = function () {
 		return url;
 	};
 
@@ -380,7 +381,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 	 *
 	 * return array - The current available events for this fetcher.
 	 */
-	this.events = function() {
+	this.events = function () {
 		return events;
 	};
 

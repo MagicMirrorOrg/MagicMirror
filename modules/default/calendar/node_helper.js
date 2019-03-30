@@ -11,7 +11,7 @@ var CalendarFetcher = require("./calendarfetcher.js");
 
 module.exports = NodeHelper.create({
 	// Override start method.
-	start: function() {
+	start: function () {
 		var events = [];
 
 		this.fetchers = [];
@@ -21,7 +21,7 @@ module.exports = NodeHelper.create({
 	},
 
 	// Override socketNotificationReceived method.
-	socketNotificationReceived: function(notification, payload) {
+	socketNotificationReceived: function (notification, payload) {
 		if (notification === "ADD_CALENDAR") {
 			//console.log('ADD_CALENDAR: ');
 			this.createFetcher(payload.url, payload.fetchInterval, payload.excludedEvents, payload.maximumEntries, payload.maximumNumberOfDays, payload.auth);
@@ -36,20 +36,22 @@ module.exports = NodeHelper.create({
 	 * attribute reloadInterval number - Reload interval in milliseconds.
 	 */
 
-	createFetcher: function(url, fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth) {
+	createFetcher: function (url, fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth) {
 		var self = this;
 
 		if (!validUrl.isUri(url)) {
-			self.sendSocketNotification("INCORRECT_URL", {url: url});
+			self.sendSocketNotification("INCORRECT_URL", {
+				url: url
+			});
 			return;
 		}
 
 		var fetcher;
 		if (typeof self.fetchers[url] === "undefined") {
-			console.log("Create new calendar fetcher for url: " + url + " - Interval: " + fetchInterval);
+			console.log("ACreate new calendar fetcher for url: " + url + " - Interval: " + fetchInterval);
 			fetcher = new CalendarFetcher(url, fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth);
 
-			fetcher.onReceive(function(fetcher) {
+			fetcher.onReceive(function (fetcher) {
 				//console.log('Broadcast events.');
 				//console.log(fetcher.events());
 
@@ -59,7 +61,7 @@ module.exports = NodeHelper.create({
 				});
 			});
 
-			fetcher.onError(function(fetcher, error) {
+			fetcher.onError(function (fetcher, error) {
 				self.sendSocketNotification("FETCH_ERROR", {
 					url: fetcher.url(),
 					error: error
