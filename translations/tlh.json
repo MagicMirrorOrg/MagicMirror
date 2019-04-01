@@ -1,0 +1,35 @@
+{
+	"LOADING": "loS &hellip;",
+
+	"TODAY": "DaHjaj",
+	"TOMORROW": "wa'leS",
+	"DAYAFTERTOMORROW": "cha'leS",
+	"RUNNING": "Dor",
+	"EMPTY": "Sumbe' wanI'.",
+
+	"WEEK": "Hogh (terran) {weekNumber}",
+
+	"N": "N",
+	"NNE": "NNE",
+	"NE": "NE",
+	"ENE": "ENE",
+	"E": "chan",
+	"ESE": "ESE",
+	"SE": "SE",
+	"SSE": "SSE",
+	"S": "S",
+	"SSW": "SSW",
+	"SW": "tIng",
+	"WSW": "WSW",
+	"W": "W",
+	"WNW": "WNW",
+	"NW": "'ev",
+	"NNW": "NNW",
+
+	"UPDATE_NOTIFICATION": " De'chu' MagicMirror² lI'laH.",
+	"UPDATE_NOTIFICATION_MODULE": "bobcho' {MODULE_NAME} lI'laH De'chu.",
+	"UPDATE_INFO_SINGLE": "The current installation is {COMMIT_COUNT} commit behind on the {BRANCH_NAME} branch.",
+	"UPDATE_INFO_MULTIPLE": "The current installation is {COMMIT_COUNT} commits behind on the {BRANCH_NAME} branch.",
+	
+	"FEELS": "jem"
+}

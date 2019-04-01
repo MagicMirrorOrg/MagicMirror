@@ -5,7 +5,7 @@
  *
  * By Michael Teeuw http://michaelteeuw.nl
  * MIT Licensed.
- * 
+ *
  * This class is the blueprint for a weather provider.
  */
 
@@ -56,8 +56,6 @@ WeatherProvider.register("openweathermap", {
 			})
 	},
 
-
-
 	/** OpenWeatherMap Specific Methods - These are not part of the default provider methods */
 	/*
 	 * Gets the complete url for the request
@@ -66,7 +64,7 @@ WeatherProvider.register("openweathermap", {
 		return this.config.apiBase + this.config.apiVersion + this.config.weatherEndpoint + this.getParams();
 	},
 
-	/* 
+	/*
 	 * Generate a WeatherObject based on currentWeatherInformation
 	 */
 	generateWeatherObjectFromCurrentWeather(currentWeatherData) {
@@ -87,6 +85,105 @@ WeatherProvider.register("openweathermap", {
 	 * Generate WeatherObjects based on forecast information
 	 */
 	generateWeatherObjectsFromForecast(forecasts) {
+
+		if (this.config.weatherEndpoint == "/forecast") {
+			return this.fetchForecastHourly(forecasts);
+		} else if (this.config.weatherEndpoint == "/forecast/daily") {
+			return this.fetchForecastDaily(forecasts);
+		}
+		// if weatherEndpoint does not match forecast or forecast/daily, what should be returned?
+		const days = [new WeatherObject(this.config.units)];
+		return days;
+	},
+
+	/*
+	 * fetch forecast information for 3-hourly forecast (available for free subscription).
+	 */
+	fetchForecastHourly(forecasts) {
+		// initial variable declaration
+		const days = [];
+		// variables for temperature range and rain
+		let minTemp = [];
+		let maxTemp = [];
+		let rain = 0;
+		let snow = 0;
+		// variable for date
+		let date = "";
+		let weather = new WeatherObject(this.config.units);
+
+		for (const forecast of forecasts) {
+
+			if (date !== moment(forecast.dt, "X").format("YYYY-MM-DD")) {
+				// calculate minimum/maximum temperature, specify rain amount
+				weather.minTemperature = Math.min.apply(null, minTemp);
+				weather.maxTemperature = Math.max.apply(null, maxTemp);
+				weather.rain = rain;
+				weather.snow = snow;
+				weather.precipitation = weather.rain + weather.snow;
+				// push weather information to days array
+				days.push(weather);
+				// create new weather-object
+				weather = new WeatherObject(this.config.units);
+
+				minTemp = [];
+				maxTemp = [];
+				rain = 0;
+				snow = 0;
+
+				// set new date
+				date = moment(forecast.dt, "X").format("YYYY-MM-DD");
+
+				// specify date
+				weather.date = moment(forecast.dt, "X");
+
+				// If the first value of today is later than 17:00, we have an icon at least!
+				weather.weatherType = this.convertWeatherType(forecast.weather[0].icon);
+
+			}
+				
+			if (moment(forecast.dt, "X").format("H") >= 8 && moment(forecast.dt, "X").format("H") <= 17) {
+				weather.weatherType = this.convertWeatherType(forecast.weather[0].icon);
+			}
+
+			// the same day as before
+			// add values from forecast to corresponding variables
+			minTemp.push(forecast.main.temp_min);
+			maxTemp.push(forecast.main.temp_max);
+
+			if (forecast.hasOwnProperty("rain")) {
+				if (this.config.units === "imperial" && !isNaN(forecast.rain["3h"])) {
+					rain += forecast.rain["3h"] / 25.4;
+				} else if (!isNaN(forecast.rain["3h"])) {
+					rain += forecast.rain["3h"];
+				}
+			}
+
+			if (forecast.hasOwnProperty("snow")) {
+				if (this.config.units === "imperial" && !isNaN(forecast.snow["3h"])) {
+					snow += forecast.snow["3h"] / 25.4;
+				} else if (!isNaN(forecast.snow["3h"])) {
+					snow += forecast.snow["3h"];
+				}
+			}
+		}
+
+		// last day
+		// calculate minimum/maximum temperature, specify rain amount
+		weather.minTemperature = Math.min.apply(null, minTemp);
+		weather.maxTemperature = Math.max.apply(null, maxTemp);
+		weather.rain = rain;
+		weather.snow = snow;
+		weather.precipitation = weather.rain + weather.snow;
+		// push weather information to days array
+		days.push(weather);
+		return days.slice(1);
+	},
+
+	/*
+	 * fetch forecast information for daily forecast (available for paid subscription or old apiKey).
+	 */
+	fetchForecastDaily(forecasts) {
+		// initial variable declaration
 		const days = [];
 
 		for (const forecast of forecasts) {
@@ -96,16 +193,35 @@ WeatherProvider.register("openweathermap", {
 			weather.minTemperature = forecast.temp.min;
 			weather.maxTemperature = forecast.temp.max;
 			weather.weatherType = this.convertWeatherType(forecast.weather[0].icon);
-			if (this.config.units === "imperial" && !isNaN(forecast.rain)) {
-				weather.rain = forecast.rain / 25.4
-			} else {
-				weather.rain = forecast.rain;
+			weather.rain = 0;
+			weather.snow = 0;
+
+			// forecast.rain not available if amount is zero
+			// The API always returns in millimeters
+			if (forecast.hasOwnProperty("rain")) {
+				if (this.config.units === "imperial" && !isNaN(forecast.rain)) {
+					weather.rain = forecast.rain / 25.4;
+				} else if (!isNaN(forecast.rain)) {
+					weather.rain = forecast.rain;
+				}
 			}
+
+			// forecast.snow not available if amount is zero
+			// The API always returns in millimeters
+			if (forecast.hasOwnProperty("snow")) {
+				if (this.config.units === "imperial" && !isNaN(forecast.snow)) {
+					weather.snow = forecast.snow / 25.4;
+				} else if (!isNaN(forecast.snow)) {
+					weather.snow = forecast.snow;
+				}
+			}
+
+			weather.precipitation = weather.rain + weather.snow;
 
 			days.push(weather);
 		}
 
-		return days;
+	return days;
 	},
 
 	/*
