@@ -9,7 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`. If you are having issues running Electron, make sure your [Raspbian is up to date](https://www.raspberrypi.org/documentation/raspbian/updating.md).
 
-❤️ **Donate:** Enjoying MagicMirror²? Please consider a donation! With your help we can continue improving the MagicMirror² core: https://magicmirror.builders/donate
+❤️ **Donate:** Enjoying MagicMirror²? Please consider a donation! With your help we can continue to improve the MagicMirror² core: https://magicmirror.builders/donate
 
 ### Added
 - Italian translation for "Feels"
