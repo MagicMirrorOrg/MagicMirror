@@ -49,7 +49,8 @@ Module.register("calendar", {
 		},
 		broadcastEvents: true,
 		excludedEvents: [],
-		sliceMultiDayEvents: false
+		sliceMultiDayEvents: false,
+		includePastEvents: false,
 	},
 
 	// Define required scripts.
@@ -83,7 +84,8 @@ Module.register("calendar", {
 
 			var calendarConfig = {
 				maximumEntries: calendar.maximumEntries,
-				maximumNumberOfDays: calendar.maximumNumberOfDays
+				maximumNumberOfDays: calendar.maximumNumberOfDays,
+				includePastEvents: calendar.includePastEvents,
 			};
 			if (calendar.symbolClass === "undefined" || calendar.symbolClass === null) {
 				calendarConfig.symbolClass = "";
@@ -467,6 +469,9 @@ Module.register("calendar", {
 			var calendar = this.calendarData[c];
 			for (var e in calendar) {
 				var event = JSON.parse(JSON.stringify(calendar[e])); // clone object
+				if(event.endDate < now) {
+					continue;
+				}
 				if(this.config.hidePrivate) {
 					if(event.class === "PRIVATE") {
 						  // do not add the current event, skip it
@@ -550,7 +555,8 @@ Module.register("calendar", {
 			symbolClass: calendarConfig.symbolClass,
 			titleClass: calendarConfig.titleClass,
 			timeClass: calendarConfig.timeClass,
-			auth: auth
+			auth: auth,
+			includePastEvents: calendarConfig.includePastEvents || this.config.includePastEvents,
 		});
 	},
 
