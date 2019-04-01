@@ -5,16 +5,16 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## [2.7.0] - Unreleased
-
-*This release is scheduled to be released on 2019-04-01.*
+## [2.7.0] - 2019-04-01
 
 ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`. If you are having issues running Electron, make sure your [Raspbian is up to date](https://www.raspberrypi.org/documentation/raspbian/updating.md).
+
+❤️ **Donate:** Enjoying MagicMirror²? Please consider a donation! With your help we can continue improving the MagicMirror² core: https://magicmirror.builders/donate
 
 ### Added
 - Italian translation for "Feels"
 - Basic Klingon (tlhIngan Hol) translations
-- Disabled the screensaver on raspbian with installation script 
+- Disabled the screensaver on raspbian with installation script
 - Added option to truncate the number of vertical lines a calendar item can span if `wrapEvents` is enabled.
 - Danish translation for "Feels" and "Weeks"
 - Added option to split multiple day events in calendar to separate numbered events
