@@ -71,7 +71,7 @@ Module.register("currentweather",{
 	firstEvent: false,
 
 	// create a variable to hold the location name based on the API result.
-	fetchedLocatioName: "",
+	fetchedLocationName: "",
 
 	// Define required scripts.
 	getScripts: function() {
@@ -265,8 +265,8 @@ Module.register("currentweather",{
 
 	// Override getHeader method.
 	getHeader: function() {
-		if (this.config.appendLocationNameToHeader) {
-			return this.data.header + " " + this.fetchedLocatioName;
+		if (this.config.appendLocationNameToHeader && this.data.header !== undefined) {
+			return this.data.header + " " + this.fetchedLocationName;
 		}
 
 		return this.data.header;
