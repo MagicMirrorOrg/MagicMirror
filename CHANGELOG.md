@@ -13,6 +13,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- Finnish translation for "Feels" and "Weeks"
+
 ### Updated
 
 ### Fixed
