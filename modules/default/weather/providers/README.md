@@ -91,9 +91,9 @@ A convenience function to make requests. It returns a promise.
 
 | Property | Type | Value/Unit |
 | --- | --- | --- |
-| units | `string` | Gets initialized with the constructor. <br> Possible values: `metric` and `imperial` |
+| units | `string` | Gets initialized with the constructor. <br> Possible values: `metric`, `imperial` and `ukunits` |
 | date | `object` | [Moment.js](https://momentjs.com/) object of the time/date. |
-| windSpeed |`number` | Metric: `meter/second` <br> Imperial: `miles/hour` |
+| windSpeed |`number` | Metric: `meter/second` <br> Imperial: `miles/hour` <br> UKunits: `miles/hour` |
 | windDirection |`number` | Direction of the wind in degrees. |
 | sunrise |`object` | [Moment.js](https://momentjs.com/) object of sunrise. |
 | sunset |`object` | [Moment.js](https://momentjs.com/) object of sunset. |
@@ -104,7 +104,7 @@ A convenience function to make requests. It returns a promise.
 | humidity | `number` | Percentage of humidity |
 | rain | `number` | Metric: `millimeters` <br> Imperial: `inches` |
 | snow | `number` | Metric: `millimeters` <br> Imperial: `inches` |
-| precipitation | `number` | Metric: `millimeters` <br> Imperial: `inches` |
+| precipitation | `number` | Metric: `millimeters` <br> Imperial: `inches` <br> Ukunits: `percent` |
 
 #### Current weather
 

@@ -28,6 +28,8 @@ class WeatherObject {
 		this.rain = null;
 		this.snow = null;
 		this.precipitation = null;
+		this.feelsLikeTemp = null;
+
 	}
 
 	cardinalWindDirection() {
@@ -67,7 +69,7 @@ class WeatherObject {
 	}
 
 	beaufortWindSpeed() {
-		const windInKmh = this.units === "imperial" ? this.windSpeed * 1.609344 : this.windSpeed * 60 * 60 / 1000;
+		const windInKmh = (this.units === "imperial" || this.units === "ukunits") ? this.windSpeed * 1.609344 : this.windSpeed * 60 * 60 / 1000;
 		const speeds = [1, 5, 11, 19, 28, 38, 49, 61, 74, 88, 102, 117, 1000];
 		for (const [index, speed] of speeds.entries()) {
 			if (speed > windInKmh) {
@@ -82,7 +84,10 @@ class WeatherObject {
 	}
 
 	feelsLike() {
-		const windInMph = this.units === "imperial" ? this.windSpeed : this.windSpeed * 2.23694;
+	  if (this.feelsLikeTemp) {
+		  return this.feelsLikeTemp
+		}
+		const windInMph = (this.units === "imperial" || this.units === "ukunits") ? this.windSpeed : this.windSpeed * 2.23694;
 		const tempInF = this.units === "imperial" ? this.temperature : this.temperature * 9 / 5 + 32;
 		let feelsLike = tempInF;
 

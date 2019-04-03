@@ -68,13 +68,14 @@ Module.register("weather",{
 			"moment.js",
 			"weatherprovider.js",
 			"weatherobject.js",
+			"suncalc.js",
 			this.file("providers/" + this.config.weatherProvider.toLowerCase() + ".js")
 		];
 	},
 
 	// Override getHeader method.
 	getHeader: function() {
-		if (this.config.appendLocationNameToHeader && this.weatherProvider) {
+		if (this.config.appendLocationNameToHeader && this.data.header !== undefined && this.weatherProvider) {
 			return this.data.header + " " + this.weatherProvider.fetchedLocation();
 		}
 
@@ -188,11 +189,11 @@ Module.register("weather",{
 
 		this.nunjucksEnvironment().addFilter("unit", function (value, type) {
 			if (type === "temperature") {
-				if (this.config.units === "metric" || this.config.units === "imperial") {
+				if (this.config.units === "metric" || this.config.units === "imperial" || this.config.units === "ukunits") {
 					value += "°";
 				}
 				if (this.config.degreeLabel) {
-					if (this.config.units === "metric") {
+					if (this.config.units === "metric" || this.config.units === "ukunits") {
 						value += "C";
 					} else if (this.config.units === "imperial") {
 						value += "F";
@@ -204,7 +205,11 @@ Module.register("weather",{
 				if (isNaN(value) || value === 0 || value.toFixed(2) === "0.00") {
 					value = "";
 				} else {
-					value = `${value.toFixed(2)} ${this.config.units === "imperial" ? "in" : "mm"}`;
+				    if (this.config.weatherProvider === "ukmetoffice") {
+						value += "%"
+				    } else {
+						value = `${value.toFixed(2)} ${this.config.units === "imperial" ? "in" : "mm"}`;
+				    }
 				}
 			} else if (type === "humidity") {
 				value += "%"
