@@ -41,8 +41,10 @@ ical.objectHandlers['END'] = function(val, params, curr, stack){
       rule = rule.replace(/\.[0-9]{3}/, '');
     }
     for (var i in curr.exdates) {
-      rule += ' EXDATE:' + curr.exdates[i].toISOString().replace(/[-:]/g, '');
-      rule = rule.replace(/\.[0-9]{3}/, '');
+      if (typeof curr.exdates[i] === 'object') {
+        rule += ' EXDATE:' + curr.exdates[i].toISOString().replace(/[-:]/g, '');
+        rule = rule.replace(/\.[0-9]{3}/, '');
+      }
     }
     try {
       curr.rrule = rrulestr(rule);
