@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 *This release is scheduled to be released on 2019-04-01.*
 
 ### Added
+- Option to show event location in calendar
 
 ### Updated
 
