@@ -15,6 +15,7 @@ Module.register("calendar", {
 		maximumNumberOfDays: 365,
 		displaySymbol: true,
 		defaultSymbol: "calendar", // Fontawesome Symbol see http://fontawesome.io/cheatsheet/
+		showLocation: false,
 		displayRepeatingCountTitle: false,
 		defaultRepeatingCountTitle: "",
 		maxTitleLength: 25,
@@ -378,6 +379,31 @@ Module.register("calendar", {
 			if (e >= startFade) {
 				currentFadeStep = e - startFade;
 				eventWrapper.style.opacity = 1 - (1 / fadeSteps * currentFadeStep);
+			}
+
+			if (this.config.showLocation) {
+				if (event.location !== false) {
+					var locationRow = document.createElement("tr");
+					locationRow.className = "normal xsmall light";
+
+					if (this.config.displaySymbol) {
+						var symbolCell = document.createElement("td");
+						locationRow.appendChild(symbolCell);
+					}
+
+					var descCell = document.createElement("td");
+					descCell.className = "location";
+					descCell.colSpan = "2";
+					descCell.innerHTML = event.location;
+					locationRow.appendChild(descCell);
+
+					wrapper.appendChild(locationRow);
+
+					if (e >= startFade) {
+						currentFadeStep = e - startFade;
+						locationRow.style.opacity = 1 - (1 / fadeSteps * currentFadeStep);
+					}
+				}
 			}
 		}
 
