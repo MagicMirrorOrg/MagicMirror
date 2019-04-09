@@ -19,6 +19,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Updated
 
 ### Fixed
+- Handle SIGTERM messages
 
 ## [2.7.1] - 2019-04-02
 

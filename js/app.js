@@ -263,6 +263,15 @@ var App = function() {
 		this.stop();
 		process.exit(0);
 	});
+
+	/* We also need to listen to SIGTERM signals so we stop everything when we are asked to stop by the OS.
+	 */
+	process.on("SIGTERM", () => {
+		console.log("[SIGTERM] Received. Shutting down server...");
+		setTimeout(() => { process.exit(0); }, 3000);  // Force quit after 3 seconds
+		this.stop();
+		process.exit(0);
+	});
 };
 
 module.exports = new App();
