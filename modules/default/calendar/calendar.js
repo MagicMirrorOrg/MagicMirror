@@ -50,7 +50,7 @@ Module.register("calendar", {
 		broadcastEvents: true,
 		excludedEvents: [],
 		sliceMultiDayEvents: false,
-		includePastEvents: false,
+		broadcastPastEvents: false,
 	},
 
 	// Define required scripts.
@@ -85,7 +85,7 @@ Module.register("calendar", {
 			var calendarConfig = {
 				maximumEntries: calendar.maximumEntries,
 				maximumNumberOfDays: calendar.maximumNumberOfDays,
-				includePastEvents: calendar.includePastEvents,
+				broadcastPastEvents: calendar.broadcastPastEvents,
 			};
 			if (calendar.symbolClass === "undefined" || calendar.symbolClass === null) {
 				calendarConfig.symbolClass = "";
@@ -556,7 +556,7 @@ Module.register("calendar", {
 			titleClass: calendarConfig.titleClass,
 			timeClass: calendarConfig.timeClass,
 			auth: auth,
-			includePastEvents: calendarConfig.includePastEvents || this.config.includePastEvents,
+			broadcastPastEvents: calendarConfig.broadcastPastEvents || this.config.broadcastPastEvents,
 		});
 	},
 

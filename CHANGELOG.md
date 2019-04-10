@@ -18,6 +18,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Russian translation for “Feels”
 
+- Add `broadcastPastEvents` config option for calendars to include events from the past `maximumNumberOfDays` in event broadcasts
+
 ### Updated
 
 ### Fixed
@@ -44,7 +46,6 @@ Fixed `package.json` version number.
 - Notifications display time can be set in request
 - Newsfeed: added support for `ARTICLE_INFO_REQUEST` notification
 - Add `name` config option for calendars to be sent along with event broadcasts
-- Add `includePastEvents` config option for calendars to include events from the past `maximumNumberOfDays` in event broadcasts
 
 ### Updated
 - Bumped the Electron dependency to v3.0.13 to support the most recent Raspbian. [#1500](https://github.com/MichMich/MagicMirror/issues/1500)
