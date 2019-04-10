@@ -20,6 +20,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Handle SIGTERM messages
+- Fixes sliceMultiDayEvents so it respects maximumNumberOfDays
 
 ## [2.7.1] - 2019-04-02
 
