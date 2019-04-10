@@ -212,7 +212,7 @@ var Module = Class.extend({
 	/* setData(data)
 	 * Set the module data.
 	 *
-	 * argument data obejct - Module data.
+	 * argument data object - Module data.
 	 */
 	setData: function (data) {
 		this.data = data;
@@ -226,7 +226,7 @@ var Module = Class.extend({
 	/* setConfig(config)
 	 * Set the module config and combine it with the module defaults.
 	 *
-	 * argument config obejct - Module config.
+	 * argument config object - Module config.
 	 */
 	setConfig: function (config) {
 		this.config = Object.assign({}, this.defaults, config);

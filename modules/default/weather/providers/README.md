@@ -85,7 +85,7 @@ Notify the delegate that new weather is available.
 
 #### `fetchData(url, method, data)`
 
-A convinience function to make requests. It returns a promise.
+A convenience function to make requests. It returns a promise.
 
 ### WeatherObject
 
@@ -103,6 +103,8 @@ A convinience function to make requests. It returns a promise.
 | weatherType | `string` | Icon name of the weather type. <br> Possible values: [WeatherIcons](https://www.npmjs.com/package/weathericons) |
 | humidity | `number` | Percentage of humidity |
 | rain | `number` | Metric: `millimeters` <br> Imperial: `inches` |
+| snow | `number` | Metric: `millimeters` <br> Imperial: `inches` |
+| precipitation | `number` | Metric: `millimeters` <br> Imperial: `inches` |
 
 #### Current weather
 

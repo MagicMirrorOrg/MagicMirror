@@ -273,7 +273,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 	/* isFullDayEvent(event)
 	 * Checks if an event is a fullday event.
 	 *
-	 * argument event obejct - The event object to check.
+	 * argument event object - The event object to check.
 	 *
 	 * return bool - The event is a fullday event.
 	 */

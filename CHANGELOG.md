@@ -5,12 +5,73 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
+❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror² core.
+
+## [2.7.1] - 2019-04-02
+
+Fixed `package.json` version number.
+
+## [2.7.0] - 2019-04-01
+
+ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`. If you are having issues running Electron, make sure your [Raspbian is up to date](https://www.raspberrypi.org/documentation/raspbian/updating.md).
+
+### Added
+- Italian translation for "Feels"
+- Basic Klingon (tlhIngan Hol) translations
+- Disabled the screensaver on raspbian with installation script
+- Added option to truncate the number of vertical lines a calendar item can span if `wrapEvents` is enabled.
+- Danish translation for "Feels" and "Weeks"
+- Added option to split multiple day events in calendar to separate numbered events
+- Slovakian translation
+- Alerts now can contain Font Awesome icons
+- Notifications display time can be set in request
+- Newsfeed: added support for `ARTICLE_INFO_REQUEST` notification
+- Add `name` config option for calendars to be sent along with event broadcasts
+
+### Updated
+- Bumped the Electron dependency to v3.0.13 to support the most recent Raspbian. [#1500](https://github.com/MichMich/MagicMirror/issues/1500)
+- Updated modernizr code in alert module, fixed a small typo there too
+- More verbose error message on console if the config is malformed
+- Updated installer script to install Node.js version 10.x
+
+### Fixed
+- Fixed temperature displays in currentweather and weatherforecast modules [#1503](https://github.com/MichMich/MagicMirror/issues/1503), [#1511](https://github.com/MichMich/MagicMirror/issues/1511).
+- Fixed unhandled error on bad git data in updatenotification module [#1285](https://github.com/MichMich/MagicMirror/issues/1285).
+- Weather forecast now works with openweathermap in new weather module. Daily data are displayed, see issue [#1504](https://github.com/MichMich/MagicMirror/issues/1504).
+- Fixed analogue clock border display issue where non-black backgrounds used (previous fix for issue 611)
+- Fixed compatibility issues caused when modules request different versions of Font Awesome, see issue [#1522](https://github.com/MichMich/MagicMirror/issues/1522). MagicMirror now uses [Font Awesome 5 with v4 shims included for backwards compatibility](https://fontawesome.com/how-to-use/on-the-web/setup/upgrading-from-version-4#shims).
+- Installation script problems with raspbian
+- Calendar: only show repeating count if the event is actually repeating [#1534](https://github.com/MichMich/MagicMirror/pull/1534)
+- Calendar: Fix exdate handling when multiple values are specified (comma separated)
+- Calendar: Fix relative date handling for fulldate events, calculate difference always from start of day  [#1572](https://github.com/MichMich/MagicMirror/issues/1572)
+- Fix null dereference in moduleNeedsUpdate when the module isn't visible
+- Calendar: Fixed event end times by setting default calendarEndTime to "LT" (Local time format). [#1479]
+- Calendar: Fixed missing calendar fetchers after server process restarts [#1589](https://github.com/MichMich/MagicMirror/issues/1589)
+- Notification: fixed background color (was white text on white background)
+- Use getHeader instead of data.header when creating the DOM so overwriting the function also propagates into it
+- Fix documentation of `useKMPHwind` option in currentweather
+
+### New weather module
+- Fixed weather forecast table display [#1499](https://github.com/MichMich/MagicMirror/issues/1499).
+- Dimmed loading indicator for weather forecast.
+- Implemented config option `decimalSymbol` [#1499](https://github.com/MichMich/MagicMirror/issues/1499).
+- Aligned indoor values in current weather vertical [#1499](https://github.com/MichMich/MagicMirror/issues/1499).
+- Added humidity support to nunjuck unit filter.
+- Do not display degree symbol for temperature in Kelvin [#1503](https://github.com/MichMich/MagicMirror/issues/1503).
+- Weather forecast now works with openweathermap for both, `/forecast` and `/forecast/daily`, in new weather module. If you use the `/forecast`-weatherEndpoint, the hourly data are converted to daily data, see issues [#1504](https://github.com/MichMich/MagicMirror/issues/1504), [#1513](https://github.com/MichMich/MagicMirror/issues/1513).
+- Added fade, fadePoint and maxNumberOfDays properties to the forecast mode [#1516](https://github.com/MichMich/MagicMirror/issues/1516)
+- Fixed Loading string and decimalSymbol string replace [#1538](https://github.com/MichMich/MagicMirror/issues/1538)
+- Show Snow amounts in new weather module [#1545](https://github.com/MichMich/MagicMirror/issues/1545)
+- Added weather.gov as a new weather provider for US locations
+
 ## [2.6.0] - 2019-01-01
 
 ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`. If you are having issues updating, make sure you are running the latest version of Node.
 
 ### ✨ Experimental ✨
 - New default [module weather](modules/default/weather). This module will eventually replace the current `currentweather` and `weatherforecast` modules. The new module is still pretty experimental, but it's included so you can give it a try and help us improve this module. Please give us you feedback using [this forum post](https://forum.magicmirror.builders/topic/9335/default-weather-module-refactoring).
+
+A huge, huge, huge thanks to user @fewieden for all his hard work on the new `weather` module!
 
 ### Added
 - Possibility to add classes to the cell of symbol, title and time of the events of calendar.
@@ -60,7 +121,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fixed gzip encoded calendar loading issue #1400.
 - Mixup between german and spanish translation for newsfeed.
 - Fixed close dates to be absolute, if no configured in the config.js - module Calendar
-- Fixed the UpdateNotification module message about new commits in the repository, so they can be correctly localized in singular and plural form.
+- Fixed the updatenotification module message about new commits in the repository, so they can be correctly localized in singular and plural form.
 - Fix for weatherforecast rainfall rounding [#1374](https://github.com/MichMich/MagicMirror/issues/1374)
 - Fix calendar parsing issue for Midori on RasperryPi Zero w, related to issue #694.
 - Fix weather city ID link in sample config
@@ -210,7 +271,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add `clientonly` script to start only the electron client for a remote server.
 - Add symbol and color properties of event when `CALENDAR_EVENTS` notification is broadcasted from `default/calendar` module.
 - Add `.vscode/` folder to `.gitignore` to keep custom Visual Studio Code config out of git.
-- Add unit test the capitalizeFirstLetter function of newfeed module.
+- Add unit test the capitalizeFirstLetter function of newsfeed module.
 - Add new unit tests for function `shorten` in calendar module.
 - Add new unit tests for function `getLocaleSpecification` in calendar module.
 - Add unit test for js/class.js.
@@ -231,7 +292,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Set version of the `express-ipfilter` on 0.3.1.
 
 ### Fixed
-- Fixed issue with incorrect allignment of analog clock when displayed in the center column of the MM.
+- Fixed issue with incorrect alignment of analog clock when displayed in the center column of the MM.
 - Fixed ipWhitelist behaviour to make empty whitelist ([]) allow any and all hosts access to the MM.
 - Fixed issue with calendar module where 'excludedEvents' count towards 'maximumEntries'.
 - Fixed issue with calendar module where global configuration of maximumEntries was not overridden by calendar specific config (see module doc).
@@ -255,7 +316,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add unit test calendar_modules function capFirst.
 - Add test for check if exists the directories present in defaults modules.
 - Add support for showing wind direction as an arrow instead of abbreviation in currentWeather module.
-- Add support for writing translation fucntions to support flexible word order
+- Add support for writing translation functions to support flexible word order
 - Add test for check if exits the directories present in defaults modules.
 - Add calendar option to set a separate date format for full day events.
 - Add ability for `currentweather` module to display indoor temperature via INDOOR_TEMPERATURE notification
@@ -274,7 +335,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix double message about port when server is starting
 - Corrected Swedish translations for TODAY/TOMORROW/DAYAFTERTOMORROW.
 - Removed unused import from js/electron.js
-- Made calendar.js respect config.timeFormat irrespecive of locale setting.
+- Made calendar.js respect config.timeFormat irrespective of locale setting.
 - Fixed alignment of analog clock when a large calendar is displayed in the same side bar.
 
 ## [2.1.1] - 2017-04-01
@@ -292,7 +353,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added `DAYAFTERTOMORROW`, `UPDATE_NOTIFICATION` and `UPDATE_NOTIFICATION_MODULE` to Finnish translations.
 - Run `npm test` on Travis automatically.
 - Show the splash screen image even when is reboot or halted.
-- Added some missing translaton strings in the sv.json file.
+- Added some missing translation strings in the sv.json file.
 - Run task jsonlint to check translation files.
 - Restructured Test Suite.
 
@@ -309,12 +370,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Option to use RegExp in Calendar's titleReplace.
 - Hungarian Translation.
 - Icelandic Translation.
-- Add use a script to prevent when is run by SSH session set DISPLAY enviroment.
-- Enable ability to set configuration file by the enviroment variable called MM_CONFIG_FILE.
+- Add use a script to prevent when is run by SSH session set DISPLAY environment.
+- Enable ability to set configuration file by the environment variable called MM_CONFIG_FILE.
 - Option to give each calendar a different color.
 - Option for colored min-temp and max-temp.
 - Add test e2e helloworld.
-- Add test e2e enviroment.
+- Add test e2e environment.
 - Add `chai-as-promised` npm module to devDependencies.
 - Basic set of tests for clock module.
 - Run e2e test in Travis.
@@ -332,10 +393,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added tests for Translations, dev argument, version, dev console.
 - Added test anytime feature compliments module.
 - Added test ipwhitelist configuration directive.
-- Added test for calendar module: default, basic-auth, backward compability, fail-basic-auth.
+- Added test for calendar module: default, basic-auth, backward compatibility, fail-basic-auth.
 - Added meta tags to support fullscreen mode on iOS (for server mode)
 - Added `ignoreOldItems` and `ignoreOlderThan` options to the News Feed module
-- Added test for MM_PORT enviroment variable.
+- Added test for MM_PORT environment variable.
 - Added a configurable Week section to the clock module.
 
 ### Fixed
@@ -347,7 +408,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Module currentWeather: check if temperature received from api is defined.
 - Fix an issue with module hidden status changing to `true` although lock string prevented showing it.
 - Fix newsfeed module bug (removeStartTags)
-- Fix when is set MM_PORT enviroment variable.
+- Fix when is set MM_PORT environment variable.
 - Fixed missing animation on `this.show(speed)` when module is alone in a region.
 
 ## [2.1.0] - 2016-12-31
@@ -369,8 +430,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Calendar module now broadcasts the event list to all other modules using the notification system. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules/default/calendar) for more information.
 - Possibility to use the the calendar feed as the source for the weather (currentweather & weatherforecast) location data. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules/default/weatherforecast) for more information.
 - Added option to show rain amount in the weatherforecast default module
-- Add module `updatenotification` to get an update whenever a new version is availabe. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules/default/updatenotification) for more information.
-- Add the abilty to set timezone on the date display in the Clock Module
+- Add module `updatenotification` to get an update whenever a new version is available. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules/default/updatenotification) for more information.
+- Add the ability to set timezone on the date display in the Clock Module
 - Ability to set date format in calendar module
 - Possibility to use currentweather for the compliments
 - Added option `disabled` for modules.
@@ -409,7 +470,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added ability to define "the day after tomorrow" for calendar events (Definition for German and Dutch already included).
 - Added CII Badge (we are compliant with the CII Best Practices)
 - Add support for doing http basic auth when loading calendars
-- Add the abilty to turn off and on the date display in the Clock Module
+- Add the ability to turn off and on the date display in the Clock Module
 
 ### Fixed
 - Fix typo in installer.
@@ -432,8 +493,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Prevent `getModules()` selectors from returning duplicate entries.
-- Append endpoints of weather modules with `/` to retreive the correct data. (Issue [#337](https://github.com/MichMich/MagicMirror/issues/337))
-- Corrected grammer in `module.js` from 'suspend' to 'suspended'.
+- Append endpoints of weather modules with `/` to retrieve the correct data. (Issue [#337](https://github.com/MichMich/MagicMirror/issues/337))
+- Corrected grammar in `module.js` from 'suspend' to 'suspended'.
 - Fixed openweathermap.org URL in config sample.
 - Prevent currentweather module from crashing when received data object is incorrect.
 - Fix issue where translation loading prevented the UI start-up when the language was set to 'en'. (Issue [#388](https://github.com/MichMich/MagicMirror/issues/388))
