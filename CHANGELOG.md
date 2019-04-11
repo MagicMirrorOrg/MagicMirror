@@ -16,6 +16,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Finnish translation for "Feels" and "Weeks"
 
+- Russian translation for “Feels”
+
 ### Updated
 
 ### Fixed
