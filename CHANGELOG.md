@@ -7,6 +7,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror² core.
 
+## [2.7.x] - 2019-04-13
+
+default module calendar - added config option nextDaysRelative
+
 ## [2.7.1] - 2019-04-02
 
 Fixed `package.json` version number.
