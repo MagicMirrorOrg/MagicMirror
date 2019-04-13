@@ -48,7 +48,8 @@ Module.register("calendar", {
 		},
 		broadcastEvents: true,
 		excludedEvents: [],
-		sliceMultiDayEvents: false
+		sliceMultiDayEvents: false,
+		nextDaysRelative: false
 	},
 
 	// Define required scripts.
@@ -325,7 +326,7 @@ Module.register("calendar", {
 								// If event is within 6 hour, display 'in xxx' time format or moment.fromNow()
 								timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 							} else {
-								if(this.config.timeFormat === "absolute") {
+								if(this.config.timeFormat === "absolute" && !this.config.nextDaysRelative) {
 									timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").format(this.config.dateFormat));
 								} else {
 									// Otherwise just say 'Today/Tomorrow at such-n-such time'
