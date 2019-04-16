@@ -60,7 +60,7 @@
     "colors": "^1.1.2",
     "electron": "^3.0.13",
     "express": "^4.16.2",
-    "express-ipfilter": "0.3.1",
+    "express-ipfilter": "1.0.1",
     "feedme": "latest",
     "helmet": "^3.9.0",
     "home-path": "^1.0.6",
