@@ -15,6 +15,7 @@ Module.register("calendar", {
 		maximumNumberOfDays: 365,
 		displaySymbol: true,
 		defaultSymbol: "calendar", // Fontawesome Symbol see http://fontawesome.io/cheatsheet/
+		showLocation: false,
 		displayRepeatingCountTitle: false,
 		defaultRepeatingCountTitle: "",
 		maxTitleLength: 25,
@@ -379,6 +380,31 @@ Module.register("calendar", {
 				currentFadeStep = e - startFade;
 				eventWrapper.style.opacity = 1 - (1 / fadeSteps * currentFadeStep);
 			}
+
+			if (this.config.showLocation) {
+				if (event.location !== false) {
+					var locationRow = document.createElement("tr");
+					locationRow.className = "normal xsmall light";
+
+					if (this.config.displaySymbol) {
+						var symbolCell = document.createElement("td");
+						locationRow.appendChild(symbolCell);
+					}
+
+					var descCell = document.createElement("td");
+					descCell.className = "location";
+					descCell.colSpan = "2";
+					descCell.innerHTML = event.location;
+					locationRow.appendChild(descCell);
+
+					wrapper.appendChild(locationRow);
+
+					if (e >= startFade) {
+						currentFadeStep = e - startFade;
+						locationRow.style.opacity = 1 - (1 / fadeSteps * currentFadeStep);
+					}
+				}
+			}
 		}
 
 		return wrapper;
@@ -436,10 +462,11 @@ Module.register("calendar", {
 		var events = [];
 		var today = moment().startOf("day");
 		var now = new Date();
+		var future = moment().startOf("day").add(this.config.maximumNumberOfDays, "days").toDate();
 		for (var c in this.calendarData) {
 			var calendar = this.calendarData[c];
 			for (var e in calendar) {
-				var event = calendar[e];
+				var event = JSON.parse(JSON.stringify(calendar[e])); // clone object
 				if(this.config.hidePrivate) {
 					if(event.class === "PRIVATE") {
 						  // do not add the current event, skip it
@@ -461,23 +488,30 @@ Module.register("calendar", {
 				* otherwise, esp. in dateheaders mode it is not clear how long these events are.
 				*/
 				if (this.config.sliceMultiDayEvents) {
-					var midnight = moment(event.startDate, "x").clone().startOf("day").add(1, "day").format("x");			//next midnight
+					var splitEvents = [];
+					var midnight = moment(event.startDate, "x").clone().startOf("day").add(1, "day").format("x");
 					var count = 1;
-					var maxCount = Math.ceil(((event.endDate - 1) - moment(event.startDate, "x").endOf("day").format("x"))/(1000*60*60*24)) + 1
-					if (event.endDate > midnight) {
-						while (event.endDate > midnight) {
-							var nextEvent = JSON.parse(JSON.stringify(event));	//make a copy without reference to the original event
- 							nextEvent.startDate = midnight;
- 							event.endDate = midnight;
- 							event.title += " (" + count + "/" + maxCount + ")";
- 							events.push(event);
- 							event = nextEvent;
- 							count += 1;
- 							midnight = moment(midnight, "x").add(1, "day").format("x");		//move further one day for next split
- 						}
- 						event.title += " ("+count+"/"+maxCount+")";
- 					}
-					events.push(event);
+					var maxCount = Math.ceil(((event.endDate - 1) - moment(event.startDate, "x").endOf("day").format("x"))/(1000*60*60*24)) + 1;
+					while (event.endDate > midnight) {
+						var thisEvent = JSON.parse(JSON.stringify(event)) // clone object
+						thisEvent.today = thisEvent.startDate >= today && thisEvent.startDate < (today + 24 * 60 * 60 * 1000);
+						thisEvent.endDate = midnight;
+						thisEvent.title += " (" + count + "/" + maxCount + ")";
+						splitEvents.push(thisEvent);
+
+						event.startDate = midnight;
+						count += 1;
+						midnight = moment(midnight, "x").add(1, "day").format("x"); // next day
+					}
+					// Last day
+					event.title += " ("+count+"/"+maxCount+")";
+					splitEvents.push(event);
+
+					for (event of splitEvents) {
+						if ((event.endDate > now) && (event.endDate <= future)) {
+							events.push(event);
+						}
+					}
 				} else {
 					events.push(event);
 				}
@@ -487,7 +521,6 @@ Module.register("calendar", {
 		events.sort(function (a, b) {
 			return a.startDate - b.startDate;
 		});
-
 		return events.slice(0, this.config.maximumEntries);
 	},
 
@@ -567,6 +600,17 @@ Module.register("calendar", {
 	 */
 	timeClassForUrl: function (url) {
 		return this.getCalendarProperty(url, "timeClass", "");
+	},
+
+	/* calendarNameForUrl(url)
+	 * Retrieves the calendar name for a specific url.
+	 *
+	 * argument url string - Url to look for.
+	 *
+	 * return string - The name of the calendar
+	 */
+	calendarNameForUrl: function (url) {
+		return this.getCalendarProperty(url, "name", "");
 	},
 
 	/* colorForUrl(url)
@@ -709,6 +753,7 @@ Module.register("calendar", {
 			for (var e in calendar) {
 				var event = cloneObject(calendar[e]);
 				event.symbol = this.symbolsForUrl(url);
+				event.calendarName = this.calendarNameForUrl(url);
 				event.color = this.colorForUrl(url);
 				delete event.url;
 				eventList.push(event);

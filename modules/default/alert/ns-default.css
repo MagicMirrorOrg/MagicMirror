@@ -1,7 +1,7 @@
 /* Based on work by http://tympanus.net/codrops/licensing/ */
 
 .ns-box {
-  background: #fff;
+  background-color: rgba(0, 0, 0, 0.93);
   padding: 17px;
   line-height: 1.4;
   margin-bottom: 10px;
@@ -12,7 +12,10 @@
   display: table;
   word-wrap: break-word;
   max-width: 100%;
+  border-width: 1px;
   border-radius: 5px;
+  border-style: solid;
+  border-color: #666;
 }
 
 .ns-alert {

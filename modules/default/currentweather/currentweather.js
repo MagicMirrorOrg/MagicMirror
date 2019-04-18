@@ -11,7 +11,6 @@ Module.register("currentweather",{
 
 	// Default module config.
 	defaults: {
-		autoLocation: false,
 		location: false,
 		locationID: false,
 		appid: "",
@@ -72,7 +71,7 @@ Module.register("currentweather",{
 	firstEvent: false,
 
 	// create a variable to hold the location name based on the API result.
-	fetchedLocatioName: "",
+	fetchedLocationName: "",
 
 	// Define required scripts.
 	getScripts: function() {
@@ -110,19 +109,8 @@ Module.register("currentweather",{
 		this.weatherType = null;
 		this.feelsLike = null;
 		this.loaded = false;
+		this.scheduleUpdate(this.config.initialLoadDelay);
 
-		if (this.config.autoLocation) {
-			this.sendSocketNotification("AUTO_LOCATION");
-		} else {
-			this.scheduleUpdate(this.config.initialLoadDelay);
-		}
-	},
-
-	socketNotificationReceived: function (notification, payload) {
-		if (notification === "UPDATE_LOCATION") {
-			this.config.location = payload.location;
-			this.scheduleUpdate(this.config.initialLoadDelay);
-		}
 	},
 
 	// add extra information of current weather
@@ -277,8 +265,8 @@ Module.register("currentweather",{
 
 	// Override getHeader method.
 	getHeader: function() {
-		if (this.config.appendLocationNameToHeader) {
-			return this.data.header + " " + this.fetchedLocatioName;
+		if (this.config.appendLocationNameToHeader && this.data.header !== undefined) {
+			return this.data.header + " " + this.fetchedLocationName;
 		}
 
 		return this.data.header;

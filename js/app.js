@@ -70,7 +70,7 @@ var App = function() {
 			if (e.code == "ENOENT") {
 				console.error(Utils.colors.error("WARNING! Could not find config file. Please create one. Starting with default configuration."));
 			} else if (e instanceof ReferenceError || e instanceof SyntaxError) {
-				console.error(Utils.colors.error("WARNING! Could not validate config file. Please correct syntax errors. Starting with default configuration."));
+				console.error(Utils.colors.error("WARNING! Could not validate config file. Starting with default configuration. Please correct syntax errors at or above this line: " + e.stack));
 			} else {
 				console.error(Utils.colors.error("WARNING! Could not load config file. Starting with default configuration. Error found: " + e));
 			}
@@ -259,6 +259,15 @@ var App = function() {
 	 */
 	process.on("SIGINT", () => {
 		console.log("[SIGINT] Received. Shutting down server...");
+		setTimeout(() => { process.exit(0); }, 3000);  // Force quit after 3 seconds
+		this.stop();
+		process.exit(0);
+	});
+
+	/* We also need to listen to SIGTERM signals so we stop everything when we are asked to stop by the OS.
+	 */
+	process.on("SIGTERM", () => {
+		console.log("[SIGTERM] Received. Shutting down server...");
 		setTimeout(() => { process.exit(0); }, 3000);  // Force quit after 3 seconds
 		this.stop();
 		process.exit(0);

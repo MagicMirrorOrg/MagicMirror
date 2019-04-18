@@ -26,7 +26,6 @@ Module.register("clock",{
 		analogShowDate: "top", // options: false, 'top', or 'bottom'
 		secondsColor: "#888888",
 		timezone: null,
-		autoTimezone: false
 	},
 	// Define required scripts.
 	getScripts: function() {
@@ -40,31 +39,16 @@ Module.register("clock",{
 	start: function() {
 		Log.info("Starting module: " + this.name);
 
-		if (this.config.autoTimezone) {
-			this.sendSocketNotification("AUTO_TIMEZONE");
-		} else {
-			// Schedule update interval.
-			var self = this;
-			setInterval(function() {
-				self.updateDom();
-			}, 1000);
-		}
+		// Schedule update interval.
+		var self = this;
+		setInterval(function() {
+			self.updateDom();
+		}, 1000);
 
 		// Set locale.
 		moment.locale(config.language);
 
 	},
-
-	socketNotificationReceived: function (notification, payload) {
-		if (notification === "UPDATE_TIMEZONE") {
-			var self = this;
-			self.config.timezone = payload.timezone;
-			setInterval(function() {
-				self.updateDom();
-			}, 1000);
-		}
-	},
-
 	// Override dom generator.
 	getDom: function() {
 
