@@ -16,7 +16,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Finnish translation for "Feels" and "Weeks"
 - Russian translation for “Feels”
 - Calendar module: added `nextDaysRelative` config option
-
 - Add `broadcastPastEvents` config option for calendars to include events from the past `maximumNumberOfDays` in event broadcasts
 
 ### Updated
