@@ -8,7 +8,7 @@
 var ical = require("./vendor/ical.js");
 var moment = require("moment");
 
-var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth) {
+var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, includePastEvents) {
 	var self = this;
 
 	var reloadTimer = null;
@@ -74,6 +74,11 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 				var now = new Date();
 				var today = moment().startOf("day").toDate();
 				var future = moment().startOf("day").add(maximumNumberOfDays, "days").subtract(1,"seconds").toDate(); // Subtract 1 second so that events that start on the middle of the night will not repeat.
+				var past = today;
+
+				if (includePastEvents) {
+					past = moment().startOf("day").subtract(maximumNumberOfDays, "days").toDate();
+				}
 
 				// FIXME:
 				// Ugly fix to solve the facebook birthday issue.
@@ -181,7 +186,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 							rule.options.dtstart.setYear(1900);
 						}
 
-						var dates = rule.between(today, future, true, limitFunction);
+						var dates = rule.between(past, future, true, limitFunction);
 
 						for (var d in dates) {
 							startDate = moment(new Date(dates[d]));
@@ -191,7 +196,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 								continue;
 							}
 
-							if (endDate.format("x") > now) {
+							if (includePastEvents || endDate.format("x") > now) {
 								newEvents.push({
 									title: title,
 									startDate: startDate.format("x"),
@@ -210,14 +215,21 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 						// Single event.
 						var fullDayEvent = (isFacebookBirthday) ? true : isFullDayEvent(event);
 
-						if (!fullDayEvent && endDate < new Date()) {
-							//console.log("It's not a fullday event, and it is in the past. So skip: " + title);
-							continue;
-						}
+						if (includePastEvents) {
+							if (endDate < past) {
+								//console.log("Past event is too far in the past.  So skip: " + title);
+								continue;
+							}
+						} else {
+							if (!fullDayEvent && endDate < new Date()) {
+								//console.log("It's not a fullday event, and it is in the past. So skip: " + title);
+								continue;
+							}
 
-						if (fullDayEvent && endDate <= today) {
-							//console.log("It's a fullday event, and it is before today. So skip: " + title);
-							continue;
+							if (fullDayEvent && endDate <= today) {
+								//console.log("It's a fullday event, and it is before today. So skip: " + title);
+								continue;
+							}
 						}
 
 						if (startDate > future) {

@@ -16,6 +16,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Finnish translation for "Feels" and "Weeks"
 - Russian translation for “Feels”
 
+- Add `broadcastPastEvents` config option for calendars to include events from the past `maximumNumberOfDays` in event broadcasts
+
 ### Updated
 - English translation for "Feels" to "Feels like"
 - Fixed the example calender url in `config.js.sample`
