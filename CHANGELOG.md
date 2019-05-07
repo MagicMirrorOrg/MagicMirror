@@ -18,6 +18,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Updated
 - English translation for "Feels" to "Feels like"
+- Fixed the example calender url in `config.js.sample`
 - Update `ical.js` to solve various calendar issues.
 
 ### Fixed
