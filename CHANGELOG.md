@@ -9,16 +9,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [2.8.0] - Unreleased
 
-*This release is scheduled to be released on 2019-04-01.*
+*This release is scheduled to be released on 2019-07-01.*
 
 ### Added
 - Option to show event location in calendar
-
 - Finnish translation for "Feels" and "Weeks"
-
 - Russian translation for “Feels”
 
 ### Updated
+- English translation for "Feels" to "Feels like"
 
 ### Fixed
 - Handle SIGTERM messages
