@@ -1,0 +1,35 @@
+{
+	"LOADING": "...טוען",
+
+	"TODAY": "היום",
+	"TOMORROW": "מחר",
+	"DAYAFTERTOMORROW": "מחרתיים",
+	"RUNNING": "מסתיים",
+	"EMPTY": "אין ארועים.",
+
+	"WEEK": "Week {weekNumber}",
+
+	"N": "צ",
+	"NNE": "צ-צ-מז",
+	"NE": "צ-מז",
+	"ENE": "מז-צ-מז",
+	"E": "מז",
+	"ESE": "מז-ד-מז",
+	"SE": "ד-מז",
+	"SSE": "ד-ד-מז",
+	"S": "ד",
+	"SSW": "ד-ד-מע",
+	"SW": "ד-מע",
+	"WSW": "מע-ד-מע",
+	"W": "מע",
+	"WNW": "מע-צ-מע",
+	"NW": "צ-מע",
+	"NNW": "צ-צ-מע",
+
+	"UPDATE_NOTIFICATION": "MagicMirror² update available.",
+	"UPDATE_NOTIFICATION_MODULE": "Update available for {MODULE_NAME} module.",
+	"UPDATE_INFO_SINGLE": "The current installation is {COMMIT_COUNT} commit behind on the {BRANCH_NAME} branch.",
+	"UPDATE_INFO_MULTIPLE": "The current installation is {COMMIT_COUNT} commits behind on the {BRANCH_NAME} branch.",
+	
+	"FEELS": "מרגיש כמו"
+}

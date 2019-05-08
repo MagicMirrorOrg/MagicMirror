@@ -36,7 +36,7 @@ Module.register("compliments", {
 		morningStartTime: 3,
 		morningEndTime: 12,
 		afternoonStartTime: 12,
-		afternoonEndTime: 17
+		afternoonEndTime: 18
 	},
 
 	// Set currentweather from module
@@ -159,7 +159,7 @@ Module.register("compliments", {
 
 		var compliment = document.createTextNode(complimentText);
 		var wrapper = document.createElement("div");
-		wrapper.className = this.config.classes ? this.config.classes : "thin xlarge bright pre-line";
+		wrapper.className = this.config.classes ? this.config.classes : "thin large pre-line";
 		wrapper.appendChild(compliment);
 
 		return wrapper;

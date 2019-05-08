@@ -36,9 +36,10 @@ var translations = {
 	"kr" : "translations/kr.json", // Korean
 	"ro" : "translations/ro.json", // Romanian
 	"cy" : "translations/cy.json", // Welsh (Cymraeg)
-	"bg" : "translations/bg.json",  // Bulgarian
-	"cs" : "translations/cs.json",  // Czech
-	"hr" : "translations/hr.json"  // Croatian
+	"bg" : "translations/bg.json", // Bulgarian
+	"cs" : "translations/cs.json", // Czech
+	"hr" : "translations/hr.json", // Croatian
+	"he" : "translations/he.json"  // Hebrew
 };
 
 if (typeof module !== "undefined") {module.exports = translations;}

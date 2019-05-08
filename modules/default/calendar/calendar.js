@@ -153,19 +153,39 @@ Module.register("calendar", {
 		}
 
 		var currentFadeStep = 0;
+		var now = new Date();
+		// Define second, minute, hour, and day variables
+		var oneSecond = 1000; // 1,000 milliseconds
+		var oneMinute = oneSecond * 60;
+		var oneHour = oneMinute * 60;
+		var oneDay = oneHour * 24;
+
 		var lastSeenDate = "";
 
 		for (var e in events) {
 			var event = events[e];
 			var dateAsString = moment(event.startDate, "x").format(this.config.dateFormat);
 			if(this.config.timeFormat === "dateheaders"){
+
 				if(lastSeenDate !== dateAsString){
 					var dateRow = document.createElement("tr");
 					dateRow.className = "normal";
 					var dateCell = document.createElement("td");
 
 					dateCell.colSpan = "3";
-					dateCell.innerHTML = dateAsString;
+					
+					if (event.today) {
+						dateCell.innerHTML = this.capFirst(this.translate("TODAY"));
+					} else if (event.startDate - now < oneDay && event.startDate - now > 0) {
+						dateCell.innerHTML = this.capFirst(this.translate("TOMORROW"));
+					} else if (event.startDate - now < 2 * oneDay && event.startDate - now > 0) {
+						if (this.translate("DAYAFTERTOMORROW") !== "DAYAFTERTOMORROW") {
+							dateCell.innerHTML = this.capFirst(this.translate("DAYAFTERTOMORROW"));
+						} else {
+							dateCell.innerHTML = (moment(event.startDate, "x").fromNow());
+						}
+					} else dateCell.innerHTML = dateAsString;
+					
 					dateRow.appendChild(dateCell);
 					wrapper.appendChild(dateRow);
 
@@ -266,12 +286,6 @@ Module.register("calendar", {
 
 				eventWrapper.appendChild(titleWrapper);
 				//console.log(event.today);
-				var now = new Date();
-				// Define second, minute, hour, and day variables
-				var oneSecond = 1000; // 1,000 milliseconds
-				var oneMinute = oneSecond * 60;
-				var oneHour = oneMinute * 60;
-				var oneDay = oneHour * 24;
 				if (event.fullDayEvent) {
 					//subtract one second so that fullDayEvents end at 23:59:59, and not at 0:00:00 one the next day
 					event.endDate -= oneSecond;
