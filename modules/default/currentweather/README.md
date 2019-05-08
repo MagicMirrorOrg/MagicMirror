@@ -50,7 +50,7 @@ The following properties can be configured:
 | `showIndoorTemperature`      | If you have another module that emits the INDOOR_TEMPERATURE notification, the indoor temperature will be displayed <br> **Default value:** `false`
 | `onlyTemp`                   | Show only current Temperature and weather icon without windspeed, sunset, sunrise time and feels like. <br><br> **Possible values:** `true` or `false` <br> **Default value:** `false`
 | `showFeelsLike`              | Shows the Feels like temperature weather. <br><br> **Possible values:**`true` or `false`<br>**Default value:** `true`
-| `useKMPHWind`                | Uses KMPH as units for windspeed. <br><br> **Possible values:**`true` or `false`<br>**Default value:** `false`
+| `useKMPHwind`                | Uses KMPH as units for windspeed. <br><br> **Possible values:**`true` or `false`<br>**Default value:** `false`
 | `useBeaufort`                | Pick between using the Beaufort scale for wind speed or using the default units. <br><br> **Possible values:** `true` or `false` <br> **Default value:** `true`
 | `lang`                       | The language of the days. <br><br> **Possible values:** `en`, `nl`, `ru`, etc ... <br> **Default value:** uses value of _config.language_
 | `decimalSymbol`              | The decimal symbol to use.<br><br> **Possible values:** `.`, `,` or any other symbol.<br> **Default value:** `.`

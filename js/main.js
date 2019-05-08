@@ -39,9 +39,9 @@ var MM = (function() {
 			dom.opacity = 0;
 			wrapper.appendChild(dom);
 
-			if (typeof module.data.header !== "undefined" && module.data.header !== "") {
+			if (typeof module.getHeader() !== "undefined" && module.getHeader() !== "") {
 				var moduleHeader = document.createElement("header");
-				moduleHeader.innerHTML = module.data.header;
+				moduleHeader.innerHTML = module.getHeader();
 				moduleHeader.className = "module-header";
 				dom.appendChild(moduleHeader);
 			}
@@ -173,6 +173,10 @@ var MM = (function() {
 	 */
 	var moduleNeedsUpdate = function(module, newHeader, newContent) {
 		var moduleWrapper = document.getElementById(module.identifier);
+		if (moduleWrapper === null) {
+			return false;
+		}
+
 		var contentWrapper = moduleWrapper.getElementsByClassName("module-content");
 		var headerWrapper = moduleWrapper.getElementsByClassName("module-header");
 
