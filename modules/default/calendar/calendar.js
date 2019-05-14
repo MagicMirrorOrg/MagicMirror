@@ -49,7 +49,9 @@ Module.register("calendar", {
 		},
 		broadcastEvents: true,
 		excludedEvents: [],
-		sliceMultiDayEvents: false
+		sliceMultiDayEvents: false,
+		broadcastPastEvents: false,
+		nextDaysRelative: false
 	},
 
 	// Define required scripts.
@@ -83,7 +85,8 @@ Module.register("calendar", {
 
 			var calendarConfig = {
 				maximumEntries: calendar.maximumEntries,
-				maximumNumberOfDays: calendar.maximumNumberOfDays
+				maximumNumberOfDays: calendar.maximumNumberOfDays,
+				broadcastPastEvents: calendar.broadcastPastEvents,
 			};
 			if (calendar.symbolClass === "undefined" || calendar.symbolClass === null) {
 				calendarConfig.symbolClass = "";
@@ -326,7 +329,7 @@ Module.register("calendar", {
 								// If event is within 6 hour, display 'in xxx' time format or moment.fromNow()
 								timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 							} else {
-								if(this.config.timeFormat === "absolute") {
+								if(this.config.timeFormat === "absolute" && !this.config.nextDaysRelative) {
 									timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").format(this.config.dateFormat));
 								} else {
 									// Otherwise just say 'Today/Tomorrow at such-n-such time'
@@ -467,6 +470,9 @@ Module.register("calendar", {
 			var calendar = this.calendarData[c];
 			for (var e in calendar) {
 				var event = JSON.parse(JSON.stringify(calendar[e])); // clone object
+				if(event.endDate < now) {
+					continue;
+				}
 				if(this.config.hidePrivate) {
 					if(event.class === "PRIVATE") {
 						  // do not add the current event, skip it
@@ -550,7 +556,8 @@ Module.register("calendar", {
 			symbolClass: calendarConfig.symbolClass,
 			titleClass: calendarConfig.titleClass,
 			timeClass: calendarConfig.timeClass,
-			auth: auth
+			auth: auth,
+			broadcastPastEvents: calendarConfig.broadcastPastEvents || this.config.broadcastPastEvents,
 		});
 	},
 
