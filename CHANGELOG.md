@@ -22,6 +22,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - English translation for "Feels" to "Feels like"
 - Fixed the example calender url in `config.js.sample`
 - Update `ical.js` to solve various calendar issues.
+- Update weather city list url [#1676](https://github.com/MichMich/MagicMirror/issues/1676) 
 
 ### Fixed
 - Handle SIGTERM messages
