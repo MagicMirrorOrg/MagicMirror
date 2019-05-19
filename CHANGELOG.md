@@ -23,6 +23,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fixed the example calender url in `config.js.sample`
 - Update `ical.js` to solve various calendar issues.
 - Update weather city list url [#1676](https://github.com/MichMich/MagicMirror/issues/1676) 
+- Only update clock once per minute when seconds aren't shown
 
 ### Fixed
 - Allowance HTML5 autoplay-policy (policy is changed from Chrome 66 updates)
