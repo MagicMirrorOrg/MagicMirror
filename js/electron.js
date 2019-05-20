@@ -12,6 +12,10 @@ const app = electron.app;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
 
+// This fixes: https://github.com/electron/electron/issues/13525
+// More info: https://developers.google.com/web/updates/2017/09/autoplay-policy-changes
+app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
