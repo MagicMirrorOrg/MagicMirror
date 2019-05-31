@@ -83,7 +83,9 @@ var config = {
 					}
 				],
 				showSourceTitle: true,
-				showPublishDate: true
+				showPublishDate: true,
+				broadcastNewsFeeds: true,
+				broadcastNewsUpdates: true
 			}
 		},
 	]
