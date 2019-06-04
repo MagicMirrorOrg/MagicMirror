@@ -2,7 +2,7 @@
 
 "use strict";
 
-// Use seperate scope to prevent global scope pollution
+// Use separate scope to prevent global scope pollution
 (function () {
 	var config = {};
 
@@ -30,7 +30,7 @@
 			const request = lib.get(url, (response) => {
 				var configData = "";
 
-				// Gather incomming data
+				// Gather incoming data
 				response.on("data", function(chunk) {
 					configData += chunk;
 				});
@@ -44,7 +44,7 @@
 				reject(new Error(`Unable to read config from server (${url} (${error.message}`));
 			});
 		})
-	};
+	}
 
 	function fail(message, code = 1) {
 		if (message !== undefined && typeof message === "string") {

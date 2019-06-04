@@ -159,6 +159,7 @@ var Translator = (function() {
 
 			return key;
 		},
+
 		/* load(module, file, isFallback, callback)
 		 * Load a translation file (json) and remember the data.
 		 *

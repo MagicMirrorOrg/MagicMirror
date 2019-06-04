@@ -76,7 +76,7 @@ var Module = Class.extend({
 	/* getDom()
 	 * This method generates the dom which needs to be displayed. This method is called by the Magic Mirror core.
 	 * This method can to be subclassed if the module wants to display info on the mirror.
-	 * Alternatively, the getTemplete method could be subclassed.
+	 * Alternatively, the getTemplate method could be subclassed.
 	 *
 	 * return DomObject | Promise - The dom or a promise with the dom to display.
 	 */
@@ -121,7 +121,7 @@ var Module = Class.extend({
 
 	/* getTemplate()
 	 * This method returns the template for the module which is used by the default getDom implementation.
-	 * This method needs to be subclassed if the module wants to use a tempate.
+	 * This method needs to be subclassed if the module wants to use a template.
 	 * It can either return a template sting, or a template filename.
 	 * If the string ends with '.html' it's considered a file from within the module's folder.
 	 *
@@ -233,7 +233,7 @@ var Module = Class.extend({
 	},
 
 	/* socket()
-	 * Returns a socket object. If it doesn"t exist, it"s created.
+	 * Returns a socket object. If it doesn't exist, it"s created.
 	 * It also registers the notification callback.
 	 */
 	socket: function () {
@@ -438,11 +438,10 @@ Module.create = function (name) {
 	var ModuleClass = Module.extend(clonedDefinition);
 
 	return new ModuleClass();
-
 };
 
 /* cmpVersions(a,b)
-* Compare two symantic version numbers and return the difference.
+* Compare two semantic version numbers and return the difference.
 *
 * argument a string - Version number a.
 * argument a string - Version number b.
