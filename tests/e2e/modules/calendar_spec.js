@@ -1,9 +1,5 @@
 const helpers = require("../global-setup");
-const path = require("path");
-const request = require("request");
 const serverBasicAuth = require("../../servers/basic-auth.js");
-
-const expect = require("chai").expect;
 
 const describe = global.describe;
 const it = global.it;

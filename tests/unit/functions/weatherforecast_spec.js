@@ -1,9 +1,4 @@
-var fs = require("fs");
-var path = require("path");
-var chai = require("chai");
-var expect = chai.expect;
-var vm = require("vm");
-
+var expect = require("chai").expect;
 
 describe("Functions module weatherforecast", function() {
 
@@ -43,7 +38,6 @@ describe("Functions module weatherforecast", function() {
 				});
 			});
 		});
-
 
 		describe("this.config.roundTemp is false", function() {
 

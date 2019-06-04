@@ -12,7 +12,6 @@ const Application = require("spectron").Application;
 const assert = require("assert");
 const chai = require("chai");
 const chaiAsPromised = require("chai-as-promised");
-
 const path = require("path");
 
 global.before(function() {

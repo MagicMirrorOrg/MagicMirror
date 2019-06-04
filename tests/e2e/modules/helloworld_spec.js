@@ -1,8 +1,4 @@
 const helpers = require("../global-setup");
-const path = require("path");
-const request = require("request");
-
-const expect = require("chai").expect;
 
 const describe = global.describe;
 const it = global.it;
@@ -23,7 +19,6 @@ describe("Test helloworld module", function() {
 				app = startedApp;
 			});
 	});
-
 
 	afterEach(function() {
 		return helpers.stopApplication(app);
@@ -52,5 +47,4 @@ describe("Test helloworld module", function() {
 				.getText(".helloworld").should.eventually.equal("Hello World!");
 		});
 	});
-
 });

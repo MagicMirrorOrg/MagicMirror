@@ -1,4 +1,3 @@
-var http = require("http");
 var path = require("path");
 var auth = require("http-auth");
 var express = require("express");

@@ -1,14 +1,9 @@
 const helpers = require("./global-setup");
-const path = require("path");
 const request = require("request");
-
 const expect = require("chai").expect;
+const forEach = require("mocha-each");
 
 const describe = global.describe;
-const it = global.it;
-const beforeEach = global.beforeEach;
-const afterEach = global.afterEach;
-const forEach = require("mocha-each");
 
 describe("All font files from roboto.css should be downloadable", function() {
 	helpers.setupTimeout(this);

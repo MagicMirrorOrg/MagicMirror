@@ -1,8 +1,4 @@
 const helpers = require("./global-setup");
-const path = require("path");
-const request = require("request");
-
-const expect = require("chai").expect;
 
 const describe = global.describe;
 const it = global.it;
@@ -38,6 +34,5 @@ describe("Check configuration without modules", function () {
 		return app.client.waitUntilWindowLoaded()
 			.getText("#module_5_helloworld .module-content").should.eventually.equal("www.michaelteeuw.nl");
 	});
-
 });
 
