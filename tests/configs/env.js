@@ -1,4 +1,4 @@
-/* Magic Mirror Test config sample enviroment
+/* Magic Mirror Test config sample environment
  *
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.

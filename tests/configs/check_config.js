@@ -16,7 +16,7 @@ var Utils = require(__dirname + "/../../js/utils.js");
 
 /* getConfigFile()
  * Return string with path of configuration file
- * Check if set by enviroment variable MM_CONFIG_FILE
+ * Check if set by environment variable MM_CONFIG_FILE
  */
 function getConfigFile() {
 	// FIXME: This function should be in core. Do you want refactor me ;) ?, be good!
@@ -35,7 +35,7 @@ function checkConfigFile() {
 		console.error(Utils.colors.error("File not found: "), configFileName);
 		return;
 	}
-	// check permision
+	// check permission
 	try {
 		fs.accessSync(configFileName, fs.F_OK);
 	} catch (e) {
@@ -67,4 +67,4 @@ function checkConfigFile() {
 
 if (process.env.NODE_ENV !== "test") {
 	checkConfigFile();
-};
+}
