@@ -29,6 +29,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Allowance HTML5 autoplay-policy (policy is changed from Chrome 66 updates)
 - Handle SIGTERM messages
 - Fixes sliceMultiDayEvents so it respects maximumNumberOfDays
+- Fix typos and small syntax errors, cleanup dependencies
 
 ## [2.7.1] - 2019-04-02
 
