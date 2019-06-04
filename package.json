@@ -49,6 +49,7 @@
     "jshint": "^2.9.5",
     "mocha": "^4.1.0",
     "mocha-each": "^1.1.0",
+    "mocha-logger": "^1.0.6",
     "spectron": "^3.8.0",
     "stylelint": "^8.4.0",
     "stylelint-config-standard": "latest",
@@ -65,13 +66,11 @@
     "helmet": "^3.9.0",
     "home-path": "^1.0.6",
     "iconv-lite": "latest",
-    "mocha-logger": "^1.0.6",
     "moment": "latest",
     "request": "^2.87.0",
     "rrule-alt": "^2.2.8",
     "simple-git": "^1.85.0",
     "socket.io": "^2.1.1",
-    "valid-url": "latest",
-    "walk": "latest"
+    "valid-url": "latest"
   }
 }
