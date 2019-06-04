@@ -7,7 +7,7 @@ var vm = require("vm");
 
 describe("Functions into modules/default/newsfeed/newsfeed.js", function() {
 
-	Module = {}
+	Module = {};
 	Module.definitions = {};
 	Module.register = function (name, moduleDefinition) {
 		Module.definitions[name] = moduleDefinition;

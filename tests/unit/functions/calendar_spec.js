@@ -5,7 +5,7 @@ global.moment = require("moment");
 describe("Functions into modules/default/calendar/calendar.js", function() {
 
 	// Fake for use by calendar.js
-	Module = {}
+	Module = {};
 	Module.definitions = {};
 	Module.register = function (name, moduleDefinition) {
 		Module.definitions[name] = moduleDefinition;

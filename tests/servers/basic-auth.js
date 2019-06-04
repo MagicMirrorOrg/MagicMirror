@@ -21,7 +21,7 @@ app.use(auth.connect(basic));
 var directories = ["/tests/configs"];
 var directory;
 rootPath = path.resolve(__dirname + "/../../");
-for (i in directories) {
+for (var i in directories) {
 	directory = directories[i];
 	app.use(directory, express.static(path.resolve(rootPath + directory)));
 }

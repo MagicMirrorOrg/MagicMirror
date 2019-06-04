@@ -35,7 +35,7 @@ describe("Functions module weatherforecast", function() {
 				[2.0    ,  "2"],
 				["2.12" ,  "2"],
 				[10.1   , "10"]
-			]
+			];
 
 			values.forEach(value => {
 				it(`for ${value[0]} should be return ${value[1]}`, function() {
@@ -62,7 +62,7 @@ describe("Functions module weatherforecast", function() {
 				["2.12" ,  "2.1"],
 				[10.1   , "10.1"],
 				[10.10  , "10.1"]
-			]
+			];
 
 			values.forEach(value => {
 				it(`for ${value[0]} should be return ${value[1]}`, function() {
