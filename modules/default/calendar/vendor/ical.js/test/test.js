@@ -214,7 +214,7 @@ vows.describe('node-ical').addBatch({
   , 'event with rrule' :{
       topic: function(events){
         return _.select(_.values(events), function(x){
-          return x.summary == "foobarTV broadcast starts"
+          return x.summary === "foobarTV broadcast starts"
         })[0];
       }
       , "Has an RRULE": function(topic){
@@ -272,7 +272,7 @@ vows.describe('node-ical').addBatch({
       },
       'grabbing custom properties': {
           topic: function(topic) {
-              
+
           }
       }
   },

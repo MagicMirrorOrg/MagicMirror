@@ -136,7 +136,7 @@ Module.register("clock",{
 			clockCircle.style.width = this.config.analogSize;
 			clockCircle.style.height = this.config.analogSize;
 
-			if (this.config.analogFace != "" && this.config.analogFace != "simple" && this.config.analogFace != "none") {
+			if (this.config.analogFace !== "" && this.config.analogFace !== "simple" && this.config.analogFace !== "none") {
 				clockCircle.style.background = "url("+ this.data.path + "faces/" + this.config.analogFace + ".svg)";
 				clockCircle.style.backgroundSize = "100%";
 
@@ -144,7 +144,7 @@ Module.register("clock",{
 				// clockCircle.style.border = "1px solid black";
 				clockCircle.style.border = "rgba(0, 0, 0, 0.1)"; //Updated fix for Issue 611 where non-black backgrounds are used
 
-			} else if (this.config.analogFace != "none") {
+			} else if (this.config.analogFace !== "none") {
 				clockCircle.style.border = "2px solid white";
 			}
 			var clockFace = document.createElement("div");

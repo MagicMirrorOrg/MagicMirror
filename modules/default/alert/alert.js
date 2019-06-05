@@ -35,13 +35,13 @@ Module.register("alert",{
 		};
 	},
 	show_notification: function(message) {
-		if (this.config.effect == "slide") {this.config.effect = this.config.effect + "-" + this.config.position;}
+		if (this.config.effect === "slide") {this.config.effect = this.config.effect + "-" + this.config.position;}
 		msg = "";
 		if (message.title) {
 			msg += "<span class='thin dimmed medium'>" + message.title + "</span>";
 		}
 		if (message.message){
-			if (msg != ""){
+			if (msg !== ""){
 				msg+= "<br />";
 			}
 			msg += "<span class='light bright small'>" + message.message + "</span>";

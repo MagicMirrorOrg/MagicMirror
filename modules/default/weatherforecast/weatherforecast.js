@@ -261,7 +261,7 @@ Module.register("weatherforecast",{
 				} else if (this.status === 401) {
 					self.updateDom(self.config.animationSpeed);
 
-					if (self.config.forecastEndpoint == "forecast/daily") {
+					if (self.config.forecastEndpoint === "forecast/daily") {
 						self.config.forecastEndpoint = "forecast";
 						Log.warn(self.name + ": Your AppID does not support long term forecasts. Switching to fallback endpoint.");
 					}

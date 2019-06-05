@@ -224,7 +224,7 @@ Module.register("calendar", {
 					symbolWrapper.appendChild(symbol);
 				}
 				eventWrapper.appendChild(symbolWrapper);
-			}else if(this.config.timeFormat === "dateheaders"){
+			} else if(this.config.timeFormat === "dateheaders"){
 				var blankCell = document.createElement("td");
 				blankCell.innerHTML = "&nbsp;&nbsp;&nbsp;";
 				eventWrapper.appendChild(blankCell);
@@ -261,7 +261,7 @@ Module.register("calendar", {
 					titleWrapper.colSpan = "2";
 					titleWrapper.align = "left";
 
-				}else{
+				} else {
 
 					var timeClass = this.timeClassForUrl(event.url);
 					var timeWrapper = document.createElement("td");
@@ -274,7 +274,7 @@ Module.register("calendar", {
 				}
 
 				eventWrapper.appendChild(titleWrapper);
-			}else{
+			} else {
 				var timeWrapper = document.createElement("td");
 
 				eventWrapper.appendChild(titleWrapper);
@@ -530,7 +530,6 @@ Module.register("calendar", {
 		return events.slice(0, this.config.maximumEntries);
 	},
 
-
 	listContainsEvent: function(eventList, event){
 		for(var evt of eventList){
 			if(evt.title === event.title && parseInt(evt.startDate) === parseInt(event.startDate)){
@@ -538,7 +537,6 @@ Module.register("calendar", {
 			}
 		}
 		return false;
-
 	},
 
 	/* createEventList(url)
@@ -718,7 +716,6 @@ Module.register("calendar", {
 	 * Capitalize the first letter of a string
 	 * Return capitalized string
 	 */
-
 	capFirst: function (string) {
 		return string.charAt(0).toUpperCase() + string.slice(1);
 	},

@@ -164,7 +164,7 @@ var Module = Class.extend({
 	 * @returns Nunjucks Environment
 	 */
 	nunjucksEnvironment: function() {
-		if (this._nunjucksEnvironment != null) {
+		if (this._nunjucksEnvironment !== null) {
 			return this._nunjucksEnvironment;
 		}
 

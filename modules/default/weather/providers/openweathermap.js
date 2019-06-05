@@ -86,9 +86,9 @@ WeatherProvider.register("openweathermap", {
 	 */
 	generateWeatherObjectsFromForecast(forecasts) {
 
-		if (this.config.weatherEndpoint == "/forecast") {
+		if (this.config.weatherEndpoint === "/forecast") {
 			return this.fetchForecastHourly(forecasts);
-		} else if (this.config.weatherEndpoint == "/forecast/daily") {
+		} else if (this.config.weatherEndpoint === "/forecast/daily") {
 			return this.fetchForecastDaily(forecasts);
 		}
 		// if weatherEndpoint does not match forecast or forecast/daily, what should be returned?
@@ -140,7 +140,7 @@ WeatherProvider.register("openweathermap", {
 				weather.weatherType = this.convertWeatherType(forecast.weather[0].icon);
 
 			}
-				
+
 			if (moment(forecast.dt, "X").format("H") >= 8 && moment(forecast.dt, "X").format("H") <= 17) {
 				weather.weatherType = this.convertWeatherType(forecast.weather[0].icon);
 			}

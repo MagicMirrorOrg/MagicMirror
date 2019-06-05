@@ -13,7 +13,7 @@ describe("All font files from roboto.css should be downloadable", function() {
 	var fileContent = require("fs").readFileSync(__dirname + "/../../fonts/roboto.css", "utf8");
 	var regex = /\burl\(['"]([^'"]+)['"]\)/g;
 	var match = regex.exec(fileContent);
-	while (match != null) {
+	while (match !== null) {
 		// Push 1st match group onto fontFiles stack
 		fontFiles.push(match[1]);
 		// Find the next one
