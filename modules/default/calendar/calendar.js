@@ -191,7 +191,6 @@ Module.register("calendar", {
 				}
 			}
 
-
 			var eventWrapper = document.createElement("tr");
 
 			if (this.config.colored && !this.config.coloredSymbolOnly) {

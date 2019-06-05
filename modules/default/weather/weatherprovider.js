@@ -9,7 +9,6 @@
  * This class is the blueprint for a weather provider.
  */
 
-
 /**
  * Base BluePrint for the WeatherProvider
  */

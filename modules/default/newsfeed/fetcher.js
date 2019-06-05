@@ -81,7 +81,6 @@ var Fetcher = function(url, reloadInterval, encoding, logFeedWarnings) {
 			scheduleTimer();
 		});
 
-
 		nodeVersion = Number(process.version.match(/^v(\d+\.\d+)/)[1]);
 		headers =	{"User-Agent": "Mozilla/5.0 (Node.js "+ nodeVersion + ") MagicMirror/"	+ global.version +	" (https://github.com/MichMich/MagicMirror/)",
 			"Cache-Control": "max-age=0, no-cache, no-store, must-revalidate",

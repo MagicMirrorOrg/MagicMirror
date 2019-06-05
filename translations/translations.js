@@ -45,4 +45,3 @@ var translations = {
 
 if (typeof module !== "undefined") {module.exports = translations;}
 
-

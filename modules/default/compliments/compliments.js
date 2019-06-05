@@ -165,7 +165,6 @@ Module.register("compliments", {
 		return wrapper;
 	},
 
-
 	// From data currentweather set weather type
 	setCurrentWeatherType: function(data) {
 		var weatherIconTable = {
@@ -190,7 +189,6 @@ Module.register("compliments", {
 		};
 		this.currentWeatherType = weatherIconTable[data.weather[0].icon];
 	},
-
 
 	// Override notification handler.
 	notificationReceived: function(notification, payload, sender) {
