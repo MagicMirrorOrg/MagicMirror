@@ -18,7 +18,7 @@ var Translator = (function() {
 		xhr.overrideMimeType("application/json");
 		xhr.open("GET", file, true);
 		xhr.onreadystatechange = function () {
-			if (xhr.readyState == 4 && xhr.status == "200") {
+			if (xhr.readyState === 4 && xhr.status === "200") {
 				callback(JSON.parse(stripComments(xhr.responseText)));
 			}
 		};

@@ -89,7 +89,7 @@
 				});
 
 				child.on("close", (code) => {
-					if (code != 0) {
+					if (code !== 0) {
 						console.log(`There something wrong. The clientonly is not running code ${code}`);
 					}
 				});
