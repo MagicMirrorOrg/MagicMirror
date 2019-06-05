@@ -137,7 +137,7 @@ Module.register("weather",{
 				humidity: this.indoorHumidity,
 				temperature: this.indoorTemperature
 			}
-		}
+		};
 	},
 
 	// What to do when the weather provider has new information available?
@@ -207,7 +207,7 @@ Module.register("weather",{
 					value = `${value.toFixed(2)} ${this.config.units === "imperial" ? "in" : "mm"}`;
 				}
 			} else if (type === "humidity") {
-				value += "%"
+				value += "%";
 			}
 
 			return value;

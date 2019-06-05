@@ -291,7 +291,7 @@ Module.register("weatherforecast",{
 		} else if(this.config.location) {
 			params += "q=" + this.config.location;
 		} else if (this.firstEvent && this.firstEvent.geo) {
-			params += "lat=" + this.firstEvent.geo.lat + "&lon=" + this.firstEvent.geo.lon
+			params += "lat=" + this.firstEvent.geo.lat + "&lon=" + this.firstEvent.geo.lon;
 		} else if (this.firstEvent && this.firstEvent.location) {
 			params += "q=" + this.firstEvent.location;
 		} else {
@@ -315,7 +315,7 @@ Module.register("weatherforecast",{
 	 */
 	parserDataWeather: function(data) {
 		if (data.hasOwnProperty("main")) {
-			data["temp"] = {"min": data.main.temp_min, "max": data.main.temp_max}
+			data["temp"] = {"min": data.main.temp_min, "max": data.main.temp_max};
 		}
 		return data;
 	},
@@ -330,7 +330,7 @@ Module.register("weatherforecast",{
 
 		this.forecast = [];
 		var lastDay = null;
-		var forecastData = {}
+		var forecastData = {};
 
 		for (var i = 0, count = data.list.length; i < count; i++) {
 

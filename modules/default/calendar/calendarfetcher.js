@@ -37,7 +37,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 			if(auth.method === "bearer"){
 				opts.auth = {
 					bearer: auth.pass
-				}
+				};
 
 			} else {
 				opts.auth = {

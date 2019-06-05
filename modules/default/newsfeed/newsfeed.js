@@ -189,7 +189,7 @@ Module.register("newsfeed",{
 				fullArticle.style.top = "0";
 				fullArticle.style.left = "0";
 				fullArticle.style.border = "none";
-				fullArticle.src = this.getActiveItemURL()
+				fullArticle.src = this.getActiveItemURL();
 				fullArticle.style.zIndex = 1;
 				wrapper.appendChild(fullArticle);
 			}
@@ -398,7 +398,7 @@ Module.register("newsfeed",{
 				date:   this.newsItems[this.activeItem].pubdate,
 				desc:   this.newsItems[this.activeItem].description,
 				url:    this.getActiveItemURL()
-			})
+			});
 		} else {
 			Log.info(this.name + " - unknown notification, ignoring: " + notification);
 		}

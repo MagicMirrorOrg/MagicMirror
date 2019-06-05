@@ -92,7 +92,7 @@ var Module = Class.extend({
 				// the template is a filename
 				self.nunjucksEnvironment().render(template, templateData, function (err, res) {
 					if (err) {
-						Log.error(err)
+						Log.error(err);
 					}
 
 					div.innerHTML = res;
@@ -138,7 +138,7 @@ var Module = Class.extend({
 	 * return Object
 	 */
 	getTemplateData: function () {
-		return {}
+		return {};
 	},
 
 	/* notificationReceived(notification, payload, sender)
@@ -175,7 +175,7 @@ var Module = Class.extend({
 			lstripBlocks: true
 		});
 		this._nunjucksEnvironment.addFilter("translate", function(str) {
-			return self.translate(str)
+			return self.translate(str);
 		});
 
 		return this._nunjucksEnvironment;

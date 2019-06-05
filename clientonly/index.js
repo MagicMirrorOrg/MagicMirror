@@ -19,7 +19,7 @@
 		// Prefer command line arguments over environment variables
 		["address", "port"].forEach((key) => {
 			config[key] = getCommandLineParameter(key, process.env[key.toUpperCase()]);
-		})
+		});
 	}
 
 	function getServerConfig(url) {
@@ -43,7 +43,7 @@
 			request.on("error", function(error) {
 				reject(new Error(`Unable to read config from server (${url} (${error.message}`));
 			});
-		})
+		});
 	}
 
 	function fail(message, code = 1) {

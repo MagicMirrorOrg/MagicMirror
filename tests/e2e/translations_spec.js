@@ -121,7 +121,7 @@ describe("Translations", function() {
 							throw e;
 						}
 					}
-				})
+				});
 			});
 		}
 	});

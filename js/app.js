@@ -95,7 +95,7 @@ var App = function() {
 				". Check README and CHANGELOG for more up-to-date ways of getting the same functionality.")
 			);
 		}
-	}
+	};
 
 	/* loadModule(module)
 	 * Loads a specific module.

@@ -111,12 +111,12 @@ var WeatherProvider = Class.extend({
 					if (this.status === 200) {
 						resolve(JSON.parse(this.response));
 					} else {
-						reject(request)
+						reject(request);
 					}
 				}
 			};
 			request.send();
-		})
+		});
 	}
 });
 

@@ -105,7 +105,7 @@ Module.register("calendar", {
 				calendar.auth = {
 					user: calendar.user,
 					pass: calendar.pass
-				}
+				};
 			}
 
 			this.addCalendar(calendar.url, calendar.auth, calendarConfig);
@@ -498,7 +498,7 @@ Module.register("calendar", {
 					var midnight = moment(event.startDate, "x").clone().startOf("day").add(1, "day").format("x");
 					var count = 1;
 					while (event.endDate > midnight) {
-						var thisEvent = JSON.parse(JSON.stringify(event)) // clone object
+						var thisEvent = JSON.parse(JSON.stringify(event)); // clone object
 						thisEvent.today = thisEvent.startDate >= today && thisEvent.startDate < (today + 24 * 60 * 60 * 1000);
 						thisEvent.endDate = midnight;
 						thisEvent.title += " (" + count + "/" + maxCount + ")";
