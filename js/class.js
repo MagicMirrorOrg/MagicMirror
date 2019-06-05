@@ -21,7 +21,7 @@
 		var prototype = new this();
 		initializing = false;
 
-		// Make a copy of all prototype properies, to prevent reference issues.
+		// Make a copy of all prototype properties, to prevent reference issues.
 		for (var name in prototype) {
 			prototype[name] = cloneObject(prototype[name]);
 		}

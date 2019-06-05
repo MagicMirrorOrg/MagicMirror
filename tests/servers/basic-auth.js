@@ -16,7 +16,7 @@ var basic = auth.basic(
 
 app.use(auth.connect(basic));
 
-// Set directories availables
+// Set available directories
 var directories = ["/tests/configs"];
 var directory;
 rootPath = path.resolve(__dirname + "/../../");
