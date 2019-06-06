@@ -7,7 +7,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror² core.
 
-
 ## [2.8.0] - Unreleased
 
 *This release is scheduled to be released on 2019-04-01.*
@@ -19,7 +18,6 @@ Added UK Met Office Datapoint feed as a provider in the default weather module.
 - added "ukunits": temp in degrees C, wind speed in MPH, precipitation in %
 - use Feels Like temp from feed if present
 - optionally display precipitation in current weather
-
 
 ### Updated
 
