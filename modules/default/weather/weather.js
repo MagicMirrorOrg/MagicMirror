@@ -19,6 +19,10 @@ Module.register("weather",{
 		locationID: false,
 		appid: "",
 		units: config.units,
+
+		tempUnits: config.units,
+		windUnits: config.units,
+
 		updateInterval: 10 * 60 * 1000, // every 10 minutes
 		animationSpeed: 1000,
 		timeFormat: config.timeFormat,
@@ -85,6 +89,7 @@ Module.register("weather",{
 	// Start the weather module.
 	start: function () {
 		moment.locale(this.config.lang);
+
 		// Initialize the weather provider.
 		this.weatherProvider = WeatherProvider.initialize(this.config.weatherProvider, this);
 
@@ -189,13 +194,13 @@ Module.register("weather",{
 
 		this.nunjucksEnvironment().addFilter("unit", function (value, type) {
 			if (type === "temperature") {
-				if (this.config.units === "metric" || this.config.units === "imperial" || this.config.units === "ukunits") {
+				if (this.config.tempUnits === "metric" || this.config.tempUnits === "imperial") {
 					value += "°";
 				}
 				if (this.config.degreeLabel) {
-					if (this.config.units === "metric" || this.config.units === "ukunits") {
+					if (this.config.tempUnits === "metric") {
 						value += "C";
-					} else if (this.config.units === "imperial") {
+					} else if (this.config.tempUnits === "imperial") {
 						value += "F";
 					} else {
 						value += "K";

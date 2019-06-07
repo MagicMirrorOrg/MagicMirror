@@ -1,6 +1,6 @@
 # Weather Module
 
-This module is aimed to be the replacement for the current `currentweather` and `weatherforcast` modules. The module will be configurable to be used as a current weather view, or to show the forecast. This way the module can be used twice to fullfil both purposes. 
+This module is aimed to be the replacement for the current `currentweather` and `weatherforcast` modules. The module will be configurable to be used as a current weather view, or to show the forecast. This way the module can be used twice to fullfil both purposes.
 
 The biggest change is the use of weather providers. This way we are not bound to one API source. And users can choose which API they want to use as their source.
 
@@ -37,7 +37,9 @@ The following properties can be configured:
 | ---------------------------- | -----------
 | `weatherProvider`            | Which weather provider should be used. <br><br> **Possible values:** `openweathermap` , `darksky` , `weathergov` or `ukmetoffice`<br> **Default value:** `openweathermap`
 | `type`                       | Which type of weather data should be displayed. <br><br> **Possible values:** `current` or `forecast` <br> **Default value:** `current`
-| `units`                      | What units to use. Specified by config.js <br><br> **Possible values:** `config.units` = Specified by config.js, `default` = Kelvin, `metric` = Celsius, `imperial` = Fahrenheit, `ukunits` = Celsius (wind speed mph) <br> **Default value:** `config.units`
+| `units`                      | What units to use. Specified by config.js <br><br> **Possible values:** `config.units` = Specified by config.js, `default` = Kelvin, `metric` = Celsius, `imperial` = Fahrenheit <br> **Default value:** `config.units`
+| `tempUnits`                  | What units to use for temperature. If specified overrides `units` setting. Specified by config.js <br><br> **Possible values:** `config.units` = Specified by config.js, `default` = Kelvin, `metric` = Celsius, `imperial` = Fahrenheit <br> **Default value:** `units`
+| `windUnits`                  | What units to use for wind speed.  If specified overrides `units` setting. Specified by config.js <br><br> **Possible values:** `config.units` = Specified by config.js, `default` = Kelvin, `metric` = Celsius, `imperial` = Fahrenheit <br> **Default value:** `units`
 | `roundTemp`                  | Round temperature value to nearest integer. <br><br> **Possible values:** `true` (round to integer) or `false` (display exact value with decimal point) <br> **Default value:** `false`
 | `degreeLabel`                | Show the degree label for your chosen units (Metric = C, Imperial = F, Kelvin = K). <br><br> **Possible values:** `true` or `false` <br> **Default value:** `false`
 | `updateInterval`             | How often does the content needs to be fetched? (Milliseconds) <br><br> **Possible values:** `1000` - `86400000` <br> **Default value:** `600000` (10 minutes)

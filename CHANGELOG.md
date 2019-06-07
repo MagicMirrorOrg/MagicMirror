@@ -14,10 +14,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 Added UK Met Office Datapoint feed as a provider in the default weather module.
 - added new provider class
-- added suncalc.js dependency to calculate sun times (not provided in datapoint feed)
-- added "ukunits": temp in degrees C, wind speed in MPH, precipitation in %
+- added suncalc.js dependency to calculate sun times (not provided in UK Met Office feed)
+- added "tempUnits" and "windUnits" to allow, for example, temp in metric (i.e. celsius) and wind in imperial (i.e. mph). These will override "units" if specified, otherwise the "units" value will be used.
 - use Feels Like temp from feed if present
-- optionally display precipitation in current weather
+- optionally display probability of precipitation (PoP) in current weather (UK Met Office data)
 
 ### Updated
 

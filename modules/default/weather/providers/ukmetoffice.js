@@ -19,8 +19,7 @@ WeatherProvider.register("ukmetoffice", {
 
 	units: {
 		imperial: "us",
-		metric: "si",
-		ukunits: "uk"
+		metric: "si"
 	},
 
 	// Overwrite the fetchCurrentWeather method.
@@ -79,7 +78,7 @@ WeatherProvider.register("ukmetoffice", {
 	 * Generate a WeatherObject based on currentWeatherInformation
 	 */
 	generateWeatherObjectFromCurrentWeather(currentWeatherData) {
-		const currentWeather = new WeatherObject(this.config.units);
+		const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
 
 		// data times are always UTC
 		let nowUtc = moment.utc()
@@ -132,7 +131,7 @@ WeatherProvider.register("ukmetoffice", {
 		// loop round the (5) periods getting the data
 		// for each period array, Day is [0], Night is [1]
 		for (j in forecasts.SiteRep.DV.Location.Period) {
-			const weather = new WeatherObject(this.config.units);
+			const weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
 
 			// data times are always UTC
 			dateStr = forecasts.SiteRep.DV.Location.Period[j].value
@@ -212,14 +211,14 @@ WeatherProvider.register("ukmetoffice", {
 	 * Convert temp (from degrees C) if required
 	 */
 	convertTemp(tempInC) {
-		return this.units === "imperial" ? tempInC * 9 / 5 + 32 : tempInC;
+		return this.tempUnits === "imperial" ? tempInC * 9 / 5 + 32 : tempInC;
 	},
 
 	/*
 	 * Convert wind speed (from mph) if required
 	 */
 	convertWindSpeed(windInMph) {
-		return this.units === "metric" ? windInMph * 2.23694 : windInMph;
+		return this.windUnits === "metric" ? windInMph * 2.23694 : windInMph;
 	},
 
 	/*
