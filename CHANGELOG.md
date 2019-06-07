@@ -9,9 +9,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [2.8.0] - Unreleased
 
-*This release is scheduled to be released on 2019-04-01.*
+*This release is scheduled to be released on 2019-07-01.*
 
 ### Added
+- Option to show event location in calendar
+- Finnish translation for "Feels" and "Weeks"
+- Russian translation for “Feels”
+- Calendar module: added `nextDaysRelative` config option
+- Add `broadcastPastEvents` config option for calendars to include events from the past `maximumNumberOfDays` in event broadcasts
+
 Added UK Met Office Datapoint feed as a provider in the default weather module.
 - added new provider class
 - added suncalc.js dependency to calculate sun times (not provided in UK Met Office feed)
@@ -20,8 +26,17 @@ Added UK Met Office Datapoint feed as a provider in the default weather module.
 - optionally display probability of precipitation (PoP) in current weather (UK Met Office data)
 
 ### Updated
+- English translation for "Feels" to "Feels like"
+- Fixed the example calender url in `config.js.sample`
+- Update `ical.js` to solve various calendar issues.
+- Update weather city list url [#1676](https://github.com/MichMich/MagicMirror/issues/1676) 
+- Only update clock once per minute when seconds aren't shown
 
 ### Fixed
+- Allowance HTML5 autoplay-policy (policy is changed from Chrome 66 updates)
+- Handle SIGTERM messages
+- Fixes sliceMultiDayEvents so it respects maximumNumberOfDays
+>>>>>>> upstream/develop
 
 ## [2.7.1] - 2019-04-02
 

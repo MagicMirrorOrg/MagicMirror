@@ -41,8 +41,11 @@ Module.register("clock",{
 
 		// Schedule update interval.
 		var self = this;
+		self.lastDisplayedMinute = null;
 		setInterval(function() {
-			self.updateDom();
+			if (self.config.displaySeconds || self.lastDisplayedMinute !== moment().minute()) {
+				self.updateDom();
+			}
 		}, 1000);
 
 		// Set locale.
@@ -75,6 +78,7 @@ Module.register("clock",{
 		// See issue: https://github.com/MichMich/MagicMirror/issues/181
 		var timeString;
 		var now = moment();
+		this.lastDisplayedMinute = now.minute();
 		if (this.config.timezone) {
 			now.tz(this.config.timezone);
 		}
