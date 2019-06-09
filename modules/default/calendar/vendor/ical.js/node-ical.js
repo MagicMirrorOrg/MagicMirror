@@ -37,8 +37,10 @@ ical.objectHandlers['END'] = function(val, params, curr, stack){
         }
       }
 
-      rule += ' DTSTART:' + curr.start.toISOString().replace(/[-:]/g, '');
-      rule = rule.replace(/\.[0-9]{3}/, '');
+      if( typeof (curr.start) === "date") {
+          rule += ' DTSTART:' + curr.start.toISOString().replace(/[-:]/g, '');
+          rule = rule.replace(/\.[0-9]{3}/, '');
+      }
     }
     for (var i in curr.exdates) {
       rule += ' EXDATE:' + curr.exdates[i].toISOString().replace(/[-:]/g, '');
