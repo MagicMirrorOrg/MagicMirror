@@ -14,6 +14,7 @@
     "moment": "^2.17.1",
     "moment-timezone": "^0.5.11",
     "nunjucks": "^3.0.1",
+    "suncalc": "^1.8.0",
     "weathericons": "^2.1.0"
   }
 }

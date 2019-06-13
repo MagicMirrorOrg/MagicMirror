@@ -18,6 +18,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Calendar module: added `nextDaysRelative` config option
 - Add `broadcastPastEvents` config option for calendars to include events from the past `maximumNumberOfDays` in event broadcasts
 
+Added UK Met Office Datapoint feed as a provider in the default weather module.
+- added new provider class
+- added suncalc.js dependency to calculate sun times (not provided in UK Met Office feed)
+- added "tempUnits" and "windUnits" to allow, for example, temp in metric (i.e. celsius) and wind in imperial (i.e. mph). These will override "units" if specified, otherwise the "units" value will be used.
+- use Feels Like temp from feed if present
+- optionally display probability of precipitation (PoP) in current weather (UK Met Office data)
+
 ### Updated
 - English translation for "Feels" to "Feels like"
 - Fixed the example calender url in `config.js.sample`
@@ -29,6 +36,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Allowance HTML5 autoplay-policy (policy is changed from Chrome 66 updates)
 - Handle SIGTERM messages
 - Fixes sliceMultiDayEvents so it respects maximumNumberOfDays
+>>>>>>> upstream/develop
 
 ## [2.7.1] - 2019-04-02
 
