@@ -135,6 +135,7 @@ Module.register("calendar", {
 			}
 		} else if (notification === "FETCH_ERROR") {
 			Log.error("Calendar Error. Could not fetch calendar: " + payload.url);
+			this.loaded = true
 		} else if (notification === "INCORRECT_URL") {
 			Log.error("Calendar Error. Incorrect url: " + payload.url);
 		} else {
