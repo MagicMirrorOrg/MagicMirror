@@ -33,6 +33,7 @@ Added UK Met Office Datapoint feed as a provider in the default weather module.
 - Only update clock once per minute when seconds aren't shown
 
 ### Fixed
+- fixed issue [#1696](https://github.com/MichMich/MagicMirror/issues/1696), some ical files start date to not parse to date type 
 - Allowance HTML5 autoplay-policy (policy is changed from Chrome 66 updates)
 - Handle SIGTERM messages
 - Fixes sliceMultiDayEvents so it respects maximumNumberOfDays
