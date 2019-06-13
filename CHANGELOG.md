@@ -37,6 +37,7 @@ Added UK Met Office Datapoint feed as a provider in the default weather module.
 - Allowance HTML5 autoplay-policy (policy is changed from Chrome 66 updates)
 - Handle SIGTERM messages
 - Fixes sliceMultiDayEvents so it respects maximumNumberOfDays
+- Fixed issues with calendar not displaying one-time changes to repeating events
 >>>>>>> upstream/develop
 
 ## [2.7.1] - 2019-04-02
