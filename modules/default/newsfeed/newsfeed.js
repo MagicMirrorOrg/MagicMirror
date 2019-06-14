@@ -20,6 +20,8 @@ Module.register("newsfeed",{
 		],
 		showSourceTitle: true,
 		showPublishDate: true,
+		broadcastNewsFeeds: true,
+		broadcastNewsUpdates: true,
 		showDescription: false,
 		wrapTitle: true,
 		wrapDescription: true,
@@ -266,6 +268,20 @@ Module.register("newsfeed",{
 			}, this);
 		}
 
+		// get updated news items and broadcast them
+		var updatedItems = [];
+		newsItems.forEach(value => {
+			if (this.newsItems.findIndex(value1 => value1 === value) === -1) {
+				// Add item to updated items list
+				updatedItems.push(value)
+			}
+		});
+
+		// check if updated items exist, if so and if we should broadcast these updates, then lets do so
+		if (this.config.broadcastNewsUpdates && updatedItems.length > 0) {
+			this.sendNotification("NEWS_FEED_UPDATE", {items: updatedItems})
+		}
+
 		this.newsItems = newsItems;
 	},
 
@@ -314,6 +330,11 @@ Module.register("newsfeed",{
 		timer = setInterval(function() {
 			self.activeItem++;
 			self.updateDom(self.config.animationSpeed);
+
+			// Broadcast NewsFeed if needed
+			if (self.config.broadcastNewsFeeds) {
+				self.sendNotification("NEWS_FEED", {items: self.newsItems});
+			}
 		}, this.config.updateInterval);
 	},
 
