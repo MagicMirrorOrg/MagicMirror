@@ -211,7 +211,7 @@ Module.register("weather",{
 					value = "";
 				} else {
 				    if (this.config.weatherProvider === "ukmetoffice") {
-						value += "%"
+						value += "%";
 				    } else {
 						value = `${value.toFixed(2)} ${this.config.units === "imperial" ? "in" : "mm"}`;
 				    }

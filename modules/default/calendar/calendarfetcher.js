@@ -171,8 +171,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 					var geo = event.geo || false;
 					var description = event.description || false;
 
-
-					if (typeof event.rrule !== 'undefined' && event.rrule !== null && !isFacebookBirthday) {
+					if (typeof event.rrule !== "undefined" && event.rrule !== null && !isFacebookBirthday) {
 						var rule = event.rrule;
 						var addedEvents = 0;
 
@@ -210,7 +209,6 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 							}
 						}
 
-
 						// Loop through the set of date entries to see which recurrences should be added to our event list.
 						for (var d in dates) {
 							var date = dates[d];
@@ -246,7 +244,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 
 							endDate  = moment(parseInt(startDate.format("x")) + duration, "x");
 							if (startDate.format("x") == endDate.format("x")) {
-								endDate = endDate.endOf("day")
+								endDate = endDate.endOf("day");
 							}
 
 							var recurrenceTitle = getTitleFromEvent(curEvent);
