@@ -60,6 +60,7 @@ module.exports = NodeHelper.create({
 			});
 
 			fetcher.onError(function(fetcher, error) {
+				console.error("Calendar Error. Could not fetch calendar: ", fetcher.url(), error)
 				self.sendSocketNotification("FETCH_ERROR", {
 					url: fetcher.url(),
 					error: error
