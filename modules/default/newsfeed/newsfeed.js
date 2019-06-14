@@ -273,13 +273,13 @@ Module.register("newsfeed",{
 		newsItems.forEach(value => {
 			if (this.newsItems.findIndex(value1 => value1 === value) === -1) {
 				// Add item to updated items list
-				updatedItems.push(value)
+				updatedItems.push(value);
 			}
 		});
 
 		// check if updated items exist, if so and if we should broadcast these updates, then lets do so
 		if (this.config.broadcastNewsUpdates && updatedItems.length > 0) {
-			this.sendNotification("NEWS_FEED_UPDATE", {items: updatedItems})
+			this.sendNotification("NEWS_FEED_UPDATE", {items: updatedItems});
 		}
 
 		this.newsItems = newsItems;

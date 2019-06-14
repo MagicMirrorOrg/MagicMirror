@@ -88,7 +88,7 @@ class WeatherObject {
 
 	feelsLike() {
 	  if (this.feelsLikeTemp) {
-		  return this.feelsLikeTemp
+		  return this.feelsLikeTemp;
 		}
 		const windInMph = (this.windUnits === "imperial") ? this.windSpeed : this.windSpeed * 2.23694;
 		const tempInF = this.tempUnits === "imperial" ? this.temperature : this.temperature * 9 / 5 + 32;
