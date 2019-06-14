@@ -42,6 +42,7 @@ Added UK Met Office Datapoint feed as a provider in the default weather module.
 - Minor types in default NewsFeed [README.md](https://github.com/MichMich/MagicMirror/blob/develop/modules/default/newsfeed/README.md)
 - Fix typos and small syntax errors, cleanup dependencies, remove multiple-empty-lines, add semi-rule
 - Fixed issues with calendar not displaying one-time changes to repeating events
+- Updated the fetchedLocationName variable in currentweather.js so that city shows up in the header
 
 ## [2.7.1] - 2019-04-02
 
