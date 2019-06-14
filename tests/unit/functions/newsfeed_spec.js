@@ -1,13 +1,8 @@
-var fs = require("fs");
-var path = require("path");
-var chai = require("chai");
-var expect = chai.expect;
-var vm = require("vm");
-
+var expect = require("chai").expect;
 
 describe("Functions into modules/default/newsfeed/newsfeed.js", function() {
 
-	Module = {}
+	Module = {};
 	Module.definitions = {};
 	Module.register = function (name, moduleDefinition) {
 		Module.definitions[name] = moduleDefinition;
@@ -32,6 +27,5 @@ describe("Functions into modules/default/newsfeed/newsfeed.js", function() {
 			});
 		});
 	});
-
 });
 

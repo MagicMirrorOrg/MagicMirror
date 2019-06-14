@@ -2,7 +2,7 @@
 
 "use strict";
 
-// Use seperate scope to prevent global scope pollution
+// Use separate scope to prevent global scope pollution
 (function () {
 	var config = {};
 
@@ -19,7 +19,7 @@
 		// Prefer command line arguments over environment variables
 		["address", "port"].forEach((key) => {
 			config[key] = getCommandLineParameter(key, process.env[key.toUpperCase()]);
-		})
+		});
 	}
 
 	function getServerConfig(url) {
@@ -30,7 +30,7 @@
 			const request = lib.get(url, (response) => {
 				var configData = "";
 
-				// Gather incomming data
+				// Gather incoming data
 				response.on("data", function(chunk) {
 					configData += chunk;
 				});
@@ -43,8 +43,8 @@
 			request.on("error", function(error) {
 				reject(new Error(`Unable to read config from server (${url} (${error.message}`));
 			});
-		})
-	};
+		});
+	}
 
 	function fail(message, code = 1) {
 		if (message !== undefined && typeof message === "string") {
@@ -89,7 +89,7 @@
 				});
 
 				child.on("close", (code) => {
-					if (code != 0) {
+					if (code !== 0) {
 						console.log(`There something wrong. The clientonly is not running code ${code}`);
 					}
 				});

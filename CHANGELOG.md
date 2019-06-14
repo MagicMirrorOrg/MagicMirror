@@ -40,6 +40,7 @@ Added UK Met Office Datapoint feed as a provider in the default weather module.
 - Handle SIGTERM messages
 - Fixes sliceMultiDayEvents so it respects maximumNumberOfDays
 - Minor types in default NewsFeed [README.md](https://github.com/MichMich/MagicMirror/blob/develop/modules/default/newsfeed/README.md)
+- Fix typos and small syntax errors, cleanup dependencies, remove multiple-empty-lines, add semi-rule
 
 ## [2.7.1] - 2019-04-02
 
