@@ -1,7 +1,5 @@
 const helpers = require("./global-setup");
-const path = require("path");
 const request = require("request");
-
 const expect = require("chai").expect;
 
 const describe = global.describe;
@@ -20,7 +18,7 @@ describe("Vendors", function () {
 	before(function () {
 		return helpers.startApplication({
 			args: ["js/electron.js"]
-		}).then(function (startedApp) { app = startedApp; })
+		}).then(function (startedApp) { app = startedApp; });
 	});
 
 	after(function () {

@@ -26,7 +26,7 @@ module.exports = function(grunt) {
 		stylelint: {
 			simple: {
 				options: {
-					configFile: ".stylelintrc"
+					configFile: ".stylelintrc.json"
 				},
 				src: [
 					"css/main.css",
@@ -42,11 +42,11 @@ module.exports = function(grunt) {
 				src: [
 					"package.json",
 					".eslintrc.json",
-					".stylelintrc",
+					".stylelintrc.json",
+					"installers/pm2_MagicMirror.json",
 					"translations/*.json",
 					"modules/default/*/translations/*.json",
-					"installers/pm2_MagicMirror.json",
-					"vendor/package.js"
+					"vendor/package.json"
 				],
 				options: {
 					reporter: "jshint"

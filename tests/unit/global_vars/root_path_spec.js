@@ -1,7 +1,6 @@
 var fs = require("fs");
 var path = require("path");
-var chai = require("chai");
-var expect = chai.expect;
+var expect = require("chai").expect;
 var vm = require("vm");
 
 before(function() {
@@ -66,6 +65,4 @@ describe("'global.root_path' set in js/app.js", function() {
 		versionPackage = JSON.parse(fs.readFileSync("package.json", "utf8")).version;
 		expect(this.sandbox.global.version).to.equal(versionPackage);
 	});
-
 });
-

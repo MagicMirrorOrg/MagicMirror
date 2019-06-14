@@ -143,7 +143,7 @@ Module.register("weather",{
 				humidity: this.indoorHumidity,
 				temperature: this.indoorTemperature
 			}
-		}
+		};
 	},
 
 	// What to do when the weather provider has new information available?
@@ -217,7 +217,7 @@ Module.register("weather",{
 				    }
 				}
 			} else if (type === "humidity") {
-				value += "%"
+				value += "%";
 			}
 
 			return value;

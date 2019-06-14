@@ -105,7 +105,7 @@ Module.register("calendar", {
 				calendar.auth = {
 					user: calendar.user,
 					pass: calendar.pass
-				}
+				};
 			}
 
 			this.addCalendar(calendar.url, calendar.auth, calendarConfig);
@@ -191,7 +191,6 @@ Module.register("calendar", {
 				}
 			}
 
-
 			var eventWrapper = document.createElement("tr");
 
 			if (this.config.colored && !this.config.coloredSymbolOnly) {
@@ -224,7 +223,7 @@ Module.register("calendar", {
 					symbolWrapper.appendChild(symbol);
 				}
 				eventWrapper.appendChild(symbolWrapper);
-			}else if(this.config.timeFormat === "dateheaders"){
+			} else if(this.config.timeFormat === "dateheaders"){
 				var blankCell = document.createElement("td");
 				blankCell.innerHTML = "&nbsp;&nbsp;&nbsp;";
 				eventWrapper.appendChild(blankCell);
@@ -261,7 +260,7 @@ Module.register("calendar", {
 					titleWrapper.colSpan = "2";
 					titleWrapper.align = "left";
 
-				}else{
+				} else {
 
 					var timeClass = this.timeClassForUrl(event.url);
 					var timeWrapper = document.createElement("td");
@@ -274,7 +273,7 @@ Module.register("calendar", {
 				}
 
 				eventWrapper.appendChild(titleWrapper);
-			}else{
+			} else {
 				var timeWrapper = document.createElement("td");
 
 				eventWrapper.appendChild(titleWrapper);
@@ -499,7 +498,7 @@ Module.register("calendar", {
 					var midnight = moment(event.startDate, "x").clone().startOf("day").add(1, "day").format("x");
 					var count = 1;
 					while (event.endDate > midnight) {
-						var thisEvent = JSON.parse(JSON.stringify(event)) // clone object
+						var thisEvent = JSON.parse(JSON.stringify(event)); // clone object
 						thisEvent.today = thisEvent.startDate >= today && thisEvent.startDate < (today + 24 * 60 * 60 * 1000);
 						thisEvent.endDate = midnight;
 						thisEvent.title += " (" + count + "/" + maxCount + ")";
@@ -530,7 +529,6 @@ Module.register("calendar", {
 		return events.slice(0, this.config.maximumEntries);
 	},
 
-
 	listContainsEvent: function(eventList, event){
 		for(var evt of eventList){
 			if(evt.title === event.title && parseInt(evt.startDate) === parseInt(event.startDate)){
@@ -538,7 +536,6 @@ Module.register("calendar", {
 			}
 		}
 		return false;
-
 	},
 
 	/* createEventList(url)
@@ -718,7 +715,6 @@ Module.register("calendar", {
 	 * Capitalize the first letter of a string
 	 * Return capitalized string
 	 */
-
 	capFirst: function (string) {
 		return string.charAt(0).toUpperCase() + string.slice(1);
 	},

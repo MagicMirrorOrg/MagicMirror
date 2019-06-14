@@ -19,9 +19,9 @@
 }
 
 .weatherforecast tr.colored .min-temp {
-    color: #BCDDFF;
+  color: #BCDDFF;
 }
 
 .weatherforecast tr.colored .max-temp {
-    color: #FF8E99;
+  color: #FF8E99;
 }

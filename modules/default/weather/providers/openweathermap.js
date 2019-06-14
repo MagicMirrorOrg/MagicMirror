@@ -86,9 +86,9 @@ WeatherProvider.register("openweathermap", {
 	 */
 	generateWeatherObjectsFromForecast(forecasts) {
 
-		if (this.config.weatherEndpoint == "/forecast") {
+		if (this.config.weatherEndpoint === "/forecast") {
 			return this.fetchForecastHourly(forecasts);
-		} else if (this.config.weatherEndpoint == "/forecast/daily") {
+		} else if (this.config.weatherEndpoint === "/forecast/daily") {
 			return this.fetchForecastDaily(forecasts);
 		}
 		// if weatherEndpoint does not match forecast or forecast/daily, what should be returned?

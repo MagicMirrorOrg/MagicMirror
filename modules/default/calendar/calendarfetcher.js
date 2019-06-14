@@ -37,9 +37,9 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 			if(auth.method === "bearer"){
 				opts.auth = {
 					bearer: auth.pass
-				}
+				};
 
-			}else{
+			} else {
 				opts.auth = {
 					user: auth.user,
 					pass: auth.pass
@@ -47,7 +47,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 
 				if(auth.method === "digest"){
 					opts.auth.sendImmediately = false;
-				}else{
+				} else {
 					opts.auth.sendImmediately = true;
 				}
 			}
@@ -106,7 +106,6 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 							endDate = moment(startDate).add(1, "days");
 						}
 					}
-
 
 					// calculate the duration f the event for use with recurring events.
 					var duration = parseInt(endDate.format("x")) - parseInt(startDate.format("x"));
@@ -176,7 +175,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 					var geo = event.geo || false;
 					var description = event.description || false;
 
-					if (typeof event.rrule != "undefined" && event.rrule != null && !isFacebookBirthday) {
+					if (typeof event.rrule !== undefined && event.rrule !== null && !isFacebookBirthday) {
 						var rule = event.rrule;
 
 						// can cause problems with e.g. birthdays before 1900
@@ -341,7 +340,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 		} else {
 			return title.includes(filter);
 		}
-	}
+	};
 
 	/* public methods */
 
@@ -395,8 +394,6 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 	this.events = function() {
 		return events;
 	};
-
 };
-
 
 module.exports = CalendarFetcher;
