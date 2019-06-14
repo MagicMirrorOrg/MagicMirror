@@ -41,10 +41,24 @@ Module.register("clock",{
 
 		// Schedule update interval.
 		var self = this;
+		self.second = 0;
+		self.minute = 0;
 		self.lastDisplayedMinute = null;
 		setInterval(function() {
 			if (self.config.displaySeconds || self.lastDisplayedMinute !== moment().minute()) {
 				self.updateDom();
+			}
+			if (self.second === 59) {
+				self.second = 0;
+				if (self.minute === 59){
+					self.minute = 0;
+				} else {
+					self.minute++;
+				}
+				self.sendNotification("CLOCK_MINUTE", self.minute);
+			} else {
+				self.second++;
+				self.sendNotification("CLOCK_SECOND", self.second);
 			}
 		}, 1000);
 
