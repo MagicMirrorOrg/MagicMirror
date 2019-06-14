@@ -171,12 +171,13 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 					var geo = event.geo || false;
 					var description = event.description || false;
 
-					if (typeof event.rrule !== undefined && event.rrule !== null && !isFacebookBirthday) {
+
+					if (typeof event.rrule !== 'undefined' && event.rrule !== null && !isFacebookBirthday) {
 						var rule = event.rrule;
 						var addedEvents = 0;
 
 						// can cause problems with e.g. birthdays before 1900
-						if(rule.origOptions && rule.origOptions.dtstart && rule.origOptions.dtstart.getFullYear() < 1900 ||
+						if(rule.options && rule.origOptions && rule.origOptions.dtstart && rule.origOptions.dtstart.getFullYear() < 1900 ||
 							rule.options && rule.options.dtstart && rule.options.dtstart.getFullYear() < 1900){
 							rule.origOptions.dtstart.setYear(1900);
 							rule.options.dtstart.setYear(1900);
