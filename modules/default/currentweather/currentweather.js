@@ -383,6 +383,7 @@ Module.register("currentweather",{
 
 		this.humidity = parseFloat(data.main.humidity);
 		this.temperature = this.roundValue(data.main.temp);
+		this.fetchedLocationName = data.name;
 		this.feelsLike = 0;
 
 		if (this.config.useBeaufort){
