@@ -203,6 +203,7 @@ var MM = (function() {
 	 */
 	var updateModuleContent = function(module, newHeader, newContent) {
 		var moduleWrapper = document.getElementById(module.identifier);
+        if (moduleWrapper === null) return;
 		var headerWrapper = moduleWrapper.getElementsByClassName("module-header");
 		var contentWrapper = moduleWrapper.getElementsByClassName("module-content");
 
