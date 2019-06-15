@@ -1,13 +1,8 @@
 const helpers = require("./global-setup");
-const path = require("path");
-const request = require("request");
-
 const expect = require("chai").expect;
 
 const describe = global.describe;
 const it = global.it;
-const beforeEach = global.beforeEach;
-const afterEach = global.afterEach;
 
 describe("Development console tests", function() {
 	// This tests fail and crash another tests

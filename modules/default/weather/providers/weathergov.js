@@ -67,7 +67,7 @@ WeatherProvider.register("weathergov", {
 	 * Generate a WeatherObject based on currentWeatherInformation
 	 */
 	generateWeatherObjectFromCurrentWeather(currentWeatherData) {
-		const currentWeather = new WeatherObject(this.config.units);
+		const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
 
 		currentWeather.temperature = currentWeatherData.temperature;
 		currentWeather.windSpeed = currentWeatherData.windSpeed.split(" ", 1);
@@ -95,7 +95,7 @@ WeatherProvider.register("weathergov", {
 		let maxTemp = [];
 		// variable for date
 		let date = "";
-		let weather = new WeatherObject(this.config.units);
+		let weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
 		weather.precipitation = 0;
 
 		for (const forecast of forecasts) {
@@ -109,7 +109,7 @@ WeatherProvider.register("weathergov", {
 				// push weather information to days array
 				days.push(weather);
 				// create new weather-object
-				weather = new WeatherObject(this.config.units);
+				weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
 
 				minTemp = [];
 				maxTemp = [];
@@ -134,7 +134,7 @@ WeatherProvider.register("weathergov", {
 			minTemp.push(forecast.temperature);
 			maxTemp.push(forecast.temperature);
 		}
-		
+
 		// last day
 		// calculate minimum/maximum temperature, specify rain amount
 		weather.minTemperature = Math.min.apply(null, minTemp);
@@ -202,7 +202,7 @@ WeatherProvider.register("weathergov", {
 			}
 
 			return "night-clear";
-		} else if (weatherType.includes("Dust") || weatherType.includes("Sand")) {	
+		} else if (weatherType.includes("Dust") || weatherType.includes("Sand")) {
 			return "dust";
 		} else if (weatherType.includes("Fog")) {
 			return "fog";

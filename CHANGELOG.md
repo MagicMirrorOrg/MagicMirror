@@ -17,6 +17,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Russian translation for “Feels”
 - Calendar module: added `nextDaysRelative` config option
 - Add `broadcastPastEvents` config option for calendars to include events from the past `maximumNumberOfDays` in event broadcasts
+- Added feature to broadcast news feed items `NEWS_FEED` and updated news items `NEWS_FEED_UPDATED` in default [newsfeed](https://github.com/MichMich/MagicMirror/tree/develop/modules/default/newsfeed) module (when news is updated) with documented default and `config.js` options in [README.md](https://github.com/MichMich/MagicMirror/blob/develop/modules/default/newsfeed/README.md)
+- Added notifications to default `clock` module broadcasting `CLOCK_SECOND` and `CLOCK_MINUTE` for the respective time elapsed.
+- Added UK Met Office Datapoint feed as a provider in the default weather module.
+- added new provider class
+- added suncalc.js dependency to calculate sun times (not provided in UK Met Office feed)
+- added "tempUnits" and "windUnits" to allow, for example, temp in metric (i.e. celsius) and wind in imperial (i.e. mph). These will override "units" if specified, otherwise the "units" value will be used.
+- use Feels Like temp from feed if present
+- optionally display probability of precipitation (PoP) in current weather (UK Met Office data)
+- automatically try to fix eslint errors by passing `--fix` option to it
 
 ### Updated
 - English translation for "Feels" to "Feels like"
@@ -26,9 +35,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Only update clock once per minute when seconds aren't shown
 
 ### Fixed
+- fixed issue [#1696](https://github.com/MichMich/MagicMirror/issues/1696), some ical files start date to not parse to date type 
 - Allowance HTML5 autoplay-policy (policy is changed from Chrome 66 updates)
 - Handle SIGTERM messages
 - Fixes sliceMultiDayEvents so it respects maximumNumberOfDays
+- Minor types in default NewsFeed [README.md](https://github.com/MichMich/MagicMirror/blob/develop/modules/default/newsfeed/README.md)
+- Fix typos and small syntax errors, cleanup dependencies, remove multiple-empty-lines, add semi-rule
+- Fixed issues with calendar not displaying one-time changes to repeating events
+- Updated the fetchedLocationName variable in currentweather.js so that city shows up in the header
 
 ## [2.7.1] - 2019-04-02
 

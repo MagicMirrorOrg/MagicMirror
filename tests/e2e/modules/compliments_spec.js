@@ -1,7 +1,4 @@
 const helpers = require("../global-setup");
-const path = require("path");
-const request = require("request");
-
 const expect = require("chai").expect;
 
 const describe = global.describe;

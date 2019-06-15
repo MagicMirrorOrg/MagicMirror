@@ -1,8 +1,4 @@
 const helpers = require("../global-setup");
-const path = require("path");
-const request = require("request");
-
-const expect = require("chai").expect;
 
 const describe = global.describe;
 const it = global.it;
@@ -86,5 +82,4 @@ describe("Clock set to spanish language module", function() {
 				.getText(".clock .week").should.eventually.match(weekRegex);
 		});
 	});
-
 });
