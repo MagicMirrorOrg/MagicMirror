@@ -26,6 +26,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - use Feels Like temp from feed if present
 - optionally display probability of precipitation (PoP) in current weather (UK Met Office data)
 - automatically try to fix eslint errors by passing `--fix` option to it
+- Added sunrise and sunset times to weathergov weather provider [#1705](https://github.com/MichMich/MagicMirror/issues/1705)
 
 ### Updated
 - English translation for "Feels" to "Feels like"
