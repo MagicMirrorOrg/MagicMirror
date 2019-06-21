@@ -103,7 +103,7 @@ Module.register("newsfeed",{
 			// this.config.showFullArticle is a run-time configuration, triggered by optional notifications
 			if (!this.config.showFullArticle && (this.config.showSourceTitle || this.config.showPublishDate)) {
 				var sourceAndTimestamp = document.createElement("div");
-				sourceAndTimestamp.className = "light small dimmed";
+				sourceAndTimestamp.className = "newsfeed-source light small dimmed";
 
 				if (this.config.showSourceTitle && this.newsItems[this.activeItem].sourceTitle !== "") {
 					sourceAndTimestamp.innerHTML = this.newsItems[this.activeItem].sourceTitle;
@@ -166,14 +166,14 @@ Module.register("newsfeed",{
 
 			if(!this.config.showFullArticle){
 				var title = document.createElement("div");
-				title.className = "bright medium light" + (!this.config.wrapTitle ? " no-wrap" : "");
+				title.className = "newsfeed-title bright medium light" + (!this.config.wrapTitle ? " no-wrap" : "");
 				title.innerHTML = this.newsItems[this.activeItem].title;
 				wrapper.appendChild(title);
 			}
 
 			if (this.isShowingDescription) {
 				var description = document.createElement("div");
-				description.className = "small light" + (!this.config.wrapDescription ? " no-wrap" : "");
+				description.className = "newsfeed-desc small light" + (!this.config.wrapDescription ? " no-wrap" : "");
 				var txtDesc = this.newsItems[this.activeItem].description;
 				description.innerHTML = (this.config.truncDescription ? (txtDesc.length > this.config.lengthDescription ? txtDesc.substring(0, this.config.lengthDescription) + "..." : txtDesc) : txtDesc);
 				wrapper.appendChild(description);
