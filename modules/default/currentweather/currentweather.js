@@ -23,6 +23,7 @@ Module.register("currentweather",{
 		showWindDirection: true,
 		showWindDirectionAsArrow: false,
 		useBeaufort: true,
+		appendLocationNameToHeader: false,
 		useKMPHwind: false,
 		lang: config.language,
 		decimalSymbol: ".",
@@ -269,6 +270,10 @@ Module.register("currentweather",{
 			return this.data.header + " " + this.fetchedLocationName;
 		}
 
+		if (this.config.useLocationAsHeader && this.config.location !== false) {
+			return this.config.location;
+		}
+		
 		return this.data.header;
 	},
 
