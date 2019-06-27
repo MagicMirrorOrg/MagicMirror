@@ -27,6 +27,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - optionally display probability of precipitation (PoP) in current weather (UK Met Office data)
 - automatically try to fix eslint errors by passing `--fix` option to it
 - Added sunrise and sunset times to weathergov weather provider [#1705](https://github.com/MichMich/MagicMirror/issues/1705)
+- Added "useLocationAsHeader" to display "location" in `config.js` as header when location name is not returned
 
 ### Updated
 - English translation for "Feels" to "Feels like"
