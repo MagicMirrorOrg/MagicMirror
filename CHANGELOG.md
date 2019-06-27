@@ -20,14 +20,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added feature to broadcast news feed items `NEWS_FEED` and updated news items `NEWS_FEED_UPDATED` in default [newsfeed](https://github.com/MichMich/MagicMirror/tree/develop/modules/default/newsfeed) module (when news is updated) with documented default and `config.js` options in [README.md](https://github.com/MichMich/MagicMirror/blob/develop/modules/default/newsfeed/README.md)
 - Added notifications to default `clock` module broadcasting `CLOCK_SECOND` and `CLOCK_MINUTE` for the respective time elapsed.
 - Added UK Met Office Datapoint feed as a provider in the default weather module.
-- added new provider class
-- added suncalc.js dependency to calculate sun times (not provided in UK Met Office feed)
-- added "tempUnits" and "windUnits" to allow, for example, temp in metric (i.e. celsius) and wind in imperial (i.e. mph). These will override "units" if specified, otherwise the "units" value will be used.
-- use Feels Like temp from feed if present
-- optionally display probability of precipitation (PoP) in current weather (UK Met Office data)
-- automatically try to fix eslint errors by passing `--fix` option to it
+- Added new provider class
+- Added suncalc.js dependency to calculate sun times (not provided in UK Met Office feed)
+- Added "tempUnits" and "windUnits" to allow, for example, temp in metric (i.e. celsius) and wind in imperial (i.e. mph). These will override "units" if specified, otherwise the "units" value will be used.
+- Use Feels Like temp from feed if present
+- Optionally display probability of precipitation (PoP) in current weather (UK Met Office data)
+- Automatically try to fix eslint errors by passing `--fix` option to it
 - Added sunrise and sunset times to weathergov weather provider [#1705](https://github.com/MichMich/MagicMirror/issues/1705)
 - Added "useLocationAsHeader" to display "location" in `config.js` as header when location name is not returned
+- Added to `newsfeed.js`: in order to design the news article better with css, three more class-names were introduced: newsfeed-desc, newsfeed-desc, newsfeed-desc 
 
 ### Updated
 - English translation for "Feels" to "Feels like"
