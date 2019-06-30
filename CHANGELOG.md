@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ---
+### Updated installer
+- give non-pi2+ users (pi0, odroid, jetson nano, mac, windows, ...) option to continue install
+- use current username vs hardcoded 'pi' to support non-pi install
+- check for npm installed. node install doesn't do npm anymore
+- check for mac as part of PM2 install, add install option string
+- update pm2 config with current username instead of hard coded 'pi'
+- check for screen saver config, "/etc/xdg/lxsession", bypass if not setup
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror² core.
 
