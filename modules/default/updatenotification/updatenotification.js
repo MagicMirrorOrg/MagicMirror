@@ -5,7 +5,6 @@ Module.register("updatenotification", {
 		refreshInterval: 24 * 60 * 60 * 1000, // one day
 	},
 
-	status: false,
 	suspended: false,
 	moduleList: {},	
 
@@ -25,7 +24,6 @@ Module.register("updatenotification", {
 
 	socketNotificationReceived: function (notification, payload) {
 		if (notification === "STATUS") {
-			//this.status = payload;
 			this.updateUI(payload);
 		}
 	},
