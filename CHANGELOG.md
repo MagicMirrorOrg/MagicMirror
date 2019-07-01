@@ -4,19 +4,10 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ---
-### Updated installer
-- give non-pi2+ users (pi0, odroid, jetson nano, mac, windows, ...) option to continue install
-- use current username vs hardcoded 'pi' to support non-pi install
-- check for npm installed. node install doesn't do npm anymore
-- check for mac as part of PM2 install, add install option string
-- update pm2 config with current username instead of hard coded 'pi'
-- check for screen saver config, "/etc/xdg/lxsession", bypass if not setup
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror² core.
 
-## [2.8.0] - Unreleased
-
-*This release is scheduled to be released on 2019-07-01.*
+## [2.8.0] - 2019-07-01
 
 ### Added
 - Option to show event location in calendar
@@ -45,8 +36,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Only update clock once per minute when seconds aren't shown
 
 ### Fixed
-- fixed uncaught exception, race condition on module update 
-- fixed issue [#1696](https://github.com/MichMich/MagicMirror/issues/1696), some ical files start date to not parse to date type 
+- Fixed uncaught exception, race condition on module update 
+- Fixed issue [#1696](https://github.com/MichMich/MagicMirror/issues/1696), some ical files start date to not parse to date type 
 - Allowance HTML5 autoplay-policy (policy is changed from Chrome 66 updates)
 - Handle SIGTERM messages
 - Fixes sliceMultiDayEvents so it respects maximumNumberOfDays
@@ -54,6 +45,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix typos and small syntax errors, cleanup dependencies, remove multiple-empty-lines, add semi-rule
 - Fixed issues with calendar not displaying one-time changes to repeating events
 - Updated the fetchedLocationName variable in currentweather.js so that city shows up in the header
+
+### Updated installer
+- give non-pi2+ users (pi0, odroid, jetson nano, mac, windows, ...) option to continue install
+- use current username vs hardcoded 'pi' to support non-pi install
+- check for npm installed. node install doesn't do npm anymore
+- check for mac as part of PM2 install, add install option string
+- update pm2 config with current username instead of hard coded 'pi'
+- check for screen saver config, "/etc/xdg/lxsession", bypass if not setup
 
 ## [2.7.1] - 2019-04-02
 
