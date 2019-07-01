@@ -1,5 +1,4 @@
-var chai = require("chai");
-var expect = chai.expect;
+var expect = require("chai").expect;
 var Utils = require("../../../js/utils.js");
 var colors = require("colors/safe");
 
@@ -38,4 +37,3 @@ describe("Utils", function() {
 		});
 	});
 });
-

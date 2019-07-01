@@ -68,7 +68,7 @@ WeatherProvider.register("openweathermap", {
 	 * Generate a WeatherObject based on currentWeatherInformation
 	 */
 	generateWeatherObjectFromCurrentWeather(currentWeatherData) {
-		const currentWeather = new WeatherObject(this.config.units);
+		const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
 
 		currentWeather.humidity = currentWeatherData.main.humidity;
 		currentWeather.temperature = currentWeatherData.main.temp;
@@ -86,13 +86,13 @@ WeatherProvider.register("openweathermap", {
 	 */
 	generateWeatherObjectsFromForecast(forecasts) {
 
-		if (this.config.weatherEndpoint == "/forecast") {
+		if (this.config.weatherEndpoint === "/forecast") {
 			return this.fetchForecastHourly(forecasts);
-		} else if (this.config.weatherEndpoint == "/forecast/daily") {
+		} else if (this.config.weatherEndpoint === "/forecast/daily") {
 			return this.fetchForecastDaily(forecasts);
 		}
 		// if weatherEndpoint does not match forecast or forecast/daily, what should be returned?
-		const days = [new WeatherObject(this.config.units)];
+		const days = [new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits)];
 		return days;
 	},
 
@@ -109,7 +109,7 @@ WeatherProvider.register("openweathermap", {
 		let snow = 0;
 		// variable for date
 		let date = "";
-		let weather = new WeatherObject(this.config.units);
+		let weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
 
 		for (const forecast of forecasts) {
 
@@ -123,7 +123,7 @@ WeatherProvider.register("openweathermap", {
 				// push weather information to days array
 				days.push(weather);
 				// create new weather-object
-				weather = new WeatherObject(this.config.units);
+				weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
 
 				minTemp = [];
 				maxTemp = [];
@@ -140,7 +140,7 @@ WeatherProvider.register("openweathermap", {
 				weather.weatherType = this.convertWeatherType(forecast.weather[0].icon);
 
 			}
-				
+
 			if (moment(forecast.dt, "X").format("H") >= 8 && moment(forecast.dt, "X").format("H") <= 17) {
 				weather.weatherType = this.convertWeatherType(forecast.weather[0].icon);
 			}
@@ -187,7 +187,7 @@ WeatherProvider.register("openweathermap", {
 		const days = [];
 
 		for (const forecast of forecasts) {
-			const weather = new WeatherObject(this.config.units);
+			const weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
 
 			weather.date = moment(forecast.dt, "X");
 			weather.minTemperature = forecast.temp.min;

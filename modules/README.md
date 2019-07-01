@@ -267,7 +267,7 @@ When using a node_helper, the node helper can send your module notifications. Wh
 - `payload` - AnyType - The payload of a notification.
 
 **Note 1:** When a node helper sends a notification, all modules of that module type receive the same notifications. <br>
-**Note 2:** The socket connection is established as soon as the module sends its first message using [sendSocketNotification](thissendsocketnotificationnotification-payload).
+**Note 2:** The socket connection is established as soon as the module sends its first message using [sendSocketNotification](#thissendsocketnotificationnotification-payload).
 
 **Example:**
 ````javascript
