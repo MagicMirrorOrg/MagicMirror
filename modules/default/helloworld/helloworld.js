@@ -15,10 +15,10 @@ Module.register("helloworld",{
 	},
 
 	getTemplate: function () {
-		return "helloworld.njk"
+		return "helloworld.njk";
 	},
 
 	getTemplateData: function () {
-		return this.config
+		return this.config;
 	}
 });

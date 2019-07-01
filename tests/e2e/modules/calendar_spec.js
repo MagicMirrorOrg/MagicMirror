@@ -1,9 +1,5 @@
 const helpers = require("../global-setup");
-const path = require("path");
-const request = require("request");
 const serverBasicAuth = require("../../servers/basic-auth.js");
-
-const expect = require("chai").expect;
 
 const describe = global.describe;
 const it = global.it;
@@ -72,7 +68,7 @@ describe("Calendar module", function() {
 		});
 	});
 
-	describe("Basic auth backward compatibilty configuration: DEPRECATED", function() {
+	describe("Basic auth backward compatibility configuration: DEPRECATED", function() {
 		before(function() {
 			serverBasicAuth.listen(8012);
 			// Set config sample for use in test

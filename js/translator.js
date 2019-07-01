@@ -18,7 +18,7 @@ var Translator = (function() {
 		xhr.overrideMimeType("application/json");
 		xhr.open("GET", file, true);
 		xhr.onreadystatechange = function () {
-			if (xhr.readyState == 4 && xhr.status == "200") {
+			if (xhr.readyState === 4 && xhr.status === 200) {
 				callback(JSON.parse(stripComments(xhr.responseText)));
 			}
 		};
@@ -159,6 +159,7 @@ var Translator = (function() {
 
 			return key;
 		},
+
 		/* load(module, file, isFallback, callback)
 		 * Load a translation file (json) and remember the data.
 		 *

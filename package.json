@@ -1,6 +1,6 @@
 {
   "name": "magicmirror",
-  "version": "2.7.1",
+  "version": "2.8.0",
   "description": "The open source modular smart mirror platform.",
   "main": "js/electron.js",
   "scripts": {
@@ -41,37 +41,34 @@
     "grunt": "latest",
     "grunt-eslint": "latest",
     "grunt-jsonlint": "latest",
-    "grunt-markdownlint": "^1.0.43",
+    "grunt-markdownlint": "latest",
     "grunt-stylelint": "latest",
     "grunt-yamllint": "latest",
     "http-auth": "^3.2.3",
     "jsdom": "^11.6.2",
-    "jshint": "^2.9.5",
+    "jshint": "^2.10.2",
     "mocha": "^4.1.0",
     "mocha-each": "^1.1.0",
+    "mocha-logger": "^1.0.6",
     "spectron": "^3.8.0",
-    "stylelint": "^8.4.0",
+    "stylelint": "latest",
     "stylelint-config-standard": "latest",
     "time-grunt": "latest"
   },
   "dependencies": {
-    "ajv": "6.5.5",
-    "body-parser": "^1.18.2",
     "colors": "^1.1.2",
     "electron": "^3.0.13",
     "express": "^4.16.2",
-    "express-ipfilter": "0.3.1",
+    "express-ipfilter": "^1.0.1",
     "feedme": "latest",
     "helmet": "^3.9.0",
-    "home-path": "^1.0.6",
     "iconv-lite": "latest",
-    "mocha-logger": "^1.0.6",
     "moment": "latest",
-    "request": "^2.87.0",
+    "request": "^2.88.0",
+    "rrule": "^2.6.2",
     "rrule-alt": "^2.2.8",
     "simple-git": "^1.85.0",
     "socket.io": "^2.1.1",
-    "valid-url": "latest",
-    "walk": "latest"
+    "valid-url": "latest"
   }
 }

@@ -30,6 +30,7 @@ The following properties can be configured:
 | `maximumNumberOfDays`        | The maximum number of days in the future. <br><br> **Default value:** `365`
 | `displaySymbol`              | Display a symbol in front of an entry. <br><br> **Possible values:** `true` or `false` <br> **Default value:** `true`
 | `defaultSymbol`              | The default symbol. <br><br> **Possible values:** See [Font Awsome](http://fontawesome.io/icons/) website. <br> **Default value:** `calendar`
+| `showLocation`               | Whether to show event locations. <br><br> **Possible values:** `true` or `false` <br> **Default value:** `false`
 | `maxTitleLength`             | The maximum title length. <br><br> **Possible values:** `10` - `50` <br> **Default value:** `25`
 | `wrapEvents`                 | Wrap event titles to multiple lines. Breaks lines at the length defined by `maxTitleLength`. <br><br> **Possible values:** `true` or `false` <br> **Default value:** `false`
 | `maxTitleLines`              | The maximum number of lines a title will wrap vertically before being cut (Only enabled if `wrapEvents` is also enabled). <br><br> **Possible values:** `0` - `10` <br> **Default value:** `3`
@@ -53,8 +54,9 @@ The following properties can be configured:
 | `hidePrivate`                | Hides private calendar events. <br><br> **Possible values:** `true` or `false` <br> **Default value:** `false`
 | `hideOngoing`                | Hides calendar events that have already started. <br><br> **Possible values:** `true` or `false` <br> **Default value:** `false`
 | `excludedEvents`             | An array of words / phrases from event titles that will be excluded from being shown. <br><br>Additionally advanced filter objects can be passed in. Below is the configuration for the advance filtering object.<br>**Required**<br>`filterBy` - string used to determine if filter is applied.<br>**Optional**<br>`until` - Time before an event to display it  Ex: [`'3 days'`, `'2 months'`, `'1 week'`]<br>`caseSensitive` - By default, excludedEvents are case insensitive, set this to true to enforce case sensitivity<br>`regex` - set to `true` if filterBy is a regex. For those not familiar with regex it is used for pattern matching, please see [here](https://regexr.com/) for more info.<br><br> **Example:** `['Birthday', 'Hide This Event', {filterBy: 'Payment', until: '6 days', caseSensitive: true}, {filterBy: '^[0-9]{1,}.*', regex: true}]` <br> **Default value:** `[]`
-| `sliceMultiDayEvents`        | If this is set to true, events exceeding at least one midnight will be sliced into separate events including a counter like (1/2). This is especially helpful in "dateheaders" mode. Events will be sliced at midnight, end time for all events but the last will be 23:59 **Default value:** `true`
-
+| `broadcastPastEvents`        | If this is set to true, events from the past `maximumNumberOfDays` will be included in event broadcasts <br> **Default value:** `false`
+| `sliceMultiDayEvents`        | If this is set to true, events exceeding at least one midnight will be sliced into separate events including a counter like (1/2). This is especially helpful in "dateheaders" mode. Events will be sliced at midnight, end time for all events but the last will be 23:59 <br> **Default value:** `true`
+| `nextDaysRelative   `        | If this is set to true, the appointments of today and tomorrow are displayed relatively, even if the timeformat is set to absolute. <br> **Default value:** `false`
 
 ### Calendar configuration
 
@@ -95,6 +97,7 @@ config: {
 | `symbolClass`         | Add a class to the cell of symbol.
 | `titleClass`          | Add a class to the title's cell.
 | `timeClass`           | Add a class to the time's cell.
+| `broadcastPastEvents` | Whether to include past events from this calendar.  Overrides global setting
 
 
 #### Calendar authentication options:

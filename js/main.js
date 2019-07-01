@@ -203,6 +203,7 @@ var MM = (function() {
 	 */
 	var updateModuleContent = function(module, newHeader, newContent) {
 		var moduleWrapper = document.getElementById(module.identifier);
+        if (moduleWrapper === null) return;
 		var headerWrapper = moduleWrapper.getElementsByClassName("module-header");
 		var contentWrapper = moduleWrapper.getElementsByClassName("module-content");
 
@@ -291,7 +292,7 @@ var MM = (function() {
 		var moduleWrapper = document.getElementById(module.identifier);
 		if (moduleWrapper !== null) {
 			moduleWrapper.style.transition = "opacity " + speed / 1000 + "s";
-			// Restore the postition. See hideModule() for more info.
+			// Restore the position. See hideModule() for more info.
 			moduleWrapper.style.position = "static";
 
 			updateWrapperStates();
@@ -311,7 +312,7 @@ var MM = (function() {
 	/* updateWrapperStates()
 	 * Checks for all positions if it has visible content.
 	 * If not, if will hide the position to prevent unwanted margins.
-	 * This method schould be called by the show and hide methods.
+	 * This method should be called by the show and hide methods.
 	 *
 	 * Example:
 	 * If the top_bar only contains the update notification. And no update is available,
@@ -319,7 +320,6 @@ var MM = (function() {
 	 * an ugly top margin. By using this function, the top bar will be hidden if the
 	 * update notification is not visible.
 	 */
-
 	var updateWrapperStates = function() {
 		var positions = ["top_bar", "top_left", "top_center", "top_right", "upper_third", "middle_center", "lower_third", "bottom_left", "bottom_center", "bottom_right", "bottom_bar", "fullscreen_above", "fullscreen_below"];
 
@@ -329,7 +329,7 @@ var MM = (function() {
 
 			var showWrapper = false;
 			Array.prototype.forEach.call(moduleWrappers, function(moduleWrapper) {
-				if (moduleWrapper.style.position == "" || moduleWrapper.style.position == "static") {
+				if (moduleWrapper.style.position === "" || moduleWrapper.style.position === "static") {
 					showWrapper = true;
 				}
 			});
@@ -478,7 +478,7 @@ var MM = (function() {
 		/* sendNotification(notification, payload, sender)
 		 * Send a notification to all modules.
 		 *
-		 * argument notification string - The identifier of the noitication.
+		 * argument notification string - The identifier of the notification.
 		 * argument payload mixed - The payload of the notification.
 		 * argument sender Module - The module that sent the notification.
 		 */
@@ -558,7 +558,7 @@ var MM = (function() {
 })();
 
 // Add polyfill for Object.assign.
-if (typeof Object.assign != "function") {
+if (typeof Object.assign !== "function") {
 	(function() {
 		Object.assign = function(target) {
 			"use strict";
