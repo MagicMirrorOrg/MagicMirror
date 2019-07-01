@@ -3,10 +3,6 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-### Updated updatenotification default module 
-- properly handle race conditions, stop crash
-- display for a short time, not forever
-
 ---
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror² core.
@@ -18,8 +14,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 ### Updated
+- Updatenotification module: Display update notification for a limited (configurable) time.
 
 ### Fixed
+- Updatenotification module: Properly handle race conditions, prevent crash.
 
 ## [2.8.0] - 2019-07-01
 
