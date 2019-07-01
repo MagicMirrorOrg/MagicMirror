@@ -65,19 +65,17 @@ module.exports = NodeHelper.create({
 	},
 
 	preformFetch() {
-		var self=this;
+		var self = this;
 		simpleGits.forEach(function(sg) {
 			sg.git.fetch().status(function(err, data) {
 				data.module = sg.module;
 				if (!err) {
-					sg.git.log({"-1": null},
-						function(err, data2) {
-							if (!err && data2.latest && "hash" in data2.latest) {
-								this.bound_data.hash = data2.latest.hash;
-								self.sendSocketNotification("STATUS", this.bound_data);
-							}
-						}.bind({bound_data:data})
-					);
+					sg.git.log({"-1": null}, function(err, data2) {
+						if (!err && data2.latest && "hash" in data2.latest) {
+							data.hash = data2.latest.hash;
+							self.sendSocketNotification("STATUS", data);
+						}
+					});
 				}
 			});
 		});
@@ -87,7 +85,7 @@ module.exports = NodeHelper.create({
 
 	scheduleNextFetch: function(delay) {
 		if (delay < 60 * 1000) {
-			delay = 60 * 1000
+			delay = 60 * 1000;
 		}
 
 		var self = this;

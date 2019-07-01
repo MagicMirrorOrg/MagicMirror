@@ -2,16 +2,17 @@ Module.register("updatenotification", {
 
 	defaults: {
 		updateInterval: 10 * 60 * 1000, // every 10 minutes
-    refreshInterval: 24 * 60 * 60 * 1000, // one day
+		refreshInterval: 24 * 60 * 60 * 1000, // one day
 	},
 
+	status: false,
 	suspended: false,
-	moduleList: {},
+	moduleList: {},	
 
 	start: function () {
-    var self = this
+    var self = this;		
 		Log.log("Start updatenotification");
-    setInterval( () => { self.moduleList = {};self.updateDom(2) } , self.config.refreshInterval)
+		setInterval( () => { self.moduleList = {};self.updateDom(2) } , self.config.refreshInterval)
 	},
 
 	notificationReceived: function (notification, payload, sender) {
@@ -24,6 +25,7 @@ Module.register("updatenotification", {
 
 	socketNotificationReceived: function (notification, payload) {
 		if (notification === "STATUS") {
+			//this.status = payload;
 			this.updateUI(payload);
 		}
 	},
@@ -62,7 +64,7 @@ Module.register("updatenotification", {
 
 	// Override dom generator.
 	getDom: function () {
-		wrapper = document.createElement("div");
+		var wrapper = document.createElement("div");
 		if(this.suspended==false){
 			// process the hash of module info found
 			for(key of Object.keys(this.moduleList)){
