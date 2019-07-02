@@ -20,6 +20,8 @@ Module.register("newsfeed",{
 		],
 		showSourceTitle: true,
 		showPublishDate: true,
+		broadcastNewsFeeds: true,
+		broadcastNewsUpdates: true,
 		showDescription: false,
 		wrapTitle: true,
 		wrapDescription: true,
@@ -103,7 +105,7 @@ Module.register("newsfeed",{
 			// this.config.showFullArticle is a run-time configuration, triggered by optional notifications
 			if (!this.config.showFullArticle && (this.config.showSourceTitle || this.config.showPublishDate)) {
 				var sourceAndTimestamp = document.createElement("div");
-				sourceAndTimestamp.className = "light small dimmed";
+				sourceAndTimestamp.className = "newsfeed-source light small dimmed";
 
 				if (this.config.showSourceTitle && this.newsItems[this.activeItem].sourceTitle !== "") {
 					sourceAndTimestamp.innerHTML = this.newsItems[this.activeItem].sourceTitle;
@@ -166,14 +168,14 @@ Module.register("newsfeed",{
 
 			if(!this.config.showFullArticle){
 				var title = document.createElement("div");
-				title.className = "bright medium light" + (!this.config.wrapTitle ? " no-wrap" : "");
+				title.className = "newsfeed-title bright medium light" + (!this.config.wrapTitle ? " no-wrap" : "");
 				title.innerHTML = this.newsItems[this.activeItem].title;
 				wrapper.appendChild(title);
 			}
 
 			if (this.isShowingDescription) {
 				var description = document.createElement("div");
-				description.className = "small light" + (!this.config.wrapDescription ? " no-wrap" : "");
+				description.className = "newsfeed-desc small light" + (!this.config.wrapDescription ? " no-wrap" : "");
 				var txtDesc = this.newsItems[this.activeItem].description;
 				description.innerHTML = (this.config.truncDescription ? (txtDesc.length > this.config.lengthDescription ? txtDesc.substring(0, this.config.lengthDescription) + "..." : txtDesc) : txtDesc);
 				wrapper.appendChild(description);
@@ -189,7 +191,7 @@ Module.register("newsfeed",{
 				fullArticle.style.top = "0";
 				fullArticle.style.left = "0";
 				fullArticle.style.border = "none";
-				fullArticle.src = this.getActiveItemURL()
+				fullArticle.src = this.getActiveItemURL();
 				fullArticle.style.zIndex = 1;
 				wrapper.appendChild(fullArticle);
 			}
@@ -266,6 +268,20 @@ Module.register("newsfeed",{
 			}, this);
 		}
 
+		// get updated news items and broadcast them
+		var updatedItems = [];
+		newsItems.forEach(value => {
+			if (this.newsItems.findIndex(value1 => value1 === value) === -1) {
+				// Add item to updated items list
+				updatedItems.push(value);
+			}
+		});
+
+		// check if updated items exist, if so and if we should broadcast these updates, then lets do so
+		if (this.config.broadcastNewsUpdates && updatedItems.length > 0) {
+			this.sendNotification("NEWS_FEED_UPDATE", {items: updatedItems});
+		}
+
 		this.newsItems = newsItems;
 	},
 
@@ -314,6 +330,11 @@ Module.register("newsfeed",{
 		timer = setInterval(function() {
 			self.activeItem++;
 			self.updateDom(self.config.animationSpeed);
+
+			// Broadcast NewsFeed if needed
+			if (self.config.broadcastNewsFeeds) {
+				self.sendNotification("NEWS_FEED", {items: self.newsItems});
+			}
 		}, this.config.updateInterval);
 	},
 
@@ -398,7 +419,7 @@ Module.register("newsfeed",{
 				date:   this.newsItems[this.activeItem].pubdate,
 				desc:   this.newsItems[this.activeItem].description,
 				url:    this.getActiveItemURL()
-			})
+			});
 		} else {
 			Log.info(this.name + " - unknown notification, ignoring: " + notification);
 		}

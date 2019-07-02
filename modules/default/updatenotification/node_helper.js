@@ -79,7 +79,7 @@ module.exports = NodeHelper.create({
 
 	scheduleNextFetch: function(delay) {
 		if (delay < 60 * 1000) {
-			delay = 60 * 1000
+			delay = 60 * 1000;
 		}
 
 		var self = this;

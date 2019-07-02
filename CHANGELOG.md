@@ -7,6 +7,55 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror² core.
 
+## [2.8.0] - 2019-07-01
+
+ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`. If you are having issues running Electron, make sure your [Raspbian is up to date](https://www.raspberrypi.org/documentation/raspbian/updating.md).
+
+### Added
+- Option to show event location in calendar
+- Finnish translation for "Feels" and "Weeks"
+- Russian translation for “Feels”
+- Calendar module: added `nextDaysRelative` config option
+- Add `broadcastPastEvents` config option for calendars to include events from the past `maximumNumberOfDays` in event broadcasts
+- Added feature to broadcast news feed items `NEWS_FEED` and updated news items `NEWS_FEED_UPDATED` in default [newsfeed](https://github.com/MichMich/MagicMirror/tree/develop/modules/default/newsfeed) module (when news is updated) with documented default and `config.js` options in [README.md](https://github.com/MichMich/MagicMirror/blob/develop/modules/default/newsfeed/README.md)
+- Added notifications to default `clock` module broadcasting `CLOCK_SECOND` and `CLOCK_MINUTE` for the respective time elapsed.
+- Added UK Met Office Datapoint feed as a provider in the default weather module.
+- Added new provider class
+- Added suncalc.js dependency to calculate sun times (not provided in UK Met Office feed)
+- Added "tempUnits" and "windUnits" to allow, for example, temp in metric (i.e. celsius) and wind in imperial (i.e. mph). These will override "units" if specified, otherwise the "units" value will be used.
+- Use Feels Like temp from feed if present
+- Optionally display probability of precipitation (PoP) in current weather (UK Met Office data)
+- Automatically try to fix eslint errors by passing `--fix` option to it
+- Added sunrise and sunset times to weathergov weather provider [#1705](https://github.com/MichMich/MagicMirror/issues/1705)
+- Added "useLocationAsHeader" to display "location" in `config.js` as header when location name is not returned
+- Added to `newsfeed.js`: in order to design the news article better with css, three more class-names were introduced: newsfeed-desc, newsfeed-desc, newsfeed-desc 
+
+### Updated
+- English translation for "Feels" to "Feels like"
+- Fixed the example calender url in `config.js.sample`
+- Update `ical.js` to solve various calendar issues.
+- Update weather city list url [#1676](https://github.com/MichMich/MagicMirror/issues/1676) 
+- Only update clock once per minute when seconds aren't shown
+
+### Fixed
+- Fixed uncaught exception, race condition on module update 
+- Fixed issue [#1696](https://github.com/MichMich/MagicMirror/issues/1696), some ical files start date to not parse to date type 
+- Allowance HTML5 autoplay-policy (policy is changed from Chrome 66 updates)
+- Handle SIGTERM messages
+- Fixes sliceMultiDayEvents so it respects maximumNumberOfDays
+- Minor types in default NewsFeed [README.md](https://github.com/MichMich/MagicMirror/blob/develop/modules/default/newsfeed/README.md)
+- Fix typos and small syntax errors, cleanup dependencies, remove multiple-empty-lines, add semi-rule
+- Fixed issues with calendar not displaying one-time changes to repeating events
+- Updated the fetchedLocationName variable in currentweather.js so that city shows up in the header
+
+### Updated installer
+- give non-pi2+ users (pi0, odroid, jetson nano, mac, windows, ...) option to continue install
+- use current username vs hardcoded 'pi' to support non-pi install
+- check for npm installed. node install doesn't do npm anymore
+- check for mac as part of PM2 install, add install option string
+- update pm2 config with current username instead of hard coded 'pi'
+- check for screen saver config, "/etc/xdg/lxsession", bypass if not setup
+
 ## [2.7.1] - 2019-04-02
 
 Fixed `package.json` version number.

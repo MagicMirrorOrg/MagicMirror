@@ -43,6 +43,12 @@ vows.describe('node-ical').addBatch({
       , 'has a summary (invalid colon handling tolerance)' : function(topic){
         assert.equal(topic.summary, '[Async]: Everything Express')
       }
+      , 'has a date only start datetime' : function(topic){
+        assert.equal(topic.start.dateOnly, true)
+      }
+      , 'has a date only end datetime' : function(topic){
+        assert.equal(topic.end.dateOnly, true)
+      }
     }
     , 'event d4c8' :{
       topic : function(events){
@@ -108,7 +114,7 @@ vows.describe('node-ical').addBatch({
         assert.equal(topic.end.getFullYear(), 1998);
         assert.equal(topic.end.getUTCMonth(), 2);
         assert.equal(topic.end.getUTCDate(), 15);
-        assert.equal(topic.end.getUTCHours(), 0);
+        assert.equal(topic.end.getUTCHours(), 00);
         assert.equal(topic.end.getUTCMinutes(), 30);
       }
     }
@@ -146,7 +152,7 @@ vows.describe('node-ical').addBatch({
       }
       , 'has a start datetime' : function(topic) {
         assert.equal(topic.start.getFullYear(), 2011);
-        assert.equal(topic.start.getMonth(), 9);
+        assert.equal(topic.start.getMonth(), 09);
         assert.equal(topic.start.getDate(), 11);
       }
 
@@ -192,12 +198,12 @@ vows.describe('node-ical').addBatch({
       }
       , 'has a start' : function(topic){
         assert.equal(topic.start.tz, 'America/Phoenix')
-        assert.equal(topic.start.toISOString(), new Date(2011, 10, 9, 19, 0,0).toISOString())
+        assert.equal(topic.start.toISOString(), new Date(2011, 10, 09, 19, 0,0).toISOString())
       }
     }
   }
 
-  , 'with test6.ics (testing assembly.org)' : {
+  , 'with test6.ics (testing assembly.org)': {
      topic: function () {
         return ical.parseFile('./test/test6.ics')
       }
@@ -208,13 +214,13 @@ vows.describe('node-ical').addBatch({
         })[0];
       }
       , 'has a start' : function(topic){
-        assert.equal(topic.start.toISOString(), new Date(2011, 7, 4, 12, 0,0).toISOString())
+        assert.equal(topic.start.toISOString(), new Date(2011, 07, 04, 12, 0,0).toISOString())
       }
     }
   , 'event with rrule' :{
       topic: function(events){
         return _.select(_.values(events), function(x){
-          return x.summary == "foobarTV broadcast starts"
+          return x.summary === "foobarTV broadcast starts"
         })[0];
       }
       , "Has an RRULE": function(topic){
@@ -249,7 +255,7 @@ vows.describe('node-ical').addBatch({
         },
         'task completed': function(task){
             assert.equal(task.completion, 100);
-            assert.equal(task.completed.toISOString(), new Date(2013, 6, 16, 10, 57, 45).toISOString());
+            assert.equal(task.completed.toISOString(), new Date(2013, 06, 16, 10, 57, 45).toISOString());
         }
     }
   }
@@ -272,7 +278,7 @@ vows.describe('node-ical').addBatch({
       },
       'grabbing custom properties': {
           topic: function(topic) {
-              
+
           }
       }
   },
@@ -367,14 +373,115 @@ vows.describe('node-ical').addBatch({
         assert.equal(topic.end.getFullYear(), 2014);
         assert.equal(topic.end.getMonth(), 3);
         assert.equal(topic.end.getUTCHours(), 19);
-        assert.equal(topic.end.getUTCMinutes(), 0);
+        assert.equal(topic.end.getUTCMinutes(), 00);
       }
     }
-  },
+  }
 
-  'url request errors' : {
+  , 'with test12.ics (testing recurrences and exdates)': {
+	topic: function () {
+		return ical.parseFile('./test/test12.ics')
+	}
+    , 'event with rrule': {
+  			topic: function (events) {
+  				return _.select(_.values(events), function (x) {
+  					return x.uid === '0000001';
+  				})[0];
+  			}
+      , "Has an RRULE": function (topic) {
+      	assert.notEqual(topic.rrule, undefined);
+      }
+      , "Has summary Treasure Hunting": function (topic) {
+      	assert.equal(topic.summary, 'Treasure Hunting');
+      }
+      , "Has two EXDATES": function (topic) {
+      	assert.notEqual(topic.exdate, undefined);
+      	assert.notEqual(topic.exdate[new Date(2015, 06, 08, 12, 0, 0).toISOString().substring(0, 10)], undefined);
+      	assert.notEqual(topic.exdate[new Date(2015, 06, 10, 12, 0, 0).toISOString().substring(0, 10)], undefined);
+      }
+      , "Has a RECURRENCE-ID override": function (topic) {
+      	assert.notEqual(topic.recurrences, undefined);
+      	assert.notEqual(topic.recurrences[new Date(2015, 06, 07, 12, 0, 0).toISOString().substring(0, 10)], undefined);
+      	assert.equal(topic.recurrences[new Date(2015, 06, 07, 12, 0, 0).toISOString().substring(0, 10)].summary, 'More Treasure Hunting');
+      }
+    }
+  }
+
+  , 'with test13.ics (testing recurrence-id before rrule)': {
+  	topic: function () {
+  		return ical.parseFile('./test/test13.ics')
+  	}
+    , 'event with rrule': {
+    	topic: function (events) {
+    		return _.select(_.values(events), function (x) {
+    			return x.uid === '6m2q7kb2l02798oagemrcgm6pk@google.com';
+    		})[0];
+    	}
+      , "Has an RRULE": function (topic) {
+      	assert.notEqual(topic.rrule, undefined);
+      }
+      , "Has summary 'repeated'": function (topic) {
+      	assert.equal(topic.summary, 'repeated');
+      }
+      , "Has a RECURRENCE-ID override": function (topic) {
+      	assert.notEqual(topic.recurrences, undefined);
+      	assert.notEqual(topic.recurrences[new Date(2016, 7, 26, 14, 0, 0).toISOString().substring(0, 10)], undefined);
+      	assert.equal(topic.recurrences[new Date(2016, 7, 26, 14, 0, 0).toISOString().substring(0, 10)].summary, 'bla bla');
+      }
+    }
+  }
+
+  , 'with test14.ics (testing comma-separated exdates)': {
+  	topic: function () {
+  		return ical.parseFile('./test/test14.ics')
+  	}
+    , 'event with comma-separated exdate': {
+    	topic: function (events) {
+    		return _.select(_.values(events), function (x) {
+    			return x.uid === '98765432-ABCD-DCBB-999A-987765432123';
+    		})[0];
+    	}
+      , "Has summary 'Example of comma-separated exdates'": function (topic) {
+      	assert.equal(topic.summary, 'Example of comma-separated exdates');
+      }
+      , "Has four comma-separated EXDATES": function (topic) {
+      	assert.notEqual(topic.exdate, undefined);
+		// Verify the four comma-separated EXDATES are there
+      	assert.notEqual(topic.exdate[new Date(2017, 6, 6, 12, 0, 0).toISOString().substring(0, 10)], undefined);
+      	assert.notEqual(topic.exdate[new Date(2017, 6, 17, 12, 0, 0).toISOString().substring(0, 10)], undefined);
+      	assert.notEqual(topic.exdate[new Date(2017, 6, 20, 12, 0, 0).toISOString().substring(0, 10)], undefined);
+      	assert.notEqual(topic.exdate[new Date(2017, 7, 3, 12, 0, 0).toISOString().substring(0, 10)], undefined);
+		// Verify an arbitrary date isn't there
+      	assert.equal(topic.exdate[new Date(2017, 4, 5, 12, 0, 0).toISOString().substring(0, 10)], undefined);
+      }
+    }
+  }
+
+  , 'with test14.ics (testing exdates with bad times)': {
+  	topic: function () {
+  		return ical.parseFile('./test/test14.ics')
+  	}
+    , 'event with exdates with bad times': {
+    	topic: function (events) {
+    		return _.select(_.values(events), function (x) {
+    			return x.uid === '1234567-ABCD-ABCD-ABCD-123456789012';
+    		})[0];
+    	}
+      , "Has summary 'Example of exdate with bad times'": function (topic) {
+      	assert.equal(topic.summary, 'Example of exdate with bad times');
+      }
+      , "Has two EXDATES even though they have bad times": function (topic) {
+      	assert.notEqual(topic.exdate, undefined);
+      	// Verify the two EXDATES are there, even though they have bad times
+      	assert.notEqual(topic.exdate[new Date(2017, 11, 18, 12, 0, 0).toISOString().substring(0, 10)], undefined);
+      	assert.notEqual(topic.exdate[new Date(2017, 11, 19, 12, 0, 0).toISOString().substring(0, 10)], undefined);
+      }
+    }
+  }
+
+ , 'url request errors': {
     topic : function () {
-      ical.fromURL('http://not.exist/', {}, this.callback);
+      ical.fromURL('http://255.255.255.255/', {}, this.callback);
     }
     , 'are passed back to the callback' : function (err, result) {
       assert.instanceOf(err, Error);

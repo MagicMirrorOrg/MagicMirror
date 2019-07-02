@@ -1,7 +1,6 @@
 var fs = require("fs");
 var path = require("path");
-var chai = require("chai");
-var expect = chai.expect;
+var expect = require("chai").expect;
 var vm = require("vm");
 
 before(function() {
@@ -62,5 +61,4 @@ describe("Default modules set in modules/default/defaultmodules.js", function() 
 			expect(fs.existsSync(path.join(this.sandbox.global.root_path, "modules/default", defaultModule))).to.equal(true);
 		});
 	});
-
 });

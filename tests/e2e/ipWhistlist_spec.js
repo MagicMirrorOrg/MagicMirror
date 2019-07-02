@@ -1,7 +1,5 @@
 const helpers = require("./global-setup");
-const path = require("path");
 const request = require("request");
-
 const expect = require("chai").expect;
 
 const describe = global.describe;
@@ -17,7 +15,7 @@ describe("ipWhitelist directive configuration", function () {
 	beforeEach(function () {
 		return helpers.startApplication({
 			args: ["js/electron.js"]
-		}).then(function (startedApp) { app = startedApp; })
+		}).then(function (startedApp) { app = startedApp; });
 	});
 
 	afterEach(function () {
