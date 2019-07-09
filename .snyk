@@ -1,5 +1,7 @@
-version: v1.5.2
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.13.5
 ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
 patch:
   'npm:minimatch:20160620':
     - snyk > recursive-readdir > minimatch:
@@ -12,3 +14,6 @@ patch:
         patched: '2016-07-30T14:02:31.280Z'
     - socket.io > socket.io-client > engine.io-client > ws:
         patched: '2016-07-30T14:02:31.280Z'
+  SNYK-JS-LODASH-450202:
+    - express-ipfilter > lodash:
+        patched: '2019-07-09T08:33:07.636Z'
