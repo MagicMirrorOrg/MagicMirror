@@ -327,6 +327,11 @@ Module.register("newsfeed",{
 
 		self.updateDom(self.config.animationSpeed);
 
+		// Broadcast NewsFeed if needed
+		if (self.config.broadcastNewsFeeds) {
+			self.sendNotification("NEWS_FEED", {items: self.newsItems});
+		}
+
 		timer = setInterval(function() {
 			self.activeItem++;
 			self.updateDom(self.config.animationSpeed);
