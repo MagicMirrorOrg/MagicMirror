@@ -7,10 +7,18 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror² core.
 
-## [2.9.0] - 2019-10-01
+## [2.9.0] - Unreleased (Develop Branch)
+
+*This release is scheduled to be released on 2019-10-01.*
+
+### Added
+
+### Updated
+- Updatenotification module: Display update notification for a limited (configurable) time.
 
 ### Fixed
-- Send `NEWS_FEED` Notification also for the first newsmessage which are shown
+- Updatenotification module: Properly handle race conditions, prevent crash.
+- Send `NEWS_FEED` notification also for the first news messages which are shown
 
 ## [2.8.0] - 2019-07-01
 
