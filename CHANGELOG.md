@@ -18,6 +18,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Updatenotification module: Properly handle race conditions, prevent crash.
+- Send `NEWS_FEED` notification also for the first news messages which are shown
 
 ## [2.8.0] - 2019-07-01
 
@@ -40,18 +41,18 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Automatically try to fix eslint errors by passing `--fix` option to it
 - Added sunrise and sunset times to weathergov weather provider [#1705](https://github.com/MichMich/MagicMirror/issues/1705)
 - Added "useLocationAsHeader" to display "location" in `config.js` as header when location name is not returned
-- Added to `newsfeed.js`: in order to design the news article better with css, three more class-names were introduced: newsfeed-desc, newsfeed-desc, newsfeed-desc 
+- Added to `newsfeed.js`: in order to design the news article better with css, three more class-names were introduced: newsfeed-desc, newsfeed-desc, newsfeed-desc
 
 ### Updated
 - English translation for "Feels" to "Feels like"
 - Fixed the example calender url in `config.js.sample`
 - Update `ical.js` to solve various calendar issues.
-- Update weather city list url [#1676](https://github.com/MichMich/MagicMirror/issues/1676) 
+- Update weather city list url [#1676](https://github.com/MichMich/MagicMirror/issues/1676)
 - Only update clock once per minute when seconds aren't shown
 
 ### Fixed
-- Fixed uncaught exception, race condition on module update 
-- Fixed issue [#1696](https://github.com/MichMich/MagicMirror/issues/1696), some ical files start date to not parse to date type 
+- Fixed uncaught exception, race condition on module update
+- Fixed issue [#1696](https://github.com/MichMich/MagicMirror/issues/1696), some ical files start date to not parse to date type
 - Allowance HTML5 autoplay-policy (policy is changed from Chrome 66 updates)
 - Handle SIGTERM messages
 - Fixes sliceMultiDayEvents so it respects maximumNumberOfDays
