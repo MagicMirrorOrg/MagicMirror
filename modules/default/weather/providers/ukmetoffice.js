@@ -41,6 +41,7 @@ WeatherProvider.register("ukmetoffice", {
 			.catch(function(request) {
 				Log.error("Could not load data ... ", request);
 			})
+			.finally(() => this.updateAvailable())
 	},
 
 	// Overwrite the fetchCurrentWeather method.
@@ -62,6 +63,7 @@ WeatherProvider.register("ukmetoffice", {
 			.catch(function(request) {
 				Log.error("Could not load data ... ", request);
 			})
+			.finally(() => this.updateAvailable())
 	},
 
 
