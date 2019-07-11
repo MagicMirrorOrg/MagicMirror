@@ -79,16 +79,12 @@ var WeatherProvider = Class.extend({
 	setCurrentWeather: function(currentWeatherObject) {
 		// We should check here if we are passing a WeatherDay
 		this.currentWeatherObject = currentWeatherObject;
-
-		this.updateAvailable();
 	},
 
 	// Set the weatherForecastArray and notify the delegate that new information is available.
 	setWeatherForecast: function(weatherForecastArray) {
 		// We should check here if we are passing a WeatherDay
 		this.weatherForecastArray = weatherForecastArray;
-
-		this.updateAvailable();
 	},
 
 	// Set the fetched location name.

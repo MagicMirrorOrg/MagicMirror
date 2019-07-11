@@ -32,7 +32,8 @@ WeatherProvider.register("darksky", {
 				this.setCurrentWeather(currentWeather);
 			}).catch(function(request) {
 				Log.error("Could not load data ... ", request);
-			});
+			})
+			.finally(() => this.updateAvailable())
 	},
 
 	fetchWeatherForecast() {
@@ -47,7 +48,8 @@ WeatherProvider.register("darksky", {
 				this.setWeatherForecast(forecast);
 			}).catch(function(request) {
 				Log.error("Could not load data ... ", request);
-			});
+			})
+			.finally(() => this.updateAvailable())
 	},
 
 	// Create a URL from the config and base URL.
