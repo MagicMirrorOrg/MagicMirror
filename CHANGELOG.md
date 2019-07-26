@@ -16,6 +16,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Updated
 - Updatenotification module: Display update notification for a limited (configurable) time.
+- Enabled e2e/vendor_spec.js tests
 
 ### Fixed
 - Updatenotification module: Properly handle race conditions, prevent crash.
