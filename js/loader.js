@@ -8,7 +8,7 @@
 
 var Loader = (function() {
 
-	/* Create helper valiables */
+	/* Create helper variables */
 
 	var loadedModuleFiles = [];
 	var loadedFiles = [];
@@ -32,10 +32,10 @@ var Loader = (function() {
 				});
 			} else {
 				// All modules loaded. Load custom.css
-				// This is done after all the moduels so we can
-				// overwrite all the defined styls.
+				// This is done after all the modules so we can
+				// overwrite all the defined styles.
 
-				loadFile("css/custom.css", function() {
+				loadFile(config.customCss, function() {
 					// custom.css loaded. Start all modules.
 					startModules();
 				});
@@ -55,7 +55,7 @@ var Loader = (function() {
 			module.start();
 		}
 
-		// Notifiy core of loded modules.
+		// Notify core of loaded modules.
 		MM.modulesStarted(moduleObjects);
 	};
 
@@ -104,7 +104,6 @@ var Loader = (function() {
 				config: moduleData.config,
 				classes: (typeof moduleData.classes !== "undefined") ? moduleData.classes + " " + module : module
 			});
-
 		}
 
 		return moduleFiles;
@@ -138,7 +137,6 @@ var Loader = (function() {
 				afterLoad();
 			});
 		}
-
 	};
 
 	/* bootstrapModule(module, mObj)
@@ -164,7 +162,6 @@ var Loader = (function() {
 				});
 			});
 		});
-
 	};
 
 	/* loadFile(fileName)
@@ -210,7 +207,6 @@ var Loader = (function() {
 			document.getElementsByTagName("head")[0].appendChild(stylesheet);
 			break;
 		}
-
 	};
 
 	/* Public Methods */
@@ -261,5 +257,4 @@ var Loader = (function() {
 			loadFile(module.file(fileName), callback);
 		}
 	};
-
 })();

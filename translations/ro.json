@@ -1,0 +1,35 @@
+{
+	"LOADING": "Se încarcă &hellip;",
+
+	"TODAY": "Astăzi",
+	"TOMORROW": "Mâine",
+	"DAYAFTERTOMORROW": "Poimâine",
+	"RUNNING": "Se termină în",
+	"EMPTY": "Nici un eveniment.",
+
+	"WEEK": "Săptămâna {weekNumber}",
+
+	"N": "N",
+	"NNE": "NNE",
+	"NE": "NE",
+	"ENE": "ENE",
+	"E": "E",
+	"ESE": "ESE",
+	"SE": "SE",
+	"SSE": "SSE",
+	"S": "S",
+	"SSW": "SSW",
+	"SW": "SW",
+	"WSW": "WSW",
+	"W": "W",
+	"WNW": "WNW",
+	"NW": "NW",
+	"NNW": "NNW",
+
+	"UPDATE_NOTIFICATION": "Un update este disponibil pentru MagicMirror².",
+	"UPDATE_NOTIFICATION_MODULE": "Un update este disponibil pentru modulul {MODULE_NAME}.",
+	"UPDATE_INFO_SINGLE": "Există {COMMIT_COUNT} commit-uri noi pe branch-ul {BRANCH_NAME}.",
+	"UPDATE_INFO_MULTIPLE": "Există {COMMIT_COUNT} commit-uri noi pe branch-ul {BRANCH_NAME}.",
+	
+	"FEELS": "Se simte ca fiind"
+}

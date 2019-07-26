@@ -1,0 +1,33 @@
+{
+	"LOADING": "Carregant &hellip;",
+
+	"TODAY": "Avui",
+	"TOMORROW": "Demà",
+	"DAYAFTERTOMORROW": "Demà passat",
+	"RUNNING": "Acaba en",
+	"EMPTY": "No hi ha esdeveniments programats.",
+
+	"WEEK": "Setmana",
+
+	"N": "N",
+	"NNE": "NNE",
+	"NE": "NE",
+	"ENE": "ENE",
+	"E": "E",
+	"ESE": "ESE",
+	"SE": "SE",
+	"SSE": "SSE",
+	"S": "S",
+	"SSW": "SSO",
+	"SW": "SO",
+	"WSW": "OSO",
+	"W": "O",
+	"WNW": "ONO",
+	"NW": "NO",
+	"NNW": "NNO",
+
+	"UPDATE_NOTIFICATION": "MagicMirror² actualizació disponible.",
+	"UPDATE_NOTIFICATION_MODULE": "Disponible una actualizació per al mòdul {MODULE_NAME}.",
+	"UPDATE_INFO_SINGLE": "La teva instal·lació actual està {COMMIT_COUNT} commit canvis darrere de la branca {BRANCH_NAME}.",
+	"UPDATE_INFO_MULTIPLE": "La teva instal·lació actual està {COMMIT_COUNT} commits canvis darrere de la branca {BRANCH_NAME}."
+}

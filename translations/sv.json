@@ -1,13 +1,13 @@
 {
 	"LOADING": "Laddar &hellip;",
 
-	"TODAY": "Idag",
-	"TOMORROW": "Imorgon",
-	"DAYAFTERTOMORROW": "Iövermorgon",
+	"TODAY": "I dag",
+	"TOMORROW": "I morgon",
+	"DAYAFTERTOMORROW": "I övermorgon",
 	"RUNNING": "Slutar",
 	"EMPTY": "Inga kommande händelser.",
 
-	"WEEK": "Vecka",
+	"WEEK": "Vecka {weekNumber}",
 
 	"N": "N",
 	"NNE": "NNO",
@@ -27,6 +27,9 @@
 	"NNW": "NNV",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² uppdatering finns tillgänglig.",
-	"UPDATE_NOTIFICATION_MODULE": "Uppdatering finns tillgänglig av MODULE_NAME modulen.",
-	"UPDATE_INFO": "Denna installation ligger COMMIT_COUNT steg bakom BRANCH_NAME grenen."
+	"UPDATE_NOTIFICATION_MODULE": "Uppdatering finns tillgänglig av {MODULE_NAME} modulen.",
+	"UPDATE_INFO_SINGLE": "Denna installation ligger {COMMIT_COUNT} commit steg bakom {BRANCH_NAME} grenen.",
+	"UPDATE_INFO_MULTIPLE": "Denna installation ligger {COMMIT_COUNT} commits steg bakom {BRANCH_NAME} grenen.",
+
+	"FEELS": "Känns som"
 }

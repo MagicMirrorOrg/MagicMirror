@@ -18,7 +18,7 @@ var Translator = (function() {
 		xhr.overrideMimeType("application/json");
 		xhr.open("GET", file, true);
 		xhr.onreadystatechange = function () {
-			if (xhr.readyState == 4 && xhr.status == "200") {
+			if (xhr.readyState === 4 && xhr.status === 200) {
 				callback(JSON.parse(stripComments(xhr.responseText)));
 			}
 		};
@@ -111,41 +111,61 @@ var Translator = (function() {
 		translations: {},
 		translationsFallback: {},
 
-		/* translate(module, key)
+		/* translate(module, key, variables)
 		 * Load a translation for a given key for a given module.
 		 *
 		 * argument module Module - The module to load the translation for.
 		 * argument key string - The key of the text to translate.
+		 * argument variables - The variables to use within the translation template (optional)
 		 */
-		translate: function(module, key) {
+		translate: function(module, key, variables) {
+			variables = variables || {}; //Empty object by default
+
+			// Combines template and variables like:
+			// template: "Please wait for {timeToWait} before continuing with {work}."
+			// variables: {timeToWait: "2 hours", work: "painting"}
+			// to: "Please wait for 2 hours before continuing with painting."
+			function createStringFromTemplate(template, variables) {
+				if(Object.prototype.toString.call(template) !== "[object String]") {
+					return template;
+				}
+				if(variables.fallback && !template.match(new RegExp("\{.+\}"))) {
+					template = variables.fallback;
+				}
+				return template.replace(new RegExp("\{([^\}]+)\}", "g"), function(_unused, varName){
+					return variables[varName] || "{"+varName+"}";
+				});
+			}
 
 			if(this.translations[module.name] && key in this.translations[module.name]) {
 				// Log.log("Got translation for " + key + " from module translation: ");
-				return this.translations[module.name][key];
+				return createStringFromTemplate(this.translations[module.name][key], variables);
 			}
 
 			if (key in this.coreTranslations) {
 				// Log.log("Got translation for " + key + " from core translation.");
-				return this.coreTranslations[key];
+				return createStringFromTemplate(this.coreTranslations[key], variables);
 			}
 
 			if (this.translationsFallback[module.name] && key in this.translationsFallback[module.name]) {
 				// Log.log("Got translation for " + key + " from module translation fallback.");
-				return this.translationsFallback[module.name][key];
+				return createStringFromTemplate(this.translationsFallback[module.name][key], variables);
 			}
 
 			if (key in this.coreTranslationsFallback) {
 				// Log.log("Got translation for " + key + " from core translation fallback.");
-				return this.coreTranslationsFallback[key];
+				return createStringFromTemplate(this.coreTranslationsFallback[key], variables);
 			}
 
 			return key;
 		},
-		/* load(module, file, callback)
+
+		/* load(module, file, isFallback, callback)
 		 * Load a translation file (json) and remember the data.
 		 *
 		 * argument module Module - The module to load the translation file for.
 		 * argument file string - Path of the file we want to load.
+		 * argument isFallback boolean - Flag to indicate fallback translations.
 		 * argument callback function - Function called when done.
 		 */
 		load: function(module, file, isFallback, callback) {
@@ -201,10 +221,12 @@ var Translator = (function() {
 			// defined translation after the following line.
 			for (var first in translations) {break;}
 
-			Log.log("Loading core translation fallback file: " + translations[first]);
-			loadJSON(translations[first], function(translations) {
-				self.coreTranslationsFallback = translations;
-			});
+			if (first) {
+				Log.log("Loading core translation fallback file: " + translations[first]);
+				loadJSON(translations[first], function(translations) {
+					self.coreTranslationsFallback = translations;
+				});
+			}
 		},
 	};
 })();

@@ -1,0 +1,32 @@
+{% if forecast %}
+    {% set numSteps = forecast | calcNumSteps %}
+    {% set currentStep = 0 %}
+    <table class="{{ config.tableClass }}">
+        {% set forecast = forecast.slice(0, numSteps) %}
+        {% for f in forecast %}
+            <tr {% if config.colored %}class="colored"{% endif %} {% if config.fade %}style="opacity: {{ currentStep | opacity(numSteps) }};"{% endif %}>
+                <td class="day">{{ f.date.format('ddd') }}</td>
+                <td class="bright weather-icon"><span class="wi weathericon wi-{{ f.weatherType }}"></span></td>
+                <td class="align-right bright max-temp">
+                    {{ f.maxTemperature | roundValue | unit("temperature") }}
+                </td>
+                <td class="align-right min-temp">
+                    {{ f.minTemperature | roundValue | unit("temperature") }}
+                </td>
+                {% if config.showPrecipitationAmount %}
+                    <td class="align-right bright precipitation">
+                        {{ f.precipitation | unit("precip") }}
+                    </td>
+                {% endif %}
+            </tr>
+            {% set currentStep = currentStep + 1 %}
+        {% endfor %}
+    </table>
+{% else %}
+    <div class="dimmed light small">
+        {{ "LOADING" | translate | safe }}
+    </div>
+{% endif %}
+
+<!-- Uncomment the line below to see the contents of the `forecast` object. -->
+<!-- <div style="word-wrap:break-word" class="xsmall dimmed">{{forecast | dump}}</div> -->

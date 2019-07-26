@@ -8,10 +8,12 @@
  */
 
 var port = 8080;
+var address = "localhost";
 if (typeof(mmPort) !== "undefined") {
 	port = mmPort;
 }
 var defaults = {
+	address: address,
 	port: port,
 	kioskmode: false,
 	electronOptions: {},
@@ -21,6 +23,7 @@ var defaults = {
 	timeFormat: 24,
 	units: "metric",
 	zoom: 1,
+	customCss: "css/custom.css",
 
 	modules: [
 		{

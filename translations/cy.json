@@ -1,0 +1,33 @@
+{
+	"LOADING": "Llwytho &hellip;",
+
+	"TODAY": "Heddiw",
+	"TOMORROW": "Yfory",
+	"DAYAFTERTOMORROW": "Drennydd",
+	"RUNNING": "Gorffen mewn",
+	"EMPTY": "Dim digwyddiadau.",
+
+	"WEEK": "Wythnos {weekNumber}",
+
+	"N": "Go",
+	"NNE": "GoGoDw",
+	"NE": "GoDw",
+	"ENE": "DwGoDw",
+	"E": "Dw",
+	"ESE": "DwDeDw",
+	"SE": "DwDe",
+	"SSE": "DeDeDw",
+	"S": "De",
+	"SSW": "DeDeGr",
+	"SW": "DeGr",
+	"WSW": "GrDeGr",
+	"W": "Gr",
+	"WNW": "GrGoGr",
+	"NW": "GoGr",
+	"NNW": "GoGoGe",
+
+	"UPDATE_NOTIFICATION": "MagicMirror² mwy diweddar yn barod.",
+	"UPDATE_NOTIFICATION_MODULE": "Mae diweddaraiad ar gyfer y modiwl {MODULE_NAME}.",
+	"UPDATE_INFO_SINGLE": "Mae'r fersiwn bresenol {COMMIT_COUNT} commit tu ôl i'r gangen {BRANCH_NAME}.",
+	"UPDATE_INFO_MULTIPLE": "Mae'r fersiwn bresenol {COMMIT_COUNT} commit tu ôl i'r gangen {BRANCH_NAME}."
+}

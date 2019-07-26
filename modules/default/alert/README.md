@@ -43,10 +43,11 @@ self.sendNotification("SHOW_ALERT", {});
 ```
 
 ### Notification params
-| Option    | Description
-| --------- | -----------
-| `title`   | The title of the notification. <br><br> **Possible values:** `text` or `html`
-| `message`	| The message of the notification. <br><br> **Possible values:** `text` or `html`
+| Option             | Description
+| ------------------ | -----------
+| `title`            | The title of the notification. <br><br> **Possible values:** `text` or `html`
+| `message`	         | The message of the notification. <br><br> **Possible values:** `text` or `html`
+| `timer` (optional) | How long the notification should stay visible in ms. <br> If absent, the default `display_time` is used. <br> **Possible values:** `int` `float`
 
 
 ### Alert params
@@ -60,5 +61,5 @@ self.sendNotification("SHOW_ALERT", {});
 | `timer` (optional)                              | How long the alert should stay visible in ms. <br> **Important:** If you do not use the `timer`, it is your duty to hide the alert by using `self.sendNotification("HIDE_ALERT");`! <br><br>**Possible values:** `int` `float` <br> **Default value:** `none`
 
 ## Open Source Licenses
-###[NotificationStyles](https://github.com/codrops/NotificationStyles)
-See [ympanus.net](http://tympanus.net/codrops/licensing/) for license.
+### [NotificationStyles](https://github.com/codrops/NotificationStyles)
+See [tympanus.net](http://tympanus.net/codrops/licensing/) for license.

@@ -1,0 +1,33 @@
+{
+	"LOADING": "Зареждане &hellip;",
+
+	"TODAY": "Днес",
+	"TOMORROW": "Утре",
+	"DAYAFTERTOMORROW": "Вдругиден",
+	"RUNNING": "Свършва на",
+	"EMPTY": "Няма предстоящи събития.",
+
+	"WEEK": "Седмица {weekNumber}",
+
+	"N": "С",
+	"NNE": "ССИ",
+	"NE": "СИ",
+	"ENE": "ИСИ",
+	"E": "И",
+	"ESE": "ИЮИ",
+	"SE": "ЮИ",
+	"SSE": "ЮЮИ",
+	"S": "Ю",
+	"SSW": "ЮЮЗ",
+	"SW": "ЮЗ",
+	"WSW": "ЗЮЗ",
+	"W": "З",
+	"WNW": "ЗСЗ",
+	"NW": "СЗ",
+	"NNW": "ССЗ",
+
+	"UPDATE_NOTIFICATION": "Налична актуализация за MagicMirror².",
+	"UPDATE_NOTIFICATION_MODULE": "Налична актуализация за {MODULE_NAME} модул.",
+	"UPDATE_INFO_SINGLE": "Текущата инсталация е изостанала с {COMMIT_COUNT} commit къмита на клон {BRANCH_NAME}.",
+	"UPDATE_INFO_MULTIPLE": "Текущата инсталация е изостанала с {COMMIT_COUNT} commits къмита на клон {BRANCH_NAME}."
+}

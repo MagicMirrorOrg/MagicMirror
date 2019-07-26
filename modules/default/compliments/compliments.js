@@ -32,7 +32,11 @@ Module.register("compliments", {
 		},
 		updateInterval: 30000,
 		remoteFile: null,
-		fadeSpeed: 4000
+		fadeSpeed: 4000,
+		morningStartTime: 3,
+		morningEndTime: 12,
+		afternoonStartTime: 12,
+		afternoonEndTime: 17
 	},
 
 	// Set currentweather from module
@@ -49,14 +53,15 @@ Module.register("compliments", {
 
 		this.lastComplimentIndex = -1;
 
-		if (this.config.remoteFile != null) {
-			this.complimentFile((response) => {
-				this.config.compliments = JSON.parse(response);
+		var self = this;
+		if (this.config.remoteFile !== null) {
+			this.complimentFile(function(response) {
+				self.config.compliments = JSON.parse(response);
+				self.updateDom();
 			});
 		}
 
 		// Schedule update timer.
-		var self = this;
 		setInterval(function() {
 			self.updateDom(self.config.fadeSpeed);
 		}, this.config.updateInterval);
@@ -96,14 +101,14 @@ Module.register("compliments", {
 	 */
 	complimentArray: function() {
 		var hour = moment().hour();
-		var compliments = null;
+		var compliments;
 
-		if (hour >= 3 && hour < 12) {
-			compliments = this.config.compliments.morning;
-		} else if (hour >= 12 && hour < 17) {
-			compliments = this.config.compliments.afternoon;
-		} else {
-			compliments = this.config.compliments.evening;
+		if (hour >= this.config.morningStartTime && hour < this.config.morningEndTime && this.config.compliments.hasOwnProperty("morning")) {
+			compliments = this.config.compliments.morning.slice(0);
+		} else if (hour >= this.config.afternoonStartTime && hour < this.config.afternoonEndTime && this.config.compliments.hasOwnProperty("afternoon")) {
+			compliments = this.config.compliments.afternoon.slice(0);
+		} else if(this.config.compliments.hasOwnProperty("evening")) {
+			compliments = this.config.compliments.evening.slice(0);
 		}
 
 		if (typeof compliments === "undefined") {
@@ -117,18 +122,19 @@ Module.register("compliments", {
 		compliments.push.apply(compliments, this.config.compliments.anytime);
 
 		return compliments;
-
 	},
 
 	/* complimentFile(callback)
 	 * Retrieve a file from the local filesystem
 	 */
 	complimentFile: function(callback) {
-		var xobj = new XMLHttpRequest();
+		var xobj = new XMLHttpRequest(),
+			isRemote = this.config.remoteFile.indexOf("http://") === 0 || this.config.remoteFile.indexOf("https://") === 0,
+			path = isRemote ? this.config.remoteFile : this.file(this.config.remoteFile);
 		xobj.overrideMimeType("application/json");
-		xobj.open("GET", this.file(this.config.remoteFile), true);
+		xobj.open("GET", path, true);
 		xobj.onreadystatechange = function() {
-			if (xobj.readyState == 4 && xobj.status == "200") {
+			if (xobj.readyState === 4 && xobj.status === 200) {
 				callback(xobj.responseText);
 			}
 		};
@@ -153,12 +159,11 @@ Module.register("compliments", {
 
 		var compliment = document.createTextNode(complimentText);
 		var wrapper = document.createElement("div");
-		wrapper.className = this.config.classes ? this.config.classes : "thin xlarge bright";
+		wrapper.className = this.config.classes ? this.config.classes : "thin xlarge bright pre-line";
 		wrapper.appendChild(compliment);
 
 		return wrapper;
 	},
-
 
 	// From data currentweather set weather type
 	setCurrentWeatherType: function(data) {
@@ -185,10 +190,9 @@ Module.register("compliments", {
 		this.currentWeatherType = weatherIconTable[data.weather[0].icon];
 	},
 
-
 	// Override notification handler.
 	notificationReceived: function(notification, payload, sender) {
-		if (notification == "CURRENTWEATHER_DATA") {
+		if (notification === "CURRENTWEATHER_DATA") {
 			this.setCurrentWeatherType(payload.data);
 		}
 	},

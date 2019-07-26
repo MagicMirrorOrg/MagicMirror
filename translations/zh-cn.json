@@ -1,0 +1,35 @@
+{
+	"LOADING": "正在加载 &hellip;",
+
+	"TODAY": "今天",
+	"TOMORROW": "明天",
+	"DAYAFTERTOMORROW": "后天",
+	"RUNNING": "结束日期",
+	"EMPTY": "无日程安排。",
+
+	"WEEK": "第{weekNumber}周",
+
+	"N": "北风",
+	"NNE": "北偏东风",
+	"NE": "东北风",
+	"ENE": "东偏北风",
+	"E": "东风",
+	"ESE": "东偏南风",
+	"SE": "东南风",
+	"SSE": "南偏东风",
+	"S": "南风",
+	"SSW": "南偏西风",
+	"SW": "西南风",
+	"WSW": "西偏南风",
+	"W": "西风",
+	"WNW": "西偏北风",
+	"NW": "西北风",
+	"NNW": "北偏西风",
+
+	"UPDATE_NOTIFICATION": "MagicMirror²有新的版本。",
+	"UPDATE_NOTIFICATION_MODULE": "{MODULE_NAME}模块可更新。",
+	"UPDATE_INFO_SINGLE": "当前已安装版本比{BRANCH_NAME}分支落后{COMMIT_COUNT}次代码更新。",
+	"UPDATE_INFO_MULTIPLE": "当前已安装版本比{BRANCH_NAME}分支落后{COMMIT_COUNT}次代码更新。",
+
+	"FEELS": "体感"
+}

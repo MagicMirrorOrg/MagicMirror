@@ -27,6 +27,11 @@ var Module = Class.extend({
 	// visibility when hiding and showing module.
 	lockStrings: [],
 
+	// Storage of the nunjuck Environment,
+	// This should not be referenced directly.
+	// Use the nunjucksEnvironment() to get it.
+	_nunjucksEnvironment: null,
+
 	/* init()
 	 * Is called when the module is instantiated.
 	 */
@@ -70,25 +75,37 @@ var Module = Class.extend({
 
 	/* getDom()
 	 * This method generates the dom which needs to be displayed. This method is called by the Magic Mirror core.
-	 * This method needs to be subclassed if the module wants to display info on the mirror.
+	 * This method can to be subclassed if the module wants to display info on the mirror.
+	 * Alternatively, the getTemplate method could be subclassed.
 	 *
-	 * return domobject - The dom to display.
+	 * return DomObject | Promise - The dom or a promise with the dom to display.
 	 */
 	getDom: function () {
-		var nameWrapper = document.createElement("div");
-		var name = document.createTextNode(this.name);
-		nameWrapper.appendChild(name);
+		var self = this;
+		return new Promise(function(resolve) {
+			var div = document.createElement("div");
+			var template = self.getTemplate();
+			var templateData = self.getTemplateData();
 
-		var identifierWrapper = document.createElement("div");
-		var identifier = document.createTextNode(this.identifier);
-		identifierWrapper.appendChild(identifier);
-		identifierWrapper.className = "small dimmed";
+			// Check to see if we need to render a template string or a file.
+			if (/^.*((\.html)|(\.njk))$/.test(template)) {
+				// the template is a filename
+				self.nunjucksEnvironment().render(template, templateData, function (err, res) {
+					if (err) {
+						Log.error(err);
+					}
 
-		var div = document.createElement("div");
-		div.appendChild(nameWrapper);
-		div.appendChild(identifierWrapper);
+					div.innerHTML = res;
 
-		return div;
+					resolve(div);
+				});
+			} else {
+				// the template is a template string.
+				div.innerHTML = self.nunjucksEnvironment().renderString(template, templateData);
+
+				resolve(div);
+			}
+		});
 	},
 
 	/* getHeader()
@@ -100,6 +117,28 @@ var Module = Class.extend({
 	 */
 	getHeader: function () {
 		return this.data.header;
+	},
+
+	/* getTemplate()
+	 * This method returns the template for the module which is used by the default getDom implementation.
+	 * This method needs to be subclassed if the module wants to use a template.
+	 * It can either return a template sting, or a template filename.
+	 * If the string ends with '.html' it's considered a file from within the module's folder.
+	 *
+	 * return string - The template string of filename.
+	 */
+	getTemplate: function () {
+		return "<div class=\"normal\">" + this.name + "</div><div class=\"small dimmed\">" + this.identifier + "</div>";
+	},
+
+	/* getTemplateData()
+	 * This method returns the data to be used in the template.
+	 * This method needs to be subclassed if the module wants to use a custom data.
+	 *
+	 * return Object
+	 */
+	getTemplateData: function () {
+		return {};
 	},
 
 	/* notificationReceived(notification, payload, sender)
@@ -116,6 +155,30 @@ var Module = Class.extend({
 		} else {
 			Log.log(this.name + " received a system notification: " + notification);
 		}
+	},
+
+	/** nunjucksEnvironment()
+	 * Returns the nunjucks environment for the current module.
+	 * The environment is checked in the _nunjucksEnvironment instance variable.
+
+	 * @returns Nunjucks Environment
+	 */
+	nunjucksEnvironment: function() {
+		if (this._nunjucksEnvironment !== null) {
+			return this._nunjucksEnvironment;
+		}
+
+		var self = this;
+
+		this._nunjucksEnvironment = new nunjucks.Environment(new nunjucks.WebLoader(this.file(""), {async: true}), {
+			trimBlocks: true,
+			lstripBlocks: true
+		});
+		this._nunjucksEnvironment.addFilter("translate", function(str) {
+			return self.translate(str);
+		});
+
+		return this._nunjucksEnvironment;
 	},
 
 	/* socketNotificationReceived(notification, payload)
@@ -149,7 +212,7 @@ var Module = Class.extend({
 	/* setData(data)
 	 * Set the module data.
 	 *
-	 * argument data obejct - Module data.
+	 * argument data object - Module data.
 	 */
 	setData: function (data) {
 		this.data = data;
@@ -163,14 +226,14 @@ var Module = Class.extend({
 	/* setConfig(config)
 	 * Set the module config and combine it with the module defaults.
 	 *
-	 * argument config obejct - Module config.
+	 * argument config object - Module config.
 	 */
 	setConfig: function (config) {
 		this.config = Object.assign({}, this.defaults, config);
 	},
 
 	/* socket()
-	 * Returns a socket object. If it doesn"t exist, it"s created.
+	 * Returns a socket object. If it doesn't exist, it"s created.
 	 * It also registers the notification callback.
 	 */
 	socket: function () {
@@ -194,7 +257,7 @@ var Module = Class.extend({
 	 * return string - File path.
 	 */
 	file: function (file) {
-		return this.data.path + "/" + file;
+		return (this.data.path + "/" + file).replace("//", "/");
 	},
 
 	/* loadStyles()
@@ -272,14 +335,18 @@ var Module = Class.extend({
 		}
 	},
 
-	/* translate(key, defaultValue)
-	 * Request the translation for a given key.
+	/* translate(key, defaultValueOrVariables, defaultValue)
+	 * Request the translation for a given key with optional variables and default value.
 	 *
-	 * argument key string - The key of the string to translage
-   * argument defaultValue string - The default value if no translation was found. (Optional)
+	 * argument key string - The key of the string to translate
+     * argument defaultValueOrVariables string/object - The default value or variables for translating. (Optional)
+     * argument defaultValue string - The default value with variables. (Optional)
 	 */
-	translate: function (key, defaultValue) {
-		return Translator.translate(this, key) || defaultValue || "";
+	translate: function (key, defaultValueOrVariables, defaultValue) {
+		if(typeof defaultValueOrVariables === "object") {
+			return Translator.translate(this, key, defaultValueOrVariables) || defaultValue || "";
+		}
+		return Translator.translate(this, key) || defaultValueOrVariables || "";
 	},
 
 	/* updateDom(speed)
@@ -371,11 +438,10 @@ Module.create = function (name) {
 	var ModuleClass = Module.extend(clonedDefinition);
 
 	return new ModuleClass();
-
 };
 
 /* cmpVersions(a,b)
-* Compare two symantic version numbers and return the difference.
+* Compare two semantic version numbers and return the difference.
 *
 * argument a string - Version number a.
 * argument a string - Version number b.
@@ -410,11 +476,3 @@ Module.register = function (name, moduleDefinition) {
 	Log.log("Module registered: " + name);
 	Module.definitions[name] = moduleDefinition;
 };
-
-if (typeof exports != "undefined") { // For testing purpose only
-	// A good a idea move the function cmpversions a helper file.
-	// It's used into other side.
-	exports._test = {
-		cmpVersions: cmpVersions
-	}
-}

@@ -4,6 +4,7 @@ module.exports = function(grunt) {
 		pkg: grunt.file.readJSON("package.json"),
 		eslint: {
 			options: {
+				fix: "true",
 				configFile: ".eslintrc.json"
 			},
 			target: [
@@ -11,6 +12,7 @@ module.exports = function(grunt) {
 				"modules/default/*.js",
 				"modules/default/*/*.js",
 				"serveronly/*.js",
+				"clientonly/*.js",
 				"*.js",
 				"tests/**/*.js",
 				"!modules/default/alert/notificationFx.js",
@@ -25,7 +27,7 @@ module.exports = function(grunt) {
 		stylelint: {
 			simple: {
 				options: {
-					configFile: ".stylelintrc"
+					configFile: ".stylelintrc.json"
 				},
 				src: [
 					"css/main.css",
@@ -41,11 +43,11 @@ module.exports = function(grunt) {
 				src: [
 					"package.json",
 					".eslintrc.json",
-					".stylelintrc",
+					".stylelintrc.json",
+					"installers/pm2_MagicMirror.json",
 					"translations/*.json",
 					"modules/default/*/translations/*.json",
-					"installers/pm2_MagicMirror.json",
-					"vendor/package.js"
+					"vendor/package.json"
 				],
 				options: {
 					reporter: "jshint"

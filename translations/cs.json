@@ -1,0 +1,33 @@
+{
+	"LOADING": "Načítání &hellip;",
+
+	"TODAY": "Dnes",
+	"TOMORROW": "Zítra",
+	"DAYAFTERTOMORROW": "Pozítří",
+	"RUNNING": "Končí za",
+	"EMPTY": "Žádné nadcházející události.",
+
+	"WEEK": "{weekNumber}. týden",
+
+	"N": "S",
+	"NNE": "SSV",
+	"NE": "SV",
+	"ENE": "VSV",
+	"E": "V",
+	"ESE": "VJV",
+	"SE": "JV",
+	"SSE": "JJV",
+	"S": "J",
+	"SSW": "JJZ",
+	"SW": "JZ",
+	"WSW": "ZJZ",
+	"W": "Z",
+	"WNW": "ZSZ",
+	"NW": "SZ",
+	"NNW": "SSZ",
+
+	"UPDATE_NOTIFICATION": "Dostupná aktualizace pro MagicMirror².",
+	"UPDATE_NOTIFICATION_MODULE": "Dostupná aktualizace pro modul {MODULE_NAME}.",
+	"UPDATE_INFO_SINGLE": "Současná instalace je na větvi {BRANCH_NAME} pozadu o {COMMIT_COUNT} commit.",
+	"UPDATE_INFO_MULTIPLE": "Současná instalace je na větvi {BRANCH_NAME} pozadu o {COMMIT_COUNT} commits."
+}
