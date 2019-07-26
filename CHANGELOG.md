@@ -15,6 +15,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Updated
 - Updatenotification module: Display update notification for a limited (configurable) time.
+- The css/custom.css will be rename after the next release. We've add into `run-start.sh` a instruction by GIT to ignore with `--skip-worktree` and `rm --cached`. The history about this change [#1540].
+
 
 ### Fixed
 - Updatenotification module: Properly handle race conditions, prevent crash.
