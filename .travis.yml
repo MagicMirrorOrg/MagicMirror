@@ -1,6 +1,8 @@
 language: node_js
 node_js:
  - "8"
+services:
+ - xvfb
 before_script:
  - yarn danger ci
  - npm install grunt-cli -g
