@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 *This release is scheduled to be released on 2019-10-01.*
 
 ### Added
+- Spanish translation for "PRECIP"
 
 ### Updated
 - Updatenotification module: Display update notification for a limited (configurable) time.
