@@ -12,6 +12,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 *This release is scheduled to be released on 2019-10-01.*
 
 ### Added
+- Adding a Malay (Malaysian) translation for MagicMirror²
+
+### Added
 - Spanish translation for "PRECIP"
 
 ### Updated
