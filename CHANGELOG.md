@@ -12,11 +12,17 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 *This release is scheduled to be released on 2019-10-01.*
 
 ### Added
+- Spanish translation for "PRECIP"
+- Adding a Malay (Malaysian) translation for MagicMirror²
 - Add test check URLs of vendors 200 and 404 HTTP CODE.
 
 ### Updated
 - Updatenotification module: Display update notification for a limited (configurable) time.
 - Enabled e2e/vendor_spec.js tests
+
+### Updated
+- Updatenotification module: Display update notification for a limited (configurable) time.
+- The css/custom.css will be rename after the next release. We've add into `run-start.sh` a instruction by GIT to ignore with `--skip-worktree` and `rm --cached`. The history about this change [#1540].
 
 ### Fixed
 - Updatenotification module: Properly handle race conditions, prevent crash.

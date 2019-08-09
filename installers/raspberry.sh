@@ -130,13 +130,6 @@ if $NPM_INSTALL; then
 	
 	echo -e "\e[96mInstalling npm ...\e[90m"
 
-	# Fetch the latest version of npm from the selected branch
-	# The NODE_STABLE_BRANCH variable will need to be manually adjusted when a new branch is released. (e.g. 7.x)
-	# Only tested (stable) versions are recommended as newer versions could break MagicMirror.
-	
-	#NODE_STABLE_BRANCH="9.x"
-	#curl -sL https://deb.nodesource.com/setup_$NODE_STABLE_BRANCH | sudo -E bash -
-  #
   sudo apt-get install -y npm
 	echo -e "\e[92mnpm installation Done!\e[0m"
 fi
