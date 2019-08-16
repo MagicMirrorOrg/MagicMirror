@@ -9,7 +9,6 @@ const after = global.after;
 
 describe("Vendors", function () {
 
-	return; // Test still getting failed in Travis
 
 	helpers.setupTimeout(this);
 
@@ -37,6 +36,15 @@ describe("Vendors", function () {
 				urlVendor = "http://localhost:8080/vendor/" + vendors[vendor];
 				request.get(urlVendor, function (err, res, body) {
 					expect(res.statusCode).to.equal(200);
+				});
+			});
+		});
+
+		Object.keys(vendors).forEach(vendor => {
+			it(`should return 404 HTTP code for vendor https://localhost/"${vendor}"`, function() {
+				urlVendor = "http://localhost:8080/" + vendors[vendor];
+				request.get(urlVendor, function (err, res, body) {
+					expect(res.statusCode).to.equal(404);
 				});
 			});
 		});
