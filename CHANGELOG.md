@@ -28,6 +28,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Updatenotification module: Properly handle race conditions, prevent crash.
 - Send `NEWS_FEED` notification also for the first news messages which are shown
 - Fixed issue where weather module would not refresh data after a network or API outage [#1722](https://github.com/MichMich/MagicMirror/issues/1722)
+- Fixed weatherforecast module not displaying rain amount on fallback endpoint
 
 ## [2.8.0] - 2019-07-01
 

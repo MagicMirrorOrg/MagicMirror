@@ -353,7 +353,7 @@ Module.register("weatherforecast",{
 					icon: this.config.iconTable[forecast.weather[0].icon],
 					maxTemp: this.roundValue(forecast.temp.max),
 					minTemp: this.roundValue(forecast.temp.min),
-					rain: forecast.rain
+					rain: this.processRain(forecast, data.list)
 				};
 
 				this.forecast.push(forecastData);
@@ -434,5 +434,38 @@ Module.register("weatherforecast",{
 	roundValue: function(temperature) {
 		var decimals = this.config.roundTemp ? 0 : 1;
 		return parseFloat(temperature).toFixed(decimals);
+	},
+
+	/* processRain(forecast, allForecasts)
+	 * Calculates the amount of rain for a whole day even if long term forecasts isn't available for the appid.
+	 *
+	 * When using the the fallback endpoint forecasts are provided in 3h intervals and the rain-property is an object instead of number.
+	 * That object has a property "3h" which contains the amount of rain since the previous forecast in the list.
+	 * This code finds all forecasts that is for the same day and sums the amount of rain and returns that.
+	 */
+	processRain: function(forecast, allForecasts) {
+		//If the amount of rain actually is a number, return it
+		if (!isNaN(forecast.rain)) {
+			return forecast.rain;
+		}
+
+		//Find all forecasts that is for the same day
+		var checkDateTime = (!!forecast.dt_txt) ? moment(forecast.dt_txt, "YYYY-MM-DD hh:mm:ss") : moment(forecast.dt, "X");
+		var daysForecasts = allForecasts.filter(function(item) {
+			var itemDateTime = (!!item.dt_txt) ? moment(item.dt_txt, "YYYY-MM-DD hh:mm:ss") : moment(item.dt, "X");
+			return itemDateTime.isSame(checkDateTime, "day") && item.rain instanceof Object;
+		});
+
+		//If no rain this day return undefined so it wont be displayed for this day
+		if (daysForecasts.length == 0) {
+			return undefined;
+		}
+
+		//Summarize all the rain from the matching days
+		return daysForecasts.map(function(item) {
+			return Object.values(item.rain)[0];
+		}).reduce(function(a, b) {
+			return a + b;
+		}, 0);
 	}
 });
