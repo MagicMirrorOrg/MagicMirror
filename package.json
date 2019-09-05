@@ -57,6 +57,7 @@
   },
   "dependencies": {
     "colors": "^1.1.2",
+    "console-stamp": "^0.2.9",
     "electron": "^3.0.13",
     "express": "^4.16.2",
     "express-ipfilter": "^1.0.1",
