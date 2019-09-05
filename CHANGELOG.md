@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Spanish translation for "PRECIP"
 - Adding a Malay (Malaysian) translation for MagicMirror²
 - Add test check URLs of vendors 200 and 404 HTTP CODE.
+- Timestamps in log output
 
 ### Updated
 - Updatenotification module: Display update notification for a limited (configurable) time.
