@@ -10,7 +10,6 @@ const mlog = require("mocha-logger");
 
 describe("Vendors", function () {
 
-
 	helpers.setupTimeout(this);
 
 	var app = null;

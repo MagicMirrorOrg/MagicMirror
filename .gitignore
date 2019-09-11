@@ -11,7 +11,7 @@ coverage
 .grunt
 .lock-wscript
 build/Release
-node_modules
+/node_modules/**/*
 jspm_modules
 .npm
 .node_repl_history
@@ -81,3 +81,5 @@ Temporary Items
 *.orig
 *.rej
 *.bak
+
+!/tests/node_modules/**/*

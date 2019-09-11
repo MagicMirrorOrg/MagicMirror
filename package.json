@@ -63,6 +63,7 @@
     "feedme": "latest",
     "helmet": "^3.9.0",
     "iconv-lite": "latest",
+    "lodash": "^4.17.11",
     "moment": "latest",
     "request": "^2.88.0",
     "rrule": "^2.6.2",
