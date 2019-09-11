@@ -184,26 +184,6 @@ describe("Weather module", function() {
 				process.env.MM_CONFIG_FILE = "tests/configs/modules/weather/currentweather_units.js";
 			});
 
-			it("should render html", async function() {
-				const weather = generateWeather({
-					main:{
-						temp: 1.49 * 9 / 5 + 32,
-						temp_min: 1 * 9 / 5 + 32,
-						temp_max: 2 * 9 / 5 + 32
-					},
-					wind:{
-						speed: 11.8 * 2.23694
-					},
-				});
-				await setup([weather, template]);
-
-				await wait();
-
-				console.log(await app.client.getRenderProcessLogs());
-				console.log(await app.client.getText('.weather .normal.medium span:nth-child(3)'));
-				return console.log(await app.client.getHTML('.weather'));
-			});
-
 			it("should render imperial units", async function() {
 				const weather = generateWeather({
 					main:{
@@ -237,7 +217,7 @@ describe("Weather module", function() {
 
 				await app.client.waitUntilTextExists('.weather .normal.medium span:nth-child(3)', '93,7', 10000);
 				await app.client.waitUntilTextExists('.weather .large.light span.bright', '34,7°', 10000);
-				return app.client.waitUntilTextExists('.weather .normal.medium span.dimmed', '22,03°', 10000);
+				return app.client.waitUntilTextExists('.weather .normal.medium span.dimmed', '22,0°', 10000);
 			});
 		});
 	});
