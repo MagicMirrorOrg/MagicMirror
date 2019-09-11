@@ -1,3 +1,4 @@
+const expect = require("chai").expect;
 const fs = require("fs");
 const _ = require("lodash");
 const moment = require("moment");
@@ -49,7 +50,7 @@ describe("Weather module", function() {
 				main:{
 					temp: 1.49,
 					pressure: 1005,
-					humidity: 93,
+					humidity: 93.7,
 					temp_min: 1,
 					temp_max: 2
 				},
@@ -98,7 +99,6 @@ describe("Weather module", function() {
 				const sunrise = moment().startOf('day').unix();
 				const sunset = moment().startOf('day').unix();
 
-
 				const weather = generateWeather({sys: {sunrise, sunset}});
 				await setup([weather, template]);
 
@@ -133,9 +133,111 @@ describe("Weather module", function() {
 				const weather = generateWeather();
 				await setup([weather, template]);
 
-				await app.client.waitForExist(".weather .large.light span.wi.weathericon.wi-snow", 10000);
-
 				return app.client.waitUntilTextExists('.weather .normal.medium span.dimmed', 'Feels -5.6°', 10000);
+			});
+		});
+
+		const wait = () => new Promise(res => setTimeout(res, 3000));
+
+		describe("Configuration Options", function() {
+			before(function() {
+				process.env.MM_CONFIG_FILE = "tests/configs/modules/weather/currentweather_options.js";
+			});
+
+			it("should render useBeaufort = false", async function() {
+				const weather = generateWeather();
+				await setup([weather, template]);
+
+				return app.client.waitUntilTextExists('.weather .normal.medium span:nth-child(2)', '12', 10000);
+			});
+
+			it("should render showWindDirectionAsArrow = true", async function() {
+				const weather = generateWeather();
+				await setup([weather, template]);
+
+				await app.client.waitForExist('.weather .normal.medium sup i.fa-long-arrow-up', 10000);
+				const element = await app.client.getHTML('.weather .normal.medium sup i.fa-long-arrow-up');
+
+				expect(element).to.include("transform:rotate(250deg);");
+			});
+
+			it("should render showHumidity = true", async function() {
+				const weather = generateWeather();
+				await setup([weather, template]);
+
+				await app.client.waitUntilTextExists('.weather .normal.medium span:nth-child(3)', '93', 10000);
+				return app.client.waitForExist('.weather .normal.medium sup i.wi-humidity', 10000);
+			});
+
+			it("should render degreeLabel = true", async function() {
+				const weather = generateWeather();
+				await setup([weather, template]);
+
+				await app.client.waitUntilTextExists('.weather .large.light span.bright', '1°C', 10000);
+
+				return app.client.waitUntilTextExists('.weather .normal.medium span.dimmed', 'Feels -6°C', 10000);
+			});
+		});
+
+		describe("Current weather units", function() {
+			before(function() {
+				process.env.MM_CONFIG_FILE = "tests/configs/modules/weather/currentweather_units.js";
+			});
+
+			it("should render html", async function() {
+				const weather = generateWeather({
+					main:{
+						temp: 1.49 * 9 / 5 + 32,
+						temp_min: 1 * 9 / 5 + 32,
+						temp_max: 2 * 9 / 5 + 32
+					},
+					wind:{
+						speed: 11.8 * 2.23694
+					},
+				});
+				await setup([weather, template]);
+
+				await wait();
+
+				console.log(await app.client.getRenderProcessLogs());
+				console.log(await app.client.getText('.weather .normal.medium span:nth-child(3)'));
+				return console.log(await app.client.getHTML('.weather'));
+			});
+
+			it("should render imperial units", async function() {
+				const weather = generateWeather({
+					main:{
+						temp: 1.49 * 9 / 5 + 32,
+						temp_min: 1 * 9 / 5 + 32,
+						temp_max: 2 * 9 / 5 + 32
+					},
+					wind:{
+						speed: 11.8 * 2.23694
+					},
+				});
+				await setup([weather, template]);
+
+				await app.client.waitUntilTextExists('.weather .normal.medium span:nth-child(2)', '6 WSW', 10000);
+				await app.client.waitUntilTextExists('.weather .large.light span.bright', '34,7°', 10000);
+				return app.client.waitUntilTextExists('.weather .normal.medium span.dimmed', '22,0°', 10000);
+			});
+
+			it("should render decimalSymbol = ','", async function() {
+				const weather = generateWeather({
+					main:{
+						temp: 1.49 * 9 / 5 + 32,
+						temp_min: 1 * 9 / 5 + 32,
+						temp_max: 2 * 9 / 5 + 32
+					},
+					wind:{
+						speed: 11.8 * 2.23694
+					},
+				});
+				await setup([weather, template]);
+
+				await app.client.waitUntilTextExists('.weather .normal.medium span:nth-child(3)', '93,7', 10000);
+				await app.client.waitUntilTextExists('.weather .large.light span.bright', '34,7°', 10000);
+				return app.client.waitUntilTextExists('.weather .normal.medium span.dimmed', '22,03°', 10000);
 			});
 		});
 	});

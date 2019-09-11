@@ -215,7 +215,7 @@ Module.register("weather",{
 		}.bind(this));
 
 		this.nunjucksEnvironment().addFilter("decimalSymbol", function(value) {
-			return value.replace(/\./g, this.config.decimalSymbol);
+			return value.toString().replace(/\./g, this.config.decimalSymbol);
 		}.bind(this));
 	}
 });
