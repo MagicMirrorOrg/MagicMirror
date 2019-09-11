@@ -133,7 +133,7 @@ describe("Weather module", function() {
 				const weather = generateWeather();
 				await setup([weather, template]);
 
-				return app.client.waitUntilTextExists('.weather .normal.medium span.dimmed', 'Feels -5.6°', 10000);
+				return app.client.waitUntilTextExists('.weather .normal.medium span.dimmed', 'Feels like -5.6°', 10000);
 			});
 		});
 
@@ -175,7 +175,7 @@ describe("Weather module", function() {
 
 				await app.client.waitUntilTextExists('.weather .large.light span.bright', '1°C', 10000);
 
-				return app.client.waitUntilTextExists('.weather .normal.medium span.dimmed', 'Feels -6°C', 10000);
+				return app.client.waitUntilTextExists('.weather .normal.medium span.dimmed', 'Feels like -6°C', 10000);
 			});
 		});
 
