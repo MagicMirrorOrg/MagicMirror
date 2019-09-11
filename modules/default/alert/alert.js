@@ -24,7 +24,7 @@ Module.register("alert",{
 		return ["classie.js", "modernizr.custom.js", "notificationFx.js"];
 	},
 	getStyles: function() {
-		return ["ns-default.css"];
+		return ["ns-default.css", "font-awesome.css"];
 	},
 	// Define required translations.
 	getTranslations: function() {
@@ -35,13 +35,13 @@ Module.register("alert",{
 		};
 	},
 	show_notification: function(message) {
-		if (this.config.effect == "slide") {this.config.effect = this.config.effect + "-" + this.config.position;}
+		if (this.config.effect === "slide") {this.config.effect = this.config.effect + "-" + this.config.position;}
 		msg = "";
 		if (message.title) {
 			msg += "<span class='thin dimmed medium'>" + message.title + "</span>";
 		}
 		if (message.message){
-			if (msg != ""){
+			if (msg !== ""){
 				msg+= "<br />";
 			}
 			msg += "<span class='light bright small'>" + message.message + "</span>";
@@ -51,7 +51,7 @@ Module.register("alert",{
 			message: msg,
 			layout: "growl",
 			effect: this.config.effect,
-			ttl: this.config.display_time
+			ttl: message.timer !== undefined ? message.timer : this.config.display_time
 		}).show();
 	},
 	show_alert: function(params, sender) {
@@ -132,7 +132,7 @@ Module.register("alert",{
 			if (typeof payload.type === "undefined") { payload.type = "alert"; }
 			if (payload.type === "alert") {
 				this.show_alert(payload, sender);
-			} else if (payload.type = "notification") {
+			} else if (payload.type === "notification") {
 				this.show_notification(payload);
 			}
 		} else if (notification === "HIDE_ALERT") {
@@ -152,5 +152,4 @@ Module.register("alert",{
 		}
 		Log.info("Starting module: " + this.name);
 	}
-
 });

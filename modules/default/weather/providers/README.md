@@ -18,9 +18,9 @@ This is the script in which the weather provider will be defined. In it's most s
 ````javascript
 WeatherProvider.register("yourprovider", {
 	providerName: "YourProvider",
-	
+
 	fetchCurrentWeather() {},
-	
+
 	fetchWeatherForecast() {}
 });
 ````
@@ -85,13 +85,15 @@ Notify the delegate that new weather is available.
 
 #### `fetchData(url, method, data)`
 
-A convinience function to make requests. It returns a promise.
+A convenience function to make requests. It returns a promise.
 
 ### WeatherObject
 
 | Property | Type | Value/Unit |
 | --- | --- | --- |
-| units | `string` | Gets initialized with the constructor. <br> Possible values: `metric` and `imperial` |
+| units | `string` | Gets initialized with the constructor. <br> Possible values: `metric`, `imperial` |
+| tempUnits | `string` | Gets initialized with the constructor. <br> Possible values: `metric`, `imperial` |
+| windUnits | `string` | Gets initialized with the constructor. <br> Possible values: `metric`, `imperial` |
 | date | `object` | [Moment.js](https://momentjs.com/) object of the time/date. |
 | windSpeed |`number` | Metric: `meter/second` <br> Imperial: `miles/hour` |
 | windDirection |`number` | Direction of the wind in degrees. |
@@ -103,6 +105,8 @@ A convinience function to make requests. It returns a promise.
 | weatherType | `string` | Icon name of the weather type. <br> Possible values: [WeatherIcons](https://www.npmjs.com/package/weathericons) |
 | humidity | `number` | Percentage of humidity |
 | rain | `number` | Metric: `millimeters` <br> Imperial: `inches` |
+| snow | `number` | Metric: `millimeters` <br> Imperial: `inches` |
+| precipitation | `number` | Metric: `millimeters` <br> Imperial: `inches` <br> UK Met Office provider: `percent` |
 
 #### Current weather
 

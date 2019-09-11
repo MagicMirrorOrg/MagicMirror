@@ -15,17 +15,19 @@ Module.register("calendar", {
 		maximumNumberOfDays: 365,
 		displaySymbol: true,
 		defaultSymbol: "calendar", // Fontawesome Symbol see http://fontawesome.io/cheatsheet/
+		showLocation: false,
 		displayRepeatingCountTitle: false,
 		defaultRepeatingCountTitle: "",
 		maxTitleLength: 25,
 		wrapEvents: false, // wrap events to multiple lines breaking at maxTitleLength
+		maxTitleLines: 3,
 		fetchInterval: 5 * 60 * 1000, // Update every 5 minutes.
 		animationSpeed: 2000,
 		fade: true,
 		urgency: 7,
 		timeFormat: "relative",
 		dateFormat: "MMM Do",
-		dateEndFormat: "HH:mm",
+		dateEndFormat: "LT",
 		fullDayEventDateFormat: "MMM Do",
 		showEnd: false,
 		getRelative: 6,
@@ -46,12 +48,15 @@ Module.register("calendar", {
 			"'s birthday": ""
 		},
 		broadcastEvents: true,
-		excludedEvents: []
+		excludedEvents: [],
+		sliceMultiDayEvents: false,
+		broadcastPastEvents: false,
+		nextDaysRelative: false
 	},
 
 	// Define required scripts.
 	getStyles: function () {
-		return ["calendar.css", "font-awesome5.css", "font-awesome5.v4shims.css"];
+		return ["calendar.css", "font-awesome.css"];
 	},
 
 	// Define required scripts.
@@ -80,7 +85,8 @@ Module.register("calendar", {
 
 			var calendarConfig = {
 				maximumEntries: calendar.maximumEntries,
-				maximumNumberOfDays: calendar.maximumNumberOfDays
+				maximumNumberOfDays: calendar.maximumNumberOfDays,
+				broadcastPastEvents: calendar.broadcastPastEvents,
 			};
 			if (calendar.symbolClass === "undefined" || calendar.symbolClass === null) {
 				calendarConfig.symbolClass = "";
@@ -99,10 +105,17 @@ Module.register("calendar", {
 				calendar.auth = {
 					user: calendar.user,
 					pass: calendar.pass
-				}
+				};
 			}
 
 			this.addCalendar(calendar.url, calendar.auth, calendarConfig);
+
+			// Trigger ADD_CALENDAR every fetchInterval to make sure there is always a calendar
+			// fetcher running on the server side.
+			var self = this;
+			setInterval(function() {
+				self.addCalendar(calendar.url, calendar.auth, calendarConfig);
+			}, self.config.fetchInterval);
 		}
 
 		this.calendarData = {};
@@ -122,6 +135,7 @@ Module.register("calendar", {
 			}
 		} else if (notification === "FETCH_ERROR") {
 			Log.error("Calendar Error. Could not fetch calendar: " + payload.url);
+			this.loaded = true;
 		} else if (notification === "INCORRECT_URL") {
 			Log.error("Calendar Error. Incorrect url: " + payload.url);
 		} else {
@@ -178,7 +192,6 @@ Module.register("calendar", {
 				}
 			}
 
-
 			var eventWrapper = document.createElement("tr");
 
 			if (this.config.colored && !this.config.coloredSymbolOnly) {
@@ -211,7 +224,7 @@ Module.register("calendar", {
 					symbolWrapper.appendChild(symbol);
 				}
 				eventWrapper.appendChild(symbolWrapper);
-			}else if(this.config.timeFormat === "dateheaders"){
+			} else if(this.config.timeFormat === "dateheaders"){
 				var blankCell = document.createElement("td");
 				blankCell.innerHTML = "&nbsp;&nbsp;&nbsp;";
 				eventWrapper.appendChild(blankCell);
@@ -220,7 +233,7 @@ Module.register("calendar", {
 			var titleWrapper = document.createElement("td"),
 				repeatingCountTitle = "";
 
-			if (this.config.displayRepeatingCountTitle) {
+			if (this.config.displayRepeatingCountTitle && event.firstYear !== undefined) {
 
 				repeatingCountTitle = this.countTitleForUrl(event.url);
 
@@ -248,7 +261,7 @@ Module.register("calendar", {
 					titleWrapper.colSpan = "2";
 					titleWrapper.align = "left";
 
-				}else{
+				} else {
 
 					var timeClass = this.timeClassForUrl(event.url);
 					var timeWrapper = document.createElement("td");
@@ -261,7 +274,7 @@ Module.register("calendar", {
 				}
 
 				eventWrapper.appendChild(titleWrapper);
-			}else{
+			} else {
 				var timeWrapper = document.createElement("td");
 
 				eventWrapper.appendChild(titleWrapper);
@@ -296,12 +309,12 @@ Module.register("calendar", {
 						if (this.config.timeFormat === "absolute") {
 							if ((this.config.urgency > 1) && (event.startDate - now < (this.config.urgency * oneDay))) {
 								// This event falls within the config.urgency period that the user has set
-								timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
+								timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").from(moment().format("YYYYMMDD")));
 							} else {
 								timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").format(this.config.fullDayEventDateFormat));
 							}
 						} else {
-							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
+							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").from(moment().format("YYYYMMDD")));
 						}
 					}
 					if(this.config.showEnd){
@@ -316,7 +329,7 @@ Module.register("calendar", {
 								// If event is within 6 hour, display 'in xxx' time format or moment.fromNow()
 								timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 							} else {
-								if(this.config.timeFormat === "absolute") {
+								if(this.config.timeFormat === "absolute" && !this.config.nextDaysRelative) {
 									timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").format(this.config.dateFormat));
 								} else {
 									// Otherwise just say 'Today/Tomorrow at such-n-such time'
@@ -369,6 +382,31 @@ Module.register("calendar", {
 			if (e >= startFade) {
 				currentFadeStep = e - startFade;
 				eventWrapper.style.opacity = 1 - (1 / fadeSteps * currentFadeStep);
+			}
+
+			if (this.config.showLocation) {
+				if (event.location !== false) {
+					var locationRow = document.createElement("tr");
+					locationRow.className = "normal xsmall light";
+
+					if (this.config.displaySymbol) {
+						var symbolCell = document.createElement("td");
+						locationRow.appendChild(symbolCell);
+					}
+
+					var descCell = document.createElement("td");
+					descCell.className = "location";
+					descCell.colSpan = "2";
+					descCell.innerHTML = event.location;
+					locationRow.appendChild(descCell);
+
+					wrapper.appendChild(locationRow);
+
+					if (e >= startFade) {
+						currentFadeStep = e - startFade;
+						locationRow.style.opacity = 1 - (1 / fadeSteps * currentFadeStep);
+					}
+				}
 			}
 		}
 
@@ -427,10 +465,14 @@ Module.register("calendar", {
 		var events = [];
 		var today = moment().startOf("day");
 		var now = new Date();
+		var future = moment().startOf("day").add(this.config.maximumNumberOfDays, "days").toDate();
 		for (var c in this.calendarData) {
 			var calendar = this.calendarData[c];
 			for (var e in calendar) {
-				var event = calendar[e];
+				var event = JSON.parse(JSON.stringify(calendar[e])); // clone object
+				if(event.endDate < now) {
+					continue;
+				}
 				if(this.config.hidePrivate) {
 					if(event.class === "PRIVATE") {
 						  // do not add the current event, skip it
@@ -447,17 +489,46 @@ Module.register("calendar", {
 				}
 				event.url = c;
 				event.today = event.startDate >= today && event.startDate < (today + 24 * 60 * 60 * 1000);
-				events.push(event);
+
+				/* if sliceMultiDayEvents is set to true, multiday events (events exceeding at least one midnight) are sliced into days,
+				* otherwise, esp. in dateheaders mode it is not clear how long these events are.
+				*/
+				var maxCount = Math.ceil(((event.endDate - 1) - moment(event.startDate, "x").endOf("day").format("x"))/(1000*60*60*24)) + 1;
+				if (this.config.sliceMultiDayEvents && maxCount > 1) {
+					var splitEvents = [];
+					var midnight = moment(event.startDate, "x").clone().startOf("day").add(1, "day").format("x");
+					var count = 1;
+					while (event.endDate > midnight) {
+						var thisEvent = JSON.parse(JSON.stringify(event)); // clone object
+						thisEvent.today = thisEvent.startDate >= today && thisEvent.startDate < (today + 24 * 60 * 60 * 1000);
+						thisEvent.endDate = midnight;
+						thisEvent.title += " (" + count + "/" + maxCount + ")";
+						splitEvents.push(thisEvent);
+
+						event.startDate = midnight;
+						count += 1;
+						midnight = moment(midnight, "x").add(1, "day").format("x"); // next day
+					}
+					// Last day
+					event.title += " ("+count+"/"+maxCount+")";
+					splitEvents.push(event);
+
+					for (event of splitEvents) {
+						if ((event.endDate > now) && (event.endDate <= future)) {
+							events.push(event);
+						}
+					}
+				} else {
+					events.push(event);
+				}
 			}
 		}
 
 		events.sort(function (a, b) {
 			return a.startDate - b.startDate;
 		});
-
 		return events.slice(0, this.config.maximumEntries);
 	},
-
 
 	listContainsEvent: function(eventList, event){
 		for(var evt of eventList){
@@ -466,7 +537,6 @@ Module.register("calendar", {
 			}
 		}
 		return false;
-
 	},
 
 	/* createEventList(url)
@@ -484,7 +554,8 @@ Module.register("calendar", {
 			symbolClass: calendarConfig.symbolClass,
 			titleClass: calendarConfig.titleClass,
 			timeClass: calendarConfig.timeClass,
-			auth: auth
+			auth: auth,
+			broadcastPastEvents: calendarConfig.broadcastPastEvents || this.config.broadcastPastEvents,
 		});
 	},
 
@@ -536,6 +607,17 @@ Module.register("calendar", {
 		return this.getCalendarProperty(url, "timeClass", "");
 	},
 
+	/* calendarNameForUrl(url)
+	 * Retrieves the calendar name for a specific url.
+	 *
+	 * argument url string - Url to look for.
+	 *
+	 * return string - The name of the calendar
+	 */
+	calendarNameForUrl: function (url) {
+		return this.getCalendarProperty(url, "name", "");
+	},
+
 	/* colorForUrl(url)
 	 * Retrieves the color for a specific url.
 	 *
@@ -584,9 +666,10 @@ Module.register("calendar", {
 	 * @param {string} string Text string to shorten
 	 * @param {number} maxLength The max length of the string
 	 * @param {boolean} wrapEvents Wrap the text after the line has reached maxLength
+	 * @param {number} maxTitleLines The max number of vertical lines before cutting event title
 	 * @returns {string} The shortened string
 	 */
-	shorten: function (string, maxLength, wrapEvents) {
+	shorten: function (string, maxLength, wrapEvents, maxTitleLines) {
 		if (typeof string !== "string") {
 			return "";
 		}
@@ -595,12 +678,21 @@ Module.register("calendar", {
 			var temp = "";
 			var currentLine = "";
 			var words = string.split(" ");
+			var line = 0;
 
 			for (var i = 0; i < words.length; i++) {
 				var word = words[i];
 				if (currentLine.length + word.length < (typeof maxLength === "number" ? maxLength : 25) - 1) { // max - 1 to account for a space
 					currentLine += (word + " ");
 				} else {
+					line++;
+					if (line > maxTitleLines - 1) {
+						if (i < words.length) {
+							currentLine += "&hellip;";
+						}
+						break;
+					}
+
 					if (currentLine.length > 0) {
 						temp += (currentLine + "<br>" + word + " ");
 					} else {
@@ -624,7 +716,6 @@ Module.register("calendar", {
 	 * Capitalize the first letter of a string
 	 * Return capitalized string
 	 */
-
 	capFirst: function (string) {
 		return string.charAt(0).toUpperCase() + string.slice(1);
 	},
@@ -651,7 +742,7 @@ Module.register("calendar", {
 			title = title.replace(needle, replacement);
 		}
 
-		title = this.shorten(title, this.config.maxTitleLength, this.config.wrapEvents);
+		title = this.shorten(title, this.config.maxTitleLength, this.config.wrapEvents, this.config.maxTitleLines);
 		return title;
 	},
 
@@ -666,6 +757,7 @@ Module.register("calendar", {
 			for (var e in calendar) {
 				var event = cloneObject(calendar[e]);
 				event.symbol = this.symbolsForUrl(url);
+				event.calendarName = this.calendarNameForUrl(url);
 				event.color = this.colorForUrl(url);
 				delete event.url;
 				eventList.push(event);

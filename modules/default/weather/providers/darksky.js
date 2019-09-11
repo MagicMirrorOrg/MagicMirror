@@ -8,6 +8,7 @@
  * MIT Licensed
  *
  * This class is a provider for Dark Sky.
+ * Note that the Dark Sky API does not provide rainfall.  Instead it provides snowfall and precipitation probability
  */
 WeatherProvider.register("darksky", {
 	// Set the name of the provider.
@@ -31,7 +32,8 @@ WeatherProvider.register("darksky", {
 				this.setCurrentWeather(currentWeather);
 			}).catch(function(request) {
 				Log.error("Could not load data ... ", request);
-			});
+			})
+			.finally(() => this.updateAvailable())
 	},
 
 	fetchWeatherForecast() {
@@ -46,7 +48,8 @@ WeatherProvider.register("darksky", {
 				this.setWeatherForecast(forecast);
 			}).catch(function(request) {
 				Log.error("Could not load data ... ", request);
-			});
+			})
+			.finally(() => this.updateAvailable())
 	},
 
 	// Create a URL from the config and base URL.
@@ -57,7 +60,7 @@ WeatherProvider.register("darksky", {
 
 	// Implement WeatherDay generator.
 	generateWeatherDayFromCurrentWeather(currentWeatherData) {
-		const currentWeather = new WeatherObject(this.config.units);
+		const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
 
 		currentWeather.date = moment();
 		currentWeather.humidity = parseFloat(currentWeatherData.currently.humidity);
@@ -75,17 +78,25 @@ WeatherProvider.register("darksky", {
 		const days = [];
 
 		for (const forecast of forecasts) {
-			const weather = new WeatherObject(this.config.units);
+			const weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
 
 			weather.date = moment(forecast.time, "X");
 			weather.minTemperature = forecast.temperatureMin;
 			weather.maxTemperature = forecast.temperatureMax;
 			weather.weatherType = this.convertWeatherType(forecast.icon);
-			if (this.config.units === "metric" && !isNaN(forecast.precipAccumulation)) {
-				weather.rain = forecast.precipAccumulation * 10;
-			} else {
-				weather.rain = forecast.precipAccumulation;
+			weather.snow = 0;
+
+			// The API will return centimeters if units is 'si' and will return inches for 'us'
+			// Note that the Dark Sky API does not provide rainfall.  Instead it provides snowfall and precipitation probability
+			if (forecast.hasOwnProperty("precipAccumulation")) {
+				if (this.config.units === "imperial" && !isNaN(forecast.precipAccumulation)) {
+					weather.snow = forecast.precipAccumulation;
+				} else if (!isNaN(forecast.precipAccumulation)) {
+					weather.snow = forecast.precipAccumulation * 10;
+				}
 			}
+
+			weather.precipitation = weather.snow;
 
 			days.push(weather);
 		}

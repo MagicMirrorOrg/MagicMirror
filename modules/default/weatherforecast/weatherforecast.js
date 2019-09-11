@@ -82,7 +82,7 @@ Module.register("weatherforecast",{
 	getTranslations: function() {
 		// The translations for the default modules are defined in the core translation files.
 		// Therefor we can just return false. Otherwise we should have returned a dictionary.
-		// If you're trying to build yiur own module including translations, check out the documentation.
+		// If you're trying to build your own module including translations, check out the documentation.
 		return false;
 	},
 
@@ -143,16 +143,19 @@ Module.register("weatherforecast",{
 			iconCell.appendChild(icon);
 
 			var degreeLabel = "";
+			if (this.config.units === "metric" || this.config.units === "imperial") {
+				degreeLabel += "°";
+			}
 			if(this.config.scale) {
 				switch(this.config.units) {
 				case "metric":
-					degreeLabel = " &deg;C";
+					degreeLabel += "C";
 					break;
 				case "imperial":
-					degreeLabel = " &deg;F";
+					degreeLabel += "F";
 					break;
 				case "default":
-					degreeLabel = " K";
+					degreeLabel = "K";
 					break;
 				}
 			}
@@ -237,7 +240,7 @@ Module.register("weatherforecast",{
 
 	/* updateWeather(compliments)
 	 * Requests new data from openweather.org.
-	 * Calls processWeather on succesfull response.
+	 * Calls processWeather on successful response.
 	 */
 	updateWeather: function() {
 		if (this.config.appid === "") {
@@ -258,7 +261,7 @@ Module.register("weatherforecast",{
 				} else if (this.status === 401) {
 					self.updateDom(self.config.animationSpeed);
 
-					if (self.config.forecastEndpoint == "forecast/daily") {
+					if (self.config.forecastEndpoint === "forecast/daily") {
 						self.config.forecastEndpoint = "forecast";
 						Log.warn(self.name + ": Your AppID does not support long term forecasts. Switching to fallback endpoint.");
 					}
@@ -288,7 +291,7 @@ Module.register("weatherforecast",{
 		} else if(this.config.location) {
 			params += "q=" + this.config.location;
 		} else if (this.firstEvent && this.firstEvent.geo) {
-			params += "lat=" + this.firstEvent.geo.lat + "&lon=" + this.firstEvent.geo.lon
+			params += "lat=" + this.firstEvent.geo.lat + "&lon=" + this.firstEvent.geo.lon;
 		} else if (this.firstEvent && this.firstEvent.location) {
 			params += "q=" + this.firstEvent.location;
 		} else {
@@ -312,7 +315,7 @@ Module.register("weatherforecast",{
 	 */
 	parserDataWeather: function(data) {
 		if (data.hasOwnProperty("main")) {
-			data["temp"] = {"min": data.main.temp_min, "max": data.main.temp_max}
+			data["temp"] = {"min": data.main.temp_min, "max": data.main.temp_max};
 		}
 		return data;
 	},
@@ -327,7 +330,7 @@ Module.register("weatherforecast",{
 
 		this.forecast = [];
 		var lastDay = null;
-		var forecastData = {}
+		var forecastData = {};
 
 		for (var i = 0, count = data.list.length; i < count; i++) {
 

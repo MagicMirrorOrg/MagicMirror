@@ -33,8 +33,8 @@ Therefore **we highly recommend you to include the following information in your
 
 - A high quality screenshot of your working module
 - A short, one sentence, clear description what it does (duh!)
-- What external API's it depend on, including web links to those
-- Wheteher the API/request require a key and the user limitations of those. (Is it free?)
+- What external API's it depends upon, including web links to those
+- Whether the API/request require a key and the user limitations of those. (Is it free?)
 
 Surely this also help you get better recognition and feedback for your work. 
 
@@ -46,8 +46,8 @@ A module can be placed in one single folder. Or multiple modules can be grouped 
 
 ### Files
 - **modulename/modulename.js** - This is your core module script.
-- **modulename/node_helper.js** - This is an optional helper that will be loaded by the node script. The node helper and module script can communicate with each other using an intergrated socket system.
-- **modulename/public** - Any files in this folder can be accesed via the browser on `/modulename/filename.ext`.
+- **modulename/node_helper.js** - This is an optional helper that will be loaded by the node script. The node helper and module script can communicate with each other using an integrated socket system.
+- **modulename/public** - Any files in this folder can be accessed via the browser on `/modulename/filename.ext`.
 - **modulename/anyfileorfolder** Any other file or folder in the module folder can be used by the core module script. For example: *modulename/css/modulename.css* would be a good path for your additional module styles.
 
 ## The Core module file: modulename.js
@@ -89,7 +89,7 @@ After the module is initialized, the module instance has a few available module 
 | `this.data` | Object | The data object contain additional metadata about the module instance. (See below) |
 
 
-The `this.data` data object contain the follwoing metadata:
+The `this.data` data object contain the following metadata:
 - `data.classes` - The classes which are added to the module dom wrapper.
 - `data.file` - The filename of the core module file.
 - `data.path` - The path of the module folder.
@@ -98,7 +98,7 @@ The `this.data` data object contain the follwoing metadata:
 
 
 #### `defaults: {}`
-Any properties defined in the defaults object, will be merged with the module config as defined in the user's config.js file. This is the best place to set your modules's configuration defaults. Any of the module configuration properties can be accessed using `this.config.propertyName`, but more about that later.
+Any properties defined in the defaults object, will be merged with the module config as defined in the user's config.js file. This is the best place to set your modules' configuration defaults. Any of the module configuration properties can be accessed using `this.config.propertyName`, but more about that later.
 
 #### `requiresVersion:`
 
@@ -134,7 +134,7 @@ loaded: function(callback) {
 ````
 
 #### `start()`
-This method is called when all modules are loaded an the system is ready to boot up. Keep in mind that the dom object for the module is not yet created. The start method is a perfect place to define any additional module properties:
+This method is called when all modules are loaded and the system is ready to boot up. Keep in mind that the dom object for the module is not yet created. The start method is a perfect place to define any additional module properties:
 
 **Example:**
 ````javascript
@@ -161,7 +161,7 @@ getScripts: function() {
 }
 
 ````
-**Note:** If a file can not be loaded, the boot up of the mirror will stall. Therefore it's advised not to use any external urls.
+**Note:** If a file can not be loaded, the boot up of the mirror will stall. Therefore, it's advised not to use any external urls.
 
 
 #### `getStyles()`
@@ -174,14 +174,14 @@ The getStyles method is called to request any additional stylesheets that need t
 getStyles: function() {
 	return [
 		'script.css', // will try to load it from the vendor folder, otherwise it will load is from the module folder.
-		'font-awesome.css', // this file is available in the vendor folder, so it doesn't need to be avialable in the module folder.
+		'font-awesome.css', // this file is available in the vendor folder, so it doesn't need to be available in the module folder.
 		this.file('anotherfile.css'), // this file will be loaded straight from the module folder.
 		'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css',  // this file will be loaded from the bootstrapcdn servers.
 	]
 }
 
 ````
-**Note:** If a file can not be loaded, the boot up of the mirror will stall. Therefore it's advised not to use any external urls.
+**Note:** If a file can not be loaded, the boot up of the mirror will stall. Therefore, it's advised not to use any external URLs.
 
 #### `getTranslations()`
 **Should return: Dictionary**
@@ -239,7 +239,7 @@ That MagicMirror core has the ability to send notifications to modules. Or even 
 
 - `notification` - String - The notification identifier.
 - `payload` - AnyType - The payload of a notification.
-- `sender` - Module - The sender of the notification. If this argument is `undefined`, the sender of the notififiction is the core system.
+- `sender` - Module - The sender of the notification. If this argument is `undefined`, the sender of the notification is the core system.
 
 **Example:**
 ````javascript
@@ -267,7 +267,7 @@ When using a node_helper, the node helper can send your module notifications. Wh
 - `payload` - AnyType - The payload of a notification.
 
 **Note 1:** When a node helper sends a notification, all modules of that module type receive the same notifications. <br>
-**Note 2:** The socket connection is established as soon as the module sends its first message using [sendSocketNotification](thissendsocketnotificationnotification-payload).
+**Note 2:** The socket connection is established as soon as the module sends its first message using [sendSocketNotification](#thissendsocketnotificationnotification-payload).
 
 **Example:**
 ````javascript
@@ -346,7 +346,7 @@ Possible configurable options:
 - `lockString` - String - When setting lock string, the module can not be shown without passing the correct lockstring. This way (multiple) modules can prevent a module from showing. It's considered best practice to use your modules identifier as the locksString: `this.identifier`. See *visibility locking* below.
 
 
-**Note 1:** If the hide animation is canceled, for instance because the show method is called before the hide animation was finished, the callback will not be called.<br>
+**Note 1:** If the hide animation is cancelled, for instance because the show method is called before the hide animation was finished, the callback will not be called.<br>
 **Note 2:** If the hide animation is hijacked (an other method calls hide on the same module), the callback will not be called.<br>
 **Note 3:** If the dom is not yet created, the hide method won't work. Wait for the `DOM_OBJECTS_CREATED` [notification](#notificationreceivednotification-payload-sender).
 
@@ -371,7 +371,7 @@ Possible configurable options:
 
 (*Introduced in version: 2.1.0.*)
 
-Visiblity locking helps the module system to prevent unwanted hide/show actions. The following scenario explains the concept:
+Visibility locking helps the module system to prevent unwanted hide/show actions. The following scenario explains the concept:
 
 **Module B asks module A to hide:**
 ````javascript
@@ -436,7 +436,7 @@ If no translation is found, a fallback will be used. The fallback sequence is as
 - 4. Translation as defined in core translation file of the fallback language (the first defined core translation file).
 - 5. The key (identifier) of the translation.
 
-When adding translations to your module, it's a good idea to see if an apropriate translation is already available in the [core translation files](https://github.com/MichMich/MagicMirror/tree/master/translations). This way, your module can benefit from the existing translations.
+When adding translations to your module, it's a good idea to see if an appropriate translation is already available in the [core translation files](https://github.com/MichMich/MagicMirror/tree/master/translations). This way, your module can benefit from the existing translations.
 
 **Example:**
 ````javascript
@@ -490,7 +490,7 @@ this.translate("RUNNING", {
 )}); // Will return a translated string for the identifier RUNNING, replacing `{timeUntilEnd}` with the contents of the variable `timeUntilEnd` in the order that translator intended. (has a fallback)
 ````
 
-**Example swedish .json file that does not have the variable in it:**
+**Example Swedish .json file that does not have the variable in it:**
 ````javascript
 {
 	"RUNNING": "Slutar",

@@ -5,9 +5,8 @@
 	<a href="https://david-dm.org/MichMich/MagicMirror#info=devDependencies"><img src="https://david-dm.org/MichMich/MagicMirror/dev-status.svg" alt="devDependency Status"></a>
 	<a href="https://bestpractices.coreinfrastructure.org/projects/347"><img src="https://bestpractices.coreinfrastructure.org/projects/347/badge"></a>
 	<a href="http://choosealicense.com/licenses/mit"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
-	<a href="https://travis-ci.org/MichMich/MagicMirror"><img src="https://travis-ci.org/MichMich/MagicMirror.svg" alt="Travis"></a>
+	<a href="https://travis-ci.com/MichMich/MagicMirror"><img src="https://travis-ci.com/MichMich/MagicMirror.svg" alt="Travis"></a>
 	<a href="https://snyk.io/test/github/MichMich/MagicMirror"><img src="https://snyk.io/test/github/MichMich/MagicMirror/badge.svg" alt="Known Vulnerabilities" data-canonical-src="https://snyk.io/test/github/MichMich/MagicMirror" style="max-width:100%;"></a>
-	<a href="http://slack.magicmirror.builders"><img src="http://slack.magicmirror.builders:3000/badge.svg" alt="Slack Status"></a>
 </p>
 
 **MagicMirror²** is an open source modular smart mirror platform. With a growing list of installable modules, the **MagicMirror²** allows you to convert your hallway or bathroom mirror into your personal assistant. **MagicMirror²** is built by the creator of [the original MagicMirror](http://michaelteeuw.nl/tagged/magicmirror) with the incredible help of a [growing community of contributors](https://github.com/MichMich/MagicMirror/graphs/contributors).
@@ -16,18 +15,22 @@ MagicMirror² focuses on a modular plugin system and uses [Electron](http://elec
 
 ## Table Of Contents
 
+- [Table Of Contents](#table-of-contents)
 - [Installation](#installation)
   - [Raspberry Pi](#raspberry-pi)
-  - [General](#general)
+    - [Automatic Installation (Raspberry Pi only!)](#automatic-installation-raspberry-pi-only)
+    - [Manual Installation](#manual-installation)
   - [Server Only](#server-only)
   - [Client Only](#client-only)
   - [Docker](#docker)
 - [Configuration](#configuration)
+  - [Raspberry Specific](#raspberry-specific)
+  - [General](#general)
 - [Modules](#modules)
 - [Updating](#updating)
-- [Known Issues](#known-issues)
 - [Community](#community)
 - [Contributing Guidelines](#contributing-guidelines)
+- [Enjoying MagicMirror? Consider a donation!](#enjoying-magicmirror-consider-a-donation)
 - [Manifesto](#manifesto)
 
 ## Installation
@@ -125,7 +128,7 @@ The following wiki links are helpful for the initial configuration of your Magic
    **Note:** If you used the installer script. This step is already done for you.
 
 2. Modify your required settings. \
-   Note: You'll can check your configuration running `npm run config:check` in `/home/pi/MagicMirror`.
+   Note: You can check your configuration running `npm run config:check` in `/home/pi/MagicMirror`.
 
 
 The following properties can be configured:
@@ -198,6 +201,16 @@ Please keep the following in mind:
 - **New Features**: please please discuss in a GitHub issue before you start to alter a big part of the code. Without discussion upfront, the pull request will not be accepted / merged.
 
 Thanks for your help in making MagicMirror² better!
+
+
+## Enjoying MagicMirror? Consider a donation!
+
+MagicMirror² is opensource and free. That doesn't mean we don't need any money.
+
+Please consider a donation to help us cover the ongoing costs like webservers and email services.
+If we receive enough donations we might even be able to free up some working hours and spend some extra time improving the MagicMirror² core.
+
+To donate, please follow [this](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=G5D8E9MR5DTD2&source=url) link.
 
 ## Manifesto
 

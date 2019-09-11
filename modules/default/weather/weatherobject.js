@@ -13,8 +13,11 @@
 // As soon as we start implementing the forecast, mode properties will be added.
 
 class WeatherObject {
-	constructor(units) {
+	constructor(units, tempUnits, windUnits) {
+
 		this.units = units;
+		this.tempUnits = tempUnits;
+		this.windUnits = windUnits;
 		this.date = null;
 		this.windSpeed = null;
 		this.windDirection = null;
@@ -26,6 +29,10 @@ class WeatherObject {
 		this.weatherType = null;
 		this.humidity = null;
 		this.rain = null;
+		this.snow = null;
+		this.precipitation = null;
+		this.feelsLikeTemp = null;
+
 	}
 
 	cardinalWindDirection() {
@@ -65,7 +72,7 @@ class WeatherObject {
 	}
 
 	beaufortWindSpeed() {
-		const windInKmh = this.units === "imperial" ? this.windSpeed * 1.609344 : this.windSpeed * 60 * 60 / 1000;
+		const windInKmh = (this.windUnits === "imperial") ? this.windSpeed * 1.609344 : this.windSpeed * 60 * 60 / 1000;
 		const speeds = [1, 5, 11, 19, 28, 38, 49, 61, 74, 88, 102, 117, 1000];
 		for (const [index, speed] of speeds.entries()) {
 			if (speed > windInKmh) {
@@ -80,8 +87,11 @@ class WeatherObject {
 	}
 
 	feelsLike() {
-		const windInMph = this.units === "imperial" ? this.windSpeed : this.windSpeed * 2.23694;
-		const tempInF = this.units === "imperial" ? this.temperature : this.temperature * 9 / 5 + 32;
+	  if (this.feelsLikeTemp) {
+		  return this.feelsLikeTemp;
+		}
+		const windInMph = (this.windUnits === "imperial") ? this.windSpeed : this.windSpeed * 2.23694;
+		const tempInF = this.tempUnits === "imperial" ? this.temperature : this.temperature * 9 / 5 + 32;
 		let feelsLike = tempInF;
 
 		if (windInMph > 3 && tempInF < 50) {
@@ -95,6 +105,6 @@ class WeatherObject {
 				- 1.99 * Math.pow(10, -6) * tempInF * tempInF * this.humidity * this.humidity;
 		}
 
-		return this.units === "imperial" ? feelsLike : (feelsLike - 32) * 5 / 9;
+		return this.tempUnits === "imperial" ? feelsLike : (feelsLike - 32) * 5 / 9;
 	}
 }

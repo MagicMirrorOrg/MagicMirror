@@ -19,7 +19,7 @@ modules: [
 		config: {
 			// See 'Configuration options' for more information.
 			location: "Amsterdam,Netherlands",
-			locationID: "", //Location ID from http://openweathermap.org/help/city_list.txt
+			locationID: "", //Location ID from http://bulk.openweathermap.org/sample/city.list.json.gz
 			appid: "abcde12345abcde12345abcde12345ab" //openweathermap.org API key.
 		}
 	}
@@ -50,7 +50,7 @@ The following properties can be configured:
 | `showIndoorTemperature`      | If you have another module that emits the INDOOR_TEMPERATURE notification, the indoor temperature will be displayed <br> **Default value:** `false`
 | `onlyTemp`                   | Show only current Temperature and weather icon without windspeed, sunset, sunrise time and feels like. <br><br> **Possible values:** `true` or `false` <br> **Default value:** `false`
 | `showFeelsLike`              | Shows the Feels like temperature weather. <br><br> **Possible values:**`true` or `false`<br>**Default value:** `true`
-| `useKMPHWind`                | Uses KMPH as units for windspeed. <br><br> **Possible values:**`true` or `false`<br>**Default value:** `false`
+| `useKMPHwind`                | Uses KMPH as units for windspeed. <br><br> **Possible values:**`true` or `false`<br>**Default value:** `false`
 | `useBeaufort`                | Pick between using the Beaufort scale for wind speed or using the default units. <br><br> **Possible values:** `true` or `false` <br> **Default value:** `true`
 | `lang`                       | The language of the days. <br><br> **Possible values:** `en`, `nl`, `ru`, etc ... <br> **Default value:** uses value of _config.language_
 | `decimalSymbol`              | The decimal symbol to use.<br><br> **Possible values:** `.`, `,` or any other symbol.<br> **Default value:** `.`
@@ -60,6 +60,7 @@ The following properties can be configured:
 | `apiBase`                    | The OpenWeatherMap base URL. <br><br> **Default value:**  `'http://api.openweathermap.org/data/'`
 | `weatherEndpoint`	           | The OpenWeatherMap API endPoint. <br><br> **Default value:**  `'weather'`
 | `appendLocationNameToHeader` | If set to `true`, the returned location name will be appended to the header of the module, if the header is enabled. This is mainly intresting when using calender based weather. <br><br> **Default value:**  `true`
+| `useLocationAsHeader` | If set to `true` and location is given a value, the value of location will be used as the header. This is useful if `locationName` was not returned. <br><br> **Default value:** `false`
 | `calendarClass`              | The class for the calender module to base the event based weather information on. <br><br> **Default value:**  `'calendar'`
 | `iconTable`                  | The conversion table to convert the weather conditions to weather-icons. <br><br> **Default value:**  view tabel below.
 

@@ -25,7 +25,6 @@
 	"WNW": "VNV",
 	"NW": "NV",
 	"NNW": "NNV",
-	"FEELS": "Känns som", 
 
 	"UPDATE_NOTIFICATION": "MagicMirror² uppdatering finns tillgänglig.",
 	"UPDATE_NOTIFICATION_MODULE": "Uppdatering finns tillgänglig av {MODULE_NAME} modulen.",
