@@ -2,6 +2,7 @@ const expect = require("chai").expect;
 const fs = require("fs");
 const _ = require("lodash");
 const moment = require("moment");
+const path = require("path");
 const wdajaxstub = require("webdriverajaxstub");
 
 const helpers = require("../global-setup");
@@ -80,7 +81,7 @@ describe("Weather module", function() {
 		let template;
 
 		before(function() {
-			template = fs.readFileSync(__dirname + '../../../../modules/default/weather/current.njk', 'utf8');
+			template = fs.readFileSync(path.join(__dirname, "..", "..", "..", "modules", "default", "weather", "current.njk"), "utf8");
 		});
 
 		describe("Default configuration", function() {
@@ -92,32 +93,31 @@ describe("Weather module", function() {
 				const weather = generateWeather();
 				await setup([weather, template]);
 
-				return app.client.waitUntilTextExists('.weather .normal.medium span:nth-child(2)', '6 WSW', 10000);
+				return app.client.waitUntilTextExists(".weather .normal.medium span:nth-child(2)", "6 WSW", 10000);
 			});
 
 			it("should render sunrise", async function() {
-				const sunrise = moment().startOf('day').unix();
-				const sunset = moment().startOf('day').unix();
+				const sunrise = moment().startOf("day").unix();
+				const sunset = moment().startOf("day").unix();
 
 				const weather = generateWeather({sys: {sunrise, sunset}});
 				await setup([weather, template]);
 
 				await app.client.waitForExist(".weather .normal.medium span.wi.dimmed.wi-sunrise", 10000);
 
-				return app.client.waitUntilTextExists('.weather .normal.medium span:nth-child(4)', '12:00 am', 10000);
+				return app.client.waitUntilTextExists(".weather .normal.medium span:nth-child(4)", "12:00 am", 10000);
 			});
 
 			it("should render sunset", async function() {
-				const sunrise = moment().startOf('day').unix();
-				const sunset = moment().endOf('day').unix();
-
+				const sunrise = moment().startOf("day").unix();
+				const sunset = moment().endOf("day").unix();
 
 				const weather = generateWeather({sys: {sunrise, sunset}});
 				await setup([weather, template]);
 
 				await app.client.waitForExist(".weather .normal.medium span.wi.dimmed.wi-sunset", 10000);
 
-				return app.client.waitUntilTextExists('.weather .normal.medium span:nth-child(4)', '11:59 pm', 10000);
+				return app.client.waitUntilTextExists(".weather .normal.medium span:nth-child(4)", "11:59 pm", 10000);
 			});
 
 			it("should render temperature with icon", async function() {
@@ -126,14 +126,14 @@ describe("Weather module", function() {
 
 				await app.client.waitForExist(".weather .large.light span.wi.weathericon.wi-snow", 10000);
 
-				return app.client.waitUntilTextExists('.weather .large.light span.bright', '1.5°', 10000);
+				return app.client.waitUntilTextExists(".weather .large.light span.bright", "1.5°", 10000);
 			});
 
 			it("should render feels like temperature", async function() {
 				const weather = generateWeather();
 				await setup([weather, template]);
 
-				return app.client.waitUntilTextExists('.weather .normal.medium span.dimmed', 'Feels like -5.6°', 10000);
+				return app.client.waitUntilTextExists(".weather .normal.medium span.dimmed", "Feels like -5.6°", 10000);
 			});
 		});
 
@@ -148,15 +148,15 @@ describe("Weather module", function() {
 				const weather = generateWeather();
 				await setup([weather, template]);
 
-				return app.client.waitUntilTextExists('.weather .normal.medium span:nth-child(2)', '12', 10000);
+				return app.client.waitUntilTextExists(".weather .normal.medium span:nth-child(2)", "12", 10000);
 			});
 
 			it("should render showWindDirectionAsArrow = true", async function() {
 				const weather = generateWeather();
 				await setup([weather, template]);
 
-				await app.client.waitForExist('.weather .normal.medium sup i.fa-long-arrow-up', 10000);
-				const element = await app.client.getHTML('.weather .normal.medium sup i.fa-long-arrow-up');
+				await app.client.waitForExist(".weather .normal.medium sup i.fa-long-arrow-up", 10000);
+				const element = await app.client.getHTML(".weather .normal.medium sup i.fa-long-arrow-up");
 
 				expect(element).to.include("transform:rotate(250deg);");
 			});
@@ -165,17 +165,17 @@ describe("Weather module", function() {
 				const weather = generateWeather();
 				await setup([weather, template]);
 
-				await app.client.waitUntilTextExists('.weather .normal.medium span:nth-child(3)', '93', 10000);
-				return app.client.waitForExist('.weather .normal.medium sup i.wi-humidity', 10000);
+				await app.client.waitUntilTextExists(".weather .normal.medium span:nth-child(3)", "93", 10000);
+				return app.client.waitForExist(".weather .normal.medium sup i.wi-humidity", 10000);
 			});
 
 			it("should render degreeLabel = true", async function() {
 				const weather = generateWeather();
 				await setup([weather, template]);
 
-				await app.client.waitUntilTextExists('.weather .large.light span.bright', '1°C', 10000);
+				await app.client.waitUntilTextExists(".weather .large.light span.bright", "1°C", 10000);
 
-				return app.client.waitUntilTextExists('.weather .normal.medium span.dimmed', 'Feels like -6°C', 10000);
+				return app.client.waitUntilTextExists(".weather .normal.medium span.dimmed", "Feels like -6°C", 10000);
 			});
 		});
 
@@ -197,9 +197,9 @@ describe("Weather module", function() {
 				});
 				await setup([weather, template]);
 
-				await app.client.waitUntilTextExists('.weather .normal.medium span:nth-child(2)', '6 WSW', 10000);
-				await app.client.waitUntilTextExists('.weather .large.light span.bright', '34,7°', 10000);
-				return app.client.waitUntilTextExists('.weather .normal.medium span.dimmed', '22,0°', 10000);
+				await app.client.waitUntilTextExists(".weather .normal.medium span:nth-child(2)", "6 WSW", 10000);
+				await app.client.waitUntilTextExists(".weather .large.light span.bright", "34,7°", 10000);
+				return app.client.waitUntilTextExists(".weather .normal.medium span.dimmed", "22,0°", 10000);
 			});
 
 			it("should render decimalSymbol = ','", async function() {
@@ -215,9 +215,9 @@ describe("Weather module", function() {
 				});
 				await setup([weather, template]);
 
-				await app.client.waitUntilTextExists('.weather .normal.medium span:nth-child(3)', '93,7', 10000);
-				await app.client.waitUntilTextExists('.weather .large.light span.bright', '34,7°', 10000);
-				return app.client.waitUntilTextExists('.weather .normal.medium span.dimmed', '22,0°', 10000);
+				await app.client.waitUntilTextExists(".weather .normal.medium span:nth-child(3)", "93,7", 10000);
+				await app.client.waitUntilTextExists(".weather .large.light span.bright", "34,7°", 10000);
+				return app.client.waitUntilTextExists(".weather .normal.medium span.dimmed", "22,0°", 10000);
 			});
 		});
 	});

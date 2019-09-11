@@ -9,7 +9,6 @@ const after = global.after;
 
 describe("Vendors", function () {
 
-
 	helpers.setupTimeout(this);
 
 	var app = null;
