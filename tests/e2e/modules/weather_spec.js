@@ -184,9 +184,27 @@ describe("Weather module", function() {
                 process.env.MM_CONFIG_FILE = "tests/configs/modules/weather/forecastweather_default.js";
             });
 
-            it("should render days", function() {});
+            it("should render days", async function() {
+                const weather = generateWeatherForecast();
+                await setup([weather, template]);
 
-            it("should render icon", function() {});
+                const days = ["Fri", "Sat", "Sun", "Mon", "Tue"];
+
+                for (const [index, day] of days.entries()) {
+                    await app.client.waitUntilTextExists(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(1)`, day, 10000);
+                }
+            });
+
+            it("should render icons", async function() {
+                const weather = generateWeatherForecast();
+                await setup([weather, template]);
+
+                const icons = ["day-cloudy", "rain", "day-sunny", "day-sunny", "day-sunny"];
+
+                for (const [index, icon] of icons.entries()) {
+                    await app.client.waitForExist(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(2) span.wi-${icon}`, 10000);
+                }
+            });
 
             it("should render max temperature", function() {});
 
