@@ -254,6 +254,17 @@ describe("Weather module", function() {
 
                 await app.client.waitForExist(`.weather table.myTableClass`, 10000);
             });
+
+            it("should render colored rows", async function() {
+                const weather = generateWeatherForecast();
+                await setup([weather, template]);
+
+                await app.client.waitForExist(`.weather table.myTableClass`, 10000);
+
+                const rows = await app.client.$$('.weather table.myTableClass tr.colored');
+
+                expect(rows.length).to.be.equal(5);
+            });
         });
     });
 });
