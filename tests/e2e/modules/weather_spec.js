@@ -242,5 +242,18 @@ describe("Weather module", function() {
                 }
             });
         });
+
+        describe("Configuration Options", function() {
+            before(function() {
+                process.env.MM_CONFIG_FILE = "tests/configs/modules/weather/forecastweather_options.js";
+            });
+
+            it("should render custom table class", async function() {
+                const weather = generateWeatherForecast();
+                await setup([weather, template]);
+
+                await app.client.waitForExist(`.weather table.myTableClass`, 10000);
+            });
+        });
     });
 });
