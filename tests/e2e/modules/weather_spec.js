@@ -171,4 +171,28 @@ describe("Weather module", function() {
 			});
 		});
 	});
+
+	describe("Weather Forecast", function() {
+        let template;
+
+        before(function() {
+            template = fs.readFileSync(path.join(__dirname, "..", "..", "..", "modules", "default", "weather", "forecast.njk"), "utf8");
+        });
+
+        describe("Default configuration", function() {
+            before(function() {
+                process.env.MM_CONFIG_FILE = "tests/configs/modules/weather/forecastweather_default.js";
+            });
+
+            it("should render days", function() {});
+
+            it("should render icon", function() {});
+
+            it("should render max temperature", function() {});
+
+            it("should render min temperature", function() {});
+
+            it("should render fading of rows", function() {});
+        });
+    });
 });
