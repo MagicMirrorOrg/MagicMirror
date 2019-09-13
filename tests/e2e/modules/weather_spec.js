@@ -228,7 +228,19 @@ describe("Weather module", function() {
                 }
             });
 
-            it("should render fading of rows", function() {});
+            it("should render fading of rows", async function() {
+                const weather = generateWeatherForecast();
+                await setup([weather, template]);
+
+                const opacities = [1, 1, 0.8, 0.5333333333333333, 0.2666666666666667];
+
+                await app.client.waitForExist('.weather table.small', 10000);
+
+                for (const [index, opacity] of opacities.entries()) {
+                    const html = await app.client.getHTML(`.weather table.small tr:nth-child(${index + 1})`);
+                    expect(html).to.includes(`<tr style="opacity: ${opacity};">`);
+                }
+            });
         });
     });
 });
