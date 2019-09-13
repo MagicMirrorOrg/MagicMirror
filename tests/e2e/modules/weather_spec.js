@@ -1,11 +1,14 @@
 const expect = require("chai").expect;
 const fs = require("fs");
-const _ = require("lodash");
 const moment = require("moment");
 const path = require("path");
 const wdajaxstub = require("webdriverajaxstub");
 
 const helpers = require("../global-setup");
+
+const {generateWeather, generateWeatherForecast} = require("./mocks");
+
+const wait = () => new Promise(res => setTimeout(res, 3000));
 
 describe("Weather module", function() {
 	let app;
@@ -27,57 +30,6 @@ describe("Weather module", function() {
 	});
 
 	describe("Current weather", function() {
-		function generateWeather(extendedData = {}) {
-			return JSON.stringify(_.merge({}, {
-				coord:{
-					lon: 11.58,
-					lat: 48.14
-				},
-				weather:[
-					{
-						id: 615,
-						main: "Snow",
-						description: "light rain and snow",
-						icon: "13d"
-					},
-					{
-						id: 500,
-						main: "Rain",
-						description: "light rain",
-						icon: "10d"
-					}
-				],
-				base: "stations",
-				main:{
-					temp: 1.49,
-					pressure: 1005,
-					humidity: 93.7,
-					temp_min: 1,
-					temp_max: 2
-				},
-				visibility: 7000,
-				wind:{
-					speed: 11.8,
-					deg: 250
-				},
-				clouds:{
-					all: 75
-				},
-				dt: 1547387400,
-				sys:{
-					type: 1,
-					id: 1267,
-					message: 0.0031,
-					country: "DE",
-					sunrise: 1547362817,
-					sunset: 1547394301
-				},
-				id: 2867714,
-				name: "Munich",
-				cod: 200
-			}, extendedData));
-		}
-
 		let template;
 
 		before(function() {
@@ -136,8 +88,6 @@ describe("Weather module", function() {
 				return app.client.waitUntilTextExists(".weather .normal.medium span.dimmed", "Feels like -5.6°", 10000);
 			});
 		});
-
-		const wait = () => new Promise(res => setTimeout(res, 3000));
 
 		describe("Configuration Options", function() {
 			before(function() {
