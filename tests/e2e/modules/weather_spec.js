@@ -206,9 +206,27 @@ describe("Weather module", function() {
                 }
             });
 
-            it("should render max temperature", function() {});
+            it("should render max temperatures", async function() {
+                const weather = generateWeatherForecast();
+                await setup([weather, template]);
 
-            it("should render min temperature", function() {});
+                const temperatures = ["24.4°", "21.0°", "22.9°", "23.4°", "20.6°"];
+
+                for (const [index, temp] of temperatures.entries()) {
+                    await app.client.waitUntilTextExists(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(3)`, temp, 10000);
+                }
+            });
+
+            it("should render min temperatures", async function() {
+                const weather = generateWeatherForecast();
+                await setup([weather, template]);
+
+                const temperatures = ["15.3°", "13.6°", "13.8°", "13.9°", "10.9°"];
+
+                for (const [index, temp] of temperatures.entries()) {
+                    await app.client.waitUntilTextExists(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(4)`, temp, 10000);
+                }
+            });
 
             it("should render fading of rows", function() {});
         });
