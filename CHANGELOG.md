@@ -24,12 +24,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Updated
 - Updatenotification module: Display update notification for a limited (configurable) time.
 - The css/custom.css will be rename after the next release. We've add into `run-start.sh` a instruction by GIT to ignore with `--skip-worktree` and `rm --cached`. The history about this change [#1540].
+- Disable sending of notification CLOCK_SECOND when displaySeconds is false
 
 ### Fixed
 - Updatenotification module: Properly handle race conditions, prevent crash.
 - Send `NEWS_FEED` notification also for the first news messages which are shown
 - Fixed issue where weather module would not refresh data after a network or API outage [#1722](https://github.com/MichMich/MagicMirror/issues/1722)
 - Fixed weatherforecast module not displaying rain amount on fallback endpoint
+- Notifications CLOCK_SECOND & CLOCK_MINUTE being from startup instead of matched against the clock and avoid drifting
 
 ## [2.8.0] - 2019-07-01
 
