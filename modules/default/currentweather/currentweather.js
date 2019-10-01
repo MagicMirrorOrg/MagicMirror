@@ -273,7 +273,7 @@ Module.register("currentweather",{
 		if (this.config.useLocationAsHeader && this.config.location !== false) {
 			return this.config.location;
 		}
-		
+
 		return this.data.header;
 	},
 

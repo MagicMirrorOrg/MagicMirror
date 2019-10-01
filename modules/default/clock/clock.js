@@ -41,26 +41,40 @@ Module.register("clock",{
 
 		// Schedule update interval.
 		var self = this;
-		self.second = 0;
-		self.minute = 0;
-		self.lastDisplayedMinute = null;
-		setInterval(function() {
-			if (self.config.displaySeconds || self.lastDisplayedMinute !== moment().minute()) {
-				self.updateDom();
-			}
-			if (self.second === 59) {
-				self.second = 0;
-				if (self.minute === 59){
-					self.minute = 0;
-				} else {
-					self.minute++;
-				}
-				self.sendNotification("CLOCK_MINUTE", self.minute);
+		self.second = moment().second();
+		self.minute = moment().minute();
+
+		//Calculate how many ms should pass until next update depending on if seconds is displayed or not
+		var delayCalculator = function(reducedSeconds) {
+			if (self.config.displaySeconds) {
+				return 1000 - moment().milliseconds();
 			} else {
-				self.second++;
-				self.sendNotification("CLOCK_SECOND", self.second);
+				return ((60 - reducedSeconds) * 1000) - moment().milliseconds();
 			}
-		}, 1000);
+		};
+
+		//A recursive timeout function instead of interval to avoid drifting
+		var notificationTimer = function() {
+			self.updateDom();
+
+			//If seconds is displayed CLOCK_SECOND-notification should be sent (but not when CLOCK_MINUTE-notification is sent)
+			if (self.config.displaySeconds) {
+				self.second = (self.second + 1) % 60;
+				if (self.second !== 0) {
+					self.sendNotification("CLOCK_SECOND", self.second);
+					setTimeout(notificationTimer, delayCalculator(0));
+					return;
+				}
+			}
+
+			//If minute changed or seconds isn't displayed send CLOCK_MINUTE-notification
+			self.minute = (self.minute + 1) % 60;
+			self.sendNotification("CLOCK_MINUTE", self.minute);
+			setTimeout(notificationTimer, delayCalculator(0));
+		};
+
+		//Set the initial timeout with the amount of seconds elapsed as reducedSeconds so it will trigger when the minute changes
+		setTimeout(notificationTimer, delayCalculator(self.second));
 
 		// Set locale.
 		moment.locale(config.language);
