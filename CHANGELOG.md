@@ -7,31 +7,28 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror² core.
 
-## [2.9.0] - Unreleased (Develop Branch)
+## [2.9.0] - 2019-10-01
 
-*This release is scheduled to be released on 2019-10-01.*
+ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`. If you are having issues running Electron, make sure your [Raspbian is up to date](https://www.raspberrypi.org/documentation/raspbian/updating.md).
 
 ### Added
-- Spanish translation for "PRECIP"
-- Adding a Malay (Malaysian) translation for MagicMirror²
+- Spanish translation for "PRECIP".
+- Adding a Malay (Malaysian) translation for MagicMirror².
 - Add test check URLs of vendors 200 and 404 HTTP CODE.
-- Add tests for new weather module and helper to stub ajax requests
+- Add tests for new weather module and helper to stub ajax requests.
 
 ### Updated
 - Updatenotification module: Display update notification for a limited (configurable) time.
-- Enabled e2e/vendor_spec.js tests
-
-### Updated
-- Updatenotification module: Display update notification for a limited (configurable) time.
-- The css/custom.css will be rename after the next release. We've add into `run-start.sh` a instruction by GIT to ignore with `--skip-worktree` and `rm --cached`. The history about this change [#1540].
-- Disable sending of notification CLOCK_SECOND when displaySeconds is false
+- Enabled e2e/vendor_spec.js tests.
+- The css/custom.css will be rename after the next release. We've add into `run-start.sh` a instruction by GIT to ignore with `--skip-worktree` and `rm --cached`. [#1540](https://github.com/MichMich/MagicMirror/issues/1540)
+- Disable sending of notification CLOCK_SECOND when displaySeconds is false.
 
 ### Fixed
 - Updatenotification module: Properly handle race conditions, prevent crash.
-- Send `NEWS_FEED` notification also for the first news messages which are shown
-- Fixed issue where weather module would not refresh data after a network or API outage [#1722](https://github.com/MichMich/MagicMirror/issues/1722)
-- Fixed weatherforecast module not displaying rain amount on fallback endpoint
-- Notifications CLOCK_SECOND & CLOCK_MINUTE being from startup instead of matched against the clock and avoid drifting
+- Send `NEWS_FEED` notification also for the first news messages which are shown.
+- Fixed issue where weather module would not refresh data after a network or API outage. [#1722](https://github.com/MichMich/MagicMirror/issues/1722)
+- Fixed weatherforecast module not displaying rain amount on fallback endpoint.
+- Notifications CLOCK_SECOND & CLOCK_MINUTE being from startup instead of matched against the clock and avoid drifting.
 
 ## [2.8.0] - 2019-07-01
 
