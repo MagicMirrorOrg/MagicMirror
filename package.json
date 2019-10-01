@@ -61,7 +61,7 @@
     "express": "^4.16.2",
     "express-ipfilter": "^1.0.1",
     "feedme": "latest",
-    "helmet": "^3.9.0",
+    "helmet": "^3.21.1",
     "iconv-lite": "latest",
     "moment": "latest",
     "request": "^2.88.0",
