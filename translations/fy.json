@@ -21,7 +21,7 @@
 	"W": 	"W",
 	"WNW": 	"WNW",
 	"NW": 	"NW",
-	"NNW": 	"NNW"
+	"NNW": 	"NNW",
 
 	"UPDATE_NOTIFICATION": "Update fan MagicMirror² beskikber.",
 	"UPDATE_NOTIFICATION_MODULE": "Update beskikber foar {MODULE_NAME} module.",
