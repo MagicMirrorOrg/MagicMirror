@@ -25,4 +25,12 @@
 	"WNW": 	"WNW",
 	"NW": 	"NW",
 	"NNW": 	"NNW"
+
+	"UPDATE_NOTIFICATION": "Update fan MagicMirror² beskikber.",
+	"UPDATE_NOTIFICATION_MODULE": "Update beskikber foar {MODULE_NAME} module.",
+	"UPDATE_INFO_SINGLE": "De hjoeddeistige ynstallaasje is {COMMIT_COUNT} tawize efter de {BRANCH_NAME} branch.",
+	"UPDATE_INFO_MULTIPLE": "De hjoeddeistige ynstallaasje rint {COMMIT_COUNT} ferplichtet efter de {BRANCH_NAME} branch",
+	
+	"FEELS": "Gefoelstemperatuer"
 }
+
