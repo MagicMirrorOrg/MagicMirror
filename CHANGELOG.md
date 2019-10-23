@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 *This release is scheduled to be released on 2020-01-01.*
 
 ### Added
+- Timestamps in log output
 
 ### Updated
 
