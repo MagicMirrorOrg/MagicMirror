@@ -1,0 +1,33 @@
+{
+	"LOADING": "Tunggu Sebentar &hellip;",
+
+	"TODAY": "Hari ini",
+	"TOMORROW": "Esok",
+	"DAYAFTERTOMORROW": "Lusa",
+	"RUNNING": "Berakhir dalam",
+	"EMPTY": "Tidak ada agenda",
+
+	"WEEK": "Minggu ke-{weekNumber}",
+
+	"N": "U",
+	"NNE": "UUT",
+	"NE": "TL",
+	"ENE": "TTL",
+	"E": "T",
+	"ESE": "TT",
+	"SE": "T",
+	"SSE": "ST",
+	"S": "S",
+	"SSW": "SBD",
+	"SW": "BD",
+	"WSW": "BBD",
+	"W": "B",
+	"WNW": "BBL",
+	"NW": "BL",
+	"NNW": "UBL",
+
+	"UPDATE_NOTIFICATION": "MagicMirror² mempunyai update terkini.",
+	"UPDATE_NOTIFICATION_MODULE": "Modul {MODULE_NAME} mempunyai update terkini.",
+	"UPDATE_INFO_SINGLE": "Pemasangan MagicMirror² ini mempunyai {COMMIT_COUNT} commit terkebelakang dari branch {BRANCH_NAME}.",
+	"UPDATE_INFO_MULTIPLE": "Pemasangan MagicMirror² ini mempunyai {COMMIT_COUNT} commit terkebelakang dari branch {BRANCH_NAME}."
+}
