@@ -178,13 +178,13 @@ For more available modules, check out out the wiki page [MagicMirror² 3rd Party
 If you want to update your MagicMirror² to the latest version, use your terminal to go to your Magic Mirror folder and type the following command:
 
 ```
-installers/upgrade-script.sh 
+bash -c "$(curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/master/installers/upgrade-script.sh)"
 ```
 This will do a test run
 
 If the test update looks good then run this command
 ```
-installers/upgrade-script.sh apply
+bash -c "$(curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/master/installers/upgrade-script.sh)" apply
 ```
 If there are changes you have made, they will be listed, and u will have the opportunity to save your work
 
