@@ -3,7 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## Updated
+### Added 
+- new upgrade script to help users consume regular updates installers/upgrade-script.sh
+- new script to help setup pm2, without install installers/fixuppm2.sh
+
+### Updated
+- updated raspberry.sh installer script to handle new platform issues, split node/npm, pm2, and screen saver changes
 - improve handling for armv6l devices, where electron support has gone away, add optional serveronly config option
 
 ---
