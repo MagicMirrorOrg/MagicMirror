@@ -78,12 +78,12 @@ if [ -d ~/MagicMirror ]; then
 	fi
 
 	# if we want just the modules listed in config.js now
-	if [ $justActive == $true ]; then 
-		 if [ ! -f ~/MagicMirror/installers/dumpactivemodules.js ]; then
-				echo downloading dumpactivemodules script >> $logfile
-				curl -sL https://www.dropbox.com/s/wwe6bfg2lcjmj43/dumpactivemodules.js?dl=0 > ~/MagicMirror/installers/dumpactivemodules.js
-		 fi
-	fi
+	#if [ $justActive == $true ]; then 
+	#	 if [ ! -f ~/MagicMirror/installers/dumpactivemodules.js ]; then
+	#			echo downloading dumpactivemodules script >> $logfile
+	#			curl -sL https://www.dropbox.com/s/wwe6bfg2lcjmj43/dumpactivemodules.js?dl=0 > ~/MagicMirror/installers/dumpactivemodules.js
+	#	 fi
+	#fi
 	echo update log will be in $logfile
 	# used for parsing the array of module names
 	SAVEIFS=$IFS   # Save current IFS
@@ -238,11 +238,11 @@ if [ -d ~/MagicMirror ]; then
 								if [ $doinstalls == $true ]; then 
 								  # if this is a pi zero 
 									echo processor architecture is $arch >> $logfile
-									if [ "$arch" == "armv6l" ]; then 
-									   # force to look like pi 2
-										 echo forcing architecture armv7l >>$logfile
-										 forced_arch='--arch=armv7l'
-									fi 
+									#if [ "$arch" == "armv6l" ]; then 
+									#   # force to look like pi 2
+									#	 echo forcing architecture armv7l >>$logfile
+									#	 forced_arch='--arch=armv7l'
+									#fi 
 									echo "updating MagicMirror runtime, please wait" | tee -a $logfile
 									npm install $forced_arch 2>&1 | tee -a $logfile
 									done_update=`date +"completed - %a %b %e %H:%M:%S %Z %Y"`

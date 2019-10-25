@@ -77,10 +77,10 @@ if [ "$ARM" != "armv7l" ]; then
 		echo -e "\e[91mIf this is a Pi Zero, you are in the same boat as the original Raspberry Pi. You must run in server only mode."
 		exit;
 	fi
-	if [ "$ARM" == "armv6l" ]; then
-	  echo forcing armv71 architecture for pi 0 >>$logfile
-	  force_arch=-'--arch=armv7l'
-	fi
+	#if [ "$ARM" == "armv6l" ]; then
+	#  echo forcing armv71 architecture for pi 0 >>$logfile
+	#  force_arch=-'--arch=armv7l'
+	#fi
 fi
     
 # Define helper methods.
