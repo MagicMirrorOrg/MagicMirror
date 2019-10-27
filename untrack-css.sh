@@ -1,6 +1,6 @@
 # Long history here
 # https://github.com/MichMich/MagicMirror/pull/1540
-STATUS_CUSTOM_CSS=$(git ls-files -v css/custom.css|cut -f 1 --delimiter=" ")
+STATUS_CUSTOM_CSS=$(git ls-files -v css/custom.css| awk '{print $1}')
 
 if [ "$STATUS_CUSTOM_CSS" = "H" ]; then
   echo "We'll remove from the repository the css/custom.css"
