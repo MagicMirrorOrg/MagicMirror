@@ -142,6 +142,9 @@ The following properties can be configured:
 | `language` | The language of the interface. (Note: Not all elements will be localized.) Possible values are `en`, `nl`, `ru`, `fr`, etc., but the default value is `en`. |
 | `timeFormat` | The form of time notation that will be used. Possible values are `12` or `24`. The default is `24`. |
 | `units` | The units that will be used in the default weather modules. Possible values are `metric` or `imperial`. The default is `metric`. |
+| `latitude` | Your local latitude. |
+| `longitude` | Your local longitude. |
+| `timezone` | Your local timezone. Find yours at https://timezonedb.com/time-zones |
 | `modules` | An array of active modules. **The array must contain objects. See the next table below for more information.** |
 | `electronOptions` | An optional array of Electron (browser) options. This allows configuration of e.g. the browser screen size and position (example: `electronOptions: { fullscreen: false, width: 800, height: 600 }`). Kiosk mode can be enabled by setting `kiosk: true`, `autoHideMenuBar: false` and `fullscreen: false`. More options can be found [here](https://github.com/electron/electron/blob/master/docs/api/browser-window.md). |
 | `customCss` | The path of the `custom.css` stylesheet. The default is `css/custom.css`. |
