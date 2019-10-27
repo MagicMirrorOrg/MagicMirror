@@ -24,6 +24,9 @@ var config = {
 	language: "en",
 	timeFormat: 24,
 	units: "metric",
+	latitude: "",
+	longitude: "",
+	timezone: "", // Find yours at https://timezonedb.com/time-zones
 
 	modules: [
 		{
