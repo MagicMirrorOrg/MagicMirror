@@ -25,7 +25,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Updated
 
 ### Fixed
-- Fixed issue in weatherforecast module where predicated amount of rain was not using the decimal symbol specified in config.js.
+- Fixed issue in weatherforecast module where predicted amount of rain was not using the decimal symbol specified in config.js.
  
 ## [2.9.0] - 2019-10-01
 
