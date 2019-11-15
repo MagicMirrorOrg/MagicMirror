@@ -19,7 +19,7 @@ modules: [
 		config: {
 			// See 'Configuration options' for more information.
 			location: "Amsterdam,Netherlands",
-			locationID: "", //Location ID from http://openweathermap.org/help/city_list.txt
+			locationID: "", //Location ID from http://bulk.openweathermap.org/sample/city.list.json.gz
 			appid: "abcde12345abcde12345abcde12345ab" //openweathermap.org API key.
 		}
 	}

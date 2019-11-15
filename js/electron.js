@@ -17,6 +17,7 @@ const BrowserWindow = electron.BrowserWindow;
 let mainWindow;
 
 function createWindow() {
+	app.commandLine.appendSwitch("autoplay-policy", "no-user-gesture-required");
 	var electronOptionsDefaults = {
 		width: 800,
 		height: 600,

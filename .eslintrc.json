@@ -2,9 +2,11 @@
 	"rules": {
 		"indent": ["error", "tab"],
 		"quotes": ["error", "double"],
+        "semi": ["error"],
 		"max-len": ["error", 250],
 		"curly": "error",
 		"camelcase": ["error", {"properties": "never"}],
+        "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 1 }],
 		"no-trailing-spaces": ["error", {"ignoreComments": false }],
 		"no-irregular-whitespace": ["error"]
 	},
@@ -15,6 +17,7 @@
 	},
 	"parserOptions": {
 		"sourceType": "module",
+		"ecmaVersion": 2017,
 		"ecmaFeatures": {
 			"globalReturn": true
 		}

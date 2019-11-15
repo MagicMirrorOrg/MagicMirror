@@ -1,7 +1,7 @@
 The MIT License (MIT)
 =====================
 
-Copyright © 2016-2017 Michael Teeuw
+Copyright © 2016-2019 Michael Teeuw
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation

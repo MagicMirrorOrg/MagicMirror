@@ -82,7 +82,7 @@ Module.register("weatherforecast",{
 	getTranslations: function() {
 		// The translations for the default modules are defined in the core translation files.
 		// Therefor we can just return false. Otherwise we should have returned a dictionary.
-		// If you're trying to build yiur own module including translations, check out the documentation.
+		// If you're trying to build your own module including translations, check out the documentation.
 		return false;
 	},
 
@@ -240,7 +240,7 @@ Module.register("weatherforecast",{
 
 	/* updateWeather(compliments)
 	 * Requests new data from openweather.org.
-	 * Calls processWeather on succesfull response.
+	 * Calls processWeather on successful response.
 	 */
 	updateWeather: function() {
 		if (this.config.appid === "") {
@@ -261,7 +261,7 @@ Module.register("weatherforecast",{
 				} else if (this.status === 401) {
 					self.updateDom(self.config.animationSpeed);
 
-					if (self.config.forecastEndpoint == "forecast/daily") {
+					if (self.config.forecastEndpoint === "forecast/daily") {
 						self.config.forecastEndpoint = "forecast";
 						Log.warn(self.name + ": Your AppID does not support long term forecasts. Switching to fallback endpoint.");
 					}
@@ -291,7 +291,7 @@ Module.register("weatherforecast",{
 		} else if(this.config.location) {
 			params += "q=" + this.config.location;
 		} else if (this.firstEvent && this.firstEvent.geo) {
-			params += "lat=" + this.firstEvent.geo.lat + "&lon=" + this.firstEvent.geo.lon
+			params += "lat=" + this.firstEvent.geo.lat + "&lon=" + this.firstEvent.geo.lon;
 		} else if (this.firstEvent && this.firstEvent.location) {
 			params += "q=" + this.firstEvent.location;
 		} else {
@@ -315,7 +315,7 @@ Module.register("weatherforecast",{
 	 */
 	parserDataWeather: function(data) {
 		if (data.hasOwnProperty("main")) {
-			data["temp"] = {"min": data.main.temp_min, "max": data.main.temp_max}
+			data["temp"] = {"min": data.main.temp_min, "max": data.main.temp_max};
 		}
 		return data;
 	},
@@ -330,7 +330,7 @@ Module.register("weatherforecast",{
 
 		this.forecast = [];
 		var lastDay = null;
-		var forecastData = {}
+		var forecastData = {};
 
 		for (var i = 0, count = data.list.length; i < count; i++) {
 
@@ -353,7 +353,7 @@ Module.register("weatherforecast",{
 					icon: this.config.iconTable[forecast.weather[0].icon],
 					maxTemp: this.roundValue(forecast.temp.max),
 					minTemp: this.roundValue(forecast.temp.min),
-					rain: forecast.rain
+					rain: this.processRain(forecast, data.list)
 				};
 
 				this.forecast.push(forecastData);
@@ -434,5 +434,38 @@ Module.register("weatherforecast",{
 	roundValue: function(temperature) {
 		var decimals = this.config.roundTemp ? 0 : 1;
 		return parseFloat(temperature).toFixed(decimals);
+	},
+
+	/* processRain(forecast, allForecasts)
+	 * Calculates the amount of rain for a whole day even if long term forecasts isn't available for the appid.
+	 *
+	 * When using the the fallback endpoint forecasts are provided in 3h intervals and the rain-property is an object instead of number.
+	 * That object has a property "3h" which contains the amount of rain since the previous forecast in the list.
+	 * This code finds all forecasts that is for the same day and sums the amount of rain and returns that.
+	 */
+	processRain: function(forecast, allForecasts) {
+		//If the amount of rain actually is a number, return it
+		if (!isNaN(forecast.rain)) {
+			return forecast.rain;
+		}
+
+		//Find all forecasts that is for the same day
+		var checkDateTime = (!!forecast.dt_txt) ? moment(forecast.dt_txt, "YYYY-MM-DD hh:mm:ss") : moment(forecast.dt, "X");
+		var daysForecasts = allForecasts.filter(function(item) {
+			var itemDateTime = (!!item.dt_txt) ? moment(item.dt_txt, "YYYY-MM-DD hh:mm:ss") : moment(item.dt, "X");
+			return itemDateTime.isSame(checkDateTime, "day") && item.rain instanceof Object;
+		});
+
+		//If no rain this day return undefined so it wont be displayed for this day
+		if (daysForecasts.length == 0) {
+			return undefined;
+		}
+
+		//Summarize all the rain from the matching days
+		return daysForecasts.map(function(item) {
+			return Object.values(item.rain)[0];
+		}).reduce(function(a, b) {
+			return a + b;
+		}, 0);
 	}
 });

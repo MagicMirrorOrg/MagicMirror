@@ -5,7 +5,7 @@
 	<a href="https://david-dm.org/MichMich/MagicMirror#info=devDependencies"><img src="https://david-dm.org/MichMich/MagicMirror/dev-status.svg" alt="devDependency Status"></a>
 	<a href="https://bestpractices.coreinfrastructure.org/projects/347"><img src="https://bestpractices.coreinfrastructure.org/projects/347/badge"></a>
 	<a href="http://choosealicense.com/licenses/mit"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
-	<a href="https://travis-ci.org/MichMich/MagicMirror"><img src="https://travis-ci.org/MichMich/MagicMirror.svg" alt="Travis"></a>
+	<a href="https://travis-ci.com/MichMich/MagicMirror"><img src="https://travis-ci.com/MichMich/MagicMirror.svg" alt="Travis"></a>
 	<a href="https://snyk.io/test/github/MichMich/MagicMirror"><img src="https://snyk.io/test/github/MichMich/MagicMirror/badge.svg" alt="Known Vulnerabilities" data-canonical-src="https://snyk.io/test/github/MichMich/MagicMirror" style="max-width:100%;"></a>
 </p>
 
@@ -208,7 +208,7 @@ Thanks for your help in making MagicMirror² better!
 MagicMirror² is opensource and free. That doesn't mean we don't need any money.
 
 Please consider a donation to help us cover the ongoing costs like webservers and email services.
-If we recieve enough donations we might even be able to free up some working hours and spend some extra time improving the MagicMirror² core.
+If we receive enough donations we might even be able to free up some working hours and spend some extra time improving the MagicMirror² core.
 
 To donate, please follow [this](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=G5D8E9MR5DTD2&source=url) link.
 

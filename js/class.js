@@ -21,7 +21,7 @@
 		var prototype = new this();
 		initializing = false;
 
-		// Make a copy of all prototype properies, to prevent reference issues.
+		// Make a copy of all prototype properties, to prevent reference issues.
 		for (var name in prototype) {
 			prototype[name] = cloneObject(prototype[name]);
 		}
@@ -29,8 +29,8 @@
 		// Copy the properties over onto the new prototype
 		for (var name in prop) {
 			// Check if we're overwriting an existing function
-			prototype[name] = typeof prop[name] == "function" &&
-				typeof _super[name] == "function" && fnTest.test(prop[name]) ? (function (name, fn) {
+			prototype[name] = typeof prop[name] === "function" &&
+				typeof _super[name] === "function" && fnTest.test(prop[name]) ? (function (name, fn) {
 					return function () {
 						var tmp = this._super;
 
@@ -42,7 +42,6 @@
 						// remove it when we're done executing
 						var ret = fn.apply(this, arguments);
 						this._super = tmp;
-
 
 						return ret;
 					};

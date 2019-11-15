@@ -15,6 +15,7 @@ var maximumEntries = 10;
 var maximumNumberOfDays = 365;
 var user = "magicmirror";
 var pass = "MyStrongPass";
+var broadcastPastEvents = false;
 
 var auth = {
 	user: user,

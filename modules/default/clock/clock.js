@@ -41,9 +41,40 @@ Module.register("clock",{
 
 		// Schedule update interval.
 		var self = this;
-		setInterval(function() {
+		self.second = moment().second();
+		self.minute = moment().minute();
+
+		//Calculate how many ms should pass until next update depending on if seconds is displayed or not
+		var delayCalculator = function(reducedSeconds) {
+			if (self.config.displaySeconds) {
+				return 1000 - moment().milliseconds();
+			} else {
+				return ((60 - reducedSeconds) * 1000) - moment().milliseconds();
+			}
+		};
+
+		//A recursive timeout function instead of interval to avoid drifting
+		var notificationTimer = function() {
 			self.updateDom();
-		}, 1000);
+
+			//If seconds is displayed CLOCK_SECOND-notification should be sent (but not when CLOCK_MINUTE-notification is sent)
+			if (self.config.displaySeconds) {
+				self.second = (self.second + 1) % 60;
+				if (self.second !== 0) {
+					self.sendNotification("CLOCK_SECOND", self.second);
+					setTimeout(notificationTimer, delayCalculator(0));
+					return;
+				}
+			}
+
+			//If minute changed or seconds isn't displayed send CLOCK_MINUTE-notification
+			self.minute = (self.minute + 1) % 60;
+			self.sendNotification("CLOCK_MINUTE", self.minute);
+			setTimeout(notificationTimer, delayCalculator(0));
+		};
+
+		//Set the initial timeout with the amount of seconds elapsed as reducedSeconds so it will trigger when the minute changes
+		setTimeout(notificationTimer, delayCalculator(self.second));
 
 		// Set locale.
 		moment.locale(config.language);
@@ -62,12 +93,12 @@ Module.register("clock",{
 		var timeWrapper = document.createElement("div");
 		var secondsWrapper = document.createElement("sup");
 		var periodWrapper = document.createElement("span");
-		var weekWrapper = document.createElement("div")
+		var weekWrapper = document.createElement("div");
 		// Style Wrappers
 		dateWrapper.className = "date normal medium";
 		timeWrapper.className = "time bright large light";
 		secondsWrapper.className = "dimmed";
-		weekWrapper.className = "week dimmed medium"
+		weekWrapper.className = "week dimmed medium";
 
 		// Set content of wrappers.
 		// The moment().format("h") method has a bug on the Raspberry Pi.
@@ -75,6 +106,7 @@ Module.register("clock",{
 		// See issue: https://github.com/MichMich/MagicMirror/issues/181
 		var timeString;
 		var now = moment();
+		this.lastDisplayedMinute = now.minute();
 		if (this.config.timezone) {
 			now.tz(this.config.timezone);
 		}
@@ -132,7 +164,7 @@ Module.register("clock",{
 			clockCircle.style.width = this.config.analogSize;
 			clockCircle.style.height = this.config.analogSize;
 
-			if (this.config.analogFace != "" && this.config.analogFace != "simple" && this.config.analogFace != "none") {
+			if (this.config.analogFace !== "" && this.config.analogFace !== "simple" && this.config.analogFace !== "none") {
 				clockCircle.style.background = "url("+ this.data.path + "faces/" + this.config.analogFace + ".svg)";
 				clockCircle.style.backgroundSize = "100%";
 
@@ -140,7 +172,7 @@ Module.register("clock",{
 				// clockCircle.style.border = "1px solid black";
 				clockCircle.style.border = "rgba(0, 0, 0, 0.1)"; //Updated fix for Issue 611 where non-black backgrounds are used
 
-			} else if (this.config.analogFace != "none") {
+			} else if (this.config.analogFace !== "none") {
 				clockCircle.style.border = "2px solid white";
 			}
 			var clockFace = document.createElement("div");
