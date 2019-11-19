@@ -57,7 +57,7 @@
   },
   "dependencies": {
     "colors": "^1.1.2",
-    "electron": "^3.0.13",
+    "electron": "^5.0.0",
     "express": "^4.16.2",
     "express-ipfilter": "^1.0.1",
     "feedme": "latest",
