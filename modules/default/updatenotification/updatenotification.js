@@ -6,12 +6,12 @@ Module.register("updatenotification", {
 	},
 
 	suspended: false,
-	moduleList: {},	
+	moduleList: {},
 
 	start: function () {
-    var self = this;		
+		var self = this;
 		Log.log("Start updatenotification");
-		setInterval( () => { self.moduleList = {};self.updateDom(2) } , self.config.refreshInterval)
+		setInterval( () => { self.moduleList = {};self.updateDom(2); } , self.config.refreshInterval);
 	},
 
 	notificationReceived: function (notification, payload, sender) {
@@ -38,15 +38,15 @@ Module.register("updatenotification", {
 				self.updateDom(2);
 			}
 			//self.show(1000, { lockString: self.identifier });
-      
+
 		} else if (payload && payload.behind == 0){
-      // if the module WAS in the list, but shouldn't be
-      if(this.moduleList[payload.module] != undefined){
-        // remove it
-        delete this.moduleList[payload.module]
-        self.updateDom(2);
-      }
-    }
+			// if the module WAS in the list, but shouldn't be
+			if(this.moduleList[payload.module] != undefined){
+				// remove it
+				delete this.moduleList[payload.module];
+				self.updateDom(2);
+			}
+		}
 	},
 
 	diffLink: function(module, text) {
@@ -66,7 +66,7 @@ Module.register("updatenotification", {
 		if(this.suspended==false){
 			// process the hash of module info found
 			for(key of Object.keys(this.moduleList)){
-				let m= this.moduleList[key]
+				let m= this.moduleList[key];
 
 				var message = document.createElement("div");
 				message.className = "small bright";

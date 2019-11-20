@@ -35,6 +35,7 @@ WeatherProvider.register("weathergov", {
 			.catch(function(request) {
 				Log.error("Could not load data ... ", request);
 			})
+			.finally(() => this.updateAvailable())
 	},
 
 	// Overwrite the fetchCurrentWeather method.
@@ -53,6 +54,7 @@ WeatherProvider.register("weathergov", {
 			.catch(function(request) {
 				Log.error("Could not load data ... ", request);
 			})
+			.finally(() => this.updateAvailable())
 	},
 
 	/** Weather.gov Specific Methods - These are not part of the default provider methods */

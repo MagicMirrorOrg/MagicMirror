@@ -18,7 +18,7 @@ module.exports = NodeHelper.create({
 	configureModules: function(modules) {
 
 		// Push MagicMirror itself , biggest chance it'll show up last in UI and isn't overwritten
-    // others will be added in front, asynchronously
+		// others will be added in front, asynchronously
 		simpleGits.push({"module": "default", "git": SimpleGit(path.normalize(__dirname + "/../../../"))});
 
 		for (moduleName in modules) {

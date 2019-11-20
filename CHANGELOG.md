@@ -3,21 +3,52 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### Added 
+- new upgrade script to help users consume regular updates installers/upgrade-script.sh
+- new script to help setup pm2, without install installers/fixuppm2.sh
+
+### Updated
+- updated raspberry.sh installer script to handle new platform issues, split node/npm, pm2, and screen saver changes
+- improve handling for armv6l devices, where electron support has gone away, add optional serveronly config option
+
 ---
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror² core.
 
-## [2.9.0] - Unreleased (Develop Branch)
+## [2.10.0] - Unreleased (Develop Branch)
 
-*This release is scheduled to be released on 2019-10-01.*
+*This release is scheduled to be released on 2020-01-01.*
 
 ### Added
+- Timestamps in log output
+
+### Updated
+
+### Fixed
+- Fixed issue in weatherforecast module where predicted amount of rain was not using the decimal symbol specified in config.js.
+ 
+## [2.9.0] - 2019-10-01
+
+ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`. If you are having issues running Electron, make sure your [Raspbian is up to date](https://www.raspberrypi.org/documentation/raspbian/updating.md).
+
+### Added
+- Spanish translation for "PRECIP".
+- Adding a Malay (Malaysian) translation for MagicMirror².
+- Add test check URLs of vendors 200 and 404 HTTP CODE.
+- Add tests for new weather module and helper to stub ajax requests.
 
 ### Updated
 - Updatenotification module: Display update notification for a limited (configurable) time.
+- Enabled e2e/vendor_spec.js tests.
+- The css/custom.css will be rename after the next release. We've add into `run-start.sh` a instruction by GIT to ignore with `--skip-worktree` and `rm --cached`. [#1540](https://github.com/MichMich/MagicMirror/issues/1540)
+- Disable sending of notification CLOCK_SECOND when displaySeconds is false.
 
 ### Fixed
 - Updatenotification module: Properly handle race conditions, prevent crash.
+- Send `NEWS_FEED` notification also for the first news messages which are shown.
+- Fixed issue where weather module would not refresh data after a network or API outage. [#1722](https://github.com/MichMich/MagicMirror/issues/1722)
+- Fixed weatherforecast module not displaying rain amount on fallback endpoint.
+- Notifications CLOCK_SECOND & CLOCK_MINUTE being from startup instead of matched against the clock and avoid drifting.
 
 ## [2.8.0] - 2019-07-01
 
@@ -40,18 +71,18 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Automatically try to fix eslint errors by passing `--fix` option to it
 - Added sunrise and sunset times to weathergov weather provider [#1705](https://github.com/MichMich/MagicMirror/issues/1705)
 - Added "useLocationAsHeader" to display "location" in `config.js` as header when location name is not returned
-- Added to `newsfeed.js`: in order to design the news article better with css, three more class-names were introduced: newsfeed-desc, newsfeed-desc, newsfeed-desc 
+- Added to `newsfeed.js`: in order to design the news article better with css, three more class-names were introduced: newsfeed-desc, newsfeed-desc, newsfeed-desc
 
 ### Updated
 - English translation for "Feels" to "Feels like"
 - Fixed the example calender url in `config.js.sample`
 - Update `ical.js` to solve various calendar issues.
-- Update weather city list url [#1676](https://github.com/MichMich/MagicMirror/issues/1676) 
+- Update weather city list url [#1676](https://github.com/MichMich/MagicMirror/issues/1676)
 - Only update clock once per minute when seconds aren't shown
 
 ### Fixed
-- Fixed uncaught exception, race condition on module update 
-- Fixed issue [#1696](https://github.com/MichMich/MagicMirror/issues/1696), some ical files start date to not parse to date type 
+- Fixed uncaught exception, race condition on module update
+- Fixed issue [#1696](https://github.com/MichMich/MagicMirror/issues/1696), some ical files start date to not parse to date type
 - Allowance HTML5 autoplay-policy (policy is changed from Chrome 66 updates)
 - Handle SIGTERM messages
 - Fixes sliceMultiDayEvents so it respects maximumNumberOfDays
