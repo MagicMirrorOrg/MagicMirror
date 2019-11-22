@@ -21,7 +21,7 @@ doInstall=1
 true=1
 false=0
 # Define the tested version of Node.js.
-NODE_TESTED="v5.1.0"
+NODE_TESTED="v10.1.0"
 NPM_TESTED="V6.0.0"
 USER=`whoami`
 PM2_FILE=pm2_MagicMirror.json
@@ -67,6 +67,7 @@ echo install log being saved to $logfile
 date +"install starting  - %a %b %e %H:%M:%S %Z %Y" >>$logfile
 ARM=$(uname -m) 
 echo installing on $ARM processor system >>$logfile
+echo the os is $(lsb_release -a) >> $logfile
 # Check the Raspberry Pi version.
 if [ "$ARM" != "armv7l" ]; then
   read -p "this appears not to be a Raspberry Pi 2 or 3, do you want to continue installation (y/N)?" choice 
@@ -80,7 +81,7 @@ if [ "$ARM" != "armv7l" ]; then
 	#if [ "$ARM" == "armv6l" ]; then
 	#  echo forcing armv71 architecture for pi 0 >>$logfile
 	#  force_arch=-'--arch=armv7l'
-	#fi
+	# fi
 fi
     
 # Define helper methods.
@@ -106,6 +107,10 @@ NODE_INSTALL=false
 if command_exists node; then
 	echo -e "\e[0mNode currently installed. Checking version number." | tee -a $logfile
 	NODE_CURRENT=$(node -v)
+	if [ "$NODE_CURRENT." == "." ]; then
+	   NODE_CURRENT="V1.0.0"
+		 echo forcing low Node version  >> $logfile
+	fi
 	echo -e "\e[0mMinimum Node version: \e[1m$NODE_TESTED\e[0m" | tee -a $logfile
 	echo -e "\e[0mInstalled Node version: \e[1m$NODE_CURRENT\e[0m" | tee -a $logfile
 	if verlte $NODE_CURRENT $NODE_TESTED; then
@@ -128,7 +133,6 @@ else
 	echo -e "\e[93mNode.js is not installed.\e[0m" | tee -a $logfile
 	NODE_INSTALL=true
 fi
-
 # Install or upgrade node if necessary.
 if $NODE_INSTALL; then
 	
@@ -140,13 +144,39 @@ if $NODE_INSTALL; then
 	if [ $mac == 'Darwin' ]; then
 	  brew install node
 	else	
-		NODE_STABLE_BRANCH="10.x"
-		curl -sL https://deb.nodesource.com/setup_$NODE_STABLE_BRANCH | sudo -E bash -
-		sudo apt-get install -y nodejs
+		NODE_STABLE_BRANCH="10.x"	
+		# sudo apt-get install --only-upgrade libstdc++6
+		node_info=$(curl -sL https://deb.nodesource.com/setup_$NODE_STABLE_BRANCH | sudo -E bash - )
+		echo Node release info = $node_info >> $logfile
+		if [ "$(echo $node_info | grep "not currently supported")." == "." ]; then
+			sudo apt-get install -y nodejs
+		else
+			echo node $NODE_STABLE_BRANCH version installer not available, doing manually >>$logfile
+			# no longer supported install
+			sudo apt-get install -y --only-upgrade libstdc++6 >> $logfile
+			# have to do it manually
+			node_vnum=$(echo $NODE_STABLE_BRANCH | awk -F. '{print $1}')
+			# get the highest release number in the stable branch line for this processor architecture
+			node_ver=$(curl -sL https://unofficial-builds.nodejs.org/download/release/index.tab | grep $ARM | grep -m 1 v$node_vnum | awk '{print $1}')
+			echo latest release in the $NODE_STABLE_BRANCH family for $ARM is $node_ver >> $logfile
+			curl -sL https://unofficial-builds.nodejs.org/download/release/$node_ver/node-$node_ver-linux-$ARM.tar.gz >node_release-$node_ver.tar.gz
+			cd /usr/local
+			echo using release tar file = node_release-$node_ver.tar.gz >> $logfile
+			sudo tar --strip-components 1 -xzf  $HOME/node_release-$node_ver.tar.gz
+			cd - >/dev/null
+			rm ./node_release-$node_ver.tar.gz 	
+		fi 
+		# get the new node version number
+		new_ver=$(node -v 2>&1)
+		# if there is a failure to get it due to a missing library
+		if [ $(echo $new_ver | grep "not found" | wc -l) -ne 0 ]; then 
+		  #
+			sudo apt-get install -y --only-upgrade libstdc++6 >> $logfile	
+		fi 
+		echo node version is $(node -v 2>&1 >>$logfile)				
 	fi 
 	echo -e "\e[92mNode.js installation Done! version=$(node -v)\e[0m" | tee -a $logfile
 fi
-
 # Check if we need to install or upgrade npm.
 echo -e "\e[96mCheck current NPM installation ...\e[0m" | tee -a $logfile
 NPM_INSTALL=false
@@ -206,7 +236,7 @@ if [ $doInstall == 1 ]; then
 		echo -e "To prevent overwriting, the installer will be aborted." | tee -a $logfile
 		echo -e "Please rename the \e[1m~/MagicMirror\e[0m\e[93m folder and try again.\e[0m" | tee -a $logfile
 		echo ""
-		echo -e "If you want to upgrade your installation run \e[1m\e[97mgit pull\e[0m from the ~/MagicMirror directory." | tee -a $logfile
+		echo -e "If you want to upgrade your installation run \e[1m\e[97mupgrade-script\e[0m from the ~/MagicMirror/installers directory." | tee -a $logfile
 		echo ""
 		exit;
 	fi
@@ -220,6 +250,11 @@ if [ $doInstall == 1 ]; then
 	fi
 
 	cd ~/MagicMirror  || exit
+	if [ $(grep version package.json | awk -F: '{print $2}') == '"2.9.0",' -a $ARM == 'armv6l' ]; then
+	  git fetch https://github.com/MichMich/MagicMirror.git develop >/dev/null 2>&1
+		git branch develop FETCH_HEAD > /dev/null 2>&1
+		git checkout develop > /dev/null 2>&1
+	fi
 	echo -e "\e[96mInstalling dependencies ...\e[90m" | tee -a $logfile
 	if npm install $force_arch; then 
 		echo -e "\e[92mDependencies installation Done!\e[0m" | tee -a $logfile
@@ -244,11 +279,13 @@ if command_exists plymouth; then
 		fi
 
 		if sudo cp ~/MagicMirror/splashscreen/splash.png $THEME_DIR/MagicMirror/splash.png && sudo cp ~/MagicMirror/splashscreen/MagicMirror.plymouth $THEME_DIR/MagicMirror/MagicMirror.plymouth && sudo cp ~/MagicMirror/splashscreen/MagicMirror.script $THEME_DIR/MagicMirror/MagicMirror.script; then
-			echo -e "\e[90mSplashscreen: Theme copied successfully.\e[0m" | tee -a $logfile
-			if sudo plymouth-set-default-theme -R MagicMirror; then
-				echo -e "\e[92mSplashscreen: Changed theme to MagicMirror successfully.\e[0m" | tee -a $logfile
-			else
-				echo -e "\e[91mSplashscreen: Couldn't change theme to MagicMirror!\e[0m" | tee -a $logfile
+			echo 
+			if [ "$(which plymouth-set-default-theme)." != "." ]; then 
+				if sudo plymouth-set-default-theme -R MagicMirror; then
+					echo -e "\e[92mSplashscreen: Changed theme to MagicMirror successfully.\e[0m" | tee -a $logfile
+				else
+					echo -e "\e[91mSplashscreen: Couldn't change theme to MagicMirror!\e[0m" | tee -a $logfile
+				fi
 			fi
 		else
 			echo -e "\e[91mSplashscreen: Copying theme failed!\e[0m" | tee -a $logfile
@@ -292,7 +329,7 @@ if [[ $choice =~ ^[Yy]$ ]]; then
 			if [  "$pm2_installed." == "." ]; then 
 				# install it. 			
 				echo pm2 not installed, installing >>$logfile	
-				result=$(sudo npm install $up -g pm2)
+				result=$(npm install $up -g pm2)
 				echo pm2 install result $result >>$logfile
 				# if this is a mac
 				if [ $mac == 'Darwin' ]; then 
@@ -322,6 +359,19 @@ if [[ $choice =~ ^[Yy]$ ]]; then
 			# execute the command returned				
 		  $v 2>&1 >>$logfile
 			echo pm2 startup command done >>$logfile
+			# is this is mac 
+			# need to fix pm2 startup, only on catalina
+			if [ $mac == 'Darwin' -a $(sw_vers -productVersion | head -c 6) == '10.15.' ]; then
+			  # only do if the faulty tag is present (pm2 may fix this, before the script is fixed)
+				if [ $(grep -m 1 UserName /Users/$USER/Library/LaunchAgents/pm2.$USER.plist | wc -l) -eq 1 ]; then 
+					# copy the pm2 startup file config
+					cp  /Users/$USER/Library/LaunchAgents/pm2.$USER.plist .
+					# edit out the UserName key/value strings
+					sed -e '/UserName/{N;d;}' pm2.$USER.plist > pm2.$USER.plist.new
+					# copy the file back 
+					sudo cp pm2.$USER.plist.new /Users/$USER/Library/LaunchAgents/pm2.$USER.plist
+				fi 
+			fi			
 
 		# if the user is no pi, we have to fixup the pm2 json file 
 		echo configure the pm2 config file for MagicMirror >>$logfile
