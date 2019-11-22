@@ -44,10 +44,11 @@ if [ -d ~/MagicMirror ]; then
 		cd - >/dev/null
 	fi
 	logfile=$logdir/upgrade.log
-
+  echo the log will be $logfile
 	echo  >>$logfile
 	date +"Upgrade started - %a %b %e %H:%M:%S %Z %Y" >>$logfile
-
+	echo system is $(uname -a) >> $logfile
+	echo the os is $(lsb_release -a) >> $logfile
 
 	# because of how its executed from the web, p0 gets overlayed with parm
 	# check to see if a parm was passed .. easy apply without  editing
@@ -79,10 +80,10 @@ if [ -d ~/MagicMirror ]; then
 
 	# if we want just the modules listed in config.js now
 	if [ $justActive == $true ]; then 
-	   if [ ! -f ~/MagicMirror/installers/dumpactivemodules.js ]; then
-		echo downloading dumpactivemodules script >> $logfile
-		curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/develop/installers/dumpactivemodules.js > ~/MagicMirror/installers/dumpactivemodules.js
-	   fi
+		 if [ ! -f ~/MagicMirror/installers/dumpactivemodules.js ]; then
+				echo downloading dumpactivemodules script >> $logfile
+				curl -sL https://www.dropbox.com/s/wwe6bfg2lcjmj43/dumpactivemodules.js?dl=0 > ~/MagicMirror/installers/dumpactivemodules.js
+		 fi
 	fi
 	echo update log will be in $logfile
 	# used for parsing the array of module names
@@ -151,13 +152,16 @@ if [ -d ~/MagicMirror ]; then
 		
 				# get the latest upgrade		
 				echo fetching latest revisions | tee -a $logfile
-				
-				if git fetch $remote; then
+				git fetch $remote >/dev/null 
+				rc=$?
+				echo git fetch rc=$rc >>$logfile
+				if [ $rc -eq 0 ]; then
 				
 					# need to get the current branch
 					current_branch=$(git branch | grep "*" | awk '{print $2}')
 					echo current branch = $current_branch >>$logfile
-					$(git status 2>&1)>>$logfile
+					
+					git status 2>&1 >>$logfile
 					
 					# get the names of the files that are different locally
 					diffs=$(git status 2>&1 | grep modified | awk -F: '{print $2}')
@@ -238,11 +242,11 @@ if [ -d ~/MagicMirror ]; then
 								if [ $doinstalls == $true ]; then 
 								  # if this is a pi zero 
 									echo processor architecture is $arch >> $logfile
-									#if [ "$arch" == "armv6l" ]; then 
-									#   # force to look like pi 2
-									#	 echo forcing architecture armv7l >>$logfile
-									#	 forced_arch='--arch=armv7l'
-									#fi 
+									if [ "$arch" == "armv6l" ]; then 
+									   # force to look like pi 2
+										 echo forcing architecture armv7l >>$logfile
+										 forced_arch='--arch=armv7l'
+									fi 
 									echo "updating MagicMirror runtime, please wait" | tee -a $logfile
 									npm install $forced_arch 2>&1 | tee -a $logfile
 									done_update=`date +"completed - %a %b %e %H:%M:%S %Z %Y"`
