@@ -91,14 +91,30 @@ function verlt() { [ "$1" = "$2" ] && return 1 || verlte $1 $2 ;}
 
 # Update before first apt-get
 if [ $mac != 'Darwin' ]; then
-echo -e "\e[96mUpdating packages ...\e[90m" | tee -a $logfile
-sudo apt-get update || echo -e "\e[91mUpdate failed, carrying on installation ...\e[90m" | tee -a $logfile
-fi
+	echo -e "\e[96mUpdating packages ...\e[90m" | tee -a $logfile
+	update=$(sudo apt-get update 2>&1)
+	echo $update >> $logfile
+	update_rc=$?
+	if [ $update_rc -ne 0 ]; then 
+	 echo -e "\e[91mUpdate failed, retrying installation ...\e[90m" | tee -a $logfile
+	 if [ $(echo $update | grep "apt-secure" | wc -l) -eq 1 ]; then 
+			update=$(sudo apt-get update --allow-releaseinfo-change 2>&1)
+			echo $update >> $logfile
+			update_rc=$?
+			if [ $update_rc -ne 0 ]; then 
+				echo "second apt-get update failed" $update | ree -a $logfile
+				exit 1
+			else
+				echo "second apt-get update completed ok" >> $logfile
+			fi 
+	 fi
+	else  
+		echo "apt-get update  completed ok" >> $logfile
+	fi
 
-if [ $mac != 'Darwin' ]; then
-# Installing helper tools
-echo -e "\e[96mInstalling helper tools ...\e[90m" | tee -a $logfile
-sudo apt-get --assume-yes install curl wget git build-essential unzip || exit
+	# Installing helper tools
+	echo -e "\e[96mInstalling helper tools ...\e[90m" | tee -a $logfile
+	sudo apt-get --assume-yes install curl wget git build-essential unzip || exit
 fi
 
 # Check if we need to install or upgrade Node.js.
@@ -220,11 +236,11 @@ if $NPM_INSTALL; then
   #
 	# if this is a mac, npm was installed with node
 	if [ $mac != 'Darwin' ]; then
-		sudo apt-get install -y npm
+		sudo apt-get install -y npm >>$logfile
 	fi 
 	# update to the latest.
 	echo upgrading npm to latest >> $logfile
-	sudo npm i -g npm 
+	sudo npm i -g npm  >>$logfile
 	echo -e "\e[92mnpm installation Done! version=V$(npm -v)\e[0m" | tee -a $logfile
 fi
 
