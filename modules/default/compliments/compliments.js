@@ -153,13 +153,25 @@ Module.register("compliments", {
 		return compliments[index];
 	},
 
-	// Override dom generator.
+// Override dom generator.
 	getDom: function() {
-		var complimentText = this.randomCompliment();
-
-		var compliment = document.createTextNode(complimentText);
 		var wrapper = document.createElement("div");
 		wrapper.className = this.config.classes ? this.config.classes : "thin xlarge bright pre-line";
+		// get the compliment text 
+		var complimentText = this.randomCompliment();
+		// split it into parts on newline text 
+		var parts= complimentText.split('\n')
+		// create a span to hold it all
+		var compliment=document.createElement('span')
+                // process all the parts of the compliment text
+		for (part of parts){
+			// create a text element for each part
+			compliment.appendChild(document.createTextNode(part))
+			// add a break `
+			compliment.appendChild(document.createElement('BR'))
+		}
+		// remove the last break
+		compliment.lastElementChild.remove();
 		wrapper.appendChild(compliment);
 
 		return wrapper;
