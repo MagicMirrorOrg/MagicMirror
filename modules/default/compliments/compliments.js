@@ -150,7 +150,7 @@ Module.register("compliments", {
 	randomCompliment: function() {
 		// get the current time of day compliments list
 		var compliments = this.complimentArray();
-		variable for index to next message to display
+		// variable for index to next message to display
 		let index=0
 		// are we randomizing
 		if(this.config.random){
