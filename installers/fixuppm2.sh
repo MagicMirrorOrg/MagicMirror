@@ -28,7 +28,7 @@ if [ -d ~/MagicMirror ]; then
 			if [ "$mac"  == "Darwin" ]; then				
 			  echo the os is macOS $(sw_vers -productVersion) >> $logfile				
 			else 
-				echo the os is $(lsb_release -a) >> $logfile
+				echo the os is $(lsb_release -a 2>/dev/null) >> $logfile
 			fi 
 			node_installed=$(which node)
 			if [ "$node_installed." == "." ]; then 
@@ -118,16 +118,18 @@ if [ -d ~/MagicMirror ]; then
 			echo pm2 startup command done >>$logfile
 			# is this is mac 
 			# need to fix pm2 startup, only on catalina
-			if [ $mac == 'Darwin' -a $(sw_vers -productVersion | head -c 6) == '10.15.' ]; then
-			  # only do if the faulty tag is present (pm2 may fix this, before the script is fixed)
-				if [ $(grep -m 1 UserName /Users/$USER/Library/LaunchAgents/pm2.$USER.plist | wc -l) -eq 1 ]; then 
-					# copy the pm2 startup file config
-					cp  /Users/$USER/Library/LaunchAgents/pm2.$USER.plist .
-					# edit out the UserName key/value strings
-					sed -e '/UserName/{N;d;}' pm2.$USER.plist > pm2.$USER.plist.new
-					# copy the file back 
-					sudo cp pm2.$USER.plist.new /Users/$USER/Library/LaunchAgents/pm2.$USER.plist
-				fi 
+			if [ $mac == 'Darwin' ]; then 
+				if [ $(sw_vers -productVersion | head -c 6) == '10.15.' ]; then
+					# only do if the faulty tag is present (pm2 may fix this, before the script is fixed)
+					if [ $(grep -m 1 UserName /Users/$USER/Library/LaunchAgents/pm2.$USER.plist | wc -l) -eq 1 ]; then 
+						# copy the pm2 startup file config
+						cp  /Users/$USER/Library/LaunchAgents/pm2.$USER.plist .
+						# edit out the UserName key/value strings
+						sed -e '/UserName/{N;d;}' pm2.$USER.plist > pm2.$USER.plist.new
+						# copy the file back 
+						sudo cp pm2.$USER.plist.new /Users/$USER/Library/LaunchAgents/pm2.$USER.plist
+					fi 
+				fi
 			fi
 			
 		# if the user is no pi, we have to fixup the pm2 json file 
