@@ -1,4 +1,3 @@
-
 #!/bin/bash
 # This is an installer script for MagicMirror2. It works well enough
 # that it can detect if you have Node installed, run a binary script
@@ -93,6 +92,7 @@ function verlt() { [ "$1" = "$2" ] && return 1 || verlte $1 $2 ;}
 # Update before first apt-get
 if [ $mac != 'Darwin' ]; then
 	echo -e "\e[96mUpdating packages ...\e[90m" | tee -a $logfile
+	upgrade=$false
 	update=$(sudo apt-get update 2>&1)
 	echo $update >> $logfile
 	update_rc=$?
@@ -100,18 +100,25 @@ if [ $mac != 'Darwin' ]; then
 	 echo -e "\e[91mUpdate failed, retrying installation ...\e[90m" | tee -a $logfile
 	 if [ $(echo $update | grep "apt-secure" | wc -l) -eq 1 ]; then 
 			update=$(sudo apt-get update --allow-releaseinfo-change 2>&1)
-			echo $update >> $logfile
 			update_rc=$?
+			echo $update >> $logfile
 			if [ $update_rc -ne 0 ]; then 
-				echo "second apt-get update failed" $update | ree -a $logfile
+				echo "second apt-get update failed" $update | tee -a $logfile
 				exit 1
 			else
 				echo "second apt-get update completed ok" >> $logfile
+				upgrade=$true
 			fi 
 	 fi
 	else  
 		echo "apt-get update  completed ok" >> $logfile
+		upgrade=$true
 	fi
+	if [ $upgrade -eq $true ]; then 
+	   upgrade_result=$(sudo apt-get upgrade 2>&1) 
+		 upgrade_rc=$?
+		 echo apt upgrade result ="rc=$upgrade_rc $upgrade_result" >> $logfile
+	fi 
 
 	# Installing helper tools
 	echo -e "\e[96mInstalling helper tools ...\e[90m" | tee -a $logfile
@@ -379,18 +386,19 @@ if [[ $choice =~ ^[Yy]$ ]]; then
 			echo pm2 startup command done >>$logfile
 			# is this is mac 
 			# need to fix pm2 startup, only on catalina
-			if [ $mac == 'Darwin' -a $(sw_vers -productVersion | head -c 6) == '10.15.' ]; then
-			  # only do if the faulty tag is present (pm2 may fix this, before the script is fixed)
-				if [ $(grep -m 1 UserName /Users/$USER/Library/LaunchAgents/pm2.$USER.plist | wc -l) -eq 1 ]; then 
-					# copy the pm2 startup file config
-					cp  /Users/$USER/Library/LaunchAgents/pm2.$USER.plist .
-					# edit out the UserName key/value strings
-					sed -e '/UserName/{N;d;}' pm2.$USER.plist > pm2.$USER.plist.new
-					# copy the file back 
-					sudo cp pm2.$USER.plist.new /Users/$USER/Library/LaunchAgents/pm2.$USER.plist
-				fi 
-			fi			
-
+			if [ $mac == 'Darwin' ];then 
+        if [ $(sw_vers -productVersion | head -c 6) == '10.15.' ]; then
+					# only do if the faulty tag is present (pm2 may fix this, before the script is fixed)
+					if [ $(grep -m 1 UserName /Users/$USER/Library/LaunchAgents/pm2.$USER.plist | wc -l) -eq 1 ]; then 
+						# copy the pm2 startup file config
+						cp  /Users/$USER/Library/LaunchAgents/pm2.$USER.plist .
+						# edit out the UserName key/value strings
+						sed -e '/UserName/{N;d;}' pm2.$USER.plist > pm2.$USER.plist.new
+						# copy the file back 
+						sudo cp pm2.$USER.plist.new /Users/$USER/Library/LaunchAgents/pm2.$USER.plist
+					fi 
+				fi
+			fi 
 		# if the user is no pi, we have to fixup the pm2 json file 
 		echo configure the pm2 config file for MagicMirror >>$logfile
 		if [ "$USER"  != "pi" ]; then 
