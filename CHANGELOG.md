@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Updated
 - updated raspberry.sh installer script to handle new platform issues, split node/npm, pm2, and screen saver changes
 - improve handling for armv6l devices, where electron support has gone away, add optional serveronly config option
+- improved run-start.sh to handle for serveronly mode, by choice, or when electron not available
 
 ---
 
