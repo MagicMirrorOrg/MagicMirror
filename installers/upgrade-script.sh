@@ -78,12 +78,12 @@ if [ -d ~/MagicMirror ]; then
 	fi
 
 	# if we want just the modules listed in config.js now
-	#if [ $justActive == $true ]; then 
-	#	 if [ ! -f ~/MagicMirror/installers/dumpactivemodules.js ]; then
-	#			echo downloading dumpactivemodules script >> $logfile
-	#			curl -sL https://www.dropbox.com/s/wwe6bfg2lcjmj43/dumpactivemodules.js?dl=0 > ~/MagicMirror/installers/dumpactivemodules.js
-	#	 fi
-	#fi
+	if [ $justActive == $true ]; then 
+	   if [ ! -f ~/MagicMirror/installers/dumpactivemodules.js ]; then
+		echo downloading dumpactivemodules script >> $logfile
+		curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/develop/installers/dumpactivemodules.js > ~/MagicMirror/installers/dumpactivemodules.js
+	   fi
+	fi
 	echo update log will be in $logfile
 	# used for parsing the array of module names
 	SAVEIFS=$IFS   # Save current IFS
