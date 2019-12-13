@@ -3,6 +3,11 @@
 # that it can detect if you have Node installed, run a binary script
 # and then download and run MagicMirror2.
 
+if [ $USER == 'root' ]; then 
+	 echo Please logon as a user to execute the MagicMirror installation,  not root 
+	 exit 1
+fi
+
 echo -e "\e[0m"
 echo '$$\      $$\                     $$\           $$\      $$\ $$\                                          $$$$$$\'
 echo '$$$\    $$$ |                    \__|          $$$\    $$$ |\__|                                        $$  __$$\'
@@ -37,6 +42,8 @@ trim() {
     echo -n "$var"
 }
 
+
+
 mac=$(uname -s)
 if [ $mac == 'Darwin' ]; then
   echo this is a mac | tee -a $logfile
@@ -67,7 +74,7 @@ echo install log being saved to $logfile
 date +"install starting  - %a %b %e %H:%M:%S %Z %Y" >>$logfile
 ARM=$(uname -m) 
 echo installing on $ARM processor system >>$logfile
-echo the os is $(lsb_release -a) >> $logfile
+echo the os is $(lsb_release -a 2>/dev/null) >> $logfile
 # Check the Raspberry Pi version.
 if [ "$ARM" != "armv7l" ]; then
   read -p "this appears not to be a Raspberry Pi 2 or 3, do you want to continue installation (y/N)?" choice 
@@ -75,7 +82,7 @@ if [ "$ARM" != "armv7l" ]; then
 	  echo user stopped install on $ARM hardware  >>$logfile
 		echo -e "\e[91mSorry, your Raspberry Pi is not supported."
 		echo -e "\e[91mPlease run MagicMirror on a Raspberry Pi 2 or 3."
-		echo -e "\e[91mIf this is a Pi Zero, you are in the same boat as the original Raspberry Pi. You must run in server only mode."
+		echo -e "\e[91mIf this is a Pi Zero, the setup will configure to run in server only mode wih a local browser."
 		exit;
 	fi
 	#if [ "$ARM" == "armv6l" ]; then
