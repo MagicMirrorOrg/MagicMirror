@@ -3,9 +3,19 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
 ## Updated
 - fix handling of config.js for serverOnly mode commented out
 - only check for xwindows running if not on macOS
+
+### Added 
+- new upgrade script to help users consume regular updates installers/upgrade-script.sh
+- new script to help setup pm2, without install installers/fixuppm2.sh
+
+### Updated
+- updated raspberry.sh installer script to handle new platform issues, split node/npm, pm2, and screen saver changes
+- improve handling for armv6l devices, where electron support has gone away, add optional serveronly config option
+
 
 ---
 
@@ -21,7 +31,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Updated
 
 ### Fixed
-
+- Fixed issue in weatherforecast module where predicted amount of rain was not using the decimal symbol specified in config.js.
+ 
 ## [2.9.0] - 2019-10-01
 
 ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`. If you are having issues running Electron, make sure your [Raspbian is up to date](https://www.raspberrypi.org/documentation/raspbian/updating.md).

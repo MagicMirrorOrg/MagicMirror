@@ -177,14 +177,19 @@ For more available modules, check out out the wiki page [MagicMirror² 3rd Party
 
 If you want to update your MagicMirror² to the latest version, use your terminal to go to your Magic Mirror folder and type the following command:
 
-```bash
-git pull && npm install
 ```
+bash -c "$(curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/master/installers/upgrade-script.sh)"
+```
+This will do a test run
 
-If you changed nothing more than the config or the modules, this should work without any problems.
-Type `git status` to see your changes, if there are any, you can reset them with `git reset --hard`. After that, git pull should be possible.
+If the test update looks good then run this command
+```
+bash -c "$(curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/master/installers/upgrade-script.sh)" apply
+```
+If there are changes you have made, they will be listed, and u will have the opportunity to save your work
 
-
+The script will also update the dependencies of any active modules
+If there are update issues, please come to the forums for help
 ## Community
 
 The community around the MagicMirror² is constantly growing. We even have a [forum](https://forum.magicmirror.builders) now where you can share your ideas, ask questions, help others and get inspired by other builders. We would love to see you there!
