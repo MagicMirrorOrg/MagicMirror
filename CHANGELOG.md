@@ -21,6 +21,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - Timestamps in log output
+- Padding in dateheader mode of the calendar module 
 
 ### Updated
 
