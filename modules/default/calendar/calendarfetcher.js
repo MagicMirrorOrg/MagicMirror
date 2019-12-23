@@ -225,6 +225,8 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 								break;
 							}
 
+							// fix for events occuring tomorrow instead of today
+							date.setDate(event.start.getDate());
 							startDate = moment(date);
 
 							// For each date that we"re checking, it"s possible that there is a recurrence override for that one day.
