@@ -355,7 +355,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 	 * return bool - The event is a fullday event.
 	 */
 	var isFullDayEvent = function(event) {
-		if (event.start.length === 8) {
+		if (event.start.length === 8 || event.start.dateOnly) {
 			return true;
 		}
 
