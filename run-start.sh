@@ -8,6 +8,7 @@ fi
 # get the processor architecture
 arch=$(uname -m)
 false='false'
+
 # get the config option, if any
 # only check non comment lines
 serveronly=$(grep -v '^\s//'  config/config.js | grep -i serveronly: | awk '{print tolower($2)}' | tr -d ,\"\')
@@ -23,7 +24,7 @@ mac=$(uname)
 #    system is in text mode
 #
 if [ "$serveronly." != "false." -o  "$arch" == "armv6l" ] ||  [ "$xorg." == "." -a $mac != 'Darwin' ]; then
-	
+
 	# if user explicitly configured to run server only (no ui local)
 	# OR there is no xwindows running, so no support for browser graphics
 	if [ "$serveronly." == "true." -o "$xorg." == "." ]; then
