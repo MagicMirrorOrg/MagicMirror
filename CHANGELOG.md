@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## Updated
+- fix handling of config.js for serverOnly mode commented out
+- only check for xwindows running if not on macOS
+
 ### Added 
 - move node_helper module to dedicated github repo, to prevent being erased accidentally
 
