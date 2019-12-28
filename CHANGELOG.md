@@ -5,6 +5,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added 
 - move node_helper module to dedicated github repo, to prevent being erased accidentally
+
+- new upgrade script to help users consume regular updates installers/upgrade-script.sh
+- new script to help setup pm2, without install installers/fixuppm2.sh
+
+### Updated
+- updated raspberry.sh installer script to handle new platform issues, split node/npm, pm2, and screen saver changes
+- improve handling for armv6l devices, where electron support has gone away, add optional serveronly config option
+- change electron version 
 ---
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror² core.
@@ -15,12 +23,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - Timestamps in log output
+- Padding in dateheader mode of the calendar module 
 
 ### Updated
 
 ### Fixed
 - Fixed issue in weatherforecast module where predicted amount of rain was not using the decimal symbol specified in config.js.
- 
+- Module header now updates correctly, if a module need to dynamically show/hide its header based on a condition.
+
 ## [2.9.0] - 2019-10-01
 
 ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`. If you are having issues running Electron, make sure your [Raspbian is up to date](https://www.raspberrypi.org/documentation/raspbian/updating.md).
