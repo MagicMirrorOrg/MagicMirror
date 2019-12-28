@@ -10,10 +10,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - new script to help setup pm2, without install installers/fixuppm2.sh
 
 ### Updated
+- updated compliments.js to handle newline in text, as textfields to not interpolate contents
 - updated raspberry.sh installer script to handle new platform issues, split node/npm, pm2, and screen saver changes
 - improve handling for armv6l devices, where electron support has gone away, add optional serveronly config option
 - change electron version 
----
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror² core.
 

@@ -36,9 +36,10 @@ Module.register("compliments", {
 		morningStartTime: 3,
 		morningEndTime: 12,
 		afternoonStartTime: 12,
-		afternoonEndTime: 17
+		afternoonEndTime: 17,
+		random: true
 	},
-
+  lastIndexUsed:-1,
 	// Set currentweather from module
 	currentWeatherType: "",
 
@@ -147,19 +148,43 @@ Module.register("compliments", {
 	 * return compliment string - A compliment.
 	 */
 	randomCompliment: function() {
+		// get the current time of day compliments list
 		var compliments = this.complimentArray();
-		var index = this.randomIndex(compliments);
+		// variable for index to next message to display
+		let index=0
+		// are we randomizing
+		if(this.config.random){
+			// yes
+			index = this.randomIndex(compliments);
+		}
+		else{
+			// no, sequetial
+			// if doing sequential,  don't fall off the end
+			index = (this.lastIndexUsed >= (compliments.length-1))?0: ++this.lastIndexUsed
+		}
 
 		return compliments[index];
 	},
 
-	// Override dom generator.
+// Override dom generator.
 	getDom: function() {
-		var complimentText = this.randomCompliment();
-
-		var compliment = document.createTextNode(complimentText);
 		var wrapper = document.createElement("div");
 		wrapper.className = this.config.classes ? this.config.classes : "thin xlarge bright pre-line";
+		// get the compliment text 
+		var complimentText = this.randomCompliment();
+		// split it into parts on newline text 
+		var parts= complimentText.split('\n')
+		// create a span to hold it all
+		var compliment=document.createElement('span')
+                // process all the parts of the compliment text
+		for (part of parts){
+			// create a text element for each part
+			compliment.appendChild(document.createTextNode(part))
+			// add a break `
+			compliment.appendChild(document.createElement('BR'))
+		}
+		// remove the last break
+		compliment.lastElementChild.remove();
 		wrapper.appendChild(compliment);
 
 		return wrapper;
