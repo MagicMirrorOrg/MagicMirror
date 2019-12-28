@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added 
+- move node_helper module to dedicated github repo, to prevent being erased accidentally
+
 - new upgrade script to help users consume regular updates installers/upgrade-script.sh
 - new script to help setup pm2, without install installers/fixuppm2.sh
 

@@ -68,6 +68,7 @@
     "iconv-lite": "latest",
     "lodash": "^4.17.11",
     "moment": "latest",
+    "node_helper": "git://github.com/sdetweil/nodehelper.git",
     "request": "^2.88.0",
     "rrule": "^2.6.2",
     "rrule-alt": "^2.2.8",
