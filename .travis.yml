@@ -1,7 +1,12 @@
 dist: trusty
 language: node_js
 node_js:
- - "8"
+ - "10
+
+before_install:
+  - npm i -g npm
+
+
 before_script:
  - yarn danger ci
  - npm install grunt-cli -g

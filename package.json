@@ -34,8 +34,8 @@
   },
   "homepage": "https://magicmirror.builders",
   "devDependencies": {
-    "chai": "^4.1.2",
-    "chai-as-promised": "^7.1.1",
+    "chai": "latest",
+    "chai-as-promised": "latest",
     "current-week-number": "^1.0.7",
     "danger": "^3.1.3",
     "grunt": "latest",
@@ -47,16 +47,16 @@
     "http-auth": "^3.2.3",
     "jsdom": "^11.6.2",
     "jshint": "^2.10.2",
-    "mocha": "^4.1.0",
-    "mocha-each": "^1.1.0",
-    "mocha-logger": "^1.0.6",
-    "spectron": "^3.8.0",
+    "mocha": "latest",
+    "mocha-each": "latest",
+    "mocha-logger": "latest",
+    "spectron": "^8.0.0",
     "stylelint": "latest",
     "stylelint-config-standard": "latest",
     "time-grunt": "latest"
   },
   "optionalDependencies": {
-    "electron": "^3.0.13"
+    "electron": "^6.0.12"
   },
   "dependencies": {
     "colors": "^1.1.2",
@@ -68,6 +68,7 @@
     "iconv-lite": "latest",
     "lodash": "^4.17.11",
     "moment": "latest",
+    "node_helper": "git://github.com/sdetweil/nodehelper.git",
     "request": "^2.88.0",
     "rrule": "^2.6.2",
     "rrule-alt": "^2.2.8",
