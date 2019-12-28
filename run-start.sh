@@ -7,6 +7,7 @@ if [ -z "$DISPLAY" ]; then #If not set DISPLAY is SSH remote or tty
 fi
 # get the processor architecture
 arch=$(uname -m)
+false='false'
 
 # get the config option, if any
 # only check non comment lines
