@@ -3,24 +3,6 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-
-## Updated
-- fix handling of config.js for serverOnly mode commented out
-- only check for xwindows running if not on macOS
-
-### Added 
-- move node_helper module to dedicated github repo, to prevent being erased accidentally
-
-- new upgrade script to help users consume regular updates installers/upgrade-script.sh
-- new script to help setup pm2, without install installers/fixuppm2.sh
-
-### Updated
-- updated compliments.js to handle newline in text, as textfields to not interpolate contents
-- updated raspberry.sh installer script to handle new platform issues, split node/npm, pm2, and screen saver changes
-- improve handling for armv6l devices, where electron support has gone away, add optional serveronly config option
-- improved run-start.sh to handle for serveronly mode, by choice, or when electron not available
-- change electron version 
-
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror² core.
 
 ## [2.10.0] - Unreleased (Develop Branch)
@@ -30,15 +12,25 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`. If you are having issues running Electron, make sure your [Raspbian is up to date](https://www.raspberrypi.org/documentation/raspbian/updating.md).
 
 ### Added
-- Timestamps in log output
-- Padding in dateheader mode of the calendar module 
+- Timestamps in log output.
+- Padding in dateheader mode of the calendar module .
+- Move node_helper module to dedicated github repo, to prevent being erased accidentally.
+- New upgrade script to help users consume regular updates installers/upgrade-script.sh.
+- New script to help setup pm2, without install installers/fixuppm2.sh.
 
 ### Updated
 - Updated lower bound of `lodash` and `helmet` dependencies for security patches.
+- Updated compliments.js to handle newline in text, as textfields to not interpolate contents.
+- Updated raspberry.sh installer script to handle new platform issues, split node/npm, pm2, and screen saver changes.
+- Improve handling for armv6l devices, where electron support has gone away, add optional serveronly config option.
+- Improved run-start.sh to handle for serveronly mode, by choice, or when electron not available.
+- Change Electron version .
+- Only check for xwindows running if not on macOS.
 
 ### Fixed
 - Fixed issue in weatherforecast module where predicted amount of rain was not using the decimal symbol specified in config.js.
 - Module header now updates correctly, if a module need to dynamically show/hide its header based on a condition.
+- Fix handling of config.js for serverOnly mode commented out.
 
 ## [2.9.0] - 2019-10-01
 
