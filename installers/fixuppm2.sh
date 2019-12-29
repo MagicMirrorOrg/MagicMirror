@@ -1,6 +1,6 @@
 #!/bin/bash
 # Define the tested version of Node.js.
-NODE_TESTED="v5.1.0"
+NODE_TESTED="v10.1.0"
 NPM_TESTED="V6.0.0"
 USER=`whoami`
 PM2_FILE=pm2_MagicMirror.json
@@ -22,7 +22,14 @@ if [ -d ~/MagicMirror ]; then
 		cd - >/dev/null
 	fi
 	logfile=$logdir/pm2_setup.log
+	echo the log will be saved in $logfile
 	date +"pm2 setup starting - %a %b %e %H:%M:%S %Z %Y" >>$logfile	  
+			echo system is $(uname -a) >> $logfile
+			if [ "$mac"  == "Darwin" ]; then				
+			  echo the os is macOS $(sw_vers -productVersion) >> $logfile				
+			else 
+				echo the os is $(lsb_release -a 2>/dev/null) >> $logfile
+			fi 
 			node_installed=$(which node)
 			if [ "$node_installed." == "." ]; then 
 				 # node not installed
@@ -105,11 +112,26 @@ if [ -d ~/MagicMirror ]; then
 					fi 
 				fi
 			fi 
-			echo command = $v >>$logfile
+			echo startup command = $v >>$logfile
 			# execute the command returned				
-		  $v 2>/dev/null >>$logfile
-			echo pm2 startup done >>$logfile
-
+		  $v 2>&1 >>$logfile
+			echo pm2 startup command done >>$logfile
+			# is this is mac 
+			# need to fix pm2 startup, only on catalina
+			if [ $mac == 'Darwin' ]; then 
+				if [ $(sw_vers -productVersion | head -c 6) == '10.15.' ]; then
+					# only do if the faulty tag is present (pm2 may fix this, before the script is fixed)
+					if [ $(grep -m 1 UserName /Users/$USER/Library/LaunchAgents/pm2.$USER.plist | wc -l) -eq 1 ]; then 
+						# copy the pm2 startup file config
+						cp  /Users/$USER/Library/LaunchAgents/pm2.$USER.plist .
+						# edit out the UserName key/value strings
+						sed -e '/UserName/{N;d;}' pm2.$USER.plist > pm2.$USER.plist.new
+						# copy the file back 
+						sudo cp pm2.$USER.plist.new /Users/$USER/Library/LaunchAgents/pm2.$USER.plist
+					fi 
+				fi
+			fi
+			
 		# if the user is no pi, we have to fixup the pm2 json file 
 		echo configure the pm2 config file for MagicMirror >>$logfile
 		if [ "$USER"  != "pi" ]; then 
