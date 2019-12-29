@@ -27,11 +27,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 *This release is scheduled to be released on 2020-01-01.*
 
+ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`. If you are having issues running Electron, make sure your [Raspbian is up to date](https://www.raspberrypi.org/documentation/raspbian/updating.md).
+
 ### Added
 - Timestamps in log output
 - Padding in dateheader mode of the calendar module 
 
 ### Updated
+- Updated lower bound of `lodash` and `helmet` dependencies for security patches.
 
 ### Fixed
 - Fixed issue in weatherforecast module where predicted amount of rain was not using the decimal symbol specified in config.js.
