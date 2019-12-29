@@ -222,7 +222,7 @@ A real Manifesto is still to be written. Till then, Michael's response on [one o
 >
 >Of course, a bundled version can be complimentary to the regular un-bundled version. And I'm sure a lot of (new) users will opt for the bundled version. But this means those users won't be motivated to take a peek under the hood. They will just remain 'users'. They won't become contributors, and worse: they won't be motivated to take their first steps in software development.
 >
->And to be honest: motivating curious users to step out of their comfort zone and take those first steps is what drives me in this project. Therefor my ultimate goal is this project is to keep it as accessible as possible."
+>And to be honest: motivating curious users to step out of their comfort zone and take those first steps is what drives me in this project. Therefore my ultimate goal is this project is to keep it as accessible as possible."
 >
 > ~ Michael Teeuw
 
