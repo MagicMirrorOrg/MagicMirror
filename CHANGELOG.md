@@ -31,6 +31,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fixed issue in weatherforecast module where predicted amount of rain was not using the decimal symbol specified in config.js.
 - Module header now updates correctly, if a module need to dynamically show/hide its header based on a condition.
 - Fix handling of config.js for serverOnly mode commented out.
+- Fixed issue in calendar module where the debug script didn't work correctly with authentication
 
 ## [2.9.0] - 2019-10-01
 
