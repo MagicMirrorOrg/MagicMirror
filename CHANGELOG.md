@@ -33,6 +33,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix handling of config.js for serverOnly mode commented out.
 - Fixed issue in calendar module where the debug script didn't work correctly with authentication
 - Fixed issue that some full day events were not correctly recognized as such
+- Display full day events lasting multiple days as happening today instead of some days ago if they are still ongoing
 
 ## [2.9.0] - 2019-10-01
 
