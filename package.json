@@ -67,6 +67,7 @@
     "helmet": "^3.21.2",
     "iconv-lite": "latest",
     "lodash": "^4.17.15",
+    "module-alias": "^2.2.2",
     "moment": "latest",
     "request": "^2.88.0",
     "rrule": "^2.6.2",
@@ -74,5 +75,8 @@
     "simple-git": "^1.85.0",
     "socket.io": "^2.1.1",
     "valid-url": "latest"
+  },
+  "_moduleAliases": {
+    "node_helper"  : "js/node_helper.js"
   }
 }
