@@ -1,7 +1,9 @@
 dist: trusty
 language: node_js
 node_js:
- - "8"
+ - "10"
+before_install:
+  - npm i -g npm
 before_script:
  - yarn danger ci
  - npm install grunt-cli -g
@@ -9,9 +11,9 @@ before_script:
  - "sh -e /etc/init.d/xvfb start"
  - sleep 5
 script:
-- grunt
-- npm run test:unit
 - npm run test:e2e
+- npm run test:unit
+- grunt
 after_script:
  - npm list
 cache:

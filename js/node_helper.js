@@ -5,7 +5,7 @@
  * MIT Licensed.
  */
 
-var Class = require("../../../js/class.js");
+var Class = require("./class.js");
 var express = require("express");
 var path = require("path");
 
