@@ -50,7 +50,7 @@
     "mocha": "latest",
     "mocha-each": "latest",
     "mocha-logger": "latest",
-    "spectron": "^8.0.0",
+    "spectron": "^3.8.0",
     "stylelint": "latest",
     "stylelint-config-standard": "latest",
     "time-grunt": "latest"
@@ -77,6 +77,6 @@
     "valid-url": "latest"
   },
   "_moduleAliases": {
-    "node_helper"  : "js/node_helper.js"
+    "node_helper": "js/node_helper.js"
   }
 }
