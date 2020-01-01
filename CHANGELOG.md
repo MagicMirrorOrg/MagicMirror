@@ -14,7 +14,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Timestamps in log output.
 - Padding in dateheader mode of the calendar module .
-- Move node_helper module to dedicated github repo, to prevent being erased accidentally.
 - New upgrade script to help users consume regular updates installers/upgrade-script.sh.
 - New script to help setup pm2, without install installers/fixuppm2.sh.
 
