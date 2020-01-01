@@ -5,15 +5,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror² core.
 
-## [2.10.0] - Unreleased (Develop Branch)
+## [2.10.0] - 2020-01-01
 
-*This release is scheduled to be released on 2020-01-01.*
-
-ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`. If you are having issues running Electron, make sure your [Raspbian is up to date](https://www.raspberrypi.org/documentation/raspbian/updating.md).
+ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`.
 
 ### Added
 - Timestamps in log output.
-- Padding in dateheader mode of the calendar module .
+- Padding in dateheader mode of the calendar module.
 - New upgrade script to help users consume regular updates installers/upgrade-script.sh.
 - New script to help setup pm2, without install installers/fixuppm2.sh.
 
@@ -23,7 +21,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Updated raspberry.sh installer script to handle new platform issues, split node/npm, pm2, and screen saver changes.
 - Improve handling for armv6l devices, where electron support has gone away, add optional serveronly config option.
 - Improved run-start.sh to handle for serveronly mode, by choice, or when electron not available.
-- Change Electron version .
 - Only check for xwindows running if not on macOS.
 
 ### Fixed
