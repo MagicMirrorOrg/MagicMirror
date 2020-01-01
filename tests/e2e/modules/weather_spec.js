@@ -11,13 +11,6 @@ const {generateWeather, generateWeatherForecast} = require("./mocks");
 const wait = () => new Promise(res => setTimeout(res, 3000));
 
 describe("Weather module", function() {
-	before(function() {
-		// See issue: https://github.com/MichMich/MagicMirror/issues/1840
-		// Skipping the weather tests for now since these seem to give issues.
-		// Please send a PR if you know how to fix these. Thanks!
-		this.skip();
-	});
-
 	let app;
 
 	helpers.setupTimeout(this);
