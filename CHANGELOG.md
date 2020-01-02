@@ -5,7 +5,18 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror² core.
 
+## [2.11.0] - Unreleased (Develop Branch)
+
+*This release is scheduled to be released on 2020-04-01.*
+
+### Added
+### Updated
+### Fixed
+- Force declaration of public ip adress in config file (ISSUE #1852)
+
 ## [2.10.0] - 2020-01-01
+
+Special thanks to @sdetweil for all his great contributions!
 
 ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`.
 
@@ -27,9 +38,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fixed issue in weatherforecast module where predicted amount of rain was not using the decimal symbol specified in config.js.
 - Module header now updates correctly, if a module need to dynamically show/hide its header based on a condition.
 - Fix handling of config.js for serverOnly mode commented out.
-- Fixed issue in calendar module where the debug script didn't work correctly with authentication
-- Fixed issue that some full day events were not correctly recognized as such
-- Display full day events lasting multiple days as happening today instead of some days ago if they are still ongoing
+- Fixed issue in calendar module where the debug script didn't work correctly with authentication.
+- Fixed issue that some full day events were not correctly recognized as such.
+- Display full day events lasting multiple days as happening today instead of some days ago if they are still ongoing.
 
 ## [2.9.0] - 2019-10-01
 
