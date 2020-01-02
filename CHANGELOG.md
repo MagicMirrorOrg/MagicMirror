@@ -10,7 +10,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 *This release is scheduled to be released on 2020-04-01.*
 
 ### Added
+
 ### Updated
+
 ### Fixed
 - Force declaration of public ip adress in config file (ISSUE #1852)
 
