@@ -120,7 +120,7 @@ if [ -d ~/MagicMirror ]; then
 		lang=$(locale | grep LANGUAGE | awk -F= '{print $2}')
 		# make sure git respones are in english, so code works
 		if [ "$lang." != "en_US.UTF-8." ]; then
-	        echo not english or locale not set, set git alias >>$logfile
+       echo not english or locale not set, set git alias >>$logfile
 			 if [ "$LC_ALL." == "." ]; then
 					alias git='LANGUAGE=en_US.UTF-8 git' >>$logfile
 			 else
@@ -136,7 +136,7 @@ if [ -d ~/MagicMirror ]; then
 
 			echo remote name = $remote >>$logfile
 
-		        # get the local and remote package.json versions
+		  # get the local and remote package.json versions
 			local_version=$(grep -m1 version package.json | awk -F\" '{print $4}')
 			remote_version=$(curl -s https://raw.githubusercontent.com/MichMich/MagicMirror/master/package.json | grep -m1 version | awk -F\" '{print $4}')
 
@@ -252,12 +252,13 @@ if [ -d ~/MagicMirror ]; then
 										# get the list of ACTIVE modules with  package.json files
 										mtype=active
 										justloaded=false
-										# if we want just the modules listed in config.js now
-										if [ ! -f ~/MagicMirror/installers/dumpactivemodules.js ]; then
-											echo downloading dumpactivemodules script >> $logfile
-											curl -sL https://www.dropbox.com/s/wwe6bfg2lcjmj43/dumpactivemodules.js?dl=0 > ~/MagicMirror/installers/dumpactivemodules.js
-											justloaded=true
-										fi
+											# if we want just the modules listed in config.js now
+
+												 if [ ! -f ~/MagicMirror/installers/dumpactivemodules.js ]; then
+														echo downloading dumpactivemodules script >> $logfile
+														curl -sL https://www.dropbox.com/s/wwe6bfg2lcjmj43/dumpactivemodules.js?dl=0 > ~/MagicMirror/installers/dumpactivemodules.js
+														justloaded=true
+												 fi
 										modules=$(node ../installers/dumpactivemodules.js)
 										if [ $justloaded == true ]; then
 										   rm ~/MagicMirror/installers/dumpactivemodules.js
