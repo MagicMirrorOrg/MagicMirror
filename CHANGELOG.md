@@ -3,9 +3,33 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
----
-
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror² core.
+
+## [2.10.0] - 2020-01-01
+
+ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`.
+
+### Added
+- Timestamps in log output.
+- Padding in dateheader mode of the calendar module.
+- New upgrade script to help users consume regular updates installers/upgrade-script.sh.
+- New script to help setup pm2, without install installers/fixuppm2.sh.
+
+### Updated
+- Updated lower bound of `lodash` and `helmet` dependencies for security patches.
+- Updated compliments.js to handle newline in text, as textfields to not interpolate contents.
+- Updated raspberry.sh installer script to handle new platform issues, split node/npm, pm2, and screen saver changes.
+- Improve handling for armv6l devices, where electron support has gone away, add optional serveronly config option.
+- Improved run-start.sh to handle for serveronly mode, by choice, or when electron not available.
+- Only check for xwindows running if not on macOS.
+
+### Fixed
+- Fixed issue in weatherforecast module where predicted amount of rain was not using the decimal symbol specified in config.js.
+- Module header now updates correctly, if a module need to dynamically show/hide its header based on a condition.
+- Fix handling of config.js for serverOnly mode commented out.
+- Fixed issue in calendar module where the debug script didn't work correctly with authentication
+- Fixed issue that some full day events were not correctly recognized as such
+- Display full day events lasting multiple days as happening today instead of some days ago if they are still ongoing
 
 ## [2.9.0] - 2019-10-01
 

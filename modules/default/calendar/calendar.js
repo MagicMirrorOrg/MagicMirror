@@ -187,7 +187,6 @@ Module.register("calendar", {
 					var dateCell = document.createElement("td");
 
 					dateCell.colSpan = "3";
-					
 					if (event.today) {
 						dateCell.innerHTML = this.capFirst(this.translate("TODAY"));
 					} else if (event.startDate - now < oneDay && event.startDate - now > 0) {
@@ -199,7 +198,7 @@ Module.register("calendar", {
 							dateCell.innerHTML = (moment(event.startDate, "x").fromNow());
 						}
 					} else dateCell.innerHTML = dateAsString;
-					
+					dateCell.style.paddingTop = "10px";
 					dateRow.appendChild(dateCell);
 					wrapper.appendChild(dateRow);
 

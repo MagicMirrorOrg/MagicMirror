@@ -177,14 +177,19 @@ For more available modules, check out out the wiki page [MagicMirror² 3rd Party
 
 If you want to update your MagicMirror² to the latest version, use your terminal to go to your Magic Mirror folder and type the following command:
 
-```bash
-git pull && npm install
 ```
+bash -c "$(curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/master/installers/upgrade-script.sh)"
+```
+This will do a test run
 
-If you changed nothing more than the config or the modules, this should work without any problems.
-Type `git status` to see your changes, if there are any, you can reset them with `git reset --hard`. After that, git pull should be possible.
+If the test update looks good then run this command
+```
+bash -c "$(curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/master/installers/upgrade-script.sh)" apply
+```
+If there are changes you have made, they will be listed, and u will have the opportunity to save your work
 
-
+The script will also update the dependencies of any active modules
+If there are update issues, please come to the forums for help
 ## Community
 
 The community around the MagicMirror² is constantly growing. We even have a [forum](https://forum.magicmirror.builders) now where you can share your ideas, ask questions, help others and get inspired by other builders. We would love to see you there!
@@ -222,7 +227,7 @@ A real Manifesto is still to be written. Till then, Michael's response on [one o
 >
 >Of course, a bundled version can be complimentary to the regular un-bundled version. And I'm sure a lot of (new) users will opt for the bundled version. But this means those users won't be motivated to take a peek under the hood. They will just remain 'users'. They won't become contributors, and worse: they won't be motivated to take their first steps in software development.
 >
->And to be honest: motivating curious users to step out of their comfort zone and take those first steps is what drives me in this project. Therefor my ultimate goal is this project is to keep it as accessible as possible."
+>And to be honest: motivating curious users to step out of their comfort zone and take those first steps is what drives me in this project. Therefore my ultimate goal is this project is to keep it as accessible as possible."
 >
 > ~ Michael Teeuw
 

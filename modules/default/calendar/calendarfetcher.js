@@ -306,6 +306,11 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 							continue;
 						}
 
+						// adjust start date so multiple day events will be displayed as happening today even though they started some days ago already
+						if (fullDayEvent && startDate <= today) {
+							startDate = moment(today);
+						}
+
 						// Every thing is good. Add it to the list.
 
 						newEvents.push({
@@ -355,7 +360,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 	 * return bool - The event is a fullday event.
 	 */
 	var isFullDayEvent = function(event) {
-		if (event.start.length === 8) {
+		if (event.start.length === 8 || event.start.dateOnly) {
 			return true;
 		}
 
