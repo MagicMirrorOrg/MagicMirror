@@ -187,7 +187,7 @@ if [ -d ~/MagicMirror ]; then
 							   git_user_name="-c user.name=upgrade_script"
 								 git_user_email="-c user.email=script@upgrade.com"
 							fi
-							git git_user_name git_user_email stash >>$logfile
+							git $git_user_name $git_user_email stash >>$logfile
 							stashed=$true
 						else
 							for file in "${diffs[@]}"
@@ -302,7 +302,7 @@ if [ -d ~/MagicMirror ]; then
 							fi
 						else
 							echo there were merge errors | tee -a $logfile
-							echo $merge_output | tee -a %logfile
+							echo $merge_output | tee -a $logfile
 							echo you should examine and resolve them 	 | tee -a $logfile
 							echo using the command git log --oneline --decorate | tee -a $logfile
 							git log --oneline --decorate | tee -a $logfile
@@ -341,7 +341,7 @@ if [ -d ~/MagicMirror ]; then
 	if [ $stashed == $true ]; then
 		 if [ $test_run == $true ]; then
 			 echo test run, restoring files stashed | tee -a $logfile
-			 git git_user_name git_user_email stash pop  >> $logfile
+			 git $git_user_name $git_user_email stash pop  >> $logfile
 		 else
 			 echo we stashed a set of files that appear changed from the latest repo versions. you should review them | tee -a $logfile
 			 git stash show --name-only > installers/stashed_files
