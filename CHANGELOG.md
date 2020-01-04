@@ -22,6 +22,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Improve handling for armv6l devices, where electron support has gone away, add optional serveronly config option.
 - Improved run-start.sh to handle for serveronly mode, by choice, or when electron not available.
 - Only check for xwindows running if not on macOS.
+- Updated raspberry.sh installer script to save apt-get log output to a file that can be tailed
 
 ### Fixed
 - Fixed issue in weatherforecast module where predicted amount of rain was not using the decimal symbol specified in config.js.
@@ -30,6 +31,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fixed issue in calendar module where the debug script didn't work correctly with authentication
 - Fixed issue that some full day events were not correctly recognized as such
 - Display full day events lasting multiple days as happening today instead of some days ago if they are still ongoing
+- Fixed an issue where the raspberry.sh installer script can get stuck when there are packages that need to be upgraded
 
 ## [2.9.0] - 2019-10-01
 
