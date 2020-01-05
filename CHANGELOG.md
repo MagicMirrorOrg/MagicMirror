@@ -5,19 +5,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror² core.
 
-## [2.11.0] - Unreleased (Develop Branch)
+=======
+## [2.10.1] - 2020-01-06
 
-*This release is scheduled to be released on 2020-04-01.*
-
-### Added
-- Finnish translation for "PRECIP", "UPDATE_INFO_MULTIPLE" and "UPDATE_INFO_SINGLE".
-- fix upgrade script download of dumpactivemodule.js too early, cause fatal error
-- fix upgrade script, missing $ on variable name for temp git stash
+This is a Hotfix release to fix the broken installer and upgrade scripts.
 
 ### Fixed
-- Force declaration of public ip adress in config file (ISSUE #1852)
-
-### Updated
+- fix upgrade script download of dumpactivemodule.js too early, cause fatal error
+- fix upgrade script, missing $ on variable name for temp git stash
 
 ## [2.10.0] - 2020-01-01
 
