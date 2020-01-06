@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [2.10.1] - 2020-01-01
 
 This is a Hotfix release to fix the broken installer and upgrade scripts.
+- change RAEADME.md text for automated install and upgrade to point to other repo
 
 ### Changed
 

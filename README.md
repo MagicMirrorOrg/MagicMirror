@@ -45,8 +45,8 @@ Note that you will need to install the latest full version of Raspbian, **don't 
 
 Execute the following command on your Raspberry Pi to install MagicMirror²:
 
-```bash
-bash -c "$(curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/master/installers/raspberry.sh)"
+```
+bash -c "$(curl -sL https://raw.githubusercontent.com/sdetweil/MagicMirror_scripts/master/raspberry.sh)"
 ```
 
 #### Manual Installation
@@ -177,14 +177,20 @@ For more available modules, check out out the wiki page [MagicMirror² 3rd Party
 
 If you want to update your MagicMirror² to the latest version, use your terminal to go to your Magic Mirror folder and type the following command:
 
+git pull && npm install
+If you changed nothing more than the config or the modules, this should work without any problems. Type git status to see your changes, if there are any, you can reset them with git reset --hard. After that, git pull should be possible.
+If you want to update your MagicMirror² to the latest version, use your terminal to go to your Magic Mirror folder and type the following command:
+
+If you want to try the community maintained automated update then, in a terminal window type the following command
+
 ```
-bash -c "$(curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/master/installers/upgrade-script.sh)"
+bash -c "$(curl -sL https://raw.githubusercontent.com/sdetweil/MagicMirror_scripts/master/upgrade-script.sh)"
 ```
 This will do a test run
 
 If the test update looks good then run this command
 ```
-bash -c "$(curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/master/installers/upgrade-script.sh)" apply
+bash -c "$(curl -sL https://raw.githubusercontent.com/sdetweil/MagicMirror_scripts/master/upgrade-script.sh)" apply
 ```
 If there are changes you have made, they will be listed, and u will have the opportunity to save your work
 
