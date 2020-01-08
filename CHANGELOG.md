@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Force declaration of public ip adress in config file (ISSUE #1852)
+- Fixes `run-start.sh`: If running in docker-container, don't check the environment, just start electron (ISSUE #1859)
 
 ### Updated
 
