@@ -13,8 +13,8 @@
 
 MagicMirror² focuses on a modular plugin system and uses [Electron](http://electron.atom.io/) as an application wrapper. So no more web server or browser installs necessary!
 
-## Installation instructions and Documentation
-For the full documentation including installation and upgrade instructions, please visit our dedicated documentation website: [http://docs.magicmirror.builders](http://docs.magicmirror.builders).
+## Installation Instructions and Documentation
+For the full documentation including installation and upgrade instructions, please visit our dedicated documentation website: [https://docs.magicmirror.builders](https://docs.magicmirror.builders).
 
 ## Links
 - Website: [https://magicmirror.builders](https://magicmirror.builders)
