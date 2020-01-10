@@ -18,6 +18,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Updated
 
+## [2.10.1] - 2020-01-10
+
+### Changed
+- Updated README.md: Added links to the official documentation website and remove links to broken installer.
+
 ## [2.10.0] - 2020-01-01
 
 Special thanks to @sdetweil for all his great contributions!
