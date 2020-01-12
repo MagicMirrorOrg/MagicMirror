@@ -14,8 +14,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Force declaration of public ip adress in config file (ISSUE #1852)
+- Fixes `run-start.sh`: If running in docker-container, don't check the environment, just start electron (ISSUE #1859)
 
 ### Updated
+- Remove documentation from core repository and link to new dedicated docs site: [docs.magicmirror.builders](https://docs.magicmirror.builders).
+
+## [2.10.1] - 2020-01-10
+
+### Changed
+- Updated README.md: Added links to the official documentation website and remove links to broken installer.
 
 ## [2.10.0] - 2020-01-01
 
