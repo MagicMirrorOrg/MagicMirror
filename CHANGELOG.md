@@ -9,6 +9,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 *This release is scheduled to be released on 2020-04-01.*
 
+### Deleted
+- cleanup installers folder, remove externalized scripts
+
 ### Added
 - Finnish translation for "PRECIP", "UPDATE_INFO_MULTIPLE" and "UPDATE_INFO_SINGLE".
 
