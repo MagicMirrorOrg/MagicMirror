@@ -15,7 +15,7 @@ If you are facing an issue or found a bug while trying to install MagicMirror vi
 ---
 
 ## I found a bug in MagicMirror
-Please make sure to only submit reproducible issues. You can safely remove everything above dividing line. 
+Please make sure to only submit reproducible issues. You can safely remove everything above the dividing line. 
 When submitting a new issue, please supply the following information:
 
 **Platform**: Place your platform here... give us your web browser/Electron version *and* your hardware (Raspberry Pi 2/3, Windows, Mac, Linux, System V UNIX).
