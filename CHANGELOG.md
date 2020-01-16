@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - Finnish translation for "PRECIP", "UPDATE_INFO_MULTIPLE" and "UPDATE_INFO_SINGLE".
+- Adding Hebrew translation
 
 ### Fixed
 - Force declaration of public ip adress in config file (ISSUE #1852)
