@@ -31,6 +31,7 @@ Module.register("currentweather",{
 		degreeLabel: false,
 		showIndoorTemperature: false,
 		showIndoorHumidity: false,
+		showWeather: true,
 		showFeelsLike: true,
 
 		initialLoadDelay: 0, // 0 seconds delay
@@ -194,36 +195,38 @@ Module.register("currentweather",{
 		var large = document.createElement("div");
 		large.className = "large light";
 
-		var weatherIcon = document.createElement("span");
-		weatherIcon.className = "wi weathericon " + this.weatherType;
-		large.appendChild(weatherIcon);
+		if (this.config.showWeather) {
+			var weatherIcon = document.createElement("span");
+			weatherIcon.className = "wi weathericon " + this.weatherType;
+			large.appendChild(weatherIcon);
 
-		var degreeLabel = "";
-		if (this.config.units === "metric" || this.config.units === "imperial") {
-			degreeLabel += "°";
-		}
-		if(this.config.degreeLabel) {
-			switch(this.config.units) {
-			case "metric":
-				degreeLabel += "C";
-				break;
-			case "imperial":
-				degreeLabel += "F";
-				break;
-			case "default":
-				degreeLabel += "K";
-				break;
+			var degreeLabel = "";
+			if (this.config.units === "metric" || this.config.units === "imperial") {
+				degreeLabel += "°";
 			}
-		}
+			if(this.config.degreeLabel) {
+				switch(this.config.units) {
+				case "metric":
+					degreeLabel += "C";
+					break;
+				case "imperial":
+					degreeLabel += "F";
+					break;
+				case "default":
+					degreeLabel += "K";
+					break;
+				}
+			}
 
-		if (this.config.decimalSymbol === "") {
-			this.config.decimalSymbol = ".";
-		}
+			if (this.config.decimalSymbol === "") {
+				this.config.decimalSymbol = ".";
+			}
 
-		var temperature = document.createElement("span");
-		temperature.className = "bright";
-		temperature.innerHTML = " " + this.temperature.replace(".", this.config.decimalSymbol) + degreeLabel;
-		large.appendChild(temperature);
+			var temperature = document.createElement("span");
+			temperature.className = "bright";
+			temperature.innerHTML = " " + this.temperature.replace(".", this.config.decimalSymbol) + degreeLabel;
+			large.appendChild(temperature);
+		}
 
 		if (this.config.showIndoorTemperature && this.indoorTemperature) {
 			var indoorIcon = document.createElement("span");
