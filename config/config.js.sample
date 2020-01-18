@@ -25,11 +25,11 @@ var config = {
 	timeFormat: 24,
 	units: "metric",
 	// serverOnly:  true/false/"local" ,
-			     // local for armv6l processors, default 
+			     // local for armv6l processors, default
 			     //   starts serveronly and then starts chrome browser
 			     // false, default for all  NON-armv6l devices
 			     // true, force serveronly mode, because you want to.. no UI on this device
-	
+
 	modules: [
 		{
 			module: "alert",
