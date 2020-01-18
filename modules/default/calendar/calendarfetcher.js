@@ -186,7 +186,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 						// of dates we"re looking for.
 						// kblankenship1989 - to fix issue #1798, converting all dates to locale time first, then converting back to UTC time
 						var pastLocal = moment(past).subtract(past.getTimezoneOffset(), "minutes").toDate();
-						var futureLocal = moment(past).subtract(future.getTimezoneOffset(), "minutes").toDate();
+						var futureLocal = moment(future).subtract(future.getTimezoneOffset(), "minutes").toDate();
 						var datesLocal = rule.between(pastLocal, futureLocal, true, limitFunction);
 						var dates = datesLocal.map(function(dateLocal) {
 							var date = moment(dateLocal).add(dateLocal.getTimezoneOffset(), "minutes").toDate();
