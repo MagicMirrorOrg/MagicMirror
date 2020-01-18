@@ -10,6 +10,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Updated README.md: Added links to the official documentation website and remove links to broken installer.
 
+### Added
+- Hebrew translation
+
 ## [2.10.0] - 2020-01-01
 
 ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`.
