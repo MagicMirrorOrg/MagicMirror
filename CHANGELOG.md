@@ -13,7 +13,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - cleanup installers folder, remove externalized scripts
 
 ### Added
-- Finnish translation for "PRECIP", "UPDATE_INFO_MULTIPLE" and "UPDATE_INFO_SINGLE".
+- Finish translation for "PRECIP", "UPDATE_INFO_MULTIPLE" and "UPDATE_INFO_SINGLE".
+- Added the ability to hide the temp label and weather icon in the `currentweather` module to allow showing only information such as wind and sunset/rise.
 
 ### Fixed
 - Force declaration of public ip adress in config file (ISSUE #1852)
