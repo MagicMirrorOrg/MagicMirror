@@ -28,6 +28,9 @@
 	
 	"UPDATE_NOTIFICATION": "MagicMirror² päivitys saatavilla.",
 	"UPDATE_NOTIFICATION_MODULE": "Päivitys saatavilla moduulille {MODULE_NAME}.",
+	"UPDATE_INFO_SINGLE": "Nykyasennus on {COMMIT_COUNT} muutoksen jäljessä {BRANCH_NAME} haaraan nähden.",
+	"UPDATE_INFO_MULTIPLE": "Nykyasennus on {COMMIT_COUNT} muutosta jäljessä {BRANCH_NAME} haaraan nähden.",
 	
-	"FEELS": "Tuntuu kuin"
+	"FEELS": "Tuntuu kuin",
+	"PRECIP": "Sateen todennäköisyys"
 }
