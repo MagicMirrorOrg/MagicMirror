@@ -161,7 +161,18 @@ Module.register("clock",{
 		if (this.config.showSunTimes) {
 			const sunTimes = SunCalc.getTimes(now, this.config.lat, this.config.lon);
 			const isVisible = now.isBetween(sunTimes.sunrise, sunTimes.sunset);
-			sunWrapper.innerHTML = '<span class="' + (isVisible ? 'bright' : '') + '"><i class="fa fa-sun-o" aria-hidden="true"></i></span>' +
+			var nextEvent;
+			if (now.isBefore(sunTimes.sunrise)) {
+				nextEvent = sunTimes.sunrise;
+			} else if (now.isBefore(sunTimes.sunset)) {
+				nextEvent = sunTimes.sunset;
+			} else {
+				const tomorrowSunTimes = SunCalc.getTimes(now.add(1, 'day'), this.config.lat, this.config.lon);
+				nextEvent = tomorrowSunTimes.sunrise;
+			}
+			const untilNextEvent = moment.duration(moment(nextEvent).diff(now));
+			const untilNextEventString = untilNextEvent.hours() + 'h ' + untilNextEvent.minutes() + 'm';
+			sunWrapper.innerHTML = '<span class="' + (isVisible ? 'bright' : '') + '"><i class="fa fa-sun-o" aria-hidden="true"></i> ' + untilNextEventString + '</span>' +
 				'<span><i class="fa fa-arrow-up" aria-hidden="true"></i>' + formatTime(this.config, sunTimes.sunrise) + '</span>' +
 				'<span><i class="fa fa-arrow-down" aria-hidden="true"></i>' + formatTime(this.config, sunTimes.sunset) + '</span>';
 		}
@@ -169,7 +180,8 @@ Module.register("clock",{
 			const moonIllumination = SunCalc.getMoonIllumination(now.toDate());
 			const moonTimes = SunCalc.getMoonTimes(now, this.config.lat, this.config.lon);
 			const isVisible = now.isBetween(moonTimes.rise, moonTimes.set);
-			moonWrapper.innerHTML = '<span class="' + (isVisible ? 'bright' : '') + '"><i class="fa fa-moon-o" aria-hidden="true"></i> ' + moonIllumination.fraction.toLocaleString(undefined, {style: 'percent'}) + '</span>' +
+			const illuminatedFractionString = moonIllumination.fraction.toLocaleString(undefined, {style: 'percent'});
+			moonWrapper.innerHTML = '<span class="' + (isVisible ? 'bright' : '') + '"><i class="fa fa-moon-o" aria-hidden="true"></i> ' + illuminatedFractionString + '</span>' +
 				'<span><i class="fa fa-arrow-up" aria-hidden="true"></i> ' + formatTime(this.config, moonTimes.rise) + '</span>'+
 				'<span><i class="fa fa-arrow-down" aria-hidden="true"></i> ' + formatTime(this.config, moonTimes.set) + '</span>';
 		}
