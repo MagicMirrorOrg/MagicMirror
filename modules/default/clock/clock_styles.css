@@ -66,3 +66,13 @@
   -ms-transform-origin: 50% 100%;
   transform-origin: 50% 100%;
 }
+
+.module.clock .sun,
+.module.clock .moon {
+  display: flex;
+}
+
+.module.clock .sun > *,
+.module.clock .moon > * {
+  flex: 1;
+}
