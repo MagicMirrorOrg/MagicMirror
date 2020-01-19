@@ -15,7 +15,7 @@ body {
   width: calc(100% - 120px);
   background: #000;
   color: #aaa;
-	font-family: 'Varela Round', sans-serif;
+  font-family: 'Varela Round', sans-serif;
   font-weight: 400;
   font-size: 2em;
   line-height: 1.5em;
@@ -198,11 +198,11 @@ sup {
   margin-top: 0;
 }
 
-/*.container {
+/* .container {
 	padding: 10px;
   background-color: rgba(0,0,0,0.5);
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5242880000000001), 0 6px 9px rgba(0, 0, 0, 0.32768000000000014);
-}*/
+} */
 
 .region.bottom.right,
 .region.bottom.center,
