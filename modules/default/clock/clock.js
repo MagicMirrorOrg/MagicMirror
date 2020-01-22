@@ -167,7 +167,7 @@ Module.register("clock",{
 			} else if (now.isBefore(sunTimes.sunset)) {
 				nextEvent = sunTimes.sunset;
 			} else {
-				const tomorrowSunTimes = SunCalc.getTimes(now.add(1, 'day'), this.config.lat, this.config.lon);
+				const tomorrowSunTimes = SunCalc.getTimes(now.clone().add(1, 'day'), this.config.lat, this.config.lon);
 				nextEvent = tomorrowSunTimes.sunrise;
 			}
 			const untilNextEvent = moment.duration(moment(nextEvent).diff(now));
