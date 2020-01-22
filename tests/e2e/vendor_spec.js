@@ -15,6 +15,7 @@ describe("Vendors", function () {
 	var app = null;
 
 	before(function () {
+		process.env.MM_CONFIG_FILE = "tests/configs/env.js";
 		return helpers.startApplication({
 			args: ["js/electron.js"]
 		}).then(function (startedApp) { app = startedApp; });
@@ -25,10 +26,6 @@ describe("Vendors", function () {
 	});
 
 	describe("Get list vendors", function () {
-
-		before(function () {
-			process.env.MM_CONFIG_FILE = "tests/configs/env.js";
-		});
 
 		var vendors = require(__dirname + "/../../vendor/vendor.js");
 		Object.keys(vendors).forEach(vendor => {
