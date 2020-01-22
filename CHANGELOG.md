@@ -16,6 +16,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Finnish translation for "PRECIP", "UPDATE_INFO_MULTIPLE" and "UPDATE_INFO_SINGLE".
 - Added the ability to hide the temp label and weather icon in the `currentweather` module to allow showing only information such as wind and sunset/rise.
 - The `clock` module now optionally displays sun and moon data, including rise/set times, remaining daylight, and percent of moon illumination.
+- Added Hebrew translation.
 
 ### Fixed
 - Force declaration of public ip adress in config file (ISSUE #1852)
