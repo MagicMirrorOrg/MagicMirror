@@ -45,7 +45,8 @@ var MM = (function() {
 			dom.appendChild(moduleHeader);
 
 			if (typeof module.getHeader() === "undefined" || module.getHeader() !== "") {
-				moduleHeader.style = "display: none;";
+				    //not using element.style for backwards compatibility (Safari < 11)
+					moduleHeader.setAttribute("style", "display: none;");
 			}
 
 			var moduleContent = document.createElement("div");
@@ -213,7 +214,13 @@ var MM = (function() {
 		contentWrapper[0].appendChild(newContent);
 
 		headerWrapper[0].innerHTML = newHeader;
-		headerWrapper[0].style = headerWrapper.length > 0 && newHeader ? undefined : "display: none;";
+		
+		//not using element.style for backwards compatibility (Safari < 11)
+		if (headerWrapper.length > 0 && newHeader) {
+			headerWrapper[0].removeAttribute("style");
+		} else {
+			headerWrapper[0].addAttribute("style", "display: none;");
+		}
 	};
 
 	/* hideModule(module, speed, callback)

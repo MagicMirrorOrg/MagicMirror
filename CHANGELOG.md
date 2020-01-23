@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [2.11.0] - Unreleased (Develop Branch)
 
 *This release is scheduled to be released on 2020-04-01.*
+- Improves backwards compatibility for Safari < 11 (ISSUE #1897)
 
 ### Deleted
 - cleanup installers folder, remove externalized scripts
