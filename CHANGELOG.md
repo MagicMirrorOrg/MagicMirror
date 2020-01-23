@@ -8,7 +8,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [2.11.0] - Unreleased (Develop Branch)
 
 *This release is scheduled to be released on 2020-04-01.*
-- Improves backwards compatibility for Safari < 11 (ISSUE #1897)
 
 ### Deleted
 - cleanup installers folder, remove externalized scripts
@@ -25,6 +24,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Updated
 - Remove documentation from core repository and link to new dedicated docs site: [docs.magicmirror.builders](https://docs.magicmirror.builders).
+- Improves backwards compatibility for Safari < 11 (ISSUE #1897)
 
 ## [2.10.1] - 2020-01-10
 
