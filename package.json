@@ -1,6 +1,6 @@
 {
   "name": "magicmirror",
-  "version": "2.10.1",
+  "version": "2.11.0-develop",
   "description": "The open source modular smart mirror platform.",
   "main": "js/electron.js",
   "scripts": {
@@ -47,16 +47,16 @@
     "http-auth": "^3.2.3",
     "jsdom": "^11.6.2",
     "jshint": "^2.10.2",
-    "mocha": "^4.1.0",
+    "mocha": "^7.0.0",
     "mocha-each": "^1.1.0",
     "mocha-logger": "^1.0.6",
-    "spectron": "^3.8.0",
+    "spectron": "^8.0.0",
     "stylelint": "latest",
     "stylelint-config-standard": "latest",
     "time-grunt": "latest"
   },
   "optionalDependencies": {
-    "electron": "^3.0.13"
+    "electron": "^6.1.7"
   },
   "dependencies": {
     "colors": "^1.1.2",
