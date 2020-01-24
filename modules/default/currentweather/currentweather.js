@@ -195,32 +195,32 @@ Module.register("currentweather",{
 		var large = document.createElement("div");
 		large.className = "large light";
 
+		var degreeLabel = "";
+		if (this.config.units === "metric" || this.config.units === "imperial") {
+			degreeLabel += "°";
+		}
+		if(this.config.degreeLabel) {
+			switch(this.config.units) {
+			case "metric":
+				degreeLabel += "C";
+				break;
+			case "imperial":
+				degreeLabel += "F";
+				break;
+			case "default":
+				degreeLabel += "K";
+				break;
+			}
+		}
+
+		if (this.config.decimalSymbol === "") {
+			this.config.decimalSymbol = ".";
+		}
+
 		if (this.config.hideTemp === true) {
 			var weatherIcon = document.createElement("span");
 			weatherIcon.className = "wi weathericon " + this.weatherType;
 			large.appendChild(weatherIcon);
-
-			var degreeLabel = "";
-			if (this.config.units === "metric" || this.config.units === "imperial") {
-				degreeLabel += "°";
-			}
-			if(this.config.degreeLabel) {
-				switch(this.config.units) {
-				case "metric":
-					degreeLabel += "C";
-					break;
-				case "imperial":
-					degreeLabel += "F";
-					break;
-				case "default":
-					degreeLabel += "K";
-					break;
-				}
-			}
-
-			if (this.config.decimalSymbol === "") {
-				this.config.decimalSymbol = ".";
-			}
 
 			var temperature = document.createElement("span");
 			temperature.className = "bright";
