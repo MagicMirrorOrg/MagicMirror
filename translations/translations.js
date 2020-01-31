@@ -42,7 +42,8 @@ var translations = {
 	"sk" : "translations/sk.json", // Slovak
 	"tlh" : "translations/tlh.json", // Klingon
 	"ms-my" : "translations/ms-my.json", // Malay
-	"he" : "translations/he.json" // Hebrew
+	"he" : "translations/he.json", // Hebrew
+	"uk" : "translations/uk.json" // Ukrainian
 };
 
 if (typeof module !== "undefined") {module.exports = translations;}
