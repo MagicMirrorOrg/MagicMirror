@@ -6,9 +6,9 @@
   "scripts": {
     "start": "./node_modules/.bin/electron js/electron.js",
     "server": "node ./serveronly",
-    "install": "cd vendor && npm install",
-    "install-fonts": "cd fonts && npm install",
-    "postinstall": "npm run install-fonts",
+    "install": "echo \"Installing vendor files ...\n\n\" && cd vendor && npm install --loglevel=error",
+    "install-fonts": "echo \"Installing fonts ...\n\n\" && cd fonts && npm install --loglevel=error",
+    "postinstall": "npm run install-fonts && echo \"Installing done! Use `npm start` to start MagicMirror. \n\n\"",
     "test": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests --recursive",
     "test:unit": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests/unit --recursive",
     "test:e2e": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests/e2e --recursive",
