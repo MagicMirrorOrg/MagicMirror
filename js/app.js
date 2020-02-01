@@ -23,11 +23,6 @@ console.log("Starting MagicMirror: v" + global.version);
 // global absolute root path
 global.root_path = path.resolve(__dirname + "/../");
 
-if (!process.env.DISPLAY) {
-	console.log("DISPLAY environment variable not set. Using DISPLAY=:0");
-	process.env.DISPLAY = ":0";
-}
-
 if (process.env.MM_CONFIG_FILE) {
 	global.configuration_file = process.env.MM_CONFIG_FILE;
 }
