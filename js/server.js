@@ -7,8 +7,6 @@
 
 var express = require("express");
 var app = require("express")();
-var server = require("http").Server(app);
-var io = require("socket.io")(server);
 var path = require("path");
 var ipfilter = require("express-ipfilter").IpFilter;
 var fs = require("fs");
@@ -22,6 +20,18 @@ var Server = function(config, callback) {
 		port = process.env.MM_PORT;
 	}
 
+	var server = null;
+	if(config.useHttps){
+		var options = {
+			key: fs.readFileSync(config.httpsPrivateKey),
+			cert: fs.readFileSync(config.httpsCertificate)
+		}
+		server = require("https").Server(options, app);
+	}else{
+		server = require("http").Server(app);
+	}
+	var io = require("socket.io")(server);
+	
 	console.log("Starting server on port " + port + " ... ");
 
 	server.listen(port, config.address ? config.address : "localhost");
