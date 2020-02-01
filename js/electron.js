@@ -1,10 +1,5 @@
 /* jshint esversion: 6 */
 
-if (!process.env.DISPLAY) {
-	console.log("DISPLAY environment variable not set. Using DISPLAY=:0");
-	process.env.DISPLAY = ":0";
-}
-
 "use strict";
 
 const electron = require("electron");
