@@ -367,7 +367,6 @@ Module.register("newsfeed",{
 	},
 
 	notificationReceived: function(notification, payload, sender) {
-		Log.info(this.name + " - received notification: " + notification);
 		if(notification === "ARTICLE_NEXT"){
 			var before = this.activeItem;
 			this.activeItem++;
@@ -425,8 +424,6 @@ Module.register("newsfeed",{
 				desc:   this.newsItems[this.activeItem].description,
 				url:    this.getActiveItemURL()
 			});
-		} else {
-			Log.info(this.name + " - unknown notification, ignoring: " + notification);
 		}
 	},
 

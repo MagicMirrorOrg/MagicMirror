@@ -26,12 +26,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix calendar time offset for recurring events crossing Daylight Savings Time (ISSUE #1798)
 - Fix regression in currentweather module causing 'undefined' to show up when config.hideTemp is false
 
-### Updated
+### Changed
 - Remove documentation from core repository and link to new dedicated docs site: [docs.magicmirror.builders](https://docs.magicmirror.builders).
 - Updated config.js.sample: Corrected some grammar on `config.js.sample` comment section.
 - Removed `run-start.sh` script and update start commands:
   - To start using electron, use `npm run start`.
   - To start in server only mode, use `npm run server`.
+- Remove redundant logging from modules.
 
 ## [2.10.1] - 2020-01-10
 
