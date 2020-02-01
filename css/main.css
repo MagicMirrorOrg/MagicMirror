@@ -26,6 +26,10 @@ body {
  * Default styles.
  */
 
+ .hidden {
+   display: none;
+ }
+
 .dimmed {
   color: #666;
 }

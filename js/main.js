@@ -46,7 +46,7 @@ var MM = (function() {
 
 			if (typeof module.getHeader() === "undefined" || module.getHeader() !== "") {
 				    //not using element.style for backwards compatibility (Safari < 11)
-					moduleHeader.setAttribute("style", "display: none;");
+					moduleHeader.classList.add("hidden");
 			}
 
 			var moduleContent = document.createElement("div");
@@ -217,9 +217,9 @@ var MM = (function() {
 		
 		//not using element.style for backwards compatibility (Safari < 11)
 		if (headerWrapper.length > 0 && newHeader) {
-			headerWrapper[0].removeAttribute("style");
+			headerWrapper[0].classList.remove("hidden");
 		} else {
-			headerWrapper[0].addAttribute("style", "display: none;");
+			headerWrapper[0].classList.add("hidden");
 		}
 	};
 
