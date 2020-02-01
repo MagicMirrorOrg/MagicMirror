@@ -9,6 +9,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - Updated config.js.sample: Corrected some grammar on `config.js.sample` comment section.
+- Remove `run-start.sh` script and update start commands:
+  - To start using electron, use `npm run start`.
+  - To start in server only mode, use `npm run server`.
 
 ## [2.11.0] - Unreleased (Develop Branch)
 

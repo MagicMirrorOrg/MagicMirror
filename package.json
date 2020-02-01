@@ -4,7 +4,8 @@
   "description": "The open source modular smart mirror platform.",
   "main": "js/electron.js",
   "scripts": {
-    "start": "./run-start.sh",
+    "start": "./node_modules/.bin/electron js/electron.js",
+    "server": "node ./serveronly",
     "install": "cd vendor && npm install",
     "install-fonts": "cd fonts && npm install",
     "postinstall": "sh untrack-css.sh && sh installers/postinstall/postinstall.sh && npm run install-fonts",
