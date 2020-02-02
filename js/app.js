@@ -4,7 +4,6 @@
  * By Michael Teeuw http://michaelteeuw.nl
  * MIT Licensed.
  */
-
 var fs = require("fs");
 var Server = require(__dirname + "/server.js");
 var Utils = require(__dirname + "/utils.js");

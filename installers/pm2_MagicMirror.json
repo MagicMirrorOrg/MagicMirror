@@ -1,7 +1,0 @@
-{
-  "apps" : [{
-    "name"        : "MagicMirror",
-    "script"      : "/home/pi/MagicMirror/installers/mm.sh",
-    "watch"       : ["/home/pi/MagicMirror/config/config.js"]
-  }]
-}
