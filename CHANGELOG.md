@@ -32,6 +32,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Removed `run-start.sh` script and update start commands:
   - To start using electron, use `npm run start`.
   - To start in server only mode, use `npm run server`.
+- Timestamp in log output now also contains the date
 
 ## [2.10.1] - 2020-01-10
 
