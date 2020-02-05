@@ -217,7 +217,7 @@ Module.register("currentweather",{
 			this.config.decimalSymbol = ".";
 		}
 
-		if (this.config.hideTemp === true) {
+		if (this.config.hideTemp === false) {
 			var weatherIcon = document.createElement("span");
 			weatherIcon.className = "wi weathericon " + this.weatherType;
 			large.appendChild(weatherIcon);
