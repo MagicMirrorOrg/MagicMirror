@@ -28,7 +28,7 @@ var rrule = require('rrule').RRule
 
 function getLocaleISOString(date) {
 	var year = date.getFullYear().toString(10).padStart(4,'0');
-	var month = date.getMonth().toString(10).padStart(2,'0');
+	var month = (date.getMonth() + 1).toString(10).padStart(2,'0');
 	var day = date.getDate().toString(10).padStart(2,'0');
 	var hour = date.getHours().toString(10).padStart(2,'0');
 	var minute = date.getMinutes().toString(10).padStart(2,'0');
