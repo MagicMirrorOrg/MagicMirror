@@ -19,6 +19,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added the ability to hide the temp label and weather icon in the `currentweather` module to allow showing only information such as wind and sunset/rise.
 - The `clock` module now optionally displays sun and moon data, including rise/set times, remaining daylight, and percent of moon illumination.
 - Added Hebrew translation.
+- Add HTTPS support and update config.js.sample
+
 
 ### Fixed
 - Force declaration of public ip adress in config file (ISSUE #1852)
