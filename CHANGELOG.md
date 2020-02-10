@@ -20,13 +20,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - The `clock` module now optionally displays sun and moon data, including rise/set times, remaining daylight, and percent of moon illumination.
 - Added Hebrew translation.
 - Add HTTPS support and update config.js.sample
-
+- Run tests on long term support and latest stable version of nodejs
 
 ### Fixed
 - Force declaration of public ip adress in config file (ISSUE #1852)
 - Fixes `run-start.sh`: If running in docker-container, don't check the environment, just start electron (ISSUE #1859)
 - Fix calendar time offset for recurring events crossing Daylight Savings Time (ISSUE #1798)
 - Fix regression in currentweather module causing 'undefined' to show up when config.hideTemp is false
+- Fixed weather tests [#1840](https://github.com/MichMich/MagicMirror/issues/1840)
 
 ### Updated
 - Remove documentation from core repository and link to new dedicated docs site: [docs.magicmirror.builders](https://docs.magicmirror.builders).
