@@ -20,6 +20,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - The `clock` module now optionally displays sun and moon data, including rise/set times, remaining daylight, and percent of moon illumination.
 - Added Hebrew translation.
 - Add HTTPS support and update config.js.sample
+- Added the ability to configure a list of modules that shouldn't be update checked.
 
 
 ### Fixed
