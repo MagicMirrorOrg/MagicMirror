@@ -21,6 +21,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added Hebrew translation.
 - Add HTTPS support and update config.js.sample
 - Run tests on long term support and latest stable version of nodejs
+- Added the ability to configure a list of modules that shouldn't be update checked.
 
 ### Fixed
 - Force declaration of public ip adress in config file (ISSUE #1852)
