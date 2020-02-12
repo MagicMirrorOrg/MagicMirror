@@ -22,7 +22,7 @@ module.exports = NodeHelper.create({
 		simpleGits.push({"module": "default", "git": SimpleGit(path.normalize(__dirname + "/../../../"))});
 
 		for (moduleName in modules) {
-			if (defaultModules.indexOf(moduleName) < 0) {
+			if (!this.ignoreUpdateChecking(moduleName)) {
 				// Default modules are included in the main MagicMirror repo
 				var moduleFolder =  path.normalize(__dirname + "/../../" + moduleName);
 
@@ -56,15 +56,15 @@ module.exports = NodeHelper.create({
 			this.config = payload;
 		} else if(notification === "MODULES") {
 			// if this is the 1st time thru the update check process
-			if(this.updateProcessStarted==false ){
-				this.updateProcessStarted=true;
+			if (!this.updateProcessStarted) {
+				this.updateProcessStarted = true;
 				this.configureModules(payload);
-				this.preformFetch();
+				this.performFetch();
 			}
 		}
 	},
 
-	preformFetch() {
+	performFetch() {
 		var self = this;
 		simpleGits.forEach(function(sg) {
 			sg.git.fetch().status(function(err, data) {
@@ -91,8 +91,23 @@ module.exports = NodeHelper.create({
 		var self = this;
 		clearTimeout(this.updateTimer);
 		this.updateTimer = setTimeout(function() {
-			self.preformFetch();
+			self.performFetch();
 		}, delay);
+	},
+
+	ignoreUpdateChecking: function(moduleName) {
+		// Should not check for updates for default modules
+		if (defaultModules.indexOf(moduleName) >= 0) {
+			return true;
+		}
+
+		// Should not check for updates for ignored modules
+		if (this.config.ignoreModules.indexOf(moduleName) >= 0) {
+			return true;
+		}
+
+		// The rest of the modules that passes should check for updates
+		return false;
 	}
 
 });

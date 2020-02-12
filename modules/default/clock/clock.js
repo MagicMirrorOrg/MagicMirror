@@ -179,11 +179,19 @@ Module.register("clock",{
 		if (this.config.showMoonTimes) {
 			const moonIllumination = SunCalc.getMoonIllumination(now.toDate());
 			const moonTimes = SunCalc.getMoonTimes(now, this.config.lat, this.config.lon);
-			const isVisible = now.isBetween(moonTimes.rise, moonTimes.set);
-			const illuminatedFractionString = moonIllumination.fraction.toLocaleString(undefined, {style: 'percent'});
+			const moonRise = moonTimes.rise;
+			var moonSet;
+			if (moment(moonTimes.set).isAfter(moonTimes.rise)) {
+				moonSet = moonTimes.set;
+			} else {
+				const nextMoonTimes = SunCalc.getMoonTimes(now.clone().add(1, 'day'), this.config.lat, this.config.lon);
+				moonSet = nextMoonTimes.set;
+			}
+			const isVisible = now.isBetween(moonRise, moonSet) || moonTimes.alwaysUp === true;
+			const illuminatedFractionString = moonIllumination.fraction.toFixed(2) * 100 + '%';
 			moonWrapper.innerHTML = '<span class="' + (isVisible ? 'bright' : '') + '"><i class="fa fa-moon-o" aria-hidden="true"></i> ' + illuminatedFractionString + '</span>' +
-				'<span><i class="fa fa-arrow-up" aria-hidden="true"></i> ' + formatTime(this.config, moonTimes.rise) + '</span>'+
-				'<span><i class="fa fa-arrow-down" aria-hidden="true"></i> ' + formatTime(this.config, moonTimes.set) + '</span>';
+				'<span><i class="fa fa-arrow-up" aria-hidden="true"></i> ' + (moonRise ? formatTime(this.config, moonRise) : '...') + '</span>'+
+				'<span><i class="fa fa-arrow-down" aria-hidden="true"></i> ' + (moonSet ? formatTime(this.config, moonSet) : '...') + '</span>';
 		}
 
 		/****************************************************************
