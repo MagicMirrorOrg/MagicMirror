@@ -24,7 +24,7 @@ var config = {
 	useHttps: false, 		// Support HTTPS or not, default "false" will use HTTP
 	httpsPrivateKey: "", 	// HTTPS private key path, only require when useHttps is true
 	httpsCertificate: "", 	// HTTPS Certificate path, only require when useHttps is true
-	
+
 	language: "en",
 	timeFormat: 24,
 	units: "metric",
