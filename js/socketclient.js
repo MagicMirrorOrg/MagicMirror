@@ -9,7 +9,7 @@ var MMSocket = function(moduleName) {
 
 	// Private Methods
 	self.socket = io("/" + self.moduleName, {
-		path: window.location.pathname + "/socket.io"
+		path: window.location.pathname + "socket.io"
 	});
 	var notificationCallback = function() {};
 
