@@ -42,6 +42,7 @@ Module.register("currentweather",{
 
 		appendLocationNameToHeader: true,
 		calendarClass: "calendar",
+		tableClass: "large",
 
 		onlyTemp: false,
 		roundTemp: false,
@@ -174,6 +175,7 @@ Module.register("currentweather",{
 	// Override dom generator.
 	getDom: function() {
 		var wrapper = document.createElement("div");
+		wrapper.className = this.config.tableClass;
 
 		if (this.config.appid === "") {
 			wrapper.innerHTML = "Please set the correct openweather <i>appid</i> in the config for module: " + this.name + ".";
@@ -192,7 +194,7 @@ Module.register("currentweather",{
 		}
 
 		var large = document.createElement("div");
-		large.className = "large light";
+		large.className = "light";
 
 		var weatherIcon = document.createElement("span");
 		weatherIcon.className = "wi weathericon " + this.weatherType;
