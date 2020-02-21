@@ -5,6 +5,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror² core.
 
+## [2.10.2] - 2020-02-21
+
+### Added
+- Option to configure the size of the currentweather module.
+
 ## [2.10.1] - 2020-01-10
 
 ### Changed
