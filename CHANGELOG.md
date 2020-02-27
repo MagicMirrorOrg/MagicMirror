@@ -31,6 +31,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix FEELS translation for Croatian
 - Fixed weather tests [#1840](https://github.com/MichMich/MagicMirror/issues/1840)
 - Fixed Socket.io can't be used with Reverse Proxy in serveronly mode [#1934](https://github.com/MichMich/MagicMirror/issues/1934)
+- Fix update checking skipping 3rd party modules the first time
 
 ### Updated
 - Remove documentation from core repository and link to new dedicated docs site: [docs.magicmirror.builders](https://docs.magicmirror.builders).
