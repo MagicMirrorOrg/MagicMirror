@@ -41,6 +41,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Timestamp in log output now also contains the date
 - Turkish translation.
 
+## [2.10.2] - 2020-02-21
+
+### Added
+- Option to configure the size of the currentweather module.
+
 ## [2.10.1] - 2020-01-10
 
 ### Changed
