@@ -188,7 +188,7 @@ Module.register("clock",{
 				moonSet = nextMoonTimes.set;
 			}
 			const isVisible = now.isBetween(moonRise, moonSet) || moonTimes.alwaysUp === true;
-			const illuminatedFractionString = moonIllumination.fraction.toFixed(2) * 100 + '%';
+			const illuminatedFractionString = Math.round(moonIllumination.fraction * 100) + '%';
 			moonWrapper.innerHTML = '<span class="' + (isVisible ? 'bright' : '') + '"><i class="fa fa-moon-o" aria-hidden="true"></i> ' + illuminatedFractionString + '</span>' +
 				'<span><i class="fa fa-arrow-up" aria-hidden="true"></i> ' + (moonRise ? formatTime(this.config, moonRise) : '...') + '</span>'+
 				'<span><i class="fa fa-arrow-down" aria-hidden="true"></i> ' + (moonSet ? formatTime(this.config, moonSet) : '...') + '</span>';
