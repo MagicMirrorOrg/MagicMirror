@@ -40,6 +40,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
   - To start in server only mode, use `npm run server`.
 - Timestamp in log output now also contains the date
 - Turkish translation.
+- Loading the evaluated config file from the server instead of including it in the client (to make it possible to use environment variables in the config file)
 
 ## [2.10.2] - 2020-02-21
 
