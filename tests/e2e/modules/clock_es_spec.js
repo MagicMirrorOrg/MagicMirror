@@ -32,12 +32,12 @@ describe("Clock set to spanish language module", function() {
 
 		it("shows date with correct format", function() {
 			const dateRegex = /^(?:lunes|martes|miércoles|jueves|viernes|sábado|domingo), \d{1,2} de (?:enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre) de \d{4}$/;
-			return app.client.waitUntilWindowLoaded().getText(".clock .date").should.eventually.match(dateRegex);
+			return app.client.waitUntilTextExists(".clock", "").getText(".clock .date").should.eventually.match(dateRegex);
 		});
 
 		it("shows time in 24hr format", function() {
 			const timeRegex = /^(?:2[0-3]|[01]\d):[0-5]\d[0-5]\d$/;
-			return app.client.waitUntilWindowLoaded().getText(".clock .time").should.eventually.match(timeRegex);
+			return app.client.waitUntilTextExists(".clock", "").getText(".clock .time").should.eventually.match(timeRegex);
 		});
 	});
 
@@ -49,12 +49,12 @@ describe("Clock set to spanish language module", function() {
 
 		it("shows date with correct format", function() {
 			const dateRegex = /^(?:lunes|martes|miércoles|jueves|viernes|sábado|domingo), \d{1,2} de (?:enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre) de \d{4}$/;
-			return app.client.waitUntilWindowLoaded().getText(".clock .date").should.eventually.match(dateRegex);
+			return app.client.waitUntilTextExists(".clock", "").getText(".clock .date").should.eventually.match(dateRegex);
 		});
 
 		it("shows time in 12hr format", function() {
 			const timeRegex = /^(?:1[0-2]|[1-9]):[0-5]\d[0-5]\d[ap]m$/;
-			return app.client.waitUntilWindowLoaded().getText(".clock .time").should.eventually.match(timeRegex);
+			return app.client.waitUntilTextExists(".clock", "").getText(".clock .time").should.eventually.match(timeRegex);
 		});
 	});
 
@@ -66,7 +66,7 @@ describe("Clock set to spanish language module", function() {
 
 		it("shows 12hr time with upper case AM/PM", function() {
 			const timeRegex = /^(?:1[0-2]|[1-9]):[0-5]\d[0-5]\d[AP]M$/;
-			return app.client.waitUntilWindowLoaded().getText(".clock .time").should.eventually.match(timeRegex);
+			return app.client.waitUntilTextExists(".clock", "").getText(".clock .time").should.eventually.match(timeRegex);
 		});
 	});
 
@@ -78,7 +78,7 @@ describe("Clock set to spanish language module", function() {
 
 		it("shows week with correct format", function() {
 			const weekRegex = /^Semana [0-9]{1,2}$/;
-			return app.client.waitUntilWindowLoaded()
+			return app.client.waitUntilTextExists(".clock", "")
 				.getText(".clock .week").should.eventually.match(weekRegex);
 		});
 	});
