@@ -1,4 +1,4 @@
-/* global  Log, Loader, Module, config, defaults */
+/* global  Log, Loader, Module, config */
 /* jshint -W020, esversion: 6 */
 
 /* Magic Mirror
@@ -340,16 +340,14 @@ var MM = (function() {
 	};
 
 	/* loadConfig()
-	 * Loads the core config and combines it with de system defaults.
+	 * Loads the core config file from the server.
 	 */
 	var loadConfig = function() {
-		if (typeof config === "undefined") {
-			config = defaults;
-			Log.error("Config file is missing! Please create a config file.");
-			return;
-		}
-
-		config = Object.assign({}, defaults, config);
+		return fetch ("config/").then((response) => {
+			return response.json();
+		}).then((data) => {
+			config = data;
+		});
 	};
 
 	/* setSelectionMethodsForModules()
@@ -453,9 +451,10 @@ var MM = (function() {
 		 */
 		init: function() {
 			Log.info("Initializing MagicMirror.");
-			loadConfig();
-			Translator.loadCoreTranslations(config.language);
-			Loader.loadModules();
+			loadConfig().then(() => {
+				Translator.loadCoreTranslations(config.language);
+				Loader.loadModules();
+			});
 		},
 
 		/* modulesStarted(moduleObjects)
