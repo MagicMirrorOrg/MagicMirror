@@ -26,12 +26,12 @@ describe("Check configuration without modules", function () {
 	});
 
 	it("Show the message MagicMirror title", function () {
-		return app.client.waitUntilWindowLoaded()
+		return app.client.waitUntilTextExists("#module_1_helloworld", "")
 			.getText("#module_1_helloworld .module-content").should.eventually.equal("Magic Mirror2");
 	});
 
 	it("Show the text Michael's website", function () {
-		return app.client.waitUntilWindowLoaded()
+		return app.client.waitUntilTextExists("#module_5_helloworld", "")
 			.getText("#module_5_helloworld .module-content").should.eventually.equal("www.michaelteeuw.nl");
 	});
 });

@@ -31,7 +31,7 @@ describe("Test helloworld module", function() {
 		});
 
 		it("Test message helloworld module", function () {
-			return app.client.waitUntilWindowLoaded()
+			return app.client.waitUntilTextExists(".helloworld", "")
 				.getText(".helloworld").should.eventually.equal("Test HelloWorld Module");
 		});
 	});
@@ -43,7 +43,7 @@ describe("Test helloworld module", function() {
 		});
 
 		it("Test message helloworld module", function () {
-			return app.client.waitUntilWindowLoaded()
+			return app.client.waitUntilTextExists(".helloworld", "")
 				.getText(".helloworld").should.eventually.equal("Hello World!");
 		});
 	});
