@@ -46,6 +46,7 @@
     "grunt-stylelint": "latest",
     "grunt-yamllint": "latest",
     "http-auth": "^3.2.3",
+    "husky": "^4.2.3",
     "jsdom": "^11.6.2",
     "jshint": "^2.10.2",
     "mocha": "^7.0.0",
@@ -79,5 +80,10 @@
   },
   "_moduleAliases": {
     "node_helper": "js/node_helper.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
   }
 }
