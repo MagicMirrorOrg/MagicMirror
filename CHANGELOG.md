@@ -22,9 +22,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add HTTPS support and update config.js.sample
 - Run tests on long term support and latest stable version of nodejs
 - Added the ability to configure a list of modules that shouldn't be update checked.
+- Run linters on git commits
 
 ### Fixed
-- Force declaration of public ip adress in config file (ISSUE #1852)
+- Force declaration of public ip address in config file (ISSUE #1852)
 - Fixes `run-start.sh`: If running in docker-container, don't check the environment, just start electron (ISSUE #1859)
 - Fix calendar time offset for recurring events crossing Daylight Savings Time (ISSUE #1798)
 - Fix regression in currentweather module causing 'undefined' to show up when config.hideTemp is false
@@ -584,7 +585,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 - Added option `remoteFile` to compliments module to load compliment array from filesystem.
 - Added option `zoom` to scale the whole mirror display with a given factor.
 - Added option `roundTemp` for currentweather and weatherforecast modules to display temperatures rounded to nearest integer.
-- Added abilty set the classes option to compliments module for style and text size of compliments.
+- Added ability set the classes option to compliments module for style and text size of compliments.
 - Added ability to configure electronOptions
 - Calendar module: option to hide private events
 - Add root_path for global vars
