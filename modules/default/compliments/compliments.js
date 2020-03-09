@@ -30,6 +30,7 @@ Module.register("compliments", {
 				"Hi, sexy!"
 			],
 			date: [
+				["03-14", "Happy birthday, Albert Einstein!"],
 				["12-10", "Happy birthday, Ada Lovelace!"]
 			],
 		},
