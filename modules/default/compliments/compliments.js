@@ -29,10 +29,12 @@ Module.register("compliments", {
 				"You look nice!",
 				"Hi, sexy!"
 			],
-			date: [
-				["03-14", "Happy birthday, Albert Einstein!"],
-				["12-10", "Happy birthday, Ada Lovelace!"]
+			1403 : [
+				"Happy birthday, Albert Einstein!"
 			],
+			1012: [
+				"Happy birthday, Ada Lovelace!"
+			]
 		},
 		updateInterval: 30000,
 		remoteFile: null,
@@ -106,8 +108,7 @@ Module.register("compliments", {
 	 */
 	complimentArray: function() {
 		var hour = moment().hour();
-		var year = moment().year();
-		var today = moment(new Date());
+		var date = moment().format("DDMM");
 		var compliments;
 
 		if (hour >= this.config.morningStartTime && hour < this.config.morningEndTime && this.config.compliments.hasOwnProperty("morning")) {
@@ -128,11 +129,9 @@ Module.register("compliments", {
 
 		compliments.push.apply(compliments, this.config.compliments.anytime);
 
-		this.config.compliments.date.forEach(d => {
-			if (today.isSame(year + "-" + d[0], "month"))  {
-				compliments.push(d[1]);
-			}
-		});
+		if (date in this.config.compliments) {
+			compliments.push.apply(compliments, this.config.compliments[date]);
+		}
 
 		return compliments;
 	},
