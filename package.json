@@ -12,6 +12,7 @@
     "test": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests --recursive",
     "test:unit": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests/unit --recursive",
     "test:e2e": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests/e2e --recursive",
+    "test:lint": "grunt",
     "config:check": "node tests/configs/check_config.js",
     "lint": "grunt"
   },
@@ -46,7 +47,6 @@
     "grunt-stylelint": "latest",
     "grunt-yamllint": "latest",
     "http-auth": "^3.2.3",
-    "husky": "^4.2.3",
     "jsdom": "^11.6.2",
     "jshint": "^2.10.2",
     "mocha": "^7.0.0",
@@ -80,10 +80,5 @@
   },
   "_moduleAliases": {
     "node_helper": "js/node_helper.js"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint"
-    }
   }
 }
