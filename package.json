@@ -12,9 +12,9 @@
     "test": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests --recursive",
     "test:unit": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests/unit --recursive",
     "test:e2e": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests/e2e --recursive",
-    "test:lint": "grunt",
+    "test:lint": "grunt --env=test",
     "config:check": "node tests/configs/check_config.js",
-    "lint": "grunt"
+    "lint": "grunt --env=lint"
   },
   "repository": {
     "type": "git",
