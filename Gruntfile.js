@@ -20,8 +20,7 @@ module.exports = function(grunt) {
 				"!modules/default/alert/classie.js",
 				"config/*",
 				"translations/translations.js",
-				"vendor/vendor.js",
-				"modules/node_modules/node_helper/index.js"
+				"vendor/vendor.js"
 			]
 		},
 		stylelint: {
@@ -45,7 +44,6 @@ module.exports = function(grunt) {
 					"package.json",
 					".eslintrc.json",
 					".stylelintrc.json",
-					"installers/pm2_MagicMirror.json",
 					"translations/*.json",
 					"modules/default/*/translations/*.json",
 					"vendor/package.json"
