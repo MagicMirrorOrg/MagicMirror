@@ -1,5 +1,6 @@
 const helpers = require("../global-setup");
 const expect = require("chai").expect;
+const moment = require("moment");
 
 const describe = global.describe;
 const it = global.it;
@@ -86,6 +87,42 @@ describe("Compliments module", function() {
 				return app.client.waitUntilWindowLoaded().getText(".compliments").then(function(text) {
 					expect(text).to.be.oneOf(["Anytime here"]);
 				});
+			});
+		});
+	});
+
+	describe("Feature date in compliments module", function() {
+		describe("Set date and empty compliments for anytime, morning, evening and afternoon", function() {
+			let RealDate;
+
+			before(function() {
+				// Set config sample for use in test
+				process.env.MM_CONFIG_FILE = "tests/configs/modules/compliments/compliments_date.js";
+
+				RealDate = Date;
+				let customTimeMs = moment("2015-10-12T06:00:00.000Z").valueOf();
+
+				function MockDate() {
+					return new RealDate(customTimeMs);
+				}
+
+				MockDate.now = function () {
+					return new MockDate().valueOf();
+				};
+
+				MockDate.prototype = RealDate.prototype;
+
+				Date = MockDate;
+			});
+
+			it("Show anytime because if configure empty parts of day compliments and set anytime compliments", function() {
+				return app.client.waitUntilWindowLoaded().getText(".compliments").then(function(text) {
+					expect(text).to.be.oneOf(["Happy birthday, Ada Lovelace!"]);
+				});
+			});
+
+			after(function() {
+				Date = RealDate;
 			});
 		});
 	});
