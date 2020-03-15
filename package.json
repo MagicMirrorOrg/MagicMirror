@@ -47,7 +47,6 @@
     "grunt-yamllint": "latest",
     "http-auth": "^3.2.3",
     "jsdom": "^11.6.2",
-    "jshint": "^2.10.2",
     "mocha": "^7.0.0",
     "mocha-each": "^1.1.0",
     "mocha-logger": "^1.0.6",

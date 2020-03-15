@@ -1,5 +1,4 @@
 /* global  Log, Loader, Module, config, defaults */
-/* jshint -W020, esversion: 6 */
 
 /* Magic Mirror
  * Main System
