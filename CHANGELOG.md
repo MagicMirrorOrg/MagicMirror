@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Deleted
 - Remove installers.
 - Remove externalized scripts.
+- Remove jshint dependency, instead eslint checks your config file now
 
 ### Added
 - Ukrainian translation.
