@@ -1,3 +1,6 @@
 [submodule "SnowWhite"]
 	path = ./modules/SnowWhite
 	url = git@github.com:YeetCodes/SnowWhite.git
+[submodule "modules/SnowWhite"]
+	path = modules/SnowWhite
+	url = git@github.com:YeetCodes/SnowWhite.git
