@@ -213,7 +213,7 @@ Module.register("newsfeed",{
 	},
 
 	getActiveItemURL: function() {
-		return typeof this.newsItems[this.activeItem].url  === "string" ? this.newsItems[this.activeItem].url : this.newsItems[this.activeItem].url.href;
+		return typeof this.newsItems[this.activeItem].url === "string" ? this.newsItems[this.activeItem].url : this.newsItems[this.activeItem].url.href;
 	},
 
 	/* registerFeeds()
