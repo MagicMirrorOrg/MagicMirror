@@ -1,3 +1,10 @@
+/**
+ * MockDate
+ *
+ * By Bob Lauer (https://github.com/boblauer/MockDate
+ * MIT Licensed.
+*/
+
 (function(name, definition) {
     if (typeof module !== 'undefined') module.exports = definition();
     else if (typeof define === 'function' && typeof define.amd === 'object') define(definition);
