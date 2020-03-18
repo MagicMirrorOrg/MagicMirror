@@ -14,7 +14,8 @@
     "test:e2e": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests/e2e --recursive",
     "test:lint": "grunt --env=test",
     "config:check": "node tests/configs/check_config.js",
-    "lint": "grunt --env=lint"
+    "lint": "grunt --env=lint",
+    "lint:yaml": "yamllint .travis.yml"
   },
   "repository": {
     "type": "git",
@@ -45,7 +46,6 @@
     "grunt-jsonlint": "latest",
     "grunt-markdownlint": "latest",
     "grunt-stylelint": "latest",
-    "grunt-yamllint": "latest",
     "http-auth": "^3.2.3",
     "jsdom": "^11.6.2",
     "mocha": "^7.0.0",
@@ -54,7 +54,8 @@
     "spectron": "^8.0.0",
     "stylelint": "latest",
     "stylelint-config-standard": "latest",
-    "time-grunt": "latest"
+    "time-grunt": "latest",
+    "yaml-lint": "^1.2.4"
   },
   "optionalDependencies": {
     "electron": "^6.1.7"
