@@ -1,28 +1,7 @@
 module.exports = function(grunt) {
 	require("time-grunt")(grunt);
-	var fix = (grunt.option("env") || "lint") === "lint";
 	grunt.initConfig({
-		eslint: {
-			options: {
-				fix: fix,
-				configFile: ".eslintrc.json"
-			},
-			target: [
-				"js/*.js",
-				"modules/default/*.js",
-				"modules/default/*/*.js",
-				"serveronly/*.js",
-				"clientonly/*.js",
-				"*.js",
-				"tests/**/*.js",
-				"!modules/default/alert/notificationFx.js",
-				"!modules/default/alert/modernizr.custom.js",
-				"!modules/default/alert/classie.js",
-				"config/*",
-				"translations/translations.js",
-				"vendor/vendor.js"
-			]
-		},
+		pkg: grunt.file.readJSON("package.json"),
 		jsonlint: {
 			main: {
 				src: [
@@ -39,7 +18,6 @@ module.exports = function(grunt) {
 			}
 		}
 	});
-	grunt.loadNpmTasks("grunt-eslint");
 	grunt.loadNpmTasks("grunt-jsonlint");
-	grunt.registerTask("default", ["eslint", "jsonlint"]);
+	grunt.registerTask("default", ["jsonlint"]);
 };
