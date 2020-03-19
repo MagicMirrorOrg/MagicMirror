@@ -23,21 +23,6 @@ module.exports = function(grunt) {
 				"vendor/vendor.js"
 			]
 		},
-		stylelint: {
-			simple: {
-				options: {
-					fix: fix,
-					configFile: ".stylelintrc.json"
-				},
-				src: [
-					"css/main.css",
-					"modules/default/calendar/calendar.css",
-					"modules/default/clock/clock_styles.css",
-					"modules/default/currentweather/currentweather.css",
-					"modules/default/weatherforcast/weatherforcast.css"
-				]
-			}
-		},
 		jsonlint: {
 			main: {
 				src: [
@@ -92,7 +77,6 @@ module.exports = function(grunt) {
 		}
 	});
 	grunt.loadNpmTasks("grunt-eslint");
-	grunt.loadNpmTasks("grunt-stylelint");
 	grunt.loadNpmTasks("grunt-jsonlint");
 	grunt.loadNpmTasks("grunt-markdownlint");
 

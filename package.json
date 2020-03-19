@@ -13,8 +13,10 @@
     "test:unit": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests/unit --recursive",
     "test:e2e": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests/e2e --recursive",
     "test:lint": "grunt --env=test",
+    "test:style": "stylelint css/main.css modules/default/**/*.css --config .stylelintrc.json",
     "config:check": "node tests/configs/check_config.js",
     "lint": "grunt --env=lint",
+    "lint:style": "stylelint css/main.css modules/default/**/*.css --config .stylelintrc.json --fix",
     "lint:yaml": "yamllint .travis.yml"
   },
   "repository": {
@@ -45,7 +47,6 @@
     "grunt-eslint": "latest",
     "grunt-jsonlint": "latest",
     "grunt-markdownlint": "latest",
-    "grunt-stylelint": "latest",
     "http-auth": "^3.2.3",
     "jsdom": "^11.6.2",
     "mocha": "^7.0.0",
