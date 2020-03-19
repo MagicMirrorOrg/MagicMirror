@@ -306,7 +306,9 @@ var MM = (function() {
 			module.showHideTimer = setTimeout(function() {
 				if (typeof callback === "function") { callback(); }
 			}, speed);
-
+		} else {
+			// invoke callback
+			if (typeof callback === "function") { callback(); }
 		}
 	};
 
