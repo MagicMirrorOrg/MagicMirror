@@ -27,7 +27,7 @@ module.exports = NodeHelper.create({
 		for (moduleName in modules) {
 			if (!this.ignoreUpdateChecking(moduleName)) {
 				// Default modules are included in the main MagicMirror repo
-				var moduleFolder =  path.normalize(__dirname + "/../../" + moduleName);
+				var moduleFolder = path.normalize(__dirname + "/../../" + moduleName);
 
 				try {
 					//console.log("checking git for module="+moduleName)

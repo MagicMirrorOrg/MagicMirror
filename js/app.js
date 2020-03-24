@@ -111,10 +111,10 @@ var App = function() {
 
 		var elements = module.split("/");
 		var moduleName = elements[elements.length - 1];
-		var moduleFolder =  __dirname + "/../modules/" + module;
+		var moduleFolder = __dirname + "/../modules/" + module;
 
 		if (defaultModules.indexOf(moduleName) !== -1) {
-			moduleFolder =  __dirname + "/../modules/default/" + module;
+			moduleFolder = __dirname + "/../modules/default/" + module;
 		}
 
 		var helperPath = moduleFolder + "/node_helper.js";
@@ -262,7 +262,7 @@ var App = function() {
 	 */
 	process.on("SIGINT", () => {
 		console.log("[SIGINT] Received. Shutting down server...");
-		setTimeout(() => { process.exit(0); }, 3000);  // Force quit after 3 seconds
+		setTimeout(() => { process.exit(0); }, 3000); // Force quit after 3 seconds
 		this.stop();
 		process.exit(0);
 	});
@@ -271,7 +271,7 @@ var App = function() {
 	 */
 	process.on("SIGTERM", () => {
 		console.log("[SIGTERM] Received. Shutting down server...");
-		setTimeout(() => { process.exit(0); }, 3000);  // Force quit after 3 seconds
+		setTimeout(() => { process.exit(0); }, 3000); // Force quit after 3 seconds
 		this.stop();
 		process.exit(0);
 	});

@@ -83,10 +83,10 @@ var Loader = (function() {
 
 			var elements = module.split("/");
 			var moduleName = elements[elements.length - 1];
-			var moduleFolder =  config.paths.modules + "/" + module;
+			var moduleFolder = config.paths.modules + "/" + module;
 
 			if (defaultModules.indexOf(moduleName) !== -1) {
-				moduleFolder =  config.paths.modules + "/default/" + module;
+				moduleFolder = config.paths.modules + "/default/" + module;
 			}
 
 			if (moduleData.disabled === true) {
@@ -172,7 +172,7 @@ var Loader = (function() {
 	 */
 	var loadFile = function(fileName, callback) {
 
-		var extension =  fileName.slice((Math.max(0, fileName.lastIndexOf(".")) || Infinity) + 1);
+		var extension = fileName.slice((Math.max(0, fileName.lastIndexOf(".")) || Infinity) + 1);
 
 		switch (extension.toLowerCase()) {
 		case "js":
