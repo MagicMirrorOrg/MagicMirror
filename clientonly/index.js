@@ -1,5 +1,3 @@
-/* jshint esversion: 6 */
-
 "use strict";
 
 // Use separate scope to prevent global scope pollution

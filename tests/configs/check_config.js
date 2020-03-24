@@ -9,7 +9,10 @@
  *
  */
 
-var v = require("jshint");
+const Linter = require("eslint").Linter;
+const linter = new Linter();
+const config = require(__dirname + "/../../.eslintrc.json");
+
 var path = require("path");
 var fs = require("fs");
 var Utils = require(__dirname + "/../../js/utils.js");
@@ -50,16 +53,15 @@ function checkConfigFile() {
 	// I'm not sure if all ever is utf-8
 	fs.readFile(configFileName, "utf-8", function (err, data) {
 		if (err) { throw err; }
-		v.JSHINT(data); // Parser by jshint
-
-		if (v.JSHINT.errors.length === 0) {
+		const messages = linter.verify(data, config);
+		if (messages.length === 0) {
 			console.log("Your configuration file doesn't contain syntax errors :)");
 			return true;
 		} else {
-			errors = v.JSHINT.data().errors;
+			errors = messages;
 			for (var idx in errors) {
 				error = errors[idx];
-				console.log("Line", error.line, "col", error.character, error.reason);
+				console.log("Line", error.line, "col", error.column, error.message);
 			}
 		}
 	});
