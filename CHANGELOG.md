@@ -30,6 +30,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix regression in currentweather module causing 'undefined' to show up when config.hideTemp is false
 - Fix FEELS translation for Croatian
 - Fixed weather tests [#1840](https://github.com/MichMich/MagicMirror/issues/1840)
+- Fixed Socket.io can't be used with Reverse Proxy in serveronly mode [#1934](https://github.com/MichMich/MagicMirror/issues/1934)
 - Fix update checking skipping 3rd party modules the first time
 
 ### Updated
