@@ -62,9 +62,9 @@
 	(config.address && config.port) || fail();
 	
 	if (config.tls) {
-		prefix = "https://";
+		var prefix = "https://";
 	} else {
-		prefix = "http://";
+		var prefix = "http://";
 	}
 
 	// Only start the client if a non-local server was provided
