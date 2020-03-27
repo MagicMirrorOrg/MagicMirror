@@ -76,6 +76,7 @@
 				var options = { env: env };
 				configReturn.address = config.address;
 				configReturn.port = config.port;
+				configReturn.tls = config.tls;
 				env.config = JSON.stringify(configReturn);
 
 				// Spawn electron application
