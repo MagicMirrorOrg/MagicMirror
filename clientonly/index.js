@@ -52,7 +52,7 @@
 		if (message !== undefined && typeof message === "string") {
 			console.log(message);
 		} else {
-			console.log("Usage: 'node clientonly --address 192.168.1.10 --port 8080'");
+			console.log("Usage: 'node clientonly --address 192.168.1.10 --port 8080 [--use-tls]'");
 		}
 		process.exit(code);
 	}
