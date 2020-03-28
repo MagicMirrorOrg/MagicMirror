@@ -11,6 +11,8 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Added prettier for an even cleaner codebase
+
 ### Updated
 - Cleaned up alert module code
 - Cleaned up check_config code

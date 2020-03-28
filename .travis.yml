@@ -13,7 +13,9 @@ before_script:
   - "sh -e /etc/init.d/xvfb start"
   - sleep 5
 script:
-  - npm run test:lint
+  - npm run test:prettier
+  - npm run test:js
+  - npm run test:css
   - npm run test:e2e
   - npm run test:unit
 after_script:

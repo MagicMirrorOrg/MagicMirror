@@ -1,6 +1,7 @@
 {
-	"extends": "stylelint-config-standard",
-	"font-family-name-quotes": "double-where-recommended",
-	"block-no-empty": false,
-	"ignoreFiles": ["./modules/default/alert/ns-default.css"]
+	"extends": ["stylelint-prettier/recommended"],
+	"plugins": ["stylelint-prettier"],
+	"rules": {
+		"prettier/prettier": true
+	}
 }
