@@ -29,11 +29,14 @@ Module.register("compliments", {
 				"You look nice!",
 				"Hi, sexy!"
 			],
-			1403 : [
-				"Happy birthday, Albert Einstein!"
+			"....-01-01": [
+				"Happy new year!"
 			],
-			1012: [
-				"Happy birthday, Ada Lovelace!"
+			"....-..-14": [
+				"Have a great 14th day of the month!"
+			],
+			"2020-12-10": [
+				"Happy 205th Birthday, Ada Lovelace!"
 			]
 		},
 		updateInterval: 30000,
@@ -108,7 +111,7 @@ Module.register("compliments", {
 	 */
 	complimentArray: function() {
 		var hour = moment().hour();
-		var date = moment().format("DDMM");
+		var date = moment().format("YYYY-MM-DD");
 		var compliments;
 
 		if (hour >= this.config.morningStartTime && hour < this.config.morningEndTime && this.config.compliments.hasOwnProperty("morning")) {
@@ -129,8 +132,10 @@ Module.register("compliments", {
 
 		compliments.push.apply(compliments, this.config.compliments.anytime);
 
-		if (date in this.config.compliments) {
-			compliments.push.apply(compliments, this.config.compliments[date]);
+		for (entry in this.config.compliments) {
+			if (new RegExp(entry).test(date)) {
+				compliments.push.apply(compliments, this.config.compliments[entry]);
+			}
 		}
 
 		return compliments;

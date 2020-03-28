@@ -27,8 +27,8 @@ let config = {
 					morning: [],
 					afternoon: [],
 					evening: [],
-					1012: [
-						"Happy birthday, Ada Lovelace!"
+					"....-01-01": [
+						"Happy new year!"
 					]
 				}
 			}

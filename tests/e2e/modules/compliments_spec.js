@@ -96,12 +96,12 @@ describe("Compliments module", function() {
 			before(function() {
 				// Set config sample for use in test
 				process.env.MM_CONFIG_FILE = "tests/configs/modules/compliments/compliments_date.js";
-				MockDate.set("2000-12-10");
+				MockDate.set("2000-01-01");
 			});
 
-			it("Show happy birthday compliment on special date", function() {
+			it("Show happy new year compliment on new years day", function() {
 				return app.client.waitUntilWindowLoaded().getText(".compliments").then(function(text) {
-					expect(text).to.be.oneOf(["Happy birthday, Ada Lovelace!"]);
+					expect(text).to.be.oneOf(["Happy new year!"]);
 				});
 			});
 
