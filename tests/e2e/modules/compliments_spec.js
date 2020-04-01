@@ -1,6 +1,5 @@
 const helpers = require("../global-setup");
 const expect = require("chai").expect;
-const MockDate = require("./mocks/date.js");
 
 const describe = global.describe;
 const it = global.it;
@@ -96,17 +95,12 @@ describe("Compliments module", function() {
 			before(function() {
 				// Set config sample for use in test
 				process.env.MM_CONFIG_FILE = "tests/configs/modules/compliments/compliments_date.js";
-				MockDate.set("2000-01-01");
 			});
 
 			it("Show happy new year compliment on new years day", function() {
 				return app.client.waitUntilWindowLoaded().getText(".compliments").then(function(text) {
 					expect(text).to.be.oneOf(["Happy new year!"]);
 				});
-			});
-
-			after(function() {
-				MockDate.reset();
 			});
 		});
 	});

@@ -40,7 +40,8 @@ Module.register("compliments", {
 		morningEndTime: 12,
 		afternoonStartTime: 12,
 		afternoonEndTime: 17,
-		random: true
+		random: true,
+		mockDate: null
 	},
 	lastIndexUsed:-1,
 	// Set currentweather from module
@@ -105,7 +106,7 @@ Module.register("compliments", {
 	 */
 	complimentArray: function() {
 		var hour = moment().hour();
-		var date = moment().format("YYYY-MM-DD");
+		var date = this.config.mockDate ? this.config.mockDate : moment().format("YYYY-MM-DD");
 		var compliments;
 
 		if (hour >= this.config.morningStartTime && hour < this.config.morningEndTime && this.config.compliments.hasOwnProperty("morning")) {
