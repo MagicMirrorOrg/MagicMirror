@@ -8,15 +8,17 @@ var MMSocket = function(moduleName) {
 	self.moduleName = moduleName;
 
 	// Private Methods
-	self.socket = io("/" + self.moduleName);
+	self.socket = io("/" + self.moduleName, {
+		path: window.location.pathname + "socket.io"
+	});
 	var notificationCallback = function() {};
 
 	var onevent = self.socket.onevent;
 	self.socket.onevent = function(packet) {
 		var args = packet.data || [];
-		onevent.call(this, packet);    // original call
+		onevent.call(this, packet); // original call
 		packet.data = ["*"].concat(args);
-		onevent.call(this, packet);      // additional call to catch-all
+		onevent.call(this, packet); // additional call to catch-all
 	};
 
 	// register catch all.

@@ -8,14 +8,7 @@ const helpers = require("../global-setup");
 
 const {generateWeather, generateWeatherForecast} = require("./mocks");
 
-const wait = () => new Promise(res => setTimeout(res, 3000));
-
-// See issue: https://github.com/MichMich/MagicMirror/issues/1840
-// Skipping the weather tests for now since these seem to give issues.
-// Please send a PR if you know how to fix these. Thanks!
- 		
-
-describe.skip("Weather module", function() {
+describe("Weather module", function() {
 
 	let app;
 
@@ -49,7 +42,7 @@ describe.skip("Weather module", function() {
 
 			it("should render wind speed and wind direction", async function() {
 				const weather = generateWeather();
-				await setup([weather, template]);
+				await setup({template, data: weather});
 
 				return app.client.waitUntilTextExists(".weather .normal.medium span:nth-child(2)", "6 WSW", 10000);
 			});
@@ -59,7 +52,7 @@ describe.skip("Weather module", function() {
 				const sunset = moment().startOf("day").unix();
 
 				const weather = generateWeather({sys: {sunrise, sunset}});
-				await setup([weather, template]);
+				await setup({template, data: weather});
 
 				await app.client.waitForExist(".weather .normal.medium span.wi.dimmed.wi-sunrise", 10000);
 
@@ -71,7 +64,7 @@ describe.skip("Weather module", function() {
 				const sunset = moment().endOf("day").unix();
 
 				const weather = generateWeather({sys: {sunrise, sunset}});
-				await setup([weather, template]);
+				await setup({template, data: weather});
 
 				await app.client.waitForExist(".weather .normal.medium span.wi.dimmed.wi-sunset", 10000);
 
@@ -80,7 +73,7 @@ describe.skip("Weather module", function() {
 
 			it("should render temperature with icon", async function() {
 				const weather = generateWeather();
-				await setup([weather, template]);
+				await setup({template, data: weather});
 
 				await app.client.waitForExist(".weather .large.light span.wi.weathericon.wi-snow", 10000);
 
@@ -89,7 +82,7 @@ describe.skip("Weather module", function() {
 
 			it("should render feels like temperature", async function() {
 				const weather = generateWeather();
-				await setup([weather, template]);
+				await setup({template, data: weather});
 
 				return app.client.waitUntilTextExists(".weather .normal.medium span.dimmed", "Feels like -5.6°", 10000);
 			});
@@ -102,14 +95,14 @@ describe.skip("Weather module", function() {
 
 			it("should render useBeaufort = false", async function() {
 				const weather = generateWeather();
-				await setup([weather, template]);
+				await setup({template, data: weather});
 
 				return app.client.waitUntilTextExists(".weather .normal.medium span:nth-child(2)", "12", 10000);
 			});
 
 			it("should render showWindDirectionAsArrow = true", async function() {
 				const weather = generateWeather();
-				await setup([weather, template]);
+				await setup({template, data: weather});
 
 				await app.client.waitForExist(".weather .normal.medium sup i.fa-long-arrow-up", 10000);
 				const element = await app.client.getHTML(".weather .normal.medium sup i.fa-long-arrow-up");
@@ -119,7 +112,7 @@ describe.skip("Weather module", function() {
 
 			it("should render showHumidity = true", async function() {
 				const weather = generateWeather();
-				await setup([weather, template]);
+				await setup({template, data: weather});
 
 				await app.client.waitUntilTextExists(".weather .normal.medium span:nth-child(3)", "93", 10000);
 				return app.client.waitForExist(".weather .normal.medium sup i.wi-humidity", 10000);
@@ -127,7 +120,7 @@ describe.skip("Weather module", function() {
 
 			it("should render degreeLabel = true", async function() {
 				const weather = generateWeather();
-				await setup([weather, template]);
+				await setup({template, data: weather});
 
 				await app.client.waitUntilTextExists(".weather .large.light span.bright", "1°C", 10000);
 
@@ -151,7 +144,7 @@ describe.skip("Weather module", function() {
 						speed: 11.8 * 2.23694
 					},
 				});
-				await setup([weather, template]);
+				await setup({template, data: weather});
 
 				await app.client.waitUntilTextExists(".weather .normal.medium span:nth-child(2)", "6 WSW", 10000);
 				await app.client.waitUntilTextExists(".weather .large.light span.bright", "34,7°", 10000);
@@ -169,7 +162,7 @@ describe.skip("Weather module", function() {
 						speed: 11.8 * 2.23694
 					},
 				});
-				await setup([weather, template]);
+				await setup({template, data: weather});
 
 				await app.client.waitUntilTextExists(".weather .normal.medium span:nth-child(3)", "93,7", 10000);
 				await app.client.waitUntilTextExists(".weather .large.light span.bright", "34,7°", 10000);
@@ -192,7 +185,7 @@ describe.skip("Weather module", function() {
 
 			it("should render days", async function() {
 				const weather = generateWeatherForecast();
-				await setup([weather, template]);
+				await setup({template, data: weather});
 
 				const days = ["Fri", "Sat", "Sun", "Mon", "Tue"];
 
@@ -203,7 +196,7 @@ describe.skip("Weather module", function() {
 
 			it("should render icons", async function() {
 				const weather = generateWeatherForecast();
-				await setup([weather, template]);
+				await setup({template, data: weather});
 
 				const icons = ["day-cloudy", "rain", "day-sunny", "day-sunny", "day-sunny"];
 
@@ -214,7 +207,7 @@ describe.skip("Weather module", function() {
 
 			it("should render max temperatures", async function() {
 				const weather = generateWeatherForecast();
-				await setup([weather, template]);
+				await setup({template, data: weather});
 
 				const temperatures = ["24.4°", "21.0°", "22.9°", "23.4°", "20.6°"];
 
@@ -225,7 +218,7 @@ describe.skip("Weather module", function() {
 
 			it("should render min temperatures", async function() {
 				const weather = generateWeatherForecast();
-				await setup([weather, template]);
+				await setup({template, data: weather});
 
 				const temperatures = ["15.3°", "13.6°", "13.8°", "13.9°", "10.9°"];
 
@@ -236,7 +229,7 @@ describe.skip("Weather module", function() {
 
 			it("should render fading of rows", async function() {
 				const weather = generateWeatherForecast();
-				await setup([weather, template]);
+				await setup({template, data: weather});
 
 				const opacities = [1, 1, 0.8, 0.5333333333333333, 0.2666666666666667];
 
@@ -256,14 +249,14 @@ describe.skip("Weather module", function() {
 
 			it("should render custom table class", async function() {
 				const weather = generateWeatherForecast();
-				await setup([weather, template]);
+				await setup({template, data: weather});
 
 				await app.client.waitForExist(".weather table.myTableClass", 10000);
 			});
 
 			it("should render colored rows", async function() {
 				const weather = generateWeatherForecast();
-				await setup([weather, template]);
+				await setup({template, data: weather});
 
 				await app.client.waitForExist(".weather table.myTableClass", 10000);
 

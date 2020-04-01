@@ -12,19 +12,29 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Deleted
 - Remove installers.
 - Remove externalized scripts.
+- Remove jshint dependency, instead eslint checks your config file now
 
 ### Added
+- Brazilian translation for "FEELS".
 - Ukrainian translation.
 - Finnish translation for "PRECIP", "UPDATE_INFO_MULTIPLE" and "UPDATE_INFO_SINGLE".
 - Added the ability to hide the temp label and weather icon in the `currentweather` module to allow showing only information such as wind and sunset/rise.
 - The `clock` module now optionally displays sun and moon data, including rise/set times, remaining daylight, and percent of moon illumination.
 - Added Hebrew translation.
+- Add HTTPS support and update config.js.sample
+- Run tests on long term support and latest stable version of nodejs
+- Added the ability to configure a list of modules that shouldn't be update checked.
+- Run linters on git commits
 
 ### Fixed
-- Force declaration of public ip adress in config file (ISSUE #1852)
+- Force declaration of public ip address in config file (ISSUE #1852)
 - Fixes `run-start.sh`: If running in docker-container, don't check the environment, just start electron (ISSUE #1859)
 - Fix calendar time offset for recurring events crossing Daylight Savings Time (ISSUE #1798)
 - Fix regression in currentweather module causing 'undefined' to show up when config.hideTemp is false
+- Fix FEELS translation for Croatian
+- Fixed weather tests [#1840](https://github.com/MichMich/MagicMirror/issues/1840)
+- Fixed Socket.io can't be used with Reverse Proxy in serveronly mode [#1934](https://github.com/MichMich/MagicMirror/issues/1934)
+- Fix update checking skipping 3rd party modules the first time
 
 ### Changed
 - Remove documentation from core repository and link to new dedicated docs site: [docs.magicmirror.builders](https://docs.magicmirror.builders).
@@ -33,6 +43,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
   - To start using electron, use `npm run start`.
   - To start in server only mode, use `npm run server`.
 - Remove redundant logging from modules.
+- Timestamp in log output now also contains the date
+- Turkish translation.
+- Option to configure the size of the currentweather module.
 
 ## [2.10.1] - 2020-01-10
 
@@ -572,7 +585,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 - Added option `remoteFile` to compliments module to load compliment array from filesystem.
 - Added option `zoom` to scale the whole mirror display with a given factor.
 - Added option `roundTemp` for currentweather and weatherforecast modules to display temperatures rounded to nearest integer.
-- Added abilty set the classes option to compliments module for style and text size of compliments.
+- Added ability set the classes option to compliments module for style and text size of compliments.
 - Added ability to configure electronOptions
 - Calendar module: option to hide private events
 - Add root_path for global vars

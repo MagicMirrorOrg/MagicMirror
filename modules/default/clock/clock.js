@@ -152,9 +152,9 @@ Module.register("clock",{
 		}
 
 		function formatTime(config, time) {
-			var formatString = hourSymbol + ':mm';
+			var formatString = hourSymbol + ":mm";
 			if (config.showPeriod && config.timeFormat !== 24) {
-				formatString += config.showPeriodUpper ? 'A' : 'a';
+				formatString += config.showPeriodUpper ? "A" : "a";
 			}
 			return moment(time).format(formatString);
 		}
@@ -167,23 +167,31 @@ Module.register("clock",{
 			} else if (now.isBefore(sunTimes.sunset)) {
 				nextEvent = sunTimes.sunset;
 			} else {
-				const tomorrowSunTimes = SunCalc.getTimes(now.clone().add(1, 'day'), this.config.lat, this.config.lon);
+				const tomorrowSunTimes = SunCalc.getTimes(now.clone().add(1, "day"), this.config.lat, this.config.lon);
 				nextEvent = tomorrowSunTimes.sunrise;
 			}
 			const untilNextEvent = moment.duration(moment(nextEvent).diff(now));
-			const untilNextEventString = untilNextEvent.hours() + 'h ' + untilNextEvent.minutes() + 'm';
-			sunWrapper.innerHTML = '<span class="' + (isVisible ? 'bright' : '') + '"><i class="fa fa-sun-o" aria-hidden="true"></i> ' + untilNextEventString + '</span>' +
-				'<span><i class="fa fa-arrow-up" aria-hidden="true"></i>' + formatTime(this.config, sunTimes.sunrise) + '</span>' +
-				'<span><i class="fa fa-arrow-down" aria-hidden="true"></i>' + formatTime(this.config, sunTimes.sunset) + '</span>';
+			const untilNextEventString = untilNextEvent.hours() + "h " + untilNextEvent.minutes() + "m";
+			sunWrapper.innerHTML = "<span class=\"" + (isVisible ? "bright" : "") + "\"><i class=\"fa fa-sun-o\" aria-hidden=\"true\"></i> " + untilNextEventString + "</span>" +
+				"<span><i class=\"fa fa-arrow-up\" aria-hidden=\"true\"></i>" + formatTime(this.config, sunTimes.sunrise) + "</span>" +
+				"<span><i class=\"fa fa-arrow-down\" aria-hidden=\"true\"></i>" + formatTime(this.config, sunTimes.sunset) + "</span>";
 		}
 		if (this.config.showMoonTimes) {
 			const moonIllumination = SunCalc.getMoonIllumination(now.toDate());
 			const moonTimes = SunCalc.getMoonTimes(now, this.config.lat, this.config.lon);
-			const isVisible = now.isBetween(moonTimes.rise, moonTimes.set);
-			const illuminatedFractionString = moonIllumination.fraction.toLocaleString(undefined, {style: 'percent'});
-			moonWrapper.innerHTML = '<span class="' + (isVisible ? 'bright' : '') + '"><i class="fa fa-moon-o" aria-hidden="true"></i> ' + illuminatedFractionString + '</span>' +
-				'<span><i class="fa fa-arrow-up" aria-hidden="true"></i> ' + formatTime(this.config, moonTimes.rise) + '</span>'+
-				'<span><i class="fa fa-arrow-down" aria-hidden="true"></i> ' + formatTime(this.config, moonTimes.set) + '</span>';
+			const moonRise = moonTimes.rise;
+			var moonSet;
+			if (moment(moonTimes.set).isAfter(moonTimes.rise)) {
+				moonSet = moonTimes.set;
+			} else {
+				const nextMoonTimes = SunCalc.getMoonTimes(now.clone().add(1, "day"), this.config.lat, this.config.lon);
+				moonSet = nextMoonTimes.set;
+			}
+			const isVisible = now.isBetween(moonRise, moonSet) || moonTimes.alwaysUp === true;
+			const illuminatedFractionString = Math.round(moonIllumination.fraction * 100) + "%";
+			moonWrapper.innerHTML = "<span class=\"" + (isVisible ? "bright" : "") + "\"><i class=\"fa fa-moon-o\" aria-hidden=\"true\"></i> " + illuminatedFractionString + "</span>" +
+				"<span><i class=\"fa fa-arrow-up\" aria-hidden=\"true\"></i> " + (moonRise ? formatTime(this.config, moonRise) : "...") + "</span>"+
+				"<span><i class=\"fa fa-arrow-down\" aria-hidden=\"true\"></i> " + (moonSet ? formatTime(this.config, moonSet) : "...") + "</span>";
 		}
 
 		/****************************************************************

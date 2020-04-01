@@ -318,7 +318,7 @@ Module.register("calendar", {
 					}
 					if(this.config.showEnd){
 						timeWrapper.innerHTML += "-" ;
-						timeWrapper.innerHTML += this.capFirst(moment(event.endDate  , "x").format(this.config.fullDayEventDateFormat));
+						timeWrapper.innerHTML += this.capFirst(moment(event.endDate , "x").format(this.config.fullDayEventDateFormat));
 					}
 				} else {
 					if (event.startDate >= new Date()) {
