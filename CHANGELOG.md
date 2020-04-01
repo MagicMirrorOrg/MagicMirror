@@ -5,9 +5,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror²
 
-## [2.11.0] - Unreleased (Develop Branch)
+## [2.11.0] - 2020-04-01
 
-*This release is scheduled to be released on 2020-04-01.*
+🚨 READ THIS BEFORE UPDATING 🚨
+
+In the past years the project has grown a lot. This came with a huge downside: poor maintainability. If I let the project continue the way it was, it would eventually crash and burn. More important: I would completely lose the drive and interest to continue the project. Because of this the decision was made to simplify the core by removing all side features like automatic installers and support for exotic platforms. This release (2.11.0) is the first real release that will reflect (parts) of these changes. As a result of this, some things might break. So before you continue make sure to backup your installation. Your config, your modules or better yet: your full MagicMirror folder. In other words: update at your own risk.
+
+For more information regarding this major change, please check issue [#1860](https://github.com/MichMich/MagicMirror/issues/1860).
 
 ### Deleted
 - Remove installers.
