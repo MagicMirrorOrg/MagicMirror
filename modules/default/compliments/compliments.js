@@ -31,12 +31,6 @@ Module.register("compliments", {
 			],
 			"....-01-01": [
 				"Happy new year!"
-			],
-			"....-..-14": [
-				"Have a great 14th day of the month!"
-			],
-			"2020-12-10": [
-				"Happy 205th Birthday, Ada Lovelace!"
 			]
 		},
 		updateInterval: 30000,
