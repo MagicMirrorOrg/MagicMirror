@@ -1,5 +1,4 @@
 /* global  Log, Loader, Module, config, defaults */
-/* jshint -W020, esversion: 6 */
 
 /* Magic Mirror
  * Main System
@@ -306,7 +305,9 @@ var MM = (function() {
 			module.showHideTimer = setTimeout(function() {
 				if (typeof callback === "function") { callback(); }
 			}, speed);
-
+		} else {
+			// invoke callback
+			if (typeof callback === "function") { callback(); }
 		}
 	};
 
@@ -377,7 +378,7 @@ var MM = (function() {
 		 *
 		 * return array - Filtered collection of modules.
 		 */
-		var exceptWithClass  = function(className) {
+		var exceptWithClass = function(className) {
 			return modulesByClass(className, false);
 		};
 
@@ -439,10 +440,10 @@ var MM = (function() {
 			});
 		};
 
-		if (typeof modules.withClass === "undefined") { Object.defineProperty(modules, "withClass",  {value: withClass, enumerable: false}); }
-		if (typeof modules.exceptWithClass === "undefined") { Object.defineProperty(modules, "exceptWithClass",  {value: exceptWithClass, enumerable: false}); }
-		if (typeof modules.exceptModule === "undefined") { Object.defineProperty(modules, "exceptModule",  {value: exceptModule, enumerable: false}); }
-		if (typeof modules.enumerate === "undefined") { Object.defineProperty(modules, "enumerate",  {value: enumerate, enumerable: false}); }
+		if (typeof modules.withClass === "undefined") { Object.defineProperty(modules, "withClass", {value: withClass, enumerable: false}); }
+		if (typeof modules.exceptWithClass === "undefined") { Object.defineProperty(modules, "exceptWithClass", {value: exceptWithClass, enumerable: false}); }
+		if (typeof modules.exceptModule === "undefined") { Object.defineProperty(modules, "exceptModule", {value: exceptModule, enumerable: false}); }
+		if (typeof modules.enumerate === "undefined") { Object.defineProperty(modules, "enumerate", {value: enumerate, enumerable: false}); }
 	};
 
 	return {

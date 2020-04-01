@@ -26,10 +26,15 @@ Module.register("clock",{
 		analogShowDate: "top", // options: false, 'top', or 'bottom'
 		secondsColor: "#888888",
 		timezone: null,
+
+		showSunTimes: false,
+		showMoonTimes: false,
+		lat: 47.630539,
+		lon: -122.344147,
 	},
 	// Define required scripts.
 	getScripts: function() {
-		return ["moment.js", "moment-timezone.js"];
+		return ["moment.js", "moment-timezone.js", "suncalc.js"];
 	},
 	// Define styles.
 	getStyles: function() {
@@ -93,11 +98,15 @@ Module.register("clock",{
 		var timeWrapper = document.createElement("div");
 		var secondsWrapper = document.createElement("sup");
 		var periodWrapper = document.createElement("span");
+		var sunWrapper = document.createElement("div");
+		var moonWrapper = document.createElement("div");
 		var weekWrapper = document.createElement("div");
 		// Style Wrappers
 		dateWrapper.className = "date normal medium";
 		timeWrapper.className = "time bright large light";
 		secondsWrapper.className = "dimmed";
+		sunWrapper.className = "sun dimmed small";
+		moonWrapper.className = "moon dimmed small";
 		weekWrapper.className = "week dimmed medium";
 
 		// Set content of wrappers.
@@ -140,6 +149,49 @@ Module.register("clock",{
 		}
 		if (this.config.showPeriod && this.config.timeFormat !== 24) {
 			timeWrapper.appendChild(periodWrapper);
+		}
+
+		function formatTime(config, time) {
+			var formatString = hourSymbol + ":mm";
+			if (config.showPeriod && config.timeFormat !== 24) {
+				formatString += config.showPeriodUpper ? "A" : "a";
+			}
+			return moment(time).format(formatString);
+		}
+		if (this.config.showSunTimes) {
+			const sunTimes = SunCalc.getTimes(now, this.config.lat, this.config.lon);
+			const isVisible = now.isBetween(sunTimes.sunrise, sunTimes.sunset);
+			var nextEvent;
+			if (now.isBefore(sunTimes.sunrise)) {
+				nextEvent = sunTimes.sunrise;
+			} else if (now.isBefore(sunTimes.sunset)) {
+				nextEvent = sunTimes.sunset;
+			} else {
+				const tomorrowSunTimes = SunCalc.getTimes(now.clone().add(1, "day"), this.config.lat, this.config.lon);
+				nextEvent = tomorrowSunTimes.sunrise;
+			}
+			const untilNextEvent = moment.duration(moment(nextEvent).diff(now));
+			const untilNextEventString = untilNextEvent.hours() + "h " + untilNextEvent.minutes() + "m";
+			sunWrapper.innerHTML = "<span class=\"" + (isVisible ? "bright" : "") + "\"><i class=\"fa fa-sun-o\" aria-hidden=\"true\"></i> " + untilNextEventString + "</span>" +
+				"<span><i class=\"fa fa-arrow-up\" aria-hidden=\"true\"></i>" + formatTime(this.config, sunTimes.sunrise) + "</span>" +
+				"<span><i class=\"fa fa-arrow-down\" aria-hidden=\"true\"></i>" + formatTime(this.config, sunTimes.sunset) + "</span>";
+		}
+		if (this.config.showMoonTimes) {
+			const moonIllumination = SunCalc.getMoonIllumination(now.toDate());
+			const moonTimes = SunCalc.getMoonTimes(now, this.config.lat, this.config.lon);
+			const moonRise = moonTimes.rise;
+			var moonSet;
+			if (moment(moonTimes.set).isAfter(moonTimes.rise)) {
+				moonSet = moonTimes.set;
+			} else {
+				const nextMoonTimes = SunCalc.getMoonTimes(now.clone().add(1, "day"), this.config.lat, this.config.lon);
+				moonSet = nextMoonTimes.set;
+			}
+			const isVisible = now.isBetween(moonRise, moonSet) || moonTimes.alwaysUp === true;
+			const illuminatedFractionString = Math.round(moonIllumination.fraction * 100) + "%";
+			moonWrapper.innerHTML = "<span class=\"" + (isVisible ? "bright" : "") + "\"><i class=\"fa fa-moon-o\" aria-hidden=\"true\"></i> " + illuminatedFractionString + "</span>" +
+				"<span><i class=\"fa fa-arrow-up\" aria-hidden=\"true\"></i> " + (moonRise ? formatTime(this.config, moonRise) : "...") + "</span>"+
+				"<span><i class=\"fa fa-arrow-down\" aria-hidden=\"true\"></i> " + (moonSet ? formatTime(this.config, moonSet) : "...") + "</span>";
 		}
 
 		/****************************************************************
@@ -210,6 +262,8 @@ Module.register("clock",{
 			// Display only a digital clock
 			wrapper.appendChild(dateWrapper);
 			wrapper.appendChild(timeWrapper);
+			wrapper.appendChild(sunWrapper);
+			wrapper.appendChild(moonWrapper);
 			wrapper.appendChild(weekWrapper);
 		} else if (this.config.displayType === "analog") {
 			// Display only an analog clock
@@ -244,6 +298,8 @@ Module.register("clock",{
 			digitalWrapper.style.cssFloat = "none";
 			digitalWrapper.appendChild(dateWrapper);
 			digitalWrapper.appendChild(timeWrapper);
+			digitalWrapper.appendChild(sunWrapper);
+			digitalWrapper.appendChild(moonWrapper);
 			digitalWrapper.appendChild(weekWrapper);
 
 			var appendClocks = function(condition, pos1, pos2) {

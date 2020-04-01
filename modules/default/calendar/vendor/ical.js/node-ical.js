@@ -26,6 +26,17 @@ exports.parseFile = function(filename){
 
 var rrule = require('rrule').RRule
 
+function getLocaleISOString(date) {
+	var year = date.getFullYear().toString(10).padStart(4,'0');
+	var month = (date.getMonth() + 1).toString(10).padStart(2,'0');
+	var day = date.getDate().toString(10).padStart(2,'0');
+	var hour = date.getHours().toString(10).padStart(2,'0');
+	var minute = date.getMinutes().toString(10).padStart(2,'0');
+	var second = date.getSeconds().toString(10).padStart(2,'0');
+
+	return `${year}${month}${day}T${hour}${minute}${second}Z`;
+}
+
 ical.objectHandlers['RRULE'] = function(val, params, curr, stack, line){
   curr.rrule = line;
   return curr
@@ -50,8 +61,8 @@ ical.objectHandlers['END'] = function (val, params, curr, stack) {
 
 				if (typeof curr.start.toISOString === 'function') {
 					try {
-						rule += ';DTSTART=' + curr.start.toISOString().replace(/[-:]/g, '');
-						rule = rule.replace(/\.[0-9]{3}/, '');
+						// kblankenship1989 - to fix issue #1798, converting all dates to locale time first, then converting back to UTC time
+						rule += ';DTSTART=' + getLocaleISOString(curr.start);
 					} catch (error) {
 						console.error("ERROR when trying to convert to ISOString", error);
 					}

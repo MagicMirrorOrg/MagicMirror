@@ -1,10 +1,10 @@
 module.exports = function(grunt) {
 	require("time-grunt")(grunt);
+	var fix = (grunt.option("env") || "lint") === "lint";
 	grunt.initConfig({
-		pkg: grunt.file.readJSON("package.json"),
 		eslint: {
 			options: {
-				fix: "true",
+				fix: fix,
 				configFile: ".eslintrc.json"
 			},
 			target: [
@@ -20,13 +20,13 @@ module.exports = function(grunt) {
 				"!modules/default/alert/classie.js",
 				"config/*",
 				"translations/translations.js",
-				"vendor/vendor.js",
-				"modules/node_modules/node_helper/index.js"
+				"vendor/vendor.js"
 			]
 		},
 		stylelint: {
 			simple: {
 				options: {
+					fix: fix,
 					configFile: ".stylelintrc.json"
 				},
 				src: [
@@ -44,7 +44,6 @@ module.exports = function(grunt) {
 					"package.json",
 					".eslintrc.json",
 					".stylelintrc.json",
-					"installers/pm2_MagicMirror.json",
 					"translations/*.json",
 					"modules/default/*/translations/*.json",
 					"vendor/package.json"
@@ -77,7 +76,8 @@ module.exports = function(grunt) {
 						"MD018": false,
 						"MD012": false,
 						"MD026": false,
-						"MD038": false
+						"MD038": false,
+						"MD047": false
 					}
 				},
 				src: [
@@ -101,5 +101,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-jsonlint");
 	grunt.loadNpmTasks("grunt-yamllint");
 	grunt.loadNpmTasks("grunt-markdownlint");
+
 	grunt.registerTask("default", ["eslint", "stylelint", "jsonlint", "markdownlint", "yamllint"]);
 };

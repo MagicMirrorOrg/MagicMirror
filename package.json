@@ -1,18 +1,20 @@
 {
   "name": "magicmirror",
-  "version": "2.10.1",
+  "version": "2.11.0",
   "description": "The open source modular smart mirror platform.",
   "main": "js/electron.js",
   "scripts": {
-    "start": "./run-start.sh",
-    "install": "cd vendor && npm install",
-    "install-fonts": "cd fonts && npm install",
-    "postinstall": "sh untrack-css.sh && sh installers/postinstall/postinstall.sh && npm run install-fonts",
+    "start": "DISPLAY=\"${DISPLAY:=:0}\" ./node_modules/.bin/electron js/electron.js",
+    "server": "node ./serveronly",
+    "install": "echo \"Installing vendor files ...\n\" && cd vendor && npm install --loglevel=error",
+    "install-fonts": "echo \"Installing fonts ...\n\" && cd fonts && npm install --loglevel=error",
+    "postinstall": "npm run install-fonts && echo \"MagicMirror installation finished successfully! \n\"",
     "test": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests --recursive",
     "test:unit": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests/unit --recursive",
     "test:e2e": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests/e2e --recursive",
+    "test:lint": "grunt --env=test",
     "config:check": "node tests/configs/check_config.js",
-    "lint": "grunt"
+    "lint": "grunt --env=lint"
   },
   "repository": {
     "type": "git",
@@ -46,17 +48,16 @@
     "grunt-yamllint": "latest",
     "http-auth": "^3.2.3",
     "jsdom": "^11.6.2",
-    "jshint": "^2.10.2",
-    "mocha": "^4.1.0",
+    "mocha": "^7.0.0",
     "mocha-each": "^1.1.0",
     "mocha-logger": "^1.0.6",
-    "spectron": "^3.8.0",
+    "spectron": "^8.0.0",
     "stylelint": "latest",
     "stylelint-config-standard": "latest",
     "time-grunt": "latest"
   },
   "optionalDependencies": {
-    "electron": "^3.0.13"
+    "electron": "^6.1.7"
   },
   "dependencies": {
     "colors": "^1.1.2",

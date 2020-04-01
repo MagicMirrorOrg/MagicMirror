@@ -138,8 +138,6 @@ Module.register("calendar", {
 			this.loaded = true;
 		} else if (notification === "INCORRECT_URL") {
 			Log.error("Calendar Error. Incorrect url: " + payload.url);
-		} else {
-			Log.log("Calendar received an unknown socket notification: " + notification);
 		}
 
 		this.updateDom(this.config.animationSpeed);
@@ -320,7 +318,7 @@ Module.register("calendar", {
 					}
 					if(this.config.showEnd){
 						timeWrapper.innerHTML += "-" ;
-						timeWrapper.innerHTML += this.capFirst(moment(event.endDate  , "x").format(this.config.fullDayEventDateFormat));
+						timeWrapper.innerHTML += this.capFirst(moment(event.endDate , "x").format(this.config.fullDayEventDateFormat));
 					}
 				} else {
 					if (event.startDate >= new Date()) {

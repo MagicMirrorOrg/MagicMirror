@@ -3,7 +3,54 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror² core.
+❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror²
+
+## [2.11.0] - 2020-04-01
+
+🚨 READ THIS BEFORE UPDATING 🚨
+
+In the past years the project has grown a lot. This came with a huge downside: poor maintainability. If I let the project continue the way it was, it would eventually crash and burn. More important: I would completely lose the drive and interest to continue the project. Because of this the decision was made to simplify the core by removing all side features like automatic installers and support for exotic platforms. This release (2.11.0) is the first real release that will reflect (parts) of these changes. As a result of this, some things might break. So before you continue make sure to backup your installation. Your config, your modules or better yet: your full MagicMirror folder. In other words: update at your own risk.
+
+For more information regarding this major change, please check issue [#1860](https://github.com/MichMich/MagicMirror/issues/1860).
+
+### Deleted
+- Remove installers.
+- Remove externalized scripts.
+- Remove jshint dependency, instead eslint checks your config file now
+
+### Added
+- Brazilian translation for "FEELS".
+- Ukrainian translation.
+- Finnish translation for "PRECIP", "UPDATE_INFO_MULTIPLE" and "UPDATE_INFO_SINGLE".
+- Added the ability to hide the temp label and weather icon in the `currentweather` module to allow showing only information such as wind and sunset/rise.
+- The `clock` module now optionally displays sun and moon data, including rise/set times, remaining daylight, and percent of moon illumination.
+- Added Hebrew translation.
+- Add HTTPS support and update config.js.sample
+- Run tests on long term support and latest stable version of nodejs
+- Added the ability to configure a list of modules that shouldn't be update checked.
+- Run linters on git commits
+- Added date functionality to compliments: display birthday wishes or celebrate an anniversary
+
+### Fixed
+- Force declaration of public ip address in config file (ISSUE #1852)
+- Fixes `run-start.sh`: If running in docker-container, don't check the environment, just start electron (ISSUE #1859)
+- Fix calendar time offset for recurring events crossing Daylight Savings Time (ISSUE #1798)
+- Fix regression in currentweather module causing 'undefined' to show up when config.hideTemp is false
+- Fix FEELS translation for Croatian
+- Fixed weather tests [#1840](https://github.com/MichMich/MagicMirror/issues/1840)
+- Fixed Socket.io can't be used with Reverse Proxy in serveronly mode [#1934](https://github.com/MichMich/MagicMirror/issues/1934)
+- Fix update checking skipping 3rd party modules the first time
+
+### Changed
+- Remove documentation from core repository and link to new dedicated docs site: [docs.magicmirror.builders](https://docs.magicmirror.builders).
+- Updated config.js.sample: Corrected some grammar on `config.js.sample` comment section.
+- Removed `run-start.sh` script and update start commands:
+  - To start using electron, use `npm run start`.
+  - To start in server only mode, use `npm run server`.
+- Remove redundant logging from modules.
+- Timestamp in log output now also contains the date
+- Turkish translation.
+- Option to configure the size of the currentweather module.
 
 ## [2.10.1] - 2020-01-10
 
@@ -11,6 +58,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Updated README.md: Added links to the official documentation website and remove links to broken installer.
 
 ## [2.10.0] - 2020-01-01
+
+Special thanks to @sdetweil for all his great contributions!
 
 ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`.
 
@@ -32,9 +81,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fixed issue in weatherforecast module where predicted amount of rain was not using the decimal symbol specified in config.js.
 - Module header now updates correctly, if a module need to dynamically show/hide its header based on a condition.
 - Fix handling of config.js for serverOnly mode commented out.
-- Fixed issue in calendar module where the debug script didn't work correctly with authentication
-- Fixed issue that some full day events were not correctly recognized as such
-- Display full day events lasting multiple days as happening today instead of some days ago if they are still ongoing
+- Fixed issue in calendar module where the debug script didn't work correctly with authentication.
+- Fixed issue that some full day events were not correctly recognized as such.
+- Display full day events lasting multiple days as happening today instead of some days ago if they are still ongoing.
 
 ## [2.9.0] - 2019-10-01
 
@@ -541,7 +590,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 - Added option `remoteFile` to compliments module to load compliment array from filesystem.
 - Added option `zoom` to scale the whole mirror display with a given factor.
 - Added option `roundTemp` for currentweather and weatherforecast modules to display temperatures rounded to nearest integer.
-- Added abilty set the classes option to compliments module for style and text size of compliments.
+- Added ability set the classes option to compliments module for style and text size of compliments.
 - Added ability to configure electronOptions
 - Calendar module: option to hide private events
 - Add root_path for global vars

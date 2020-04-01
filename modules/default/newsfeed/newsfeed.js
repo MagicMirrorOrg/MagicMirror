@@ -213,7 +213,7 @@ Module.register("newsfeed",{
 	},
 
 	getActiveItemURL: function() {
-		return typeof this.newsItems[this.activeItem].url  === "string" ? this.newsItems[this.activeItem].url : this.newsItems[this.activeItem].url.href;
+		return typeof this.newsItems[this.activeItem].url === "string" ? this.newsItems[this.activeItem].url : this.newsItems[this.activeItem].url.href;
 	},
 
 	/* registerFeeds()
@@ -367,7 +367,6 @@ Module.register("newsfeed",{
 	},
 
 	notificationReceived: function(notification, payload, sender) {
-		Log.info(this.name + " - received notification: " + notification);
 		if(notification === "ARTICLE_NEXT"){
 			var before = this.activeItem;
 			this.activeItem++;
@@ -425,8 +424,6 @@ Module.register("newsfeed",{
 				desc:   this.newsItems[this.activeItem].description,
 				url:    this.getActiveItemURL()
 			});
-		} else {
-			Log.info(this.name + " - unknown notification, ignoring: " + notification);
 		}
 	},
 

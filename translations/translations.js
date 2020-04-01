@@ -36,12 +36,14 @@ var translations = {
 	"kr" : "translations/kr.json", // Korean
 	"ro" : "translations/ro.json", // Romanian
 	"cy" : "translations/cy.json", // Welsh (Cymraeg)
-	"bg" : "translations/bg.json",  // Bulgarian
-	"cs" : "translations/cs.json",  // Czech
+	"bg" : "translations/bg.json", // Bulgarian
+	"cs" : "translations/cs.json", // Czech
 	"hr" : "translations/hr.json", // Croatian
-	"sk" : "translations/sk.json",  // Slovak
+	"sk" : "translations/sk.json", // Slovak
 	"tlh" : "translations/tlh.json", // Klingon
-	"ms-my" : "translations/ms-my.json" // Malay
+	"ms-my" : "translations/ms-my.json", // Malay
+	"he" : "translations/he.json", // Hebrew
+	"uk" : "translations/uk.json" // Ukrainian
 };
 
 if (typeof module !== "undefined") {module.exports = translations;}

@@ -1,21 +1,24 @@
 dist: trusty
 language: node_js
 node_js:
- - "10"
+  - 10
+  - lts/*
+  - node
 before_install:
   - npm i -g npm
 before_script:
- - yarn danger ci
- - npm install grunt-cli -g
- - "export DISPLAY=:99.0"
- - "sh -e /etc/init.d/xvfb start"
- - sleep 5
+  - yarn danger ci
+  - npm install grunt-cli -g
+  - "export DISPLAY=:99.0"
+  - "export ELECTRON_DISABLE_SANDBOX=1"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 5
 script:
-- npm run test:e2e
-- npm run test:unit
-- grunt
+  - npm run test:lint
+  - npm run test:e2e
+  - npm run test:unit
 after_script:
- - npm list
+  - npm list
 cache:
- directories:
-  - node_modules
+  directories:
+    - node_modules

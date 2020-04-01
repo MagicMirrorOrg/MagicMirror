@@ -151,9 +151,9 @@ var Module = Class.extend({
 	 */
 	notificationReceived: function (notification, payload, sender) {
 		if (sender) {
-			Log.log(this.name + " received a module notification: " + notification + " from sender: " + sender.name);
+			// Log.log(this.name + " received a module notification: " + notification + " from sender: " + sender.name);
 		} else {
-			Log.log(this.name + " received a system notification: " + notification);
+			// Log.log(this.name + " received a system notification: " + notification);
 		}
 	},
 
@@ -417,8 +417,11 @@ var Module = Class.extend({
 		callback = callback || function () { };
 		options = options || {};
 
-		this.resume();
-		MM.showModule(this, speed, callback, options);
+		var self = this;
+		MM.showModule(this, speed, function () {
+			self.resume();
+			callback;
+		}, options);
 	}
 });
 

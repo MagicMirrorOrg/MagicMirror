@@ -1,6 +1,6 @@
-/* Magic Mirror Test config default weather
+/* Magic Mirror Test config compliments with date type
  *
- * By fewieden https://github.com/fewieden
+ * By Rejas
  *
  * MIT Licensed.
  */
@@ -20,17 +20,18 @@ let config = {
 
 	modules: [
 		{
-			module: "weather",
-			position: "bottom_bar",
+			module: "compliments",
+			position: "middle_center",
 			config: {
-				type: "forecast",
-				location: "Munich",
-				apiKey: "fake key",
-				weatherEndpoint: "/forecast/daily",
-				initialLoadDelay: 3000,
-				showPrecipitationAmount: true,
-				colored: true,
-				tableClass: "myTableClass"
+				mockDate: "2020-01-01",
+				compliments: {
+					morning: [],
+					afternoon: [],
+					evening: [],
+					"....-01-01": [
+						"Happy new year!"
+					]
+				}
 			}
 		}
 	]
