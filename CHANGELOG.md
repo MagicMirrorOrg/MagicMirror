@@ -25,6 +25,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Run tests on long term support and latest stable version of nodejs
 - Added the ability to configure a list of modules that shouldn't be update checked.
 - Run linters on git commits
+- Added date functionality to compliments: display birthday wishes or celebrate an anniversary
 
 ### Fixed
 - Force declaration of public ip address in config file (ISSUE #1852)

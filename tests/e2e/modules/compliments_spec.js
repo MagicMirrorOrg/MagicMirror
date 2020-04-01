@@ -89,4 +89,19 @@ describe("Compliments module", function() {
 			});
 		});
 	});
+
+	describe("Feature date in compliments module", function() {
+		describe("Set date and empty compliments for anytime, morning, evening and afternoon", function() {
+			before(function() {
+				// Set config sample for use in test
+				process.env.MM_CONFIG_FILE = "tests/configs/modules/compliments/compliments_date.js";
+			});
+
+			it("Show happy new year compliment on new years day", function() {
+				return app.client.waitUntilWindowLoaded().getText(".compliments").then(function(text) {
+					expect(text).to.be.oneOf(["Happy new year!"]);
+				});
+			});
+		});
+	});
 });
