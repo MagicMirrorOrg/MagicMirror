@@ -48,9 +48,9 @@ function createWindow() {
 
 	var prefix;
 	if (config["tls"] !== null && config["tls"]) {
-		prefix = 'https://';
+		prefix = "https://";
 	} else {
-		prefix = 'http://';
+		prefix = "http://";
 	}
 
 	var address = (config.address === void 0) | (config.address === "") ? (config.address = "localhost") : config.address;
