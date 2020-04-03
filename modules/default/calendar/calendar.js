@@ -138,8 +138,6 @@ Module.register("calendar", {
 			this.loaded = true;
 		} else if (notification === "INCORRECT_URL") {
 			Log.error("Calendar Error. Incorrect url: " + payload.url);
-		} else {
-			Log.log("Calendar received an unknown socket notification: " + notification);
 		}
 
 		this.updateDom(this.config.animationSpeed);

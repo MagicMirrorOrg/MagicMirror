@@ -5,9 +5,24 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror²
 
-## [2.11.0] - Unreleased (Develop Branch)
+## [2.12.0] - Unreleased (Develop Branch)
 
-*This release is scheduled to be released on 2020-04-01.*
+*This release is scheduled to be released on 2020-07-01.*
+
+# Added
+
+# Updated
+
+# Deleted
+
+
+## [2.11.0] - 2020-04-01
+
+🚨 READ THIS BEFORE UPDATING 🚨
+
+In the past years the project has grown a lot. This came with a huge downside: poor maintainability. If I let the project continue the way it was, it would eventually crash and burn. More important: I would completely lose the drive and interest to continue the project. Because of this the decision was made to simplify the core by removing all side features like automatic installers and support for exotic platforms. This release (2.11.0) is the first real release that will reflect (parts) of these changes. As a result of this, some things might break. So before you continue make sure to backup your installation. Your config, your modules or better yet: your full MagicMirror folder. In other words: update at your own risk.
+
+For more information regarding this major change, please check issue [#1860](https://github.com/MichMich/MagicMirror/issues/1860).
 
 ### Deleted
 - Remove installers.
@@ -25,6 +40,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Run tests on long term support and latest stable version of nodejs
 - Added the ability to configure a list of modules that shouldn't be update checked.
 - Run linters on git commits
+- Added date functionality to compliments: display birthday wishes or celebrate an anniversary
 - Add HTTPS support for clientonly-mode.
 
 ### Fixed
@@ -37,18 +53,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fixed Socket.io can't be used with Reverse Proxy in serveronly mode [#1934](https://github.com/MichMich/MagicMirror/issues/1934)
 - Fix update checking skipping 3rd party modules the first time
 
-### Updated
+### Changed
 - Remove documentation from core repository and link to new dedicated docs site: [docs.magicmirror.builders](https://docs.magicmirror.builders).
 - Updated config.js.sample: Corrected some grammar on `config.js.sample` comment section.
 - Removed `run-start.sh` script and update start commands:
   - To start using electron, use `npm run start`.
   - To start in server only mode, use `npm run server`.
+- Remove redundant logging from modules.
 - Timestamp in log output now also contains the date
 - Turkish translation.
-
-## [2.10.2] - 2020-02-21
-
-### Added
 - Option to configure the size of the currentweather module.
 
 ## [2.10.1] - 2020-01-10

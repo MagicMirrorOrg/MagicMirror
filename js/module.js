@@ -151,9 +151,9 @@ var Module = Class.extend({
 	 */
 	notificationReceived: function (notification, payload, sender) {
 		if (sender) {
-			Log.log(this.name + " received a module notification: " + notification + " from sender: " + sender.name);
+			// Log.log(this.name + " received a module notification: " + notification + " from sender: " + sender.name);
 		} else {
-			Log.log(this.name + " received a system notification: " + notification);
+			// Log.log(this.name + " received a system notification: " + notification);
 		}
 	},
 
