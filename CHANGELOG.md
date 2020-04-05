@@ -9,11 +9,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 *This release is scheduled to be released on 2020-07-01.*
 
-# Added
+### Added
 
-# Updated
+### Updated
 
-# Deleted
+### Deleted
 
 ### Fixed
 - The broken modules due to Socket.io change from last release [#1973](https://github.com/MichMich/MagicMirror/issues/1973)
