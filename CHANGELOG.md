@@ -15,6 +15,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 # Deleted
 
+### Fixed
+- The broken modules due to Socket.io change from last release [#1973](https://github.com/MichMich/MagicMirror/issues/1973)
 
 ## [2.11.0] - 2020-04-01
 
