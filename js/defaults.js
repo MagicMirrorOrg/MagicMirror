@@ -15,7 +15,7 @@ if (typeof(mmPort) !== "undefined") {
 var defaults = {
 	address: address,
 	port: port,
-	basename: "/",
+	basePath: "/",
 	kioskmode: false,
 	electronOptions: {},
 	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1"],
