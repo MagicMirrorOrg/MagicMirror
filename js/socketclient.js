@@ -9,7 +9,7 @@ var MMSocket = function(moduleName) {
 
 	// Private Methods
 	var base = "/";
-	if (typeof config !== "undefined") {
+	if ((typeof config !== "undefined") && (typeof config.basePath !== "undefined")) {
 		base = config.basePath;
 	}
 	self.socket = io("/" + self.moduleName, {
