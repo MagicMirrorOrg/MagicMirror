@@ -12,12 +12,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 ### Updated
+Replaced grunt-based linters with their non-grunt equivalents
 
 ### Deleted
 
 ### Fixed
 - The broken modules due to Socket.io change from last release [#1973](https://github.com/MichMich/MagicMirror/issues/1973)
-- Add backward compatibilty for old module code in socketclient.js [#1973](https://github.com/MichMich/MagicMirror/issues/1973)
+- Add backward compatibility for old module code in socketclient.js [#1973](https://github.com/MichMich/MagicMirror/issues/1973)
 
 ## [2.11.0] - 2020-04-01
 
