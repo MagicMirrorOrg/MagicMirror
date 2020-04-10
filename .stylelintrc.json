@@ -1,5 +1,6 @@
 {
 	"extends": "stylelint-config-standard",
 	"font-family-name-quotes": "double-where-recommended",
-	"block-no-empty": false
+	"block-no-empty": false,
+	"ignoreFiles": ["./modules/default/alert/ns-default.css"]
 }
