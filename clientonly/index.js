@@ -20,7 +20,7 @@
 		});
 
 		// determine if "--use-tls"-flag was provided
-		config["tls"] = process.argv.indexOf(`--use-tls`) > 0;
+		config["tls"] = process.argv.indexOf("--use-tls") > 0;
 	}
 
 	function getServerConfig(url) {
