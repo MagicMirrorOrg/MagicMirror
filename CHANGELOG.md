@@ -45,6 +45,7 @@ For more information regarding this major change, please check issue [#1860](htt
 - Added the ability to configure a list of modules that shouldn't be update checked.
 - Run linters on git commits
 - Added date functionality to compliments: display birthday wishes or celebrate an anniversary
+- Add HTTPS support for clientonly-mode.
 
 ### Fixed
 - Force declaration of public ip address in config file (ISSUE #1852)
