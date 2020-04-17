@@ -71,6 +71,7 @@ Module.register("newsfeed",{
 		this.registerFeeds();
 
 		this.isShowingDescription = this.config.showDescription;
+		this.currentProfilePattern = new RegExp(".*");
 	},
 
 	// Override socket notification handler.
@@ -96,11 +97,20 @@ Module.register("newsfeed",{
 			return wrapper;
 		}
 
-		if (this.activeItem >= this.newsItems.length) {
-			this.activeItem = 0;
+		var validNewsFound = false;
+		for (var i = 0; i < this.newsItems.length; i++){
+			if (this.activeItem >= this.newsItems.length) {
+				this.activeItem = 0;
+			}
+			if(!this.newsItems[this.activeItem].profiles || self.currentProfilePattern.test(this.newsItems[this.activeItem].profiles)){
+				validNewsFound = true;
+				break;
+			}
+
+			this.activeItem += 1;
 		}
 
-		if (this.newsItems.length > 0) {
+		if ((this.newsItems.length > 0) && validNewsFound) {
 
 			// this.config.showFullArticle is a run-time configuration, triggered by optional notifications
 			if (!this.config.showFullArticle && (this.config.showSourceTitle || this.config.showPublishDate)) {
@@ -424,6 +434,11 @@ Module.register("newsfeed",{
 				desc:   this.newsItems[this.activeItem].description,
 				url:    this.getActiveItemURL()
 			});
+		} else if (notification === "CHANGED_PROFILE"){
+			if(typeof payload.to !== "undefined"){
+				self.currentProfile = payload.to;
+				self.currentProfilePattern = new RegExp("\\b"+payload.to+"\\b");
+			}
 		}
 	},
 

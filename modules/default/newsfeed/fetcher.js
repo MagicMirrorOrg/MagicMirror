@@ -17,7 +17,7 @@ var iconv = require("iconv-lite");
  * attribute logFeedWarnings boolean - Log warnings when there is an error parsing a news article.
  */
 
-var Fetcher = function(url, reloadInterval, encoding, logFeedWarnings) {
+var Fetcher = function(url, reloadInterval, encoding, logFeedWarnings, profiles=null) {
 	var self = this;
 	if (reloadInterval < 1000) {
 		reloadInterval = 1000;
@@ -59,6 +59,7 @@ var Fetcher = function(url, reloadInterval, encoding, logFeedWarnings) {
 					description: description,
 					pubdate: pubdate,
 					url: url,
+					profiles: profiles,
 				});
 
 			} else if (logFeedWarnings) {
