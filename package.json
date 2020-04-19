@@ -15,7 +15,7 @@
     "test:lint": "npm run test:js && npm run test:style",
     "test:js": "eslint *.js js/**/*.js modules/default/**/*.js clientonly/*.js serveronly/*.js translations/*.js vendor/*.js tests/**/*.js config/* --config .eslintrc.json",
     "test:style": "stylelint css/main.css modules/default/**/*.css --config .stylelintrc.json",
-    "config:check": "node tests/configs/check_config.js",
+    "config:check": "node js/check_config.js",
     "lint": "npm run lint:js && npm run lint:json && npm run lint:markdown && npm run lint:style && npm run lint:yaml",
     "lint:js": "eslint *.js js/**/*.js modules/default/**/*.js clientonly/*.js serveronly/*.js translations/*.js vendor/*.js tests/**/*.js config/* --config .eslintrc.json --fix",
     "lint:json": "jsonlint -q package.json .eslintrc.json .markdownlintrc.json .stylelintrc.json modules/default/*/translations/*.json translations/*.json vendor/package.json",
