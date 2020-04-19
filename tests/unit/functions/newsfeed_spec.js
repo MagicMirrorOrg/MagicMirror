@@ -1,4 +1,4 @@
-var expect = require("chai").expect;
+const expect = require("chai").expect;
 
 describe("Functions into modules/default/newsfeed/newsfeed.js", function () {
 	Module = {};
