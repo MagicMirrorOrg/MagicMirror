@@ -35,7 +35,7 @@ WeatherProvider.register("weathergov", {
 			.catch(function(request) {
 				Log.error("Could not load data ... ", request);
 			})
-			.finally(() => this.updateAvailable())
+			.finally(() => this.updateAvailable());
 	},
 
 	// Overwrite the fetchCurrentWeather method.
@@ -54,7 +54,7 @@ WeatherProvider.register("weathergov", {
 			.catch(function(request) {
 				Log.error("Could not load data ... ", request);
 			})
-			.finally(() => this.updateAvailable())
+			.finally(() => this.updateAvailable());
 	},
 
 	/** Weather.gov Specific Methods - These are not part of the default provider methods */
@@ -77,7 +77,7 @@ WeatherProvider.register("weathergov", {
 		currentWeather.weatherType = this.convertWeatherType(currentWeatherData.shortForecast, currentWeatherData.isDaytime);
 
 		// determine the sunrise/sunset times - not supplied in weather.gov data
-		let times = this.calcAstroData(this.config.lat, this.config.lon)
+		let times = this.calcAstroData(this.config.lat, this.config.lon);
 		currentWeather.sunrise = times[0];
 		currentWeather.sunset = times[1];
 

@@ -21,10 +21,10 @@ Module.register("alert",{
 		welcome_message: false,
 	},
 	getScripts: function() {
-		return ["classie.js", "modernizr.custom.js", "notificationFx.js"];
+		return ["notificationFx.js"];
 	},
 	getStyles: function() {
-		return ["ns-default.css", "font-awesome.css"];
+		return ["notificationFx.css", "font-awesome.css"];
 	},
 	// Define required translations.
 	getTranslations: function() {
@@ -36,7 +36,7 @@ Module.register("alert",{
 	},
 	show_notification: function(message) {
 		if (this.config.effect === "slide") {this.config.effect = this.config.effect + "-" + this.config.position;}
-		msg = "";
+		let msg = "";
 		if (message.title) {
 			msg += "<span class='thin dimmed medium'>" + message.title + "</span>";
 		}
@@ -55,20 +55,19 @@ Module.register("alert",{
 		}).show();
 	},
 	show_alert: function(params, sender) {
-		var self = this;
+		let image = "";
 		//Set standard params if not provided by module
 		if (typeof params.timer === "undefined") { params.timer = null; }
 		if (typeof params.imageHeight === "undefined") { params.imageHeight = "80px"; }
 		if (typeof params.imageUrl === "undefined" && typeof params.imageFA === "undefined") {
 			params.imageUrl = null;
-			image = "";
 		} else if (typeof params.imageFA === "undefined"){
 			image = "<img src='" + (params.imageUrl).toString() + "' height='" + (params.imageHeight).toString() + "' style='margin-bottom: 10px;'/><br />";
 		} else if (typeof params.imageUrl === "undefined"){
 			image = "<span class='bright " + "fa fa-" + params.imageFA + "' style='margin-bottom: 10px;font-size:" + (params.imageHeight).toString() + ";'/></span><br />";
 		}
 		//Create overlay
-		var overlay = document.createElement("div");
+		const overlay = document.createElement("div");
 		overlay.id = "overlay";
 		overlay.innerHTML += "<div class=\"black_overlay\"></div>";
 		document.body.insertBefore(overlay, document.body.firstChild);
@@ -79,7 +78,7 @@ Module.register("alert",{
 		}
 
 		//Display title and message only if they are provided in notification parameters
-		var message = "";
+		let message = "";
 		if (params.title) {
 			message += "<span class='light dimmed medium'>" + params.title + "</span>";
 		}
@@ -102,8 +101,8 @@ Module.register("alert",{
 		this.alerts[sender.name].show();
 		//Add timer to dismiss alert and overlay
 		if (params.timer) {
-			setTimeout(function() {
-				self.hide_alert(sender);
+			setTimeout(() => {
+				this.hide_alert(sender);
 			}, params.timer);
 		}
 
@@ -114,13 +113,13 @@ Module.register("alert",{
 			this.alerts[sender.name].dismiss();
 			this.alerts[sender.name] = null;
 			//Remove overlay
-			var overlay = document.getElementById("overlay");
+			const overlay = document.getElementById("overlay");
 			overlay.parentNode.removeChild(overlay);
 		}
 	},
 	setPosition: function(pos) {
 		//Add css to body depending on the set position for notifications
-		var sheet = document.createElement("style");
+		const sheet = document.createElement("style");
 		if (pos === "center") {sheet.innerHTML = ".ns-box {margin-left: auto; margin-right: auto;text-align: center;}";}
 		if (pos === "right") {sheet.innerHTML = ".ns-box {margin-left: auto;text-align: right;}";}
 		if (pos === "left") {sheet.innerHTML = ".ns-box {margin-right: auto;text-align: left;}";}
