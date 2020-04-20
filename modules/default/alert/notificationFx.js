@@ -13,10 +13,23 @@
 ;(function(window) {
 
 	/**
+	 * extend obj function
+	 */
+	function extend(a, b) {
+		for (let key in b) {
+			if (b.hasOwnProperty(key)) {
+				a[key] = b[key];
+			}
+		}
+		return a;
+	}
+
+	/**
 	 * NotificationFx function
 	 */
 	function NotificationFx(options) {
-		this.options  = { ...this.options, ...options };
+		this.options = extend({}, this.options);
+		extend(this.options, options);
 		this._init();
 	}
 
@@ -56,7 +69,7 @@
 	NotificationFx.prototype._init = function() {
 		// create HTML structure
 		this.ntf = document.createElement("div");
-		this.ntf.className = this.options.al_no +  " ns-" + this.options.layout + " ns-effect-" + this.options.effect + " ns-type-" + this.options.type;
+		this.ntf.className = this.options.al_no + " ns-" + this.options.layout + " ns-effect-" + this.options.effect + " ns-type-" + this.options.type;
 		let strinner = "<div class=\"ns-box-inner\">";
 		strinner += this.options.message;
 		strinner += "</div>";
@@ -112,7 +125,7 @@
 
 		// after animation ends remove ntf from the DOM
 		const onEndAnimationFn = (ev) => {
-			if (ev.target !== this.ntf) return false;
+			if (ev.target !== this.ntf) {return false;}
 			this.ntf.removeEventListener("animationend", onEndAnimationFn);
 
 			if (ev.target.parentNode === this.options.wrapper) {
