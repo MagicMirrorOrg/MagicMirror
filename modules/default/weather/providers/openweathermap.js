@@ -34,7 +34,7 @@ WeatherProvider.register("openweathermap", {
 			.catch(function(request) {
 				Log.error("Could not load data ... ", request);
 			})
-			.finally(() => this.updateAvailable())
+			.finally(() => this.updateAvailable());
 	},
 
 	// Overwrite the fetchCurrentWeather method.
@@ -55,7 +55,7 @@ WeatherProvider.register("openweathermap", {
 			.catch(function(request) {
 				Log.error("Could not load data ... ", request);
 			})
-			.finally(() => this.updateAvailable())
+			.finally(() => this.updateAvailable());
 	},
 
 	/** OpenWeatherMap Specific Methods - These are not part of the default provider methods */
@@ -223,7 +223,7 @@ WeatherProvider.register("openweathermap", {
 			days.push(weather);
 		}
 
-	return days;
+		return days;
 	},
 
 	/*

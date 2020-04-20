@@ -1,3 +1,1 @@
-modules/default/alert/notificationFx.js
-modules/default/alert/modernizr.custom.js
-modules/default/alert/classie.js
+modules/default/calendar/vendor/*
