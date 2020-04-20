@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 ### Updated
+- Cleaned up alert module code
 - Cleaned up check_config code
 - Replaced grunt-based linters with their non-grunt equivalents
 
