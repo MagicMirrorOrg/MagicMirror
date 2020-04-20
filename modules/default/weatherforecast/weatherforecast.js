@@ -339,7 +339,7 @@ Module.register("weatherforecast",{
 
 			var day;
 			var hour;
-			if(!!forecast.dt_txt) {
+			if(forecast.dt_txt) {
 				day = moment(forecast.dt_txt, "YYYY-MM-DD hh:mm:ss").format("ddd");
 				hour = moment(forecast.dt_txt, "YYYY-MM-DD hh:mm:ss").format("H");
 			} else {
@@ -450,9 +450,9 @@ Module.register("weatherforecast",{
 		}
 
 		//Find all forecasts that is for the same day
-		var checkDateTime = (!!forecast.dt_txt) ? moment(forecast.dt_txt, "YYYY-MM-DD hh:mm:ss") : moment(forecast.dt, "X");
+		var checkDateTime = (forecast.dt_txt) ? moment(forecast.dt_txt, "YYYY-MM-DD hh:mm:ss") : moment(forecast.dt, "X");
 		var daysForecasts = allForecasts.filter(function(item) {
-			var itemDateTime = (!!item.dt_txt) ? moment(item.dt_txt, "YYYY-MM-DD hh:mm:ss") : moment(item.dt, "X");
+			var itemDateTime = (item.dt_txt) ? moment(item.dt_txt, "YYYY-MM-DD hh:mm:ss") : moment(item.dt, "X");
 			return itemDateTime.isSame(checkDateTime, "day") && item.rain instanceof Object;
 		});
 
