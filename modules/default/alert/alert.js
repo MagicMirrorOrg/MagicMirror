@@ -24,7 +24,7 @@ Module.register("alert",{
 		return ["notificationFx.js"];
 	},
 	getStyles: function() {
-		return ["ns-default.css", "font-awesome.css"];
+		return ["notificationFx.css", "font-awesome.css"];
 	},
 	// Define required translations.
 	getTranslations: function() {

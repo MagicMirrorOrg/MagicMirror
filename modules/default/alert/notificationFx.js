@@ -1,5 +1,5 @@
 /**
- * Code originally from
+ * Based on work by
  *
  * notificationFx.js v1.0.0
  * http://www.codrops.com
