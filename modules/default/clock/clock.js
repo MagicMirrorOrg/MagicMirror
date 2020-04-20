@@ -198,7 +198,7 @@ Module.register("clock",{
 		 * Create wrappers for ANALOG clock, only if specified in config
 		 */
 
-		 if (this.config.displayType !== "digital") {
+		if (this.config.displayType !== "digital") {
 			// If it isn't 'digital', then an 'analog' clock was also requested
 
 			// Calculate the degree offset for each hand of the clock

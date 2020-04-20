@@ -474,8 +474,8 @@ Module.register("calendar", {
 				}
 				if(this.config.hidePrivate) {
 					if(event.class === "PRIVATE") {
-						  // do not add the current event, skip it
-						  continue;
+						// do not add the current event, skip it
+						continue;
 					}
 				}
 				if(this.config.hideOngoing) {
@@ -734,8 +734,8 @@ Module.register("calendar", {
 
 			var regParts = needle.match(/^\/(.+)\/([gim]*)$/);
 			if (regParts) {
-			  // the parsed pattern is a regexp.
-			  needle = new RegExp(regParts[1], regParts[2]);
+				// the parsed pattern is a regexp.
+			  	needle = new RegExp(regParts[1], regParts[2]);
 			}
 
 			title = title.replace(needle, replacement);

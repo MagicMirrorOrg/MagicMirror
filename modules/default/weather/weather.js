@@ -210,11 +210,11 @@ Module.register("weather",{
 				if (isNaN(value) || value === 0 || value.toFixed(2) === "0.00") {
 					value = "";
 				} else {
-				    if (this.config.weatherProvider === "ukmetoffice") {
+					if (this.config.weatherProvider === "ukmetoffice") {
 						value += "%";
-				    } else {
+					} else {
 						value = `${value.toFixed(2)} ${this.config.units === "imperial" ? "in" : "mm"}`;
-				    }
+					}
 				}
 			} else if (type === "humidity") {
 				value += "%";
