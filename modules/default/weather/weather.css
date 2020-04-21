@@ -3,8 +3,6 @@
   font-size: 75%;
   line-height: 65px;
   display: inline-block;
-  -ms-transform: translate(0, -3px); /* IE 9 */
-  -webkit-transform: translate(0, -3px); /* Safari */
   transform: translate(0, -3px);
 }
 

@@ -17,6 +17,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Replaced grunt-based linters with their non-grunt equivalents
 
 ### Deleted
+- Removed truetype (ttf) fonts
 
 ### Fixed
 - The broken modules due to Socket.io change from last release [#1973](https://github.com/MichMich/MagicMirror/issues/1973)
