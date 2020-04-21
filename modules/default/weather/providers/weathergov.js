@@ -11,7 +11,6 @@
  * Note that this is only for US locations (lat and lon) and does not require an API key
  * Since it is free, there are some items missing - like sunrise, sunset, humidity, etc.
  */
-
 WeatherProvider.register("weathergov", {
 
 	// Set the name of the provider.

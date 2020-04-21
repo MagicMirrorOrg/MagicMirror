@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Cleaned up alert module code
 - Cleaned up check_config code
 - Replaced grunt-based linters with their non-grunt equivalents
+- Switch to most of the eslint:recommended rules and fix warnings 
 
 ### Deleted
 - Removed truetype (ttf) fonts

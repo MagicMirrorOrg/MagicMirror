@@ -8,7 +8,6 @@
  *
  * This class is a provider for UK Met Office Datapoint.
  */
-
 WeatherProvider.register("ukmetoffice", {
 
 	// Set the name of the provider.

@@ -1,4 +1,4 @@
-/* global  Log, Loader, Module, config, defaults */
+/* global Log, Loader, Module, config, defaults */
 
 /* Magic Mirror
  * Main System
@@ -6,7 +6,6 @@
  * By Michael Teeuw http://michaelteeuw.nl
  * MIT Licensed.
  */
-
 var MM = (function() {
 
 	var modules = [];

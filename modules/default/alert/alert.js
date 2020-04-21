@@ -6,7 +6,6 @@
  * By Paul-Vincent Roll http://paulvincentroll.com
  * MIT Licensed.
  */
-
 Module.register("alert",{
 	defaults: {
 		// scale|slide|genie|jelly|flip|bouncyflip|exploader

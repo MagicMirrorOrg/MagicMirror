@@ -6,7 +6,6 @@
  * By Michael Teeuw http://michaelteeuw.nl
  * MIT Licensed.
  */
-
 Module.register("weather",{
 	// Default module config.
 	defaults: {
