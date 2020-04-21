@@ -5,11 +5,11 @@ const describe = global.describe;
 const it = global.it;
 
 describe("Development console tests", function() {
-	// This tests fail and crash another tests
+	// FIXME: This tests fail and crash another tests
 	// Suspect problem with window focus
-	// FIXME
 	return false;
 
+	/* eslint-disable */
 	helpers.setupTimeout(this);
 
 	var app = null;
@@ -58,4 +58,5 @@ describe("Development console tests", function() {
 			return expect(app.browserWindow.isDevToolsOpened()).to.eventually.equal(true);
 		});
 	});
+	/* eslint-enable */
 });

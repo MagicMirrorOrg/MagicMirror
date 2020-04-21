@@ -81,8 +81,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 					past = moment().startOf("day").subtract(maximumNumberOfDays, "days").toDate();
 				}
 
-				// FIXME:
-				// Ugly fix to solve the facebook birthday issue.
+				// FIXME: Ugly fix to solve the facebook birthday issue.
 				// Otherwise, the recurring events only show the birthday for next year.
 				var isFacebookBirthday = false;
 				if (typeof event.uid !== "undefined") {

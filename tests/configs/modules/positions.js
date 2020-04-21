@@ -9,7 +9,6 @@
 var config = {
 	port: 8080,
 	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1"],
-	ipWhitelist: [],
 
 	language: "en",
 	timeFormat: 24,
@@ -19,6 +18,7 @@ var config = {
 			nodeIntegration: true,
 		},
 	},
+
 	modules:
 		// Using exotic content. This is why dont accept go to JSON configuration file
 		(function() {

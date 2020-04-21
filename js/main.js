@@ -344,13 +344,14 @@ var MM = (function() {
 	 * Loads the core config and combines it with de system defaults.
 	 */
 	var loadConfig = function() {
+		let config = window.config;
 		if (typeof config === "undefined") {
-			config = defaults;
+			window.config = defaults;
 			Log.error("Config file is missing! Please create a config file.");
 			return;
 		}
 
-		config = Object.assign({}, defaults, config);
+		window.config = Object.assign({}, defaults, config);
 	};
 
 	/* setSelectionMethodsForModules()
