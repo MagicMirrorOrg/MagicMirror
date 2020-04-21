@@ -22,8 +22,8 @@
 		initializing = false;
 
 		// Make a copy of all prototype properties, to prevent reference issues.
-		for (var name in prototype) {
-			prototype[name] = cloneObject(prototype[name]);
+		for (var p in prototype) {
+			prototype[p] = cloneObject(prototype[p]);
 		}
 
 		// Copy the properties over onto the new prototype

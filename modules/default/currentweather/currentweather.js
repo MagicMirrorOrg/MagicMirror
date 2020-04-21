@@ -23,7 +23,6 @@ Module.register("currentweather",{
 		showWindDirection: true,
 		showWindDirectionAsArrow: false,
 		useBeaufort: true,
-		appendLocationNameToHeader: false,
 		useKMPHwind: false,
 		lang: config.language,
 		decimalSymbol: ".",
@@ -150,15 +149,15 @@ Module.register("currentweather",{
 			var humidity = document.createElement("span");
 			humidity.innerHTML = this.humidity;
 
-			var spacer = document.createElement("sup");
-			spacer.innerHTML = "&nbsp;";
+			var supspacer = document.createElement("sup");
+			supspacer.innerHTML = "&nbsp;";
 
 			var humidityIcon = document.createElement("sup");
 			humidityIcon.className = "wi wi-humidity humidityIcon";
 			humidityIcon.innerHTML = "&nbsp;";
 
 			small.appendChild(humidity);
-			small.appendChild(spacer);
+			small.appendChild(supspacer);
 			small.appendChild(humidityIcon);
 		}
 
@@ -414,8 +413,7 @@ Module.register("currentweather",{
 		case "imperial": tempInF = this.temperature;
 			break;
 		case "default":
-			var tc = this.temperature - 273.15;
-			tempInF = 1.8 * tc + 32;
+			tempInF = 1.8 * (this.temperature - 273.15) + 32;
 			break;
 		}
 
@@ -431,8 +429,7 @@ Module.register("currentweather",{
 			case "imperial": this.feelsLike = windChillInF.toFixed(0);
 				break;
 			case "default":
-				var tc = windChillInC + 273.15;
-				this.feelsLike = tc.toFixed(0);
+				this.feelsLike = (windChillInC + 273.15).toFixed(0);
 				break;
 			}
 

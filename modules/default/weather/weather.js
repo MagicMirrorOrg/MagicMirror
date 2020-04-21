@@ -10,7 +10,6 @@
 Module.register("weather",{
 	// Default module config.
 	defaults: {
-		updateInterval: 10 * 60 * 1000,
 		weatherProvider: "openweathermap",
 		roundTemp: false,
 		type: "current", //current, forecast

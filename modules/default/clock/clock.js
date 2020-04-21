@@ -202,7 +202,6 @@ Module.register("clock",{
 			// If it isn't 'digital', then an 'analog' clock was also requested
 
 			// Calculate the degree offset for each hand of the clock
-			var now = moment();
 			if (this.config.timezone) {
 				now.tz(this.config.timezone);
 			}

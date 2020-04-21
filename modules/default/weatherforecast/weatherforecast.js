@@ -348,7 +348,7 @@ Module.register("weatherforecast",{
 			}
 
 			if (day !== lastDay) {
-				var forecastData = {
+				forecastData = {
 					day: day,
 					icon: this.config.iconTable[forecast.weather[0].icon],
 					maxTemp: this.roundValue(forecast.temp.max),

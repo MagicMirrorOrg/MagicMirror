@@ -1,4 +1,3 @@
-/* global console */
 /* exported Log */
 
 /* Magic Mirror
