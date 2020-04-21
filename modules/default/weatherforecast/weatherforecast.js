@@ -456,7 +456,7 @@ Module.register("weatherforecast",{
 		});
 
 		//If no rain this day return undefined so it wont be displayed for this day
-		if (daysForecasts.length == 0) {
+		if (daysForecasts.length === 0) {
 			return undefined;
 		}
 
