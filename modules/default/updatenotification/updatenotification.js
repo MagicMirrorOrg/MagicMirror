@@ -1,3 +1,11 @@
+/* global Module */
+
+/* Magic Mirror
+ * Module: UpdateNotification
+ *
+ * By Michael Teeuw http://michaelteeuw.nl
+ * MIT Licensed.
+ */
 Module.register("updatenotification", {
 
 	defaults: {

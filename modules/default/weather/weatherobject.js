@@ -1,5 +1,3 @@
-/* global Class */
-
 /* Magic Mirror
  * Module: Weather
  *
