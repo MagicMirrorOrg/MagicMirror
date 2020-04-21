@@ -343,14 +343,16 @@ var MM = (function() {
 	 * Loads the core config and combines it with de system defaults.
 	 */
 	var loadConfig = function() {
-		let config = window.config;
+		// FIXME: Think about how to pass config around without breaking tests
+		/* eslint-disable */
 		if (typeof config === "undefined") {
-			window.config = defaults;
+			config = defaults;
 			Log.error("Config file is missing! Please create a config file.");
 			return;
 		}
 
-		window.config = Object.assign({}, defaults, config);
+		config = Object.assign({}, defaults, config);
+		/* eslint-enable */
 	};
 
 	/* setSelectionMethodsForModules()
