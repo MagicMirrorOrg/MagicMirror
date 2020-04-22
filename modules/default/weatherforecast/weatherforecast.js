@@ -61,7 +61,7 @@ Module.register("weatherforecast",{
 		},
 	},
 
-	// create a variable for the first upcoming calendaar event. Used if no location is specified.
+	// create a variable for the first upcoming calendar event. Used if no location is specified.
 	firstEvent: false,
 
 	// create a variable to hold the location name based on the API result.
@@ -309,7 +309,7 @@ Module.register("weatherforecast",{
 	 * parserDataWeather(data)
 	 *
 	 * Use the parse to keep the same struct between daily and forecast Endpoint
-	 * from Openweather
+	 * from openweather.org
 	 *
 	 */
 	parserDataWeather: function(data) {
