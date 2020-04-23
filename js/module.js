@@ -429,15 +429,10 @@ var Module = Class.extend({
 		options = options || {};
 
 		var self = this;
-		MM.showModule(
-			this,
-			speed,
-			function () {
-				self.resume();
-				callback;
-			},
-			options
-		);
+		MM.showModule(this, speed, function () {
+			self.resume();
+			callback();
+		}, options);
 	}
 });
 
