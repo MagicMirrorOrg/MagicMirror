@@ -186,7 +186,7 @@ describe("Translator", function () {
 				};
 
 				Translator.load(mmm, file, false, function () {
-					expect(Translator.translations[mmm.name]).to.be.undefined;
+					expect(Translator.translations[mmm.name]).to.be.equal(undefined);
 					expect(Translator.translationsFallback[mmm.name]).to.be.deep.equal({
 						Hello: "Hallo"
 					});
