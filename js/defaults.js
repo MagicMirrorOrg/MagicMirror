@@ -1,7 +1,7 @@
 /* exported defaults */
 
 /* Magic Mirror
- * Config Defauls
+ * Config Defaults
  *
  * By Michael Teeuw http://michaelteeuw.nl
  * MIT Licensed.

@@ -1,3 +1,11 @@
+/* global Module */
+
+/* Magic Mirror
+ * Module: UpdateNotification
+ *
+ * By Michael Teeuw http://michaelteeuw.nl
+ * MIT Licensed.
+ */
 Module.register("updatenotification", {
 
 	defaults: {
@@ -33,16 +41,16 @@ Module.register("updatenotification", {
 		var self = this;
 		if (payload && payload.behind > 0) {
 			// if we haven't seen info for this module
-			if(this.moduleList[payload.module] == undefined){
+			if(this.moduleList[payload.module] === undefined){
 				// save it
 				this.moduleList[payload.module]=payload;
 				self.updateDom(2);
 			}
 			//self.show(1000, { lockString: self.identifier });
 
-		} else if (payload && payload.behind == 0){
+		} else if (payload && payload.behind === 0){
 			// if the module WAS in the list, but shouldn't be
-			if(this.moduleList[payload.module] != undefined){
+			if(this.moduleList[payload.module] !== undefined){
 				// remove it
 				delete this.moduleList[payload.module];
 				self.updateDom(2);
@@ -64,7 +72,7 @@ Module.register("updatenotification", {
 	// Override dom generator.
 	getDom: function () {
 		var wrapper = document.createElement("div");
-		if(this.suspended==false){
+		if(this.suspended === false){
 			// process the hash of module info found
 			for(key of Object.keys(this.moduleList)){
 				let m= this.moduleList[key];
@@ -77,7 +85,7 @@ Module.register("updatenotification", {
 				icon.innerHTML = "&nbsp;";
 				message.appendChild(icon);
 
-				var updateInfoKeyName = m.behind == 1 ? "UPDATE_INFO_SINGLE" : "UPDATE_INFO_MULTIPLE";
+				var updateInfoKeyName = m.behind === 1 ? "UPDATE_INFO_SINGLE" : "UPDATE_INFO_MULTIPLE";
 
 				var subtextHtml = this.translate(updateInfoKeyName, {
 					COMMIT_COUNT: m.behind,
@@ -85,7 +93,7 @@ Module.register("updatenotification", {
 				});
 
 				var text = document.createElement("span");
-				if (m.module == "default") {
+				if (m.module === "default") {
 					text.innerHTML = this.translate("UPDATE_NOTIFICATION");
 					subtextHtml = this.diffLink(m,subtextHtml);
 				} else {

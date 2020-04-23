@@ -81,8 +81,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 					past = moment().startOf("day").subtract(maximumNumberOfDays, "days").toDate();
 				}
 
-				// FIXME:
-				// Ugly fix to solve the facebook birthday issue.
+				// FIXME: Ugly fix to solve the facebook birthday issue.
 				// Otherwise, the recurring events only show the birthday for next year.
 				var isFacebookBirthday = false;
 				if (typeof event.uid !== "undefined") {
@@ -200,7 +199,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 						// because the logic below will filter out any recurrences that don"t actually belong within
 						// our display range.
 						// Would be great if there was a better way to handle this.
-						if (event.recurrences != undefined)
+						if (event.recurrences !== undefined)
 						{
 							var pastMoment = moment(past);
 							var futureMoment = moment(future);
@@ -209,7 +208,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 							{
 								// Only add dates that weren't already in the range we added from the rrule so that
 								// we don"t double-add those events.
-								if (moment(new Date(r)).isBetween(pastMoment, futureMoment) != true)
+								if (moment(new Date(r)).isBetween(pastMoment, futureMoment) !== true)
 								{
 									dates.push(new Date(r));
 								}
@@ -235,7 +234,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 							startDate = moment(date);
 
 							// For each date that we"re checking, it"s possible that there is a recurrence override for that one day.
-							if ((curEvent.recurrences != undefined) && (curEvent.recurrences[dateKey] != undefined))
+							if ((curEvent.recurrences !== undefined) && (curEvent.recurrences[dateKey] !== undefined))
 							{
 								// We found an override, so for this recurrence, use a potentially different title, start date, and duration.
 								curEvent = curEvent.recurrences[dateKey];
@@ -243,14 +242,14 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 								duration = parseInt(moment(curEvent.end).format("x")) - parseInt(startDate.format("x"));
 							}
 							// If there"s no recurrence override, check for an exception date.  Exception dates represent exceptions to the rule.
-							else if ((curEvent.exdate != undefined) && (curEvent.exdate[dateKey] != undefined))
+							else if ((curEvent.exdate !== undefined) && (curEvent.exdate[dateKey] !== undefined))
 							{
 								// This date is an exception date, which means we should skip it in the recurrence pattern.
 								showRecurrence = false;
 							}
 
 							endDate = moment(parseInt(startDate.format("x")) + duration, "x");
-							if (startDate.format("x") == endDate.format("x")) {
+							if (startDate.format("x") === endDate.format("x")) {
 								endDate = endDate.endOf("day");
 							}
 

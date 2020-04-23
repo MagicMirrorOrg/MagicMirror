@@ -1,5 +1,3 @@
-/* global Class */
-
 /* Magic Mirror
  * Module: Weather
  *
@@ -7,11 +5,10 @@
  * MIT Licensed.
  *
  * This class is the blueprint for a day which includes weather information.
+ *
+ * Currently this is focused on the information which is necessary for the current weather.
+ * As soon as we start implementing the forecast, mode properties will be added.
  */
-
-// Currently this is focused on the information which is necessary for the current weather.
-// As soon as we start implementing the forecast, mode properties will be added.
-
 class WeatherObject {
 	constructor(units, tempUnits, windUnits) {
 
@@ -87,8 +84,8 @@ class WeatherObject {
 	}
 
 	feelsLike() {
-	  if (this.feelsLikeTemp) {
-		  return this.feelsLikeTemp;
+		if (this.feelsLikeTemp) {
+			return this.feelsLikeTemp;
 		}
 		const windInMph = (this.windUnits === "imperial") ? this.windSpeed : this.windSpeed * 2.23694;
 		const tempInF = this.tempUnits === "imperial" ? this.temperature : this.temperature * 9 / 5 + 32;

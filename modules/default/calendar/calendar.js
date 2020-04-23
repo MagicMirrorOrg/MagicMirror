@@ -6,7 +6,6 @@
  * By Michael Teeuw http://michaelteeuw.nl
  * MIT Licensed.
  */
-
 Module.register("calendar", {
 
 	// Define module defaults
@@ -254,6 +253,8 @@ Module.register("calendar", {
 				titleWrapper.className = "title " + titleClass;
 			}
 
+			var timeWrapper;
+
 			if(this.config.timeFormat === "dateheaders"){
 
 				if (event.fullDayEvent) {
@@ -261,10 +262,8 @@ Module.register("calendar", {
 					titleWrapper.align = "left";
 
 				} else {
-
-					var timeClass = this.timeClassForUrl(event.url);
-					var timeWrapper = document.createElement("td");
-					timeWrapper.className = "time light " + timeClass;
+					timeWrapper = document.createElement("td");
+					timeWrapper.className = "time light " + this.timeClassForUrl(event.url);
 					timeWrapper.align = "left";
 					timeWrapper.style.paddingLeft = "2px";
 					timeWrapper.innerHTML = moment(event.startDate, "x").format("LT");
@@ -274,7 +273,7 @@ Module.register("calendar", {
 
 				eventWrapper.appendChild(titleWrapper);
 			} else {
-				var timeWrapper = document.createElement("td");
+				timeWrapper = document.createElement("td");
 
 				eventWrapper.appendChild(titleWrapper);
 				//console.log(event.today);
@@ -370,8 +369,7 @@ Module.register("calendar", {
 				}
 				//timeWrapper.innerHTML += ' - '+ moment(event.startDate,'x').format('lll');
 				//console.log(event);
-				var timeClass = this.timeClassForUrl(event.url);
-				timeWrapper.className = "time light " + timeClass;
+				timeWrapper.className = "time light " + this.timeClassForUrl(event.url);
 				eventWrapper.appendChild(timeWrapper);
 			}
 
@@ -424,15 +422,12 @@ Module.register("calendar", {
 		switch (timeFormat) {
 		case 12: {
 			return { longDateFormat: {LT: "h:mm A"} };
-			break;
 		}
 		case 24: {
 			return { longDateFormat: {LT: "HH:mm"} };
-			break;
 		}
 		default: {
 			return { longDateFormat: {LT: moment.localeData().longDateFormat("LT")} };
-			break;
 		}
 		}
 	},
@@ -474,8 +469,8 @@ Module.register("calendar", {
 				}
 				if(this.config.hidePrivate) {
 					if(event.class === "PRIVATE") {
-						  // do not add the current event, skip it
-						  continue;
+						// do not add the current event, skip it
+						continue;
 					}
 				}
 				if(this.config.hideOngoing) {
@@ -734,8 +729,8 @@ Module.register("calendar", {
 
 			var regParts = needle.match(/^\/(.+)\/([gim]*)$/);
 			if (regParts) {
-			  // the parsed pattern is a regexp.
-			  needle = new RegExp(regParts[1], regParts[2]);
+				// the parsed pattern is a regexp.
+				needle = new RegExp(regParts[1], regParts[2]);
 			}
 
 			title = title.replace(needle, replacement);

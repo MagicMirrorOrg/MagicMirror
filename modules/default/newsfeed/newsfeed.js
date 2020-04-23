@@ -6,7 +6,6 @@
  * By Michael Teeuw http://michaelteeuw.nl
  * MIT Licensed.
  */
-
 Module.register("newsfeed",{
 
 	// Default module config.
@@ -367,8 +366,8 @@ Module.register("newsfeed",{
 	},
 
 	notificationReceived: function(notification, payload, sender) {
+		var before = this.activeItem;
 		if(notification === "ARTICLE_NEXT"){
-			var before = this.activeItem;
 			this.activeItem++;
 			if (this.activeItem >= this.newsItems.length) {
 				this.activeItem = 0;
@@ -377,7 +376,6 @@ Module.register("newsfeed",{
 			Log.info(this.name + " - going from article #" + before + " to #" + this.activeItem + " (of " + this.newsItems.length + ")");
 			this.updateDom(100);
 		} else if(notification === "ARTICLE_PREVIOUS"){
-			var before = this.activeItem;
 			this.activeItem--;
 			if (this.activeItem < 0) {
 				this.activeItem = this.newsItems.length - 1;

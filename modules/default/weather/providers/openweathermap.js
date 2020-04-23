@@ -8,7 +8,6 @@
  *
  * This class is the blueprint for a weather provider.
  */
-
 WeatherProvider.register("openweathermap", {
 
 	// Set the name of the provider.

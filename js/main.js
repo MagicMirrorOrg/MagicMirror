@@ -1,4 +1,4 @@
-/* global  Log, Loader, Module, config, defaults */
+/* global Log, Loader, Module, config, defaults */
 
 /* Magic Mirror
  * Main System
@@ -6,7 +6,6 @@
  * By Michael Teeuw http://michaelteeuw.nl
  * MIT Licensed.
  */
-
 var MM = (function() {
 
 	var modules = [];
@@ -344,6 +343,8 @@ var MM = (function() {
 	 * Loads the core config and combines it with de system defaults.
 	 */
 	var loadConfig = function() {
+		// FIXME: Think about how to pass config around without breaking tests
+		/* eslint-disable */
 		if (typeof config === "undefined") {
 			config = defaults;
 			Log.error("Config file is missing! Please create a config file.");
@@ -351,6 +352,7 @@ var MM = (function() {
 		}
 
 		config = Object.assign({}, defaults, config);
+		/* eslint-enable */
 	};
 
 	/* setSelectionMethodsForModules()

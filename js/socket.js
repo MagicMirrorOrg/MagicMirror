@@ -1,5 +1,3 @@
-/* exported Log */
-
 /* Magic Mirror
  * Socket Connection
  *

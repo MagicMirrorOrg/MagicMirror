@@ -8,7 +8,6 @@
  *
  * This class is a provider for UK Met Office Datapoint.
  */
-
 WeatherProvider.register("ukmetoffice", {
 
 	// Set the name of the provider.
@@ -25,8 +24,7 @@ WeatherProvider.register("ukmetoffice", {
 	fetchCurrentWeather() {
 		this.fetchData(this.getUrl("3hourly"))
 			.then(data => {
-				if (!data || !data.SiteRep || !data.SiteRep.DV || !data.SiteRep.DV.Location ||
-					  !data.SiteRep.DV.Location.Period || data.SiteRep.DV.Location.Period.length == 0) {
+				if (!data || !data.SiteRep || !data.SiteRep.DV || !data.SiteRep.DV.Location || !data.SiteRep.DV.Location.Period || data.SiteRep.DV.Location.Period.length === 0) {
 					// Did not receive usable new data.
 					// Maybe this needs a better check?
 					return;
@@ -47,8 +45,7 @@ WeatherProvider.register("ukmetoffice", {
 	fetchWeatherForecast() {
 		this.fetchData(this.getUrl("daily"))
 			.then(data => {
-				if (!data || !data.SiteRep || !data.SiteRep.DV || !data.SiteRep.DV.Location ||
-					  !data.SiteRep.DV.Location.Period || data.SiteRep.DV.Location.Period.length == 0) {
+				if (!data || !data.SiteRep || !data.SiteRep.DV || !data.SiteRep.DV.Location || !data.SiteRep.DV.Location.Period || data.SiteRep.DV.Location.Period.length === 0) {
 					// Did not receive usable new data.
 					// Maybe this needs a better check?
 					return;

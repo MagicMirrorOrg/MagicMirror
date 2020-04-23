@@ -73,7 +73,7 @@ var Server = function(config, callback) {
 
 		configFile = "config/config.js";
 		if (typeof(global.configuration_file) !== "undefined") {
-		    configFile = global.configuration_file;
+			configFile = global.configuration_file;
 		}
 		html = html.replace("#CONFIG_FILE#", configFile);
 

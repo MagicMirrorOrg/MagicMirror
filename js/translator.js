@@ -1,4 +1,5 @@
 /* exported Translator */
+
 /* Magic Mirror
  * Translator (l10n)
  *
@@ -129,10 +130,10 @@ var Translator = (function() {
 				if(Object.prototype.toString.call(template) !== "[object String]") {
 					return template;
 				}
-				if(variables.fallback && !template.match(new RegExp("\{.+\}"))) {
+				if(variables.fallback && !template.match(new RegExp("{.+}"))) {
 					template = variables.fallback;
 				}
-				return template.replace(new RegExp("\{([^\}]+)\}", "g"), function(_unused, varName){
+				return template.replace(new RegExp("{([^}]+)}", "g"), function(_unused, varName){
 					return variables[varName] || "{"+varName+"}";
 				});
 			}

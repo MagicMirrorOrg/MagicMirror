@@ -1,4 +1,3 @@
-/* global Log, Class, Loader, Class , MM */
 /* exported Module */
 
 /* Magic Mirror
