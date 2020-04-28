@@ -1,6 +1,6 @@
 /* Magic Mirror Config Sample
  *
- * By Michael Teeuw http://michaelteeuw.nl
+ * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  *
  * For more information on how you can configure this file
@@ -90,7 +90,7 @@ var config = {
 				feeds: [
 					{
 						title: "New York Times",
-						url: "http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml"
+						url: "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml"
 					}
 				],
 				showSourceTitle: true,

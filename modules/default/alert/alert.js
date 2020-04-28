@@ -3,7 +3,7 @@
 /* Magic Mirror
  * Module: alert
  *
- * By Paul-Vincent Roll http://paulvincentroll.com
+ * By Paul-Vincent Roll https://paulvincentroll.com/
  * MIT Licensed.
  */
 Module.register("alert",{

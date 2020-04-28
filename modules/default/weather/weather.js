@@ -3,7 +3,7 @@
 /* Magic Mirror
  * Module: Weather
  *
- * By Michael Teeuw http://michaelteeuw.nl
+ * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
 Module.register("weather",{
@@ -43,7 +43,7 @@ Module.register("weather",{
 		retryDelay: 2500,
 
 		apiVersion: "2.5",
-		apiBase: "http://api.openweathermap.org/data/",
+		apiBase: "https://api.openweathermap.org/data/",
 		weatherEndpoint: "/weather",
 
 		appendLocationNameToHeader: true,

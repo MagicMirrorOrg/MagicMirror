@@ -3,7 +3,7 @@
 /* Magic Mirror
  * Module: Calendar
  *
- * By Michael Teeuw http://michaelteeuw.nl
+ * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
 Module.register("calendar", {
@@ -13,7 +13,7 @@ Module.register("calendar", {
 		maximumEntries: 10, // Total Maximum Entries
 		maximumNumberOfDays: 365,
 		displaySymbol: true,
-		defaultSymbol: "calendar", // Fontawesome Symbol see http://fontawesome.io/cheatsheet/
+		defaultSymbol: "calendar", // Fontawesome Symbol see https://fontawesome.com/cheatsheet?from=io
 		showLocation: false,
 		displayRepeatingCountTitle: false,
 		defaultRepeatingCountTitle: "",
@@ -39,7 +39,7 @@ Module.register("calendar", {
 		calendars: [
 			{
 				symbol: "calendar",
-				url: "http://www.calendarlabs.com/templates/ical/US-Holidays.ics",
+				url: "https://www.calendarlabs.com/templates/ical/US-Holidays.ics",
 			},
 		],
 		titleReplace: {

@@ -1,7 +1,7 @@
 /* Magic Mirror
  * Default Modules List
  *
- * By Michael Teeuw http://michaelteeuw.nl
+ * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
 

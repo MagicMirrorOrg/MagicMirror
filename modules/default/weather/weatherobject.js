@@ -1,7 +1,7 @@
 /* Magic Mirror
  * Module: Weather
  *
- * By Michael Teeuw http://michaelteeuw.nl
+ * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  *
  * This class is the blueprint for a day which includes weather information.
