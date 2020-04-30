@@ -3,7 +3,7 @@
 /* Magic Mirror
  * Module: NewsFeed
  *
- * By Michael Teeuw http://michaelteeuw.nl
+ * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
 Module.register("newsfeed",{
@@ -13,7 +13,7 @@ Module.register("newsfeed",{
 		feeds: [
 			{
 				title: "New York Times",
-				url: "http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml",
+				url: "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
 				encoding: "UTF-8" //ISO-8859-1
 			}
 		],

@@ -1,7 +1,7 @@
 /* Magic Mirror
  * The Core App (Server)
  *
- * By Michael Teeuw http://michaelteeuw.nl
+ * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
 var fs = require("fs");

@@ -3,7 +3,7 @@
 /* Magic Mirror
  * Translator (l10n)
  *
- * By Christopher Fenner http://github.com/CFenner
+ * By Christopher Fenner https://github.com/CFenner
  * MIT Licensed.
  */
 var Translator = (function() {

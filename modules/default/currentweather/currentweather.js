@@ -3,7 +3,7 @@
 /* Magic Mirror
  * Module: CurrentWeather
  *
- * By Michael Teeuw http://michaelteeuw.nl
+ * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
 Module.register("currentweather",{
@@ -514,7 +514,7 @@ Module.register("currentweather",{
 	 * Converts m2 to beaufort (windspeed).
 	 *
 	 * see:
-	 *  http://www.spc.noaa.gov/faq/tornado/beaufort.html
+	 *  https://www.spc.noaa.gov/faq/tornado/beaufort.html
 	 *  https://en.wikipedia.org/wiki/Beaufort_scale#Modern_scale
 	 *
 	 * argument ms number - Windspeed in m/s.

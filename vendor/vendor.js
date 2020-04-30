@@ -3,7 +3,7 @@
 /* Magic Mirror
  * Vendor File Definition
  *
- * By Michael Teeuw http://michaelteeuw.nl
+ * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
 
