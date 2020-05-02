@@ -6,6 +6,11 @@
 		"mocha": true,
 		"node": true
 	},
+	"globals": {
+		"config": true,
+		"Log": true,
+		"moment": true
+	},
 	"parserOptions": {
 		"sourceType": "module",
 		"ecmaVersion": 2017,

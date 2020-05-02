@@ -1,4 +1,4 @@
-/* global Log, Module, moment, config */
+/* global Module */
 
 /* Magic Mirror
  * Module: Clock

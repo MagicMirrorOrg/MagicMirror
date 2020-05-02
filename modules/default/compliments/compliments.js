@@ -1,4 +1,4 @@
-/* global Log, Module, moment */
+/* global Module */
 
 /* Magic Mirror
  * Module: Compliments
