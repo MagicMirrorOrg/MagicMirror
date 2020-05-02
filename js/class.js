@@ -3,6 +3,7 @@
  * MIT Licensed.
  */
 
+
 // Inspired by base2 and Prototype
 (function () {
 	var initializing = false;

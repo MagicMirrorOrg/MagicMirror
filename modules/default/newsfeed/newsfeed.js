@@ -126,7 +126,7 @@ Module.register("newsfeed",{
 
 			if (this.config.removeStartTags === "title" || this.config.removeStartTags === "both") {
 
-				for (f=0; f<this.config.startTags.length;f++) {
+				for (let f=0; f<this.config.startTags.length;f++) {
 					if (this.newsItems[this.activeItem].title.slice(0,this.config.startTags[f].length) === this.config.startTags[f]) {
 						this.newsItems[this.activeItem].title = this.newsItems[this.activeItem].title.slice(this.config.startTags[f].length,this.newsItems[this.activeItem].title.length);
 					}
@@ -137,7 +137,7 @@ Module.register("newsfeed",{
 			if (this.config.removeStartTags === "description" || this.config.removeStartTags === "both") {
 
 				if (this.isShowingDescription) {
-					for (f=0; f<this.config.startTags.length;f++) {
+					for (let f=0; f<this.config.startTags.length;f++) {
 						if (this.newsItems[this.activeItem].description.slice(0,this.config.startTags[f].length) === this.config.startTags[f]) {
 							this.newsItems[this.activeItem].description = this.newsItems[this.activeItem].description.slice(this.config.startTags[f].length,this.newsItems[this.activeItem].description.length);
 						}
@@ -149,14 +149,14 @@ Module.register("newsfeed",{
 			//Remove selected tags from the end of rss feed items (title or description)
 
 			if (this.config.removeEndTags) {
-				for (f=0; f<this.config.endTags.length;f++) {
+				for (let f=0; f<this.config.endTags.length;f++) {
 					if (this.newsItems[this.activeItem].title.slice(-this.config.endTags[f].length)===this.config.endTags[f]) {
 						this.newsItems[this.activeItem].title = this.newsItems[this.activeItem].title.slice(0,-this.config.endTags[f].length);
 					}
 				}
 
 				if (this.isShowingDescription) {
-					for (f=0; f<this.config.endTags.length;f++) {
+					for (let f=0; f<this.config.endTags.length;f++) {
 						if (this.newsItems[this.activeItem].description.slice(-this.config.endTags[f].length)===this.config.endTags[f]) {
 							this.newsItems[this.activeItem].description = this.newsItems[this.activeItem].description.slice(0,-this.config.endTags[f].length);
 						}
@@ -331,7 +331,7 @@ Module.register("newsfeed",{
 			self.sendNotification("NEWS_FEED", {items: self.newsItems});
 		}
 
-		timer = setInterval(function() {
+		this.timer = setInterval(function() {
 			self.activeItem++;
 			self.updateDom(self.config.animationSpeed);
 
@@ -360,7 +360,7 @@ Module.register("newsfeed",{
 		// reset bottom bar alignment
 		document.getElementsByClassName("region bottom bar")[0].style.bottom = "0";
 		document.getElementsByClassName("region bottom bar")[0].style.top = "inherit";
-		if(!timer){
+		if(!this.timer){
 			this.scheduleUpdateInterval();
 		}
 	},
@@ -433,10 +433,9 @@ Module.register("newsfeed",{
 			document.getElementsByClassName("region bottom bar")[0].style.bottom = "inherit";
 			document.getElementsByClassName("region bottom bar")[0].style.top = "-90px";
 		}
-		clearInterval(timer);
-		timer = null;
+		clearInterval(this.timer);
+		this.timer = null;
 		Log.info(this.name + " - showing " + this.isShowingDescription ? "article description" : "full article");
 		this.updateDom(100);
 	}
-
 });

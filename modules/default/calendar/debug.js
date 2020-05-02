@@ -15,8 +15,6 @@ var maximumEntries = 10;
 var maximumNumberOfDays = 365;
 var user = "magicmirror";
 var pass = "MyStrongPass";
-var broadcastPastEvents = false;
-
 var auth = {
 	user: user,
 	pass: pass
@@ -24,7 +22,7 @@ var auth = {
 
 console.log("Create fetcher ...");
 
-fetcher = new CalendarFetcher(url, fetchInterval, [], maximumEntries, maximumNumberOfDays, auth);
+var fetcher = new CalendarFetcher(url, fetchInterval, [], maximumEntries, maximumNumberOfDays, auth);
 
 fetcher.onReceive(function(fetcher) {
 	console.log(fetcher.events());

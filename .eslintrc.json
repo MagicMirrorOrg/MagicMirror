@@ -9,6 +9,7 @@
 	"globals": {
 		"config": true,
 		"Log": true,
+		"MM": true,
 		"moment": true
 	},
 	"parserOptions": {

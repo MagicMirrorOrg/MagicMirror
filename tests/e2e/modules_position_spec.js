@@ -28,7 +28,7 @@ describe("Position of modules", function () {
 
 		var position;
 		var className;
-		for (idx in positions) {
+		for (var idx in positions) {
 			position = positions[idx];
 			className = position.replace("_", ".");
 			it("show text in " + position, function () {

@@ -1,10 +1,11 @@
+/* global io */
+
 /* Magic Mirror
  * Socket Connection
  *
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-
 var MMSocket = function(moduleName) {
 
 	var self = this;

@@ -74,8 +74,8 @@ Module.register("updatenotification", {
 		var wrapper = document.createElement("div");
 		if(this.suspended === false){
 			// process the hash of module info found
-			for(key of Object.keys(this.moduleList)){
-				let m= this.moduleList[key];
+			for(var key of Object.keys(this.moduleList)){
+				let m = this.moduleList[key];
 
 				var message = document.createElement("div");
 				message.className = "small bright";

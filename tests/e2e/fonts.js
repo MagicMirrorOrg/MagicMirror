@@ -8,6 +8,7 @@ const describe = global.describe;
 describe("All font files from roboto.css should be downloadable", function() {
 	helpers.setupTimeout(this);
 
+	var app;
 	var fontFiles = [];
 	// Statements below filters out all 'url' lines in the CSS file
 	var fileContent = require("fs").readFileSync(__dirname + "/../../fonts/roboto.css", "utf8");

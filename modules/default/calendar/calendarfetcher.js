@@ -5,8 +5,8 @@
  * MIT Licensed.
  */
 
-var ical = require("./vendor/ical.js");
-var moment = require("moment");
+const ical = require("./vendor/ical.js");
+const moment = require("moment");
 
 var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, includePastEvents) {
 	var self = this;
@@ -25,7 +25,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 		clearTimeout(reloadTimer);
 		reloadTimer = null;
 
-		nodeVersion = Number(process.version.match(/^v(\d+\.\d+)/)[1]);
+		var nodeVersion = Number(process.version.match(/^v(\d+\.\d+)/)[1]);
 		var opts = {
 			headers: {
 				"User-Agent": "Mozilla/5.0 (Node.js "+ nodeVersion + ") MagicMirror/" + global.version + " (https://github.com/MichMich/MagicMirror/)"
@@ -61,7 +61,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 			}
 
 			// console.log(data);
-			newEvents = [];
+			var newEvents = [];
 
 			// limitFunction doesn't do much limiting, see comment re: the dates array in rrule section below as to why we need to do the filtering ourselves
 			var limitFunction = function(date, i) {return true;};
@@ -97,7 +97,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 					if (typeof event.end !== "undefined") {
 						endDate = eventDate(event, "end");
 					} else if(typeof event.duration !== "undefined") {
-						dur=moment.duration(event.duration);
+						var dur=moment.duration(event.duration);
 						endDate = startDate.clone().add(dur);
 					} else {
 						if (!isFacebookBirthday) {
