@@ -1,4 +1,4 @@
-/* exported Translator */
+/* global translations */
 
 /* Magic Mirror
  * Translator (l10n)

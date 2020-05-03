@@ -1,4 +1,4 @@
-/* exported defaults */
+/* global mmPort */
 
 /* Magic Mirror
  * Config Defaults

@@ -1,4 +1,4 @@
-/* global Class, Loader, MMSocket, nunjucks, Translator */
+/* global Class, cloneObject, Loader, MMSocket, nunjucks, Translator */
 
 /* Magic Mirror
  * Module Blueprint.
