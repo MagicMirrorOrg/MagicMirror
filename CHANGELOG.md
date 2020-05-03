@@ -17,6 +17,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Replaced grunt-based linters with their non-grunt equivalents
 - Switch to most of the eslint:recommended rules and fix warnings
 - Replaced insecure links with https ones 
+- Cleaned up all "no-undef" warnings from eslint
 
 ### Deleted
 - Removed truetype (ttf) fonts
