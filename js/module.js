@@ -1,4 +1,4 @@
-/* exported Module */
+/* global Class, cloneObject, Loader, MMSocket, nunjucks, Translator */
 
 /* Magic Mirror
  * Module Blueprint.
@@ -6,7 +6,6 @@
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-
 var Module = Class.extend({
 
 	/*********************************************************
@@ -237,7 +236,7 @@ var Module = Class.extend({
 	 */
 	socket: function () {
 		if (typeof this._socket === "undefined") {
-			this._socket = this._socket = new MMSocket(this.name);
+			this._socket = new MMSocket(this.name);
 		}
 
 		var self = this;
@@ -467,8 +466,8 @@ function cmpVersions(a, b) {
 Module.register = function (name, moduleDefinition) {
 
 	if (moduleDefinition.requiresVersion) {
-		Log.log("Check MagicMirror version for module '" + name + "' - Minimum version:  " + moduleDefinition.requiresVersion + " - Current version: " + version);
-		if (cmpVersions(version, moduleDefinition.requiresVersion) >= 0) {
+		Log.log("Check MagicMirror version for module '" + name + "' - Minimum version:  " + moduleDefinition.requiresVersion + " - Current version: " + global.version);
+		if (cmpVersions(global.version, moduleDefinition.requiresVersion) >= 0) {
 			Log.log("Version is ok!");
 		} else {
 			Log.log("Version is incorrect. Skip module: '" + name + "'");

@@ -4,12 +4,10 @@
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
+const Class = require("./class.js");
+const express = require("express");
 
-var Class = require("./class.js");
-var express = require("express");
-var path = require("path");
-
-NodeHelper = Class.extend({
+var NodeHelper = Class.extend({
 	init: function() {
 		console.log("Initializing new module helper ...");
 	},
@@ -114,7 +112,6 @@ NodeHelper = Class.extend({
 				}
 			});
 		});
-
 	}
 });
 
@@ -122,4 +119,5 @@ NodeHelper.create = function(moduleDefinition) {
 	return NodeHelper.extend(moduleDefinition);
 };
 
-module.exports = NodeHelper;
+/*************** DO NOT EDIT THE LINE BELOW ***************/
+if (typeof module !== "undefined") {module.exports = NodeHelper;}

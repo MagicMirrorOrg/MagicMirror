@@ -1,4 +1,4 @@
-/* global Log, Module, moment, config */
+/* global Module, SunCalc */
 
 /* Magic Mirror
  * Module: Clock
@@ -289,11 +289,12 @@ Module.register("clock",{
 			// Both clocks have been configured, check position
 			var placement = this.config.analogPlacement;
 
-			analogWrapper = document.createElement("div");
+			var analogWrapper = document.createElement("div");
 			analogWrapper.id = "analog";
 			analogWrapper.style.cssFloat = "none";
 			analogWrapper.appendChild(clockCircle);
-			digitalWrapper = document.createElement("div");
+
+			var digitalWrapper = document.createElement("div");
 			digitalWrapper.id = "digital";
 			digitalWrapper.style.cssFloat = "none";
 			digitalWrapper.appendChild(dateWrapper);

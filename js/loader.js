@@ -1,4 +1,4 @@
-/* global config, vendor, MM, Log, Module */
+/* global defaultModules, Module, vendor */
 
 /* Magic Mirror
  * Module and File loaders.

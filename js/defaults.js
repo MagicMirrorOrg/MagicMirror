@@ -1,4 +1,4 @@
-/* exported defaults */
+/* global mmPort */
 
 /* Magic Mirror
  * Config Defaults
@@ -6,9 +6,8 @@
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-
-var port = 8080;
 var address = "localhost";
+var port = 8080;
 if (typeof(mmPort) !== "undefined") {
 	port = mmPort;
 }

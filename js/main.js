@@ -1,4 +1,4 @@
-/* global Log, Loader, Module, config, defaults */
+/* global Loader, Module, defaults, Translator */
 
 /* Magic Mirror
  * Main System

@@ -1,9 +1,12 @@
+/* global Class, xyz */
+
 /* Simple JavaScript Inheritance
  * By John Resig https://johnresig.com/
+ *
+ * Inspired by base2 and Prototype
+ *
  * MIT Licensed.
  */
-
-// Inspired by base2 and Prototype
 (function () {
 	var initializing = false;
 	var fnTest = /xyz/.test(function () { xyz; }) ? /\b_super\b/ : /.*/;

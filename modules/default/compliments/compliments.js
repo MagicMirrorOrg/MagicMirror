@@ -1,4 +1,4 @@
-/* global Log, Module, moment */
+/* global Module */
 
 /* Magic Mirror
  * Module: Compliments
@@ -127,7 +127,7 @@ Module.register("compliments", {
 
 		compliments.push.apply(compliments, this.config.compliments.anytime);
 
-		for (entry in this.config.compliments) {
+		for (var entry in this.config.compliments) {
 			if (new RegExp(entry).test(date)) {
 				compliments.push.apply(compliments, this.config.compliments[entry]);
 			}
@@ -188,7 +188,7 @@ Module.register("compliments", {
 		// create a span to hold it all
 		var compliment = document.createElement("span");
 		// process all the parts of the compliment text
-		for (part of parts){
+		for (var part of parts){
 			// create a text element for each part
 			compliment.appendChild(document.createTextNode(part));
 			// add a break `

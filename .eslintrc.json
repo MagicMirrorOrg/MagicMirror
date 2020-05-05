@@ -6,6 +6,12 @@
 		"mocha": true,
 		"node": true
 	},
+	"globals": {
+		"config": true,
+		"Log": true,
+		"MM": true,
+		"moment": true
+	},
 	"parserOptions": {
 		"sourceType": "module",
 		"ecmaVersion": 2017,
@@ -16,7 +22,6 @@
 	"rules": {
 		"eqeqeq": "error",
 		"no-prototype-builtins": "off",
-		"no-undef": "off",
 		"no-unused-vars": "off"
 	}
 }
