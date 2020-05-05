@@ -1,8 +1,9 @@
 /* exported Translator */
+
 /* Magic Mirror
  * Translator (l10n)
  *
- * By Christopher Fenner http://github.com/CFenner
+ * By Christopher Fenner https://github.com/CFenner
  * MIT Licensed.
  */
 var Translator = (function() {
@@ -129,10 +130,10 @@ var Translator = (function() {
 				if(Object.prototype.toString.call(template) !== "[object String]") {
 					return template;
 				}
-				if(variables.fallback && !template.match(new RegExp("\{.+\}"))) {
+				if(variables.fallback && !template.match(new RegExp("{.+}"))) {
 					template = variables.fallback;
 				}
-				return template.replace(new RegExp("\{([^\}]+)\}", "g"), function(_unused, varName){
+				return template.replace(new RegExp("{([^}]+)}", "g"), function(_unused, varName){
 					return variables[varName] || "{"+varName+"}";
 				});
 			}

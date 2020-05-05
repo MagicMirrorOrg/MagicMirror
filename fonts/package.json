@@ -10,6 +10,6 @@
     "url": "https://github.com/MichMich/MagicMirror/issues"
   },
   "dependencies": {
-    "roboto-fontface": "^0.8.0"
+    "roboto-fontface": "^0.10.0"
   }
 }

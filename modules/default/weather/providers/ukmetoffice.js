@@ -8,8 +8,6 @@
  *
  * This class is a provider for UK Met Office Datapoint.
  */
-
-
 WeatherProvider.register("ukmetoffice", {
 
 	// Set the name of the provider.
@@ -26,8 +24,7 @@ WeatherProvider.register("ukmetoffice", {
 	fetchCurrentWeather() {
 		this.fetchData(this.getUrl("3hourly"))
 			.then(data => {
-				if (!data || !data.SiteRep || !data.SiteRep.DV || !data.SiteRep.DV.Location ||
-					  !data.SiteRep.DV.Location.Period || data.SiteRep.DV.Location.Period.length == 0) {
+				if (!data || !data.SiteRep || !data.SiteRep.DV || !data.SiteRep.DV.Location || !data.SiteRep.DV.Location.Period || data.SiteRep.DV.Location.Period.length === 0) {
 					// Did not receive usable new data.
 					// Maybe this needs a better check?
 					return;
@@ -41,15 +38,14 @@ WeatherProvider.register("ukmetoffice", {
 			.catch(function(request) {
 				Log.error("Could not load data ... ", request);
 			})
-			.finally(() => this.updateAvailable())
+			.finally(() => this.updateAvailable());
 	},
 
 	// Overwrite the fetchCurrentWeather method.
 	fetchWeatherForecast() {
 		this.fetchData(this.getUrl("daily"))
 			.then(data => {
-				if (!data || !data.SiteRep || !data.SiteRep.DV || !data.SiteRep.DV.Location ||
-					  !data.SiteRep.DV.Location.Period || data.SiteRep.DV.Location.Period.length == 0) {
+				if (!data || !data.SiteRep || !data.SiteRep.DV || !data.SiteRep.DV.Location || !data.SiteRep.DV.Location.Period || data.SiteRep.DV.Location.Period.length === 0) {
 					// Did not receive usable new data.
 					// Maybe this needs a better check?
 					return;
@@ -63,10 +59,8 @@ WeatherProvider.register("ukmetoffice", {
 			.catch(function(request) {
 				Log.error("Could not load data ... ", request);
 			})
-			.finally(() => this.updateAvailable())
+			.finally(() => this.updateAvailable());
 	},
-
-
 
 	/** UK Met Office Specific Methods - These are not part of the default provider methods */
 	/*
@@ -83,13 +77,13 @@ WeatherProvider.register("ukmetoffice", {
 		const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
 
 		// data times are always UTC
-		let nowUtc = moment.utc()
-		let midnightUtc = nowUtc.clone().startOf("day")
+		let nowUtc = moment.utc();
+		let midnightUtc = nowUtc.clone().startOf("day");
 		let timeInMins = nowUtc.diff(midnightUtc, "minutes");
 
 		// loop round each of the (5) periods, look for today (the first period may be yesterday)
 		for (i in currentWeatherData.SiteRep.DV.Location.Period) {
-			let periodDate = moment.utc(currentWeatherData.SiteRep.DV.Location.Period[i].value.substr(0,10), "YYYY-MM-DD")
+			let periodDate = moment.utc(currentWeatherData.SiteRep.DV.Location.Period[i].value.substr(0,10), "YYYY-MM-DD");
 
 			// ignore if period is before today
 			if (periodDate.isSameOrAfter(moment.utc().startOf("day"))) {
@@ -116,7 +110,7 @@ WeatherProvider.register("ukmetoffice", {
 		}
 
 		// determine the sunrise/sunset times - not supplied in UK Met Office data
-		let times = this.calcAstroData(currentWeatherData.SiteRep.DV.Location)
+		let times = this.calcAstroData(currentWeatherData.SiteRep.DV.Location);
 		currentWeather.sunrise = times[0];
 		currentWeather.sunset = times[1];
 
@@ -136,8 +130,8 @@ WeatherProvider.register("ukmetoffice", {
 			const weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
 
 			// data times are always UTC
-			dateStr = forecasts.SiteRep.DV.Location.Period[j].value
-			let periodDate = moment.utc(dateStr.substr(0,10), "YYYY-MM-DD")
+			dateStr = forecasts.SiteRep.DV.Location.Period[j].value;
+			let periodDate = moment.utc(dateStr.substr(0,10), "YYYY-MM-DD");
 
 			// ignore if period is before today
 			if (periodDate.isSameOrAfter(moment.utc().startOf("day"))) {

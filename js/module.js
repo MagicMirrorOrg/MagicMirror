@@ -1,10 +1,9 @@
-/* global Log, Class, Loader, Class , MM */
 /* exported Module */
 
 /* Magic Mirror
  * Module Blueprint.
  *
- * By Michael Teeuw http://michaelteeuw.nl
+ * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
 

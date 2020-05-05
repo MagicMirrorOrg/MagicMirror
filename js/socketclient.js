@@ -8,8 +8,12 @@ var MMSocket = function(moduleName) {
 	self.moduleName = moduleName;
 
 	// Private Methods
+	var base = "/";
+	if ((typeof config !== "undefined") && (typeof config.basePath !== "undefined")) {
+		base = config.basePath;
+	}
 	self.socket = io("/" + self.moduleName, {
-		path: window.location.pathname + "socket.io"
+		path: base + "socket.io"
 	});
 	var notificationCallback = function() {};
 

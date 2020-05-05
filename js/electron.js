@@ -45,8 +45,16 @@ function createWindow() {
 
 	// and load the index.html of the app.
 	// If config.address is not defined or is an empty string (listening on all interfaces), connect to localhost
+
+	var prefix;
+	if (config["tls"] !== null && config["tls"]) {
+		prefix = "https://";
+	} else {
+		prefix = "http://";
+	}
+
 	var address = (config.address === void 0) | (config.address === "") ? (config.address = "localhost") : config.address;
-	mainWindow.loadURL(`http://${address}:${config.port}`);
+	mainWindow.loadURL(`${prefix}${address}:${config.port}`);
 
 	// Open the DevTools if run with "npm start dev"
 	if (process.argv.includes("dev")) {

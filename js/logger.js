@@ -1,10 +1,9 @@
-/* global console */
 /* exported Log */
 
 /* Magic Mirror
  * Logger
  *
- * By Michael Teeuw http://michaelteeuw.nl
+ * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
 

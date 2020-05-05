@@ -1,4 +1,5 @@
 /* exported Utils */
+
 /* Magic Mirror
  * Utils
  *

@@ -3,10 +3,9 @@
 /* Magic Mirror
  * Module: WeatherForecast
  *
- * By Michael Teeuw http://michaelteeuw.nl
+ * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-
 Module.register("weatherforecast",{
 
 	// Default module config.
@@ -62,7 +61,7 @@ Module.register("weatherforecast",{
 		},
 	},
 
-	// create a variable for the first upcoming calendaar event. Used if no location is specified.
+	// create a variable for the first upcoming calendar event. Used if no location is specified.
 	firstEvent: false,
 
 	// create a variable to hold the location name based on the API result.
@@ -310,7 +309,7 @@ Module.register("weatherforecast",{
 	 * parserDataWeather(data)
 	 *
 	 * Use the parse to keep the same struct between daily and forecast Endpoint
-	 * from Openweather
+	 * from openweather.org
 	 *
 	 */
 	parserDataWeather: function(data) {
@@ -339,7 +338,7 @@ Module.register("weatherforecast",{
 
 			var day;
 			var hour;
-			if(!!forecast.dt_txt) {
+			if(forecast.dt_txt) {
 				day = moment(forecast.dt_txt, "YYYY-MM-DD hh:mm:ss").format("ddd");
 				hour = moment(forecast.dt_txt, "YYYY-MM-DD hh:mm:ss").format("H");
 			} else {
@@ -348,7 +347,7 @@ Module.register("weatherforecast",{
 			}
 
 			if (day !== lastDay) {
-				var forecastData = {
+				forecastData = {
 					day: day,
 					icon: this.config.iconTable[forecast.weather[0].icon],
 					maxTemp: this.roundValue(forecast.temp.max),
@@ -405,7 +404,7 @@ Module.register("weatherforecast",{
 	 * Converts m2 to beaufort (windspeed).
 	 *
 	 * see:
-	 *  http://www.spc.noaa.gov/faq/tornado/beaufort.html
+	 *  https://www.spc.noaa.gov/faq/tornado/beaufort.html
 	 *  https://en.wikipedia.org/wiki/Beaufort_scale#Modern_scale
 	 *
 	 * argument ms number - Windspeed in m/s.
@@ -450,14 +449,14 @@ Module.register("weatherforecast",{
 		}
 
 		//Find all forecasts that is for the same day
-		var checkDateTime = (!!forecast.dt_txt) ? moment(forecast.dt_txt, "YYYY-MM-DD hh:mm:ss") : moment(forecast.dt, "X");
+		var checkDateTime = (forecast.dt_txt) ? moment(forecast.dt_txt, "YYYY-MM-DD hh:mm:ss") : moment(forecast.dt, "X");
 		var daysForecasts = allForecasts.filter(function(item) {
-			var itemDateTime = (!!item.dt_txt) ? moment(item.dt_txt, "YYYY-MM-DD hh:mm:ss") : moment(item.dt, "X");
+			var itemDateTime = (item.dt_txt) ? moment(item.dt_txt, "YYYY-MM-DD hh:mm:ss") : moment(item.dt, "X");
 			return itemDateTime.isSame(checkDateTime, "day") && item.rain instanceof Object;
 		});
 
 		//If no rain this day return undefined so it wont be displayed for this day
-		if (daysForecasts.length == 0) {
+		if (daysForecasts.length === 0) {
 			return undefined;
 		}
 

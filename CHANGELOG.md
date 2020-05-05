@@ -1,7 +1,7 @@
 # MagicMirror² Change Log
 
 All notable changes to this project will be documented in this file.
-This project adheres to [Semantic Versioning](http://semver.org/).
+This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror²
 
@@ -9,12 +9,21 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 *This release is scheduled to be released on 2020-07-01.*
 
-# Added
+### Added
 
-# Updated
+### Updated
+- Cleaned up alert module code
+- Cleaned up check_config code
+- Replaced grunt-based linters with their non-grunt equivalents
+- Switch to most of the eslint:recommended rules and fix warnings
+- Replaced insecure links with https ones 
 
-# Deleted
+### Deleted
+- Removed truetype (ttf) fonts
 
+### Fixed
+- The broken modules due to Socket.io change from last release [#1973](https://github.com/MichMich/MagicMirror/issues/1973)
+- Add backward compatibility for old module code in socketclient.js [#1973](https://github.com/MichMich/MagicMirror/issues/1973)
 
 ## [2.11.0] - 2020-04-01
 
@@ -41,6 +50,7 @@ For more information regarding this major change, please check issue [#1860](htt
 - Added the ability to configure a list of modules that shouldn't be update checked.
 - Run linters on git commits
 - Added date functionality to compliments: display birthday wishes or celebrate an anniversary
+- Add HTTPS support for clientonly-mode.
 
 ### Fixed
 - Force declaration of public ip address in config file (ISSUE #1852)
@@ -109,7 +119,7 @@ Special thanks to @sdetweil for all his great contributions!
 ### Updated
 - Updatenotification module: Display update notification for a limited (configurable) time.
 - Enabled e2e/vendor_spec.js tests.
-- The css/custom.css will be rename after the next release. We've add into `run-start.sh` a instruction by GIT to ignore with `--skip-worktree` and `rm --cached`. [#1540](https://github.com/MichMich/MagicMirror/issues/1540)
+- The css/custom.css will be renamed after the next release. We've added into `run-start.sh` an instruction by GIT to ignore with `--skip-worktree` and `rm --cached`. [#1540](https://github.com/MichMich/MagicMirror/issues/1540)
 - Disable sending of notification CLOCK_SECOND when displaySeconds is false.
 
 ### Fixed
@@ -144,7 +154,7 @@ Special thanks to @sdetweil for all his great contributions!
 
 ### Updated
 - English translation for "Feels" to "Feels like"
-- Fixed the example calender url in `config.js.sample`
+- Fixed the example calendar url in `config.js.sample`
 - Update `ical.js` to solve various calendar issues.
 - Update weather city list url [#1676](https://github.com/MichMich/MagicMirror/issues/1676)
 - Only update clock once per minute when seconds aren't shown
@@ -249,7 +259,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 - Documentation for the existing `scale` option in the Weather Forecast module.
 
 ### Fixed
-- Allow to parse recurring calendar events where the start date is before 1900
+- Allow parsing recurring calendar events where the start date is before 1900
 - Fixed Polish translation for Single Update Info
 - Ignore entries with unparseable details in the calendar module
 - Bug showing FullDayEvents one day too long in calendar fixed
@@ -358,7 +368,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 - Add system notification `MODULE_DOM_CREATED` for notifying each module when their Dom has been fully loaded.
 - Add types for module.
 - Implement Danger.js to notify contributors when CHANGELOG.md is missing in PR.
-- Allow to scroll in full page article view of default newsfeed module with gesture events from [MMM-Gestures](https://github.com/thobach/MMM-Gestures)
+- Allow scrolling in full page article view of default newsfeed module with gesture events from [MMM-Gestures](https://github.com/thobach/MMM-Gestures)
 - Changed 'compliments.js' - update DOM if remote compliments are loaded instead of waiting one updateInterval to show custom compliments
 - Automated unit tests utils, deprecated, translator, cloneObject(lockstrings)
 - Automated integration tests translations
@@ -399,7 +409,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
 
 ### Changed
-- Calender week is now handled with a variable translation in order to move number language specific.
+- Calendar week is now handled with a variable translation in order to move number language specific.
 - Reverted the Electron dependency back to 1.4.15 since newer version don't seem to work on the Raspberry Pi very well.
 
 ### Added
@@ -565,7 +575,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 - Remove white flash on boot up.
 - Added `update` in Raspberry Pi installation script.
 - Fix an issue where the analog clock looked scrambled. ([#611](https://github.com/MichMich/MagicMirror/issues/611))
-- If units is set to imperial, the showRainAmount option of weatherforecast will show the correct unit.
+- If units are set to imperial, the showRainAmount option of weatherforecast will show the correct unit.
 - Module currentWeather: check if temperature received from api is defined.
 - Fix an issue with module hidden status changing to `true` although lock string prevented showing it.
 - Fix newsfeed module bug (removeStartTags)
@@ -589,7 +599,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 - Module API: Method to overwrite the module's header. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules#getheader) for more information.
 - Module API: Option to define the minimum MagicMirror version to run a module. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules#requiresversion) for more information.
 - Calendar module now broadcasts the event list to all other modules using the notification system. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules/default/calendar) for more information.
-- Possibility to use the the calendar feed as the source for the weather (currentweather & weatherforecast) location data. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules/default/weatherforecast) for more information.
+- Possibility to use the calendar feed as the source for the weather (currentweather & weatherforecast) location data. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules/default/weatherforecast) for more information.
 - Added option to show rain amount in the weatherforecast default module
 - Add module `updatenotification` to get an update whenever a new version is available. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules/default/updatenotification) for more information.
 - Add the ability to set timezone on the date display in the Clock Module
@@ -597,7 +607,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 - Possibility to use currentweather for the compliments
 - Added option `disabled` for modules.
 - Added option `address` to set bind address.
-- Added option `onlyTemp` for currentweather module to show show only current temperature and weather icon.
+- Added option `onlyTemp` for currentweather module to show only current temperature and weather icon.
 - Added option `remoteFile` to compliments module to load compliment array from filesystem.
 - Added option `zoom` to scale the whole mirror display with a given factor.
 - Added option `roundTemp` for currentweather and weatherforecast modules to display temperatures rounded to nearest integer.
@@ -712,4 +722,4 @@ It includes (but is not limited to) the following features:
 
 ## [1.0.0] - 2014-02-16
 ### Initial release of MagicMirror.
-This was part of the blogpost: [http://michaelteeuw.nl/post/83916869600/magic-mirror-part-vi-production-of-the](http://michaelteeuw.nl/post/83916869600/magic-mirror-part-vi-production-of-the)
+This was part of the blogpost: [https://michaelteeuw.nl/post/83916869600/magic-mirror-part-vi-production-of-the](https://michaelteeuw.nl/post/83916869600/magic-mirror-part-vi-production-of-the)
