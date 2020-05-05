@@ -82,7 +82,7 @@ WeatherProvider.register("ukmetoffice", {
 		let timeInMins = nowUtc.diff(midnightUtc, "minutes");
 
 		// loop round each of the (5) periods, look for today (the first period may be yesterday)
-		for (i in currentWeatherData.SiteRep.DV.Location.Period) {
+		for (var i in currentWeatherData.SiteRep.DV.Location.Period) {
 			let periodDate = moment.utc(currentWeatherData.SiteRep.DV.Location.Period[i].value.substr(0,10), "YYYY-MM-DD");
 
 			// ignore if period is before today
@@ -92,7 +92,7 @@ WeatherProvider.register("ukmetoffice", {
 				if (moment().diff(periodDate, "minutes") > 0) {
 					// loop round the reports looking for the one we are in
 					// $ value specifies the time in minutes-of-the-day: 0, 180, 360,...1260
-					for (j in currentWeatherData.SiteRep.DV.Location.Period[i].Rep){
+					for (var j in currentWeatherData.SiteRep.DV.Location.Period[i].Rep){
 						let p = currentWeatherData.SiteRep.DV.Location.Period[i].Rep[j].$;
 						if (timeInMins >= p && timeInMins-180 < p) {
 							// finally got the one we want, so populate weather object
@@ -126,11 +126,11 @@ WeatherProvider.register("ukmetoffice", {
 
 		// loop round the (5) periods getting the data
 		// for each period array, Day is [0], Night is [1]
-		for (j in forecasts.SiteRep.DV.Location.Period) {
+		for (var j in forecasts.SiteRep.DV.Location.Period) {
 			const weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
 
 			// data times are always UTC
-			dateStr = forecasts.SiteRep.DV.Location.Period[j].value;
+			const dateStr = forecasts.SiteRep.DV.Location.Period[j].value;
 			let periodDate = moment.utc(dateStr.substr(0,10), "YYYY-MM-DD");
 
 			// ignore if period is before today

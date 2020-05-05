@@ -17,7 +17,7 @@ describe("Functions into modules/default/calendar/calendar.js", function() {
 	});
 
 	describe("capFirst", function() {
-		words = {
+		const words = {
 			"rodrigo": "Rodrigo",
 			"123m": "123m",
 			"magic mirror": "Magic mirror",
@@ -89,7 +89,7 @@ describe("Functions into modules/default/calendar/calendar.js", function() {
 	});
 
 	describe("shorten", function() {
-		strings = {
+		const strings = {
 			" String with whitespace at the beginning that needs trimming" : { length: 16, return: "String with whit&hellip;" },
 			"long string that needs shortening": { length: 16, return: "long string that&hellip;" },
 			"short string": { length: 16, return: "short string" },
