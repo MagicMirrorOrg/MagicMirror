@@ -14,7 +14,9 @@
     "test:e2e": "NODE_ENV=test ./node_modules/mocha/bin/mocha tests/e2e --recursive",
     "test:lint": "grunt --env=test",
     "config:check": "node tests/configs/check_config.js",
-    "lint": "grunt --env=lint"
+    "lint": "grunt --env=lint",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -75,9 +77,11 @@
     "rrule-alt": "^2.2.8",
     "simple-git": "^1.85.0",
     "socket.io": "^2.1.1",
-    "valid-url": "latest"
+    "valid-url": "latest",
+    "snyk": "^1.318.0"
   },
   "_moduleAliases": {
     "node_helper": "js/node_helper.js"
-  }
+  },
+  "snyk": true
 }
