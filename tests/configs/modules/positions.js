@@ -26,7 +26,7 @@ var config = {
 				"middle_center", "lower_third", "bottom_left", "bottom_center", "bottom_right",
 				"bottom_bar", "fullscreen_above", "fullscreen_below"];
 			var modules = Array();
-			for (idx in positions) {
+			for (var idx in positions) {
 				modules.push({
 					module: "helloworld",
 					position: positions[idx],

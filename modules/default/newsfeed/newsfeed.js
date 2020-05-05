@@ -1,5 +1,3 @@
-/* global Module */
-
 /* Magic Mirror
  * Module: NewsFeed
  *

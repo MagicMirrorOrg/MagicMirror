@@ -1,4 +1,4 @@
-/* global Module, WeatherProvider */
+/* global WeatherProvider */
 
 /* Magic Mirror
  * Module: Weather

@@ -12,7 +12,7 @@ describe("Functions into modules/default/newsfeed/newsfeed.js", function() {
 	require("../../../modules/default/newsfeed/newsfeed.js");
 
 	describe("capitalizeFirstLetter", function() {
-		words = {
+		const words = {
 			"rodrigo": "Rodrigo",
 			"123m": "123m",
 			"magic mirror": "Magic mirror",

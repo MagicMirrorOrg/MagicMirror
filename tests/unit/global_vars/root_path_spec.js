@@ -62,7 +62,7 @@ describe("'global.root_path' set in js/app.js", function() {
 	});
 
 	it("should expect the global.version equals package.json file", function() {
-		versionPackage = JSON.parse(fs.readFileSync("package.json", "utf8")).version;
+		const versionPackage = JSON.parse(fs.readFileSync("package.json", "utf8")).version;
 		expect(this.sandbox.global.version).to.equal(versionPackage);
 	});
 });
