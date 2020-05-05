@@ -1,4 +1,4 @@
-/* global Module, NotificationFx */
+/* global NotificationFx */
 
 /* Magic Mirror
  * Module: alert

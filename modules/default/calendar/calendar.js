@@ -1,4 +1,4 @@
-/* global cloneObject, Module */
+/* global cloneObject */
 
 /* Magic Mirror
  * Module: Calendar
