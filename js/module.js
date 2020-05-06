@@ -466,8 +466,8 @@ function cmpVersions(a, b) {
 Module.register = function (name, moduleDefinition) {
 
 	if (moduleDefinition.requiresVersion) {
-		Log.log("Check MagicMirror version for module '" + name + "' - Minimum version:  " + moduleDefinition.requiresVersion + " - Current version: " + global.version);
-		if (cmpVersions(global.version, moduleDefinition.requiresVersion) >= 0) {
+		Log.log("Check MagicMirror version for module '" + name + "' - Minimum version:  " + moduleDefinition.requiresVersion + " - Current version: " + window.version);
+		if (cmpVersions(window.version, moduleDefinition.requiresVersion) >= 0) {
 			Log.log("Version is ok!");
 		} else {
 			Log.log("Version is incorrect. Skip module: '" + name + "'");
