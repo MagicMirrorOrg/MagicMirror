@@ -7,8 +7,7 @@ pull request to send us your changes. This makes everyone's lives
 easier (including yours) and helps us out on the development team.
 Thanks!
 
-
-* Does the pull request solve a **related** issue?
-* If so, can you reference the issue?
-* What does the pull request accomplish? Use a list if needed.
-* If it includes major visual changes please add screenshots.
+- Does the pull request solve a **related** issue?
+- If so, can you reference the issue?
+- What does the pull request accomplish? Use a list if needed.
+- If it includes major visual changes please add screenshots.

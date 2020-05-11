@@ -6,10 +6,10 @@
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-const Log = (function() {
+const Log = (function () {
 	return {
 		info: Function.prototype.bind.call(console.info, console),
-		log:  Function.prototype.bind.call(console.log, console),
+		log: Function.prototype.bind.call(console.log, console),
 		error: Function.prototype.bind.call(console.error, console),
 		warn: Function.prototype.bind.call(console.warn, console),
 		group: Function.prototype.bind.call(console.group, console),
