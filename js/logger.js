@@ -18,7 +18,8 @@
 		root.Log = factory(root.config);
 	}
 }(this, function (config) {
-	return {
+
+	let logLevel = {
 		info: Function.prototype.bind.call(console.info, console),
 		log: Function.prototype.bind.call(console.log, console),
 		error: Function.prototype.bind.call(console.error, console),
@@ -29,5 +30,15 @@
 		time: Function.prototype.bind.call(console.time, console),
 		timeEnd: Function.prototype.bind.call(console.timeEnd, console),
 		timeStamp: Function.prototype.bind.call(console.timeStamp, console)
-	};
+	}
+
+	if (config && config.logLevel) {
+		Object.keys(logLevel).forEach(function(key,index) {
+			if (!config.logLevel.includes(key.toLocaleUpperCase())) {
+				logLevel[key] = function() {};
+			}
+		});
+	}
+
+	return logLevel;
 }));
