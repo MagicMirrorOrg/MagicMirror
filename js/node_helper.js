@@ -5,20 +5,21 @@
  * MIT Licensed.
  */
 const Class = require("./class.js");
+const Log = require("./logger.js");
 const express = require("express");
 
 var NodeHelper = Class.extend({
-	init: function () {
-		console.log("Initializing new module helper ...");
+	init: function() {
+		Log.log("Initializing new module helper ...");
 	},
 
-	loaded: function (callback) {
-		console.log("Module helper loaded: " + this.name);
+	loaded: function(callback) {
+		Log.log("Module helper loaded: " + this.name);
 		callback();
 	},
 
-	start: function () {
-		console.log("Starting module helper: " + this.name);
+	start: function() {
+		Log.log("Starting module helper: " + this.name);
 	},
 
 	/* stop()
@@ -27,8 +28,8 @@ var NodeHelper = Class.extend({
 	 * gracefully exit the module.
 	 *
 	 */
-	stop: function () {
-		console.log("Stopping module helper: " + this.name);
+	stop: function() {
+		Log.log("Stopping module helper: " + this.name);
 	},
 
 	/* socketNotificationReceived(notification, payload)
@@ -37,8 +38,8 @@ var NodeHelper = Class.extend({
 	 * argument notification string - The identifier of the notification.
 	 * argument payload mixed - The payload of the notification.
 	 */
-	socketNotificationReceived: function (notification, payload) {
-		console.log(this.name + " received a socket notification: " + notification + " - Payload: " + payload);
+	socketNotificationReceived: function(notification, payload) {
+		Log.log(this.name + " received a socket notification: " + notification + " - Payload: " + payload);
 	},
 
 	/* setName(name)
@@ -92,7 +93,7 @@ var NodeHelper = Class.extend({
 		var self = this;
 		self.io = io;
 
-		console.log("Connecting socket for: " + this.name);
+		Log.log("Connecting socket for: " + this.name);
 		var namespace = this.name;
 		io.of(namespace).on("connection", function (socket) {
 			// add a catch all event.
@@ -107,7 +108,7 @@ var NodeHelper = Class.extend({
 			// register catch all.
 			socket.on("*", function (notification, payload) {
 				if (notification !== "*") {
-					//console.log('received message in namespace: ' + namespace);
+					//Log.log('received message in namespace: ' + namespace);
 					self.socketNotificationReceived(notification, payload);
 				}
 			});
