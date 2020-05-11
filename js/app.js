@@ -5,12 +5,12 @@
  * MIT Licensed.
  */
 var fs = require("fs");
+var path = require("path");
+var Log = require(__dirname + "/logger.js");
 var Server = require(__dirname + "/server.js");
 var Utils = require(__dirname + "/utils.js");
 var defaultModules = require(__dirname + "/../modules/default/defaultmodules.js");
-var path = require("path");
 
-var Log = require("./logger.js");
 // Alias modules mentioned in package.js under _moduleAliases.
 require("module-alias/register");
 
