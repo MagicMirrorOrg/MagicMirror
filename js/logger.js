@@ -6,7 +6,15 @@
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-const Log = (function () {
+(function (root, factory) {
+	if (typeof exports === 'object') {
+		// Node, CommonJS-like
+		module.exports = factory(root.config);
+	} else {
+		// Browser globals (root is window)
+		root.Log = factory(root.config);
+	}
+}(this, function (config) {
 	return {
 		info: Function.prototype.bind.call(console.info, console),
 		log: Function.prototype.bind.call(console.log, console),
@@ -19,4 +27,4 @@ const Log = (function () {
 		timeEnd: Function.prototype.bind.call(console.timeEnd, console),
 		timeStamp: Function.prototype.bind.call(console.timeStamp, console)
 	};
-})();
+}));
