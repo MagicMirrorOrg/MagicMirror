@@ -8,6 +8,9 @@
  */
 (function (root, factory) {
 	if (typeof exports === 'object') {
+		// add timestamps in front of log messages
+		require("console-stamp")(console, "yyyy-mm-dd HH:MM:ss.l");
+
 		// Node, CommonJS-like
 		module.exports = factory(root.config);
 	} else {

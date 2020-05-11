@@ -13,9 +13,6 @@ var path = require("path");
 // Alias modules mentioned in package.js under _moduleAliases.
 require("module-alias/register");
 
-// add timestamps in front of log messages
-require("console-stamp")(console, "yyyy-mm-dd HH:MM:ss.l");
-
 // Get version number.
 global.version = JSON.parse(fs.readFileSync("package.json", "utf8")).version;
 console.log("Starting MagicMirror: v" + global.version);
