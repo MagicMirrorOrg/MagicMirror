@@ -1,7 +1,9 @@
+/* global Log, Module, moment */
+
 /* Magic Mirror
  * Module: Compliments
  *
- * By Michael Teeuw https://michaelteeuw.nl
+ * By Michael Teeuw http://michaelteeuw.nl
  * MIT Licensed.
  */
 Module.register("compliments", {
@@ -39,7 +41,8 @@ Module.register("compliments", {
 		afternoonStartTime: 12,
 		afternoonEndTime: 17,
 		random: true,
-		mockDate: null
+		mockDate: null,
+    advice: false
 	},
 	lastIndexUsed:-1,
 	// Set currentweather from module
@@ -62,7 +65,19 @@ Module.register("compliments", {
 				self.config.compliments = JSON.parse(response);
 				self.updateDom();
 			});
-		}
+		} else if (this.config.advice) {
+      var xobj = new XMLHttpRequest(),
+      xobj.overrideMimeType("application/json");
+      xobj.open("GET", "https://api.adviceslip.com/advice", true);
+      xobj.onreadystatechange = function() {
+        if (xobj.readyState === 4 && xobj.status === 200) {
+          const adviceResp = JSON.parse(xobj.responseText);
+          self.config.compliments = adviceResp.slip.advice
+          self.updateDom();
+        }
+      };
+      xobj.send(null);
+    }
 
 		// Schedule update timer.
 		setInterval(function() {
@@ -125,7 +140,7 @@ Module.register("compliments", {
 
 		compliments.push.apply(compliments, this.config.compliments.anytime);
 
-		for (var entry in this.config.compliments) {
+		for (entry in this.config.compliments) {
 			if (new RegExp(entry).test(date)) {
 				compliments.push.apply(compliments, this.config.compliments[entry]);
 			}
@@ -186,7 +201,7 @@ Module.register("compliments", {
 		// create a span to hold it all
 		var compliment = document.createElement("span");
 		// process all the parts of the compliment text
-		for (var part of parts){
+		for (part of parts){
 			// create a text element for each part
 			compliment.appendChild(document.createTextNode(part));
 			// add a break `
