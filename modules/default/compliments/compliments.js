@@ -40,7 +40,7 @@ Module.register("compliments", {
 		afternoonEndTime: 17,
 		random: true,
 		mockDate: null,
-    advice: false
+		advice: false
 	},
 	lastIndexUsed:-1,
 	// Set currentweather from module
@@ -64,18 +64,18 @@ Module.register("compliments", {
 				self.updateDom();
 			});
 		} else if (this.config.advice) {
-      var xobj = new XMLHttpRequest();
+			var xobj = new XMLHttpRequest();
 			xobj.overrideMimeType("application/json");
-      xobj.open("GET", "https://api.adviceslip.com/advice", true);
-      xobj.onreadystatechange = function() {
-        if (xobj.readyState === 4 && xobj.status === 200) {
-          const adviceResp = JSON.parse(xobj.responseText);
-          self.config.compliments = adviceResp.slip.advice
-          self.updateDom();
-        }
-      };
-      xobj.send(null);
-    }
+			xobj.open("GET", "https://api.adviceslip.com/advice", true);
+			xobj.onreadystatechange = function() {
+				if (xobj.readyState === 4 && xobj.status === 200) {
+					const adviceResp = JSON.parse(xobj.responseText);
+					self.config.compliments = adviceResp.slip.advice
+					self.updateDom();
+				}
+			};
+			xobj.send(null);
+		}
 
 		// Schedule update timer.
 		setInterval(function() {
