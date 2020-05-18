@@ -58,7 +58,6 @@ var CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntr
 				return;
 			}
 
-			// console.log(data);
 			var newEvents = [];
 
 			// limitFunction doesn't do much limiting, see comment re: the dates array in rrule section below as to why we need to do the filtering ourselves
@@ -275,29 +274,28 @@ var CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntr
 						}
 						// end recurring event parsing
 					} else {
-						// console.log("Single event ...");
 						// Single event.
 						var fullDayEvent = isFacebookBirthday ? true : isFullDayEvent(event);
 
 						if (includePastEvents) {
+							// Past event is too far in the past, so skip.
 							if (endDate < past) {
-								//console.log("Past event is too far in the past.  So skip: " + title);
 								continue;
 							}
 						} else {
+							// It's not a fullday event, and it is in the past, so skip.
 							if (!fullDayEvent && endDate < new Date()) {
-								//console.log("It's not a fullday event, and it is in the past. So skip: " + title);
 								continue;
 							}
 
+							// It's a fullday event, and it is before today, So skip.
 							if (fullDayEvent && endDate <= today) {
-								//console.log("It's a fullday event, and it is before today. So skip: " + title);
 								continue;
 							}
 						}
 
+						// It exceeds the maximumNumberOfDays limit, so skip.
 						if (startDate > future) {
-							//console.log("It exceeds the maximumNumberOfDays limit. So skip: " + title);
 							continue;
 						}
 
@@ -305,13 +303,12 @@ var CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntr
 							continue;
 						}
 
-						// adjust start date so multiple day events will be displayed as happening today even though they started some days ago already
+						// Adjust start date so multiple day events will be displayed as happening today even though they started some days ago already
 						if (fullDayEvent && startDate <= today) {
 							startDate = moment(today);
 						}
 
 						// Every thing is good. Add it to the list.
-
 						newEvents.push({
 							title: title,
 							startDate: startDate.format("x"),
@@ -330,8 +327,6 @@ var CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntr
 				return a.startDate - b.startDate;
 			});
 
-			//console.log(newEvents);
-
 			events = newEvents.slice(0, maximumEntries);
 
 			self.broadcastEvents();
@@ -342,8 +337,7 @@ var CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntr
 	/* scheduleTimer()
 	 * Schedule the timer for the next update.
 	 */
-	var scheduleTimer = function () {
-		//console.log('Schedule update timer.');
+	var scheduleTimer = function() {
 		clearTimeout(reloadTimer);
 		reloadTimer = setTimeout(function () {
 			fetchCalendar();
@@ -441,8 +435,8 @@ var CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntr
 	/* broadcastItems()
 	 * Broadcast the existing events.
 	 */
-	this.broadcastEvents = function () {
-		//console.log('Broadcasting ' + events.length + ' events.');
+	this.broadcastEvents = function() {
+		console.info('Broadcasting ' + events.length + ' events.');
 		eventsReceivedCallback(self);
 	};
 
