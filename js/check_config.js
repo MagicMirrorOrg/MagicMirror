@@ -17,6 +17,7 @@ const fs = require("fs");
 
 const rootPath = path.resolve(__dirname + "/../");
 const config = require(rootPath + "/.eslintrc.json");
+const Logger = require(rootPath + "/js/logger.js");
 const Utils = require(rootPath + "/js/utils.js");
 
 /* getConfigFile()
@@ -36,21 +37,20 @@ function checkConfigFile() {
 	const configFileName = getConfigFile();
 	// Check if file is present
 	if (fs.existsSync(configFileName) === false) {
-		console.error(Utils.colors.error("File not found: "), configFileName);
+		Logger.error(Utils.colors.error("File not found: "), configFileName);
 		return;
 	}
 	// check permission
 	try {
 		fs.accessSync(configFileName, fs.F_OK);
 	} catch (e) {
-		console.log(Utils.colors.error(e));
+		Logger.log(Utils.colors.error(e));
 		return;
 	}
 
 	// Validate syntax of the configuration file.
-	// In case the there errors show messages and
-	// return
-	console.info(Utils.colors.info("Checking file... "), configFileName);
+	Logger.info(Utils.colors.info("Checking file... "), configFileName);
+
 	// I'm not sure if all ever is utf-8
 	fs.readFile(configFileName, "utf-8", function (err, data) {
 		if (err) {
@@ -58,11 +58,12 @@ function checkConfigFile() {
 		}
 		const messages = linter.verify(data, config);
 		if (messages.length === 0) {
-			console.log("Your configuration file doesn't contain syntax errors :)");
+			Logger.log("Your configuration file doesn't contain syntax errors :)");
 			return true;
 		} else {
-			messages.forEach((error) => {
-				console.log("Line", error.line, "col", error.column, error.message);
+			// In case the there errors show messages and return
+			messages.forEach(error => {
+				Logger.log("Line", error.line, "col", error.column, error.message);
 			});
 		}
 	});
