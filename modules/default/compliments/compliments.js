@@ -63,19 +63,27 @@ Module.register("compliments", {
 				self.config.compliments = JSON.parse(response);
 				self.updateDom();
 			});
-		} else if (this.config.advice) {
-			var xobj = new XMLHttpRequest();
-			xobj.overrideMimeType("application/json");
-			xobj.open("GET", "https://api.adviceslip.com/advice", true);
-			xobj.onreadystatechange = function() {
-				if (xobj.readyState === 4 && xobj.status === 200) {
-					const adviceResp = JSON.parse(xobj.responseText);
-					self.config.compliments = adviceResp.slip.advice
-					self.updateDom();
-				}
-			};
-			xobj.send(null);
 		}
+
+    if (this.config.advice) {
+        var xobj = new XMLHttpRequest();
+        xobj.overrideMimeType("application/json");
+        xobj.open("GET", "https://api.adviceslip.com/advice/search/a", true);
+        xobj.onreadystatechange = function() {
+        if (xobj.readyState === 4 && xobj.status === 200) {
+            const adviceResp = JSON.parse(xobj.responseText);
+            const anytime = []
+            adviceResp.slips.forEach(item => {
+                if (item.advice.length < 30) {
+                  anytime.push(item.advice)
+                }
+            })
+            self.config.compliments = { anytime: anytime }
+            self.updateDom();
+            }
+        };
+        xobj.send(null);
+    }
 
 		// Schedule update timer.
 		setInterval(function() {
