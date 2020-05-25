@@ -1,107 +1,146 @@
 const helpers = require("../global-setup");
 const expect = require("chai").expect;
+const wdajaxstub = require("webdriverajaxstub");
 
 const describe = global.describe;
 const it = global.it;
 const beforeEach = global.beforeEach;
 const afterEach = global.afterEach;
 
-describe("Compliments module", function() {
+const { generateAdvice } = require("./mocks");
+
+describe("Compliments module", function () {
 	helpers.setupTimeout(this);
 
 	var app = null;
 
-	beforeEach(function() {
+	beforeEach(function () {
 		return helpers
 			.startApplication({
 				args: ["js/electron.js"]
 			})
-			.then(function(startedApp) {
+			.then(function (startedApp) {
 				app = startedApp;
 			});
 	});
 
-	afterEach(function() {
+	afterEach(function () {
 		return helpers.stopApplication(app);
 	});
 
-	describe("parts of days", function() {
-		before(function() {
+	describe("parts of days", function () {
+		before(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/compliments/compliments_parts_day.js";
 		});
 
-		it("if Morning compliments for that part of day", function() {
+		it("if Morning compliments for that part of day", function () {
 			var hour = new Date().getHours();
 			if (hour >= 3 && hour < 12) {
 				// if morning check
-				return app.client.waitUntilWindowLoaded().getText(".compliments").then(function(text) {
+				return app.client.waitUntilWindowLoaded().getText(".compliments").then(function (text) {
 					expect(text).to.be.oneOf(["Hi", "Good Morning", "Morning test"]);
 				});
 			}
 		});
 
-		it("if Afternoon show Compliments for that part of day", function() {
+		it("if Afternoon show Compliments for that part of day", function () {
 			var hour = new Date().getHours();
 			if (hour >= 12 && hour < 17) {
 				// if morning check
-				return app.client.waitUntilWindowLoaded().getText(".compliments").then(function(text) {
+				return app.client.waitUntilWindowLoaded().getText(".compliments").then(function (text) {
 					expect(text).to.be.oneOf(["Hello", "Good Afternoon", "Afternoon test"]);
 				});
 			}
 		});
 
-		it("if Evening show Compliments for that part of day", function() {
+		it("if Evening show Compliments for that part of day", function () {
 			var hour = new Date().getHours();
 			if (!(hour >= 3 && hour < 12) && !(hour >= 12 && hour < 17)) {
 				// if evening check
-				return app.client.waitUntilWindowLoaded().getText(".compliments").then(function(text) {
+				return app.client.waitUntilWindowLoaded().getText(".compliments").then(function (text) {
 					expect(text).to.be.oneOf(["Hello There", "Good Evening", "Evening test"]);
 				});
 			}
 		});
 	});
 
-	describe("Feature anytime in compliments module", function() {
-		describe("Set anytime and empty compliments for morning, evening and afternoon ", function() {
-			before(function() {
+	describe("Feature anytime in compliments module", function () {
+		describe("Set anytime and empty compliments for morning, evening and afternoon ", function () {
+			before(function () {
 				// Set config sample for use in test
 				process.env.MM_CONFIG_FILE = "tests/configs/modules/compliments/compliments_anytime.js";
 			});
 
-			it("Show anytime because if configure empty parts of day compliments and set anytime compliments", function() {
-				return app.client.waitUntilWindowLoaded().getText(".compliments").then(function(text) {
+			it("Show anytime because if configure empty parts of day compliments and set anytime compliments", function () {
+				return app.client.waitUntilWindowLoaded().getText(".compliments").then(function (text) {
 					expect(text).to.be.oneOf(["Anytime here"]);
 				});
 			});
 		});
 
-		describe("Only anytime present in configuration compliments", function() {
-			before(function() {
+		describe("Only anytime present in configuration compliments", function () {
+			before(function () {
 				// Set config sample for use in test
 				process.env.MM_CONFIG_FILE = "tests/configs/modules/compliments/compliments_only_anytime.js";
 			});
 
-			it("Show anytime compliments", function() {
-				return app.client.waitUntilWindowLoaded().getText(".compliments").then(function(text) {
+			it("Show anytime compliments", function () {
+				return app.client.waitUntilWindowLoaded().getText(".compliments").then(function (text) {
 					expect(text).to.be.oneOf(["Anytime here"]);
 				});
 			});
 		});
 	});
 
-	describe("Feature date in compliments module", function() {
-		describe("Set date and empty compliments for anytime, morning, evening and afternoon", function() {
-			before(function() {
+	describe("Feature date in compliments module", function () {
+		describe("Set date and empty compliments for anytime, morning, evening and afternoon", function () {
+			before(function () {
 				// Set config sample for use in test
 				process.env.MM_CONFIG_FILE = "tests/configs/modules/compliments/compliments_date.js";
 			});
 
-			it("Show happy new year compliment on new years day", function() {
-				return app.client.waitUntilWindowLoaded().getText(".compliments").then(function(text) {
+			it("Show happy new year compliment on new years day", function () {
+				return app.client.waitUntilWindowLoaded().getText(".compliments").then(function (text) {
 					expect(text).to.be.oneOf(["Happy new year!"]);
 				});
 			});
 		});
 	});
 });
+
+describe("Feature Advice", function () {
+
+	let app;
+
+	helpers.setupTimeout(this);
+
+	async function setup(responses) {
+		app = await helpers.startApplication({
+			args: ["js/electron.js"]
+		});
+
+		wdajaxstub.init(app.client, responses);
+
+		app.client.setupStub();
+	}
+
+	afterEach(function () {
+		return helpers.stopApplication(app);
+	});
+
+	describe("Config - advice:true", function () {
+		before(function () {
+			process.env.MM_CONFIG_FILE = "tests/configs/modules/compliments/compliments_advice.js";
+		});
+
+		it("one of less then 35 char options", async function () {
+			const advice = generateAdvice();
+			const set = await setup(generateAdvice())
+			return app.client.waitUntilTextExists(".compliments .module-content div", oneOf([
+				"Cars are bad investments.",
+				"Always block trolls."
+			]), 10000);
+		});
+	})
+})
