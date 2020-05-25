@@ -7,8 +7,10 @@
  */
 
 var deprecated = {
-	configs: ["kioskmode"],
+	configs: ["kioskmode"]
 };
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/
-if (typeof module !== "undefined") {module.exports = deprecated;}
+if (typeof module !== "undefined") {
+	module.exports = deprecated;
+}

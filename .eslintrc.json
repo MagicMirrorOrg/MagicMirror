@@ -1,5 +1,6 @@
 {
-	"extends": "eslint:recommended",
+	"extends": ["eslint:recommended", "plugin:prettier/recommended"],
+	"plugins": ["prettier"],
 	"env": {
 		"browser": true,
 		"es6": true,
@@ -19,8 +20,9 @@
 		"ecmaFeatures": {
 			"globalReturn": true
 		}
-    },
+	},
 	"rules": {
+		"prettier/prettier": "error",
 		"eqeqeq": "error",
 		"no-prototype-builtins": "off",
 		"no-unused-vars": "off"

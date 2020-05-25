@@ -32,16 +32,16 @@
 				var configData = "";
 
 				// Gather incoming data
-				response.on("data", function(chunk) {
+				response.on("data", function (chunk) {
 					configData += chunk;
 				});
 				// Resolve promise at the end of the HTTP/HTTPS stream
-				response.on("end", function() {
+				response.on("end", function () {
 					resolve(JSON.parse(configData));
 				});
 			});
 
-			request.on("error", function(error) {
+			request.on("error", function (error) {
 				reject(new Error(`Unable to read config from server (${url} (${error.message}`));
 			});
 		});
@@ -96,7 +96,6 @@
 						console.log(`There something wrong. The clientonly is not running code ${code}`);
 					}
 				});
-
 			})
 			.catch(function (reason) {
 				fail(`Unable to connect to server: (${reason})`);
@@ -104,4 +103,4 @@
 	} else {
 		fail();
 	}
-}());
+})();

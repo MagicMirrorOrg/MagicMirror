@@ -44,7 +44,7 @@ process.on("uncaughtException", function (err) {
 
 /* App - The core app.
  */
-var App = function() {
+var App = function () {
 	var nodeHelpers = [];
 
 	/* loadConfig(callback)
@@ -53,14 +53,14 @@ var App = function() {
 	 *
 	 * argument callback function - The callback function.
 	 */
-	var loadConfig = function(callback) {
+	var loadConfig = function (callback) {
 		console.log("Loading config ...");
 		var defaults = require(__dirname + "/defaults.js");
 
 		// For this check proposed to TestSuite
 		// https://forum.magicmirror.builders/topic/1456/test-suite-for-magicmirror/8
 		var configFilename = path.resolve(global.root_path + "/config/config.js");
-		if (typeof(global.configuration_file) !== "undefined") {
+		if (typeof global.configuration_file !== "undefined") {
 			configFilename = path.resolve(global.configuration_file);
 		}
 
@@ -82,23 +82,19 @@ var App = function() {
 		}
 	};
 
-	var checkDeprecatedOptions = function(userConfig) {
+	var checkDeprecatedOptions = function (userConfig) {
 		var deprecated = require(global.root_path + "/js/deprecated.js");
 		var deprecatedOptions = deprecated.configs;
 
 		var usedDeprecated = [];
 
-		deprecatedOptions.forEach(function(option) {
+		deprecatedOptions.forEach(function (option) {
 			if (userConfig.hasOwnProperty(option)) {
 				usedDeprecated.push(option);
 			}
 		});
 		if (usedDeprecated.length > 0) {
-			console.warn(Utils.colors.warn(
-				"WARNING! Your config is using deprecated options: " +
-				usedDeprecated.join(", ") +
-				". Check README and CHANGELOG for more up-to-date ways of getting the same functionality.")
-			);
+			console.warn(Utils.colors.warn("WARNING! Your config is using deprecated options: " + usedDeprecated.join(", ") + ". Check README and CHANGELOG for more up-to-date ways of getting the same functionality."));
 		}
 	};
 
@@ -107,8 +103,7 @@ var App = function() {
 	 *
 	 * argument module string - The name of the module (including subpath).
 	 */
-	var loadModule = function(module, callback) {
-
+	var loadModule = function (module, callback) {
 		var elements = module.split("/");
 		var moduleName = elements[elements.length - 1];
 		var moduleFolder = __dirname + "/../modules/" + module;
@@ -156,13 +151,13 @@ var App = function() {
 	 *
 	 * argument module string - The name of the module (including subpath).
 	 */
-	var loadModules = function(modules, callback) {
+	var loadModules = function (modules, callback) {
 		console.log("Loading module helpers ...");
 
-		var loadNextModule = function() {
+		var loadNextModule = function () {
 			if (modules.length > 0) {
 				var nextModule = modules[0];
-				loadModule(nextModule, function() {
+				loadModule(nextModule, function () {
 					modules = modules.slice(1);
 					loadNextModule();
 				});
@@ -205,9 +200,8 @@ var App = function() {
 	 *
 	 * argument callback function - The callback function.
 	 */
-	this.start = function(callback) {
-
-		loadConfig(function(c) {
+	this.start = function (callback) {
+		loadConfig(function (c) {
 			config = c;
 
 			var modules = [];
@@ -219,8 +213,8 @@ var App = function() {
 				}
 			}
 
-			loadModules(modules, function() {
-				var server = new Server(config, function(app, io) {
+			loadModules(modules, function () {
+				var server = new Server(config, function (app, io) {
 					console.log("Server started ...");
 
 					for (var h in nodeHelpers) {
@@ -245,7 +239,7 @@ var App = function() {
 	 * This calls each node_helper's STOP() function, if it exists.
 	 * Added to fix #1056
 	 */
-	this.stop = function() {
+	this.stop = function () {
 		for (var h in nodeHelpers) {
 			var nodeHelper = nodeHelpers[h];
 			if (typeof nodeHelper.stop === "function") {
@@ -262,7 +256,9 @@ var App = function() {
 	 */
 	process.on("SIGINT", () => {
 		console.log("[SIGINT] Received. Shutting down server...");
-		setTimeout(() => { process.exit(0); }, 3000); // Force quit after 3 seconds
+		setTimeout(() => {
+			process.exit(0);
+		}, 3000); // Force quit after 3 seconds
 		this.stop();
 		process.exit(0);
 	});
@@ -271,7 +267,9 @@ var App = function() {
 	 */
 	process.on("SIGTERM", () => {
 		console.log("[SIGTERM] Received. Shutting down server...");
-		setTimeout(() => { process.exit(0); }, 3000); // Force quit after 3 seconds
+		setTimeout(() => {
+			process.exit(0);
+		}, 3000); // Force quit after 3 seconds
 		this.stop();
 		process.exit(0);
 	});

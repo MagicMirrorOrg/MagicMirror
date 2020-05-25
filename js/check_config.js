@@ -53,13 +53,15 @@ function checkConfigFile() {
 	console.info(Utils.colors.info("Checking file... "), configFileName);
 	// I'm not sure if all ever is utf-8
 	fs.readFile(configFileName, "utf-8", function (err, data) {
-		if (err) { throw err; }
+		if (err) {
+			throw err;
+		}
 		const messages = linter.verify(data, config);
 		if (messages.length === 0) {
 			console.log("Your configuration file doesn't contain syntax errors :)");
 			return true;
 		} else {
-			messages.forEach(error => {
+			messages.forEach((error) => {
 				console.log("Line", error.line, "col", error.column, error.message);
 			});
 		}

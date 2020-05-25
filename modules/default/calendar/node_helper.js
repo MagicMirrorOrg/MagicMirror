@@ -11,17 +11,16 @@ var CalendarFetcher = require("./calendarfetcher.js");
 
 module.exports = NodeHelper.create({
 	// Override start method.
-	start: function() {
+	start: function () {
 		var events = [];
 
 		this.fetchers = [];
 
 		console.log("Starting node helper for: " + this.name);
-
 	},
 
 	// Override socketNotificationReceived method.
-	socketNotificationReceived: function(notification, payload) {
+	socketNotificationReceived: function (notification, payload) {
 		if (notification === "ADD_CALENDAR") {
 			//console.log('ADD_CALENDAR: ');
 			this.createFetcher(payload.url, payload.fetchInterval, payload.excludedEvents, payload.maximumEntries, payload.maximumNumberOfDays, payload.auth, payload.broadcastPastEvents);
@@ -36,11 +35,11 @@ module.exports = NodeHelper.create({
 	 * attribute reloadInterval number - Reload interval in milliseconds.
 	 */
 
-	createFetcher: function(url, fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, broadcastPastEvents) {
+	createFetcher: function (url, fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, broadcastPastEvents) {
 		var self = this;
 
 		if (!validUrl.isUri(url)) {
-			self.sendSocketNotification("INCORRECT_URL", {url: url});
+			self.sendSocketNotification("INCORRECT_URL", { url: url });
 			return;
 		}
 
@@ -49,7 +48,7 @@ module.exports = NodeHelper.create({
 			console.log("Create new calendar fetcher for url: " + url + " - Interval: " + fetchInterval);
 			fetcher = new CalendarFetcher(url, fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, broadcastPastEvents);
 
-			fetcher.onReceive(function(fetcher) {
+			fetcher.onReceive(function (fetcher) {
 				//console.log('Broadcast events.');
 				//console.log(fetcher.events());
 
@@ -59,7 +58,7 @@ module.exports = NodeHelper.create({
 				});
 			});
 
-			fetcher.onError(function(fetcher, error) {
+			fetcher.onError(function (fetcher, error) {
 				console.error("Calendar Error. Could not fetch calendar: ", fetcher.url(), error);
 				self.sendSocketNotification("FETCH_ERROR", {
 					url: fetcher.url(),
