@@ -50,10 +50,10 @@ Module.register("compliments", {
 			var xobj = new XMLHttpRequest();
 			xobj.overrideMimeType("application/json");
 			xobj.open("GET", "https://api.adviceslip.com/advice", true);
-			xobj.onreadystatechange = function() {
+			xobj.onreadystatechange = function () {
 				if (xobj.readyState === 4 && xobj.status === 200) {
 					const adviceResp = JSON.parse(xobj.responseText);
-					self.config.compliments = adviceResp.slip.advice
+					self.config.compliments = adviceResp.slip.advice;
 					self.updateDom();
 				}
 			};
