@@ -135,8 +135,8 @@ describe("Feature Advice", function () {
 		});
 
 		it("one of less then 35 char options", async function () {
-			const advice = generateAdvice();
-			const set = await setup(generateAdvice())
+			// No template available for compliments to pass in here ?
+			await setup(generateAdvice())
 			return app.client.waitUntilTextExists(".compliments .module-content div", oneOf([
 				"Cars are bad investments.",
 				"Always block trolls."
