@@ -7,7 +7,7 @@
  * MIT Licensed.
  */
 (function (root, factory) {
-	if (typeof exports === 'object') {
+	if (typeof exports === "object") {
 		// add timestamps in front of log messages
 		require("console-stamp")(console, "yyyy-mm-dd HH:MM:ss.l");
 
@@ -17,8 +17,7 @@
 		// Browser globals (root is window)
 		root.Log = factory(root.config);
 	}
-}(this, function (config) {
-
+})(this, function (config) {
 	let logLevel = {
 		info: Function.prototype.bind.call(console.info, console),
 		log: Function.prototype.bind.call(console.log, console),
@@ -30,15 +29,15 @@
 		time: Function.prototype.bind.call(console.time, console),
 		timeEnd: Function.prototype.bind.call(console.timeEnd, console),
 		timeStamp: Function.prototype.bind.call(console.timeStamp, console)
-	}
+	};
 
 	if (config && config.logLevel) {
-		Object.keys(logLevel).forEach(function(key,index) {
+		Object.keys(logLevel).forEach(function (key, index) {
 			if (!config.logLevel.includes(key.toLocaleUpperCase())) {
-				logLevel[key] = function() {};
+				logLevel[key] = function () {};
 			}
 		});
 	}
 
 	return logLevel;
-}));
+});

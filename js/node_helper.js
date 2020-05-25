@@ -9,16 +9,16 @@ const Log = require("./logger.js");
 const express = require("express");
 
 var NodeHelper = Class.extend({
-	init: function() {
+	init: function () {
 		Log.log("Initializing new module helper ...");
 	},
 
-	loaded: function(callback) {
+	loaded: function (callback) {
 		Log.log("Module helper loaded: " + this.name);
 		callback();
 	},
 
-	start: function() {
+	start: function () {
 		Log.log("Starting module helper: " + this.name);
 	},
 
@@ -28,7 +28,7 @@ var NodeHelper = Class.extend({
 	 * gracefully exit the module.
 	 *
 	 */
-	stop: function() {
+	stop: function () {
 		Log.log("Stopping module helper: " + this.name);
 	},
 
@@ -38,7 +38,7 @@ var NodeHelper = Class.extend({
 	 * argument notification string - The identifier of the notification.
 	 * argument payload mixed - The payload of the notification.
 	 */
-	socketNotificationReceived: function(notification, payload) {
+	socketNotificationReceived: function (notification, payload) {
 		Log.log(this.name + " received a socket notification: " + notification + " - Payload: " + payload);
 	},
 

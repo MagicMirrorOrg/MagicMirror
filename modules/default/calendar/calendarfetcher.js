@@ -337,7 +337,7 @@ var CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntr
 	/* scheduleTimer()
 	 * Schedule the timer for the next update.
 	 */
-	var scheduleTimer = function() {
+	var scheduleTimer = function () {
 		clearTimeout(reloadTimer);
 		reloadTimer = setTimeout(function () {
 			fetchCalendar();
@@ -435,8 +435,8 @@ var CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntr
 	/* broadcastItems()
 	 * Broadcast the existing events.
 	 */
-	this.broadcastEvents = function() {
-		console.info('Broadcasting ' + events.length + ' events.');
+	this.broadcastEvents = function () {
+		console.info("Broadcasting " + events.length + " events.");
 		eventsReceivedCallback(self);
 	};
 

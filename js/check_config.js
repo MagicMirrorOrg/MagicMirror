@@ -62,7 +62,7 @@ function checkConfigFile() {
 			return true;
 		} else {
 			// In case the there errors show messages and return
-			messages.forEach(error => {
+			messages.forEach((error) => {
 				Logger.log("Line", error.line, "col", error.column, error.message);
 			});
 		}

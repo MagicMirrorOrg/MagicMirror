@@ -51,7 +51,7 @@ var App = function () {
 	 *
 	 * argument callback function - The callback function.
 	 */
-	var loadConfig = function(callback) {
+	var loadConfig = function (callback) {
 		Log.log("Loading config ...");
 		var defaults = require(__dirname + "/defaults.js");
 
@@ -92,11 +92,7 @@ var App = function () {
 			}
 		});
 		if (usedDeprecated.length > 0) {
-			Log.warn(Utils.colors.warn(
-				"WARNING! Your config is using deprecated options: " +
-				usedDeprecated.join(", ") +
-				". Check README and CHANGELOG for more up-to-date ways of getting the same functionality.")
-			);
+			Log.warn(Utils.colors.warn("WARNING! Your config is using deprecated options: " + usedDeprecated.join(", ") + ". Check README and CHANGELOG for more up-to-date ways of getting the same functionality."));
 		}
 	};
 
@@ -153,7 +149,7 @@ var App = function () {
 	 *
 	 * argument module string - The name of the module (including subpath).
 	 */
-	var loadModules = function(modules, callback) {
+	var loadModules = function (modules, callback) {
 		Log.log("Loading module helpers ...");
 
 		var loadNextModule = function () {
@@ -215,8 +211,8 @@ var App = function () {
 				}
 			}
 
-			loadModules(modules, function() {
-				var server = new Server(config, function(app, io) {
+			loadModules(modules, function () {
+				var server = new Server(config, function (app, io) {
 					Log.log("Server started ...");
 
 					for (var h in nodeHelpers) {
@@ -258,7 +254,9 @@ var App = function () {
 	 */
 	process.on("SIGINT", () => {
 		Log.log("[SIGINT] Received. Shutting down server...");
-		setTimeout(() => { process.exit(0); }, 3000); // Force quit after 3 seconds
+		setTimeout(() => {
+			process.exit(0);
+		}, 3000); // Force quit after 3 seconds
 		this.stop();
 		process.exit(0);
 	});
@@ -267,7 +265,9 @@ var App = function () {
 	 */
 	process.on("SIGTERM", () => {
 		Log.log("[SIGTERM] Received. Shutting down server...");
-		setTimeout(() => { process.exit(0); }, 3000); // Force quit after 3 seconds
+		setTimeout(() => {
+			process.exit(0);
+		}, 3000); // Force quit after 3 seconds
 		this.stop();
 		process.exit(0);
 	});
