@@ -72,19 +72,18 @@ Module.register("compliments", {
 			xobj.onreadystatechange = function () {
 				if (xobj.readyState === 4 && xobj.status === 200) {
 					const adviceResp = JSON.parse(xobj.responseText);
-					const adviceAnytime = []
+					const adviceAnytime = [];
 					adviceResp.slips.forEach(item => {
 						if (item.advice.length < 35) {
-							adviceAnytime.push(item.advice)
+							adviceAnytime.push(item.advice);
 						}
 					})
-					const newAnytime = [
-						...self.config.compliments.anytime,
-						...adviceAnytime
-					]
 					self.config.compliments = {
 						...self.config.compliments,
-						anytime: newAnytime
+						anytime: {
+							...self.config.compliments.anytime,
+							...adviceAnytime
+						}
 					}
 					self.updateDom();
 				}
