@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 _This release is scheduled to be released on 2020-07-01._
 
 ### Added
+
 - Compliments Module - Add Advice API (https://api.adviceslip.com/) Option
 
 - Added prettier for an even cleaner codebase
