@@ -66,7 +66,7 @@ Module.register("compliments", {
 		}
 
 		if (this.config.advice) {
-			var xobj = new XMLHttpRequest();
+			const xobj = new XMLHttpRequest();
 			xobj.overrideMimeType("application/json");
 			xobj.open("GET", "https://api.adviceslip.com/advice/search/a", true);
 			xobj.onreadystatechange = function () {
