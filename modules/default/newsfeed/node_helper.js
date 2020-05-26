@@ -11,13 +11,13 @@ var Fetcher = require("./fetcher.js");
 
 module.exports = NodeHelper.create({
 	// Subclass start method.
-	start: function() {
+	start: function () {
 		console.log("Starting module: " + this.name);
 		this.fetchers = [];
 	},
 
 	// Subclass socketNotificationReceived received.
-	socketNotificationReceived: function(notification, payload) {
+	socketNotificationReceived: function (notification, payload) {
 		if (notification === "ADD_FEED") {
 			this.createFetcher(payload.feed, payload.config);
 			return;
@@ -31,7 +31,7 @@ module.exports = NodeHelper.create({
 	 * attribute feed object - A feed object.
 	 * attribute config object - A configuration object containing reload interval in milliseconds.
 	 */
-	createFetcher: function(feed, config) {
+	createFetcher: function (feed, config) {
 		var self = this;
 
 		var url = feed.url || "";
@@ -48,11 +48,11 @@ module.exports = NodeHelper.create({
 			console.log("Create new news fetcher for url: " + url + " - Interval: " + reloadInterval);
 			fetcher = new Fetcher(url, reloadInterval, encoding, config.logFeedWarnings);
 
-			fetcher.onReceive(function(fetcher) {
+			fetcher.onReceive(function (fetcher) {
 				self.broadcastFeeds();
 			});
 
-			fetcher.onError(function(fetcher, error) {
+			fetcher.onError(function (fetcher, error) {
 				self.sendSocketNotification("FETCH_ERROR", {
 					url: fetcher.url(),
 					error: error
@@ -74,7 +74,7 @@ module.exports = NodeHelper.create({
 	 * Creates an object with all feed items of the different registered feeds,
 	 * and broadcasts these using sendSocketNotification.
 	 */
-	broadcastFeeds: function() {
+	broadcastFeeds: function () {
 		var feeds = {};
 		for (var f in this.fetchers) {
 			feeds[f] = this.fetchers[f].items();

@@ -14,4 +14,6 @@ var Utils = {
 	}
 };
 
-if (typeof module !== "undefined") {module.exports = Utils;}
+if (typeof module !== "undefined") {
+	module.exports = Utils;
+}

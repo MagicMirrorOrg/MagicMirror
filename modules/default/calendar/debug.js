@@ -24,12 +24,12 @@ console.log("Create fetcher ...");
 
 var fetcher = new CalendarFetcher(url, fetchInterval, [], maximumEntries, maximumNumberOfDays, auth);
 
-fetcher.onReceive(function(fetcher) {
+fetcher.onReceive(function (fetcher) {
 	console.log(fetcher.events());
 	console.log("------------------------------------------------------------");
 });
 
-fetcher.onError(function(fetcher, error) {
+fetcher.onError(function (fetcher, error) {
 	console.log("Fetcher error:");
 	console.log(error);
 });

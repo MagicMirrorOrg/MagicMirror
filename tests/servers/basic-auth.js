@@ -26,10 +26,10 @@ for (var i in directories) {
 	app.use(directory, express.static(path.resolve(rootPath + directory)));
 }
 
-exports.listen = function() {
+exports.listen = function () {
 	server = app.listen.apply(app, arguments);
 };
 
-exports.close = function(callback) {
+exports.close = function (callback) {
 	server.close(callback);
 };

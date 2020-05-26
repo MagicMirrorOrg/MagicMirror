@@ -8,7 +8,7 @@
  */
 var address = "localhost";
 var port = 8080;
-if (typeof(mmPort) !== "undefined") {
+if (typeof mmPort !== "undefined") {
 	port = mmPort;
 }
 var defaults = {
@@ -68,14 +68,16 @@ var defaults = {
 			config: {
 				text: "www.michaelteeuw.nl"
 			}
-		},
+		}
 	],
 
 	paths: {
 		modules: "modules",
 		vendor: "vendor"
-	},
+	}
 };
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/
-if (typeof module !== "undefined") {module.exports = defaults;}
+if (typeof module !== "undefined") {
+	module.exports = defaults;
+}

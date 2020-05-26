@@ -14,9 +14,11 @@
 MagicMirror² focuses on a modular plugin system and uses [Electron](https://www.electronjs.org/) as an application wrapper. So no more web server or browser installs necessary!
 
 ## Documentation
+
 For the full documentation including **[installation instructions](https://docs.magicmirror.builders/getting-started/installation.html)**, please visit our dedicated documentation website: [https://docs.magicmirror.builders](https://docs.magicmirror.builders).
 
 ## Links
+
 - Website: [https://magicmirror.builders](https://magicmirror.builders)
 - Documentation: [https://docs.magicmirror.builders](https://docs.magicmirror.builders)
 - Forum: [https://forum.magicmirror.builders](https://forum.magicmirror.builders)
@@ -27,7 +29,6 @@ For the full documentation including **[installation instructions](https://docs.
 ## Contributing Guidelines
 
 Contributions of all kinds are welcome, not only in the form of code but also with regards bug reports and documentation. For the full contribution guidelines, check out: [https://docs.magicmirror.builders/getting-started/contributing.html](https://docs.magicmirror.builders/getting-started/contributing.html)
-
 
 ## Enjoying MagicMirror? Consider a donation!
 

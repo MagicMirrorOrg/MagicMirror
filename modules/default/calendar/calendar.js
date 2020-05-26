@@ -7,7 +7,6 @@
  * MIT Licensed.
  */
 Module.register("calendar", {
-
 	// Define module defaults
 	defaults: {
 		maximumEntries: 10, // Total Maximum Entries
@@ -39,8 +38,8 @@ Module.register("calendar", {
 		calendars: [
 			{
 				symbol: "calendar",
-				url: "https://www.calendarlabs.com/templates/ical/US-Holidays.ics",
-			},
+				url: "https://www.calendarlabs.com/templates/ical/US-Holidays.ics"
+			}
 		],
 		titleReplace: {
 			"De verjaardag van ": "",
@@ -85,7 +84,7 @@ Module.register("calendar", {
 			var calendarConfig = {
 				maximumEntries: calendar.maximumEntries,
 				maximumNumberOfDays: calendar.maximumNumberOfDays,
-				broadcastPastEvents: calendar.broadcastPastEvents,
+				broadcastPastEvents: calendar.broadcastPastEvents
 			};
 			if (calendar.symbolClass === "undefined" || calendar.symbolClass === null) {
 				calendarConfig.symbolClass = "";
@@ -98,7 +97,7 @@ Module.register("calendar", {
 			}
 
 			// we check user and password here for backwards compatibility with old configs
-			if(calendar.user && calendar.pass) {
+			if (calendar.user && calendar.pass) {
 				Log.warn("Deprecation warning: Please update your calendar authentication configuration.");
 				Log.warn("https://github.com/MichMich/MagicMirror/tree/v2.1.2/modules/default/calendar#calendar-authentication-options");
 				calendar.auth = {
@@ -112,7 +111,7 @@ Module.register("calendar", {
 			// Trigger ADD_CALENDAR every fetchInterval to make sure there is always a calendar
 			// fetcher running on the server side.
 			var self = this;
-			setInterval(function() {
+			setInterval(function () {
 				self.addCalendar(calendar.url, calendar.auth, calendarConfig);
 			}, self.config.fetchInterval);
 		}
@@ -144,13 +143,12 @@ Module.register("calendar", {
 
 	// Override dom generator.
 	getDom: function () {
-
 		var events = this.createEventList();
 		var wrapper = document.createElement("table");
 		wrapper.className = this.config.tableClass;
 
 		if (events.length === 0) {
-			wrapper.innerHTML = (this.loaded) ? this.translate("EMPTY") : this.translate("LOADING");
+			wrapper.innerHTML = this.loaded ? this.translate("EMPTY") : this.translate("LOADING");
 			wrapper.className = this.config.tableClass + " dimmed";
 			return wrapper;
 		}
@@ -169,8 +167,8 @@ Module.register("calendar", {
 		for (var e in events) {
 			var event = events[e];
 			var dateAsString = moment(event.startDate, "x").format(this.config.dateFormat);
-			if(this.config.timeFormat === "dateheaders"){
-				if(lastSeenDate !== dateAsString){
+			if (this.config.timeFormat === "dateheaders") {
+				if (lastSeenDate !== dateAsString) {
 					var dateRow = document.createElement("tr");
 					dateRow.className = "normal";
 					var dateCell = document.createElement("td");
@@ -181,9 +179,10 @@ Module.register("calendar", {
 					dateRow.appendChild(dateCell);
 					wrapper.appendChild(dateRow);
 
-					if (e >= startFade) {			//fading
+					if (e >= startFade) {
+						//fading
 						currentFadeStep = e - startFade;
-						dateRow.style.opacity = 1 - (1 / fadeSteps * currentFadeStep);
+						dateRow.style.opacity = 1 - (1 / fadeSteps) * currentFadeStep;
 					}
 
 					lastSeenDate = dateAsString;
@@ -209,20 +208,20 @@ Module.register("calendar", {
 				symbolWrapper.className = "symbol align-right " + symbolClass;
 
 				var symbols = this.symbolsForUrl(event.url);
-				if(typeof symbols === "string") {
+				if (typeof symbols === "string") {
 					symbols = [symbols];
 				}
 
-				for(var i = 0; i < symbols.length; i++) {
+				for (var i = 0; i < symbols.length; i++) {
 					var symbol = document.createElement("span");
 					symbol.className = "fa fa-fw fa-" + symbols[i];
-					if(i > 0){
+					if (i > 0) {
 						symbol.style.paddingLeft = "5px";
 					}
 					symbolWrapper.appendChild(symbol);
 				}
 				eventWrapper.appendChild(symbolWrapper);
-			} else if(this.config.timeFormat === "dateheaders"){
+			} else if (this.config.timeFormat === "dateheaders") {
 				var blankCell = document.createElement("td");
 				blankCell.innerHTML = "&nbsp;&nbsp;&nbsp;";
 				eventWrapper.appendChild(blankCell);
@@ -232,7 +231,6 @@ Module.register("calendar", {
 				repeatingCountTitle = "";
 
 			if (this.config.displayRepeatingCountTitle && event.firstYear !== undefined) {
-
 				repeatingCountTitle = this.countTitleForUrl(event.url);
 
 				if (repeatingCountTitle !== "") {
@@ -255,12 +253,10 @@ Module.register("calendar", {
 
 			var timeWrapper;
 
-			if(this.config.timeFormat === "dateheaders"){
-
+			if (this.config.timeFormat === "dateheaders") {
 				if (event.fullDayEvent) {
 					titleWrapper.colSpan = "2";
 					titleWrapper.align = "left";
-
 				} else {
 					timeWrapper = document.createElement("td");
 					timeWrapper.className = "time light " + this.timeClassForUrl(event.url);
@@ -298,14 +294,14 @@ Module.register("calendar", {
 						}
 					} else {
 						/* Check to see if the user displays absolute or relative dates with their events
-						* Also check to see if an event is happening within an 'urgency' time frameElement
-						* For example, if the user set an .urgency of 7 days, those events that fall within that
-						* time frame will be displayed with 'in xxx' time format or moment.fromNow()
-						*
-						* Note: this needs to be put in its own function, as the whole thing repeats again verbatim
-						*/
+						 * Also check to see if an event is happening within an 'urgency' time frameElement
+						 * For example, if the user set an .urgency of 7 days, those events that fall within that
+						 * time frame will be displayed with 'in xxx' time format or moment.fromNow()
+						 *
+						 * Note: this needs to be put in its own function, as the whole thing repeats again verbatim
+						 */
 						if (this.config.timeFormat === "absolute") {
-							if ((this.config.urgency > 1) && (event.startDate - now < (this.config.urgency * oneDay))) {
+							if (this.config.urgency > 1 && event.startDate - now < this.config.urgency * oneDay) {
 								// This event falls within the config.urgency period that the user has set
 								timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").from(moment().format("YYYYMMDD")));
 							} else {
@@ -315,9 +311,9 @@ Module.register("calendar", {
 							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").from(moment().format("YYYYMMDD")));
 						}
 					}
-					if(this.config.showEnd){
-						timeWrapper.innerHTML += "-" ;
-						timeWrapper.innerHTML += this.capFirst(moment(event.endDate , "x").format(this.config.fullDayEventDateFormat));
+					if (this.config.showEnd) {
+						timeWrapper.innerHTML += "-";
+						timeWrapper.innerHTML += this.capFirst(moment(event.endDate, "x").format(this.config.fullDayEventDateFormat));
 					}
 				} else {
 					if (event.startDate >= new Date()) {
@@ -327,7 +323,7 @@ Module.register("calendar", {
 								// If event is within 6 hour, display 'in xxx' time format or moment.fromNow()
 								timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 							} else {
-								if(this.config.timeFormat === "absolute" && !this.config.nextDaysRelative) {
+								if (this.config.timeFormat === "absolute" && !this.config.nextDaysRelative) {
 									timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").format(this.config.dateFormat));
 								} else {
 									// Otherwise just say 'Today/Tomorrow at such-n-such time'
@@ -336,14 +332,14 @@ Module.register("calendar", {
 							}
 						} else {
 							/* Check to see if the user displays absolute or relative dates with their events
-							* Also check to see if an event is happening within an 'urgency' time frameElement
-							* For example, if the user set an .urgency of 7 days, those events that fall within that
-							* time frame will be displayed with 'in xxx' time format or moment.fromNow()
-							*
-							* Note: this needs to be put in its own function, as the whole thing repeats again verbatim
-							*/
+							 * Also check to see if an event is happening within an 'urgency' time frameElement
+							 * For example, if the user set an .urgency of 7 days, those events that fall within that
+							 * time frame will be displayed with 'in xxx' time format or moment.fromNow()
+							 *
+							 * Note: this needs to be put in its own function, as the whole thing repeats again verbatim
+							 */
 							if (this.config.timeFormat === "absolute") {
-								if ((this.config.urgency > 1) && (event.startDate - now < (this.config.urgency * oneDay))) {
+								if (this.config.urgency > 1 && event.startDate - now < this.config.urgency * oneDay) {
 									// This event falls within the config.urgency period that the user has set
 									timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 								} else {
@@ -364,7 +360,6 @@ Module.register("calendar", {
 					if (this.config.showEnd) {
 						timeWrapper.innerHTML += "-";
 						timeWrapper.innerHTML += this.capFirst(moment(event.endDate, "x").format(this.config.dateEndFormat));
-
 					}
 				}
 				//timeWrapper.innerHTML += ' - '+ moment(event.startDate,'x').format('lll');
@@ -378,7 +373,7 @@ Module.register("calendar", {
 			// Create fade effect.
 			if (e >= startFade) {
 				currentFadeStep = e - startFade;
-				eventWrapper.style.opacity = 1 - (1 / fadeSteps * currentFadeStep);
+				eventWrapper.style.opacity = 1 - (1 / fadeSteps) * currentFadeStep;
 			}
 
 			if (this.config.showLocation) {
@@ -401,7 +396,7 @@ Module.register("calendar", {
 
 					if (e >= startFade) {
 						currentFadeStep = e - startFade;
-						locationRow.style.opacity = 1 - (1 / fadeSteps * currentFadeStep);
+						locationRow.style.opacity = 1 - (1 / fadeSteps) * currentFadeStep;
 					}
 				}
 			}
@@ -418,17 +413,17 @@ Module.register("calendar", {
 	 * @param {number} timeFormat Specifies either 12 or 24 hour time format
 	 * @returns {moment.LocaleSpecification}
 	 */
-	getLocaleSpecification: function(timeFormat) {
+	getLocaleSpecification: function (timeFormat) {
 		switch (timeFormat) {
-		case 12: {
-			return { longDateFormat: {LT: "h:mm A"} };
-		}
-		case 24: {
-			return { longDateFormat: {LT: "HH:mm"} };
-		}
-		default: {
-			return { longDateFormat: {LT: moment.localeData().longDateFormat("LT")} };
-		}
+			case 12: {
+				return { longDateFormat: { LT: "h:mm A" } };
+			}
+			case 24: {
+				return { longDateFormat: { LT: "HH:mm" } };
+			}
+			default: {
+				return { longDateFormat: { LT: moment.localeData().longDateFormat("LT") } };
+			}
 		}
 	},
 
@@ -464,37 +459,37 @@ Module.register("calendar", {
 			var calendar = this.calendarData[c];
 			for (var e in calendar) {
 				var event = JSON.parse(JSON.stringify(calendar[e])); // clone object
-				if(event.endDate < now) {
+				if (event.endDate < now) {
 					continue;
 				}
-				if(this.config.hidePrivate) {
-					if(event.class === "PRIVATE") {
+				if (this.config.hidePrivate) {
+					if (event.class === "PRIVATE") {
 						// do not add the current event, skip it
 						continue;
 					}
 				}
-				if(this.config.hideOngoing) {
-					if(event.startDate < now) {
+				if (this.config.hideOngoing) {
+					if (event.startDate < now) {
 						continue;
 					}
 				}
-				if(this.listContainsEvent(events,event)){
+				if (this.listContainsEvent(events, event)) {
 					continue;
 				}
 				event.url = c;
-				event.today = event.startDate >= today && event.startDate < (today + 24 * 60 * 60 * 1000);
+				event.today = event.startDate >= today && event.startDate < today + 24 * 60 * 60 * 1000;
 
 				/* if sliceMultiDayEvents is set to true, multiday events (events exceeding at least one midnight) are sliced into days,
-				* otherwise, esp. in dateheaders mode it is not clear how long these events are.
-				*/
-				var maxCount = Math.ceil(((event.endDate - 1) - moment(event.startDate, "x").endOf("day").format("x"))/(1000*60*60*24)) + 1;
+				 * otherwise, esp. in dateheaders mode it is not clear how long these events are.
+				 */
+				var maxCount = Math.ceil((event.endDate - 1 - moment(event.startDate, "x").endOf("day").format("x")) / (1000 * 60 * 60 * 24)) + 1;
 				if (this.config.sliceMultiDayEvents && maxCount > 1) {
 					var splitEvents = [];
 					var midnight = moment(event.startDate, "x").clone().startOf("day").add(1, "day").format("x");
 					var count = 1;
 					while (event.endDate > midnight) {
 						var thisEvent = JSON.parse(JSON.stringify(event)); // clone object
-						thisEvent.today = thisEvent.startDate >= today && thisEvent.startDate < (today + 24 * 60 * 60 * 1000);
+						thisEvent.today = thisEvent.startDate >= today && thisEvent.startDate < today + 24 * 60 * 60 * 1000;
 						thisEvent.endDate = midnight;
 						thisEvent.title += " (" + count + "/" + maxCount + ")";
 						splitEvents.push(thisEvent);
@@ -504,11 +499,11 @@ Module.register("calendar", {
 						midnight = moment(midnight, "x").add(1, "day").format("x"); // next day
 					}
 					// Last day
-					event.title += " ("+count+"/"+maxCount+")";
+					event.title += " (" + count + "/" + maxCount + ")";
 					splitEvents.push(event);
 
 					for (event of splitEvents) {
-						if ((event.endDate > now) && (event.endDate <= future)) {
+						if (event.endDate > now && event.endDate <= future) {
 							events.push(event);
 						}
 					}
@@ -524,9 +519,9 @@ Module.register("calendar", {
 		return events.slice(0, this.config.maximumEntries);
 	},
 
-	listContainsEvent: function(eventList, event){
-		for(var evt of eventList){
-			if(evt.title === event.title && parseInt(evt.startDate) === parseInt(event.startDate)){
+	listContainsEvent: function (eventList, event) {
+		for (var evt of eventList) {
+			if (evt.title === event.title && parseInt(evt.startDate) === parseInt(event.startDate)) {
 				return true;
 			}
 		}
@@ -549,7 +544,7 @@ Module.register("calendar", {
 			titleClass: calendarConfig.titleClass,
 			timeClass: calendarConfig.timeClass,
 			auth: auth,
-			broadcastPastEvents: calendarConfig.broadcastPastEvents || this.config.broadcastPastEvents,
+			broadcastPastEvents: calendarConfig.broadcastPastEvents || this.config.broadcastPastEvents
 		});
 	},
 
@@ -676,8 +671,9 @@ Module.register("calendar", {
 
 			for (var i = 0; i < words.length; i++) {
 				var word = words[i];
-				if (currentLine.length + word.length < (typeof maxLength === "number" ? maxLength : 25) - 1) { // max - 1 to account for a space
-					currentLine += (word + " ");
+				if (currentLine.length + word.length < (typeof maxLength === "number" ? maxLength : 25) - 1) {
+					// max - 1 to account for a space
+					currentLine += word + " ";
 				} else {
 					line++;
 					if (line > maxTitleLines - 1) {
@@ -688,9 +684,9 @@ Module.register("calendar", {
 					}
 
 					if (currentLine.length > 0) {
-						temp += (currentLine + "<br>" + word + " ");
+						temp += currentLine + "<br>" + word + " ";
 					} else {
-						temp += (word + "<br>");
+						temp += word + "<br>";
 					}
 					currentLine = "";
 				}
@@ -758,11 +754,10 @@ Module.register("calendar", {
 			}
 		}
 
-		eventList.sort(function(a,b) {
+		eventList.sort(function (a, b) {
 			return a.startDate - b.startDate;
 		});
 
 		this.sendNotification("CALENDAR_EVENTS", eventList);
-
 	}
 });

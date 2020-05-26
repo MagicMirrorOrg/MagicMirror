@@ -1,13 +1,13 @@
 {
-  // Escaped
-  "FOO\"BAR": "Today",
+	// Escaped
+	"FOO\"BAR": "Today",
 
-  /*
-  * The following lines
-  * represent cardinal directions
-  */
-  "N": "N",
-  "E": "E",
-  "S": "S",
-  "W": "W"
+	/*
+	 * The following lines
+	 * represent cardinal directions
+	 */
+	"N": "N",
+	"E": "E",
+	"S": "S",
+	"W": "W"
 }
