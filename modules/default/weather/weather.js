@@ -33,6 +33,7 @@ Module.register("weather",{
 		useBeaufort: true,
 		lang: config.language,
 		showHumidity: false,
+		showSun: true,
 		degreeLabel: false,
 		decimalSymbol: ".",
 		showIndoorTemperature: false,
