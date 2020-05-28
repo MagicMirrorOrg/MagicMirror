@@ -396,7 +396,7 @@ Module.register("calendar", {
 					var descCell = document.createElement("td");
 					descCell.className = "location";
 					descCell.colSpan = "2";
-					descCell.innerHTML = event.location;
+					descCell.innerHTML = this.titleTransform(event.location);
 					locationRow.appendChild(descCell);
 
 					wrapper.appendChild(locationRow);
