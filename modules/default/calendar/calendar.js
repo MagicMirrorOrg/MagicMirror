@@ -244,7 +244,7 @@ Module.register("calendar", {
 				}
 			}
 
-			titleWrapper.innerHTML = this.titleTransform(event.title) + repeatingCountTitle;
+			titleWrapper.innerHTML = this.truncateTitle(event.title) + repeatingCountTitle;
 
 			var titleClass = this.titleClassForUrl(event.url);
 
@@ -396,7 +396,7 @@ Module.register("calendar", {
 					var descCell = document.createElement("td");
 					descCell.className = "location";
 					descCell.colSpan = "2";
-					descCell.innerHTML = this.titleTransform(event.location);
+					descCell.innerHTML = this.truncateTitle(event.location);
 					locationRow.appendChild(descCell);
 
 					wrapper.appendChild(locationRow);
@@ -719,8 +719,8 @@ Module.register("calendar", {
 		return string.charAt(0).toUpperCase() + string.slice(1);
 	},
 
-	/* titleTransform(title)
-	 * Transforms the title of an event for usage.
+	/* truncateTitle(title)
+	 * Transforms the title of an event and the location for usage.
 	 * Replaces parts of the text as defined in config.titleReplace.
 	 * Shortens title based on config.maxTitleLength and config.wrapEvents
 	 *
@@ -728,7 +728,7 @@ Module.register("calendar", {
 	 *
 	 * return string - The transformed title.
 	 */
-	titleTransform: function (title) {
+	truncateTitle: function (title) {
 		for (var needle in this.config.titleReplace) {
 			var replacement = this.config.titleReplace[needle];
 
