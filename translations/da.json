@@ -26,7 +26,6 @@
 	"NW": "NV",
 	"NNW": "NNV",
 
-
 	"UPDATE_NOTIFICATION": "MagicMirror² opdatering tilgængelig.",
 	"UPDATE_NOTIFICATION_MODULE": "Opdatering tilgængelig for {MODULE_NAME} modulet.",
 	"UPDATE_INFO_SINGLE": "Den nuværende installation er {COMMIT_COUNT} commit bagud på {BRANCH_NAME} branch'en.",

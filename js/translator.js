@@ -1,12 +1,12 @@
-/* exported Translator */
+/* global translations */
+
 /* Magic Mirror
  * Translator (l10n)
  *
- * By Christopher Fenner http://github.com/CFenner
+ * By Christopher Fenner https://github.com/CFenner
  * MIT Licensed.
  */
-var Translator = (function() {
-
+var Translator = (function () {
 	/* loadJSON(file, callback)
 	 * Load a JSON file via XHR.
 	 *
@@ -61,7 +61,7 @@ var Translator = (function() {
 			currentChar = str[i];
 			nextChar = str[i + 1];
 
-			if (!insideComment && currentChar === "\"") {
+			if (!insideComment && currentChar === '"') {
 				var escaped = str[i - 1] === "\\" && str[i - 2] !== "\\";
 				if (!escaped) {
 					insideString = !insideString;
@@ -118,7 +118,7 @@ var Translator = (function() {
 		 * argument key string - The key of the text to translate.
 		 * argument variables - The variables to use within the translation template (optional)
 		 */
-		translate: function(module, key, variables) {
+		translate: function (module, key, variables) {
 			variables = variables || {}; //Empty object by default
 
 			// Combines template and variables like:
@@ -126,18 +126,18 @@ var Translator = (function() {
 			// variables: {timeToWait: "2 hours", work: "painting"}
 			// to: "Please wait for 2 hours before continuing with painting."
 			function createStringFromTemplate(template, variables) {
-				if(Object.prototype.toString.call(template) !== "[object String]") {
+				if (Object.prototype.toString.call(template) !== "[object String]") {
 					return template;
 				}
-				if(variables.fallback && !template.match(new RegExp("\{.+\}"))) {
+				if (variables.fallback && !template.match(new RegExp("{.+}"))) {
 					template = variables.fallback;
 				}
-				return template.replace(new RegExp("\{([^\}]+)\}", "g"), function(_unused, varName){
-					return variables[varName] || "{"+varName+"}";
+				return template.replace(new RegExp("{([^}]+)}", "g"), function (_unused, varName) {
+					return variables[varName] || "{" + varName + "}";
 				});
 			}
 
-			if(this.translations[module.name] && key in this.translations[module.name]) {
+			if (this.translations[module.name] && key in this.translations[module.name]) {
 				// Log.log("Got translation for " + key + " from module translation: ");
 				return createStringFromTemplate(this.translations[module.name][key], variables);
 			}
@@ -168,7 +168,7 @@ var Translator = (function() {
 		 * argument isFallback boolean - Flag to indicate fallback translations.
 		 * argument callback function - Function called when done.
 		 */
-		load: function(module, file, isFallback, callback) {
+		load: function (module, file, isFallback, callback) {
 			if (!isFallback) {
 				Log.log(module.name + " - Load translation: " + file);
 			} else {
@@ -176,8 +176,8 @@ var Translator = (function() {
 			}
 
 			var self = this;
-			if(!this.translationsFallback[module.name]) {
-				loadJSON(module.file(file), function(json) {
+			if (!this.translationsFallback[module.name]) {
+				loadJSON(module.file(file), function (json) {
 					if (!isFallback) {
 						self.translations[module.name] = json;
 					} else {
@@ -195,12 +195,12 @@ var Translator = (function() {
 		 *
 		 * argument lang String - The language identifier of the core language.
 		 */
-		loadCoreTranslations: function(lang) {
+		loadCoreTranslations: function (lang) {
 			var self = this;
 
 			if (lang in translations) {
 				Log.log("Loading core translation file: " + translations[lang]);
-				loadJSON(translations[lang], function(translations) {
+				loadJSON(translations[lang], function (translations) {
 					self.coreTranslations = translations;
 				});
 			} else {
@@ -214,19 +214,21 @@ var Translator = (function() {
 		 * Load the core translations fallback.
 		 * The first language defined in translations.js will be used.
 		 */
-		loadCoreTranslationsFallback: function() {
+		loadCoreTranslationsFallback: function () {
 			var self = this;
 
 			// The variable `first` will contain the first
 			// defined translation after the following line.
-			for (var first in translations) {break;}
+			for (var first in translations) {
+				break;
+			}
 
 			if (first) {
 				Log.log("Loading core translation fallback file: " + translations[first]);
-				loadJSON(translations[first], function(translations) {
+				loadJSON(translations[first], function (translations) {
 					self.coreTranslationsFallback = translations;
 				});
 			}
-		},
+		}
 	};
 })();

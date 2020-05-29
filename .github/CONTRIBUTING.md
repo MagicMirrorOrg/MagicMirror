@@ -1,25 +1,24 @@
-Contribution Policy for MagicMirror²
-====================================
+# Contribution Policy for MagicMirror²
 
 Thanks for contributing to MagicMirror²!
 
 We hold our code to standard, and these standards are documented below.
 
-If you wish to run both linters, use `grunt` without any arguments.
+If you wish to run our linters, use `npm run lint` without any arguments.
 
 ### JavaScript: Run ESLint
 
-We use [ESLint](http://eslint.org) on our JavaScript files.
+We use [ESLint](https://eslint.org) on our JavaScript files.
 
 Our ESLint configuration is in our .eslintrc.json and .eslintignore files.
 
-To run ESLint, use `grunt eslint`.
+To run ESLint, use `npm run lint:js`.
 
 ### CSS: Run StyleLint
 
-We use [StyleLint](http://stylelint.io) to lint our CSS. Our configuration is in our .stylelintrc file.
+We use [StyleLint](https://stylelint.io) to lint our CSS. Our configuration is in our .stylelintrc file.
 
-To run StyleLint, use `grunt stylelint`.
+To run StyleLint, use `npm run lint:style`.
 
 ### Submitting Issues
 
@@ -30,7 +29,7 @@ Problems installing or configuring your MagicMirror? Check out: [https://forum.m
 
 When submitting a new issue, please supply the following information:
 
-**Platform**: Place your platform here... give us your web browser/Electron version *and* your hardware (Raspberry Pi 2/3, Windows, Mac, Linux, System V UNIX).
+**Platform**: Place your platform here... give us your web browser/Electron version _and_ your hardware (Raspberry Pi 2/3, Windows, Mac, Linux, System V UNIX).
 
 **Node Version**: Make sure it's version 0.12.13 or later.
 

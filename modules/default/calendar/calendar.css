@@ -7,8 +7,6 @@
 
 .calendar .symbol span {
   display: inline-block;
-  -ms-transform: translate(0, 2px); /* IE 9 */
-  -webkit-transform: translate(0, 2px); /* Safari */
   transform: translate(0, 2px);
 }
 
