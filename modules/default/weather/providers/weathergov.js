@@ -1,4 +1,4 @@
-/* global WeatherProvider, WeatherObject */
+/* global WeatherProvider, WeatherObject, SunCalc */
 
 /* Magic Mirror
  * Module: Weather
@@ -11,9 +11,7 @@
  * Note that this is only for US locations (lat and lon) and does not require an API key
  * Since it is free, there are some items missing - like sunrise, sunset, humidity, etc.
  */
-
 WeatherProvider.register("weathergov", {
-
 	// Set the name of the provider.
 	// This isn't strictly necessary, since it will fallback to the provider identifier
 	// But for debugging (and future alerts) it would be nice to have the real name.
@@ -22,7 +20,7 @@ WeatherProvider.register("weathergov", {
 	// Overwrite the fetchCurrentWeather method.
 	fetchCurrentWeather() {
 		this.fetchData(this.getUrl())
-			.then(data => {
+			.then((data) => {
 				if (!data || !data.properties || !data.properties.periods || !data.properties.periods.length) {
 					// Did not receive usable new data.
 					// Maybe this needs a better check?
@@ -32,16 +30,16 @@ WeatherProvider.register("weathergov", {
 				const currentWeather = this.generateWeatherObjectFromCurrentWeather(data.properties.periods[0]);
 				this.setCurrentWeather(currentWeather);
 			})
-			.catch(function(request) {
+			.catch(function (request) {
 				Log.error("Could not load data ... ", request);
 			})
-			.finally(() => this.updateAvailable())
+			.finally(() => this.updateAvailable());
 	},
 
 	// Overwrite the fetchCurrentWeather method.
 	fetchWeatherForecast() {
 		this.fetchData(this.getUrl())
-			.then(data => {
+			.then((data) => {
 				if (!data || !data.properties || !data.properties.periods || !data.properties.periods.length) {
 					// Did not receive usable new data.
 					// Maybe this needs a better check?
@@ -51,10 +49,10 @@ WeatherProvider.register("weathergov", {
 				const forecast = this.generateWeatherObjectsFromForecast(data.properties.periods);
 				this.setWeatherForecast(forecast);
 			})
-			.catch(function(request) {
+			.catch(function (request) {
 				Log.error("Could not load data ... ", request);
 			})
-			.finally(() => this.updateAvailable())
+			.finally(() => this.updateAvailable());
 	},
 
 	/** Weather.gov Specific Methods - These are not part of the default provider methods */
@@ -77,7 +75,7 @@ WeatherProvider.register("weathergov", {
 		currentWeather.weatherType = this.convertWeatherType(currentWeatherData.shortForecast, currentWeatherData.isDaytime);
 
 		// determine the sunrise/sunset times - not supplied in weather.gov data
-		let times = this.calcAstroData(this.config.lat, this.config.lon)
+		let times = this.calcAstroData(this.config.lat, this.config.lon);
 		currentWeather.sunrise = times[0];
 		currentWeather.sunset = times[1];
 
@@ -106,9 +104,7 @@ WeatherProvider.register("weathergov", {
 		weather.precipitation = 0;
 
 		for (const forecast of forecasts) {
-
 			if (date !== moment(forecast.startTime).format("YYYY-MM-DD")) {
-
 				// calculate minimum/maximum temperature, specify rain amount
 				weather.minTemperature = Math.min.apply(null, minTemp);
 				weather.maxTemperature = Math.max.apply(null, maxTemp);
@@ -241,22 +237,22 @@ WeatherProvider.register("weathergov", {
 	*/
 	convertWindDirection(windDirection) {
 		const windCardinals = {
-			"N": 0,
-			"NNE": 22,
-			"NE": 45,
-			"ENE": 67,
-			"E": 90,
-			"ESE": 112,
-			"SE": 135,
-			"SSE": 157,
-			"S": 180,
-			"SSW": 202,
-			"SW": 225,
-			"WSW": 247,
-			"W": 270,
-			"WNW": 292,
-			"NW": 315,
-			"NNW": 337
+			N: 0,
+			NNE: 22,
+			NE: 45,
+			ENE: 67,
+			E: 90,
+			ESE: 112,
+			SE: 135,
+			SSE: 157,
+			S: 180,
+			SSW: 202,
+			SW: 225,
+			WSW: 247,
+			W: 270,
+			WNW: 292,
+			NW: 315,
+			NNW: 337
 		};
 
 		return windCardinals.hasOwnProperty(windDirection) ? windCardinals[windDirection] : null;

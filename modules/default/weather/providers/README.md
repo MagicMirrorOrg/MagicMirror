@@ -13,17 +13,17 @@ Table of Contents:
 
 ## The weather provider file: yourprovider.js
 
-This is the script in which the weather provider will be defined. In it's most simple form, the weather provider must implement the following:
+This is the script in which the weather provider will be defined. In its most simple form, the weather provider must implement the following:
 
-````javascript
+```javascript
 WeatherProvider.register("yourprovider", {
-	providerName: "YourProvider",
+  providerName: "YourProvider",
 
-	fetchCurrentWeather() {},
+  fetchCurrentWeather() {},
 
-	fetchWeatherForecast() {}
+  fetchWeatherForecast() {}
 });
-````
+```
 
 ### Weather provider methods to implement
 
@@ -36,7 +36,7 @@ It will then automatically refresh the module DOM with the new data.
 
 #### `fetchWeatherForecast()`
 
-This method is called when the weather module tries to fetch the weather weather of your provider. The implementation of this method is required.
+This method is called when the weather module tries to fetch the weather of your provider. The implementation of this method is required.
 The implementation can make use of the already implemented function `this.fetchData(url, method, data);`, which is returning a promise.
 After the response is processed, the weather forecast information (as an array of [WeatherObject](#weatherobject)s) needs to be set with `this.setCurrentWeather(forecast);`.
 It will then automatically refresh the module DOM with the new data.
@@ -89,24 +89,24 @@ A convenience function to make requests. It returns a promise.
 
 ### WeatherObject
 
-| Property | Type | Value/Unit |
-| --- | --- | --- |
-| units | `string` | Gets initialized with the constructor. <br> Possible values: `metric`, `imperial` |
-| tempUnits | `string` | Gets initialized with the constructor. <br> Possible values: `metric`, `imperial` |
-| windUnits | `string` | Gets initialized with the constructor. <br> Possible values: `metric`, `imperial` |
-| date | `object` | [Moment.js](https://momentjs.com/) object of the time/date. |
-| windSpeed |`number` | Metric: `meter/second` <br> Imperial: `miles/hour` |
-| windDirection |`number` | Direction of the wind in degrees. |
-| sunrise |`object` | [Moment.js](https://momentjs.com/) object of sunrise. |
-| sunset |`object` | [Moment.js](https://momentjs.com/) object of sunset. |
-| temperature | `number` | Current temperature |
-| minTemperature | `number` | Lowest temperature of the day. |
-| maxTemperature | `number` | Highest temperature of the day. |
-| weatherType | `string` | Icon name of the weather type. <br> Possible values: [WeatherIcons](https://www.npmjs.com/package/weathericons) |
-| humidity | `number` | Percentage of humidity |
-| rain | `number` | Metric: `millimeters` <br> Imperial: `inches` |
-| snow | `number` | Metric: `millimeters` <br> Imperial: `inches` |
-| precipitation | `number` | Metric: `millimeters` <br> Imperial: `inches` <br> UK Met Office provider: `percent` |
+| Property       | Type     | Value/Unit                                                                                                      |
+| -------------- | -------- | --------------------------------------------------------------------------------------------------------------- |
+| units          | `string` | Gets initialized with the constructor. <br> Possible values: `metric`, `imperial`                               |
+| tempUnits      | `string` | Gets initialized with the constructor. <br> Possible values: `metric`, `imperial`                               |
+| windUnits      | `string` | Gets initialized with the constructor. <br> Possible values: `metric`, `imperial`                               |
+| date           | `object` | [Moment.js](https://momentjs.com/) object of the time/date.                                                     |
+| windSpeed      | `number` | Metric: `meter/second` <br> Imperial: `miles/hour`                                                              |
+| windDirection  | `number` | Direction of the wind in degrees.                                                                               |
+| sunrise        | `object` | [Moment.js](https://momentjs.com/) object of sunrise.                                                           |
+| sunset         | `object` | [Moment.js](https://momentjs.com/) object of sunset.                                                            |
+| temperature    | `number` | Current temperature                                                                                             |
+| minTemperature | `number` | Lowest temperature of the day.                                                                                  |
+| maxTemperature | `number` | Highest temperature of the day.                                                                                 |
+| weatherType    | `string` | Icon name of the weather type. <br> Possible values: [WeatherIcons](https://www.npmjs.com/package/weathericons) |
+| humidity       | `number` | Percentage of humidity                                                                                          |
+| rain           | `number` | Metric: `millimeters` <br> Imperial: `inches`                                                                   |
+| snow           | `number` | Metric: `millimeters` <br> Imperial: `inches`                                                                   |
+| precipitation  | `number` | Metric: `millimeters` <br> Imperial: `inches` <br> UK Met Office provider: `percent`                            |
 
 #### Current weather
 

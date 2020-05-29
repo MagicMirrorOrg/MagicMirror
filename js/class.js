@@ -1,15 +1,22 @@
+/* global Class, xyz */
+
 /* Simple JavaScript Inheritance
- * By John Resig http://ejohn.org/
+ * By John Resig https://johnresig.com/
+ *
+ * Inspired by base2 and Prototype
+ *
  * MIT Licensed.
  */
-
-// Inspired by base2 and Prototype
 (function () {
 	var initializing = false;
-	var fnTest = /xyz/.test(function () { xyz; }) ? /\b_super\b/ : /.*/;
+	var fnTest = /xyz/.test(function () {
+		xyz;
+	})
+		? /\b_super\b/
+		: /.*/;
 
 	// The base Class implementation (does nothing)
-	this.Class = function () { };
+	this.Class = function () {};
 
 	// Create a new Class that inherits from this class
 	Class.extend = function (prop) {
@@ -22,30 +29,32 @@
 		initializing = false;
 
 		// Make a copy of all prototype properties, to prevent reference issues.
-		for (var name in prototype) {
-			prototype[name] = cloneObject(prototype[name]);
+		for (var p in prototype) {
+			prototype[p] = cloneObject(prototype[p]);
 		}
 
 		// Copy the properties over onto the new prototype
 		for (var name in prop) {
 			// Check if we're overwriting an existing function
-			prototype[name] = typeof prop[name] === "function" &&
-				typeof _super[name] === "function" && fnTest.test(prop[name]) ? (function (name, fn) {
-					return function () {
-						var tmp = this._super;
+			prototype[name] =
+				typeof prop[name] === "function" && typeof _super[name] === "function" && fnTest.test(prop[name])
+					? (function (name, fn) {
+							return function () {
+								var tmp = this._super;
 
-						// Add a new ._super() method that is the same method
-						// but on the super-class
-						this._super = _super[name];
+								// Add a new ._super() method that is the same method
+								// but on the super-class
+								this._super = _super[name];
 
-						// The method only need to be bound temporarily, so we
-						// remove it when we're done executing
-						var ret = fn.apply(this, arguments);
-						this._super = tmp;
+								// The method only need to be bound temporarily, so we
+								// remove it when we're done executing
+								var ret = fn.apply(this, arguments);
+								this._super = tmp;
 
-						return ret;
-					};
-				})(name, prop[name]) : prop[name];
+								return ret;
+							};
+					  })(name, prop[name])
+					: prop[name];
 		}
 
 		// The dummy class constructor
