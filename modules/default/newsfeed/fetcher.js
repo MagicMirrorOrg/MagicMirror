@@ -5,9 +5,10 @@
  * MIT Licensed.
  */
 
-var FeedMe = require("feedme");
-var request = require("request");
-var iconv = require("iconv-lite");
+const Log = require("../../../js/logger.js");
+const FeedMe = require("feedme");
+const request = require("request");
+const iconv = require("iconv-lite");
 
 /* Fetcher
  * Responsible for requesting an update on the set interval and broadcasting the data.
@@ -130,7 +131,7 @@ var Fetcher = function (url, reloadInterval, encoding, logFeedWarnings) {
 			//console.log('No items to broadcast yet.');
 			return;
 		}
-		//console.log('Broadcasting ' + items.length + ' items.');
+		Log.info("Broadcasting " + items.length + " items.");
 		itemsReceivedCallback(self);
 	};
 

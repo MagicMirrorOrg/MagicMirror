@@ -4,7 +4,7 @@
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-
+const Log = require("../../../js/logger.js");
 const ical = require("./vendor/ical.js");
 const moment = require("moment");
 
@@ -436,7 +436,7 @@ var CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntr
 	 * Broadcast the existing events.
 	 */
 	this.broadcastEvents = function () {
-		console.info("Broadcasting " + events.length + " events.");
+		Log.info("Broadcasting " + events.length + " events.");
 		eventsReceivedCallback(self);
 	};
 

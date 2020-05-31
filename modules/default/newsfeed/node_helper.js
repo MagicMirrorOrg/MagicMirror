@@ -8,12 +8,12 @@
 const NodeHelper = require("node_helper");
 const validUrl = require("valid-url");
 const Fetcher = require("./fetcher.js");
-const Logger = require("../../../js/logger");
+const Log = require("../../../js/logger");
 
 module.exports = NodeHelper.create({
 	// Override start method.
 	start: function () {
-		Logger.log("Starting node helper for: " + this.name);
+		Log.log("Starting node helper for: " + this.name);
 		this.fetchers = [];
 	},
 
@@ -45,7 +45,7 @@ module.exports = NodeHelper.create({
 
 		var fetcher;
 		if (typeof self.fetchers[url] === "undefined") {
-			Logger.log("Create new news fetcher for url: " + url + " - Interval: " + reloadInterval);
+			Log.log("Create new news fetcher for url: " + url + " - Interval: " + reloadInterval);
 			fetcher = new Fetcher(url, reloadInterval, encoding, config.logFeedWarnings);
 
 			fetcher.onReceive(function (fetcher) {
@@ -61,7 +61,7 @@ module.exports = NodeHelper.create({
 
 			self.fetchers[url] = fetcher;
 		} else {
-			Logger.log("Use existing news fetcher for url: " + url);
+			Log.log("Use existing news fetcher for url: " + url);
 			fetcher = self.fetchers[url];
 			fetcher.setReloadInterval(reloadInterval);
 			fetcher.broadcastItems();
