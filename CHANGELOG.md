@@ -32,6 +32,7 @@ _This release is scheduled to be released on 2020-07-01._
 
 - The broken modules due to Socket.io change from last release [#1973](https://github.com/MichMich/MagicMirror/issues/1973)
 - Add backward compatibility for old module code in socketclient.js [#1973](https://github.com/MichMich/MagicMirror/issues/1973)
+- Support multiple instances of calendar module with different config [#1109](https://github.com/MichMich/MagicMirror/issues/1109)
 
 ## [2.11.0] - 2020-04-01
 
