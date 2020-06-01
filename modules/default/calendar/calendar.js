@@ -122,7 +122,7 @@ Module.register("calendar", {
 
 	// Override socket notification handler.
 	socketNotificationReceived: function (notification, payload) {
-		if (this.identifier != payload.id)
+		if (this.identifier !== payload.id)
 		{return;}
 
 		if (notification === "CALENDAR_EVENTS") {
