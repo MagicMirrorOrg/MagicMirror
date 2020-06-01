@@ -436,7 +436,7 @@ var CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntr
 	 * Broadcast the existing events.
 	 */
 	this.broadcastEvents = function () {
-		Log.info("Broadcasting " + events.length + " events.");
+		Log.info("Calendar-Fetcher: Broadcasting " + events.length + " events.");
 		eventsReceivedCallback(self);
 	};
 

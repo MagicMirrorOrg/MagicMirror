@@ -34,10 +34,10 @@ if (process.env.MM_PORT) {
 // The next part is here to prevent a major exception when there
 // is no internet connection. This could probable be solved better.
 process.on("uncaughtException", function (err) {
-	Log.log("Whoops! There was an uncaught exception...");
+	Log.error("Whoops! There was an uncaught exception...");
 	Log.error(err);
-	Log.log("MagicMirror will not quit, but it might be a good idea to check why this happened. Maybe no internet connection?");
-	Log.log("If you think this really is an issue, please open an issue on GitHub: https://github.com/MichMich/MagicMirror/issues");
+	Log.error("MagicMirror will not quit, but it might be a good idea to check why this happened. Maybe no internet connection?");
+	Log.error("If you think this really is an issue, please open an issue on GitHub: https://github.com/MichMich/MagicMirror/issues");
 });
 
 /* App - The core app.
