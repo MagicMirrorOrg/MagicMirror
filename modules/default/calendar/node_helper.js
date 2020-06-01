@@ -23,7 +23,7 @@ module.exports = NodeHelper.create({
 	socketNotificationReceived: function (notification, payload) {
 		if (notification === "ADD_CALENDAR") {
 			//console.log('ADD_CALENDAR: ');
-			this.createFetcher(payload.url, payload.fetchInterval, payload.excludedEvents, payload.maximumEntries, payload.maximumNumberOfDays, payload.auth, payload.broadcastPastEvents);
+			this.createFetcher(payload.url, payload.fetchInterval, payload.excludedEvents, payload.maximumEntries, payload.maximumNumberOfDays, payload.auth, payload.broadcastPastEvents, payload.id);
 		}
 	},
 
@@ -35,16 +35,16 @@ module.exports = NodeHelper.create({
 	 * attribute reloadInterval number - Reload interval in milliseconds.
 	 */
 
-	createFetcher: function (url, fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, broadcastPastEvents) {
+	createFetcher: function (url, fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, broadcastPastEvents, identifier) {
 		var self = this;
 
 		if (!validUrl.isUri(url)) {
-			self.sendSocketNotification("INCORRECT_URL", { url: url });
+			self.sendSocketNotification("INCORRECT_URL", { id: identifier, url: url });
 			return;
 		}
 
 		var fetcher;
-		if (typeof self.fetchers[url] === "undefined") {
+		if (typeof self.fetchers[identifier + url] === "undefined") {
 			console.log("Create new calendar fetcher for url: " + url + " - Interval: " + fetchInterval);
 			fetcher = new CalendarFetcher(url, fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, broadcastPastEvents);
 
@@ -53,6 +53,7 @@ module.exports = NodeHelper.create({
 				//console.log(fetcher.events());
 
 				self.sendSocketNotification("CALENDAR_EVENTS", {
+					id: identifier,
 					url: fetcher.url(),
 					events: fetcher.events()
 				});
@@ -61,15 +62,16 @@ module.exports = NodeHelper.create({
 			fetcher.onError(function (fetcher, error) {
 				console.error("Calendar Error. Could not fetch calendar: ", fetcher.url(), error);
 				self.sendSocketNotification("FETCH_ERROR", {
+					id: identifier,
 					url: fetcher.url(),
 					error: error
 				});
 			});
 
-			self.fetchers[url] = fetcher;
+			self.fetchers[identifier + url] = fetcher;
 		} else {
 			//console.log('Use existing news fetcher for url: ' + url);
-			fetcher = self.fetchers[url];
+			fetcher = self.fetchers[identifier + url];
 			fetcher.broadcastEvents();
 		}
 

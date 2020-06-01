@@ -122,6 +122,9 @@ Module.register("calendar", {
 
 	// Override socket notification handler.
 	socketNotificationReceived: function (notification, payload) {
+		if (this.identifier != payload.id)
+		{return;}
+
 		if (notification === "CALENDAR_EVENTS") {
 			if (this.hasCalendarURL(payload.url)) {
 				this.calendarData[payload.url] = payload.events;
@@ -535,6 +538,7 @@ Module.register("calendar", {
 	 */
 	addCalendar: function (url, auth, calendarConfig) {
 		this.sendSocketNotification("ADD_CALENDAR", {
+			id: this.identifier,
 			url: url,
 			excludedEvents: calendarConfig.excludedEvents || this.config.excludedEvents,
 			maximumEntries: calendarConfig.maximumEntries || this.config.maximumEntries,
