@@ -389,7 +389,7 @@ Module.register("calendar", {
 					var descCell = document.createElement("td");
 					descCell.className = "location";
 					descCell.colSpan = "2";
-					descCell.innerHTML = this.titleTransform(event.location);
+					descCell.innerHTML = this.locationTitleShorten(event.location);
 					locationRow.appendChild(descCell);
 
 					wrapper.appendChild(locationRow);
@@ -732,6 +732,19 @@ Module.register("calendar", {
 			title = title.replace(needle, replacement);
 		}
 
+		title = this.shorten(title, this.config.maxTitleLength, this.config.wrapEvents, this.config.maxTitleLines);
+		return title;
+	},
+
+	/*
+	 * locationTitleShorten(title)
+	 * Shortens the event location title based on config.maxTitleLength and config.wrapEvents
+	 *
+	 * argument title string - the event location title to shorten
+	 *
+	 * return string - The shortened title.
+	 */
+	locationTitleShorten: function (title) {
 		title = this.shorten(title, this.config.maxTitleLength, this.config.wrapEvents, this.config.maxTitleLines);
 		return title;
 	},
