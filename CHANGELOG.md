@@ -15,6 +15,8 @@ _This release is scheduled to be released on 2020-07-01._
 
 - Added prettier for an even cleaner codebase
 
+- Hide Sunrise/Sunset in Weather module
+
 ### Updated
 
 - Cleaned up alert module code
@@ -23,6 +25,7 @@ _This release is scheduled to be released on 2020-07-01._
 - Switch to most of the eslint:recommended rules and fix warnings
 - Replaced insecure links with https ones
 - Cleaned up all "no-undef" warnings from eslint
+- Added location title wrapping for calendar module
 
 ### Deleted
 
@@ -33,6 +36,7 @@ _This release is scheduled to be released on 2020-07-01._
 - The broken modules due to Socket.io change from last release [#1973](https://github.com/MichMich/MagicMirror/issues/1973)
 - Add backward compatibility for old module code in socketclient.js [#1973](https://github.com/MichMich/MagicMirror/issues/1973)
 - Support multiple instances of calendar module with different config [#1109](https://github.com/MichMich/MagicMirror/issues/1109)
+- Fix the use of "maxNumberOfDays" in the module "weatherforecast" [#2018](https://github.com/MichMich/MagicMirror/issues/2018)
 
 ## [2.11.0] - 2020-04-01
 

@@ -22,14 +22,16 @@
             {% if config.showHumidity and current.humidity %}
                 <span>{{ current.humidity | decimalSymbol }}</span><sup>&nbsp;<i class="wi wi-humidity humidityIcon"></i></sup>
             {% endif %}
-            <span class="wi dimmed wi-{{ current.nextSunAction() }}"></span>
-            <span>
-                {% if current.nextSunAction() === "sunset" %}
-                    {{ current.sunset | formatTime }}
-                {% else %}
-                    {{ current.sunrise | formatTime }}
-                {% endif %}
-            </span>
+            {% if config.showSun %}
+                <span class="wi dimmed wi-{{ current.nextSunAction() }}"></span>
+                <span>
+                    {% if current.nextSunAction() === "sunset" %}
+                        {{ current.sunset | formatTime }}
+                    {% else %}
+                        {{ current.sunrise | formatTime }}
+                    {% endif %}
+                </span>
+            {% endif %}
         </div>
     {% endif %}
     <div class="large light">
