@@ -17,8 +17,11 @@ Module.register("calendar", {
 		displayRepeatingCountTitle: false,
 		defaultRepeatingCountTitle: "",
 		maxTitleLength: 25,
+		maxLocationTitleLength: 25,
 		wrapEvents: false, // wrap events to multiple lines breaking at maxTitleLength
+		wrapLocationEvents: false,
 		maxTitleLines: 3,
+		maxEventTitleLines: 3,
 		fetchInterval: 5 * 60 * 1000, // Update every 5 minutes.
 		animationSpeed: 2000,
 		fade: true,
@@ -44,6 +47,9 @@ Module.register("calendar", {
 		titleReplace: {
 			"De verjaardag van ": "",
 			"'s birthday": ""
+		},
+		locationTitleReplace: {
+			"street ": ""
 		},
 		broadcastEvents: true,
 		excludedEvents: [],
@@ -241,7 +247,7 @@ Module.register("calendar", {
 				}
 			}
 
-			titleWrapper.innerHTML = this.titleTransform(event.title) + repeatingCountTitle;
+			titleWrapper.innerHTML = this.titleTransform(event.title, this.config.titleReplace, this.config.wrapEvents, this.config.maxTitleLength, this.config.maxTitleLines) + repeatingCountTitle;
 
 			var titleClass = this.titleClassForUrl(event.url);
 
@@ -389,7 +395,7 @@ Module.register("calendar", {
 					var descCell = document.createElement("td");
 					descCell.className = "location";
 					descCell.colSpan = "2";
-					descCell.innerHTML = event.location;
+					descCell.innerHTML = this.titleTransform(event.location, this.config.locationTitleReplace, this.config.wrapLocationEvents, this.config.maxLocationTitleLength, this.config.maxEventTitleLines);
 					locationRow.appendChild(descCell);
 
 					wrapper.appendChild(locationRow);
@@ -719,9 +725,9 @@ Module.register("calendar", {
 	 *
 	 * return string - The transformed title.
 	 */
-	titleTransform: function (title) {
-		for (var needle in this.config.titleReplace) {
-			var replacement = this.config.titleReplace[needle];
+	titleTransform: function (title, titleReplace, wrapEvents, maxTitleLength, maxTitleLines) {
+		for (var needle in titleReplace) {
+			var replacement = titleReplace[needle];
 
 			var regParts = needle.match(/^\/(.+)\/([gim]*)$/);
 			if (regParts) {
@@ -732,7 +738,7 @@ Module.register("calendar", {
 			title = title.replace(needle, replacement);
 		}
 
-		title = this.shorten(title, this.config.maxTitleLength, this.config.wrapEvents, this.config.maxTitleLines);
+		title = this.shorten(title, maxTitleLength, wrapEvents, maxTitleLines);
 		return title;
 	},
 

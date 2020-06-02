@@ -23,6 +23,7 @@ _This release is scheduled to be released on 2020-07-01._
 - Switch to most of the eslint:recommended rules and fix warnings
 - Replaced insecure links with https ones
 - Cleaned up all "no-undef" warnings from eslint
+- Added location title wrapping for calendar module
 
 ### Deleted
 
