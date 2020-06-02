@@ -15,6 +15,8 @@ _This release is scheduled to be released on 2020-07-01._
 
 - Added prettier for an even cleaner codebase
 
+- Hide Sunrise/Sunset in Weather module
+
 ### Updated
 
 - Cleaned up alert module code

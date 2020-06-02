@@ -28,6 +28,7 @@ let config = {
 				initialLoadDelay: 3000,
 				useBeaufort: false,
 				showWindDirectionAsArrow: true,
+				showSun: false,
 				showHumidity: true,
 				roundTemp: true,
 				degreeLabel: true
