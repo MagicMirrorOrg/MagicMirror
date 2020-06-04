@@ -1,4 +1,4 @@
-/* global WeatherProvider, WeatherObject, SunCalc */
+/* global WeatherProvider, WeatherObject */
 
 /* Magic Mirror
  * Module: Weather
@@ -11,6 +11,7 @@
  * Note that this is only for US locations (lat and lon) and does not require an API key
  * Since it is free, there are some items missing - like sunrise, sunset, humidity, etc.
  */
+
 WeatherProvider.register("weathergov", {
 	// Set the name of the provider.
 	// This isn't strictly necessary, since it will fallback to the provider identifier
