@@ -18,9 +18,37 @@ WeatherProvider.register("weathergov", {
 	// But for debugging (and future alerts) it would be nice to have the real name.
 	providerName: "Weather.gov",
 
+	// need setConfig URLs status
+	configURLs: false,
+
+	//multiple urls involved
+	forecastURL: "tbd",
+	forecastHourlyURL: "tbd",
+	forecastGridDataURL: "tbd",
+	observationStationsURL: "tbd",
+	stationObsURL: "tbd",
+
+	// Called to set the config, this config is the same as the weather module's config.
+	setConfig: function (config) {
+		this.config = config;
+		Log.info(`Weather provider: ${this.providerName} config set.`, this.config);
+		// URLs needed from weather.gov
+		this.fetchWxGovURLs(this.config);
+	},
+
+	// Called when the weather provider is about to start.
+	start: function () {
+		Log.info(`Weather provider: ${this.providerName} started.`);
+	},
+
 	// Overwrite the fetchCurrentWeather method.
 	fetchCurrentWeather() {
-		this.fetchData(this.getUrl())
+		if (!this.configURLs) {
+			Log.info("fetch wx waiting on config URLs");
+			return;
+		}
+		// this.fetchData(this.getUrl())
+		this.fetchData(this.forecastURL)
 			.then((data) => {
 				if (!data || !data.properties || !data.properties.periods || !data.properties.periods.length) {
 					// Did not receive usable new data.
@@ -37,9 +65,14 @@ WeatherProvider.register("weathergov", {
 			.finally(() => this.updateAvailable());
 	},
 
-	// Overwrite the fetchCurrentWeather method.
+	// Overwrite the fetchWeatherForecast method.
 	fetchWeatherForecast() {
-		this.fetchData(this.getUrl())
+		if (!this.configURLs) {
+			Log.info("fetch wx waiting on config URLs");
+			return;
+		}
+		//this.fetchData(this.getUrl())
+		this.fetchData(this.forecastHourlyURL)
 			.then((data) => {
 				if (!data || !data.properties || !data.properties.periods || !data.properties.periods.length) {
 					// Did not receive usable new data.
@@ -57,6 +90,44 @@ WeatherProvider.register("weathergov", {
 	},
 
 	/** Weather.gov Specific Methods - These are not part of the default provider methods */
+
+	/*
+	 * Get specific URLs
+	 */
+	fetchWxGovURLs(config) {
+		// wxCtl.initialLoadDelay here ?
+		this.fetchData(`${config.apiBase}/points/${config.lat},${config.lon}`)
+			.then((data) => {
+				if (!data || !data.properties) {
+					// points URL did not respond with usable data.
+					return;
+				}
+				this.forecastURL = data.properties.forecast;
+				Log.log(this.forecastURL);
+				this.forecastHourlyURL = data.properties.forecastHourly;
+				this.forecastGridDataURL = data.properties.forecastGridData;
+				this.observationStationsURL = data.properties.observationStations;
+				// with this URL, we chain another promise for the station obs URL
+				return this.fetchData(data.properties.observationStations);
+				//const wxStations = await this.fetchData(wxPoints.properties.observationStationsURL);
+			})
+			.then((obsData) => {
+				if (!obsData || !obsData.features) {
+					// obs station URL did not respond with usable data.
+					return;
+				}
+				this.stationObsURL = obsData.features[0].id + "/observations/latest";
+				Log.log(this.stationObsURL);
+			})
+			.catch((err) => {
+				Log.error(err);
+			})
+			.finally(() => {
+				this.configURLs = true;
+				this.fetchCurrentWeather();
+			});
+	},
+
 	/*
 	 * Gets the complete url for the request
 	 */
