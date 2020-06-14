@@ -44,7 +44,6 @@ function checkConfigFile() {
 	} catch (e) {
 		Log.log(Utils.colors.error(e));
 		throw new Error("No permission to access config file!");
-		return;
 	}
 
 	// Validate syntax of the configuration file.
