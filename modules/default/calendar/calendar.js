@@ -282,7 +282,6 @@ Module.register("calendar", {
 				timeWrapper = document.createElement("td");
 
 				eventWrapper.appendChild(titleWrapper);
-				//console.log(event.today);
 				var now = new Date();
 				// Define second, minute, hour, and day variables
 				var oneSecond = 1000; // 1,000 milliseconds
@@ -373,7 +372,6 @@ Module.register("calendar", {
 					}
 				}
 				//timeWrapper.innerHTML += ' - '+ moment(event.startDate,'x').format('lll');
-				//console.log(event);
 				timeWrapper.className = "time light " + this.timeClassForUrl(event.url);
 				eventWrapper.appendChild(timeWrapper);
 			}
