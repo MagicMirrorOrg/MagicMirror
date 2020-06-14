@@ -14,7 +14,6 @@ _This release is scheduled to be released on 2020-07-01._
 - Compliments Module - Add Advice API (https://api.adviceslip.com/) Option
 - Added option to config the level of logging
 - Added prettier for an even cleaner codebase
-
 - Hide Sunrise/Sunset in Weather module
 
 ### Updated
@@ -37,6 +36,7 @@ _This release is scheduled to be released on 2020-07-01._
 - Add backward compatibility for old module code in socketclient.js [#1973](https://github.com/MichMich/MagicMirror/issues/1973)
 - Support multiple instances of calendar module with different config [#1109](https://github.com/MichMich/MagicMirror/issues/1109)
 - Fix the use of "maxNumberOfDays" in the module "weatherforecast" [#2018](https://github.com/MichMich/MagicMirror/issues/2018)
+- Throw error when check_config fails [#1928](https://github.com/MichMich/MagicMirror/issues/1928)
 
 ## [2.11.0] - 2020-04-01
 

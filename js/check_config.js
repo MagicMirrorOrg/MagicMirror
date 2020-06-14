@@ -1,14 +1,10 @@
 /* Magic Mirror
  *
- * Checker configuration file
+ * Check the configuration file for errors
  *
- * By Rodrigo Ramírez Norambuena
- *    https://rodrigoramirez.com
- *
+ * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.
- *
  */
-
 const Linter = require("eslint").Linter;
 const linter = new Linter();
 
@@ -35,16 +31,19 @@ function getConfigFile() {
 
 function checkConfigFile() {
 	const configFileName = getConfigFile();
+
 	// Check if file is present
 	if (fs.existsSync(configFileName) === false) {
 		Log.error(Utils.colors.error("File not found: "), configFileName);
-		return;
+		throw new Error("No config file present!");
 	}
+
 	// check permission
 	try {
 		fs.accessSync(configFileName, fs.F_OK);
 	} catch (e) {
 		Log.log(Utils.colors.error(e));
+		throw new Error("No permission to access config file!");
 		return;
 	}
 
@@ -65,6 +64,7 @@ function checkConfigFile() {
 			messages.forEach((error) => {
 				Log.log("Line", error.line, "col", error.column, error.message);
 			});
+			throw new Error("Wrong syntax in config file!");
 		}
 	});
 }
