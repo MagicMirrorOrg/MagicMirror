@@ -128,10 +128,6 @@ describe("Compliments module", function () {
 });
 
 describe("Feature Advice", function () {
-
-	// let app;
-
-	// helpers.setupTimeout(this);
 	helpers.setupTimeout(this);
 
 	var app = null;
