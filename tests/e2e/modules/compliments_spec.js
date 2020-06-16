@@ -129,9 +129,12 @@ describe("Compliments module", function () {
 
 describe("Feature Advice", function () {
 
-	let app;
+	// let app;
 
+	// helpers.setupTimeout(this);
 	helpers.setupTimeout(this);
+
+	var app = null;
 
 	async function setup(responses) {
 		app = await helpers.startApplication({
@@ -152,13 +155,19 @@ describe("Feature Advice", function () {
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/compliments/compliments_advice.js";
 		});
 
-		it("one of less then 35 char options", async function () {
-			// No template available for compliments to pass in here ?
-			await setup(generateAdvice())
-			return app.client.waitUntilTextExists(".compliments .module-content div", oneOf([
-				"Cars are bad investments.",
-				"Always block trolls."
-			]), 10000);
+		it("one of the less than 35 char options", async function () {
+			const advice = generateAdvice()
+			await setup({ data: advice })
+			return app.client
+				.waitUntilWindowLoaded()
+				.getText(".compliments .module-content div")
+				.then(function (text) {
+					console.log('text', text)
+					expect(text).to.be.oneOf([
+						"Cars are bad investments.",
+						"Always block trolls."
+					]);
+				});
 		});
 	})
 })
