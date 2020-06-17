@@ -9,14 +9,14 @@ const fetch = require("node-fetch");
 const ical = require("ical");
 const moment = require("moment");
 
-var CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, includePastEvents) {
-	var self = this;
+const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, includePastEvents) {
+	const self = this;
 
 	var reloadTimer = null;
 	var events = [];
 
-	var fetchFailedCallback = function () {};
-	var eventsReceivedCallback = function () {};
+	let fetchFailedCallback = function () {};
+	let eventsReceivedCallback = function () {};
 
 	/* fetchCalendar()
 	 * Initiates calendar fetch.
@@ -239,7 +239,7 @@ var CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntr
 										endDate = endDate.endOf("day");
 									}
 
-									var recurrenceTitle = getTitleFromEvent(curEvent);
+									const recurrenceTitle = getTitleFromEvent(curEvent);
 
 									// If this recurrence ends before the start of the date range, or starts after the end of the date range, don"t add
 									// it to the event list.
@@ -336,7 +336,7 @@ var CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntr
 	/* scheduleTimer()
 	 * Schedule the timer for the next update.
 	 */
-	var scheduleTimer = function () {
+	const scheduleTimer = function () {
 		clearTimeout(reloadTimer);
 		reloadTimer = setTimeout(function () {
 			fetchCalendar();
@@ -350,14 +350,14 @@ var CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntr
 	 *
 	 * return bool - The event is a fullday event.
 	 */
-	var isFullDayEvent = function (event) {
+	const isFullDayEvent = function (event) {
 		if (event.start.length === 8 || event.start.dateOnly) {
 			return true;
 		}
 
-		var start = event.start || 0;
-		var startDate = new Date(start);
-		var end = event.end || 0;
+		const start = event.start || 0;
+		const startDate = new Date(start);
+		const end = event.end || 0;
 		if ((end - start) % (24 * 60 * 60 * 1000) === 0 && startDate.getHours() === 0 && startDate.getMinutes() === 0) {
 			// Is 24 hours, and starts on the middle of the night.
 			return true;
@@ -375,9 +375,9 @@ var CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntr
 	 *
 	 * return bool - The event should be filtered out
 	 */
-	var timeFilterApplies = function (now, endDate, filter) {
+	const timeFilterApplies = function (now, endDate, filter) {
 		if (filter) {
-			var until = filter.split(" "),
+			const until = filter.split(" "),
 				value = parseInt(until[0]),
 				increment = until[1].slice("-1") === "s" ? until[1] : until[1] + "s", // Massage the data for moment js
 				filterUntil = moment(endDate.format()).subtract(value, increment);
@@ -395,8 +395,8 @@ var CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntr
 	 *
 	 * return string - The title of the event, or "Event" if no title is found.
 	 */
-	var getTitleFromEvent = function (event) {
-		var title = "Event";
+	const getTitleFromEvent = function (event) {
+		let title = "Event";
 		if (event.summary) {
 			title = typeof event.summary.val !== "undefined" ? event.summary.val : event.summary;
 		} else if (event.description) {
@@ -406,7 +406,7 @@ var CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntr
 		return title;
 	};
 
-	var testTitleByFilter = function (title, filter, useRegex, regexFlags) {
+	const testTitleByFilter = function (title, filter, useRegex, regexFlags) {
 		if (useRegex) {
 			// Assume if leading slash, there is also trailing slash
 			if (filter[0] === "/") {
