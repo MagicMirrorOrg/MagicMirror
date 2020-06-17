@@ -5,7 +5,8 @@
  * MIT Licensed.
  */
 const Log = require("../../../js/logger.js");
-const ical = require("./vendor/ical.js");
+const fetch = require("node-fetch");
+const ical = require("ical");
 const moment = require("moment");
 
 var CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, includePastEvents) {
@@ -20,318 +21,316 @@ var CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntr
 	/* fetchCalendar()
 	 * Initiates calendar fetch.
 	 */
-	var fetchCalendar = function () {
+	const fetchCalendar = function () {
 		clearTimeout(reloadTimer);
 		reloadTimer = null;
 
-		var nodeVersion = Number(process.version.match(/^v(\d+\.\d+)/)[1]);
-		var opts = {
+		const nodeVersion = Number(process.version.match(/^v(\d+\.\d+)/)[1]);
+		const opts = {
 			headers: {
 				"User-Agent": "Mozilla/5.0 (Node.js " + nodeVersion + ") MagicMirror/" + global.version + " (https://github.com/MichMich/MagicMirror/)"
 			},
-			gzip: true
+			compress: true
 		};
 
 		if (auth) {
 			if (auth.method === "bearer") {
-				opts.auth = {
-					bearer: auth.pass
-				};
+				opts.headers.Authorization = `Bearer ${auth.pass}`;
 			} else {
-				opts.auth = {
-					user: auth.user,
-					pass: auth.pass
-				};
+				let base64data = Buffer.from(`${auth.user}:${auth.pass}`).toString("base64");
+				opts.headers.Authorization = `Basic ${base64data}`;
 
+				// TODO
 				if (auth.method === "digest") {
-					opts.auth.sendImmediately = false;
-				} else {
-					opts.auth.sendImmediately = true;
+					//opts.auth.sendImmediately = false;
 				}
 			}
 		}
 
-		ical.fromURL(url, opts, function (err, data) {
-			if (err) {
-				fetchFailedCallback(self, err);
-				scheduleTimer();
-				return;
-			}
+		fetch(url, opts)
+			.then((response) => response.text())
+			.then((rawData) => {
+				const data = ical.parseICS(rawData);
+				const newEvents = [];
 
-			var newEvents = [];
+				// limitFunction doesn't do much limiting, see comment re: the dates array in rrule section below as to why we need to do the filtering ourselves
+				const limitFunction = function (date, i) {
+					return true;
+				};
 
-			// limitFunction doesn't do much limiting, see comment re: the dates array in rrule section below as to why we need to do the filtering ourselves
-			var limitFunction = function (date, i) {
-				return true;
-			};
+				const eventDate = function (event, time) {
+					return event[time].length === 8 ? moment(event[time], "YYYYMMDD") : moment(new Date(event[time]));
+				};
 
-			var eventDate = function (event, time) {
-				return event[time].length === 8 ? moment(event[time], "YYYYMMDD") : moment(new Date(event[time]));
-			};
+				for (let k in data) {
+					if (data.hasOwnProperty(k)) {
+						var event = data[k];
+						var now = new Date();
+						var today = moment().startOf("day").toDate();
+						var future = moment().startOf("day").add(maximumNumberOfDays, "days").subtract(1, "seconds").toDate(); // Subtract 1 second so that events that start on the middle of the night will not repeat.
+						var past = today;
 
-			for (var e in data) {
-				var event = data[e];
-				var now = new Date();
-				var today = moment().startOf("day").toDate();
-				var future = moment().startOf("day").add(maximumNumberOfDays, "days").subtract(1, "seconds").toDate(); // Subtract 1 second so that events that start on the middle of the night will not repeat.
-				var past = today;
-
-				if (includePastEvents) {
-					past = moment().startOf("day").subtract(maximumNumberOfDays, "days").toDate();
-				}
-
-				// FIXME: Ugly fix to solve the facebook birthday issue.
-				// Otherwise, the recurring events only show the birthday for next year.
-				var isFacebookBirthday = false;
-				if (typeof event.uid !== "undefined") {
-					if (event.uid.indexOf("@facebook.com") !== -1) {
-						isFacebookBirthday = true;
-					}
-				}
-
-				if (event.type === "VEVENT") {
-					var startDate = eventDate(event, "start");
-					var endDate;
-					if (typeof event.end !== "undefined") {
-						endDate = eventDate(event, "end");
-					} else if (typeof event.duration !== "undefined") {
-						var dur = moment.duration(event.duration);
-						endDate = startDate.clone().add(dur);
-					} else {
-						if (!isFacebookBirthday) {
-							endDate = startDate;
-						} else {
-							endDate = moment(startDate).add(1, "days");
+						if (includePastEvents) {
+							past = moment().startOf("day").subtract(maximumNumberOfDays, "days").toDate();
 						}
-					}
 
-					// calculate the duration f the event for use with recurring events.
-					var duration = parseInt(endDate.format("x")) - parseInt(startDate.format("x"));
-
-					if (event.start.length === 8) {
-						startDate = startDate.startOf("day");
-					}
-
-					var title = getTitleFromEvent(event);
-
-					var excluded = false,
-						dateFilter = null;
-
-					for (var f in excludedEvents) {
-						var filter = excludedEvents[f],
-							testTitle = title.toLowerCase(),
-							until = null,
-							useRegex = false,
-							regexFlags = "g";
-
-						if (filter instanceof Object) {
-							if (typeof filter.until !== "undefined") {
-								until = filter.until;
+						// FIXME: Ugly fix to solve the facebook birthday issue.
+						// Otherwise, the recurring events only show the birthday for next year.
+						var isFacebookBirthday = false;
+						if (typeof event.uid !== "undefined") {
+							if (event.uid.indexOf("@facebook.com") !== -1) {
+								isFacebookBirthday = true;
 							}
+						}
 
-							if (typeof filter.regex !== "undefined") {
-								useRegex = filter.regex;
-							}
-
-							// If additional advanced filtering is added in, this section
-							// must remain last as we overwrite the filter object with the
-							// filterBy string
-							if (filter.caseSensitive) {
-								filter = filter.filterBy;
-								testTitle = title;
-							} else if (useRegex) {
-								filter = filter.filterBy;
-								testTitle = title;
-								regexFlags += "i";
+						if (event.type === "VEVENT") {
+							var startDate = eventDate(event, "start");
+							var endDate;
+							if (typeof event.end !== "undefined") {
+								endDate = eventDate(event, "end");
+							} else if (typeof event.duration !== "undefined") {
+								var dur = moment.duration(event.duration);
+								endDate = startDate.clone().add(dur);
 							} else {
-								filter = filter.filterBy.toLowerCase();
-							}
-						} else {
-							filter = filter.toLowerCase();
-						}
-
-						if (testTitleByFilter(testTitle, filter, useRegex, regexFlags)) {
-							if (until) {
-								dateFilter = until;
-							} else {
-								excluded = true;
-							}
-							break;
-						}
-					}
-
-					if (excluded) {
-						continue;
-					}
-
-					var location = event.location || false;
-					var geo = event.geo || false;
-					var description = event.description || false;
-
-					if (typeof event.rrule !== "undefined" && event.rrule !== null && !isFacebookBirthday) {
-						var rule = event.rrule;
-						var addedEvents = 0;
-
-						// can cause problems with e.g. birthdays before 1900
-						if ((rule.options && rule.origOptions && rule.origOptions.dtstart && rule.origOptions.dtstart.getFullYear() < 1900) || (rule.options && rule.options.dtstart && rule.options.dtstart.getFullYear() < 1900)) {
-							rule.origOptions.dtstart.setYear(1900);
-							rule.options.dtstart.setYear(1900);
-						}
-
-						// For recurring events, get the set of start dates that fall within the range
-						// of dates we"re looking for.
-						// kblankenship1989 - to fix issue #1798, converting all dates to locale time first, then converting back to UTC time
-						var pastLocal = moment(past).subtract(past.getTimezoneOffset(), "minutes").toDate();
-						var futureLocal = moment(future).subtract(future.getTimezoneOffset(), "minutes").toDate();
-						var datesLocal = rule.between(pastLocal, futureLocal, true, limitFunction);
-						var dates = datesLocal.map(function (dateLocal) {
-							var date = moment(dateLocal).add(dateLocal.getTimezoneOffset(), "minutes").toDate();
-							return date;
-						});
-
-						// The "dates" array contains the set of dates within our desired date range range that are valid
-						// for the recurrence rule.  *However*, it"s possible for us to have a specific recurrence that
-						// had its date changed from outside the range to inside the range.  For the time being,
-						// we"ll handle this by adding *all* recurrence entries into the set of dates that we check,
-						// because the logic below will filter out any recurrences that don"t actually belong within
-						// our display range.
-						// Would be great if there was a better way to handle this.
-						if (event.recurrences !== undefined) {
-							var pastMoment = moment(past);
-							var futureMoment = moment(future);
-
-							for (var r in event.recurrences) {
-								// Only add dates that weren't already in the range we added from the rrule so that
-								// we don"t double-add those events.
-								if (moment(new Date(r)).isBetween(pastMoment, futureMoment) !== true) {
-									dates.push(new Date(r));
+								if (!isFacebookBirthday) {
+									endDate = startDate;
+								} else {
+									endDate = moment(startDate).add(1, "days");
 								}
 							}
-						}
 
-						// Loop through the set of date entries to see which recurrences should be added to our event list.
-						for (var d in dates) {
-							var date = dates[d];
-							// ical.js started returning recurrences and exdates as ISOStrings without time information.
-							// .toISOString().substring(0,10) is the method they use to calculate keys, so we'll do the same
-							// (see https://github.com/peterbraden/ical.js/pull/84 )
-							var dateKey = date.toISOString().substring(0, 10);
-							var curEvent = event;
-							var showRecurrence = true;
+							// calculate the duration f the event for use with recurring events.
+							var duration = parseInt(endDate.format("x")) - parseInt(startDate.format("x"));
 
-							// Stop parsing this event's recurrences if we've already found maximumEntries worth of recurrences.
-							// (The logic below would still filter the extras, but the check is simple since we're already tracking the count)
-							if (addedEvents >= maximumEntries) {
-								break;
+							if (event.start.length === 8) {
+								startDate = startDate.startOf("day");
 							}
 
-							startDate = moment(date);
+							var title = getTitleFromEvent(event);
 
-							// For each date that we"re checking, it"s possible that there is a recurrence override for that one day.
-							if (curEvent.recurrences !== undefined && curEvent.recurrences[dateKey] !== undefined) {
-								// We found an override, so for this recurrence, use a potentially different title, start date, and duration.
-								curEvent = curEvent.recurrences[dateKey];
-								startDate = moment(curEvent.start);
-								duration = parseInt(moment(curEvent.end).format("x")) - parseInt(startDate.format("x"));
+							var excluded = false,
+								dateFilter = null;
+
+							for (var f in excludedEvents) {
+								var filter = excludedEvents[f],
+									testTitle = title.toLowerCase(),
+									until = null,
+									useRegex = false,
+									regexFlags = "g";
+
+								if (filter instanceof Object) {
+									if (typeof filter.until !== "undefined") {
+										until = filter.until;
+									}
+
+									if (typeof filter.regex !== "undefined") {
+										useRegex = filter.regex;
+									}
+
+									// If additional advanced filtering is added in, this section
+									// must remain last as we overwrite the filter object with the
+									// filterBy string
+									if (filter.caseSensitive) {
+										filter = filter.filterBy;
+										testTitle = title;
+									} else if (useRegex) {
+										filter = filter.filterBy;
+										testTitle = title;
+										regexFlags += "i";
+									} else {
+										filter = filter.filterBy.toLowerCase();
+									}
+								} else {
+									filter = filter.toLowerCase();
+								}
+
+								if (testTitleByFilter(testTitle, filter, useRegex, regexFlags)) {
+									if (until) {
+										dateFilter = until;
+									} else {
+										excluded = true;
+									}
+									break;
+								}
 							}
-							// If there"s no recurrence override, check for an exception date.  Exception dates represent exceptions to the rule.
-							else if (curEvent.exdate !== undefined && curEvent.exdate[dateKey] !== undefined) {
-								// This date is an exception date, which means we should skip it in the recurrence pattern.
-								showRecurrence = false;
+
+							if (excluded) {
+								continue;
 							}
 
-							endDate = moment(parseInt(startDate.format("x")) + duration, "x");
-							if (startDate.format("x") === endDate.format("x")) {
-								endDate = endDate.endOf("day");
-							}
+							var location = event.location || false;
+							var geo = event.geo || false;
+							var description = event.description || false;
 
-							var recurrenceTitle = getTitleFromEvent(curEvent);
+							if (typeof event.rrule !== "undefined" && event.rrule !== null && !isFacebookBirthday) {
+								var rule = event.rrule;
+								var addedEvents = 0;
 
-							// If this recurrence ends before the start of the date range, or starts after the end of the date range, don"t add
-							// it to the event list.
-							if (endDate.isBefore(past) || startDate.isAfter(future)) {
-								showRecurrence = false;
-							}
+								// can cause problems with e.g. birthdays before 1900
+								if ((rule.options && rule.origOptions && rule.origOptions.dtstart && rule.origOptions.dtstart.getFullYear() < 1900) || (rule.options && rule.options.dtstart && rule.options.dtstart.getFullYear() < 1900)) {
+									rule.origOptions.dtstart.setYear(1900);
+									rule.options.dtstart.setYear(1900);
+								}
 
-							if (timeFilterApplies(now, endDate, dateFilter)) {
-								showRecurrence = false;
-							}
+								// For recurring events, get the set of start dates that fall within the range
+								// of dates we"re looking for.
+								// kblankenship1989 - to fix issue #1798, converting all dates to locale time first, then converting back to UTC time
+								var pastLocal = moment(past).subtract(past.getTimezoneOffset(), "minutes").toDate();
+								var futureLocal = moment(future).subtract(future.getTimezoneOffset(), "minutes").toDate();
+								var datesLocal = rule.between(pastLocal, futureLocal, true, limitFunction);
+								var dates = datesLocal.map(function (dateLocal) {
+									var date = moment(dateLocal).add(dateLocal.getTimezoneOffset(), "minutes").toDate();
+									return date;
+								});
 
-							if (showRecurrence === true && addedEvents < maximumEntries) {
-								addedEvents++;
+								// The "dates" array contains the set of dates within our desired date range range that are valid
+								// for the recurrence rule.  *However*, it"s possible for us to have a specific recurrence that
+								// had its date changed from outside the range to inside the range.  For the time being,
+								// we"ll handle this by adding *all* recurrence entries into the set of dates that we check,
+								// because the logic below will filter out any recurrences that don"t actually belong within
+								// our display range.
+								// Would be great if there was a better way to handle this.
+								if (event.recurrences !== undefined) {
+									var pastMoment = moment(past);
+									var futureMoment = moment(future);
+
+									for (var r in event.recurrences) {
+										// Only add dates that weren't already in the range we added from the rrule so that
+										// we don"t double-add those events.
+										if (moment(new Date(r)).isBetween(pastMoment, futureMoment) !== true) {
+											dates.push(new Date(r));
+										}
+									}
+								}
+
+								// Loop through the set of date entries to see which recurrences should be added to our event list.
+								for (var d in dates) {
+									var date = dates[d];
+									// ical.js started returning recurrences and exdates as ISOStrings without time information.
+									// .toISOString().substring(0,10) is the method they use to calculate keys, so we'll do the same
+									// (see https://github.com/peterbraden/ical.js/pull/84 )
+									var dateKey = date.toISOString().substring(0, 10);
+									var curEvent = event;
+									var showRecurrence = true;
+
+									// Stop parsing this event's recurrences if we've already found maximumEntries worth of recurrences.
+									// (The logic below would still filter the extras, but the check is simple since we're already tracking the count)
+									if (addedEvents >= maximumEntries) {
+										break;
+									}
+
+									startDate = moment(date);
+
+									// For each date that we"re checking, it"s possible that there is a recurrence override for that one day.
+									if (curEvent.recurrences !== undefined && curEvent.recurrences[dateKey] !== undefined) {
+										// We found an override, so for this recurrence, use a potentially different title, start date, and duration.
+										curEvent = curEvent.recurrences[dateKey];
+										startDate = moment(curEvent.start);
+										duration = parseInt(moment(curEvent.end).format("x")) - parseInt(startDate.format("x"));
+									}
+									// If there"s no recurrence override, check for an exception date.  Exception dates represent exceptions to the rule.
+									else if (curEvent.exdate !== undefined && curEvent.exdate[dateKey] !== undefined) {
+										// This date is an exception date, which means we should skip it in the recurrence pattern.
+										showRecurrence = false;
+									}
+
+									endDate = moment(parseInt(startDate.format("x")) + duration, "x");
+									if (startDate.format("x") === endDate.format("x")) {
+										endDate = endDate.endOf("day");
+									}
+
+									var recurrenceTitle = getTitleFromEvent(curEvent);
+
+									// If this recurrence ends before the start of the date range, or starts after the end of the date range, don"t add
+									// it to the event list.
+									if (endDate.isBefore(past) || startDate.isAfter(future)) {
+										showRecurrence = false;
+									}
+
+									if (timeFilterApplies(now, endDate, dateFilter)) {
+										showRecurrence = false;
+									}
+
+									if (showRecurrence === true && addedEvents < maximumEntries) {
+										addedEvents++;
+										newEvents.push({
+											title: recurrenceTitle,
+											startDate: startDate.format("x"),
+											endDate: endDate.format("x"),
+											fullDayEvent: isFullDayEvent(event),
+											class: event.class,
+											firstYear: event.start.getFullYear(),
+											location: location,
+											geo: geo,
+											description: description
+										});
+									}
+								}
+								// end recurring event parsing
+							} else {
+								// Single event.
+								var fullDayEvent = isFacebookBirthday ? true : isFullDayEvent(event);
+
+								if (includePastEvents) {
+									// Past event is too far in the past, so skip.
+									if (endDate < past) {
+										continue;
+									}
+								} else {
+									// It's not a fullday event, and it is in the past, so skip.
+									if (!fullDayEvent && endDate < new Date()) {
+										continue;
+									}
+
+									// It's a fullday event, and it is before today, So skip.
+									if (fullDayEvent && endDate <= today) {
+										continue;
+									}
+								}
+
+								// It exceeds the maximumNumberOfDays limit, so skip.
+								if (startDate > future) {
+									continue;
+								}
+
+								if (timeFilterApplies(now, endDate, dateFilter)) {
+									continue;
+								}
+
+								// Adjust start date so multiple day events will be displayed as happening today even though they started some days ago already
+								if (fullDayEvent && startDate <= today) {
+									startDate = moment(today);
+								}
+
+								// Every thing is good. Add it to the list.
 								newEvents.push({
-									title: recurrenceTitle,
+									title: title,
 									startDate: startDate.format("x"),
 									endDate: endDate.format("x"),
-									fullDayEvent: isFullDayEvent(event),
+									fullDayEvent: fullDayEvent,
 									class: event.class,
-									firstYear: event.start.getFullYear(),
 									location: location,
 									geo: geo,
 									description: description
 								});
 							}
 						}
-						// end recurring event parsing
-					} else {
-						// Single event.
-						var fullDayEvent = isFacebookBirthday ? true : isFullDayEvent(event);
-
-						if (includePastEvents) {
-							// Past event is too far in the past, so skip.
-							if (endDate < past) {
-								continue;
-							}
-						} else {
-							// It's not a fullday event, and it is in the past, so skip.
-							if (!fullDayEvent && endDate < new Date()) {
-								continue;
-							}
-
-							// It's a fullday event, and it is before today, So skip.
-							if (fullDayEvent && endDate <= today) {
-								continue;
-							}
-						}
-
-						// It exceeds the maximumNumberOfDays limit, so skip.
-						if (startDate > future) {
-							continue;
-						}
-
-						if (timeFilterApplies(now, endDate, dateFilter)) {
-							continue;
-						}
-
-						// Adjust start date so multiple day events will be displayed as happening today even though they started some days ago already
-						if (fullDayEvent && startDate <= today) {
-							startDate = moment(today);
-						}
-
-						// Every thing is good. Add it to the list.
-						newEvents.push({
-							title: title,
-							startDate: startDate.format("x"),
-							endDate: endDate.format("x"),
-							fullDayEvent: fullDayEvent,
-							class: event.class,
-							location: location,
-							geo: geo,
-							description: description
-						});
 					}
 				}
-			}
 
-			newEvents.sort(function (a, b) {
-				return a.startDate - b.startDate;
+				newEvents.sort(function (a, b) {
+					return a.startDate - b.startDate;
+				});
+
+				events = newEvents.slice(0, maximumEntries);
+
+				self.broadcastEvents();
+				scheduleTimer();
+			})
+			.catch((err) => {
+				fetchFailedCallback(self, err);
+				scheduleTimer();
 			});
-
-			events = newEvents.slice(0, maximumEntries);
-
-			self.broadcastEvents();
-			scheduleTimer();
-		});
 	};
 
 	/* scheduleTimer()
