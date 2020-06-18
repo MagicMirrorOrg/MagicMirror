@@ -12,8 +12,8 @@ const moment = require("moment");
 const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, includePastEvents) {
 	const self = this;
 
-	var reloadTimer = null;
-	var events = [];
+	let reloadTimer = null;
+	let events = [];
 
 	let fetchFailedCallback = function () {};
 	let eventsReceivedCallback = function () {};
@@ -64,11 +64,11 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 
 				for (let k in data) {
 					if (data.hasOwnProperty(k)) {
-						var event = data[k];
-						var now = new Date();
-						var today = moment().startOf("day").toDate();
-						var future = moment().startOf("day").add(maximumNumberOfDays, "days").subtract(1, "seconds").toDate(); // Subtract 1 second so that events that start on the middle of the night will not repeat.
-						var past = today;
+						const event = data[k];
+						const now = new Date();
+						const today = moment().startOf("day").toDate();
+						const future = moment().startOf("day").add(maximumNumberOfDays, "days").subtract(1, "seconds").toDate(); // Subtract 1 second so that events that start on the middle of the night will not repeat.
+						let past = today;
 
 						if (includePastEvents) {
 							past = moment().startOf("day").subtract(maximumNumberOfDays, "days").toDate();
@@ -76,7 +76,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 
 						// FIXME: Ugly fix to solve the facebook birthday issue.
 						// Otherwise, the recurring events only show the birthday for next year.
-						var isFacebookBirthday = false;
+						let isFacebookBirthday = false;
 						if (typeof event.uid !== "undefined") {
 							if (event.uid.indexOf("@facebook.com") !== -1) {
 								isFacebookBirthday = true;
@@ -84,13 +84,13 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 						}
 
 						if (event.type === "VEVENT") {
-							var startDate = eventDate(event, "start");
-							var endDate;
+							let startDate = eventDate(event, "start");
+							let endDate;
+
 							if (typeof event.end !== "undefined") {
 								endDate = eventDate(event, "end");
 							} else if (typeof event.duration !== "undefined") {
-								var dur = moment.duration(event.duration);
-								endDate = startDate.clone().add(dur);
+								endDate = startDate.clone().add(moment.duration(event.duration));
 							} else {
 								if (!isFacebookBirthday) {
 									endDate = startDate;
@@ -99,20 +99,20 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 								}
 							}
 
-							// calculate the duration f the event for use with recurring events.
-							var duration = parseInt(endDate.format("x")) - parseInt(startDate.format("x"));
+							// calculate the duration of the event for use with recurring events.
+							let duration = parseInt(endDate.format("x")) - parseInt(startDate.format("x"));
 
 							if (event.start.length === 8) {
 								startDate = startDate.startOf("day");
 							}
 
-							var title = getTitleFromEvent(event);
+							const title = getTitleFromEvent(event);
 
-							var excluded = false,
+							let excluded = false,
 								dateFilter = null;
 
-							for (var f in excludedEvents) {
-								var filter = excludedEvents[f],
+							for (let f in excludedEvents) {
+								let filter = excludedEvents[f],
 									testTitle = title.toLowerCase(),
 									until = null,
 									useRegex = false,
@@ -158,13 +158,16 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 								continue;
 							}
 
-							var location = event.location || false;
-							var geo = event.geo || false;
-							var description = event.description || false;
+							const location = event.location || false;
+							const geo = event.geo || false;
+							const description = event.description || false;
 
 							if (typeof event.rrule !== "undefined" && event.rrule !== null && !isFacebookBirthday) {
-								var rule = event.rrule;
-								var addedEvents = 0;
+								const rule = event.rrule;
+								let addedEvents = 0;
+
+								const pastMoment = moment(past);
+								const futureMoment = moment(future);
 
 								// can cause problems with e.g. birthdays before 1900
 								if ((rule.options && rule.origOptions && rule.origOptions.dtstart && rule.origOptions.dtstart.getFullYear() < 1900) || (rule.options && rule.options.dtstart && rule.options.dtstart.getFullYear() < 1900)) {
@@ -173,28 +176,24 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 								}
 
 								// For recurring events, get the set of start dates that fall within the range
-								// of dates we"re looking for.
+								// of dates we're looking for.
 								// kblankenship1989 - to fix issue #1798, converting all dates to locale time first, then converting back to UTC time
-								var pastLocal = moment(past).subtract(past.getTimezoneOffset(), "minutes").toDate();
-								var futureLocal = moment(future).subtract(future.getTimezoneOffset(), "minutes").toDate();
-								var datesLocal = rule.between(pastLocal, futureLocal, true, limitFunction);
-								var dates = datesLocal.map(function (dateLocal) {
-									var date = moment(dateLocal).add(dateLocal.getTimezoneOffset(), "minutes").toDate();
-									return date;
+								const pastLocal = pastMoment.subtract(past.getTimezoneOffset(), "minutes").toDate();
+								const futureLocal = futureMoment.subtract(future.getTimezoneOffset(), "minutes").toDate();
+								const datesLocal = rule.between(pastLocal, futureLocal, true, limitFunction);
+								const dates = datesLocal.map(function (dateLocal) {
+									return moment(dateLocal).add(dateLocal.getTimezoneOffset(), "minutes").toDate();
 								});
 
 								// The "dates" array contains the set of dates within our desired date range range that are valid
-								// for the recurrence rule.  *However*, it"s possible for us to have a specific recurrence that
+								// for the recurrence rule. *However*, it's possible for us to have a specific recurrence that
 								// had its date changed from outside the range to inside the range.  For the time being,
-								// we"ll handle this by adding *all* recurrence entries into the set of dates that we check,
-								// because the logic below will filter out any recurrences that don"t actually belong within
+								// we'll handle this by adding *all* recurrence entries into the set of dates that we check,
+								// because the logic below will filter out any recurrences that don't actually belong within
 								// our display range.
 								// Would be great if there was a better way to handle this.
 								if (event.recurrences !== undefined) {
-									var pastMoment = moment(past);
-									var futureMoment = moment(future);
-
-									for (var r in event.recurrences) {
+									for (let r in event.recurrences) {
 										// Only add dates that weren't already in the range we added from the rrule so that
 										// we don"t double-add those events.
 										if (moment(new Date(r)).isBetween(pastMoment, futureMoment) !== true) {
@@ -204,14 +203,14 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 								}
 
 								// Loop through the set of date entries to see which recurrences should be added to our event list.
-								for (var d in dates) {
-									var date = dates[d];
+								for (let d in dates) {
+									const date = dates[d];
 									// ical.js started returning recurrences and exdates as ISOStrings without time information.
 									// .toISOString().substring(0,10) is the method they use to calculate keys, so we'll do the same
 									// (see https://github.com/peterbraden/ical.js/pull/84 )
-									var dateKey = date.toISOString().substring(0, 10);
-									var curEvent = event;
-									var showRecurrence = true;
+									const dateKey = date.toISOString().substring(0, 10);
+									let curEvent = event;
+									let showRecurrence = true;
 
 									// Stop parsing this event's recurrences if we've already found maximumEntries worth of recurrences.
 									// (The logic below would still filter the extras, but the check is simple since we're already tracking the count)
@@ -221,14 +220,14 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 
 									startDate = moment(date);
 
-									// For each date that we"re checking, it"s possible that there is a recurrence override for that one day.
+									// For each date that we're checking, it's possible that there is a recurrence override for that one day.
 									if (curEvent.recurrences !== undefined && curEvent.recurrences[dateKey] !== undefined) {
 										// We found an override, so for this recurrence, use a potentially different title, start date, and duration.
 										curEvent = curEvent.recurrences[dateKey];
 										startDate = moment(curEvent.start);
 										duration = parseInt(moment(curEvent.end).format("x")) - parseInt(startDate.format("x"));
 									}
-									// If there"s no recurrence override, check for an exception date.  Exception dates represent exceptions to the rule.
+									// If there's no recurrence override, check for an exception date.  Exception dates represent exceptions to the rule.
 									else if (curEvent.exdate !== undefined && curEvent.exdate[dateKey] !== undefined) {
 										// This date is an exception date, which means we should skip it in the recurrence pattern.
 										showRecurrence = false;
@@ -269,7 +268,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 								// end recurring event parsing
 							} else {
 								// Single event.
-								var fullDayEvent = isFacebookBirthday ? true : isFullDayEvent(event);
+								const fullDayEvent = isFacebookBirthday ? true : isFullDayEvent(event);
 
 								if (includePastEvents) {
 									// Past event is too far in the past, so skip.
