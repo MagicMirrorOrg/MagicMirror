@@ -334,7 +334,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumNumbe
 			});
 
 			//console.log(newEvents);
-            events = newEvents;
+			events = newEvents;
 
 			self.broadcastEvents();
 			scheduleTimer();
