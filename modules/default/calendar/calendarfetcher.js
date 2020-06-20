@@ -382,7 +382,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 		if (filter) {
 			const until = filter.split(" "),
 				value = parseInt(until[0]),
-				increment = until[1].slice("-1") === "s" ? until[1] : until[1] + "s", // Massage the data for moment js
+				increment = until[1].slice(-1) === "s" ? until[1] : until[1] + "s", // Massage the data for moment js
 				filterUntil = moment(endDate.format()).subtract(value, increment);
 
 			return now < filterUntil.format("x");
