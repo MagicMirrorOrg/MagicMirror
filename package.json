@@ -77,7 +77,7 @@
 		"lodash": "^4.17.15",
 		"module-alias": "^2.2.2",
 		"moment": "latest",
-		"node-fetch": "^2.6.0",
+		"request": "^2.88.2",
 		"request": "^2.88.0",
 		"rrule": "^2.6.2",
 		"rrule-alt": "^2.2.8",

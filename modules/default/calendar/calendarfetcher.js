@@ -5,9 +5,9 @@
  * MIT Licensed.
  */
 const Log = require("../../../js/logger.js");
-const fetch = require("node-fetch");
 const ical = require("ical");
 const moment = require("moment");
+const request = require("request");
 
 const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, includePastEvents) {
 	const self = this;
@@ -30,27 +30,32 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 			headers: {
 				"User-Agent": "Mozilla/5.0 (Node.js " + nodeVersion + ") MagicMirror/" + global.version + " (https://github.com/MichMich/MagicMirror/)"
 			},
-			compress: true
+			gzip: true
 		};
 
 		if (auth) {
 			if (auth.method === "bearer") {
-				opts.headers.Authorization = `Bearer ${auth.pass}`;
+				opts.auth = {
+					bearer: auth.pass
+				};
 			} else {
-				let base64data = Buffer.from(`${auth.user}:${auth.pass}`).toString("base64");
-				opts.headers.Authorization = `Basic ${base64data}`;
-
-				// TODO
-				if (auth.method === "digest") {
-					//opts.auth.sendImmediately = false;
-				}
+				opts.auth = {
+					user: auth.user,
+					pass: auth.pass,
+					sendImmediately: auth.method !== "digest"
+				};
 			}
 		}
 
-		fetch(url, opts)
-			.then((response) => response.text())
-			.then((rawData) => {
-				const data = ical.parseICS(rawData);
+		request(url, opts, function (err, r, requestData) {
+			if (err) {
+				fetchFailedCallback(self, err);
+				scheduleTimer();
+			} else if (r.statusCode !== 200) {
+				fetchFailedCallback(self, r.statusCode + ": " + r.statusMessage);
+				scheduleTimer();
+			} else {
+				const data = ical.parseICS(requestData);
 				const newEvents = [];
 
 				// limitFunction doesn't do much limiting, see comment re: the dates array in rrule section below as to why we need to do the filtering ourselves
@@ -325,11 +330,8 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 
 				self.broadcastEvents();
 				scheduleTimer();
-			})
-			.catch((err) => {
-				fetchFailedCallback(self, err);
-				scheduleTimer();
-			});
+			}
+		});
 	};
 
 	/* scheduleTimer()
