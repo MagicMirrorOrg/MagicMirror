@@ -37,7 +37,7 @@ var Server = function (config, callback) {
 	server.listen(port, config.address ? config.address : "localhost");
 
 	if (config.ipWhitelist instanceof Array && config.ipWhitelist.length === 0) {
-		Log.info(Utils.colors.warn("You're using a full whitelist configuration to allow for all IPs"));
+		Log.warn(Utils.colors.warn("You're using a full whitelist configuration to allow for all IPs"));
 	}
 
 	app.use(function (req, res, next) {
