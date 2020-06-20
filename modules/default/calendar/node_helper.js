@@ -1,26 +1,30 @@
 /* Magic Mirror
  * Node Helper: Calendar
  *
- * By Michael Teeuw https://michaelteeuw.nl
+ * By Michael Teeuw http://michaelteeuw.nl
  * MIT Licensed.
  */
 
-const NodeHelper = require("node_helper");
-const validUrl = require("valid-url");
-const CalendarFetcher = require("./calendarfetcher.js");
-const Log = require("../../../js/logger");
+var NodeHelper = require("node_helper");
+var validUrl = require("valid-url");
+var CalendarFetcher = require("./calendarfetcher.js");
 
 module.exports = NodeHelper.create({
 	// Override start method.
-	start: function () {
-		Log.log("Starting node helper for: " + this.name);
+	start: function() {
+		var events = [];
+
 		this.fetchers = [];
+
+		console.log("Starting node helper for: " + this.name);
+
 	},
 
 	// Override socketNotificationReceived method.
-	socketNotificationReceived: function (notification, payload) {
+	socketNotificationReceived: function(notification, payload) {
 		if (notification === "ADD_CALENDAR") {
-			this.createFetcher(payload.url, payload.fetchInterval, payload.excludedEvents, payload.maximumEntries, payload.maximumNumberOfDays, payload.auth, payload.broadcastPastEvents, payload.id);
+			//console.log('ADD_CALENDAR: ');
+			this.createFetcher(payload.url, payload.fetchInterval, payload.excludedEvents, payload.maximumEntries, payload.maximumNumberOfDays, payload.auth, payload.broadcastPastEvents);
 		}
 	},
 
@@ -31,40 +35,42 @@ module.exports = NodeHelper.create({
 	 * attribute url string - URL of the news feed.
 	 * attribute reloadInterval number - Reload interval in milliseconds.
 	 */
-	createFetcher: function (url, fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, broadcastPastEvents, identifier) {
+
+	createFetcher: function(url, fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, broadcastPastEvents) {
 		var self = this;
 
 		if (!validUrl.isUri(url)) {
-			self.sendSocketNotification("INCORRECT_URL", { id: identifier, url: url });
+			self.sendSocketNotification("INCORRECT_URL", {url: url});
 			return;
 		}
 
 		var fetcher;
-		if (typeof self.fetchers[identifier + url] === "undefined") {
-			Log.log("Create new calendar fetcher for url: " + url + " - Interval: " + fetchInterval);
-			fetcher = new CalendarFetcher(url, fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, broadcastPastEvents);
+		if (typeof self.fetchers[url] === "undefined") {
+			console.log("Create new calendar fetcher for url: " + url + " - Interval: " + fetchInterval);
+			fetcher = new CalendarFetcher(url, fetchInterval, excludedEvents, maximumNumberOfDays, auth, broadcastPastEvents);
 
-			fetcher.onReceive(function (fetcher) {
+			fetcher.onReceive(function(fetcher) {
+				//console.log('Broadcast events.');
+				//console.log(fetcher.events());
+
 				self.sendSocketNotification("CALENDAR_EVENTS", {
-					id: identifier,
 					url: fetcher.url(),
 					events: fetcher.events()
 				});
 			});
 
-			fetcher.onError(function (fetcher, error) {
-				Log.error("Calendar Error. Could not fetch calendar: ", fetcher.url(), error);
+			fetcher.onError(function(fetcher, error) {
+				console.error("Calendar Error. Could not fetch calendar: ", fetcher.url(), error);
 				self.sendSocketNotification("FETCH_ERROR", {
-					id: identifier,
 					url: fetcher.url(),
 					error: error
 				});
 			});
 
-			self.fetchers[identifier + url] = fetcher;
+			self.fetchers[url] = fetcher;
 		} else {
-			Log.log("Use existing calendar fetcher for url: " + url);
-			fetcher = self.fetchers[identifier + url];
+			//console.log('Use existing news fetcher for url: ' + url);
+			fetcher = self.fetchers[url];
 			fetcher.broadcastEvents();
 		}
 
