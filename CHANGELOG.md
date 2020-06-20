@@ -5,7 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror²
 
-## [20.11.1] - 2020-06-20
+## [2.12.0] - 2020-06-20
 ### Fixed
 - Bug fix related to 'maxEntries' not displaying Calendar events.
 
