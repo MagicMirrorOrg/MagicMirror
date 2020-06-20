@@ -226,7 +226,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumNumbe
 							var curEvent = event;
 							var showRecurrence = true;
 
-						    startDate = moment(date);
+							startDate = moment(date);
 
 							// For each date that we"re checking, it"s possible that there is a recurrence override for that one day.
 							if ((curEvent.recurrences != undefined) && (curEvent.recurrences[dateKey] != undefined))
