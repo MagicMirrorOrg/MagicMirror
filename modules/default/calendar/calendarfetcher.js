@@ -8,7 +8,7 @@
 var ical = require("./vendor/ical.js");
 var moment = require("moment");
 
-var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, includePastEvents) {
+var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumNumberOfDays, auth, includePastEvents) {
 	var self = this;
 
 	var reloadTimer = null;
@@ -226,13 +226,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 							var curEvent = event;
 							var showRecurrence = true;
 
-							// Stop parsing this event's recurrences if we've already found maximumEntries worth of recurrences.
-							// (The logic below would still filter the extras, but the check is simple since we're already tracking the count)
-							if (addedEvents >= maximumEntries) {
-								break;
-							}
-
-							startDate = moment(date);
+						    startDate = moment(date);
 
 							// For each date that we"re checking, it"s possible that there is a recurrence override for that one day.
 							if ((curEvent.recurrences != undefined) && (curEvent.recurrences[dateKey] != undefined))
@@ -266,7 +260,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 								showRecurrence = false;
 							}
 
-							if ((showRecurrence === true) && (addedEvents < maximumEntries)) {
+							if (showRecurrence === true) {
 								addedEvents++;
 								newEvents.push({
 									title: recurrenceTitle,
@@ -340,8 +334,7 @@ var CalendarFetcher = function(url, reloadInterval, excludedEvents, maximumEntri
 			});
 
 			//console.log(newEvents);
-
-			events = newEvents.slice(0, maximumEntries);
+            events = newEvents;
 
 			self.broadcastEvents();
 			scheduleTimer();
