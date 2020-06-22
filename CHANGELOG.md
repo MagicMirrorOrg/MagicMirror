@@ -38,6 +38,7 @@ _This release is scheduled to be released on 2020-07-01._
 - Fix the use of "maxNumberOfDays" in the module "weatherforecast" [#2018](https://github.com/MichMich/MagicMirror/issues/2018)
 - Throw error when check_config fails [#1928](https://github.com/MichMich/MagicMirror/issues/1928)
 - Bug fix related to 'maxEntries' not displaying Calendar events. [#2050](https://github.com/MichMich/MagicMirror/issues/2050)
+- Updated ical library to latest version [#1926](https://github.com/MichMich/MagicMirror/issues/1926)
 
 ## [2.11.0] - 2020-04-01
 
