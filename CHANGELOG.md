@@ -9,9 +9,12 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 _This release is scheduled to be released on 2020-07-01._
 
-- Compliments Module - Add Advice API (https://api.adviceslip.com/) Option / Docs
+### Added
 
+- Compliments Module - Add Advice API (https://api.adviceslip.com/) Option
+- Added option to config the level of logging
 - Added prettier for an even cleaner codebase
+- Hide Sunrise/Sunset in Weather module
 
 ### Updated
 
@@ -21,6 +24,7 @@ _This release is scheduled to be released on 2020-07-01._
 - Switch to most of the eslint:recommended rules and fix warnings
 - Replaced insecure links with https ones
 - Cleaned up all "no-undef" warnings from eslint
+- Added location title wrapping for calendar module
 
 ### Deleted
 
@@ -30,6 +34,11 @@ _This release is scheduled to be released on 2020-07-01._
 
 - The broken modules due to Socket.io change from last release [#1973](https://github.com/MichMich/MagicMirror/issues/1973)
 - Add backward compatibility for old module code in socketclient.js [#1973](https://github.com/MichMich/MagicMirror/issues/1973)
+- Support multiple instances of calendar module with different config [#1109](https://github.com/MichMich/MagicMirror/issues/1109)
+- Fix the use of "maxNumberOfDays" in the module "weatherforecast" [#2018](https://github.com/MichMich/MagicMirror/issues/2018)
+- Throw error when check_config fails [#1928](https://github.com/MichMich/MagicMirror/issues/1928)
+- Bug fix related to 'maxEntries' not displaying Calendar events. [#2050](https://github.com/MichMich/MagicMirror/issues/2050)
+- Updated ical library to latest version [#1926](https://github.com/MichMich/MagicMirror/issues/1926)
 
 ## [2.11.0] - 2020-04-01
 

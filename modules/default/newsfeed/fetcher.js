@@ -5,9 +5,10 @@
  * MIT Licensed.
  */
 
-var FeedMe = require("feedme");
-var request = require("request");
-var iconv = require("iconv-lite");
+const Log = require("../../../js/logger.js");
+const FeedMe = require("feedme");
+const request = require("request");
+const iconv = require("iconv-lite");
 
 /* Fetcher
  * Responsible for requesting an update on the set interval and broadcasting the data.
@@ -34,7 +35,6 @@ var Fetcher = function (url, reloadInterval, encoding, logFeedWarnings) {
 	/* fetchNews()
 	 * Request the new items.
 	 */
-
 	var fetchNews = function () {
 		clearTimeout(reloadTimer);
 		reloadTimer = null;
@@ -59,16 +59,15 @@ var Fetcher = function (url, reloadInterval, encoding, logFeedWarnings) {
 					url: url
 				});
 			} else if (logFeedWarnings) {
-				console.log("Can't parse feed item:");
-				console.log(item);
-				console.log("Title: " + title);
-				console.log("Description: " + description);
-				console.log("Pubdate: " + pubdate);
+				Log.warn("Can't parse feed item:");
+				Log.warn(item);
+				Log.warn("Title: " + title);
+				Log.warn("Description: " + description);
+				Log.warn("Pubdate: " + pubdate);
 			}
 		});
 
 		parser.on("end", function () {
-			//console.log("end parsing - " + url);
 			self.broadcastItems();
 			scheduleTimer();
 		});
@@ -93,9 +92,7 @@ var Fetcher = function (url, reloadInterval, encoding, logFeedWarnings) {
 	/* scheduleTimer()
 	 * Schedule the timer for the next update.
 	 */
-
 	var scheduleTimer = function () {
-		//console.log('Schedule update timer.');
 		clearTimeout(reloadTimer);
 		reloadTimer = setTimeout(function () {
 			fetchNews();
@@ -127,10 +124,10 @@ var Fetcher = function (url, reloadInterval, encoding, logFeedWarnings) {
 	 */
 	this.broadcastItems = function () {
 		if (items.length <= 0) {
-			//console.log('No items to broadcast yet.');
+			Log.info("Newsfeed-Fetcher: No items to broadcast yet.");
 			return;
 		}
-		//console.log('Broadcasting ' + items.length + ' items.');
+		Log.info("Newsfeed-Fetcher: Broadcasting " + items.length + " items.");
 		itemsReceivedCallback(self);
 	};
 
