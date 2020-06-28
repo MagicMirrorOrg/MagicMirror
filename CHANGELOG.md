@@ -14,6 +14,7 @@ _This release is scheduled to be released on 2020-07-01._
 - Added option to config the level of logging
 - Added prettier for an even cleaner codebase
 - Hide Sunrise/Sunset in Weather module
+- Added Met Office DataHub (UK) provider
 
 ### Updated
 
