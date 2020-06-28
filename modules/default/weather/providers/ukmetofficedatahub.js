@@ -21,7 +21,7 @@
  * 		apiKey: "[YOUR API KEY]",
  * 		apiSecret: "[YOUR API SECRET]]",
  * 		lat: [LATITUDE (DECIMAL)],
- * 		long: [LONGITUDE (DECIMAL)],
+ * 		lon: [LONGITUDE (DECIMAL)],
  *		windUnits: "mps" | "kph" | "mph" (default)
  *		tempUnits: "imperial" | "metric" (default)
  *
@@ -48,7 +48,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 	getUrl(forecastType) {
 		let queryStrings = "?";
 		queryStrings += "latitude=" + this.config.lat;
-		queryStrings += "&longitude=" + this.config.long;
+		queryStrings += "&longitude=" + this.config.lon;
 		if (this.config.appendLocationNameToHeader) {
 			queryStrings += "&includeLocationName=" + true;
 		}
@@ -64,7 +64,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 		let headers = {
 			accept: "application/json",
 			"x-ibm-client-id": this.config.apiKey,
-			"x-ibm-client-secret": this.config.apiSecret,
+			"x-ibm-client-secret": this.config.apiSecret
 		};
 
 		return headers;
@@ -295,9 +295,9 @@ WeatherProvider.register("ukmetofficedatahub", {
 			27: "snow",
 			28: "night-alt-thunderstorm",
 			29: "day-thunderstorm",
-			30: "thunderstorm",
+			30: "thunderstorm"
 		};
 
 		return weatherTypes.hasOwnProperty(weatherType) ? weatherTypes[weatherType] : null;
-	},
+	}
 });
