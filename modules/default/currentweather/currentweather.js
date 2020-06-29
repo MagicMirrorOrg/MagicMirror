@@ -23,6 +23,7 @@ Module.register("currentweather", {
 		lang: config.language,
 		decimalSymbol: ".",
 		showHumidity: false,
+		showSun: true,
 		degreeLabel: false,
 		showIndoorTemperature: false,
 		showIndoorHumidity: false,
@@ -155,13 +156,15 @@ Module.register("currentweather", {
 			small.appendChild(humidityIcon);
 		}
 
-		var sunriseSunsetIcon = document.createElement("span");
-		sunriseSunsetIcon.className = "wi dimmed " + this.sunriseSunsetIcon;
-		small.appendChild(sunriseSunsetIcon);
+		if (this.config.showSun) {
+			var sunriseSunsetIcon = document.createElement("span");
+			sunriseSunsetIcon.className = "wi dimmed " + this.sunriseSunsetIcon;
+			small.appendChild(sunriseSunsetIcon);
 
-		var sunriseSunsetTime = document.createElement("span");
-		sunriseSunsetTime.innerHTML = " " + this.sunriseSunsetTime;
-		small.appendChild(sunriseSunsetTime);
+			var sunriseSunsetTime = document.createElement("span");
+			sunriseSunsetTime.innerHTML = " " + this.sunriseSunsetTime;
+			small.appendChild(sunriseSunsetTime);
+		}
 
 		wrapper.appendChild(small);
 	},
