@@ -146,12 +146,20 @@ WeatherProvider.register("openweathermap", {
 			current.temperature = data.current.temp;
 			current.weatherType = this.convertWeatherType(data.current.weather[0].icon);
 			current.humidity = data.current.humidity;
-			if (!isNaN(data.current.rain)) {
-				current.rain = data.current.rain.1h;
+			if (current.hasOwnProperty("rain") && !isNaN(current.rain["1h"])) {
+				if (this.config.units === "imperial") {
+					weather.rain = current.rain["1h"] / 25.4;
+				} else {
+					weather.rain = current.rain["1h"];
+				}
 				precip = true;
 			}
-			if (!isNaN(data.current.snow)) {
-				current.snow = data.current.snow.1h;
+			if (current.hasOwnProperty("snow") && !isNaN(current.snow["1h"])) {
+				if (this.config.units === "imperial") {
+					weather.snow = current.snow["1h"] / 25.4;
+				} else {
+					weather.snow = current.snow["1h"];
+				}
 				precip = true;
 			}
 			if (precip) {
@@ -193,19 +201,19 @@ WeatherProvider.register("openweathermap", {
 				weather.windDirection = hour.wind_deg;
 				weather.weatherType = this.convertWeatherType(hour.weather[0].icon);
 				precip = false;
-				if (!isNaN(hour.rain)) {
+				if (hour.hasOwnProperty("rain") && !isNaN(hour.rain["1h"])) {
 					if (this.config.units === "imperial") {
-						weather.rain = hour.rain.1h / 25.4;
+						weather.rain = hour.rain["1h"] / 25.4;
 					} else {
-						weather.rain = hour.rain.1h;
+						weather.rain = hour.rain["1h"];
 					}
 					precip = true;
 				}
-				if (!isNaN(hour.snow)) {
+				if (hour.hasOwnProperty("snow") && !isNaN(hour.snow["1h"])) {
 					if (this.config.units === "imperial") {
-						weather.snow = hour.snow.1h / 25.4;
+						weather.snow = hour.snow["1h"] / 25.4;
 					} else {
-						weather.snow = hour.snow.1h;
+						weather.snow = hour.snow["1h"];
 					}
 					precip = true;
 				}
@@ -451,7 +459,7 @@ WeatherProvider.register("openweathermap", {
 
 		params += "&units=" + this.config.units;
 		params += "&lang=" + this.config.lang;
-		params += "&APPID=" + this.config.apiKey;
+		params += "&APPID=" + this.config.appid;
 
 		return params;
 	}

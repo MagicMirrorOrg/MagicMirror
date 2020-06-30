@@ -5,7 +5,7 @@
         {% set hours = wData.hours.slice(0, numSteps) %}
         {% for hour in hours %}
             <tr {% if config.colored %}class="colored"{% endif %} {% if config.fade %}style="opacity: {{ currentStep | opacity(numSteps) }};"{% endif %}>
-                <td class="time">{{ hour.date | formatTimeMoment }}</td>
+                <td class="day">{{ hour.date | formatTimeMoment }}</td>
                 <td class="bright weather-icon"><span class="wi weathericon wi-{{ hour.weatherType }}"></span></td>
                 <td class="align-right bright max-temp">
                     {{ hour.temperature | roundValue | unit("temperature") }}

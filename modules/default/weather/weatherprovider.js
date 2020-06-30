@@ -97,7 +97,6 @@ var WeatherProvider = Class.extend({
 
 	// Set the weatherDataObject and notify the delegate that new information is available.
 	setWeatherData: function (weatherDataObject) {
-		// We should check here if we are passing a WeatherDay
 		this.weatherDataObject = weatherDataObject;
 	},
 
