@@ -11,7 +11,7 @@ Module.register("weather", {
 	defaults: {
 		weatherProvider: "openweathermap",
 		roundTemp: false,
-		type: "current", //current, forecast
+		type: "current", //current, forecast, wDataCurrent, wDataHourly, wDataDaily
 
 		location: false,
 		locationID: false,
@@ -37,6 +37,7 @@ Module.register("weather", {
 		showIndoorTemperature: false,
 		showIndoorHumidity: false,
 		maxNumberOfDays: 5,
+		maxEntries: 5,
 		fade: true,
 		fadePoint: 0.25, // Start on 1/4th of the list.
 
@@ -132,6 +133,7 @@ Module.register("weather", {
 			config: this.config,
 			current: this.weatherProvider.currentWeather(),
 			forecast: this.weatherProvider.weatherForecast(),
+			wData: this.weatherProvider.weatherData(),
 			indoor: {
 				humidity: this.indoorHumidity,
 				temperature: this.indoorTemperature
@@ -153,7 +155,11 @@ Module.register("weather", {
 		}
 
 		setTimeout(() => {
-			if (this.config.type === "forecast") {
+			if (this.config.type === "wDataCurrent"
+			 || this.config.type === "wDataHourly"
+			 || this.config.type === "wDataDaily") {
+				this.weatherProvider.fetchWeatherData();
+			} else if (this.config.type === "forecast") {
 				this.weatherProvider.fetchWeatherForecast();
 			} else {
 				this.weatherProvider.fetchCurrentWeather();
@@ -171,6 +177,25 @@ Module.register("weather", {
 			"formatTime",
 			function (date) {
 				date = moment(date);
+
+				if (this.config.timeFormat !== 24) {
+					if (this.config.showPeriod) {
+						if (this.config.showPeriodUpper) {
+							return date.format("h:mm A");
+						} else {
+							return date.format("h:mm a");
+						}
+					} else {
+						return date.format("h:mm");
+					}
+				}
+
+				return date.format("HH:mm");
+			}.bind(this)
+		);
+		this.nunjucksEnvironment().addFilter(
+			"formatTimeMoment",
+			function (date) {
 
 				if (this.config.timeFormat !== 24) {
 					if (this.config.showPeriod) {
@@ -240,6 +265,13 @@ Module.register("weather", {
 			"calcNumSteps",
 			function (forecast) {
 				return Math.min(forecast.length, this.config.maxNumberOfDays);
+			}.bind(this)
+		);
+
+		this.nunjucksEnvironment().addFilter(
+			"calcNumEntries",
+			function (dataArray) {
+				return Math.min(dataArray.length, this.config.maxNumberOfEntries);
 			}.bind(this)
 		);
 

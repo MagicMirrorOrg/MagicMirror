@@ -1,0 +1,29 @@
+{% if wData %}
+    {% set numSteps = wData.hours | calcNumEntries %}
+    {% set currentStep = 0 %}
+    <table class="{{ config.tableClass }}">
+        {% set hours = wData.hours.slice(0, numSteps) %}
+        {% for hour in hours %}
+            <tr {% if config.colored %}class="colored"{% endif %} {% if config.fade %}style="opacity: {{ currentStep | opacity(numSteps) }};"{% endif %}>
+                <td class="time">{{ hour.date | formatTimeMoment }}</td>
+                <td class="bright weather-icon"><span class="wi weathericon wi-{{ hour.weatherType }}"></span></td>
+                <td class="align-right bright max-temp">
+                    {{ hour.temperature | roundValue | unit("temperature") }}
+                </td>
+                {% if config.showPrecipitationAmount %}
+                    <td class="align-right bright precipitation">
+                        {{ hour.precipitation | unit("precip") }}
+                    </td>
+                {% endif %}
+            </tr>
+            {% set currentStep = currentStep + 1 %}
+        {% endfor %}
+    </table>
+{% else %}
+    <div class="dimmed light small">
+        {{ "LOADING" | translate | safe }}
+    </div>
+{% endif %}
+
+<!-- Uncomment the line below to see the contents of the `wData` object. -->
+<!-- <div style="word-wrap:break-word" class="xsmall dimmed">{{wData | dump}}</div> -->

@@ -35,7 +35,7 @@ WeatherProvider.register("openweathermap", {
 			.finally(() => this.updateAvailable());
 	},
 
-	// Overwrite the fetchCurrentWeather method.
+	// Overwrite the fetchWeatherForecast method.
 	fetchWeatherForecast() {
 		this.fetchData(this.getUrl())
 			.then((data) => {
@@ -49,6 +49,27 @@ WeatherProvider.register("openweathermap", {
 
 				const forecast = this.generateWeatherObjectsFromForecast(data.list);
 				this.setWeatherForecast(forecast);
+			})
+			.catch(function (request) {
+				Log.error("Could not load data ... ", request);
+			})
+			.finally(() => this.updateAvailable());
+	},
+
+	// Overwrite the fetchWeatherData method.
+	fetchWeatherData() {
+		this.fetchData(this.getUrl())
+			.then((data) => {
+				if (!data || !data.list || !data.list.length) {
+					// Did not receive usable new data.
+					// Maybe this needs a better check?
+					return;
+				}
+
+				this.setFetchedLocation(`(${data.lat},${data.lon})`);
+
+				const wData = this.generateWeatherObjectsFromOnecall(data);
+				this.setWeatherData(wData);
 			})
 			.catch(function (request) {
 				Log.error("Could not load data ... ", request);
@@ -93,6 +114,153 @@ WeatherProvider.register("openweathermap", {
 		// if weatherEndpoint does not match forecast or forecast/daily, what should be returned?
 		const days = [new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits)];
 		return days;
+	},
+
+	/*
+	 * Generate WeatherObjects based on One Call forecast information
+	 */
+	generateWeatherObjectsFromOnecall(data) {
+		if (this.config.weatherEndpoint === "/onecall") {
+			return this.fetchOneCall(data);
+		}
+		// if weatherEndpoint does not match onecall, what should be returned?
+		const wData = {current: new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits), hours: [], days: []};
+		return wData;
+	},
+
+	/*
+	 * fetch One Call forecast information (available for free subscription).
+	 * factors in timezone offsets.
+	 * minutely forecasts are excluded for the moment, see getParams().
+	 */
+	fetchOnecall(data) {
+		let precip = false;
+		// get current weather
+		const current = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+		if (!isNaN(data.current)) {
+			current.date = moment(data.current.dt, "X").utcOffset(data.timezone_offset/60);
+			current.windSpeed = data.current.wind_speed;
+			current.windDirection = data.current.wind_deg;
+			current.sunrise = moment(data.current.sunrise, "X").utcOffset(data.timezone_offset/60);
+			current.sunset = moment(data.current.sunset, "X").utcOffset(data.timezone_offset/60);
+			current.temperature = data.current.temp;
+			current.weatherType = this.convertWeatherType(data.current.weather[0].icon);
+			current.humidity = data.current.humidity;
+			if (!isNaN(data.current.rain)) {
+				current.rain = data.current.rain.1h;
+				precip = true;
+			}
+			if (!isNaN(data.current.snow)) {
+				current.snow = data.current.snow.1h;
+				precip = true;
+			}
+			if (precip) {
+				current.precipitation = current.rain+current.snow;
+			}
+			current.feelsLikeTemp = data.current.feels_like;
+		}
+
+		let weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+
+		// let onecallDailyFormat = "MMM DD"
+		// let onecallHourlyFormat = "HH"
+		// let onecallMinutelyFormat = "HH:mm"
+		// if (this.config.timeFormat === 12) {
+		// 	if (this.config.showPeriod === true) {
+		// 		if (this.config.showPeriodUpper === true) {
+		// 			onecallHourlyFormat = "hhA"
+		// 			onecallMinutelyFormat = "hh:mmA"
+		// 		} else {
+		// 			onecallHourlyFormat = "hha"
+		// 			onecallMinutelyFormat = "hh:mma"
+		// 		}
+		// 	} else {
+		// 		onecallHourlyFormat = "hh"
+		// 		onecallMinutelyFormat = "hh:mm"
+		// 	}
+		// }
+
+		// get hourly weather
+		const hours = [];
+		if (!isNaN(data.hourly)) {
+			for (const hour of data.hourly) {
+				weather.date = moment(hour.dt, "X").utcOffset(data.timezone_offset/60);
+				// weather.date = moment(hour.dt, "X").utcOffset(data.timezone_offset/60).format(onecallDailyFormat+","+onecallHourlyFormat);
+				weather.temperature = hour.temp;
+				weather.feelsLikeTemp = hour.feels_like;
+				weather.humidity = hour.humidity;
+				weather.windSpeed = hour.wind_speed;
+				weather.windDirection = hour.wind_deg;
+				weather.weatherType = this.convertWeatherType(hour.weather[0].icon);
+				precip = false;
+				if (!isNaN(hour.rain)) {
+					if (this.config.units === "imperial") {
+						weather.rain = hour.rain.1h / 25.4;
+					} else {
+						weather.rain = hour.rain.1h;
+					}
+					precip = true;
+				}
+				if (!isNaN(hour.snow)) {
+					if (this.config.units === "imperial") {
+						weather.snow = hour.snow.1h / 25.4;
+					} else {
+						weather.snow = hour.snow.1h;
+					}
+					precip = true;
+				}
+				if (precip) {
+					weather.precipitation = weather.rain+weather.snow;
+				}
+
+				hours.push(weather);
+				weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+			}
+		}
+
+		// get daily weather
+		const days = [];
+		if (!isNaN(data.daily)) {
+			for (const day of data.daily) {
+				weather.date = moment(day.dt, "X").utcOffset(data.timezone_offset/60);
+				weather.sunrise = moment(day.sunrise, "X").utcOffset(data.timezone_offset/60);
+				weather.sunset = moment(day.sunset, "X").utcOffset(data.timezone_offset/60);
+				// weather.date = moment(day.dt, "X").utcOffset(data.timezone_offset/60).format(onecallDailyFormat);
+				// weather.sunrise = moment(day.sunrise, "X").utcOffset(data.timezone_offset/60).format(onecallMinutelyFormat);
+				// weather.sunset = moment(day.sunset, "X").utcOffset(data.timezone_offset/60).format(onecallMinutelyFormat);
+				weather.minTemperature = day.temp.min;
+				weather.maxTemperature = day.temp.max;
+				weather.humidity = day.humidity;
+				weather.windSpeed = day.wind_speed;
+				weather.windDirection = day.wind_deg;
+				weather.weatherType = this.convertWeatherType(day.weather[0].icon);
+				precip = false;
+				if (!isNaN(day.rain)) {
+					if (this.config.units === "imperial") {
+						weather.rain = day.rain / 25.4;
+					} else {
+						weather.rain = day.rain;
+					}
+					precip = true;
+				}
+				if (!isNaN(day.snow)) {
+					if (this.config.units === "imperial") {
+						weather.snow = day.snow / 25.4;
+					} else {
+						weather.snow = day.snow;
+					}
+					precip = true;
+				}
+				if (precip) {
+					weather.precipitation = weather.rain+weather.snow;
+				}
+
+				days.push(weather);
+				weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+			}
+		}
+
+		return {current: current, hours: hours, days: days};
 	},
 
 	/*
@@ -256,7 +424,19 @@ WeatherProvider.register("openweathermap", {
 	 */
 	getParams() {
 		let params = "?";
-		if (this.config.locationID) {
+		if (this.config.weatherEndpoint === "/onecall") {
+			params += "lat=" + this.config.lat;
+			params += "&lon=" + this.config.lon;
+			if (this.config.type === "wDataCurrent") {
+				params += "&exclude=minutely,hourly,daily";
+			} else if (this.config.type === "wDataHourly") {
+				params += "&exclude=current,minutely,daily";
+			} else if (this.config.type === "wDataDaily") {
+				params += "&exclude=current,minutely,hourly";
+			} else {
+				params += "&exclude=minutely";
+			}
+		} else if (this.config.locationID) {
 			params += "id=" + this.config.locationID;
 		} else if (this.config.location) {
 			params += "q=" + this.config.location;
