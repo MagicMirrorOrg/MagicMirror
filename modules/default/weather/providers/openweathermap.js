@@ -459,7 +459,7 @@ WeatherProvider.register("openweathermap", {
 
 		params += "&units=" + this.config.units;
 		params += "&lang=" + this.config.lang;
-		params += "&APPID=" + this.config.appid;
+		params += "&APPID=" + this.config.apiKey;
 
 		return params;
 	}
