@@ -15,7 +15,7 @@ Module.register("weather", {
 
 		location: false,
 		locationID: false,
-		appid: "",
+		apiKey: "",
 		units: config.units,
 
 		tempUnits: config.units,
