@@ -13,6 +13,8 @@ Module.register("weather", {
 		roundTemp: false,
 		type: "current", //current, forecast, wDataCurrent, wDataHourly, wDataDaily
 
+		lat: 0,
+		lon: 0,
 		location: false,
 		locationID: false,
 		apiKey: "",
