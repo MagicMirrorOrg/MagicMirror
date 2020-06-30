@@ -66,7 +66,7 @@ WeatherProvider.register("openweathermap", {
 					return;
 				}
 
-				this.setFetchedLocation(`(${data.lat},${data.lon})`);
+				this.setFetchedLocation(`${data.lat},${data.lon}`);
 
 				const wData = this.generateWeatherObjectsFromOnecall(data);
 				this.setWeatherData(wData);

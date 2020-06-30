@@ -155,14 +155,12 @@ Module.register("weather", {
 		}
 
 		setTimeout(() => {
-			if (this.config.type === "wDataCurrent"
-			 || this.config.type === "wDataHourly"
-			 || this.config.type === "wDataDaily") {
-				this.weatherProvider.fetchWeatherData();
-			} else if (this.config.type === "forecast") {
+			if (this.config.type === "forecast") {
 				this.weatherProvider.fetchWeatherForecast();
-			} else {
+			} else if (this.config.type === "current") {
 				this.weatherProvider.fetchCurrentWeather();
+			} else {
+				this.weatherProvider.fetchWeatherData();
 			}
 		}, nextLoad);
 	},
@@ -271,7 +269,7 @@ Module.register("weather", {
 		this.nunjucksEnvironment().addFilter(
 			"calcNumEntries",
 			function (dataArray) {
-				return Math.min(dataArray.length, this.config.maxNumberOfEntries);
+				return Math.min(dataArray.length, this.config.maxEntries);
 			}.bind(this)
 		);
 
