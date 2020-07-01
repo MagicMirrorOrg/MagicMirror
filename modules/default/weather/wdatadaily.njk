@@ -1,18 +1,21 @@
 {% if wData %}
-    {% set numSteps = wData.hours | calcNumEntries %}
+    {% set numSteps = wData.days | calcNumEntries %}
     {% set currentStep = 0 %}
     <table class="{{ config.tableClass }}">
-        {% set hours = wData.hours.slice(0, numSteps) %}
-        {% for hour in hours %}
+        {% set days = wData.days.slice(0, numSteps) %}
+        {% for day in days %}
             <tr {% if config.colored %}class="colored"{% endif %} {% if config.fade %}style="opacity: {{ currentStep | opacity(numSteps) }};"{% endif %}>
-                <td class="day">{{ hour.date | formatTime }}</td>
-                <td class="bright weather-icon"><span class="wi weathericon wi-{{ hour.weatherType }}"></span></td>
-                <td class="align-right bright">
-                    {{ hour.temperature | roundValue | unit("temperature") }}
+                <td class="day">{{ day.date.format('ddd') }}</td>
+                <td class="bright weather-icon"><span class="wi weathericon wi-{{ day.weatherType }}"></span></td>
+                <td class="align-right bright max-temp">
+                    {{ day.maxTemperature | roundValue | unit("temperature") }}
+                </td>
+                <td class="align-right min-temp">
+                    {{ day.minTemperature | roundValue | unit("temperature") }}
                 </td>
                 {% if config.showPrecipitationAmount %}
                     <td class="align-right bright precipitation">
-                        {{ hour.precipitation | unit("precip") }}
+                        {{ day.precipitation | unit("precip") }}
                     </td>
                 {% endif %}
             </tr>

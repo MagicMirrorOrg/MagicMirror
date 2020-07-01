@@ -193,25 +193,6 @@ Module.register("weather", {
 				return date.format("HH:mm");
 			}.bind(this)
 		);
-		this.nunjucksEnvironment().addFilter(
-			"formatTimeMoment",
-			function (date) {
-
-				if (this.config.timeFormat !== 24) {
-					if (this.config.showPeriod) {
-						if (this.config.showPeriodUpper) {
-							return date.format("h:mm A");
-						} else {
-							return date.format("h:mm a");
-						}
-					} else {
-						return date.format("h:mm");
-					}
-				}
-
-				return date.format("HH:mm");
-			}.bind(this)
-		);
 
 		this.nunjucksEnvironment().addFilter(
 			"unit",
@@ -230,7 +211,7 @@ Module.register("weather", {
 						}
 					}
 				} else if (type === "precip") {
-					if (isNaN(value) || value === 0 || value.toFixed(2) === "0.00") {
+					if (value === null || isNaN(value) || value === 0 || value.toFixed(2) === "0.00") {
 						value = "";
 					} else {
 						if (this.config.weatherProvider === "ukmetoffice" || this.config.weatherProvider === "ukmetofficedatahub") {
