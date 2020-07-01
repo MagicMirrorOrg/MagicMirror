@@ -7,7 +7,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [2.12.0] - 2020-07-01
 
-Special thanks to the following contributors: @AndreKoepke, @DarthBrento, @Ekristoffe, @Legion2, @XBCreepinJesus, @ZoneMR, @andrezibaia, @bryanzzhu, @chamakura, @khassel, @ndom91, @radokristof & @rejas.
+Special thanks to the following contributors: @AndreKoepke, @andrezibaia, @bryanzzhu, @chamakura, @DarthBrento, @Ekristoffe, @khassel, @Legion2, @ndom91, @radokristof, @rejas, @XBCreepinJesus & @ZoneMR.
 
 ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`.
 
