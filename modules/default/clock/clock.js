@@ -52,10 +52,12 @@ Module.register("clock", {
 
 		//Calculate how many ms should pass until next update depending on if seconds is displayed or not
 		var delayCalculator = function (reducedSeconds) {
+			var EXTRA_DELAY = 50; //Deliberate imperceptable delay to prevent off-by-one timekeeping errors
+
 			if (self.config.displaySeconds) {
-				return 1000 - moment().milliseconds();
+				return 1000 - moment().milliseconds() + EXTRA_DELAY;
 			} else {
-				return (60 - reducedSeconds) * 1000 - moment().milliseconds();
+				return (60 - reducedSeconds) * 1000 - moment().milliseconds() + EXTRA_DELAY;
 			}
 		};
 
@@ -65,7 +67,7 @@ Module.register("clock", {
 
 			//If seconds is displayed CLOCK_SECOND-notification should be sent (but not when CLOCK_MINUTE-notification is sent)
 			if (self.config.displaySeconds) {
-				self.second = (self.second + 1) % 60;
+				self.second = moment().second();
 				if (self.second !== 0) {
 					self.sendNotification("CLOCK_SECOND", self.second);
 					setTimeout(notificationTimer, delayCalculator(0));
@@ -74,7 +76,7 @@ Module.register("clock", {
 			}
 
 			//If minute changed or seconds isn't displayed send CLOCK_MINUTE-notification
-			self.minute = (self.minute + 1) % 60;
+			self.minute = moment().minute();
 			self.sendNotification("CLOCK_MINUTE", self.minute);
 			setTimeout(notificationTimer, delayCalculator(0));
 		};
