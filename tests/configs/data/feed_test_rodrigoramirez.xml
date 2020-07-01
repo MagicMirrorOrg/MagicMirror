@@ -323,7 +323,7 @@ Swap:         3071          0       3071</pre>
 		<description><![CDATA[<p>Días atrás estuve participando en el evento llamado Nerdearla en Buenos Aires.  El ambiente era genial si eres de esas personas que desde niño sintio curiosidad por ver como funcionan las cosas, donde desarmabas para volver armar lo juguetes. Habían muchas cosas interesantes tanto en las presentaciones, co-working y workshop que se hubieron. Si te [&#8230;]</p>
 <p>La entrada <a rel="nofollow" href="https://rodrigoramirez.com/nerdearla-2016/">Nerdearla 2016, WebRTC Glue</a> aparece primero en <a rel="nofollow" href="https://rodrigoramirez.com">Rodrigo Ramírez Norambuena</a>.</p>
 ]]></description>
-				<content:encoded><![CDATA[<p>Días atrás estuve participando en el evento llamado <a href="http://nerdear.la/">Nerdearla</a> en Buenos Aires.  El ambiente era genial si eres de esas personas que desde niño sintio curiosidad por ver como funcionan las cosas, donde desarmabas para volver armar lo juguetes.</p>
+				<content:encoded><![CDATA[<p>Días atrás estuve participando en el evento llamado <a href="https://nerdear.la/">Nerdearla</a> en Buenos Aires.  El ambiente era genial si eres de esas personas que desde niño sintio curiosidad por ver como funcionan las cosas, donde desarmabas para volver armar lo juguetes.</p>
 <p>Habían muchas cosas interesantes tanto en las presentaciones, co-working y workshop que se hubieron. Si te lo perdiste te recomiendo que estés pendiente para el proximo año.</p>
 <p>&nbsp;</p>
 <p>Te podias encontrar con una nuestra como esta<a href="https://rodrigoramirez.com/wp-content/uploads/CkhnO83XAAAfaxS.jpg"><img class="aligncenter size-medium wp-image-1221" src="https://rodrigoramirez.com/wp-content/uploads/CkhnO83XAAAfaxS-300x169.jpg" alt="Kaypro II" width="300" height="169" srcset="https://rodrigoramirez.com/wp-content/uploads/CkhnO83XAAAfaxS-300x169.jpg 300w, https://rodrigoramirez.com/wp-content/uploads/CkhnO83XAAAfaxS-768x432.jpg 768w, https://rodrigoramirez.com/wp-content/uploads/CkhnO83XAAAfaxS-1024x576.jpg 1024w, https://rodrigoramirez.com/wp-content/uploads/CkhnO83XAAAfaxS.jpg 1200w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
@@ -357,7 +357,7 @@ Swap:         3071          0       3071</pre>
 		<category><![CDATA[qpanel]]></category>
 		<category><![CDATA[queues]]></category>
 
-		<guid isPermaLink="false">http://rodrigoramirez.com/?p=1206</guid>
+		<guid isPermaLink="false">https://rodrigoramirez.com/?p=1206</guid>
 		<description><![CDATA[<p>El Panel monitor callcenter para colas de Asterisk ya cuenta con una nueva versión, la 0.9.0 Para instalar esta nueva versión, debes visitar la siguiente URL https://github.com/roramirez/qpanel/tree/0.9.0 Esta versión versión nos preocupamos de realizar mejoras y refactorizaciones en el codigo para dar un mejor rendimiento, como también de la compatibilidad con la versión 11 de [&#8230;]</p>
 <p>La entrada <a rel="nofollow" href="https://rodrigoramirez.com/qpanel-0-9-0/">QPanel 0.9.0</a> aparece primero en <a rel="nofollow" href="https://rodrigoramirez.com">Rodrigo Ramírez Norambuena</a>.</p>
 ]]></description>
@@ -394,7 +394,7 @@ Swap:         3071          0       3071</pre>
 		<category><![CDATA[sh]]></category>
 		<category><![CDATA[shell]]></category>
 
-		<guid isPermaLink="false">http://rodrigoramirez.com/?p=1172</guid>
+		<guid isPermaLink="false">https://rodrigoramirez.com/?p=1172</guid>
 		<description><![CDATA[<p>Dejo esto por acá ya que es algo que siempre me olvido como es. El tema es enviar un email mediante el comando mail en un servidor con Linux. Si usas mail a secas te va pidiendo los datos para crear el correo, principalmente el body del correo. Para automatizar esto a través de un [&#8230;]</p>
 <p>La entrada <a rel="nofollow" href="https://rodrigoramirez.com/mandar-un-email-desde-la-shell/">Mandar un email desde la shell</a> aparece primero en <a rel="nofollow" href="https://rodrigoramirez.com">Rodrigo Ramírez Norambuena</a>.</p>
 ]]></description>

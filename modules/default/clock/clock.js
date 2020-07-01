@@ -1,11 +1,12 @@
-/* global Log, Module, moment, config */
+/* global SunCalc */
+
 /* Magic Mirror
  * Module: Clock
  *
- * By Michael Teeuw http://michaelteeuw.nl
+ * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-Module.register("clock",{
+Module.register("clock", {
 	// Module config defaults.
 	defaults: {
 		displayType: "digital", // options: digital, analog, both
@@ -30,18 +31,18 @@ Module.register("clock",{
 		showSunTimes: false,
 		showMoonTimes: false,
 		lat: 47.630539,
-		lon: -122.344147,
+		lon: -122.344147
 	},
 	// Define required scripts.
-	getScripts: function() {
+	getScripts: function () {
 		return ["moment.js", "moment-timezone.js", "suncalc.js"];
 	},
 	// Define styles.
-	getStyles: function() {
+	getStyles: function () {
 		return ["clock_styles.css"];
 	},
 	// Define start sequence.
-	start: function() {
+	start: function () {
 		Log.info("Starting module: " + this.name);
 
 		// Schedule update interval.
@@ -50,21 +51,23 @@ Module.register("clock",{
 		self.minute = moment().minute();
 
 		//Calculate how many ms should pass until next update depending on if seconds is displayed or not
-		var delayCalculator = function(reducedSeconds) {
+		var delayCalculator = function (reducedSeconds) {
+			var EXTRA_DELAY = 50; //Deliberate imperceptable delay to prevent off-by-one timekeeping errors
+
 			if (self.config.displaySeconds) {
-				return 1000 - moment().milliseconds();
+				return 1000 - moment().milliseconds() + EXTRA_DELAY;
 			} else {
-				return ((60 - reducedSeconds) * 1000) - moment().milliseconds();
+				return (60 - reducedSeconds) * 1000 - moment().milliseconds() + EXTRA_DELAY;
 			}
 		};
 
 		//A recursive timeout function instead of interval to avoid drifting
-		var notificationTimer = function() {
+		var notificationTimer = function () {
 			self.updateDom();
 
 			//If seconds is displayed CLOCK_SECOND-notification should be sent (but not when CLOCK_MINUTE-notification is sent)
 			if (self.config.displaySeconds) {
-				self.second = (self.second + 1) % 60;
+				self.second = moment().second();
 				if (self.second !== 0) {
 					self.sendNotification("CLOCK_SECOND", self.second);
 					setTimeout(notificationTimer, delayCalculator(0));
@@ -73,7 +76,7 @@ Module.register("clock",{
 			}
 
 			//If minute changed or seconds isn't displayed send CLOCK_MINUTE-notification
-			self.minute = (self.minute + 1) % 60;
+			self.minute = moment().minute();
 			self.sendNotification("CLOCK_MINUTE", self.minute);
 			setTimeout(notificationTimer, delayCalculator(0));
 		};
@@ -83,11 +86,9 @@ Module.register("clock",{
 
 		// Set locale.
 		moment.locale(config.language);
-
 	},
 	// Override dom generator.
-	getDom: function() {
-
+	getDom: function () {
 		var wrapper = document.createElement("div");
 
 		/************************************
@@ -126,12 +127,12 @@ Module.register("clock",{
 		}
 
 		if (this.config.clockBold === true) {
-			timeString = now.format(hourSymbol + "[<span class=\"bold\">]mm[</span>]");
+			timeString = now.format(hourSymbol + '[<span class="bold">]mm[</span>]');
 		} else {
 			timeString = now.format(hourSymbol + ":mm");
 		}
 
-		if(this.config.showDate){
+		if (this.config.showDate) {
 			dateWrapper.innerHTML = now.format(this.config.dateFormat);
 		}
 		if (this.config.showWeek) {
@@ -172,9 +173,18 @@ Module.register("clock",{
 			}
 			const untilNextEvent = moment.duration(moment(nextEvent).diff(now));
 			const untilNextEventString = untilNextEvent.hours() + "h " + untilNextEvent.minutes() + "m";
-			sunWrapper.innerHTML = "<span class=\"" + (isVisible ? "bright" : "") + "\"><i class=\"fa fa-sun-o\" aria-hidden=\"true\"></i> " + untilNextEventString + "</span>" +
-				"<span><i class=\"fa fa-arrow-up\" aria-hidden=\"true\"></i>" + formatTime(this.config, sunTimes.sunrise) + "</span>" +
-				"<span><i class=\"fa fa-arrow-down\" aria-hidden=\"true\"></i>" + formatTime(this.config, sunTimes.sunset) + "</span>";
+			sunWrapper.innerHTML =
+				'<span class="' +
+				(isVisible ? "bright" : "") +
+				'"><i class="fa fa-sun-o" aria-hidden="true"></i> ' +
+				untilNextEventString +
+				"</span>" +
+				'<span><i class="fa fa-arrow-up" aria-hidden="true"></i>' +
+				formatTime(this.config, sunTimes.sunrise) +
+				"</span>" +
+				'<span><i class="fa fa-arrow-down" aria-hidden="true"></i>' +
+				formatTime(this.config, sunTimes.sunset) +
+				"</span>";
 		}
 		if (this.config.showMoonTimes) {
 			const moonIllumination = SunCalc.getMoonIllumination(now.toDate());
@@ -189,24 +199,32 @@ Module.register("clock",{
 			}
 			const isVisible = now.isBetween(moonRise, moonSet) || moonTimes.alwaysUp === true;
 			const illuminatedFractionString = Math.round(moonIllumination.fraction * 100) + "%";
-			moonWrapper.innerHTML = "<span class=\"" + (isVisible ? "bright" : "") + "\"><i class=\"fa fa-moon-o\" aria-hidden=\"true\"></i> " + illuminatedFractionString + "</span>" +
-				"<span><i class=\"fa fa-arrow-up\" aria-hidden=\"true\"></i> " + (moonRise ? formatTime(this.config, moonRise) : "...") + "</span>"+
-				"<span><i class=\"fa fa-arrow-down\" aria-hidden=\"true\"></i> " + (moonSet ? formatTime(this.config, moonSet) : "...") + "</span>";
+			moonWrapper.innerHTML =
+				'<span class="' +
+				(isVisible ? "bright" : "") +
+				'"><i class="fa fa-moon-o" aria-hidden="true"></i> ' +
+				illuminatedFractionString +
+				"</span>" +
+				'<span><i class="fa fa-arrow-up" aria-hidden="true"></i> ' +
+				(moonRise ? formatTime(this.config, moonRise) : "...") +
+				"</span>" +
+				'<span><i class="fa fa-arrow-down" aria-hidden="true"></i> ' +
+				(moonSet ? formatTime(this.config, moonSet) : "...") +
+				"</span>";
 		}
 
 		/****************************************************************
 		 * Create wrappers for ANALOG clock, only if specified in config
 		 */
 
-		 if (this.config.displayType !== "digital") {
+		if (this.config.displayType !== "digital") {
 			// If it isn't 'digital', then an 'analog' clock was also requested
 
 			// Calculate the degree offset for each hand of the clock
-			var now = moment();
 			if (this.config.timezone) {
 				now.tz(this.config.timezone);
 			}
-			var	second = now.seconds() * 6,
+			var second = now.seconds() * 6,
 				minute = now.minute() * 6 + second / 60,
 				hour = ((now.hours() % 12) / 12) * 360 + 90 + minute / 12;
 
@@ -217,13 +235,12 @@ Module.register("clock",{
 			clockCircle.style.height = this.config.analogSize;
 
 			if (this.config.analogFace !== "" && this.config.analogFace !== "simple" && this.config.analogFace !== "none") {
-				clockCircle.style.background = "url("+ this.data.path + "faces/" + this.config.analogFace + ".svg)";
+				clockCircle.style.background = "url(" + this.data.path + "faces/" + this.config.analogFace + ".svg)";
 				clockCircle.style.backgroundSize = "100%";
 
 				// The following line solves issue: https://github.com/MichMich/MagicMirror/issues/611
 				// clockCircle.style.border = "1px solid black";
 				clockCircle.style.border = "rgba(0, 0, 0, 0.1)"; //Updated fix for Issue 611 where non-black backgrounds are used
-
 			} else if (this.config.analogFace !== "none") {
 				clockCircle.style.border = "2px solid white";
 			}
@@ -289,11 +306,12 @@ Module.register("clock",{
 			// Both clocks have been configured, check position
 			var placement = this.config.analogPlacement;
 
-			analogWrapper = document.createElement("div");
+			var analogWrapper = document.createElement("div");
 			analogWrapper.id = "analog";
 			analogWrapper.style.cssFloat = "none";
 			analogWrapper.appendChild(clockCircle);
-			digitalWrapper = document.createElement("div");
+
+			var digitalWrapper = document.createElement("div");
 			digitalWrapper.id = "digital";
 			digitalWrapper.style.cssFloat = "none";
 			digitalWrapper.appendChild(dateWrapper);
@@ -302,9 +320,9 @@ Module.register("clock",{
 			digitalWrapper.appendChild(moonWrapper);
 			digitalWrapper.appendChild(weekWrapper);
 
-			var appendClocks = function(condition, pos1, pos2) {
-				var padding = [0,0,0,0];
-				padding[(placement === condition) ? pos1 : pos2] = "20px";
+			var appendClocks = function (condition, pos1, pos2) {
+				var padding = [0, 0, 0, 0];
+				padding[placement === condition ? pos1 : pos2] = "20px";
 				analogWrapper.style.padding = padding.join(" ");
 				if (placement === condition) {
 					wrapper.appendChild(analogWrapper);
