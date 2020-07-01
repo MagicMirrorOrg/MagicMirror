@@ -5,9 +5,10 @@ const forEach = require("mocha-each");
 
 const describe = global.describe;
 
-describe("All font files from roboto.css should be downloadable", function() {
+describe("All font files from roboto.css should be downloadable", function () {
 	helpers.setupTimeout(this);
 
+	var app;
 	var fontFiles = [];
 	// Statements below filters out all 'url' lines in the CSS file
 	var fileContent = require("fs").readFileSync(__dirname + "/../../fonts/roboto.css", "utf8");
@@ -20,7 +21,7 @@ describe("All font files from roboto.css should be downloadable", function() {
 		match = regex.exec(fileContent);
 	}
 
-	before(function() {
+	before(function () {
 		// Set config sample for use in test
 		process.env.MM_CONFIG_FILE = "tests/configs/without_modules.js";
 
@@ -28,18 +29,18 @@ describe("All font files from roboto.css should be downloadable", function() {
 			.startApplication({
 				args: ["js/electron.js"]
 			})
-			.then(function(startedApp) {
+			.then(function (startedApp) {
 				app = startedApp;
 			});
 	});
 
-	after(function() {
+	after(function () {
 		return helpers.stopApplication(app);
 	});
 
 	forEach(fontFiles).it("should return 200 HTTP code for file '%s'", (fontFile, done) => {
 		var fontUrl = "http://localhost:8080/fonts/" + fontFile;
-		request.get(fontUrl, function(err, res, body) {
+		request.get(fontUrl, function (err, res, body) {
 			expect(res.statusCode).to.equal(200);
 			done();
 		});
