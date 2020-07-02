@@ -16,6 +16,7 @@ _This release is scheduled to be released on 2020-10-01._
 ### Deleted
 
 ### Fixed
+- weatherforecast module: show only 2 days -> API match correction 
 
 ## [2.12.0] - 2020-07-01
 
