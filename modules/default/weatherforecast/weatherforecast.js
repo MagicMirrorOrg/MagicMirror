@@ -294,7 +294,7 @@ Module.register("weatherforecast", {
 			return;
 		}
 
-		params += "&cnt=" + (this.config.maxNumberOfDays < 1 || this.config.maxNumberOfDays > 17 ? 7 : this.config.maxNumberOfDays);
+		params += "&cnt=" + ((this.config.maxNumberOfDays < 1 || this.config.maxNumberOfDays > 5) ? 40 : this.config.maxNumberOfDays * 8);
 
 		params += "&units=" + this.config.units;
 		params += "&lang=" + this.config.lang;
