@@ -16,6 +16,7 @@ _This release is scheduled to be released on 2020-10-01._
 ### Deleted
 
 ### Fixed
+- Fix the use of "maxNumberOfDays" in the module "weatherforecast depending on the endpoint (forecast/daily or forecast)". [#2018](https://github.com/MichMich/MagicMirror/issues/2018)
 
 ## [2.12.0] - 2020-07-01
 
