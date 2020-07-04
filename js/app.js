@@ -202,6 +202,8 @@ var App = function () {
 		loadConfig(function (c) {
 			config = c;
 
+			Log.setLogLevel(config.logLevel);
+
 			var modules = [];
 
 			for (var m in config.modules) {
