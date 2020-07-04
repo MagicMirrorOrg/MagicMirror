@@ -15,7 +15,6 @@ Module.register("weather", {
 
 		location: false,
 		locationID: false,
-		apiKey: "",
 		units: config.units,
 
 		tempUnits: config.units,
@@ -43,6 +42,8 @@ Module.register("weather", {
 		initialLoadDelay: 0, // 0 seconds delay
 		retryDelay: 2500,
 
+		apiKey: "",
+		apiSecret: "",
 		apiVersion: "2.5",
 		apiBase: "https://api.openweathermap.org/data/",
 		weatherEndpoint: "/weather",
