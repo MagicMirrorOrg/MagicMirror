@@ -5,40 +5,58 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror²
 
-## [2.12.0] - Unreleased (Develop Branch)
+## [2.13.0] - Unreleased (Develop Branch - Please add your contributions to this release.)
 
-_This release is scheduled to be released on 2020-07-01._
+_This release is scheduled to be released on 2020-10-01._
 
 ### Added
 
-- Added option to config the level of logging
-- Added prettier for an even cleaner codebase
-- Hide Sunrise/Sunset in Weather module
-- Added Met Office DataHub (UK) provider
-
 ### Updated
-
-- Cleaned up alert module code
-- Cleaned up check_config code
-- Replaced grunt-based linters with their non-grunt equivalents
-- Switch to most of the eslint:recommended rules and fix warnings
-- Replaced insecure links with https ones
-- Cleaned up all "no-undef" warnings from eslint
-- Added location title wrapping for calendar module
 
 ### Deleted
 
-- Removed truetype (ttf) fonts
+### Fixed
+
+- Fix the use of "maxNumberOfDays" in the module "weatherforecast depending on the endpoint (forecast/daily or forecast)". [#2018](https://github.com/MichMich/MagicMirror/issues/2018)
+
+## [2.12.0] - 2020-07-01
+
+Special thanks to the following contributors: @AndreKoepke, @andrezibaia, @bryanzzhu, @chamakura, @DarthBrento, @Ekristoffe, @khassel, @Legion2, @ndom91, @radokristof, @rejas, @XBCreepinJesus & @ZoneMR.
+
+ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`.
+
+### Added
+
+- Added option to config the level of logging.
+- Added prettier for an even cleaner codebase.
+- Hide Sunrise/Sunset in Weather module.
+- Hide Sunrise/Sunset in Current Weather module.
+- Added Met Office DataHub (UK) provider.
+
+### Updated
+
+- Cleaned up alert module code.
+- Cleaned up check_config code.
+- Replaced grunt-based linters with their non-grunt equivalents.
+- Switch to most of the eslint:recommended rules and fix warnings.
+- Replaced insecure links with https ones.
+- Cleaned up all "no-undef" warnings from eslint.
+- Added location title wrapping for calendar module.
+- Updated the BG translation.
+
+### Deleted
+
+- Removed truetype (ttf) fonts.
 
 ### Fixed
 
-- The broken modules due to Socket.io change from last release [#1973](https://github.com/MichMich/MagicMirror/issues/1973)
-- Add backward compatibility for old module code in socketclient.js [#1973](https://github.com/MichMich/MagicMirror/issues/1973)
-- Support multiple instances of calendar module with different config [#1109](https://github.com/MichMich/MagicMirror/issues/1109)
-- Fix the use of "maxNumberOfDays" in the module "weatherforecast" [#2018](https://github.com/MichMich/MagicMirror/issues/2018)
-- Throw error when check_config fails [#1928](https://github.com/MichMich/MagicMirror/issues/1928)
+- The broken modules due to Socket.io change from last release. [#1973](https://github.com/MichMich/MagicMirror/issues/1973)
+- Add backward compatibility for old module code in socketclient.js. [#1973](https://github.com/MichMich/MagicMirror/issues/1973)
+- Support multiple instances of calendar module with different config. [#1109](https://github.com/MichMich/MagicMirror/issues/1109)
+- Fix the use of "maxNumberOfDays" in the module "weatherforecast". [#2018](https://github.com/MichMich/MagicMirror/issues/2018)
+- Throw error when check_config fails. [#1928](https://github.com/MichMich/MagicMirror/issues/1928)
 - Bug fix related to 'maxEntries' not displaying Calendar events. [#2050](https://github.com/MichMich/MagicMirror/issues/2050)
-- Updated ical library to latest version [#1926](https://github.com/MichMich/MagicMirror/issues/1926)
+- Updated ical library to latest version. [#1926](https://github.com/MichMich/MagicMirror/issues/1926)
 
 ## [2.11.0] - 2020-04-01
 
