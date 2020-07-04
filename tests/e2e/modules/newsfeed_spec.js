@@ -5,31 +5,31 @@ const it = global.it;
 const beforeEach = global.beforeEach;
 const afterEach = global.afterEach;
 
-describe("Newsfeed module", function() {
+describe("Newsfeed module", function () {
 	helpers.setupTimeout(this);
 
 	var app = null;
 
-	beforeEach(function() {
+	beforeEach(function () {
 		return helpers
 			.startApplication({
 				args: ["js/electron.js"]
 			})
-			.then(function(startedApp) {
+			.then(function (startedApp) {
 				app = startedApp;
 			});
 	});
 
-	afterEach(function() {
+	afterEach(function () {
 		return helpers.stopApplication(app);
 	});
 
-	describe("Default configuration", function() {
-		before(function() {
+	describe("Default configuration", function () {
+		before(function () {
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/newsfeed/default.js";
 		});
 
-		it("show title newsfeed", function() {
+		it("show title newsfeed", function () {
 			return app.client.waitUntilTextExists(".newsfeed .small", "Rodrigo Ramirez Blog", 10000).should.be.fulfilled;
 		});
 	});

@@ -1,26 +1,26 @@
 /* Magic Mirror
  * Node Helper: Newsfeed
  *
- * By Michael Teeuw http://michaelteeuw.nl
+ * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
 
-var NodeHelper = require("node_helper");
-var validUrl = require("valid-url");
-var Fetcher = require("./fetcher.js");
+const NodeHelper = require("node_helper");
+const validUrl = require("valid-url");
+const Fetcher = require("./fetcher.js");
+const Log = require("../../../js/logger");
 
 module.exports = NodeHelper.create({
-	// Subclass start method.
-	start: function() {
-		console.log("Starting module: " + this.name);
+	// Override start method.
+	start: function () {
+		Log.log("Starting node helper for: " + this.name);
 		this.fetchers = [];
 	},
 
-	// Subclass socketNotificationReceived received.
-	socketNotificationReceived: function(notification, payload) {
+	// Override socketNotificationReceived received.
+	socketNotificationReceived: function (notification, payload) {
 		if (notification === "ADD_FEED") {
 			this.createFetcher(payload.feed, payload.config);
-			return;
 		}
 	},
 
@@ -31,7 +31,7 @@ module.exports = NodeHelper.create({
 	 * attribute feed object - A feed object.
 	 * attribute config object - A configuration object containing reload interval in milliseconds.
 	 */
-	createFetcher: function(feed, config) {
+	createFetcher: function (feed, config) {
 		var self = this;
 
 		var url = feed.url || "";
@@ -45,14 +45,14 @@ module.exports = NodeHelper.create({
 
 		var fetcher;
 		if (typeof self.fetchers[url] === "undefined") {
-			console.log("Create new news fetcher for url: " + url + " - Interval: " + reloadInterval);
+			Log.log("Create new news fetcher for url: " + url + " - Interval: " + reloadInterval);
 			fetcher = new Fetcher(url, reloadInterval, encoding, config.logFeedWarnings);
 
-			fetcher.onReceive(function(fetcher) {
+			fetcher.onReceive(function (fetcher) {
 				self.broadcastFeeds();
 			});
 
-			fetcher.onError(function(fetcher, error) {
+			fetcher.onError(function (fetcher, error) {
 				self.sendSocketNotification("FETCH_ERROR", {
 					url: fetcher.url(),
 					error: error
@@ -61,7 +61,7 @@ module.exports = NodeHelper.create({
 
 			self.fetchers[url] = fetcher;
 		} else {
-			console.log("Use existing news fetcher for url: " + url);
+			Log.log("Use existing news fetcher for url: " + url);
 			fetcher = self.fetchers[url];
 			fetcher.setReloadInterval(reloadInterval);
 			fetcher.broadcastItems();
@@ -74,7 +74,7 @@ module.exports = NodeHelper.create({
 	 * Creates an object with all feed items of the different registered feeds,
 	 * and broadcasts these using sendSocketNotification.
 	 */
-	broadcastFeeds: function() {
+	broadcastFeeds: function () {
 		var feeds = {};
 		for (var f in this.fetchers) {
 			feeds[f] = this.fetchers[f].items();

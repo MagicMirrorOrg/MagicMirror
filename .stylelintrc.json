@@ -1,5 +1,7 @@
 {
-	"extends": "stylelint-config-standard",
-	"font-family-name-quotes": "double-where-recommended",
-	"block-no-empty": false
+	"extends": ["stylelint-prettier/recommended"],
+	"plugins": ["stylelint-prettier"],
+	"rules": {
+		"prettier/prettier": true
+	}
 }

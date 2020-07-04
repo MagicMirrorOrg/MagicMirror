@@ -1,5 +1,5 @@
 /* Magic Mirror Test config default calendar
- *              with authenticacion old config
+ *              with authentication old config
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.
  */
@@ -13,8 +13,8 @@ var config = {
 	units: "metric",
 	electronOptions: {
 		webPreferences: {
-			nodeIntegration: true,
-		},
+			nodeIntegration: true
+		}
 	},
 
 	modules: [
@@ -36,4 +36,6 @@ var config = {
 };
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/
-if (typeof module !== "undefined") {module.exports = config;}
+if (typeof module !== "undefined") {
+	module.exports = config;
+}
