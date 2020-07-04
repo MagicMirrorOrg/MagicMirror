@@ -45,7 +45,7 @@ Module.register("weather", {
 		apiKey: "",
 		apiSecret: "",
 		apiVersion: "2.5",
-		apiBase: "https://api.openweathermap.org/data/",
+		apiBase: "https://api.openweathermap.org/data/", // TODO: this should not be part of the weather.js file, but should be contained in the openweatherprovider
 		weatherEndpoint: "/weather",
 
 		appendLocationNameToHeader: true,
