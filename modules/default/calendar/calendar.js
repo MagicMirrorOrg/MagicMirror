@@ -468,11 +468,6 @@ Module.register("calendar", {
 			for (var e in calendar) {
 				var event = JSON.parse(JSON.stringify(calendar[e])); // clone object
 
-				// correct data for the current timezone
-				var offset = -(new Date().getTimezoneOffset() * 60 * 1000);
-				event.startDate = event.startDate - offset;
-				event.endDate = event.endDate - offset;
-
 				if (event.endDate < now) {
 					continue;
 				}

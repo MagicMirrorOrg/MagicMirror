@@ -186,10 +186,12 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumNu
 						// kblankenship1989 - to fix issue #1798, converting all dates to locale time first, then converting back to UTC time
 						const pastLocal = pastMoment.subtract(past.getTimezoneOffset(), "minutes").toDate();
 						const futureLocal = futureMoment.subtract(future.getTimezoneOffset(), "minutes").toDate();
-						const datesLocal = rule.between(pastLocal, futureLocal, true, limitFunction);
-						const dates = datesLocal.map(function (dateLocal) {
-							return moment(dateLocal).add(dateLocal.getTimezoneOffset(), "minutes").toDate();
-						});
+						const dates = rule.between(pastLocal, futureLocal, true, limitFunction);
+						if (getTitleFromEvent(event).search("Manageando") > -1) {
+							console.log(startDate);
+							console.log(event);
+							console.log(rule);
+						}
 
 						// The "dates" array contains the set of dates within our desired date range range that are valid
 						// for the recurrence rule. *However*, it's possible for us to have a specific recurrence that
