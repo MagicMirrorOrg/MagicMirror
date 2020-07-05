@@ -21,7 +21,8 @@ _This release is scheduled to be released on 2020-10-01._
 
 - Fix the use of "maxNumberOfDays" in the module "weatherforecast depending on the endpoint (forecast/daily or forecast)". [#2018](https://github.com/MichMich/MagicMirror/issues/2018)
 - Fix calendar display. Account for current timezone. [#2068](https://github.com/MichMich/MagicMirror/issues/2068)
-- Fix logLevel being set before loading config
+- Fix logLevel being set before loading config.
+- Fix incorrect namespace links in svg clockfaces. [#2072](https://github.com/MichMich/MagicMirror/issues/2072)
 
 ## [2.12.0] - 2020-07-01
 
