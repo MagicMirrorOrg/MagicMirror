@@ -254,6 +254,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumNu
 									startDate: startDate.format("x"),
 									endDate: endDate.format("x"),
 									fullDayEvent: isFullDayEvent(event),
+									recurringEvent: true,
 									class: event.class,
 									firstYear: event.start.getFullYear(),
 									location: location,

@@ -13,6 +13,8 @@ Module.register("calendar", {
 		maximumNumberOfDays: 365,
 		displaySymbol: true,
 		defaultSymbol: "calendar", // Fontawesome Symbol see https://fontawesome.com/cheatsheet?from=io
+		fullDaySymbol: "calendar", // Fontawesome Symbol
+		recurringSymbol: "calendar", // Fontawesome Symbol
 		showLocation: false,
 		displayRepeatingCountTitle: false,
 		defaultRepeatingCountTitle: "",
@@ -217,7 +219,7 @@ Module.register("calendar", {
 				var symbolClass = this.symbolClassForUrl(event.url);
 				symbolWrapper.className = "symbol align-right " + symbolClass;
 
-				var symbols = this.symbolsForUrl(event.url);
+				var symbols = this.symbolsForEvent(event);
 				if (typeof symbols === "string") {
 					symbols = [symbols];
 				}
@@ -559,15 +561,21 @@ Module.register("calendar", {
 	},
 
 	/**
-	 * symbolsForUrl(url)
-	 * Retrieves the symbols for a specific url.
+	 * symbolsForEvent(event)
+	 * Retrieves the symbols for a specific event.
 	 *
-	 * argument url string - Url to look for.
+	 * argument event object - Event to look for.
 	 *
 	 * return string/array - The Symbols
 	 */
-	symbolsForUrl: function (url) {
-		return this.getCalendarProperty(url, "symbol", this.config.defaultSymbol);
+	symbolsForEvent: function (event) {
+		if (event.recurringEvent === true) {
+			return this.getCalendarProperty(event.url, "recurringSymbol", this.config.recurringSymbol);
+		}
+		if (event.fullDayEvent === true) {
+			return this.getCalendarProperty(event.url, "fullDaySymbol", this.config.recurringSymbol);
+		}
+		return this.getCalendarProperty(event.url, "symbol", this.config.defaultSymbol);
 	},
 
 	/**
@@ -756,7 +764,7 @@ Module.register("calendar", {
 			var calendar = this.calendarData[url];
 			for (var e in calendar) {
 				var event = cloneObject(calendar[e]);
-				event.symbol = this.symbolsForUrl(url);
+				event.symbol = this.symbolsForEvent(event);
 				event.calendarName = this.calendarNameForUrl(url);
 				event.color = this.colorForUrl(url);
 				delete event.url;
