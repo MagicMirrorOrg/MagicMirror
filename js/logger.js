@@ -32,13 +32,15 @@
 		timeStamp: Function.prototype.bind.call(console.timeStamp, console)
 	};
 
-	if (config && config.logLevel) {
-		Object.keys(logLevel).forEach(function (key, index) {
-			if (!config.logLevel.includes(key.toLocaleUpperCase())) {
-				logLevel[key] = function () {};
-			}
-		});
-	}
+	logLevel.setLogLevel = function (newLevel) {
+		if (newLevel) {
+			Object.keys(logLevel).forEach(function (key, index) {
+				if (!newLevel.includes(key.toLocaleUpperCase())) {
+					logLevel[key] = function () {};
+				}
+			});
+		}
+	};
 
 	return logLevel;
 });

@@ -467,6 +467,7 @@ Module.register("calendar", {
 			var calendar = this.calendarData[c];
 			for (var e in calendar) {
 				var event = JSON.parse(JSON.stringify(calendar[e])); // clone object
+
 				if (event.endDate < now) {
 					continue;
 				}

@@ -17,7 +17,6 @@ Module.register("weather", {
 		lon: 0,
 		location: false,
 		locationID: false,
-		apiKey: "",
 		units: config.units,
 
 		tempUnits: config.units,
@@ -46,8 +45,10 @@ Module.register("weather", {
 		initialLoadDelay: 0, // 0 seconds delay
 		retryDelay: 2500,
 
+		apiKey: "",
+		apiSecret: "",
 		apiVersion: "2.5",
-		apiBase: "https://api.openweathermap.org/data/",
+		apiBase: "https://api.openweathermap.org/data/", // TODO: this should not be part of the weather.js file, but should be contained in the openweatherprovider
 		weatherEndpoint: "/weather",
 
 		appendLocationNameToHeader: true,
