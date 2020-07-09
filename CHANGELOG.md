@@ -11,6 +11,8 @@ _This release is scheduled to be released on 2020-10-01._
 
 ### Added
 
+- Added current, hourly (max 48), and daily (max 7) weather forecasts to the default Weather module via the OpenWeatherMap One Call API
+
 ### Updated
 
 - Change incorrect weather.js default properties.
