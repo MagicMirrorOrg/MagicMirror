@@ -19,7 +19,7 @@
 		root.Log = factory(root.config);
 	}
 })(this, function (config) {
-	let logLevel = {
+	const logLevel = {
 		info: Function.prototype.bind.call(console.info, console),
 		log: Function.prototype.bind.call(console.log, console),
 		error: Function.prototype.bind.call(console.error, console),
