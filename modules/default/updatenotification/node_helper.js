@@ -1,9 +1,10 @@
-var SimpleGit = require("simple-git");
-var simpleGits = [];
-var fs = require("fs");
-var path = require("path");
-var defaultModules = require(__dirname + "/../defaultmodules.js");
-var NodeHelper = require("node_helper");
+const SimpleGit = require("simple-git");
+const simpleGits = [];
+const fs = require("fs");
+const path = require("path");
+const defaultModules = require(__dirname + "/../defaultmodules.js");
+const Log = require(__dirname + "/../../../js/logger.js");
+const NodeHelper = require("node_helper");
 
 module.exports = NodeHelper.create({
 	config: {},
@@ -27,7 +28,7 @@ module.exports = NodeHelper.create({
 				var moduleFolder = path.normalize(__dirname + "/../../" + moduleName);
 
 				try {
-					//console.log("checking git for module="+moduleName)
+					Log.info("Checking git for module: " + moduleName);
 					let stat = fs.statSync(path.join(moduleFolder, ".git"));
 					promises.push(this.resolveRemote(moduleName, moduleFolder));
 				} catch (err) {

@@ -5,22 +5,22 @@
  * MIT Licensed.
  */
 
-var NodeHelper = require("node_helper");
-var validUrl = require("valid-url");
-var Fetcher = require("./fetcher.js");
+const NodeHelper = require("node_helper");
+const validUrl = require("valid-url");
+const Fetcher = require("./fetcher.js");
+const Log = require("../../../js/logger");
 
 module.exports = NodeHelper.create({
-	// Subclass start method.
+	// Override start method.
 	start: function () {
-		console.log("Starting module: " + this.name);
+		Log.log("Starting node helper for: " + this.name);
 		this.fetchers = [];
 	},
 
-	// Subclass socketNotificationReceived received.
+	// Override socketNotificationReceived received.
 	socketNotificationReceived: function (notification, payload) {
 		if (notification === "ADD_FEED") {
 			this.createFetcher(payload.feed, payload.config);
-			return;
 		}
 	},
 
@@ -45,7 +45,7 @@ module.exports = NodeHelper.create({
 
 		var fetcher;
 		if (typeof self.fetchers[url] === "undefined") {
-			console.log("Create new news fetcher for url: " + url + " - Interval: " + reloadInterval);
+			Log.log("Create new news fetcher for url: " + url + " - Interval: " + reloadInterval);
 			fetcher = new Fetcher(url, reloadInterval, encoding, config.logFeedWarnings);
 
 			fetcher.onReceive(function (fetcher) {
@@ -61,7 +61,7 @@ module.exports = NodeHelper.create({
 
 			self.fetchers[url] = fetcher;
 		} else {
-			console.log("Use existing news fetcher for url: " + url);
+			Log.log("Use existing news fetcher for url: " + url);
 			fetcher = self.fetchers[url];
 			fetcher.setReloadInterval(reloadInterval);
 			fetcher.broadcastItems();

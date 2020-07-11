@@ -4,14 +4,15 @@
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-
 var express = require("express");
 var app = require("express")();
 var path = require("path");
 var ipfilter = require("express-ipfilter").IpFilter;
 var fs = require("fs");
 var helmet = require("helmet");
-var Utils = require(__dirname + "/utils.js");
+
+var Log = require("./logger.js");
+var Utils = require("./utils.js");
 
 var Server = function (config, callback) {
 	var port = config.port;
@@ -31,12 +32,12 @@ var Server = function (config, callback) {
 	}
 	var io = require("socket.io")(server);
 
-	console.log("Starting server on port " + port + " ... ");
+	Log.log("Starting server on port " + port + " ... ");
 
 	server.listen(port, config.address ? config.address : "localhost");
 
 	if (config.ipWhitelist instanceof Array && config.ipWhitelist.length === 0) {
-		console.info(Utils.colors.warn("You're using a full whitelist configuration to allow for all IPs"));
+		Log.info(Utils.colors.warn("You're using a full whitelist configuration to allow for all IPs"));
 	}
 
 	app.use(function (req, res, next) {
@@ -44,7 +45,7 @@ var Server = function (config, callback) {
 			if (err === undefined) {
 				return next();
 			}
-			console.log(err.message);
+			Log.log(err.message);
 			res.status(403).send("This device is not allowed to access your mirror. <br> Please check your config.js or config.js.sample to change this.");
 		});
 	});

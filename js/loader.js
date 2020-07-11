@@ -182,7 +182,7 @@ var Loader = (function () {
 					}
 				};
 				script.onerror = function () {
-					console.error("Error on loading script:", fileName);
+					Log.error("Error on loading script:", fileName);
 					if (typeof callback === "function") {
 						callback();
 					}
@@ -202,7 +202,7 @@ var Loader = (function () {
 					}
 				};
 				stylesheet.onerror = function () {
-					console.error("Error on loading stylesheet:", fileName);
+					Log.error("Error on loading stylesheet:", fileName);
 					if (typeof callback === "function") {
 						callback();
 					}
