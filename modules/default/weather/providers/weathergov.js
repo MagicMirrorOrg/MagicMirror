@@ -1,4 +1,4 @@
-/* global WeatherProvider, WeatherObject */
+/* global WeatherProvider, WeatherObject, SunCalc */
 
 /* Magic Mirror
  * Module: Weather
@@ -203,7 +203,7 @@ WeatherProvider.register("weathergov", {
 				// specify date
 				weather.date = moment(forecast.startTime);
 
-				// If the first value of today is later than 17:00, we have an icon at least!
+				// use the forecast isDayTime attribute to help build the weatherType label
 				weather.weatherType = this.convertWeatherType(forecast.shortForecast, forecast.isDaytime);
 			}
 
