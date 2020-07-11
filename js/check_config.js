@@ -1,14 +1,10 @@
 /* Magic Mirror
  *
- * Checker configuration file
+ * Check the configuration file for errors
  *
- * By Rodrigo Ramírez Norambuena
- *    https://rodrigoramirez.com
- *
+ * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.
- *
  */
-
 const Linter = require("eslint").Linter;
 const linter = new Linter();
 
@@ -17,6 +13,7 @@ const fs = require("fs");
 
 const rootPath = path.resolve(__dirname + "/../");
 const config = require(rootPath + "/.eslintrc.json");
+const Log = require(rootPath + "/js/logger.js");
 const Utils = require(rootPath + "/js/utils.js");
 
 /* getConfigFile()
@@ -34,23 +31,24 @@ function getConfigFile() {
 
 function checkConfigFile() {
 	const configFileName = getConfigFile();
+
 	// Check if file is present
 	if (fs.existsSync(configFileName) === false) {
-		console.error(Utils.colors.error("File not found: "), configFileName);
-		return;
+		Log.error(Utils.colors.error("File not found: "), configFileName);
+		throw new Error("No config file present!");
 	}
+
 	// check permission
 	try {
 		fs.accessSync(configFileName, fs.F_OK);
 	} catch (e) {
-		console.log(Utils.colors.error(e));
-		return;
+		Log.log(Utils.colors.error(e));
+		throw new Error("No permission to access config file!");
 	}
 
 	// Validate syntax of the configuration file.
-	// In case the there errors show messages and
-	// return
-	console.info(Utils.colors.info("Checking file... "), configFileName);
+	Log.info(Utils.colors.info("Checking file... "), configFileName);
+
 	// I'm not sure if all ever is utf-8
 	fs.readFile(configFileName, "utf-8", function (err, data) {
 		if (err) {
@@ -58,12 +56,14 @@ function checkConfigFile() {
 		}
 		const messages = linter.verify(data, config);
 		if (messages.length === 0) {
-			console.log("Your configuration file doesn't contain syntax errors :)");
+			Log.log("Your configuration file doesn't contain syntax errors :)");
 			return true;
 		} else {
+			// In case the there errors show messages and return
 			messages.forEach((error) => {
-				console.log("Line", error.line, "col", error.column, error.message);
+				Log.log("Line", error.line, "col", error.column, error.message);
 			});
+			throw new Error("Wrong syntax in config file!");
 		}
 	});
 }

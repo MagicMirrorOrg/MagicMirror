@@ -15,7 +15,6 @@ Module.register("weather", {
 
 		location: false,
 		locationID: false,
-		appid: "",
 		units: config.units,
 
 		tempUnits: config.units,
@@ -43,8 +42,10 @@ Module.register("weather", {
 		initialLoadDelay: 0, // 0 seconds delay
 		retryDelay: 2500,
 
+		apiKey: "",
+		apiSecret: "",
 		apiVersion: "2.5",
-		apiBase: "https://api.openweathermap.org/data/",
+		apiBase: "https://api.openweathermap.org/data/", // TODO: this should not be part of the weather.js file, but should be contained in the openweatherprovider
 		weatherEndpoint: "/weather",
 
 		appendLocationNameToHeader: true,
@@ -208,7 +209,7 @@ Module.register("weather", {
 					if (isNaN(value) || value === 0 || value.toFixed(2) === "0.00") {
 						value = "";
 					} else {
-						if (this.config.weatherProvider === "ukmetoffice") {
+						if (this.config.weatherProvider === "ukmetoffice" || this.config.weatherProvider === "ukmetofficedatahub") {
 							value += "%";
 						} else {
 							value = `${value.toFixed(2)} ${this.config.units === "imperial" ? "in" : "mm"}`;

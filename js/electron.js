@@ -1,7 +1,8 @@
 "use strict";
 
 const electron = require("electron");
-const core = require(__dirname + "/app.js");
+const core = require("./app.js");
+const Log = require("./logger.js");
 
 // Config
 var config = process.env.config ? JSON.parse(process.env.config) : {};
@@ -86,7 +87,7 @@ function createWindow() {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.on("ready", function () {
-	console.log("Launching application.");
+	Log.log("Launching application.");
 	createWindow();
 });
 
@@ -110,7 +111,7 @@ app.on("activate", function () {
  * core.stop() is called by process.on("SIGINT"... in `app.js`
  */
 app.on("before-quit", (event) => {
-	console.log("Shutting down server...");
+	Log.log("Shutting down server...");
 	event.preventDefault();
 	setTimeout(() => {
 		process.exit(0);
