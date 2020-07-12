@@ -5,8 +5,9 @@
  * MIT Licensed.
  */
 const Log = require("../../../js/logger.js");
-const ical = require("ical");
+const ical = require("node-ical");
 const moment = require("moment");
+const momentTz = require("moment-timezone");
 const request = require("request");
 
 const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumNumberOfDays, auth, includePastEvents) {
@@ -70,6 +71,35 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumNu
 				return event[time].length === 8 ? moment(event[time], "YYYYMMDD") : moment(new Date(event[time]));
 			};
 
+			// Extracts timezone from the time string (if provided), or guesses the local timezone
+			const eventTz = function (event, time) {
+				return event[time]["tz"] ? event[time]["tz"] : momentTz.tz.guess();
+			};
+
+			// Returns the DST offset between two times in a given timeZone
+			// If both times are on days with the same DST configuration (both in DS or both not in DST),
+			// there is no adjustment
+			// But if one of the times is in DST and the other is not in DST, the offset is calculated
+			// based on whether the transition is to DST, or from DST.
+			const getDSTAdjustmentMinutes = function (firstTimeUTC, secondTimeUTC, timeZone) {
+				const isFirstTimeInDST = momentTz.tz(firstTimeUTC.toISOString(), timeZone).isDST();
+				const isSecondTimeInDST = momentTz.tz(secondTimeUTC.toISOString(), timeZone).isDST();
+
+				// Apparently 'Australia/Lord_Howe' is the only timezone where DST is adjusted by 30 minutes
+				// https://www.timeanddate.com/time/dst/#:~:text=You%20set%20your%20clock%20forward,Daylight%20Savings%20or%20Daylight%20Saving%3F
+
+				const dstOffset = timeZone === "Australia/Lord_Howe" ? 30 : 60;
+				if (isFirstTimeInDST == isSecondTimeInDST) {
+					return 0;
+				} else if (isFirstTimeInDST) {
+					// Changed from DST to non-DST, so offset is positive
+					dstOffset;
+				} else {
+					// Changed from non-DST to DST, so offset is negative
+					return -1 * dstOffset;
+				}
+			};
+
 			Object.entries(data).forEach(([key, event]) => {
 				const now = new Date();
 				const today = moment().startOf("day").toDate();
@@ -91,6 +121,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumNu
 
 				if (event.type === "VEVENT") {
 					let startDate = eventDate(event, "start");
+					let organizerTz = eventTz(event, "start");
 					let endDate;
 
 					if (typeof event.end !== "undefined") {
@@ -183,10 +214,25 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumNu
 
 						// For recurring events, get the set of start dates that fall within the range
 						// of dates we're looking for.
-						// kblankenship1989 - to fix issue #1798, converting all dates to locale time first, then converting back to UTC time
 						const pastLocal = pastMoment.subtract(past.getTimezoneOffset(), "minutes").toDate();
 						const futureLocal = futureMoment.subtract(future.getTimezoneOffset(), "minutes").toDate();
-						const dates = rule.between(pastLocal, futureLocal, true, limitFunction);
+						const datesWithoutDSTAdjustment = rule.between(pastLocal, futureLocal, true, limitFunction);
+
+						// The dates returned by 'rule' are offset based on UTC, so in addition to converting them
+						// to local date-time, we also need to adjust for the required DST offsets
+						const dates = datesWithoutDSTAdjustment.map(function (dateWithoutDSTAdjustment) {
+							var eventDate = moment(dateWithoutDSTAdjustment);
+							eventDate.add(getDSTAdjustmentMinutes(startDate, eventDate, localTz), "minutes");
+
+							var localTz = momentTz.tz.guess();
+							if (organizerTz != localTz) {
+								// If the organizer of the event is in a different timezone, we need to account for the
+								// potential DST changes in the organizer's time as well.
+								eventDate.add(getDSTAdjustmentMinutes(startDate, eventDate, organizerTz), "minutes");
+							}
+
+							return eventDate.toDate();
+						});
 
 						// The "dates" array contains the set of dates within our desired date range range that are valid
 						// for the recurrence rule. *However*, it's possible for us to have a specific recurrence that
