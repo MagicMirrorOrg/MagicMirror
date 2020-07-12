@@ -32,37 +32,35 @@ module.exports = NodeHelper.create({
 	 * attribute config object - A configuration object containing reload interval in milliseconds.
 	 */
 	createFetcher: function (feed, config) {
-		var self = this;
-
-		var url = feed.url || "";
-		var encoding = feed.encoding || "UTF-8";
-		var reloadInterval = feed.reloadInterval || config.reloadInterval || 5 * 60 * 1000;
+		const url = feed.url || "";
+		const encoding = feed.encoding || "UTF-8";
+		const reloadInterval = feed.reloadInterval || config.reloadInterval || 5 * 60 * 1000;
 
 		if (!validUrl.isUri(url)) {
-			self.sendSocketNotification("INCORRECT_URL", url);
+			this.sendSocketNotification("INCORRECT_URL", url);
 			return;
 		}
 
-		var fetcher;
-		if (typeof self.fetchers[url] === "undefined") {
+		let fetcher;
+		if (typeof this.fetchers[url] === "undefined") {
 			Log.log("Create new news fetcher for url: " + url + " - Interval: " + reloadInterval);
 			fetcher = new NewsfeedFetcher(url, reloadInterval, encoding, config.logFeedWarnings);
 
-			fetcher.onReceive(function (fetcher) {
-				self.broadcastFeeds();
+			fetcher.onReceive(() => {
+				this.broadcastFeeds();
 			});
 
-			fetcher.onError(function (fetcher, error) {
-				self.sendSocketNotification("FETCH_ERROR", {
+			fetcher.onError((fetcher, error) => {
+				this.sendSocketNotification("FETCH_ERROR", {
 					url: fetcher.url(),
 					error: error
 				});
 			});
 
-			self.fetchers[url] = fetcher;
+			this.fetchers[url] = fetcher;
 		} else {
 			Log.log("Use existing news fetcher for url: " + url);
-			fetcher = self.fetchers[url];
+			fetcher = this.fetchers[url];
 			fetcher.setReloadInterval(reloadInterval);
 			fetcher.broadcastItems();
 		}

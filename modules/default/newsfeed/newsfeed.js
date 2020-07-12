@@ -84,7 +84,7 @@ Module.register("newsfeed", {
 
 	// Override dom generator.
 	getDom: function () {
-		var wrapper = document.createElement("div");
+		const wrapper = document.createElement("div");
 
 		if (this.config.feedUrl) {
 			wrapper.className = "small bright";
@@ -99,7 +99,7 @@ Module.register("newsfeed", {
 		if (this.newsItems.length > 0) {
 			// this.config.showFullArticle is a run-time configuration, triggered by optional notifications
 			if (!this.config.showFullArticle && (this.config.showSourceTitle || this.config.showPublishDate)) {
-				var sourceAndTimestamp = document.createElement("div");
+				const sourceAndTimestamp = document.createElement("div");
 				sourceAndTimestamp.className = "newsfeed-source light small dimmed";
 
 				if (this.config.showSourceTitle && this.newsItems[this.activeItem].sourceTitle !== "") {
@@ -157,22 +157,22 @@ Module.register("newsfeed", {
 			}
 
 			if (!this.config.showFullArticle) {
-				var title = document.createElement("div");
+				const title = document.createElement("div");
 				title.className = "newsfeed-title bright medium light" + (!this.config.wrapTitle ? " no-wrap" : "");
 				title.innerHTML = this.newsItems[this.activeItem].title;
 				wrapper.appendChild(title);
 			}
 
 			if (this.isShowingDescription) {
-				var description = document.createElement("div");
+				const description = document.createElement("div");
 				description.className = "newsfeed-desc small light" + (!this.config.wrapDescription ? " no-wrap" : "");
-				var txtDesc = this.newsItems[this.activeItem].description;
+				const txtDesc = this.newsItems[this.activeItem].description;
 				description.innerHTML = this.config.truncDescription ? (txtDesc.length > this.config.lengthDescription ? txtDesc.substring(0, this.config.lengthDescription) + "..." : txtDesc) : txtDesc;
 				wrapper.appendChild(description);
 			}
 
 			if (this.config.showFullArticle) {
-				var fullArticle = document.createElement("iframe");
+				const fullArticle = document.createElement("iframe");
 				fullArticle.className = "";
 				fullArticle.style.width = "100vw";
 				// very large height value to allow scrolling
@@ -345,7 +345,7 @@ Module.register("newsfeed", {
 	},
 
 	notificationReceived: function (notification, payload, sender) {
-		var before = this.activeItem;
+		const before = this.activeItem;
 		if (notification === "ARTICLE_NEXT") {
 			this.activeItem++;
 			if (this.activeItem >= this.newsItems.length) {
