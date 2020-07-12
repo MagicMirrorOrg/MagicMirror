@@ -7,7 +7,7 @@
 
 const NodeHelper = require("node_helper");
 const validUrl = require("valid-url");
-const Fetcher = require("./fetcher.js");
+const NewsfeedFetcher = require("./newsfeedfetcher.js");
 const Log = require("../../../js/logger");
 
 module.exports = NodeHelper.create({
@@ -46,7 +46,7 @@ module.exports = NodeHelper.create({
 		var fetcher;
 		if (typeof self.fetchers[url] === "undefined") {
 			Log.log("Create new news fetcher for url: " + url + " - Interval: " + reloadInterval);
-			fetcher = new Fetcher(url, reloadInterval, encoding, config.logFeedWarnings);
+			fetcher = new NewsfeedFetcher(url, reloadInterval, encoding, config.logFeedWarnings);
 
 			fetcher.onReceive(function (fetcher) {
 				self.broadcastFeeds();

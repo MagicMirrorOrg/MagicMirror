@@ -17,8 +17,7 @@ const iconv = require("iconv-lite");
  * attribute reloadInterval number - Reload interval in milliseconds.
  * attribute logFeedWarnings boolean - Log warnings when there is an error parsing a news article.
  */
-
-var Fetcher = function (url, reloadInterval, encoding, logFeedWarnings) {
+var NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings) {
 	var self = this;
 	if (reloadInterval < 1000) {
 		reloadInterval = 1000;
@@ -148,4 +147,4 @@ var Fetcher = function (url, reloadInterval, encoding, logFeedWarnings) {
 	};
 };
 
-module.exports = Fetcher;
+module.exports = NewsfeedFetcher;
