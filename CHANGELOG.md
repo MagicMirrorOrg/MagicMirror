@@ -11,11 +11,15 @@ _This release is scheduled to be released on 2020-10-01._
 
 ### Added
 
+- Added a dependency on 'node-ical' and 'moment-timezone' libraries
+
 ### Updated
 
 - Change incorrect weather.js default properties.
 
 ### Deleted
+
+- Removed 'ical' as a dependency.
 
 ### Fixed
 
@@ -23,6 +27,7 @@ _This release is scheduled to be released on 2020-10-01._
 - Fix calendar display. Account for current timezone. [#2068](https://github.com/MichMich/MagicMirror/issues/2068)
 - Fix logLevel being set before loading config.
 - Fix incorrect namespace links in svg clockfaces. [#2072](https://github.com/MichMich/MagicMirror/issues/2072)
+- Fix DST-related issues in the Calendar module. [#2085](https://github.com/MichMich/MagicMirror/issues/2085)
 
 ## [2.12.0] - 2020-07-01
 
