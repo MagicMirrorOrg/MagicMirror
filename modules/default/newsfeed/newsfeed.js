@@ -332,17 +332,6 @@ Module.register("newsfeed", {
 		}, this.config.updateInterval);
 	},
 
-	/* capitalizeFirstLetter(string)
-	 * Capitalizes the first character of a string.
-	 *
-	 * argument string string - Input string.
-	 *
-	 * return string - Capitalized output string.
-	 */
-	capitalizeFirstLetter: function (string) {
-		return string.charAt(0).toUpperCase() + string.slice(1);
-	},
-
 	resetDescrOrFullArticleAndTimer: function () {
 		this.isShowingDescription = this.config.showDescription;
 		this.config.showFullArticle = false;
