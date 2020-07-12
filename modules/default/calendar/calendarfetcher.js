@@ -89,7 +89,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumNu
 				// https://www.timeanddate.com/time/dst/#:~:text=You%20set%20your%20clock%20forward,Daylight%20Savings%20or%20Daylight%20Saving%3F
 
 				const dstOffset = timeZone === "Australia/Lord_Howe" ? 30 : 60;
-				if (isFirstTimeInDST == isSecondTimeInDST) {
+				if (isFirstTimeInDST === isSecondTimeInDST) {
 					return 0;
 				} else if (isFirstTimeInDST) {
 					// Changed from DST to non-DST, so offset is positive
@@ -225,7 +225,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumNu
 							eventDate.add(getDSTAdjustmentMinutes(startDate, eventDate, localTz), "minutes");
 
 							var localTz = momentTz.tz.guess();
-							if (organizerTz != localTz) {
+							if (organizerTz !== localTz) {
 								// If the organizer of the event is in a different timezone, we need to account for the
 								// potential DST changes in the organizer's time as well.
 								eventDate.add(getDSTAdjustmentMinutes(startDate, eventDate, organizerTz), "minutes");
