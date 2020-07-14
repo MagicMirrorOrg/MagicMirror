@@ -220,10 +220,6 @@ Module.register("calendar", {
 				symbolWrapper.className = "symbol align-right " + symbolClass;
 
 				var symbols = this.symbolsForEvent(event);
-				if (typeof symbols === "string") {
-					symbols = [symbols];
-				}
-
 				for (var i = 0; i < symbols.length; i++) {
 					var symbol = document.createElement("span");
 					symbol.className = "fa fa-fw fa-" + symbols[i];
@@ -232,6 +228,7 @@ Module.register("calendar", {
 					}
 					symbolWrapper.appendChild(symbol);
 				}
+
 				eventWrapper.appendChild(symbolWrapper);
 			} else if (this.config.timeFormat === "dateheaders") {
 				var blankCell = document.createElement("td");
@@ -566,16 +563,28 @@ Module.register("calendar", {
 	 *
 	 * argument event object - Event to look for.
 	 *
-	 * return string/array - The Symbols
+	 * return array - The Symbols
 	 */
 	symbolsForEvent: function (event) {
+		let symbols = this.getCalendarPropertyAsArray(event.url, "symbol", this.config.defaultSymbol);
+
 		if (event.recurringEvent === true) {
-			return this.getCalendarProperty(event.url, "recurringSymbol", this.config.recurringSymbol);
+			symbols = this.mergeUnique(symbols, this.getCalendarPropertyAsArray(event.url, "recurringSymbol", this.config.recurringSymbol));
 		}
+
 		if (event.fullDayEvent === true) {
-			return this.getCalendarProperty(event.url, "fullDaySymbol", this.config.recurringSymbol);
+			symbols = this.mergeUnique(symbols, this.getCalendarPropertyAsArray(event.url, "fullDaySymbol", this.config.recurringSymbol));
 		}
-		return this.getCalendarProperty(event.url, "symbol", this.config.defaultSymbol);
+
+		return symbols;
+	},
+
+	mergeUnique: function (arr1, arr2) {
+		return arr1.concat(
+			arr2.filter(function (item) {
+				return arr1.indexOf(item) === -1;
+			})
+		);
 	},
 
 	/**
@@ -665,6 +674,12 @@ Module.register("calendar", {
 		}
 
 		return defaultValue;
+	},
+
+	getCalendarPropertyAsArray: function (url, property, defaultValue) {
+		let p = this.getCalendarProperty(url, property, defaultValue);
+		if (!(p instanceof Array)) p = [p];
+		return p;
 	},
 
 	/**
