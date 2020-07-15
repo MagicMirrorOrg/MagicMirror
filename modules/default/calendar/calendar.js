@@ -569,11 +569,11 @@ Module.register("calendar", {
 		let symbols = this.getCalendarPropertyAsArray(event.url, "symbol", this.config.defaultSymbol);
 
 		if (event.recurringEvent === true) {
-			symbols = this.mergeUnique(symbols, this.getCalendarPropertyAsArray(event.url, "recurringSymbol", this.config.recurringSymbol));
+			symbols = this.mergeUnique(this.getCalendarPropertyAsArray(event.url, "recurringSymbol", this.config.recurringSymbol), symbols);
 		}
 
 		if (event.fullDayEvent === true) {
-			symbols = this.mergeUnique(symbols, this.getCalendarPropertyAsArray(event.url, "fullDaySymbol", this.config.recurringSymbol));
+			symbols = this.mergeUnique(this.getCalendarPropertyAsArray(event.url, "fullDaySymbol", this.config.recurringSymbol), symbols);
 		}
 
 		return symbols;
