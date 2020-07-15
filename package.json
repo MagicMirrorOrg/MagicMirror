@@ -75,7 +75,7 @@
 		"helmet": "^3.21.2",
 		"ical": "^0.8.0",
 		"iconv-lite": "latest",
-		"lodash": "^4.17.15",
+		"lodash": "^4.17.19",
 		"module-alias": "^2.2.2",
 		"moment": "latest",
 		"request": "^2.88.2",
