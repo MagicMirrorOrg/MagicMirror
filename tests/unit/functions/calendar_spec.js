@@ -120,5 +120,11 @@ describe("Functions into modules/default/calendar/calendar.js", function () {
 				"This is a wrapEvent <br>test. Should wrap the string <br>instead of shorten it if called <br>with wrapEvent = true"
 			);
 		});
+
+		it("should wrap and shorten the string in the second line if called with wrapEvents = true and maxTitleLines = 2", function () {
+			expect(Module.definitions.calendar.shorten("This is a wrapEvent and maxTitleLines test. Should wrap and shorten the string in the second line if called with wrapEvents = true and maxTitleLines = 2", undefined, true, 2)).to.equal(
+				"This is a wrapEvent and <br>maxTitleLines test. Should wrap and &hellip;"
+			);
+		});
 	});
 });
