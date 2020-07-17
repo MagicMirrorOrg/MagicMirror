@@ -12,6 +12,7 @@ _This release is scheduled to be released on 2020-10-01._
 ### Added
 
 - Add lithuanian language.
+- Added support in weatherforecast for OpenWeather onecall API.
 
 ### Updated
 
