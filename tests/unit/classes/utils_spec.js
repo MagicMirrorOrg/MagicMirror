@@ -1,6 +1,6 @@
-var expect = require("chai").expect;
-var Utils = require("../../../js/utils.js");
-var colors = require("colors/safe");
+const expect = require("chai").expect;
+const Utils = require("../../../js/utils.js");
+const colors = require("colors/safe");
 
 describe("Utils", function () {
 	describe("colors", function () {

@@ -1,7 +1,7 @@
-var path = require("path");
-var auth = require("http-auth");
-var express = require("express");
-var app = express();
+const path = require("path");
+const auth = require("http-auth");
+const express = require("express");
+const app = express();
 
 var server;
 

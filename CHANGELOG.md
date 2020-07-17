@@ -11,6 +11,7 @@ _This release is scheduled to be released on 2020-10-01._
 
 ### Added
 
+- Test coverage with Istanbul, run it with `npm run test:coverage`.
 - Add lithuanian language.
 - Added support in weatherforecast for OpenWeather onecall API.
 
