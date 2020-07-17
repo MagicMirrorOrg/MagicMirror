@@ -9,6 +9,8 @@ Module.register("weatherforecast", {
 	defaults: {
 		location: false,
 		locationID: false,
+		lat: false,
+		lon: false,
 		appid: "",
 		units: config.units,
 		maxNumberOfDays: 7,
@@ -29,6 +31,7 @@ Module.register("weatherforecast", {
 		apiVersion: "2.5",
 		apiBase: "https://api.openweathermap.org/data/",
 		forecastEndpoint: "forecast/daily",
+		excludes: false,
 
 		appendLocationNameToHeader: true,
 		calendarClass: "calendar",
@@ -283,6 +286,8 @@ Module.register("weatherforecast", {
 		var params = "?";
 		if (this.config.locationID) {
 			params += "id=" + this.config.locationID;
+		} else if (this.config.lat && this.config.lon) {
+			params += "lat=" + this.config.lat + "&lon=" + this.config.lon;
 		} else if (this.config.location) {
 			params += "q=" + this.config.location;
 		} else if (this.firstEvent && this.firstEvent.geo) {
@@ -304,6 +309,7 @@ Module.register("weatherforecast", {
 		}
 		params += "&cnt=" + numberOfDays;
 
+		params += "&exclude=" + this.config.excludes;
 		params += "&units=" + this.config.units;
 		params += "&lang=" + this.config.lang;
 		params += "&APPID=" + this.config.appid;
@@ -331,15 +337,34 @@ Module.register("weatherforecast", {
 	 * argument data object - Weather information received form openweather.org.
 	 */
 	processWeather: function (data) {
-		this.fetchedLocationName = data.city.name + ", " + data.city.country;
+		// Forcast16 (paid) API endpoint provides this data.  Onecall endpoint
+		// does not.
+		if (data.city) {
+			this.fetchedLocationName = data.city.name + ", " + data.city.country;
+		} else if (this.config.location) {
+			this.fetchedLocationName = this.config.location;
+		} else {
+			this.fetchedLocationName = "Unknown";
+		}
 
 		this.forecast = [];
 		var lastDay = null;
 		var forecastData = {};
 
-		for (var i = 0, count = data.list.length; i < count; i++) {
-			var forecast = data.list[i];
-			this.parserDataWeather(forecast); // hack issue #1017
+		// Handle different structs between forecast16 and onecall endpoints
+		var forecastList = null;
+		if (data.list) {
+			forecastList = data.list;
+		} else if (data.daily) {
+			forecastList = data.daily;
+		} else {
+			Log.error("Unexpected forecast data");
+			return undefined;
+		}
+
+		for (var i = 0, count = forecastList.length; i < count; i++) {
+			var forecast = forecastList[i];
+			forecast = this.parserDataWeather(forecast); // hack issue #1017
 
 			var day;
 			var hour;
@@ -357,7 +382,7 @@ Module.register("weatherforecast", {
 					icon: this.config.iconTable[forecast.weather[0].icon],
 					maxTemp: this.roundValue(forecast.temp.max),
 					minTemp: this.roundValue(forecast.temp.min),
-					rain: this.processRain(forecast, data.list)
+					rain: this.processRain(forecast, forecastList)
 				};
 
 				this.forecast.push(forecastData);

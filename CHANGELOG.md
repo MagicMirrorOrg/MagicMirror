@@ -11,6 +11,8 @@ _This release is scheduled to be released on 2020-10-01._
 
 ### Added
 
+- Added support in weatherforecast for OpenWeather onecall API
+
 ### Updated
 
 - Change incorrect weather.js default properties.
