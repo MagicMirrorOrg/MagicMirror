@@ -42,7 +42,7 @@ var MM = (function () {
 			dom.appendChild(moduleHeader);
 
 			if (typeof module.getHeader() === "undefined" || module.getHeader() !== "") {
-				moduleHeader.style = "display: none;";
+				moduleHeader.style.display = "none;";
 			}
 
 			var moduleContent = document.createElement("div");
@@ -216,7 +216,11 @@ var MM = (function () {
 		contentWrapper[0].appendChild(newContent);
 
 		headerWrapper[0].innerHTML = newHeader;
-		headerWrapper[0].style = headerWrapper.length > 0 && newHeader ? undefined : "display: none;";
+		if (headerWrapper.length > 0 && newHeader) {
+			delete headerWrapper[0].style;
+		} else {
+			headerWrapper[0].style.display = "none";
+		}
 	};
 
 	/* hideModule(module, speed, callback)

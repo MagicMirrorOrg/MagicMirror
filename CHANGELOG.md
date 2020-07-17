@@ -23,6 +23,7 @@ _This release is scheduled to be released on 2020-10-01._
 
 ### Fixed
 
+- Fix backward compatibility issues for Safari < 11. [#1985](https://github.com/MichMich/MagicMirror/issues/1985)
 - Fix the use of "maxNumberOfDays" in the module "weatherforecast depending on the endpoint (forecast/daily or forecast)". [#2018](https://github.com/MichMich/MagicMirror/issues/2018)
 - Fix calendar display. Account for current timezone. [#2068](https://github.com/MichMich/MagicMirror/issues/2068)
 - Fix logLevel being set before loading config.
