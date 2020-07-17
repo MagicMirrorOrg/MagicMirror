@@ -18,6 +18,7 @@ _This release is scheduled to be released on 2020-10-01._
 ### Updated
 
 - Change incorrect weather.js default properties.
+- Cleaned up newsfeed module.
 
 ### Deleted
 
