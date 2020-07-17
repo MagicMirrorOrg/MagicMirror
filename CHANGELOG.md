@@ -28,6 +28,7 @@ _This release is scheduled to be released on 2020-10-01._
 - Fix calendar display. Account for current timezone. [#2068](https://github.com/MichMich/MagicMirror/issues/2068)
 - Fix logLevel being set before loading config.
 - Fix incorrect namespace links in svg clockfaces. [#2072](https://github.com/MichMich/MagicMirror/issues/2072)
+- Fix weather/providers/weathergov for API guidelines [#2045]
 
 ## [2.12.0] - 2020-07-01
 
