@@ -20,7 +20,7 @@ module.exports = NodeHelper.create({
 	// Override socketNotificationReceived method.
 	socketNotificationReceived: function (notification, payload) {
 		if (notification === "ADD_CALENDAR") {
-			this.createFetcher(payload.url, payload.fetchInterval, payload.excludedEvents, payload.maximumNumberOfDays, payload.auth, payload.broadcastPastEvents, payload.id);
+			this.createFetcher(payload.url, payload.fetchInterval, payload.excludedEvents, payload.maximumEntries, payload.maximumNumberOfDays, payload.auth, payload.broadcastPastEvents, payload.id);
 		}
 	},
 
@@ -31,7 +31,7 @@ module.exports = NodeHelper.create({
 	 * attribute url string - URL of the news feed.
 	 * attribute reloadInterval number - Reload interval in milliseconds.
 	 */
-	createFetcher: function (url, fetchInterval, excludedEvents, maximumNumberOfDays, auth, broadcastPastEvents, identifier) {
+	createFetcher: function (url, fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, broadcastPastEvents, identifier) {
 		var self = this;
 
 		if (!validUrl.isUri(url)) {
@@ -42,7 +42,7 @@ module.exports = NodeHelper.create({
 		var fetcher;
 		if (typeof self.fetchers[identifier + url] === "undefined") {
 			Log.log("Create new calendar fetcher for url: " + url + " - Interval: " + fetchInterval);
-			fetcher = new CalendarFetcher(url, fetchInterval, excludedEvents, maximumNumberOfDays, auth, broadcastPastEvents);
+			fetcher = new CalendarFetcher(url, fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, broadcastPastEvents);
 
 			fetcher.onReceive(function (fetcher) {
 				self.sendSocketNotification("CALENDAR_EVENTS", {
