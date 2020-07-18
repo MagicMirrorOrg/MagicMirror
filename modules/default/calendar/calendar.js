@@ -207,7 +207,7 @@ Module.register("calendar", {
 				eventWrapper.style.cssText = "color:" + this.colorForUrl(event.url);
 			}
 
-			eventWrapper.className = "normal";
+			eventWrapper.className = "normal event";
 
 			if (this.config.displaySymbol) {
 				var symbolWrapper = document.createElement("td");

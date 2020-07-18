@@ -1,5 +1,6 @@
 const helpers = require("../global-setup");
 const serverBasicAuth = require("../../servers/basic-auth.js");
+const expect = require("chai").expect;
 
 const describe = global.describe;
 const it = global.it;
@@ -31,8 +32,23 @@ describe("Calendar module", function () {
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/default.js";
 		});
 
-		it("Should return TestEvents", function () {
-			return app.client.waitUntilTextExists(".calendar", "TestEvent", 10000);
+		it("Should show the default maximumEntries of 10", async () => {
+			await app.client.waitUntilTextExists(".calendar", "TestEvent", 10000);
+			const events = await app.client.$$(".calendar .event");
+			return expect(events.length).equals(10);
+		});
+	});
+
+	describe("Custom configuration", function () {
+		before(function () {
+			// Set config sample for use in test
+			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/custom.js";
+		});
+
+		it("Should show the custom maximumEntries of 3", async () => {
+			await app.client.waitUntilTextExists(".calendar", "TestEvent", 10000);
+			const events = await app.client.$$(".calendar .event");
+			return expect(events.length).equals(3);
 		});
 	});
 
