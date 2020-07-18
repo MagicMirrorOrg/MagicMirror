@@ -32,13 +32,13 @@ describe("Calendar module", function () {
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/default.js";
 		});
 
-		it("Should show the default maximumEntries of 10", async () => {
+		it("should show the default maximumEntries of 10", async () => {
 			await app.client.waitUntilTextExists(".calendar", "TestEvent", 10000);
 			const events = await app.client.$$(".calendar .event");
 			return expect(events.length).equals(10);
 		});
 
-		it("Should show the default calendar symbol in each event", async () => {
+		it("should show the default calendar symbol in each event", async () => {
 			await app.client.waitUntilTextExists(".calendar", "TestEvent", 10000);
 			const icons = await app.client.$$(".calendar .event .fa-calendar");
 			return expect(icons.length).not.equals(0);
@@ -51,13 +51,13 @@ describe("Calendar module", function () {
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/custom.js";
 		});
 
-		it("Should show the custom maximumEntries of 3", async () => {
+		it("should show the custom maximumEntries of 3", async () => {
 			await app.client.waitUntilTextExists(".calendar", "TestEvent", 10000);
 			const events = await app.client.$$(".calendar .event");
 			return expect(events.length).equals(3);
 		});
 
-		it("Should show the custom calendar symbol in each event", async () => {
+		it("should show the custom calendar symbol in each event", async () => {
 			await app.client.waitUntilTextExists(".calendar", "TestEvent", 10000);
 			const icons = await app.client.$$(".calendar .event .fa-birthday-cake");
 			return expect(icons.length).not.equals(0);
@@ -75,7 +75,7 @@ describe("Calendar module", function () {
 			serverBasicAuth.close(done());
 		});
 
-		it("Should return TestEvents", function () {
+		it("should return TestEvents", function () {
 			return app.client.waitUntilTextExists(".calendar", "TestEvent", 10000);
 		});
 	});
@@ -91,7 +91,7 @@ describe("Calendar module", function () {
 			serverBasicAuth.close(done());
 		});
 
-		it("Should return TestEvents", function () {
+		it("should return TestEvents", function () {
 			return app.client.waitUntilTextExists(".calendar", "TestEvent", 10000);
 		});
 	});
@@ -107,7 +107,7 @@ describe("Calendar module", function () {
 			serverBasicAuth.close(done());
 		});
 
-		it("Should return TestEvents", function () {
+		it("should return TestEvents", function () {
 			return app.client.waitUntilTextExists(".calendar", "TestEvent", 10000);
 		});
 	});
@@ -123,7 +123,7 @@ describe("Calendar module", function () {
 			serverBasicAuth.close(done());
 		});
 
-		it("Should return No upcoming events", function () {
+		it("should return No upcoming events", function () {
 			return app.client.waitUntilTextExists(".calendar", "No upcoming events.", 10000);
 		});
 	});
