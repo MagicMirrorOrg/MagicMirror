@@ -37,6 +37,12 @@ describe("Calendar module", function () {
 			const events = await app.client.$$(".calendar .event");
 			return expect(events.length).equals(10);
 		});
+
+		it("Should show the default calendar symbol in each event", async () => {
+			await app.client.waitUntilTextExists(".calendar", "TestEvent", 10000);
+			const icons = await app.client.$$(".calendar .event .fa-calendar");
+			return expect(icons.length).not.equals(0);
+		});
 	});
 
 	describe("Custom configuration", function () {
@@ -49,6 +55,12 @@ describe("Calendar module", function () {
 			await app.client.waitUntilTextExists(".calendar", "TestEvent", 10000);
 			const events = await app.client.$$(".calendar .event");
 			return expect(events.length).equals(3);
+		});
+
+		it("Should show the custom calendar symbol in each event", async () => {
+			await app.client.waitUntilTextExists(".calendar", "TestEvent", 10000);
+			const icons = await app.client.$$(".calendar .event .fa-birthday-cake");
+			return expect(icons.length).not.equals(0);
 		});
 	});
 

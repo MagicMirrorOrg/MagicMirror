@@ -13,8 +13,6 @@ Module.register("calendar", {
 		maximumNumberOfDays: 365,
 		displaySymbol: true,
 		defaultSymbol: "calendar", // Fontawesome Symbol see https://fontawesome.com/cheatsheet?from=io
-		fullDaySymbol: "calendar", // Fontawesome Symbol
-		recurringSymbol: "calendar", // Fontawesome Symbol
 		showLocation: false,
 		displayRepeatingCountTitle: false,
 		defaultRepeatingCountTitle: "",
@@ -568,12 +566,12 @@ Module.register("calendar", {
 	symbolsForEvent: function (event) {
 		let symbols = this.getCalendarPropertyAsArray(event.url, "symbol", this.config.defaultSymbol);
 
-		if (event.recurringEvent === true) {
-			symbols = this.mergeUnique(this.getCalendarPropertyAsArray(event.url, "recurringSymbol", this.config.recurringSymbol), symbols);
+		if (event.recurringEvent === true && this.hasCalendarProperty(event.url, "recurringSymbol")) {
+			symbols = this.mergeUnique(this.getCalendarPropertyAsArray(event.url, "recurringSymbol", this.config.defaultSymbol), symbols);
 		}
 
-		if (event.fullDayEvent === true) {
-			symbols = this.mergeUnique(this.getCalendarPropertyAsArray(event.url, "fullDaySymbol", this.config.recurringSymbol), symbols);
+		if (event.fullDayEvent === true && this.hasCalendarProperty(event.url, "fullDaySymbol")) {
+			symbols = this.mergeUnique(this.getCalendarPropertyAsArray(event.url, "fullDaySymbol", this.config.defaultSymbol), symbols);
 		}
 
 		return symbols;
@@ -680,6 +678,10 @@ Module.register("calendar", {
 		let p = this.getCalendarProperty(url, property, defaultValue);
 		if (!(p instanceof Array)) p = [p];
 		return p;
+	},
+
+	hasCalendarProperty: function (url, property) {
+		return !!this.getCalendarProperty(url, property, undefined);
 	},
 
 	/**

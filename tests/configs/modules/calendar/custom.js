@@ -22,6 +22,7 @@ let config = {
 			config: {
 				calendars: [
 					{
+						symbol: "birthday-cake",
 						maximumEntries: 3,
 						maximumNumberOfDays: 10000,
 						url: "http://localhost:8080/tests/configs/data/calendar_test.ics"
