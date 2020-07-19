@@ -23,9 +23,11 @@ let config = {
 				calendars: [
 					{
 						symbol: "birthday-cake",
-						maximumEntries: 3,
+						fullDaySymbol: "calendar-day",
+						recurringSymbol: "undo",
+						maximumEntries: 4,
 						maximumNumberOfDays: 10000,
-						url: "http://localhost:8080/tests/configs/data/calendar_test.ics"
+						url: "http://localhost:8080/tests/configs/data/calendar_test_icons.ics"
 					}
 				]
 			}
