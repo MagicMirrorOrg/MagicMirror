@@ -9,7 +9,7 @@ const ical = require("ical");
 const moment = require("moment");
 const request = require("request");
 
-const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumNumberOfDays, auth, includePastEvents) {
+const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, includePastEvents) {
 	const self = this;
 
 	let reloadTimer = null;
@@ -254,6 +254,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumNu
 									startDate: startDate.format("x"),
 									endDate: endDate.format("x"),
 									fullDayEvent: isFullDayEvent(event),
+									recurringEvent: true,
 									class: event.class,
 									firstYear: event.start.getFullYear(),
 									location: location,
@@ -317,7 +318,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumNu
 				return a.startDate - b.startDate;
 			});
 
-			events = newEvents;
+			events = newEvents.slice(0, maximumEntries);
 
 			self.broadcastEvents();
 			scheduleTimer();

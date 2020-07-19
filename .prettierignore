@@ -1,5 +1,4 @@
 package-lock.json
 /config/**/*
-/modules/default/calendar/vendor/ical.js/**/*
 /vendor/**/*
 !/vendor/vendor.js
