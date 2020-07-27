@@ -83,7 +83,9 @@
 /**
  * Define the clone method for later use. Helper Method.
  *
- * @param obj
+ * @param {object} obj Object to be cloned
+ *
+ * @returns {object} the cloned object
  */
 function cloneObject(obj) {
 	if (obj === null || typeof obj !== "object") {
