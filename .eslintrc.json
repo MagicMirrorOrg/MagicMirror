@@ -1,6 +1,6 @@
 {
-	"extends": ["eslint:recommended", "plugin:prettier/recommended"],
-	"plugins": ["prettier"],
+	"extends": ["eslint:recommended", "plugin:prettier/recommended", "plugin:jsdoc/recommended"],
+	"plugins": ["prettier", "jsdoc"],
 	"env": {
 		"browser": true,
 		"es6": true,
