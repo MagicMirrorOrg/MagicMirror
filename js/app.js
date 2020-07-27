@@ -169,11 +169,11 @@ var App = function () {
 		loadNextModule();
 	};
 
-	/* cmpVersions(a,b)
+	/**
 	 * Compare two semantic version numbers and return the difference.
 	 *
-	 * argument a string - Version number a.
-	 * argument a string - Version number b.
+	 * @param {string} a Version number a.
+	 * @param {string} b Version number b.
 	 */
 	function cmpVersions(a, b) {
 		var i, diff;

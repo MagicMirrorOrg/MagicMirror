@@ -16,7 +16,7 @@ const config = require(rootPath + "/.eslintrc.json");
 const Log = require(rootPath + "/js/logger.js");
 const Utils = require(rootPath + "/js/utils.js");
 
-/* getConfigFile()
+/**
  * Return string with path of configuration file
  * Check if set by environment variable MM_CONFIG_FILE
  */
@@ -29,6 +29,9 @@ function getConfigFile() {
 	return configFileName;
 }
 
+/**
+ *
+ */
 function checkConfigFile() {
 	const configFileName = getConfigFile();
 

@@ -4,10 +4,17 @@
 (function () {
 	var config = {};
 
-	// Helper function to get server address/hostname from either the commandline or env
+	/**
+	 * Helper function to get server address/hostname from either the commandline or env
+	 */
 	function getServerAddress() {
-		// Helper function to get command line parameters
-		// Assumes that a cmdline parameter is defined with `--key [value]`
+		/**
+		 * Helper function to get command line parameters
+		 * Assumes that a cmdline parameter is defined with `--key [value]`
+		 *
+		 * @param key
+		 * @param defaultValue
+		 */
 		function getCommandLineParameter(key, defaultValue = undefined) {
 			var index = process.argv.indexOf(`--${key}`);
 			var value = index > -1 ? process.argv[index + 1] : undefined;
@@ -23,6 +30,9 @@
 		config["tls"] = process.argv.indexOf("--use-tls") > 0;
 	}
 
+	/**
+	 * @param url
+	 */
 	function getServerConfig(url) {
 		// Return new pending promise
 		return new Promise((resolve, reject) => {
@@ -47,6 +57,10 @@
 		});
 	}
 
+	/**
+	 * @param message
+	 * @param code
+	 */
 	function fail(message, code = 1) {
 		if (message !== undefined && typeof message === "string") {
 			console.log(message);

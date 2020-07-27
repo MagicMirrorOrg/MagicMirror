@@ -556,12 +556,11 @@ Module.register("calendar", {
 	},
 
 	/**
-	 * symbolsForEvent(event)
 	 * Retrieves the symbols for a specific event.
 	 *
-	 * argument event object - Event to look for.
+	 * @param {object} event Event to look for.
 	 *
-	 * return array - The Symbols
+	 * @returns {*} array The Symbols
 	 */
 	symbolsForEvent: function (event) {
 		let symbols = this.getCalendarPropertyAsArray(event.url, "symbol", this.config.defaultSymbol);

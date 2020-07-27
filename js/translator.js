@@ -7,11 +7,11 @@
  * MIT Licensed.
  */
 var Translator = (function () {
-	/* loadJSON(file, callback)
+	/**
 	 * Load a JSON file via XHR.
 	 *
-	 * argument file string - Path of the file we want to load.
-	 * argument callback function - Function called when done.
+	 * @param {string} file Path of the file we want to load.
+	 * @param {Function} callback Function called when done.
 	 */
 	function loadJSON(file, callback) {
 		var xhr = new XMLHttpRequest();
@@ -41,10 +41,17 @@ var Translator = (function () {
 		translate: function (module, key, variables) {
 			variables = variables || {}; //Empty object by default
 
-			// Combines template and variables like:
-			// template: "Please wait for {timeToWait} before continuing with {work}."
-			// variables: {timeToWait: "2 hours", work: "painting"}
-			// to: "Please wait for 2 hours before continuing with painting."
+			/**
+			 * Combines template and variables like:
+			 * template: "Please wait for {timeToWait} before continuing with {work}."
+			 * variables: {timeToWait: "2 hours", work: "painting"}
+			 * to: "Please wait for 2 hours before continuing with painting."
+			 *
+			 * @param template
+			 * @param variables
+			 *
+			 * @returns {*}
+			 */
 			function createStringFromTemplate(template, variables) {
 				if (Object.prototype.toString.call(template) !== "[object String]") {
 					return template;

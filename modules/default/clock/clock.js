@@ -152,6 +152,10 @@ Module.register("clock", {
 			timeWrapper.appendChild(periodWrapper);
 		}
 
+		/**
+		 * @param config
+		 * @param time
+		 */
 		function formatTime(config, time) {
 			var formatString = hourSymbol + ":mm";
 			if (config.showPeriod && config.timeFormat !== 24) {

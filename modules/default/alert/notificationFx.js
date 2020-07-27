@@ -13,6 +13,9 @@
 (function (window) {
 	/**
 	 * extend obj function
+	 *
+	 * @param a
+	 * @param b
 	 */
 	function extend(a, b) {
 		for (let key in b) {
@@ -25,6 +28,8 @@
 
 	/**
 	 * NotificationFx function
+	 *
+	 * @param options
 	 */
 	function NotificationFx(options) {
 		this.options = extend({}, this.options);

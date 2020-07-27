@@ -119,6 +119,9 @@ WeatherProvider.providers = [];
 
 /**
  * Static method to register a new weather provider.
+ *
+ * @param providerIdentifier
+ * @param providerDetails
  */
 WeatherProvider.register = function (providerIdentifier, providerDetails) {
 	WeatherProvider.providers[providerIdentifier.toLowerCase()] = WeatherProvider.extend(providerDetails);
@@ -126,6 +129,9 @@ WeatherProvider.register = function (providerIdentifier, providerDetails) {
 
 /**
  * Static method to initialize a new weather provider.
+ *
+ * @param providerIdentifier
+ * @param delegate
  */
 WeatherProvider.initialize = function (providerIdentifier, delegate) {
 	providerIdentifier = providerIdentifier.toLowerCase();

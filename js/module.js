@@ -157,7 +157,7 @@ var Module = Class.extend({
 	/** nunjucksEnvironment()
 	 * Returns the nunjucks environment for the current module.
 	 * The environment is checked in the _nunjucksEnvironment instance variable.
-
+	 
 	 * @returns Nunjucks Environment
 	 */
 	nunjucksEnvironment: function () {
@@ -451,11 +451,13 @@ Module.create = function (name) {
 	return new ModuleClass();
 };
 
-/* cmpVersions(a,b)
+/**
  * Compare two semantic version numbers and return the difference.
  *
- * argument a string - Version number a.
- * argument a string - Version number b.
+ * @param {string} a Version number a.
+ * @param {string} b Version number b.
+ *
+ * @returns {number}
  */
 function cmpVersions(a, b) {
 	var i, diff;
