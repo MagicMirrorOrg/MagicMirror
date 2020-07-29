@@ -9,11 +9,13 @@
 	 */
 	function getServerAddress() {
 		/**
-		 * Helper function to get command line parameters
+		 * Get command line parameters
 		 * Assumes that a cmdline parameter is defined with `--key [value]`
 		 *
-		 * @param key
-		 * @param defaultValue
+		 * @param {string} key key to look for at the command line
+		 * @param {string} defaultValue value if no key is given at the command line
+		 *
+		 * @returns {string} the value of the parameter
 		 */
 		function getCommandLineParameter(key, defaultValue = undefined) {
 			var index = process.argv.indexOf(`--${key}`);
@@ -31,12 +33,15 @@
 	}
 
 	/**
-	 * @param url
+	 * Gets the config from the specified server url
+	 *
+	 * @param {string} url location where the server is running
+	 * @returns {Promise} the config
 	 */
 	function getServerConfig(url) {
 		// Return new pending promise
 		return new Promise((resolve, reject) => {
-			// Select http or https module, depending on reqested url
+			// Select http or https module, depending on requested url
 			const lib = url.startsWith("https") ? require("https") : require("http");
 			const request = lib.get(url, (response) => {
 				var configData = "";
@@ -58,8 +63,10 @@
 	}
 
 	/**
-	 * @param message
-	 * @param code
+	 * Print a message to the console in case of errors
+	 *
+	 * @param {string} [message] error message to print
+	 * @param {number} code error code for the exit call
 	 */
 	function fail(message, code = 1) {
 		if (message !== undefined && typeof message === "string") {
