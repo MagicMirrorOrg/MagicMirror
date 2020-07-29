@@ -11,6 +11,9 @@ _This release is scheduled to be released on 2020-10-01._
 
 ### Added
 
+- `--dry-run` option adde in fetch call within updatenotification node_helper. This is to prevent
+  MagicMirror from consuming any fetch result. Causes conflict with MMPM when attempting to check
+  for updates to MagicMirror and/or MagicMirror modules.
 - Test coverage with Istanbul, run it with `npm run test:coverage`.
 - Add lithuanian language.
 - Added support in weatherforecast for OpenWeather onecall API.
