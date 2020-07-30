@@ -12,7 +12,7 @@ var WeatherProvider = Class.extend({
 	// Weather Provider Properties
 	providerName: null,
 
-	// The following properties have accestor methods.
+	// The following properties have accessor methods.
 	// Try to not access them directly.
 	currentWeatherObject: null,
 	weatherForecastArray: null,
@@ -120,8 +120,8 @@ WeatherProvider.providers = [];
 /**
  * Static method to register a new weather provider.
  *
- * @param providerIdentifier
- * @param providerDetails
+ * @param {string} providerIdentifier The name of the weather provider
+ * @param {object} providerDetails The details of the weather provider
  */
 WeatherProvider.register = function (providerIdentifier, providerDetails) {
 	WeatherProvider.providers[providerIdentifier.toLowerCase()] = WeatherProvider.extend(providerDetails);
@@ -130,8 +130,9 @@ WeatherProvider.register = function (providerIdentifier, providerDetails) {
 /**
  * Static method to initialize a new weather provider.
  *
- * @param providerIdentifier
- * @param delegate
+ * @param {string} providerIdentifier The name of the weather provider
+ * @param {object} delegate The weather module
+ * @returns {object} The new weather provider
  */
 WeatherProvider.initialize = function (providerIdentifier, delegate) {
 	providerIdentifier = providerIdentifier.toLowerCase();
