@@ -72,19 +72,19 @@
 		"eslint": "^7.6.0",
 		"express": "^4.16.2",
 		"express-ipfilter": "^1.0.1",
-		"feedme": "latest",
+		"feedme": "^1.2.0",
 		"helmet": "^3.23.3",
 		"ical": "^0.8.0",
-		"iconv-lite": "latest",
+		"iconv-lite": "^0.6.2",
 		"lodash": "^4.17.19",
 		"module-alias": "^2.2.2",
-		"moment": "latest",
+		"moment": "^2.27.0",
 		"request": "^2.88.2",
 		"rrule": "^2.6.4",
 		"rrule-alt": "^2.2.8",
 		"simple-git": "^1.85.0",
 		"socket.io": "^2.1.1",
-		"valid-url": "latest"
+		"valid-url": "^1.0.9"
 	},
 	"_moduleAliases": {
 		"node_helper": "js/node_helper.js"
