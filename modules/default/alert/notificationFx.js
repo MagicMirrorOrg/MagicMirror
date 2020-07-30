@@ -12,10 +12,11 @@
  */
 (function (window) {
 	/**
-	 * extend obj function
+	 * Extend one object with another one
 	 *
-	 * @param a
-	 * @param b
+	 * @param {object} a The object to extend
+	 * @param {object} b The object which extends the other, overwrites existing keys
+	 * @returns {object} The merged object
 	 */
 	function extend(a, b) {
 		for (let key in b) {
@@ -27,9 +28,10 @@
 	}
 
 	/**
-	 * NotificationFx function
+	 * NotificationFx constructor
 	 *
-	 * @param options
+	 * @param {object} options The configuration options
+	 * @class
 	 */
 	function NotificationFx(options) {
 		this.options = extend({}, this.options);
@@ -71,8 +73,7 @@
 	};
 
 	/**
-	 * init function
-	 * initialize and cache some vars
+	 * Initialize and cache some vars
 	 */
 	NotificationFx.prototype._init = function () {
 		// create HTML structure
@@ -100,7 +101,7 @@
 	};
 
 	/**
-	 * init events
+	 * Init events
 	 */
 	NotificationFx.prototype._initEvents = function () {
 		// dismiss notification by tapping on it if someone has a touchscreen
@@ -110,7 +111,7 @@
 	};
 
 	/**
-	 * show the notification
+	 * Show the notification
 	 */
 	NotificationFx.prototype.show = function () {
 		this.active = true;
@@ -120,7 +121,7 @@
 	};
 
 	/**
-	 * dismiss the notification
+	 * Dismiss the notification
 	 */
 	NotificationFx.prototype.dismiss = function () {
 		this.active = false;
@@ -149,7 +150,7 @@
 	};
 
 	/**
-	 * add to global namespace
+	 * Add to global namespace
 	 */
 	window.NotificationFx = NotificationFx;
 })(window);
