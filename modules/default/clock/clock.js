@@ -153,8 +153,11 @@ Module.register("clock", {
 		}
 
 		/**
-		 * @param config
-		 * @param time
+		 * Format the time according to the config
+		 *
+		 * @param {object} config The config of the module
+		 * @param {object} time time to format
+		 * @returns {string} The formatted time string
 		 */
 		function formatTime(config, time) {
 			var formatString = hourSymbol + ":mm";
@@ -163,6 +166,7 @@ Module.register("clock", {
 			}
 			return moment(time).format(formatString);
 		}
+
 		if (this.config.showSunTimes) {
 			const sunTimes = SunCalc.getTimes(now, this.config.lat, this.config.lon);
 			const isVisible = now.isBetween(sunTimes.sunrise, sunTimes.sunset);
