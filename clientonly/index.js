@@ -35,7 +35,8 @@
 	/**
 	 * Gets the config from the specified server url
 	 *
-	 * @param {string} url location where the server is running
+	 * @param {string} url location where the server is running.
+	 *
 	 * @returns {Promise} the config
 	 */
 	function getServerConfig(url) {

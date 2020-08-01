@@ -345,7 +345,6 @@ var Module = Class.extend({
 	 * @param {string} key The key of the string to translate
 	 * @param {string|object} [defaultValueOrVariables] The default value or variables for translating.
 	 * @param {string} [defaultValue] The default value with variables.
-	 *
 	 * @returns {string} the translated key
 	 */
 	translate: function (key, defaultValueOrVariables, defaultValue) {
@@ -477,7 +476,6 @@ Module.register = function (name, moduleDefinition) {
  *
  * @param {string} a Version number a.
  * @param {string} b Version number b.
- *
  * @returns {number} A positive number if a is larger than b, a negative
  * number if a is smaller and 0 if they are the same
  */

@@ -37,7 +37,6 @@ var Translator = (function () {
 		 * @param {Module} module The module to load the translation for.
 		 * @param {string} key The key of the text to translate.
 		 * @param {object} variables The variables to use within the translation template (optional)
-		 *
 		 * @returns {string} the translated key
 		 */
 		translate: function (module, key, variables) {
@@ -51,7 +50,6 @@ var Translator = (function () {
 			 *
 			 * @param {string} template Text with placeholder
 			 * @param {object} variables Variables for the placeholder
-			 *
 			 * @returns {string} the template filled with the variables
 			 */
 			function createStringFromTemplate(template, variables) {
