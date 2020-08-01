@@ -11,7 +11,7 @@ Module.register("weather", {
 	defaults: {
 		weatherProvider: "openweathermap",
 		roundTemp: false,
-		type: "current",
+		type: "current", // current, forecast, daily (equivalent to forecast), hourly (only with OpenWeatherMap /onecall endpoint)
 
 		lat: 0,
 		lon: 0,
@@ -127,10 +127,17 @@ Module.register("weather", {
 
 	// Select the template depending on the display type.
 	getTemplate: function () {
-		if (this.config.type === "daily") {
-			return `forecast.njk`;
+		switch (this.config.type.toLowerCase()) {
+			case "current":
+				return `current.njk`;
+			case "hourly":
+				return `hourly.njk`;
+			case "daily":
+			case "forecast":
+				return `forecast.njk`;
+			default:
+				return `${this.config.type.toLowerCase()}.njk`;
 		}
-		return `${this.config.type.toLowerCase()}.njk`;
 	},
 
 	// Add all the data to the template.
