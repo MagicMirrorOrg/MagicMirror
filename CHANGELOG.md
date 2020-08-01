@@ -11,20 +11,27 @@ _This release is scheduled to be released on 2020-10-01._
 
 ### Added
 
-- Added current, hourly (max 48), and daily (max 7) weather forecasts to the default Weather module via the OpenWeatherMap One Call API
+- Test coverage with Istanbul, run it with `npm run test:coverage`.
+- Add lithuanian language.
+- Added support in weatherforecast for OpenWeather onecall API.
+- Added config option to calendar-icons for recurring- and fullday-events
+- Added current, hourly (max 48), and daily (max 7) weather forecasts to weather module via OpenWeatherMap One Call API
 
 ### Updated
 
 - Change incorrect weather.js default properties.
+- Cleaned up newsfeed module.
 
 ### Deleted
 
 ### Fixed
 
+- Fix backward compatibility issues for Safari < 11. [#1985](https://github.com/MichMich/MagicMirror/issues/1985)
 - Fix the use of "maxNumberOfDays" in the module "weatherforecast depending on the endpoint (forecast/daily or forecast)". [#2018](https://github.com/MichMich/MagicMirror/issues/2018)
 - Fix calendar display. Account for current timezone. [#2068](https://github.com/MichMich/MagicMirror/issues/2068)
 - Fix logLevel being set before loading config.
 - Fix incorrect namespace links in svg clockfaces. [#2072](https://github.com/MichMich/MagicMirror/issues/2072)
+- Fix weather/providers/weathergov for API guidelines [#2045]
 
 ## [2.12.0] - 2020-07-01
 

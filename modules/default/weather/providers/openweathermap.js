@@ -68,8 +68,8 @@ WeatherProvider.register("openweathermap", {
 
 				this.setFetchedLocation(`(${data.lat},${data.lon})`);
 
-				const wData = this.generateWeatherObjectsFromOnecall(data);
-				this.setWeatherData(wData);
+				const weatherData = this.generateWeatherObjectsFromOnecall(data);
+				this.setWeatherData(weatherData);
 			})
 			.catch(function (request) {
 				Log.error("Could not load data ... ", request);
@@ -124,8 +124,8 @@ WeatherProvider.register("openweathermap", {
 			return this.fetchOnecall(data);
 		}
 		// if weatherEndpoint does not match onecall, what should be returned?
-		const wData = {current: new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits), hours: [], days: []};
-		return wData;
+		const weatherData = {current: new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits), hours: [], days: []};
+		return weatherData;
 	},
 
 	/*
@@ -415,11 +415,11 @@ WeatherProvider.register("openweathermap", {
 		if (this.config.weatherEndpoint === "/onecall") {
 			params += "lat=" + this.config.lat;
 			params += "&lon=" + this.config.lon;
-			if (this.config.type === "wDataCurrent") {
+			if (this.config.type === "current") {
 				params += "&exclude=minutely,hourly,daily";
-			} else if (this.config.type === "wDataHourly") {
+			} else if (this.config.type === "hourly") {
 				params += "&exclude=current,minutely,daily";
-			} else if (this.config.type === "wDataDaily") {
+			} else if (this.config.type === "daily" || this.config.type === "forecast") {
 				params += "&exclude=current,minutely,hourly";
 			} else {
 				params += "&exclude=minutely";

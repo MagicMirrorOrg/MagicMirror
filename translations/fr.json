@@ -26,6 +26,8 @@
 	"NW": "NO",
 	"NNW": "NNO",
 
+	"MODULE_CONFIG_CHANGED": "Les options de configuration du module {MODULE_NAME} ont changé. \nVeuillez consulter la documentation.",
+
 	"UPDATE_NOTIFICATION": "Une mise à jour de MagicMirror² est disponible",
 	"UPDATE_NOTIFICATION_MODULE": "Une mise à jour est disponible pour le module {MODULE_NAME} .",
 	"UPDATE_INFO_SINGLE": "L'installation actuelle est {COMMIT_COUNT} commit en retard sur la branche {BRANCH_NAME} .",

@@ -11,7 +11,7 @@ Module.register("weather", {
 	defaults: {
 		weatherProvider: "openweathermap",
 		roundTemp: false,
-		type: "current", //current, forecast, wDataCurrent, wDataHourly, wDataDaily
+		type: "current",
 
 		lat: 0,
 		lon: 0,
@@ -127,6 +127,9 @@ Module.register("weather", {
 
 	// Select the template depending on the display type.
 	getTemplate: function () {
+		if (this.config.type === "daily") {
+			return `forecast.njk`;
+		}
 		return `${this.config.type.toLowerCase()}.njk`;
 	},
 
@@ -136,7 +139,7 @@ Module.register("weather", {
 			config: this.config,
 			current: this.weatherProvider.currentWeather(),
 			forecast: this.weatherProvider.weatherForecast(),
-			wData: this.weatherProvider.weatherData(),
+			weatherData: this.weatherProvider.weatherData(),
 			indoor: {
 				humidity: this.indoorHumidity,
 				temperature: this.indoorTemperature
@@ -158,12 +161,12 @@ Module.register("weather", {
 		}
 
 		setTimeout(() => {
-			if (this.config.type === "forecast") {
-				this.weatherProvider.fetchWeatherForecast();
-			} else if (this.config.type === "current") {
-				this.weatherProvider.fetchCurrentWeather();
-			} else {
+			if (this.config.weatherEndpoint === "/onecall") {
 				this.weatherProvider.fetchWeatherData();
+			} else if (this.config.type === "forecast") {
+				this.weatherProvider.fetchWeatherForecast();
+			} else {
+				this.weatherProvider.fetchCurrentWeather();
 			}
 		}, nextLoad);
 	},

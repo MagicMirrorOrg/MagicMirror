@@ -1,8 +1,11 @@
-{% if wData %}
-    {% set numSteps = wData.hours | calcNumEntries %}
+{% if hourly or weatherData %}
+    {% if weatherData %}
+        {% set hourly = weatherData.hours %}
+    {% endif %}
+    {% set numSteps = hourly | calcNumEntries %}
     {% set currentStep = 0 %}
     <table class="{{ config.tableClass }}">
-        {% set hours = wData.hours.slice(0, numSteps) %}
+        {% set hours = hourly.slice(0, numSteps) %}
         {% for hour in hours %}
             <tr {% if config.colored %}class="colored"{% endif %} {% if config.fade %}style="opacity: {{ currentStep | opacity(numSteps) }};"{% endif %}>
                 <td class="day">{{ hour.date | formatTime }}</td>
@@ -25,5 +28,5 @@
     </div>
 {% endif %}
 
-<!-- Uncomment the line below to see the contents of the `wData` object. -->
-<!-- <div style="word-wrap:break-word" class="xsmall dimmed">{{wData | dump}}</div> -->
+<!-- Uncomment the line below to see the contents of the `hourly` object. -->
+<!-- <div style="word-wrap:break-word" class="xsmall dimmed">{{weatherData | dump}}</div> -->

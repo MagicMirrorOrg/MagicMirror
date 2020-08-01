@@ -1,5 +1,4 @@
 # Various Node ignoramuses.
-
 logs
 *.log
 npm-debug.log*
@@ -13,9 +12,11 @@ build/Release
 /node_modules/**/*
 fonts/node_modules/**/*
 vendor/node_modules/**/*
+!/tests/node_modules/**/*
 jspm_modules
 .npm
 .node_repl_history
+.nyc_output/
 
 # Visual Studio Code ignoramuses.
 .vscode/
@@ -53,7 +54,6 @@ Temporary Items
 .apdisk
 
 # Various Linux ignoramuses.
-
 .fuse_hidden*
 .directory
 .Trash-*
@@ -76,5 +76,3 @@ Temporary Items
 *.orig
 *.rej
 *.bak
-
-!/tests/node_modules/**/*
