@@ -42,6 +42,8 @@ var MM = (function () {
 
 			if (typeof module.getHeader() === "undefined" || module.getHeader() !== "") {
 				moduleHeader.style.display = "none;";
+			} else {
+				moduleHeader.style.display = "block;";
 			}
 
 			var moduleContent = document.createElement("div");
@@ -218,7 +220,7 @@ var MM = (function () {
 
 		headerWrapper[0].innerHTML = newHeader;
 		if (headerWrapper.length > 0 && newHeader) {
-			delete headerWrapper[0].style;
+			headerWrapper[0].style.display = "block";
 		} else {
 			headerWrapper[0].style.display = "none";
 		}
