@@ -34,7 +34,7 @@ var Translator = (function () {
 		/**
 		 * Load a translation for a given key for a given module.
 		 *
-		 * @param {object} module The module to load the translation for.
+		 * @param {Module} module The module to load the translation for.
 		 * @param {string} key The key of the text to translate.
 		 * @param {object} variables The variables to use within the translation template (optional)
 		 *
@@ -92,7 +92,7 @@ var Translator = (function () {
 		/**
 		 * Load a translation file (json) and remember the data.
 		 *
-		 * @param {object} module The module to load the translation file for.
+		 * @param {Module} module The module to load the translation file for.
 		 * @param {string} file Path of the file we want to load.
 		 * @param {boolean} isFallback Flag to indicate fallback translations.
 		 * @param {Function} callback Function called when done.

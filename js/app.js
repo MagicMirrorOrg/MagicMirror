@@ -157,7 +157,7 @@ var App = function () {
 	/**
 	 * Loads all modules.
 	 *
-	 * @param {Array} modules All modules to be loaded
+	 * @param {Module[]} modules All modules to be loaded
 	 * @param {Function} callback Function to be called after loading
 	 */
 	var loadModules = function (modules, callback) {

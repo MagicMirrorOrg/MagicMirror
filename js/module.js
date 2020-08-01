@@ -2,9 +2,11 @@
 
 /* Magic Mirror
  * Module Blueprint.
+ * @typedef {Object} Module
  *
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
+ *
  */
 var Module = Class.extend({
 	/*********************************************************
@@ -45,9 +47,8 @@ var Module = Class.extend({
 
 	/**
 	 * Returns a list of scripts the module requires to be loaded.
-	 * return Array<String> -
 	 *
-	 * @returns {*[]} An array with filenames.
+	 * @returns {string[]} An array with filenames.
 	 */
 	getScripts: function () {
 		return [];
@@ -56,7 +57,7 @@ var Module = Class.extend({
 	/**
 	 * Returns a list of stylesheets the module requires to be loaded.
 	 *
-	 * @returns {*[]} An array with filenames.
+	 * @returns {string[]} An array with filenames.
 	 */
 	getStyles: function () {
 		return [];
@@ -146,7 +147,7 @@ var Module = Class.extend({
 	 *
 	 * @param {string} notification The identifier of the notification.
 	 * @param {*} payload The payload of the notification.
-	 * @param {object} sender The module that sent the notification.
+	 * @param {Module} sender The module that sent the notification.
 	 */
 	notificationReceived: function (notification, payload, sender) {
 		if (sender) {
@@ -212,7 +213,7 @@ var Module = Class.extend({
 	/**
 	 * Set the module data.
 	 *
-	 * @param {object} data The module data
+	 * @param {Module} data The module data
 	 */
 	setData: function (data) {
 		this.data = data;
@@ -388,7 +389,7 @@ var Module = Class.extend({
 	 *
 	 * @param {number} speed The speed of the hide animation.
 	 * @param {Function} callback Called when the animation is done.
-	 * @param {object} options Optional settings for the hide method.
+	 * @param {object} [options] Optional settings for the hide method.
 	 */
 	hide: function (speed, callback, options) {
 		if (typeof callback === "object") {
@@ -416,7 +417,7 @@ var Module = Class.extend({
 	 *
 	 * @param {number} speed The speed of the show animation.
 	 * @param {Function} callback Called when the animation is done.
-	 * @param {object} options Optional settings for the show method.
+	 * @param {object} [options] Optional settings for the show method.
 	 */
 	show: function (speed, callback, options) {
 		if (typeof callback === "object") {
