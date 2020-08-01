@@ -1,29 +1,15 @@
-var expect = require("chai").expect;
+const expect = require("chai").expect;
 
 describe("Functions into modules/default/newsfeed/newsfeed.js", function () {
+	// Fake for use by newsletter.js
 	Module = {};
 	Module.definitions = {};
 	Module.register = function (name, moduleDefinition) {
 		Module.definitions[name] = moduleDefinition;
 	};
 
-	// load newsfeed.js
-	require("../../../modules/default/newsfeed/newsfeed.js");
-
-	describe("capitalizeFirstLetter", function () {
-		const words = {
-			rodrigo: "Rodrigo",
-			"123m": "123m",
-			"magic mirror": "Magic mirror",
-			",a": ",a",
-			ñandú: "Ñandú",
-			".!": ".!"
-		};
-
-		Object.keys(words).forEach((word) => {
-			it(`for ${word} should return ${words[word]}`, function () {
-				expect(Module.definitions.newsfeed.capitalizeFirstLetter(word)).to.equal(words[word]);
-			});
-		});
+	before(function () {
+		// load newsfeed.js
+		require("../../../modules/default/newsfeed/newsfeed.js");
 	});
 });

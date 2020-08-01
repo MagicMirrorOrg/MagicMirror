@@ -5,6 +5,33 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror²
 
+## [2.13.0] - Unreleased (Develop Branch - Please add your contributions to this release.)
+
+_This release is scheduled to be released on 2020-10-01._
+
+### Added
+
+- Test coverage with Istanbul, run it with `npm run test:coverage`.
+- Add lithuanian language.
+- Added support in weatherforecast for OpenWeather onecall API.
+- Added config option to calendar-icons for recurring- and fullday-events
+
+### Updated
+
+- Change incorrect weather.js default properties.
+- Cleaned up newsfeed module.
+
+### Deleted
+
+### Fixed
+
+- Fix backward compatibility issues for Safari < 11. [#1985](https://github.com/MichMich/MagicMirror/issues/1985)
+- Fix the use of "maxNumberOfDays" in the module "weatherforecast depending on the endpoint (forecast/daily or forecast)". [#2018](https://github.com/MichMich/MagicMirror/issues/2018)
+- Fix calendar display. Account for current timezone. [#2068](https://github.com/MichMich/MagicMirror/issues/2068)
+- Fix logLevel being set before loading config.
+- Fix incorrect namespace links in svg clockfaces. [#2072](https://github.com/MichMich/MagicMirror/issues/2072)
+- Fix weather/providers/weathergov for API guidelines [#2045]
+
 ## [2.12.0] - 2020-07-01
 
 Special thanks to the following contributors: @AndreKoepke, @andrezibaia, @bryanzzhu, @chamakura, @DarthBrento, @Ekristoffe, @khassel, @Legion2, @ndom91, @radokristof, @rejas, @XBCreepinJesus & @ZoneMR.

@@ -9,7 +9,7 @@ const ical = require("ical");
 const moment = require("moment");
 const request = require("request");
 
-const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumNumberOfDays, auth, includePastEvents) {
+const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, includePastEvents) {
 	const self = this;
 
 	let reloadTimer = null;
@@ -186,10 +186,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumNu
 						// kblankenship1989 - to fix issue #1798, converting all dates to locale time first, then converting back to UTC time
 						const pastLocal = pastMoment.subtract(past.getTimezoneOffset(), "minutes").toDate();
 						const futureLocal = futureMoment.subtract(future.getTimezoneOffset(), "minutes").toDate();
-						const datesLocal = rule.between(pastLocal, futureLocal, true, limitFunction);
-						const dates = datesLocal.map(function (dateLocal) {
-							return moment(dateLocal).add(dateLocal.getTimezoneOffset(), "minutes").toDate();
-						});
+						const dates = rule.between(pastLocal, futureLocal, true, limitFunction);
 
 						// The "dates" array contains the set of dates within our desired date range range that are valid
 						// for the recurrence rule. *However*, it's possible for us to have a specific recurrence that
@@ -257,6 +254,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumNu
 									startDate: startDate.format("x"),
 									endDate: endDate.format("x"),
 									fullDayEvent: isFullDayEvent(event),
+									recurringEvent: true,
 									class: event.class,
 									firstYear: event.start.getFullYear(),
 									location: location,
@@ -320,7 +318,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumNu
 				return a.startDate - b.startDate;
 			});
 
-			events = newEvents;
+			events = newEvents.slice(0, maximumEntries);
 
 			self.broadcastEvents();
 			scheduleTimer();
