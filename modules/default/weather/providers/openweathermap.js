@@ -124,7 +124,7 @@ WeatherProvider.register("openweathermap", {
 			return this.fetchOnecall(data);
 		}
 		// if weatherEndpoint does not match onecall, what should be returned?
-		const weatherData = {current: new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits), hours: [], days: []};
+		const weatherData = { current: new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits), hours: [], days: [] };
 		return weatherData;
 	},
 
@@ -265,11 +265,11 @@ WeatherProvider.register("openweathermap", {
 		// get current weather, if requested
 		const current = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
 		if (data.hasOwnProperty("current")) {
-			current.date = moment(data.current.dt, "X").utcOffset(data.timezone_offset/60);
+			current.date = moment(data.current.dt, "X").utcOffset(data.timezone_offset / 60);
 			current.windSpeed = data.current.wind_speed;
 			current.windDirection = data.current.wind_deg;
-			current.sunrise = moment(data.current.sunrise, "X").utcOffset(data.timezone_offset/60);
-			current.sunset = moment(data.current.sunset, "X").utcOffset(data.timezone_offset/60);
+			current.sunrise = moment(data.current.sunrise, "X").utcOffset(data.timezone_offset / 60);
+			current.sunset = moment(data.current.sunset, "X").utcOffset(data.timezone_offset / 60);
 			current.temperature = data.current.temp;
 			current.weatherType = this.convertWeatherType(data.current.weather[0].icon);
 			current.humidity = data.current.humidity;
@@ -290,7 +290,7 @@ WeatherProvider.register("openweathermap", {
 				precip = true;
 			}
 			if (precip) {
-				current.precipitation = current.rain+current.snow;
+				current.precipitation = current.rain + current.snow;
 			}
 			current.feelsLikeTemp = data.current.feels_like;
 		}
@@ -301,7 +301,7 @@ WeatherProvider.register("openweathermap", {
 		const hours = [];
 		if (data.hasOwnProperty("hourly")) {
 			for (const hour of data.hourly) {
-				weather.date = moment(hour.dt, "X").utcOffset(data.timezone_offset/60);
+				weather.date = moment(hour.dt, "X").utcOffset(data.timezone_offset / 60);
 				// weather.date = moment(hour.dt, "X").utcOffset(data.timezone_offset/60).format(onecallDailyFormat+","+onecallHourlyFormat);
 				weather.temperature = hour.temp;
 				weather.feelsLikeTemp = hour.feels_like;
@@ -327,7 +327,7 @@ WeatherProvider.register("openweathermap", {
 					precip = true;
 				}
 				if (precip) {
-					weather.precipitation = weather.rain+weather.snow;
+					weather.precipitation = weather.rain + weather.snow;
 				}
 
 				hours.push(weather);
@@ -339,9 +339,9 @@ WeatherProvider.register("openweathermap", {
 		const days = [];
 		if (data.hasOwnProperty("daily")) {
 			for (const day of data.daily) {
-				weather.date = moment(day.dt, "X").utcOffset(data.timezone_offset/60);
-				weather.sunrise = moment(day.sunrise, "X").utcOffset(data.timezone_offset/60);
-				weather.sunset = moment(day.sunset, "X").utcOffset(data.timezone_offset/60);
+				weather.date = moment(day.dt, "X").utcOffset(data.timezone_offset / 60);
+				weather.sunrise = moment(day.sunrise, "X").utcOffset(data.timezone_offset / 60);
+				weather.sunset = moment(day.sunset, "X").utcOffset(data.timezone_offset / 60);
 				weather.minTemperature = day.temp.min;
 				weather.maxTemperature = day.temp.max;
 				weather.humidity = day.humidity;
@@ -366,7 +366,7 @@ WeatherProvider.register("openweathermap", {
 					precip = true;
 				}
 				if (precip) {
-					weather.precipitation = weather.rain+weather.snow;
+					weather.precipitation = weather.rain + weather.snow;
 				}
 
 				days.push(weather);
@@ -374,7 +374,7 @@ WeatherProvider.register("openweathermap", {
 			}
 		}
 
-		return {current: current, hours: hours, days: days};
+		return { current: current, hours: hours, days: days };
 	},
 
 	/*
