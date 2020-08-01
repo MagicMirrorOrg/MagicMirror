@@ -103,7 +103,7 @@ Module.register("weatherforecast", {
 	getDom: function () {
 		var wrapper = document.createElement("div");
 
-		if (this.config.appid === "") {
+		if (this.config.appid === "" || this.config.appid === "YOUR_OPENWEATHER_API_KEY") {
 			wrapper.innerHTML = "Please set the correct openweather <i>appid</i> in the config for module: " + this.name + ".";
 			wrapper.className = "dimmed light small";
 			return wrapper;
