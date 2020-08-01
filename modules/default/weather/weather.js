@@ -11,8 +11,10 @@ Module.register("weather", {
 	defaults: {
 		weatherProvider: "openweathermap",
 		roundTemp: false,
-		type: "current", //current, forecast
+		type: "current",
 
+		lat: 0,
+		lon: 0,
 		location: false,
 		locationID: false,
 		units: config.units,
@@ -36,6 +38,7 @@ Module.register("weather", {
 		showIndoorTemperature: false,
 		showIndoorHumidity: false,
 		maxNumberOfDays: 5,
+		maxEntries: 5,
 		fade: true,
 		fadePoint: 0.25, // Start on 1/4th of the list.
 
@@ -124,6 +127,9 @@ Module.register("weather", {
 
 	// Select the template depending on the display type.
 	getTemplate: function () {
+		if (this.config.type === "daily") {
+			return `forecast.njk`;
+		}
 		return `${this.config.type.toLowerCase()}.njk`;
 	},
 
@@ -133,6 +139,7 @@ Module.register("weather", {
 			config: this.config,
 			current: this.weatherProvider.currentWeather(),
 			forecast: this.weatherProvider.weatherForecast(),
+			weatherData: this.weatherProvider.weatherData(),
 			indoor: {
 				humidity: this.indoorHumidity,
 				temperature: this.indoorTemperature
@@ -154,7 +161,9 @@ Module.register("weather", {
 		}
 
 		setTimeout(() => {
-			if (this.config.type === "forecast") {
+			if (this.config.weatherEndpoint === "/onecall") {
+				this.weatherProvider.fetchWeatherData();
+			} else if (this.config.type === "forecast") {
 				this.weatherProvider.fetchWeatherForecast();
 			} else {
 				this.weatherProvider.fetchCurrentWeather();
@@ -206,7 +215,7 @@ Module.register("weather", {
 						}
 					}
 				} else if (type === "precip") {
-					if (isNaN(value) || value === 0 || value.toFixed(2) === "0.00") {
+					if (value === null || isNaN(value) || value === 0 || value.toFixed(2) === "0.00") {
 						value = "";
 					} else {
 						if (this.config.weatherProvider === "ukmetoffice" || this.config.weatherProvider === "ukmetofficedatahub") {
@@ -241,6 +250,13 @@ Module.register("weather", {
 			"calcNumSteps",
 			function (forecast) {
 				return Math.min(forecast.length, this.config.maxNumberOfDays);
+			}.bind(this)
+		);
+
+		this.nunjucksEnvironment().addFilter(
+			"calcNumEntries",
+			function (dataArray) {
+				return Math.min(dataArray.length, this.config.maxEntries);
 			}.bind(this)
 		);
 
