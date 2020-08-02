@@ -1,5 +1,6 @@
 const helpers = require("../global-setup");
 const expect = require("chai").expect;
+const moment = require("moment");
 
 const describe = global.describe;
 const it = global.it;
@@ -95,11 +96,9 @@ describe("Clock module", function () {
 		});
 
 		it("should show the week with the correct number of week of year", function () {
-			it("FIXME: if the day is a sunday this not match");
-			//	const currentWeekNumber = require("current-week-number")();
-			//	const weekToShow = "Week " + currentWeekNumber;
-			//	return app.client.waitUntilWindowLoaded()
-			//		.getText(".clock .week").should.eventually.equal(weekToShow);
+			const currentWeekNumber = moment().week();
+			const weekToShow = "Week " + currentWeekNumber;
+			return app.client.waitUntilWindowLoaded().getText(".clock .week").should.eventually.equal(weekToShow);
 		});
 	});
 
