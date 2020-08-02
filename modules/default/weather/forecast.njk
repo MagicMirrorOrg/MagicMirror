@@ -1,8 +1,10 @@
 {% if forecast or weatherData %}
     {% if weatherData %}
         {% set forecast = weatherData.days %}
+        {% set numSteps = forecast | calcNumEntries %}
+    {% else %}
+        {% set numSteps = forecast | calcNumSteps %}
     {% endif %}
-    {% set numSteps = forecast | calcNumSteps %}
     {% set currentStep = 0 %}
     <table class="{{ config.tableClass }}">
         {% set forecast = forecast.slice(0, numSteps) %}
