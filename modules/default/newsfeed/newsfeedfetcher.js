@@ -9,12 +9,14 @@ const FeedMe = require("feedme");
 const request = require("request");
 const iconv = require("iconv-lite");
 
-/* Fetcher
+/**
  * Responsible for requesting an update on the set interval and broadcasting the data.
  *
- * attribute url string - URL of the news feed.
- * attribute reloadInterval number - Reload interval in milliseconds.
- * attribute logFeedWarnings boolean - Log warnings when there is an error parsing a news article.
+ * @param {string} url URL of the news feed.
+ * @param {number} reloadInterval Reload interval in milliseconds.
+ * @param {string} encoding Encoding of the feed.
+ * @param {boolean} logFeedWarnings If true log warnings when there is an error parsing a news article.
+ * @class
  */
 const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings) {
 	const self = this;
@@ -31,7 +33,7 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 
 	/* private methods */
 
-	/* fetchNews()
+	/**
 	 * Request the new items.
 	 */
 	const fetchNews = function () {
@@ -95,7 +97,7 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 			.pipe(parser);
 	};
 
-	/* scheduleTimer()
+	/**
 	 * Schedule the timer for the next update.
 	 */
 	const scheduleTimer = function () {
@@ -107,10 +109,10 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 
 	/* public methods */
 
-	/* setReloadInterval()
+	/**
 	 * Update the reload interval, but only if we need to increase the speed.
 	 *
-	 * attribute interval number - Interval for the update in milliseconds.
+	 * @param {number} interval Interval for the update in milliseconds.
 	 */
 	this.setReloadInterval = function (interval) {
 		if (interval > 1000 && interval < reloadInterval) {
@@ -118,14 +120,14 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 		}
 	};
 
-	/* startFetch()
+	/**
 	 * Initiate fetchNews();
 	 */
 	this.startFetch = function () {
 		fetchNews();
 	};
 
-	/* broadcastItems()
+	/**
 	 * Broadcast the existing items.
 	 */
 	this.broadcastItems = function () {
