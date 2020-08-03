@@ -452,7 +452,7 @@ Module.register("calendar", {
 	/**
 	 * Creates the sorted list of all events.
 	 *
-	 * @returns {*[]} Array with events.
+	 * @returns {object[]} Array with events.
 	 */
 	createEventList: function () {
 		var events = [];
@@ -532,11 +532,6 @@ Module.register("calendar", {
 		}
 		return false;
 	},
-
-	/* createEventList(url)
-	 *
-	 * argument url string - Url to add.
-	 */
 
 	/**
 	 * Requests node helper to add calendar url.
