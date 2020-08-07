@@ -12,7 +12,6 @@ const path = require("path");
 const fs = require("fs");
 
 const rootPath = path.resolve(__dirname + "/../");
-const config = require(rootPath + "/.eslintrc.json");
 const Log = require(rootPath + "/js/logger.js");
 const Utils = require(rootPath + "/js/utils.js");
 
@@ -54,7 +53,7 @@ function checkConfigFile() {
 		if (err) {
 			throw err;
 		}
-		const messages = linter.verify(data, config);
+		const messages = linter.verify(data);
 		if (messages.length === 0) {
 			Log.log("Your configuration file doesn't contain syntax errors :)");
 			return true;
