@@ -70,6 +70,7 @@ Special thanks to the following contributors: @AndreKoepke, @andrezibaia, @bryan
 - Throw error when check_config fails. [#1928](https://github.com/MichMich/MagicMirror/issues/1928)
 - Bug fix related to 'maxEntries' not displaying Calendar events. [#2050](https://github.com/MichMich/MagicMirror/issues/2050)
 - Updated ical library to latest version. [#1926](https://github.com/MichMich/MagicMirror/issues/1926)
+- Fix config check after merge of prettier [#2109](https://github.com/MichMich/MagicMirror/issues/2109)
 
 ## [2.11.0] - 2020-04-01
 
