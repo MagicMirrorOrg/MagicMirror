@@ -55,14 +55,13 @@ function checkConfigFile() {
 		}
 		const messages = linter.verify(data);
 		if (messages.length === 0) {
-			Log.log("Your configuration file doesn't contain syntax errors :)");
-			return true;
+			Log.info(Utils.colors.pass("Your configuration file doesn't contain syntax errors :)"));
 		} else {
+			Log.error(Utils.colors.error("Your configuration file contains syntax errors :("));
 			// In case the there errors show messages and return
 			messages.forEach((error) => {
-				Log.log("Line", error.line, "col", error.column, error.message);
+				Log.error("Line", error.line, "col", error.column, error.message);
 			});
-			throw new Error("Wrong syntax in config file!");
 		}
 	});
 }
