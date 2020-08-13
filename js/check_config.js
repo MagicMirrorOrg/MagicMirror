@@ -16,9 +16,11 @@ const config = require(rootPath + "/.eslintrc.json");
 const Log = require(rootPath + "/js/logger.js");
 const Utils = require(rootPath + "/js/utils.js");
 
-/* getConfigFile()
- * Return string with path of configuration file
+/**
+ * Returns a string with path of configuration file.
  * Check if set by environment variable MM_CONFIG_FILE
+ *
+ * @returns {string} path and filename of the config file
  */
 function getConfigFile() {
 	// FIXME: This function should be in core. Do you want refactor me ;) ?, be good!
@@ -29,6 +31,9 @@ function getConfigFile() {
 	return configFileName;
 }
 
+/**
+ * Checks the config file using eslint.
+ */
 function checkConfigFile() {
 	const configFileName = getConfigFile();
 
@@ -38,7 +43,7 @@ function checkConfigFile() {
 		throw new Error("No config file present!");
 	}
 
-	// check permission
+	// Check permission
 	try {
 		fs.accessSync(configFileName, fs.F_OK);
 	} catch (e) {

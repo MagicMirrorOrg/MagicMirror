@@ -18,11 +18,13 @@ _This release is scheduled to be released on 2020-10-01._
 - Add lithuanian language.
 - Added support in weatherforecast for OpenWeather onecall API.
 - Added config option to calendar-icons for recurring- and fullday-events
+- Added eslint-plugin for jsdoc comments
 
 ### Updated
 
 - Change incorrect weather.js default properties.
 - Cleaned up newsfeed module.
+- Cleaned up jsdoc comments.
 
 ### Deleted
 
