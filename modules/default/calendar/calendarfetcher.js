@@ -203,13 +203,12 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 						// of dates we're looking for.
 						// kblankenship1989 - to fix issue #1798, converting all dates to locale time first, then converting back to UTC time
 						let pastLocal = 0;
-						let futureLocal = 0; 
-						if( isFullDayEvent(event)) {
+						let futureLocal = 0;
+						if (isFullDayEvent(event)) {
 							// if full day event, only use the date part of the ranges
 							pastLocal = pastMoment.toDate();
-							futureLocal = futureMoment.toDate();  
-                        }
-						else {
+							futureLocal = futureMoment.toDate();
+						} else {
 							pastLocal = pastMoment.subtract(past.getTimezoneOffset(), "minutes").toDate();
 							futureLocal = futureMoment.subtract(future.getTimezoneOffset(), "minutes").toDate();
 						}
