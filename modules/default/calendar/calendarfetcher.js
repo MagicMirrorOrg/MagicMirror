@@ -195,10 +195,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumNu
 							pastLocal = pastMoment.subtract(past.getTimezoneOffset(), "minutes").toDate();
 							futureLocal = futureMoment.subtract(future.getTimezoneOffset(), "minutes").toDate();
 						}
-						const datesLocal = rule.between(pastLocal, futureLocal, true, limitFunction);
-						const dates = datesLocal.map(function (dateLocal) {
-							return moment(dateLocal).add(dateLocal.getTimezoneOffset(), "minutes").toDate();
-						});
+						const dates = rule.between(pastLocal, futureLocal, true, limitFunction);
 
 						// The "dates" array contains the set of dates within our desired date range range that are valid
 						// for the recurrence rule. *However*, it's possible for us to have a specific recurrence that
