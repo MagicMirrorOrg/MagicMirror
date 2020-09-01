@@ -1,0 +1,36 @@
+{
+	"LOADING": "Завантаження &hellip;",
+
+	"TODAY": "Сьогодні",
+	"TOMORROW": "Завтра",
+	"DAYAFTERTOMORROW": "Післязавтра",
+	"RUNNING": "Закінчується через",
+	"EMPTY": "Немає найближчих подій",
+
+	"WEEK": "Тиждень {weekNumber}",
+
+	"N": "Пн",
+	"NNE": "ПнПнСх",
+	"NE": "ПнСх",
+	"ENE": "СхПнСх",
+	"E": "Сх",
+	"ESE": "СхПдСх",
+	"SE": "СхПд",
+	"SSE": "СхСхПд",
+	"S": "Пд",
+	"SSW": "ПдПдЗх",
+	"SW": "ПдЗх",
+	"WSW": "ЗхПдЗх",
+	"W": "Зх",
+	"WNW": "ЗхПнЗх",
+	"NW": "ПнЗх",
+	"NNW": "ПнПнЗх",
+
+	"UPDATE_NOTIFICATION": "Є оновлення для MagicMirror².",
+	"UPDATE_NOTIFICATION_MODULE": "Є оновлення для модуля {MODULE_NAME}.",
+	"UPDATE_INFO_SINGLE": "Поточна версія на {COMMIT_COUNT} комміт позаду від гілки {BRANCH_NAME}.",
+	"UPDATE_INFO_MULTIPLE": "Поточна інсталяція на {COMMIT_COUNT} комітів позаду від гілки {BRANCH_NAME}.",
+
+	"FEELS": "Відчувається як",
+	"PRECIP": "Опади"
+}

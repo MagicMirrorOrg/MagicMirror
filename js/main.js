@@ -1,15 +1,12 @@
-/* global  Log, Loader, Module, config, defaults */
-/* jshint -W020, esversion: 6 */
+/* global Loader, defaults, Translator */
 
 /* Magic Mirror
  * Main System
  *
- * By Michael Teeuw http://michaelteeuw.nl
+ * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-
-var MM = (function() {
-
+var MM = (function () {
 	var modules = [];
 
 	/* Private Methods */
@@ -18,10 +15,10 @@ var MM = (function() {
 	 * Create dom objects for all modules that
 	 * are configured for a specific position.
 	 */
-	var createDomObjects = function() {
+	var createDomObjects = function () {
 		var domCreationPromises = [];
 
-		modules.forEach(function(module) {
+		modules.forEach(function (module) {
 			if (typeof module.data.position !== "string") {
 				return;
 			}
@@ -54,14 +51,16 @@ var MM = (function() {
 
 			var domCreationPromise = updateDom(module, 0);
 			domCreationPromises.push(domCreationPromise);
-			domCreationPromise.then(function() {
-				sendNotification("MODULE_DOM_CREATED", null, null, module);
-			}).catch(Log.error);
+			domCreationPromise
+				.then(function () {
+					sendNotification("MODULE_DOM_CREATED", null, null, module);
+				})
+				.catch(Log.error);
 		});
 
 		updateWrapperStates();
 
-		Promise.all(domCreationPromises).then(function() {
+		Promise.all(domCreationPromises).then(function () {
 			sendNotification("DOM_OBJECTS_CREATED");
 		});
 	};
@@ -71,8 +70,8 @@ var MM = (function() {
 	 *
 	 * argument position string - The name of the position.
 	 */
-	var selectWrapper = function(position) {
-		var classes = position.replace("_"," ");
+	var selectWrapper = function (position) {
+		var classes = position.replace("_", " ");
 		var parentWrapper = document.getElementsByClassName(classes);
 		if (parentWrapper.length > 0) {
 			var wrapper = parentWrapper[0].getElementsByClassName("container");
@@ -90,7 +89,7 @@ var MM = (function() {
 	 * argument sender Module - The module that sent the notification.
 	 * argument sendTo Module - The module to send the notification to. (optional)
 	 */
-	var sendNotification = function(notification, payload, sender, sendTo) {
+	var sendNotification = function (notification, payload, sender, sendTo) {
 		for (var m in modules) {
 			var module = modules[m];
 			if (module !== sender && (!sendTo || module === sendTo)) {
@@ -107,8 +106,8 @@ var MM = (function() {
 	 *
 	 * return Promise - Resolved when the dom is fully updated.
 	 */
-	var updateDom = function(module, speed) {
-		return new Promise(function(resolve) {
+	var updateDom = function (module, speed) {
+		return new Promise(function (resolve) {
 			var newContentPromise = module.getDom();
 			var newHeader = module.getHeader();
 
@@ -117,11 +116,13 @@ var MM = (function() {
 				newContentPromise = Promise.resolve(newContentPromise);
 			}
 
-			newContentPromise.then(function(newContent) {
-				var updatePromise = updateDomWithContent(module, speed, newHeader, newContent);
+			newContentPromise
+				.then(function (newContent) {
+					var updatePromise = updateDomWithContent(module, speed, newHeader, newContent);
 
-				updatePromise.then(resolve).catch(Log.error);
-			}).catch(Log.error);
+					updatePromise.then(resolve).catch(Log.error);
+				})
+				.catch(Log.error);
 		});
 	};
 
@@ -135,8 +136,8 @@ var MM = (function() {
 	 *
 	 * return Promise - Resolved when the module dom has been updated.
 	 */
-	var updateDomWithContent = function(module, speed, newHeader, newContent) {
-		return new Promise(function(resolve) {
+	var updateDomWithContent = function (module, speed, newHeader, newContent) {
+		return new Promise(function (resolve) {
 			if (module.hidden || !speed) {
 				updateModuleContent(module, newHeader, newContent);
 				resolve();
@@ -154,7 +155,7 @@ var MM = (function() {
 				return;
 			}
 
-			hideModule(module, speed / 2, function() {
+			hideModule(module, speed / 2, function () {
 				updateModuleContent(module, newHeader, newContent);
 				if (!module.hidden) {
 					showModule(module, speed / 2);
@@ -173,7 +174,7 @@ var MM = (function() {
 	 *
 	 * return bool - Does the module need an update?
 	 */
-	var moduleNeedsUpdate = function(module, newHeader, newContent) {
+	var moduleNeedsUpdate = function (module, newHeader, newContent) {
 		var moduleWrapper = document.getElementById(module.identifier);
 		if (moduleWrapper === null) {
 			return false;
@@ -203,9 +204,11 @@ var MM = (function() {
 	 * argument newHeader String - The new header that is generated.
 	 * argument newContent Domobject - The new content that is generated.
 	 */
-	var updateModuleContent = function(module, newHeader, newContent) {
+	var updateModuleContent = function (module, newHeader, newContent) {
 		var moduleWrapper = document.getElementById(module.identifier);
-		if (moduleWrapper === null) {return;}
+		if (moduleWrapper === null) {
+			return;
+		}
 		var headerWrapper = moduleWrapper.getElementsByClassName("module-header");
 		var contentWrapper = moduleWrapper.getElementsByClassName("module-content");
 
@@ -223,7 +226,7 @@ var MM = (function() {
 	 * argument speed Number - The speed of the hide animation.
 	 * argument callback function - Called when the animation is done.
 	 */
-	var hideModule = function(module, speed, callback, options) {
+	var hideModule = function (module, speed, callback, options) {
 		options = options || {};
 
 		// set lockString if set in options.
@@ -240,7 +243,7 @@ var MM = (function() {
 			moduleWrapper.style.opacity = 0;
 
 			clearTimeout(module.showHideTimer);
-			module.showHideTimer = setTimeout(function() {
+			module.showHideTimer = setTimeout(function () {
 				// To not take up any space, we just make the position absolute.
 				// since it's fade out anyway, we can see it lay above or
 				// below other modules. This works way better than adjusting
@@ -249,11 +252,15 @@ var MM = (function() {
 
 				updateWrapperStates();
 
-				if (typeof callback === "function") { callback(); }
+				if (typeof callback === "function") {
+					callback();
+				}
 			}, speed);
 		} else {
 			// invoke callback even if no content, issue 1308
-			if (typeof callback === "function") { callback(); }
+			if (typeof callback === "function") {
+				callback();
+			}
 		}
 	};
 
@@ -264,13 +271,13 @@ var MM = (function() {
 	 * argument speed Number - The speed of the show animation.
 	 * argument callback function - Called when the animation is done.
 	 */
-	var showModule = function(module, speed, callback, options) {
+	var showModule = function (module, speed, callback, options) {
 		options = options || {};
 
 		// remove lockString if set in options.
 		if (options.lockString) {
 			var index = module.lockStrings.indexOf(options.lockString);
-			if ( index !== -1) {
+			if (index !== -1) {
 				module.lockStrings.splice(index, 1);
 			}
 		}
@@ -303,10 +310,16 @@ var MM = (function() {
 			moduleWrapper.style.opacity = 1;
 
 			clearTimeout(module.showHideTimer);
-			module.showHideTimer = setTimeout(function() {
-				if (typeof callback === "function") { callback(); }
+			module.showHideTimer = setTimeout(function () {
+				if (typeof callback === "function") {
+					callback();
+				}
 			}, speed);
-
+		} else {
+			// invoke callback
+			if (typeof callback === "function") {
+				callback();
+			}
 		}
 	};
 
@@ -321,15 +334,15 @@ var MM = (function() {
 	 * an ugly top margin. By using this function, the top bar will be hidden if the
 	 * update notification is not visible.
 	 */
-	var updateWrapperStates = function() {
+	var updateWrapperStates = function () {
 		var positions = ["top_bar", "top_left", "top_center", "top_right", "upper_third", "middle_center", "lower_third", "bottom_left", "bottom_center", "bottom_right", "bottom_bar", "fullscreen_above", "fullscreen_below"];
 
-		positions.forEach(function(position) {
+		positions.forEach(function (position) {
 			var wrapper = selectWrapper(position);
 			var moduleWrappers = wrapper.getElementsByClassName("module");
 
 			var showWrapper = false;
-			Array.prototype.forEach.call(moduleWrappers, function(moduleWrapper) {
+			Array.prototype.forEach.call(moduleWrappers, function (moduleWrapper) {
 				if (moduleWrapper.style.position === "" || moduleWrapper.style.position === "static") {
 					showWrapper = true;
 				}
@@ -342,7 +355,9 @@ var MM = (function() {
 	/* loadConfig()
 	 * Loads the core config and combines it with de system defaults.
 	 */
-	var loadConfig = function() {
+	var loadConfig = function () {
+		// FIXME: Think about how to pass config around without breaking tests
+		/* eslint-disable */
 		if (typeof config === "undefined") {
 			config = defaults;
 			Log.error("Config file is missing! Please create a config file.");
@@ -350,6 +365,7 @@ var MM = (function() {
 		}
 
 		config = Object.assign({}, defaults, config);
+		/* eslint-enable */
 	};
 
 	/* setSelectionMethodsForModules()
@@ -357,8 +373,7 @@ var MM = (function() {
 	 *
 	 * argument modules array - Array of modules.
 	 */
-	var setSelectionMethodsForModules = function(modules) {
-
+	var setSelectionMethodsForModules = function (modules) {
 		/* withClass(className)
 		 * calls modulesByClass to filter modules with the specified classes.
 		 *
@@ -366,7 +381,7 @@ var MM = (function() {
 		 *
 		 * return array - Filtered collection of modules.
 		 */
-		var withClass = function(className) {
+		var withClass = function (className) {
 			return modulesByClass(className, true);
 		};
 
@@ -377,7 +392,7 @@ var MM = (function() {
 		 *
 		 * return array - Filtered collection of modules.
 		 */
-		var exceptWithClass  = function(className) {
+		var exceptWithClass = function (className) {
 			return modulesByClass(className, false);
 		};
 
@@ -389,13 +404,13 @@ var MM = (function() {
 		 *
 		 * return array - Filtered collection of modules.
 		 */
-		var modulesByClass = function(className, include) {
+		var modulesByClass = function (className, include) {
 			var searchClasses = className;
 			if (typeof className === "string") {
 				searchClasses = className.split(" ");
 			}
 
-			var newModules = modules.filter(function(module) {
+			var newModules = modules.filter(function (module) {
 				var classes = module.data.classes.toLowerCase().split(" ");
 
 				for (var c in searchClasses) {
@@ -419,8 +434,8 @@ var MM = (function() {
 		 *
 		 * return array - Filtered collection of modules.
 		 */
-		var exceptModule = function(module) {
-			var newModules = modules.filter(function(mod) {
+		var exceptModule = function (module) {
+			var newModules = modules.filter(function (mod) {
 				return mod.identifier !== module.identifier;
 			});
 
@@ -433,16 +448,24 @@ var MM = (function() {
 		 *
 		 * argument callback function - The function to execute with the module as an argument.
 		 */
-		var enumerate = function(callback) {
-			modules.map(function(module) {
+		var enumerate = function (callback) {
+			modules.map(function (module) {
 				callback(module);
 			});
 		};
 
-		if (typeof modules.withClass === "undefined") { Object.defineProperty(modules, "withClass",  {value: withClass, enumerable: false}); }
-		if (typeof modules.exceptWithClass === "undefined") { Object.defineProperty(modules, "exceptWithClass",  {value: exceptWithClass, enumerable: false}); }
-		if (typeof modules.exceptModule === "undefined") { Object.defineProperty(modules, "exceptModule",  {value: exceptModule, enumerable: false}); }
-		if (typeof modules.enumerate === "undefined") { Object.defineProperty(modules, "enumerate",  {value: enumerate, enumerable: false}); }
+		if (typeof modules.withClass === "undefined") {
+			Object.defineProperty(modules, "withClass", { value: withClass, enumerable: false });
+		}
+		if (typeof modules.exceptWithClass === "undefined") {
+			Object.defineProperty(modules, "exceptWithClass", { value: exceptWithClass, enumerable: false });
+		}
+		if (typeof modules.exceptModule === "undefined") {
+			Object.defineProperty(modules, "exceptModule", { value: exceptModule, enumerable: false });
+		}
+		if (typeof modules.enumerate === "undefined") {
+			Object.defineProperty(modules, "enumerate", { value: enumerate, enumerable: false });
+		}
 	};
 
 	return {
@@ -451,7 +474,7 @@ var MM = (function() {
 		/* init()
 		 * Main init method.
 		 */
-		init: function() {
+		init: function () {
 			Log.info("Initializing MagicMirror.");
 			loadConfig();
 			Translator.loadCoreTranslations(config.language);
@@ -463,7 +486,7 @@ var MM = (function() {
 		 *
 		 * argument moduleObjects array<Module> - All module instances.
 		 */
-		modulesStarted: function(moduleObjects) {
+		modulesStarted: function (moduleObjects) {
 			modules = [];
 			for (var m in moduleObjects) {
 				var module = moduleObjects[m];
@@ -483,7 +506,7 @@ var MM = (function() {
 		 * argument payload mixed - The payload of the notification.
 		 * argument sender Module - The module that sent the notification.
 		 */
-		sendNotification: function(notification, payload, sender) {
+		sendNotification: function (notification, payload, sender) {
 			if (arguments.length < 3) {
 				Log.error("sendNotification: Missing arguments.");
 				return;
@@ -509,7 +532,7 @@ var MM = (function() {
 		 * argument module Module - The module that needs an update.
 		 * argument speed Number - The number of microseconds for the animation. (optional)
 		 */
-		updateDom: function(module, speed) {
+		updateDom: function (module, speed) {
 			if (!(module instanceof Module)) {
 				Log.error("updateDom: Sender should be a module.");
 				return;
@@ -524,7 +547,7 @@ var MM = (function() {
 		 *
 		 * return array - A collection of all modules currently active.
 		 */
-		getModules: function() {
+		getModules: function () {
 			setSelectionMethodsForModules(modules);
 			return modules;
 		},
@@ -537,7 +560,7 @@ var MM = (function() {
 		 * argument callback function - Called when the animation is done.
 		 * argument options object - Optional settings for the hide method.
 		 */
-		hideModule: function(module, speed, callback, options) {
+		hideModule: function (module, speed, callback, options) {
 			module.hidden = true;
 			hideModule(module, speed, callback, options);
 		},
@@ -550,18 +573,17 @@ var MM = (function() {
 		 * argument callback function - Called when the animation is done.
 		 * argument options object - Optional settings for the hide method.
 		 */
-		showModule: function(module, speed, callback, options) {
+		showModule: function (module, speed, callback, options) {
 			// do not change module.hidden yet, only if we really show it later
 			showModule(module, speed, callback, options);
 		}
 	};
-
 })();
 
 // Add polyfill for Object.assign.
 if (typeof Object.assign !== "function") {
-	(function() {
-		Object.assign = function(target) {
+	(function () {
+		Object.assign = function (target) {
 			"use strict";
 			if (target === undefined || target === null) {
 				throw new TypeError("Cannot convert undefined or null to object");

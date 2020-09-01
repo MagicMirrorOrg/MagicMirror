@@ -1,14 +1,10 @@
-/* global Module */
-
 /* Magic Mirror
  * Module: CurrentWeather
  *
- * By Michael Teeuw http://michaelteeuw.nl
+ * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-
-Module.register("currentweather",{
-
+Module.register("currentweather", {
 	// Default module config.
 	defaults: {
 		location: false,
@@ -23,11 +19,11 @@ Module.register("currentweather",{
 		showWindDirection: true,
 		showWindDirectionAsArrow: false,
 		useBeaufort: true,
-		appendLocationNameToHeader: false,
 		useKMPHwind: false,
 		lang: config.language,
 		decimalSymbol: ".",
 		showHumidity: false,
+		showSun: true,
 		degreeLabel: false,
 		showIndoorTemperature: false,
 		showIndoorHumidity: false,
@@ -42,8 +38,10 @@ Module.register("currentweather",{
 
 		appendLocationNameToHeader: true,
 		calendarClass: "calendar",
+		tableClass: "large",
 
 		onlyTemp: false,
+		hideTemp: false,
 		roundTemp: false,
 
 		iconTable: {
@@ -65,7 +63,7 @@ Module.register("currentweather",{
 			"11n": "wi-night-thunderstorm",
 			"13n": "wi-night-snow",
 			"50n": "wi-night-alt-cloudy-windy"
-		},
+		}
 	},
 
 	// create a variable for the first upcoming calendar event. Used if no location is specified.
@@ -75,17 +73,17 @@ Module.register("currentweather",{
 	fetchedLocationName: "",
 
 	// Define required scripts.
-	getScripts: function() {
+	getScripts: function () {
 		return ["moment.js"];
 	},
 
 	// Define required scripts.
-	getStyles: function() {
+	getStyles: function () {
 		return ["weather-icons.css", "currentweather.css"];
 	},
 
 	// Define required translations.
-	getTranslations: function() {
+	getTranslations: function () {
 		// The translations for the default modules are defined in the core translation files.
 		// Therefor we can just return false. Otherwise we should have returned a dictionary.
 		// If you're trying to build your own module including translations, check out the documentation.
@@ -93,7 +91,7 @@ Module.register("currentweather",{
 	},
 
 	// Define start sequence.
-	start: function() {
+	start: function () {
 		Log.info("Starting module: " + this.name);
 
 		// Set locale.
@@ -111,13 +109,11 @@ Module.register("currentweather",{
 		this.feelsLike = null;
 		this.loaded = false;
 		this.scheduleUpdate(this.config.initialLoadDelay);
-
 	},
 
 	// add extra information of current weather
 	// windDirection, humidity, sunrise and sunset
-	addExtraInfoWeather: function(wrapper) {
-
+	addExtraInfoWeather: function (wrapper) {
 		var small = document.createElement("div");
 		small.className = "normal medium";
 
@@ -132,8 +128,8 @@ Module.register("currentweather",{
 		if (this.config.showWindDirection) {
 			var windDirection = document.createElement("sup");
 			if (this.config.showWindDirectionAsArrow) {
-				if(this.windDeg !== null) {
-					windDirection.innerHTML = " &nbsp;<i class=\"fa fa-long-arrow-down\" style=\"transform:rotate("+this.windDeg+"deg);\"></i>&nbsp;";
+				if (this.windDeg !== null) {
+					windDirection.innerHTML = ' &nbsp;<i class="fa fa-long-arrow-down" style="transform:rotate(' + this.windDeg + 'deg);"></i>&nbsp;';
 				}
 			} else {
 				windDirection.innerHTML = " " + this.translate(this.windDirection);
@@ -148,32 +144,35 @@ Module.register("currentweather",{
 			var humidity = document.createElement("span");
 			humidity.innerHTML = this.humidity;
 
-			var spacer = document.createElement("sup");
-			spacer.innerHTML = "&nbsp;";
+			var supspacer = document.createElement("sup");
+			supspacer.innerHTML = "&nbsp;";
 
 			var humidityIcon = document.createElement("sup");
 			humidityIcon.className = "wi wi-humidity humidityIcon";
 			humidityIcon.innerHTML = "&nbsp;";
 
 			small.appendChild(humidity);
-			small.appendChild(spacer);
+			small.appendChild(supspacer);
 			small.appendChild(humidityIcon);
 		}
 
-		var sunriseSunsetIcon = document.createElement("span");
-		sunriseSunsetIcon.className = "wi dimmed " + this.sunriseSunsetIcon;
-		small.appendChild(sunriseSunsetIcon);
+		if (this.config.showSun) {
+			var sunriseSunsetIcon = document.createElement("span");
+			sunriseSunsetIcon.className = "wi dimmed " + this.sunriseSunsetIcon;
+			small.appendChild(sunriseSunsetIcon);
 
-		var sunriseSunsetTime = document.createElement("span");
-		sunriseSunsetTime.innerHTML = " " + this.sunriseSunsetTime;
-		small.appendChild(sunriseSunsetTime);
+			var sunriseSunsetTime = document.createElement("span");
+			sunriseSunsetTime.innerHTML = " " + this.sunriseSunsetTime;
+			small.appendChild(sunriseSunsetTime);
+		}
 
 		wrapper.appendChild(small);
 	},
 
 	// Override dom generator.
-	getDom: function() {
+	getDom: function () {
 		var wrapper = document.createElement("div");
+		wrapper.className = this.config.tableClass;
 
 		if (this.config.appid === "") {
 			wrapper.innerHTML = "Please set the correct openweather <i>appid</i> in the config for module: " + this.name + ".";
@@ -192,27 +191,23 @@ Module.register("currentweather",{
 		}
 
 		var large = document.createElement("div");
-		large.className = "large light";
-
-		var weatherIcon = document.createElement("span");
-		weatherIcon.className = "wi weathericon " + this.weatherType;
-		large.appendChild(weatherIcon);
+		large.className = "light";
 
 		var degreeLabel = "";
 		if (this.config.units === "metric" || this.config.units === "imperial") {
 			degreeLabel += "°";
 		}
-		if(this.config.degreeLabel) {
-			switch(this.config.units) {
-			case "metric":
-				degreeLabel += "C";
-				break;
-			case "imperial":
-				degreeLabel += "F";
-				break;
-			case "default":
-				degreeLabel += "K";
-				break;
+		if (this.config.degreeLabel) {
+			switch (this.config.units) {
+				case "metric":
+					degreeLabel += "C";
+					break;
+				case "imperial":
+					degreeLabel += "F";
+					break;
+				case "default":
+					degreeLabel += "K";
+					break;
 			}
 		}
 
@@ -220,10 +215,16 @@ Module.register("currentweather",{
 			this.config.decimalSymbol = ".";
 		}
 
-		var temperature = document.createElement("span");
-		temperature.className = "bright";
-		temperature.innerHTML = " " + this.temperature.replace(".", this.config.decimalSymbol) + degreeLabel;
-		large.appendChild(temperature);
+		if (this.config.hideTemp === false) {
+			var weatherIcon = document.createElement("span");
+			weatherIcon.className = "wi weathericon " + this.weatherType;
+			large.appendChild(weatherIcon);
+
+			var temperature = document.createElement("span");
+			temperature.className = "bright";
+			temperature.innerHTML = " " + this.temperature.replace(".", this.config.decimalSymbol) + degreeLabel;
+			large.appendChild(temperature);
+		}
 
 		if (this.config.showIndoorTemperature && this.indoorTemperature) {
 			var indoorIcon = document.createElement("span");
@@ -249,7 +250,7 @@ Module.register("currentweather",{
 
 		wrapper.appendChild(large);
 
-		if (this.config.showFeelsLike && this.config.onlyTemp === false){
+		if (this.config.showFeelsLike && this.config.onlyTemp === false) {
 			var small = document.createElement("div");
 			small.className = "normal medium";
 
@@ -265,7 +266,7 @@ Module.register("currentweather",{
 	},
 
 	// Override getHeader method.
-	getHeader: function() {
+	getHeader: function () {
 		if (this.config.appendLocationNameToHeader && this.data.header !== undefined) {
 			return this.data.header + " " + this.fetchedLocationName;
 		}
@@ -278,10 +279,10 @@ Module.register("currentweather",{
 	},
 
 	// Override notification handler.
-	notificationReceived: function(notification, payload, sender) {
+	notificationReceived: function (notification, payload, sender) {
 		if (notification === "DOM_OBJECTS_CREATED") {
 			if (this.config.appendLocationNameToHeader) {
-				this.hide(0, {lockString: this.identifier});
+				this.hide(0, { lockString: this.identifier });
 			}
 		}
 		if (notification === "CALENDAR_EVENTS") {
@@ -313,7 +314,7 @@ Module.register("currentweather",{
 	 * Requests new data from openweather.org.
 	 * Calls processWeather on succesfull response.
 	 */
-	updateWeather: function() {
+	updateWeather: function () {
 		if (this.config.appid === "") {
 			Log.error("CurrentWeather: APPID not set!");
 			return;
@@ -325,7 +326,7 @@ Module.register("currentweather",{
 
 		var weatherRequest = new XMLHttpRequest();
 		weatherRequest.open("GET", url, true);
-		weatherRequest.onreadystatechange = function() {
+		weatherRequest.onreadystatechange = function () {
 			if (this.readyState === 4) {
 				if (this.status === 200) {
 					self.processWeather(JSON.parse(this.response));
@@ -339,7 +340,7 @@ Module.register("currentweather",{
 				}
 
 				if (retry) {
-					self.scheduleUpdate((self.loaded) ? -1 : self.config.retryDelay);
+					self.scheduleUpdate(self.loaded ? -1 : self.config.retryDelay);
 				}
 			}
 		};
@@ -351,18 +352,18 @@ Module.register("currentweather",{
 	 *
 	 * return String - URL params.
 	 */
-	getParams: function() {
+	getParams: function () {
 		var params = "?";
-		if(this.config.locationID) {
+		if (this.config.locationID) {
 			params += "id=" + this.config.locationID;
-		} else if(this.config.location) {
+		} else if (this.config.location) {
 			params += "q=" + this.config.location;
 		} else if (this.firstEvent && this.firstEvent.geo) {
 			params += "lat=" + this.firstEvent.geo.lat + "&lon=" + this.firstEvent.geo.lon;
 		} else if (this.firstEvent && this.firstEvent.location) {
 			params += "q=" + this.firstEvent.location;
 		} else {
-			this.hide(this.config.animationSpeed, {lockString:this.identifier});
+			this.hide(this.config.animationSpeed, { lockString: this.identifier });
 			return;
 		}
 
@@ -378,8 +379,7 @@ Module.register("currentweather",{
 	 *
 	 * argument data object - Weather information received form openweather.org.
 	 */
-	processWeather: function(data) {
-
+	processWeather: function (data) {
 		if (!data || !data.main || typeof data.main.temp === "undefined") {
 			// Did not receive usable new data.
 			// Maybe this needs a better check?
@@ -391,7 +391,7 @@ Module.register("currentweather",{
 		this.fetchedLocationName = data.name;
 		this.feelsLike = 0;
 
-		if (this.config.useBeaufort){
+		if (this.config.useBeaufort) {
 			this.windSpeed = this.ms2Beaufort(this.roundValue(data.wind.speed));
 		} else if (this.config.useKMPHwind) {
 			this.windSpeed = parseFloat((data.wind.speed * 60 * 60) / 1000).toFixed(0);
@@ -403,52 +403,59 @@ Module.register("currentweather",{
 		var windInMph = parseFloat(data.wind.speed * 2.23694);
 
 		var tempInF = 0;
-		switch (this.config.units){
-		case "metric": tempInF = 1.8 * this.temperature + 32;
-			break;
-		case "imperial": tempInF = this.temperature;
-			break;
-		case "default":
-			var tc = this.temperature - 273.15;
-			tempInF = 1.8 * tc + 32;
-			break;
+		switch (this.config.units) {
+			case "metric":
+				tempInF = 1.8 * this.temperature + 32;
+				break;
+			case "imperial":
+				tempInF = this.temperature;
+				break;
+			case "default":
+				tempInF = 1.8 * (this.temperature - 273.15) + 32;
+				break;
 		}
 
-		if (windInMph > 3 && tempInF < 50){
+		if (windInMph > 3 && tempInF < 50) {
 			// windchill
-			var windChillInF = Math.round(35.74+0.6215*tempInF-35.75*Math.pow(windInMph,0.16)+0.4275*tempInF*Math.pow(windInMph,0.16));
-			var windChillInC = (windChillInF - 32) * (5/9);
+			var windChillInF = Math.round(35.74 + 0.6215 * tempInF - 35.75 * Math.pow(windInMph, 0.16) + 0.4275 * tempInF * Math.pow(windInMph, 0.16));
+			var windChillInC = (windChillInF - 32) * (5 / 9);
 			// this.feelsLike = windChillInC.toFixed(0);
 
-			switch (this.config.units){
-			case "metric": this.feelsLike = windChillInC.toFixed(0);
-				break;
-			case "imperial": this.feelsLike = windChillInF.toFixed(0);
-				break;
-			case "default":
-				var tc = windChillInC + 273.15;
-				this.feelsLike = tc.toFixed(0);
-				break;
+			switch (this.config.units) {
+				case "metric":
+					this.feelsLike = windChillInC.toFixed(0);
+					break;
+				case "imperial":
+					this.feelsLike = windChillInF.toFixed(0);
+					break;
+				case "default":
+					this.feelsLike = (windChillInC + 273.15).toFixed(0);
+					break;
 			}
-
-		} else if (tempInF > 80 && this.humidity > 40){
+		} else if (tempInF > 80 && this.humidity > 40) {
 			// heat index
-			var Hindex = -42.379 + 2.04901523*tempInF + 10.14333127*this.humidity
-				- 0.22475541*tempInF*this.humidity - 6.83783*Math.pow(10,-3)*tempInF*tempInF
-				- 5.481717*Math.pow(10,-2)*this.humidity*this.humidity
-				+ 1.22874*Math.pow(10,-3)*tempInF*tempInF*this.humidity
-				+ 8.5282*Math.pow(10,-4)*tempInF*this.humidity*this.humidity
-				- 1.99*Math.pow(10,-6)*tempInF*tempInF*this.humidity*this.humidity;
+			var Hindex =
+				-42.379 +
+				2.04901523 * tempInF +
+				10.14333127 * this.humidity -
+				0.22475541 * tempInF * this.humidity -
+				6.83783 * Math.pow(10, -3) * tempInF * tempInF -
+				5.481717 * Math.pow(10, -2) * this.humidity * this.humidity +
+				1.22874 * Math.pow(10, -3) * tempInF * tempInF * this.humidity +
+				8.5282 * Math.pow(10, -4) * tempInF * this.humidity * this.humidity -
+				1.99 * Math.pow(10, -6) * tempInF * tempInF * this.humidity * this.humidity;
 
-			switch (this.config.units){
-			case "metric": this.feelsLike = parseFloat((Hindex - 32) / 1.8).toFixed(0);
-				break;
-			case "imperial": this.feelsLike = Hindex.toFixed(0);
-				break;
-			case "default":
-				var tc = parseFloat((Hindex - 32) / 1.8) + 273.15;
-				this.feelsLike = tc.toFixed(0);
-				break;
+			switch (this.config.units) {
+				case "metric":
+					this.feelsLike = parseFloat((Hindex - 32) / 1.8).toFixed(0);
+					break;
+				case "imperial":
+					this.feelsLike = Hindex.toFixed(0);
+					break;
+				case "default":
+					var tc = parseFloat((Hindex - 32) / 1.8) + 273.15;
+					this.feelsLike = tc.toFixed(0);
+					break;
 			}
 		} else {
 			this.feelsLike = parseFloat(this.temperature).toFixed(0);
@@ -465,7 +472,7 @@ Module.register("currentweather",{
 		// The moment().format('h') method has a bug on the Raspberry Pi.
 		// So we need to generate the timestring manually.
 		// See issue: https://github.com/MichMich/MagicMirror/issues/181
-		var sunriseSunsetDateObject = (sunrise < now && sunset > now) ? sunset : sunrise;
+		var sunriseSunsetDateObject = sunrise < now && sunset > now ? sunset : sunrise;
 		var timeString = moment(sunriseSunsetDateObject).format("HH:mm");
 		if (this.config.timeFormat !== 24) {
 			//var hours = sunriseSunsetDateObject.getHours() % 12 || 12;
@@ -484,12 +491,12 @@ Module.register("currentweather",{
 		}
 
 		this.sunriseSunsetTime = timeString;
-		this.sunriseSunsetIcon = (sunrise < now && sunset > now) ? "wi-sunset" : "wi-sunrise";
+		this.sunriseSunsetIcon = sunrise < now && sunset > now ? "wi-sunset" : "wi-sunrise";
 
-		this.show(this.config.animationSpeed, {lockString:this.identifier});
+		this.show(this.config.animationSpeed, { lockString: this.identifier });
 		this.loaded = true;
 		this.updateDom(this.config.animationSpeed);
-		this.sendNotification("CURRENTWEATHER_DATA", {data: data});
+		this.sendNotification("CURRENTWEATHER_DATA", { data: data });
 	},
 
 	/* scheduleUpdate()
@@ -497,14 +504,14 @@ Module.register("currentweather",{
 	 *
 	 * argument delay number - Milliseconds before next update. If empty, this.config.updateInterval is used.
 	 */
-	scheduleUpdate: function(delay) {
+	scheduleUpdate: function (delay) {
 		var nextLoad = this.config.updateInterval;
 		if (typeof delay !== "undefined" && delay >= 0) {
 			nextLoad = delay;
 		}
 
 		var self = this;
-		setTimeout(function() {
+		setTimeout(function () {
 			self.updateWeather();
 		}, nextLoad);
 	},
@@ -513,15 +520,15 @@ Module.register("currentweather",{
 	 * Converts m2 to beaufort (windspeed).
 	 *
 	 * see:
-	 *  http://www.spc.noaa.gov/faq/tornado/beaufort.html
+	 *  https://www.spc.noaa.gov/faq/tornado/beaufort.html
 	 *  https://en.wikipedia.org/wiki/Beaufort_scale#Modern_scale
 	 *
 	 * argument ms number - Windspeed in m/s.
 	 *
 	 * return number - Windspeed in beaufort.
 	 */
-	ms2Beaufort: function(ms) {
-		var kmh = ms * 60 * 60 / 1000;
+	ms2Beaufort: function (ms) {
+		var kmh = (ms * 60 * 60) / 1000;
 		var speeds = [1, 5, 11, 19, 28, 38, 49, 61, 74, 88, 102, 117, 1000];
 		for (var beaufort in speeds) {
 			var speed = speeds[beaufort];
@@ -532,8 +539,8 @@ Module.register("currentweather",{
 		return 12;
 	},
 
-	deg2Cardinal: function(deg) {
-		if (deg>11.25 && deg<=33.75){
+	deg2Cardinal: function (deg) {
+		if (deg > 11.25 && deg <= 33.75) {
 			return "NNE";
 		} else if (deg > 33.75 && deg <= 56.25) {
 			return "NE";
@@ -575,9 +582,8 @@ Module.register("currentweather",{
 	 *
 	 * return string - Rounded Temperature.
 	 */
-	roundValue: function(temperature) {
+	roundValue: function (temperature) {
 		var decimals = this.config.roundTemp ? 0 : 1;
 		return parseFloat(temperature).toFixed(decimals);
 	}
-
 });

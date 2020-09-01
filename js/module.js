@@ -1,15 +1,12 @@
-/* global Log, Class, Loader, Class , MM */
-/* exported Module */
+/* global Class, cloneObject, Loader, MMSocket, nunjucks, Translator */
 
 /* Magic Mirror
  * Module Blueprint.
  *
- * By Michael Teeuw http://michaelteeuw.nl
+ * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-
 var Module = Class.extend({
-
 	/*********************************************************
 	 * All methods (and properties) below can be subclassed. *
 	 *********************************************************/
@@ -82,7 +79,7 @@ var Module = Class.extend({
 	 */
 	getDom: function () {
 		var self = this;
-		return new Promise(function(resolve) {
+		return new Promise(function (resolve) {
 			var div = document.createElement("div");
 			var template = self.getTemplate();
 			var templateData = self.getTemplateData();
@@ -128,7 +125,7 @@ var Module = Class.extend({
 	 * return string - The template string of filename.
 	 */
 	getTemplate: function () {
-		return "<div class=\"normal\">" + this.name + "</div><div class=\"small dimmed\">" + this.identifier + "</div>";
+		return '<div class="normal">' + this.name + '</div><div class="small dimmed">' + this.identifier + "</div>";
 	},
 
 	/* getTemplateData()
@@ -151,9 +148,9 @@ var Module = Class.extend({
 	 */
 	notificationReceived: function (notification, payload, sender) {
 		if (sender) {
-			Log.log(this.name + " received a module notification: " + notification + " from sender: " + sender.name);
+			// Log.log(this.name + " received a module notification: " + notification + " from sender: " + sender.name);
 		} else {
-			Log.log(this.name + " received a system notification: " + notification);
+			// Log.log(this.name + " received a system notification: " + notification);
 		}
 	},
 
@@ -163,18 +160,18 @@ var Module = Class.extend({
 
 	 * @returns Nunjucks Environment
 	 */
-	nunjucksEnvironment: function() {
+	nunjucksEnvironment: function () {
 		if (this._nunjucksEnvironment !== null) {
 			return this._nunjucksEnvironment;
 		}
 
 		var self = this;
 
-		this._nunjucksEnvironment = new nunjucks.Environment(new nunjucks.WebLoader(this.file(""), {async: true}), {
+		this._nunjucksEnvironment = new nunjucks.Environment(new nunjucks.WebLoader(this.file(""), { async: true }), {
 			trimBlocks: true,
 			lstripBlocks: true
 		});
-		this._nunjucksEnvironment.addFilter("translate", function(str) {
+		this._nunjucksEnvironment.addFilter("translate", function (str) {
 			return self.translate(str);
 		});
 
@@ -238,7 +235,7 @@ var Module = Class.extend({
 	 */
 	socket: function () {
 		if (typeof this._socket === "undefined") {
-			this._socket = this._socket = new MMSocket(this.name);
+			this._socket = new MMSocket(this.name);
 		}
 
 		var self = this;
@@ -315,7 +312,9 @@ var Module = Class.extend({
 
 		// The variable `first` will contain the first
 		// defined translation after the following line.
-		for (var first in translations) { break; }
+		for (var first in translations) {
+			break;
+		}
 
 		if (translations) {
 			var translationFile = translations[lang] || undefined;
@@ -339,11 +338,11 @@ var Module = Class.extend({
 	 * Request the translation for a given key with optional variables and default value.
 	 *
 	 * argument key string - The key of the string to translate
-     * argument defaultValueOrVariables string/object - The default value or variables for translating. (Optional)
-     * argument defaultValue string - The default value with variables. (Optional)
+	 * argument defaultValueOrVariables string/object - The default value or variables for translating. (Optional)
+	 * argument defaultValue string - The default value with variables. (Optional)
 	 */
 	translate: function (key, defaultValueOrVariables, defaultValue) {
-		if(typeof defaultValueOrVariables === "object") {
+		if (typeof defaultValueOrVariables === "object") {
 			return Translator.translate(this, key, defaultValueOrVariables) || defaultValue || "";
 		}
 		return Translator.translate(this, key) || defaultValueOrVariables || "";
@@ -388,17 +387,22 @@ var Module = Class.extend({
 	hide: function (speed, callback, options) {
 		if (typeof callback === "object") {
 			options = callback;
-			callback = function () { };
+			callback = function () {};
 		}
 
-		callback = callback || function () { };
+		callback = callback || function () {};
 		options = options || {};
 
 		var self = this;
-		MM.hideModule(self, speed, function () {
-			self.suspend();
-			callback();
-		}, options);
+		MM.hideModule(
+			self,
+			speed,
+			function () {
+				self.suspend();
+				callback();
+			},
+			options
+		);
 	},
 
 	/* showModule(module, speed, callback)
@@ -411,21 +415,28 @@ var Module = Class.extend({
 	show: function (speed, callback, options) {
 		if (typeof callback === "object") {
 			options = callback;
-			callback = function () { };
+			callback = function () {};
 		}
 
-		callback = callback || function () { };
+		callback = callback || function () {};
 		options = options || {};
 
-		this.resume();
-		MM.showModule(this, speed, callback, options);
+		var self = this;
+		MM.showModule(
+			this,
+			speed,
+			function () {
+				self.resume();
+				callback;
+			},
+			options
+		);
 	}
 });
 
 Module.definitions = {};
 
 Module.create = function (name) {
-
 	// Make sure module definition is available.
 	if (!Module.definitions[name]) {
 		return;
@@ -441,11 +452,11 @@ Module.create = function (name) {
 };
 
 /* cmpVersions(a,b)
-* Compare two semantic version numbers and return the difference.
-*
-* argument a string - Version number a.
-* argument a string - Version number b.
-*/
+ * Compare two semantic version numbers and return the difference.
+ *
+ * argument a string - Version number a.
+ * argument a string - Version number b.
+ */
 function cmpVersions(a, b) {
 	var i, diff;
 	var regExStrip0 = /(\.0+)+$/;
@@ -463,10 +474,9 @@ function cmpVersions(a, b) {
 }
 
 Module.register = function (name, moduleDefinition) {
-
 	if (moduleDefinition.requiresVersion) {
-		Log.log("Check MagicMirror version for module '" + name + "' - Minimum version:  " + moduleDefinition.requiresVersion + " - Current version: " + version);
-		if (cmpVersions(version, moduleDefinition.requiresVersion) >= 0) {
+		Log.log("Check MagicMirror version for module '" + name + "' - Minimum version:  " + moduleDefinition.requiresVersion + " - Current version: " + window.version);
+		if (cmpVersions(window.version, moduleDefinition.requiresVersion) >= 0) {
 			Log.log("Version is ok!");
 		} else {
 			Log.log("Version is incorrect. Skip module: '" + name + "'");

@@ -1,5 +1,3 @@
-/* jshint esversion: 6 */
-
 "use strict";
 
 // Use separate scope to prevent global scope pollution
@@ -20,6 +18,9 @@
 		["address", "port"].forEach((key) => {
 			config[key] = getCommandLineParameter(key, process.env[key.toUpperCase()]);
 		});
+
+		// determine if "--use-tls"-flag was provided
+		config["tls"] = process.argv.indexOf("--use-tls") > 0;
 	}
 
 	function getServerConfig(url) {
@@ -31,16 +32,16 @@
 				var configData = "";
 
 				// Gather incoming data
-				response.on("data", function(chunk) {
+				response.on("data", function (chunk) {
 					configData += chunk;
 				});
 				// Resolve promise at the end of the HTTP/HTTPS stream
-				response.on("end", function() {
+				response.on("end", function () {
 					resolve(JSON.parse(configData));
 				});
 			});
 
-			request.on("error", function(error) {
+			request.on("error", function (error) {
 				reject(new Error(`Unable to read config from server (${url} (${error.message}`));
 			});
 		});
@@ -50,7 +51,7 @@
 		if (message !== undefined && typeof message === "string") {
 			console.log(message);
 		} else {
-			console.log("Usage: 'node clientonly --address 192.168.1.10 --port 8080'");
+			console.log("Usage: 'node clientonly --address 192.168.1.10 --port 8080 [--use-tls]'");
 		}
 		process.exit(code);
 	}
@@ -58,16 +59,18 @@
 	getServerAddress();
 
 	(config.address && config.port) || fail();
+	var prefix = config.tls ? "https://" : "http://";
 
 	// Only start the client if a non-local server was provided
 	if (["localhost", "127.0.0.1", "::1", "::ffff:127.0.0.1", undefined].indexOf(config.address) === -1) {
-		getServerConfig(`http://${config.address}:${config.port}/config/`)
+		getServerConfig(`${prefix}${config.address}:${config.port}/config/`)
 			.then(function (configReturn) {
 				// Pass along the server config via an environment variable
 				var env = Object.create(process.env);
 				var options = { env: env };
 				configReturn.address = config.address;
 				configReturn.port = config.port;
+				configReturn.tls = config.tls;
 				env.config = JSON.stringify(configReturn);
 
 				// Spawn electron application
@@ -93,7 +96,6 @@
 						console.log(`There something wrong. The clientonly is not running code ${code}`);
 					}
 				});
-
 			})
 			.catch(function (reason) {
 				fail(`Unable to connect to server: (${reason})`);
@@ -101,4 +103,4 @@
 	} else {
 		fail();
 	}
-}());
+})();

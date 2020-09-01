@@ -1,20 +1,16 @@
-/* global Module */
-
 /* Magic Mirror
  * Module: NewsFeed
  *
- * By Michael Teeuw http://michaelteeuw.nl
+ * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-
-Module.register("newsfeed",{
-
+Module.register("newsfeed", {
 	// Default module config.
 	defaults: {
 		feeds: [
 			{
 				title: "New York Times",
-				url: "http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml",
+				url: "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
 				encoding: "UTF-8" //ISO-8859-1
 			}
 		],
@@ -44,12 +40,12 @@ Module.register("newsfeed",{
 	},
 
 	// Define required scripts.
-	getScripts: function() {
+	getScripts: function () {
 		return ["moment.js"];
 	},
 
 	// Define required translations.
-	getTranslations: function() {
+	getTranslations: function () {
 		// The translations for the default modules are defined in the core translation files.
 		// Therefor we can just return false. Otherwise we should have returned a dictionary.
 		// If you're trying to build your own module including translations, check out the documentation.
@@ -57,7 +53,7 @@ Module.register("newsfeed",{
 	},
 
 	// Define start sequence.
-	start: function() {
+	start: function () {
 		Log.info("Starting module: " + this.name);
 
 		// Set locale.
@@ -74,7 +70,7 @@ Module.register("newsfeed",{
 	},
 
 	// Override socket notification handler.
-	socketNotificationReceived: function(notification, payload) {
+	socketNotificationReceived: function (notification, payload) {
 		if (notification === "NEWS_ITEMS") {
 			this.generateFeed(payload);
 
@@ -87,7 +83,7 @@ Module.register("newsfeed",{
 	},
 
 	// Override dom generator.
-	getDom: function() {
+	getDom: function () {
 		var wrapper = document.createElement("div");
 
 		if (this.config.feedUrl) {
@@ -101,7 +97,6 @@ Module.register("newsfeed",{
 		}
 
 		if (this.newsItems.length > 0) {
-
 			// this.config.showFullArticle is a run-time configuration, triggered by optional notifications
 			if (!this.config.showFullArticle && (this.config.showSourceTitle || this.config.showPublishDate)) {
 				var sourceAndTimestamp = document.createElement("div");
@@ -116,7 +111,7 @@ Module.register("newsfeed",{
 				if (this.config.showPublishDate) {
 					sourceAndTimestamp.innerHTML += moment(new Date(this.newsItems[this.activeItem].pubdate)).fromNow();
 				}
-				if (this.config.showSourceTitle && this.newsItems[this.activeItem].sourceTitle !== "" || this.config.showPublishDate) {
+				if ((this.config.showSourceTitle && this.newsItems[this.activeItem].sourceTitle !== "") || this.config.showPublishDate) {
 					sourceAndTimestamp.innerHTML += ":";
 				}
 
@@ -126,47 +121,42 @@ Module.register("newsfeed",{
 			//Remove selected tags from the beginning of rss feed items (title or description)
 
 			if (this.config.removeStartTags === "title" || this.config.removeStartTags === "both") {
-
-				for (f=0; f<this.config.startTags.length;f++) {
-					if (this.newsItems[this.activeItem].title.slice(0,this.config.startTags[f].length) === this.config.startTags[f]) {
-						this.newsItems[this.activeItem].title = this.newsItems[this.activeItem].title.slice(this.config.startTags[f].length,this.newsItems[this.activeItem].title.length);
+				for (let f = 0; f < this.config.startTags.length; f++) {
+					if (this.newsItems[this.activeItem].title.slice(0, this.config.startTags[f].length) === this.config.startTags[f]) {
+						this.newsItems[this.activeItem].title = this.newsItems[this.activeItem].title.slice(this.config.startTags[f].length, this.newsItems[this.activeItem].title.length);
 					}
 				}
-
 			}
 
 			if (this.config.removeStartTags === "description" || this.config.removeStartTags === "both") {
-
 				if (this.isShowingDescription) {
-					for (f=0; f<this.config.startTags.length;f++) {
-						if (this.newsItems[this.activeItem].description.slice(0,this.config.startTags[f].length) === this.config.startTags[f]) {
-							this.newsItems[this.activeItem].description = this.newsItems[this.activeItem].description.slice(this.config.startTags[f].length,this.newsItems[this.activeItem].description.length);
+					for (let f = 0; f < this.config.startTags.length; f++) {
+						if (this.newsItems[this.activeItem].description.slice(0, this.config.startTags[f].length) === this.config.startTags[f]) {
+							this.newsItems[this.activeItem].description = this.newsItems[this.activeItem].description.slice(this.config.startTags[f].length, this.newsItems[this.activeItem].description.length);
 						}
 					}
 				}
-
 			}
 
 			//Remove selected tags from the end of rss feed items (title or description)
 
 			if (this.config.removeEndTags) {
-				for (f=0; f<this.config.endTags.length;f++) {
-					if (this.newsItems[this.activeItem].title.slice(-this.config.endTags[f].length)===this.config.endTags[f]) {
-						this.newsItems[this.activeItem].title = this.newsItems[this.activeItem].title.slice(0,-this.config.endTags[f].length);
+				for (let f = 0; f < this.config.endTags.length; f++) {
+					if (this.newsItems[this.activeItem].title.slice(-this.config.endTags[f].length) === this.config.endTags[f]) {
+						this.newsItems[this.activeItem].title = this.newsItems[this.activeItem].title.slice(0, -this.config.endTags[f].length);
 					}
 				}
 
 				if (this.isShowingDescription) {
-					for (f=0; f<this.config.endTags.length;f++) {
-						if (this.newsItems[this.activeItem].description.slice(-this.config.endTags[f].length)===this.config.endTags[f]) {
-							this.newsItems[this.activeItem].description = this.newsItems[this.activeItem].description.slice(0,-this.config.endTags[f].length);
+					for (let f = 0; f < this.config.endTags.length; f++) {
+						if (this.newsItems[this.activeItem].description.slice(-this.config.endTags[f].length) === this.config.endTags[f]) {
+							this.newsItems[this.activeItem].description = this.newsItems[this.activeItem].description.slice(0, -this.config.endTags[f].length);
 						}
 					}
 				}
-
 			}
 
-			if(!this.config.showFullArticle){
+			if (!this.config.showFullArticle) {
 				var title = document.createElement("div");
 				title.className = "newsfeed-title bright medium light" + (!this.config.wrapTitle ? " no-wrap" : "");
 				title.innerHTML = this.newsItems[this.activeItem].title;
@@ -177,7 +167,7 @@ Module.register("newsfeed",{
 				var description = document.createElement("div");
 				description.className = "newsfeed-desc small light" + (!this.config.wrapDescription ? " no-wrap" : "");
 				var txtDesc = this.newsItems[this.activeItem].description;
-				description.innerHTML = (this.config.truncDescription ? (txtDesc.length > this.config.lengthDescription ? txtDesc.substring(0, this.config.lengthDescription) + "..." : txtDesc) : txtDesc);
+				description.innerHTML = this.config.truncDescription ? (txtDesc.length > this.config.lengthDescription ? txtDesc.substring(0, this.config.lengthDescription) + "..." : txtDesc) : txtDesc;
 				wrapper.appendChild(description);
 			}
 
@@ -199,7 +189,6 @@ Module.register("newsfeed",{
 			if (this.config.hideLoading) {
 				this.show();
 			}
-
 		} else {
 			if (this.config.hideLoading) {
 				this.hide();
@@ -212,14 +201,14 @@ Module.register("newsfeed",{
 		return wrapper;
 	},
 
-	getActiveItemURL: function() {
-		return typeof this.newsItems[this.activeItem].url  === "string" ? this.newsItems[this.activeItem].url : this.newsItems[this.activeItem].url.href;
+	getActiveItemURL: function () {
+		return typeof this.newsItems[this.activeItem].url === "string" ? this.newsItems[this.activeItem].url : this.newsItems[this.activeItem].url.href;
 	},
 
 	/* registerFeeds()
 	 * registers the feeds to be used by the backend.
 	 */
-	registerFeeds: function() {
+	registerFeeds: function () {
 		for (var f in this.config.feeds) {
 			var feed = this.config.feeds[f];
 			this.sendSocketNotification("ADD_FEED", {
@@ -234,7 +223,7 @@ Module.register("newsfeed",{
 	 *
 	 * attribute feeds object - An object with feeds returned by the node helper.
 	 */
-	generateFeed: function(feeds) {
+	generateFeed: function (feeds) {
 		var newsItems = [];
 		for (var feed in feeds) {
 			var feedItems = feeds[feed];
@@ -242,24 +231,24 @@ Module.register("newsfeed",{
 				for (var i in feedItems) {
 					var item = feedItems[i];
 					item.sourceTitle = this.titleForFeed(feed);
-					if (!(this.config.ignoreOldItems && ((Date.now() - new Date(item.pubdate)) > this.config.ignoreOlderThan))) {
+					if (!(this.config.ignoreOldItems && Date.now() - new Date(item.pubdate) > this.config.ignoreOlderThan)) {
 						newsItems.push(item);
 					}
 				}
 			}
 		}
-		newsItems.sort(function(a,b) {
+		newsItems.sort(function (a, b) {
 			var dateA = new Date(a.pubdate);
 			var dateB = new Date(b.pubdate);
 			return dateB - dateA;
 		});
-		if(this.config.maxNewsItems > 0) {
+		if (this.config.maxNewsItems > 0) {
 			newsItems = newsItems.slice(0, this.config.maxNewsItems);
 		}
 
-		if(this.config.prohibitedWords.length > 0) {
-			newsItems = newsItems.filter(function(value){
-				for (var i=0; i < this.config.prohibitedWords.length; i++) {
+		if (this.config.prohibitedWords.length > 0) {
+			newsItems = newsItems.filter(function (value) {
+				for (var i = 0; i < this.config.prohibitedWords.length; i++) {
 					if (value["title"].toLowerCase().indexOf(this.config.prohibitedWords[i].toLowerCase()) > -1) {
 						return false;
 					}
@@ -270,8 +259,8 @@ Module.register("newsfeed",{
 
 		// get updated news items and broadcast them
 		var updatedItems = [];
-		newsItems.forEach(value => {
-			if (this.newsItems.findIndex(value1 => value1 === value) === -1) {
+		newsItems.forEach((value) => {
+			if (this.newsItems.findIndex((value1) => value1 === value) === -1) {
 				// Add item to updated items list
 				updatedItems.push(value);
 			}
@@ -279,7 +268,7 @@ Module.register("newsfeed",{
 
 		// check if updated items exist, if so and if we should broadcast these updates, then lets do so
 		if (this.config.broadcastNewsUpdates && updatedItems.length > 0) {
-			this.sendNotification("NEWS_FEED_UPDATE", {items: updatedItems});
+			this.sendNotification("NEWS_FEED_UPDATE", { items: updatedItems });
 		}
 
 		this.newsItems = newsItems;
@@ -292,7 +281,7 @@ Module.register("newsfeed",{
 	 *
 	 * returns bool
 	 */
-	subscribedToFeed: function(feedUrl) {
+	subscribedToFeed: function (feedUrl) {
 		for (var f in this.config.feeds) {
 			var feed = this.config.feeds[f];
 			if (feed.url === feedUrl) {
@@ -309,7 +298,7 @@ Module.register("newsfeed",{
 	 *
 	 * returns string
 	 */
-	titleForFeed: function(feedUrl) {
+	titleForFeed: function (feedUrl) {
 		for (var f in this.config.feeds) {
 			var feed = this.config.feeds[f];
 			if (feed.url === feedUrl) {
@@ -322,23 +311,23 @@ Module.register("newsfeed",{
 	/* scheduleUpdateInterval()
 	 * Schedule visual update.
 	 */
-	scheduleUpdateInterval: function() {
+	scheduleUpdateInterval: function () {
 		var self = this;
 
 		self.updateDom(self.config.animationSpeed);
 
 		// Broadcast NewsFeed if needed
 		if (self.config.broadcastNewsFeeds) {
-			self.sendNotification("NEWS_FEED", {items: self.newsItems});
+			self.sendNotification("NEWS_FEED", { items: self.newsItems });
 		}
 
-		timer = setInterval(function() {
+		this.timer = setInterval(function () {
 			self.activeItem++;
 			self.updateDom(self.config.animationSpeed);
 
 			// Broadcast NewsFeed if needed
 			if (self.config.broadcastNewsFeeds) {
-				self.sendNotification("NEWS_FEED", {items: self.newsItems});
+				self.sendNotification("NEWS_FEED", { items: self.newsItems });
 			}
 		}, this.config.updateInterval);
 	},
@@ -350,26 +339,25 @@ Module.register("newsfeed",{
 	 *
 	 * return string - Capitalized output string.
 	 */
-	capitalizeFirstLetter: function(string) {
+	capitalizeFirstLetter: function (string) {
 		return string.charAt(0).toUpperCase() + string.slice(1);
 	},
 
-	resetDescrOrFullArticleAndTimer: function() {
+	resetDescrOrFullArticleAndTimer: function () {
 		this.isShowingDescription = this.config.showDescription;
 		this.config.showFullArticle = false;
 		this.scrollPosition = 0;
 		// reset bottom bar alignment
 		document.getElementsByClassName("region bottom bar")[0].style.bottom = "0";
 		document.getElementsByClassName("region bottom bar")[0].style.top = "inherit";
-		if(!timer){
+		if (!this.timer) {
 			this.scheduleUpdateInterval();
 		}
 	},
 
-	notificationReceived: function(notification, payload, sender) {
-		Log.info(this.name + " - received notification: " + notification);
-		if(notification === "ARTICLE_NEXT"){
-			var before = this.activeItem;
+	notificationReceived: function (notification, payload, sender) {
+		var before = this.activeItem;
+		if (notification === "ARTICLE_NEXT") {
 			this.activeItem++;
 			if (this.activeItem >= this.newsItems.length) {
 				this.activeItem = 0;
@@ -377,8 +365,7 @@ Module.register("newsfeed",{
 			this.resetDescrOrFullArticleAndTimer();
 			Log.info(this.name + " - going from article #" + before + " to #" + this.activeItem + " (of " + this.newsItems.length + ")");
 			this.updateDom(100);
-		} else if(notification === "ARTICLE_PREVIOUS"){
-			var before = this.activeItem;
+		} else if (notification === "ARTICLE_PREVIOUS") {
 			this.activeItem--;
 			if (this.activeItem < 0) {
 				this.activeItem = this.newsItems.length - 1;
@@ -388,60 +375,56 @@ Module.register("newsfeed",{
 			this.updateDom(100);
 		}
 		// if "more details" is received the first time: show article summary, on second time show full article
-		else if(notification === "ARTICLE_MORE_DETAILS"){
+		else if (notification === "ARTICLE_MORE_DETAILS") {
 			// full article is already showing, so scrolling down
-			if(this.config.showFullArticle === true){
+			if (this.config.showFullArticle === true) {
 				this.scrollPosition += this.config.scrollLength;
 				window.scrollTo(0, this.scrollPosition);
 				Log.info(this.name + " - scrolling down");
 				Log.info(this.name + " - ARTICLE_MORE_DETAILS, scroll position: " + this.config.scrollLength);
-			}
-			else {
+			} else {
 				this.showFullArticle();
 			}
-		} else if(notification === "ARTICLE_SCROLL_UP"){
-			if(this.config.showFullArticle === true){
+		} else if (notification === "ARTICLE_SCROLL_UP") {
+			if (this.config.showFullArticle === true) {
 				this.scrollPosition -= this.config.scrollLength;
 				window.scrollTo(0, this.scrollPosition);
 				Log.info(this.name + " - scrolling up");
 				Log.info(this.name + " - ARTICLE_SCROLL_UP, scroll position: " + this.config.scrollLength);
 			}
-		} else if(notification === "ARTICLE_LESS_DETAILS"){
+		} else if (notification === "ARTICLE_LESS_DETAILS") {
 			this.resetDescrOrFullArticleAndTimer();
 			Log.info(this.name + " - showing only article titles again");
 			this.updateDom(100);
-		} else if (notification === "ARTICLE_TOGGLE_FULL"){
-			if (this.config.showFullArticle){
+		} else if (notification === "ARTICLE_TOGGLE_FULL") {
+			if (this.config.showFullArticle) {
 				this.activeItem++;
 				this.resetDescrOrFullArticleAndTimer();
 			} else {
 				this.showFullArticle();
 			}
-		} else if (notification === "ARTICLE_INFO_REQUEST"){
+		} else if (notification === "ARTICLE_INFO_REQUEST") {
 			this.sendNotification("ARTICLE_INFO_RESPONSE", {
-				title:  this.newsItems[this.activeItem].title,
+				title: this.newsItems[this.activeItem].title,
 				source: this.newsItems[this.activeItem].sourceTitle,
-				date:   this.newsItems[this.activeItem].pubdate,
-				desc:   this.newsItems[this.activeItem].description,
-				url:    this.getActiveItemURL()
+				date: this.newsItems[this.activeItem].pubdate,
+				desc: this.newsItems[this.activeItem].description,
+				url: this.getActiveItemURL()
 			});
-		} else {
-			Log.info(this.name + " - unknown notification, ignoring: " + notification);
 		}
 	},
 
-	showFullArticle: function() {
+	showFullArticle: function () {
 		this.isShowingDescription = !this.isShowingDescription;
 		this.config.showFullArticle = !this.isShowingDescription;
 		// make bottom bar align to top to allow scrolling
-		if(this.config.showFullArticle === true){
+		if (this.config.showFullArticle === true) {
 			document.getElementsByClassName("region bottom bar")[0].style.bottom = "inherit";
 			document.getElementsByClassName("region bottom bar")[0].style.top = "-90px";
 		}
-		clearInterval(timer);
-		timer = null;
+		clearInterval(this.timer);
+		this.timer = null;
 		Log.info(this.name + " - showing " + this.isShowingDescription ? "article description" : "full article");
 		this.updateDom(100);
 	}
-
 });

@@ -30,6 +30,6 @@
 	"UPDATE_NOTIFICATION_MODULE": "Oppdatering tilgjengelig for modulen {MODULE_NAME}.",
 	"UPDATE_INFO_SINGLE": "Nåværende installasjon er {COMMIT_COUNT} commit bak {BRANCH_NAME} grenen.",
 	"UPDATE_INFO_MULTIPLE": "Nåværende installasjon er {COMMIT_COUNT} commits bak {BRANCH_NAME} grenen.",
-	
+
 	"FEELS": "Føles som"
 }

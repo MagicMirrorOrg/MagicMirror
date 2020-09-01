@@ -1,0 +1,36 @@
+{
+	"LOADING": "טוען...",
+
+	"TODAY": "היום",
+	"TOMORROW": "מחר",
+	"DAYAFTERTOMORROW": "בעוד יומיים",
+	"RUNNING": "מסתיים ב",
+	"EMPTY": "אין ארועים",
+
+	"WEEK": "{weekNumber} שבוע",
+
+	"N": "צ",
+	"NNE": "צ-צ-מז",
+	"NE": "צ-מז",
+	"ENE": "מז-צ-מז",
+	"E": "מז",
+	"ESE": "מז-ד-מז",
+	"SE": "ד-מז",
+	"SSE": "ד-ד-מז",
+	"S": "ד",
+	"SSW": "ד-ד-מע",
+	"SW": "ד-מע",
+	"WSW": "מע-ד-מע",
+	"W": "מע",
+	"WNW": "מע-ז-מע",
+	"NW": "ז-מע",
+	"NNW": "צ-צ-מע",
+
+	"UPDATE_NOTIFICATION": "עדכון זמין ל-MagicMirror",
+	"UPDATE_NOTIFICATION_MODULE": "עדכון זמין ב-{MODULE_NAME} מודול",
+	"UPDATE_INFO_SINGLE": "ההתקנה הנוכחית נמצאת מאחור הענף {BRANCH_NAME} ב-{COMMIT_COUNT} מופע",
+	"UPDATE_INFO_MULTIPLE": "ההתקנה הנוכחית נמצאת מאחור הענף {BRANCH_NAME} ב-{COMMIT_COUNT} מופעים",
+
+	"FEELS": "מרגיש כמו",
+	"PRECIP": "משקעים"
+}
