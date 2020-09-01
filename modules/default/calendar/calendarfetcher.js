@@ -6,10 +6,28 @@
  */
 const Log = require("../../../js/logger.js");
 const ical = require("ical");
-const moment = require("moment");
 const request = require("request");
 
-const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumNumberOfDays, auth, includePastEvents) {
+/**
+ * Moment date
+ *
+ * @external Moment
+ * @see {@link http://momentjs.com}
+ */
+const moment = require("moment");
+
+/**
+ *
+ * @param {string} url The url of the calendar to fetch
+ * @param {number} reloadInterval Time in ms the calendar is fetched again
+ * @param {string[]} excludedEvents An array of words / phrases from event titles that will be excluded from being shown.
+ * @param {number} maximumEntries The maximum number of events fetched.
+ * @param {number} maximumNumberOfDays The maximum number of days an event should be in the future.
+ * @param {object} auth The object containing options for authentication against the calendar.
+ * @param {boolean} includePastEvents If true events from the past maximumNumberOfDays will be fetched too
+ * @class
+ */
+const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, includePastEvents) {
 	const self = this;
 
 	let reloadTimer = null;
@@ -18,7 +36,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumNu
 	let fetchFailedCallback = function () {};
 	let eventsReceivedCallback = function () {};
 
-	/* fetchCalendar()
+	/**
 	 * Initiates calendar fetch.
 	 */
 	const fetchCalendar = function () {
@@ -267,6 +285,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumNu
 									startDate: startDate.format("x"),
 									endDate: endDate.format("x"),
 									fullDayEvent: isFullDayEvent(event),
+									recurringEvent: true,
 									class: event.class,
 									firstYear: event.start.getFullYear(),
 									location: location,
@@ -330,14 +349,14 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumNu
 				return a.startDate - b.startDate;
 			});
 
-			events = newEvents;
+			events = newEvents.slice(0, maximumEntries);
 
 			self.broadcastEvents();
 			scheduleTimer();
 		});
 	};
 
-	/* scheduleTimer()
+	/**
 	 * Schedule the timer for the next update.
 	 */
 	const scheduleTimer = function () {
@@ -347,12 +366,11 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumNu
 		}, reloadInterval);
 	};
 
-	/* isFullDayEvent(event)
+	/**
 	 * Checks if an event is a fullday event.
 	 *
-	 * argument event object - The event object to check.
-	 *
-	 * return bool - The event is a fullday event.
+	 * @param {object} event The event object to check.
+	 * @returns {boolean} True if the event is a fullday event, false otherwise
 	 */
 	const isFullDayEvent = function (event) {
 		if (event.start.length === 8 || event.start.dateOnly) {
@@ -370,14 +388,13 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumNu
 		return false;
 	};
 
-	/* timeFilterApplies()
+	/**
 	 * Determines if the user defined time filter should apply
 	 *
-	 * argument now Date - Date object using previously created object for consistency
-	 * argument endDate Moment - Moment object representing the event end date
-	 * argument filter string - The time to subtract from the end date to determine if an event should be shown
-	 *
-	 * return bool - The event should be filtered out
+	 * @param {Date} now Date object using previously created object for consistency
+	 * @param {Moment} endDate Moment object representing the event end date
+	 * @param {string} filter The time to subtract from the end date to determine if an event should be shown
+	 * @returns {boolean} True if the event should be filtered out, false otherwise
 	 */
 	const timeFilterApplies = function (now, endDate, filter) {
 		if (filter) {
@@ -392,12 +409,11 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumNu
 		return false;
 	};
 
-	/* getTitleFromEvent(event)
+	/**
 	 * Gets the title from the event.
 	 *
-	 * argument event object - The event object to check.
-	 *
-	 * return string - The title of the event, or "Event" if no title is found.
+	 * @param {object} event The event object to check.
+	 * @returns {string} The title of the event, or "Event" if no title is found.
 	 */
 	const getTitleFromEvent = function (event) {
 		let title = "Event";
@@ -428,14 +444,14 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumNu
 
 	/* public methods */
 
-	/* startFetch()
+	/**
 	 * Initiate fetchCalendar();
 	 */
 	this.startFetch = function () {
 		fetchCalendar();
 	};
 
-	/* broadcastItems()
+	/**
 	 * Broadcast the existing events.
 	 */
 	this.broadcastEvents = function () {
@@ -443,37 +459,37 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumNu
 		eventsReceivedCallback(self);
 	};
 
-	/* onReceive(callback)
+	/**
 	 * Sets the on success callback
 	 *
-	 * argument callback function - The on success callback.
+	 * @param {Function} callback The on success callback.
 	 */
 	this.onReceive = function (callback) {
 		eventsReceivedCallback = callback;
 	};
 
-	/* onError(callback)
+	/**
 	 * Sets the on error callback
 	 *
-	 * argument callback function - The on error callback.
+	 * @param {Function} callback The on error callback.
 	 */
 	this.onError = function (callback) {
 		fetchFailedCallback = callback;
 	};
 
-	/* url()
+	/**
 	 * Returns the url of this fetcher.
 	 *
-	 * return string - The url of this fetcher.
+	 * @returns {string} The url of this fetcher.
 	 */
 	this.url = function () {
 		return url;
 	};
 
-	/* events()
+	/**
 	 * Returns current available events for this fetcher.
 	 *
-	 * return array - The current available events for this fetcher.
+	 * @returns {object[]} The current available events for this fetcher.
 	 */
 	this.events = function () {
 		return events;

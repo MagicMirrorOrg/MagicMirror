@@ -1,7 +1,7 @@
-var fs = require("fs");
-var path = require("path");
-var expect = require("chai").expect;
-var vm = require("vm");
+const fs = require("fs");
+const path = require("path");
+const expect = require("chai").expect;
+const vm = require("vm");
 
 before(function () {
 	var basedir = path.join(__dirname, "../../..");

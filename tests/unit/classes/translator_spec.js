@@ -171,25 +171,6 @@ describe("Translator", function () {
 			};
 		});
 
-		it("should strip comments", function (done) {
-			const dom = new JSDOM(`<script>var Log = {log: function(){}};</script><script src="${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
-			dom.window.onload = function () {
-				const { Translator } = dom.window;
-				const file = "StripComments.json";
-
-				Translator.load(mmm, file, false, function () {
-					expect(Translator.translations[mmm.name]).to.be.deep.equal({
-						'FOO"BAR': "Today",
-						N: "N",
-						E: "E",
-						S: "S",
-						W: "W"
-					});
-					done();
-				});
-			};
-		});
-
 		it("should not load translations, if module fallback exists", function (done) {
 			const dom = new JSDOM(`<script>var Log = {log: function(){}};</script><script src="${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
 			dom.window.onload = function () {
@@ -205,7 +186,7 @@ describe("Translator", function () {
 				};
 
 				Translator.load(mmm, file, false, function () {
-					expect(Translator.translations[mmm.name]).to.be.undefined;
+					expect(Translator.translations[mmm.name]).to.be.equal(undefined);
 					expect(Translator.translationsFallback[mmm.name]).to.be.deep.equal({
 						Hello: "Hallo"
 					});
