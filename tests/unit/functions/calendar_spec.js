@@ -32,54 +32,54 @@ describe("Functions into modules/default/calendar/calendar.js", function () {
 	});
 
 	describe("getLocaleSpecification", function () {
-		it("Should return a valid moment.LocaleSpecification for a 12-hour format", function () {
+		it("should return a valid moment.LocaleSpecification for a 12-hour format", function () {
 			expect(Module.definitions.calendar.getLocaleSpecification(12)).to.deep.equal({ longDateFormat: { LT: "h:mm A" } });
 		});
 
-		it("Should return a valid moment.LocaleSpecification for a 24-hour format", function () {
+		it("should return a valid moment.LocaleSpecification for a 24-hour format", function () {
 			expect(Module.definitions.calendar.getLocaleSpecification(24)).to.deep.equal({ longDateFormat: { LT: "HH:mm" } });
 		});
 
-		it("Should return the current system locale when called without timeFormat number", function () {
+		it("should return the current system locale when called without timeFormat number", function () {
 			expect(Module.definitions.calendar.getLocaleSpecification()).to.deep.equal({ longDateFormat: { LT: moment.localeData().longDateFormat("LT") } });
 		});
 
-		it("Should return a 12-hour longDateFormat when using the 'en' locale", function () {
+		it("should return a 12-hour longDateFormat when using the 'en' locale", function () {
 			var localeBackup = moment.locale();
 			moment.locale("en");
 			expect(Module.definitions.calendar.getLocaleSpecification()).to.deep.equal({ longDateFormat: { LT: "h:mm A" } });
 			moment.locale(localeBackup);
 		});
 
-		it("Should return a 12-hour longDateFormat when using the 'au' locale", function () {
+		it("should return a 12-hour longDateFormat when using the 'au' locale", function () {
 			var localeBackup = moment.locale();
 			moment.locale("au");
 			expect(Module.definitions.calendar.getLocaleSpecification()).to.deep.equal({ longDateFormat: { LT: "h:mm A" } });
 			moment.locale(localeBackup);
 		});
 
-		it("Should return a 12-hour longDateFormat when using the 'eg' locale", function () {
+		it("should return a 12-hour longDateFormat when using the 'eg' locale", function () {
 			var localeBackup = moment.locale();
 			moment.locale("eg");
 			expect(Module.definitions.calendar.getLocaleSpecification()).to.deep.equal({ longDateFormat: { LT: "h:mm A" } });
 			moment.locale(localeBackup);
 		});
 
-		it("Should return a 24-hour longDateFormat when using the 'nl' locale", function () {
+		it("should return a 24-hour longDateFormat when using the 'nl' locale", function () {
 			var localeBackup = moment.locale();
 			moment.locale("nl");
 			expect(Module.definitions.calendar.getLocaleSpecification()).to.deep.equal({ longDateFormat: { LT: "HH:mm" } });
 			moment.locale(localeBackup);
 		});
 
-		it("Should return a 24-hour longDateFormat when using the 'fr' locale", function () {
+		it("should return a 24-hour longDateFormat when using the 'fr' locale", function () {
 			var localeBackup = moment.locale();
 			moment.locale("fr");
 			expect(Module.definitions.calendar.getLocaleSpecification()).to.deep.equal({ longDateFormat: { LT: "HH:mm" } });
 			moment.locale(localeBackup);
 		});
 
-		it("Should return a 24-hour longDateFormat when using the 'uk' locale", function () {
+		it("should return a 24-hour longDateFormat when using the 'uk' locale", function () {
 			var localeBackup = moment.locale();
 			moment.locale("uk");
 			expect(Module.definitions.calendar.getLocaleSpecification()).to.deep.equal({ longDateFormat: { LT: "HH:mm" } });
@@ -118,6 +118,12 @@ describe("Functions into modules/default/calendar/calendar.js", function () {
 		it("should wrap the string instead of shorten it if shorten is called with wrapEvents = true (without maxLength defined, default 25)", function () {
 			expect(Module.definitions.calendar.shorten("This is a wrapEvent test. Should wrap the string instead of shorten it if called with wrapEvent = true", undefined, true)).to.equal(
 				"This is a wrapEvent <br>test. Should wrap the string <br>instead of shorten it if called <br>with wrapEvent = true"
+			);
+		});
+
+		it("should wrap and shorten the string in the second line if called with wrapEvents = true and maxTitleLines = 2", function () {
+			expect(Module.definitions.calendar.shorten("This is a wrapEvent and maxTitleLines test. Should wrap and shorten the string in the second line if called with wrapEvents = true and maxTitleLines = 2", undefined, true, 2)).to.equal(
+				"This is a wrapEvent and <br>maxTitleLines test. Should wrap and &hellip;"
 			);
 		});
 	});

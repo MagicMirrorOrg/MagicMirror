@@ -10,7 +10,8 @@ var Utils = {
 	colors: {
 		warn: colors.yellow,
 		error: colors.red,
-		info: colors.blue
+		info: colors.blue,
+		pass: colors.green
 	}
 };
 

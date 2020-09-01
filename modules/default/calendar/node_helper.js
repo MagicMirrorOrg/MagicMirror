@@ -4,7 +4,6 @@
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-
 const NodeHelper = require("node_helper");
 const validUrl = require("valid-url");
 const CalendarFetcher = require("./calendarfetcher.js");
@@ -20,18 +19,24 @@ module.exports = NodeHelper.create({
 	// Override socketNotificationReceived method.
 	socketNotificationReceived: function (notification, payload) {
 		if (notification === "ADD_CALENDAR") {
-			this.createFetcher(payload.url, payload.fetchInterval, payload.excludedEvents, payload.maximumNumberOfDays, payload.auth, payload.broadcastPastEvents, payload.id);
+			this.createFetcher(payload.url, payload.fetchInterval, payload.excludedEvents, payload.maximumEntries, payload.maximumNumberOfDays, payload.auth, payload.broadcastPastEvents, payload.id);
 		}
 	},
 
-	/* createFetcher(url, reloadInterval)
+	/**
 	 * Creates a fetcher for a new url if it doesn't exist yet.
 	 * Otherwise it reuses the existing one.
 	 *
-	 * attribute url string - URL of the news feed.
-	 * attribute reloadInterval number - Reload interval in milliseconds.
+	 * @param {string} url The url of the calendar
+	 * @param {number} fetchInterval How often does the calendar needs to be fetched in ms
+	 * @param {string[]} excludedEvents An array of words / phrases from event titles that will be excluded from being shown.
+	 * @param {number} maximumEntries The maximum number of events fetched.
+	 * @param {number} maximumNumberOfDays The maximum number of days an event should be in the future.
+	 * @param {object} auth The object containing options for authentication against the calendar.
+	 * @param {boolean} broadcastPastEvents If true events from the past maximumNumberOfDays will be included in event broadcasts
+	 * @param {string} identifier ID of the module
 	 */
-	createFetcher: function (url, fetchInterval, excludedEvents, maximumNumberOfDays, auth, broadcastPastEvents, identifier) {
+	createFetcher: function (url, fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, broadcastPastEvents, identifier) {
 		var self = this;
 
 		if (!validUrl.isUri(url)) {
@@ -42,7 +47,7 @@ module.exports = NodeHelper.create({
 		var fetcher;
 		if (typeof self.fetchers[identifier + url] === "undefined") {
 			Log.log("Create new calendar fetcher for url: " + url + " - Interval: " + fetchInterval);
-			fetcher = new CalendarFetcher(url, fetchInterval, excludedEvents, maximumNumberOfDays, auth, broadcastPastEvents);
+			fetcher = new CalendarFetcher(url, fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, broadcastPastEvents);
 
 			fetcher.onReceive(function (fetcher) {
 				self.sendSocketNotification("CALENDAR_EVENTS", {

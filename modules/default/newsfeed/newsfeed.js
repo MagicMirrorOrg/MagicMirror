@@ -84,11 +84,11 @@ Module.register("newsfeed", {
 
 	// Override dom generator.
 	getDom: function () {
-		var wrapper = document.createElement("div");
+		const wrapper = document.createElement("div");
 
 		if (this.config.feedUrl) {
 			wrapper.className = "small bright";
-			wrapper.innerHTML = this.translate("configuration_changed");
+			wrapper.innerHTML = this.translate("MODULE_CONFIG_CHANGED", { MODULE_NAME: "Newsfeed" });
 			return wrapper;
 		}
 
@@ -99,7 +99,7 @@ Module.register("newsfeed", {
 		if (this.newsItems.length > 0) {
 			// this.config.showFullArticle is a run-time configuration, triggered by optional notifications
 			if (!this.config.showFullArticle && (this.config.showSourceTitle || this.config.showPublishDate)) {
-				var sourceAndTimestamp = document.createElement("div");
+				const sourceAndTimestamp = document.createElement("div");
 				sourceAndTimestamp.className = "newsfeed-source light small dimmed";
 
 				if (this.config.showSourceTitle && this.newsItems[this.activeItem].sourceTitle !== "") {
@@ -157,22 +157,22 @@ Module.register("newsfeed", {
 			}
 
 			if (!this.config.showFullArticle) {
-				var title = document.createElement("div");
+				const title = document.createElement("div");
 				title.className = "newsfeed-title bright medium light" + (!this.config.wrapTitle ? " no-wrap" : "");
 				title.innerHTML = this.newsItems[this.activeItem].title;
 				wrapper.appendChild(title);
 			}
 
 			if (this.isShowingDescription) {
-				var description = document.createElement("div");
+				const description = document.createElement("div");
 				description.className = "newsfeed-desc small light" + (!this.config.wrapDescription ? " no-wrap" : "");
-				var txtDesc = this.newsItems[this.activeItem].description;
+				const txtDesc = this.newsItems[this.activeItem].description;
 				description.innerHTML = this.config.truncDescription ? (txtDesc.length > this.config.lengthDescription ? txtDesc.substring(0, this.config.lengthDescription) + "..." : txtDesc) : txtDesc;
 				wrapper.appendChild(description);
 			}
 
 			if (this.config.showFullArticle) {
-				var fullArticle = document.createElement("iframe");
+				const fullArticle = document.createElement("iframe");
 				fullArticle.className = "";
 				fullArticle.style.width = "100vw";
 				// very large height value to allow scrolling
@@ -205,8 +205,8 @@ Module.register("newsfeed", {
 		return typeof this.newsItems[this.activeItem].url === "string" ? this.newsItems[this.activeItem].url : this.newsItems[this.activeItem].url.href;
 	},
 
-	/* registerFeeds()
-	 * registers the feeds to be used by the backend.
+	/**
+	 * Registers the feeds to be used by the backend.
 	 */
 	registerFeeds: function () {
 		for (var f in this.config.feeds) {
@@ -218,10 +218,10 @@ Module.register("newsfeed", {
 		}
 	},
 
-	/* generateFeed()
+	/**
 	 * Generate an ordered list of items for this configured module.
 	 *
-	 * attribute feeds object - An object with feeds returned by the node helper.
+	 * @param {object} feeds An object with feeds returned by the node helper.
 	 */
 	generateFeed: function (feeds) {
 		var newsItems = [];
@@ -274,12 +274,11 @@ Module.register("newsfeed", {
 		this.newsItems = newsItems;
 	},
 
-	/* subscribedToFeed(feedUrl)
+	/**
 	 * Check if this module is configured to show this feed.
 	 *
-	 * attribute feedUrl string - Url of the feed to check.
-	 *
-	 * returns bool
+	 * @param {string} feedUrl Url of the feed to check.
+	 * @returns {boolean} True if it is subscribed, false otherwise
 	 */
 	subscribedToFeed: function (feedUrl) {
 		for (var f in this.config.feeds) {
@@ -291,12 +290,11 @@ Module.register("newsfeed", {
 		return false;
 	},
 
-	/* titleForFeed(feedUrl)
-	 * Returns title for a specific feed Url.
+	/**
+	 * Returns title for the specific feed url.
 	 *
-	 * attribute feedUrl string - Url of the feed to check.
-	 *
-	 * returns string
+	 * @param {string} feedUrl Url of the feed
+	 * @returns {string} The title of the feed
 	 */
 	titleForFeed: function (feedUrl) {
 		for (var f in this.config.feeds) {
@@ -308,7 +306,7 @@ Module.register("newsfeed", {
 		return "";
 	},
 
-	/* scheduleUpdateInterval()
+	/**
 	 * Schedule visual update.
 	 */
 	scheduleUpdateInterval: function () {
@@ -332,17 +330,6 @@ Module.register("newsfeed", {
 		}, this.config.updateInterval);
 	},
 
-	/* capitalizeFirstLetter(string)
-	 * Capitalizes the first character of a string.
-	 *
-	 * argument string string - Input string.
-	 *
-	 * return string - Capitalized output string.
-	 */
-	capitalizeFirstLetter: function (string) {
-		return string.charAt(0).toUpperCase() + string.slice(1);
-	},
-
 	resetDescrOrFullArticleAndTimer: function () {
 		this.isShowingDescription = this.config.showDescription;
 		this.config.showFullArticle = false;
@@ -356,7 +343,7 @@ Module.register("newsfeed", {
 	},
 
 	notificationReceived: function (notification, payload, sender) {
-		var before = this.activeItem;
+		const before = this.activeItem;
 		if (notification === "ARTICLE_NEXT") {
 			this.activeItem++;
 			if (this.activeItem >= this.newsItems.length) {
