@@ -184,8 +184,17 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumNu
 						// For recurring events, get the set of start dates that fall within the range
 						// of dates we're looking for.
 						// kblankenship1989 - to fix issue #1798, converting all dates to locale time first, then converting back to UTC time
-						const pastLocal = pastMoment.subtract(past.getTimezoneOffset(), "minutes").toDate();
-						const futureLocal = futureMoment.subtract(future.getTimezoneOffset(), "minutes").toDate();
+						let pastLocal = 0
+						let futureLocal = 0 
+						if(isFullDayEvent(event)){
+							// if full day event, only use the date part of the ranges
+							pastLocal = pastMoment.toDate();
+							futureLocal = futureMoment.toDate()
+						}
+						else {
+							pastLocal = pastMoment.subtract(past.getTimezoneOffset(), "minutes").toDate();
+							futureLocal = futureMoment.subtract(future.getTimezoneOffset(), "minutes").toDate();
+						}
 						const datesLocal = rule.between(pastLocal, futureLocal, true, limitFunction);
 						const dates = datesLocal.map(function (dateLocal) {
 							return moment(dateLocal).add(dateLocal.getTimezoneOffset(), "minutes").toDate();
@@ -217,6 +226,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumNu
 							const dateKey = date.toISOString().substring(0, 10);
 							let curEvent = event;
 							let showRecurrence = true;
+							let duration = 0;
 
 							startDate = moment(date);
 
