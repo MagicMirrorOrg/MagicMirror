@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror²
+### fixed 
+
+- 2110, 2111, 2118  recurring full day events should not use timezone adjustment. just compare month/day
 
 ## [2.12.0] - 2020-07-01
 
