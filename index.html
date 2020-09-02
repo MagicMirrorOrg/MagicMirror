@@ -14,9 +14,14 @@
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<link rel="stylesheet" type="text/css" href="fonts/roboto.css">
 	<!-- custom.css is loaded by the loader.js to make sure it's loaded after the module css files. -->
-
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script type="text/javascript">
 		var version = "#VERSION#";
+    window.onload = function(){
+			if('#Dev' === 'dev'){
+				$('html').css('cursor', 'auto');
+			}
+		}
 	</script>
 </head>
 <body>
