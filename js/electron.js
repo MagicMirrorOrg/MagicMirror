@@ -93,7 +93,13 @@ app.on("ready", function () {
 
 // Quit when all windows are closed.
 app.on("window-all-closed", function () {
-	createWindow();
+	if (process.argv.includes("dev")) {
+		Log.log('bye')
+		core.stop();
+		process.exit(0);
+	} else {
+		createWindow();
+	}
 });
 
 app.on("activate", function () {
