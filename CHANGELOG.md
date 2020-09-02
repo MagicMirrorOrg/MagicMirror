@@ -7,11 +7,14 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [2.12.1] - 2020-09-02
 
-korea locale error, change locale
+korea locale error, change locale, mouse cursor activity and closing window from process exit on dev mode
 
 ### Update
 
 - translations/translations.js
+- js/electron.js
+- js/server.js
+- index.html
 
 ## [2.12.0] - 2020-07-01
 
