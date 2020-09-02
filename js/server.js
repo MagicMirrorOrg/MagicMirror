@@ -71,6 +71,12 @@ var Server = function (config, callback) {
 		var html = fs.readFileSync(path.resolve(global.root_path + "/index.html"), { encoding: "utf8" });
 		html = html.replace("#VERSION#", global.version);
 
+		if(process.argv.includes("dev")){
+			html = html.replace("#Dev", 'dev');
+		} else {
+			html = html.replace("#Dev", false);
+		}
+
 		var configFile = "config/config.js";
 		if (typeof global.configuration_file !== "undefined") {
 			configFile = global.configuration_file;
