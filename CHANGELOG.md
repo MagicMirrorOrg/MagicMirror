@@ -22,6 +22,7 @@ _This release is scheduled to be released on 2020-10-01._
 - Add lithuanian language.
 - Added support in weatherforecast for OpenWeather onecall API.
 - Added config option to calendar-icons for recurring- and fullday-events
+- Added current, hourly (max 48), and daily (max 7) weather forecasts to weather module via OpenWeatherMap One Call API
 - Added eslint-plugin for jsdoc comments
 
 ### Updated
