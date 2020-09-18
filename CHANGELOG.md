@@ -5,33 +5,44 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror²
 
+### fixed
+
+- 2110, 2111, 2118 recurring full day events should not use timezone adjustment. just compare month/day
+
 ## [2.13.0] - Unreleased (Develop Branch - Please add your contributions to this release.)
 
 _This release is scheduled to be released on 2020-10-01._
 
 ### Added
 
+- `--dry-run` option adde in fetch call within updatenotification node_helper. This is to prevent
+  MagicMirror from consuming any fetch result. Causes conflict with MMPM when attempting to check
+  for updates to MagicMirror and/or MagicMirror modules.
 - Test coverage with Istanbul, run it with `npm run test:coverage`.
 - Add lithuanian language.
 - Added support in weatherforecast for OpenWeather onecall API.
 - Added config option to calendar-icons for recurring- and fullday-events
 - Added current, hourly (max 48), and daily (max 7) weather forecasts to weather module via OpenWeatherMap One Call API
+- Added eslint-plugin for jsdoc comments
 
 ### Updated
 
 - Change incorrect weather.js default properties.
 - Cleaned up newsfeed module.
+- Cleaned up jsdoc comments.
+- Cleaned up clock tests.
 
 ### Deleted
 
 ### Fixed
 
-- Fix backward compatibility issues for Safari < 11. [#1985](https://github.com/MichMich/MagicMirror/issues/1985)
+- Fix backward compatibility issues for Safari < 11.
 - Fix the use of "maxNumberOfDays" in the module "weatherforecast depending on the endpoint (forecast/daily or forecast)". [#2018](https://github.com/MichMich/MagicMirror/issues/2018)
 - Fix calendar display. Account for current timezone. [#2068](https://github.com/MichMich/MagicMirror/issues/2068)
 - Fix logLevel being set before loading config.
 - Fix incorrect namespace links in svg clockfaces. [#2072](https://github.com/MichMich/MagicMirror/issues/2072)
-- Fix weather/providers/weathergov for API guidelines [#2045]
+- Fix weather/providers/weathergov for API guidelines. [#2045](https://github.com/MichMich/MagicMirror/issues/2045)
+- Fix "undefined" in weather modules header. [#1985](https://github.com/MichMich/MagicMirror/issues/1985)
 
 ## [2.12.0] - 2020-07-01
 
@@ -71,6 +82,7 @@ Special thanks to the following contributors: @AndreKoepke, @andrezibaia, @bryan
 - Throw error when check_config fails. [#1928](https://github.com/MichMich/MagicMirror/issues/1928)
 - Bug fix related to 'maxEntries' not displaying Calendar events. [#2050](https://github.com/MichMich/MagicMirror/issues/2050)
 - Updated ical library to latest version. [#1926](https://github.com/MichMich/MagicMirror/issues/1926)
+- Fix config check after merge of prettier [#2109](https://github.com/MichMich/MagicMirror/issues/2109)
 
 ## [2.11.0] - 2020-04-01
 

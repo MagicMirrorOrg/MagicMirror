@@ -205,8 +205,8 @@ Module.register("newsfeed", {
 		return typeof this.newsItems[this.activeItem].url === "string" ? this.newsItems[this.activeItem].url : this.newsItems[this.activeItem].url.href;
 	},
 
-	/* registerFeeds()
-	 * registers the feeds to be used by the backend.
+	/**
+	 * Registers the feeds to be used by the backend.
 	 */
 	registerFeeds: function () {
 		for (var f in this.config.feeds) {
@@ -218,10 +218,10 @@ Module.register("newsfeed", {
 		}
 	},
 
-	/* generateFeed()
+	/**
 	 * Generate an ordered list of items for this configured module.
 	 *
-	 * attribute feeds object - An object with feeds returned by the node helper.
+	 * @param {object} feeds An object with feeds returned by the node helper.
 	 */
 	generateFeed: function (feeds) {
 		var newsItems = [];
@@ -274,12 +274,11 @@ Module.register("newsfeed", {
 		this.newsItems = newsItems;
 	},
 
-	/* subscribedToFeed(feedUrl)
+	/**
 	 * Check if this module is configured to show this feed.
 	 *
-	 * attribute feedUrl string - Url of the feed to check.
-	 *
-	 * returns bool
+	 * @param {string} feedUrl Url of the feed to check.
+	 * @returns {boolean} True if it is subscribed, false otherwise
 	 */
 	subscribedToFeed: function (feedUrl) {
 		for (var f in this.config.feeds) {
@@ -291,12 +290,11 @@ Module.register("newsfeed", {
 		return false;
 	},
 
-	/* titleForFeed(feedUrl)
-	 * Returns title for a specific feed Url.
+	/**
+	 * Returns title for the specific feed url.
 	 *
-	 * attribute feedUrl string - Url of the feed to check.
-	 *
-	 * returns string
+	 * @param {string} feedUrl Url of the feed
+	 * @returns {string} The title of the feed
 	 */
 	titleForFeed: function (feedUrl) {
 		for (var f in this.config.feeds) {
@@ -308,7 +306,7 @@ Module.register("newsfeed", {
 		return "";
 	},
 
-	/* scheduleUpdateInterval()
+	/**
 	 * Schedule visual update.
 	 */
 	scheduleUpdateInterval: function () {

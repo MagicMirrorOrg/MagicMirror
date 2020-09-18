@@ -24,12 +24,12 @@ module.exports = NodeHelper.create({
 		}
 	},
 
-	/* createFetcher(feed, config)
+	/**
 	 * Creates a fetcher for a new feed if it doesn't exist yet.
 	 * Otherwise it reuses the existing one.
 	 *
-	 * attribute feed object - A feed object.
-	 * attribute config object - A configuration object containing reload interval in milliseconds.
+	 * @param {object} feed The feed object.
+	 * @param {object} config The configuration object.
 	 */
 	createFetcher: function (feed, config) {
 		const url = feed.url || "";
@@ -68,7 +68,7 @@ module.exports = NodeHelper.create({
 		fetcher.startFetch();
 	},
 
-	/* broadcastFeeds()
+	/**
 	 * Creates an object with all feed items of the different registered feeds,
 	 * and broadcasts these using sendSocketNotification.
 	 */

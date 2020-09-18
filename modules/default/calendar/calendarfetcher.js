@@ -6,9 +6,27 @@
  */
 const Log = require("../../../js/logger.js");
 const ical = require("ical");
-const moment = require("moment");
 const request = require("request");
 
+/**
+ * Moment date
+ *
+ * @external Moment
+ * @see {@link http://momentjs.com}
+ */
+const moment = require("moment");
+
+/**
+ *
+ * @param {string} url The url of the calendar to fetch
+ * @param {number} reloadInterval Time in ms the calendar is fetched again
+ * @param {string[]} excludedEvents An array of words / phrases from event titles that will be excluded from being shown.
+ * @param {number} maximumEntries The maximum number of events fetched.
+ * @param {number} maximumNumberOfDays The maximum number of days an event should be in the future.
+ * @param {object} auth The object containing options for authentication against the calendar.
+ * @param {boolean} includePastEvents If true events from the past maximumNumberOfDays will be fetched too
+ * @class
+ */
 const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, includePastEvents) {
 	const self = this;
 
@@ -18,7 +36,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 	let fetchFailedCallback = function () {};
 	let eventsReceivedCallback = function () {};
 
-	/* fetchCalendar()
+	/**
 	 * Initiates calendar fetch.
 	 */
 	const fetchCalendar = function () {
@@ -184,8 +202,16 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 						// For recurring events, get the set of start dates that fall within the range
 						// of dates we're looking for.
 						// kblankenship1989 - to fix issue #1798, converting all dates to locale time first, then converting back to UTC time
-						const pastLocal = pastMoment.subtract(past.getTimezoneOffset(), "minutes").toDate();
-						const futureLocal = futureMoment.subtract(future.getTimezoneOffset(), "minutes").toDate();
+						let pastLocal = 0;
+						let futureLocal = 0;
+						if (isFullDayEvent(event)) {
+							// if full day event, only use the date part of the ranges
+							pastLocal = pastMoment.toDate();
+							futureLocal = futureMoment.toDate();
+						} else {
+							pastLocal = pastMoment.subtract(past.getTimezoneOffset(), "minutes").toDate();
+							futureLocal = futureMoment.subtract(future.getTimezoneOffset(), "minutes").toDate();
+						}
 						const dates = rule.between(pastLocal, futureLocal, true, limitFunction);
 
 						// The "dates" array contains the set of dates within our desired date range range that are valid
@@ -214,6 +240,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 							const dateKey = date.toISOString().substring(0, 10);
 							let curEvent = event;
 							let showRecurrence = true;
+							let duration = 0;
 
 							startDate = moment(date);
 
@@ -325,7 +352,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 		});
 	};
 
-	/* scheduleTimer()
+	/**
 	 * Schedule the timer for the next update.
 	 */
 	const scheduleTimer = function () {
@@ -335,12 +362,11 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 		}, reloadInterval);
 	};
 
-	/* isFullDayEvent(event)
+	/**
 	 * Checks if an event is a fullday event.
 	 *
-	 * argument event object - The event object to check.
-	 *
-	 * return bool - The event is a fullday event.
+	 * @param {object} event The event object to check.
+	 * @returns {boolean} True if the event is a fullday event, false otherwise
 	 */
 	const isFullDayEvent = function (event) {
 		if (event.start.length === 8 || event.start.dateOnly) {
@@ -358,14 +384,13 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 		return false;
 	};
 
-	/* timeFilterApplies()
+	/**
 	 * Determines if the user defined time filter should apply
 	 *
-	 * argument now Date - Date object using previously created object for consistency
-	 * argument endDate Moment - Moment object representing the event end date
-	 * argument filter string - The time to subtract from the end date to determine if an event should be shown
-	 *
-	 * return bool - The event should be filtered out
+	 * @param {Date} now Date object using previously created object for consistency
+	 * @param {Moment} endDate Moment object representing the event end date
+	 * @param {string} filter The time to subtract from the end date to determine if an event should be shown
+	 * @returns {boolean} True if the event should be filtered out, false otherwise
 	 */
 	const timeFilterApplies = function (now, endDate, filter) {
 		if (filter) {
@@ -380,12 +405,11 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 		return false;
 	};
 
-	/* getTitleFromEvent(event)
+	/**
 	 * Gets the title from the event.
 	 *
-	 * argument event object - The event object to check.
-	 *
-	 * return string - The title of the event, or "Event" if no title is found.
+	 * @param {object} event The event object to check.
+	 * @returns {string} The title of the event, or "Event" if no title is found.
 	 */
 	const getTitleFromEvent = function (event) {
 		let title = "Event";
@@ -416,14 +440,14 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 
 	/* public methods */
 
-	/* startFetch()
+	/**
 	 * Initiate fetchCalendar();
 	 */
 	this.startFetch = function () {
 		fetchCalendar();
 	};
 
-	/* broadcastItems()
+	/**
 	 * Broadcast the existing events.
 	 */
 	this.broadcastEvents = function () {
@@ -431,37 +455,37 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 		eventsReceivedCallback(self);
 	};
 
-	/* onReceive(callback)
+	/**
 	 * Sets the on success callback
 	 *
-	 * argument callback function - The on success callback.
+	 * @param {Function} callback The on success callback.
 	 */
 	this.onReceive = function (callback) {
 		eventsReceivedCallback = callback;
 	};
 
-	/* onError(callback)
+	/**
 	 * Sets the on error callback
 	 *
-	 * argument callback function - The on error callback.
+	 * @param {Function} callback The on error callback.
 	 */
 	this.onError = function (callback) {
 		fetchFailedCallback = callback;
 	};
 
-	/* url()
+	/**
 	 * Returns the url of this fetcher.
 	 *
-	 * return string - The url of this fetcher.
+	 * @returns {string} The url of this fetcher.
 	 */
 	this.url = function () {
 		return url;
 	};
 
-	/* events()
+	/**
 	 * Returns current available events for this fetcher.
 	 *
-	 * return array - The current available events for this fetcher.
+	 * @returns {object[]} The current available events for this fetcher.
 	 */
 	this.events = function () {
 		return events;
