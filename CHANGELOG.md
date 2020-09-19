@@ -5,10 +5,6 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror²
 
-### fixed
-
-- 2110, 2111, 2118 recurring full day events should not use timezone adjustment. just compare month/day
-
 ## [2.13.0] - Unreleased (Develop Branch - Please add your contributions to this release.)
 
 _This release is scheduled to be released on 2020-10-01._
@@ -31,6 +27,7 @@ _This release is scheduled to be released on 2020-10-01._
 - Cleaned up newsfeed module.
 - Cleaned up jsdoc comments.
 - Cleaned up clock tests.
+- Move lodash into devDependencies, update other dependencies
 
 ### Deleted
 
@@ -43,6 +40,7 @@ _This release is scheduled to be released on 2020-10-01._
 - Fix incorrect namespace links in svg clockfaces. [#2072](https://github.com/MichMich/MagicMirror/issues/2072)
 - Fix weather/providers/weathergov for API guidelines. [#2045](https://github.com/MichMich/MagicMirror/issues/2045)
 - Fix "undefined" in weather modules header. [#1985](https://github.com/MichMich/MagicMirror/issues/1985)
+- Fix #2110, #2111, #2118: Recurring full day events should not use timezone adjustment. Just compare month/day.
 
 ## [2.12.0] - 2020-07-01
 
