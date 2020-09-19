@@ -12,13 +12,14 @@ const path = require("path");
 const fs = require("fs");
 
 const rootPath = path.resolve(__dirname + "/../");
-const config = require(rootPath + "/.eslintrc.json");
 const Log = require(rootPath + "/js/logger.js");
 const Utils = require(rootPath + "/js/utils.js");
 
-/* getConfigFile()
- * Return string with path of configuration file
+/**
+ * Returns a string with path of configuration file.
  * Check if set by environment variable MM_CONFIG_FILE
+ *
+ * @returns {string} path and filename of the config file
  */
 function getConfigFile() {
 	// FIXME: This function should be in core. Do you want refactor me ;) ?, be good!
@@ -29,6 +30,9 @@ function getConfigFile() {
 	return configFileName;
 }
 
+/**
+ * Checks the config file using eslint.
+ */
 function checkConfigFile() {
 	const configFileName = getConfigFile();
 
@@ -38,7 +42,7 @@ function checkConfigFile() {
 		throw new Error("No config file present!");
 	}
 
-	// check permission
+	// Check permission
 	try {
 		fs.accessSync(configFileName, fs.F_OK);
 	} catch (e) {
@@ -54,16 +58,15 @@ function checkConfigFile() {
 		if (err) {
 			throw err;
 		}
-		const messages = linter.verify(data, config);
+		const messages = linter.verify(data);
 		if (messages.length === 0) {
-			Log.log("Your configuration file doesn't contain syntax errors :)");
-			return true;
+			Log.info(Utils.colors.pass("Your configuration file doesn't contain syntax errors :)"));
 		} else {
+			Log.error(Utils.colors.error("Your configuration file contains syntax errors :("));
 			// In case the there errors show messages and return
 			messages.forEach((error) => {
-				Log.log("Line", error.line, "col", error.column, error.message);
+				Log.error("Line", error.line, "col", error.column, error.message);
 			});
-			throw new Error("Wrong syntax in config file!");
 		}
 	});
 }

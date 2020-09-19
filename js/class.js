@@ -57,7 +57,9 @@
 					: prop[name];
 		}
 
-		// The dummy class constructor
+		/**
+		 * The dummy class constructor
+		 */
 		function Class() {
 			// All construction is actually done in the init method
 			if (!initializing && this.init) {
@@ -78,8 +80,13 @@
 	};
 })();
 
-//Define the clone method for later use.
-//Helper Method
+/**
+ * Define the clone method for later use. Helper Method.
+ *
+ * @param {object} obj Object to be cloned
+ *
+ * @returns {object} the cloned object
+ */
 function cloneObject(obj) {
 	if (obj === null || typeof obj !== "object") {
 		return obj;

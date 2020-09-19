@@ -37,6 +37,8 @@ Module.register("currentweather", {
 		weatherEndpoint: "weather",
 
 		appendLocationNameToHeader: true,
+		useLocationAsHeader: false,
+
 		calendarClass: "calendar",
 		tableClass: "large",
 
@@ -267,15 +269,16 @@ Module.register("currentweather", {
 
 	// Override getHeader method.
 	getHeader: function () {
-		if (this.config.appendLocationNameToHeader && this.data.header !== undefined) {
-			return this.data.header + " " + this.fetchedLocationName;
-		}
-
 		if (this.config.useLocationAsHeader && this.config.location !== false) {
 			return this.config.location;
 		}
 
-		return this.data.header;
+		if (this.config.appendLocationNameToHeader) {
+			if (this.data.header) return this.data.header + " " + this.fetchedLocationName;
+			else return this.fetchedLocationName;
+		}
+
+		return this.data.header ? this.data.header : "";
 	},
 
 	// Override notification handler.
