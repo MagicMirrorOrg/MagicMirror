@@ -230,7 +230,7 @@ var Module = Class.extend({
 	 * @param {object} config The combined module config.
 	 */
 	setConfig: function (config) {
-		this.config = MMconfigMerge({}, this.defaults, config);
+		this.config = configMerge({}, this.defaults, config);
 	},
 
 	/**
@@ -458,7 +458,7 @@ var Module = Class.extend({
  * @bugsounet
  */
 
-function MMconfigMerge(result) {
+function configMerge(result) {
 	var stack = Array.prototype.slice.call(arguments, 1);
 	var item;
 	var key;
