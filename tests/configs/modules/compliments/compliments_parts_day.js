@@ -25,7 +25,9 @@ var config = {
 				compliments: {
 					morning: ["Hi", "Good Morning", "Morning test"],
 					afternoon: ["Hello", "Good Afternoon", "Afternoon test"],
-					evening: ["Hello There", "Good Evening", "Evening test"]
+					evening: ["Hello There", "Good Evening", "Evening test"],
+					anytime: [],
+					"....-01-01": []
 				}
 			}
 		}

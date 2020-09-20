@@ -25,6 +25,7 @@ let config = {
 			config: {
 				mockDate: "2020-01-01",
 				compliments: {
+					anytime: [],
 					morning: [],
 					afternoon: [],
 					evening: [],

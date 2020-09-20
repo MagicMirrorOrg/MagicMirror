@@ -91,7 +91,7 @@ describe("Compliments module", function () {
 		describe("Only anytime present in configuration compliments", function () {
 			before(function () {
 				// Set config sample for use in test
-				process.env.MM_CONFIG_FILE = "tests/configs/modules/compliments/compliments_only_anytime.js";
+				process.env.MM_CONFIG_FILE = "tests/configs/modules/compliments/compliments_anytime.js";
 			});
 
 			it("Show anytime compliments", function () {
