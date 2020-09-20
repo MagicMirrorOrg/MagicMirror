@@ -22,15 +22,16 @@ WeatherProvider.register("darksky", {
 
 	fetchCurrentWeather() {
 		this.fetchData(this.getUrl())
-			.then(data => {
-				if(!data || !data.currently || typeof data.currently.temperature === "undefined") {
+			.then((data) => {
+				if (!data || !data.currently || typeof data.currently.temperature === "undefined") {
 					// No usable data?
 					return;
 				}
 
 				const currentWeather = this.generateWeatherDayFromCurrentWeather(data);
 				this.setCurrentWeather(currentWeather);
-			}).catch(function(request) {
+			})
+			.catch(function (request) {
 				Log.error("Could not load data ... ", request);
 			})
 			.finally(() => this.updateAvailable());
@@ -38,15 +39,16 @@ WeatherProvider.register("darksky", {
 
 	fetchWeatherForecast() {
 		this.fetchData(this.getUrl())
-			.then(data => {
-				if(!data || !data.daily || !data.daily.data.length) {
+			.then((data) => {
+				if (!data || !data.daily || !data.daily.data.length) {
 					// No usable data?
 					return;
 				}
 
 				const forecast = this.generateWeatherObjectsFromForecast(data.daily.data);
 				this.setWeatherForecast(forecast);
-			}).catch(function(request) {
+			})
+			.catch(function (request) {
 				Log.error("Could not load data ... ", request);
 			})
 			.finally(() => this.updateAvailable());
@@ -109,12 +111,12 @@ WeatherProvider.register("darksky", {
 		const weatherTypes = {
 			"clear-day": "day-sunny",
 			"clear-night": "night-clear",
-			"rain": "rain",
-			"snow": "snow",
-			"sleet": "snow",
-			"wind": "wind",
-			"fog": "fog",
-			"cloudy": "cloudy",
+			rain: "rain",
+			snow: "snow",
+			sleet: "snow",
+			wind: "wind",
+			fog: "fog",
+			cloudy: "cloudy",
 			"partly-cloudy-day": "day-cloudy",
 			"partly-cloudy-night": "night-cloudy"
 		};

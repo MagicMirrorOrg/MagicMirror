@@ -1,7 +1,7 @@
-var path = require("path");
-var auth = require("http-auth");
-var express = require("express");
-var app = express();
+const path = require("path");
+const auth = require("http-auth");
+const express = require("express");
+const app = express();
 
 var server;
 
@@ -26,10 +26,10 @@ for (var i in directories) {
 	app.use(directory, express.static(path.resolve(rootPath + directory)));
 }
 
-exports.listen = function() {
+exports.listen = function () {
 	server = app.listen.apply(app, arguments);
 };
 
-exports.close = function(callback) {
+exports.close = function (callback) {
 	server.close(callback);
 };

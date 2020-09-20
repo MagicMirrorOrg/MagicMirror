@@ -1,0 +1,4 @@
+package-lock.json
+/config/**/*
+/vendor/**/*
+!/vendor/vendor.js

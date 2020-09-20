@@ -1,0 +1,36 @@
+{
+	"LOADING": "Kraunasi &hellip;",
+
+	"TODAY": "Šiandien",
+	"TOMORROW": "Rytoj",
+	"DAYAFTERTOMORROW": "Už 2 dienų",
+	"RUNNING": "Pasibaigs už",
+	"EMPTY": "Nėra artimų įvykių.",
+
+	"WEEK": "{weekNumber} savaitė",
+
+	"N": "N",
+	"NNE": "NNE",
+	"NE": "NE",
+	"ENE": "ENE",
+	"E": "E",
+	"ESE": "ESE",
+	"SE": "SE",
+	"SSE": "SSE",
+	"S": "S",
+	"SSW": "SSW",
+	"SW": "SW",
+	"WSW": "WSW",
+	"W": "W",
+	"WNW": "WNW",
+	"NW": "NW",
+	"NNW": "NNW",
+
+	"UPDATE_NOTIFICATION": "Galimas MagicMirror² naujinimas.",
+	"UPDATE_NOTIFICATION_MODULE": "Galimas {MODULE_NAME} naujinimas.",
+	"UPDATE_INFO_SINGLE": "Šis įdiegimas atsilieka {COMMIT_COUNT} įsipareigojimu {BRANCH_NAME} šakoje.",
+	"UPDATE_INFO_MULTIPLE": "Šis įdiegimas atsilieka {COMMIT_COUNT} įsipareigojimais {BRANCH_NAME} šakoje.",
+
+	"FEELS": "Jaučiasi kaip",
+	"PRECIP": "Krituliai"
+}

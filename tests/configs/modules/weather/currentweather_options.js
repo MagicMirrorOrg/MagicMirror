@@ -14,8 +14,8 @@ let config = {
 	units: "metric",
 	electronOptions: {
 		webPreferences: {
-			nodeIntegration: true,
-		},
+			nodeIntegration: true
+		}
 	},
 
 	modules: [
@@ -28,6 +28,7 @@ let config = {
 				initialLoadDelay: 3000,
 				useBeaufort: false,
 				showWindDirectionAsArrow: true,
+				showSun: false,
 				showHumidity: true,
 				roundTemp: true,
 				degreeLabel: true
@@ -37,4 +38,6 @@ let config = {
 };
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/
-if (typeof module !== "undefined") {module.exports = config;}
+if (typeof module !== "undefined") {
+	module.exports = config;
+}

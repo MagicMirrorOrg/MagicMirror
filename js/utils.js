@@ -10,8 +10,11 @@ var Utils = {
 	colors: {
 		warn: colors.yellow,
 		error: colors.red,
-		info: colors.blue
+		info: colors.blue,
+		pass: colors.green
 	}
 };
 
-if (typeof module !== "undefined") {module.exports = Utils;}
+if (typeof module !== "undefined") {
+	module.exports = Utils;
+}

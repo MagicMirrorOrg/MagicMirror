@@ -4,10 +4,19 @@
 (function () {
 	var config = {};
 
-	// Helper function to get server address/hostname from either the commandline or env
+	/**
+	 * Helper function to get server address/hostname from either the commandline or env
+	 */
 	function getServerAddress() {
-		// Helper function to get command line parameters
-		// Assumes that a cmdline parameter is defined with `--key [value]`
+		/**
+		 * Get command line parameters
+		 * Assumes that a cmdline parameter is defined with `--key [value]`
+		 *
+		 * @param {string} key key to look for at the command line
+		 * @param {string} defaultValue value if no key is given at the command line
+		 *
+		 * @returns {string} the value of the parameter
+		 */
 		function getCommandLineParameter(key, defaultValue = undefined) {
 			var index = process.argv.indexOf(`--${key}`);
 			var value = index > -1 ? process.argv[index + 1] : undefined;
@@ -23,30 +32,43 @@
 		config["tls"] = process.argv.indexOf("--use-tls") > 0;
 	}
 
+	/**
+	 * Gets the config from the specified server url
+	 *
+	 * @param {string} url location where the server is running.
+	 *
+	 * @returns {Promise} the config
+	 */
 	function getServerConfig(url) {
 		// Return new pending promise
 		return new Promise((resolve, reject) => {
-			// Select http or https module, depending on reqested url
+			// Select http or https module, depending on requested url
 			const lib = url.startsWith("https") ? require("https") : require("http");
 			const request = lib.get(url, (response) => {
 				var configData = "";
 
 				// Gather incoming data
-				response.on("data", function(chunk) {
+				response.on("data", function (chunk) {
 					configData += chunk;
 				});
 				// Resolve promise at the end of the HTTP/HTTPS stream
-				response.on("end", function() {
+				response.on("end", function () {
 					resolve(JSON.parse(configData));
 				});
 			});
 
-			request.on("error", function(error) {
+			request.on("error", function (error) {
 				reject(new Error(`Unable to read config from server (${url} (${error.message}`));
 			});
 		});
 	}
 
+	/**
+	 * Print a message to the console in case of errors
+	 *
+	 * @param {string} [message] error message to print
+	 * @param {number} code error code for the exit call
+	 */
 	function fail(message, code = 1) {
 		if (message !== undefined && typeof message === "string") {
 			console.log(message);
@@ -96,7 +118,6 @@
 						console.log(`There something wrong. The clientonly is not running code ${code}`);
 					}
 				});
-
 			})
 			.catch(function (reason) {
 				fail(`Unable to connect to server: (${reason})`);
@@ -104,4 +125,4 @@
 	} else {
 		fail();
 	}
-}());
+})();

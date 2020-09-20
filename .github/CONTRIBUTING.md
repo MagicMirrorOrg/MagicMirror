@@ -1,5 +1,4 @@
-Contribution Policy for MagicMirror²
-====================================
+# Contribution Policy for MagicMirror²
 
 Thanks for contributing to MagicMirror²!
 
@@ -30,7 +29,7 @@ Problems installing or configuring your MagicMirror? Check out: [https://forum.m
 
 When submitting a new issue, please supply the following information:
 
-**Platform**: Place your platform here... give us your web browser/Electron version *and* your hardware (Raspberry Pi 2/3, Windows, Mac, Linux, System V UNIX).
+**Platform**: Place your platform here... give us your web browser/Electron version _and_ your hardware (Raspberry Pi 2/3, Windows, Mac, Linux, System V UNIX).
 
 **Node Version**: Make sure it's version 0.12.13 or later.
 

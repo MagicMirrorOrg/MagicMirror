@@ -10,10 +10,13 @@
  * Copyright 2014, Codrops
  * https://tympanus.net/codrops/
  */
-(function(window) {
-
+(function (window) {
 	/**
-	 * extend obj function
+	 * Extend one object with another one
+	 *
+	 * @param {object} a The object to extend
+	 * @param {object} b The object which extends the other, overwrites existing keys
+	 * @returns {object} The merged object
 	 */
 	function extend(a, b) {
 		for (let key in b) {
@@ -25,7 +28,10 @@
 	}
 
 	/**
-	 * NotificationFx function
+	 * NotificationFx constructor
+	 *
+	 * @param {object} options The configuration options
+	 * @class
 	 */
 	function NotificationFx(options) {
 		this.options = extend({}, this.options);
@@ -58,19 +64,22 @@
 		ttl: 6000,
 		al_no: "ns-box",
 		// callbacks
-		onClose: function() { return false; },
-		onOpen: function() { return false; }
+		onClose: function () {
+			return false;
+		},
+		onOpen: function () {
+			return false;
+		}
 	};
 
 	/**
-	 * init function
-	 * initialize and cache some vars
+	 * Initialize and cache some vars
 	 */
-	NotificationFx.prototype._init = function() {
+	NotificationFx.prototype._init = function () {
 		// create HTML structure
 		this.ntf = document.createElement("div");
 		this.ntf.className = this.options.al_no + " ns-" + this.options.layout + " ns-effect-" + this.options.effect + " ns-type-" + this.options.type;
-		let strinner = "<div class=\"ns-box-inner\">";
+		let strinner = '<div class="ns-box-inner">';
 		strinner += this.options.message;
 		strinner += "</div>";
 		this.ntf.innerHTML = strinner;
@@ -92,17 +101,19 @@
 	};
 
 	/**
-	 * init events
+	 * Init events
 	 */
-	NotificationFx.prototype._initEvents = function() {
+	NotificationFx.prototype._initEvents = function () {
 		// dismiss notification by tapping on it if someone has a touchscreen
-		this.ntf.querySelector(".ns-box-inner").addEventListener("click", () => { this.dismiss(); });
+		this.ntf.querySelector(".ns-box-inner").addEventListener("click", () => {
+			this.dismiss();
+		});
 	};
 
 	/**
-	 * show the notification
+	 * Show the notification
 	 */
-	NotificationFx.prototype.show = function() {
+	NotificationFx.prototype.show = function () {
 		this.active = true;
 		this.ntf.classList.remove("ns-hide");
 		this.ntf.classList.add("ns-show");
@@ -110,9 +121,9 @@
 	};
 
 	/**
-	 * dismiss the notification
+	 * Dismiss the notification
 	 */
-	NotificationFx.prototype.dismiss = function() {
+	NotificationFx.prototype.dismiss = function () {
 		this.active = false;
 		clearTimeout(this.dismissttl);
 		this.ntf.classList.remove("ns-show");
@@ -125,7 +136,9 @@
 
 		// after animation ends remove ntf from the DOM
 		const onEndAnimationFn = (ev) => {
-			if (ev.target !== this.ntf) {return false;}
+			if (ev.target !== this.ntf) {
+				return false;
+			}
 			this.ntf.removeEventListener("animationend", onEndAnimationFn);
 
 			if (ev.target.parentNode === this.options.wrapper) {
@@ -137,8 +150,7 @@
 	};
 
 	/**
-	 * add to global namespace
+	 * Add to global namespace
 	 */
 	window.NotificationFx = NotificationFx;
-
 })(window);
