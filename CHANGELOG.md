@@ -36,6 +36,7 @@ _This release is scheduled to be released on 2020-10-01._
 
 ### Fixed
 
+- Fix Compliments module tests for Travis !
 - Fix Merging complex module config, not merging in deep [Issue #2130](https://github.com/MichMich/MagicMirror/issues/2130) and many, many others...
 - Fix backward compatibility issues for Safari < 11.
 - Fix the use of "maxNumberOfDays" in the module "weatherforecast depending on the endpoint (forecast/daily or forecast)". [#2018](https://github.com/MichMich/MagicMirror/issues/2018)
