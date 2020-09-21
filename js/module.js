@@ -230,8 +230,8 @@ var Module = Class.extend({
 	 * @param {object} config The combined module config.
 	 * @param {boolean} config Merge module config in deep.
 	 */
-	setConfig: function (config) {
-		this.config = Object.assign({}, this.defaults, config);
+	setConfig: function (config, deep) {
+		this.config= deep ? configMerge({}, this.defaults, config) : Object.assign({}, this.defaults, config);
 	},
 
 	/**
