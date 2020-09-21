@@ -133,6 +133,7 @@ For more information regarding this major change, please check issue [#1860](htt
 - Timestamp in log output now also contains the date
 - Turkish translation.
 - Option to configure the size of the currentweather module.
+- Changed "Gevoelstemperatuur" to "Voelt als" shorter text.
 
 ## [2.10.1] - 2020-01-10
 
