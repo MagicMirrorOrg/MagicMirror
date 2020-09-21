@@ -221,7 +221,7 @@ var Module = Class.extend({
 		this.identifier = data.identifier;
 		this.hidden = false;
 
-		this.setConfig(data.config,data.configDeepMerge);
+		this.setConfig(data.config, data.configDeepMerge);
 	},
 
 	/**
@@ -231,7 +231,7 @@ var Module = Class.extend({
 	 * @param {boolean} config Merge module config in deep.
 	 */
 	setConfig: function (config, deep) {
-		this.config= deep ? configMerge({}, this.defaults, config) : Object.assign({}, this.defaults, config);
+		this.config = deep ? configMerge({}, this.defaults, config) : Object.assign({}, this.defaults, config);
 	},
 
 	/**
@@ -481,7 +481,7 @@ function configMerge(result) {
 		}
 	}
 	return result;
-};
+}
 
 Module.definitions = {};
 
