@@ -76,7 +76,6 @@
 		"feedme": "^1.2.0",
 		"helmet": "^3.23.3",
 		"iconv-lite": "^0.6.2",
-		"lodash": "^4.17.19",
 		"module-alias": "^2.2.2",
 		"moment": "^2.28.0",
 		"node-ical": "^0.12.0",
