@@ -5,7 +5,7 @@
  * MIT Licensed.
  */
 const Log = require("../../../js/logger.js");
-const ical = require("ical");
+const ical = require("node-ical");
 const request = require("request");
 
 /**
