@@ -98,6 +98,7 @@ var Loader = (function () {
 				file: moduleName + ".js",
 				position: moduleData.position,
 				header: moduleData.header,
+				configDeepMerge: typeof moduleData.configDeepMerge === "boolean" ? moduleData.configDeepMerge : false,
 				config: moduleData.config,
 				classes: typeof moduleData.classes !== "undefined" ? moduleData.classes + " " + module : module
 			});

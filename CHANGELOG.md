@@ -5,10 +5,6 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror²
 
-### fixed
-
-- 2110, 2111, 2118 recurring full day events should not use timezone adjustment. just compare month/day
-
 ## [2.13.0] - Unreleased (Develop Branch - Please add your contributions to this release.)
 
 _This release is scheduled to be released on 2020-10-01._
@@ -22,6 +18,7 @@ _This release is scheduled to be released on 2020-10-01._
 - Add lithuanian language.
 - Added support in weatherforecast for OpenWeather onecall API.
 - Added config option to calendar-icons for recurring- and fullday-events
+- Added current, hourly (max 48), and daily (max 7) weather forecasts to weather module via OpenWeatherMap One Call API
 - Added eslint-plugin for jsdoc comments
 
 ### Updated
@@ -29,17 +26,21 @@ _This release is scheduled to be released on 2020-10-01._
 - Change incorrect weather.js default properties.
 - Cleaned up newsfeed module.
 - Cleaned up jsdoc comments.
+- Cleaned up clock tests.
+- Move lodash into devDependencies, update other dependencies
 
 ### Deleted
 
 ### Fixed
 
-- Fix backward compatibility issues for Safari < 11. [#1985](https://github.com/MichMich/MagicMirror/issues/1985)
+- Fix backward compatibility issues for Safari < 11.
 - Fix the use of "maxNumberOfDays" in the module "weatherforecast depending on the endpoint (forecast/daily or forecast)". [#2018](https://github.com/MichMich/MagicMirror/issues/2018)
 - Fix calendar display. Account for current timezone. [#2068](https://github.com/MichMich/MagicMirror/issues/2068)
 - Fix logLevel being set before loading config.
 - Fix incorrect namespace links in svg clockfaces. [#2072](https://github.com/MichMich/MagicMirror/issues/2072)
-- Fix weather/providers/weathergov for API guidelines [#2045]
+- Fix weather/providers/weathergov for API guidelines. [#2045](https://github.com/MichMich/MagicMirror/issues/2045)
+- Fix "undefined" in weather modules header. [#1985](https://github.com/MichMich/MagicMirror/issues/1985)
+- Fix #2110, #2111, #2118: Recurring full day events should not use timezone adjustment. Just compare month/day.
 
 ## [2.12.0] - 2020-07-01
 
@@ -132,6 +133,7 @@ For more information regarding this major change, please check issue [#1860](htt
 - Timestamp in log output now also contains the date
 - Turkish translation.
 - Option to configure the size of the currentweather module.
+- Changed "Gevoelstemperatuur" to "Voelt als" shorter text.
 
 ## [2.10.1] - 2020-01-10
 
