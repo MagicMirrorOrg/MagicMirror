@@ -20,6 +20,7 @@ _This release is scheduled to be released on 2020-10-01._
 - Added config option to calendar-icons for recurring- and fullday-events
 - Added current, hourly (max 48), and daily (max 7) weather forecasts to weather module via OpenWeatherMap One Call API
 - Added eslint-plugin for jsdoc comments
+- Added new configDeepMerge option for module developers
 
 ### Updated
 
@@ -28,6 +29,7 @@ _This release is scheduled to be released on 2020-10-01._
 - Cleaned up jsdoc comments.
 - Cleaned up clock tests.
 - Move lodash into devDependencies, update other dependencies
+- Switch from ical to node-ical library
 
 ### Deleted
 
