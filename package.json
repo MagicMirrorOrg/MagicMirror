@@ -75,6 +75,7 @@
 		"express-ipfilter": "^1.1.2",
 		"feedme": "^1.2.0",
 		"helmet": "^3.23.3",
+		"ical": "^0.8.0",
 		"iconv-lite": "^0.6.2",
 		"module-alias": "^2.2.2",
 		"moment": "^2.28.0",
