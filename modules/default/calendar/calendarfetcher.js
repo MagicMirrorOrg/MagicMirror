@@ -240,7 +240,6 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 							const dateKey = date.toISOString().substring(0, 10);
 							let curEvent = event;
 							let showRecurrence = true;
-							let duration = 0;
 
 							startDate = moment(date);
 
