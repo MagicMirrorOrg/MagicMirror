@@ -12,10 +12,11 @@ var WeatherProvider = Class.extend({
 	// Weather Provider Properties
 	providerName: null,
 
-	// The following properties have accestor methods.
+	// The following properties have accessor methods.
 	// Try to not access them directly.
 	currentWeatherObject: null,
 	weatherForecastArray: null,
+	weatherDataObject: null,
 	fetchedLocationName: null,
 
 	// The following properties will be set automatically.
@@ -56,6 +57,12 @@ var WeatherProvider = Class.extend({
 		Log.warn(`Weather provider: ${this.providerName} does not subclass the fetchWeatherForecast method.`);
 	},
 
+	// This method should start the API request to fetch the weather forecast.
+	// This method should definitely be overwritten in the provider.
+	fetchWeatherData: function () {
+		Log.warn(`Weather provider: ${this.providerName} does not subclass the fetchWeatherData method.`);
+	},
+
 	// This returns a WeatherDay object for the current weather.
 	currentWeather: function () {
 		return this.currentWeatherObject;
@@ -64,6 +71,11 @@ var WeatherProvider = Class.extend({
 	// This returns an array of WeatherDay objects for the weather forecast.
 	weatherForecast: function () {
 		return this.weatherForecastArray;
+	},
+
+	// This returns an object containing WeatherDay object(s) depending on the type of call.
+	weatherData: function () {
+		return this.weatherDataObject;
 	},
 
 	// This returns the name of the fetched location or an empty string.
@@ -81,6 +93,11 @@ var WeatherProvider = Class.extend({
 	setWeatherForecast: function (weatherForecastArray) {
 		// We should check here if we are passing a WeatherDay
 		this.weatherForecastArray = weatherForecastArray;
+	},
+
+	// Set the weatherDataObject and notify the delegate that new information is available.
+	setWeatherData: function (weatherDataObject) {
+		this.weatherDataObject = weatherDataObject;
 	},
 
 	// Set the fetched location name.
@@ -119,6 +136,9 @@ WeatherProvider.providers = [];
 
 /**
  * Static method to register a new weather provider.
+ *
+ * @param {string} providerIdentifier The name of the weather provider
+ * @param {object} providerDetails The details of the weather provider
  */
 WeatherProvider.register = function (providerIdentifier, providerDetails) {
 	WeatherProvider.providers[providerIdentifier.toLowerCase()] = WeatherProvider.extend(providerDetails);
@@ -126,6 +146,10 @@ WeatherProvider.register = function (providerIdentifier, providerDetails) {
 
 /**
  * Static method to initialize a new weather provider.
+ *
+ * @param {string} providerIdentifier The name of the weather provider
+ * @param {object} delegate The weather module
+ * @returns {object} The new weather provider
  */
 WeatherProvider.initialize = function (providerIdentifier, delegate) {
 	providerIdentifier = providerIdentifier.toLowerCase();

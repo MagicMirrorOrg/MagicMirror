@@ -9,6 +9,8 @@ Module.register("weatherforecast", {
 	defaults: {
 		location: false,
 		locationID: false,
+		lat: false,
+		lon: false,
 		appid: "",
 		units: config.units,
 		maxNumberOfDays: 7,
@@ -29,6 +31,7 @@ Module.register("weatherforecast", {
 		apiVersion: "2.5",
 		apiBase: "https://api.openweathermap.org/data/",
 		forecastEndpoint: "forecast/daily",
+		excludes: false,
 
 		appendLocationNameToHeader: true,
 		calendarClass: "calendar",
@@ -100,7 +103,7 @@ Module.register("weatherforecast", {
 	getDom: function () {
 		var wrapper = document.createElement("div");
 
-		if (this.config.appid === "") {
+		if (this.config.appid === "" || this.config.appid === "YOUR_OPENWEATHER_API_KEY") {
 			wrapper.innerHTML = "Please set the correct openweather <i>appid</i> in the config for module: " + this.name + ".";
 			wrapper.className = "dimmed light small";
 			return wrapper;
@@ -203,10 +206,11 @@ Module.register("weatherforecast", {
 	// Override getHeader method.
 	getHeader: function () {
 		if (this.config.appendLocationNameToHeader) {
-			return this.data.header + " " + this.fetchedLocationName;
+			if (this.data.header) return this.data.header + " " + this.fetchedLocationName;
+			else return this.fetchedLocationName;
 		}
 
-		return this.data.header;
+		return this.data.header ? this.data.header : "";
 	},
 
 	// Override notification handler.
@@ -283,6 +287,8 @@ Module.register("weatherforecast", {
 		var params = "?";
 		if (this.config.locationID) {
 			params += "id=" + this.config.locationID;
+		} else if (this.config.lat && this.config.lon) {
+			params += "lat=" + this.config.lat + "&lon=" + this.config.lon;
 		} else if (this.config.location) {
 			params += "q=" + this.config.location;
 		} else if (this.firstEvent && this.firstEvent.geo) {
@@ -294,8 +300,17 @@ Module.register("weatherforecast", {
 			return;
 		}
 
-		params += "&cnt=" + (this.config.maxNumberOfDays < 1 || this.config.maxNumberOfDays > 17 ? 7 : this.config.maxNumberOfDays);
+		let numberOfDays;
+		if (this.config.forecastEndpoint === "forecast") {
+			numberOfDays = this.config.maxNumberOfDays < 1 || this.config.maxNumberOfDays > 5 ? 5 : this.config.maxNumberOfDays;
+			// don't get forecasts for the next day, as it would not represent the whole day
+			numberOfDays = numberOfDays * 8 - (Math.round(new Date().getHours() / 3) % 8);
+		} else {
+			numberOfDays = this.config.maxNumberOfDays < 1 || this.config.maxNumberOfDays > 17 ? 7 : this.config.maxNumberOfDays;
+		}
+		params += "&cnt=" + numberOfDays;
 
+		params += "&exclude=" + this.config.excludes;
 		params += "&units=" + this.config.units;
 		params += "&lang=" + this.config.lang;
 		params += "&APPID=" + this.config.appid;
@@ -323,15 +338,34 @@ Module.register("weatherforecast", {
 	 * argument data object - Weather information received form openweather.org.
 	 */
 	processWeather: function (data) {
-		this.fetchedLocationName = data.city.name + ", " + data.city.country;
+		// Forcast16 (paid) API endpoint provides this data.  Onecall endpoint
+		// does not.
+		if (data.city) {
+			this.fetchedLocationName = data.city.name + ", " + data.city.country;
+		} else if (this.config.location) {
+			this.fetchedLocationName = this.config.location;
+		} else {
+			this.fetchedLocationName = "Unknown";
+		}
 
 		this.forecast = [];
 		var lastDay = null;
 		var forecastData = {};
 
-		for (var i = 0, count = data.list.length; i < count; i++) {
-			var forecast = data.list[i];
-			this.parserDataWeather(forecast); // hack issue #1017
+		// Handle different structs between forecast16 and onecall endpoints
+		var forecastList = null;
+		if (data.list) {
+			forecastList = data.list;
+		} else if (data.daily) {
+			forecastList = data.daily;
+		} else {
+			Log.error("Unexpected forecast data");
+			return undefined;
+		}
+
+		for (var i = 0, count = forecastList.length; i < count; i++) {
+			var forecast = forecastList[i];
+			forecast = this.parserDataWeather(forecast); // hack issue #1017
 
 			var day;
 			var hour;
@@ -349,7 +383,7 @@ Module.register("weatherforecast", {
 					icon: this.config.iconTable[forecast.weather[0].icon],
 					maxTemp: this.roundValue(forecast.temp.max),
 					minTemp: this.roundValue(forecast.temp.min),
-					rain: this.processRain(forecast, data.list)
+					rain: this.processRain(forecast, forecastList)
 				};
 
 				this.forecast.push(forecastData);

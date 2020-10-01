@@ -15,7 +15,7 @@ var Loader = (function () {
 
 	/* Private Methods */
 
-	/* loadModules()
+	/**
 	 * Loops thru all modules and requests load for every module.
 	 */
 	var loadModules = function () {
@@ -43,7 +43,7 @@ var Loader = (function () {
 		loadNextModule();
 	};
 
-	/* startModules()
+	/**
 	 * Loops thru all modules and requests start for every module.
 	 */
 	var startModules = function () {
@@ -56,19 +56,19 @@ var Loader = (function () {
 		MM.modulesStarted(moduleObjects);
 	};
 
-	/* getAllModules()
+	/**
 	 * Retrieve list of all modules.
 	 *
-	 * return array - module data as configured in config
+	 * @returns {object[]} module data as configured in config
 	 */
 	var getAllModules = function () {
 		return config.modules;
 	};
 
-	/* getModuleData()
+	/**
 	 * Generate array with module information including module paths.
 	 *
-	 * return array - Module information.
+	 * @returns {object[]} Module information.
 	 */
 	var getModuleData = function () {
 		var modules = getAllModules();
@@ -98,6 +98,7 @@ var Loader = (function () {
 				file: moduleName + ".js",
 				position: moduleData.position,
 				header: moduleData.header,
+				configDeepMerge: typeof moduleData.configDeepMerge === "boolean" ? moduleData.configDeepMerge : false,
 				config: moduleData.config,
 				classes: typeof moduleData.classes !== "undefined" ? moduleData.classes + " " + module : module
 			});
@@ -106,11 +107,11 @@ var Loader = (function () {
 		return moduleFiles;
 	};
 
-	/* loadModule(module)
-	 * Load modules via ajax request and create module objects.
+	/**
+	 * Load modules via ajax request and create module objects.s
 	 *
-	 * argument callback function - Function called when done.
-	 * argument module object - Information about the module we want to load.
+	 * @param {object} module Information about the module we want to load.
+	 * @param {Function} callback Function called when done.
 	 */
 	var loadModule = function (module, callback) {
 		var url = module.path + "/" + module.file;
@@ -136,12 +137,12 @@ var Loader = (function () {
 		}
 	};
 
-	/* bootstrapModule(module, mObj)
+	/**
 	 * Bootstrap modules by setting the module data and loading the scripts & styles.
 	 *
-	 * argument module object - Information about the module we want to load.
-	 * argument mObj object - Modules instance.
-	 * argument callback function - Function called when done.
+	 * @param {object} module Information about the module we want to load.
+	 * @param {Module} mObj Modules instance.
+	 * @param {Function} callback Function called when done.
 	 */
 	var bootstrapModule = function (module, mObj, callback) {
 		Log.info("Bootstrapping module: " + module.name);
@@ -161,11 +162,11 @@ var Loader = (function () {
 		});
 	};
 
-	/* loadFile(fileName)
+	/**
 	 * Load a script or stylesheet by adding it to the dom.
 	 *
-	 * argument fileName string - Path of the file we want to load.
-	 * argument callback function - Function called when done.
+	 * @param {string} fileName Path of the file we want to load.
+	 * @param {Function} callback Function called when done.
 	 */
 	var loadFile = function (fileName, callback) {
 		var extension = fileName.slice((Math.max(0, fileName.lastIndexOf(".")) || Infinity) + 1);
@@ -215,20 +216,20 @@ var Loader = (function () {
 
 	/* Public Methods */
 	return {
-		/* loadModules()
+		/**
 		 * Load all modules as defined in the config.
 		 */
 		loadModules: function () {
 			loadModules();
 		},
 
-		/* loadFile()
+		/**
 		 * Load a file (script or stylesheet).
 		 * Prevent double loading and search for files in the vendor folder.
 		 *
-		 * argument fileName string - Path of the file we want to load.
-		 * argument module Module Object - the module that calls the loadFile function.
-		 * argument callback function - Function called when done.
+		 * @param {string} fileName Path of the file we want to load.
+		 * @param {Module} module The module that calls the loadFile function.
+		 * @param {Function} callback Function called when done.
 		 */
 		loadFile: function (fileName, module, callback) {
 			if (loadedFiles.indexOf(fileName.toLowerCase()) !== -1) {

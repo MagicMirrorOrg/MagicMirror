@@ -1,5 +1,5 @@
 /* eslint no-multi-spaces: 0 */
-var expect = require("chai").expect;
+const expect = require("chai").expect;
 
 describe("Functions module weatherforecast", function () {
 	before(function () {

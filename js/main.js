@@ -11,9 +11,8 @@ var MM = (function () {
 
 	/* Private Methods */
 
-	/* createDomObjects()
-	 * Create dom objects for all modules that
-	 * are configured for a specific position.
+	/**
+	 * Create dom objects for all modules that are configured for a specific position.
 	 */
 	var createDomObjects = function () {
 		var domCreationPromises = [];
@@ -42,7 +41,9 @@ var MM = (function () {
 			dom.appendChild(moduleHeader);
 
 			if (typeof module.getHeader() === "undefined" || module.getHeader() !== "") {
-				moduleHeader.style = "display: none;";
+				moduleHeader.style.display = "none;";
+			} else {
+				moduleHeader.style.display = "block;";
 			}
 
 			var moduleContent = document.createElement("div");
@@ -65,10 +66,12 @@ var MM = (function () {
 		});
 	};
 
-	/* selectWrapper(position)
+	/**
 	 * Select the wrapper dom object for a specific position.
 	 *
-	 * argument position string - The name of the position.
+	 * @param {string} position The name of the position.
+	 *
+	 * @returns {HTMLElement} the wrapper element
 	 */
 	var selectWrapper = function (position) {
 		var classes = position.replace("_", " ");
@@ -81,13 +84,13 @@ var MM = (function () {
 		}
 	};
 
-	/* sendNotification(notification, payload, sender)
+	/**
 	 * Send a notification to all modules.
 	 *
-	 * argument notification string - The identifier of the notification.
-	 * argument payload mixed - The payload of the notification.
-	 * argument sender Module - The module that sent the notification.
-	 * argument sendTo Module - The module to send the notification to. (optional)
+	 * @param {string} notification The identifier of the notification.
+	 * @param {*} payload The payload of the notification.
+	 * @param {Module} sender The module that sent the notification.
+	 * @param {Module} [sendTo] The (optional) module to send the notification to.
 	 */
 	var sendNotification = function (notification, payload, sender, sendTo) {
 		for (var m in modules) {
@@ -98,13 +101,13 @@ var MM = (function () {
 		}
 	};
 
-	/* updateDom(module, speed)
+	/**
 	 * Update the dom for a specific module.
 	 *
-	 * argument module Module - The module that needs an update.
-	 * argument speed Number - The number of microseconds for the animation. (optional)
+	 * @param {Module} module The module that needs an update.
+	 * @param {number} [speed] The (optional) number of microseconds for the animation.
 	 *
-	 * return Promise - Resolved when the dom is fully updated.
+	 * @returns {Promise} Resolved when the dom is fully updated.
 	 */
 	var updateDom = function (module, speed) {
 		return new Promise(function (resolve) {
@@ -126,15 +129,15 @@ var MM = (function () {
 		});
 	};
 
-	/* updateDomWithContent(module, speed, newHeader, newContent)
+	/**
 	 * Update the dom with the specified content
 	 *
-	 * argument module Module - The module that needs an update.
-	 * argument speed Number - The number of microseconds for the animation. (optional)
-	 * argument newHeader String - The new header that is generated.
-	 * argument newContent Domobject - The new content that is generated.
+	 * @param {Module} module The module that needs an update.
+	 * @param {number} [speed] The (optional) number of microseconds for the animation.
+	 * @param {string} newHeader The new header that is generated.
+	 * @param {HTMLElement} newContent The new content that is generated.
 	 *
-	 * return Promise - Resolved when the module dom has been updated.
+	 * @returns {Promise} Resolved when the module dom has been updated.
 	 */
 	var updateDomWithContent = function (module, speed, newHeader, newContent) {
 		return new Promise(function (resolve) {
@@ -165,14 +168,14 @@ var MM = (function () {
 		});
 	};
 
-	/* moduleNeedsUpdate(module, newContent)
+	/**
 	 * Check if the content has changed.
 	 *
-	 * argument module Module - The module to check.
-	 * argument newHeader String - The new header that is generated.
-	 * argument newContent Domobject - The new content that is generated.
+	 * @param {Module} module The module to check.
+	 * @param {string} newHeader The new header that is generated.
+	 * @param {HTMLElement} newContent The new content that is generated.
 	 *
-	 * return bool - Does the module need an update?
+	 * @returns {boolean} True if the module need an update, false otherwise
 	 */
 	var moduleNeedsUpdate = function (module, newHeader, newContent) {
 		var moduleWrapper = document.getElementById(module.identifier);
@@ -197,12 +200,12 @@ var MM = (function () {
 		return headerNeedsUpdate || contentNeedsUpdate;
 	};
 
-	/* moduleNeedsUpdate(module, newContent)
+	/**
 	 * Update the content of a module on screen.
 	 *
-	 * argument module Module - The module to check.
-	 * argument newHeader String - The new header that is generated.
-	 * argument newContent Domobject - The new content that is generated.
+	 * @param {Module} module The module to check.
+	 * @param {string} newHeader The new header that is generated.
+	 * @param {HTMLElement} newContent The new content that is generated.
 	 */
 	var updateModuleContent = function (module, newHeader, newContent) {
 		var moduleWrapper = document.getElementById(module.identifier);
@@ -216,15 +219,20 @@ var MM = (function () {
 		contentWrapper[0].appendChild(newContent);
 
 		headerWrapper[0].innerHTML = newHeader;
-		headerWrapper[0].style = headerWrapper.length > 0 && newHeader ? undefined : "display: none;";
+		if (headerWrapper.length > 0 && newHeader) {
+			headerWrapper[0].style.display = "block";
+		} else {
+			headerWrapper[0].style.display = "none";
+		}
 	};
 
-	/* hideModule(module, speed, callback)
+	/**
 	 * Hide the module.
 	 *
-	 * argument module Module - The module to hide.
-	 * argument speed Number - The speed of the hide animation.
-	 * argument callback function - Called when the animation is done.
+	 * @param {Module} module The module to hide.
+	 * @param {number} speed The speed of the hide animation.
+	 * @param {Function} callback Called when the animation is done.
+	 * @param {object} [options] Optional settings for the hide method.
 	 */
 	var hideModule = function (module, speed, callback, options) {
 		options = options || {};
@@ -264,12 +272,13 @@ var MM = (function () {
 		}
 	};
 
-	/* showModule(module, speed, callback)
+	/**
 	 * Show the module.
 	 *
-	 * argument module Module - The module to show.
-	 * argument speed Number - The speed of the show animation.
-	 * argument callback function - Called when the animation is done.
+	 * @param {Module} module The module to show.
+	 * @param {number} speed The speed of the show animation.
+	 * @param {Function} callback Called when the animation is done.
+	 * @param {object} [options] Optional settings for the show method.
 	 */
 	var showModule = function (module, speed, callback, options) {
 		options = options || {};
@@ -323,7 +332,7 @@ var MM = (function () {
 		}
 	};
 
-	/* updateWrapperStates()
+	/**
 	 * Checks for all positions if it has visible content.
 	 * If not, if will hide the position to prevent unwanted margins.
 	 * This method should be called by the show and hide methods.
@@ -352,8 +361,8 @@ var MM = (function () {
 		});
 	};
 
-	/* loadConfig()
-	 * Loads the core config and combines it with de system defaults.
+	/**
+	 * Loads the core config and combines it with the system defaults.
 	 */
 	var loadConfig = function () {
 		// FIXME: Think about how to pass config around without breaking tests
@@ -368,41 +377,41 @@ var MM = (function () {
 		/* eslint-enable */
 	};
 
-	/* setSelectionMethodsForModules()
+	/**
 	 * Adds special selectors on a collection of modules.
 	 *
-	 * argument modules array - Array of modules.
+	 * @param {Module[]} modules Array of modules.
 	 */
 	var setSelectionMethodsForModules = function (modules) {
-		/* withClass(className)
-		 * calls modulesByClass to filter modules with the specified classes.
+		/**
+		 * Filter modules with the specified classes.
 		 *
-		 * argument className string/array - one or multiple classnames. (array or space divided)
+		 * @param {string|string[]} className one or multiple classnames (array or space divided).
 		 *
-		 * return array - Filtered collection of modules.
+		 * @returns {Module[]} Filtered collection of modules.
 		 */
 		var withClass = function (className) {
 			return modulesByClass(className, true);
 		};
 
-		/* exceptWithClass(className)
-		 * calls modulesByClass to filter modules without the specified classes.
+		/**
+		 * Filter modules without the specified classes.
 		 *
-		 * argument className string/array - one or multiple classnames. (array or space divided)
+		 * @param {string|string[]} className one or multiple classnames (array or space divided).
 		 *
-		 * return array - Filtered collection of modules.
+		 * @returns {Module[]} Filtered collection of modules.
 		 */
 		var exceptWithClass = function (className) {
 			return modulesByClass(className, false);
 		};
 
-		/* modulesByClass(className, include)
-		 * filters a collection of modules based on classname(s).
+		/**
+		 * Filters a collection of modules based on classname(s).
 		 *
-		 * argument className string/array - one or multiple classnames. (array or space divided)
-		 * argument include boolean - if the filter should include or exclude the modules with the specific classes.
+		 * @param {string|string[]} className one or multiple classnames (array or space divided).
+		 * @param {boolean} include if the filter should include or exclude the modules with the specific classes.
 		 *
-		 * return array - Filtered collection of modules.
+		 * @returns {Module[]} Filtered collection of modules.
 		 */
 		var modulesByClass = function (className, include) {
 			var searchClasses = className;
@@ -427,12 +436,12 @@ var MM = (function () {
 			return newModules;
 		};
 
-		/* exceptModule(module)
+		/**
 		 * Removes a module instance from the collection.
 		 *
-		 * argument module Module object - The module instance to remove from the collection.
+		 * @param {object} module The module instance to remove from the collection.
 		 *
-		 * return array - Filtered collection of modules.
+		 * @returns {Module[]} Filtered collection of modules.
 		 */
 		var exceptModule = function (module) {
 			var newModules = modules.filter(function (mod) {
@@ -443,10 +452,10 @@ var MM = (function () {
 			return newModules;
 		};
 
-		/* enumerate(callback)
+		/**
 		 * Walks thru a collection of modules and executes the callback with the module as an argument.
 		 *
-		 * argument callback function - The function to execute with the module as an argument.
+		 * @param {Function} callback The function to execute with the module as an argument.
 		 */
 		var enumerate = function (callback) {
 			modules.map(function (module) {
@@ -471,20 +480,23 @@ var MM = (function () {
 	return {
 		/* Public Methods */
 
-		/* init()
+		/**
 		 * Main init method.
 		 */
 		init: function () {
 			Log.info("Initializing MagicMirror.");
 			loadConfig();
+
+			Log.setLogLevel(config.logLevel);
+
 			Translator.loadCoreTranslations(config.language);
 			Loader.loadModules();
 		},
 
-		/* modulesStarted(moduleObjects)
+		/**
 		 * Gets called when all modules are started.
 		 *
-		 * argument moduleObjects array<Module> - All module instances.
+		 * @param {Module[]} moduleObjects All module instances.
 		 */
 		modulesStarted: function (moduleObjects) {
 			modules = [];
@@ -499,12 +511,12 @@ var MM = (function () {
 			createDomObjects();
 		},
 
-		/* sendNotification(notification, payload, sender)
+		/**
 		 * Send a notification to all modules.
 		 *
-		 * argument notification string - The identifier of the notification.
-		 * argument payload mixed - The payload of the notification.
-		 * argument sender Module - The module that sent the notification.
+		 * @param {string} notification The identifier of the notification.
+		 * @param {*} payload The payload of the notification.
+		 * @param {Module} sender The module that sent the notification.
 		 */
 		sendNotification: function (notification, payload, sender) {
 			if (arguments.length < 3) {
@@ -526,11 +538,11 @@ var MM = (function () {
 			sendNotification(notification, payload, sender);
 		},
 
-		/* updateDom(module, speed)
+		/**
 		 * Update the dom for a specific module.
 		 *
-		 * argument module Module - The module that needs an update.
-		 * argument speed Number - The number of microseconds for the animation. (optional)
+		 * @param {Module} module The module that needs an update.
+		 * @param {number} [speed] The number of microseconds for the animation.
 		 */
 		updateDom: function (module, speed) {
 			if (!(module instanceof Module)) {
@@ -542,36 +554,36 @@ var MM = (function () {
 			updateDom(module, speed);
 		},
 
-		/* getModules(module, speed)
+		/**
 		 * Returns a collection of all modules currently active.
 		 *
-		 * return array - A collection of all modules currently active.
+		 * @returns {Module[]} A collection of all modules currently active.
 		 */
 		getModules: function () {
 			setSelectionMethodsForModules(modules);
 			return modules;
 		},
 
-		/* hideModule(module, speed, callback)
+		/**
 		 * Hide the module.
 		 *
-		 * argument module Module - The module hide.
-		 * argument speed Number - The speed of the hide animation.
-		 * argument callback function - Called when the animation is done.
-		 * argument options object - Optional settings for the hide method.
+		 * @param {Module} module The module to hide.
+		 * @param {number} speed The speed of the hide animation.
+		 * @param {Function} callback Called when the animation is done.
+		 * @param {object} [options] Optional settings for the hide method.
 		 */
 		hideModule: function (module, speed, callback, options) {
 			module.hidden = true;
 			hideModule(module, speed, callback, options);
 		},
 
-		/* showModule(module, speed, callback)
+		/**
 		 * Show the module.
 		 *
-		 * argument module Module - The module show.
-		 * argument speed Number - The speed of the show animation.
-		 * argument callback function - Called when the animation is done.
-		 * argument options object - Optional settings for the hide method.
+		 * @param {Module} module The module to show.
+		 * @param {number} speed The speed of the show animation.
+		 * @param {Function} callback Called when the animation is done.
+		 * @param {object} [options] Optional settings for the show method.
 		 */
 		showModule: function (module, speed, callback, options) {
 			// do not change module.hidden yet, only if we really show it later

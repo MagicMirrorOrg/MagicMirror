@@ -72,7 +72,7 @@ module.exports = NodeHelper.create({
 	performFetch: function () {
 		var self = this;
 		simpleGits.forEach((sg) => {
-			sg.git.fetch().status((err, data) => {
+			sg.git.fetch(["--dry-run"]).status((err, data) => {
 				data.module = sg.module;
 				if (!err) {
 					sg.git.log({ "-1": null }, (err, data2) => {

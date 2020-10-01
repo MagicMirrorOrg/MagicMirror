@@ -15,6 +15,9 @@ const BrowserWindow = electron.BrowserWindow;
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
+/**
+ *
+ */
 function createWindow() {
 	app.commandLine.appendSwitch("autoplay-policy", "no-user-gesture-required");
 	var electronOptionsDefaults = {
