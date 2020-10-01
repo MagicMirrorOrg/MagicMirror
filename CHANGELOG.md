@@ -5,9 +5,11 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror²
 
-## [2.13.0] - Unreleased (Develop Branch - Please add your contributions to this release.)
+## [2.13.0] - 2020-10-01
 
-_This release is scheduled to be released on 2020-10-01._
+Special thanks to the following contributors: @bryanzzhu, @bugsounet, @chamakura, @cjbrunner, @easyas314, @larryare, @oemel09, @rejas, @sdetweil & @sthuber90.
+
+ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`.
 
 ### Added
 
@@ -17,10 +19,10 @@ _This release is scheduled to be released on 2020-10-01._
 - Test coverage with Istanbul, run it with `npm run test:coverage`.
 - Add lithuanian language.
 - Added support in weatherforecast for OpenWeather onecall API.
-- Added config option to calendar-icons for recurring- and fullday-events
-- Added current, hourly (max 48), and daily (max 7) weather forecasts to weather module via OpenWeatherMap One Call API
-- Added eslint-plugin for jsdoc comments
-- Added new configDeepMerge option for module developers
+- Added config option to calendar-icons for recurring- and fullday-events.
+- Added current, hourly (max 48), and daily (max 7) weather forecasts to weather module via OpenWeatherMap One Call API.
+- Added eslint-plugin for jsdoc comments.
+- Added new configDeepMerge option for module developers.
 
 ### Updated
 
@@ -28,10 +30,8 @@ _This release is scheduled to be released on 2020-10-01._
 - Cleaned up newsfeed module.
 - Cleaned up jsdoc comments.
 - Cleaned up clock tests.
-- Move lodash into devDependencies, update other dependencies
-- Switch from ical to node-ical library
-
-### Deleted
+- Move lodash into devDependencies, update other dependencies.
+- Switch from ical to node-ical library.
 
 ### Fixed
 
