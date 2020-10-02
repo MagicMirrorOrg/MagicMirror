@@ -11,6 +11,9 @@ _This release is scheduled to be released on 2021-01-01._
 
 ### Added
 
+- Add Hindi language.
+- Add Gujarati language.
+
 ### Updated
 
 ### Deleted
