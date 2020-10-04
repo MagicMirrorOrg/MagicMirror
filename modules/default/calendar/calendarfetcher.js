@@ -242,6 +242,45 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 							let showRecurrence = true;
 
 							startDate = moment(date);
+							// whether we need to adjust for RRULE returning the wrong date, with the right time (forward of URC timezones)
+							let adjustHours = 0;
+							// if a timezone was specified
+							if (!event.start.tz) {
+								// guess at one
+								event.start.tz = moment.tz.guess();
+							}
+							// if there is a timezone
+							if (event.start.tz) {
+								// if it contains a space, it is windows,
+								if (event.start.tz.indexOf(" ") > 0) {
+									// get the IANA name string from hash
+									event.start.tz = getIanaTZFromMS(event.start.tz);
+								}
+								// get the offset of the start date/time
+								let mms = moment.tz(moment(event.start), event.start.tz).utcOffset();
+								// get the specified recurring date/time in that timezone
+								let mm = moment.tz(moment(date), event.start.tz);
+								// and its offset
+								let mmo = mm.utcOffset();
+								// if the offset is greater than 0, east of london
+								if (mmo > 0) {
+									// get the hour for the recurring date/time
+									let h = parseInt(mm.format("H"));
+									// check if the event time is less than the offset
+									if (h > 0 && h < mmo / 60) {
+										// if so, rrule created a wrong date (utc day, oops, with utc yesterday adjusted time)
+										// we need to fix that
+										adjustHours = 24;
+									}
+									// did the daylight savings offset change from start to now?
+									// fix it
+									if (mmo > mms) {
+										adjustHours += 1;
+									} else if (mmo < mms) {
+										adjustHours -= 1;
+									}
+								}
+							}
 
 							// For each date that we're checking, it's possible that there is a recurrence override for that one day.
 							if (curEvent.recurrences !== undefined && curEvent.recurrences[dateKey] !== undefined) {
@@ -277,8 +316,8 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 								addedEvents++;
 								newEvents.push({
 									title: recurrenceTitle,
-									startDate: startDate.format("x"),
-									endDate: endDate.format("x"),
+									startDate: (adjustHours ? startDate.subtract(adjustHours, "hours") : startDate).format("x"),
+									endDate: (adjustHours ? endDate.subtract(adjustHours, "hours") : endDate).format("x"),
 									fullDayEvent: isFullDayEvent(event),
 									recurringEvent: true,
 									class: event.class,
@@ -324,6 +363,10 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 						if (fullDayEvent && startDate <= today) {
 							startDate = moment(today);
 						}
+						// if the start and end are the same, then make end the 'end of day' value (start is at 00:00:00)
+						if (fullDayEvent && startDate.format("x") === endDate.format("x")) {
+							endDate = endDate.endOf("day");
+						}
 
 						// Every thing is good. Add it to the list.
 						newEvents.push({
@@ -349,6 +392,22 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 			self.broadcastEvents();
 			scheduleTimer();
 		});
+	};
+
+	/**
+	 *
+	 *  lookup iana tz from windows
+	 */
+	let zoneTable = null;
+	const getIanaTZFromMS = function (msTZName) {
+		if (!zoneTable) {
+			const p = require("path");
+			zoneTable = require(p.join(__dirname, "windowsZones.json"));
+		}
+		// Get hash entry
+		const he = zoneTable[msTZName];
+		// If found return iana name, else null
+		return he ? he.iana[0] : null;
 	};
 
 	/**
