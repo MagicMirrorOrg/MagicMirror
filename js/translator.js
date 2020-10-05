@@ -25,7 +25,7 @@ var Translator = (function () {
 					fileinfo = JSON.parse(xhr.responseText);
 				} catch (exception) {
 					// nothing here, but don't die
-					console.log(" loading json file failed =" + file);
+					Log.error(" loading json file =" + file + " failed");
 				}
 				callback(fileinfo);
 			}
