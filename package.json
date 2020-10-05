@@ -79,7 +79,7 @@
 		"iconv-lite": "^0.6.2",
 		"module-alias": "^2.2.2",
 		"moment": "^2.28.0",
-		"node-ical": "^0.12.0",
+		"node-ical": "^0.12.1",
 		"request": "^2.88.2",
 		"rrule": "^2.6.6",
 		"rrule-alt": "^2.2.8",
