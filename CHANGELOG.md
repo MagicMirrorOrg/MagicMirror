@@ -5,9 +5,19 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror²
 
+## [2.14.0] - Unreleased (Develop Branch)
+
+_This release is scheduled to be released on 2021-01-01._
+
+### Added
+
+### Updated
+
+### Deleted
+
 ### Fixed
 
-- wrong node-ical version installed (package.json requested version)
+- wrong node-ical version installed (package.json requested version
 
 ## [2.13.0] - 2020-10-01
 
