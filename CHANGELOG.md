@@ -17,6 +17,8 @@ _This release is scheduled to be released on 2021-01-01._
 
 ### Fixed
 
+- wrong node-ical version installed (package.json requested version
+
 ## [2.13.0] - 2020-10-01
 
 Special thanks to the following contributors: @bryanzzhu, @bugsounet, @chamakura, @cjbrunner, @easyas314, @larryare, @oemel09, @rejas, @sdetweil & @sthuber90.
