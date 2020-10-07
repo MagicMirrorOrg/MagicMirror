@@ -17,6 +17,10 @@ _This release is scheduled to be released on 2021-01-01._
 
 ### Fixed
 
+- JSON Parse translation files with comments crashing UI. (#2149)
+- Calendar parsing where RRULE bug returns wrong date, add Windows timezone name support. (#2145, #2151)
+- Wrong node-ical version installed (package.json) requested version. (#2153)
+
 ## [2.13.0] - 2020-10-01
 
 Special thanks to the following contributors: @bryanzzhu, @bugsounet, @chamakura, @cjbrunner, @easyas314, @larryare, @oemel09, @rejas, @sdetweil & @sthuber90.
