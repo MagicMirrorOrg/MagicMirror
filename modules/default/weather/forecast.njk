@@ -10,19 +10,25 @@
         {% set forecast = forecast.slice(0, numSteps) %}
         {% for f in forecast %}
             <tr {% if config.colored %}class="colored"{% endif %} {% if config.fade %}style="opacity: {{ currentStep | opacity(numSteps) }};"{% endif %}>
+            {% if (currentStep == 0) %}
+                <td class="day">{{ "TODAY" | translate }}</td>
+            {% elif (currentStep == 1) %}
+                <td class="day">{{ "TOMORROW" | translate }}</td>
+            {% else %}
                 <td class="day">{{ f.date.format('ddd') }}</td>
-                <td class="bright weather-icon"><span class="wi weathericon wi-{{ f.weatherType }}"></span></td>
-                <td class="align-right bright max-temp">
-                    {{ f.maxTemperature | roundValue | unit("temperature") }}
-                </td>
-                <td class="align-right min-temp">
-                    {{ f.minTemperature | roundValue | unit("temperature") }}
-                </td>
-                {% if config.showPrecipitationAmount %}
-                    <td class="align-right bright precipitation">
-                        {{ f.precipitation | unit("precip") }}
-                    </td>
-                {% endif %}
+            {% endif %}
+            <td class="bright weather-icon"><span class="wi weathericon wi-{{ f.weatherType }}"></span></td>
+            <td class="align-right bright max-temp">
+            {{ f.maxTemperature | roundValue | unit("temperature") }}
+            </td>
+            <td class="align-right min-temp">
+            {{ f.minTemperature | roundValue | unit("temperature") }}
+            </td>
+            {% if config.showPrecipitationAmount %}
+            <td class="align-right bright precipitation">
+            {{ f.precipitation | unit("precip") }}
+            </td>
+            {% endif %}
             </tr>
             {% set currentStep = currentStep + 1 %}
         {% endfor %}
