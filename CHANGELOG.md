@@ -17,6 +17,7 @@ _This release is scheduled to be released on 2021-01-01._
 
 ### Fixed
 
+- Fixed the "un-hide on update" problem with "currentwather" and "watherforcast" modules.
 - JSON Parse translation files with comments crashing UI. (#2149)
 - Calendar parsing where RRULE bug returns wrong date, add Windows timezone name support. (#2145, #2151)
 - Wrong node-ical version installed (package.json) requested version. (#2153)
