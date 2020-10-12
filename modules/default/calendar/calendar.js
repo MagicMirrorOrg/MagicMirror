@@ -29,7 +29,7 @@ Module.register("calendar", {
 		timeFormat: "relative",
 		dateFormat: "MMM Do",
 		dateEndFormat: "LT",
-		fullDayEventDateFormat: "MMM Do",
+		fullDayEventDateFormat: "MMM Do HH:mm",
 		showEnd: false,
 		getRelative: 6,
 		fadePoint: 0.25, // Start on 1/4th of the list.
@@ -41,7 +41,7 @@ Module.register("calendar", {
 		calendars: [
 			{
 				symbol: "calendar",
-				url: "https://www.calendarlabs.com/templates/ical/US-Holidays.ics"
+				url: "https://www.calendarlabs.com/templates/ical/US-Holidays.ics1"
 			}
 		],
 		titleReplace: {
@@ -57,6 +57,8 @@ Module.register("calendar", {
 		broadcastPastEvents: false,
 		nextDaysRelative: false
 	},
+
+	requiresVersion: "2.1.0",
 
 	// Define required scripts.
 	getStyles: function () {
@@ -114,12 +116,12 @@ Module.register("calendar", {
 
 			this.addCalendar(calendar.url, calendar.auth, calendarConfig);
 
-			// Trigger ADD_CALENDAR every fetchInterval to make sure there is always a calendar
+			/*			// Trigger ADD_CALENDAR every fetchInterval to make sure there is always a calendar
 			// fetcher running on the server side.
 			var self = this;
 			setInterval(function () {
 				self.addCalendar(calendar.url, calendar.auth, calendarConfig);
-			}, self.config.fetchInterval);
+			}, self.config.fetchInterval); */
 		}
 
 		this.calendarData = {};
@@ -541,6 +543,8 @@ Module.register("calendar", {
 	 * @param {object} calendarConfig The config of the specific calendar
 	 */
 	addCalendar: function (url, auth, calendarConfig) {
+		var self = this;
+
 		this.sendSocketNotification("ADD_CALENDAR", {
 			id: this.identifier,
 			url: url,
@@ -554,6 +558,9 @@ Module.register("calendar", {
 			auth: auth,
 			broadcastPastEvents: calendarConfig.broadcastPastEvents || this.config.broadcastPastEvents
 		});
+		setTimeout(() => {
+			self.addCalendar(url, auth, calendarConfig);
+		}, self.config.fetchInterval);
 	},
 
 	/**
