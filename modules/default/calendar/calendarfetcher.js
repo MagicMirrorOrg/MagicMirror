@@ -340,11 +340,8 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 				}
 			});
 
-			newEvents.sort(function (a, b) {
-				return a.startDate - b.startDate;
-			});
-
-			events = newEvents.slice(0, maximumEntries);
+			// send all our events to upper to merge, sort and reduce for display
+			events = newEvents;
 
 			self.broadcastEvents();
 			scheduleTimer();
