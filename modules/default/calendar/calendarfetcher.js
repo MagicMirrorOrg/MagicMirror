@@ -110,7 +110,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 				if (event.type === "VEVENT") {
 					let startDate = eventDate(event, "start");
 					let endDate;
-
+					// console.log("\nevent="+JSON.stringify(event))
 					if (typeof event.end !== "undefined") {
 						endDate = eventDate(event, "end");
 					} else if (typeof event.duration !== "undefined") {
@@ -212,8 +212,9 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 							pastLocal = pastMoment.subtract(past.getTimezoneOffset(), "minutes").toDate();
 							futureLocal = futureMoment.subtract(future.getTimezoneOffset(), "minutes").toDate();
 						}
-						const dates = rule.between(pastLocal, futureLocal, true, limitFunction);
 
+						const dates = rule.between(pastLocal, futureLocal, true, limitFunction);
+						// console.log("title="+event.summary.val+" dates="+JSON.stringify(dates))
 						// The "dates" array contains the set of dates within our desired date range range that are valid
 						// for the recurrence rule. *However*, it's possible for us to have a specific recurrence that
 						// had its date changed from outside the range to inside the range.  For the time being,
@@ -242,6 +243,53 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 							let showRecurrence = true;
 
 							startDate = moment(date);
+							// console.log("now timezone="+ moment.tz.guess());
+							// whether we need to adjust for RRULE returning the wrong date, with the right time (forward of URC timezones)
+							let adjustDays = 0;
+							// if a timezone was specified
+							if (!event.start.tz) {
+								event.start.tz = moment.tz.guess();
+							}
+							// console.log("tz="+event.start.tz)
+							if (event.start.tz) {
+								// if this is a windows timezone
+								if (event.start.tz.indexOf(" ") > 0) {
+									// use the lookup table to get theIANA name as moment and date don't know MS timezones
+									let tz = getIanaTZFromMS(event.start.tz);
+									// watch out for unregistered windows timezone names
+									// if we had a successfule lookup
+									if (tz) {
+										// change the timezone to the IANA name
+										event.start.tz = getIanaTZFromMS(event.start.tz);
+										// console.log("corrected timezone="+event.start.tz)
+									}
+								}
+								// get the start time in that timezone
+								let mms = moment.tz(moment(event.start), event.start.tz).utcOffset();
+								// console.log("ms offset="+mms)
+								// get the specified date in that timezone
+								let mm = moment.tz(moment(date), event.start.tz);
+								let mmo = mm.utcOffset();
+								// console.log("mm ofset="+ mmo+" hour="+mm.format("H")+" event date="+mm.toDate())
+								// if the offset is greater than 0, east of london
+								if (mmo > 0) {
+									let h = parseInt(mm.format("H"));
+									// check if the event time is less than the offset
+									if (h > 0 && h < mmo / 60) {
+										// if so, rrule created a wrong date (utc day, oops, with utc yesterday adjusted time)
+										// we need to fix that
+										adjustDays = 24;
+										// console.log("adjusting date")
+									}
+									if (mmo > mms) {
+										adjustDays += 1;
+										// console.log("adjust up 1 hour dst change")
+									} else if (mmo < mms) {
+										adjustDays -= 1;
+										//console.log("adjust down 1 hour dst change")
+									}
+								}
+							}
 
 							// For each date that we're checking, it's possible that there is a recurrence override for that one day.
 							if (curEvent.recurrences !== undefined && curEvent.recurrences[dateKey] !== undefined) {
@@ -255,6 +303,8 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 								// This date is an exception date, which means we should skip it in the recurrence pattern.
 								showRecurrence = false;
 							}
+
+							//console.log("duration="+duration)
 
 							endDate = moment(parseInt(startDate.format("x")) + duration, "x");
 							if (startDate.format("x") === endDate.format("x")) {
@@ -277,8 +327,8 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 								addedEvents++;
 								newEvents.push({
 									title: recurrenceTitle,
-									startDate: startDate.format("x"),
-									endDate: endDate.format("x"),
+									startDate: (adjustDays ? startDate.subtract(adjustDays, "hours") : startDate).format("x"),
+									endDate: (adjustDays ? endDate.subtract(adjustDays, "hours") : endDate).format("x"),
 									fullDayEvent: isFullDayEvent(event),
 									recurringEvent: true,
 									class: event.class,
@@ -293,7 +343,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 					} else {
 						// Single event.
 						const fullDayEvent = isFacebookBirthday ? true : isFullDayEvent(event);
-
+						// console.log("full day event")
 						if (includePastEvents) {
 							// Past event is too far in the past, so skip.
 							if (endDate < past) {
@@ -324,6 +374,11 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 						if (fullDayEvent && startDate <= today) {
 							startDate = moment(today);
 						}
+						// if the start and end are the same, then make end the 'end of day' value (start is at 00:00:00)
+						if (fullDayEvent && startDate.format("x") === endDate.format("x")) {
+							//console.log("end same as start")
+							endDate = endDate.endOf("day");
+						}
 
 						// Every thing is good. Add it to the list.
 						newEvents.push({
@@ -346,6 +401,22 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 			self.broadcastEvents();
 			scheduleTimer();
 		});
+	};
+
+	/**
+	 *
+	 *  lookup iana tz from windows
+	 */
+	let zoneTable = null;
+	const getIanaTZFromMS = function (msTZName) {
+		if (!zoneTable) {
+			const p = require("path");
+			zoneTable = require(p.join(__dirname, "windowsZones.json"));
+		}
+		// Get hash entry
+		const he = zoneTable[msTZName];
+		// If found return iana name, else null
+		return he ? he.iana[0] : null;
 	};
 
 	/**
