@@ -408,11 +408,9 @@ Module.register("weatherforecast", {
 		}
 
 		//Log.log(this.forecast);
-		if (!this.hidden) {
-			this.show(this.config.animationSpeed, { lockString: this.identifier });
-			this.loaded = true;
-			this.updateDom(this.config.animationSpeed);
-		}
+		this.show(this.config.animationSpeed, { lockString: this.identifier });
+		this.loaded = true;
+		this.updateDom(this.config.animationSpeed);
 	},
 
 	/* scheduleUpdate()
