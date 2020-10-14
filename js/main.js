@@ -111,9 +111,9 @@ var MM = (function () {
 	 */
 	var updateDom = function (module, speed) {
 		if (module.hidden) {
-			return;	
+			return;
 		}
-		
+
 		return new Promise(function (resolve) {
 			var newContentPromise = module.getDom();
 			var newHeader = module.getHeader();
