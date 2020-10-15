@@ -111,7 +111,7 @@ var MM = (function () {
 	 */
 	var updateDom = function (module, speed) {
 		if (module.hidden) {
-			return new Promise();
+			return new Promise(function (resolve) {});
 		}
 
 		return new Promise(function (resolve) {
