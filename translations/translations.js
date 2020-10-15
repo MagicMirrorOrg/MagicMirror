@@ -25,7 +25,7 @@ var translations = {
 	"zh-tw": "translations/zh-tw.json", // Traditional Chinese
 	ja: "translations/ja.json", // Japanese
 	pl: "translations/pl.json", // Polish
-	gr: "translations/gr.json", // Greek
+	el: "translations/el.json", // Greek
 	da: "translations/da.json", // Danish
 	tr: "translations/tr.json", // Turkish
 	ru: "translations/ru.json", // Russian
