@@ -14,6 +14,7 @@ _This release is scheduled to be released on 2021-01-01._
 ### Updated
 
 - Weather module - forecast now show TODAY and TOMORROW instead of weekday, to make it easier to understand
+- Update dependencies to latest versions
 
 ### Deleted
 
