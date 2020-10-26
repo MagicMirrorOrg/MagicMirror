@@ -440,7 +440,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 	 * @returns {boolean} True if the event is a fullday event, false otherwise
 	 */
 	const isFullDayEvent = function (event) {
-		if (event.start.length === 8 || event.start.dateOnly || event.datetype == "date") {
+		if (event.start.length === 8 || event.start.dateOnly || event.datetype === "date") {
 			return true;
 		}
 
