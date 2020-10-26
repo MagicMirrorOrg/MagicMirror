@@ -117,7 +117,8 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 						endDate = startDate.clone().add(moment.duration(event.duration));
 					} else {
 						if (!isFacebookBirthday) {
-							endDate = startDate;
+							// make copy of start date, separate storage area
+							endDate = moment(startDate.format("x"), "x");
 						} else {
 							endDate = moment(startDate).add(1, "days");
 						}
