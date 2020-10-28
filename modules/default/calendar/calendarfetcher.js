@@ -417,8 +417,8 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 				const regex = /[+|-]\d*:\d*/;
 				mmo = event.start.tz.match(regex).toString();
 				mms = mmo;
-				if (debug) Log.log("ical offset=" + mmo);
-				mm = moment.tz(moment(date));
+				if (debug) Log.log("ical offset=" + mmo + " date=" + date);
+				mm = moment(date);
 				mm = mm.utcOffset(mmo);
 			} else {
 				// get the start time in that timezone
