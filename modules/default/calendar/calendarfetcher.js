@@ -409,18 +409,18 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 				}
 			}
 			if (debug) Log.log("corrected tz=" + event.start.tz);
-			let mmo = 0;  // offset  from TZ string or calculated
-			let mm = 0;   // date with tz or offset
-			let mms = 0;  // utc offset of created with tz
+			let mmo = 0; // offset  from TZ string or calculated
+			let mm = 0; // date with tz or offset
+			let mms = 0; // utc offset of created with tz
 			// if there is still an offset, lookup failed, use it
 			if (event.start.tz.startsWith("(")) {
 				const regex = /[+|-]\d*:\d*/;
-				mms=mmo = event.start.tz.match(regex).toString();
+				mmo = event.start.tz.match(regex).toString();
+				mms = mmo;
 				if (debug) Log.log("ical offset=" + mmo);
 				mm = moment.tz(moment(date));
-				mm.utcOffset(mmo)
-			}
-			else {
+				mm = mm.utcOffset(mmo);
+			} else {
 				// get the start time in that timezone
 				if (debug) Log.log("ttttttt=" + moment(event.start).toDate());
 				mms = moment.tz(moment(event.start), event.start.tz).utcOffset();
@@ -429,7 +429,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 				if (debug) Log.log("start date =" + moment.tz(moment(event.start), event.start.tz).toDate());
 
 				// get the specified date in that timezone
-			  mm = moment.tz(moment(date), event.start.tz);
+				mm = moment.tz(moment(date), event.start.tz);
 				if (debug) Log.log("mm=" + mm.toDate());
 				mmo = mm.utcOffset();
 			}
@@ -440,7 +440,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 				if (debug) Log.log("offset");
 				let h = parseInt(mm.format("H"));
 				// check if the event time is less than the offset
-				if (h > 0 && h < (Math.abs(mmo) / 60)) {
+				if (h > 0 && h < Math.abs(mmo) / 60) {
 					// if so, rrule created a wrong date (utc day, oops, with utc yesterday adjusted time)
 					// we need to fix that
 					adjustHours = 24;
