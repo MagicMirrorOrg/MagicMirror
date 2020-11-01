@@ -300,8 +300,8 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 								addedEvents++;
 								newEvents.push({
 									title: recurrenceTitle,
-									startDate: (adjustDays ? startDate.subtract(adjustDays, "hours") : startDate).format("x"),
-									endDate: (adjustDays ? endDate.subtract(adjustDays, "hours") : endDate).format("x"),
+									startDate: (adjustDays ? (adjustDays > 0 ? startDate.add(adjustDays, "hours") : startDate.subtract(Math.abs(adjustDays), "hours")) : startDate).format("x"),
+									endDate: (adjustDays ? (adjustDays > 0 ? endDate.add(adjustDays, "hours") : endDate.subtract(Math.abs(adjustDays), "hours")) : endDate).format("x"),
 									fullDayEvent: isFullDayEvent(event),
 									recurringEvent: true,
 									class: event.class,
@@ -357,8 +357,8 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 						// Every thing is good. Add it to the list.
 						newEvents.push({
 							title: title,
-							startDate: (adjustDays ? startDate.subtract(adjustDays, "hours") : startDate).format("x"),
-							endDate: (adjustDays ? endDate.subtract(adjustDays, "hours") : endDate).format("x"),
+							startDate: (adjustDays ? (adjustDays > 0 ? startDate.add(adjustDays, "hours") : startDate.subtract(Math.abs(adjustDays), "hours")) : startDate).format("x"),
+							endDate: (adjustDays ? (adjustDays > 0 ? endDate.add(adjustDays, "hours") : endDate.subtract(Math.abs(adjustDays), "hours")) : endDate).format("x"),
 							fullDayEvent: fullDayEvent,
 							class: event.class,
 							location: location,
@@ -435,7 +435,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 			}
 			if (debug) Log.log("mm ofset=" + mmo + " hour=" + mm.format("H") + " event date=" + mm.toDate());
 			// if the offset is greater than 0, east of london
-			if (mmo > 0) {
+			if (mmo !== mms) {
 				// big offset
 				if (debug) Log.log("offset");
 				let h = parseInt(mm.format("H"));
@@ -446,10 +446,10 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 					adjustHours = 24;
 					// if(debug) Log.log("adjusting date")
 				}
-				if (mmo > mms) {
+				if (Math.abs(mmo) > Math.abs(mms)) {
 					adjustHours += 1;
 					if (debug) Log.log("adjust up 1 hour dst change");
-				} else if (mmo < mms) {
+				} else if (Math.abs(mmo) < Math.abs(mms)) {
 					adjustHours -= 1;
 					if (debug) Log.log("adjust down 1 hour dst change");
 				}
