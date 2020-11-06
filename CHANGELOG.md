@@ -11,6 +11,8 @@ _This release is scheduled to be released on 2021-01-01._
 
 ### Added
 
+- Added new log level "debug" to the logger.
+
 ### Updated
 
 - Weather module - forecast now show TODAY and TOMORROW instead of weekday, to make it easier to understand
@@ -229,7 +231,7 @@ Special thanks to @sdetweil for all his great contributions!
 
 - Option to show event location in calendar
 - Finnish translation for "Feels" and "Weeks"
-- Russian translation for “Feels”
+- Russian translation for "Feels"
 - Calendar module: added `nextDaysRelative` config option
 - Add `broadcastPastEvents` config option for calendars to include events from the past `maximumNumberOfDays` in event broadcasts
 - Added feature to broadcast news feed items `NEWS_FEED` and updated news items `NEWS_FEED_UPDATED` in default [newsfeed](https://github.com/MichMich/MagicMirror/tree/develop/modules/default/newsfeed) module (when news is updated) with documented default and `config.js` options in [README.md](https://github.com/MichMich/MagicMirror/blob/develop/modules/default/newsfeed/README.md)
