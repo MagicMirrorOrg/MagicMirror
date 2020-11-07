@@ -9,7 +9,11 @@
                 {% if config.useBeaufort %}
                     {{ current.beaufortWindSpeed() | round }}
                 {% else %}
-                    {{ current.windSpeed | round }}
+                    {% if config.useKmh %}
+                        {{ current.kmhWindSpeed() | round }}
+                    {% else %}
+                        {{ current.windSpeed | round }}
+                    {% endif %}
                 {% endif %}
                 {% if config.showWindDirection %}
                     <sup>
