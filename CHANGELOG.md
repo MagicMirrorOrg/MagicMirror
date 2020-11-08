@@ -11,6 +11,8 @@ _This release is scheduled to be released on 2021-01-01._
 
 ### Added
 
+- Added new log level "debug" to the logger.
+
 ### Updated
 
 - Weather module - forecast now show TODAY and TOMORROW instead of weekday, to make it easier to understand
@@ -26,6 +28,7 @@ _This release is scheduled to be released on 2021-01-01._
 - Fix calendar fetcher subsequent timing (#2160)
 - Rename Greek translation to correct ISO 639-1 alpha-2 code (gr > el). (#2155)
 - Add a space after icons of sunrise and sunset (#2169)
+- Fix calendar when no DTEND record found in event, startDate overlay when endDate set (#2177)
 
 ## [2.13.0] - 2020-10-01
 
@@ -230,7 +233,7 @@ Special thanks to @sdetweil for all his great contributions!
 
 - Option to show event location in calendar
 - Finnish translation for "Feels" and "Weeks"
-- Russian translation for “Feels”
+- Russian translation for "Feels"
 - Calendar module: added `nextDaysRelative` config option
 - Add `broadcastPastEvents` config option for calendars to include events from the past `maximumNumberOfDays` in event broadcasts
 - Added feature to broadcast news feed items `NEWS_FEED` and updated news items `NEWS_FEED_UPDATED` in default [newsfeed](https://github.com/MichMich/MagicMirror/tree/develop/modules/default/newsfeed) module (when news is updated) with documented default and `config.js` options in [README.md](https://github.com/MichMich/MagicMirror/blob/develop/modules/default/newsfeed/README.md)

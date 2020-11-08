@@ -87,7 +87,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 					// Did not receive usable new data.
 					// Maybe this needs a better check?
 					Log.error("Possibly bad current/hourly data?");
-					Log.info(data);
+					Log.error(data);
 					return;
 				}
 
@@ -158,7 +158,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 					// Did not receive usable new data.
 					// Maybe this needs a better check?
 					Log.error("Possibly bad forecast data?");
-					Log.info(data);
+					Log.error(data);
 					return;
 				}
 
