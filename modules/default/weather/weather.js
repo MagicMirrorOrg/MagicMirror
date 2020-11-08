@@ -30,6 +30,7 @@ Module.register("weather", {
 		showWindDirection: true,
 		showWindDirectionAsArrow: false,
 		useBeaufort: true,
+		useKmh: false,
 		lang: config.language,
 		showHumidity: false,
 		showSun: true,

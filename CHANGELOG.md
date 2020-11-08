@@ -12,6 +12,7 @@ _This release is scheduled to be released on 2021-01-01._
 ### Added
 
 - Added new log level "debug" to the logger.
+- Added new parameter "useKmh" to weather module for displaying wind speed as kmh.
 
 ### Updated
 
