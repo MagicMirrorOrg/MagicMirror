@@ -28,6 +28,7 @@ _This release is scheduled to be released on 2021-01-01._
 - Rename Greek translation to correct ISO 639-1 alpha-2 code (gr > el). (#2155)
 - Add a space after icons of sunrise and sunset (#2169)
 - Fix calendar when no DTEND record found in event, startDate overlay when endDate set (#2177)
+- Fix windspeed convertion error in ukmetoffice weather provider (#2189)
 
 ## [2.13.0] - 2020-10-01
 

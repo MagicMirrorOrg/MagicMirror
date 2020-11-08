@@ -208,10 +208,10 @@ WeatherProvider.register("ukmetoffice", {
 	},
 
 	/*
-	 * Convert wind speed (from mph) if required
+	 * Convert wind speed (from mph to m/s) if required
 	 */
 	convertWindSpeed(windInMph) {
-		return this.windUnits === "metric" ? windInMph * 2.23694 : windInMph;
+		return this.windUnits === "metric" ? windInMph / 2.23694 : windInMph;
 	},
 
 	/*
