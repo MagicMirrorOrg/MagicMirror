@@ -37,6 +37,7 @@ Module.register("calendar", {
 		hideOngoing: false,
 		colored: false,
 		coloredSymbolOnly: false,
+		coloredEvents: [], // Array of Keyword/Color where Keyword is a regexp and color the color to use when regexp matches
 		tableClass: "small",
 		calendars: [
 			{
@@ -236,6 +237,17 @@ Module.register("calendar", {
 
 			var titleWrapper = document.createElement("td"),
 				repeatingCountTitle = "";
+
+			if (this.config.coloredEvents.length > 0) {
+				for (var ev in this.config.coloredEvents) {
+					var needle = new RegExp(this.config.coloredEvents[ev].keyword, "gi");
+					if (needle.test(event.title)) {
+						eventWrapper.style.cssText = "color:" + this.config.coloredEvents[ev].color;
+						titleWrapper.style.cssText = "color:" + this.config.coloredEvents[ev].color;
+						break;
+					}
+				}
+			}
 
 			if (this.config.displayRepeatingCountTitle && event.firstYear !== undefined) {
 				repeatingCountTitle = this.countTitleForUrl(event.url);
