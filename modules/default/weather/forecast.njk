@@ -10,7 +10,13 @@
         {% set forecast = forecast.slice(0, numSteps) %}
         {% for f in forecast %}
             <tr {% if config.colored %}class="colored"{% endif %} {% if config.fade %}style="opacity: {{ currentStep | opacity(numSteps) }};"{% endif %}>
-                <td class="day">{{ f.date.format('ddd') }}</td>
+                {% if (currentStep == 0) %}
+                    <td class="day">{{ "TODAY" | translate }}</td>
+                {% elif (currentStep == 1) %}
+                    <td class="day">{{ "TOMORROW" | translate }}</td>
+                {% else %}
+                    <td class="day">{{ f.date.format('ddd') }}</td>
+                {% endif %}
                 <td class="bright weather-icon"><span class="wi weathericon wi-{{ f.weatherType }}"></span></td>
                 <td class="align-right bright max-temp">
                     {{ f.maxTemperature | roundValue | unit("temperature") }}
