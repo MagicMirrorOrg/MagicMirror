@@ -58,6 +58,8 @@ Module.register("calendar", {
 		nextDaysRelative: false
 	},
 
+	requiresVersion: "2.1.0",
+
 	// Define required scripts.
 	getStyles: function () {
 		return ["calendar.css", "font-awesome.css"];
@@ -82,6 +84,12 @@ Module.register("calendar", {
 
 		// Set locale.
 		moment.updateLocale(config.language, this.getLocaleSpecification(config.timeFormat));
+
+		// clear data holder before start
+		this.calendarData = {};
+
+		// indicate no data available yet
+		this.loaded = false;
 
 		for (var c in this.config.calendars) {
 			var calendar = this.config.calendars[c];
@@ -112,18 +120,10 @@ Module.register("calendar", {
 				};
 			}
 
+			// tell helper to start a fetcher for this calendar
+			// fetcher till cycle
 			this.addCalendar(calendar.url, calendar.auth, calendarConfig);
-
-			// Trigger ADD_CALENDAR every fetchInterval to make sure there is always a calendar
-			// fetcher running on the server side.
-			var self = this;
-			setInterval(function () {
-				self.addCalendar(calendar.url, calendar.auth, calendarConfig);
-			}, self.config.fetchInterval);
 		}
-
-		this.calendarData = {};
-		this.loaded = false;
 	},
 
 	// Override socket notification handler.
@@ -541,6 +541,8 @@ Module.register("calendar", {
 	 * @param {object} calendarConfig The config of the specific calendar
 	 */
 	addCalendar: function (url, auth, calendarConfig) {
+		var self = this;
+
 		this.sendSocketNotification("ADD_CALENDAR", {
 			id: this.identifier,
 			url: url,
