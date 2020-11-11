@@ -9,7 +9,7 @@
  * Currently this is focused on the information which is necessary for the current weather.
  * As soon as we start implementing the forecast, mode properties will be added.
  */
-class WeatherObject {
+var WeatherObject = class {
 	constructor(units, tempUnits, windUnits) {
 		this.units = units;
 		this.tempUnits = tempUnits;
@@ -106,4 +106,4 @@ class WeatherObject {
 
 		return this.tempUnits === "imperial" ? feelsLike : ((feelsLike - 32) * 5) / 9;
 	}
-}
+};

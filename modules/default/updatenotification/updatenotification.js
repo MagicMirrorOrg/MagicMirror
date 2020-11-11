@@ -17,7 +17,7 @@ Module.register("updatenotification", {
 	start: function () {
 		var self = this;
 		Log.log("Start updatenotification");
-		setInterval(() => {
+		setInterval(function () {
 			self.moduleList = {};
 			self.updateDom(2);
 		}, self.config.refreshInterval);

@@ -20,7 +20,7 @@ var Translator = (function () {
 		xhr.onreadystatechange = function () {
 			if (xhr.readyState === 4 && xhr.status === 200) {
 				// needs error handler try/catch at least
-				let fileinfo = null;
+				var fileinfo = null;
 				try {
 					fileinfo = JSON.parse(xhr.responseText);
 				} catch (exception) {

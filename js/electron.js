@@ -13,7 +13,7 @@ const BrowserWindow = electron.BrowserWindow;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow;
+var mainWindow;
 
 /**
  *
@@ -113,10 +113,10 @@ app.on("activate", function () {
  * Note: this is only used if running Electron. Otherwise
  * core.stop() is called by process.on("SIGINT"... in `app.js`
  */
-app.on("before-quit", (event) => {
+app.on("before-quit", function (event) {
 	Log.log("Shutting down server...");
 	event.preventDefault();
-	setTimeout(() => {
+	setTimeout(function () {
 		process.exit(0);
 	}, 3000); // Force-quit after 3 seconds.
 	core.stop();

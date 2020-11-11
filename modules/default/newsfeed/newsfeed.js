@@ -121,7 +121,7 @@ Module.register("newsfeed", {
 			//Remove selected tags from the beginning of rss feed items (title or description)
 
 			if (this.config.removeStartTags === "title" || this.config.removeStartTags === "both") {
-				for (let f = 0; f < this.config.startTags.length; f++) {
+				for (var f = 0; f < this.config.startTags.length; f++) {
 					if (this.newsItems[this.activeItem].title.slice(0, this.config.startTags[f].length) === this.config.startTags[f]) {
 						this.newsItems[this.activeItem].title = this.newsItems[this.activeItem].title.slice(this.config.startTags[f].length, this.newsItems[this.activeItem].title.length);
 					}
@@ -130,7 +130,7 @@ Module.register("newsfeed", {
 
 			if (this.config.removeStartTags === "description" || this.config.removeStartTags === "both") {
 				if (this.isShowingDescription) {
-					for (let f = 0; f < this.config.startTags.length; f++) {
+					for (var f = 0; f < this.config.startTags.length; f++) {
 						if (this.newsItems[this.activeItem].description.slice(0, this.config.startTags[f].length) === this.config.startTags[f]) {
 							this.newsItems[this.activeItem].description = this.newsItems[this.activeItem].description.slice(this.config.startTags[f].length, this.newsItems[this.activeItem].description.length);
 						}
@@ -141,14 +141,14 @@ Module.register("newsfeed", {
 			//Remove selected tags from the end of rss feed items (title or description)
 
 			if (this.config.removeEndTags) {
-				for (let f = 0; f < this.config.endTags.length; f++) {
+				for (var f = 0; f < this.config.endTags.length; f++) {
 					if (this.newsItems[this.activeItem].title.slice(-this.config.endTags[f].length) === this.config.endTags[f]) {
 						this.newsItems[this.activeItem].title = this.newsItems[this.activeItem].title.slice(0, -this.config.endTags[f].length);
 					}
 				}
 
 				if (this.isShowingDescription) {
-					for (let f = 0; f < this.config.endTags.length; f++) {
+					for (var f = 0; f < this.config.endTags.length; f++) {
 						if (this.newsItems[this.activeItem].description.slice(-this.config.endTags[f].length) === this.config.endTags[f]) {
 							this.newsItems[this.activeItem].description = this.newsItems[this.activeItem].description.slice(0, -this.config.endTags[f].length);
 						}
@@ -259,8 +259,12 @@ Module.register("newsfeed", {
 
 		// get updated news items and broadcast them
 		var updatedItems = [];
-		newsItems.forEach((value) => {
-			if (this.newsItems.findIndex((value1) => value1 === value) === -1) {
+		newsItems.forEach(function (value) {
+			if (
+				this.newsItems.findIndex(function (value1) {
+					value1 === value;
+				}) === -1
+			) {
 				// Add item to updated items list
 				updatedItems.push(value);
 			}

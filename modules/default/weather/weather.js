@@ -168,7 +168,7 @@ Module.register("weather", {
 			nextLoad = delay;
 		}
 
-		setTimeout(() => {
+		setTimeout(function () {
 			if (this.config.weatherEndpoint === "/onecall") {
 				this.weatherProvider.fetchWeatherData();
 			} else if (this.config.type === "forecast") {
