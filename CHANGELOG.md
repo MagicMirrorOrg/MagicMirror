@@ -23,6 +23,7 @@ _This release is scheduled to be released on 2021-01-01._
 - Fix calendar fetcher subsequent timing (#2160)
 - The core is now checking to see if a module is hidden before it calls `getDom()`. This prevents unwanted dom updates. (#2164)
 - currentweather and weatherforecast always showing themselves on each update
+- Event formatting logic was incorrectly using relative format even if absolute format was set. "showEnd" is now only used for absolute formatting.
 
 ## [2.13.0] - 2020-10-01
 
