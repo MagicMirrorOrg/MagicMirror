@@ -1,0 +1,3 @@
+[submodule "modules/MMM-Remote-Control"]
+	path = modules/MMM-Remote-Control
+	url = git@github.com:nishmeht7/MMM-Remote-Control.git
