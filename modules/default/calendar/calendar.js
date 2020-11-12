@@ -352,14 +352,14 @@ Module.register("calendar", {
 							// Say 'Today/Tomorrow at such-n-such time'
 							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").calendar());
 						}
-						if (event.startDate - now < this.config.getRelative * oneHour) {
+						if (this.config.getRelative > 0 && event.startDate - now < this.config.getRelative * oneHour) {
 							// This event is within the next "getRelative" number of hours
 							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 						}
 					} else {
 						// Always assume relative format if dateFormat != "absolute"
 						timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
-						if (event.startDate >= now) {
+						if (event.startDate <= now) {
 							timeWrapper.innerHTML = this.capFirst(
 								this.translate("RUNNING", {
 									fallback: this.translate("RUNNING") + " {timeUntilEnd}",
@@ -468,7 +468,6 @@ Module.register("calendar", {
 			var calendar = this.calendarData[c];
 			for (var e in calendar) {
 				var event = JSON.parse(JSON.stringify(calendar[e])); // clone object
-				eventDate = moment(event.startDate, "x").format("YYYYMMDD");
 
 				if (event.endDate < now) {
 					continue;
@@ -487,23 +486,6 @@ Module.register("calendar", {
 				}
 				if (this.listContainsEvent(events, event)) {
 					continue;
-				}
-
-				// if date of event is later than lastdate
-				// check if we already are showing max unique days
-				if (eventDate > lastDate) {
-					if (uniqueDays > this.config.maximumUniqueDays) {
-						continue;
-					} else {
-						uniqueDays++;
-						if (uniqueDays <= this.config.maximumUniqueDays) {
-							lastDate = eventDate;
-						} else {
-							if (moment(future).format("YYYYMMDD") > lastDate) {
-								future = moment(lastDate, "YYYYMMDD").toDate();
-							}
-						}
-					}
 				}
 
 				event.url = c;
@@ -546,6 +528,28 @@ Module.register("calendar", {
 		events.sort(function (a, b) {
 			return a.startDate - b.startDate;
 		});
+		// Only show maximumUniqueDays
+		var newEvents = [];
+		for (var e of events) {
+			eventDate = moment(e.startDate, "x").format("YYYYMMDD");
+			// if date of event is later than lastdate
+			// check if we already are showing max unique days
+			if (eventDate > lastDate) {
+				// if the only entry in the first day is a full day event that day is not counted as unique
+				if (newEvents.length === 1 && uniqueDays === 1 && newEvents[0].fullDayEvent) {
+					uniqueDays--;
+				}
+				uniqueDays++;
+				if (uniqueDays > this.config.maximumUniqueDays) {
+					continue;
+				} else {
+					lastDate = eventDate;
+				}
+			}
+			newEvents.push(e);
+		}
+		events = newEvents;
+
 		return events.slice(0, this.config.maximumEntries);
 	},
 

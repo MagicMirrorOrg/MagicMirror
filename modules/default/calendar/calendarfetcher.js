@@ -15,7 +15,7 @@ const request = require("request");
  * @see {@link http://momentjs.com}
  */
 const moment = require("moment");
-
+moment.locale(config.language);
 /**
  *
  * @param {string} url The url of the calendar to fetch
@@ -244,7 +244,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 							let showRecurrence = true;
 
 							startDate = moment(date);
-							// console.log("now timezone="+ moment.tz.guess());
+							/*							// console.log("now timezone="+ moment.tz.guess());
 							// whether we need to adjust for RRULE returning the wrong date, with the right time (forward of URC timezones)
 							let adjustDays = 0;
 							// if a timezone was specified
@@ -292,6 +292,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 								}
 							}
 
+*/
 							// For each date that we're checking, it's possible that there is a recurrence override for that one day.
 							if (curEvent.recurrences !== undefined && curEvent.recurrences[dateKey] !== undefined) {
 								// We found an override, so for this recurrence, use a potentially different title, start date, and duration.
@@ -328,8 +329,10 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 								addedEvents++;
 								newEvents.push({
 									title: recurrenceTitle,
-									startDate: (adjustDays ? startDate.subtract(adjustDays, "hours") : startDate).format("x"),
-									endDate: (adjustDays ? endDate.subtract(adjustDays, "hours") : endDate).format("x"),
+									//									startDate: (adjustDays ? startDate.subtract(adjustDays, "hours") : startDate).format("x"),
+									//									endDate: (adjustDays ? endDate.subtract(adjustDays, "hours") : endDate).format("x"),
+									startDate: startDate.format("x"),
+									endDate: endDate.format("x"),
 									fullDayEvent: isFullDayEvent(event),
 									recurringEvent: true,
 									class: event.class,
@@ -400,7 +403,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 				return a.startDate - b.startDate;
 			});
 
-			events = newEvents.slice(0, maximumEntries);
+			events = newEvents;
 
 			self.broadcastEvents();
 			scheduleTimer();
@@ -445,9 +448,9 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 		}
 
 		const start = event.start || 0;
-		const startDate = new Date(start);
 		const end = event.end || 0;
-		if ((end - start) % (24 * 60 * 60 * 1000) === 0 && startDate.getHours() === 0 && startDate.getMinutes() === 0) {
+
+		if ((end - start) % (24 * 60 * 60 * 1000) === 0 && moment(start).Hours() === 0 && moment(start).Minutes() === 0) {
 			// Is 24 hours, and starts on the middle of the night.
 			return true;
 		}
