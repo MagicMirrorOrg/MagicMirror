@@ -100,6 +100,7 @@ Module.register("calendar", {
 			var calendarConfig = {
 				maximumEntries: calendar.maximumEntries,
 				maximumNumberOfDays: calendar.maximumNumberOfDays,
+				maximumUniqueDays: calendar.maximumUniqueDays,
 				broadcastPastEvents: calendar.broadcastPastEvents
 			};
 			if (calendar.symbolClass === "undefined" || calendar.symbolClass === null) {
@@ -467,6 +468,7 @@ Module.register("calendar", {
 			var calendar = this.calendarData[c];
 			for (var e in calendar) {
 				var event = JSON.parse(JSON.stringify(calendar[e])); // clone object
+				eventDate = moment(event.startDate, "x").format("YYYYMMDD");
 
 				if (event.endDate < now) {
 					continue;
@@ -489,12 +491,11 @@ Module.register("calendar", {
 
 				// if date of event is later than lastdate
 				// check if we already are showing max unique days
-				eventDate = moment(event.startDate, "x").format("YYYYMMDD");
 				if (eventDate > lastDate) {
 					if (uniqueDays > this.config.maximumUniqueDays) {
 						continue;
 					} else {
-						UniqueDays++;
+						uniqueDays++;
 						if (uniqueDays <= this.config.maximumUniqueDays) {
 							lastDate = eventDate;
 						} else {
@@ -573,6 +574,7 @@ Module.register("calendar", {
 			excludedEvents: calendarConfig.excludedEvents || this.config.excludedEvents,
 			maximumEntries: calendarConfig.maximumEntries || this.config.maximumEntries,
 			maximumNumberOfDays: calendarConfig.maximumNumberOfDays || this.config.maximumNumberOfDays,
+			maximumUniqueDays: calendarConfig.maximumUniqueDays || this.config.maximumUniqueDays,
 			fetchInterval: this.config.fetchInterval,
 			symbolClass: calendarConfig.symbolClass,
 			titleClass: calendarConfig.titleClass,

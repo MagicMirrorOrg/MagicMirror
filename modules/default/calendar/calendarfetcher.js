@@ -23,11 +23,12 @@ const moment = require("moment");
  * @param {string[]} excludedEvents An array of words / phrases from event titles that will be excluded from being shown.
  * @param {number} maximumEntries The maximum number of events fetched.
  * @param {number} maximumNumberOfDays The maximum number of days an event should be in the future.
+ * @param {number} maximumUniqueDays The maximum number of unique days to display.
  * @param {object} auth The object containing options for authentication against the calendar.
  * @param {boolean} includePastEvents If true events from the past maximumNumberOfDays will be fetched too
  * @class
  */
-const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, includePastEvents) {
+const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntries, maximumNumberOfDays, maximumUniqueDays, auth, includePastEvents) {
 	const self = this;
 
 	let reloadTimer = null;

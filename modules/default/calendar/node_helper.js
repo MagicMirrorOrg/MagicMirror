@@ -19,7 +19,7 @@ module.exports = NodeHelper.create({
 	// Override socketNotificationReceived method.
 	socketNotificationReceived: function (notification, payload) {
 		if (notification === "ADD_CALENDAR") {
-			this.createFetcher(payload.url, payload.fetchInterval, payload.excludedEvents, payload.maximumEntries, payload.maximumNumberOfDays, payload.auth, payload.broadcastPastEvents, payload.id);
+			this.createFetcher(payload.url, payload.fetchInterval, payload.excludedEvents, payload.maximumEntries, payload.maximumNumberOfDays, payload.maximumUniqueDays, payload.auth, payload.broadcastPastEvents, payload.id);
 		}
 	},
 
@@ -32,11 +32,12 @@ module.exports = NodeHelper.create({
 	 * @param {string[]} excludedEvents An array of words / phrases from event titles that will be excluded from being shown.
 	 * @param {number} maximumEntries The maximum number of events fetched.
 	 * @param {number} maximumNumberOfDays The maximum number of days an event should be in the future.
+	 * @param {number} maximumUniqueDays The maximum number of unique days to display.
 	 * @param {object} auth The object containing options for authentication against the calendar.
 	 * @param {boolean} broadcastPastEvents If true events from the past maximumNumberOfDays will be included in event broadcasts
 	 * @param {string} identifier ID of the module
 	 */
-	createFetcher: function (url, fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, broadcastPastEvents, identifier) {
+	createFetcher: function (url, fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, maximumUniqueDays, auth, broadcastPastEvents, identifier) {
 		var self = this;
 
 		if (!validUrl.isUri(url)) {
@@ -47,7 +48,7 @@ module.exports = NodeHelper.create({
 		var fetcher;
 		if (typeof self.fetchers[identifier + url] === "undefined") {
 			Log.log("Create new calendar fetcher for url: " + url + " - Interval: " + fetchInterval);
-			fetcher = new CalendarFetcher(url, fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, broadcastPastEvents);
+			fetcher = new CalendarFetcher(url, fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, maximumUniqueDays, auth, broadcastPastEvents);
 
 			fetcher.onReceive(function (fetcher) {
 				self.sendSocketNotification("CALENDAR_EVENTS", {
