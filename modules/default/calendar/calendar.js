@@ -11,6 +11,7 @@ Module.register("calendar", {
 	defaults: {
 		maximumEntries: 10, // Total Maximum Entries
 		maximumNumberOfDays: 365,
+		maximumUniqueDays: 365, // Maximum number of unique days to show
 		displaySymbol: true,
 		defaultSymbol: "calendar", // Fontawesome Symbol see https://fontawesome.com/cheatsheet?from=io
 		showLocation: false,
@@ -458,6 +459,10 @@ Module.register("calendar", {
 		var today = moment().startOf("day");
 		var now = new Date();
 		var future = moment().startOf("day").add(this.config.maximumNumberOfDays, "days").toDate();
+		var lastDate = today.clone().subtract(1, "days").format("YYYYMMDD");
+		var uniqueDays = 0;
+		var eventDate = 0;
+
 		for (var c in this.calendarData) {
 			var calendar = this.calendarData[c];
 			for (var e in calendar) {
@@ -466,6 +471,7 @@ Module.register("calendar", {
 				if (event.endDate < now) {
 					continue;
 				}
+
 				if (this.config.hidePrivate) {
 					if (event.class === "PRIVATE") {
 						// do not add the current event, skip it
@@ -480,6 +486,25 @@ Module.register("calendar", {
 				if (this.listContainsEvent(events, event)) {
 					continue;
 				}
+
+				// if date of event is later than lastdate
+				// check if we already are showing max unique days
+				eventDate = moment(event.startDate, "x").format("YYYYMMDD");
+				if (eventDate > lastDate) {
+					if (uniqueDays > this.config.maximumUniqueDays) {
+						continue;
+					} else {
+						UniqueDays++;
+						if (uniqueDays <= this.config.maximumUniqueDays) {
+							lastDate = eventDate;
+						} else {
+							if (moment(future).format("YYYYMMDD") > lastDate) {
+								future = moment(lastDate, "YYYYMMDD").toDate();
+							}
+						}
+					}
+				}
+
 				event.url = c;
 				event.today = event.startDate >= today && event.startDate < today + 24 * 60 * 60 * 1000;
 
