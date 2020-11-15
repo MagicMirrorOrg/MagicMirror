@@ -65,7 +65,7 @@ describe("Translator", function () {
 		}
 
 		it("should return custom module translation", function (done) {
-			const dom = new JSDOM(`<script src="${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
+			const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
 			dom.window.onload = function () {
 				const { Translator } = dom.window;
 				setTranslations(Translator);
@@ -78,7 +78,7 @@ describe("Translator", function () {
 		});
 
 		it("should return core translation", function (done) {
-			const dom = new JSDOM(`<script src="${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
+			const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
 			dom.window.onload = function () {
 				const { Translator } = dom.window;
 				setTranslations(Translator);
@@ -91,7 +91,7 @@ describe("Translator", function () {
 		});
 
 		it("should return custom module translation fallback", function (done) {
-			const dom = new JSDOM(`<script src="${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
+			const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
 			dom.window.onload = function () {
 				const { Translator } = dom.window;
 				setTranslations(Translator);
@@ -102,7 +102,7 @@ describe("Translator", function () {
 		});
 
 		it("should return core translation fallback", function (done) {
-			const dom = new JSDOM(`<script src="${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
+			const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
 			dom.window.onload = function () {
 				const { Translator } = dom.window;
 				setTranslations(Translator);
@@ -113,7 +113,7 @@ describe("Translator", function () {
 		});
 
 		it("should return translation with placeholder for missing variables", function (done) {
-			const dom = new JSDOM(`<script src="${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
+			const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
 			dom.window.onload = function () {
 				const { Translator } = dom.window;
 				setTranslations(Translator);
@@ -124,7 +124,7 @@ describe("Translator", function () {
 		});
 
 		it("should return key if no translation was found", function (done) {
-			const dom = new JSDOM(`<script src="${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
+			const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
 			dom.window.onload = function () {
 				const { Translator } = dom.window;
 				setTranslations(Translator);
@@ -144,7 +144,7 @@ describe("Translator", function () {
 		};
 
 		it("should load translations", function (done) {
-			const dom = new JSDOM(`<script>var Log = {log: function(){}};</script><script src="${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
+			const dom = new JSDOM(`<script>var Log = {log: function(){}};</script><script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
 			dom.window.onload = function () {
 				const { Translator } = dom.window;
 				const file = "TranslationTest.json";
@@ -158,7 +158,7 @@ describe("Translator", function () {
 		});
 
 		it("should load translation fallbacks", function (done) {
-			const dom = new JSDOM(`<script>var Log = {log: function(){}};</script><script src="${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
+			const dom = new JSDOM(`<script>var Log = {log: function(){}};</script><script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
 			dom.window.onload = function () {
 				const { Translator } = dom.window;
 				const file = "TranslationTest.json";
@@ -172,7 +172,7 @@ describe("Translator", function () {
 		});
 
 		it("should not load translations, if module fallback exists", function (done) {
-			const dom = new JSDOM(`<script>var Log = {log: function(){}};</script><script src="${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
+			const dom = new JSDOM(`<script>var Log = {log: function(){}};</script><script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
 			dom.window.onload = function () {
 				const { Translator, XMLHttpRequest } = dom.window;
 				const file = "TranslationTest.json";
@@ -200,7 +200,7 @@ describe("Translator", function () {
 		it("should load core translations and fallback", function (done) {
 			const dom = new JSDOM(
 				`<script>var translations = {en: "http://localhost:3000/translations/en.json"}; var Log = {log: function(){}};</script>\
-					<script src="${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`,
+					<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`,
 				{ runScripts: "dangerously", resources: "usable" }
 			);
 			dom.window.onload = function () {
@@ -219,7 +219,7 @@ describe("Translator", function () {
 		it("should load core fallback if language cannot be found", function (done) {
 			const dom = new JSDOM(
 				`<script>var translations = {en: "http://localhost:3000/translations/en.json"}; var Log = {log: function(){}};</script>\
-					<script src="${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`,
+					<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`,
 				{ runScripts: "dangerously", resources: "usable" }
 			);
 			dom.window.onload = function () {
@@ -240,7 +240,7 @@ describe("Translator", function () {
 		it("should load core translations fallback", function (done) {
 			const dom = new JSDOM(
 				`<script>var translations = {en: "http://localhost:3000/translations/en.json"}; var Log = {log: function(){}};</script>\
-					<script src="${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`,
+					<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`,
 				{ runScripts: "dangerously", resources: "usable" }
 			);
 			dom.window.onload = function () {
@@ -258,7 +258,7 @@ describe("Translator", function () {
 		it("should load core fallback if language cannot be found", function (done) {
 			const dom = new JSDOM(
 				`<script>var translations = {}; var Log = {log: function(){}};</script>\
-					<script src="${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`,
+					<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`,
 				{ runScripts: "dangerously", resources: "usable" }
 			);
 			dom.window.onload = function () {

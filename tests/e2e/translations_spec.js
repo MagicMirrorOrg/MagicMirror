@@ -46,7 +46,7 @@ describe("Translations", function () {
 			it(`should parse ${language}`, function (done) {
 				const dom = new JSDOM(
 					`<script>var translations = ${JSON.stringify(translations)}; var Log = {log: function(){}};</script>\
-					<script src="${path.join(__dirname, "..", "..", "js", "translator.js")}">`,
+					<script src="file://${path.join(__dirname, "..", "..", "js", "translator.js")}">`,
 					{ runScripts: "dangerously", resources: "usable" }
 				);
 				dom.window.onload = function () {
@@ -68,7 +68,7 @@ describe("Translations", function () {
 		before(function (done) {
 			const dom = new JSDOM(
 				`<script>var translations = ${JSON.stringify(translations)}; var Log = {log: function(){}};</script>\
-					<script src="${path.join(__dirname, "..", "..", "js", "translator.js")}">`,
+					<script src="file://${path.join(__dirname, "..", "..", "js", "translator.js")}">`,
 				{ runScripts: "dangerously", resources: "usable" }
 			);
 			dom.window.onload = function () {
@@ -92,7 +92,7 @@ describe("Translations", function () {
 				before(function (done) {
 					const dom = new JSDOM(
 						`<script>var translations = ${JSON.stringify(translations)}; var Log = {log: function(){}};</script>\
-					<script src="${path.join(__dirname, "..", "..", "js", "translator.js")}">`,
+					<script src="file://${path.join(__dirname, "..", "..", "js", "translator.js")}">`,
 						{ runScripts: "dangerously", resources: "usable" }
 					);
 					dom.window.onload = function () {
