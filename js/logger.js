@@ -20,10 +20,11 @@
 	}
 })(this, function (config) {
 	const logLevel = {
+		debug: Function.prototype.bind.call(console.debug, console),
 		info: Function.prototype.bind.call(console.info, console),
 		log: Function.prototype.bind.call(console.log, console),
-		error: Function.prototype.bind.call(console.error, console),
 		warn: Function.prototype.bind.call(console.warn, console),
+		error: Function.prototype.bind.call(console.error, console),
 		group: Function.prototype.bind.call(console.group, console),
 		groupCollapsed: Function.prototype.bind.call(console.groupCollapsed, console),
 		groupEnd: Function.prototype.bind.call(console.groupEnd, console),

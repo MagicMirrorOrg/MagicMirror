@@ -12,7 +12,7 @@ _This release is scheduled to be released on 2021-01-01._
 ### Added
 
 - Added new log level "debug" to the logger.
-- Added Weatherbit as a provider to Weather module 
+- Added Weatherbit as a provider to Weather module. 
 
 ### Updated
 
