@@ -1,20 +1,16 @@
 const path = require("path");
-const auth = require("http-auth");
+const auth = require("express-basic-auth");
 const express = require("express");
 const app = express();
 
 var server;
 
-var basic = auth.basic(
-	{
-		realm: "MagicMirror Area restricted."
-	},
-	(username, password, callback) => {
-		callback(username === "MagicMirror" && password === "CallMeADog");
-	}
-);
+var basicAuth = auth({
+	realm: "MagicMirror Area restricted.",
+	users: { MagicMirror: "CallMeADog" }
+});
 
-app.use(auth.connect(basic));
+app.use(basicAuth);
 
 // Set available directories
 var directories = ["/tests/configs"];
