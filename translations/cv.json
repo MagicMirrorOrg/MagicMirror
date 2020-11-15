@@ -1,0 +1,34 @@
+{
+	"LOADING": "Тиенет &hellip;",
+
+	"TODAY": "Паян",
+	"TOMORROW": "Ыран",
+	"DAYAFTERTOMORROW": "Виҫмине",
+	"RUNNING": "Хальхи",
+	"EMPTY": "Пулас ӗҫ ҫук",
+
+	"WEEK": "{weekNumber} эрне",
+
+	"N": "Ҫ",
+	"NNE": "ҪҪТ",
+	"NE": "ҪТ",
+	"ENE": "ТҪТ",
+	"E": "Т",
+	"ESE": "ТКТ",
+	"SE": "КТ",
+	"SSE": "ККТ",
+	"S": "К",
+	"SSW": "ККА",
+	"SW": "КА",
+	"WSW": "АКА",
+	"W": "А",
+	"WNW": "АҪА",
+	"NW": "ҪА",
+	"NNW": "ҪҪА",
+	"FEELS": "Туйӑннӑ",
+
+	"UPDATE_NOTIFICATION": "MagicMirror² валли ҫӗнетӳ пур.",
+	"UPDATE_NOTIFICATION_MODULE": "{MODULE_NAME} модуль валли ҫӗнетӳ пур.",
+	"UPDATE_INFO_SINGLE": "Ҫак инсталляци {BRANCH_NAME} commit турат {COMMIT_COUNT} коммитпа кая уйрӑлса тӑрать.",
+	"UPDATE_INFO_MULTIPLE": "Ҫак инсталляци {BRANCH_NAME} commit турат {COMMIT_COUNT} коммитпа кая уйрӑлса тӑрать."
+}

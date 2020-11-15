@@ -14,6 +14,7 @@ var translations = {
 	fy: "translations/fy.json", // Frysk
 	es: "translations/es.json", // Spanish
 	ca: "translations/ca.json", // Catalan
+	cv: "translations/cv.json", // Chuvash
 	nb: "translations/nb.json", // Norsk bokmål
 	nn: "translations/nn.json", // Norsk nynorsk
 	pt: "translations/pt.json", // Português
