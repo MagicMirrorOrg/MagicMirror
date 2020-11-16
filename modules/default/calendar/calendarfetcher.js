@@ -279,7 +279,6 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 								// This date is an exception date, which means we should skip it in the recurrence pattern.
 								showRecurrence = false;
 							}
-
 							Log.debug("duration=" + duration);
 
 							endDate = moment(parseInt(startDate.format("x")) + duration, "x");
@@ -320,6 +319,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 						// Single event.
 						const fullDayEvent = isFacebookBirthday ? true : isFullDayEvent(event);
 						// Log.debug("full day event")
+
 						if (includePastEvents) {
 							// Past event is too far in the past, so skip.
 							if (endDate < past) {

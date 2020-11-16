@@ -350,7 +350,7 @@ Module.register("newsfeed", {
 				this.activeItem = 0;
 			}
 			this.resetDescrOrFullArticleAndTimer();
-			Log.info(this.name + " - going from article #" + before + " to #" + this.activeItem + " (of " + this.newsItems.length + ")");
+			Log.debug(this.name + " - going from article #" + before + " to #" + this.activeItem + " (of " + this.newsItems.length + ")");
 			this.updateDom(100);
 		} else if (notification === "ARTICLE_PREVIOUS") {
 			this.activeItem--;
@@ -358,7 +358,7 @@ Module.register("newsfeed", {
 				this.activeItem = this.newsItems.length - 1;
 			}
 			this.resetDescrOrFullArticleAndTimer();
-			Log.info(this.name + " - going from article #" + before + " to #" + this.activeItem + " (of " + this.newsItems.length + ")");
+			Log.debug(this.name + " - going from article #" + before + " to #" + this.activeItem + " (of " + this.newsItems.length + ")");
 			this.updateDom(100);
 		}
 		// if "more details" is received the first time: show article summary, on second time show full article
@@ -367,8 +367,8 @@ Module.register("newsfeed", {
 			if (this.config.showFullArticle === true) {
 				this.scrollPosition += this.config.scrollLength;
 				window.scrollTo(0, this.scrollPosition);
-				Log.info(this.name + " - scrolling down");
-				Log.info(this.name + " - ARTICLE_MORE_DETAILS, scroll position: " + this.config.scrollLength);
+				Log.debug(this.name + " - scrolling down");
+				Log.debug(this.name + " - ARTICLE_MORE_DETAILS, scroll position: " + this.config.scrollLength);
 			} else {
 				this.showFullArticle();
 			}
@@ -376,12 +376,12 @@ Module.register("newsfeed", {
 			if (this.config.showFullArticle === true) {
 				this.scrollPosition -= this.config.scrollLength;
 				window.scrollTo(0, this.scrollPosition);
-				Log.info(this.name + " - scrolling up");
-				Log.info(this.name + " - ARTICLE_SCROLL_UP, scroll position: " + this.config.scrollLength);
+				Log.debug(this.name + " - scrolling up");
+				Log.debug(this.name + " - ARTICLE_SCROLL_UP, scroll position: " + this.config.scrollLength);
 			}
 		} else if (notification === "ARTICLE_LESS_DETAILS") {
 			this.resetDescrOrFullArticleAndTimer();
-			Log.info(this.name + " - showing only article titles again");
+			Log.debug(this.name + " - showing only article titles again");
 			this.updateDom(100);
 		} else if (notification === "ARTICLE_TOGGLE_FULL") {
 			if (this.config.showFullArticle) {
@@ -411,7 +411,7 @@ Module.register("newsfeed", {
 		}
 		clearInterval(this.timer);
 		this.timer = null;
-		Log.info(this.name + " - showing " + this.isShowingDescription ? "article description" : "full article");
+		Log.debug(this.name + " - showing " + this.isShowingDescription ? "article description" : "full article");
 		this.updateDom(100);
 	}
 });
