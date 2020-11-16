@@ -13,10 +13,13 @@ _This release is scheduled to be released on 2021-01-01._
 
 - Added new log level "debug" to the logger.
 - Added Weatherbit as a provider to Weather module. 
+- Added Hindi & Gujarati translation.
+- Chuvash translation.
 
 ### Updated
 
-- Weather module - forecast now show TODAY and TOMORROW instead of weekday, to make it easier to understand
+- Weather module - forecast now show TODAY and TOMORROW instead of weekday, to make it easier to understand.
+- Update dependencies to latest versions.
 
 ### Deleted
 

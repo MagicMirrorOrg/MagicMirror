@@ -14,6 +14,7 @@ var translations = {
 	fy: "translations/fy.json", // Frysk
 	es: "translations/es.json", // Spanish
 	ca: "translations/ca.json", // Catalan
+	cv: "translations/cv.json", // Chuvash
 	nb: "translations/nb.json", // Norsk bokmål
 	nn: "translations/nn.json", // Norsk nynorsk
 	pt: "translations/pt.json", // Português
@@ -43,7 +44,9 @@ var translations = {
 	tlh: "translations/tlh.json", // Klingon
 	"ms-my": "translations/ms-my.json", // Malay
 	he: "translations/he.json", // Hebrew
-	uk: "translations/uk.json" // Ukrainian
+	uk: "translations/uk.json", // Ukrainian
+	hi: "translations/hi.json", // Hindi
+	gu: "translations/gu.json" // Gujarati
 };
 
 if (typeof module !== "undefined") {
