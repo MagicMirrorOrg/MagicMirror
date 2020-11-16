@@ -402,7 +402,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 			// if this is a windows timezone
 			if (event.start.tz.includes(" ")) {
 				// use the lookup table to get theIANA name as moment and date don't know MS timezones
-				let tz = getIanaTZFrostart_offset(event.start.tz);
+				let tz = getIanaTZFromMS(event.start.tz);
 				Log.debug("corrected TZ=" + tz);
 				// watch out for unregistered windows timezone names
 				// if we had a successfule lookup
@@ -421,7 +421,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 				const regex = /[+|-]\d*:\d*/;
 				const start_offsetString = event.start.tz.match(regex).toString().split(":");
 				let start_offset = parseInt(start_offsetString[0]);
-				start_offset *= event.start.tz[1] == "-" ? -1 : 1;
+				start_offset *= event.start.tz[1] === "-" ? -1 : 1;
 				adjustHours = start_offset;
 				Log.debug("defined offset=" + start_offset + " hours");
 				current_offset = start_offset;
@@ -483,7 +483,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 	 *  lookup iana tz from windows
 	 */
 	let zoneTable = null;
-	const getIanaTZFrostart_offset = function (msTZName) {
+	const getIanaTZFromMS = function (msTZName) {
 		if (!zoneTable) {
 			const p = require("path");
 			zoneTable = require(p.join(__dirname, "windowsZones.json"));
