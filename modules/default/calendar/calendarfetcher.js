@@ -85,7 +85,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 			};
 
 			const eventDate = function (event, time) {
-				return event[time].length === 8 ? moment(event[time], "YYYYMMDD") : moment(new Date(event[time]));
+				return isFullDayEvent(event) ? moment(event[time], "YYYYMMDD") : moment(new Date(event[time]));
 			};
 
 			Object.entries(data).forEach(([key, event]) => {
@@ -110,7 +110,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 				if (event.type === "VEVENT") {
 					let startDate = eventDate(event, "start");
 					let endDate;
-					// Log.log("\nevent="+JSON.stringify(event))
+					// Log.debug("\nevent="+JSON.stringify(event))
 					if (typeof event.end !== "undefined") {
 						endDate = eventDate(event, "end");
 					} else if (typeof event.duration !== "undefined") {
@@ -123,6 +123,8 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 							endDate = moment(startDate).add(1, "days");
 						}
 					}
+
+					Log.debug(" start=" + startDate.toDate() + " end=" + endDate.toDate());
 
 					// calculate the duration of the event for use with recurring events.
 					let duration = parseInt(endDate.format("x")) - parseInt(startDate.format("x"));
@@ -213,9 +215,9 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 							pastLocal = pastMoment.subtract(past.getTimezoneOffset(), "minutes").toDate();
 							futureLocal = futureMoment.subtract(future.getTimezoneOffset(), "minutes").toDate();
 						}
-
+						Log.debug(" between=" + pastLocal + " to " + futureLocal);
 						const dates = rule.between(pastLocal, futureLocal, true, limitFunction);
-						Log.debug("title=" + event.summary.val + " dates=" + JSON.stringify(dates));
+						Log.debug("title=" + event.summary + " dates=" + JSON.stringify(dates));
 						// The "dates" array contains the set of dates within our desired date range range that are valid
 						// for the recurrence rule. *However*, it's possible for us to have a specific recurrence that
 						// had its date changed from outside the range to inside the range.  For the time being,
@@ -232,7 +234,6 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 								}
 							}
 						}
-
 						// Loop through the set of date entries to see which recurrences should be added to our event list.
 						for (let d in dates) {
 							let date = dates[d];
@@ -248,7 +249,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 								Log.debug("fullday");
 								// if the offset is  negative, east of GMT where the problem is
 								if (date.getTimezoneOffset() < 0) {
-									// get the offset of today when we are processing
+									// get the offset of today where we are processing
 									// this will be the correction we need to apply
 									let nowOffset = new Date().getTimezoneOffset();
 									Log.debug("now offset is " + nowOffset);
@@ -256,6 +257,9 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 									Log.debug(" recurring date is " + date + " offset is " + date.getTimezoneOffset());
 									// apply the correction to the date/time to get it UTC relative
 									date = new Date(date.getTime() - Math.abs(nowOffset) * 60000);
+									// the duration was calculated way back at the top before we could correct the start time..
+									// fix it for this event entry
+									duration = 24 * 60 * 60 * 1000;
 									Log.debug("new recurring date is " + date);
 								}
 							}
@@ -275,8 +279,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 								// This date is an exception date, which means we should skip it in the recurrence pattern.
 								showRecurrence = false;
 							}
-
-							//Log.log("duration="+duration)
+							Log.debug("duration=" + duration);
 
 							endDate = moment(parseInt(startDate.format("x")) + duration, "x");
 							if (startDate.format("x") === endDate.format("x")) {
@@ -315,7 +318,8 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 					} else {
 						// Single event.
 						const fullDayEvent = isFacebookBirthday ? true : isFullDayEvent(event);
-						// Log.log("full day event")
+						// Log.debug("full day event")
+
 						if (includePastEvents) {
 							// Past event is too far in the past, so skip.
 							if (endDate < past) {
@@ -348,7 +352,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 						}
 						// if the start and end are the same, then make end the 'end of day' value (start is at 00:00:00)
 						if (fullDayEvent && startDate.format("x") === endDate.format("x")) {
-							//Log.log("end same as start")
+							//Log.debug("end same as start")
 							endDate = endDate.endOf("day");
 						}
 						// get correction for date saving and dst change between now and then
@@ -399,58 +403,74 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 			if (event.start.tz.includes(" ")) {
 				// use the lookup table to get theIANA name as moment and date don't know MS timezones
 				let tz = getIanaTZFromMS(event.start.tz);
+				Log.debug("corrected TZ=" + tz);
 				// watch out for unregistered windows timezone names
 				// if we had a successfule lookup
 				if (tz) {
 					// change the timezone to the IANA name
 					event.start.tz = tz;
-					Log.debug("corrected timezone=" + event.start.tz);
+					// Log.debug("corrected timezone="+event.start.tz)
 				}
 			}
 			Log.debug("corrected tz=" + event.start.tz);
-			let mmo = 0; // offset  from TZ string or calculated
+			let current_offset = 0; // offset  from TZ string or calculated
 			let mm = 0; // date with tz or offset
-			let mms = 0; // utc offset of created with tz
+			let start_offset = 0; // utc offset of created with tz
 			// if there is still an offset, lookup failed, use it
 			if (event.start.tz.startsWith("(")) {
 				const regex = /[+|-]\d*:\d*/;
-				mmo = event.start.tz.match(regex).toString();
-				mms = mmo;
-				Log.debug("ical offset=" + mmo + " date=" + date);
+				const start_offsetString = event.start.tz.match(regex).toString().split(":");
+				let start_offset = parseInt(start_offsetString[0]);
+				start_offset *= event.start.tz[1] === "-" ? -1 : 1;
+				adjustHours = start_offset;
+				Log.debug("defined offset=" + start_offset + " hours");
+				current_offset = start_offset;
+				event.start.tz = "";
+				Log.debug("ical offset=" + current_offset + " date=" + date);
 				mm = moment(date);
-				mm = mm.utcOffset(mmo);
+				let x = parseInt(moment(new Date()).utcOffset());
+				Log.debug("net mins=" + (current_offset * 60 - x));
+
+				mm = mm.add(x - current_offset * 60, "minutes");
+				adjustHours = (current_offset * 60 - x) / 60;
+				event.start = mm.toDate();
+				Log.debug("adjusted date=" + event.start);
 			} else {
 				// get the start time in that timezone
-				Log.debug("ttttttt=" + moment(event.start).toDate());
-				mms = moment.tz(moment(event.start), event.start.tz).utcOffset();
-				Log.debug("ms offset=" + mms);
+				Log.debug("start date/time=" + moment(event.start).toDate());
+				start_offset = moment.tz(moment(event.start), event.start.tz).utcOffset();
+				Log.debug("start offset=" + start_offset);
 
-				Log.debug("start date =" + moment.tz(moment(event.start), event.start.tz).toDate());
+				Log.debug("start date/time w tz =" + moment.tz(moment(event.start), event.start.tz).toDate());
 
 				// get the specified date in that timezone
 				mm = moment.tz(moment(date), event.start.tz);
-				Log.debug("mm=" + mm.toDate());
-				mmo = mm.utcOffset();
+				Log.debug("event date=" + mm.toDate());
+				current_offset = mm.utcOffset();
 			}
-			Log.debug("mm ofset=" + mmo + " hour=" + mm.format("H") + " event date=" + mm.toDate());
+			Log.debug("event offset=" + current_offset + " hour=" + mm.format("H") + " event date=" + mm.toDate());
+
 			// if the offset is greater than 0, east of london
-			if (mmo !== mms) {
+			if (current_offset !== start_offset) {
 				// big offset
 				Log.debug("offset");
 				let h = parseInt(mm.format("H"));
 				// check if the event time is less than the offset
-				if (h > 0 && h < Math.abs(mmo) / 60) {
+				if (h > 0 && h < Math.abs(current_offset) / 60) {
 					// if so, rrule created a wrong date (utc day, oops, with utc yesterday adjusted time)
 					// we need to fix that
 					adjustHours = 24;
-					Log.debug("adjusting date");
+					// Log.debug("adjusting date")
 				}
-				if (Math.abs(mmo) > Math.abs(mms)) {
-					adjustHours += 1;
-					Log.debug("adjust up 1 hour dst change");
-				} else if (Math.abs(mmo) < Math.abs(mms)) {
+				//-300 > -240
+				//if (Math.abs(current_offset) > Math.abs(start_offset)){
+				if (current_offset > start_offset) {
 					adjustHours -= 1;
 					Log.debug("adjust down 1 hour dst change");
+					//} else if (Math.abs(current_offset) < Math.abs(start_offset)) {
+				} else if (current_offset < start_offset) {
+					adjustHours += 1;
+					Log.debug("adjust up 1 hour dst change");
 				}
 			}
 		}
