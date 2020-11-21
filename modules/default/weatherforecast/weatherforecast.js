@@ -300,7 +300,7 @@ Module.register("weatherforecast", {
 			return;
 		}
 
-		let numberOfDays;
+		var numberOfDays;
 		if (this.config.forecastEndpoint === "forecast") {
 			numberOfDays = this.config.maxNumberOfDays < 1 || this.config.maxNumberOfDays > 5 ? 5 : this.config.maxNumberOfDays;
 			// don't get forecasts for the next day, as it would not represent the whole day

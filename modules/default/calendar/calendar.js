@@ -565,7 +565,7 @@ Module.register("calendar", {
 	 * @returns {string[]} The symbols
 	 */
 	symbolsForEvent: function (event) {
-		let symbols = this.getCalendarPropertyAsArray(event.url, "symbol", this.config.defaultSymbol);
+		var symbols = this.getCalendarPropertyAsArray(event.url, "symbol", this.config.defaultSymbol);
 
 		if (event.recurringEvent === true && this.hasCalendarProperty(event.url, "recurringSymbol")) {
 			symbols = this.mergeUnique(this.getCalendarPropertyAsArray(event.url, "recurringSymbol", this.config.defaultSymbol), symbols);
@@ -666,7 +666,7 @@ Module.register("calendar", {
 	},
 
 	getCalendarPropertyAsArray: function (url, property, defaultValue) {
-		let p = this.getCalendarProperty(url, property, defaultValue);
+		var p = this.getCalendarProperty(url, property, defaultValue);
 		if (!(p instanceof Array)) p = [p];
 		return p;
 	},

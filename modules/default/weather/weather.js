@@ -168,13 +168,14 @@ Module.register("weather", {
 			nextLoad = delay;
 		}
 
-		setTimeout(() => {
-			if (this.config.weatherEndpoint === "/onecall") {
-				this.weatherProvider.fetchWeatherData();
-			} else if (this.config.type === "forecast") {
-				this.weatherProvider.fetchWeatherForecast();
+		var self = this;
+		setTimeout(function () {
+			if (self.config.weatherEndpoint === "/onecall") {
+				self.weatherProvider.fetchWeatherData();
+			} else if (self.config.type === "forecast") {
+				self.weatherProvider.fetchWeatherForecast();
 			} else {
-				this.weatherProvider.fetchCurrentWeather();
+				self.weatherProvider.fetchCurrentWeather();
 			}
 		}, nextLoad);
 	},

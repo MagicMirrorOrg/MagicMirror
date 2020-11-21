@@ -37,7 +37,7 @@ Module.register("alert", {
 		if (this.config.effect === "slide") {
 			this.config.effect = this.config.effect + "-" + this.config.position;
 		}
-		let msg = "";
+		var msg = "";
 		if (message.title) {
 			msg += "<span class='thin dimmed medium'>" + message.title + "</span>";
 		}
@@ -56,7 +56,7 @@ Module.register("alert", {
 		}).show();
 	},
 	show_alert: function (params, sender) {
-		let image = "";
+		var image = "";
 		//Set standard params if not provided by module
 		if (typeof params.timer === "undefined") {
 			params.timer = null;
@@ -83,7 +83,7 @@ Module.register("alert", {
 		}
 
 		//Display title and message only if they are provided in notification parameters
-		let message = "";
+		var message = "";
 		if (params.title) {
 			message += "<span class='light dimmed medium'>" + params.title + "</span>";
 		}
@@ -106,8 +106,9 @@ Module.register("alert", {
 		this.alerts[sender.name].show();
 		//Add timer to dismiss alert and overlay
 		if (params.timer) {
-			setTimeout(() => {
-				this.hide_alert(sender);
+			var self = this;
+			setTimeout(function () {
+				self.hide_alert(sender);
 			}, params.timer);
 		}
 	},

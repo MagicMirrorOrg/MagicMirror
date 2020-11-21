@@ -19,7 +19,7 @@
 	 * @returns {object} The merged object
 	 */
 	function extend(a, b) {
-		for (let key in b) {
+		for (var key in b) {
 			if (b.hasOwnProperty(key)) {
 				a[key] = b[key];
 			}
@@ -79,7 +79,7 @@
 		// create HTML structure
 		this.ntf = document.createElement("div");
 		this.ntf.className = this.options.al_no + " ns-" + this.options.layout + " ns-effect-" + this.options.effect + " ns-type-" + this.options.type;
-		let strinner = '<div class="ns-box-inner">';
+		var strinner = '<div class="ns-box-inner">';
 		strinner += this.options.message;
 		strinner += "</div>";
 		this.ntf.innerHTML = strinner;
@@ -89,9 +89,10 @@
 
 		// dismiss after [options.ttl]ms
 		if (this.options.ttl) {
-			this.dismissttl = setTimeout(() => {
-				if (this.active) {
-					this.dismiss();
+			var self = this;
+			this.dismissttl = setTimeout(function () {
+				if (self.active) {
+					self.dismiss();
 				}
 			}, this.options.ttl);
 		}
@@ -105,8 +106,9 @@
 	 */
 	NotificationFx.prototype._initEvents = function () {
 		// dismiss notification by tapping on it if someone has a touchscreen
-		this.ntf.querySelector(".ns-box-inner").addEventListener("click", () => {
-			this.dismiss();
+		var self = this;
+		this.ntf.querySelector(".ns-box-inner").addEventListener("click", function () {
+			self.dismiss();
 		});
 	};
 
@@ -127,22 +129,23 @@
 		this.active = false;
 		clearTimeout(this.dismissttl);
 		this.ntf.classList.remove("ns-show");
-		setTimeout(() => {
-			this.ntf.classList.add("ns-hide");
+		var self = this;
+		setTimeout(function () {
+			self.ntf.classList.add("ns-hide");
 
 			// callback
-			this.options.onClose();
+			self.options.onClose();
 		}, 25);
 
 		// after animation ends remove ntf from the DOM
-		const onEndAnimationFn = (ev) => {
-			if (ev.target !== this.ntf) {
+		const onEndAnimationFn = function (ev) {
+			if (ev.target !== self.ntf) {
 				return false;
 			}
-			this.ntf.removeEventListener("animationend", onEndAnimationFn);
+			self.ntf.removeEventListener("animationend", onEndAnimationFn);
 
-			if (ev.target.parentNode === this.options.wrapper) {
-				this.options.wrapper.removeChild(this.ntf);
+			if (ev.target.parentNode === self.options.wrapper) {
+				self.options.wrapper.removeChild(self.ntf);
 			}
 		};
 
