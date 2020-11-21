@@ -11,6 +11,7 @@ Module.register("calendar", {
 	defaults: {
 		maximumEntries: 10, // Total Maximum Entries
 		maximumNumberOfDays: 365,
+		limitDays: 0, // Limit the number of days shown, 0 = no limit
 		displaySymbol: true,
 		defaultSymbol: "calendar", // Fontawesome Symbol see https://fontawesome.com/cheatsheet?from=io
 		showLocation: false,
@@ -98,6 +99,7 @@ Module.register("calendar", {
 			var calendarConfig = {
 				maximumEntries: calendar.maximumEntries,
 				maximumNumberOfDays: calendar.maximumNumberOfDays,
+				limitDays: calendar.limitDays,
 				broadcastPastEvents: calendar.broadcastPastEvents
 			};
 			if (calendar.symbolClass === "undefined" || calendar.symbolClass === null) {
@@ -521,6 +523,16 @@ Module.register("calendar", {
 		events.sort(function (a, b) {
 			return a.startDate - b.startDate;
 		});
+
+		// If limitDays is set > 0, limit display to that number of days
+		if (this.config.limitDays > 0) {
+			var lastDate = today.clone().subtract(1, "days").format("YYYYMMDD");
+			var days = 0;
+			var newevents = [];
+			for (var e in events) {
+			}
+		}
+
 		return events.slice(0, this.config.maximumEntries);
 	},
 
