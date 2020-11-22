@@ -9,9 +9,9 @@
 
 	"WEEK": "{weekNumber} savaitė",
 
-    "N": "Š",
-    "NNE": "ŠŠR",
-    "NE": "ŠR",
+	"N": "Š",
+	"NNE": "ŠŠR",
+	"NE": "ŠR",
 	"ENE": "RŠR",
 	"E": "R",
 	"ESE": "RPR",
