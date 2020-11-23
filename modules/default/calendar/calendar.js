@@ -315,7 +315,7 @@ Module.register("calendar", {
 						event.endDate -= oneSecond;
 						timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").format(this.config.fullDayEventDateFormat));
 					}
-					if (this.config.getRelative > 0 && event.startDate >= now) {
+					if (this.config.getRelative > 0 && event.startDate < now) {
 						// Ongoing and getRelative is set
 						timeWrapper.innerHTML = this.capFirst(
 							this.translate("RUNNING", {
