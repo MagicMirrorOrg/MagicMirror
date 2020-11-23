@@ -224,6 +224,7 @@ Module.register("newsfeed", {
 	 * @param {object} feeds An object with feeds returned by the node helper.
 	 */
 	generateFeed: function (feeds) {
+		var self = this;
 		var newsItems = [];
 		for (var feed in feeds) {
 			var feedItems = feeds[feed];
@@ -248,8 +249,8 @@ Module.register("newsfeed", {
 
 		if (this.config.prohibitedWords.length > 0) {
 			newsItems = newsItems.filter(function (value) {
-				for (var i = 0; i < this.config.prohibitedWords.length; i++) {
-					if (value["title"].toLowerCase().indexOf(this.config.prohibitedWords[i].toLowerCase()) > -1) {
+				for (var i = 0; i < self.config.prohibitedWords.length; i++) {
+					if (value["title"].toLowerCase().indexOf(self.config.prohibitedWords[i].toLowerCase()) > -1) {
 						return false;
 					}
 				}
@@ -259,9 +260,12 @@ Module.register("newsfeed", {
 
 		// get updated news items and broadcast them
 		var updatedItems = [];
-		var self = this;
 		newsItems.forEach(function (value) {
-			if (self.newsItems.findIndex((value1) => value1 === value) === -1) {
+			if (
+				self.newsItems.findIndex(function (value1) {
+					return value1 === value;
+				}) === -1
+			) {
 				// Add item to updated items list
 				updatedItems.push(value);
 			}
