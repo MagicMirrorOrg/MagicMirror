@@ -20,6 +20,7 @@ _This release is scheduled to be released on 2021-01-01._
 
 - Weather module - forecast now show TODAY and TOMORROW instead of weekday, to make it easier to understand.
 - Update dependencies to latest versions.
+- Backward compatibility for older browsers (specifically those running IOS 9.3.5)
 
 ### Deleted
 
