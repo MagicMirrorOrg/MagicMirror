@@ -100,7 +100,6 @@ Module.register("calendar", {
 			var calendarConfig = {
 				maximumEntries: calendar.maximumEntries,
 				maximumNumberOfDays: calendar.maximumNumberOfDays,
-				limitDays: calendar.limitDays,
 				broadcastPastEvents: calendar.broadcastPastEvents
 			};
 			if (calendar.symbolClass === "undefined" || calendar.symbolClass === null) {
@@ -567,7 +566,6 @@ Module.register("calendar", {
 			excludedEvents: calendarConfig.excludedEvents || this.config.excludedEvents,
 			maximumEntries: calendarConfig.maximumEntries || this.config.maximumEntries,
 			maximumNumberOfDays: calendarConfig.maximumNumberOfDays || this.config.maximumNumberOfDays,
-			limitDays: calendarConfig.limitDays || this.config.limitDays,
 			fetchInterval: this.config.fetchInterval,
 			symbolClass: calendarConfig.symbolClass,
 			titleClass: calendarConfig.titleClass,
