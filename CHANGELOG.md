@@ -12,7 +12,6 @@ _This release is scheduled to be released on 2021-01-01._
 ### Added
 
 - Added new log level "debug" to the logger.
-
 - Added Hindi & Gujarati translation.
 - Chuvash translation.
 
@@ -32,6 +31,7 @@ _This release is scheduled to be released on 2021-01-01._
 - Rename Greek translation to correct ISO 639-1 alpha-2 code (gr > el). (#2155)
 - Add a space after icons of sunrise and sunset (#2169)
 - Fix calendar when no DTEND record found in event, startDate overlay when endDate set (#2177)
+- Fix console.debug not having timestamps (#2199)
 - Fix calendar full day event east of UTC start time (#2200)
 
 ## [2.13.0] - 2020-10-01
@@ -42,7 +42,7 @@ Special thanks to the following contributors: @bryanzzhu, @bugsounet, @chamakura
 
 ### Added
 
-- `--dry-run` option adde in fetch call within updatenotification node_helper. This is to prevent
+- `--dry-run` option added in fetch call within updatenotification node_helper. This is to prevent
   MagicMirror from consuming any fetch result. Causes conflict with MMPM when attempting to check
   for updates to MagicMirror and/or MagicMirror modules.
 - Test coverage with Istanbul, run it with `npm run test:coverage`.
