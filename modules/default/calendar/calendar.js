@@ -517,8 +517,9 @@ Module.register("calendar", {
 			var newEvents = [];
 			var lastDate = today.clone().subtract(1, "days").format("YYYYMMDD");
 			var days = 0;
-			for (var e of events) {
-				eventDate = moment(e.startDate, "x").format("YYYYMMDD");
+			var eventDate;
+			for (var ev of events) {
+				eventDate = moment(ev.startDate, "x").format("YYYYMMDD");
 				// if date of event is later than lastdate
 				// check if we already are showing max unique days
 				if (eventDate > lastDate) {
@@ -533,7 +534,7 @@ Module.register("calendar", {
 						lastDate = eventDate;
 					}
 				}
-				newEvents.push(e);
+				newEvents.push(ev);
 			}
 			events = newEvents;
 		}
