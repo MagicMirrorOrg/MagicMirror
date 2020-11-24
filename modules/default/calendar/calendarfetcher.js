@@ -376,7 +376,17 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 				return a.startDate - b.startDate;
 			});
 
-			events = newEvents.slice(0, maximumEntries);
+			if (includePastEvents) {
+				// Include all events
+				events = newEvents;
+			} else {
+				// All events from startOfToday are fetched but we only want the ones that haven't ended yet
+				const now = moment();
+				for (ne of newEvents) {
+					if (moment(ne.endDate, "x").isAfter(now)) events.push(ne);
+				}
+			}
+			events = events.slice(0, maximumEntries);
 
 			self.broadcastEvents();
 			scheduleTimer();
