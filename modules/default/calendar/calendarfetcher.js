@@ -382,7 +382,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 			} else {
 				// All events from startOfToday are fetched but we only want the ones that haven't ended yet
 				const now = moment();
-				for (ne of newEvents) {
+				for (var ne of newEvents) {
 					if (moment(ne.endDate, "x").isAfter(now)) events.push(ne);
 				}
 			}
