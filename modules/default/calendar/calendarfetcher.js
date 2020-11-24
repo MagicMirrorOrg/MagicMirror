@@ -376,7 +376,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 				return a.startDate - b.startDate;
 			});
 
-			events = newEvents;
+			events = newEvents.slice(0, maximumEntries);
 
 			self.broadcastEvents();
 			scheduleTimer();
