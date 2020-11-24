@@ -20,10 +20,10 @@ let config = {
 			module: "calendar",
 			position: "bottom_bar",
 			config: {
-				maximumEntries: 4,
-				maximumNumberOfDays: 10000,
 				calendars: [
 					{
+						maximumEntries: 4,
+						maximumNumberOfDays: 10000,
 						symbol: "birthday-cake",
 						fullDaySymbol: "calendar-day",
 						recurringSymbol: "undo",
