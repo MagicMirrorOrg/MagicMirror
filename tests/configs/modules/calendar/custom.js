@@ -19,6 +19,7 @@ let config = {
 		{
 			module: "calendar",
 			position: "bottom_bar",
+			broadcastPastEvents: false,
 			config: {
 				calendars: [
 					{
