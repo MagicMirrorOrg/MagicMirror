@@ -376,6 +376,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 				return a.startDate - b.startDate;
 			});
 
+			const now = moment();
 			var entries = -1;
 			var pastEntries = 0;
 			for (var ne of newEvents) {
