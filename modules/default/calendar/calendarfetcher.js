@@ -376,24 +376,20 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 				return a.startDate - b.startDate;
 			});
 
+			// include up to maximumEntries current or upcoming events
+			// If past events should be included, include all past events
 			const now = moment();
-			var entries = -1;
-			var pastEntries = 0;
-			for (var ne of newEvents) {
-				if (!includePastEvents && moment(ne.endDate, "x").isBefore(now)) {
-					// Events has ended and past events should not be included
-					pastEntries++;
+			var entries = 0;
+			events = [];
+			for (let ne of newEvents) {
+				if (moment(ne.endDate, "x").isBefore(now)) {
+					if (includePastEvents) events.push(ne);
 					continue;
 				}
 				entries++;
 				// If max events has been saved, skip the rest
 				if (entries > maximumEntries) break;
-			}
-			entries += pastEntries; // Total number of entries should include pastEntries
-			if (entries > 0) {
-				events = newEvents.slice(0, entries);
-			} else {
-				events = [];
+				events.push(ne);
 			}
 
 			self.broadcastEvents();
