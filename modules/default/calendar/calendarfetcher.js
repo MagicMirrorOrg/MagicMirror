@@ -376,17 +376,24 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 				return a.startDate - b.startDate;
 			});
 
-			if (includePastEvents) {
-				// Include all events
-				events = newEvents;
-			} else {
-				// All events from startOfToday are fetched but we only want the ones that haven't ended yet
-				const now = moment();
-				for (var ne of newEvents) {
-					if (moment(ne.endDate, "x").isAfter(now)) events.push(ne);
+			var entries = -1;
+			var pastEntries = 0;
+			for (var ne of newEvents) {
+				if (!includePastEvents && moment(ne.endDate, "x").isBefore(now)) {
+					// Events has ended and past events should not be included
+					pastEntries++;
+					continue;
 				}
+				entries++;
+				// If max events has been saved, skip the rest
+				if (entries > maximumEntries) break;
 			}
-			events = events.slice(0, maximumEntries);
+			entries += pastEntries; // Total number of entries should include pastEntries
+			if (entries > 0) {
+				events = newEvents.slice(0, entries);
+			} else {
+				events = [];
+			}
 
 			self.broadcastEvents();
 			scheduleTimer();
