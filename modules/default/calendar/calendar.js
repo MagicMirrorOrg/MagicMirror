@@ -262,6 +262,7 @@ Module.register("calendar", {
 					if (needle.test(event.title)) {
 						eventWrapper.style.cssText = "color:" + this.config.coloredEvents[ev].color;
 						titleWrapper.style.cssText = "color:" + this.config.coloredEvents[ev].color;
+						if (this.config.displaySymbol) symbolWrapper.style.cssText = "color:" + this.config.coloredEvents[ev].color;
 						break;
 					}
 				}
