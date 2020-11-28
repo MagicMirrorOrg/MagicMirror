@@ -221,9 +221,11 @@ Module.register("calendar", {
 				var symbols = this.symbolsForEvent(event);
 				// If symbols are displayed and custom symbol is set, replace event symbol
 				if (this.config.displaySymbol && this.config.customEvents.length > 0) {
-					for (var ev in this.config.customEvents) {
+					var ev;
+					var needle;
+					for (ev in this.config.customEvents) {
 						if (typeof this.config.customEvents[ev].symbol !== "undefined" && this.config.customEvents[ev].symbol !== "") {
-							var needle = new RegExp(this.config.customEvents[ev].keyword, "gi");
+							needle = new RegExp(this.config.customEvents[ev].keyword, "gi");
 							if (needle.test(event.title)) {
 								symbols[0] = this.config.customEvents[ev].symbol;
 								break;
