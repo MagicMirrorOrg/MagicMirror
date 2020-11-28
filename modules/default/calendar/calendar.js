@@ -37,6 +37,7 @@ Module.register("calendar", {
 		hideOngoing: false,
 		colored: false,
 		coloredSymbolOnly: false,
+		customEvents: [], // Array of {keyword: "", symbol: "", color: ""} where Keyword is a regexp and symbol/color are to be applied for matched
 		tableClass: "small",
 		calendars: [
 			{
@@ -218,6 +219,19 @@ Module.register("calendar", {
 				symbolWrapper.className = "symbol align-right " + symbolClass;
 
 				var symbols = this.symbolsForEvent(event);
+				// If symbols are displayed and custom symbol is set, replace event symbol
+				if (this.config.displaySymbol && this.config.customEvents.length > 0) {
+					for (var ev in this.config.customEvents) {
+						if (typeof this.config.customEvents[ev].symbol !== "undefined" && this.config.customEvents[ev].symbol !== "") {
+							var needle = new RegExp(this.config.customEvents[ev].keyword, "gi");
+							if (needle.test(event.title)) {
+								symbols[0] = this.config.customEvents[ev].symbol;
+								break;
+							}
+						}
+					}
+				}
+
 				for (var i = 0; i < symbols.length; i++) {
 					var symbol = document.createElement("span");
 					symbol.className = "fa fa-fw fa-" + symbols[i];
@@ -245,6 +259,23 @@ Module.register("calendar", {
 						yearDiff = thisYear - event.firstYear;
 
 					repeatingCountTitle = ", " + yearDiff + ". " + repeatingCountTitle;
+				}
+			}
+
+			// Color events if custom color is specified
+			if (this.config.customEvents.length > 0) {
+				for (var ev in this.config.customEvents) {
+					if (typeof this.config.customEvents[ev].color !== "undefined" && this.config.customEvents[ev].color !== "") {
+						var needle = new RegExp(this.config.customEvents[ev].keyword, "gi");
+						if (needle.test(event.title)) {
+							eventWrapper.style.cssText = "color:" + this.config.customEvents[ev].color;
+							titleWrapper.style.cssText = "color:" + this.config.customEvents[ev].color;
+							if (this.config.displaySymbol) {
+								symbolWrapper.style.cssText = "color:" + this.config.customEvents[ev].color;
+							}
+							break;
+						}
+					}
 				}
 			}
 
