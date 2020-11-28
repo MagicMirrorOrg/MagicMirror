@@ -16,6 +16,8 @@ _This release is scheduled to be released on 2021-01-01._
 - Added Hindi & Gujarati translation.
 - Chuvash translation.
 
+- Added new option "limitDays" - limit the number of discreet days displayed
+
 ### Updated
 
 - Weather module - forecast now show TODAY and TOMORROW instead of weekday, to make it easier to understand.
