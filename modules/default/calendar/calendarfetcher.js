@@ -111,6 +111,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 				if (event.type === "VEVENT") {
 					let startDate = eventDate(event, "start");
 					let endDate;
+
 					Log.debug("\nevent=" + JSON.stringify(event));
 					if (typeof event.end !== "undefined") {
 						endDate = eventDate(event, "end");
