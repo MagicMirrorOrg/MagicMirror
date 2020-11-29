@@ -33,6 +33,7 @@ _This release is scheduled to be released on 2021-01-01._
 - Add a space after icons of sunrise and sunset (#2169)
 - Fix calendar when no DTEND record found in event, startDate overlay when endDate set (#2177)
 - Fix calendar full day event east of UTC start time (#2200)
+- Fix non-fullday recurring rule processing (#2216)
 
 ## [2.13.0] - 2020-10-01
 
