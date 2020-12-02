@@ -33,6 +33,13 @@ var MM = (function () {
 			}
 
 			dom.opacity = 0;
+			if (typeof module.data.hidden === "boolean") {
+				module.hidden = module.data.hidden;
+				if (module.hidden) {
+					dom.style.opacity = 0;
+					dom.style.position = "fixed";
+				}
+			}
 			wrapper.appendChild(dom);
 
 			var moduleHeader = document.createElement("header");
