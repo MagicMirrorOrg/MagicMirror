@@ -254,7 +254,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 			return windInMpS;
 		}
 
-		if (this.config.windUnits == "kph" || this.config.windUnits == "metric" || this.config.useKmh ) {
+		if (this.config.windUnits == "kph" || this.config.windUnits == "metric" || this.config.useKmh) {
 			return windInMpS * 3.6;
 		}
 
