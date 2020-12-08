@@ -81,7 +81,7 @@ class WeatherObject {
 		const windInKmh = this.windUnits === "imperial" ? this.windSpeed * 1.609344 : (this.windSpeed * 60 * 60) / 1000;
 		return windInKmh;
 	}
-	
+
 	nextSunAction() {
 		return moment().isBetween(this.sunrise, this.sunset) ? "sunset" : "sunrise";
 	}
