@@ -1,0 +1,37 @@
+{
+	"LOADING": "پیلېدل",
+
+	"TODAY": "نن",
+	"TOMORROW": "سبا",
+	"DAYAFTERTOMORROW": "بل سبا",
+	"RUNNING": "روان",
+	"EMPTY": "تش",
+
+	"WEEK": "{weekNumber}. اونۍ",
+
+	"N": "N",
+	"NNE": "NNO",
+	"NE": "NO",
+	"ENE": "ONO",
+	"E": "O",
+	"ESE": "OSO",
+	"SE": "SO",
+	"SSE": "SSO",
+	"S": "S",
+	"SSW": "SSW",
+	"SW": "SW",
+	"WSW": "WSW",
+	"W": "W",
+	"WNW": "WNW",
+	"NW": "NW",
+	"NNW": "NNW",
+
+	"MODULE_CONFIG_CHANGED": "د {MODULE_NAME} بڼی تغیر کړی دی. \n هیله دی چی اسناد و ګوری!",
+
+	"UPDATE_NOTIFICATION": "د MagicMirror² نوې نسخه سته ",
+	"UPDATE_NOTIFICATION_MODULE": "د {MODULE_NAME} نوی نسخه سته",
+	"UPDATE_INFO_SINGLE": "اوسنی برخه {COMMIT_COUNT} د {BRANCH_NAME} څخه وروسته پاته ده",
+	"UPDATE_INFO_MULTIPLE": "اوسنی برخه {COMMIT_COUNT} د {BRANCH_NAME} څخه وروسته پاته ده",
+
+	"FEELS": "حس کېږی"
+}
