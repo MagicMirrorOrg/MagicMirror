@@ -38,6 +38,7 @@ _This release is scheduled to be released on 2021-01-01._
 - Fix calendar when no DTEND record found in event, startDate overlay when endDate set (#2177)
 - Fix console.debug not having timestamps (#2199)
 - Fix calendar full day event east of UTC start time (#2200)
+- Fix non-fullday recurring rule processing (#2216)
 - Catch errors when parsing calendar data with ical (#2022)
 - Corrected logic for timeFormat "relative" and "absolute"
 
