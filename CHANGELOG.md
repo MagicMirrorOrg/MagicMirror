@@ -17,6 +17,8 @@ _This release is scheduled to be released on 2021-01-01._
 - Chuvash translation.
 - Calendar: new options "limitDays" and "coloredEvents"
 
+- Added new option "customEvents" - use custom symbol/color based on keyword in event title
+
 ### Updated
 
 - Weather module - forecast now show TODAY and TOMORROW instead of weekday, to make it easier to understand.
