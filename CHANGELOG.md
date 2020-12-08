@@ -16,6 +16,8 @@ _This release is scheduled to be released on 2021-01-01._
 - Added Hindi & Gujarati translation.
 - Chuvash translation.
 
+- Calendar: new options "limitDays" and "coloredEvents"
+
 ### Updated
 
 - Weather module - forecast now show TODAY and TOMORROW instead of weekday, to make it easier to understand.
@@ -34,6 +36,7 @@ _This release is scheduled to be released on 2021-01-01._
 - Add a space after icons of sunrise and sunset (#2169)
 - Fix calendar when no DTEND record found in event, startDate overlay when endDate set (#2177)
 - Fix calendar full day event east of UTC start time (#2200)
+- Corrected logic for timeFormat "relative" and "absolute"
 
 ## [2.13.0] - 2020-10-01
 
