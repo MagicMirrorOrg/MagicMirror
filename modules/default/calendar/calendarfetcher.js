@@ -85,8 +85,8 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 				scheduleTimer();
 				return;
 			}
-      
-      Log.debug(" parsed data=" + JSON.stringify(data));
+
+			Log.debug(" parsed data=" + JSON.stringify(data));
 
 			const newEvents = [];
 
