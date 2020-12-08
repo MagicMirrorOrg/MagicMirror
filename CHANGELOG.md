@@ -16,7 +16,7 @@ _This release is scheduled to be released on 2021-01-01._
 - Added Hindi & Gujarati translation.
 - Chuvash translation.
 - Calendar: new options "limitDays" and "coloredEvents"
-
+- Added new option "limitDays" - limit the number of discreet days displayed
 - Added new option "customEvents" - use custom symbol/color based on keyword in event title
 
 ### Updated
