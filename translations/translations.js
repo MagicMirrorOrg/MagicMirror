@@ -44,7 +44,9 @@ var translations = {
 	tlh: "translations/tlh.json", // Klingon
 	"ms-my": "translations/ms-my.json", // Malay
 	he: "translations/he.json", // Hebrew
-	uk: "translations/uk.json" // Ukrainian
+	uk: "translations/uk.json", // Ukrainian
+	hi: "translations/hi.json", // Hindi
+	gu: "translations/gu.json" // Gujarati
 };
 
 if (typeof module !== "undefined") {
