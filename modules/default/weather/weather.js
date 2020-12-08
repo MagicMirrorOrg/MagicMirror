@@ -18,6 +18,7 @@ Module.register("weather", {
 		location: false,
 		locationID: false,
 		units: config.units,
+		useKmh: false,
 
 		tempUnits: config.units,
 		windUnits: config.units,
