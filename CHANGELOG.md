@@ -12,6 +12,8 @@ _This release is scheduled to be released on 2021-01-01._
 ### Added
 
 - Added new log level "debug" to the logger.
+- Added new parameter "useKmh" to weather module for displaying wind speed as kmh.
+- Chuvash translation.
 - Added Weatherbit as a provider to Weather module.
 - Added Hindi & Gujarati translation.
 - Chuvash translation.
@@ -36,6 +38,7 @@ _This release is scheduled to be released on 2021-01-01._
 - Rename Greek translation to correct ISO 639-1 alpha-2 code (gr > el). (#2155)
 - Add a space after icons of sunrise and sunset (#2169)
 - Fix calendar when no DTEND record found in event, startDate overlay when endDate set (#2177)
+- Fix windspeed convertion error in ukmetoffice weather provider (#2189)
 - Fix console.debug not having timestamps (#2199)
 - Fix calendar full day event east of UTC start time (#2200)
 - Fix non-fullday recurring rule processing (#2216)
