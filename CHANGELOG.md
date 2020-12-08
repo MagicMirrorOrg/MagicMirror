@@ -1,9 +1,9 @@
-# MagicMirror² Change Log
+# MagicMirrorï¿½ Change Log
 
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
-❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror²
+?? **Donate:** Enjoying MagicMirrorï¿½? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirrorï¿½
 
 ## [2.14.0] - Unreleased (Develop Branch)
 
@@ -12,14 +12,16 @@ _This release is scheduled to be released on 2021-01-01._
 ### Added
 
 - Added new log level "debug" to the logger.
-
+- Added Weatherbit as a provider to Weather module.
 - Added Hindi & Gujarati translation.
 - Chuvash translation.
+- Calendar: new options "limitDays" and "coloredEvents"
 
 ### Updated
 
 - Weather module - forecast now show TODAY and TOMORROW instead of weekday, to make it easier to understand.
 - Update dependencies to latest versions.
+- Update lithuanian translation.
 
 ### Deleted
 
@@ -32,18 +34,21 @@ _This release is scheduled to be released on 2021-01-01._
 - Rename Greek translation to correct ISO 639-1 alpha-2 code (gr > el). (#2155)
 - Add a space after icons of sunrise and sunset (#2169)
 - Fix calendar when no DTEND record found in event, startDate overlay when endDate set (#2177)
+- Fix console.debug not having timestamps (#2199)
 - Fix calendar full day event east of UTC start time (#2200)
 - Fix non-fullday recurring rule processing (#2216)
+- Catch errors when parsing calendar data with ical (#2022)
+- Corrected logic for timeFormat "relative" and "absolute"
 
 ## [2.13.0] - 2020-10-01
 
 Special thanks to the following contributors: @bryanzzhu, @bugsounet, @chamakura, @cjbrunner, @easyas314, @larryare, @oemel09, @rejas, @sdetweil & @sthuber90.
 
-ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`.
+?? **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`.
 
 ### Added
 
-- `--dry-run` option adde in fetch call within updatenotification node_helper. This is to prevent
+- `--dry-run` option added in fetch call within updatenotification node_helper. This is to prevent
   MagicMirror from consuming any fetch result. Causes conflict with MMPM when attempting to check
   for updates to MagicMirror and/or MagicMirror modules.
 - Test coverage with Istanbul, run it with `npm run test:coverage`.
@@ -78,7 +83,7 @@ Special thanks to the following contributors: @bryanzzhu, @bugsounet, @chamakura
 
 Special thanks to the following contributors: @AndreKoepke, @andrezibaia, @bryanzzhu, @chamakura, @DarthBrento, @Ekristoffe, @khassel, @Legion2, @ndom91, @radokristof, @rejas, @XBCreepinJesus & @ZoneMR.
 
-ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`.
+?? **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`.
 
 ### Added
 
@@ -116,7 +121,7 @@ Special thanks to the following contributors: @AndreKoepke, @andrezibaia, @bryan
 
 ## [2.11.0] - 2020-04-01
 
-🚨 READ THIS BEFORE UPDATING 🚨
+?? READ THIS BEFORE UPDATING ??
 
 In the past years the project has grown a lot. This came with a huge downside: poor maintainability. If I let the project continue the way it was, it would eventually crash and burn. More important: I would completely lose the drive and interest to continue the project. Because of this the decision was made to simplify the core by removing all side features like automatic installers and support for exotic platforms. This release (2.11.0) is the first real release that will reflect (parts) of these changes. As a result of this, some things might break. So before you continue make sure to backup your installation. Your config, your modules or better yet: your full MagicMirror folder. In other words: update at your own risk.
 
@@ -177,7 +182,7 @@ For more information regarding this major change, please check issue [#1860](htt
 
 Special thanks to @sdetweil for all his great contributions!
 
-ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`.
+?? **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`.
 
 ### Added
 
@@ -206,12 +211,12 @@ Special thanks to @sdetweil for all his great contributions!
 
 ## [2.9.0] - 2019-10-01
 
-ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`. If you are having issues running Electron, make sure your [Raspbian is up to date](https://www.raspberrypi.org/documentation/raspbian/updating.md).
+?? **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`. If you are having issues running Electron, make sure your [Raspbian is up to date](https://www.raspberrypi.org/documentation/raspbian/updating.md).
 
 ### Added
 
 - Spanish translation for "PRECIP".
-- Adding a Malay (Malaysian) translation for MagicMirror².
+- Adding a Malay (Malaysian) translation for MagicMirrorï¿½.
 - Add test check URLs of vendors 200 and 404 HTTP CODE.
 - Add tests for new weather module and helper to stub ajax requests.
 
@@ -232,7 +237,7 @@ Special thanks to @sdetweil for all his great contributions!
 
 ## [2.8.0] - 2019-07-01
 
-ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`. If you are having issues running Electron, make sure your [Raspbian is up to date](https://www.raspberrypi.org/documentation/raspbian/updating.md).
+?? **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`. If you are having issues running Electron, make sure your [Raspbian is up to date](https://www.raspberrypi.org/documentation/raspbian/updating.md).
 
 ### Added
 
@@ -289,7 +294,7 @@ Fixed `package.json` version number.
 
 ## [2.7.0] - 2019-04-01
 
-ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`. If you are having issues running Electron, make sure your [Raspbian is up to date](https://www.raspberrypi.org/documentation/raspbian/updating.md).
+?? **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`. If you are having issues running Electron, make sure your [Raspbian is up to date](https://www.raspberrypi.org/documentation/raspbian/updating.md).
 
 ### Added
 
@@ -346,9 +351,9 @@ Fixed `package.json` version number.
 
 ## [2.6.0] - 2019-01-01
 
-ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`. If you are having issues updating, make sure you are running the latest version of Node.
+?? **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`. If you are having issues updating, make sure you are running the latest version of Node.
 
-### ✨ Experimental ✨
+### ? Experimental ?
 
 - New default [module weather](modules/default/weather). This module will eventually replace the current `currentweather` and `weatherforecast` modules. The new module is still pretty experimental, but it's included so you can give it a try and help us improve this module. Please give us you feedback using [this forum post](https://forum.magicmirror.builders/topic/9335/default-weather-module-refactoring).
 
@@ -418,7 +423,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 - Updated Simplified Chinese translation
 - Swedish translations
 - Hungarian translations for the updatenotification module
-- Updated Norsk bokmål translation
+- Updated Norsk bokmï¿½l translation
 - Updated Norsk nynorsk translation
 - Consider multi days event as full day events
 
@@ -430,9 +435,9 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 
 ## [2.4.0] - 2018-07-01
 
-⚠️ **Warning:** This release includes an updated version of Electron. This requires a Raspberry Pi configuration change to allow the best performance and prevent the CPU from overheating. Please read the information on the [MagicMirror Wiki](https://github.com/michmich/magicmirror/wiki/configuring-the-raspberry-pi#enable-the-open-gl-driver-to-decrease-electrons-cpu-usage).
+?? **Warning:** This release includes an updated version of Electron. This requires a Raspberry Pi configuration change to allow the best performance and prevent the CPU from overheating. Please read the information on the [MagicMirror Wiki](https://github.com/michmich/magicmirror/wiki/configuring-the-raspberry-pi#enable-the-open-gl-driver-to-decrease-electrons-cpu-usage).
 
-ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
+?? **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
 
 ### Added
 
@@ -446,7 +451,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 - Add regex filtering to calendar module
 - Customize classes for table
 - Added option to newsfeed module to only log error parsing a news article if enabled
-- Add update translations for Português Brasileiro
+- Add update translations for Portuguï¿½s Brasileiro
 
 ### Changed
 
@@ -538,7 +543,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 ### Added
 
 - Add option to use [Nunjucks](https://mozilla.github.io/nunjucks/) templates in modules. (See `helloworld` module as an example.)
-- Add Bulgarian translations for MagicMirror² and Alert module.
+- Add Bulgarian translations for MagicMirrorï¿½ and Alert module.
 - Add graceful shutdown of modules by calling `stop` function of each `node_helper` on SIGINT before exiting.
 - Link update subtext to Github diff of current version versus tracking branch.
 - Add Catalan translation.
@@ -870,7 +875,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 
 ## [2.0.0] - 2016-05-03
 
-### Initial release of MagicMirror²
+### Initial release of MagicMirrorï¿½
 
 It includes (but is not limited to) the following features:
 

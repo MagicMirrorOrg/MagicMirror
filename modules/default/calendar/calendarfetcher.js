@@ -76,8 +76,18 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 				return;
 			}
 
-			const data = ical.parseICS(requestData);
-			Log.debug(" parsed data=" + JSON.stringify(data));
+			let data = [];
+
+			try {
+				data = ical.parseICS(requestData);
+			} catch (error) {
+				fetchFailedCallback(self, error.message);
+				scheduleTimer();
+				return;
+			}
+      
+      Log.debug(" parsed data=" + JSON.stringify(data));
+
 			const newEvents = [];
 
 			// limitFunction doesn't do much limiting, see comment re: the dates array in rrule section below as to why we need to do the filtering ourselves
@@ -385,7 +395,21 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 				return a.startDate - b.startDate;
 			});
 
-			events = newEvents.slice(0, maximumEntries);
+			// include up to maximumEntries current or upcoming events
+			// If past events should be included, include all past events
+			const now = moment();
+			var entries = 0;
+			events = [];
+			for (let ne of newEvents) {
+				if (moment(ne.endDate, "x").isBefore(now)) {
+					if (includePastEvents) events.push(ne);
+					continue;
+				}
+				entries++;
+				// If max events has been saved, skip the rest
+				if (entries > maximumEntries) break;
+				events.push(ne);
+			}
 
 			self.broadcastEvents();
 			scheduleTimer();
