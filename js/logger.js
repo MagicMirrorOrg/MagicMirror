@@ -10,7 +10,10 @@
 (function (root, factory) {
 	if (typeof exports === "object") {
 		// add timestamps in front of log messages
-		require("console-stamp")(console, "yyyy-mm-dd HH:MM:ss.l");
+		require("console-stamp")(console, {
+			pattern: "yyyy-mm-dd HH:MM:ss.l",
+			include: ["debug", "log", "info", "warn", "error"]
+		});
 
 		// Node, CommonJS-like
 		module.exports = factory(root.config);
@@ -21,8 +24,8 @@
 })(this, function (config) {
 	const logLevel = {
 		debug: Function.prototype.bind.call(console.debug, console),
-		info: Function.prototype.bind.call(console.info, console),
 		log: Function.prototype.bind.call(console.log, console),
+		info: Function.prototype.bind.call(console.info, console),
 		warn: Function.prototype.bind.call(console.warn, console),
 		error: Function.prototype.bind.call(console.error, console),
 		group: Function.prototype.bind.call(console.group, console),
