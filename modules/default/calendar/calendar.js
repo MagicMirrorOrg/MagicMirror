@@ -284,7 +284,6 @@ Module.register("calendar", {
 							}
 							break;
 						}
-
 					}
 				}
 			}
