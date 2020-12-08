@@ -243,7 +243,7 @@ WeatherProvider.register("weathergov", {
 		if (this.config.windUnits === "imperial") {
 			return metSec * 2.23694;
 		} else {
-			if(this.config.useKmh) {
+			if (this.config.useKmh) {
 				return metSec * 3.6;
 			} else {
 				return metSec;
