@@ -68,7 +68,7 @@ class WeatherObject {
 	}
 
 	beaufortWindSpeed() {
-		const windInKmh = this.windUnits === "imperial" ? this.windSpeed * 1.609344 : (this.useKmh ? this.windSpeed : (this.windSpeed * 60 * 60) / 1000);
+		const windInKmh = this.windUnits === "imperial" ? this.windSpeed * 1.609344 : this.useKmh ? this.windSpeed : (this.windSpeed * 60 * 60) / 1000;
 		const speeds = [1, 5, 11, 19, 28, 38, 49, 61, 74, 88, 102, 117, 1000];
 		for (const [index, speed] of speeds.entries()) {
 			if (speed > windInKmh) {
