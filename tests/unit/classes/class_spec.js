@@ -10,7 +10,7 @@ describe("File js/class", function () {
 		before(function (done) {
 			dom = new JSDOM(
 				`<script>var Log = {log: function() {}};</script>\
-					<script src="${path.join(__dirname, "..", "..", "..", "js", "class.js")}">`,
+					<script src="file://${path.join(__dirname, "..", "..", "..", "js", "class.js")}">`,
 				{ runScripts: "dangerously", resources: "usable" }
 			);
 			dom.window.onload = function () {

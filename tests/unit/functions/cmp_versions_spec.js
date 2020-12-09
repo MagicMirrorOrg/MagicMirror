@@ -8,7 +8,7 @@ describe("Test function cmpVersions in js/module.js", function () {
 	before(function (done) {
 		const dom = new JSDOM(
 			`<script>var Class = {extend: function() { return {}; }};</script>\
-				<script src="${path.join(__dirname, "..", "..", "..", "js", "module.js")}">`,
+				<script src="file://${path.join(__dirname, "..", "..", "..", "js", "module.js")}">`,
 			{ runScripts: "dangerously", resources: "usable" }
 		);
 		dom.window.onload = function () {
