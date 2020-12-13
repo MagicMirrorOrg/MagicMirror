@@ -46,6 +46,7 @@ _This release is scheduled to be released on 2021-01-01._
 - Fix non-fullday recurring rule processing (#2216)
 - Catch errors when parsing calendar data with ical (#2022)
 - Corrected logic for timeFormat "relative" and "absolute"
+- Fix Default Alert Module does not hide black overlay when alert is dismissed manually (#2228)
 
 ## [2.13.0] - 2020-10-01
 
