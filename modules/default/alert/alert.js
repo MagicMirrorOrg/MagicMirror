@@ -100,6 +100,7 @@ Module.register("alert", {
 			message: image + message,
 			effect: this.config.alert_effect,
 			ttl: params.timer,
+			onClose: () => this.hide_alert(sender),
 			al_no: "ns-alert"
 		});
 		//Show alert
