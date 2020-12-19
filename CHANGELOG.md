@@ -15,6 +15,7 @@ _This release is scheduled to be released on 2021-01-01._
 - Added new parameter "useKmh" to weather module for displaying wind speed as kmh.
 - Chuvash translation.
 - Added Weatherbit as a provider to Weather module.
+- Added SMHI as a provider to Weather module.
 - Added Hindi & Gujarati translation.
 - Chuvash translation.
 - Calendar: new options "limitDays" and "coloredEvents"
