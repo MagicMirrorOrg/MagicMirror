@@ -26,3 +26,5 @@ jobs:
 
       - name: Danger JS Action
         uses: danger/danger-js@9.1.8
+        env:
+          DANGER_GITHUB_API_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
