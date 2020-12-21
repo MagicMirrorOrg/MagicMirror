@@ -18,9 +18,10 @@ _This release is scheduled to be released on 2021-01-01._
 - Added SMHI as a provider to Weather module.
 - Added Hindi & Gujarati translation.
 - Chuvash translation.
-- Calendar: new options "limitDays" and "coloredEvents"
-- Added new option "limitDays" - limit the number of discreet days displayed
-- Added new option "customEvents" - use custom symbol/color based on keyword in event title
+- Calendar: new options "limitDays" and "coloredEvents".
+- Added new option "limitDays" - limit the number of discreet days displayed.
+- Added new option "customEvents" - use custom symbol/color based on keyword in event title.
+- Added GitHub workflows for automated testing and changelog enforcement.
 
 ### Updated
 
@@ -28,26 +29,28 @@ _This release is scheduled to be released on 2021-01-01._
 - Update dependencies to latest versions.
 - Update dependencies eslint, feedme, simple-git and socket.io to latest versions.
 - Update lithuanian translation.
-- Weather module - Always displays night icons when local is other then English. (#2221)
 
 ### Deleted
+
+- Removed Travis CI intergration. 
 
 ### Fixed
 
 - JSON Parse translation files with comments crashing UI. (#2149)
 - Calendar parsing where RRULE bug returns wrong date, add Windows timezone name support. (#2145, #2151)
 - Wrong node-ical version installed (package.json) requested version. (#2153)
-- Fix calendar fetcher subsequent timing (#2160)
+- Fix calendar fetcher subsequent timing. (#2160)
 - Rename Greek translation to correct ISO 639-1 alpha-2 code (gr > el). (#2155)
-- Add a space after icons of sunrise and sunset (#2169)
-- Fix calendar when no DTEND record found in event, startDate overlay when endDate set (#2177)
-- Fix windspeed convertion error in ukmetoffice weather provider (#2189)
-- Fix console.debug not having timestamps (#2199)
-- Fix calendar full day event east of UTC start time (#2200)
-- Fix non-fullday recurring rule processing (#2216)
-- Catch errors when parsing calendar data with ical (#2022)
-- Corrected logic for timeFormat "relative" and "absolute"
-- Fix Default Alert Module does not hide black overlay when alert is dismissed manually (#2228)
+- Add a space after icons of sunrise and sunset. (#2169)
+- Fix calendar when no DTEND record found in event, startDate overlay when endDate set. (#2177)
+- Fix windspeed convertion error in ukmetoffice weather provider. (#2189)
+- Fix console.debug not having timestamps. (#2199)
+- Fix calendar full day event east of UTC start time. (#2200)
+- Fix non-fullday recurring rule processing. (#2216)
+- Catch errors when parsing calendar data with ical. (#2022)
+- Corrected logic for timeFormat "relative" and "absolute".
+- Fix Default Alert Module does not hide black overlay when alert is dismissed manually. (#2228)
+- Weather module - Always displays night icons when local is other then English. (#2221)
 
 ## [2.13.0] - 2020-10-01
 
