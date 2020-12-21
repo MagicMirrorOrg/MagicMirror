@@ -32,7 +32,7 @@ _This release is scheduled to be released on 2021-01-01._
 
 ### Deleted
 
-- Removed Travis CI intergration. 
+- Removed Travis CI intergration.
 
 ### Fixed
 
