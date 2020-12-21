@@ -5,12 +5,12 @@ name: MagicMirror Automated Testing
 
 on:
   push:
-    branches: [ master, develop, ci-test ]
+    branches: [ master, develop ]
   pull_request:
-    branches: [ master, develop, ci-test ]
+    branches: [ master, develop ]
 
 jobs:
-  build:
+  test:
 
     runs-on: ubuntu-latest
 
