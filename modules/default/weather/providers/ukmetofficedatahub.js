@@ -87,7 +87,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 					// Did not receive usable new data.
 					// Maybe this needs a better check?
 					Log.error("Possibly bad current/hourly data?");
-					Log.info(data);
+					Log.error(data);
 					return;
 				}
 
@@ -108,7 +108,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 
 	// Create a WeatherObject using current weather data (data for the current hour)
 	generateWeatherObjectFromCurrentWeather(currentWeatherData) {
-		const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+		const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
 
 		// Extract the actual forecasts
 		let forecastDataHours = currentWeatherData.features[0].properties.timeSeries;
@@ -158,7 +158,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 					// Did not receive usable new data.
 					// Maybe this needs a better check?
 					Log.error("Possibly bad forecast data?");
-					Log.info(data);
+					Log.error(data);
 					return;
 				}
 
@@ -189,7 +189,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 
 		// Go through each day in the forecasts
 		for (day in forecastDataDays) {
-			const forecastWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+			const forecastWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
 
 			// Get date of forecast
 			let forecastDate = moment.utc(forecastDataDays[day].time);
@@ -254,7 +254,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 			return windInMpS;
 		}
 
-		if (this.config.windUnits == "kph" || this.config.windUnits == "metric") {
+		if (this.config.windUnits == "kph" || this.config.windUnits == "metric" || this.config.useKmh) {
 			return windInMpS * 3.6;
 		}
 
