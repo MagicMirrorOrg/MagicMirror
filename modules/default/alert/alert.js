@@ -103,8 +103,10 @@ Module.register("alert", {
 			onClose: () => this.hide_alert(sender),
 			al_no: "ns-alert"
 		});
+
 		//Show alert
 		this.alerts[sender.name].show();
+
 		//Add timer to dismiss alert and overlay
 		if (params.timer) {
 			setTimeout(() => {
