@@ -5,7 +5,7 @@ on:
 
 jobs:
   # Enforces the update of a changelog file on every pull request 
-  changelog:
+  check:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
