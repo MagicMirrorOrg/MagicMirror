@@ -48,6 +48,8 @@ WeatherProvider.register("smhi", {
 
 	/**
 	 * Overrides method for setting config with checks for the precipitationValue being unset or invalid
+	 *
+	 * @param config
 	 */
 	setConfig(config) {
 		this.config = config;
@@ -59,6 +61,8 @@ WeatherProvider.register("smhi", {
 
 	/**
 	 * Of all the times returned find out which one is closest to the current time, should be the first if the data isn't old.
+	 *
+	 * @param times
 	 */
 	getClosestToCurrentTime(times) {
 		let now = moment();
@@ -85,6 +89,11 @@ WeatherProvider.register("smhi", {
 	 * Converts the returned data into a WeatherObject with required properties set for both current weather and forecast.
 	 * The returned units is always in metric system.
 	 * Requires coordinates to determine if its daytime or nighttime to know which icon to use and also to set sunrise and sunset.
+	 *
+	 * @param weatherData
+	 * @param coordinates
+	 * @param weatherData
+	 * @param coordinates
 	 */
 	convertWeatherDataToObject(weatherData, coordinates) {
 		let currentWeather = new WeatherObject("metric", "metric", "metric"); //Weather data is only for Sweden and nobody in Sweden would use imperial
@@ -126,6 +135,11 @@ WeatherProvider.register("smhi", {
 
 	/**
 	 * Takes all of the data points and converts it to one WeatherObject per day.
+	 *
+	 * @param allWeatherData
+	 * @param coordinates
+	 * @param allWeatherData
+	 * @param coordinates
 	 */
 	convertWeatherDataGroupedByDay(allWeatherData, coordinates) {
 		var currentWeather;
@@ -171,13 +185,17 @@ WeatherProvider.register("smhi", {
 
 	/**
 	 * Resolve coordinates from the response data (probably preferably to use this if it's not matching the config values exactly)
+	 *
+	 * @param data
 	 */
 	resolveCoordinates(data) {
 		return { lat: data.geometry.coordinates[0][1], lon: data.geometry.coordinates[0][0] };
 	},
 
 	/**
-	 * Checks if the weatherObject is at dayTime
+	 * Checks if the weatherObject is at dayTime.
+	 *
+	 * @param weatherObject
 	 */
 	isDayTime(weatherObject) {
 		return weatherObject.date.isBetween(weatherObject.sunrise, weatherObject.sunset, undefined, "[]");
@@ -186,6 +204,8 @@ WeatherProvider.register("smhi", {
 	/**
 	 * The distance between the data points is increasing in the data the more distant the prediction is.
 	 * Find these gaps and fill them with the previous hours data to make the data returned a complete set.
+	 *
+	 * @param data
 	 */
 	fillInGaps(data) {
 		let result = [];
@@ -206,6 +226,11 @@ WeatherProvider.register("smhi", {
 	/**
 	 * Helper method to fetch a property from the returned data set.
 	 * The returned values is an array with always one value in it.
+	 *
+	 * @param currentWeatherData
+	 * @param name
+	 * @param currentWeatherData
+	 * @param name
 	 */
 	paramValue(currentWeatherData, name) {
 		return currentWeatherData.parameters.filter((p) => p.name == name).flatMap((p) => p.values)[0];
@@ -215,6 +240,11 @@ WeatherProvider.register("smhi", {
 	 * Map the icon value from SHMI to an icon that MagicMirror understands.
 	 * Uses different icons depending if its daytime or nighttime.
 	 * SHMI's description of what the numeric value means is the comment after the case.
+	 *
+	 * @param input
+	 * @param isDayTime
+	 * @param input
+	 * @param isDayTime
 	 */
 	convertWeatherType(input, isDayTime) {
 		switch (input) {
