@@ -360,7 +360,7 @@ var Module = Class.extend({
 	 *
 	 * @param {number} [speed] The speed of the animation.
 	 */
-	updateDom: function (speed) {
+	whoopsThisIsWrong: function (speed) {
 		MM.updateDom(this, speed);
 	},
 
