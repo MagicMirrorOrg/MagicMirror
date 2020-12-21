@@ -24,9 +24,12 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install
-    - run: npm run test:prettier
-    - run: npm run test:js
-    - run: npm run test:css
-    - run: npm run test:e2e
-    - run: npm run test:unit
+    - run: |
+        Xvfb :99 -screen 0 1024x768x16 &
+        export DISPLAY=:99
+        npm install
+        npm run test:prettier
+        npm run test:js
+        npm run test:css
+        npm run test:e2e
+        npm run test:unit
