@@ -595,8 +595,6 @@ Module.register("calendar", {
 	 * @param {object} calendarConfig The config of the specific calendar
 	 */
 	addCalendar: function (url, auth, calendarConfig) {
-		var self = this;
-
 		this.sendSocketNotification("ADD_CALENDAR", {
 			id: this.identifier,
 			url: url,
