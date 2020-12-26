@@ -93,6 +93,7 @@ Special thanks to the following contributors: @Alvinger, @AndyPoms, @ashishtank,
 - Added missing function call in module.show()
 - Translator variables can have falsy values (e.g. empty string)
 - Fix issue with weather module with DEGREE label in FEELS like
+- Refactor calendar fetcher
 
 ### Deleted
 
