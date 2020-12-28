@@ -10,10 +10,11 @@
  * As soon as we start implementing the forecast, mode properties will be added.
  */
 class WeatherObject {
-	constructor(units, tempUnits, windUnits) {
+	constructor(units, tempUnits, windUnits, useKmh) {
 		this.units = units;
 		this.tempUnits = tempUnits;
 		this.windUnits = windUnits;
+		this.useKmh = useKmh;
 		this.date = null;
 		this.windSpeed = null;
 		this.windDirection = null;
@@ -67,7 +68,7 @@ class WeatherObject {
 	}
 
 	beaufortWindSpeed() {
-		const windInKmh = this.windUnits === "imperial" ? this.windSpeed * 1.609344 : (this.windSpeed * 60 * 60) / 1000;
+		const windInKmh = this.windUnits === "imperial" ? this.windSpeed * 1.609344 : this.useKmh ? this.windSpeed : (this.windSpeed * 60 * 60) / 1000;
 		const speeds = [1, 5, 11, 19, 28, 38, 49, 61, 74, 88, 102, 117, 1000];
 		for (const [index, speed] of speeds.entries()) {
 			if (speed > windInKmh) {
@@ -75,6 +76,11 @@ class WeatherObject {
 			}
 		}
 		return 12;
+	}
+
+	kmhWindSpeed() {
+		const windInKmh = this.windUnits === "imperial" ? this.windSpeed * 1.609344 : (this.windSpeed * 60 * 60) / 1000;
+		return windInKmh;
 	}
 
 	nextSunAction() {
