@@ -52,6 +52,7 @@ _This release is scheduled to be released on 2021-01-01._
 - Fix Default Alert Module does not hide black overlay when alert is dismissed manually. (#2228)
 - Weather module - Always displays night icons when local is other then English. (#2221)
 - update Node-ical 0.12.4 , fix invalid RRULE format in cal entries
+- fix package.json for optional electron dependency (2378)
 
 ## [2.13.0] - 2020-10-01
 

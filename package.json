@@ -70,7 +70,6 @@
 	"dependencies": {
 		"colors": "^1.4.0",
 		"console-stamp": "^3.0.0-rc4.2",
-		"electron": "^8.5.3",
 		"eslint": "^7.15.0",
 		"express": "^4.17.1",
 		"express-ipfilter": "^1.1.2",
