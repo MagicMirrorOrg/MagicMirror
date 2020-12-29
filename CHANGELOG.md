@@ -29,6 +29,7 @@ _This release is scheduled to be released on 2021-01-01._
 - Update dependencies to latest versions.
 - Update dependencies eslint, feedme, simple-git and socket.io to latest versions.
 - Update lithuanian translation.
+- Update config sample.
 
 ### Deleted
 
