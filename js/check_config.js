@@ -46,7 +46,7 @@ function checkConfigFile() {
 	try {
 		fs.accessSync(configFileName, fs.F_OK);
 	} catch (e) {
-		Log.log(Utils.colors.error(e));
+		Log.error(Utils.colors.error(e));
 		throw new Error("No permission to access config file!");
 	}
 
