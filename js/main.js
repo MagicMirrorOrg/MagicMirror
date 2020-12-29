@@ -502,7 +502,7 @@ var MM = (function () {
 			modules = [];
 			for (var m in moduleObjects) {
 				var module = moduleObjects[m];
-				modules[module.data.index] = module;
+				modules[m] = module;
 			}
 
 			Log.info("All modules started!");
