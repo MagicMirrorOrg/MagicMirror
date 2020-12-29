@@ -28,7 +28,7 @@ var config = {
 	httpsCertificate: "", 	// HTTPS Certificate path, only require when useHttps is true
 
 	language: "en",
-	logLevel: ["DEBUG", "INFO", "LOG", "WARN", "ERROR"],
+	logLevel: ["INFO", "LOG", "WARN", "ERROR"], // Add "DEBUG" for even more logging
 	timeFormat: 24,
 	units: "metric",
 	// serverOnly:  true/false/"local" ,
