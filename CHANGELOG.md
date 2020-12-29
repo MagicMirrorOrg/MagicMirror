@@ -56,6 +56,7 @@ _This release is scheduled to be released on 2021-01-01._
 - update Node-ical 0.12.4 , fix invalid RRULE format in cal entries
 - fix package.json for optional electron dependency (2378)
 - update node-ical version again, 0.12.5, change RRULE fix (#2371, #2379)
+- Added missing function call in module.show()
 
 ## [2.13.0] - 2020-10-01
 
