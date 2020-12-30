@@ -181,7 +181,7 @@ Module.register("weather", {
 
 	roundValue: function (temperature) {
 		var decimals = this.config.roundTemp ? 0 : 1;
-		return parseFloat(temperature).toFixed(decimals);
+		return parseFloat(Math.abs(temperature) < 0.5 && this.config.roundTemp ?  0 : temperature).toFixed(decimals);
 	},
 
 	addFilters() {
