@@ -58,6 +58,7 @@ _This release is scheduled to be released on 2021-01-01._
 - update node-ical version again, 0.12.5, change RRULE fix (#2371, #2379)
 - Added missing function call in module.show()
 - remove undefined objects from modules array (#2382)
+- update node-ical version again, 0.12.7, change RRULE fix (#2371, #2379), node-ical now throws error (which we catch)
 
 ## [2.13.0] - 2020-10-01
 
