@@ -68,7 +68,7 @@ var Translator = (function () {
 					template = variables.fallback;
 				}
 				return template.replace(new RegExp("{([^}]+)}", "g"), function (_unused, varName) {
-					return variables[varName] || "{" + varName + "}";
+					return varName in variables ? variables[varName] : "{" + varName + "}";
 				});
 			}
 

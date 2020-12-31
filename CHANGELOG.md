@@ -39,6 +39,7 @@ _This release is scheduled to be released on 2021-01-01._
 
 ### Fixed
 
+- No select Text for TouchScreen use
 - JSON Parse translation files with comments crashing UI. (#2149)
 - Calendar parsing where RRULE bug returns wrong date, add Windows timezone name support. (#2145, #2151)
 - Wrong node-ical version installed (package.json) requested version. (#2153)
@@ -59,6 +60,9 @@ _This release is scheduled to be released on 2021-01-01._
 - update node-ical version again, 0.12.5, change RRULE fix (#2371, #2379)
 - Added missing function call in module.show()
 - remove undefined objects from modules array (#2382)
+- update node-ical version again, 0.12.7, change RRULE fix (#2371, #2379), node-ical now throws error (which we catch)
+- update simple-git version to 2.31 unhandled promise rejection (#2383)
+- Translator variables can have falsy values (e.g. empty string)
 
 ## [2.13.0] - 2020-10-01
 
