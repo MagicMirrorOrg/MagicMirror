@@ -258,7 +258,13 @@ Module.register("currentweather", {
 
 			var feelsLike = document.createElement("span");
 			feelsLike.className = "dimmed";
-			feelsLike.innerHTML = this.translate("FEELS") + " " + this.feelsLike + degreeLabel;
+			var feelsLikeHtml = this.translate("FEELS");
+			if (feelsLikeHtml.indexOf("{DEGREE}") > -1) {
+				feelsLikeHtml = this.translate("FEELS", {
+					DEGREE: this.feelsLike + degreeLabel
+				});
+			} else feelsLikeHtml += " " + this.feelsLike + degreeLabel;
+			feelsLike.innerHTML = feelsLikeHtml;
 			small.appendChild(feelsLike);
 
 			wrapper.appendChild(small);

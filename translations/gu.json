@@ -33,6 +33,6 @@
 	"UPDATE_INFO_SINGLE": "વર્તમાન ઇન્સ્ટોલેશન  એ  {BRANCH_NAME} શાખા  ની {COMMIT_COUNT} કમીટ પાછળ છે. ",
 	"UPDATE_INFO_MULTIPLE": "વર્તમાન ઇન્સ્ટોલેશન  એ  {BRANCH_NAME} શાખા  ની {COMMIT_COUNT} કમીટ પાછળ છે. ",
 
-	"FEELS": "જેવી લાગે છે",
+	"FEELS": "{DEGREE} જેવું લાગશે",
 	"PRECIP": "PoP"
 }
