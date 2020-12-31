@@ -18,6 +18,7 @@ _This release is scheduled to be released on 2021-01-01._
 - Added SMHI as a provider to Weather module.
 - Added Hindi & Gujarati translation.
 - Added optional support for DEGREE position in Feels like translation
+- Added support for variables in nunjucks templates for translate filter
 - Chuvash translation.
 - Calendar: new options "limitDays" and "coloredEvents".
 - Added new option "limitDays" - limit the number of discreet days displayed.
@@ -63,6 +64,7 @@ _This release is scheduled to be released on 2021-01-01._
 - update node-ical version again, 0.12.7, change RRULE fix (#2371, #2379), node-ical now throws error (which we catch)
 - update simple-git version to 2.31 unhandled promise rejection (#2383)
 - Translator variables can have falsy values (e.g. empty string)
+- Fix issue with weather module with DEGREE label in FEELS like
 
 ## [2.13.0] - 2020-10-01
 
