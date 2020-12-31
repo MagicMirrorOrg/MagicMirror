@@ -13,14 +13,6 @@ const https = require("https");
 const base64 = require("base-64");
 
 /**
- * Moment date
- *
- * @external Moment
- * @see {@link http://momentjs.com}
- */
-const moment = require("moment");
-
-/**
  *
  * @param {string} url The url of the calendar to fetch
  * @param {number} reloadInterval Time in ms the calendar is fetched again
@@ -33,8 +25,6 @@ const moment = require("moment");
  * @class
  */
 const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, includePastEvents, selfSignedCert) {
-	const self = this;
-
 	let reloadTimer = null;
 	let events = [];
 
@@ -44,7 +34,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 	/**
 	 * Initiates calendar fetch.
 	 */
-	const fetchCalendar = function () {
+	const fetchCalendar = () => {
 		clearTimeout(reloadTimer);
 		reloadTimer = null;
 		const nodeVersion = Number(process.version.match(/^v(\d+\.\d+)/)[1]);
@@ -102,7 +92,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 					scheduleTimer();
 					return;
 				}
-				self.broadcastEvents();
+				this.broadcastEvents();
 				scheduleTimer();
 			});
 	};
@@ -131,7 +121,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 	 */
 	this.broadcastEvents = function () {
 		Log.info("Calendar-Fetcher: Broadcasting " + events.length + " events.");
-		eventsReceivedCallback(self);
+		eventsReceivedCallback(this);
 	};
 
 	/**
