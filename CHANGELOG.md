@@ -59,6 +59,7 @@ _This release is scheduled to be released on 2021-01-01._
 - Added missing function call in module.show()
 - remove undefined objects from modules array (#2382)
 - update node-ical version again, 0.12.7, change RRULE fix (#2371, #2379), node-ical now throws error (which we catch)
+- update simple-git version to 2.31 unhandled promise rejection (#2383)
 
 ## [2.13.0] - 2020-10-01
 
