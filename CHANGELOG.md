@@ -17,7 +17,6 @@ _This release is scheduled to be released on 2021-01-01._
 - Added Weatherbit as a provider to Weather module.
 - Added SMHI as a provider to Weather module.
 - Added Hindi & Gujarati translation.
-- Added optional support for DEGREE position in Feels like translation
 - Chuvash translation.
 - Calendar: new options "limitDays" and "coloredEvents".
 - Added new option "limitDays" - limit the number of discreet days displayed.
