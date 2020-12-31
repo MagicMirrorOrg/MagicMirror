@@ -33,6 +33,6 @@
 	"UPDATE_INFO_SINGLE": "वर्तमान स्थापना {COMMIT_COUNT} {BRANCH_NAME} शाखा के पीछे है।",
 	"UPDATE_INFO_MULTIPLE": "वर्तमान स्थापना {COMMIT_COUNT} पीछे {BRANCH_NAME} शाखा पर है।",
 
-	"FEELS": "की तरह लगना",
+	"FEELS": "{DEGREE} की तरह लगना",
 	"PRECIP": "PoP"
 }
