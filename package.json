@@ -70,7 +70,6 @@
 	"dependencies": {
 		"colors": "^1.4.0",
 		"console-stamp": "^3.0.0-rc4.2",
-		"electron": "^8.5.3",
 		"eslint": "^7.15.0",
 		"express": "^4.17.1",
 		"express-ipfilter": "^1.1.2",
@@ -80,7 +79,7 @@
 		"iconv-lite": "^0.6.2",
 		"module-alias": "^2.2.2",
 		"moment": "^2.29.1",
-		"node-ical": "^0.12.4",
+		"node-ical": "^0.12.5",
 		"request": "^2.88.2",
 		"rrule": "^2.6.6",
 		"rrule-alt": "^2.2.8",

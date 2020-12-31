@@ -25,10 +25,12 @@ _This release is scheduled to be released on 2021-01-01._
 
 ### Updated
 
+- Merging .gitignore in the config-folder with the .gitignore in the root-folder.
 - Weather module - forecast now show TODAY and TOMORROW instead of weekday, to make it easier to understand.
 - Update dependencies to latest versions.
 - Update dependencies eslint, feedme, simple-git and socket.io to latest versions.
 - Update lithuanian translation.
+- Update config sample.
 
 ### Deleted
 
@@ -52,6 +54,10 @@ _This release is scheduled to be released on 2021-01-01._
 - Fix Default Alert Module does not hide black overlay when alert is dismissed manually. (#2228)
 - Weather module - Always displays night icons when local is other then English. (#2221)
 - update Node-ical 0.12.4 , fix invalid RRULE format in cal entries
+- fix package.json for optional electron dependency (2378)
+- update node-ical version again, 0.12.5, change RRULE fix (#2371, #2379)
+- Added missing function call in module.show()
+- remove undefined objects from modules array (#2382)
 
 ## [2.13.0] - 2020-10-01
 
