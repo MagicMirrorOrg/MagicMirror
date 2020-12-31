@@ -52,7 +52,8 @@ Module.register("weather", {
 		onlyTemp: false,
 		showPrecipitationAmount: false,
 		colored: false,
-		showFeelsLike: true
+		showFeelsLike: true,
+		feelsLikeWithDegree: false
 	},
 
 	// Module properties.
@@ -87,6 +88,8 @@ Module.register("weather", {
 
 		// Let the weather provider know we are starting.
 		this.weatherProvider.start();
+
+		this.config.feelsLikeWithDegree = this.translate("FEELS").indexOf("{DEGREE}") > -1;
 
 		// Add custom filters
 		this.addFilters();

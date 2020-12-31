@@ -175,8 +175,8 @@ var Module = Class.extend({
 			lstripBlocks: true
 		});
 
-		this._nunjucksEnvironment.addFilter("translate", function (str) {
-			return self.translate(str);
+		this._nunjucksEnvironment.addFilter("translate", function (str, variables) {
+			return self.translate(str, variables);
 		});
 
 		return this._nunjucksEnvironment;
