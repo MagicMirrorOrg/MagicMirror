@@ -76,7 +76,18 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 				return;
 			}
 
-			const data = ical.parseICS(requestData);
+			let data = [];
+
+			try {
+				data = ical.parseICS(requestData);
+			} catch (error) {
+				fetchFailedCallback(self, error.message);
+				scheduleTimer();
+				return;
+			}
+
+			Log.debug(" parsed data=" + JSON.stringify(data));
+
 			const newEvents = [];
 
 			// limitFunction doesn't do much limiting, see comment re: the dates array in rrule section below as to why we need to do the filtering ourselves
@@ -85,15 +96,15 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 			};
 
 			const eventDate = function (event, time) {
-				return event[time].length === 8 ? moment(event[time], "YYYYMMDD") : moment(new Date(event[time]));
+				return isFullDayEvent(event) ? moment(event[time], "YYYYMMDD") : moment(new Date(event[time]));
 			};
-
+			Log.debug("there are " + Object.entries(data).length + " calendar entries");
 			Object.entries(data).forEach(([key, event]) => {
 				const now = new Date();
 				const today = moment().startOf("day").toDate();
 				const future = moment().startOf("day").add(maximumNumberOfDays, "days").subtract(1, "seconds").toDate(); // Subtract 1 second so that events that start on the middle of the night will not repeat.
 				let past = today;
-
+				Log.debug("have entries ");
 				if (includePastEvents) {
 					past = moment().startOf("day").subtract(maximumNumberOfDays, "days").toDate();
 				}
@@ -111,17 +122,21 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 					let startDate = eventDate(event, "start");
 					let endDate;
 
+					Log.debug("\nevent=" + JSON.stringify(event));
 					if (typeof event.end !== "undefined") {
 						endDate = eventDate(event, "end");
 					} else if (typeof event.duration !== "undefined") {
 						endDate = startDate.clone().add(moment.duration(event.duration));
 					} else {
 						if (!isFacebookBirthday) {
-							endDate = startDate;
+							// make copy of start date, separate storage area
+							endDate = moment(startDate.format("x"), "x");
 						} else {
 							endDate = moment(startDate).add(1, "days");
 						}
 					}
+
+					Log.debug(" start=" + startDate.toDate() + " end=" + endDate.toDate());
 
 					// calculate the duration of the event for use with recurring events.
 					let duration = parseInt(endDate.format("x")) - parseInt(startDate.format("x"));
@@ -209,11 +224,19 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 							pastLocal = pastMoment.toDate();
 							futureLocal = futureMoment.toDate();
 						} else {
-							pastLocal = pastMoment.subtract(past.getTimezoneOffset(), "minutes").toDate();
-							futureLocal = futureMoment.subtract(future.getTimezoneOffset(), "minutes").toDate();
+							// if we want past events
+							if (includePastEvents) {
+								// use the calculated past time for the between from
+								pastLocal = pastMoment.toDate();
+							} else {
+								// otherwise use NOW.. cause we shouldnt use any before now
+								pastLocal = moment().toDate(); //now
+							}
+							futureLocal = futureMoment.toDate(); // future
 						}
+						Log.debug(" between=" + pastLocal + " to " + futureLocal);
 						const dates = rule.between(pastLocal, futureLocal, true, limitFunction);
-
+						Log.debug("title=" + event.summary + " dates=" + JSON.stringify(dates));
 						// The "dates" array contains the set of dates within our desired date range range that are valid
 						// for the recurrence rule. *However*, it's possible for us to have a specific recurrence that
 						// had its date changed from outside the range to inside the range.  For the time being,
@@ -230,10 +253,9 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 								}
 							}
 						}
-
 						// Loop through the set of date entries to see which recurrences should be added to our event list.
 						for (let d in dates) {
-							const date = dates[d];
+							let date = dates[d];
 							// ical.js started returning recurrences and exdates as ISOStrings without time information.
 							// .toISOString().substring(0,10) is the method they use to calculate keys, so we'll do the same
 							// (see https://github.com/peterbraden/ical.js/pull/84 )
@@ -241,7 +263,28 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 							let curEvent = event;
 							let showRecurrence = true;
 
+							// for full day events, the time might be off from RRULE/Luxon problem
+							if (isFullDayEvent(event)) {
+								Log.debug("fullday");
+								// if the offset is  negative, east of GMT where the problem is
+								if (date.getTimezoneOffset() < 0) {
+									// get the offset of today where we are processing
+									// this will be the correction we need to apply
+									let nowOffset = new Date().getTimezoneOffset();
+									Log.debug("now offset is " + nowOffset);
+									// reduce the time by the offset
+									Log.debug(" recurring date is " + date + " offset is " + date.getTimezoneOffset());
+									// apply the correction to the date/time to get it UTC relative
+									date = new Date(date.getTime() - Math.abs(nowOffset) * 60000);
+									// the duration was calculated way back at the top before we could correct the start time..
+									// fix it for this event entry
+									duration = 24 * 60 * 60 * 1000;
+									Log.debug("new recurring date is " + date);
+								}
+							}
 							startDate = moment(date);
+
+							let adjustDays = getCorrection(event, date);
 
 							// For each date that we're checking, it's possible that there is a recurrence override for that one day.
 							if (curEvent.recurrences !== undefined && curEvent.recurrences[dateKey] !== undefined) {
@@ -255,6 +298,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 								// This date is an exception date, which means we should skip it in the recurrence pattern.
 								showRecurrence = false;
 							}
+							Log.debug("duration=" + duration);
 
 							endDate = moment(parseInt(startDate.format("x")) + duration, "x");
 							if (startDate.format("x") === endDate.format("x")) {
@@ -274,11 +318,12 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 							}
 
 							if (showRecurrence === true) {
+								Log.debug("saving event =" + description);
 								addedEvents++;
 								newEvents.push({
 									title: recurrenceTitle,
-									startDate: startDate.format("x"),
-									endDate: endDate.format("x"),
+									startDate: (adjustDays ? (adjustDays > 0 ? startDate.add(adjustDays, "hours") : startDate.subtract(Math.abs(adjustDays), "hours")) : startDate).format("x"),
+									endDate: (adjustDays ? (adjustDays > 0 ? endDate.add(adjustDays, "hours") : endDate.subtract(Math.abs(adjustDays), "hours")) : endDate).format("x"),
 									fullDayEvent: isFullDayEvent(event),
 									recurringEvent: true,
 									class: event.class,
@@ -293,6 +338,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 					} else {
 						// Single event.
 						const fullDayEvent = isFacebookBirthday ? true : isFullDayEvent(event);
+						// Log.debug("full day event")
 
 						if (includePastEvents) {
 							// Past event is too far in the past, so skip.
@@ -324,12 +370,17 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 						if (fullDayEvent && startDate <= today) {
 							startDate = moment(today);
 						}
-
+						// if the start and end are the same, then make end the 'end of day' value (start is at 00:00:00)
+						if (fullDayEvent && startDate.format("x") === endDate.format("x")) {
+							endDate = endDate.endOf("day");
+						}
+						// get correction for date saving and dst change between now and then
+						let adjustDays = getCorrection(event, startDate.toDate());
 						// Every thing is good. Add it to the list.
 						newEvents.push({
 							title: title,
-							startDate: startDate.format("x"),
-							endDate: endDate.format("x"),
+							startDate: (adjustDays ? (adjustDays > 0 ? startDate.add(adjustDays, "hours") : startDate.subtract(Math.abs(adjustDays), "hours")) : startDate).format("x"),
+							endDate: (adjustDays ? (adjustDays > 0 ? endDate.add(adjustDays, "hours") : endDate.subtract(Math.abs(adjustDays), "hours")) : endDate).format("x"),
 							fullDayEvent: fullDayEvent,
 							class: event.class,
 							location: location,
@@ -344,11 +395,136 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 				return a.startDate - b.startDate;
 			});
 
-			events = newEvents.slice(0, maximumEntries);
+			// include up to maximumEntries current or upcoming events
+			// If past events should be included, include all past events
+			const now = moment();
+			var entries = 0;
+			events = [];
+			for (let ne of newEvents) {
+				if (moment(ne.endDate, "x").isBefore(now)) {
+					if (includePastEvents) events.push(ne);
+					continue;
+				}
+				entries++;
+				// If max events has been saved, skip the rest
+				if (entries > maximumEntries) break;
+				events.push(ne);
+			}
 
 			self.broadcastEvents();
 			scheduleTimer();
 		});
+	};
+
+	/*
+	 *
+	 *	get the time correction, either dst/std or full day in cases where utc time is day before plus offset
+	 *
+	 */
+	const getCorrection = function (event, date) {
+		let adjustHours = 0;
+		// if a timezone was specified
+		if (!event.start.tz) {
+			Log.debug(" if no tz, guess based on now");
+			event.start.tz = moment.tz.guess();
+		}
+		Log.debug("initial tz=" + event.start.tz);
+
+		// if there is a start date specified
+		if (event.start.tz) {
+			// if this is a windows timezone
+			if (event.start.tz.includes(" ")) {
+				// use the lookup table to get theIANA name as moment and date don't know MS timezones
+				let tz = getIanaTZFromMS(event.start.tz);
+				Log.debug("corrected TZ=" + tz);
+				// watch out for unregistered windows timezone names
+				// if we had a successfule lookup
+				if (tz) {
+					// change the timezone to the IANA name
+					event.start.tz = tz;
+					// Log.debug("corrected timezone="+event.start.tz)
+				}
+			}
+			Log.debug("corrected tz=" + event.start.tz);
+			let current_offset = 0; // offset  from TZ string or calculated
+			let mm = 0; // date with tz or offset
+			let start_offset = 0; // utc offset of created with tz
+			// if there is still an offset, lookup failed, use it
+			if (event.start.tz.startsWith("(")) {
+				const regex = /[+|-]\d*:\d*/;
+				const start_offsetString = event.start.tz.match(regex).toString().split(":");
+				let start_offset = parseInt(start_offsetString[0]);
+				start_offset *= event.start.tz[1] === "-" ? -1 : 1;
+				adjustHours = start_offset;
+				Log.debug("defined offset=" + start_offset + " hours");
+				current_offset = start_offset;
+				event.start.tz = "";
+				Log.debug("ical offset=" + current_offset + " date=" + date);
+				mm = moment(date);
+				let x = parseInt(moment(new Date()).utcOffset());
+				Log.debug("net mins=" + (current_offset * 60 - x));
+
+				mm = mm.add(x - current_offset * 60, "minutes");
+				adjustHours = (current_offset * 60 - x) / 60;
+				event.start = mm.toDate();
+				Log.debug("adjusted date=" + event.start);
+			} else {
+				// get the start time in that timezone
+				Log.debug("start date/time=" + moment(event.start).toDate());
+				start_offset = moment.tz(moment(event.start), event.start.tz).utcOffset();
+				Log.debug("start offset=" + start_offset);
+
+				Log.debug("start date/time w tz =" + moment.tz(moment(event.start), event.start.tz).toDate());
+
+				// get the specified date in that timezone
+				mm = moment.tz(moment(date), event.start.tz);
+				Log.debug("event date=" + mm.toDate());
+				current_offset = mm.utcOffset();
+			}
+			Log.debug("event offset=" + current_offset + " hour=" + mm.format("H") + " event date=" + mm.toDate());
+
+			// if the offset is greater than 0, east of london
+			if (current_offset !== start_offset) {
+				// big offset
+				Log.debug("offset");
+				let h = parseInt(mm.format("H"));
+				// check if the event time is less than the offset
+				if (h > 0 && h < Math.abs(current_offset) / 60) {
+					// if so, rrule created a wrong date (utc day, oops, with utc yesterday adjusted time)
+					// we need to fix that
+					adjustHours = 24;
+					// Log.debug("adjusting date")
+				}
+				//-300 > -240
+				//if (Math.abs(current_offset) > Math.abs(start_offset)){
+				if (current_offset > start_offset) {
+					adjustHours -= 1;
+					Log.debug("adjust down 1 hour dst change");
+					//} else if (Math.abs(current_offset) < Math.abs(start_offset)) {
+				} else if (current_offset < start_offset) {
+					adjustHours += 1;
+					Log.debug("adjust up 1 hour dst change");
+				}
+			}
+		}
+		Log.debug("adjustHours=" + adjustHours);
+		return adjustHours;
+	};
+
+	/**
+	 *
+	 *  lookup iana tz from windows
+	 */
+	let zoneTable = null;
+	const getIanaTZFromMS = function (msTZName) {
+		if (!zoneTable) {
+			const p = require("path");
+			zoneTable = require(p.join(__dirname, "windowsZones.json"));
+		}
+		// Get hash entry
+		const he = zoneTable[msTZName];
+		// If found return iana name, else null
+		return he ? he.iana[0] : null;
 	};
 
 	/**
@@ -368,7 +544,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 	 * @returns {boolean} True if the event is a fullday event, false otherwise
 	 */
 	const isFullDayEvent = function (event) {
-		if (event.start.length === 8 || event.start.dateOnly) {
+		if (event.start.length === 8 || event.start.dateOnly || event.datetype === "date") {
 			return true;
 		}
 

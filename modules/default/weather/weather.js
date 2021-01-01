@@ -12,16 +12,14 @@ Module.register("weather", {
 		weatherProvider: "openweathermap",
 		roundTemp: false,
 		type: "current", // current, forecast, daily (equivalent to forecast), hourly (only with OpenWeatherMap /onecall endpoint)
-
 		lat: 0,
 		lon: 0,
 		location: false,
 		locationID: false,
 		units: config.units,
-
+		useKmh: false,
 		tempUnits: config.units,
 		windUnits: config.units,
-
 		updateInterval: 10 * 60 * 1000, // every 10 minutes
 		animationSpeed: 1000,
 		timeFormat: config.timeFormat,
@@ -41,24 +39,21 @@ Module.register("weather", {
 		maxEntries: 5,
 		fade: true,
 		fadePoint: 0.25, // Start on 1/4th of the list.
-
 		initialLoadDelay: 0, // 0 seconds delay
 		retryDelay: 2500,
-
 		apiKey: "",
 		apiSecret: "",
 		apiVersion: "2.5",
 		apiBase: "https://api.openweathermap.org/data/", // TODO: this should not be part of the weather.js file, but should be contained in the openweatherprovider
 		weatherEndpoint: "/weather",
-
 		appendLocationNameToHeader: true,
 		calendarClass: "calendar",
 		tableClass: "small",
-
 		onlyTemp: false,
 		showPrecipitationAmount: false,
 		colored: false,
-		showFeelsLike: true
+		showFeelsLike: true,
+		feelsLikeWithDegree: false
 	},
 
 	// Module properties.
@@ -93,6 +88,8 @@ Module.register("weather", {
 
 		// Let the weather provider know we are starting.
 		this.weatherProvider.start();
+
+		this.config.feelsLikeWithDegree = this.translate("FEELS").indexOf("{DEGREE}") > -1;
 
 		// Add custom filters
 		this.addFilters();

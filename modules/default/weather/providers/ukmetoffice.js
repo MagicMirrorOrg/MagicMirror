@@ -73,7 +73,7 @@ WeatherProvider.register("ukmetoffice", {
 	 * Generate a WeatherObject based on currentWeatherInformation
 	 */
 	generateWeatherObjectFromCurrentWeather(currentWeatherData) {
-		const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+		const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
 
 		// data times are always UTC
 		let nowUtc = moment.utc();
@@ -124,7 +124,7 @@ WeatherProvider.register("ukmetoffice", {
 		// loop round the (5) periods getting the data
 		// for each period array, Day is [0], Night is [1]
 		for (var j in forecasts.SiteRep.DV.Location.Period) {
-			const weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+			const weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
 
 			// data times are always UTC
 			const dateStr = forecasts.SiteRep.DV.Location.Period[j].value;
@@ -208,10 +208,10 @@ WeatherProvider.register("ukmetoffice", {
 	},
 
 	/*
-	 * Convert wind speed (from mph) if required
+	 * Convert wind speed (from mph to m/s or km/h) if required
 	 */
 	convertWindSpeed(windInMph) {
-		return this.windUnits === "metric" ? windInMph * 2.23694 : windInMph;
+		return this.windUnits === "metric" ? (this.useKmh ? windInMph * 1.60934 : windInMph / 2.23694) : windInMph;
 	},
 
 	/*

@@ -9,7 +9,11 @@
                 {% if config.useBeaufort %}
                     {{ current.beaufortWindSpeed() | round }}
                 {% else %}
-                    {{ current.windSpeed | round }}
+                    {% if config.useKmh %}
+                        {{ current.kmhWindSpeed() | round }}
+                    {% else %}
+                        {{ current.windSpeed | round }}
+                    {% endif %}
                 {% endif %}
                 {% if config.showWindDirection %}
                     <sup>
@@ -65,7 +69,10 @@
         <div class="normal medium">
             {% if config.showFeelsLike %}
                 <span class="dimmed">
-                    {{ "FEELS" | translate }} {{ current.feelsLike() | roundValue | unit("temperature") | decimalSymbol }}
+                    {{ "FEELS" | translate({DEGREE: current.feelsLike() | roundValue | unit("temperature") | decimalSymbol }) }} 
+					{% if not config.feelsLikeWithDegree %}
+					{{ current.feelsLike() | roundValue | unit("temperature") | decimalSymbol }}
+					{% endif %}
                 </span>
             {% endif %}
             {% if config.showPrecipitationAmount %}

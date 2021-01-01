@@ -5,6 +5,70 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror²
 
+## [2.14.0] - 2021-01-01
+
+Special thanks to the following contributors: @Alvinger, @AndyPoms, @ashishtank, @bluemanos, @flopp999, @jakemulley, @jakobsarwary1, @marvai-vgtu, @mirontoli, @rejas, @sdetweil, @Snille & @Sub028.
+
+ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`.
+
+### Added
+
+- Added new log level "debug" to the logger.
+- Added new parameter "useKmh" to weather module for displaying wind speed as kmh.
+- Chuvash translation.
+- Added Weatherbit as a provider to Weather module.
+- Added SMHI as a provider to Weather module.
+- Added Hindi & Gujarati translation.
+- Added optional support for DEGREE position in Feels like translation.
+- Added support for variables in nunjucks templates for translate filter.
+- Added Chuvash translation.
+- Calendar: new options "limitDays" and "coloredEvents".
+- Added new option "limitDays" - limit the number of discreet days displayed.
+- Added new option "customEvents" - use custom symbol/color based on keyword in event title.
+- Added GitHub workflows for automated testing and changelog enforcement.
+
+### Updated
+
+- Merging .gitignore in the config-folder with the .gitignore in the root-folder.
+- Weather module - forecast now show TODAY and TOMORROW instead of weekday, to make it easier to understand.
+- Update dependencies to latest versions.
+- Update dependencies eslint, feedme, simple-git and socket.io to latest versions.
+- Update lithuanian translation.
+- Update config sample.
+- Highlight required version mismatch.
+- No select Text for TouchScreen use.
+- Corrected logic for timeFormat "relative" and "absolute".
+- Added missing function call in module.show()
+- Translator variables can have falsy values (e.g. empty string)
+- Fix issue with weather module with DEGREE label in FEELS like
+
+### Deleted
+
+- Removed Travis CI intergration.
+
+### Fixed
+
+- JSON Parse translation files with comments crashing UI. (#2149)
+- Calendar parsing where RRULE bug returns wrong date, add Windows timezone name support. (#2145, #2151)
+- Wrong node-ical version installed (package.json) requested version. (#2153)
+- Fix calendar fetcher subsequent timing. (#2160)
+- Rename Greek translation to correct ISO 639-1 alpha-2 code (gr > el). (#2155)
+- Add a space after icons of sunrise and sunset. (#2169)
+- Fix calendar when no DTEND record found in event, startDate overlay when endDate set. (#2177)
+- Fix windspeed convertion error in ukmetoffice weather provider. (#2189)
+- Fix console.debug not having timestamps. (#2199)
+- Fix calendar full day event east of UTC start time. (#2200)
+- Fix non-fullday recurring rule processing. (#2216)
+- Catch errors when parsing calendar data with ical. (#2022)
+- Fix Default Alert Module does not hide black overlay when alert is dismissed manually. (#2228)
+- Weather module - Always displays night icons when local is other then English. (#2221)
+- Update Node-ical 0.12.4 , fix invalid RRULE format in cal entries
+- Fix package.json for optional electron dependency (2378)
+- Update node-ical version again, 0.12.5, change RRULE fix (#2371, #2379)
+- Remove undefined objects from modules array (#2382)
+- Update node-ical version again, 0.12.7, change RRULE fix (#2371, #2379), node-ical now throws error (which we catch)
+- Update simple-git version to 2.31 unhandled promise rejection (#2383)
+
 ## [2.13.0] - 2020-10-01
 
 Special thanks to the following contributors: @bryanzzhu, @bugsounet, @chamakura, @cjbrunner, @easyas314, @larryare, @oemel09, @rejas, @sdetweil & @sthuber90.

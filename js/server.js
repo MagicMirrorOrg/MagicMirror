@@ -37,7 +37,7 @@ var Server = function (config, callback) {
 	server.listen(port, config.address ? config.address : "localhost");
 
 	if (config.ipWhitelist instanceof Array && config.ipWhitelist.length === 0) {
-		Log.info(Utils.colors.warn("You're using a full whitelist configuration to allow for all IPs"));
+		Log.warn(Utils.colors.warn("You're using a full whitelist configuration to allow for all IPs"));
 	}
 
 	app.use(function (req, res, next) {
@@ -49,7 +49,7 @@ var Server = function (config, callback) {
 			res.status(403).send("This device is not allowed to access your mirror. <br> Please check your config.js or config.js.sample to change this.");
 		});
 	});
-	app.use(helmet());
+	app.use(helmet({ contentSecurityPolicy: false }));
 
 	app.use("/js", express.static(__dirname));
 	var directories = ["/config", "/css", "/fonts", "/modules", "/vendor", "/translations", "/tests/configs"];

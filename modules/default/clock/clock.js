@@ -187,10 +187,10 @@ Module.register("clock", {
 				'"><i class="fa fa-sun-o" aria-hidden="true"></i> ' +
 				untilNextEventString +
 				"</span>" +
-				'<span><i class="fa fa-arrow-up" aria-hidden="true"></i>' +
+				'<span><i class="fa fa-arrow-up" aria-hidden="true"></i> ' +
 				formatTime(this.config, sunTimes.sunrise) +
 				"</span>" +
-				'<span><i class="fa fa-arrow-down" aria-hidden="true"></i>' +
+				'<span><i class="fa fa-arrow-down" aria-hidden="true"></i> ' +
 				formatTime(this.config, sunTimes.sunset) +
 				"</span>";
 		}

@@ -1,0 +1,38 @@
+{
+	"LOADING": "लोड हो रहा है &hellip;",
+
+	"TODAY": "आज",
+	"TOMORROW": "आने वाला कल",
+	"DAYAFTERTOMORROW": "2 दिनों में",
+	"RUNNING": "में समाप्त",
+	"EMPTY": "कोई आगामी कार्यक्रम नहीं।",
+
+	"WEEK": "सप्ताह {weekNumber}",
+
+	"N": "उ",
+	"NNE": "उउपु",
+	"NE": "उपु",
+	"ENE": "पुउपु",
+	"E": "पु",
+	"ESE": "पुSपु",
+	"SE": "दपु",
+	"SSE": "ददपु",
+	"S": "द",
+	"SSW": "ददW",
+	"SW": "दW",
+	"WSW": "WदW",
+	"W": "प",
+	"WNW": "पउप",
+	"NW": "उप",
+	"NNW": "उउप",
+
+	"MODULE_CONFIG_CHANGED": "{MODULE_NAME} मॉड्यूल के लिए कॉन्फ़िगरेशन विकल्प बदल गए हैं।  n कृपया दस्तावेज़ देखें।",
+
+	"UPDATE_NOTIFICATION": "MagicMirror² अपडेट उपलब्ध।",
+	"UPDATE_NOTIFICATION_MODULE": "{MODULE_NAME} मॉड्यूल के लिए उपलब्ध अद्यतन।",
+	"UPDATE_INFO_SINGLE": "वर्तमान स्थापना {COMMIT_COUNT} {BRANCH_NAME} शाखा के पीछे है।",
+	"UPDATE_INFO_MULTIPLE": "वर्तमान स्थापना {COMMIT_COUNT} पीछे {BRANCH_NAME} शाखा पर है।",
+
+	"FEELS": "{DEGREE} की तरह लगना",
+	"PRECIP": "PoP"
+}

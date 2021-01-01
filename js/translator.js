@@ -19,7 +19,15 @@ var Translator = (function () {
 		xhr.open("GET", file, true);
 		xhr.onreadystatechange = function () {
 			if (xhr.readyState === 4 && xhr.status === 200) {
-				callback(JSON.parse(xhr.responseText));
+				// needs error handler try/catch at least
+				let fileinfo = null;
+				try {
+					fileinfo = JSON.parse(xhr.responseText);
+				} catch (exception) {
+					// nothing here, but don't die
+					Log.error(" loading json file =" + file + " failed");
+				}
+				callback(fileinfo);
 			}
 		};
 		xhr.send(null);
@@ -60,7 +68,7 @@ var Translator = (function () {
 					template = variables.fallback;
 				}
 				return template.replace(new RegExp("{([^}]+)}", "g"), function (_unused, varName) {
-					return variables[varName] || "{" + varName + "}";
+					return varName in variables ? variables[varName] : "{" + varName + "}";
 				});
 			}
 
