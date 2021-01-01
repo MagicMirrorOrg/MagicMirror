@@ -38,6 +38,7 @@ _This release is scheduled to be released on 2021-04-01._
 - Cleaned up jsdoc and tests.
 - Exposed logger as node module for easier access for 3rd party modules
 - Replaced deprecated `request` package with `node-fetch` and `digest-fetch`
+- Refactored calendar fetcher
 
 ### Removed
 
@@ -93,11 +94,10 @@ Special thanks to the following contributors: @Alvinger, @AndyPoms, @ashishtank,
 - Added missing function call in module.show()
 - Translator variables can have falsy values (e.g. empty string)
 - Fix issue with weather module with DEGREE label in FEELS like
-- Refactor calendar fetcher
 
 ### Deleted
 
-- Removed Travis CI intergration.
+- Removed Travis CI integration.
 
 ### Fixed
 
@@ -114,8 +114,8 @@ Special thanks to the following contributors: @Alvinger, @AndyPoms, @ashishtank,
 - Fix non-fullday recurring rule processing. (#2216)
 - Catch errors when parsing calendar data with ical. (#2022)
 - Fix Default Alert Module does not hide black overlay when alert is dismissed manually. (#2228)
-- Weather module - Always displays night icons when local is other then English. (#2221)
-- Update Node-ical 0.12.4 , fix invalid RRULE format in cal entries
+- Weather module - Always displays night icons when local is other than English. (#2221)
+- Update node-ical 0.12.4, fix invalid RRULE format in cal entries
 - Fix package.json for optional electron dependency (2378)
 - Update node-ical version again, 0.12.5, change RRULE fix (#2371, #2379)
 - Remove undefined objects from modules array (#2382)
@@ -130,11 +130,11 @@ Special thanks to the following contributors: @bryanzzhu, @bugsounet, @chamakura
 
 ### Added
 
-- `--dry-run` option adde in fetch call within updatenotification node_helper. This is to prevent
+- `--dry-run` Added option in fetch call within updatenotification node_helper. This is to prevent
   MagicMirror from consuming any fetch result. Causes conflict with MMPM when attempting to check
   for updates to MagicMirror and/or MagicMirror modules.
 - Test coverage with Istanbul, run it with `npm run test:coverage`.
-- Add lithuanian language.
+- Added lithuanian language.
 - Added support in weatherforecast for OpenWeather onecall API.
 - Added config option to calendar-icons for recurring- and fullday-events.
 - Added current, hourly (max 48), and daily (max 7) weather forecasts to weather module via OpenWeatherMap One Call API.
@@ -198,7 +198,7 @@ Special thanks to the following contributors: @AndreKoepke, @andrezibaia, @bryan
 - Fix the use of "maxNumberOfDays" in the module "weatherforecast". [#2018](https://github.com/MichMich/MagicMirror/issues/2018)
 - Throw error when check_config fails. [#1928](https://github.com/MichMich/MagicMirror/issues/1928)
 - Bug fix related to 'maxEntries' not displaying Calendar events. [#2050](https://github.com/MichMich/MagicMirror/issues/2050)
-- Updated ical library to latest version. [#1926](https://github.com/MichMich/MagicMirror/issues/1926)
+- Updated ical library to the latest version. [#1926](https://github.com/MichMich/MagicMirror/issues/1926)
 - Fix config check after merge of prettier [#2109](https://github.com/MichMich/MagicMirror/issues/2109)
 
 ## [2.11.0] - 2020-04-01
