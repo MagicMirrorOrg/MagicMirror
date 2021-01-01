@@ -10,7 +10,7 @@
 		"install-fonts": "echo \"Installing fonts ...\n\" && cd fonts && npm install --loglevel=error",
 		"postinstall": "npm run install-fonts && echo \"MagicMirror installation finished successfully! \n\"",
 		"test": "NODE_ENV=test mocha tests --recursive",
-		"test:coverage": "NODE_ENV=test nyc mocha tests --recursive --timeout=3000",
+		"test:coverage": "NODE_ENV=test nyc --reporter=lcov --reporter=text mocha tests --recursive --timeout=3000",
 		"test:e2e": "NODE_ENV=test mocha tests/e2e --recursive",
 		"test:unit": "NODE_ENV=test mocha tests/unit --recursive",
 		"test:prettier": "prettier --check **/*.{js,css,json,md,yml}",
