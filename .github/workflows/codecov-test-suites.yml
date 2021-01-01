@@ -1,4 +1,6 @@
-name: Run Test Suites
+# This workflow runs the automated test and uploads the coverage results to codecov.io
+
+name: "Run Codecov Tests"
 
 on: [push]
 
@@ -12,4 +14,4 @@ jobs:
           export DISPLAY=:99
           npm install
           npm run test:coverage
-          bash <(curl -s https://codecov.io/bash) # Upload to Codecov
+          bash <(curl -s https://codecov.io/bash)
