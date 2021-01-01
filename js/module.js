@@ -510,7 +510,7 @@ Module.register = function (name, moduleDefinition) {
 		if (cmpVersions(window.version, moduleDefinition.requiresVersion) >= 0) {
 			Log.log("Version is ok!");
 		} else {
-			Log.log("Version is incorrect. Skip module: '" + name + "'");
+			Log.warn("Version is incorrect. Skip module: '" + name + "'");
 			return;
 		}
 	}
