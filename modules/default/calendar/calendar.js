@@ -77,7 +77,7 @@ Module.register("calendar", {
 	// Define required translations.
 	getTranslations: function () {
 		// The translations for the default modules are defined in the core translation files.
-		// Therefor we can just return false. Otherwise we should have returned a dictionary.
+		// Therefore we can just return false. Otherwise we should have returned a dictionary.
 		// If you're trying to build your own module including translations, check out the documentation.
 		return false;
 	},

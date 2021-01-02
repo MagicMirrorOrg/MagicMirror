@@ -74,6 +74,8 @@ module.exports = NodeHelper.create({
 
 	/**
 	 *
+	 * @param {object} fetcher the fetcher associated with the calendar
+	 * @param {string} identifier the identifier of the calendar
 	 */
 	broadcastEvents: function (fetcher, identifier) {
 		this.sendSocketNotification("CALENDAR_EVENTS", {

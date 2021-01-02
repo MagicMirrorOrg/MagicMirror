@@ -18,8 +18,8 @@ const CalendarUtils = {
 	 * Calculate the time correction, either dst/std or full day in cases where
 	 * utc time is day before plus offset
 	 *
-	 * @param event
-	 * @param date
+	 * @param {object} event
+	 * @param {Date} date
 	 * @returns {number} the necessary adjustment in hours
 	 */
 	calculateTimezoneAdjustment: function (event, date) {
