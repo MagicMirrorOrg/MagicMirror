@@ -17,6 +17,8 @@ _This release is scheduled to be released on 2021-04-01._
 
 ### Fixed
 
+- Added default log levels to stop calendar log spamming
+
 ## [2.14.0] - 2021-01-01
 
 Special thanks to the following contributors: @Alvinger, @AndyPoms, @ashishtank, @bluemanos, @flopp999, @jakemulley, @jakobsarwary1, @marvai-vgtu, @mirontoli, @rejas, @sdetweil, @Snille & @Sub028.
