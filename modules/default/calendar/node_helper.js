@@ -65,7 +65,6 @@ module.exports = NodeHelper.create({
 		} else {
 			Log.log("Use existing calendar fetcher for url: " + url);
 			fetcher = this.fetchers[identifier + url];
-			fetcher.setReloadInterval(fetchInterval);
 			fetcher.broadcastEvents();
 		}
 
