@@ -90,7 +90,7 @@ function App() {
 		const deprecated = require(`${global.root_path}/js/deprecated`);
 		const deprecatedOptions = deprecated.configs;
 
-		const usedDeprecated = deprecatedOptions.filter(option => userConfig.hasOwnProperty(option));
+		const usedDeprecated = deprecatedOptions.filter((option) => userConfig.hasOwnProperty(option));
 		if (usedDeprecated.length > 0) {
 			Log.warn(Utils.colors.warn(`WARNING! Your config is using deprecated options: ${usedDeprecated.join(", ")}. Check README and CHANGELOG for more up-to-date ways of getting the same functionality.`));
 		}
@@ -236,7 +236,7 @@ function App() {
 				});
 			});
 		});
-	}
+	};
 
 	/**
 	 * Stops the core app. This calls each node_helper's STOP() function, if it
