@@ -11,6 +11,8 @@ _This release is scheduled to be released on 2021-04-01._
 
 ### Added
 
+- Added GitHub workflows for automated testing and changelog enforcement.
+
 ### Updated
 
 - Updated markdown files.
@@ -44,7 +46,6 @@ Special thanks to the following contributors: @Alvinger, @AndyPoms, @ashishtank,
 - Calendar: new options "limitDays" and "coloredEvents".
 - Added new option "limitDays" - limit the number of discreet days displayed.
 - Added new option "customEvents" - use custom symbol/color based on keyword in event title.
-- Added GitHub workflows for automated testing and changelog enforcement.
 
 ### Updated
 
