@@ -60,7 +60,7 @@ function App() {
 
 		// For this check proposed to TestSuite
 		// https://forum.magicmirror.builders/topic/1456/test-suite-for-magicmirror/8
-		const configFilename = path.resolve(global.configuration_file || `${global.root_path}/config/config`);
+		const configFilename = path.resolve(global.configuration_file || `${global.root_path}/config/config.js`);
 
 		try {
 			fs.accessSync(configFilename, fs.F_OK);
