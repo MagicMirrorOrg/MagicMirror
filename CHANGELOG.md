@@ -13,11 +13,13 @@ _This release is scheduled to be released on 2021-04-01._
 
 ### Updated
 
+- Updated markdown files.
+
 ### Removed
 
 ### Fixed
 
-- Added default log levels to stop calendar log spamming
+- Added default log levels to stop calendar log spamming.
 
 ## [2.14.0] - 2021-01-01
 

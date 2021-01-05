@@ -90,6 +90,9 @@
 	"_moduleAliases": {
 		"node_helper": "js/node_helper.js"
 	},
+	"engines": {
+		"node": ">=10"
+	},
 	"husky": {
 		"hooks": {
 			"pre-commit": "pretty-quick --staged"
