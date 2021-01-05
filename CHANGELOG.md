@@ -17,6 +17,8 @@ _This release is scheduled to be released on 2021-04-01._
 
 ### Removed
 
+- Removed danger.js library.
+
 ### Fixed
 
 - Added default log levels to stop calendar log spamming.
