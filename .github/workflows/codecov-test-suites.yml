@@ -2,7 +2,11 @@
 
 name: "Run Codecov Tests"
 
-on: [push]
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master, develop ]
 
 jobs:
   run-and-upload-coverage-report:
