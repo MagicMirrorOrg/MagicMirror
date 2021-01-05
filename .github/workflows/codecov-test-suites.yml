@@ -5,13 +5,16 @@ name: "Run Codecov Tests"
 on: [push]
 
 jobs:
-  test:
+  run-and-upload-coverage-report:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - run: |
           Xvfb :99 -screen 0 1024x768x16 &
           export DISPLAY=:99
-          npm install
+          npm ci
           npm run test:coverage
-          bash <(curl -s https://codecov.io/bash)
+      - uses: codecov/codecov-action@v1
+        with:
+          file: ./coverage/lcov.info
+          fail_ci_if_error: true
