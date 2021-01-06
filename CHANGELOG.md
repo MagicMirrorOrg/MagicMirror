@@ -12,6 +12,7 @@ _This release is scheduled to be released on 2021-04-01._
 ### Added
 
 - Added GitHub workflows for automated testing and changelog enforcement.
+- Add CodeCov badge to Readme.
 
 ### Updated
 
