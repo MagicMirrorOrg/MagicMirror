@@ -14,6 +14,7 @@ _This release is scheduled to be released on 2021-04-01._
 ### Updated
 
 - Updated markdown files.
+- Cleaned up old code on server side.
 
 ### Removed
 
