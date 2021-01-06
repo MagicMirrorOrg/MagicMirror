@@ -14,6 +14,13 @@ const helmet = require("helmet");
 const Log = require("./logger.js");
 const Utils = require("./utils.js");
 
+/**
+ * Server
+ *
+ * @param {object} config The MM config
+ * @param {Function} callback Function called when done.
+ * @class
+ */
 function Server(config, callback) {
 	const port = process.env.MM_PORT || config.port;
 
