@@ -32,6 +32,7 @@ Special thanks to the following contributors: @bryanzzhu, @bugsounet, @chamakura
 - Cleaned up clock tests.
 - Move lodash into devDependencies, update other dependencies.
 - Switch from ical to node-ical library.
+- Convert `-0` to `0` when displaying temperature.
 
 ### Fixed
 
