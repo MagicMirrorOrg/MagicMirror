@@ -18,6 +18,7 @@ _This release is scheduled to be released on 2021-04-01._
 
 - Updated markdown files.
 - Cleaned up old code on server side.
+- Convert `-0` to `0` when displaying temperature.
 
 ### Removed
 
@@ -117,7 +118,6 @@ Special thanks to the following contributors: @bryanzzhu, @bugsounet, @chamakura
 - Cleaned up clock tests.
 - Move lodash into devDependencies, update other dependencies.
 - Switch from ical to node-ical library.
-- Convert `-0` to `0` when displaying temperature.
 
 ### Fixed
 
