@@ -462,7 +462,8 @@ Module.register("weatherforecast", {
 	 */
 	roundValue: function (temperature) {
 		var decimals = this.config.roundTemp ? 0 : 1;
-		return parseFloat(temperature).toFixed(decimals);
+		var roundValue = parseFloat(temperature).toFixed(decimals);
+		return roundValue === "-0" ? 0 : roundValue;
 	},
 
 	/* processRain(forecast, allForecasts)
