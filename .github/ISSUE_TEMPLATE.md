@@ -23,9 +23,9 @@ If you are facing an issue or found a bug while running MagicMirror inside a Doc
 Please make sure to only submit reproducible issues. You can safely remove everything above the dividing line.
 When submitting a new issue, please supply the following information:
 
-**Platform**: Place your platform here... give us your web browser/Electron version _and_ your hardware (Raspberry Pi 2/3, Windows, Mac, Linux, System V UNIX).
+**Platform**: Place your platform here... give us your web browser/Electron version _and_ your hardware (Raspberry Pi 2/3/4, Windows, Mac, Linux, System V UNIX).
 
-**Node Version**: Make sure it's version 8 or later.
+**Node Version**: Make sure it's version 10 or later.
 
 **MagicMirror Version**: Please let us now which version of MagicMirror you are running. It can be found in the `package.log` file.
 

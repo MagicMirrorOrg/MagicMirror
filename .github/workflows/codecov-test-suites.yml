@@ -1,0 +1,24 @@
+# This workflow runs the automated test and uploads the coverage results to codecov.io
+
+name: "Run Codecov Tests"
+
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master, develop ]
+
+jobs:
+  run-and-upload-coverage-report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          Xvfb :99 -screen 0 1024x768x16 &
+          export DISPLAY=:99
+          npm ci
+          npm run test:coverage
+      - uses: codecov/codecov-action@v1
+        with:
+          file: ./coverage/lcov.info
+          fail_ci_if_error: true

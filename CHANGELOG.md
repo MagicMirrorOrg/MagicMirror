@@ -5,9 +5,35 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror²
 
-## [2.14.0] - Unreleased (Develop Branch)
+## [2.15.0] - Unreleased (Develop Branch)
 
-_This release is scheduled to be released on 2021-01-01._
+_This release is scheduled to be released on 2021-04-01._
+
+### Added
+
+- Added GitHub workflows for automated testing and changelog enforcement.
+- Add CodeCov badge to Readme.
+
+### Updated
+
+- Updated markdown files.
+- Cleaned up old code on server side.
+- Convert `-0` to `0` when displaying temperature.
+
+### Removed
+
+- Removed danger.js library.
+
+### Fixed
+
+- Added default log levels to stop calendar log spamming.
+- Fix socket.io cors errors, see [breaking change since socket.io v3](https://socket.io/docs/v3/handling-cors/)
+
+## [2.14.0] - 2021-01-01
+
+Special thanks to the following contributors: @Alvinger, @AndyPoms, @ashishtank, @bluemanos, @flopp999, @jakemulley, @jakobsarwary1, @marvai-vgtu, @mirontoli, @rejas, @sdetweil, @Snille & @Sub028.
+
+ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`.
 
 ### Added
 
@@ -17,13 +43,12 @@ _This release is scheduled to be released on 2021-01-01._
 - Added Weatherbit as a provider to Weather module.
 - Added SMHI as a provider to Weather module.
 - Added Hindi & Gujarati translation.
-- Added optional support for DEGREE position in Feels like translation
-- Added support for variables in nunjucks templates for translate filter
-- Chuvash translation.
+- Added optional support for DEGREE position in Feels like translation.
+- Added support for variables in nunjucks templates for translate filter.
+- Added Chuvash translation.
 - Calendar: new options "limitDays" and "coloredEvents".
 - Added new option "limitDays" - limit the number of discreet days displayed.
 - Added new option "customEvents" - use custom symbol/color based on keyword in event title.
-- Added GitHub workflows for automated testing and changelog enforcement.
 
 ### Updated
 
@@ -33,6 +58,12 @@ _This release is scheduled to be released on 2021-01-01._
 - Update dependencies eslint, feedme, simple-git and socket.io to latest versions.
 - Update lithuanian translation.
 - Update config sample.
+- Highlight required version mismatch.
+- No select Text for TouchScreen use.
+- Corrected logic for timeFormat "relative" and "absolute".
+- Added missing function call in module.show()
+- Translator variables can have falsy values (e.g. empty string)
+- Fix issue with weather module with DEGREE label in FEELS like
 
 ### Deleted
 
@@ -40,7 +71,6 @@ _This release is scheduled to be released on 2021-01-01._
 
 ### Fixed
 
-- No select Text for TouchScreen use
 - JSON Parse translation files with comments crashing UI. (#2149)
 - Calendar parsing where RRULE bug returns wrong date, add Windows timezone name support. (#2145, #2151)
 - Wrong node-ical version installed (package.json) requested version. (#2153)
@@ -53,18 +83,14 @@ _This release is scheduled to be released on 2021-01-01._
 - Fix calendar full day event east of UTC start time. (#2200)
 - Fix non-fullday recurring rule processing. (#2216)
 - Catch errors when parsing calendar data with ical. (#2022)
-- Corrected logic for timeFormat "relative" and "absolute".
 - Fix Default Alert Module does not hide black overlay when alert is dismissed manually. (#2228)
 - Weather module - Always displays night icons when local is other then English. (#2221)
-- update Node-ical 0.12.4 , fix invalid RRULE format in cal entries
-- fix package.json for optional electron dependency (2378)
-- update node-ical version again, 0.12.5, change RRULE fix (#2371, #2379)
-- Added missing function call in module.show()
-- remove undefined objects from modules array (#2382)
-- update node-ical version again, 0.12.7, change RRULE fix (#2371, #2379), node-ical now throws error (which we catch)
-- update simple-git version to 2.31 unhandled promise rejection (#2383)
-- Translator variables can have falsy values (e.g. empty string)
-- Fix issue with weather module with DEGREE label in FEELS like
+- Update Node-ical 0.12.4 , fix invalid RRULE format in cal entries
+- Fix package.json for optional electron dependency (2378)
+- Update node-ical version again, 0.12.5, change RRULE fix (#2371, #2379)
+- Remove undefined objects from modules array (#2382)
+- Update node-ical version again, 0.12.7, change RRULE fix (#2371, #2379), node-ical now throws error (which we catch)
+- Update simple-git version to 2.31 unhandled promise rejection (#2383)
 
 ## [2.13.0] - 2020-10-01
 
