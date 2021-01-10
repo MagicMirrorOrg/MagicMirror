@@ -27,6 +27,7 @@ _This release is scheduled to be released on 2021-04-01._
 ### Fixed
 
 - Added default log levels to stop calendar log spamming.
+- Fix socket.io cors errors, see [breaking change since socket.io v3](https://socket.io/docs/v3/handling-cors/)
 
 ## [2.14.0] - 2021-01-01
 
