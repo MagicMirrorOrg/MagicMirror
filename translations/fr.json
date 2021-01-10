@@ -33,5 +33,5 @@
 	"UPDATE_INFO_SINGLE": "L'installation actuelle est {COMMIT_COUNT} commit en retard sur la branche {BRANCH_NAME} .",
 	"UPDATE_INFO_MULTIPLE": "L'installation actuelle est {COMMIT_COUNT} commits en retard sur la branche {BRANCH_NAME} .",
 
-	"FEELS": "Ressenti"
+	"FEELS": "Ressenti {DEGREE}"
 }

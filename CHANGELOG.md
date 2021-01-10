@@ -19,6 +19,7 @@ _This release is scheduled to be released on 2021-04-01._
 - Updated markdown files.
 - Cleaned up old code on server side.
 - Convert `-0` to `0` when displaying temperature.
+- Code cleanup for FEELS like and added {DEGREE} placeholder for FEELSLIKE for each language
 
 ### Removed
 

@@ -69,10 +69,7 @@
         <div class="normal medium">
             {% if config.showFeelsLike %}
                 <span class="dimmed">
-                    {{ "FEELS" | translate({DEGREE: current.feelsLike() | roundValue | unit("temperature") | decimalSymbol }) }} 
-					{% if not config.feelsLikeWithDegree %}
-					{{ current.feelsLike() | roundValue | unit("temperature") | decimalSymbol }}
-					{% endif %}
+                    {{ "FEELS" | translate({DEGREE: current.feelsLike() | roundValue | unit("temperature") | decimalSymbol }) }}
                 </span>
             {% endif %}
             {% if config.showPrecipitationAmount %}

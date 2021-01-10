@@ -31,5 +31,5 @@
 	"UPDATE_INFO_SINGLE": "A jelenlegi telepítés óta {COMMIT_COUNT} új commit jelent meg a {BRANCH_NAME} ágon.",
 	"UPDATE_INFO_MULTIPLE": "A jelenlegi telepítés óta {COMMIT_COUNT} új commit jelent meg a {BRANCH_NAME} ágon.",
 
-	"FEELS": "Érzet"
+	"FEELS": "Érzet {DEGREE}"
 }
