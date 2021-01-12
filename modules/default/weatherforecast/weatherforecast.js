@@ -351,6 +351,13 @@ Module.register("weatherforecast", {
 		this.forecast = [];
 		var lastDay = null;
 		var forecastData = {};
+		var dayStarts = 8;
+		var dayEnds = 17;
+
+		if (data.city && data.city.sunrise && data.city.sunset) {
+			dayStarts = moment.unix(data.city.sunrise).toDate().getHours();
+			dayEnds = moment.unix(data.city.sunset).toDate().getHours();
+		}
 
 		// Handle different structs between forecast16 and onecall endpoints
 		var forecastList = null;
@@ -400,7 +407,7 @@ Module.register("weatherforecast", {
 
 				// Since we don't want an icon from the start of the day (in the middle of the night)
 				// we update the icon as long as it's somewhere during the day.
-				if (hour >= 8 && hour <= 17) {
+				if (hour > dayStarts && hour < dayEnds) {
 					forecastData.icon = this.config.iconTable[forecast.weather[0].icon];
 				}
 			}
