@@ -6,7 +6,6 @@
 	"DAYAFTERTOMORROW": "Виҫмине",
 	"RUNNING": "Хальхи",
 	"EMPTY": "Пулас ӗҫ ҫук",
-
 	"WEEK": "{weekNumber} эрне",
 
 	"N": "Ҫ",
@@ -25,6 +24,7 @@
 	"WNW": "АҪА",
 	"NW": "ҪА",
 	"NNW": "ҪҪА",
+
 	"FEELS": "Туйӑннӑ {DEGREE}",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² валли ҫӗнетӳ пур.",
