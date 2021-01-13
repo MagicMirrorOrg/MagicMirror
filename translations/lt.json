@@ -31,6 +31,6 @@
 	"UPDATE_INFO_SINGLE": "Šis įdiegimas atsilieka {COMMIT_COUNT} įsipareigojimu {BRANCH_NAME} šakoje.",
 	"UPDATE_INFO_MULTIPLE": "Šis įdiegimas atsilieka {COMMIT_COUNT} įsipareigojimais {BRANCH_NAME} šakoje.",
 
-	"FEELS": "Jutiminė temp.",
+	"FEELS": "Jutiminė temp. {DEGREE}",
 	"PRECIP": "Krituliai"
 }

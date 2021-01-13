@@ -31,6 +31,6 @@
 	"UPDATE_INFO_SINGLE": "Sahip olduğunuz kurulum {BRANCH_NAME} branchinden {COMMIT_COUNT} commit geridedir.",
 	"UPDATE_INFO_MULTIPLE": "Sahip olduğunuz kurulum {BRANCH_NAME} branchinden {COMMIT_COUNT} commit geridedir.",
 
-	"FEELS": "Hissedilen",
+	"FEELS": "Hissedilen {DEGREE}",
 	"PRECIP": "Yağış"
 }

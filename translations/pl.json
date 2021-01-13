@@ -31,6 +31,6 @@
 	"UPDATE_INFO_SINGLE": "Zainstalowana wersja odbiega o {COMMIT_COUNT} commit od gałęzi {BRANCH_NAME}.",
 	"UPDATE_INFO_MULTIPLE": "Zainstalowana wersja odbiega o {COMMIT_COUNT} commitów od gałęzi {BRANCH_NAME}.",
 
-	"FEELS": "Odczuwalna",
+	"FEELS": "Odczuwalna {DEGREE}",
 	"PRECIP": "Szansa opadów"
 }

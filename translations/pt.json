@@ -30,5 +30,5 @@
 	"UPDATE_INFO_SINGLE": "A instalação atual está {COMMIT_COUNT} commit atrasada no branch {BRANCH_NAME}.",
 	"UPDATE_INFO_MULTIPLE": "A instalação atual está {COMMIT_COUNT} commits atrasada no branch {BRANCH_NAME}.",
 
-	"FEELS": "Sentida"
+	"FEELS": "Sentida {DEGREE}"
 }
