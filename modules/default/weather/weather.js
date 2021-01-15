@@ -152,6 +152,7 @@ Module.register("weather", {
 	// What to do when the weather provider has new information available?
 	updateAvailable: function () {
 		Log.log("New weather information available.");
+		this.sendNotification("CURRENTWEATHER_TYPE", { type: this.weatherProvider.currentWeather().weatherType.replace("-", "_") });
 		this.updateDom(0);
 		this.scheduleUpdate();
 	},
