@@ -108,7 +108,7 @@ Module.register("newsfeed", {
 				url: this.getActiveItemURL()
 			};
 		}
-		if (this.newsItems.length == 0) {
+		if (this.newsItems.length === 0) {
 			return {
 				loaded: false
 			};
@@ -185,7 +185,7 @@ Module.register("newsfeed", {
 			}, this);
 		}
 
-		for (var item of newsItems) {
+		newsItems.forEach((item) => {
 			//Remove selected tags from the beginning of rss feed items (title or description)
 			if (this.config.removeStartTags === "title" || this.config.removeStartTags === "both") {
 				for (let f = 0; f < this.config.startTags.length; f++) {
@@ -222,7 +222,8 @@ Module.register("newsfeed", {
 					}
 				}
 			}
-		}
+		});
+
 		// get updated news items and broadcast them
 		var updatedItems = [];
 		newsItems.forEach((value) => {
