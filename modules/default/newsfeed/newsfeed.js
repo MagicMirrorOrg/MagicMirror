@@ -90,69 +90,43 @@ Module.register("newsfeed", {
 		}
 	},
 
-	// Override dom generator.
-	getDom: function () {
-		const wrapper = document.createElement("div");
-
+	//Override fetching of template name
+	getTemplate: function () {
 		if (this.config.feedUrl) {
-			wrapper.className = "small bright";
-			wrapper.innerHTML = this.translate("MODULE_CONFIG_CHANGED", { MODULE_NAME: "Newsfeed" });
-			return wrapper;
+			return "oldconfig.njk";
+		} else if (this.config.showFullArticle) {
+			return "fullarticle.njk";
+		}
+		return "newsfeed.njk";
+	},
+
+	//Override template data and return whats used for the current template
+	getTemplateData: function () {
+		// this.config.showFullArticle is a run-time configuration, triggered by optional notifications
+		if (this.config.showFullArticle) {
+			return {
+				url: this.getActiveItemURL()
+			};
+		}
+		if (this.newsItems.length == 0) {
+			return {
+				loaded: false
+			};
 		}
 
 		if (this.activeItem >= this.newsItems.length) {
 			this.activeItem = 0;
 		}
+		const item = this.newsItems[this.activeItem];
 
-		if (this.newsItems.length > 0) {
-			// this.config.showFullArticle is a run-time configuration, triggered by optional notifications
-			if (!this.config.showFullArticle && (this.config.showSourceTitle || this.config.showPublishDate)) {
-				const sourceAndTimestamp = document.createElement("div");
-				sourceAndTimestamp.className = "newsfeed-source light small dimmed";
-
-				if (this.config.showSourceTitle && this.newsItems[this.activeItem].sourceTitle !== "") {
-					sourceAndTimestamp.innerHTML = this.newsItems[this.activeItem].sourceTitle;
-				}
-				if (this.config.showSourceTitle && this.newsItems[this.activeItem].sourceTitle !== "" && this.config.showPublishDate) {
-					sourceAndTimestamp.innerHTML += ", ";
-				}
-				if (this.config.showPublishDate) {
-					sourceAndTimestamp.innerHTML += moment(new Date(this.newsItems[this.activeItem].pubdate)).fromNow();
-				}
-				if ((this.config.showSourceTitle && this.newsItems[this.activeItem].sourceTitle !== "") || this.config.showPublishDate) {
-					sourceAndTimestamp.innerHTML += ":";
-				}
-
-				wrapper.appendChild(sourceAndTimestamp);
-			}
-
-			if (!this.config.showFullArticle) {
-				const title = document.createElement("div");
-				title.className = "newsfeed-title bright medium light" + (!this.config.wrapTitle ? " no-wrap" : "");
-				title.innerHTML = this.newsItems[this.activeItem].title;
-				wrapper.appendChild(title);
-			}
-
-			if (this.isShowingDescription) {
-				const description = document.createElement("div");
-				description.className = "newsfeed-desc small light" + (!this.config.wrapDescription ? " no-wrap" : "");
-				const txtDesc = this.newsItems[this.activeItem].description;
-				description.innerHTML = this.config.truncDescription ? (txtDesc.length > this.config.lengthDescription ? txtDesc.substring(0, this.config.lengthDescription) + "..." : txtDesc) : txtDesc;
-				wrapper.appendChild(description);
-			}
-
-			if (this.config.showFullArticle) {
-				const fullArticle = document.createElement("iframe");
-				fullArticle.className = "newsfeed-fullarticle";
-				fullArticle.src = this.getActiveItemURL();
-				wrapper.appendChild(fullArticle);
-			}
-		} else {
-			wrapper.innerHTML = this.translate("LOADING");
-			wrapper.className = "small dimmed";
-		}
-
-		return wrapper;
+		return {
+			loaded: true,
+			config: this.config,
+			sourceTitle: item.sourceTitle,
+			publishDate: moment(new Date(item.pubdate)).fromNow(),
+			title: item.title,
+			description: item.description
+		};
 	},
 
 	getActiveItemURL: function () {
