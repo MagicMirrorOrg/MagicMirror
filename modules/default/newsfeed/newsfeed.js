@@ -80,6 +80,9 @@ Module.register("newsfeed", {
 			this.generateFeed(payload);
 
 			if (!this.loaded) {
+				if (this.config.hideLoading) {
+					this.show();
+				}
 				this.scheduleUpdateInterval();
 			}
 
@@ -144,17 +147,9 @@ Module.register("newsfeed", {
 				fullArticle.src = this.getActiveItemURL();
 				wrapper.appendChild(fullArticle);
 			}
-
-			if (this.config.hideLoading) {
-				this.show();
-			}
 		} else {
-			if (this.config.hideLoading) {
-				this.hide();
-			} else {
-				wrapper.innerHTML = this.translate("LOADING");
-				wrapper.className = "small dimmed";
-			}
+			wrapper.innerHTML = this.translate("LOADING");
+			wrapper.className = "small dimmed";
 		}
 
 		return wrapper;
@@ -340,7 +335,9 @@ Module.register("newsfeed", {
 
 	notificationReceived: function (notification, payload, sender) {
 		const before = this.activeItem;
-		if (notification === "ARTICLE_NEXT") {
+		if (notification === "MODULE_DOM_CREATED" && this.config.hideLoading) {
+			this.hide();
+		} else if (notification === "ARTICLE_NEXT") {
 			this.activeItem++;
 			if (this.activeItem >= this.newsItems.length) {
 				this.activeItem = 0;
