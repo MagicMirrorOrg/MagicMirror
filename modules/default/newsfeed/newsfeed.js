@@ -118,44 +118,6 @@ Module.register("newsfeed", {
 				wrapper.appendChild(sourceAndTimestamp);
 			}
 
-			//Remove selected tags from the beginning of rss feed items (title or description)
-
-			if (this.config.removeStartTags === "title" || this.config.removeStartTags === "both") {
-				for (let f = 0; f < this.config.startTags.length; f++) {
-					if (this.newsItems[this.activeItem].title.slice(0, this.config.startTags[f].length) === this.config.startTags[f]) {
-						this.newsItems[this.activeItem].title = this.newsItems[this.activeItem].title.slice(this.config.startTags[f].length, this.newsItems[this.activeItem].title.length);
-					}
-				}
-			}
-
-			if (this.config.removeStartTags === "description" || this.config.removeStartTags === "both") {
-				if (this.isShowingDescription) {
-					for (let f = 0; f < this.config.startTags.length; f++) {
-						if (this.newsItems[this.activeItem].description.slice(0, this.config.startTags[f].length) === this.config.startTags[f]) {
-							this.newsItems[this.activeItem].description = this.newsItems[this.activeItem].description.slice(this.config.startTags[f].length, this.newsItems[this.activeItem].description.length);
-						}
-					}
-				}
-			}
-
-			//Remove selected tags from the end of rss feed items (title or description)
-
-			if (this.config.removeEndTags) {
-				for (let f = 0; f < this.config.endTags.length; f++) {
-					if (this.newsItems[this.activeItem].title.slice(-this.config.endTags[f].length) === this.config.endTags[f]) {
-						this.newsItems[this.activeItem].title = this.newsItems[this.activeItem].title.slice(0, -this.config.endTags[f].length);
-					}
-				}
-
-				if (this.isShowingDescription) {
-					for (let f = 0; f < this.config.endTags.length; f++) {
-						if (this.newsItems[this.activeItem].description.slice(-this.config.endTags[f].length) === this.config.endTags[f]) {
-							this.newsItems[this.activeItem].description = this.newsItems[this.activeItem].description.slice(0, -this.config.endTags[f].length);
-						}
-					}
-				}
-			}
-
 			if (!this.config.showFullArticle) {
 				const title = document.createElement("div");
 				title.className = "newsfeed-title bright medium light" + (!this.config.wrapTitle ? " no-wrap" : "");
@@ -257,6 +219,44 @@ Module.register("newsfeed", {
 			}, this);
 		}
 
+		for (var item of newsItems) {
+			//Remove selected tags from the beginning of rss feed items (title or description)
+			if (this.config.removeStartTags === "title" || this.config.removeStartTags === "both") {
+				for (let f = 0; f < this.config.startTags.length; f++) {
+					if (item.title.slice(0, this.config.startTags[f].length) === this.config.startTags[f]) {
+						item.title = item.title.slice(this.config.startTags[f].length, item.title.length);
+					}
+				}
+			}
+
+			if (this.config.removeStartTags === "description" || this.config.removeStartTags === "both") {
+				if (this.isShowingDescription) {
+					for (let f = 0; f < this.config.startTags.length; f++) {
+						if (item.description.slice(0, this.config.startTags[f].length) === this.config.startTags[f]) {
+							item.description = item.description.slice(this.config.startTags[f].length, item.description.length);
+						}
+					}
+				}
+			}
+
+			//Remove selected tags from the end of rss feed items (title or description)
+
+			if (this.config.removeEndTags) {
+				for (let f = 0; f < this.config.endTags.length; f++) {
+					if (item.title.slice(-this.config.endTags[f].length) === this.config.endTags[f]) {
+						item.title = item.title.slice(0, -this.config.endTags[f].length);
+					}
+				}
+
+				if (this.isShowingDescription) {
+					for (let f = 0; f < this.config.endTags.length; f++) {
+						if (item.description.slice(-this.config.endTags[f].length) === this.config.endTags[f]) {
+							item.description = item.description.slice(0, -this.config.endTags[f].length);
+						}
+					}
+				}
+			}
+		}
 		// get updated news items and broadcast them
 		var updatedItems = [];
 		newsItems.forEach((value) => {
