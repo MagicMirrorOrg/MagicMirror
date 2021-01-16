@@ -13,6 +13,7 @@ _This release is scheduled to be released on 2021-04-01._
 
 - Added GitHub workflows for automated testing and changelog enforcement.
 - Add CodeCov badge to Readme.
+- Added `start:dev` command to the npm scripts for starting electron with devTools open
 
 ### Updated
 
