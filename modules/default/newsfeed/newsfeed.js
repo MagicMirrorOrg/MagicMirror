@@ -44,6 +44,11 @@ Module.register("newsfeed", {
 		return ["moment.js"];
 	},
 
+	//Define required styles.
+	getStyles: function () {
+		return ["newsfeed.css"];
+	},
+
 	// Define required translations.
 	getTranslations: function () {
 		// The translations for the default modules are defined in the core translation files.
@@ -135,16 +140,8 @@ Module.register("newsfeed", {
 
 			if (this.config.showFullArticle) {
 				const fullArticle = document.createElement("iframe");
-				fullArticle.className = "";
-				fullArticle.style.width = "100vw";
-				// very large height value to allow scrolling
-				fullArticle.height = "3000";
-				fullArticle.style.height = "3000";
-				fullArticle.style.top = "0";
-				fullArticle.style.left = "0";
-				fullArticle.style.border = "none";
+				fullArticle.className = "newsfeed-fullarticle";
 				fullArticle.src = this.getActiveItemURL();
-				fullArticle.style.zIndex = 1;
 				wrapper.appendChild(fullArticle);
 			}
 
@@ -335,8 +332,7 @@ Module.register("newsfeed", {
 		this.config.showFullArticle = false;
 		this.scrollPosition = 0;
 		// reset bottom bar alignment
-		document.getElementsByClassName("region bottom bar")[0].style.bottom = "0";
-		document.getElementsByClassName("region bottom bar")[0].style.top = "inherit";
+		document.getElementsByClassName("region bottom bar")[0].classList.remove("newsfeed-fullarticle");
 		if (!this.timer) {
 			this.scheduleUpdateInterval();
 		}
@@ -406,8 +402,7 @@ Module.register("newsfeed", {
 		this.config.showFullArticle = !this.isShowingDescription;
 		// make bottom bar align to top to allow scrolling
 		if (this.config.showFullArticle === true) {
-			document.getElementsByClassName("region bottom bar")[0].style.bottom = "inherit";
-			document.getElementsByClassName("region bottom bar")[0].style.top = "-90px";
+			document.getElementsByClassName("region bottom bar")[0].classList.add("newsfeed-fullarticle");
 		}
 		clearInterval(this.timer);
 		this.timer = null;
