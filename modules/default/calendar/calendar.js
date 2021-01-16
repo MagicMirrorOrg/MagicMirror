@@ -93,6 +93,22 @@ Module.register("calendar", {
 		// indicate no data available yet
 		this.loaded = false;
 
+		if (this.config.timeFormat === "relative") {
+			this.fullDayEventRelativeCalendar = {};
+			let calendarTemplate = Translator.coreTranslations["FULL_DAY_EVENT_RELATIVE_CALENDAR"];
+			if (calendarTemplate) {
+				Object.entries(calendarTemplate).forEach(([key, value]) => {
+					if (value && value.startsWith("function")) {
+						value = "(" + value + ")";
+					}
+					if (value && value.startsWith("(function")) {
+						value = eval(value);
+					}
+					this.fullDayEventRelativeCalendar[key] = value;
+				});
+			}
+		}
+
 		for (var c in this.config.calendars) {
 			var calendar = this.config.calendars[c];
 			calendar.url = calendar.url.replace("webcal://", "http://");
@@ -362,8 +378,12 @@ Module.register("calendar", {
 				} else {
 					// Show relative times
 					if (event.startDate >= now) {
-						// Use relative  time
-						timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").calendar());
+						// Use relative time
+						if (event.fullDayEvent && this.fullDayEventRelativeCalendar) {
+							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").calendar(this.fullDayEventRelativeCalendar));
+						} else {
+							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").calendar());
+						}
 						if (event.startDate - now < this.config.getRelative * oneHour) {
 							// If event is within getRelative  hours, display 'in xxx' time format or moment.fromNow()
 							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());

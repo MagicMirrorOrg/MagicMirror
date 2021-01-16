@@ -32,5 +32,13 @@
 	"UPDATE_INFO_MULTIPLE": "Поточна інсталяція на {COMMIT_COUNT} комітів позаду від гілки {BRANCH_NAME}.",
 
 	"FEELS": "Відчувається як {DEGREE}",
-	"PRECIP": "Опади"
+	"PRECIP": "Опади",
+	"FULL_DAY_EVENT_RELATIVE_CALENDAR": {
+		"sameDay": "[Сьогодні]",
+		"nextDay": "[Завтра]",
+		"lastDay": "[Вчора]",
+		"nextWeek": "[У] dddd",
+		"lastWeek": "function() { switch (this.day()) { case 0: case 3: case 5: case 6: return '[Минулої] dddd'; case 1: case 2: case 4: return '[Минулого] dddd';}}",
+		"sameElse": "L"
+	}
 }
