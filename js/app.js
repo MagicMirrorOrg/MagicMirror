@@ -49,7 +49,7 @@ function App() {
 	let nodeHelpers = [];
 
 	/**
-	 * Loads the config file. Combines it with the defaults,  and runs the
+	 * Loads the config file. Combines it with the defaults, and runs the
 	 * callback with the found config as argument.
 	 *
 	 * @param {Function} callback Function to be called after loading the config
@@ -154,6 +154,9 @@ function App() {
 	function loadModules(modules, callback) {
 		Log.log("Loading module helpers ...");
 
+		/**
+		 *
+		 */
 		function loadNextModule() {
 			if (modules.length > 0) {
 				const nextModule = modules[0];
