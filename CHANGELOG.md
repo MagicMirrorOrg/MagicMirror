@@ -5,6 +5,32 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror²
 
+## [2.15.0] - Unreleased (Develop Branch)
+
+_This release is scheduled to be released on 2021-04-01._
+
+### Added
+
+- Added GitHub workflows for automated testing and changelog enforcement.
+- Add CodeCov badge to Readme.
+
+### Updated
+
+- Updated markdown files.
+- Cleaned up old code on server side.
+- Convert `-0` to `0` when displaying temperature.
+- Code cleanup for FEELS like and added {DEGREE} placeholder for FEELSLIKE for each language
+
+### Removed
+
+- Removed danger.js library.
+
+### Fixed
+
+- Added default log levels to stop calendar log spamming.
+- Fix socket.io cors errors, see [breaking change since socket.io v3](https://socket.io/docs/v3/handling-cors/)
+- Fix Issue with weather forecast icons due to fixed day start and end time (#2221)
+
 ## [2.14.0] - 2021-01-01
 
 Special thanks to the following contributors: @Alvinger, @AndyPoms, @ashishtank, @bluemanos, @flopp999, @jakemulley, @jakobsarwary1, @marvai-vgtu, @mirontoli, @rejas, @sdetweil, @Snille & @Sub028.
@@ -25,7 +51,6 @@ Special thanks to the following contributors: @Alvinger, @AndyPoms, @ashishtank,
 - Calendar: new options "limitDays" and "coloredEvents".
 - Added new option "limitDays" - limit the number of discreet days displayed.
 - Added new option "customEvents" - use custom symbol/color based on keyword in event title.
-- Added GitHub workflows for automated testing and changelog enforcement.
 
 ### Updated
 

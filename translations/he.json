@@ -31,6 +31,6 @@
 	"UPDATE_INFO_SINGLE": "ההתקנה הנוכחית נמצאת מאחור הענף {BRANCH_NAME} ב-{COMMIT_COUNT} מופע",
 	"UPDATE_INFO_MULTIPLE": "ההתקנה הנוכחית נמצאת מאחור הענף {BRANCH_NAME} ב-{COMMIT_COUNT} מופעים",
 
-	"FEELS": "מרגיש כמו",
+	"FEELS": "מרגיש כמו {DEGREE}",
 	"PRECIP": "משקעים"
 }

@@ -1,5 +1,6 @@
 /* eslint no-multi-spaces: 0 */
 const expect = require("chai").expect;
+var data = require("../functions/weatherforecast_data.json");
 
 describe("Functions module weatherforecast", function () {
 	before(function () {
@@ -60,6 +61,40 @@ describe("Functions module weatherforecast", function () {
 				it(`for ${value[0]} should be return ${value[1]}`, function () {
 					expect(Module.definitions.weatherforecast.roundValue(value[0])).to.equal(value[1]);
 				});
+			});
+		});
+	});
+
+	describe("forecastIcons", function () {
+		Log = {
+			error: function () {}
+		};
+		describe("forecastIcons sunset specified", function () {
+			before(function () {
+				Module.definitions.weatherforecast.Log = {};
+				Module.definitions.weatherforecast.forecast = [];
+				Module.definitions.weatherforecast.show = Module.definitions.weatherforecast.updateDom = function () {};
+				Module.definitions.weatherforecast.config = Module.definitions.weatherforecast.defaults;
+			});
+
+			it(`returns correct icons with sunset time`, function () {
+				Module.definitions.weatherforecast.processWeather(data.withSunset);
+				let forecastData = Module.definitions.weatherforecast.forecast;
+				expect(forecastData.length).to.equal(4);
+				expect(forecastData[2].icon).to.equal("wi-rain");
+			});
+		});
+
+		describe("forecastIcons sunset not specified", function () {
+			before(function () {
+				Module.definitions.weatherforecast.forecast = [];
+			});
+
+			it(`returns correct icons with out sunset time`, function () {
+				Module.definitions.weatherforecast.processWeather(data.withoutSunset);
+				let forecastData = Module.definitions.weatherforecast.forecast;
+				expect(forecastData.length).to.equal(4);
+				expect(forecastData[2].icon).to.equal("wi-rain");
 			});
 		});
 	});

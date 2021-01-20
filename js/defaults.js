@@ -20,6 +20,7 @@ var defaults = {
 	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1"],
 
 	language: "en",
+	logLevel: ["INFO", "LOG", "WARN", "ERROR"],
 	timeFormat: 24,
 	units: "metric",
 	zoom: 1,

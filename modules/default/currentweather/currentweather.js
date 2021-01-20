@@ -258,13 +258,9 @@ Module.register("currentweather", {
 
 			var feelsLike = document.createElement("span");
 			feelsLike.className = "dimmed";
-			var feelsLikeHtml = this.translate("FEELS");
-			if (feelsLikeHtml.indexOf("{DEGREE}") > -1) {
-				feelsLikeHtml = this.translate("FEELS", {
-					DEGREE: this.feelsLike + degreeLabel
-				});
-			} else feelsLikeHtml += " " + this.feelsLike + degreeLabel;
-			feelsLike.innerHTML = feelsLikeHtml;
+			feelsLike.innerHTML = this.translate("FEELS", {
+				DEGREE: this.feelsLike + degreeLabel
+			});
 			small.appendChild(feelsLike);
 
 			wrapper.appendChild(small);
@@ -593,6 +589,7 @@ Module.register("currentweather", {
 	 */
 	roundValue: function (temperature) {
 		var decimals = this.config.roundTemp ? 0 : 1;
-		return parseFloat(temperature).toFixed(decimals);
+		var roundValue = parseFloat(temperature).toFixed(decimals);
+		return roundValue === "-0" ? 0 : roundValue;
 	}
 });

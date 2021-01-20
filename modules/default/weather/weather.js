@@ -52,8 +52,7 @@ Module.register("weather", {
 		onlyTemp: false,
 		showPrecipitationAmount: false,
 		colored: false,
-		showFeelsLike: true,
-		feelsLikeWithDegree: false
+		showFeelsLike: true
 	},
 
 	// Module properties.
@@ -88,8 +87,6 @@ Module.register("weather", {
 
 		// Let the weather provider know we are starting.
 		this.weatherProvider.start();
-
-		this.config.feelsLikeWithDegree = this.translate("FEELS").indexOf("{DEGREE}") > -1;
 
 		// Add custom filters
 		this.addFilters();
@@ -178,7 +175,8 @@ Module.register("weather", {
 
 	roundValue: function (temperature) {
 		var decimals = this.config.roundTemp ? 0 : 1;
-		return parseFloat(temperature).toFixed(decimals);
+		var roundValue = parseFloat(temperature).toFixed(decimals);
+		return roundValue === "-0" ? 0 : roundValue;
 	},
 
 	addFilters() {
