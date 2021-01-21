@@ -12,8 +12,9 @@ _This release is scheduled to be released on 2021-04-01._
 ### Added
 
 - Added GitHub workflows for automated testing and changelog enforcement.
-- Add CodeCov badge to Readme.
-- Added `start:dev` command to the npm scripts for starting electron with devTools open
+- Added CodeCov badge to Readme.
+- Added CURRENTWEATHER_TYPE notification to currentweather and weather module, use it in compliments module.
+- Added `start:dev` command to the npm scripts for starting electron with devTools open.
 
 ### Updated
 
@@ -21,6 +22,7 @@ _This release is scheduled to be released on 2021-04-01._
 - Cleaned up old code on server side.
 - Convert `-0` to `0` when displaying temperature.
 - Code cleanup for FEELS like and added {DEGREE} placeholder for FEELSLIKE for each language
+- Converted newsfeed module to use templates.
 
 ### Removed
 
@@ -31,6 +33,8 @@ _This release is scheduled to be released on 2021-04-01._
 - Added default log levels to stop calendar log spamming.
 - Fix socket.io cors errors, see [breaking change since socket.io v3](https://socket.io/docs/v3/handling-cors/)
 - Fix Issue with weather forecast icons due to fixed day start and end time (#2221)
+- Fix empty directory for each module's main javascript file in the inspector
+- Fix Issue with weather forecast icons unit tests with different timezones (#2221)
 
 ## [2.14.0] - 2021-01-01
 
