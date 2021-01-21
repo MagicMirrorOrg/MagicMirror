@@ -1,5 +1,6 @@
 /* eslint no-multi-spaces: 0 */
 const expect = require("chai").expect;
+const moment = require("moment-timezone");
 var data = require("../functions/weatherforecast_data.json");
 
 describe("Functions module weatherforecast", function () {
@@ -69,6 +70,16 @@ describe("Functions module weatherforecast", function () {
 		Log = {
 			error: function () {}
 		};
+
+		var originalLocale;
+		var originalTimeZone;
+		before(function () {
+			originalLocale = moment.locale();
+			originalTimeZone = moment.tz.guess();
+			moment.locale("hi");
+			moment.tz.setDefault("Europe/Warsaw");
+		});
+
 		describe("forecastIcons sunset specified", function () {
 			before(function () {
 				Module.definitions.weatherforecast.Log = {};
@@ -96,6 +107,11 @@ describe("Functions module weatherforecast", function () {
 				expect(forecastData.length).to.equal(4);
 				expect(forecastData[2].icon).to.equal("wi-rain");
 			});
+		});
+
+		after(function () {
+			moment.locale(originalLocale);
+			moment.tz.setDefault(originalTimeZone);
 		});
 	});
 });

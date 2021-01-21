@@ -12,7 +12,8 @@ _This release is scheduled to be released on 2021-04-01._
 ### Added
 
 - Added GitHub workflows for automated testing and changelog enforcement.
-- Add CodeCov badge to Readme.
+- Added CodeCov badge to Readme.
+- Added CURRENTWEATHER_TYPE notification to currentweather and weather module, use it in compliments module
 
 ### Updated
 
@@ -31,6 +32,7 @@ _This release is scheduled to be released on 2021-04-01._
 - Fix socket.io cors errors, see [breaking change since socket.io v3](https://socket.io/docs/v3/handling-cors/)
 - Fix Issue with weather forecast icons due to fixed day start and end time (#2221)
 - Fix empty directory for each module's main javascript file in the inspector
+- Fix Issue with weather forecast icons unit tests with different timezones (#2221)
 
 ## [2.14.0] - 2021-01-01
 
