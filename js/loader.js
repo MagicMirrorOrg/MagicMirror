@@ -114,7 +114,7 @@ var Loader = (function () {
 	 * @param {Function} callback Function called when done.
 	 */
 	var loadModule = function (module, callback) {
-		var url = module.path + "/" + module.file;
+		var url = module.path + module.file;
 
 		var afterLoad = function () {
 			var moduleObject = Module.create(module.name);
