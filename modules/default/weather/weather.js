@@ -154,6 +154,10 @@ Module.register("weather", {
 		Log.log("New weather information available.");
 		this.updateDom(0);
 		this.scheduleUpdate();
+
+		if (this.weatherProvider.currentWeather()) {
+			this.sendNotification("CURRENTWEATHER_TYPE", { type: this.weatherProvider.currentWeather().weatherType.replace("-", "_") });
+		}
 	},
 
 	scheduleUpdate: function (delay = null) {

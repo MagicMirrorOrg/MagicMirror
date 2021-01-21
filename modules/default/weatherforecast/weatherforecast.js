@@ -355,8 +355,8 @@ Module.register("weatherforecast", {
 		var dayEnds = 17;
 
 		if (data.city && data.city.sunrise && data.city.sunset) {
-			dayStarts = moment.unix(data.city.sunrise).toDate().getHours();
-			dayEnds = moment.unix(data.city.sunset).toDate().getHours();
+			dayStarts = new Date(moment.unix(data.city.sunrise).locale("en").format("YYYY/MM/DD HH:mm:ss")).getHours();
+			dayEnds = new Date(moment.unix(data.city.sunset).locale("en").format("YYYY/MM/DD HH:mm:ss")).getHours();
 		}
 
 		// Handle different structs between forecast16 and onecall endpoints
@@ -378,10 +378,10 @@ Module.register("weatherforecast", {
 			var hour;
 			if (forecast.dt_txt) {
 				day = moment(forecast.dt_txt, "YYYY-MM-DD hh:mm:ss").format("ddd");
-				hour = moment(forecast.dt_txt, "YYYY-MM-DD hh:mm:ss").toDate().getHours();
+				hour = new Date(moment(forecast.dt_txt).locale("en").format("YYYY-MM-DD HH:mm:ss")).getHours();
 			} else {
 				day = moment(forecast.dt, "X").format("ddd");
-				hour = moment(forecast.dt, "X").toDate().getHours();
+				hour = new Date(moment(forecast.dt, "X")).getHours();
 			}
 
 			if (day !== lastDay) {
