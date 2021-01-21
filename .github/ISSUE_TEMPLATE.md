@@ -6,6 +6,8 @@ If you're not sure if it's a real bug or if it's just you, please open a topic o
 
 Problems installing or configuring your MagicMirror? Check out: [https://forum.magicmirror.builders/category/10/troubleshooting](https://forum.magicmirror.builders/category/10/troubleshooting)
 
+A common problem is that your config file could be invalid. Please run in your MagicMirror directory: `npm run config:check` and see if it reports an error.
+
 ## I found a bug in the MagicMirror installer
 
 If you are facing an issue or found a bug while trying to install MagicMirror via the installer please report it in the respective GitHub repository:
