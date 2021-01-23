@@ -16,7 +16,7 @@ var WeatherProvider = Class.extend({
 	// Try to not access them directly.
 	currentWeatherObject: null,
 	weatherForecastArray: null,
-	weatherDataObject: null,
+	weatherHourlyArray: null,
 	fetchedLocationName: null,
 
 	// The following properties will be set automatically.
@@ -57,10 +57,10 @@ var WeatherProvider = Class.extend({
 		Log.warn(`Weather provider: ${this.providerName} does not subclass the fetchWeatherForecast method.`);
 	},
 
-	// This method should start the API request to fetch the weather forecast.
+	// This method should start the API request to fetch the weather hourly.
 	// This method should definitely be overwritten in the provider.
-	fetchWeatherData: function () {
-		Log.warn(`Weather provider: ${this.providerName} does not subclass the fetchWeatherData method.`);
+	fetchWeatherHourly: function () {
+		Log.warn(`Weather provider: ${this.providerName} does not subclass the fetchWeatherHourly method.`);
 	},
 
 	// This returns a WeatherDay object for the current weather.
@@ -74,8 +74,8 @@ var WeatherProvider = Class.extend({
 	},
 
 	// This returns an object containing WeatherDay object(s) depending on the type of call.
-	weatherData: function () {
-		return this.weatherDataObject;
+	weatherHourly: function () {
+		return this.weatherHourlyArray;
 	},
 
 	// This returns the name of the fetched location or an empty string.
@@ -95,9 +95,9 @@ var WeatherProvider = Class.extend({
 		this.weatherForecastArray = weatherForecastArray;
 	},
 
-	// Set the weatherDataObject and notify the delegate that new information is available.
-	setWeatherData: function (weatherDataObject) {
-		this.weatherDataObject = weatherDataObject;
+	// Set the weatherHourlyArray and notify the delegate that new information is available.
+	setWeatherHourlyData: function (weatherHourlyArray) {
+		this.weatherHourlyArray = weatherHourlyArray;
 	},
 
 	// Set the fetched location name.

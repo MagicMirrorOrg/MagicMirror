@@ -141,7 +141,7 @@ Module.register("weather", {
 			config: this.config,
 			current: this.weatherProvider.currentWeather(),
 			forecast: this.weatherProvider.weatherForecast(),
-			weatherData: this.weatherProvider.weatherData(),
+			hourly: this.weatherProvider.weatherHourly(),
 			indoor: {
 				humidity: this.indoorHumidity,
 				temperature: this.indoorTemperature
@@ -172,7 +172,7 @@ Module.register("weather", {
 					this.weatherProvider.fetchCurrentWeather();
 					break;
 				case "hourly":
-					this.weatherProvider.fetchWeatherData();
+					this.weatherProvider.fetchWeatherHourly();
 					break;
 				case "daily":
 				case "forecast":

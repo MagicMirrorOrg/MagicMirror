@@ -56,8 +56,8 @@ WeatherProvider.register("openweathermap", {
 			.finally(() => this.updateAvailable());
 	},
 
-	// Overwrite the fetchWeatherData method.
-	fetchWeatherData() {
+	// Overwrite the fetchWeatherHourly method.
+	fetchWeatherHourly() {
 		this.fetchData(this.getUrl())
 			.then((data) => {
 				if (!data) {
@@ -69,7 +69,7 @@ WeatherProvider.register("openweathermap", {
 				this.setFetchedLocation(`(${data.lat},${data.lon})`);
 
 				const weatherData = this.generateWeatherObjectsFromOnecall(data);
-				this.setWeatherData(weatherData);
+				this.setWeatherHourly(weatherData.hours);
 			})
 			.catch(function (request) {
 				Log.error("Could not load data ... ", request);
