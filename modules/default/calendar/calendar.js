@@ -95,7 +95,7 @@ Module.register("calendar", {
 
 		if (this.config.timeFormat === "relative") {
 			this.fullDayEventRelativeCalendar = {};
-			let calendarTemplate = Translator.coreTranslations["FULL_DAY_EVENT_RELATIVE_CALENDAR"];
+			let calendarTemplate = this.Translator.coreTranslations["FULL_DAY_EVENT_RELATIVE_CALENDAR"];
 			if (calendarTemplate) {
 				Object.entries(calendarTemplate).forEach(([key, value]) => {
 					if (value && value.startsWith("function")) {
