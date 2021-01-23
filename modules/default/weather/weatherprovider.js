@@ -97,7 +97,7 @@ var WeatherProvider = Class.extend({
 	},
 
 	// Set the weatherHourlyArray and notify the delegate that new information is available.
-	setWeatherHourlyData: function (weatherHourlyArray) {
+	setWeatherHourly: function (weatherHourlyArray) {
 		this.weatherHourlyArray = weatherHourlyArray;
 	},
 
