@@ -390,12 +390,16 @@ Module.register("calendar", {
 						}
 					} else {
 						// Ongoing event
-						timeWrapper.innerHTML = this.capFirst(
-							this.translate("RUNNING", {
-								fallback: this.translate("RUNNING") + " {timeUntilEnd}",
-								timeUntilEnd: moment(event.endDate, "x").fromNow(true)
-							})
-						);
+						if (event.fullDayEvent && moment.duration(moment(event.endDate, "x").diff(moment())).days() < 1) {
+							timeWrapper.innerHTML = this.capFirst(this.translate("TODAY"));
+						} else {
+							timeWrapper.innerHTML = this.capFirst(
+								this.translate("RUNNING", {
+									fallback: this.translate("RUNNING") + " {timeUntilEnd}",
+									timeUntilEnd: moment(event.endDate, "x").fromNow(true)
+								})
+							);
+						}
 					}
 				}
 				timeWrapper.className = "time light " + this.timeClassForUrl(event.url);

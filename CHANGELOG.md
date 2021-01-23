@@ -66,6 +66,7 @@ Special thanks to the following contributors: @Alvinger, @AndyPoms, @ashishtank,
 - Added missing function call in module.show()
 - Translator variables can have falsy values (e.g. empty string)
 - Fix issue with weather module with DEGREE label in FEELS like
+- Calendar module - don't show time for full day events in relative mode
 
 ### Deleted
 
