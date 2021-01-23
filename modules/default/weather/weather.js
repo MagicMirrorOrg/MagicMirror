@@ -119,6 +119,7 @@ Module.register("weather", {
 				return `hourly.njk`;
 			case "daily":
 			case "forecast":
+				return `forecast.njk`;
 			//Make the invalid values use the "Loading..." from forecast
 			default:
 				return `forecast.njk`;
