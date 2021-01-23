@@ -12,10 +12,6 @@ Module.register("weather", {
 		weatherProvider: "openweathermap",
 		roundTemp: false,
 		type: "current", // current, forecast, daily (equivalent to forecast), hourly (only with OpenWeatherMap /onecall endpoint)
-		lat: 0,
-		lon: 0,
-		location: false,
-		locationID: false,
 		units: config.units,
 		useKmh: false,
 		tempUnits: config.units,
@@ -40,12 +36,6 @@ Module.register("weather", {
 		fade: true,
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		initialLoadDelay: 0, // 0 seconds delay
-		retryDelay: 2500,
-		apiKey: "",
-		apiSecret: "",
-		apiVersion: "2.5",
-		apiBase: "https://api.openweathermap.org/data/", // TODO: this should not be part of the weather.js file, but should be contained in the openweatherprovider
-		weatherEndpoint: "/weather",
 		appendLocationNameToHeader: true,
 		calendarClass: "calendar",
 		tableClass: "small",
@@ -129,8 +119,8 @@ Module.register("weather", {
 				return `hourly.njk`;
 			case "daily":
 			case "forecast":
+			//Make the invalid values use the "Loading..." from forecast
 			default:
-				//Make the invalid values use the "Loading..." from forecast
 				return `forecast.njk`;
 		}
 	},

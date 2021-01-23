@@ -14,6 +14,18 @@ WeatherProvider.register("openweathermap", {
 	// But for debugging (and future alerts) it would be nice to have the real name.
 	providerName: "OpenWeatherMap",
 
+	// Set the default config properties that is specific to this provider
+	defaults: {
+		apiVersion: "2.5",
+		apiBase: "https://api.openweathermap.org/data/",
+		weatherEndpoint: "/weather",
+		locationID: false,
+		location: false,
+		lat: 0,
+		lon: 0,
+		apiKey: ""
+	},
+
 	// Overwrite the fetchCurrentWeather method.
 	fetchCurrentWeather() {
 		this.fetchData(this.getUrl())

@@ -11,6 +11,7 @@
 var WeatherProvider = Class.extend({
 	// Weather Provider Properties
 	providerName: null,
+	defaults: {},
 
 	// The following properties have accessor methods.
 	// Try to not access them directly.
@@ -154,10 +155,11 @@ WeatherProvider.register = function (providerIdentifier, providerDetails) {
 WeatherProvider.initialize = function (providerIdentifier, delegate) {
 	providerIdentifier = providerIdentifier.toLowerCase();
 
-	var provider = new WeatherProvider.providers[providerIdentifier]();
+	const provider = new WeatherProvider.providers[providerIdentifier]();
+	const config = Object.assign({}, provider.defaults, delegate.config);
 
 	provider.delegate = delegate;
-	provider.setConfig(delegate.config);
+	provider.setConfig(config);
 
 	provider.providerIdentifier = providerIdentifier;
 	if (!provider.providerName) {
