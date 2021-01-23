@@ -14,6 +14,18 @@ WeatherProvider.register("openweathermap", {
 	// But for debugging (and future alerts) it would be nice to have the real name.
 	providerName: "OpenWeatherMap",
 
+	// Set the default config properties that is specific to this provider
+	defaults: {
+		apiVersion: "2.5",
+		apiBase: "https://api.openweathermap.org/data/",
+		weatherEndpoint: "/weather",
+		locationID: false,
+		location: false,
+		lat: 0,
+		lon: 0,
+		apiKey: ""
+	},
+
 	// Overwrite the fetchCurrentWeather method.
 	fetchCurrentWeather() {
 		this.fetchData(this.getUrl())
@@ -56,8 +68,8 @@ WeatherProvider.register("openweathermap", {
 			.finally(() => this.updateAvailable());
 	},
 
-	// Overwrite the fetchWeatherData method.
-	fetchWeatherData() {
+	// Overwrite the fetchWeatherHourly method.
+	fetchWeatherHourly() {
 		this.fetchData(this.getUrl())
 			.then((data) => {
 				if (!data) {
@@ -69,12 +81,24 @@ WeatherProvider.register("openweathermap", {
 				this.setFetchedLocation(`(${data.lat},${data.lon})`);
 
 				const weatherData = this.generateWeatherObjectsFromOnecall(data);
-				this.setWeatherData(weatherData);
+				this.setWeatherHourly(weatherData.hours);
 			})
 			.catch(function (request) {
 				Log.error("Could not load data ... ", request);
 			})
 			.finally(() => this.updateAvailable());
+	},
+
+	/**
+	 * Overrides method for setting config to check if endpoint is correct for hourly
+	 *
+	 * @param config
+	 */
+	setConfig(config) {
+		this.config = config;
+		if (this.config.type === "hourly") {
+			this.config.weatherEndpoint = "/onecall";
+		}
 	},
 
 	/** OpenWeatherMap Specific Methods - These are not part of the default provider methods */
