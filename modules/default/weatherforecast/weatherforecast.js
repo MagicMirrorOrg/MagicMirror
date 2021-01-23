@@ -3,6 +3,8 @@
  *
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
+ *
+ * This module is deprecated. Any additional feature will no longer be merged.
  */
 Module.register("weatherforecast", {
 	// Default module config.
