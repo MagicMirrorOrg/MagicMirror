@@ -129,9 +129,9 @@ Module.register("weather", {
 				return `hourly.njk`;
 			case "daily":
 			case "forecast":
-				return `forecast.njk`;
 			default:
-				return `${this.config.type.toLowerCase()}.njk`;
+				//Make the invalid values use the "Loading..." from forecast
+				return `forecast.njk`;
 		}
 	},
 
@@ -167,12 +167,19 @@ Module.register("weather", {
 		}
 
 		setTimeout(() => {
-			if (this.config.weatherEndpoint === "/onecall") {
-				this.weatherProvider.fetchWeatherData();
-			} else if (this.config.type === "forecast") {
-				this.weatherProvider.fetchWeatherForecast();
-			} else {
-				this.weatherProvider.fetchCurrentWeather();
+			switch (this.config.type.toLowerCase()) {
+				case "current":
+					this.weatherProvider.fetchCurrentWeather();
+					break;
+				case "hourly":
+					this.weatherProvider.fetchWeatherData();
+					break;
+				case "daily":
+				case "forecast":
+					this.weatherProvider.fetchWeatherForecast();
+					break;
+				default:
+					Log.error(`Invalid type ${this.config.type} configured (must be one of 'current', 'hourly', 'daily' or 'forecast')`);
 			}
 		}, nextLoad);
 	},

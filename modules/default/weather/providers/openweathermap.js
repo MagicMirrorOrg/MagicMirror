@@ -77,6 +77,18 @@ WeatherProvider.register("openweathermap", {
 			.finally(() => this.updateAvailable());
 	},
 
+	/**
+	 * Overrides method for setting config to check if endpoint is correct for hourly
+	 *
+	 * @param config
+	 */
+	setConfig(config) {
+		this.config = config;
+		if (this.config.type === "hourly") {
+			this.config.weatherEndpoint = "/onecall";
+		}
+	},
+
 	/** OpenWeatherMap Specific Methods - These are not part of the default provider methods */
 	/*
 	 * Gets the complete url for the request
