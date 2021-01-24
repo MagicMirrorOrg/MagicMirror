@@ -15,6 +15,7 @@ _This release is scheduled to be released on 2021-04-01._
 - Added CodeCov badge to Readme.
 - Added CURRENTWEATHER_TYPE notification to currentweather and weather module, use it in compliments module.
 - Added `start:dev` command to the npm scripts for starting electron with devTools open.
+- Added logging when using deprecated modules weatherforecast or currentweather.
 - Portuguese translations for "MODULE_CONFIG_CHANGED" and PRECIP.
 
 ### Updated
