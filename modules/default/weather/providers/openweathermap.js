@@ -18,7 +18,7 @@ WeatherProvider.register("openweathermap", {
 	defaults: {
 		apiVersion: "2.5",
 		apiBase: "https://api.openweathermap.org/data/",
-		weatherEndpoint: "/weather",
+		weatherEndpoint: "",
 		locationID: false,
 		location: false,
 		lat: 0,
@@ -96,8 +96,21 @@ WeatherProvider.register("openweathermap", {
 	 */
 	setConfig(config) {
 		this.config = config;
-		if (this.config.type === "hourly") {
-			this.config.weatherEndpoint = "/onecall";
+		if (!this.config.weatherEndpoint) {
+			switch (this.config.type) {
+				case "hourly":
+					this.config.weatherEndpoint = "/onecall";
+					break;
+				case "daily":
+				case "forecast":
+					this.config.weatherEndpoint = "/forecast";
+					break;
+				case "current":
+					this.config.weatherEndpoint = "/weather";
+					break;
+				default:
+					Log.error("weatherEndpoint not configured and could not resolve it based on type");
+			}
 		}
 	},
 
