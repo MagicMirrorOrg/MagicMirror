@@ -1,7 +1,4 @@
-{% if current or weatherData %}
-    {% if weatherData %}
-        {% set current = weatherData.current %}
-    {% endif %}
+{% if current %}
     {% if not config.onlyTemp %}
         <div class="normal medium">
             <span class="wi wi-strong-wind dimmed"></span>
