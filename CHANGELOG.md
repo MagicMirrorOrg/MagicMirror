@@ -40,6 +40,7 @@ _This release is scheduled to be released on 2021-04-01._
 - Fix empty directory for each module's main javascript file in the inspector
 - Fix Issue with weather forecast icons unit tests with different timezones (#2221)
 - Fix issue with unencoded characters in translated strings when using nunjuck template (`Loading &hellip;` as an example)
+- Fix socket.io backward compatibility with socket v2 clients
 
 ## [2.14.0] - 2021-01-01
 
