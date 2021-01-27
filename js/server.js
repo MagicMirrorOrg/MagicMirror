@@ -28,7 +28,11 @@ function Server(config, callback) {
 		server = require("http").Server(app);
 	}
 	const io = require("socket.io")(server, {
-		cors: {}
+		cors: {
+			origin: /.*$/,
+			credentials: true
+		},
+		allowEIO3: true
 	});
 
 	Log.log(`Starting server on port ${port} ... `);
