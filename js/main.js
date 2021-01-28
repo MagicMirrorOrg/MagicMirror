@@ -295,6 +295,7 @@ var MM = (function () {
 		// Otherwise cancel show action.
 		if (module.lockStrings.length !== 0 && options.force !== true) {
 			Log.log("Will not show " + module.name + ". LockStrings active: " + module.lockStrings.join(","));
+			callback("Active lock strings");
 			return;
 		}
 
@@ -321,13 +322,13 @@ var MM = (function () {
 			clearTimeout(module.showHideTimer);
 			module.showHideTimer = setTimeout(function () {
 				if (typeof callback === "function") {
-					callback();
+					callback(null);
 				}
 			}, speed);
 		} else {
 			// invoke callback
 			if (typeof callback === "function") {
-				callback();
+				callback(null);
 			}
 		}
 	};

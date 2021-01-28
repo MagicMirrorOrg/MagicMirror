@@ -432,9 +432,11 @@ var Module = Class.extend({
 		MM.showModule(
 			this,
 			speed,
-			function () {
-				self.resume();
-				callback();
+			function (error) {
+				if (!error) {
+					self.resume();
+				}
+				callback(error);
 			},
 			options
 		);
