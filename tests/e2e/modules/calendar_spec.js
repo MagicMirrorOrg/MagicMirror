@@ -160,11 +160,11 @@ describe("Calendar module", function () {
 
 		it("should have at least one weekday in a correct format", function () {
 			const dateRegex = /^(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)$/;
-			let then = app.client
-				.waitUntilWindowLoaded()
+			return app.client
+				.waitUntilTextExists(".calendar", "Today", 10000)
 				.getText(".time, .light")
-				.then((p) => p.reduce((prev, cur) => prev || cur.match(dateRegex) !== null, false));
-			return then.should.eventually.equal(true);
+				.then((p) => p.reduce((prev, cur) => prev || cur.match(dateRegex) !== null, false))
+				.should.eventually.equal(true);
 		});
 	});
 });
