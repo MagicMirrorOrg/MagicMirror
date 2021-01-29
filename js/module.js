@@ -318,24 +318,24 @@ var Module = Class.extend({
 		const languages = Object.keys(translations);
 		const fallbackLanguage = languages[0];
 
-		if (languages.length > 0) {
-			const translationFile = translations[language];
-			const translationsFallbackFile = translations[fallbackLanguage];
-
-			if (translationFile) {
-				Translator.load(this, translationFile, false, () => {
-					if (translationFile !== translationsFallbackFile) {
-						Translator.load(this, translationsFallbackFile, true, callback);
-					} else {
-						callback();
-					}
-				});
-			} else {
-				Translator.load(this, translationsFallbackFile, true, callback);
-			}
-		} else {
-			callback();
+		if (languages.length === 0) {
+			return callback();
 		}
+
+		const translationFile = translations[language];
+		const translationsFallbackFile = translations[fallbackLanguage];
+
+		if (!translationFile) {
+			return Translator.load(this, translationsFallbackFile, true, callback);
+		}
+
+		Translator.load(this, translationFile, false, () => {
+			if (translationFile !== translationsFallbackFile) {
+				Translator.load(this, translationsFallbackFile, true, callback);
+			} else {
+				callback();
+			}
+		});
 	},
 
 	/**
