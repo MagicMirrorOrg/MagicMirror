@@ -34,13 +34,5 @@
 	"UPDATE_INFO_MULTIPLE": "The current installation is {COMMIT_COUNT} commits behind on the {BRANCH_NAME} branch.",
 
 	"FEELS": "Feels like {DEGREE}",
-	"PRECIP": "PoP",
-	"FULL_DAY_EVENT_RELATIVE_CALENDAR": {
-		"sameDay": "[Today]",
-		"nextDay": "[Tomorrow]",
-		"nextWeek": "dddd",
-		"lastDay": "[Yesterday]",
-		"lastWeek": "[Last] dddd",
-		"sameElse": "L"
-	}
+	"PRECIP": "PoP"
 }

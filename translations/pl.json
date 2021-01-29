@@ -32,13 +32,5 @@
 	"UPDATE_INFO_MULTIPLE": "Zainstalowana wersja odbiega o {COMMIT_COUNT} commitów od gałęzi {BRANCH_NAME}.",
 
 	"FEELS": "Odczuwalna {DEGREE}",
-	"PRECIP": "Szansa opadów",
-	"FULL_DAY_EVENT_RELATIVE_CALENDAR": {
-		"sameDay": "[Dziś]",
-		"nextDay": "[Jutro]",
-		"nextWeek": "function () { switch (this.day()) { case 0: return '[W niedzielę]'; case 2: return '[We wtorek]'; case 3: return '[W środę]'; case 6: return '[W sobotę]'; default: return '[W] dddd'; } }",
-		"lastDay": "[Wczoraj]",
-		"lastWeek": "function () { switch (this.day()) { case 0: return '[W zeszłą niedzielę]'; case 3: return '[W zeszłą środę]'; case 6: return '[W zeszłą sobotę]'; default: return '[W zeszły] dddd'; } }",
-		"sameElse": "L"
-	}
+	"PRECIP": "Szansa opadów"
 }

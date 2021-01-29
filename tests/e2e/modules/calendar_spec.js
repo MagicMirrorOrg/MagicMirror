@@ -139,4 +139,32 @@ describe("Calendar module", function () {
 			return app.client.waitUntilTextExists(".calendar", "No upcoming events.", 10000);
 		});
 	});
+
+	describe("Custom calendar configuration", function () {
+		before(function () {
+			// Set config sample for use in test
+			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/daily.js";
+		});
+
+		it("should show current event as 'Today'", async () => {
+			await app.client.waitUntilTextExists(".calendar", "Today", 10000);
+		});
+
+		it("should show Tomorrow's event as 'Tomorrow'", async () => {
+			await app.client.waitUntilTextExists(".calendar", "Tomorrow", 10000);
+		});
+
+		it("should show Tomorrow's event as 'Tomorrow'", async () => {
+			await app.client.waitUntilWindowLoaded(".calendar", "Tomorrow", 10000);
+		});
+
+		it("should have at least one weekday in a correct format", function () {
+			const dateRegex = /^(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)$/;
+			let then = app.client
+				.waitUntilWindowLoaded()
+				.getText(".time, .light")
+				.then((p) => p.reduce((prev, cur) => prev || cur.match(dateRegex) !== null, false));
+			return then.should.eventually.equal(true);
+		});
+	});
 });

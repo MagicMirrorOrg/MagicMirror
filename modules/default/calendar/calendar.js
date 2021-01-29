@@ -1,4 +1,4 @@
-/* global cloneObject, Translator */
+/* global cloneObject */
 
 /* Magic Mirror
  * Module: Calendar
@@ -31,6 +31,7 @@ Module.register("calendar", {
 		dateFormat: "MMM Do",
 		dateEndFormat: "LT",
 		fullDayEventDateFormat: "MMM Do",
+		showFullDayEventTime: true, // show hours for full day events in relative mode
 		showEnd: false,
 		getRelative: 6,
 		fadePoint: 0.25, // Start on 1/4th of the list.
@@ -93,20 +94,15 @@ Module.register("calendar", {
 		// indicate no data available yet
 		this.loaded = false;
 
-		if (this.config.timeFormat === "relative") {
-			this.fullDayEventRelativeCalendar = {};
-			let calendarTemplate = Translator.coreTranslations["FULL_DAY_EVENT_RELATIVE_CALENDAR"];
-			if (calendarTemplate) {
-				Object.entries(calendarTemplate).forEach(([key, value]) => {
-					if (value && value.startsWith("function")) {
-						value = "(" + value + ")";
-					}
-					if (value && value.startsWith("(function")) {
-						value = eval(value);
-					}
-					this.fullDayEventRelativeCalendar[key] = value;
-				});
-			}
+		if (this.config.timeFormat === "relative" && !this.config.showFullDayEventTime) {
+			this.fullDayEventRelativeCalendar = Object.assign(
+				{
+					sameDay: "[" + this.translate("TODAY") + "]",
+					nextDay: "[" + this.translate("TOMORROW") + "]",
+					sameElse: this.config.fullDayEventDateFormat
+				},
+				this.fullDayEventRelativeCalendarHolder[config.language]
+			);
 		}
 
 		for (var c in this.config.calendars) {
@@ -390,7 +386,7 @@ Module.register("calendar", {
 						}
 					} else {
 						// Ongoing event
-						if (event.fullDayEvent && moment.duration(moment(event.endDate, "x").diff(moment())).days() < 1) {
+						if (event.fullDayEvent && !this.config.showFullDayEventTime && moment.duration(moment(event.endDate, "x").diff(moment())).days() < 1) {
 							timeWrapper.innerHTML = this.capFirst(this.translate("TODAY"));
 						} else {
 							timeWrapper.innerHTML = this.capFirst(
@@ -852,5 +848,106 @@ Module.register("calendar", {
 		});
 
 		this.sendNotification("CALENDAR_EVENTS", eventList);
+	},
+
+	fullDayEventRelativeCalendarHolder: {
+		en: {
+			nextWeek: "dddd",
+			lastDay: "[Yesterday]",
+			lastWeek: "[Last] dddd"
+		},
+		uk: {
+			lastDay: "[Вчора]",
+			nextWeek: "[У] dddd",
+			lastWeek: function () {
+				switch (this.day()) {
+					case 0:
+					case 3:
+					case 5:
+					case 6:
+						return "[Минулої] dddd";
+					case 1:
+					case 2:
+					case 4:
+						return "[Минулого] dddd";
+				}
+			}
+		},
+		pl: {
+			nextWeek: function () {
+				switch (this.day()) {
+					case 0:
+						return "[W niedzielę]";
+					case 2:
+						return "[We wtorek]";
+					case 3:
+						return "[W środę]";
+					case 6:
+						return "[W sobotę]";
+					default:
+						return "[W] dddd";
+				}
+			},
+			lastDay: "[Wczoraj]",
+			lastWeek: function () {
+				switch (this.day()) {
+					case 0:
+						return "[W zeszłą niedzielę]";
+					case 3:
+						return "[W zeszłą środę]";
+					case 6:
+						return "[W zeszłą sobotę]";
+					default:
+						return "[W zeszły] dddd";
+				}
+			}
+		},
+		ru: {
+			lastDay: "[Вчера]",
+			nextWeek: function (now) {
+				if (now.week() !== this.week()) {
+					switch (this.day()) {
+						case 0:
+							return "[В следующее] dddd";
+						case 1:
+						case 2:
+						case 4:
+							return "[В следующий] dddd";
+						case 3:
+						case 5:
+						case 6:
+							return "[В следующую] dddd";
+					}
+				} else {
+					if (this.day() === 2) {
+						return "[Во] dddd";
+					} else {
+						return "[В] dddd";
+					}
+				}
+			},
+			lastWeek: function (now) {
+				if (now.week() !== this.week()) {
+					switch (this.day()) {
+						case 0:
+							return "[В прошлое] dddd";
+						case 1:
+						case 2:
+						case 4:
+							return "[В прошлый] dddd";
+						case 3:
+						case 5:
+						case 6:
+							return "[В прошлую] dddd";
+					}
+				} else {
+					if (this.day() === 2) {
+						return "[Во] dddd";
+					} else {
+						return "[В] dddd";
+					}
+				}
+			}
+		}
 	}
 });
