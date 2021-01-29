@@ -106,6 +106,24 @@ describe("Translations", function () {
 				done();
 			};
 		});
+
+		it("should load no file", (done) => {
+			dom.window.onload = async function () {
+				const { Translator, Module } = dom.window;
+				Translator.load = sinon.stub();
+
+				Module.register("name", {});
+				const MMM = Module.create("name");
+
+				const loaded = sinon.stub();
+				MMM.loadTranslations(loaded);
+
+				expect(loaded.callCount).to.equal(1);
+				expect(Translator.load.callCount).to.equal(0);
+
+				done();
+			};
+		});
 	});
 
 	const mmm = {
