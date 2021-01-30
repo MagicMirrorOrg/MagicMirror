@@ -31,25 +31,25 @@ describe("Electron app environment", function () {
 		return helpers.stopApplication(app);
 	});
 
-	it("should open a browserwindow", function () {
+	it("should open a browserwindow", async function () {
+		await app.client.waitUntilWindowLoaded();
+		app.browserWindow.focus();
+		const cnt = await app.client.getWindowCount();
+		const min = await app.browserWindow.isMinimized();
+		const dev = await app.browserWindow.isDevToolsOpened();
+		const vis = await app.browserWindow.isVisible();
+		const foc = await app.browserWindow.isFocused();
+		const bounds = await app.browserWindow.getBounds();
+		const title = await app.browserWindow.getTitle();
 		return (
-			app.client
-				.waitUntilWindowLoaded()
-				// .browserWindow.focus()
-				.getWindowCount()
-				.should.eventually.equal(1)
-				.browserWindow.isMinimized()
-				.should.eventually.be.false.browserWindow.isDevToolsOpened()
-				.should.eventually.be.false.browserWindow.isVisible()
-				.should.eventually.be.true.browserWindow.isFocused()
-				.should.eventually.be.true.browserWindow.getBounds()
-				.should.eventually.have.property("width")
-				.and.be.above(0)
-				.browserWindow.getBounds()
-				.should.eventually.have.property("height")
-				.and.be.above(0)
-				.browserWindow.getTitle()
-				.should.eventually.equal("MagicMirror²")
+			cnt.should.equal(1) &&
+			min.should.be.false &&
+			dev.should.be.false &&
+			vis.should.be.true &&
+			foc.should.be.true &&
+			bounds.should.have.property("width").and.be.above(0) &&
+			bounds.should.have.property("height").and.be.above(0) &&
+			title.should.equal("MagicMirror²")
 		);
 	});
 

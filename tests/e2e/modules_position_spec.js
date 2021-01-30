@@ -33,10 +33,9 @@ describe("Position of modules", function () {
 			position = positions[idx];
 			className = position.replace("_", ".");
 			it("show text in " + position, function () {
-				return app.client
-					.waitUntilWindowLoaded()
-					.getText("." + className)
-					.should.eventually.equal("Text in " + position);
+				app.client.$("." + className).then((result) => {
+					return this.getText("." + className).should.eventually.equal("Text in " + position);
+				});
 			});
 		}
 	});

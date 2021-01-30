@@ -58,14 +58,14 @@
 		"nyc": "^15.1.0",
 		"prettier": "^2.2.1",
 		"pretty-quick": "^3.1.0",
-		"spectron": "^10.0.1",
+		"spectron": "^13.0.0",
 		"stylelint": "^13.8.0",
 		"stylelint-config-prettier": "^8.0.2",
 		"stylelint-config-standard": "^20.0.0",
 		"stylelint-prettier": "^1.1.2"
 	},
 	"optionalDependencies": {
-		"electron": "^8.5.3"
+		"electron": "^11.2.1"
 	},
 	"dependencies": {
 		"colors": "^1.4.0",
