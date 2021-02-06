@@ -45,8 +45,8 @@
 	"devDependencies": {
 		"chai": "^4.2.0",
 		"chai-as-promised": "^7.1.1",
-		"eslint-config-prettier": "^7.1.0",
-		"eslint-plugin-jsdoc": "^31.0.6",
+		"eslint-config-prettier": "^7.2.0",
+		"eslint-plugin-jsdoc": "^31.6.0",
 		"eslint-plugin-prettier": "^3.3.1",
 		"express-basic-auth": "^1.2.0",
 		"husky": "^4.3.8",
@@ -60,7 +60,7 @@
 		"pretty-quick": "^3.1.0",
 		"sinon": "^9.2.4",
 		"spectron": "^13.0.0",
-		"stylelint": "^13.8.0",
+		"stylelint": "^13.9.0",
 		"stylelint-config-prettier": "^8.0.2",
 		"stylelint-config-standard": "^20.0.0",
 		"stylelint-prettier": "^1.1.2"
@@ -71,7 +71,7 @@
 	"dependencies": {
 		"colors": "^1.4.0",
 		"console-stamp": "^3.0.0-rc4.2",
-		"eslint": "^7.18.0",
+		"eslint": "^7.19.0",
 		"express": "^4.17.1",
 		"express-ipfilter": "^1.1.2",
 		"feedme": "^2.0.2",
