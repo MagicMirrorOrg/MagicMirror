@@ -31,7 +31,7 @@ describe("Clock set to spanish language module", function () {
 		});
 
 		it("shows date with correct format", async function () {
-			const dateRegex = /^(?:lunes|martes|mi  rcoles|jueves|viernes|s  bado|domingo), \d{1,2} de (?:enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre) de \d{4}$/;
+			const dateRegex = /^(?:lunes|martes|miércoles|jueves|viernes|sábado|domingo), \d{1,2} de (?:enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre) de \d{4}$/;
 			const elem = await app.client.$(".clock .date");
 			return elem.getText(".clock .date").should.eventually.match(dateRegex);
 		});
