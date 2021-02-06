@@ -311,33 +311,31 @@ var Module = Class.extend({
 	 *
 	 * @param {Function} callback Function called when done.
 	 */
-	loadTranslations: function (callback) {
-		var self = this;
-		var translations = this.getTranslations();
-		var lang = config.language.toLowerCase();
+	loadTranslations(callback) {
+		const translations = this.getTranslations() || {};
+		const language = config.language.toLowerCase();
 
-		// The variable `first` will contain the first
-		// defined translation after the following line.
-		for (var first in translations) {
-			break;
+		const languages = Object.keys(translations);
+		const fallbackLanguage = languages[0];
+
+		if (languages.length === 0) {
+			return callback();
 		}
 
-		if (translations) {
-			var translationFile = translations[lang] || undefined;
-			var translationsFallbackFile = translations[first];
+		const translationFile = translations[language];
+		const translationsFallbackFile = translations[fallbackLanguage];
 
-			// If a translation file is set, load it and then also load the fallback translation file.
-			// Otherwise only load the fallback translation file.
-			if (translationFile !== undefined && translationFile !== translationsFallbackFile) {
-				Translator.load(self, translationFile, false, function () {
-					Translator.load(self, translationsFallbackFile, true, callback);
-				});
+		if (!translationFile) {
+			return Translator.load(this, translationsFallbackFile, true, callback);
+		}
+
+		Translator.load(this, translationFile, false, () => {
+			if (translationFile !== translationsFallbackFile) {
+				Translator.load(this, translationsFallbackFile, true, callback);
 			} else {
-				Translator.load(self, translationsFallbackFile, true, callback);
+				callback();
 			}
-		} else {
-			callback();
-		}
+		});
 	},
 
 	/**
