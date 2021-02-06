@@ -279,8 +279,9 @@ var MM = (function () {
 	 * @param {number} speed The speed of the show animation.
 	 * @param {Function} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the show method.
+	 * @param {Function} errorCallback Called when the module failed to show.
 	 */
-	var showModule = function (module, speed, callback, options) {
+	var showModule = function (module, speed, callback, errorCallback, options) {
 		options = options || {};
 
 		// remove lockString if set in options.
@@ -295,7 +296,9 @@ var MM = (function () {
 		// Otherwise cancel show action.
 		if (module.lockStrings.length !== 0 && options.force !== true) {
 			Log.log("Will not show " + module.name + ". LockStrings active: " + module.lockStrings.join(","));
-			callback(new Error("ERR_ACTIVE_LOCK_STRINGS"));
+			if (typeof errorCallback === "function") {
+				errorCallback(new Error("ERR_ACTIVE_LOCK_STRINGS"));
+			}
 			return;
 		}
 
@@ -322,13 +325,13 @@ var MM = (function () {
 			clearTimeout(module.showHideTimer);
 			module.showHideTimer = setTimeout(function () {
 				if (typeof callback === "function") {
-					callback(null);
+					callback();
 				}
 			}, speed);
 		} else {
 			// invoke callback
 			if (typeof callback === "function") {
-				callback(null);
+				callback();
 			}
 		}
 	};
@@ -587,10 +590,11 @@ var MM = (function () {
 		 * @param {number} speed The speed of the show animation.
 		 * @param {Function} callback Called when the animation is done.
 		 * @param {object} [options] Optional settings for the show method.
+		 * @param {Function} errorCallback Called when the module failed to show.
 		 */
-		showModule: function (module, speed, callback, options) {
+		showModule: function (module, speed, callback, errorCallback, options) {
 			// do not change module.hidden yet, only if we really show it later
-			showModule(module, speed, callback, options);
+			showModule(module, speed, callback, errorCallback, options);
 		}
 	};
 })();

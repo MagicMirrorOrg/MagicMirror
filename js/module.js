@@ -416,8 +416,9 @@ var Module = Class.extend({
 	 * @param {number} speed The speed of the show animation.
 	 * @param {Function} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the show method.
+	 * @param {Function} errorCallback Called when the module failed to show.
 	 */
-	show: function (speed, callback, options) {
+	show: function (speed, callback, options, errorCallback) {
 		if (typeof callback === "object") {
 			options = callback;
 			callback = function () {};
@@ -425,17 +426,16 @@ var Module = Class.extend({
 
 		callback = callback || function () {};
 		options = options || {};
+		errorCallback = errorCallback || function () {};
 
-		var self = this;
 		MM.showModule(
 			this,
 			speed,
-			function (error) {
-				if (!error) {
-					self.resume();
-				}
-				callback(error);
+			() => {
+				this.resume();
+				callback();
 			},
+			errorCallback,
 			options
 		);
 	}
