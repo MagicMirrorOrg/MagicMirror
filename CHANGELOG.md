@@ -17,6 +17,7 @@ _This release is scheduled to be released on 2021-04-01._
 - Added `start:dev` command to the npm scripts for starting electron with devTools open.
 - Added logging when using deprecated modules weatherforecast or currentweather.
 - Portuguese translations for "MODULE_CONFIG_CHANGED" and PRECIP.
+- `module.show` has now the option for a callback on error.
 
 ### Updated
 
@@ -29,7 +30,6 @@ _This release is scheduled to be released on 2021-04-01._
 - Moving weather provider specific code and configuration into each provider and making hourly part of the interface.
 - Bump electron to v11.
 - Dont update the DOM when a module is not displayed.
-- Callback for `module.show` also gets triggered if lock strings are active but then contains an error `callback(error)`.
 
 ### Removed
 
