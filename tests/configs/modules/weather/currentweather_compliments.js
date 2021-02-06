@@ -15,7 +15,8 @@ let config = {
 	electronOptions: {
 		fullscreen: false,
 		webPreferences: {
-			nodeIntegration: true
+			nodeIntegration: true,
+			enableRemoteModule: true
 		}
 	},
 
