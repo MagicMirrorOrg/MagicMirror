@@ -27,6 +27,7 @@ _This release is scheduled to be released on 2021-04-01._
 - Converted newsfeed module to use templates.
 - Update documentation and help screen about invalid config files.
 - Moving weather provider specific code and configuration into each provider and making hourly part of the interface.
+- Bump electron to v11
 
 ### Removed
 
