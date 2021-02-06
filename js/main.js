@@ -547,6 +547,11 @@ var MM = (function () {
 				return;
 			}
 
+			if (!module.data.position) {
+				Log.warn("module tries to update the DOM without being displayed.");
+				return;
+			}
+
 			// Further implementation is done in the private method.
 			updateDom(module, speed);
 		},
