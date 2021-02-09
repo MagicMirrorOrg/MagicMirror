@@ -36,6 +36,7 @@ Module.register("calendar", {
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		hidePrivate: false,
 		hideOngoing: false,
+		hideTime: false,
 		colored: false,
 		coloredSymbolOnly: false,
 		customEvents: [], // Array of {keyword: "", symbol: "", color: ""} where Keyword is a regexp and symbol/color are to be applied for matched
@@ -366,7 +367,17 @@ Module.register("calendar", {
 					// Show relative times
 					if (event.startDate >= now) {
 						// Use relative  time
-						timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").calendar());
+						if (!this.config.hideTime) {
+							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").calendar());
+						} else {
+							timeWrapper.innerHTML = this.capFirst(
+								moment(event.startDate, "x").calendar(null, {
+									sameDay: "[Today]",
+									nextDay: "[Tomorrow]",
+									nextWeek: "dddd"
+								})
+							);
+						}
 						if (event.startDate - now < this.config.getRelative * oneHour) {
 							// If event is within getRelative  hours, display 'in xxx' time format or moment.fromNow()
 							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
