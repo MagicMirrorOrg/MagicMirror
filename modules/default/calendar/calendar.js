@@ -277,8 +277,11 @@ Module.register("calendar", {
 					if (typeof this.config.customEvents[ev].color !== "undefined" && this.config.customEvents[ev].color !== "") {
 						needle = new RegExp(this.config.customEvents[ev].keyword, "gi");
 						if (needle.test(event.title)) {
-							eventWrapper.style.cssText = "color:" + this.config.customEvents[ev].color;
-							titleWrapper.style.cssText = "color:" + this.config.customEvents[ev].color;
+							// Respect parameter ColoredSymbolOnly also for custom events
+							if (!this.config.coloredSymbolOnly) {
+								eventWrapper.style.cssText = "color:" + this.config.customEvents[ev].color;
+								titleWrapper.style.cssText = "color:" + this.config.customEvents[ev].color;
+							}
 							if (this.config.displaySymbol) {
 								symbolWrapper.style.cssText = "color:" + this.config.customEvents[ev].color;
 							}

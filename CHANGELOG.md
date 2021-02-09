@@ -17,6 +17,7 @@ _This release is scheduled to be released on 2021-04-01._
 - Added `start:dev` command to the npm scripts for starting electron with devTools open.
 - Added logging when using deprecated modules weatherforecast or currentweather.
 - Portuguese translations for "MODULE_CONFIG_CHANGED" and PRECIP.
+- Respect parameter ColoredSymbolOnly also for custom events
 
 ### Updated
 
