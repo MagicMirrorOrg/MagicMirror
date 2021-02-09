@@ -174,22 +174,22 @@ Module.register("calendar", {
 			return wrapper;
 		}
 
+		let currentFadeStep = 0;
+		let startFade;
+		let fadeSteps;
+
 		if (this.config.fade && this.config.fadePoint < 1) {
 			if (this.config.fadePoint < 0) {
 				this.config.fadePoint = 0;
 			}
-			var startFade = events.length * this.config.fadePoint;
-			var fadeSteps = events.length - startFade;
+			startFade = events.length * this.config.fadePoint;
+			fadeSteps = events.length - startFade;
 		}
 
-		var currentFadeStep = 0;
-		var lastSeenDate = "";
-		var ev;
-		var needle;
+		let lastSeenDate = "";
 
-		for (var e in events) {
-			var event = events[e];
-			var dateAsString = moment(event.startDate, "x").format(this.config.dateFormat);
+		events.forEach((event, index) => {
+			const dateAsString = moment(event.startDate, "x").format(this.config.dateFormat);
 			if (this.config.timeFormat === "dateheaders") {
 				if (lastSeenDate !== dateAsString) {
 					const dateRow = document.createElement("tr");
@@ -202,9 +202,9 @@ Module.register("calendar", {
 					dateRow.appendChild(dateCell);
 					wrapper.appendChild(dateRow);
 
-					if (e >= startFade) {
+					if (this.config.fade && index >= startFade) {
 						//fading
-						currentFadeStep = e - startFade;
+						currentFadeStep = index - startFade;
 						dateRow.style.opacity = 1 - (1 / fadeSteps) * currentFadeStep;
 					}
 
@@ -233,9 +233,9 @@ Module.register("calendar", {
 				const symbols = this.symbolsForEvent(event);
 				// If symbols are displayed and custom symbol is set, replace event symbol
 				if (this.config.displaySymbol && this.config.customEvents.length > 0) {
-					for (ev in this.config.customEvents) {
+					for (let ev in this.config.customEvents) {
 						if (typeof this.config.customEvents[ev].symbol !== "undefined" && this.config.customEvents[ev].symbol !== "") {
-							needle = new RegExp(this.config.customEvents[ev].keyword, "gi");
+							let needle = new RegExp(this.config.customEvents[ev].keyword, "gi");
 							if (needle.test(event.title)) {
 								symbols[0] = this.config.customEvents[ev].symbol;
 								break;
@@ -274,9 +274,9 @@ Module.register("calendar", {
 
 			// Color events if custom color is specified
 			if (this.config.customEvents.length > 0) {
-				for (ev in this.config.customEvents) {
+				for (let ev in this.config.customEvents) {
 					if (typeof this.config.customEvents[ev].color !== "undefined" && this.config.customEvents[ev].color !== "") {
-						needle = new RegExp(this.config.customEvents[ev].keyword, "gi");
+						let needle = new RegExp(this.config.customEvents[ev].keyword, "gi");
 						if (needle.test(event.title)) {
 							// Respect parameter ColoredSymbolOnly also for custom events
 							if (!this.config.coloredSymbolOnly) {
@@ -397,8 +397,8 @@ Module.register("calendar", {
 			wrapper.appendChild(eventWrapper);
 
 			// Create fade effect.
-			if (e >= startFade) {
-				currentFadeStep = e - startFade;
+			if (index >= startFade) {
+				currentFadeStep = index - startFade;
 				eventWrapper.style.opacity = 1 - (1 / fadeSteps) * currentFadeStep;
 			}
 
@@ -420,13 +420,13 @@ Module.register("calendar", {
 
 					wrapper.appendChild(locationRow);
 
-					if (e >= startFade) {
-						currentFadeStep = e - startFade;
+					if (index >= startFade) {
+						currentFadeStep = index - startFade;
 						locationRow.style.opacity = 1 - (1 / fadeSteps) * currentFadeStep;
 					}
 				}
 			}
-		}
+		});
 
 		return wrapper;
 	},
@@ -480,10 +480,11 @@ Module.register("calendar", {
 		const future = moment().startOf("day").add(this.config.maximumNumberOfDays, "days").toDate();
 		let events = [];
 
-		for (var c in this.calendarData) {
-			var calendar = this.calendarData[c];
-			for (var e in calendar) {
-				var event = JSON.parse(JSON.stringify(calendar[e])); // clone object
+		for (const calendarUrl in this.calendarData) {
+			const calendar = this.calendarData[calendarUrl];
+			console.log(calendar);
+			for (const e in calendar) {
+				const event = JSON.parse(JSON.stringify(calendar[e])); // clone object
 
 				if (event.endDate < now) {
 					continue;
@@ -502,7 +503,7 @@ Module.register("calendar", {
 				if (this.listContainsEvent(events, event)) {
 					continue;
 				}
-				event.url = c;
+				event.url = calendarUrl;
 				event.today = event.startDate >= today && event.startDate < today + 24 * 60 * 60 * 1000;
 
 				/* if sliceMultiDayEvents is set to true, multiday events (events exceeding at least one midnight) are sliced into days,
@@ -514,7 +515,7 @@ Module.register("calendar", {
 					let midnight = moment(event.startDate, "x").clone().startOf("day").add(1, "day").format("x");
 					let count = 1;
 					while (event.endDate > midnight) {
-						var thisEvent = JSON.parse(JSON.stringify(event)); // clone object
+						const thisEvent = JSON.parse(JSON.stringify(event)); // clone object
 						thisEvent.today = thisEvent.startDate >= today && thisEvent.startDate < today + 24 * 60 * 60 * 1000;
 						thisEvent.endDate = midnight;
 						thisEvent.title += " (" + count + "/" + maxCount + ")";
@@ -737,13 +738,13 @@ Module.register("calendar", {
 		}
 
 		if (wrapEvents === true) {
-			var temp = "";
-			var currentLine = "";
-			var words = string.split(" ");
-			var line = 0;
+			const words = string.split(" ");
+			let temp = "";
+			let currentLine = "";
+			let line = 0;
 
-			for (var i = 0; i < words.length; i++) {
-				var word = words[i];
+			for (let i = 0; i < words.length; i++) {
+				const word = words[i];
 				if (currentLine.length + word.length < (typeof maxLength === "number" ? maxLength : 25) - 1) {
 					// max - 1 to account for a space
 					currentLine += word + " ";
@@ -798,10 +799,10 @@ Module.register("calendar", {
 	 * @returns {string} The transformed title.
 	 */
 	titleTransform: function (title, titleReplace, wrapEvents, maxTitleLength, maxTitleLines) {
-		for (var needle in titleReplace) {
-			var replacement = titleReplace[needle];
+		for (let needle in titleReplace) {
+			const replacement = titleReplace[needle];
 
-			var regParts = needle.match(/^\/(.+)\/([gim]*)$/);
+			const regParts = needle.match(/^\/(.+)\/([gim]*)$/);
 			if (regParts) {
 				// the parsed pattern is a regexp.
 				needle = new RegExp(regParts[1], regParts[2]);
@@ -819,11 +820,10 @@ Module.register("calendar", {
 	 * The all events available in one array, sorted on startdate.
 	 */
 	broadcastEvents: function () {
-		var eventList = [];
-		for (var url in this.calendarData) {
-			var calendar = this.calendarData[url];
-			for (var e in calendar) {
-				var event = cloneObject(calendar[e]);
+		const eventList = [];
+		for (const url in this.calendarData) {
+			for (const ev of this.calendarData[url]) {
+				const event = cloneObject(ev);
 				event.symbol = this.symbolsForEvent(event);
 				event.calendarName = this.calendarNameForUrl(url);
 				event.color = this.colorForUrl(url);
