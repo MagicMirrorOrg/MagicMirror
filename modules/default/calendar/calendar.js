@@ -281,7 +281,7 @@ Module.register("calendar", {
 							if (!this.config.coloredSymbolOnly) {
 								eventWrapper.style.cssText = "color:" + this.config.customEvents[ev].color;
 								titleWrapper.style.cssText = "color:" + this.config.customEvents[ev].color;
-							}							
+							}
 							if (this.config.displaySymbol) {
 								symbolWrapper.style.cssText = "color:" + this.config.customEvents[ev].color;
 							}
