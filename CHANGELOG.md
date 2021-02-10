@@ -47,6 +47,7 @@ _This release is scheduled to be released on 2021-04-01._
 - Fix issue with unencoded characters in translated strings when using nunjuck template (`Loading &hellip;` as an example)
 - Fix socket.io backward compatibility with socket v2 clients
 - 3rd party module language loading if language is English
+- Fix e2e tests after spectron update
 
 ## [2.14.0] - 2021-01-01
 
