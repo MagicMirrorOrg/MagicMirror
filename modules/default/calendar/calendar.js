@@ -372,8 +372,8 @@ Module.register("calendar", {
 						} else {
 							timeWrapper.innerHTML = this.capFirst(
 								moment(event.startDate, "x").calendar(null, {
-									sameDay: "[Today]",
-									nextDay: "[Tomorrow]",
+									sameDay: "[" + this.translate("TODAY") + "]",
+									nextDay: "[" + this.translate("TOMORROW") + "]",
 									nextWeek: "dddd"
 								})
 							);
