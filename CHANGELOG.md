@@ -31,7 +31,7 @@ _This release is scheduled to be released on 2021-04-01._
 - Moving weather provider specific code and configuration into each provider and making hourly part of the interface.
 - Bump electron to v11.
 - Dont update the DOM when a module is not displayed.
-- Cleaned up jsdoc.
+- Cleaned up jsdoc and tests.
 
 ### Removed
 

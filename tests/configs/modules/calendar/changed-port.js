@@ -1,4 +1,4 @@
-/* Magic Mirror Test config default calendar
+/* Magic Mirror Test config default calendar with auth by default
  *
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.
@@ -26,11 +26,10 @@ var config = {
 				calendars: [
 					{
 						maximumNumberOfDays: 10000,
-						url: "http://localhost:8080/tests/configs/data/calendar_test.ics",
+						url: "http://localhost:8010/tests/configs/data/calendar_test.ics",
 						auth: {
 							user: "MagicMirror",
-							pass: "CallMeADog",
-							method: "basic"
+							pass: "CallMeADog"
 						}
 					}
 				]

@@ -26,7 +26,7 @@ var config = {
 				calendars: [
 					{
 						maximumNumberOfDays: 10000,
-						url: "http://localhost:8012/tests/configs/data/calendar_test.ics",
+						url: "http://localhost:8080/tests/configs/data/calendar_test.ics",
 						user: "MagicMirror",
 						pass: "CallMeADog"
 					}
