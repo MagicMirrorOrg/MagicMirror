@@ -51,6 +51,13 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 			gzip: true
 		};
 
+        if (selfSignedCert) {
+            var agentOptions = {
+                rejectUnauthorized: false
+            };
+            opts.agentOptions = agentOptions;
+        }
+
 		if (auth) {
 			if (auth.method === "bearer") {
 				opts.auth = {
