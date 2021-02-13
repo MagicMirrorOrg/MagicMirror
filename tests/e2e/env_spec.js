@@ -34,23 +34,15 @@ describe("Electron app environment", function () {
 	it("should open a browserwindow", async function () {
 		await app.client.waitUntilWindowLoaded();
 		app.browserWindow.focus();
-		const cnt = await app.client.getWindowCount();
-		const min = await app.browserWindow.isMinimized();
-		const dev = await app.browserWindow.isDevToolsOpened();
-		const vis = await app.browserWindow.isVisible();
-		const foc = await app.browserWindow.isFocused();
+		expect(await app.client.getWindowCount()).to.equal(1);
+		expect(await app.browserWindow.isMinimized()).to.be.false;
+		expect(await app.browserWindow.isDevToolsOpened()).to.be.false;
+		expect(await app.browserWindow.isVisible()).to.be.true;
+		expect(await app.browserWindow.isFocused()).to.be.true;
 		const bounds = await app.browserWindow.getBounds();
-		const title = await app.browserWindow.getTitle();
-		return (
-			cnt.should.equal(1) &&
-			min.should.be.false &&
-			dev.should.be.false &&
-			vis.should.be.true &&
-			foc.should.be.true &&
-			bounds.should.have.property("width").and.be.above(0) &&
-			bounds.should.have.property("height").and.be.above(0) &&
-			title.should.equal("MagicMirror²")
-		);
+		expect(bounds.width).to.be.above(0);
+		expect(bounds.height).to.be.above(0);
+		expect(await app.browserWindow.getTitle()).to.equal("MagicMirror²");
 	});
 
 	it("get request from http://localhost:8080 should return 200", function (done) {

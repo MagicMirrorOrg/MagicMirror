@@ -17,7 +17,9 @@ _This release is scheduled to be released on 2021-04-01._
 - Added `start:dev` command to the npm scripts for starting electron with devTools open.
 - Added logging when using deprecated modules weatherforecast or currentweather.
 - Portuguese translations for "MODULE_CONFIG_CHANGED" and PRECIP.
-- `module.show` has now the option for a callback on error.
+- Respect parameter ColoredSymbolOnly also for custom events
+- Added a new parameter to hide time portion on relative times
+- [`module.show` has now the option for a callback on error.](https://github.com/MichMich/MagicMirror/pull/2439)
 
 ### Updated
 
@@ -30,6 +32,7 @@ _This release is scheduled to be released on 2021-04-01._
 - Moving weather provider specific code and configuration into each provider and making hourly part of the interface.
 - Bump electron to v11.
 - Dont update the DOM when a module is not displayed.
+- Cleaned up jsdoc.
 
 ### Removed
 
@@ -45,6 +48,7 @@ _This release is scheduled to be released on 2021-04-01._
 - Fix issue with unencoded characters in translated strings when using nunjuck template (`Loading &hellip;` as an example)
 - Fix socket.io backward compatibility with socket v2 clients
 - 3rd party module language loading if language is English
+- Fix e2e tests after spectron update
 
 ## [2.14.0] - 2021-01-01
 

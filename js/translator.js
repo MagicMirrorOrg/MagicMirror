@@ -107,7 +107,8 @@ var Translator = (function () {
 			Log.log(`${module.name} - Load translation${isFallback && " fallback"}: ${file}`);
 
 			if (this.translationsFallback[module.name]) {
-				return callback();
+				callback();
+				return;
 			}
 
 			loadJSON(module.file(file), (json) => {

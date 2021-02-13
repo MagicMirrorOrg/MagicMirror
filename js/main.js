@@ -443,7 +443,6 @@ var MM = (function () {
 		 * Removes a module instance from the collection.
 		 *
 		 * @param {object} module The module instance to remove from the collection.
-		 *
 		 * @returns {Module[]} Filtered collection of modules.
 		 */
 		var exceptModule = function (module) {

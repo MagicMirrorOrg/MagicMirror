@@ -63,7 +63,7 @@
         {% endif %}
     </div>
     {% if (config.showFeelsLike or config.showPrecipitationAmount) and not config.onlyTemp %}
-        <div class="normal medium">
+        <div class="normal medium feelslike">
             {% if config.showFeelsLike %}
                 <span class="dimmed">
                     {{ "FEELS" | translate({DEGREE: current.feelsLike() | roundValue | unit("temperature") | decimalSymbol }) }}
