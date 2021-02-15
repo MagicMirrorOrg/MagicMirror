@@ -496,8 +496,6 @@ Module.register("currentweather", {
 		this.sunriseSunsetTime = timeString;
 		this.sunriseSunsetIcon = sunrise < now && sunset > now ? "wi-sunset" : "wi-sunrise";
 
-		console.log("this in current weather");
-		console.log(this);
 		if (!this.data.hidden) {
 			this.show(this.config.animationSpeed, { lockString: this.identifier });
 			this.loaded = true;
