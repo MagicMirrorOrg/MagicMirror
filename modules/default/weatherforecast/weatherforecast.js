@@ -408,8 +408,12 @@ Module.register("weatherforecast", {
 		}
 
 		//Log.log(this.forecast);
-		this.show(this.config.animationSpeed, { lockString: this.identifier });
-		this.loaded = true;
+
+		// weather modules always show, added a check to show only if module's not hidden
+		if (!this.data.hidden) {
+			this.show(this.config.animationSpeed, { lockString: this.identifier });
+			this.loaded = true;
+		}
 		this.updateDom(this.config.animationSpeed);
 	},
 

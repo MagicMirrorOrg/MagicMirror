@@ -36,8 +36,11 @@ var MM = (function () {
 			if (typeof module.data.hidden === "boolean") {
 				module.hidden = module.data.hidden;
 				if (module.hidden) {
+					console.log("module is: " + module.name);
+					console.log("is hidden: " + module.data.hidden);
 					dom.style.opacity = 0;
 					dom.style.position = "fixed";
+					console.log(dom.style);
 				}
 			}
 			wrapper.appendChild(dom);
@@ -288,6 +291,8 @@ var MM = (function () {
 	 * @param {object} [options] Optional settings for the show method.
 	 */
 	var showModule = function (module, speed, callback, options) {
+		console.log("SHOWING MODILE: " + module.name);
+		console.log(module);
 		options = options || {};
 
 		// remove lockString if set in options.
@@ -323,7 +328,11 @@ var MM = (function () {
 
 			// Waiting for DOM-changes done in updateWrapperStates before we can start the animation.
 			var dummy = moduleWrapper.parentElement.parentElement.offsetHeight;
-			moduleWrapper.style.opacity = 1;
+			if (!module.hidden.data) moduleWrapper.style.opacity = 1;
+			else {
+				moduleWrapper.style.opacity = 0;
+				moduleWrapper.style.position = "fixed";
+			}
 
 			clearTimeout(module.showHideTimer);
 			module.showHideTimer = setTimeout(function () {
