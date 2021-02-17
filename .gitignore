@@ -70,3 +70,6 @@ Temporary Items
 *.orig
 *.rej
 *.bak
+
+## backup configs
+config/config.js.*
