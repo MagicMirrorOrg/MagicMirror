@@ -4,7 +4,7 @@
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-const Log = require("../../../js/logger.js");
+const Log = require("logger");
 const ical = require("node-ical");
 const request = require("request");
 
