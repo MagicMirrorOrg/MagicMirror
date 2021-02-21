@@ -25,9 +25,10 @@ const moment = require("moment");
  * @param {number} maximumNumberOfDays The maximum number of days an event should be in the future.
  * @param {object} auth The object containing options for authentication against the calendar.
  * @param {boolean} includePastEvents If true events from the past maximumNumberOfDays will be fetched too
+ * @param {boolean} selfSignedCert If true, the server certificate is not verified against the list of supplied CAs.
  * @class
  */
-const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, includePastEvents) {
+const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, includePastEvents, selfSignedCert) {
 	const self = this;
 
 	let reloadTimer = null;
