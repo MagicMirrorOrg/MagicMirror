@@ -19,7 +19,9 @@ _This release is scheduled to be released on 2021-04-01._
 - Portuguese translations for "MODULE_CONFIG_CHANGED" and PRECIP.
 - Respect parameter ColoredSymbolOnly also for custom events
 - Added a new parameter to hide time portion on relative times
-- [`module.show` has now the option for a callback on error.](https://github.com/MichMich/MagicMirror/pull/2439)
+- `module.show` has now the option for a callback on error.
+- Added locale to sample config file
+- Added support for self-signed certificates for the default calendar module (#466)
 
 ### Updated
 
@@ -32,7 +34,8 @@ _This release is scheduled to be released on 2021-04-01._
 - Moving weather provider specific code and configuration into each provider and making hourly part of the interface.
 - Bump electron to v11.
 - Dont update the DOM when a module is not displayed.
-- Cleaned up jsdoc.
+- Cleaned up jsdoc and tests.
+- Exposed logger as node module for easier access for 3rd party modules
 
 ### Removed
 

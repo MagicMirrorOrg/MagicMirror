@@ -15,7 +15,8 @@ describe("Weather module", function () {
 
 	async function setup(responses) {
 		app = await helpers.startApplication({
-			args: ["js/electron.js"]
+			args: ["js/electron.js"],
+			waitTimeout: 100000
 		});
 
 		wdajaxstub.init(app.client, responses);
@@ -101,16 +102,7 @@ describe("Weather module", function () {
 				const weather = generateWeather();
 				await setup({ template, data: weather });
 
-				const wait = (time) => new Promise((resolve) => setTimeout(resolve, time));
-
-				var text = "";
-				do {
-					await wait(3000);
-					elem = await app.client.$(".compliments");
-					text = await elem.getText(".compliments .module-content span");
-				} while (text === "");
-
-				return expect(text.trim()).to.equal("snow");
+				return app.client.waitUntilTextExists(".compliments .module-content span", "snow");
 			});
 		});
 

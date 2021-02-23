@@ -28,7 +28,7 @@ describe("Vendors", function () {
 	});
 
 	describe("Get list vendors", function () {
-		var vendors = require(__dirname + "/../../vendor/vendor.js");
+		const vendors = require(__dirname + "/../../vendor/vendor.js");
 		Object.keys(vendors).forEach((vendor) => {
 			it(`should return 200 HTTP code for vendor "${vendor}"`, function () {
 				var urlVendor = "http://localhost:8080/vendor/" + vendors[vendor];
