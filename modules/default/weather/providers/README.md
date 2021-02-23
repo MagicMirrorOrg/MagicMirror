@@ -122,6 +122,7 @@ A convenience function to make requests. It returns a promise.
 | rain           | `number` | Metric: `millimeters` <br> Imperial: `inches`                                                                   |
 | snow           | `number` | Metric: `millimeters` <br> Imperial: `inches`                                                                   |
 | precipitation  | `number` | Metric: `millimeters` <br> Imperial: `inches` <br> UK Met Office provider: `percent`                            |
+| precipitationUnits  | `string` | OPTIONAL - Custom value that can be set for precipitation units displayed                                  |
 
 #### Current weather
 
