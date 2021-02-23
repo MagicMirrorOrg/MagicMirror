@@ -24,7 +24,7 @@
                         <td class="align-right bright precipitation">
                             {{ f.precipitation }}{{ f.precipitationUnits }}
                         </td>			
-		    {% else %}
+		                {% else %}
                         <td class="align-right bright precipitation">
                             {{ f.precipitation | unit("precip") }}
                         </td>
