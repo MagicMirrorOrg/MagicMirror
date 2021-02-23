@@ -3,7 +3,7 @@ const simpleGits = [];
 const fs = require("fs");
 const path = require("path");
 const defaultModules = require(__dirname + "/../defaultmodules.js");
-const Log = require(__dirname + "/../../../js/logger.js");
+const Log = require("logger");
 const NodeHelper = require("node_helper");
 
 module.exports = NodeHelper.create({

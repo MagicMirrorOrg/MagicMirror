@@ -8,7 +8,7 @@
 const NodeHelper = require("node_helper");
 const validUrl = require("valid-url");
 const NewsfeedFetcher = require("./newsfeedfetcher.js");
-const Log = require("../../../js/logger");
+const Log = require("logger");
 
 module.exports = NodeHelper.create({
 	// Override start method.
