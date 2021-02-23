@@ -296,7 +296,7 @@ var MM = (function () {
 		if (module.lockStrings.length !== 0 && options.force !== true) {
 			Log.log("Will not show " + module.name + ". LockStrings active: " + module.lockStrings.join(","));
 			if (typeof options.onError === "function") {
-				options.onError(new Error("ERR_ACTIVE_LOCK_STRINGS"));
+				options.onError(new Error("LOCK_STRING_ACTIVE"));
 			}
 			return;
 		}
