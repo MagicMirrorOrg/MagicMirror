@@ -19,10 +19,16 @@
                 <td class="align-right min-temp">
                     {{ f.minTemperature | roundValue | unit("temperature") }}
                 </td>
-                {% if config.showPrecipitationAmount %}
-                    <td class="align-right bright precipitation">
-                        {{ f.precipitation | unit("precip") }}
-                    </td>
+                {% if (config.showPrecipitationAmount) and (f.precipitation > 0) %}
+                    {% if f.precipitationUnits %}	
+                        <td class="align-right bright precipitation">
+                            {{ f.precipitation }}{{ f.precipitationUnits }}
+                        </td>			
+		    {% else %}
+                        <td class="align-right bright precipitation">
+                            {{ f.precipitation | unit("precip") }}
+                        </td>
+                    {% endif %}
                 {% endif %}
             </tr>
             {% set currentStep = currentStep + 1 %}

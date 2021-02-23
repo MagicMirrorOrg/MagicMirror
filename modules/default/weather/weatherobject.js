@@ -28,6 +28,7 @@ class WeatherObject {
 		this.rain = null;
 		this.snow = null;
 		this.precipitation = null;
+		this.precipitationUnits = null;
 		this.feelsLikeTemp = null;
 	}
 

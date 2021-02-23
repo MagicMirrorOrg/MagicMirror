@@ -55,7 +55,7 @@ Module.register("weather", {
 
 	// Return the scripts that are necessary for the weather module.
 	getScripts: function () {
-		return ["moment.js", "weatherprovider.js", "weatherobject.js", "suncalc.js", this.file("providers/" + this.config.weatherProvider.toLowerCase() + ".js")];
+		return ["moment.js", "weatherprovider.js", "weatherobject.js", "suncalc.js", this.file("providers/" + this.config.weatherProvider.toLowerCase() + ".js"), this.file("providers/xml2json.min.js")];
 	},
 
 	// Override getHeader method.
