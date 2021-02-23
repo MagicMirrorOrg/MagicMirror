@@ -428,12 +428,11 @@ var Module = Class.extend({
 		callback = callback || function () {};
 		options = options || {};
 
-		var self = this;
 		MM.showModule(
 			this,
 			speed,
-			function () {
-				self.resume();
+			() => {
+				this.resume();
 				callback();
 			},
 			options
