@@ -58,7 +58,8 @@ Module.register("calendar", {
 		excludedEvents: [],
 		sliceMultiDayEvents: false,
 		broadcastPastEvents: false,
-		nextDaysRelative: false
+		nextDaysRelative: false,
+		selfSignedCert: false
 	},
 
 	requiresVersion: "2.1.0",
@@ -101,7 +102,8 @@ Module.register("calendar", {
 			var calendarConfig = {
 				maximumEntries: calendar.maximumEntries,
 				maximumNumberOfDays: calendar.maximumNumberOfDays,
-				broadcastPastEvents: calendar.broadcastPastEvents
+				broadcastPastEvents: calendar.broadcastPastEvents,
+				selfSignedCert: calendar.selfSignedCert
 			};
 			if (calendar.symbolClass === "undefined" || calendar.symbolClass === null) {
 				calendarConfig.symbolClass = "";
@@ -606,7 +608,8 @@ Module.register("calendar", {
 			titleClass: calendarConfig.titleClass,
 			timeClass: calendarConfig.timeClass,
 			auth: auth,
-			broadcastPastEvents: calendarConfig.broadcastPastEvents || this.config.broadcastPastEvents
+			broadcastPastEvents: calendarConfig.broadcastPastEvents || this.config.broadcastPastEvents,
+			selfSignedCert: calendarConfig.selfSignedCert || this.config.selfSignedCert
 		});
 	},
 
