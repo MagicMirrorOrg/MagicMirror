@@ -89,7 +89,8 @@
 		"valid-url": "^1.0.9"
 	},
 	"_moduleAliases": {
-		"node_helper": "js/node_helper.js"
+		"node_helper": "js/node_helper.js",
+		"logger": "js/logger.js"
 	},
 	"engines": {
 		"node": ">=10"

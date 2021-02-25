@@ -19,8 +19,10 @@ _This release is scheduled to be released on 2021-04-01._
 - Portuguese translations for "MODULE_CONFIG_CHANGED" and PRECIP.
 - Respect parameter ColoredSymbolOnly also for custom events
 - Added a new parameter to hide time portion on relative times
+- `module.show` has now the option for a callback on error.
 - Added locale to sample config file
-- Added new weather module provider for Environment Canada (Canadian locations only)
+- Added support for self-signed certificates for the default calendar module (#466)
+- Added Environment Canada as a provider for the weather module
 
 ### Updated
 
@@ -34,6 +36,7 @@ _This release is scheduled to be released on 2021-04-01._
 - Bump electron to v11.
 - Dont update the DOM when a module is not displayed.
 - Cleaned up jsdoc and tests.
+- Exposed logger as node module for easier access for 3rd party modules
 
 ### Removed
 

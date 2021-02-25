@@ -11,7 +11,7 @@ const ipfilter = require("express-ipfilter").IpFilter;
 const fs = require("fs");
 const helmet = require("helmet");
 
-const Log = require("./logger.js");
+const Log = require("logger");
 const Utils = require("./utils.js");
 
 /**

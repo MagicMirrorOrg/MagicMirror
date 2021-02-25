@@ -4,15 +4,16 @@
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-const fs = require("fs");
-const path = require("path");
-const Log = require(`${__dirname}/logger`);
-const Server = require(`${__dirname}/server`);
-const Utils = require(`${__dirname}/utils`);
-const defaultModules = require(`${__dirname}/../modules/default/defaultmodules`);
 
 // Alias modules mentioned in package.js under _moduleAliases.
 require("module-alias/register");
+
+const fs = require("fs");
+const path = require("path");
+const Log = require("logger");
+const Server = require(`${__dirname}/server`);
+const Utils = require(`${__dirname}/utils`);
+const defaultModules = require(`${__dirname}/../modules/default/defaultmodules`);
 
 // Get version number.
 global.version = require(`${__dirname}/../package.json`).version;
