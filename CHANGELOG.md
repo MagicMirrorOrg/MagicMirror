@@ -20,6 +20,7 @@ _This release is scheduled to be released on 2021-04-01._
 - Respect parameter ColoredSymbolOnly also for custom events
 - Added a new parameter to hide time portion on relative times
 - Added locale to sample config file
+- Added new weather module provider for Environment Canada (Canadian locations only)
 
 ### Updated
 
