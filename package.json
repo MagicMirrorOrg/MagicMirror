@@ -71,6 +71,7 @@
 	"dependencies": {
 		"colors": "^1.4.0",
 		"console-stamp": "^3.0.0-rc4.2",
+		"digest-fetch": "^1.1.6",
 		"eslint": "^7.19.0",
 		"express": "^4.17.1",
 		"express-ipfilter": "^1.1.2",

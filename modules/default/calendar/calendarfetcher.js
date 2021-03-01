@@ -6,7 +6,7 @@
  */
 const Log = require("logger");
 const ical = require("node-ical");
-const fetch = require("node-fetch");
+const fetch = require("digest-fetch");
 const https = require('https');
 
 /**
@@ -45,6 +45,8 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 		clearTimeout(reloadTimer);
 		reloadTimer = null;
 		httpsAgent = null;
+		user = "";
+		password = "";
 
 		const nodeVersion = Number(process.version.match(/^v(\d+\.\d+)/)[1]);
 		const headers = {
@@ -59,22 +61,21 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 
 // todo: auth, 
 // https://github.com/devfans/digest-fetch
+// https://github.com/pablopunk/auth-fetch/blob/master/index.js
 // https://hackersandslackers.com/making-api-requests-with-nodejs/
 		if (auth) {
 			if (auth.method === "bearer") {
-				opts.auth = {
-					bearer: auth.pass
-				};
+				// opts.auth = {
+				// 	bearer: auth.pass
+				// };
 			} else {
-				opts.auth = {
-					user: auth.user,
-					pass: auth.pass,
-					sendImmediately: auth.method !== "digest"
-				};
+				user = auth.user;
+				password = auth.pass;
 			}
 		}
 
-		fetch(url, { headers: headers, httpsAgent: httpsAgent })
+		const client = new fetch(user, password) ;
+		client.fetch(url, { headers: headers, httpsAgent: httpsAgent })
   	.catch(error => {
 			fetchFailedCallback(self, error);
 			scheduleTimer();
