@@ -6,7 +6,8 @@
  */
 const Log = require("logger");
 const ical = require("node-ical");
-const request = require("request");
+const fetch = require("node-fetch");
+const https = require('https');
 
 /**
  * Moment date
@@ -43,22 +44,22 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 	const fetchCalendar = function () {
 		clearTimeout(reloadTimer);
 		reloadTimer = null;
+		httpsAgent = null;
 
 		const nodeVersion = Number(process.version.match(/^v(\d+\.\d+)/)[1]);
-		const opts = {
-			headers: {
-				"User-Agent": "Mozilla/5.0 (Node.js " + nodeVersion + ") MagicMirror/" + global.version + " (https://github.com/MichMich/MagicMirror/)"
-			},
-			gzip: true
+		const headers = {
+			"User-Agent": "Mozilla/5.0 (Node.js " + nodeVersion + ") MagicMirror/" + global.version + " (https://github.com/MichMich/MagicMirror/)"
 		};
 
 		if (selfSignedCert) {
-			var agentOptions = {
-				rejectUnauthorized: false
-			};
-			opts.agentOptions = agentOptions;
+			httpsAgent = new https.Agent({
+				rejectUnauthorized: false,
+			});
 		}
 
+// todo: auth, 
+// https://github.com/devfans/digest-fetch
+// https://hackersandslackers.com/making-api-requests-with-nodejs/
 		if (auth) {
 			if (auth.method === "bearer") {
 				opts.auth = {
@@ -73,25 +74,27 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 			}
 		}
 
-		request(url, opts, function (err, r, requestData) {
-			if (err) {
-				fetchFailedCallback(self, err);
-				scheduleTimer();
-				return;
-			} else if (r.statusCode !== 200) {
-				fetchFailedCallback(self, r.statusCode + ": " + r.statusMessage);
-				scheduleTimer();
-				return;
+		fetch(url, { headers: headers, httpsAgent: httpsAgent })
+  	.catch(error => {
+			fetchFailedCallback(self, error);
+			scheduleTimer();
+		})
+		.then(response => {
+			if (response.status !== 200) {
+				throw new Error(response.status + ": " + response.statusText);
 			}
+			return response;
+		})
+		.then(response => response.text())
+		.then(responseData => {
 
 			let data = [];
 
 			try {
-				data = ical.parseICS(requestData);
+				data = ical.parseICS(responseData);
 			} catch (error) {
 				fetchFailedCallback(self, error.message);
 				scheduleTimer();
-				return;
 			}
 
 			Log.debug(" parsed data=" + JSON.stringify(data));
