@@ -44,9 +44,10 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 	const fetchCalendar = function () {
 		clearTimeout(reloadTimer);
 		reloadTimer = null;
-		httpsAgent = null;
-		user = "";
-		password = "";
+		let httpsAgent = null;
+		let user = "";
+		let password = "";
+		let opts = {};
 
 		const nodeVersion = Number(process.version.match(/^v(\d+\.\d+)/)[1]);
 		const headers = {
@@ -59,7 +60,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 			});
 		}
 
-		// todo: auth,
+		// todo: bearer
 		// https://github.com/devfans/digest-fetch
 		// https://github.com/pablopunk/auth-fetch/blob/master/index.js
 		// https://hackersandslackers.com/making-api-requests-with-nodejs/
@@ -71,11 +72,13 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 			} else {
 				user = auth.user;
 				password = auth.pass;
+				if (auth.method === "basic") {
+					opts = { basic: true };
+				};
 			}
 		}
 
-		const client = new fetch(user, password);
-		client
+		new fetch(user, password, opts)
 			.fetch(url, { headers: headers, httpsAgent: httpsAgent })
 			.catch((error) => {
 				fetchFailedCallback(self, error);
