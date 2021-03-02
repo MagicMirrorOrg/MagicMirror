@@ -86,14 +86,13 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 		};
 
 		fetch(url, { headers: headers })
-			.catch(error => {
+			.catch((error) => {
 				fetchFailedCallback(self, error);
 				scheduleTimer();
 			})
-			.then(res => {
+			.then((res) => {
 				res.body.pipe(iconv.decodeStream(encoding)).pipe(parser);
 			});
-
 	};
 
 	/**
