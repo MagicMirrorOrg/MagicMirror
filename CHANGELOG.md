@@ -52,7 +52,8 @@ _This release is scheduled to be released on 2021-04-01._
 - Fix socket.io backward compatibility with socket v2 clients
 - 3rd party module language loading if language is English
 - Fix e2e tests after spectron update
-
+- Fix single day events not respecting the maximumNumberOfDays setting in the calendar module
+- 
 ## [2.14.0] - 2021-01-01
 
 Special thanks to the following contributors: @Alvinger, @AndyPoms, @ashishtank, @bluemanos, @flopp999, @jakemulley, @jakobsarwary1, @marvai-vgtu, @mirontoli, @rejas, @sdetweil, @Snille & @Sub028.
