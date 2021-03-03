@@ -27,6 +27,7 @@ function createWindow() {
 		y: 0,
 		darkTheme: true,
 		webPreferences: {
+			contextIsolation: true,
 			nodeIntegration: false,
 			zoomFactor: config.zoom
 		},
