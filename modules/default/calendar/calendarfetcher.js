@@ -72,7 +72,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 			} else {
 				user = auth.user;
 				password = auth.pass;
-				if (auth.method === "basic") {
+				if (auth.method !== "digest") {
 					opts = { basic: true };
 				};
 			}
@@ -86,7 +86,8 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 			})
 			.then((response) => {
 				if (response.status !== 200) {
-					throw new Error(response.status + ": " + response.statusText);
+					fetchFailedCallback(self, response.statusText);
+					scheduleTimer();
 				}
 				return response;
 			})
