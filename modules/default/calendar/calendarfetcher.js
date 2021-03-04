@@ -6,8 +6,10 @@
  */
 const Log = require("logger");
 const ical = require("node-ical");
-const fetch = require("digest-fetch");
+const fetch = require("node-fetch");
+const digest = require("digest-fetch");
 const https = require("https");
+const base64 = require("base-64");
 
 /**
  * Moment date
@@ -42,44 +44,33 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 	 * Initiates calendar fetch.
 	 */
 	const fetchCalendar = function () {
+		function getFetcher(url, auth) {
+			const nodeVersion = Number(process.version.match(/^v(\d+\.\d+)/)[1]);
+			let headers = {
+				"User-Agent": "Mozilla/5.0 (Node.js " + nodeVersion + ") MagicMirror/" + global.version + " (https://github.com/MichMich/MagicMirror/)"
+			};
+			let httpsAgent = null;
+
+			if (selfSignedCert) {
+				httpsAgent = new https.Agent({
+					rejectUnauthorized: false
+				});
+			}
+			if (auth) {
+				if (auth.method === "bearer") {
+					headers.Authorization = "Bearer " + auth.pass;
+				} else if (auth.method === "digest") {
+					return new digest(auth.user, auth.pass).fetch(url, { headers: headers, httpsAgent: httpsAgent });
+				} else {
+					headers.Authorization = "Basic " + base64.encode(auth.user + ":" + auth.pass);
+				}
+			}
+			return fetch(url, { headers: headers, httpsAgent: httpsAgent });
+		}
 		clearTimeout(reloadTimer);
 		reloadTimer = null;
-		let httpsAgent = null;
-		let user = "";
-		let password = "";
-		let opts = {};
 
-		const nodeVersion = Number(process.version.match(/^v(\d+\.\d+)/)[1]);
-		const headers = {
-			"User-Agent": "Mozilla/5.0 (Node.js " + nodeVersion + ") MagicMirror/" + global.version + " (https://github.com/MichMich/MagicMirror/)"
-		};
-
-		if (selfSignedCert) {
-			httpsAgent = new https.Agent({
-				rejectUnauthorized: false
-			});
-		}
-
-		// todo: bearer
-		// https://github.com/devfans/digest-fetch
-		// https://github.com/pablopunk/auth-fetch/blob/master/index.js
-		// https://hackersandslackers.com/making-api-requests-with-nodejs/
-		if (auth) {
-			if (auth.method === "bearer") {
-				// opts.auth = {
-				// 	bearer: auth.pass
-				// };
-			} else {
-				user = auth.user;
-				password = auth.pass;
-				if (auth.method !== "digest") {
-					opts = { basic: true };
-				};
-			}
-		}
-
-		new fetch(user, password, opts)
-			.fetch(url, { headers: headers, httpsAgent: httpsAgent })
+		getFetcher(url, auth)
 			.catch((error) => {
 				fetchFailedCallback(self, error);
 				scheduleTimer();
