@@ -198,7 +198,7 @@ WeatherProvider.register("envcanada", {
 		// Capture the sunrise and sunset values from EC data
 		//
 
-		sunList = ECdoc.querySelectorAll("siteData riseSet dateTime");
+		var sunList = ECdoc.querySelectorAll("siteData riseSet dateTime");
 
 		currentWeather.sunrise = moment(sunList[1].querySelector("timeStamp").textContent, "YYYYMMDDhhmmss");
 		currentWeather.sunset = moment(sunList[3].querySelector("timeStamp").textContent, "YYYYMMDDhhmmss");
@@ -217,12 +217,12 @@ WeatherProvider.register("envcanada", {
 
 		let weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
 
-		foreBaseDates = ECdoc.querySelectorAll("siteData forecastGroup dateTime");
-		baseDate = foreBaseDates[1].querySelector("timeStamp").textContent;
+		var foreBaseDates = ECdoc.querySelectorAll("siteData forecastGroup dateTime");
+		var baseDate = foreBaseDates[1].querySelector("timeStamp").textContent;
 
 		weather.date = moment(baseDate, "YYYYMMDDhhmmss");
 
-		foreGroup = ECdoc.querySelectorAll("siteData forecastGroup forecast");
+		var foreGroup = ECdoc.querySelectorAll("siteData forecastGroup forecast");
 
 		// For simplicity, we will only accumulate precipitation and will not try to break out
 		// rain vs snow accumulations
@@ -363,9 +363,9 @@ WeatherProvider.register("envcanada", {
 	//
 
 	setMinMaxTemps(weather, foreGroup, today, fullDay, currentTemp) {
-		todayTemp = foreGroup[today].querySelector("temperatures temperature").textContent;
+		var todayTemp = foreGroup[today].querySelector("temperatures temperature").textContent;
 
-		todayClass = foreGroup[today].querySelector("temperatures temperature").getAttribute("class");
+		var todayClass = foreGroup[today].querySelector("temperatures temperature").getAttribute("class");
 
 		//
 		// The following logic is largely aimed at accommodating the Current day's forecast whereby we
@@ -379,8 +379,8 @@ WeatherProvider.register("envcanada", {
 		// check the Tonight temperature.
 		//
 
-		if (fullDay == false) {
-			if (this.todayCached == true) {
+		if (fullDay === false) {
+			if (this.todayCached === true) {
 				weather.minTemperature = this.todayTempCacheMin;
 				weather.maxTemperature = this.todayTempCacheMax;
 			} else {
@@ -398,7 +398,7 @@ WeatherProvider.register("envcanada", {
 
 		if (todayClass === "low") {
 			weather.minTemperature = this.convertTemp(todayTemp);
-			if (today === 0 && fullDay == true) {
+			if (today === 0 && fullDay === true) {
 				this.todayTempCacheMin = weather.minTemperature;
 			}
 		}
@@ -410,9 +410,9 @@ WeatherProvider.register("envcanada", {
 			}
 		}
 
-		nextTemp = foreGroup[today + 1].querySelector("temperatures temperature").textContent;
+		var nextTemp = foreGroup[today + 1].querySelector("temperatures temperature").textContent;
 
-		nextClass = foreGroup[today + 1].querySelector("temperatures temperature").getAttribute("class");
+		var nextClass = foreGroup[today + 1].querySelector("temperatures temperature").getAttribute("class");
 
 		if (fullDay == true) {
 			if (nextClass === "low") {
@@ -447,7 +447,7 @@ WeatherProvider.register("envcanada", {
 			precipAmt += foreGroup[today].querySelector("precipitation accumulation amount").textContent * 1.0;
 		}
 
-		if (fullDay == true && foreGroup[today + 1].querySelector("precipitation accumulation")) {
+		if (fullDay === true && foreGroup[today + 1].querySelector("precipitation accumulation")) {
 			precipUnits = foreGroup[today + 1].querySelector("precipitation accumulation amount").getAttribute("units");
 
 			precipAmt += foreGroup[today + 1].querySelector("precipitation accumulation amount").textContent * 1.0;
