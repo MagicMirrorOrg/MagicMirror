@@ -198,7 +198,7 @@ WeatherProvider.register("envcanada", {
 		// Capture the sunrise and sunset values from EC data
 		//
 
-		var sunList = ECdoc.querySelectorAll("siteData riseSet dateTime");
+		let sunList = ECdoc.querySelectorAll("siteData riseSet dateTime");
 
 		currentWeather.sunrise = moment(sunList[1].querySelector("timeStamp").textContent, "YYYYMMDDhhmmss");
 		currentWeather.sunset = moment(sunList[3].querySelector("timeStamp").textContent, "YYYYMMDDhhmmss");
@@ -217,12 +217,12 @@ WeatherProvider.register("envcanada", {
 
 		let weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
 
-		var foreBaseDates = ECdoc.querySelectorAll("siteData forecastGroup dateTime");
-		var baseDate = foreBaseDates[1].querySelector("timeStamp").textContent;
+		let foreBaseDates = ECdoc.querySelectorAll("siteData forecastGroup dateTime");
+		let baseDate = foreBaseDates[1].querySelector("timeStamp").textContent;
 
 		weather.date = moment(baseDate, "YYYYMMDDhhmmss");
 
-		var foreGroup = ECdoc.querySelectorAll("siteData forecastGroup forecast");
+		let foreGroup = ECdoc.querySelectorAll("siteData forecastGroup forecast");
 
 		// For simplicity, we will only accumulate precipitation and will not try to break out
 		// rain vs snow accumulations
@@ -254,9 +254,9 @@ WeatherProvider.register("envcanada", {
 		// where the next day's (aka Tomorrow's) forecast is located in the forecast array.
 		//
 
-		var nextDay = 0;
-		var lastDay = 0;
-		var currentTemp = ECdoc.querySelector("siteData currentConditions temperature").textContent;
+		let nextDay = 0;
+		let lastDay = 0;
+		let currentTemp = ECdoc.querySelector("siteData currentConditions temperature").textContent;
 
 		//
 		// If the first Element is Current Today, look at Current Today and Current Tonight for the current day.
@@ -363,9 +363,9 @@ WeatherProvider.register("envcanada", {
 	//
 
 	setMinMaxTemps(weather, foreGroup, today, fullDay, currentTemp) {
-		var todayTemp = foreGroup[today].querySelector("temperatures temperature").textContent;
+		let todayTemp = foreGroup[today].querySelector("temperatures temperature").textContent;
 
-		var todayClass = foreGroup[today].querySelector("temperatures temperature").getAttribute("class");
+		let todayClass = foreGroup[today].querySelector("temperatures temperature").getAttribute("class");
 
 		//
 		// The following logic is largely aimed at accommodating the Current day's forecast whereby we
@@ -405,16 +405,16 @@ WeatherProvider.register("envcanada", {
 
 		if (todayClass === "high") {
 			weather.maxTemperature = this.convertTemp(todayTemp);
-			if (today === 0 && fullDay == true) {
+			if (today === 0 && fullDay === true) {
 				this.todayTempCacheMax = weather.maxTemperature;
 			}
 		}
 
-		var nextTemp = foreGroup[today + 1].querySelector("temperatures temperature").textContent;
+		let nextTemp = foreGroup[today + 1].querySelector("temperatures temperature").textContent;
 
-		var nextClass = foreGroup[today + 1].querySelector("temperatures temperature").getAttribute("class");
+		let nextClass = foreGroup[today + 1].querySelector("temperatures temperature").getAttribute("class");
 
-		if (fullDay == true) {
+		if (fullDay === true) {
 			if (nextClass === "low") {
 				weather.minTemperature = this.convertTemp(nextTemp);
 			}
@@ -438,8 +438,8 @@ WeatherProvider.register("envcanada", {
 	//
 
 	setPrecipitation(weather, foreGroup, today, fullDay) {
-		var precipAmt = 0.0;
-		var precipUnits = "";
+		let precipAmt = 0.0;
+		let precipUnits = "";
 
 		if (foreGroup[today].querySelector("precipitation accumulation")) {
 			precipUnits = foreGroup[today].querySelector("precipitation accumulation amount").getAttribute("units");
