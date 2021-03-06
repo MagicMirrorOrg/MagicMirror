@@ -44,33 +44,34 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 	 * Initiates calendar fetch.
 	 */
 	const fetchCalendar = function () {
-		function getFetcher(url, auth) {
-			const nodeVersion = Number(process.version.match(/^v(\d+\.\d+)/)[1]);
-			let headers = {
-				"User-Agent": "Mozilla/5.0 (Node.js " + nodeVersion + ") MagicMirror/" + global.version + " (https://github.com/MichMich/MagicMirror/)"
-			};
-			let httpsAgent = null;
-
-			if (selfSignedCert) {
-				httpsAgent = new https.Agent({
-					rejectUnauthorized: false
-				});
-			}
-			if (auth) {
-				if (auth.method === "bearer") {
-					headers.Authorization = "Bearer " + auth.pass;
-				} else if (auth.method === "digest") {
-					return new digest(auth.user, auth.pass).fetch(url, { headers: headers, httpsAgent: httpsAgent });
-				} else {
-					headers.Authorization = "Basic " + base64.encode(auth.user + ":" + auth.pass);
-				}
-			}
-			return fetch(url, { headers: headers, httpsAgent: httpsAgent });
-		}
 		clearTimeout(reloadTimer);
 		reloadTimer = null;
+		const nodeVersion = Number(process.version.match(/^v(\d+\.\d+)/)[1]);
+		let fetcher = null;
+		let httpsAgent = null;
+		let headers = {
+			"User-Agent": "Mozilla/5.0 (Node.js " + nodeVersion + ") MagicMirror/" + global.version + " (https://github.com/MichMich/MagicMirror/)"
+		};
 
-		getFetcher(url, auth)
+		if (selfSignedCert) {
+			httpsAgent = new https.Agent({
+				rejectUnauthorized: false
+			});
+		}
+		if (auth) {
+			if (auth.method === "bearer") {
+				headers.Authorization = "Bearer " + auth.pass;
+			} else if (auth.method === "digest") {
+				fetcher = new digest(auth.user, auth.pass).fetch(url, { headers: headers, httpsAgent: httpsAgent });
+			} else {
+				headers.Authorization = "Basic " + base64.encode(auth.user + ":" + auth.pass);
+			}
+		}
+		if (fetcher === null) {
+			fetcher = fetch(url, { headers: headers, httpsAgent: httpsAgent });
+		}
+
+		fetcher
 			.catch((error) => {
 				fetchFailedCallback(self, error);
 				scheduleTimer();
