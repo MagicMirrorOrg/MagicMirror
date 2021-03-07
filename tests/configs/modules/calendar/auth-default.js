@@ -13,7 +13,8 @@ var config = {
 	units: "metric",
 	electronOptions: {
 		webPreferences: {
-			nodeIntegration: true
+			nodeIntegration: true,
+			enableRemoteModule: true
 		}
 	},
 
@@ -25,7 +26,7 @@ var config = {
 				calendars: [
 					{
 						maximumNumberOfDays: 10000,
-						url: "http://localhost:8011/tests/configs/data/calendar_test.ics",
+						url: "http://localhost:8080/tests/configs/data/calendar_test.ics",
 						auth: {
 							user: "MagicMirror",
 							pass: "CallMeADog"

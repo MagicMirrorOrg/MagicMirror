@@ -1,7 +1,4 @@
-{% if hourly or weatherData %}
-    {% if weatherData %}
-        {% set hourly = weatherData.hours %}
-    {% endif %}
+{% if hourly %}
     {% set numSteps = hourly | calcNumEntries %}
     {% set currentStep = 0 %}
     <table class="{{ config.tableClass }}">
@@ -24,9 +21,9 @@
     </table>
 {% else %}
     <div class="dimmed light small">
-        {{ "LOADING" | translate | safe }}
+        {{ "LOADING" | translate }}
     </div>
 {% endif %}
 
 <!-- Uncomment the line below to see the contents of the `hourly` object. -->
-<!-- <div style="word-wrap:break-word" class="xsmall dimmed">{{weatherData | dump}}</div> -->
+<!-- <div style="word-wrap:break-word" class="xsmall dimmed">{{hourly | dump}}</div> -->

@@ -28,6 +28,6 @@
 	"UPDATE_INFO_SINGLE": "Sua versão atual é a {COMMIT_COUNT} commit dentro do seguinte branch {BRANCH_NAME}.",
 	"UPDATE_INFO_MULTIPLE": "Sua versão atual é a {COMMIT_COUNT} commits dentro do seguinte branch {BRANCH_NAME}.",
 
-	"FEELS": "Percebida",
+	"FEELS": "Percebida {DEGREE}",
 	"PRECIP": "PoP"
 }

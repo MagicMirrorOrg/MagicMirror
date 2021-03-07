@@ -31,6 +31,6 @@
 	"UPDATE_INFO_SINGLE": "Nykyasennus on {COMMIT_COUNT} muutoksen jäljessä {BRANCH_NAME} haaraan nähden.",
 	"UPDATE_INFO_MULTIPLE": "Nykyasennus on {COMMIT_COUNT} muutosta jäljessä {BRANCH_NAME} haaraan nähden.",
 
-	"FEELS": "Tuntuu kuin",
+	"FEELS": "Tuntuu kuin {DEGREE}",
 	"PRECIP": "Sateen todennäköisyys"
 }

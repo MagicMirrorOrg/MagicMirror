@@ -3,6 +3,8 @@
  *
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
+ *
+ * This module is deprecated. Any additional feature will no longer be merged.
  */
 Module.register("currentweather", {
 	// Default module config.
@@ -47,24 +49,24 @@ Module.register("currentweather", {
 		roundTemp: false,
 
 		iconTable: {
-			"01d": "wi-day-sunny",
-			"02d": "wi-day-cloudy",
-			"03d": "wi-cloudy",
-			"04d": "wi-cloudy-windy",
-			"09d": "wi-showers",
-			"10d": "wi-rain",
-			"11d": "wi-thunderstorm",
-			"13d": "wi-snow",
-			"50d": "wi-fog",
-			"01n": "wi-night-clear",
-			"02n": "wi-night-cloudy",
-			"03n": "wi-night-cloudy",
-			"04n": "wi-night-cloudy",
-			"09n": "wi-night-showers",
-			"10n": "wi-night-rain",
-			"11n": "wi-night-thunderstorm",
-			"13n": "wi-night-snow",
-			"50n": "wi-night-alt-cloudy-windy"
+			"01d": "day-sunny",
+			"02d": "day-cloudy",
+			"03d": "cloudy",
+			"04d": "cloudy-windy",
+			"09d": "showers",
+			"10d": "rain",
+			"11d": "thunderstorm",
+			"13d": "snow",
+			"50d": "fog",
+			"01n": "night-clear",
+			"02n": "night-cloudy",
+			"03n": "night-cloudy",
+			"04n": "night-cloudy",
+			"09n": "night-showers",
+			"10n": "night-rain",
+			"11n": "night-thunderstorm",
+			"13n": "night-snow",
+			"50n": "night-alt-cloudy-windy"
 		}
 	},
 
@@ -219,7 +221,7 @@ Module.register("currentweather", {
 
 		if (this.config.hideTemp === false) {
 			var weatherIcon = document.createElement("span");
-			weatherIcon.className = "wi weathericon " + this.weatherType;
+			weatherIcon.className = "wi weathericon wi-" + this.weatherType;
 			large.appendChild(weatherIcon);
 
 			var temperature = document.createElement("span");
@@ -258,13 +260,9 @@ Module.register("currentweather", {
 
 			var feelsLike = document.createElement("span");
 			feelsLike.className = "dimmed";
-			var feelsLikeHtml = this.translate("FEELS");
-			if (feelsLikeHtml.indexOf("{DEGREE}") > -1) {
-				feelsLikeHtml = this.translate("FEELS", {
-					DEGREE: this.feelsLike + degreeLabel
-				});
-			} else feelsLikeHtml += " " + this.feelsLike + degreeLabel;
-			feelsLike.innerHTML = feelsLikeHtml;
+			feelsLike.innerHTML = this.translate("FEELS", {
+				DEGREE: this.feelsLike + degreeLabel
+			});
 			small.appendChild(feelsLike);
 
 			wrapper.appendChild(small);
@@ -506,6 +504,7 @@ Module.register("currentweather", {
 		this.loaded = true;
 		this.updateDom(this.config.animationSpeed);
 		this.sendNotification("CURRENTWEATHER_DATA", { data: data });
+		this.sendNotification("CURRENTWEATHER_TYPE", { type: this.config.iconTable[data.weather[0].icon].replace("-", "_") });
 	},
 
 	/* scheduleUpdate()
@@ -593,6 +592,7 @@ Module.register("currentweather", {
 	 */
 	roundValue: function (temperature) {
 		var decimals = this.config.roundTemp ? 0 : 1;
-		return parseFloat(temperature).toFixed(decimals);
+		var roundValue = parseFloat(temperature).toFixed(decimals);
+		return roundValue === "-0" ? 0 : roundValue;
 	}
 });

@@ -31,5 +31,5 @@
 	"UPDATE_INFO_SINGLE": "当前已安装版本比{BRANCH_NAME}分支落后{COMMIT_COUNT}次代码更新。",
 	"UPDATE_INFO_MULTIPLE": "当前已安装版本比{BRANCH_NAME}分支落后{COMMIT_COUNT}次代码更新。",
 
-	"FEELS": "体感"
+	"FEELS": "体感 {DEGREE}"
 }

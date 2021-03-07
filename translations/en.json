@@ -33,6 +33,6 @@
 	"UPDATE_INFO_SINGLE": "The current installation is {COMMIT_COUNT} commit behind on the {BRANCH_NAME} branch.",
 	"UPDATE_INFO_MULTIPLE": "The current installation is {COMMIT_COUNT} commits behind on the {BRANCH_NAME} branch.",
 
-	"FEELS": "Feels like",
+	"FEELS": "Feels like {DEGREE}",
 	"PRECIP": "PoP"
 }

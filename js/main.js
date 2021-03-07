@@ -295,6 +295,9 @@ var MM = (function () {
 		// Otherwise cancel show action.
 		if (module.lockStrings.length !== 0 && options.force !== true) {
 			Log.log("Will not show " + module.name + ". LockStrings active: " + module.lockStrings.join(","));
+			if (typeof options.onError === "function") {
+				options.onError(new Error("LOCK_STRING_ACTIVE"));
+			}
 			return;
 		}
 
@@ -440,7 +443,6 @@ var MM = (function () {
 		 * Removes a module instance from the collection.
 		 *
 		 * @param {object} module The module instance to remove from the collection.
-		 *
 		 * @returns {Module[]} Filtered collection of modules.
 		 */
 		var exceptModule = function (module) {
@@ -544,6 +546,11 @@ var MM = (function () {
 		updateDom: function (module, speed) {
 			if (!(module instanceof Module)) {
 				Log.error("updateDom: Sender should be a module.");
+				return;
+			}
+
+			if (!module.data.position) {
+				Log.warn("module tries to update the DOM without being displayed.");
 				return;
 			}
 

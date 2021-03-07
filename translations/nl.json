@@ -28,5 +28,5 @@
 	"UPDATE_NOTIFICATION_MODULE": "Update beschikbaar voor {MODULE_NAME} module.",
 	"UPDATE_INFO_SINGLE": "De huidige installatie loopt {COMMIT_COUNT} commit achter op de {BRANCH_NAME} branch.",
 	"UPDATE_INFO_MULTIPLE": "De huidige installatie loopt {COMMIT_COUNT} commits achter op de {BRANCH_NAME} branch.",
-	"FEELS": "Voelt als"
+	"FEELS": "Voelt als {DEGREE}"
 }
