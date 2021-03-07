@@ -55,13 +55,13 @@ var Loader = (function () {
 		// Notify core of loaded modules.
 		MM.modulesStarted(moduleObjects);
 
-		// Starting modules also hides any modules that have requeste dto be initially hidden
+		// Starting modules also hides any modules that have requested to be initially hidden
 		for (var n in moduleObjects) {
-			var module = moduleObjects[n];
+			var thisModule = moduleObjects[n];
 
-			if (module.data.hiddenOnStartup) {
-				Log.info("Initially hiding " + module.name);
-				module.hide();
+			if (thisModule.data.hiddenOnStartup) {
+				Log.info("Initially hiding " + thisModule.name);
+				thisModule.hide();
 			}
 		}
 	};
