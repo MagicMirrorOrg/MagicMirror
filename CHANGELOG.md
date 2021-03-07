@@ -5,6 +5,12 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror²
 
+## [2.14.1] - 2021-03-07
+
+### Added
+
+- @MystaraTheGreat added hiddenOnStartup flag to module config (#2475)
+
 ## [2.14.0] - 2021-01-01
 
 Special thanks to the following contributors: @Alvinger, @AndyPoms, @ashishtank, @bluemanos, @flopp999, @jakemulley, @jakobsarwary1, @marvai-vgtu, @mirontoli, @rejas, @sdetweil, @Snille & @Sub028.
