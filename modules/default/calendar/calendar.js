@@ -36,6 +36,7 @@ Module.register("calendar", {
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		hidePrivate: false,
 		hideOngoing: false,
+		hideTime: false,
 		colored: false,
 		coloredSymbolOnly: false,
 		customEvents: [], // Array of {keyword: "", symbol: "", color: ""} where Keyword is a regexp and symbol/color are to be applied for matched
@@ -57,7 +58,8 @@ Module.register("calendar", {
 		excludedEvents: [],
 		sliceMultiDayEvents: false,
 		broadcastPastEvents: false,
-		nextDaysRelative: false
+		nextDaysRelative: false,
+		selfSignedCert: false
 	},
 
 	requiresVersion: "2.1.0",
@@ -100,7 +102,8 @@ Module.register("calendar", {
 			var calendarConfig = {
 				maximumEntries: calendar.maximumEntries,
 				maximumNumberOfDays: calendar.maximumNumberOfDays,
-				broadcastPastEvents: calendar.broadcastPastEvents
+				broadcastPastEvents: calendar.broadcastPastEvents,
+				selfSignedCert: calendar.selfSignedCert
 			};
 			if (calendar.symbolClass === "undefined" || calendar.symbolClass === null) {
 				calendarConfig.symbolClass = "";
@@ -277,8 +280,11 @@ Module.register("calendar", {
 					if (typeof this.config.customEvents[ev].color !== "undefined" && this.config.customEvents[ev].color !== "") {
 						needle = new RegExp(this.config.customEvents[ev].keyword, "gi");
 						if (needle.test(event.title)) {
-							eventWrapper.style.cssText = "color:" + this.config.customEvents[ev].color;
-							titleWrapper.style.cssText = "color:" + this.config.customEvents[ev].color;
+							// Respect parameter ColoredSymbolOnly also for custom events
+							if (!this.config.coloredSymbolOnly) {
+								eventWrapper.style.cssText = "color:" + this.config.customEvents[ev].color;
+								titleWrapper.style.cssText = "color:" + this.config.customEvents[ev].color;
+							}
 							if (this.config.displaySymbol) {
 								symbolWrapper.style.cssText = "color:" + this.config.customEvents[ev].color;
 							}
@@ -363,7 +369,17 @@ Module.register("calendar", {
 					// Show relative times
 					if (event.startDate >= now) {
 						// Use relative  time
-						timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").calendar());
+						if (!this.config.hideTime) {
+							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").calendar());
+						} else {
+							timeWrapper.innerHTML = this.capFirst(
+								moment(event.startDate, "x").calendar(null, {
+									sameDay: "[" + this.translate("TODAY") + "]",
+									nextDay: "[" + this.translate("TOMORROW") + "]",
+									nextWeek: "dddd"
+								})
+							);
+						}
 						if (event.startDate - now < this.config.getRelative * oneHour) {
 							// If event is within getRelative  hours, display 'in xxx' time format or moment.fromNow()
 							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
@@ -592,7 +608,8 @@ Module.register("calendar", {
 			titleClass: calendarConfig.titleClass,
 			timeClass: calendarConfig.timeClass,
 			auth: auth,
-			broadcastPastEvents: calendarConfig.broadcastPastEvents || this.config.broadcastPastEvents
+			broadcastPastEvents: calendarConfig.broadcastPastEvents || this.config.broadcastPastEvents,
+			selfSignedCert: calendarConfig.selfSignedCert || this.config.selfSignedCert
 		});
 	},
 

@@ -6,7 +6,7 @@
 	"DAYAFTERTOMORROW": "I overmorgen",
 	"RUNNING": "Slutter om",
 	"EMPTY": "Ingen kommende begivenheder.",
-	"FEELS": "Føles som",
+	"FEELS": "Føles som {DEGREE}",
 	"WEEK": "Uge {weekNumber}",
 
 	"N": "N",

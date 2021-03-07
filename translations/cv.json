@@ -25,7 +25,7 @@
 	"WNW": "АҪА",
 	"NW": "ҪА",
 	"NNW": "ҪҪА",
-	"FEELS": "Туйӑннӑ",
+	"FEELS": "Туйӑннӑ {DEGREE}",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² валли ҫӗнетӳ пур.",
 	"UPDATE_NOTIFICATION_MODULE": "{MODULE_NAME} модуль валли ҫӗнетӳ пур.",

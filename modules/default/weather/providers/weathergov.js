@@ -19,6 +19,14 @@ WeatherProvider.register("weathergov", {
 	// But for debugging (and future alerts) it would be nice to have the real name.
 	providerName: "Weather.gov",
 
+	// Set the default config properties that is specific to this provider
+	defaults: {
+		apiBase: "https://api.weatherbit.io/v2.0",
+		weatherEndpoint: "/forecast",
+		lat: 0,
+		lon: 0
+	},
+
 	// Flag all needed URLs availability
 	configURLs: false,
 

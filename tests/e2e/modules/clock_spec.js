@@ -32,14 +32,16 @@ describe("Clock module", function () {
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/clock/clock_24hr.js";
 		});
 
-		it("should show the date in the correct format", function () {
+		it("should show the date in the correct format", async function () {
 			const dateRegex = /^(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), (?:January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, \d{4}$/;
-			return app.client.waitUntilWindowLoaded().getText(".clock .date").should.eventually.match(dateRegex);
+			const elem = await app.client.$(".clock .date");
+			return elem.getText(".clock .date").should.eventually.match(dateRegex);
 		});
 
-		it("should show the time in 24hr format", function () {
+		it("should show the time in 24hr format", async function () {
 			const timeRegex = /^(?:2[0-3]|[01]\d):[0-5]\d[0-5]\d$/;
-			return app.client.waitUntilWindowLoaded().getText(".clock .time").should.eventually.match(timeRegex);
+			const elem = await app.client.$(".clock .time");
+			return elem.getText(".clock .time").should.eventually.match(timeRegex);
 		});
 	});
 
@@ -49,14 +51,16 @@ describe("Clock module", function () {
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/clock/clock_12hr.js";
 		});
 
-		it("should show the date in the correct format", function () {
+		it("should show the date in the correct format", async function () {
 			const dateRegex = /^(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), (?:January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, \d{4}$/;
-			return app.client.waitUntilWindowLoaded().getText(".clock .date").should.eventually.match(dateRegex);
+			const elem = await app.client.$(".clock .date");
+			return elem.getText(".clock .date").should.eventually.match(dateRegex);
 		});
 
-		it("should show the time in 12hr format", function () {
+		it("should show the time in 12hr format", async function () {
 			const timeRegex = /^(?:1[0-2]|[1-9]):[0-5]\d[0-5]\d[ap]m$/;
-			return app.client.waitUntilWindowLoaded().getText(".clock .time").should.eventually.match(timeRegex);
+			const elem = await app.client.$(".clock .time");
+			return elem.getText(".clock .time").should.eventually.match(timeRegex);
 		});
 	});
 
@@ -66,9 +70,10 @@ describe("Clock module", function () {
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/clock/clock_showPeriodUpper.js";
 		});
 
-		it("should show 12hr time with upper case AM/PM", function () {
+		it("should show 12hr time with upper case AM/PM", async function () {
 			const timeRegex = /^(?:1[0-2]|[1-9]):[0-5]\d[0-5]\d[AP]M$/;
-			return app.client.waitUntilWindowLoaded().getText(".clock .time").should.eventually.match(timeRegex);
+			const elem = await app.client.$(".clock .time");
+			return elem.getText(".clock .time").should.eventually.match(timeRegex);
 		});
 	});
 
@@ -78,9 +83,10 @@ describe("Clock module", function () {
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/clock/clock_displaySeconds_false.js";
 		});
 
-		it("should show 12hr time without seconds am/pm", function () {
+		it("should show 12hr time without seconds am/pm", async function () {
 			const timeRegex = /^(?:1[0-2]|[1-9]):[0-5]\d[ap]m$/;
-			return app.client.waitUntilWindowLoaded().getText(".clock .time").should.eventually.match(timeRegex);
+			const elem = await app.client.$(".clock .time");
+			return elem.getText(".clock .time").should.eventually.match(timeRegex);
 		});
 	});
 
@@ -90,15 +96,17 @@ describe("Clock module", function () {
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/clock/clock_showWeek.js";
 		});
 
-		it("should show the week in the correct format", function () {
+		it("should show the week in the correct format", async function () {
 			const weekRegex = /^Week [0-9]{1,2}$/;
-			return app.client.waitUntilWindowLoaded().getText(".clock .week").should.eventually.match(weekRegex);
+			const elem = await app.client.$(".clock .week");
+			return elem.getText(".clock .week").should.eventually.match(weekRegex);
 		});
 
-		it("should show the week with the correct number of week of year", function () {
+		it("should show the week with the correct number of week of year", async function () {
 			const currentWeekNumber = moment().week();
 			const weekToShow = "Week " + currentWeekNumber;
-			return app.client.waitUntilWindowLoaded().getText(".clock .week").should.eventually.equal(weekToShow);
+			const elem = await app.client.$(".clock .week");
+			return elem.getText(".clock .week").should.eventually.equal(weekToShow);
 		});
 	});
 

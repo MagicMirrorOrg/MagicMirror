@@ -31,5 +31,5 @@
 	"UPDATE_INFO_SINGLE": "Nåværende installasjon er {COMMIT_COUNT} commit bak {BRANCH_NAME} grenen.",
 	"UPDATE_INFO_MULTIPLE": "Nåværende installasjon er {COMMIT_COUNT} commits bak {BRANCH_NAME} grenen.",
 
-	"FEELS": "Føles som"
+	"FEELS": "Føles som {DEGREE}"
 }

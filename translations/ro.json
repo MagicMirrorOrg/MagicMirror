@@ -31,5 +31,5 @@
 	"UPDATE_INFO_SINGLE": "Există {COMMIT_COUNT} commit-uri noi pe branch-ul {BRANCH_NAME}.",
 	"UPDATE_INFO_MULTIPLE": "Există {COMMIT_COUNT} commit-uri noi pe branch-ul {BRANCH_NAME}.",
 
-	"FEELS": "Se simte ca fiind"
+	"FEELS": "Se simte ca fiind {DEGREE}"
 }

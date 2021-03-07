@@ -31,5 +31,5 @@
 	"UPDATE_INFO_SINGLE": "Instalirana verzija {COMMIT_COUNT} commit kasni za branch-om {BRANCH_NAME}.",
 	"UPDATE_INFO_MULTIPLE": "Instalirana verzija {COMMIT_COUNT} commit-ova kasni za branch-om {BRANCH_NAME}.",
 
-	"FEELS": "Osjećaj"
+	"FEELS": "Osjećaj {DEGREE}"
 }

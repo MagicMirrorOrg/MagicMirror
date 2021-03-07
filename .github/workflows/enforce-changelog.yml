@@ -1,10 +1,12 @@
+# This workflow enforces the update of a changelog file on every pull request
+
 name: "Enforce Changelog"
+
 on:
   pull_request:
       types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
 
 jobs:
-  # Enforces the update of a changelog file on every pull request 
   check:
     runs-on: ubuntu-latest
     steps:

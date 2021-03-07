@@ -16,7 +16,8 @@ var config = {
 	units: "metric",
 	electronOptions: {
 		webPreferences: {
-			nodeIntegration: true
+			nodeIntegration: true,
+			enableRemoteModule: true
 		}
 	},
 

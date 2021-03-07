@@ -31,26 +31,18 @@ describe("Electron app environment", function () {
 		return helpers.stopApplication(app);
 	});
 
-	it("should open a browserwindow", function () {
-		return (
-			app.client
-				.waitUntilWindowLoaded()
-				// .browserWindow.focus()
-				.getWindowCount()
-				.should.eventually.equal(1)
-				.browserWindow.isMinimized()
-				.should.eventually.be.false.browserWindow.isDevToolsOpened()
-				.should.eventually.be.false.browserWindow.isVisible()
-				.should.eventually.be.true.browserWindow.isFocused()
-				.should.eventually.be.true.browserWindow.getBounds()
-				.should.eventually.have.property("width")
-				.and.be.above(0)
-				.browserWindow.getBounds()
-				.should.eventually.have.property("height")
-				.and.be.above(0)
-				.browserWindow.getTitle()
-				.should.eventually.equal("MagicMirror²")
-		);
+	it("should open a browserwindow", async function () {
+		await app.client.waitUntilWindowLoaded();
+		app.browserWindow.focus();
+		expect(await app.client.getWindowCount()).to.equal(1);
+		expect(await app.browserWindow.isMinimized()).to.be.false;
+		expect(await app.browserWindow.isDevToolsOpened()).to.be.false;
+		expect(await app.browserWindow.isVisible()).to.be.true;
+		expect(await app.browserWindow.isFocused()).to.be.true;
+		const bounds = await app.browserWindow.getBounds();
+		expect(bounds.width).to.be.above(0);
+		expect(bounds.height).to.be.above(0);
+		expect(await app.browserWindow.getTitle()).to.equal("MagicMirror²");
 	});
 
 	it("get request from http://localhost:8080 should return 200", function (done) {

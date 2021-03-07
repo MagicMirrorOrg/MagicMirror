@@ -5,11 +5,54 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror²
 
-## [2.14.1] - 2021-03-07
+## [2.15.0] - Unreleased (Develop Branch)
+
+_This release is scheduled to be released on 2021-04-01._
 
 ### Added
 
-- @MystaraTheGreat added hiddenOnStartup flag to module config (#2475)
+- Added GitHub workflows for automated testing and changelog enforcement.
+- Added CodeCov badge to Readme.
+- Added CURRENTWEATHER_TYPE notification to currentweather and weather module, use it in compliments module.
+- Added `start:dev` command to the npm scripts for starting electron with devTools open.
+- Added logging when using deprecated modules weatherforecast or currentweather.
+- Portuguese translations for "MODULE_CONFIG_CHANGED" and PRECIP.
+- Respect parameter ColoredSymbolOnly also for custom events
+- Added a new parameter to hide time portion on relative times
+- `module.show` has now the option for a callback on error.
+- Added locale to sample config file
+- Added support for self-signed certificates for the default calendar module (#466)
+- Added hiddenOnStartup flag to module config (#2475)
+
+### Updated
+
+- Updated markdown files.
+- Cleaned up old code on server side.
+- Convert `-0` to `0` when displaying temperature.
+- Code cleanup for FEELS like and added {DEGREE} placeholder for FEELSLIKE for each language
+- Converted newsfeed module to use templates.
+- Update documentation and help screen about invalid config files.
+- Moving weather provider specific code and configuration into each provider and making hourly part of the interface.
+- Bump electron to v11 and enable contextIsolation.
+- Dont update the DOM when a module is not displayed.
+- Cleaned up jsdoc and tests.
+- Exposed logger as node module for easier access for 3rd party modules
+
+### Removed
+
+- Removed danger.js library.
+
+### Fixed
+
+- Added default log levels to stop calendar log spamming.
+- Fix socket.io cors errors, see [breaking change since socket.io v3](https://socket.io/docs/v3/handling-cors/)
+- Fix Issue with weather forecast icons due to fixed day start and end time (#2221)
+- Fix empty directory for each module's main javascript file in the inspector
+- Fix Issue with weather forecast icons unit tests with different timezones (#2221)
+- Fix issue with unencoded characters in translated strings when using nunjuck template (`Loading &hellip;` as an example)
+- Fix socket.io backward compatibility with socket v2 clients
+- 3rd party module language loading if language is English
+- Fix e2e tests after spectron update
 
 ## [2.14.0] - 2021-01-01
 
@@ -31,7 +74,6 @@ Special thanks to the following contributors: @Alvinger, @AndyPoms, @ashishtank,
 - Calendar: new options "limitDays" and "coloredEvents".
 - Added new option "limitDays" - limit the number of discreet days displayed.
 - Added new option "customEvents" - use custom symbol/color based on keyword in event title.
-- Added GitHub workflows for automated testing and changelog enforcement.
 
 ### Updated
 

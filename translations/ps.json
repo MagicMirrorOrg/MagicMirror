@@ -33,5 +33,5 @@
 	"UPDATE_INFO_SINGLE": "اوسنی برخه {COMMIT_COUNT} د {BRANCH_NAME} څخه وروسته پاته ده",
 	"UPDATE_INFO_MULTIPLE": "اوسنی برخه {COMMIT_COUNT} د {BRANCH_NAME} څخه وروسته پاته ده",
 
-	"FEELS": "حس کېږی"
+	"FEELS": "حس کېږی {DEGREE}"
 }

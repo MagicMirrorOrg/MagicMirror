@@ -4,7 +4,7 @@
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-const Log = require("../../../js/logger.js");
+const Log = require("logger");
 const FeedMe = require("feedme");
 const request = require("request");
 const iconv = require("iconv-lite");
