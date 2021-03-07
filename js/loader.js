@@ -56,8 +56,8 @@ var Loader = (function () {
 		MM.modulesStarted(moduleObjects);
 
 		// Starting modules also hides any modules that have requeste dto be initially hidden
-		for (var m in moduleObjects) {
-			var module = moduleObjects[m];
+		for (var n in moduleObjects) {
+			var module = moduleObjects[n];
 
 			if (module.data.hiddenOnStartup) {
 				Log.info("Initially hiding " + module.name);
