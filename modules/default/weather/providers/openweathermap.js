@@ -465,6 +465,8 @@ WeatherProvider.register("openweathermap", {
 			} else {
 				params += "&exclude=minutely";
 			}
+		} else if (this.config.lat && this.config.lon) {
+			params += "lat=" + this.config.lat + "&lon=" + this.config.lon;
 		} else if (this.config.locationID) {
 			params += "id=" + this.config.locationID;
 		} else if (this.config.location) {
