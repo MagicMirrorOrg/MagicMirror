@@ -36,6 +36,7 @@ _This release is scheduled to be released on 2021-04-01._
 - Dont update the DOM when a module is not displayed.
 - Cleaned up jsdoc and tests.
 - Exposed logger as node module for easier access for 3rd party modules
+- Replaced deprecated `request` package with `node-fetch` and `digest-fetch`
 
 ### Removed
 
