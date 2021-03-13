@@ -18,7 +18,7 @@ module.exports = NodeHelper.create({
 		// Push MagicMirror itself , biggest chance it'll show up last in UI and isn't overwritten
 		// others will be added in front
 		// this method returns promises so we can't wait for every one to resolve before continuing
-		simpleGits.push({ module: "default", git: SimpleGit(path.normalize(__dirname + "/../../../")) });
+		simpleGits.push({ module: "default", git: this.createGit(path.normalize(__dirname + "/../../../")) });
 
 		for (let moduleName in modules) {
 			if (!this.ignoreUpdateChecking(moduleName)) {
@@ -55,7 +55,7 @@ module.exports = NodeHelper.create({
 	},
 
 	resolveRemote: async function (moduleFolder) {
-		let git = SimpleGit(moduleFolder);
+		let git = this.createGit(moduleFolder);
 		let remotes = await git.getRemotes(true);
 
 		if (remotes.length < 1 || remotes[0].name.length < 1) {
@@ -81,7 +81,7 @@ module.exports = NodeHelper.create({
 					});
 				}
 			} catch (err) {
-				Log.error("Failed to fetch data for git: " + err);
+				Log.error("Failed to fetch git data for " + sg.module + ": " + err);
 			}
 		}
 
@@ -98,6 +98,10 @@ module.exports = NodeHelper.create({
 		this.updateTimer = setTimeout(function () {
 			self.performFetch();
 		}, delay);
+	},
+
+	createGit: function (folder) {
+		return SimpleGit({ baseDir: folder, timeout: { block: this.config.timeout } });
 	},
 
 	ignoreUpdateChecking: function (moduleName) {
