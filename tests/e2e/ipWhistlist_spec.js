@@ -1,5 +1,5 @@
 const helpers = require("./global-setup");
-const request = require("request");
+const fetch = require("node-fetch");
 const expect = require("chai").expect;
 
 const describe = global.describe;
@@ -32,8 +32,8 @@ describe("ipWhitelist directive configuration", function () {
 			process.env.MM_CONFIG_FILE = "tests/configs/noIpWhiteList.js";
 		});
 		it("should return 403", function (done) {
-			request.get("http://localhost:8080", function (err, res, body) {
-				expect(res.statusCode).to.equal(403);
+			fetch("http://localhost:8080").then((res) => {
+				expect(res.status).to.equal(403);
 				done();
 			});
 		});
@@ -45,8 +45,8 @@ describe("ipWhitelist directive configuration", function () {
 			process.env.MM_CONFIG_FILE = "tests/configs/empty_ipWhiteList.js";
 		});
 		it("should return 200", function (done) {
-			request.get("http://localhost:8080", function (err, res, body) {
-				expect(res.statusCode).to.equal(200);
+			fetch("http://localhost:8080").then((res) => {
+				expect(res.status).to.equal(200);
 				done();
 			});
 		});

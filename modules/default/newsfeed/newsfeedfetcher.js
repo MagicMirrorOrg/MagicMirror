@@ -6,7 +6,7 @@
  */
 const Log = require("logger");
 const FeedMe = require("feedme");
-const request = require("request");
+const fetch = require("node-fetch");
 const iconv = require("iconv-lite");
 
 /**
@@ -79,22 +79,20 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 		});
 
 		const nodeVersion = Number(process.version.match(/^v(\d+\.\d+)/)[1]);
-		const opts = {
-			headers: {
-				"User-Agent": "Mozilla/5.0 (Node.js " + nodeVersion + ") MagicMirror/" + global.version + " (https://github.com/MichMich/MagicMirror/)",
-				"Cache-Control": "max-age=0, no-cache, no-store, must-revalidate",
-				Pragma: "no-cache"
-			},
-			encoding: null
+		const headers = {
+			"User-Agent": "Mozilla/5.0 (Node.js " + nodeVersion + ") MagicMirror/" + global.version + " (https://github.com/MichMich/MagicMirror/)",
+			"Cache-Control": "max-age=0, no-cache, no-store, must-revalidate",
+			Pragma: "no-cache"
 		};
 
-		request(url, opts)
-			.on("error", function (error) {
+		fetch(url, { headers: headers })
+			.catch((error) => {
 				fetchFailedCallback(self, error);
 				scheduleTimer();
 			})
-			.pipe(iconv.decodeStream(encoding))
-			.pipe(parser);
+			.then((res) => {
+				res.body.pipe(iconv.decodeStream(encoding)).pipe(parser);
+			});
 	};
 
 	/**

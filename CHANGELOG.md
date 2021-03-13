@@ -22,6 +22,7 @@ _This release is scheduled to be released on 2021-04-01._
 - `module.show` has now the option for a callback on error.
 - Added locale to sample config file
 - Added support for self-signed certificates for the default calendar module (#466)
+- Added hiddenOnStartup flag to module config (#2475)
 
 ### Updated
 
@@ -36,10 +37,12 @@ _This release is scheduled to be released on 2021-04-01._
 - Dont update the DOM when a module is not displayed.
 - Cleaned up jsdoc and tests.
 - Exposed logger as node module for easier access for 3rd party modules
+- Replaced deprecated `request` package with `node-fetch` and `digest-fetch`
 
 ### Removed
 
 - Removed danger.js library.
+- Removed `ical` which was substituted by `node-ical` in release `v2.13.0`. Module developers must install this dependency themselves in the module folder if needed.
 
 ### Fixed
 
@@ -53,6 +56,7 @@ _This release is scheduled to be released on 2021-04-01._
 - 3rd party module language loading if language is English
 - Fix e2e tests after spectron update
 - Fix updatenotification creating zombie processes by setting a timeout for the git process
+- Fix weather module openweathermap not loading if lat and lon set without onecall.
 
 ## [2.14.0] - 2021-01-01
 
