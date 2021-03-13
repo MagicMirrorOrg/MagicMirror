@@ -22,6 +22,7 @@ _This release is scheduled to be released on 2021-04-01._
 - `module.show` has now the option for a callback on error.
 - Added locale to sample config file
 - Added support for self-signed certificates for the default calendar module (#466)
+- Added hiddenOnStartup flag to module config (#2475)
 
 ### Updated
 
