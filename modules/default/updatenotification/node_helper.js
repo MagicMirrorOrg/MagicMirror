@@ -66,7 +66,7 @@ module.exports = NodeHelper.create({
 	},
 
 	performFetch: async function () {
-		for (sg of simpleGits) {
+		for (let sg of simpleGits) {
 			try {
 				let fetchData = await sg.git.fetch(["--dry-run"]).status();
 				let logData = await sg.git.log({ "-1": null });
