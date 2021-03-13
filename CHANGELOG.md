@@ -23,6 +23,7 @@ _This release is scheduled to be released on 2021-04-01._
 - Added locale to sample config file
 - Added support for self-signed certificates for the default calendar module (#466)
 - Added hiddenOnStartup flag to module config (#2475)
+- Added possibility to move 3rd-party-modules into another parent directory than `modules` (should be a directory beside `modules`)
 
 ### Updated
 

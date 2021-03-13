@@ -73,7 +73,8 @@ var defaults = {
 	],
 
 	paths: {
-		modules: "modules",
+		// only change these variables in your config if you know what you are doing!
+		modules: "modules", // parent directory for 3rd-party-modules, can be changed to another directory beside `modules`.
 		vendor: "vendor"
 	}
 };

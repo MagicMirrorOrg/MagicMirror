@@ -106,7 +106,7 @@ function App() {
 	function loadModule(module, callback) {
 		const elements = module.split("/");
 		const moduleName = elements[elements.length - 1];
-		let moduleFolder = `${__dirname}/../modules/${module}`;
+		let moduleFolder = `${__dirname}/../${config.paths.modules}/${module}`;
 
 		if (defaultModules.includes(moduleName)) {
 			moduleFolder = `${__dirname}/../modules/default/${module}`;

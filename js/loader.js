@@ -91,7 +91,7 @@ var Loader = (function () {
 			var moduleFolder = config.paths.modules + "/" + module;
 
 			if (defaultModules.indexOf(moduleName) !== -1) {
-				moduleFolder = config.paths.modules + "/default/" + module;
+				moduleFolder = "modules/default/" + module;
 			}
 
 			if (moduleData.disabled === true) {
