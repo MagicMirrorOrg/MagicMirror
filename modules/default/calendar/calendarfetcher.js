@@ -10,7 +10,6 @@ const ical = require("node-ical");
 const fetch = require("node-fetch");
 const digest = require("digest-fetch");
 const https = require("https");
-const base64 = require("base-64");
 
 /**
  *
