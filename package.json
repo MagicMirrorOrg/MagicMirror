@@ -84,7 +84,7 @@
 		"node-ical": "^0.12.8",
 		"rrule": "^2.6.8",
 		"rrule-alt": "^2.2.8",
-		"simple-git": "^2.35.2",
+		"simple-git": "^2.36.2",
 		"socket.io": "^3.1.2",
 		"valid-url": "^1.0.9"
 	},
