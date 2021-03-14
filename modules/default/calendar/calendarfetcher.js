@@ -64,12 +64,12 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 
 		fetcher
 			.catch((error) => {
-				fetchFailedCallback(self, error);
+				fetchFailedCallback(this, error);
 				scheduleTimer();
 			})
 			.then((response) => {
 				if (response.status !== 200) {
-					fetchFailedCallback(self, response.statusText);
+					fetchFailedCallback(this, response.statusText);
 					scheduleTimer();
 				}
 				return response;
