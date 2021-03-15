@@ -10,7 +10,6 @@ const ical = require("node-ical");
 const fetch = require("node-fetch");
 const digest = require("digest-fetch");
 const https = require("https");
-const base64 = require("base-64");
 
 /**
  *
@@ -55,7 +54,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 			} else if (auth.method === "digest") {
 				fetcher = new digest(auth.user, auth.pass).fetch(url, { headers: headers, httpsAgent: httpsAgent });
 			} else {
-				headers.Authorization = "Basic " + base64.encode(auth.user + ":" + auth.pass);
+				headers.Authorization = "Basic " + Buffer.from(auth.user + ":" + auth.pass).toString("base64");
 			}
 		}
 		if (fetcher === null) {

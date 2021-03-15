@@ -34,7 +34,7 @@ _This release is scheduled to be released on 2021-04-01._
 - Update documentation and help screen about invalid config files.
 - Moving weather provider specific code and configuration into each provider and making hourly part of the interface.
 - Bump electron to v11 and enable contextIsolation.
-- Dont update the DOM when a module is not displayed.
+- Don't update the DOM when a module is not displayed.
 - Cleaned up jsdoc and tests.
 - Exposed logger as node module for easier access for 3rd party modules
 - Replaced deprecated `request` package with `node-fetch` and `digest-fetch`
@@ -492,7 +492,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 ### Fixed
 
 - Fixed gzip encoded calendar loading issue #1400.
-- Mixup between german and spanish translation for newsfeed.
+- Fixed mixup between german and spanish translation for newsfeed.
 - Fixed close dates to be absolute, if no configured in the config.js - module Calendar
 - Fixed the updatenotification module message about new commits in the repository, so they can be correctly localized in singular and plural form.
 - Fix for weatherforecast rainfall rounding [#1374](https://github.com/MichMich/MagicMirror/issues/1374)
