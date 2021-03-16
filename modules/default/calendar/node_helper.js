@@ -5,7 +5,6 @@
  * MIT Licensed.
  */
 const NodeHelper = require("node_helper");
-const validUrl = require("valid-url");
 const CalendarFetcher = require("./calendarfetcher.js");
 const Log = require("logger");
 
@@ -38,7 +37,9 @@ module.exports = NodeHelper.create({
 	 * @param {string} identifier ID of the module
 	 */
 	createFetcher: function (url, fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, broadcastPastEvents, selfSignedCert, identifier) {
-		if (!validUrl.isUri(url)) {
+		try {
+			new URL(url);
+		} catch (error) {
 			this.sendSocketNotification("INCORRECT_URL", { id: identifier, url: url });
 			return;
 		}

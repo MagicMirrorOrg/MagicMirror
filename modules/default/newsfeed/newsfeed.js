@@ -87,6 +87,8 @@ Module.register("newsfeed", {
 			}
 
 			this.loaded = true;
+		} else if (notification === "INCORRECT_URL") {
+			Log.error("Newsfeed Error. Incorrect url: " + payload.url);
 		}
 	},
 
