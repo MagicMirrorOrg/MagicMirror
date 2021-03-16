@@ -196,18 +196,18 @@ Module.register("newsfeed", {
 		newsItems.forEach((item) => {
 			//Remove selected tags from the beginning of rss feed items (title or description)
 			if (this.config.removeStartTags === "title" || this.config.removeStartTags === "both") {
-				for (let f = 0; f < this.config.startTags.length; f++) {
-					if (item.title.slice(0, this.config.startTags[f].length) === this.config.startTags[f]) {
-						item.title = item.title.slice(this.config.startTags[f].length, item.title.length);
+				for (let startTag of this.config.startTags) {
+					if (item.title.slice(0, startTag.length) === startTag) {
+						item.title = item.title.slice(startTag.length, item.title.length);
 					}
 				}
 			}
 
 			if (this.config.removeStartTags === "description" || this.config.removeStartTags === "both") {
 				if (this.isShowingDescription) {
-					for (let f = 0; f < this.config.startTags.length; f++) {
-						if (item.description.slice(0, this.config.startTags[f].length) === this.config.startTags[f]) {
-							item.description = item.description.slice(this.config.startTags[f].length, item.description.length);
+					for (let startTag of this.config.startTags) {
+						if (item.description.slice(0, startTag.length) === startTag) {
+							item.description = item.description.slice(startTag.length, item.description.length);
 						}
 					}
 				}
@@ -216,16 +216,16 @@ Module.register("newsfeed", {
 			//Remove selected tags from the end of rss feed items (title or description)
 
 			if (this.config.removeEndTags) {
-				for (let f = 0; f < this.config.endTags.length; f++) {
-					if (item.title.slice(-this.config.endTags[f].length) === this.config.endTags[f]) {
-						item.title = item.title.slice(0, -this.config.endTags[f].length);
+				for (let endTag of this.config.endTags) {
+					if (item.title.slice(-endTag.length) === endTag) {
+						item.title = item.title.slice(0, -endTag.length);
 					}
 				}
 
 				if (this.isShowingDescription) {
-					for (let f = 0; f < this.config.endTags.length; f++) {
-						if (item.description.slice(-this.config.endTags[f].length) === this.config.endTags[f]) {
-							item.description = item.description.slice(0, -this.config.endTags[f].length);
+					for (let endTag of this.config.endTags) {
+						if (item.description.slice(-endTag.length) === endTag) {
+							item.description = item.description.slice(0, -endTag.length);
 						}
 					}
 				}
@@ -283,22 +283,20 @@ Module.register("newsfeed", {
 	 * Schedule visual update.
 	 */
 	scheduleUpdateInterval: function () {
-		var self = this;
-
-		self.updateDom(self.config.animationSpeed);
+		this.updateDom(this.config.animationSpeed);
 
 		// Broadcast NewsFeed if needed
-		if (self.config.broadcastNewsFeeds) {
-			self.sendNotification("NEWS_FEED", { items: self.newsItems });
+		if (this.config.broadcastNewsFeeds) {
+			this.sendNotification("NEWS_FEED", { items: this.newsItems });
 		}
 
-		this.timer = setInterval(function () {
-			self.activeItem++;
-			self.updateDom(self.config.animationSpeed);
+		this.timer = setInterval(() => {
+			this.activeItem++;
+			this.updateDom(this.config.animationSpeed);
 
 			// Broadcast NewsFeed if needed
-			if (self.config.broadcastNewsFeeds) {
-				self.sendNotification("NEWS_FEED", { items: self.newsItems });
+			if (this.config.broadcastNewsFeeds) {
+				this.sendNotification("NEWS_FEED", { items: this.newsItems });
 			}
 		}, this.config.updateInterval);
 	},
