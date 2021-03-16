@@ -74,8 +74,8 @@ module.exports = NodeHelper.create({
 	 * and broadcasts these using sendSocketNotification.
 	 */
 	broadcastFeeds: function () {
-		var feeds = {};
-		for (var f in this.fetchers) {
+		const feeds = {};
+		for (let f in this.fetchers) {
 			feeds[f] = this.fetchers[f].items();
 		}
 		this.sendSocketNotification("NEWS_ITEMS", feeds);

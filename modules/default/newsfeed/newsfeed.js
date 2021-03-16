@@ -147,8 +147,7 @@ Module.register("newsfeed", {
 	 * Registers the feeds to be used by the backend.
 	 */
 	registerFeeds: function () {
-		for (var f in this.config.feeds) {
-			var feed = this.config.feeds[f];
+		for (let feed of this.config.feeds) {
 			this.sendSocketNotification("ADD_FEED", {
 				feed: feed,
 				config: this.config
@@ -162,12 +161,11 @@ Module.register("newsfeed", {
 	 * @param {object} feeds An object with feeds returned by the node helper.
 	 */
 	generateFeed: function (feeds) {
-		var newsItems = [];
-		for (var feed in feeds) {
-			var feedItems = feeds[feed];
+		let newsItems = [];
+		for (let feed in feeds) {
+			const feedItems = feeds[feed];
 			if (this.subscribedToFeed(feed)) {
-				for (var i in feedItems) {
-					var item = feedItems[i];
+				for (let item of feedItems) {
 					item.sourceTitle = this.titleForFeed(feed);
 					if (!(this.config.ignoreOldItems && Date.now() - new Date(item.pubdate) > this.config.ignoreOlderThan)) {
 						newsItems.push(item);
@@ -176,8 +174,8 @@ Module.register("newsfeed", {
 			}
 		}
 		newsItems.sort(function (a, b) {
-			var dateA = new Date(a.pubdate);
-			var dateB = new Date(b.pubdate);
+			const dateA = new Date(a.pubdate);
+			const dateB = new Date(b.pubdate);
 			return dateB - dateA;
 		});
 		if (this.config.maxNewsItems > 0) {
@@ -186,8 +184,8 @@ Module.register("newsfeed", {
 
 		if (this.config.prohibitedWords.length > 0) {
 			newsItems = newsItems.filter(function (value) {
-				for (var i = 0; i < this.config.prohibitedWords.length; i++) {
-					if (value["title"].toLowerCase().indexOf(this.config.prohibitedWords[i].toLowerCase()) > -1) {
+				for (let word of this.config.prohibitedWords) {
+					if (value["title"].toLowerCase().indexOf(word.toLowerCase()) > -1) {
 						return false;
 					}
 				}
@@ -235,7 +233,7 @@ Module.register("newsfeed", {
 		});
 
 		// get updated news items and broadcast them
-		var updatedItems = [];
+		const updatedItems = [];
 		newsItems.forEach((value) => {
 			if (this.newsItems.findIndex((value1) => value1 === value) === -1) {
 				// Add item to updated items list
@@ -258,8 +256,7 @@ Module.register("newsfeed", {
 	 * @returns {boolean} True if it is subscribed, false otherwise
 	 */
 	subscribedToFeed: function (feedUrl) {
-		for (var f in this.config.feeds) {
-			var feed = this.config.feeds[f];
+		for (let feed of this.config.feeds) {
 			if (feed.url === feedUrl) {
 				return true;
 			}
@@ -274,8 +271,7 @@ Module.register("newsfeed", {
 	 * @returns {string} The title of the feed
 	 */
 	titleForFeed: function (feedUrl) {
-		for (var f in this.config.feeds) {
-			var feed = this.config.feeds[f];
+		for (let feed of this.config.feeds) {
 			if (feed.url === feedUrl) {
 				return feed.title || "";
 			}
