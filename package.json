@@ -84,9 +84,8 @@
 		"node-ical": "^0.12.9",
 		"rrule": "^2.6.8",
 		"rrule-alt": "^2.2.8",
-		"simple-git": "^2.36.2",
-		"socket.io": "^4.0.0",
-		"valid-url": "^1.0.9"
+		"simple-git": "^2.37.0",
+		"socket.io": "^4.0.0"
 	},
 	"_moduleAliases": {
 		"node_helper": "js/node_helper.js",
