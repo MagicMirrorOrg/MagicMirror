@@ -23,7 +23,7 @@
     </div>
 {% elseif error %}
     <div class="small dimmed">
-        {{ error }}
+        {{ "MODULE_CONFIG_ERROR" | translate({MODULE_NAME: "Newsfeed", ERROR: error}) | safe }}
     </div>
 {% else %}
     <div class="small dimmed">

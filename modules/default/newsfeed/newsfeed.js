@@ -90,7 +90,7 @@ Module.register("newsfeed", {
 			this.loaded = true;
 			this.error = null;
 		} else if (notification === "INCORRECT_URL") {
-			this.error = "Newsfeed Error. Incorrect url: " + payload.url;
+			this.error = `Incorrect url: ${payload.url}`;
 			this.scheduleUpdateInterval();
 		}
 	},

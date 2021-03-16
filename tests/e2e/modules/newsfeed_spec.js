@@ -30,7 +30,7 @@ describe("Newsfeed module", function () {
 		});
 
 		it("should show the newsfeed title", function () {
-			return app.client.waitUntilTextExists(".newsfeed .small", "Rodrigo Ramirez Blog", 10000).should.be.fulfilled;
+			return app.client.waitUntilTextExists(".newsfeed .small", "Rodrigo Ramirez Blog", 10000);
 		});
 	});
 
@@ -40,7 +40,7 @@ describe("Newsfeed module", function () {
 		});
 
 		it("should show invalid url warning", function () {
-			return app.client.waitUntilTextExists(".newsfeed .small", "Newsfeed Error. Incorrect url:", 10000).should.be.fulfilled;
+			return app.client.waitUntilTextExists(".newsfeed .small", "Error in the Newsfeed module. Incorrect url:", 10000);
 		});
 	});
 });
