@@ -6,7 +6,7 @@
                     {{ sourceTitle }}{% if config.showPublishDate %}, {% else %}: {% endif %}
                 {% endif %}
                 {% if config.showPublishDate %}
-                    {{ publishDate }}: 
+                    {{ publishDate }}:
                 {% endif %}
             </div>
         {% endif %}
@@ -20,6 +20,10 @@
                 {{ description }}
             {% endif %}
         </div>
+    </div>
+{% elseif error %}
+    <div class="small dimmed">
+        {{ error }}
     </div>
 {% else %}
     <div class="small dimmed">

@@ -66,6 +66,7 @@ Module.register("newsfeed", {
 
 		this.newsItems = [];
 		this.loaded = false;
+		this.error = null;
 		this.activeItem = 0;
 		this.scrollPosition = 0;
 
@@ -87,8 +88,10 @@ Module.register("newsfeed", {
 			}
 
 			this.loaded = true;
+			this.error = null;
 		} else if (notification === "INCORRECT_URL") {
-			Log.error("Newsfeed Error. Incorrect url: " + payload.url);
+			this.error = "Newsfeed Error. Incorrect url: " + payload.url;
+			this.scheduleUpdateInterval();
 		}
 	},
 
@@ -110,15 +113,20 @@ Module.register("newsfeed", {
 				url: this.getActiveItemURL()
 			};
 		}
+		if (this.error) {
+			return {
+				error: this.error
+			};
+		}
 		if (this.newsItems.length === 0) {
 			return {
 				loaded: false
 			};
 		}
-
 		if (this.activeItem >= this.newsItems.length) {
 			this.activeItem = 0;
 		}
+
 		const item = this.newsItems[this.activeItem];
 
 		return {

@@ -8,7 +8,7 @@ const afterEach = global.afterEach;
 describe("Newsfeed module", function () {
 	helpers.setupTimeout(this);
 
-	var app = null;
+	let app = null;
 
 	beforeEach(function () {
 		return helpers
@@ -29,8 +29,18 @@ describe("Newsfeed module", function () {
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/newsfeed/default.js";
 		});
 
-		it("show title newsfeed", function () {
+		it("should show the newsfeed title", function () {
 			return app.client.waitUntilTextExists(".newsfeed .small", "Rodrigo Ramirez Blog", 10000).should.be.fulfilled;
+		});
+	});
+
+	describe("Invalid configuration", function () {
+		before(function () {
+			process.env.MM_CONFIG_FILE = "tests/configs/modules/newsfeed/incorrect_url.js";
+		});
+
+		it("should show invalid url warning", function () {
+			return app.client.waitUntilTextExists(".newsfeed .small", "Newsfeed Error. Incorrect url:", 10000).should.be.fulfilled;
 		});
 	});
 });

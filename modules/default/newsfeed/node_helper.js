@@ -38,7 +38,7 @@ module.exports = NodeHelper.create({
 		try {
 			new URL(url);
 		} catch (error) {
-			this.sendSocketNotification("INCORRECT_URL", { url: url });
+			this.sendSocketNotification("INCORRECT_URL", { url });
 			return;
 		}
 
