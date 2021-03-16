@@ -44,6 +44,7 @@ _This release is scheduled to be released on 2021-04-01._
 
 - Removed danger.js library.
 - Removed `ical` which was substituted by `node-ical` in release `v2.13.0`. Module developers must install this dependency themselves in the module folder if needed.
+- Removed valid-url library.
 
 ### Fixed
 
