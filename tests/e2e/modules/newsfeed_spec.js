@@ -30,7 +30,21 @@ describe("Newsfeed module", function () {
 		});
 
 		it("should show the newsfeed title", function () {
-			return app.client.waitUntilTextExists(".newsfeed .small", "Rodrigo Ramirez Blog", 10000);
+			return app.client.waitUntilTextExists(".newsfeed .newsfeed-source", "Rodrigo Ramirez Blog", 10000);
+		});
+
+		it("should show the newsfeed article", function () {
+			return app.client.waitUntilTextExists(".newsfeed .newsfeed-title", "QPanel", 10000);
+		});
+	});
+
+	describe("Custom configuration", function () {
+		before(function () {
+			process.env.MM_CONFIG_FILE = "tests/configs/modules/newsfeed/prohibited_words.js";
+		});
+
+		it("should not show articles with prohibited words", function () {
+			return app.client.waitUntilTextExists(".newsfeed .newsfeed-title", "Problema VirtualBox", 10000);
 		});
 	});
 
