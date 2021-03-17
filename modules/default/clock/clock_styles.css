@@ -29,7 +29,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  margin: -2px 0 -2px -25%; /* numbers much match negative length & thickness */
+  margin: -2px 0 -2px -25%; /* numbers must match negative length & thickness */
   padding: 2px 0 2px 25%; /* indicator length & thickness */
   background: var(--color-text-bright);
   transform-origin: 100% 50%;
