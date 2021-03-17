@@ -20,6 +20,7 @@ var defaults = {
 	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1"],
 
 	language: "en",
+	logLevel: ["INFO", "LOG", "WARN", "ERROR"],
 	timeFormat: 24,
 	units: "metric",
 	zoom: 1,
@@ -42,7 +43,7 @@ var defaults = {
 			module: "helloworld",
 			position: "middle_center",
 			config: {
-				text: "Please create a config file."
+				text: "Please create a config file or check the existing one for errors."
 			}
 		},
 		{
@@ -58,7 +59,7 @@ var defaults = {
 			position: "middle_center",
 			classes: "xsmall",
 			config: {
-				text: "If you get this message while your config file is already<br>created, your config file probably contains an error.<br>Use a JavaScript linter to validate your file."
+				text: "If you get this message while your config file is already created,<br>" + "it probably contains an error. To validate your config file run in your MagicMirror directory<br>" + "<pre>npm run config:check</pre>"
 			}
 		},
 		{

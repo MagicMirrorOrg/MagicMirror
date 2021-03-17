@@ -14,13 +14,13 @@
 	"NE": "उपु",
 	"ENE": "पुउपु",
 	"E": "पु",
-	"ESE": "पुSपु",
+	"ESE": "पुदपु",
 	"SE": "दपु",
 	"SSE": "ददपु",
 	"S": "द",
-	"SSW": "ददW",
-	"SW": "दW",
-	"WSW": "WदW",
+	"SSW": "ददप",
+	"SW": "दप",
+	"WSW": "पदप",
 	"W": "प",
 	"WNW": "पउप",
 	"NW": "उप",
@@ -33,6 +33,6 @@
 	"UPDATE_INFO_SINGLE": "वर्तमान स्थापना {COMMIT_COUNT} {BRANCH_NAME} शाखा के पीछे है।",
 	"UPDATE_INFO_MULTIPLE": "वर्तमान स्थापना {COMMIT_COUNT} पीछे {BRANCH_NAME} शाखा पर है।",
 
-	"FEELS": "की तरह लगना",
+	"FEELS": "{DEGREE} की तरह लगना",
 	"PRECIP": "PoP"
 }

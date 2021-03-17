@@ -7,6 +7,7 @@ const translations = require("../../translations/translations.js");
 const helmet = require("helmet");
 const { JSDOM } = require("jsdom");
 const express = require("express");
+const sinon = require("sinon");
 
 describe("Translations", function () {
 	let server;
@@ -32,6 +33,97 @@ describe("Translations", function () {
 			const file = fs.statSync(translations[language]);
 			expect(file.isFile()).to.be.equal(true);
 		}
+	});
+
+	describe("loadTranslations", () => {
+		let dom;
+
+		beforeEach(() => {
+			dom = new JSDOM(
+				`<script>var Translator = {}; var Log = {log: function(){}}; var config = {language: 'de'};</script>\
+					<script src="file://${path.join(__dirname, "..", "..", "js", "class.js")}"></script>\
+					<script src="file://${path.join(__dirname, "..", "..", "js", "module.js")}"></script>`,
+				{ runScripts: "dangerously", resources: "usable" }
+			);
+		});
+
+		it("should load translation file", (done) => {
+			dom.window.onload = async function () {
+				const { Translator, Module, config } = dom.window;
+				config.language = "en";
+				Translator.load = sinon.stub().callsFake((_m, _f, _fb, callback) => callback());
+
+				Module.register("name", { getTranslations: () => translations });
+				const MMM = Module.create("name");
+
+				const loaded = sinon.stub();
+				MMM.loadTranslations(loaded);
+
+				expect(loaded.callCount).to.equal(1);
+				expect(Translator.load.args.length).to.equal(1);
+				expect(Translator.load.calledWith(MMM, "translations/en.json", false, sinon.match.func)).to.be.true;
+
+				done();
+			};
+		});
+
+		it("should load translation + fallback file", (done) => {
+			dom.window.onload = async function () {
+				const { Translator, Module } = dom.window;
+				Translator.load = sinon.stub().callsFake((_m, _f, _fb, callback) => callback());
+
+				Module.register("name", { getTranslations: () => translations });
+				const MMM = Module.create("name");
+
+				const loaded = sinon.stub();
+				MMM.loadTranslations(loaded);
+
+				expect(loaded.callCount).to.equal(1);
+				expect(Translator.load.args.length).to.equal(2);
+				expect(Translator.load.calledWith(MMM, "translations/de.json", false, sinon.match.func)).to.be.true;
+				expect(Translator.load.calledWith(MMM, "translations/en.json", true, sinon.match.func)).to.be.true;
+
+				done();
+			};
+		});
+
+		it("should load translation fallback file", (done) => {
+			dom.window.onload = async function () {
+				const { Translator, Module, config } = dom.window;
+				config.language = "--";
+				Translator.load = sinon.stub().callsFake((_m, _f, _fb, callback) => callback());
+
+				Module.register("name", { getTranslations: () => translations });
+				const MMM = Module.create("name");
+
+				const loaded = sinon.stub();
+				MMM.loadTranslations(loaded);
+
+				expect(loaded.callCount).to.equal(1);
+				expect(Translator.load.args.length).to.equal(1);
+				expect(Translator.load.calledWith(MMM, "translations/en.json", true, sinon.match.func)).to.be.true;
+
+				done();
+			};
+		});
+
+		it("should load no file", (done) => {
+			dom.window.onload = async function () {
+				const { Translator, Module } = dom.window;
+				Translator.load = sinon.stub();
+
+				Module.register("name", {});
+				const MMM = Module.create("name");
+
+				const loaded = sinon.stub();
+				MMM.loadTranslations(loaded);
+
+				expect(loaded.callCount).to.equal(1);
+				expect(Translator.load.callCount).to.equal(0);
+
+				done();
+			};
+		});
 	});
 
 	const mmm = {

@@ -12,10 +12,6 @@ Module.register("weather", {
 		weatherProvider: "openweathermap",
 		roundTemp: false,
 		type: "current", // current, forecast, daily (equivalent to forecast), hourly (only with OpenWeatherMap /onecall endpoint)
-		lat: 0,
-		lon: 0,
-		location: false,
-		locationID: false,
 		units: config.units,
 		useKmh: false,
 		tempUnits: config.units,
@@ -40,12 +36,6 @@ Module.register("weather", {
 		fade: true,
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		initialLoadDelay: 0, // 0 seconds delay
-		retryDelay: 2500,
-		apiKey: "",
-		apiSecret: "",
-		apiVersion: "2.5",
-		apiBase: "https://api.openweathermap.org/data/", // TODO: this should not be part of the weather.js file, but should be contained in the openweatherprovider
-		weatherEndpoint: "/weather",
 		appendLocationNameToHeader: true,
 		calendarClass: "calendar",
 		tableClass: "small",
@@ -130,8 +120,9 @@ Module.register("weather", {
 			case "daily":
 			case "forecast":
 				return `forecast.njk`;
+			//Make the invalid values use the "Loading..." from forecast
 			default:
-				return `${this.config.type.toLowerCase()}.njk`;
+				return `forecast.njk`;
 		}
 	},
 
@@ -141,7 +132,7 @@ Module.register("weather", {
 			config: this.config,
 			current: this.weatherProvider.currentWeather(),
 			forecast: this.weatherProvider.weatherForecast(),
-			weatherData: this.weatherProvider.weatherData(),
+			hourly: this.weatherProvider.weatherHourly(),
 			indoor: {
 				humidity: this.indoorHumidity,
 				temperature: this.indoorTemperature
@@ -154,6 +145,10 @@ Module.register("weather", {
 		Log.log("New weather information available.");
 		this.updateDom(0);
 		this.scheduleUpdate();
+
+		if (this.weatherProvider.currentWeather()) {
+			this.sendNotification("CURRENTWEATHER_TYPE", { type: this.weatherProvider.currentWeather().weatherType.replace("-", "_") });
+		}
 	},
 
 	scheduleUpdate: function (delay = null) {
@@ -163,19 +158,27 @@ Module.register("weather", {
 		}
 
 		setTimeout(() => {
-			if (this.config.weatherEndpoint === "/onecall") {
-				this.weatherProvider.fetchWeatherData();
-			} else if (this.config.type === "forecast") {
-				this.weatherProvider.fetchWeatherForecast();
-			} else {
-				this.weatherProvider.fetchCurrentWeather();
+			switch (this.config.type.toLowerCase()) {
+				case "current":
+					this.weatherProvider.fetchCurrentWeather();
+					break;
+				case "hourly":
+					this.weatherProvider.fetchWeatherHourly();
+					break;
+				case "daily":
+				case "forecast":
+					this.weatherProvider.fetchWeatherForecast();
+					break;
+				default:
+					Log.error(`Invalid type ${this.config.type} configured (must be one of 'current', 'hourly', 'daily' or 'forecast')`);
 			}
 		}, nextLoad);
 	},
 
 	roundValue: function (temperature) {
 		var decimals = this.config.roundTemp ? 0 : 1;
-		return parseFloat(temperature).toFixed(decimals);
+		var roundValue = parseFloat(temperature).toFixed(decimals);
+		return roundValue === "-0" ? 0 : roundValue;
 	},
 
 	addFilters() {

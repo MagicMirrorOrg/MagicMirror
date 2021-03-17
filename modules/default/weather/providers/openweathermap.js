@@ -14,6 +14,18 @@ WeatherProvider.register("openweathermap", {
 	// But for debugging (and future alerts) it would be nice to have the real name.
 	providerName: "OpenWeatherMap",
 
+	// Set the default config properties that is specific to this provider
+	defaults: {
+		apiVersion: "2.5",
+		apiBase: "https://api.openweathermap.org/data/",
+		weatherEndpoint: "",
+		locationID: false,
+		location: false,
+		lat: 0,
+		lon: 0,
+		apiKey: ""
+	},
+
 	// Overwrite the fetchCurrentWeather method.
 	fetchCurrentWeather() {
 		this.fetchData(this.getUrl())
@@ -56,8 +68,8 @@ WeatherProvider.register("openweathermap", {
 			.finally(() => this.updateAvailable());
 	},
 
-	// Overwrite the fetchWeatherData method.
-	fetchWeatherData() {
+	// Overwrite the fetchWeatherHourly method.
+	fetchWeatherHourly() {
 		this.fetchData(this.getUrl())
 			.then((data) => {
 				if (!data) {
@@ -69,12 +81,37 @@ WeatherProvider.register("openweathermap", {
 				this.setFetchedLocation(`(${data.lat},${data.lon})`);
 
 				const weatherData = this.generateWeatherObjectsFromOnecall(data);
-				this.setWeatherData(weatherData);
+				this.setWeatherHourly(weatherData.hours);
 			})
 			.catch(function (request) {
 				Log.error("Could not load data ... ", request);
 			})
 			.finally(() => this.updateAvailable());
+	},
+
+	/**
+	 * Overrides method for setting config to check if endpoint is correct for hourly
+	 *
+	 * @param config
+	 */
+	setConfig(config) {
+		this.config = config;
+		if (!this.config.weatherEndpoint) {
+			switch (this.config.type) {
+				case "hourly":
+					this.config.weatherEndpoint = "/onecall";
+					break;
+				case "daily":
+				case "forecast":
+					this.config.weatherEndpoint = "/forecast";
+					break;
+				case "current":
+					this.config.weatherEndpoint = "/weather";
+					break;
+				default:
+					Log.error("weatherEndpoint not configured and could not resolve it based on type");
+			}
+		}
 	},
 
 	/** OpenWeatherMap Specific Methods - These are not part of the default provider methods */
@@ -428,6 +465,8 @@ WeatherProvider.register("openweathermap", {
 			} else {
 				params += "&exclude=minutely";
 			}
+		} else if (this.config.lat && this.config.lon) {
+			params += "lat=" + this.config.lat + "&lon=" + this.config.lon;
 		} else if (this.config.locationID) {
 			params += "id=" + this.config.locationID;
 		} else if (this.config.location) {

@@ -31,6 +31,6 @@
 	"UPDATE_INFO_SINGLE": "Поточна версія на {COMMIT_COUNT} комміт позаду від гілки {BRANCH_NAME}.",
 	"UPDATE_INFO_MULTIPLE": "Поточна інсталяція на {COMMIT_COUNT} комітів позаду від гілки {BRANCH_NAME}.",
 
-	"FEELS": "Відчувається як",
+	"FEELS": "Відчувається як {DEGREE}",
 	"PRECIP": "Опади"
 }

@@ -20,7 +20,7 @@ global.before(function () {
 });
 
 exports.getElectronPath = function () {
-	var electronPath = path.join(__dirname, "..", "..", "node_modules", ".bin", "electron");
+	let electronPath = path.join(__dirname, "..", "..", "node_modules", ".bin", "electron");
 	if (process.platform === "win32") {
 		electronPath += ".cmd";
 	}
@@ -42,9 +42,9 @@ exports.startApplication = function (options) {
 		options.startTimeout = 30000;
 	}
 
-	var app = new Application(options);
+	const app = new Application(options);
 	return app.start().then(function () {
-		assert.equal(app.isRunning(), true);
+		assert.strictEqual(app.isRunning(), true);
 		chaiAsPromised.transferPromiseness = app.transferPromiseness;
 		return app;
 	});
@@ -56,6 +56,6 @@ exports.stopApplication = function (app) {
 	}
 
 	return app.stop().then(function () {
-		assert.equal(app.isRunning(), false);
+		assert.strictEqual(app.isRunning(), false);
 	});
 };

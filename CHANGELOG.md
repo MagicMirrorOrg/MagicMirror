@@ -5,9 +5,66 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror²
 
-## [2.14.0] - Unreleased (Develop Branch)
+## [2.15.0] - Unreleased (Develop Branch)
 
-_This release is scheduled to be released on 2021-01-01._
+_This release is scheduled to be released on 2021-04-01._
+
+### Added
+
+- Added GitHub workflows for automated testing and changelog enforcement.
+- Added CodeCov badge to Readme.
+- Added CURRENTWEATHER_TYPE notification to currentweather and weather module, use it in compliments module.
+- Added `start:dev` command to the npm scripts for starting electron with devTools open.
+- Added logging when using deprecated modules weatherforecast or currentweather.
+- Portuguese translations for "MODULE_CONFIG_CHANGED" and PRECIP.
+- Respect parameter ColoredSymbolOnly also for custom events
+- Added a new parameter to hide time portion on relative times
+- `module.show` has now the option for a callback on error.
+- Added locale to sample config file
+- Added support for self-signed certificates for the default calendar module (#466)
+- Added hiddenOnStartup flag to module config (#2475)
+
+### Updated
+
+- Updated markdown files.
+- Cleaned up old code on server side.
+- Convert `-0` to `0` when displaying temperature.
+- Code cleanup for FEELS like and added {DEGREE} placeholder for FEELSLIKE for each language
+- Converted newsfeed module to use templates.
+- Update documentation and help screen about invalid config files.
+- Moving weather provider specific code and configuration into each provider and making hourly part of the interface.
+- Bump electron to v11 and enable contextIsolation.
+- Don't update the DOM when a module is not displayed.
+- Cleaned up jsdoc and tests.
+- Exposed logger as node module for easier access for 3rd party modules
+- Replaced deprecated `request` package with `node-fetch` and `digest-fetch`
+- Refactored calendar fetcher
+
+### Removed
+
+- Removed danger.js library.
+- Removed `ical` which was substituted by `node-ical` in release `v2.13.0`. Module developers must install this dependency themselves in the module folder if needed.
+- Removed valid-url library.
+
+### Fixed
+
+- Added default log levels to stop calendar log spamming.
+- Fix socket.io cors errors, see [breaking change since socket.io v3](https://socket.io/docs/v3/handling-cors/)
+- Fix Issue with weather forecast icons due to fixed day start and end time (#2221)
+- Fix empty directory for each module's main javascript file in the inspector
+- Fix Issue with weather forecast icons unit tests with different timezones (#2221)
+- Fix issue with unencoded characters in translated strings when using nunjuck template (`Loading &hellip;` as an example)
+- Fix socket.io backward compatibility with socket v2 clients
+- 3rd party module language loading if language is English
+- Fix e2e tests after spectron update
+- Fix updatenotification creating zombie processes by setting a timeout for the git process
+- Fix weather module openweathermap not loading if lat and lon set without onecall.
+
+## [2.14.0] - 2021-01-01
+
+Special thanks to the following contributors: @Alvinger, @AndyPoms, @ashishtank, @bluemanos, @flopp999, @jakemulley, @jakobsarwary1, @marvai-vgtu, @mirontoli, @rejas, @sdetweil, @Snille & @Sub028.
+
+ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`.
 
 ### Added
 
@@ -17,11 +74,12 @@ _This release is scheduled to be released on 2021-01-01._
 - Added Weatherbit as a provider to Weather module.
 - Added SMHI as a provider to Weather module.
 - Added Hindi & Gujarati translation.
-- Chuvash translation.
+- Added optional support for DEGREE position in Feels like translation.
+- Added support for variables in nunjucks templates for translate filter.
+- Added Chuvash translation.
 - Calendar: new options "limitDays" and "coloredEvents".
 - Added new option "limitDays" - limit the number of discreet days displayed.
 - Added new option "customEvents" - use custom symbol/color based on keyword in event title.
-- Added GitHub workflows for automated testing and changelog enforcement.
 
 ### Updated
 
@@ -31,10 +89,16 @@ _This release is scheduled to be released on 2021-01-01._
 - Update dependencies eslint, feedme, simple-git and socket.io to latest versions.
 - Update lithuanian translation.
 - Update config sample.
+- Highlight required version mismatch.
+- No select Text for TouchScreen use.
+- Corrected logic for timeFormat "relative" and "absolute".
+- Added missing function call in module.show()
+- Translator variables can have falsy values (e.g. empty string)
+- Fix issue with weather module with DEGREE label in FEELS like
 
 ### Deleted
 
-- Removed Travis CI intergration.
+- Removed Travis CI integration.
 
 ### Fixed
 
@@ -50,15 +114,14 @@ _This release is scheduled to be released on 2021-01-01._
 - Fix calendar full day event east of UTC start time. (#2200)
 - Fix non-fullday recurring rule processing. (#2216)
 - Catch errors when parsing calendar data with ical. (#2022)
-- Corrected logic for timeFormat "relative" and "absolute".
 - Fix Default Alert Module does not hide black overlay when alert is dismissed manually. (#2228)
-- Weather module - Always displays night icons when local is other then English. (#2221)
-- update Node-ical 0.12.4 , fix invalid RRULE format in cal entries
-- fix package.json for optional electron dependency (2378)
-- update node-ical version again, 0.12.5, change RRULE fix (#2371, #2379)
-- Added missing function call in module.show()
-- remove undefined objects from modules array (#2382)
-- update node-ical version again, 0.12.7, change RRULE fix (#2371, #2379), node-ical now throws error (which we catch)
+- Weather module - Always displays night icons when local is other than English. (#2221)
+- Update node-ical 0.12.4, fix invalid RRULE format in cal entries
+- Fix package.json for optional electron dependency (2378)
+- Update node-ical version again, 0.12.5, change RRULE fix (#2371, #2379)
+- Remove undefined objects from modules array (#2382)
+- Update node-ical version again, 0.12.7, change RRULE fix (#2371, #2379), node-ical now throws error (which we catch)
+- Update simple-git version to 2.31 unhandled promise rejection (#2383)
 
 ## [2.13.0] - 2020-10-01
 
@@ -68,11 +131,11 @@ Special thanks to the following contributors: @bryanzzhu, @bugsounet, @chamakura
 
 ### Added
 
-- `--dry-run` option adde in fetch call within updatenotification node_helper. This is to prevent
+- `--dry-run` Added option in fetch call within updatenotification node_helper. This is to prevent
   MagicMirror from consuming any fetch result. Causes conflict with MMPM when attempting to check
   for updates to MagicMirror and/or MagicMirror modules.
 - Test coverage with Istanbul, run it with `npm run test:coverage`.
-- Add lithuanian language.
+- Added lithuanian language.
 - Added support in weatherforecast for OpenWeather onecall API.
 - Added config option to calendar-icons for recurring- and fullday-events.
 - Added current, hourly (max 48), and daily (max 7) weather forecasts to weather module via OpenWeatherMap One Call API.
@@ -136,7 +199,7 @@ Special thanks to the following contributors: @AndreKoepke, @andrezibaia, @bryan
 - Fix the use of "maxNumberOfDays" in the module "weatherforecast". [#2018](https://github.com/MichMich/MagicMirror/issues/2018)
 - Throw error when check_config fails. [#1928](https://github.com/MichMich/MagicMirror/issues/1928)
 - Bug fix related to 'maxEntries' not displaying Calendar events. [#2050](https://github.com/MichMich/MagicMirror/issues/2050)
-- Updated ical library to latest version. [#1926](https://github.com/MichMich/MagicMirror/issues/1926)
+- Updated ical library to the latest version. [#1926](https://github.com/MichMich/MagicMirror/issues/1926)
 - Fix config check after merge of prettier [#2109](https://github.com/MichMich/MagicMirror/issues/2109)
 
 ## [2.11.0] - 2020-04-01
@@ -430,7 +493,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 ### Fixed
 
 - Fixed gzip encoded calendar loading issue #1400.
-- Mixup between german and spanish translation for newsfeed.
+- Fixed mixup between german and spanish translation for newsfeed.
 - Fixed close dates to be absolute, if no configured in the config.js - module Calendar
 - Fixed the updatenotification module message about new commits in the repository, so they can be correctly localized in singular and plural form.
 - Fix for weatherforecast rainfall rounding [#1374](https://github.com/MichMich/MagicMirror/issues/1374)

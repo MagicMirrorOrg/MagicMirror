@@ -6,11 +6,6 @@
  * Olex S. original idea this deprecated option
  */
 
-var deprecated = {
+module.exports = {
 	configs: ["kioskmode"]
 };
-
-/*************** DO NOT EDIT THE LINE BELOW ***************/
-if (typeof module !== "undefined") {
-	module.exports = deprecated;
-}

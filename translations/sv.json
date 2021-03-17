@@ -31,5 +31,5 @@
 	"UPDATE_INFO_SINGLE": "Denna installation ligger {COMMIT_COUNT} commit steg bakom {BRANCH_NAME} grenen.",
 	"UPDATE_INFO_MULTIPLE": "Denna installation ligger {COMMIT_COUNT} commits steg bakom {BRANCH_NAME} grenen.",
 
-	"FEELS": "Känns som"
+	"FEELS": "Känns som {DEGREE}"
 }
