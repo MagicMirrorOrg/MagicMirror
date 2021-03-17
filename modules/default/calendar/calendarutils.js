@@ -71,8 +71,13 @@ const CalendarUtils = {
 				Log.debug("adjusted date=" + event.start);
 			} else {
 				// get the start time in that timezone
-				Log.debug("start date/time=" + moment(event.start).toDate());
-				start_offset = moment.tz(moment(event.start), event.start.tz).utcOffset();
+				let es = moment(event.start);
+				// check for start date prior to start of daylight changing date
+				if (es.format("YYYY") < 2007) {
+					es.set("year", 2013); // if so, use a closer date
+				}
+				Log.debug("start date/time=" + es.toDate());
+				start_offset = moment.tz(es, event.start.tz).utcOffset();
 				Log.debug("start offset=" + start_offset);
 
 				Log.debug("start date/time w tz =" + moment.tz(moment(event.start), event.start.tz).toDate());
