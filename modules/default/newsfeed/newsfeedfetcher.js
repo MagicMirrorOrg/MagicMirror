@@ -19,8 +19,6 @@ const iconv = require("iconv-lite");
  * @class
  */
 const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings) {
-	const self = this;
-
 	let reloadTimer = null;
 	let items = [];
 
@@ -36,14 +34,14 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 	/**
 	 * Request the new items.
 	 */
-	const fetchNews = function () {
+	const fetchNews = () => {
 		clearTimeout(reloadTimer);
 		reloadTimer = null;
 		items = [];
 
 		const parser = new FeedMe();
 
-		parser.on("item", function (item) {
+		parser.on("item", (item) => {
 			const title = item.title;
 			let description = item.description || item.summary || item.content || "";
 			const pubdate = item.pubdate || item.published || item.updated || item["dc:date"];
@@ -68,13 +66,13 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 			}
 		});
 
-		parser.on("end", function () {
-			self.broadcastItems();
+		parser.on("end", () => {
+			this.broadcastItems();
 			scheduleTimer();
 		});
 
-		parser.on("error", function (error) {
-			fetchFailedCallback(self, error);
+		parser.on("error", (error) => {
+			fetchFailedCallback(this, error);
 			scheduleTimer();
 		});
 
@@ -87,7 +85,7 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 
 		fetch(url, { headers: headers })
 			.catch((error) => {
-				fetchFailedCallback(self, error);
+				fetchFailedCallback(this, error);
 				scheduleTimer();
 			})
 			.then((res) => {
@@ -134,7 +132,7 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 			return;
 		}
 		Log.info("Newsfeed-Fetcher: Broadcasting " + items.length + " items.");
-		itemsReceivedCallback(self);
+		itemsReceivedCallback(this);
 	};
 
 	this.onReceive = function (callback) {

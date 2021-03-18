@@ -27,6 +27,7 @@
 	"NNW": "NNW",
 
 	"MODULE_CONFIG_CHANGED": "The configuration options for the {MODULE_NAME} module have changed.\nPlease check the documentation.",
+	"MODULE_CONFIG_ERROR": "Error in the {MODULE_NAME} module. {ERROR}",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² update available.",
 	"UPDATE_NOTIFICATION_MODULE": "Update available for {MODULE_NAME} module.",
