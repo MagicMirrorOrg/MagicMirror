@@ -61,6 +61,7 @@ _This release is scheduled to be released on 2021-04-01._
 - Fix updatenotification creating zombie processes by setting a timeout for the git process
 - Fix weather module openweathermap not loading if lat and lon set without onecall.
 - Fix calendar daylight savings offset calculation if recurring start date before 2007
+- Fix calendar time/date adjustment when time with GMT offset is different day (#2488)
 
 ## [2.14.0] - 2021-01-01
 
