@@ -63,10 +63,12 @@ function Server(config, callback) {
 
 	app.use("/js", express.static(__dirname));
 
-	const directories = ["/config", "/css", "/fonts", "/modules", "/" + config.paths.modules, "/vendor", "/translations", "/tests/configs"];
+	const directories = ["/config", "/css", "/fonts", "/modules/default", "/" + config.paths.modules, "/vendor", "/translations", "/tests/configs"];
 	for (const directory of directories) {
 		app.use(directory, express.static(path.resolve(global.root_path + directory)));
 	}
+
+	app.use("/modules", express.static(path.resolve(global.root_path + "/" + config.paths.modules)));
 
 	app.get("/version", function (req, res) {
 		res.send(global.version);
