@@ -66,6 +66,7 @@ Module.register("newsfeed", {
 
 		this.newsItems = [];
 		this.loaded = false;
+		this.error = null;
 		this.activeItem = 0;
 		this.scrollPosition = 0;
 
@@ -87,6 +88,10 @@ Module.register("newsfeed", {
 			}
 
 			this.loaded = true;
+			this.error = null;
+		} else if (notification === "INCORRECT_URL") {
+			this.error = `Incorrect url: ${payload.url}`;
+			this.scheduleUpdateInterval();
 		}
 	},
 
@@ -108,15 +113,20 @@ Module.register("newsfeed", {
 				url: this.getActiveItemURL()
 			};
 		}
+		if (this.error) {
+			return {
+				error: this.error
+			};
+		}
 		if (this.newsItems.length === 0) {
 			return {
 				loaded: false
 			};
 		}
-
 		if (this.activeItem >= this.newsItems.length) {
 			this.activeItem = 0;
 		}
+
 		const item = this.newsItems[this.activeItem];
 
 		return {
@@ -137,8 +147,7 @@ Module.register("newsfeed", {
 	 * Registers the feeds to be used by the backend.
 	 */
 	registerFeeds: function () {
-		for (var f in this.config.feeds) {
-			var feed = this.config.feeds[f];
+		for (let feed of this.config.feeds) {
 			this.sendSocketNotification("ADD_FEED", {
 				feed: feed,
 				config: this.config
@@ -152,12 +161,11 @@ Module.register("newsfeed", {
 	 * @param {object} feeds An object with feeds returned by the node helper.
 	 */
 	generateFeed: function (feeds) {
-		var newsItems = [];
-		for (var feed in feeds) {
-			var feedItems = feeds[feed];
+		let newsItems = [];
+		for (let feed in feeds) {
+			const feedItems = feeds[feed];
 			if (this.subscribedToFeed(feed)) {
-				for (var i in feedItems) {
-					var item = feedItems[i];
+				for (let item of feedItems) {
 					item.sourceTitle = this.titleForFeed(feed);
 					if (!(this.config.ignoreOldItems && Date.now() - new Date(item.pubdate) > this.config.ignoreOlderThan)) {
 						newsItems.push(item);
@@ -166,8 +174,8 @@ Module.register("newsfeed", {
 			}
 		}
 		newsItems.sort(function (a, b) {
-			var dateA = new Date(a.pubdate);
-			var dateB = new Date(b.pubdate);
+			const dateA = new Date(a.pubdate);
+			const dateB = new Date(b.pubdate);
 			return dateB - dateA;
 		});
 		if (this.config.maxNewsItems > 0) {
@@ -176,8 +184,8 @@ Module.register("newsfeed", {
 
 		if (this.config.prohibitedWords.length > 0) {
 			newsItems = newsItems.filter(function (value) {
-				for (var i = 0; i < this.config.prohibitedWords.length; i++) {
-					if (value["title"].toLowerCase().indexOf(this.config.prohibitedWords[i].toLowerCase()) > -1) {
+				for (let word of this.config.prohibitedWords) {
+					if (value["title"].toLowerCase().indexOf(word.toLowerCase()) > -1) {
 						return false;
 					}
 				}
@@ -188,18 +196,18 @@ Module.register("newsfeed", {
 		newsItems.forEach((item) => {
 			//Remove selected tags from the beginning of rss feed items (title or description)
 			if (this.config.removeStartTags === "title" || this.config.removeStartTags === "both") {
-				for (let f = 0; f < this.config.startTags.length; f++) {
-					if (item.title.slice(0, this.config.startTags[f].length) === this.config.startTags[f]) {
-						item.title = item.title.slice(this.config.startTags[f].length, item.title.length);
+				for (let startTag of this.config.startTags) {
+					if (item.title.slice(0, startTag.length) === startTag) {
+						item.title = item.title.slice(startTag.length, item.title.length);
 					}
 				}
 			}
 
 			if (this.config.removeStartTags === "description" || this.config.removeStartTags === "both") {
 				if (this.isShowingDescription) {
-					for (let f = 0; f < this.config.startTags.length; f++) {
-						if (item.description.slice(0, this.config.startTags[f].length) === this.config.startTags[f]) {
-							item.description = item.description.slice(this.config.startTags[f].length, item.description.length);
+					for (let startTag of this.config.startTags) {
+						if (item.description.slice(0, startTag.length) === startTag) {
+							item.description = item.description.slice(startTag.length, item.description.length);
 						}
 					}
 				}
@@ -208,16 +216,16 @@ Module.register("newsfeed", {
 			//Remove selected tags from the end of rss feed items (title or description)
 
 			if (this.config.removeEndTags) {
-				for (let f = 0; f < this.config.endTags.length; f++) {
-					if (item.title.slice(-this.config.endTags[f].length) === this.config.endTags[f]) {
-						item.title = item.title.slice(0, -this.config.endTags[f].length);
+				for (let endTag of this.config.endTags) {
+					if (item.title.slice(-endTag.length) === endTag) {
+						item.title = item.title.slice(0, -endTag.length);
 					}
 				}
 
 				if (this.isShowingDescription) {
-					for (let f = 0; f < this.config.endTags.length; f++) {
-						if (item.description.slice(-this.config.endTags[f].length) === this.config.endTags[f]) {
-							item.description = item.description.slice(0, -this.config.endTags[f].length);
+					for (let endTag of this.config.endTags) {
+						if (item.description.slice(-endTag.length) === endTag) {
+							item.description = item.description.slice(0, -endTag.length);
 						}
 					}
 				}
@@ -225,7 +233,7 @@ Module.register("newsfeed", {
 		});
 
 		// get updated news items and broadcast them
-		var updatedItems = [];
+		const updatedItems = [];
 		newsItems.forEach((value) => {
 			if (this.newsItems.findIndex((value1) => value1 === value) === -1) {
 				// Add item to updated items list
@@ -248,8 +256,7 @@ Module.register("newsfeed", {
 	 * @returns {boolean} True if it is subscribed, false otherwise
 	 */
 	subscribedToFeed: function (feedUrl) {
-		for (var f in this.config.feeds) {
-			var feed = this.config.feeds[f];
+		for (let feed of this.config.feeds) {
 			if (feed.url === feedUrl) {
 				return true;
 			}
@@ -264,8 +271,7 @@ Module.register("newsfeed", {
 	 * @returns {string} The title of the feed
 	 */
 	titleForFeed: function (feedUrl) {
-		for (var f in this.config.feeds) {
-			var feed = this.config.feeds[f];
+		for (let feed of this.config.feeds) {
 			if (feed.url === feedUrl) {
 				return feed.title || "";
 			}
@@ -277,22 +283,20 @@ Module.register("newsfeed", {
 	 * Schedule visual update.
 	 */
 	scheduleUpdateInterval: function () {
-		var self = this;
-
-		self.updateDom(self.config.animationSpeed);
+		this.updateDom(this.config.animationSpeed);
 
 		// Broadcast NewsFeed if needed
-		if (self.config.broadcastNewsFeeds) {
-			self.sendNotification("NEWS_FEED", { items: self.newsItems });
+		if (this.config.broadcastNewsFeeds) {
+			this.sendNotification("NEWS_FEED", { items: this.newsItems });
 		}
 
-		this.timer = setInterval(function () {
-			self.activeItem++;
-			self.updateDom(self.config.animationSpeed);
+		this.timer = setInterval(() => {
+			this.activeItem++;
+			this.updateDom(this.config.animationSpeed);
 
 			// Broadcast NewsFeed if needed
-			if (self.config.broadcastNewsFeeds) {
-				self.sendNotification("NEWS_FEED", { items: self.newsItems });
+			if (this.config.broadcastNewsFeeds) {
+				this.sendNotification("NEWS_FEED", { items: this.newsItems });
 			}
 		}, this.config.updateInterval);
 	},

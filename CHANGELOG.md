@@ -16,7 +16,7 @@ _This release is scheduled to be released on 2021-04-01._
 - Added CURRENTWEATHER_TYPE notification to currentweather and weather module, use it in compliments module.
 - Added `start:dev` command to the npm scripts for starting electron with devTools open.
 - Added logging when using deprecated modules weatherforecast or currentweather.
-- Portuguese translations for "MODULE_CONFIG_CHANGED" and PRECIP.
+- Added Portuguese translations for "MODULE_CONFIG_CHANGED" and "PRECIP".
 - Respect parameter ColoredSymbolOnly also for custom events
 - Added a new parameter to hide time portion on relative times
 - `module.show` has now the option for a callback on error.
@@ -35,15 +35,18 @@ _This release is scheduled to be released on 2021-04-01._
 - Update documentation and help screen about invalid config files.
 - Moving weather provider specific code and configuration into each provider and making hourly part of the interface.
 - Bump electron to v11 and enable contextIsolation.
-- Dont update the DOM when a module is not displayed.
+- Don't update the DOM when a module is not displayed.
 - Cleaned up jsdoc and tests.
 - Exposed logger as node module for easier access for 3rd party modules
 - Replaced deprecated `request` package with `node-fetch` and `digest-fetch`
+- Refactored calendar fetcher
+- Cleaned up newsfeed module
 
 ### Removed
 
 - Removed danger.js library.
 - Removed `ical` which was substituted by `node-ical` in release `v2.13.0`. Module developers must install this dependency themselves in the module folder if needed.
+- Removed valid-url library.
 
 ### Fixed
 
@@ -56,7 +59,10 @@ _This release is scheduled to be released on 2021-04-01._
 - Fix socket.io backward compatibility with socket v2 clients
 - 3rd party module language loading if language is English
 - Fix e2e tests after spectron update
+- Fix updatenotification creating zombie processes by setting a timeout for the git process
 - Fix weather module openweathermap not loading if lat and lon set without onecall.
+- Fix calendar daylight savings offset calculation if recurring start date before 2007
+- Fix calendar time/date adjustment when time with GMT offset is different day (#2488)
 
 ## [2.14.0] - 2021-01-01
 
@@ -96,7 +102,7 @@ Special thanks to the following contributors: @Alvinger, @AndyPoms, @ashishtank,
 
 ### Deleted
 
-- Removed Travis CI intergration.
+- Removed Travis CI integration.
 
 ### Fixed
 
@@ -113,8 +119,8 @@ Special thanks to the following contributors: @Alvinger, @AndyPoms, @ashishtank,
 - Fix non-fullday recurring rule processing. (#2216)
 - Catch errors when parsing calendar data with ical. (#2022)
 - Fix Default Alert Module does not hide black overlay when alert is dismissed manually. (#2228)
-- Weather module - Always displays night icons when local is other then English. (#2221)
-- Update Node-ical 0.12.4 , fix invalid RRULE format in cal entries
+- Weather module - Always displays night icons when local is other than English. (#2221)
+- Update node-ical 0.12.4, fix invalid RRULE format in cal entries
 - Fix package.json for optional electron dependency (2378)
 - Update node-ical version again, 0.12.5, change RRULE fix (#2371, #2379)
 - Remove undefined objects from modules array (#2382)
@@ -129,11 +135,11 @@ Special thanks to the following contributors: @bryanzzhu, @bugsounet, @chamakura
 
 ### Added
 
-- `--dry-run` option adde in fetch call within updatenotification node_helper. This is to prevent
+- `--dry-run` Added option in fetch call within updatenotification node_helper. This is to prevent
   MagicMirror from consuming any fetch result. Causes conflict with MMPM when attempting to check
   for updates to MagicMirror and/or MagicMirror modules.
 - Test coverage with Istanbul, run it with `npm run test:coverage`.
-- Add lithuanian language.
+- Added lithuanian language.
 - Added support in weatherforecast for OpenWeather onecall API.
 - Added config option to calendar-icons for recurring- and fullday-events.
 - Added current, hourly (max 48), and daily (max 7) weather forecasts to weather module via OpenWeatherMap One Call API.
@@ -197,7 +203,7 @@ Special thanks to the following contributors: @AndreKoepke, @andrezibaia, @bryan
 - Fix the use of "maxNumberOfDays" in the module "weatherforecast". [#2018](https://github.com/MichMich/MagicMirror/issues/2018)
 - Throw error when check_config fails. [#1928](https://github.com/MichMich/MagicMirror/issues/1928)
 - Bug fix related to 'maxEntries' not displaying Calendar events. [#2050](https://github.com/MichMich/MagicMirror/issues/2050)
-- Updated ical library to latest version. [#1926](https://github.com/MichMich/MagicMirror/issues/1926)
+- Updated ical library to the latest version. [#1926](https://github.com/MichMich/MagicMirror/issues/1926)
 - Fix config check after merge of prettier [#2109](https://github.com/MichMich/MagicMirror/issues/2109)
 
 ## [2.11.0] - 2020-04-01
@@ -491,7 +497,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 ### Fixed
 
 - Fixed gzip encoded calendar loading issue #1400.
-- Mixup between german and spanish translation for newsfeed.
+- Fixed mixup between german and spanish translation for newsfeed.
 - Fixed close dates to be absolute, if no configured in the config.js - module Calendar
 - Fixed the updatenotification module message about new commits in the repository, so they can be correctly localized in singular and plural form.
 - Fix for weatherforecast rainfall rounding [#1374](https://github.com/MichMich/MagicMirror/issues/1374)

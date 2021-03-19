@@ -43,16 +43,16 @@
 	},
 	"homepage": "https://magicmirror.builders",
 	"devDependencies": {
-		"chai": "^4.3.0",
+		"chai": "^4.3.4",
 		"chai-as-promised": "^7.1.1",
 		"eslint-config-prettier": "^8.1.0",
-		"eslint-plugin-jsdoc": "^32.2.0",
+		"eslint-plugin-jsdoc": "^32.3.0",
 		"eslint-plugin-prettier": "^3.3.1",
 		"express-basic-auth": "^1.2.0",
 		"husky": "^4.3.8",
-		"jsdom": "^16.4.0",
+		"jsdom": "^16.5.1",
 		"lodash": "^4.17.21",
-		"mocha": "^8.3.0",
+		"mocha": "^8.3.2",
 		"mocha-each": "^2.0.1",
 		"mocha-logger": "^1.0.7",
 		"nyc": "^15.1.0",
@@ -60,10 +60,10 @@
 		"pretty-quick": "^3.1.0",
 		"sinon": "^9.2.4",
 		"spectron": "^13.0.0",
-		"stylelint": "^13.11.0",
+		"stylelint": "^13.12.0",
 		"stylelint-config-prettier": "^8.0.2",
-		"stylelint-config-standard": "^20.0.0",
-		"stylelint-prettier": "^1.1.2"
+		"stylelint-config-standard": "^21.0.0",
+		"stylelint-prettier": "^1.2.0"
 	},
 	"optionalDependencies": {
 		"electron": "^11.3.0"
@@ -72,7 +72,7 @@
 		"colors": "^1.4.0",
 		"console-stamp": "^3.0.0-rc4.2",
 		"digest-fetch": "^1.1.6",
-		"eslint": "^7.20.0",
+		"eslint": "^7.22.0",
 		"express": "^4.17.1",
 		"express-ipfilter": "^1.1.2",
 		"feedme": "^2.0.2",
@@ -81,12 +81,11 @@
 		"module-alias": "^2.2.2",
 		"moment": "^2.29.1",
 		"node-fetch": "^2.6.1",
-		"node-ical": "^0.12.8",
+		"node-ical": "^0.12.9",
 		"rrule": "^2.6.8",
 		"rrule-alt": "^2.2.8",
-		"simple-git": "^2.35.2",
-		"socket.io": "^3.1.2",
-		"valid-url": "^1.0.9"
+		"simple-git": "^2.37.0",
+		"socket.io": "^4.0.0"
 	},
 	"_moduleAliases": {
 		"node_helper": "js/node_helper.js",

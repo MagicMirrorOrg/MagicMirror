@@ -5,7 +5,6 @@
  * MIT Licensed.
  */
 const NodeHelper = require("node_helper");
-const validUrl = require("valid-url");
 const CalendarFetcher = require("./calendarfetcher.js");
 const Log = require("logger");
 
@@ -38,41 +37,51 @@ module.exports = NodeHelper.create({
 	 * @param {string} identifier ID of the module
 	 */
 	createFetcher: function (url, fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, broadcastPastEvents, selfSignedCert, identifier) {
-		var self = this;
-
-		if (!validUrl.isUri(url)) {
-			self.sendSocketNotification("INCORRECT_URL", { id: identifier, url: url });
+		try {
+			new URL(url);
+		} catch (error) {
+			this.sendSocketNotification("INCORRECT_URL", { id: identifier, url: url });
 			return;
 		}
 
-		var fetcher;
-		if (typeof self.fetchers[identifier + url] === "undefined") {
+		let fetcher;
+		if (typeof this.fetchers[identifier + url] === "undefined") {
 			Log.log("Create new calendar fetcher for url: " + url + " - Interval: " + fetchInterval);
 			fetcher = new CalendarFetcher(url, fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, broadcastPastEvents, selfSignedCert);
 
-			fetcher.onReceive(function (fetcher) {
-				self.sendSocketNotification("CALENDAR_EVENTS", {
-					id: identifier,
-					url: fetcher.url(),
-					events: fetcher.events()
-				});
+			fetcher.onReceive((fetcher) => {
+				this.broadcastEvents(fetcher, identifier);
 			});
 
-			fetcher.onError(function (fetcher, error) {
+			fetcher.onError((fetcher, error) => {
 				Log.error("Calendar Error. Could not fetch calendar: ", fetcher.url(), error);
-				self.sendSocketNotification("FETCH_ERROR", {
+				this.sendSocketNotification("FETCH_ERROR", {
 					id: identifier,
 					url: fetcher.url(),
 					error: error
 				});
 			});
 
-			self.fetchers[identifier + url] = fetcher;
+			this.fetchers[identifier + url] = fetcher;
 		} else {
 			Log.log("Use existing calendar fetcher for url: " + url);
-			fetcher = self.fetchers[identifier + url];
+			fetcher = this.fetchers[identifier + url];
+			fetcher.broadcastEvents();
 		}
 
 		fetcher.startFetch();
+	},
+
+	/**
+	 *
+	 * @param {object} fetcher the fetcher associated with the calendar
+	 * @param {string} identifier the identifier of the calendar
+	 */
+	broadcastEvents: function (fetcher, identifier) {
+		this.sendSocketNotification("CALENDAR_EVENTS", {
+			id: identifier,
+			url: fetcher.url(),
+			events: fetcher.events()
+		});
 	}
 });

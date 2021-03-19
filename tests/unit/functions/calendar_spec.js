@@ -45,42 +45,42 @@ describe("Functions into modules/default/calendar/calendar.js", function () {
 		});
 
 		it("should return a 12-hour longDateFormat when using the 'en' locale", function () {
-			var localeBackup = moment.locale();
+			const localeBackup = moment.locale();
 			moment.locale("en");
 			expect(Module.definitions.calendar.getLocaleSpecification()).to.deep.equal({ longDateFormat: { LT: "h:mm A" } });
 			moment.locale(localeBackup);
 		});
 
 		it("should return a 12-hour longDateFormat when using the 'au' locale", function () {
-			var localeBackup = moment.locale();
+			const localeBackup = moment.locale();
 			moment.locale("au");
 			expect(Module.definitions.calendar.getLocaleSpecification()).to.deep.equal({ longDateFormat: { LT: "h:mm A" } });
 			moment.locale(localeBackup);
 		});
 
 		it("should return a 12-hour longDateFormat when using the 'eg' locale", function () {
-			var localeBackup = moment.locale();
+			const localeBackup = moment.locale();
 			moment.locale("eg");
 			expect(Module.definitions.calendar.getLocaleSpecification()).to.deep.equal({ longDateFormat: { LT: "h:mm A" } });
 			moment.locale(localeBackup);
 		});
 
 		it("should return a 24-hour longDateFormat when using the 'nl' locale", function () {
-			var localeBackup = moment.locale();
+			const localeBackup = moment.locale();
 			moment.locale("nl");
 			expect(Module.definitions.calendar.getLocaleSpecification()).to.deep.equal({ longDateFormat: { LT: "HH:mm" } });
 			moment.locale(localeBackup);
 		});
 
 		it("should return a 24-hour longDateFormat when using the 'fr' locale", function () {
-			var localeBackup = moment.locale();
+			const localeBackup = moment.locale();
 			moment.locale("fr");
 			expect(Module.definitions.calendar.getLocaleSpecification()).to.deep.equal({ longDateFormat: { LT: "HH:mm" } });
 			moment.locale(localeBackup);
 		});
 
 		it("should return a 24-hour longDateFormat when using the 'uk' locale", function () {
-			var localeBackup = moment.locale();
+			const localeBackup = moment.locale();
 			moment.locale("uk");
 			expect(Module.definitions.calendar.getLocaleSpecification()).to.deep.equal({ longDateFormat: { LT: "HH:mm" } });
 			moment.locale(localeBackup);
