@@ -1,0 +1,38 @@
+{
+	"LOADING": "Cargando &hellip;",
+
+	"TODAY": "Hoxe",
+	"TOMORROW": "Mañá",
+	"DAYAFTERTOMORROW": "Pasado mañán",
+	"RUNNING": "Remata en",
+	"EMPTY": "Non hai eventos programados.",
+
+	"WEEK": "Semana {weekNumber}",
+
+	"N": "N",
+	"NNE": "NNE",
+	"NE": "NE",
+	"ENE": "ENE",
+	"E": "E",
+	"ESE": "ESE",
+	"SE": "SE",
+	"SSE": "SSE",
+	"S": "S",
+	"SSW": "SSO",
+	"SW": "SO",
+	"WSW": "OSO",
+	"W": "O",
+	"WNW": "ONO",
+	"NW": "NO",
+	"NNW": "NNO",
+
+	"MODULE_CONFIG_CHANGED": "Cambiaron as opcións de configuración para o módulo {MODULE_NAME}. \nVerifique a documentación.",
+
+	"UPDATE_NOTIFICATION": "MagicMirror² actualización dispoñible.",
+	"UPDATE_NOTIFICATION_MODULE": "Dispoñible una actualización para o módulo {MODULE_NAME}.",
+	"UPDATE_INFO_SINGLE": "A túa instalación actual está {COMMIT_COUNT} commit cambios detrás da rama {BRANCH_NAME}.",
+	"UPDATE_INFO_MULTIPLE": "A túa instalación actual está {COMMIT_COUNT} commits cambios detrás da rama {BRANCH_NAME}.",
+
+	"FEELS": "Sensación térmica de {DEGREE}",
+	"PRECIP": "Precipitación"
+}
