@@ -28,7 +28,7 @@
 
 	"MODULE_CONFIG_CHANGED": "Cambiaron as opcións de configuración para o módulo {MODULE_NAME}. \nVerifique a documentación.",
 	"MODULE_CONFIG_ERROR": "Erro no módulo {MODULE_NAME}. {ERROR}",
-
+	
 	"UPDATE_NOTIFICATION": "MagicMirror² actualización dispoñible.",
 	"UPDATE_NOTIFICATION_MODULE": "Dispoñible una actualización para o módulo {MODULE_NAME}.",
 	"UPDATE_INFO_SINGLE": "A túa instalación actual está {COMMIT_COUNT} commit cambios detrás da rama {BRANCH_NAME}.",
