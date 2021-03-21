@@ -11,6 +11,7 @@ _This release is scheduled to be released on 2021-04-01._
 
 ### Added
 
+- Added Galician language.
 - Added GitHub workflows for automated testing and changelog enforcement.
 - Added CodeCov badge to Readme.
 - Added CURRENTWEATHER_TYPE notification to currentweather and weather module, use it in compliments module.
