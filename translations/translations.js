@@ -47,7 +47,7 @@ var translations = {
 	uk: "translations/uk.json", // Ukrainian
 	hi: "translations/hi.json", // Hindi
 	gu: "translations/gu.json", // Gujarati
-	gl: "translations/gl.json" // Galician
+    gl: "translations/gl.json" // Galician
 };
 
 if (typeof module !== "undefined") {
