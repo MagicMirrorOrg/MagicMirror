@@ -16,6 +16,7 @@ _This release is scheduled to be released on 2021-04-01._
 - Added CURRENTWEATHER_TYPE notification to currentweather and weather module, use it in compliments module.
 - Added `start:dev` command to the npm scripts for starting electron with devTools open.
 - Added logging when using deprecated modules weatherforecast or currentweather.
+- Added Galician translation.
 - Added Portuguese translations for "MODULE_CONFIG_CHANGED" and "PRECIP".
 - Respect parameter ColoredSymbolOnly also for custom events
 - Added a new parameter to hide time portion on relative times
