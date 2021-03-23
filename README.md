@@ -29,7 +29,13 @@ For the full documentation including **[installation instructions](https://docs.
 
 ## Contributing Guidelines
 
-Contributions of all kinds are welcome, not only in the form of code but also with regards bug reports and documentation. For the full contribution guidelines, check out: [https://docs.magicmirror.builders/getting-started/contributing.html](https://docs.magicmirror.builders/getting-started/contributing.html)
+Contributions of all kinds are welcome, not only in the form of code but also with regards to
+
+- bug reports
+- documentation
+- translations
+
+For the full contribution guidelines, check out: [https://docs.magicmirror.builders/getting-started/contributing.html](https://docs.magicmirror.builders/getting-started/contributing.html)
 
 ## Enjoying MagicMirror? Consider a donation!
 
