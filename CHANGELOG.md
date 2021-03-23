@@ -11,12 +11,13 @@ _This release is scheduled to be released on 2021-04-01._
 
 ### Added
 
+- Added Galician language.
 - Added GitHub workflows for automated testing and changelog enforcement.
 - Added CodeCov badge to Readme.
 - Added CURRENTWEATHER_TYPE notification to currentweather and weather module, use it in compliments module.
 - Added `start:dev` command to the npm scripts for starting electron with devTools open.
 - Added logging when using deprecated modules weatherforecast or currentweather.
-- Portuguese translations for "MODULE_CONFIG_CHANGED" and PRECIP.
+- Added Portuguese translations for "MODULE_CONFIG_CHANGED" and "PRECIP".
 - Respect parameter ColoredSymbolOnly also for custom events
 - Added a new parameter to hide time portion on relative times
 - `module.show` has now the option for a callback on error.
@@ -39,6 +40,7 @@ _This release is scheduled to be released on 2021-04-01._
 - Exposed logger as node module for easier access for 3rd party modules
 - Replaced deprecated `request` package with `node-fetch` and `digest-fetch`
 - Refactored calendar fetcher
+- Cleaned up newsfeed module
 
 ### Removed
 
@@ -59,6 +61,8 @@ _This release is scheduled to be released on 2021-04-01._
 - Fix e2e tests after spectron update
 - Fix updatenotification creating zombie processes by setting a timeout for the git process
 - Fix weather module openweathermap not loading if lat and lon set without onecall.
+- Fix calendar daylight savings offset calculation if recurring start date before 2007
+- Fix calendar time/date adjustment when time with GMT offset is different day (#2488)
 
 ## [2.14.0] - 2021-01-01
 
