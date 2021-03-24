@@ -27,12 +27,12 @@ _This release is scheduled to be released on 2021-04-01._
 
 ### Updated
 
-- Updated markdown files.
+- Updated markdown files for github.
 - Cleaned up old code on server side.
 - Convert `-0` to `0` when displaying temperature.
 - Code cleanup for FEELS like and added {DEGREE} placeholder for FEELSLIKE for each language
 - Converted newsfeed module to use templates.
-- Update documentation and help screen about invalid config files.
+- Updated documentation and help screen about invalid config files.
 - Moving weather provider specific code and configuration into each provider and making hourly part of the interface.
 - Bump electron to v11 and enable contextIsolation.
 - Don't update the DOM when a module is not displayed.
@@ -63,6 +63,7 @@ _This release is scheduled to be released on 2021-04-01._
 - Fix weather module openweathermap not loading if lat and lon set without onecall.
 - Fix calendar daylight savings offset calculation if recurring start date before 2007
 - Fix calendar time/date adjustment when time with GMT offset is different day (#2488)
+- Fix calendar daylight savings offset calculation if recurring FULL DAY start date before 2007 (#2483)
 
 ## [2.14.0] - 2021-01-01
 
@@ -74,14 +75,13 @@ Special thanks to the following contributors: @Alvinger, @AndyPoms, @ashishtank,
 
 - Added new log level "debug" to the logger.
 - Added new parameter "useKmh" to weather module for displaying wind speed as kmh.
-- Chuvash translation.
+- Added Chuvash translation.
 - Added Weatherbit as a provider to Weather module.
 - Added SMHI as a provider to Weather module.
 - Added Hindi & Gujarati translation.
 - Added optional support for DEGREE position in Feels like translation.
 - Added support for variables in nunjucks templates for translate filter.
 - Added Chuvash translation.
-- Calendar: new options "limitDays" and "coloredEvents".
 - Added new option "limitDays" - limit the number of discreet days displayed.
 - Added new option "customEvents" - use custom symbol/color based on keyword in event title.
 

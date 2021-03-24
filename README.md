@@ -2,9 +2,9 @@
 
 <p style="text-align: center">
 	<a href="https://david-dm.org/MichMich/MagicMirror"><img src="https://david-dm.org/MichMich/MagicMirror.svg" alt="Dependency Status"></a>
-	<a href="https://david-dm.org/MichMich/MagicMirror#info=devDependencies"><img src="https://david-dm.org/MichMich/MagicMirror/dev-status.svg" alt="devDependency Status"></a>
+	<a href="https://david-dm.org/MichMich/MagicMirror?type=dev"><img src="https://david-dm.org/MichMich/MagicMirror/dev-status.svg" alt="devDependency Status"></a>
 	<a href="https://bestpractices.coreinfrastructure.org/projects/347"><img src="https://bestpractices.coreinfrastructure.org/projects/347/badge" alt="CLI Best Practices"></a>
-	<a href="https://codecov.io/gh/MichMich/MagicMirror"><img src="https://codecov.io/gh/MichMich/MagicMirror/branch/master/graph/badge.svg?token=LEG1KitZR6"/></a>
+	<a href="https://codecov.io/gh/MichMich/MagicMirror"><img src="https://codecov.io/gh/MichMich/MagicMirror/branch/master/graph/badge.svg?token=LEG1KitZR6" alt="CodeCov Status"/></a>
 	<a href="https://choosealicense.com/licenses/mit"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
 	<a href="https://github.com/MichMich/MagicMirror/actions?query=workflow%3A%22Automated+Tests%22"><img src="https://github.com/MichMich/MagicMirror/workflows/Automated%20Tests/badge.svg" alt="Tests"></a>
   <a href="https://codecov.io/gh/MichMich/MagicMirror"><img src="https://codecov.io/gh/MichMich/MagicMirror/branch/master/graph/badge.svg" /></a>
@@ -29,7 +29,13 @@ For the full documentation including **[installation instructions](https://docs.
 
 ## Contributing Guidelines
 
-Contributions of all kinds are welcome, not only in the form of code but also with regards bug reports and documentation. For the full contribution guidelines, check out: [https://docs.magicmirror.builders/getting-started/contributing.html](https://docs.magicmirror.builders/getting-started/contributing.html)
+Contributions of all kinds are welcome, not only in the form of code but also with regards to
+
+- bug reports
+- documentation
+- translations
+
+For the full contribution guidelines, check out: [https://docs.magicmirror.builders/getting-started/contributing.html](https://docs.magicmirror.builders/getting-started/contributing.html)
 
 ## Enjoying MagicMirror? Consider a donation!
 
