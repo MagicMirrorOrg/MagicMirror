@@ -31,5 +31,5 @@
 	"UPDATE_NOTIFICATION": "Galimas MagicMirror² naujinimas.",
 	"UPDATE_NOTIFICATION_MODULE": "Galimas {MODULE_NAME} naujinimas.",
 	"UPDATE_INFO_SINGLE": "Šis įdiegimas atsilieka {COMMIT_COUNT} įsipareigojimu {BRANCH_NAME} šakoje.",
-	"UPDATE_INFO_MULTIPLE": "Šis įdiegimas atsilieka {COMMIT_COUNT} įsipareigojimais {BRANCH_NAME} šakoje.",
+	"UPDATE_INFO_MULTIPLE": "Šis įdiegimas atsilieka {COMMIT_COUNT} įsipareigojimais {BRANCH_NAME} šakoje."
 }
