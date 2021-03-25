@@ -14,7 +14,7 @@ var Translator = (function () {
 	 * @param {Function} callback Function called when done.
 	 */
 	function loadJSON(file, callback) {
-		var xhr = new XMLHttpRequest();
+		const xhr = new XMLHttpRequest();
 		xhr.overrideMimeType("application/json");
 		xhr.open("GET", file, true);
 		xhr.onreadystatechange = function () {
@@ -124,18 +124,16 @@ var Translator = (function () {
 		 * @param {string} lang The language identifier of the core language.
 		 */
 		loadCoreTranslations: function (lang) {
-			var self = this;
-
 			if (lang in translations) {
 				Log.log("Loading core translation file: " + translations[lang]);
-				loadJSON(translations[lang], function (translations) {
-					self.coreTranslations = translations;
+				loadJSON(translations[lang], (translations) => {
+					this.coreTranslations = translations;
 				});
 			} else {
 				Log.log("Configured language not found in core translations.");
 			}
 
-			self.loadCoreTranslationsFallback();
+			this.loadCoreTranslationsFallback();
 		},
 
 		/**
@@ -143,8 +141,6 @@ var Translator = (function () {
 		 * The first language defined in translations.js will be used.
 		 */
 		loadCoreTranslationsFallback: function () {
-			var self = this;
-
 			// The variable `first` will contain the first
 			// defined translation after the following line.
 			for (var first in translations) {
@@ -153,8 +149,8 @@ var Translator = (function () {
 
 			if (first) {
 				Log.log("Loading core translation fallback file: " + translations[first]);
-				loadJSON(translations[first], function (translations) {
-					self.coreTranslationsFallback = translations;
+				loadJSON(translations[first], (translations) => {
+					this.coreTranslationsFallback = translations;
 				});
 			}
 		}
