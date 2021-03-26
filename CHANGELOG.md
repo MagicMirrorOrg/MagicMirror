@@ -41,6 +41,7 @@ _This release is scheduled to be released on 2021-04-01._
 - Replaced deprecated `request` package with `node-fetch` and `digest-fetch`
 - Refactored calendar fetcher
 - Cleaned up newsfeed module
+- Cleaned up translations and translator code
 
 ### Removed
 
