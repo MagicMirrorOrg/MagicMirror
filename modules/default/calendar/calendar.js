@@ -147,10 +147,11 @@ Module.register("calendar", {
 				}
 			}
 		} else if (notification === "FETCH_ERROR") {
-			Log.error("Calendar Error. Could not fetch calendar: " + payload.url);
+			this.error = this.translate("MODULE_CONFIG_ERROR", { MODULE_NAME: this.name, ERROR: payload.error });
 			this.loaded = true;
 		} else if (notification === "INCORRECT_URL") {
-			Log.error("Calendar Error. Incorrect url: " + payload.url);
+			this.error = `Incorrect url: ${payload.url}`;
+			this.loaded = true;
 		}
 
 		this.updateDom(this.config.animationSpeed);
@@ -167,6 +168,12 @@ Module.register("calendar", {
 		const events = this.createEventList();
 		const wrapper = document.createElement("table");
 		wrapper.className = this.config.tableClass;
+
+		if (this.error) {
+			wrapper.innerHTML = this.error;
+			wrapper.className = this.config.tableClass + " dimmed";
+			return wrapper;
+		}
 
 		if (events.length === 0) {
 			wrapper.innerHTML = this.loaded ? this.translate("EMPTY") : this.translate("LOADING");
