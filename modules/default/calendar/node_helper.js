@@ -46,7 +46,7 @@ module.exports = NodeHelper.create({
 
 		let fetcher;
 		if (typeof this.fetchers[identifier + url] === "undefined") {
-			Log.log("Create new calendar fetcher for url: " + url + " - Interval: " + fetchInterval);
+			Log.log("Create new calendarfetcher for url: " + url + " - Interval: " + fetchInterval);
 			fetcher = new CalendarFetcher(url, fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, broadcastPastEvents, selfSignedCert);
 
 			fetcher.onReceive((fetcher) => {
@@ -64,7 +64,7 @@ module.exports = NodeHelper.create({
 
 			this.fetchers[identifier + url] = fetcher;
 		} else {
-			Log.log("Use existing calendar fetcher for url: " + url);
+			Log.log("Use existing calendarfetcher for url: " + url);
 			fetcher = this.fetchers[identifier + url];
 			fetcher.broadcastEvents();
 		}

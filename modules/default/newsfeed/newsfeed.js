@@ -90,7 +90,7 @@ Module.register("newsfeed", {
 			this.loaded = true;
 			this.error = null;
 		} else if (notification === "FETCH_ERROR") {
-			this.error = `Could not fetch newsfeed ${payload.url}`;
+			this.error = `${payload.error}`;
 			this.scheduleUpdateInterval();
 		} else if (notification === "INCORRECT_URL") {
 			this.error = `Incorrect url: ${payload.url}`;

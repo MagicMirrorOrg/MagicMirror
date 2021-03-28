@@ -5,6 +5,7 @@
  * MIT Licensed.
  */
 const Log = require("logger");
+const FetcherHelper = require("fetcher_helper");
 const FeedMe = require("feedme");
 const fetch = require("node-fetch");
 const iconv = require("iconv-lite");
@@ -84,12 +85,13 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 		};
 
 		fetch(url, { headers: headers })
-			.catch((error) => {
-				fetchFailedCallback(this, error);
-				scheduleTimer();
+			.then(FetcherHelper.checkStatus)
+			.then((response) => {
+				response.body.pipe(iconv.decodeStream(encoding)).pipe(parser);
 			})
-			.then((res) => {
-				res.body.pipe(iconv.decodeStream(encoding)).pipe(parser);
+			.catch((error) => {
+				fetchFailedCallback(this, error.message);
+				scheduleTimer();
 			});
 	};
 

@@ -5,6 +5,7 @@
  * MIT Licensed.
  */
 const CalendarUtils = require("./calendarutils");
+const FetcherHelper = require("fetcher_helper");
 const Log = require("logger");
 const ical = require("node-ical");
 const fetch = require("node-fetch");
@@ -62,17 +63,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 		}
 
 		fetcher
-			.catch((error) => {
-				fetchFailedCallback(this, error);
-				scheduleTimer();
-			})
-			.then((response) => {
-				if (response.status !== 200) {
-					fetchFailedCallback(this, response.statusText);
-					scheduleTimer();
-				}
-				return response;
-			})
+			.then(FetcherHelper.checkStatus)
 			.then((response) => response.text())
 			.then((responseData) => {
 				let data = [];
@@ -92,6 +83,10 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 					return;
 				}
 				this.broadcastEvents();
+				scheduleTimer();
+			})
+			.catch((error) => {
+				fetchFailedCallback(this, error.message);
 				scheduleTimer();
 			});
 	};
