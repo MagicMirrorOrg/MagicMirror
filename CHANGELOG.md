@@ -58,7 +58,7 @@ _This release is scheduled to be released on 2021-04-01._
 - Fix Issue with weather forecast icons unit tests with different timezones (#2221)
 - Fix issue with unencoded characters in translated strings when using nunjuck template (`Loading &hellip;` as an example)
 - Fix socket.io backward compatibility with socket v2 clients
-- 3rd party module language loading if language is English
+- Fix 3rd party module language loading if language is English
 - Fix e2e tests after spectron update
 - Fix updatenotification creating zombie processes by setting a timeout for the git process
 - Fix weather module openweathermap not loading if lat and lon set without onecall.
