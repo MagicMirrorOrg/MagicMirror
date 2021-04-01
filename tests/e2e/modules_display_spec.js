@@ -29,13 +29,13 @@ describe("Display of modules", function () {
 		});
 
 		it("should show the test header", async () => {
-			await app.client.waitForExist("#module_0_helloworld", 10000);
-			return app.client.element("#module_0_helloworld .module-header").isVisible().should.eventually.equal(true).getText("#module_0_helloworld .module-header").should.eventually.equal("TEST_HEADER");
+			const elem = await app.client.$("#module_0_helloworld .module-header", 10000);
+			return elem.getText("#module_0_helloworld .module-header").should.eventually.equal("TEST_HEADER");
 		});
 
 		it("should show no header if no header text is specified", async () => {
-			await app.client.waitForExist("#module_1_helloworld", 10000);
-			return app.client.element("#module_1_helloworld .module-header").isVisible().should.eventually.equal(false);
+			const elem = await app.client.$("#module_1_helloworld .module-header", 10000);
+			return elem.getText("#module_1_helloworld .module-header").should.eventually.equal(false);
 		});
 	});
 });

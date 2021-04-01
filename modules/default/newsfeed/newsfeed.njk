@@ -1,0 +1,32 @@
+{% if loaded %}
+    <div>
+        {% if (config.showSourceTitle and sourceTitle) or config.showPublishDate %}
+            <div class="newsfeed-source light small dimmed">
+                {% if sourceTitle and config.showSourceTitle %}
+                    {{ sourceTitle }}{% if config.showPublishDate %}, {% else %}: {% endif %}
+                {% endif %}
+                {% if config.showPublishDate %}
+                    {{ publishDate }}:
+                {% endif %}
+            </div>
+        {% endif %}
+        <div class="newsfeed-title bright medium light{{ ' no-wrap' if not config.wrapTitle }}">
+            {{ title }}
+        </div>
+        <div class="newsfeed-desc small light{{ ' no-wrap' if not config.wrapDescription }}">
+            {% if config.truncDescription %}
+                {{ description | truncate(config.lengthDescription) }}
+            {% else %}
+                {{ description }}
+            {% endif %}
+        </div>
+    </div>
+{% elseif error %}
+    <div class="small dimmed">
+        {{ "MODULE_CONFIG_ERROR" | translate({MODULE_NAME: "Newsfeed", ERROR: error}) | safe }}
+    </div>
+{% else %}
+    <div class="small dimmed">
+        {{ "LOADING" | translate | safe }}
+    </div>
+{% endif %}

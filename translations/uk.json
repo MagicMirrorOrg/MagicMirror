@@ -6,7 +6,6 @@
 	"DAYAFTERTOMORROW": "Післязавтра",
 	"RUNNING": "Закінчується через",
 	"EMPTY": "Немає найближчих подій",
-
 	"WEEK": "Тиждень {weekNumber}",
 
 	"N": "Пн",
@@ -26,11 +25,11 @@
 	"NW": "ПнЗх",
 	"NNW": "ПнПнЗх",
 
+	"FEELS": "Відчувається як {DEGREE}",
+	"PRECIP": "Опади",
+
 	"UPDATE_NOTIFICATION": "Є оновлення для MagicMirror².",
 	"UPDATE_NOTIFICATION_MODULE": "Є оновлення для модуля {MODULE_NAME}.",
 	"UPDATE_INFO_SINGLE": "Поточна версія на {COMMIT_COUNT} комміт позаду від гілки {BRANCH_NAME}.",
-	"UPDATE_INFO_MULTIPLE": "Поточна інсталяція на {COMMIT_COUNT} комітів позаду від гілки {BRANCH_NAME}.",
-
-	"FEELS": "Відчувається як",
-	"PRECIP": "Опади"
+	"UPDATE_INFO_MULTIPLE": "Поточна інсталяція на {COMMIT_COUNT} комітів позаду від гілки {BRANCH_NAME}."
 }

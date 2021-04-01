@@ -6,7 +6,6 @@
 	"DAYAFTERTOMORROW": "Poimâine",
 	"RUNNING": "Se termină în",
 	"EMPTY": "Nici un eveniment.",
-
 	"WEEK": "Săptămâna {weekNumber}",
 
 	"N": "N",
@@ -26,10 +25,10 @@
 	"NW": "NW",
 	"NNW": "NNW",
 
+	"FEELS": "Se simte ca fiind {DEGREE}",
+
 	"UPDATE_NOTIFICATION": "Un update este disponibil pentru MagicMirror².",
 	"UPDATE_NOTIFICATION_MODULE": "Un update este disponibil pentru modulul {MODULE_NAME}.",
 	"UPDATE_INFO_SINGLE": "Există {COMMIT_COUNT} commit-uri noi pe branch-ul {BRANCH_NAME}.",
-	"UPDATE_INFO_MULTIPLE": "Există {COMMIT_COUNT} commit-uri noi pe branch-ul {BRANCH_NAME}.",
-
-	"FEELS": "Se simte ca fiind"
+	"UPDATE_INFO_MULTIPLE": "Există {COMMIT_COUNT} commit-uri noi pe branch-ul {BRANCH_NAME}."
 }

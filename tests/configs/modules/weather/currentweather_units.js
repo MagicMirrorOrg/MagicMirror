@@ -14,7 +14,8 @@ let config = {
 	units: "imperial",
 	electronOptions: {
 		webPreferences: {
-			nodeIntegration: true
+			nodeIntegration: true,
+			enableRemoteModule: true
 		}
 	},
 

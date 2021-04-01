@@ -3,9 +3,7 @@ const auth = require("express-basic-auth");
 const express = require("express");
 const app = express();
 
-var server;
-
-var basicAuth = auth({
+const basicAuth = auth({
 	realm: "MagicMirror Area restricted.",
 	users: { MagicMirror: "CallMeADog" }
 });
@@ -13,14 +11,14 @@ var basicAuth = auth({
 app.use(basicAuth);
 
 // Set available directories
-var directories = ["/tests/configs"];
-var directory;
-var rootPath = path.resolve(__dirname + "/../../");
+const directories = ["/tests/configs"];
+const rootPath = path.resolve(__dirname + "/../../");
 
-for (var i in directories) {
-	directory = directories[i];
+for (let directory of directories) {
 	app.use(directory, express.static(path.resolve(rootPath + directory)));
 }
+
+let server;
 
 exports.listen = function () {
 	server = app.listen.apply(app, arguments);

@@ -6,9 +6,8 @@
  */
 
 const NodeHelper = require("node_helper");
-const validUrl = require("valid-url");
 const NewsfeedFetcher = require("./newsfeedfetcher.js");
-const Log = require("../../../js/logger");
+const Log = require("logger");
 
 module.exports = NodeHelper.create({
 	// Override start method.
@@ -36,8 +35,10 @@ module.exports = NodeHelper.create({
 		const encoding = feed.encoding || "UTF-8";
 		const reloadInterval = feed.reloadInterval || config.reloadInterval || 5 * 60 * 1000;
 
-		if (!validUrl.isUri(url)) {
-			this.sendSocketNotification("INCORRECT_URL", url);
+		try {
+			new URL(url);
+		} catch (error) {
+			this.sendSocketNotification("INCORRECT_URL", { url: url });
 			return;
 		}
 
@@ -73,8 +74,8 @@ module.exports = NodeHelper.create({
 	 * and broadcasts these using sendSocketNotification.
 	 */
 	broadcastFeeds: function () {
-		var feeds = {};
-		for (var f in this.fetchers) {
+		const feeds = {};
+		for (let f in this.fetchers) {
 			feeds[f] = this.fetchers[f].items();
 		}
 		this.sendSocketNotification("NEWS_ITEMS", feeds);

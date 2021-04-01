@@ -14,6 +14,13 @@ WeatherProvider.register("ukmetoffice", {
 	// But for debugging (and future alerts) it would be nice to have the real name.
 	providerName: "UK Met Office",
 
+	// Set the default config properties that is specific to this provider
+	defaults: {
+		apiBase: "http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/",
+		locationID: false,
+		apiKey: ""
+	},
+
 	units: {
 		imperial: "us",
 		metric: "si"

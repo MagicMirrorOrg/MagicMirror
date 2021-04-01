@@ -6,7 +6,6 @@
 	"DAYAFTERTOMORROW": "Послезавтра",
 	"RUNNING": "Заканчивается через",
 	"EMPTY": "Нет предстоящих событий",
-
 	"WEEK": "Неделя {weekNumber}",
 
 	"N": "С",
@@ -25,7 +24,8 @@
 	"WNW": "ЗСЗ",
 	"NW": "СЗ",
 	"NNW": "ССЗ",
-	"FEELS": "По ощущению",
+
+	"FEELS": "По ощущению {DEGREE}",
 
 	"UPDATE_NOTIFICATION": "Есть обновление для MagicMirror².",
 	"UPDATE_NOTIFICATION_MODULE": "Есть обновление для {MODULE_NAME} модуля.",

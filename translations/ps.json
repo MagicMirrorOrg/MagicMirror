@@ -6,7 +6,6 @@
 	"DAYAFTERTOMORROW": "بل سبا",
 	"RUNNING": "روان",
 	"EMPTY": "تش",
-
 	"WEEK": "{weekNumber}. اونۍ",
 
 	"N": "N",
@@ -26,12 +25,12 @@
 	"NW": "NW",
 	"NNW": "NNW",
 
+	"FEELS": "حس کېږی {DEGREE}",
+
 	"MODULE_CONFIG_CHANGED": "د {MODULE_NAME} بڼی تغیر کړی دی. \n هیله دی چی اسناد و ګوری!",
 
 	"UPDATE_NOTIFICATION": "د MagicMirror² نوې نسخه سته ",
 	"UPDATE_NOTIFICATION_MODULE": "د {MODULE_NAME} نوی نسخه سته",
 	"UPDATE_INFO_SINGLE": "اوسنی برخه {COMMIT_COUNT} د {BRANCH_NAME} څخه وروسته پاته ده",
-	"UPDATE_INFO_MULTIPLE": "اوسنی برخه {COMMIT_COUNT} د {BRANCH_NAME} څخه وروسته پاته ده",
-
-	"FEELS": "حس کېږی"
+	"UPDATE_INFO_MULTIPLE": "اوسنی برخه {COMMIT_COUNT} د {BRANCH_NAME} څخه وروسته پاته ده"
 }

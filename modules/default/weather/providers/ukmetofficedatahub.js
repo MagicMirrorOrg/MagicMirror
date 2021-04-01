@@ -44,6 +44,16 @@ WeatherProvider.register("ukmetofficedatahub", {
 	// Set the name of the provider.
 	providerName: "UK Met Office (DataHub)",
 
+	// Set the default config properties that is specific to this provider
+	defaults: {
+		apiBase: "https://api-metoffice.apiconnect.ibmcloud.com/metoffice/production/v0/forecasts/point/",
+		apiKey: "",
+		apiSecret: "",
+		lat: 0,
+		lon: 0,
+		windUnits: "mph"
+	},
+
 	// Build URL with query strings according to DataHub API (https://metoffice.apiconnect.ibmcloud.com/metoffice/production/api)
 	getUrl(forecastType) {
 		let queryStrings = "?";

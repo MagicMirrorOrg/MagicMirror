@@ -6,7 +6,6 @@
 	"DAYAFTERTOMORROW": "后天",
 	"RUNNING": "结束日期",
 	"EMPTY": "无日程安排。",
-
 	"WEEK": "第{weekNumber}周",
 
 	"N": "北风",
@@ -26,10 +25,10 @@
 	"NW": "西北风",
 	"NNW": "北偏西风",
 
+	"FEELS": "体感 {DEGREE}",
+
 	"UPDATE_NOTIFICATION": "MagicMirror²有新的版本。",
 	"UPDATE_NOTIFICATION_MODULE": "{MODULE_NAME}模块可更新。",
 	"UPDATE_INFO_SINGLE": "当前已安装版本比{BRANCH_NAME}分支落后{COMMIT_COUNT}次代码更新。",
-	"UPDATE_INFO_MULTIPLE": "当前已安装版本比{BRANCH_NAME}分支落后{COMMIT_COUNT}次代码更新。",
-
-	"FEELS": "体感"
+	"UPDATE_INFO_MULTIPLE": "当前已安装版本比{BRANCH_NAME}分支落后{COMMIT_COUNT}次代码更新。"
 }

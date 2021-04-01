@@ -6,7 +6,6 @@
 	"DAYAFTERTOMORROW": "cha'leS",
 	"RUNNING": "Dor",
 	"EMPTY": "Sumbe' wanI'.",
-
 	"WEEK": "Hogh (terran) {weekNumber}",
 
 	"N": "N",
@@ -26,10 +25,10 @@
 	"NW": "'ev",
 	"NNW": "NNW",
 
+	"FEELS": "jem {DEGREE}",
+
 	"UPDATE_NOTIFICATION": " De'chu' MagicMirror² lI'laH.",
 	"UPDATE_NOTIFICATION_MODULE": "bobcho' {MODULE_NAME} lI'laH De'chu.",
 	"UPDATE_INFO_SINGLE": "The current installation is {COMMIT_COUNT} commit behind on the {BRANCH_NAME} branch.",
-	"UPDATE_INFO_MULTIPLE": "The current installation is {COMMIT_COUNT} commits behind on the {BRANCH_NAME} branch.",
-
-	"FEELS": "jem"
+	"UPDATE_INFO_MULTIPLE": "The current installation is {COMMIT_COUNT} commits behind on the {BRANCH_NAME} branch."
 }

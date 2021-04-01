@@ -30,8 +30,9 @@ describe("Test helloworld module", function () {
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/helloworld/helloworld.js";
 		});
 
-		it("Test message helloworld module", function () {
-			return app.client.waitUntilWindowLoaded().getText(".helloworld").should.eventually.equal("Test HelloWorld Module");
+		it("Test message helloworld module", async function () {
+			const elem = await app.client.$("helloworld");
+			return elem.getText(".helloworld").should.eventually.equal("Test HelloWorld Module");
 		});
 	});
 
@@ -41,8 +42,9 @@ describe("Test helloworld module", function () {
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/helloworld/helloworld_default.js";
 		});
 
-		it("Test message helloworld module", function () {
-			return app.client.waitUntilWindowLoaded().getText(".helloworld").should.eventually.equal("Hello World!");
+		it("Test message helloworld module", async function () {
+			const elem = await app.client.$("helloworld");
+			return elem.getText(".helloworld").should.eventually.equal("Hello World!");
 		});
 	});
 });

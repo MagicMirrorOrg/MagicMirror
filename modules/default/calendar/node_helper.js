@@ -5,9 +5,8 @@
  * MIT Licensed.
  */
 const NodeHelper = require("node_helper");
-const validUrl = require("valid-url");
 const CalendarFetcher = require("./calendarfetcher.js");
-const Log = require("../../../js/logger");
+const Log = require("logger");
 
 module.exports = NodeHelper.create({
 	// Override start method.
@@ -19,7 +18,7 @@ module.exports = NodeHelper.create({
 	// Override socketNotificationReceived method.
 	socketNotificationReceived: function (notification, payload) {
 		if (notification === "ADD_CALENDAR") {
-			this.createFetcher(payload.url, payload.fetchInterval, payload.excludedEvents, payload.maximumEntries, payload.maximumNumberOfDays, payload.auth, payload.broadcastPastEvents, payload.id);
+			this.createFetcher(payload.url, payload.fetchInterval, payload.excludedEvents, payload.maximumEntries, payload.maximumNumberOfDays, payload.auth, payload.broadcastPastEvents, payload.selfSignedCert, payload.id);
 		}
 	},
 
@@ -34,44 +33,55 @@ module.exports = NodeHelper.create({
 	 * @param {number} maximumNumberOfDays The maximum number of days an event should be in the future.
 	 * @param {object} auth The object containing options for authentication against the calendar.
 	 * @param {boolean} broadcastPastEvents If true events from the past maximumNumberOfDays will be included in event broadcasts
+	 * @param {boolean} selfSignedCert If true, the server certificate is not verified against the list of supplied CAs.
 	 * @param {string} identifier ID of the module
 	 */
-	createFetcher: function (url, fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, broadcastPastEvents, identifier) {
-		var self = this;
-
-		if (!validUrl.isUri(url)) {
-			self.sendSocketNotification("INCORRECT_URL", { id: identifier, url: url });
+	createFetcher: function (url, fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, broadcastPastEvents, selfSignedCert, identifier) {
+		try {
+			new URL(url);
+		} catch (error) {
+			this.sendSocketNotification("INCORRECT_URL", { id: identifier, url: url });
 			return;
 		}
 
-		var fetcher;
-		if (typeof self.fetchers[identifier + url] === "undefined") {
+		let fetcher;
+		if (typeof this.fetchers[identifier + url] === "undefined") {
 			Log.log("Create new calendar fetcher for url: " + url + " - Interval: " + fetchInterval);
-			fetcher = new CalendarFetcher(url, fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, broadcastPastEvents);
+			fetcher = new CalendarFetcher(url, fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, broadcastPastEvents, selfSignedCert);
 
-			fetcher.onReceive(function (fetcher) {
-				self.sendSocketNotification("CALENDAR_EVENTS", {
-					id: identifier,
-					url: fetcher.url(),
-					events: fetcher.events()
-				});
+			fetcher.onReceive((fetcher) => {
+				this.broadcastEvents(fetcher, identifier);
 			});
 
-			fetcher.onError(function (fetcher, error) {
+			fetcher.onError((fetcher, error) => {
 				Log.error("Calendar Error. Could not fetch calendar: ", fetcher.url(), error);
-				self.sendSocketNotification("FETCH_ERROR", {
+				this.sendSocketNotification("FETCH_ERROR", {
 					id: identifier,
 					url: fetcher.url(),
 					error: error
 				});
 			});
 
-			self.fetchers[identifier + url] = fetcher;
+			this.fetchers[identifier + url] = fetcher;
 		} else {
 			Log.log("Use existing calendar fetcher for url: " + url);
-			fetcher = self.fetchers[identifier + url];
+			fetcher = this.fetchers[identifier + url];
+			fetcher.broadcastEvents();
 		}
 
 		fetcher.startFetch();
+	},
+
+	/**
+	 *
+	 * @param {object} fetcher the fetcher associated with the calendar
+	 * @param {string} identifier the identifier of the calendar
+	 */
+	broadcastEvents: function (fetcher, identifier) {
+		this.sendSocketNotification("CALENDAR_EVENTS", {
+			id: identifier,
+			url: fetcher.url(),
+			events: fetcher.events()
+		});
 	}
 });

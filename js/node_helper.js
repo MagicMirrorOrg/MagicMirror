@@ -5,21 +5,21 @@
  * MIT Licensed.
  */
 const Class = require("./class.js");
-const Log = require("./logger.js");
+const Log = require("logger");
 const express = require("express");
 
-var NodeHelper = Class.extend({
-	init: function () {
+const NodeHelper = Class.extend({
+	init() {
 		Log.log("Initializing new module helper ...");
 	},
 
-	loaded: function (callback) {
-		Log.log("Module helper loaded: " + this.name);
+	loaded(callback) {
+		Log.log(`Module helper loaded: ${this.name}`);
 		callback();
 	},
 
-	start: function () {
-		Log.log("Starting module helper: " + this.name);
+	start() {
+		Log.log(`Starting module helper: ${this.name}`);
 	},
 
 	/* stop()
@@ -28,8 +28,8 @@ var NodeHelper = Class.extend({
 	 * gracefully exit the module.
 	 *
 	 */
-	stop: function () {
-		Log.log("Stopping module helper: " + this.name);
+	stop() {
+		Log.log(`Stopping module helper: ${this.name}`);
 	},
 
 	/* socketNotificationReceived(notification, payload)
@@ -38,8 +38,8 @@ var NodeHelper = Class.extend({
 	 * argument notification string - The identifier of the notification.
 	 * argument payload mixed - The payload of the notification.
 	 */
-	socketNotificationReceived: function (notification, payload) {
-		Log.log(this.name + " received a socket notification: " + notification + " - Payload: " + payload);
+	socketNotificationReceived(notification, payload) {
+		Log.log(`${this.name} received a socket notification: ${notification} - Payload: ${payload}`);
 	},
 
 	/* setName(name)
@@ -47,7 +47,7 @@ var NodeHelper = Class.extend({
 	 *
 	 * argument name string - Module name.
 	 */
-	setName: function (name) {
+	setName(name) {
 		this.name = name;
 	},
 
@@ -56,7 +56,7 @@ var NodeHelper = Class.extend({
 	 *
 	 * argument path string - Module path.
 	 */
-	setPath: function (path) {
+	setPath(path) {
 		this.path = path;
 	},
 
@@ -66,7 +66,7 @@ var NodeHelper = Class.extend({
 	 * argument notification string - The identifier of the notification.
 	 * argument payload mixed - The payload of the notification.
 	 */
-	sendSocketNotification: function (notification, payload) {
+	sendSocketNotification(notification, payload) {
 		this.io.of(this.name).emit(notification, payload);
 	},
 
@@ -76,11 +76,10 @@ var NodeHelper = Class.extend({
 	 *
 	 * argument app Express app - The Express app object.
 	 */
-	setExpressApp: function (app) {
+	setExpressApp(app) {
 		this.expressApp = app;
 
-		var publicPath = this.path + "/public";
-		app.use("/" + this.name, express.static(publicPath));
+		app.use(`/${this.name}`, express.static(`${this.path}/public`));
 	},
 
 	/* setSocketIO(io)
@@ -89,27 +88,25 @@ var NodeHelper = Class.extend({
 	 *
 	 * argument io Socket.io - The Socket io object.
 	 */
-	setSocketIO: function (io) {
-		var self = this;
-		self.io = io;
+	setSocketIO(io) {
+		this.io = io;
 
-		Log.log("Connecting socket for: " + this.name);
-		var namespace = this.name;
-		io.of(namespace).on("connection", function (socket) {
+		Log.log(`Connecting socket for: ${this.name}`);
+
+		io.of(this.name).on("connection", (socket) => {
 			// add a catch all event.
-			var onevent = socket.onevent;
+			const onevent = socket.onevent;
 			socket.onevent = function (packet) {
-				var args = packet.data || [];
+				const args = packet.data || [];
 				onevent.call(this, packet); // original call
 				packet.data = ["*"].concat(args);
 				onevent.call(this, packet); // additional call to catch-all
 			};
 
 			// register catch all.
-			socket.on("*", function (notification, payload) {
+			socket.on("*", (notification, payload) => {
 				if (notification !== "*") {
-					//Log.log('received message in namespace: ' + namespace);
-					self.socketNotificationReceived(notification, payload);
+					this.socketNotificationReceived(notification, payload);
 				}
 			});
 		});
@@ -120,7 +117,4 @@ NodeHelper.create = function (moduleDefinition) {
 	return NodeHelper.extend(moduleDefinition);
 };
 
-/*************** DO NOT EDIT THE LINE BELOW ***************/
-if (typeof module !== "undefined") {
-	module.exports = NodeHelper;
-}
+module.exports = NodeHelper;

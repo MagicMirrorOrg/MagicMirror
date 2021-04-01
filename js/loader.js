@@ -54,6 +54,14 @@ var Loader = (function () {
 
 		// Notify core of loaded modules.
 		MM.modulesStarted(moduleObjects);
+
+		// Starting modules also hides any modules that have requested to be initially hidden
+		for (let thisModule of moduleObjects) {
+			if (thisModule.data.hiddenOnStartup) {
+				Log.info("Initially hiding " + thisModule.name);
+				thisModule.hide();
+			}
+		}
 	};
 
 	/**
@@ -97,6 +105,7 @@ var Loader = (function () {
 				path: moduleFolder + "/",
 				file: moduleName + ".js",
 				position: moduleData.position,
+				hiddenOnStartup: moduleData.hiddenOnStartup,
 				header: moduleData.header,
 				configDeepMerge: typeof moduleData.configDeepMerge === "boolean" ? moduleData.configDeepMerge : false,
 				config: moduleData.config,
@@ -114,7 +123,7 @@ var Loader = (function () {
 	 * @param {Function} callback Function called when done.
 	 */
 	var loadModule = function (module, callback) {
-		var url = module.path + "/" + module.file;
+		var url = module.path + module.file;
 
 		var afterLoad = function () {
 			var moduleObject = Module.create(module.name);

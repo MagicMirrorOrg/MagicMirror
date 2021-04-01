@@ -4,25 +4,29 @@
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-var express = require("express");
-var app = require("express")();
-var path = require("path");
-var ipfilter = require("express-ipfilter").IpFilter;
-var fs = require("fs");
-var helmet = require("helmet");
+const express = require("express");
+const app = require("express")();
+const path = require("path");
+const ipfilter = require("express-ipfilter").IpFilter;
+const fs = require("fs");
+const helmet = require("helmet");
 
-var Log = require("./logger.js");
-var Utils = require("./utils.js");
+const Log = require("logger");
+const Utils = require("./utils.js");
 
-var Server = function (config, callback) {
-	var port = config.port;
-	if (process.env.MM_PORT) {
-		port = process.env.MM_PORT;
-	}
+/**
+ * Server
+ *
+ * @param {object} config The MM config
+ * @param {Function} callback Function called when done.
+ * @class
+ */
+function Server(config, callback) {
+	const port = process.env.MM_PORT || config.port;
 
-	var server = null;
+	let server = null;
 	if (config.useHttps) {
-		var options = {
+		const options = {
 			key: fs.readFileSync(config.httpsPrivateKey),
 			cert: fs.readFileSync(config.httpsCertificate)
 		};
@@ -30,18 +34,24 @@ var Server = function (config, callback) {
 	} else {
 		server = require("http").Server(app);
 	}
-	var io = require("socket.io")(server);
+	const io = require("socket.io")(server, {
+		cors: {
+			origin: /.*$/,
+			credentials: true
+		},
+		allowEIO3: true
+	});
 
-	Log.log("Starting server on port " + port + " ... ");
+	Log.log(`Starting server on port ${port} ... `);
 
-	server.listen(port, config.address ? config.address : "localhost");
+	server.listen(port, config.address || "localhost");
 
 	if (config.ipWhitelist instanceof Array && config.ipWhitelist.length === 0) {
 		Log.warn(Utils.colors.warn("You're using a full whitelist configuration to allow for all IPs"));
 	}
 
 	app.use(function (req, res, next) {
-		var result = ipfilter(config.ipWhitelist, { mode: config.ipWhitelist.length === 0 ? "deny" : "allow", log: false })(req, res, function (err) {
+		ipfilter(config.ipWhitelist, { mode: config.ipWhitelist.length === 0 ? "deny" : "allow", log: false })(req, res, function (err) {
 			if (err === undefined) {
 				return next();
 			}
@@ -52,10 +62,9 @@ var Server = function (config, callback) {
 	app.use(helmet({ contentSecurityPolicy: false }));
 
 	app.use("/js", express.static(__dirname));
-	var directories = ["/config", "/css", "/fonts", "/modules", "/vendor", "/translations", "/tests/configs"];
-	var directory;
-	for (var i in directories) {
-		directory = directories[i];
+
+	const directories = ["/config", "/css", "/fonts", "/modules", "/vendor", "/translations", "/tests/configs"];
+	for (const directory of directories) {
 		app.use(directory, express.static(path.resolve(global.root_path + directory)));
 	}
 
@@ -68,10 +77,10 @@ var Server = function (config, callback) {
 	});
 
 	app.get("/", function (req, res) {
-		var html = fs.readFileSync(path.resolve(global.root_path + "/index.html"), { encoding: "utf8" });
+		let html = fs.readFileSync(path.resolve(`${global.root_path}/index.html`), { encoding: "utf8" });
 		html = html.replace("#VERSION#", global.version);
 
-		var configFile = "config/config.js";
+		let configFile = "config/config.js";
 		if (typeof global.configuration_file !== "undefined") {
 			configFile = global.configuration_file;
 		}
@@ -83,6 +92,6 @@ var Server = function (config, callback) {
 	if (typeof callback === "function") {
 		callback(app, io);
 	}
-};
+}
 
 module.exports = Server;

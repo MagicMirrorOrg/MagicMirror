@@ -10,7 +10,7 @@ const afterEach = global.afterEach;
 describe("Calendar module", function () {
 	helpers.setupTimeout(this);
 
-	var app = null;
+	let app = null;
 
 	beforeEach(function () {
 		return helpers
@@ -76,15 +76,26 @@ describe("Calendar module", function () {
 		});
 	});
 
-	describe("Basic auth", function () {
+	describe("Changed port", function () {
 		before(function () {
 			serverBasicAuth.listen(8010);
 			// Set config sample for use in test
-			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/basic-auth.js";
+			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/changed-port.js";
 		});
 
 		after(function (done) {
 			serverBasicAuth.close(done());
+		});
+
+		it("should return TestEvents", function () {
+			return app.client.waitUntilTextExists(".calendar", "TestEvent", 10000);
+		});
+	});
+
+	describe("Basic auth", function () {
+		before(function () {
+			// Set config sample for use in test
+			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/basic-auth.js";
 		});
 
 		it("should return TestEvents", function () {
@@ -94,13 +105,8 @@ describe("Calendar module", function () {
 
 	describe("Basic auth by default", function () {
 		before(function () {
-			serverBasicAuth.listen(8011);
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/auth-default.js";
-		});
-
-		after(function (done) {
-			serverBasicAuth.close(done());
 		});
 
 		it("should return TestEvents", function () {
@@ -110,13 +116,8 @@ describe("Calendar module", function () {
 
 	describe("Basic auth backward compatibility configuration: DEPRECATED", function () {
 		before(function () {
-			serverBasicAuth.listen(8012);
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/old-basic-auth.js";
-		});
-
-		after(function (done) {
-			serverBasicAuth.close(done());
 		});
 
 		it("should return TestEvents", function () {

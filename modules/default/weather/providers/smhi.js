@@ -14,6 +14,13 @@
 WeatherProvider.register("smhi", {
 	providerName: "SMHI",
 
+	// Set the default config properties that is specific to this provider
+	defaults: {
+		lat: 0,
+		lon: 0,
+		precipitationValue: "pmedian"
+	},
+
 	/**
 	 * Implements method in interface for fetching current weather
 	 */
@@ -55,7 +62,7 @@ WeatherProvider.register("smhi", {
 		this.config = config;
 		if (!config.precipitationValue || ["pmin", "pmean", "pmedian", "pmax"].indexOf(config.precipitationValue) == -1) {
 			console.log("invalid or not set: " + config.precipitationValue);
-			config.precipitationValue = "pmedian";
+			config.precipitationValue = this.defaults.precipitationValue;
 		}
 	},
 

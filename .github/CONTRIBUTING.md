@@ -25,13 +25,14 @@ To run StyleLint, use `npm run lint:style`.
 Please only submit reproducible issues.
 
 If you're not sure if it's a real bug or if it's just you, please open a topic on the forum: [https://forum.magicmirror.builders/category/15/bug-hunt](https://forum.magicmirror.builders/category/15/bug-hunt)
+
 Problems installing or configuring your MagicMirror? Check out: [https://forum.magicmirror.builders/category/10/troubleshooting](https://forum.magicmirror.builders/category/10/troubleshooting)
 
 When submitting a new issue, please supply the following information:
 
-**Platform**: Place your platform here... give us your web browser/Electron version _and_ your hardware (Raspberry Pi 2/3, Windows, Mac, Linux, System V UNIX).
+**Platform**: Place your platform here... give us your web browser/Electron version _and_ your hardware (Raspberry Pi 2/3/4, Windows, Mac, Linux, System V UNIX).
 
-**Node Version**: Make sure it's version 0.12.13 or later.
+**Node Version**: Make sure it's version 10 or later.
 
 **MagicMirror Version**: Now that the versions have split, tell us if you are using the PHP version (v1) or the newer JavaScript version (v2).
 

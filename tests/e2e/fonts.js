@@ -1,5 +1,5 @@
 const helpers = require("./global-setup");
-const request = require("request");
+const fetch = require("node-fetch");
 const expect = require("chai").expect;
 const forEach = require("mocha-each");
 
@@ -40,8 +40,8 @@ describe("All font files from roboto.css should be downloadable", function () {
 
 	forEach(fontFiles).it("should return 200 HTTP code for file '%s'", (fontFile, done) => {
 		var fontUrl = "http://localhost:8080/fonts/" + fontFile;
-		request.get(fontUrl, function (err, res, body) {
-			expect(res.statusCode).to.equal(200);
+		fetch(fontUrl).then((res) => {
+			expect(res.status).to.equal(200);
 			done();
 		});
 	});

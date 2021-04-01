@@ -4,22 +4,23 @@
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-var fs = require("fs");
-var path = require("path");
-var Log = require(__dirname + "/logger.js");
-var Server = require(__dirname + "/server.js");
-var Utils = require(__dirname + "/utils.js");
-var defaultModules = require(__dirname + "/../modules/default/defaultmodules.js");
 
 // Alias modules mentioned in package.js under _moduleAliases.
 require("module-alias/register");
 
+const fs = require("fs");
+const path = require("path");
+const Log = require("logger");
+const Server = require(`${__dirname}/server`);
+const Utils = require(`${__dirname}/utils`);
+const defaultModules = require(`${__dirname}/../modules/default/defaultmodules`);
+
 // Get version number.
-global.version = JSON.parse(fs.readFileSync("package.json", "utf8")).version;
+global.version = require(`${__dirname}/../package.json`).version;
 Log.log("Starting MagicMirror: v" + global.version);
 
 // global absolute root path
-global.root_path = path.resolve(__dirname + "/../");
+global.root_path = path.resolve(`${__dirname}/../`);
 
 if (process.env.MM_CONFIG_FILE) {
 	global.configuration_file = process.env.MM_CONFIG_FILE;
@@ -45,43 +46,40 @@ process.on("uncaughtException", function (err) {
  *
  * @class
  */
-var App = function () {
-	var nodeHelpers = [];
+function App() {
+	let nodeHelpers = [];
 
 	/**
-	 * Loads the config file. Combines it with the defaults,  and runs the
+	 * Loads the config file. Combines it with the defaults, and runs the
 	 * callback with the found config as argument.
 	 *
 	 * @param {Function} callback Function to be called after loading the config
 	 */
-	var loadConfig = function (callback) {
+	function loadConfig(callback) {
 		Log.log("Loading config ...");
-		var defaults = require(__dirname + "/defaults.js");
+		const defaults = require(`${__dirname}/defaults`);
 
 		// For this check proposed to TestSuite
 		// https://forum.magicmirror.builders/topic/1456/test-suite-for-magicmirror/8
-		var configFilename = path.resolve(global.root_path + "/config/config.js");
-		if (typeof global.configuration_file !== "undefined") {
-			configFilename = path.resolve(global.configuration_file);
-		}
+		const configFilename = path.resolve(global.configuration_file || `${global.root_path}/config/config.js`);
 
 		try {
 			fs.accessSync(configFilename, fs.F_OK);
-			var c = require(configFilename);
+			const c = require(configFilename);
 			checkDeprecatedOptions(c);
-			var config = Object.assign(defaults, c);
+			const config = Object.assign(defaults, c);
 			callback(config);
 		} catch (e) {
 			if (e.code === "ENOENT") {
 				Log.error(Utils.colors.error("WARNING! Could not find config file. Please create one. Starting with default configuration."));
 			} else if (e instanceof ReferenceError || e instanceof SyntaxError) {
-				Log.error(Utils.colors.error("WARNING! Could not validate config file. Starting with default configuration. Please correct syntax errors at or above this line: " + e.stack));
+				Log.error(Utils.colors.error(`WARNING! Could not validate config file. Starting with default configuration. Please correct syntax errors at or above this line: ${e.stack}`));
 			} else {
-				Log.error(Utils.colors.error("WARNING! Could not load config file. Starting with default configuration. Error found: " + e));
+				Log.error(Utils.colors.error(`WARNING! Could not load config file. Starting with default configuration. Error found: ${e}`));
 			}
 			callback(defaults);
 		}
-	};
+	}
 
 	/**
 	 * Checks the config for deprecated options and throws a warning in the logs
@@ -89,21 +87,15 @@ var App = function () {
 	 *
 	 * @param {object} userConfig The user config
 	 */
-	var checkDeprecatedOptions = function (userConfig) {
-		var deprecated = require(global.root_path + "/js/deprecated.js");
-		var deprecatedOptions = deprecated.configs;
+	function checkDeprecatedOptions(userConfig) {
+		const deprecated = require(`${global.root_path}/js/deprecated`);
+		const deprecatedOptions = deprecated.configs;
 
-		var usedDeprecated = [];
-
-		deprecatedOptions.forEach(function (option) {
-			if (userConfig.hasOwnProperty(option)) {
-				usedDeprecated.push(option);
-			}
-		});
+		const usedDeprecated = deprecatedOptions.filter((option) => userConfig.hasOwnProperty(option));
 		if (usedDeprecated.length > 0) {
-			Log.warn(Utils.colors.warn("WARNING! Your config is using deprecated options: " + usedDeprecated.join(", ") + ". Check README and CHANGELOG for more up-to-date ways of getting the same functionality."));
+			Log.warn(Utils.colors.warn(`WARNING! Your config is using deprecated options: ${usedDeprecated.join(", ")}. Check README and CHANGELOG for more up-to-date ways of getting the same functionality.`));
 		}
-	};
+	}
 
 	/**
 	 * Loads a specific module.
@@ -111,35 +103,35 @@ var App = function () {
 	 * @param {string} module The name of the module (including subpath).
 	 * @param {Function} callback Function to be called after loading
 	 */
-	var loadModule = function (module, callback) {
-		var elements = module.split("/");
-		var moduleName = elements[elements.length - 1];
-		var moduleFolder = __dirname + "/../modules/" + module;
+	function loadModule(module, callback) {
+		const elements = module.split("/");
+		const moduleName = elements[elements.length - 1];
+		let moduleFolder = `${__dirname}/../modules/${module}`;
 
-		if (defaultModules.indexOf(moduleName) !== -1) {
-			moduleFolder = __dirname + "/../modules/default/" + module;
+		if (defaultModules.includes(moduleName)) {
+			moduleFolder = `${__dirname}/../modules/default/${module}`;
 		}
 
-		var helperPath = moduleFolder + "/node_helper.js";
+		const helperPath = `${moduleFolder}/node_helper.js`;
 
-		var loadModule = true;
+		let loadHelper = true;
 		try {
 			fs.accessSync(helperPath, fs.R_OK);
 		} catch (e) {
-			loadModule = false;
-			Log.log("No helper found for module: " + moduleName + ".");
+			loadHelper = false;
+			Log.log(`No helper found for module: ${moduleName}.`);
 		}
 
-		if (loadModule) {
-			var Module = require(helperPath);
-			var m = new Module();
+		if (loadHelper) {
+			const Module = require(helperPath);
+			let m = new Module();
 
 			if (m.requiresVersion) {
-				Log.log("Check MagicMirror version for node helper '" + moduleName + "' - Minimum version:  " + m.requiresVersion + " - Current version: " + global.version);
+				Log.log(`Check MagicMirror version for node helper '${moduleName}' - Minimum version: ${m.requiresVersion} - Current version: ${global.version}`);
 				if (cmpVersions(global.version, m.requiresVersion) >= 0) {
 					Log.log("Version is ok!");
 				} else {
-					Log.log("Version is incorrect. Skip module: '" + moduleName + "'");
+					Log.warn(`Version is incorrect. Skip module: '${moduleName}'`);
 					return;
 				}
 			}
@@ -152,7 +144,7 @@ var App = function () {
 		} else {
 			callback();
 		}
-	};
+	}
 
 	/**
 	 * Loads all modules.
@@ -160,12 +152,15 @@ var App = function () {
 	 * @param {Module[]} modules All modules to be loaded
 	 * @param {Function} callback Function to be called after loading
 	 */
-	var loadModules = function (modules, callback) {
+	function loadModules(modules, callback) {
 		Log.log("Loading module helpers ...");
 
-		var loadNextModule = function () {
+		/**
+		 *
+		 */
+		function loadNextModule() {
 			if (modules.length > 0) {
-				var nextModule = modules[0];
+				const nextModule = modules[0];
 				loadModule(nextModule, function () {
 					modules = modules.slice(1);
 					loadNextModule();
@@ -175,10 +170,10 @@ var App = function () {
 				Log.log("All module helpers loaded.");
 				callback();
 			}
-		};
+		}
 
 		loadNextModule();
-	};
+	}
 
 	/**
 	 * Compare two semantic version numbers and return the difference.
@@ -190,11 +185,11 @@ var App = function () {
 	 * number if a is smaller and 0 if they are the same
 	 */
 	function cmpVersions(a, b) {
-		var i, diff;
-		var regExStrip0 = /(\.0+)+$/;
-		var segmentsA = a.replace(regExStrip0, "").split(".");
-		var segmentsB = b.replace(regExStrip0, "").split(".");
-		var l = Math.min(segmentsA.length, segmentsB.length);
+		let i, diff;
+		const regExStrip0 = /(\.0+)+$/;
+		const segmentsA = a.replace(regExStrip0, "").split(".");
+		const segmentsB = b.replace(regExStrip0, "").split(".");
+		const l = Math.min(segmentsA.length, segmentsB.length);
 
 		for (i = 0; i < l; i++) {
 			diff = parseInt(segmentsA[i], 10) - parseInt(segmentsB[i], 10);
@@ -219,21 +214,19 @@ var App = function () {
 
 			Log.setLogLevel(config.logLevel);
 
-			var modules = [];
+			let modules = [];
 
-			for (var m in config.modules) {
-				var module = config.modules[m];
-				if (modules.indexOf(module.module) === -1 && !module.disabled) {
+			for (const module of config.modules) {
+				if (!modules.includes(module.module) && !module.disabled) {
 					modules.push(module.module);
 				}
 			}
 
 			loadModules(modules, function () {
-				var server = new Server(config, function (app, io) {
+				const server = new Server(config, function (app, io) {
 					Log.log("Server started ...");
 
-					for (var h in nodeHelpers) {
-						var nodeHelper = nodeHelpers[h];
+					for (let nodeHelper of nodeHelpers) {
 						nodeHelper.setExpressApp(app);
 						nodeHelper.setSocketIO(io);
 						nodeHelper.start();
@@ -256,8 +249,7 @@ var App = function () {
 	 * Added to fix #1056
 	 */
 	this.stop = function () {
-		for (var h in nodeHelpers) {
-			var nodeHelper = nodeHelpers[h];
+		for (const nodeHelper of nodeHelpers) {
 			if (typeof nodeHelper.stop === "function") {
 				nodeHelper.stop();
 			}
@@ -292,6 +284,6 @@ var App = function () {
 		this.stop();
 		process.exit(0);
 	});
-};
+}
 
 module.exports = new App();

@@ -1,25 +1,26 @@
 {
 	"name": "magicmirror",
-	"version": "2.14.0",
+	"version": "2.15.0",
 	"description": "The open source modular smart mirror platform.",
 	"main": "js/electron.js",
 	"scripts": {
 		"start": "DISPLAY=\"${DISPLAY:=:0}\" ./node_modules/.bin/electron js/electron.js",
+		"start:dev": "DISPLAY=\"${DISPLAY:=:0}\" ./node_modules/.bin/electron js/electron.js dev",
 		"server": "node ./serveronly",
 		"install": "echo \"Installing vendor files ...\n\" && cd vendor && npm install --loglevel=error",
 		"install-fonts": "echo \"Installing fonts ...\n\" && cd fonts && npm install --loglevel=error",
 		"postinstall": "npm run install-fonts && echo \"MagicMirror installation finished successfully! \n\"",
 		"test": "NODE_ENV=test mocha tests --recursive",
-		"test:coverage": "NODE_ENV=test nyc mocha tests --recursive --timeout=3000",
+		"test:coverage": "NODE_ENV=test nyc --reporter=lcov --reporter=text mocha tests --recursive --timeout=3000",
 		"test:e2e": "NODE_ENV=test mocha tests/e2e --recursive",
 		"test:unit": "NODE_ENV=test mocha tests/unit --recursive",
 		"test:prettier": "prettier --check **/*.{js,css,json,md,yml}",
-		"test:js": "eslint *.js js/**/*.js modules/default/**/*.js clientonly/*.js serveronly/*.js translations/*.js vendor/*.js tests/**/*.js config/* --config .eslintrc.json --quiet",
+		"test:js": "eslint js/**/*.js modules/default/**/*.js clientonly/*.js serveronly/*.js translations/*.js vendor/*.js tests/**/*.js config/* --config .eslintrc.json --quiet",
 		"test:css": "stylelint css/main.css modules/default/**/*.css --config .stylelintrc.json",
 		"test:calendar": "node ./modules/default/calendar/debug.js",
 		"config:check": "node js/check_config.js",
 		"lint:prettier": "prettier --write **/*.{js,css,json,md,yml}",
-		"lint:js": "eslint *.js js/**/*.js modules/default/**/*.js clientonly/*.js serveronly/*.js translations/*.js vendor/*.js tests/**/*.js config/* --config .eslintrc.json --fix",
+		"lint:js": "eslint js/**/*.js modules/default/**/*.js clientonly/*.js serveronly/*.js translations/*.js vendor/*.js tests/**/*.js config/* --config .eslintrc.json --fix",
 		"lint:css": "stylelint css/main.css modules/default/**/*.css --config .stylelintrc.json --fix"
 	},
 	"repository": {
@@ -42,53 +43,56 @@
 	},
 	"homepage": "https://magicmirror.builders",
 	"devDependencies": {
-		"chai": "^4.2.0",
+		"chai": "^4.3.4",
 		"chai-as-promised": "^7.1.1",
-		"danger": "^10.5.4",
-		"eslint-config-prettier": "^7.0.0",
-		"eslint-plugin-jsdoc": "^30.7.8",
-		"eslint-plugin-prettier": "^3.2.0",
+		"eslint-config-prettier": "^8.1.0",
+		"eslint-plugin-jsdoc": "^32.3.0",
+		"eslint-plugin-prettier": "^3.3.1",
 		"express-basic-auth": "^1.2.0",
-		"husky": "^4.3.5",
-		"jsdom": "^16.4.0",
-		"lodash": "^4.17.20",
-		"mocha": "^8.2.1",
+		"husky": "^4.3.8",
+		"jsdom": "^16.5.1",
+		"lodash": "^4.17.21",
+		"mocha": "^8.3.2",
 		"mocha-each": "^2.0.1",
 		"mocha-logger": "^1.0.7",
 		"nyc": "^15.1.0",
 		"prettier": "^2.2.1",
 		"pretty-quick": "^3.1.0",
-		"spectron": "^10.0.1",
-		"stylelint": "^13.8.0",
+		"sinon": "^10.0.0",
+		"spectron": "^13.0.0",
+		"stylelint": "^13.12.0",
 		"stylelint-config-prettier": "^8.0.2",
-		"stylelint-config-standard": "^20.0.0",
-		"stylelint-prettier": "^1.1.2"
+		"stylelint-config-standard": "^21.0.0",
+		"stylelint-prettier": "^1.2.0"
 	},
 	"optionalDependencies": {
-		"electron": "^8.5.3"
+		"electron": "^11.3.0"
 	},
 	"dependencies": {
 		"colors": "^1.4.0",
 		"console-stamp": "^3.0.0-rc4.2",
-		"eslint": "^7.15.0",
+		"digest-fetch": "^1.1.6",
+		"eslint": "^7.23.0",
 		"express": "^4.17.1",
 		"express-ipfilter": "^1.1.2",
 		"feedme": "^2.0.2",
-		"helmet": "^4.2.0",
-		"ical": "^0.8.0",
+		"helmet": "^4.4.1",
 		"iconv-lite": "^0.6.2",
 		"module-alias": "^2.2.2",
 		"moment": "^2.29.1",
-		"node-ical": "^0.12.7",
-		"request": "^2.88.2",
-		"rrule": "^2.6.6",
+		"node-fetch": "^2.6.1",
+		"node-ical": "^0.12.9",
+		"rrule": "^2.6.8",
 		"rrule-alt": "^2.2.8",
-		"simple-git": "^2.31.0",
-		"socket.io": "^3.0.4",
-		"valid-url": "^1.0.9"
+		"simple-git": "^2.37.0",
+		"socket.io": "^4.0.0"
 	},
 	"_moduleAliases": {
-		"node_helper": "js/node_helper.js"
+		"node_helper": "js/node_helper.js",
+		"logger": "js/logger.js"
+	},
+	"engines": {
+		"node": ">=10"
 	},
 	"husky": {
 		"hooks": {

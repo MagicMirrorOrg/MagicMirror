@@ -11,9 +11,9 @@ const linter = new Linter();
 const path = require("path");
 const fs = require("fs");
 
-const rootPath = path.resolve(__dirname + "/../");
-const Log = require(rootPath + "/js/logger.js");
-const Utils = require(rootPath + "/js/utils.js");
+const rootPath = path.resolve(`${__dirname}/../`);
+const Log = require(`${rootPath}/js/logger.js`);
+const Utils = require(`${rootPath}/js/utils.js`);
 
 /**
  * Returns a string with path of configuration file.
@@ -23,11 +23,7 @@ const Utils = require(rootPath + "/js/utils.js");
  */
 function getConfigFile() {
 	// FIXME: This function should be in core. Do you want refactor me ;) ?, be good!
-	let configFileName = path.resolve(rootPath + "/config/config.js");
-	if (process.env.MM_CONFIG_FILE) {
-		configFileName = path.resolve(process.env.MM_CONFIG_FILE);
-	}
-	return configFileName;
+	return path.resolve(process.env.MM_CONFIG_FILE || `${rootPath}/config/config.js`);
 }
 
 /**
@@ -54,21 +50,18 @@ function checkConfigFile() {
 	Log.info(Utils.colors.info("Checking file... "), configFileName);
 
 	// I'm not sure if all ever is utf-8
-	fs.readFile(configFileName, "utf-8", function (err, data) {
-		if (err) {
-			throw err;
+	const configFile = fs.readFileSync(configFileName, "utf-8");
+
+	const errors = linter.verify(configFile);
+	if (errors.length === 0) {
+		Log.info(Utils.colors.pass("Your configuration file doesn't contain syntax errors :)"));
+	} else {
+		Log.error(Utils.colors.error("Your configuration file contains syntax errors :("));
+
+		for (const error of errors) {
+			Log.error(`Line ${error.line} column ${error.column}: ${error.message}`);
 		}
-		const messages = linter.verify(data);
-		if (messages.length === 0) {
-			Log.info(Utils.colors.pass("Your configuration file doesn't contain syntax errors :)"));
-		} else {
-			Log.error(Utils.colors.error("Your configuration file contains syntax errors :("));
-			// In case the there errors show messages and return
-			messages.forEach((error) => {
-				Log.error("Line", error.line, "col", error.column, error.message);
-			});
-		}
-	});
+	}
 }
 
 checkConfigFile();

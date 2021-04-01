@@ -10,10 +10,10 @@
     "url": "https://github.com/MichMich/MagicMirror/issues"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.15.1",
+    "@fortawesome/fontawesome-free": "^5.15.3",
     "moment": "^2.29.1",
-    "moment-timezone": "^0.5.32",
-    "nunjucks": "^3.2.2",
+    "moment-timezone": "^0.5.33",
+    "nunjucks": "^3.2.3",
     "suncalc": "^1.8.0",
     "weathericons": "^2.1.0"
   }
