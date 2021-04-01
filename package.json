@@ -81,7 +81,7 @@
 		"module-alias": "^2.2.2",
 		"moment": "^2.29.1",
 		"node-fetch": "^2.6.1",
-		"node-ical": "^0.12.9",
+		"node-ical": "^0.13.0",
 		"rrule": "^2.6.8",
 		"rrule-alt": "^2.2.8",
 		"simple-git": "^2.37.0",
