@@ -13,6 +13,8 @@ _This release is scheduled to be released on 2021-04-01._
 
 ### Updated
 
+- Bump node-ical to v0.13.0 (now last runtime dependency using deprecated `request` package is removed).
+
 ### Removed
 
 ### Fixed
