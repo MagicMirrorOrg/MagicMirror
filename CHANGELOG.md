@@ -5,9 +5,11 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror²
 
-## [2.15.0] - Unreleased (Develop Branch)
+## [2.15.0] - 2021-04-01
 
-_This release is scheduled to be released on 2021-04-01._
+Special thanks to the following contributors: @EdgardosReis, @MystaraTheGreat, @TheDuffman85, @ashishtank, @buxxi, @codac, @fewieden, @khassel, @klaernie, @qu1que, @rejas, @sdetweil & @thomasrockhu.
+
+ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`.
 
 ### Added
 
@@ -18,30 +20,30 @@ _This release is scheduled to be released on 2021-04-01._
 - Added `start:dev` command to the npm scripts for starting electron with devTools open.
 - Added logging when using deprecated modules weatherforecast or currentweather.
 - Added Portuguese translations for "MODULE_CONFIG_CHANGED" and "PRECIP".
-- Respect parameter ColoredSymbolOnly also for custom events
-- Added a new parameter to hide time portion on relative times
+- Respect parameter ColoredSymbolOnly also for custom events.
+- Added a new parameter to hide time portion on relative times.
 - `module.show` has now the option for a callback on error.
-- Added locale to sample config file
-- Added support for self-signed certificates for the default calendar module (#466)
-- Added hiddenOnStartup flag to module config (#2475)
+- Added locale to sample config file.
+- Added support for self-signed certificates for the default calendar module (#466).
+- Added hiddenOnStartup flag to module config (#2475).
 
 ### Updated
 
 - Updated markdown files for github.
 - Cleaned up old code on server side.
 - Convert `-0` to `0` when displaying temperature.
-- Code cleanup for FEELS like and added {DEGREE} placeholder for FEELSLIKE for each language
+- Code cleanup for FEELS like and added {DEGREE} placeholder for FEELSLIKE for each language.
 - Converted newsfeed module to use templates.
 - Updated documentation and help screen about invalid config files.
 - Moving weather provider specific code and configuration into each provider and making hourly part of the interface.
 - Bump electron to v11 and enable contextIsolation.
 - Don't update the DOM when a module is not displayed.
 - Cleaned up jsdoc and tests.
-- Exposed logger as node module for easier access for 3rd party modules
-- Replaced deprecated `request` package with `node-fetch` and `digest-fetch`
-- Refactored calendar fetcher
-- Cleaned up newsfeed module
-- Cleaned up translations and translator code
+- Exposed logger as node module for easier access for 3rd party modules.
+- Replaced deprecated `request` package with `node-fetch` and `digest-fetch`.
+- Refactored calendar fetcher.
+- Cleaned up newsfeed module.
+- Cleaned up translations and translator code.
 
 ### Removed
 
@@ -52,20 +54,20 @@ _This release is scheduled to be released on 2021-04-01._
 ### Fixed
 
 - Added default log levels to stop calendar log spamming.
-- Fix socket.io cors errors, see [breaking change since socket.io v3](https://socket.io/docs/v3/handling-cors/)
-- Fix Issue with weather forecast icons due to fixed day start and end time (#2221)
-- Fix empty directory for each module's main javascript file in the inspector
-- Fix Issue with weather forecast icons unit tests with different timezones (#2221)
-- Fix issue with unencoded characters in translated strings when using nunjuck template (`Loading &hellip;` as an example)
-- Fix socket.io backward compatibility with socket v2 clients
-- Fix 3rd party module language loading if language is English
-- Fix e2e tests after spectron update
-- Fix updatenotification creating zombie processes by setting a timeout for the git process
+- Fix socket.io cors errors, see [breaking change since socket.io v3](https://socket.io/docs/v3/handling-cors/).
+- Fix Issue with weather forecast icons due to fixed day start and end time (#2221).
+- Fix empty directory for each module's main javascript file in the inspector.
+- Fix Issue with weather forecast icons unit tests with different timezones (#2221).
+- Fix issue with unencoded characters in translated strings when using nunjuck template (`Loading &hellip;` as an example).
+- Fix socket.io backward compatibility with socket v2 clients.
+- Fix 3rd party module language loading if language is English.
+- Fix e2e tests after spectron update.
+- Fix updatenotification creating zombie processes by setting a timeout for the git process.
 - Fix weather module openweathermap not loading if lat and lon set without onecall.
-- Fix calendar daylight savings offset calculation if recurring start date before 2007
-- Fix calendar time/date adjustment when time with GMT offset is different day (#2488)
-- Fix calendar daylight savings offset calculation if recurring FULL DAY start date before 2007 (#2483)
-- Fix newsreaders template, for wrong test for nowrap in 2 places (should be if not)
+- Fix calendar daylight savings offset calculation if recurring start date before 2007.
+- Fix calendar time/date adjustment when time with GMT offset is different day (#2488).
+- Fix calendar daylight savings offset calculation if recurring FULL DAY start date before 2007 (#2483).
+- Fix newsreaders template, for wrong test for nowrap in 2 places (should be if not).
 
 ## [2.14.0] - 2021-01-01
 
