@@ -82,6 +82,7 @@ Special thanks to the following contributors: @EdgardosReis, @MystaraTheGreat, @
 - Fix calendar time/date adjustment when time with GMT offset is different day (#2488).
 - Fix calendar daylight savings offset calculation if recurring FULL DAY start date before 2007 (#2483).
 - Fix newsreaders template, for wrong test for nowrap in 2 places (should be if not).
+- Fix calendar start function logging inconsistency
 
 ## [2.14.0] - 2021-01-01
 
