@@ -84,7 +84,7 @@ Module.register("calendar", {
 
 	// Override start method.
 	start: function () {
-		Log.log("Starting module: " + this.name);
+		Log.info("Starting module: " + this.name);
 
 		// Set locale.
 		moment.updateLocale(config.language, this.getLocaleSpecification(config.timeFormat));
