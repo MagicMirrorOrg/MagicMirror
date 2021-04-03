@@ -1,8 +1,24 @@
+@import url("https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700&display=swap");
+:root {
+  --text-xs: 0.667rem;
+  --text-sm: 1rem;
+  --text-md: 1.5rem;
+  --text-lg: 2.25rem;
+  --text-xl: 3.375rem;
+  --text-xxl: 5.063rem;
+  --text-lh: 1.5;
+
+  --grid-gap: 2rem;
+  --color-text-body: #aaa;
+  --color-text-bright: #fff;
+  --color-text-normal: #999;
+  --color-text-dimmed: #666;
+  --color-background: #000;
+}
+
 html {
   cursor: none;
-  overflow: hidden;
-  background: #000;
-  user-select: none;
+  font-size: 24px;
 }
 
 ::-webkit-scrollbar {
@@ -10,13 +26,14 @@ html {
 }
 
 body {
-  margin: 60px;
-  position: absolute;
-  height: calc(100% - 120px);
-  width: calc(100% - 120px);
-  background: #000;
-  color: #aaa;
-  font-family: "Roboto Condensed", sans-serif;
+  background-color: var(--color-background);
+  box-sizing: border-box;
+  margin: 0;
+  padding: 6vh 4vw 4vh;
+  height: 100vh;
+  width: 100vw;
+  color: var(--color-text-body);
+  font-family: "Quicksand", sans-serif;
   font-weight: 400;
   font-size: 2em;
   line-height: 1.5em;
@@ -28,41 +45,40 @@ body {
  */
 
 .dimmed {
-  color: #666;
+  color: var(--color-text-dimmed);
 }
 
 .normal {
-  color: #999;
+  color: var(--color-text-normal);
 }
 
 .bright {
-  color: #fff;
+  color: var(--color-text-bright);
 }
 
 .xsmall {
-  font-size: 15px;
-  line-height: 20px;
+  font-size: var(--text-xs);
+  line-height: var(--text-lh);
 }
-
 .small {
-  font-size: 20px;
-  line-height: 25px;
+  font-size: var(--text-sm);
+  line-height: var(--text-lh);
 }
-
 .medium {
-  font-size: 30px;
-  line-height: 35px;
+  font-size: var(--text-md);
+  line-height: var(--text-lh);
 }
-
 .large {
-  font-size: 65px;
-  line-height: 65px;
+  font-size: var(--text-lg);
+  line-height: var(--text-lh);
 }
-
 .xlarge {
-  font-size: 75px;
-  line-height: 75px;
-  letter-spacing: -3px;
+  font-size: var(--text-xl);
+  line-height: var(--text-lh);
+}
+.xxlarge {
+  font-size: var(--text-xxl);
+  line-height: var(--text-lh);
 }
 
 .thin {
@@ -71,17 +87,17 @@ body {
 }
 
 .light {
-  font-family: "Roboto Condensed", sans-serif;
+  font-family: "Quicksand", sans-serif;
   font-weight: 300;
 }
 
 .regular {
-  font-family: "Roboto Condensed", sans-serif;
+  font-family: "Quicksand", sans-serif;
   font-weight: 400;
 }
 
 .bold {
-  font-family: "Roboto Condensed", sans-serif;
+  font-family: "Quicksand", sans-serif;
   font-weight: 700;
 }
 
@@ -96,7 +112,7 @@ body {
 header {
   text-transform: uppercase;
   font-size: 15px;
-  font-family: "Roboto Condensed", Arial, Helvetica, sans-serif;
+  font-family: "Quicksand", Arial, Helvetica, sans-serif;
   font-weight: 400;
   border-bottom: 1px solid #666;
   line-height: 15px;
@@ -134,103 +150,55 @@ sup {
 }
 
 /**
- * Region Definitions.
+ *
+ * LAYOUT STUFF
+ *
  */
-
-.region {
-  position: absolute;
-}
 
 .region.fullscreen {
   position: absolute;
-  top: -60px;
-  left: -60px;
-  right: -60px;
-  bottom: -60px;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
   pointer-events: none;
 }
-
 .region.fullscreen * {
   pointer-events: auto;
-}
-
-.region.right {
-  right: 0;
-  text-align: right;
-}
-
-.region.top {
-  top: 0;
-}
-
-.region.top .container {
-  margin-bottom: 25px;
-}
-
-.region.bottom .container {
-  margin-top: 25px;
-}
-
-.region.top .container:empty {
-  margin-bottom: 0;
-}
-
-.region.top.center,
-.region.bottom.center {
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.region.top.right,
-.region.top.left,
-.region.top.center {
-  top: 100%;
-}
-
-.region.bottom {
-  bottom: 0;
-}
-
-.region.bottom .container:empty {
-  margin-top: 0;
-}
-
-.region.bottom.right,
-.region.bottom.center,
-.region.bottom.left {
-  bottom: 100%;
-}
-
-.region.bar {
-  width: 100%;
-  text-align: center;
-}
-
-.region.third,
-.region.middle.center {
-  width: 100%;
-  text-align: center;
-  transform: translateY(-50%);
-}
-
-.region.upper.third {
-  top: 33%;
-}
-
-.region.middle.center {
-  top: 50%;
-}
-
-.region.lower.third {
-  top: 66%;
-}
-
-.region.left {
-  text-align: left;
 }
 
 .region table {
   width: 100%;
   border-spacing: 0;
   border-collapse: separate;
+}
+
+body {
+  display: grid;
+  grid-gap: var(--grid-gap);
+  grid-template-rows: repeat(5, 1fr);
+}
+
+.top.bar {
+  display: grid;
+  grid-gap: var(--grid-gap);
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.top.bar > .container {
+  grid-column: 1 / -1;
+}
+
+.bottom.bar {
+  display: grid;
+  grid-gap: var(--grid-gap);
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.region {
+  /* for testing */
+  /* border: 1px solid white;  */
 }
