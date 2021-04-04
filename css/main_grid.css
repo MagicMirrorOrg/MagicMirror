@@ -1,0 +1,205 @@
+@import url("https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700&display=swap");
+:root {
+  --text-xs: 0.667rem;
+  --text-sm: 1rem;
+  --text-md: 1.5rem;
+  --text-lg: 2.25rem;
+  --text-xl: 3.375rem;
+  --text-xxl: 5.063rem;
+  --text-lh: 1.5;
+
+  --grid-gap: 2rem;
+  --color-text-body: #aaa;
+  --color-text-bright: #fff;
+  --color-text-normal: #999;
+  --color-text-dimmed: #666;
+  --color-background: #000;
+}
+
+html {
+  cursor: none;
+  font-size: 24px;
+  background-color: var(--color-background);
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  background-color: var(--color-background);
+  box-sizing: border-box;
+  margin: 0;
+  padding: 6vh 4vw 4vh;
+  height: 100vh;
+  width: 100vw;
+  color: var(--color-text-body);
+  font-family: "Quicksand", sans-serif;
+  font-weight: 400;
+  font-size: 2em;
+  line-height: 1.5em;
+  -webkit-font-smoothing: antialiased;
+}
+
+/**
+ * Default styles.
+ */
+
+.dimmed {
+  color: var(--color-text-dimmed);
+}
+
+.normal {
+  color: var(--color-text-normal);
+}
+
+.bright {
+  color: var(--color-text-bright);
+}
+
+.xsmall {
+  font-size: var(--text-xs);
+  line-height: var(--text-lh);
+}
+.small {
+  font-size: var(--text-sm);
+  line-height: var(--text-lh);
+}
+.medium {
+  font-size: var(--text-md);
+  line-height: var(--text-lh);
+}
+.large {
+  font-size: var(--text-lg);
+  line-height: var(--text-lh);
+}
+.xlarge {
+  font-size: var(--text-xl);
+  line-height: var(--text-lh);
+}
+.xxlarge {
+  font-size: var(--text-xxl);
+  line-height: var(--text-lh);
+}
+
+.thin {
+  font-family: Roboto, sans-serif;
+  font-weight: 100;
+}
+
+.light {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 300;
+}
+
+.regular {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 400;
+}
+
+.bold {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 700;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.align-left {
+  text-align: left;
+}
+
+header {
+  text-transform: uppercase;
+  font-size: 15px;
+  font-family: "Quicksand", Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  border-bottom: 1px solid #666;
+  line-height: 15px;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+  color: #999;
+}
+
+sup {
+  font-size: 50%;
+  line-height: 50%;
+}
+
+/**
+ * Module styles.
+ */
+
+.module {
+  margin-bottom: 30px;
+}
+
+.region.bottom .module {
+  margin-top: 30px;
+  margin-bottom: 0;
+}
+
+.no-wrap {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pre-line {
+  white-space: pre-line;
+}
+
+/**
+ *
+ * LAYOUT STUFF
+ *
+ */
+
+.region.fullscreen {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+.region.fullscreen * {
+  pointer-events: auto;
+}
+
+.region table {
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: separate;
+}
+
+body {
+  display: grid;
+  grid-gap: var(--grid-gap);
+  grid-template-rows: repeat(5, 1fr);
+}
+
+.top.bar {
+  display: grid;
+  grid-gap: var(--grid-gap);
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.top.bar > .container {
+  grid-column: 1 / -1;
+}
+
+.bottom.bar {
+  display: grid;
+  grid-gap: var(--grid-gap);
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.region {
+  /* for testing */
+  /* border: 1px solid white;  */
+}
