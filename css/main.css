@@ -1,6 +1,7 @@
 :root {
   --color-text: #fff;
   --color-background: black;
+  --base: 20px;
 }
 
 html {
@@ -8,6 +9,7 @@ html {
   overflow: hidden;
   background: var(--color-background);
   user-select: none;
+  font-size: var(--base);
 }
 
 ::-webkit-scrollbar {
@@ -23,8 +25,7 @@ body {
   color: var(--color-text);
   font-family: "Roboto Condensed", sans-serif;
   font-weight: 400;
-  font-size: 2em;
-  line-height: 1.5em;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -48,27 +49,27 @@ body {
 }
 
 .xsmall {
-  font-size: 15px;
+  font-size: 0.667rem;
   line-height: 1.4;
 }
 
 .small {
-  font-size: 20px;
+  font-size: 1rem;
   line-height: 1.4;
 }
 
 .medium {
-  font-size: 30px;
+  font-size: 1.5rem;
   line-height: 1.4;
 }
 
 .large {
-  font-size: 65px;
+  font-size: 2.25rem;
   line-height: 1;
 }
 
 .xlarge {
-  font-size: 75px;
+  font-size: 3.375rem;
   line-height: 1;
   letter-spacing: -3px;
 }
