@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## [2.16.0] -
 
 ### Fixed
+
 - Fix calendar start function logging inconsistency
 - Fix updatenotification start function logging inconsistency
 
