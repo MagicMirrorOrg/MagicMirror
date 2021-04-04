@@ -49,27 +49,27 @@ body {
 
 .xsmall {
   font-size: 15px;
-  line-height: 20px;
+  line-height: 1.4;
 }
 
 .small {
   font-size: 20px;
-  line-height: 25px;
+  line-height: 1.4;
 }
 
 .medium {
   font-size: 30px;
-  line-height: 35px;
+  line-height: 1.4;
 }
 
 .large {
   font-size: 65px;
-  line-height: 65px;
+  line-height: 1;
 }
 
 .xlarge {
   font-size: 75px;
-  line-height: 75px;
+  line-height: 1;
   letter-spacing: -3px;
 }
 
