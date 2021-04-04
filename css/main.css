@@ -1,7 +1,12 @@
+:root {
+  --color-text: #fff;
+  --color-background: black;
+}
+
 html {
   cursor: none;
   overflow: hidden;
-  background: #000;
+  background: var(--color-background);
   user-select: none;
 }
 
@@ -14,8 +19,8 @@ body {
   position: absolute;
   height: calc(100% - 120px);
   width: calc(100% - 120px);
-  background: #000;
-  color: #aaa;
+  background: var(--color-background);
+  color: var(--color-text);
   font-family: "Roboto Condensed", sans-serif;
   font-weight: 400;
   font-size: 2em;
@@ -28,15 +33,18 @@ body {
  */
 
 .dimmed {
-  color: #666;
+  color: var(--color-text);
+  opacity: 0.6;
 }
 
 .normal {
-  color: #999;
+  color: var(--color-text);
+  opacity: 0.8;
 }
 
 .bright {
-  color: #fff;
+  color: var(--color-text);
+  opacity: 1;
 }
 
 .xsmall {
