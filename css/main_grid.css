@@ -1,20 +1,4 @@
 @import url("https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700&display=swap");
-:root {
-  --text-xs: 0.667rem;
-  --text-sm: 1rem;
-  --text-md: 1.5rem;
-  --text-lg: 2.25rem;
-  --text-xl: 3.375rem;
-  --text-xxl: 5.063rem;
-  --text-lh: 1.5;
-
-  --grid-gap: 2rem;
-  --color-text-body: #aaa;
-  --color-text-bright: #fff;
-  --color-text-normal: #999;
-  --color-text-dimmed: #666;
-  --color-background: #000;
-}
 
 html {
   cursor: none;
