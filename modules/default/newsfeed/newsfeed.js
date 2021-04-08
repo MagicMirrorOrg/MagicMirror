@@ -135,7 +135,7 @@ Module.register("newsfeed", {
 			sourceTitle: item.sourceTitle,
 			publishDate: moment(new Date(item.pubdate)).fromNow(),
 			title: item.title,
-			description: this.isShowingDescription ? item.description : null
+			description: item.description
 		};
 	},
 
