@@ -1,14 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
 
 :root {
-
-    /**** COLOR ****/
-    --color-text: lightcyan;
-    --color-background: #464656;
-    
-    /**** TYPOGRAPHY ****/
-    --base: 20px;
-    --font-primary: 'Poppins';
-    --font-secondary: 'Poppins';
-    
+  --color-text: lightcyan;
+  --color-text-dimmed: rgba(255, 255, 255, .75);
+  --color-text-bright: #fff;
+  --color-background: #464656;
+  --font-size: 20px;
+  --font-primary: "Poppins";
+  --font-secondary: "Poppins";
 }
