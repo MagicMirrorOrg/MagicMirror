@@ -36,6 +36,10 @@ describe("Newsfeed module", function () {
 		it("should show the newsfeed article", function () {
 			return app.client.waitUntilTextExists(".newsfeed .newsfeed-title", "QPanel", 10000);
 		});
+
+		it("should show the newsfeed description", function () {
+			return app.client.waitUntilTextExists(".newsfeed .newsfeed-desc", "Para instalar esta nueva versión", 10000);
+		});
 	});
 
 	describe("Custom configuration", function () {
