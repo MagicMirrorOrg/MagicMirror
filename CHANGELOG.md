@@ -22,6 +22,9 @@ _This release is scheduled to be released on 2021-04-01._
 
 ### Fixed
 
+- Fix calendar start function logging inconsistency.
+- Fix updatenotification start function logging inconsistency.
+
 ## [2.15.0] - 2021-04-01
 
 Special thanks to the following contributors: @EdgardosReis, @MystaraTheGreat, @TheDuffman85, @ashishtank, @buxxi, @codac, @fewieden, @khassel, @klaernie, @qu1que, @rejas, @sdetweil & @thomasrockhu.
@@ -85,7 +88,6 @@ Special thanks to the following contributors: @EdgardosReis, @MystaraTheGreat, @
 - Fix calendar time/date adjustment when time with GMT offset is different day (#2488).
 - Fix calendar daylight savings offset calculation if recurring FULL DAY start date before 2007 (#2483).
 - Fix newsreaders template, for wrong test for nowrap in 2 places (should be if not).
-- Fix calendar start function logging inconsistency
 
 ## [2.14.0] - 2021-01-01
 

@@ -5,6 +5,7 @@
  * MIT Licensed.
  */
 Module.register("updatenotification", {
+	// Define module defaults
 	defaults: {
 		updateInterval: 10 * 60 * 1000, // every 10 minutes
 		refreshInterval: 24 * 60 * 60 * 1000, // one day
@@ -15,9 +16,10 @@ Module.register("updatenotification", {
 	suspended: false,
 	moduleList: {},
 
+	// Override start method.
 	start: function () {
 		var self = this;
-		Log.log("Start updatenotification");
+		Log.info("Starting module: " + this.name);
 		setInterval(() => {
 			self.moduleList = {};
 			self.updateDom(2);
@@ -32,6 +34,7 @@ Module.register("updatenotification", {
 		}
 	},
 
+	// Override socket notification handler.
 	socketNotificationReceived: function (notification, payload) {
 		if (notification === "STATUS") {
 			this.updateUI(payload);
