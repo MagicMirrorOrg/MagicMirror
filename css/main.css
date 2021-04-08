@@ -1,5 +1,7 @@
 :root {
-  --color-text: #fff;
+  --color-text: #999;
+  --color-text-dimmed: #666;
+  --color-text-bright: #fff;
   --color-background: black;
   --base: 20px;
   --font-primary: "Roboto Condensed";
@@ -36,18 +38,15 @@ body {
  */
 
 .dimmed {
-  color: var(--color-text);
-  opacity: 0.4;
+  color: var(--color-text-dimmed);
 }
 
 .normal {
   color: var(--color-text);
-  opacity: 0.7;
 }
 
 .bright {
-  color: var(--color-text);
-  opacity: 1;
+  color: var(--color-text-bright);
 }
 
 .xsmall {
