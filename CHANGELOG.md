@@ -18,6 +18,7 @@ _This release is scheduled to be released on 2021-04-01._
 ### Removed
 
 ### Fixed
+
 - Fix calendar start function logging inconsistency.
 - Fix updatenotification start function logging inconsistency.
 
