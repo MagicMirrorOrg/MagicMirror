@@ -1,6 +1,4 @@
-/* Magic Mirror Test config for position setters module
- *
- * For this case is using helloworld module
+/* Magic Mirror Test config for position setters module using the helloworld module
  *
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.
@@ -36,6 +34,7 @@ let config = {
 			return modules;
 		})()
 };
+
 /*************** DO NOT EDIT THE LINE BELOW ***************/
 if (typeof module !== "undefined") {
 	module.exports = config;

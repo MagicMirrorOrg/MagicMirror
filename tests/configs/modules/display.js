@@ -1,5 +1,6 @@
 /* Magic Mirror Test config for display setters module using the helloworld module
  *
+ * By Rejas
  * MIT Licensed.
  */
 let config = {
@@ -37,6 +38,7 @@ let config = {
 		}
 	]
 };
+
 /*************** DO NOT EDIT THE LINE BELOW ***************/
 if (typeof module !== "undefined") {
 	module.exports = config;

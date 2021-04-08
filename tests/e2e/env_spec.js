@@ -10,7 +10,7 @@ const afterEach = global.afterEach;
 describe("Electron app environment", function () {
 	helpers.setupTimeout(this);
 
-	var app = null;
+	let app = null;
 
 	before(function () {
 		// Set config sample for use in test

@@ -21,7 +21,7 @@ describe("Functions module currentweather", function () {
 				Module.definitions.currentweather.config.roundTemp = true;
 			});
 
-			var values = [
+			const values = [
 				// index 0 value
 				// index 1 expect
 				[1, "1"],
@@ -45,7 +45,7 @@ describe("Functions module currentweather", function () {
 				Module.definitions.currentweather.config.roundTemp = false;
 			});
 
-			var values = [
+			const values = [
 				// index 0 value
 				// index 1 expect
 				[1, "1.0"],

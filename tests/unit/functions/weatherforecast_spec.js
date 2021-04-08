@@ -1,7 +1,7 @@
 /* eslint no-multi-spaces: 0 */
 const expect = require("chai").expect;
 const moment = require("moment-timezone");
-var data = require("../functions/weatherforecast_data.json");
+const data = require("../functions/weatherforecast_data.json");
 
 describe("Functions module weatherforecast", function () {
 	before(function () {
@@ -21,7 +21,7 @@ describe("Functions module weatherforecast", function () {
 				Module.definitions.weatherforecast.config.roundTemp = true;
 			});
 
-			var values = [
+			const values = [
 				// index 0 value
 				// index 1 expect
 				[1, "1"],
@@ -45,7 +45,7 @@ describe("Functions module weatherforecast", function () {
 				Module.definitions.weatherforecast.config.roundTemp = false;
 			});
 
-			var values = [
+			const values = [
 				// index 0 value
 				// index 1 expect
 				[1, "1.0"],
@@ -71,8 +71,8 @@ describe("Functions module weatherforecast", function () {
 			error: function () {}
 		};
 
-		var originalLocale;
-		var originalTimeZone;
+		let originalLocale;
+		let originalTimeZone;
 		before(function () {
 			originalLocale = moment.locale();
 			originalTimeZone = moment.tz.guess();

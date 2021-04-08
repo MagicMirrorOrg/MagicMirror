@@ -4,7 +4,7 @@ const colors = require("colors/safe");
 
 describe("Utils", function () {
 	describe("colors", function () {
-		var colorsEnabled = colors.enabled;
+		const colorsEnabled = colors.enabled;
 
 		afterEach(function () {
 			colors.enabled = colorsEnabled;
