@@ -3,7 +3,7 @@
   --color-text-dimmed: #666;
   --color-text-bright: #fff;
   --color-background: black;
-  --base: 20px;
+  --font-size: 20px;
   --font-primary: "Roboto Condensed";
   --font-secondary: "Roboto";
 }
@@ -13,7 +13,7 @@ html {
   overflow: hidden;
   background: var(--color-background);
   user-select: none;
-  font-size: var(--base);
+  font-size: var(--font-size);
 }
 
 ::-webkit-scrollbar {
