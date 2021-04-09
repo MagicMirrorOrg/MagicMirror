@@ -13,7 +13,7 @@
         <div class="newsfeed-title bright medium light{{ ' no-wrap' if not config.wrapTitle }}">
             {{ title }}
         </div>
-        {% if (config.showDescription) %}
+        {% if config.showDescription %}
             <div class="newsfeed-desc small light{{ ' no-wrap' if not config.wrapDescription }}">
                 {% if config.truncDescription %}
                     {{ description | truncate(config.lengthDescription) }}
