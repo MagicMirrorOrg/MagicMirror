@@ -37,8 +37,8 @@ describe("Newsfeed module", function () {
 			return app.client.waitUntilTextExists(".newsfeed .newsfeed-title", "QPanel", 10000);
 		});
 
-		it("should show the newsfeed description", function () {
-			return app.client.waitUntilTextExists(".newsfeed .newsfeed-desc", "Para instalar esta nueva versión", 10000);
+		it("should not show the newsfeed description", function () {
+			return !app.client.waitUntilTextExists(".newsfeed .newsfeed-desc", "Para instalar esta nueva versión", 10000);
 		});
 	});
 
@@ -49,6 +49,10 @@ describe("Newsfeed module", function () {
 
 		it("should not show articles with prohibited words", function () {
 			return app.client.waitUntilTextExists(".newsfeed .newsfeed-title", "Problema VirtualBox", 10000);
+		});
+
+		it("should show the newsfeed description", function () {
+			return app.client.waitUntilTextExists(".newsfeed .newsfeed-desc", "Después de una actualización de Debian", 10000);
 		});
 	});
 
