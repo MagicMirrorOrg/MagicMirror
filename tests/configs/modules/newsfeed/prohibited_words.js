@@ -27,7 +27,8 @@ let config = {
 						url: "http://localhost:8080/tests/configs/data/feed_test_rodrigoramirez.xml"
 					}
 				],
-				prohibitedWords: ["QPanel"]
+				prohibitedWords: ["QPanel"],
+				showDescription: true
 			}
 		}
 	]
