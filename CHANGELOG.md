@@ -21,6 +21,7 @@ _This release is scheduled to be released on 2021-04-01._
 
 - Fix calendar start function logging inconsistency.
 - Fix updatenotification start function logging inconsistency.
+- Fix wrong treatment of `appendLocationNameToHeader` when using `ukmetofficedatahub`
 
 ## [2.15.0] - 2021-04-01
 
