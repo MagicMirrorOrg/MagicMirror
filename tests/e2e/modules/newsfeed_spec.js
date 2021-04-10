@@ -1,4 +1,5 @@
 const helpers = require("../global-setup");
+const expect = require("chai").expect;
 
 const describe = global.describe;
 const it = global.it;
@@ -37,8 +38,10 @@ describe("Newsfeed module", function () {
 			return app.client.waitUntilTextExists(".newsfeed .newsfeed-title", "QPanel", 10000);
 		});
 
-		it("should not show the newsfeed description", function () {
-			return !app.client.waitUntilTextExists(".newsfeed .newsfeed-desc", "Para instalar esta nueva versión", 10000);
+		it("should NOT show the newsfeed description", async () => {
+			await app.client.waitUntilTextExists(".newsfeed .newsfeed-title", "QPanel", 10000);
+			const events = await app.client.$$(".newsfeed .newsfeed-desc");
+			return expect(events.length).equals(0);
 		});
 	});
 
@@ -51,8 +54,10 @@ describe("Newsfeed module", function () {
 			return app.client.waitUntilTextExists(".newsfeed .newsfeed-title", "Problema VirtualBox", 10000);
 		});
 
-		it("should show the newsfeed description", function () {
-			return app.client.waitUntilTextExists(".newsfeed .newsfeed-desc", "Después de una actualización de Debian", 10000);
+		it("should show the newsfeed description", async () => {
+			await app.client.waitUntilTextExists(".newsfeed .newsfeed-title", "Problema VirtualBox", 10000);
+			const events = await app.client.$$(".newsfeed .newsfeed-desc");
+			return expect(events.length).equals(1);
 		});
 	});
 
