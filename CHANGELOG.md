@@ -24,7 +24,6 @@ _This release is scheduled to be released on 2021-04-01._
 - Checks and applies the showDescription setting for the newsfeed module again
 - Fix wrong treatment of `appendLocationNameToHeader` when using `ukmetofficedatahub`
 
-
 ## [2.15.0] - 2021-04-01
 
 Special thanks to the following contributors: @EdgardosReis, @MystaraTheGreat, @TheDuffman85, @ashishtank, @buxxi, @codac, @fewieden, @khassel, @klaernie, @qu1que, @rejas, @sdetweil & @thomasrockhu.
