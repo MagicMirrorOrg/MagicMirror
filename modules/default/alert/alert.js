@@ -79,7 +79,7 @@ Module.register("alert", {
 
 		//If module already has an open alert close it
 		if (this.alerts[sender.name]) {
-			this.hide_alert(sender,false);
+			this.hide_alert(sender, false);
 		}
 
 		//Display title and message only if they are provided in notification parameters
@@ -114,7 +114,7 @@ Module.register("alert", {
 			}, params.timer);
 		}
 	},
-	hide_alert: function (sender,close=true) {
+	hide_alert: function (sender, close = true) {
 		//Dismiss alert and remove from this.alerts
 		if (this.alerts[sender.name]) {
 			this.alerts[sender.name].dismiss(close);
