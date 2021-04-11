@@ -1,10 +1,8 @@
 /* Magic Mirror Test config default weather
  *
- * By fewieden https://github.com/fewieden
- *
+ * By rejas
  * MIT Licensed.
  */
-
 let config = {
 	port: 8080,
 	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1"],
