@@ -164,7 +164,7 @@ describe("Weather module", function () {
 				return getText(".weather .normal.medium span:nth-child(2)", "6 WSW") && getText(".weather .large.light span.bright", "34,7°") && getText(".weather .normal.medium.feelslike span.dimmed", "Feels like 22,0°");
 			});
 
-			it("should render decimalSymbol = ','", async function () {
+			it("should render custom decimalSymbol = ','", async function () {
 				const weather = generateWeather({
 					main: {
 						temp: (1.49 * 9) / 5 + 32,
@@ -272,6 +272,23 @@ describe("Weather module", function () {
 				const rows = await app.client.$$(".weather table.myTableClass tr.colored");
 
 				expect(rows.length).to.be.equal(5);
+			});
+		});
+
+		describe("Forecast weather units", function () {
+			before(function () {
+				process.env.MM_CONFIG_FILE = "tests/configs/modules/weather/forecastweather_units.js";
+			});
+
+			it("should render custom decimalSymbol = '_'", async function () {
+				const weather = generateWeatherForecast();
+				await setup({ template, data: weather });
+
+				const temperatures = ["24_4°", "21_0°", "22_9°", "23_4°", "20_6°"];
+
+				for (const [index, temp] of temperatures.entries()) {
+					await getText(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(3)`, temp);
+				}
 			});
 		});
 	});
