@@ -139,7 +139,7 @@ describe("Weather module", function () {
 				const weather = generateWeather();
 				await setup({ template, data: weather });
 
-				return getText(".weather .large.light span.bright", "1°C") && getText(".weather .normal.medium.feelslike span.dimmed", "Feels like -6°C");
+				return (await getText(".weather .large.light span.bright", "1°C")) && (await getText(".weather .normal.medium.feelslike span.dimmed", "Feels like -6°C"));
 			});
 		});
 
@@ -161,7 +161,7 @@ describe("Weather module", function () {
 				});
 				await setup({ template, data: weather });
 
-				return getText(".weather .normal.medium span:nth-child(2)", "6 WSW") && getText(".weather .large.light span.bright", "34,7°") && getText(".weather .normal.medium.feelslike span.dimmed", "Feels like 22,0°");
+				return (await getText(".weather .normal.medium span:nth-child(2)", "6 WSW")) && (await getText(".weather .large.light span.bright", "34,7°")) && getText(".weather .normal.medium.feelslike span.dimmed", "Feels like 22,0°");
 			});
 
 			it("should render custom decimalSymbol = ','", async function () {
@@ -177,7 +177,7 @@ describe("Weather module", function () {
 				});
 				await setup({ template, data: weather });
 
-				return getText(".weather .normal.medium span:nth-child(3)", "93,7") && getText(".weather .large.light span.bright", "34,7°") && getText(".weather .normal.medium.feelslike span.dimmed", "Feels like 22,0°");
+				return (await getText(".weather .normal.medium span:nth-child(3)", "93,7")) && (await getText(".weather .large.light span.bright", "34,7°")) && getText(".weather .normal.medium.feelslike span.dimmed", "Feels like 22,0°");
 			});
 		});
 	});
@@ -201,7 +201,7 @@ describe("Weather module", function () {
 				const days = ["Today", "Tomorrow", "Sun", "Mon", "Tue"];
 
 				for (const [index, day] of days.entries()) {
-					getText(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(1)`, day);
+					await getText(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(1)`, day);
 				}
 			});
 
@@ -212,7 +212,7 @@ describe("Weather module", function () {
 				const icons = ["day-cloudy", "rain", "day-sunny", "day-sunny", "day-sunny"];
 
 				for (const [index, icon] of icons.entries()) {
-					getText(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(2) span.wi-${icon}`);
+					await getElement(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(2) span.wi-${icon}`);
 				}
 			});
 
@@ -223,7 +223,7 @@ describe("Weather module", function () {
 				const temperatures = ["24.4°", "21.0°", "22.9°", "23.4°", "20.6°"];
 
 				for (const [index, temp] of temperatures.entries()) {
-					getText(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(3)`, temp);
+					await getText(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(3)`, temp);
 				}
 			});
 
@@ -234,7 +234,7 @@ describe("Weather module", function () {
 				const temperatures = ["15.3°", "13.6°", "13.8°", "13.9°", "10.9°"];
 
 				for (const [index, temp] of temperatures.entries()) {
-					getText(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(4)`, temp);
+					await getText(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(4)`, temp);
 				}
 			});
 
