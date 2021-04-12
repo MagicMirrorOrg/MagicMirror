@@ -13,6 +13,7 @@ _This release is scheduled to be released on 2021-04-01._
 
 - Added French translations for "MODULE_CONFIG_ERROR" and "PRECIP".
 - Added German translation for "PRECIP".
+- Added first test for Alert module.
 
 ### Updated
 
