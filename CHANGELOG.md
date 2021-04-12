@@ -13,6 +13,7 @@ _This release is scheduled to be released on 2021-04-01._
 
 - Added French translations for "MODULE_CONFIG_ERROR" and "PRECIP".
 - Added German translation for "PRECIP".
+- Added first test for Alert module.
 
 ### Updated
 
@@ -26,6 +27,7 @@ _This release is scheduled to be released on 2021-04-01._
 - Fix updatenotification start function logging inconsistency.
 - Checks and applies the showDescription setting for the newsfeed module again
 - Fix tests in weather module and add one for decimalPoint in forecast
+- Fix decimalSymbol in the forcast part of the new weather module #2530
 
 ## [2.15.0] - 2021-04-01
 
