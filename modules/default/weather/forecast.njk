@@ -14,10 +14,10 @@
                 {% endif %}
                 <td class="bright weather-icon"><span class="wi weathericon wi-{{ f.weatherType }}"></span></td>
                 <td class="align-right bright max-temp">
-                    {{ f.maxTemperature | roundValue | decimalSymbol | unit("temperature") }}
+                    {{ f.maxTemperature | roundValue | unit("temperature") | decimalSymbol }}
                 </td>
                 <td class="align-right min-temp">
-                    {{ f.minTemperature | roundValue | decimalSymbol | unit("temperature") }}
+                    {{ f.minTemperature | roundValue | unit("temperature") | decimalSymbol }}
                 </td>
                 {% if config.showPrecipitationAmount %}
                     <td class="align-right bright precipitation">
