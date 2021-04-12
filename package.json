@@ -50,7 +50,7 @@
 		"eslint-plugin-prettier": "^3.3.1",
 		"express-basic-auth": "^1.2.0",
 		"husky": "^4.3.8",
-		"jsdom": "^16.5.1",
+		"jsdom": "^16.5.2",
 		"lodash": "^4.17.21",
 		"mocha": "^8.3.2",
 		"mocha-each": "^2.0.1",
@@ -70,11 +70,11 @@
 	},
 	"dependencies": {
 		"colors": "^1.4.0",
-		"console-stamp": "^3.0.0-rc4.2",
+		"console-stamp": "^3.0.2",
 		"digest-fetch": "^1.1.6",
-		"eslint": "^7.23.0",
+		"eslint": "^7.24.0",
 		"express": "^4.17.1",
-		"express-ipfilter": "^1.1.2",
+		"express-ipfilter": "^1.2.0",
 		"feedme": "^2.0.2",
 		"helmet": "^4.4.1",
 		"iconv-lite": "^0.6.2",
@@ -85,7 +85,7 @@
 		"rrule": "^2.6.8",
 		"rrule-alt": "^2.2.8",
 		"simple-git": "^2.37.0",
-		"socket.io": "^4.0.0"
+		"socket.io": "^4.0.1"
 	},
 	"_moduleAliases": {
 		"node_helper": "js/node_helper.js",
