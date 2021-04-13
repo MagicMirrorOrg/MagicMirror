@@ -366,13 +366,14 @@ Module.register("calendar", {
 					if (event.startDate >= now) {
 						// Use relative  time
 						if (!this.config.hideTime) {
-							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").calendar());
+							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").calendar(null, { sameElse: this.config.dateFormat }));
 						} else {
 							timeWrapper.innerHTML = this.capFirst(
 								moment(event.startDate, "x").calendar(null, {
 									sameDay: "[" + this.translate("TODAY") + "]",
 									nextDay: "[" + this.translate("TOMORROW") + "]",
-									nextWeek: "dddd"
+									nextWeek: "dddd",
+									sameElse: this.config.dateFormat
 								})
 							);
 						}
