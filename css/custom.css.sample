@@ -1,11 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+/* Magic Mirror Custom CSS Sample
+ *
+ * MIT Licensed.
+ */
 
+// Uncomment and adjust accordingly if you want to import another font from the google-fonts-api:
+// @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;700&display=swap');
+
+// Change color and fonts here:
 :root {
-  --color-text: lightcyan;
-  --color-text-dimmed: rgba(255, 255, 255, .75);
+  --color-text: #999;
+  --color-text-dimmed: #666;
   --color-text-bright: #fff;
-  --color-background: #464656;
+  --color-background: black;
   --font-size: 20px;
-  --font-primary: "Poppins";
-  --font-secondary: "Poppins";
+  --font-primary: "Roboto Condensed";
+  --font-secondary: "Roboto";
 }
