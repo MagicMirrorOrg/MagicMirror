@@ -15,12 +15,11 @@ _This release is scheduled to be released on 2021-04-01._
 - Added German translation for "PRECIP".
 - Added first test for Alert module.
 - Added support for `dateFormat` when not using `timeFormat: "absolute"`
-- Added `custom.css.sample` file for improved styling experience
+- Added custom-properties in css for improved styling experience, see `custom.css.sample` file
 
 ### Updated
 
 - Bump node-ical to v0.13.0 (now last runtime dependency using deprecated `request` package is removed).
-- Cleaned up CSS
 
 ### Removed
 
@@ -30,7 +29,7 @@ _This release is scheduled to be released on 2021-04-01._
 - Fix updatenotification start function logging inconsistency.
 - Checks and applies the showDescription setting for the newsfeed module again
 - Fix tests in weather module and add one for decimalPoint in forecast
-- Fix decimalSymbol in the forcast part of the new weather module #2530
+- Fix decimalSymbol in the forecast part of the new weather module #2530
 - Fix wrong treatment of `appendLocationNameToHeader` when using `ukmetofficedatahub`
 - Fix alert not recognizing multiple alerts (#2522)
 
