@@ -30,6 +30,7 @@ _This release is scheduled to be released on 2021-04-01._
 - Fix tests in weather module and add one for decimalPoint in forecast
 - Fix decimalSymbol in the forcast part of the new weather module #2530
 - Fix wrong treatment of `appendLocationNameToHeader` when using `ukmetofficedatahub`
+- Fix alert not recognizing multiple alerts (#2522)
 
 ## [2.15.0] - 2021-04-01
 
