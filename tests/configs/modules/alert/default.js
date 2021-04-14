@@ -1,5 +1,6 @@
-/* Magic Mirror Test config newsfeed module
+/* Magic Mirror Test config sample module alert
  *
+ * By rejas
  * MIT Licensed.
  */
 let config = {
@@ -7,7 +8,7 @@ let config = {
 	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1"],
 
 	language: "en",
-	timeFormat: 12,
+	timeFormat: 24,
 	units: "metric",
 	electronOptions: {
 		webPreferences: {
@@ -18,17 +19,10 @@ let config = {
 
 	modules: [
 		{
-			module: "newsfeed",
-			position: "bottom_bar",
+			module: "alert",
 			config: {
-				feeds: [
-					{
-						title: "Rodrigo Ramirez Blog",
-						url: "http://localhost:8080/tests/configs/data/feed_test_rodrigoramirez.xml"
-					}
-				],
-				prohibitedWords: ["QPanel"],
-				showDescription: true
+				display_time: 1000000,
+				welcome_message: true
 			}
 		}
 	]

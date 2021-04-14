@@ -1,5 +1,6 @@
-/* Magic Mirror Test config newsfeed module
+/* Magic Mirror Test config default weather
  *
+ * By rejas
  * MIT Licensed.
  */
 let config = {
@@ -7,8 +8,8 @@ let config = {
 	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1"],
 
 	language: "en",
-	timeFormat: 12,
-	units: "metric",
+	timeFormat: 24,
+	units: "imperial",
 	electronOptions: {
 		webPreferences: {
 			nodeIntegration: true,
@@ -18,17 +19,15 @@ let config = {
 
 	modules: [
 		{
-			module: "newsfeed",
+			module: "weather",
 			position: "bottom_bar",
 			config: {
-				feeds: [
-					{
-						title: "Rodrigo Ramirez Blog",
-						url: "http://localhost:8080/tests/configs/data/feed_test_rodrigoramirez.xml"
-					}
-				],
-				prohibitedWords: ["QPanel"],
-				showDescription: true
+				type: "forecast",
+				location: "Munich",
+				apiKey: "fake key",
+				weatherEndpoint: "/forecast/daily",
+				initialLoadDelay: 3000,
+				decimalSymbol: "_"
 			}
 		}
 	]
