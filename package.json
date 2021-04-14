@@ -45,12 +45,12 @@
 	"devDependencies": {
 		"chai": "^4.3.4",
 		"chai-as-promised": "^7.1.1",
-		"eslint-config-prettier": "^8.1.0",
+		"eslint-config-prettier": "^8.2.0",
 		"eslint-plugin-jsdoc": "^32.3.0",
 		"eslint-plugin-prettier": "^3.3.1",
 		"express-basic-auth": "^1.2.0",
 		"husky": "^4.3.8",
-		"jsdom": "^16.5.2",
+		"jsdom": "^16.5.3",
 		"lodash": "^4.17.21",
 		"mocha": "^8.3.2",
 		"mocha-each": "^2.0.1",
@@ -84,7 +84,7 @@
 		"node-ical": "^0.13.0",
 		"rrule": "^2.6.8",
 		"rrule-alt": "^2.2.8",
-		"simple-git": "^2.37.0",
+		"simple-git": "^2.38.0",
 		"socket.io": "^4.0.1"
 	},
 	"_moduleAliases": {
