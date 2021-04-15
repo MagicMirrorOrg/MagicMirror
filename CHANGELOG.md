@@ -32,6 +32,7 @@ _This release is scheduled to be released on 2021-04-01._
 - Fix decimalSymbol in the forecast part of the new weather module #2530
 - Fix wrong treatment of `appendLocationNameToHeader` when using `ukmetofficedatahub`
 - Fix alert not recognizing multiple alerts (#2522)
+- Fix fetch option httpsAgent to agent in calendar module (#466)
 
 ## [2.15.0] - 2021-04-01
 
