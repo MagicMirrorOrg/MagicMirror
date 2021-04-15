@@ -1,8 +1,19 @@
+:root {
+  --color-text: #999;
+  --color-text-dimmed: #666;
+  --color-text-bright: #fff;
+  --color-background: black;
+  --font-size: 20px;
+  --font-primary: "Roboto Condensed";
+  --font-secondary: "Roboto";
+}
+
 html {
   cursor: none;
   overflow: hidden;
-  background: #000;
+  background: var(--color-background);
   user-select: none;
+  font-size: var(--font-size);
 }
 
 ::-webkit-scrollbar {
@@ -14,12 +25,11 @@ body {
   position: absolute;
   height: calc(100% - 120px);
   width: calc(100% - 120px);
-  background: #000;
-  color: #aaa;
-  font-family: "Roboto Condensed", sans-serif;
+  background: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-primary), sans-serif;
   font-weight: 400;
-  font-size: 2em;
-  line-height: 1.5em;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -28,60 +38,60 @@ body {
  */
 
 .dimmed {
-  color: #666;
+  color: var(--color-text-dimmed);
 }
 
 .normal {
-  color: #999;
+  color: var(--color-text);
 }
 
 .bright {
-  color: #fff;
+  color: var(--color-text-bright);
 }
 
 .xsmall {
-  font-size: 15px;
-  line-height: 20px;
+  font-size: 0.667rem;
+  line-height: 1.4;
 }
 
 .small {
-  font-size: 20px;
-  line-height: 25px;
+  font-size: 1rem;
+  line-height: 1.4;
 }
 
 .medium {
-  font-size: 30px;
-  line-height: 35px;
+  font-size: 1.5rem;
+  line-height: 1.4;
 }
 
 .large {
-  font-size: 65px;
-  line-height: 65px;
+  font-size: 2.25rem;
+  line-height: 1;
 }
 
 .xlarge {
-  font-size: 75px;
-  line-height: 75px;
+  font-size: 3.375rem;
+  line-height: 1;
   letter-spacing: -3px;
 }
 
 .thin {
-  font-family: Roboto, sans-serif;
+  font-family: var(--font-secondary), sans-serif;
   font-weight: 100;
 }
 
 .light {
-  font-family: "Roboto Condensed", sans-serif;
+  font-family: var(--font-primary), sans-serif;
   font-weight: 300;
 }
 
 .regular {
-  font-family: "Roboto Condensed", sans-serif;
+  font-family: var(--font-primary), sans-serif;
   font-weight: 400;
 }
 
 .bold {
-  font-family: "Roboto Condensed", sans-serif;
+  font-family: var(--font-primary), sans-serif;
   font-weight: 700;
 }
 
@@ -96,7 +106,7 @@ body {
 header {
   text-transform: uppercase;
   font-size: 15px;
-  font-family: "Roboto Condensed", Arial, Helvetica, sans-serif;
+  font-family: var(--font-primary), Arial, Helvetica, sans-serif;
   font-weight: 400;
   border-bottom: 1px solid #666;
   line-height: 15px;
