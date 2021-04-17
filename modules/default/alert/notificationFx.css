@@ -6,7 +6,6 @@
   line-height: 1.4;
   margin-bottom: 10px;
   z-index: 1;
-  color: black;
   font-size: 70%;
   position: relative;
   display: table;
@@ -15,17 +14,17 @@
   border-width: 1px;
   border-radius: 5px;
   border-style: solid;
-  border-color: #666;
+  border-color: var(--color-text-dimmed);
 }
 
 .ns-alert {
   border-style: solid;
-  border-color: #fff;
+  border-color: var(--color-text-bright);
   padding: 17px;
   line-height: 1.4;
   margin-bottom: 10px;
   z-index: 3;
-  color: white;
+  color: var(--color-text-bright);
   font-size: 70%;
   position: fixed;
   text-align: center;

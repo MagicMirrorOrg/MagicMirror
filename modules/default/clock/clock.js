@@ -52,7 +52,7 @@ Module.register("clock", {
 
 		//Calculate how many ms should pass until next update depending on if seconds is displayed or not
 		var delayCalculator = function (reducedSeconds) {
-			var EXTRA_DELAY = 50; //Deliberate imperceptable delay to prevent off-by-one timekeeping errors
+			var EXTRA_DELAY = 50000000; //Deliberate imperceptable delay to prevent off-by-one timekeeping errors
 
 			if (self.config.displaySeconds) {
 				return 1000 - moment().milliseconds() + EXTRA_DELAY;
