@@ -22,6 +22,7 @@ For the full documentation including **[installation instructions](https://docs.
 - Website: [https://magicmirror.builders](https://magicmirror.builders)
 - Documentation: [https://docs.magicmirror.builders](https://docs.magicmirror.builders)
 - Forum: [https://forum.magicmirror.builders](https://forum.magicmirror.builders)
+  - Technical discussions: https://forum.magicmirror.builders/category/11/core-system
 - Discord: [https://discord.gg/J5BAtvx](https://discord.gg/J5BAtvx)
 - Blog: [https://michaelteeuw.nl/tagged/magicmirror](https://michaelteeuw.nl/tagged/magicmirror)
 - Donations: [https://magicmirror.builders/#donate](https://magicmirror.builders/#donate)
