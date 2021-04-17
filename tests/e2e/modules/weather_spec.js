@@ -257,6 +257,22 @@ describe("Weather module", function () {
 			before(function () {
 				process.env.MM_CONFIG_FILE = "tests/configs/modules/weather/forecastweather_options.js";
 			});
+
+			it("should render custom table class", async function () {
+				const weather = generateWeatherForecast();
+				await setup({ template, data: weather });
+
+				await getElement(".weather table.myTableClass");
+			});
+
+			it("should render colored rows", async function () {
+				const weather = generateWeatherForecast();
+				await setup({ template, data: weather });
+
+				const rows = await app.client.$$(".weather table.myTableClass tr.colored");
+
+				expect(rows.length).to.be.equal(5);
+			});
 		});
 
 		describe("Forecast weather units", function () {

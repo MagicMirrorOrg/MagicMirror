@@ -29,5 +29,9 @@ describe("Alert module", function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/alert/default.js";
 		});
+
+		it("should show the welcome message", function () {
+			return app.client.waitUntilTextExists(".ns-box .ns-box-inner .light.bright.small", "Welcome, start was successful!", 10000);
+		});
 	});
 });
