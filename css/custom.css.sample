@@ -3,10 +3,10 @@
  * MIT Licensed.
  */
 
-// Uncomment and adjust accordingly if you want to import another font from the google-fonts-api:
-// @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;700&display=swap');
+/* Uncomment and adjust accordingly if you want to import another font from the google-fonts-api: */
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;700&display=swap'); */
 
-// Change color and fonts here:
+/* Change color and fonts here: */
 :root {
   --color-text: #999;
   --color-text-dimmed: #666;

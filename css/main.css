@@ -50,27 +50,27 @@ body {
 }
 
 .xsmall {
-  font-size: 0.667rem;
-  line-height: 1.4;
+  font-size: 0.75rem;
+  line-height: 1.275;
 }
 
 .small {
   font-size: 1rem;
-  line-height: 1.4;
+  line-height: 1.25;
 }
 
 .medium {
   font-size: 1.5rem;
-  line-height: 1.4;
+  line-height: 1.225;
 }
 
 .large {
-  font-size: 2.25rem;
+  font-size: 3.25rem;
   line-height: 1;
 }
 
 .xlarge {
-  font-size: 3.375rem;
+  font-size: 3.75rem;
   line-height: 1;
   letter-spacing: -3px;
 }
@@ -108,11 +108,11 @@ header {
   font-size: 15px;
   font-family: var(--font-primary), Arial, Helvetica, sans-serif;
   font-weight: 400;
-  border-bottom: 1px solid #666;
+  border-bottom: 1px solid var(--color-text-dimmed);
   line-height: 15px;
   padding-bottom: 5px;
   margin-bottom: 10px;
-  color: #999;
+  color: var(--color-text);
 }
 
 sup {
