@@ -1,0 +1,6 @@
+coverage:
+  status:
+    project:
+      default:
+        # advanced settings
+        informational: true
