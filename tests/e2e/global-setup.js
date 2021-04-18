@@ -1,13 +1,9 @@
 /*
- * Magic Mirror
- *
- * Global Setup Test Suite
+ * Magic Mirror Global Setup Test Suite
  *
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.
- *
  */
-
 const Application = require("spectron").Application;
 const assert = require("assert");
 const chai = require("chai");

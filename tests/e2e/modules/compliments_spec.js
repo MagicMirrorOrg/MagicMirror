@@ -9,7 +9,7 @@ const afterEach = global.afterEach;
 describe("Compliments module", function () {
 	helpers.setupTimeout(this);
 
-	var app = null;
+	let app = null;
 
 	beforeEach(function () {
 		return helpers
@@ -32,7 +32,7 @@ describe("Compliments module", function () {
 		});
 
 		it("if Morning compliments for that part of day", async function () {
-			var hour = new Date().getHours();
+			const hour = new Date().getHours();
 			if (hour >= 3 && hour < 12) {
 				// if morning check
 				const elem = await app.client.$(".compliments");
@@ -43,9 +43,9 @@ describe("Compliments module", function () {
 		});
 
 		it("if Afternoon show Compliments for that part of day", async function () {
-			var hour = new Date().getHours();
+			const hour = new Date().getHours();
 			if (hour >= 12 && hour < 17) {
-				// if morning check
+				// if afternoon check
 				const elem = await app.client.$(".compliments");
 				return elem.getText(".compliments").then(function (text) {
 					expect(text).to.be.oneOf(["Hello", "Good Afternoon", "Afternoon test"]);
@@ -54,7 +54,7 @@ describe("Compliments module", function () {
 		});
 
 		it("if Evening show Compliments for that part of day", async function () {
-			var hour = new Date().getHours();
+			const hour = new Date().getHours();
 			if (!(hour >= 3 && hour < 12) && !(hour >= 12 && hour < 17)) {
 				// if evening check
 				const elem = await app.client.$(".compliments");

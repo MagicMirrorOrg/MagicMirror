@@ -10,7 +10,7 @@ const afterEach = global.afterEach;
 describe("port directive configuration", function () {
 	helpers.setupTimeout(this);
 
-	var app = null;
+	let app = null;
 
 	beforeEach(function () {
 		return helpers

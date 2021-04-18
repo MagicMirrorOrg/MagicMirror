@@ -6,7 +6,7 @@ const it = global.it;
 describe("Display of modules", function () {
 	helpers.setupTimeout(this);
 
-	var app = null;
+	let app = null;
 
 	beforeEach(function () {
 		return helpers

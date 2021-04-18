@@ -6,12 +6,12 @@
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-var address = "localhost";
-var port = 8080;
+const address = "localhost";
+let port = 8080;
 if (typeof mmPort !== "undefined") {
 	port = mmPort;
 }
-var defaults = {
+const defaults = {
 	address: address,
 	port: port,
 	basePath: "/",
