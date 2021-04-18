@@ -21,6 +21,7 @@ _This release is scheduled to be released on 2021-04-01._
 
 - Bump node-ical to v0.13.0 (now last runtime dependency using deprecated `request` package is removed).
 - Use codecov in informational mode
+- Refactor code into es6 where possible (e.g. var -> let/const)
 
 ### Removed
 
