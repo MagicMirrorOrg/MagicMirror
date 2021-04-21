@@ -23,6 +23,7 @@ _This release is scheduled to be released on 2021-04-01._
 - Use codecov in informational mode
 - Refactor code into es6 where possible (e.g. var -> let/const)
 - Use node v16 in github workflow (replacing node v10)
+- Moved some files into better suited directories
 
 ### Removed
 
