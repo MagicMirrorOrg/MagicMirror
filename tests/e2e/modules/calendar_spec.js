@@ -76,6 +76,20 @@ describe("Calendar module", function () {
 		});
 	});
 
+	describe("Recurring event", function () {
+		before(function () {
+			// Set config sample for use in test
+			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/recurring.js";
+		});
+
+		it("should something correct", async () => {
+			// TODO add real test case
+			await app.client.waitUntilTextExists(".calendar", "TestEvent", 10000);
+			const events = await app.client.$$(".calendar .event");
+			return expect(events.length).equals(4);
+		});
+	});
+
 	describe("Changed port", function () {
 		before(function () {
 			serverBasicAuth.listen(8010);
