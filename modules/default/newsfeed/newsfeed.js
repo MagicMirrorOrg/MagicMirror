@@ -186,9 +186,9 @@ Module.register("newsfeed", {
 		}
 
 		if (this.config.prohibitedWords.length > 0) {
-			newsItems = newsItems.filter(function (value) {
+			newsItems = newsItems.filter(function (item) {
 				for (let word of this.config.prohibitedWords) {
-					if (value["title"].toLowerCase().indexOf(word.toLowerCase()) > -1) {
+					if (item.title.toLowerCase().indexOf(word.toLowerCase()) > -1) {
 						return false;
 					}
 				}
