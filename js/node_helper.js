@@ -113,6 +113,15 @@ const NodeHelper = Class.extend({
 	}
 });
 
+NodeHelper.checkFetchStatus = function (response) {
+	// response.status >= 200 && response.status < 300
+	if (response.ok) {
+		return response;
+	} else {
+		throw Error(response.statusText);
+	}
+};
+
 NodeHelper.create = function (moduleDefinition) {
 	return NodeHelper.extend(moduleDefinition);
 };

@@ -87,7 +87,6 @@
 		"socket.io": "^4.1.2"
 	},
 	"_moduleAliases": {
-		"fetcher_helper": "js/fetcher_helper.js",
 		"node_helper": "js/node_helper.js",
 		"logger": "js/logger.js"
 	},

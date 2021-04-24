@@ -5,8 +5,8 @@
  * MIT Licensed.
  */
 const CalendarUtils = require("./calendarutils");
-const FetcherHelper = require("fetcher_helper");
 const Log = require("logger");
+const NodeHelper = require("node_helper");
 const ical = require("node-ical");
 const fetch = require("node-fetch");
 const digest = require("digest-fetch");
@@ -63,7 +63,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 		}
 
 		fetcher
-			.then(FetcherHelper.checkStatus)
+			.then(NodeHelper.checkFetchStatus)
 			.then((response) => response.text())
 			.then((responseData) => {
 				let data = [];
