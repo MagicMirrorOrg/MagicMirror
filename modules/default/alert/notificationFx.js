@@ -122,6 +122,8 @@
 
 	/**
 	 * Dismiss the notification
+	 *
+	 * @param close
 	 */
 	NotificationFx.prototype.dismiss = function (close = true) {
 		this.active = false;
