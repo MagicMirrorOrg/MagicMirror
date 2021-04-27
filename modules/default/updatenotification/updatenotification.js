@@ -10,7 +10,7 @@ Module.register("updatenotification", {
 		updateInterval: 10 * 60 * 1000, // every 10 minutes
 		refreshInterval: 24 * 60 * 60 * 1000, // one day
 		ignoreModules: [],
-		timeout: 1000
+		timeout: 5000
 	},
 
 	suspended: false,
