@@ -1,7 +1,7 @@
 /* eslint no-multi-spaces: 0 */
 const expect = require("chai").expect;
 const moment = require("moment-timezone");
-const data = require("../functions/weatherforecast_data.json");
+const data = require("../../configs/data/weatherforecast_data.json");
 
 describe("Functions module weatherforecast", function () {
 	before(function () {
