@@ -18,6 +18,7 @@ Special thanks to the following contributors: @B1gG, @codac, @ezeholz, @khassel,
 - Added first test for Alert module.
 - Added support for `dateFormat` when not using `timeFormat: "absolute"`
 - Added custom-properties in css of core and modules for improved styling experience, see `custom.css.sample` file
+- Added test case for recurring calendar events
 
 ### Updated
 
