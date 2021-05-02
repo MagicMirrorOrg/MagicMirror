@@ -32,6 +32,7 @@
 	"MODULE_CONFIG_ERROR": "Error in the {MODULE_NAME} module. {ERROR}",
 	"MODULE_ERROR_MALFORMED_URL": "Malformed url.",
 	"MODULE_ERROR_NO_CONNECTION": "No internet connection.",
+	"MODULE_ERROR_UNAUTHORIZED": "Authorization failed.",
 	"MODULE_ERROR_UNSPECIFIED": "Check logs for more details.",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² update available.",

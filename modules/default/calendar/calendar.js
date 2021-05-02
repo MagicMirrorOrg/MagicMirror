@@ -147,7 +147,8 @@ Module.register("calendar", {
 				}
 			}
 		} else if (notification === "CALENDAR_ERROR") {
-			this.error = this.translate("MODULE_CONFIG_ERROR", { MODULE_NAME: this.name, ERROR: payload.error });
+			let error_message = this.translate(payload.error_type);
+			this.error = this.translate("MODULE_CONFIG_ERROR", { MODULE_NAME: this.name, ERROR: error_message });
 			this.loaded = true;
 		}
 

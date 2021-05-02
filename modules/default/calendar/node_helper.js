@@ -58,6 +58,7 @@ module.exports = NodeHelper.create({
 				Log.error("Calendar Error. Could not fetch calendar: ", fetcher.url(), error);
 				let error_type = NodeHelper.checkFetchError(error);
 				this.sendSocketNotification("CALENDAR_ERROR", {
+					id: identifier,
 					error_type
 				});
 			});

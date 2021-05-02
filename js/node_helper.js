@@ -126,6 +126,8 @@ NodeHelper.checkFetchError = function (error) {
 	let error_type = "MODULE_ERROR_UNSPECIFIED";
 	if (error.code === "EAI_AGAIN") {
 		error_type = "MODULE_ERROR_NO_CONNECTION";
+	} else if (error.message === "Unauthorized") {
+		error_type = "MODULE_ERROR_UNAUTHORIZED";
 	}
 	return error_type;
 };

@@ -150,7 +150,7 @@ describe("Calendar module", function () {
 		});
 
 		it("should show Unauthorized error", function () {
-			return app.client.waitUntilTextExists(".calendar", "Error in the calendar module. Unauthorized", 10000);
+			return app.client.waitUntilTextExists(".calendar", "Error in the calendar module. Authorization failed", 10000);
 		});
 	});
 });
