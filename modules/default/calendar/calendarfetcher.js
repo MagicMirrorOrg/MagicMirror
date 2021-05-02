@@ -78,7 +78,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 						maximumNumberOfDays
 					});
 				} catch (error) {
-					fetchFailedCallback(this, error.message);
+					fetchFailedCallback(this, error);
 					scheduleTimer();
 					return;
 				}
@@ -86,7 +86,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 				scheduleTimer();
 			})
 			.catch((error) => {
-				fetchFailedCallback(this, error.message);
+				fetchFailedCallback(this, error);
 				scheduleTimer();
 			});
 	};

@@ -146,11 +146,8 @@ Module.register("calendar", {
 					this.broadcastEvents();
 				}
 			}
-		} else if (notification === "FETCH_ERROR") {
+		} else if (notification === "CALENDAR_ERROR") {
 			this.error = this.translate("MODULE_CONFIG_ERROR", { MODULE_NAME: this.name, ERROR: payload.error });
-			this.loaded = true;
-		} else if (notification === "INCORRECT_URL") {
-			this.error = `Incorrect url: ${payload.url}`;
 			this.loaded = true;
 		}
 
