@@ -82,11 +82,10 @@ describe("Calendar module", function () {
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/recurring.js";
 		});
 
-		it("should something correct", async () => {
-			// TODO add real test case
-			await app.client.waitUntilTextExists(".calendar", "TestEvent", 10000);
+		it("should show the recurring birthday event 6 times", async () => {
+			await app.client.waitUntilTextExists(".calendar", "Mar 25th", 10000);
 			const events = await app.client.$$(".calendar .event");
-			return expect(events.length).equals(4);
+			return expect(events.length).equals(6);
 		});
 	});
 
