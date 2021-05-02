@@ -90,7 +90,7 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 				response.body.pipe(iconv.decodeStream(encoding)).pipe(parser);
 			})
 			.catch((error) => {
-				fetchFailedCallback(this, error.message);
+				fetchFailedCallback(this, error);
 				scheduleTimer();
 			});
 	};

@@ -89,11 +89,8 @@ Module.register("newsfeed", {
 
 			this.loaded = true;
 			this.error = null;
-		} else if (notification === "FETCH_ERROR") {
-			this.error = `${payload.error}`;
-			this.scheduleUpdateInterval();
-		} else if (notification === "INCORRECT_URL") {
-			this.error = `Incorrect url: ${payload.url}`;
+		} else if (notification === "NEWSFEED_ERROR") {
+			this.error = this.translate(payload.error_type);
 			this.scheduleUpdateInterval();
 		}
 	},

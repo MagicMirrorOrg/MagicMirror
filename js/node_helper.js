@@ -122,6 +122,14 @@ NodeHelper.checkFetchStatus = function (response) {
 	}
 };
 
+NodeHelper.checkFetchError = function (error) {
+	let error_type = "MODULE_ERROR_UNSPECIFIED";
+	if (error.code === "EAI_AGAIN") {
+		error_type = "MODULE_ERROR_NO_CONNECTION";
+	}
+	return error_type;
+};
+
 NodeHelper.create = function (moduleDefinition) {
 	return NodeHelper.extend(moduleDefinition);
 };
