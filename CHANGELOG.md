@@ -9,7 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 _This release is scheduled to be released on 2021-04-01._
 
-Special thanks to the following contributors: @B1gG, @codac, @ezeholz, @khassel, @KristjanESPERANTO, @rejas, Faizan Ahmed.
+Special thanks to the following contributors: @B1gG, @codac, @ezeholz, @khassel, @KristjanESPERANTO, @rejas, @earlman, Faizan Ahmed.
 
 ### Added
 
