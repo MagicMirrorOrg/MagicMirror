@@ -45,8 +45,8 @@
 	"devDependencies": {
 		"chai": "^4.3.4",
 		"chai-as-promised": "^7.1.1",
-		"eslint-config-prettier": "^8.2.0",
-		"eslint-plugin-jsdoc": "^32.3.1",
+		"eslint-config-prettier": "^8.3.0",
+		"eslint-plugin-jsdoc": "^33.0.0",
 		"eslint-plugin-prettier": "^3.4.0",
 		"express-basic-auth": "^1.2.0",
 		"husky": "^4.3.8",
@@ -60,13 +60,13 @@
 		"pretty-quick": "^3.1.0",
 		"sinon": "^10.0.0",
 		"spectron": "^13.0.0",
-		"stylelint": "^13.12.0",
+		"stylelint": "^13.13.1",
 		"stylelint-config-prettier": "^8.0.2",
-		"stylelint-config-standard": "^21.0.0",
+		"stylelint-config-standard": "^22.0.0",
 		"stylelint-prettier": "^1.2.0"
 	},
 	"optionalDependencies": {
-		"electron": "^11.3.0"
+		"electron": "^11.4.4"
 	},
 	"dependencies": {
 		"colors": "^1.4.0",
@@ -76,14 +76,12 @@
 		"express": "^4.17.1",
 		"express-ipfilter": "^1.2.0",
 		"feedme": "^2.0.2",
-		"helmet": "^4.5.0",
+		"helmet": "^4.6.0",
 		"iconv-lite": "^0.6.2",
 		"module-alias": "^2.2.2",
 		"moment": "^2.29.1",
 		"node-fetch": "^2.6.1",
 		"node-ical": "^0.13.0",
-		"rrule": "^2.6.8",
-		"rrule-alt": "^2.2.8",
 		"simple-git": "^2.38.0",
 		"socket.io": "^4.0.1"
 	},
@@ -92,7 +90,7 @@
 		"logger": "js/logger.js"
 	},
 	"engines": {
-		"node": ">=10"
+		"node": ">=12"
 	},
 	"husky": {
 		"hooks": {
