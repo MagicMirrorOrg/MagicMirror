@@ -176,18 +176,6 @@ sup {
   top: 0;
 }
 
-.region.top .container {
-  margin-bottom: 25px;
-}
-
-.region.bottom .container {
-  margin-top: 25px;
-}
-
-.region.top .container:empty {
-  margin-bottom: 0;
-}
-
 .region.top.center,
 .region.bottom.center {
   left: 50%;
@@ -202,10 +190,6 @@ sup {
 
 .region.bottom {
   bottom: 0;
-}
-
-.region.bottom .container:empty {
-  margin-top: 0;
 }
 
 .region.bottom.right,
