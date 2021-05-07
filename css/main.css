@@ -6,6 +6,9 @@
   --font-size: 20px;
   --font-primary: "Roboto Condensed";
   --font-secondary: "Roboto";
+
+  --gap-body: 60px;
+  --gap-modules: calc(var(--gap-body) / 2);
 }
 
 html {
@@ -21,10 +24,10 @@ html {
 }
 
 body {
-  margin: 60px;
+  margin: var(--gap-body);
   position: absolute;
-  height: calc(100% - 120px);
-  width: calc(100% - 120px);
+  height: calc(100% - 2 * var(--gap-body));
+  width: calc(100% - 2 * var(--gap-body));
   background: var(--color-background);
   color: var(--color-text);
   font-family: var(--font-primary), sans-serif;
@@ -125,11 +128,11 @@ sup {
  */
 
 .module {
-  margin-bottom: 30px;
+  margin-bottom: var(--gap-modules);
 }
 
 .region.bottom .module {
-  margin-top: 30px;
+  margin-top: var(--gap-modules);
   margin-bottom: 0;
 }
 
@@ -153,10 +156,10 @@ sup {
 
 .region.fullscreen {
   position: absolute;
-  top: -60px;
-  left: -60px;
-  right: -60px;
-  bottom: -60px;
+  top: calc(-1 * var(--gap-body));
+  left: calc(-1 * var(--gap-body));
+  right: calc(-1 * var(--gap-body));
+  bottom: calc(-1 * var(--gap-body));
   pointer-events: none;
 }
 
