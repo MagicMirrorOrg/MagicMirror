@@ -7,7 +7,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [2.16.0] - Unreleased (Develop Branch)
 
-_This release is scheduled to be released on 2021-04-01._
+_This release is scheduled to be released on 2021-07-01._
 
 Special thanks to the following contributors: @B1gG, @codac, @ezeholz, @khassel, @KristjanESPERANTO, @rejas, Faizan Ahmed.
 
@@ -27,6 +27,7 @@ Special thanks to the following contributors: @B1gG, @codac, @ezeholz, @khassel,
 - Refactor code into es6 where possible (e.g. var -> let/const)
 - Use node v16 in github workflow (replacing node v10)
 - Moved some files into better suited directories
+- Update dependencies in package.json, require node >= v12, remove `rrule-alt` and `rrule`
 
 ### Removed
 
