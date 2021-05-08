@@ -42,6 +42,8 @@ Special thanks to the following contributors: @B1gG, @codac, @ezeholz, @khassel,
 - Fix alert not recognizing multiple alerts (#2522)
 - Fix fetch option httpsAgent to agent in calendar module (#466)
 - Fix module updatenotification which did not work for repos with many refs (#1907)
+- Fix config check failing when encountering let syntax ("Parsing error: Unexpected token config")
+- Fix calendar debug check
 
 ## [2.15.0] - 2021-04-01
 
