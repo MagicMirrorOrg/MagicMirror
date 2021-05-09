@@ -24,6 +24,25 @@ const MM = (function () {
 
 			const wrapper = selectWrapper(module.data.position);
 
+			if (wrapper.hasResizeObserver === undefined) {
+				wrapper.hasResizeObserver = false;
+			}
+			if (!wrapper.hasResizeObserver) {
+				var resizeObserver = new ResizeObserver((entries) => {
+					entries.forEach((entry) => {
+						if (window.screen.width < entry.contentRect.width) {
+							Log.warn("Modules size overflow screen width for position: " + module.data.position);
+						}
+						if (window.screen.height < entry.contentRect.height) {
+							Log.warn("Modules size overflow screen height for position: " + module.data.position);
+						}
+					});
+				});
+
+				resizeObserver.observe(wrapper);
+				wrapper.hasResizeObserver = true;
+			}
+
 			const dom = document.createElement("div");
 			dom.id = module.identifier;
 			dom.className = module.name;

@@ -19,6 +19,7 @@ Special thanks to the following contributors: @B1gG, @codac, @ezeholz, @khassel,
 - Added support for `dateFormat` when not using `timeFormat: "absolute"`
 - Added custom-properties in css of core and modules for improved styling experience, see `custom.css.sample` file
 - Added test case for recurring calendar events
+- Added warning message if the size of the modules overflows the size of the screen
 
 ### Updated
 
