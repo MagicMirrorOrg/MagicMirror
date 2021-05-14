@@ -10,8 +10,12 @@
   --font-size: 20px;
   --font-size-small: 0.75rem;
 
-  --gap-body: 60px;
-  --gap-modules: calc(var(--gap-body) / 2);
+  --gap-body-top: 60px;
+  --gap-body-right: 60px;
+  --gap-body-bottom: 60px;
+  --gap-body-left: 60px;
+
+  --gap-modules: 30px;
 }
 
 html {
@@ -27,10 +31,10 @@ html {
 }
 
 body {
-  margin: var(--gap-body);
+  margin: var(--gap-body-top) var(--gap-body-right) var(--gap-body-bottom) var(--gap-body-left);
   position: absolute;
-  height: calc(100% - 2 * var(--gap-body));
-  width: calc(100% - 2 * var(--gap-body));
+  height: calc(100% - var(--gap-body-top) - var(--gap-body-bottom));
+  width: calc(100% - var(--gap-body-right) - var(--gap-body-left));
   background: var(--color-background);
   color: var(--color-text);
   font-family: var(--font-primary), sans-serif;
@@ -159,10 +163,10 @@ sup {
 
 .region.fullscreen {
   position: absolute;
-  top: calc(-1 * var(--gap-body));
-  left: calc(-1 * var(--gap-body));
-  right: calc(-1 * var(--gap-body));
-  bottom: calc(-1 * var(--gap-body));
+  top: calc(-1 * var(--gap-body-top));
+  left: calc(-1 * var(--gap-body-left));
+  right: calc(-1 * var(--gap-body-right));
+  bottom: calc(-1 * var(--gap-body-bottom));
   pointer-events: none;
 }
 
