@@ -55,7 +55,7 @@ Module.register("compliments", {
 	/**
 	 * Generate a random index for a list of compliments.
 	 *
-	 * @param  {string[]} compliments Array with compliments.
+	 * @param {string[]} compliments Array with compliments.
 	 * @returns {number} a random index of given array
 	 */
 	randomIndex: function (compliments) {

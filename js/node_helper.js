@@ -122,6 +122,13 @@ NodeHelper.checkFetchStatus = function (response) {
 	}
 };
 
+/**
+ * Look at the specified error and return an appropriate error type, that
+ * can be translated to a detailed error message
+ *
+ * @param {Error} error the error from fetching something
+ * @returns {string} the string of the detailed error message in the translations
+ */
 NodeHelper.checkFetchError = function (error) {
 	let error_type = "MODULE_ERROR_UNSPECIFIED";
 	if (error.code === "EAI_AGAIN") {
