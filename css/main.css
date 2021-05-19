@@ -2,10 +2,20 @@
   --color-text: #999;
   --color-text-dimmed: #666;
   --color-text-bright: #fff;
-  --color-background: black;
-  --font-size: 20px;
+  --color-background: #000;
+
   --font-primary: "Roboto Condensed";
   --font-secondary: "Roboto";
+
+  --font-size: 20px;
+  --font-size-small: 0.75rem;
+
+  --gap-body-top: 60px;
+  --gap-body-right: 60px;
+  --gap-body-bottom: 60px;
+  --gap-body-left: 60px;
+
+  --gap-modules: 30px;
 }
 
 html {
@@ -21,10 +31,10 @@ html {
 }
 
 body {
-  margin: 60px;
+  margin: var(--gap-body-top) var(--gap-body-right) var(--gap-body-bottom) var(--gap-body-left);
   position: absolute;
-  height: calc(100% - 120px);
-  width: calc(100% - 120px);
+  height: calc(100% - var(--gap-body-top) - var(--gap-body-bottom));
+  width: calc(100% - var(--gap-body-right) - var(--gap-body-left));
   background: var(--color-background);
   color: var(--color-text);
   font-family: var(--font-primary), sans-serif;
@@ -50,7 +60,7 @@ body {
 }
 
 .xsmall {
-  font-size: 0.75rem;
+  font-size: var(--font-size-small);
   line-height: 1.275;
 }
 
@@ -105,7 +115,7 @@ body {
 
 header {
   text-transform: uppercase;
-  font-size: 15px;
+  font-size: var(--font-size-small);
   font-family: var(--font-primary), Arial, Helvetica, sans-serif;
   font-weight: 400;
   border-bottom: 1px solid var(--color-text-dimmed);
@@ -125,11 +135,11 @@ sup {
  */
 
 .module {
-  margin-bottom: 30px;
+  margin-bottom: var(--gap-modules);
 }
 
 .region.bottom .module {
-  margin-top: 30px;
+  margin-top: var(--gap-modules);
   margin-bottom: 0;
 }
 
@@ -153,10 +163,10 @@ sup {
 
 .region.fullscreen {
   position: absolute;
-  top: -60px;
-  left: -60px;
-  right: -60px;
-  bottom: -60px;
+  top: calc(-1 * var(--gap-body-top));
+  left: calc(-1 * var(--gap-body-left));
+  right: calc(-1 * var(--gap-body-right));
+  bottom: calc(-1 * var(--gap-body-bottom));
   pointer-events: none;
 }
 
@@ -173,18 +183,6 @@ sup {
   top: 0;
 }
 
-.region.top .container {
-  margin-bottom: 25px;
-}
-
-.region.bottom .container {
-  margin-top: 25px;
-}
-
-.region.top .container:empty {
-  margin-bottom: 0;
-}
-
 .region.top.center,
 .region.bottom.center {
   left: 50%;
@@ -199,10 +197,6 @@ sup {
 
 .region.bottom {
   bottom: 0;
-}
-
-.region.bottom .container:empty {
-  margin-top: 0;
 }
 
 .region.bottom.right,

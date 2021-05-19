@@ -17,7 +17,8 @@ Special thanks to the following contributors: @B1gG, @codac, @ezeholz, @khassel,
 - Added German translation for "PRECIP".
 - Added first test for Alert module.
 - Added support for `dateFormat` when not using `timeFormat: "absolute"`
-- Added custom-properties in css of core and modules for improved styling experience, see `custom.css.sample` file
+- Added custom-properties for colors and fonts for improved styling experience, see `custom.css.sample` file
+- Added custom-properties for gaps around body and between modules
 - Added test case for recurring calendar events
 
 ### Updated

@@ -305,15 +305,14 @@ Module.register("calendar", {
 			if (this.config.timeFormat === "dateheaders") {
 				if (event.fullDayEvent) {
 					titleWrapper.colSpan = "2";
-					titleWrapper.align = "left";
+					titleWrapper.classList.add("align-left");
 				} else {
 					const timeWrapper = document.createElement("td");
-					timeWrapper.className = "time light " + this.timeClassForUrl(event.url);
-					timeWrapper.align = "left";
+					timeWrapper.className = "time light align-left " + this.timeClassForUrl(event.url);
 					timeWrapper.style.paddingLeft = "2px";
 					timeWrapper.innerHTML = moment(event.startDate, "x").format("LT");
 					eventWrapper.appendChild(timeWrapper);
-					titleWrapper.align = "right";
+					titleWrapper.classList.add("align-right");
 				}
 
 				eventWrapper.appendChild(titleWrapper);
