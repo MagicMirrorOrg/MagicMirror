@@ -176,11 +176,11 @@ WeatherProvider.register("envcanada", {
 	generateWeatherObjectFromCurrentWeather(ECdoc) {
 		const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
 
-		// There are instances where EC will update weather data and current temperature will not be 
+		// There are instances where EC will update weather data and current temperature will not be
 		// provided. While this is a defect in the EC systems, we need to accommodate to avoid a current temp
 		// of NaN being displayed. Therefore... whenever we get a valid current temp from EC, we will cache
 		// the value. Whenever EC data is missing current temp, we will provide the cached value
-		// instead. This is reasonable since the cached value will typically be accurate within the previous 
+		// instead. This is reasonable since the cached value will typically be accurate within the previous
 		// hour. The only time this does not work as expected is when MM is restarted and the first query to
 		// EC finds no current temp. In this scenario, MM will end up displaying a current temp of null;
 
@@ -519,7 +519,7 @@ WeatherProvider.register("envcanada", {
 
 	//
 	// Check for a Precipitation forecast. EC can provide a forecast in 2 ways: either an accumulation figure
-	// or a POP percentage. If there is a POP, then that is what the module will show. If there is an accumulation, 
+	// or a POP percentage. If there is a POP, then that is what the module will show. If there is an accumulation,
 	// then it will be displayed ONLY if no POP is present.
 	//
 	// POP Logic: By default, we want to show the POP for 'daytime' since we are presuming that is what
@@ -537,7 +537,6 @@ WeatherProvider.register("envcanada", {
 	//
 
 	setPrecipitation(weather, foreGroup, today) {
-
 		if (foreGroup[today].querySelector("precipitation accumulation")) {
 			weather.precipitationUnits = foreGroup[today].querySelector("precipitation accumulation amount").getAttribute("units");
 
