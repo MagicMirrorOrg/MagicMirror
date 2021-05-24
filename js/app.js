@@ -206,7 +206,7 @@ function App() {
 	 *
 	 * @param {string} url The git url of the module.
 	 */
-	 function checkInstalled(url) {
+	function checkInstalled(url) {
 		if (!url || url === "undefined") {
 			return;
 		}
@@ -215,15 +215,15 @@ function App() {
 			return;
 		}
 		folder = `${__dirname}/../modules/` + path.resolve(folder);
-		if (! fs.existsSync(folder)) {
+		if (!fs.existsSync(folder)) {
 			Log.log("Cloning missing module " + url);
-			child_process.execSync("git clone " + url + " " + folder, {stdio:[0,1,2], timeout: 30000});
+			child_process.execSync("git clone " + url + " " + folder, { stdio: [0, 1, 2], timeout: 30000 });
 			if (fs.existsSync(folder + "/package.json")) {
 				Log.log("Installing module " + url);
-				child_process.execSync("npm install " + folder, {stdio:[0,1,2], timeout: 30000});
+				child_process.execSync("npm install " + folder, { stdio: [0, 1, 2], timeout: 30000 });
 			}
 		}
-	 }
+	}
 
 	/**
 	 * Start the core app.
