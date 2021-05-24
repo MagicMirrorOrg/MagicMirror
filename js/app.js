@@ -14,6 +14,7 @@ const Log = require("logger");
 const Server = require(`${__dirname}/server`);
 const Utils = require(`${__dirname}/utils`);
 const defaultModules = require(`${__dirname}/../modules/default/defaultmodules`);
+const child_process = require("child_process");
 
 // Get version number.
 global.version = require(`${__dirname}/../package.json`).version;
@@ -201,6 +202,30 @@ function App() {
 	}
 
 	/**
+	 * Check and install a specific module.
+	 *
+	 * @param {string} url The git url of the module.
+	 */
+	 function checkInstalled(url) {
+		if (!url || url === "undefined") {
+			return;
+		}
+		let folder = url.replace(/.*\//g, "").replace(/\.git/gi, "");
+		if (folder === "default") {
+			return;
+		}
+		folder = `${__dirname}/../modules/` + path.resolve(folder);
+		if (! fs.existsSync(folder)) {
+			Log.log("Cloning missing module " + url);
+			child_process.execSync("git clone " + url + " " + folder, {stdio:[0,1,2], timeout: 30000});
+			if (fs.existsSync(folder + "/package.json")) {
+				Log.log("Installing module " + url);
+				child_process.execSync("npm install " + folder, {stdio:[0,1,2], timeout: 30000});
+			}
+		}
+	 }
+
+	/**
 	 * Start the core app.
 	 *
 	 * It loads the config, then it loads all modules. When it's done it
@@ -219,6 +244,7 @@ function App() {
 			for (const module of config.modules) {
 				if (!modules.includes(module.module) && !module.disabled) {
 					modules.push(module.module);
+					checkInstalled(module.url);
 				}
 			}
 
