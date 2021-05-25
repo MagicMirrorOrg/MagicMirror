@@ -14,6 +14,7 @@ Module.register("newsfeed", {
 				encoding: "UTF-8" //ISO-8859-1
 			}
 		],
+		showAsList: true,
 		showSourceTitle: true,
 		showPublishDate: true,
 		broadcastNewsFeeds: true,
@@ -135,7 +136,8 @@ Module.register("newsfeed", {
 			sourceTitle: item.sourceTitle,
 			publishDate: moment(new Date(item.pubdate)).fromNow(),
 			title: item.title,
-			description: item.description
+			description: item.description,
+			items: this.newsItems
 		};
 	},
 
@@ -192,7 +194,6 @@ Module.register("newsfeed", {
 				return true;
 			}, this);
 		}
-
 		newsItems.forEach((item) => {
 			//Remove selected tags from the beginning of rss feed items (title or description)
 			if (this.config.removeStartTags === "title" || this.config.removeStartTags === "both") {
@@ -246,6 +247,7 @@ Module.register("newsfeed", {
 			this.sendNotification("NEWS_FEED_UPDATE", { items: updatedItems });
 		}
 
+		Log.warn(newsItems);
 		this.newsItems = newsItems;
 	},
 
