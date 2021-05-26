@@ -6,6 +6,7 @@
  */
 const CalendarUtils = require("./calendarutils");
 const Log = require("logger");
+const NodeHelper = require("node_helper");
 const ical = require("node-ical");
 const fetch = require("node-fetch");
 const digest = require("digest-fetch");
@@ -62,17 +63,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 		}
 
 		fetcher
-			.catch((error) => {
-				fetchFailedCallback(this, error);
-				scheduleTimer();
-			})
-			.then((response) => {
-				if (response.status !== 200) {
-					fetchFailedCallback(this, response.statusText);
-					scheduleTimer();
-				}
-				return response;
-			})
+			.then(NodeHelper.checkFetchStatus)
 			.then((response) => response.text())
 			.then((responseData) => {
 				let data = [];
@@ -87,11 +78,15 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 						maximumNumberOfDays
 					});
 				} catch (error) {
-					fetchFailedCallback(this, error.message);
+					fetchFailedCallback(this, error);
 					scheduleTimer();
 					return;
 				}
 				this.broadcastEvents();
+				scheduleTimer();
+			})
+			.catch((error) => {
+				fetchFailedCallback(this, error);
 				scheduleTimer();
 			});
 	};

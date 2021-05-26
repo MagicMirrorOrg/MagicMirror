@@ -149,8 +149,8 @@ describe("Calendar module", function () {
 			serverBasicAuth.close(done());
 		});
 
-		it("should return No upcoming events", function () {
-			return app.client.waitUntilTextExists(".calendar", "No upcoming events.", 10000);
+		it("should show Unauthorized error", function () {
+			return app.client.waitUntilTextExists(".calendar", "Error in the calendar module. Authorization failed", 10000);
 		});
 	});
 });
