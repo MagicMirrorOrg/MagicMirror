@@ -66,8 +66,8 @@ describe("Newsfeed module", function () {
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/newsfeed/incorrect_url.js";
 		});
 
-		it("should show invalid url warning", function () {
-			return app.client.waitUntilTextExists(".newsfeed .small", "Error in the Newsfeed module. Incorrect url:", 10000);
+		it("should show malformed url warning", function () {
+			return app.client.waitUntilTextExists(".newsfeed .small", "Error in the Newsfeed module. Malformed url.", 10000);
 		});
 	});
 });

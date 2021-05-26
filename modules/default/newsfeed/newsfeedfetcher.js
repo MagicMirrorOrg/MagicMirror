@@ -6,6 +6,7 @@
  */
 const Log = require("logger");
 const FeedMe = require("feedme");
+const NodeHelper = require("node_helper");
 const fetch = require("node-fetch");
 const iconv = require("iconv-lite");
 
@@ -84,12 +85,13 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 		};
 
 		fetch(url, { headers: headers })
+			.then(NodeHelper.checkFetchStatus)
+			.then((response) => {
+				response.body.pipe(iconv.decodeStream(encoding)).pipe(parser);
+			})
 			.catch((error) => {
 				fetchFailedCallback(this, error);
 				scheduleTimer();
-			})
-			.then((res) => {
-				res.body.pipe(iconv.decodeStream(encoding)).pipe(parser);
 			});
 	};
 
