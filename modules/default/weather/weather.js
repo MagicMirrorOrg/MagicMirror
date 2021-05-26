@@ -33,6 +33,7 @@ Module.register("weather", {
 		showIndoorHumidity: false,
 		maxNumberOfDays: 5,
 		maxEntries: 5,
+    ignoreToday: false,
 		fade: true,
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		initialLoadDelay: 0, // 0 seconds delay
@@ -128,10 +129,16 @@ Module.register("weather", {
 
 	// Add all the data to the template.
 	getTemplateData: function () {
+    const forecast = this.weatherProvider.weatherForecast()
+
+    if (this.config.ignoreToday) {
+      forecast.splice(0, 1)
+    }
+    
 		return {
 			config: this.config,
 			current: this.weatherProvider.currentWeather(),
-			forecast: this.weatherProvider.weatherForecast(),
+			forecast: forecast,
 			hourly: this.weatherProvider.weatherHourly(),
 			indoor: {
 				humidity: this.indoorHumidity,
@@ -260,7 +267,7 @@ Module.register("weather", {
 
 		this.nunjucksEnvironment().addFilter(
 			"calcNumEntries",
-			function (dataArray) {
+			function (dataArray) {       
 				return Math.min(dataArray.length, this.config.maxEntries);
 			}.bind(this)
 		);
