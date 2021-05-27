@@ -29,7 +29,7 @@ Special thanks to the following contributors: @B1gG, @codac, @ezeholz, @khassel,
 - Use node v16 in github workflow (replacing node v10)
 - Moved some files into better suited directories
 - Update dependencies in package.json, require node >= v12, remove `rrule-alt` and `rrule`
-- Update dependencies in package.json and migrate husky to v6
+- Update dependencies in package.json and migrate husky to v6, fix husky setup in prod environment
 - Cleaned up error handling in newsfeed and calendar modules
 
 ### Removed

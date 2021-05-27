@@ -22,7 +22,8 @@
 		"lint:prettier": "prettier --write **/*.{js,css,json,md,yml}",
 		"lint:js": "eslint js/**/*.js modules/default/**/*.js clientonly/*.js serveronly/*.js translations/*.js vendor/*.js tests/**/*.js config/* --config .eslintrc.json --fix",
 		"lint:css": "stylelint css/main.css modules/default/**/*.css --config .stylelintrc.json --fix",
-		"prepare": "husky install"
+		"lint:staged": "pretty-quick --staged",
+		"prepare": "[ -f node_modules/.bin/husky ] && husky install || echo no husky installed."
 	},
 	"repository": {
 		"type": "git",
