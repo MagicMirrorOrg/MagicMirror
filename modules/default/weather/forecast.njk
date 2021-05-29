@@ -20,9 +20,15 @@
                     {{ f.minTemperature | roundValue | unit("temperature") | decimalSymbol }}
                 </td>
                 {% if config.showPrecipitationAmount %}
-                    <td class="align-right bright precipitation">
-                        {{ f.precipitation | unit("precip") }}
-                    </td>
+                    {% if f.precipitationUnits %}	
+                        <td class="align-right bright precipitation">
+                            {{ f.precipitation }}{{ f.precipitationUnits }}
+                        </td>			
+		                {% else %}
+                        <td class="align-right bright precipitation">
+                            {{ f.precipitation | unit("precip") }}
+                        </td>
+                    {% endif %}
                 {% endif %}
             </tr>
             {% set currentStep = currentStep + 1 %}

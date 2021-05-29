@@ -20,6 +20,7 @@ Special thanks to the following contributors: @B1gG, @codac, @ezeholz, @khassel,
 - Added custom-properties for colors and fonts for improved styling experience, see `custom.css.sample` file
 - Added custom-properties for gaps around body and between modules
 - Added test case for recurring calendar events
+- Added new Environment Canada provider for default WEATHER module (weather data for Canadian locations only)
 
 ### Updated
 
