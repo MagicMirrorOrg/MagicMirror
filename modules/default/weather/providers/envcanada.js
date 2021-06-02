@@ -538,9 +538,20 @@ WeatherProvider.register("envcanada", {
 
 	setPrecipitation(weather, foreGroup, today) {
 		if (foreGroup[today].querySelector("precipitation accumulation")) {
-			weather.precipitationUnits = foreGroup[today].querySelector("precipitation accumulation amount").getAttribute("units");
-
 			weather.precipitation = foreGroup[today].querySelector("precipitation accumulation amount").textContent * 1.0;
+
+			weather.precipitationUnits = " " + foreGroup[today].querySelector("precipitation accumulation amount").getAttribute("units");
+
+			if (this.config.units === "imperial") {
+				if (weather.precipitationUnits === " cm") {
+					weather.precipitation = (weather.precipitation * 0.394).toFixed(2);
+					weather.precipitationUnits = " in";
+				}
+				if (weather.precipitationUnits === " mm") {
+					weather.precipitation = (weather.precipitation * 0.0394).toFixed(2);
+					weather.precipitationUnits = " in";
+				}
+			}
 		}
 
 		// Check Today element for POP
@@ -574,32 +585,6 @@ WeatherProvider.register("envcanada", {
 			return kilo / 1.609344;
 		} else {
 			return kilo;
-		}
-	},
-	//
-	// Convert cm or mm to inches
-	//
-	convertPrecipAmt(amt, units) {
-		if (this.config.units === "imperial") {
-			if (units === "cm") {
-				return amt * 0.394;
-			}
-			if (units === "mm") {
-				return amt * 0.0394;
-			}
-		} else {
-			return amt;
-		}
-	},
-
-	//
-	// Convert ensure precip units accurately reflect configured units
-	//
-	convertPrecipUnits(units) {
-		if (this.config.units === "imperial") {
-			return null;
-		} else {
-			return " " + units;
 		}
 	},
 
