@@ -4,11 +4,11 @@ const expect = require("chai").expect;
 const vm = require("vm");
 
 before(function () {
-	var basedir = path.join(__dirname, "../../..");
+	const basedir = path.join(__dirname, "../../..");
 
-	var fileName = "js/app.js";
-	var filePath = path.join(basedir, fileName);
-	var code = fs.readFileSync(filePath);
+	const fileName = "js/app.js";
+	const filePath = path.join(basedir, fileName);
+	const code = fs.readFileSync(filePath);
 
 	this.sandbox = {
 		module: {},
@@ -41,7 +41,7 @@ after(function () {
 });
 
 describe("'global.root_path' set in js/app.js", function () {
-	var expectedSubPaths = ["modules", "serveronly", "js", "js/app.js", "js/main.js", "js/electron.js", "config"];
+	const expectedSubPaths = ["modules", "serveronly", "js", "js/app.js", "js/main.js", "js/electron.js", "config"];
 
 	expectedSubPaths.forEach((subpath) => {
 		it(`contains a file/folder "${subpath}"`, function () {

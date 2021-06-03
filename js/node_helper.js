@@ -113,6 +113,32 @@ const NodeHelper = Class.extend({
 	}
 });
 
+NodeHelper.checkFetchStatus = function (response) {
+	// response.status >= 200 && response.status < 300
+	if (response.ok) {
+		return response;
+	} else {
+		throw Error(response.statusText);
+	}
+};
+
+/**
+ * Look at the specified error and return an appropriate error type, that
+ * can be translated to a detailed error message
+ *
+ * @param {Error} error the error from fetching something
+ * @returns {string} the string of the detailed error message in the translations
+ */
+NodeHelper.checkFetchError = function (error) {
+	let error_type = "MODULE_ERROR_UNSPECIFIED";
+	if (error.code === "EAI_AGAIN") {
+		error_type = "MODULE_ERROR_NO_CONNECTION";
+	} else if (error.message === "Unauthorized") {
+		error_type = "MODULE_ERROR_UNAUTHORIZED";
+	}
+	return error_type;
+};
+
 NodeHelper.create = function (moduleDefinition) {
 	return NodeHelper.extend(moduleDefinition);
 };

@@ -8,7 +8,7 @@ const afterEach = global.afterEach;
 describe("Clock set to spanish language module", function () {
 	helpers.setupTimeout(this);
 
-	var app = null;
+	let app = null;
 
 	beforeEach(function () {
 		return helpers

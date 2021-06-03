@@ -10,7 +10,7 @@ const afterEach = global.afterEach;
 describe("Clock module", function () {
 	helpers.setupTimeout(this);
 
-	var app = null;
+	let app = null;
 
 	beforeEach(function () {
 		return helpers

@@ -10,7 +10,7 @@ const after = global.after;
 describe("Vendors", function () {
 	helpers.setupTimeout(this);
 
-	var app = null;
+	let app = null;
 
 	before(function () {
 		process.env.MM_CONFIG_FILE = "tests/configs/env.js";
@@ -31,7 +31,7 @@ describe("Vendors", function () {
 		const vendors = require(__dirname + "/../../vendor/vendor.js");
 		Object.keys(vendors).forEach((vendor) => {
 			it(`should return 200 HTTP code for vendor "${vendor}"`, function () {
-				var urlVendor = "http://localhost:8080/vendor/" + vendors[vendor];
+				const urlVendor = "http://localhost:8080/vendor/" + vendors[vendor];
 				fetch(urlVendor).then((res) => {
 					expect(res.status).to.equal(200);
 				});
@@ -40,7 +40,7 @@ describe("Vendors", function () {
 
 		Object.keys(vendors).forEach((vendor) => {
 			it(`should return 404 HTTP code for vendor https://localhost/"${vendor}"`, function () {
-				var urlVendor = "http://localhost:8080/" + vendors[vendor];
+				const urlVendor = "http://localhost:8080/" + vendors[vendor];
 				fetch(urlVendor).then((res) => {
 					expect(res.status).to.equal(404);
 				});

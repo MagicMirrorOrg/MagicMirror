@@ -5,6 +5,9 @@
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
+// Alias modules mentioned in package.js under _moduleAliases.
+require("module-alias/register");
+
 const CalendarFetcher = require("./calendarfetcher.js");
 
 const url = "https://calendar.google.com/calendar/ical/pkm1t2uedjbp0uvq1o7oj1jouo%40group.calendar.google.com/private-08ba559f89eec70dd74bbd887d0a3598/basic.ics"; // Standard test URL
@@ -26,11 +29,13 @@ const fetcher = new CalendarFetcher(url, fetchInterval, [], maximumEntries, maxi
 fetcher.onReceive(function (fetcher) {
 	console.log(fetcher.events());
 	console.log("------------------------------------------------------------");
+	process.exit(0);
 });
 
 fetcher.onError(function (fetcher, error) {
 	console.log("Fetcher error:");
 	console.log(error);
+	process.exit(1);
 });
 
 fetcher.startFetch();

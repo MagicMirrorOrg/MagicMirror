@@ -5,6 +5,51 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror²
 
+## [2.16.0] - Unreleased (Develop Branch)
+
+_This release is scheduled to be released on 2021-07-01._
+
+Special thanks to the following contributors: @B1gG, @codac, @ezeholz, @khassel, @KristjanESPERANTO, @rejas, @earlman, Faizan Ahmed.
+
+### Added
+
+- Added French translations for "MODULE_CONFIG_ERROR" and "PRECIP".
+- Added German translation for "PRECIP".
+- Added first test for Alert module.
+- Added support for `dateFormat` when not using `timeFormat: "absolute"`
+- Added custom-properties for colors and fonts for improved styling experience, see `custom.css.sample` file
+- Added custom-properties for gaps around body and between modules
+- Added test case for recurring calendar events
+- Added new Environment Canada provider for default WEATHER module (weather data for Canadian locations only)
+
+### Updated
+
+- Bump node-ical to v0.13.0 (now last runtime dependency using deprecated `request` package is removed).
+- Use codecov in informational mode
+- Refactor code into es6 where possible (e.g. var -> let/const)
+- Use node v16 in github workflow (replacing node v10)
+- Moved some files into better suited directories
+- Update dependencies in package.json, require node >= v12, remove `rrule-alt` and `rrule`
+- Update dependencies in package.json and migrate husky to v6, fix husky setup in prod environment
+- Cleaned up error handling in newsfeed and calendar modules for real
+
+### Removed
+
+### Fixed
+
+- Fix calendar start function logging inconsistency.
+- Fix updatenotification start function logging inconsistency.
+- Checks and applies the showDescription setting for the newsfeed module again
+- Fix tests in weather module and add one for decimalPoint in forecast
+- Fix decimalSymbol in the forecast part of the new weather module #2530
+- Fix wrong treatment of `appendLocationNameToHeader` when using `ukmetofficedatahub`
+- Fix alert not recognizing multiple alerts (#2522)
+- Fix fetch option httpsAgent to agent in calendar module (#466)
+- Fix module updatenotification which did not work for repos with many refs (#1907)
+- Fix config check failing when encountering let syntax ("Parsing error: Unexpected token config")
+- Fix calendar debug check
+- Really run prettier over all files
+
 ## [2.15.0] - 2021-04-01
 
 Special thanks to the following contributors: @EdgardosReis, @MystaraTheGreat, @TheDuffman85, @ashishtank, @buxxi, @codac, @fewieden, @khassel, @klaernie, @qu1que, @rejas, @sdetweil & @thomasrockhu.

@@ -1,13 +1,10 @@
 /* Magic Mirror Test config for default clock module
  * Language es for showWeek feature
  *
- * By Rodrigo Ramírez Norambuena
- *    https://rodrigoramirez.com
- *
+ * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.
  */
-
-var config = {
+let config = {
 	port: 8080,
 	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1"],
 

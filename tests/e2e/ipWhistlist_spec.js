@@ -10,7 +10,7 @@ const afterEach = global.afterEach;
 describe("ipWhitelist directive configuration", function () {
 	helpers.setupTimeout(this);
 
-	var app = null;
+	let app = null;
 
 	beforeEach(function () {
 		return helpers
@@ -31,6 +31,7 @@ describe("ipWhitelist directive configuration", function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/noIpWhiteList.js";
 		});
+
 		it("should return 403", function (done) {
 			fetch("http://localhost:8080").then((res) => {
 				expect(res.status).to.equal(403);
@@ -44,6 +45,7 @@ describe("ipWhitelist directive configuration", function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/empty_ipWhiteList.js";
 		});
+
 		it("should return 200", function (done) {
 			fetch("http://localhost:8080").then((res) => {
 				expect(res.status).to.equal(200);

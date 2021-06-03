@@ -1,4 +1,5 @@
 const helpers = require("../global-setup");
+const expect = require("chai").expect;
 
 const describe = global.describe;
 const it = global.it;
@@ -36,6 +37,12 @@ describe("Newsfeed module", function () {
 		it("should show the newsfeed article", function () {
 			return app.client.waitUntilTextExists(".newsfeed .newsfeed-title", "QPanel", 10000);
 		});
+
+		it("should NOT show the newsfeed description", async () => {
+			await app.client.waitUntilTextExists(".newsfeed .newsfeed-title", "QPanel", 10000);
+			const events = await app.client.$$(".newsfeed .newsfeed-desc");
+			return expect(events.length).equals(0);
+		});
 	});
 
 	describe("Custom configuration", function () {
@@ -46,6 +53,12 @@ describe("Newsfeed module", function () {
 		it("should not show articles with prohibited words", function () {
 			return app.client.waitUntilTextExists(".newsfeed .newsfeed-title", "Problema VirtualBox", 10000);
 		});
+
+		it("should show the newsfeed description", async () => {
+			await app.client.waitUntilTextExists(".newsfeed .newsfeed-title", "Problema VirtualBox", 10000);
+			const events = await app.client.$$(".newsfeed .newsfeed-desc");
+			return expect(events.length).equals(1);
+		});
 	});
 
 	describe("Invalid configuration", function () {
@@ -53,8 +66,8 @@ describe("Newsfeed module", function () {
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/newsfeed/incorrect_url.js";
 		});
 
-		it("should show invalid url warning", function () {
-			return app.client.waitUntilTextExists(".newsfeed .small", "Error in the Newsfeed module. Incorrect url:", 10000);
+		it("should show malformed url warning", function () {
+			return app.client.waitUntilTextExists(".newsfeed .small", "Error in the Newsfeed module. Malformed url.", 10000);
 		});
 	});
 });

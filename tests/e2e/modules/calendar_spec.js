@@ -76,6 +76,19 @@ describe("Calendar module", function () {
 		});
 	});
 
+	describe("Recurring event", function () {
+		before(function () {
+			// Set config sample for use in test
+			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/recurring.js";
+		});
+
+		it("should show the recurring birthday event 6 times", async () => {
+			await app.client.waitUntilTextExists(".calendar", "Mar 25th", 10000);
+			const events = await app.client.$$(".calendar .event");
+			return expect(events.length).equals(6);
+		});
+	});
+
 	describe("Changed port", function () {
 		before(function () {
 			serverBasicAuth.listen(8010);
@@ -136,8 +149,8 @@ describe("Calendar module", function () {
 			serverBasicAuth.close(done());
 		});
 
-		it("should return No upcoming events", function () {
-			return app.client.waitUntilTextExists(".calendar", "No upcoming events.", 10000);
+		it("should show Unauthorized error", function () {
+			return app.client.waitUntilTextExists(".calendar", "Error in the calendar module. Authorization failed", 10000);
 		});
 	});
 });
