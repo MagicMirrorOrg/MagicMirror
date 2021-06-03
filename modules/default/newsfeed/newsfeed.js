@@ -129,6 +129,10 @@ Module.register("newsfeed", {
 		}
 
 		const item = this.newsItems[this.activeItem];
+		const items = this.newsItems.map(function (item) {
+			item.publishDate = moment(new Date(item.pubdate)).fromNow();
+			return item;
+		});
 
 		return {
 			loaded: true,
@@ -137,7 +141,7 @@ Module.register("newsfeed", {
 			publishDate: moment(new Date(item.pubdate)).fromNow(),
 			title: item.title,
 			description: item.description,
-			items: this.newsItems
+			items: items
 		};
 	},
 
@@ -247,7 +251,6 @@ Module.register("newsfeed", {
 			this.sendNotification("NEWS_FEED_UPDATE", { items: updatedItems });
 		}
 
-		Log.warn(newsItems);
 		this.newsItems = newsItems;
 	},
 
