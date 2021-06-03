@@ -14,7 +14,7 @@ Module.register("newsfeed", {
 				encoding: "UTF-8" //ISO-8859-1
 			}
 		],
-		showAsList: true,
+		showAsList: false,
 		showSourceTitle: true,
 		showPublishDate: true,
 		broadcastNewsFeeds: true,
