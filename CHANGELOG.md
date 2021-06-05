@@ -21,6 +21,7 @@ Special thanks to the following contributors: @B1gG, @codac, @ezeholz, @khassel,
 - Added custom-properties for gaps around body and between modules
 - Added test case for recurring calendar events
 - Added new Environment Canada provider for default WEATHER module (weather data for Canadian locations only)
+- Added default WEATHER module such that a provider can optionally set a custom unit-of-measure for precipitation (`weatherObject.precipitationUnits`)
 
 ### Updated
 
