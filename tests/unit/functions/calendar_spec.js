@@ -10,7 +10,7 @@ describe("Functions into modules/default/calendar/calendar.js", function () {
 		Module.definitions[name] = moduleDefinition;
 	};
 
-	before(function () {
+	beforeAll(function () {
 		// load calendar.js
 		require("../../../modules/default/calendar/calendar.js");
 	});

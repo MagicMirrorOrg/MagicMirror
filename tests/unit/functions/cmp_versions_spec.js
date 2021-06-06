@@ -5,7 +5,7 @@ const { JSDOM } = require("jsdom");
 describe("Test function cmpVersions in js/module.js", function () {
 	let cmp;
 
-	before(function (done) {
+	beforeAll(function (done) {
 		const dom = new JSDOM(
 			`<script>var Class = {extend: function() { return {}; }};</script>\
 				<script src="file://${path.join(__dirname, "..", "..", "..", "js", "module.js")}">`,

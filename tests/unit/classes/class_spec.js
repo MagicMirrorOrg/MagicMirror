@@ -7,7 +7,7 @@ describe("File js/class", function () {
 		let clone;
 		let dom;
 
-		before(function (done) {
+		beforeAll(function (done) {
 			dom = new JSDOM(
 				`<script>var Log = {log: function() {}};</script>\
 					<script src="file://${path.join(__dirname, "..", "..", "..", "js", "class.js")}">`,
@@ -87,14 +87,14 @@ describe("File js/class", function () {
 		describe("Test lockstring code", function () {
 			let log;
 
-			before(function () {
+			beforeAll(function () {
 				log = dom.window.Log.log;
 				dom.window.Log.log = function cmp(str) {
 					expect(str).to.equal("lockStrings");
 				};
 			});
 
-			after(function () {
+			afterAll(function () {
 				dom.window.Log.log = log;
 			});
 

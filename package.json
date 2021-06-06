@@ -13,7 +13,7 @@
 		"test": "NODE_ENV=test mocha tests --recursive",
 		"test:coverage": "NODE_ENV=test nyc --reporter=lcov --reporter=text mocha tests --recursive --timeout=3000",
 		"test:e2e": "NODE_ENV=test mocha tests/e2e --recursive",
-		"test:unit": "NODE_ENV=test mocha tests/unit --recursive",
+		"test:unit": "NODE_ENV=test jest --testMatch **/tests/unit/**/*",
 		"test:prettier": "prettier . --check",
 		"test:js": "eslint js/**/*.js modules/default/**/*.js clientonly/*.js serveronly/*.js translations/*.js vendor/*.js tests/**/*.js config/* --config .eslintrc.json --quiet",
 		"test:css": "stylelint css/main.css modules/default/**/*.css --config .stylelintrc.json",
@@ -52,11 +52,9 @@
 		"eslint-plugin-prettier": "^3.4.0",
 		"express-basic-auth": "^1.2.0",
 		"husky": "^6.0.0",
+		"jest": "27.0.4",
 		"jsdom": "^16.6.0",
 		"lodash": "^4.17.21",
-		"mocha": "^8.4.0",
-		"mocha-each": "^2.0.1",
-		"mocha-logger": "^1.0.7",
 		"nyc": "^15.1.0",
 		"prettier": "^2.3.0",
 		"pretty-quick": "^3.1.0",
@@ -93,5 +91,13 @@
 	},
 	"engines": {
 		"node": ">=12"
+	},
+	"jest": {
+		"moduleNameMapper": {
+			"node_helper": "<rootDir>/js/node_helper.js",
+			"logger": "<rootDir>/js/logger.js",
+			"moment-timezone": "<rootDir>/node_modules/moment-timezone/moment-timezone.js",
+			"moment": "<rootDir>/node_modules/moment/moment.js"
+		}
 	}
 }

@@ -10,14 +10,14 @@ describe("Functions module currentweather", function () {
 		Module.definitions[name] = moduleDefinition;
 	};
 
-	before(function () {
+	beforeAll(function () {
 		require("../../../modules/default/currentweather/currentweather.js");
 		Module.definitions.currentweather.config = {};
 	});
 
 	describe("roundValue", function () {
 		describe("this.config.roundTemp is true", function () {
-			before(function () {
+			beforeAll(function () {
 				Module.definitions.currentweather.config.roundTemp = true;
 			});
 
@@ -41,7 +41,7 @@ describe("Functions module currentweather", function () {
 		});
 
 		describe("this.config.roundTemp is false", function () {
-			before(function () {
+			beforeAll(function () {
 				Module.definitions.currentweather.config.roundTemp = false;
 			});
 

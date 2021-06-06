@@ -4,7 +4,7 @@ const moment = require("moment-timezone");
 const data = require("../../configs/data/weatherforecast_data.json");
 
 describe("Functions module weatherforecast", function () {
-	before(function () {
+	beforeAll(function () {
 		Module = {};
 		config = {};
 		Module.definitions = {};
@@ -17,7 +17,7 @@ describe("Functions module weatherforecast", function () {
 
 	describe("roundValue", function () {
 		describe("this.config.roundTemp is true", function () {
-			before(function () {
+			beforeAll(function () {
 				Module.definitions.weatherforecast.config.roundTemp = true;
 			});
 
@@ -41,7 +41,7 @@ describe("Functions module weatherforecast", function () {
 		});
 
 		describe("this.config.roundTemp is false", function () {
-			before(function () {
+			beforeAll(function () {
 				Module.definitions.weatherforecast.config.roundTemp = false;
 			});
 
@@ -73,7 +73,7 @@ describe("Functions module weatherforecast", function () {
 
 		let originalLocale;
 		let originalTimeZone;
-		before(function () {
+		beforeAll(function () {
 			originalLocale = moment.locale();
 			originalTimeZone = moment.tz.guess();
 			moment.locale("hi");
@@ -81,7 +81,7 @@ describe("Functions module weatherforecast", function () {
 		});
 
 		describe("forecastIcons sunset specified", function () {
-			before(function () {
+			beforeAll(function () {
 				Module.definitions.weatherforecast.Log = {};
 				Module.definitions.weatherforecast.forecast = [];
 				Module.definitions.weatherforecast.show = Module.definitions.weatherforecast.updateDom = function () {};
@@ -89,7 +89,7 @@ describe("Functions module weatherforecast", function () {
 			});
 
 			it(`returns correct icons with sunset time`, function () {
-				Module.definitions.weatherforecast.processWeather(data.withSunset);
+				Module.definitions.weatherforecast.processWeather(data.withSunset, moment);
 				let forecastData = Module.definitions.weatherforecast.forecast;
 				expect(forecastData.length).to.equal(4);
 				expect(forecastData[2].icon).to.equal("wi-rain");
@@ -97,19 +97,19 @@ describe("Functions module weatherforecast", function () {
 		});
 
 		describe("forecastIcons sunset not specified", function () {
-			before(function () {
+			beforeAll(function () {
 				Module.definitions.weatherforecast.forecast = [];
 			});
 
 			it(`returns correct icons with out sunset time`, function () {
-				Module.definitions.weatherforecast.processWeather(data.withoutSunset);
+				Module.definitions.weatherforecast.processWeather(data.withoutSunset, moment);
 				let forecastData = Module.definitions.weatherforecast.forecast;
 				expect(forecastData.length).to.equal(4);
 				expect(forecastData[2].icon).to.equal("wi-rain");
 			});
 		});
 
-		after(function () {
+		afterAll(function () {
 			moment.locale(originalLocale);
 			moment.tz.setDefault(originalTimeZone);
 		});

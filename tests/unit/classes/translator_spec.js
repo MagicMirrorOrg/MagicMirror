@@ -3,11 +3,12 @@ const path = require("path");
 const helmet = require("helmet");
 const { JSDOM } = require("jsdom");
 const express = require("express");
+const sockets = new Set();
 
 describe("Translator", function () {
 	let server;
 
-	before(function () {
+	beforeAll(function () {
 		const app = express();
 		app.use(helmet());
 		app.use(function (req, res, next) {
@@ -17,9 +18,20 @@ describe("Translator", function () {
 		app.use("/translations", express.static(path.join(__dirname, "..", "..", "..", "tests", "configs", "data")));
 
 		server = app.listen(3000);
+
+		server.on('connection', (socket) => {
+			sockets.add(socket);
+		});
+
 	});
 
-	after(function () {
+	afterAll(function () {
+		for (const socket of sockets) {
+			socket.destroy();
+	
+			sockets.delete(socket);
+		}
+
 		server.close();
 	});
 

@@ -3,14 +3,14 @@ const path = require("path");
 const expect = require("chai").expect;
 const vm = require("vm");
 
-before(function () {
+beforeAll(function () {
 	const basedir = path.join(__dirname, "../../..");
 
 	const fileName = "js/app.js";
 	const filePath = path.join(basedir, fileName);
 	const code = fs.readFileSync(filePath);
 
-	this.sandbox = {
+	sandbox = {
 		module: {},
 		__dirname: path.dirname(filePath),
 		global: {},
@@ -27,16 +27,16 @@ before(function () {
 		}
 	};
 
-	this.sandbox.require = function (filename) {
+	sandbox.require = function (filename) {
 		// This modifies the global slightly,
 		// but supplies vm with essential code
 		return require(filename);
 	};
 
-	vm.runInNewContext(code, this.sandbox, fileName);
+	vm.runInNewContext(code, sandbox, fileName);
 });
 
-after(function () {
+afterAll(function () {
 	//console.log(global);
 });
 
@@ -45,7 +45,7 @@ describe("'global.root_path' set in js/app.js", function () {
 
 	expectedSubPaths.forEach((subpath) => {
 		it(`contains a file/folder "${subpath}"`, function () {
-			expect(fs.existsSync(path.join(this.sandbox.global.root_path, subpath))).to.equal(true);
+			expect(fs.existsSync(path.join(sandbox.global.root_path, subpath))).to.equal(true);
 		});
 	});
 
@@ -59,6 +59,6 @@ describe("'global.root_path' set in js/app.js", function () {
 
 	it("should expect the global.version equals package.json file", function () {
 		const versionPackage = JSON.parse(fs.readFileSync("package.json", "utf8")).version;
-		expect(this.sandbox.global.version).to.equal(versionPackage);
+		expect(sandbox.global.version).to.equal(versionPackage);
 	});
 });

@@ -339,7 +339,9 @@ Module.register("weatherforecast", {
 	 *
 	 * argument data object - Weather information received form openweather.org.
 	 */
-	processWeather: function (data) {
+	processWeather: function (data, momenttz) {
+		let mom;
+		if (momenttz === null) {mom = moment} else {mom = momenttz};
 		// Forcast16 (paid) API endpoint provides this data.  Onecall endpoint
 		// does not.
 		if (data.city) {
@@ -357,8 +359,8 @@ Module.register("weatherforecast", {
 		var dayEnds = 17;
 
 		if (data.city && data.city.sunrise && data.city.sunset) {
-			dayStarts = new Date(moment.unix(data.city.sunrise).locale("en").format("YYYY/MM/DD HH:mm:ss")).getHours();
-			dayEnds = new Date(moment.unix(data.city.sunset).locale("en").format("YYYY/MM/DD HH:mm:ss")).getHours();
+			dayStarts = new Date(mom.unix(data.city.sunrise).locale("en").format("YYYY/MM/DD HH:mm:ss")).getHours();
+			dayEnds = new Date(mom.unix(data.city.sunset).locale("en").format("YYYY/MM/DD HH:mm:ss")).getHours();
 		}
 
 		// Handle different structs between forecast16 and onecall endpoints
@@ -379,11 +381,11 @@ Module.register("weatherforecast", {
 			var day;
 			var hour;
 			if (forecast.dt_txt) {
-				day = moment(forecast.dt_txt, "YYYY-MM-DD hh:mm:ss").format("ddd");
-				hour = new Date(moment(forecast.dt_txt).locale("en").format("YYYY-MM-DD HH:mm:ss")).getHours();
+				day = mom(forecast.dt_txt, "YYYY-MM-DD hh:mm:ss").format("ddd");
+				hour = new Date(mom(forecast.dt_txt).locale("en").format("YYYY-MM-DD HH:mm:ss")).getHours();
 			} else {
-				day = moment(forecast.dt, "X").format("ddd");
-				hour = new Date(moment(forecast.dt, "X")).getHours();
+				day = mom(forecast.dt, "X").format("ddd");
+				hour = new Date(mom(forecast.dt, "X")).getHours();
 			}
 
 			if (day !== lastDay) {
@@ -392,7 +394,7 @@ Module.register("weatherforecast", {
 					icon: this.config.iconTable[forecast.weather[0].icon],
 					maxTemp: this.roundValue(forecast.temp.max),
 					minTemp: this.roundValue(forecast.temp.min),
-					rain: this.processRain(forecast, forecastList)
+					rain: this.processRain(forecast, forecastList, mom)
 				};
 				this.forecast.push(forecastData);
 				lastDay = day;
@@ -482,16 +484,18 @@ Module.register("weatherforecast", {
 	 * That object has a property "3h" which contains the amount of rain since the previous forecast in the list.
 	 * This code finds all forecasts that is for the same day and sums the amount of rain and returns that.
 	 */
-	processRain: function (forecast, allForecasts) {
+	processRain: function (forecast, allForecasts, momenttz) {
+		let mom;
+		if (momenttz === null) {mom = moment} else {mom = momenttz};
 		//If the amount of rain actually is a number, return it
 		if (!isNaN(forecast.rain)) {
 			return forecast.rain;
 		}
 
 		//Find all forecasts that is for the same day
-		var checkDateTime = forecast.dt_txt ? moment(forecast.dt_txt, "YYYY-MM-DD hh:mm:ss") : moment(forecast.dt, "X");
+		var checkDateTime = forecast.dt_txt ? mom(forecast.dt_txt, "YYYY-MM-DD hh:mm:ss") : mom(forecast.dt, "X");
 		var daysForecasts = allForecasts.filter(function (item) {
-			var itemDateTime = item.dt_txt ? moment(item.dt_txt, "YYYY-MM-DD hh:mm:ss") : moment(item.dt, "X");
+			var itemDateTime = item.dt_txt ? mom(item.dt_txt, "YYYY-MM-DD hh:mm:ss") : mom(item.dt, "X");
 			return itemDateTime.isSame(checkDateTime, "day") && item.rain instanceof Object;
 		});
 
