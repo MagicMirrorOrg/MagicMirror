@@ -12,7 +12,7 @@
 		"postinstall": "npm run install-fonts && echo \"MagicMirror installation finished successfully! \n\"",
 		"test": "NODE_ENV=test mocha tests --recursive",
 		"test:coverage": "NODE_ENV=test nyc --reporter=lcov --reporter=text mocha tests --recursive --timeout=3000",
-		"test:e2e": "NODE_ENV=test mocha tests/e2e --recursive",
+		"test:e2e": "NODE_ENV=test jest --testMatch **/tests/e2e/**/*",
 		"test:unit": "NODE_ENV=test jest --testMatch **/tests/unit/**/*",
 		"test:prettier": "prettier . --check",
 		"test:js": "eslint js/**/*.js modules/default/**/*.js clientonly/*.js serveronly/*.js translations/*.js vendor/*.js tests/**/*.js config/* --config .eslintrc.json --quiet",
@@ -45,8 +45,6 @@
 	},
 	"homepage": "https://magicmirror.builders",
 	"devDependencies": {
-		"chai": "^4.3.4",
-		"chai-as-promised": "^7.1.1",
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-jsdoc": "^35.0.0",
 		"eslint-plugin-prettier": "^3.4.0",
@@ -95,7 +93,8 @@
 	"jest": {
 		"moduleNameMapper": {
 			"node_helper": "<rootDir>/js/node_helper.js",
-			"logger": "<rootDir>/js/logger.js",
+			// "logger": "<rootDir>/js/logger.js", <-- only for unit tests, not for e2e
+			// replace require("chai").expect with expect from jest, see e2e/env_spec.js
 			"moment-timezone": "<rootDir>/node_modules/moment-timezone/moment-timezone.js",
 			"moment": "<rootDir>/node_modules/moment/moment.js"
 		}

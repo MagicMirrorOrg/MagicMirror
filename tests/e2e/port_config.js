@@ -27,7 +27,7 @@ describe("port directive configuration", function () {
 	});
 
 	describe("Set port 8090", function () {
-		before(function () {
+		beforeAll(function () {
 			// Set config sample for use in this test
 			process.env.MM_CONFIG_FILE = "tests/configs/port_8090.js";
 		});
@@ -41,13 +41,13 @@ describe("port directive configuration", function () {
 	});
 
 	describe("Set port 8100 on environment variable MM_PORT", function () {
-		before(function () {
+		beforeAll(function () {
 			process.env.MM_PORT = 8100;
 			// Set config sample for use in this test
 			process.env.MM_CONFIG_FILE = "tests/configs/port_8090.js";
 		});
 
-		after(function () {
+		afterAll(function () {
 			delete process.env.MM_PORT;
 		});
 

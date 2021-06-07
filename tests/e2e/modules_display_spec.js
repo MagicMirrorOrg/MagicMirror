@@ -23,7 +23,7 @@ describe("Display of modules", function () {
 	});
 
 	describe("Using helloworld", function () {
-		before(function () {
+		beforeAll(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/display.js";
 		});

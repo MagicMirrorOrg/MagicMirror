@@ -12,7 +12,7 @@ describe("Vendors", function () {
 
 	let app = null;
 
-	before(function () {
+	beforeAll(function () {
 		process.env.MM_CONFIG_FILE = "tests/configs/env.js";
 		return helpers
 			.startApplication({
@@ -23,7 +23,7 @@ describe("Vendors", function () {
 			});
 	});
 
-	after(function () {
+	afterAll(function () {
 		return helpers.stopApplication(app);
 	});
 

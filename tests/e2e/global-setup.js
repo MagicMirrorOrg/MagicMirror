@@ -10,7 +10,7 @@ const chai = require("chai");
 const chaiAsPromised = require("chai-as-promised");
 const path = require("path");
 
-global.before(function () {
+global.beforeAll(function () {
 	chai.should();
 	chai.use(chaiAsPromised);
 });
@@ -26,9 +26,9 @@ exports.getElectronPath = function () {
 // Set timeout - if this is run within Travis, increase timeout
 exports.setupTimeout = function (test) {
 	if (process.env.CI) {
-		test.timeout(30000);
+		jest.setTimeout(30000);
 	} else {
-		test.timeout(10000);
+		jest.setTimeout(10000);
 	}
 };
 

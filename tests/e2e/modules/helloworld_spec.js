@@ -25,7 +25,7 @@ describe("Test helloworld module", function () {
 	});
 
 	describe("helloworld set config text", function () {
-		before(function () {
+		beforeAll(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/helloworld/helloworld.js";
 		});
@@ -37,7 +37,7 @@ describe("Test helloworld module", function () {
 	});
 
 	describe("helloworld default config text", function () {
-		before(function () {
+		beforeAll(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/helloworld/helloworld_default.js";
 		});

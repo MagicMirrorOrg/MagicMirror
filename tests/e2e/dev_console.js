@@ -5,22 +5,17 @@ const describe = global.describe;
 const it = global.it;
 
 describe("Development console tests", function () {
-	// FIXME: This tests fail and crash another tests
-	// Suspect problem with window focus
-	return false;
-
-	/* eslint-disable */
 	helpers.setupTimeout(this);
 
 	let app = null;
 
-	before(function () {
+	beforeAll(function () {
 		// Set config sample for use in test
 		process.env.MM_CONFIG_FILE = "tests/configs/env.js";
 	});
 
 	describe("Without 'dev' commandline argument", function () {
-		before(function () {
+		beforeAll(function () {
 			return helpers
 				.startApplication({
 					args: ["js/electron.js"]
@@ -30,33 +25,35 @@ describe("Development console tests", function () {
 				});
 		});
 
-		after(function () {
+		afterAll(function () {
 			return helpers.stopApplication(app);
 		});
 
-		it("should not open dev console when absent", function () {
+		it("should not open dev console when absent", async function () {
+			await app.client.waitUntilWindowLoaded();
 			return expect(app.browserWindow.isDevToolsOpened()).to.eventually.equal(false);
 		});
 	});
 
-	describe("With 'dev' commandline argument", function () {
-		before(function () {
-			return helpers
-				.startApplication({
-					args: ["js/electron.js", "dev"]
-				})
-				.then(function (startedApp) {
-					app = startedApp;
-				});
-		});
+	// describe("With 'dev' commandline argument", function () {
+	// 	beforeAll(function () {
+	// 		return helpers
+	// 			.startApplication({
+	// 				args: ["js/electron.js", "dev"]
+	// 			})
+	// 			.then(function (startedApp) {
+	// 				app = startedApp;
+	// 			});
+	// 	});
 
-		after(function () {
-			return helpers.stopApplication(app);
-		});
+	// 	afterAll(function () {
+	// 		return helpers.stopApplication(app);
+	// 	});
 
-		it("should open dev console when provided", function () {
-			return expect(app.browserWindow.isDevToolsOpened()).to.eventually.equal(true);
-		});
-	});
-	/* eslint-enable */
+	// 	it("should open dev console when provided", async function () {
+	// 		expect(await app.client.getWindowCount()).to.equal(2);
+	// 		await app.client.waitUntilWindowLoaded();
+	// 		return expect(app.browserWindow.isDevToolsOpened()).to.eventually.equal(true);
+	// 	});
+	// });
 });

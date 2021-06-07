@@ -25,7 +25,7 @@ describe("Alert module", function () {
 	});
 
 	describe("Default configuration", function () {
-		before(function () {
+		beforeAll(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/alert/default.js";
 		});

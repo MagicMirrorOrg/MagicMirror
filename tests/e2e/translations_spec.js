@@ -12,7 +12,7 @@ const sinon = require("sinon");
 describe("Translations", function () {
 	let server;
 
-	before(function () {
+	beforeAll(function () {
 		const app = express();
 		app.use(helmet());
 		app.use(function (req, res, next) {
@@ -24,7 +24,7 @@ describe("Translations", function () {
 		server = app.listen(3000);
 	});
 
-	after(function () {
+	afterAll(function () {
 		server.close();
 	});
 
@@ -157,7 +157,7 @@ describe("Translations", function () {
 	describe("Same keys", function () {
 		let base;
 
-		before(function (done) {
+		beforeAll(function (done) {
 			const dom = new JSDOM(
 				`<script>var translations = ${JSON.stringify(translations)}; var Log = {log: function(){}};</script>\
 					<script src="file://${path.join(__dirname, "..", "..", "js", "translator.js")}">`,
@@ -181,7 +181,7 @@ describe("Translations", function () {
 			describe(`Translation keys of ${language}`, function () {
 				let keys;
 
-				before(function (done) {
+				beforeAll(function (done) {
 					const dom = new JSDOM(
 						`<script>var translations = ${JSON.stringify(translations)}; var Log = {log: function(){}};</script>\
 					<script src="file://${path.join(__dirname, "..", "..", "js", "translator.js")}">`,

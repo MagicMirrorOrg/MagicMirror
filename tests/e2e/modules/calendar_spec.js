@@ -27,7 +27,7 @@ describe("Calendar module", function () {
 	});
 
 	describe("Default configuration", function () {
-		before(function () {
+		beforeAll(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/default.js";
 		});
@@ -46,7 +46,7 @@ describe("Calendar module", function () {
 	});
 
 	describe("Custom configuration", function () {
-		before(function () {
+		beforeAll(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/custom.js";
 		});
@@ -77,7 +77,7 @@ describe("Calendar module", function () {
 	});
 
 	describe("Recurring event", function () {
-		before(function () {
+		beforeAll(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/recurring.js";
 		});
@@ -90,13 +90,13 @@ describe("Calendar module", function () {
 	});
 
 	describe("Changed port", function () {
-		before(function () {
+		beforeAll(function () {
 			serverBasicAuth.listen(8010);
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/changed-port.js";
 		});
 
-		after(function (done) {
+		afterAll(function (done) {
 			serverBasicAuth.close(done());
 		});
 
@@ -106,7 +106,7 @@ describe("Calendar module", function () {
 	});
 
 	describe("Basic auth", function () {
-		before(function () {
+		beforeAll(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/basic-auth.js";
 		});
@@ -117,7 +117,7 @@ describe("Calendar module", function () {
 	});
 
 	describe("Basic auth by default", function () {
-		before(function () {
+		beforeAll(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/auth-default.js";
 		});
@@ -128,7 +128,7 @@ describe("Calendar module", function () {
 	});
 
 	describe("Basic auth backward compatibility configuration: DEPRECATED", function () {
-		before(function () {
+		beforeAll(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/old-basic-auth.js";
 		});
@@ -139,13 +139,13 @@ describe("Calendar module", function () {
 	});
 
 	describe("Fail Basic auth", function () {
-		before(function () {
+		beforeAll(function () {
 			serverBasicAuth.listen(8020);
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/fail-basic-auth.js";
 		});
 
-		after(function (done) {
+		afterAll(function (done) {
 			serverBasicAuth.close(done());
 		});
 

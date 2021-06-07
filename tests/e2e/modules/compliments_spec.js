@@ -26,7 +26,7 @@ describe("Compliments module", function () {
 	});
 
 	describe("parts of days", function () {
-		before(function () {
+		beforeAll(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/compliments/compliments_parts_day.js";
 		});
@@ -67,7 +67,7 @@ describe("Compliments module", function () {
 
 	describe("Feature anytime in compliments module", function () {
 		describe("Set anytime and empty compliments for morning, evening and afternoon ", function () {
-			before(function () {
+			beforeAll(function () {
 				// Set config sample for use in test
 				process.env.MM_CONFIG_FILE = "tests/configs/modules/compliments/compliments_anytime.js";
 			});
@@ -81,7 +81,7 @@ describe("Compliments module", function () {
 		});
 
 		describe("Only anytime present in configuration compliments", function () {
-			before(function () {
+			beforeAll(function () {
 				// Set config sample for use in test
 				process.env.MM_CONFIG_FILE = "tests/configs/modules/compliments/compliments_only_anytime.js";
 			});
@@ -97,7 +97,7 @@ describe("Compliments module", function () {
 
 	describe("Feature date in compliments module", function () {
 		describe("Set date and empty compliments for anytime, morning, evening and afternoon", function () {
-			before(function () {
+			beforeAll(function () {
 				// Set config sample for use in test
 				process.env.MM_CONFIG_FILE = "tests/configs/modules/compliments/compliments_date.js";
 			});

@@ -25,7 +25,7 @@ describe("Clock set to spanish language module", function () {
 	});
 
 	describe("with default 24hr clock config", function () {
-		before(function () {
+		beforeAll(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/clock/es/clock_24hr.js";
 		});
@@ -44,7 +44,7 @@ describe("Clock set to spanish language module", function () {
 	});
 
 	describe("with default 12hr clock config", function () {
-		before(function () {
+		beforeAll(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/clock/es/clock_12hr.js";
 		});
@@ -63,7 +63,7 @@ describe("Clock set to spanish language module", function () {
 	});
 
 	describe("with showPeriodUpper config enabled", function () {
-		before(function () {
+		beforeAll(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/clock/es/clock_showPeriodUpper.js";
 		});
@@ -76,7 +76,7 @@ describe("Clock set to spanish language module", function () {
 	});
 
 	describe("with showWeek config enabled", function () {
-		before(function () {
+		beforeAll(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/clock/es/clock_showWeek.js";
 		});

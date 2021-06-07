@@ -26,7 +26,7 @@ describe("Newsfeed module", function () {
 	});
 
 	describe("Default configuration", function () {
-		before(function () {
+		beforeAll(function () {
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/newsfeed/default.js";
 		});
 
@@ -46,7 +46,7 @@ describe("Newsfeed module", function () {
 	});
 
 	describe("Custom configuration", function () {
-		before(function () {
+		beforeAll(function () {
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/newsfeed/prohibited_words.js";
 		});
 
@@ -62,7 +62,7 @@ describe("Newsfeed module", function () {
 	});
 
 	describe("Invalid configuration", function () {
-		before(function () {
+		beforeAll(function () {
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/newsfeed/incorrect_url.js";
 		});
 

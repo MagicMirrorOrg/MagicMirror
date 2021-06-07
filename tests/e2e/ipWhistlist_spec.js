@@ -27,7 +27,7 @@ describe("ipWhitelist directive configuration", function () {
 	});
 
 	describe("Set ipWhitelist without access", function () {
-		before(function () {
+		beforeAll(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/noIpWhiteList.js";
 		});
@@ -41,7 +41,7 @@ describe("ipWhitelist directive configuration", function () {
 	});
 
 	describe("Set ipWhitelist []", function () {
-		before(function () {
+		beforeAll(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/empty_ipWhiteList.js";
 		});

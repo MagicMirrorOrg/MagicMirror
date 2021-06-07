@@ -21,7 +21,7 @@ describe("All font files from roboto.css should be downloadable", function () {
 		match = regex.exec(fileContent);
 	}
 
-	before(function () {
+	beforeAll(function () {
 		// Set config sample for use in test
 		process.env.MM_CONFIG_FILE = "tests/configs/without_modules.js";
 
@@ -34,7 +34,7 @@ describe("All font files from roboto.css should be downloadable", function () {
 			});
 	});
 
-	after(function () {
+	afterAll(function () {
 		return helpers.stopApplication(app);
 	});
 

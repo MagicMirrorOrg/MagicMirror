@@ -42,12 +42,12 @@ describe("Weather module", function () {
 	describe("Current weather", function () {
 		let template;
 
-		before(function () {
+		beforeAll(function () {
 			template = fs.readFileSync(path.join(__dirname, "..", "..", "..", "modules", "default", "weather", "current.njk"), "utf8");
 		});
 
 		describe("Default configuration", function () {
-			before(function () {
+			beforeAll(function () {
 				process.env.MM_CONFIG_FILE = "tests/configs/modules/weather/currentweather_default.js";
 			});
 
@@ -94,7 +94,7 @@ describe("Weather module", function () {
 		});
 
 		describe("Compliments Integration", function () {
-			before(function () {
+			beforeAll(function () {
 				process.env.MM_CONFIG_FILE = "tests/configs/modules/weather/currentweather_compliments.js";
 			});
 
@@ -107,7 +107,7 @@ describe("Weather module", function () {
 		});
 
 		describe("Configuration Options", function () {
-			before(function () {
+			beforeAll(function () {
 				process.env.MM_CONFIG_FILE = "tests/configs/modules/weather/currentweather_options.js";
 			});
 
@@ -144,7 +144,7 @@ describe("Weather module", function () {
 		});
 
 		describe("Current weather units", function () {
-			before(function () {
+			beforeAll(function () {
 				process.env.MM_CONFIG_FILE = "tests/configs/modules/weather/currentweather_units.js";
 			});
 
@@ -185,12 +185,12 @@ describe("Weather module", function () {
 	describe("Weather Forecast", function () {
 		let template;
 
-		before(function () {
+		beforeAll(function () {
 			template = fs.readFileSync(path.join(__dirname, "..", "..", "..", "modules", "default", "weather", "forecast.njk"), "utf8");
 		});
 
 		describe("Default configuration", function () {
-			before(function () {
+			beforeAll(function () {
 				process.env.MM_CONFIG_FILE = "tests/configs/modules/weather/forecastweather_default.js";
 			});
 
@@ -254,7 +254,7 @@ describe("Weather module", function () {
 		});
 
 		describe("Configuration Options", function () {
-			before(function () {
+			beforeAll(function () {
 				process.env.MM_CONFIG_FILE = "tests/configs/modules/weather/forecastweather_options.js";
 			});
 
@@ -276,7 +276,7 @@ describe("Weather module", function () {
 		});
 
 		describe("Forecast weather units", function () {
-			before(function () {
+			beforeAll(function () {
 				process.env.MM_CONFIG_FILE = "tests/configs/modules/weather/forecastweather_units.js";
 			});
 

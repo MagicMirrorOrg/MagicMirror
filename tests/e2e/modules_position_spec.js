@@ -9,11 +9,11 @@ describe("Position of modules", function () {
 	let app = null;
 
 	describe("Using helloworld", function () {
-		after(function () {
+		afterAll(function () {
 			return helpers.stopApplication(app);
 		});
 
-		before(function () {
+		beforeAll(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/positions.js";
 			return helpers
