@@ -1,4 +1,3 @@
-const expect = require("chai").expect;
 const path = require("path");
 const helmet = require("helmet");
 const { JSDOM } = require("jsdom");
@@ -82,9 +81,9 @@ describe("Translator", function () {
 				const { Translator } = dom.window;
 				setTranslations(Translator);
 				let translation = Translator.translate({ name: "MMM-Module" }, "Hello");
-				expect(translation).to.be.equal("Hallo");
+				expect(translation).toBe("Hallo");
 				translation = Translator.translate({ name: "MMM-Module" }, "Hello {username}", { username: "fewieden" });
-				expect(translation).to.be.equal("Hallo fewieden");
+				expect(translation).toBe("Hallo fewieden");
 				done();
 			};
 		});
@@ -95,9 +94,9 @@ describe("Translator", function () {
 				const { Translator } = dom.window;
 				setTranslations(Translator);
 				let translation = Translator.translate({ name: "MMM-Module" }, "FOO");
-				expect(translation).to.be.equal("Foo");
+				expect(translation).toBe("Foo");
 				translation = Translator.translate({ name: "MMM-Module" }, "BAR {something}", { something: "Lorem Ipsum" });
-				expect(translation).to.be.equal("Bar Lorem Ipsum");
+				expect(translation).toBe("Bar Lorem Ipsum");
 				done();
 			};
 		});
@@ -108,7 +107,7 @@ describe("Translator", function () {
 				const { Translator } = dom.window;
 				setTranslations(Translator);
 				const translation = Translator.translate({ name: "MMM-Module" }, "A key");
-				expect(translation).to.be.equal("A translation");
+				expect(translation).toBe("A translation");
 				done();
 			};
 		});
@@ -119,7 +118,7 @@ describe("Translator", function () {
 				const { Translator } = dom.window;
 				setTranslations(Translator);
 				const translation = Translator.translate({ name: "MMM-Module" }, "Fallback");
-				expect(translation).to.be.equal("core fallback");
+				expect(translation).toBe("core fallback");
 				done();
 			};
 		});
@@ -130,7 +129,7 @@ describe("Translator", function () {
 				const { Translator } = dom.window;
 				setTranslations(Translator);
 				const translation = Translator.translate({ name: "MMM-Module" }, "Hello {username}");
-				expect(translation).to.be.equal("Hallo {username}");
+				expect(translation).toBe("Hallo {username}");
 				done();
 			};
 		});
@@ -141,7 +140,7 @@ describe("Translator", function () {
 				const { Translator } = dom.window;
 				setTranslations(Translator);
 				const translation = Translator.translate({ name: "MMM-Module" }, "MISSING");
-				expect(translation).to.be.equal("MISSING");
+				expect(translation).toBe("MISSING");
 				done();
 			};
 		});
@@ -163,7 +162,7 @@ describe("Translator", function () {
 
 				Translator.load(mmm, file, false, function () {
 					const json = require(path.join(__dirname, "..", "..", "..", "tests", "configs", "data", file));
-					expect(Translator.translations[mmm.name]).to.be.deep.equal(json);
+					expect(Translator.translations[mmm.name]).toEqual(json);
 					done();
 				});
 			};
@@ -177,7 +176,7 @@ describe("Translator", function () {
 
 				Translator.load(mmm, file, true, function () {
 					const json = require(path.join(__dirname, "..", "..", "..", "tests", "configs", "data", file));
-					expect(Translator.translationsFallback[mmm.name]).to.be.deep.equal(json);
+					expect(Translator.translationsFallback[mmm.name]).toEqual(json);
 					done();
 				});
 			};
@@ -198,8 +197,8 @@ describe("Translator", function () {
 				};
 
 				Translator.load(mmm, file, false, function () {
-					expect(Translator.translations[mmm.name]).to.be.equal(undefined);
-					expect(Translator.translationsFallback[mmm.name]).to.be.deep.equal({
+					expect(Translator.translations[mmm.name]).toBe(undefined);
+					expect(Translator.translationsFallback[mmm.name]).toEqual({
 						Hello: "Hallo"
 					});
 					done();
@@ -221,8 +220,8 @@ describe("Translator", function () {
 
 				const en = require(path.join(__dirname, "..", "..", "..", "tests", "configs", "data", "en.json"));
 				setTimeout(function () {
-					expect(Translator.coreTranslations).to.be.deep.equal(en);
-					expect(Translator.coreTranslationsFallback).to.be.deep.equal(en);
+					expect(Translator.coreTranslations).toEqual(en);
+					expect(Translator.coreTranslationsFallback).toEqual(en);
 					done();
 				}, 500);
 			};
@@ -240,8 +239,8 @@ describe("Translator", function () {
 
 				const en = require(path.join(__dirname, "..", "..", "..", "tests", "configs", "data", "en.json"));
 				setTimeout(function () {
-					expect(Translator.coreTranslations).to.be.deep.equal({});
-					expect(Translator.coreTranslationsFallback).to.be.deep.equal(en);
+					expect(Translator.coreTranslations).toEqual({});
+					expect(Translator.coreTranslationsFallback).toEqual(en);
 					done();
 				}, 500);
 			};
@@ -261,7 +260,7 @@ describe("Translator", function () {
 
 				const en = require(path.join(__dirname, "..", "..", "..", "tests", "configs", "data", "en.json"));
 				setTimeout(function () {
-					expect(Translator.coreTranslationsFallback).to.be.deep.equal(en);
+					expect(Translator.coreTranslationsFallback).toEqual(en);
 					done();
 				}, 500);
 			};
@@ -278,7 +277,7 @@ describe("Translator", function () {
 				Translator.loadCoreTranslations();
 
 				setTimeout(function () {
-					expect(Translator.coreTranslationsFallback).to.be.deep.equal({});
+					expect(Translator.coreTranslationsFallback).toEqual({});
 					done();
 				}, 500);
 			};

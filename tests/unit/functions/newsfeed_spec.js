@@ -1,5 +1,3 @@
-const expect = require("chai").expect;
-
 describe("Functions into modules/default/newsfeed/newsfeed.js", function () {
 	// Fake for use by newsletter.js
 	Module = {};

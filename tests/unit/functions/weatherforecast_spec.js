@@ -1,5 +1,4 @@
 /* eslint no-multi-spaces: 0 */
-const expect = require("chai").expect;
 const moment = require("moment-timezone");
 const data = require("../../configs/data/weatherforecast_data.json");
 
@@ -35,7 +34,7 @@ describe("Functions module weatherforecast", function () {
 
 			values.forEach((value) => {
 				it(`for ${value[0]} should be return ${value[1]}`, function () {
-					expect(Module.definitions.weatherforecast.roundValue(value[0])).to.equal(value[1]);
+					expect(Module.definitions.weatherforecast.roundValue(value[0])).toBe(value[1]);
 				});
 			});
 		});
@@ -60,7 +59,7 @@ describe("Functions module weatherforecast", function () {
 
 			values.forEach((value) => {
 				it(`for ${value[0]} should be return ${value[1]}`, function () {
-					expect(Module.definitions.weatherforecast.roundValue(value[0])).to.equal(value[1]);
+					expect(Module.definitions.weatherforecast.roundValue(value[0])).toBe(value[1]);
 				});
 			});
 		});
@@ -91,8 +90,8 @@ describe("Functions module weatherforecast", function () {
 			it(`returns correct icons with sunset time`, function () {
 				Module.definitions.weatherforecast.processWeather(data.withSunset, moment);
 				let forecastData = Module.definitions.weatherforecast.forecast;
-				expect(forecastData.length).to.equal(4);
-				expect(forecastData[2].icon).to.equal("wi-rain");
+				expect(forecastData.length).toBe(4);
+				expect(forecastData[2].icon).toBe("wi-rain");
 			});
 		});
 
@@ -104,8 +103,8 @@ describe("Functions module weatherforecast", function () {
 			it(`returns correct icons with out sunset time`, function () {
 				Module.definitions.weatherforecast.processWeather(data.withoutSunset, moment);
 				let forecastData = Module.definitions.weatherforecast.forecast;
-				expect(forecastData.length).to.equal(4);
-				expect(forecastData[2].icon).to.equal("wi-rain");
+				expect(forecastData.length).toBe(4);
+				expect(forecastData[2].icon).toBe("wi-rain");
 			});
 		});
 

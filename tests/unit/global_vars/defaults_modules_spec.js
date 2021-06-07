@@ -1,6 +1,5 @@
 const fs = require("fs");
 const path = require("path");
-const expect = require("chai").expect;
 const vm = require("vm");
 
 const basedir = path.join(__dirname, "../../..");
@@ -41,7 +40,7 @@ describe("Default modules set in modules/default/defaultmodules.js", function ()
 
 	for (const defaultModule of expectedDefaultModules) {
 		it(`contains a folder for modules/default/${defaultModule}"`, function () {
-			expect(fs.existsSync(path.join(sandbox.global.root_path, "modules/default", defaultModule))).to.equal(true);
+			expect(fs.existsSync(path.join(sandbox.global.root_path, "modules/default", defaultModule))).toBe(true);
 		});
 	}
 });

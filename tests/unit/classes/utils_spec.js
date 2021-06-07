@@ -1,4 +1,3 @@
-const expect = require("chai").expect;
 const Utils = require("../../../js/utils.js");
 const colors = require("colors/safe");
 
@@ -11,29 +10,29 @@ describe("Utils", function () {
 		});
 
 		it("should have info, warn and error properties", function () {
-			expect(Utils.colors).to.have.property("info");
-			expect(Utils.colors).to.have.property("warn");
-			expect(Utils.colors).to.have.property("error");
+			expect(Utils.colors).toHaveProperty("info");
+			expect(Utils.colors).toHaveProperty("warn");
+			expect(Utils.colors).toHaveProperty("error");
 		});
 
 		it("properties should be functions", function () {
-			expect(Utils.colors.info).to.be.a("function");
-			expect(Utils.colors.warn).to.be.a("function");
-			expect(Utils.colors.error).to.be.a("function");
+			expect(typeof Utils.colors.info).toBe("function");
+			expect(typeof Utils.colors.warn).toBe("function");
+			expect(typeof Utils.colors.error).toBe("function");
 		});
 
 		it("should print colored message in supported consoles", function () {
 			colors.enabled = true;
-			expect(Utils.colors.info("some informations")).to.be.equal("\u001b[34msome informations\u001b[39m");
-			expect(Utils.colors.warn("a warning")).to.be.equal("\u001b[33ma warning\u001b[39m");
-			expect(Utils.colors.error("ERROR!")).to.be.equal("\u001b[31mERROR!\u001b[39m");
+			expect(Utils.colors.info("some informations")).toBe("\u001b[34msome informations\u001b[39m");
+			expect(Utils.colors.warn("a warning")).toBe("\u001b[33ma warning\u001b[39m");
+			expect(Utils.colors.error("ERROR!")).toBe("\u001b[31mERROR!\u001b[39m");
 		});
 
 		it("should print message in unsupported consoles", function () {
 			colors.enabled = false;
-			expect(Utils.colors.info("some informations")).to.be.equal("some informations");
-			expect(Utils.colors.warn("a warning")).to.be.equal("a warning");
-			expect(Utils.colors.error("ERROR!")).to.be.equal("ERROR!");
+			expect(Utils.colors.info("some informations")).toBe("some informations");
+			expect(Utils.colors.warn("a warning")).toBe("a warning");
+			expect(Utils.colors.error("ERROR!")).toBe("ERROR!");
 		});
 	});
 });

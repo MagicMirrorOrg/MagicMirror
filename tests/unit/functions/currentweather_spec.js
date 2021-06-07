@@ -1,6 +1,4 @@
 /* eslint no-multi-spaces: 0 */
-const expect = require("chai").expect;
-
 describe("Functions module currentweather", function () {
 	// Fake for use by currentweather.js
 	Module = {};
@@ -35,7 +33,7 @@ describe("Functions module currentweather", function () {
 
 			values.forEach((value) => {
 				it(`for ${value[0]} should be return ${value[1]}`, function () {
-					expect(Module.definitions.currentweather.roundValue(value[0])).to.equal(value[1]);
+					expect(Module.definitions.currentweather.roundValue(value[0])).toBe(value[1]);
 				});
 			});
 		});
@@ -60,7 +58,7 @@ describe("Functions module currentweather", function () {
 
 			values.forEach((value) => {
 				it(`for ${value[0]} should be return ${value[1]}`, function () {
-					expect(Module.definitions.currentweather.roundValue(value[0])).to.equal(value[1]);
+					expect(Module.definitions.currentweather.roundValue(value[0])).toBe(value[1]);
 				});
 			});
 		});
