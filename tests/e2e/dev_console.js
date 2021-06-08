@@ -1,5 +1,4 @@
 const helpers = require("./global-setup");
-const expect = require("chai").expect;
 
 const describe = global.describe;
 const it = global.it;
@@ -31,7 +30,7 @@ describe("Development console tests", function () {
 
 		it("should not open dev console when absent", async function () {
 			await app.client.waitUntilWindowLoaded();
-			return expect(app.browserWindow.isDevToolsOpened()).to.eventually.equal(false);
+			return expect(await app.browserWindow.isDevToolsOpened()).toBe(false);
 		});
 	});
 
@@ -51,9 +50,9 @@ describe("Development console tests", function () {
 	// 	});
 
 	// 	it("should open dev console when provided", async function () {
-	// 		expect(await app.client.getWindowCount()).to.equal(2);
+	// 		expect(await app.client.getWindowCount()).toBe(2);
 	// 		await app.client.waitUntilWindowLoaded();
-	// 		return expect(app.browserWindow.isDevToolsOpened()).to.eventually.equal(true);
+	// 		return expect(await app.browserWindow.isDevToolsOpened()).toBe(true);
 	// 	});
 	// });
 });

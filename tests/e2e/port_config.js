@@ -1,6 +1,5 @@
 const helpers = require("./global-setup");
 const fetch = require("node-fetch");
-const expect = require("chai").expect;
 
 const describe = global.describe;
 const it = global.it;
@@ -34,7 +33,7 @@ describe("port directive configuration", function () {
 
 		it("should return 200", function (done) {
 			fetch("http://localhost:8090").then((res) => {
-				expect(res.status).to.equal(200);
+				expect(res.status).toBe(200);
 				done();
 			});
 		});
@@ -53,7 +52,7 @@ describe("port directive configuration", function () {
 
 		it("should return 200", function (done) {
 			fetch("http://localhost:8100").then((res) => {
-				expect(res.status).to.equal(200);
+				expect(res.status).toBe(200);
 				done();
 			});
 		});

@@ -6,14 +6,7 @@
  */
 const Application = require("spectron").Application;
 const assert = require("assert");
-const chai = require("chai");
-const chaiAsPromised = require("chai-as-promised");
 const path = require("path");
-
-global.beforeAll(function () {
-	chai.should();
-	chai.use(chaiAsPromised);
-});
 
 exports.getElectronPath = function () {
 	let electronPath = path.join(__dirname, "..", "..", "node_modules", ".bin", "electron");
@@ -41,7 +34,6 @@ exports.startApplication = function (options) {
 	const app = new Application(options);
 	return app.start().then(function () {
 		assert.strictEqual(app.isRunning(), true);
-		chaiAsPromised.transferPromiseness = app.transferPromiseness;
 		return app;
 	});
 };

@@ -1,6 +1,5 @@
 const helpers = require("./global-setup");
 const fetch = require("node-fetch");
-const expect = require("chai").expect;
 
 const describe = global.describe;
 const it = global.it;
@@ -33,7 +32,7 @@ describe("Vendors", function () {
 			it(`should return 200 HTTP code for vendor "${vendor}"`, function () {
 				const urlVendor = "http://localhost:8080/vendor/" + vendors[vendor];
 				fetch(urlVendor).then((res) => {
-					expect(res.status).to.equal(200);
+					expect(res.status).toBe(200);
 				});
 			});
 		});
@@ -42,7 +41,7 @@ describe("Vendors", function () {
 			it(`should return 404 HTTP code for vendor https://localhost/"${vendor}"`, function () {
 				const urlVendor = "http://localhost:8080/" + vendors[vendor];
 				fetch(urlVendor).then((res) => {
-					expect(res.status).to.equal(404);
+					expect(res.status).toBe(404);
 				});
 			});
 		});

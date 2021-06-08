@@ -1,6 +1,5 @@
 const helpers = require("../global-setup");
 const serverBasicAuth = require("../../servers/basic-auth.js");
-const expect = require("chai").expect;
 
 const describe = global.describe;
 const it = global.it;
@@ -35,13 +34,13 @@ describe("Calendar module", function () {
 		it("should show the default maximumEntries of 10", async () => {
 			await app.client.waitUntilTextExists(".calendar", "TestEvent", 10000);
 			const events = await app.client.$$(".calendar .event");
-			return expect(events.length).equals(10);
+			return expect(events.length).toBe(10);
 		});
 
 		it("should show the default calendar symbol in each event", async () => {
 			await app.client.waitUntilTextExists(".calendar", "TestEvent", 10000);
 			const icons = await app.client.$$(".calendar .event .fa-calendar");
-			return expect(icons.length).not.equals(0);
+			return expect(icons.length).not.toBe(0);
 		});
 	});
 
@@ -54,25 +53,25 @@ describe("Calendar module", function () {
 		it("should show the custom maximumEntries of 4", async () => {
 			await app.client.waitUntilTextExists(".calendar", "TestEvent", 10000);
 			const events = await app.client.$$(".calendar .event");
-			return expect(events.length).equals(4);
+			return expect(events.length).toBe(4);
 		});
 
 		it("should show the custom calendar symbol in each event", async () => {
 			await app.client.waitUntilTextExists(".calendar", "TestEvent", 10000);
 			const icons = await app.client.$$(".calendar .event .fa-birthday-cake");
-			return expect(icons.length).equals(4);
+			return expect(icons.length).toBe(4);
 		});
 
 		it("should show two custom icons for repeating events", async () => {
 			await app.client.waitUntilTextExists(".calendar", "TestEventRepeat", 10000);
 			const icons = await app.client.$$(".calendar .event .fa-undo");
-			return expect(icons.length).equals(2);
+			return expect(icons.length).toBe(2);
 		});
 
 		it("should show two custom icons for day events", async () => {
 			await app.client.waitUntilTextExists(".calendar", "TestEventDay", 10000);
 			const icons = await app.client.$$(".calendar .event .fa-calendar-day");
-			return expect(icons.length).equals(2);
+			return expect(icons.length).toBe(2);
 		});
 	});
 
@@ -85,7 +84,7 @@ describe("Calendar module", function () {
 		it("should show the recurring birthday event 6 times", async () => {
 			await app.client.waitUntilTextExists(".calendar", "Mar 25th", 10000);
 			const events = await app.client.$$(".calendar .event");
-			return expect(events.length).equals(6);
+			return expect(events.length).toBe(6);
 		});
 	});
 

@@ -1,5 +1,4 @@
 const helpers = require("../global-setup");
-const expect = require("chai").expect;
 
 const describe = global.describe;
 const it = global.it;
@@ -37,7 +36,7 @@ describe("Compliments module", function () {
 				// if morning check
 				const elem = await app.client.$(".compliments");
 				return elem.getText(".compliments").then(function (text) {
-					expect(text).to.be.oneOf(["Hi", "Good Morning", "Morning test"]);
+					expect(["Hi", "Good Morning", "Morning test"]).toContain(text) 
 				});
 			}
 		});
@@ -48,7 +47,7 @@ describe("Compliments module", function () {
 				// if afternoon check
 				const elem = await app.client.$(".compliments");
 				return elem.getText(".compliments").then(function (text) {
-					expect(text).to.be.oneOf(["Hello", "Good Afternoon", "Afternoon test"]);
+					expect(["Hello", "Good Afternoon", "Afternoon test"]).toContain(text) 
 				});
 			}
 		});
@@ -59,7 +58,7 @@ describe("Compliments module", function () {
 				// if evening check
 				const elem = await app.client.$(".compliments");
 				return elem.getText(".compliments").then(function (text) {
-					expect(text).to.be.oneOf(["Hello There", "Good Evening", "Evening test"]);
+					expect(["Hello There", "Good Evening", "Evening test"]).toContain(text) 
 				});
 			}
 		});
@@ -75,7 +74,7 @@ describe("Compliments module", function () {
 			it("Show anytime because if configure empty parts of day compliments and set anytime compliments", async function () {
 				const elem = await app.client.$(".compliments");
 				return elem.getText(".compliments").then(function (text) {
-					expect(text).to.be.oneOf(["Anytime here"]);
+					expect(["Anytime here"]).toContain(text) 
 				});
 			});
 		});
@@ -89,7 +88,7 @@ describe("Compliments module", function () {
 			it("Show anytime compliments", async function () {
 				const elem = await app.client.$(".compliments");
 				return elem.getText(".compliments").then(function (text) {
-					expect(text).to.be.oneOf(["Anytime here"]);
+					expect(["Anytime here"]).toContain(text) 
 				});
 			});
 		});
@@ -105,7 +104,7 @@ describe("Compliments module", function () {
 			it("Show happy new year compliment on new years day", async function () {
 				const elem = await app.client.$(".compliments");
 				return elem.getText(".compliments").then(function (text) {
-					expect(text).to.be.oneOf(["Happy new year!"]);
+					expect(["Happy new year!"]).toContain(text) 
 				});
 			});
 		});

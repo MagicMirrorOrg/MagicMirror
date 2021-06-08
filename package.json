@@ -95,6 +95,7 @@
 			"node_helper": "<rootDir>/js/node_helper.js",
 			// "logger": "<rootDir>/js/logger.js", <-- only for unit tests, not for e2e
 			// replace require("chai").expect with expect from jest, see e2e/env_spec.js
+			// https://medium.com/swlh/6-ways-to-run-jest-test-cases-silently-67d2fead8c11
 			"moment-timezone": "<rootDir>/node_modules/moment-timezone/moment-timezone.js",
 			"moment": "<rootDir>/node_modules/moment/moment.js"
 		}

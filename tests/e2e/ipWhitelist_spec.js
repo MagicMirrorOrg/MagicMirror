@@ -1,6 +1,5 @@
 const helpers = require("./global-setup");
 const fetch = require("node-fetch");
-const expect = require("chai").expect;
 
 const describe = global.describe;
 const it = global.it;
@@ -34,7 +33,7 @@ describe("ipWhitelist directive configuration", function () {
 
 		it("should return 403", function (done) {
 			fetch("http://localhost:8080").then((res) => {
-				expect(res.status).to.equal(403);
+				expect(res.status).toBe(403);
 				done();
 			});
 		});
@@ -48,7 +47,7 @@ describe("ipWhitelist directive configuration", function () {
 
 		it("should return 200", function (done) {
 			fetch("http://localhost:8080").then((res) => {
-				expect(res.status).to.equal(200);
+				expect(res.status).toBe(200);
 				done();
 			});
 		});

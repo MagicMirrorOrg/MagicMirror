@@ -1,4 +1,3 @@
-const expect = require("chai").expect;
 const fs = require("fs");
 const moment = require("moment");
 const path = require("path");
@@ -31,7 +30,7 @@ describe("Weather module", function () {
 	async function getText(element, result) {
 		const elem = await getElement(element);
 		return await elem.getText(element).then(function (text) {
-			expect(text.trim()).to.equal(result);
+			expect(text.trim()).toBe(result);
 		});
 	}
 
@@ -124,7 +123,7 @@ describe("Weather module", function () {
 
 				const elem = await getElement(".weather .normal.medium sup i.fa-long-arrow-up");
 				return elem.getHTML(".weather .normal.medium sup i.fa-long-arrow-up").then(function (text) {
-					expect(text).to.include("transform:rotate(250deg);");
+					expect(text).toContain("transform:rotate(250deg);");
 				});
 			});
 
@@ -248,7 +247,7 @@ describe("Weather module", function () {
 
 				for (const [index, opacity] of opacities.entries()) {
 					const html = await elem.getHTML(`.weather table.small tr:nth-child(${index + 1})`);
-					expect(html).to.includes(`<tr style="opacity: ${opacity};">`);
+					expect(html).toContain(`<tr style="opacity: ${opacity};">`);
 				}
 			});
 		});
@@ -271,7 +270,7 @@ describe("Weather module", function () {
 
 				const rows = await app.client.$$(".weather table.myTableClass tr.colored");
 
-				expect(rows.length).to.be.equal(5);
+				expect(rows.length).toBe(5);
 			});
 		});
 

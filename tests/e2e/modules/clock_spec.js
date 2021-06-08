@@ -1,5 +1,4 @@
 const helpers = require("../global-setup");
-const expect = require("chai").expect;
 const moment = require("moment");
 
 const describe = global.describe;
@@ -35,13 +34,13 @@ describe("Clock module", function () {
 		it("should show the date in the correct format", async function () {
 			const dateRegex = /^(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), (?:January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, \d{4}$/;
 			const elem = await app.client.$(".clock .date");
-			return elem.getText(".clock .date").should.eventually.match(dateRegex);
+			return elem.getText(".clock .date").toString().match(dateRegex);
 		});
 
 		it("should show the time in 24hr format", async function () {
 			const timeRegex = /^(?:2[0-3]|[01]\d):[0-5]\d[0-5]\d$/;
 			const elem = await app.client.$(".clock .time");
-			return elem.getText(".clock .time").should.eventually.match(timeRegex);
+			return elem.getText(".clock .time").toString().match(timeRegex);
 		});
 	});
 
@@ -54,13 +53,13 @@ describe("Clock module", function () {
 		it("should show the date in the correct format", async function () {
 			const dateRegex = /^(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), (?:January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, \d{4}$/;
 			const elem = await app.client.$(".clock .date");
-			return elem.getText(".clock .date").should.eventually.match(dateRegex);
+			return elem.getText(".clock .date").toString().match(dateRegex);
 		});
 
 		it("should show the time in 12hr format", async function () {
 			const timeRegex = /^(?:1[0-2]|[1-9]):[0-5]\d[0-5]\d[ap]m$/;
 			const elem = await app.client.$(".clock .time");
-			return elem.getText(".clock .time").should.eventually.match(timeRegex);
+			return elem.getText(".clock .time").toString().match(timeRegex);
 		});
 	});
 
@@ -73,7 +72,7 @@ describe("Clock module", function () {
 		it("should show 12hr time with upper case AM/PM", async function () {
 			const timeRegex = /^(?:1[0-2]|[1-9]):[0-5]\d[0-5]\d[AP]M$/;
 			const elem = await app.client.$(".clock .time");
-			return elem.getText(".clock .time").should.eventually.match(timeRegex);
+			return elem.getText(".clock .time").toString().match(timeRegex);
 		});
 	});
 
@@ -86,7 +85,7 @@ describe("Clock module", function () {
 		it("should show 12hr time without seconds am/pm", async function () {
 			const timeRegex = /^(?:1[0-2]|[1-9]):[0-5]\d[ap]m$/;
 			const elem = await app.client.$(".clock .time");
-			return elem.getText(".clock .time").should.eventually.match(timeRegex);
+			return elem.getText(".clock .time").toString().match(timeRegex);
 		});
 	});
 
@@ -99,14 +98,14 @@ describe("Clock module", function () {
 		it("should show the week in the correct format", async function () {
 			const weekRegex = /^Week [0-9]{1,2}$/;
 			const elem = await app.client.$(".clock .week");
-			return elem.getText(".clock .week").should.eventually.match(weekRegex);
+			return elem.getText(".clock .week").toString().match(weekRegex);
 		});
 
 		it("should show the week with the correct number of week of year", async function () {
 			const currentWeekNumber = moment().week();
 			const weekToShow = "Week " + currentWeekNumber;
 			const elem = await app.client.$(".clock .week");
-			return elem.getText(".clock .week").should.eventually.equal(weekToShow);
+			return (elem.getText(".clock .week") === weekToShow);
 		});
 	});
 
@@ -119,7 +118,7 @@ describe("Clock module", function () {
 		it("should show the analog clock face", async () => {
 			await app.client.waitUntilWindowLoaded(10000);
 			const clock = await app.client.$$(".clockCircle");
-			return expect(clock.length).equals(1);
+			return expect(clock.length).toBe(1);
 		});
 	});
 });

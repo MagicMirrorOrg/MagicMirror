@@ -32,7 +32,7 @@ describe("Test helloworld module", function () {
 
 		it("Test message helloworld module", async function () {
 			const elem = await app.client.$("helloworld");
-			return elem.getText(".helloworld").should.eventually.equal("Test HelloWorld Module");
+			return (elem.getText(".helloworld") === "Test HelloWorld Module");
 		});
 	});
 
@@ -44,7 +44,7 @@ describe("Test helloworld module", function () {
 
 		it("Test message helloworld module", async function () {
 			const elem = await app.client.$("helloworld");
-			return elem.getText(".helloworld").should.eventually.equal("Hello World!");
+			return (elem.getText(".helloworld") === "Hello World!");
 		});
 	});
 });
