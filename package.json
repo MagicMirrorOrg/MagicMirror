@@ -10,10 +10,10 @@
 		"install": "echo \"Installing vendor files ...\n\" && cd vendor && npm install --loglevel=error",
 		"install-fonts": "echo \"Installing fonts ...\n\" && cd fonts && npm install --loglevel=error",
 		"postinstall": "npm run install-fonts && echo \"MagicMirror installation finished successfully! \n\"",
-		"test": "NODE_ENV=test mocha tests --recursive",
-		"test:coverage": "NODE_ENV=test nyc --reporter=lcov --reporter=text mocha tests --recursive --timeout=3000",
-		"test:e2e": "NODE_ENV=test jest --testMatch **/tests/e2e/**/*",
-		"test:unit": "NODE_ENV=test jest --testMatch **/tests/unit/**/*",
+		"test": "NODE_ENV=test jest -i",
+		"test:coverage": "NODE_ENV=test nyc --reporter=lcov --reporter=text jest -i",
+		"test:e2e": "NODE_ENV=test jest --selectProjects e2e -i",
+		"test:unit": "NODE_ENV=test jest --selectProjects unit",
 		"test:prettier": "prettier . --check",
 		"test:js": "eslint js/**/*.js modules/default/**/*.js clientonly/*.js serveronly/*.js translations/*.js vendor/*.js tests/**/*.js config/* --config .eslintrc.json --quiet",
 		"test:css": "stylelint css/main.css modules/default/**/*.css --config .stylelintrc.json",
@@ -91,13 +91,23 @@
 		"node": ">=12"
 	},
 	"jest": {
-		"moduleNameMapper": {
-			"node_helper": "<rootDir>/js/node_helper.js",
-			// "logger": "<rootDir>/js/logger.js", <-- only for unit tests, not for e2e
-			// replace require("chai").expect with expect from jest, see e2e/env_spec.js
-			// https://medium.com/swlh/6-ways-to-run-jest-test-cases-silently-67d2fead8c11
-			"moment-timezone": "<rootDir>/node_modules/moment-timezone/moment-timezone.js",
-			"moment": "<rootDir>/node_modules/moment/moment.js"
-		}
+		"verbose": true,
+		"projects": [
+			{
+				"displayName": "unit",
+				"testMatch": ["**/tests/unit/**/*.[jt]s?(x)"],
+				"moduleNameMapper": {
+					"node_helper": "<rootDir>/js/node_helper.js",
+					"logger": "<rootDir>/js/logger.js",
+					"moment-timezone": "<rootDir>/node_modules/moment-timezone/moment-timezone.js",
+					"moment": "<rootDir>/node_modules/moment/moment.js"
+				}
+			},
+			{
+				"displayName": "e2e",
+				"testMatch": ["**/tests/e2e/**/*.[jt]s?(x)"],
+				"testPathIgnorePatterns": ["<rootDir>/tests/e2e/modules/mocks", "<rootDir>/tests/e2e/global-setup.js"]
+			}
+		]
 	}
 }
