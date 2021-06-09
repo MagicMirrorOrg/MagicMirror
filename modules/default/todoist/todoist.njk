@@ -1,0 +1,18 @@
+<!--
+	Use ` | safe` to allow html tages within the text string.
+	https://mozilla.github.io/nunjucks/templating.html#autoescaping
+-->
+<div class='todoist'>
+	{% if error %}
+		{{ error | safe }}
+	{% else %}
+		{% if hasMadeQuery %}
+			<div class='due'>Due today:</div
+			<ul>
+			{% for item in dueTasks %}
+				<li>{{ item | safe }}</li>
+			{% endfor %}
+			</ul>
+		{% endif %}
+	{% endif %}
+</div>

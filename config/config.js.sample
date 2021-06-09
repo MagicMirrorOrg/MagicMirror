@@ -50,6 +50,13 @@ let config = {
 			position: "top_left"
 		},
 		{
+			module: "todoist",
+			position: "top_right",
+			config: {
+				token: "INSERT_YOUR_API_TOKEN_KEY"
+			}
+		},
+		{
 			module: "calendar",
 			header: "US Holidays",
 			position: "top_left",

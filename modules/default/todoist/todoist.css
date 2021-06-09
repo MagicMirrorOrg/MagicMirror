@@ -1,0 +1,17 @@
+.todoist {
+  text-align: left;
+}
+
+.todoist .due {
+  text-decoration: underline;
+}
+
+.todoist ul {
+  display: block;
+  margin: auto;
+}
+
+.todoist li {
+  list-style-type: square;
+  font-size: 20px;
+}
