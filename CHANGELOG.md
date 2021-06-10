@@ -21,6 +21,7 @@ Special thanks to the following contributors: @B1gG, @codac, @ezeholz, @khassel,
 - Added custom-properties for gaps around body and between modules
 - Added test case for recurring calendar events
 - Added new Environment Canada provider for default WEATHER module (weather data for Canadian locations only)
+- Added dev dependency jest, switching from mocha to jest
 
 ### Updated
 
@@ -34,6 +35,8 @@ Special thanks to the following contributors: @B1gG, @codac, @ezeholz, @khassel,
 - Cleaned up error handling in newsfeed and calendar modules for real
 
 ### Removed
+
+- switching from mocha to jest so removed following dev dependencies: chai, chai-as-promised, mocha, mocha-each, mocha-logger
 
 ### Fixed
 
