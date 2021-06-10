@@ -1,10 +1,10 @@
 const helpers = require("../global-setup");
 const moment = require("moment");
 
-const describe = global.describe;
-const it = global.it;
-const beforeEach = global.beforeEach;
-const afterEach = global.afterEach;
+
+
+
+
 
 describe("Clock module", function () {
 	helpers.setupTimeout(this);

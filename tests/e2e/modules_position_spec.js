@@ -1,7 +1,7 @@
 const helpers = require("./global-setup");
 
-const describe = global.describe;
-const it = global.it;
+
+
 
 describe("Position of modules", function () {
 	helpers.setupTimeout(this);

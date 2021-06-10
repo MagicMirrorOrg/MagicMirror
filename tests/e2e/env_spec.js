@@ -1,10 +1,10 @@
 const helpers = require("./global-setup");
 const fetch = require("node-fetch");
 
-const describe = global.describe;
-const it = global.it;
-const beforeEach = global.beforeEach;
-const afterEach = global.afterEach;
+
+
+
+
 
 describe("Electron app environment", function () {
 	helpers.setupTimeout(this);

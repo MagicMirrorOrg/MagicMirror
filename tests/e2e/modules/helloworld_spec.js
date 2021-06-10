@@ -1,10 +1,5 @@
 const helpers = require("../global-setup");
 
-const describe = global.describe;
-const it = global.it;
-const beforeEach = global.beforeEach;
-const afterEach = global.afterEach;
-
 describe("Test helloworld module", function () {
 	helpers.setupTimeout(this);
 
