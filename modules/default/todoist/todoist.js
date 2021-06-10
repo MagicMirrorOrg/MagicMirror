@@ -45,7 +45,13 @@ Module.register("todoist", {
 		todoistRequest.onreadystatechange = function () {
 			if (this.readyState === 4) {
 				if (this.status === 200) {
-					for (const task of JSON.parse(this.response)) {
+					var orderedTasks = JSON.parse(this.response);
+					orderedTasks.sort(function (a, b) {
+						if (a["order"] < b["order"]) return -1;
+						if (a["order"] > b["order"]) return 1;
+						return 0;
+					});
+					for (const task of orderedTasks) {
 						if (task["due"]["date"] == today) self.config.dueTasks.push(task["content"]);
 					}
 					if (JSON.stringify(self.config.dueTasks) !== JSON.stringify(previousDueTask)) {
@@ -58,7 +64,10 @@ Module.register("todoist", {
 					}
 				}
 			}
-			self.config.hasMadeQuery = true;
+			if (self.config.hasMadeQuery === false) {
+				self.config.hasMadeQuery = true;
+				self.updateDom(1000);
+			}
 			self.scheduleUpdate();
 		};
 		todoistRequest.send();
