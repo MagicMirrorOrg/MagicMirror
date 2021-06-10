@@ -26,7 +26,7 @@ describe("Test helloworld module", function () {
 		});
 
 		it("Test message helloworld module", async function () {
-			const elem = await app.client.$("helloworld");
+			const elem = await app.client.$(".helloworld");
 			return (elem.getText(".helloworld") === "Test HelloWorld Module");
 		});
 	});
@@ -38,7 +38,7 @@ describe("Test helloworld module", function () {
 		});
 
 		it("Test message helloworld module", async function () {
-			const elem = await app.client.$("helloworld");
+			const elem = await app.client.$(".helloworld");
 			return (elem.getText(".helloworld") === "Hello World!");
 		});
 	});
