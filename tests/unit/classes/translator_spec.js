@@ -18,16 +18,15 @@ describe("Translator", function () {
 
 		server = app.listen(3000);
 
-		server.on('connection', (socket) => {
+		server.on("connection", (socket) => {
 			sockets.add(socket);
 		});
-
 	});
 
 	afterAll(function () {
 		for (const socket of sockets) {
 			socket.destroy();
-	
+
 			sockets.delete(socket);
 		}
 

@@ -1,10 +1,5 @@
 const helpers = require("../global-setup");
 
-
-
-
-
-
 describe("Newsfeed module", function () {
 	helpers.setupTimeout(this);
 

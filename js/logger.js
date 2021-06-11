@@ -22,7 +22,6 @@
 		root.Log = factory(root.config);
 	}
 })(this, function (config) {
-
 	let logLevel = {
 		debug: Function.prototype.bind.call(console.debug, console),
 		log: Function.prototype.bind.call(console.log, console),
@@ -37,8 +36,8 @@
 	};
 
 	if (process.env.NODE_ENV.trim() !== "test") {
-		logLevel.push({timeStamp: Function.prototype.bind.call(console.timeStamp, console)});
-	};
+		logLevel.push({ timeStamp: Function.prototype.bind.call(console.timeStamp, console) });
+	}
 
 	logLevel.setLogLevel = function (newLevel) {
 		if (newLevel) {

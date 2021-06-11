@@ -1,11 +1,6 @@
 const helpers = require("./global-setup");
 const fetch = require("node-fetch");
 
-
-
-
-
-
 describe("Electron app environment", function () {
 	helpers.setupTimeout(this);
 

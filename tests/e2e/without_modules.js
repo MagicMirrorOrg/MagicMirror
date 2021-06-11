@@ -1,10 +1,5 @@
 const helpers = require("./global-setup");
 
-
-
-
-
-
 describe("Check configuration without modules", function () {
 	helpers.setupTimeout(this);
 
@@ -31,11 +26,11 @@ describe("Check configuration without modules", function () {
 
 	it("Show the message MagicMirror title", async function () {
 		const elem = await app.client.$("#module_1_helloworld .module-content");
-		return (elem.getText("#module_1_helloworld .module-content") === "Magic Mirror2");
+		return elem.getText("#module_1_helloworld .module-content") === "Magic Mirror2";
 	});
 
 	it("Show the text Michael's website", async function () {
 		const elem = await app.client.$("#module_5_helloworld .module-content");
-		return (elem.getText("#module_5_helloworld .module-content") === "www.michaelteeuw.nl");
+		return elem.getText("#module_5_helloworld .module-content") === "www.michaelteeuw.nl";
 	});
 });

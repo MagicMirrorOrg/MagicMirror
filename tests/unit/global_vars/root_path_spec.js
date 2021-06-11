@@ -14,8 +14,7 @@ beforeAll(function () {
 		__dirname: path.dirname(filePath),
 		global: {},
 		process: {
-			on: function () {
-			},
+			on: function () {},
 			env: {}
 		}
 	};

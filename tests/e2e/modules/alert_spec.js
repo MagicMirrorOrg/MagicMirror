@@ -1,10 +1,5 @@
 const helpers = require("../global-setup");
 
-
-
-
-
-
 describe("Alert module", function () {
 	helpers.setupTimeout(this);
 

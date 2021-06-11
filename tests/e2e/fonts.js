@@ -1,8 +1,6 @@
 const helpers = require("./global-setup");
 const fetch = require("node-fetch");
 
-
-
 describe("All font files from roboto.css should be downloadable", function () {
 	helpers.setupTimeout(this);
 

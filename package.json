@@ -95,7 +95,9 @@
 		"projects": [
 			{
 				"displayName": "unit",
-				"testMatch": ["**/tests/unit/**/*.[jt]s?(x)"],
+				"testMatch": [
+					"**/tests/unit/**/*.[jt]s?(x)"
+				],
 				"moduleNameMapper": {
 					"node_helper": "<rootDir>/js/node_helper.js",
 					"logger": "<rootDir>/js/logger.js",
@@ -105,8 +107,13 @@
 			},
 			{
 				"displayName": "e2e",
-				"testMatch": ["**/tests/e2e/**/*.[jt]s?(x)"],
-				"testPathIgnorePatterns": ["<rootDir>/tests/e2e/modules/mocks", "<rootDir>/tests/e2e/global-setup.js"]
+				"testMatch": [
+					"**/tests/e2e/**/*.[jt]s?(x)"
+				],
+				"testPathIgnorePatterns": [
+					"<rootDir>/tests/e2e/modules/mocks",
+					"<rootDir>/tests/e2e/global-setup.js"
+				]
 			}
 		]
 	}

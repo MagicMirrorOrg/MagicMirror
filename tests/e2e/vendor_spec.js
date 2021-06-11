@@ -1,8 +1,6 @@
 const helpers = require("./global-setup");
 const fetch = require("node-fetch");
 
-
-
 const before = global.before;
 const after = global.after;
 

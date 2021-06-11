@@ -341,7 +341,11 @@ Module.register("weatherforecast", {
 	 */
 	processWeather: function (data, momenttz) {
 		let mom;
-		if (momenttz === null) {mom = moment} else {mom = momenttz};
+		if (momenttz === null) {
+			mom = moment;
+		} else {
+			mom = momenttz;
+		}
 		// Forcast16 (paid) API endpoint provides this data.  Onecall endpoint
 		// does not.
 		if (data.city) {
@@ -486,7 +490,11 @@ Module.register("weatherforecast", {
 	 */
 	processRain: function (forecast, allForecasts, momenttz) {
 		let mom;
-		if (momenttz === null) {mom = moment} else {mom = momenttz};
+		if (momenttz === null) {
+			mom = moment;
+		} else {
+			mom = momenttz;
+		}
 		//If the amount of rain actually is a number, return it
 		if (!isNaN(forecast.rain)) {
 			return forecast.rain;

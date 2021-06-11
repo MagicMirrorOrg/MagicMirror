@@ -11,5 +11,5 @@ describe("Functions into modules/default/newsfeed/newsfeed.js", function () {
 		require("../../../modules/default/newsfeed/newsfeed.js");
 	});
 
-	test.skip('skip', () => {});
+	test.skip("skip", () => {});
 });

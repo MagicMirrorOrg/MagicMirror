@@ -1,10 +1,5 @@
 const helpers = require("../global-setup");
 
-
-
-
-
-
 describe("Clock set to spanish language module", function () {
 	helpers.setupTimeout(this);
 

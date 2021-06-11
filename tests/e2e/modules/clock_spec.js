@@ -1,11 +1,6 @@
 const helpers = require("../global-setup");
 const moment = require("moment");
 
-
-
-
-
-
 describe("Clock module", function () {
 	helpers.setupTimeout(this);
 
@@ -105,7 +100,7 @@ describe("Clock module", function () {
 			const currentWeekNumber = moment().week();
 			const weekToShow = "Week " + currentWeekNumber;
 			const elem = await app.client.$(".clock .week");
-			return (elem.getText(".clock .week") === weekToShow);
+			return elem.getText(".clock .week") === weekToShow;
 		});
 	});
 
