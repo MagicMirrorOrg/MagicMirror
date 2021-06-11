@@ -209,8 +209,8 @@ describe("Translations", function () {
 						expect(keys).toEqual(base);
 					} catch (e) {
 						if (e.message.match(/expect.*toEqual/)) {
-							// const diff = base.filter((key) => !keys.includes(key));
-							// console.log(`Missing Translations for language ${language}: ${diff}`);
+							const diff = base.filter((key) => !keys.includes(key));
+							console.log(`Missing Translations for language ${language}: ${diff}`);
 						} else {
 							throw e;
 						}
