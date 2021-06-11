@@ -13,14 +13,8 @@ beforeAll(function () {
 		module: {},
 		__dirname: path.dirname(filePath),
 		global: {},
-		console: {
-			log: function () {
-				/*console.log("console.log(", arguments, ")");*/
-			}
-		},
 		process: {
 			on: function () {
-				/*console.log("process.on called with: ", arguments);*/
 			},
 			env: {}
 		}
@@ -33,10 +27,6 @@ beforeAll(function () {
 	};
 
 	vm.runInNewContext(code, sandbox, fileName);
-});
-
-afterAll(function () {
-	//console.log(global);
 });
 
 describe("'global.root_path' set in js/app.js", function () {

@@ -16,7 +16,7 @@ exports.getElectronPath = function () {
 	return electronPath;
 };
 
-// Set timeout - if this is run within Travis, increase timeout
+// Set timeout - if this is run as CI Job, increase timeout
 exports.setupTimeout = function (test) {
 	if (process.env.CI) {
 		jest.setTimeout(30000);

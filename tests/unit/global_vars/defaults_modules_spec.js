@@ -13,14 +13,8 @@ beforeAll(function () {
 		module: {},
 		__dirname: path.dirname(filePath),
 		global: {},
-		console: {
-			log: function () {
-				/*console.log("console.log(", arguments, ")");*/
-			}
-		},
 		process: {
 			on: function () {
-				/*console.log("process.on called with: ", arguments);*/
 			},
 			env: {}
 		}
