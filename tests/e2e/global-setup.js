@@ -7,6 +7,7 @@
 const Application = require("spectron").Application;
 const assert = require("assert");
 const path = require("path");
+const EventEmitter = require("events");
 
 exports.getElectronPath = function () {
 	let electronPath = path.join(__dirname, "..", "..", "node_modules", ".bin", "electron");
@@ -26,6 +27,9 @@ exports.setupTimeout = function (test) {
 };
 
 exports.startApplication = function (options) {
+	const emitter = new EventEmitter();
+	emitter.setMaxListeners(100);
+
 	options.path = exports.getElectronPath();
 	if (process.env.CI) {
 		options.startTimeout = 30000;

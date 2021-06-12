@@ -2,12 +2,17 @@ const fs = require("fs");
 const path = require("path");
 const vm = require("vm");
 
+const mockedWarn = () => {};
+const originalWarn = console.log;
+
 beforeAll(function () {
 	const basedir = path.join(__dirname, "../../..");
 
 	const fileName = "js/app.js";
 	const filePath = path.join(basedir, fileName);
 	const code = fs.readFileSync(filePath);
+
+	console.log = mockedWarn;
 
 	sandbox = {
 		module: {},
@@ -26,6 +31,10 @@ beforeAll(function () {
 	};
 
 	vm.runInNewContext(code, sandbox, fileName);
+});
+
+afterAll(function () {
+	console.log = originalWarn;
 });
 
 describe("'global.root_path' set in js/app.js", function () {
