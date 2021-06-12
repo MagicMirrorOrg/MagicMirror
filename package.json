@@ -99,6 +99,12 @@
 				"testMatch": [
 					"**/tests/unit/**/*.[jt]s?(x)"
 				],
+				"testPathIgnorePatterns": [
+					"<rootDir>/tests/unit/setup_unit.js"
+				],
+				"setupFiles": [
+					"<rootDir>/tests/unit/setup_unit.js"
+				],
 				"moduleNameMapper": {
 					"node_helper": "<rootDir>/js/node_helper.js",
 					"logger": "<rootDir>/js/logger.js",

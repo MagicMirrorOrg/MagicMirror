@@ -4,15 +4,10 @@ const vm = require("vm");
 
 const basedir = path.join(__dirname, "../../..");
 
-const mockedWarn = () => {};
-const originalWarn = console.log;
-
 beforeAll(function () {
 	const fileName = "js/app.js";
 	const filePath = path.join(basedir, fileName);
 	const code = fs.readFileSync(filePath);
-
-	console.log = mockedWarn;
 
 	sandbox = {
 		module: {},
@@ -31,10 +26,6 @@ beforeAll(function () {
 	};
 
 	vm.runInNewContext(code, sandbox, fileName);
-});
-
-afterAll(function () {
-	console.log = originalWarn;
 });
 
 describe("Default modules set in modules/default/defaultmodules.js", function () {

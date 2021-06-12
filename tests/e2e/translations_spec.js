@@ -153,6 +153,7 @@ describe("Translations", function () {
 
 	describe("Same keys", function () {
 		let base;
+		let missing = [];
 
 		beforeAll(function (done) {
 			const dom = new JSDOM(
@@ -168,6 +169,10 @@ describe("Translations", function () {
 					done();
 				});
 			};
+		});
+
+		afterAll(function () {
+			console.log(missing);
 		});
 
 		for (let language in translations) {
@@ -210,7 +215,7 @@ describe("Translations", function () {
 					} catch (e) {
 						if (e.message.match(/expect.*toEqual/)) {
 							const diff = base.filter((key) => !keys.includes(key));
-							console.log(`Missing Translations for language ${language}: ${diff}`);
+							missing.push(`Missing Translations for language ${language}: ${diff}`);
 						} else {
 							throw e;
 						}
