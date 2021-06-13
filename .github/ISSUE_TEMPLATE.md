@@ -1,3 +1,7 @@
+Hello and thank you for opening an issue.
+
+**Please make sure that you have read the following lines before submitting your Issue:**
+
 ## I'm not sure if this is a bug
 
 If you're not sure if it's a real bug or if it's just you, please open a topic on the forum: [https://forum.magicmirror.builders/category/15/bug-hunt](https://forum.magicmirror.builders/category/15/bug-hunt)
