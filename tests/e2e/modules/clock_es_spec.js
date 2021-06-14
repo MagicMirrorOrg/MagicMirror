@@ -9,7 +9,7 @@ describe("Clock set to spanish language module", function () {
 		await app.client.waitUntilWindowLoaded();
 		const elem = await app.client.$(element);
 		const txt = await elem.getText(element);
-		return txt.match(regex);
+		return expect(txt).toMatch(regex);
 	};
 
 	beforeEach(function () {

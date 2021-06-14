@@ -10,7 +10,7 @@ describe("Clock module", function () {
 		await app.client.waitUntilWindowLoaded();
 		const elem = await app.client.$(element);
 		const txt = await elem.getText(element);
-		return txt.match(regex);
+		return expect(txt).toMatch(regex);
 	};
 
 	beforeEach(function () {
@@ -102,7 +102,7 @@ describe("Clock module", function () {
 			await app.client.waitUntilWindowLoaded();
 			const elem = await app.client.$(".clock .week");
 			const txt = await elem.getText(".clock .week");
-			return txt === weekToShow;
+			return expect(txt).toBe(weekToShow);
 		});
 	});
 
@@ -113,7 +113,7 @@ describe("Clock module", function () {
 		});
 
 		it("should show the analog clock face", async () => {
-			await app.client.waitUntilWindowLoaded(10000);
+			await app.client.waitUntilWindowLoaded();
 			const clock = await app.client.$$(".clockCircle");
 			return expect(clock.length).toBe(1);
 		});

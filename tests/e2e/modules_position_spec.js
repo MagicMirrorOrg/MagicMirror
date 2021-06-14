@@ -28,7 +28,9 @@ describe("Position of modules", function () {
 			const className = position.replace("_", ".");
 			it("should show text in " + position, function () {
 				return app.client.$("." + className).then((result) => {
-					return result.getText("." + className) === "Text in " + position;
+					return result.getText("." + className).then((text) => {
+						return expect(text).toContain("Text in " + position);
+					});
 				});
 			});
 		}

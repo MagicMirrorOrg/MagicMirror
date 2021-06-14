@@ -27,7 +27,7 @@ describe("Test helloworld module", function () {
 
 		it("Test message helloworld module", async function () {
 			const elem = await app.client.$(".helloworld");
-			return elem.getText(".helloworld") === "Test HelloWorld Module";
+			return expect(await elem.getText(".helloworld")).toBe("Test HelloWorld Module");
 		});
 	});
 
@@ -39,7 +39,7 @@ describe("Test helloworld module", function () {
 
 		it("Test message helloworld module", async function () {
 			const elem = await app.client.$(".helloworld");
-			return elem.getText(".helloworld") === "Hello World!";
+			return expect(await elem.getText(".helloworld")).toBe("Hello World!");
 		});
 	});
 });
