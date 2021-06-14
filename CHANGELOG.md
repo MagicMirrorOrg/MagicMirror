@@ -33,7 +33,7 @@ Special thanks to the following contributors: @B1gG, @codac, @ezeholz, @khassel,
 - Update dependencies in package.json and migrate husky to v6, fix husky setup in prod environment
 - Cleaned up error handling in newsfeed and calendar modules for real
 - Update documentation
-
+- Bump eslint-plugin-jsdoc to v35.2.0
 ### Removed
 
 ### Fixed
