@@ -34,6 +34,7 @@ Special thanks to the following contributors: @B1gG, @codac, @ezeholz, @khassel,
 - Cleaned up error handling in newsfeed and calendar modules for real
 - Update documentation
 - Bump eslint-plugin-jsdoc to v35.2.0
+- Bump spectron to v15.0.0
 ### Removed
 
 ### Fixed
