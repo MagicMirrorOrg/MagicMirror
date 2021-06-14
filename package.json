@@ -93,7 +93,6 @@
 	},
 	"jest": {
 		"verbose": true,
-		"testSequencer": "<rootDir>/tests/e2e/testSequencer.js",
 		"projects": [
 			{
 				"displayName": "unit",
@@ -120,7 +119,6 @@
 				],
 				"testPathIgnorePatterns": [
 					"<rootDir>/tests/e2e/modules/mocks",
-					"<rootDir>/tests/e2e/testSequencer.js",
 					"<rootDir>/tests/e2e/global-setup.js"
 				]
 			}

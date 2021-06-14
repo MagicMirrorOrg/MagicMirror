@@ -5,6 +5,13 @@ describe("Clock set to spanish language module", function () {
 
 	let app = null;
 
+	testMatch = async function (element, regex) {
+		await app.client.waitUntilWindowLoaded();
+		const elem = await app.client.$(element);
+		const txt = await elem.getText(element);
+		return txt.match(regex);
+	};
+
 	beforeEach(function () {
 		return helpers
 			.startApplication({
@@ -27,14 +34,12 @@ describe("Clock set to spanish language module", function () {
 
 		it("shows date with correct format", async function () {
 			const dateRegex = /^(?:lunes|martes|miércoles|jueves|viernes|sábado|domingo), \d{1,2} de (?:enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre) de \d{4}$/;
-			const elem = await app.client.$(".clock .date");
-			return elem.getText(".clock .date").toString().match(dateRegex);
+			return testMatch(".clock .date", dateRegex);
 		});
 
 		it("shows time in 24hr format", async function () {
 			const timeRegex = /^(?:2[0-3]|[01]\d):[0-5]\d[0-5]\d$/;
-			const elem = await app.client.$(".clock .time");
-			return elem.getText(".clock .time").toString().match(timeRegex);
+			return testMatch(".clock .time", timeRegex);
 		});
 	});
 
@@ -46,14 +51,12 @@ describe("Clock set to spanish language module", function () {
 
 		it("shows date with correct format", async function () {
 			const dateRegex = /^(?:lunes|martes|miércoles|jueves|viernes|sábado|domingo), \d{1,2} de (?:enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre) de \d{4}$/;
-			const elem = await app.client.$(".clock .date");
-			return elem.getText(".clock .date").toString().match(dateRegex);
+			return testMatch(".clock .date", dateRegex);
 		});
 
 		it("shows time in 12hr format", async function () {
 			const timeRegex = /^(?:1[0-2]|[1-9]):[0-5]\d[0-5]\d[ap]m$/;
-			const elem = await app.client.$(".clock .time");
-			return elem.getText(".clock .time").toString().match(timeRegex);
+			return testMatch(".clock .time", timeRegex);
 		});
 	});
 
@@ -65,8 +68,7 @@ describe("Clock set to spanish language module", function () {
 
 		it("shows 12hr time with upper case AM/PM", async function () {
 			const timeRegex = /^(?:1[0-2]|[1-9]):[0-5]\d[0-5]\d[AP]M$/;
-			const elem = await app.client.$(".clock .time");
-			return elem.getText(".clock .time").toString().match(timeRegex);
+			return testMatch(".clock .time", timeRegex);
 		});
 	});
 
@@ -78,8 +80,7 @@ describe("Clock set to spanish language module", function () {
 
 		it("shows week with correct format", async function () {
 			const weekRegex = /^Semana [0-9]{1,2}$/;
-			const elem = await app.client.$(".clock .week");
-			elem.getText(".clock .week").toString().match(weekRegex);
+			return testMatch(".clock .week", weekRegex);
 		});
 	});
 });
