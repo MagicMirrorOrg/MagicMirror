@@ -106,10 +106,7 @@
 					"<rootDir>/tests/unit/setup_unit.js"
 				],
 				"moduleNameMapper": {
-					"node_helper": "<rootDir>/js/node_helper.js",
-					"logger": "<rootDir>/js/logger.js",
-					"moment-timezone": "<rootDir>/node_modules/moment-timezone/moment-timezone.js",
-					"moment": "<rootDir>/node_modules/moment/moment.js"
+					"logger": "<rootDir>/js/logger.js"
 				}
 			},
 			{
