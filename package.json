@@ -46,7 +46,7 @@
 	"homepage": "https://magicmirror.builders",
 	"devDependencies": {
 		"eslint-config-prettier": "^8.3.0",
-		"eslint-plugin-jsdoc": "^35.0.0",
+		"eslint-plugin-jsdoc": "^35.2.0",
 		"eslint-plugin-prettier": "^3.4.0",
 		"eslint-plugin-jest": "^24.3.6",
 		"express-basic-auth": "^1.2.0",
@@ -55,7 +55,7 @@
 		"jsdom": "^16.6.0",
 		"lodash": "^4.17.21",
 		"nyc": "^15.1.0",
-		"prettier": "^2.3.0",
+		"prettier": "^2.3.1",
 		"pretty-quick": "^3.1.0",
 		"sinon": "^11.1.1",
 		"spectron": "^13.0.0",
@@ -65,13 +65,13 @@
 		"stylelint-prettier": "^1.2.0"
 	},
 	"optionalDependencies": {
-		"electron": "^11.4.7"
+		"electron": "^11.4.8"
 	},
 	"dependencies": {
 		"colors": "^1.4.0",
 		"console-stamp": "^3.0.2",
 		"digest-fetch": "^1.2.0",
-		"eslint": "^7.27.0",
+		"eslint": "^7.28.0",
 		"express": "^4.17.1",
 		"express-ipfilter": "^1.2.0",
 		"feedme": "^2.0.2",
@@ -81,7 +81,7 @@
 		"moment": "^2.29.1",
 		"node-fetch": "^2.6.1",
 		"node-ical": "^0.13.0",
-		"simple-git": "^2.39.0",
+		"simple-git": "^2.40.0",
 		"socket.io": "^4.1.2"
 	},
 	"_moduleAliases": {
