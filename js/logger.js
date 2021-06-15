@@ -35,6 +35,7 @@
 		timeEnd: Function.prototype.bind.call(console.timeEnd, console)
 	};
 
+	// the timeStamp instruction fails when running the tests so it is not added in test environment
 	if (process.env.NODE_ENV.trim() !== "test") {
 		logLevel.push({ timeStamp: Function.prototype.bind.call(console.timeStamp, console) });
 	}

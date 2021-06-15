@@ -340,12 +340,8 @@ Module.register("weatherforecast", {
 	 * argument data object - Weather information received form openweather.org.
 	 */
 	processWeather: function (data, momenttz) {
-		let mom;
-		if (momenttz === null) {
-			mom = moment;
-		} else {
-			mom = momenttz;
-		}
+		let mom = momenttz ? momenttz : moment; // Exception last.
+
 		// Forcast16 (paid) API endpoint provides this data.  Onecall endpoint
 		// does not.
 		if (data.city) {
@@ -489,12 +485,8 @@ Module.register("weatherforecast", {
 	 * This code finds all forecasts that is for the same day and sums the amount of rain and returns that.
 	 */
 	processRain: function (forecast, allForecasts, momenttz) {
-		let mom;
-		if (momenttz === null) {
-			mom = moment;
-		} else {
-			mom = momenttz;
-		}
+		let mom = momenttz ? momenttz : moment; // Exception last.
+
 		//If the amount of rain actually is a number, return it
 		if (!isNaN(forecast.rain)) {
 			return forecast.rain;
