@@ -70,7 +70,6 @@ const MM = (function () {
 	 * Select the wrapper dom object for a specific position.
 	 *
 	 * @param {string} position The name of the position.
-	 *
 	 * @returns {HTMLElement} the wrapper element
 	 */
 	const selectWrapper = function (position) {
@@ -106,7 +105,6 @@ const MM = (function () {
 	 *
 	 * @param {Module} module The module that needs an update.
 	 * @param {number} [speed] The (optional) number of microseconds for the animation.
-	 *
 	 * @returns {Promise} Resolved when the dom is fully updated.
 	 */
 	const updateDom = function (module, speed) {
@@ -136,7 +134,6 @@ const MM = (function () {
 	 * @param {number} [speed] The (optional) number of microseconds for the animation.
 	 * @param {string} newHeader The new header that is generated.
 	 * @param {HTMLElement} newContent The new content that is generated.
-	 *
 	 * @returns {Promise} Resolved when the module dom has been updated.
 	 */
 	const updateDomWithContent = function (module, speed, newHeader, newContent) {
@@ -174,7 +171,6 @@ const MM = (function () {
 	 * @param {Module} module The module to check.
 	 * @param {string} newHeader The new header that is generated.
 	 * @param {HTMLElement} newContent The new content that is generated.
-	 *
 	 * @returns {boolean} True if the module need an update, false otherwise
 	 */
 	const moduleNeedsUpdate = function (module, newHeader, newContent) {
@@ -390,7 +386,6 @@ const MM = (function () {
 		 * Filter modules with the specified classes.
 		 *
 		 * @param {string|string[]} className one or multiple classnames (array or space divided).
-		 *
 		 * @returns {Module[]} Filtered collection of modules.
 		 */
 		const withClass = function (className) {
@@ -401,7 +396,6 @@ const MM = (function () {
 		 * Filter modules without the specified classes.
 		 *
 		 * @param {string|string[]} className one or multiple classnames (array or space divided).
-		 *
 		 * @returns {Module[]} Filtered collection of modules.
 		 */
 		const exceptWithClass = function (className) {
@@ -413,7 +407,6 @@ const MM = (function () {
 		 *
 		 * @param {string|string[]} className one or multiple classnames (array or space divided).
 		 * @param {boolean} include if the filter should include or exclude the modules with the specific classes.
-		 *
 		 * @returns {Module[]} Filtered collection of modules.
 		 */
 		const modulesByClass = function (className, include) {
