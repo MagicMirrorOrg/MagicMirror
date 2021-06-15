@@ -12,3 +12,12 @@ iframe.newsfeed-fullarticle {
   bottom: inherit;
   top: -90px;
 }
+
+.newsfeed-list {
+  list-style: none;
+}
+
+.newsfeed-list li {
+  text-align: justify;
+  margin-bottom: 0.5em;
+}
