@@ -30,16 +30,14 @@ WeatherProvider.register("openweathermap", {
 	fetchCurrentWeather() {
 		this.fetchData(this.getUrl())
 			.then((data) => {
-				if (!data || !data.main || typeof data.main.temp === "undefined") {
-					// Did not receive usable new data.
-					// Maybe this needs a better check?
-					return;
+				if (this.config.weatherEndpoint === "/onecall") {
+					const weatherData = this.generateWeatherObjectsFromOnecall(data);
+					this.setCurrentWeather(weatherData.current);
+					this.setFetchedLocation(`${data.timezone}`);
+				} else {
+					const currentWeather = this.generateWeatherObjectFromCurrentWeather(data);
+					this.setCurrentWeather(currentWeather);
 				}
-
-				this.setFetchedLocation(`${data.name}, ${data.sys.country}`);
-
-				const currentWeather = this.generateWeatherObjectFromCurrentWeather(data);
-				this.setCurrentWeather(currentWeather);
 			})
 			.catch(function (request) {
 				Log.error("Could not load data ... ", request);
@@ -51,16 +49,15 @@ WeatherProvider.register("openweathermap", {
 	fetchWeatherForecast() {
 		this.fetchData(this.getUrl())
 			.then((data) => {
-				if (!data || !data.list || !data.list.length) {
-					// Did not receive usable new data.
-					// Maybe this needs a better check?
-					return;
+				if (this.config.weatherEndpoint === "/onecall") {
+					const weatherData = this.generateWeatherObjectsFromOnecall(data);
+					this.setWeatherForecast(weatherData.days);
+					this.setFetchedLocation(`${data.timezone}`);
+				} else {
+					const forecast = this.generateWeatherObjectsFromForecast(data.daily);
+					this.setWeatherForecast(forecast);
+					this.setWeatherForecast(`${data.city.name}, ${data.city.country}`);
 				}
-
-				this.setFetchedLocation(`${data.city.name}, ${data.city.country}`);
-
-				const forecast = this.generateWeatherObjectsFromForecast(data.list);
-				this.setWeatherForecast(forecast);
 			})
 			.catch(function (request) {
 				Log.error("Could not load data ... ", request);
