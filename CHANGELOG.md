@@ -41,6 +41,7 @@ Special thanks to the following contributors: @B1gG, @codac, @ezeholz, @khassel,
 - Fix calendar start function logging inconsistency.
 - Fix updatenotification start function logging inconsistency.
 - Checks and applies the showDescription setting for the newsfeed module again
+- Fix issue with openweathermap not showing current or forecast info when using onecall API
 - Fix tests in weather module and add one for decimalPoint in forecast
 - Fix decimalSymbol in the forecast part of the new weather module #2530
 - Fix wrong treatment of `appendLocationNameToHeader` when using `ukmetofficedatahub`
