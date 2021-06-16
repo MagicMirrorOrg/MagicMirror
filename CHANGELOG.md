@@ -34,7 +34,8 @@ Special thanks to the following contributors: @B1gG, @codac, @ezeholz, @khassel,
 - Update dependencies in package.json, require node >= v12, remove `rrule-alt` and `rrule`
 - Update dependencies in package.json and migrate husky to v6, fix husky setup in prod environment
 - Cleaned up error handling in newsfeed and calendar modules for real
-- Update documentation
+- Updated default WEATHER module such that a provider can optionally set a custom unit-of-measure for precipitation (`weatherObject.precipitationUnits`)
+- Update documentation.
 
 ### Removed
 
