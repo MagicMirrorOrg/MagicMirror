@@ -1,10 +1,4 @@
 const helpers = require("../global-setup");
-const expect = require("chai").expect;
-
-const describe = global.describe;
-const it = global.it;
-const beforeEach = global.beforeEach;
-const afterEach = global.afterEach;
 
 describe("Newsfeed module", function () {
 	helpers.setupTimeout(this);
@@ -26,7 +20,7 @@ describe("Newsfeed module", function () {
 	});
 
 	describe("Default configuration", function () {
-		before(function () {
+		beforeAll(function () {
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/newsfeed/default.js";
 		});
 
@@ -41,12 +35,12 @@ describe("Newsfeed module", function () {
 		it("should NOT show the newsfeed description", async () => {
 			await app.client.waitUntilTextExists(".newsfeed .newsfeed-title", "QPanel", 10000);
 			const events = await app.client.$$(".newsfeed .newsfeed-desc");
-			return expect(events.length).equals(0);
+			return expect(events.length).toBe(0);
 		});
 	});
 
 	describe("Custom configuration", function () {
-		before(function () {
+		beforeAll(function () {
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/newsfeed/prohibited_words.js";
 		});
 
@@ -57,12 +51,12 @@ describe("Newsfeed module", function () {
 		it("should show the newsfeed description", async () => {
 			await app.client.waitUntilTextExists(".newsfeed .newsfeed-title", "Problema VirtualBox", 10000);
 			const events = await app.client.$$(".newsfeed .newsfeed-desc");
-			return expect(events.length).equals(1);
+			return expect(events.length).toBe(1);
 		});
 	});
 
 	describe("Invalid configuration", function () {
-		before(function () {
+		beforeAll(function () {
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/newsfeed/incorrect_url.js";
 		});
 

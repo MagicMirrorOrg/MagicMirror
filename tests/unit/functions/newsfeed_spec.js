@@ -1,5 +1,3 @@
-const expect = require("chai").expect;
-
 describe("Functions into modules/default/newsfeed/newsfeed.js", function () {
 	// Fake for use by newsletter.js
 	Module = {};
@@ -8,8 +6,10 @@ describe("Functions into modules/default/newsfeed/newsfeed.js", function () {
 		Module.definitions[name] = moduleDefinition;
 	};
 
-	before(function () {
+	beforeAll(function () {
 		// load newsfeed.js
 		require("../../../modules/default/newsfeed/newsfeed.js");
 	});
+
+	test.skip("skip", () => {});
 });

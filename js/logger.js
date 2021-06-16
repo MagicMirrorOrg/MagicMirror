@@ -22,7 +22,7 @@
 		root.Log = factory(root.config);
 	}
 })(this, function (config) {
-	const logLevel = {
+	let logLevel = {
 		debug: Function.prototype.bind.call(console.debug, console),
 		log: Function.prototype.bind.call(console.log, console),
 		info: Function.prototype.bind.call(console.info, console),
@@ -32,9 +32,13 @@
 		groupCollapsed: Function.prototype.bind.call(console.groupCollapsed, console),
 		groupEnd: Function.prototype.bind.call(console.groupEnd, console),
 		time: Function.prototype.bind.call(console.time, console),
-		timeEnd: Function.prototype.bind.call(console.timeEnd, console),
-		timeStamp: Function.prototype.bind.call(console.timeStamp, console)
+		timeEnd: Function.prototype.bind.call(console.timeEnd, console)
 	};
+
+	// the timeStamp instruction fails when running the tests so it is not added in test environment
+	if (process.env.NODE_ENV.trim() !== "test") {
+		logLevel.push({ timeStamp: Function.prototype.bind.call(console.timeStamp, console) });
+	}
 
 	logLevel.setLogLevel = function (newLevel) {
 		if (newLevel) {

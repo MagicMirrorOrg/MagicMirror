@@ -28,5 +28,5 @@ jobs:
         npm run test:prettier
         npm run test:js
         npm run test:css
-        npm run test:e2e
         npm run test:unit
+        npm run test:e2e

@@ -1,11 +1,5 @@
 const helpers = require("../global-setup");
 const serverBasicAuth = require("../../servers/basic-auth.js");
-const expect = require("chai").expect;
-
-const describe = global.describe;
-const it = global.it;
-const beforeEach = global.beforeEach;
-const afterEach = global.afterEach;
 
 describe("Calendar module", function () {
 	helpers.setupTimeout(this);
@@ -27,7 +21,7 @@ describe("Calendar module", function () {
 	});
 
 	describe("Default configuration", function () {
-		before(function () {
+		beforeAll(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/default.js";
 		});
@@ -35,18 +29,18 @@ describe("Calendar module", function () {
 		it("should show the default maximumEntries of 10", async () => {
 			await app.client.waitUntilTextExists(".calendar", "TestEvent", 10000);
 			const events = await app.client.$$(".calendar .event");
-			return expect(events.length).equals(10);
+			return expect(events.length).toBe(10);
 		});
 
 		it("should show the default calendar symbol in each event", async () => {
 			await app.client.waitUntilTextExists(".calendar", "TestEvent", 10000);
 			const icons = await app.client.$$(".calendar .event .fa-calendar");
-			return expect(icons.length).not.equals(0);
+			return expect(icons.length).not.toBe(0);
 		});
 	});
 
 	describe("Custom configuration", function () {
-		before(function () {
+		beforeAll(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/custom.js";
 		});
@@ -54,30 +48,30 @@ describe("Calendar module", function () {
 		it("should show the custom maximumEntries of 4", async () => {
 			await app.client.waitUntilTextExists(".calendar", "TestEvent", 10000);
 			const events = await app.client.$$(".calendar .event");
-			return expect(events.length).equals(4);
+			return expect(events.length).toBe(4);
 		});
 
 		it("should show the custom calendar symbol in each event", async () => {
 			await app.client.waitUntilTextExists(".calendar", "TestEvent", 10000);
 			const icons = await app.client.$$(".calendar .event .fa-birthday-cake");
-			return expect(icons.length).equals(4);
+			return expect(icons.length).toBe(4);
 		});
 
 		it("should show two custom icons for repeating events", async () => {
 			await app.client.waitUntilTextExists(".calendar", "TestEventRepeat", 10000);
 			const icons = await app.client.$$(".calendar .event .fa-undo");
-			return expect(icons.length).equals(2);
+			return expect(icons.length).toBe(2);
 		});
 
 		it("should show two custom icons for day events", async () => {
 			await app.client.waitUntilTextExists(".calendar", "TestEventDay", 10000);
 			const icons = await app.client.$$(".calendar .event .fa-calendar-day");
-			return expect(icons.length).equals(2);
+			return expect(icons.length).toBe(2);
 		});
 	});
 
 	describe("Recurring event", function () {
-		before(function () {
+		beforeAll(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/recurring.js";
 		});
@@ -85,18 +79,18 @@ describe("Calendar module", function () {
 		it("should show the recurring birthday event 6 times", async () => {
 			await app.client.waitUntilTextExists(".calendar", "Mar 25th", 10000);
 			const events = await app.client.$$(".calendar .event");
-			return expect(events.length).equals(6);
+			return expect(events.length).toBe(6);
 		});
 	});
 
 	describe("Changed port", function () {
-		before(function () {
+		beforeAll(function () {
 			serverBasicAuth.listen(8010);
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/changed-port.js";
 		});
 
-		after(function (done) {
+		afterAll(function (done) {
 			serverBasicAuth.close(done());
 		});
 
@@ -106,7 +100,7 @@ describe("Calendar module", function () {
 	});
 
 	describe("Basic auth", function () {
-		before(function () {
+		beforeAll(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/basic-auth.js";
 		});
@@ -117,7 +111,7 @@ describe("Calendar module", function () {
 	});
 
 	describe("Basic auth by default", function () {
-		before(function () {
+		beforeAll(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/auth-default.js";
 		});
@@ -128,7 +122,7 @@ describe("Calendar module", function () {
 	});
 
 	describe("Basic auth backward compatibility configuration: DEPRECATED", function () {
-		before(function () {
+		beforeAll(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/old-basic-auth.js";
 		});
@@ -139,13 +133,13 @@ describe("Calendar module", function () {
 	});
 
 	describe("Fail Basic auth", function () {
-		before(function () {
+		beforeAll(function () {
 			serverBasicAuth.listen(8020);
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/calendar/fail-basic-auth.js";
 		});
 
-		after(function (done) {
+		afterAll(function (done) {
 			serverBasicAuth.close(done());
 		});
 

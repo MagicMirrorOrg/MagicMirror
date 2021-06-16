@@ -6,14 +6,8 @@
  */
 const Application = require("spectron").Application;
 const assert = require("assert");
-const chai = require("chai");
-const chaiAsPromised = require("chai-as-promised");
 const path = require("path");
-
-global.before(function () {
-	chai.should();
-	chai.use(chaiAsPromised);
-});
+const EventEmitter = require("events");
 
 exports.getElectronPath = function () {
 	let electronPath = path.join(__dirname, "..", "..", "node_modules", ".bin", "electron");
@@ -23,16 +17,19 @@ exports.getElectronPath = function () {
 	return electronPath;
 };
 
-// Set timeout - if this is run within Travis, increase timeout
+// Set timeout - if this is run as CI Job, increase timeout
 exports.setupTimeout = function (test) {
 	if (process.env.CI) {
-		test.timeout(30000);
+		jest.setTimeout(30000);
 	} else {
-		test.timeout(10000);
+		jest.setTimeout(10000);
 	}
 };
 
 exports.startApplication = function (options) {
+	const emitter = new EventEmitter();
+	emitter.setMaxListeners(100);
+
 	options.path = exports.getElectronPath();
 	if (process.env.CI) {
 		options.startTimeout = 30000;
@@ -41,7 +38,6 @@ exports.startApplication = function (options) {
 	const app = new Application(options);
 	return app.start().then(function () {
 		assert.strictEqual(app.isRunning(), true);
-		chaiAsPromised.transferPromiseness = app.transferPromiseness;
 		return app;
 	});
 };

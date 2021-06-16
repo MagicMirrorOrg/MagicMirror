@@ -1,9 +1,5 @@
 const helpers = require("./global-setup");
 const fetch = require("node-fetch");
-const expect = require("chai").expect;
-const forEach = require("mocha-each");
-
-const describe = global.describe;
 
 describe("All font files from roboto.css should be downloadable", function () {
 	helpers.setupTimeout(this);
@@ -21,7 +17,7 @@ describe("All font files from roboto.css should be downloadable", function () {
 		match = regex.exec(fileContent);
 	}
 
-	before(function () {
+	beforeAll(function () {
 		// Set config sample for use in test
 		process.env.MM_CONFIG_FILE = "tests/configs/without_modules.js";
 
@@ -34,14 +30,14 @@ describe("All font files from roboto.css should be downloadable", function () {
 			});
 	});
 
-	after(function () {
+	afterAll(function () {
 		return helpers.stopApplication(app);
 	});
 
-	forEach(fontFiles).it("should return 200 HTTP code for file '%s'", (fontFile, done) => {
+	test.each(fontFiles)("should return 200 HTTP code for file '%s'", (fontFile, done) => {
 		const fontUrl = "http://localhost:8080/fonts/" + fontFile;
 		fetch(fontUrl).then((res) => {
-			expect(res.status).to.equal(200);
+			expect(res.status).toBe(200);
 			done();
 		});
 	});

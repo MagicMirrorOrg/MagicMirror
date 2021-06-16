@@ -1,19 +1,16 @@
 const helpers = require("./global-setup");
 
-const describe = global.describe;
-const it = global.it;
-
 describe("Position of modules", function () {
 	helpers.setupTimeout(this);
 
 	let app = null;
 
 	describe("Using helloworld", function () {
-		after(function () {
+		afterAll(function () {
 			return helpers.stopApplication(app);
 		});
 
-		before(function () {
+		beforeAll(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/positions.js";
 			return helpers
@@ -31,7 +28,9 @@ describe("Position of modules", function () {
 			const className = position.replace("_", ".");
 			it("should show text in " + position, function () {
 				return app.client.$("." + className).then((result) => {
-					return result.getText("." + className).should.eventually.equal("Text in " + position);
+					return result.getText("." + className).then((text) => {
+						return expect(text).toContain("Text in " + position);
+					});
 				});
 			});
 		}

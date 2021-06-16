@@ -1,8 +1,5 @@
 const helpers = require("./global-setup");
 
-const describe = global.describe;
-const it = global.it;
-
 describe("Display of modules", function () {
 	helpers.setupTimeout(this);
 
@@ -23,19 +20,19 @@ describe("Display of modules", function () {
 	});
 
 	describe("Using helloworld", function () {
-		before(function () {
+		beforeAll(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/display.js";
 		});
 
 		it("should show the test header", async () => {
 			const elem = await app.client.$("#module_0_helloworld .module-header", 10000);
-			return elem.getText("#module_0_helloworld .module-header").should.eventually.equal("TEST_HEADER");
+			return expect(await elem.getText("#module_0_helloworld .module-header")).toBe("TEST_HEADER");
 		});
 
 		it("should show no header if no header text is specified", async () => {
 			const elem = await app.client.$("#module_1_helloworld .module-header", 10000);
-			return elem.getText("#module_1_helloworld .module-header").should.eventually.equal(false);
+			return expect(await elem.getText("#module_1_helloworld .module-header")).toBe("");
 		});
 	});
 });

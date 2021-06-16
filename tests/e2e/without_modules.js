@@ -1,10 +1,5 @@
 const helpers = require("./global-setup");
 
-const describe = global.describe;
-const it = global.it;
-const beforeEach = global.beforeEach;
-const afterEach = global.afterEach;
-
 describe("Check configuration without modules", function () {
 	helpers.setupTimeout(this);
 
@@ -24,18 +19,18 @@ describe("Check configuration without modules", function () {
 		return helpers.stopApplication(app);
 	});
 
-	before(function () {
+	beforeAll(function () {
 		// Set config sample for use in test
 		process.env.MM_CONFIG_FILE = "tests/configs/without_modules.js";
 	});
 
 	it("Show the message MagicMirror title", async function () {
 		const elem = await app.client.$("#module_1_helloworld .module-content");
-		return elem.getText("#module_1_helloworld .module-content").should.eventually.equal("Magic Mirror2");
+		return expect(await elem.getText("#module_1_helloworld .module-content")).toBe("Magic Mirror2");
 	});
 
 	it("Show the text Michael's website", async function () {
 		const elem = await app.client.$("#module_5_helloworld .module-content");
-		return elem.getText("#module_5_helloworld .module-content").should.eventually.equal("www.michaelteeuw.nl");
+		return expect(await elem.getText("#module_5_helloworld .module-content")).toBe("www.michaelteeuw.nl");
 	});
 });
