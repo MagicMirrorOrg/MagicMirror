@@ -36,8 +36,8 @@
 	};
 
 	// the timeStamp instruction fails when running the tests so it is not added in test environment
-	if (process.env.NODE_ENV.trim() !== "test") {
-		logLevel.push({ timeStamp: Function.prototype.bind.call(console.timeStamp, console) });
+	if (typeof process === "object" && process.env.NODE_ENV.trim() !== "test") {
+		logLevel = Object.assign(logLevel, { timeStamp: Function.prototype.bind.call(console.timeStamp, console) });
 	}
 
 	logLevel.setLogLevel = function (newLevel) {
