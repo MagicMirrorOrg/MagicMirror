@@ -29,8 +29,8 @@ beforeAll(function () {
 				return require(filename);
 			} catch {
 				// ignore
-			};
-		};
+			}
+		}
 	};
 
 	vm.runInNewContext(code, sandbox, fileName);
