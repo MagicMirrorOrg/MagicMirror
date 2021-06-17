@@ -100,14 +100,8 @@
 					"**/tests/unit/**/*.[jt]s?(x)"
 				],
 				"testPathIgnorePatterns": [
-					"<rootDir>/tests/unit/setup_unit.js"
-				],
-				"setupFiles": [
-					"<rootDir>/tests/unit/setup_unit.js"
-				],
-				"moduleNameMapper": {
-					"logger": "<rootDir>/js/logger.js"
-				}
+					"<rootDir>/tests/unit/mocks"
+				]
 			},
 			{
 				"displayName": "e2e",
