@@ -63,6 +63,11 @@ function createWindow() {
 
 	// Open the DevTools if run with "npm start dev"
 	if (process.argv.includes("dev")) {
+		if (process.env.JEST_WORKER_ID !== undefined) {
+			// if we are running with jest
+			var devtools = new BrowserWindow(electronOptions);
+			mainWindow.webContents.setDevToolsWebContents(devtools.webContents);
+		}
 		mainWindow.webContents.openDevTools();
 	}
 
