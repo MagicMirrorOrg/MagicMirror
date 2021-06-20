@@ -22,7 +22,15 @@ beforeAll(function () {
 	sandbox.require = function (filename) {
 		// This modifies the global slightly,
 		// but supplies vm with essential code
-		return require(filename);
+		if (filename === "logger") {
+			return require("../mocks/logger.js");
+		} else {
+			try {
+				return require(filename);
+			} catch {
+				// ignore
+			}
+		}
 	};
 
 	vm.runInNewContext(code, sandbox, fileName);
