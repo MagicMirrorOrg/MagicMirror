@@ -56,7 +56,7 @@ Special thanks to the following contributors: @B1gG, @codac, @ezeholz, @khassel,
 - Fix config check failing when encountering let syntax ("Parsing error: Unexpected token config")
 - Fix calendar debug check
 - Really run prettier over all files
-- Fix logger.js after jest changes
+- Fix logger.js after jest changes, use --forceExit running jest
 - Workaround for dev_console test using getWindowCount.
 
 ## [2.15.0] - 2021-04-01
