@@ -31,25 +31,23 @@ describe("Development console tests", function () {
 		});
 	});
 
-	// describe("With 'dev' commandline argument", function () {
-	// 	beforeAll(function () {
-	// 		return helpers
-	// 			.startApplication({
-	// 				args: ["js/electron.js", "dev"]
-	// 			})
-	// 			.then(function (startedApp) {
-	// 				app = startedApp;
-	// 			});
-	// 	});
+	describe("With 'dev' commandline argument", function () {
+		beforeAll(function () {
+			return helpers
+				.startApplication({
+					args: ["js/electron.js", "dev"]
+				})
+				.then(function (startedApp) {
+					app = startedApp;
+				});
+		});
 
-	// 	afterAll(function () {
-	// 		return helpers.stopApplication(app);
-	// 	});
+		afterAll(function () {
+			return helpers.stopApplication(app);
+		});
 
-	// 	it("should open dev console when provided", async function () {
-	// 		expect(await app.client.getWindowCount()).toBe(2);
-	// 		await app.client.waitUntilWindowLoaded();
-	// 		return expect(await app.browserWindow.isDevToolsOpened()).toBe(true);
-	// 	});
-	// });
+		it("should open dev console when provided", async function () {
+			expect(await app.client.getWindowCount()).toBe(2);
+		});
+	});
 });
