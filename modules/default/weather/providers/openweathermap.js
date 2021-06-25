@@ -54,7 +54,7 @@ WeatherProvider.register("openweathermap", {
 					this.setWeatherForecast(weatherData.days);
 					this.setFetchedLocation(`${data.timezone}`);
 				} else {
-					const forecast = this.generateWeatherObjectsFromForecast(data.daily);
+					const forecast = this.generateWeatherObjectsFromForecast(data.list);
 					this.setWeatherForecast(forecast);
 					this.setFetchedLocation(`${data.city.name}, ${data.city.country}`);
 				}
