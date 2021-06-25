@@ -37,6 +37,7 @@ Special thanks to the following contributors: @B1gG, @codac, @ezeholz, @khassel,
 - Updated default WEATHER module such that a provider can optionally set a custom unit-of-measure for precipitation (`weatherObject.precipitationUnits`)
 - Update documentation.
 - Update jest tests: Reset changes on js/logger.js, mock logger.js in global_vars tests.
+- Update dependencies in package.json
 
 ### Removed
 
