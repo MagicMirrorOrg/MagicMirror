@@ -33,6 +33,7 @@ Module.register("weather", {
 		showIndoorHumidity: false,
 		maxNumberOfDays: 5,
 		maxEntries: 5,
+		ignoreToday: false,
 		fade: true,
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		initialLoadDelay: 0, // 0 seconds delay
@@ -47,6 +48,9 @@ Module.register("weather", {
 
 	// Module properties.
 	weatherProvider: null,
+
+	// Can be used by the provider to display location of event if nothing else is specified
+	firstEvent: null,
 
 	// Define required scripts.
 	getStyles: function () {
@@ -88,15 +92,13 @@ Module.register("weather", {
 	// Override notification handler.
 	notificationReceived: function (notification, payload, sender) {
 		if (notification === "CALENDAR_EVENTS") {
-			var senderClasses = sender.data.classes.toLowerCase().split(" ");
+			const senderClasses = sender.data.classes.toLowerCase().split(" ");
 			if (senderClasses.indexOf(this.config.calendarClass.toLowerCase()) !== -1) {
-				this.firstEvent = false;
-
-				for (var e in payload) {
-					var event = payload[e];
+				this.firstEvent = null;
+				for (let event of payload) {
 					if (event.location || event.geo) {
 						this.firstEvent = event;
-						//Log.log("First upcoming event with location: ", event);
+						Log.debug("First upcoming event with location: ", event);
 						break;
 					}
 				}
@@ -114,24 +116,30 @@ Module.register("weather", {
 	getTemplate: function () {
 		switch (this.config.type.toLowerCase()) {
 			case "current":
-				return `current.njk`;
+				return "current.njk";
 			case "hourly":
-				return `hourly.njk`;
+				return "hourly.njk";
 			case "daily":
 			case "forecast":
-				return `forecast.njk`;
+				return "forecast.njk";
 			//Make the invalid values use the "Loading..." from forecast
 			default:
-				return `forecast.njk`;
+				return "forecast.njk";
 		}
 	},
 
 	// Add all the data to the template.
 	getTemplateData: function () {
+		const forecast = this.weatherProvider.weatherForecast();
+
+		if (this.config.ignoreToday) {
+			forecast.splice(0, 1);
+		}
+
 		return {
 			config: this.config,
 			current: this.weatherProvider.currentWeather(),
-			forecast: this.weatherProvider.weatherForecast(),
+			forecast: forecast,
 			hourly: this.weatherProvider.weatherHourly(),
 			indoor: {
 				humidity: this.indoorHumidity,
@@ -152,7 +160,7 @@ Module.register("weather", {
 	},
 
 	scheduleUpdate: function (delay = null) {
-		var nextLoad = this.config.updateInterval;
+		let nextLoad = this.config.updateInterval;
 		if (delay !== null && delay >= 0) {
 			nextLoad = delay;
 		}
@@ -176,8 +184,8 @@ Module.register("weather", {
 	},
 
 	roundValue: function (temperature) {
-		var decimals = this.config.roundTemp ? 0 : 1;
-		var roundValue = parseFloat(temperature).toFixed(decimals);
+		const decimals = this.config.roundTemp ? 0 : 1;
+		const roundValue = parseFloat(temperature).toFixed(decimals);
 		return roundValue === "-0" ? 0 : roundValue;
 	},
 
@@ -272,8 +280,8 @@ Module.register("weather", {
 					if (this.config.fadePoint < 0) {
 						this.config.fadePoint = 0;
 					}
-					var startingPoint = numSteps * this.config.fadePoint;
-					var numFadesteps = numSteps - startingPoint;
+					const startingPoint = numSteps * this.config.fadePoint;
+					const numFadesteps = numSteps - startingPoint;
 					if (currentStep >= startingPoint) {
 						return 1 - (currentStep - startingPoint) / numFadesteps;
 					} else {

@@ -1,19 +1,16 @@
 const helpers = require("./global-setup");
 
-const describe = global.describe;
-const it = global.it;
-
 describe("Position of modules", function () {
 	helpers.setupTimeout(this);
 
-	var app = null;
+	let app = null;
 
 	describe("Using helloworld", function () {
-		after(function () {
+		afterAll(function () {
 			return helpers.stopApplication(app);
 		});
 
-		before(function () {
+		beforeAll(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/positions.js";
 			return helpers
@@ -25,16 +22,15 @@ describe("Position of modules", function () {
 				});
 		});
 
-		var positions = ["top_bar", "top_left", "top_center", "top_right", "upper_third", "middle_center", "lower_third", "bottom_left", "bottom_center", "bottom_right", "bottom_bar", "fullscreen_above", "fullscreen_below"];
+		const positions = ["top_bar", "top_left", "top_center", "top_right", "upper_third", "middle_center", "lower_third", "bottom_left", "bottom_center", "bottom_right", "bottom_bar", "fullscreen_above", "fullscreen_below"];
 
-		var position;
-		var className;
-		for (var idx in positions) {
-			position = positions[idx];
-			className = position.replace("_", ".");
-			it("show text in " + position, function () {
+		for (const position of positions) {
+			const className = position.replace("_", ".");
+			it("should show text in " + position, function () {
 				return app.client.$("." + className).then((result) => {
-					return result.getText("." + className).should.eventually.equal("Text in " + position);
+					return result.getText("." + className).then((text) => {
+						return expect(text).toContain("Text in " + position);
+					});
 				});
 			});
 		}

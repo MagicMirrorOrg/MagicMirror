@@ -1,6 +1,4 @@
 /* eslint no-multi-spaces: 0 */
-const expect = require("chai").expect;
-
 describe("Functions module currentweather", function () {
 	// Fake for use by currentweather.js
 	Module = {};
@@ -10,18 +8,18 @@ describe("Functions module currentweather", function () {
 		Module.definitions[name] = moduleDefinition;
 	};
 
-	before(function () {
+	beforeAll(function () {
 		require("../../../modules/default/currentweather/currentweather.js");
 		Module.definitions.currentweather.config = {};
 	});
 
 	describe("roundValue", function () {
 		describe("this.config.roundTemp is true", function () {
-			before(function () {
+			beforeAll(function () {
 				Module.definitions.currentweather.config.roundTemp = true;
 			});
 
-			var values = [
+			const values = [
 				// index 0 value
 				// index 1 expect
 				[1, "1"],
@@ -35,17 +33,17 @@ describe("Functions module currentweather", function () {
 
 			values.forEach((value) => {
 				it(`for ${value[0]} should be return ${value[1]}`, function () {
-					expect(Module.definitions.currentweather.roundValue(value[0])).to.equal(value[1]);
+					expect(Module.definitions.currentweather.roundValue(value[0])).toBe(value[1]);
 				});
 			});
 		});
 
 		describe("this.config.roundTemp is false", function () {
-			before(function () {
+			beforeAll(function () {
 				Module.definitions.currentweather.config.roundTemp = false;
 			});
 
-			var values = [
+			const values = [
 				// index 0 value
 				// index 1 expect
 				[1, "1.0"],
@@ -60,7 +58,7 @@ describe("Functions module currentweather", function () {
 
 			values.forEach((value) => {
 				it(`for ${value[0]} should be return ${value[1]}`, function () {
-					expect(Module.definitions.currentweather.roundValue(value[0])).to.equal(value[1]);
+					expect(Module.definitions.currentweather.roundValue(value[0])).toBe(value[1]);
 				});
 			});
 		});

@@ -1,10 +1,8 @@
 /* Magic Mirror Test config current weather compliments
  *
  * By rejas https://github.com/rejas
- *
  * MIT Licensed.
  */
-
 let config = {
 	port: 8080,
 	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1"],

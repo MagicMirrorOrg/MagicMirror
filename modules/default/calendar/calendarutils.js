@@ -18,8 +18,8 @@ const CalendarUtils = {
 	 * Calculate the time correction, either dst/std or full day in cases where
 	 * utc time is day before plus offset
 	 *
-	 * @param {object} event
-	 * @param {Date} date
+	 * @param {object} event the event which needs adjustement
+	 * @param {Date} date the date on which this event happens
 	 * @returns {number} the necessary adjustment in hours
 	 */
 	calculateTimezoneAdjustment: function (event, date) {
@@ -117,6 +117,13 @@ const CalendarUtils = {
 		return adjustHours;
 	},
 
+	/**
+	 * Filter the events from ical according to the given config
+	 *
+	 * @param {object} data the calendar data from ical
+	 * @param {object} config The configuration object
+	 * @returns {string[]} the filtered events
+	 */
 	filterEvents: function (data, config) {
 		const newEvents = [];
 
@@ -500,8 +507,8 @@ const CalendarUtils = {
 	/**
 	 * Lookup iana tz from windows
 	 *
-	 * @param msTZName
-	 * @returns {*|null}
+	 * @param {string} msTZName the timezone name to lookup
+	 * @returns {string|null} the iana name or null of none is found
 	 */
 	getIanaTZFromMS: function (msTZName) {
 		// Get hash entry
@@ -571,12 +578,13 @@ const CalendarUtils = {
 	},
 
 	/**
+	 * Determines if the user defined title filter should apply
 	 *
-	 * @param title
-	 * @param filter
-	 * @param useRegex
-	 * @param regexFlags
-	 * @returns {boolean|*}
+	 * @param {string} title the title of the event
+	 * @param {string} filter the string to look for, can be a regex also
+	 * @param {boolean} useRegex true if a regex should be used, otherwise it just looks for the filter as a string
+	 * @param {string} regexFlags flags that should be applied to the regex
+	 * @returns {boolean} True if the title should be filtered out, false otherwise
 	 */
 	titleFilterApplies: function (title, filter, useRegex, regexFlags) {
 		if (useRegex) {

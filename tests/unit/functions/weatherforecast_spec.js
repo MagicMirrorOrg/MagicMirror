@@ -1,10 +1,9 @@
 /* eslint no-multi-spaces: 0 */
-const expect = require("chai").expect;
 const moment = require("moment-timezone");
-var data = require("../functions/weatherforecast_data.json");
+const data = require("../../configs/data/weatherforecast_data.json");
 
 describe("Functions module weatherforecast", function () {
-	before(function () {
+	beforeAll(function () {
 		Module = {};
 		config = {};
 		Module.definitions = {};
@@ -17,11 +16,11 @@ describe("Functions module weatherforecast", function () {
 
 	describe("roundValue", function () {
 		describe("this.config.roundTemp is true", function () {
-			before(function () {
+			beforeAll(function () {
 				Module.definitions.weatherforecast.config.roundTemp = true;
 			});
 
-			var values = [
+			const values = [
 				// index 0 value
 				// index 1 expect
 				[1, "1"],
@@ -35,17 +34,17 @@ describe("Functions module weatherforecast", function () {
 
 			values.forEach((value) => {
 				it(`for ${value[0]} should be return ${value[1]}`, function () {
-					expect(Module.definitions.weatherforecast.roundValue(value[0])).to.equal(value[1]);
+					expect(Module.definitions.weatherforecast.roundValue(value[0])).toBe(value[1]);
 				});
 			});
 		});
 
 		describe("this.config.roundTemp is false", function () {
-			before(function () {
+			beforeAll(function () {
 				Module.definitions.weatherforecast.config.roundTemp = false;
 			});
 
-			var values = [
+			const values = [
 				// index 0 value
 				// index 1 expect
 				[1, "1.0"],
@@ -60,7 +59,7 @@ describe("Functions module weatherforecast", function () {
 
 			values.forEach((value) => {
 				it(`for ${value[0]} should be return ${value[1]}`, function () {
-					expect(Module.definitions.weatherforecast.roundValue(value[0])).to.equal(value[1]);
+					expect(Module.definitions.weatherforecast.roundValue(value[0])).toBe(value[1]);
 				});
 			});
 		});
@@ -71,9 +70,9 @@ describe("Functions module weatherforecast", function () {
 			error: function () {}
 		};
 
-		var originalLocale;
-		var originalTimeZone;
-		before(function () {
+		let originalLocale;
+		let originalTimeZone;
+		beforeAll(function () {
 			originalLocale = moment.locale();
 			originalTimeZone = moment.tz.guess();
 			moment.locale("hi");
@@ -81,7 +80,7 @@ describe("Functions module weatherforecast", function () {
 		});
 
 		describe("forecastIcons sunset specified", function () {
-			before(function () {
+			beforeAll(function () {
 				Module.definitions.weatherforecast.Log = {};
 				Module.definitions.weatherforecast.forecast = [];
 				Module.definitions.weatherforecast.show = Module.definitions.weatherforecast.updateDom = function () {};
@@ -89,27 +88,27 @@ describe("Functions module weatherforecast", function () {
 			});
 
 			it(`returns correct icons with sunset time`, function () {
-				Module.definitions.weatherforecast.processWeather(data.withSunset);
+				Module.definitions.weatherforecast.processWeather(data.withSunset, moment);
 				let forecastData = Module.definitions.weatherforecast.forecast;
-				expect(forecastData.length).to.equal(4);
-				expect(forecastData[2].icon).to.equal("wi-rain");
+				expect(forecastData.length).toBe(4);
+				expect(forecastData[2].icon).toBe("wi-rain");
 			});
 		});
 
 		describe("forecastIcons sunset not specified", function () {
-			before(function () {
+			beforeAll(function () {
 				Module.definitions.weatherforecast.forecast = [];
 			});
 
 			it(`returns correct icons with out sunset time`, function () {
-				Module.definitions.weatherforecast.processWeather(data.withoutSunset);
+				Module.definitions.weatherforecast.processWeather(data.withoutSunset, moment);
 				let forecastData = Module.definitions.weatherforecast.forecast;
-				expect(forecastData.length).to.equal(4);
-				expect(forecastData[2].icon).to.equal("wi-rain");
+				expect(forecastData.length).toBe(4);
+				expect(forecastData[2].icon).toBe("wi-rain");
 			});
 		});
 
-		after(function () {
+		afterAll(function () {
 			moment.locale(originalLocale);
 			moment.tz.setDefault(originalTimeZone);
 		});

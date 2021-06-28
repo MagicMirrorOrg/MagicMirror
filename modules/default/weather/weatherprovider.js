@@ -8,7 +8,7 @@
  *
  * This class is the blueprint for a weather provider.
  */
-var WeatherProvider = Class.extend({
+const WeatherProvider = Class.extend({
 	// Weather Provider Properties
 	providerName: null,
 	defaults: {},
@@ -114,7 +114,7 @@ var WeatherProvider = Class.extend({
 	// A convenience function to make requests. It returns a promise.
 	fetchData: function (url, method = "GET", data = null) {
 		return new Promise(function (resolve, reject) {
-			var request = new XMLHttpRequest();
+			const request = new XMLHttpRequest();
 			request.open(method, url, true);
 			request.onreadystatechange = function () {
 				if (this.readyState === 4) {

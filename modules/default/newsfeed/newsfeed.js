@@ -14,6 +14,7 @@ Module.register("newsfeed", {
 				encoding: "UTF-8" //ISO-8859-1
 			}
 		],
+		showAsList: false,
 		showSourceTitle: true,
 		showPublishDate: true,
 		broadcastNewsFeeds: true,
@@ -89,8 +90,8 @@ Module.register("newsfeed", {
 
 			this.loaded = true;
 			this.error = null;
-		} else if (notification === "INCORRECT_URL") {
-			this.error = `Incorrect url: ${payload.url}`;
+		} else if (notification === "NEWSFEED_ERROR") {
+			this.error = this.translate(payload.error_type);
 			this.scheduleUpdateInterval();
 		}
 	},
@@ -128,6 +129,10 @@ Module.register("newsfeed", {
 		}
 
 		const item = this.newsItems[this.activeItem];
+		const items = this.newsItems.map(function (item) {
+			item.publishDate = moment(new Date(item.pubdate)).fromNow();
+			return item;
+		});
 
 		return {
 			loaded: true,
@@ -135,7 +140,8 @@ Module.register("newsfeed", {
 			sourceTitle: item.sourceTitle,
 			publishDate: moment(new Date(item.pubdate)).fromNow(),
 			title: item.title,
-			description: item.description
+			description: item.description,
+			items: items
 		};
 	},
 
@@ -183,16 +189,15 @@ Module.register("newsfeed", {
 		}
 
 		if (this.config.prohibitedWords.length > 0) {
-			newsItems = newsItems.filter(function (value) {
+			newsItems = newsItems.filter(function (item) {
 				for (let word of this.config.prohibitedWords) {
-					if (value["title"].toLowerCase().indexOf(word.toLowerCase()) > -1) {
+					if (item.title.toLowerCase().indexOf(word.toLowerCase()) > -1) {
 						return false;
 					}
 				}
 				return true;
 			}, this);
 		}
-
 		newsItems.forEach((item) => {
 			//Remove selected tags from the beginning of rss feed items (title or description)
 			if (this.config.removeStartTags === "title" || this.config.removeStartTags === "both") {

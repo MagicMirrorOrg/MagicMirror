@@ -6,6 +6,7 @@
  */
 const CalendarUtils = require("./calendarutils");
 const Log = require("logger");
+const NodeHelper = require("node_helper");
 const ical = require("node-ical");
 const fetch = require("node-fetch");
 const digest = require("digest-fetch");
@@ -52,27 +53,17 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 			if (auth.method === "bearer") {
 				headers.Authorization = "Bearer " + auth.pass;
 			} else if (auth.method === "digest") {
-				fetcher = new digest(auth.user, auth.pass).fetch(url, { headers: headers, httpsAgent: httpsAgent });
+				fetcher = new digest(auth.user, auth.pass).fetch(url, { headers: headers, agent: httpsAgent });
 			} else {
 				headers.Authorization = "Basic " + Buffer.from(auth.user + ":" + auth.pass).toString("base64");
 			}
 		}
 		if (fetcher === null) {
-			fetcher = fetch(url, { headers: headers, httpsAgent: httpsAgent });
+			fetcher = fetch(url, { headers: headers, agent: httpsAgent });
 		}
 
 		fetcher
-			.catch((error) => {
-				fetchFailedCallback(this, error);
-				scheduleTimer();
-			})
-			.then((response) => {
-				if (response.status !== 200) {
-					fetchFailedCallback(this, response.statusText);
-					scheduleTimer();
-				}
-				return response;
-			})
+			.then(NodeHelper.checkFetchStatus)
 			.then((response) => response.text())
 			.then((responseData) => {
 				let data = [];
@@ -87,11 +78,15 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 						maximumNumberOfDays
 					});
 				} catch (error) {
-					fetchFailedCallback(this, error.message);
+					fetchFailedCallback(this, error);
 					scheduleTimer();
 					return;
 				}
 				this.broadcastEvents();
+				scheduleTimer();
+			})
+			.catch((error) => {
+				fetchFailedCallback(this, error);
 				scheduleTimer();
 			});
 	};

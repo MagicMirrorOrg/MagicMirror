@@ -1,14 +1,9 @@
 const helpers = require("../global-setup");
 
-const describe = global.describe;
-const it = global.it;
-const beforeEach = global.beforeEach;
-const afterEach = global.afterEach;
-
 describe("Test helloworld module", function () {
 	helpers.setupTimeout(this);
 
-	var app = null;
+	let app = null;
 
 	beforeEach(function () {
 		return helpers
@@ -25,26 +20,26 @@ describe("Test helloworld module", function () {
 	});
 
 	describe("helloworld set config text", function () {
-		before(function () {
+		beforeAll(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/helloworld/helloworld.js";
 		});
 
 		it("Test message helloworld module", async function () {
-			const elem = await app.client.$("helloworld");
-			return elem.getText(".helloworld").should.eventually.equal("Test HelloWorld Module");
+			const elem = await app.client.$(".helloworld");
+			return expect(await elem.getText(".helloworld")).toBe("Test HelloWorld Module");
 		});
 	});
 
 	describe("helloworld default config text", function () {
-		before(function () {
+		beforeAll(function () {
 			// Set config sample for use in test
 			process.env.MM_CONFIG_FILE = "tests/configs/modules/helloworld/helloworld_default.js";
 		});
 
 		it("Test message helloworld module", async function () {
-			const elem = await app.client.$("helloworld");
-			return elem.getText(".helloworld").should.eventually.equal("Hello World!");
+			const elem = await app.client.$(".helloworld");
+			return expect(await elem.getText(".helloworld")).toBe("Hello World!");
 		});
 	});
 });
