@@ -15,7 +15,7 @@ Special thanks to the following contributors: @B1gG, @codac, @ezeholz, @khassel,
 
 - Added French translations for "MODULE_CONFIG_ERROR" and "PRECIP".
 - Added German translation for "PRECIP".
-- Added Dutch translation for "WEEK", "PRECIP", "MODULE_CONFIG_CHANGED" and "MODULE_CONFIG_ERROR". 
+- Added Dutch translation for "WEEK", "PRECIP", "MODULE_CONFIG_CHANGED" and "MODULE_CONFIG_ERROR".
 - Added first test for Alert module.
 - Added support for `dateFormat` when not using `timeFormat: "absolute"`
 - Added custom-properties for colors and fonts for improved styling experience, see `custom.css.sample` file
