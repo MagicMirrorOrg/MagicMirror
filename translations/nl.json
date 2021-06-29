@@ -6,6 +6,7 @@
 	"DAYAFTERTOMORROW": "Overmorgen",
 	"RUNNING": "Eindigt over",
 	"EMPTY": "Geen geplande afspraken.",
+	"WEEK": "Week {weekNumber}",
 
 	"N": "N",
 	"NNE": "NNO",
@@ -25,6 +26,10 @@
 	"NNW": "NNW",
 
 	"FEELS": "Voelt als {DEGREE}",
+	"PRECIP": "Neerslagkans",
+
+	"MODULE_CONFIG_CHANGED": "De configuratie opties voor de module {MODULE_NAME} zijn gewijzigd.\nControleer de documentatie.",
+	"MODULE_CONFIG_ERROR": "Fout in de {MODULE_NAME} module. {ERROR}",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² update beschikbaar.",
 	"UPDATE_NOTIFICATION_MODULE": "Update beschikbaar voor {MODULE_NAME} module.",
