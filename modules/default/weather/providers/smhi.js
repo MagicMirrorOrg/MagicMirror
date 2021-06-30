@@ -60,7 +60,7 @@ WeatherProvider.register("smhi", {
 	 */
 	setConfig(config) {
 		this.config = config;
-		if (!config.precipitationValue || ["pmin", "pmean", "pmedian", "pmax"].indexOf(config.precipitationValue) == -1) {
+		if (!config.precipitationValue || ["pmin", "pmean", "pmedian", "pmax"].indexOf(config.precipitationValue) === -1) {
 			console.log("invalid or not set: " + config.precipitationValue);
 			config.precipitationValue = this.defaults.precipitationValue;
 		}
@@ -240,7 +240,7 @@ WeatherProvider.register("smhi", {
 	 * @param name
 	 */
 	paramValue(currentWeatherData, name) {
-		return currentWeatherData.parameters.filter((p) => p.name == name).flatMap((p) => p.values)[0];
+		return currentWeatherData.parameters.filter((p) => p.name === name).flatMap((p) => p.values)[0];
 	},
 
 	/**

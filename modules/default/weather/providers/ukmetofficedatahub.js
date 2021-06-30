@@ -91,7 +91,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 		this.fetchWeather(this.getUrl("hourly"), this.getHeaders())
 			.then((data) => {
 				// Check data is useable
-				if (!data || !data.features || !data.features[0].properties || !data.features[0].properties.timeSeries || data.features[0].properties.timeSeries.length == 0) {
+				if (!data || !data.features || !data.features[0].properties || !data.features[0].properties.timeSeries || data.features[0].properties.timeSeries.length === 0) {
 					// Did not receive usable new data.
 					// Maybe this needs a better check?
 					Log.error("Possibly bad current/hourly data?");
@@ -162,7 +162,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 		this.fetchWeather(this.getUrl("daily"), this.getHeaders())
 			.then((data) => {
 				// Check data is useable
-				if (!data || !data.features || !data.features[0].properties || !data.features[0].properties.timeSeries || data.features[0].properties.timeSeries.length == 0) {
+				if (!data || !data.features || !data.features[0].properties || !data.features[0].properties.timeSeries || data.features[0].properties.timeSeries.length === 0) {
 					// Did not receive usable new data.
 					// Maybe this needs a better check?
 					Log.error("Possibly bad forecast data?");
@@ -258,11 +258,11 @@ WeatherProvider.register("ukmetofficedatahub", {
 	// To use kilometres per hour, use "kph"
 	// Else assumed imperial and the value is returned in miles per hour (a Met Office user is likely to be UK-based)
 	convertWindSpeed(windInMpS) {
-		if (this.config.windUnits == "mps") {
+		if (this.config.windUnits === "mps") {
 			return windInMpS;
 		}
 
-		if (this.config.windUnits == "kph" || this.config.windUnits == "metric" || this.config.useKmh) {
+		if (this.config.windUnits === "kph" || this.config.windUnits === "metric" || this.config.useKmh) {
 			return windInMpS * 3.6;
 		}
 
