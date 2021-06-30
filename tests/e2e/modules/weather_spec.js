@@ -12,6 +12,9 @@ describe("Weather module", function () {
 
 	helpers.setupTimeout(this);
 
+	/**
+	 * @param responses
+	 */
 	async function setup(responses) {
 		app = await helpers.startApplication({
 			args: ["js/electron.js"],
@@ -23,10 +26,17 @@ describe("Weather module", function () {
 		app.client.setupStub();
 	}
 
+	/**
+	 * @param element
+	 */
 	async function getElement(element) {
 		return await app.client.$(element);
 	}
 
+	/**
+	 * @param element
+	 * @param result
+	 */
 	async function getText(element, result) {
 		const elem = await getElement(element);
 		return await elem.getText(element).then(function (text) {

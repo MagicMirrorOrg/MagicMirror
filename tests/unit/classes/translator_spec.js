@@ -67,6 +67,9 @@ describe("Translator", function () {
 			Fallback: "core fallback"
 		};
 
+		/**
+		 * @param Translator
+		 */
 		function setTranslations(Translator) {
 			Translator.translations = translations;
 			Translator.coreTranslations = coreTranslations;
