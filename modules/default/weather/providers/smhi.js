@@ -216,12 +216,12 @@ WeatherProvider.register("smhi", {
 	 */
 	fillInGaps(data) {
 		let result = [];
-		for (const i = 1; i < data.length; i++) {
+		for (let i = 1; i < data.length; i++) {
 			let to = moment(data[i].validTime);
 			let from = moment(data[i - 1].validTime);
 			let hours = moment.duration(to.diff(from)).asHours();
 			// For each hour add a datapoint but change the validTime
-			for (const j = 0; j < hours; j++) {
+			for (let j = 0; j < hours; j++) {
 				let current = Object.assign({}, data[i]);
 				current.validTime = from.clone().add(j, "hours").toISOString();
 				result.push(current);

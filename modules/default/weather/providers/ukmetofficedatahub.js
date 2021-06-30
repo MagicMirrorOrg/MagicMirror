@@ -1,3 +1,5 @@
+/* global WeatherProvider, WeatherObject, SunCalc */
+
 /* Magic Mirror
  * Module: Weather
  *
@@ -125,7 +127,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 		let nowUtc = moment.utc();
 
 		// Find hour that contains the current time
-		for (hour in forecastDataHours) {
+		for (let hour in forecastDataHours) {
 			let forecastTime = moment.utc(forecastDataHours[hour].time);
 			if (nowUtc.isSameOrAfter(forecastTime) && nowUtc.isBefore(moment(forecastTime.add(1, "h")))) {
 				currentWeather.date = forecastTime;
@@ -196,7 +198,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 		let today = moment.utc().startOf("date");
 
 		// Go through each day in the forecasts
-		for (day in forecastDataDays) {
+		for (let day in forecastDataDays) {
 			const forecastWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
 
 			// Get date of forecast

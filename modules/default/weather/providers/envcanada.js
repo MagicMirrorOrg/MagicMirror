@@ -359,7 +359,7 @@ WeatherProvider.register("envcanada", {
 		var lastDate = moment(baseDate, "YYYYMMDDhhmmss");
 
 		for (var stepDay = nextDay; stepDay < lastDay; stepDay += 2) {
-			var weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+			let weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
 
 			// Add 1 to the date to reflect the current forecast day we are building
 
