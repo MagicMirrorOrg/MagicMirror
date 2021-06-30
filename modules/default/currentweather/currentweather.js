@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 /* Magic Mirror
  * Module: CurrentWeather
  *
