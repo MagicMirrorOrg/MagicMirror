@@ -5,11 +5,9 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror²
 
-## [2.16.0] - Unreleased (Develop Branch)
+## [2.16.0] - 2021-07-01
 
-_This release is scheduled to be released on 2021-07-01._
-
-Special thanks to the following contributors: @B1gG, @codac, @ezeholz, @khassel, @KristjanESPERANTO, @rejas, @earlman, Faizan Ahmed.
+Special thanks to the following contributors: @210954, @B1gG, @codac, @Crazylegstoo, @daniel, @earlman, @ezeholz, @FrancoisRmn, @jupadin, @khassel, @KristjanESPERANTO, @njwilliams, @oemel09, @r3wald, @rejas, @rico24, Faizan Ahmed.
 
 ### Added
 
@@ -17,49 +15,49 @@ Special thanks to the following contributors: @B1gG, @codac, @ezeholz, @khassel,
 - Added German translation for "PRECIP".
 - Added Dutch translation for "WEEK", "PRECIP", "MODULE_CONFIG_CHANGED" and "MODULE_CONFIG_ERROR".
 - Added first test for Alert module.
-- Added support for `dateFormat` when not using `timeFormat: "absolute"`
-- Added custom-properties for colors and fonts for improved styling experience, see `custom.css.sample` file
-- Added custom-properties for gaps around body and between modules
-- Added test case for recurring calendar events
-- Added new Environment Canada provider for default WEATHER module (weather data for Canadian locations only)
+- Added support for `dateFormat` when not using `timeFormat: "absolute"`.
+- Added custom-properties for colors and fonts for improved styling experience, see `custom.css.sample` file.
+- Added custom-properties for gaps around body and between modules.
+- Added test case for recurring calendar events.
+- Added new Environment Canada provider for default WEATHER module (weather data for Canadian locations only).
 - Added list view for newsfeed module.
-- Added dev dependency jest, switching from mocha to jest
+- Added dev dependency jest, switching from mocha to jest.
 
 ### Updated
 
 - Bump node-ical to v0.13.0 (now last runtime dependency using deprecated `request` package is removed).
-- Use codecov in informational mode
-- Refactor code into es6 where possible (e.g. var -> let/const)
-- Use node v16 in github workflow (replacing node v10)
-- Moved some files into better suited directories
-- Update dependencies in package.json, require node >= v12, remove `rrule-alt` and `rrule`
-- Update dependencies in package.json and migrate husky to v6, fix husky setup in prod environment
-- Cleaned up error handling in newsfeed and calendar modules for real
-- Updated default WEATHER module such that a provider can optionally set a custom unit-of-measure for precipitation (`weatherObject.precipitationUnits`)
+- Use codecov in informational mode.
+- Refactor code into es6 where possible (e.g. var -> let/const).
+- Use node v16 in github workflow (replacing node v10).
+- Moved some files into better suited directories.
+- Update dependencies in package.json, require node >= v12, remove `rrule-alt` and `rrule`.
+- Update dependencies in package.json and migrate husky to v6, fix husky setup in prod environment.
+- Cleaned up error handling in newsfeed and calendar modules for real.
+- Updated default WEATHER module such that a provider can optionally set a custom unit-of-measure for precipitation (`weatherObject.precipitationUnits`).
 - Update documentation.
 - Update jest tests: Reset changes on js/logger.js, mock logger.js in global_vars tests.
-- Update dependencies in package.json
+- Update dependencies in package.json.
 
 ### Removed
 
-- switching from mocha to jest so removed following dev dependencies: chai, chai-as-promised, mocha, mocha-each, mocha-logger
+- Switching from mocha to jest so removed following dev dependencies: chai, chai-as-promised, mocha, mocha-each, mocha-logger.
 
 ### Fixed
 
 - Fix calendar start function logging inconsistency.
 - Fix updatenotification start function logging inconsistency.
-- Checks and applies the showDescription setting for the newsfeed module again
-- Fix issue with openweathermap not showing current or forecast info when using onecall API
-- Fix tests in weather module and add one for decimalPoint in forecast
-- Fix decimalSymbol in the forecast part of the new weather module #2530
-- Fix wrong treatment of `appendLocationNameToHeader` when using `ukmetofficedatahub`
-- Fix alert not recognizing multiple alerts (#2522)
-- Fix fetch option httpsAgent to agent in calendar module (#466)
-- Fix module updatenotification which did not work for repos with many refs (#1907)
-- Fix config check failing when encountering let syntax ("Parsing error: Unexpected token config")
-- Fix calendar debug check
-- Really run prettier over all files
-- Fix logger.js after jest changes, use --forceExit running jest
+- Checks and applies the showDescription setting for the newsfeed module again.
+- Fix issue with openweathermap not showing current or forecast info when using onecall API.
+- Fix tests in weather module and add one for decimalPoint in forecast.
+- Fix decimalSymbol in the forecast part of the new weather module (#2530).
+- Fix wrong treatment of `appendLocationNameToHeader` when using `ukmetofficedatahub`.
+- Fix alert not recognizing multiple alerts (#2522).
+- Fix fetch option httpsAgent to agent in calendar module (#466).
+- Fix module updatenotification which did not work for repos with many refs (#1907).
+- Fix config check failing when encountering let syntax ("Parsing error: Unexpected token config").
+- Fix calendar debug check.
+- Really run prettier over all files.
+- Fix logger.js after jest changes, use --forceExit running jest.
 - Workaround for dev_console test using getWindowCount.
 
 ## [2.15.0] - 2021-04-01
