@@ -1,10 +1,10 @@
 {
 	"extends": ["eslint:recommended", "plugin:prettier/recommended", "plugin:jsdoc/recommended"],
-	"plugins": ["prettier", "jsdoc"],
+	"plugins": ["prettier", "jsdoc", "jest"],
 	"env": {
 		"browser": true,
 		"es6": true,
-		"mocha": true,
+		"jest/globals": true,
 		"node": true
 	},
 	"globals": {

@@ -1,4 +1,3 @@
-const expect = require("chai").expect;
 const fs = require("fs");
 const moment = require("moment");
 const path = require("path");
@@ -31,7 +30,7 @@ describe("Weather module", function () {
 	async function getText(element, result) {
 		const elem = await getElement(element);
 		return await elem.getText(element).then(function (text) {
-			expect(text.trim()).to.equal(result);
+			expect(text.trim()).toBe(result);
 		});
 	}
 
@@ -42,12 +41,12 @@ describe("Weather module", function () {
 	describe("Current weather", function () {
 		let template;
 
-		before(function () {
+		beforeAll(function () {
 			template = fs.readFileSync(path.join(__dirname, "..", "..", "..", "modules", "default", "weather", "current.njk"), "utf8");
 		});
 
 		describe("Default configuration", function () {
-			before(function () {
+			beforeAll(function () {
 				process.env.MM_CONFIG_FILE = "tests/configs/modules/weather/currentweather_default.js";
 			});
 
@@ -94,7 +93,7 @@ describe("Weather module", function () {
 		});
 
 		describe("Compliments Integration", function () {
-			before(function () {
+			beforeAll(function () {
 				process.env.MM_CONFIG_FILE = "tests/configs/modules/weather/currentweather_compliments.js";
 			});
 
@@ -107,7 +106,7 @@ describe("Weather module", function () {
 		});
 
 		describe("Configuration Options", function () {
-			before(function () {
+			beforeAll(function () {
 				process.env.MM_CONFIG_FILE = "tests/configs/modules/weather/currentweather_options.js";
 			});
 
@@ -124,7 +123,7 @@ describe("Weather module", function () {
 
 				const elem = await getElement(".weather .normal.medium sup i.fa-long-arrow-up");
 				return elem.getHTML(".weather .normal.medium sup i.fa-long-arrow-up").then(function (text) {
-					expect(text).to.include("transform:rotate(250deg);");
+					expect(text).toContain("transform:rotate(250deg);");
 				});
 			});
 
@@ -139,12 +138,12 @@ describe("Weather module", function () {
 				const weather = generateWeather();
 				await setup({ template, data: weather });
 
-				return getText(".weather .large.light span.bright", "1°C") && getText(".weather .normal.medium.feelslike span.dimmed", "Feels like -6°C");
+				return (await getText(".weather .large.light span.bright", "1°C")) && (await getText(".weather .normal.medium.feelslike span.dimmed", "Feels like -6°C"));
 			});
 		});
 
 		describe("Current weather units", function () {
-			before(function () {
+			beforeAll(function () {
 				process.env.MM_CONFIG_FILE = "tests/configs/modules/weather/currentweather_units.js";
 			});
 
@@ -161,10 +160,10 @@ describe("Weather module", function () {
 				});
 				await setup({ template, data: weather });
 
-				return getText(".weather .normal.medium span:nth-child(2)", "6 WSW") && getText(".weather .large.light span.bright", "34,7°") && getText(".weather .normal.medium.feelslike span.dimmed", "Feels like 22,0°");
+				return (await getText(".weather .normal.medium span:nth-child(2)", "6 WSW")) && (await getText(".weather .large.light span.bright", "34,7°")) && getText(".weather .normal.medium.feelslike span.dimmed", "Feels like 22,0°");
 			});
 
-			it("should render decimalSymbol = ','", async function () {
+			it("should render custom decimalSymbol = ','", async function () {
 				const weather = generateWeather({
 					main: {
 						temp: (1.49 * 9) / 5 + 32,
@@ -177,7 +176,7 @@ describe("Weather module", function () {
 				});
 				await setup({ template, data: weather });
 
-				return getText(".weather .normal.medium span:nth-child(3)", "93,7") && getText(".weather .large.light span.bright", "34,7°") && getText(".weather .normal.medium.feelslike span.dimmed", "Feels like 22,0°");
+				return (await getText(".weather .normal.medium span:nth-child(3)", "93,7")) && (await getText(".weather .large.light span.bright", "34,7°")) && getText(".weather .normal.medium.feelslike span.dimmed", "Feels like 22,0°");
 			});
 		});
 	});
@@ -185,12 +184,12 @@ describe("Weather module", function () {
 	describe("Weather Forecast", function () {
 		let template;
 
-		before(function () {
+		beforeAll(function () {
 			template = fs.readFileSync(path.join(__dirname, "..", "..", "..", "modules", "default", "weather", "forecast.njk"), "utf8");
 		});
 
 		describe("Default configuration", function () {
-			before(function () {
+			beforeAll(function () {
 				process.env.MM_CONFIG_FILE = "tests/configs/modules/weather/forecastweather_default.js";
 			});
 
@@ -201,7 +200,7 @@ describe("Weather module", function () {
 				const days = ["Today", "Tomorrow", "Sun", "Mon", "Tue"];
 
 				for (const [index, day] of days.entries()) {
-					getText(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(1)`, day);
+					await getText(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(1)`, day);
 				}
 			});
 
@@ -212,7 +211,7 @@ describe("Weather module", function () {
 				const icons = ["day-cloudy", "rain", "day-sunny", "day-sunny", "day-sunny"];
 
 				for (const [index, icon] of icons.entries()) {
-					getText(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(2) span.wi-${icon}`);
+					await getElement(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(2) span.wi-${icon}`);
 				}
 			});
 
@@ -223,7 +222,7 @@ describe("Weather module", function () {
 				const temperatures = ["24.4°", "21.0°", "22.9°", "23.4°", "20.6°"];
 
 				for (const [index, temp] of temperatures.entries()) {
-					getText(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(3)`, temp);
+					await getText(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(3)`, temp);
 				}
 			});
 
@@ -234,7 +233,7 @@ describe("Weather module", function () {
 				const temperatures = ["15.3°", "13.6°", "13.8°", "13.9°", "10.9°"];
 
 				for (const [index, temp] of temperatures.entries()) {
-					getText(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(4)`, temp);
+					await getText(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(4)`, temp);
 				}
 			});
 
@@ -248,13 +247,13 @@ describe("Weather module", function () {
 
 				for (const [index, opacity] of opacities.entries()) {
 					const html = await elem.getHTML(`.weather table.small tr:nth-child(${index + 1})`);
-					expect(html).to.includes(`<tr style="opacity: ${opacity};">`);
+					expect(html).toContain(`<tr style="opacity: ${opacity};">`);
 				}
 			});
 		});
 
 		describe("Configuration Options", function () {
-			before(function () {
+			beforeAll(function () {
 				process.env.MM_CONFIG_FILE = "tests/configs/modules/weather/forecastweather_options.js";
 			});
 
@@ -271,7 +270,24 @@ describe("Weather module", function () {
 
 				const rows = await app.client.$$(".weather table.myTableClass tr.colored");
 
-				expect(rows.length).to.be.equal(5);
+				expect(rows.length).toBe(5);
+			});
+		});
+
+		describe("Forecast weather units", function () {
+			beforeAll(function () {
+				process.env.MM_CONFIG_FILE = "tests/configs/modules/weather/forecastweather_units.js";
+			});
+
+			it("should render custom decimalSymbol = '_'", async function () {
+				const weather = generateWeatherForecast();
+				await setup({ template, data: weather });
+
+				const temperatures = ["24_4°", "21_0°", "22_9°", "23_4°", "20_6°"];
+
+				for (const [index, temp] of temperatures.entries()) {
+					await getText(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(3)`, temp);
+				}
 			});
 		});
 	});

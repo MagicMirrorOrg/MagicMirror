@@ -3,8 +3,7 @@
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.
  */
-
-var config = {
+let config = {
 	port: 8080,
 	ipWhitelist: ["x.x.x.x"],
 

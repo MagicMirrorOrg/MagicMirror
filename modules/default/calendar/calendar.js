@@ -84,7 +84,7 @@ Module.register("calendar", {
 
 	// Override start method.
 	start: function () {
-		Log.log("Starting module: " + this.name);
+		Log.info("Starting module: " + this.name);
 
 		// Set locale.
 		moment.updateLocale(config.language, this.getLocaleSpecification(config.timeFormat));
@@ -140,17 +140,17 @@ Module.register("calendar", {
 		if (notification === "CALENDAR_EVENTS") {
 			if (this.hasCalendarURL(payload.url)) {
 				this.calendarData[payload.url] = payload.events;
+				this.error = null;
 				this.loaded = true;
 
 				if (this.config.broadcastEvents) {
 					this.broadcastEvents();
 				}
 			}
-		} else if (notification === "FETCH_ERROR") {
-			Log.error("Calendar Error. Could not fetch calendar: " + payload.url);
+		} else if (notification === "CALENDAR_ERROR") {
+			let error_message = this.translate(payload.error_type);
+			this.error = this.translate("MODULE_CONFIG_ERROR", { MODULE_NAME: this.name, ERROR: error_message });
 			this.loaded = true;
-		} else if (notification === "INCORRECT_URL") {
-			Log.error("Calendar Error. Incorrect url: " + payload.url);
 		}
 
 		this.updateDom(this.config.animationSpeed);
@@ -167,6 +167,12 @@ Module.register("calendar", {
 		const events = this.createEventList();
 		const wrapper = document.createElement("table");
 		wrapper.className = this.config.tableClass;
+
+		if (this.error) {
+			wrapper.innerHTML = this.error;
+			wrapper.className = this.config.tableClass + " dimmed";
+			return wrapper;
+		}
 
 		if (events.length === 0) {
 			wrapper.innerHTML = this.loaded ? this.translate("EMPTY") : this.translate("LOADING");
@@ -305,15 +311,14 @@ Module.register("calendar", {
 			if (this.config.timeFormat === "dateheaders") {
 				if (event.fullDayEvent) {
 					titleWrapper.colSpan = "2";
-					titleWrapper.align = "left";
+					titleWrapper.classList.add("align-left");
 				} else {
 					const timeWrapper = document.createElement("td");
-					timeWrapper.className = "time light " + this.timeClassForUrl(event.url);
-					timeWrapper.align = "left";
+					timeWrapper.className = "time light align-left " + this.timeClassForUrl(event.url);
 					timeWrapper.style.paddingLeft = "2px";
 					timeWrapper.innerHTML = moment(event.startDate, "x").format("LT");
 					eventWrapper.appendChild(timeWrapper);
-					titleWrapper.align = "right";
+					titleWrapper.classList.add("align-right");
 				}
 
 				eventWrapper.appendChild(titleWrapper);
@@ -366,13 +371,14 @@ Module.register("calendar", {
 					if (event.startDate >= now) {
 						// Use relative  time
 						if (!this.config.hideTime) {
-							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").calendar());
+							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").calendar(null, { sameElse: this.config.dateFormat }));
 						} else {
 							timeWrapper.innerHTML = this.capFirst(
 								moment(event.startDate, "x").calendar(null, {
 									sameDay: "[" + this.translate("TODAY") + "]",
 									nextDay: "[" + this.translate("TOMORROW") + "]",
-									nextWeek: "dddd"
+									nextWeek: "dddd",
+									sameElse: this.config.dateFormat
 								})
 							);
 						}

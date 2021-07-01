@@ -1,6 +1,6 @@
 {
 	"name": "magicmirror",
-	"version": "2.15.0",
+	"version": "2.16.0",
 	"description": "The open source modular smart mirror platform.",
 	"main": "js/electron.js",
 	"scripts": {
@@ -10,18 +10,20 @@
 		"install": "echo \"Installing vendor files ...\n\" && cd vendor && npm install --loglevel=error",
 		"install-fonts": "echo \"Installing fonts ...\n\" && cd fonts && npm install --loglevel=error",
 		"postinstall": "npm run install-fonts && echo \"MagicMirror installation finished successfully! \n\"",
-		"test": "NODE_ENV=test mocha tests --recursive",
-		"test:coverage": "NODE_ENV=test nyc --reporter=lcov --reporter=text mocha tests --recursive --timeout=3000",
-		"test:e2e": "NODE_ENV=test mocha tests/e2e --recursive",
-		"test:unit": "NODE_ENV=test mocha tests/unit --recursive",
-		"test:prettier": "prettier --check **/*.{js,css,json,md,yml}",
+		"test": "NODE_ENV=test jest -i --forceExit",
+		"test:coverage": "NODE_ENV=test nyc --reporter=lcov --reporter=text jest -i --forceExit",
+		"test:e2e": "NODE_ENV=test jest --selectProjects e2e -i --forceExit",
+		"test:unit": "NODE_ENV=test jest --selectProjects unit -i --forceExit",
+		"test:prettier": "prettier . --check",
 		"test:js": "eslint js/**/*.js modules/default/**/*.js clientonly/*.js serveronly/*.js translations/*.js vendor/*.js tests/**/*.js config/* --config .eslintrc.json --quiet",
 		"test:css": "stylelint css/main.css modules/default/**/*.css --config .stylelintrc.json",
 		"test:calendar": "node ./modules/default/calendar/debug.js",
 		"config:check": "node js/check_config.js",
-		"lint:prettier": "prettier --write **/*.{js,css,json,md,yml}",
+		"lint:prettier": "prettier . --write",
 		"lint:js": "eslint js/**/*.js modules/default/**/*.js clientonly/*.js serveronly/*.js translations/*.js vendor/*.js tests/**/*.js config/* --config .eslintrc.json --fix",
-		"lint:css": "stylelint css/main.css modules/default/**/*.css --config .stylelintrc.json --fix"
+		"lint:css": "stylelint css/main.css modules/default/**/*.css --config .stylelintrc.json --fix",
+		"lint:staged": "pretty-quick --staged",
+		"prepare": "[ -f node_modules/.bin/husky ] && husky install || echo no husky installed."
 	},
 	"repository": {
 		"type": "git",
@@ -43,60 +45,74 @@
 	},
 	"homepage": "https://magicmirror.builders",
 	"devDependencies": {
-		"chai": "^4.3.4",
-		"chai-as-promised": "^7.1.1",
-		"eslint-config-prettier": "^8.1.0",
-		"eslint-plugin-jsdoc": "^32.3.0",
-		"eslint-plugin-prettier": "^3.3.1",
+		"eslint-config-prettier": "^8.3.0",
+		"eslint-plugin-jsdoc": "^35.4.0",
+		"eslint-plugin-prettier": "^3.4.0",
+		"eslint-plugin-jest": "^24.3.6",
 		"express-basic-auth": "^1.2.0",
-		"husky": "^4.3.8",
-		"jsdom": "^16.5.1",
+		"husky": "^6.0.0",
+		"jest": "27.0.5",
+		"jsdom": "^16.6.0",
 		"lodash": "^4.17.21",
-		"mocha": "^8.3.2",
-		"mocha-each": "^2.0.1",
-		"mocha-logger": "^1.0.7",
 		"nyc": "^15.1.0",
-		"prettier": "^2.2.1",
-		"pretty-quick": "^3.1.0",
-		"sinon": "^10.0.0",
+		"prettier": "^2.3.1",
+		"pretty-quick": "^3.1.1",
+		"sinon": "^11.1.1",
 		"spectron": "^13.0.0",
-		"stylelint": "^13.12.0",
+		"stylelint": "^13.13.1",
 		"stylelint-config-prettier": "^8.0.2",
-		"stylelint-config-standard": "^21.0.0",
+		"stylelint-config-standard": "^22.0.0",
 		"stylelint-prettier": "^1.2.0"
 	},
 	"optionalDependencies": {
-		"electron": "^11.3.0"
+		"electron": "^11.4.9"
 	},
 	"dependencies": {
 		"colors": "^1.4.0",
-		"console-stamp": "^3.0.0-rc4.2",
-		"digest-fetch": "^1.1.6",
-		"eslint": "^7.23.0",
+		"console-stamp": "^3.0.2",
+		"digest-fetch": "^1.2.0",
+		"eslint": "^7.29.0",
 		"express": "^4.17.1",
-		"express-ipfilter": "^1.1.2",
+		"express-ipfilter": "^1.2.0",
 		"feedme": "^2.0.2",
-		"helmet": "^4.4.1",
-		"iconv-lite": "^0.6.2",
+		"helmet": "^4.6.0",
+		"iconv-lite": "^0.6.3",
 		"module-alias": "^2.2.2",
 		"moment": "^2.29.1",
 		"node-fetch": "^2.6.1",
-		"node-ical": "^0.12.9",
-		"rrule": "^2.6.8",
-		"rrule-alt": "^2.2.8",
-		"simple-git": "^2.37.0",
-		"socket.io": "^4.0.0"
+		"node-ical": "^0.13.0",
+		"simple-git": "^2.40.0",
+		"socket.io": "^4.1.2"
 	},
 	"_moduleAliases": {
 		"node_helper": "js/node_helper.js",
 		"logger": "js/logger.js"
 	},
 	"engines": {
-		"node": ">=10"
+		"node": ">=12"
 	},
-	"husky": {
-		"hooks": {
-			"pre-commit": "pretty-quick --staged"
-		}
+	"jest": {
+		"verbose": true,
+		"projects": [
+			{
+				"displayName": "unit",
+				"testMatch": [
+					"**/tests/unit/**/*.[jt]s?(x)"
+				],
+				"testPathIgnorePatterns": [
+					"<rootDir>/tests/unit/mocks"
+				]
+			},
+			{
+				"displayName": "e2e",
+				"testMatch": [
+					"**/tests/e2e/**/*.[jt]s?(x)"
+				],
+				"testPathIgnorePatterns": [
+					"<rootDir>/tests/e2e/modules/mocks",
+					"<rootDir>/tests/e2e/global-setup.js"
+				]
+			}
+		]
 	}
 }

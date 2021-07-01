@@ -26,6 +26,7 @@
 	"NNW": "NNW",
 
 	"FEELS": "Gefühlt {DEGREE}",
+	"PRECIP": "Niederschlagswahrscheinlichkeit",
 
 	"MODULE_CONFIG_CHANGED": "Die Konfigurationsoptionen für das {MODULE_NAME} Modul haben sich geändert. \nBitte überprüfen Sie die Dokumentation.",
 	"MODULE_CONFIG_ERROR": "Fehler im {MODULE_NAME} Modul. {ERROR}",

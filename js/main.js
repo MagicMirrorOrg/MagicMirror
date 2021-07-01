@@ -6,25 +6,25 @@
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-var MM = (function () {
-	var modules = [];
+const MM = (function () {
+	let modules = [];
 
 	/* Private Methods */
 
 	/**
 	 * Create dom objects for all modules that are configured for a specific position.
 	 */
-	var createDomObjects = function () {
-		var domCreationPromises = [];
+	const createDomObjects = function () {
+		const domCreationPromises = [];
 
 		modules.forEach(function (module) {
 			if (typeof module.data.position !== "string") {
 				return;
 			}
 
-			var wrapper = selectWrapper(module.data.position);
+			const wrapper = selectWrapper(module.data.position);
 
-			var dom = document.createElement("div");
+			const dom = document.createElement("div");
 			dom.id = module.identifier;
 			dom.className = module.name;
 
@@ -35,7 +35,7 @@ var MM = (function () {
 			dom.opacity = 0;
 			wrapper.appendChild(dom);
 
-			var moduleHeader = document.createElement("header");
+			const moduleHeader = document.createElement("header");
 			moduleHeader.innerHTML = module.getHeader();
 			moduleHeader.className = "module-header";
 			dom.appendChild(moduleHeader);
@@ -46,11 +46,11 @@ var MM = (function () {
 				moduleHeader.style.display = "block;";
 			}
 
-			var moduleContent = document.createElement("div");
+			const moduleContent = document.createElement("div");
 			moduleContent.className = "module-content";
 			dom.appendChild(moduleContent);
 
-			var domCreationPromise = updateDom(module, 0);
+			const domCreationPromise = updateDom(module, 0);
 			domCreationPromises.push(domCreationPromise);
 			domCreationPromise
 				.then(function () {
@@ -70,14 +70,13 @@ var MM = (function () {
 	 * Select the wrapper dom object for a specific position.
 	 *
 	 * @param {string} position The name of the position.
-	 *
 	 * @returns {HTMLElement} the wrapper element
 	 */
-	var selectWrapper = function (position) {
-		var classes = position.replace("_", " ");
-		var parentWrapper = document.getElementsByClassName(classes);
+	const selectWrapper = function (position) {
+		const classes = position.replace("_", " ");
+		const parentWrapper = document.getElementsByClassName(classes);
 		if (parentWrapper.length > 0) {
-			var wrapper = parentWrapper[0].getElementsByClassName("container");
+			const wrapper = parentWrapper[0].getElementsByClassName("container");
 			if (wrapper.length > 0) {
 				return wrapper[0];
 			}
@@ -92,9 +91,9 @@ var MM = (function () {
 	 * @param {Module} sender The module that sent the notification.
 	 * @param {Module} [sendTo] The (optional) module to send the notification to.
 	 */
-	var sendNotification = function (notification, payload, sender, sendTo) {
-		for (var m in modules) {
-			var module = modules[m];
+	const sendNotification = function (notification, payload, sender, sendTo) {
+		for (const m in modules) {
+			const module = modules[m];
 			if (module !== sender && (!sendTo || module === sendTo)) {
 				module.notificationReceived(notification, payload, sender);
 			}
@@ -106,13 +105,12 @@ var MM = (function () {
 	 *
 	 * @param {Module} module The module that needs an update.
 	 * @param {number} [speed] The (optional) number of microseconds for the animation.
-	 *
 	 * @returns {Promise} Resolved when the dom is fully updated.
 	 */
-	var updateDom = function (module, speed) {
+	const updateDom = function (module, speed) {
 		return new Promise(function (resolve) {
-			var newContentPromise = module.getDom();
-			var newHeader = module.getHeader();
+			const newHeader = module.getHeader();
+			let newContentPromise = module.getDom();
 
 			if (!(newContentPromise instanceof Promise)) {
 				// convert to a promise if not already one to avoid if/else's everywhere
@@ -121,7 +119,7 @@ var MM = (function () {
 
 			newContentPromise
 				.then(function (newContent) {
-					var updatePromise = updateDomWithContent(module, speed, newHeader, newContent);
+					const updatePromise = updateDomWithContent(module, speed, newHeader, newContent);
 
 					updatePromise.then(resolve).catch(Log.error);
 				})
@@ -136,10 +134,9 @@ var MM = (function () {
 	 * @param {number} [speed] The (optional) number of microseconds for the animation.
 	 * @param {string} newHeader The new header that is generated.
 	 * @param {HTMLElement} newContent The new content that is generated.
-	 *
 	 * @returns {Promise} Resolved when the module dom has been updated.
 	 */
-	var updateDomWithContent = function (module, speed, newHeader, newContent) {
+	const updateDomWithContent = function (module, speed, newHeader, newContent) {
 		return new Promise(function (resolve) {
 			if (module.hidden || !speed) {
 				updateModuleContent(module, newHeader, newContent);
@@ -174,26 +171,25 @@ var MM = (function () {
 	 * @param {Module} module The module to check.
 	 * @param {string} newHeader The new header that is generated.
 	 * @param {HTMLElement} newContent The new content that is generated.
-	 *
 	 * @returns {boolean} True if the module need an update, false otherwise
 	 */
-	var moduleNeedsUpdate = function (module, newHeader, newContent) {
-		var moduleWrapper = document.getElementById(module.identifier);
+	const moduleNeedsUpdate = function (module, newHeader, newContent) {
+		const moduleWrapper = document.getElementById(module.identifier);
 		if (moduleWrapper === null) {
 			return false;
 		}
 
-		var contentWrapper = moduleWrapper.getElementsByClassName("module-content");
-		var headerWrapper = moduleWrapper.getElementsByClassName("module-header");
+		const contentWrapper = moduleWrapper.getElementsByClassName("module-content");
+		const headerWrapper = moduleWrapper.getElementsByClassName("module-header");
 
-		var headerNeedsUpdate = false;
-		var contentNeedsUpdate = false;
+		let headerNeedsUpdate = false;
+		let contentNeedsUpdate;
 
 		if (headerWrapper.length > 0) {
 			headerNeedsUpdate = newHeader !== headerWrapper[0].innerHTML;
 		}
 
-		var tempContentWrapper = document.createElement("div");
+		const tempContentWrapper = document.createElement("div");
 		tempContentWrapper.appendChild(newContent);
 		contentNeedsUpdate = tempContentWrapper.innerHTML !== contentWrapper[0].innerHTML;
 
@@ -207,13 +203,13 @@ var MM = (function () {
 	 * @param {string} newHeader The new header that is generated.
 	 * @param {HTMLElement} newContent The new content that is generated.
 	 */
-	var updateModuleContent = function (module, newHeader, newContent) {
-		var moduleWrapper = document.getElementById(module.identifier);
+	const updateModuleContent = function (module, newHeader, newContent) {
+		const moduleWrapper = document.getElementById(module.identifier);
 		if (moduleWrapper === null) {
 			return;
 		}
-		var headerWrapper = moduleWrapper.getElementsByClassName("module-header");
-		var contentWrapper = moduleWrapper.getElementsByClassName("module-content");
+		const headerWrapper = moduleWrapper.getElementsByClassName("module-header");
+		const contentWrapper = moduleWrapper.getElementsByClassName("module-content");
 
 		contentWrapper[0].innerHTML = "";
 		contentWrapper[0].appendChild(newContent);
@@ -234,7 +230,7 @@ var MM = (function () {
 	 * @param {Function} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the hide method.
 	 */
-	var hideModule = function (module, speed, callback, options) {
+	const hideModule = function (module, speed, callback, options) {
 		options = options || {};
 
 		// set lockString if set in options.
@@ -245,7 +241,7 @@ var MM = (function () {
 			}
 		}
 
-		var moduleWrapper = document.getElementById(module.identifier);
+		const moduleWrapper = document.getElementById(module.identifier);
 		if (moduleWrapper !== null) {
 			moduleWrapper.style.transition = "opacity " + speed / 1000 + "s";
 			moduleWrapper.style.opacity = 0;
@@ -280,12 +276,12 @@ var MM = (function () {
 	 * @param {Function} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the show method.
 	 */
-	var showModule = function (module, speed, callback, options) {
+	const showModule = function (module, speed, callback, options) {
 		options = options || {};
 
 		// remove lockString if set in options.
 		if (options.lockString) {
-			var index = module.lockStrings.indexOf(options.lockString);
+			const index = module.lockStrings.indexOf(options.lockString);
 			if (index !== -1) {
 				module.lockStrings.splice(index, 1);
 			}
@@ -309,7 +305,7 @@ var MM = (function () {
 			module.lockStrings = [];
 		}
 
-		var moduleWrapper = document.getElementById(module.identifier);
+		const moduleWrapper = document.getElementById(module.identifier);
 		if (moduleWrapper !== null) {
 			moduleWrapper.style.transition = "opacity " + speed / 1000 + "s";
 			// Restore the position. See hideModule() for more info.
@@ -318,7 +314,7 @@ var MM = (function () {
 			updateWrapperStates();
 
 			// Waiting for DOM-changes done in updateWrapperStates before we can start the animation.
-			var dummy = moduleWrapper.parentElement.parentElement.offsetHeight;
+			const dummy = moduleWrapper.parentElement.parentElement.offsetHeight;
 			moduleWrapper.style.opacity = 1;
 
 			clearTimeout(module.showHideTimer);
@@ -346,14 +342,14 @@ var MM = (function () {
 	 * an ugly top margin. By using this function, the top bar will be hidden if the
 	 * update notification is not visible.
 	 */
-	var updateWrapperStates = function () {
-		var positions = ["top_bar", "top_left", "top_center", "top_right", "upper_third", "middle_center", "lower_third", "bottom_left", "bottom_center", "bottom_right", "bottom_bar", "fullscreen_above", "fullscreen_below"];
+	const updateWrapperStates = function () {
+		const positions = ["top_bar", "top_left", "top_center", "top_right", "upper_third", "middle_center", "lower_third", "bottom_left", "bottom_center", "bottom_right", "bottom_bar", "fullscreen_above", "fullscreen_below"];
 
 		positions.forEach(function (position) {
-			var wrapper = selectWrapper(position);
-			var moduleWrappers = wrapper.getElementsByClassName("module");
+			const wrapper = selectWrapper(position);
+			const moduleWrappers = wrapper.getElementsByClassName("module");
 
-			var showWrapper = false;
+			let showWrapper = false;
 			Array.prototype.forEach.call(moduleWrappers, function (moduleWrapper) {
 				if (moduleWrapper.style.position === "" || moduleWrapper.style.position === "static") {
 					showWrapper = true;
@@ -367,7 +363,7 @@ var MM = (function () {
 	/**
 	 * Loads the core config and combines it with the system defaults.
 	 */
-	var loadConfig = function () {
+	const loadConfig = function () {
 		// FIXME: Think about how to pass config around without breaking tests
 		/* eslint-disable */
 		if (typeof config === "undefined") {
@@ -385,15 +381,14 @@ var MM = (function () {
 	 *
 	 * @param {Module[]} modules Array of modules.
 	 */
-	var setSelectionMethodsForModules = function (modules) {
+	const setSelectionMethodsForModules = function (modules) {
 		/**
 		 * Filter modules with the specified classes.
 		 *
 		 * @param {string|string[]} className one or multiple classnames (array or space divided).
-		 *
 		 * @returns {Module[]} Filtered collection of modules.
 		 */
-		var withClass = function (className) {
+		const withClass = function (className) {
 			return modulesByClass(className, true);
 		};
 
@@ -401,10 +396,9 @@ var MM = (function () {
 		 * Filter modules without the specified classes.
 		 *
 		 * @param {string|string[]} className one or multiple classnames (array or space divided).
-		 *
 		 * @returns {Module[]} Filtered collection of modules.
 		 */
-		var exceptWithClass = function (className) {
+		const exceptWithClass = function (className) {
 			return modulesByClass(className, false);
 		};
 
@@ -413,20 +407,18 @@ var MM = (function () {
 		 *
 		 * @param {string|string[]} className one or multiple classnames (array or space divided).
 		 * @param {boolean} include if the filter should include or exclude the modules with the specific classes.
-		 *
 		 * @returns {Module[]} Filtered collection of modules.
 		 */
-		var modulesByClass = function (className, include) {
-			var searchClasses = className;
+		const modulesByClass = function (className, include) {
+			let searchClasses = className;
 			if (typeof className === "string") {
 				searchClasses = className.split(" ");
 			}
 
-			var newModules = modules.filter(function (module) {
-				var classes = module.data.classes.toLowerCase().split(" ");
+			const newModules = modules.filter(function (module) {
+				const classes = module.data.classes.toLowerCase().split(" ");
 
-				for (var c in searchClasses) {
-					var searchClass = searchClasses[c];
+				for (const searchClass of searchClasses) {
 					if (classes.indexOf(searchClass.toLowerCase()) !== -1) {
 						return include;
 					}
@@ -445,8 +437,8 @@ var MM = (function () {
 		 * @param {object} module The module instance to remove from the collection.
 		 * @returns {Module[]} Filtered collection of modules.
 		 */
-		var exceptModule = function (module) {
-			var newModules = modules.filter(function (mod) {
+		const exceptModule = function (module) {
+			const newModules = modules.filter(function (mod) {
 				return mod.identifier !== module.identifier;
 			});
 
@@ -459,7 +451,7 @@ var MM = (function () {
 		 *
 		 * @param {Function} callback The function to execute with the module as an argument.
 		 */
-		var enumerate = function (callback) {
+		const enumerate = function (callback) {
 			modules.map(function (module) {
 				callback(module);
 			});
@@ -604,11 +596,11 @@ if (typeof Object.assign !== "function") {
 			if (target === undefined || target === null) {
 				throw new TypeError("Cannot convert undefined or null to object");
 			}
-			var output = Object(target);
-			for (var index = 1; index < arguments.length; index++) {
-				var source = arguments[index];
+			const output = Object(target);
+			for (let index = 1; index < arguments.length; index++) {
+				const source = arguments[index];
 				if (source !== undefined && source !== null) {
-					for (var nextKey in source) {
+					for (const nextKey in source) {
 						if (source.hasOwnProperty(nextKey)) {
 							output[nextKey] = source[nextKey];
 						}

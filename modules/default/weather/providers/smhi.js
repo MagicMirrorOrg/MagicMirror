@@ -74,7 +74,7 @@ WeatherProvider.register("smhi", {
 	getClosestToCurrentTime(times) {
 		let now = moment();
 		let minDiff = undefined;
-		for (time of times) {
+		for (const time of times) {
 			let diff = Math.abs(moment(time.validTime).diff(now));
 			if (!minDiff || diff < Math.abs(moment(minDiff.validTime).diff(now))) {
 				minDiff = time;
@@ -149,13 +149,13 @@ WeatherProvider.register("smhi", {
 	 * @param coordinates
 	 */
 	convertWeatherDataGroupedByDay(allWeatherData, coordinates) {
-		var currentWeather;
+		let currentWeather;
 		let result = [];
 
 		let allWeatherObjects = this.fillInGaps(allWeatherData).map((weatherData) => this.convertWeatherDataToObject(weatherData, coordinates));
-		var dayWeatherTypes = [];
+		let dayWeatherTypes = [];
 
-		for (weatherObject of allWeatherObjects) {
+		for (const weatherObject of allWeatherObjects) {
 			//If its the first object or if a day change we need to reset the summary object
 			if (!currentWeather || !currentWeather.date.isSame(weatherObject.date, "day")) {
 				currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
@@ -216,12 +216,12 @@ WeatherProvider.register("smhi", {
 	 */
 	fillInGaps(data) {
 		let result = [];
-		for (var i = 1; i < data.length; i++) {
+		for (const i = 1; i < data.length; i++) {
 			let to = moment(data[i].validTime);
 			let from = moment(data[i - 1].validTime);
 			let hours = moment.duration(to.diff(from)).asHours();
 			// For each hour add a datapoint but change the validTime
-			for (var j = 0; j < hours; j++) {
+			for (const j = 0; j < hours; j++) {
 				let current = Object.assign({}, data[i]);
 				current.validTime = from.clone().add(j, "hours").toISOString();
 				result.push(current);

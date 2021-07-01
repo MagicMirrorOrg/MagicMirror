@@ -180,7 +180,6 @@ function App() {
 	 *
 	 * @param {string} a Version number a.
 	 * @param {string} b Version number b.
-	 *
 	 * @returns {number} A positive number if a is larger than b, a negative
 	 * number if a is smaller and 0 if they are the same
 	 */
