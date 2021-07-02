@@ -134,7 +134,7 @@ WeatherProvider.register("envcanada", {
 	//
 	fetchData: function (url, method = "GET", data = null) {
 		return new Promise(function (resolve, reject) {
-			var request = new XMLHttpRequest();
+			const request = new XMLHttpRequest();
 			request.open(method, url, true);
 			request.onreadystatechange = function () {
 				if (this.readyState === 4) {
@@ -164,7 +164,7 @@ WeatherProvider.register("envcanada", {
 	// CORS errors when accessing EC
 	//
 	getUrl() {
-		var path = "https://thingproxy.freeboard.io/fetch/https://dd.weather.gc.ca/citypage_weather/xml/" + this.config.provCode + "/" + this.config.siteCode + "_e.xml";
+		const path = "https://thingproxy.freeboard.io/fetch/https://dd.weather.gc.ca/citypage_weather/xml/" + this.config.provCode + "/" + this.config.siteCode + "_e.xml";
 
 		return path;
 	},
@@ -232,7 +232,7 @@ WeatherProvider.register("envcanada", {
 		// Capture the sunrise and sunset values from EC data
 		//
 
-		var sunList = ECdoc.querySelectorAll("siteData riseSet dateTime");
+		const sunList = ECdoc.querySelectorAll("siteData riseSet dateTime");
 
 		currentWeather.sunrise = moment(sunList[1].querySelector("timeStamp").textContent, "YYYYMMDDhhmmss");
 		currentWeather.sunset = moment(sunList[3].querySelector("timeStamp").textContent, "YYYYMMDDhhmmss");
@@ -249,14 +249,14 @@ WeatherProvider.register("envcanada", {
 
 		const days = [];
 
-		var weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+		const weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
 
-		var foreBaseDates = ECdoc.querySelectorAll("siteData forecastGroup dateTime");
-		var baseDate = foreBaseDates[1].querySelector("timeStamp").textContent;
+		const foreBaseDates = ECdoc.querySelectorAll("siteData forecastGroup dateTime");
+		const baseDate = foreBaseDates[1].querySelector("timeStamp").textContent;
 
 		weather.date = moment(baseDate, "YYYYMMDDhhmmss");
 
-		var foreGroup = ECdoc.querySelectorAll("siteData forecastGroup forecast");
+		const foreGroup = ECdoc.querySelectorAll("siteData forecastGroup forecast");
 
 		// For simplicity, we will only accumulate precipitation and will not try to break out
 		// rain vs snow accumulations
@@ -288,9 +288,9 @@ WeatherProvider.register("envcanada", {
 		// where the next day's (aka Tomorrow's) forecast is located in the forecast array.
 		//
 
-		var nextDay = 0;
-		var lastDay = 0;
-		var currentTemp = ECdoc.querySelector("siteData currentConditions temperature").textContent;
+		let nextDay = 0;
+		let lastDay = 0;
+		const currentTemp = ECdoc.querySelector("siteData currentConditions temperature").textContent;
 
 		//
 		// If the first Element is Current Today, look at Current Today and Current Tonight for the current day.
@@ -356,9 +356,9 @@ WeatherProvider.register("envcanada", {
 		// iteration looking at the current Element and the next Element.
 		//
 
-		var lastDate = moment(baseDate, "YYYYMMDDhhmmss");
+		let lastDate = moment(baseDate, "YYYYMMDDhhmmss");
 
-		for (var stepDay = nextDay; stepDay < lastDay; stepDay += 2) {
+		for (let stepDay = nextDay; stepDay < lastDay; stepDay += 2) {
 			let weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
 
 			// Add 1 to the date to reflect the current forecast day we are building
@@ -402,23 +402,23 @@ WeatherProvider.register("envcanada", {
 
 		// Get local timezone UTC offset so that each hourly time can be calculated properly
 
-		var baseHours = ECdoc.querySelectorAll("siteData hourlyForecastGroup dateTime");
-		var hourOffset = baseHours[1].getAttribute("UTCOffset");
+		const baseHours = ECdoc.querySelectorAll("siteData hourlyForecastGroup dateTime");
+		const hourOffset = baseHours[1].getAttribute("UTCOffset");
 
 		//
 		// The EC hourly forecast is held in a 24-element array - Elements 0 to 23 - with Element 0 holding
 		// the forecast for the next 'on the hour' timeslot. This means the array is a rolling 24 hours.
 		//
 
-		var hourGroup = ECdoc.querySelectorAll("siteData hourlyForecastGroup hourlyForecast");
+		const hourGroup = ECdoc.querySelectorAll("siteData hourlyForecastGroup hourlyForecast");
 
-		for (var stepHour = 0; stepHour < 24; stepHour += 1) {
-			var weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+		for (let stepHour = 0; stepHour < 24; stepHour += 1) {
+			const weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
 
 			// Determine local time by applying UTC offset to the forecast timestamp
 
-			var foreTime = moment(hourGroup[stepHour].getAttribute("dateTimeUTC"), "YYYYMMDDhhmmss");
-			var currTime = foreTime.add(hourOffset, "hours");
+			const foreTime = moment(hourGroup[stepHour].getAttribute("dateTimeUTC"), "YYYYMMDDhhmmss");
+			const currTime = foreTime.add(hourOffset, "hours");
 			weather.date = moment(currTime, "X");
 
 			// Capture the temperature
@@ -427,7 +427,7 @@ WeatherProvider.register("envcanada", {
 
 			// Capture Likelihood of Precipitation (LOP) and unit-of-measure values
 
-			var precipLOP = hourGroup[stepHour].querySelector("lop").textContent * 1.0;
+			const precipLOP = hourGroup[stepHour].querySelector("lop").textContent * 1.0;
 
 			if (precipLOP > 0) {
 				weather.precipitation = precipLOP;
@@ -453,9 +453,9 @@ WeatherProvider.register("envcanada", {
 	//
 
 	setMinMaxTemps(weather, foreGroup, today, fullDay, currentTemp) {
-		var todayTemp = foreGroup[today].querySelector("temperatures temperature").textContent;
+		const todayTemp = foreGroup[today].querySelector("temperatures temperature").textContent;
 
-		var todayClass = foreGroup[today].querySelector("temperatures temperature").getAttribute("class");
+		const todayClass = foreGroup[today].querySelector("temperatures temperature").getAttribute("class");
 
 		//
 		// The following logic is largely aimed at accommodating the Current day's forecast whereby we
@@ -500,9 +500,9 @@ WeatherProvider.register("envcanada", {
 			}
 		}
 
-		var nextTemp = foreGroup[today + 1].querySelector("temperatures temperature").textContent;
+		const nextTemp = foreGroup[today + 1].querySelector("temperatures temperature").textContent;
 
-		var nextClass = foreGroup[today + 1].querySelector("temperatures temperature").getAttribute("class");
+		const nextClass = foreGroup[today + 1].querySelector("temperatures temperature").getAttribute("class");
 
 		if (fullDay === true) {
 			if (nextClass === "low") {
@@ -577,6 +577,7 @@ WeatherProvider.register("envcanada", {
 			return temp;
 		}
 	},
+
 	//
 	// Convert km/h to mph
 	//

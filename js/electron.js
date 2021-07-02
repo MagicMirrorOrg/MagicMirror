@@ -65,7 +65,7 @@ function createWindow() {
 	if (process.argv.includes("dev")) {
 		if (process.env.JEST_WORKER_ID !== undefined) {
 			// if we are running with jest
-			var devtools = new BrowserWindow(electronOptions);
+			const devtools = new BrowserWindow(electronOptions);
 			mainWindow.webContents.setDevToolsWebContents(devtools.webContents);
 		}
 		mainWindow.webContents.openDevTools();
