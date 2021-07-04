@@ -13,6 +13,8 @@ _This release is scheduled to be released on 2021-07-01._
 
 ### Updated
 
+- Bump electron to v13 (and spectron to v15) and update other dependencies in package.json.
+
 ### Fixed
 
 ## [2.16.0] - 2021-07-01

@@ -16,7 +16,8 @@ let config = {
 		height: 600,
 		webPreferences: {
 			nodeIntegration: true,
-			enableRemoteModule: true
+			enableRemoteModule: true,
+			contextIsolation: false
 		}
 	},
 

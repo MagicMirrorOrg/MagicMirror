@@ -14,7 +14,8 @@ let config = {
 		fullscreen: false,
 		webPreferences: {
 			nodeIntegration: true,
-			enableRemoteModule: true
+			enableRemoteModule: true,
+			contextIsolation: false
 		}
 	},
 
