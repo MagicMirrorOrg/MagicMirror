@@ -107,7 +107,7 @@ app.on("window-all-closed", function () {
 		app.quit();
 	} else {
 		createWindow();
-	};
+	}
 });
 
 app.on("activate", function () {
