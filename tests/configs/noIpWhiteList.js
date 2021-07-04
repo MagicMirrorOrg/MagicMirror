@@ -3,7 +3,7 @@
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.
  */
-let config = require('./default.js');
+let config = require("./default.js");
 config.ipWhitelist = ["x.x.x.x"];
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/

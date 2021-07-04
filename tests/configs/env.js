@@ -4,7 +4,7 @@
  * MIT Licensed.
  */
 
-let config = require('./default.js');
+let config = require("./default.js");
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/
 if (typeof module !== "undefined") {
