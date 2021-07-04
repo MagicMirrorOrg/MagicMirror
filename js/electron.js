@@ -102,7 +102,12 @@ app.on("ready", function () {
 
 // Quit when all windows are closed.
 app.on("window-all-closed", function () {
-	createWindow();
+	if (process.env.JEST_WORKER_ID !== undefined) {
+		// if we are running with jest
+		app.quit();
+	} else {
+		createWindow();
+	};
 });
 
 app.on("activate", function () {
