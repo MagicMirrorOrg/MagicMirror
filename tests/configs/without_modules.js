@@ -3,7 +3,11 @@
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.
  */
-let config = require("./default.js");
+let config = {
+	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1", "::ffff:192.168.10.1"]
+};
+
+config = Object.assign(require("./default.js"), config);
 delete config.modules;
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/

@@ -4,17 +4,6 @@
  * MIT Licensed.
  */
 let config = {
-	electronOptions: {
-		fullscreen: false,
-		width: 800,
-		height: 600,
-		webPreferences: {
-			nodeIntegration: true,
-			enableRemoteModule: true,
-			contextIsolation: false
-		}
-	},
-
 	modules: [
 		{
 			module: "helloworld",
@@ -35,6 +24,9 @@ let config = {
 };
 
 config = Object.assign(require("../default.js"), config);
+config.electronOptions.fullscreen = false;
+config.electronOptions.width = 800;
+config.electronOptions.height = 600;
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/
 if (typeof module !== "undefined") {
