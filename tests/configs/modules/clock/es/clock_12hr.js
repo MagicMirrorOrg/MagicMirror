@@ -3,7 +3,9 @@
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.
  */
-let config = {
+const configFactory = require('../../../default.js')
+
+const config = configFacory({
 	language: "es",
 	timeFormat: 12,
 
@@ -13,9 +15,7 @@ let config = {
 			position: "middle_center"
 		}
 	]
-};
-
-config = Object.assign(require("../../../default.js"), config);
+});
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/
 if (typeof module !== "undefined") {

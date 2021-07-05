@@ -3,7 +3,9 @@
  * By rejas
  * MIT Licensed.
  */
-let config = {
+const configFactory = require('../../default.js')
+
+const config = configFacory({
 	modules: [
 		{
 			module: "alert",
@@ -13,9 +15,7 @@ let config = {
 			}
 		}
 	]
-};
-
-config = Object.assign(require("../../default.js"), config);
+});
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/
 if (typeof module !== "undefined") {

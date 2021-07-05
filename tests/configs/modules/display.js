@@ -3,7 +3,9 @@
  * By Rejas
  * MIT Licensed.
  */
-let config = {
+const configFactory = require('../default.js')
+
+let config = configFacory({
 	modules: [
 		{
 			module: "helloworld",
@@ -21,9 +23,8 @@ let config = {
 			}
 		}
 	]
-};
+});
 
-config = Object.assign(require("../default.js"), config);
 config.electronOptions.fullscreen = false;
 config.electronOptions.width = 800;
 config.electronOptions.height = 600;

@@ -3,7 +3,9 @@
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.
  */
-let config = {
+const configFactory = require('../default.js')
+
+const config = configFacory({
 	modules:
 		// Using exotic content. This is why don't accept go to JSON configuration file
 		(function () {
@@ -20,9 +22,7 @@ let config = {
 			}
 			return modules;
 		})()
-};
-
-config = Object.assign(require("../default.js"), config);
+});
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/
 if (typeof module !== "undefined") {
