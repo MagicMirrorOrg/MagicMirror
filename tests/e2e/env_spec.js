@@ -8,7 +8,7 @@ describe("Electron app environment", function () {
 
 	beforeAll(function () {
 		// Set config sample for use in test
-		process.env.MM_CONFIG_FILE = "tests/configs/env.js";
+		process.env.MM_CONFIG_FILE = "tests/configs/default.js";
 	});
 
 	beforeEach(function () {
