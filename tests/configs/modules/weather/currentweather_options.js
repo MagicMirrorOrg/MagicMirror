@@ -3,7 +3,7 @@
  * By fewieden https://github.com/fewieden
  * MIT Licensed.
  */
-const configFactory = require('../../default.js')
+const configFactory = require("../../default.js");
 
 const config = configFacory({
 	modules: [

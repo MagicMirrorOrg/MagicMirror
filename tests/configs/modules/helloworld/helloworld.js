@@ -3,7 +3,7 @@
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.
  */
-const configFactory = require('../../default.js')
+const configFactory = require("../../default.js");
 
 const config = configFacory({
 	modules: [

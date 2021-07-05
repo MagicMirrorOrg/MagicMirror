@@ -3,7 +3,7 @@
  * By rejas
  * MIT Licensed.
  */
-const configFactory = require('../../default.js')
+const configFactory = require("../../default.js");
 
 const config = configFacory({
 	modules: [

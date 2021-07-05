@@ -3,7 +3,7 @@
  * By Johan Hammar
  * MIT Licensed.
  */
-const configFactory = require('../../default.js')
+const configFactory = require("../../default.js");
 
 const config = configFacory({
 	timeFormat: 12,
