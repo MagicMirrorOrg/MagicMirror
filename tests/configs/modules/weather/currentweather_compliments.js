@@ -3,9 +3,7 @@
  * By rejas https://github.com/rejas
  * MIT Licensed.
  */
-const configFactory = require("../../default.js");
-
-const config = configFacory({
+const config = require("../../default.js").configFactory({
 	modules: [
 		{
 			module: "compliments",

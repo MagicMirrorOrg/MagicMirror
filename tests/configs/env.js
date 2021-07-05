@@ -1,18 +1,9 @@
-/* Magic Mirror Test config for default clock module
+/* Magic Mirror Test config sample environment
  *
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.
  */
-const config = require("../../../default.js").configFactory({
-	language: "es",
-
-	modules: [
-		{
-			module: "clock",
-			position: "middle_center"
-		}
-	]
-});
+const config = require("./default.js").configFactory();
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/
 if (typeof module !== "undefined") {

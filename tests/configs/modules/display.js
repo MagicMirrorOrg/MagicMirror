@@ -3,9 +3,7 @@
  * By Rejas
  * MIT Licensed.
  */
-const configFactory = require("../default.js");
-
-let config = configFacory({
+let config = require("../default.js").configFactory({
 	modules: [
 		{
 			module: "helloworld",

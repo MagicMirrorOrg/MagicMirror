@@ -3,9 +3,7 @@
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.
  */
-const configFactory = require("../default.js");
-
-const config = configFacory({
+const config = require("../default.js").configFactory({
 	modules:
 		// Using exotic content. This is why don't accept go to JSON configuration file
 		(function () {

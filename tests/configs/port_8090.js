@@ -3,8 +3,9 @@
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.
  */
-let config = require("./default.js");
-config.port = 8090;
+const config = require("./default.js").configFactory({
+	port: 8090
+});
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/
 if (typeof module !== "undefined") {

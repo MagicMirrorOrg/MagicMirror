@@ -2,9 +2,7 @@
  *
  * MIT Licensed.
  */
-const configFactory = require("../../default.js");
-
-const config = configFacory({
+const config = require("../../default.js").configFactory({
 	timeFormat: 12,
 
 	modules: [

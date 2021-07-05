@@ -3,9 +3,7 @@
  * By fewieden https://github.com/fewieden
  * MIT Licensed.
  */
-const configFactory = require("../../default.js");
-
-const config = configFacory({
+const config = require("../../default.js").configFactory({
 	units: "imperial",
 
 	modules: [

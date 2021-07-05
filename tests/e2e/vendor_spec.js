@@ -10,7 +10,7 @@ describe("Vendors", function () {
 	let app = null;
 
 	beforeAll(function () {
-		process.env.MM_CONFIG_FILE = "tests/configs/default.js";
+		process.env.MM_CONFIG_FILE = "tests/configs/env.js";
 		return helpers
 			.startApplication({
 				args: ["js/electron.js"]
