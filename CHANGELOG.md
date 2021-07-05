@@ -7,7 +7,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [2.17.0] - Unreleased (Develop Branch)
 
-_This release is scheduled to be released on 2021-07-01._
+_This release is scheduled to be released on 2021-10-01._
 
 ### Added
 
