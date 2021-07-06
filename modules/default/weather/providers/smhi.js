@@ -70,6 +70,7 @@ WeatherProvider.register("smhi", {
 	 * Of all the times returned find out which one is closest to the current time, should be the first if the data isn't old.
 	 *
 	 * @param times
+	 * @returns {undefined}
 	 */
 	getClosestToCurrentTime(times) {
 		let now = moment();
@@ -85,6 +86,8 @@ WeatherProvider.register("smhi", {
 
 	/**
 	 * Get the forecast url for the configured coordinates
+	 *
+	 * @returns {string}
 	 */
 	getURL() {
 		let lon = this.config.lon;
@@ -99,8 +102,7 @@ WeatherProvider.register("smhi", {
 	 *
 	 * @param weatherData
 	 * @param coordinates
-	 * @param weatherData
-	 * @param coordinates
+	 * @returns {WeatherObject}
 	 */
 	convertWeatherDataToObject(weatherData, coordinates) {
 		let currentWeather = new WeatherObject("metric", "metric", "metric"); //Weather data is only for Sweden and nobody in Sweden would use imperial
@@ -145,8 +147,7 @@ WeatherProvider.register("smhi", {
 	 *
 	 * @param allWeatherData
 	 * @param coordinates
-	 * @param allWeatherData
-	 * @param coordinates
+	 * @returns {*[]}
 	 */
 	convertWeatherDataGroupedByDay(allWeatherData, coordinates) {
 		let currentWeather;
@@ -194,6 +195,7 @@ WeatherProvider.register("smhi", {
 	 * Resolve coordinates from the response data (probably preferably to use this if it's not matching the config values exactly)
 	 *
 	 * @param data
+	 * @returns {{lon, lat}}
 	 */
 	resolveCoordinates(data) {
 		return { lat: data.geometry.coordinates[0][1], lon: data.geometry.coordinates[0][0] };
@@ -203,6 +205,7 @@ WeatherProvider.register("smhi", {
 	 * Checks if the weatherObject is at dayTime.
 	 *
 	 * @param weatherObject
+	 * @returns {boolean}
 	 */
 	isDayTime(weatherObject) {
 		return weatherObject.date.isBetween(weatherObject.sunrise, weatherObject.sunset, undefined, "[]");
@@ -213,6 +216,7 @@ WeatherProvider.register("smhi", {
 	 * Find these gaps and fill them with the previous hours data to make the data returned a complete set.
 	 *
 	 * @param data
+	 * @returns {*[]}
 	 */
 	fillInGaps(data) {
 		let result = [];
@@ -236,8 +240,7 @@ WeatherProvider.register("smhi", {
 	 *
 	 * @param currentWeatherData
 	 * @param name
-	 * @param currentWeatherData
-	 * @param name
+	 * @returns {unknown}
 	 */
 	paramValue(currentWeatherData, name) {
 		return currentWeatherData.parameters.filter((p) => p.name === name).flatMap((p) => p.values)[0];
@@ -250,8 +253,7 @@ WeatherProvider.register("smhi", {
 	 *
 	 * @param input
 	 * @param isDayTime
-	 * @param input
-	 * @param isDayTime
+	 * @returns {string|string}
 	 */
 	convertWeatherType(input, isDayTime) {
 		switch (input) {
