@@ -3,7 +3,7 @@
  * By fewieden https://github.com/fewieden
  * MIT Licensed.
  */
-const config = require("../../default.js").configFactory({
+let config = require(process.cwd() + "/tests/configs/default.js").configFactory({
 	modules: [
 		{
 			module: "weather",

@@ -3,7 +3,7 @@
  * By Rejas
  * MIT Licensed.
  */
-const config = require("../../default.js").configFactory({
+let config = require(process.cwd() + "/tests/configs/default.js").configFactory({
 	timeFormat: 12,
 
 	modules: [

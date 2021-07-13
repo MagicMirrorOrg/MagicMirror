@@ -4,7 +4,7 @@
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.
  */
-const config = require("../../../default.js").configFactory({
+let config = require(process.cwd() + "/tests/configs/default.js").configFactory({
 	language: "es",
 	timeFormat: 12,
 

@@ -3,7 +3,7 @@
  * By Rejas
  * MIT Licensed.
  */
-let config = require("../default.js").configFactory({
+let config = require(process.cwd() + "/tests/configs/default.js").configFactory({
 	modules: [
 		{
 			module: "helloworld",
