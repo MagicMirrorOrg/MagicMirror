@@ -19,8 +19,9 @@ If you are facing an issue or found a bug while trying to install MagicMirror vi
 
 ## I found a bug in the MagicMirror Docker image
 
-If you are facing an issue or found a bug while running MagicMirror inside a Docker container please create an issue in the GitHub repository of the MagicMirror Docker image:
-[https://github.com/bastilimbach/docker-MagicMirror](https://github.com/bastilimbach/docker-MagicMirror)
+If you are facing an issue or found a bug while running MagicMirror inside a Docker container please create an issue in the corresponding repository:
+- karsten13/magicmirror: [https://gitlab.com/khassel/magicmirror](https://gitlab.com/khassel/magicmirror)
+- (deprecated) bastilimbach/docker-magicmirror: [https://github.com/bastilimbach/docker-MagicMirror](https://github.com/bastilimbach/docker-MagicMirror)
 
 ---
 
@@ -31,9 +32,9 @@ When submitting a new issue, please supply the following information:
 
 **Platform**: Place your platform here... give us your web browser/Electron version _and_ your hardware (Raspberry Pi 2/3/4, Windows, Mac, Linux, System V UNIX).
 
-**Node Version**: Make sure it's version 10 or later.
+**Node Version**: Make sure it's version 12 or later (recommended is 14).
 
-**MagicMirror Version**: Please let us now which version of MagicMirror you are running. It can be found in the `package.log` file.
+**MagicMirror Version**: Please let us now which version of MagicMirror you are running. It can be found in the `package.json` file.
 
 **Description**: Provide a detailed description about the issue and include specific details to help us understand the problem. Adding screenshots will help describing the problem.
 
