@@ -7,7 +7,7 @@
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-var Module = Class.extend({
+const Module = Class.extend({
 	/*********************************************************
 	 * All methods (and properties) below can be subclassed. *
 	 *********************************************************/
@@ -509,6 +509,8 @@ Module.register = function (name, moduleDefinition) {
 	Log.log("Module registered: " + name);
 	Module.definitions[name] = moduleDefinition;
 };
+
+window.Module = Module;
 
 /**
  * Compare two semantic version numbers and return the difference.

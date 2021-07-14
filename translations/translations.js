@@ -5,7 +5,7 @@
  * MIT Licensed.
  */
 
-var translations = {
+let translations = {
 	en: "translations/en.json", // English
 	nl: "translations/nl.json", // Dutch
 	de: "translations/de.json", // German

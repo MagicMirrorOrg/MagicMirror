@@ -6,7 +6,7 @@
  * By Christopher Fenner https://github.com/CFenner
  * MIT Licensed.
  */
-var Translator = (function () {
+const Translator = (function () {
 	/**
 	 * Load a JSON file via XHR.
 	 *
@@ -151,3 +151,5 @@ var Translator = (function () {
 		}
 	};
 })();
+
+window.Translator = Translator;
