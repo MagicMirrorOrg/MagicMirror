@@ -23,9 +23,7 @@
 	},
 	"rules": {
 		"prettier/prettier": "error",
-		"eqeqeq": "error",
 		"no-prototype-builtins": "off",
-		"no-var": "error",
 		"no-unused-vars": "off"
 	}
 }
