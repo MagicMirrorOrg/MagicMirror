@@ -1,3 +1,5 @@
+/* global WeatherProvider, WeatherObject, SunCalc */
+
 /* Magic Mirror
  * Module: Weather
  *
@@ -91,7 +93,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 		this.fetchWeather(this.getUrl("hourly"), this.getHeaders())
 			.then((data) => {
 				// Check data is useable
-				if (!data || !data.features || !data.features[0].properties || !data.features[0].properties.timeSeries || data.features[0].properties.timeSeries.length == 0) {
+				if (!data || !data.features || !data.features[0].properties || !data.features[0].properties.timeSeries || data.features[0].properties.timeSeries.length === 0) {
 					// Did not receive usable new data.
 					// Maybe this needs a better check?
 					Log.error("Possibly bad current/hourly data?");
@@ -125,7 +127,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 		let nowUtc = moment.utc();
 
 		// Find hour that contains the current time
-		for (hour in forecastDataHours) {
+		for (let hour in forecastDataHours) {
 			let forecastTime = moment.utc(forecastDataHours[hour].time);
 			if (nowUtc.isSameOrAfter(forecastTime) && nowUtc.isBefore(moment(forecastTime.add(1, "h")))) {
 				currentWeather.date = forecastTime;
@@ -162,7 +164,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 		this.fetchWeather(this.getUrl("daily"), this.getHeaders())
 			.then((data) => {
 				// Check data is useable
-				if (!data || !data.features || !data.features[0].properties || !data.features[0].properties.timeSeries || data.features[0].properties.timeSeries.length == 0) {
+				if (!data || !data.features || !data.features[0].properties || !data.features[0].properties.timeSeries || data.features[0].properties.timeSeries.length === 0) {
 					// Did not receive usable new data.
 					// Maybe this needs a better check?
 					Log.error("Possibly bad forecast data?");
@@ -196,7 +198,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 		let today = moment.utc().startOf("date");
 
 		// Go through each day in the forecasts
-		for (day in forecastDataDays) {
+		for (let day in forecastDataDays) {
 			const forecastWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
 
 			// Get date of forecast
@@ -258,11 +260,11 @@ WeatherProvider.register("ukmetofficedatahub", {
 	// To use kilometres per hour, use "kph"
 	// Else assumed imperial and the value is returned in miles per hour (a Met Office user is likely to be UK-based)
 	convertWindSpeed(windInMpS) {
-		if (this.config.windUnits == "mps") {
+		if (this.config.windUnits === "mps") {
 			return windInMpS;
 		}
 
-		if (this.config.windUnits == "kph" || this.config.windUnits == "metric" || this.config.useKmh) {
+		if (this.config.windUnits === "kph" || this.config.windUnits === "metric" || this.config.useKmh) {
 			return windInMpS * 3.6;
 		}
 
