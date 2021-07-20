@@ -1,5 +1,8 @@
 const _ = require("lodash");
 
+/**
+ * @param extendedData
+ */
 function generateWeatherForecast(extendedData = {}) {
 	return JSON.stringify(
 		_.merge(

@@ -15,13 +15,13 @@
 		"test:e2e": "NODE_ENV=test jest --selectProjects e2e -i --forceExit",
 		"test:unit": "NODE_ENV=test jest --selectProjects unit -i --forceExit",
 		"test:prettier": "prettier . --check",
-		"test:js": "eslint js/**/*.js modules/default/**/*.js clientonly/*.js serveronly/*.js translations/*.js vendor/*.js tests/**/*.js config/* --config .eslintrc.json --quiet",
-		"test:css": "stylelint css/main.css modules/default/**/*.css --config .stylelintrc.json",
+		"test:js": "eslint 'js/**/*.js' 'modules/default/**/*.js' 'clientonly/*.js' 'serveronly/*.js' 'translations/*.js' 'vendor/*.js' 'tests/**/*.js' 'config/*' --config .eslintrc.json --quiet",
+		"test:css": "stylelint 'css/main.css' 'fonts/*.css' 'modules/default/**/*.css' 'vendor/*.css' --config .stylelintrc.json",
 		"test:calendar": "node ./modules/default/calendar/debug.js",
 		"config:check": "node js/check_config.js",
 		"lint:prettier": "prettier . --write",
-		"lint:js": "eslint js/**/*.js modules/default/**/*.js clientonly/*.js serveronly/*.js translations/*.js vendor/*.js tests/**/*.js config/* --config .eslintrc.json --fix",
-		"lint:css": "stylelint css/main.css modules/default/**/*.css --config .stylelintrc.json --fix",
+		"lint:js": "eslint 'js/**/*.js' 'modules/default/**/*.js' 'clientonly/*.js' 'serveronly/*.js' 'translations/*.js' 'vendor/*.js' 'tests/**/*.js' 'config/*' --config .eslintrc.json --fix",
+		"lint:css": "stylelint 'css/main.css' 'fonts/*.css' 'modules/default/**/*.css' 'vendor/*.css' --config .stylelintrc.json --fix",
 		"lint:staged": "pretty-quick --staged",
 		"prepare": "[ -f node_modules/.bin/husky ] && husky install || echo no husky installed."
 	},
@@ -46,12 +46,12 @@
 	"homepage": "https://magicmirror.builders",
 	"devDependencies": {
 		"eslint-config-prettier": "^8.3.0",
-		"eslint-plugin-jsdoc": "^35.4.1",
-		"eslint-plugin-prettier": "^3.4.0",
 		"eslint-plugin-jest": "^24.3.6",
+		"eslint-plugin-jsdoc": "^35.4.3",
+		"eslint-plugin-prettier": "^3.4.0",
 		"express-basic-auth": "^1.2.0",
-		"husky": "^7.0.0",
-		"jest": "27.0.6",
+		"husky": "^7.0.1",
+		"jest": "^27.0.6",
 		"jsdom": "^16.6.0",
 		"lodash": "^4.17.21",
 		"nyc": "^15.1.0",
@@ -65,11 +65,11 @@
 		"stylelint-prettier": "^1.2.0"
 	},
 	"optionalDependencies": {
-		"electron": "^13.1.5"
+		"electron": "^13.1.6"
 	},
 	"dependencies": {
 		"colors": "^1.4.0",
-		"console-stamp": "^3.0.2",
+		"console-stamp": "^3.0.3",
 		"digest-fetch": "^1.2.0",
 		"eslint": "^7.30.0",
 		"express": "^4.17.1",
@@ -81,8 +81,8 @@
 		"moment": "^2.29.1",
 		"node-fetch": "^2.6.1",
 		"node-ical": "^0.13.0",
-		"simple-git": "^2.40.0",
-		"socket.io": "^4.1.2"
+		"simple-git": "^2.41.1",
+		"socket.io": "^4.1.3"
 	},
 	"_moduleAliases": {
 		"node_helper": "js/node_helper.js",

@@ -6,7 +6,7 @@ describe("Clock module", function () {
 
 	let app = null;
 
-	testMatch = async function (element, regex) {
+	const testMatch = async function (element, regex) {
 		await app.client.waitUntilWindowLoaded();
 		const elem = await app.client.$(element);
 		const txt = await elem.getText(element);
