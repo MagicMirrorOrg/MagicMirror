@@ -68,7 +68,7 @@ describe("Translator", function () {
 		};
 
 		/**
-		 * @param Translator
+		 * @param {object} Translator the global Translator object
 		 */
 		function setTranslations(Translator) {
 			Translator.translations = translations;
