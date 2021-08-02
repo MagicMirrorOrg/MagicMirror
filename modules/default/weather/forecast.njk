@@ -2,6 +2,9 @@
     {% set numSteps = forecast | calcNumSteps %}
     {% set currentStep = 0 %}
     <table class="{{ config.tableClass }}">
+        {% if config.ignoreToday %}
+            {% set forecast = forecast.splice(1) %}
+        {% endif %}
         {% set forecast = forecast.slice(0, numSteps) %}
         {% for f in forecast %}
             <tr {% if config.colored %}class="colored"{% endif %} {% if config.fade %}style="opacity: {{ currentStep | opacity(numSteps) }};"{% endif %}>
@@ -20,10 +23,10 @@
                     {{ f.minTemperature | roundValue | unit("temperature") | decimalSymbol }}
                 </td>
                 {% if config.showPrecipitationAmount %}
-                    {% if f.precipitationUnits %}	
+                    {% if f.precipitationUnits %}
                         <td class="align-right bright precipitation">
                             {{ f.precipitation }}{{ f.precipitationUnits }}
-                        </td>			
+                        </td>
 		                {% else %}
                         <td class="align-right bright precipitation">
                             {{ f.precipitation | unit("precip") }}

@@ -20,6 +20,8 @@ _This release is scheduled to be released on 2021-10-01._
 
 ### Fixed
 
+- Fix undefined error with ignoreToday option in weather module (#2620).
+
 ## [2.16.0] - 2021-07-01
 
 Special thanks to the following contributors: @210954, @B1gG, @codac, @Crazylegstoo, @daniel, @earlman, @ezeholz, @FrancoisRmn, @jupadin, @khassel, @KristjanESPERANTO, @njwilliams, @oemel09, @r3wald, @rejas, @rico24, Faizan Ahmed.

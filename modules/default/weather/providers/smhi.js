@@ -56,7 +56,7 @@ WeatherProvider.register("smhi", {
 	/**
 	 * Overrides method for setting config with checks for the precipitationValue being unset or invalid
 	 *
-	 * @param config
+	 * @param {object} config The configuration object
 	 */
 	setConfig(config) {
 		this.config = config;
@@ -69,8 +69,8 @@ WeatherProvider.register("smhi", {
 	/**
 	 * Of all the times returned find out which one is closest to the current time, should be the first if the data isn't old.
 	 *
-	 * @param times
-	 * @returns {undefined}
+	 * @param {object[]} times Array of time objects
+	 * @returns {object} The weatherdata closest to the current time
 	 */
 	getClosestToCurrentTime(times) {
 		let now = moment();
@@ -87,7 +87,7 @@ WeatherProvider.register("smhi", {
 	/**
 	 * Get the forecast url for the configured coordinates
 	 *
-	 * @returns {string}
+	 * @returns {string} the url for the specified coordinates
 	 */
 	getURL() {
 		let lon = this.config.lon;
@@ -100,8 +100,8 @@ WeatherProvider.register("smhi", {
 	 * The returned units is always in metric system.
 	 * Requires coordinates to determine if its daytime or nighttime to know which icon to use and also to set sunrise and sunset.
 	 *
-	 * @param weatherData
-	 * @param coordinates
+	 * @param {object} weatherData Weatherdata to convert
+	 * @param {object} coordinates Coordinates of the locations of the weather
 	 * @returns {WeatherObject}
 	 */
 	convertWeatherDataToObject(weatherData, coordinates) {
@@ -146,7 +146,7 @@ WeatherProvider.register("smhi", {
 	 * Takes all of the data points and converts it to one WeatherObject per day.
 	 *
 	 * @param allWeatherData
-	 * @param coordinates
+	 * @param {object} coordinates
 	 * @returns {*[]}
 	 */
 	convertWeatherDataGroupedByDay(allWeatherData, coordinates) {
@@ -194,8 +194,8 @@ WeatherProvider.register("smhi", {
 	/**
 	 * Resolve coordinates from the response data (probably preferably to use this if it's not matching the config values exactly)
 	 *
-	 * @param data
-	 * @returns {{lon, lat}}
+	 * @param {object} data Response data from the weather service
+	 * @returns {{lon, lat}} the lat/long coordinates of the data
 	 */
 	resolveCoordinates(data) {
 		return { lat: data.geometry.coordinates[0][1], lon: data.geometry.coordinates[0][0] };
@@ -215,8 +215,8 @@ WeatherProvider.register("smhi", {
 	 * The distance between the data points is increasing in the data the more distant the prediction is.
 	 * Find these gaps and fill them with the previous hours data to make the data returned a complete set.
 	 *
-	 * @param data
-	 * @returns {*[]}
+	 * @param {object[]} data Response data from the weather service
+	 * @returns {object[]} Given data with filled gaps
 	 */
 	fillInGaps(data) {
 		let result = [];
@@ -238,8 +238,8 @@ WeatherProvider.register("smhi", {
 	 * Helper method to fetch a property from the returned data set.
 	 * The returned values is an array with always one value in it.
 	 *
-	 * @param currentWeatherData
-	 * @param name
+	 * @param {object} weatherData Weatherdata to fetch from
+	 * @param {string} name The name of the property
 	 * @returns {unknown}
 	 */
 	paramValue(currentWeatherData, name) {

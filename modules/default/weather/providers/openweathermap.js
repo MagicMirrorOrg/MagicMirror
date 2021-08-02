@@ -89,7 +89,7 @@ WeatherProvider.register("openweathermap", {
 	/**
 	 * Overrides method for setting config to check if endpoint is correct for hourly
 	 *
-	 * @param config
+	 * @param {object} config The configuration object
 	 */
 	setConfig(config) {
 		this.config = config;
