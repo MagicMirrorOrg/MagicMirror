@@ -102,7 +102,7 @@ WeatherProvider.register("smhi", {
 	 *
 	 * @param {object} weatherData Weatherdata to convert
 	 * @param {object} coordinates Coordinates of the locations of the weather
-	 * @returns {WeatherObject}
+	 * @returns {WeatherObject} The converted weatherdata at the specified location
 	 */
 	convertWeatherDataToObject(weatherData, coordinates) {
 		let currentWeather = new WeatherObject("metric", "metric", "metric"); //Weather data is only for Sweden and nobody in Sweden would use imperial
@@ -145,9 +145,9 @@ WeatherProvider.register("smhi", {
 	/**
 	 * Takes all of the data points and converts it to one WeatherObject per day.
 	 *
-	 * @param allWeatherData
-	 * @param {object} coordinates
-	 * @returns {*[]}
+	 * @param {object[]} allWeatherData Array of weatherdata
+	 * @param {object} coordinates Coordinates of the locations of the weather
+	 * @returns {WeatherObject[]} Array of weatherobjects
 	 */
 	convertWeatherDataGroupedByDay(allWeatherData, coordinates) {
 		let currentWeather;
@@ -204,8 +204,8 @@ WeatherProvider.register("smhi", {
 	/**
 	 * Checks if the weatherObject is at dayTime.
 	 *
-	 * @param weatherObject
-	 * @returns {boolean}
+	 * @param {WeatherObject} weatherObject The weatherObject to look at
+	 * @returns {boolean} true if it is at dayTime
 	 */
 	isDayTime(weatherObject) {
 		return weatherObject.date.isBetween(weatherObject.sunrise, weatherObject.sunset, undefined, "[]");
@@ -235,12 +235,11 @@ WeatherProvider.register("smhi", {
 	},
 
 	/**
-	 * Helper method to fetch a property from the returned data set.
-	 * The returned values is an array with always one value in it.
+	 * Helper method to get a property from the returned data set.
 	 *
-	 * @param {object} weatherData Weatherdata to fetch from
+	 * @param {object} currentWeatherData Weatherdata to get from
 	 * @param {string} name The name of the property
-	 * @returns {unknown}
+	 * @returns {*} The value of the property in the weatherdata
 	 */
 	paramValue(currentWeatherData, name) {
 		return currentWeatherData.parameters.filter((p) => p.name === name).flatMap((p) => p.values)[0];
@@ -251,9 +250,9 @@ WeatherProvider.register("smhi", {
 	 * Uses different icons depending if its daytime or nighttime.
 	 * SHMI's description of what the numeric value means is the comment after the case.
 	 *
-	 * @param input
-	 * @param isDayTime
-	 * @returns {string|string}
+	 * @param {number} input The smhi icon value
+	 * @param {boolean} isDayTime True if the icon should be for daytime, false for nightime
+	 * @returns {string} The icon name for the MagicMirror
 	 */
 	convertWeatherType(input, isDayTime) {
 		switch (input) {
