@@ -52,7 +52,7 @@
 		"express-basic-auth": "^1.2.0",
 		"husky": "^7.0.1",
 		"jest": "^27.0.6",
-		"jsdom": "^16.6.0",
+		"jsdom": "^16.7.0",
 		"lodash": "^4.17.21",
 		"nyc": "^15.1.0",
 		"prettier": "^2.3.2",
@@ -65,7 +65,7 @@
 		"stylelint-prettier": "^1.2.0"
 	},
 	"optionalDependencies": {
-		"electron": "^13.1.7"
+		"electron": "^13.1.8"
 	},
 	"dependencies": {
 		"colors": "^1.4.0",
