@@ -17,6 +17,7 @@ _This release is scheduled to be released on 2021-10-01._
 - Refactor test configs, use default test config for all tests.
 - Updated github templates.
 - Actually test all js and css files when lint script is run.
+- Update jsdocs and print warnings during testing too
 
 ### Fixed
 
