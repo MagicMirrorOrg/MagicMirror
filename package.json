@@ -15,7 +15,7 @@
 		"test:e2e": "NODE_ENV=test jest --selectProjects e2e -i --forceExit",
 		"test:unit": "NODE_ENV=test jest --selectProjects unit -i --forceExit",
 		"test:prettier": "prettier . --check",
-		"test:js": "eslint 'js/**/*.js' 'modules/default/**/*.js' 'clientonly/*.js' 'serveronly/*.js' 'translations/*.js' 'vendor/*.js' 'tests/**/*.js' 'config/*' --config .eslintrc.json --quiet",
+		"test:js": "eslint 'js/**/*.js' 'modules/default/**/*.js' 'clientonly/*.js' 'serveronly/*.js' 'translations/*.js' 'vendor/*.js' 'tests/**/*.js' 'config/*' --config .eslintrc.json",
 		"test:css": "stylelint 'css/main.css' 'fonts/*.css' 'modules/default/**/*.css' 'vendor/*.css' --config .stylelintrc.json",
 		"test:calendar": "node ./modules/default/calendar/debug.js",
 		"config:check": "node js/check_config.js",
@@ -52,7 +52,7 @@
 		"express-basic-auth": "^1.2.0",
 		"husky": "^7.0.1",
 		"jest": "^27.0.6",
-		"jsdom": "^16.6.0",
+		"jsdom": "^16.7.0",
 		"lodash": "^4.17.21",
 		"nyc": "^15.1.0",
 		"prettier": "^2.3.2",
@@ -65,7 +65,7 @@
 		"stylelint-prettier": "^1.2.0"
 	},
 	"optionalDependencies": {
-		"electron": "^13.1.7"
+		"electron": "^13.1.8"
 	},
 	"dependencies": {
 		"colors": "^1.4.0",
