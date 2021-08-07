@@ -11,6 +11,8 @@ _This release is scheduled to be released on 2021-10-01._
 
 ### Added
 
+- Added showTime parameter to clock module for enabling/disabling time display in analog clock
+
 ### Updated
 
 - Bump electron to v13 (and spectron to v15) and update other dependencies in package.json.
