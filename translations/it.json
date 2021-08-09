@@ -26,6 +26,14 @@
 	"NNW": "NNO",
 
 	"FEELS": "Percepiti {DEGREE}",
+	"PRECIP": "Probabilità di precipitazione",
+
+	"MODULE_CONFIG_CHANGED": "Le opzioni di configurazione del modulo {MODULE_NAME} sono cambiate.\nControlla la documentazione.",
+	"MODULE_CONFIG_ERROR": "Errore nel modulo {MODULE_NAME}. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "URL non valido.",
+	"MODULE_ERROR_NO_CONNECTION": "Nessuna connessione internet.",
+	"MODULE_ERROR_UNAUTHORIZED": "Autorizzazione fallita.",
+	"MODULE_ERROR_UNSPECIFIED": "Controlla i log per maggiori dettagli.",
 
 	"UPDATE_NOTIFICATION": "E' disponibile un aggiornamento di MagicMirror².",
 	"UPDATE_NOTIFICATION_MODULE": "E' disponibile un aggiornamento del modulo {MODULE_NAME}.",

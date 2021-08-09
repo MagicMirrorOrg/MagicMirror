@@ -18,6 +18,7 @@ _This release is scheduled to be released on 2021-10-01._
 - Updated github templates.
 - Actually test all js and css files when lint script is run.
 - Update jsdocs and print warnings during testing too
+- Update italian translation
 
 ### Fixed
 
