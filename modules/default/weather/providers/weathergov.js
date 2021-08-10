@@ -21,7 +21,7 @@ WeatherProvider.register("weathergov", {
 
 	// Set the default config properties that is specific to this provider
 	defaults: {
-		apiBase: "https://api.weatherbit.io/v2.0",
+		apiBase: "https://api.weather.gov/points/",
 		weatherEndpoint: "/forecast",
 		lat: 0,
 		lon: 0
@@ -129,7 +129,12 @@ WeatherProvider.register("weathergov", {
 			.finally(() => {
 				// excellent, let's fetch some actual wx data
 				this.configURLs = true;
-				this.fetchCurrentWeather();
+				// handle 'forecast' config, fall back to 'current'
+				if (config.type == "forecast") {
+					this.fetchWeatherForecast();
+				} else {
+					this.fetchCurrentWeather();
+				}
 			});
 	},
 
