@@ -30,6 +30,10 @@ html {
   display: none;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: var(--gap-body-top) var(--gap-body-right) var(--gap-body-bottom) var(--gap-body-left);
   position: absolute;
@@ -237,4 +241,8 @@ sup {
   width: 100%;
   border-spacing: 0;
   border-collapse: separate;
+}
+
+.active-module {
+  border-bottom: 1px solid white;
 }

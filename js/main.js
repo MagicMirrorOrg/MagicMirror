@@ -1,4 +1,4 @@
-/* global Loader, defaults, Translator */
+/* global Loader, defaults, Translator, Buttons */
 
 /* Magic Mirror
  * Main System
@@ -485,6 +485,8 @@ const MM = (function () {
 
 			Translator.loadCoreTranslations(config.language);
 			Loader.loadModules();
+			Buttons.mapContextButtons();
+			Buttons.mapNavButtons();
 		},
 
 		/**
