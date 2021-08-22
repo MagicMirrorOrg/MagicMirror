@@ -17,4 +17,10 @@ Module.register("test_module", {
 	},
 	init: function () {
 		return;
+	},
+	subToButtons: function (e) {
+		if (e === "buttonOne") {
+			console.log("q pressted");
+		}
+	}
 });

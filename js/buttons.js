@@ -9,7 +9,16 @@ var Buttons = new (Class.extend({
 	init: function () {
 		return;
 	},
-	mapContextButtons: function () {
+	/**
+	 * This function gets called from init in main.js.
+	 * It just maps the keyboard buttons to our virtual
+	 * buttons.
+	 */
+	mapButtons: function () {
+		this._mapContextButtons();
+		this._mapNavButtons();
+	},
+	_mapContextButtons: function () {
 		document.addEventListener("keydown", (e) => {
 			let buttonPressed = "";
 			switch (e.code) {
@@ -28,23 +37,21 @@ var Buttons = new (Class.extend({
 				default:
 					return;
 			}
-			let funcs = this.keyEvents[buttonPressed];
-			// for (const module of funcs) {
-			// 	if module.name ===
-			// }
-
-			funcs.forEach(([uuid, f]) => f());
+			const curModule = MM.getModules()[this.curModuleIndex];
+			if (curModule.subToButtons) {
+				curModule.subToButtons(buttonPressed);
+			}
 		});
 	},
-	mapNavButtons: function () {
+	_mapNavButtons: function () {
 		document.addEventListener("keydown", (e) => {
+			this._getOrderedModules();
 			let moduleLen = MM.getModules().length;
 
 			let elem = this._getActiveModuleElement();
 			if (elem) {
 				elem.classList.remove("active-module");
 			}
-
 			switch (e.code) {
 				case "KeyA":
 					this.curModuleIndex = (((this.curModuleIndex + 1) % moduleLen) + moduleLen) % moduleLen;
@@ -66,27 +73,13 @@ var Buttons = new (Class.extend({
 		const element = document.getElementById(idName);
 		return document.getElementById(idName);
 	},
-	subscribe(event, func) {
-		if (!this.buttons.includes(event)) {
-			throw new Error("Invalid keypress event");
+	_getOrderedModules: function () {
+		let modules = MM.getModules();
+		let orderedModules = {};
+		console.log("here");
+		for (const module of modules) {
+			orderedModules[module.data.position];
 		}
-		let funcs = this.keyEvents[event] || [];
-		let uuid = this._getUuid();
-		funcs.push([uuid, func]);
-		this.keyEvents[event] = funcs;
-		return uuid;
-	},
-	unsubscribe(event, uuid) {
-		for (let event in this.keyEvents) {
-			const funcIdx = event.findIndex(([u, f]) => u === uuid);
-			if (funcIdx !== -1) {
-				event.splice(funcIdx, 1);
-				return;
-			}
-		}
-		throw new Error("Event not found with this uuid");
-	},
-	_getUuid() {
-		return this.uuid++;
+		console.log(orderedModules);
 	}
 }))();

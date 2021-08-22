@@ -485,8 +485,7 @@ const MM = (function () {
 
 			Translator.loadCoreTranslations(config.language);
 			Loader.loadModules();
-			Buttons.mapContextButtons();
-			Buttons.mapNavButtons();
+			Buttons.mapButtons();
 		},
 
 		/**
