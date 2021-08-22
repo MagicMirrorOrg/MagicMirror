@@ -334,9 +334,8 @@ const CalendarUtils = {
 							if (dateoffset < 0) {
 								// If the date hour is less than the offset
 								if (dh < Math.abs(dateoffset / 60)) {
-									// reduce the time by the offset
-									Log.debug(" recurring date is " + date + " offset is " + dateoffset);
-									// apply the correction to the date/time to get it UTC relative
+									// Reduce the time by the offset:
+									// Apply the correction to the date/time to get it UTC relative
 									date = new Date(date.getTime() - Math.abs(nowOffset) * 60000);
 									// the duration was calculated way back at the top before we could correct the start time..
 									// fix it for this event entry
@@ -363,9 +362,8 @@ const CalendarUtils = {
 							if (dateoffset < 0) {
 								// if the date hour is less than the offset
 								if (dh < Math.abs(dateoffset / 60)) {
-									// reduce the time by the offset
-									Log.debug(" recurring date is " + date + " offset is " + dateoffset);
-									// apply the correction to the date/time to get it UTC relative
+									// Reduce the time by the offset:
+									// Apply the correction to the date/time to get it UTC relative
 									date = new Date(date.getTime() - Math.abs(nowOffset) * 60000);
 									// the duration was calculated way back at the top before we could correct the start time..
 									// fix it for this event entry
