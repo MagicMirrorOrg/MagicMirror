@@ -327,7 +327,7 @@ const CalendarUtils = {
 
 						let dh = moment(date).format("HH");
 						Log.debug(" recurring date is " + date + " offset is " + dateoffset / 60 + " Hour is " + dh);
-						
+
 						if (CalendarUtils.isFullDayEvent(event)) {
 							Log.debug("Fullday");
 							// If the offset is negative (east of GMT), where the problem is
