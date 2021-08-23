@@ -137,6 +137,8 @@ sup {
 .module {
   margin-bottom: var(--gap-modules);
   padding-bottom: 10px !important;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease-in-out !important;
 }
 
 .region.bottom .module {
@@ -238,11 +240,6 @@ sup {
   width: 100%;
   border-spacing: 0;
   border-collapse: separate;
-}
-
-* {
-  border-bottom: 2px solid transparent;
-  transition: all 0.2s ease-in-out !important;
 }
 
 .module.active-module {

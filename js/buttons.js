@@ -14,7 +14,10 @@ var Buttons = new (Class.extend({
 	mapButtons: function () {
 		this._mapContextButtons();
 		this._mapNavButtons();
-		this.mapMouseButtons();
+
+		setTimeout(() => {
+			this.mapMouseButtons();
+		}, 3000);
 	},
 	_mapContextButtons: function () {
 		const btnMappings = config.buttons.mappings;
@@ -37,8 +40,8 @@ var Buttons = new (Class.extend({
 					return;
 			}
 			const curModule = this._getOrderedModules()[this.curModuleIndex];
-			if (curModule.subToButtons) {
-				curModule.subToButtons(buttonPressed);
+			if (curModule.onButtonClick) {
+				curModule.onButtonClick(buttonPressed);
 			}
 		});
 	},
@@ -65,32 +68,57 @@ var Buttons = new (Class.extend({
 			}
 		});
 	},
+	/**
+	 * Maps the mouseenter and mouse leave events of module
+	 * to selecting an active module. Binds scroll up to
+	 * context1, scroll down to context2, left click to
+	 * context3, and right click to context4.
+	 */
 	mapMouseButtons: function () {
-		/**
-		 * Add on mouse enter functionality as alternate
-		 * interfacing option for
-		 */
-		setTimeout(() => {
-			const moduleElements = document.getElementsByClassName("module");
-			for (const mod of moduleElements) {
-				mod.addEventListener("mouseenter", (e) => {
-					const idx = this._getOrderedModules().findIndex((m) => m.data.identifier === e.target.id);
-					if (idx !== -1) {
-						this.curModuleIndex = idx;
-						mod.classList.add("active-module");
-					}
-				});
-			}
-			for (const mod of moduleElements) {
-				mod.addEventListener("mouseleave", (e) => {
-					const idx = this._getOrderedModules().findIndex((m) => m.data.identifier === e.target.id);
-					if (idx !== -1) {
-						this.curModuleIndex = idx;
-						mod.classList.remove("active-module");
-					}
-				});
-			}
-		}, 3000);
+		const mouseEneabled = config.buttons.mouseNavigation || false;
+		if (!mouseEneabled) {
+			return;
+		}
+
+		const moduleElements = document.getElementsByClassName("module");
+		for (const mod of moduleElements) {
+			mod.addEventListener("mouseenter", (e) => {
+				const idx = this._getOrderedModules().findIndex((m) => m.data.identifier === e.target.id);
+				if (idx !== -1) {
+					this.curModuleIndex = idx;
+					mod.classList.add("active-module");
+				}
+			});
+			mod.addEventListener("mouseleave", (e) => {
+				const idx = this._getOrderedModules().findIndex((m) => m.data.identifier === e.target.id);
+				if (idx !== -1) {
+					this.curModuleIndex = idx;
+					mod.classList.remove("active-module");
+				}
+			});
+			mod.addEventListener("click", (e) => {
+				const curModule = this._getOrderedModules()[this.curModuleIndex];
+				if (curModule.onButtonClick) {
+					curModule.onButtonClick("context3");
+				}
+			});
+			// mod.addEventListener("wheel", (e) => {
+			// 	const scroll = e.deltaY;
+			// 	console.log(scroll);
+			// 	const curModule = this._getOrderedModules()[this.curModuleIndex];
+			// 	let btnPressed = "";
+			// 	if (scroll > 0) {
+			// 		btnPressed = "context3";
+			// 	} else if (scroll < 0) {
+			// 		btnPressed = "context4";
+			// 	}
+			// 	if (curModule.onButtonClick) {
+			// 		for (let i = 0; i < Math.max(Math.abs(scroll), 5); ++i) {
+			// 			curModule.onButtonClick(btnPressed);
+			// 		}
+			// 	}
+			// });
+		}
 	},
 	_getActiveModuleElement: function () {
 		const idName = this._getOrderedModules()[this.curModuleIndex].data.identifier;

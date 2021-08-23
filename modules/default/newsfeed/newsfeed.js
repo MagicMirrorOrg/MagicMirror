@@ -306,6 +306,17 @@ Module.register("newsfeed", {
 		}, this.config.updateInterval);
 	},
 
+	onButtonClick: function (e) {
+		if (e === "context1") {
+			this.activeItem = Math.min(this.activeItem + 1, this.newsItems.length - 1);
+		} else if (e === "context2") {
+			this.activeItem = Math.max(this.activeItem - 1, 0);
+		} else if (e === "context3") {
+			window.open(this.newsItems[this.activeItem].url, "_blank").focus;
+		}
+		this.updateDom(100);
+	},
+
 	resetDescrOrFullArticleAndTimer: function () {
 		this.isShowingDescription = this.config.showDescription;
 		this.config.showFullArticle = false;
