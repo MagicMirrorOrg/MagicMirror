@@ -36,14 +36,35 @@ let config = {
 	//   starts serveronly and then starts chrome browser
 	// false, default for all NON-armv6l devices
 	// true, force serveronly mode, because you want to.. no UI on this device
-
+	buttons: {
+		mouseNavigation: true,
+		mappings: {
+			navigationUp: 'KeyA',
+			navigationDown: 'KeyS',
+			context1: 'KeyQ',
+			context2: 'KeyW',
+			context3: 'KeyE',
+			context4: 'KeyR',
+		},
+		nonInteractiveModules: [
+			'alert'
+		]
+	},
 	modules: [
 		{
 			module: "alert",
 		},
-        {
+		{
+			module: "MMM-Wallpaper",
+			position: "fullscreen_below",
+			config: { // See "Configuration options" for more information.
+			  source: "bing",
+			  slideInterval: 60 * 1000 // Change slides every minute
+			}
+		},
+		{
 			module: "test_module",
-            position: "bottom_right"
+			position: "bottom_right"
 		},
 		{
 			module: "updatenotification",
@@ -62,7 +83,7 @@ let config = {
 					{
 						symbol: "calendar-check",
 						url: "https://calendar.google.com/calendar/ical/mpv%40odoo.com/private-40984f39b7973e78d195a848d77b5452/basic.ics"
-                    }
+					}
 				]
 			}
 		},

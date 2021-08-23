@@ -19,8 +19,8 @@ Module.register("test_module", {
 		return;
 	},
 	subToButtons: function (e) {
-		if (e === "buttonOne") {
-			console.log("q pressted");
+		if (e === "context1") {
+			console.log("q pressed");
 		}
 	}
 });

@@ -1,6 +1,6 @@
 :root {
-  --color-text: #999;
-  --color-text-dimmed: #666;
+  --color-text: #f5f5dc;
+  --color-text-dimmed: #f0f8ff;
   --color-text-bright: #fff;
   --color-background: #000;
 
@@ -19,7 +19,7 @@
 }
 
 html {
-  cursor: none;
+  /* cursor: none; */
   overflow: hidden;
   background: var(--color-background);
   user-select: none;
@@ -136,6 +136,7 @@ sup {
 
 .module {
   margin-bottom: var(--gap-modules);
+  padding-bottom: 10px !important;
 }
 
 .region.bottom .module {
@@ -240,14 +241,11 @@ sup {
 }
 
 * {
-  transition-property: all !important;
-  transition-duration: 20s !important;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease-in-out !important;
 }
 
-.active-module {
-  /* border-bottom: 1px solid white; */
-  border-bottom-color: white;
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  color: blue;
+.module.active-module {
+  border-bottom: 2px solid var(--color-text-dimmed);
+  transform: scale(1.05);
 }

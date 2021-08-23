@@ -1,0 +1,22 @@
+{
+	"name": "mmm-wallpaper",
+	"version": "1.0.0",
+	"description": "A MagicMirror2 module to display wallpapers from various sources",
+	"main": "MMM-Wallpaper.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://kolbyjack@github.com/kolbyjack/MMM-Wallpaper.git"
+	},
+	"author": "Jonathan Kolb",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/kolbyjack/MMM-Wallpaper/issues"
+	},
+	"homepage": "https://github.com/kolbyjack/MMM-Wallpaper#readme",
+	"dependencies": {
+		"request": "^2.88.2"
+	}
+}
