@@ -267,7 +267,7 @@ Module.register("calendar", {
 			const titleWrapper = document.createElement("td");
 			let repeatingCountTitle = "";
 
-			if (this.config.displayRepeatingCountTitle && event.firstYear !== undefined) {
+			if (this.config.displayRepeatingCountTitle && event.firstYear !== undefined && event.firstYear != "1900") {
 				repeatingCountTitle = this.countTitleForUrl(event.url);
 
 				if (repeatingCountTitle !== "") {
