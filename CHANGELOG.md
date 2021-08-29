@@ -12,6 +12,7 @@ _This release is scheduled to be released on 2021-10-01._
 ### Added
 
 - Added showTime parameter to clock module for enabling/disabling time display in analog clock
+- Added functionality in calendar module to toggle visibility of recurring event title
 
 ### Updated
 
