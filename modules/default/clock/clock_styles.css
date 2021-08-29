@@ -82,10 +82,6 @@
   transform-origin: 50% 100%;
 }
 
-.digital {
-  text-align: center;
-}
-
 .module.clock .sun,
 .module.clock .moon {
   display: flex;
