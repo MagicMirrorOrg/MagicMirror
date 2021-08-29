@@ -85,6 +85,20 @@ describe("Clock module", function () {
 		});
 	});
 
+	describe("with showTime config disabled", function () {
+		beforeAll(function () {
+			// Set config sample for use in test
+			process.env.MM_CONFIG_FILE = "tests/configs/modules/clock/clock_showTime.js";
+		});
+
+		it("should show not show the time when digital clock is shown", async function () {
+			await app.client.waitUntilWindowLoaded();
+			const digital = await app.client.$(".clock .digital");
+			const time = await digital.$$(".time");
+			return expect(time.length).toBe(0);
+		});
+	});
+
 	describe("with showWeek config enabled", function () {
 		beforeAll(function () {
 			// Set config sample for use in test
