@@ -72,8 +72,8 @@ function createWindow() {
 	}
 
 	// simulate mouse move to hide black cursor on start
-	mainWindow.webContents.on('dom-ready', (event)=> {
-		mainWindow.webContents.sendInputEvent({type: "mouseMove", x: 0, y: 0});
+	mainWindow.webContents.on("dom-ready", (event) => {
+		mainWindow.webContents.sendInputEvent({ type: "mouseMove", x: 0, y: 0 });
 	});
 
 	// Set responders for window events.
