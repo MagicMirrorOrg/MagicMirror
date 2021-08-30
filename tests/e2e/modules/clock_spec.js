@@ -93,8 +93,7 @@ describe("Clock module", function () {
 
 		it("should show not show the time when digital clock is shown", async function () {
 			await app.client.waitUntilWindowLoaded();
-			const digital = await app.client.$(".clock .digital");
-			const time = await digital.$$(".time");
+			const time = await app.client.$$(".clock .digital .time");
 			return expect(time.length).toBe(0);
 		});
 	});
