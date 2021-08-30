@@ -184,12 +184,6 @@ const CalendarUtils = {
 				let duration = parseInt(endDate.format("x")) - parseInt(startDate.format("x"));
 				Log.debug("duration: " + duration);
 
-				// FIXME: Since the parsed json object from node-ical comes with time information
-				// this check could be removed (?)
-				if (event.start.length === 8) {
-					startDate = startDate.startOf("day");
-				}
-
 				const title = CalendarUtils.getTitleFromEvent(event);
 				Log.debug("title: " + title);
 
