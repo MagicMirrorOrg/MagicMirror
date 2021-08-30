@@ -345,6 +345,7 @@ const CalendarUtils = {
 						}
 						startDate = moment(date);
 						Log.debug("Corrected startDate (local): " + startDate.toDate());
+						Log.debug("endDate (local): " + endDate.toDate());
 
 						let adjustDays = CalendarUtils.calculateTimezoneAdjustment(event, date);
 
