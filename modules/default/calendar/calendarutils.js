@@ -260,12 +260,11 @@ const CalendarUtils = {
 					let pastLocal = 0;
 					let futureLocal = 0;
 					if (CalendarUtils.isFullDayEvent(event)) {
-						Log.debug("fullday");
-						// if full day event, only use the date part of the ranges
+						// If full day event, only use the date part of the ranges
 						pastLocal = pastMoment.toDate();
 						futureLocal = futureMoment.toDate();
 					} else {
-						// if we want past events
+						// If we want past events
 						if (config.includePastEvents) {
 							// use the calculated past time for the between from
 							pastLocal = pastMoment.toDate();
@@ -317,6 +316,7 @@ const CalendarUtils = {
 
 						// Reduce the time by the following offset.
 						Log.debug(" recurring date is " + date + " offset is " + dateLocalOffset + "[min], " + dateLocalOffset/60 + "[hour], which is " + dh);
+						Log.debug("absolute time zone offset: " + Math.abs(dateLocalOffset) + "[min].");
 						Log.debug("Fullday: " + CalendarUtils.isFullDayEvent(event));
 
 						// If the offset is negative (east of GMT), where the problem is
@@ -328,9 +328,6 @@ const CalendarUtils = {
 							// Reduce the time by the offset:
 							// Apply the correction to the date/time to get it UTC relative
 							date = new Date(date.getTime() - Math.abs(dateLocalOffset) * 60000);
-							// the duration was calculated way back at the top before we could correct the start time..
-							// fix it for this event entry
-							//duration = 24 * 60 * 60 * 1000;
 							Log.debug("new recurring date1 is " + date);
 						} else {
 							// if the timezones are the same, correct date if needed
