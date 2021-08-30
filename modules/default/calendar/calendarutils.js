@@ -316,30 +316,27 @@ const CalendarUtils = {
 						let curEvent = event;
 						let showRecurrence = true;
 
-						// Get the offset of today where we are processing
-						// This will be the correction, we need to apply.
-						let nowOffset = new Date().getTimezoneOffset();
 						// For full day events, the time might be off from RRULE/Luxon problem
 						// Get time zone offset of the rule calculated event (in my local time zone).
-						let dateOffset = date.getTimezoneOffset();
+						let dateLocalOffset = date.getTimezoneOffset();
 
 						// Reduce the time by the following offset.
-						Log.debug(" recurring date is " + date + " offset is " + dateOffset);
+						Log.debug(" recurring date is " + date + " offset is " + dateLocalOffset);
 
 						let dh = moment(date).format("HH");
-						Log.debug(" recurring date is " + date + " offset is " + dateOffset / 60 + " Hour is " + dh);
+						Log.debug(" recurring date is " + date + " offset is " + dateLocalOffset / 60 + " Hour is " + dh);
 
 						Log.debug("Fullday: " + CalendarUtils.isFullDayEvent(event));
 
 						// If the offset is negative (east of GMT), where the problem is
-						if (dateOffset < 0) {
+						if (dateLocalOffset < 0) {
 							// Remove the offset, independently of the comparison between the date hour and the offset,
 							// since in the case that *date houre < offset*, the *new Date* command will handle this by
 							// representing the day before.
 
 							// Reduce the time by the offset:
 							// Apply the correction to the date/time to get it UTC relative
-							date = new Date(date.getTime() - Math.abs(nowOffset) * 60000);
+							date = new Date(date.getTime() - Math.abs(dateLocalOffset) * 60000);
 							// the duration was calculated way back at the top before we could correct the start time..
 							// fix it for this event entry
 							//duration = 24 * 60 * 60 * 1000;
@@ -348,7 +345,7 @@ const CalendarUtils = {
 							// if the timezones are the same, correct date if needed
 							if (event.start.tz === moment.tz.guess()) {
 								// if the date hour is less than the offset
-								if (24 - dh < Math.abs(dateOffset / 60)) {
+								if (24 - dh < Math.abs(dateLocalOffset / 60)) {
 									// apply the correction to the date/time back to right day
 									date = new Date(date.getTime() + Math.abs(24 * 60) * 60000);
 									// the duration was calculated way back at the top before we could correct the start time..
