@@ -270,9 +270,6 @@ const CalendarUtils = {
 						// if full day event, only use the date part of the ranges
 						pastLocal = pastMoment.toDate();
 						futureLocal = futureMoment.toDate();
-
-						Log.debug("pastLocal: " + pastLocal);
-						Log.debug("futureLocal: " + futureLocal);
 					} else {
 						// if we want past events
 						if (config.includePastEvents) {
@@ -284,6 +281,10 @@ const CalendarUtils = {
 						}
 						futureLocal = futureMoment.toDate(); // future
 					}
+
+					Log.debug("pastLocal: " + pastLocal);
+					Log.debug("futureLocal: " + futureLocal);
+
 					Log.debug("Search for recurring events between: " + pastLocal + " and " + futureLocal);
 					const dates = rule.between(pastLocal, futureLocal, true, limitFunction);
 					Log.debug("Title: " + event.summary + ", with dates: " + JSON.stringify(dates));
@@ -331,7 +332,7 @@ const CalendarUtils = {
 						if (CalendarUtils.isFullDayEvent(event)) {
 							Log.debug("Fullday");
 						}
-						
+
 						// If the offset is negative (east of GMT), where the problem is
 						if (dateoffset < 0) {
 							// Remove the offset, independently of the comparison between the date hour and the offset,
