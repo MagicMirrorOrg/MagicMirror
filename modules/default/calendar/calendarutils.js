@@ -366,13 +366,14 @@ const CalendarUtils = {
 						// by subtracting *endDate - startDate*
 						// and adding this duration to the startDate of the next (!) recurring event.
 						endDate = moment(parseInt(startDate.format("x")) + duration, "x");
+						// If the duration is 0, automatically set endDate to end of the day.
 						if (startDate.format("x") === endDate.format("x")) {
 							endDate = endDate.endOf("day");
 						}
 
 						const recurrenceTitle = CalendarUtils.getTitleFromEvent(curEvent);
 
-						// If this recurrence ends before the start of the date range, or starts after the end of the date range, don"t add
+						// If this recurrence ends before the start of the date range, or starts after the end of the date range, don't add
 						// it to the event list.
 						if (endDate.isBefore(past) || startDate.isAfter(future)) {
 							showRecurrence = false;
