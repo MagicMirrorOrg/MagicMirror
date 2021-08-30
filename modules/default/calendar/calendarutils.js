@@ -362,6 +362,9 @@ const CalendarUtils = {
 						}
 						Log.debug("duration: " + duration);
 
+						// The end date of the next (!) recurring event has to be calculated by adding the duration of the (first) event
+						// by subtracting *endDate - startDate*
+						// and adding this duration to the startDate of the next (!) recurring event.
 						endDate = moment(parseInt(startDate.format("x")) + duration, "x");
 						if (startDate.format("x") === endDate.format("x")) {
 							endDate = endDate.endOf("day");
