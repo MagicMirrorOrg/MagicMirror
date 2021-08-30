@@ -322,7 +322,7 @@ const CalendarUtils = {
 						// If the offset is negative (east of GMT), where the problem is
 						if (dateLocalOffset < 0) {
 							// Remove the offset, independently of the comparison between the date hour and the offset,
-							// since in the case that *date houre < offset*, the *new Date* command will handle this by
+							// since in the case that *date hour < offset*, the *new Date* command will handle this by
 							// representing the day before.
 
 							// Reduce the time by the offset:
