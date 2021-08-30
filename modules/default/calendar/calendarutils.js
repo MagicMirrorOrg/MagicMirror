@@ -313,13 +313,10 @@ const CalendarUtils = {
 						// For full day events, the time might be off from RRULE/Luxon problem
 						// Get time zone offset of the rule calculated event (in my local time zone).
 						let dateLocalOffset = date.getTimezoneOffset();
+						let dh = moment(date).format("HH");
 
 						// Reduce the time by the following offset.
-						Log.debug(" recurring date is " + date + " offset is " + dateLocalOffset);
-
-						let dh = moment(date).format("HH");
-						Log.debug(" recurring date is " + date + " offset is " + dateLocalOffset / 60 + " Hour is " + dh);
-
+						Log.debug(" recurring date is " + date + " offset is " + dateLocalOffset + "[min], " + dateLocalOffset/60 + "[hour], which is " + dh);
 						Log.debug("Fullday: " + CalendarUtils.isFullDayEvent(event));
 
 						// If the offset is negative (east of GMT), where the problem is
