@@ -315,8 +315,8 @@ const CalendarUtils = {
 						let dh = moment(date).format("HH");
 
 						// Reduce the time by the following offset.
-						Log.debug(" recurring date is " + date + " offset is " + dateLocalOffset + "[min], " + dateLocalOffset/60 + "[hour], which is " + dh);
-						Log.debug("absolute time zone offset: " + Math.abs(dateLocalOffset) + "[min].");
+						Log.debug(" recurring date is " + date + " with an offset of " + dateLocalOffset + "[min], " + dateLocalOffset/60 + "[hour], which is " + dh);
+						Log.debug("Absolute time zone offset: " + Math.abs(dateLocalOffset) + "[min].");
 						Log.debug("Fullday: " + CalendarUtils.isFullDayEvent(event));
 
 						// If the offset is negative (east of GMT), where the problem is
@@ -328,7 +328,7 @@ const CalendarUtils = {
 							// Reduce the time by the offset:
 							// Apply the correction to the date/time to get it UTC relative
 							date = new Date(date.getTime() - Math.abs(dateLocalOffset) * 60000);
-							Log.debug("new recurring date1 is " + date);
+							Log.debug("new recurring date1 is: " + date);
 						} else {
 							// if the timezones are the same, correct date if needed
 							if (event.start.tz === moment.tz.guess()) {
@@ -355,7 +355,7 @@ const CalendarUtils = {
 							startDate = moment(curEvent.start);
 							duration = parseInt(moment(curEvent.end).format("x")) - parseInt(startDate.format("x"));
 						}
-						// If there's no recurrence override, check for an exception date.  Exception dates represent exceptions to the rule.
+						// If there's no recurrence override, check for an exception date. Exception dates represent exceptions to the rule.
 						else if (curEvent.exdate !== undefined && curEvent.exdate[dateKey] !== undefined) {
 							// This date is an exception date, which means we should skip it in the recurrence pattern.
 							showRecurrence = false;
