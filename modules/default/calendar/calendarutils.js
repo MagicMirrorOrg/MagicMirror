@@ -320,21 +320,21 @@ const CalendarUtils = {
 						// This will be the correction, we need to apply.
 						let nowOffset = new Date().getTimezoneOffset();
 						// For full day events, the time might be off from RRULE/Luxon problem
-						// Get time zone offset of the rule calculated event
-						let dateoffset = date.getTimezoneOffset();
+						// Get time zone offset of the rule calculated event (in my local time zone).
+						let dateOffset = date.getTimezoneOffset();
 
 						// Reduce the time by the following offset.
-						Log.debug(" recurring date is " + date + " offset is " + dateoffset);
+						Log.debug(" recurring date is " + date + " offset is " + dateOffset);
 
 						let dh = moment(date).format("HH");
-						Log.debug(" recurring date is " + date + " offset is " + dateoffset / 60 + " Hour is " + dh);
+						Log.debug(" recurring date is " + date + " offset is " + dateOffset / 60 + " Hour is " + dh);
 
 						if (CalendarUtils.isFullDayEvent(event)) {
 							Log.debug("Fullday");
 						}
 
 						// If the offset is negative (east of GMT), where the problem is
-						if (dateoffset < 0) {
+						if (dateOffset < 0) {
 							// Remove the offset, independently of the comparison between the date hour and the offset,
 							// since in the case that *date houre < offset*, the *new Date* command will handle this by
 							// representing the day before.
@@ -350,7 +350,7 @@ const CalendarUtils = {
 							// if the timezones are the same, correct date if needed
 							if (event.start.tz === moment.tz.guess()) {
 								// if the date hour is less than the offset
-								if (24 - dh < Math.abs(dateoffset / 60)) {
+								if (24 - dh < Math.abs(dateOffset / 60)) {
 									// apply the correction to the date/time back to right day
 									date = new Date(date.getTime() + Math.abs(24 * 60) * 60000);
 									// the duration was calculated way back at the top before we could correct the start time..
