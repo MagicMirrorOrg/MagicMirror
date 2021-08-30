@@ -329,9 +329,7 @@ const CalendarUtils = {
 						let dh = moment(date).format("HH");
 						Log.debug(" recurring date is " + date + " offset is " + dateOffset / 60 + " Hour is " + dh);
 
-						if (CalendarUtils.isFullDayEvent(event)) {
-							Log.debug("Fullday");
-						}
+						Log.debug("Fullday: " + CalendarUtils.isFullDayEvent(event));
 
 						// If the offset is negative (east of GMT), where the problem is
 						if (dateOffset < 0) {
@@ -397,7 +395,7 @@ const CalendarUtils = {
 						}
 
 						if (showRecurrence === true) {
-							Log.debug("saving event: " + description);
+							Log.debug("saving event: " + recurrenceTitle);
 							addedEvents++;
 							newEvents.push({
 								title: recurrenceTitle,
