@@ -130,7 +130,7 @@ WeatherProvider.register("weathergov", {
 				// excellent, let's fetch some actual wx data
 				this.configURLs = true;
 				// handle 'forecast' config, fall back to 'current'
-				if (config.type == "forecast") {
+				if (config.type === "forecast") {
 					this.fetchWeatherForecast();
 				} else {
 					this.fetchCurrentWeather();
