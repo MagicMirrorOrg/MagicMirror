@@ -19,7 +19,8 @@ let mainWindow;
  *
  */
 function createWindow() {
-	app.commandLine.appendSwitch("autoplay-policy", "no-user-gesture-required");
+	let electronSwitchesDefaults = ["autoplay-policy", "no-user-gesture-required"];
+	app.commandLine.appendSwitch(...new Set(electronSwitchesDefaults, config.electronSwitches));
 	let electronOptionsDefaults = {
 		width: 800,
 		height: 600,
