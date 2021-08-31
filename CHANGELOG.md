@@ -11,7 +11,7 @@ _This release is scheduled to be released on 2021-10-01._
 
 ### Added
 
-- Added showTime parameter to clock module for enabling/disabling time display in analog clock
+- Added showTime parameter to clock module for enabling/disabling time display in digital clock
 
 ### Updated
 

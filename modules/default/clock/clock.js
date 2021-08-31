@@ -19,7 +19,7 @@ Module.register("clock", {
 		showPeriodUpper: false,
 		clockBold: false,
 		showDate: true,
-		showTime: false,
+		showTime: true,
 		showWeek: false,
 		dateFormat: "dddd, LL",
 
@@ -147,7 +147,7 @@ Module.register("clock", {
 			digitalWrapper.appendChild(dateWrapper);
 		}
 
-		if (this.config.showTime || this.config.displayType !== "analog") {
+		if (this.config.displayType !== "analog" && this.config.showTime) {
 			timeWrapper.innerHTML = timeString;
 			secondsWrapper.innerHTML = now.format("ss");
 			if (this.config.showPeriodUpper) {
