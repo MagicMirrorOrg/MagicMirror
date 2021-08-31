@@ -105,7 +105,8 @@ WeatherProvider.register("smhi", {
 	 * @returns {WeatherObject} The converted weatherdata at the specified location
 	 */
 	convertWeatherDataToObject(weatherData, coordinates) {
-		let currentWeather = new WeatherObject("metric", "metric", "metric"); //Weather data is only for Sweden and nobody in Sweden would use imperial
+		// Weather data is only for Sweden and nobody in Sweden would use imperial
+		let currentWeather = new WeatherObject("metric", "metric", "metric");
 
 		currentWeather.date = moment(weatherData.validTime);
 		let times = SunCalc.getTimes(currentWeather.date.toDate(), coordinates.lat, coordinates.lon);
@@ -115,9 +116,11 @@ WeatherProvider.register("smhi", {
 		currentWeather.temperature = this.paramValue(weatherData, "t");
 		currentWeather.windSpeed = this.paramValue(weatherData, "ws");
 		currentWeather.windDirection = this.paramValue(weatherData, "wd");
-		currentWeather.weatherType = this.convertWeatherType(this.paramValue(weatherData, "Wsymb2"), this.isDayTime(currentWeather));
+		currentWeather.weatherType = this.convertWeatherType(this.paramValue(weatherData, "Wsymb2"), currentWeather.isDayTime());
 
-		//Determine the precipitation amount and category and update the weatherObject with it, the valuetype to use can be configured or uses median as default.
+		// Determine the precipitation amount and category and update the
+		// weatherObject with it, the valuetype to use can be configured or uses
+		// median as default.
 		let precipitationValue = this.paramValue(weatherData, this.config.precipitationValue);
 		switch (this.paramValue(weatherData, "pcat")) {
 			// 0 = No precipitation
@@ -171,7 +174,7 @@ WeatherProvider.register("smhi", {
 			}
 
 			//Keep track of what icons has been used for each hour of daytime and use the middle one for the forecast
-			if (this.isDayTime(weatherObject)) {
+			if (weatherObject.isDayTime()) {
 				dayWeatherTypes.push(weatherObject.weatherType);
 			}
 			if (dayWeatherTypes.length > 0) {
@@ -199,16 +202,6 @@ WeatherProvider.register("smhi", {
 	 */
 	resolveCoordinates(data) {
 		return { lat: data.geometry.coordinates[0][1], lon: data.geometry.coordinates[0][0] };
-	},
-
-	/**
-	 * Checks if the weatherObject is at dayTime.
-	 *
-	 * @param {WeatherObject} weatherObject The weatherObject to look at
-	 * @returns {boolean} true if it is at dayTime
-	 */
-	isDayTime(weatherObject) {
-		return weatherObject.date.isBetween(weatherObject.sunrise, weatherObject.sunset, undefined, "[]");
 	},
 
 	/**

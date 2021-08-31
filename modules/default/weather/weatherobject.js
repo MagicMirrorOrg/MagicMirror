@@ -117,6 +117,15 @@ class WeatherObject {
 	}
 
 	/**
+	 * Checks if the weatherObject is at dayTime.
+	 *
+	 * @returns {boolean} true if it is at dayTime
+	 */
+	isDayTime() {
+		return this.date.isBetween(this.sunrise, this.sunset, undefined, "[]");
+	}
+
+	/**
 	 * Update the sunrise / sunset time depending on the location
 	 *
 	 * @param {number} lat latitude
