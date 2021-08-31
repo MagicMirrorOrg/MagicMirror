@@ -158,16 +158,11 @@ WeatherProvider.register("weathergov", {
 		currentWeather.precipitation = this.convertLength(currentWeatherData.precipitationLastHour.value);
 		currentWeather.feelsLikeTemp = this.convertTemp(currentWeatherData.heatIndex.value);
 
-		let isDaytime = true;
-		if (currentWeatherData.icon.includes("day")) {
-			isDaytime = true;
-		} else {
-			isDaytime = false;
-		}
-		currentWeather.weatherType = this.convertWeatherType(currentWeatherData.textDescription, isDaytime);
-
 		// determine the sunrise/sunset times - not supplied in weather.gov data
 		currentWeather.updateSunTime(this.config.lat, this.config.lon);
+
+		// update weatherType
+		currentWeather.weatherType = this.convertWeatherType(currentWeatherData.textDescription, currentWeather.isDayTime());
 
 		return currentWeather;
 	},
