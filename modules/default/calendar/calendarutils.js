@@ -315,7 +315,7 @@ const CalendarUtils = {
 						let dh = moment(date).format("HH");
 
 						// Reduce the time by the following offset.
-						Log.debug(" recurring date is " + date + " with an offset of " + dateLocalOffset + "[min], " + dateLocalOffset/60 + "[hour], which is " + dh);
+						Log.debug(" recurring date is " + date + " with an offset of " + dateLocalOffset + "[min], " + dateLocalOffset/60 + "[hour], " + dh);
 						Log.debug("Absolute time zone offset: " + Math.abs(dateLocalOffset) + "[min].");
 						Log.debug("Fullday: " + CalendarUtils.isFullDayEvent(event));
 
@@ -346,7 +346,8 @@ const CalendarUtils = {
 						startDate = moment(date);
 						Log.debug("Next startDate with corrected time zone offset (local): " + startDate.toDate());
 
-						let adjustDays = CalendarUtils.calculateTimezoneAdjustment(event, date);
+						// let adjustDays = CalendarUtils.calculateTimezoneAdjustment(event, date);
+						let adjustDays = 0;
 
 						// For each date that we're checking, it's possible that there is a recurrence override for that one day.
 						if (curEvent.recurrences !== undefined && curEvent.recurrences[dateKey] !== undefined) {
@@ -360,16 +361,30 @@ const CalendarUtils = {
 							// This date is an exception date, which means we should skip it in the recurrence pattern.
 							showRecurrence = false;
 						}
-						Log.debug("duration: " + duration);
+						
+						// The end date of the next (!) recurring event has to be calculated
+						if (CalendarUtils.isFullDayEvent(curEvent)) {
+							// either by adding a full day, if the event is a full day event
+							endDate = moment(parseInt(startDate.format("x"))).add(1, "days");
+							Log.debug("Next endDate (based on startDate - fullday event - local): " + endDate.toDate());
+						} else {
+							// or by adding the duration of the (first) event
+							// by subtracting *endDate - startDate*
+							// and adding this duration to the startDate of the next (!) recurring event.
+							Log.debug("duration: " + duration);
+							endDate = moment(parseInt(startDate.format("x")) + duration, "x");
+							Log.debug("Next endDate (based on startDate - duration - local): " + endDate.toDate());
+						}
 
-						// The end date of the next (!) recurring event has to be calculated by adding the duration of the (first) event
-						// by subtracting *endDate - startDate*
-						// and adding this duration to the startDate of the next (!) recurring event.
-						endDate = moment(parseInt(startDate.format("x")) + duration, "x");
-						// If the duration is 0, automatically set endDate to end of the day.
+						// If the endDate is equal to the startDate (by adding 1 day) or the duration is 0,
+						// automatically set the endDate to end of this day.
 						if (startDate.format("x") === endDate.format("x")) {
+							Log.debug("Start and End are equal.");
 							endDate = endDate.endOf("day");
 						}
+
+						Log.debug("startDate (final): " + startDate.toDate());
+						Log.debug("endDate (final): " + endDate.toDate());
 
 						const recurrenceTitle = CalendarUtils.getTitleFromEvent(curEvent);
 
@@ -384,7 +399,7 @@ const CalendarUtils = {
 						}
 
 						if (showRecurrence === true) {
-							Log.debug("saving event: " + recurrenceTitle);
+							Log.debug("Adding event: " + recurrenceTitle);
 							addedEvents++;
 							newEvents.push({
 								title: recurrenceTitle,
