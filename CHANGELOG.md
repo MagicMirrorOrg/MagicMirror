@@ -27,6 +27,7 @@ _This release is scheduled to be released on 2021-10-01._
 
 - Fix undefined error with ignoreToday option in weather module (#2620).
 - Fix time zone correction in calendar module when the date hour is equal to the time zone correction value (#2632).
+- Fix black cursor on startup when using electron.
 
 ## [2.16.0] - 2021-07-01
 
