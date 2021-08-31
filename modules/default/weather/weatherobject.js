@@ -12,6 +12,13 @@
  * As soon as we start implementing the forecast, mode properties will be added.
  */
 class WeatherObject {
+	/**
+	 *
+	 * @param units
+	 * @param tempUnits
+	 * @param windUnits
+	 * @param useKmh
+	 */
 	constructor(units, tempUnits, windUnits, useKmh) {
 		this.units = units;
 		this.tempUnits = tempUnits;
@@ -132,8 +139,14 @@ class WeatherObject {
 	 * @param {number} lon longitude
 	 */
 	updateSunTime(lat, lon) {
-		let times = SunCalc.getTimes(new Date(), lat, lon);
+		let now = !this.date ? new Date() : this.date.toDate();
+		let times = SunCalc.getTimes(now, lat, lon);
 		this.sunrise = moment(times.sunrise, "X");
 		this.sunset = moment(times.sunset, "X");
 	}
+}
+
+/*************** DO NOT EDIT THE LINE BELOW ***************/
+if (typeof module !== "undefined") {
+	module.exports = WeatherObject;
 }
