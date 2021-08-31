@@ -1,3 +1,5 @@
+/* global SunCalc */
+
 /* Magic Mirror
  * Module: Weather
  *
@@ -112,5 +114,17 @@ class WeatherObject {
 		}
 
 		return this.tempUnits === "imperial" ? feelsLike : ((feelsLike - 32) * 5) / 9;
+	}
+
+	/**
+	 * Update the sunrise / sunset time depending on the location
+	 *
+	 * @param {number} lat latitude
+	 * @param {number} lon longitude
+	 */
+	updateSunTime(lat, lon) {
+		let times = SunCalc.getTimes(new Date(), lat, lon);
+		this.sunrise = moment(times.sunrise, "X");
+		this.sunset = moment(times.sunset, "X");
 	}
 }

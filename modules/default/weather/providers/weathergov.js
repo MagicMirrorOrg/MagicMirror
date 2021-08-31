@@ -167,9 +167,7 @@ WeatherProvider.register("weathergov", {
 		currentWeather.weatherType = this.convertWeatherType(currentWeatherData.textDescription, isDaytime);
 
 		// determine the sunrise/sunset times - not supplied in weather.gov data
-		let times = this.calcAstroData(this.config.lat, this.config.lon);
-		currentWeather.sunrise = times[0];
-		currentWeather.sunset = times[1];
+		currentWeather.updateSunTime(this.config.lat, this.config.lon);
 
 		return currentWeather;
 	},
@@ -270,20 +268,6 @@ WeatherProvider.register("weathergov", {
 		} else {
 			return meters;
 		}
-	},
-
-	/*
-	 * Calculate the astronomical data
-	 */
-	calcAstroData(lat, lon) {
-		const sunTimes = [];
-
-		// determine the sunrise/sunset times
-		let times = SunCalc.getTimes(new Date(), lat, lon);
-		sunTimes.push(moment(times.sunrise, "X"));
-		sunTimes.push(moment(times.sunset, "X"));
-
-		return sunTimes;
 	},
 
 	/*
