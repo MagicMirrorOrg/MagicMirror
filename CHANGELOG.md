@@ -22,6 +22,7 @@ _This release is scheduled to be released on 2021-10-01._
 - Update jsdocs and print warnings during testing too
 - Update weathergov provider to try fetching not just current, but also foreacst, when API URLs available.
 - Refactored clock layout
+- Refactored part of the calendar module (calendarutils.js).
 
 ### Fixed
 
