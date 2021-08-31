@@ -315,7 +315,7 @@ const CalendarUtils = {
 						let dh = moment(date).format("HH");
 
 						// Reduce the time by the following offset.
-						Log.debug(" recurring date is " + date + " with an offset of " + dateLocalOffset + "[min], " + dateLocalOffset/60 + "[hour], " + dh);
+						Log.debug(" recurring date is " + date + " with an offset of " + dateLocalOffset + "[min], " + dateLocalOffset / 60 + "[hour], " + dh);
 						Log.debug("Absolute time zone offset: " + Math.abs(dateLocalOffset) + "[min].");
 						Log.debug("Fullday: " + CalendarUtils.isFullDayEvent(event));
 
@@ -361,7 +361,7 @@ const CalendarUtils = {
 							// This date is an exception date, which means we should skip it in the recurrence pattern.
 							showRecurrence = false;
 						}
-						
+
 						// The end date of the next (!) recurring event has to be calculated
 						if (CalendarUtils.isFullDayEvent(curEvent)) {
 							// either by adding a full day, if the event is a full day event
