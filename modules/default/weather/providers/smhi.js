@@ -109,9 +109,7 @@ WeatherProvider.register("smhi", {
 		let currentWeather = new WeatherObject("metric", "metric", "metric");
 
 		currentWeather.date = moment(weatherData.validTime);
-		let times = SunCalc.getTimes(currentWeather.date.toDate(), coordinates.lat, coordinates.lon);
-		currentWeather.sunrise = moment(times.sunrise, "X");
-		currentWeather.sunset = moment(times.sunset, "X");
+		currentWeather.updateSunTime(coordinates.lat, coordinates.lon);
 		currentWeather.humidity = this.paramValue(weatherData, "r");
 		currentWeather.temperature = this.paramValue(weatherData, "t");
 		currentWeather.windSpeed = this.paramValue(weatherData, "ws");
