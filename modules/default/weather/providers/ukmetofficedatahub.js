@@ -150,11 +150,9 @@ WeatherProvider.register("ukmetofficedatahub", {
 		}
 
 		// Determine the sunrise/sunset times - (still) not supplied in UK Met Office data
-		// Passes {longitude, latitude, height} to calcAstroData
-		// Could just pass lat/long from this.config, but returned data from MO also contains elevation
-		let times = this.calcAstroData(currentWeatherData.features[0].geometry.coordinates);
-		currentWeather.sunrise = times[0];
-		currentWeather.sunset = times[1];
+		// Passes {longitude, latitude} to SunCalc, could pass height to, but
+		// SunCalc.getTimes doesnt take that into account
+		currentWeather.updateSunTime(this.config.lat, this.config.lon);
 
 		return currentWeather;
 	},
@@ -223,7 +221,6 @@ WeatherProvider.register("ukmetofficedatahub", {
 
 				// Pass on full details so they can be used in custom templates
 				// Note the units of the supplied data when using this (see top of file)
-
 				forecastWeather.rawData = forecastDataDays[day];
 
 				dailyForecasts.push(forecastWeather);
@@ -236,18 +233,6 @@ WeatherProvider.register("ukmetofficedatahub", {
 	// Set the fetched location name.
 	setFetchedLocation: function (name) {
 		this.fetchedLocationName = name;
-	},
-
-	// Calculate sunrise/sunset times
-	calcAstroData(location) {
-		const sunTimes = [];
-
-		// Careful to pass values to SunCalc in correct order (latitude, longitude, elevation)
-		let times = SunCalc.getTimes(new Date(), location[1], location[0], location[2]);
-		sunTimes.push(moment(times.sunrise, "X"));
-		sunTimes.push(moment(times.sunset, "X"));
-
-		return sunTimes;
 	},
 
 	// Convert temperatures to Fahrenheit (from degrees C), if required
