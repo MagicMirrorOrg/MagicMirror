@@ -164,9 +164,7 @@ WeatherProvider.register("envcanada", {
 	// CORS errors when accessing EC
 	//
 	getUrl() {
-		const path = "https://thingproxy.freeboard.io/fetch/https://dd.weather.gc.ca/citypage_weather/xml/" + this.config.provCode + "/" + this.config.siteCode + "_e.xml";
-
-		return path;
+		return "https://thingproxy.freeboard.io/fetch/https://dd.weather.gc.ca/citypage_weather/xml/" + this.config.provCode + "/" + this.config.siteCode + "_e.xml";
 	},
 
 	//

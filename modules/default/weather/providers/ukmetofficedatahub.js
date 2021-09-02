@@ -71,13 +71,11 @@ WeatherProvider.register("ukmetofficedatahub", {
 	// For DataHub requests, the API key/secret are sent in the headers rather than as query strings.
 	// Headers defined according to Data Hub API (https://metoffice.apiconnect.ibmcloud.com/metoffice/production/api)
 	getHeaders() {
-		let headers = {
+		return {
 			accept: "application/json",
 			"x-ibm-client-id": this.config.apiKey,
 			"x-ibm-client-secret": this.config.apiSecret
 		};
-
-		return headers;
 	},
 
 	// Fetch data using supplied URL and request headers

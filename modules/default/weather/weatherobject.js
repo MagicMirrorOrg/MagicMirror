@@ -90,8 +90,7 @@ class WeatherObject {
 	}
 
 	kmhWindSpeed() {
-		const windInKmh = this.windUnits === "imperial" ? this.windSpeed * 1.609344 : (this.windSpeed * 60 * 60) / 1000;
-		return windInKmh;
+		return this.windUnits === "imperial" ? this.windSpeed * 1.609344 : (this.windSpeed * 60 * 60) / 1000;
 	}
 
 	nextSunAction() {
