@@ -25,6 +25,7 @@
 		"prettier/prettier": "error",
 		"eqeqeq": "error",
 		"no-prototype-builtins": "off",
-		"no-unused-vars": "off"
+		"no-unused-vars": "off",
+		"no-useless-return": "error"
 	}
 }

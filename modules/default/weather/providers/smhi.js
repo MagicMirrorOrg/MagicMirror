@@ -1,4 +1,4 @@
-/* global WeatherProvider, WeatherObject, SunCalc */
+/* global WeatherProvider, WeatherObject */
 
 /* Magic Mirror
  * Module: Weather

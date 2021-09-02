@@ -513,8 +513,6 @@ WeatherProvider.register("envcanada", {
 				weather.maxTemperature = this.convertTemp(nextTemp);
 			}
 		}
-
-		return;
 	},
 
 	//
@@ -560,8 +558,6 @@ WeatherProvider.register("envcanada", {
 			weather.precipitation = foreGroup[today].querySelector("abbreviatedForecast pop").textContent;
 			weather.precipitationUnits = foreGroup[today].querySelector("abbreviatedForecast pop").getAttribute("units");
 		}
-
-		return;
 	},
 
 	//
