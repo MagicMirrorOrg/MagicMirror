@@ -13,11 +13,12 @@
  */
 class WeatherObject {
 	/**
+	 * Constructor for a WeatherObject
 	 *
-	 * @param units
-	 * @param tempUnits
-	 * @param windUnits
-	 * @param useKmh
+	 * @param {string} units what units to use, "imperial" or "metric"
+	 * @param {string} tempUnits what tempunits to use
+	 * @param {string} windUnits what windunits to use
+	 * @param {boolean} useKmh use kmh if true, mps if false
 	 */
 	constructor(units, tempUnits, windUnits, useKmh) {
 		this.units = units;

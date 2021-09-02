@@ -232,16 +232,16 @@ WeatherProvider.register("ukmetoffice", {
 		return windCardinals.hasOwnProperty(windDirection) ? windCardinals[windDirection] : null;
 	},
 
-	/*
+	/**
 	 * Generates an url with api parameters based on the config.
 	 *
-	 * return String - URL params.
+	 * @param {string} forecastType daily or 3hourly forecast
+	 * @returns {string} url
 	 */
 	getParams(forecastType) {
 		let params = "?";
 		params += "res=" + forecastType;
 		params += "&key=" + this.config.apiKey;
-
 		return params;
 	}
 });
