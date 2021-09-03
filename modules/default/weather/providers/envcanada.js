@@ -164,9 +164,7 @@ WeatherProvider.register("envcanada", {
 	// CORS errors when accessing EC
 	//
 	getUrl() {
-		const path = "https://thingproxy.freeboard.io/fetch/https://dd.weather.gc.ca/citypage_weather/xml/" + this.config.provCode + "/" + this.config.siteCode + "_e.xml";
-
-		return path;
+		return "https://thingproxy.freeboard.io/fetch/https://dd.weather.gc.ca/citypage_weather/xml/" + this.config.provCode + "/" + this.config.siteCode + "_e.xml";
 	},
 
 	//
@@ -513,8 +511,6 @@ WeatherProvider.register("envcanada", {
 				weather.maxTemperature = this.convertTemp(nextTemp);
 			}
 		}
-
-		return;
 	},
 
 	//
@@ -560,8 +556,6 @@ WeatherProvider.register("envcanada", {
 			weather.precipitation = foreGroup[today].querySelector("abbreviatedForecast pop").textContent;
 			weather.precipitationUnits = foreGroup[today].querySelector("abbreviatedForecast pop").getAttribute("units");
 		}
-
-		return;
 	},
 
 	//

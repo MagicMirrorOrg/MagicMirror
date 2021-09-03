@@ -20,9 +20,10 @@ _This release is scheduled to be released on 2021-10-01._
 - Refactor test configs, use default test config for all tests.
 - Updated github templates.
 - Actually test all js and css files when lint script is run.
-- Update jsdocs and print warnings during testing too
+- Update jsdocs and print warnings during testing too.
 - Update weathergov provider to try fetching not just current, but also foreacst, when API URLs available.
-- Refactored clock layout
+- Refactored clock layout.
+- Refactored methods from weatherproviders into weatherobject (isDaytime, updateSunTime).
 
 ### Fixed
 
