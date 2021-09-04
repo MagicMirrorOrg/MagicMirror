@@ -1,5 +1,5 @@
-const SimpleGit = require("simple-git");
-const simpleGits = [];
+const { exec } = require("child_process");
+const gitRepos = [];
 const fs = require("fs");
 const path = require("path");
 const defaultModules = require(__dirname + "/../defaultmodules.js");
@@ -18,7 +18,7 @@ module.exports = NodeHelper.create({
 		// Push MagicMirror itself , biggest chance it'll show up last in UI and isn't overwritten
 		// others will be added in front
 		// this method returns promises so we can't wait for every one to resolve before continuing
-		simpleGits.push({ module: "default", git: this.createGit(path.normalize(__dirname + "/../../../")) });
+		gitRepos.push({ module: "default", folder: path.normalize(__dirname + "/../../../") });
 
 		for (let moduleName in modules) {
 			if (!this.ignoreUpdateChecking(moduleName)) {
@@ -30,9 +30,10 @@ module.exports = NodeHelper.create({
 					// Throws error if file doesn't exist
 					fs.statSync(path.join(moduleFolder, ".git"));
 					// Fetch the git or throw error if no remotes
-					let git = await this.resolveRemote(moduleFolder);
-					// Folder has .git and has at least one git remote, watch this folder
-					simpleGits.unshift({ module: moduleName, git: git });
+					if (this.isGitRepo(moduleFolder)) {
+						// Folder has .git and has at least one git remote, watch this folder
+						gitRepos.unshift({ module: moduleName, folder: moduleFolder });
+					}
 				} catch (err) {
 					// Error when directory .git doesn't exist or doesn't have any remotes
 					// This module is not managed with git, skip
@@ -54,35 +55,88 @@ module.exports = NodeHelper.create({
 		}
 	},
 
-	resolveRemote: async function (moduleFolder) {
-		let git = this.createGit(moduleFolder);
-		let remotes = await git.getRemotes(true);
+	isGitRepo: function (moduleFolder) {
+		exec("cd " + moduleFolder + " && git remote -v", (err, stdout, stderr) => {
+			if (err) {
+				Log.error("Failed to fetch git data for " + moduleFolder + ": " + err);
+				return false;
+			}
+		});
 
-		if (remotes.length < 1 || remotes[0].name.length < 1) {
-			throw new Error("No valid remote for folder " + moduleFolder);
-		}
-
-		return git;
+		return true;
 	},
 
-	performFetch: async function () {
-		for (let sg of simpleGits) {
-			try {
-				let fetchData = await sg.git.fetch(["--dry-run"]).status();
-				let logData = await sg.git.log({ "-1": null });
 
-				if (logData.latest && "hash" in logData.latest) {
-					this.sendSocketNotification("STATUS", {
-						module: sg.module,
-						behind: fetchData.behind,
-						current: fetchData.current,
-						hash: logData.latest.hash,
-						tracking: fetchData.tracking
+	performFetch: function () {
+		for (let repo of gitRepos) {
+			let gitInfo = {
+				module: repo.module,
+				// commits behind:
+				behind: 0,
+				// branch name:
+				current: "",
+				// current hash:
+				hash: "",
+				// remote branch:
+				tracking: ""
+			};
+			exec("cd " + repo.folder + " && git rev-parse HEAD", (err, stdout, stderr) => {
+				if (err) {
+					Log.error("Failed to get current commit hash for " + repo.module + ": " + err + " " + stderr);
+				} else {
+					// console.log(stdout);
+					gitInfo.hash = stdout;
+					// console.log("hash: " + gitInfo.hash);
+					exec("cd " + repo.folder + " && git status -sb", (err, stdout, stderr) => {
+						if (err) {
+							Log.error("Failed to get git status for " + repo.module + ": " + err + " " + stderr);
+						} else {
+							let status = stdout.split("\n")[0];
+							// console.log(repo.module);
+							status = status.match(/(?![.#])([^.]*)/g);
+							gitInfo.current = status[0].trim();
+							// console.log("current: " + gitInfo.current);
+							status = status[1].split(" ");
+							gitInfo.tracking = status[0].trim();
+							// console.log("tracking: " + gitInfo.tracking);
+							if (status[2]) {
+								gitInfo.behind = parseInt(status[2].substring(0, status[2].length - 1));
+								// console.log("behind: " + gitInfo.behind);
+								this.sendSocketNotification("STATUS", gitInfo);
+							} else {
+								exec("cd " + repo.folder + " && git fetch --dry-run", (err, stdout, stderr) => {
+									if (err) {
+										Log.error("Failed to fetch git data for " + repo.module + ": " + err);
+									} else {
+										// console.log(repo.module);
+										// console.dir(stderr);
+										if (stderr !== "") {
+											// get behind
+											gitInfo.behind = 1;
+											let refs = stderr.split('\n')[1].match(/s*([a-z,0-9]+[\.]+[a-z,0-9]+)s*/g)[0];
+											// console.dir(refs);
+											if (refs === "") {
+												this.sendSocketNotification("STATUS", gitInfo);
+											} else {
+												exec("cd " + repo.folder + " && git rev-list --ancestry-path --count " + refs, (err, stdout, stderr) => {
+													gitInfo.behind = parseInt(stdout);
+													// console.log("behind: " + gitInfo.behind);
+													this.sendSocketNotification("STATUS", gitInfo);
+												});
+											}
+										}
+									}
+								});
+							}
+						}
 					});
 				}
-			} catch (err) {
-				Log.error("Failed to fetch git data for " + sg.module + ": " + err);
-			}
+			});
+		// let gitInfo = await this.getGitData(repo);
+			// if (gitInfo) {
+			// 	console.dir(gitInfo);
+			// 	this.sendSocketNotification("STATUS", gitInfo);
+			// }
 		}
 
 		this.scheduleNextFetch(this.config.updateInterval);
@@ -100,10 +154,6 @@ module.exports = NodeHelper.create({
 		}, delay);
 	},
 
-	createGit: function (folder) {
-		return SimpleGit({ baseDir: folder, timeout: { block: this.config.timeout } });
-	},
-
 	ignoreUpdateChecking: function (moduleName) {
 		// Should not check for updates for default modules
 		if (defaultModules.indexOf(moduleName) >= 0) {
@@ -119,3 +169,9 @@ module.exports = NodeHelper.create({
 		return false;
 	}
 });
+
+
+// [03.09.2021 23:02.36.382] [LOG]   hash: e19a42879896d2d8e2406fcb3fd4fdcf15d2ed6b
+// [03.09.2021 23:02.36.382] [LOG]   trackingorigin/master
+// [03.09.2021 23:02.36.714] [LOG]   hash: e40ddd4b69424349768b7e451d9c4f52ac4efe45
+// [03.09.2021 23:02.36.714] [LOG]   trackingorigin/develop
