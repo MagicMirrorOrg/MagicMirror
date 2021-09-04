@@ -483,7 +483,7 @@ const MM = (function () {
 
 			Log.setLogLevel(config.logLevel);
 
-			Translator.loadCoreTranslations(config.language);
+			Translator.init(config);
 			Loader.loadModules();
 		},
 

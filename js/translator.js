@@ -3,153 +3,356 @@
 /* Magic Mirror
  * Translator (l10n)
  *
- * By Christopher Fenner https://github.com/CFenner
+ * Rewritten by Seongnoh Sean Yi <eouia0819@gmail.com>
+ *
  * MIT Licensed.
  */
+
 const Translator = (function () {
+	/** @constant {string} languageCode BCP-47 format preferred. 'en' is default languageCode. */
+	const DEFAULT_LANGUAGE = "en";
+	/** @constant {string} localeCode BCP-47 format preferred. 'default'(system locale in many case) is default locale.*/
+	const DEFAULT_LOCALE = "default";
+	/** @constant {string} moduleIdentifier 'core' modules needs to be distinguished. */
+	const DEFAULT_CORE_MODULES = "core";
+
+	var _translations = {};
+	var _languages = [];
+	var _formatters = {};
+	var _locale = DEFAULT_LOCALE;
+	var _isInitialized = false;
+
 	/**
-	 * Load a JSON file via XHR.
+	 * Convert and return `Date` object from date-like something.
+	 *
+	 * @private
+	 * @param {*} dateLike - Date object or date like string.
+	 * @returns {Date} - Converted Date Object.
+	 */
+	function toDate(dateLike) {
+		if (dateLike instanceof Date && !isNaN(dateLike)) return dateLike;
+		var date = new Date(dateLike);
+		if (isNaN(date)) return dateLike;
+		return date;
+	}
+
+	/**
+	 * Load a JSON file via fetch.
 	 *
 	 * @param {string} file Path of the file we want to load.
-	 * @param {Function} callback Function called when done.
+	 * @returns {Promise<JSON|false>} `JSON object` of translation dictionary will be resolved on success. ('false` on fails)
 	 */
-	function loadJSON(file, callback) {
-		const xhr = new XMLHttpRequest();
-		xhr.overrideMimeType("application/json");
-		xhr.open("GET", file, true);
-		xhr.onreadystatechange = function () {
-			if (xhr.readyState === 4 && xhr.status === 200) {
-				// needs error handler try/catch at least
-				let fileinfo = null;
-				try {
-					fileinfo = JSON.parse(xhr.responseText);
-				} catch (exception) {
-					// nothing here, but don't die
-					Log.error(" loading json file =" + file + " failed");
-				}
-				callback(fileinfo);
+	async function loadJSON(file) {
+		return await fetch(file)
+			.then((response) => {
+				if (!response.ok) throw Error(response.statusText);
+				return response;
+			})
+			.then(async (response) => {
+				return await response.json();
+			})
+			.catch((err) => {
+				Log.info(file, "-", err.toString());
+				return false;
+			});
+	}
+
+	/**
+	 * Initialize Translator
+	 *
+	 * @public
+	 * @param {object} options - language, languages, locale value (usually from config)
+	 * @param {string} options.language - Usually Config.language for backward compatibility
+	 * @param {Array.<string>} options.languages - Array of prefer languages by order. Usually Config.languages
+	 * @param {string} options.locale - localeCode(BCP-47) to use in the Translator.
+	 * @returns {Promise<boolean>} - return _isInitialized
+	 */
+	async function init({ languages, language, locale } = {}) {
+		if (_isInitialized) {
+			Log.warn("Translator was already initialized.");
+			return false;
+		}
+		var candidates = [];
+		if (language) candidates.push(language);
+		if (languages) {
+			var sl = [];
+			if (typeof languages === "string") {
+				sl = languages.replaceAll(",", "").split(" ");
 			}
-		};
-		xhr.send(null);
+			if (Array.isArray(languages)) sl = languages;
+			for (let l of sl) {
+				if (!candidates.includes(l)) candidates.push(l);
+			}
+		}
+		_languages = [...candidates];
+		if (!_languages.includes(DEFAULT_LANGUAGE)) _languages.push(DEFAULT_LANGUAGE);
+		Log.log(`Translator prefer language order: ${_languages}`);
+
+		try {
+			_locale = Intl.getCanonicalLocales(locale)[0] || DEFAULT_LOCALE;
+		} catch (err) {
+			Log.warn(`Translator detects invalid locale format '${locale}'. Check config.`);
+			_locale = DEFAULT_LOCALE;
+		}
+		Log.log(`Translator locale: ${_locale}`);
+
+		registerFormatter("PluralRules", function ({ locale, value, options, rules } = {}) {
+			if (isNaN(value)) return value;
+			try {
+				const plural = new Intl.PluralRules(locale, options).select(value);
+				return rules[plural] ? rules[plural] : rules.other ? rules.other : value;
+			} catch (err) {
+				Log.error(err);
+				return value;
+			}
+		});
+		registerFormatter("ListFormat", function ({ locale, value, options } = {}) {
+			if (!Array.isArray(value)) return String(value) || value;
+			try {
+				return new Intl.ListFormat(locale, options).format(value);
+			} catch (err) {
+				Log.error(err);
+				return value;
+			}
+		});
+		registerFormatter("NumberFormat", function ({ locale, value, options } = {}) {
+			if (isNaN(value)) return String(value) || value;
+			try {
+				return new Intl.NumberFormat(locale, options).format(value);
+			} catch (err) {
+				Log.error(err);
+				return value;
+			}
+		});
+		registerFormatter("Select", function ({ value, rules } = {}) {
+			if (rules[value]) return rules[value];
+			return rules["other"] || String(value) || value;
+		});
+		registerFormatter("DateTimeFormat", function ({ locale, value, options } = {}) {
+			var date = toDate(value);
+			if (!(date instanceof Date)) return value;
+			try {
+				return new Intl.DateTimeFormat(locale, options).format(date);
+			} catch (err) {
+				Log.error(err);
+				return value;
+			}
+		});
+		registerFormatter("RelativeTimeFormat", function ({ locale, value, options, unit = "seconds" } = {}) {
+			if (isNaN(value)) return String(value) || value;
+			try {
+				return new Intl.RelativeTimeFormat(locale, options).format(value, unit);
+			} catch (err) {
+				Log.warn(`Invalid locale : ${locale}`);
+				return value;
+			}
+		});
+		registerFormatter("AutoScaledRelativeTimeFormat", function ({ locale, value, options = {} }) {
+			var date = toDate(value);
+			if (!(date instanceof Date)) return value;
+			var unit = "seconds";
+			var now = Date.now();
+			var diff = Math.round((date - now) / 1000);
+			var aDiff = Math.abs(diff);
+			var gap = diff;
+			const rules = [
+				["minutes", 60],
+				["hours", 60 * 60],
+				["days", 60 * 60 * 24],
+				["weeks", 60 * 60 * 24 * 7],
+				["months", 60 * 60 * 24 * 30],
+				["quarters", 60 * 60 * 24 * 90],
+				["years", 60 * 60 * 24 * 365]
+			];
+			for (let [u, f] of rules) {
+				if (Math.floor(aDiff / f) < 1) continue;
+				unit = u;
+				gap = Math.floor(diff / f);
+			}
+			return new Intl.RelativeTimeFormat(locale, options).format(gap, unit);
+		});
+
+		await loadTranslations(DEFAULT_CORE_MODULES, () => {
+			Log.log(`Translator is initialized.`);
+		});
+
+		_isInitialized = true;
+		return _isInitialized;
+	}
+
+	/**
+	 * Load translation dictionaries for specific module by prefer languages.
+	 * It will combine dictionaries of possible hierarchical fallback automatically. ('en-CA' will try to merge 'en-ca.json' and 'en.json' )
+	 *
+	 * @public
+	 * @param {object | string} module or 'core'
+	 * @param {Function} callback Executed when the translation dictionaries are loaded.
+	 */
+	async function loadTranslations(module, callback = () => {}) {
+		var moduleName = module.name ? module.name : module;
+		if (typeof _translations[moduleName] === "undefined") _translations[moduleName] = {};
+		for (let lang of _languages) {
+			var parts = lang.toLowerCase().split("-");
+			while (parts.length > 0) {
+				var langCode = parts.join("-");
+				var fileName = "translations/" + langCode + ".json";
+				var file = typeof module.file === "function" ? module.file(fileName) : "/" + fileName;
+				var json = await loadJSON(file);
+				if (json) {
+					_translations[moduleName][lang] = Object.assign({}, json, _translations[moduleName][lang]);
+					Log.log(`Dictionary merging: '${moduleName}/${langCode}' => '${moduleName}/${lang}'`);
+				}
+				parts.pop();
+			}
+		}
+		if (typeof callback === "function") callback();
+	}
+	/**
+	 * Parse translated message from dictionaries and return the result
+	 *
+	 * @public
+	 * @param {object} module - MM module where to seek the dictionary
+	 * @param {string} key - Term to translate
+	 * @param {object} variables - variables to replace matched pattern.
+	 * @returns {string} Translated result
+	 */
+	function translate(module, key, variables) {
+		var dictionaries = [];
+		if (module.name) dictionaries.push(module.name);
+		dictionaries.push(DEFAULT_CORE_MODULES);
+		var { dictionary, translation, language, criteria } = findTerm(dictionaries, key);
+		if (!translation) return null;
+		return parse(translation, dictionary, variables);
+	}
+
+	/**
+	 * Parse message with variables and formatters
+	 *
+	 * @private
+	 * @param {string} message - original term definition in the dictionary
+	 * @param {object} dictionary - dictionary to use
+	 * @param {object} variables - transferred variables from '.translate()'
+	 * @returns {string} parsed message
+	 */
+	function parse(message, dictionary, variables) {
+		var regex = new RegExp("{(?<key>[\\w\\.]+)(?<formatter>@\\w+)?}", "gm");
+		return message.replaceAll(regex, (...matched) => {
+			var key = matched[5].key;
+			var value = resurrect(key, variables);
+			var formatter = matched[5].formatter ? matched[5].formatter : null;
+			if (dictionary[formatter]) {
+				//var {format, locale = '', ...rest} = dictionary[formatter];
+				// To pass the old eslint...
+				var format = dictionary[formatter].format ? dictionary[formatter].format : null;
+				var locale = dictionary[formatter].locale ? dictionary[formatter].locale : _locale;
+				//var rest = Object.assign({}, dictionary[formatter])
+
+				if (_formatters[format]) {
+					/* // current MM's eslint seems not compatible with newest JS spec.
+					value = _formatters[format]({
+						locale: locale || _locale,
+						value: value, 
+						...rest
+					});
+					*/
+					// To pass the old eslint
+					var data = Object.assign({}, dictionary[formatter], { value: value, locale: locale || _locale });
+					value = _formatters[format](data);
+				}
+			}
+			return typeof value !== "undefined" ? value : matched[0];
+		});
+	}
+
+	/**
+	 * Convert reference for property of variables from text
+	 *
+	 * @private
+	 * @param {string} key - flatten string of referral object property
+	 * @param {object} variables - referral object
+	 * @returns {*} - value as object property resurrected from string
+	 */
+	function resurrect(key, variables) {
+		var parts = key.split(".");
+		if (parts.length === 1) return variables[key];
+		var part = parts.shift();
+		if (variables.hasOwnProperty(part)) {
+			return resurrect(parts.join("."), variables[part]);
+		} else {
+			return variables[part];
+		}
+	}
+
+	/**
+	 * Find term from given dictionaries and return the message definition
+	 *
+	 * @private
+	 * @param {Array.<dictionary>} dictionaries - To seek the term in which dictionaries.
+	 * @param {string} key - term to find
+	 * @returns {object} - dictionary, criteria, language, key, translation
+	 */
+	function findTerm(dictionaries, key) {
+		for (let d of dictionaries) {
+			if (!_translations[d]) continue;
+			for (let l of _languages) {
+				if (!_translations[d][l]) continue;
+				if (_translations[d][l][key]) {
+					return {
+						dictionary: _translations[d][l],
+						criteria: d,
+						language: l,
+						key: key,
+						translation: _translations[d][l][key]
+					};
+				}
+			}
+		}
+		return {};
+	}
+
+	/**
+	 * Register custom formatter
+	 *
+	 * @param {string} formatterName - format function identifier
+	 * @param {Function} func - format function
+	 */
+	function registerFormatter(formatterName, func) {
+		if (typeof func !== "function") {
+			Log.warn(`Translator formatter '${formatterName}' seems not valid function.`);
+		}
+		if (!_formatters.hasOwnProperty(formatterName)) {
+			_formatters[formatterName] = func;
+		} else {
+			Log.warn(`Translator formatter '${formatterName}' already exists.`);
+		}
+	}
+
+	/**
+	 * Return current registered languages. (from config.language and config.languages)
+	 *
+	 * @returns {Array<string>} current registered languages.
+	 */
+	function getLanguages() {
+		return _languages;
+	}
+
+	/**
+	 * Return current registered locale. (usually from config.locale (if possible, it will be regulated for BCP-47); DEFAULT => 'default')
+	 *
+	 * @returns {Array<string>} current registered locale.
+	 */
+	function getLocale() {
+		return _locale;
 	}
 
 	return {
-		coreTranslations: {},
-		coreTranslationsFallback: {},
-		translations: {},
-		translationsFallback: {},
-
-		/**
-		 * Load a translation for a given key for a given module.
-		 *
-		 * @param {Module} module The module to load the translation for.
-		 * @param {string} key The key of the text to translate.
-		 * @param {object} variables The variables to use within the translation template (optional)
-		 * @returns {string} the translated key
-		 */
-		translate: function (module, key, variables) {
-			variables = variables || {}; //Empty object by default
-
-			/**
-			 * Combines template and variables like:
-			 * template: "Please wait for {timeToWait} before continuing with {work}."
-			 * variables: {timeToWait: "2 hours", work: "painting"}
-			 * to: "Please wait for 2 hours before continuing with painting."
-			 *
-			 * @param {string} template Text with placeholder
-			 * @param {object} variables Variables for the placeholder
-			 * @returns {string} the template filled with the variables
-			 */
-			function createStringFromTemplate(template, variables) {
-				if (Object.prototype.toString.call(template) !== "[object String]") {
-					return template;
-				}
-				if (variables.fallback && !template.match(new RegExp("{.+}"))) {
-					template = variables.fallback;
-				}
-				return template.replace(new RegExp("{([^}]+)}", "g"), function (_unused, varName) {
-					return varName in variables ? variables[varName] : "{" + varName + "}";
-				});
-			}
-
-			if (this.translations[module.name] && key in this.translations[module.name]) {
-				// Log.log("Got translation for " + key + " from module translation: ");
-				return createStringFromTemplate(this.translations[module.name][key], variables);
-			}
-
-			if (key in this.coreTranslations) {
-				// Log.log("Got translation for " + key + " from core translation.");
-				return createStringFromTemplate(this.coreTranslations[key], variables);
-			}
-
-			if (this.translationsFallback[module.name] && key in this.translationsFallback[module.name]) {
-				// Log.log("Got translation for " + key + " from module translation fallback.");
-				return createStringFromTemplate(this.translationsFallback[module.name][key], variables);
-			}
-
-			if (key in this.coreTranslationsFallback) {
-				// Log.log("Got translation for " + key + " from core translation fallback.");
-				return createStringFromTemplate(this.coreTranslationsFallback[key], variables);
-			}
-
-			return key;
-		},
-
-		/**
-		 * Load a translation file (json) and remember the data.
-		 *
-		 * @param {Module} module The module to load the translation file for.
-		 * @param {string} file Path of the file we want to load.
-		 * @param {boolean} isFallback Flag to indicate fallback translations.
-		 * @param {Function} callback Function called when done.
-		 */
-		load(module, file, isFallback, callback) {
-			Log.log(`${module.name} - Load translation${isFallback && " fallback"}: ${file}`);
-
-			if (this.translationsFallback[module.name]) {
-				callback();
-				return;
-			}
-
-			loadJSON(module.file(file), (json) => {
-				const property = isFallback ? "translationsFallback" : "translations";
-				this[property][module.name] = json;
-				callback();
-			});
-		},
-
-		/**
-		 * Load the core translations.
-		 *
-		 * @param {string} lang The language identifier of the core language.
-		 */
-		loadCoreTranslations: function (lang) {
-			if (lang in translations) {
-				Log.log("Loading core translation file: " + translations[lang]);
-				loadJSON(translations[lang], (translations) => {
-					this.coreTranslations = translations;
-				});
-			} else {
-				Log.log("Configured language not found in core translations.");
-			}
-
-			this.loadCoreTranslationsFallback();
-		},
-
-		/**
-		 * Load the core translations fallback.
-		 * The first language defined in translations.js will be used.
-		 */
-		loadCoreTranslationsFallback: function () {
-			let first = Object.keys(translations)[0];
-			if (first) {
-				Log.log("Loading core translation fallback file: " + translations[first]);
-				loadJSON(translations[first], (translations) => {
-					this.coreTranslationsFallback = translations;
-				});
-			}
-		}
+		init,
+		loadTranslations,
+		translate,
+		registerFormatter,
+		getLanguages,
+		getLocale
 	};
 })();
 
-window.Translator = Translator;
+window.Translator = Translator; // `globalThis` instead `window` would be better.

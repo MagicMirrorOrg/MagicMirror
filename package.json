@@ -18,6 +18,7 @@
 		"test:js": "eslint 'js/**/*.js' 'modules/default/**/*.js' 'clientonly/*.js' 'serveronly/*.js' 'translations/*.js' 'vendor/*.js' 'tests/**/*.js' 'config/*' --config .eslintrc.json",
 		"test:css": "stylelint 'css/main.css' 'fonts/*.css' 'modules/default/**/*.css' 'vendor/*.css' --config .stylelintrc.json",
 		"test:calendar": "node ./modules/default/calendar/debug.js",
+		"test:translator": "NODE_ENV=test jest tests/unit/classes/translator_spec.js -i --forceExit",
 		"config:check": "node js/check_config.js",
 		"lint:prettier": "prettier . --write",
 		"lint:js": "eslint 'js/**/*.js' 'modules/default/**/*.js' 'clientonly/*.js' 'serveronly/*.js' 'translations/*.js' 'vendor/*.js' 'tests/**/*.js' 'config/*' --config .eslintrc.json --fix",
