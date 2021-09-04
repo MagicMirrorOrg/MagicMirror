@@ -438,6 +438,7 @@ Special thanks to @sdetweil for all his great contributions!
 - Update `ical.js` to solve various calendar issues.
 - Update weather city list url [#1676](https://github.com/MichMich/MagicMirror/issues/1676)
 - Only update clock once per minute when seconds aren't shown
+- Update weatherprovider documentation.
 
 ### Fixed
 
