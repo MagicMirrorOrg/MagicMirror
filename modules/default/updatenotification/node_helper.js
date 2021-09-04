@@ -1,4 +1,5 @@
-const { exec } = require("child_process");
+const util = require("util");
+const exec = util.promisify(require("child_process").exec);
 const gitRepos = [];
 const fs = require("fs");
 const path = require("path");
@@ -55,88 +56,79 @@ module.exports = NodeHelper.create({
 		}
 	},
 
-	isGitRepo: function (moduleFolder) {
-		exec("cd " + moduleFolder + " && git remote -v", (err, stdout, stderr) => {
-			if (err) {
-				Log.error("Failed to fetch git data for " + moduleFolder + ": " + err);
-				return false;
-			}
-		});
+	execShell: async function (command) {
+		let res = { stdout: "", stderr: "" };
+		const { stdout, stderr } = await exec(command);
 
-		return true;
+		res.stdout = stdout;
+		res.stderr = stderr;
+		return res;
 	},
 
+	isGitRepo: async function (moduleFolder) {
+		let res = await this.execShell("cd " + moduleFolder + " && git remote -v");
+		if (res.stderr) {
+			Log.error("Failed to fetch git data for " + moduleFolder + ": " + res.stderr);
+			return false;
+		} else {
+			return true;
+		}
+	},
 
-	performFetch: function () {
+	getRepoInfo: async function (repo) {
+		let gitInfo = {
+			module: repo.module,
+			// commits behind:
+			behind: 0,
+			// branch name:
+			current: "",
+			// current hash:
+			hash: "",
+			// remote branch:
+			tracking: ""
+		};
+		let res = await this.execShell("cd " + repo.folder + " && git rev-parse HEAD");
+		if (res.stderr) {
+			Log.error("Failed to get current commit hash for " + repo.module + ": " + res.stderr);
+		}
+		gitInfo.hash = res.stdout;
+		res = await this.execShell("cd " + repo.folder + " && git status -sb");
+		if (res.stderr) {
+			Log.error("Failed to get git status for " + repo.module + ": " + res.stderr);
+			// exit without git status info
+			return;
+		}
+		// get branch and remote
+		let status = res.stdout.split("\n")[0];
+		status = status.match(/(?![.#])([^.]*)/g);
+		gitInfo.current = status[0].trim();
+		status = status[1].split(" ");
+		gitInfo.tracking = status[0].trim();
+		if (status[2]) {
+			// git fetch was already called before so `git status -sb` delivers already the behind number
+			gitInfo.behind = parseInt(status[2].substring(0, status[2].length - 1));
+			return gitInfo;
+		}
+		res = await this.execShell("cd " + repo.folder + " && git fetch --dry-run");
+		// here the result is in stderr
+		if (res.stderr === "") return;
+		// set default > 0
+		gitInfo.behind = 1;
+		let refs = res.stderr.match(/s*([a-z,0-9]+[.][.][a-z,0-9]+)s*/g)[0];
+		if (refs === "") {
+			return gitInfo;
+		}
+		res = await this.execShell("cd " + repo.folder + " && git rev-list --ancestry-path --count " + refs);
+		gitInfo.behind = parseInt(res.stdout);
+		return gitInfo;
+	},
+
+	performFetch: async function () {
 		for (let repo of gitRepos) {
-			let gitInfo = {
-				module: repo.module,
-				// commits behind:
-				behind: 0,
-				// branch name:
-				current: "",
-				// current hash:
-				hash: "",
-				// remote branch:
-				tracking: ""
-			};
-			exec("cd " + repo.folder + " && git rev-parse HEAD", (err, stdout, stderr) => {
-				if (err) {
-					Log.error("Failed to get current commit hash for " + repo.module + ": " + err + " " + stderr);
-				} else {
-					// console.log(stdout);
-					gitInfo.hash = stdout;
-					// console.log("hash: " + gitInfo.hash);
-					exec("cd " + repo.folder + " && git status -sb", (err, stdout, stderr) => {
-						if (err) {
-							Log.error("Failed to get git status for " + repo.module + ": " + err + " " + stderr);
-						} else {
-							let status = stdout.split("\n")[0];
-							// console.log(repo.module);
-							status = status.match(/(?![.#])([^.]*)/g);
-							gitInfo.current = status[0].trim();
-							// console.log("current: " + gitInfo.current);
-							status = status[1].split(" ");
-							gitInfo.tracking = status[0].trim();
-							// console.log("tracking: " + gitInfo.tracking);
-							if (status[2]) {
-								gitInfo.behind = parseInt(status[2].substring(0, status[2].length - 1));
-								// console.log("behind: " + gitInfo.behind);
-								this.sendSocketNotification("STATUS", gitInfo);
-							} else {
-								exec("cd " + repo.folder + " && git fetch --dry-run", (err, stdout, stderr) => {
-									if (err) {
-										Log.error("Failed to fetch git data for " + repo.module + ": " + err);
-									} else {
-										// console.log(repo.module);
-										// console.dir(stderr);
-										if (stderr !== "") {
-											// get behind
-											gitInfo.behind = 1;
-											let refs = stderr.split('\n')[1].match(/s*([a-z,0-9]+[\.]+[a-z,0-9]+)s*/g)[0];
-											// console.dir(refs);
-											if (refs === "") {
-												this.sendSocketNotification("STATUS", gitInfo);
-											} else {
-												exec("cd " + repo.folder + " && git rev-list --ancestry-path --count " + refs, (err, stdout, stderr) => {
-													gitInfo.behind = parseInt(stdout);
-													// console.log("behind: " + gitInfo.behind);
-													this.sendSocketNotification("STATUS", gitInfo);
-												});
-											}
-										}
-									}
-								});
-							}
-						}
-					});
-				}
-			});
-		// let gitInfo = await this.getGitData(repo);
-			// if (gitInfo) {
-			// 	console.dir(gitInfo);
-			// 	this.sendSocketNotification("STATUS", gitInfo);
-			// }
+			const gitInfo = await this.getRepoInfo(repo);
+			if (gitInfo) {
+				this.sendSocketNotification("STATUS", gitInfo);
+			}
 		}
 
 		this.scheduleNextFetch(this.config.updateInterval);
@@ -169,9 +161,3 @@ module.exports = NodeHelper.create({
 		return false;
 	}
 });
-
-
-// [03.09.2021 23:02.36.382] [LOG]   hash: e19a42879896d2d8e2406fcb3fd4fdcf15d2ed6b
-// [03.09.2021 23:02.36.382] [LOG]   trackingorigin/master
-// [03.09.2021 23:02.36.714] [LOG]   hash: e40ddd4b69424349768b7e451d9c4f52ac4efe45
-// [03.09.2021 23:02.36.714] [LOG]   trackingorigin/develop
