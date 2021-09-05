@@ -87,22 +87,35 @@ module.exports = NodeHelper.create({
 			// remote branch:
 			tracking: ""
 		};
-		let res = await this.execShell("cd " + repo.folder + " && git rev-parse HEAD");
-		if (res.stderr) {
-			Log.error("Failed to get current commit hash for " + repo.module + ": " + res.stderr);
+		let res;
+		if (module === "default") {
+			// the hash is only needed for the mm repo
+			res = await this.execShell("cd " + repo.folder + " && git rev-parse HEAD");
+			if (res.stderr) {
+				Log.error("Failed to get current commit hash for " + repo.module + ": " + res.stderr);
+			}
+			gitInfo.hash = res.stdout;
 		}
-		gitInfo.hash = res.stdout;
 		res = await this.execShell("cd " + repo.folder + " && git status -sb");
 		if (res.stderr) {
 			Log.error("Failed to get git status for " + repo.module + ": " + res.stderr);
 			// exit without git status info
 			return;
 		}
-		// get branch and remote
+		// only the first line of stdout is evaluated
 		let status = res.stdout.split("\n")[0];
+		// examples for status:
+		// ## develop...origin/develop
+		// ## master...origin/master [behind 8]
 		status = status.match(/(?![.#])([^.]*)/g);
+		// examples for status:
+		// [ ' develop', 'origin/develop', '' ]
+		// [ ' master', 'origin/master [behind 8]', '' ]
 		gitInfo.current = status[0].trim();
 		status = status[1].split(" ");
+		// examples for status:
+		// [ 'origin/develop' ]
+		// [ 'origin/master', '[behind', '8]' ]
 		gitInfo.tracking = status[0].trim();
 		if (status[2]) {
 			// git fetch was already called before so `git status -sb` delivers already the behind number
@@ -110,14 +123,18 @@ module.exports = NodeHelper.create({
 			return gitInfo;
 		}
 		res = await this.execShell("cd " + repo.folder + " && git fetch --dry-run");
-		// here the result is in stderr
+		// example output:
+		// From https://github.com/MichMich/MagicMirror
+		//    e40ddd4..06389e3  develop    -> origin/develop
+		// here the result is in stderr (this is a git default, don't ask why ...)
 		if (res.stderr === "") return;
-		// set default > 0
-		gitInfo.behind = 1;
 		let refs = res.stderr.match(/s*([a-z,0-9]+[.][.][a-z,0-9]+)s*/g)[0];
 		if (refs === "") {
+			// if match fails set behind to a number greater 0 and return
+			gitInfo.behind = 1;
 			return gitInfo;
 		}
+		// get behind with refs
 		res = await this.execShell("cd " + repo.folder + " && git rev-list --ancestry-path --count " + refs);
 		gitInfo.behind = parseInt(res.stdout);
 		return gitInfo;
