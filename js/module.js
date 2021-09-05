@@ -304,24 +304,43 @@ const Module = Class.extend({
 	 * Load all translations.
 	 *
 	 * @param {Function} callback Function called when done.
+	 * @returns {Promise<boolean>} return promise.
 	 */
 	loadTranslations(callback) {
-		Translator.loadTranslations(this, callback);
+		return Translator.loadTranslations(this, callback);
 	},
 
 	/**
-	 * Request the translation for a given key with optional variables and default value.
+	 * Request the translation for a given key with optional variables and fallback.
 	 *
-	 * @param {string} key The key of the string to translate
-	 * @param {string|object} [defaultValueOrVariables] The default value or variables for translating.
-	 * @param {string} [defaultValue] The default value with variables.
-	 * @returns {string} the translated key
+	 * @param {string} key The key of the string to translate.
+	 * @param {...*} rest - list of arguments. all arguments are optional and distinguished by type.
+	 * @param {string|object} rest.fallbackOrVariables (optional) The fallback string or object contains variables for translating.
+	 * @param {string} rest.fallback (optional) fallback string.
+	 * @param {boolean} rest.asObject (optional) return result as object
+	 * @returns {string|object} the translated key
 	 */
-	translate: function (key, defaultValueOrVariables, defaultValue) {
-		if (typeof defaultValueOrVariables === "object") {
-			return Translator.translate(this, key, defaultValueOrVariables) || defaultValue || "";
+	translate: function (key, ...rest) {
+		const isBoolean = (val) => "boolean" === typeof val;
+		var fallbackOrVariables,
+			fallback,
+			asObject = false;
+		if (rest.length > 0) {
+			asObject = isBoolean(rest[rest.length - 1]) ? rest[rest.length - 1] : false;
+			if ("object" === typeof rest[0]) {
+				fallbackOrVariables = !isBoolean(rest[0]) ? rest[0] : null;
+				fallback = !isBoolean(rest[1]) ? (rest[1] ? rest[1] : "") : null;
+			} else {
+				fallback = !isBoolean(rest[0]) ? rest[0] : "";
+			}
 		}
-		return Translator.translate(this, key) || defaultValueOrVariables || "";
+		return Translator.translate({
+			moduleName: this.name,
+			key,
+			fallback,
+			asObject,
+			variables: fallbackOrVariables
+		});
 	},
 
 	/**

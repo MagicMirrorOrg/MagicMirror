@@ -30,7 +30,8 @@ const dictionaries = {
 	"MMM-Module": {
 		"en.json": {
 			TEST: "test(module/en)",
-			HELLO: "Hello (module)"
+			HELLO: "Hello (module)",
+			ONLY_EXIST_MODULE_EN: "only exists in module(en)"
 		},
 		"de.json": {
 			TEST: "test(module/de)",
@@ -38,12 +39,12 @@ const dictionaries = {
 			TEST_VARIABLES: "{number}, {obj.some.thing}, {arr.0}, {arr.1.value}",
 			TEST_PLURALRULES: "{number.0}{number.0@PLURAL_SELECT}, {number.1}{number.1@PLURAL_SELECT}, {number.2}{number.2@PLURAL_SELECT}",
 			TEST_NUMBERFORMAT: "{number@CURRENCY}",
-			TEST_LISTFORMAT: "{arr@LIST}",
+			TEST_LISTFORMAT: "{colors@LIST}",
 			TEST_DATETIMEFORMAT: "{date@DATE}",
 			TEST_RELATIVEFORMAT: "{target@RELATIVE_DAY}",
 			TEST_AUTOSCALEFORMAT: "{target@AUTOSCALE}",
 			TEST_SELECT: "{condition@GREETING}, {user}!",
-			TEST_CUSTOM: "Temp: {roomTemperature@TEMP_C2F}",
+			TEST_CUSTOM: "Temp: {roomTemperature@TEMPERATURE}",
 
 			"@PLURAL_SELECT": {
 				locale: "en-US",
@@ -102,15 +103,16 @@ const dictionaries = {
 					other: "Hi"
 				}
 			},
-			"@TEMP_C2F": {
-				format: "Temperature",
-				options: { unit: "farenheit" }
+			"@TEMPERATURE": {
+				format: "TemperatureConverter",
+				options: { convert: "c2f", unit: "°F" }
 			}
 		}
 	}
 };
 
 const fetch = async (url) => {
+	// fake fetch
 	var response = {};
 	let dict = path.parse(url).base;
 	var directory = path.parse(url).dir.split("/")[1];
@@ -124,357 +126,299 @@ const fetch = async (url) => {
 	return response;
 };
 
-const MM_Module = {
-	name: "MMM-Module",
-	file: (filePath) => {
-		return "/MMM-Module" + "/" + filePath;
+class FakeModule {
+	constructor(name) {
+		this.name = name;
+		this._translator = null;
 	}
-};
+
+	file(filePath) {
+		return "/" + this.name + "/" + filePath;
+	}
+
+	translate(key, ...rest) {
+		const isBoolean = (val) => "boolean" === typeof val;
+		var fallbackOrVariables,
+			fallback,
+			asObject = false;
+		if (rest.length > 0) {
+			asObject = isBoolean(rest[rest.length - 1]) ? rest[rest.length - 1] : false;
+			if ("object" === typeof rest[0]) {
+				fallbackOrVariables = !isBoolean(rest[0]) ? rest[0] : null;
+				fallback = !isBoolean(rest[1]) ? (rest[1] ? rest[1] : "") : null;
+			} else {
+				fallback = !isBoolean(rest[0]) ? rest[0] : "";
+			}
+		}
+		return this._translator.translate({
+			moduleName: this.name,
+			key,
+			fallback,
+			asObject,
+			variables: fallbackOrVariables
+		});
+	}
+
+	async loadTranslations() {
+		return await this._translator.loadTranslations(this);
+	}
+
+	_injectTranslator(translator) {
+		this._translator = translator;
+	}
+}
 
 describe("Translator", function () {
 	describe("init", function () {
-		it("initialize without parameter", function (done) {
-			const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
+		let dom;
+		let isLoaded = false;
+		let Translator;
+		beforeEach((done) => {
+			dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
 			dom.window.onload = async function () {
 				dom.window.fetch = fetch;
 				dom.window.Log = log;
-				const { Translator } = dom.window;
-				await Translator.init();
-				let locale = Translator.getLocale();
-				let language = Translator.getLanguages();
-				expect(locale).toBe("default");
-				expect(language.toString()).toBe(["en"].toString());
-				var text = Translator.translate("core", "HELLO");
-				expect(text).toBe("Hello");
-				done();
+				Translator = dom.window.Translator;
+				isLoaded = true;
 			};
+			var waitLoading = setTimeout(() => {
+				if (isLoaded) {
+					clearTimeout(waitLoading);
+					done();
+				} else {
+					waitLoading();
+				}
+			}, 10);
+		});
+		afterEach((done) => {
+			isLoaded = false;
+			done();
 		});
 
-		it("initialize with only config.language", function (done) {
-			const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
+		it("initialize without parameter", async function () {
+			expect(isLoaded).toBe(true);
+			await Translator.init();
+			let locale = Translator.getLocale();
+			let language = Translator.getLanguages();
+			expect(locale).toBe("default");
+			expect(language.toString()).toBe(["en"].toString());
+			var text = Translator.translate({ moduleName: "core", key: "HELLO" });
+			expect(text).toBe("Hello");
+		});
+
+		it("initialize with only config.language", async function () {
+			expect(isLoaded).toBe(true);
+			await Translator.init({ language: "de" });
+			let locale = Translator.getLocale();
+			let language = Translator.getLanguages();
+			expect(locale).toBe("default");
+			expect(language.toString()).toBe(["de", "en"].toString());
+			var text = Translator.translate({ moduleName: "core", key: "HELLO" });
+			expect(text).toBe("Hallo");
+		});
+
+		it("initialize with only config.languages (array)", async function () {
+			expect(isLoaded).toBe(true);
+			await Translator.init({ languages: ["de", "en-US"] });
+			let locale = Translator.getLocale();
+			let language = Translator.getLanguages();
+			expect(locale).toBe("default");
+			expect(language.join(",")).toBe(["de", "en-US", "en"].join(","));
+			var text = Translator.translate({ moduleName: "core", key: "HELLO" });
+			expect(text).toBe("Hallo");
+		});
+
+		it("initialize with only config.languages (string)", async function () {
+			expect(isLoaded).toBe(true);
+			await Translator.init({ languages: "de, en-US" });
+			let locale = Translator.getLocale();
+			let language = Translator.getLanguages();
+			expect(locale).toBe("default");
+			expect(language.join(",")).toBe(["de", "en-US", "en"].join(","));
+			var text = Translator.translate({ moduleName: "core", key: "HELLO" });
+			expect(text).toBe("Hallo");
+		});
+
+		it("initialize with config.languages and config.language together", async function () {
+			expect(isLoaded).toBe(true);
+			await Translator.init({ languages: ["en", "nl", "de"], language: "nl" });
+			let locale = Translator.getLocale();
+			let language = Translator.getLanguages();
+			expect(locale).toBe("default");
+			expect(language.join(",")).toBe(["nl", "en", "de"].join(","));
+			var text = Translator.translate({ moduleName: "core", key: "HELLO" });
+			expect(text).toBe("Hello");
+		});
+
+		it("initialize with invalid locale format", async function () {
+			expect(isLoaded).toBe(true);
+			await Translator.init({ locale: "en_US" });
+			let locale = Translator.getLocale();
+			expect(locale).toBe("default");
+			var text = Translator.translate({ moduleName: "core", key: "HELLO" });
+			expect(text).toBe("Hello");
+		});
+	}); // end of init test
+
+	describe("module translate", function () {
+		let dom;
+		let isLoaded = false;
+		let Translator;
+		const mmModule = new FakeModule("MMM-Module");
+
+		beforeAll((done) => {
+			dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
 			dom.window.onload = async function () {
 				dom.window.fetch = fetch;
 				dom.window.Log = log;
-				const { Translator } = dom.window;
-				var config = { language: "de" };
-				await Translator.init(config);
-				let locale = Translator.getLocale();
-				let language = Translator.getLanguages();
-				expect(locale).toBe("default");
-				expect(language.toString()).toBe(["de", "en"].toString());
-				var text = Translator.translate("core", "HELLO");
-				expect(text).toBe("Hallo");
-				done();
+				Translator = dom.window.Translator;
+				await Translator.init({ languages: "de-DE, en-US", locale: "de-DE" });
+				mmModule._injectTranslator(Translator);
+				await mmModule.loadTranslations();
+				isLoaded = true;
 			};
+			var waitLoading = setTimeout(() => {
+				if (isLoaded) {
+					clearTimeout(waitLoading);
+					done();
+				} else {
+					waitLoading();
+				}
+			}, 10);
 		});
 
-		it("initialize with only config.languages (array)", function (done) {
-			const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
-			dom.window.onload = async function () {
-				dom.window.fetch = fetch;
-				dom.window.Log = log;
-				const { Translator } = dom.window;
-				var config = { languages: ["de", "en-US"] };
-				await Translator.init(config);
-				let locale = Translator.getLocale();
-				let language = Translator.getLanguages();
-				expect(locale).toBe("default");
-				expect(language.join(",")).toBe(["de", "en-US", "en"].join(","));
-				var text = Translator.translate("core", "HELLO");
-				expect(text).toBe("Hallo");
-				done();
-			};
+		afterAll((done) => {
+			isLoaded = false;
+			done();
 		});
 
-		it("initialize with only config.languages (string)", function (done) {
-			const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
-			dom.window.onload = async function () {
-				dom.window.fetch = fetch;
-				dom.window.Log = log;
-				const { Translator } = dom.window;
-				var config = { languages: "de, en-US" };
-				await Translator.init(config);
-				let locale = Translator.getLocale();
-				let language = Translator.getLanguages();
-				expect(locale).toBe("default");
-				expect(language.join(",")).toBe(["de", "en-US", "en"].join(","));
-				var text = Translator.translate("core", "HELLO");
-				expect(text).toBe("Hallo");
-				done();
-			};
+		it("should load proper translations. (de.json, en.json)", async function () {
+			expect(isLoaded).toBe(true);
+			var text = mmModule.translate("ONLY_EXIST_MODULE_EN");
+			expect(text).toBe("only exists in module(en)");
 		});
 
-		it("initialize with config.languages and config.language together", function (done) {
-			const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
-			dom.window.onload = async function () {
-				dom.window.fetch = fetch;
-				dom.window.Log = log;
-				const { Translator } = dom.window;
-				var config = { languages: ["en", "nl", "de"], language: "nl" };
-				await Translator.init(config);
-				let locale = Translator.getLocale();
-				let language = Translator.getLanguages();
-				expect(locale).toBe("default");
-				expect(language.join(",")).toBe(["nl", "en", "de"].join(","));
-				var text = Translator.translate("core", "HELLO");
-				expect(text).toBe("Hello");
-				done();
-			};
+		it("should return 'null' when not found in dictionaries and no 'fallback' parameter.", async function () {
+			expect(isLoaded).toBe(true);
+			var text = mmModule.translate("WEIRD");
+			expect(text).toBe(null);
 		});
 
-		it("initialize with invalid locale format", function (done) {
-			const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
-			dom.window.onload = async function () {
-				dom.window.fetch = fetch;
-				dom.window.Log = log;
-				const { Translator } = dom.window;
-				var config = { locale: "en_US" };
-				await Translator.init(config);
-				let locale = Translator.getLocale();
-				expect(locale).toBe("default");
-				var text = Translator.translate("core", "HELLO");
-				expect(text).toBe("Hello");
-				done();
-			};
-		});
-	});
-
-	describe("loadTranslations", function () {
-		it("load core translations and test fallback", function (done) {
-			const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
-			dom.window.onload = async function () {
-				dom.window.fetch = fetch;
-				dom.window.Log = log;
-				const { Translator } = dom.window;
-				var config = { languages: "de, en-US" };
-				await Translator.init(config);
-				var text = Translator.translate("core", "HELLO");
-				expect(text).toBe("Hallo");
-				text = Translator.translate("core", "ONLY_EXIST_CORE_EN");
-				expect(text).toBe("only exists in core (en)");
-				done();
-			};
+		it("should return fallback when not found in dictionaries with fallback message", async function () {
+			expect(isLoaded).toBe(true);
+			var text = mmModule.translate("WEIRD", "blah blah");
+			expect(text).toBe("blah blah");
+			text = mmModule.translate("WEIRD", { obj: 1 }, "blah blah");
+			expect(text).toBe("blah blah");
 		});
 
-		it("load module translations and test fallback", function (done) {
-			const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
-			dom.window.onload = async function () {
-				dom.window.fetch = fetch;
-				dom.window.Log = log;
-				const { Translator } = dom.window;
-				var config = { languages: "de-DE, en-US" };
-				await Translator.init(config);
-				await Translator.loadTranslations(MM_Module);
-				var text = Translator.translate(MM_Module, "HELLO");
-				expect(text).toBe("Hallo (module)");
-				text = Translator.translate(MM_Module, "ONLY_EXIST_CORE_EN");
-				expect(text).toBe("only exists in core (en)");
-				done();
-			};
-		});
-	});
-
-	describe("translate", function () {
-		it("should return 'null' when not found in dictionaries", function (done) {
-			const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
-			dom.window.onload = async function () {
-				dom.window.fetch = fetch;
-				dom.window.Log = log;
-				const { Translator } = dom.window;
-				var config = { languages: "de-DE, en-US" };
-				await Translator.init(config);
-				await Translator.loadTranslations(MM_Module);
-				var text = Translator.translate(MM_Module, "WEIRD");
-				expect(text).toBe(null);
-				done();
-			};
+		it("should return text from `de (as fallback of 'de-DE')` for module.", async function () {
+			expect(isLoaded).toBe(true);
+			var text = mmModule.translate("HELLO");
+			expect(text).toBe("Hallo (module)");
 		});
 
-		it("test simple translation without variables.", function (done) {
-			const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
-			dom.window.onload = async function () {
-				dom.window.fetch = fetch;
-				dom.window.Log = log;
-				const { Translator } = dom.window;
-				var config = { languages: "de-DE, en-US" };
-				await Translator.init(config);
-				await Translator.loadTranslations(MM_Module);
-				var text = Translator.translate(MM_Module, "TEST");
-				expect(text).toBe("test(module/de)");
-				done();
-			};
+		it("should return object with 'asObject' parameter", async function () {
+			expect(isLoaded).toBe(true);
+			var text = mmModule.translate("HELLO", true);
+			expect(text.toString()).toBe("Hallo (module)");
+			text = mmModule.translate("HELLO", { obj: 1 }, true);
+			expect(text.toString()).toBe("Hallo (module)");
+			text = mmModule.translate("HELLO", { obj: 1 }, "blah blah", true);
+			expect(text.toString()).toBe("Hallo (module)");
 		});
 
-		it("test translation with variables (scalar variable, nested object property, array)", function (done) {
-			const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
-			dom.window.onload = async function () {
-				dom.window.fetch = fetch;
-				dom.window.Log = log;
-				const { Translator } = dom.window;
-				var config = { languages: "de-DE, en-US" };
-				await Translator.init(config);
-				await Translator.loadTranslations(MM_Module);
-				const testData = {
-					number: 1234,
-					obj: {
-						some: {
-							thing: "something"
-						}
-					},
-					arr: ["index0", { value: "value of index1" }]
-				};
-				var text = Translator.translate(MM_Module, "TEST_VARIABLES", testData);
-				expect(text).toBe("1234, something, index0, value of index1");
-				done();
+		it(`test translation with variables (scalar variable, nested object property, array)
+	> "{number}, {obj.some.thing}, {arr.0}, {arr.1.value}" => "1234, something, index0, value of index1"`, async function () {
+			expect(isLoaded).toBe(true);
+			const testData = {
+				number: 1234,
+				obj: {
+					some: {
+						thing: "something"
+					}
+				},
+				arr: ["index0", { value: "value of index1" }]
 			};
+			var text = mmModule.translate("TEST_VARIABLES", testData);
+			expect(text).toBe("1234, something, index0, value of index1");
 		});
 
-		it("test translation formatter(PluralRules) by force-locale in translation(en-US).", function (done) {
-			const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
-			dom.window.onload = async function () {
-				dom.window.fetch = fetch;
-				dom.window.Log = log;
-				const { Translator } = dom.window;
-				var config = { languages: "de-DE, en-US", locale: "de-DE" };
-				await Translator.init(config);
-				await Translator.loadTranslations(MM_Module);
-				const testData = {
-					number: [1, 2, 3]
-				};
-				var text = Translator.translate(MM_Module, "TEST_PLURALRULES", testData);
-				expect(text).toBe("1st, 2nd, 3rd");
-				done();
+		it(`test translation formatter(PluralRules) by force-locale in translation(en-US).
+	>  "{number.0}{number.0@PLURAL_SELECT}, {number.1}{number.1@PLURAL_SELECT}, {number.2}{number.2@PLURAL_SELECT}" => "1st, 2nd, 3rd"`, async function () {
+			expect(isLoaded).toBe(true);
+			const testData = {
+				number: [1, 2, 3]
 			};
+			var text = mmModule.translate("TEST_PLURALRULES", testData);
+			expect(text).toBe("1st, 2nd, 3rd");
 		});
 
-		it("test translation formatter(NumberFormat) by config locale(de-DE).", function (done) {
-			const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
-			dom.window.onload = async function () {
-				dom.window.fetch = fetch;
-				dom.window.Log = log;
-				const { Translator } = dom.window;
-				var config = { languages: "de-DE, en-US", locale: "de-DE" };
-				await Translator.init(config);
-				await Translator.loadTranslations(MM_Module);
-				const testData = { number: 1234567 };
-				var text = Translator.translate(MM_Module, "TEST_NUMBERFORMAT", testData);
-				expect(text).toBe("1.234.567,00 €");
-				done();
+		it(`test translation formatter(NumberFormat) by config locale(de-DE).
+	> "{number@CURRENCY}" => "1.234.567,89 €"`, async function () {
+			expect(isLoaded).toBe(true);
+			const testData = {
+				number: 1234567.89
 			};
+			var text = mmModule.translate("TEST_NUMBERFORMAT", testData);
+			expect(text).toBe("1.234.567,89 €");
 		});
 
-		it("test translation formatter(ListFormat) by config locale(de-DE).", function (done) {
-			const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
-			dom.window.onload = async function () {
-				dom.window.fetch = fetch;
-				dom.window.Log = log;
-				const { Translator } = dom.window;
-				var config = { languages: "de-DE, en-US", locale: "de-DE" };
-				await Translator.init(config);
-				await Translator.loadTranslations(MM_Module);
-				const testData = { arr: ["Red", "Blue", "Gold", "Silver"] };
-				var text = Translator.translate(MM_Module, "TEST_LISTFORMAT", testData);
-				expect(text).toBe("Red, Blue, Gold oder Silver");
-				done();
-			};
+		it(`test translation formatter(ListFormat) by config locale(de-DE).
+	> "{colors@LIST}" => "Red, Blue, Gold oder Silver"`, async function () {
+			expect(isLoaded).toBe(true);
+			const testData = { colors: ["Red", "Blue", "Gold", "Silver"] };
+			var text = mmModule.translate("TEST_LISTFORMAT", testData);
+			expect(text).toBe("Red, Blue, Gold oder Silver");
 		});
 
-		it("test translation formatter(DateTimeFormat) by config locale(de-DE).", function (done) {
-			const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
-			dom.window.onload = async function () {
-				dom.window.fetch = fetch;
-				dom.window.Log = log;
-				const { Translator } = dom.window;
-				var config = { languages: "de-DE, en-US", locale: "de-DE" };
-				await Translator.init(config);
-				await Translator.loadTranslations(MM_Module);
-				const date = "2021-08-15 12:34:56";
-				var text = Translator.translate(MM_Module, "TEST_DATETIMEFORMAT", { date });
-				expect(text).toBe("15. August 2021 um 12:34");
-				done();
-			};
+		it(`test translation formatter(DateTimeFormat) by config locale(de-DE).
+	> "{date@DATE}" => "15. August 2021 um 12:34"`, async function () {
+			expect(isLoaded).toBe(true);
+			const date = "2021-08-15 12:34:56";
+			var text = mmModule.translate("TEST_DATETIMEFORMAT", { date });
+			expect(text).toBe("15. August 2021 um 12:34");
 		});
 
-		it("test translation formatter(RelativeTimeFormat) by config locale(de-DE).", function (done) {
-			const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
-			dom.window.onload = async function () {
-				dom.window.fetch = fetch;
-				dom.window.Log = log;
-				const { Translator } = dom.window;
-				var config = { languages: "de-DE, en-US", locale: "de-DE" };
-				await Translator.init(config);
-				await Translator.loadTranslations(MM_Module);
-				const testData = {
-					target: -3
-				};
-				var text = Translator.translate(MM_Module, "TEST_RELATIVEFORMAT", testData);
-				expect(text).toBe("vor 3 Tagen");
-				done();
-			};
+		it(`test translation formatter(RelativeTimeFormat) by config locale(de-DE).
+	> "{target@RELATIVE_DAY}" => "vor 3 Tagen"`, async function () {
+			expect(isLoaded).toBe(true);
+			var text = mmModule.translate("TEST_RELATIVEFORMAT", { target: -3 });
+			expect(text).toBe("vor 3 Tagen");
 		});
 
-		it("test translation formatter(AutoScaledRelativeTimeFormat) by force-locale(en-US).", function (done) {
-			const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
-			dom.window.onload = async function () {
-				dom.window.fetch = fetch;
-				dom.window.Log = log;
-				const { Translator } = dom.window;
-				var config = { languages: "de-DE, en-US", locale: "de-DE" };
-				await Translator.init(config);
-				await Translator.loadTranslations(MM_Module);
-				const testData = {
-					target: new Date(Date.now() + 60 * 60 * 24 * 10 * 1000)
-				};
-				var text = Translator.translate(MM_Module, "TEST_AUTOSCALEFORMAT", testData);
-				expect(text).toBe("next week");
-				done();
-			};
+		it(`test translation formatter(AutoScaledRelativeTimeFormat) by force-locale(en-US).
+	> "{target@AUTOSCALE}" => "next week"`, async function () {
+			expect(isLoaded).toBe(true);
+			var text = mmModule.translate("TEST_AUTOSCALEFORMAT", { target: new Date(Date.now() + 60 * 60 * 24 * 10 * 1000) });
+			expect(text).toBe("next week");
 		});
 
-		it("test translation formatter(Select) by force-locale(en-US).", function (done) {
-			const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
-			dom.window.onload = async function () {
-				dom.window.fetch = fetch;
-				dom.window.Log = log;
-				const { Translator } = dom.window;
-				var config = { languages: "de-DE, en-US", locale: "de-DE" };
-				await Translator.init(config);
-				await Translator.loadTranslations(MM_Module);
-				const testData = {
-					condition: "afternoon",
-					user: "Tom"
-				};
-				var text = Translator.translate(MM_Module, "TEST_SELECT", testData);
-				expect(text).toBe("Good afternoon, Tom!");
-				done();
-			};
+		it(`test translation formatter(Select).
+	> "{condition@GREETING}, {user}!" => "Good afternoon, Tom!"`, async function () {
+			expect(isLoaded).toBe(true);
+			var text = mmModule.translate("TEST_SELECT", { condition: "afternoon", user: "Tom" });
+			expect(text).toBe("Good afternoon, Tom!");
 		});
-	});
 
-	describe("custom formatter", function () {
-		it("register custom formatter and test it.", function (done) {
-			const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
-			dom.window.onload = async function () {
-				dom.window.fetch = fetch;
-				dom.window.Log = log;
-				const { Translator } = dom.window;
-				var config = { languages: "de-DE, en-US", locale: "de-DE" };
-				await Translator.init(config);
-				await Translator.loadTranslations(MM_Module);
+		it(`register custom formatter and test it.
+	> "Temp: {roomTemperature@TEMPERATURE}" => "Temp: 71.6°F"`, async function () {
+			expect(isLoaded).toBe(true);
+			Translator.registerFormatter("TemperatureConverter", function ({ value, options } = {}) {
+				if (isNaN(value)) return value;
+				var unit = options.unit ? options.unit : "";
+				if (options.convert) {
+					if (options.convert.toLowerCase() === "c2f") return Math.round((value * 9 * 10) / 5) / 10 + 32 + unit;
+					if (options.convert.toLowerCase() === "f2c") return Math.round(((value - 32) / 9) * 5 * 10) / 10 + unit;
+				}
+				return value + unit;
+			});
 
-				Translator.registerFormatter("Temperature", function ({ value, options } = {}) {
-					if (isNaN(value)) return value;
-					if (options.unit === "farenheit") return (value * 9) / 5 + 32 + "°F";
-					return value + "°C";
-				});
-
-				const testData = {
-					roomTemperature: 22
-				};
-				var text = Translator.translate(MM_Module, "TEST_CUSTOM", testData);
-				expect(text).toBe("Temp: 71.6°F");
-				done();
+			const testData = {
+				roomTemperature: 22
 			};
+			var text = mmModule.translate("TEST_CUSTOM", testData);
+			expect(text).toBe("Temp: 71.6°F");
 		});
-	});
-});
+	}); // end of module translate test
+}); // End of Translator test

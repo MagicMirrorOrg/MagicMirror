@@ -187,6 +187,7 @@ const Translator = (function () {
 	 * @public
 	 * @param {object | string} module or 'core'
 	 * @param {Function} callback Executed when the translation dictionaries are loaded.
+	 * @returns {Promise<boolean>} return complete.
 	 */
 	async function loadTranslations(module, callback = () => {}) {
 		var moduleName = module.name ? module.name : module;
@@ -206,23 +207,43 @@ const Translator = (function () {
 			}
 		}
 		if (typeof callback === "function") callback();
+		return Promise.resolve(true);
 	}
 	/**
 	 * Parse translated message from dictionaries and return the result
 	 *
 	 * @public
-	 * @param {object} module - MM module where to seek the dictionary
-	 * @param {string} key - Term to translate
-	 * @param {object} variables - variables to replace matched pattern.
-	 * @returns {string} Translated result
+	 * @param {object} input - data to translate
+	 * @param {string} input.moduleName - MM module name where to seek the dictionary
+	 * @param {string} input.key - Term to translate
+	 * @param {object} input.variables - (optional) variables to replace matched pattern.
+	 * @param {boolean} input.asObject - (optional) return as object or string
+	 * @param {string} input.fallback - (optional) fallback for empty/false/null translation.
+	 * @returns {object|string|null} Translated result
 	 */
-	function translate(module, key, variables) {
+	function translate({ moduleName, key, variables = {}, asObject = false, fallback = "" } = {}) {
 		var dictionaries = [];
-		if (module.name) dictionaries.push(module.name);
+		if (moduleName) dictionaries.push(moduleName);
 		dictionaries.push(DEFAULT_CORE_MODULES);
-		var { dictionary, translation, language, criteria } = findTerm(dictionaries, key);
-		if (!translation) return null;
-		return parse(translation, dictionary, variables);
+		var { dictionary, source, language, criteria } = findTerm(dictionaries, key);
+		if (!source) return fallback ? fallback : null;
+		var translated = parse(source, dictionary, variables) || fallback;
+		if (asObject)
+			return {
+				key,
+				variables,
+				asObject,
+				language,
+				source,
+				translated,
+				criteria,
+				fallback,
+				moduleName,
+				toString: () => {
+					return translated;
+				}
+			};
+		return translated;
 	}
 
 	/**
@@ -298,11 +319,11 @@ const Translator = (function () {
 				if (!_translations[d][l]) continue;
 				if (_translations[d][l][key]) {
 					return {
+						key,
 						dictionary: _translations[d][l],
 						criteria: d,
 						language: l,
-						key: key,
-						translation: _translations[d][l][key]
+						source: _translations[d][l][key]
 					};
 				}
 			}
