@@ -1,10 +1,5 @@
-const util = require("util");
-const exec = util.promisify(require("child_process").exec);
-const gitRepos = [];
-const fs = require("fs");
-const path = require("path");
+const git_Helper = require(__dirname + "/git_helper.js");
 const defaultModules = require(__dirname + "/../defaultmodules.js");
-const Log = require("logger");
 const NodeHelper = require("node_helper");
 
 module.exports = NodeHelper.create({
@@ -13,33 +8,19 @@ module.exports = NodeHelper.create({
 	updateTimer: null,
 	updateProcessStarted: false,
 
+	gitHelper:  new git_Helper.gitHelper(),
+
 	start: function () {},
 
 	configureModules: async function (modules) {
 		// Push MagicMirror itself , biggest chance it'll show up last in UI and isn't overwritten
 		// others will be added in front
 		// this method returns promises so we can't wait for every one to resolve before continuing
-		gitRepos.push({ module: "default", folder: path.normalize(__dirname + "/../../../") });
+		this.gitHelper.add("default");
 
 		for (let moduleName in modules) {
 			if (!this.ignoreUpdateChecking(moduleName)) {
-				// Default modules are included in the main MagicMirror repo
-				let moduleFolder = path.normalize(__dirname + "/../../" + moduleName);
-
-				try {
-					Log.info("Checking git for module: " + moduleName);
-					// Throws error if file doesn't exist
-					fs.statSync(path.join(moduleFolder, ".git"));
-					// Fetch the git or throw error if no remotes
-					if (this.isGitRepo(moduleFolder)) {
-						// Folder has .git and has at least one git remote, watch this folder
-						gitRepos.unshift({ module: moduleName, folder: moduleFolder });
-					}
-				} catch (err) {
-					// Error when directory .git doesn't exist or doesn't have any remotes
-					// This module is not managed with git, skip
-					continue;
-				}
+				this.gitHelper.add(moduleName);
 			}
 		}
 	},
@@ -56,96 +37,9 @@ module.exports = NodeHelper.create({
 		}
 	},
 
-	execShell: async function (command) {
-		let res = { stdout: "", stderr: "" };
-		const { stdout, stderr } = await exec(command);
-
-		res.stdout = stdout;
-		res.stderr = stderr;
-		return res;
-	},
-
-	isGitRepo: async function (moduleFolder) {
-		let res = await this.execShell("cd " + moduleFolder + " && git remote -v");
-		if (res.stderr) {
-			Log.error("Failed to fetch git data for " + moduleFolder + ": " + res.stderr);
-			return false;
-		} else {
-			return true;
-		}
-	},
-
-	getRepoInfo: async function (repo) {
-		let gitInfo = {
-			module: repo.module,
-			// commits behind:
-			behind: 0,
-			// branch name:
-			current: "",
-			// current hash:
-			hash: "",
-			// remote branch:
-			tracking: ""
-		};
-		let res;
-		if (module === "default") {
-			// the hash is only needed for the mm repo
-			res = await this.execShell("cd " + repo.folder + " && git rev-parse HEAD");
-			if (res.stderr) {
-				Log.error("Failed to get current commit hash for " + repo.module + ": " + res.stderr);
-			}
-			gitInfo.hash = res.stdout;
-		}
-		res = await this.execShell("cd " + repo.folder + " && git status -sb");
-		if (res.stderr) {
-			Log.error("Failed to get git status for " + repo.module + ": " + res.stderr);
-			// exit without git status info
-			return;
-		}
-		// only the first line of stdout is evaluated
-		let status = res.stdout.split("\n")[0];
-		// examples for status:
-		// ## develop...origin/develop
-		// ## master...origin/master [behind 8]
-		status = status.match(/(?![.#])([^.]*)/g);
-		// examples for status:
-		// [ ' develop', 'origin/develop', '' ]
-		// [ ' master', 'origin/master [behind 8]', '' ]
-		gitInfo.current = status[0].trim();
-		status = status[1].split(" ");
-		// examples for status:
-		// [ 'origin/develop' ]
-		// [ 'origin/master', '[behind', '8]' ]
-		gitInfo.tracking = status[0].trim();
-		if (status[2]) {
-			// git fetch was already called before so `git status -sb` delivers already the behind number
-			gitInfo.behind = parseInt(status[2].substring(0, status[2].length - 1));
-			return gitInfo;
-		}
-		res = await this.execShell("cd " + repo.folder + " && git fetch --dry-run");
-		// example output:
-		// From https://github.com/MichMich/MagicMirror
-		//    e40ddd4..06389e3  develop    -> origin/develop
-		// here the result is in stderr (this is a git default, don't ask why ...)
-		if (res.stderr === "") return;
-		let refs = res.stderr.match(/s*([a-z,0-9]+[.][.][a-z,0-9]+)s*/g)[0];
-		if (refs === "") {
-			// if match fails set behind to a number greater 0 and return
-			gitInfo.behind = 1;
-			return gitInfo;
-		}
-		// get behind with refs
-		res = await this.execShell("cd " + repo.folder + " && git rev-list --ancestry-path --count " + refs);
-		gitInfo.behind = parseInt(res.stdout);
-		return gitInfo;
-	},
-
 	performFetch: async function () {
-		for (let repo of gitRepos) {
-			const gitInfo = await this.getRepoInfo(repo);
-			if (gitInfo) {
-				this.sendSocketNotification("STATUS", gitInfo);
-			}
+		for (let gitInfo of await this.gitHelper.getRepos()) {
+			this.sendSocketNotification("STATUS", gitInfo);
 		}
 
 		this.scheduleNextFetch(this.config.updateInterval);
