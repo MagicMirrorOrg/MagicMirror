@@ -8,7 +8,7 @@ module.exports = NodeHelper.create({
 	updateTimer: null,
 	updateProcessStarted: false,
 
-	gitHelper:  new git_Helper.gitHelper(),
+	gitHelper: new git_Helper.gitHelper(),
 
 	start: function () {},
 
