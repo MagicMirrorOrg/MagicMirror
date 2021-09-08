@@ -19,8 +19,6 @@ describe("Updatenotification", function () {
 		const gitInfo = arr[0];
 		branch = gitInfo.current;
 		expect(gitInfo.current).not.toBe("");
-		expect(gitInfo.tracking).not.toBe("");
-		expect(gitInfo.hash).not.toBe("");
 	}, 15000);
 
 	it("should return no refs for git fetch", async function () {
