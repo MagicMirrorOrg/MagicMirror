@@ -23,6 +23,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: |
+        node -v
         Xvfb :99 -screen 0 1024x768x16 &
         export DISPLAY=:99
         npm install

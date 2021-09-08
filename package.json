@@ -47,11 +47,11 @@
 	"devDependencies": {
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-jest": "^24.4.0",
-		"eslint-plugin-jsdoc": "^36.0.8",
+		"eslint-plugin-jsdoc": "^36.1.0",
 		"eslint-plugin-prettier": "^4.0.0",
 		"express-basic-auth": "^1.2.0",
 		"husky": "^7.0.2",
-		"jest": "^27.1.0",
+		"jest": "^27.1.1",
 		"jsdom": "^17.0.0",
 		"lodash": "^4.17.21",
 		"nyc": "^15.1.0",
