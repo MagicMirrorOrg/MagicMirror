@@ -7,9 +7,8 @@
  * By BuXXi https://github.com/buxxi
  * MIT Licensed
  *
- * This class is a provider for SMHI (Sweden only).
- * Note that SMHI doesn't provide sunrise and sundown, use SunCalc to calculate it.
- * Metric system is the only supported unit.
+ * This class is a provider for SMHI (Sweden only). Metric system is the only
+ * supported unit.
  */
 WeatherProvider.register("smhi", {
 	providerName: "SMHI",
@@ -193,7 +192,8 @@ WeatherProvider.register("smhi", {
 	},
 
 	/**
-	 * Resolve coordinates from the response data (probably preferably to use this if it's not matching the config values exactly)
+	 * Resolve coordinates from the response data (probably preferably to use
+	 * this if it's not matching the config values exactly)
 	 *
 	 * @param {object} data Response data from the weather service
 	 * @returns {{lon, lat}} the lat/long coordinates of the data
@@ -237,12 +237,12 @@ WeatherProvider.register("smhi", {
 	},
 
 	/**
-	 * Map the icon value from SHMI to an icon that MagicMirror understands.
+	 * Map the icon value from SMHI to an icon that MagicMirror understands.
 	 * Uses different icons depending if its daytime or nighttime.
-	 * SHMI's description of what the numeric value means is the comment after the case.
+	 * SMHI's description of what the numeric value means is the comment after the case.
 	 *
-	 * @param {number} input The smhi icon value
-	 * @param {boolean} isDayTime True if the icon should be for daytime, false for nightime
+	 * @param {number} input The SMHI icon value
+	 * @param {boolean} isDayTime True if the icon should be for daytime, false for nighttime
 	 * @returns {string} The icon name for the MagicMirror
 	 */
 	convertWeatherType(input, isDayTime) {
@@ -250,57 +250,57 @@ WeatherProvider.register("smhi", {
 			case 1:
 				return isDayTime ? "day-sunny" : "night-clear"; // Clear sky
 			case 2:
-				return isDayTime ? "day-sunny-overcast" : "night-partly-cloudy"; //Nearly clear sky
+				return isDayTime ? "day-sunny-overcast" : "night-partly-cloudy"; // Nearly clear sky
 			case 3:
-				return isDayTime ? "day-cloudy" : "night-cloudy"; //Variable cloudiness
+				return isDayTime ? "day-cloudy" : "night-cloudy"; // Variable cloudiness
 			case 4:
-				return isDayTime ? "day-cloudy" : "night-cloudy"; //Halfclear sky
+				return isDayTime ? "day-cloudy" : "night-cloudy"; // Halfclear sky
 			case 5:
-				return "cloudy"; //Cloudy sky
+				return "cloudy"; // Cloudy sky
 			case 6:
-				return "cloudy"; //Overcast
+				return "cloudy"; // Overcast
 			case 7:
-				return "fog"; //Fog
+				return "fog"; // Fog
 			case 8:
-				return "showers"; //Light rain showers
+				return "showers"; // Light rain showers
 			case 9:
-				return "showers"; //Moderate rain showers
+				return "showers"; // Moderate rain showers
 			case 10:
-				return "showers"; //Heavy rain showers
+				return "showers"; // Heavy rain showers
 			case 11:
-				return "thunderstorm"; //Thunderstorm
+				return "thunderstorm"; // Thunderstorm
 			case 12:
-				return "sleet"; //Light sleet showers
+				return "sleet"; // Light sleet showers
 			case 13:
-				return "sleet"; //Moderate sleet showers
+				return "sleet"; // Moderate sleet showers
 			case 14:
-				return "sleet"; //Heavy sleet showers
+				return "sleet"; // Heavy sleet showers
 			case 15:
-				return "snow"; //Light snow showers
+				return "snow"; // Light snow showers
 			case 16:
-				return "snow"; //Moderate snow showers
+				return "snow"; // Moderate snow showers
 			case 17:
-				return "snow"; //Heavy snow showers
+				return "snow"; // Heavy snow showers
 			case 18:
-				return "rain"; //Light rain
+				return "rain"; // Light rain
 			case 19:
-				return "rain"; //Moderate rain
+				return "rain"; // Moderate rain
 			case 20:
-				return "rain"; //Heavy rain
+				return "rain"; // Heavy rain
 			case 21:
-				return "thunderstorm"; //Thunder
+				return "thunderstorm"; // Thunder
 			case 22:
 				return "sleet"; // Light sleet
 			case 23:
-				return "sleet"; //Moderate sleet
+				return "sleet"; // Moderate sleet
 			case 24:
 				return "sleet"; // Heavy sleet
 			case 25:
 				return "snow"; // Light snowfall
 			case 26:
-				return "snow"; //Moderate snowfall
+				return "snow"; // Moderate snowfall
 			case 27:
-				return "snow"; //Heavy snowfall
+				return "snow"; // Heavy snowfall
 			default:
 				return "";
 		}
