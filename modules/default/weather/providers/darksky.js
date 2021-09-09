@@ -8,7 +8,8 @@
  * MIT Licensed
  *
  * This class is a provider for Dark Sky.
- * Note that the Dark Sky API does not provide rainfall.  Instead it provides snowfall and precipitation probability
+ * Note that the Dark Sky API does not provide rainfall. Instead it provides
+ * snowfall and precipitation probability
  */
 WeatherProvider.register("darksky", {
 	// Set the name of the provider.
@@ -98,7 +99,8 @@ WeatherProvider.register("darksky", {
 			weather.snow = 0;
 
 			// The API will return centimeters if units is 'si' and will return inches for 'us'
-			// Note that the Dark Sky API does not provide rainfall.  Instead it provides snowfall and precipitation probability
+			// Note that the Dark Sky API does not provide rainfall.
+			// Instead it provides snowfall and precipitation probability
 			if (forecast.hasOwnProperty("precipAccumulation")) {
 				if (this.config.units === "imperial" && !isNaN(forecast.precipAccumulation)) {
 					weather.snow = forecast.precipAccumulation;

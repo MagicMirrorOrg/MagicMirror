@@ -133,7 +133,9 @@ class WeatherObject {
 	}
 
 	/**
-	 * Update the sunrise / sunset time depending on the location
+	 * Update the sunrise / sunset time depending on the location. This can be
+	 * used if your provider doesnt provide that data by itself. Then SunCalc
+	 * is used here to calculate them according to the location.
 	 *
 	 * @param {number} lat latitude
 	 * @param {number} lon longitude
