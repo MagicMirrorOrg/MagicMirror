@@ -96,6 +96,9 @@
 		"projects": [
 			{
 				"displayName": "unit",
+				"moduleNameMapper": {
+					"logger": "<rootDir>/js/logger.js"
+				},
 				"testMatch": [
 					"**/tests/unit/**/*.[jt]s?(x)"
 				],
