@@ -24,6 +24,7 @@ _This release is scheduled to be released on 2021-10-01._
 - Update weathergov provider to try fetching not just current, but also foreacst, when API URLs available.
 - Refactored clock layout.
 - Refactored methods from weatherproviders into weatherobject (isDaytime, updateSunTime).
+- Use of `logger.js` in jest tests.
 
 ### Fixed
 
