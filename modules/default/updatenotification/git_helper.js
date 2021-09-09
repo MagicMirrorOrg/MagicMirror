@@ -2,17 +2,12 @@ const util = require("util");
 const exec = util.promisify(require("child_process").exec);
 const fs = require("fs");
 const path = require("path");
+const Log = require("logger");
 
 class gitHelper {
 	constructor() {
 		this.gitRepos = [];
 		this.baseDir = path.normalize(__dirname + "/../../../");
-		if (process.env.JEST_WORKER_ID === undefined) {
-			this.Log = require("logger");
-		} else {
-			// if we are running with jest
-			this.Log = require("../../../tests/unit/mocks/logger.js");
-		}
 	}
 
 	getRefRegex(branch) {
@@ -31,7 +26,7 @@ class gitHelper {
 	async isGitRepo(moduleFolder) {
 		let res = await this.execShell("cd " + moduleFolder + " && git remote -v");
 		if (res.stderr) {
-			this.Log.error("Failed to fetch git data for " + moduleFolder + ": " + res.stderr);
+			Log.error("Failed to fetch git data for " + moduleFolder + ": " + res.stderr);
 			return false;
 		} else {
 			return true;
@@ -44,7 +39,7 @@ class gitHelper {
 			moduleFolder = moduleFolder + "modules/" + moduleName;
 		}
 		try {
-			this.Log.info("Checking git for module: " + moduleName);
+			Log.info("Checking git for module: " + moduleName);
 			// Throws error if file doesn't exist
 			fs.statSync(path.join(moduleFolder, ".git"));
 			// Fetch the git or throw error if no remotes
@@ -76,13 +71,13 @@ class gitHelper {
 			// the hash is only needed for the mm repo
 			res = await this.execShell("cd " + repo.folder + " && git rev-parse HEAD");
 			if (res.stderr) {
-				this.Log.error("Failed to get current commit hash for " + repo.module + ": " + res.stderr);
+				Log.error("Failed to get current commit hash for " + repo.module + ": " + res.stderr);
 			}
 			gitInfo.hash = res.stdout;
 		}
 		res = await this.execShell("cd " + repo.folder + " && git status -sb");
 		if (res.stderr) {
-			this.Log.error("Failed to get git status for " + repo.module + ": " + res.stderr);
+			Log.error("Failed to get git status for " + repo.module + ": " + res.stderr);
 			// exit without git status info
 			return;
 		}
