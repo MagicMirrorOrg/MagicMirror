@@ -22,34 +22,21 @@
 		root.Log = factory(root.config);
 	}
 })(this, function (config) {
-	let logLevel;
-	if (process.env.JEST_WORKER_ID === undefined) {
-		logLevel = {
-			debug: Function.prototype.bind.call(console.debug, console),
-			log: Function.prototype.bind.call(console.log, console),
-			info: Function.prototype.bind.call(console.info, console),
-			warn: Function.prototype.bind.call(console.warn, console),
-			error: Function.prototype.bind.call(console.error, console),
-			group: Function.prototype.bind.call(console.group, console),
-			groupCollapsed: Function.prototype.bind.call(console.groupCollapsed, console),
-			groupEnd: Function.prototype.bind.call(console.groupEnd, console),
-			time: Function.prototype.bind.call(console.time, console),
-			timeEnd: Function.prototype.bind.call(console.timeEnd, console),
-			timeStamp: Function.prototype.bind.call(console.timeStamp, console)
-		};
-	} else {
-		logLevel = {
-			debug: Function.prototype.bind.call(console.debug, console),
-			log: Function.prototype.bind.call(console.log, console),
-			info: Function.prototype.bind.call(console.info, console),
-			warn: Function.prototype.bind.call(console.warn, console),
-			error: Function.prototype.bind.call(console.error, console),
-			group: Function.prototype.bind.call(console.group, console),
-			groupCollapsed: Function.prototype.bind.call(console.groupCollapsed, console),
-			groupEnd: Function.prototype.bind.call(console.groupEnd, console),
-			time: Function.prototype.bind.call(console.time, console),
-			timeEnd: Function.prototype.bind.call(console.timeEnd, console)
-		};
+	let logLevel = {
+		debug: Function.prototype.bind.call(console.debug, console),
+		log: Function.prototype.bind.call(console.log, console),
+		info: Function.prototype.bind.call(console.info, console),
+		warn: Function.prototype.bind.call(console.warn, console),
+		error: Function.prototype.bind.call(console.error, console),
+		group: Function.prototype.bind.call(console.group, console),
+		groupCollapsed: Function.prototype.bind.call(console.groupCollapsed, console),
+		groupEnd: Function.prototype.bind.call(console.groupEnd, console),
+		time: Function.prototype.bind.call(console.time, console),
+		timeEnd: Function.prototype.bind.call(console.timeEnd, console)
+	};
+
+	if ((typeof exports === "object" && process.env.JEST_WORKER_ID === undefined) || typeof exports !== "object") {
+		logLevel.timeStamp = Function.prototype.bind.call(console.timeStamp, console);
 	}
 
 	logLevel.setLogLevel = function (newLevel) {
