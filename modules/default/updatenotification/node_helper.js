@@ -1,4 +1,4 @@
-const git_Helper = require(__dirname + "/git_helper.js");
+const GitHelper = require(__dirname + "/git_helper.js");
 const defaultModules = require(__dirname + "/../defaultmodules.js");
 const NodeHelper = require("node_helper");
 
@@ -8,7 +8,7 @@ module.exports = NodeHelper.create({
 	updateTimer: null,
 	updateProcessStarted: false,
 
-	gitHelper: new git_Helper.gitHelper(),
+	gitHelper: new GitHelper.gitHelper(),
 
 	start: function () {},
 
