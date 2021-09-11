@@ -75,7 +75,12 @@ class gitHelper {
 			}
 			gitInfo.hash = res.stdout;
 		}
-		res = await this.execShell("cd " + repo.folder + " && git status -sb");
+		if (repo.res) {
+			// mocking
+			res = repo.res;
+		} else {
+			res = await this.execShell("cd " + repo.folder + " && git status -sb");
+		}
 		if (res.stderr) {
 			Log.error("Failed to get git status for " + repo.module + ": " + res.stderr);
 			// exit without git status info
@@ -105,14 +110,26 @@ class gitHelper {
 	}
 
 	async getRepoInfo(repo) {
-		let gitInfo = await this.getStatusInfo(repo);
+		let gitInfo;
+		if (repo.gitInfo) {
+			// mocking
+			gitInfo = repo.gitInfo;
+		} else {
+			gitInfo = await this.getStatusInfo(repo);
+		}
 		if (!gitInfo) {
 			return;
 		}
 		if (gitInfo.isBehindInStatus) {
 			return gitInfo;
 		}
-		let res = await this.execShell("cd " + repo.folder + " && git fetch --dry-run");
+		let res;
+		if (repo.res) {
+			// mocking
+			res = repo.res;
+		} else {
+			res = await this.execShell("cd " + repo.folder + " && git fetch --dry-run");
+		}
 		// example output:
 		// From https://github.com/MichMich/MagicMirror
 		//    e40ddd4..06389e3  develop    -> origin/develop
@@ -123,9 +140,13 @@ class gitHelper {
 			return;
 		}
 		// get behind with refs
-		res = await this.execShell("cd " + repo.folder + " && git rev-list --ancestry-path --count " + matches[0]);
-		gitInfo.behind = parseInt(res.stdout);
-		return gitInfo;
+		try {
+			res = await this.execShell("cd " + repo.folder + " && git rev-list --ancestry-path --count " + matches[0]);
+			gitInfo.behind = parseInt(res.stdout);
+			return gitInfo;
+		} catch (err) {
+			Log.error("Failed to get git revisions for " + repo.module + ": " + err);
+		}
 	}
 
 	async getStatus() {
