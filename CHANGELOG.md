@@ -26,6 +26,7 @@ _This release is scheduled to be released on 2021-10-01._
 - Refactored clock layout.
 - Refactored methods from weatherproviders into weatherobject (isDaytime, updateSunTime).
 - Use of `logger.js` in jest tests.
+- Run prettier over all relevant files.
 
 ### Fixed
 

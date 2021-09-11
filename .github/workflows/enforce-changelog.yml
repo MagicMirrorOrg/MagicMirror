@@ -4,15 +4,15 @@ name: "Enforce Changelog"
 
 on:
   pull_request:
-      types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
+    types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
 
 jobs:
   check:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-    - uses: actions/checkout@v2
-    - uses: dangoslen/changelog-enforcer@v1.6.1
-      with:
-        changeLogPath: 'CHANGELOG.md'
-        skipLabels: 'Skip Changelog'
+      - uses: actions/checkout@v2
+      - uses: dangoslen/changelog-enforcer@v1.6.1
+        with:
+          changeLogPath: "CHANGELOG.md"
+          skipLabels: "Skip Changelog"
