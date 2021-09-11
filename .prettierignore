@@ -1,4 +1,4 @@
+/config
 /coverage
 .nyc_output
 package-lock.json
-*.ts
