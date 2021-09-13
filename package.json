@@ -12,6 +12,7 @@
 		"postinstall": "npm run install-fonts && echo \"MagicMirror installation finished successfully! \n\"",
 		"test": "NODE_ENV=test jest -i --forceExit",
 		"test:coverage": "NODE_ENV=test nyc --reporter=lcov --reporter=text jest -i --forceExit",
+		"test:electron": "NODE_ENV=test jest --selectProjects electron -i --forceExit",
 		"test:e2e": "NODE_ENV=test jest --selectProjects e2e -i --forceExit",
 		"test:unit": "NODE_ENV=test jest --selectProjects unit -i --forceExit",
 		"test:prettier": "prettier . --check",
@@ -107,14 +108,25 @@
 				]
 			},
 			{
+				"displayName": "electron",
+				"testMatch": [
+					"**/tests/electron/**/*.[jt]s?(x)"
+				],
+				"testPathIgnorePatterns": [
+					"<rootDir>/tests/electron/modules/mocks",
+					"<rootDir>/tests/electron/global-setup.js",
+					"<rootDir>/tests/electron/modules/basic-auth.js"
+				]
+			},
+			{
 				"displayName": "e2e",
 				"testMatch": [
 					"**/tests/e2e/**/*.[jt]s?(x)"
 				],
-				"testPathIgnorePatterns": [
-					"<rootDir>/tests/e2e/modules/mocks",
-					"<rootDir>/tests/e2e/global-setup.js"
-				]
+				"moduleNameMapper": {
+					"logger": "<rootDir>/js/logger.js",
+					"node_helper": "<rootDir>/js/node_helper.js"
+				}
 			}
 		]
 	}

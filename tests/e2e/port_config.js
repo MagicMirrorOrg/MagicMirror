@@ -1,31 +1,18 @@
-const helpers = require("./global-setup");
 const fetch = require("node-fetch");
+const app = require("../../js/app.js");
 
 describe("port directive configuration", function () {
-	helpers.setupTimeout(this);
+	beforeAll(function () {
+		process.env.MM_CONFIG_FILE = "tests/configs/port_8090.js";
 
-	let app = null;
-
-	beforeEach(function () {
-		return helpers
-			.startApplication({
-				args: ["js/electron.js"]
-			})
-			.then(function (startedApp) {
-				app = startedApp;
-			});
+		app.start();
 	});
 
-	afterEach(function () {
-		return helpers.stopApplication(app);
+	afterAll(function () {
+		app.stop();
 	});
 
 	describe("Set port 8090", function () {
-		beforeAll(function () {
-			// Set config sample for use in this test
-			process.env.MM_CONFIG_FILE = "tests/configs/port_8090.js";
-		});
-
 		it("should return 200", function (done) {
 			fetch("http://localhost:8090").then((res) => {
 				expect(res.status).toBe(200);
@@ -37,8 +24,6 @@ describe("port directive configuration", function () {
 	describe("Set port 8100 on environment variable MM_PORT", function () {
 		beforeAll(function () {
 			process.env.MM_PORT = 8100;
-			// Set config sample for use in this test
-			process.env.MM_CONFIG_FILE = "tests/configs/port_8090.js";
 		});
 
 		afterAll(function () {
