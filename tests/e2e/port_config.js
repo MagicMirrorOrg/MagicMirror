@@ -1,5 +1,5 @@
 const fetch = require("node-fetch");
-const app = require("../../js/app.js");
+const app = require("app.js");
 
 describe("port directive configuration", function () {
 	beforeAll(function () {

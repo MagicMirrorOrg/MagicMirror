@@ -123,10 +123,9 @@
 				"testMatch": [
 					"**/tests/e2e/**/*.[jt]s?(x)"
 				],
-				"moduleNameMapper": {
-					"logger": "<rootDir>/js/logger.js",
-					"node_helper": "<rootDir>/js/node_helper.js"
-				}
+				"modulePaths": [
+					"<rootDir>/js/"
+				]
 			}
 		]
 	}
