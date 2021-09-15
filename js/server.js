@@ -92,6 +92,11 @@ function Server(config, callback) {
 	if (typeof callback === "function") {
 		callback(app, io);
 	}
+
+	this.close = function () {
+		server.close();
+	}
+
 }
 
 module.exports = Server;
