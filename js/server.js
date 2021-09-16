@@ -95,8 +95,7 @@ function Server(config, callback) {
 
 	this.close = function () {
 		server.close();
-	}
-
+	};
 }
 
 module.exports = Server;

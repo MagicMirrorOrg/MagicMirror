@@ -1,15 +1,13 @@
 const fetch = require("node-fetch");
-const app = require("app.js");
+const helpers = require("./global-setup");
+let app = null;
 
 describe("Vendors", function () {
 	beforeAll(function () {
-		process.env.MM_CONFIG_FILE = "tests/configs/env.js";
-
-		app.start();
+		app = helpers.startApplication("tests/configs/env.js");
 	});
-
 	afterAll(function () {
-		app.stop();
+		helpers.stopApplication(app);
 	});
 
 	describe("Get list vendors", function () {

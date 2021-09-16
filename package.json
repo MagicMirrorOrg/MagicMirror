@@ -125,6 +125,9 @@
 				],
 				"modulePaths": [
 					"<rootDir>/js/"
+				],
+				"testPathIgnorePatterns": [
+					"<rootDir>/tests/e2e/global-setup.js"
 				]
 			}
 		]
