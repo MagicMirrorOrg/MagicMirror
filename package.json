@@ -120,6 +120,9 @@
 			},
 			{
 				"displayName": "e2e",
+				"setupFilesAfterEnv": [
+					"<rootDir>/tests/e2e/mock-console.js"
+				],
 				"testMatch": [
 					"**/tests/e2e/**/*.[jt]s?(x)"
 				],
