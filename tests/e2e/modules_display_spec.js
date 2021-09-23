@@ -13,8 +13,8 @@ describe("Display of modules", function () {
 	it("should show the test header", function () {
 		elem = document.querySelector("#module_0_helloworld .module-header");
 		expect(elem).not.toBe(null);
+		// textContent gibt hier lowercase zurück, das uppercase wird durch css realisiert, was daher nicht in textContent landet
 		expect(elem.textContent).toBe("test_header");
-		//result ist leider lowercase wegen fehlendem css, siehe https://stackoverflow.com/questions/10318330/how-do-you-add-stylesheets-to-jsdom
 	});
 
 	it("should show no header if no header text is specified", function () {
