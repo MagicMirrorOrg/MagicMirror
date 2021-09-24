@@ -130,7 +130,8 @@
 					"<rootDir>/js/"
 				],
 				"testPathIgnorePatterns": [
-					"<rootDir>/tests/e2e/global-setup.js"
+					"<rootDir>/tests/e2e/global-setup.js",
+					"<rootDir>/tests/e2e/mock-console.js"
 				]
 			}
 		]

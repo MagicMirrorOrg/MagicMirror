@@ -3,8 +3,7 @@ let app = null;
 
 describe("Display of modules", function () {
 	beforeAll(function (done) {
-		app = helpers.startApplication("tests/configs/modules/display.js");
-		helpers.getDocument("http://localhost:8080", done);
+		app = helpers.startApplication("tests/configs/modules/display.js", null, done);
 	});
 	afterAll(function () {
 		helpers.stopApplication(app);
