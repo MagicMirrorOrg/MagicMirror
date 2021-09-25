@@ -3,8 +3,9 @@ const helpers = require("./global-setup");
 let app = null;
 
 describe("Electron app environment", function () {
-	beforeAll(function () {
-		app = helpers.startApplication("tests/configs/env.js");
+	beforeAll(function (done) {
+		app = helpers.startApplication("tests/configs/default.js");
+		helpers.getDocument(done);
 	});
 	afterAll(function () {
 		helpers.stopApplication(app);
@@ -22,5 +23,11 @@ describe("Electron app environment", function () {
 			expect(res.status).toBe(404);
 			done();
 		});
+	});
+
+	it("should show the title MagicMirror²", function () {
+		const elem = document.querySelector("title");
+		expect(elem).not.toBe(null);
+		expect(elem.textContent).toBe("MagicMirror²");
 	});
 });

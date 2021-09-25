@@ -4,7 +4,7 @@ let app = null;
 
 describe("Vendors", function () {
 	beforeAll(function () {
-		app = helpers.startApplication("tests/configs/env.js");
+		app = helpers.startApplication("tests/configs/default.js");
 	});
 	afterAll(function () {
 		helpers.stopApplication(app);
