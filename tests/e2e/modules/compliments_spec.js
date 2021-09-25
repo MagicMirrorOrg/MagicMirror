@@ -1,12 +1,17 @@
 const helpers = require("../global-setup");
 
-doTest = function (complimentsArray) {
+/**
+ * move similar tests in function doTest
+ *
+ * @param {Array} complimentsArray The array of compliments.
+ */
+function doTest(complimentsArray) {
 	let elem = document.querySelector(".compliments");
 	expect(elem).not.toBe(null);
 	elem = document.querySelector(".module-content");
 	expect(elem).not.toBe(null);
 	expect(complimentsArray).toContain(elem.textContent);
-};
+}
 
 describe("Compliments module", function () {
 	afterAll(function () {
