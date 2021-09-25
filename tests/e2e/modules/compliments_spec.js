@@ -1,5 +1,4 @@
 const helpers = require("../global-setup");
-let app = null;
 
 doTest = function (complimentsArray) {
 	let elem = document.querySelector(".compliments");
@@ -11,12 +10,12 @@ doTest = function (complimentsArray) {
 
 describe("Compliments module", function () {
 	afterAll(function () {
-		helpers.stopApplication(app);
+		helpers.stopApplication();
 	});
 
 	describe("parts of days", function () {
 		beforeAll(function (done) {
-			app = helpers.startApplication("tests/configs/modules/compliments/compliments_parts_day.js");
+			helpers.startApplication("tests/configs/modules/compliments/compliments_parts_day.js");
 			helpers.getDocument(done, 1000);
 		});
 
@@ -48,7 +47,7 @@ describe("Compliments module", function () {
 	describe("Feature anytime in compliments module", function () {
 		describe("Set anytime and empty compliments for morning, evening and afternoon ", function () {
 			beforeAll(function (done) {
-				app = helpers.startApplication("tests/configs/modules/compliments/compliments_anytime.js");
+				helpers.startApplication("tests/configs/modules/compliments/compliments_anytime.js");
 				helpers.getDocument(done, 1000);
 			});
 
@@ -59,7 +58,7 @@ describe("Compliments module", function () {
 
 		describe("Only anytime present in configuration compliments", function () {
 			beforeAll(function (done) {
-				app = helpers.startApplication("tests/configs/modules/compliments/compliments_only_anytime.js");
+				helpers.startApplication("tests/configs/modules/compliments/compliments_only_anytime.js");
 				helpers.getDocument(done, 1000);
 			});
 
@@ -72,7 +71,7 @@ describe("Compliments module", function () {
 	describe("Feature date in compliments module", function () {
 		describe("Set date and empty compliments for anytime, morning, evening and afternoon", function () {
 			beforeAll(function (done) {
-				app = helpers.startApplication("tests/configs/modules/compliments/compliments_date.js");
+				helpers.startApplication("tests/configs/modules/compliments/compliments_date.js");
 				helpers.getDocument(done, 1000);
 			});
 

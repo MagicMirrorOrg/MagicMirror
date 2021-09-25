@@ -1,13 +1,12 @@
 const helpers = require("../global-setup");
-let app = null;
 
 describe("Alert module", function () {
 	beforeAll(function (done) {
-		app = helpers.startApplication("tests/configs/modules/alert/default.js");
+		helpers.startApplication("tests/configs/modules/alert/default.js");
 		helpers.getDocument(done, 1000);
 	});
 	afterAll(function () {
-		helpers.stopApplication(app);
+		helpers.stopApplication();
 	});
 
 	it("should show the welcome message", function () {

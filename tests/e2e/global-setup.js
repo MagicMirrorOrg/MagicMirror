@@ -3,22 +3,19 @@ const config = require("../configs/empty_ipWhiteList");
 
 exports.startApplication = function (configFilename, exec) {
 	jest.resetModules();
-	let app = global.app;
-	if (app) {
-		app.stop();
+	if (global.app) {
+		global.app.stop();
 	}
 	// Set config sample for use in test
 	process.env.MM_CONFIG_FILE = configFilename;
 	if (exec) exec;
-	app = require("app.js");
-	app.start();
-	global.app = app;
-	return app;
+	global.app = require("app.js");
+	global.app.start();
 };
 
-exports.stopApplication = function (app) {
-	if (app) {
-		app.stop();
+exports.stopApplication = function () {
+	if (global.app) {
+		global.app.stop();
 	}
 };
 

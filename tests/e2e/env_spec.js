@@ -1,14 +1,13 @@
 const fetch = require("node-fetch");
 const helpers = require("./global-setup");
-let app = null;
 
 describe("Electron app environment", function () {
 	beforeAll(function (done) {
-		app = helpers.startApplication("tests/configs/default.js");
+		helpers.startApplication("tests/configs/default.js");
 		helpers.getDocument(done);
 	});
 	afterAll(function () {
-		helpers.stopApplication(app);
+		helpers.stopApplication();
 	});
 
 	it("get request from http://localhost:8080 should return 200", function (done) {

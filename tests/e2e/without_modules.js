@@ -1,13 +1,12 @@
 const helpers = require("./global-setup");
-let app = null;
 
 describe("Check configuration without modules", function () {
 	beforeAll(function (done) {
-		app = helpers.startApplication("tests/configs/without_modules.js");
+		helpers.startApplication("tests/configs/without_modules.js");
 		helpers.getDocument(done, 1000);
 	});
 	afterAll(function () {
-		helpers.stopApplication(app);
+		helpers.stopApplication();
 	});
 
 	it("Show the message MagicMirror title", function () {

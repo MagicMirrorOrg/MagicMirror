@@ -1,13 +1,12 @@
 const helpers = require("./global-setup");
-let app = null;
 
 describe("Position of modules", function () {
 	beforeAll(function (done) {
-		app = helpers.startApplication("tests/configs/modules/positions.js");
+		helpers.startApplication("tests/configs/modules/positions.js");
 		helpers.getDocument(done, 1000);
 	});
 	afterAll(function () {
-		helpers.stopApplication(app);
+		helpers.stopApplication();
 	});
 
 	const positions = ["top_bar", "top_left", "top_center", "top_right", "upper_third", "middle_center", "lower_third", "bottom_left", "bottom_center", "bottom_right", "bottom_bar", "fullscreen_above", "fullscreen_below"];

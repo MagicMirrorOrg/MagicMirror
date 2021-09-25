@@ -1,13 +1,12 @@
 const helpers = require("./global-setup");
-let app = null;
 
 describe("Display of modules", function () {
 	beforeAll(function (done) {
-		app = helpers.startApplication("tests/configs/modules/display.js");
+		helpers.startApplication("tests/configs/modules/display.js");
 		helpers.getDocument(done);
 	});
 	afterAll(function () {
-		helpers.stopApplication(app);
+		helpers.stopApplication();
 	});
 
 	it("should show the test header", function () {
