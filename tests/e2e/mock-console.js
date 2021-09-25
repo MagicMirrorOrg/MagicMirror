@@ -4,7 +4,7 @@
  * @param {string} err The error message.
  */
 function myError(err) {
-	if (err.includes("ECONNREFUSED") || err.includes("ECONNRESET") || err.includes("socket hang up")) {
+	if (err.includes("ECONNREFUSED") || err.includes("ECONNRESET") || err.includes("socket hang up") || err.includes("exports is not defined")) {
 		jest.fn();
 	} else {
 		console.dir(err);
