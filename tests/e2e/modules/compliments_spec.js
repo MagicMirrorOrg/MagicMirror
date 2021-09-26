@@ -56,7 +56,7 @@ describe("Compliments module", function () {
 				helpers.getDocument(done, 1000);
 			});
 
-			it("Show anytime because if configure empty parts of day compliments and set anytime compliments", async function () {
+			it("Show anytime because if configure empty parts of day compliments and set anytime compliments", function () {
 				doTest(["Anytime here"]);
 			});
 		});
@@ -67,7 +67,7 @@ describe("Compliments module", function () {
 				helpers.getDocument(done, 1000);
 			});
 
-			it("Show anytime compliments", async function () {
+			it("Show anytime compliments", function () {
 				doTest(["Anytime here"]);
 			});
 		});
@@ -80,7 +80,7 @@ describe("Compliments module", function () {
 				helpers.getDocument(done, 1000);
 			});
 
-			it("Show happy new year compliment on new years day", async function () {
+			it("Show happy new year compliment on new years day", function () {
 				doTest(["Happy new year!"]);
 			});
 		});

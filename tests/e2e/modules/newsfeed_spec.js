@@ -23,7 +23,7 @@ describe("Newsfeed module", function () {
 			expect(elem.textContent).toContain("QPanel");
 		});
 
-		it("should NOT show the newsfeed description", async () => {
+		it("should NOT show the newsfeed description", () => {
 			const elem = document.querySelector(".newsfeed .newsfeed-desc");
 			expect(elem).toBe(null);
 		});
@@ -41,7 +41,7 @@ describe("Newsfeed module", function () {
 			expect(elem.textContent).toContain("Problema VirtualBox");
 		});
 
-		it("should show the newsfeed description", async () => {
+		it("should show the newsfeed description", () => {
 			const elem = document.querySelector(".newsfeed .newsfeed-desc");
 			expect(elem).not.toBe(null);
 			expect(elem.textContent.length).not.toBe(0);

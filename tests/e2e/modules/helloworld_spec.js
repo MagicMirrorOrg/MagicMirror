@@ -11,7 +11,7 @@ describe("Test helloworld module", function () {
 			helpers.getDocument(done, 1000);
 		});
 
-		it("Test message helloworld module", async function () {
+		it("Test message helloworld module", function () {
 			const elem = document.querySelector(".helloworld");
 			expect(elem).not.toBe(null);
 			expect(elem.textContent).toContain("Test HelloWorld Module");
@@ -24,7 +24,7 @@ describe("Test helloworld module", function () {
 			helpers.getDocument(done, 1000);
 		});
 
-		it("Test message helloworld module", async function () {
+		it("Test message helloworld module", function () {
 			const elem = document.querySelector(".helloworld");
 			expect(elem).not.toBe(null);
 			expect(elem.textContent).toContain("Hello World!");
