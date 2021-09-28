@@ -1,5 +1,4 @@
 const jsdom = require("jsdom");
-const config = require("../configs/empty_ipWhiteList");
 
 exports.startApplication = function (configFilename, exec) {
 	jest.resetModules();
