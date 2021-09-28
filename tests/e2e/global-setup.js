@@ -21,6 +21,7 @@ exports.stopApplication = function () {
 exports.getDocument = function (callback, ms) {
 	const url = "http://" + (config.address || "localhost") + ":" + (config.port || "8080");
 	jsdom.JSDOM.fromURL(url, { resources: "usable", runScripts: "dangerously" }).then((dom) => {
+		dom.window.name = "jsdom";
 		dom.window.onload = function () {
 			global.document = dom.window.document;
 			setTimeout(() => {

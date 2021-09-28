@@ -30,7 +30,7 @@
 		enableLog = process.env.JEST_WORKER_ID === undefined;
 	} else {
 		// in browser and not running with jsdom
-		enableLog = typeof window === "object" && window.name === "nodejs";
+		enableLog = typeof window === "object" && window.name !== "jsdom";
 	}
 
 	if (enableLog) {
