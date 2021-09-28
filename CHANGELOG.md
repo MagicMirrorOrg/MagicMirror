@@ -28,6 +28,7 @@ _This release is scheduled to be released on 2021-10-01._
 - Use of `logger.js` in jest tests.
 - Run prettier over all relevant files.
 - Move tests needing electron in new category `electron`, use `server only` mode in `e2e` tests.
+- Update dependencies in package.json.
 
 ### Fixed
 
