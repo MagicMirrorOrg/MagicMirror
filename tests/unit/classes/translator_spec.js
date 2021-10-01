@@ -67,6 +67,9 @@ describe("Translator", function () {
 			Fallback: "core fallback"
 		};
 
+		/**
+		 * @param {object} Translator the global Translator object
+		 */
 		function setTranslations(Translator) {
 			Translator.translations = translations;
 			Translator.coreTranslations = coreTranslations;

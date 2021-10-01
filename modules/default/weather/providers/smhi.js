@@ -1,4 +1,4 @@
-/* global WeatherProvider, WeatherObject, SunCalc */
+/* global WeatherProvider, WeatherObject */
 
 /* Magic Mirror
  * Module: Weather
@@ -7,9 +7,8 @@
  * By BuXXi https://github.com/buxxi
  * MIT Licensed
  *
- * This class is a provider for SMHI (Sweden only).
- * Note that SMHI doesn't provide sunrise and sundown, use SunCalc to calculate it.
- * Metric system is the only supported unit.
+ * This class is a provider for SMHI (Sweden only). Metric system is the only
+ * supported unit.
  */
 WeatherProvider.register("smhi", {
 	providerName: "SMHI",
@@ -56,11 +55,11 @@ WeatherProvider.register("smhi", {
 	/**
 	 * Overrides method for setting config with checks for the precipitationValue being unset or invalid
 	 *
-	 * @param config
+	 * @param {object} config The configuration object
 	 */
 	setConfig(config) {
 		this.config = config;
-		if (!config.precipitationValue || ["pmin", "pmean", "pmedian", "pmax"].indexOf(config.precipitationValue) == -1) {
+		if (!config.precipitationValue || ["pmin", "pmean", "pmedian", "pmax"].indexOf(config.precipitationValue) === -1) {
 			console.log("invalid or not set: " + config.precipitationValue);
 			config.precipitationValue = this.defaults.precipitationValue;
 		}
@@ -69,7 +68,8 @@ WeatherProvider.register("smhi", {
 	/**
 	 * Of all the times returned find out which one is closest to the current time, should be the first if the data isn't old.
 	 *
-	 * @param times
+	 * @param {object[]} times Array of time objects
+	 * @returns {object} The weatherdata closest to the current time
 	 */
 	getClosestToCurrentTime(times) {
 		let now = moment();
@@ -85,6 +85,8 @@ WeatherProvider.register("smhi", {
 
 	/**
 	 * Get the forecast url for the configured coordinates
+	 *
+	 * @returns {string} the url for the specified coordinates
 	 */
 	getURL() {
 		let lon = this.config.lon;
@@ -97,25 +99,25 @@ WeatherProvider.register("smhi", {
 	 * The returned units is always in metric system.
 	 * Requires coordinates to determine if its daytime or nighttime to know which icon to use and also to set sunrise and sunset.
 	 *
-	 * @param weatherData
-	 * @param coordinates
-	 * @param weatherData
-	 * @param coordinates
+	 * @param {object} weatherData Weatherdata to convert
+	 * @param {object} coordinates Coordinates of the locations of the weather
+	 * @returns {WeatherObject} The converted weatherdata at the specified location
 	 */
 	convertWeatherDataToObject(weatherData, coordinates) {
-		let currentWeather = new WeatherObject("metric", "metric", "metric"); //Weather data is only for Sweden and nobody in Sweden would use imperial
+		// Weather data is only for Sweden and nobody in Sweden would use imperial
+		let currentWeather = new WeatherObject("metric", "metric", "metric");
 
 		currentWeather.date = moment(weatherData.validTime);
-		let times = SunCalc.getTimes(currentWeather.date.toDate(), coordinates.lat, coordinates.lon);
-		currentWeather.sunrise = moment(times.sunrise, "X");
-		currentWeather.sunset = moment(times.sunset, "X");
+		currentWeather.updateSunTime(coordinates.lat, coordinates.lon);
 		currentWeather.humidity = this.paramValue(weatherData, "r");
 		currentWeather.temperature = this.paramValue(weatherData, "t");
 		currentWeather.windSpeed = this.paramValue(weatherData, "ws");
 		currentWeather.windDirection = this.paramValue(weatherData, "wd");
-		currentWeather.weatherType = this.convertWeatherType(this.paramValue(weatherData, "Wsymb2"), this.isDayTime(currentWeather));
+		currentWeather.weatherType = this.convertWeatherType(this.paramValue(weatherData, "Wsymb2"), currentWeather.isDayTime());
 
-		//Determine the precipitation amount and category and update the weatherObject with it, the valuetype to use can be configured or uses median as default.
+		// Determine the precipitation amount and category and update the
+		// weatherObject with it, the valuetype to use can be configured or uses
+		// median as default.
 		let precipitationValue = this.paramValue(weatherData, this.config.precipitationValue);
 		switch (this.paramValue(weatherData, "pcat")) {
 			// 0 = No precipitation
@@ -143,10 +145,9 @@ WeatherProvider.register("smhi", {
 	/**
 	 * Takes all of the data points and converts it to one WeatherObject per day.
 	 *
-	 * @param allWeatherData
-	 * @param coordinates
-	 * @param allWeatherData
-	 * @param coordinates
+	 * @param {object[]} allWeatherData Array of weatherdata
+	 * @param {object} coordinates Coordinates of the locations of the weather
+	 * @returns {WeatherObject[]} Array of weatherobjects
 	 */
 	convertWeatherDataGroupedByDay(allWeatherData, coordinates) {
 		let currentWeather;
@@ -170,7 +171,7 @@ WeatherProvider.register("smhi", {
 			}
 
 			//Keep track of what icons has been used for each hour of daytime and use the middle one for the forecast
-			if (this.isDayTime(weatherObject)) {
+			if (weatherObject.isDayTime()) {
 				dayWeatherTypes.push(weatherObject.weatherType);
 			}
 			if (dayWeatherTypes.length > 0) {
@@ -191,37 +192,31 @@ WeatherProvider.register("smhi", {
 	},
 
 	/**
-	 * Resolve coordinates from the response data (probably preferably to use this if it's not matching the config values exactly)
+	 * Resolve coordinates from the response data (probably preferably to use
+	 * this if it's not matching the config values exactly)
 	 *
-	 * @param data
+	 * @param {object} data Response data from the weather service
+	 * @returns {{lon, lat}} the lat/long coordinates of the data
 	 */
 	resolveCoordinates(data) {
 		return { lat: data.geometry.coordinates[0][1], lon: data.geometry.coordinates[0][0] };
 	},
 
 	/**
-	 * Checks if the weatherObject is at dayTime.
-	 *
-	 * @param weatherObject
-	 */
-	isDayTime(weatherObject) {
-		return weatherObject.date.isBetween(weatherObject.sunrise, weatherObject.sunset, undefined, "[]");
-	},
-
-	/**
 	 * The distance between the data points is increasing in the data the more distant the prediction is.
 	 * Find these gaps and fill them with the previous hours data to make the data returned a complete set.
 	 *
-	 * @param data
+	 * @param {object[]} data Response data from the weather service
+	 * @returns {object[]} Given data with filled gaps
 	 */
 	fillInGaps(data) {
 		let result = [];
-		for (const i = 1; i < data.length; i++) {
+		for (let i = 1; i < data.length; i++) {
 			let to = moment(data[i].validTime);
 			let from = moment(data[i - 1].validTime);
 			let hours = moment.duration(to.diff(from)).asHours();
 			// For each hour add a datapoint but change the validTime
-			for (const j = 0; j < hours; j++) {
+			for (let j = 0; j < hours; j++) {
 				let current = Object.assign({}, data[i]);
 				current.validTime = from.clone().add(j, "hours").toISOString();
 				result.push(current);
@@ -231,84 +226,81 @@ WeatherProvider.register("smhi", {
 	},
 
 	/**
-	 * Helper method to fetch a property from the returned data set.
-	 * The returned values is an array with always one value in it.
+	 * Helper method to get a property from the returned data set.
 	 *
-	 * @param currentWeatherData
-	 * @param name
-	 * @param currentWeatherData
-	 * @param name
+	 * @param {object} currentWeatherData Weatherdata to get from
+	 * @param {string} name The name of the property
+	 * @returns {*} The value of the property in the weatherdata
 	 */
 	paramValue(currentWeatherData, name) {
-		return currentWeatherData.parameters.filter((p) => p.name == name).flatMap((p) => p.values)[0];
+		return currentWeatherData.parameters.filter((p) => p.name === name).flatMap((p) => p.values)[0];
 	},
 
 	/**
-	 * Map the icon value from SHMI to an icon that MagicMirror understands.
+	 * Map the icon value from SMHI to an icon that MagicMirror understands.
 	 * Uses different icons depending if its daytime or nighttime.
-	 * SHMI's description of what the numeric value means is the comment after the case.
+	 * SMHI's description of what the numeric value means is the comment after the case.
 	 *
-	 * @param input
-	 * @param isDayTime
-	 * @param input
-	 * @param isDayTime
+	 * @param {number} input The SMHI icon value
+	 * @param {boolean} isDayTime True if the icon should be for daytime, false for nighttime
+	 * @returns {string} The icon name for the MagicMirror
 	 */
 	convertWeatherType(input, isDayTime) {
 		switch (input) {
 			case 1:
 				return isDayTime ? "day-sunny" : "night-clear"; // Clear sky
 			case 2:
-				return isDayTime ? "day-sunny-overcast" : "night-partly-cloudy"; //Nearly clear sky
+				return isDayTime ? "day-sunny-overcast" : "night-partly-cloudy"; // Nearly clear sky
 			case 3:
-				return isDayTime ? "day-cloudy" : "night-cloudy"; //Variable cloudiness
+				return isDayTime ? "day-cloudy" : "night-cloudy"; // Variable cloudiness
 			case 4:
-				return isDayTime ? "day-cloudy" : "night-cloudy"; //Halfclear sky
+				return isDayTime ? "day-cloudy" : "night-cloudy"; // Halfclear sky
 			case 5:
-				return "cloudy"; //Cloudy sky
+				return "cloudy"; // Cloudy sky
 			case 6:
-				return "cloudy"; //Overcast
+				return "cloudy"; // Overcast
 			case 7:
-				return "fog"; //Fog
+				return "fog"; // Fog
 			case 8:
-				return "showers"; //Light rain showers
+				return "showers"; // Light rain showers
 			case 9:
-				return "showers"; //Moderate rain showers
+				return "showers"; // Moderate rain showers
 			case 10:
-				return "showers"; //Heavy rain showers
+				return "showers"; // Heavy rain showers
 			case 11:
-				return "thunderstorm"; //Thunderstorm
+				return "thunderstorm"; // Thunderstorm
 			case 12:
-				return "sleet"; //Light sleet showers
+				return "sleet"; // Light sleet showers
 			case 13:
-				return "sleet"; //Moderate sleet showers
+				return "sleet"; // Moderate sleet showers
 			case 14:
-				return "sleet"; //Heavy sleet showers
+				return "sleet"; // Heavy sleet showers
 			case 15:
-				return "snow"; //Light snow showers
+				return "snow"; // Light snow showers
 			case 16:
-				return "snow"; //Moderate snow showers
+				return "snow"; // Moderate snow showers
 			case 17:
-				return "snow"; //Heavy snow showers
+				return "snow"; // Heavy snow showers
 			case 18:
-				return "rain"; //Light rain
+				return "rain"; // Light rain
 			case 19:
-				return "rain"; //Moderate rain
+				return "rain"; // Moderate rain
 			case 20:
-				return "rain"; //Heavy rain
+				return "rain"; // Heavy rain
 			case 21:
-				return "thunderstorm"; //Thunder
+				return "thunderstorm"; // Thunder
 			case 22:
 				return "sleet"; // Light sleet
 			case 23:
-				return "sleet"; //Moderate sleet
+				return "sleet"; // Moderate sleet
 			case 24:
 				return "sleet"; // Heavy sleet
 			case 25:
 				return "snow"; // Light snowfall
 			case 26:
-				return "snow"; //Moderate snowfall
+				return "snow"; // Moderate snowfall
 			case 27:
-				return "snow"; //Heavy snowfall
+				return "snow"; // Heavy snowfall
 			default:
 				return "";
 		}

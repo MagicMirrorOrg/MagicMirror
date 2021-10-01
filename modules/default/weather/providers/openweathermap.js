@@ -18,10 +18,10 @@ WeatherProvider.register("openweathermap", {
 	defaults: {
 		apiVersion: "2.5",
 		apiBase: "https://api.openweathermap.org/data/",
-		weatherEndpoint: "",
+		weatherEndpoint: "", // can be "onecall", "forecast" or "weather" (for current)
 		locationID: false,
 		location: false,
-		lat: 0,
+		lat: 0, // the onecall endpoint needs lat / lon values, it doesn'T support the locationId
 		lon: 0,
 		apiKey: ""
 	},
@@ -89,7 +89,7 @@ WeatherProvider.register("openweathermap", {
 	/**
 	 * Overrides method for setting config to check if endpoint is correct for hourly
 	 *
-	 * @param config
+	 * @param {object} config The configuration object
 	 */
 	setConfig(config) {
 		this.config = config;

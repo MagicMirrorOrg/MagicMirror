@@ -1,32 +1,17 @@
 const helpers = require("../global-setup");
 
 describe("Alert module", function () {
-	helpers.setupTimeout(this);
-
-	let app = null;
-
-	beforeEach(function () {
-		return helpers
-			.startApplication({
-				args: ["js/electron.js"]
-			})
-			.then(function (startedApp) {
-				app = startedApp;
-			});
+	beforeAll(function (done) {
+		helpers.startApplication("tests/configs/modules/alert/default.js");
+		helpers.getDocument(done, 1000);
+	});
+	afterAll(function () {
+		helpers.stopApplication();
 	});
 
-	afterEach(function () {
-		return helpers.stopApplication(app);
-	});
-
-	describe("Default configuration", function () {
-		beforeAll(function () {
-			// Set config sample for use in test
-			process.env.MM_CONFIG_FILE = "tests/configs/modules/alert/default.js";
-		});
-
-		it("should show the welcome message", function () {
-			return app.client.waitUntilTextExists(".ns-box .ns-box-inner .light.bright.small", "Welcome, start was successful!", 10000);
-		});
+	it("should show the welcome message", function () {
+		const elem = document.querySelector(".ns-box .ns-box-inner .light.bright.small");
+		expect(elem).not.toBe(null);
+		expect(elem.textContent).toContain("Welcome, start was successful!");
 	});
 });

@@ -1,36 +1,23 @@
 const helpers = require("./global-setup");
 
 describe("Check configuration without modules", function () {
-	helpers.setupTimeout(this);
-
-	let app = null;
-
-	beforeEach(function () {
-		return helpers
-			.startApplication({
-				args: ["js/electron.js"]
-			})
-			.then(function (startedApp) {
-				app = startedApp;
-			});
+	beforeAll(function (done) {
+		helpers.startApplication("tests/configs/without_modules.js");
+		helpers.getDocument(done, 1000);
+	});
+	afterAll(function () {
+		helpers.stopApplication();
 	});
 
-	afterEach(function () {
-		return helpers.stopApplication(app);
+	it("Show the message MagicMirror title", function () {
+		const elem = document.querySelector("#module_1_helloworld .module-content");
+		expect(elem).not.toBe(null);
+		expect(elem.textContent).toContain("Magic Mirror2");
 	});
 
-	beforeAll(function () {
-		// Set config sample for use in test
-		process.env.MM_CONFIG_FILE = "tests/configs/without_modules.js";
-	});
-
-	it("Show the message MagicMirror title", async function () {
-		const elem = await app.client.$("#module_1_helloworld .module-content");
-		return expect(await elem.getText("#module_1_helloworld .module-content")).toBe("Magic Mirror2");
-	});
-
-	it("Show the text Michael's website", async function () {
-		const elem = await app.client.$("#module_5_helloworld .module-content");
-		return expect(await elem.getText("#module_5_helloworld .module-content")).toBe("www.michaelteeuw.nl");
+	it("Show the text Michael's website", function () {
+		const elem = document.querySelector("#module_5_helloworld .module-content");
+		expect(elem).not.toBe(null);
+		expect(elem.textContent).toContain("www.michaelteeuw.nl");
 	});
 });

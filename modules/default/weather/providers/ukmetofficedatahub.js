@@ -1,3 +1,5 @@
+/* global WeatherProvider, WeatherObject */
+
 /* Magic Mirror
  * Module: Weather
  *
@@ -11,9 +13,8 @@
  * 		Hourly data for next 2 days ("hourly") - https://www.metoffice.gov.uk/binaries/content/assets/metofficegovuk/pdf/data/global-spot-data-hourly.pdf
  * 		3-hourly data for the next 7 days ("3hourly") - https://www.metoffice.gov.uk/binaries/content/assets/metofficegovuk/pdf/data/global-spot-data-3-hourly.pdf
  * 		Daily data for the next 7 days ("daily") - https://www.metoffice.gov.uk/binaries/content/assets/metofficegovuk/pdf/data/global-spot-data-daily.pdf
- */
-
-/* NOTES
+ *
+ * NOTES
  * This provider requires longitude/latitude coordinates, rather than a location ID (as with the previous Met Office provider)
  * Provide the following in your config.js file:
  * 		weatherProvider: "ukmetofficedatahub",
@@ -69,13 +70,11 @@ WeatherProvider.register("ukmetofficedatahub", {
 	// For DataHub requests, the API key/secret are sent in the headers rather than as query strings.
 	// Headers defined according to Data Hub API (https://metoffice.apiconnect.ibmcloud.com/metoffice/production/api)
 	getHeaders() {
-		let headers = {
+		return {
 			accept: "application/json",
 			"x-ibm-client-id": this.config.apiKey,
 			"x-ibm-client-secret": this.config.apiSecret
 		};
-
-		return headers;
 	},
 
 	// Fetch data using supplied URL and request headers
@@ -91,7 +90,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 		this.fetchWeather(this.getUrl("hourly"), this.getHeaders())
 			.then((data) => {
 				// Check data is useable
-				if (!data || !data.features || !data.features[0].properties || !data.features[0].properties.timeSeries || data.features[0].properties.timeSeries.length == 0) {
+				if (!data || !data.features || !data.features[0].properties || !data.features[0].properties.timeSeries || data.features[0].properties.timeSeries.length === 0) {
 					// Did not receive usable new data.
 					// Maybe this needs a better check?
 					Log.error("Possibly bad current/hourly data?");
@@ -125,7 +124,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 		let nowUtc = moment.utc();
 
 		// Find hour that contains the current time
-		for (hour in forecastDataHours) {
+		for (let hour in forecastDataHours) {
 			let forecastTime = moment.utc(forecastDataHours[hour].time);
 			if (nowUtc.isSameOrAfter(forecastTime) && nowUtc.isBefore(moment(forecastTime.add(1, "h")))) {
 				currentWeather.date = forecastTime;
@@ -148,11 +147,9 @@ WeatherProvider.register("ukmetofficedatahub", {
 		}
 
 		// Determine the sunrise/sunset times - (still) not supplied in UK Met Office data
-		// Passes {longitude, latitude, height} to calcAstroData
-		// Could just pass lat/long from this.config, but returned data from MO also contains elevation
-		let times = this.calcAstroData(currentWeatherData.features[0].geometry.coordinates);
-		currentWeather.sunrise = times[0];
-		currentWeather.sunset = times[1];
+		// Passes {longitude, latitude} to SunCalc, could pass height to, but
+		// SunCalc.getTimes doesnt take that into account
+		currentWeather.updateSunTime(this.config.lat, this.config.lon);
 
 		return currentWeather;
 	},
@@ -162,7 +159,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 		this.fetchWeather(this.getUrl("daily"), this.getHeaders())
 			.then((data) => {
 				// Check data is useable
-				if (!data || !data.features || !data.features[0].properties || !data.features[0].properties.timeSeries || data.features[0].properties.timeSeries.length == 0) {
+				if (!data || !data.features || !data.features[0].properties || !data.features[0].properties.timeSeries || data.features[0].properties.timeSeries.length === 0) {
 					// Did not receive usable new data.
 					// Maybe this needs a better check?
 					Log.error("Possibly bad forecast data?");
@@ -196,7 +193,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 		let today = moment.utc().startOf("date");
 
 		// Go through each day in the forecasts
-		for (day in forecastDataDays) {
+		for (let day in forecastDataDays) {
 			const forecastWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
 
 			// Get date of forecast
@@ -221,7 +218,6 @@ WeatherProvider.register("ukmetofficedatahub", {
 
 				// Pass on full details so they can be used in custom templates
 				// Note the units of the supplied data when using this (see top of file)
-
 				forecastWeather.rawData = forecastDataDays[day];
 
 				dailyForecasts.push(forecastWeather);
@@ -236,18 +232,6 @@ WeatherProvider.register("ukmetofficedatahub", {
 		this.fetchedLocationName = name;
 	},
 
-	// Calculate sunrise/sunset times
-	calcAstroData(location) {
-		const sunTimes = [];
-
-		// Careful to pass values to SunCalc in correct order (latitude, longitude, elevation)
-		let times = SunCalc.getTimes(new Date(), location[1], location[0], location[2]);
-		sunTimes.push(moment(times.sunrise, "X"));
-		sunTimes.push(moment(times.sunset, "X"));
-
-		return sunTimes;
-	},
-
 	// Convert temperatures to Fahrenheit (from degrees C), if required
 	convertTemp(tempInC) {
 		return this.config.tempUnits === "imperial" ? (tempInC * 9) / 5 + 32 : tempInC;
@@ -258,11 +242,11 @@ WeatherProvider.register("ukmetofficedatahub", {
 	// To use kilometres per hour, use "kph"
 	// Else assumed imperial and the value is returned in miles per hour (a Met Office user is likely to be UK-based)
 	convertWindSpeed(windInMpS) {
-		if (this.config.windUnits == "mps") {
+		if (this.config.windUnits === "mps") {
 			return windInMpS;
 		}
 
-		if (this.config.windUnits == "kph" || this.config.windUnits == "metric" || this.config.useKmh) {
+		if (this.config.windUnits === "kph" || this.config.windUnits === "metric" || this.config.useKmh) {
 			return windInMpS * 3.6;
 		}
 

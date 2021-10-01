@@ -12,6 +12,11 @@ describe("Weather module", function () {
 
 	helpers.setupTimeout(this);
 
+	/**
+	 *
+	 * @param {object} responses mocked data to be returned
+	 * @returns {Promise} Resolved once the electron app is started
+	 */
 	async function setup(responses) {
 		app = await helpers.startApplication({
 			args: ["js/electron.js"],
@@ -23,10 +28,20 @@ describe("Weather module", function () {
 		app.client.setupStub();
 	}
 
+	/**
+	 *
+	 * @param {string} element css selector
+	 * @returns {Promise<Element>} Promise with the element once it is rendered
+	 */
 	async function getElement(element) {
 		return await app.client.$(element);
 	}
 
+	/**
+	 * @param {string} element css selector
+	 * @param {string} result Expected text in given selector
+	 * @returns {Promise<boolean>} Promise with True if the text matches
+	 */
 	async function getText(element, result) {
 		const elem = await getElement(element);
 		return await elem.getText(element).then(function (text) {

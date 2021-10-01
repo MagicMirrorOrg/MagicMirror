@@ -1,5 +1,5 @@
 const helpers = require("../global-setup");
-const serverBasicAuth = require("../../servers/basic-auth.js");
+const serverBasicAuth = require("./basic-auth.js");
 
 describe("Calendar module", function () {
 	helpers.setupTimeout(this);

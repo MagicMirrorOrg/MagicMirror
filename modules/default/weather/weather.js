@@ -132,10 +132,6 @@ Module.register("weather", {
 	getTemplateData: function () {
 		const forecast = this.weatherProvider.weatherForecast();
 
-		if (this.config.ignoreToday) {
-			forecast.splice(0, 1);
-		}
-
 		return {
 			config: this.config,
 			current: this.weatherProvider.currentWeather(),
