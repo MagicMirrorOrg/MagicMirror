@@ -207,10 +207,9 @@ const Module = Class.extend({
 	 *
 	 * @param {HTMLDom} moduleWrapper Usually this module's HTML Dom
 	 * @param {number} speed animation speed
-	 *
 	 */
 
-	hideAnimation(moduleWrapper, speed) {
+	hideAnimation: function (moduleWrapper, speed) {
 		moduleWrapper.style.transition = "opacity " + speed / 1000 + "s";
 		moduleWrapper.style.opacity = 0;
 	},
@@ -220,10 +219,9 @@ const Module = Class.extend({
 	 *
 	 * @param {HTMLDom} moduleWrapper Usually this module's HTML Dom
 	 * @param {number} speed animation speed
-	 *
 	 */
 
-	showAnimation(moduleWrapper, speed) {
+	showAnimation: function (moduleWrapper, speed) {
 		moduleWrapper.style.transition = "opacity " + speed / 1000 + "s";
 		moduleWrapper.style.opacity = 1;
 	},
