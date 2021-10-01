@@ -15,6 +15,8 @@ _This release is scheduled to be released on 2022-01-01._
 
 ### Fixed
 
+- Fixed error when accessing letsencrypt certificates
+
 ## [2.17.0] - 2021-10-01
 
 Special thanks to the following contributors: @apiontek, @eouia, @jupadin, @khassel and @rejas.
