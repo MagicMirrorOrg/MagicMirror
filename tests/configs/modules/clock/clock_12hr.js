@@ -3,7 +3,7 @@
  * By Sergey Morozov
  * MIT Licensed.
  */
-let config = require(process.cwd() + "/tests/configs/default.js").configFactory({
+let config = {
 	timeFormat: 12,
 
 	modules: [
@@ -12,7 +12,7 @@ let config = require(process.cwd() + "/tests/configs/default.js").configFactory(
 			position: "middle_center"
 		}
 	]
-});
+};
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/
 if (typeof module !== "undefined") {

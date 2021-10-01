@@ -24,7 +24,16 @@
 	}
 })(this, function (config) {
 	let logLevel;
-	if ((typeof exports === "object" && process.env.JEST_WORKER_ID === undefined) || typeof exports !== "object") {
+	let enableLog;
+	if (typeof exports === "object") {
+		// in nodejs and not running with jest
+		enableLog = process.env.JEST_WORKER_ID === undefined;
+	} else {
+		// in browser and not running with jsdom
+		enableLog = typeof window === "object" && window.name !== "jsdom";
+	}
+
+	if (enableLog) {
 		logLevel = {
 			debug: Function.prototype.bind.call(console.debug, console),
 			log: Function.prototype.bind.call(console.log, console),

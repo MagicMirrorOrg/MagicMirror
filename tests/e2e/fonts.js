@@ -1,6 +1,5 @@
 const fetch = require("node-fetch");
 const helpers = require("./global-setup");
-let app = null;
 
 describe("All font files from roboto.css should be downloadable", function () {
 	const fontFiles = [];
@@ -16,10 +15,10 @@ describe("All font files from roboto.css should be downloadable", function () {
 	}
 
 	beforeAll(function () {
-		app = helpers.startApplication("tests/configs/without_modules.js");
+		helpers.startApplication("tests/configs/without_modules.js");
 	});
 	afterAll(function () {
-		helpers.stopApplication(app);
+		helpers.stopApplication();
 	});
 
 	test.each(fontFiles)("should return 200 HTTP code for file '%s'", (fontFile, done) => {

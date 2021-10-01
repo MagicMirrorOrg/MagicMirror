@@ -1,14 +1,13 @@
 const fetch = require("node-fetch");
 const helpers = require("./global-setup");
-let app = null;
 
 describe("port directive configuration", function () {
 	describe("Set port 8090", function () {
 		beforeAll(function () {
-			app = helpers.startApplication("tests/configs/port_8090.js");
+			helpers.startApplication("tests/configs/port_8090.js");
 		});
 		afterAll(function () {
-			helpers.stopApplication(app);
+			helpers.stopApplication();
 		});
 
 		it("should return 200", function (done) {
@@ -21,10 +20,10 @@ describe("port directive configuration", function () {
 
 	describe("Set port 8100 on environment variable MM_PORT", function () {
 		beforeAll(function () {
-			app = helpers.startApplication("tests/configs/port_8090.js", (process.env.MM_PORT = 8100));
+			helpers.startApplication("tests/configs/port_8090.js", (process.env.MM_PORT = 8100));
 		});
 		afterAll(function () {
-			helpers.stopApplication(app);
+			helpers.stopApplication();
 		});
 
 		it("should return 200", function (done) {
