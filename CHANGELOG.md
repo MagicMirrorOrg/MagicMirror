@@ -11,7 +11,11 @@ _This release is scheduled to be released on 2022-01-01._
 
 ### Added
 
+- `showAnimation()` and `hideAnimation()` to override default show/hide animation of the module. And `options` of `.show()` and `.hide()` can give the custom animation to modules.
+
 ### Updated
+
+- Delegate show/hide animation from MM `main.js` to `module.js`. (Module can handle its or other's show/hide animation.)
 
 ### Fixed
 

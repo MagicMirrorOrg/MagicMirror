@@ -202,6 +202,32 @@ const Module = Class.extend({
 		Log.log(this.name + " is resumed.");
 	},
 
+	/**
+	 * Called when the module needs the animation of hide.
+	 *
+	 * @param {HTMLDom} moduleWrapper Usually this module's HTML Dom
+	 * @param {number} speed animation speed
+	 *
+	 */
+
+	hideAnimation(moduleWrapper, speed) {
+		moduleWrapper.style.transition = "opacity " + speed / 1000 + "s";
+		moduleWrapper.style.opacity = 0;
+	},
+
+	/**
+	 * Called when the module needs the animation of show.
+	 *
+	 * @param {HTMLDom} moduleWrapper Usually this module's HTML Dom
+	 * @param {number} speed animation speed
+	 *
+	 */
+
+	showAnimation(moduleWrapper, speed) {
+		moduleWrapper.style.transition = "opacity " + speed / 1000 + "s";
+		moduleWrapper.style.opacity = 1;
+	},
+
 	/*********************************************
 	 * The methods below don"t need subclassing. *
 	 *********************************************/
