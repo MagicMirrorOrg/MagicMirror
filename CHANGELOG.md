@@ -5,6 +5,12 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror²
 
+## [2.17.1] - 2021-10-01
+
+### Fixed
+
+- Fixed error when accessing letsencrypt certificates
+
 ## [2.17.0] - 2021-10-01
 
 Special thanks to the following contributors: @apiontek, @eouia, @jupadin, @khassel and @rejas.
