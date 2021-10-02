@@ -15,6 +15,8 @@ _This release is scheduled to be released on 2022-01-01._
 
 ### Fixed
 
+- Fix feels_like data from openweathermaps current weather being ignored (#2678).
+
 ## [2.17.1] - 2021-10-01
 
 ### Fixed
