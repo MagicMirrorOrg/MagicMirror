@@ -1,16 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Updatenotification custom module returns status information 1`] = `
-Object {
-  "behind": 7,
-  "current": "master",
-  "hash": "",
-  "isBehindInStatus": false,
-  "module": "MMM-Fuel",
-  "tracking": "origin/master",
-}
-`;
-
 exports[`Updatenotification custom module returns status information without hash 1`] = `
 Object {
   "behind": 7,
