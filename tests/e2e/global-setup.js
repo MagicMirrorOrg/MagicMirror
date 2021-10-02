@@ -1,53 +1,32 @@
-/*
- * Magic Mirror Global Setup Test Suite
- *
- * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
- * MIT Licensed.
- */
-const Application = require("spectron").Application;
-const assert = require("assert");
-const path = require("path");
-const EventEmitter = require("events");
+const jsdom = require("jsdom");
 
-exports.getElectronPath = function () {
-	let electronPath = path.join(__dirname, "..", "..", "node_modules", ".bin", "electron");
-	if (process.platform === "win32") {
-		electronPath += ".cmd";
+exports.startApplication = function (configFilename, exec) {
+	jest.resetModules();
+	if (global.app) {
+		global.app.stop();
 	}
-	return electronPath;
+	// Set config sample for use in test
+	process.env.MM_CONFIG_FILE = configFilename;
+	if (exec) exec;
+	global.app = require("app.js");
+	global.app.start();
 };
 
-// Set timeout - if this is run as CI Job, increase timeout
-exports.setupTimeout = function (test) {
-	if (process.env.CI) {
-		jest.setTimeout(30000);
-	} else {
-		jest.setTimeout(10000);
+exports.stopApplication = function () {
+	if (global.app) {
+		global.app.stop();
 	}
 };
 
-exports.startApplication = function (options) {
-	const emitter = new EventEmitter();
-	emitter.setMaxListeners(100);
-
-	options.path = exports.getElectronPath();
-	if (process.env.CI) {
-		options.startTimeout = 30000;
-	}
-
-	const app = new Application(options);
-	return app.start().then(function () {
-		assert.strictEqual(app.isRunning(), true);
-		return app;
-	});
-};
-
-exports.stopApplication = function (app) {
-	if (!app || !app.isRunning()) {
-		return;
-	}
-
-	return app.stop().then(function () {
-		assert.strictEqual(app.isRunning(), false);
+exports.getDocument = function (callback, ms) {
+	const url = "http://" + (config.address || "localhost") + ":" + (config.port || "8080");
+	jsdom.JSDOM.fromURL(url, { resources: "usable", runScripts: "dangerously" }).then((dom) => {
+		dom.window.name = "jsdom";
+		dom.window.onload = function () {
+			global.document = dom.window.document;
+			setTimeout(() => {
+				callback();
+			}, ms);
+		};
 	});
 };

@@ -3,7 +3,7 @@
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.
  */
-let config = require(process.cwd() + "/tests/configs/default.js").configFactory({
+let config = {
 	modules:
 		// Using exotic content. This is why don't accept go to JSON configuration file
 		(function () {
@@ -20,7 +20,7 @@ let config = require(process.cwd() + "/tests/configs/default.js").configFactory(
 			}
 			return modules;
 		})()
-});
+};
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/
 if (typeof module !== "undefined") {

@@ -1,24 +1,12 @@
-const helpers = require("./global-setup");
 const fetch = require("node-fetch");
+const helpers = require("./global-setup");
 
 describe("Vendors", function () {
-	helpers.setupTimeout(this);
-
-	let app = null;
-
 	beforeAll(function () {
-		process.env.MM_CONFIG_FILE = "tests/configs/env.js";
-		return helpers
-			.startApplication({
-				args: ["js/electron.js"]
-			})
-			.then(function (startedApp) {
-				app = startedApp;
-			});
+		helpers.startApplication("tests/configs/default.js");
 	});
-
 	afterAll(function () {
-		return helpers.stopApplication(app);
+		helpers.stopApplication();
 	});
 
 	describe("Get list vendors", function () {

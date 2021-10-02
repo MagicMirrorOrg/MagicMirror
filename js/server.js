@@ -23,6 +23,7 @@ const Utils = require("./utils.js");
  */
 function Server(config, callback) {
 	const port = process.env.MM_PORT || config.port;
+	const serverSockets = new Set();
 
 	let server = null;
 	if (config.useHttps) {
@@ -40,6 +41,13 @@ function Server(config, callback) {
 			credentials: true
 		},
 		allowEIO3: true
+	});
+
+	server.on("connection", (socket) => {
+		serverSockets.add(socket);
+		socket.on("close", () => {
+			serverSockets.delete(socket);
+		});
 	});
 
 	Log.log(`Starting server on port ${port} ... `);
@@ -92,6 +100,13 @@ function Server(config, callback) {
 	if (typeof callback === "function") {
 		callback(app, io);
 	}
+
+	this.close = function () {
+		for (const socket of serverSockets.values()) {
+			socket.destroy();
+		}
+		server.close();
+	};
 }
 
 module.exports = Server;

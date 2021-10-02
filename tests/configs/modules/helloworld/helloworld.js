@@ -3,7 +3,7 @@
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.
  */
-let config = require(process.cwd() + "/tests/configs/default.js").configFactory({
+let config = {
 	modules: [
 		{
 			module: "helloworld",
@@ -13,7 +13,7 @@ let config = require(process.cwd() + "/tests/configs/default.js").configFactory(
 			}
 		}
 	]
-});
+};
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/
 if (typeof module !== "undefined") {

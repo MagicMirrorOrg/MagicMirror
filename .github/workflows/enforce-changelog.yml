@@ -11,8 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v2
-      - uses: dangoslen/changelog-enforcer@v1.6.1
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Enforce changelog️
+        uses: dangoslen/changelog-enforcer@v1.6.1
         with:
           changeLogPath: "CHANGELOG.md"
           skipLabels: "Skip Changelog"

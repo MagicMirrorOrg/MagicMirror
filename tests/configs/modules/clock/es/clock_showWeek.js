@@ -4,7 +4,7 @@
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.
  */
-let config = require(process.cwd() + "/tests/configs/default.js").configFactory({
+let config = {
 	language: "es",
 	timeFormat: 12,
 
@@ -17,7 +17,7 @@ let config = require(process.cwd() + "/tests/configs/default.js").configFactory(
 			}
 		}
 	]
-});
+};
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/
 if (typeof module !== "undefined") {

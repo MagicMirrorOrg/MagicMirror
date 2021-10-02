@@ -3,7 +3,7 @@
  * By Rejas
  * MIT Licensed.
  */
-let config = require(process.cwd() + "/tests/configs/default.js").configFactory({
+let config = {
 	modules: [
 		{
 			module: "helloworld",
@@ -21,11 +21,7 @@ let config = require(process.cwd() + "/tests/configs/default.js").configFactory(
 			}
 		}
 	]
-});
-
-config.electronOptions.fullscreen = false;
-config.electronOptions.width = 800;
-config.electronOptions.height = 600;
+};
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/
 if (typeof module !== "undefined") {
