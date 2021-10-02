@@ -12,7 +12,7 @@ class GitHelper {
 	}
 
 	getRefRegex(branch) {
-		return new RegExp("s*([a-z,0-9]+[.][.][a-z,0-9]+)  " + branch, "g");
+		return new RegExp(`s*([a-z,0-9]+[.][.][a-z,0-9]+)  ${branch}`, "g");
 	}
 
 	async execShell(command) {
@@ -22,10 +22,10 @@ class GitHelper {
 	}
 
 	async isGitRepo(moduleFolder) {
-		const res = await this.execShell(`cd ${moduleFolder} && git remote -v`);
+		const { stderr } = await this.execShell(`cd ${moduleFolder} && git remote -v`);
 
-		if (res.stderr) {
-			Log.error(`Failed to fetch git data for ${moduleFolder}: ${res.stderr}`);
+		if (stderr) {
+			Log.error(`Failed to fetch git data for ${moduleFolder}: ${stderr}`);
 
 			return false;
 		}
@@ -68,33 +68,27 @@ class GitHelper {
 			isBehindInStatus: false
 		};
 
-		let res;
 		if (repo.module === "default") {
 			// the hash is only needed for the mm repo
-			res = await this.execShell(`cd ${repo.folder} && git rev-parse HEAD`);
+			const { stderr, stdout } = await this.execShell(`cd ${repo.folder} && git rev-parse HEAD`);
 
-			if (res.stderr) {
-				Log.error(`Failed to get current commit hash for ${repo.module}: ${res.stderr}`);
+			if (stderr) {
+				Log.error(`Failed to get current commit hash for ${repo.module}: ${stderr}`);
 			}
 
-			gitInfo.hash = res.stdout;
+			gitInfo.hash = stdout;
 		}
 
-		if (repo.res) {
-			// mocking
-			res = repo.res;
-		} else {
-			res = await this.execShell(`cd ${repo.folder} && git status -sb`);
-		}
+		const { stderr, stdout } = await this.execShell(`cd ${repo.folder} && git status -sb`);
 
-		if (res.stderr) {
-			Log.error(`Failed to get git status for ${repo.module}: ${res.stderr}`);
+		if (stderr) {
+			Log.error(`Failed to get git status for ${repo.module}: ${stderr}`);
 			// exit without git status info
 			return;
 		}
 
 		// only the first line of stdout is evaluated
-		let status = res.stdout.split("\n")[0];
+		let status = stdout.split("\n")[0];
 		// examples for status:
 		// ## develop...origin/develop
 		// ## master...origin/master [behind 8]
@@ -119,14 +113,7 @@ class GitHelper {
 	}
 
 	async getRepoInfo(repo) {
-		let gitInfo;
-
-		if (repo.gitInfo) {
-			// mocking
-			gitInfo = repo.gitInfo;
-		} else {
-			gitInfo = await this.getStatusInfo(repo);
-		}
+		const gitInfo = await this.getStatusInfo(repo);
 
 		if (!gitInfo) {
 			return;
@@ -136,20 +123,13 @@ class GitHelper {
 			return gitInfo;
 		}
 
-		let res;
-
-		if (repo.res) {
-			// mocking
-			res = repo.res;
-		} else {
-			res = await this.execShell(`cd ${repo.folder} && git fetch --dry-run`);
-		}
+		const { stderr } = await this.execShell(`cd ${repo.folder} && git fetch --dry-run`);
 
 		// example output:
 		// From https://github.com/MichMich/MagicMirror
 		//    e40ddd4..06389e3  develop    -> origin/develop
 		// here the result is in stderr (this is a git default, don't ask why ...)
-		const matches = res.stderr.match(this.getRefRegex(gitInfo.current));
+		const matches = stderr.match(this.getRefRegex(gitInfo.current));
 
 		if (!matches || !matches[0]) {
 			// no refs found, nothing to do
@@ -158,8 +138,8 @@ class GitHelper {
 
 		// get behind with refs
 		try {
-			res = await this.execShell(`cd ${repo.folder} && git rev-list --ancestry-path --count ${matches[0]}`);
-			gitInfo.behind = parseInt(res.stdout);
+			const { stdout } = await this.execShell(`cd ${repo.folder} && git rev-list --ancestry-path --count ${matches[0]}`);
+			gitInfo.behind = parseInt(stdout);
 
 			return gitInfo;
 		} catch (err) {
@@ -167,28 +147,18 @@ class GitHelper {
 		}
 	}
 
-	async getStatus() {
-		const gitResultList = [];
-
-		for (let repo of this.gitRepos) {
-			const gitInfo = await this.getStatusInfo(repo);
-
-			if (gitInfo) {
-				gitResultList.push(gitInfo);
-			}
-		}
-
-		return gitResultList;
-	}
-
 	async getRepos() {
 		const gitResultList = [];
 
 		for (const repo of this.gitRepos) {
-			const gitInfo = await this.getRepoInfo(repo);
+			try {
+				const gitInfo = await this.getRepoInfo(repo);
 
-			if (gitInfo) {
-				gitResultList.push(gitInfo);
+				if (gitInfo) {
+					gitResultList.push(gitInfo);
+				}
+			} catch (e) {
+				Log.error(`Failed to retrieve repo info for ${repo.module}: ${e}`);
 			}
 		}
 
