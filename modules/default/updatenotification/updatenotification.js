@@ -23,11 +23,11 @@ Module.register("updatenotification", {
 		}, this.config.refreshInterval);
 	},
 
-	suspend: function () {
+	suspend() {
 		this.suspended = true;
 	},
 
-	resume: function () {
+	resume() {
 		this.suspended = false;
 		this.updateDom(2);
 	},
