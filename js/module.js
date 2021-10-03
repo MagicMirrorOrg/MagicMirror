@@ -205,7 +205,7 @@ const Module = Class.extend({
 	/**
 	 * Called when the module needs the animation of hide.
 	 *
-	 * @param {HTMLDom} moduleWrapper Usually this module's HTML Dom
+	 * @param {object} moduleWrapper Usually this module's HTML Dom
 	 * @param {number} speed animation speed
 	 */
 
@@ -217,7 +217,7 @@ const Module = Class.extend({
 	/**
 	 * Called when the module needs the animation of show.
 	 *
-	 * @param {HTMLDom} moduleWrapper Usually this module's HTML Dom
+	 * @param {object} moduleWrapper Usually this module's HTML Dom
 	 * @param {number} speed animation speed
 	 */
 
