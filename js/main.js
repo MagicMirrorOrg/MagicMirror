@@ -243,9 +243,12 @@ const MM = (function () {
 
 		const moduleWrapper = document.getElementById(module.identifier);
 		if (moduleWrapper !== null) {
-			moduleWrapper.style.transition = "opacity " + speed / 1000 + "s";
-			moduleWrapper.style.opacity = 0;
-
+			if (typeof options.animation === "function") {
+				options.animation({ moduleWrapper, module, speed });
+			} else {
+				moduleWrapper.style.transition = "opacity " + speed / 1000 + "s";
+				moduleWrapper.style.opacity = 0;
+			}
 			clearTimeout(module.showHideTimer);
 			module.showHideTimer = setTimeout(function () {
 				// To not take up any space, we just make the position absolute.
@@ -307,7 +310,6 @@ const MM = (function () {
 
 		const moduleWrapper = document.getElementById(module.identifier);
 		if (moduleWrapper !== null) {
-			moduleWrapper.style.transition = "opacity " + speed / 1000 + "s";
 			// Restore the position. See hideModule() for more info.
 			moduleWrapper.style.position = "static";
 
@@ -315,7 +317,12 @@ const MM = (function () {
 
 			// Waiting for DOM-changes done in updateWrapperStates before we can start the animation.
 			const dummy = moduleWrapper.parentElement.parentElement.offsetHeight;
-			moduleWrapper.style.opacity = 1;
+			if (typeof options.animation === "function") {
+				options.animation({ moduleWrapper, module, speed });
+			} else {
+				moduleWrapper.style.transition = "opacity " + speed / 1000 + "s";
+				moduleWrapper.style.opacity = 1;
+			}
 
 			clearTimeout(module.showHideTimer);
 			module.showHideTimer = setTimeout(function () {
