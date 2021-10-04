@@ -11,6 +11,8 @@ _This release is scheduled to be released on 2022-01-01._
 
 ### Added
 
+- Added `animation` option property to `.show()` and `.hide()` for enabling custom animation effects in show/hide transition.
+
 ### Updated
 
 ### Fixed
