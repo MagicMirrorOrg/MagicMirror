@@ -114,8 +114,7 @@
 				],
 				"testPathIgnorePatterns": [
 					"<rootDir>/tests/electron/modules/mocks",
-					"<rootDir>/tests/electron/global-setup.js",
-					"<rootDir>/tests/electron/modules/basic-auth.js"
+					"<rootDir>/tests/electron/global-setup.js"
 				]
 			},
 			{
@@ -131,7 +130,8 @@
 				],
 				"testPathIgnorePatterns": [
 					"<rootDir>/tests/e2e/global-setup.js",
-					"<rootDir>/tests/e2e/mock-console.js"
+					"<rootDir>/tests/e2e/mock-console.js",
+					"<rootDir>/tests/e2e/modules/basic-auth.js"
 				]
 			}
 		]
