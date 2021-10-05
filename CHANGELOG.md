@@ -13,6 +13,8 @@ _This release is scheduled to be released on 2022-01-01._
 
 ### Updated
 
+- Move calendar tests from category `electron` to `e2e`.
+
 ### Fixed
 
 ## [2.17.1] - 2021-10-01
