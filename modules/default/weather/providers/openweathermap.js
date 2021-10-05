@@ -127,6 +127,8 @@ WeatherProvider.register("openweathermap", {
 
 		currentWeather.humidity = currentWeatherData.main.humidity;
 		currentWeather.temperature = currentWeatherData.main.temp;
+		currentWeather.feelsLikeTemp = currentWeatherData.main.feels_like;
+
 		if (this.config.windUnits === "metric") {
 			currentWeather.windSpeed = this.config.useKmh ? currentWeatherData.wind.speed * 3.6 : currentWeatherData.wind.speed;
 		} else {
