@@ -35,7 +35,6 @@ let translations = {
 	is: "translations/is.json", // Icelandic
 	et: "translations/et.json", // Estonian
 	ko: "translations/ko.json", // Korean
-	kr: "translations/kr.json", // Wrong File for Korean, This code is reserved for Kanurian, but for backward compatibility; it needs keeping a while; this would be eliminated or replaced with Kanuri in future.
 	ro: "translations/ro.json", // Romanian
 	cy: "translations/cy.json", // Welsh (Cymraeg)
 	bg: "translations/bg.json", // Bulgarian

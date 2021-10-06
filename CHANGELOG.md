@@ -13,11 +13,11 @@ _This release is scheduled to be released on 2022-01-01._
 
 ### Updated
 
-- Update missed translation for Korean language.
+- Update missed translations for Korean language (ko.json)
 
 ### Fixed
 
-- Fixed wrong filename `kr.json` to `ko.json`.
+- Fixed wrong file `kr.json` to `ko.json`. To use language 'ko' instead of 'kr'
 
 ## [2.17.1] - 2021-10-01
 
