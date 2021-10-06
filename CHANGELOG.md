@@ -13,6 +13,8 @@ _This release is scheduled to be released on 2022-01-01._
 
 ### Updated
 
+- ESLint version supports now ECMAScript 2018
+- Cleaned up `updatenotification` module and switched to nunjuck template.
 - Move calendar tests from category `electron` to `e2e`.
 
 ### Fixed
