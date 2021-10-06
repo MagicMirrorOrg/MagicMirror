@@ -11,6 +11,7 @@ _This release is scheduled to be released on 2022-01-01._
 
 ### Added
 
+
 ### Updated
 
 - Update missed translation for Korean language.
@@ -18,6 +19,10 @@ _This release is scheduled to be released on 2022-01-01._
 ### Fixed
 
 - Fixed wrong filename `kr.json` to `ko.json`.
+- ESLint version supports now ECMAScript 2018
+- Cleaned up `updatenotification` module and switched to nunjuck template.
+- Move calendar tests from category `electron` to `e2e`.
+- Fix feels_like data from openweathermaps current weather being ignored (#2678).
 
 ## [2.17.1] - 2021-10-01
 

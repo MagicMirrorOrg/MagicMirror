@@ -1,126 +1,139 @@
-const path = require("path");
-const git_Helper = require("../../../modules/default/updatenotification/git_helper.js");
-const gitHelper = new git_Helper.gitHelper();
-gitHelper.add("default");
+jest.mock("util", () => ({
+	...jest.requireActual("util"),
+	promisify: jest.fn()
+}));
 
-const test1 = {
-	module: "test1",
-	folder: "",
-	res: {
-		stdout: "## master...origin/master [behind 8]",
-		stderr: ""
-	},
-	gitInfo: {
-		module: "default",
-		// commits behind:
-		behind: 0,
-		// branch name:
-		current: "develop",
-		// current hash:
-		hash: "",
-		// remote branch:
-		tracking: "",
-		isBehindInStatus: false
-	}
-};
+jest.mock("fs", () => ({
+	...jest.requireActual("fs"),
+	statSync: jest.fn()
+}));
 
-const test2 = {
-	module: "test2",
-	folder: "",
-	res: {
-		stdout: "## develop...origin/develop",
-		stderr: ""
-	}
-};
-
-const test3 = {
-	module: "test3",
-	folder: "",
-	res: {
-		stdout: "",
-		stderr: "error"
-	},
-	gitInfo: {
-		module: "default",
-		// commits behind:
-		behind: 2,
-		// branch name:
-		current: "develop",
-		// current hash:
-		hash: "",
-		// remote branch:
-		tracking: "",
-		isBehindInStatus: true
-	}
-};
-
-const test4 = {
-	module: "default",
-	folder: path.join(__dirname, "../../.."),
-	res: {
-		stdout: "",
-		stderr: "   e40ddd4..06389e3  develop    -> origin/develop"
-	},
-	gitInfo: {
-		module: "default",
-		// commits behind:
-		behind: 0,
-		// branch name:
-		current: "develop",
-		// current hash:
-		hash: "",
-		// remote branch:
-		tracking: "",
-		isBehindInStatus: false
-	}
-};
+jest.mock("logger", () => ({
+	...jest.requireActual("logger"),
+	error: jest.fn(),
+	info: jest.fn()
+}));
 
 describe("Updatenotification", function () {
-	it("should return valid output for git status", async function () {
-		const arr = await gitHelper.getStatus();
-		expect(arr.length).toBe(1);
-		const gitInfo = arr[0];
-		expect(gitInfo.current).not.toBe("");
-		expect(gitInfo.hash).not.toBe("");
-	}, 15000);
+	const execMock = jest.fn();
 
-	it("should return behind=8 for test1", async function () {
-		const gitInfo = await gitHelper.getStatusInfo(test1);
-		expect(gitInfo.behind).toBe(8);
-		expect(gitInfo.isBehindInStatus).toBe(true);
+	let gitHelper;
+
+	let gitRemoteOut;
+	let gitRevParseOut;
+	let gitStatusOut;
+	let gitFetchOut;
+	let gitRevListOut;
+	let gitRemoteErr;
+	let gitRevParseErr;
+	let gitStatusErr;
+	let gitFetchErr;
+	let gitRevListErr;
+
+	beforeAll(async function () {
+		const { promisify } = require("util");
+		promisify.mockReturnValue(execMock);
+
+		const GitHelper = require(`../../../modules/default/updatenotification/git_helper`);
+		gitHelper = new GitHelper();
 	});
 
-	it("should return behind=0 for test2", async function () {
-		const gitInfo = await gitHelper.getStatusInfo(test2);
-		expect(gitInfo.behind).toBe(0);
-		expect(gitInfo.isBehindInStatus).toBe(false);
+	beforeEach(function () {
+		gitRemoteOut = "";
+		gitRevParseOut = "";
+		gitStatusOut = "";
+		gitFetchOut = "";
+		gitRevListOut = "";
+		gitRemoteErr = "";
+		gitRevParseErr = "";
+		gitStatusErr = "";
+		gitFetchErr = "";
+		gitRevListErr = "";
+
+		execMock.mockImplementation(function (command) {
+			if (command.includes("git remote -v")) {
+				return { stdout: gitRemoteOut, stderr: gitRemoteErr };
+			} else if (command.includes("git rev-parse HEAD")) {
+				return { stdout: gitRevParseOut, stderr: gitRevParseErr };
+			} else if (command.includes("git status -sb")) {
+				return { stdout: gitStatusOut, stderr: gitStatusErr };
+			} else if (command.includes("git fetch --dry-run")) {
+				return { stdout: gitFetchOut, stderr: gitFetchErr };
+			} else if (command.includes("git rev-list --ancestry-path --count")) {
+				return { stdout: gitRevListOut, stderr: gitRevListErr };
+			}
+		});
 	});
 
-	it("should return empty status object for test3", async function () {
-		const gitInfo = await gitHelper.getStatusInfo(test3);
-		expect(gitInfo).toBe(undefined);
+	afterEach(async function () {
+		gitHelper.gitRepos = [];
+
+		jest.clearAllMocks();
 	});
 
-	it("should return empty repo object for test2", async function () {
-		// no gitInfo provided in res, so returns undefined
-		const gitInfo = await gitHelper.getRepoInfo(test2);
-		expect(gitInfo).toBe(undefined);
+	describe("default", () => {
+		const moduleName = "default";
+
+		beforeEach(async function () {
+			gitRemoteOut = "origin\tgit@github.com:MichMich/MagicMirror.git (fetch)\norigin\tgit@github.com:MichMich/MagicMirror.git (push)\n";
+			gitRevParseOut = "332e429a41f1a2339afd4f0ae96dd125da6beada";
+			gitStatusOut = "## develop...origin/develop\n M tests/unit/functions/updatenotification_spec.js\n";
+			gitFetchErr = "From github.com:MichMich/MagicMirror\n60e0377..332e429  develop          -> origin/develop\n";
+			gitRevListOut = "5";
+
+			await gitHelper.add(moduleName);
+		});
+
+		it("returns status information", async function () {
+			const repos = await gitHelper.getRepos();
+			expect(repos[0]).toMatchSnapshot();
+			expect(execMock).toHaveBeenCalledTimes(5);
+		});
+
+		it("returns status information early if isBehindInStatus", async function () {
+			gitStatusOut = "## develop...origin/develop [behind 5]";
+
+			const repos = await gitHelper.getRepos();
+			expect(repos[0]).toMatchSnapshot();
+			expect(execMock).toHaveBeenCalledTimes(3);
+		});
+
+		it("excludes repo if status can't be retrieved", async function () {
+			const errorMessage = "Failed to retrieve status";
+			execMock.mockRejectedValueOnce(errorMessage);
+
+			const repos = await gitHelper.getRepos();
+			expect(repos.length).toBe(0);
+
+			const { error } = require("logger");
+			expect(error).toHaveBeenCalledWith(`Failed to retrieve repo info for ${moduleName}: Failed to retrieve status`);
+		});
+
+		it("excludes repo if refs don't match regex", async function () {
+			gitFetchErr = "";
+
+			const repos = await gitHelper.getRepos();
+			expect(repos.length).toBe(0);
+		});
 	});
 
-	it("should return empty repo object for test1", async function () {
-		// no regex match for refs in empty string, so returns undefined
-		const gitInfo = await gitHelper.getRepoInfo(test1);
-		expect(gitInfo).toBe(undefined);
-	});
+	describe("custom module", () => {
+		const moduleName = "MMM-Fuel";
 
-	it("should return empty repo object for test4", async function () {
-		// git ref list throws error, so returns undefined
-		const gitInfo = await gitHelper.getRepoInfo(test4);
-		expect(gitInfo).toBe(undefined);
-	});
+		beforeEach(async function () {
+			gitRemoteOut = `origin\thttps://github.com/fewieden/${moduleName}.git (fetch)\norigin\thttps://github.com/fewieden/${moduleName}.git (push)\n`;
+			gitRevParseOut = "9d8310163da94441073a93cead711ba43e8888d0";
+			gitStatusOut = "## master...origin/master";
+			gitFetchErr = `From https://github.com/fewieden/${moduleName}\n19f7faf..9d83101  master      -> origin/master`;
+			gitRevListOut = "7";
 
-	it("should return behind=2 for test3", async function () {
-		const gitInfo = await gitHelper.getRepoInfo(test3);
-		expect(gitInfo.behind).toBe(2);
+			await gitHelper.add(moduleName);
+		});
+
+		it("returns status information without hash", async function () {
+			const repos = await gitHelper.getRepos();
+			expect(repos[0]).toMatchSnapshot();
+			expect(execMock).toHaveBeenCalledTimes(4);
+		});
 	});
 });
