@@ -13,12 +13,14 @@ _This release is scheduled to be released on 2022-01-01._
 
 ### Updated
 
-- ESLint version supports now ECMAScript 2018
-- Cleaned up `updatenotification` module and switched to nunjuck template.
-- Move calendar tests from category `electron` to `e2e`.
+- Fixed wrong file `kr.json` to `ko.json`. Use language code 'ko' instead of 'kr' for Korean language.
+- Update missed translations for Korean language (ko.json)
 
 ### Fixed
 
+- ESLint version supports now ECMAScript 2018
+- Cleaned up `updatenotification` module and switched to nunjuck template.
+- Move calendar tests from category `electron` to `e2e`.
 - Fix feels_like data from openweathermaps current weather being ignored (#2678).
 
 ## [2.17.1] - 2021-10-01
