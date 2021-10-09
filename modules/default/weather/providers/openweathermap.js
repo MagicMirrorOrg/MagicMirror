@@ -30,14 +30,14 @@ WeatherProvider.register("openweathermap", {
 	fetchCurrentWeather() {
 		this.fetchData(this.getUrl())
 			.then((data) => {
+				let currentWeather;
 				if (this.config.weatherEndpoint === "/onecall") {
-					const weatherData = this.generateWeatherObjectsFromOnecall(data);
-					this.setCurrentWeather(weatherData.current);
+					currentWeather = this.generateWeatherObjectsFromOnecall(data).current;
 					this.setFetchedLocation(`${data.timezone}`);
 				} else {
-					const currentWeather = this.generateWeatherObjectFromCurrentWeather(data);
-					this.setCurrentWeather(currentWeather);
+					currentWeather = this.generateWeatherObjectFromCurrentWeather(data);
 				}
+				this.setCurrentWeather(currentWeather);
 			})
 			.catch(function (request) {
 				Log.error("Could not load data ... ", request);
@@ -49,15 +49,17 @@ WeatherProvider.register("openweathermap", {
 	fetchWeatherForecast() {
 		this.fetchData(this.getUrl())
 			.then((data) => {
+				let forecast;
+				let location;
 				if (this.config.weatherEndpoint === "/onecall") {
-					const weatherData = this.generateWeatherObjectsFromOnecall(data);
-					this.setWeatherForecast(weatherData.days);
-					this.setFetchedLocation(`${data.timezone}`);
+					forecast = this.generateWeatherObjectsFromOnecall(data).days;
+					location = `${data.timezone}`;
 				} else {
-					const forecast = this.generateWeatherObjectsFromForecast(data.list);
-					this.setWeatherForecast(forecast);
-					this.setFetchedLocation(`${data.city.name}, ${data.city.country}`);
+					forecast = this.generateWeatherObjectsFromForecast(data.list);
+					location = `${data.city.name}, ${data.city.country}`;
 				}
+				this.setWeatherForecast(forecast);
+				this.setFetchedLocation(location);
 			})
 			.catch(function (request) {
 				Log.error("Could not load data ... ", request);
@@ -125,6 +127,7 @@ WeatherProvider.register("openweathermap", {
 	generateWeatherObjectFromCurrentWeather(currentWeatherData) {
 		const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
 
+		currentWeather.date = moment.unix(currentWeatherData.dt);
 		currentWeather.humidity = currentWeatherData.main.humidity;
 		currentWeather.temperature = currentWeatherData.main.temp;
 		currentWeather.feelsLikeTemp = currentWeatherData.main.feels_like;
