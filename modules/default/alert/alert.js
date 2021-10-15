@@ -22,7 +22,7 @@ Module.register("alert", {
 	},
 
 	getStyles() {
-		return ["notificationFx.css", "font-awesome.css", this.file(`./styles/${this.config.position}.css`)];
+		return ["font-awesome.css", this.file(`./styles/notificationFx.css`), this.file(`./styles/${this.config.position}.css`)];
 	},
 
 	getTranslations() {
