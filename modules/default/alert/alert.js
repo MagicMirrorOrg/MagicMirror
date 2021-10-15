@@ -30,9 +30,15 @@ Module.register("alert", {
 
 	getTranslations() {
 		return {
-			en: "translations/en.json",
+			bg: "translations/bg.json",
+			da: "translations/da.json",
 			de: "translations/de.json",
-			nl: "translations/nl.json"
+			en: "translations/en.json",
+			es: "translations/es.json",
+			fr: "translations/fr.json",
+			hu: "translations/hu.json",
+			nl: "translations/nl.json",
+			ru: "translations/ru.json"
 		};
 	},
 
