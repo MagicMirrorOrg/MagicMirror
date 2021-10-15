@@ -3,7 +3,7 @@ const helpers = require("../global-setup");
 describe("Alert module", function () {
 	beforeAll(function (done) {
 		helpers.startApplication("tests/configs/modules/alert/default.js");
-		helpers.getDocument(done, 1000);
+		helpers.getDocument(done, 3000);
 	});
 	afterAll(function () {
 		helpers.stopApplication();
