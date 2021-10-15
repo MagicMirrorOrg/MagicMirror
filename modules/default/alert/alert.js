@@ -67,22 +67,7 @@ Module.register("alert", {
 		}).show();
 	},
 
-	showAlert(params, sender) {
-		let image = "";
-		//Set standard params if not provided by module
-		if (typeof params.timer === "undefined") {
-			params.timer = null;
-		}
-		if (typeof params.imageHeight === "undefined") {
-			params.imageHeight = "80px";
-		}
-		if (typeof params.imageUrl === "undefined" && typeof params.imageFA === "undefined") {
-			params.imageUrl = null;
-		} else if (typeof params.imageFA === "undefined") {
-			image = "<img src='" + params.imageUrl.toString() + "' height='" + params.imageHeight.toString() + "' style='margin-bottom: 10px;'/><br />";
-		} else if (typeof params.imageUrl === "undefined") {
-			image = "<span class='bright " + "fa fa-" + params.imageFA + "' style='margin-bottom: 10px;font-size:" + params.imageHeight.toString() + ";'/></span><br />";
-		}
+	async showAlert(alert, sender) {
 		//Create overlay
 		const overlay = document.createElement("div");
 		overlay.id = "overlay";
@@ -94,24 +79,13 @@ Module.register("alert", {
 			this.hideAlert(sender, false);
 		}
 
-		//Display title and message only if they are provided in notification parameters
-		let message = "";
-		if (params.title) {
-			message += "<span class='light dimmed medium'>" + params.title + "</span>";
-		}
-		if (params.message) {
-			if (message !== "") {
-				message += "<br />";
-			}
-
-			message += "<span class='thin bright small'>" + params.message + "</span>";
-		}
+		const message = await this.renderMessage("alert", alert);
 
 		//Store alert in this.alerts
 		this.alerts[sender.name] = new NotificationFx({
-			message: image + message,
+			message,
 			effect: this.config.alert_effect,
-			ttl: params.timer,
+			ttl: alert.timer,
 			onClose: () => this.hideAlert(sender),
 			al_no: "ns-alert"
 		});
@@ -120,10 +94,10 @@ Module.register("alert", {
 		this.alerts[sender.name].show();
 
 		//Add timer to dismiss alert and overlay
-		if (params.timer) {
+		if (alert.timer) {
 			setTimeout(() => {
 				this.hideAlert(sender);
-			}, params.timer);
+			}, alert.timer);
 		}
 	},
 
