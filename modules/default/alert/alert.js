@@ -56,6 +56,18 @@ Module.register("alert", {
 		}
 	},
 
+	notificationReceived(notification, payload, sender) {
+		if (notification === "SHOW_ALERT") {
+			if (payload.type === "notification") {
+				this.showNotification(payload);
+			} else {
+				this.showAlert(payload, sender);
+			}
+		} else if (notification === "HIDE_ALERT") {
+			this.hideAlert(sender);
+		}
+	},
+
 	async showNotification(notification) {
 		const message = await this.renderMessage("notification", notification);
 
@@ -129,18 +141,6 @@ Module.register("alert", {
 		const modules = document.querySelectorAll(".module");
 		for (const module of modules) {
 			module.classList[method]("alert-blur");
-		}
-	},
-
-	notificationReceived(notification, payload, sender) {
-		if (notification === "SHOW_ALERT") {
-			if (payload.type === "notification") {
-				this.showNotification(payload);
-			} else {
-				this.showAlert(payload, sender);
-			}
-		} else if (notification === "HIDE_ALERT") {
-			this.hideAlert(sender);
 		}
 	}
 });
