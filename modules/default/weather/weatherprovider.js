@@ -113,20 +113,30 @@ const WeatherProvider = Class.extend({
 
 	// A convenience function to make requests. It returns a promise.
 	fetchData: function (url, method = "GET", data = null) {
-		return new Promise(function (resolve, reject) {
-			const request = new XMLHttpRequest();
-			request.open(method, url, true);
-			request.onreadystatechange = function () {
-				if (this.readyState === 4) {
-					if (this.status === 200) {
-						resolve(JSON.parse(this.response));
-					} else {
-						reject(request);
-					}
+		const getData = function (mockData) {
+			return new Promise(function (resolve, reject) {
+				if (mockData) {
+					let data = mockData;
+					data = data.substring(1, data.length - 1);
+					resolve(JSON.parse(data));
+				} else {
+					const request = new XMLHttpRequest();
+					request.open(method, url, true);
+					request.onreadystatechange = function () {
+						if (this.readyState === 4) {
+							if (this.status === 200) {
+								resolve(JSON.parse(this.response));
+							} else {
+								reject(request);
+							}
+						}
+					};
+					request.send();
 				}
-			};
-			request.send();
-		});
+			});
+		};
+
+		return getData(this.config.mockData);
 	}
 });
 

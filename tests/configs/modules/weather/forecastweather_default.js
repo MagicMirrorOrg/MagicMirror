@@ -3,7 +3,7 @@
  * By fewieden https://github.com/fewieden
  * MIT Licensed.
  */
-let config = require(process.cwd() + "/tests/configs/default.js").configFactory({
+let config = {
 	timeFormat: 12,
 
 	modules: [
@@ -13,13 +13,12 @@ let config = require(process.cwd() + "/tests/configs/default.js").configFactory(
 			config: {
 				type: "forecast",
 				location: "Munich",
-				apiKey: "fake key",
-				weatherEndpoint: "/forecast/daily",
-				initialLoadDelay: 3000
+				mockData: '"#####WEATHERDATA#####"',
+				weatherEndpoint: "/forecast/daily"
 			}
 		}
 	]
-});
+};
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/
 if (typeof module !== "undefined") {
