@@ -145,13 +145,10 @@ Module.register("alert", {
 
 	notificationReceived(notification, payload, sender) {
 		if (notification === "SHOW_ALERT") {
-			if (typeof payload.type === "undefined") {
-				payload.type = "alert";
-			}
-			if (payload.type === "alert") {
-				this.showAlert(payload, sender);
-			} else if (payload.type === "notification") {
+			if (payload.type === "notification") {
 				this.showNotification(payload);
+			} else {
+				this.showAlert(payload, sender);
 			}
 		} else if (notification === "HIDE_ALERT") {
 			this.hideAlert(sender);
