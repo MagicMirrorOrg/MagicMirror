@@ -39,6 +39,10 @@ Module.register("alert", {
 		};
 	},
 
+	getTemplate(type) {
+		return `templates/${type}.njk`;
+	},
+
 	start() {
 		Log.info(`Starting module: ${this.name}`);
 
@@ -52,23 +56,14 @@ Module.register("alert", {
 		}
 	},
 
-	showNotification(message) {
-		let msg = "";
-		if (message.title) {
-			msg += "<span class='thin dimmed medium'>" + message.title + "</span>";
-		}
-		if (message.message) {
-			if (msg !== "") {
-				msg += "<br />";
-			}
-			msg += "<span class='light bright small'>" + message.message + "</span>";
-		}
+	async showNotification(notification) {
+		const message = await this.renderMessage("notification", notification);
 
 		new NotificationFx({
-			message: msg,
+			message,
 			layout: "growl",
 			effect: this.config.effect,
-			ttl: message.timer !== undefined ? message.timer : this.config.display_time
+			ttl: notification.timer || this.config.display_time
 		}).show();
 	},
 
@@ -141,6 +136,18 @@ Module.register("alert", {
 			const overlay = document.getElementById("overlay");
 			overlay.parentNode.removeChild(overlay);
 		}
+	},
+
+	renderMessage(type, data) {
+		return new Promise((resolve) => {
+			this.nunjucksEnvironment().render(this.getTemplate(type), data, function (err, res) {
+				if (err) {
+					Log.error("Failed to render alert", err);
+				}
+
+				resolve(res);
+			});
+		});
 	},
 
 	notificationReceived(notification, payload, sender) {
