@@ -25,7 +25,7 @@ Module.register("alert", {
 	},
 
 	getStyles() {
-		return ["notificationFx.css", "font-awesome.css"];
+		return ["notificationFx.css", "font-awesome.css", this.file(`./styles/${this.config.position}.css`)];
 	},
 
 	getTranslations() {
@@ -136,21 +136,6 @@ Module.register("alert", {
 		}
 	},
 
-	setPosition(pos) {
-		//Add css to body depending on the set position for notifications
-		const sheet = document.createElement("style");
-		if (pos === "center") {
-			sheet.innerHTML = ".ns-box {margin-left: auto; margin-right: auto;text-align: center;}";
-		}
-		if (pos === "right") {
-			sheet.innerHTML = ".ns-box {margin-left: auto;text-align: right;}";
-		}
-		if (pos === "left") {
-			sheet.innerHTML = ".ns-box {margin-right: auto;text-align: left;}";
-		}
-		document.body.appendChild(sheet);
-	},
-
 	notificationReceived(notification, payload, sender) {
 		if (notification === "SHOW_ALERT") {
 			if (typeof payload.type === "undefined") {
@@ -168,7 +153,6 @@ Module.register("alert", {
 
 	start() {
 		this.alerts = {};
-		this.setPosition(this.config.position);
 		if (this.config.welcome_message) {
 			if (this.config.welcome_message === true) {
 				this.showNotification({ title: this.translate("sysTitle"), message: this.translate("welcome") });
