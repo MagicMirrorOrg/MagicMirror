@@ -1,0 +1,9 @@
+{% if title %}
+  <span class="thin dimmed medium">{{ title }}</span>
+{% endif %}
+{% if message %}
+  {% if title %}
+    <br/>
+  {% endif %}
+  <span class="light bright small">{{ message }}</span>
+{% endif %}
