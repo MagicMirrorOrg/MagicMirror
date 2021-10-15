@@ -68,20 +68,19 @@ Module.register("alert", {
 	},
 
 	async showAlert(alert, sender) {
-		//Create overlay
-		const overlay = document.createElement("div");
-		overlay.id = "overlay";
-		overlay.innerHTML += '<div class="black_overlay"></div>';
-		document.body.insertBefore(overlay, document.body.firstChild);
-
-		//If module already has an open alert close it
+		// If module already has an open alert close it
 		if (this.alerts[sender.name]) {
 			this.hideAlert(sender, false);
 		}
 
+		// Add overlay
+		if (!Object.keys(this.alerts).length) {
+			this.toggleBlur(true);
+		}
+
 		const message = await this.renderMessage("alert", alert);
 
-		//Store alert in this.alerts
+		// Store alert in this.alerts
 		this.alerts[sender.name] = new NotificationFx({
 			message,
 			effect: this.config.alert_effect,
@@ -90,10 +89,10 @@ Module.register("alert", {
 			al_no: "ns-alert"
 		});
 
-		//Show alert
+		// Show alert
 		this.alerts[sender.name].show();
 
-		//Add timer to dismiss alert and overlay
+		// Add timer to dismiss alert and overlay
 		if (alert.timer) {
 			setTimeout(() => {
 				this.hideAlert(sender);
@@ -102,13 +101,14 @@ Module.register("alert", {
 	},
 
 	hideAlert(sender, close = true) {
-		//Dismiss alert and remove from this.alerts
+		// Dismiss alert and remove from this.alerts
 		if (this.alerts[sender.name]) {
 			this.alerts[sender.name].dismiss(close);
-			this.alerts[sender.name] = null;
-			//Remove overlay
-			const overlay = document.getElementById("overlay");
-			overlay.parentNode.removeChild(overlay);
+			delete this.alerts[sender.name];
+			// Remove overlay
+			if (!Object.keys(this.alerts).length) {
+				this.toggleBlur(false);
+			}
 		}
 	},
 
@@ -122,6 +122,14 @@ Module.register("alert", {
 				resolve(res);
 			});
 		});
+	},
+
+	toggleBlur(add = false) {
+		const method = add ? "add" : "remove";
+		const modules = document.querySelectorAll(".module");
+		for (const module of modules) {
+			module.classList[method]("alert-blur");
+		}
 	},
 
 	notificationReceived(notification, payload, sender) {
