@@ -7,17 +7,14 @@
  * MIT Licensed.
  */
 Module.register("alert", {
+	alerts: {},
+
 	defaults: {
-		// scale|slide|genie|jelly|flip|bouncyflip|exploader
-		effect: "slide",
-		// scale|slide|genie|jelly|flip|bouncyflip|exploader
-		alert_effect: "jelly",
-		//time a notification is displayed in seconds
-		display_time: 3500,
-		//Position
+		effect: "slide", // scale|slide|genie|jelly|flip|bouncyflip|exploader
+		alert_effect: "jelly", // scale|slide|genie|jelly|flip|bouncyflip|exploader
+		display_time: 3500, // time a notification is displayed in seconds
 		position: "center",
-		//shown at startup
-		welcome_message: false
+		welcome_message: false // shown at startup
 	},
 
 	getScripts() {
@@ -42,10 +39,20 @@ Module.register("alert", {
 		};
 	},
 
-	showNotification(message) {
+	start() {
+		Log.info(`Starting module: ${this.name}`);
+
 		if (this.config.effect === "slide") {
-			this.config.effect = this.config.effect + "-" + this.config.position;
+			this.config.effect = `${this.config.effect}-${this.config.position}`;
 		}
+
+		if (this.config.welcome_message) {
+			const message = this.config.welcome_message === true ? this.translate("welcome") : this.config.welcome_message;
+			this.showNotification({ title: this.translate("sysTitle"), message });
+		}
+	},
+
+	showNotification(message) {
 		let msg = "";
 		if (message.title) {
 			msg += "<span class='thin dimmed medium'>" + message.title + "</span>";
@@ -149,17 +156,5 @@ Module.register("alert", {
 		} else if (notification === "HIDE_ALERT") {
 			this.hideAlert(sender);
 		}
-	},
-
-	start() {
-		this.alerts = {};
-		if (this.config.welcome_message) {
-			if (this.config.welcome_message === true) {
-				this.showNotification({ title: this.translate("sysTitle"), message: this.translate("welcome") });
-			} else {
-				this.showNotification({ title: this.translate("sysTitle"), message: this.config.welcome_message });
-			}
-		}
-		Log.info("Starting module: " + this.name);
 	}
 });
