@@ -3,7 +3,7 @@
  * By rejas
  * MIT Licensed.
  */
-let config = require(process.cwd() + "/tests/configs/default.js").configFactory({
+let config = {
 	units: "imperial",
 
 	modules: [
@@ -13,14 +13,13 @@ let config = require(process.cwd() + "/tests/configs/default.js").configFactory(
 			config: {
 				type: "forecast",
 				location: "Munich",
-				apiKey: "fake key",
+				mockData: '"#####WEATHERDATA#####"',
 				weatherEndpoint: "/forecast/daily",
-				initialLoadDelay: 3000,
 				decimalSymbol: "_"
 			}
 		}
 	]
-});
+};
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/
 if (typeof module !== "undefined") {

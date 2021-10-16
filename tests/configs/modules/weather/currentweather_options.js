@@ -3,15 +3,14 @@
  * By fewieden https://github.com/fewieden
  * MIT Licensed.
  */
-let config = require(process.cwd() + "/tests/configs/default.js").configFactory({
+let config = {
 	modules: [
 		{
 			module: "weather",
 			position: "bottom_bar",
 			config: {
 				location: "Munich",
-				apiKey: "fake key",
-				initialLoadDelay: 3000,
+				mockData: '"#####WEATHERDATA#####"',
 				useBeaufort: false,
 				showWindDirectionAsArrow: true,
 				showSun: false,
@@ -21,7 +20,7 @@ let config = require(process.cwd() + "/tests/configs/default.js").configFactory(
 			}
 		}
 	]
-});
+};
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/
 if (typeof module !== "undefined") {

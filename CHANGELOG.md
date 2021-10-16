@@ -15,9 +15,10 @@ _This release is scheduled to be released on 2022-01-01._
 
 - ESLint version supports now ECMAScript 2018
 - Cleaned up `updatenotification` module and switched to nunjuck template.
-- Move calendar tests from category `electron` to `e2e`.
+- Moved calendar tests from category `electron` to `e2e`.
 - Update missed translations for Korean language (ko.json)
 - Cleaned up `alert` module and switched to nunjuck template.
+- Moved weather tests from category `electron` to `e2e`.
 
 ### Fixed
 
