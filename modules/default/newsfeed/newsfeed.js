@@ -295,6 +295,11 @@ Module.register("newsfeed", {
 			this.sendNotification("NEWS_FEED", { items: this.newsItems });
 		}
 
+		// Stop existing intervals
+		if(this.timer){
+			clearInterval(this.timer);
+		}
+
 		this.timer = setInterval(() => {
 			this.activeItem++;
 			this.updateDom(this.config.animationSpeed);
