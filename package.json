@@ -47,7 +47,7 @@
 	"homepage": "https://magicmirror.builders",
 	"devDependencies": {
 		"eslint-config-prettier": "^8.3.0",
-		"eslint-plugin-jest": "^25.2.1",
+		"eslint-plugin-jest": "^25.2.2",
 		"eslint-plugin-jsdoc": "^36.1.1",
 		"eslint-plugin-prettier": "^4.0.0",
 		"express-basic-auth": "^1.2.0",
@@ -83,7 +83,7 @@
 		"moment": "^2.29.1",
 		"node-fetch": "^2.6.5",
 		"node-ical": "^0.13.0",
-		"socket.io": "^4.3.0"
+		"socket.io": "^4.3.1"
 	},
 	"_moduleAliases": {
 		"node_helper": "js/node_helper.js",
