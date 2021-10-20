@@ -11,6 +11,8 @@ _This release is scheduled to be released on 2022-01-01._
 
 ### Added
 
+- Added start script for windows: "npm run start:win"
+
 ### Updated
 
 - ESLint version supports now ECMAScript 2018
@@ -22,6 +24,7 @@ _This release is scheduled to be released on 2022-01-01._
 - Updated github actions.
 - Replace spectron with playwright, update dependencies including electron update to v16.
 - Added lithuanian language to translations.js
+- Made tests runnable under windows thanks to cross-env 
 
 ### Fixed
 
