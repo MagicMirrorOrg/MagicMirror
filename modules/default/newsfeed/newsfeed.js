@@ -295,6 +295,9 @@ Module.register("newsfeed", {
 			this.sendNotification("NEWS_FEED", { items: this.newsItems });
 		}
 
+		// #2638 Clear timer if it already exists
+		if (this.timer) clearInterval(this.timer);
+
 		this.timer = setInterval(() => {
 			this.activeItem++;
 			this.updateDom(this.config.animationSpeed);
