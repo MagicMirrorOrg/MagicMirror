@@ -160,7 +160,7 @@ const CalendarUtils = {
 			}
 
 			if (event.type === "VEVENT") {
-				Log.debug("\nEvent: " + JSON.stringify(event));
+				Log.debug("Event:\n" + JSON.stringify(event));
 				let startDate = eventDate(event, "start");
 				let endDate;
 
@@ -177,8 +177,8 @@ const CalendarUtils = {
 					}
 				}
 
-				Log.debug("startDate (local): " + startDate.toDate());
-				Log.debug("endDate (local): " + endDate.toDate());
+				Log.debug("start: " + startDate.toDate());
+				Log.debug("end:: " + endDate.toDate());
 
 				// Calculate the duration of the event for use with recurring events.
 				let duration = parseInt(endDate.format("x")) - parseInt(startDate.format("x"));
@@ -332,17 +332,15 @@ const CalendarUtils = {
 							Log.debug("Fullday");
 							// If the offset is negative (east of GMT), where the problem is
 							if (dateoffset < 0) {
-								// Remove the offset, independently of the comparison between the date hour and the offset,
-								// since in the case that *date houre < offset*, the *new Date* command will handle this by
-								// representing the day before.
-
-								// Reduce the time by the offset:
-								// Apply the correction to the date/time to get it UTC relative
-								date = new Date(date.getTime() - Math.abs(nowOffset) * 60000);
-								// the duration was calculated way back at the top before we could correct the start time..
-								// fix it for this event entry
-								//duration = 24 * 60 * 60 * 1000;
-								Log.debug("new recurring date1 is " + date);
+								if (dh <= Math.abs(dateoffset / 60)) {
+									// reduce the time by the offset
+									// Apply the correction to the date/time to get it UTC relative
+									date = new Date(date.getTime() - Math.abs(dateoffset) * 60000);
+									// the duration was calculated way back at the top before we could correct the start time..
+									// fix it for this event entry
+									//duration = 24 * 60 * 60 * 1000;
+									Log.debug("new recurring date1 is " + date);
+								}
 							} else {
 								// if the timezones are the same, correct date if needed
 								if (event.start.tz === moment.tz.guess()) {
@@ -387,7 +385,7 @@ const CalendarUtils = {
 							}
 						}
 						startDate = moment(date);
-						Log.debug("Corrected startDate (local): " + startDate.toDate());
+						Log.debug("Corrected startDate: " + startDate.toDate());
 
 						let adjustDays = CalendarUtils.calculateTimezoneAdjustment(event, date);
 
