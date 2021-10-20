@@ -26,6 +26,7 @@ _This release is scheduled to be released on 2022-01-01._
 - Fixed wrong file `kr.json` to `ko.json`. Use language code 'ko' instead of 'kr' for Korean language.
 - Fixed `feels_like` data from openweathermaps current weather being ignored (#2678).
 - Fixed chaotic newsfeed display after network connection loss thanks to @jalibu (#2638).
+- Fixed incorrect time zone correction of recurring full day events (#2632 and #2634).
 
 ## [2.17.1] - 2021-10-01
 
