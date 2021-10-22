@@ -270,8 +270,8 @@ Module.register("calendar", {
 
 			if (this.config.displayRepeatingCountTitle && event.firstYear !== undefined) {
 				if (this.config.hideRepeatingCountTitleOnYear && this.config.hideRepeatingCountTitleOnYear === event.firstYear) {
-					// If we want to show the repeating count tile in general
-					//but want to hide it for some events starting at a given year.
+					// If we want to show the repeating count title in general
+					// but want to hide it for some events starting at a given year.
 					repeatingCountTitle = "";
 				} else {
 					// Show the repeating count title for all other events starting at a different year.
