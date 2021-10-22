@@ -11,6 +11,8 @@ _This release is scheduled to be released on 2022-01-01._
 
 ### Added
 
+- Functionality to hide the repeatingCountTitle from the calendar module for events starting at a specific year.
+
 ### Updated
 
 - ESLint version supports now ECMAScript 2018

@@ -17,6 +17,7 @@ Module.register("calendar", {
 		showLocation: false,
 		displayRepeatingCountTitle: false,
 		defaultRepeatingCountTitle: "",
+		hideRepeatingCountTitleOnYear: false,
 		maxTitleLength: 25,
 		maxLocationTitleLength: 25,
 		wrapEvents: false, // wrap events to multiple lines breaking at maxTitleLength
@@ -268,13 +269,20 @@ Module.register("calendar", {
 			let repeatingCountTitle = "";
 
 			if (this.config.displayRepeatingCountTitle && event.firstYear !== undefined) {
-				repeatingCountTitle = this.countTitleForUrl(event.url);
+				if (this.config.hideRepeatingCountTitleOnYear && this.config.hideRepeatingCountTitleOnYear === event.firstYear) {
+					// If we want to show the repeating count tile in general
+					//but want to hide it for some events starting at a given year.
+					repeatingCountTitle = "";
+				} else {
+					// Show the repeating count title for all other events starting at a different year.
+					repeatingCountTitle = this.countTitleForUrl(event.url);
 
-				if (repeatingCountTitle !== "") {
-					const thisYear = new Date(parseInt(event.startDate)).getFullYear(),
-						yearDiff = thisYear - event.firstYear;
+					if (repeatingCountTitle !== "") {
+						const thisYear = new Date(parseInt(event.startDate)).getFullYear(),
+							yearDiff = thisYear - event.firstYear;
 
-					repeatingCountTitle = ", " + yearDiff + ". " + repeatingCountTitle;
+						repeatingCountTitle = ", " + yearDiff + ". " + repeatingCountTitle;
+					}
 				}
 			}
 
