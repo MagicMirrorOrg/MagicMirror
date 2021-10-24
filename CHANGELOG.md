@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Fixed
 
 - Fixed error when accessing letsencrypt certificates
+- Fixed Calendar module enhancement: displaying full events without time (#2424)
 
 ## [2.17.0] - 2021-10-01
 
