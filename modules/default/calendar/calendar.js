@@ -44,7 +44,7 @@ Module.register("calendar", {
 		calendars: [
 			{
 				symbol: "calendar",
-				url: "https://www.calendarlabs.com/templates/ical/US-Holidays.ics"
+				url: "https://cloud.timeedit.net/uia/web/tp/ri63655y988655QZ9YQZnQ6QZ0.ics"
 			}
 		],
 		titleReplace: {
