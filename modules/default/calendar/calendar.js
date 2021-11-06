@@ -368,7 +368,7 @@ Module.register("calendar", {
 					}
 				} else {
 					// Show relative times
-					if (event.startDate >= now) {
+					if ((event.startDate >= now) || (event.fullDayEvent && event.today)) {
 						// Use relative  time
 						if ((!this.config.hideTime) && (!event.fullDayEvent)) {
 							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").calendar(null, { sameElse: this.config.dateFormat }));
@@ -382,10 +382,7 @@ Module.register("calendar", {
 								})
 							);
 						}
-						if (event.startDate - now < this.config.getRelative * oneHour) {
-							// If event is within getRelative  hours, display 'in xxx' time format or moment.fromNow()
-							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
-						} else if (event.fullDayEvent) {
+						if (event.fullDayEvent) {
 							// Full days events within the next two days
 							if (event.today) {
 								timeWrapper.innerHTML = this.capFirst(this.translate("TODAY"));
@@ -396,8 +393,10 @@ Module.register("calendar", {
 									timeWrapper.innerHTML = this.capFirst(this.translate("DAYAFTERTOMORROW"));
 								}
 							}
-						}
-					} else {
+						} else if (event.startDate - now < this.config.getRelative * oneHour) {
+							// If event is within getRelative  hours, display 'in xxx' time format or moment.fromNow()
+							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
+						}					} else {
 						// Ongoing event
 						timeWrapper.innerHTML = this.capFirst(
 							this.translate("RUNNING", {
