@@ -56,10 +56,10 @@
 		"jsdom": "^18.0.0",
 		"lodash": "^4.17.21",
 		"nyc": "^15.1.0",
+		"playwright": "^1.16.3",
 		"prettier": "^2.4.1",
 		"pretty-quick": "^3.1.1",
 		"sinon": "^11.1.2",
-		"spectron": "^15.0.0",
 		"stylelint": "^13.13.1",
 		"stylelint-config-prettier": "^9.0.3",
 		"stylelint-config-standard": "^22.0.0",
@@ -112,9 +112,6 @@
 				"displayName": "electron",
 				"testMatch": [
 					"**/tests/electron/**/*.[jt]s?(x)"
-				],
-				"testPathIgnorePatterns": [
-					"<rootDir>/tests/electron/global-setup.js"
 				]
 			},
 			{
