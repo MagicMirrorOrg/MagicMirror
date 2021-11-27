@@ -20,6 +20,7 @@ _This release is scheduled to be released on 2022-01-01._
 - Cleaned up `alert` module and switched to nunjuck template.
 - Moved weather tests from category `electron` to `e2e`.
 - Updated github actions.
+- Replace spectron with playwright, update dependencies including electron update to v16.
 
 ### Fixed
 
