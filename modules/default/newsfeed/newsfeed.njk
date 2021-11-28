@@ -33,7 +33,7 @@
             {% if (config.showSourceTitle and sourceTitle) or config.showPublishDate %}
                 <div class="newsfeed-source light small dimmed">
                     {% if sourceTitle and config.showSourceTitle %}
-                        {{ sourceTitle }}{% if config.showPublishDate %}, {% else %}: {% endif %}
+                        {{ sourceTitle | safe }}{% if config.showPublishDate %}, {% else %}: {% endif %}
                     {% endif %}
                     {% if config.showPublishDate %}
                         {{ publishDate }}:
@@ -46,9 +46,9 @@
             {% if config.showDescription %}
                 <div class="newsfeed-desc small light{{ ' no-wrap' if not config.wrapDescription }}">
                     {% if config.truncDescription %}
-                        {{ description | truncate(config.lengthDescription) }}
+                        {{ description | truncate(config.lengthDescription) | safe }}
                     {% else %}
-                        {{ description }}
+                        {{ description | safe }}
                     {% endif %}
                 </div>
             {% endif %}
