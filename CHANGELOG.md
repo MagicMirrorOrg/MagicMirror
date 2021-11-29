@@ -29,6 +29,7 @@ _This release is scheduled to be released on 2022-01-01._
 - Fixed chaotic newsfeed display after network connection loss thanks to @jalibu (#2638).
 - Fixed incorrect time zone correction of recurring full day events (#2632 and #2634).
 - Fixed e2e tests by increasing testTimeout.
+- Revert node-ical update due to missing luxon package.
 
 ## [2.17.1] - 2021-10-01
 

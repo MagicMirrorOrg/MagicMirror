@@ -82,7 +82,7 @@
 		"module-alias": "^2.2.2",
 		"moment": "^2.29.1",
 		"node-fetch": "^2.6.6",
-		"node-ical": "^0.14.1",
+		"node-ical": "^0.13.0",
 		"socket.io": "^4.4.0"
 	},
 	"_moduleAliases": {
