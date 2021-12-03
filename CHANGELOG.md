@@ -21,6 +21,7 @@ _This release is scheduled to be released on 2022-01-01._
 - Moved weather tests from category `electron` to `e2e`.
 - Updated github actions.
 - Replace spectron with playwright, update dependencies including electron update to v16.
+- Added lithuanian translation to translations.js (lt.po already exits)
 
 ### Fixed
 
