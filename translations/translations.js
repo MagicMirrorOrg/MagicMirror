@@ -47,7 +47,8 @@ let translations = {
 	uk: "translations/uk.json", // Ukrainian
 	hi: "translations/hi.json", // Hindi
 	gu: "translations/gu.json", // Gujarati
-	gl: "translations/gl.json" // Galego
+	gl: "translations/gl.json", // Galego
+	lt: "translations/lt.json" // Lithuanian
 };
 
 if (typeof module !== "undefined") {
