@@ -35,6 +35,8 @@
 	"MODULE_ERROR_UNAUTHORIZED": "Authorization failed.",
 	"MODULE_ERROR_UNSPECIFIED": "Check logs for more details.",
 
+	"NEWSFEED_NO_ITEMS": "No news at the moment.",
+
 	"UPDATE_NOTIFICATION": "MagicMirror² update available.",
 	"UPDATE_NOTIFICATION_MODULE": "Update available for {MODULE_NAME} module.",
 	"UPDATE_INFO_SINGLE": "The current installation is {COMMIT_COUNT} commit behind on the {BRANCH_NAME} branch.",

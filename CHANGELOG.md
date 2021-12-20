@@ -22,6 +22,7 @@ _This release is scheduled to be released on 2022-01-01._
 - Updated github actions.
 - Replace spectron with playwright, update dependencies including electron update to v16.
 - Added lithuanian language to translations.js
+- Show info message if newsfeed is empty (fixes #2731)
 
 ### Fixed
 
