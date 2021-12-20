@@ -31,6 +31,8 @@
 	"MODULE_CONFIG_CHANGED": "Die Konfigurationsoptionen für das {MODULE_NAME} Modul haben sich geändert. \nBitte überprüfen Sie die Dokumentation.",
 	"MODULE_CONFIG_ERROR": "Fehler im {MODULE_NAME} Modul. {ERROR}",
 
+	"NEWSFEED_NO_ITEMS": "Keine Neuigkeiten momentan.",
+
 	"UPDATE_NOTIFICATION": "Aktualisierung für MagicMirror² verfügbar.",
 	"UPDATE_NOTIFICATION_MODULE": "Aktualisierung für das {MODULE_NAME} Modul verfügbar.",
 	"UPDATE_INFO_SINGLE": "Die aktuelle Installation ist {COMMIT_COUNT} Commit hinter dem {BRANCH_NAME} Branch.",
