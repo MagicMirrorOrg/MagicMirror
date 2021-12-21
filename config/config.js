@@ -38,16 +38,18 @@ let config = {
 	// true, force serveronly mode, because you want to.. no UI on this device
 	buttons: {
 		mouseNavigation: true,
-		mappings: {
-			navigationUp: 'KeyA',
-			navigationDown: 'KeyS',
-			context1: 'KeyQ',
-			context2: 'KeyW',
-			context3: 'KeyE',
-			context4: 'KeyR',
+		scrollSensitivity: 6,			// Scrolling sensitivity for mouse navigation (Out of 10)
+		mappings: {						// Mapping names are based on JS event keycodes
+			navigationUp: 'KeyA',		// To select the next module to be active
+			navigationDown: 'KeyS',		// To select the previous module to be active
+			context1: 'KeyQ',			// 1st context key. Typically used as a scroll up
+			context2: 'KeyW',			// 2nd context key. Typically used as a scroll down
+			context3: 'KeyE',			// 3rd context key. Typically used as an enter
+			context4: 'KeyR',			// 4th context key. Typically used as a go back
 		},
-		nonInteractiveModules: [
-			'alert'
+		nonInteractiveModules: [ 		// Don't allow certain modules to be active
+		//	'alert',
+	//		'updatenotification'
 		]
 	},
 	modules: [

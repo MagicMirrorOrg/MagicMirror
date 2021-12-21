@@ -1,6 +1,9 @@
 /* global Class, cloneObject, Loader, MMSocket, nunjucks, Translator */
 
 var Buttons = new (Class.extend({
+	/**
+	 * The index of the current module in the ordered list
+	 */
 	curModuleIndex: 0,
 
 	init: function () {
@@ -20,7 +23,6 @@ var Buttons = new (Class.extend({
 		}, 3000);
 	},
 	_mapContextButtons: function () {
-		const btnMappings = config.buttons.mappings;
 		document.addEventListener("keydown", (e) => {
 			let buttonPressed = "";
 			switch (e.code) {
@@ -79,7 +81,6 @@ var Buttons = new (Class.extend({
 		if (!mouseEneabled) {
 			return;
 		}
-
 		const moduleElements = document.getElementsByClassName("module");
 		for (const mod of moduleElements) {
 			mod.addEventListener("mouseenter", (e) => {
@@ -102,43 +103,62 @@ var Buttons = new (Class.extend({
 					curModule.onButtonClick("context3");
 				}
 			});
-			// mod.addEventListener("wheel", (e) => {
-			// 	const scroll = e.deltaY;
-			// 	console.log(scroll);
-			// 	const curModule = this._getOrderedModules()[this.curModuleIndex];
-			// 	let btnPressed = "";
-			// 	if (scroll > 0) {
-			// 		btnPressed = "context3";
-			// 	} else if (scroll < 0) {
-			// 		btnPressed = "context4";
-			// 	}
-			// 	if (curModule.onButtonClick) {
-			// 		for (let i = 0; i < Math.max(Math.abs(scroll), 5); ++i) {
-			// 			curModule.onButtonClick(btnPressed);
-			// 		}
-			// 	}
-			// });
+			let prevScroll = 0;
+			mod.addEventListener("wheel", (e) => {
+				/**
+				 * The following check is a quick way to allow for scroll sensitivity
+				 */
+				const sensitivity = Math.min(config.buttons.scrollSensitivity, 10);
+				if (prevScroll > 0) {
+					prevScroll -= sensitivity;
+					return;
+				}
+				const scroll = e.deltaY;
+				const curModule = this._getOrderedModules()[this.curModuleIndex];
+				let btnPressed = "";
+				if (scroll > 0) {
+					btnPressed = "context1";
+					prevScroll = 10;
+				} else if (scroll < 0) {
+					btnPressed = "context2";
+					prevScroll = 10;
+				}
+				if (curModule.onButtonClick) {
+					curModule.onButtonClick(btnPressed);
+				}
+			});
 		}
 	},
 	_getActiveModuleElement: function () {
 		const idName = this._getOrderedModules()[this.curModuleIndex].data.identifier;
 		return document.getElementById(idName);
 	},
+	/**
+	 * @returns All of the currently active modules sorted in a clockwise order
+	 */
 	_getOrderedModules: function () {
-		let modules = MM.getModules();
-		let orderedModules = [];
-		orderedModules.push(...modules.filter((m) => m.data.position === "top_bar"));
-		orderedModules.push(...modules.filter((m) => m.data.position === "top_left"));
-		orderedModules.push(...modules.filter((m) => m.data.position === "top_center"));
-		orderedModules.push(...modules.filter((m) => m.data.position === "top_right"));
-		orderedModules.push(...modules.filter((m) => m.data.position === "upper_third"));
-		orderedModules.push(...modules.filter((m) => m.data.position === "middle_center"));
-		orderedModules.push(...modules.filter((m) => m.data.position === "bottom_right"));
-		orderedModules.push(...modules.filter((m) => m.data.position === "bottom_left"));
-		orderedModules.push(...modules.filter((m) => m.data.position === "bottom_bar"));
-		orderedModules.push(...modules.filter((m) => m.data.position === "lower_third"));
-		return orderedModules;
+		const nonInteractiveModules = config.buttons.nonInteractiveModules;
+		const modules = MM.getModules().filter((m) => !nonInteractiveModules.includes(m.name));
+		return [
+			...modules.filter((m) => m.data.position === "top_bar"),
+			...modules.filter((m) => m.data.position === "top_center"),
+			...modules.filter((m) => m.data.position === "top_right"),
+			...modules.filter((m) => m.data.position === "upper_third"),
+			...modules.filter((m) => m.data.position === "middle_center"),
+			...modules.filter((m) => m.data.position === "bottom_right"),
+			...modules.filter((m) => m.data.position === "bottom_bar"),
+			...modules.filter((m) => m.data.position === "lower_third"),
+			...modules.filter((m) => m.data.position === "bottom_left").reverse(),
+			...modules.filter((m) => m.data.position === "top_left").reverse()
+		];
 	},
+	/**
+	 * Gets the javascript event keycode based on the button name in
+	 * MM. Will return default keycodes if none are found in the config.js
+	 * file
+	 * @param {*} btnName The name of the button
+	 * @returns The javascript keydown event button name
+	 */
 	getButtonMap: function (btnName) {
 		const mappings = config.buttons.mappings;
 		switch (btnName) {
