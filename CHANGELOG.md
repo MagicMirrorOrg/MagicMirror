@@ -34,6 +34,7 @@ _This release is scheduled to be released on 2022-01-01._
 - Fixed e2e tests by increasing testTimeout.
 - Revert node-ical update due to missing luxon package.
 - Fixed User-Agent-Header for newsfeed and calendar module (#2729).
+- Replace broken shields in Readme.
 
 ## [2.17.1] - 2021-10-01
 
