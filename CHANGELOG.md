@@ -39,6 +39,7 @@ _This release is scheduled to be released on 2022-01-01._
 ### Fixed
 
 - Fixed error when accessing letsencrypt certificates
+- Fixed Calendar module enhancement: displaying full events without time (#2424)
 
 ## [2.17.0] - 2021-10-01
 
