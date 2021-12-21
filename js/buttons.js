@@ -81,6 +81,8 @@ var Buttons = new (Class.extend({
 		if (!mouseEneabled) {
 			return;
 		}
+		document.documentElement.style.cursor = "pointer";
+
 		const moduleElements = document.getElementsByClassName("module");
 		for (const mod of moduleElements) {
 			mod.addEventListener("mouseenter", (e) => {

@@ -1,6 +1,6 @@
 :root {
-  --color-text: #f5f5dc;
-  --color-text-dimmed: #f0f8ff;
+  --color-text: #999;
+  --color-text-dimmed: #666;
   --color-text-bright: #fff;
   --color-background: #000;
 
@@ -19,7 +19,7 @@
 }
 
 html {
-  /* cursor: none; */
+  cursor: none;
   overflow: hidden;
   background: var(--color-background);
   user-select: none;

@@ -1,9 +1,8 @@
-## TODO
+## TODO For Buttons
 
-1. Make it work with module identifiers instead of module names
-2. ~~ Hide modules from based on config ~~
-3. ~~ Add remappable buttons ~~
-4. ~~ Add mouse support ~~
-5. ~~ Add order to navigation ~~
-6. ~~ Add mouse scroll sensitivity ~~
-7.
+1. ~~ Hide modules from based on config ~~
+2. ~~ Add remappable buttons ~~
+3. ~~ Add mouse support ~~
+4. ~~ Add order to navigation ~~
+5. ~~ Add mouse scroll sensitivity ~~
+6.
