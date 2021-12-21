@@ -23,6 +23,7 @@ _This release is scheduled to be released on 2022-01-01._
 - Replace spectron with playwright, update dependencies including electron update to v16.
 - Added lithuanian language to translations.js
 - Show info message if newsfeed is empty (fixes #2731)
+- Added dangerouslyDisableAutoEscaping config option for newsfeed templates (fixes #2712)
 
 ### Fixed
 
