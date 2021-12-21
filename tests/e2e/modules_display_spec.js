@@ -3,7 +3,7 @@ const helpers = require("./global-setup");
 describe("Display of modules", function () {
 	beforeAll(function (done) {
 		helpers.startApplication("tests/configs/modules/display.js");
-		helpers.getDocument(done);
+		helpers.getDocument(done, 3000);
 	});
 	afterAll(function () {
 		helpers.stopApplication();

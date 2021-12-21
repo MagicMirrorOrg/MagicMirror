@@ -5,6 +5,35 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror²
 
+## [2.18.0] - Unreleased (Develop Branch)
+
+_This release is scheduled to be released on 2022-01-01._
+
+### Added
+
+### Updated
+
+- ESLint version supports now ECMAScript 2018
+- Cleaned up `updatenotification` module and switched to nunjuck template.
+- Moved calendar tests from category `electron` to `e2e`.
+- Update missed translations for Korean language (ko.json)
+- Cleaned up `alert` module and switched to nunjuck template.
+- Moved weather tests from category `electron` to `e2e`.
+- Updated github actions.
+- Replace spectron with playwright, update dependencies including electron update to v16.
+- Added lithuanian language to translations.js
+- Show info message if newsfeed is empty (fixes #2731)
+
+### Fixed
+
+- Fixed wrong file `kr.json` to `ko.json`. Use language code 'ko' instead of 'kr' for Korean language.
+- Fixed `feels_like` data from openweathermaps current weather being ignored (#2678).
+- Fixed chaotic newsfeed display after network connection loss thanks to @jalibu (#2638).
+- Fixed incorrect time zone correction of recurring full day events (#2632 and #2634).
+- Fixed e2e tests by increasing testTimeout.
+- Revert node-ical update due to missing luxon package.
+- Fixed User-Agent-Header for newsfeed and calendar module (#2729).
+
 ## [2.17.1] - 2021-10-01
 
 ### Fixed

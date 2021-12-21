@@ -6,7 +6,11 @@ exports.startApplication = function (configFilename, exec) {
 		global.app.stop();
 	}
 	// Set config sample for use in test
-	process.env.MM_CONFIG_FILE = configFilename;
+	if (configFilename === "") {
+		process.env.MM_CONFIG_FILE = "config/config.js";
+	} else {
+		process.env.MM_CONFIG_FILE = configFilename;
+	}
 	if (exec) exec;
 	global.app = require("app.js");
 	global.app.start();

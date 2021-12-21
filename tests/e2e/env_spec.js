@@ -1,7 +1,7 @@
 const fetch = require("node-fetch");
 const helpers = require("./global-setup");
 
-describe("Electron app environment", function () {
+describe("App environment", function () {
 	beforeAll(function (done) {
 		helpers.startApplication("tests/configs/default.js");
 		helpers.getDocument(done);
