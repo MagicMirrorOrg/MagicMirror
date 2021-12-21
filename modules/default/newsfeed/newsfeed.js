@@ -37,7 +37,8 @@ Module.register("newsfeed", {
 		endTags: [],
 		prohibitedWords: [],
 		scrollLength: 500,
-		logFeedWarnings: false
+		logFeedWarnings: false,
+		dangerouslyDisableAutoEscaping: false
 	},
 
 	// Define required scripts.

@@ -1,3 +1,11 @@
+{% macro escapeText(text, dangerouslyDisableAutoEscaping=false) %}
+  {% if dangerouslyDisableAutoEscaping %}
+    {{ text | safe}}
+  {% else %}
+    {{ text }}
+  {% endif %}
+{% endmacro %}
+
 {% if loaded %}
     {% if config.showAsList %}
         <ul class="newsfeed-list">
@@ -14,14 +22,14 @@
                         </div>
                     {% endif %}
                     <div class="newsfeed-title bright medium light{{ ' no-wrap' if not config.wrapTitle }}">
-                        {{ item.title }}
+                        {{ escapeText(item.title, config.dangerouslyDisableAutoEscaping) }}
                     </div>
                     {% if config.showDescription %}
                         <div class="newsfeed-desc small light{{ ' no-wrap' if not config.wrapDescription }}">
                             {% if config.truncDescription %}
-                                {{ item.description | truncate(config.lengthDescription) }}
+                                {{ escapeText(item.description | truncate(config.lengthDescription), config.dangerouslyDisableAutoEscaping) }}
                             {% else %}
-                                {{ item.description }}
+                                {{ escapeText(item.description, config.dangerouslyDisableAutoEscaping) }}
                             {% endif %}
                         </div>
                     {% endif %}
@@ -33,7 +41,7 @@
             {% if (config.showSourceTitle and sourceTitle) or config.showPublishDate %}
                 <div class="newsfeed-source light small dimmed">
                     {% if sourceTitle and config.showSourceTitle %}
-                        {{ sourceTitle | safe }}{% if config.showPublishDate %}, {% else %}: {% endif %}
+                        {{ escapeText(sourceTitle, config.dangerouslyDisableAutoEscaping) }}{% if config.showPublishDate %}, {% else %}: {% endif %}
                     {% endif %}
                     {% if config.showPublishDate %}
                         {{ publishDate }}:
@@ -41,14 +49,14 @@
                 </div>
             {% endif %}
             <div class="newsfeed-title bright medium light{{ ' no-wrap' if not config.wrapTitle }}">
-                {{ title }}
+                {{ escapeText(title, config.dangerouslyDisableAutoEscaping) }}
             </div>
             {% if config.showDescription %}
                 <div class="newsfeed-desc small light{{ ' no-wrap' if not config.wrapDescription }}">
                     {% if config.truncDescription %}
-                        {{ description | truncate(config.lengthDescription) | safe }}
+                        {{ escapeText(description | truncate(config.lengthDescription), config.dangerouslyDisableAutoEscaping) }}
                     {% else %}
-                        {{ description | safe }}
+                        {{ escapeText(description, config.dangerouslyDisableAutoEscaping) }}
                     {% endif %}
                 </div>
             {% endif %}
