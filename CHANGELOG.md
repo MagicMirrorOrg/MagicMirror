@@ -17,6 +17,7 @@ _This release is scheduled to be released on 2022-01-01._
 - Cleaned up `updatenotification` module and switched to nunjuck template.
 - Moved calendar tests from category `electron` to `e2e`.
 - Update missed translations for Korean language (ko.json)
+- Update missed translations for Dutch language (nl.json)
 - Cleaned up `alert` module and switched to nunjuck template.
 - Moved weather tests from category `electron` to `e2e`.
 - Updated github actions.
