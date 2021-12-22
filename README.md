@@ -1,7 +1,7 @@
 ![MagicMirror²: The open source modular smart mirror platform. ](.github/header.png)
 
 <p style="text-align: center">
-  <a href="http://choosealicense.com/licenses/mit">
+  <a href="https://choosealicense.com/licenses/mit">
 		<img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License">
 	</a>
 	<img src="https://img.shields.io/github/workflow/status/michmich/magicmirror/Run%20Automated%20Tests" alt="GitHub Actions">
