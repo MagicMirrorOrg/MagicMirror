@@ -24,6 +24,7 @@ _This release is scheduled to be released on 2022-01-01._
 - Added lithuanian language to translations.js
 - Show info message if newsfeed is empty (fixes #2731)
 - Added dangerouslyDisableAutoEscaping config option for newsfeed templates (fixes #2712)
+- Node versions in templates and github workflows.
 
 ### Fixed
 
