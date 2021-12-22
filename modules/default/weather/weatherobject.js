@@ -1,3 +1,5 @@
+/* global SunCalc */
+
 /* Magic Mirror
  * Module: Weather
  *
@@ -10,6 +12,14 @@
  * As soon as we start implementing the forecast, mode properties will be added.
  */
 class WeatherObject {
+	/**
+	 * Constructor for a WeatherObject
+	 *
+	 * @param {string} units what units to use, "imperial" or "metric"
+	 * @param {string} tempUnits what tempunits to use
+	 * @param {string} windUnits what windunits to use
+	 * @param {boolean} useKmh use kmh if true, mps if false
+	 */
 	constructor(units, tempUnits, windUnits, useKmh) {
 		this.units = units;
 		this.tempUnits = tempUnits;
@@ -80,8 +90,7 @@ class WeatherObject {
 	}
 
 	kmhWindSpeed() {
-		const windInKmh = this.windUnits === "imperial" ? this.windSpeed * 1.609344 : (this.windSpeed * 60 * 60) / 1000;
-		return windInKmh;
+		return this.windUnits === "imperial" ? this.windSpeed * 1.609344 : (this.windSpeed * 60 * 60) / 1000;
 	}
 
 	nextSunAction() {
@@ -113,4 +122,33 @@ class WeatherObject {
 
 		return this.tempUnits === "imperial" ? feelsLike : ((feelsLike - 32) * 5) / 9;
 	}
+
+	/**
+	 * Checks if the weatherObject is at dayTime.
+	 *
+	 * @returns {boolean} true if it is at dayTime
+	 */
+	isDayTime() {
+		return this.date.isBetween(this.sunrise, this.sunset, undefined, "[]");
+	}
+
+	/**
+	 * Update the sunrise / sunset time depending on the location. This can be
+	 * used if your provider doesnt provide that data by itself. Then SunCalc
+	 * is used here to calculate them according to the location.
+	 *
+	 * @param {number} lat latitude
+	 * @param {number} lon longitude
+	 */
+	updateSunTime(lat, lon) {
+		let now = !this.date ? new Date() : this.date.toDate();
+		let times = SunCalc.getTimes(now, lat, lon);
+		this.sunrise = moment(times.sunrise, "X");
+		this.sunset = moment(times.sunset, "X");
+	}
+}
+
+/*************** DO NOT EDIT THE LINE BELOW ***************/
+if (typeof module !== "undefined") {
+	module.exports = WeatherObject;
 }

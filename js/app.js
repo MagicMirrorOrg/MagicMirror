@@ -48,6 +48,7 @@ process.on("uncaughtException", function (err) {
  */
 function App() {
 	let nodeHelpers = [];
+	let httpServer;
 
 	/**
 	 * Loads the config file. Combines it with the defaults, and runs the
@@ -222,7 +223,7 @@ function App() {
 			}
 
 			loadModules(modules, function () {
-				const server = new Server(config, function (app, io) {
+				httpServer = new Server(config, function (app, io) {
 					Log.log("Server started ...");
 
 					for (let nodeHelper of nodeHelpers) {
@@ -253,6 +254,7 @@ function App() {
 				nodeHelper.stop();
 			}
 		}
+		httpServer.close();
 	};
 
 	/**

@@ -1,4 +1,4 @@
-/* global WeatherProvider, WeatherObject, SunCalc */
+/* global WeatherProvider, WeatherObject */
 
 /* Magic Mirror
  * Module: Weather
@@ -116,9 +116,7 @@ WeatherProvider.register("ukmetoffice", {
 		}
 
 		// determine the sunrise/sunset times - not supplied in UK Met Office data
-		let times = this.calcAstroData(location);
-		currentWeather.sunrise = times[0];
-		currentWeather.sunset = times[1];
+		currentWeather.updateSunTime(location.lat, location.lon);
 
 		return currentWeather;
 	},
@@ -152,20 +150,6 @@ WeatherProvider.register("ukmetoffice", {
 		}
 
 		return days;
-	},
-
-	/*
-	 * calculate the astronomical data
-	 */
-	calcAstroData(location) {
-		const sunTimes = [];
-
-		// determine the sunrise/sunset times
-		let times = SunCalc.getTimes(new Date(), location.lat, location.lon);
-		sunTimes.push(moment(times.sunrise, "X"));
-		sunTimes.push(moment(times.sunset, "X"));
-
-		return sunTimes;
 	},
 
 	/*
@@ -248,16 +232,16 @@ WeatherProvider.register("ukmetoffice", {
 		return windCardinals.hasOwnProperty(windDirection) ? windCardinals[windDirection] : null;
 	},
 
-	/*
+	/**
 	 * Generates an url with api parameters based on the config.
 	 *
-	 * return String - URL params.
+	 * @param {string} forecastType daily or 3hourly forecast
+	 * @returns {string} url
 	 */
 	getParams(forecastType) {
 		let params = "?";
 		params += "res=" + forecastType;
 		params += "&key=" + this.config.apiKey;
-
 		return params;
 	}
 });

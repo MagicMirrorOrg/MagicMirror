@@ -4,22 +4,6 @@
  * MIT Licensed.
  */
 let config = {
-	port: 8080,
-	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1"],
-
-	language: "en",
-	timeFormat: 24,
-	units: "metric",
-	electronOptions: {
-		fullscreen: false,
-		width: 800,
-		height: 600,
-		webPreferences: {
-			nodeIntegration: true,
-			enableRemoteModule: true
-		}
-	},
-
 	modules: [
 		{
 			module: "helloworld",

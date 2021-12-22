@@ -5,6 +5,44 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror²
 
+## [2.17.1] - 2021-10-01
+
+### Fixed
+
+- Fixed error when accessing letsencrypt certificates
+
+## [2.17.0] - 2021-10-01
+
+Special thanks to the following contributors: @apiontek, @eouia, @jupadin, @khassel and @rejas.
+
+### Added
+
+- Added showTime parameter to clock module for enabling/disabling time display in analog clock.
+- Added custom electron switches from user config (`config.electronSwitches`).
+- Added unit tests for updatenotification module.
+
+### Updated
+
+- Bump electron to v13 (and spectron to v15) and update other dependencies in package.json.
+- Refactor test configs, use default test config for all tests.
+- Updated github templates.
+- Actually test all js and css files when lint script is run.
+- Update jsdocs and print warnings during testing too.
+- Update weathergov provider to try fetching not just current, but also foreacst, when API URLs available.
+- Refactored clock layout.
+- Refactored methods from weatherproviders into weatherobject (isDaytime, updateSunTime).
+- Use of `logger.js` in jest tests.
+- Run prettier over all relevant files.
+- Move tests needing electron in new category `electron`, use `server only` mode in `e2e` tests.
+- Update dependencies in package.json.
+
+### Fixed
+
+- Fix undefined error with ignoreToday option in weather module (#2620).
+- Fix time zone correction in calendar module when the date hour is equal to the time zone correction value (#2632).
+- Fix black cursor on startup when using electron.
+- Fix update notification not working for own repository (#2644).
+
 ## [2.16.0] - 2021-07-01
 
 Special thanks to the following contributors: @210954, @B1gG, @codac, @Crazylegstoo, @daniel, @earlman, @ezeholz, @FrancoisRmn, @jupadin, @khassel, @KristjanESPERANTO, @njwilliams, @oemel09, @r3wald, @rejas, @rico24, Faizan Ahmed.
@@ -412,6 +450,7 @@ Special thanks to @sdetweil for all his great contributions!
 - Update `ical.js` to solve various calendar issues.
 - Update weather city list url [#1676](https://github.com/MichMich/MagicMirror/issues/1676)
 - Only update clock once per minute when seconds aren't shown
+- Update weatherprovider documentation.
 
 ### Fixed
 

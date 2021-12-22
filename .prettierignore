@@ -1,8 +1,4 @@
 /config
 /coverage
-/vendor
-!/vendor/vendor.js
-.github
 .nyc_output
 package-lock.json
-*.ts

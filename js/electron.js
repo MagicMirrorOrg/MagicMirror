@@ -19,7 +19,8 @@ let mainWindow;
  *
  */
 function createWindow() {
-	app.commandLine.appendSwitch("autoplay-policy", "no-user-gesture-required");
+	let electronSwitchesDefaults = ["autoplay-policy", "no-user-gesture-required"];
+	app.commandLine.appendSwitch(...new Set(electronSwitchesDefaults, config.electronSwitches));
 	let electronOptionsDefaults = {
 		width: 800,
 		height: 600,
@@ -65,11 +66,16 @@ function createWindow() {
 	if (process.argv.includes("dev")) {
 		if (process.env.JEST_WORKER_ID !== undefined) {
 			// if we are running with jest
-			var devtools = new BrowserWindow(electronOptions);
+			const devtools = new BrowserWindow(electronOptions);
 			mainWindow.webContents.setDevToolsWebContents(devtools.webContents);
 		}
 		mainWindow.webContents.openDevTools();
 	}
+
+	// simulate mouse move to hide black cursor on start
+	mainWindow.webContents.on("dom-ready", (event) => {
+		mainWindow.webContents.sendInputEvent({ type: "mouseMove", x: 0, y: 0 });
+	});
 
 	// Set responders for window events.
 	mainWindow.on("closed", function () {
@@ -102,7 +108,12 @@ app.on("ready", function () {
 
 // Quit when all windows are closed.
 app.on("window-all-closed", function () {
-	createWindow();
+	if (process.env.JEST_WORKER_ID !== undefined) {
+		// if we are running with jest
+		app.quit();
+	} else {
+		createWindow();
+	}
 });
 
 app.on("activate", function () {

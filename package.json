@@ -1,6 +1,6 @@
 {
 	"name": "magicmirror",
-	"version": "2.16.0",
+	"version": "2.17.1",
 	"description": "The open source modular smart mirror platform.",
 	"main": "js/electron.js",
 	"scripts": {
@@ -12,16 +12,17 @@
 		"postinstall": "npm run install-fonts && echo \"MagicMirror installation finished successfully! \n\"",
 		"test": "NODE_ENV=test jest -i --forceExit",
 		"test:coverage": "NODE_ENV=test nyc --reporter=lcov --reporter=text jest -i --forceExit",
+		"test:electron": "NODE_ENV=test jest --selectProjects electron -i --forceExit",
 		"test:e2e": "NODE_ENV=test jest --selectProjects e2e -i --forceExit",
 		"test:unit": "NODE_ENV=test jest --selectProjects unit -i --forceExit",
 		"test:prettier": "prettier . --check",
-		"test:js": "eslint js/**/*.js modules/default/**/*.js clientonly/*.js serveronly/*.js translations/*.js vendor/*.js tests/**/*.js config/* --config .eslintrc.json --quiet",
-		"test:css": "stylelint css/main.css modules/default/**/*.css --config .stylelintrc.json",
+		"test:js": "eslint 'js/**/*.js' 'modules/default/**/*.js' 'clientonly/*.js' 'serveronly/*.js' 'translations/*.js' 'vendor/*.js' 'tests/**/*.js' 'config/*' --config .eslintrc.json",
+		"test:css": "stylelint 'css/main.css' 'fonts/*.css' 'modules/default/**/*.css' 'vendor/*.css' --config .stylelintrc.json",
 		"test:calendar": "node ./modules/default/calendar/debug.js",
 		"config:check": "node js/check_config.js",
 		"lint:prettier": "prettier . --write",
-		"lint:js": "eslint js/**/*.js modules/default/**/*.js clientonly/*.js serveronly/*.js translations/*.js vendor/*.js tests/**/*.js config/* --config .eslintrc.json --fix",
-		"lint:css": "stylelint css/main.css modules/default/**/*.css --config .stylelintrc.json --fix",
+		"lint:js": "eslint 'js/**/*.js' 'modules/default/**/*.js' 'clientonly/*.js' 'serveronly/*.js' 'translations/*.js' 'vendor/*.js' 'tests/**/*.js' 'config/*' --config .eslintrc.json --fix",
+		"lint:css": "stylelint 'css/main.css' 'fonts/*.css' 'modules/default/**/*.css' 'vendor/*.css' --config .stylelintrc.json --fix",
 		"lint:staged": "pretty-quick --staged",
 		"prepare": "[ -f node_modules/.bin/husky ] && husky install || echo no husky installed."
 	},
@@ -46,32 +47,33 @@
 	"homepage": "https://magicmirror.builders",
 	"devDependencies": {
 		"eslint-config-prettier": "^8.3.0",
-		"eslint-plugin-jsdoc": "^35.4.0",
-		"eslint-plugin-prettier": "^3.4.0",
-		"eslint-plugin-jest": "^24.3.6",
+		"eslint-plugin-jest": "^24.4.2",
+		"eslint-plugin-jsdoc": "^36.1.0",
+		"eslint-plugin-prettier": "^4.0.0",
 		"express-basic-auth": "^1.2.0",
-		"husky": "^6.0.0",
-		"jest": "27.0.5",
-		"jsdom": "^16.6.0",
+		"husky": "^7.0.2",
+		"jest": "^27.2.2",
+		"jsdom": "^17.0.0",
 		"lodash": "^4.17.21",
 		"nyc": "^15.1.0",
-		"prettier": "^2.3.1",
+		"prettier": "^2.4.1",
 		"pretty-quick": "^3.1.1",
-		"sinon": "^11.1.1",
-		"spectron": "^13.0.0",
+		"sinon": "^11.1.2",
+		"spectron": "^15.0.0",
 		"stylelint": "^13.13.1",
 		"stylelint-config-prettier": "^8.0.2",
 		"stylelint-config-standard": "^22.0.0",
-		"stylelint-prettier": "^1.2.0"
+		"stylelint-prettier": "^1.2.0",
+		"suncalc": "^1.8.0"
 	},
 	"optionalDependencies": {
-		"electron": "^11.4.9"
+		"electron": "^13.5.1"
 	},
 	"dependencies": {
 		"colors": "^1.4.0",
-		"console-stamp": "^3.0.2",
-		"digest-fetch": "^1.2.0",
-		"eslint": "^7.29.0",
+		"console-stamp": "^3.0.3",
+		"digest-fetch": "^1.2.1",
+		"eslint": "^7.32.0",
 		"express": "^4.17.1",
 		"express-ipfilter": "^1.2.0",
 		"feedme": "^2.0.2",
@@ -79,10 +81,9 @@
 		"iconv-lite": "^0.6.3",
 		"module-alias": "^2.2.2",
 		"moment": "^2.29.1",
-		"node-fetch": "^2.6.1",
+		"node-fetch": "^2.6.5",
 		"node-ical": "^0.13.0",
-		"simple-git": "^2.40.0",
-		"socket.io": "^4.1.2"
+		"socket.io": "^4.2.0"
 	},
 	"_moduleAliases": {
 		"node_helper": "js/node_helper.js",
@@ -96,6 +97,9 @@
 		"projects": [
 			{
 				"displayName": "unit",
+				"moduleNameMapper": {
+					"logger": "<rootDir>/js/logger.js"
+				},
 				"testMatch": [
 					"**/tests/unit/**/*.[jt]s?(x)"
 				],
@@ -104,13 +108,30 @@
 				]
 			},
 			{
+				"displayName": "electron",
+				"testMatch": [
+					"**/tests/electron/**/*.[jt]s?(x)"
+				],
+				"testPathIgnorePatterns": [
+					"<rootDir>/tests/electron/modules/mocks",
+					"<rootDir>/tests/electron/global-setup.js",
+					"<rootDir>/tests/electron/modules/basic-auth.js"
+				]
+			},
+			{
 				"displayName": "e2e",
+				"setupFilesAfterEnv": [
+					"<rootDir>/tests/e2e/mock-console.js"
+				],
 				"testMatch": [
 					"**/tests/e2e/**/*.[jt]s?(x)"
 				],
+				"modulePaths": [
+					"<rootDir>/js/"
+				],
 				"testPathIgnorePatterns": [
-					"<rootDir>/tests/e2e/modules/mocks",
-					"<rootDir>/tests/e2e/global-setup.js"
+					"<rootDir>/tests/e2e/global-setup.js",
+					"<rootDir>/tests/e2e/mock-console.js"
 				]
 			}
 		]

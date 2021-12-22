@@ -1,5 +1,26 @@
+.clockGrid {
+  display: inline-flex;
+  gap: 15px;
+}
+
+.clockGrid--left {
+  flex-direction: row;
+}
+
+.clockGrid--right {
+  flex-direction: row-reverse;
+}
+
+.clockGrid--top {
+  flex-direction: column;
+}
+
+.clockGrid--bottom {
+  flex-direction: column-reverse;
+}
+
 .clockCircle {
-  margin: 0 auto;
+  place-self: center;
   position: relative;
   border-radius: 50%;
   background-size: 100%;

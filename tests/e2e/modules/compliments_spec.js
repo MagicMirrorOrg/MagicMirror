@@ -1,106 +1,87 @@
 const helpers = require("../global-setup");
 
+/**
+ * move similar tests in function doTest
+ *
+ * @param {Array} complimentsArray The array of compliments.
+ */
+function doTest(complimentsArray) {
+	let elem = document.querySelector(".compliments");
+	expect(elem).not.toBe(null);
+	elem = document.querySelector(".module-content");
+	expect(elem).not.toBe(null);
+	expect(complimentsArray).toContain(elem.textContent);
+}
+
 describe("Compliments module", function () {
-	helpers.setupTimeout(this);
-
-	let app = null;
-
-	beforeEach(function () {
-		return helpers
-			.startApplication({
-				args: ["js/electron.js"]
-			})
-			.then(function (startedApp) {
-				app = startedApp;
-			});
-	});
-
-	afterEach(function () {
-		return helpers.stopApplication(app);
+	afterAll(function () {
+		helpers.stopApplication();
 	});
 
 	describe("parts of days", function () {
-		beforeAll(function () {
-			// Set config sample for use in test
-			process.env.MM_CONFIG_FILE = "tests/configs/modules/compliments/compliments_parts_day.js";
+		beforeAll(function (done) {
+			helpers.startApplication("tests/configs/modules/compliments/compliments_parts_day.js");
+			helpers.getDocument(done, 1000);
 		});
 
-		it("if Morning compliments for that part of day", async function () {
+		it("if Morning compliments for that part of day", function () {
 			const hour = new Date().getHours();
 			if (hour >= 3 && hour < 12) {
 				// if morning check
-				const elem = await app.client.$(".compliments");
-				return elem.getText(".compliments").then(function (text) {
-					expect(["Hi", "Good Morning", "Morning test"]).toContain(text);
-				});
+				doTest(["Hi", "Good Morning", "Morning test"]);
 			}
 		});
 
-		it("if Afternoon show Compliments for that part of day", async function () {
+		it("if Afternoon show Compliments for that part of day", function () {
 			const hour = new Date().getHours();
 			if (hour >= 12 && hour < 17) {
 				// if afternoon check
-				const elem = await app.client.$(".compliments");
-				return elem.getText(".compliments").then(function (text) {
-					expect(["Hello", "Good Afternoon", "Afternoon test"]).toContain(text);
-				});
+				doTest(["Hello", "Good Afternoon", "Afternoon test"]);
 			}
 		});
 
-		it("if Evening show Compliments for that part of day", async function () {
+		it("if Evening show Compliments for that part of day", function () {
 			const hour = new Date().getHours();
 			if (!(hour >= 3 && hour < 12) && !(hour >= 12 && hour < 17)) {
 				// if evening check
-				const elem = await app.client.$(".compliments");
-				return elem.getText(".compliments").then(function (text) {
-					expect(["Hello There", "Good Evening", "Evening test"]).toContain(text);
-				});
+				doTest(["Hello There", "Good Evening", "Evening test"]);
 			}
 		});
 	});
 
 	describe("Feature anytime in compliments module", function () {
 		describe("Set anytime and empty compliments for morning, evening and afternoon ", function () {
-			beforeAll(function () {
-				// Set config sample for use in test
-				process.env.MM_CONFIG_FILE = "tests/configs/modules/compliments/compliments_anytime.js";
+			beforeAll(function (done) {
+				helpers.startApplication("tests/configs/modules/compliments/compliments_anytime.js");
+				helpers.getDocument(done, 1000);
 			});
 
-			it("Show anytime because if configure empty parts of day compliments and set anytime compliments", async function () {
-				const elem = await app.client.$(".compliments");
-				return elem.getText(".compliments").then(function (text) {
-					expect(["Anytime here"]).toContain(text);
-				});
+			it("Show anytime because if configure empty parts of day compliments and set anytime compliments", function () {
+				doTest(["Anytime here"]);
 			});
 		});
 
 		describe("Only anytime present in configuration compliments", function () {
-			beforeAll(function () {
-				// Set config sample for use in test
-				process.env.MM_CONFIG_FILE = "tests/configs/modules/compliments/compliments_only_anytime.js";
+			beforeAll(function (done) {
+				helpers.startApplication("tests/configs/modules/compliments/compliments_only_anytime.js");
+				helpers.getDocument(done, 1000);
 			});
 
-			it("Show anytime compliments", async function () {
-				const elem = await app.client.$(".compliments");
-				return elem.getText(".compliments").then(function (text) {
-					expect(["Anytime here"]).toContain(text);
-				});
+			it("Show anytime compliments", function () {
+				doTest(["Anytime here"]);
 			});
 		});
 	});
 
 	describe("Feature date in compliments module", function () {
 		describe("Set date and empty compliments for anytime, morning, evening and afternoon", function () {
-			beforeAll(function () {
-				// Set config sample for use in test
-				process.env.MM_CONFIG_FILE = "tests/configs/modules/compliments/compliments_date.js";
+			beforeAll(function (done) {
+				helpers.startApplication("tests/configs/modules/compliments/compliments_date.js");
+				helpers.getDocument(done, 1000);
 			});
 
-			it("Show happy new year compliment on new years day", async function () {
-				const elem = await app.client.$(".compliments");
-				return elem.getText(".compliments").then(function (text) {
-					expect(["Happy new year!"]).toContain(text);
-				});
+			it("Show happy new year compliment on new years day", function () {
+				doTest(["Happy new year!"]);
 			});
 		});
 	});
