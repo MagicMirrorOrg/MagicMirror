@@ -4,6 +4,7 @@ const { _electron: electron } = require("playwright");
 
 let electronApp = null;
 process.env.MM_CONFIG_FILE = "tests/configs/modules/display.js";
+jest.retryTimes(3);
 
 describe("Electron app environment", function () {
 	beforeEach(async function () {
