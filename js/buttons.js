@@ -6,9 +6,7 @@ var Buttons = new (Class.extend({
 	 */
 	curModuleIndex: 0,
 
-	init: function () {
-		return;
-	},
+	init: function () {},
 	/**
 	 * This function gets called from init in main.js.
 	 * It just maps the keyboard buttons to our virtual
