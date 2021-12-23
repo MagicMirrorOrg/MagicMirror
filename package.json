@@ -48,7 +48,7 @@
 	"devDependencies": {
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-jest": "^25.3.0",
-		"eslint-plugin-jsdoc": "^37.2.0",
+		"eslint-plugin-jsdoc": "^37.4.0",
 		"eslint-plugin-prettier": "^4.0.0",
 		"express-basic-auth": "^1.2.1",
 		"husky": "^7.0.4",
@@ -58,23 +58,23 @@
 		"nyc": "^15.1.0",
 		"playwright": "^1.17.1",
 		"prettier": "^2.5.1",
-		"pretty-quick": "^3.1.2",
+		"pretty-quick": "^3.1.3",
 		"sinon": "^12.0.1",
-		"stylelint": "^14.1.0",
+		"stylelint": "^14.2.0",
 		"stylelint-config-prettier": "^9.0.3",
 		"stylelint-config-standard": "^24.0.0",
 		"stylelint-prettier": "^2.0.0",
 		"suncalc": "^1.8.0"
 	},
 	"optionalDependencies": {
-		"electron": "^16.0.4"
+		"electron": "^16.0.5"
 	},
 	"dependencies": {
 		"colors": "^1.4.0",
 		"console-stamp": "^3.0.3",
 		"digest-fetch": "^1.2.1",
-		"eslint": "^8.4.1",
-		"express": "^4.17.1",
+		"eslint": "^8.5.0",
+		"express": "^4.17.2",
 		"express-ipfilter": "^1.2.0",
 		"feedme": "^2.0.2",
 		"helmet": "^4.6.0",

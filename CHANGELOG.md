@@ -17,6 +17,7 @@ _This release is scheduled to be released on 2022-01-01._
 - Cleaned up `updatenotification` module and switched to nunjuck template.
 - Moved calendar tests from category `electron` to `e2e`.
 - Update missed translations for Korean language (ko.json)
+- Update missed translations for Dutch language (nl.json)
 - Cleaned up `alert` module and switched to nunjuck template.
 - Moved weather tests from category `electron` to `e2e`.
 - Updated github actions.
@@ -24,6 +25,7 @@ _This release is scheduled to be released on 2022-01-01._
 - Added lithuanian language to translations.js
 - Show info message if newsfeed is empty (fixes #2731)
 - Added dangerouslyDisableAutoEscaping config option for newsfeed templates (fixes #2712)
+- Added missing shebang to `installers/mm.sh`.
 - Node versions in templates and github workflows.
 
 ### Fixed
@@ -36,6 +38,7 @@ _This release is scheduled to be released on 2022-01-01._
 - Revert node-ical update due to missing luxon package.
 - Fixed User-Agent-Header for newsfeed and calendar module (#2729).
 - Replace broken shields in Readme and use https for links.
+- Fixed electron tests with retry.
 
 ## [2.17.1] - 2021-10-01
 

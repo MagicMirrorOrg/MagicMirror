@@ -30,6 +30,12 @@
 
 	"MODULE_CONFIG_CHANGED": "De configuratie opties voor de module {MODULE_NAME} zijn gewijzigd.\nControleer de documentatie.",
 	"MODULE_CONFIG_ERROR": "Fout in de {MODULE_NAME} module. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "Ongeldige url.",
+	"MODULE_ERROR_NO_CONNECTION": "Geen internet verbinding.",
+	"MODULE_ERROR_UNAUTHORIZED": "Authenticatie mislukt.",
+	"MODULE_ERROR_UNSPECIFIED": "Bekijk de logs voor meer informatie.",
+
+	"NEWSFEED_NO_ITEMS": "Geen nieuws op dit moment.",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² update beschikbaar.",
 	"UPDATE_NOTIFICATION_MODULE": "Update beschikbaar voor {MODULE_NAME} module.",
