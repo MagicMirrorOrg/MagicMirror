@@ -1,40 +1,45 @@
-const helpers = require("./global-setup");
+// see https://playwright.dev/docs/api/class-electronapplication
+
+const { _electron: electron } = require("playwright");
+
+let electronApp = null;
+process.env.MM_CONFIG_FILE = "tests/configs/modules/display.js";
+jest.retryTimes(3);
 
 describe("Electron app environment", function () {
-	helpers.setupTimeout(this);
-
-	let app = null;
-
-	beforeAll(function () {
-		// Set config sample for use in test
-		process.env.MM_CONFIG_FILE = "tests/configs/env.js";
+	beforeEach(async function () {
+		electronApp = await electron.launch({ args: ["js/electron.js"] });
 	});
 
-	beforeEach(function () {
-		return helpers
-			.startApplication({
-				args: ["js/electron.js"]
-			})
-			.then(function (startedApp) {
-				app = startedApp;
-			});
+	afterEach(async function () {
+		await electronApp.close();
 	});
 
-	afterEach(function () {
-		return helpers.stopApplication(app);
+	it("should open browserwindow", async function () {
+		expect(await electronApp.windows().length).toBe(1);
+		const page = await electronApp.firstWindow();
+		expect(await page.title()).toBe("MagicMirror²");
+		expect(await page.isVisible("body")).toBe(true);
+		const module = page.locator("#module_0_helloworld");
+		await module.waitFor();
+		expect(await module.textContent()).toContain("Test Display Header");
+	});
+});
+
+describe("Development console tests", function () {
+	beforeEach(async function () {
+		electronApp = await electron.launch({ args: ["js/electron.js", "dev"] });
 	});
 
-	it("should open a browserwindow", async function () {
-		await app.client.waitUntilWindowLoaded();
-		app.browserWindow.focus();
-		expect(await app.client.getWindowCount()).toBe(1);
-		expect(await app.browserWindow.isMinimized()).toBe(false);
-		expect(await app.browserWindow.isDevToolsOpened()).toBe(false);
-		expect(await app.browserWindow.isVisible()).toBe(true);
-		expect(await app.browserWindow.isFocused()).toBe(true);
-		const bounds = await app.browserWindow.getBounds();
-		expect(bounds.width).toBeGreaterThan(0);
-		expect(bounds.height).toBeGreaterThan(0);
-		expect(await app.browserWindow.getTitle()).toBe("MagicMirror²");
+	afterEach(async function () {
+		await electronApp.close();
+	});
+
+	it("should open browserwindow and dev console", async function () {
+		const pageArray = await electronApp.windows();
+		expect(pageArray.length).toBe(2);
+		for (const page of pageArray) {
+			expect(["MagicMirror²", "DevTools"]).toContain(await page.title());
+		}
 	});
 });

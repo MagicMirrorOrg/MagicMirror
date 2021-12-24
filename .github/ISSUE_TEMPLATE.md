@@ -33,7 +33,7 @@ When submitting a new issue, please supply the following information:
 
 **Platform**: Place your platform here... give us your web browser/Electron version _and_ your hardware (Raspberry Pi 2/3/4, Windows, Mac, Linux, System V UNIX).
 
-**Node Version**: Make sure it's version 12 or later (recommended is 14).
+**Node Version**: Make sure it's version 14 or later (recommended is 16).
 
 **MagicMirror Version**: Please let us know which version of MagicMirror you are running. It can be found in the `package.json` file.
 

@@ -1,6 +1,5 @@
-/* Magic Mirror Test config default weather
+/* Magic Mirror Test config newsfeed module
  *
- * By fewieden https://github.com/fewieden
  * MIT Licensed.
  */
 let config = {
@@ -8,13 +7,16 @@ let config = {
 
 	modules: [
 		{
-			module: "weather",
+			module: "newsfeed",
 			position: "bottom_bar",
 			config: {
-				type: "forecast",
-				location: "Munich",
-				mockData: '"#####WEATHERDATA#####"',
-				weatherEndpoint: "/forecast/daily"
+				feeds: [
+					{
+						title: "Rodrigo Ramirez Blog",
+						url: "http://localhost:8080/tests/configs/data/feed_test_rodrigoramirez.xml"
+					}
+				],
+				ignoreOldItems: true
 			}
 		}
 	]

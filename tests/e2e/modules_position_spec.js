@@ -3,7 +3,7 @@ const helpers = require("./global-setup");
 describe("Position of modules", function () {
 	beforeAll(function (done) {
 		helpers.startApplication("tests/configs/modules/positions.js");
-		helpers.getDocument(done, 1000);
+		helpers.getDocument(done, 3000);
 	});
 	afterAll(function () {
 		helpers.stopApplication();
