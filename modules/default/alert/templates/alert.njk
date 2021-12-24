@@ -1,0 +1,18 @@
+{% if imageUrl or imageFA %}
+  {% set imageHeight = imageHeight if imageHeight else "80px" %}
+  {% if imageUrl %}
+    <img src="{{ imageUrl }}" height="{{ imageHeight }}" style="margin-bottom: 10px;"/>
+  {% else %}
+    <span class="bright fa fa-{{ imageFA }}" style='margin-bottom: 10px; font-size: {{ imageHeight }};'/></span>
+  {% endif %}
+  <br/>
+{% endif %}
+{% if title %}
+  <span class="thin dimmed medium">{{ title }}</span>
+{% endif %}
+{% if message %}
+  {% if title %}
+    <br/>
+  {% endif %}
+  <span class="light bright small">{{ message }}</span>
+{% endif %}

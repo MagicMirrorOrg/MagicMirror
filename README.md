@@ -1,12 +1,17 @@
 ![MagicMirror²: The open source modular smart mirror platform. ](.github/header.png)
 
 <p style="text-align: center">
-	<a href="https://david-dm.org/MichMich/MagicMirror"><img src="https://david-dm.org/MichMich/MagicMirror.svg" alt="Dependency Status"></a>
-	<a href="https://david-dm.org/MichMich/MagicMirror?type=dev"><img src="https://david-dm.org/MichMich/MagicMirror/dev-status.svg" alt="devDependency Status"></a>
-	<a href="https://bestpractices.coreinfrastructure.org/projects/347"><img src="https://bestpractices.coreinfrastructure.org/projects/347/badge" alt="CLI Best Practices"></a>
-	<a href="https://codecov.io/gh/MichMich/MagicMirror"><img src="https://codecov.io/gh/MichMich/MagicMirror/branch/master/graph/badge.svg?token=LEG1KitZR6" alt="CodeCov Status"/></a>
-	<a href="https://choosealicense.com/licenses/mit"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
-	<a href="https://github.com/MichMich/MagicMirror/actions?query=workflow%3A%22Automated+Tests%22"><img src="https://github.com/MichMich/MagicMirror/workflows/Automated%20Tests/badge.svg" alt="Tests"></a>
+  <a href="https://choosealicense.com/licenses/mit">
+		<img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License">
+	</a>
+	<img src="https://img.shields.io/github/workflow/status/michmich/magicmirror/Run%20Automated%20Tests" alt="GitHub Actions">
+	<img src="https://img.shields.io/github/checks-status/michmich/magicmirror/master" alt="Build Status">
+	<a href="https://codecov.io/gh/MichMich/MagicMirror">
+		<img src="https://codecov.io/gh/MichMich/MagicMirror/branch/master/graph/badge.svg?token=LEG1KitZR6" alt="CodeCov Status"/>
+	</a>
+	<a href="https://github.com/MichMich/MagicMirror">
+		<img src="https://img.shields.io/github/stars/michmich/magicmirror?style=social">
+	</a>
 </p>
 
 **MagicMirror²** is an open source modular smart mirror platform. With a growing list of installable modules, the **MagicMirror²** allows you to convert your hallway or bathroom mirror into your personal assistant. **MagicMirror²** is built by the creator of [the original MagicMirror](https://michaelteeuw.nl/tagged/magicmirror) with the incredible help of a [growing community of contributors](https://github.com/MichMich/MagicMirror/graphs/contributors).

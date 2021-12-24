@@ -368,9 +368,9 @@ Module.register("calendar", {
 					}
 				} else {
 					// Show relative times
-					if (event.startDate >= now) {
+					if (event.startDate >= now || (event.fullDayEvent && event.today)) {
 						// Use relative  time
-						if (!this.config.hideTime) {
+						if (!this.config.hideTime && !event.fullDayEvent) {
 							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").calendar(null, { sameElse: this.config.dateFormat }));
 						} else {
 							timeWrapper.innerHTML = this.capFirst(
@@ -378,11 +378,22 @@ Module.register("calendar", {
 									sameDay: "[" + this.translate("TODAY") + "]",
 									nextDay: "[" + this.translate("TOMORROW") + "]",
 									nextWeek: "dddd",
-									sameElse: this.config.dateFormat
+									sameElse: event.fullDayEvent ? this.config.fullDayEventDateFormat : this.config.dateFormat
 								})
 							);
 						}
-						if (event.startDate - now < this.config.getRelative * oneHour) {
+						if (event.fullDayEvent) {
+							// Full days events within the next two days
+							if (event.today) {
+								timeWrapper.innerHTML = this.capFirst(this.translate("TODAY"));
+							} else if (event.startDate - now < oneDay && event.startDate - now > 0) {
+								timeWrapper.innerHTML = this.capFirst(this.translate("TOMORROW"));
+							} else if (event.startDate - now < 2 * oneDay && event.startDate - now > 0) {
+								if (this.translate("DAYAFTERTOMORROW") !== "DAYAFTERTOMORROW") {
+									timeWrapper.innerHTML = this.capFirst(this.translate("DAYAFTERTOMORROW"));
+								}
+							}
+						} else if (event.startDate - now < this.config.getRelative * oneHour) {
 							// If event is within getRelative  hours, display 'in xxx' time format or moment.fromNow()
 							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 						}

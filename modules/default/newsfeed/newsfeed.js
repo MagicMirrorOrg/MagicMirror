@@ -37,7 +37,8 @@ Module.register("newsfeed", {
 		endTags: [],
 		prohibitedWords: [],
 		scrollLength: 500,
-		logFeedWarnings: false
+		logFeedWarnings: false,
+		dangerouslyDisableAutoEscaping: false
 	},
 
 	// Define required scripts.
@@ -121,7 +122,7 @@ Module.register("newsfeed", {
 		}
 		if (this.newsItems.length === 0) {
 			return {
-				loaded: false
+				empty: true
 			};
 		}
 		if (this.activeItem >= this.newsItems.length) {
@@ -184,6 +185,7 @@ Module.register("newsfeed", {
 			const dateB = new Date(b.pubdate);
 			return dateB - dateA;
 		});
+
 		if (this.config.maxNewsItems > 0) {
 			newsItems = newsItems.slice(0, this.config.maxNewsItems);
 		}
@@ -219,7 +221,6 @@ Module.register("newsfeed", {
 			}
 
 			//Remove selected tags from the end of rss feed items (title or description)
-
 			if (this.config.removeEndTags) {
 				for (let endTag of this.config.endTags) {
 					if (item.title.slice(-endTag.length) === endTag) {
@@ -294,6 +295,9 @@ Module.register("newsfeed", {
 		if (this.config.broadcastNewsFeeds) {
 			this.sendNotification("NEWS_FEED", { items: this.newsItems });
 		}
+
+		// #2638 Clear timer if it already exists
+		if (this.timer) clearInterval(this.timer);
 
 		this.timer = setInterval(() => {
 			this.activeItem++;

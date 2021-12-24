@@ -60,4 +60,17 @@ describe("Newsfeed module", function () {
 			expect(elem.textContent).toContain("Error in the Newsfeed module. Malformed url.");
 		});
 	});
+
+	describe("Ignore items", function () {
+		beforeAll(function (done) {
+			helpers.startApplication("tests/configs/modules/newsfeed/ignore_items.js");
+			helpers.getDocument(done, 3000);
+		});
+
+		it("should show empty items info message", function () {
+			const elem = document.querySelector(".newsfeed .small");
+			expect(elem).not.toBe(null);
+			expect(elem.textContent).toContain("No news at the moment.");
+		});
+	});
 });
