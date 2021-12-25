@@ -4,13 +4,15 @@ Thanks for contributing to MagicMirror²!
 
 We hold our code to standard, and these standards are documented below.
 
+## Linters
+
 If you wish to run our linters, use `npm run lint` without any arguments.
 
 ### JavaScript: Run ESLint
 
 We use [ESLint](https://eslint.org) on our JavaScript files.
 
-Our ESLint configuration is in our .eslintrc.json and .eslintignore files.
+Our ESLint configuration is in our `.eslintrc.json` and `.eslintignore` files.
 
 To run ESLint, use `npm run lint:js`.
 
@@ -20,7 +22,13 @@ We use [StyleLint](https://stylelint.io) to lint our CSS. Our configuration is i
 
 To run StyleLint, use `npm run lint:css`.
 
-### Submitting Issues
+## End-to-End Testing
+
+We use [Jest](https://jestjs.io) for JavaScript Testing.
+
+To run the test, use `npx jest tests/e2e/env_spec.js`.
+
+## Submitting Issues
 
 Please only submit reproducible issues.
 
