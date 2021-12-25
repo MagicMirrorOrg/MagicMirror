@@ -27,6 +27,7 @@ _This release is scheduled to be released on 2022-01-01._
 - Added dangerouslyDisableAutoEscaping config option for newsfeed templates (fixes #2712)
 - Added missing shebang to `installers/mm.sh`.
 - Node versions in templates and github workflows.
+- Upgrade module `node-fetch` from 2.x to 3.x (#2649)
 
 ### Fixed
 
