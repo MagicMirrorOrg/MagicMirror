@@ -7,7 +7,7 @@
 const Log = require("logger");
 const FeedMe = require("feedme");
 const NodeHelper = require("node_helper");
-const fetch = require("node-fetch");
+const fetch = (...args) => import("node-fetch").then(({ default: fetch }) => fetch(...args));
 const iconv = require("iconv-lite");
 
 /**

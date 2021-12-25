@@ -81,7 +81,7 @@
 		"iconv-lite": "^0.6.3",
 		"module-alias": "^2.2.2",
 		"moment": "^2.29.1",
-		"node-fetch": "^2.6.6",
+		"node-fetch": "^3.1.0",
 		"node-ical": "^0.13.0",
 		"socket.io": "^4.4.0"
 	},
