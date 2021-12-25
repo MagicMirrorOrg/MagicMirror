@@ -1,1 +1,8 @@
 modules/default/calendar/vendor/*
+modules/default/calendar/calendarfetcher.js
+modules/default/newsfeed/newsfeedfetcher.js
+tests/e2e/env_spec.js
+tests/e2e/fonts.js
+tests/e2e/ipWhitelist_spec.js
+tests/e2e/port_config.js
+tests/e2e/vendor_spec.js
