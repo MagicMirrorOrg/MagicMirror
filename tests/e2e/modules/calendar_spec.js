@@ -68,13 +68,26 @@ describe("Calendar module", function () {
 		it("should show the recurring birthday event 6 times", () => {
 			testElementLength(".calendar .event", 6);
 		});
-
-		it('should contain text "Mar 25th"', () => {
-			const elem = document.querySelector(".calendar");
-			expect(elem).not.toBe(null);
-			expect(elem.textContent).toContain("Mar 25th");
-		});
 	});
+
+	process.setMaxListeners(0);
+	for (let i = -12; i < 12; i++) {
+		describe("Recurring event per timezone", function () {
+			beforeAll(function (done) {
+				Date.prototype.getTimezoneOffset = function () {
+					return i * 60;
+				};
+				helpers.startApplication("tests/configs/modules/calendar/recurring.js");
+				helpers.getDocument(done, 3000);
+			});
+
+			it('should contain text "Mar 25th" in timezone UTC ' + -i, () => {
+				const elem = document.querySelector(".calendar");
+				expect(elem).not.toBe(null);
+				expect(elem.textContent).toContain("Mar 25th");
+			});
+		});
+	}
 
 	describe("Changed port", function () {
 		beforeAll(function (done) {
