@@ -22,11 +22,13 @@ We use [StyleLint](https://stylelint.io) to lint our CSS. Our configuration is i
 
 To run StyleLint, use `npm run lint:css`.
 
-## End-to-End Testing
+## Testing
 
-We use [Jest](https://jestjs.io) for JavaScript Testing.
+We use [Jest](https://jestjs.io) for JavaScript testing.
 
-To run the test, use `npx jest tests/e2e/env_spec.js`.
+To run all tests, use `npm run test`.
+
+The specific test commands are defined in `package.json`. So you can also run the specific tests with other commands, e.g. `npm run test:unit` or `npx jest tests/e2e/env_spec.js`.
 
 ## Submitting Issues
 
