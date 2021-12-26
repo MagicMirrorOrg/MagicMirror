@@ -11,6 +11,8 @@ _This release is scheduled to be released on 2022-01-01._
 
 ### Added
 
+- Added test for calendar recurring event with checks the correct date displayed (related to #2752).
+
 ### Updated
 
 - ESLint version supports now ECMAScript 2018

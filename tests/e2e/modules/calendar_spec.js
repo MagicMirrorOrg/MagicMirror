@@ -68,6 +68,12 @@ describe("Calendar module", function () {
 		it("should show the recurring birthday event 6 times", () => {
 			testElementLength(".calendar .event", 6);
 		});
+
+		it('should contain text "Mar 25th"', () => {
+			const elem = document.querySelector(".calendar");
+			expect(elem).not.toBe(null);
+			expect(elem.textContent).toContain("Mar 25th");
+		});
 	});
 
 	describe("Changed port", function () {
