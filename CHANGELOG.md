@@ -39,6 +39,7 @@ _This release is scheduled to be released on 2022-01-01._
 - Fixed User-Agent-Header for newsfeed and calendar module (#2729).
 - Replace broken shields in Readme and use https for links.
 - Fixed electron tests with retry.
+- Fix useHttp for full version #2749
 
 ## [2.17.1] - 2021-10-01
 
