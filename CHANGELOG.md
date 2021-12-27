@@ -41,7 +41,7 @@ _This release is scheduled to be released on 2022-01-01._
 - Fixed electron tests with retry.
 - Fixed Calendar recurring cross timezone error (add/subtract a day, not just offset hours) (#2632)
 - Fixed Calendar showEnd and Full Date overlay (#2629)
-- Fix useHttps for full version (#2749)
+- Fixed regression on #2632, #2752
 
 ## [2.17.1] - 2021-10-01
 
