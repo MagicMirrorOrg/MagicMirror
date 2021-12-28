@@ -289,6 +289,7 @@ Module.register("newsfeed", {
 	 * Schedule visual update.
 	 */
 	scheduleUpdateInterval: function () {
+		const nextLoad = this.config.updateInterval - (moment().valueOf() % this.config.updateInterval);
 		this.updateDom(this.config.animationSpeed);
 
 		// Broadcast NewsFeed if needed
@@ -296,18 +297,10 @@ Module.register("newsfeed", {
 			this.sendNotification("NEWS_FEED", { items: this.newsItems });
 		}
 
-		// #2638 Clear timer if it already exists
-		if (this.timer) clearInterval(this.timer);
-
-		this.timer = setInterval(() => {
+		this.timer = setTimeout(() => {
 			this.activeItem++;
-			this.updateDom(this.config.animationSpeed);
-
-			// Broadcast NewsFeed if needed
-			if (this.config.broadcastNewsFeeds) {
-				this.sendNotification("NEWS_FEED", { items: this.newsItems });
-			}
-		}, this.config.updateInterval);
+			this.scheduleUpdateInterval();
+		}, nextLoad);
 	},
 
 	resetDescrOrFullArticleAndTimer: function () {
@@ -389,7 +382,7 @@ Module.register("newsfeed", {
 		if (this.config.showFullArticle === true) {
 			document.getElementsByClassName("region bottom bar")[0].classList.add("newsfeed-fullarticle");
 		}
-		clearInterval(this.timer);
+		clearTimeout(this.timer);
 		this.timer = null;
 		Log.debug(this.name + " - showing " + this.isShowingDescription ? "article description" : "full article");
 		this.updateDom(100);
