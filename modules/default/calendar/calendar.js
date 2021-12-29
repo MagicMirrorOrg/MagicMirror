@@ -237,18 +237,6 @@ Module.register("calendar", {
 				symbolWrapper.className = "symbol align-right " + symbolClass;
 
 				const symbols = this.symbolsForEvent(event);
-				// If symbols are displayed and custom symbol is set, replace event symbol
-				if (this.config.displaySymbol && this.config.customEvents.length > 0) {
-					for (let ev in this.config.customEvents) {
-						if (typeof this.config.customEvents[ev].symbol !== "undefined" && this.config.customEvents[ev].symbol !== "") {
-							let needle = new RegExp(this.config.customEvents[ev].keyword, "gi");
-							if (needle.test(event.title)) {
-								symbols[0] = this.config.customEvents[ev].symbol;
-								break;
-							}
-						}
-					}
-				}
 				symbols.forEach((s, index) => {
 					const symbol = document.createElement("span");
 					symbol.className = "fa fa-fw fa-" + s;
@@ -638,6 +626,17 @@ Module.register("calendar", {
 
 		if (event.fullDayEvent === true && this.hasCalendarProperty(event.url, "fullDaySymbol")) {
 			symbols = this.mergeUnique(this.getCalendarPropertyAsArray(event.url, "fullDaySymbol", this.config.defaultSymbol), symbols);
+		}
+
+		// If custom symbol is set, replace event symbol
+		for (let ev of this.config.customEvents) {
+			if (typeof ev.symbol !== "undefined" && ev.symbol !== "") {
+				let needle = new RegExp(ev.keyword, "gi");
+				if (needle.test(event.title)) {
+					symbols[0] = ev.symbol;
+					break;
+				}
+			}
 		}
 
 		return symbols;
