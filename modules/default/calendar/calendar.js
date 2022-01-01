@@ -237,18 +237,6 @@ Module.register("calendar", {
 				symbolWrapper.className = "symbol align-right " + symbolClass;
 
 				const symbols = this.symbolsForEvent(event);
-				// If symbols are displayed and custom symbol is set, replace event symbol
-				if (this.config.displaySymbol && this.config.customEvents.length > 0) {
-					for (let ev in this.config.customEvents) {
-						if (typeof this.config.customEvents[ev].symbol !== "undefined" && this.config.customEvents[ev].symbol !== "") {
-							let needle = new RegExp(this.config.customEvents[ev].keyword, "gi");
-							if (needle.test(event.title)) {
-								symbols[0] = this.config.customEvents[ev].symbol;
-								break;
-							}
-						}
-					}
-				}
 				symbols.forEach((s, index) => {
 					const symbol = document.createElement("span");
 					symbol.className = "fa fa-fw fa-" + s;
@@ -368,9 +356,9 @@ Module.register("calendar", {
 					}
 				} else {
 					// Show relative times
-					if (event.startDate >= now) {
+					if (event.startDate >= now || (event.fullDayEvent && event.today)) {
 						// Use relative  time
-						if (!this.config.hideTime) {
+						if (!this.config.hideTime && !event.fullDayEvent) {
 							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").calendar(null, { sameElse: this.config.dateFormat }));
 						} else {
 							timeWrapper.innerHTML = this.capFirst(
@@ -378,11 +366,22 @@ Module.register("calendar", {
 									sameDay: "[" + this.translate("TODAY") + "]",
 									nextDay: "[" + this.translate("TOMORROW") + "]",
 									nextWeek: "dddd",
-									sameElse: this.config.dateFormat
+									sameElse: event.fullDayEvent ? this.config.fullDayEventDateFormat : this.config.dateFormat
 								})
 							);
 						}
-						if (event.startDate - now < this.config.getRelative * oneHour) {
+						if (event.fullDayEvent) {
+							// Full days events within the next two days
+							if (event.today) {
+								timeWrapper.innerHTML = this.capFirst(this.translate("TODAY"));
+							} else if (event.startDate - now < oneDay && event.startDate - now > 0) {
+								timeWrapper.innerHTML = this.capFirst(this.translate("TOMORROW"));
+							} else if (event.startDate - now < 2 * oneDay && event.startDate - now > 0) {
+								if (this.translate("DAYAFTERTOMORROW") !== "DAYAFTERTOMORROW") {
+									timeWrapper.innerHTML = this.capFirst(this.translate("DAYAFTERTOMORROW"));
+								}
+							}
+						} else if (event.startDate - now < this.config.getRelative * oneHour) {
 							// If event is within getRelative  hours, display 'in xxx' time format or moment.fromNow()
 							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 						}
@@ -627,6 +626,17 @@ Module.register("calendar", {
 
 		if (event.fullDayEvent === true && this.hasCalendarProperty(event.url, "fullDaySymbol")) {
 			symbols = this.mergeUnique(this.getCalendarPropertyAsArray(event.url, "fullDaySymbol", this.config.defaultSymbol), symbols);
+		}
+
+		// If custom symbol is set, replace event symbol
+		for (let ev of this.config.customEvents) {
+			if (typeof ev.symbol !== "undefined" && ev.symbol !== "") {
+				let needle = new RegExp(ev.keyword, "gi");
+				if (needle.test(event.title)) {
+					symbols[0] = ev.symbol;
+					break;
+				}
+			}
 		}
 
 		return symbols;

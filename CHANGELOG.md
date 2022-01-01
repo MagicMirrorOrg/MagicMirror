@@ -3,13 +3,55 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
-❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror²
+❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror².
+
+## [2.18.0] - 2022-01-01
+
+Special thanks to the following contributors: @AmpioRosso, @eouia, @fewieden, @jupadin, @khassel, @kolbyjack, @KristjanESPERANTO, @MariusVaice, @rejas, @rico24 and @sdetweil.
+
+### Added
+
+- Added test for calendar recurring event with checks the correct date displayed (related to #2752).
+
+### Updated
+
+- ESLint version supports now ECMAScript 2018.
+- Cleaned up `updatenotification` module and switched to nunjuck template.
+- Moved calendar tests from category `electron` to `e2e`.
+- Update missed translations for Korean language (ko.json).
+- Update missed translations for Dutch language (nl.json).
+- Cleaned up `alert` module and switched to nunjuck template.
+- Moved weather tests from category `electron` to `e2e`.
+- Updated github actions.
+- Replace spectron with playwright, update dependencies including electron update to v16.
+- Added lithuanian language to translations.js.
+- Show info message if newsfeed is empty (fixes #2731).
+- Added dangerouslyDisableAutoEscaping config option for newsfeed templates (fixes #2712).
+- Added missing shebang to `installers/mm.sh`.
+- Node versions in templates and github workflows.
+
+### Fixed
+
+- Fixed wrong file `kr.json` to `ko.json`. Use language code 'ko' instead of 'kr' for Korean language.
+- Fixed `feels_like` data from openweathermaps current weather being ignored (#2678).
+- Fixed chaotic newsfeed display after network connection loss thanks to @jalibu (#2638).
+- Fixed incorrect time zone correction of recurring full day events (#2632 and #2634).
+- Fixed e2e tests by increasing testTimeout.
+- Revert node-ical update due to missing luxon package.
+- Fixed User-Agent-Header for newsfeed and calendar module (#2729).
+- Replace broken shields in Readme and use https for links.
+- Fixed electron tests with retry.
+- Fixed Calendar recurring cross timezone error (add/subtract a day, not just offset hours) (#2632).
+- Fixed Calendar showEnd and Full Date overlay (#2629).
+- Fixed regression on #2632, #2752.
+- Broadcast custom symbols in CALENDAR_EVENTS.
 
 ## [2.17.1] - 2021-10-01
 
 ### Fixed
 
 - Fixed error when accessing letsencrypt certificates
+- Fixed Calendar module enhancement: displaying full events without time (#2424)
 
 ## [2.17.0] - 2021-10-01
 
