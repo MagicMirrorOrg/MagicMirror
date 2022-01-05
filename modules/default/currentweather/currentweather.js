@@ -135,7 +135,7 @@ Module.register("currentweather", {
 			var windDirection = document.createElement("sup");
 			if (this.config.showWindDirectionAsArrow) {
 				if (this.windDeg !== null) {
-					windDirection.innerHTML = ' &nbsp;<i class="fa fa-long-arrow-down" style="transform:rotate(' + this.windDeg + 'deg);"></i>&nbsp;';
+					windDirection.innerHTML = ' &nbsp;<i class="fas fa-long-arrow-down" style="transform:rotate(' + this.windDeg + 'deg);"></i>&nbsp;';
 				}
 			} else {
 				windDirection.innerHTML = " " + this.translate(this.windDirection);
@@ -234,7 +234,7 @@ Module.register("currentweather", {
 
 		if (this.config.showIndoorTemperature && this.indoorTemperature) {
 			var indoorIcon = document.createElement("span");
-			indoorIcon.className = "fa fa-home";
+			indoorIcon.className = "fas fa-home";
 			large.appendChild(indoorIcon);
 
 			var indoorTemperatureElem = document.createElement("span");
@@ -245,7 +245,7 @@ Module.register("currentweather", {
 
 		if (this.config.showIndoorHumidity && this.indoorHumidity) {
 			var indoorHumidityIcon = document.createElement("span");
-			indoorHumidityIcon.className = "fa fa-tint";
+			indoorHumidityIcon.className = "fas fa-tint";
 			large.appendChild(indoorHumidityIcon);
 
 			var indoorHumidityElem = document.createElement("span");
