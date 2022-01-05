@@ -239,7 +239,7 @@ Module.register("calendar", {
 				const symbols = this.symbolsForEvent(event);
 				symbols.forEach((s, index) => {
 					const symbol = document.createElement("span");
-					symbol.className = "fa fa-fw fa-" + s;
+					symbol.className = "fas fa-fw fa-" + s;
 					if (index > 0) {
 						symbol.style.paddingLeft = "5px";
 					}
