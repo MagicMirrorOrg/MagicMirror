@@ -15,7 +15,7 @@
                 {% if config.showWindDirection %}
                     <sup>
                         {% if config.showWindDirectionAsArrow %}
-                            <i class="fa fa-long-arrow-up" style="transform:rotate({{ current.windDirection }}deg);"></i>
+                            <i class="fas fa-long-arrow-up" style="transform:rotate({{ current.windDirection }}deg);"></i>
                         {% else %}
                             {{ current.cardinalWindDirection() | translate }}
                         {% endif %}
@@ -47,7 +47,7 @@
     <div class="normal light indoor">
         {% if config.showIndoorTemperature and indoor.temperature %}
             <div>
-                <span class="fa fa-home"></span>
+                <span class="fas fa-home"></span>
                 <span class="bright">
                     {{ indoor.temperature | roundValue | unit("temperature") | decimalSymbol }}
                 </span>
@@ -55,7 +55,7 @@
         {% endif %}
         {% if config.showIndoorHumidity and indoor.humidity %}
             <div>
-                <span class="fa fa-tint"></span>
+                <span class="fas fa-tint"></span>
                 <span class="bright">
                     {{ indoor.humidity | roundValue | unit("humidity") | decimalSymbol }}
                 </span>
