@@ -199,13 +199,13 @@ Module.register("clock", {
 			sunWrapper.innerHTML =
 				'<span class="' +
 				(isVisible ? "bright" : "") +
-				'"><i class="fa fa-sun-o" aria-hidden="true"></i> ' +
+				'"><i class="fas fa-sun-o" aria-hidden="true"></i> ' +
 				untilNextEventString +
 				"</span>" +
-				'<span><i class="fa fa-arrow-up" aria-hidden="true"></i> ' +
+				'<span><i class="fas fa-arrow-up" aria-hidden="true"></i> ' +
 				formatTime(this.config, sunTimes.sunrise) +
 				"</span>" +
-				'<span><i class="fa fa-arrow-down" aria-hidden="true"></i> ' +
+				'<span><i class="fas fa-arrow-down" aria-hidden="true"></i> ' +
 				formatTime(this.config, sunTimes.sunset) +
 				"</span>";
 			digitalWrapper.appendChild(sunWrapper);
@@ -230,13 +230,13 @@ Module.register("clock", {
 			moonWrapper.innerHTML =
 				'<span class="' +
 				(isVisible ? "bright" : "") +
-				'"><i class="fa fa-moon-o" aria-hidden="true"></i> ' +
+				'"><i class="fas fa-moon-o" aria-hidden="true"></i> ' +
 				illuminatedFractionString +
 				"</span>" +
-				'<span><i class="fa fa-arrow-up" aria-hidden="true"></i> ' +
+				'<span><i class="fas fa-arrow-up" aria-hidden="true"></i> ' +
 				(moonRise ? formatTime(this.config, moonRise) : "...") +
 				"</span>" +
-				'<span><i class="fa fa-arrow-down" aria-hidden="true"></i> ' +
+				'<span><i class="fas fa-arrow-down" aria-hidden="true"></i> ' +
 				(moonSet ? formatTime(this.config, moonSet) : "...") +
 				"</span>";
 			digitalWrapper.appendChild(moonWrapper);
