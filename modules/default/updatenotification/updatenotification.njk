@@ -1,7 +1,7 @@
 {% if not suspended %}
   {% for name, status in moduleList %}
     <div class="small bright">
-      <i class="fa fa-exclamation-circle"></i>
+      <i class="fas fa-exclamation-circle"></i>
       <span>
         {% set mainTextLabel = "UPDATE_NOTIFICATION" if name === "default" else "UPDATE_NOTIFICATION_MODULE" %}
         {{ mainTextLabel | translate({MODULE_NAME: name}) }}
