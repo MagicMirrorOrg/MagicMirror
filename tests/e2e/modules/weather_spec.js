@@ -117,7 +117,7 @@ describe("Weather module", function () {
 		});
 
 		it("should render showWindDirectionAsArrow = true", function () {
-			const elem = getElement(".weather .normal.medium sup i.fa-long-arrow-up");
+			const elem = getElement(".weather .normal.medium sup i.fa-long-arrow-alt-up");
 			expect(elem.outerHTML).toContain("transform:rotate(250deg);");
 		});
 
