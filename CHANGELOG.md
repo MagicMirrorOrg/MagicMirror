@@ -13,6 +13,8 @@ _This release is scheduled to be released on 2022-04-01._
 
 ### Updated
 
+- updates Font Awesome css class to new default style (fixes #2768)
+
 ### Fixed
 
 ## [2.18.0] - 2022-01-01
