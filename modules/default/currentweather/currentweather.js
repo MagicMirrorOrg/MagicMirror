@@ -135,7 +135,7 @@ Module.register("currentweather", {
 			var windDirection = document.createElement("sup");
 			if (this.config.showWindDirectionAsArrow) {
 				if (this.windDeg !== null) {
-					windDirection.innerHTML = ' &nbsp;<i class="fas fa-long-arrow-down" style="transform:rotate(' + this.windDeg + 'deg);"></i>&nbsp;';
+					windDirection.innerHTML = ' &nbsp;<i class="fas fa-long-arrow-alt-down" style="transform:rotate(' + this.windDeg + 'deg);"></i>&nbsp;';
 				}
 			} else {
 				windDirection.innerHTML = " " + this.translate(this.windDirection);

@@ -199,7 +199,7 @@ Module.register("clock", {
 			sunWrapper.innerHTML =
 				'<span class="' +
 				(isVisible ? "bright" : "") +
-				'"><i class="fas fa-sun-o" aria-hidden="true"></i> ' +
+				'"><i class="fas fa-sun" aria-hidden="true"></i> ' +
 				untilNextEventString +
 				"</span>" +
 				'<span><i class="fas fa-arrow-up" aria-hidden="true"></i> ' +
@@ -230,7 +230,7 @@ Module.register("clock", {
 			moonWrapper.innerHTML =
 				'<span class="' +
 				(isVisible ? "bright" : "") +
-				'"><i class="fas fa-moon-o" aria-hidden="true"></i> ' +
+				'"><i class="fas fa-moon" aria-hidden="true"></i> ' +
 				illuminatedFractionString +
 				"</span>" +
 				'<span><i class="fas fa-arrow-up" aria-hidden="true"></i> ' +
