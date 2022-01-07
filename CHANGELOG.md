@@ -12,7 +12,7 @@ _This release is scheduled to be released on 2022-04-01._
 ### Added
 
 - Added a config option under the weather module, absoluteDates, providing an option to format weather forecast date output with either absolute or relative dates.
-- Added test for new weather forecast absolute porperty.
+- Added test for new weather forecast absoluteDates porperty.
 
 ### Updated
 
