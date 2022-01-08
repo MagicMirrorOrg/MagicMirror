@@ -210,6 +210,20 @@ describe("Weather module", function () {
 			});
 		});
 
+		describe("Absolute configuration", function () {
+			beforeAll(function (done) {
+				startApp("tests/configs/modules/weather/forecastweather_absolute.js", {}, done);
+			});
+
+			it("should render days", function () {
+				const days = ["Fri", "Sat", "Sun", "Mon", "Tue"];
+
+				for (const [index, day] of days.entries()) {
+					getText(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(1)`, day);
+				}
+			});
+		});
+
 		describe("Configuration Options", function () {
 			beforeAll(function (done) {
 				startApp("tests/configs/modules/weather/forecastweather_options.js", {}, done);
