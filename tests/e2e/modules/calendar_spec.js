@@ -32,7 +32,7 @@ describe("Calendar module", function () {
 		});
 
 		it("should show the default calendar symbol in each event", () => {
-			testElementLength(".calendar .event .fa-calendar", 0, "not");
+			testElementLength(".calendar .event .fa-calendar-alt", 0, "not");
 		});
 	});
 
