@@ -43,7 +43,7 @@ Module.register("calendar", {
 		tableClass: "small",
 		calendars: [
 			{
-				symbol: "calendar",
+				symbol: "calendar-alt",
 				url: "https://www.calendarlabs.com/templates/ical/US-Holidays.ics"
 			}
 		],
