@@ -245,7 +245,6 @@ const MM = (function () {
 		if (moduleWrapper !== null) {
 			moduleWrapper.style.transition = "opacity " + speed / 1000 + "s";
 			moduleWrapper.style.opacity = 0;
-			moduleWrapper.className = moduleWrapper.className.split(" shown").join("");
 			moduleWrapper.className += " hidden";
 
 			clearTimeout(module.showHideTimer);
@@ -313,7 +312,6 @@ const MM = (function () {
 			// Restore the position. See hideModule() for more info.
 			moduleWrapper.style.position = "static";
 			moduleWrapper.className = moduleWrapper.className.split(" hidden").join("");
-			moduleWrapper.className += " shown";
 
 			updateWrapperStates();
 
