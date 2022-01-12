@@ -1,4 +1,5 @@
 const helpers = require("../global-setup");
+const testDelay = 4000;
 
 describe("Newsfeed module", function () {
 	afterAll(function () {
@@ -8,7 +9,7 @@ describe("Newsfeed module", function () {
 	describe("Default configuration", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/newsfeed/default.js");
-			helpers.getDocument(done, 3000);
+			helpers.getDocument(done, testDelay);
 		});
 
 		it("should show the newsfeed title", function () {
@@ -32,7 +33,7 @@ describe("Newsfeed module", function () {
 	describe("Custom configuration", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/newsfeed/prohibited_words.js");
-			helpers.getDocument(done, 3000);
+			helpers.getDocument(done, testDelay);
 		});
 
 		it("should not show articles with prohibited words", function () {
@@ -51,7 +52,7 @@ describe("Newsfeed module", function () {
 	describe("Invalid configuration", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/newsfeed/incorrect_url.js");
-			helpers.getDocument(done, 3000);
+			helpers.getDocument(done, testDelay);
 		});
 
 		it("should show malformed url warning", function () {
@@ -64,7 +65,7 @@ describe("Newsfeed module", function () {
 	describe("Ignore items", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/newsfeed/ignore_items.js");
-			helpers.getDocument(done, 3000);
+			helpers.getDocument(done, testDelay);
 		});
 
 		it("should show empty items info message", function () {
