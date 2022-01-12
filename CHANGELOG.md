@@ -18,6 +18,7 @@ _This release is scheduled to be released on 2022-04-01._
 ### Updated
 
 - deprecated roboto fonts package `roboto-fontface-bower` replaced with `fontsource`.
+- update `helmet` to v5.
 
 ### Fixed
 
