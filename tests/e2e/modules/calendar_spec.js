@@ -1,5 +1,6 @@
 const helpers = require("../global-setup");
 const serverBasicAuth = require("./basic-auth.js");
+const testDelay = 4000;
 
 describe("Calendar module", function () {
 	/**
@@ -24,7 +25,7 @@ describe("Calendar module", function () {
 	describe("Default configuration", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/calendar/default.js");
-			helpers.getDocument(done, 3000);
+			helpers.getDocument(done, testDelay);
 		});
 
 		it("should show the default maximumEntries of 10", () => {
@@ -39,7 +40,7 @@ describe("Calendar module", function () {
 	describe("Custom configuration", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/calendar/custom.js");
-			helpers.getDocument(done, 3000);
+			helpers.getDocument(done, testDelay);
 		});
 
 		it("should show the custom maximumEntries of 4", () => {
@@ -62,7 +63,7 @@ describe("Calendar module", function () {
 	describe("Recurring event", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/calendar/recurring.js");
-			helpers.getDocument(done, 3000);
+			helpers.getDocument(done, testDelay);
 		});
 
 		it("should show the recurring birthday event 6 times", () => {
@@ -78,7 +79,7 @@ describe("Calendar module", function () {
 					return i * 60;
 				};
 				helpers.startApplication("tests/configs/modules/calendar/recurring.js");
-				helpers.getDocument(done, 3000);
+				helpers.getDocument(done, testDelay);
 			});
 
 			it('should contain text "Mar 25th" in timezone UTC ' + -i, () => {
@@ -93,7 +94,7 @@ describe("Calendar module", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/calendar/changed-port.js");
 			serverBasicAuth.listen(8010);
-			helpers.getDocument(done, 3000);
+			helpers.getDocument(done, testDelay);
 		});
 
 		afterAll(function (done) {
@@ -108,7 +109,7 @@ describe("Calendar module", function () {
 	describe("Basic auth", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/calendar/basic-auth.js");
-			helpers.getDocument(done, 3000);
+			helpers.getDocument(done, testDelay);
 		});
 
 		it("should return TestEvents", function () {
@@ -119,7 +120,7 @@ describe("Calendar module", function () {
 	describe("Basic auth by default", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/calendar/auth-default.js");
-			helpers.getDocument(done, 3000);
+			helpers.getDocument(done, testDelay);
 		});
 
 		it("should return TestEvents", function () {
@@ -130,7 +131,7 @@ describe("Calendar module", function () {
 	describe("Basic auth backward compatibility configuration: DEPRECATED", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/calendar/old-basic-auth.js");
-			helpers.getDocument(done, 3000);
+			helpers.getDocument(done, testDelay);
 		});
 
 		it("should return TestEvents", function () {
@@ -142,7 +143,7 @@ describe("Calendar module", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/calendar/fail-basic-auth.js");
 			serverBasicAuth.listen(8020);
-			helpers.getDocument(done, 3000);
+			helpers.getDocument(done, testDelay);
 		});
 
 		afterAll(function (done) {

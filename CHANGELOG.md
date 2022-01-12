@@ -11,8 +11,14 @@ _This release is scheduled to be released on 2022-04-01._
 
 ### Added
 
+- Added a config option under the weather module, absoluteDates, providing an option to format weather forecast date output with either absolute or relative dates.
+- Added test for new weather forecast absoluteDates porperty.
+- The modules get a class hidden added/removed if they get hidden/shown
+
 ### Updated
 
+- deprecated roboto fonts package `roboto-fontface-bower` replaced with `fontsource`.
+- update `helmet` to v5.
 - updates Font Awesome css class to new default style (fixes #2768)
 
 ### Fixed
