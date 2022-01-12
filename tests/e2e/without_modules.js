@@ -3,7 +3,7 @@ const helpers = require("./global-setup");
 describe("Check configuration without modules", function () {
 	beforeAll(function (done) {
 		helpers.startApplication("tests/configs/without_modules.js");
-		helpers.getDocument(done, 1000);
+		helpers.getDocument(done);
 	});
 	afterAll(function () {
 		helpers.stopApplication();

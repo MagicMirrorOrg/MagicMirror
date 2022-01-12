@@ -9,13 +9,20 @@ describe("Calendar module", function () {
 	 * @param {string} not reverse result
 	 */
 	function testElementLength(element, result, not) {
-		const elem = document.querySelectorAll(element);
+		helpers.waitForElement(element).then((elem) => {
+			expect(elem).not.toBe(null);
+			if (not === "not") {
+				expect(elem.length).not.toBe(result);
+			} else {
+				expect(elem.length).toBe(result);
+			}
+		})
+	}
+
+	const testTextContain = function (element, text) {
+		const elem = document.querySelector(".calendar");
 		expect(elem).not.toBe(null);
-		if (not === "not") {
-			expect(elem.length).not.toBe(result);
-		} else {
-			expect(elem.length).toBe(result);
-		}
+		expect(elem.textContent).toContain(text);
 	}
 
 	afterAll(function () {
@@ -25,7 +32,7 @@ describe("Calendar module", function () {
 	describe("Default configuration", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/calendar/default.js");
-			helpers.getDocument(done, testDelay);
+			helpers.getDocument(done);
 		});
 
 		it("should show the default maximumEntries of 10", () => {
@@ -40,7 +47,7 @@ describe("Calendar module", function () {
 	describe("Custom configuration", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/calendar/custom.js");
-			helpers.getDocument(done, testDelay);
+			helpers.getDocument(done);
 		});
 
 		it("should show the custom maximumEntries of 4", () => {
@@ -63,7 +70,7 @@ describe("Calendar module", function () {
 	describe("Recurring event", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/calendar/recurring.js");
-			helpers.getDocument(done, testDelay);
+			helpers.getDocument(done);
 		});
 
 		it("should show the recurring birthday event 6 times", () => {
@@ -83,9 +90,7 @@ describe("Calendar module", function () {
 			});
 
 			it('should contain text "Mar 25th" in timezone UTC ' + -i, () => {
-				const elem = document.querySelector(".calendar");
-				expect(elem).not.toBe(null);
-				expect(elem.textContent).toContain("Mar 25th");
+				testTextContain(".calendar", "Mar 25th");
 			});
 		});
 	}
@@ -94,7 +99,7 @@ describe("Calendar module", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/calendar/changed-port.js");
 			serverBasicAuth.listen(8010);
-			helpers.getDocument(done, testDelay);
+			helpers.getDocument(done);
 		});
 
 		afterAll(function (done) {
@@ -109,7 +114,7 @@ describe("Calendar module", function () {
 	describe("Basic auth", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/calendar/basic-auth.js");
-			helpers.getDocument(done, testDelay);
+			helpers.getDocument(done);
 		});
 
 		it("should return TestEvents", function () {
@@ -120,7 +125,7 @@ describe("Calendar module", function () {
 	describe("Basic auth by default", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/calendar/auth-default.js");
-			helpers.getDocument(done, testDelay);
+			helpers.getDocument(done);
 		});
 
 		it("should return TestEvents", function () {
@@ -131,7 +136,7 @@ describe("Calendar module", function () {
 	describe("Basic auth backward compatibility configuration: DEPRECATED", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/calendar/old-basic-auth.js");
-			helpers.getDocument(done, testDelay);
+			helpers.getDocument(done);
 		});
 
 		it("should return TestEvents", function () {
@@ -151,9 +156,7 @@ describe("Calendar module", function () {
 		});
 
 		it("should show Unauthorized error", function () {
-			const elem = document.querySelector(".calendar");
-			expect(elem).not.toBe(null);
-			expect(elem.textContent).toContain("Error in the calendar module. Authorization failed");
+			testTextContain(".calendar", "Error in the calendar module. Authorization failed");
 		});
 	});
 });

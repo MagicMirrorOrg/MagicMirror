@@ -15,7 +15,7 @@ describe("Clock module", function () {
 	describe("with default 24hr clock config", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/clock/clock_24hr.js");
-			helpers.getDocument(done, 1000);
+			helpers.getDocument(done);
 		});
 
 		it("should show the date in the correct format", function () {
@@ -32,7 +32,7 @@ describe("Clock module", function () {
 	describe("with default 12hr clock config", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/clock/clock_12hr.js");
-			helpers.getDocument(done, 1000);
+			helpers.getDocument(done);
 		});
 
 		it("should show the date in the correct format", function () {
@@ -49,7 +49,7 @@ describe("Clock module", function () {
 	describe("with showPeriodUpper config enabled", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/clock/clock_showPeriodUpper.js");
-			helpers.getDocument(done, 1000);
+			helpers.getDocument(done);
 		});
 
 		it("should show 12hr time with upper case AM/PM", function () {
@@ -61,7 +61,7 @@ describe("Clock module", function () {
 	describe("with displaySeconds config disabled", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/clock/clock_displaySeconds_false.js");
-			helpers.getDocument(done, 1000);
+			helpers.getDocument(done);
 		});
 
 		it("should show 12hr time without seconds am/pm", function () {
@@ -73,7 +73,7 @@ describe("Clock module", function () {
 	describe("with showTime config disabled", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/clock/clock_showTime.js");
-			helpers.getDocument(done, 1000);
+			helpers.getDocument(done);
 		});
 
 		it("should show not show the time when digital clock is shown", function () {
@@ -85,7 +85,7 @@ describe("Clock module", function () {
 	describe("with showWeek config enabled", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/clock/clock_showWeek.js");
-			helpers.getDocument(done, 1000);
+			helpers.getDocument(done);
 		});
 
 		it("should show the week in the correct format", function () {
@@ -105,7 +105,7 @@ describe("Clock module", function () {
 	describe("with analog clock face enabled", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/clock/clock_analog.js");
-			helpers.getDocument(done, 1000);
+			helpers.getDocument(done);
 		});
 
 		it("should show the analog clock face", () => {
