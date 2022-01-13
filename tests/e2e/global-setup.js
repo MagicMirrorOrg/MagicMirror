@@ -22,16 +22,14 @@ exports.stopApplication = function () {
 	}
 };
 
-exports.getDocument = function (callback, ms) {
+exports.getDocument = function (callback) {
 	const url = "http://" + (config.address || "localhost") + ":" + (config.port || "8080");
 	jsdom.JSDOM.fromURL(url, { resources: "usable", runScripts: "dangerously" }).then((dom) => {
 		dom.window.name = "jsdom";
 		dom.window.onload = function () {
 			global.MutationObserver = dom.window.MutationObserver;
 			global.document = dom.window.document;
-			setTimeout(() => {
-				callback();
-			}, ms);
+			callback();
 		};
 	});
 };
