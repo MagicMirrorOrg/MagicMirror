@@ -1,6 +1,5 @@
 const helpers = require("../global-setup");
 const serverBasicAuth = require("./basic-auth.js");
-const testDelay = 4000;
 
 describe("Calendar module", function () {
 	/**
@@ -16,14 +15,15 @@ describe("Calendar module", function () {
 			} else {
 				expect(elem.length).toBe(result);
 			}
-		})
+		});
 	}
 
 	const testTextContain = function (element, text) {
-		const elem = document.querySelector(".calendar");
-		expect(elem).not.toBe(null);
-		expect(elem.textContent).toContain(text);
-	}
+		helpers.waitForElement(element).then((elem) => {
+			expect(elem).not.toBe(null);
+			expect(elem.textContent).toContain(text);
+		});
+	};
 
 	afterAll(function () {
 		helpers.stopApplication();
@@ -86,7 +86,7 @@ describe("Calendar module", function () {
 					return i * 60;
 				};
 				helpers.startApplication("tests/configs/modules/calendar/recurring.js");
-				helpers.getDocument(done, testDelay);
+				helpers.getDocument(done);
 			});
 
 			it('should contain text "Mar 25th" in timezone UTC ' + -i, () => {
@@ -148,7 +148,7 @@ describe("Calendar module", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/calendar/fail-basic-auth.js");
 			serverBasicAuth.listen(8020);
-			helpers.getDocument(done, testDelay);
+			helpers.getDocument(done);
 		});
 
 		afterAll(function (done) {

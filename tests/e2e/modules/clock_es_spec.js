@@ -6,15 +6,16 @@ describe("Clock set to spanish language module", function () {
 	});
 
 	const testMatch = function (element, regex) {
-		const elem = document.querySelector(element);
-		expect(elem).not.toBe(null);
-		expect(elem.textContent).toMatch(regex);
+		helpers.waitForElement(element).then((elem) => {
+			expect(elem).not.toBe(null);
+			expect(elem.textContent).toMatch(regex);
+		});
 	};
 
 	describe("with default 24hr clock config", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/clock/es/clock_24hr.js");
-			helpers.getDocument(done, 1000);
+			helpers.getDocument(done);
 		});
 
 		it("shows date with correct format", function () {
@@ -31,7 +32,7 @@ describe("Clock set to spanish language module", function () {
 	describe("with default 12hr clock config", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/clock/es/clock_12hr.js");
-			helpers.getDocument(done, 1000);
+			helpers.getDocument(done);
 		});
 
 		it("shows date with correct format", function () {
@@ -48,7 +49,7 @@ describe("Clock set to spanish language module", function () {
 	describe("with showPeriodUpper config enabled", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/clock/es/clock_showPeriodUpper.js");
-			helpers.getDocument(done, 1000);
+			helpers.getDocument(done);
 		});
 
 		it("shows 12hr time with upper case AM/PM", function () {
@@ -60,7 +61,7 @@ describe("Clock set to spanish language module", function () {
 	describe("with showWeek config enabled", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/clock/es/clock_showWeek.js");
-			helpers.getDocument(done, 1000);
+			helpers.getDocument(done);
 		});
 
 		it("shows week with correct format", function () {

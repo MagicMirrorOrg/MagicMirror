@@ -7,9 +7,10 @@ describe("Clock module", function () {
 	});
 
 	const testMatch = function (element, regex) {
-		const elem = document.querySelector(element);
-		expect(elem).not.toBe(null);
-		expect(elem.textContent).toMatch(regex);
+		helpers.waitForElement(element).then((elem) => {
+			expect(elem).not.toBe(null);
+			expect(elem.textContent).toMatch(regex);
+		});
 	};
 
 	describe("with default 24hr clock config", function () {
@@ -77,8 +78,9 @@ describe("Clock module", function () {
 		});
 
 		it("should show not show the time when digital clock is shown", function () {
-			const elem = document.querySelector(".clock .digital .time");
-			expect(elem).toBe(null);
+			helpers.waitForElement(".clock .digital .time").then((elem) => {
+				expect(elem).toBe(null);
+			});
 		});
 	});
 
@@ -96,9 +98,10 @@ describe("Clock module", function () {
 		it("should show the week with the correct number of week of year", function () {
 			const currentWeekNumber = moment().week();
 			const weekToShow = "Week " + currentWeekNumber;
-			const elem = document.querySelector(".clock .week");
-			expect(elem).not.toBe(null);
-			expect(elem.textContent).toBe(weekToShow);
+			helpers.waitForElement(".clock .week").then((elem) => {
+				expect(elem).not.toBe(null);
+				expect(elem.textContent).toBe(weekToShow);
+			});
 		});
 	});
 
@@ -109,8 +112,9 @@ describe("Clock module", function () {
 		});
 
 		it("should show the analog clock face", () => {
-			const elem = document.querySelector(".clockCircle");
-			expect(elem).not.toBe(null);
+			helpers.waitForElement(".clockCircle").then((elem) => {
+				expect(elem).not.toBe(null);
+			});
 		});
 	});
 });

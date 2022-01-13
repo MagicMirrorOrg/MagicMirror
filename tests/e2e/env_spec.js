@@ -25,8 +25,9 @@ describe("App environment", function () {
 	});
 
 	it("should show the title MagicMirror²", function () {
-		const elem = document.querySelector("title");
-		expect(elem).not.toBe(null);
-		expect(elem.textContent).toBe("MagicMirror²");
+		helpers.waitForElement("title").then((elem) => {
+			expect(elem).not.toBe(null);
+			expect(elem.textContent).toBe("MagicMirror²");
+		});
 	});
 });
