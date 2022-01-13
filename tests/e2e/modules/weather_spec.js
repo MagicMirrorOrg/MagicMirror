@@ -233,8 +233,8 @@ describe("Weather module", function () {
 			});
 
 			it("should render colored rows", function () {
-				helpers.waitForElement(".weather table.myTableClass").then((elem) => {
-					expect(elem).not.toBe(null);
+				helpers.waitForElement(".weather table.myTableClass").then((table) => {
+					expect(table).not.toBe(null);
 					expect(table.rows).not.toBe(null);
 					expect(table.rows.length).toBe(5);
 				});
