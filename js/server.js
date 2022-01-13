@@ -67,7 +67,7 @@ function Server(config, callback) {
 			res.status(403).send("This device is not allowed to access your mirror. <br> Please check your config.js or config.js.sample to change this.");
 		});
 	});
-	app.use(helmet({ contentSecurityPolicy: false, crossOriginOpenerPolicy: false }));
+	app.use(helmet({ contentSecurityPolicy: false, crossOriginOpenerPolicy: false, crossOriginEmbedderPolicy: false, crossOriginResourcePolicy: false, originAgentCluster: false }));
 
 	app.use("/js", express.static(__dirname));
 
