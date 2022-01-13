@@ -4,7 +4,7 @@
  * MIT Licensed.
  *
  * For more information on how you can configure this file
- * see https://docs.magicmirror.builders/getting-started/configuration.html#general
+ * see https://docs.magicmirror.builders/configuration/introduction.html
  * and https://docs.magicmirror.builders/modules/configuration.html
  */
 let config = {
