@@ -24,10 +24,10 @@
 	"WNW": "西偏北風",
 	"NW": "西北風",
 	"NNW": "北偏西風",
-	
+
 	"FEELS": "體感溫度 {DEGREE}",
 	"PRECIP": "降雨機率",
-	
+
 	"MODULE_CONFIG_CHANGED": "模組 {MODULE_NAME} 的設定檔選項已更改。\n請參見說明文件。",
 	"MODULE_CONFIG_ERROR": "{MODULE_NAME} 模組發生錯誤。{ERROR}",
 	"MODULE_ERROR_MALFORMED_URL": "網址格式錯誤。",
