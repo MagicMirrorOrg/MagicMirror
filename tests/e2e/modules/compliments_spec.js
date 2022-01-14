@@ -6,11 +6,13 @@ const helpers = require("../global-setup");
  * @param {Array} complimentsArray The array of compliments.
  */
 function doTest(complimentsArray) {
-	let elem = document.querySelector(".compliments");
-	expect(elem).not.toBe(null);
-	elem = document.querySelector(".module-content");
-	expect(elem).not.toBe(null);
-	expect(complimentsArray).toContain(elem.textContent);
+	helpers.waitForElement(".compliments").then((elem) => {
+		expect(elem).not.toBe(null);
+		helpers.waitForElement(".module-content").then((elem) => {
+			expect(elem).not.toBe(null);
+			expect(complimentsArray).toContain(elem.textContent);
+		});
+	});
 }
 
 describe("Compliments module", function () {
@@ -21,7 +23,7 @@ describe("Compliments module", function () {
 	describe("parts of days", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/compliments/compliments_parts_day.js");
-			helpers.getDocument(done, 1000);
+			helpers.getDocument(done);
 		});
 
 		it("if Morning compliments for that part of day", function () {
@@ -53,7 +55,7 @@ describe("Compliments module", function () {
 		describe("Set anytime and empty compliments for morning, evening and afternoon ", function () {
 			beforeAll(function (done) {
 				helpers.startApplication("tests/configs/modules/compliments/compliments_anytime.js");
-				helpers.getDocument(done, 1000);
+				helpers.getDocument(done);
 			});
 
 			it("Show anytime because if configure empty parts of day compliments and set anytime compliments", function () {
@@ -64,7 +66,7 @@ describe("Compliments module", function () {
 		describe("Only anytime present in configuration compliments", function () {
 			beforeAll(function (done) {
 				helpers.startApplication("tests/configs/modules/compliments/compliments_only_anytime.js");
-				helpers.getDocument(done, 1000);
+				helpers.getDocument(done);
 			});
 
 			it("Show anytime compliments", function () {
@@ -77,7 +79,7 @@ describe("Compliments module", function () {
 		describe("Set date and empty compliments for anytime, morning, evening and afternoon", function () {
 			beforeAll(function (done) {
 				helpers.startApplication("tests/configs/modules/compliments/compliments_date.js");
-				helpers.getDocument(done, 1000);
+				helpers.getDocument(done);
 			});
 
 			it("Show happy new year compliment on new years day", function () {
