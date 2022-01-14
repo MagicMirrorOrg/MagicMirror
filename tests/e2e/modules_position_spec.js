@@ -3,7 +3,7 @@ const helpers = require("./global-setup");
 describe("Position of modules", function () {
 	beforeAll(function (done) {
 		helpers.startApplication("tests/configs/modules/positions.js");
-		helpers.getDocument(done, 3000);
+		helpers.getDocument(done);
 	});
 	afterAll(function () {
 		helpers.stopApplication();
@@ -14,9 +14,10 @@ describe("Position of modules", function () {
 	for (const position of positions) {
 		const className = position.replace("_", ".");
 		it("should show text in " + position, function () {
-			const elem = document.querySelector("." + className);
-			expect(elem).not.toBe(null);
-			expect(elem.textContent).toContain("Text in " + position);
+			helpers.waitForElement("." + className).then((elem) => {
+				expect(elem).not.toBe(null);
+				expect(elem.textContent).toContain("Text in " + position);
+			});
 		});
 	}
 });

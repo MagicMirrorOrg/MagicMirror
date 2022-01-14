@@ -6,28 +6,19 @@ const { generateWeather, generateWeatherForecast } = require("./mocks");
 
 describe("Weather module", function () {
 	/**
-	 *
-	 * @param {string} element css selector
-	 * @returns {Promise<Element>} Promise with the element once it is rendered
-	 */
-	function getElement(element) {
-		const elem = document.querySelector(element);
-		expect(elem).not.toBe(null);
-		return elem;
-	}
-
-	/**
 	 * @param {string} element css selector
 	 * @param {string} result Expected text in given selector
 	 */
 	function getText(element, result) {
-		const elem = getElement(element);
-		expect(
-			elem.textContent
-				.trim()
-				.replace(/(\r\n|\n|\r)/gm, "")
-				.replace(/[ ]+/g, " ")
-		).toBe(result);
+		helpers.waitForElement(element).then((elem) => {
+			expect(elem).not.toBe(null);
+			expect(
+				elem.textContent
+					.trim()
+					.replace(/(\r\n|\n|\r)/gm, "")
+					.replace(/[ ]+/g, " ")
+			).toBe(result);
+		});
 	}
 
 	/**
@@ -46,7 +37,7 @@ describe("Weather module", function () {
 		content = content.replace("#####WEATHERDATA#####", mockWeather);
 		fs.writeFileSync(path.resolve(__dirname + "../../../../config/config.js"), content);
 		helpers.startApplication("");
-		helpers.getDocument(callback, 3000);
+		helpers.getDocument(callback);
 	}
 
 	afterAll(function () {
@@ -117,8 +108,10 @@ describe("Weather module", function () {
 		});
 
 		it("should render showWindDirectionAsArrow = true", function () {
-			const elem = getElement(".weather .normal.medium sup i.fa-long-arrow-up");
-			expect(elem.outerHTML).toContain("transform:rotate(250deg);");
+			helpers.waitForElement(".weather .normal.medium sup i.fa-long-arrow-alt-up").then((elem) => {
+				expect(elem).not.toBe(null);
+				expect(elem.outerHTML).toContain("transform:rotate(250deg);");
+			});
 		});
 
 		it("should render showHumidity = true", function () {
@@ -180,7 +173,9 @@ describe("Weather module", function () {
 				const icons = ["day-cloudy", "rain", "day-sunny", "day-sunny", "day-sunny"];
 
 				for (const [index, icon] of icons.entries()) {
-					getElement(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(2) span.wi-${icon}`);
+					helpers.waitForElement(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(2) span.wi-${icon}`).then((elem) => {
+						expect(elem).not.toBe(null);
+					});
 				}
 			});
 
@@ -204,8 +199,24 @@ describe("Weather module", function () {
 				const opacities = [1, 1, 0.8, 0.5333333333333333, 0.2666666666666667];
 
 				for (const [index, opacity] of opacities.entries()) {
-					const elem = getElement(`.weather table.small tr:nth-child(${index + 1})`);
-					expect(elem.outerHTML).toContain(`<tr style="opacity: ${opacity};">`);
+					helpers.waitForElement(`.weather table.small tr:nth-child(${index + 1})`).then((elem) => {
+						expect(elem).not.toBe(null);
+						expect(elem.outerHTML).toContain(`<tr style="opacity: ${opacity};">`);
+					});
+				}
+			});
+		});
+
+		describe("Absolute configuration", function () {
+			beforeAll(function (done) {
+				startApp("tests/configs/modules/weather/forecastweather_absolute.js", {}, done);
+			});
+
+			it("should render days", function () {
+				const days = ["Fri", "Sat", "Sun", "Mon", "Tue"];
+
+				for (const [index, day] of days.entries()) {
+					getText(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(1)`, day);
 				}
 			});
 		});
@@ -216,13 +227,17 @@ describe("Weather module", function () {
 			});
 
 			it("should render custom table class", function () {
-				getElement(".weather table.myTableClass");
+				helpers.waitForElement(".weather table.myTableClass").then((elem) => {
+					expect(elem).not.toBe(null);
+				});
 			});
 
 			it("should render colored rows", function () {
-				const table = getElement(".weather table.myTableClass");
-				expect(table.rows).not.toBe(null);
-				expect(table.rows.length).toBe(5);
+				helpers.waitForElement(".weather table.myTableClass").then((table) => {
+					expect(table).not.toBe(null);
+					expect(table.rows).not.toBe(null);
+					expect(table.rows.length).toBe(5);
+				});
 			});
 		});
 

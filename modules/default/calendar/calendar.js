@@ -13,7 +13,7 @@ Module.register("calendar", {
 		maximumNumberOfDays: 365,
 		limitDays: 0, // Limit the number of days shown, 0 = no limit
 		displaySymbol: true,
-		defaultSymbol: "calendar", // Fontawesome Symbol see https://fontawesome.com/cheatsheet?from=io
+		defaultSymbol: "calendar-alt", // Fontawesome Symbol see https://fontawesome.com/cheatsheet?from=io
 		showLocation: false,
 		displayRepeatingCountTitle: false,
 		defaultRepeatingCountTitle: "",
@@ -43,7 +43,7 @@ Module.register("calendar", {
 		tableClass: "small",
 		calendars: [
 			{
-				symbol: "calendar",
+				symbol: "calendar-alt",
 				url: "https://www.calendarlabs.com/templates/ical/US-Holidays.ics"
 			}
 		],
@@ -239,7 +239,7 @@ Module.register("calendar", {
 				const symbols = this.symbolsForEvent(event);
 				symbols.forEach((s, index) => {
 					const symbol = document.createElement("span");
-					symbol.className = "fa fa-fw fa-" + s;
+					symbol.className = "fas fa-fw fa-" + s;
 					if (index > 0) {
 						symbol.style.paddingLeft = "5px";
 					}

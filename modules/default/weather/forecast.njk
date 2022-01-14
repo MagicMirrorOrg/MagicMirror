@@ -8,9 +8,9 @@
         {% set forecast = forecast.slice(0, numSteps) %}
         {% for f in forecast %}
             <tr {% if config.colored %}class="colored"{% endif %} {% if config.fade %}style="opacity: {{ currentStep | opacity(numSteps) }};"{% endif %}>
-                {% if (currentStep == 0) and config.ignoreToday == false %}
+                {% if (currentStep == 0) and config.ignoreToday == false and config.absoluteDates == false %}
                     <td class="day">{{ "TODAY" | translate }}</td>
-                {% elif (currentStep == 1) and config.ignoreToday == false %}
+                {% elif (currentStep == 1) and config.ignoreToday == false and config.absoluteDates == false %}
                     <td class="day">{{ "TOMORROW" | translate }}</td>
                 {% else %}
                     <td class="day">{{ f.date.format('ddd') }}</td>
