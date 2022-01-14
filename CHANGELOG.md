@@ -49,6 +49,7 @@ Special thanks to the following contributors: @AmpioRosso, @eouia, @fewieden, @j
 - Added dangerouslyDisableAutoEscaping config option for newsfeed templates (fixes #2712).
 - Added missing shebang to `installers/mm.sh`.
 - Node versions in templates and github workflows.
+- Updated translations for Traditional Chinese (Taiwan) (zh-tw.json).
 
 ### Fixed
 
