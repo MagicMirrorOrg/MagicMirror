@@ -21,7 +21,7 @@ Module.register("weatherforecast", {
 		wrapper.innerHTML =
 			"<style>text-decoration: none</style>" +
 			"This module is deprecated since release v2.15 and removed with v2.19." +
-			'<br>Please use the `weather` module as replacement, more info in the <a href="https://docs.magicmirror.builders/modules/weather.html">documentation</a>.';
+			'<br>Please use the `weather` module as replacement, more info in the <a href="https://docs.magicmirror.builders/modules/weather.html" style="color: #ffffff">documentation</a>.';
 		wrapper.className = "dimmed light small";
 		return wrapper;
 	},
