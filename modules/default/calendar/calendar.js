@@ -477,10 +477,10 @@ Module.register("calendar", {
 	/**
 	 * Creates the sorted list of all events.
 	 *
-	 * @param {boolean} forDisplay Whether to filter returned events for display.
+	 * @param {boolean} limitNumberOfEntries Whether to filter returned events for display.
 	 * @returns {object[]} Array with events.
 	 */
-	createEventList: function (forDisplay) {
+	createEventList: function (limitNumberOfEntries) {
 		const now = new Date();
 		const today = moment().startOf("day");
 		const future = moment().startOf("day").add(this.config.maximumNumberOfDays, "days").toDate();
@@ -491,7 +491,7 @@ Module.register("calendar", {
 			for (const e in calendar) {
 				const event = JSON.parse(JSON.stringify(calendar[e])); // clone object
 
-				if (event.endDate < now && forDisplay) {
+				if (event.endDate < now && limitNumberOfEntries) {
 					continue;
 				}
 				if (this.config.hidePrivate) {
@@ -500,7 +500,7 @@ Module.register("calendar", {
 						continue;
 					}
 				}
-				if (this.config.hideOngoing && forDisplay) {
+				if (this.config.hideOngoing && limitNumberOfEntries) {
 					if (event.startDate < now) {
 						continue;
 					}
@@ -549,7 +549,7 @@ Module.register("calendar", {
 			return a.startDate - b.startDate;
 		});
 
-		if (!forDisplay) {
+		if (!limitNumberOfEntries) {
 			return events;
 		}
 
