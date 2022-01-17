@@ -25,6 +25,7 @@ _This release is scheduled to be released on 2022-04-01._
 ### Fixed
 
 - improved and speedup e2e tests, artificial wait after mm start removed.
+- improved husky setup not blocking `git commit` if `husky` or `npm` is not installed.
 
 ## [2.18.0] - 2022-01-01
 
