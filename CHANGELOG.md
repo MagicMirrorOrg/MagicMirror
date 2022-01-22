@@ -3,28 +3,30 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
-❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror²
+❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror².
 
-## [2.18.0] - Unreleased (Develop Branch)
+## [2.18.0] - 2022-01-01
 
-_This release is scheduled to be released on 2022-01-01._
+Special thanks to the following contributors: @AmpioRosso, @eouia, @fewieden, @jupadin, @khassel, @kolbyjack, @KristjanESPERANTO, @MariusVaice, @rejas, @rico24 and @sdetweil.
 
 ### Added
 
+- Added test for calendar recurring event with checks the correct date displayed (related to #2752).
+
 ### Updated
 
-- ESLint version supports now ECMAScript 2018
+- ESLint version supports now ECMAScript 2018.
 - Cleaned up `updatenotification` module and switched to nunjuck template.
 - Moved calendar tests from category `electron` to `e2e`.
-- Update missed translations for Korean language (ko.json)
-- Update missed translations for Dutch language (nl.json)
+- Update missed translations for Korean language (ko.json).
+- Update missed translations for Dutch language (nl.json).
 - Cleaned up `alert` module and switched to nunjuck template.
 - Moved weather tests from category `electron` to `e2e`.
 - Updated github actions.
 - Replace spectron with playwright, update dependencies including electron update to v16.
-- Added lithuanian language to translations.js
-- Show info message if newsfeed is empty (fixes #2731)
-- Added dangerouslyDisableAutoEscaping config option for newsfeed templates (fixes #2712)
+- Added lithuanian language to translations.js.
+- Show info message if newsfeed is empty (fixes #2731).
+- Added dangerouslyDisableAutoEscaping config option for newsfeed templates (fixes #2712).
 - Added missing shebang to `installers/mm.sh`.
 - Node versions in templates and github workflows.
 - Upgrade module `node-fetch` from 2.x to 3.x (#2649)
@@ -40,8 +42,10 @@ _This release is scheduled to be released on 2022-01-01._
 - Fixed User-Agent-Header for newsfeed and calendar module (#2729).
 - Replace broken shields in Readme and use https for links.
 - Fixed electron tests with retry.
-- Fixed Calendar recurring cross timezone error (add/subtract a day, not just offset hours) (#2632)
-- Fixed Calendar showEnd and Full Date overlay (#2629)
+- Fixed Calendar recurring cross timezone error (add/subtract a day, not just offset hours) (#2632).
+- Fixed Calendar showEnd and Full Date overlay (#2629).
+- Fixed regression on #2632, #2752.
+- Broadcast custom symbols in CALENDAR_EVENTS.
 
 ## [2.17.1] - 2021-10-01
 
