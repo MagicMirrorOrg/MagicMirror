@@ -8,69 +8,76 @@ describe("Newsfeed module", function () {
 	describe("Default configuration", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/newsfeed/default.js");
-			helpers.getDocument(done, 3000);
+			helpers.getDocument(done);
 		});
 
 		it("should show the newsfeed title", function () {
-			const elem = document.querySelector(".newsfeed .newsfeed-source");
-			expect(elem).not.toBe(null);
-			expect(elem.textContent).toContain("Rodrigo Ramirez Blog");
+			helpers.waitForElement(".newsfeed .newsfeed-source").then((elem) => {
+				expect(elem).not.toBe(null);
+				expect(elem.textContent).toContain("Rodrigo Ramirez Blog");
+			});
 		});
 
 		it("should show the newsfeed article", function () {
-			const elem = document.querySelector(".newsfeed .newsfeed-title");
-			expect(elem).not.toBe(null);
-			expect(elem.textContent).toContain("QPanel");
+			helpers.waitForElement(".newsfeed .newsfeed-title").then((elem) => {
+				expect(elem).not.toBe(null);
+				expect(elem.textContent).toContain("QPanel");
+			});
 		});
 
 		it("should NOT show the newsfeed description", () => {
-			const elem = document.querySelector(".newsfeed .newsfeed-desc");
-			expect(elem).toBe(null);
+			helpers.waitForElement(".newsfeed .newsfeed-desc").then((elem) => {
+				expect(elem).toBe(null);
+			});
 		});
 	});
 
 	describe("Custom configuration", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/newsfeed/prohibited_words.js");
-			helpers.getDocument(done, 3000);
+			helpers.getDocument(done);
 		});
 
 		it("should not show articles with prohibited words", function () {
-			const elem = document.querySelector(".newsfeed .newsfeed-title");
-			expect(elem).not.toBe(null);
-			expect(elem.textContent).toContain("Problema VirtualBox");
+			helpers.waitForElement(".newsfeed .newsfeed-title").then((elem) => {
+				expect(elem).not.toBe(null);
+				expect(elem.textContent).toContain("Problema VirtualBox");
+			});
 		});
 
 		it("should show the newsfeed description", () => {
-			const elem = document.querySelector(".newsfeed .newsfeed-desc");
-			expect(elem).not.toBe(null);
-			expect(elem.textContent.length).not.toBe(0);
+			helpers.waitForElement(".newsfeed .newsfeed-desc").then((elem) => {
+				expect(elem).not.toBe(null);
+				expect(elem.textContent.length).not.toBe(0);
+			});
 		});
 	});
 
 	describe("Invalid configuration", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/newsfeed/incorrect_url.js");
-			helpers.getDocument(done, 3000);
+			helpers.getDocument(done);
 		});
 
 		it("should show malformed url warning", function () {
-			const elem = document.querySelector(".newsfeed .small");
-			expect(elem).not.toBe(null);
-			expect(elem.textContent).toContain("Error in the Newsfeed module. Malformed url.");
+			helpers.waitForElement(".newsfeed .small").then((elem) => {
+				expect(elem).not.toBe(null);
+				expect(elem.textContent).toContain("Error in the Newsfeed module. Malformed url.");
+			});
 		});
 	});
 
 	describe("Ignore items", function () {
 		beforeAll(function (done) {
 			helpers.startApplication("tests/configs/modules/newsfeed/ignore_items.js");
-			helpers.getDocument(done, 3000);
+			helpers.getDocument(done);
 		});
 
 		it("should show empty items info message", function () {
-			const elem = document.querySelector(".newsfeed .small");
-			expect(elem).not.toBe(null);
-			expect(elem.textContent).toContain("No news at the moment.");
+			helpers.waitForElement(".newsfeed .small").then((elem) => {
+				expect(elem).not.toBe(null);
+				expect(elem.textContent).toContain("No news at the moment.");
+			});
 		});
 	});
 });

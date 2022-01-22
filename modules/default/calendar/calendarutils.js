@@ -498,23 +498,7 @@ const CalendarUtils = {
 			return a.startDate - b.startDate;
 		});
 
-		// include up to maximumEntries current or upcoming events
-		// If past events should be included, include all past events
-		const now = moment();
-		let entries = 0;
-		let events = [];
-		for (let ne of newEvents) {
-			if (moment(ne.endDate, "x").isBefore(now)) {
-				if (config.includePastEvents) events.push(ne);
-				continue;
-			}
-			entries++;
-			// If max events has been saved, skip the rest
-			if (entries > config.maximumEntries) break;
-			events.push(ne);
-		}
-
-		return events;
+		return newEvents;
 	},
 
 	/**
