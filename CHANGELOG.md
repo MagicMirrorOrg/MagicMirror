@@ -14,6 +14,7 @@ _This release is scheduled to be released on 2022-04-01._
 - Added a config option under the weather module, absoluteDates, providing an option to format weather forecast date output with either absolute or relative dates.
 - Added test for new weather forecast absoluteDates porperty.
 - The modules get a class hidden added/removed if they get hidden/shown
+- Added new config option `showTitleAsUrl` to newsfeed module. If set, the diplayed title is a link to the article which is useful when running in a browser and you want to read this article.
 
 ### Updated
 

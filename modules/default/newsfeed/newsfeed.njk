@@ -6,6 +6,22 @@
   {% endif %}
 {% endmacro %}
 
+{% macro escapeTitle(title, url, dangerouslyDisableAutoEscaping=false, showTitleAsUrl=false) %}
+  {% if dangerouslyDisableAutoEscaping %}
+    {% if showTitleAsUrl %}
+      <a href="{{ url }}" style="text-decoration:none;color:#ffffff" target="_blank">{{ title | safe }}</a>
+    {% else %}
+      {{ title | safe}}
+    {% endif %}
+  {% else %}
+    {% if showTitleAsUrl %}
+      <a href="{{ url }}" style="text-decoration:none;color:#ffffff" target="_blank">{{ title }}</a>
+    {% else %}
+      {{ title }}
+    {% endif %}
+  {% endif %}
+{% endmacro %}
+
 {% if loaded %}
     {% if config.showAsList %}
         <ul class="newsfeed-list">
@@ -22,7 +38,7 @@
                         </div>
                     {% endif %}
                     <div class="newsfeed-title bright medium light{{ ' no-wrap' if not config.wrapTitle }}">
-                        {{ escapeText(item.title, config.dangerouslyDisableAutoEscaping) }}
+                        {{ escapeTitle(item.title, item.url, config.dangerouslyDisableAutoEscaping, config.showTitleAsUrl) }}
                     </div>
                     {% if config.showDescription %}
                         <div class="newsfeed-desc small light{{ ' no-wrap' if not config.wrapDescription }}">
@@ -49,7 +65,7 @@
                 </div>
             {% endif %}
             <div class="newsfeed-title bright medium light{{ ' no-wrap' if not config.wrapTitle }}">
-                {{ escapeText(title, config.dangerouslyDisableAutoEscaping) }}
+                {{ escapeTitle(title, url, config.dangerouslyDisableAutoEscaping, config.showTitleAsUrl) }}
             </div>
             {% if config.showDescription %}
                 <div class="newsfeed-desc small light{{ ' no-wrap' if not config.wrapDescription }}">
