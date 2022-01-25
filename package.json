@@ -94,7 +94,7 @@
 	},
 	"jest": {
 		"verbose": true,
-		"testTimeout": 15000,
+		"testTimeout": 20000,
 		"testSequencer": "<rootDir>/tests/configs/test_sequencer.js",
 		"projects": [
 			{
