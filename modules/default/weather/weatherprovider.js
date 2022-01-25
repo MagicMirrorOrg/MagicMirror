@@ -112,11 +112,15 @@ const WeatherProvider = Class.extend({
 	},
 
 	getCorsUrl: function () {
-		const url = window.config.address + ":" + window.config.port + "/cors?url=";
-		if (window.config.useHttps) {
-			return "https://" + url;
+		if (this.config.mockData) {
+			return "";
 		} else {
-			return "http://" + url;
+			const url = window.config.address + ":" + window.config.port + "/cors?url=";
+			if (window.config.useHttps) {
+				return "https://" + url;
+			} else {
+				return "http://" + url;
+			}
 		}
 	},
 

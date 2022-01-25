@@ -14,6 +14,7 @@ _This release is scheduled to be released on 2022-04-01._
 - Added a config option under the weather module, absoluteDates, providing an option to format weather forecast date output with either absolute or relative dates.
 - Added test for new weather forecast absoluteDates porperty.
 - The modules get a class hidden added/removed if they get hidden/shown
+- Added internal cors proxy to get weather providers working without public proxies (fixes #2714). The new url `http(s)://address:port/cors?url=https://whatever-to-proxy` can be used in other modules too.
 
 ### Updated
 
