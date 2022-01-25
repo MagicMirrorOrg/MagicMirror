@@ -111,6 +111,15 @@ const WeatherProvider = Class.extend({
 		this.delegate.updateAvailable(this);
 	},
 
+	getCorsUrl: function () {
+		const url = window.config.address + ":" + window.config.port + "/cors?url=";
+		if (window.config.useHttps) {
+			return "https://" + url;
+		} else {
+			return "http://" + url;
+		}
+	},
+
 	// A convenience function to make requests. It returns a promise.
 	fetchData: function (url, method = "GET", data = null) {
 		const getData = function (mockData) {

@@ -63,7 +63,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 		queryStrings += "&includeLocationName=" + true;
 
 		// Return URL, making sure there is a trailing "/" in the base URL.
-		return this.config.apiBase + (this.config.apiBase.endsWith("/") ? "" : "/") + forecastType + queryStrings;
+		return this.getCorsUrl() + this.config.apiBase + (this.config.apiBase.endsWith("/") ? "" : "/") + forecastType + queryStrings;
 	},
 
 	// Build the list of headers for the request

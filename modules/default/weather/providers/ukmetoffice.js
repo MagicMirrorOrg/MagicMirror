@@ -73,7 +73,7 @@ WeatherProvider.register("ukmetoffice", {
 	 * Gets the complete url for the request
 	 */
 	getUrl(forecastType) {
-		return this.config.apiBase + this.config.locationID + this.getParams(forecastType);
+		return this.getCorsUrl() + this.config.apiBase + this.config.locationID + this.getParams(forecastType);
 	},
 
 	/*

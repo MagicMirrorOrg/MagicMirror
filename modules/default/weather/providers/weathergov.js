@@ -40,7 +40,7 @@ WeatherProvider.register("weathergov", {
 	// Called to set the config, this config is the same as the weather module's config.
 	setConfig: function (config) {
 		this.config = config;
-		(this.config.apiBase = "https://api.weather.gov"), this.fetchWxGovURLs(this.config);
+		(this.config.apiBase = this.getCorsUrl() + "https://api.weather.gov"), this.fetchWxGovURLs(this.config);
 	},
 
 	// Called when the weather provider is about to start.

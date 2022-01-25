@@ -72,7 +72,7 @@ WeatherProvider.register("weatherbit", {
 	// Create a URL from the config and base URL.
 	getUrl() {
 		const units = this.units[this.config.units] || "auto";
-		return `${this.config.apiBase}${this.config.weatherEndpoint}?lat=${this.config.lat}&lon=${this.config.lon}&units=${units}&key=${this.config.apiKey}`;
+		return this.getCorsUrl() + `${this.config.apiBase}${this.config.weatherEndpoint}?lat=${this.config.lat}&lon=${this.config.lon}&units=${units}&key=${this.config.apiKey}`;
 	},
 
 	// Implement WeatherDay generator.

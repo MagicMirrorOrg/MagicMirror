@@ -164,7 +164,7 @@ WeatherProvider.register("envcanada", {
 	// CORS errors when accessing EC
 	//
 	getUrl() {
-		return "http://localhost:8080/cors?url=https://dd.weather.gc.ca/citypage_weather/xml/" + this.config.provCode + "/" + this.config.siteCode + "_e.xml";
+		return this.getCorsUrl() + "https://dd.weather.gc.ca/citypage_weather/xml/" + this.config.provCode + "/" + this.config.siteCode + "_e.xml";
 	},
 
 	//

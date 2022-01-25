@@ -91,7 +91,7 @@ WeatherProvider.register("smhi", {
 	getURL() {
 		let lon = this.config.lon;
 		let lat = this.config.lat;
-		return `https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/${lon}/lat/${lat}/data.json`;
+		return this.getCorsUrl() + `https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/${lon}/lat/${lat}/data.json`;
 	},
 
 	/**
