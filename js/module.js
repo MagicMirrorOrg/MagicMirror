@@ -12,7 +12,7 @@ const Module = Class.extend({
 	 * All methods (and properties) below can be subclassed. *
 	 *********************************************************/
 
-	// Set the minimum MagicMirror module version for this module.
+	// Set the minimum MagicMirror² module version for this module.
 	requiresVersion: "2.0.0",
 
 	// Module config defaults.
@@ -434,7 +434,7 @@ const Module = Class.extend({
 });
 
 /**
- * Merging MagicMirror (or other) default/config script by @bugsounet
+ * Merging MagicMirror² (or other) default/config script by @bugsounet
  * Merge 2 objects or/with array
  *
  * Usage:
@@ -498,7 +498,7 @@ Module.create = function (name) {
 
 Module.register = function (name, moduleDefinition) {
 	if (moduleDefinition.requiresVersion) {
-		Log.log("Check MagicMirror version for module '" + name + "' - Minimum version:  " + moduleDefinition.requiresVersion + " - Current version: " + window.mmVersion);
+		Log.log("Check MagicMirror² version for module '" + name + "' - Minimum version:  " + moduleDefinition.requiresVersion + " - Current version: " + window.mmVersion);
 		if (cmpVersions(window.mmVersion, moduleDefinition.requiresVersion) >= 0) {
 			Log.log("Version is ok!");
 		} else {

@@ -14,7 +14,7 @@ let config = {
 							// - "0.0.0.0", "::" to listen on any interface
 							// Default, when address config is left out or empty, is "localhost"
 	port: 8080,
-	basePath: "/", 	// The URL path where MagicMirror is hosted. If you are using a Reverse proxy
+	basePath: "/", 	// The URL path where MagicMirror² is hosted. If you are using a Reverse proxy
 					// you must set the sub path here. basePath must end with a /
 	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1"], 	// Set [] to allow all IP addresses
 															// or add a specific IPv4 of 192.168.1.5 :

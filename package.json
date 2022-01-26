@@ -9,7 +9,7 @@
 		"server": "node ./serveronly",
 		"install": "echo \"Installing vendor files ...\n\" && cd vendor && npm install --loglevel=error",
 		"install-fonts": "echo \"Installing fonts ...\n\" && cd fonts && npm install --loglevel=error",
-		"postinstall": "npm run install-fonts && echo \"MagicMirror installation finished successfully! \n\"",
+		"postinstall": "npm run install-fonts && echo \"MagicMirror² installation finished successfully! \n\"",
 		"test": "NODE_ENV=test jest -i --forceExit",
 		"test:coverage": "NODE_ENV=test nyc --reporter=lcov --reporter=text jest -i --forceExit",
 		"test:electron": "NODE_ENV=test jest --selectProjects electron -i --forceExit",
