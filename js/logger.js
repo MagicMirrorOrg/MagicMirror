@@ -1,4 +1,4 @@
-/* Magic Mirror
+/* MagicMirror²
  * Log
  *
  * This logger is very simple, but needs to be extended.

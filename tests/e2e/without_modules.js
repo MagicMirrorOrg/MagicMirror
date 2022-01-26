@@ -12,7 +12,7 @@ describe("Check configuration without modules", function () {
 	it("Show the message MagicMirror title", function () {
 		helpers.waitForElement("#module_1_helloworld .module-content").then((elem) => {
 			expect(elem).not.toBe(null);
-			expect(elem.textContent).toContain("Magic Mirror2");
+			expect(elem.textContent).toContain("MagicMirror²");
 		});
 	});
 

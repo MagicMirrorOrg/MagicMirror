@@ -1,4 +1,4 @@
-/* Magic Mirror
+/* MagicMirror²
  * Node Helper Superclass
  *
  * By Michael Teeuw https://michaelteeuw.nl

@@ -1,4 +1,4 @@
-/* Magic Mirror
+/* MagicMirror²
  * Module: NewsFeed
  *
  * By Michael Teeuw https://michaelteeuw.nl

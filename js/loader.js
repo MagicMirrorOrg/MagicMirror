@@ -1,6 +1,6 @@
 /* global defaultModules, vendor */
 
-/* Magic Mirror
+/* MagicMirror²
  * Module and File loaders.
  *
  * By Michael Teeuw https://michaelteeuw.nl

@@ -1,4 +1,4 @@
-/* Magic Mirror Default Modules List
+/* MagicMirror² Default Modules List
  * Modules listed below can be loaded without the 'default/' prefix. Omitting the default folder name.
  *
  * By Michael Teeuw https://michaelteeuw.nl

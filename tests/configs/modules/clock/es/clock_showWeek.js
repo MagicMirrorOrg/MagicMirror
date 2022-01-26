@@ -1,4 +1,4 @@
-/* Magic Mirror Test config for default clock module
+/* MagicMirror² Test config for default clock module
  * Language es for showWeek feature
  *
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com

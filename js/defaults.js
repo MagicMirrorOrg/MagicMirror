@@ -1,6 +1,6 @@
 /* global mmPort */
 
-/* Magic Mirror
+/* MagicMirror²
  * Config Defaults
  *
  * By Michael Teeuw https://michaelteeuw.nl
@@ -36,7 +36,7 @@ const defaults = {
 			position: "upper_third",
 			classes: "large thin",
 			config: {
-				text: "Magic Mirror<sup>2</sup>"
+				text: "MagicMirror²"
 			}
 		},
 		{

@@ -1,4 +1,4 @@
-/* Magic Mirror Test config newsfeed module
+/* MagicMirror² Test config newsfeed module
  *
  * MIT Licensed.
  */

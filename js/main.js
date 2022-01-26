@@ -1,6 +1,6 @@
 /* global Loader, defaults, Translator */
 
-/* Magic Mirror
+/* MagicMirror²
  * Main System
  *
  * By Michael Teeuw https://michaelteeuw.nl

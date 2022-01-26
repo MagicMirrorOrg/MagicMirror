@@ -1,6 +1,6 @@
 /* global cloneObject */
 
-/* Magic Mirror
+/* MagicMirror²
  * Module: Calendar
  *
  * By Michael Teeuw https://michaelteeuw.nl

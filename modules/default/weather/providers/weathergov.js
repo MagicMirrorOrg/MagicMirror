@@ -1,6 +1,6 @@
 /* global WeatherProvider, WeatherObject */
 
-/* Magic Mirror
+/* MagicMirror²
  * Module: Weather
  * Provider: weather.gov
  * https://weather-gov.github.io/api/general-faqs

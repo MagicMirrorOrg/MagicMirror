@@ -1,6 +1,6 @@
 /* global Class, cloneObject, Loader, MMSocket, nunjucks, Translator */
 
-/* Magic Mirror
+/* MagicMirror²
  * Module Blueprint.
  * @typedef {Object} Module
  *
@@ -74,7 +74,7 @@ const Module = Class.extend({
 	},
 
 	/**
-	 * Generates the dom which needs to be displayed. This method is called by the Magic Mirror core.
+	 * Generates the dom which needs to be displayed. This method is called by the MagicMirror² core.
 	 * This method can to be subclassed if the module wants to display info on the mirror.
 	 * Alternatively, the getTemplate method could be subclassed.
 	 *
@@ -109,7 +109,7 @@ const Module = Class.extend({
 
 	/**
 	 * Generates the header string which needs to be displayed if a user has a header configured for this module.
-	 * This method is called by the Magic Mirror core, but only if the user has configured a default header for the module.
+	 * This method is called by the MagicMirror² core, but only if the user has configured a default header for the module.
 	 * This method needs to be subclassed if the module wants to display modified headers on the mirror.
 	 *
 	 * @returns {string} The header to display above the header.
@@ -141,7 +141,7 @@ const Module = Class.extend({
 	},
 
 	/**
-	 * Called by the Magic Mirror core when a notification arrives.
+	 * Called by the MagicMirror² core when a notification arrives.
 	 *
 	 * @param {string} notification The identifier of the notification.
 	 * @param {*} payload The payload of the notification.

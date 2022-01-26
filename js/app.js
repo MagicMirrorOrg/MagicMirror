@@ -1,4 +1,4 @@
-/* Magic Mirror
+/* MagicMirror²
  * The Core App (Server)
  *
  * By Michael Teeuw https://michaelteeuw.nl

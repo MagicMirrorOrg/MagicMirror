@@ -1,4 +1,4 @@
-/* Magic Mirror
+/* MagicMirror²
  * Calendar Util Methods
  *
  * By Michael Teeuw https://michaelteeuw.nl

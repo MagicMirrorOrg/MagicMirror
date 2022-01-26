@@ -1,4 +1,4 @@
-/* Magic Mirror Test calendar calendar
+/* MagicMirror² Test calendar calendar
  *
  * This configuration is a wrong authentication
  *
