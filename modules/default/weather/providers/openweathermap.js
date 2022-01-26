@@ -116,7 +116,7 @@ WeatherProvider.register("openweathermap", {
 	 * Gets the complete url for the request
 	 */
 	getUrl() {
-		return this.getCorsUrl() + this.config.apiBase + this.config.apiVersion + this.config.weatherEndpoint + this.getParams();
+		return this.config.apiBase + this.config.apiVersion + this.config.weatherEndpoint + this.getParams();
 	},
 
 	/*

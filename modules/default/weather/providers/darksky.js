@@ -18,6 +18,7 @@ WeatherProvider.register("darksky", {
 
 	// Set the default config properties that is specific to this provider
 	defaults: {
+		useCorsProxy: true,
 		apiBase: "https://api.darksky.net",
 		weatherEndpoint: "/forecast",
 		apiKey: "",
@@ -67,7 +68,7 @@ WeatherProvider.register("darksky", {
 	// Create a URL from the config and base URL.
 	getUrl() {
 		const units = this.units[this.config.units] || "auto";
-		return this.getCorsUrl() + `${this.config.apiBase}${this.config.weatherEndpoint}/${this.config.apiKey}/${this.config.lat},${this.config.lon}?units=${units}&lang=${this.config.lang}`;
+		return `${this.config.apiBase}${this.config.weatherEndpoint}/${this.config.apiKey}/${this.config.lat},${this.config.lon}?units=${units}&lang=${this.config.lang}`;
 	},
 
 	// Implement WeatherDay generator.

@@ -112,20 +112,16 @@ const WeatherProvider = Class.extend({
 	},
 
 	getCorsUrl: function () {
-		if (this.config.mockData) {
+		if (this.config.mockData || typeof this.config.useCorsProxy === "undefined" || !this.config.useCorsProxy) {
 			return "";
 		} else {
-			const url = window.config.address + ":" + window.config.port + "/cors?url=";
-			if (window.config.useHttps) {
-				return "https://" + url;
-			} else {
-				return "http://" + url;
-			}
+			return location.protocol + "//" + location.host + "/cors?url=";
 		}
 	},
 
 	// A convenience function to make requests. It returns a promise.
-	fetchData: function (url, method = "GET", data = null) {
+	fetchData: function (url, method = "GET", type = "json") {
+		url = this.getCorsUrl() + url;
 		const getData = function (mockData) {
 			return new Promise(function (resolve, reject) {
 				if (mockData) {
@@ -138,7 +134,11 @@ const WeatherProvider = Class.extend({
 					request.onreadystatechange = function () {
 						if (this.readyState === 4) {
 							if (this.status === 200) {
-								resolve(JSON.parse(this.response));
+								if (type === "xml") {
+									resolve(this.responseXML);
+								} else {
+									resolve(JSON.parse(this.response));
+								}
 							} else {
 								reject(request);
 							}
