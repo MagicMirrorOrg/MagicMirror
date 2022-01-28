@@ -1,4 +1,4 @@
-/* Magic Mirror Test config current weather compliments
+/* MagicMirror² Test config current weather compliments
  *
  * By rejas https://github.com/rejas
  * MIT Licensed.

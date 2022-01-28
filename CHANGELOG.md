@@ -28,6 +28,7 @@ _This release is scheduled to be released on 2022-04-01._
 
 - improved and speedup e2e tests, artificial wait after mm start removed.
 - improved husky setup not blocking `git commit` if `husky` or `npm` is not installed.
+- Using a consistent spelling of MagicMirror².
 
 ## [2.18.0] - 2022-01-01
 
@@ -300,8 +301,8 @@ Special thanks to the following contributors: @bryanzzhu, @bugsounet, @chamakura
 ### Added
 
 - `--dry-run` Added option in fetch call within updatenotification node_helper. This is to prevent
-  MagicMirror from consuming any fetch result. Causes conflict with MMPM when attempting to check
-  for updates to MagicMirror and/or MagicMirror modules.
+  MagicMirror² from consuming any fetch result. Causes conflict with MMPM when attempting to check
+  for updates to MagicMirror² and/or MagicMirror² modules.
 - Test coverage with Istanbul, run it with `npm run test:coverage`.
 - Added lithuanian language.
 - Added support in weatherforecast for OpenWeather onecall API.
@@ -374,7 +375,7 @@ Special thanks to the following contributors: @AndreKoepke, @andrezibaia, @bryan
 
 🚨 READ THIS BEFORE UPDATING 🚨
 
-In the past years the project has grown a lot. This came with a huge downside: poor maintainability. If I let the project continue the way it was, it would eventually crash and burn. More important: I would completely lose the drive and interest to continue the project. Because of this the decision was made to simplify the core by removing all side features like automatic installers and support for exotic platforms. This release (2.11.0) is the first real release that will reflect (parts) of these changes. As a result of this, some things might break. So before you continue make sure to backup your installation. Your config, your modules or better yet: your full MagicMirror folder. In other words: update at your own risk.
+In the past years the project has grown a lot. This came with a huge downside: poor maintainability. If I let the project continue the way it was, it would eventually crash and burn. More important: I would completely lose the drive and interest to continue the project. Because of this the decision was made to simplify the core by removing all side features like automatic installers and support for exotic platforms. This release (2.11.0) is the first real release that will reflect (parts) of these changes. As a result of this, some things might break. So before you continue make sure to backup your installation. Your config, your modules or better yet: your full MagicMirror² folder. In other words: update at your own risk.
 
 For more information regarding this major change, please check issue [#1860](https://github.com/MichMich/MagicMirror/issues/1860).
 
@@ -575,7 +576,7 @@ Fixed `package.json` version number.
 - Fixed unhandled error on bad git data in updatenotification module [#1285](https://github.com/MichMich/MagicMirror/issues/1285).
 - Weather forecast now works with openweathermap in new weather module. Daily data are displayed, see issue [#1504](https://github.com/MichMich/MagicMirror/issues/1504).
 - Fixed analogue clock border display issue where non-black backgrounds used (previous fix for issue 611)
-- Fixed compatibility issues caused when modules request different versions of Font Awesome, see issue [#1522](https://github.com/MichMich/MagicMirror/issues/1522). MagicMirror now uses [Font Awesome 5 with v4 shims included for backwards compatibility](https://fontawesome.com/how-to-use/on-the-web/setup/upgrading-from-version-4#shims).
+- Fixed compatibility issues caused when modules request different versions of Font Awesome, see issue [#1522](https://github.com/MichMich/MagicMirror/issues/1522). MagicMirror² now uses [Font Awesome 5 with v4 shims included for backwards compatibility](https://fontawesome.com/how-to-use/on-the-web/setup/upgrading-from-version-4#shims).
 - Installation script problems with raspbian
 - Calendar: only show repeating count if the event is actually repeating [#1534](https://github.com/MichMich/MagicMirror/pull/1534)
 - Calendar: Fix exdate handling when multiple values are specified (comma separated)
@@ -687,7 +688,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 
 ## [2.4.0] - 2018-07-01
 
-⚠️ **Warning:** This release includes an updated version of Electron. This requires a Raspberry Pi configuration change to allow the best performance and prevent the CPU from overheating. Please read the information on the [MagicMirror Wiki](https://github.com/michmich/magicmirror/wiki/configuring-the-raspberry-pi#enable-the-open-gl-driver-to-decrease-electrons-cpu-usage).
+⚠️ **Warning:** This release includes an updated version of Electron. This requires a Raspberry Pi configuration change to allow the best performance and prevent the CPU from overheating. Please read the information on the [MagicMirror² Wiki](https://github.com/michmich/magicmirror/wiki/configuring-the-raspberry-pi#enable-the-open-gl-driver-to-decrease-electrons-cpu-usage).
 
 ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
 
@@ -928,7 +929,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 - Add use pm2 for manager process into Installer RaspberryPi script.
 - Russian Translation.
 - Afrikaans Translation.
-- Add postinstall script to notify user that MagicMirror installed successfully despite warnings from NPM.
+- Add postinstall script to notify user that MagicMirror² installed successfully despite warnings from NPM.
 - Init tests using mocha.
 - Option to use RegExp in Calendar's titleReplace.
 - Hungarian Translation.
@@ -991,7 +992,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 - Add VSCode IntelliSense support.
 - Module API: Add Visibility locking to module system. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules#visibility-locking) for more information.
 - Module API: Method to overwrite the module's header. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules#getheader) for more information.
-- Module API: Option to define the minimum MagicMirror version to run a module. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules#requiresversion) for more information.
+- Module API: Option to define the minimum MagicMirror² version to run a module. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules#requiresversion) for more information.
 - Calendar module now broadcasts the event list to all other modules using the notification system. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules/default/calendar) for more information.
 - Possibility to use the calendar feed as the source for the weather (currentweather & weatherforecast) location data. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules/default/weatherforecast) for more information.
 - Added option to show rain amount in the weatherforecast default module
@@ -1138,6 +1139,6 @@ It includes (but is not limited to) the following features:
 
 ## [1.0.0] - 2014-02-16
 
-### Initial release of MagicMirror.
+### Initial release of MagicMirror
 
 This was part of the blogpost: [https://michaelteeuw.nl/post/83916869600/magic-mirror-part-vi-production-of-the](https://michaelteeuw.nl/post/83916869600/magic-mirror-part-vi-production-of-the)

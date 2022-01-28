@@ -1,4 +1,4 @@
-/* Magic Mirror Test config custom calendar
+/* MagicMirror² Test config custom calendar
  *
  * By Rejas
  * MIT Licensed.

@@ -1,4 +1,4 @@
-/* Magic Mirror Test config sample module alert
+/* MagicMirror² Test config sample module alert
  *
  * By rejas
  * MIT Licensed.

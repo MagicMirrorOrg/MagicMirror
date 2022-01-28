@@ -1,4 +1,4 @@
-/* Magic Mirror
+/* MagicMirror²
  * Translation Definition
  *
  * By Michael Teeuw https://michaelteeuw.nl

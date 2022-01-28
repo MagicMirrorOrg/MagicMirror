@@ -1,6 +1,6 @@
 /* global mmPort */
 
-/* Magic Mirror
+/* MagicMirror²
  * Config Defaults
  *
  * By Michael Teeuw https://michaelteeuw.nl
@@ -36,7 +36,7 @@ const defaults = {
 			position: "upper_third",
 			classes: "large thin",
 			config: {
-				text: "Magic Mirror<sup>2</sup>"
+				text: "MagicMirror²"
 			}
 		},
 		{
@@ -59,7 +59,7 @@ const defaults = {
 			position: "middle_center",
 			classes: "xsmall",
 			config: {
-				text: "If you get this message while your config file is already created,<br>" + "it probably contains an error. To validate your config file run in your MagicMirror directory<br>" + "<pre>npm run config:check</pre>"
+				text: "If you get this message while your config file is already created,<br>" + "it probably contains an error. To validate your config file run in your MagicMirror² directory<br>" + "<pre>npm run config:check</pre>"
 			}
 		},
 		{

@@ -1,4 +1,4 @@
-/* Magic Mirror Test config default weather
+/* MagicMirror² Test config default weather
  *
  * By fewieden https://github.com/fewieden
  * MIT Licensed.

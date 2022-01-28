@@ -10,16 +10,16 @@ If you're not sure if it's a real bug or if it's just you, please open a topic o
 
 Problems installing or configuring your MagicMirror? Check out: [https://forum.magicmirror.builders/category/10/troubleshooting](https://forum.magicmirror.builders/category/10/troubleshooting)
 
-A common problem is that your config file could be invalid. Please run in your MagicMirror directory: `npm run config:check` and see if it reports an error.
+A common problem is that your config file could be invalid. Please run in your MagicMirror² directory: `npm run config:check` and see if it reports an error.
 
-## I found a bug in the MagicMirror installer
+## I found a bug in the MagicMirror² installer
 
-If you are facing an issue or found a bug while trying to install MagicMirror via the installer please report it in the respective GitHub repository:
+If you are facing an issue or found a bug while trying to install MagicMirror² via the installer please report it in the respective GitHub repository:
 [https://github.com/sdetweil/MagicMirror_scripts](https://github.com/sdetweil/MagicMirror_scripts)
 
-## I found a bug in the MagicMirror Docker image
+## I found a bug in the MagicMirror² Docker image
 
-If you are facing an issue or found a bug while running MagicMirror inside a Docker container please create an issue in the corresponding repository:
+If you are facing an issue or found a bug while running MagicMirror² inside a Docker container please create an issue in the corresponding repository:
 
 - karsten13/magicmirror: [https://gitlab.com/khassel/magicmirror](https://gitlab.com/khassel/magicmirror)
 - (deprecated) bastilimbach/docker-magicmirror: [https://github.com/bastilimbach/docker-MagicMirror](https://github.com/bastilimbach/docker-MagicMirror)
@@ -35,7 +35,7 @@ When submitting a new issue, please supply the following information:
 
 **Node Version**: Make sure it's version 14 or later (recommended is 16).
 
-**MagicMirror Version**: Please let us know which version of MagicMirror you are running. It can be found in the `package.json` file.
+**MagicMirror² Version**: Please let us know which version of MagicMirror² you are running. It can be found in the `package.json` file.
 
 **Description**: Provide a detailed description about the issue and include specific details to help us understand the problem. Adding screenshots will help describing the problem.
 

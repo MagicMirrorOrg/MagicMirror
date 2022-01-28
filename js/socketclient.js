@@ -1,6 +1,6 @@
 /* global io */
 
-/* Magic Mirror
+/* MagicMirror²
  * TODO add description
  *
  * By Michael Teeuw https://michaelteeuw.nl

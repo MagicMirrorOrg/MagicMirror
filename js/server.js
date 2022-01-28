@@ -1,4 +1,4 @@
-/* Magic Mirror
+/* MagicMirror²
  * Server
  *
  * By Michael Teeuw https://michaelteeuw.nl

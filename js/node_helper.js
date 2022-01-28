@@ -1,4 +1,4 @@
-/* Magic Mirror
+/* MagicMirror²
  * Node Helper Superclass
  *
  * By Michael Teeuw https://michaelteeuw.nl
@@ -23,7 +23,7 @@ const NodeHelper = Class.extend({
 	},
 
 	/* stop()
-	 * Called when the MagicMirror server receives a `SIGINT`
+	 * Called when the MagicMirror² server receives a `SIGINT`
 	 * Close any open connections, stop any sub-processes and
 	 * gracefully exit the module.
 	 *

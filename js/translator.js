@@ -1,6 +1,6 @@
 /* global translations */
 
-/* Magic Mirror
+/* MagicMirror²
  * Translator (l10n)
  *
  * By Christopher Fenner https://github.com/CFenner
