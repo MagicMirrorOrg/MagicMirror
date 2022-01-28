@@ -10,6 +10,7 @@ const path = require("path");
 const ipfilter = require("express-ipfilter").IpFilter;
 const fs = require("fs");
 const helmet = require("helmet");
+const fetch = require("node-fetch");
 
 const Log = require("logger");
 const Utils = require("./utils.js");
@@ -61,6 +62,7 @@ function Server(config, callback) {
 	app.use(function (req, res, next) {
 		ipfilter(config.ipWhitelist, { mode: config.ipWhitelist.length === 0 ? "deny" : "allow", log: false })(req, res, function (err) {
 			if (err === undefined) {
+				res.header("Access-Control-Allow-Origin", "*");
 				return next();
 			}
 			Log.log(err.message);
@@ -75,6 +77,33 @@ function Server(config, callback) {
 	for (const directory of directories) {
 		app.use(directory, express.static(path.resolve(global.root_path + directory)));
 	}
+
+	app.get("/cors", async function (req, res) {
+		// example: http://localhost:8080/cors?url=https://google.de
+
+		try {
+			const reg = "^/cors.+url=(.*)";
+			let url = "";
+
+			let match = new RegExp(reg, "g").exec(req.url);
+			if (!match) {
+				url = "invalid url: " + req.url;
+				Log.error(url);
+				res.send(url);
+			} else {
+				url = match[1];
+				Log.log("cors url: " + url);
+				const response = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0 MagicMirror/" + global.version } });
+				const header = response.headers.get("Content-Type");
+				const data = await response.text();
+				if (header) res.set("Content-Type", header);
+				res.send(data);
+			}
+		} catch (error) {
+			Log.error(error);
+			res.send(error);
+		}
+	});
 
 	app.get("/version", function (req, res) {
 		res.send(global.version);
