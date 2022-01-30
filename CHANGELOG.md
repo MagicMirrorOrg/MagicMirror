@@ -53,7 +53,7 @@ Special thanks to the following contributors: @AmpioRosso, @eouia, @fewieden, @j
 - Added missing shebang to `installers/mm.sh`.
 - Node versions in templates and github workflows.
 - Updated translations for Traditional Chinese (Taiwan) (zh-tw.json).
-- Upgrade module `node-fetch` from 2.x to 3.x (#2649)
+- Switch from `node-fetch` to `node-fetch-commonjs` (#2649)
 
 ### Fixed
 
