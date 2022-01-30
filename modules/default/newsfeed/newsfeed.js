@@ -1,4 +1,4 @@
-/* Magic Mirror
+/* MagicMirror²
  * Module: NewsFeed
  *
  * By Michael Teeuw https://michaelteeuw.nl
@@ -20,6 +20,7 @@ Module.register("newsfeed", {
 		broadcastNewsFeeds: true,
 		broadcastNewsUpdates: true,
 		showDescription: false,
+		showTitleAsUrl: false,
 		wrapTitle: true,
 		wrapDescription: true,
 		truncDescription: true,
@@ -141,6 +142,7 @@ Module.register("newsfeed", {
 			sourceTitle: item.sourceTitle,
 			publishDate: moment(new Date(item.pubdate)).fromNow(),
 			title: item.title,
+			url: item.url,
 			description: item.description,
 			items: items
 		};

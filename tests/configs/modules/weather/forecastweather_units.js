@@ -1,4 +1,4 @@
-/* Magic Mirror Test config default weather
+/* MagicMirror² Test config default weather
  *
  * By rejas
  * MIT Licensed.

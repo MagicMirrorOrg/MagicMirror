@@ -1,4 +1,4 @@
-/* Magic Mirror Test config sample environment set port 8090
+/* MagicMirror² Test config sample environment set port 8090
  *
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.

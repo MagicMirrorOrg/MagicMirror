@@ -44,7 +44,7 @@ When submitting a new issue, please supply the following information:
 
 **Node Version**: Make sure it's version 14 or later (recommended is 16).
 
-**MagicMirror Version**: Please let us know which version of MagicMirror you are running. It can be found in the `package.json` file.
+**MagicMirror² Version**: Please let us know which version of MagicMirror² you are running. It can be found in the `package.json` file.
 
 **Description**: Provide a detailed description about the issue and include specific details to help us understand the problem. Adding screenshots will help describing the problem.
 

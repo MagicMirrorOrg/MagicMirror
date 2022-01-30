@@ -1,6 +1,6 @@
 /* global NotificationFx */
 
-/* Magic Mirror
+/* MagicMirror²
  * Module: alert
  *
  * By Paul-Vincent Roll https://paulvincentroll.com/

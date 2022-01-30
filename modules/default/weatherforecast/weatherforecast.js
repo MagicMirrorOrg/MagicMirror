@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-/* Magic Mirror
+/* MagicMirror²
  * Module: CurrentWeather
  *
  * By Michael Teeuw https://michaelteeuw.nl

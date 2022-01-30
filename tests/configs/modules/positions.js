@@ -1,4 +1,4 @@
-/* Magic Mirror Test config for position setters module using the helloworld module
+/* MagicMirror² Test config for position setters module using the helloworld module
  *
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.

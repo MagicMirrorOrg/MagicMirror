@@ -1,4 +1,4 @@
-/* Magic Mirror Deprecated Config Options List
+/* MagicMirror² Deprecated Config Options List
  *
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.

@@ -1,4 +1,4 @@
-/* Magic Mirror Test config default calendar
+/* MagicMirror² Test config default calendar
  *              with authentication old config
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.
