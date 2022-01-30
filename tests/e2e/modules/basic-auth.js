@@ -4,7 +4,7 @@ const express = require("express");
 const app = express();
 
 const basicAuth = auth({
-	realm: "MagicMirror Area restricted.",
+	realm: "MagicMirror² Area restricted.",
 	users: { MagicMirror: "CallMeADog" }
 });
 

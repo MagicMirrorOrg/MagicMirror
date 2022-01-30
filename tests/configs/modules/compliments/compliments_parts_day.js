@@ -1,4 +1,4 @@
-/* Magic Mirror Test config for default compliments
+/* MagicMirror² Test config for default compliments
  *
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.

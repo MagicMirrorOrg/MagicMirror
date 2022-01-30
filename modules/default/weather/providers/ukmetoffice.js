@@ -1,6 +1,6 @@
 /* global WeatherProvider, WeatherObject */
 
-/* Magic Mirror
+/* MagicMirror²
  * Module: Weather
  *
  * By Malcolm Oakes https://github.com/maloakes

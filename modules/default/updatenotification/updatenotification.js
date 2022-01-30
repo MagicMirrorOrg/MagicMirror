@@ -1,4 +1,4 @@
-/* Magic Mirror
+/* MagicMirror²
  * Module: UpdateNotification
  *
  * By Michael Teeuw https://michaelteeuw.nl

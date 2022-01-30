@@ -1,6 +1,6 @@
 /* global Loader, defaults, Translator */
 
-/* Magic Mirror
+/* MagicMirror²
  * Main System
  *
  * By Michael Teeuw https://michaelteeuw.nl
@@ -480,7 +480,7 @@ const MM = (function () {
 		 * Main init method.
 		 */
 		init: function () {
-			Log.info("Initializing MagicMirror.");
+			Log.info("Initializing MagicMirror².");
 			loadConfig();
 
 			Log.setLogLevel(config.logLevel);

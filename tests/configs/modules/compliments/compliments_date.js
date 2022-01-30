@@ -1,4 +1,4 @@
-/* Magic Mirror Test config compliments with date type
+/* MagicMirror² Test config compliments with date type
  *
  * By Rejas
  * MIT Licensed.

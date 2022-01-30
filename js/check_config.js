@@ -1,4 +1,4 @@
-/* Magic Mirror
+/* MagicMirror²
  *
  * Check the configuration file for errors
  *
