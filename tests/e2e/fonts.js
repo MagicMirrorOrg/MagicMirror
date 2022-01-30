@@ -1,4 +1,4 @@
-const fetch = (...args) => import("node-fetch").then(({ default: fetch }) => fetch(...args));
+const fetch = require("node-fetch-commonjs");
 const helpers = require("./global-setup");
 
 describe("All font files from roboto.css should be downloadable", function () {

@@ -8,7 +8,7 @@ const CalendarUtils = require("./calendarutils");
 const Log = require("logger");
 const NodeHelper = require("node_helper");
 const ical = require("node-ical");
-const fetch = (...args) => import("node-fetch").then(({ default: fetch }) => fetch(...args));
+const fetch = require("node-fetch-commonjs");
 const digest = require("digest-fetch");
 const https = require("https");
 
