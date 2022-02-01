@@ -18,17 +18,17 @@ _This release is scheduled to be released on 2022-04-01._
 
 ### Updated
 
-- deprecated roboto fonts package `roboto-fontface-bower` replaced with `fontsource`.
-- update `helmet` to v5, use defaults of v4.
-- updates Font Awesome css class to new default style (fixes #2768)
-- replaced deprecated modules `currentweather` and `weatherforecast` with dummy modules only displaying that they have to be replaced.
-- include all calendar events from the configured date range when broadcasting.
+- Deprecated roboto fonts package `roboto-fontface-bower` replaced with `fontsource`.
+- Update `helmet` to v5, use defaults of v4.
+- Updates Font Awesome css class to new default style (fixes #2768)
+- Replaced deprecated modules `currentweather` and `weatherforecast` with dummy modules only displaying that they have to be replaced.
+- Include all calendar events from the configured date range when broadcasting.
 - Update Danish translation.
 
 ### Fixed
 
-- improved and speedup e2e tests, artificial wait after mm start removed.
-- improved husky setup not blocking `git commit` if `husky` or `npm` is not installed.
+- Improved and speedup e2e tests, artificial wait after mm start removed.
+- Improved husky setup not blocking `git commit` if `husky` or `npm` is not installed.
 - Using a consistent spelling of MagicMirror².
 
 ## [2.18.0] - 2022-01-01
