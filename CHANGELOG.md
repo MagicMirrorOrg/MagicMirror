@@ -20,7 +20,7 @@ _This release is scheduled to be released on 2022-04-01._
 ### Updated
 
 - deprecated roboto fonts package `roboto-fontface-bower` replaced with `fontsource`.
-- update `helmet` to v5 (use defaults of v4) and other dependencies.
+- update `electron` to v17, `helmet` to v5 (use defaults of v4) and other dependencies.
 - updates Font Awesome css class to new default style (fixes #2768)
 - replaced deprecated modules `currentweather` and `weatherforecast` with dummy modules only displaying that they have to be replaced.
 - include all calendar events from the configured date range when broadcasting.
