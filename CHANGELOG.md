@@ -15,6 +15,7 @@ _This release is scheduled to be released on 2022-04-01._
 - Added test for new weather forecast absoluteDates porperty.
 - The modules get a class hidden added/removed if they get hidden/shown
 - Added new config option `showTitleAsUrl` to newsfeed module. If set, the diplayed title is a link to the article which is useful when running in a browser and you want to read this article.
+- Added internal cors proxy to get weather providers working without public proxies (fixes #2714). The new url `http(s)://address:port/cors?url=https://whatever-to-proxy` can be used in other modules too.
 
 ### Updated
 

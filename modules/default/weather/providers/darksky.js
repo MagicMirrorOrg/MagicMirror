@@ -18,7 +18,8 @@ WeatherProvider.register("darksky", {
 
 	// Set the default config properties that is specific to this provider
 	defaults: {
-		apiBase: "https://cors-anywhere.herokuapp.com/https://api.darksky.net",
+		useCorsProxy: true,
+		apiBase: "https://api.darksky.net",
 		weatherEndpoint: "/forecast",
 		apiKey: "",
 		lat: 0,
