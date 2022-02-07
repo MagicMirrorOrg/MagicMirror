@@ -91,7 +91,7 @@
 		"logger": "js/logger.js"
 	},
 	"engines": {
-		"node": ">=12"
+		"node": ">=14"
 	},
 	"jest": {
 		"verbose": true,
