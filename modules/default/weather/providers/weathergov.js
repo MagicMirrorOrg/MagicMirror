@@ -156,8 +156,13 @@ WeatherProvider.register("weathergov", {
 		currentWeather.rain = null;
 		currentWeather.snow = null;
 		currentWeather.precipitation = this.convertLength(currentWeatherData.precipitationLastHour.value);
-		currentWeather.feelsLikeTemp = this.convertTemp(currentWeatherData.heatIndex.value);
-
+		if (currentWeatherData.heatIndex.value !== null) {
+			currentWeather.feelsLikeTemp = this.convertTemp(currentWeatherData.heatIndex.value);
+		} else if (currentWeatherData.windChill.value !== null) {
+			currentWeather.feelsLikeTemp = this.convertTemp(currentWeatherData.windChill.value);
+		} else {
+			currentWeather.feelsLikeTemp = this.convertTemp(currentWeatherData.temperature.value);
+		}
 		// determine the sunrise/sunset times - not supplied in weather.gov data
 		currentWeather.updateSunTime(this.config.lat, this.config.lon);
 
