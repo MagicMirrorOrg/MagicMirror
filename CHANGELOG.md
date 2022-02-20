@@ -31,6 +31,7 @@ _This release is scheduled to be released on 2022-04-01._
 - Improved and speedup e2e tests, artificial wait after mm start removed.
 - Improved husky setup not blocking `git commit` if `husky` or `npm` is not installed.
 - Using a consistent spelling of MagicMirror².
+- Fix minor console output issue for loading translations (#2814).
 
 ## [2.18.0] - 2022-01-01
 
