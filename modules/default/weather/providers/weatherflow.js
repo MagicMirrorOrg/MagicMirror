@@ -2,7 +2,7 @@
 
 /* MagicMirror²
  * Module: Weather
- * Provider: Dark Sky
+ * Provider: Weatherflow
  *
  * By Tobias Dreyem https://github.com/10bias
  * MIT Licensed
