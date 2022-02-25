@@ -39,7 +39,7 @@ WeatherProvider.register("weatherflow", {
 				currentWeather.windSpeed = data.current_conditions.wind_avg;
 				currentWeather.windDirection = data.current_conditions.wind_direction;
 				currentWeather.weatherType = data.forecast.daily[0].icon;
-				(currentWeather.sunrise = moment(data.forecast.daily[0].sunrise)), "X";
+				currentWeather.sunrise = moment(data.forecast.daily[0].sunrise, "X");
 				currentWeather.sunset = moment(data.forecast.daily[0].sunset, "X");
 				this.setCurrentWeather(currentWeather);
 			})
