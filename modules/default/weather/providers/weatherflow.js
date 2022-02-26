@@ -24,8 +24,20 @@ WeatherProvider.register("weatherflow", {
 	},
 
 	units: {
-		imperial: "us",
-		metric: "si"
+		imperial: {
+			temp: "f",
+			wind: "mph",
+			pressure: "hpa",
+			precip: "in",
+			distance: "mi"
+		},
+		metric: {
+			temp: "c",
+			wind: "kph",
+			pressure: "mb",
+			precip: "mm",
+			distance: "km"
+		}
 	},
 
 	fetchCurrentWeather() {
@@ -76,6 +88,22 @@ WeatherProvider.register("weatherflow", {
 
 	// Create a URL from the config and base URL.
 	getUrl() {
-		return this.config.apiBase + "better_forecast?station_id=" + this.config.stationid + "&token=" + this.config.token;
+		return (
+			this.config.apiBase +
+			"better_forecast?station_id=" +
+			this.config.stationid +
+			"&units_temp=" +
+			this.units[this.config.units].temp +
+			"&units_wind=" +
+			this.units[this.config.units].wind +
+			"&units_pressure=" +
+			this.units[this.config.units].pressure +
+			"&units_precip=" +
+			this.units[this.config.units].precip +
+			"&units_distance=" +
+			this.units[this.config.units].distance +
+			"&token=" +
+			this.config.token
+		);
 	}
 });
