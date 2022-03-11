@@ -40,7 +40,7 @@ Contributions of all kinds are welcome, not only in the form of code but also wi
 - documentation
 - translations
 
-For the full contribution guidelines, check out: [https://docs.magicmirror.builders/getting-started/contributing.html](https://docs.magicmirror.builders/about/contributing.html)
+For the full contribution guidelines, check out: [https://docs.magicmirror.builders/about/contributing.html](https://docs.magicmirror.builders/about/contributing.html)
 
 ## Enjoying MagicMirror? Consider a donation!
 

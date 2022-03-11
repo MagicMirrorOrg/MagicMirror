@@ -1,4 +1,4 @@
-/* Magic Mirror Test config for default clock module
+/* MagicMirror² Test config for default clock module
  *
  * By Johan Hammar
  * MIT Licensed.

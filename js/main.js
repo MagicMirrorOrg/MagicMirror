@@ -1,6 +1,6 @@
 /* global Loader, defaults, Translator */
 
-/* Magic Mirror
+/* MagicMirror²
  * Main System
  *
  * By Michael Teeuw https://michaelteeuw.nl
@@ -245,6 +245,7 @@ const MM = (function () {
 		if (moduleWrapper !== null) {
 			moduleWrapper.style.transition = "opacity " + speed / 1000 + "s";
 			moduleWrapper.style.opacity = 0;
+			moduleWrapper.classList.add("hidden");
 
 			clearTimeout(module.showHideTimer);
 			module.showHideTimer = setTimeout(function () {
@@ -310,6 +311,7 @@ const MM = (function () {
 			moduleWrapper.style.transition = "opacity " + speed / 1000 + "s";
 			// Restore the position. See hideModule() for more info.
 			moduleWrapper.style.position = "static";
+			moduleWrapper.classList.remove("hidden");
 
 			updateWrapperStates();
 
@@ -478,7 +480,7 @@ const MM = (function () {
 		 * Main init method.
 		 */
 		init: function () {
-			Log.info("Initializing MagicMirror.");
+			Log.info("Initializing MagicMirror².");
 			loadConfig();
 
 			Log.setLogLevel(config.logLevel);

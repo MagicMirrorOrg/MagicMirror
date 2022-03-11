@@ -1,6 +1,6 @@
 /* global cloneObject */
 
-/* Magic Mirror
+/* MagicMirror²
  * Module: Calendar
  *
  * By Michael Teeuw https://michaelteeuw.nl
@@ -13,7 +13,7 @@ Module.register("calendar", {
 		maximumNumberOfDays: 365,
 		limitDays: 0, // Limit the number of days shown, 0 = no limit
 		displaySymbol: true,
-		defaultSymbol: "calendar", // Fontawesome Symbol see https://fontawesome.com/cheatsheet?from=io
+		defaultSymbol: "calendar-alt", // Fontawesome Symbol see https://fontawesome.com/cheatsheet?from=io
 		showLocation: false,
 		displayRepeatingCountTitle: false,
 		defaultRepeatingCountTitle: "",
@@ -43,7 +43,7 @@ Module.register("calendar", {
 		tableClass: "small",
 		calendars: [
 			{
-				symbol: "calendar",
+				symbol: "calendar-alt",
 				url: "https://www.calendarlabs.com/templates/ical/US-Holidays.ics"
 			}
 		],
@@ -164,7 +164,7 @@ Module.register("calendar", {
 		const oneHour = oneMinute * 60;
 		const oneDay = oneHour * 24;
 
-		const events = this.createEventList();
+		const events = this.createEventList(true);
 		const wrapper = document.createElement("table");
 		wrapper.className = this.config.tableClass;
 
@@ -239,7 +239,7 @@ Module.register("calendar", {
 				const symbols = this.symbolsForEvent(event);
 				symbols.forEach((s, index) => {
 					const symbol = document.createElement("span");
-					symbol.className = "fa fa-fw fa-" + s;
+					symbol.className = "fas fa-fw fa-" + s;
 					if (index > 0) {
 						symbol.style.paddingLeft = "5px";
 					}
@@ -477,9 +477,10 @@ Module.register("calendar", {
 	/**
 	 * Creates the sorted list of all events.
 	 *
+	 * @param {boolean} limitNumberOfEntries Whether to filter returned events for display.
 	 * @returns {object[]} Array with events.
 	 */
-	createEventList: function () {
+	createEventList: function (limitNumberOfEntries) {
 		const now = new Date();
 		const today = moment().startOf("day");
 		const future = moment().startOf("day").add(this.config.maximumNumberOfDays, "days").toDate();
@@ -490,7 +491,7 @@ Module.register("calendar", {
 			for (const e in calendar) {
 				const event = JSON.parse(JSON.stringify(calendar[e])); // clone object
 
-				if (event.endDate < now) {
+				if (event.endDate < now && limitNumberOfEntries) {
 					continue;
 				}
 				if (this.config.hidePrivate) {
@@ -499,7 +500,7 @@ Module.register("calendar", {
 						continue;
 					}
 				}
-				if (this.config.hideOngoing) {
+				if (this.config.hideOngoing && limitNumberOfEntries) {
 					if (event.startDate < now) {
 						continue;
 					}
@@ -547,6 +548,10 @@ Module.register("calendar", {
 		events.sort(function (a, b) {
 			return a.startDate - b.startDate;
 		});
+
+		if (!limitNumberOfEntries) {
+			return events;
+		}
 
 		// Limit the number of days displayed
 		// If limitDays is set > 0, limit display to that number of days
@@ -835,21 +840,13 @@ Module.register("calendar", {
 	 * The all events available in one array, sorted on startdate.
 	 */
 	broadcastEvents: function () {
-		const eventList = [];
-		for (const url in this.calendarData) {
-			for (const ev of this.calendarData[url]) {
-				const event = cloneObject(ev);
-				event.symbol = this.symbolsForEvent(event);
-				event.calendarName = this.calendarNameForUrl(url);
-				event.color = this.colorForUrl(url);
-				delete event.url;
-				eventList.push(event);
-			}
+		const eventList = this.createEventList(false);
+		for (const event of eventList) {
+			event.symbol = this.symbolsForEvent(event);
+			event.calendarName = this.calendarNameForUrl(event.url);
+			event.color = this.colorForUrl(event.url);
+			delete event.url;
 		}
-
-		eventList.sort(function (a, b) {
-			return a.startDate - b.startDate;
-		});
 
 		this.sendNotification("CALENDAR_EVENTS", eventList);
 	}
