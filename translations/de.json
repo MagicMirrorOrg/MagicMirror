@@ -1,9 +1,9 @@
 {
-	"LOADING": "Lade &hellip;",
+	"LOADING": "Lade …",
 
 	"TODAY": "Heute",
 	"TOMORROW": "Morgen",
-	"DAYAFTERTOMORROW": "&Uuml;bermorgen",
+	"DAYAFTERTOMORROW": "Übermorgen",
 	"RUNNING": "noch",
 	"EMPTY": "Keine Termine.",
 	"WEEK": "{weekNumber}. Kalenderwoche",
@@ -28,13 +28,17 @@
 	"FEELS": "Gefühlt {DEGREE}",
 	"PRECIP": "Niederschlagswahrscheinlichkeit",
 
-	"MODULE_CONFIG_CHANGED": "Die Konfigurationsoptionen für das {MODULE_NAME} Modul haben sich geändert. \nBitte überprüfen Sie die Dokumentation.",
-	"MODULE_CONFIG_ERROR": "Fehler im {MODULE_NAME} Modul. {ERROR}",
+	"MODULE_CONFIG_CHANGED": "Die Konfigurationsoptionen für das Modul „{MODULE_NAME}“ haben sich geändert. \nBitte überprüfen Sie die Dokumentation.",
+	"MODULE_CONFIG_ERROR": "Fehler im Modul „{MODULE_NAME}“. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "Fehlerhafte URL.",
+	"MODULE_ERROR_NO_CONNECTION": "Keine Internetverbindung.",
+	"MODULE_ERROR_UNAUTHORIZED": "Autorisierung fehlgeschlagen.",
+	"MODULE_ERROR_UNSPECIFIED": "Prüfe die Logdateien für weitere Details.",
 
-	"NEWSFEED_NO_ITEMS": "Keine Neuigkeiten momentan.",
+	"NEWSFEED_NO_ITEMS": "Momentan keine Neuigkeiten.",
 
 	"UPDATE_NOTIFICATION": "Aktualisierung für MagicMirror² verfügbar.",
-	"UPDATE_NOTIFICATION_MODULE": "Aktualisierung für das {MODULE_NAME} Modul verfügbar.",
-	"UPDATE_INFO_SINGLE": "Die aktuelle Installation ist {COMMIT_COUNT} Commit hinter dem {BRANCH_NAME} Branch.",
-	"UPDATE_INFO_MULTIPLE": "Die aktuelle Installation ist {COMMIT_COUNT} Commits hinter dem {BRANCH_NAME} Branch."
+	"UPDATE_NOTIFICATION_MODULE": "Aktualisierung für das Modul „{MODULE_NAME}“ verfügbar.",
+	"UPDATE_INFO_SINGLE": "Die aktuelle Installation ist ein Commit hinter dem {BRANCH_NAME}-Branch.",
+	"UPDATE_INFO_MULTIPLE": "Die aktuelle Installation ist {COMMIT_COUNT} Commits hinter dem {BRANCH_NAME}-Branch."
 }
