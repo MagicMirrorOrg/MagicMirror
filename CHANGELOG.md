@@ -25,7 +25,7 @@ _This release is scheduled to be released on 2022-04-01._
 - Updates Font Awesome css class to new default style (fixes #2768)
 - Replaced deprecated modules `currentweather` and `weatherforecast` with dummy modules only displaying that they have to be replaced.
 - Include all calendar events from the configured date range when broadcasting.
-- Update Danish translation.
+- Update Danish and German translation.
 
 ### Fixed
 
