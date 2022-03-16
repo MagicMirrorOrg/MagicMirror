@@ -17,6 +17,7 @@ _This release is scheduled to be released on 2022-04-01._
 - Added new config option `showTitleAsUrl` to newsfeed module. If set, the diplayed title is a link to the article which is useful when running in a browser and you want to read this article.
 - Added internal cors proxy to get weather providers working without public proxies (fixes #2714). The new url `http(s)://address:port/cors?url=https://whatever-to-proxy` can be used in other modules too.
 - Added a WeatherProvider for Weatherflow
+- add default `User-Agent=MagicMirror` when running as electron because without a proper header some url's are not accepted. The default can be overridden in `config.js`. This solves problems with openstreetmap tiles urls as e.g. [discussed here](https://forum.magicmirror.builders/topic/12808/mmm-rain-map-new-version-2-x/153).
 
 ### Updated
 

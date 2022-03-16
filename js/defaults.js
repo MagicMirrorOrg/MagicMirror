@@ -25,6 +25,7 @@ const defaults = {
 	units: "metric",
 	zoom: 1,
 	customCss: "css/custom.css",
+	electronUserAgentHeader: "MagicMirror",
 
 	modules: [
 		{

@@ -59,6 +59,8 @@ function createWindow() {
 		prefix = "http://";
 	}
 
+	mainWindow.webContents.userAgent = config.electronUserAgentHeader;
+
 	let address = (config.address === void 0) | (config.address === "") ? (config.address = "localhost") : config.address;
 	mainWindow.loadURL(`${prefix}${address}:${config.port}`);
 
