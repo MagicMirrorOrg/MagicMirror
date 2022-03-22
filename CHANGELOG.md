@@ -34,6 +34,7 @@ _This release is scheduled to be released on 2022-04-01._
 - Using a consistent spelling of MagicMirror².
 - Fix minor console output issue for loading translations (#2814).
 - Don't adjust startDate for full day events if endDate is in the past
+- Fix windspeed conversion error in openweathermap provider. (#2812)
 
 ## [2.18.0] - 2022-01-01
 
@@ -283,7 +284,7 @@ Special thanks to the following contributors: @Alvinger, @AndyPoms, @ashishtank,
 - Rename Greek translation to correct ISO 639-1 alpha-2 code (gr > el). (#2155)
 - Add a space after icons of sunrise and sunset. (#2169)
 - Fix calendar when no DTEND record found in event, startDate overlay when endDate set. (#2177)
-- Fix windspeed convertion error in ukmetoffice weather provider. (#2189)
+- Fix windspeed conversion error in ukmetoffice weather provider. (#2189)
 - Fix console.debug not having timestamps. (#2199)
 - Fix calendar full day event east of UTC start time. (#2200)
 - Fix non-fullday recurring rule processing. (#2216)
