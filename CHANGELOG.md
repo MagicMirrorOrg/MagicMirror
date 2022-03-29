@@ -26,6 +26,7 @@ _This release is scheduled to be released on 2022-04-01._
 - Replaced deprecated modules `currentweather` and `weatherforecast` with dummy modules only displaying that they have to be replaced.
 - Include all calendar events from the configured date range when broadcasting.
 - Update Danish and German translation.
+- Update `node-ical` to v0.15 and added `luxon` as dependency for not breaking the "no-optional" install (see #2718 and #2824).
 
 ### Fixed
 
