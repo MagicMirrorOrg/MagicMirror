@@ -36,6 +36,7 @@ _This release is scheduled to be released on 2022-04-01._
 - Fix minor console output issue for loading translations (#2814).
 - Don't adjust startDate for full day events if endDate is in the past
 - Fix windspeed conversion error in openweathermap provider. (#2812)
+- Fix conflicting parms turning off showEnd for full day events. (#2629)
 
 ## [2.18.0] - 2022-01-01
 
