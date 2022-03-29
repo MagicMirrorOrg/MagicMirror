@@ -8,6 +8,10 @@ const Log = require("logger");
 let config = process.env.config ? JSON.parse(process.env.config) : {};
 // Module to control application life.
 const app = electron.app;
+if (process.env.ELECTRON_DISABLE_GPU !== undefined) {
+	app.disableHardwareAcceleration();
+}
+
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
 
