@@ -5,14 +5,14 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror².
 
-## [2.19.0] - Unreleased (Develop Branch)
+## [2.19.0] - 2022-04-01
 
-_This release is scheduled to be released on 2022-04-01._
+Special thanks to the following contributors: @10bias, @CFenner, @JHWelch, @k1rd3rf, @khassel, @kolbyjack, @krekos, @KristjanESPERANTO, @Nerfzooka, @oraclesean, @oscarb, @philnagel, @rejas, @sdetweil, @shin10 and @SiderealArt.
 
 ### Added
 
-- Added a config option under the weather module, absoluteDates, providing an option to format weather forecast date output with either absolute or relative dates.
-- Added test for new weather forecast absoluteDates porperty.
+- Added a config option under the weather module, `absoluteDates`, providing an option to format weather forecast date output with either absolute or relative dates.
+- Added test for new weather forecast `absoluteDates` porperty.
 - The modules get a class hidden added/removed if they get hidden/shown which will also toggle pointer-events.
 - Added new config option `showTitleAsUrl` to newsfeed module. If set, the diplayed title is a link to the article which is useful when running in a browser and you want to read this article.
 - Added internal cors proxy to get weather providers working without public proxies (fixes #2714). The new url `http(s)://address:port/cors?url=https://whatever-to-proxy` can be used in other modules too.
@@ -36,7 +36,7 @@ _This release is scheduled to be released on 2022-04-01._
 - Improved husky setup not blocking `git commit` if `husky` or `npm` is not installed.
 - Using a consistent spelling of MagicMirror².
 - Fix minor console output issue for loading translations (#2814).
-- Don't adjust startDate for full day events if endDate is in the past
+- Don't adjust startDate for full day events if endDate is in the past.
 - Fix windspeed conversion error in openweathermap provider. (#2812)
 - Fix conflicting parms turning off showEnd for full day events. (#2629)
 
