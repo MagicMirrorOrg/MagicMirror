@@ -1,6 +1,6 @@
 /* global translations */
 
-/* Magic Mirror
+/* MagicMirror²
  * Translator (l10n)
  *
  * By Christopher Fenner https://github.com/CFenner
@@ -104,7 +104,7 @@ const Translator = (function () {
 		 * @param {Function} callback Function called when done.
 		 */
 		load(module, file, isFallback, callback) {
-			Log.log(`${module.name} - Load translation${isFallback && " fallback"}: ${file}`);
+			Log.log(`${module.name} - Load translation${isFallback ? " fallback" : ""}: ${file}`);
 
 			if (this.translationsFallback[module.name]) {
 				callback();

@@ -1,4 +1,4 @@
-/* Magic Mirror
+/* MagicMirror²
  * The Core App (Server)
  *
  * By Michael Teeuw https://michaelteeuw.nl
@@ -37,7 +37,7 @@ if (process.env.MM_PORT) {
 process.on("uncaughtException", function (err) {
 	Log.error("Whoops! There was an uncaught exception...");
 	Log.error(err);
-	Log.error("MagicMirror will not quit, but it might be a good idea to check why this happened. Maybe no internet connection?");
+	Log.error("MagicMirror² will not quit, but it might be a good idea to check why this happened. Maybe no internet connection?");
 	Log.error("If you think this really is an issue, please open an issue on GitHub: https://github.com/MichMich/MagicMirror/issues");
 });
 
@@ -128,7 +128,7 @@ function App() {
 			let m = new Module();
 
 			if (m.requiresVersion) {
-				Log.log(`Check MagicMirror version for node helper '${moduleName}' - Minimum version: ${m.requiresVersion} - Current version: ${global.version}`);
+				Log.log(`Check MagicMirror² version for node helper '${moduleName}' - Minimum version: ${m.requiresVersion} - Current version: ${global.version}`);
 				if (cmpVersions(global.version, m.requiresVersion) >= 0) {
 					Log.log("Version is ok!");
 				} else {

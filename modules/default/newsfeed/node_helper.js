@@ -1,4 +1,4 @@
-/* Magic Mirror
+/* MagicMirror²
  * Node Helper: Newsfeed
  *
  * By Michael Teeuw https://michaelteeuw.nl

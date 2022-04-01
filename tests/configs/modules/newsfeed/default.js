@@ -1,4 +1,4 @@
-/* Magic Mirror Test config newsfeed module
+/* MagicMirror² Test config newsfeed module
  *
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.

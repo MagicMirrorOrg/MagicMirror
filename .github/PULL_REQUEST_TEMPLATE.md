@@ -1,4 +1,4 @@
-Hello and thank you for wanting to contribute to the MagicMirror project
+Hello and thank you for wanting to contribute to the MagicMirror² project
 
 **Please make sure that you have followed these 4 rules before submitting your Pull Request:**
 

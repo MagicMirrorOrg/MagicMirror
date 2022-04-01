@@ -1,4 +1,4 @@
-/* Magic Mirror
+/* MagicMirror²
  * Vendor File Definition
  *
  * By Michael Teeuw https://michaelteeuw.nl

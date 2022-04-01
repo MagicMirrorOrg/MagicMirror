@@ -15,9 +15,7 @@ let config = {
 				location: "Munich",
 				mockData: '"#####WEATHERDATA#####"',
 				weatherEndpoint: "/forecast/daily",
-				showPrecipitationAmount: true,
-				colored: true,
-				tableClass: "myTableClass"
+				absoluteDates: true
 			}
 		}
 	]

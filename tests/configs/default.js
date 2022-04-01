@@ -1,4 +1,4 @@
-/* Magic Mirror Test default config for modules
+/* MagicMirror² Test default config for modules
  *
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.

@@ -1,6 +1,6 @@
 /* global WeatherProvider, WeatherObject */
 
-/* Magic Mirror
+/* MagicMirror²
  * Module: Weather
  * Provider: weather.gov
  * https://weather-gov.github.io/api/general-faqs
@@ -40,7 +40,8 @@ WeatherProvider.register("weathergov", {
 	// Called to set the config, this config is the same as the weather module's config.
 	setConfig: function (config) {
 		this.config = config;
-		(this.config.apiBase = "https://api.weather.gov"), this.fetchWxGovURLs(this.config);
+		this.config.apiBase = "https://api.weather.gov";
+		this.fetchWxGovURLs(this.config);
 	},
 
 	// Called when the weather provider is about to start.
@@ -156,8 +157,13 @@ WeatherProvider.register("weathergov", {
 		currentWeather.rain = null;
 		currentWeather.snow = null;
 		currentWeather.precipitation = this.convertLength(currentWeatherData.precipitationLastHour.value);
-		currentWeather.feelsLikeTemp = this.convertTemp(currentWeatherData.heatIndex.value);
-
+		if (currentWeatherData.heatIndex.value !== null) {
+			currentWeather.feelsLikeTemp = this.convertTemp(currentWeatherData.heatIndex.value);
+		} else if (currentWeatherData.windChill.value !== null) {
+			currentWeather.feelsLikeTemp = this.convertTemp(currentWeatherData.windChill.value);
+		} else {
+			currentWeather.feelsLikeTemp = this.convertTemp(currentWeatherData.temperature.value);
+		}
 		// determine the sunrise/sunset times - not supplied in weather.gov data
 		currentWeather.updateSunTime(this.config.lat, this.config.lon);
 

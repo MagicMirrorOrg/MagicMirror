@@ -1,4 +1,4 @@
-/* Magic Mirror Test config for analog clock face
+/* MagicMirror² Test config for analog clock face
  *
  * MIT Licensed.
  */

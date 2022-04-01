@@ -1,6 +1,6 @@
 /* global WeatherProvider */
 
-/* Magic Mirror
+/* MagicMirror²
  * Module: Weather
  *
  * By Michael Teeuw https://michaelteeuw.nl
@@ -43,7 +43,8 @@ Module.register("weather", {
 		onlyTemp: false,
 		showPrecipitationAmount: false,
 		colored: false,
-		showFeelsLike: true
+		showFeelsLike: true,
+		absoluteDates: false
 	},
 
 	// Module properties.

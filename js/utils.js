@@ -1,4 +1,4 @@
-/* Magic Mirror
+/* MagicMirror²
  * Utils
  *
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com

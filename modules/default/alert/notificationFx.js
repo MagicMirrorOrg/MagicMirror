@@ -9,6 +9,8 @@
  *
  * Copyright 2014, Codrops
  * https://tympanus.net/codrops/
+ *
+ * @param {object} window The window object
  */
 (function (window) {
 	/**
