@@ -17,6 +17,7 @@ _This release is scheduled to be released on 2022-04-01._
 - Added new config option `showTitleAsUrl` to newsfeed module. If set, the diplayed title is a link to the article which is useful when running in a browser and you want to read this article.
 - Added internal cors proxy to get weather providers working without public proxies (fixes #2714). The new url `http(s)://address:port/cors?url=https://whatever-to-proxy` can be used in other modules too.
 - Added a WeatherProvider for Weatherflow.
+- Added new env var `ELECTRON_DISABLE_GPU` which disable gpu under electron if set (fixes #2831).
 - Added missing Czech translations.
 
 ### Updated
