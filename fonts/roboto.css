@@ -2,57 +2,54 @@
   font-family: Roboto;
   font-style: normal;
   font-weight: 100;
-  src: local("Roboto Thin"), local("Roboto-Thin"), url("node_modules/@fontsource/roboto/files/roboto-latin-100-normal.woff2") format("woff2"), url("node_modules/@fontsource/roboto/files/roboto-latin-100-normal.woff") format("woff");
+  src: local("Roboto Thin"), local("Roboto-Thin"), url("node_modules/@fontsource/roboto/files/roboto-all-100-normal.woff") format("woff");
 }
 
 @font-face {
   font-family: "Roboto Condensed";
   font-style: normal;
   font-weight: 300;
-  src: local("Roboto Condensed Light"), local("RobotoCondensed-Light"), url("node_modules/@fontsource/roboto-condensed/files/roboto-condensed-latin-300-normal.woff2") format("woff2"),
-    url("node_modules/@fontsource/roboto-condensed/files/roboto-condensed-latin-300-normal.woff") format("woff");
+  src: local("Roboto Condensed Light"), local("RobotoCondensed-Light"), url("node_modules/@fontsource/roboto-condensed/files/roboto-condensed-all-300-normal.woff") format("woff");
 }
 
 @font-face {
   font-family: "Roboto Condensed";
   font-style: normal;
   font-weight: 400;
-  src: local("Roboto Condensed"), local("RobotoCondensed-Regular"), url("node_modules/@fontsource/roboto-condensed/files/roboto-condensed-latin-400-normal.woff2") format("woff2"),
-    url("node_modules/@fontsource/roboto-condensed/files/roboto-condensed-latin-400-normal.woff") format("woff");
+  src: local("Roboto Condensed"), local("RobotoCondensed-Regular"), url("node_modules/@fontsource/roboto-condensed/files/roboto-condensed-all-400-normal.woff") format("woff");
 }
 
 @font-face {
   font-family: "Roboto Condensed";
   font-style: normal;
   font-weight: 700;
-  src: local("Roboto Condensed Bold"), local("RobotoCondensed-Bold"), url("node_modules/@fontsource/roboto-condensed/files/roboto-condensed-latin-700-normal.woff2") format("woff2"),
-    url("node_modules/@fontsource/roboto-condensed/files/roboto-condensed-latin-700-normal.woff") format("woff");
+  src: local("Roboto Condensed Bold"), local("RobotoCondensed-Bold"), url("node_modules/@fontsource/roboto-condensed/files/roboto-condensed-all-700-normal.woff") format("woff");
 }
 
 @font-face {
   font-family: Roboto;
   font-style: normal;
   font-weight: 400;
-  src: local("Roboto"), local("Roboto-Regular"), url("node_modules/@fontsource/roboto/files/roboto-latin-400-normal.woff2") format("woff2"), url("node_modules/@fontsource/roboto/files/roboto-latin-400-normal.woff") format("woff");
+  src: local("Roboto"), local("Roboto-Regular"), url("node_modules/@fontsource/roboto/files/roboto-all-400-normal.woff") format("woff");
 }
 
 @font-face {
   font-family: Roboto;
   font-style: normal;
   font-weight: 500;
-  src: local("Roboto Medium"), local("Roboto-Medium"), url("node_modules/@fontsource/roboto/files/roboto-latin-500-normal.woff2") format("woff2"), url("node_modules/@fontsource/roboto/files/roboto-latin-500-normal.woff") format("woff");
+  src: local("Roboto Medium"), local("Roboto-Medium"), url("node_modules/@fontsource/roboto/files/roboto-all-500-normal.woff") format("woff");
 }
 
 @font-face {
   font-family: Roboto;
   font-style: normal;
   font-weight: 700;
-  src: local("Roboto Bold"), local("Roboto-Bold"), url("node_modules/@fontsource/roboto/files/roboto-latin-700-normal.woff2") format("woff2"), url("node_modules/@fontsource/roboto/files/roboto-latin-700-normal.woff") format("woff");
+  src: local("Roboto Bold"), local("Roboto-Bold"), url("node_modules/@fontsource/roboto/files/roboto-all-700-normal.woff") format("woff");
 }
 
 @font-face {
   font-family: Roboto;
   font-style: normal;
   font-weight: 300;
-  src: local("Roboto Light"), local("Roboto-Light"), url("node_modules/@fontsource/roboto/files/roboto-latin-300-normal.woff2") format("woff2"), url("node_modules/@fontsource/roboto/files/roboto-latin-300-normal.woff") format("woff");
+  src: local("Roboto Light"), local("Roboto-Light"), url("node_modules/@fontsource/roboto/files/roboto-all-300-normal.woff") format("woff");
 }

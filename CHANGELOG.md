@@ -15,6 +15,8 @@ _This release is scheduled to be released on 2022-07-01._
 
 ### Fixed
 
+- Fix problems with non latin fonds caused by updating to fontsource (fixes #2835).
+
 ## [2.19.0] - 2022-04-01
 
 Special thanks to the following contributors: @10bias, @CFenner, @JHWelch, @k1rd3rf, @khassel, @kolbyjack, @krekos, @KristjanESPERANTO, @Nerfzooka, @oraclesean, @oscarb, @philnagel, @rejas, @sdetweil, @shin10, @SiderealArt and @Tom-Hirschberger.
