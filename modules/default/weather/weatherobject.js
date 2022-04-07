@@ -134,15 +134,15 @@ class WeatherObject {
 
 	/**
 	 * Update the sunrise / sunset time depending on the location. This can be
-	 * used if your provider doesnt provide that data by itself. Then SunCalc
+	 * used if your provider doesn't provide that data by itself. Then SunCalc
 	 * is used here to calculate them according to the location.
 	 *
 	 * @param {number} lat latitude
 	 * @param {number} lon longitude
 	 */
 	updateSunTime(lat, lon) {
-		let now = !this.date ? new Date() : this.date.toDate();
-		let times = SunCalc.getTimes(now, lat, lon);
+		const now = !this.date ? new Date() : this.date.toDate();
+		const times = SunCalc.getTimes(now, lat, lon);
 		this.sunrise = moment(times.sunrise, "X");
 		this.sunset = moment(times.sunset, "X");
 	}

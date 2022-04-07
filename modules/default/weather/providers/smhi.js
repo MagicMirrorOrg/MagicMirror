@@ -174,7 +174,7 @@ WeatherProvider.register("smhi", {
 	},
 
 	/**
-	 * Takes all of the data points and converts it to one WeatherObject per day.
+	 * Takes all the data points and converts it to one WeatherObject per day.
 	 *
 	 * @param {object[]} allWeatherData Array of weatherdata
 	 * @param {object} coordinates Coordinates of the locations of the weather
@@ -203,7 +203,7 @@ WeatherProvider.register("smhi", {
 				result.push(currentWeather);
 			}
 
-			//Keep track of what icons has been used for each hour of daytime and use the middle one for the forecast
+			//Keep track of what icons have been used for each hour of daytime and use the middle one for the forecast
 			if (weatherObject.isDayTime()) {
 				dayWeatherTypes.push(weatherObject.weatherType);
 			}
@@ -271,7 +271,7 @@ WeatherProvider.register("smhi", {
 
 	/**
 	 * Map the icon value from SMHI to an icon that MagicMirror² understands.
-	 * Uses different icons depending if its daytime or nighttime.
+	 * Uses different icons depending on if its daytime or nighttime.
 	 * SMHI's description of what the numeric value means is the comment after the case.
 	 *
 	 * @param {number} input The SMHI icon value
