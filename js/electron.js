@@ -8,7 +8,7 @@ const Log = require("logger");
 let config = process.env.config ? JSON.parse(process.env.config) : {};
 // Module to control application life.
 const app = electron.app;
-// If ELECTRON_DISABLE_GPU is set electron is startet with --disable-gpu flag.
+// If ELECTRON_DISABLE_GPU is set electron is started with --disable-gpu flag.
 // See https://www.electronjs.org/docs/latest/tutorial/offscreen-rendering for more info.
 if (process.env.ELECTRON_DISABLE_GPU !== undefined) {
 	app.disableHardwareAcceleration();
