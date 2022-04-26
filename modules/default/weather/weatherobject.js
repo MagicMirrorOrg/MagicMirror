@@ -146,6 +146,20 @@ class WeatherObject {
 		this.sunrise = moment(times.sunrise, "X");
 		this.sunset = moment(times.sunset, "X");
 	}
+
+	/**
+	 * Clone to simple object to prevent mutating and deprecated legacy library.
+	 *
+	 * @return {object} simple object cloned.
+	 */
+	simpleClone() {
+		const toFlat = ["date", "sunrise", "sunset"];
+		let clone = { ...this };
+		for (const prop of toFlat) {
+			clone[prop] = clone?.[prop]?.valueOf() ?? clone?.[prop];
+		}
+		return clone;
+	}
 }
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/

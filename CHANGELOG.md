@@ -11,6 +11,8 @@ _This release is scheduled to be released on 2022-07-01._
 
 ### Added
 
+- Added the notification emitting from the weather module on infromation updated.
+
 ### Updated
 
 ### Fixed
