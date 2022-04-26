@@ -148,9 +148,12 @@ class WeatherObject {
 	}
 
 	/**
-	 * Clone to simple object to prevent mutating and deprecated legacy library.
+	 * Clone to simple object to prevent mutating and deprecation of legacy library.
 	 *
-	 * @returns {object} simple object cloned.
+	 * Before being handed to other modules, mutable values must be cloned safely.
+	 * Especially 'moment' object is not immutable, so original 'date', 'sunrise', 'sunset' could be corrupted or changed by other modules.
+	 *
+	 * @returns {object} plained object clone of original weatherObject
 	 */
 	simpleClone() {
 		const toFlat = ["date", "sunrise", "sunset"];

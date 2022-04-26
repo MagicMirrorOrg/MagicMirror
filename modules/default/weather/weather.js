@@ -155,7 +155,7 @@ Module.register("weather", {
 			this.sendNotification("CURRENTWEATHER_TYPE", { type: this.weatherProvider.currentWeather().weatherType.replace("-", "_") });
 		}
 
-		let notificationPayload = {
+		const notificationPayload = {
 			currentWeather: this.weatherProvider?.currentWeatherObject?.simpleClone() ?? null,
 			forecastArray: this.weatherProvider?.weatherForecastArray?.map((ar) => ar.simpleClone()) ?? [],
 			hourlyArray: this.weatherProvider?.weatherHourlyArray?.map((ar) => ar.simpleClone()) ?? [],
