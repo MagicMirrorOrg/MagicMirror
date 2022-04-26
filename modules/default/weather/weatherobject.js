@@ -126,7 +126,7 @@ class WeatherObject {
 	/**
 	 * Checks if the weatherObject is at dayTime.
 	 *
-	 * @returns {boolean} true if it is at dayTime
+	 * @return {boolean} true if it is at dayTime
 	 */
 	isDayTime() {
 		return this.date.isBetween(this.sunrise, this.sunset, undefined, "[]");

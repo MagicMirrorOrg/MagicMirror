@@ -156,11 +156,11 @@ Module.register("weather", {
 		}
 
 		let notificationPayload = {
-			current: this.weatherProvider?.currentWeatherObject?.simpleClone() ?? null,
-			forecast: this.weatherProvider?.weatherForecastArray?.map((ar) => ar.simpleClone()) ?? [],
-			hourly: this.weatherProvider?.weatherHourlyArray?.map((ar) => ar.simpleClone()) ?? [],
-			location: this.weatherProvider?.fetchedLocationName,
-			provider: this.weatherProvider.providerName
+			currentWeather: this.weatherProvider?.currentWeatherObject?.simpleClone() ?? null,
+			forecastArray: this.weatherProvider?.weatherForecastArray?.map((ar) => ar.simpleClone()) ?? [],
+			hourlyArray: this.weatherProvider?.weatherHourlyArray?.map((ar) => ar.simpleClone()) ?? [],
+			locationName: this.weatherProvider?.fetchedLocationName,
+			providerName: this.weatherProvider.providerName
 		};
 		this.sendNotification("WEATHER_UPDATED", notificationPayload);
 	},
