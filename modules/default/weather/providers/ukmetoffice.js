@@ -106,7 +106,7 @@ WeatherProvider.register("ukmetoffice", {
 							currentWeather.temperature = rep.T;
 							currentWeather.feelsLikeTemp = rep.F;
 							currentWeather.precipitation = parseInt(rep.Pp);
-							currentWeather.windSpeed = this.convertWindSpeed(rep.S);
+							currentWeather.windSpeed = this.convertWindToMetric(rep.S);
 							currentWeather.windDirection = this.convertWindDirection(rep.D);
 							currentWeather.weatherType = this.convertWeatherType(rep.W);
 						}
@@ -190,13 +190,6 @@ WeatherProvider.register("ukmetoffice", {
 		};
 
 		return weatherTypes.hasOwnProperty(weatherType) ? weatherTypes[weatherType] : null;
-	},
-
-	/*
-	 * Convert wind speed (from mph to m/s or km/h) if required
-	 */
-	convertWindSpeed(windInMph) {
-		return this.windUnits === "metric" ? (this.useKmh ? windInMph * 1.60934 : windInMph / 2.23694) : windInMph;
 	},
 
 	/*

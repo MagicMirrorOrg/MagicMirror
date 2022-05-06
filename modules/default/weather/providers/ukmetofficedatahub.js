@@ -52,7 +52,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 		apiSecret: "",
 		lat: 0,
 		lon: 0,
-		windUnits: "mph"
+		windUnits: "imperial"
 	},
 
 	// Build URL with query strings according to DataHub API (https://metoffice.apiconnect.ibmcloud.com/metoffice/production/api)
@@ -128,7 +128,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 			let forecastTime = moment.utc(forecastDataHours[hour].time);
 			if (nowUtc.isSameOrAfter(forecastTime) && nowUtc.isBefore(moment(forecastTime.add(1, "h")))) {
 				currentWeather.date = forecastTime;
-				currentWeather.windSpeed = this.convertWindSpeed(forecastDataHours[hour].windSpeed10m);
+				currentWeather.windSpeed = forecastDataHours[hour].windSpeed10m;
 				currentWeather.windDirection = forecastDataHours[hour].windDirectionFrom10m;
 				currentWeather.temperature = forecastDataHours[hour].screenTemperature;
 				currentWeather.minTemperature = forecastDataHours[hour].minScreenAirTemp;
@@ -230,22 +230,6 @@ WeatherProvider.register("ukmetofficedatahub", {
 	// Set the fetched location name.
 	setFetchedLocation: function (name) {
 		this.fetchedLocationName = name;
-	},
-
-	// Convert wind speed from metres per second
-	// To keep the supplied metres per second units, use "mps"
-	// To use kilometres per hour, use "kph"
-	// Else assumed imperial and the value is returned in miles per hour (a Met Office user is likely to be UK-based)
-	convertWindSpeed(windInMpS) {
-		if (this.config.windUnits === "mps") {
-			return windInMpS;
-		}
-
-		if (this.config.windUnits === "kph" || this.config.windUnits === "metric" || this.config.useKmh) {
-			return windInMpS * 3.6;
-		}
-
-		return windInMpS * 2.23694;
 	},
 
 	// Match the Met Office "significant weather code" to a weathericons.css icon

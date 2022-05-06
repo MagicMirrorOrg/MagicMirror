@@ -205,7 +205,7 @@ WeatherProvider.register("weathergov", {
 
 		currentWeather.date = moment(currentWeatherData.timestamp);
 		currentWeather.temperature = currentWeatherData.temperature.value;
-		currentWeather.windSpeed = this.convertSpeed(currentWeatherData.windSpeed.value);
+		currentWeather.windSpeed = currentWeatherData.windSpeed.value;
 		currentWeather.windDirection = currentWeatherData.windDirection.value;
 		currentWeather.minTemperature = currentWeatherData.minTemperatureLast24Hours.value;
 		currentWeather.maxTemperature = currentWeatherData.maxTemperatureLast24Hours.value;
@@ -298,18 +298,6 @@ WeatherProvider.register("weathergov", {
 	/*
 	 * Unit conversions
 	 */
-	// conversion to mph or kmh
-	convertSpeed(metSec) {
-		if (this.config.windUnits === "imperial") {
-			return metSec * 2.23694;
-		} else {
-			if (this.config.useKmh) {
-				return metSec * 3.6;
-			} else {
-				return metSec;
-			}
-		}
-	},
 	// conversion to inches
 	convertLength(meters) {
 		if (this.config.units === "imperial") {
