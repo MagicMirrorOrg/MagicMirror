@@ -195,11 +195,39 @@ Module.register("weather", {
 		return roundValue === "-0" ? 0 : roundValue;
 	},
 
-	/*
+	/**
 	 * Convert temp (from degrees C) if required
+	 *
+	 * @param tempInC
+	 * @returns {number|*}
 	 */
 	convertTemp(tempInC) {
 		return this.config.tempUnits === "imperial" ? tempInC * 1.8 + 32 : tempInC;
+	},
+
+	convertWind(windInMS) {
+		if (this.config.useBeaufort) {
+			return this.beaufortWindSpeed(windInMS);
+		} else if (this.config.useKmh) {
+			return (windInMS * 60 * 60) / 1000;
+		} else if (this.config.windUnits === "imperial") return windInMS * 2.23694;
+
+		return windInMS;
+	},
+
+	/**
+	 * TODO
+	 * @returns {number}
+	 */
+	beaufortWindSpeed(speedInMS) {
+		const windInKmh = this.config.windUnits === "imperial" ? speedInMS * 1.609344 : this.config.useKmh ? speedInMS : (speedInMS * 60 * 60) / 1000;
+		const speeds = [1, 5, 11, 19, 28, 38, 49, 61, 74, 88, 102, 117, 1000];
+		for (const [index, speed] of speeds.entries()) {
+			if (speed > windInKmh) {
+				return index;
+			}
+		}
+		return 12;
 	},
 
 	addFilters() {
@@ -252,8 +280,11 @@ Module.register("weather", {
 					}
 				} else if (type === "humidity") {
 					value += "%";
+				} else if (type === "wind") {
+					if (this.config.windUnits === "metric" || this.config.tempUnits === "imperial") {
+						value = this.convertWind(value);
+					}
 				}
-
 				return value;
 			}.bind(this)
 		);

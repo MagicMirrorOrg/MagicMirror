@@ -167,7 +167,7 @@ WeatherProvider.register("envcanada", {
 			currentWeather.temperature = this.cacheCurrentTemp;
 		}
 
-		currentWeather.windSpeed = this.convertWind(ECdoc.querySelector("siteData currentConditions wind speed").textContent);
+		currentWeather.windSpeed = ECdoc.querySelector("siteData currentConditions wind speed").textContent;
 
 		currentWeather.windDirection = ECdoc.querySelector("siteData currentConditions wind bearing").textContent;
 
@@ -533,20 +533,6 @@ WeatherProvider.register("envcanada", {
 		if (foreGroup[today].querySelector("abbreviatedForecast pop").textContent > 0) {
 			weather.precipitation = foreGroup[today].querySelector("abbreviatedForecast pop").textContent;
 			weather.precipitationUnits = foreGroup[today].querySelector("abbreviatedForecast pop").getAttribute("units");
-		}
-	},
-
-	//
-	// Unit conversions
-	//
-	//
-	// Convert km/h to mph
-	//
-	convertWind(kilo) {
-		if (this.config.windUnits === "imperial") {
-			return kilo / 1.609344;
-		} else {
-			return kilo;
 		}
 	},
 
