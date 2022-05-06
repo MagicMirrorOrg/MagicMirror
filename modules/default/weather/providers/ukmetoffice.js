@@ -103,8 +103,8 @@ WeatherProvider.register("ukmetoffice", {
 						if (timeInMins >= p && timeInMins - 180 < p) {
 							// finally got the one we want, so populate weather object
 							currentWeather.humidity = rep.H;
-							currentWeather.temperature = this.convertTemp(rep.T);
-							currentWeather.feelsLikeTemp = this.convertTemp(rep.F);
+							currentWeather.temperature = rep.T;
+							currentWeather.feelsLikeTemp = rep.F;
 							currentWeather.precipitation = parseInt(rep.Pp);
 							currentWeather.windSpeed = this.convertWindSpeed(rep.S);
 							currentWeather.windDirection = this.convertWindDirection(rep.D);
@@ -140,8 +140,8 @@ WeatherProvider.register("ukmetoffice", {
 			if (periodDate.isSameOrAfter(moment.utc().startOf("day"))) {
 				// populate the weather object
 				weather.date = moment.utc(dateStr.substr(0, 10), "YYYY-MM-DD");
-				weather.minTemperature = this.convertTemp(period.Rep[1].Nm);
-				weather.maxTemperature = this.convertTemp(period.Rep[0].Dm);
+				weather.minTemperature = period.Rep[1].Nm;
+				weather.maxTemperature = period.Rep[0].Dm;
 				weather.weatherType = this.convertWeatherType(period.Rep[0].W);
 				weather.precipitation = parseInt(period.Rep[0].PPd);
 
@@ -190,13 +190,6 @@ WeatherProvider.register("ukmetoffice", {
 		};
 
 		return weatherTypes.hasOwnProperty(weatherType) ? weatherTypes[weatherType] : null;
-	},
-
-	/*
-	 * Convert temp (from degrees C) if required
-	 */
-	convertTemp(tempInC) {
-		return this.tempUnits === "imperial" ? (tempInC * 9) / 5 + 32 : tempInC;
 	},
 
 	/*

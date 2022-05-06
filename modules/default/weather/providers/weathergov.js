@@ -204,21 +204,21 @@ WeatherProvider.register("weathergov", {
 		const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
 
 		currentWeather.date = moment(currentWeatherData.timestamp);
-		currentWeather.temperature = this.convertTemp(currentWeatherData.temperature.value);
+		currentWeather.temperature = currentWeatherData.temperature.value;
 		currentWeather.windSpeed = this.convertSpeed(currentWeatherData.windSpeed.value);
 		currentWeather.windDirection = currentWeatherData.windDirection.value;
-		currentWeather.minTemperature = this.convertTemp(currentWeatherData.minTemperatureLast24Hours.value);
-		currentWeather.maxTemperature = this.convertTemp(currentWeatherData.maxTemperatureLast24Hours.value);
+		currentWeather.minTemperature = currentWeatherData.minTemperatureLast24Hours.value;
+		currentWeather.maxTemperature = currentWeatherData.maxTemperatureLast24Hours.value;
 		currentWeather.humidity = Math.round(currentWeatherData.relativeHumidity.value);
 		currentWeather.rain = null;
 		currentWeather.snow = null;
 		currentWeather.precipitation = this.convertLength(currentWeatherData.precipitationLastHour.value);
 		if (currentWeatherData.heatIndex.value !== null) {
-			currentWeather.feelsLikeTemp = this.convertTemp(currentWeatherData.heatIndex.value);
+			currentWeather.feelsLikeTemp = currentWeatherData.heatIndex.value;
 		} else if (currentWeatherData.windChill.value !== null) {
-			currentWeather.feelsLikeTemp = this.convertTemp(currentWeatherData.windChill.value);
+			currentWeather.feelsLikeTemp = currentWeatherData.windChill.value;
 		} else {
-			currentWeather.feelsLikeTemp = this.convertTemp(currentWeatherData.temperature.value);
+			currentWeather.feelsLikeTemp = currentWeatherData.temperature.value;
 		}
 		// determine the sunrise/sunset times - not supplied in weather.gov data
 		currentWeather.updateSunTime(this.config.lat, this.config.lon);
@@ -298,14 +298,6 @@ WeatherProvider.register("weathergov", {
 	/*
 	 * Unit conversions
 	 */
-	// conversion to fahrenheit
-	convertTemp(temp) {
-		if (this.config.tempUnits === "imperial") {
-			return (9 / 5) * temp + 32;
-		} else {
-			return temp;
-		}
-	},
 	// conversion to mph or kmh
 	convertSpeed(metSec) {
 		if (this.config.windUnits === "imperial") {

@@ -195,6 +195,13 @@ Module.register("weather", {
 		return roundValue === "-0" ? 0 : roundValue;
 	},
 
+	/*
+	 * Convert temp (from degrees C) if required
+	 */
+	convertTemp(tempInC) {
+		return this.config.tempUnits === "imperial" ? tempInC * 1.8 + 32 : tempInC;
+	},
+
 	addFilters() {
 		this.nunjucksEnvironment().addFilter(
 			"formatTime",
@@ -222,7 +229,7 @@ Module.register("weather", {
 			function (value, type) {
 				if (type === "temperature") {
 					if (this.config.tempUnits === "metric" || this.config.tempUnits === "imperial") {
-						value += "°";
+						value = this.convertTemp(value) + "°";
 					}
 					if (this.config.degreeLabel) {
 						if (this.config.tempUnits === "metric") {

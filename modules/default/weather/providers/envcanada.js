@@ -161,7 +161,7 @@ WeatherProvider.register("envcanada", {
 		// EC finds no current temp. In this scenario, MM will end up displaying a current temp of null;
 
 		if (ECdoc.querySelector("siteData currentConditions temperature").textContent) {
-			currentWeather.temperature = this.convertTemp(ECdoc.querySelector("siteData currentConditions temperature").textContent);
+			currentWeather.temperature = ECdoc.querySelector("siteData currentConditions temperature").textContent;
 			this.cacheCurrentTemp = currentWeather.temperature;
 		} else {
 			currentWeather.temperature = this.cacheCurrentTemp;
@@ -190,11 +190,11 @@ WeatherProvider.register("envcanada", {
 			currentWeather.feelsLikeTemp = currentWeather.temperature;
 
 			if (ECdoc.querySelector("siteData currentConditions windChill")) {
-				currentWeather.feelsLikeTemp = this.convertTemp(ECdoc.querySelector("siteData currentConditions windChill").textContent);
+				currentWeather.feelsLikeTemp = ECdoc.querySelector("siteData currentConditions windChill").textContent;
 			}
 
 			if (ECdoc.querySelector("siteData currentConditions humidex")) {
-				currentWeather.feelsLikeTemp = this.convertTemp(ECdoc.querySelector("siteData currentConditions humidex").textContent);
+				currentWeather.feelsLikeTemp = ECdoc.querySelector("siteData currentConditions humidex").textContent;
 			}
 		}
 
@@ -399,7 +399,7 @@ WeatherProvider.register("envcanada", {
 
 			// Capture the temperature
 
-			weather.temperature = this.convertTemp(hourGroup[stepHour].querySelector("temperature").textContent);
+			weather.temperature = hourGroup[stepHour].querySelector("temperature").textContent;
 
 			// Capture Likelihood of Precipitation (LOP) and unit-of-measure values
 
@@ -450,7 +450,7 @@ WeatherProvider.register("envcanada", {
 				weather.minTemperature = this.todayTempCacheMin;
 				weather.maxTemperature = this.todayTempCacheMax;
 			} else {
-				weather.minTemperature = this.convertTemp(currentTemp);
+				weather.minTemperature = currentTemp;
 				weather.maxTemperature = weather.minTemperature;
 			}
 		}
@@ -463,14 +463,14 @@ WeatherProvider.register("envcanada", {
 		//
 
 		if (todayClass === "low") {
-			weather.minTemperature = this.convertTemp(todayTemp);
+			weather.minTemperature = todayTemp;
 			if (today === 0 && fullDay === true) {
 				this.todayTempCacheMin = weather.minTemperature;
 			}
 		}
 
 		if (todayClass === "high") {
-			weather.maxTemperature = this.convertTemp(todayTemp);
+			weather.maxTemperature = todayTemp;
 			if (today === 0 && fullDay === true) {
 				this.todayTempCacheMax = weather.maxTemperature;
 			}
@@ -482,11 +482,11 @@ WeatherProvider.register("envcanada", {
 
 		if (fullDay === true) {
 			if (nextClass === "low") {
-				weather.minTemperature = this.convertTemp(nextTemp);
+				weather.minTemperature = nextTemp;
 			}
 
 			if (nextClass === "high") {
-				weather.maxTemperature = this.convertTemp(nextTemp);
+				weather.maxTemperature = nextTemp;
 			}
 		}
 	},
@@ -539,17 +539,6 @@ WeatherProvider.register("envcanada", {
 	//
 	// Unit conversions
 	//
-	//
-	// Convert C to F temps
-	//
-	convertTemp(temp) {
-		if (this.config.tempUnits === "imperial") {
-			return 1.8 * temp + 32;
-		} else {
-			return temp;
-		}
-	},
-
 	//
 	// Convert km/h to mph
 	//

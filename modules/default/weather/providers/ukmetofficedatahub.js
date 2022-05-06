@@ -130,15 +130,15 @@ WeatherProvider.register("ukmetofficedatahub", {
 				currentWeather.date = forecastTime;
 				currentWeather.windSpeed = this.convertWindSpeed(forecastDataHours[hour].windSpeed10m);
 				currentWeather.windDirection = forecastDataHours[hour].windDirectionFrom10m;
-				currentWeather.temperature = this.convertTemp(forecastDataHours[hour].screenTemperature);
-				currentWeather.minTemperature = this.convertTemp(forecastDataHours[hour].minScreenAirTemp);
-				currentWeather.maxTemperature = this.convertTemp(forecastDataHours[hour].maxScreenAirTemp);
+				currentWeather.temperature = forecastDataHours[hour].screenTemperature;
+				currentWeather.minTemperature = forecastDataHours[hour].minScreenAirTemp;
+				currentWeather.maxTemperature = forecastDataHours[hour].maxScreenAirTemp;
 				currentWeather.weatherType = this.convertWeatherType(forecastDataHours[hour].significantWeatherCode);
 				currentWeather.humidity = forecastDataHours[hour].screenRelativeHumidity;
 				currentWeather.rain = forecastDataHours[hour].totalPrecipAmount;
 				currentWeather.snow = forecastDataHours[hour].totalSnowAmount;
 				currentWeather.precipitation = forecastDataHours[hour].probOfPrecipitation;
-				currentWeather.feelsLikeTemp = this.convertTemp(forecastDataHours[hour].feelsLikeTemperature);
+				currentWeather.feelsLikeTemp = forecastDataHours[hour].feelsLikeTemperature;
 
 				// Pass on full details, so they can be used in custom templates
 				// Note the units of the supplied data when using this (see top of file)
@@ -202,8 +202,8 @@ WeatherProvider.register("ukmetofficedatahub", {
 			// Check if forecast is for today or in the future (i.e., ignore yesterday's forecast)
 			if (forecastDate.isSameOrAfter(today)) {
 				forecastWeather.date = forecastDate;
-				forecastWeather.minTemperature = this.convertTemp(forecastDataDays[day].nightMinScreenTemperature);
-				forecastWeather.maxTemperature = this.convertTemp(forecastDataDays[day].dayMaxScreenTemperature);
+				forecastWeather.minTemperature = forecastDataDays[day].nightMinScreenTemperature;
+				forecastWeather.maxTemperature = forecastDataDays[day].dayMaxScreenTemperature;
 
 				// Using daytime forecast values
 				forecastWeather.windSpeed = this.convertWindSpeed(forecastDataDays[day].midday10MWindSpeed);
@@ -214,7 +214,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 				forecastWeather.humidity = forecastDataDays[day].middayRelativeHumidity;
 				forecastWeather.rain = forecastDataDays[day].dayProbabilityOfRain;
 				forecastWeather.snow = forecastDataDays[day].dayProbabilityOfSnow;
-				forecastWeather.feelsLikeTemp = this.convertTemp(forecastDataDays[day].dayMaxFeelsLikeTemp);
+				forecastWeather.feelsLikeTemp = forecastDataDays[day].dayMaxFeelsLikeTemp;
 
 				// Pass on full details, so they can be used in custom templates
 				// Note the units of the supplied data when using this (see top of file)
@@ -230,11 +230,6 @@ WeatherProvider.register("ukmetofficedatahub", {
 	// Set the fetched location name.
 	setFetchedLocation: function (name) {
 		this.fetchedLocationName = name;
-	},
-
-	// Convert temperatures to Fahrenheit (from degrees C), if required
-	convertTemp(tempInC) {
-		return this.config.tempUnits === "imperial" ? (tempInC * 9) / 5 + 32 : tempInC;
 	},
 
 	// Convert wind speed from metres per second
