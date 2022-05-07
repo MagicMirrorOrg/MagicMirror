@@ -474,7 +474,7 @@ WeatherProvider.register("openweathermap", {
 			return;
 		}
 
-		params += "&units=" + this.config.units;
+		params += "&units=metric"; // WeatherProviders should use metric internally and use the units only for when displaying data
 		params += "&lang=" + this.config.lang;
 		params += "&APPID=" + this.config.apiKey;
 
