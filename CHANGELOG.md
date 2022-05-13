@@ -11,6 +11,8 @@ _This release is scheduled to be released on 2022-07-01._
 
 ### Added
 
+- Added a new config option `httpHeaders` used by helmet (see https://helmetjs.github.io/). You can now set own httpHeaders which will override the defaults in `js/defauls.js` which is useful e.g. if you want to embed MagicMirror into annother website (solves #2847).
+
 ### Updated
 
 ### Fixed
