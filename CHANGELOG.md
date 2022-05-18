@@ -15,6 +15,7 @@ _This release is scheduled to be released on 2022-07-01._
 
 ### Updated
 
+- Use latest node 18 when running tests on github actions
 - Update `electron` to v18 and other dependencies.
 
 ### Fixed
