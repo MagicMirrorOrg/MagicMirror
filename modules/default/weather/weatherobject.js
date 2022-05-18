@@ -146,6 +146,23 @@ class WeatherObject {
 		this.sunrise = moment(times.sunrise, "X");
 		this.sunset = moment(times.sunset, "X");
 	}
+
+	/**
+	 * Clone to simple object to prevent mutating and deprecation of legacy library.
+	 *
+	 * Before being handed to other modules, mutable values must be cloned safely.
+	 * Especially 'moment' object is not immutable, so original 'date', 'sunrise', 'sunset' could be corrupted or changed by other modules.
+	 *
+	 * @returns {object} plained object clone of original weatherObject
+	 */
+	simpleClone() {
+		const toFlat = ["date", "sunrise", "sunset"];
+		let clone = { ...this };
+		for (const prop of toFlat) {
+			clone[prop] = clone?.[prop]?.valueOf() ?? clone?.[prop];
+		}
+		return clone;
+	}
 }
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/

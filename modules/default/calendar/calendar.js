@@ -305,6 +305,12 @@ Module.register("calendar", {
 					timeWrapper.className = "time light align-left " + this.timeClassForUrl(event.url);
 					timeWrapper.style.paddingLeft = "2px";
 					timeWrapper.innerHTML = moment(event.startDate, "x").format("LT");
+
+					// Add endDate to dataheaders if showEnd is enabled
+					if (this.config.showEnd) {
+						timeWrapper.innerHTML += " - " + moment(event.endDate, "x").format("LT");
+					}
+
 					eventWrapper.appendChild(timeWrapper);
 					titleWrapper.classList.add("align-right");
 				}
@@ -381,7 +387,7 @@ Module.register("calendar", {
 								}
 							}
 						} else if (event.startDate - now < this.config.getRelative * oneHour) {
-							// If event is within getRelative  hours, display 'in xxx' time format or moment.fromNow()
+							// If event is within getRelative hours, display 'in xxx' time format or moment.fromNow()
 							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 						}
 					} else {
