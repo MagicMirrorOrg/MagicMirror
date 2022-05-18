@@ -11,9 +11,13 @@ _This release is scheduled to be released on 2022-07-01._
 
 ### Added
 
-- Show endDate for calendar events when dateHeader is enabled and showEnd is set to true (#2192) by @doubled136
+- Show endDate for calendar events when dateHeader is enabled and showEnd is set to true (#2192)
+- Added the notification emitting from the weather module on infromation updated.
 
 ### Updated
+
+- Use latest node 18 when running tests on github actions
+- Update `electron` to v18 and other dependencies.
 
 ### Fixed
 
