@@ -154,6 +154,15 @@ Module.register("weather", {
 		if (this.weatherProvider.currentWeather()) {
 			this.sendNotification("CURRENTWEATHER_TYPE", { type: this.weatherProvider.currentWeather().weatherType.replace("-", "_") });
 		}
+
+		const notificationPayload = {
+			currentWeather: this.weatherProvider?.currentWeatherObject?.simpleClone() ?? null,
+			forecastArray: this.weatherProvider?.weatherForecastArray?.map((ar) => ar.simpleClone()) ?? [],
+			hourlyArray: this.weatherProvider?.weatherHourlyArray?.map((ar) => ar.simpleClone()) ?? [],
+			locationName: this.weatherProvider?.fetchedLocationName,
+			providerName: this.weatherProvider.providerName
+		};
+		this.sendNotification("WEATHER_UPDATED", notificationPayload);
 	},
 
 	scheduleUpdate: function (delay = null) {
