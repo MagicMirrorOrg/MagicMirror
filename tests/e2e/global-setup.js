@@ -2,9 +2,7 @@ const jsdom = require("jsdom");
 
 exports.startApplication = function (configFilename, exec) {
 	jest.resetModules();
-	if (global.app) {
-		global.app.stop();
-	}
+	this.stopApplication();
 	// Set config sample for use in test
 	if (configFilename === "") {
 		process.env.MM_CONFIG_FILE = "config/config.js";
