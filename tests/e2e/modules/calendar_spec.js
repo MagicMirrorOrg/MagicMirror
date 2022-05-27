@@ -25,8 +25,8 @@ describe("Calendar module", function () {
 		});
 	};
 
-	afterAll(function () {
-		helpers.stopApplication();
+	afterAll(async function () {
+		await helpers.stopApplication();
 	});
 
 	describe("Default configuration", function () {

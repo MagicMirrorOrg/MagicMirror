@@ -10,7 +10,7 @@ const path = require("path");
 const ipfilter = require("express-ipfilter").IpFilter;
 const fs = require("fs");
 const helmet = require("helmet");
-const fetch = require("node-fetch");
+const fetch = require("fetch");
 
 const Log = require("logger");
 const Utils = require("./utils.js");

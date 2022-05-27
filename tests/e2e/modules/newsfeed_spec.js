@@ -1,8 +1,8 @@
 const helpers = require("../global-setup");
 
 describe("Newsfeed module", function () {
-	afterAll(function () {
-		helpers.stopApplication();
+	afterAll(async function () {
+		await helpers.stopApplication();
 	});
 
 	describe("Default configuration", function () {

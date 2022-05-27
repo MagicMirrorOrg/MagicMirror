@@ -16,8 +16,8 @@ function doTest(complimentsArray) {
 }
 
 describe("Compliments module", function () {
-	afterAll(function () {
-		helpers.stopApplication();
+	afterAll(async function () {
+		await helpers.stopApplication();
 	});
 
 	describe("parts of days", function () {

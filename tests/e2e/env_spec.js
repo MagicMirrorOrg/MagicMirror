@@ -1,4 +1,4 @@
-const fetch = require("node-fetch");
+const fetch = require("fetch");
 const helpers = require("./global-setup");
 
 describe("App environment", function () {
@@ -6,8 +6,8 @@ describe("App environment", function () {
 		helpers.startApplication("tests/configs/default.js");
 		helpers.getDocument(done);
 	});
-	afterAll(function () {
-		helpers.stopApplication();
+	afterAll(async function () {
+		await helpers.stopApplication();
 	});
 
 	it("get request from http://localhost:8080 should return 200", function (done) {

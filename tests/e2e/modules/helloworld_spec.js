@@ -1,8 +1,8 @@
 const helpers = require("../global-setup");
 
 describe("Test helloworld module", function () {
-	afterAll(function () {
-		helpers.stopApplication();
+	afterAll(async function () {
+		await helpers.stopApplication();
 	});
 
 	describe("helloworld set config text", function () {

@@ -16,10 +16,11 @@ exports.startApplication = function (configFilename, exec) {
 	global.app.start();
 };
 
-exports.stopApplication = function () {
+exports.stopApplication = async function () {
 	if (global.app) {
 		global.app.stop();
 	}
+	await new Promise((resolve) => setTimeout(resolve, 100));
 };
 
 exports.getDocument = function (callback) {
