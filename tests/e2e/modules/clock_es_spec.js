@@ -1,8 +1,8 @@
 const helpers = require("../global-setup");
 
 describe("Clock set to spanish language module", function () {
-	afterAll(function () {
-		helpers.stopApplication();
+	afterAll(async function () {
+		await helpers.stopApplication();
 	});
 
 	const testMatch = function (element, regex) {

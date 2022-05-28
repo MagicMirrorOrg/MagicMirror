@@ -40,8 +40,8 @@ describe("Weather module", function () {
 		helpers.getDocument(callback);
 	}
 
-	afterAll(function () {
-		helpers.stopApplication();
+	afterAll(async function () {
+		await helpers.stopApplication();
 	});
 
 	describe("Current weather", function () {

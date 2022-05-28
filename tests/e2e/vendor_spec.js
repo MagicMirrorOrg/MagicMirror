@@ -1,12 +1,12 @@
-const fetch = require("node-fetch");
+const fetch = require("fetch");
 const helpers = require("./global-setup");
 
 describe("Vendors", function () {
 	beforeAll(function () {
 		helpers.startApplication("tests/configs/default.js");
 	});
-	afterAll(function () {
-		helpers.stopApplication();
+	afterAll(async function () {
+		await helpers.stopApplication();
 	});
 
 	describe("Get list vendors", function () {

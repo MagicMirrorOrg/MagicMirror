@@ -89,7 +89,8 @@
 	},
 	"_moduleAliases": {
 		"node_helper": "js/node_helper.js",
-		"logger": "js/logger.js"
+		"logger": "js/logger.js",
+		"fetch": "js/fetch.js"
 	},
 	"engines": {
 		"node": ">=14"

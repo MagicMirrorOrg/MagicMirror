@@ -5,8 +5,8 @@ describe("Display of modules", function () {
 		helpers.startApplication("tests/configs/modules/display.js");
 		helpers.getDocument(done);
 	});
-	afterAll(function () {
-		helpers.stopApplication();
+	afterAll(async function () {
+		await helpers.stopApplication();
 	});
 
 	it("should show the test header", function () {
