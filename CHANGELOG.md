@@ -12,8 +12,9 @@ _This release is scheduled to be released on 2022-07-01._
 ### Added
 
 - Added a new config option `httpHeaders` used by helmet (see https://helmetjs.github.io/). You can now set own httpHeaders which will override the defaults in `js/defauls.js` which is useful e.g. if you want to embed MagicMirror into annother website (solves #2847).
-- Show endDate for calendar events when dateHeader is enabled and showEnd is set to true (#2192)
+- Show endDate for calendar events when dateHeader is enabled and showEnd is set to true (#2192).
 - Added the notification emitting from the weather module on infromation updated.
+- Use recommended file extention for YAML files (#2864).
 
 ### Updated
 
