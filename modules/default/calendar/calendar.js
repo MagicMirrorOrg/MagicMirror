@@ -510,7 +510,7 @@ Module.register("calendar", {
 						continue;
 					}
 				}
-				if (this.listContainsEvent(events, event)) {
+				if (this.listContainsEvent(events, event) && limitNumberOfEntries) {
 					continue;
 				}
 				event.url = calendarUrl;
