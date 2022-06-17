@@ -496,22 +496,20 @@ Module.register("calendar", {
 			for (const e in calendar) {
 				const event = JSON.parse(JSON.stringify(calendar[e])); // clone object
 
-				if (event.endDate < now && limitNumberOfEntries) {
+				if (this.config.hidePrivate && event.class === "PRIVATE") {
+					// do not add the current event, skip it
 					continue;
 				}
-				if (this.config.hidePrivate) {
-					if (event.class === "PRIVATE") {
-						// do not add the current event, skip it
+				if (limitNumberOfEntries) {
+					if (event.endDate < now) {
 						continue;
 					}
-				}
-				if (this.config.hideOngoing && limitNumberOfEntries) {
-					if (event.startDate < now) {
+					if (this.config.hideOngoing && event.startDate < now) {
 						continue;
 					}
-				}
-				if (this.listContainsEvent(events, event)) {
-					continue;
+					if (this.listContainsEvent(events, event)) {
+						continue;
+					}
 				}
 				event.url = calendarUrl;
 				event.today = event.startDate >= today && event.startDate < today + 24 * 60 * 60 * 1000;
