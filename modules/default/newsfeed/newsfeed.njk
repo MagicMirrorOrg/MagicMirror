@@ -23,61 +23,38 @@
 {% endmacro %}
 
 {% if loaded %}
-    {% if config.showAsList %}
-        <ul class="newsfeed-list">
-            {% for item in items %}
-                <li>
-                    {% if (config.showSourceTitle and item.sourceTitle) or config.showPublishDate %}
-                        <div class="newsfeed-source light small dimmed">
-                            {% if item.sourceTitle and config.showSourceTitle %}
-                                {{ item.sourceTitle }}{% if config.showPublishDate %}, {% else %}: {% endif %}
-                            {% endif %}
-                            {% if config.showPublishDate %}
-                                {{ item.publishDate }}:
-                            {% endif %}
-                        </div>
-                    {% endif %}
-                    <div class="newsfeed-title bright medium light{{ ' no-wrap' if not config.wrapTitle }}">
-                        {{ escapeTitle(item.title, item.url, config.dangerouslyDisableAutoEscaping, config.showTitleAsUrl) }}
-                    </div>
-                    {% if config.showDescription %}
-                        <div class="newsfeed-desc small light{{ ' no-wrap' if not config.wrapDescription }}">
-                            {% if config.truncDescription %}
-                                {{ escapeText(item.description | truncate(config.lengthDescription), config.dangerouslyDisableAutoEscaping) }}
-                            {% else %}
-                                {{ escapeText(item.description, config.dangerouslyDisableAutoEscaping) }}
-                            {% endif %}
-                        </div>
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <div>
-            {% if (config.showSourceTitle and sourceTitle) or config.showPublishDate %}
+
+<ul class="newsfeed-list">                
+    {% for item in items %}                   
+        <li>
+            {% if (config.showSourceTitle and item.sourceTitle) or config.showPublishDate %}
                 <div class="newsfeed-source light small dimmed">
-                    {% if sourceTitle and config.showSourceTitle %}
-                        {{ escapeText(sourceTitle, config.dangerouslyDisableAutoEscaping) }}{% if config.showPublishDate %}, {% else %}: {% endif %}
+                    {% if item.sourceTitle and config.showSourceTitle %}
+                        {{ item.sourceTitle }}{% if config.showPublishDate %}, {% else %}: {% endif %}
                     {% endif %}
                     {% if config.showPublishDate %}
-                        {{ publishDate }}:
+                        {{ item.publishDate }}:
                     {% endif %}
                 </div>
             {% endif %}
             <div class="newsfeed-title bright medium light{{ ' no-wrap' if not config.wrapTitle }}">
-                {{ escapeTitle(title, url, config.dangerouslyDisableAutoEscaping, config.showTitleAsUrl) }}
+                {{ escapeTitle(item.title, item.url, config.dangerouslyDisableAutoEscaping, config.showTitleAsUrl) }}
             </div>
-            {% if config.showDescription %}
+            {# {% if config.showDescription %} #}
                 <div class="newsfeed-desc small light{{ ' no-wrap' if not config.wrapDescription }}">
-                    {% if config.truncDescription %}
-                        {{ escapeText(description | truncate(config.lengthDescription), config.dangerouslyDisableAutoEscaping) }}
+                    {# {% if config.truncDescription %}
+                        {{ escapeText(item.description | truncate(config.lengthDescription), config.dangerouslyDisableAutoEscaping) }}
                     {% else %}
-                        {{ escapeText(description, config.dangerouslyDisableAutoEscaping) }}
-                    {% endif %}
+                        {{ escapeText(item.description, config.dangerouslyDisableAutoEscaping) }}
+                    {% endif %} #}
+
+                        {{ escapeText(item.description, config.dangerouslyDisableAutoEscaping) }}
                 </div>
-            {% endif %}
-        </div>
-    {% endif %}
+            {# {% endif %} #}
+        </li>
+    {% endfor %}
+</ul>
+
 {% elseif empty %}
     <div class="small dimmed">
         {{ "NEWSFEED_NO_ITEMS" | translate | safe }}

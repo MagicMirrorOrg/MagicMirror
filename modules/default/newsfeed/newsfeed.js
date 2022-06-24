@@ -131,10 +131,12 @@ Module.register("newsfeed", {
 		}
 
 		const item = this.newsItems[this.activeItem];
-		const items = this.newsItems.map(function (item) {
+		let items = this.newsItems.map(function (item) {
 			item.publishDate = moment(new Date(item.pubdate)).fromNow();
 			return item;
 		});
+
+		this.activeItem = this.activeItem + 3;
 
 		return {
 			loaded: true,
@@ -144,7 +146,7 @@ Module.register("newsfeed", {
 			title: item.title,
 			url: item.url,
 			description: item.description,
-			items: items
+			items: items.slice(this.activeItem, this.activeItem + 3)
 		};
 	},
 
@@ -308,6 +310,7 @@ Module.register("newsfeed", {
 			// Broadcast NewsFeed if needed
 			if (this.config.broadcastNewsFeeds) {
 				this.sendNotification("NEWS_FEED", { items: this.newsItems });
+				//scrollPosition = scrollPosition + 3;
 			}
 		}, this.config.updateInterval);
 	},
