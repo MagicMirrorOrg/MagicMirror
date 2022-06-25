@@ -19,7 +19,7 @@ _This release is scheduled to be released on 2022-07-01._
 ### Updated
 
 - Use latest node 18 when running tests on github actions
-- Update `electron` to v19 and other dependencies.
+- Update `electron` to v19 and other dependencies
 - Use internal fetch function of node instead external `node-fetch` library if used node version >= `v18`.
 - Include duplicate events in broadcasts.
 
