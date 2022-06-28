@@ -61,6 +61,7 @@ Special thanks to the following contributors: @10bias, @CFenner, @JHWelch, @k1rd
 - Don't adjust startDate for full day events if endDate is in the past.
 - Fix windspeed conversion error in openweathermap provider. (#2812)
 - Fix conflicting parms turning off showEnd for full day events. (#2629)
+- Fix regression, calendar.maximumEntries not used to filter calendar level entries (#2868)
 
 ## [2.18.0] - 2022-01-01
 
