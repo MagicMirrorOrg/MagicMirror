@@ -5,9 +5,9 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror².
 
-## [2.20.0] - Unreleased (Develop)
+## [2.20.0] - 2022-07-02
 
-_This release is scheduled to be released on 2022-07-01._
+Special thanks to the following contributors: @eouia, @khassel, @kolbyjack, @KristjanESPERANTO, @nathannaveen, @naveensrinivasan, @rejas, @rohitdharavath and @sdetweil.
 
 ### Added
 
@@ -18,8 +18,8 @@ _This release is scheduled to be released on 2022-07-01._
 
 ### Updated
 
-- Use latest node 18 when running tests on github actions
-- Update `electron` to v19 and other dependencies
+- Use latest node 18 when running tests on github actions.
+- Update `electron` to v19 and other dependencies.
 - Use internal fetch function of node instead external `node-fetch` library if used node version >= `v18`.
 - Include duplicate events in broadcasts.
 
