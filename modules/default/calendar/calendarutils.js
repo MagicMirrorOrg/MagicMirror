@@ -498,7 +498,8 @@ const CalendarUtils = {
 			return a.startDate - b.startDate;
 		});
 
-		return newEvents;
+		let maxEvents = newEvents.slice(0, config.maximumEntries);
+		return maxEvents;
 	},
 
 	/**

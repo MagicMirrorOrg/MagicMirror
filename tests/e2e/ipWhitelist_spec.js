@@ -1,4 +1,4 @@
-const fetch = require("node-fetch");
+const fetch = require("fetch");
 const helpers = require("./global-setup");
 
 describe("ipWhitelist directive configuration", function () {
@@ -6,8 +6,8 @@ describe("ipWhitelist directive configuration", function () {
 		beforeAll(function () {
 			helpers.startApplication("tests/configs/noIpWhiteList.js");
 		});
-		afterAll(function () {
-			helpers.stopApplication();
+		afterAll(async function () {
+			await helpers.stopApplication();
 		});
 
 		it("should return 403", function (done) {
@@ -22,8 +22,8 @@ describe("ipWhitelist directive configuration", function () {
 		beforeAll(function () {
 			helpers.startApplication("tests/configs/empty_ipWhiteList.js");
 		});
-		afterAll(function () {
-			helpers.stopApplication();
+		afterAll(async function () {
+			await helpers.stopApplication();
 		});
 
 		it("should return 200", function (done) {

@@ -5,8 +5,8 @@ describe("Check configuration without modules", function () {
 		helpers.startApplication("tests/configs/without_modules.js");
 		helpers.getDocument(done);
 	});
-	afterAll(function () {
-		helpers.stopApplication();
+	afterAll(async function () {
+		await helpers.stopApplication();
 	});
 
 	it("Show the message MagicMirror² title", function () {

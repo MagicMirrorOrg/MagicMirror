@@ -1,4 +1,4 @@
-const fetch = require("node-fetch");
+const fetch = require("fetch");
 const helpers = require("./global-setup");
 
 describe("port directive configuration", function () {
@@ -6,8 +6,8 @@ describe("port directive configuration", function () {
 		beforeAll(function () {
 			helpers.startApplication("tests/configs/port_8090.js");
 		});
-		afterAll(function () {
-			helpers.stopApplication();
+		afterAll(async function () {
+			await helpers.stopApplication();
 		});
 
 		it("should return 200", function (done) {
@@ -22,8 +22,8 @@ describe("port directive configuration", function () {
 		beforeAll(function () {
 			helpers.startApplication("tests/configs/port_8090.js", (process.env.MM_PORT = 8100));
 		});
-		afterAll(function () {
-			helpers.stopApplication();
+		afterAll(async function () {
+			await helpers.stopApplication();
 		});
 
 		it("should return 200", function (done) {

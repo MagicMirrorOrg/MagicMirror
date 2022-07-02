@@ -10,7 +10,7 @@ const path = require("path");
 const ipfilter = require("express-ipfilter").IpFilter;
 const fs = require("fs");
 const helmet = require("helmet");
-const fetch = require("node-fetch");
+const fetch = require("fetch");
 
 const Log = require("logger");
 const Utils = require("./utils.js");
@@ -69,7 +69,7 @@ function Server(config, callback) {
 			res.status(403).send("This device is not allowed to access your mirror. <br> Please check your config.js or config.js.sample to change this.");
 		});
 	});
-	app.use(helmet({ contentSecurityPolicy: false, crossOriginOpenerPolicy: false, crossOriginEmbedderPolicy: false, crossOriginResourcePolicy: false, originAgentCluster: false }));
+	app.use(helmet(config.httpHeaders));
 
 	app.use("/js", express.static(__dirname));
 
