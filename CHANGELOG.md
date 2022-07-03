@@ -15,6 +15,8 @@ _This release is scheduled to be released on 2022-10-01._
 
 ## Fixed
 
+- Broadcast all calendar events while still honoring global and per-calendar maximumEntries.
+
 ## [2.20.0] - 2022-07-02
 
 Special thanks to the following contributors: @eouia, @khassel, @kolbyjack, @KristjanESPERANTO, @nathannaveen, @naveensrinivasan, @rejas, @rohitdharavath and @sdetweil.

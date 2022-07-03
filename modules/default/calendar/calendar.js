@@ -493,6 +493,7 @@ Module.register("calendar", {
 
 		for (const calendarUrl in this.calendarData) {
 			const calendar = this.calendarData[calendarUrl];
+			let remainingEntries = this.maximumEntriesForUrl(calendarUrl);
 			for (const e in calendar) {
 				const event = JSON.parse(JSON.stringify(calendar[e])); // clone object
 
@@ -509,6 +510,9 @@ Module.register("calendar", {
 					}
 					if (this.listContainsEvent(events, event)) {
 						continue;
+					}
+					if (--remainingEntries < 0) {
+						break;
 					}
 				}
 				event.url = calendarUrl;
@@ -716,6 +720,16 @@ Module.register("calendar", {
 	 */
 	countTitleForUrl: function (url) {
 		return this.getCalendarProperty(url, "repeatingCountTitle", this.config.defaultRepeatingCountTitle);
+	},
+
+	/**
+	 * Retrieves the maximum entry count for a specific calendar url.
+	 *
+	 * @param {string} url The calendar url
+	 * @returns {int} The maximum entry count
+	 */
+	maximumEntriesForUrl: function (url) {
+		return this.getCalendarProperty(url, "maximumEntries", this.config.maximumEntries);
 	},
 
 	/**
