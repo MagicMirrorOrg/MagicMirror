@@ -7,8 +7,9 @@
 const Log = require("logger");
 const FeedMe = require("feedme");
 const NodeHelper = require("node_helper");
-const fetch = require("node-fetch");
+const fetch = require("fetch");
 const iconv = require("iconv-lite");
+const stream = require("stream");
 
 /**
  * Responsible for requesting an update on the set interval and broadcasting the data.
@@ -87,7 +88,13 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 		fetch(url, { headers: headers })
 			.then(NodeHelper.checkFetchStatus)
 			.then((response) => {
-				response.body.pipe(iconv.decodeStream(encoding)).pipe(parser);
+				let nodeStream;
+				if (response.body instanceof stream.Readable) {
+					nodeStream = response.body;
+				} else {
+					nodeStream = stream.Readable.fromWeb(response.body);
+				}
+				nodeStream.pipe(iconv.decodeStream(encoding)).pipe(parser);
 			})
 			.catch((error) => {
 				fetchFailedCallback(this, error);

@@ -2,9 +2,7 @@ const jsdom = require("jsdom");
 
 exports.startApplication = function (configFilename, exec) {
 	jest.resetModules();
-	if (global.app) {
-		global.app.stop();
-	}
+	this.stopApplication();
 	// Set config sample for use in test
 	if (configFilename === "") {
 		process.env.MM_CONFIG_FILE = "config/config.js";
@@ -16,10 +14,11 @@ exports.startApplication = function (configFilename, exec) {
 	global.app.start();
 };
 
-exports.stopApplication = function () {
+exports.stopApplication = async function () {
 	if (global.app) {
 		global.app.stop();
 	}
+	await new Promise((resolve) => setTimeout(resolve, 100));
 };
 
 exports.getDocument = function (callback) {

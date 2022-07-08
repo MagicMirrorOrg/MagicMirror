@@ -5,6 +5,28 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror².
 
+## [2.20.0] - 2022-07-02
+
+Special thanks to the following contributors: @eouia, @khassel, @kolbyjack, @KristjanESPERANTO, @nathannaveen, @naveensrinivasan, @rejas, @rohitdharavath and @sdetweil.
+
+### Added
+
+- Added a new config option `httpHeaders` used by helmet (see https://helmetjs.github.io/). You can now set own httpHeaders which will override the defaults in `js/defauls.js` which is useful e.g. if you want to embed MagicMirror into annother website (solves #2847).
+- Show endDate for calendar events when dateHeader is enabled and showEnd is set to true (#2192).
+- Added the notification emitting from the weather module on infromation updated.
+- Use recommended file extention for YAML files (#2864).
+
+### Updated
+
+- Use latest node 18 when running tests on github actions.
+- Update `electron` to v19 and other dependencies.
+- Use internal fetch function of node instead external `node-fetch` library if used node version >= `v18`.
+- Include duplicate events in broadcasts.
+
+### Fixed
+
+- Fix problems with non latin fonds caused by updating to fontsource (fixes #2835).
+
 ## [2.19.0] - 2022-04-01
 
 Special thanks to the following contributors: @10bias, @CFenner, @JHWelch, @k1rd3rf, @khassel, @kolbyjack, @krekos, @KristjanESPERANTO, @Nerfzooka, @oraclesean, @oscarb, @philnagel, @rejas, @sdetweil, @shin10, @SiderealArt and @Tom-Hirschberger.
@@ -12,9 +34,9 @@ Special thanks to the following contributors: @10bias, @CFenner, @JHWelch, @k1rd
 ### Added
 
 - Added a config option under the weather module, `absoluteDates`, providing an option to format weather forecast date output with either absolute or relative dates.
-- Added test for new weather forecast `absoluteDates` porperty.
+- Added test for new weather forecast `absoluteDates` property.
 - The modules get a class hidden added/removed if they get hidden/shown which will also toggle pointer-events.
-- Added new config option `showTitleAsUrl` to newsfeed module. If set, the diplayed title is a link to the article which is useful when running in a browser and you want to read this article.
+- Added new config option `showTitleAsUrl` to newsfeed module. If set, the displayed title is a link to the article which is useful when running in a browser and you want to read this article.
 - Added internal cors proxy to get weather providers working without public proxies (fixes #2714). The new url `http(s)://address:port/cors?url=https://whatever-to-proxy` can be used in other modules too.
 - Added a WeatherProvider for Weatherflow.
 - Added new env var `ELECTRON_DISABLE_GPU` which disable gpu under electron if set (fixes #2831).
@@ -39,6 +61,7 @@ Special thanks to the following contributors: @10bias, @CFenner, @JHWelch, @k1rd
 - Don't adjust startDate for full day events if endDate is in the past.
 - Fix windspeed conversion error in openweathermap provider. (#2812)
 - Fix conflicting parms turning off showEnd for full day events. (#2629)
+- Fix regression, calendar.maximumEntries not used to filter calendar level entries (#2868)
 
 ## [2.18.0] - 2022-01-01
 

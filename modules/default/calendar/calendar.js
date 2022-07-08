@@ -305,6 +305,12 @@ Module.register("calendar", {
 					timeWrapper.className = "time light align-left " + this.timeClassForUrl(event.url);
 					timeWrapper.style.paddingLeft = "2px";
 					timeWrapper.innerHTML = moment(event.startDate, "x").format("LT");
+
+					// Add endDate to dataheaders if showEnd is enabled
+					if (this.config.showEnd) {
+						timeWrapper.innerHTML += " - " + moment(event.endDate, "x").format("LT");
+					}
+
 					eventWrapper.appendChild(timeWrapper);
 					titleWrapper.classList.add("align-right");
 				}
@@ -381,7 +387,7 @@ Module.register("calendar", {
 								}
 							}
 						} else if (event.startDate - now < this.config.getRelative * oneHour) {
-							// If event is within getRelative  hours, display 'in xxx' time format or moment.fromNow()
+							// If event is within getRelative hours, display 'in xxx' time format or moment.fromNow()
 							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
 						}
 					} else {
@@ -490,22 +496,20 @@ Module.register("calendar", {
 			for (const e in calendar) {
 				const event = JSON.parse(JSON.stringify(calendar[e])); // clone object
 
-				if (event.endDate < now && limitNumberOfEntries) {
+				if (this.config.hidePrivate && event.class === "PRIVATE") {
+					// do not add the current event, skip it
 					continue;
 				}
-				if (this.config.hidePrivate) {
-					if (event.class === "PRIVATE") {
-						// do not add the current event, skip it
+				if (limitNumberOfEntries) {
+					if (event.endDate < now) {
 						continue;
 					}
-				}
-				if (this.config.hideOngoing && limitNumberOfEntries) {
-					if (event.startDate < now) {
+					if (this.config.hideOngoing && event.startDate < now) {
 						continue;
 					}
-				}
-				if (this.listContainsEvent(events, event)) {
-					continue;
+					if (this.listContainsEvent(events, event)) {
+						continue;
+					}
 				}
 				event.url = calendarUrl;
 				event.today = event.startDate >= today && event.startDate < today + 24 * 60 * 60 * 1000;

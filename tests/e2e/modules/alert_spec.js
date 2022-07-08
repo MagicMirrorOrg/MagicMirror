@@ -5,8 +5,8 @@ describe("Alert module", function () {
 		helpers.startApplication("tests/configs/modules/alert/default.js");
 		helpers.getDocument(done);
 	});
-	afterAll(function () {
-		helpers.stopApplication();
+	afterAll(async function () {
+		await helpers.stopApplication();
 	});
 
 	it("should show the welcome message", function () {

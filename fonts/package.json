@@ -10,7 +10,7 @@
 		"url": "https://github.com/MichMich/MagicMirror/issues"
 	},
 	"dependencies": {
-		"@fontsource/roboto": "^4.5.5",
-		"@fontsource/roboto-condensed": "^4.5.6"
+		"@fontsource/roboto": "^4.5.7",
+		"@fontsource/roboto-condensed": "^4.5.8"
 	}
 }
