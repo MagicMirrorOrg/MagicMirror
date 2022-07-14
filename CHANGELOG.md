@@ -11,6 +11,8 @@ _This release is scheduled to be released on 2022-10-01._
 
 ## Added
 
+- Possibility to fetch calendars through socket notifications.
+
 ## Updated
 
 ## Fixed
