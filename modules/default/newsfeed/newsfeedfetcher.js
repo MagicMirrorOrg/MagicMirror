@@ -78,6 +78,19 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 			scheduleTimer();
 		});
 
+		parser.on("ttl", (minutes) => {
+			try {
+				// 86400000 = 24 hours is mentioned in the docs as maximum value:
+				const ttlms = Math.min(minutes * 60 * 1000, 86400000);
+				if (ttlms > reloadInterval) {
+					reloadInterval = ttlms;
+					Log.info("Newsfeed-Fetcher: reloadInterval set to ttl=" + reloadInterval + " for url " + url);
+				}
+			} catch (error) {
+				Log.warn("Newsfeed-Fetcher: feed ttl is no valid integer=" + minutes + " for url " + url);
+			}
+		});
+
 		const nodeVersion = Number(process.version.match(/^v(\d+\.\d+)/)[1]);
 		const headers = {
 			"User-Agent": "Mozilla/5.0 (Node.js " + nodeVersion + ") MagicMirror/" + global.version,
