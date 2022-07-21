@@ -27,6 +27,7 @@
 
 	"FEELS": "Feels like {DEGREE}",
 	"PRECIP": "PoP",
+	"GETUM": "Better take an umbrella",
 
 	"MODULE_CONFIG_CHANGED": "The configuration options for the {MODULE_NAME} module have changed.\nPlease check the documentation.",
 	"MODULE_CONFIG_ERROR": "Error in the {MODULE_NAME} module. {ERROR}",

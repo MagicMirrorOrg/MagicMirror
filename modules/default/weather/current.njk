@@ -73,7 +73,12 @@
                 <span class="dimmed">
                     {{ "PRECIP" | translate }} {{ current.precipitation | unit("precip") }}
                 </span>
-            {% endif %}
+                {% if current.precipitation >= 30 %}
+                    <span class="dimmed">
+                        {{ "GETUM" | translate }}
+                    </span>                
+                {% endif %}
+            {% endif %}            
         </div>
     {% endif %}
 {% else %}

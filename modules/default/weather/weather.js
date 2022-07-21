@@ -41,7 +41,7 @@ Module.register("weather", {
 		calendarClass: "calendar",
 		tableClass: "small",
 		onlyTemp: false,
-		showPrecipitationAmount: false,
+		showPrecipitationAmount: true,
 		colored: false,
 		showFeelsLike: true,
 		absoluteDates: false
