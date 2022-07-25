@@ -11,8 +11,7 @@ _This release is scheduled to be released on 2022-10-01._
 
 ## Added
 
-- New `showTimeToday` option in calendar module shows time for current-day
-  events even if `timeFormat` is `"relative"`
+- New `showTimeToday` option in calendar module shows time for current-day events even if `timeFormat` is `"relative"`
 
 ## Updated
 
