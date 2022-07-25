@@ -11,6 +11,8 @@ _This release is scheduled to be released on 2022-10-01._
 
 ## Added
 
+- new scripts `install-mm` (and `install-mm:dev`) for simplifying mm installation (now: `npm run install-mm`) and adding params `--no-audit --no-fund --no-update-notifier` for less noise.
+
 ## Updated
 
 ## Fixed
