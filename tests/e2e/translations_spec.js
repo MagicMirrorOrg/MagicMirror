@@ -164,7 +164,7 @@ describe("Translations", function () {
 			dom.window.onload = function () {
 				const { Translator } = dom.window;
 
-				Translator.load(mmm, translations.en, false, function () {
+				Translator.load(mmm, translations.de, false, function () {
 					base = Object.keys(Translator.translations[mmm.name]).sort();
 					done();
 				});
@@ -175,8 +175,10 @@ describe("Translations", function () {
 			console.log(missing);
 		});
 
+		// Using German as the base rather than English, since
+		// at least one translated word doesn't exist in English.
 		for (let language in translations) {
-			if (language === "en") {
+			if (language === "de") {
 				continue;
 			}
 
