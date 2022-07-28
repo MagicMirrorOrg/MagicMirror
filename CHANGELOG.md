@@ -16,6 +16,7 @@ _This release is scheduled to be released on 2022-10-01._
 ## Fixed
 
 - Broadcast all calendar events while still honoring global and per-calendar maximumEntries.
+- Respect rss ttl provided by newsfeed (#2883).
 
 ## [2.20.0] - 2022-07-02
 
