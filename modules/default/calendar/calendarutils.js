@@ -469,10 +469,6 @@ const CalendarUtils = {
 						return;
 					}
 
-					// Adjust start date so multiple day events will be displayed as happening today even though they started some days ago already
-					if (fullDayEvent && startDate <= today && endDate > today) {
-						startDate = moment(today);
-					}
 					// if the start and end are the same, then make end the 'end of day' value (start is at 00:00:00)
 					if (fullDayEvent && startDate.format("x") === endDate.format("x")) {
 						endDate = endDate.endOf("day");
