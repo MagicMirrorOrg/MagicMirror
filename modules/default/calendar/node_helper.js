@@ -20,7 +20,7 @@ module.exports = NodeHelper.create({
 		if (notification === "ADD_CALENDAR") {
 			this.createFetcher(payload.url, payload.fetchInterval, payload.excludedEvents, payload.maximumEntries, payload.maximumNumberOfDays, payload.auth, payload.broadcastPastEvents, payload.selfSignedCert, payload.id);
 		} else if (notification === "FETCH_CALENDAR") {
-			key = payload.id + payload.url;
+			const key = payload.id + payload.url;
 			if (typeof this.fetchers[key] === "undefined") {
 				Log.error("Calendar Error. No fetcher exists with key: ", key);
 				this.sendSocketNotification("CALENDAR_ERROR", { error_type: "MODULE_ERROR_UNSPECIFIED" });
