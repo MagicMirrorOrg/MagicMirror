@@ -727,7 +727,7 @@ Module.register("calendar", {
 	 * Retrieves the maximum entry count for a specific calendar url.
 	 *
 	 * @param {string} url The calendar url
-	 * @returns {int} The maximum entry count
+	 * @returns {number} The maximum entry count
 	 */
 	maximumEntriesForUrl: function (url) {
 		return this.getCalendarProperty(url, "maximumEntries", this.config.maximumEntries);
