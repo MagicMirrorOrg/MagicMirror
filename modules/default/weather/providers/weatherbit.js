@@ -69,6 +69,31 @@ WeatherProvider.register("weatherbit", {
 			.finally(() => this.updateAvailable());
 	},
 
+	/**
+	 * Overrides method for setting config to check if endpoint is correct for hourly
+	 *
+	 * @param {object} config The configuration object
+	 */
+	setConfig(config) {
+		this.config = config;
+		if (!this.config.weatherEndpoint) {
+			switch (this.config.type) {
+				case "hourly":
+					this.config.weatherEndpoint = "/forecast/hourly";
+					break;
+				case "daily":
+				case "forecast":
+					this.config.weatherEndpoint = "/forecast/daily";
+					break;
+				case "current":
+					this.config.weatherEndpoint = "/current";
+					break;
+				default:
+					Log.error("weatherEndpoint not configured and could not resolve it based on type");
+			}
+		}
+	},
+
 	// Create a URL from the config and base URL.
 	getUrl() {
 		const units = this.units[this.config.units] || "auto";
