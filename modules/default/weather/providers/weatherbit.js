@@ -18,7 +18,6 @@ WeatherProvider.register("weatherbit", {
 	// Set the default config properties that is specific to this provider
 	defaults: {
 		apiBase: "https://api.weatherbit.io/v2.0",
-		weatherEndpoint: "/current",
 		apiKey: "",
 		lat: 0,
 		lon: 0
