@@ -23,6 +23,7 @@ _This release is scheduled to be released on 2022-10-01._
 - Broadcast all calendar events while still honoring global and per-calendar maximumEntries.
 - Respect rss ttl provided by newsfeed (#2883).
 - Fix multi day calendar events always presented as "(1/X)" instead of the amount of days the event has progressed.
+- Fix weatherbit provider to use type config value instead of endpoint
 
 ## [2.20.0] - 2022-07-02
 
@@ -32,8 +33,8 @@ Special thanks to the following contributors: @eouia, @khassel, @kolbyjack, @Kri
 
 - Added a new config option `httpHeaders` used by helmet (see https://helmetjs.github.io/). You can now set own httpHeaders which will override the defaults in `js/defauls.js` which is useful e.g. if you want to embed MagicMirror into annother website (solves #2847).
 - Show endDate for calendar events when dateHeader is enabled and showEnd is set to true (#2192).
-- Added the notification emitting from the weather module on infromation updated.
-- Use recommended file extention for YAML files (#2864).
+- Added the notification emitting from the weather module on information updated.
+- Use recommended file extension for YAML files (#2864).
 
 ### Updated
 
