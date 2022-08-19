@@ -11,6 +11,7 @@ _This release is scheduled to be released on 2022-10-01._
 
 ## Added
 
+- Possibility to fetch calendars through socket notifications.
 - New scripts `install-mm` (and `install-mm:dev`) for simplifying mm installation (now: `npm run install-mm`) and adding params `--no-audit --no-fund --no-update-notifier` for less noise.
 - New `showTimeToday` option in calendar module shows time for current-day events even if `timeFormat` is `"relative"`
 
