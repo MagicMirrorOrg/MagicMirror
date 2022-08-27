@@ -20,11 +20,9 @@
  * 		weatherProvider: "ukmetofficedatahub",
  * 		apiBase: "https://api-metoffice.apiconnect.ibmcloud.com/metoffice/production/v0/forecasts/point/",
  * 		apiKey: "[YOUR API KEY]",
- * 		apiSecret: "[YOUR API SECRET]]",
+ * 		apiSecret: "[YOUR API SECRET]",
  * 		lat: [LATITUDE (DECIMAL)],
- * 		lon: [LONGITUDE (DECIMAL)],
- *		windUnits: "mps" | "kph" | "mph" (default)
- *		tempUnits: "imperial" | "metric" (default)
+ * 		lon: [LONGITUDE (DECIMAL)]
  *
  * At time of writing, free accounts are limited to 360 requests a day per service (hourly, 3hourly, daily); take this in mind when
  * setting your update intervals. For reference, 360 requests per day is once every 4 minutes.
@@ -51,8 +49,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 		apiKey: "",
 		apiSecret: "",
 		lat: 0,
-		lon: 0,
-		windUnits: "imperial"
+		lon: 0
 	},
 
 	// Build URL with query strings according to DataHub API (https://metoffice.apiconnect.ibmcloud.com/metoffice/production/api)
@@ -206,7 +203,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 				forecastWeather.maxTemperature = forecastDataDays[day].dayMaxScreenTemperature;
 
 				// Using daytime forecast values
-				forecastWeather.windSpeed = this.convertWindSpeed(forecastDataDays[day].midday10MWindSpeed);
+				forecastWeather.windSpeed = forecastDataDays[day].midday10MWindSpeed;
 				forecastWeather.windDirection = forecastDataDays[day].midday10MWindDirection;
 				forecastWeather.weatherType = this.convertWeatherType(forecastDataDays[day].daySignificantWeatherCode);
 				forecastWeather.precipitation = forecastDataDays[day].dayProbabilityOfPrecipitation;
