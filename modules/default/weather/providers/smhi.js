@@ -21,7 +21,7 @@ WeatherProvider.register("smhi", {
 	},
 
 	/**
-	 * Implements method in interface for fetching current weather
+	 * Implements method in interface for fetching current weather.
 	 */
 	fetchCurrentWeather() {
 		this.fetchData(this.getURL())
@@ -37,16 +37,30 @@ WeatherProvider.register("smhi", {
 	},
 
 	/**
-	 * Implements method in interface for fetching a forecast.
-	 * Handling hourly forecast would be easy as not grouping by day but it seems really specific for one weather provider for now.
+	 * Implements method in interface for fetching a multi-day forecast.
 	 */
 	fetchWeatherForecast() {
 		this.fetchData(this.getURL())
 			.then((data) => {
 				let coordinates = this.resolveCoordinates(data);
-				let weatherObjects = this.convertWeatherDataGroupedByDay(data.timeSeries, coordinates);
+				const weatherObjects = this.convertWeatherDataGroupedBy(data.timeSeries, coordinates);
 				this.setFetchedLocation(`(${coordinates.lat},${coordinates.lon})`);
 				this.setWeatherForecast(weatherObjects);
+			})
+			.catch((error) => Log.error("Could not load data: " + error.message))
+			.finally(() => this.updateAvailable());
+	},
+
+	/**
+	 * Implements method in interface for fetching hourly forecasts.
+	 */
+	fetchWeatherHourly() {
+		this.fetchData(this.getURL())
+			.then((data) => {
+				let coordinates = this.resolveCoordinates(data);
+				let weatherObjects = this.convertWeatherDataGroupedBy(data.timeSeries, coordinates, "hour");
+				this.setFetchedLocation(`(${coordinates.lat},${coordinates.lon})`);
+				this.setWeatherHourly(weatherObjects);
 			})
 			.catch((error) => Log.error("Could not load data: " + error.message))
 			.finally(() => this.updateAvailable());
@@ -149,7 +163,7 @@ WeatherProvider.register("smhi", {
 	 * @param {object} coordinates Coordinates of the locations of the weather
 	 * @returns {WeatherObject[]} Array of weatherobjects
 	 */
-	convertWeatherDataGroupedByDay(allWeatherData, coordinates) {
+	convertWeatherDataGroupedBy(allWeatherData, coordinates, groupBy = "day") {
 		let currentWeather;
 		let result = [];
 
@@ -157,10 +171,11 @@ WeatherProvider.register("smhi", {
 		let dayWeatherTypes = [];
 
 		for (const weatherObject of allWeatherObjects) {
-			//If its the first object or if a day change we need to reset the summary object
-			if (!currentWeather || !currentWeather.date.isSame(weatherObject.date, "day")) {
+			//If its the first object or if a day/hour change we need to reset the summary object
+			if (!currentWeather || !currentWeather.date.isSame(weatherObject.date, groupBy)) {
 				currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
 				dayWeatherTypes = [];
+				currentWeather.temperature = weatherObject.temperature;
 				currentWeather.date = weatherObject.date;
 				currentWeather.minTemperature = Infinity;
 				currentWeather.maxTemperature = -Infinity;
