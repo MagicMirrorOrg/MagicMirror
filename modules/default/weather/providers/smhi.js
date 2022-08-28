@@ -17,7 +17,8 @@ WeatherProvider.register("smhi", {
 	defaults: {
 		lat: 0,
 		lon: 0,
-		precipitationValue: "pmedian"
+		precipitationValue: "pmedian",
+		location: false,
 	},
 
 	/**
@@ -29,7 +30,7 @@ WeatherProvider.register("smhi", {
 				let closest = this.getClosestToCurrentTime(data.timeSeries);
 				let coordinates = this.resolveCoordinates(data);
 				let weatherObject = this.convertWeatherDataToObject(closest, coordinates);
-				this.setFetchedLocation(`(${coordinates.lat},${coordinates.lon})`);
+				this.setFetchedLocation(this.config.location || `(${coordinates.lat},${coordinates.lon})`);
 				this.setCurrentWeather(weatherObject);
 			})
 			.catch((error) => Log.error("Could not load data: " + error.message))
@@ -43,8 +44,8 @@ WeatherProvider.register("smhi", {
 		this.fetchData(this.getURL())
 			.then((data) => {
 				let coordinates = this.resolveCoordinates(data);
-				const weatherObjects = this.convertWeatherDataGroupedBy(data.timeSeries, coordinates);
-				this.setFetchedLocation(`(${coordinates.lat},${coordinates.lon})`);
+				let weatherObjects = this.convertWeatherDataGroupedBy(data.timeSeries, coordinates);
+				this.setFetchedLocation(this.config.location || `(${coordinates.lat},${coordinates.lon})`);
 				this.setWeatherForecast(weatherObjects);
 			})
 			.catch((error) => Log.error("Could not load data: " + error.message))
@@ -59,7 +60,7 @@ WeatherProvider.register("smhi", {
 			.then((data) => {
 				let coordinates = this.resolveCoordinates(data);
 				let weatherObjects = this.convertWeatherDataGroupedBy(data.timeSeries, coordinates, "hour");
-				this.setFetchedLocation(`(${coordinates.lat},${coordinates.lon})`);
+				this.setFetchedLocation(this.config.location || `(${coordinates.lat},${coordinates.lon})`);
 				this.setWeatherHourly(weatherObjects);
 			})
 			.catch((error) => Log.error("Could not load data: " + error.message))
