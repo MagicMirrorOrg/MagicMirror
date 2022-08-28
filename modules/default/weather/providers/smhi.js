@@ -108,6 +108,16 @@ WeatherProvider.register("smhi", {
 		return `https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/${lon}/lat/${lat}/data.json`;
 	},
 
+	/** Calculates the apparent temperature based on known atmospheric data. */
+	calculateApparentTemperature(weatherData) {
+		const Ta = this.paramValue(weatherData, "t");
+		const rh = this.paramValue(weatherData, "r");
+		const ws = this.paramValue(weatherData, "ws");
+		const p = (rh / 100) * 6.105 * Math.E * ((17.27 * Ta) / (237.7 + Ta))
+
+		return Ta + 0.33 * p - 0.7 * ws - 4
+	},
+
 	/**
 	 * Converts the returned data into a WeatherObject with required properties set for both current weather and forecast.
 	 * The returned units is always in metric system.
@@ -128,6 +138,7 @@ WeatherProvider.register("smhi", {
 		currentWeather.windSpeed = this.paramValue(weatherData, "ws");
 		currentWeather.windDirection = this.paramValue(weatherData, "wd");
 		currentWeather.weatherType = this.convertWeatherType(this.paramValue(weatherData, "Wsymb2"), currentWeather.isDayTime());
+		currentWeather.feelsLikeTemp = this.calculateAT(weatherData);
 
 		// Determine the precipitation amount and category and update the
 		// weatherObject with it, the valuetype to use can be configured or uses
