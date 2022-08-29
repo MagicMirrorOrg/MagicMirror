@@ -108,6 +108,10 @@ class WeatherObject {
 		return mph / 2.2369362920544;
 	}
 
+	convertWindToMs(kmh) {
+		return kmh * 0.27777777777778;
+	}
+
 	kmhWindSpeed() {
 		return this.windUnits === "imperial" ? this.windSpeed * 1.609344 : (this.windSpeed * 60 * 60) / 1000;
 	}
