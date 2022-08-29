@@ -23,23 +23,6 @@ WeatherProvider.register("weatherflow", {
 		stationid: ""
 	},
 
-	units: {
-		imperial: {
-			temp: "f",
-			wind: "mph",
-			pressure: "hpa",
-			precip: "in",
-			distance: "mi"
-		},
-		metric: {
-			temp: "c",
-			wind: "kph",
-			pressure: "mb",
-			precip: "mm",
-			distance: "km"
-		}
-	},
-
 	fetchCurrentWeather() {
 		this.fetchData(this.getUrl())
 			.then((data) => {
@@ -48,7 +31,7 @@ WeatherProvider.register("weatherflow", {
 
 				currentWeather.humidity = data.current_conditions.relative_humidity;
 				currentWeather.temperature = data.current_conditions.air_temperature;
-				currentWeather.windSpeed = data.current_conditions.wind_avg;
+				currentWeather.windSpeed = currentWeather.convertWindToMs(data.current_conditions.wind_avg);
 				currentWeather.windDirection = data.current_conditions.wind_direction;
 				currentWeather.weatherType = data.forecast.daily[0].icon;
 				currentWeather.sunrise = moment.unix(data.forecast.daily[0].sunrise);
@@ -88,22 +71,6 @@ WeatherProvider.register("weatherflow", {
 
 	// Create a URL from the config and base URL.
 	getUrl() {
-		return (
-			this.config.apiBase +
-			"better_forecast?station_id=" +
-			this.config.stationid +
-			"&units_temp=" +
-			this.units[this.config.units].temp +
-			"&units_wind=" +
-			this.units[this.config.units].wind +
-			"&units_pressure=" +
-			this.units[this.config.units].pressure +
-			"&units_precip=" +
-			this.units[this.config.units].precip +
-			"&units_distance=" +
-			this.units[this.config.units].distance +
-			"&token=" +
-			this.config.token
-		);
+		return `${this.config.apiBase}better_forecast?station_id=${this.config.stationid}&units_temp=c&units_wind=kph&units_pressure=mb&units_precip=mm&units_distance=km&token=${this.config.token}`;
 	}
 });
