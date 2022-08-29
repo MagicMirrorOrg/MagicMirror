@@ -11,13 +11,13 @@
  * 	https://dd.weather.gc.ca/citypage_weather/schema/
  * 	https://eccc-msc.github.io/open-data/msc-datamart/readme_en/
  *
- * This module supports Canadian locations only and requires 2 additional config parms:
+ * This module supports Canadian locations only and requires 2 additional config parameters:
  *
  * siteCode - the city/town unique identifier for which weather is to be displayed. Format is 's0000000'.
  *
  * provCode - the 2-character province code for the selected city/town.
  *
- * Example: for Toronto, Ontario, the following parms would be used
+ * Example: for Toronto, Ontario, the following parameters would be used
  *
  * siteCode: 's0000458',
  * provCode: 'ON'
@@ -64,10 +64,6 @@ WeatherProvider.register("envcanada", {
 	start: function () {
 		Log.info(`Weather provider: ${this.providerName} started.`);
 		this.setFetchedLocation(this.config.location);
-
-		// Ensure kmH are ignored since these are custom-handled by this Provider
-
-		this.config.useKmh = false;
 	},
 
 	//
@@ -167,7 +163,7 @@ WeatherProvider.register("envcanada", {
 			currentWeather.temperature = this.cacheCurrentTemp;
 		}
 
-		currentWeather.windSpeed = ECdoc.querySelector("siteData currentConditions wind speed").textContent;
+		currentWeather.windSpeed = currentWeather.convertWindToMs(ECdoc.querySelector("siteData currentConditions wind speed").textContent);
 
 		currentWeather.windDirection = ECdoc.querySelector("siteData currentConditions wind bearing").textContent;
 
@@ -326,7 +322,7 @@ WeatherProvider.register("envcanada", {
 		days.push(weather);
 
 		//
-		// Now do the the rest of the forecast starting at nextDay. We will process each day using 2 EC
+		// Now do the rest of the forecast starting at nextDay. We will process each day using 2 EC
 		// forecast Elements. This will address the fact that the EC forecast always includes Today and
 		// Tonight for each day. This is why we iterate through the forecast by a a count of 2, with each
 		// iteration looking at the current Element and the next Element.
