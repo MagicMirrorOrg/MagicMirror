@@ -27,9 +27,9 @@ WeatherProvider.register("smhi", {
 	fetchCurrentWeather() {
 		this.fetchData(this.getURL())
 			.then((data) => {
-				let closest = this.getClosestToCurrentTime(data.timeSeries);
-				let coordinates = this.resolveCoordinates(data);
-				let weatherObject = this.convertWeatherDataToObject(closest, coordinates);
+				const closest = this.getClosestToCurrentTime(data.timeSeries);
+				const coordinates = this.resolveCoordinates(data);
+				const weatherObject = this.convertWeatherDataToObject(closest, coordinates);
 				this.setFetchedLocation(this.config.location || `(${coordinates.lat},${coordinates.lon})`);
 				this.setCurrentWeather(weatherObject);
 			})
@@ -43,8 +43,8 @@ WeatherProvider.register("smhi", {
 	fetchWeatherForecast() {
 		this.fetchData(this.getURL())
 			.then((data) => {
-				let coordinates = this.resolveCoordinates(data);
-				let weatherObjects = this.convertWeatherDataGroupedBy(data.timeSeries, coordinates);
+				const coordinates = this.resolveCoordinates(data);
+				const weatherObjects = this.convertWeatherDataGroupedBy(data.timeSeries, coordinates);
 				this.setFetchedLocation(this.config.location || `(${coordinates.lat},${coordinates.lon})`);
 				this.setWeatherForecast(weatherObjects);
 			})
@@ -58,8 +58,8 @@ WeatherProvider.register("smhi", {
 	fetchWeatherHourly() {
 		this.fetchData(this.getURL())
 			.then((data) => {
-				let coordinates = this.resolveCoordinates(data);
-				let weatherObjects = this.convertWeatherDataGroupedBy(data.timeSeries, coordinates, "hour");
+				const coordinates = this.resolveCoordinates(data);
+				const weatherObjects = this.convertWeatherDataGroupedBy(data.timeSeries, coordinates, "hour");
 				this.setFetchedLocation(this.config.location || `(${coordinates.lat},${coordinates.lon})`);
 				this.setWeatherHourly(weatherObjects);
 			})
