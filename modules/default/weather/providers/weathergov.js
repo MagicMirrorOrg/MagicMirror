@@ -131,8 +131,8 @@ WeatherProvider.register("weathergov", {
 				}
 				this.fetchedLocationName = data.properties.relativeLocation.properties.city + ", " + data.properties.relativeLocation.properties.state;
 				Log.log("Forecast location is " + this.fetchedLocationName);
-				this.forecastURL = data.properties.forecast;
-				this.forecastHourlyURL = data.properties.forecastHourly;
+				this.forecastURL = data.properties.forecast + "?units=si";
+				this.forecastHourlyURL = data.properties.forecastHourly + "?units=si";
 				this.forecastGridDataURL = data.properties.forecastGridData;
 				this.observationStationsURL = data.properties.observationStations;
 				// with this URL, we chain another promise for the station obs URL
@@ -205,7 +205,7 @@ WeatherProvider.register("weathergov", {
 
 		currentWeather.date = moment(currentWeatherData.timestamp);
 		currentWeather.temperature = currentWeatherData.temperature.value;
-		currentWeather.windSpeed = currentWeatherData.windSpeed.value;
+		currentWeather.windSpeed = currentWeather.convertWindToMs(currentWeatherData.windSpeed.value);
 		currentWeather.windDirection = currentWeatherData.windDirection.value;
 		currentWeather.minTemperature = currentWeatherData.minTemperatureLast24Hours.value;
 		currentWeather.maxTemperature = currentWeatherData.maxTemperatureLast24Hours.value;
@@ -375,31 +375,5 @@ WeatherProvider.register("weathergov", {
 		}
 
 		return null;
-	},
-
-	/*
-	Convert the direction into Degrees
-	*/
-	convertWindDirection(windDirection) {
-		const windCardinals = {
-			N: 0,
-			NNE: 22,
-			NE: 45,
-			ENE: 67,
-			E: 90,
-			ESE: 112,
-			SE: 135,
-			SSE: 157,
-			S: 180,
-			SSW: 202,
-			SW: 225,
-			WSW: 247,
-			W: 270,
-			WNW: 292,
-			NW: 315,
-			NNW: 337
-		};
-
-		return windCardinals.hasOwnProperty(windDirection) ? windCardinals[windDirection] : null;
 	}
 });
