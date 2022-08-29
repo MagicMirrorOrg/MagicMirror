@@ -198,8 +198,8 @@ Module.register("weather", {
 	/**
 	 * Convert temp (from degrees C) if required
 	 *
-	 * @param tempInC
-	 * @returns {number|*}
+	 * @param {number} tempInC
+	 * @returns {number}
 	 */
 	convertTemp(tempInC) {
 		return this.config.tempUnits === "imperial" ? tempInC * 1.8 + 32 : tempInC;
@@ -216,7 +216,9 @@ Module.register("weather", {
 	},
 
 	/**
-	 * TODO
+	 * Convert wind (from m/s) if required
+	 *
+	 * @param {number} speedInMS
 	 * @returns {number}
 	 */
 	beaufortWindSpeed(speedInMS) {
@@ -256,9 +258,7 @@ Module.register("weather", {
 			"unit",
 			function (value, type) {
 				if (type === "temperature") {
-					if (this.config.tempUnits === "metric" || this.config.tempUnits === "imperial") {
-						value = this.convertTemp(value) + "°";
-					}
+					value = this.convertTemp(value) + "°";
 					if (this.config.degreeLabel) {
 						if (this.config.tempUnits === "metric") {
 							value += "C";
@@ -281,9 +281,7 @@ Module.register("weather", {
 				} else if (type === "humidity") {
 					value += "%";
 				} else if (type === "wind") {
-					if (this.config.windUnits === "metric" || this.config.tempUnits === "imperial") {
-						value = this.convertWind(value);
-					}
+					value = this.convertWind(value);
 				}
 				return value;
 			}.bind(this)
