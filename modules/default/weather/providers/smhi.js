@@ -18,7 +18,7 @@ WeatherProvider.register("smhi", {
 		lat: 0,
 		lon: 0,
 		precipitationValue: "pmedian",
-		location: false,
+		location: false
 	},
 
 	/**
@@ -109,14 +109,19 @@ WeatherProvider.register("smhi", {
 		return `https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/${lon}/lat/${lat}/data.json`;
 	},
 
-	/** Calculates the apparent temperature based on known atmospheric data. */
+	/**
+	 * Calculates the apparent temperature based on known atmospheric data.
+	 *
+	 * @param {object} weatherData Weatherdata to use for the calculation
+	 * @returns {number} The apparent temperature
+	 */
 	calculateApparentTemperature(weatherData) {
 		const Ta = this.paramValue(weatherData, "t");
 		const rh = this.paramValue(weatherData, "r");
 		const ws = this.paramValue(weatherData, "ws");
-		const p = (rh / 100) * 6.105 * Math.E * ((17.27 * Ta) / (237.7 + Ta))
+		const p = (rh / 100) * 6.105 * Math.E * ((17.27 * Ta) / (237.7 + Ta));
 
-		return Ta + 0.33 * p - 0.7 * ws - 4
+		return Ta + 0.33 * p - 0.7 * ws - 4;
 	},
 
 	/**
@@ -173,6 +178,7 @@ WeatherProvider.register("smhi", {
 	 *
 	 * @param {object[]} allWeatherData Array of weatherdata
 	 * @param {object} coordinates Coordinates of the locations of the weather
+	 * @param {string} groupBy The interval to use for grouping the data (day, hour)
 	 * @returns {WeatherObject[]} Array of weatherobjects
 	 */
 	convertWeatherDataGroupedBy(allWeatherData, coordinates, groupBy = "day") {
