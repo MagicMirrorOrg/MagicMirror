@@ -333,9 +333,9 @@ const CalendarUtils = {
 							// If the offset is negative (east of GMT), where the problem is
 							if (dateoffset < 0) {
 								if (dh < Math.abs(dateoffset / 60)) {
-									// if the rrule byweekday WAS explicitly set , correct it									
+									// if the rrule byweekday WAS explicitly set , correct it
 									// reduce the time by the offset
-									if(curEvent.rrule.origOptions.byweekday !== undefined){									
+									if (curEvent.rrule.origOptions.byweekday !== undefined) {
 										// Apply the correction to the date/time to get it UTC relative
 										date = new Date(date.getTime() - Math.abs(24 * 60) * 60000);
 									}
@@ -350,8 +350,8 @@ const CalendarUtils = {
 								// if the date hour is less than the offset
 								if (24 - dh <= Math.abs(dateoffset / 60)) {
 									// if the rrule byweekday WAS explicitly set , correct it
-									if(curEvent.rrule.origOptions.byweekday !== undefined){
-										if(curEvent.rrule.origOptions.byweekday !== undefined){
+									if (curEvent.rrule.origOptions.byweekday !== undefined) {
+										if (curEvent.rrule.origOptions.byweekday !== undefined) {
 											// apply the correction to the date/time back to right day
 											date = new Date(date.getTime() + Math.abs(24 * 60) * 60000);
 										}
@@ -370,7 +370,7 @@ const CalendarUtils = {
 								// if the date hour is less than the offset
 								if (dh <= Math.abs(dateoffset / 60)) {
 									// if the rrule byweekday WAS explicitly set , correct it
-									if(curEvent.rrule.origOptions.byweekday !== undefined){
+									if (curEvent.rrule.origOptions.byweekday !== undefined) {
 										// Reduce the time by t:
 										// Apply the correction to the date/time to get it UTC relative
 										date = new Date(date.getTime() - Math.abs(24 * 60) * 60000);
@@ -386,7 +386,7 @@ const CalendarUtils = {
 								// if the date hour is less than the offset
 								if (24 - dh <= Math.abs(dateoffset / 60)) {
 									// if the rrule byweekday WAS explicitly set , correct it
-									if(curEvent.rrule.origOptions.byweekday !== undefined){									
+									if (curEvent.rrule.origOptions.byweekday !== undefined) {
 										// apply the correction to the date/time back to right day
 										date = new Date(date.getTime() + Math.abs(24 * 60) * 60000);
 									}
