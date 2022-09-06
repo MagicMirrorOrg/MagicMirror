@@ -351,10 +351,8 @@ const CalendarUtils = {
 								if (24 - dh <= Math.abs(dateoffset / 60)) {
 									// if the rrule byweekday WAS explicitly set , correct it
 									if (curEvent.rrule.origOptions.byweekday !== undefined) {
-										if (curEvent.rrule.origOptions.byweekday !== undefined) {
-											// apply the correction to the date/time back to right day
-											date = new Date(date.getTime() + Math.abs(24 * 60) * 60000);
-										}
+										// apply the correction to the date/time back to right day
+										date = new Date(date.getTime() + Math.abs(24 * 60) * 60000);
 									}
 									// the duration was calculated way back at the top before we could correct the start time..
 									// fix it for this event entry
