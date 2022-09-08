@@ -7,8 +7,12 @@
   --font-primary: "Roboto Condensed";
   --font-secondary: "Roboto";
 
-  --font-size: 20px;
-  --font-size-small: 0.75rem;
+ 	--font-size: 20px;
+	--font-size-xsmall: 0.5rem;
+	--font-size-small: 0.75rem;
+	--font-size-medium: 1rem;
+	--font-size-large: 1.25rem;
+	--font-size-xlarge: 1.5rem;
 
   --gap-body-top: 60px;
   --gap-body-right: 60px;
@@ -60,27 +64,27 @@ body {
 }
 
 .xsmall {
-  font-size: var(--font-size-small);
+  font-size: var(--font-size-xsmall);
   line-height: 1.275;
 }
 
 .small {
-  font-size: 1rem;
+  font-size: var(--font-size-small);
   line-height: 1.25;
 }
 
 .medium {
-  font-size: 1.5rem;
+  font-size: var(--font-size-medium);
   line-height: 1.225;
 }
 
 .large {
-  font-size: 3.25rem;
+  font-size: var(--font-size-large);
   line-height: 1;
 }
 
 .xlarge {
-  font-size: 3.75rem;
+  font-size: var(--font-size-xlarge);
   line-height: 1;
   letter-spacing: -3px;
 }
