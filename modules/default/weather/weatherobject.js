@@ -18,13 +18,11 @@ class WeatherObject {
 	 * @param {string} units what units to use, "imperial" or "metric"
 	 * @param {string} tempUnits what tempunits to use
 	 * @param {string} windUnits what windunits to use
-	 * @param {boolean} useKmh use kmh if true, mps if false
 	 */
-	constructor(units, tempUnits, windUnits, useKmh) {
+	constructor(units, tempUnits, windUnits) {
 		this.units = units;
 		this.tempUnits = tempUnits;
 		this.windUnits = windUnits;
-		this.useKmh = useKmh;
 		this.date = null;
 		this.windSpeed = null;
 		this.windDirection = null;
@@ -112,10 +110,6 @@ class WeatherObject {
 		return kmh * 0.27777777777778;
 	}
 
-	kmhWindSpeed() {
-		return this.windUnits === "imperial" ? this.windSpeed * 1.609344 : (this.windSpeed * 60 * 60) / 1000;
-	}
-
 	nextSunAction() {
 		return moment().isBetween(this.sunrise, this.sunset) ? "sunset" : "sunrise";
 	}
@@ -124,8 +118,8 @@ class WeatherObject {
 		if (this.feelsLikeTemp) {
 			return this.feelsLikeTemp;
 		}
-		const windInMph = this.windUnits === "imperial" ? this.windSpeed : this.windSpeed * 2.23694;
-		const tempInF = this.tempUnits === "imperial" ? this.temperature : (this.temperature * 9) / 5 + 32;
+		const windInMph = this.windSpeed * 2.2369362920544;
+		const tempInF = (this.temperature * 9) / 5 + 32;
 		let feelsLike = tempInF;
 
 		if (windInMph > 3 && tempInF < 50) {

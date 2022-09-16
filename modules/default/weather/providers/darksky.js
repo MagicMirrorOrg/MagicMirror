@@ -67,7 +67,7 @@ WeatherProvider.register("darksky", {
 
 	// Implement WeatherDay generator.
 	generateWeatherDayFromCurrentWeather(currentWeatherData) {
-		const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
+		const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
 
 		currentWeather.date = moment();
 		currentWeather.humidity = parseFloat(currentWeatherData.currently.humidity);
@@ -85,7 +85,7 @@ WeatherProvider.register("darksky", {
 		const days = [];
 
 		for (const forecast of forecasts) {
-			const weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
+			const weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
 
 			weather.date = moment.unix(forecast.time);
 			weather.minTemperature = forecast.temperatureMin;

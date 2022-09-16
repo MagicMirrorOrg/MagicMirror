@@ -26,7 +26,7 @@ WeatherProvider.register("weatherflow", {
 	fetchCurrentWeather() {
 		this.fetchData(this.getUrl())
 			.then((data) => {
-				const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
+				const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
 				currentWeather.date = moment();
 
 				currentWeather.humidity = data.current_conditions.relative_humidity;
@@ -50,7 +50,7 @@ WeatherProvider.register("weatherflow", {
 				const days = [];
 
 				for (const forecast of data.forecast.daily) {
-					const weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
+					const weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
 
 					weather.date = moment.unix(forecast.day_start_local);
 					weather.minTemperature = forecast.air_temp_low;
