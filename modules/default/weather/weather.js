@@ -13,7 +13,6 @@ Module.register("weather", {
 		roundTemp: false,
 		type: "current", // current, forecast, daily (equivalent to forecast), hourly (only with OpenWeatherMap /onecall endpoint)
 		units: config.units,
-		useKmh: false,
 		tempUnits: config.units,
 		windUnits: config.units,
 		updateInterval: 10 * 60 * 1000, // every 10 minutes
@@ -23,7 +22,6 @@ Module.register("weather", {
 		showPeriodUpper: false,
 		showWindDirection: true,
 		showWindDirectionAsArrow: false,
-		useBeaufort: true,
 		lang: config.language,
 		showHumidity: false,
 		showSun: true,
@@ -76,6 +74,14 @@ Module.register("weather", {
 	// Start the weather module.
 	start: function () {
 		moment.locale(this.config.lang);
+
+		if (this.config.useKmh) {
+			console.warn("Your are using the deprecated config values 'useKmh'. Please switch to windUnits!");
+			this.windUnits = "kmh";
+		} else if (this.config.useBeaufort) {
+			console.warn("Your are using the deprecated config values 'useBeaufort'. Please switch to windUnits!");
+			this.windUnits = "beaufort";
+		}
 
 		// Initialize the weather provider.
 		this.weatherProvider = WeatherProvider.initialize(this.config.weatherProvider, this);
@@ -206,23 +212,27 @@ Module.register("weather", {
 	},
 
 	convertWind(windInMS) {
-		if (this.config.useBeaufort) {
-			return this.beaufortWindSpeed(windInMS);
-		} else if (this.config.useKmh) {
-			return (windInMS * 60 * 60) / 1000;
-		} else if (this.config.windUnits === "imperial") return windInMS * 2.23694;
-
-		return windInMS;
+		switch (this.config.windUnits) {
+			case "beaufort":
+				return this.beaufortWindSpeed(windInMS);
+			case "kmh":
+				return (windInMS * 3600) / 1000;
+			case "imperial":
+				return windInMS * 2.2369362920544;
+			case "metric":
+			default:
+				return windInMS;
+		}
 	},
 
 	/**
-	 * Convert wind (from m/s) if required
+	 * Convert wind (from m/s) to beaufort scale
 	 *
 	 * @param {number} speedInMS
 	 * @returns {number}
 	 */
 	beaufortWindSpeed(speedInMS) {
-		const windInKmh = this.config.windUnits === "imperial" ? speedInMS * 1.609344 : this.config.useKmh ? speedInMS : (speedInMS * 60 * 60) / 1000;
+		const windInKmh = (speedInMS * 3600) / 1000;
 		const speeds = [1, 5, 11, 19, 28, 38, 49, 61, 74, 88, 102, 117, 1000];
 		for (const [index, speed] of speeds.entries()) {
 			if (speed > windInKmh) {
