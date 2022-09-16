@@ -217,6 +217,8 @@ Module.register("weather", {
 				return this.beaufortWindSpeed(windInMS);
 			case "kmh":
 				return (windInMS * 3600) / 1000;
+			case "knots":
+				return windInMS * 1.943844;
 			case "imperial":
 				return windInMS * 2.2369362920544;
 			case "metric":
