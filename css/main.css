@@ -119,7 +119,7 @@ body {
 
 header {
   text-transform: uppercase;
-  font-size: var(--font-size-small);
+  font-size: var(--font-size-xsmall);
   font-family: var(--font-primary), Arial, Helvetica, sans-serif;
   font-weight: 400;
   border-bottom: 1px solid var(--color-text-dimmed);
