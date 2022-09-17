@@ -7,12 +7,12 @@
   --font-primary: "Roboto Condensed";
   --font-secondary: "Roboto";
 
- 	--font-size: 20px;
-	--font-size-xsmall: 0.75rem;
-	--font-size-small: 1rem;
-	--font-size-medium: 1.5rem;
-	--font-size-large: 3.25rem;
-	--font-size-xlarge: 3.75rem;
+  --font-size: 20px;
+  --font-size-xsmall: 0.75rem;
+  --font-size-small: 1rem;
+  --font-size-medium: 1.5rem;
+  --font-size-large: 3.25rem;
+  --font-size-xlarge: 3.75rem;
 
   --gap-body-top: 60px;
   --gap-body-right: 60px;
