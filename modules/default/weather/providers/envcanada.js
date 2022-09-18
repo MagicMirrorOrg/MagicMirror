@@ -146,7 +146,7 @@ WeatherProvider.register("envcanada", {
 	//
 
 	generateWeatherObjectFromCurrentWeather(ECdoc) {
-		const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+		const currentWeather = new WeatherObject();
 
 		// There are instances where EC will update weather data and current temperature will not be
 		// provided. While this is a defect in the EC systems, we need to accommodate to avoid a current temp
@@ -221,7 +221,7 @@ WeatherProvider.register("envcanada", {
 
 		const days = [];
 
-		const weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+		const weather = new WeatherObject();
 
 		const foreBaseDates = ECdoc.querySelectorAll("siteData forecastGroup dateTime");
 		const baseDate = foreBaseDates[1].querySelector("timeStamp").textContent;
@@ -331,7 +331,7 @@ WeatherProvider.register("envcanada", {
 		let lastDate = moment(baseDate, "YYYYMMDDhhmmss");
 
 		for (let stepDay = nextDay; stepDay < lastDay; stepDay += 2) {
-			let weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+			let weather = new WeatherObject();
 
 			// Add 1 to the date to reflect the current forecast day we are building
 
@@ -385,7 +385,7 @@ WeatherProvider.register("envcanada", {
 		const hourGroup = ECdoc.querySelectorAll("siteData hourlyForecastGroup hourlyForecast");
 
 		for (let stepHour = 0; stepHour < 24; stepHour += 1) {
-			const weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+			const weather = new WeatherObject();
 
 			// Determine local time by applying UTC offset to the forecast timestamp
 

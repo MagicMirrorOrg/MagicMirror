@@ -14,15 +14,8 @@
 class WeatherObject {
 	/**
 	 * Constructor for a WeatherObject
-	 *
-	 * @param {string} units what units to use, "imperial" or "metric"
-	 * @param {string} tempUnits what tempunits to use
-	 * @param {string} windUnits what windunits to use
 	 */
-	constructor(units, tempUnits, windUnits) {
-		this.units = units;
-		this.tempUnits = tempUnits;
-		this.windUnits = windUnits;
+	constructor() {
 		this.date = null;
 		this.windSpeed = null;
 		this.windDirection = null;
@@ -137,7 +130,7 @@ class WeatherObject {
 				1.99 * Math.pow(10, -6) * tempInF * tempInF * this.humidity * this.humidity;
 		}
 
-		return this.tempUnits === "imperial" ? feelsLike : ((feelsLike - 32) * 5) / 9;
+		return ((feelsLike - 32) * 5) / 9;
 	}
 
 	/**

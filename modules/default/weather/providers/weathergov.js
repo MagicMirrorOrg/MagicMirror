@@ -201,7 +201,7 @@ WeatherProvider.register("weathergov", {
 	 * ... object needs data in units based on config!
 	 */
 	generateWeatherObjectFromCurrentWeather(currentWeatherData) {
-		const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+		const currentWeather = new WeatherObject();
 
 		currentWeather.date = moment(currentWeatherData.timestamp);
 		currentWeather.temperature = currentWeatherData.temperature.value;
@@ -247,7 +247,7 @@ WeatherProvider.register("weathergov", {
 		let maxTemp = [];
 		// variable for date
 		let date = "";
-		let weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+		let weather = new WeatherObject();
 		weather.precipitation = 0;
 
 		for (const forecast of forecasts) {
@@ -259,7 +259,7 @@ WeatherProvider.register("weathergov", {
 				// push weather information to days array
 				days.push(weather);
 				// create new weather-object
-				weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+				weather = new WeatherObject();
 
 				minTemp = [];
 				maxTemp = [];
