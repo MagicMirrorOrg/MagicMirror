@@ -100,7 +100,7 @@ WeatherProvider.register("weatherbit", {
 		let tzOffset = d.getTimezoneOffset();
 		tzOffset = tzOffset * -1;
 
-		const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+		const currentWeather = new WeatherObject();
 
 		currentWeather.date = moment.unix(currentWeatherData.data[0].ts);
 		currentWeather.humidity = parseFloat(currentWeatherData.data[0].rh);
@@ -120,7 +120,7 @@ WeatherProvider.register("weatherbit", {
 		const days = [];
 
 		for (const forecast of forecasts) {
-			const weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+			const weather = new WeatherObject();
 
 			weather.date = moment(forecast.datetime, "YYYY-MM-DD");
 			weather.minTemperature = forecast.min_temp;

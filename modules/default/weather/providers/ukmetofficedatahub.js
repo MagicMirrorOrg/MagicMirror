@@ -112,7 +112,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 
 	// Create a WeatherObject using current weather data (data for the current hour)
 	generateWeatherObjectFromCurrentWeather(currentWeatherData) {
-		const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+		const currentWeather = new WeatherObject();
 
 		// Extract the actual forecasts
 		let forecastDataHours = currentWeatherData.features[0].properties.timeSeries;
@@ -191,7 +191,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 
 		// Go through each day in the forecasts
 		for (let day in forecastDataDays) {
-			const forecastWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+			const forecastWeather = new WeatherObject();
 
 			// Get date of forecast
 			let forecastDate = moment.utc(forecastDataDays[day].time);

@@ -75,7 +75,7 @@ WeatherProvider.register("ukmetoffice", {
 	 * Generate a WeatherObject based on currentWeatherInformation
 	 */
 	generateWeatherObjectFromCurrentWeather(currentWeatherData) {
-		const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+		const currentWeather = new WeatherObject();
 		const location = currentWeatherData.SiteRep.DV.Location;
 
 		// data times are always UTC
@@ -125,7 +125,7 @@ WeatherProvider.register("ukmetoffice", {
 		// loop round the (5) periods getting the data
 		// for each period array, Day is [0], Night is [1]
 		for (const period of forecasts.SiteRep.DV.Location.Period) {
-			const weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+			const weather = new WeatherObject();
 
 			// data times are always UTC
 			const dateStr = period.value;
