@@ -30,6 +30,7 @@ _This release is scheduled to be released on 2022-10-01._
 - Fix multi day calendar events always presented as "(1/X)" instead of the amount of days the event has progressed.
 - Fix weatherbit provider to use type config value instead of endpoint
 - Fix calendar events which DO NOT specify rrule byday adjusted incorrectly #2885
+- Fix e2e tests not failing on errors (#2911)
 
 ## [2.20.0] - 2022-07-02
 
