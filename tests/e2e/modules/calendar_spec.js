@@ -70,45 +70,33 @@ describe("Calendar module", () => {
 		});
 	});
 
-	// todo: recurring event tests not working since upgrade to node-ical v0.15.1 (versions v0.14.1 and before are o.k.)
-	// [19.09.2022 21:08.00.279] [ERROR] Calendar Error. Could not fetch calendar:  http://localhost:8080/tests/configs/data/calendar_test_recurring.ics TypeError: curr.start.getTime is not a function
-	// at Object.originalEnd (/opt/magic_mirror/node_modules/node-ical/ical.js:423:44)
-	// at Object.END (/opt/magic_mirror/node_modules/node-ical/ical.js:602:26)
-	// at Object.handleObject (/opt/magic_mirror/node_modules/node-ical/ical.js:634:39)
-	// at Object.parseLines (/opt/magic_mirror/node_modules/node-ical/ical.js:686:18)
-	// at Object.parseICS (/opt/magic_mirror/node_modules/node-ical/ical.js:722:18)
-	// at sync.parseICS (/opt/magic_mirror/node_modules/node-ical/node-ical.js:198:15)
-	// at autodetect.parseICS (/opt/magic_mirror/node_modules/node-ical/node-ical.js:229:17)
-	// at /opt/magic_mirror/modules/default/calendar/calendarfetcher.js:72:18
-	// at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+	describe("Recurring event", () => {
+		beforeAll((done) => {
+			helpers.startApplication("tests/configs/modules/calendar/recurring.js");
+			helpers.getDocument(done);
+		});
 
-	// describe("Recurring event", () => {
-	// 	beforeAll((done) => {
-	// 		helpers.startApplication("tests/configs/modules/calendar/recurring.js");
-	// 		helpers.getDocument(done);
-	// 	});
+		it("should show the recurring birthday event 6 times", (done) => {
+			testElementLength(done, ".calendar .event", 6);
+		});
+	});
 
-	// 	it("should show the recurring birthday event 6 times", (done) => {
-	// 		testElementLength(done, ".calendar .event", 6);
-	// 	});
-	// });
+	process.setMaxListeners(0);
+	for (let i = -12; i < 12; i++) {
+		describe("Recurring event per timezone", () => {
+			beforeAll((done) => {
+				Date.prototype.getTimezoneOffset = () => {
+					return i * 60;
+				};
+				helpers.startApplication("tests/configs/modules/calendar/recurring.js");
+				helpers.getDocument(done);
+			});
 
-	// process.setMaxListeners(0);
-	// for (let i = -12; i < 12; i++) {
-	// 	describe("Recurring event per timezone", () => {
-	// 		beforeAll((done) => {
-	// 			Date.prototype.getTimezoneOffset = () => {
-	// 				return i * 60;
-	// 			};
-	// 			helpers.startApplication("tests/configs/modules/calendar/recurring.js");
-	// 			helpers.getDocument(done);
-	// 		});
-
-	// 		it('should contain text "Mar 25th" in timezone UTC ' + -i, (done) => {
-	// 			testTextContain(done, ".calendar", "Mar 25th");
-	// 		});
-	// 	});
-	// }
+			it('should contain text "Mar 25th" in timezone UTC ' + -i, (done) => {
+				testTextContain(done, ".calendar", "Mar 25th");
+			});
+		});
+	}
 
 	describe("Changed port", () => {
 		beforeAll((done) => {
