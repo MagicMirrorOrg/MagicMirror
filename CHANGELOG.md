@@ -16,6 +16,10 @@ _This release is scheduled to be released on 2022-10-01._
 - New `showTimeToday` option in calendar module shows time for current-day events even if `timeFormat` is `"relative"`
 - Add hourly forecasts, apparent temperature & custom location name to SMHI weather provider
 
+## Removed
+
+- old weather modules `currentweather` and `weatherforecast`
+
 ## Updated
 
 - Removed DAYAFTERTOMORROW from English
