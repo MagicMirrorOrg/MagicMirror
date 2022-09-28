@@ -19,7 +19,7 @@ _This release is scheduled to be released on 2022-10-01._
 ## Updated
 
 - Removed DAYAFTERTOMORROW from English
-- Update dependencies
+- Update dependencies.
 - Updated jsdoc
 - Updated font tree to use variables consistantly
 
