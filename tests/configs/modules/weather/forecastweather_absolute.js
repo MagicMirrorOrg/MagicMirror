@@ -12,7 +12,7 @@ let config = {
 			position: "bottom_bar",
 			config: {
 				type: "forecast",
-				location: "Munich",
+				location: "Cologne",
 				mockData: '"#####WEATHERDATA#####"',
 				weatherEndpoint: "/forecast/daily",
 				absoluteDates: true

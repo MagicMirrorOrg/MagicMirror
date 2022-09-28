@@ -19,7 +19,7 @@ let config = {
 			module: "weather",
 			position: "bottom_bar",
 			config: {
-				location: "Munich",
+				location: "Cologne",
 				mockData: '"#####WEATHERDATA#####"'
 			}
 		}

@@ -20,7 +20,7 @@
             {% endif %}
             {% if config.showSun %}
                 <span class="wi dimmed wi-{{ current.nextSunAction() }}"></span>
-                <span>
+                <span class="sunaction">
                     {% if current.nextSunAction() === "sunset" %}
                         {{ current.sunset | formatTime }}
                     {% else %}
