@@ -74,7 +74,7 @@ WeatherProvider.register("envcanada", {
 	// Override the fetchCurrentWeather method to query EC and construct a Current weather object
 	//
 	fetchCurrentWeather() {
-		this.fetchData(this.getUrl(), "GET", "xml")
+		this.fetchData(this.getUrl(), "xml")
 			.then((data) => {
 				if (!data) {
 					// Did not receive usable new data.
@@ -94,7 +94,7 @@ WeatherProvider.register("envcanada", {
 	// Override the fetchWeatherForecast method to query EC and construct Forecast weather objects
 	//
 	fetchWeatherForecast() {
-		this.fetchData(this.getUrl(), "GET", "xml")
+		this.fetchData(this.getUrl(), "xml")
 			.then((data) => {
 				if (!data) {
 					// Did not receive usable new data.
@@ -114,7 +114,7 @@ WeatherProvider.register("envcanada", {
 	// Override the fetchWeatherHourly method to query EC and construct Forecast weather objects
 	//
 	fetchWeatherHourly() {
-		this.fetchData(this.getUrl(), "GET", "xml")
+		this.fetchData(this.getUrl(), "xml")
 			.then((data) => {
 				if (!data) {
 					// Did not receive usable new data.
