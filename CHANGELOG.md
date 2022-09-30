@@ -35,6 +35,7 @@ _This release is scheduled to be released on 2022-10-01._
 - Fix weatherbit provider to use type config value instead of endpoint
 - Fix calendar events which DO NOT specify rrule byday adjusted incorrectly #2885
 - Fix e2e tests not failing on errors (#2911)
+- Ongoing multi-day events display time until end instead of "Today"
 
 ## [2.20.0] - 2022-07-02
 
