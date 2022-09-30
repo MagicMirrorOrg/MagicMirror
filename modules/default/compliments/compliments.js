@@ -39,7 +39,7 @@ Module.register("compliments", {
 		this.lastComplimentIndex = -1;
 
 		if (this.config.remoteFile !== null) {
-			this.complimentFile((response) => {
+			this.loadComplimentFile().then((response) => {
 				this.config.compliments = JSON.parse(response);
 				this.updateDom();
 			});
@@ -117,20 +117,13 @@ Module.register("compliments", {
 	/**
 	 * Retrieve a file from the local filesystem
 	 *
-	 * @param {Function} callback Called when the file is retrieved.
+	 * @returns {Promise} Resolved when the file is loaded
 	 */
-	complimentFile: function (callback) {
-		const xobj = new XMLHttpRequest(),
-			isRemote = this.config.remoteFile.indexOf("http://") === 0 || this.config.remoteFile.indexOf("https://") === 0,
-			path = isRemote ? this.config.remoteFile : this.file(this.config.remoteFile);
-		xobj.overrideMimeType("application/json");
-		xobj.open("GET", path, true);
-		xobj.onreadystatechange = function () {
-			if (xobj.readyState === 4 && xobj.status === 200) {
-				callback(xobj.responseText);
-			}
-		};
-		xobj.send(null);
+	loadComplimentFile: async function () {
+		const isRemote = this.config.remoteFile.indexOf("http://") === 0 || this.config.remoteFile.indexOf("https://") === 0,
+			url = isRemote ? this.config.remoteFile : this.file(this.config.remoteFile);
+		const response = await fetch(url);
+		return await response.text();
 	},
 
 	/**
