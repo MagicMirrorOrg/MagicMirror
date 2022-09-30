@@ -366,7 +366,7 @@ Module.register("calendar", {
 					}
 				} else {
 					// Show relative times
-					if (event.startDate >= now || (event.fullDayEvent && event.today)) {
+					if (event.startDate >= now || (event.fullDayEvent && event.today && !event.multiDay)) {
 						// Use relative  time
 						if (!this.config.hideTime && !event.fullDayEvent) {
 							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").calendar(null, { sameElse: this.config.dateFormat }));
@@ -527,7 +527,8 @@ Module.register("calendar", {
 				 * otherwise, esp. in dateheaders mode it is not clear how long these events are.
 				 */
 				const maxCount = Math.ceil((event.endDate - 1 - moment(event.startDate, "x").endOf("day").format("x")) / (1000 * 60 * 60 * 24)) + 1;
-				if (this.config.sliceMultiDayEvents && maxCount > 1) {
+				event.multiDay = maxCount > 1 ? true : false;
+				if (this.config.sliceMultiDayEvents && event.multiDay) {
 					const splitEvents = [];
 					let midnight = moment(event.startDate, "x").clone().startOf("day").add(1, "day").format("x");
 					let count = 1;
