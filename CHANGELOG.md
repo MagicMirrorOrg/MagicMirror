@@ -5,22 +5,34 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror².
 
+## [2.22.0] - Unreleased (Develop)
+
+_This release is scheduled to be released on 2023-01-01._
+
+### Added
+
+### Removed
+
+### Updated
+
+### Fixed
+
 ## [2.21.0] - 2022-10-01
 
 Special thanks to: @BKeyport, @buxxi, @davide125, @khassel, @kolbyjack, @krukle, @MikeBishop, @rejas, @sdetweil, @SkySails and @veeck
 
-## Added
+### Added
 
 - Possibility to fetch calendars through socket notifications.
 - New scripts `install-mm` (and `install-mm:dev`) for simplifying mm installation (now: `npm run install-mm`) and adding params `--no-audit --no-fund --no-update-notifier` for less noise.
 - New `showTimeToday` option in calendar module shows time for current-day events even if `timeFormat` is `"relative"`.
 - Add hourly forecasts, apparent temperature & custom location name to SMHI weather provider.
 
-## Removed
+### Removed
 
 - Old weather deprecated modules `currentweather` and `weatherforecast`.
 
-## Updated
+### Updated
 
 - Removed `DAYAFTERTOMORROW` from English.
 - Update dependencies.
@@ -28,7 +40,7 @@ Special thanks to: @BKeyport, @buxxi, @davide125, @khassel, @kolbyjack, @krukle,
 - Updated font tree to use variables consistantly.
 - Removed deprecated Docker Repository from issue template.
 
-## Fixed
+### Fixed
 
 - Broadcast all calendar events while still honoring global and per-calendar maximumEntries.
 - Respect rss ttl provided by newsfeed (#2883).
