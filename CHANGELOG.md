@@ -5,37 +5,37 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror².
 
-## [2.21.0] - Unreleased (develop)
+## [2.21.0] - 2022-10-01
 
-_This release is scheduled to be released on 2022-10-01._
+Special thanks to: @BKeyport, @buxxi, @davide125, @khassel, @kolbyjack, @krukle, @MikeBishop, @rejas, @sdetweil, @SkySails and @veeck
 
 ## Added
 
 - Possibility to fetch calendars through socket notifications.
 - New scripts `install-mm` (and `install-mm:dev`) for simplifying mm installation (now: `npm run install-mm`) and adding params `--no-audit --no-fund --no-update-notifier` for less noise.
-- New `showTimeToday` option in calendar module shows time for current-day events even if `timeFormat` is `"relative"`
-- Add hourly forecasts, apparent temperature & custom location name to SMHI weather provider
+- New `showTimeToday` option in calendar module shows time for current-day events even if `timeFormat` is `"relative"`.
+- Add hourly forecasts, apparent temperature & custom location name to SMHI weather provider.
 
 ## Removed
 
-- old weather modules `currentweather` and `weatherforecast`
+- Old weather deprecated modules `currentweather` and `weatherforecast`.
 
 ## Updated
 
-- Removed DAYAFTERTOMORROW from English
+- Removed `DAYAFTERTOMORROW` from English.
 - Update dependencies.
-- Updated jsdoc
-- Updated font tree to use variables consistantly
-- Removed deprecated Docker Repository from issue template
+- Updated jsdoc.
+- Updated font tree to use variables consistantly.
+- Removed deprecated Docker Repository from issue template.
 
 ## Fixed
 
 - Broadcast all calendar events while still honoring global and per-calendar maximumEntries.
 - Respect rss ttl provided by newsfeed (#2883).
 - Fix multi day calendar events always presented as "(1/X)" instead of the amount of days the event has progressed.
-- Fix weatherbit provider to use type config value instead of endpoint
-- Fix calendar events which DO NOT specify rrule byday adjusted incorrectly #2885
-- Fix e2e tests not failing on errors (#2911)
+- Fix weatherbit provider to use type config value instead of endpoint.
+- Fix calendar events which DO NOT specify rrule byday adjusted incorrectly (#2885).
+- Fix e2e tests not failing on errors (#2911).
 
 ## [2.20.0] - 2022-07-02
 
