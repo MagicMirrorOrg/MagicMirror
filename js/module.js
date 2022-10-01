@@ -288,7 +288,7 @@ const Module = Class.extend({
 		const loadNextDependency = () => {
 			if (dependencies.length > 0) {
 				const nextDependency = dependencies[0];
-				Loader.loadFile(nextDependency, this, () => {
+				Loader.loadFile(nextDependency, this).then(() => {
 					dependencies = dependencies.slice(1);
 					loadNextDependency();
 				});
