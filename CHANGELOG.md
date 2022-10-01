@@ -26,6 +26,7 @@ _This release is scheduled to be released on 2022-10-01._
 - Update dependencies.
 - Updated jsdoc
 - Updated font tree to use variables consistantly
+- Removed deprecated Docker Repository from issue template
 
 ## Fixed
 
