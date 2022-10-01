@@ -333,9 +333,12 @@ const CalendarUtils = {
 							// If the offset is negative (east of GMT), where the problem is
 							if (dateoffset < 0) {
 								if (dh < Math.abs(dateoffset / 60)) {
+									// if the rrule byweekday WAS explicitly set , correct it
 									// reduce the time by the offset
-									// Apply the correction to the date/time to get it UTC relative
-									date = new Date(date.getTime() - Math.abs(24 * 60) * 60000);
+									if (curEvent.rrule.origOptions.byweekday !== undefined) {
+										// Apply the correction to the date/time to get it UTC relative
+										date = new Date(date.getTime() - Math.abs(24 * 60) * 60000);
+									}
 									// the duration was calculated way back at the top before we could correct the start time..
 									// fix it for this event entry
 									//duration = 24 * 60 * 60 * 1000;
@@ -346,8 +349,11 @@ const CalendarUtils = {
 								//if (event.start.tz === moment.tz.guess()) {
 								// if the date hour is less than the offset
 								if (24 - dh <= Math.abs(dateoffset / 60)) {
-									// apply the correction to the date/time back to right day
-									date = new Date(date.getTime() + Math.abs(24 * 60) * 60000);
+									// if the rrule byweekday WAS explicitly set , correct it
+									if (curEvent.rrule.origOptions.byweekday !== undefined) {
+										// apply the correction to the date/time back to right day
+										date = new Date(date.getTime() + Math.abs(24 * 60) * 60000);
+									}
 									// the duration was calculated way back at the top before we could correct the start time..
 									// fix it for this event entry
 									//duration = 24 * 60 * 60 * 1000;
@@ -361,9 +367,12 @@ const CalendarUtils = {
 							if (dateoffset < 0) {
 								// if the date hour is less than the offset
 								if (dh <= Math.abs(dateoffset / 60)) {
-									// Reduce the time by the offset:
-									// Apply the correction to the date/time to get it UTC relative
-									date = new Date(date.getTime() - Math.abs(24 * 60) * 60000);
+									// if the rrule byweekday WAS explicitly set , correct it
+									if (curEvent.rrule.origOptions.byweekday !== undefined) {
+										// Reduce the time by t:
+										// Apply the correction to the date/time to get it UTC relative
+										date = new Date(date.getTime() - Math.abs(24 * 60) * 60000);
+									}
 									// the duration was calculated way back at the top before we could correct the start time..
 									// fix it for this event entry
 									//duration = 24 * 60 * 60 * 1000;
@@ -374,8 +383,11 @@ const CalendarUtils = {
 								//if (event.start.tz === moment.tz.guess()) {
 								// if the date hour is less than the offset
 								if (24 - dh <= Math.abs(dateoffset / 60)) {
-									// apply the correction to the date/time back to right day
-									date = new Date(date.getTime() + Math.abs(24 * 60) * 60000);
+									// if the rrule byweekday WAS explicitly set , correct it
+									if (curEvent.rrule.origOptions.byweekday !== undefined) {
+										// apply the correction to the date/time back to right day
+										date = new Date(date.getTime() + Math.abs(24 * 60) * 60000);
+									}
 									// the duration was calculated way back at the top before we could correct the start time..
 									// fix it for this event entry
 									//duration = 24 * 60 * 60 * 1000;
@@ -469,10 +481,6 @@ const CalendarUtils = {
 						return;
 					}
 
-					// Adjust start date so multiple day events will be displayed as happening today even though they started some days ago already
-					if (fullDayEvent && startDate <= today && endDate > today) {
-						startDate = moment(today);
-					}
 					// if the start and end are the same, then make end the 'end of day' value (start is at 00:00:00)
 					if (fullDayEvent && startDate.format("x") === endDate.format("x")) {
 						endDate = endDate.endOf("day");
@@ -498,8 +506,7 @@ const CalendarUtils = {
 			return a.startDate - b.startDate;
 		});
 
-		let maxEvents = newEvents.slice(0, config.maximumEntries);
-		return maxEvents;
+		return newEvents;
 	},
 
 	/**

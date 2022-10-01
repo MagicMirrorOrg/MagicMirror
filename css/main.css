@@ -8,7 +8,11 @@
   --font-secondary: "Roboto";
 
   --font-size: 20px;
-  --font-size-small: 0.75rem;
+  --font-size-xsmall: 0.75rem;
+  --font-size-small: 1rem;
+  --font-size-medium: 1.5rem;
+  --font-size-large: 3.25rem;
+  --font-size-xlarge: 3.75rem;
 
   --gap-body-top: 60px;
   --gap-body-right: 60px;
@@ -60,27 +64,27 @@ body {
 }
 
 .xsmall {
-  font-size: var(--font-size-small);
+  font-size: var(--font-size-xsmall);
   line-height: 1.275;
 }
 
 .small {
-  font-size: 1rem;
+  font-size: var(--font-size-small);
   line-height: 1.25;
 }
 
 .medium {
-  font-size: 1.5rem;
+  font-size: var(--font-size-medium);
   line-height: 1.225;
 }
 
 .large {
-  font-size: 3.25rem;
+  font-size: var(--font-size-large);
   line-height: 1;
 }
 
 .xlarge {
-  font-size: 3.75rem;
+  font-size: var(--font-size-xlarge);
   line-height: 1;
   letter-spacing: -3px;
 }
@@ -115,7 +119,7 @@ body {
 
 header {
   text-transform: uppercase;
-  font-size: var(--font-size-small);
+  font-size: var(--font-size-xsmall);
   font-family: var(--font-primary), Arial, Helvetica, sans-serif;
   font-weight: 400;
   border-bottom: 1px solid var(--color-text-dimmed);

@@ -37,6 +37,7 @@ Module.register("calendar", {
 		hidePrivate: false,
 		hideOngoing: false,
 		hideTime: false,
+		showTimeToday: false,
 		colored: false,
 		coloredSymbolOnly: false,
 		customEvents: [], // Array of {keyword: "", symbol: "", color: ""} where Keyword is a regexp and symbol/color are to be applied for matched
@@ -133,6 +134,10 @@ Module.register("calendar", {
 
 	// Override socket notification handler.
 	socketNotificationReceived: function (notification, payload) {
+		if (notification === "FETCH_CALENDAR") {
+			this.sendSocketNotification(notification, { url: payload.url, id: this.identifier });
+		}
+
 		if (this.identifier !== payload.id) {
 			return;
 		}
@@ -368,7 +373,7 @@ Module.register("calendar", {
 						} else {
 							timeWrapper.innerHTML = this.capFirst(
 								moment(event.startDate, "x").calendar(null, {
-									sameDay: "[" + this.translate("TODAY") + "]",
+									sameDay: this.config.showTimeToday ? "LT" : "[" + this.translate("TODAY") + "]",
 									nextDay: "[" + this.translate("TOMORROW") + "]",
 									nextWeek: "dddd",
 									sameElse: event.fullDayEvent ? this.config.fullDayEventDateFormat : this.config.dateFormat
@@ -493,6 +498,7 @@ Module.register("calendar", {
 
 		for (const calendarUrl in this.calendarData) {
 			const calendar = this.calendarData[calendarUrl];
+			let remainingEntries = this.maximumEntriesForUrl(calendarUrl);
 			for (const e in calendar) {
 				const event = JSON.parse(JSON.stringify(calendar[e])); // clone object
 
@@ -509,6 +515,9 @@ Module.register("calendar", {
 					}
 					if (this.listContainsEvent(events, event)) {
 						continue;
+					}
+					if (--remainingEntries < 0) {
+						break;
 					}
 				}
 				event.url = calendarUrl;
@@ -716,6 +725,16 @@ Module.register("calendar", {
 	 */
 	countTitleForUrl: function (url) {
 		return this.getCalendarProperty(url, "repeatingCountTitle", this.config.defaultRepeatingCountTitle);
+	},
+
+	/**
+	 * Retrieves the maximum entry count for a specific calendar url.
+	 *
+	 * @param {string} url The calendar url
+	 * @returns {number} The maximum entry count
+	 */
+	maximumEntriesForUrl: function (url) {
+		return this.getCalendarProperty(url, "maximumEntries", this.config.maximumEntries);
 	},
 
 	/**

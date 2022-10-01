@@ -3,87 +3,95 @@ const helpers = require("../global-setup");
 /**
  * move similar tests in function doTest
  *
+ * @param {string} done test done
  * @param {Array} complimentsArray The array of compliments.
  */
-function doTest(complimentsArray) {
+const doTest = (done, complimentsArray) => {
 	helpers.waitForElement(".compliments").then((elem) => {
 		expect(elem).not.toBe(null);
 		helpers.waitForElement(".module-content").then((elem) => {
+			done();
 			expect(elem).not.toBe(null);
 			expect(complimentsArray).toContain(elem.textContent);
 		});
 	});
-}
+};
 
-describe("Compliments module", function () {
-	afterAll(async function () {
+describe("Compliments module", () => {
+	afterAll(async () => {
 		await helpers.stopApplication();
 	});
 
-	describe("parts of days", function () {
-		beforeAll(function (done) {
+	describe("parts of days", () => {
+		beforeAll((done) => {
 			helpers.startApplication("tests/configs/modules/compliments/compliments_parts_day.js");
 			helpers.getDocument(done);
 		});
 
-		it("if Morning compliments for that part of day", function () {
+		it("if Morning compliments for that part of day", (done) => {
 			const hour = new Date().getHours();
 			if (hour >= 3 && hour < 12) {
 				// if morning check
-				doTest(["Hi", "Good Morning", "Morning test"]);
+				doTest(done, ["Hi", "Good Morning", "Morning test"]);
+			} else {
+				done();
 			}
 		});
 
-		it("if Afternoon show Compliments for that part of day", function () {
+		it("if Afternoon show Compliments for that part of day", (done) => {
 			const hour = new Date().getHours();
 			if (hour >= 12 && hour < 17) {
 				// if afternoon check
-				doTest(["Hello", "Good Afternoon", "Afternoon test"]);
+				doTest(done, ["Hello", "Good Afternoon", "Afternoon test"]);
+			} else {
+				done();
 			}
 		});
 
-		it("if Evening show Compliments for that part of day", function () {
+		it("if Evening show Compliments for that part of day", (done) => {
 			const hour = new Date().getHours();
 			if (!(hour >= 3 && hour < 12) && !(hour >= 12 && hour < 17)) {
 				// if evening check
-				doTest(["Hello There", "Good Evening", "Evening test"]);
+				doTest(done, ["Hello There", "Good Evening", "Evening test"]);
+			} else {
+				done();
 			}
 		});
 	});
 
-	describe("Feature anytime in compliments module", function () {
-		describe("Set anytime and empty compliments for morning, evening and afternoon ", function () {
-			beforeAll(function (done) {
+	describe("Feature anytime in compliments module", () => {
+		describe("Set anytime and empty compliments for morning, evening and afternoon ", () => {
+			beforeAll((done) => {
 				helpers.startApplication("tests/configs/modules/compliments/compliments_anytime.js");
 				helpers.getDocument(done);
 			});
 
-			it("Show anytime because if configure empty parts of day compliments and set anytime compliments", function () {
-				doTest(["Anytime here"]);
+			it("Show anytime because if configure empty parts of day compliments and set anytime compliments", (done) => {
+				doTest(done, ["Anytime here"]);
 			});
 		});
 
-		describe("Only anytime present in configuration compliments", function () {
-			beforeAll(function (done) {
+		describe("Only anytime present in configuration compliments", () => {
+			beforeAll((done) => {
 				helpers.startApplication("tests/configs/modules/compliments/compliments_only_anytime.js");
 				helpers.getDocument(done);
 			});
 
-			it("Show anytime compliments", function () {
-				doTest(["Anytime here"]);
+			it("Show anytime compliments", (done) => {
+				doTest(done, ["Anytime here"]);
 			});
 		});
 	});
 
-	describe("Feature date in compliments module", function () {
-		describe("Set date and empty compliments for anytime, morning, evening and afternoon", function () {
-			beforeAll(function (done) {
+	describe("Feature date in compliments module", () => {
+		describe("Set date and empty compliments for anytime, morning, evening and afternoon", () => {
+			beforeAll((done) => {
 				helpers.startApplication("tests/configs/modules/compliments/compliments_date.js");
 				helpers.getDocument(done);
 			});
 
-			it("Show happy new year compliment on new years day", function () {
-				doTest(["Happy new year!"]);
+			it("Show happy new year compliment on new years day", (done) => {
+				doTest(done, ["Happy new year!"]);
 			});
 		});
 	});
