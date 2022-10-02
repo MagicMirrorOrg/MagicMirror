@@ -1,7 +1,7 @@
 const helpers = require("./global-setup");
 
 describe("Display of modules", () => {
-	beforeAll(function (done) {
+	beforeAll((done) => {
 		helpers.startApplication("tests/configs/modules/display.js");
 		helpers.getDocument(done);
 	});

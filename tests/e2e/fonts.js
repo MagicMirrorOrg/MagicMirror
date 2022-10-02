@@ -1,6 +1,6 @@
 const helpers = require("./global-setup");
 
-describe("All font files from roboto.css should be downloadable", function () {
+describe("All font files from roboto.css should be downloadable", () => {
 	const fontFiles = [];
 	// Statements below filters out all 'url' lines in the CSS file
 	const fileContent = require("fs").readFileSync(__dirname + "/../../fonts/roboto.css", "utf8");
@@ -13,10 +13,10 @@ describe("All font files from roboto.css should be downloadable", function () {
 		match = regex.exec(fileContent);
 	}
 
-	beforeAll(function () {
+	beforeAll(() => {
 		helpers.startApplication("tests/configs/without_modules.js");
 	});
-	afterAll(async function () {
+	afterAll(async () => {
 		await helpers.stopApplication();
 	});
 

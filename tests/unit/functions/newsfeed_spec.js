@@ -1,12 +1,12 @@
-describe("Functions into modules/default/newsfeed/newsfeed.js", function () {
+describe("Functions into modules/default/newsfeed/newsfeed.js", () => {
 	// Fake for use by newsletter.js
 	Module = {};
 	Module.definitions = {};
-	Module.register = function (name, moduleDefinition) {
+	Module.register = (name, moduleDefinition) => {
 		Module.definitions[name] = moduleDefinition;
 	};
 
-	beforeAll(function () {
+	beforeAll(() => {
 		// load newsfeed.js
 		require("../../../modules/default/newsfeed/newsfeed.js");
 	});

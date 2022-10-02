@@ -6,13 +6,13 @@ const { JSDOM } = require("jsdom");
 const express = require("express");
 const sinon = require("sinon");
 
-describe("Translations", function () {
+describe("Translations", () => {
 	let server;
 
-	beforeAll(function () {
+	beforeAll(() => {
 		const app = express();
 		app.use(helmet());
-		app.use(function (req, res, next) {
+		app.use((req, res, next) => {
 			res.header("Access-Control-Allow-Origin", "*");
 			next();
 		});
@@ -21,11 +21,11 @@ describe("Translations", function () {
 		server = app.listen(3000);
 	});
 
-	afterAll(function () {
+	afterAll(() => {
 		server.close();
 	});
 
-	it("should have a translation file in the specified path", function () {
+	it("should have a translation file in the specified path", () => {
 		for (let language in translations) {
 			const file = fs.statSync(translations[language]);
 			expect(file.isFile()).toBe(true);
@@ -37,7 +37,7 @@ describe("Translations", function () {
 
 		beforeEach(() => {
 			dom = new JSDOM(
-				`<script>var Translator = {}; var Log = {log: function(){}}; var config = {language: 'de'};</script>\
+				`<script>var Translator = {}; var Log = {log: () => {}}; var config = {language: 'de'};</script>\
 					<script src="file://${path.join(__dirname, "..", "..", "js", "class.js")}"></script>\
 					<script src="file://${path.join(__dirname, "..", "..", "js", "module.js")}"></script>`,
 				{ runScripts: "dangerously", resources: "usable" }
@@ -45,7 +45,7 @@ describe("Translations", function () {
 		});
 
 		it("should load translation file", (done) => {
-			dom.window.onload = async function () {
+			dom.window.onload = async () => {
 				const { Translator, Module, config } = dom.window;
 				config.language = "en";
 				Translator.load = sinon.stub().callsFake((_m, _f, _fb, callback) => callback());
@@ -65,7 +65,7 @@ describe("Translations", function () {
 		});
 
 		it("should load translation + fallback file", (done) => {
-			dom.window.onload = async function () {
+			dom.window.onload = async () => {
 				const { Translator, Module } = dom.window;
 				Translator.load = sinon.stub().callsFake((_m, _f, _fb, callback) => callback());
 
@@ -85,7 +85,7 @@ describe("Translations", function () {
 		});
 
 		it("should load translation fallback file", (done) => {
-			dom.window.onload = async function () {
+			dom.window.onload = async () => {
 				const { Translator, Module, config } = dom.window;
 				config.language = "--";
 				Translator.load = sinon.stub().callsFake((_m, _f, _fb, callback) => callback());
@@ -105,7 +105,7 @@ describe("Translations", function () {
 		});
 
 		it("should load no file", (done) => {
-			dom.window.onload = async function () {
+			dom.window.onload = async () => {
 				const { Translator, Module } = dom.window;
 				Translator.load = sinon.stub();
 
@@ -130,18 +130,18 @@ describe("Translations", function () {
 		}
 	};
 
-	describe("Parsing language files through the Translator class", function () {
+	describe("Parsing language files through the Translator class", () => {
 		for (let language in translations) {
-			it(`should parse ${language}`, function (done) {
+			it(`should parse ${language}`, (done) => {
 				const dom = new JSDOM(
-					`<script>var translations = ${JSON.stringify(translations)}; var Log = {log: function(){}};</script>\
+					`<script>var translations = ${JSON.stringify(translations)}; var Log = {log: () => {}};</script>\
 					<script src="file://${path.join(__dirname, "..", "..", "js", "translator.js")}">`,
 					{ runScripts: "dangerously", resources: "usable" }
 				);
-				dom.window.onload = function () {
+				dom.window.onload = () => {
 					const { Translator } = dom.window;
 
-					Translator.load(mmm, translations[language], false, function () {
+					Translator.load(mmm, translations[language], false, () => {
 						expect(typeof Translator.translations[mmm.name]).toBe("object");
 						expect(Object.keys(Translator.translations[mmm.name]).length).toBeGreaterThanOrEqual(1);
 						done();
@@ -151,27 +151,27 @@ describe("Translations", function () {
 		}
 	});
 
-	describe("Same keys", function () {
+	describe("Same keys", () => {
 		let base;
 		let missing = [];
 
-		beforeAll(function (done) {
+		beforeAll((done) => {
 			const dom = new JSDOM(
-				`<script>var translations = ${JSON.stringify(translations)}; var Log = {log: function(){}};</script>\
+				`<script>var translations = ${JSON.stringify(translations)}; var Log = {log: () => {}};</script>\
 					<script src="file://${path.join(__dirname, "..", "..", "js", "translator.js")}">`,
 				{ runScripts: "dangerously", resources: "usable" }
 			);
-			dom.window.onload = function () {
+			dom.window.onload = () => {
 				const { Translator } = dom.window;
 
-				Translator.load(mmm, translations.de, false, function () {
+				Translator.load(mmm, translations.de, false, () => {
 					base = Object.keys(Translator.translations[mmm.name]).sort();
 					done();
 				});
 			};
 		});
 
-		afterAll(function () {
+		afterAll(() => {
 			console.log(missing);
 		});
 
@@ -182,32 +182,32 @@ describe("Translations", function () {
 				continue;
 			}
 
-			describe(`Translation keys of ${language}`, function () {
+			describe(`Translation keys of ${language}`, () => {
 				let keys;
 
-				beforeAll(function (done) {
+				beforeAll((done) => {
 					const dom = new JSDOM(
-						`<script>var translations = ${JSON.stringify(translations)}; var Log = {log: function(){}};</script>\
+						`<script>var translations = ${JSON.stringify(translations)}; var Log = {log: () => {}};</script>\
 					<script src="file://${path.join(__dirname, "..", "..", "js", "translator.js")}">`,
 						{ runScripts: "dangerously", resources: "usable" }
 					);
-					dom.window.onload = function () {
+					dom.window.onload = () => {
 						const { Translator } = dom.window;
 
-						Translator.load(mmm, translations[language], false, function () {
+						Translator.load(mmm, translations[language], false, () => {
 							keys = Object.keys(Translator.translations[mmm.name]).sort();
 							done();
 						});
 					};
 				});
 
-				it(`${language} keys should be in base`, function () {
-					keys.forEach(function (key) {
+				it(`${language} keys should be in base`, () => {
+					keys.forEach((key) => {
 						expect(base.indexOf(key)).toBeGreaterThanOrEqual(0);
 					});
 				});
 
-				it(`${language} should contain all base keys`, function () {
+				it(`${language} should contain all base keys`, () => {
 					// TODO: when all translations are fixed, use
 					// expect(keys).toEqual(base);
 					// instead of the try-catch-block

@@ -6,16 +6,16 @@ let electronApp = null;
 process.env.MM_CONFIG_FILE = "tests/configs/modules/display.js";
 jest.retryTimes(3);
 
-describe("Electron app environment", function () {
-	beforeEach(async function () {
+describe("Electron app environment", () => {
+	beforeEach(async () => {
 		electronApp = await electron.launch({ args: ["js/electron.js"] });
 	});
 
-	afterEach(async function () {
+	afterEach(async () => {
 		await electronApp.close();
 	});
 
-	it("should open browserwindow", async function () {
+	it("should open browserwindow", async () => {
 		expect(await electronApp.windows().length).toBe(1);
 		const page = await electronApp.firstWindow();
 		expect(await page.title()).toBe("MagicMirror²");
@@ -26,16 +26,16 @@ describe("Electron app environment", function () {
 	});
 });
 
-describe("Development console tests", function () {
-	beforeEach(async function () {
+describe("Development console tests", () => {
+	beforeEach(async () => {
 		electronApp = await electron.launch({ args: ["js/electron.js", "dev"] });
 	});
 
-	afterEach(async function () {
+	afterEach(async () => {
 		await electronApp.close();
 	});
 
-	it("should open browserwindow and dev console", async function () {
+	it("should open browserwindow and dev console", async () => {
 		const pageArray = await electronApp.windows();
 		expect(pageArray.length).toBe(2);
 		for (const page of pageArray) {
