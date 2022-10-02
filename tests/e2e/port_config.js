@@ -1,4 +1,3 @@
-const fetch = require("fetch");
 const helpers = require("./global-setup");
 
 describe("port directive configuration", function () {
@@ -11,9 +10,8 @@ describe("port directive configuration", function () {
 		});
 
 		it("should return 200", function (done) {
-			fetch("http://localhost:8090").then((res) => {
+			helpers.fetch(done, "http://localhost:8090").then((res) => {
 				expect(res.status).toBe(200);
-				done();
 			});
 		});
 	});
@@ -27,9 +25,8 @@ describe("port directive configuration", function () {
 		});
 
 		it("should return 200", function (done) {
-			fetch("http://localhost:8100").then((res) => {
+			helpers.fetch(done, "http://localhost:8100").then((res) => {
 				expect(res.status).toBe(200);
-				done();
 			});
 		});
 	});

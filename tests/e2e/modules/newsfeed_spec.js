@@ -12,25 +12,23 @@ describe("Newsfeed module", () => {
 		});
 
 		it("should show the newsfeed title", (done) => {
-			helpers.waitForElement(".newsfeed .newsfeed-source").then((elem) => {
-				done();
+			helpers.waitForElement(done, ".newsfeed .newsfeed-source").then((elem) => {
 				expect(elem).not.toBe(null);
 				expect(elem.textContent).toContain("Rodrigo Ramirez Blog");
 			});
 		});
 
 		it("should show the newsfeed article", (done) => {
-			helpers.waitForElement(".newsfeed .newsfeed-title").then((elem) => {
-				done();
+			helpers.waitForElement(done, ".newsfeed .newsfeed-title").then((elem) => {
 				expect(elem).not.toBe(null);
 				expect(elem.textContent).toContain("QPanel");
 			});
 		});
 
 		it("should NOT show the newsfeed description", (done) => {
-			helpers.waitForElement(".newsfeed").then((elem) => {
+			helpers.waitForElement(done, ".newsfeed").then((elem) => {
 				const element = document.querySelector(".newsfeed .newsfeed-desc");
-				done();
+
 				expect(element).toBe(null);
 			});
 		});
@@ -43,16 +41,14 @@ describe("Newsfeed module", () => {
 		});
 
 		it("should not show articles with prohibited words", (done) => {
-			helpers.waitForElement(".newsfeed .newsfeed-title").then((elem) => {
-				done();
+			helpers.waitForElement(done, ".newsfeed .newsfeed-title").then((elem) => {
 				expect(elem).not.toBe(null);
 				expect(elem.textContent).toContain("Problema VirtualBox");
 			});
 		});
 
 		it("should show the newsfeed description", (done) => {
-			helpers.waitForElement(".newsfeed .newsfeed-desc").then((elem) => {
-				done();
+			helpers.waitForElement(done, ".newsfeed .newsfeed-desc").then((elem) => {
 				expect(elem).not.toBe(null);
 				expect(elem.textContent.length).not.toBe(0);
 			});
@@ -66,8 +62,7 @@ describe("Newsfeed module", () => {
 		});
 
 		it("should show malformed url warning", (done) => {
-			helpers.waitForElement(".newsfeed .small", "No news at the moment.").then((elem) => {
-				done();
+			helpers.waitForElement(done, ".newsfeed .small", "No news at the moment.").then((elem) => {
 				expect(elem).not.toBe(null);
 				expect(elem.textContent).toContain("Error in the Newsfeed module. Malformed url.");
 			});
@@ -81,8 +76,7 @@ describe("Newsfeed module", () => {
 		});
 
 		it("should show empty items info message", (done) => {
-			helpers.waitForElement(".newsfeed .small").then((elem) => {
-				done();
+			helpers.waitForElement(done, ".newsfeed .small").then((elem) => {
 				expect(elem).not.toBe(null);
 				expect(elem.textContent).toContain("No news at the moment.");
 			});

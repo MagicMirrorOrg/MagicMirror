@@ -7,8 +7,7 @@ describe("Clock module", () => {
 	});
 
 	const testMatch = (done, element, regex) => {
-		helpers.waitForElement(element).then((elem) => {
-			done();
+		helpers.waitForElement(done, element).then((elem) => {
 			expect(elem).not.toBe(null);
 			expect(elem.textContent).toMatch(regex);
 		});
@@ -99,8 +98,7 @@ describe("Clock module", () => {
 		it("should show the week with the correct number of week of year", (done) => {
 			const currentWeekNumber = moment().week();
 			const weekToShow = "Week " + currentWeekNumber;
-			helpers.waitForElement(".clock .week").then((elem) => {
-				done();
+			helpers.waitForElement(done, ".clock .week").then((elem) => {
 				expect(elem).not.toBe(null);
 				expect(elem.textContent).toBe(weekToShow);
 			});
@@ -114,8 +112,7 @@ describe("Clock module", () => {
 		});
 
 		it("should show the analog clock face", (done) => {
-			helpers.waitForElement(".clockCircle").then((elem) => {
-				done();
+			helpers.waitForElement(done, ".clockCircle").then((elem) => {
 				expect(elem).not.toBe(null);
 			});
 		});

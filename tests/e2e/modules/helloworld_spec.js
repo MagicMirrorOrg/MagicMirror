@@ -12,8 +12,7 @@ describe("Test helloworld module", () => {
 		});
 
 		it("Test message helloworld module", (done) => {
-			helpers.waitForElement(".helloworld").then((elem) => {
-				done();
+			helpers.waitForElement(done, ".helloworld").then((elem) => {
 				expect(elem).not.toBe(null);
 				expect(elem.textContent).toContain("Test HelloWorld Module");
 			});
@@ -27,8 +26,7 @@ describe("Test helloworld module", () => {
 		});
 
 		it("Test message helloworld module", (done) => {
-			helpers.waitForElement(".helloworld").then((elem) => {
-				done();
+			helpers.waitForElement(done, ".helloworld").then((elem) => {
 				expect(elem).not.toBe(null);
 				expect(elem.textContent).toContain("Hello World!");
 			});

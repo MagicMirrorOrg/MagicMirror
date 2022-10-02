@@ -1,4 +1,3 @@
-const fetch = require("fetch");
 const helpers = require("./global-setup");
 
 describe("ipWhitelist directive configuration", function () {
@@ -11,9 +10,8 @@ describe("ipWhitelist directive configuration", function () {
 		});
 
 		it("should return 403", function (done) {
-			fetch("http://localhost:8080").then((res) => {
+			helpers.fetch(done, "http://localhost:8080").then((res) => {
 				expect(res.status).toBe(403);
-				done();
 			});
 		});
 	});
@@ -27,9 +25,8 @@ describe("ipWhitelist directive configuration", function () {
 		});
 
 		it("should return 200", function (done) {
-			fetch("http://localhost:8080").then((res) => {
+			helpers.fetch(done, "http://localhost:8080").then((res) => {
 				expect(res.status).toBe(200);
-				done();
 			});
 		});
 	});

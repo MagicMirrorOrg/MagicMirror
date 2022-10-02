@@ -1,4 +1,3 @@
-const fetch = require("fetch");
 const helpers = require("./global-setup");
 
 describe("Vendors", function () {
@@ -15,9 +14,8 @@ describe("Vendors", function () {
 		Object.keys(vendors).forEach((vendor) => {
 			it(`should return 200 HTTP code for vendor "${vendor}"`, function (done) {
 				const urlVendor = "http://localhost:8080/vendor/" + vendors[vendor];
-				fetch(urlVendor).then((res) => {
+				helpers.fetch(done, urlVendor).then((res) => {
 					expect(res.status).toBe(200);
-					done();
 				});
 			});
 		});
@@ -25,9 +23,8 @@ describe("Vendors", function () {
 		Object.keys(vendors).forEach((vendor) => {
 			it(`should return 404 HTTP code for vendor https://localhost/"${vendor}"`, function (done) {
 				const urlVendor = "http://localhost:8080/" + vendors[vendor];
-				fetch(urlVendor).then((res) => {
+				helpers.fetch(done, urlVendor).then((res) => {
 					expect(res.status).toBe(404);
-					done();
 				});
 			});
 		});

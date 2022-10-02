@@ -9,8 +9,7 @@ describe("Calendar module", () => {
 	 * @param {string} not reverse result
 	 */
 	const testElementLength = (done, element, result, not) => {
-		helpers.waitForAllElements(element).then((elem) => {
-			done();
+		helpers.waitForAllElements(done, element).then((elem) => {
 			expect(elem).not.toBe(null);
 			if (not === "not") {
 				expect(elem.length).not.toBe(result);
@@ -21,8 +20,7 @@ describe("Calendar module", () => {
 	};
 
 	const testTextContain = (done, element, text) => {
-		helpers.waitForElement(element, "undefinedLoading").then((elem) => {
-			done();
+		helpers.waitForElement(done, element, "undefinedLoading").then((elem) => {
 			expect(elem).not.toBe(null);
 			expect(elem.textContent).toContain(text);
 		});

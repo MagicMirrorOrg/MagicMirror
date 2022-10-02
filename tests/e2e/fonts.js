@@ -1,4 +1,3 @@
-const fetch = require("fetch");
 const helpers = require("./global-setup");
 
 describe("All font files from roboto.css should be downloadable", function () {
@@ -23,9 +22,8 @@ describe("All font files from roboto.css should be downloadable", function () {
 
 	test.each(fontFiles)("should return 200 HTTP code for file '%s'", (fontFile, done) => {
 		const fontUrl = "http://localhost:8080/fonts/" + fontFile;
-		fetch(fontUrl).then((res) => {
+		helpers.fetch(done, fontUrl).then((res) => {
 			expect(res.status).toBe(200);
-			done();
 		});
 	});
 });

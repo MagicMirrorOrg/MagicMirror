@@ -11,8 +11,7 @@ describe("Weather module", () => {
 	 * @param {string} result Expected text in given selector
 	 */
 	const getText = (done, element, result) => {
-		helpers.waitForElement(element).then((elem) => {
-			done();
+		helpers.waitForElement(done, element).then((elem) => {
 			expect(elem).not.toBe(null);
 			expect(
 				elem.textContent
@@ -110,8 +109,7 @@ describe("Weather module", () => {
 		});
 
 		it("should render showWindDirectionAsArrow = true", (done) => {
-			helpers.waitForElement(".weather .normal.medium sup i.fa-long-arrow-alt-up").then((elem) => {
-				done();
+			helpers.waitForElement(done, ".weather .normal.medium sup i.fa-long-arrow-alt-up").then((elem) => {
 				expect(elem).not.toBe(null);
 				expect(elem.outerHTML).toContain("transform:rotate(250deg);");
 			});
@@ -189,8 +187,7 @@ describe("Weather module", () => {
 			const icons = ["day-cloudy", "rain", "day-sunny", "day-sunny", "day-sunny"];
 			for (const [index, icon] of icons.entries()) {
 				it("should render icon " + icon, (done) => {
-					helpers.waitForElement(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(2) span.wi-${icon}`).then((elem) => {
-						done();
+					helpers.waitForElement(done, `.weather table.small tr:nth-child(${index + 1}) td:nth-child(2) span.wi-${icon}`).then((elem) => {
 						expect(elem).not.toBe(null);
 					});
 				});
@@ -213,8 +210,7 @@ describe("Weather module", () => {
 			const opacities = [1, 1, 0.8, 0.5333333333333333, 0.2666666666666667];
 			for (const [index, opacity] of opacities.entries()) {
 				it("should render fading of rows with opacity=" + opacity, (done) => {
-					helpers.waitForElement(`.weather table.small tr:nth-child(${index + 1})`).then((elem) => {
-						done();
+					helpers.waitForElement(done, `.weather table.small tr:nth-child(${index + 1})`).then((elem) => {
 						expect(elem).not.toBe(null);
 						expect(elem.outerHTML).toContain(`<tr style="opacity: ${opacity};">`);
 					});
@@ -241,15 +237,13 @@ describe("Weather module", () => {
 			});
 
 			it("should render custom table class", (done) => {
-				helpers.waitForElement(".weather table.myTableClass").then((elem) => {
-					done();
+				helpers.waitForElement(done, ".weather table.myTableClass").then((elem) => {
 					expect(elem).not.toBe(null);
 				});
 			});
 
 			it("should render colored rows", (done) => {
-				helpers.waitForElement(".weather table.myTableClass").then((table) => {
-					done();
+				helpers.waitForElement(done, ".weather table.myTableClass").then((table) => {
 					expect(table).not.toBe(null);
 					expect(table.rows).not.toBe(null);
 					expect(table.rows.length).toBe(5);

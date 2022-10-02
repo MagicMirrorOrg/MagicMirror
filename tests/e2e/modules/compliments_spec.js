@@ -7,10 +7,9 @@ const helpers = require("../global-setup");
  * @param {Array} complimentsArray The array of compliments.
  */
 const doTest = (done, complimentsArray) => {
-	helpers.waitForElement(".compliments").then((elem) => {
+	helpers.waitForElement(null, ".compliments").then((elem) => {
 		expect(elem).not.toBe(null);
-		helpers.waitForElement(".module-content").then((elem) => {
-			done();
+		helpers.waitForElement(done, ".module-content").then((elem) => {
 			expect(elem).not.toBe(null);
 			expect(complimentsArray).toContain(elem.textContent);
 		});

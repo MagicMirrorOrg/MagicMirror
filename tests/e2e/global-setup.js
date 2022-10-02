@@ -1,4 +1,5 @@
 const jsdom = require("jsdom");
+const corefetch = require("fetch");
 
 exports.startApplication = (configFilename, exec) => {
 	jest.resetModules();
@@ -32,7 +33,7 @@ exports.getDocument = (callback) => {
 	});
 };
 
-exports.waitForElement = (selector, ignoreValue = "") => {
+exports.waitForElement = (done, selector, ignoreValue = "") => {
 	return new Promise((resolve) => {
 		let oldVal = "dummy12345";
 		const interval = setInterval(() => {
@@ -42,6 +43,7 @@ exports.waitForElement = (selector, ignoreValue = "") => {
 				if (newVal === oldVal) {
 					clearInterval(interval);
 					resolve(element);
+					if (done) done();
 				} else {
 					if (ignoreValue === "") {
 						oldVal = newVal;
@@ -54,7 +56,7 @@ exports.waitForElement = (selector, ignoreValue = "") => {
 	});
 };
 
-exports.waitForAllElements = (selector) => {
+exports.waitForAllElements = (done, selector) => {
 	return new Promise((resolve) => {
 		let oldVal = 999999;
 		const interval = setInterval(() => {
@@ -64,10 +66,20 @@ exports.waitForAllElements = (selector) => {
 				if (newVal === oldVal) {
 					clearInterval(interval);
 					resolve(element);
+					if (done) done();
 				} else {
 					if (newVal !== 0) oldVal = newVal;
 				}
 			}
 		}, 100);
+	});
+};
+
+exports.fetch = (done, url) => {
+	return new Promise((resolve) => {
+		corefetch(url).then((res) => {
+			done();
+			resolve(res);
+		});
 	});
 };

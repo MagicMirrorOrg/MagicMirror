@@ -10,16 +10,14 @@ describe("Check configuration without modules", () => {
 	});
 
 	it("Show the message MagicMirror² title", (done) => {
-		helpers.waitForElement("#module_1_helloworld .module-content").then((elem) => {
-			done();
+		helpers.waitForElement(done, "#module_1_helloworld .module-content").then((elem) => {
 			expect(elem).not.toBe(null);
 			expect(elem.textContent).toContain("MagicMirror²");
 		});
 	});
 
 	it("Show the text Michael's website", (done) => {
-		helpers.waitForElement("#module_5_helloworld .module-content").then((elem) => {
-			done();
+		helpers.waitForElement(done, "#module_5_helloworld .module-content").then((elem) => {
 			expect(elem).not.toBe(null);
 			expect(elem.textContent).toContain("www.michaelteeuw.nl");
 		});

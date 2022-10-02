@@ -6,8 +6,7 @@ describe("Clock set to spanish language module", () => {
 	});
 
 	const testMatch = (done, element, regex) => {
-		helpers.waitForElement(element).then((elem) => {
-			done();
+		helpers.waitForElement(done, element).then((elem) => {
 			expect(elem).not.toBe(null);
 			expect(elem.textContent).toMatch(regex);
 		});
