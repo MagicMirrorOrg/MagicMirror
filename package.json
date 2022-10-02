@@ -134,6 +134,7 @@
 				"testPathIgnorePatterns": [
 					"<rootDir>/tests/e2e/modules/mocks",
 					"<rootDir>/tests/e2e/modules/basic-auth.js",
+					"<rootDir>/tests/e2e/modules/weather-functions.js",
 					"<rootDir>/tests/e2e/global-setup.js",
 					"<rootDir>/tests/e2e/mock-console.js"
 				]
