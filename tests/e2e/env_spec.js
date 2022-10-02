@@ -1,30 +1,27 @@
 const helpers = require("./global-setup");
 
 describe("App environment", () => {
-	beforeAll((done) => {
+	beforeAll(async () => {
 		helpers.startApplication("tests/configs/default.js");
-		helpers.getDocument(done);
+		await helpers.getDocument();
 	});
 	afterAll(async () => {
 		await helpers.stopApplication();
 	});
 
-	it("get request from http://localhost:8080 should return 200", (done) => {
-		helpers.fetch(done, "http://localhost:8080").then((res) => {
-			expect(res.status).toBe(200);
-		});
+	it("get request from http://localhost:8080 should return 200", async () => {
+		const res = await helpers.fetch("http://localhost:8080");
+		expect(res.status).toBe(200);
 	});
 
-	it("get request from http://localhost:8080/nothing should return 404", (done) => {
-		helpers.fetch(done, "http://localhost:8080/nothing").then((res) => {
-			expect(res.status).toBe(404);
-		});
+	it("get request from http://localhost:8080/nothing should return 404", async () => {
+		const res = await helpers.fetch("http://localhost:8080/nothing");
+		expect(res.status).toBe(404);
 	});
 
-	it("should show the title MagicMirror²", (done) => {
-		helpers.waitForElement(done, "title").then((elem) => {
-			expect(elem).not.toBe(null);
-			expect(elem.textContent).toBe("MagicMirror²");
-		});
+	it("should show the title MagicMirror²", async () => {
+		const elem = await helpers.waitForElement("title");
+		expect(elem).not.toBe(null);
+		expect(elem.textContent).toBe("MagicMirror²");
 	});
 });

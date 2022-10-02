@@ -24,6 +24,6 @@ exports.listen = (...args) => {
 	server = app.listen.apply(app, args);
 };
 
-exports.close = (callback) => {
-	server.close(callback);
+exports.close = async () => {
+	await server.close();
 };

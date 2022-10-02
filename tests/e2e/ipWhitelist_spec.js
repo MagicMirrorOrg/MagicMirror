@@ -9,10 +9,9 @@ describe("ipWhitelist directive configuration", () => {
 			await helpers.stopApplication();
 		});
 
-		it("should return 403", (done) => {
-			helpers.fetch(done, "http://localhost:8080").then((res) => {
-				expect(res.status).toBe(403);
-			});
+		it("should return 403", async () => {
+			const res = await helpers.fetch("http://localhost:8080");
+			expect(res.status).toBe(403);
 		});
 	});
 
@@ -24,10 +23,9 @@ describe("ipWhitelist directive configuration", () => {
 			await helpers.stopApplication();
 		});
 
-		it("should return 200", (done) => {
-			helpers.fetch(done, "http://localhost:8080").then((res) => {
-				expect(res.status).toBe(200);
-			});
+		it("should return 200", async () => {
+			const res = await helpers.fetch("http://localhost:8080");
+			expect(res.status).toBe(200);
 		});
 	});
 });

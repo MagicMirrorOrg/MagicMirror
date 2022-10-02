@@ -9,10 +9,9 @@ describe("port directive configuration", () => {
 			await helpers.stopApplication();
 		});
 
-		it("should return 200", (done) => {
-			helpers.fetch(done, "http://localhost:8090").then((res) => {
-				expect(res.status).toBe(200);
-			});
+		it("should return 200", async () => {
+			const res = await helpers.fetch("http://localhost:8090");
+			expect(res.status).toBe(200);
 		});
 	});
 
@@ -24,10 +23,9 @@ describe("port directive configuration", () => {
 			await helpers.stopApplication();
 		});
 
-		it("should return 200", (done) => {
-			helpers.fetch(done, "http://localhost:8100").then((res) => {
-				expect(res.status).toBe(200);
-			});
+		it("should return 200", async () => {
+			const res = await helpers.fetch("http://localhost:8100");
+			expect(res.status).toBe(200);
 		});
 	});
 });

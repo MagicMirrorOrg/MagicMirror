@@ -22,18 +22,20 @@ exports.stopApplication = async () => {
 	await new Promise((resolve) => setTimeout(resolve, 100));
 };
 
-exports.getDocument = (callback) => {
-	const url = "http://" + (config.address || "localhost") + ":" + (config.port || "8080");
-	jsdom.JSDOM.fromURL(url, { resources: "usable", runScripts: "dangerously" }).then((dom) => {
-		dom.window.name = "jsdom";
-		dom.window.onload = () => {
-			global.document = dom.window.document;
-			callback();
-		};
+exports.getDocument = () => {
+	return new Promise((resolve) => {
+		const url = "http://" + (config.address || "localhost") + ":" + (config.port || "8080");
+		jsdom.JSDOM.fromURL(url, { resources: "usable", runScripts: "dangerously" }).then((dom) => {
+			dom.window.name = "jsdom";
+			dom.window.onload = () => {
+				global.document = dom.window.document;
+				resolve();
+			};
+		});
 	});
 };
 
-exports.waitForElement = (done, selector, ignoreValue = "") => {
+exports.waitForElement = (selector, ignoreValue = "") => {
 	return new Promise((resolve) => {
 		let oldVal = "dummy12345";
 		const interval = setInterval(() => {
@@ -43,7 +45,6 @@ exports.waitForElement = (done, selector, ignoreValue = "") => {
 				if (newVal === oldVal) {
 					clearInterval(interval);
 					resolve(element);
-					if (done) done();
 				} else {
 					if (ignoreValue === "") {
 						oldVal = newVal;
@@ -56,7 +57,7 @@ exports.waitForElement = (done, selector, ignoreValue = "") => {
 	});
 };
 
-exports.waitForAllElements = (done, selector) => {
+exports.waitForAllElements = (selector) => {
 	return new Promise((resolve) => {
 		let oldVal = 999999;
 		const interval = setInterval(() => {
@@ -66,7 +67,6 @@ exports.waitForAllElements = (done, selector) => {
 				if (newVal === oldVal) {
 					clearInterval(interval);
 					resolve(element);
-					if (done) done();
 				} else {
 					if (newVal !== 0) oldVal = newVal;
 				}
@@ -75,11 +75,16 @@ exports.waitForAllElements = (done, selector) => {
 	});
 };
 
-exports.fetch = (done, url) => {
+exports.fetch = (url) => {
 	return new Promise((resolve) => {
 		corefetch(url).then((res) => {
-			done();
 			resolve(res);
 		});
 	});
+};
+
+exports.testMatch = async (element, regex) => {
+	const elem = await this.waitForElement(element);
+	expect(elem).not.toBe(null);
+	expect(elem.textContent).toMatch(regex);
 };

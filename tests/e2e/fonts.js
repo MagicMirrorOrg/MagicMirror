@@ -20,10 +20,9 @@ describe("All font files from roboto.css should be downloadable", () => {
 		await helpers.stopApplication();
 	});
 
-	test.each(fontFiles)("should return 200 HTTP code for file '%s'", (fontFile, done) => {
+	test.each(fontFiles)("should return 200 HTTP code for file '%s'", async (fontFile) => {
 		const fontUrl = "http://localhost:8080/fonts/" + fontFile;
-		helpers.fetch(done, fontUrl).then((res) => {
-			expect(res.status).toBe(200);
-		});
+		const res = await helpers.fetch(fontUrl);
+		expect(res.status).toBe(200);
 	});
 });

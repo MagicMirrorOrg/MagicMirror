@@ -12,20 +12,18 @@ describe("Vendors", () => {
 		const vendors = require(__dirname + "/../../vendor/vendor.js");
 
 		Object.keys(vendors).forEach((vendor) => {
-			it(`should return 200 HTTP code for vendor "${vendor}"`, (done) => {
+			it(`should return 200 HTTP code for vendor "${vendor}"`, async () => {
 				const urlVendor = "http://localhost:8080/vendor/" + vendors[vendor];
-				helpers.fetch(done, urlVendor).then((res) => {
-					expect(res.status).toBe(200);
-				});
+				const res = await helpers.fetch(urlVendor);
+				expect(res.status).toBe(200);
 			});
 		});
 
 		Object.keys(vendors).forEach((vendor) => {
-			it(`should return 404 HTTP code for vendor https://localhost/"${vendor}"`, (done) => {
+			it(`should return 404 HTTP code for vendor https://localhost/"${vendor}"`, async () => {
 				const urlVendor = "http://localhost:8080/" + vendors[vendor];
-				helpers.fetch(done, urlVendor).then((res) => {
-					expect(res.status).toBe(404);
-				});
+				const res = await helpers.fetch(urlVendor);
+				expect(res.status).toBe(404);
 			});
 		});
 	});
