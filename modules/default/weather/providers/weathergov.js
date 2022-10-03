@@ -57,7 +57,7 @@ WeatherProvider.register("weathergov", {
 	// Overwrite the fetchCurrentWeather method.
 	fetchCurrentWeather() {
 		if (!this.configURLs) {
-			Log.info("fetch wx waiting on config URLs");
+			Log.info("fetchCurrentWeather: fetch wx waiting on config URLs");
 			return;
 		}
 		this.fetchData(this.stationObsURL)
@@ -78,7 +78,7 @@ WeatherProvider.register("weathergov", {
 	// Overwrite the fetchWeatherForecast method.
 	fetchWeatherForecast() {
 		if (!this.configURLs) {
-			Log.info("fetch wx waiting on config URLs");
+			Log.info("fetchWeatherForecast: fetch wx waiting on config URLs");
 			return;
 		}
 		this.fetchData(this.forecastURL)
@@ -95,6 +95,29 @@ WeatherProvider.register("weathergov", {
 			})
 			.finally(() => this.updateAvailable());
 	},
+
+        // Overwrite the fetchWeatherHourly method.
+        fetchWeatherHourly() {
+		if (!this.configURLs) {
+			Log.info("fetchWeatherHourly: fetch wx waiting on config URLs");
+			return;
+		}
+                this.fetchData(this.forecastHourlyURL)
+                        .then((data) => {
+                                if (!data) {
+                                        // Did not receive usable new data.
+                                        // Maybe this needs a better check?
+                                        return;
+                                }
+                                const hourly = this.generateWeatherObjectsFromHourly(data.properties.periods);
+                                this.setWeatherHourly(hourly);
+                        })
+                        .catch(function (request) {
+                                Log.error("Could not load data ... ", request);
+                        })
+                        .finally(() => this.updateAvailable());
+        },
+
 
 	/** Weather.gov Specific Methods - These are not part of the default provider methods */
 
@@ -138,6 +161,34 @@ WeatherProvider.register("weathergov", {
 				}
 			});
 	},
+        /*
+         * Generate a WeatherObject based on hourlyWeatherInformation
+         * Weather.gov API uses specific units; API does not include choice of units
+         * ... object needs data in units based on config!
+         */
+        generateWeatherObjectsFromHourly(forecasts) {
+                const days = [];
+
+                // variable for date
+                let weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
+                for (const forecast of forecasts) {
+                        weather.date = moment(forecast.startTime.slice(0,19));
+                        weather.windSpeed = forecast.windSpeed;
+                        weather.windDirection = forecast.windDirection;
+                        weather.temperature = forecast.temperature;
+                        weather.tempUnits = forecast.temperatureUnit;
+                        // use the forecast isDayTime attribute to help build the weatherType label
+                        weather.weatherType = this.convertWeatherType(forecast.shortForecast, forecast.isDaytime);
+
+                        days.push(weather);
+
+                        weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
+                }
+
+                // push weather information to days array
+                days.push(weather);
+                return days;
+        },
 
 	/*
 	 * Generate a WeatherObject based on currentWeatherInformation
@@ -184,7 +235,7 @@ WeatherProvider.register("weathergov", {
 	 * fetch forecast information for daily forecast.
 	 */
 	fetchForecastDaily(forecasts) {
-		// initial variable declaration
+	// initial variable declaration
 		const days = [];
 		// variables for temperature range and rain
 		let minTemp = [];
