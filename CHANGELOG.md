@@ -11,7 +11,7 @@ Special thanks to: @rejas
 
 ## Added
 
-- Hourly Weather Forecast functionality to Weather.gov weather provider (default/weather/providers/weathergov.js)
+- Hourly Weather Forecast functionality to Weather.gov weather provider (modules/default/weather/providers/weathergov.js)
 
 ## [2.21.0] - 2022-10-01
 
