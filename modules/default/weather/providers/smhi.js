@@ -144,7 +144,7 @@ WeatherProvider.register("smhi", {
 		currentWeather.windSpeed = this.paramValue(weatherData, "ws");
 		currentWeather.windDirection = this.paramValue(weatherData, "wd");
 		currentWeather.weatherType = this.convertWeatherType(this.paramValue(weatherData, "Wsymb2"), currentWeather.isDayTime());
-		currentWeather.feelsLikeTemp = this.calculateAT(weatherData);
+		currentWeather.feelsLikeTemp = this.calculateApparentTemperature(weatherData);
 
 		// Determine the precipitation amount and category and update the
 		// weatherObject with it, the valuetype to use can be configured or uses
