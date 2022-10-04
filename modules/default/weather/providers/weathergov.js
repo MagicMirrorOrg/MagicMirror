@@ -176,7 +176,7 @@ WeatherProvider.register("weathergov", {
 		for (const forecast of forecasts) {
 			weather.date = moment(forecast.startTime.slice(0, 19));
 			if (forecast.windSpeed.search(" ") < 0) {
-				weather.windSpeed = "-";
+				weather.windSpeed = forecast.windSpeed;
 			} else {
 				weather.windSpeed = forecast.windSpeed.slice(0, forecast.windSpeed.search(" "));
 			}
