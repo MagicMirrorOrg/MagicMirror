@@ -17,7 +17,8 @@ _This release is scheduled to be released on 2023-01-01._
 
 ### Updated
 
-- updated e2e tests (moved `done()` in helper functions) and use es6 syntax in all tests
+- Updated e2e tests (moved `done()` in helper functions) and use es6 syntax in all tests
+- Updated da translation
 
 ### Fixed
 
@@ -29,21 +30,21 @@ Special thanks to: @BKeyport, @buxxi, @davide125, @khassel, @kolbyjack, @krukle,
 
 ### Added
 
-- Possibility to fetch calendars through socket notifications.
+- Added possibility to fetch calendars through socket notifications.
 - New scripts `install-mm` (and `install-mm:dev`) for simplifying mm installation (now: `npm run install-mm`) and adding params `--no-audit --no-fund --no-update-notifier` for less noise.
 - New `showTimeToday` option in calendar module shows time for current-day events even if `timeFormat` is `"relative"`.
-- Add hourly forecasts, apparent temperature & custom location name to SMHI weather provider.
+- Added hourly forecasts, apparent temperature & custom location name to SMHI weather provider.
 
 ### Removed
 
-- Old weather deprecated modules `currentweather` and `weatherforecast`.
+- Removed old and deprecated weather modules `currentweather` and `weatherforecast`.
+- Removed `DAYAFTERTOMORROW` from English.
 
 ### Updated
 
-- Removed `DAYAFTERTOMORROW` from English.
-- Update dependencies.
+- Updated dependencies.
 - Updated jsdoc.
-- Updated font tree to use variables consistantly.
+- Updated font tree to use variables consistently.
 - Removed deprecated Docker Repository from issue template.
 
 ### Fixed
