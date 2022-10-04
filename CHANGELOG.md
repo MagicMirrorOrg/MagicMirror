@@ -17,6 +17,8 @@ _This release is scheduled to be released on 2023-01-01._
 
 ### Fixed
 
+- Correctly show apparent temperature in SMHI weather provider
+
 ## [2.21.0] - 2022-10-01
 
 Special thanks to: @BKeyport, @buxxi, @davide125, @khassel, @kolbyjack, @krukle, @MikeBishop, @rejas, @sdetweil, @SkySails and @veeck
