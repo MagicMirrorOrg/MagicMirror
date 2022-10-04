@@ -3,7 +3,7 @@
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.
  */
-exports.configFactory = function (options) {
+exports.configFactory = (options) => {
 	return Object.assign(
 		{
 			electronOptions: {

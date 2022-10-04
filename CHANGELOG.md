@@ -15,6 +15,8 @@ _This release is scheduled to be released on 2023-01-01._
 
 ### Updated
 
+- updated e2e tests (moved `done()` in helper functions) and use es6 syntax in all tests
+
 ### Fixed
 
 ## [2.21.0] - 2022-10-01

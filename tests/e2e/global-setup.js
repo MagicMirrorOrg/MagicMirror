@@ -1,4 +1,5 @@
 const jsdom = require("jsdom");
+const corefetch = require("fetch");
 
 exports.startApplication = (configFilename, exec) => {
 	jest.resetModules();
@@ -21,14 +22,16 @@ exports.stopApplication = async () => {
 	await new Promise((resolve) => setTimeout(resolve, 100));
 };
 
-exports.getDocument = (callback) => {
-	const url = "http://" + (config.address || "localhost") + ":" + (config.port || "8080");
-	jsdom.JSDOM.fromURL(url, { resources: "usable", runScripts: "dangerously" }).then((dom) => {
-		dom.window.name = "jsdom";
-		dom.window.onload = () => {
-			global.document = dom.window.document;
-			callback();
-		};
+exports.getDocument = () => {
+	return new Promise((resolve) => {
+		const url = "http://" + (config.address || "localhost") + ":" + (config.port || "8080");
+		jsdom.JSDOM.fromURL(url, { resources: "usable", runScripts: "dangerously" }).then((dom) => {
+			dom.window.name = "jsdom";
+			dom.window.onload = () => {
+				global.document = dom.window.document;
+				resolve();
+			};
+		});
 	});
 };
 
@@ -70,4 +73,18 @@ exports.waitForAllElements = (selector) => {
 			}
 		}, 100);
 	});
+};
+
+exports.fetch = (url) => {
+	return new Promise((resolve) => {
+		corefetch(url).then((res) => {
+			resolve(res);
+		});
+	});
+};
+
+exports.testMatch = async (element, regex) => {
+	const elem = await this.waitForElement(element);
+	expect(elem).not.toBe(null);
+	expect(elem.textContent).toMatch(regex);
 };

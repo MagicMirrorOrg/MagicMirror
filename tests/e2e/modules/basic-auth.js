@@ -20,10 +20,10 @@ for (let directory of directories) {
 
 let server;
 
-exports.listen = function () {
-	server = app.listen.apply(app, arguments);
+exports.listen = (...args) => {
+	server = app.listen.apply(app, args);
 };
 
-exports.close = function (callback) {
-	server.close(callback);
+exports.close = async () => {
+	await server.close();
 };
