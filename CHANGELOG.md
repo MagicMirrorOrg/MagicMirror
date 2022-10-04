@@ -5,6 +5,14 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror².
 
+## [2.22.0] - 2022-10-04
+
+Special thanks to: @rejas
+
+## Added
+
+- Hourly Weather Forecast functionality to Weather.gov weather provider (default/weather/providers/weathergov.js)
+
 ## [2.21.0] - 2022-10-01
 
 Special thanks to: @BKeyport, @buxxi, @davide125, @khassel, @kolbyjack, @krukle, @MikeBishop, @rejas, @sdetweil, @SkySails and @veeck
