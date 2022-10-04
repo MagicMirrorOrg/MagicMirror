@@ -11,6 +11,8 @@ _This release is scheduled to be released on 2023-01-01._
 
 ### Added
 
+- Added test for remoteFile option in compliments module
+
 ### Removed
 
 ### Updated

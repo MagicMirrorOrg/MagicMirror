@@ -85,4 +85,15 @@ describe("Compliments module", () => {
 			});
 		});
 	});
+
+	describe("remoteFile option", () => {
+		beforeAll(async () => {
+			helpers.startApplication("tests/configs/modules/compliments/compliments_remote.js");
+			await helpers.getDocument();
+		});
+
+		it("should show compliments from a remote file", async () => {
+			await doTest(["Remote compliment file works!"]);
+		});
+	});
 });
