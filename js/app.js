@@ -234,9 +234,9 @@ function App() {
 						nodePromises.push(nodeHelper.start());
 					}
 
-					Log.log("Sockets connected & modules started ...");
+					Promise.allSettled(nodePromises).then(() => {
+						Log.log("Sockets connected & modules started ...");
 
-					Promise.all(nodePromises).then(() => {
 						if (typeof callback === "function") {
 							callback(config);
 						}
