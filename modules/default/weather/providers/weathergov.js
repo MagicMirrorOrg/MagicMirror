@@ -153,9 +153,12 @@ WeatherProvider.register("weathergov", {
 			.finally(() => {
 				// excellent, let's fetch some actual wx data
 				this.configURLs = true;
+
 				// handle 'forecast' config, fall back to 'current'
 				if (config.type === "forecast") {
 					this.fetchWeatherForecast();
+				} else if (config.type === "hourly") {
+					this.fetchWeatherHourly();
 				} else {
 					this.fetchCurrentWeather();
 				}
