@@ -5,9 +5,6 @@
  * MIT Licensed.
  */
 
-// Alias modules mentioned in package.js under _moduleAliases.
-// require("module-alias/register");
-
 const fs = require("fs");
 const path = require("path");
 const Log = require("#logger");
