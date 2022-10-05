@@ -5,10 +5,10 @@
  * MIT Licensed.
  */
 const CalendarUtils = require("./calendarutils");
-const Log = require("logger");
-const NodeHelper = require("node_helper");
+const Log = require("#logger");
+const NodeHelper = require("#node_helper");
 const ical = require("node-ical");
-const fetch = require("fetch");
+const fetch = require("#fetch");
 const digest = require("digest-fetch");
 const https = require("https");
 

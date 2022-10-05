@@ -4,10 +4,10 @@
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-const Log = require("logger");
+const Log = require("#logger");
 const FeedMe = require("feedme");
-const NodeHelper = require("node_helper");
-const fetch = require("fetch");
+const NodeHelper = require("#node_helper");
+const fetch = require("#fetch");
 const iconv = require("iconv-lite");
 const stream = require("stream");
 

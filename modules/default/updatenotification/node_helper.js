@@ -1,6 +1,6 @@
 const GitHelper = require("./git_helper");
 const defaultModules = require("../defaultmodules");
-const NodeHelper = require("node_helper");
+const NodeHelper = require("#node_helper");
 
 const ONE_MINUTE = 60 * 1000;
 

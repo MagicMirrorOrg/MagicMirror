@@ -1,5 +1,5 @@
 const app = require("../js/app.js");
-const Log = require("logger");
+const Log = require("#logger");
 
 app.start((config) => {
 	const bindAddress = config.address ? config.address : "localhost";

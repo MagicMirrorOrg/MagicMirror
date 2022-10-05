@@ -4,9 +4,9 @@
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-const NodeHelper = require("node_helper");
+const NodeHelper = require("#node_helper");
 const CalendarFetcher = require("./calendarfetcher.js");
-const Log = require("logger");
+const Log = require("#logger");
 
 module.exports = NodeHelper.create({
 	// Override start method.
