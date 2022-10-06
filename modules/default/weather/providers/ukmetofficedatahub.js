@@ -89,7 +89,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 	fetchCurrentWeather() {
 		this.fetchWeather(this.getUrl("hourly"), this.getHeaders())
 			.then((data) => {
-				// Check data is useable
+				// Check data is usable
 				if (!data || !data.features || !data.features[0].properties || !data.features[0].properties.timeSeries || data.features[0].properties.timeSeries.length === 0) {
 					// Did not receive usable new data.
 					// Maybe this needs a better check?
@@ -109,7 +109,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 			// Catch any error(s)
 			.catch((error) => Log.error("Could not load data: " + error.message))
 
-			// Let the module know there're new data available
+			// Let the module know there is data available
 			.finally(() => this.updateAvailable());
 	},
 
@@ -140,7 +140,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 				currentWeather.precipitation = forecastDataHours[hour].probOfPrecipitation;
 				currentWeather.feelsLikeTemp = this.convertTemp(forecastDataHours[hour].feelsLikeTemperature);
 
-				// Pass on full details so they can be used in custom templates
+				// Pass on full details, so they can be used in custom templates
 				// Note the units of the supplied data when using this (see top of file)
 				currentWeather.rawData = forecastDataHours[hour];
 			}
@@ -148,7 +148,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 
 		// Determine the sunrise/sunset times - (still) not supplied in UK Met Office data
 		// Passes {longitude, latitude} to SunCalc, could pass height to, but
-		// SunCalc.getTimes doesnt take that into account
+		// SunCalc.getTimes doesn't take that into account
 		currentWeather.updateSunTime(this.config.lat, this.config.lon);
 
 		return currentWeather;
@@ -158,7 +158,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 	fetchWeatherForecast() {
 		this.fetchWeather(this.getUrl("daily"), this.getHeaders())
 			.then((data) => {
-				// Check data is useable
+				// Check data is usable
 				if (!data || !data.features || !data.features[0].properties || !data.features[0].properties.timeSeries || data.features[0].properties.timeSeries.length === 0) {
 					// Did not receive usable new data.
 					// Maybe this needs a better check?
@@ -178,7 +178,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 			// Catch any error(s)
 			.catch((error) => Log.error("Could not load data: " + error.message))
 
-			// Let the module know there're new data available
+			// Let the module know there is new data available
 			.finally(() => this.updateAvailable());
 	},
 
@@ -216,7 +216,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 				forecastWeather.snow = forecastDataDays[day].dayProbabilityOfSnow;
 				forecastWeather.feelsLikeTemp = this.convertTemp(forecastDataDays[day].dayMaxFeelsLikeTemp);
 
-				// Pass on full details so they can be used in custom templates
+				// Pass on full details, so they can be used in custom templates
 				// Note the units of the supplied data when using this (see top of file)
 				forecastWeather.rawData = forecastDataDays[day];
 

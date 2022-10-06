@@ -5,7 +5,7 @@
  * @param {object} options object e.g. for headers
  * @class
  */
-async function fetch(url, options) {
+async function fetch(url, options = {}) {
 	const nodeVersion = process.version.match(/^v(\d+)\.*/)[1];
 	if (nodeVersion >= 18) {
 		// node version >= 18

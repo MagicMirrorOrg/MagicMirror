@@ -22,6 +22,8 @@ Special thanks to: @rejas, @sdetweil
 
 - Updated e2e tests (moved `done()` in helper functions) and use es6 syntax in all tests
 - Updated da translation
+- Rework weather module
+  - Use fetch instead of XMLHttpRequest in weatherprovider
 
 ### Fixed
 

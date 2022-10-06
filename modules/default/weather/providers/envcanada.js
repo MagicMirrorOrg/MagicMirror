@@ -74,7 +74,7 @@ WeatherProvider.register("envcanada", {
 	// Override the fetchCurrentWeather method to query EC and construct a Current weather object
 	//
 	fetchCurrentWeather() {
-		this.fetchData(this.getUrl(), "GET", "xml")
+		this.fetchData(this.getUrl(), "xml")
 			.then((data) => {
 				if (!data) {
 					// Did not receive usable new data.
@@ -94,7 +94,7 @@ WeatherProvider.register("envcanada", {
 	// Override the fetchWeatherForecast method to query EC and construct Forecast weather objects
 	//
 	fetchWeatherForecast() {
-		this.fetchData(this.getUrl(), "GET", "xml")
+		this.fetchData(this.getUrl(), "xml")
 			.then((data) => {
 				if (!data) {
 					// Did not receive usable new data.
@@ -114,7 +114,7 @@ WeatherProvider.register("envcanada", {
 	// Override the fetchWeatherHourly method to query EC and construct Forecast weather objects
 	//
 	fetchWeatherHourly() {
-		this.fetchData(this.getUrl(), "GET", "xml")
+		this.fetchData(this.getUrl(), "xml")
 			.then((data) => {
 				if (!data) {
 					// Did not receive usable new data.
@@ -137,8 +137,8 @@ WeatherProvider.register("envcanada", {
 	//////////////////////////////////////////////////////////////////////////////////
 
 	//
-	// Build the EC URL based on the Site Code and Province Code specified in the config parms. Note that the
-	// URL defaults to the Englsih version simply because there is no language dependancy in the data
+	// Build the EC URL based on the Site Code and Province Code specified in the config params. Note that the
+	// URL defaults to the English version simply because there is no language dependency in the data
 	// being accessed. This is only pertinent when using the EC data elements that contain a textual forecast.
 	//
 	getUrl() {
