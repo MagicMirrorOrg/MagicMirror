@@ -9,9 +9,12 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 _This release is scheduled to be released on 2023-01-01._
 
+Special thanks to: @rejas, @sdetweil
+
 ### Added
 
 - Added test for remoteFile option in compliments module
+- Added hourlyWeather functionality to Weather.gov weather provider
 
 ### Removed
 
