@@ -121,9 +121,10 @@ const WeatherProvider = Class.extend({
 
 	/**
 	 * A convenience function to make requests.
-	 * @param url
-	 * @param type
-	 * @returns {Promise}
+	 *
+	 * @param {string} url the url to fetch from
+	 * @param {string} type what contenttype to expect in the response, can be "json" or "xml"
+	 * @returns {Promise} resolved when the fetch is done
 	 */
 	fetchData: async function (url, type = "json") {
 		url = this.getCorsUrl() + url;
