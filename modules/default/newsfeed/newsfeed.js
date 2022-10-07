@@ -42,6 +42,8 @@ Module.register("newsfeed", {
 		dangerouslyDisableAutoEscaping: false
 	},
 
+	urlPrefix: location.protocol + "//" + location.host + "/cors?url=",
+
 	// Define required scripts.
 	getScripts: function () {
 		return ["moment.js"];
@@ -142,14 +144,19 @@ Module.register("newsfeed", {
 			sourceTitle: item.sourceTitle,
 			publishDate: moment(new Date(item.pubdate)).fromNow(),
 			title: item.title,
-			url: item.url,
+			url: this.urlPrefix + item.url,
 			description: item.description,
 			items: items
 		};
 	},
 
 	getActiveItemURL: function () {
-		return typeof this.newsItems[this.activeItem].url === "string" ? this.newsItems[this.activeItem].url : this.newsItems[this.activeItem].url.href;
+		const item = this.newsItems[this.activeItem];
+		if (item) {
+			return typeof item.url === "string" ? this.urlPrefix + item.url : this.urlPrefix + item.url.href;
+		} else {
+			return "";
+		}
 	},
 
 	/**
