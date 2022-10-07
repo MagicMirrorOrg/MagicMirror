@@ -14,7 +14,7 @@ describe("All font files from roboto.css should be downloadable", () => {
 	}
 
 	beforeAll(() => {
-		helpers.startApplication("tests/configs/modules_empty_spec.js");
+		helpers.startApplication("tests/configs/without_modules.js");
 	});
 	afterAll(async () => {
 		await helpers.stopApplication();
