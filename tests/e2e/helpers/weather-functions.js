@@ -1,7 +1,7 @@
 const helpers = require("./global-setup");
 const path = require("path");
 const fs = require("fs");
-const { generateWeather, generateWeatherForecast } = require("../mocks");
+const { generateWeather, generateWeatherForecast } = require("../../mocks/weather_test");
 
 exports.getText = async (element, result) => {
 	const elem = await helpers.waitForElement(element);
