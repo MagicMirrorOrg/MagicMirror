@@ -1,4 +1,4 @@
-const helpers = require("./global-setup");
+const helpers = require("./helpers/global-setup");
 
 describe("Check configuration without modules", () => {
 	beforeAll(async () => {
@@ -15,7 +15,7 @@ describe("Check configuration without modules", () => {
 		expect(elem.textContent).toContain("MagicMirror²");
 	});
 
-	it("Show the text Michael's website", async () => {
+	it("Show the url of michael's website", async () => {
 		const elem = await helpers.waitForElement("#module_5_helloworld .module-content");
 		expect(elem).not.toBe(null);
 		expect(elem.textContent).toContain("www.michaelteeuw.nl");

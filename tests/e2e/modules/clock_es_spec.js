@@ -1,4 +1,4 @@
-const helpers = require("../global-setup");
+const helpers = require("../helpers/global-setup");
 
 describe("Clock set to spanish language module", () => {
 	afterAll(async () => {

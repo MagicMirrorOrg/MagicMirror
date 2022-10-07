@@ -21,6 +21,7 @@ Special thanks to: @rejas, @sdetweil
 
 ### Updated
 
+- Cleaned up test directory
 - Updated e2e tests (moved `done()` in helper functions) and use es6 syntax in all tests
 - Updated da translation
 - Rework weather module

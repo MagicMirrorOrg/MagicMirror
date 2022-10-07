@@ -1,6 +1,6 @@
 const moment = require("moment");
-const helpers = require("../global-setup");
-const weatherFunc = require("./weather-functions");
+const helpers = require("../helpers/global-setup");
+const weatherFunc = require("../helpers/weather-functions");
 
 describe("Weather module", () => {
 	afterAll(async () => {
