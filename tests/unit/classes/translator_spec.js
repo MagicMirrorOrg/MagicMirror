@@ -14,7 +14,7 @@ describe("Translator", () => {
 			res.header("Access-Control-Allow-Origin", "*");
 			next();
 		});
-		app.use("/translations", express.static(path.join(__dirname, "..", "..", "..", "tests", "configs", "data")));
+		app.use("/translations", express.static(path.join(__dirname, "..", "..", "..", "tests", "mocks")));
 
 		server = app.listen(3000);
 
@@ -212,7 +212,7 @@ describe("Translator", () => {
 	describe("loadCoreTranslations", () => {
 		it("should load core translations and fallback", (done) => {
 			const dom = new JSDOM(
-				`<script>var translations = {en: "http://localhost:3000/translations/en.json"}; var Log = {log: () => {}};</script>\
+				`<script>var translations = {en: "http://localhost:3000/translations/translation_test.json"}; var Log = {log: () => {}};</script>\
 					<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`,
 				{ runScripts: "dangerously", resources: "usable" }
 			);
@@ -220,7 +220,7 @@ describe("Translator", () => {
 				const { Translator } = dom.window;
 				Translator.loadCoreTranslations("en");
 
-				const en = require(path.join(__dirname, "..", "..", "..", "tests", "mocks", "en.json"));
+				const en = require(path.join(__dirname, "..", "..", "..", "tests", "mocks", "translation_test.json"));
 				setTimeout(() => {
 					expect(Translator.coreTranslations).toEqual(en);
 					expect(Translator.coreTranslationsFallback).toEqual(en);
@@ -231,7 +231,7 @@ describe("Translator", () => {
 
 		it("should load core fallback if language cannot be found", (done) => {
 			const dom = new JSDOM(
-				`<script>var translations = {en: "http://localhost:3000/translations/en.json"}; var Log = {log: () => {}};</script>\
+				`<script>var translations = {en: "http://localhost:3000/translations/translation_test.json"}; var Log = {log: () => {}};</script>\
 					<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`,
 				{ runScripts: "dangerously", resources: "usable" }
 			);
@@ -239,7 +239,7 @@ describe("Translator", () => {
 				const { Translator } = dom.window;
 				Translator.loadCoreTranslations("MISSINGLANG");
 
-				const en = require(path.join(__dirname, "..", "..", "..", "tests", "mocks", "en.json"));
+				const en = require(path.join(__dirname, "..", "..", "..", "tests", "mocks", "translation_test.json"));
 				setTimeout(() => {
 					expect(Translator.coreTranslations).toEqual({});
 					expect(Translator.coreTranslationsFallback).toEqual(en);
@@ -252,7 +252,7 @@ describe("Translator", () => {
 	describe("loadCoreTranslationsFallback", () => {
 		it("should load core translations fallback", (done) => {
 			const dom = new JSDOM(
-				`<script>var translations = {en: "http://localhost:3000/translations/en.json"}; var Log = {log: () => {}};</script>\
+				`<script>var translations = {en: "http://localhost:3000/translations/translation_test.json"}; var Log = {log: () => {}};</script>\
 					<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`,
 				{ runScripts: "dangerously", resources: "usable" }
 			);
@@ -260,7 +260,7 @@ describe("Translator", () => {
 				const { Translator } = dom.window;
 				Translator.loadCoreTranslationsFallback();
 
-				const en = require(path.join(__dirname, "..", "..", "..", "tests", "mocks", "en.json"));
+				const en = require(path.join(__dirname, "..", "..", "..", "tests", "mocks", "translation_test.json"));
 				setTimeout(() => {
 					expect(Translator.coreTranslationsFallback).toEqual(en);
 					done();
