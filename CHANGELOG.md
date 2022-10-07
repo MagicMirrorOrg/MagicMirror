@@ -15,6 +15,7 @@ Special thanks to: @rejas, @sdetweil
 
 - Added test for remoteFile option in compliments module
 - Added hourlyWeather functionality to Weather.gov weather provider
+- Removed weatherEndpoint definition from weathergov.js (not used)
 
 ### Removed
 
