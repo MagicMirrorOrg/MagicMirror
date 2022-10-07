@@ -1,4 +1,4 @@
-const helpers = require("./global-setup");
+const helpers = require("./helpers/global-setup");
 
 describe("All font files from roboto.css should be downloadable", () => {
 	const fontFiles = [];
@@ -14,7 +14,7 @@ describe("All font files from roboto.css should be downloadable", () => {
 	}
 
 	beforeAll(() => {
-		helpers.startApplication("tests/configs/without_modules.js");
+		helpers.startApplication("tests/configs/modules_empty_spec.js");
 	});
 	afterAll(async () => {
 		await helpers.stopApplication();

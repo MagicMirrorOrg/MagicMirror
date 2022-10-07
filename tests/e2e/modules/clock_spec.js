@@ -1,4 +1,4 @@
-const helpers = require("../global-setup");
+const helpers = require("../helpers/global-setup");
 const moment = require("moment");
 
 describe("Clock module", () => {

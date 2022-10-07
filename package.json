@@ -123,7 +123,7 @@
 			{
 				"displayName": "e2e",
 				"setupFilesAfterEnv": [
-					"<rootDir>/tests/e2e/mock-console.js"
+					"<rootDir>/tests/e2e/helpers/mock-console.js"
 				],
 				"testMatch": [
 					"**/tests/e2e/**/*.[jt]s?(x)"
@@ -132,11 +132,8 @@
 					"<rootDir>/js/"
 				],
 				"testPathIgnorePatterns": [
-					"<rootDir>/tests/e2e/modules/mocks",
-					"<rootDir>/tests/e2e/modules/basic-auth.js",
-					"<rootDir>/tests/e2e/modules/weather-functions.js",
-					"<rootDir>/tests/e2e/global-setup.js",
-					"<rootDir>/tests/e2e/mock-console.js"
+					"<rootDir>/tests/e2e/helpers/",
+					"<rootDir>/tests/e2e/mocks"
 				]
 			}
 		]
