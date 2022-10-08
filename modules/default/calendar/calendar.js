@@ -204,10 +204,8 @@ Module.register("calendar", {
 				if (lastSeenDate !== dateAsString) {
 					const dateRow = document.createElement("tr");
 					dateRow.className = "normal";
-					if (event.today)
-						dateRow.className += " today";
-					else if (event.tomorrow)
-						dateRow.className += " tomorrow";
+					if (event.today) dateRow.className += " today";
+					else if (event.tomorrow) dateRow.className += " tomorrow";
 
 					const dateCell = document.createElement("td");
 					dateCell.colSpan = "3";
@@ -233,10 +231,8 @@ Module.register("calendar", {
 			}
 
 			eventWrapper.className = "normal event";
-			if (event.today)
-				eventWrapper.className += " today";
-			else if (event.tomorrow)
-				eventWrapper.className += " tomorrow";
+			if (event.today) eventWrapper.className += " today";
+			else if (event.tomorrow) eventWrapper.className += " tomorrow";
 
 			const symbolWrapper = document.createElement("td");
 
@@ -428,10 +424,8 @@ Module.register("calendar", {
 				if (event.location !== false) {
 					const locationRow = document.createElement("tr");
 					locationRow.className = "normal xsmall light";
-					if (event.today)
-						locationRow.className += " today";
-					else if (event.tomorrow)
-						locationRow.className += " tomorrow";
+					if (event.today) locationRow.className += " today";
+					else if (event.tomorrow) locationRow.className += " tomorrow";
 
 					if (this.config.displaySymbol) {
 						const symbolCell = document.createElement("td");
@@ -506,7 +500,7 @@ Module.register("calendar", {
 		const oneMinute = oneSecond * 60;
 		const oneHour = oneMinute * 60;
 		const oneDay = oneHour * 24;
-		
+
 		const now = new Date();
 		const today = moment().startOf("day");
 		const future = moment().startOf("day").add(this.config.maximumNumberOfDays, "days").toDate();
