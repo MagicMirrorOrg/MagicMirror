@@ -163,7 +163,6 @@ Module.register("calendar", {
 
 	// Override dom generator.
 	getDom: function () {
-		// Define second, minute, hour, and day constants
 		const oneSecond = 1000; // 1,000 milliseconds
 		const oneMinute = oneSecond * 60;
 		const oneHour = oneMinute * 60;
@@ -205,6 +204,10 @@ Module.register("calendar", {
 				if (lastSeenDate !== dateAsString) {
 					const dateRow = document.createElement("tr");
 					dateRow.className = "normal";
+					if (event.today)
+						dateRow.className += " today";
+					else if (event.tomorrow)
+						dateRow.className += " tomorrow";
 
 					const dateCell = document.createElement("td");
 					dateCell.colSpan = "3";
@@ -230,6 +233,10 @@ Module.register("calendar", {
 			}
 
 			eventWrapper.className = "normal event";
+			if (event.today)
+				eventWrapper.className += " today";
+			else if (event.tomorrow)
+				eventWrapper.className += " tomorrow";
 
 			const symbolWrapper = document.createElement("td");
 
@@ -367,7 +374,7 @@ Module.register("calendar", {
 				} else {
 					// Show relative times
 					if (event.startDate >= now || (event.fullDayEvent && event.today)) {
-						// Use relative  time
+						// Use relative time
 						if (!this.config.hideTime && !event.fullDayEvent) {
 							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").calendar(null, { sameElse: this.config.dateFormat }));
 						} else {
@@ -421,6 +428,10 @@ Module.register("calendar", {
 				if (event.location !== false) {
 					const locationRow = document.createElement("tr");
 					locationRow.className = "normal xsmall light";
+					if (event.today)
+						locationRow.className += " today";
+					else if (event.tomorrow)
+						locationRow.className += " tomorrow";
 
 					if (this.config.displaySymbol) {
 						const symbolCell = document.createElement("td");
@@ -491,6 +502,11 @@ Module.register("calendar", {
 	 * @returns {object[]} Array with events.
 	 */
 	createEventList: function (limitNumberOfEntries) {
+		const oneSecond = 1000; // 1,000 milliseconds
+		const oneMinute = oneSecond * 60;
+		const oneHour = oneMinute * 60;
+		const oneDay = oneHour * 24;
+		
 		const now = new Date();
 		const today = moment().startOf("day");
 		const future = moment().startOf("day").add(this.config.maximumNumberOfDays, "days").toDate();
@@ -521,19 +537,21 @@ Module.register("calendar", {
 					}
 				}
 				event.url = calendarUrl;
-				event.today = event.startDate >= today && event.startDate < today + 24 * 60 * 60 * 1000;
+				event.today = event.startDate >= today && event.startDate < today + oneDay;
+				event.tomorrow = !event.today && event.startDate >= today + oneDay && event.startDate < today + 2 * oneDay;
 
 				/* if sliceMultiDayEvents is set to true, multiday events (events exceeding at least one midnight) are sliced into days,
 				 * otherwise, esp. in dateheaders mode it is not clear how long these events are.
 				 */
-				const maxCount = Math.ceil((event.endDate - 1 - moment(event.startDate, "x").endOf("day").format("x")) / (1000 * 60 * 60 * 24)) + 1;
+				const maxCount = Math.ceil((event.endDate - 1 - moment(event.startDate, "x").endOf("day").format("x")) / oneDay) + 1;
 				if (this.config.sliceMultiDayEvents && maxCount > 1) {
 					const splitEvents = [];
 					let midnight = moment(event.startDate, "x").clone().startOf("day").add(1, "day").format("x");
 					let count = 1;
 					while (event.endDate > midnight) {
 						const thisEvent = JSON.parse(JSON.stringify(event)); // clone object
-						thisEvent.today = thisEvent.startDate >= today && thisEvent.startDate < today + 24 * 60 * 60 * 1000;
+						thisEvent.today = thisEvent.startDate >= today && thisEvent.startDate < today + oneDay;
+						thisEvent.tomorrow = !thisEvent.today && thisEvent.startDate >= today + oneDay && thisEvent.startDate < today + 2 * oneDay;
 						thisEvent.endDate = midnight;
 						thisEvent.title += " (" + count + "/" + maxCount + ")";
 						splitEvents.push(thisEvent);
