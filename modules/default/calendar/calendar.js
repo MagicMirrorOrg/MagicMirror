@@ -556,6 +556,8 @@ Module.register("calendar", {
 					}
 					// Last day
 					event.title += " (" + count + "/" + maxCount + ")";
+					event.today += event.startDate >= today && event.startDate < today + ONE_DAY;
+					event.tomorrow = !event.today && event.startDate >= today + ONE_DAY && event.startDate < today + 2 * ONE_DAY;
 					splitEvents.push(event);
 
 					for (let splitEvent of splitEvents) {
