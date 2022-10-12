@@ -31,7 +31,7 @@ Special thanks to: @rejas, @sdetweil
 ### Fixed
 
 - Correctly show apparent temperature in SMHI weather provider
-- Ensure updatenotification module isn't shown when local is *ahead* of remote
+- Ensure updatenotification module isn't shown when local is _ahead_ of remote
 
 ## [2.21.0] - 2022-10-01
 
