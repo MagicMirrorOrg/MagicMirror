@@ -223,24 +223,23 @@ function App() {
 			}
 
 			loadModules(modules, function () {
-				httpServer = new Server(config, function (app, io) {
-					Log.log("Server started ...");
+				httpServer = new Server(config);
+				const { app, io } = httpServer.open();
+				Log.log("Server started ...");
 
-					const nodePromises = [];
+				const nodePromises = [];
+				for (let nodeHelper of nodeHelpers) {
+					nodeHelper.setExpressApp(app);
+					nodeHelper.setSocketIO(io);
+					nodePromises.push(nodeHelper.start());
+				}
 
-					for (let nodeHelper of nodeHelpers) {
-						nodeHelper.setExpressApp(app);
-						nodeHelper.setSocketIO(io);
-						nodePromises.push(nodeHelper.start());
+				Promise.allSettled(nodePromises).then(() => {
+					Log.log("Sockets connected & modules started ...");
+
+					if (typeof callback === "function") {
+						callback(config);
 					}
-
-					Promise.allSettled(nodePromises).then(() => {
-						Log.log("Sockets connected & modules started ...");
-
-						if (typeof callback === "function") {
-							callback(config);
-						}
-					});
 				});
 			});
 		});
