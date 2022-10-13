@@ -226,17 +226,21 @@ function App() {
 				httpServer = new Server(config, function (app, io) {
 					Log.log("Server started ...");
 
+					const nodePromises = [];
+
 					for (let nodeHelper of nodeHelpers) {
 						nodeHelper.setExpressApp(app);
 						nodeHelper.setSocketIO(io);
-						nodeHelper.start();
+						nodePromises.push(nodeHelper.start());
 					}
 
-					Log.log("Sockets connected & modules started ...");
+					Promise.allSettled(nodePromises).then(() => {
+						Log.log("Sockets connected & modules started ...");
 
-					if (typeof callback === "function") {
-						callback(config);
-					}
+						if (typeof callback === "function") {
+							callback(config);
+						}
+					});
 				});
 			});
 		});
