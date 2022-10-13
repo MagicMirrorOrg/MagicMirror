@@ -231,7 +231,13 @@ function App() {
 				for (let nodeHelper of nodeHelpers) {
 					nodeHelper.setExpressApp(app);
 					nodeHelper.setSocketIO(io);
-					nodePromises.push(nodeHelper.start());
+
+					try {
+						nodePromises.push(nodeHelper.start());
+					} catch (error) {
+						Log.error(`Error when starting node_helper for module ${nodeHelper.name}:`);
+						Log.error(error);
+					}
 				}
 
 				Promise.allSettled(nodePromises).then(() => {
