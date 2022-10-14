@@ -34,6 +34,7 @@ Special thanks to: @rejas, @sdetweil
 
 - Correctly show apparent temperature in SMHI weather provider
 - Ensure updatenotification module isn't shown when local is _ahead_ of remote
+- Handle node_helper errors during startup (#2944)
 - Possibility to change FontAwesome class in calendar, so icons like `fab fa-facebook-square` works.
 - Fix cors problems with newsfeed articles (as far as possible), allow disabling cors per feed with option `useCorsProxy: false` (#2840)
 
