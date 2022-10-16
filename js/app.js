@@ -102,9 +102,9 @@ function App() {
 	 * Loads a specific module.
 	 *
 	 * @param {string} module The name of the module (including subpath).
-	 * @param {Function} callback Function to be called after loading
+	 * @returns {Promise} A promise that resolves as soon as the module is loaded.
 	 */
-	function loadModule(module, callback) {
+	async function loadModule(module) {
 		const elements = module.split("/");
 		const moduleName = elements[elements.length - 1];
 		let moduleFolder = `${__dirname}/../modules/${module}`;
@@ -113,19 +113,11 @@ function App() {
 			moduleFolder = `${__dirname}/../modules/default/${module}`;
 		}
 
-		const helperPath = `${moduleFolder}/node_helper.js`;
+		const helperPath = resolveHelperPath(moduleFolder);
 
-		let loadHelper = true;
-		try {
-			fs.accessSync(helperPath, fs.R_OK);
-		} catch (e) {
-			loadHelper = false;
-			Log.log(`No helper found for module: ${moduleName}.`);
-		}
-
-		if (loadHelper) {
-			const Module = require(helperPath);
-			let m = new Module();
+		if (helperPath) {
+			const ModuleHelper = await import(helperPath);
+			let m = new ModuleHelper.default();
 
 			if (m.requiresVersion) {
 				Log.log(`Check MagicMirror² version for node helper '${moduleName}' - Minimum version: ${m.requiresVersion} - Current version: ${global.version}`);
@@ -141,9 +133,11 @@ function App() {
 			m.setPath(path.resolve(moduleFolder));
 			nodeHelpers.push(m);
 
-			m.loaded(callback);
+			return new Promise((resolve, reject) => {
+				m.loaded(resolve);
+			});
 		} else {
-			callback();
+			Log.log(`No helper found for module: ${moduleName}.`);
 		}
 	}
 
@@ -162,7 +156,7 @@ function App() {
 		function loadNextModule() {
 			if (modules.length > 0) {
 				const nextModule = modules[0];
-				loadModule(nextModule, function () {
+				loadModule(nextModule).then(() => {
 					modules = modules.slice(1);
 					loadNextModule();
 				});
@@ -198,6 +192,27 @@ function App() {
 			}
 		}
 		return segmentsA.length - segmentsB.length;
+	}
+
+	/**
+	 * Resolves the path to the node_helper for either CommonJS or ESM depending on the file extension
+	 *
+	 * @param {string} moduleFolder the folder that should contain the node_helper
+	 * @returns {string} the path to the node_helper that should be used, or undefined if none exists
+	 */
+	function resolveHelperPath(moduleFolder) {
+		for (const extension of ["js", "mjs"]) {
+			const helperPath = `${moduleFolder}/node_helper.${extension}`;
+
+			try {
+				fs.accessSync(helperPath, fs.R_OK);
+				return helperPath;
+			} catch (e) {
+				// The current extension may not have been found, try the next instead
+			}
+		}
+
+		return undefined;
 	}
 
 	/**
