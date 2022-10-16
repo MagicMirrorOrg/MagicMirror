@@ -772,7 +772,7 @@ Module.register("calendar", {
 
 	getCalendarPropertyAsArray: function (url, property, defaultValue) {
 		let p = this.getCalendarProperty(url, property, defaultValue);
-		if (property === "symbol") {
+		if (property === "symbol" || property === "recurringSymbol" || property === "fullDaySymbol") {
 			const className = this.getCalendarProperty(url, "symbolClassName", this.config.defaultSymbolClassName);
 			p = className + p;
 		}
