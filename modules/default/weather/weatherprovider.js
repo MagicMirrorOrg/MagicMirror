@@ -119,37 +119,28 @@ const WeatherProvider = Class.extend({
 		}
 	},
 
-	// A convenience function to make requests. It returns a promise.
-	fetchData: function (url, method = "GET", type = "json") {
+	/**
+	 * A convenience function to make requests.
+	 *
+	 * @param {string} url the url to fetch from
+	 * @param {string} type what contenttype to expect in the response, can be "json" or "xml"
+	 * @returns {Promise} resolved when the fetch is done
+	 */
+	fetchData: async function (url, type = "json") {
 		url = this.getCorsUrl() + url;
-		const getData = function (mockData) {
-			return new Promise(function (resolve, reject) {
-				if (mockData) {
-					let data = mockData;
-					data = data.substring(1, data.length - 1);
-					resolve(JSON.parse(data));
-				} else {
-					const request = new XMLHttpRequest();
-					request.open(method, url, true);
-					request.onreadystatechange = function () {
-						if (this.readyState === 4) {
-							if (this.status === 200) {
-								if (type === "xml") {
-									resolve(this.responseXML);
-								} else {
-									resolve(JSON.parse(this.response));
-								}
-							} else {
-								reject(request);
-							}
-						}
-					};
-					request.send();
-				}
-			});
-		};
-
-		return getData(this.config.mockData);
+		const mockData = this.config.mockData;
+		if (mockData) {
+			const data = mockData.substring(1, mockData.length - 1);
+			return JSON.parse(data);
+		} else {
+			const response = await fetch(url);
+			const data = await response.text();
+			if (type === "xml") {
+				return new DOMParser().parseFromString(data, "text/html");
+			} else {
+				return JSON.parse(data);
+			}
+		}
 	}
 });
 

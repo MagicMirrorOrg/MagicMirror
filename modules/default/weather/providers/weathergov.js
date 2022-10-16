@@ -22,7 +22,6 @@ WeatherProvider.register("weathergov", {
 	// Set the default config properties that is specific to this provider
 	defaults: {
 		apiBase: "https://api.weather.gov/points/",
-		weatherEndpoint: "/forecast",
 		lat: 0,
 		lon: 0
 	},
@@ -57,7 +56,7 @@ WeatherProvider.register("weathergov", {
 	// Overwrite the fetchCurrentWeather method.
 	fetchCurrentWeather() {
 		if (!this.configURLs) {
-			Log.info("fetch wx waiting on config URLs");
+			Log.info("fetchCurrentWeather: fetch wx waiting on config URLs");
 			return;
 		}
 		this.fetchData(this.stationObsURL)
@@ -78,7 +77,7 @@ WeatherProvider.register("weathergov", {
 	// Overwrite the fetchWeatherForecast method.
 	fetchWeatherForecast() {
 		if (!this.configURLs) {
-			Log.info("fetch wx waiting on config URLs");
+			Log.info("fetchWeatherForecast: fetch wx waiting on config URLs");
 			return;
 		}
 		this.fetchData(this.forecastURL)
@@ -92,6 +91,28 @@ WeatherProvider.register("weathergov", {
 			})
 			.catch(function (request) {
 				Log.error("Could not load forecast hourly data ... ", request);
+			})
+			.finally(() => this.updateAvailable());
+	},
+
+	// Overwrite the fetchWeatherHourly method.
+	fetchWeatherHourly() {
+		if (!this.configURLs) {
+			Log.info("fetchWeatherHourly: fetch wx waiting on config URLs");
+			return;
+		}
+		this.fetchData(this.forecastHourlyURL)
+			.then((data) => {
+				if (!data) {
+					// Did not receive usable new data.
+					// Maybe this needs a better check?
+					return;
+				}
+				const hourly = this.generateWeatherObjectsFromHourly(data.properties.periods);
+				this.setWeatherHourly(hourly);
+			})
+			.catch(function (request) {
+				Log.error("Could not load data ... ", request);
 			})
 			.finally(() => this.updateAvailable());
 	},
@@ -130,13 +151,48 @@ WeatherProvider.register("weathergov", {
 			.finally(() => {
 				// excellent, let's fetch some actual wx data
 				this.configURLs = true;
+
 				// handle 'forecast' config, fall back to 'current'
 				if (config.type === "forecast") {
 					this.fetchWeatherForecast();
+				} else if (config.type === "hourly") {
+					this.fetchWeatherHourly();
 				} else {
 					this.fetchCurrentWeather();
 				}
 			});
+	},
+	/*
+	 * Generate a WeatherObject based on hourlyWeatherInformation
+	 * Weather.gov API uses specific units; API does not include choice of units
+	 * ... object needs data in units based on config!
+	 */
+	generateWeatherObjectsFromHourly(forecasts) {
+		const days = [];
+
+		// variable for date
+		let weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
+		for (const forecast of forecasts) {
+			weather.date = moment(forecast.startTime.slice(0, 19));
+			if (forecast.windSpeed.search(" ") < 0) {
+				weather.windSpeed = forecast.windSpeed;
+			} else {
+				weather.windSpeed = forecast.windSpeed.slice(0, forecast.windSpeed.search(" "));
+			}
+			weather.windDirection = this.convertWindDirection(forecast.windDirection);
+			weather.temperature = forecast.temperature;
+			weather.tempUnits = forecast.temperatureUnit;
+			// use the forecast isDayTime attribute to help build the weatherType label
+			weather.weatherType = this.convertWeatherType(forecast.shortForecast, forecast.isDaytime);
+
+			days.push(weather);
+
+			weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
+		}
+
+		// push weather information to days array
+		days.push(weather);
+		return days;
 	},
 
 	/*

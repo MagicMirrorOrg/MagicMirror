@@ -11,7 +11,7 @@ const basicAuth = auth({
 app.use(basicAuth);
 
 // Set available directories
-const directories = ["/tests/configs"];
+const directories = ["/tests/configs", "/tests/mocks"];
 const rootPath = path.resolve(__dirname + "/../../../");
 
 for (let directory of directories) {
@@ -20,10 +20,10 @@ for (let directory of directories) {
 
 let server;
 
-exports.listen = function () {
-	server = app.listen.apply(app, arguments);
+exports.listen = (...args) => {
+	server = app.listen.apply(app, args);
 };
 
-exports.close = function (callback) {
-	server.close(callback);
+exports.close = async () => {
+	await server.close();
 };

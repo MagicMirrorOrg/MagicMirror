@@ -23,7 +23,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
@@ -31,7 +31,7 @@ jobs:
         run: |
           Xvfb :99 -screen 0 1024x768x16 &
           export DISPLAY=:99
-          npm install
+          npm run install-mm:dev
           touch css/custom.css
           npm run test:prettier
           npm run test:js

@@ -20,9 +20,7 @@ If you are facing an issue or found a bug while trying to install MagicMirror² 
 ## I found a bug in the MagicMirror² Docker image
 
 If you are facing an issue or found a bug while running MagicMirror² inside a Docker container please create an issue in the corresponding repository:
-
-- karsten13/magicmirror: [https://gitlab.com/khassel/magicmirror](https://gitlab.com/khassel/magicmirror)
-- (deprecated) bastilimbach/docker-magicmirror: [https://github.com/bastilimbach/docker-MagicMirror](https://github.com/bastilimbach/docker-MagicMirror)
+[https://gitlab.com/khassel/magicmirror](https://gitlab.com/khassel/magicmirror)
 
 ---
 

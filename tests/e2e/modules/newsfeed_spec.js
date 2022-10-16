@@ -1,83 +1,77 @@
-const helpers = require("../global-setup");
+const helpers = require("../helpers/global-setup");
 
-describe("Newsfeed module", function () {
-	afterAll(async function () {
+describe("Newsfeed module", () => {
+	afterAll(async () => {
 		await helpers.stopApplication();
 	});
 
-	describe("Default configuration", function () {
-		beforeAll(function (done) {
+	describe("Default configuration", () => {
+		beforeAll(async () => {
 			helpers.startApplication("tests/configs/modules/newsfeed/default.js");
-			helpers.getDocument(done);
+			await helpers.getDocument();
 		});
 
-		it("should show the newsfeed title", function () {
-			helpers.waitForElement(".newsfeed .newsfeed-source").then((elem) => {
-				expect(elem).not.toBe(null);
-				expect(elem.textContent).toContain("Rodrigo Ramirez Blog");
-			});
+		it("should show the newsfeed title", async () => {
+			const elem = await helpers.waitForElement(".newsfeed .newsfeed-source");
+			expect(elem).not.toBe(null);
+			expect(elem.textContent).toContain("Rodrigo Ramirez Blog");
 		});
 
-		it("should show the newsfeed article", function () {
-			helpers.waitForElement(".newsfeed .newsfeed-title").then((elem) => {
-				expect(elem).not.toBe(null);
-				expect(elem.textContent).toContain("QPanel");
-			});
+		it("should show the newsfeed article", async () => {
+			const elem = await helpers.waitForElement(".newsfeed .newsfeed-title");
+			expect(elem).not.toBe(null);
+			expect(elem.textContent).toContain("QPanel");
 		});
 
-		it("should NOT show the newsfeed description", () => {
-			helpers.waitForElement(".newsfeed .newsfeed-desc").then((elem) => {
-				expect(elem).toBe(null);
-			});
+		it("should NOT show the newsfeed description", async () => {
+			await helpers.waitForElement(".newsfeed");
+			const element = document.querySelector(".newsfeed .newsfeed-desc");
+			expect(element).toBe(null);
 		});
 	});
 
-	describe("Custom configuration", function () {
-		beforeAll(function (done) {
+	describe("Custom configuration", () => {
+		beforeAll(async () => {
 			helpers.startApplication("tests/configs/modules/newsfeed/prohibited_words.js");
-			helpers.getDocument(done);
+			await helpers.getDocument();
 		});
 
-		it("should not show articles with prohibited words", function () {
-			helpers.waitForElement(".newsfeed .newsfeed-title").then((elem) => {
-				expect(elem).not.toBe(null);
-				expect(elem.textContent).toContain("Problema VirtualBox");
-			});
+		it("should not show articles with prohibited words", async () => {
+			const elem = await helpers.waitForElement(".newsfeed .newsfeed-title");
+			expect(elem).not.toBe(null);
+			expect(elem.textContent).toContain("Problema VirtualBox");
 		});
 
-		it("should show the newsfeed description", () => {
-			helpers.waitForElement(".newsfeed .newsfeed-desc").then((elem) => {
-				expect(elem).not.toBe(null);
-				expect(elem.textContent.length).not.toBe(0);
-			});
+		it("should show the newsfeed description", async () => {
+			const elem = await helpers.waitForElement(".newsfeed .newsfeed-desc");
+			expect(elem).not.toBe(null);
+			expect(elem.textContent.length).not.toBe(0);
 		});
 	});
 
-	describe("Invalid configuration", function () {
-		beforeAll(function (done) {
+	describe("Invalid configuration", () => {
+		beforeAll(async () => {
 			helpers.startApplication("tests/configs/modules/newsfeed/incorrect_url.js");
-			helpers.getDocument(done);
+			await helpers.getDocument();
 		});
 
-		it("should show malformed url warning", function () {
-			helpers.waitForElement(".newsfeed .small").then((elem) => {
-				expect(elem).not.toBe(null);
-				expect(elem.textContent).toContain("Error in the Newsfeed module. Malformed url.");
-			});
+		it("should show malformed url warning", async () => {
+			const elem = await helpers.waitForElement(".newsfeed .small", "No news at the moment.");
+			expect(elem).not.toBe(null);
+			expect(elem.textContent).toContain("Error in the Newsfeed module. Malformed url.");
 		});
 	});
 
-	describe("Ignore items", function () {
-		beforeAll(function (done) {
+	describe("Ignore items", () => {
+		beforeAll(async () => {
 			helpers.startApplication("tests/configs/modules/newsfeed/ignore_items.js");
-			helpers.getDocument(done);
+			await helpers.getDocument();
 		});
 
-		it("should show empty items info message", function () {
-			helpers.waitForElement(".newsfeed .small").then((elem) => {
-				expect(elem).not.toBe(null);
-				expect(elem.textContent).toContain("No news at the moment.");
-			});
+		it("should show empty items info message", async () => {
+			const elem = await helpers.waitForElement(".newsfeed .small");
+			expect(elem).not.toBe(null);
+			expect(elem.textContent).toContain("No news at the moment.");
 		});
 	});
 });

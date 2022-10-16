@@ -1,11 +1,11 @@
-const helpers = require("./global-setup");
+const helpers = require("./helpers/global-setup");
 
-describe("Position of modules", function () {
-	beforeAll(function (done) {
+describe("Position of modules", () => {
+	beforeAll(async () => {
 		helpers.startApplication("tests/configs/modules/positions.js");
-		helpers.getDocument(done);
+		await helpers.getDocument();
 	});
-	afterAll(async function () {
+	afterAll(async () => {
 		await helpers.stopApplication();
 	});
 
@@ -13,11 +13,10 @@ describe("Position of modules", function () {
 
 	for (const position of positions) {
 		const className = position.replace("_", ".");
-		it("should show text in " + position, function () {
-			helpers.waitForElement("." + className).then((elem) => {
-				expect(elem).not.toBe(null);
-				expect(elem.textContent).toContain("Text in " + position);
-			});
+		it("should show text in " + position, async () => {
+			const elem = await helpers.waitForElement("." + className);
+			expect(elem).not.toBe(null);
+			expect(elem.textContent).toContain("Text in " + position);
 		});
 	}
 });

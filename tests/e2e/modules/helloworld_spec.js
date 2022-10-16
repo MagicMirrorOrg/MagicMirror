@@ -1,35 +1,33 @@
-const helpers = require("../global-setup");
+const helpers = require("../helpers/global-setup");
 
-describe("Test helloworld module", function () {
-	afterAll(async function () {
+describe("Test helloworld module", () => {
+	afterAll(async () => {
 		await helpers.stopApplication();
 	});
 
-	describe("helloworld set config text", function () {
-		beforeAll(function (done) {
+	describe("helloworld set config text", () => {
+		beforeAll(async () => {
 			helpers.startApplication("tests/configs/modules/helloworld/helloworld.js");
-			helpers.getDocument(done);
+			await helpers.getDocument();
 		});
 
-		it("Test message helloworld module", function () {
-			helpers.waitForElement(".helloworld").then((elem) => {
-				expect(elem).not.toBe(null);
-				expect(elem.textContent).toContain("Test HelloWorld Module");
-			});
+		it("Test message helloworld module", async () => {
+			const elem = await helpers.waitForElement(".helloworld");
+			expect(elem).not.toBe(null);
+			expect(elem.textContent).toContain("Test HelloWorld Module");
 		});
 	});
 
-	describe("helloworld default config text", function () {
-		beforeAll(function (done) {
+	describe("helloworld default config text", () => {
+		beforeAll(async () => {
 			helpers.startApplication("tests/configs/modules/helloworld/helloworld_default.js");
-			helpers.getDocument(done);
+			await helpers.getDocument();
 		});
 
-		it("Test message helloworld module", function () {
-			helpers.waitForElement(".helloworld").then((elem) => {
-				expect(elem).not.toBe(null);
-				expect(elem.textContent).toContain("Hello World!");
-			});
+		it("Test message helloworld module", async () => {
+			const elem = await helpers.waitForElement(".helloworld");
+			expect(elem).not.toBe(null);
+			expect(elem.textContent).toContain("Hello World!");
 		});
 	});
 });

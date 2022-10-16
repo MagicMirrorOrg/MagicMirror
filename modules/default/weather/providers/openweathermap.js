@@ -21,7 +21,7 @@ WeatherProvider.register("openweathermap", {
 		weatherEndpoint: "", // can be "onecall", "forecast" or "weather" (for current)
 		locationID: false,
 		location: false,
-		lat: 0, // the onecall endpoint needs lat / lon values, it doesn'T support the locationId
+		lat: 0, // the onecall endpoint needs lat / lon values, it doesn't support the locationId
 		lon: 0,
 		apiKey: ""
 	},
@@ -147,8 +147,7 @@ WeatherProvider.register("openweathermap", {
 			return this.fetchForecastDaily(forecasts);
 		}
 		// if weatherEndpoint does not match forecast or forecast/daily, what should be returned?
-		const days = [new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh)];
-		return days;
+		return [new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh)];
 	},
 
 	/*
@@ -159,8 +158,7 @@ WeatherProvider.register("openweathermap", {
 			return this.fetchOnecall(data);
 		}
 		// if weatherEndpoint does not match onecall, what should be returned?
-		const weatherData = { current: new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh), hours: [], days: [] };
-		return weatherData;
+		return { current: new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh), hours: [], days: [] };
 	},
 
 	/*
