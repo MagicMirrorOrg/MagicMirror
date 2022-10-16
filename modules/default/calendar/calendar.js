@@ -14,6 +14,7 @@ Module.register("calendar", {
 		limitDays: 0, // Limit the number of days shown, 0 = no limit
 		displaySymbol: true,
 		defaultSymbol: "calendar-alt", // Fontawesome Symbol see https://fontawesome.com/cheatsheet?from=io
+		defaultSymbolClassName: "fas fa-fw fa-",
 		showLocation: false,
 		displayRepeatingCountTitle: false,
 		defaultRepeatingCountTitle: "",
@@ -247,7 +248,7 @@ Module.register("calendar", {
 				const symbols = this.symbolsForEvent(event);
 				symbols.forEach((s, index) => {
 					const symbol = document.createElement("span");
-					symbol.className = "fas fa-fw fa-" + s;
+					symbol.className = s;
 					if (index > 0) {
 						symbol.style.paddingLeft = "5px";
 					}
@@ -771,6 +772,11 @@ Module.register("calendar", {
 
 	getCalendarPropertyAsArray: function (url, property, defaultValue) {
 		let p = this.getCalendarProperty(url, property, defaultValue);
+		if (property === "symbol" || property === "recurringSymbol" || property === "fullDaySymbol") {
+			const className = this.getCalendarProperty(url, "symbolClassName", this.config.defaultSymbolClassName);
+			p = className + p;
+		}
+
 		if (!(p instanceof Array)) p = [p];
 		return p;
 	},
