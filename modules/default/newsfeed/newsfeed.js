@@ -42,7 +42,13 @@ Module.register("newsfeed", {
 		dangerouslyDisableAutoEscaping: false
 	},
 
-	urlPrefix: location.protocol + "//" + location.host + "/cors?url=",
+	getUrlPrefix: function (item) {
+		if (item.useCorsProxy) {
+			return location.protocol + "//" + location.host + "/cors?url=";
+		} else {
+			return "";
+		}
+	},
 
 	// Define required scripts.
 	getScripts: function () {
@@ -144,7 +150,7 @@ Module.register("newsfeed", {
 			sourceTitle: item.sourceTitle,
 			publishDate: moment(new Date(item.pubdate)).fromNow(),
 			title: item.title,
-			url: this.urlPrefix + item.url,
+			url: this.getUrlPrefix(item) + item.url,
 			description: item.description,
 			items: items
 		};
@@ -153,7 +159,7 @@ Module.register("newsfeed", {
 	getActiveItemURL: function () {
 		const item = this.newsItems[this.activeItem];
 		if (item) {
-			return typeof item.url === "string" ? this.urlPrefix + item.url : this.urlPrefix + item.url.href;
+			return typeof item.url === "string" ? this.getUrlPrefix(item) + item.url : this.getUrlPrefix(item) + item.url.href;
 		} else {
 			return "";
 		}

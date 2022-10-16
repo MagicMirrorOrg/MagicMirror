@@ -20,7 +20,7 @@ const stream = require("stream");
  * @param {boolean} logFeedWarnings If true log warnings when there is an error parsing a news article.
  * @class
  */
-const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings) {
+const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings, useCorsProxy) {
 	let reloadTimer = null;
 	let items = [];
 
@@ -57,7 +57,8 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 					title: title,
 					description: description,
 					pubdate: pubdate,
-					url: url
+					url: url,
+					useCorsProxy: useCorsProxy
 				});
 			} else if (logFeedWarnings) {
 				Log.warn("Can't parse feed item:");
