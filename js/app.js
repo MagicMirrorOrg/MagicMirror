@@ -102,9 +102,9 @@ function App() {
 	 * Loads a specific module.
 	 *
 	 * @param {string} module The name of the module (including subpath).
-	 * @returns {Promise} A promise that resolves as soon as the module is loaded.
+	 * @param {Function} callback Function to be called after loading
 	 */
-	async function loadModule(module) {
+	function loadModule(module, callback) {
 		const elements = module.split("/");
 		const moduleName = elements[elements.length - 1];
 		let moduleFolder = `${__dirname}/../modules/${module}`;
@@ -116,28 +116,28 @@ function App() {
 		const helperPath = resolveHelperPath(moduleFolder);
 
 		if (helperPath) {
-			const ModuleHelper = await import(helperPath);
-			let m = new ModuleHelper.default();
+			import(helperPath).then(function (ModuleHelper) {
+				let m = new ModuleHelper.default();
 
-			if (m.requiresVersion) {
-				Log.log(`Check MagicMirror² version for node helper '${moduleName}' - Minimum version: ${m.requiresVersion} - Current version: ${global.version}`);
-				if (cmpVersions(global.version, m.requiresVersion) >= 0) {
-					Log.log("Version is ok!");
-				} else {
-					Log.warn(`Version is incorrect. Skip module: '${moduleName}'`);
-					return;
+				if (m.requiresVersion) {
+					Log.log(`Check MagicMirror² version for node helper '${moduleName}' - Minimum version: ${m.requiresVersion} - Current version: ${global.version}`);
+					if (cmpVersions(global.version, m.requiresVersion) >= 0) {
+						Log.log("Version is ok!");
+					} else {
+						Log.warn(`Version is incorrect. Skip module: '${moduleName}'`);
+						return;
+					}
 				}
-			}
 
-			m.setName(moduleName);
-			m.setPath(path.resolve(moduleFolder));
-			nodeHelpers.push(m);
+				m.setName(moduleName);
+				m.setPath(path.resolve(moduleFolder));
+				nodeHelpers.push(m);
 
-			return new Promise((resolve, reject) => {
-				m.loaded(resolve);
+				m.loaded(callback);
 			});
 		} else {
 			Log.log(`No helper found for module: ${moduleName}.`);
+			callback();
 		}
 	}
 
@@ -156,7 +156,7 @@ function App() {
 		function loadNextModule() {
 			if (modules.length > 0) {
 				const nextModule = modules[0];
-				loadModule(nextModule).then(() => {
+				loadModule(nextModule, function () {
 					modules = modules.slice(1);
 					loadNextModule();
 				});
