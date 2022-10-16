@@ -44,7 +44,7 @@ Special thanks to: @BKeyport, @buxxi, @davide125, @khassel, @kolbyjack, @krukle,
 - New scripts `install-mm` (and `install-mm:dev`) for simplifying mm installation (now: `npm run install-mm`) and adding params `--no-audit --no-fund --no-update-notifier` for less noise.
 - New `showTimeToday` option in calendar module shows time for current-day events even if `timeFormat` is `"relative"`.
 - Added hourly forecasts, apparent temperature & custom location name to SMHI weather provider.
-- Added new electron tests for calendar and moved compliments tests from `e2e` to `electron` because of date mocking, removed mock stuff from compliments module.
+- Added new electron tests for calendar and moved some compliments tests from `e2e` to `electron` because of date mocking, removed mock stuff from compliments module.
 
 ### Removed
 

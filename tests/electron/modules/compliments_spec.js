@@ -34,35 +34,12 @@ describe("Compliments module", () => {
 		});
 	});
 
-	describe("Feature anytime in compliments module", () => {
-		describe("Set anytime and empty compliments for morning, evening and afternoon ", () => {
-			it("Show anytime because if configure empty parts of day compliments and set anytime compliments", async () => {
-				await helpers.startApplication("tests/configs/modules/compliments/compliments_anytime.js");
-				await doTest(["Anytime here"]);
-			});
-		});
-
-		describe("Only anytime present in configuration compliments", () => {
-			it("Show anytime compliments", async () => {
-				await helpers.startApplication("tests/configs/modules/compliments/compliments_only_anytime.js");
-				await doTest(["Anytime here"]);
-			});
-		});
-	});
-
 	describe("Feature date in compliments module", () => {
 		describe("Set date and empty compliments for anytime, morning, evening and afternoon", () => {
 			it("Show happy new year compliment on new years day", async () => {
 				await helpers.startApplication("tests/configs/modules/compliments/compliments_date.js", "01 Jan 2022 10:00:00 GMT");
 				await doTest(["Happy new year!"]);
 			});
-		});
-	});
-
-	describe("remoteFile option", () => {
-		it("should show compliments from a remote file", async () => {
-			await helpers.startApplication("tests/configs/modules/compliments/compliments_remote.js");
-			await doTest(["Remote compliment file works!"]);
 		});
 	});
 });
