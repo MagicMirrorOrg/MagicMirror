@@ -108,7 +108,7 @@ WeatherProvider.register("weatherbit", {
 
 		const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
 
-		currentWeather.date = moment(currentWeatherData.data[0].ts, "X");
+		currentWeather.date = moment.unix(currentWeatherData.data[0].ts);
 		currentWeather.humidity = parseFloat(currentWeatherData.data[0].rh);
 		currentWeather.temperature = parseFloat(currentWeatherData.data[0].temp);
 		currentWeather.windSpeed = parseFloat(currentWeatherData.data[0].wind_spd);

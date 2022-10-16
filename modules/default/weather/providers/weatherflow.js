@@ -51,8 +51,8 @@ WeatherProvider.register("weatherflow", {
 				currentWeather.windSpeed = data.current_conditions.wind_avg;
 				currentWeather.windDirection = data.current_conditions.wind_direction;
 				currentWeather.weatherType = data.forecast.daily[0].icon;
-				currentWeather.sunrise = moment(data.forecast.daily[0].sunrise, "X");
-				currentWeather.sunset = moment(data.forecast.daily[0].sunset, "X");
+				currentWeather.sunrise = moment.unix(data.forecast.daily[0].sunrise);
+				currentWeather.sunset = moment.unix(data.forecast.daily[0].sunset);
 				this.setCurrentWeather(currentWeather);
 			})
 			.catch(function (request) {
@@ -69,7 +69,7 @@ WeatherProvider.register("weatherflow", {
 				for (const forecast of data.forecast.daily) {
 					const weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
 
-					weather.date = moment(forecast.day_start_local, "X");
+					weather.date = moment.unix(forecast.day_start_local);
 					weather.minTemperature = forecast.air_temp_low;
 					weather.maxTemperature = forecast.air_temp_high;
 					weather.weatherType = forecast.icon;

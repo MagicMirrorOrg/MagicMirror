@@ -81,8 +81,8 @@ WeatherProvider.register("darksky", {
 		currentWeather.windSpeed = parseFloat(currentWeatherData.currently.windSpeed);
 		currentWeather.windDirection = currentWeatherData.currently.windBearing;
 		currentWeather.weatherType = this.convertWeatherType(currentWeatherData.currently.icon);
-		currentWeather.sunrise = moment(currentWeatherData.daily.data[0].sunriseTime, "X");
-		currentWeather.sunset = moment(currentWeatherData.daily.data[0].sunsetTime, "X");
+		currentWeather.sunrise = moment.unix(currentWeatherData.daily.data[0].sunriseTime);
+		currentWeather.sunset = moment.unix(currentWeatherData.daily.data[0].sunsetTime);
 
 		return currentWeather;
 	},
@@ -93,7 +93,7 @@ WeatherProvider.register("darksky", {
 		for (const forecast of forecasts) {
 			const weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
 
-			weather.date = moment(forecast.time, "X");
+			weather.date = moment.unix(forecast.time);
 			weather.minTemperature = forecast.temperatureMin;
 			weather.maxTemperature = forecast.temperatureMax;
 			weather.weatherType = this.convertWeatherType(forecast.icon);

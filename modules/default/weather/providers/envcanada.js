@@ -340,7 +340,7 @@ WeatherProvider.register("envcanada", {
 			// Add 1 to the date to reflect the current forecast day we are building
 
 			lastDate = lastDate.add(1, "day");
-			weather.date = moment(lastDate, "X");
+			weather.date = moment.unix(lastDate);
 
 			// Capture the temperatures for the current Element and the next Element in order to set
 			// the Min and Max temperatures for the forecast
@@ -395,7 +395,7 @@ WeatherProvider.register("envcanada", {
 
 			const foreTime = moment(hourGroup[stepHour].getAttribute("dateTimeUTC"), "YYYYMMDDhhmmss");
 			const currTime = foreTime.add(hourOffset, "hours");
-			weather.date = moment(currTime, "X");
+			weather.date = moment.unix(currTime);
 
 			// Capture the temperature
 
