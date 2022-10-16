@@ -131,8 +131,8 @@ WeatherProvider.register("openweathermap", {
 		currentWeather.windSpeed = currentWeatherData.wind.speed;
 		currentWeather.windDirection = currentWeatherData.wind.deg;
 		currentWeather.weatherType = this.convertWeatherType(currentWeatherData.weather[0].icon);
-		currentWeather.sunrise = moment(currentWeatherData.sys.sunrise, "X");
-		currentWeather.sunset = moment(currentWeatherData.sys.sunset, "X");
+		currentWeather.sunrise = moment.unix(currentWeatherData.sys.sunrise);
+		currentWeather.sunset = moment.unix(currentWeatherData.sys.sunset);
 
 		return currentWeather;
 	},
@@ -177,7 +177,7 @@ WeatherProvider.register("openweathermap", {
 		let weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
 
 		for (const forecast of forecasts) {
-			if (date !== moment(forecast.dt, "X").format("YYYY-MM-DD")) {
+			if (date !== moment.unix(forecast.dt).format("YYYY-MM-DD")) {
 				// calculate minimum/maximum temperature, specify rain amount
 				weather.minTemperature = Math.min.apply(null, minTemp);
 				weather.maxTemperature = Math.max.apply(null, maxTemp);
@@ -195,16 +195,16 @@ WeatherProvider.register("openweathermap", {
 				snow = 0;
 
 				// set new date
-				date = moment(forecast.dt, "X").format("YYYY-MM-DD");
+				date = moment.unix(forecast.dt).format("YYYY-MM-DD");
 
 				// specify date
-				weather.date = moment(forecast.dt, "X");
+				weather.date = moment.unix(forecast.dt);
 
 				// If the first value of today is later than 17:00, we have an icon at least!
 				weather.weatherType = this.convertWeatherType(forecast.weather[0].icon);
 			}
 
-			if (moment(forecast.dt, "X").format("H") >= 8 && moment(forecast.dt, "X").format("H") <= 17) {
+			if (moment.unix(forecast.dt).format("H") >= 8 && moment.unix(forecast.dt).format("H") <= 17) {
 				weather.weatherType = this.convertWeatherType(forecast.weather[0].icon);
 			}
 
@@ -252,7 +252,7 @@ WeatherProvider.register("openweathermap", {
 		for (const forecast of forecasts) {
 			const weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
 
-			weather.date = moment(forecast.dt, "X");
+			weather.date = moment.unix(forecast.dt);
 			weather.minTemperature = forecast.temp.min;
 			weather.maxTemperature = forecast.temp.max;
 			weather.weatherType = this.convertWeatherType(forecast.weather[0].icon);
@@ -298,11 +298,11 @@ WeatherProvider.register("openweathermap", {
 		// get current weather, if requested
 		const current = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
 		if (data.hasOwnProperty("current")) {
-			current.date = moment(data.current.dt, "X").utcOffset(data.timezone_offset / 60);
+			current.date = moment.unix(data.current.dt).utcOffset(data.timezone_offset / 60);
 			current.windSpeed = data.current.wind_speed;
 			current.windDirection = data.current.wind_deg;
-			current.sunrise = moment(data.current.sunrise, "X").utcOffset(data.timezone_offset / 60);
-			current.sunset = moment(data.current.sunset, "X").utcOffset(data.timezone_offset / 60);
+			current.sunrise = moment.unix(data.current.sunrise).utcOffset(data.timezone_offset / 60);
+			current.sunset = moment.unix(data.current.sunset).utcOffset(data.timezone_offset / 60);
 			current.temperature = data.current.temp;
 			current.weatherType = this.convertWeatherType(data.current.weather[0].icon);
 			current.humidity = data.current.humidity;
@@ -334,8 +334,7 @@ WeatherProvider.register("openweathermap", {
 		const hours = [];
 		if (data.hasOwnProperty("hourly")) {
 			for (const hour of data.hourly) {
-				weather.date = moment(hour.dt, "X").utcOffset(data.timezone_offset / 60);
-				// weather.date = moment(hour.dt, "X").utcOffset(data.timezone_offset/60).format(onecallDailyFormat+","+onecallHourlyFormat);
+				weather.date = moment.unix(hour.dt).utcOffset(data.timezone_offset / 60);
 				weather.temperature = hour.temp;
 				weather.feelsLikeTemp = hour.feels_like;
 				weather.humidity = hour.humidity;
@@ -372,9 +371,9 @@ WeatherProvider.register("openweathermap", {
 		const days = [];
 		if (data.hasOwnProperty("daily")) {
 			for (const day of data.daily) {
-				weather.date = moment(day.dt, "X").utcOffset(data.timezone_offset / 60);
-				weather.sunrise = moment(day.sunrise, "X").utcOffset(data.timezone_offset / 60);
-				weather.sunset = moment(day.sunset, "X").utcOffset(data.timezone_offset / 60);
+				weather.date = moment.unix(day.dt).utcOffset(data.timezone_offset / 60);
+				weather.sunrise = moment.unix(day.sunrise).utcOffset(data.timezone_offset / 60);
+				weather.sunset = moment.unix(day.sunset).utcOffset(data.timezone_offset / 60);
 				weather.minTemperature = day.temp.min;
 				weather.maxTemperature = day.temp.max;
 				weather.humidity = day.humidity;
