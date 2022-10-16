@@ -113,11 +113,9 @@ function App() {
 			moduleFolder = `${__dirname}/../modules/default/${module}`;
 		}
 
-		const helperPath = resolveHelperPath(moduleFolder);
-
-		if (helperPath) {
-			import(helperPath).then(function (ModuleHelper) {
-				let m = new ModuleHelper.default();
+		resolveHelperLoader(moduleFolder)
+			.then(function (ModuleHelper) {
+				let m = new ModuleHelper();
 
 				if (m.requiresVersion) {
 					Log.log(`Check MagicMirror² version for node helper '${moduleName}' - Minimum version: ${m.requiresVersion} - Current version: ${global.version}`);
@@ -134,11 +132,11 @@ function App() {
 				nodeHelpers.push(m);
 
 				m.loaded(callback);
+			})
+			.catch(function (err) {
+				Log.log(`No helper found for module: ${moduleName}.`);
+				callback();
 			});
-		} else {
-			Log.log(`No helper found for module: ${moduleName}.`);
-			callback();
-		}
 	}
 
 	/**
@@ -195,24 +193,39 @@ function App() {
 	}
 
 	/**
-	 * Resolves the path to the node_helper for either CommonJS or ESM depending on the file extension
+	 * Resolves a loader for the node_helper using either CommonJS or ESM depending on the file extension
 	 *
 	 * @param {string} moduleFolder the folder that should contain the node_helper
-	 * @returns {string} the path to the node_helper that should be used, or undefined if none exists
+	 * @returns {Promise} a promise that contains the loaded module
 	 */
-	function resolveHelperPath(moduleFolder) {
-		for (const extension of ["js", "mjs"]) {
+	function resolveHelperLoader(moduleFolder) {
+		const loaders = {
+			js: commonJSHelperLoader,
+			mjs: ESMHelperLoader
+		};
+
+		for (const extension in loaders) {
 			const helperPath = `${moduleFolder}/node_helper.${extension}`;
 
 			try {
 				fs.accessSync(helperPath, fs.R_OK);
-				return helperPath;
+
+				return loaders[extension](helperPath);
 			} catch (e) {
 				// The current extension may not have been found, try the next instead
 			}
 		}
 
-		return undefined;
+		return Promise.reject();
+	}
+
+	async function commonJSHelperLoader(helperPath) {
+		return require(helperPath);
+	}
+
+	async function ESMHelperLoader(helperPath) {
+		let module = await import(helperPath);
+		return module.default;
 	}
 
 	/**
