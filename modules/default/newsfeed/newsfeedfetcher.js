@@ -18,6 +18,7 @@ const stream = require("stream");
  * @param {number} reloadInterval Reload interval in milliseconds.
  * @param {string} encoding Encoding of the feed.
  * @param {boolean} logFeedWarnings If true log warnings when there is an error parsing a news article.
+ * @param {boolean} useCorsProxy If true cors proxy is used for article url's.
  * @class
  */
 const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings, useCorsProxy) {
