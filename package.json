@@ -118,6 +118,9 @@
 				"displayName": "electron",
 				"testMatch": [
 					"**/tests/electron/**/*.[jt]s?(x)"
+				],
+				"testPathIgnorePatterns": [
+					"<rootDir>/tests/electron/helpers/"
 				]
 			},
 			{
