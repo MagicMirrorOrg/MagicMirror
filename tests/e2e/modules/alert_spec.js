@@ -2,7 +2,7 @@ const helpers = require("../helpers/global-setup");
 
 describe("Alert module", () => {
 	beforeAll(async () => {
-		helpers.startApplication("tests/configs/modules/alert/default.js");
+		await helpers.startApplication("tests/configs/modules/alert/default.js");
 		await helpers.getDocument();
 	});
 	afterAll(async () => {

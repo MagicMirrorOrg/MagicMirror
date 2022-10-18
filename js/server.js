@@ -131,11 +131,15 @@ function Server(config, callback) {
 		callback(app, io);
 	}
 
-	this.close = function () {
+	this.close = function (callback) {
 		for (const socket of serverSockets.values()) {
 			socket.destroy();
 		}
-		server.close();
+		server.close(function () {
+			if (typeof callback === "function") {
+				callback();
+			}
+		});
 	};
 }
 

@@ -252,13 +252,13 @@ function App() {
 	 *
 	 * Added to fix #1056
 	 */
-	this.stop = function () {
+	this.stop = function (callback) {
 		for (const nodeHelper of nodeHelpers) {
 			if (typeof nodeHelper.stop === "function") {
 				nodeHelper.stop();
 			}
 		}
-		httpServer.close();
+		httpServer.close(callback);
 	};
 
 	/**

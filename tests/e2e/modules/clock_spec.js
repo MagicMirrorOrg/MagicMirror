@@ -8,7 +8,7 @@ describe("Clock module", () => {
 
 	describe("with default 24hr clock config", () => {
 		beforeAll(async () => {
-			helpers.startApplication("tests/configs/modules/clock/clock_24hr.js");
+			await helpers.startApplication("tests/configs/modules/clock/clock_24hr.js");
 			await helpers.getDocument();
 		});
 
@@ -25,7 +25,7 @@ describe("Clock module", () => {
 
 	describe("with default 12hr clock config", () => {
 		beforeAll(async () => {
-			helpers.startApplication("tests/configs/modules/clock/clock_12hr.js");
+			await helpers.startApplication("tests/configs/modules/clock/clock_12hr.js");
 			await helpers.getDocument();
 		});
 
@@ -42,7 +42,7 @@ describe("Clock module", () => {
 
 	describe("with showPeriodUpper config enabled", () => {
 		beforeAll(async () => {
-			helpers.startApplication("tests/configs/modules/clock/clock_showPeriodUpper.js");
+			await helpers.startApplication("tests/configs/modules/clock/clock_showPeriodUpper.js");
 			await helpers.getDocument();
 		});
 
@@ -54,7 +54,7 @@ describe("Clock module", () => {
 
 	describe("with displaySeconds config disabled", () => {
 		beforeAll(async () => {
-			helpers.startApplication("tests/configs/modules/clock/clock_displaySeconds_false.js");
+			await helpers.startApplication("tests/configs/modules/clock/clock_displaySeconds_false.js");
 			await helpers.getDocument();
 		});
 
@@ -66,7 +66,7 @@ describe("Clock module", () => {
 
 	describe("with showTime config disabled", () => {
 		beforeAll(async () => {
-			helpers.startApplication("tests/configs/modules/clock/clock_showTime.js");
+			await helpers.startApplication("tests/configs/modules/clock/clock_showTime.js");
 			await helpers.getDocument();
 		});
 
@@ -78,7 +78,7 @@ describe("Clock module", () => {
 
 	describe("with showWeek config enabled", () => {
 		beforeAll(async () => {
-			helpers.startApplication("tests/configs/modules/clock/clock_showWeek.js");
+			await helpers.startApplication("tests/configs/modules/clock/clock_showWeek.js");
 			await helpers.getDocument();
 		});
 
@@ -98,7 +98,7 @@ describe("Clock module", () => {
 
 	describe("with analog clock face enabled", () => {
 		beforeAll(async () => {
-			helpers.startApplication("tests/configs/modules/clock/clock_analog.js");
+			await helpers.startApplication("tests/configs/modules/clock/clock_analog.js");
 			await helpers.getDocument();
 		});
 
