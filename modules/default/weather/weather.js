@@ -208,7 +208,7 @@ Module.register("weather", {
 	 * @returns {number}
 	 */
 	convertTemp(tempInC) {
-		return this.config.tempUnits === "imperial" ? tempInC * 1.8 + 32 : tempInC;
+		return this.config.tempUnits === "imperial" ? this.roundValue(tempInC * 1.8 + 32) : tempInC;
 	},
 
 	convertWind(windInMS) {

@@ -14,39 +14,15 @@ describe("Weather module", () => {
 			});
 
 			it("should render wind speed and wind direction", async () => {
-				await weatherFunc.getText(".weather .normal.medium span:nth-child(2)", "6 WSW"); // now "12"
+				await weatherFunc.getText(".weather .normal.medium span:nth-child(2)", "12 WSW");
 			});
 
 			it("should render temperature with icon", async () => {
-				await weatherFunc.getText(".weather .large.light span.bright", "1.5°"); // now "1°C"
+				await weatherFunc.getText(".weather .large.light span.bright", "1.5°");
 			});
 
 			it("should render feels like temperature", async () => {
-				await weatherFunc.getText(".weather .normal.medium.feelslike span.dimmed", "Feels like -5.6°"); // now "Feels like -6°C"
-			});
-		});
-
-		describe("Default configuration with sunrise", () => {
-			beforeAll(async () => {
-				const sunrise = moment().startOf("day").unix();
-				const sunset = moment().startOf("day").unix();
-				await weatherFunc.startApp("tests/configs/modules/weather/currentweather_default.js", { sys: { sunrise, sunset } });
-			});
-
-			it("should render sunrise", async () => {
-				await weatherFunc.getText(".weather .normal.medium span:nth-child(4)", "12:00 am");
-			});
-		});
-
-		describe("Default configuration with sunset", () => {
-			beforeAll(async () => {
-				const sunrise = moment().startOf("day").unix();
-				const sunset = moment().endOf("day").unix();
-				await weatherFunc.startApp("tests/configs/modules/weather/currentweather_default.js", { sys: { sunrise, sunset } });
-			});
-
-			it("should render sunset", async () => {
-				await weatherFunc.getText(".weather .normal.medium span:nth-child(4)", "11:59 pm");
+				await weatherFunc.getText(".weather .normal.medium.feelslike span.dimmed", "Feels like -5.6°");
 			});
 		});
 	});
@@ -66,65 +42,44 @@ describe("Weather module", () => {
 			await weatherFunc.startApp("tests/configs/modules/weather/currentweather_options.js", {});
 		});
 
-		it("should render useBeaufort = false", async () => {
-			await weatherFunc.getText(".weather .normal.medium span:nth-child(2)", "12");
+		it("should render windUnits in beaufort", async () => {
+			await weatherFunc.getText(".weather .normal.medium span:nth-child(2)", "6");
 		});
 
-		it("should render showWindDirectionAsArrow = true", async () => {
+		it("should render windDirection with an arrow", async () => {
 			const elem = await helpers.waitForElement(".weather .normal.medium sup i.fa-long-arrow-alt-up");
 			expect(elem).not.toBe(null);
 			expect(elem.outerHTML).toContain("transform:rotate(250deg);");
 		});
 
-		it("should render showHumidity = true", async () => {
+		it("should render humidity", async () => {
 			await weatherFunc.getText(".weather .normal.medium span:nth-child(3)", "93.7");
 		});
 
-		it("should render degreeLabel = true for temp", async () => {
+		it("should render degreeLabel for temp", async () => {
 			await weatherFunc.getText(".weather .large.light span.bright", "1°C");
 		});
 
-		it("should render degreeLabel = true for feels like", async () => {
+		it("should render degreeLabel for feels like", async () => {
 			await weatherFunc.getText(".weather .normal.medium.feelslike span.dimmed", "Feels like -6°C");
 		});
 	});
 
-	describe("Current weather units", () => {
+	describe("Current weather with imperial units", () => {
 		beforeAll(async () => {
-			await weatherFunc.startApp("tests/configs/modules/weather/currentweather_units.js", {
-				main: {
-					temp: (1.49 * 9) / 5 + 32,
-					temp_min: (1 * 9) / 5 + 32,
-					temp_max: (2 * 9) / 5 + 32
-				},
-				wind: {
-					speed: 11.8 * 2.23694
-				}
-			});
+			await weatherFunc.startApp("tests/configs/modules/weather/currentweather_units.js", {});
 		});
 
-		it("should render imperial units for wind", async () => {
-			await weatherFunc.getText(".weather .normal.medium span:nth-child(2)", "6 WSW");
+		it("should render wind in imperial units", async () => {
+			await weatherFunc.getText(".weather .normal.medium span:nth-child(2)", "26 WSW");
 		});
 
-		it("should render imperial units for temp", async () => {
+		it("should render temperatures in fahrenheit", async () => {
 			await weatherFunc.getText(".weather .large.light span.bright", "34,7°");
 		});
 
-		it("should render imperial units for feels like", async () => {
-			await weatherFunc.getText(".weather .normal.medium.feelslike span.dimmed", "Feels like 22,0°");
-		});
-
-		it("should render custom decimalSymbol = ',' for humidity", async () => {
-			await weatherFunc.getText(".weather .normal.medium span:nth-child(3)", "93,7");
-		});
-
-		it("should render custom decimalSymbol = ',' for temp", async () => {
-			await weatherFunc.getText(".weather .large.light span.bright", "34,7°");
-		});
-
-		it("should render custom decimalSymbol = ',' for feels like", async () => {
-			await weatherFunc.getText(".weather .normal.medium.feelslike span.dimmed", "Feels like 22,0°");
+		it("should render 'feels like' in fahrenheit", async () => {
+			await weatherFunc.getText(".weather .normal.medium.feelslike span.dimmed", "Feels like 21,9°");
 		});
 	});
 });
