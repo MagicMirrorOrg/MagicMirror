@@ -240,9 +240,15 @@ function App() {
 					}
 				}
 
-				Promise.allSettled(nodePromises).then(() => {
-					Log.log("Sockets connected & modules started ...");
+				Promise.allSettled(nodePromises).then((results) => {
+					// Log errors that happened during async node_helper startup
+					results.forEach((result) => {
+						if (result.status === "rejected") {
+							Log.error(result.reason);
+						}
+					});
 
+					Log.log("Sockets connected & modules started ...");
 					if (typeof callback === "function") {
 						callback(config);
 					}
