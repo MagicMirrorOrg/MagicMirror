@@ -75,7 +75,7 @@ WeatherProvider.register("smhi", {
 	setConfig(config) {
 		this.config = config;
 		if (!config.precipitationValue || ["pmin", "pmean", "pmedian", "pmax"].indexOf(config.precipitationValue) === -1) {
-			console.log("invalid or not set: " + config.precipitationValue);
+			Log.log("invalid or not set: " + config.precipitationValue);
 			config.precipitationValue = this.defaults.precipitationValue;
 		}
 	},

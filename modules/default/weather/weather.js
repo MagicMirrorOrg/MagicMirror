@@ -76,10 +76,10 @@ Module.register("weather", {
 		moment.locale(this.config.lang);
 
 		if (this.config.useKmh) {
-			console.warn("Your are using the deprecated config values 'useKmh'. Please switch to windUnits!");
+			Log.warn("Your are using the deprecated config values 'useKmh'. Please switch to windUnits!");
 			this.windUnits = "kmh";
 		} else if (this.config.useBeaufort) {
-			console.warn("Your are using the deprecated config values 'useBeaufort'. Please switch to windUnits!");
+			Log.warn("Your are using the deprecated config values 'useBeaufort'. Please switch to windUnits!");
 			this.windUnits = "beaufort";
 		}
 
