@@ -25,6 +25,14 @@ describe("WeatherObject", () => {
 		expect(weatherobject.isDayTime()).toBe(false);
 	});
 
+	it("should convert windspeed correctly from mph to mps", () => {
+		expect(Math.round(weatherobject.convertWindToMetric(93.951324266285))).toBe(42);
+	});
+
+	it("should convert wind direction correctly from cardinal to value", () => {
+		expect(weatherobject.valueWindDirection("SSE")).toBe(157);
+	});
+
 	afterAll(() => {
 		moment.tz.setDefault(originalTimeZone);
 	});
