@@ -21,11 +21,6 @@ WeatherProvider.register("ukmetoffice", {
 		apiKey: ""
 	},
 
-	units: {
-		imperial: "us",
-		metric: "si"
-	},
-
 	// Overwrite the fetchCurrentWeather method.
 	fetchCurrentWeather() {
 		this.fetchData(this.getUrl("3hourly"))
@@ -106,8 +101,8 @@ WeatherProvider.register("ukmetoffice", {
 							currentWeather.temperature = rep.T;
 							currentWeather.feelsLikeTemp = rep.F;
 							currentWeather.precipitation = parseInt(rep.Pp);
-							currentWeather.windSpeed = this.convertWindToMetric(rep.S);
-							currentWeather.windDirection = this.convertWindDirection(rep.D);
+							currentWeather.windSpeed = currentWeather.convertWindToMetric(rep.S);
+							currentWeather.windDirection = currentWeather.valueWindDirection(rep.D);
 							currentWeather.weatherType = this.convertWeatherType(rep.W);
 						}
 					}
@@ -190,32 +185,6 @@ WeatherProvider.register("ukmetoffice", {
 		};
 
 		return weatherTypes.hasOwnProperty(weatherType) ? weatherTypes[weatherType] : null;
-	},
-
-	/*
-	 * Convert the wind direction cardinal to value
-	 */
-	convertWindDirection(windDirection) {
-		const windCardinals = {
-			N: 0,
-			NNE: 22,
-			NE: 45,
-			ENE: 67,
-			E: 90,
-			ESE: 112,
-			SE: 135,
-			SSE: 157,
-			S: 180,
-			SSW: 202,
-			SW: 225,
-			WSW: 247,
-			W: 270,
-			WNW: 292,
-			NW: 315,
-			NNW: 337
-		};
-
-		return windCardinals.hasOwnProperty(windDirection) ? windCardinals[windDirection] : null;
 	},
 
 	/**
