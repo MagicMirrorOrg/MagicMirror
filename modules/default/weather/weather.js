@@ -202,15 +202,25 @@ Module.register("weather", {
 	},
 
 	/**
-	 * Convert temp (from degrees C) if required
+	 * Convert temp (from degrees C) into imperial or metric unit depending on
+	 * your config
 	 *
-	 * @param {number} tempInC
-	 * @returns {number}
+	 * @param {number} tempInC the temperature you want to convert in celsius
+	 * @returns {number} the temperature converted to what is defined in the config
 	 */
 	convertTemp(tempInC) {
 		return this.config.tempUnits === "imperial" ? this.roundValue(tempInC * 1.8 + 32) : tempInC;
 	},
 
+	/**
+	 *
+	 * Convert wind speed (from meters per second) into whatever is defined in
+	 * your config. Can be 'beaufort', 'kmh', 'knots, 'imperial' (mph) or
+	 * 'metric' (mps)
+	 *
+	 * @param {number} windInMS the windspeed you want to convert
+	 * @returns {number} the windspeed converted to what is defined in the config
+	 */
 	convertWind(windInMS) {
 		switch (this.config.windUnits) {
 			case "beaufort":
@@ -230,8 +240,8 @@ Module.register("weather", {
 	/**
 	 * Convert wind (from m/s) to beaufort scale
 	 *
-	 * @param {number} speedInMS
-	 * @returns {number}
+	 * @param {number} speedInMS the windspeed you want to convert
+	 * @returns {number} the speed in beaufort
 	 */
 	beaufortWindSpeed(speedInMS) {
 		const windInKmh = (speedInMS * 3600) / 1000;
