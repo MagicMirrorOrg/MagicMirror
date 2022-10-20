@@ -1,4 +1,3 @@
-const moment = require("moment");
 const helpers = require("../helpers/global-setup");
 const weatherFunc = require("../helpers/weather-functions");
 

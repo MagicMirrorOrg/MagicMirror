@@ -171,7 +171,7 @@ WeatherProvider.register("weathergov", {
 		const days = [];
 
 		// variable for date
-		let weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
+		let weather = new WeatherObject();
 		for (const forecast of forecasts) {
 			weather.date = moment(forecast.startTime.slice(0, 19));
 			if (forecast.windSpeed.search(" ") < 0) {
@@ -187,7 +187,7 @@ WeatherProvider.register("weathergov", {
 
 			days.push(weather);
 
-			weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
+			weather = new WeatherObject();
 		}
 
 		// push weather information to days array

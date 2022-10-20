@@ -10,7 +10,7 @@ describe("WeatherObject", () => {
 	beforeAll(() => {
 		originalTimeZone = moment.tz.guess();
 		moment.tz.setDefault("Africa/Dar_es_Salaam");
-		weatherobject = new WeatherObject("metric", "metric", "metric", true);
+		weatherobject = new WeatherObject();
 	});
 
 	it("should return true for daytime at noon", () => {
