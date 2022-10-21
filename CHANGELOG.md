@@ -27,6 +27,7 @@ Special thanks to: @rejas, @sdetweil
 - Updated e2e tests (moved `done()` in helper functions) and use es6 syntax in all tests
 - Updated da translation
 - Rework weather module
+  - Make sure smhi provider api only gets a maximum of 6 digits coordinates (#2955)
   - Use fetch instead of XMLHttpRequest in weatherprovider
   - Reworked how weatherproviders handle units
   - Use unix() method for parsing times, fix suntimes on the way
