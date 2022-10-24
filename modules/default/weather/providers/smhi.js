@@ -15,8 +15,8 @@ WeatherProvider.register("smhi", {
 
 	// Set the default config properties that is specific to this provider
 	defaults: {
-		lat: 0,
-		lon: 0,
+		lat: 0, // Cant have more than 6 digits
+		lon: 0, // Cant have more than 6 digits
 		precipitationValue: "pmedian",
 		location: false
 	},
@@ -104,8 +104,12 @@ WeatherProvider.register("smhi", {
 	 * @returns {string} the url for the specified coordinates
 	 */
 	getURL() {
-		let lon = this.config.lon;
-		let lat = this.config.lat;
+		const formatter = new Intl.NumberFormat("en-US", {
+			minimumFractionDigits: 6,
+			maximumFractionDigits: 6
+		});
+		const lon = formatter.format(this.config.lon);
+		const lat = formatter.format(this.config.lat);
 		return `https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/${lon}/lat/${lat}/data.json`;
 	},
 
