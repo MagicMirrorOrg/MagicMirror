@@ -28,6 +28,7 @@ Special thanks to: @rejas, @sdetweil
 - Updated da translation
 - Rework weather module
   - Use fetch instead of XMLHttpRequest in weatherprovider
+  - Reworked how weatherproviders handle units
   - Use unix() method for parsing times, fix suntimes on the way
 
 ### Fixed

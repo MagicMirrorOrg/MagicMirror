@@ -3,15 +3,7 @@
         <div class="normal medium">
             <span class="wi wi-strong-wind dimmed"></span>
             <span>
-                {% if config.useBeaufort %}
-                    {{ current.beaufortWindSpeed() | round }}
-                {% else %}
-                    {% if config.useKmh %}
-                        {{ current.kmhWindSpeed() | round }}
-                    {% else %}
-                        {{ current.windSpeed | round }}
-                    {% endif %}
-                {% endif %}
+                {{ current.windSpeed | unit("wind") | round }}
                 {% if config.showWindDirection %}
                     <sup>
                         {% if config.showWindDirectionAsArrow %}

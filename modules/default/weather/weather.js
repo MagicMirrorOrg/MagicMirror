@@ -13,7 +13,6 @@ Module.register("weather", {
 		roundTemp: false,
 		type: "current", // current, forecast, daily (equivalent to forecast), hourly (only with OpenWeatherMap /onecall endpoint)
 		units: config.units,
-		useKmh: false,
 		tempUnits: config.units,
 		windUnits: config.units,
 		updateInterval: 10 * 60 * 1000, // every 10 minutes
@@ -23,7 +22,6 @@ Module.register("weather", {
 		showPeriodUpper: false,
 		showWindDirection: true,
 		showWindDirectionAsArrow: false,
-		useBeaufort: true,
 		lang: config.language,
 		showHumidity: false,
 		showSun: true,
@@ -76,6 +74,14 @@ Module.register("weather", {
 	// Start the weather module.
 	start: function () {
 		moment.locale(this.config.lang);
+
+		if (this.config.useKmh) {
+			Log.warn("Your are using the deprecated config values 'useKmh'. Please switch to windUnits!");
+			this.windUnits = "kmh";
+		} else if (this.config.useBeaufort) {
+			Log.warn("Your are using the deprecated config values 'useBeaufort'. Please switch to windUnits!");
+			this.windUnits = "beaufort";
+		}
 
 		// Initialize the weather provider.
 		this.weatherProvider = WeatherProvider.initialize(this.config.weatherProvider, this);
@@ -195,6 +201,59 @@ Module.register("weather", {
 		return roundValue === "-0" ? 0 : roundValue;
 	},
 
+	/**
+	 * Convert temp (from degrees C) into imperial or metric unit depending on
+	 * your config
+	 *
+	 * @param {number} tempInC the temperature you want to convert in celsius
+	 * @returns {number} the temperature converted to what is defined in the config
+	 */
+	convertTemp(tempInC) {
+		return this.config.tempUnits === "imperial" ? this.roundValue(tempInC * 1.8 + 32) : tempInC;
+	},
+
+	/**
+	 *
+	 * Convert wind speed (from meters per second) into whatever is defined in
+	 * your config. Can be 'beaufort', 'kmh', 'knots, 'imperial' (mph) or
+	 * 'metric' (mps)
+	 *
+	 * @param {number} windInMS the windspeed you want to convert
+	 * @returns {number} the windspeed converted to what is defined in the config
+	 */
+	convertWind(windInMS) {
+		switch (this.config.windUnits) {
+			case "beaufort":
+				return this.beaufortWindSpeed(windInMS);
+			case "kmh":
+				return (windInMS * 3600) / 1000;
+			case "knots":
+				return windInMS * 1.943844;
+			case "imperial":
+				return windInMS * 2.2369362920544;
+			case "metric":
+			default:
+				return windInMS;
+		}
+	},
+
+	/**
+	 * Convert wind (from m/s) to beaufort scale
+	 *
+	 * @param {number} speedInMS the windspeed you want to convert
+	 * @returns {number} the speed in beaufort
+	 */
+	beaufortWindSpeed(speedInMS) {
+		const windInKmh = (speedInMS * 3600) / 1000;
+		const speeds = [1, 5, 11, 19, 28, 38, 49, 61, 74, 88, 102, 117, 1000];
+		for (const [index, speed] of speeds.entries()) {
+			if (speed > windInKmh) {
+				return index;
+			}
+		}
+		return 12;
+	},
+
 	addFilters() {
 		this.nunjucksEnvironment().addFilter(
 			"formatTime",
@@ -221,9 +280,7 @@ Module.register("weather", {
 			"unit",
 			function (value, type) {
 				if (type === "temperature") {
-					if (this.config.tempUnits === "metric" || this.config.tempUnits === "imperial") {
-						value += "°";
-					}
+					value = this.convertTemp(value) + "°";
 					if (this.config.degreeLabel) {
 						if (this.config.tempUnits === "metric") {
 							value += "C";
@@ -245,8 +302,9 @@ Module.register("weather", {
 					}
 				} else if (type === "humidity") {
 					value += "%";
+				} else if (type === "wind") {
+					value = this.convertWind(value);
 				}
-
 				return value;
 			}.bind(this)
 		);

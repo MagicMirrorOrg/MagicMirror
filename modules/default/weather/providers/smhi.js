@@ -75,7 +75,7 @@ WeatherProvider.register("smhi", {
 	setConfig(config) {
 		this.config = config;
 		if (!config.precipitationValue || ["pmin", "pmean", "pmedian", "pmax"].indexOf(config.precipitationValue) === -1) {
-			console.log("invalid or not set: " + config.precipitationValue);
+			Log.log("invalid or not set: " + config.precipitationValue);
 			config.precipitationValue = this.defaults.precipitationValue;
 		}
 	},
@@ -134,8 +134,7 @@ WeatherProvider.register("smhi", {
 	 * @returns {WeatherObject} The converted weatherdata at the specified location
 	 */
 	convertWeatherDataToObject(weatherData, coordinates) {
-		// Weather data is only for Sweden and nobody in Sweden would use imperial
-		let currentWeather = new WeatherObject("metric", "metric", "metric");
+		let currentWeather = new WeatherObject();
 
 		currentWeather.date = moment(weatherData.validTime);
 		currentWeather.updateSunTime(coordinates.lat, coordinates.lon);
@@ -191,7 +190,7 @@ WeatherProvider.register("smhi", {
 		for (const weatherObject of allWeatherObjects) {
 			//If its the first object or if a day/hour change we need to reset the summary object
 			if (!currentWeather || !currentWeather.date.isSame(weatherObject.date, groupBy)) {
-				currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+				currentWeather = new WeatherObject();
 				dayWeatherTypes = [];
 				currentWeather.temperature = weatherObject.temperature;
 				currentWeather.date = weatherObject.date;

@@ -14,17 +14,8 @@
 class WeatherObject {
 	/**
 	 * Constructor for a WeatherObject
-	 *
-	 * @param {string} units what units to use, "imperial" or "metric"
-	 * @param {string} tempUnits what tempunits to use
-	 * @param {string} windUnits what windunits to use
-	 * @param {boolean} useKmh use kmh if true, mps if false
 	 */
-	constructor(units, tempUnits, windUnits, useKmh) {
-		this.units = units;
-		this.tempUnits = tempUnits;
-		this.windUnits = windUnits;
-		this.useKmh = useKmh;
+	constructor() {
 		this.date = null;
 		this.windSpeed = null;
 		this.windDirection = null;
@@ -78,19 +69,38 @@ class WeatherObject {
 		}
 	}
 
-	beaufortWindSpeed() {
-		const windInKmh = this.windUnits === "imperial" ? this.windSpeed * 1.609344 : this.useKmh ? this.windSpeed : (this.windSpeed * 60 * 60) / 1000;
-		const speeds = [1, 5, 11, 19, 28, 38, 49, 61, 74, 88, 102, 117, 1000];
-		for (const [index, speed] of speeds.entries()) {
-			if (speed > windInKmh) {
-				return index;
-			}
-		}
-		return 12;
+	/*
+	 * Convert the wind direction cardinal to value
+	 */
+	valueWindDirection(windDirection) {
+		const windCardinals = {
+			N: 0,
+			NNE: 22,
+			NE: 45,
+			ENE: 67,
+			E: 90,
+			ESE: 112,
+			SE: 135,
+			SSE: 157,
+			S: 180,
+			SSW: 202,
+			SW: 225,
+			WSW: 247,
+			W: 270,
+			WNW: 292,
+			NW: 315,
+			NNW: 337
+		};
+
+		return windCardinals.hasOwnProperty(windDirection) ? windCardinals[windDirection] : null;
 	}
 
-	kmhWindSpeed() {
-		return this.windUnits === "imperial" ? this.windSpeed * 1.609344 : (this.windSpeed * 60 * 60) / 1000;
+	convertWindToMetric(mph) {
+		return mph / 2.2369362920544;
+	}
+
+	convertWindToMs(kmh) {
+		return kmh * 0.27777777777778;
 	}
 
 	nextSunAction() {
@@ -101,8 +111,8 @@ class WeatherObject {
 		if (this.feelsLikeTemp) {
 			return this.feelsLikeTemp;
 		}
-		const windInMph = this.windUnits === "imperial" ? this.windSpeed : this.windSpeed * 2.23694;
-		const tempInF = this.tempUnits === "imperial" ? this.temperature : (this.temperature * 9) / 5 + 32;
+		const windInMph = this.windSpeed * 2.2369362920544;
+		const tempInF = (this.temperature * 9) / 5 + 32;
 		let feelsLike = tempInF;
 
 		if (windInMph > 3 && tempInF < 50) {
@@ -120,7 +130,7 @@ class WeatherObject {
 				1.99 * Math.pow(10, -6) * tempInF * tempInF * this.humidity * this.humidity;
 		}
 
-		return this.tempUnits === "imperial" ? feelsLike : ((feelsLike - 32) * 5) / 9;
+		return ((feelsLike - 32) * 5) / 9;
 	}
 
 	/**
