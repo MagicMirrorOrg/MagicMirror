@@ -105,8 +105,8 @@ WeatherProvider.register("smhi", {
 	 */
 	getURL() {
 		const formatter = new Intl.NumberFormat("en-US", {
-			minimumFractionDigits: 2,
-			maximumFractionDigits: 2
+			minimumFractionDigits: 6,
+			maximumFractionDigits: 6
 		});
 		const lon = formatter.format(this.config.lon);
 		const lat = formatter.format(this.config.lat);
