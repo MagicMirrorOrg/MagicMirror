@@ -1,4 +1,5 @@
 const { cors } = require("../../../js/server_functions");
+const nodeVersion = process.version.match(/^v(\d+)\.*/)[1];
 
 describe("server_functions tests", () => {
 	describe("The cors method", () => {
@@ -8,11 +9,37 @@ describe("server_functions tests", () => {
 		let corsResponse;
 		let request;
 
+		let nodefetch;
+		if (nodeVersion < 18) {
+			jest.mock("node-fetch");
+			nodefetch = require("node-fetch");
+		}
+		let fetchMock;
+
 		beforeEach(() => {
-			fetchResponse = new Response();
-			global.fetch = jest.fn(() => Promise.resolve(fetchResponse));
-			fetchResponseHeadersGet = jest.spyOn(fetchResponse.headers, "get");
-			fetchResponseHeadersText = jest.spyOn(fetchResponse, "text");
+			if (nodeVersion >= 18) {
+				fetchResponse = new Response();
+				global.fetch = jest.fn(() => Promise.resolve(fetchResponse));
+				fetchResponseHeadersGet = jest.spyOn(fetchResponse.headers, "get");
+				fetchResponseHeadersText = jest.spyOn(fetchResponse, "text");
+
+				fetchMock = global.fetch;
+			} else {
+				nodefetch.mockReset();
+
+				fetchResponseHeadersGet = jest.fn(() => {});
+				fetchResponseHeadersText = jest.fn(() => {});
+				fetchResponse = {
+					headers: {
+						get: fetchResponseHeadersGet
+					},
+					text: fetchResponseHeadersText
+				};
+				jest.mock("node-fetch", () => jest.fn());
+				nodefetch.mockImplementation(() => fetchResponse);
+
+				fetchMock = nodefetch;
+			}
 
 			corsResponse = {
 				set: jest.fn(() => {}),
@@ -25,13 +52,13 @@ describe("server_functions tests", () => {
 		});
 
 		test("Calls correct URL once", async () => {
-			const urlToCall = "ttp://www.test.com/path?param1=value1";
+			const urlToCall = "http://www.test.com/path?param1=value1";
 			request.url = `/cors?url=${urlToCall}`;
 
 			await cors(request, corsResponse);
 
-			expect(global.fetch.mock.calls.length).toBe(1);
-			expect(global.fetch.mock.calls[0][0]).toBe(urlToCall);
+			expect(fetchMock.mock.calls.length).toBe(1);
+			expect(fetchMock.mock.calls[0][0]).toBe(urlToCall);
 		});
 
 		test("Forewards Content-Type if json", async () => {
@@ -92,12 +119,44 @@ describe("server_functions tests", () => {
 			expect(sentData).toBe(error);
 		});
 
-		test("Sends user agent by default", async () => {
+		test("Fetches with user agent by default", async () => {
 			await cors(request, corsResponse);
 
-			expect(global.fetch.mock.calls.length).toBe(1);
-			expect(global.fetch.mock.calls[0][1]).toHaveProperty("headers");
-			expect(global.fetch.mock.calls[0][1].headers).toHaveProperty("User-Agent");
+			expect(fetchMock.mock.calls.length).toBe(1);
+			expect(fetchMock.mock.calls[0][1]).toHaveProperty("headers");
+			expect(fetchMock.mock.calls[0][1].headers).toHaveProperty("User-Agent");
+		});
+
+		test("Fetches with specified headers", async () => {
+			const headersParam = "sendheaders=header1:value1,header2:value2";
+			const urlParam = "http://www.test.com/path?param1=value1";
+			request.url = `/cors?${headersParam}&url=${urlParam}`;
+
+			await cors(request, corsResponse);
+
+			expect(fetchMock.mock.calls.length).toBe(1);
+			expect(fetchMock.mock.calls[0][1]).toHaveProperty("headers");
+			expect(fetchMock.mock.calls[0][1].headers).toHaveProperty("header1", "value1");
+			expect(fetchMock.mock.calls[0][1].headers).toHaveProperty("header2", "value2");
+		});
+
+		test("Sends specified headers", async () => {
+			fetchResponseHeadersGet.mockImplementation((input) => input.replace("header", "value"));
+
+			const expectedheaders = "expectedheaders=header1,header2";
+			const urlParam = "http://www.test.com/path?param1=value1";
+			request.url = `/cors?${expectedheaders}&url=${urlParam}`;
+
+			await cors(request, corsResponse);
+
+			expect(fetchMock.mock.calls.length).toBe(1);
+			expect(fetchMock.mock.calls[0][1]).toHaveProperty("headers");
+			expect(corsResponse.set.mock.calls.length).toBe(3);
+			expect(corsResponse.set.mock.calls[0][0]).toBe("Content-Type");
+			expect(corsResponse.set.mock.calls[1][0]).toBe("header1");
+			expect(corsResponse.set.mock.calls[1][1]).toBe("value1");
+			expect(corsResponse.set.mock.calls[2][0]).toBe("header2");
+			expect(corsResponse.set.mock.calls[2][1]).toBe("value2");
 		});
 	});
 });

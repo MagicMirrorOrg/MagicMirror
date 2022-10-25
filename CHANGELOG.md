@@ -9,7 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 _This release is scheduled to be released on 2023-01-01._
 
-Special thanks to: @rejas, @sdetweil
+Special thanks to: @rejas, @sdetweil, @MagMar94
 
 ### Added
 
@@ -29,6 +29,7 @@ Special thanks to: @rejas, @sdetweil
 - Rework weather module
   - Use fetch instead of XMLHttpRequest in weatherprovider
   - Use unix() method for parsing times, fix suntimes on the way
+- The `cors`-method in `server.js` now supports sending and recieving HTTP headers.
 
 ### Fixed
 
