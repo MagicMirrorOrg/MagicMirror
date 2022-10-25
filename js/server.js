@@ -9,10 +9,10 @@ const path = require("path");
 const ipfilter = require("express-ipfilter").IpFilter;
 const fs = require("fs");
 const helmet = require("helmet");
-const fetch = require("fetch");
 
 const Log = require("logger");
 const Utils = require("./utils.js");
+const { cors, getConfig, getHtml, getVersion } = require("./server_functions.js");
 
 /**
  * Server
@@ -78,53 +78,13 @@ function Server(config) {
 			app.use(directory, express.static(path.resolve(global.root_path + directory)));
 		}
 
-		app.get("/cors", async function (req, res) {
-			// example: http://localhost:8080/cors?url=https://google.de
+		app.get("/cors", async (req, res) => await cors(req, res));
 
-			try {
-				const reg = "^/cors.+url=(.*)";
-				let url = "";
+		app.get("/version", (req, res) => getVersion(req, res));
 
-				let match = new RegExp(reg, "g").exec(req.url);
-				if (!match) {
-					url = "invalid url: " + req.url;
-					Log.error(url);
-					res.send(url);
-				} else {
-					url = match[1];
-					Log.log("cors url: " + url);
-					const response = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0 MagicMirror/" + global.version } });
-					const header = response.headers.get("Content-Type");
-					const data = await response.text();
-					if (header) res.set("Content-Type", header);
-					res.send(data);
-				}
-			} catch (error) {
-				Log.error(error);
-				res.send(error);
-			}
-		});
+		app.get("/config", (req, res) => getConfig(req, res));
 
-		app.get("/version", function (req, res) {
-			res.send(global.version);
-		});
-
-		app.get("/config", function (req, res) {
-			res.send(config);
-		});
-
-		app.get("/", function (req, res) {
-			let html = fs.readFileSync(path.resolve(`${global.root_path}/index.html`), { encoding: "utf8" });
-			html = html.replace("#VERSION#", global.version);
-
-			let configFile = "config/config.js";
-			if (typeof global.configuration_file !== "undefined") {
-				configFile = global.configuration_file;
-			}
-			html = html.replace("#CONFIG_FILE#", configFile);
-
-			res.send(html);
-		});
+		app.get("/", (req, res) => getHtml(req, res));
 
 		return {
 			app,
