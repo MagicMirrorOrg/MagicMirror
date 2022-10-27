@@ -25,7 +25,7 @@ module.exports = async () => {
 				testPathIgnorePatterns: ["<rootDir>/tests/e2e/helpers/", "<rootDir>/tests/e2e/mocks"]
 			}
 		],
-		collectCoverageFrom: ["./clientonly/**", "./js/**", "./modules/**", "./serveronly/**"],
+		collectCoverageFrom: ["./clientonly/**/*.js", "./js/**/*.js", "./modules/**/*.js", "./serveronly/**/*.js"],
 		coverageReporters: ["lcov", "text"],
 		coverageProvider: "v8"
 	};
