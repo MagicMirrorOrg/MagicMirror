@@ -22,7 +22,7 @@ Special thanks to: @rejas, @sdetweil
 
 ### Updated
 
-- Cleaned up test directory
+- Cleaned up test directory (#2937) and jest config (#2959)
 - Wait for all modules to start before declaring the system ready (#2487)
 - Updated e2e tests (moved `done()` in helper functions) and use es6 syntax in all tests
 - Updated da translation
