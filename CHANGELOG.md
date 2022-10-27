@@ -28,9 +28,10 @@ Special thanks to: @rejas, @sdetweil
 - Updated da translation
 - Rework weather module
   - Make sure smhi provider api only gets a maximum of 6 digits coordinates (#2955)
-  - Use fetch instead of XMLHttpRequest in weatherprovider
-  - Reworked how weatherproviders handle units
-  - Use unix() method for parsing times, fix suntimes on the way
+  - Use fetch instead of XMLHttpRequest in weatherprovider (#2935)
+  - Reworked how weatherproviders handle units (#2849)
+  - Use unix() method for parsing times, fix suntimes on the way (#2950)
+  - Refactor conversion functions into utils class (#2958)
 
 ### Fixed
 
