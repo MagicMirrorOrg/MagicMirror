@@ -1,4 +1,4 @@
-/* global WeatherProvider, WeatherObject */
+/* global WeatherProvider, WeatherObject, WeatherUtils */
 
 /* MagicMirror²
  * Module: Weather
@@ -205,7 +205,7 @@ WeatherProvider.register("weathergov", {
 
 		currentWeather.date = moment(currentWeatherData.timestamp);
 		currentWeather.temperature = currentWeatherData.temperature.value;
-		currentWeather.windSpeed = currentWeather.convertWindToMs(currentWeatherData.windSpeed.value);
+		currentWeather.windSpeed = WeatherUtils.convertWindToMs(currentWeatherData.windSpeed.value);
 		currentWeather.windDirection = currentWeatherData.windDirection.value;
 		currentWeather.minTemperature = currentWeatherData.minTemperatureLast24Hours.value;
 		currentWeather.maxTemperature = currentWeatherData.maxTemperatureLast24Hours.value;

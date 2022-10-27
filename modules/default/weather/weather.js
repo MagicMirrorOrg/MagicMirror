@@ -1,4 +1,4 @@
-/* global WeatherProvider */
+/* global WeatherProvider, WeatherUtils */
 
 /* MagicMirror²
  * Module: Weather
@@ -58,7 +58,7 @@ Module.register("weather", {
 
 	// Return the scripts that are necessary for the weather module.
 	getScripts: function () {
-		return ["moment.js", "weatherprovider.js", "weatherobject.js", "suncalc.js", this.file("providers/" + this.config.weatherProvider.toLowerCase() + ".js")];
+		return ["moment.js", "weatherutils.js", "weatherprovider.js", "weatherobject.js", "suncalc.js", this.file("providers/" + this.config.weatherProvider.toLowerCase() + ".js")];
 	},
 
 	// Override getHeader method.
@@ -201,59 +201,6 @@ Module.register("weather", {
 		return roundValue === "-0" ? 0 : roundValue;
 	},
 
-	/**
-	 * Convert temp (from degrees C) into imperial or metric unit depending on
-	 * your config
-	 *
-	 * @param {number} tempInC the temperature you want to convert in celsius
-	 * @returns {number} the temperature converted to what is defined in the config
-	 */
-	convertTemp(tempInC) {
-		return this.config.tempUnits === "imperial" ? this.roundValue(tempInC * 1.8 + 32) : tempInC;
-	},
-
-	/**
-	 *
-	 * Convert wind speed (from meters per second) into whatever is defined in
-	 * your config. Can be 'beaufort', 'kmh', 'knots, 'imperial' (mph) or
-	 * 'metric' (mps)
-	 *
-	 * @param {number} windInMS the windspeed you want to convert
-	 * @returns {number} the windspeed converted to what is defined in the config
-	 */
-	convertWind(windInMS) {
-		switch (this.config.windUnits) {
-			case "beaufort":
-				return this.beaufortWindSpeed(windInMS);
-			case "kmh":
-				return (windInMS * 3600) / 1000;
-			case "knots":
-				return windInMS * 1.943844;
-			case "imperial":
-				return windInMS * 2.2369362920544;
-			case "metric":
-			default:
-				return windInMS;
-		}
-	},
-
-	/**
-	 * Convert wind (from m/s) to beaufort scale
-	 *
-	 * @param {number} speedInMS the windspeed you want to convert
-	 * @returns {number} the speed in beaufort
-	 */
-	beaufortWindSpeed(speedInMS) {
-		const windInKmh = (speedInMS * 3600) / 1000;
-		const speeds = [1, 5, 11, 19, 28, 38, 49, 61, 74, 88, 102, 117, 1000];
-		for (const [index, speed] of speeds.entries()) {
-			if (speed > windInKmh) {
-				return index;
-			}
-		}
-		return 12;
-	},
-
 	addFilters() {
 		this.nunjucksEnvironment().addFilter(
 			"formatTime",
@@ -280,7 +227,7 @@ Module.register("weather", {
 			"unit",
 			function (value, type) {
 				if (type === "temperature") {
-					value = this.convertTemp(value) + "°";
+					value = this.roundValue(WeatherUtils.convertTemp(value, this.config.tempUnits)) + "°";
 					if (this.config.degreeLabel) {
 						if (this.config.tempUnits === "metric") {
 							value += "C";
@@ -303,7 +250,7 @@ Module.register("weather", {
 				} else if (type === "humidity") {
 					value += "%";
 				} else if (type === "wind") {
-					value = this.convertWind(value);
+					value = WeatherUtils.convertWind(value, this.config.windUnits);
 				}
 				return value;
 			}.bind(this)

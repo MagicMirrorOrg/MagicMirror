@@ -1,4 +1,4 @@
-/* global WeatherProvider, WeatherObject */
+/* global WeatherProvider, WeatherObject, WeatherUtils */
 
 /* MagicMirror²
  * Module: Weather
@@ -163,7 +163,7 @@ WeatherProvider.register("envcanada", {
 			currentWeather.temperature = this.cacheCurrentTemp;
 		}
 
-		currentWeather.windSpeed = currentWeather.convertWindToMs(ECdoc.querySelector("siteData currentConditions wind speed").textContent);
+		currentWeather.windSpeed = WeatherUtils.convertWindToMs(ECdoc.querySelector("siteData currentConditions wind speed").textContent);
 
 		currentWeather.windDirection = ECdoc.querySelector("siteData currentConditions wind bearing").textContent;
 

@@ -1,4 +1,4 @@
-/* global WeatherProvider, WeatherObject */
+/* global WeatherProvider, WeatherObject, WeatherUtils */
 
 /* MagicMirror²
  * Module: Weather
@@ -101,8 +101,8 @@ WeatherProvider.register("ukmetoffice", {
 							currentWeather.temperature = rep.T;
 							currentWeather.feelsLikeTemp = rep.F;
 							currentWeather.precipitation = parseInt(rep.Pp);
-							currentWeather.windSpeed = currentWeather.convertWindToMetric(rep.S);
-							currentWeather.windDirection = currentWeather.valueWindDirection(rep.D);
+							currentWeather.windSpeed = WeatherUtils.convertWindToMetric(rep.S);
+							currentWeather.windDirection = WeatherUtils.convertWindDirection(rep.D);
 							currentWeather.weatherType = this.convertWeatherType(rep.W);
 						}
 					}
