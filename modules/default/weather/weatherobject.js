@@ -1,4 +1,4 @@
-/* global SunCalc */
+/* global SunCalc, WeatherUtils */
 
 /* MagicMirror²
  * Module: Weather
@@ -69,40 +69,6 @@ class WeatherObject {
 		}
 	}
 
-	/*
-	 * Convert the wind direction cardinal to value
-	 */
-	valueWindDirection(windDirection) {
-		const windCardinals = {
-			N: 0,
-			NNE: 22,
-			NE: 45,
-			ENE: 67,
-			E: 90,
-			ESE: 112,
-			SE: 135,
-			SSE: 157,
-			S: 180,
-			SSW: 202,
-			SW: 225,
-			WSW: 247,
-			W: 270,
-			WNW: 292,
-			NW: 315,
-			NNW: 337
-		};
-
-		return windCardinals.hasOwnProperty(windDirection) ? windCardinals[windDirection] : null;
-	}
-
-	convertWindToMetric(mph) {
-		return mph / 2.2369362920544;
-	}
-
-	convertWindToMs(kmh) {
-		return kmh * 0.27777777777778;
-	}
-
 	nextSunAction() {
 		return moment().isBetween(this.sunrise, this.sunset) ? "sunset" : "sunrise";
 	}
@@ -111,8 +77,8 @@ class WeatherObject {
 		if (this.feelsLikeTemp) {
 			return this.feelsLikeTemp;
 		}
-		const windInMph = this.windSpeed * 2.2369362920544;
-		const tempInF = (this.temperature * 9) / 5 + 32;
+		const windInMph = WeatherUtils.convertWind(this.windSpeed, "imperial");
+		const tempInF = WeatherUtils.convertTemp(this.temperature, "imperial");
 		let feelsLike = tempInF;
 
 		if (windInMph > 3 && tempInF < 50) {
