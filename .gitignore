@@ -16,7 +16,6 @@ vendor/node_modules/**/*
 jspm_modules
 .npm
 .node_repl_history
-.nyc_output/
 
 # Visual Studio Code ignoramuses.
 .vscode/
