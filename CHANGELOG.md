@@ -17,6 +17,7 @@ Special thanks to: @rejas, @sdetweil
 - Added hourlyWeather functionality to Weather.gov weather provider
 - Removed weatherEndpoint definition from weathergov.js (not used)
 - Added css class names "today" and "tomorrow" for default calendar
+- Added Yr as a weather provider
 
 ### Removed
 
@@ -29,6 +30,7 @@ Special thanks to: @rejas, @sdetweil
 - Rework weather module
   - Use fetch instead of XMLHttpRequest in weatherprovider
   - Use unix() method for parsing times, fix suntimes on the way
+  - Support HTTP headers
 
 ### Fixed
 
