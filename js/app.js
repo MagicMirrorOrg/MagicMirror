@@ -222,9 +222,9 @@ function App() {
 				}
 			}
 
-			loadModules(modules, function () {
+			loadModules(modules, async function () {
 				httpServer = new Server(config);
-				const { app, io } = httpServer.open();
+				const { app, io } = await httpServer.open();
 				Log.log("Server started ...");
 
 				const nodePromises = [];
@@ -262,6 +262,8 @@ function App() {
 	 * exists.
 	 *
 	 * Added to fix #1056
+	 *
+	 * @param callback
 	 */
 	this.stop = function (callback) {
 		for (const nodeHelper of nodeHelpers) {
@@ -269,7 +271,7 @@ function App() {
 				nodeHelper.stop();
 			}
 		}
-		httpServer.close(callback);
+		httpServer.close().then(callback);
 	};
 
 	/**
