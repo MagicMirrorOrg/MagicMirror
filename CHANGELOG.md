@@ -27,13 +27,16 @@ Special thanks to: @rejas, @sdetweil
 - Updated e2e tests (moved `done()` in helper functions) and use es6 syntax in all tests
 - Updated da translation
 - Rework weather module
+  - Make sure smhi provider api only gets a maximum of 6 digits coordinates (#2955)
   - Use fetch instead of XMLHttpRequest in weatherprovider
+  - Reworked how weatherproviders handle units
   - Use unix() method for parsing times, fix suntimes on the way
 
 ### Fixed
 
 - Correctly show apparent temperature in SMHI weather provider
 - Ensure updatenotification module isn't shown when local is _ahead_ of remote
+- Handle node_helper errors during startup (#2944)
 - Possibility to change FontAwesome class in calendar, so icons like `fab fa-facebook-square` works.
 - Fix cors problems with newsfeed articles (as far as possible), allow disabling cors per feed with option `useCorsProxy: false` (#2840)
 - Tests not waiting for the application to start and stop before starting the next test

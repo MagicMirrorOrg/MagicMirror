@@ -86,7 +86,7 @@ describe("Weather module: Weather Forecast", () => {
 			await weatherFunc.startApp("tests/configs/modules/weather/forecastweather_units.js", {});
 		});
 
-		const temperatures = ["24_4°", "21_0°", "22_9°", "23_4°", "20_6°"];
+		const temperatures = ["75_9°", "69_8°", "73_2°", "74_1°", "69_1°"];
 		for (const [index, temp] of temperatures.entries()) {
 			it("should render custom decimalSymbol = '_' for temp " + temp, async () => {
 				await weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(3)`, temp);

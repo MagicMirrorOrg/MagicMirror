@@ -223,24 +223,35 @@ function App() {
 			}
 
 			loadModules(modules, function () {
-				httpServer = new Server(config, function (app, io) {
-					Log.log("Server started ...");
+				httpServer = new Server(config);
+				const { app, io } = httpServer.open();
+				Log.log("Server started ...");
 
-					const nodePromises = [];
+				const nodePromises = [];
+				for (let nodeHelper of nodeHelpers) {
+					nodeHelper.setExpressApp(app);
+					nodeHelper.setSocketIO(io);
 
-					for (let nodeHelper of nodeHelpers) {
-						nodeHelper.setExpressApp(app);
-						nodeHelper.setSocketIO(io);
+					try {
 						nodePromises.push(nodeHelper.start());
+					} catch (error) {
+						Log.error(`Error when starting node_helper for module ${nodeHelper.name}:`);
+						Log.error(error);
 					}
+				}
 
-					Promise.allSettled(nodePromises).then(() => {
-						Log.log("Sockets connected & modules started ...");
-
-						if (typeof callback === "function") {
-							callback(config);
+				Promise.allSettled(nodePromises).then((results) => {
+					// Log errors that happened during async node_helper startup
+					results.forEach((result) => {
+						if (result.status === "rejected") {
+							Log.error(result.reason);
 						}
 					});
+
+					Log.log("Sockets connected & modules started ...");
+					if (typeof callback === "function") {
+						callback(config);
+					}
 				});
 			});
 		});
