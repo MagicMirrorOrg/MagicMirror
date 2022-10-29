@@ -1,4 +1,5 @@
 const WeatherObject = require("../../../modules/default/weather/weatherobject.js");
+const WeatherUtils = require("../../../modules/default/weather/weatherutils.js");
 
 global.moment = require("moment-timezone");
 global.SunCalc = require("suncalc");
@@ -10,7 +11,7 @@ describe("WeatherObject", () => {
 	beforeAll(() => {
 		originalTimeZone = moment.tz.guess();
 		moment.tz.setDefault("Africa/Dar_es_Salaam");
-		weatherobject = new WeatherObject("metric", "metric", "metric", true);
+		weatherobject = new WeatherObject();
 	});
 
 	it("should return true for daytime at noon", () => {
@@ -27,5 +28,19 @@ describe("WeatherObject", () => {
 
 	afterAll(() => {
 		moment.tz.setDefault(originalTimeZone);
+	});
+});
+
+describe("WeatherObject", () => {
+	it("should convert windspeed correctly from mph to mps", () => {
+		expect(Math.round(WeatherUtils.convertWindToMetric(93.951324266285))).toBe(42);
+	});
+
+	it("should convert windspeed correctly from kmh to mps", () => {
+		expect(Math.round(WeatherUtils.convertWindToMs(151.2))).toBe(42);
+	});
+
+	it("should convert wind direction correctly from cardinal to value", () => {
+		expect(WeatherUtils.convertWindDirection("SSE")).toBe(157);
 	});
 });

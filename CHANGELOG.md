@@ -17,18 +17,22 @@ Special thanks to: @rejas, @sdetweil, @MagMar94
 - Added hourlyWeather functionality to Weather.gov weather provider
 - Removed weatherEndpoint definition from weathergov.js (not used)
 - Added css class names "today" and "tomorrow" for default calendar
+- Added new github action for dependency review (#2862)
 
 ### Removed
 
 ### Updated
 
-- Cleaned up test directory
+- Cleaned up test directory (#2937) and jest config (#2959)
 - Wait for all modules to start before declaring the system ready (#2487)
 - Updated e2e tests (moved `done()` in helper functions) and use es6 syntax in all tests
 - Updated da translation
 - Rework weather module
-  - Use fetch instead of XMLHttpRequest in weatherprovider
-  - Use unix() method for parsing times, fix suntimes on the way
+  - Make sure smhi provider api only gets a maximum of 6 digits coordinates (#2955)
+  - Use fetch instead of XMLHttpRequest in weatherprovider (#2935)
+  - Reworked how weatherproviders handle units (#2849)
+  - Use unix() method for parsing times, fix suntimes on the way (#2950)
+  - Refactor conversion functions into utils class (#2958)
 - The `cors`-method in `server.js` now supports sending and recieving HTTP headers.
 
 ### Fixed

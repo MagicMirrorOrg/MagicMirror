@@ -69,7 +69,7 @@ function getHeadersToSend(url) {
 		for (const header of headers) {
 			const keyValue = header.split(":");
 			if (keyValue.length !== 2) {
-				throw new Error(`$Invalid format for header ${header}`);
+				throw new Error(`Invalid format for header ${header}`);
 			}
 			headersToSend[keyValue[0]] = decodeURIComponent(keyValue[1]);
 		}
@@ -115,7 +115,7 @@ function getHtml(req, res) {
 }
 
 /**
- * Gets the MacigMirror version.
+ * Gets the MagicMirror version.
  *
  * @param {Request} req - the request
  * @param {Response} res - the result

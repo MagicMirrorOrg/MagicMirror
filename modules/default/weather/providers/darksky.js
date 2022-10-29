@@ -26,11 +26,6 @@ WeatherProvider.register("darksky", {
 		lon: 0
 	},
 
-	units: {
-		imperial: "us",
-		metric: "si"
-	},
-
 	fetchCurrentWeather() {
 		this.fetchData(this.getUrl())
 			.then((data) => {
@@ -67,13 +62,12 @@ WeatherProvider.register("darksky", {
 
 	// Create a URL from the config and base URL.
 	getUrl() {
-		const units = this.units[this.config.units] || "auto";
-		return `${this.config.apiBase}${this.config.weatherEndpoint}/${this.config.apiKey}/${this.config.lat},${this.config.lon}?units=${units}&lang=${this.config.lang}`;
+		return `${this.config.apiBase}${this.config.weatherEndpoint}/${this.config.apiKey}/${this.config.lat},${this.config.lon}?units=si&lang=${this.config.lang}`;
 	},
 
 	// Implement WeatherDay generator.
 	generateWeatherDayFromCurrentWeather(currentWeatherData) {
-		const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
+		const currentWeather = new WeatherObject();
 
 		currentWeather.date = moment();
 		currentWeather.humidity = parseFloat(currentWeatherData.currently.humidity);
@@ -91,7 +85,7 @@ WeatherProvider.register("darksky", {
 		const days = [];
 
 		for (const forecast of forecasts) {
-			const weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
+			const weather = new WeatherObject();
 
 			weather.date = moment.unix(forecast.time);
 			weather.minTemperature = forecast.temperatureMin;
