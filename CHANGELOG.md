@@ -21,6 +21,8 @@ Special thanks to: @rejas, @sdetweil
 
 ### Removed
 
+- Removed usage of internal fetch function of node until it is more stable.
+
 ### Updated
 
 - Cleaned up test directory (#2937) and jest config (#2959)
