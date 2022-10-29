@@ -41,6 +41,7 @@ Special thanks to: @rejas, @sdetweil
 - Handle node_helper errors during startup (#2944)
 - Possibility to change FontAwesome class in calendar, so icons like `fab fa-facebook-square` works.
 - Fix cors problems with newsfeed articles (as far as possible), allow disabling cors per feed with option `useCorsProxy: false` (#2840)
+- Tests not waiting for the application to start and stop before starting the next test
 
 ## [2.21.0] - 2022-10-01
 

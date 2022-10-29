@@ -7,7 +7,7 @@ describe("Clock set to spanish language module", () => {
 
 	describe("with default 24hr clock config", () => {
 		beforeAll(async () => {
-			helpers.startApplication("tests/configs/modules/clock/es/clock_24hr.js");
+			await helpers.startApplication("tests/configs/modules/clock/es/clock_24hr.js");
 			await helpers.getDocument();
 		});
 
@@ -24,7 +24,7 @@ describe("Clock set to spanish language module", () => {
 
 	describe("with default 12hr clock config", () => {
 		beforeAll(async () => {
-			helpers.startApplication("tests/configs/modules/clock/es/clock_12hr.js");
+			await helpers.startApplication("tests/configs/modules/clock/es/clock_12hr.js");
 			await helpers.getDocument();
 		});
 
@@ -41,7 +41,7 @@ describe("Clock set to spanish language module", () => {
 
 	describe("with showPeriodUpper config enabled", () => {
 		beforeAll(async () => {
-			helpers.startApplication("tests/configs/modules/clock/es/clock_showPeriodUpper.js");
+			await helpers.startApplication("tests/configs/modules/clock/es/clock_showPeriodUpper.js");
 			await helpers.getDocument();
 		});
 
@@ -53,7 +53,7 @@ describe("Clock set to spanish language module", () => {
 
 	describe("with showWeek config enabled", () => {
 		beforeAll(async () => {
-			helpers.startApplication("tests/configs/modules/clock/es/clock_showWeek.js");
+			await helpers.startApplication("tests/configs/modules/clock/es/clock_showWeek.js");
 			await helpers.getDocument();
 		});
 

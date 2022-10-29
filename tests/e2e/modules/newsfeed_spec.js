@@ -7,7 +7,7 @@ describe("Newsfeed module", () => {
 
 	describe("Default configuration", () => {
 		beforeAll(async () => {
-			helpers.startApplication("tests/configs/modules/newsfeed/default.js");
+			await helpers.startApplication("tests/configs/modules/newsfeed/default.js");
 			await helpers.getDocument();
 		});
 
@@ -32,7 +32,7 @@ describe("Newsfeed module", () => {
 
 	describe("Custom configuration", () => {
 		beforeAll(async () => {
-			helpers.startApplication("tests/configs/modules/newsfeed/prohibited_words.js");
+			await helpers.startApplication("tests/configs/modules/newsfeed/prohibited_words.js");
 			await helpers.getDocument();
 		});
 
@@ -51,7 +51,7 @@ describe("Newsfeed module", () => {
 
 	describe("Invalid configuration", () => {
 		beforeAll(async () => {
-			helpers.startApplication("tests/configs/modules/newsfeed/incorrect_url.js");
+			await helpers.startApplication("tests/configs/modules/newsfeed/incorrect_url.js");
 			await helpers.getDocument();
 		});
 
@@ -64,7 +64,7 @@ describe("Newsfeed module", () => {
 
 	describe("Ignore items", () => {
 		beforeAll(async () => {
-			helpers.startApplication("tests/configs/modules/newsfeed/ignore_items.js");
+			await helpers.startApplication("tests/configs/modules/newsfeed/ignore_items.js");
 			await helpers.getDocument();
 		});
 
