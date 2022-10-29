@@ -263,7 +263,7 @@ function App() {
 	 *
 	 * Added to fix #1056
 	 *
-	 * @param callback
+	 * @param {Function} callback Function to be called after the app has stopped
 	 */
 	this.stop = function (callback) {
 		for (const nodeHelper of nodeHelpers) {
