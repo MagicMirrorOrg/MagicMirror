@@ -6,6 +6,7 @@
  * implementation until the node implementation is stable and more tested
  *
  * @see https://github.com/MichMich/MagicMirror/pull/2952
+ * @see https://github.com/MichMich/MagicMirror/issues/2649
  * @param {string} url to be fetched
  * @param {object} options object e.g. for headers
  * @class
