@@ -1,4 +1,5 @@
 const jsdom = require("jsdom");
+const corefetch = require("fetch");
 
 exports.startApplication = async (configFilename, exec) => {
 	jest.resetModules();
@@ -82,8 +83,13 @@ exports.waitForAllElements = (selector) => {
 	});
 };
 
-// When native fetch is used keep-alive is set which causes issues with tests that should not share the connection, fall back to use the older one for now...
-exports.fetch = require("node-fetch");
+exports.fetch = (url) => {
+	return new Promise((resolve) => {
+		corefetch(url).then((res) => {
+			resolve(res);
+		});
+	});
+};
 
 exports.testMatch = async (element, regex) => {
 	const elem = await this.waitForElement(element);
