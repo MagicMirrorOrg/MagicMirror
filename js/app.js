@@ -8,7 +8,7 @@
 // Alias modules mentioned in package.js under _moduleAliases.
 require("module-alias/register");
 
-const fs = require("fs");
+const fs = require("fs/promises");
 const path = require("path");
 const Log = require("logger");
 const Server = require(`${__dirname}/server`);
@@ -54,9 +54,9 @@ function App() {
 	 * Loads the config file. Combines it with the defaults, and runs the
 	 * callback with the found config as argument.
 	 *
-	 * @param {Function} callback Function to be called after loading the config
+	 * @returns {Promise} A promise with the config that should be used
 	 */
-	function loadConfig(callback) {
+	async function loadConfig() {
 		Log.log("Loading config ...");
 		const defaults = require(`${__dirname}/defaults`);
 
@@ -65,11 +65,11 @@ function App() {
 		const configFilename = path.resolve(global.configuration_file || `${global.root_path}/config/config.js`);
 
 		try {
-			fs.accessSync(configFilename, fs.F_OK);
+			await fs.access(configFilename, fs.F_OK);
 			const c = require(configFilename);
 			checkDeprecatedOptions(c);
 			const config = Object.assign(defaults, c);
-			callback(config);
+			return config;
 		} catch (e) {
 			if (e.code === "ENOENT") {
 				Log.error(Utils.colors.error("WARNING! Could not find config file. Please create one. Starting with default configuration."));
@@ -78,7 +78,7 @@ function App() {
 			} else {
 				Log.error(Utils.colors.error(`WARNING! Could not load config file. Starting with default configuration. Error found: ${e}`));
 			}
-			callback(defaults);
+			return defaults;
 		}
 	}
 
@@ -102,9 +102,9 @@ function App() {
 	 * Loads a specific module.
 	 *
 	 * @param {string} module The name of the module (including subpath).
-	 * @param {Function} callback Function to be called after loading
+	 * @returns {Promise} A promise that resolves as soon as the module is loaded.
 	 */
-	function loadModule(module, callback) {
+	async function loadModule(module) {
 		const elements = module.split("/");
 		const moduleName = elements[elements.length - 1];
 		let moduleFolder = `${__dirname}/../modules/${module}`;
@@ -113,17 +113,9 @@ function App() {
 			moduleFolder = `${__dirname}/../modules/default/${module}`;
 		}
 
-		const helperPath = `${moduleFolder}/node_helper.js`;
+		const helperPath = await resolveHelperPath(moduleFolder);
 
-		let loadHelper = true;
-		try {
-			fs.accessSync(helperPath, fs.R_OK);
-		} catch (e) {
-			loadHelper = false;
-			Log.log(`No helper found for module: ${moduleName}.`);
-		}
-
-		if (loadHelper) {
+		if (helperPath) {
 			const Module = require(helperPath);
 			let m = new Module();
 
@@ -141,9 +133,12 @@ function App() {
 			m.setPath(path.resolve(moduleFolder));
 			nodeHelpers.push(m);
 
-			m.loaded(callback);
+			return new Promise((resolve, reject) => {
+				m.loaded(resolve);
+			});
 		} else {
-			callback();
+			Log.log(`No helper found for module: ${moduleName}.`);
+			return Promise.resolve();
 		}
 	}
 
@@ -151,29 +146,16 @@ function App() {
 	 * Loads all modules.
 	 *
 	 * @param {Module[]} modules All modules to be loaded
-	 * @param {Function} callback Function to be called after loading
+	 * @returns {Promise} A promise that is resolved when all modules been loaded
 	 */
-	function loadModules(modules, callback) {
+	async function loadModules(modules) {
 		Log.log("Loading module helpers ...");
 
-		/**
-		 *
-		 */
-		function loadNextModule() {
-			if (modules.length > 0) {
-				const nextModule = modules[0];
-				loadModule(nextModule, function () {
-					modules = modules.slice(1);
-					loadNextModule();
-				});
-			} else {
-				// All modules are loaded
-				Log.log("All module helpers loaded.");
-				callback();
-			}
+		for (let module of modules) {
+			await loadModule(module);
 		}
 
-		loadNextModule();
+		Log.log("All module helpers loaded.");
 	}
 
 	/**
@@ -201,60 +183,73 @@ function App() {
 	}
 
 	/**
+	 * Resolves the path to the node_helper
+	 *
+	 * @param {string} moduleFolder the folder that should contain the node_helper
+	 * @returns {Promise} A promise with the path to the node_helper that should be used, or undefined if none exists
+	 */
+	async function resolveHelperPath(moduleFolder) {
+		const helperPath = `${moduleFolder}/node_helper.js`;
+
+		try {
+			await fs.access(helperPath, fs.R_OK);
+			return helperPath;
+		} catch (e) {
+			// The current extension may not have been found, try the next instead
+			return undefined;
+		}
+	}
+
+	/**
 	 * Start the core app.
 	 *
 	 * It loads the config, then it loads all modules. When it's done it
 	 * executes the callback with the config as argument.
 	 *
-	 * @param {Function} callback Function to be called after start
+	 * @returns {Promise} A promise containing the config, it is resolved when the server has loaded all modules and are listening for requests
 	 */
-	this.start = function (callback) {
-		loadConfig(function (c) {
-			config = c;
+	this.start = async function () {
+		config = await loadConfig();
 
-			Log.setLogLevel(config.logLevel);
+		Log.setLogLevel(config.logLevel);
 
-			let modules = [];
+		let modules = [];
 
-			for (const module of config.modules) {
-				if (!modules.includes(module.module) && !module.disabled) {
-					modules.push(module.module);
-				}
+		for (const module of config.modules) {
+			if (!modules.includes(module.module) && !module.disabled) {
+				modules.push(module.module);
 			}
+		}
 
-			loadModules(modules, async function () {
-				httpServer = new Server(config);
-				const { app, io } = await httpServer.open();
-				Log.log("Server started ...");
+		await loadModules(modules);
 
-				const nodePromises = [];
-				for (let nodeHelper of nodeHelpers) {
-					nodeHelper.setExpressApp(app);
-					nodeHelper.setSocketIO(io);
+		httpServer = new Server(config);
+		const { app, io } = await httpServer.open();
+		Log.log("Server started ...");
 
-					try {
-						nodePromises.push(nodeHelper.start());
-					} catch (error) {
-						Log.error(`Error when starting node_helper for module ${nodeHelper.name}:`);
-						Log.error(error);
-					}
-				}
+		const nodePromises = [];
+		for (let nodeHelper of nodeHelpers) {
+			nodeHelper.setExpressApp(app);
+			nodeHelper.setSocketIO(io);
 
-				Promise.allSettled(nodePromises).then((results) => {
-					// Log errors that happened during async node_helper startup
-					results.forEach((result) => {
-						if (result.status === "rejected") {
-							Log.error(result.reason);
-						}
-					});
+			try {
+				nodePromises.push(nodeHelper.start());
+			} catch (error) {
+				Log.error(`Error when starting node_helper for module ${nodeHelper.name}:`);
+				Log.error(error);
+			}
+		}
 
-					Log.log("Sockets connected & modules started ...");
-					if (typeof callback === "function") {
-						callback(config);
-					}
-				});
-			});
+		let results = await Promise.allSettled(nodePromises);
+		// Log errors that happened during async node_helper startup
+		results.forEach((result) => {
+			if (result.status === "rejected") {
+				Log.error(result.reason);
+			}
 		});
+
+		Log.log("Sockets connected & modules started ...");
+		return config;
 	};
 
 	/**
@@ -263,15 +258,21 @@ function App() {
 	 *
 	 * Added to fix #1056
 	 *
-	 * @param {Function} callback Function to be called after the app has stopped
+	 * @returns {Promise} A promise that is resolved when all node_helpers and the http server has been closed
 	 */
-	this.stop = function (callback) {
+	this.stop = async function () {
 		for (const nodeHelper of nodeHelpers) {
 			if (typeof nodeHelper.stop === "function") {
 				nodeHelper.stop();
 			}
 		}
-		httpServer.close().then(callback);
+
+		// To be able to stop the app even if it hasn't been started (when running with Electron against another server)
+		if (!httpServer) {
+			return Promise.resolve();
+		}
+
+		return httpServer.close();
 	};
 
 	/**
@@ -281,12 +282,12 @@ function App() {
 	 * Note: this is only used if running `server-only`. Otherwise
 	 * this.stop() is called by app.on("before-quit"... in `electron.js`
 	 */
-	process.on("SIGINT", () => {
+	process.on("SIGINT", async () => {
 		Log.log("[SIGINT] Received. Shutting down server...");
 		setTimeout(() => {
 			process.exit(0);
 		}, 3000); // Force quit after 3 seconds
-		this.stop();
+		await this.stop();
 		process.exit(0);
 	});
 
@@ -294,12 +295,12 @@ function App() {
 	 * Listen to SIGTERM signals so we can stop everything when we
 	 * are asked to stop by the OS.
 	 */
-	process.on("SIGTERM", () => {
+	process.on("SIGTERM", async () => {
 		Log.log("[SIGTERM] Received. Shutting down server...");
 		setTimeout(() => {
 			process.exit(0);
 		}, 3000); // Force quit after 3 seconds
-		this.stop();
+		await this.stop();
 		process.exit(0);
 	});
 }
