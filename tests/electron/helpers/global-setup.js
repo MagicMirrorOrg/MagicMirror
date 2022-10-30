@@ -12,18 +12,16 @@ exports.startApplication = async (configFilename, systemDate = null, electronPar
 	global.electronApp = await electron.launch({ args: electronParams });
 	expect(global.electronApp);
 
-	if ((await global.electronApp.windows().length) === 1) {
-		global.page = await global.electronApp.firstWindow();
-		if (systemDate) {
-			await global.page.evaluate((systemDate) => {
-				Date.now = () => {
-					return new Date(systemDate);
-				};
-			}, systemDate);
-		}
-		expect(await global.page.title()).toBe("MagicMirror²");
-		expect(await global.page.isVisible("body")).toBe(true);
+	global.page = await global.electronApp.firstWindow();
+	if (systemDate) {
+		await global.page.evaluate((systemDate) => {
+			Date.now = () => {
+				return new Date(systemDate);
+			};
+		}, systemDate);
 	}
+	expect(await global.page.title()).toBe("MagicMirror²");
+	expect(await global.page.isVisible("body")).toBe(true);
 };
 
 exports.stopApplication = async () => {
