@@ -35,6 +35,7 @@ Special thanks to: @rejas, @sdetweil
   - Reworked how weatherproviders handle units (#2849)
   - Use unix() method for parsing times, fix suntimes on the way (#2950)
   - Refactor conversion functions into utils class (#2958)
+- Use async/await for startup of the application instead of callbacks
 
 ### Fixed
 
