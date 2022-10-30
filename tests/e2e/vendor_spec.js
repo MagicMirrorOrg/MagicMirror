@@ -1,8 +1,8 @@
 const helpers = require("./helpers/global-setup");
 
 describe("Vendors", () => {
-	beforeAll(() => {
-		helpers.startApplication("tests/configs/default.js");
+	beforeAll(async () => {
+		await helpers.startApplication("tests/configs/default.js");
 	});
 	afterAll(async () => {
 		await helpers.stopApplication();

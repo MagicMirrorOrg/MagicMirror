@@ -21,7 +21,7 @@ describe("Compliments module", () => {
 	describe("Feature anytime in compliments module", () => {
 		describe("Set anytime and empty compliments for morning, evening and afternoon ", () => {
 			beforeAll(async () => {
-				helpers.startApplication("tests/configs/modules/compliments/compliments_anytime.js");
+				await helpers.startApplication("tests/configs/modules/compliments/compliments_anytime.js");
 				await helpers.getDocument();
 			});
 
@@ -32,7 +32,7 @@ describe("Compliments module", () => {
 
 		describe("Only anytime present in configuration compliments", () => {
 			beforeAll(async () => {
-				helpers.startApplication("tests/configs/modules/compliments/compliments_only_anytime.js");
+				await helpers.startApplication("tests/configs/modules/compliments/compliments_only_anytime.js");
 				await helpers.getDocument();
 			});
 
@@ -44,7 +44,7 @@ describe("Compliments module", () => {
 
 	describe("remoteFile option", () => {
 		beforeAll(async () => {
-			helpers.startApplication("tests/configs/modules/compliments/compliments_remote.js");
+			await helpers.startApplication("tests/configs/modules/compliments/compliments_remote.js");
 			await helpers.getDocument();
 		});
 

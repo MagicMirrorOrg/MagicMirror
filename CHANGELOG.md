@@ -21,6 +21,8 @@ Special thanks to: @rejas, @sdetweil, @MagMar94
 
 ### Removed
 
+- Removed usage of internal fetch function of node until it is more stable.
+
 ### Updated
 
 - Cleaned up test directory (#2937) and jest config (#2959)
@@ -42,6 +44,7 @@ Special thanks to: @rejas, @sdetweil, @MagMar94
 - Handle node_helper errors during startup (#2944)
 - Possibility to change FontAwesome class in calendar, so icons like `fab fa-facebook-square` works.
 - Fix cors problems with newsfeed articles (as far as possible), allow disabling cors per feed with option `useCorsProxy: false` (#2840)
+- Tests not waiting for the application to start and stop before starting the next test
 
 ## [2.21.0] - 2022-10-01
 

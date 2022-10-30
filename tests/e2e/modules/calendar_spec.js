@@ -29,7 +29,7 @@ describe("Calendar module", () => {
 
 	describe("Default configuration", () => {
 		beforeAll(async () => {
-			helpers.startApplication("tests/configs/modules/calendar/default.js");
+			await helpers.startApplication("tests/configs/modules/calendar/default.js");
 			await helpers.getDocument();
 		});
 
@@ -44,7 +44,7 @@ describe("Calendar module", () => {
 
 	describe("Custom configuration", () => {
 		beforeAll(async () => {
-			helpers.startApplication("tests/configs/modules/calendar/custom.js");
+			await helpers.startApplication("tests/configs/modules/calendar/custom.js");
 			await helpers.getDocument();
 		});
 
@@ -67,7 +67,7 @@ describe("Calendar module", () => {
 
 	describe("Recurring event", () => {
 		beforeAll(async () => {
-			helpers.startApplication("tests/configs/modules/calendar/recurring.js");
+			await helpers.startApplication("tests/configs/modules/calendar/recurring.js");
 			await helpers.getDocument();
 		});
 
@@ -83,7 +83,7 @@ describe("Calendar module", () => {
 				Date.prototype.getTimezoneOffset = () => {
 					return i * 60;
 				};
-				helpers.startApplication("tests/configs/modules/calendar/recurring.js");
+				await helpers.startApplication("tests/configs/modules/calendar/recurring.js");
 				await helpers.getDocument();
 			});
 
@@ -95,7 +95,7 @@ describe("Calendar module", () => {
 
 	describe("Changed port", () => {
 		beforeAll(async () => {
-			helpers.startApplication("tests/configs/modules/calendar/changed-port.js");
+			await helpers.startApplication("tests/configs/modules/calendar/changed-port.js");
 			serverBasicAuth.listen(8010);
 			await helpers.getDocument();
 		});
@@ -111,7 +111,7 @@ describe("Calendar module", () => {
 
 	describe("Basic auth", () => {
 		beforeAll(async () => {
-			helpers.startApplication("tests/configs/modules/calendar/basic-auth.js");
+			await helpers.startApplication("tests/configs/modules/calendar/basic-auth.js");
 			await helpers.getDocument();
 		});
 
@@ -122,7 +122,7 @@ describe("Calendar module", () => {
 
 	describe("Basic auth by default", () => {
 		beforeAll(async () => {
-			helpers.startApplication("tests/configs/modules/calendar/auth-default.js");
+			await helpers.startApplication("tests/configs/modules/calendar/auth-default.js");
 			await helpers.getDocument();
 		});
 
@@ -133,7 +133,7 @@ describe("Calendar module", () => {
 
 	describe("Basic auth backward compatibility configuration: DEPRECATED", () => {
 		beforeAll(async () => {
-			helpers.startApplication("tests/configs/modules/calendar/old-basic-auth.js");
+			await helpers.startApplication("tests/configs/modules/calendar/old-basic-auth.js");
 			await helpers.getDocument();
 		});
 
@@ -144,7 +144,7 @@ describe("Calendar module", () => {
 
 	describe("Fail Basic auth", () => {
 		beforeAll(async () => {
-			helpers.startApplication("tests/configs/modules/calendar/fail-basic-auth.js");
+			await helpers.startApplication("tests/configs/modules/calendar/fail-basic-auth.js");
 			serverBasicAuth.listen(8020);
 			await helpers.getDocument();
 		});
