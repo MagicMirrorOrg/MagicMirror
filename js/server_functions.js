@@ -18,7 +18,7 @@ function getConfig(req, res) {
  *
  * Example input request url: /cors?sendheaders=header1:value1,header2:value2&expectedheaders=header1,header2&url=http://www.test.com/path?param1=value1
  *
- * Only the url-param of the input request url is required.
+ * Only the url-param of the input request url is required. It must be the last parameter.
  *
  * @param {Request} req - the request
  * @param {Response} res - the result

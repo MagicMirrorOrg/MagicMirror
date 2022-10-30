@@ -1,5 +1,4 @@
 const { cors } = require("../../../js/server_functions");
-const nodeVersion = process.version.match(/^v(\d+)\.*/)[1];
 
 describe("server_functions tests", () => {
 	describe("The cors method", () => {
@@ -9,37 +8,25 @@ describe("server_functions tests", () => {
 		let corsResponse;
 		let request;
 
-		let nodefetch;
-		if (nodeVersion < 18) {
-			jest.mock("node-fetch");
-			nodefetch = require("node-fetch");
-		}
+		jest.mock("node-fetch");
+		let nodefetch = require("node-fetch");
 		let fetchMock;
 
 		beforeEach(() => {
-			if (nodeVersion >= 18) {
-				fetchResponse = new Response();
-				global.fetch = jest.fn(() => Promise.resolve(fetchResponse));
-				fetchResponseHeadersGet = jest.spyOn(fetchResponse.headers, "get");
-				fetchResponseHeadersText = jest.spyOn(fetchResponse, "text");
+			nodefetch.mockReset();
 
-				fetchMock = global.fetch;
-			} else {
-				nodefetch.mockReset();
+			fetchResponseHeadersGet = jest.fn(() => {});
+			fetchResponseHeadersText = jest.fn(() => {});
+			fetchResponse = {
+				headers: {
+					get: fetchResponseHeadersGet
+				},
+				text: fetchResponseHeadersText
+			};
+			jest.mock("node-fetch", () => jest.fn());
+			nodefetch.mockImplementation(() => fetchResponse);
 
-				fetchResponseHeadersGet = jest.fn(() => {});
-				fetchResponseHeadersText = jest.fn(() => {});
-				fetchResponse = {
-					headers: {
-						get: fetchResponseHeadersGet
-					},
-					text: fetchResponseHeadersText
-				};
-				jest.mock("node-fetch", () => jest.fn());
-				nodefetch.mockImplementation(() => fetchResponse);
-
-				fetchMock = nodefetch;
-			}
+			fetchMock = nodefetch;
 
 			corsResponse = {
 				set: jest.fn(() => {}),
