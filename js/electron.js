@@ -153,10 +153,7 @@ app.on("activate", function () {
 app.on("before-quit", async (event) => {
 	Log.log("Shutting down server...");
 	event.preventDefault();
-	setTimeout(() => {
-		process.exit(0);
-	}, 3000); // Force-quit after 3 seconds.
-	await core.stop();
+	await core.stop(3000); // Force-quit after 3 seconds.
 	process.exit(0);
 });
 

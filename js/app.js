@@ -258,9 +258,10 @@ function App() {
 	 *
 	 * Added to fix #1056
 	 *
+	 * @param {number} timeout the amount of milliseconds before the returned promise should be automatically resolved
 	 * @returns {Promise} A promise that is resolved when all node_helpers and the http server has been closed
 	 */
-	this.stop = async function () {
+	this.stop = async function (timeout) {
 		for (const nodeHelper of nodeHelpers) {
 			if (typeof nodeHelper.stop === "function") {
 				nodeHelper.stop();
@@ -272,7 +273,18 @@ function App() {
 			return Promise.resolve();
 		}
 
-		return httpServer.close();
+		let serverClosePromise = httpServer.close();
+
+		// If a timeout is set, resolve when the server is closed or the timeout has been reached
+		if (timeout) {
+			let timeoutPromise = new Promise((resolve) => {
+				setTimeout(resolve, timeout);
+			});
+
+			return Promise.race([serverClosePromise, timeoutPromise]);
+		} else {
+			return serverClosePromise;
+		}
 	};
 
 	/**
@@ -284,10 +296,7 @@ function App() {
 	 */
 	process.on("SIGINT", async () => {
 		Log.log("[SIGINT] Received. Shutting down server...");
-		setTimeout(() => {
-			process.exit(0);
-		}, 3000); // Force quit after 3 seconds
-		await this.stop();
+		await this.stop(3000); // Force quit after 3 seconds
 		process.exit(0);
 	});
 
@@ -297,10 +306,7 @@ function App() {
 	 */
 	process.on("SIGTERM", async () => {
 		Log.log("[SIGTERM] Received. Shutting down server...");
-		setTimeout(() => {
-			process.exit(0);
-		}, 3000); // Force quit after 3 seconds
-		await this.stop();
+		await this.stop(3000); // Force quit after 3 seconds
 		process.exit(0);
 	});
 }
