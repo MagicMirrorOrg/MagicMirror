@@ -20,14 +20,14 @@ describe("Calendar module", () => {
 
 	describe("Test css classes", () => {
 		it("has css class today", async () => {
+			helpers.mockSystemDate("01 Jan 2030 12:30:00 GMT");
 			await helpers.startApplication("tests/configs/modules/calendar/custom.js");
-			await helpers.mockSystemDate("01 Jan 2030 12:30:00 GMT");
 			await doTest(".today");
 		});
 
 		it("has css class tomorrow", async () => {
+			helpers.mockSystemDate("31 Dez 2029 12:30:00 GMT");
 			await helpers.startApplication("tests/configs/modules/calendar/custom.js");
-			await helpers.mockSystemDate("31 Dez 2029 12:30:00 GMT");
 			await doTest(".tomorrow");
 		});
 	});
