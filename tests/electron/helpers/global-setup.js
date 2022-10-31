@@ -3,25 +3,19 @@
 // https://www.anycodings.com/1questions/958135/can-i-set-the-date-for-playwright-browser
 const { _electron: electron } = require("playwright");
 
-exports.startApplication = async (configFilename, systemDate = null, electronParams = ["js/electron.js"]) => {
+exports.startApplication = async (configFilename, electronParams = ["js/electron.js"]) => {
 	global.electronApp = null;
 	global.page = null;
 	process.env.MM_CONFIG_FILE = configFilename;
 	process.env.TZ = "GMT";
 	jest.retryTimes(3);
 	global.electronApp = await electron.launch({ args: electronParams });
-	expect(global.electronApp);
 
+	//We only need the first window for the majority of the tests
 	global.page = await global.electronApp.firstWindow();
-	if (systemDate) {
-		await global.page.evaluate((systemDate) => {
-			Date.now = () => {
-				return new Date(systemDate);
-			};
-		}, systemDate);
-	}
-	expect(await global.page.title()).toBe("MagicMirror²");
-	expect(await global.page.isVisible("body")).toBe(true);
+
+	//Wait for the body element to be visible
+	await global.page.waitForSelector("body");
 };
 
 exports.stopApplication = async () => {
@@ -33,9 +27,17 @@ exports.stopApplication = async () => {
 };
 
 exports.getElement = async (selector) => {
-	expect(global.page);
+	expect(global.page).not.toBe(null);
 	let elem = global.page.locator(selector);
 	await elem.waitFor();
 	expect(elem).not.toBe(null);
 	return elem;
+};
+
+exports.mockSystemDate = async (systemDate) => {
+	await global.page.evaluate((systemDate) => {
+		Date.now = () => {
+			return new Date(systemDate);
+		};
+	}, systemDate);
 };

@@ -25,5 +25,6 @@ exports.startApp = async (configFile, systemDate) => {
 	let content = fs.readFileSync(path.resolve(__dirname + "../../../../" + configFile)).toString();
 	content = content.replace("#####WEATHERDATA#####", mockWeather);
 	fs.writeFileSync(path.resolve(__dirname + "../../../../config/config.js"), content);
-	await helpers.startApplication("", systemDate);
+	await helpers.startApplication("");
+	await helpers.mockSystemDate(systemDate);
 };
