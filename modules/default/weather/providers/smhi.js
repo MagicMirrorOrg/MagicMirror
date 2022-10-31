@@ -15,8 +15,8 @@ WeatherProvider.register("smhi", {
 
 	// Set the default config properties that is specific to this provider
 	defaults: {
-		lat: 0,
-		lon: 0,
+		lat: 0, // Cant have more than 6 digits
+		lon: 0, // Cant have more than 6 digits
 		precipitationValue: "pmedian",
 		location: false
 	},
@@ -75,7 +75,7 @@ WeatherProvider.register("smhi", {
 	setConfig(config) {
 		this.config = config;
 		if (!config.precipitationValue || ["pmin", "pmean", "pmedian", "pmax"].indexOf(config.precipitationValue) === -1) {
-			console.log("invalid or not set: " + config.precipitationValue);
+			Log.log("invalid or not set: " + config.precipitationValue);
 			config.precipitationValue = this.defaults.precipitationValue;
 		}
 	},
@@ -104,8 +104,12 @@ WeatherProvider.register("smhi", {
 	 * @returns {string} the url for the specified coordinates
 	 */
 	getURL() {
-		let lon = this.config.lon;
-		let lat = this.config.lat;
+		const formatter = new Intl.NumberFormat("en-US", {
+			minimumFractionDigits: 6,
+			maximumFractionDigits: 6
+		});
+		const lon = formatter.format(this.config.lon);
+		const lat = formatter.format(this.config.lat);
 		return `https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/${lon}/lat/${lat}/data.json`;
 	},
 
@@ -134,8 +138,7 @@ WeatherProvider.register("smhi", {
 	 * @returns {WeatherObject} The converted weatherdata at the specified location
 	 */
 	convertWeatherDataToObject(weatherData, coordinates) {
-		// Weather data is only for Sweden and nobody in Sweden would use imperial
-		let currentWeather = new WeatherObject("metric", "metric", "metric");
+		let currentWeather = new WeatherObject();
 
 		currentWeather.date = moment(weatherData.validTime);
 		currentWeather.updateSunTime(coordinates.lat, coordinates.lon);
@@ -191,7 +194,7 @@ WeatherProvider.register("smhi", {
 		for (const weatherObject of allWeatherObjects) {
 			//If its the first object or if a day/hour change we need to reset the summary object
 			if (!currentWeather || !currentWeather.date.isSame(weatherObject.date, groupBy)) {
-				currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+				currentWeather = new WeatherObject();
 				dayWeatherTypes = [];
 				currentWeather.temperature = weatherObject.temperature;
 				currentWeather.date = weatherObject.date;

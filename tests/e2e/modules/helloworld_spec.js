@@ -7,7 +7,7 @@ describe("Test helloworld module", () => {
 
 	describe("helloworld set config text", () => {
 		beforeAll(async () => {
-			helpers.startApplication("tests/configs/modules/helloworld/helloworld.js");
+			await helpers.startApplication("tests/configs/modules/helloworld/helloworld.js");
 			await helpers.getDocument();
 		});
 
@@ -20,7 +20,7 @@ describe("Test helloworld module", () => {
 
 	describe("helloworld default config text", () => {
 		beforeAll(async () => {
-			helpers.startApplication("tests/configs/modules/helloworld/helloworld_default.js");
+			await helpers.startApplication("tests/configs/modules/helloworld/helloworld_default.js");
 			await helpers.getDocument();
 		});
 

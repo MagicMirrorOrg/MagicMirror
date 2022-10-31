@@ -2,7 +2,7 @@ const helpers = require("./helpers/global-setup");
 
 describe("Position of modules", () => {
 	beforeAll(async () => {
-		helpers.startApplication("tests/configs/modules/positions.js");
+		await helpers.startApplication("tests/configs/modules/positions.js");
 		await helpers.getDocument();
 	});
 	afterAll(async () => {
