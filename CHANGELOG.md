@@ -17,6 +17,7 @@ Special thanks to: @rejas, @sdetweil, @MagMar94
 - Added hourlyWeather functionality to Weather.gov weather provider
 - Removed weatherEndpoint definition from weathergov.js (not used)
 - Added css class names "today" and "tomorrow" for default calendar
+- Added Collaboration.md
 - Added new github action for dependency review (#2862)
 
 ### Removed
