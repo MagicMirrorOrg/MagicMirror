@@ -602,12 +602,14 @@ WeatherProvider.register("yr", {
 				}
 			}
 			const forecastXHours = forecast.data.next_12_hours ?? forecast.data.next_6_hours ?? forecast.data.next_1_hours;
-			forecast.symbol = forecastXHours.summary?.symbol_code;
-			forecast.precipitation = forecastXHours.details?.precipitation_amount;
-			forecast.minTemperature = precipitation_amount_min;
-			forecast.maxTemperature = precipitation_amount_max;
+			if (forecastXHours) {
+				forecast.symbol = forecastXHours.summary?.symbol_code;
+				forecast.precipitation = forecastXHours.details?.precipitation_amount;
+				forecast.minTemperature = precipitation_amount_min;
+				forecast.maxTemperature = precipitation_amount_max;
 
-			series.push(forecast);
+				series.push(forecast);
+			}
 		});
 		for (const forecast of series) {
 			forecast.weatherType = this.convertWeatherType(forecast.symbol, forecast.time);
