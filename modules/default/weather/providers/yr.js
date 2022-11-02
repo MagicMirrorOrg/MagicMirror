@@ -22,13 +22,13 @@ WeatherProvider.register("yr", {
 		currentForecastHours: 1 //1, 6 or 12
 	},
 
-	//Backup cache if local storage does not work
-	cache: {
-		weatherData: undefined,
-		stellarData: {
-			today: undefined,
-			tomorrow: undefined
+	start() {
+		if (typeof Storage === "undefined") {
+			//local storage unavailable
+			Log.error("The Yr weather provider requires local storage.");
+			throw new Error("Local storage not available");
 		}
+		Log.info(`Weather provider: ${this.providerName} started.`);
 	},
 
 	fetchCurrentWeather() {
@@ -73,49 +73,56 @@ WeatherProvider.register("yr", {
 
 	getWeatherData() {
 		return new Promise((resolve, reject) => {
-			this.weatherDataQueue.push({ resolve, reject });
-			this.getWeatherDataSynchrounous();
+			// If a user has several Yr-modules, for instance one current and one forecast, the API calls must be synchronized across classes.
+			// This is to avoid multiple similar calls to the API.
+			let shouldWait = localStorage.getItem("yrIsFetchingWeatherData");
+			if (shouldWait) {
+				const checkForGo = setInterval(function () {
+					shouldWait = localStorage.getItem("yrIsFetchingWeatherData");
+				}, 100);
+				setTimeout(function () {
+					clearInterval(checkForGo);
+					shouldWait = false;
+				}, 5000); //Assume other fetch finished but failed to remove lock
+				const attemptFetchWeather = setInterval(() => {
+					if (!shouldWait) {
+						clearInterval(attemptFetchWeather);
+						this.getWeatherDataFromYrOrCache(resolve, reject);
+					}
+				}, 100);
+			} else {
+				this.getWeatherDataFromYrOrCache(resolve, reject);
+			}
 		});
 	},
 
-	weatherDataQueue: [],
-	waitingForWeatherData: false,
-	// Must be fetched synchrounously to give web request time to populate cache and avoid duplicate calls to the API
-	getWeatherDataSynchrounous() {
-		if (this.weatherDataQueue.length < 1) {
-			return;
-		}
-		if (!this.waitingForWeatherData) {
-			this.waitingForWeatherData = true;
-			let { resolve, reject } = this.weatherDataQueue.shift();
+	getWeatherDataFromYrOrCache(resolve, reject) {
+		localStorage.setItem("yrIsFetchingWeatherData", "true");
 
-			let weatherData = this.getWeatherDataFromCache();
-			if (this.weatherDataIsValid(weatherData)) {
-				this.waitingForWeatherData = false;
-				this.getWeatherDataSynchrounous();
-				Log.debug("Weather data found in cache.");
-				resolve(weatherData);
-			} else {
-				this.getWeatherDataFromYr(weatherData?.downloadedAt)
-					.then((weatherData) => {
-						Log.debug("Got weather data from yr.");
-						if (weatherData) {
-							this.cacheWeatherData(weatherData);
-						} else {
-							//Undefined if unchanged
-							weatherData = this.getWeatherDataFromCache();
-						}
-						resolve(weatherData);
-					})
-					.catch((err) => {
-						Log.error(err);
-						reject("Unable to get weather data from Yr.");
-					})
-					.finally(() => {
-						this.waitingForWeatherData = false;
-						this.getWeatherDataSynchrounous();
-					});
-			}
+		let weatherData = this.getWeatherDataFromCache();
+		if (this.weatherDataIsValid(weatherData)) {
+			localStorage.removeItem("yrIsFetchingWeatherData");
+			Log.debug("Weather data found in cache.");
+			resolve(weatherData);
+		} else {
+			this.getWeatherDataFromYr(weatherData?.downloadedAt)
+				.then((weatherData) => {
+					Log.debug("Got weather data from yr.");
+					if (weatherData) {
+						this.cacheWeatherData(weatherData);
+					} else {
+						//Undefined if unchanged
+						weatherData = this.getWeatherDataFromCache();
+					}
+					resolve(weatherData);
+				})
+				.catch((err) => {
+					Log.error(err);
+					reject("Unable to get weather data from Yr.");
+				})
+				.finally(() => {
+					localStorage.removeItem("yrIsFetchingWeatherData");
+				});
 		}
 	},
 
@@ -129,17 +136,11 @@ WeatherProvider.register("yr", {
 	},
 
 	getWeatherDataFromCache() {
-		let weatherData = undefined;
-		if (typeof Storage !== "undefined") {
-			weatherData = localStorage.getItem("weatherData");
-			if (weatherData) {
-				return JSON.parse(weatherData);
-			} else {
-				return undefined;
-			}
+		const weatherData = localStorage.getItem("weatherData");
+		if (weatherData) {
+			return JSON.parse(weatherData);
 		} else {
-			//local storage unavailable
-			return this.cache?.weatherData;
+			return undefined;
 		}
 	},
 
@@ -192,13 +193,7 @@ WeatherProvider.register("yr", {
 	},
 
 	cacheWeatherData(weatherData) {
-		if (typeof Storage !== "undefined") {
-			//local storage available
-			localStorage.setItem("weatherData", JSON.stringify(weatherData));
-		} else {
-			//local storage unavailable
-			this.cache.weatherData = weatherData;
-		}
+		localStorage.setItem("weatherData", JSON.stringify(weatherData));
 	},
 
 	getAuthenticationString() {
@@ -207,79 +202,85 @@ WeatherProvider.register("yr", {
 	},
 
 	getStellarData() {
+		// If a user has several Yr-modules, for instance one current and one forecast, the API calls must be synchronized across classes.
+		// This is to avoid multiple similar calls to the API.
 		return new Promise((resolve, reject) => {
-			this.stellarDataQueue.push({ resolve, reject });
-			this.getStellarDataSynchrounous();
+			let shouldWait = localStorage.getItem("yrIsFetchingStellarData");
+			if (shouldWait) {
+				const checkForGo = setInterval(function () {
+					shouldWait = localStorage.getItem("yrIsFetchingStellarData");
+				}, 100);
+				setTimeout(function () {
+					clearInterval(checkForGo);
+					shouldWait = false;
+				}, 5000); //Assume other fetch finished but failed to remove lock
+				const attemptFetchWeather = setInterval(() => {
+					if (!shouldWait) {
+						clearInterval(attemptFetchWeather);
+						this.getStellarDataFromYrOrCache(resolve, reject);
+					}
+				}, 100);
+			} else {
+				this.getStellarDataFromYrOrCache(resolve, reject);
+			}
 		});
 	},
 
-	stellarDataQueue: [],
-	waitingForStellarData: false,
-	// Must be fetched synchrounously to give web request time to populate cache and avoid duplicate calls to the API.
-	getStellarDataSynchrounous() {
-		if (this.stellarDataQueue.length < 1) {
-			return;
-		}
-		if (!this.waitingForStellarData) {
-			this.waitingForStellarData = true;
-			let { resolve, reject } = this.stellarDataQueue.shift();
+	getStellarDataFromYrOrCache(resolve, reject) {
+		localStorage.setItem("yrIsFetchingStellarData", "true");
 
-			let stellarData = this.getStellarDataFromCache();
-			const today = moment().format("YYYY-MM-DD");
-			const tomorrow = moment().add(1, "days").format("YYYY-MM-DD");
-			if (stellarData && stellarData.today && stellarData.today.date === today && stellarData.tomorrow && stellarData.tomorrow.date === tomorrow && this.coordinatesAreCorrect(stellarData.today, stellarData.tomorrow)) {
-				Log.debug("Stellar data found in cache.");
-				this.waitingForStellarData = false;
-				this.getStellarDataSynchrounous();
-				resolve(stellarData);
-			} else if (stellarData && stellarData.tomorrow && stellarData.tomorrow.date === today && this.coordinatesAreCorrect(stellarData.tomorrow)) {
-				Log.debug("stellar data for today found in cache, but not for tomorrow.");
-				stellarData.today = stellarData.tomorrow;
-				this.getStellarDataFromYr(tomorrow)
-					.then((data) => {
-						if (data) {
-							data.date = tomorrow;
-							stellarData.tomorrow = data;
-							this.cacheStellarData(stellarData);
-							resolve(stellarData);
-						} else {
-							reject("No stellar data returned from Yr for " + tomorrow);
-						}
-					})
-					.catch((err) => {
-						Log.error(err);
-						reject("Unable to get stellar data from Yr for " + tomorrow);
-					})
-					.finally(() => {
-						this.waitingForStellarData = false;
-						this.getStellarDataSynchrounous();
-					});
-			} else {
-				this.getStellarDataFromYr(today, 2)
-					.then((stellarData) => {
-						if (stellarData) {
-							stellarData = {
-								today: stellarData
-							};
-							stellarData.tomorrow = Object.assign({}, stellarData.today);
-							stellarData.today.date = today;
-							stellarData.tomorrow.date = tomorrow;
-							this.cacheStellarData(stellarData);
-							resolve(stellarData);
-						} else {
-							Log.error("Something went wrong when fetching stellar data. Responses: " + stellarData);
-							reject(stellarData);
-						}
-					})
-					.catch((err) => {
-						Log.error(err);
-						reject("Unable to get stellar data from Yr.");
-					})
-					.finally(() => {
-						this.waitingForStellarData = false;
-						this.getStellarDataSynchrounous();
-					});
-			}
+		let stellarData = this.getStellarDataFromCache();
+		const today = moment().format("YYYY-MM-DD");
+		const tomorrow = moment().add(1, "days").format("YYYY-MM-DD");
+		if (stellarData && stellarData.today && stellarData.today.date === today && stellarData.tomorrow && stellarData.tomorrow.date === tomorrow && this.coordinatesAreCorrect(stellarData.today, stellarData.tomorrow)) {
+			Log.debug("Stellar data found in cache.");
+			localStorage.removeItem("yrIsFetchingStellarData");
+			resolve(stellarData);
+		} else if (stellarData && stellarData.tomorrow && stellarData.tomorrow.date === today && this.coordinatesAreCorrect(stellarData.tomorrow)) {
+			Log.debug("stellar data for today found in cache, but not for tomorrow.");
+			stellarData.today = stellarData.tomorrow;
+			this.getStellarDataFromYr(tomorrow)
+				.then((data) => {
+					if (data) {
+						data.date = tomorrow;
+						stellarData.tomorrow = data;
+						this.cacheStellarData(stellarData);
+						resolve(stellarData);
+					} else {
+						reject("No stellar data returned from Yr for " + tomorrow);
+					}
+				})
+				.catch((err) => {
+					Log.error(err);
+					reject("Unable to get stellar data from Yr for " + tomorrow);
+				})
+				.finally(() => {
+					localStorage.removeItem("yrIsFetchingStellarData");
+				});
+		} else {
+			this.getStellarDataFromYr(today, 2)
+				.then((stellarData) => {
+					if (stellarData) {
+						stellarData = {
+							today: stellarData
+						};
+						stellarData.tomorrow = Object.assign({}, stellarData.today);
+						stellarData.today.date = today;
+						stellarData.tomorrow.date = tomorrow;
+						this.cacheStellarData(stellarData);
+						resolve(stellarData);
+					} else {
+						Log.error("Something went wrong when fetching stellar data. Responses: " + stellarData);
+						reject(stellarData);
+					}
+				})
+				.catch((err) => {
+					Log.error(err);
+					reject("Unable to get stellar data from Yr.");
+				})
+				.finally(() => {
+					localStorage.removeItem("yrIsFetchingStellarData");
+				});
 		}
 	},
 
@@ -295,17 +296,11 @@ WeatherProvider.register("yr", {
 	},
 
 	getStellarDataFromCache() {
-		let stellarData = undefined;
-		if (typeof Storage !== "undefined") {
-			stellarData = localStorage.getItem("stellarData");
-			if (stellarData) {
-				return JSON.parse(stellarData);
-			} else {
-				return undefined;
-			}
+		const stellarData = localStorage.getItem("stellarData");
+		if (stellarData) {
+			return JSON.parse(stellarData);
 		} else {
-			//local storage unavailable
-			return this.cache?.stellarData;
+			return undefined;
 		}
 	},
 
@@ -364,13 +359,7 @@ WeatherProvider.register("yr", {
 	},
 
 	cacheStellarData(data) {
-		if (typeof Storage !== "undefined") {
-			//local storage available
-			localStorage.setItem("stellarData", JSON.stringify(data));
-		} else {
-			//local storage unavailable
-			this.cache.stellarData = data;
-		}
+		localStorage.setItem("stellarData", JSON.stringify(data));
 	},
 
 	getWeatherDataFrom(forecast, stellarData, units) {
