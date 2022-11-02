@@ -9,7 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 _This release is scheduled to be released on 2023-01-01._
 
-Special thanks to: @rejas, @sdetweil
+Special thanks to: @rejas, @sdetweil, @MagMar94
 
 ### Added
 
@@ -17,20 +17,28 @@ Special thanks to: @rejas, @sdetweil
 - Added hourlyWeather functionality to Weather.gov weather provider
 - Removed weatherEndpoint definition from weathergov.js (not used)
 - Added css class names "today" and "tomorrow" for default calendar
+- Added Collaboration.md
+- Added new github action for dependency review (#2862)
 - Added Yr as a weather provider
 
 ### Removed
 
+- Removed usage of internal fetch function of node until it is more stable.
+
 ### Updated
 
-- Cleaned up test directory
+- Cleaned up test directory (#2937) and jest config (#2959)
 - Wait for all modules to start before declaring the system ready (#2487)
 - Updated e2e tests (moved `done()` in helper functions) and use es6 syntax in all tests
 - Updated da translation
 - Rework weather module
-  - Use fetch instead of XMLHttpRequest in weatherprovider
-  - Use unix() method for parsing times, fix suntimes on the way
+  - Make sure smhi provider api only gets a maximum of 6 digits coordinates (#2955)
+  - Use fetch instead of XMLHttpRequest in weatherprovider (#2935)
+  - Reworked how weatherproviders handle units (#2849)
+  - Use unix() method for parsing times, fix suntimes on the way (#2950)
+  - Refactor conversion functions into utils class (#2958)
   - Support HTTP headers
+- The `cors`-method in `server.js` now supports sending and recieving HTTP headers.
 
 ### Fixed
 
@@ -39,6 +47,7 @@ Special thanks to: @rejas, @sdetweil
 - Handle node_helper errors during startup (#2944)
 - Possibility to change FontAwesome class in calendar, so icons like `fab fa-facebook-square` works.
 - Fix cors problems with newsfeed articles (as far as possible), allow disabling cors per feed with option `useCorsProxy: false` (#2840)
+- Tests not waiting for the application to start and stop before starting the next test
 
 ## [2.21.0] - 2022-10-01
 

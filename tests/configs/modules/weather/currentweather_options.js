@@ -11,7 +11,7 @@ let config = {
 			config: {
 				location: "Munich",
 				mockData: '"#####WEATHERDATA#####"',
-				useBeaufort: false,
+				windUnits: "beaufort",
 				showWindDirectionAsArrow: true,
 				showSun: false,
 				showHumidity: true,

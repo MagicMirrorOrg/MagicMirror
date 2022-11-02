@@ -1,0 +1,32 @@
+module.exports = async () => {
+	return {
+		verbose: true,
+		testTimeout: 20000,
+		testSequencer: "<rootDir>/tests/configs/test_sequencer.js",
+		projects: [
+			{
+				displayName: "unit",
+				moduleNameMapper: {
+					logger: "<rootDir>/js/logger.js"
+				},
+				testMatch: ["**/tests/unit/**/*.[jt]s?(x)"],
+				testPathIgnorePatterns: ["<rootDir>/tests/unit/mocks"]
+			},
+			{
+				displayName: "electron",
+				testMatch: ["**/tests/electron/**/*.[jt]s?(x)"],
+				testPathIgnorePatterns: ["<rootDir>/tests/electron/helpers/"]
+			},
+			{
+				displayName: "e2e",
+				setupFilesAfterEnv: ["<rootDir>/tests/e2e/helpers/mock-console.js"],
+				testMatch: ["**/tests/e2e/**/*.[jt]s?(x)"],
+				modulePaths: ["<rootDir>/js/"],
+				testPathIgnorePatterns: ["<rootDir>/tests/e2e/helpers/", "<rootDir>/tests/e2e/mocks"]
+			}
+		],
+		collectCoverageFrom: ["./clientonly/**/*.js", "./js/**/*.js", "./modules/**/*.js", "./serveronly/**/*.js"],
+		coverageReporters: ["lcov", "text"],
+		coverageProvider: "v8"
+	};
+};

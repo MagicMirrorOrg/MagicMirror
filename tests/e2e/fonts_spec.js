@@ -13,8 +13,8 @@ describe("All font files from roboto.css should be downloadable", () => {
 		match = regex.exec(fileContent);
 	}
 
-	beforeAll(() => {
-		helpers.startApplication("tests/configs/without_modules.js");
+	beforeAll(async () => {
+		await helpers.startApplication("tests/configs/without_modules.js");
 	});
 	afterAll(async () => {
 		await helpers.stopApplication();

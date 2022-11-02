@@ -2,7 +2,7 @@ const helpers = require("./helpers/global-setup");
 
 describe("Display of modules", () => {
 	beforeAll(async () => {
-		helpers.startApplication("tests/configs/modules/display.js");
+		await helpers.startApplication("tests/configs/modules/display.js");
 		await helpers.getDocument();
 	});
 	afterAll(async () => {

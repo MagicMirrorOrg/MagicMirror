@@ -2,8 +2,8 @@ const helpers = require("./helpers/global-setup");
 
 describe("ipWhitelist directive configuration", () => {
 	describe("Set ipWhitelist without access", () => {
-		beforeAll(() => {
-			helpers.startApplication("tests/configs/noIpWhiteList.js");
+		beforeAll(async () => {
+			await helpers.startApplication("tests/configs/noIpWhiteList.js");
 		});
 		afterAll(async () => {
 			await helpers.stopApplication();
@@ -16,8 +16,8 @@ describe("ipWhitelist directive configuration", () => {
 	});
 
 	describe("Set ipWhitelist []", () => {
-		beforeAll(() => {
-			helpers.startApplication("tests/configs/empty_ipWhiteList.js");
+		beforeAll(async () => {
+			await helpers.startApplication("tests/configs/empty_ipWhiteList.js");
 		});
 		afterAll(async () => {
 			await helpers.stopApplication();

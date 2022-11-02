@@ -2,7 +2,7 @@ const helpers = require("./helpers/global-setup");
 
 describe("Check configuration without modules", () => {
 	beforeAll(async () => {
-		helpers.startApplication("tests/configs/without_modules.js");
+		await helpers.startApplication("tests/configs/without_modules.js");
 		await helpers.getDocument();
 	});
 	afterAll(async () => {
