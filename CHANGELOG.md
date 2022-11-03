@@ -37,7 +37,6 @@ Special thanks to: @rejas, @sdetweil, @MagMar94
   - Reworked how weatherproviders handle units (#2849)
   - Use unix() method for parsing times, fix suntimes on the way (#2950)
   - Refactor conversion functions into utils class (#2958)
-  - Support HTTP headers
 - The `cors`-method in `server.js` now supports sending and recieving HTTP headers.
 
 ### Fixed

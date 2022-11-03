@@ -66,8 +66,8 @@ WeatherProvider.register("yr", {
 		const forecastXHours = this.getForecastForXHoursFrom(forecast.data);
 		forecast.weatherType = this.convertWeatherType(forecastXHours.summary.symbol_code, forecast.time);
 		forecast.precipitation = forecastXHours.details?.precipitation_amount;
-		forecast.minTemperature = forecastXHours.details?.precipitation_amount_min;
-		forecast.maxTemperature = forecastXHours.details?.precipitation_amount_max;
+		forecast.minTemperature = forecastXHours.details?.air_temperature_min;
+		forecast.maxTemperature = forecastXHours.details?.air_temperature_max;
 		return this.getWeatherDataFrom(forecast, stellarData, weatherData.properties.meta.units);
 	},
 
@@ -579,8 +579,8 @@ WeatherProvider.register("yr", {
 		}, Object.create(null));
 
 		Object.keys(days).forEach(function (time, index) {
-			let precipitation_amount_min = undefined;
-			let precipitation_amount_max = undefined;
+			let minTemperature = undefined;
+			let maxTemperature = undefined;
 
 			//Default to first entry
 			let forecast = days[time][0];
@@ -592,8 +592,8 @@ WeatherProvider.register("yr", {
 			for (const timeseries of days[time]) {
 				if (!timeseries.data.next_6_hours) continue; //next_6_hours has the most data
 
-				if (!precipitation_amount_min || timeseries.data.next_6_hours.details.air_temperature_min < precipitation_amount_min) precipitation_amount_min = timeseries.data.next_6_hours.details.air_temperature_min;
-				if (!precipitation_amount_max || precipitation_amount_max < timeseries.data.next_6_hours.details.air_temperature_max) precipitation_amount_max = timeseries.data.next_6_hours.details.air_temperature_max;
+				if (!minTemperature || timeseries.data.next_6_hours.details.air_temperature_min < minTemperature) minTemperature = timeseries.data.next_6_hours.details.air_temperature_min;
+				if (!maxTemperature || maxTemperature < timeseries.data.next_6_hours.details.air_temperature_max) maxTemperature = timeseries.data.next_6_hours.details.air_temperature_max;
 
 				let closestTime = Math.abs(moment(timeseries.time).local().set({ hour: 8, minute: 0, second: 0, millisecond: 0 }).diff(moment(timeseries.time).local()));
 				if ((forecastDiffToEight === undefined || closestTime < forecastDiffToEight) && timeseries.data.next_12_hours) {
@@ -605,8 +605,8 @@ WeatherProvider.register("yr", {
 			if (forecastXHours) {
 				forecast.symbol = forecastXHours.summary?.symbol_code;
 				forecast.precipitation = forecastXHours.details?.precipitation_amount;
-				forecast.minTemperature = precipitation_amount_min;
-				forecast.maxTemperature = precipitation_amount_max;
+				forecast.minTemperature = minTemperature;
+				forecast.maxTemperature = maxTemperature;
 
 				series.push(forecast);
 			}
