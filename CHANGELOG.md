@@ -9,7 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 _This release is scheduled to be released on 2023-01-01._
 
-Special thanks to: @rejas, @sdetweil, @MagMar94
+Special thanks to: @rejas, @sdetweil, @MagMar94, @angeldeejay
 
 ### Added
 
@@ -19,6 +19,7 @@ Special thanks to: @rejas, @sdetweil, @MagMar94
 - Added css class names "today" and "tomorrow" for default calendar
 - Added Collaboration.md
 - Added new github action for dependency review (#2862)
+- Added a WeatherProvider for Open-Meteo.
 
 ### Removed
 
