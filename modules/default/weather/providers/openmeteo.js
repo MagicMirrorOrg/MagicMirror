@@ -28,19 +28,6 @@ WeatherProvider.register("openmeteo", {
 		timezone: null
 	},
 
-	units: {
-		imperial: {
-			temperature_unit: "fahrenheit",
-			windspeed_unit: "mph",
-			precipitation_unit: "inch"
-		},
-		metric: {
-			temperature_unit: "celsius",
-			windspeed_unit: "kmh",
-			precipitation_unit: "mm"
-		}
-	},
-
 	// https://open-meteo.com/en/docs
 	hourlyParams: [
 		// Air temperature at 2 meters above ground
@@ -217,8 +204,6 @@ WeatherProvider.register("openmeteo", {
 			...config
 		};
 
-		Log.log(this.config);
-
 		this.config.ignoreToday = (this.config.ignoreToday ?? false) && ["daily", "forecast"].includes(this.config.type);
 
 		// Set properly maxNumberOfDays and max Entries properties according to config and value ranges allowed in the documentation
@@ -257,7 +242,10 @@ WeatherProvider.register("openmeteo", {
 			past_days: this.config.past_days ?? 0,
 			daily: this.dailyParams,
 			hourly: this.hourlyParams,
-			...this.units[this.config.units || "metric"]
+			// Fixed units as metric
+			temperature_unit: "celsius",
+			windspeed_unit: "kmh",
+			precipitation_unit: "mm"
 		};
 
 		const startDateOffset = this.config.ignoreToday ? 1 : 0;
@@ -372,27 +360,44 @@ WeatherProvider.register("openmeteo", {
 
 	// Implement WeatherDay generator.
 	generateWeatherDayFromCurrentWeather(weather) {
-		const now = moment();
-		const i = 0;
-		const h = now.hour();
+		/**
+		 * Since some units comes from API response "splitted" into daily, hourly and current_weather
+		 * every time you request it, you have to ensure to get the data from the right place every time.
+		 * For the current weather case, the response have the following structure (after transposing):
+		 * ```
+		 * {
+		 *   current_weather: { ...<some current weather here> },
+		 * 	 hourly: [
+		 * 	   0: {...<data for hour zero here> },
+		 * 	   1: {...<data for hour one here> },
+		 *     ...
+		 *   ],
+		 *   daily: [
+		 * 	   {...<summary data for current day here> },
+		 *   ]
+		 * }
+		 * ```
+		 * Some data should be returned from `hourly` array data when the index matches the current hour,
+		 * some data from the first and only one object received in `daily` array and some from the
+		 * `current_weather` object.
+		 */
+		const h = moment().hour();
 		const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
 
 		currentWeather.date = weather.current_weather.time;
 		currentWeather.windSpeed = weather.current_weather.windspeed;
 		currentWeather.windDirection = weather.current_weather.winddirection;
-		currentWeather.sunrise = weather.daily[i].sunrise;
-		currentWeather.sunset = weather.daily[i].sunset;
+		currentWeather.sunrise = weather.daily[0].sunrise;
+		currentWeather.sunset = weather.daily[0].sunset;
 		currentWeather.temperature = parseFloat(weather.current_weather.temperature);
-		currentWeather.minTemperature = parseFloat(weather.daily[i].temperature_2m_min);
-		currentWeather.maxTemperature = parseFloat(weather.daily[i].temperature_2m_max);
+		currentWeather.minTemperature = parseFloat(weather.daily[0].temperature_2m_min);
+		currentWeather.maxTemperature = parseFloat(weather.daily[0].temperature_2m_max);
 		currentWeather.weatherType = this.convertWeatherType(weather.current_weather.weathercode, currentWeather.isDayTime());
 		currentWeather.humidity = parseFloat(weather.hourly[h].relativehumidity_2m);
 		currentWeather.rain = parseFloat(weather.hourly[h].rain);
-		currentWeather.snow = parseFloat(weather.hourly[h].snowfall * (this.config.units === "metric" ? 10 : 1));
+		currentWeather.snow = parseFloat(weather.hourly[h].snowfall * 10);
 		currentWeather.precipitation = parseFloat(weather.hourly[h].precipitation);
-		currentWeather.precipitationUnits = this.config.units === "metric" ? "mm" : "in";
 
-		Log.log(currentWeather);
 		return currentWeather;
 	},
 
@@ -413,9 +418,8 @@ WeatherProvider.register("openmeteo", {
 			currentWeather.maxTemperature = parseFloat(weather.apparent_temperature_max);
 			currentWeather.weatherType = this.convertWeatherType(weather.weathercode, currentWeather.isDayTime());
 			currentWeather.rain = parseFloat(weather.rain_sum);
-			currentWeather.snow = parseFloat(weather.snowfall_sum * (this.config.units === "metric" ? 10 : 1));
+			currentWeather.snow = parseFloat(weather.snowfall_sum * 10);
 			currentWeather.precipitation = parseFloat(weather.precipitation_sum);
-			currentWeather.precipitationUnits = this.config.units === "metric" ? "mm" : "in";
 
 			days.push(currentWeather);
 		});
@@ -447,9 +451,8 @@ WeatherProvider.register("openmeteo", {
 			currentWeather.weatherType = this.convertWeatherType(weather.weathercode, currentWeather.isDayTime());
 			currentWeather.humidity = parseFloat(weather.relativehumidity_2m);
 			currentWeather.rain = parseFloat(weather.rain);
-			currentWeather.snow = parseFloat(weather.snowfall * (this.config.units === "metric" ? 10 : 1));
+			currentWeather.snow = parseFloat(weather.snowfall * 10);
 			currentWeather.precipitation = parseFloat(weather.precipitation);
-			currentWeather.precipitationUnits = this.config.units === "metric" ? "mm" : "in";
 
 			hours.push(currentWeather);
 		});
