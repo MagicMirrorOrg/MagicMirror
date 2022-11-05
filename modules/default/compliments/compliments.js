@@ -85,33 +85,29 @@ Module.register("compliments", {
 	complimentArray: function () {
 		const hour = moment().hour();
 		const date = moment().format("YYYY-MM-DD");
-		let compliments;
+		let compliments = [];
 
 		// Add time of day compliments
 		if (hour >= this.config.morningStartTime && hour < this.config.morningEndTime && this.config.compliments.hasOwnProperty("morning")) {
-			compliments = this.config.compliments.morning.slice(0);
+			compliments = [...this.config.compliments.morning];
 		} else if (hour >= this.config.afternoonStartTime && hour < this.config.afternoonEndTime && this.config.compliments.hasOwnProperty("afternoon")) {
-			compliments = this.config.compliments.afternoon.slice(0);
+			compliments = [...this.config.compliments.afternoon];
 		} else if (this.config.compliments.hasOwnProperty("evening")) {
-			compliments = this.config.compliments.evening.slice(0);
-		}
-
-		if (typeof compliments === "undefined") {
-			compliments = [];
+			compliments = [...this.config.compliments.evening];
 		}
 
 		// Add compliments based on weather
 		if (this.currentWeatherType in this.config.compliments) {
-			compliments.push.apply(compliments, this.config.compliments[this.currentWeatherType]);
+			Array.prototype.push.apply(compliments, this.config.compliments[this.currentWeatherType]);
 		}
 
 		// Add compliments for anytime
-		compliments.push.apply(compliments, this.config.compliments.anytime);
+		Array.prototype.push.apply(compliments, this.config.compliments.anytime);
 
 		// Add compliments for special days
 		for (let entry in this.config.compliments) {
 			if (new RegExp(entry).test(date)) {
-				compliments.push.apply(compliments, this.config.compliments[entry]);
+				Array.prototype.push.apply(compliments, this.config.compliments[entry]);
 			}
 		}
 
