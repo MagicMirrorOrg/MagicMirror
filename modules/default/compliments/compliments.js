@@ -164,19 +164,19 @@ Module.register("compliments", {
 		const complimentText = this.randomCompliment();
 		// split it into parts on newline text
 		const parts = complimentText.split("\n");
-		// create a span to hold it all
-		const compliment = document.createElement("span");
 		// process all the parts of the compliment text
 		for (const part of parts) {
-			// create a text element for each part
-			compliment.appendChild(document.createTextNode(part));
-			// add a break `
-			compliment.appendChild(document.createElement("BR"));
+			if (part !== "") {
+				// create a span to hold the part of the compliment
+				const compliment = document.createElement("span");
+				// create a text element for each part
+				compliment.appendChild(document.createTextNode(part));
+				// add a break
+				compliment.appendChild(document.createElement("BR"));
+				// add compliment part to wrapper
+				wrapper.appendChild(compliment);
+			}
 		}
-		// remove the last break
-		compliment.lastElementChild.remove();
-		wrapper.appendChild(compliment);
-
 		return wrapper;
 	},
 
