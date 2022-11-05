@@ -87,6 +87,7 @@ Module.register("compliments", {
 		const date = moment().format("YYYY-MM-DD");
 		let compliments;
 
+		// Add time of day compliments
 		if (hour >= this.config.morningStartTime && hour < this.config.morningEndTime && this.config.compliments.hasOwnProperty("morning")) {
 			compliments = this.config.compliments.morning.slice(0);
 		} else if (hour >= this.config.afternoonStartTime && hour < this.config.afternoonEndTime && this.config.compliments.hasOwnProperty("afternoon")) {
@@ -99,12 +100,15 @@ Module.register("compliments", {
 			compliments = [];
 		}
 
+		// Add compliments based on weather
 		if (this.currentWeatherType in this.config.compliments) {
 			compliments.push.apply(compliments, this.config.compliments[this.currentWeatherType]);
 		}
 
+		// Add compliments for anytime
 		compliments.push.apply(compliments, this.config.compliments.anytime);
 
+		// Add compliments for special days
 		for (let entry in this.config.compliments) {
 			if (new RegExp(entry).test(date)) {
 				compliments.push.apply(compliments, this.config.compliments[entry]);
@@ -138,7 +142,7 @@ Module.register("compliments", {
 	 *
 	 * @returns {string} a compliment
 	 */
-	randomCompliment: function () {
+	getRandomCompliment: function () {
 		// get the current time of day compliments list
 		const compliments = this.complimentArray();
 		// variable for index to next message to display
@@ -161,7 +165,7 @@ Module.register("compliments", {
 		const wrapper = document.createElement("div");
 		wrapper.className = this.config.classes ? this.config.classes : "thin xlarge bright pre-line";
 		// get the compliment text
-		const complimentText = this.randomCompliment();
+		const complimentText = this.getRandomCompliment();
 		// split it into parts on newline text
 		const parts = complimentText.split("\n");
 		// process all the parts of the compliment text
@@ -180,15 +184,10 @@ Module.register("compliments", {
 		return wrapper;
 	},
 
-	// From data currentweather set weather type
-	setCurrentWeatherType: function (type) {
-		this.currentWeatherType = type;
-	},
-
 	// Override notification handler.
 	notificationReceived: function (notification, payload, sender) {
 		if (notification === "CURRENTWEATHER_TYPE") {
-			this.setCurrentWeatherType(payload.type);
+			this.currentWeatherType = payload.type;
 		}
 	}
 });
