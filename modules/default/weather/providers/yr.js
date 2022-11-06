@@ -86,6 +86,7 @@ WeatherProvider.register("yr", {
 				}, 5000); //Assume other fetch finished but failed to remove lock
 				const attemptFetchWeather = setInterval(() => {
 					if (!shouldWait) {
+						clearInterval(checkForGo);
 						clearInterval(attemptFetchWeather);
 						this.getWeatherDataFromYrOrCache(resolve, reject);
 					}
@@ -216,6 +217,7 @@ WeatherProvider.register("yr", {
 				}, 5000); //Assume other fetch finished but failed to remove lock
 				const attemptFetchWeather = setInterval(() => {
 					if (!shouldWait) {
+						clearInterval(checkForGo);
 						clearInterval(attemptFetchWeather);
 						this.getStellarDataFromYrOrCache(resolve, reject);
 					}
@@ -232,11 +234,11 @@ WeatherProvider.register("yr", {
 		let stellarData = this.getStellarDataFromCache();
 		const today = moment().format("YYYY-MM-DD");
 		const tomorrow = moment().add(1, "days").format("YYYY-MM-DD");
-		if (stellarData && stellarData.today && stellarData.today.date === today && stellarData.tomorrow && stellarData.tomorrow.date === tomorrow && this.coordinatesAreCorrect(stellarData.today, stellarData.tomorrow)) {
+		if (stellarData && stellarData.today && stellarData.today.date === today && stellarData.tomorrow && stellarData.tomorrow.date === tomorrow) {
 			Log.debug("Stellar data found in cache.");
 			localStorage.removeItem("yrIsFetchingStellarData");
 			resolve(stellarData);
-		} else if (stellarData && stellarData.tomorrow && stellarData.tomorrow.date === today && this.coordinatesAreCorrect(stellarData.tomorrow)) {
+		} else if (stellarData && stellarData.tomorrow && stellarData.tomorrow.date === today) {
 			Log.debug("stellar data for today found in cache, but not for tomorrow.");
 			stellarData.today = stellarData.tomorrow;
 			this.getStellarDataFromYr(tomorrow)
@@ -282,17 +284,6 @@ WeatherProvider.register("yr", {
 					localStorage.removeItem("yrIsFetchingStellarData");
 				});
 		}
-	},
-
-	coordinatesAreCorrect(todayData, tomorrowData) {
-		if (tomorrowData)
-			return (
-				!todayData.location ||
-				(Math.abs(parseFloat(this.config.lat) - parseFloat(todayData.location.latitude)) < 0.1 &&
-					Math.abs(parseFloat(this.config.lon) - parseFloat(todayData.location.longitude)) < 0.1 &&
-					(!tomorrowData.location || (Math.abs(parseFloat(this.config.lat) - parseFloat(tomorrowData.location.latitude)) < 0.1 && Math.abs(parseFloat(this.config.lon) - parseFloat(tomorrowData.location.longitude)) < 0.1)))
-			);
-		return !todayData.location || (Math.abs(parseFloat(this.config.lat) - parseFloat(todayData.location.latitude)) < 0.1 && Math.abs(parseFloat(this.config.lon) - parseFloat(todayData.location.longitude)) < 0.1);
 	},
 
 	getStellarDataFromCache() {
