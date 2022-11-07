@@ -177,17 +177,19 @@ WeatherProvider.register("yr", {
 			throw new Error("Longitude not provided.");
 		}
 
-		const lat = this.config.lat.toString();
-		const lon = this.config.lon.toString();
+		let lat = this.config.lat.toString();
+		let lon = this.config.lon.toString();
 		const altitude = this.config.altitude ?? 0;
 
 		if (lat.includes(".") && lat.split(".")[1].length > 4) {
-			Log.error("Latitude is too specific. Do not use more than four decimals.");
-			throw new Error("Latitude too specific.");
+			Log.warn("Latitude is too specific for weather data. Do not use more than four decimals. Trimming to maximum length.");
+			const latParts = lat.split(".");
+			lat = `${latParts[0]}.${latParts[1].substring(0, 4)}`;
 		}
 		if (lon.includes(".") && lon.split(".")[1].length > 4) {
-			Log.error("Longitude is too specific. Do not use more than four decimals.");
-			throw new Error("Longitude too specific.");
+			Log.warn("Longitude is too specific for weather data. Do not use more than four decimals. Trimming to maximum length.");
+			const lonParts = lon.split(".");
+			lon = `${lonParts[0]}.${lonParts[1].substring(0, 4)}`;
 		}
 
 		return `${this.config.apiBase}/locationforecast/2.0/complete?&altitude=${altitude}&lat=${lat}&lon=${lon}`;
@@ -318,17 +320,19 @@ WeatherProvider.register("yr", {
 			throw new Error("Longitude not provided.");
 		}
 
-		const lat = this.config.lat.toString();
-		const lon = this.config.lon.toString();
+		let lat = this.config.lat.toString();
+		let lon = this.config.lon.toString();
 		const altitude = this.config.altitude ?? 0;
 
 		if (lat.includes(".") && lat.split(".")[1].length > 4) {
-			Log.error("Latitude is too specific. Do not use more than four decimals.");
-			throw new Error("Latitude too specific.");
+			Log.warn("Latitude is too specific for stellar data. Do not use more than four decimals. Trimming to maximum length.");
+			const latParts = lat.split(".");
+			lat = `${latParts[0]}.${latParts[1].substring(0, 4)}`;
 		}
 		if (lon.includes(".") && lon.split(".")[1].length > 4) {
-			Log.error("Longitude is too specific. Do not use more than four decimals.");
-			throw new Error("Longitude too specific.");
+			Log.warn("Longitude is too specific for stellar data. Do not use more than four decimals. Trimming to maximum length.");
+			const lonParts = lon.split(".");
+			lon = `${lonParts[0]}.${lonParts[1].substring(0, 4)}`;
 		}
 
 		let utcOffset = moment().utcOffset() / 60;
