@@ -20,6 +20,7 @@ Special thanks to: @rejas, @sdetweil, @MagMar94
 - Added Collaboration.md
 - Added new github action for dependency review (#2862)
 - Added Yr as a weather provider
+- Added config options "ignoreXOriginHeader" and "ignoreContentSecurityPolicy"
 
 ### Removed
 
