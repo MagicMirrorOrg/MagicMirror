@@ -141,6 +141,7 @@ const getHeadersFromResponse = (expectedResponseHeaders, response) => {
 	return responseHeaders;
 };
 
-module.exports = {
-	performWebRequest
-};
+if (typeof module !== "undefined")
+	module.exports = {
+		performWebRequest
+	};
