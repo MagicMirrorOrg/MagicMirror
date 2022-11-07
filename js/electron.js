@@ -103,6 +103,20 @@ function createWindow() {
 			}, 1000);
 		});
 	}
+
+	//remove response headers that prevent sites of being embedded into iframes if configured
+	mainWindow.webContents.session.webRequest.onHeadersReceived((details, callback) => {
+		let curHeaders = details.responseHeaders;
+		if (config["ignoreXOriginHeader"] || false) {
+			curHeaders = Object.fromEntries(Object.entries(curHeaders).filter((header) => !/x-frame-options/i.test(header[0])));
+		}
+
+		if (config["ignoreContentSecurityPolicy"] || false) {
+			curHeaders = Object.fromEntries(Object.entries(curHeaders).filter((header) => !/content-security-policy/i.test(header[0])));
+		}
+
+		callback({ responseHeaders: curHeaders });
+	});
 }
 
 // This method will be called when Electron has finished
