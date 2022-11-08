@@ -1,4 +1,4 @@
-/* global Class */
+/* global Class, performWebRequest */
 
 /* MagicMirror²
  * Module: Weather
@@ -111,36 +111,23 @@ const WeatherProvider = Class.extend({
 		this.delegate.updateAvailable(this);
 	},
 
-	getCorsUrl: function () {
-		if (this.config.mockData || typeof this.config.useCorsProxy === "undefined" || !this.config.useCorsProxy) {
-			return "";
-		} else {
-			return location.protocol + "//" + location.host + "/cors?url=";
-		}
-	},
-
 	/**
 	 * A convenience function to make requests.
 	 *
 	 * @param {string} url the url to fetch from
 	 * @param {string} type what contenttype to expect in the response, can be "json" or "xml"
+	 * @param {Array.<{name: string, value:string}>} requestHeaders the HTTP headers to send
+	 * @param {Array.<string>} expectedResponseHeaders the expected HTTP headers to recieve
 	 * @returns {Promise} resolved when the fetch is done
 	 */
-	fetchData: async function (url, type = "json") {
-		url = this.getCorsUrl() + url;
+	fetchData: async function (url, type = "json", requestHeaders = undefined, expectedResponseHeaders = undefined) {
 		const mockData = this.config.mockData;
 		if (mockData) {
 			const data = mockData.substring(1, mockData.length - 1);
 			return JSON.parse(data);
-		} else {
-			const response = await fetch(url);
-			const data = await response.text();
-			if (type === "xml") {
-				return new DOMParser().parseFromString(data, "text/html");
-			} else {
-				return JSON.parse(data);
-			}
 		}
+		const useCorsProxy = typeof this.config.useCorsProxy !== "undefined" && this.config.useCorsProxy;
+		return performWebRequest(url, type, useCorsProxy, requestHeaders, expectedResponseHeaders);
 	}
 });
 
