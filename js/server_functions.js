@@ -14,7 +14,7 @@ function getConfig(req, res) {
 }
 
 /**
- * A method that forewards HTTP Get-methods to the internet to avoid CORS-errors.
+ * A method that forwards HTTP Get-methods to the internet to avoid CORS-errors.
  *
  * Example input request url: /cors?sendheaders=header1:value1,header2:value2&expectedheaders=header1,header2&url=http://www.test.com/path?param1=value1
  *
@@ -26,7 +26,7 @@ function getConfig(req, res) {
 async function cors(req, res) {
 	try {
 		const urlRegEx = "url=(.+?)$";
-		let url = "";
+		let url;
 
 		const match = new RegExp(urlRegEx, "g").exec(req.url);
 		if (!match) {
@@ -56,7 +56,7 @@ async function cors(req, res) {
 }
 
 /**
- * Gets headers and values to attatch to the web request.
+ * Gets headers and values to attach to the web request.
  *
  * @param {string} url - The url containing the headers and values to send.
  * @returns {object} An object specifying name and value of the headers.
