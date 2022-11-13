@@ -15,15 +15,27 @@ describe("WeatherObject", () => {
 	});
 
 	it("should return true for daytime at noon", () => {
-		weatherobject.date = moment(12, "HH");
+		weatherobject.date = moment("12:00", "HH:mm");
 		weatherobject.updateSunTime(-6.774877582342688, 37.63345667023327);
 		expect(weatherobject.isDayTime()).toBe(true);
 	});
 
 	it("should return false for daytime at midnight", () => {
-		weatherobject.date = moment(0, "HH");
+		weatherobject.date = moment("00:00", "HH:mm");
 		weatherobject.updateSunTime(-6.774877582342688, 37.63345667023327);
 		expect(weatherobject.isDayTime()).toBe(false);
+	});
+
+	it("should return sunrise as the next sunaction", () => {
+		weatherobject.date = moment("00:00", "HH:mm");
+		weatherobject.updateSunTime(-6.774877582342688, 37.63345667023327);
+		expect(weatherobject.nextSunAction()).toBe("sunrise");
+	});
+
+	it("should return sunset as the next sunaction", () => {
+		weatherobject.date = moment("12:00", "HH:mm");
+		weatherobject.updateSunTime(-6.774877582342688, 37.63345667023327);
+		expect(weatherobject.nextSunAction()).toBe("sunset");
 	});
 
 	afterAll(() => {

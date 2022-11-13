@@ -70,7 +70,8 @@ class WeatherObject {
 	}
 
 	nextSunAction() {
-		return moment().isBetween(this.sunrise, this.sunset) ? "sunset" : "sunrise";
+		const now = !this.date ? moment() : this.date;
+		return now.isBetween(this.sunrise, this.sunset) ? "sunset" : "sunrise";
 	}
 
 	feelsLike() {
@@ -105,7 +106,8 @@ class WeatherObject {
 	 * @returns {boolean} true if it is at dayTime
 	 */
 	isDayTime() {
-		return this.date.isBetween(this.sunrise, this.sunset, undefined, "[]");
+		const now = !this.date ? moment() : this.date;
+		return now.isBetween(this.sunrise, this.sunset, undefined, "[]");
 	}
 
 	/**
