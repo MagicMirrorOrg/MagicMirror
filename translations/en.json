@@ -3,7 +3,6 @@
 
 	"TODAY": "Today",
 	"TOMORROW": "Tomorrow",
-	"DAYAFTERTOMORROW": "In 2 days",
 	"RUNNING": "Ends in",
 	"EMPTY": "No upcoming events.",
 	"WEEK": "Week {weekNumber}",
