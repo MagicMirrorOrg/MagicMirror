@@ -417,7 +417,8 @@ const CalendarUtils = {
 
 						endDate = moment(parseInt(startDate.format("x")) + duration, "x");
 						if (startDate.format("x") === endDate.format("x")) {
-							endDate = endDate.endOf("day");
+							// see https://forum.magicmirror.builders/topic/17380/calendar-event-same-start-and-enddate-wrong-google-calendar
+							//endDate = endDate.endOf("day");
 						}
 
 						const recurrenceTitle = CalendarUtils.getTitleFromEvent(curEvent);
