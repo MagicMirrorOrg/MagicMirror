@@ -157,18 +157,22 @@ Module.register("compliments", {
 		const complimentText = this.getRandomCompliment();
 		// split it into parts on newline text
 		const parts = complimentText.split("\n");
+		// create a span to hold the compliment
+		const compliment = document.createElement("span");
 		// process all the parts of the compliment text
 		for (const part of parts) {
 			if (part !== "") {
-				// create a span to hold the part of the compliment
-				const compliment = document.createElement("span");
 				// create a text element for each part
 				compliment.appendChild(document.createTextNode(part));
 				// add a break
 				compliment.appendChild(document.createElement("BR"));
-				// add compliment part to wrapper
-				wrapper.appendChild(compliment);
 			}
+		}
+		// only add compliment to wrapper if there is actual text in there
+		if (compliment.children.length > 0) {
+			// remove the last break
+			compliment.lastElementChild.remove();
+			wrapper.appendChild(compliment);
 		}
 		return wrapper;
 	},
