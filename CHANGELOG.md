@@ -39,6 +39,7 @@ Special thanks to: @rejas, @sdetweil, @MagMar94
   - Use unix() method for parsing times, fix suntimes on the way (#2950)
   - Refactor conversion functions into utils class (#2958)
 - The `cors`-method in `server.js` now supports sending and recieving HTTP headers.
+- Replace `&hellip;` by `…`.
 
 ### Fixed
 
