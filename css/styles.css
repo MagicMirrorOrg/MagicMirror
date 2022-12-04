@@ -1,0 +1,21 @@
+body {
+  color: greenyellow;
+  font-family: monospace;
+}
+
+.topHalf {
+  height: 50vh;
+}
+
+.clockApp {
+  width: 45vw;
+  height: 100%;
+  float: left;
+}
+
+.weatherApp {
+  width: 45vw;
+  height: 100%;
+  float: right;
+  text-align: right;
+}
