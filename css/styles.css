@@ -1,11 +1,15 @@
 body {
-  color: greenyellow;
+  color: red;
   font-family: monospace;
 
   padding: 2.5%;
 }
 
 .topHalf {
+  height: 45vh;
+}
+
+.bottomHalf {
   height: 45vh;
 }
 
