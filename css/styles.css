@@ -1,5 +1,6 @@
 body {
   color: greenyellow;
+  text-shadow: 0 0 15px greenyellow;
   font-family: "Courier New", monospace;
 
   padding: 2.5%;
