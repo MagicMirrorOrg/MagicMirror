@@ -16,6 +16,8 @@ const clockUpdate = () => {
 const eldyMirrorRunner = () => {
 	console.log("hello world");
 
+	document.documentElement.style.cursor = "none";
+
 	setInterval(clockUpdate, 1000);
 };
 

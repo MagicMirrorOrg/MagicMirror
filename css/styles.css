@@ -1,8 +1,9 @@
 body {
-  color: red;
+  color: greenyellow;
   font-family: monospace;
 
   padding: 2.5%;
+  overflow: hidden;
 }
 
 .topHalf {
