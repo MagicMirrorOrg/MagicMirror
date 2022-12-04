@@ -1,10 +1,12 @@
 body {
   color: greenyellow;
   font-family: monospace;
+
+  padding: 2.5%;
 }
 
 .topHalf {
-  height: 50vh;
+  height: 45vh;
 }
 
 .clockApp {
