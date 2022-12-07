@@ -53,7 +53,13 @@ function createWindow() {
 	const electronOptions = Object.assign({}, electronOptionsDefaults, config.electronOptions);
 
 	// Create the browser window.
-	mainWindow = new BrowserWindow(electronOptions);
+	mainWindow = new BrowserWindow({
+		...electronOptions,
+		webPreferences: {
+			...electronOptions.webSecurity,
+			webSecurity: false
+		}
+	});
 
 	// and load the index.html of the app.
 	// If config.address is not defined or is an empty string (listening on all interfaces), connect to localhost
