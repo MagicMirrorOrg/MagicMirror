@@ -13,6 +13,13 @@ const kelvinToCelsius = (k) => {
 	return k - 273.15;
 };
 
+const getTranslatedUnitsForKelvinValue = (k) => {
+	return {
+		c: roundToOneDecimal(kelvinToCelsius(k)),
+		f: roundToOneDecimal(kelvinToFahrenheit(k))
+	};
+};
+
 const recursivelyReadStream = async (stream) => {
 	const output = await stream.read();
 	if (output.done) {
@@ -45,9 +52,13 @@ const clockUpdate = () => {
 	const currentTime = new Date(Date.now());
 	const [h, m, s] = [currentTime.getHours(), currentTime.getMinutes(), currentTime.getSeconds()].map(padTwoZeros);
 
-	const currentTimeString = `${h}:${m}:${s}`;
+	const hourModulo = h % 12;
 
-	document.getElementById("clockTime").textContent = currentTimeString;
+	const currentTimeString12hr = `${hourModulo === 0 ? 12 : hourModulo}:${m}${hourModulo >= 12 ? "pm" : "am"}`;
+	const currentTimeString24hr = `${h}:${m}:${s}`;
+
+	document.getElementById("clockTime12hr").textContent = currentTimeString12hr;
+	document.getElementById("clockTime24hr").textContent = currentTimeString24hr;
 };
 
 const weatherUpdate = async () => {
@@ -59,18 +70,19 @@ const weatherUpdate = async () => {
 	const currentFeelsLikeTempurature = weatherUpdateJson.list[0].main.feels_like;
 
 	const current = {
-		actual: {
-			c: roundToOneDecimal(kelvinToCelsius(currentActualTempurature)),
-			f: roundToOneDecimal(kelvinToFahrenheit(currentActualTempurature))
-		},
-		feelsLike: {
-			c: roundToOneDecimal(kelvinToCelsius(currentFeelsLikeTempurature)),
-			f: roundToOneDecimal(kelvinToFahrenheit(currentFeelsLikeTempurature))
-		}
+		actual: getTranslatedUnitsForKelvinValue(currentActualTempurature),
+		feelsLike: getTranslatedUnitsForKelvinValue(currentFeelsLikeTempurature)
 	};
 
 	document.getElementById("weatherActualTemp").textContent = `${current.actual.f}F / ${current.actual.c}C`;
 	document.getElementById("weatherFeelsLikeTemp").textContent = `Feels like ${current.feelsLike.f}F / ${current.feelsLike.c}C`;
+};
+
+const setStatsForNerds = () => {
+	// const commitHash = require('./package.json')
+	const currentTime = new Date(Date.now());
+
+	document.getElementById("statsForNerdsString").textContent = `Boot at: ${currentTime}`;
 };
 
 const eldyMirrorRunner = () => {
@@ -83,6 +95,8 @@ const eldyMirrorRunner = () => {
 
 	weatherUpdate();
 	setInterval(weatherUpdate, HOUR_MS * 6);
+
+	setStatsForNerds();
 };
 
 eldyMirrorRunner();

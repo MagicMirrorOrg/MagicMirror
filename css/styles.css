@@ -48,9 +48,25 @@ body {
   float: left;
 }
 
+.clockTime {
+  font-size: 72px;
+  margin-bottom: 0px;
+}
+
 .weatherApp {
   width: 45vw;
   height: 100%;
   float: right;
   text-align: right;
+}
+
+.weatherForecastTable > tr,
+td {
+  padding-left: 15px;
+}
+
+.statsForNerds {
+  position: fixed;
+  bottom: 0;
+  margin-bottom: 40px;
 }
