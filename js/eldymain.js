@@ -54,7 +54,7 @@ const clockUpdate = () => {
 
 	const hourModulo = h % 12;
 
-	const currentTimeString12hr = `${hourModulo === 0 ? 12 : hourModulo}:${m}${hourModulo >= 12 ? "pm" : "am"}`;
+	const currentTimeString12hr = `${hourModulo === 0 ? 12 : hourModulo}:${m}${h >= 12 ? "pm" : "am"}`;
 	const currentTimeString24hr = `${h}:${m}:${s}`;
 
 	document.getElementById("clockTime12hr").textContent = currentTimeString12hr;
