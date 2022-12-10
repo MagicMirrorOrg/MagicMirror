@@ -814,7 +814,7 @@ Module.register("calendar", {
 					line++;
 					if (line > maxTitleLines - 1) {
 						if (i < words.length) {
-							currentLine += "&hellip;";
+							currentLine += "…";
 						}
 						break;
 					}
@@ -831,7 +831,7 @@ Module.register("calendar", {
 			return (temp + currentLine).trim();
 		} else {
 			if (maxLength && typeof maxLength === "number" && string.length > maxLength) {
-				return string.trim().slice(0, maxLength) + "&hellip;";
+				return string.trim().slice(0, maxLength) + "…";
 			} else {
 				return string.trim();
 			}
