@@ -50,6 +50,7 @@ Special thanks to: @rejas, @sdetweil, @MagMar94
 - Fix cors problems with newsfeed articles (as far as possible), allow disabling cors per feed with option `useCorsProxy: false` (#2840)
 - Tests not waiting for the application to start and stop before starting the next test
 - Fix electron tests failing sometimes in github workflow
+- Fixed gap in clock module when displayed on the left side with displayType=digital
 
 ## [2.21.0] - 2022-10-01
 
