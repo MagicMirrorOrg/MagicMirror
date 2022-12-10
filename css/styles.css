@@ -3,7 +3,7 @@ body {
   text-shadow: 0 0 15px greenyellow;
   font-family: "Courier New", monospace;
 
-  padding: 2.5%;
+  /* padding: 2.5%; */
   overflow: hidden;
 }
 
@@ -36,10 +36,14 @@ body {
 
 .topHalf {
   height: 45vh;
+  padding-left: 2.5%;
+  padding-right: 2.5%;
+  padding-bottom: 2.5%;
 }
 
 .bottomHalf {
   height: 45vh;
+  padding: 2.5%;
 }
 
 .clockApp {
