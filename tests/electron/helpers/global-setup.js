@@ -2,6 +2,7 @@
 // https://github.com/microsoft/playwright/issues/6347#issuecomment-1085850728
 // https://www.anycodings.com/1questions/958135/can-i-set-the-date-for-playwright-browser
 const { _electron: electron } = require("playwright");
+const events = require("events");
 
 exports.startApplication = async (configFilename, systemDate = null, electronParams = ["js/electron.js"]) => {
 	global.electronApp = null;
@@ -10,19 +11,22 @@ exports.startApplication = async (configFilename, systemDate = null, electronPar
 	process.env.TZ = "GMT";
 	jest.retryTimes(3);
 	global.electronApp = await electron.launch({ args: electronParams });
-	expect(global.electronApp);
 
-	if ((await global.electronApp.windows().length) === 1) {
-		global.page = await global.electronApp.firstWindow();
-		if (systemDate) {
-			await global.page.evaluate((systemDate) => {
-				Date.now = () => {
-					return new Date(systemDate);
-				};
-			}, systemDate);
+	while (global.electronApp.windows().length < electronParams.length) await events.on(global.electronApp, "window");
+
+	for (const win of global.electronApp.windows()) {
+		const title = await win.title();
+		expect(["MagicMirror²", "DevTools"]).toContain(title);
+		if (title === "MagicMirror²") {
+			global.page = win;
+			if (systemDate) {
+				await global.page.evaluate((systemDate) => {
+					Date.now = () => {
+						return new Date(systemDate);
+					};
+				}, systemDate);
+			}
 		}
-		expect(await global.page.title()).toBe("MagicMirror²");
-		expect(await global.page.isVisible("body")).toBe(true);
 	}
 };
 
