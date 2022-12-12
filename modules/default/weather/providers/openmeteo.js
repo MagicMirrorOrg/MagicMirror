@@ -24,8 +24,7 @@ WeatherProvider.register("openmeteo", {
 		lat: 0,
 		lon: 0,
 		past_days: 0,
-		type: "current",
-		timezone: null
+		type: "current"
 	},
 
 	// https://open-meteo.com/en/docs
@@ -215,16 +214,6 @@ WeatherProvider.register("openmeteo", {
 		}
 		this.config.maxEntries = Math.max(1, Math.min(this.config.maxEntries, maxEntriesLimit));
 
-		if (!this.config.hasOwnProperty("timezone") || !moment.tz.zone(this.config.timezone)) {
-			const validTimezone = moment.tz.guess(true);
-			if (this.config.hasOwnProperty("timezone")) {
-				Log.info(`Invalid timezone '${this.config.timezone}'. Timezone now is ${validTimezone}.`);
-			} else {
-				Log.info(`No timezone provided. Timezone now is ${validTimezone}.`);
-			}
-			this.config.timezone = validTimezone;
-		}
-
 		if (!this.config.type) {
 			Log.error("type not configured and could not resolve it");
 		}
@@ -238,7 +227,7 @@ WeatherProvider.register("openmeteo", {
 			latitude: this.config.lat,
 			longitude: this.config.lon,
 			timeformat: "unixtime",
-			timezone: this.config.timezone,
+			timezone: "auto",
 			past_days: this.config.past_days ?? 0,
 			daily: this.dailyParams,
 			hourly: this.hourlyParams,
@@ -547,6 +536,6 @@ WeatherProvider.register("openmeteo", {
 
 	// Define required scripts.
 	getScripts: function () {
-		return ["moment.js", "moment-timezone.js"];
+		return ["moment.js"];
 	}
 });
