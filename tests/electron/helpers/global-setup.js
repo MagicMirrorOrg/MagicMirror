@@ -2,7 +2,6 @@
 // https://github.com/microsoft/playwright/issues/6347#issuecomment-1085850728
 // https://www.anycodings.com/1questions/958135/can-i-set-the-date-for-playwright-browser
 const { _electron: electron } = require("playwright");
-const events = require("events");
 
 exports.startApplication = async (configFilename, systemDate = null, electronParams = ["js/electron.js"]) => {
 	global.electronApp = null;
@@ -12,7 +11,7 @@ exports.startApplication = async (configFilename, systemDate = null, electronPar
 	jest.retryTimes(3);
 	global.electronApp = await electron.launch({ args: electronParams });
 
-	while (global.electronApp.windows().length < electronParams.length) await events.on(global.electronApp, "window");
+	await global.electronApp.firstWindow();
 
 	for (const win of global.electronApp.windows()) {
 		const title = await win.title();
