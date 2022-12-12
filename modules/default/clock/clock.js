@@ -303,7 +303,7 @@ Module.register("clock", {
 		}
 
 		/*******************************************
-		 * Update placement, respect old analogShowDate even if its not needed anymore
+		 * Update placement, respect old analogShowDate even if it's not needed anymore
 		 */
 		if (this.config.displayType === "analog") {
 			// Display only an analog clock
@@ -311,15 +311,15 @@ Module.register("clock", {
 				wrapper.classList.add("clockGrid--bottom");
 			} else if (this.config.analogShowDate === "bottom") {
 				wrapper.classList.add("clockGrid--top");
-			} else {
-				//analogWrapper.style.gridArea = "center";
 			}
+			wrapper.appendChild(analogWrapper);
+		} else if (this.config.displayType === "digital") {
+			wrapper.appendChild(digitalWrapper);
 		} else if (this.config.displayType === "both") {
 			wrapper.classList.add("clockGrid--" + this.config.analogPlacement);
+			wrapper.appendChild(analogWrapper);
+			wrapper.appendChild(digitalWrapper);
 		}
-
-		wrapper.appendChild(analogWrapper);
-		wrapper.appendChild(digitalWrapper);
 
 		// Return the wrapper to the dom.
 		return wrapper;

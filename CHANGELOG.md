@@ -20,6 +20,8 @@ Special thanks to: @rejas, @sdetweil, @MagMar94, @angeldeejay
 - Added Collaboration.md
 - Added new github action for dependency review (#2862)
 - Added a WeatherProvider for Open-Meteo.
+- Added Yr as a weather provider
+- Added config options "ignoreXOriginHeader" and "ignoreContentSecurityPolicy"
 
 ### Removed
 
@@ -38,6 +40,9 @@ Special thanks to: @rejas, @sdetweil, @MagMar94, @angeldeejay
   - Use unix() method for parsing times, fix suntimes on the way (#2950)
   - Refactor conversion functions into utils class (#2958)
 - The `cors`-method in `server.js` now supports sending and recieving HTTP headers.
+- Replace `&hellip;` by `…`.
+- Cleanup compliments module
+- Updated dependencies: electron to v22 (#2903), fix playwright to v1.27.1 (#2969)
 
 ### Fixed
 
@@ -47,6 +52,7 @@ Special thanks to: @rejas, @sdetweil, @MagMar94, @angeldeejay
 - Possibility to change FontAwesome class in calendar, so icons like `fab fa-facebook-square` works.
 - Fix cors problems with newsfeed articles (as far as possible), allow disabling cors per feed with option `useCorsProxy: false` (#2840)
 - Tests not waiting for the application to start and stop before starting the next test
+- Fixed gap in clock module when displayed on the left side with displayType=digital
 
 ## [2.21.0] - 2022-10-01
 
