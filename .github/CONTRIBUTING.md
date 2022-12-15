@@ -30,6 +30,10 @@ To run all tests, use `npm run test`.
 
 The specific test commands are defined in `package.json`. So you can also run the specific tests with other commands, e.g. `npm run test:unit` or `npx jest tests/e2e/env_spec.js`.
 
+## Pre-commit Hooks
+
+There is a [Husky](https://typicode.github.io/husky) pre-commit hook that will execute tests and check code linting. Should these checks fail, the commit will be rejected. It is advised to run the linters and tests above before attempted a commit to ensure they run correctly with your changes.
+
 ## Submitting Issues
 
 Please only submit reproducible issues.
