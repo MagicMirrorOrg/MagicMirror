@@ -4,4 +4,7 @@
 
 if command -v npm &> /dev/null; then
   npm run lint:staged
+  npm run test:js
+  npm run test:css
+  npm run test
 fi
