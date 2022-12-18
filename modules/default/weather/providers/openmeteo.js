@@ -12,6 +12,7 @@
  */
 // https://www.bigdatacloud.com/docs/api/free-reverse-geocode-to-city-api
 const GEOCODE_BASE = "https://api.bigdatacloud.net/data/reverse-geocode-client";
+const OPEN_METEO_BASE = "https://api.open-meteo.com/v1";
 
 WeatherProvider.register("openmeteo", {
 	// Set the name of the provider.
@@ -20,7 +21,7 @@ WeatherProvider.register("openmeteo", {
 
 	// Set the default config properties that is specific to this provider
 	defaults: {
-		apiBase: "https://api.open-meteo.com/v1",
+		apiBase: OPEN_METEO_BASE,
 		lat: 0,
 		lon: 0,
 		past_days: 0,
@@ -203,8 +204,6 @@ WeatherProvider.register("openmeteo", {
 			...config
 		};
 
-		this.config.ignoreToday = (this.config.ignoreToday ?? false) && ["daily", "forecast"].includes(this.config.type);
-
 		// Set properly maxNumberOfDays and max Entries properties according to config and value ranges allowed in the documentation
 		const maxEntriesLimit = ["daily", "forecast"].includes(this.config.type) ? 7 : this.config.type === "hourly" ? 48 : 0;
 		if (this.config.hasOwnProperty("maxNumberOfDays") && !isNaN(parseFloat(this.config.maxNumberOfDays))) {
@@ -237,26 +236,22 @@ WeatherProvider.register("openmeteo", {
 			precipitation_unit: "mm"
 		};
 
-		const startDateOffset = this.config.ignoreToday ? 1 : 0;
-		const today = moment().startOf("day");
-		const startDate = moment(today).add(startDateOffset, "days");
+		const startDate = moment().startOf("day");
+		const endDate = moment(startDate)
+			.add(Math.max(0, Math.min(7, this.config.maxNumberOfDays)), "days")
+			.endOf("day");
+
+		params["start_date"] = startDate.format("YYYY-MM-DD");
 
 		switch (this.config.type) {
 			case "hourly":
-				params["start_date"] = startDate.format("YYYY-MM-DD");
-				params["end_date"] = moment(startDate).add(this.config.maxNumberOfDays, "days").format("YYYY-MM-DD");
-				break;
 			case "daily":
 			case "forecast":
-				params["start_date"] = startDate.format("YYYY-MM-DD");
-				params["end_date"] = moment(today)
-					.add(Math.max(0, Math.min(7, this.config.maxNumberOfDays - startDateOffset)), "days")
-					.format("YYYY-MM-DD");
+				params["end_date"] = endDate.format("YYYY-MM-DD");
 				break;
 			case "current":
 				params["current_weather"] = true;
-				params["start_date"] = moment(today).format("YYYY-MM-DD");
-				params["end_date"] = moment(today).format("YYYY-MM-DD");
+				params["end_date"] = params["start_date"];
 				break;
 			default:
 				// Failsafe
@@ -302,17 +297,18 @@ WeatherProvider.register("openmeteo", {
 			hourly: data.hourly && data.hourly.time && Array.isArray(data.hourly.time) && data.hourly.time.length > 0,
 			daily: data.daily && data.daily.time && Array.isArray(data.daily.time) && data.daily.time.length > 0
 		};
+		// backwards compatibility
+		const type = ["daily", "forecast"].includes(this.config.type) ? "daily" : this.config.type;
 
-		if (!validByType[this.config.type]) return;
+		if (!validByType[type]) return;
 
-		switch (this.config.type) {
+		switch (type) {
 			case "current":
 				if (!validByType.daily && !validByType.hourly) {
 					return;
 				}
 				break;
 			case "hourly":
-			case "forecast":
 			case "daily":
 				break;
 			default:
