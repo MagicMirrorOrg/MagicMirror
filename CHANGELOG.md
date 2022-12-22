@@ -41,7 +41,7 @@ Special thanks to: @rejas, @sdetweil, @MagMar94
 - The `cors`-method in `server.js` now supports sending and recieving HTTP headers.
 - Replace `&hellip;` by `…`.
 - Cleanup compliments module
-- Updated dependencies: electron to v22 (#2903), fix playwright to v1.27.1 (#2969)
+- Updated dependencies including electron to v22 (#2903)
 
 ### Fixed
 
@@ -53,6 +53,7 @@ Special thanks to: @rejas, @sdetweil, @MagMar94
 - Tests not waiting for the application to start and stop before starting the next test
 - Fix electron tests failing sometimes in github workflow
 - Fixed gap in clock module when displayed on the left side with displayType=digital
+- Fixed playwright issue by upgrading to v1.29.1 (#2969)
 
 ## [2.21.0] - 2022-10-01
 
