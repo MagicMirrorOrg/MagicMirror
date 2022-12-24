@@ -1,4 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Unbounded&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
 
 body {
   /* color: greenyellow;
@@ -6,6 +8,8 @@ body {
   color: rgb(196, 240, 255);
   text-shadow: 0 0 15px rgb(196, 240, 255);
   font-family: "Major Mono Display", monospace;
+  /* font-family: "Unbounded", monospace; */
+  /* font-family: "Lobster", monospace; */
 
   /* padding: 2.5%; */
   overflow: hidden;

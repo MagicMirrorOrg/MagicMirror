@@ -1,6 +1,8 @@
 const HOUR_MS = 1000 * 60 * 60;
 const weatherApiKey = "c9852542607b8aa68f57a3f3ec3504a6";
 
+const dayArray = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
 const padTwoZeros = (n) => String(n).padStart(2, "0");
 
 const roundToOneDecimal = (n) => Math.round(n * 10) / 10;
@@ -57,10 +59,6 @@ const parseWeatherUpdateJsonAsForecastTable = (weatherUpdateJson, daysAhead = 0)
 		return acc;
 	}, {});
 
-	console.log({
-		datapointsPerDay
-	});
-
 	const overallPerDay = Object.entries(datapointsPerDay).map(([date, points]) => {
 		let high = 0;
 		let low = Infinity;
@@ -82,19 +80,15 @@ const parseWeatherUpdateJsonAsForecastTable = (weatherUpdateJson, daysAhead = 0)
 		};
 	});
 
-	console.log({
-		overallPerDay
-	});
-
 	return overallPerDay
-		.map((day) => {
+		.map((day, index) => {
 			const highs = getTranslatedUnitsForKelvinValue(day.high);
 			const lows = getTranslatedUnitsForKelvinValue(day.low);
 			return `
 			<tr>
-				<td>${day.date}</td>
-				<td>${highs.f}°F / ${highs.c}°C</td>
-				<td>${lows.f}°F / ${lows.c}°C</td>
+				<td>${index === 0 ? "Today" : dayArray[new Date(day.date).getDay()]}</td>
+				<td style="color:coral">${highs.f}°F / ${highs.c}°C</td>
+				<td style="color:#6495ED">${lows.f}°F / ${lows.c}°C</td>
 			</tr>
 		`;
 		})
@@ -126,10 +120,16 @@ const clockUpdate = () => {
 	document.getElementById("clockTime24hr").textContent = currentTimeString24hr;
 };
 
+const clockMillisecondUpdate = () => {
+	const currentTime = Date.now();
+
+	document.getElementById("clockUnixTime").textContent = currentTime;
+};
+
 const weatherUpdate = async () => {
 	const weatherUpdateJson = await fetchWeatherUpdate();
 
-	console.log(weatherUpdateJson);
+	console.log({ weatherUpdateJson });
 
 	const currentActualTempurature = weatherUpdateJson.list[0].main.temp;
 	const currentFeelsLikeTempurature = weatherUpdateJson.list[0].main.feels_like;
@@ -153,12 +153,13 @@ const setStatsForNerds = () => {
 };
 
 const eldyMirrorRunner = () => {
-	console.log("hello world");
-
 	document.documentElement.style.cursor = "none";
 
 	clockUpdate();
 	setInterval(clockUpdate, 1000);
+
+	clockMillisecondUpdate();
+	setInterval(clockMillisecondUpdate, 1);
 
 	weatherUpdate();
 	setInterval(weatherUpdate, HOUR_MS * 3);
