@@ -46,6 +46,71 @@ const fetchWeatherUpdate = async () => {
 	return readBodyStringJson;
 };
 
+const parseWeatherUpdateJsonAsForecastTable = (weatherUpdateJson, daysAhead = 0) => {
+	const datapointsPerDay = weatherUpdateJson.list.reduce((acc, datapoint) => {
+		const date = datapoint["dt_txt"].split(" ")[0]; // dt_txt is timestamp of datapoint
+		if (date in acc) {
+			acc[date].push(datapoint);
+		} else {
+			acc[date] = [datapoint];
+		}
+		return acc;
+	}, {});
+
+	console.log({
+		datapointsPerDay
+	});
+
+	const overallPerDay = Object.entries(datapointsPerDay).map(([date, points]) => {
+		let high = 0;
+		let low = Infinity;
+
+		points.forEach((point) => {
+			if (point.main["temp_min"] < low) {
+				low = point.main["temp_min"];
+			}
+
+			if (point.main["temp_max"] > high) {
+				high = point.main["temp_max"];
+			}
+		});
+
+		return {
+			date,
+			high,
+			low
+		};
+	});
+
+	console.log({
+		overallPerDay
+	});
+
+	return overallPerDay
+		.map((day) => {
+			const highs = getTranslatedUnitsForKelvinValue(day.high);
+			const lows = getTranslatedUnitsForKelvinValue(day.low);
+			return `
+			<tr>
+				<td>${day.date}</td>
+				<td>${highs.f}°F / ${highs.c}°C</td>
+				<td>${lows.f}°F / ${lows.c}°C</td>
+			</tr>
+		`;
+		})
+		.join("");
+};
+
+/**
+ *
+ *
+ *
+ * Main Update Methods
+ *
+ *
+ *
+ */
+
 const clockUpdate = () => {
 	document.getElementById("clockDate").textContent = new Date(Date.now()).toDateString();
 
@@ -74,8 +139,10 @@ const weatherUpdate = async () => {
 		feelsLike: getTranslatedUnitsForKelvinValue(currentFeelsLikeTempurature)
 	};
 
-	document.getElementById("weatherActualTemp").textContent = `${current.actual.f}F / ${current.actual.c}C`;
-	document.getElementById("weatherFeelsLikeTemp").textContent = `Feels like ${current.feelsLike.f}F / ${current.feelsLike.c}C`;
+	document.getElementById("weatherActualTemp").textContent = `${current.actual.f}°F / ${current.actual.c}°C`;
+	document.getElementById("weatherFeelsLikeTemp").textContent = `Feels like ${current.feelsLike.f}°F / ${current.feelsLike.c}°C`;
+
+	document.getElementById("weatherForecastTable").innerHTML = parseWeatherUpdateJsonAsForecastTable(weatherUpdateJson, 3);
 };
 
 const setStatsForNerds = () => {
@@ -94,7 +161,7 @@ const eldyMirrorRunner = () => {
 	setInterval(clockUpdate, 1000);
 
 	weatherUpdate();
-	setInterval(weatherUpdate, HOUR_MS * 6);
+	setInterval(weatherUpdate, HOUR_MS * 3);
 
 	setStatsForNerds();
 };

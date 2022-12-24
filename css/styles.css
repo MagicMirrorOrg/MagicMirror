@@ -1,7 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap");
+
 body {
-  color: greenyellow;
-  text-shadow: 0 0 15px greenyellow;
-  font-family: "Courier New", monospace;
+  /* color: greenyellow;
+  text-shadow: 0 0 15px greenyellow; */
+  color: rgb(196, 240, 255);
+  text-shadow: 0 0 15px rgb(196, 240, 255);
+  font-family: "Major Mono Display", monospace;
 
   /* padding: 2.5%; */
   overflow: hidden;
