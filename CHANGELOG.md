@@ -5,11 +5,11 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror².
 
-## [2.22.0] - Unreleased (Develop)
+## [2.22.0] - 2023-01-01
 
-_This release is scheduled to be released on 2023-01-01._
+Thanks to: @angeldeejay, @buxxi, @dariom, @dWoolridge, @KristjanESPERANTO, @MagMar94, @naveensrinivasan, @retroflex, @SkySails and @Tom.
 
-Special thanks to: @rejas, @sdetweil, @MagMar94, @angeldeejay
+Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not all) of the work on this release as project collaborators. This version would not be there without their effort. Thank you!
 
 ### Added
 
@@ -19,13 +19,13 @@ Special thanks to: @rejas, @sdetweil, @MagMar94, @angeldeejay
 - Added css class names "today" and "tomorrow" for default calendar
 - Added Collaboration.md
 - Added new github action for dependency review (#2862)
-- Added a WeatherProvider for Open-Meteo.
+- Added a WeatherProvider for Open-Meteo
 - Added Yr as a weather provider
 - Added config options "ignoreXOriginHeader" and "ignoreContentSecurityPolicy"
 
 ### Removed
 
-- Removed usage of internal fetch function of node until it is more stable.
+- Removed usage of internal fetch function of node until it is more stable
 
 ### Updated
 
@@ -39,8 +39,8 @@ Special thanks to: @rejas, @sdetweil, @MagMar94, @angeldeejay
   - Reworked how weatherproviders handle units (#2849)
   - Use unix() method for parsing times, fix suntimes on the way (#2950)
   - Refactor conversion functions into utils class (#2958)
-- The `cors`-method in `server.js` now supports sending and recieving HTTP headers.
-- Replace `&hellip;` by `…`.
+- The `cors`-method in `server.js` now supports sending and recieving HTTP headers
+- Replace `&hellip;` by `…`
 - Cleanup compliments module
 - Updated dependencies including electron to v22 (#2903)
 
