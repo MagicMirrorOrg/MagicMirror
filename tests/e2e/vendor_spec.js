@@ -1,34 +1,29 @@
-const fetch = require("fetch");
-const helpers = require("./global-setup");
+const helpers = require("./helpers/global-setup");
 
-describe("Vendors", function () {
-	beforeAll(function () {
-		helpers.startApplication("tests/configs/default.js");
+describe("Vendors", () => {
+	beforeAll(async () => {
+		await helpers.startApplication("tests/configs/default.js");
 	});
-	afterAll(async function () {
+	afterAll(async () => {
 		await helpers.stopApplication();
 	});
 
-	describe("Get list vendors", function () {
+	describe("Get list vendors", () => {
 		const vendors = require(__dirname + "/../../vendor/vendor.js");
 
 		Object.keys(vendors).forEach((vendor) => {
-			it(`should return 200 HTTP code for vendor "${vendor}"`, function (done) {
+			it(`should return 200 HTTP code for vendor "${vendor}"`, async () => {
 				const urlVendor = "http://localhost:8080/vendor/" + vendors[vendor];
-				fetch(urlVendor).then((res) => {
-					expect(res.status).toBe(200);
-					done();
-				});
+				const res = await helpers.fetch(urlVendor);
+				expect(res.status).toBe(200);
 			});
 		});
 
 		Object.keys(vendors).forEach((vendor) => {
-			it(`should return 404 HTTP code for vendor https://localhost/"${vendor}"`, function (done) {
+			it(`should return 404 HTTP code for vendor https://localhost/"${vendor}"`, async () => {
 				const urlVendor = "http://localhost:8080/" + vendors[vendor];
-				fetch(urlVendor).then((res) => {
-					expect(res.status).toBe(404);
-					done();
-				});
+				const res = await helpers.fetch(urlVendor);
+				expect(res.status).toBe(404);
 			});
 		});
 	});

@@ -222,18 +222,33 @@ function App() {
 				}
 			}
 
-			loadModules(modules, function () {
-				httpServer = new Server(config, function (app, io) {
-					Log.log("Server started ...");
+			loadModules(modules, async function () {
+				httpServer = new Server(config);
+				const { app, io } = await httpServer.open();
+				Log.log("Server started ...");
 
-					for (let nodeHelper of nodeHelpers) {
-						nodeHelper.setExpressApp(app);
-						nodeHelper.setSocketIO(io);
-						nodeHelper.start();
+				const nodePromises = [];
+				for (let nodeHelper of nodeHelpers) {
+					nodeHelper.setExpressApp(app);
+					nodeHelper.setSocketIO(io);
+
+					try {
+						nodePromises.push(nodeHelper.start());
+					} catch (error) {
+						Log.error(`Error when starting node_helper for module ${nodeHelper.name}:`);
+						Log.error(error);
 					}
+				}
+
+				Promise.allSettled(nodePromises).then((results) => {
+					// Log errors that happened during async node_helper startup
+					results.forEach((result) => {
+						if (result.status === "rejected") {
+							Log.error(result.reason);
+						}
+					});
 
 					Log.log("Sockets connected & modules started ...");
-
 					if (typeof callback === "function") {
 						callback(config);
 					}
@@ -247,14 +262,16 @@ function App() {
 	 * exists.
 	 *
 	 * Added to fix #1056
+	 *
+	 * @param {Function} callback Function to be called after the app has stopped
 	 */
-	this.stop = function () {
+	this.stop = function (callback) {
 		for (const nodeHelper of nodeHelpers) {
 			if (typeof nodeHelper.stop === "function") {
 				nodeHelper.stop();
 			}
 		}
-		httpServer.close();
+		httpServer.close().then(callback);
 	};
 
 	/**

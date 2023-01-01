@@ -1,8 +1,11 @@
 const jsdom = require("jsdom");
+const corefetch = require("fetch");
 
-exports.startApplication = (configFilename, exec) => {
+exports.startApplication = async (configFilename, exec) => {
 	jest.resetModules();
-	this.stopApplication();
+	if (global.app) {
+		await this.stopApplication();
+	}
 	// Set config sample for use in test
 	if (configFilename === "") {
 		process.env.MM_CONFIG_FILE = "config/config.js";
@@ -11,24 +14,33 @@ exports.startApplication = (configFilename, exec) => {
 	}
 	if (exec) exec;
 	global.app = require("app.js");
-	global.app.start();
+
+	return new Promise((resolve) => {
+		global.app.start(resolve);
+	});
 };
 
 exports.stopApplication = async () => {
 	if (global.app) {
-		global.app.stop();
+		return new Promise((resolve) => {
+			global.app.stop(resolve);
+			delete global.app;
+		});
 	}
-	await new Promise((resolve) => setTimeout(resolve, 100));
+	return Promise.resolve();
 };
 
-exports.getDocument = (callback) => {
-	const url = "http://" + (config.address || "localhost") + ":" + (config.port || "8080");
-	jsdom.JSDOM.fromURL(url, { resources: "usable", runScripts: "dangerously" }).then((dom) => {
-		dom.window.name = "jsdom";
-		dom.window.onload = () => {
-			global.document = dom.window.document;
-			callback();
-		};
+exports.getDocument = () => {
+	return new Promise((resolve) => {
+		const url = "http://" + (config.address || "localhost") + ":" + (config.port || "8080");
+		jsdom.JSDOM.fromURL(url, { resources: "usable", runScripts: "dangerously" }).then((dom) => {
+			dom.window.name = "jsdom";
+			dom.window.fetch = corefetch;
+			dom.window.onload = () => {
+				global.document = dom.window.document;
+				resolve();
+			};
+		});
 	});
 };
 
@@ -70,4 +82,18 @@ exports.waitForAllElements = (selector) => {
 			}
 		}, 100);
 	});
+};
+
+exports.fetch = (url) => {
+	return new Promise((resolve) => {
+		corefetch(url).then((res) => {
+			resolve(res);
+		});
+	});
+};
+
+exports.testMatch = async (element, regex) => {
+	const elem = await this.waitForElement(element);
+	expect(elem).not.toBe(null);
+	expect(elem.textContent).toMatch(regex);
 };

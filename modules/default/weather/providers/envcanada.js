@@ -1,4 +1,4 @@
-/* global WeatherProvider, WeatherObject */
+/* global WeatherProvider, WeatherObject, WeatherUtils */
 
 /* MagicMirror²
  * Module: Weather
@@ -11,13 +11,13 @@
  * 	https://dd.weather.gc.ca/citypage_weather/schema/
  * 	https://eccc-msc.github.io/open-data/msc-datamart/readme_en/
  *
- * This module supports Canadian locations only and requires 2 additional config parms:
+ * This module supports Canadian locations only and requires 2 additional config parameters:
  *
  * siteCode - the city/town unique identifier for which weather is to be displayed. Format is 's0000000'.
  *
  * provCode - the 2-character province code for the selected city/town.
  *
- * Example: for Toronto, Ontario, the following parms would be used
+ * Example: for Toronto, Ontario, the following parameters would be used
  *
  * siteCode: 's0000458',
  * provCode: 'ON'
@@ -64,17 +64,13 @@ WeatherProvider.register("envcanada", {
 	start: function () {
 		Log.info(`Weather provider: ${this.providerName} started.`);
 		this.setFetchedLocation(this.config.location);
-
-		// Ensure kmH are ignored since these are custom-handled by this Provider
-
-		this.config.useKmh = false;
 	},
 
 	//
 	// Override the fetchCurrentWeather method to query EC and construct a Current weather object
 	//
 	fetchCurrentWeather() {
-		this.fetchData(this.getUrl(), "GET", "xml")
+		this.fetchData(this.getUrl(), "xml")
 			.then((data) => {
 				if (!data) {
 					// Did not receive usable new data.
@@ -94,7 +90,7 @@ WeatherProvider.register("envcanada", {
 	// Override the fetchWeatherForecast method to query EC and construct Forecast weather objects
 	//
 	fetchWeatherForecast() {
-		this.fetchData(this.getUrl(), "GET", "xml")
+		this.fetchData(this.getUrl(), "xml")
 			.then((data) => {
 				if (!data) {
 					// Did not receive usable new data.
@@ -114,7 +110,7 @@ WeatherProvider.register("envcanada", {
 	// Override the fetchWeatherHourly method to query EC and construct Forecast weather objects
 	//
 	fetchWeatherHourly() {
-		this.fetchData(this.getUrl(), "GET", "xml")
+		this.fetchData(this.getUrl(), "xml")
 			.then((data) => {
 				if (!data) {
 					// Did not receive usable new data.
@@ -137,8 +133,8 @@ WeatherProvider.register("envcanada", {
 	//////////////////////////////////////////////////////////////////////////////////
 
 	//
-	// Build the EC URL based on the Site Code and Province Code specified in the config parms. Note that the
-	// URL defaults to the Englsih version simply because there is no language dependancy in the data
+	// Build the EC URL based on the Site Code and Province Code specified in the config params. Note that the
+	// URL defaults to the English version simply because there is no language dependency in the data
 	// being accessed. This is only pertinent when using the EC data elements that contain a textual forecast.
 	//
 	getUrl() {
@@ -150,7 +146,7 @@ WeatherProvider.register("envcanada", {
 	//
 
 	generateWeatherObjectFromCurrentWeather(ECdoc) {
-		const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+		const currentWeather = new WeatherObject();
 
 		// There are instances where EC will update weather data and current temperature will not be
 		// provided. While this is a defect in the EC systems, we need to accommodate to avoid a current temp
@@ -161,13 +157,13 @@ WeatherProvider.register("envcanada", {
 		// EC finds no current temp. In this scenario, MM will end up displaying a current temp of null;
 
 		if (ECdoc.querySelector("siteData currentConditions temperature").textContent) {
-			currentWeather.temperature = this.convertTemp(ECdoc.querySelector("siteData currentConditions temperature").textContent);
+			currentWeather.temperature = ECdoc.querySelector("siteData currentConditions temperature").textContent;
 			this.cacheCurrentTemp = currentWeather.temperature;
 		} else {
 			currentWeather.temperature = this.cacheCurrentTemp;
 		}
 
-		currentWeather.windSpeed = this.convertWind(ECdoc.querySelector("siteData currentConditions wind speed").textContent);
+		currentWeather.windSpeed = WeatherUtils.convertWindToMs(ECdoc.querySelector("siteData currentConditions wind speed").textContent);
 
 		currentWeather.windDirection = ECdoc.querySelector("siteData currentConditions wind bearing").textContent;
 
@@ -190,11 +186,11 @@ WeatherProvider.register("envcanada", {
 			currentWeather.feelsLikeTemp = currentWeather.temperature;
 
 			if (ECdoc.querySelector("siteData currentConditions windChill")) {
-				currentWeather.feelsLikeTemp = this.convertTemp(ECdoc.querySelector("siteData currentConditions windChill").textContent);
+				currentWeather.feelsLikeTemp = ECdoc.querySelector("siteData currentConditions windChill").textContent;
 			}
 
 			if (ECdoc.querySelector("siteData currentConditions humidex")) {
-				currentWeather.feelsLikeTemp = this.convertTemp(ECdoc.querySelector("siteData currentConditions humidex").textContent);
+				currentWeather.feelsLikeTemp = ECdoc.querySelector("siteData currentConditions humidex").textContent;
 			}
 		}
 
@@ -225,7 +221,7 @@ WeatherProvider.register("envcanada", {
 
 		const days = [];
 
-		const weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+		const weather = new WeatherObject();
 
 		const foreBaseDates = ECdoc.querySelectorAll("siteData forecastGroup dateTime");
 		const baseDate = foreBaseDates[1].querySelector("timeStamp").textContent;
@@ -326,7 +322,7 @@ WeatherProvider.register("envcanada", {
 		days.push(weather);
 
 		//
-		// Now do the the rest of the forecast starting at nextDay. We will process each day using 2 EC
+		// Now do the rest of the forecast starting at nextDay. We will process each day using 2 EC
 		// forecast Elements. This will address the fact that the EC forecast always includes Today and
 		// Tonight for each day. This is why we iterate through the forecast by a a count of 2, with each
 		// iteration looking at the current Element and the next Element.
@@ -335,12 +331,12 @@ WeatherProvider.register("envcanada", {
 		let lastDate = moment(baseDate, "YYYYMMDDhhmmss");
 
 		for (let stepDay = nextDay; stepDay < lastDay; stepDay += 2) {
-			let weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+			let weather = new WeatherObject();
 
 			// Add 1 to the date to reflect the current forecast day we are building
 
 			lastDate = lastDate.add(1, "day");
-			weather.date = moment(lastDate, "X");
+			weather.date = moment.unix(lastDate);
 
 			// Capture the temperatures for the current Element and the next Element in order to set
 			// the Min and Max temperatures for the forecast
@@ -389,17 +385,17 @@ WeatherProvider.register("envcanada", {
 		const hourGroup = ECdoc.querySelectorAll("siteData hourlyForecastGroup hourlyForecast");
 
 		for (let stepHour = 0; stepHour < 24; stepHour += 1) {
-			const weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+			const weather = new WeatherObject();
 
 			// Determine local time by applying UTC offset to the forecast timestamp
 
 			const foreTime = moment(hourGroup[stepHour].getAttribute("dateTimeUTC"), "YYYYMMDDhhmmss");
 			const currTime = foreTime.add(hourOffset, "hours");
-			weather.date = moment(currTime, "X");
+			weather.date = moment.unix(currTime);
 
 			// Capture the temperature
 
-			weather.temperature = this.convertTemp(hourGroup[stepHour].querySelector("temperature").textContent);
+			weather.temperature = hourGroup[stepHour].querySelector("temperature").textContent;
 
 			// Capture Likelihood of Precipitation (LOP) and unit-of-measure values
 
@@ -450,7 +446,7 @@ WeatherProvider.register("envcanada", {
 				weather.minTemperature = this.todayTempCacheMin;
 				weather.maxTemperature = this.todayTempCacheMax;
 			} else {
-				weather.minTemperature = this.convertTemp(currentTemp);
+				weather.minTemperature = currentTemp;
 				weather.maxTemperature = weather.minTemperature;
 			}
 		}
@@ -463,14 +459,14 @@ WeatherProvider.register("envcanada", {
 		//
 
 		if (todayClass === "low") {
-			weather.minTemperature = this.convertTemp(todayTemp);
+			weather.minTemperature = todayTemp;
 			if (today === 0 && fullDay === true) {
 				this.todayTempCacheMin = weather.minTemperature;
 			}
 		}
 
 		if (todayClass === "high") {
-			weather.maxTemperature = this.convertTemp(todayTemp);
+			weather.maxTemperature = todayTemp;
 			if (today === 0 && fullDay === true) {
 				this.todayTempCacheMax = weather.maxTemperature;
 			}
@@ -482,11 +478,11 @@ WeatherProvider.register("envcanada", {
 
 		if (fullDay === true) {
 			if (nextClass === "low") {
-				weather.minTemperature = this.convertTemp(nextTemp);
+				weather.minTemperature = nextTemp;
 			}
 
 			if (nextClass === "high") {
-				weather.maxTemperature = this.convertTemp(nextTemp);
+				weather.maxTemperature = nextTemp;
 			}
 		}
 	},
@@ -533,31 +529,6 @@ WeatherProvider.register("envcanada", {
 		if (foreGroup[today].querySelector("abbreviatedForecast pop").textContent > 0) {
 			weather.precipitation = foreGroup[today].querySelector("abbreviatedForecast pop").textContent;
 			weather.precipitationUnits = foreGroup[today].querySelector("abbreviatedForecast pop").getAttribute("units");
-		}
-	},
-
-	//
-	// Unit conversions
-	//
-	//
-	// Convert C to F temps
-	//
-	convertTemp(temp) {
-		if (this.config.tempUnits === "imperial") {
-			return 1.8 * temp + 32;
-		} else {
-			return temp;
-		}
-	},
-
-	//
-	// Convert km/h to mph
-	//
-	convertWind(kilo) {
-		if (this.config.windUnits === "imperial") {
-			return kilo / 1.609344;
-		} else {
-			return kilo;
 		}
 	},
 

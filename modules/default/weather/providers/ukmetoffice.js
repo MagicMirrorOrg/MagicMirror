@@ -1,4 +1,4 @@
-/* global WeatherProvider, WeatherObject */
+/* global WeatherProvider, WeatherObject, WeatherUtils */
 
 /* MagicMirror²
  * Module: Weather
@@ -19,11 +19,6 @@ WeatherProvider.register("ukmetoffice", {
 		apiBase: "http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/",
 		locationID: false,
 		apiKey: ""
-	},
-
-	units: {
-		imperial: "us",
-		metric: "si"
 	},
 
 	// Overwrite the fetchCurrentWeather method.
@@ -80,7 +75,7 @@ WeatherProvider.register("ukmetoffice", {
 	 * Generate a WeatherObject based on currentWeatherInformation
 	 */
 	generateWeatherObjectFromCurrentWeather(currentWeatherData) {
-		const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
+		const currentWeather = new WeatherObject();
 		const location = currentWeatherData.SiteRep.DV.Location;
 
 		// data times are always UTC
@@ -103,11 +98,11 @@ WeatherProvider.register("ukmetoffice", {
 						if (timeInMins >= p && timeInMins - 180 < p) {
 							// finally got the one we want, so populate weather object
 							currentWeather.humidity = rep.H;
-							currentWeather.temperature = this.convertTemp(rep.T);
-							currentWeather.feelsLikeTemp = this.convertTemp(rep.F);
+							currentWeather.temperature = rep.T;
+							currentWeather.feelsLikeTemp = rep.F;
 							currentWeather.precipitation = parseInt(rep.Pp);
-							currentWeather.windSpeed = this.convertWindSpeed(rep.S);
-							currentWeather.windDirection = this.convertWindDirection(rep.D);
+							currentWeather.windSpeed = WeatherUtils.convertWindToMetric(rep.S);
+							currentWeather.windDirection = WeatherUtils.convertWindDirection(rep.D);
 							currentWeather.weatherType = this.convertWeatherType(rep.W);
 						}
 					}
@@ -130,7 +125,7 @@ WeatherProvider.register("ukmetoffice", {
 		// loop round the (5) periods getting the data
 		// for each period array, Day is [0], Night is [1]
 		for (const period of forecasts.SiteRep.DV.Location.Period) {
-			const weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
+			const weather = new WeatherObject();
 
 			// data times are always UTC
 			const dateStr = period.value;
@@ -140,8 +135,8 @@ WeatherProvider.register("ukmetoffice", {
 			if (periodDate.isSameOrAfter(moment.utc().startOf("day"))) {
 				// populate the weather object
 				weather.date = moment.utc(dateStr.substr(0, 10), "YYYY-MM-DD");
-				weather.minTemperature = this.convertTemp(period.Rep[1].Nm);
-				weather.maxTemperature = this.convertTemp(period.Rep[0].Dm);
+				weather.minTemperature = period.Rep[1].Nm;
+				weather.maxTemperature = period.Rep[0].Dm;
 				weather.weatherType = this.convertWeatherType(period.Rep[0].W);
 				weather.precipitation = parseInt(period.Rep[0].PPd);
 
@@ -190,46 +185,6 @@ WeatherProvider.register("ukmetoffice", {
 		};
 
 		return weatherTypes.hasOwnProperty(weatherType) ? weatherTypes[weatherType] : null;
-	},
-
-	/*
-	 * Convert temp (from degrees C) if required
-	 */
-	convertTemp(tempInC) {
-		return this.tempUnits === "imperial" ? (tempInC * 9) / 5 + 32 : tempInC;
-	},
-
-	/*
-	 * Convert wind speed (from mph to m/s or km/h) if required
-	 */
-	convertWindSpeed(windInMph) {
-		return this.windUnits === "metric" ? (this.useKmh ? windInMph * 1.60934 : windInMph / 2.23694) : windInMph;
-	},
-
-	/*
-	 * Convert the wind direction cardinal to value
-	 */
-	convertWindDirection(windDirection) {
-		const windCardinals = {
-			N: 0,
-			NNE: 22,
-			NE: 45,
-			ENE: 67,
-			E: 90,
-			ESE: 112,
-			SE: 135,
-			SSE: 157,
-			S: 180,
-			SSW: 202,
-			SW: 225,
-			WSW: 247,
-			W: 270,
-			WNW: 292,
-			NW: 315,
-			NNW: 337
-		};
-
-		return windCardinals.hasOwnProperty(windDirection) ? windCardinals[windDirection] : null;
 	},
 
 	/**

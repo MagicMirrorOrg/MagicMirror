@@ -70,7 +70,7 @@ const MM = (function () {
 	 * Select the wrapper dom object for a specific position.
 	 *
 	 * @param {string} position The name of the position.
-	 * @returns {HTMLElement} the wrapper element
+	 * @returns {HTMLElement | void} the wrapper element
 	 */
 	const selectWrapper = function (position) {
 		const classes = position.replace("_", " ");

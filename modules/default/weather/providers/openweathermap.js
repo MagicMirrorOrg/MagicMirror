@@ -21,7 +21,7 @@ WeatherProvider.register("openweathermap", {
 		weatherEndpoint: "", // can be "onecall", "forecast" or "weather" (for current)
 		locationID: false,
 		location: false,
-		lat: 0, // the onecall endpoint needs lat / lon values, it doesn'T support the locationId
+		lat: 0, // the onecall endpoint needs lat / lon values, it doesn't support the locationId
 		lon: 0,
 		apiKey: ""
 	},
@@ -30,14 +30,14 @@ WeatherProvider.register("openweathermap", {
 	fetchCurrentWeather() {
 		this.fetchData(this.getUrl())
 			.then((data) => {
+				let currentWeather;
 				if (this.config.weatherEndpoint === "/onecall") {
-					const weatherData = this.generateWeatherObjectsFromOnecall(data);
-					this.setCurrentWeather(weatherData.current);
+					currentWeather = this.generateWeatherObjectsFromOnecall(data).current;
 					this.setFetchedLocation(`${data.timezone}`);
 				} else {
-					const currentWeather = this.generateWeatherObjectFromCurrentWeather(data);
-					this.setCurrentWeather(currentWeather);
+					currentWeather = this.generateWeatherObjectFromCurrentWeather(data);
 				}
+				this.setCurrentWeather(currentWeather);
 			})
 			.catch(function (request) {
 				Log.error("Could not load data ... ", request);
@@ -49,15 +49,17 @@ WeatherProvider.register("openweathermap", {
 	fetchWeatherForecast() {
 		this.fetchData(this.getUrl())
 			.then((data) => {
+				let forecast;
+				let location;
 				if (this.config.weatherEndpoint === "/onecall") {
-					const weatherData = this.generateWeatherObjectsFromOnecall(data);
-					this.setWeatherForecast(weatherData.days);
-					this.setFetchedLocation(`${data.timezone}`);
+					forecast = this.generateWeatherObjectsFromOnecall(data).days;
+					location = `${data.timezone}`;
 				} else {
-					const forecast = this.generateWeatherObjectsFromForecast(data.list);
-					this.setWeatherForecast(forecast);
-					this.setFetchedLocation(`${data.city.name}, ${data.city.country}`);
+					forecast = this.generateWeatherObjectsFromForecast(data.list);
+					location = `${data.city.name}, ${data.city.country}`;
 				}
+				this.setWeatherForecast(forecast);
+				this.setFetchedLocation(location);
 			})
 			.catch(function (request) {
 				Log.error("Could not load data ... ", request);
@@ -123,16 +125,17 @@ WeatherProvider.register("openweathermap", {
 	 * Generate a WeatherObject based on currentWeatherInformation
 	 */
 	generateWeatherObjectFromCurrentWeather(currentWeatherData) {
-		const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
+		const currentWeather = new WeatherObject();
 
+		currentWeather.date = moment.unix(currentWeatherData.dt);
 		currentWeather.humidity = currentWeatherData.main.humidity;
 		currentWeather.temperature = currentWeatherData.main.temp;
 		currentWeather.feelsLikeTemp = currentWeatherData.main.feels_like;
 		currentWeather.windSpeed = currentWeatherData.wind.speed;
 		currentWeather.windDirection = currentWeatherData.wind.deg;
 		currentWeather.weatherType = this.convertWeatherType(currentWeatherData.weather[0].icon);
-		currentWeather.sunrise = moment(currentWeatherData.sys.sunrise, "X");
-		currentWeather.sunset = moment(currentWeatherData.sys.sunset, "X");
+		currentWeather.sunrise = moment.unix(currentWeatherData.sys.sunrise);
+		currentWeather.sunset = moment.unix(currentWeatherData.sys.sunset);
 
 		return currentWeather;
 	},
@@ -147,8 +150,7 @@ WeatherProvider.register("openweathermap", {
 			return this.fetchForecastDaily(forecasts);
 		}
 		// if weatherEndpoint does not match forecast or forecast/daily, what should be returned?
-		const days = [new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh)];
-		return days;
+		return [new WeatherObject()];
 	},
 
 	/*
@@ -159,8 +161,7 @@ WeatherProvider.register("openweathermap", {
 			return this.fetchOnecall(data);
 		}
 		// if weatherEndpoint does not match onecall, what should be returned?
-		const weatherData = { current: new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh), hours: [], days: [] };
-		return weatherData;
+		return { current: new WeatherObject(), hours: [], days: [] };
 	},
 
 	/*
@@ -176,10 +177,10 @@ WeatherProvider.register("openweathermap", {
 		let snow = 0;
 		// variable for date
 		let date = "";
-		let weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
+		let weather = new WeatherObject();
 
 		for (const forecast of forecasts) {
-			if (date !== moment(forecast.dt, "X").format("YYYY-MM-DD")) {
+			if (date !== moment.unix(forecast.dt).format("YYYY-MM-DD")) {
 				// calculate minimum/maximum temperature, specify rain amount
 				weather.minTemperature = Math.min.apply(null, minTemp);
 				weather.maxTemperature = Math.max.apply(null, maxTemp);
@@ -189,7 +190,7 @@ WeatherProvider.register("openweathermap", {
 				// push weather information to days array
 				days.push(weather);
 				// create new weather-object
-				weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
+				weather = new WeatherObject();
 
 				minTemp = [];
 				maxTemp = [];
@@ -197,16 +198,16 @@ WeatherProvider.register("openweathermap", {
 				snow = 0;
 
 				// set new date
-				date = moment(forecast.dt, "X").format("YYYY-MM-DD");
+				date = moment.unix(forecast.dt).format("YYYY-MM-DD");
 
 				// specify date
-				weather.date = moment(forecast.dt, "X");
+				weather.date = moment.unix(forecast.dt);
 
 				// If the first value of today is later than 17:00, we have an icon at least!
 				weather.weatherType = this.convertWeatherType(forecast.weather[0].icon);
 			}
 
-			if (moment(forecast.dt, "X").format("H") >= 8 && moment(forecast.dt, "X").format("H") <= 17) {
+			if (moment.unix(forecast.dt).format("H") >= 8 && moment.unix(forecast.dt).format("H") <= 17) {
 				weather.weatherType = this.convertWeatherType(forecast.weather[0].icon);
 			}
 
@@ -252,9 +253,9 @@ WeatherProvider.register("openweathermap", {
 		const days = [];
 
 		for (const forecast of forecasts) {
-			const weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
+			const weather = new WeatherObject();
 
-			weather.date = moment(forecast.dt, "X");
+			weather.date = moment.unix(forecast.dt);
 			weather.minTemperature = forecast.temp.min;
 			weather.maxTemperature = forecast.temp.max;
 			weather.weatherType = this.convertWeatherType(forecast.weather[0].icon);
@@ -298,13 +299,13 @@ WeatherProvider.register("openweathermap", {
 		let precip = false;
 
 		// get current weather, if requested
-		const current = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
+		const current = new WeatherObject();
 		if (data.hasOwnProperty("current")) {
-			current.date = moment(data.current.dt, "X").utcOffset(data.timezone_offset / 60);
+			current.date = moment.unix(data.current.dt).utcOffset(data.timezone_offset / 60);
 			current.windSpeed = data.current.wind_speed;
 			current.windDirection = data.current.wind_deg;
-			current.sunrise = moment(data.current.sunrise, "X").utcOffset(data.timezone_offset / 60);
-			current.sunset = moment(data.current.sunset, "X").utcOffset(data.timezone_offset / 60);
+			current.sunrise = moment.unix(data.current.sunrise).utcOffset(data.timezone_offset / 60);
+			current.sunset = moment.unix(data.current.sunset).utcOffset(data.timezone_offset / 60);
 			current.temperature = data.current.temp;
 			current.weatherType = this.convertWeatherType(data.current.weather[0].icon);
 			current.humidity = data.current.humidity;
@@ -330,14 +331,13 @@ WeatherProvider.register("openweathermap", {
 			current.feelsLikeTemp = data.current.feels_like;
 		}
 
-		let weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
+		let weather = new WeatherObject();
 
 		// get hourly weather, if requested
 		const hours = [];
 		if (data.hasOwnProperty("hourly")) {
 			for (const hour of data.hourly) {
-				weather.date = moment(hour.dt, "X").utcOffset(data.timezone_offset / 60);
-				// weather.date = moment(hour.dt, "X").utcOffset(data.timezone_offset/60).format(onecallDailyFormat+","+onecallHourlyFormat);
+				weather.date = moment.unix(hour.dt).utcOffset(data.timezone_offset / 60);
 				weather.temperature = hour.temp;
 				weather.feelsLikeTemp = hour.feels_like;
 				weather.humidity = hour.humidity;
@@ -366,7 +366,7 @@ WeatherProvider.register("openweathermap", {
 				}
 
 				hours.push(weather);
-				weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
+				weather = new WeatherObject();
 			}
 		}
 
@@ -374,9 +374,9 @@ WeatherProvider.register("openweathermap", {
 		const days = [];
 		if (data.hasOwnProperty("daily")) {
 			for (const day of data.daily) {
-				weather.date = moment(day.dt, "X").utcOffset(data.timezone_offset / 60);
-				weather.sunrise = moment(day.sunrise, "X").utcOffset(data.timezone_offset / 60);
-				weather.sunset = moment(day.sunset, "X").utcOffset(data.timezone_offset / 60);
+				weather.date = moment.unix(day.dt).utcOffset(data.timezone_offset / 60);
+				weather.sunrise = moment.unix(day.sunrise).utcOffset(data.timezone_offset / 60);
+				weather.sunset = moment.unix(day.sunset).utcOffset(data.timezone_offset / 60);
 				weather.minTemperature = day.temp.min;
 				weather.maxTemperature = day.temp.max;
 				weather.humidity = day.humidity;
@@ -405,7 +405,7 @@ WeatherProvider.register("openweathermap", {
 				}
 
 				days.push(weather);
-				weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
+				weather = new WeatherObject();
 			}
 		}
 
@@ -474,7 +474,7 @@ WeatherProvider.register("openweathermap", {
 			return;
 		}
 
-		params += "&units=" + this.config.units;
+		params += "&units=metric"; // WeatherProviders should use metric internally and use the units only for when displaying data
 		params += "&lang=" + this.config.lang;
 		params += "&APPID=" + this.config.apiKey;
 

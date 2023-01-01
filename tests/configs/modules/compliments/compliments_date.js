@@ -11,7 +11,6 @@ let config = {
 			module: "compliments",
 			position: "middle_center",
 			config: {
-				mockDate: "2020-01-01",
 				compliments: {
 					morning: [],
 					afternoon: [],

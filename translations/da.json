@@ -1,5 +1,5 @@
 {
-	"LOADING": "Indlæser &hellip;",
+	"LOADING": "Indlæser …",
 
 	"TODAY": "I dag",
 	"TOMORROW": "I morgen",
@@ -26,7 +26,7 @@
 	"NNW": "NNV",
 
 	"FEELS": "Føles som {DEGREE}",
-	"PRECIP": "PoP",
+	"PRECIP": "Sandsynlighed for nedbør",
 
 	"MODULE_CONFIG_CHANGED": "Konfigurationsmulighederne for {MODULE_NAME} modulet er ændret.\nSe venligst dokumentationen.",
 	"MODULE_CONFIG_ERROR": "Fejl i {MODULE_NAME} modulet. {ERROR}",

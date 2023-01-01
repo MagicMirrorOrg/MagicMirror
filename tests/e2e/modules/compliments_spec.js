@@ -1,98 +1,55 @@
-const helpers = require("../global-setup");
-
-/**
- * move similar tests in function doTest
- *
- * @param {string} done test done
- * @param {Array} complimentsArray The array of compliments.
- */
-const doTest = (done, complimentsArray) => {
-	helpers.waitForElement(".compliments").then((elem) => {
-		expect(elem).not.toBe(null);
-		helpers.waitForElement(".module-content").then((elem) => {
-			done();
-			expect(elem).not.toBe(null);
-			expect(complimentsArray).toContain(elem.textContent);
-		});
-	});
-};
+const helpers = require("../helpers/global-setup");
 
 describe("Compliments module", () => {
+	/**
+	 * move similar tests in function doTest
+	 *
+	 * @param {Array} complimentsArray The array of compliments.
+	 */
+	const doTest = async (complimentsArray) => {
+		let elem = await helpers.waitForElement(".compliments");
+		expect(elem).not.toBe(null);
+		elem = await helpers.waitForElement(".module-content");
+		expect(elem).not.toBe(null);
+		expect(complimentsArray).toContain(elem.textContent);
+	};
+
 	afterAll(async () => {
 		await helpers.stopApplication();
 	});
 
-	describe("parts of days", () => {
-		beforeAll((done) => {
-			helpers.startApplication("tests/configs/modules/compliments/compliments_parts_day.js");
-			helpers.getDocument(done);
-		});
-
-		it("if Morning compliments for that part of day", (done) => {
-			const hour = new Date().getHours();
-			if (hour >= 3 && hour < 12) {
-				// if morning check
-				doTest(done, ["Hi", "Good Morning", "Morning test"]);
-			} else {
-				done();
-			}
-		});
-
-		it("if Afternoon show Compliments for that part of day", (done) => {
-			const hour = new Date().getHours();
-			if (hour >= 12 && hour < 17) {
-				// if afternoon check
-				doTest(done, ["Hello", "Good Afternoon", "Afternoon test"]);
-			} else {
-				done();
-			}
-		});
-
-		it("if Evening show Compliments for that part of day", (done) => {
-			const hour = new Date().getHours();
-			if (!(hour >= 3 && hour < 12) && !(hour >= 12 && hour < 17)) {
-				// if evening check
-				doTest(done, ["Hello There", "Good Evening", "Evening test"]);
-			} else {
-				done();
-			}
-		});
-	});
-
 	describe("Feature anytime in compliments module", () => {
 		describe("Set anytime and empty compliments for morning, evening and afternoon ", () => {
-			beforeAll((done) => {
-				helpers.startApplication("tests/configs/modules/compliments/compliments_anytime.js");
-				helpers.getDocument(done);
+			beforeAll(async () => {
+				await helpers.startApplication("tests/configs/modules/compliments/compliments_anytime.js");
+				await helpers.getDocument();
 			});
 
-			it("Show anytime because if configure empty parts of day compliments and set anytime compliments", (done) => {
-				doTest(done, ["Anytime here"]);
+			it("Show anytime because if configure empty parts of day compliments and set anytime compliments", async () => {
+				await doTest(["Anytime here"]);
 			});
 		});
 
 		describe("Only anytime present in configuration compliments", () => {
-			beforeAll((done) => {
-				helpers.startApplication("tests/configs/modules/compliments/compliments_only_anytime.js");
-				helpers.getDocument(done);
+			beforeAll(async () => {
+				await helpers.startApplication("tests/configs/modules/compliments/compliments_only_anytime.js");
+				await helpers.getDocument();
 			});
 
-			it("Show anytime compliments", (done) => {
-				doTest(done, ["Anytime here"]);
+			it("Show anytime compliments", async () => {
+				await doTest(["Anytime here"]);
 			});
 		});
 	});
 
-	describe("Feature date in compliments module", () => {
-		describe("Set date and empty compliments for anytime, morning, evening and afternoon", () => {
-			beforeAll((done) => {
-				helpers.startApplication("tests/configs/modules/compliments/compliments_date.js");
-				helpers.getDocument(done);
-			});
+	describe("remoteFile option", () => {
+		beforeAll(async () => {
+			await helpers.startApplication("tests/configs/modules/compliments/compliments_remote.js");
+			await helpers.getDocument();
+		});
 
-			it("Show happy new year compliment on new years day", (done) => {
-				doTest(done, ["Happy new year!"]);
-			});
+		it("should show compliments from a remote file", async () => {
+			await doTest(["Remote compliment file works!"]);
 		});
 	});
 });

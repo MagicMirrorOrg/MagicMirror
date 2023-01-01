@@ -1,4 +1,4 @@
-/* global WeatherProvider, WeatherObject */
+/* global WeatherProvider, WeatherObject, WeatherUtils */
 
 /* MagicMirror²
  * Module: Weather
@@ -22,7 +22,6 @@ WeatherProvider.register("weathergov", {
 	// Set the default config properties that is specific to this provider
 	defaults: {
 		apiBase: "https://api.weather.gov/points/",
-		weatherEndpoint: "/forecast",
 		lat: 0,
 		lon: 0
 	},
@@ -57,7 +56,7 @@ WeatherProvider.register("weathergov", {
 	// Overwrite the fetchCurrentWeather method.
 	fetchCurrentWeather() {
 		if (!this.configURLs) {
-			Log.info("fetch wx waiting on config URLs");
+			Log.info("fetchCurrentWeather: fetch wx waiting on config URLs");
 			return;
 		}
 		this.fetchData(this.stationObsURL)
@@ -78,7 +77,7 @@ WeatherProvider.register("weathergov", {
 	// Overwrite the fetchWeatherForecast method.
 	fetchWeatherForecast() {
 		if (!this.configURLs) {
-			Log.info("fetch wx waiting on config URLs");
+			Log.info("fetchWeatherForecast: fetch wx waiting on config URLs");
 			return;
 		}
 		this.fetchData(this.forecastURL)
@@ -92,6 +91,28 @@ WeatherProvider.register("weathergov", {
 			})
 			.catch(function (request) {
 				Log.error("Could not load forecast hourly data ... ", request);
+			})
+			.finally(() => this.updateAvailable());
+	},
+
+	// Overwrite the fetchWeatherHourly method.
+	fetchWeatherHourly() {
+		if (!this.configURLs) {
+			Log.info("fetchWeatherHourly: fetch wx waiting on config URLs");
+			return;
+		}
+		this.fetchData(this.forecastHourlyURL)
+			.then((data) => {
+				if (!data) {
+					// Did not receive usable new data.
+					// Maybe this needs a better check?
+					return;
+				}
+				const hourly = this.generateWeatherObjectsFromHourly(data.properties.periods);
+				this.setWeatherHourly(hourly);
+			})
+			.catch(function (request) {
+				Log.error("Could not load data ... ", request);
 			})
 			.finally(() => this.updateAvailable());
 	},
@@ -110,8 +131,8 @@ WeatherProvider.register("weathergov", {
 				}
 				this.fetchedLocationName = data.properties.relativeLocation.properties.city + ", " + data.properties.relativeLocation.properties.state;
 				Log.log("Forecast location is " + this.fetchedLocationName);
-				this.forecastURL = data.properties.forecast;
-				this.forecastHourlyURL = data.properties.forecastHourly;
+				this.forecastURL = data.properties.forecast + "?units=si";
+				this.forecastHourlyURL = data.properties.forecastHourly + "?units=si";
 				this.forecastGridDataURL = data.properties.forecastGridData;
 				this.observationStationsURL = data.properties.observationStations;
 				// with this URL, we chain another promise for the station obs URL
@@ -130,13 +151,48 @@ WeatherProvider.register("weathergov", {
 			.finally(() => {
 				// excellent, let's fetch some actual wx data
 				this.configURLs = true;
+
 				// handle 'forecast' config, fall back to 'current'
 				if (config.type === "forecast") {
 					this.fetchWeatherForecast();
+				} else if (config.type === "hourly") {
+					this.fetchWeatherHourly();
 				} else {
 					this.fetchCurrentWeather();
 				}
 			});
+	},
+	/*
+	 * Generate a WeatherObject based on hourlyWeatherInformation
+	 * Weather.gov API uses specific units; API does not include choice of units
+	 * ... object needs data in units based on config!
+	 */
+	generateWeatherObjectsFromHourly(forecasts) {
+		const days = [];
+
+		// variable for date
+		let weather = new WeatherObject();
+		for (const forecast of forecasts) {
+			weather.date = moment(forecast.startTime.slice(0, 19));
+			if (forecast.windSpeed.search(" ") < 0) {
+				weather.windSpeed = forecast.windSpeed;
+			} else {
+				weather.windSpeed = forecast.windSpeed.slice(0, forecast.windSpeed.search(" "));
+			}
+			weather.windDirection = this.convertWindDirection(forecast.windDirection);
+			weather.temperature = forecast.temperature;
+			weather.tempUnits = forecast.temperatureUnit;
+			// use the forecast isDayTime attribute to help build the weatherType label
+			weather.weatherType = this.convertWeatherType(forecast.shortForecast, forecast.isDaytime);
+
+			days.push(weather);
+
+			weather = new WeatherObject();
+		}
+
+		// push weather information to days array
+		days.push(weather);
+		return days;
 	},
 
 	/*
@@ -145,24 +201,24 @@ WeatherProvider.register("weathergov", {
 	 * ... object needs data in units based on config!
 	 */
 	generateWeatherObjectFromCurrentWeather(currentWeatherData) {
-		const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
+		const currentWeather = new WeatherObject();
 
 		currentWeather.date = moment(currentWeatherData.timestamp);
-		currentWeather.temperature = this.convertTemp(currentWeatherData.temperature.value);
-		currentWeather.windSpeed = this.convertSpeed(currentWeatherData.windSpeed.value);
+		currentWeather.temperature = currentWeatherData.temperature.value;
+		currentWeather.windSpeed = WeatherUtils.convertWindToMs(currentWeatherData.windSpeed.value);
 		currentWeather.windDirection = currentWeatherData.windDirection.value;
-		currentWeather.minTemperature = this.convertTemp(currentWeatherData.minTemperatureLast24Hours.value);
-		currentWeather.maxTemperature = this.convertTemp(currentWeatherData.maxTemperatureLast24Hours.value);
+		currentWeather.minTemperature = currentWeatherData.minTemperatureLast24Hours.value;
+		currentWeather.maxTemperature = currentWeatherData.maxTemperatureLast24Hours.value;
 		currentWeather.humidity = Math.round(currentWeatherData.relativeHumidity.value);
 		currentWeather.rain = null;
 		currentWeather.snow = null;
 		currentWeather.precipitation = this.convertLength(currentWeatherData.precipitationLastHour.value);
 		if (currentWeatherData.heatIndex.value !== null) {
-			currentWeather.feelsLikeTemp = this.convertTemp(currentWeatherData.heatIndex.value);
+			currentWeather.feelsLikeTemp = currentWeatherData.heatIndex.value;
 		} else if (currentWeatherData.windChill.value !== null) {
-			currentWeather.feelsLikeTemp = this.convertTemp(currentWeatherData.windChill.value);
+			currentWeather.feelsLikeTemp = currentWeatherData.windChill.value;
 		} else {
-			currentWeather.feelsLikeTemp = this.convertTemp(currentWeatherData.temperature.value);
+			currentWeather.feelsLikeTemp = currentWeatherData.temperature.value;
 		}
 		// determine the sunrise/sunset times - not supplied in weather.gov data
 		currentWeather.updateSunTime(this.config.lat, this.config.lon);
@@ -191,7 +247,7 @@ WeatherProvider.register("weathergov", {
 		let maxTemp = [];
 		// variable for date
 		let date = "";
-		let weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
+		let weather = new WeatherObject();
 		weather.precipitation = 0;
 
 		for (const forecast of forecasts) {
@@ -203,7 +259,7 @@ WeatherProvider.register("weathergov", {
 				// push weather information to days array
 				days.push(weather);
 				// create new weather-object
-				weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
+				weather = new WeatherObject();
 
 				minTemp = [];
 				maxTemp = [];
@@ -242,26 +298,6 @@ WeatherProvider.register("weathergov", {
 	/*
 	 * Unit conversions
 	 */
-	// conversion to fahrenheit
-	convertTemp(temp) {
-		if (this.config.tempUnits === "imperial") {
-			return (9 / 5) * temp + 32;
-		} else {
-			return temp;
-		}
-	},
-	// conversion to mph or kmh
-	convertSpeed(metSec) {
-		if (this.config.windUnits === "imperial") {
-			return metSec * 2.23694;
-		} else {
-			if (this.config.useKmh) {
-				return metSec * 3.6;
-			} else {
-				return metSec;
-			}
-		}
-	},
 	// conversion to inches
 	convertLength(meters) {
 		if (this.config.units === "imperial") {
@@ -339,31 +375,5 @@ WeatherProvider.register("weathergov", {
 		}
 
 		return null;
-	},
-
-	/*
-	Convert the direction into Degrees
-	*/
-	convertWindDirection(windDirection) {
-		const windCardinals = {
-			N: 0,
-			NNE: 22,
-			NE: 45,
-			ENE: 67,
-			E: 90,
-			ESE: 112,
-			SE: 135,
-			SSE: 157,
-			S: 180,
-			SSW: 202,
-			SW: 225,
-			WSW: 247,
-			W: 270,
-			WNW: 292,
-			NW: 315,
-			NNW: 337
-		};
-
-		return windCardinals.hasOwnProperty(windDirection) ? windCardinals[windDirection] : null;
 	}
 });

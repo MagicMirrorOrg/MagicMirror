@@ -15,8 +15,8 @@ WeatherProvider.register("smhi", {
 
 	// Set the default config properties that is specific to this provider
 	defaults: {
-		lat: 0,
-		lon: 0,
+		lat: 0, // Cant have more than 6 digits
+		lon: 0, // Cant have more than 6 digits
 		precipitationValue: "pmedian",
 		location: false
 	},
@@ -75,7 +75,7 @@ WeatherProvider.register("smhi", {
 	setConfig(config) {
 		this.config = config;
 		if (!config.precipitationValue || ["pmin", "pmean", "pmedian", "pmax"].indexOf(config.precipitationValue) === -1) {
-			console.log("invalid or not set: " + config.precipitationValue);
+			Log.log("invalid or not set: " + config.precipitationValue);
 			config.precipitationValue = this.defaults.precipitationValue;
 		}
 	},
@@ -104,8 +104,12 @@ WeatherProvider.register("smhi", {
 	 * @returns {string} the url for the specified coordinates
 	 */
 	getURL() {
-		let lon = this.config.lon;
-		let lat = this.config.lat;
+		const formatter = new Intl.NumberFormat("en-US", {
+			minimumFractionDigits: 6,
+			maximumFractionDigits: 6
+		});
+		const lon = formatter.format(this.config.lon);
+		const lat = formatter.format(this.config.lat);
 		return `https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/${lon}/lat/${lat}/data.json`;
 	},
 
@@ -134,8 +138,7 @@ WeatherProvider.register("smhi", {
 	 * @returns {WeatherObject} The converted weatherdata at the specified location
 	 */
 	convertWeatherDataToObject(weatherData, coordinates) {
-		// Weather data is only for Sweden and nobody in Sweden would use imperial
-		let currentWeather = new WeatherObject("metric", "metric", "metric");
+		let currentWeather = new WeatherObject();
 
 		currentWeather.date = moment(weatherData.validTime);
 		currentWeather.updateSunTime(coordinates.lat, coordinates.lon);
@@ -144,7 +147,7 @@ WeatherProvider.register("smhi", {
 		currentWeather.windSpeed = this.paramValue(weatherData, "ws");
 		currentWeather.windDirection = this.paramValue(weatherData, "wd");
 		currentWeather.weatherType = this.convertWeatherType(this.paramValue(weatherData, "Wsymb2"), currentWeather.isDayTime());
-		currentWeather.feelsLikeTemp = this.calculateAT(weatherData);
+		currentWeather.feelsLikeTemp = this.calculateApparentTemperature(weatherData);
 
 		// Determine the precipitation amount and category and update the
 		// weatherObject with it, the valuetype to use can be configured or uses
@@ -174,7 +177,7 @@ WeatherProvider.register("smhi", {
 	},
 
 	/**
-	 * Takes all of the data points and converts it to one WeatherObject per day.
+	 * Takes all the data points and converts it to one WeatherObject per day.
 	 *
 	 * @param {object[]} allWeatherData Array of weatherdata
 	 * @param {object} coordinates Coordinates of the locations of the weather
@@ -191,7 +194,7 @@ WeatherProvider.register("smhi", {
 		for (const weatherObject of allWeatherObjects) {
 			//If its the first object or if a day/hour change we need to reset the summary object
 			if (!currentWeather || !currentWeather.date.isSame(weatherObject.date, groupBy)) {
-				currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+				currentWeather = new WeatherObject();
 				dayWeatherTypes = [];
 				currentWeather.temperature = weatherObject.temperature;
 				currentWeather.date = weatherObject.date;
@@ -203,7 +206,7 @@ WeatherProvider.register("smhi", {
 				result.push(currentWeather);
 			}
 
-			//Keep track of what icons has been used for each hour of daytime and use the middle one for the forecast
+			//Keep track of what icons have been used for each hour of daytime and use the middle one for the forecast
 			if (weatherObject.isDayTime()) {
 				dayWeatherTypes.push(weatherObject.weatherType);
 			}
@@ -271,7 +274,7 @@ WeatherProvider.register("smhi", {
 
 	/**
 	 * Map the icon value from SMHI to an icon that MagicMirror² understands.
-	 * Uses different icons depending if its daytime or nighttime.
+	 * Uses different icons depending on if its daytime or nighttime.
 	 * SMHI's description of what the numeric value means is the comment after the case.
 	 *
 	 * @param {number} input The SMHI icon value

@@ -1,4 +1,4 @@
-/* global SunCalc */
+/* global SunCalc, WeatherUtils */
 
 /* MagicMirror²
  * Module: Weather
@@ -14,17 +14,8 @@
 class WeatherObject {
 	/**
 	 * Constructor for a WeatherObject
-	 *
-	 * @param {string} units what units to use, "imperial" or "metric"
-	 * @param {string} tempUnits what tempunits to use
-	 * @param {string} windUnits what windunits to use
-	 * @param {boolean} useKmh use kmh if true, mps if false
 	 */
-	constructor(units, tempUnits, windUnits, useKmh) {
-		this.units = units;
-		this.tempUnits = tempUnits;
-		this.windUnits = windUnits;
-		this.useKmh = useKmh;
+	constructor() {
 		this.date = null;
 		this.windSpeed = null;
 		this.windDirection = null;
@@ -78,21 +69,6 @@ class WeatherObject {
 		}
 	}
 
-	beaufortWindSpeed() {
-		const windInKmh = this.windUnits === "imperial" ? this.windSpeed * 1.609344 : this.useKmh ? this.windSpeed : (this.windSpeed * 60 * 60) / 1000;
-		const speeds = [1, 5, 11, 19, 28, 38, 49, 61, 74, 88, 102, 117, 1000];
-		for (const [index, speed] of speeds.entries()) {
-			if (speed > windInKmh) {
-				return index;
-			}
-		}
-		return 12;
-	}
-
-	kmhWindSpeed() {
-		return this.windUnits === "imperial" ? this.windSpeed * 1.609344 : (this.windSpeed * 60 * 60) / 1000;
-	}
-
 	nextSunAction() {
 		return moment().isBetween(this.sunrise, this.sunset) ? "sunset" : "sunrise";
 	}
@@ -101,8 +77,8 @@ class WeatherObject {
 		if (this.feelsLikeTemp) {
 			return this.feelsLikeTemp;
 		}
-		const windInMph = this.windUnits === "imperial" ? this.windSpeed : this.windSpeed * 2.23694;
-		const tempInF = this.tempUnits === "imperial" ? this.temperature : (this.temperature * 9) / 5 + 32;
+		const windInMph = WeatherUtils.convertWind(this.windSpeed, "imperial");
+		const tempInF = WeatherUtils.convertTemp(this.temperature, "imperial");
 		let feelsLike = tempInF;
 
 		if (windInMph > 3 && tempInF < 50) {
@@ -120,7 +96,7 @@ class WeatherObject {
 				1.99 * Math.pow(10, -6) * tempInF * tempInF * this.humidity * this.humidity;
 		}
 
-		return this.tempUnits === "imperial" ? feelsLike : ((feelsLike - 32) * 5) / 9;
+		return ((feelsLike - 32) * 5) / 9;
 	}
 
 	/**
@@ -134,17 +110,17 @@ class WeatherObject {
 
 	/**
 	 * Update the sunrise / sunset time depending on the location. This can be
-	 * used if your provider doesnt provide that data by itself. Then SunCalc
+	 * used if your provider doesn't provide that data by itself. Then SunCalc
 	 * is used here to calculate them according to the location.
 	 *
 	 * @param {number} lat latitude
 	 * @param {number} lon longitude
 	 */
 	updateSunTime(lat, lon) {
-		let now = !this.date ? new Date() : this.date.toDate();
-		let times = SunCalc.getTimes(now, lat, lon);
-		this.sunrise = moment(times.sunrise, "X");
-		this.sunset = moment(times.sunset, "X");
+		const now = !this.date ? new Date() : this.date.toDate();
+		const times = SunCalc.getTimes(now, lat, lon);
+		this.sunrise = moment(times.sunrise);
+		this.sunset = moment(times.sunset);
 	}
 
 	/**

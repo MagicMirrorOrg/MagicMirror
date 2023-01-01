@@ -1,36 +1,31 @@
-const fetch = require("fetch");
-const helpers = require("./global-setup");
+const helpers = require("./helpers/global-setup");
 
-describe("ipWhitelist directive configuration", function () {
-	describe("Set ipWhitelist without access", function () {
-		beforeAll(function () {
-			helpers.startApplication("tests/configs/noIpWhiteList.js");
+describe("ipWhitelist directive configuration", () => {
+	describe("Set ipWhitelist without access", () => {
+		beforeAll(async () => {
+			await helpers.startApplication("tests/configs/noIpWhiteList.js");
 		});
-		afterAll(async function () {
+		afterAll(async () => {
 			await helpers.stopApplication();
 		});
 
-		it("should return 403", function (done) {
-			fetch("http://localhost:8080").then((res) => {
-				expect(res.status).toBe(403);
-				done();
-			});
+		it("should return 403", async () => {
+			const res = await helpers.fetch("http://localhost:8080");
+			expect(res.status).toBe(403);
 		});
 	});
 
-	describe("Set ipWhitelist []", function () {
-		beforeAll(function () {
-			helpers.startApplication("tests/configs/empty_ipWhiteList.js");
+	describe("Set ipWhitelist []", () => {
+		beforeAll(async () => {
+			await helpers.startApplication("tests/configs/empty_ipWhiteList.js");
 		});
-		afterAll(async function () {
+		afterAll(async () => {
 			await helpers.stopApplication();
 		});
 
-		it("should return 200", function (done) {
-			fetch("http://localhost:8080").then((res) => {
-				expect(res.status).toBe(200);
-				done();
-			});
+		it("should return 200", async () => {
+			const res = await helpers.fetch("http://localhost:8080");
+			expect(res.status).toBe(200);
 		});
 	});
 });

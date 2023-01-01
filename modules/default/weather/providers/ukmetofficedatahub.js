@@ -20,11 +20,9 @@
  * 		weatherProvider: "ukmetofficedatahub",
  * 		apiBase: "https://api-metoffice.apiconnect.ibmcloud.com/metoffice/production/v0/forecasts/point/",
  * 		apiKey: "[YOUR API KEY]",
- * 		apiSecret: "[YOUR API SECRET]]",
+ * 		apiSecret: "[YOUR API SECRET]",
  * 		lat: [LATITUDE (DECIMAL)],
- * 		lon: [LONGITUDE (DECIMAL)],
- *		windUnits: "mps" | "kph" | "mph" (default)
- *		tempUnits: "imperial" | "metric" (default)
+ * 		lon: [LONGITUDE (DECIMAL)]
  *
  * At time of writing, free accounts are limited to 360 requests a day per service (hourly, 3hourly, daily); take this in mind when
  * setting your update intervals. For reference, 360 requests per day is once every 4 minutes.
@@ -51,8 +49,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 		apiKey: "",
 		apiSecret: "",
 		lat: 0,
-		lon: 0,
-		windUnits: "mph"
+		lon: 0
 	},
 
 	// Build URL with query strings according to DataHub API (https://metoffice.apiconnect.ibmcloud.com/metoffice/production/api)
@@ -89,7 +86,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 	fetchCurrentWeather() {
 		this.fetchWeather(this.getUrl("hourly"), this.getHeaders())
 			.then((data) => {
-				// Check data is useable
+				// Check data is usable
 				if (!data || !data.features || !data.features[0].properties || !data.features[0].properties.timeSeries || data.features[0].properties.timeSeries.length === 0) {
 					// Did not receive usable new data.
 					// Maybe this needs a better check?
@@ -109,13 +106,13 @@ WeatherProvider.register("ukmetofficedatahub", {
 			// Catch any error(s)
 			.catch((error) => Log.error("Could not load data: " + error.message))
 
-			// Let the module know there're new data available
+			// Let the module know there is data available
 			.finally(() => this.updateAvailable());
 	},
 
 	// Create a WeatherObject using current weather data (data for the current hour)
 	generateWeatherObjectFromCurrentWeather(currentWeatherData) {
-		const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
+		const currentWeather = new WeatherObject();
 
 		// Extract the actual forecasts
 		let forecastDataHours = currentWeatherData.features[0].properties.timeSeries;
@@ -128,19 +125,19 @@ WeatherProvider.register("ukmetofficedatahub", {
 			let forecastTime = moment.utc(forecastDataHours[hour].time);
 			if (nowUtc.isSameOrAfter(forecastTime) && nowUtc.isBefore(moment(forecastTime.add(1, "h")))) {
 				currentWeather.date = forecastTime;
-				currentWeather.windSpeed = this.convertWindSpeed(forecastDataHours[hour].windSpeed10m);
+				currentWeather.windSpeed = forecastDataHours[hour].windSpeed10m;
 				currentWeather.windDirection = forecastDataHours[hour].windDirectionFrom10m;
-				currentWeather.temperature = this.convertTemp(forecastDataHours[hour].screenTemperature);
-				currentWeather.minTemperature = this.convertTemp(forecastDataHours[hour].minScreenAirTemp);
-				currentWeather.maxTemperature = this.convertTemp(forecastDataHours[hour].maxScreenAirTemp);
+				currentWeather.temperature = forecastDataHours[hour].screenTemperature;
+				currentWeather.minTemperature = forecastDataHours[hour].minScreenAirTemp;
+				currentWeather.maxTemperature = forecastDataHours[hour].maxScreenAirTemp;
 				currentWeather.weatherType = this.convertWeatherType(forecastDataHours[hour].significantWeatherCode);
 				currentWeather.humidity = forecastDataHours[hour].screenRelativeHumidity;
 				currentWeather.rain = forecastDataHours[hour].totalPrecipAmount;
 				currentWeather.snow = forecastDataHours[hour].totalSnowAmount;
 				currentWeather.precipitation = forecastDataHours[hour].probOfPrecipitation;
-				currentWeather.feelsLikeTemp = this.convertTemp(forecastDataHours[hour].feelsLikeTemperature);
+				currentWeather.feelsLikeTemp = forecastDataHours[hour].feelsLikeTemperature;
 
-				// Pass on full details so they can be used in custom templates
+				// Pass on full details, so they can be used in custom templates
 				// Note the units of the supplied data when using this (see top of file)
 				currentWeather.rawData = forecastDataHours[hour];
 			}
@@ -148,7 +145,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 
 		// Determine the sunrise/sunset times - (still) not supplied in UK Met Office data
 		// Passes {longitude, latitude} to SunCalc, could pass height to, but
-		// SunCalc.getTimes doesnt take that into account
+		// SunCalc.getTimes doesn't take that into account
 		currentWeather.updateSunTime(this.config.lat, this.config.lon);
 
 		return currentWeather;
@@ -158,7 +155,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 	fetchWeatherForecast() {
 		this.fetchWeather(this.getUrl("daily"), this.getHeaders())
 			.then((data) => {
-				// Check data is useable
+				// Check data is usable
 				if (!data || !data.features || !data.features[0].properties || !data.features[0].properties.timeSeries || data.features[0].properties.timeSeries.length === 0) {
 					// Did not receive usable new data.
 					// Maybe this needs a better check?
@@ -178,7 +175,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 			// Catch any error(s)
 			.catch((error) => Log.error("Could not load data: " + error.message))
 
-			// Let the module know there're new data available
+			// Let the module know there is new data available
 			.finally(() => this.updateAvailable());
 	},
 
@@ -194,7 +191,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 
 		// Go through each day in the forecasts
 		for (let day in forecastDataDays) {
-			const forecastWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
+			const forecastWeather = new WeatherObject();
 
 			// Get date of forecast
 			let forecastDate = moment.utc(forecastDataDays[day].time);
@@ -202,11 +199,11 @@ WeatherProvider.register("ukmetofficedatahub", {
 			// Check if forecast is for today or in the future (i.e., ignore yesterday's forecast)
 			if (forecastDate.isSameOrAfter(today)) {
 				forecastWeather.date = forecastDate;
-				forecastWeather.minTemperature = this.convertTemp(forecastDataDays[day].nightMinScreenTemperature);
-				forecastWeather.maxTemperature = this.convertTemp(forecastDataDays[day].dayMaxScreenTemperature);
+				forecastWeather.minTemperature = forecastDataDays[day].nightMinScreenTemperature;
+				forecastWeather.maxTemperature = forecastDataDays[day].dayMaxScreenTemperature;
 
 				// Using daytime forecast values
-				forecastWeather.windSpeed = this.convertWindSpeed(forecastDataDays[day].midday10MWindSpeed);
+				forecastWeather.windSpeed = forecastDataDays[day].midday10MWindSpeed;
 				forecastWeather.windDirection = forecastDataDays[day].midday10MWindDirection;
 				forecastWeather.weatherType = this.convertWeatherType(forecastDataDays[day].daySignificantWeatherCode);
 				forecastWeather.precipitation = forecastDataDays[day].dayProbabilityOfPrecipitation;
@@ -214,9 +211,9 @@ WeatherProvider.register("ukmetofficedatahub", {
 				forecastWeather.humidity = forecastDataDays[day].middayRelativeHumidity;
 				forecastWeather.rain = forecastDataDays[day].dayProbabilityOfRain;
 				forecastWeather.snow = forecastDataDays[day].dayProbabilityOfSnow;
-				forecastWeather.feelsLikeTemp = this.convertTemp(forecastDataDays[day].dayMaxFeelsLikeTemp);
+				forecastWeather.feelsLikeTemp = forecastDataDays[day].dayMaxFeelsLikeTemp;
 
-				// Pass on full details so they can be used in custom templates
+				// Pass on full details, so they can be used in custom templates
 				// Note the units of the supplied data when using this (see top of file)
 				forecastWeather.rawData = forecastDataDays[day];
 
@@ -230,27 +227,6 @@ WeatherProvider.register("ukmetofficedatahub", {
 	// Set the fetched location name.
 	setFetchedLocation: function (name) {
 		this.fetchedLocationName = name;
-	},
-
-	// Convert temperatures to Fahrenheit (from degrees C), if required
-	convertTemp(tempInC) {
-		return this.config.tempUnits === "imperial" ? (tempInC * 9) / 5 + 32 : tempInC;
-	},
-
-	// Convert wind speed from metres per second
-	// To keep the supplied metres per second units, use "mps"
-	// To use kilometres per hour, use "kph"
-	// Else assumed imperial and the value is returned in miles per hour (a Met Office user is likely to be UK-based)
-	convertWindSpeed(windInMpS) {
-		if (this.config.windUnits === "mps") {
-			return windInMpS;
-		}
-
-		if (this.config.windUnits === "kph" || this.config.windUnits === "metric" || this.config.useKmh) {
-			return windInMpS * 3.6;
-		}
-
-		return windInMpS * 2.23694;
 	},
 
 	// Match the Met Office "significant weather code" to a weathericons.css icon

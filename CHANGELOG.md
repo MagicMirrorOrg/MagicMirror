@@ -5,30 +5,82 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror².
 
+## [2.22.0] - 2023-01-01
+
+Thanks to: @angeldeejay, @buxxi, @dariom, @dWoolridge, @KristjanESPERANTO, @MagMar94, @naveensrinivasan, @retroflex, @SkySails and @Tom.
+
+Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not all) of the work on this release as project collaborators. This version would not be there without their effort. Thank you!
+
+### Added
+
+- Added test for remoteFile option in compliments module
+- Added hourlyWeather functionality to Weather.gov weather provider
+- Removed weatherEndpoint definition from weathergov.js (not used)
+- Added css class names "today" and "tomorrow" for default calendar
+- Added Collaboration.md
+- Added new github action for dependency review (#2862)
+- Added a WeatherProvider for Open-Meteo
+- Added Yr as a weather provider
+- Added config options "ignoreXOriginHeader" and "ignoreContentSecurityPolicy"
+
+### Removed
+
+- Removed usage of internal fetch function of node until it is more stable
+
+### Updated
+
+- Cleaned up test directory (#2937) and jest config (#2959)
+- Wait for all modules to start before declaring the system ready (#2487)
+- Updated e2e tests (moved `done()` in helper functions) and use es6 syntax in all tests
+- Updated da translation
+- Rework weather module
+  - Make sure smhi provider api only gets a maximum of 6 digits coordinates (#2955)
+  - Use fetch instead of XMLHttpRequest in weatherprovider (#2935)
+  - Reworked how weatherproviders handle units (#2849)
+  - Use unix() method for parsing times, fix suntimes on the way (#2950)
+  - Refactor conversion functions into utils class (#2958)
+- The `cors`-method in `server.js` now supports sending and recieving HTTP headers
+- Replace `&hellip;` by `…`
+- Cleanup compliments module
+- Updated dependencies including electron to v22 (#2903)
+
+### Fixed
+
+- Correctly show apparent temperature in SMHI weather provider
+- Ensure updatenotification module isn't shown when local is _ahead_ of remote
+- Handle node_helper errors during startup (#2944)
+- Possibility to change FontAwesome class in calendar, so icons like `fab fa-facebook-square` works.
+- Fix cors problems with newsfeed articles (as far as possible), allow disabling cors per feed with option `useCorsProxy: false` (#2840)
+- Tests not waiting for the application to start and stop before starting the next test
+- Fix electron tests failing sometimes in github workflow
+- Fixed gap in clock module when displayed on the left side with displayType=digital
+- Fixed playwright issue by upgrading to v1.29.1 (#2969)
+
 ## [2.21.0] - 2022-10-01
 
 Special thanks to: @BKeyport, @buxxi, @davide125, @khassel, @kolbyjack, @krukle, @MikeBishop, @rejas, @sdetweil, @SkySails and @veeck
 
-## Added
+### Added
 
-- Possibility to fetch calendars through socket notifications.
+- Added possibility to fetch calendars through socket notifications.
 - New scripts `install-mm` (and `install-mm:dev`) for simplifying mm installation (now: `npm run install-mm`) and adding params `--no-audit --no-fund --no-update-notifier` for less noise.
 - New `showTimeToday` option in calendar module shows time for current-day events even if `timeFormat` is `"relative"`.
-- Add hourly forecasts, apparent temperature & custom location name to SMHI weather provider.
+- Added hourly forecasts, apparent temperature & custom location name to SMHI weather provider.
+- Added new electron tests for calendar and moved some compliments tests from `e2e` to `electron` because of date mocking, removed mock stuff from compliments module.
 
-## Removed
+### Removed
 
-- Old weather deprecated modules `currentweather` and `weatherforecast`.
-
-## Updated
-
+- Removed old and deprecated weather modules `currentweather` and `weatherforecast`.
 - Removed `DAYAFTERTOMORROW` from English.
-- Update dependencies.
+
+### Updated
+
+- Updated dependencies.
 - Updated jsdoc.
-- Updated font tree to use variables consistantly.
+- Updated font tree to use variables consistently.
 - Removed deprecated Docker Repository from issue template.
 
-## Fixed
+### Fixed
 
 - Broadcast all calendar events while still honoring global and per-calendar maximumEntries.
 - Respect rss ttl provided by newsfeed (#2883).
