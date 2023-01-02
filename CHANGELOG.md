@@ -11,6 +11,10 @@ _This release is scheduled to be released on 2023-04-01._
 
 ### Added
 
+### Removed
+
+- Removed darksky weather provider
+
 ### Updated
 
 - Use develop as target branch for dependabot
