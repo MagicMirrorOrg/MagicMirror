@@ -13,6 +13,8 @@ _This release is scheduled to be released on 2023-04-01._
 
 ### Updated
 
+- Updated dependencies and github actions
+
 ### Fixed
 
 ## [2.22.0] - 2023-01-01
