@@ -336,7 +336,7 @@ WeatherProvider.register("envcanada", {
 			// Add 1 to the date to reflect the current forecast day we are building
 
 			lastDate = lastDate.add(1, "day");
-			weather.date = moment.unix(lastDate);
+			weather.date = moment(lastDate);
 
 			// Capture the temperatures for the current Element and the next Element in order to set
 			// the Min and Max temperatures for the forecast
