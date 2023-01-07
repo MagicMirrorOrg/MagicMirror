@@ -17,6 +17,8 @@ _This release is scheduled to be released on 2023-04-01._
 
 ### Fixed
 
+- Fix wrong day labels in envcanada forecast (#2987)
+
 ## [2.22.0] - 2023-01-01
 
 Thanks to: @angeldeejay, @buxxi, @dariom, @dWoolridge, @KristjanESPERANTO, @MagMar94, @naveensrinivasan, @retroflex, @SkySails and @Tom.
