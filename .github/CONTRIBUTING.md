@@ -6,7 +6,7 @@ We hold our code to standard, and these standards are documented below.
 
 ## Linters
 
-If you wish to run our linters, use `npm run lint` without any arguments.
+We use prettier for automatic linting of all our files: `npm run lint:prettier`.
 
 ### JavaScript: Run ESLint
 
@@ -18,7 +18,7 @@ To run ESLint, use `npm run lint:js`.
 
 ### CSS: Run StyleLint
 
-We use [StyleLint](https://stylelint.io) to lint our CSS. Our configuration is in our .stylelintrc file.
+We use [StyleLint](https://stylelint.io) to lint our CSS. Our configuration is in our `.stylelintrc` file.
 
 To run StyleLint, use `npm run lint:css`.
 
@@ -28,7 +28,8 @@ We use [Jest](https://jestjs.io) for JavaScript testing.
 
 To run all tests, use `npm run test`.
 
-The specific test commands are defined in `package.json`. So you can also run the specific tests with other commands, e.g. `npm run test:unit` or `npx jest tests/e2e/env_spec.js`.
+The specific test commands are defined in `package.json`.
+So you can also run the specific tests with other commands, e.g. `npm run test:unit` or `npx jest tests/e2e/env_spec.js`.
 
 ## Submitting Issues
 
