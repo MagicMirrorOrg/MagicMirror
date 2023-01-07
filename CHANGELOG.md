@@ -14,6 +14,7 @@ _This release is scheduled to be released on 2023-04-01._
 ### Updated
 
 - Use develop as target branch for dependabot
+- Update issue template and contributing doc
 
 ### Fixed
 
