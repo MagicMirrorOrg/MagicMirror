@@ -11,7 +11,7 @@ _This release is scheduled to be released on 2023-04-01._
 
 ### Added
 
-- Added increments for hourly forecasts in weather module
+- Added increments for hourly forecasts in weather module (#2996)
 
 ### Removed
 
