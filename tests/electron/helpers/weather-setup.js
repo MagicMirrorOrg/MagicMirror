@@ -1,7 +1,7 @@
 const helpers = require("./global-setup");
 const path = require("path");
 const fs = require("fs");
-const { generateWeather, generateWeatherForecast } = require("../../mocks/weather_test");
+const { generateWeather, generateWeatherForecast, generateWeatherHourly } = require("../../mocks/weather_test");
 
 exports.getText = async (element, result) => {
 	const elem = await helpers.getElement(element);
@@ -19,6 +19,8 @@ exports.startApp = async (configFile, systemDate) => {
 	let mockWeather;
 	if (configFile.includes("forecast")) {
 		mockWeather = generateWeatherForecast();
+	} else if (configFile.includes("hourly")) {
+		mockWeather = generateWeatherHourly();
 	} else {
 		mockWeather = generateWeather();
 	}
