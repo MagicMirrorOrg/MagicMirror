@@ -1,4 +1,4 @@
-const HOUR_MS = 1000 * 60 * 60;
+// const HOUR_MS = 1000 * 60 * 60;
 const weatherApiKey = "c9852542607b8aa68f57a3f3ec3504a6";
 
 const dayArray = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];

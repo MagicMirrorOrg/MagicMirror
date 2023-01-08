@@ -1,3 +1,5 @@
+const HOUR_MS = 1000 * 60 * 60;
+
 const padTwoZeros = (n) => String(n).padStart(2, "0");
 
 const roundToOneDecimal = (n) => Math.round(n * 10) / 10;
