@@ -11,6 +11,8 @@ _This release is scheduled to be released on 2023-04-01._
 
 ### Added
 
+- Added increments for hourly forecasts in weather module
+
 ### Removed
 
 - Removed darksky weather provider
