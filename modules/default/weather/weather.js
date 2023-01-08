@@ -138,13 +138,17 @@ Module.register("weather", {
 
 	// Add all the data to the template.
 	getTemplateData: function () {
-		const forecast = this.weatherProvider.weatherForecast();
+		const currentData = this.weatherProvider.currentWeather();
+		const forecastData = this.weatherProvider.weatherForecast();
+
+		// Skip some hourly forecast entries if configured
+		const hourlyData = this.weatherProvider.weatherHourly()?.filter((e, i) => (i + 1) % this.config.hourlyForecastIncrements === this.config.hourlyForecastIncrements - 1);
 
 		return {
 			config: this.config,
-			current: this.weatherProvider.currentWeather(),
-			forecast: forecast,
-			hourly: this.weatherProvider.weatherHourly(),
+			current: currentData,
+			forecast: forecastData,
+			hourly: hourlyData,
 			indoor: {
 				humidity: this.indoorHumidity,
 				temperature: this.indoorTemperature
