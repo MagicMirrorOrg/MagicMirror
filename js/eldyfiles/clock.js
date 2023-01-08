@@ -1,4 +1,4 @@
-export const clockUpdate = () => {
+const clockUpdate = () => {
 	document.getElementById("clockDate").textContent = new Date(Date.now()).toDateString();
 
 	const currentTime = new Date(Date.now());
@@ -12,3 +12,19 @@ export const clockUpdate = () => {
 	document.getElementById("clockTime12hr").textContent = currentTimeString12hr;
 	document.getElementById("clockTime24hr").textContent = currentTimeString24hr;
 };
+
+const clockMillisecondUpdate = () => {
+	const currentTime = Date.now();
+
+	document.getElementById("clockUnixTime").textContent = currentTime;
+};
+
+const clockRunner = () => {
+	clockUpdate();
+	setInterval(clockUpdate, 1000);
+
+	clockMillisecondUpdate();
+	setInterval(clockMillisecondUpdate, 1);
+};
+
+clockRunner();
