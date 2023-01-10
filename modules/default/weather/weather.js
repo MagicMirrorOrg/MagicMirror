@@ -12,23 +12,25 @@ Module.register("weather", {
 		weatherProvider: "openweathermap",
 		roundTemp: false,
 		type: "current", // current, forecast, daily (equivalent to forecast), hourly (only with OpenWeatherMap /onecall endpoint)
+		lang: config.language,
 		units: config.units,
 		tempUnits: config.units,
 		windUnits: config.units,
+		timeFormat: config.timeFormat,
 		updateInterval: 10 * 60 * 1000, // every 10 minutes
 		animationSpeed: 1000,
-		timeFormat: config.timeFormat,
+		showFeelsLike: true,
+		showHumidity: false,
+		showIndoorHumidity: false,
+		showIndoorTemperature: false,
 		showPeriod: true,
 		showPeriodUpper: false,
+		showPrecipitationAmount: false,
+		showSun: true,
 		showWindDirection: true,
 		showWindDirectionAsArrow: false,
-		lang: config.language,
-		showHumidity: false,
-		showSun: true,
 		degreeLabel: false,
 		decimalSymbol: ".",
-		showIndoorTemperature: false,
-		showIndoorHumidity: false,
 		maxNumberOfDays: 5,
 		maxEntries: 5,
 		ignoreToday: false,
@@ -39,10 +41,9 @@ Module.register("weather", {
 		calendarClass: "calendar",
 		tableClass: "small",
 		onlyTemp: false,
-		showPrecipitationAmount: false,
 		colored: false,
-		showFeelsLike: true,
-		absoluteDates: false
+		absoluteDates: false,
+		hourlyForecastIncrements: 1
 	},
 
 	// Module properties.
@@ -137,13 +138,17 @@ Module.register("weather", {
 
 	// Add all the data to the template.
 	getTemplateData: function () {
-		const forecast = this.weatherProvider.weatherForecast();
+		const currentData = this.weatherProvider.currentWeather();
+		const forecastData = this.weatherProvider.weatherForecast();
+
+		// Skip some hourly forecast entries if configured
+		const hourlyData = this.weatherProvider.weatherHourly()?.filter((e, i) => (i + 1) % this.config.hourlyForecastIncrements === this.config.hourlyForecastIncrements - 1);
 
 		return {
 			config: this.config,
-			current: this.weatherProvider.currentWeather(),
-			forecast: forecast,
-			hourly: this.weatherProvider.weatherHourly(),
+			current: currentData,
+			forecast: forecastData,
+			hourly: hourlyData,
 			indoor: {
 				humidity: this.indoorHumidity,
 				temperature: this.indoorTemperature
