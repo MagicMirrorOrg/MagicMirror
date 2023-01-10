@@ -23,7 +23,7 @@ const readMockData = (type, extendedData = {}) => {
 			break;
 	}
 
-	return JSON.stringify(_.merge({}, JSON.parse(fs.readFileSync(path.resolve(__dirname + "/" + fileName)).toString()), extendedData));
+	return JSON.stringify(_.merge({}, JSON.parse(fs.readFileSync(path.resolve(__dirname + "/../mocks/" + fileName)).toString()), extendedData));
 };
 
 const injectMockData = (configFileName, extendedData = {}) => {
