@@ -23,6 +23,7 @@ _This release is scheduled to be released on 2023-04-01._
 
 - Use develop as target branch for dependabot
 - Update issue template and contributing doc
+- Changed updatenotification module for MagicMirror repo only: Send only notifications for `master` if there is a tag on a newer commit
 
 ### Fixed
 
