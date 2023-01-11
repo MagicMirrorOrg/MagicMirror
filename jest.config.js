@@ -2,7 +2,7 @@ module.exports = async () => {
 	return {
 		verbose: true,
 		testTimeout: 20000,
-		testSequencer: "<rootDir>/tests/configs/test_sequencer.js",
+		testSequencer: "<rootDir>/tests/utils/test_sequencer.js",
 		projects: [
 			{
 				displayName: "unit",
