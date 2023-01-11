@@ -19,7 +19,9 @@ module.exports = NodeHelper.create({
 			}
 		}
 
-		await this.gitHelper.add("default");
+		if (!this.ignoreUpdateChecking("MagicMirror")) {
+			await this.gitHelper.add("MagicMirror");
+		}
 	},
 
 	async socketNotificationReceived(notification, payload) {

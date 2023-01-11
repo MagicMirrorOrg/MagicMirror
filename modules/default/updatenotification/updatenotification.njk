@@ -3,7 +3,7 @@
     <div class="small bright">
       <i class="fas fa-exclamation-circle"></i>
       <span>
-        {% set mainTextLabel = "UPDATE_NOTIFICATION" if name === "default" else "UPDATE_NOTIFICATION_MODULE" %}
+        {% set mainTextLabel = "UPDATE_NOTIFICATION" if name === "MagicMirror" else "UPDATE_NOTIFICATION_MODULE" %}
         {{ mainTextLabel | translate({MODULE_NAME: name}) }}
       </span>
     </div>

@@ -13,6 +13,7 @@ _This release is scheduled to be released on 2023-04-01._
 
 - Added increments for hourly forecasts in weather module (#2996)
 - Added tests for hourly weather forecast
+- Added possibility to ignore MagicMirror repo in updatenotification module
 
 ### Removed
 

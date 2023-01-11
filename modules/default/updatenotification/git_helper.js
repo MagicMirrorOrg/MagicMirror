@@ -36,7 +36,7 @@ class GitHelper {
 	async add(moduleName) {
 		let moduleFolder = BASE_DIR;
 
-		if (moduleName !== "default") {
+		if (moduleName !== "MagicMirror") {
 			moduleFolder = `${moduleFolder}modules/${moduleName}`;
 		}
 
@@ -68,7 +68,7 @@ class GitHelper {
 			isBehindInStatus: false
 		};
 
-		if (repo.module === "default") {
+		if (repo.module === "MagicMirror") {
 			// the hash is only needed for the mm repo
 			const { stderr, stdout } = await this.execShell(`cd ${repo.folder} && git rev-parse HEAD`);
 
@@ -121,7 +121,7 @@ class GitHelper {
 			return gitInfo;
 		}
 
-		const { stderr } = await this.execShell(`cd ${repo.folder} && git fetch --dry-run`);
+		const { stderr } = await this.execShell(`cd ${repo.folder} && git fetch -n --dry-run`);
 
 		// example output:
 		// From https://github.com/MichMich/MagicMirror
@@ -129,14 +129,16 @@ class GitHelper {
 		// here the result is in stderr (this is a git default, don't ask why ...)
 		const matches = stderr.match(this.getRefRegex(gitInfo.current));
 
-		if (!matches || !matches[0]) {
-			// no refs found, nothing to do
-			return;
+		// this is the default if there was no match from "git fetch -n --dry-run".
+		// Its a fallback because if there was a real "git fetch", the above "git fetch -n --dry-run" would deliver nothing.
+		let refDiff = gitInfo.current + "..origin/" + gitInfo.current;
+		if (matches && matches[0]) {
+			refDiff = matches[0];
 		}
 
 		// get behind with refs
 		try {
-			const { stdout } = await this.execShell(`cd ${repo.folder} && git rev-list --ancestry-path --count ${matches[0]}`);
+			const { stdout } = await this.execShell(`cd ${repo.folder} && git rev-list --ancestry-path --count ${refDiff}`);
 			gitInfo.behind = parseInt(stdout);
 
 			return gitInfo;

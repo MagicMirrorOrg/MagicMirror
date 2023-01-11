@@ -57,7 +57,7 @@ describe("Updatenotification", () => {
 				return { stdout: gitRevParseOut, stderr: gitRevParseErr };
 			} else if (command.includes("git status -sb")) {
 				return { stdout: gitStatusOut, stderr: gitStatusErr };
-			} else if (command.includes("git fetch --dry-run")) {
+			} else if (command.includes("git fetch -n --dry-run")) {
 				return { stdout: gitFetchOut, stderr: gitFetchErr };
 			} else if (command.includes("git rev-list --ancestry-path --count")) {
 				return { stdout: gitRevListOut, stderr: gitRevListErr };
@@ -71,8 +71,8 @@ describe("Updatenotification", () => {
 		jest.clearAllMocks();
 	});
 
-	describe("default", () => {
-		const moduleName = "default";
+	describe("MagicMirror", () => {
+		const moduleName = "MagicMirror";
 
 		beforeEach(async () => {
 			gitRemoteOut = "origin\tgit@github.com:MichMich/MagicMirror.git (fetch)\norigin\tgit@github.com:MichMich/MagicMirror.git (push)\n";
@@ -107,13 +107,6 @@ describe("Updatenotification", () => {
 
 			const { error } = require("logger");
 			expect(error).toHaveBeenCalledWith(`Failed to retrieve repo info for ${moduleName}: Failed to retrieve status`);
-		});
-
-		it("excludes repo if refs don't match regex", async () => {
-			gitFetchErr = "";
-
-			const repos = await gitHelper.getRepos();
-			expect(repos.length).toBe(0);
 		});
 	});
 
