@@ -52,7 +52,7 @@ const parseWeatherUpdateJsonAsForecastTable = (weatherUpdateJson) => {
 
 const fetchPirateWeatherUpdate = async () => {
 	// get weather forecast for austin
-	const requestUrl = "https://merry-sky.onrender.com/weather?q=austin";
+	const requestUrl = "https://merry-sky.onrender.com/weather?q=cedar%20park";
 	const result = await fetch(requestUrl);
 	const readBody = await recursivelyReadStream(result.body.getReader());
 
@@ -75,10 +75,11 @@ const weatherUpdate = async () => {
 		feelsLike: getTranslatedUnitsForCelciusValue(currentFeelsLikeTempurature)
 	};
 
+	document.getElementById("weatherLocation").textContent = `weather | ${weatherUpdateJson.location.name}`;
 	document.getElementById("weatherActualTemp").textContent = `${current.actual.f}°f / ${current.actual.c}°c`;
 	document.getElementById("weatherFeelsLikeTemp").textContent = `feels like ${current.feelsLike.f}°f / ${current.feelsLike.c}°c`;
-	document.getElementById("weatherHumidity").textContent = `${weatherUpdateJson.currently.humidity * 100}% humidity`;
-	document.getElementById("weatherCloudCover").textContent = `${weatherUpdateJson.currently.cloudCover * 100}% cloud cover`;
+	document.getElementById("weatherHumidity").textContent = `${roundToOneDecimal(weatherUpdateJson.currently.humidity * 100)}% humidity`;
+	document.getElementById("weatherCloudCover").textContent = `${roundToOneDecimal(weatherUpdateJson.currently.cloudCover * 100)}% cloud cover`;
 
 	document.getElementById("weatherForecastTable").innerHTML = parseWeatherUpdateJsonAsForecastTable(weatherUpdateJson);
 };
