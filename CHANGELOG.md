@@ -18,6 +18,7 @@ _This release is scheduled to be released on 2023-04-01._
 ### Removed
 
 - Removed darksky weather provider
+- Removed unneeded (and unwanted) '.' after the year in calendar repeatingCountTitle (#2896)
 
 ### Updated
 
