@@ -38,12 +38,17 @@ describe("WeatherObject", () => {
 		expect(weatherobject.nextSunAction()).toBe("sunset");
 	});
 
+	it("should return an already defined feelsLike info", () => {
+		weatherobject.feelsLikeTemp = "feelsLikeTempValue";
+		expect(weatherobject.feelsLike()).toBe("feelsLikeTempValue");
+	});
+
 	afterAll(() => {
 		moment.tz.setDefault(originalTimeZone);
 	});
 });
 
-describe("WeatherObject", () => {
+describe("WeatherUtils", () => {
 	it("should convert windspeed correctly from mph to mps", () => {
 		expect(Math.round(WeatherUtils.convertWindToMetric(93.951324266285))).toBe(42);
 	});
@@ -54,5 +59,9 @@ describe("WeatherObject", () => {
 
 	it("should convert wind direction correctly from cardinal to value", () => {
 		expect(WeatherUtils.convertWindDirection("SSE")).toBe(157);
+	});
+
+	it("should return a calculated feelsLike info", () => {
+		expect(WeatherUtils.calculateFeelsLike(0, 20, 40)).toBe(-9.444444444444445);
 	});
 });
