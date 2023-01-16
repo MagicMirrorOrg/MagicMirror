@@ -11,6 +11,9 @@ let config = {
 			module: "calendar",
 			position: "bottom_bar",
 			config: {
+				customEvents: [
+                    {keyword: "CustomEvent", symbol: "dice"}
+				],				
 				calendars: [
 					{
 						maximumEntries: 4,
