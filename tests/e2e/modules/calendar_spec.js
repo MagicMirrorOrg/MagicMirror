@@ -48,12 +48,16 @@ describe("Calendar module", () => {
 			await helpers.getDocument();
 		});
 
-		it("should show the custom maximumEntries of 4", async () => {
-			await testElementLength(".calendar .event", 4);
+		it("should show the custom maximumEntries of 5", async () => {
+			await testElementLength(".calendar .event", 5);
 		});
 
 		it("should show the custom calendar symbol in each event", async () => {
 			await testElementLength(".calendar .event .fa-birthday-cake", 4);
+		});
+
+		it("should show a customEvent calendar symbol in one event", async () => {
+			await testElementLength(".calendar .event .fa-dice", 1);
 		});
 
 		it("should show two custom icons for repeating events", async () => {
