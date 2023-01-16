@@ -14,6 +14,7 @@ _This release is scheduled to be released on 2023-04-01._
 - Added increments for hourly forecasts in weather module (#2996)
 - Added tests for hourly weather forecast
 - Added possibility to ignore MagicMirror repo in updatenotification module
+- Added Pirate Weather as new weather provider (#3005)
 
 ### Removed
 
@@ -29,6 +30,7 @@ _This release is scheduled to be released on 2023-04-01._
 
 - Fix wrong day labels in envcanada forecast (#2987)
 - Fix for missing default class name prefix for customEvents in calendar
+- Fix weathergov provider hourly forecast (#3008)
 
 ## [2.22.0] - 2023-01-01
 
