@@ -16,7 +16,7 @@ let config = {
 				],				
 				calendars: [
 					{
-						maximumEntries: 4,
+						maximumEntries: 5,
 						maximumNumberOfDays: 10000,
 						symbol: "birthday-cake",
 						fullDaySymbol: "calendar-day",
