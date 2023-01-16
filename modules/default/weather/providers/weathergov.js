@@ -179,6 +179,7 @@ WeatherProvider.register("weathergov", {
 			} else {
 				weather.windSpeed = forecast.windSpeed.slice(0, forecast.windSpeed.search(" "));
 			}
+			weather.windSpeed = WeatherUtils.convertWindToMs(weather.windSpeed);
 			weather.windDirection = forecast.windDirection;
 			weather.temperature = forecast.temperature;
 			// use the forecast isDayTime attribute to help build the weatherType label
