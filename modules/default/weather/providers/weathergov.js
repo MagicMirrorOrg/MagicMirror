@@ -181,7 +181,6 @@ WeatherProvider.register("weathergov", {
 			}
 			weather.windDirection = forecast.windDirection;
 			weather.temperature = forecast.temperature;
-			weather.tempUnits = forecast.temperatureUnit;
 			// use the forecast isDayTime attribute to help build the weatherType label
 			weather.weatherType = this.convertWeatherType(forecast.shortForecast, forecast.isDaytime);
 
