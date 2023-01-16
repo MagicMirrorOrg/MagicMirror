@@ -52,7 +52,7 @@ describe("Calendar module", () => {
 			await testElementLength(".calendar .event", 5);
 		});
 
-		it("should show the custom calendar symbol in each event", async () => {
+		it("should show the custom calendar symbol in four events", async () => {
 			await testElementLength(".calendar .event .fa-birthday-cake", 4);
 		});
 
