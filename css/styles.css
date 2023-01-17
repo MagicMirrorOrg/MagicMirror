@@ -78,8 +78,13 @@ td {
   font-size: 24px;
 }
 
-/* .statsForNerds {
-  position: fixed;
-  bottom: 0;
-  margin-bottom: 40px;
-} */
+.countDownTimers {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: calc(100% - 150px);
+}
+
+.countDownTimers > div {
+  font-size: 28px;
+}
