@@ -86,6 +86,9 @@ Module.register("calendar", {
 
 	// Override start method.
 	start: function () {
+		const ONE_SECOND = 1000; // 1,000 milliseconds
+		const ONE_MINUTE = ONE_SECOND * 60;
+
 		Log.info("Starting module: " + this.name);
 
 		// Set locale.
@@ -131,6 +134,14 @@ Module.register("calendar", {
 			// fetcher till cycle
 			this.addCalendar(calendar.url, calendar.auth, calendarConfig);
 		});
+
+		// Refresh the DOM every minute if needed: When using relative date format for events that start
+		// or end in less than an hour, the date shows minute granularity and we want to keep that accurate.
+		setTimeout(() => {
+			setInterval(() => {
+				this.updateDom(1);
+			}, ONE_MINUTE);
+		}, ONE_MINUTE - (new Date() % ONE_MINUTE));
 	},
 
 	// Override socket notification handler.
