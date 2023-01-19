@@ -86,8 +86,7 @@ Module.register("calendar", {
 
 	// Override start method.
 	start: function () {
-		const ONE_SECOND = 1000; // 1,000 milliseconds
-		const ONE_MINUTE = ONE_SECOND * 60;
+		const ONE_MINUTE = 60 * 1000;
 
 		Log.info("Starting module: " + this.name);
 
