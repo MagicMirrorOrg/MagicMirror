@@ -7,7 +7,7 @@
  * By Magnus Marthinsen
  * MIT Licensed
  *
- * This class is a provider for Yr.no, a norwegian sweather service.
+ * This class is a provider for Yr.no, a norwegian weather service.
  *
  * Terms of service: https://developer.yr.no/doc/TermsOfService/
  */
@@ -47,7 +47,7 @@ WeatherProvider.register("yr", {
 		const getRequests = [this.getWeatherData(), this.getStellarData()];
 		const [weatherData, stellarData] = await Promise.all(getRequests);
 		if (!stellarData) {
-			Log.warn("No stelar data available.");
+			Log.warn("No stellar data available.");
 		}
 		if (!weatherData.properties.timeseries || !weatherData.properties.timeseries[0]) {
 			Log.error("No weather data available.");
@@ -530,7 +530,7 @@ WeatherProvider.register("yr", {
 			return;
 		}
 		if (!stellarData) {
-			Log.warn("No stelar data available.");
+			Log.warn("No stellar data available.");
 		}
 		let forecasts;
 		switch (type) {
