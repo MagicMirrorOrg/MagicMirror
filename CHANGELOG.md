@@ -33,6 +33,7 @@ _This release is scheduled to be released on 2023-04-01._
 - Fix weathergov provider hourly forecast (#3008)
 - Fix message display with HTML code into alert module (#2828)
 - Fix typo into french translation
+- Yr wind direction is no longer inverted
 
 ## [2.22.0] - 2023-01-01
 

@@ -364,7 +364,7 @@ WeatherProvider.register("yr", {
 
 		weather.date = moment(forecast.time);
 		weather.windSpeed = forecast.data.instant.details.wind_speed;
-		weather.windDirection = (forecast.data.instant.details.wind_from_direction + 180) % 360;
+		weather.windDirection = forecast.data.instant.details.wind_from_direction;
 		weather.temperature = forecast.data.instant.details.air_temperature;
 		weather.minTemperature = forecast.minTemperature;
 		weather.maxTemperature = forecast.maxTemperature;
