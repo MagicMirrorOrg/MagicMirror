@@ -106,7 +106,7 @@ WeatherProvider.register("weatherbit", {
 		currentWeather.humidity = parseFloat(currentWeatherData.data[0].rh);
 		currentWeather.temperature = parseFloat(currentWeatherData.data[0].temp);
 		currentWeather.windSpeed = parseFloat(currentWeatherData.data[0].wind_spd);
-		currentWeather.windDirection = currentWeatherData.data[0].wind_dir;
+		currentWeather.windFromDirection = currentWeatherData.data[0].wind_dir;
 		currentWeather.weatherType = this.convertWeatherType(currentWeatherData.data[0].weather.icon);
 		currentWeather.sunrise = moment(currentWeatherData.data[0].sunrise, "HH:mm").add(tzOffset, "m");
 		currentWeather.sunset = moment(currentWeatherData.data[0].sunset, "HH:mm").add(tzOffset, "m");

@@ -180,7 +180,7 @@ WeatherProvider.register("weathergov", {
 				weather.windSpeed = forecast.windSpeed.slice(0, forecast.windSpeed.search(" "));
 			}
 			weather.windSpeed = WeatherUtils.convertWindToMs(weather.windSpeed);
-			weather.windDirection = forecast.windDirection;
+			weather.windFromDirection = forecast.windDirection;
 			weather.temperature = forecast.temperature;
 			// use the forecast isDayTime attribute to help build the weatherType label
 			weather.weatherType = this.convertWeatherType(forecast.shortForecast, forecast.isDaytime);
@@ -206,7 +206,7 @@ WeatherProvider.register("weathergov", {
 		currentWeather.date = moment(currentWeatherData.timestamp);
 		currentWeather.temperature = currentWeatherData.temperature.value;
 		currentWeather.windSpeed = WeatherUtils.convertWindToMs(currentWeatherData.windSpeed.value);
-		currentWeather.windDirection = currentWeatherData.windDirection.value;
+		currentWeather.windFromDirection = currentWeatherData.windDirection.value;
 		currentWeather.minTemperature = currentWeatherData.minTemperatureLast24Hours.value;
 		currentWeather.maxTemperature = currentWeatherData.maxTemperatureLast24Hours.value;
 		currentWeather.humidity = Math.round(currentWeatherData.relativeHumidity.value);
