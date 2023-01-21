@@ -14,5 +14,5 @@
   {% if title %}
     <br/>
   {% endif %}
-  <span class="light bright small">{{ message }}</span>
+  <span class="light bright small">{{ message | safe }}</span>
 {% endif %}
