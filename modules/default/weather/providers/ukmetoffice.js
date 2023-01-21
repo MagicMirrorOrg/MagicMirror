@@ -102,7 +102,7 @@ WeatherProvider.register("ukmetoffice", {
 							currentWeather.feelsLikeTemp = rep.F;
 							currentWeather.precipitation = parseInt(rep.Pp);
 							currentWeather.windSpeed = WeatherUtils.convertWindToMetric(rep.S);
-							currentWeather.windDirection = WeatherUtils.convertWindDirection(rep.D);
+							currentWeather.windFromDirection = WeatherUtils.convertWindDirection(rep.D);
 							currentWeather.weatherType = this.convertWeatherType(rep.W);
 						}
 					}
