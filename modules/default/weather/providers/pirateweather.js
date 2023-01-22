@@ -103,7 +103,7 @@ WeatherProvider.register("pirateweather", {
 				}
 			}
 
-			weather.precipitation = precip;
+			weather.precipitationAmount = precip;
 			if (forecast.hasOwnProperty("precipType")) {
 				if (forecast.precipType === "snow") {
 					weather.snow = precip;

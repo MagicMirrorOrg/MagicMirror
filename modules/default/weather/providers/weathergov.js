@@ -212,7 +212,7 @@ WeatherProvider.register("weathergov", {
 		currentWeather.humidity = Math.round(currentWeatherData.relativeHumidity.value);
 		currentWeather.rain = null;
 		currentWeather.snow = null;
-		currentWeather.precipitation = this.convertLength(currentWeatherData.precipitationLastHour.value);
+		currentWeather.precipitationAmount = this.convertLength(currentWeatherData.precipitationLastHour.value);
 		if (currentWeatherData.heatIndex.value !== null) {
 			currentWeather.feelsLikeTemp = currentWeatherData.heatIndex.value;
 		} else if (currentWeatherData.windChill.value !== null) {
@@ -248,7 +248,7 @@ WeatherProvider.register("weathergov", {
 		// variable for date
 		let date = "";
 		let weather = new WeatherObject();
-		weather.precipitation = 0;
+		weather.precipitationAmount = 0;
 
 		for (const forecast of forecasts) {
 			if (date !== moment(forecast.startTime).format("YYYY-MM-DD")) {
@@ -263,7 +263,7 @@ WeatherProvider.register("weathergov", {
 
 				minTemp = [];
 				maxTemp = [];
-				weather.precipitation = 0;
+				weather.precipitationAmount = 0;
 
 				// set new date
 				date = moment(forecast.startTime).format("YYYY-MM-DD");

@@ -65,7 +65,7 @@ WeatherProvider.register("yr", {
 		}
 		const forecastXHours = this.getForecastForXHoursFrom(forecast.data);
 		forecast.weatherType = this.convertWeatherType(forecastXHours.summary.symbol_code, forecast.time);
-		forecast.precipitation = forecastXHours.details?.precipitation_amount;
+		forecast.precipitationAmount = forecastXHours.details?.precipitation_amount;
 		forecast.minTemperature = forecastXHours.details?.air_temperature_min;
 		forecast.maxTemperature = forecastXHours.details?.air_temperature_max;
 		return this.getWeatherDataFrom(forecast, stellarData, weatherData.properties.meta.units);
@@ -370,7 +370,7 @@ WeatherProvider.register("yr", {
 		weather.maxTemperature = forecast.maxTemperature;
 		weather.weatherType = forecast.weatherType;
 		weather.humidity = forecast.data.instant.details.relative_humidity;
-		weather.precipitation = forecast.precipitation;
+		weather.precipitationAmount = forecast.precipitation;
 		weather.precipitationUnits = units.precipitation_amount;
 
 		if (stellarTimesToday) {

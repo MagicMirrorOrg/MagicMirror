@@ -100,7 +100,7 @@ WeatherProvider.register("ukmetoffice", {
 							currentWeather.humidity = rep.H;
 							currentWeather.temperature = rep.T;
 							currentWeather.feelsLikeTemp = rep.F;
-							currentWeather.precipitation = parseInt(rep.Pp);
+							currentWeather.precipitationAmount = parseInt(rep.Pp);
 							currentWeather.windSpeed = WeatherUtils.convertWindToMetric(rep.S);
 							currentWeather.windFromDirection = WeatherUtils.convertWindDirection(rep.D);
 							currentWeather.weatherType = this.convertWeatherType(rep.W);
@@ -138,7 +138,7 @@ WeatherProvider.register("ukmetoffice", {
 				weather.minTemperature = period.Rep[1].Nm;
 				weather.maxTemperature = period.Rep[0].Dm;
 				weather.weatherType = this.convertWeatherType(period.Rep[0].W);
-				weather.precipitation = parseInt(period.Rep[0].PPd);
+				weather.precipitationAmount = parseInt(period.Rep[0].PPd);
 
 				days.push(weather);
 			}

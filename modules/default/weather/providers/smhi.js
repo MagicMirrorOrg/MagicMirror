@@ -157,19 +157,19 @@ WeatherProvider.register("smhi", {
 			// 0 = No precipitation
 			case 1: // Snow
 				currentWeather.snow += precipitationValue;
-				currentWeather.precipitation += precipitationValue;
+				currentWeather.precipitationAmount += precipitationValue;
 				break;
 			case 2: // Snow and rain, treat it as 50/50 snow and rain
 				currentWeather.snow += precipitationValue / 2;
 				currentWeather.rain += precipitationValue / 2;
-				currentWeather.precipitation += precipitationValue;
+				currentWeather.precipitationAmount += precipitationValue;
 				break;
 			case 3: // Rain
 			case 4: // Drizzle
 			case 5: // Freezing rain
 			case 6: // Freezing drizzle
 				currentWeather.rain += precipitationValue;
-				currentWeather.precipitation += precipitationValue;
+				currentWeather.precipitationAmount += precipitationValue;
 				break;
 		}
 
@@ -202,7 +202,7 @@ WeatherProvider.register("smhi", {
 				currentWeather.maxTemperature = -Infinity;
 				currentWeather.snow = 0;
 				currentWeather.rain = 0;
-				currentWeather.precipitation = 0;
+				currentWeather.precipitationAmount = 0;
 				result.push(currentWeather);
 			}
 
@@ -221,7 +221,7 @@ WeatherProvider.register("smhi", {
 			currentWeather.maxTemperature = Math.max(currentWeather.maxTemperature, weatherObject.temperature);
 			currentWeather.snow += weatherObject.snow;
 			currentWeather.rain += weatherObject.rain;
-			currentWeather.precipitation += weatherObject.precipitation;
+			currentWeather.precipitationAmount += weatherObject.precipitation;
 		}
 
 		return result;

@@ -381,7 +381,7 @@ WeatherProvider.register("openmeteo", {
 		currentWeather.humidity = parseFloat(weather.hourly[h].relativehumidity_2m);
 		currentWeather.rain = parseFloat(weather.hourly[h].rain);
 		currentWeather.snow = parseFloat(weather.hourly[h].snowfall * 10);
-		currentWeather.precipitation = parseFloat(weather.hourly[h].precipitation);
+		currentWeather.precipitationAmount = parseFloat(weather.hourly[h].precipitation);
 
 		return currentWeather;
 	},
@@ -404,7 +404,7 @@ WeatherProvider.register("openmeteo", {
 			currentWeather.weatherType = this.convertWeatherType(weather.weathercode, currentWeather.isDayTime());
 			currentWeather.rain = parseFloat(weather.rain_sum);
 			currentWeather.snow = parseFloat(weather.snowfall_sum * 10);
-			currentWeather.precipitation = parseFloat(weather.precipitation_sum);
+			currentWeather.precipitationAmount = parseFloat(weather.precipitation_sum);
 
 			days.push(currentWeather);
 		});
@@ -437,7 +437,7 @@ WeatherProvider.register("openmeteo", {
 			currentWeather.humidity = parseFloat(weather.relativehumidity_2m);
 			currentWeather.rain = parseFloat(weather.rain);
 			currentWeather.snow = parseFloat(weather.snowfall * 10);
-			currentWeather.precipitation = parseFloat(weather.precipitation);
+			currentWeather.precipitationAmount = parseFloat(weather.precipitation);
 
 			hours.push(currentWeather);
 		});

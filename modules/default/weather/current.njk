@@ -63,7 +63,7 @@
             {% endif %}
             {% if config.showPrecipitationAmount %}
                 <span class="dimmed">
-                    {{ "PRECIP" | translate }} {{ current.precipitation | unit("precip") }}
+                    {{ "PRECIP" | translate }} {{ current.precipitationAmount | unit("precip") }}
                 </span>
             {% endif %}
         </div>

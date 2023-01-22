@@ -13,11 +13,11 @@
                 {% if config.showPrecipitationAmount %}
                     {% if hour.precipitationUnits %}	
                         <td class="align-right bright precipitation">
-                            {{ hour.precipitation }}{{ hour.precipitationUnits }}
+                            {{ hour.precipitationAmount }}{{ hour.precipitationUnits }}
                         </td>			
 		                {% else %}
                         <td class="align-right bright precipitation">
-                            {{ hour.precipitation | unit("precip") }}
+                            {{ hour.precipitationAmount | unit("precip") }}
                         </td>
                     {% endif %}
                 {% endif %}

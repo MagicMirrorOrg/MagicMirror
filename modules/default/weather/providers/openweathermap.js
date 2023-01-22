@@ -186,7 +186,7 @@ WeatherProvider.register("openweathermap", {
 				weather.maxTemperature = Math.max.apply(null, maxTemp);
 				weather.rain = rain;
 				weather.snow = snow;
-				weather.precipitation = weather.rain + weather.snow;
+				weather.precipitationAmount = weather.rain + weather.snow;
 				// push weather information to days array
 				days.push(weather);
 				// create new weather-object
@@ -239,7 +239,7 @@ WeatherProvider.register("openweathermap", {
 		weather.maxTemperature = Math.max.apply(null, maxTemp);
 		weather.rain = rain;
 		weather.snow = snow;
-		weather.precipitation = weather.rain + weather.snow;
+		weather.precipitationAmount = weather.rain + weather.snow;
 		// push weather information to days array
 		days.push(weather);
 		return days.slice(1);
@@ -282,7 +282,7 @@ WeatherProvider.register("openweathermap", {
 				}
 			}
 
-			weather.precipitation = weather.rain + weather.snow;
+			weather.precipitationAmount = weather.rain + weather.snow;
 
 			days.push(weather);
 		}
@@ -326,7 +326,7 @@ WeatherProvider.register("openweathermap", {
 				precip = true;
 			}
 			if (precip) {
-				current.precipitation = current.rain + current.snow;
+				current.precipitationAmount = current.rain + current.snow;
 			}
 			current.feelsLikeTemp = data.current.feels_like;
 		}
@@ -362,7 +362,7 @@ WeatherProvider.register("openweathermap", {
 					precip = true;
 				}
 				if (precip) {
-					weather.precipitation = weather.rain + weather.snow;
+					weather.precipitationAmount = weather.rain + weather.snow;
 				}
 
 				hours.push(weather);
@@ -401,7 +401,7 @@ WeatherProvider.register("openweathermap", {
 					precip = true;
 				}
 				if (precip) {
-					weather.precipitation = weather.rain + weather.snow;
+					weather.precipitationAmount = weather.rain + weather.snow;
 				}
 
 				days.push(weather);

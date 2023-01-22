@@ -125,7 +125,7 @@ WeatherProvider.register("weatherbit", {
 			weather.date = moment(forecast.datetime, "YYYY-MM-DD");
 			weather.minTemperature = forecast.min_temp;
 			weather.maxTemperature = forecast.max_temp;
-			weather.precipitation = forecast.precip;
+			weather.precipitationAmount = forecast.precip;
 			weather.weatherType = this.convertWeatherType(forecast.weather.icon);
 
 			days.push(weather);
