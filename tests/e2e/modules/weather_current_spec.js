@@ -46,7 +46,7 @@ describe("Weather module", () => {
 		});
 
 		it("should render windDirection with an arrow", async () => {
-			const elem = await helpers.waitForElement(".weather .normal.medium sup i.fa-long-arrow-alt-up");
+			const elem = await helpers.waitForElement(".weather .normal.medium sup i.fa-long-arrow-alt-down");
 			expect(elem).not.toBe(null);
 			expect(elem.outerHTML).toContain("transform:rotate(250deg);");
 		});
