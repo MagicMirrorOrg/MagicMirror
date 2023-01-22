@@ -7,7 +7,7 @@
                 {% if config.showWindDirection %}
                     <sup>
                         {% if config.showWindDirectionAsArrow %}
-                            <i class="fas fa-long-arrow-alt-up" style="transform:rotate({{ current.windFromDirection }}deg);"></i>
+                            <i class="fas fa-long-arrow-alt-down" style="transform:rotate({{ current.windFromDirection }}deg);"></i>
                         {% else %}
                             {{ current.cardinalWindDirection() | translate }}
                         {% endif %}
