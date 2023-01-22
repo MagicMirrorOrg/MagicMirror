@@ -249,11 +249,12 @@ function App() {
 					});
 
 					Log.log("Sockets connected & modules started ...");
-					if (typeof callback === "function") {
-						callback(config);
-					}
 				});
 			});
+
+			if (typeof callback === "function") {
+				callback(config);
+			}
 		});
 	};
 
