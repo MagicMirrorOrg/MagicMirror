@@ -10,6 +10,27 @@
                 <td class="align-right bright">
                     {{ hour.temperature | roundValue | unit("temperature") }}
                 </td>
+                 {% if config.showPrecipitation %}
+                    {% if hour.precipitationAmount %}
+                        {% if hour.precipitationUnits %}
+                            {% set precipitationAmountWithUnit = hour.precipitationAmount + hour.precipitationUnits %}
+                        {% else %}
+                            {% set precipitationAmountWithUnit = hour.precipitationAmount | unit("precip") %}
+                        {% endif %}
+                    {% endif %}
+                    {% set precipitationPercentage = "" %}
+                    {% if hour.precipitationPercentage %}
+                            {% set precipitationPercentage = hour.precipitationPercentage %}
+                    {% endif %}
+                    <td class="align-right bright precipitation">
+                        {{ precipitationAmountWithUnit }}
+                        {% if precipitationAmountWithUnit and precipitationPercentage !== "" %}
+                            ({{ precipitationPercentage }}%)
+                        {% elif precipitationPercentage !== "" %}
+                            {{ precipitationPercentage }}%
+                        {% endif %}
+                    </td>			
+                {% endif %}
                 {% if config.showPrecipitationAmount %}
                     {% if hour.precipitationUnits %}	
                         <td class="align-right bright precipitation">
@@ -20,6 +41,11 @@
                             {{ hour.precipitationAmount | unit("precip") }}
                         </td>
                     {% endif %}
+                {% endif %}
+                {% if config.showPrecipitationPercentage %}
+                    <td class="align-right bright precipitation">
+                        {{ hour.precipitationPercentage }}%
+                    </td>
                 {% endif %}
             </tr>
             {% set currentStep = currentStep + 1 %}

@@ -25,6 +25,7 @@ _This release is scheduled to be released on 2023-04-01._
 
 - Use develop as target branch for dependabot
 - Update issue template and contributing doc
+- The weather modules clearly separates precipation amount and percentage (risk of rain)
 
 ### Fixed
 

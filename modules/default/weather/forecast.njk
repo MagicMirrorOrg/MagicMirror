@@ -22,6 +22,27 @@
                 <td class="align-right min-temp">
                     {{ f.minTemperature | roundValue | unit("temperature") | decimalSymbol }}
                 </td>
+                 {% if config.showPrecipitation %}
+                    {% if f.precipitationAmount %}
+                        {% if f.precipitationUnits %}
+                            {% set precipitationAmountWithUnit = f.precipitationAmount + f.precipitationUnits %}
+                        {% else %}
+                            {% set precipitationAmountWithUnit = f.precipitationAmount | unit("precip") %}
+                        {% endif %}
+                    {% endif %}
+                    {% set precipitationPercentage = "" %}
+                    {% if f.precipitationPercentage %}
+                            {% set precipitationPercentage = f.precipitationPercentage %}
+                    {% endif %}
+                    <td class="align-right bright precipitation">
+                        {{ precipitationAmountWithUnit }}
+                        {% if precipitationAmountWithUnit and precipitationPercentage !== "" %}
+                            ({{ precipitationPercentage }}%)
+                        {% elif precipitationPercentage !== "" %}
+                            {{ precipitationPercentage }}%
+                        {% endif %}
+                    </td>			
+                {% endif %}
                 {% if config.showPrecipitationAmount %}
                     {% if f.precipitationUnits %}
                         <td class="align-right bright precipitation">
@@ -32,6 +53,11 @@
                             {{ f.precipitationAmount | unit("precip") }}
                         </td>
                     {% endif %}
+                {% endif %}
+                {% if config.showPrecipitationPercentage %}
+                    <td class="align-right bright precipitation">
+                        {{ f.precipitationPercentage }}%
+                    </td>
                 {% endif %}
             </tr>
             {% set currentStep = currentStep + 1 %}
