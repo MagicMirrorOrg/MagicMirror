@@ -72,7 +72,7 @@ WeatherProvider.register("pirateweather", {
 		currentWeather.humidity = parseFloat(currentWeatherData.currently.humidity);
 		currentWeather.temperature = parseFloat(currentWeatherData.currently.temperature);
 		currentWeather.windSpeed = parseFloat(currentWeatherData.currently.windSpeed);
-		currentWeather.windDirection = currentWeatherData.currently.windBearing;
+		currentWeather.windFromDirection = currentWeatherData.currently.windBearing;
 		currentWeather.weatherType = this.convertWeatherType(currentWeatherData.currently.icon);
 		currentWeather.sunrise = moment.unix(currentWeatherData.daily.data[0].sunriseTime);
 		currentWeather.sunset = moment.unix(currentWeatherData.daily.data[0].sunsetTime);

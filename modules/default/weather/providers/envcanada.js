@@ -165,7 +165,7 @@ WeatherProvider.register("envcanada", {
 
 		currentWeather.windSpeed = WeatherUtils.convertWindToMs(ECdoc.querySelector("siteData currentConditions wind speed").textContent);
 
-		currentWeather.windDirection = ECdoc.querySelector("siteData currentConditions wind bearing").textContent;
+		currentWeather.windFromDirection = ECdoc.querySelector("siteData currentConditions wind bearing").textContent;
 
 		currentWeather.humidity = ECdoc.querySelector("siteData currentConditions relativeHumidity").textContent;
 
