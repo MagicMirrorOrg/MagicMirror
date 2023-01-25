@@ -69,9 +69,13 @@ class WeatherObject {
 		}
 	}
 
+	/**
+	 * Determines if the sun sets or rises next. Uses the current time and not
+	 * the date from the weather-forecast.
+	 * @returns {string}
+	 */
 	nextSunAction() {
-		const now = !this.date ? moment() : this.date;
-		return now.isBetween(this.sunrise, this.sunset) ? "sunset" : "sunrise";
+		return moment().isBetween(this.sunrise, this.sunset) ? "sunset" : "sunrise";
 	}
 
 	feelsLike() {
