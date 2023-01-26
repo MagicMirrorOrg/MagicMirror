@@ -11,6 +11,10 @@
  * Currently this is focused on the information which is necessary for the current weather.
  * As soon as we start implementing the forecast, mode properties will be added.
  */
+
+/**
+ * @external Moment
+ */
 class WeatherObject {
 	/**
 	 * Constructor for a WeatherObject
