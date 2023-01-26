@@ -211,58 +211,54 @@ function App() {
 	 * Start the core app.
 	 *
 	 * It loads the config, then it loads all modules. When it's done it
-	 * executes the callback with the config as argument.
+	 * executes the callback with the config as argument
 	 *
-	 * @param {Function} callback Function to be called after start
+	 * @returns {Promise<*>}
 	 */
-	this.start = function (callback) {
-		loadConfig().then((c) => {
-			config = c;
+	this.start = async function () {
+		config = await loadConfig();
 
-			Log.setLogLevel(config.logLevel);
+		Log.setLogLevel(config.logLevel);
 
-			let modules = [];
+		let modules = [];
 
-			for (const module of config.modules) {
-				if (!modules.includes(module.module) && !module.disabled) {
-					modules.push(module.module);
+		for (const module of config.modules) {
+			if (!modules.includes(module.module) && !module.disabled) {
+				modules.push(module.module);
+			}
+		}
+
+		loadModules(modules, async function () {
+			httpServer = new Server(config);
+			const { app, io } = await httpServer.open();
+			Log.log("Server started ...");
+
+			const nodePromises = [];
+			for (let nodeHelper of nodeHelpers) {
+				nodeHelper.setExpressApp(app);
+				nodeHelper.setSocketIO(io);
+
+				try {
+					nodePromises.push(nodeHelper.start());
+				} catch (error) {
+					Log.error(`Error when starting node_helper for module ${nodeHelper.name}:`);
+					Log.error(error);
 				}
 			}
 
-			loadModules(modules, async function () {
-				httpServer = new Server(config);
-				const { app, io } = await httpServer.open();
-				Log.log("Server started ...");
-
-				const nodePromises = [];
-				for (let nodeHelper of nodeHelpers) {
-					nodeHelper.setExpressApp(app);
-					nodeHelper.setSocketIO(io);
-
-					try {
-						nodePromises.push(nodeHelper.start());
-					} catch (error) {
-						Log.error(`Error when starting node_helper for module ${nodeHelper.name}:`);
-						Log.error(error);
+			Promise.allSettled(nodePromises).then((results) => {
+				// Log errors that happened during async node_helper startup
+				results.forEach((result) => {
+					if (result.status === "rejected") {
+						Log.error(result.reason);
 					}
-				}
-
-				Promise.allSettled(nodePromises).then((results) => {
-					// Log errors that happened during async node_helper startup
-					results.forEach((result) => {
-						if (result.status === "rejected") {
-							Log.error(result.reason);
-						}
-					});
-
-					Log.log("Sockets connected & modules started ...");
 				});
-			});
 
-			if (typeof callback === "function") {
-				callback(config);
-			}
+				Log.log("Sockets connected & modules started ...");
+			});
 		});
+
+		return config;
 	};
 
 	/**
