@@ -54,9 +54,9 @@ function App() {
 	 * Loads the config file. Combines it with the defaults, and runs the
 	 * callback with the found config as argument.
 	 *
-	 * @param {Function} callback Function to be called after loading the config
+	 * @returns {Promise<*>}
 	 */
-	function loadConfig(callback) {
+	async function loadConfig() {
 		Log.log("Loading config ...");
 		const defaults = require(`${__dirname}/defaults`);
 
@@ -68,8 +68,7 @@ function App() {
 			fs.accessSync(configFilename, fs.F_OK);
 			const c = require(configFilename);
 			checkDeprecatedOptions(c);
-			const config = Object.assign(defaults, c);
-			callback(config);
+			return Object.assign(defaults, c);
 		} catch (e) {
 			if (e.code === "ENOENT") {
 				Log.error(Utils.colors.error("WARNING! Could not find config file. Please create one. Starting with default configuration."));
@@ -78,7 +77,7 @@ function App() {
 			} else {
 				Log.error(Utils.colors.error(`WARNING! Could not load config file. Starting with default configuration. Error found: ${e}`));
 			}
-			callback(defaults);
+			return defaults;
 		}
 	}
 
@@ -217,7 +216,7 @@ function App() {
 	 * @param {Function} callback Function to be called after start
 	 */
 	this.start = function (callback) {
-		loadConfig(function (c) {
+		loadConfig().then((c) => {
 			config = c;
 
 			Log.setLogLevel(config.logLevel);
