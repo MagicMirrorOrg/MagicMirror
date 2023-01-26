@@ -69,7 +69,7 @@ Module.register("alert", {
 	},
 
 	async showNotification(notification) {
-		const message = await this.renderMessage("notification", notification);
+		const message = await this.renderMessage(notification.templateName || "notification", notification);
 
 		new NotificationFx({
 			message,
@@ -90,7 +90,7 @@ Module.register("alert", {
 			this.toggleBlur(true);
 		}
 
-		const message = await this.renderMessage("alert", alert);
+		const message = await this.renderMessage(alert.templateName || "alert", alert);
 
 		// Store alert in this.alerts
 		this.alerts[sender.name] = new NotificationFx({

@@ -15,6 +15,7 @@ _This release is scheduled to be released on 2023-04-01._
 - Added tests for hourly weather forecast
 - Added possibility to ignore MagicMirror repo in updatenotification module
 - Added Pirate Weather as new weather provider (#3005)
+- Added possibility to use your own templates in Alert module
 - Added error message if `<modulename>.js` file is missing in module folder to get a hint in the logs (#2403)
 
 ### Removed
