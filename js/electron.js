@@ -46,8 +46,10 @@ function createWindow() {
 	if (config.kioskmode) {
 		electronOptionsDefaults.kiosk = true;
 	} else {
-		electronOptionsDefaults.fullscreen = true;
-		electronOptionsDefaults.autoHideMenuBar = true;
+		electronOptionsDefaults.show = false;
+		electronOptionsDefaults.frame = false;
+		electronOptionsDefaults.transparent = true;
+		electronOptionsDefaults.hasShadow = false;
 	}
 
 	const electronOptions = Object.assign({}, electronOptionsDefaults, config.electronOptions);
@@ -116,6 +118,11 @@ function createWindow() {
 		}
 
 		callback({ responseHeaders: curHeaders });
+	});
+
+	mainWindow.once("ready-to-show", () => {
+		mainWindow.setFullScreen(true);
+		mainWindow.show();
 	});
 }
 
