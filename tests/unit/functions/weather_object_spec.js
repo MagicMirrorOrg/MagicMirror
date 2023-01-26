@@ -27,15 +27,15 @@ describe("WeatherObject", () => {
 	});
 
 	it("should return sunrise as the next sunaction", () => {
-		weatherobject.date = moment("00:00", "HH:mm");
 		weatherobject.updateSunTime(-6.774877582342688, 37.63345667023327);
-		expect(weatherobject.nextSunAction()).toBe("sunrise");
+		let midnight = moment("00:00", "HH:mm");
+		expect(weatherobject.nextSunAction(midnight)).toBe("sunrise");
 	});
 
 	it("should return sunset as the next sunaction", () => {
-		weatherobject.date = moment("12:00", "HH:mm");
 		weatherobject.updateSunTime(-6.774877582342688, 37.63345667023327);
-		expect(weatherobject.nextSunAction()).toBe("sunset");
+		let noon = moment(weatherobject.sunrise).hour(14);
+		expect(weatherobject.nextSunAction(noon)).toBe("sunset");
 	});
 
 	it("should return an already defined feelsLike info", () => {
