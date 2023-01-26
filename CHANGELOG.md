@@ -28,6 +28,7 @@ _This release is scheduled to be released on 2023-04-01._
 - Use develop as target branch for dependabot
 - Update issue template and contributing doc
 - The weather modules clearly separates precipation amount and percentage (risk of rain)
+- Update weather tests
 - Changed updatenotification module for MagicMirror repo only: Send only notifications for `master` if there is a tag on a newer commit
 - Update dates in Calendar widgets every minute
 
@@ -35,11 +36,13 @@ _This release is scheduled to be released on 2023-04-01._
 
 - Fix wrong day labels in envcanada forecast (#2987)
 - Fix for missing default class name prefix for customEvents in calendar
+- Fixed electron flashing white screen on startup (#1919)
 - Fix weathergov provider hourly forecast (#3008)
 - Fix message display with HTML code into alert module (#2828)
 - Fix typo into french translation
 - Yr wind direction is no longer inverted
-- The wind direction arrow now points in the direction the wind is flowing, not into the wind.
+- Fix async node_helper stopping electron start (#2487)
+- The wind direction arrow now points in the direction the wind is flowing, not into the wind (#3019)
 
 ## [2.22.0] - 2023-01-01
 
