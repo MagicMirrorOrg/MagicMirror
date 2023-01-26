@@ -117,7 +117,7 @@ class GitHelper {
 			return;
 		}
 
-		if (gitInfo.isBehindInStatus) {
+		if (gitInfo.isBehindInStatus && (gitInfo.module !== "MagicMirror" || gitInfo.current !== "master")) {
 			return gitInfo;
 		}
 
@@ -140,6 +140,29 @@ class GitHelper {
 		try {
 			const { stdout } = await this.execShell(`cd ${repo.folder} && git rev-list --ancestry-path --count ${refDiff}`);
 			gitInfo.behind = parseInt(stdout);
+
+			// for MagicMirror-Repo and "master" branch avoid getting notified when no tag is in refDiff
+			// so only releases are reported and we can change e.g. the README.md without sending notifications
+			if (gitInfo.behind > 0 && gitInfo.module === "MagicMirror" && gitInfo.current === "master") {
+				let tagList = "";
+				try {
+					const { stdout } = await this.execShell(`cd ${repo.folder} && git ls-remote -q --tags --refs`);
+					tagList = stdout.trim();
+				} catch (err) {
+					Log.error(`Failed to get tag list for ${repo.module}: ${err}`);
+				}
+				// check if tag is between commits and only report behind > 0 if so
+				try {
+					const { stdout } = await this.execShell(`cd ${repo.folder} && git rev-list --ancestry-path ${refDiff}`);
+					let cnt = 0;
+					for (const ref of stdout.trim().split("\n")) {
+						if (tagList.includes(ref)) cnt++; // tag found
+					}
+					if (cnt === 0) gitInfo.behind = 0;
+				} catch (err) {
+					Log.error(`Failed to get git revisions for ${repo.module}: ${err}`);
+				}
+			}
 
 			return gitInfo;
 		} catch (err) {
