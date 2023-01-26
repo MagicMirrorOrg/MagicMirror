@@ -145,7 +145,7 @@ WeatherProvider.register("smhi", {
 		currentWeather.humidity = this.paramValue(weatherData, "r");
 		currentWeather.temperature = this.paramValue(weatherData, "t");
 		currentWeather.windSpeed = this.paramValue(weatherData, "ws");
-		currentWeather.windDirection = this.paramValue(weatherData, "wd");
+		currentWeather.windFromDirection = this.paramValue(weatherData, "wd");
 		currentWeather.weatherType = this.convertWeatherType(this.paramValue(weatherData, "Wsymb2"), currentWeather.isDayTime());
 		currentWeather.feelsLikeTemp = this.calculateApparentTemperature(weatherData);
 

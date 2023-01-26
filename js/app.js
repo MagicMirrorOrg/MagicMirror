@@ -113,6 +113,14 @@ function App() {
 			moduleFolder = `${__dirname}/../modules/default/${module}`;
 		}
 
+		const moduleFile = `${moduleFolder}/${module}.js`;
+
+		try {
+			fs.accessSync(moduleFile, fs.R_OK);
+		} catch (e) {
+			Log.warn(`No ${moduleFile} found for module: ${moduleName}.`);
+		}
+
 		const helperPath = `${moduleFolder}/node_helper.js`;
 
 		let loadHelper = true;

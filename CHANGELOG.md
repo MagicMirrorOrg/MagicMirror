@@ -16,6 +16,7 @@ _This release is scheduled to be released on 2023-04-01._
 - Added possibility to ignore MagicMirror repo in updatenotification module
 - Added Pirate Weather as new weather provider (#3005)
 - Added possibility to use your own templates in Alert module
+- Added error message if `<modulename>.js` file is missing in module folder to get a hint in the logs (#2403)
 
 ### Removed
 
@@ -26,10 +27,17 @@ _This release is scheduled to be released on 2023-04-01._
 
 - Use develop as target branch for dependabot
 - Update issue template and contributing doc
+- Update dates in Calendar widgets every minute
 
 ### Fixed
 
 - Fix wrong day labels in envcanada forecast (#2987)
+- Fix for missing default class name prefix for customEvents in calendar
+- Fix weathergov provider hourly forecast (#3008)
+- Fix message display with HTML code into alert module (#2828)
+- Fix typo into french translation
+- Yr wind direction is no longer inverted
+- The wind direction arrow now points in the direction the wind is flowing, not into the wind.
 
 ## [2.22.0] - 2023-01-01
 

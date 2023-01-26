@@ -132,7 +132,7 @@ WeatherProvider.register("openweathermap", {
 		currentWeather.temperature = currentWeatherData.main.temp;
 		currentWeather.feelsLikeTemp = currentWeatherData.main.feels_like;
 		currentWeather.windSpeed = currentWeatherData.wind.speed;
-		currentWeather.windDirection = currentWeatherData.wind.deg;
+		currentWeather.windFromDirection = currentWeatherData.wind.deg;
 		currentWeather.weatherType = this.convertWeatherType(currentWeatherData.weather[0].icon);
 		currentWeather.sunrise = moment.unix(currentWeatherData.sys.sunrise);
 		currentWeather.sunset = moment.unix(currentWeatherData.sys.sunset);
@@ -303,7 +303,7 @@ WeatherProvider.register("openweathermap", {
 		if (data.hasOwnProperty("current")) {
 			current.date = moment.unix(data.current.dt).utcOffset(data.timezone_offset / 60);
 			current.windSpeed = data.current.wind_speed;
-			current.windDirection = data.current.wind_deg;
+			current.windFromDirection = data.current.wind_deg;
 			current.sunrise = moment.unix(data.current.sunrise).utcOffset(data.timezone_offset / 60);
 			current.sunset = moment.unix(data.current.sunset).utcOffset(data.timezone_offset / 60);
 			current.temperature = data.current.temp;
@@ -342,7 +342,7 @@ WeatherProvider.register("openweathermap", {
 				weather.feelsLikeTemp = hour.feels_like;
 				weather.humidity = hour.humidity;
 				weather.windSpeed = hour.wind_speed;
-				weather.windDirection = hour.wind_deg;
+				weather.windFromDirection = hour.wind_deg;
 				weather.weatherType = this.convertWeatherType(hour.weather[0].icon);
 				precip = false;
 				if (hour.hasOwnProperty("rain") && !isNaN(hour.rain["1h"])) {
@@ -381,7 +381,7 @@ WeatherProvider.register("openweathermap", {
 				weather.maxTemperature = day.temp.max;
 				weather.humidity = day.humidity;
 				weather.windSpeed = day.wind_speed;
-				weather.windDirection = day.wind_deg;
+				weather.windFromDirection = day.wind_deg;
 				weather.weatherType = this.convertWeatherType(day.weather[0].icon);
 				precip = false;
 				if (!isNaN(day.rain)) {

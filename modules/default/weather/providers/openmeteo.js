@@ -371,7 +371,7 @@ WeatherProvider.register("openmeteo", {
 
 		currentWeather.date = weather.current_weather.time;
 		currentWeather.windSpeed = weather.current_weather.windspeed;
-		currentWeather.windDirection = weather.current_weather.winddirection;
+		currentWeather.windFromDirection = weather.current_weather.winddirection;
 		currentWeather.sunrise = weather.daily[0].sunrise;
 		currentWeather.sunset = weather.daily[0].sunset;
 		currentWeather.temperature = parseFloat(weather.current_weather.temperature);
@@ -395,7 +395,7 @@ WeatherProvider.register("openmeteo", {
 
 			currentWeather.date = weather.time;
 			currentWeather.windSpeed = weather.windspeed_10m_max;
-			currentWeather.windDirection = weather.winddirection_10m_dominant;
+			currentWeather.windFromDirection = weather.winddirection_10m_dominant;
 			currentWeather.sunrise = weather.sunrise;
 			currentWeather.sunset = weather.sunset;
 			currentWeather.temperature = parseFloat((weather.apparent_temperature_max + weather.apparent_temperature_min) / 2);
@@ -427,7 +427,7 @@ WeatherProvider.register("openmeteo", {
 
 			currentWeather.date = weather.time;
 			currentWeather.windSpeed = weather.windspeed_10m;
-			currentWeather.windDirection = weather.winddirection_10m;
+			currentWeather.windFromDirection = weather.winddirection_10m;
 			currentWeather.sunrise = weathers.daily[h].sunrise;
 			currentWeather.sunset = weathers.daily[h].sunset;
 			currentWeather.temperature = parseFloat(weather.apparent_temperature);

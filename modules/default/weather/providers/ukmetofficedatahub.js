@@ -126,7 +126,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 			if (nowUtc.isSameOrAfter(forecastTime) && nowUtc.isBefore(moment(forecastTime.add(1, "h")))) {
 				currentWeather.date = forecastTime;
 				currentWeather.windSpeed = forecastDataHours[hour].windSpeed10m;
-				currentWeather.windDirection = forecastDataHours[hour].windDirectionFrom10m;
+				currentWeather.windFromDirection = forecastDataHours[hour].windDirectionFrom10m;
 				currentWeather.temperature = forecastDataHours[hour].screenTemperature;
 				currentWeather.minTemperature = forecastDataHours[hour].minScreenAirTemp;
 				currentWeather.maxTemperature = forecastDataHours[hour].maxScreenAirTemp;
@@ -204,7 +204,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 
 				// Using daytime forecast values
 				forecastWeather.windSpeed = forecastDataDays[day].midday10MWindSpeed;
-				forecastWeather.windDirection = forecastDataDays[day].midday10MWindDirection;
+				forecastWeather.windFromDirection = forecastDataDays[day].midday10MWindDirection;
 				forecastWeather.weatherType = this.convertWeatherType(forecastDataDays[day].daySignificantWeatherCode);
 				forecastWeather.precipitation = forecastDataDays[day].dayProbabilityOfPrecipitation;
 				forecastWeather.temperature = forecastDataDays[day].dayMaxScreenTemperature;
