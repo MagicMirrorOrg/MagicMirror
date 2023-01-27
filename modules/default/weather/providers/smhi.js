@@ -221,7 +221,7 @@ WeatherProvider.register("smhi", {
 			currentWeather.maxTemperature = Math.max(currentWeather.maxTemperature, weatherObject.temperature);
 			currentWeather.snow += weatherObject.snow;
 			currentWeather.rain += weatherObject.rain;
-			currentWeather.precipitationAmount += weatherObject.precipitation;
+			currentWeather.precipitationAmount += weatherObject.precipitationAmount;
 		}
 
 		return result;
