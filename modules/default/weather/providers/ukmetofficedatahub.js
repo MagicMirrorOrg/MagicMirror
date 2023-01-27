@@ -134,7 +134,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 				currentWeather.humidity = forecastDataHours[hour].screenRelativeHumidity;
 				currentWeather.rain = forecastDataHours[hour].totalPrecipAmount;
 				currentWeather.snow = forecastDataHours[hour].totalSnowAmount;
-				currentWeather.precipitationAmount = forecastDataHours[hour].probOfPrecipitation;
+				currentWeather.precipitationProbability = forecastDataHours[hour].probOfPrecipitation;
 				currentWeather.feelsLikeTemp = forecastDataHours[hour].feelsLikeTemperature;
 
 				// Pass on full details, so they can be used in custom templates
@@ -206,7 +206,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 				forecastWeather.windSpeed = forecastDataDays[day].midday10MWindSpeed;
 				forecastWeather.windFromDirection = forecastDataDays[day].midday10MWindDirection;
 				forecastWeather.weatherType = this.convertWeatherType(forecastDataDays[day].daySignificantWeatherCode);
-				forecastWeather.precipitationAmount = forecastDataDays[day].dayProbabilityOfPrecipitation;
+				forecastWeather.precipitationProbability = forecastDataDays[day].dayProbabilityOfPrecipitation;
 				forecastWeather.temperature = forecastDataDays[day].dayMaxScreenTemperature;
 				forecastWeather.humidity = forecastDataDays[day].middayRelativeHumidity;
 				forecastWeather.rain = forecastDataDays[day].dayProbabilityOfRain;

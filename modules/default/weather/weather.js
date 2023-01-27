@@ -246,7 +246,7 @@ Module.register("weather", {
 					if (value === null || isNaN(value) || value === 0 || value.toFixed(2) === "0.00") {
 						value = "";
 					} else {
-						if (this.config.weatherProvider === "ukmetoffice" || this.config.weatherProvider === "ukmetofficedatahub") {
+						if (this.config.weatherProvider === "ukmetoffice") {
 							value += "%";
 						} else {
 							value = `${value.toFixed(2)} ${this.config.units === "imperial" ? "in" : "mm"}`;
