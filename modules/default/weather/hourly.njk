@@ -18,16 +18,16 @@
                             {% set precipitationAmountWithUnit = hour.precipitationAmount | unit("precip") %}
                         {% endif %}
                     {% endif %}
-                    {% set precipitationPercentage = "" %}
-                    {% if hour.precipitationPercentage %}
-                            {% set precipitationPercentage = hour.precipitationPercentage %}
+                    {% set precipitationProbability = "" %}
+                    {% if hour.precipitationProbability %}
+                            {% set precipitationProbability = hour.precipitationProbability %}
                     {% endif %}
                     <td class="align-right bright precipitation">
                         {{ precipitationAmountWithUnit }}
-                        {% if precipitationAmountWithUnit and precipitationPercentage !== "" %}
-                            ({{ precipitationPercentage }}%)
-                        {% elif precipitationPercentage !== "" %}
-                            {{ precipitationPercentage }}%
+                        {% if precipitationAmountWithUnit and precipitationProbability !== "" %}
+                            ({{ precipitationProbability }}%)
+                        {% elif precipitationProbability !== "" %}
+                            {{ precipitationProbability }}%
                         {% endif %}
                     </td>			
                 {% endif %}
@@ -42,9 +42,9 @@
                         </td>
                     {% endif %}
                 {% endif %}
-                {% if config.showPrecipitationPercentage %}
+                {% if config.showPrecipitationProbability %}
                     <td class="align-right bright precipitation">
-                        {{ hour.precipitationPercentage }}%
+                        {{ hour.precipitationProbability }}%
                     </td>
                 {% endif %}
             </tr>

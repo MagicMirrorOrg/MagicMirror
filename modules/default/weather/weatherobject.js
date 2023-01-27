@@ -34,7 +34,7 @@ class WeatherObject {
 		this.snow = null;
 		this.precipitationAmount = null;
 		this.precipitationUnits = null;
-		this.precipitationPercentage = null;
+		this.precipitationProbability = null;
 		this.feelsLikeTemp = null;
 	}
 
