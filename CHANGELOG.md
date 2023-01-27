@@ -39,13 +39,14 @@ _This release is scheduled to be released on 2023-04-01._
 
 - Fix wrong day labels in envcanada forecast (#2987)
 - Fix for missing default class name prefix for customEvents in calendar
-- Fixed electron flashing white screen on startup (#1919)
+- Fix electron flashing white screen on startup (#1919)
 - Fix weathergov provider hourly forecast (#3008)
 - Fix message display with HTML code into alert module (#2828)
-- Fix typo into french translation
+- Fix typo in french translation
 - Yr wind direction is no longer inverted
 - Fix async node_helper stopping electron start (#2487)
 - The wind direction arrow now points in the direction the wind is flowing, not into the wind (#3019)
+- Fix precipitation css styles
 
 ## [2.22.0] - 2023-01-01
 
@@ -58,7 +59,6 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Added new calendar options for colored entries and improved styling (#3033)
 - Added test for remoteFile option in compliments module
 - Added hourlyWeather functionality to Weather.gov weather provider
-- Removed weatherEndpoint definition from weathergov.js (not used)
 - Added css class names "today" and "tomorrow" for default calendar
 - Added Collaboration.md
 - Added new github action for dependency review (#2862)
@@ -71,6 +71,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 ### Removed
 
 - Removed usage of internal fetch function of node until it is more stable
+- Removed weatherEndpoint definition from weathergov.js (not used)
 
 ### Updated
 
@@ -84,7 +85,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
   - Reworked how weatherproviders handle units (#2849)
   - Use unix() method for parsing times, fix suntimes on the way (#2950)
   - Refactor conversion functions into utils class (#2958)
-- The `cors`-method in `server.js` now supports sending and recieving HTTP headers
+- The `cors`-method in `server.js` now supports sending and receiving HTTP headers
 - Replace `&hellip;` by `…`
 - Cleanup compliments module
 - Updated dependencies including electron to v22 (#2903)
