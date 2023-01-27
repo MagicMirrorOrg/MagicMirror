@@ -126,6 +126,7 @@ WeatherProvider.register("weatherbit", {
 			weather.minTemperature = forecast.min_temp;
 			weather.maxTemperature = forecast.max_temp;
 			weather.precipitationAmount = forecast.precip;
+			weather.precipitationProbability = forecast.pop;
 			weather.weatherType = this.convertWeatherType(forecast.weather.icon);
 
 			days.push(weather);
