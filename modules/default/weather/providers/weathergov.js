@@ -240,6 +240,8 @@ WeatherProvider.register("weathergov", {
 	 * fetch forecast information for daily forecast.
 	 */
 	fetchForecastDaily(forecasts) {
+		const precipitationRiskRegEx = "Chance of precipitation is ([0-9]+?)%";
+
 		// initial variable declaration
 		const days = [];
 		// variables for temperature range and rain
@@ -248,7 +250,6 @@ WeatherProvider.register("weathergov", {
 		// variable for date
 		let date = "";
 		let weather = new WeatherObject();
-		weather.precipitationAmount = 0;
 
 		for (const forecast of forecasts) {
 			if (date !== moment(forecast.startTime).format("YYYY-MM-DD")) {
@@ -263,7 +264,8 @@ WeatherProvider.register("weathergov", {
 
 				minTemp = [];
 				maxTemp = [];
-				weather.precipitationAmount = 0;
+				const precipitation = new RegExp(precipitationRiskRegEx, "g").exec(forecast.detailedForecast);
+				if (precipitation) weather.precipitationPercentage = precipitation[1];
 
 				// set new date
 				date = moment(forecast.startTime).format("YYYY-MM-DD");
