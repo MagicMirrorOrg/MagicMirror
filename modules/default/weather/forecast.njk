@@ -35,28 +35,28 @@
                             {% set precipitationProbability = f.precipitationProbability %}
                     {% endif %}
                     <td class="align-right bright precipitation">
-                        {{ precipitationAmountWithUnit }}
+                        <span class="precipitationAmount">{{ precipitationAmountWithUnit }}</span>
                         {% if precipitationAmountWithUnit and precipitationProbability !== "" %}
-                            ({{ precipitationProbability }}%)
+                            <span class="precipitationProbability">({{ precipitationProbability }}%)</span>
                         {% elif precipitationProbability !== "" %}
-                            {{ precipitationProbability }}%
+                            <span class="precipitationProbability">{{ precipitationProbability }}%</span>
                         {% endif %}
                     </td>			
                 {% endif %}
                 {% if config.showPrecipitationAmount %}
                     {% if f.precipitationUnits %}
                         <td class="align-right bright precipitation">
-                            {{ f.precipitationAmount }}{{ f.precipitationUnits }}
+                            <span class="precipitationAmount">{{ f.precipitationAmount }}{{ f.precipitationUnits }}</span>
                         </td>
 		                {% else %}
                         <td class="align-right bright precipitation">
-                            {{ f.precipitationAmount | unit("precip") }}
+                            <span class="precipitationAmount">{{ f.precipitationAmount | unit("precip") }}</span>
                         </td>
                     {% endif %}
                 {% endif %}
                 {% if config.showprecipitationProbability %}
                     <td class="align-right bright precipitation">
-                        {{ f.precipitationProbability }}%
+                        <span class="precipitationProbability">{{ f.precipitationProbability }}%</span>
                     </td>
                 {% endif %}
             </tr>

@@ -23,28 +23,28 @@
                             {% set precipitationProbability = hour.precipitationProbability %}
                     {% endif %}
                     <td class="align-right bright precipitation">
-                        {{ precipitationAmountWithUnit }}
+                        <span class="precipitationAmount">{{ precipitationAmountWithUnit }}</span>
                         {% if precipitationAmountWithUnit and precipitationProbability !== "" %}
-                            ({{ precipitationProbability }}%)
+                            <span class="precipitationProbability">({{ precipitationProbability }}%)</span>
                         {% elif precipitationProbability !== "" %}
-                            {{ precipitationProbability }}%
+                            <span class="precipitationProbability">{{ precipitationProbability }}%</span>
                         {% endif %}
                     </td>			
                 {% endif %}
                 {% if config.showPrecipitationAmount %}
                     {% if hour.precipitationUnits %}	
                         <td class="align-right bright precipitation">
-                            {{ hour.precipitationAmount }}{{ hour.precipitationUnits }}
+                            <span class="precipitationAmount">{{ hour.precipitationAmount }}{{ hour.precipitationUnits }}</span>
                         </td>			
 		                {% else %}
                         <td class="align-right bright precipitation">
-                            {{ hour.precipitationAmount | unit("precip") }}
+                            <span class="precipitationAmount">{{ hour.precipitationAmount | unit("precip") }}</span>
                         </td>
                     {% endif %}
                 {% endif %}
                 {% if config.showPrecipitationProbability %}
                     <td class="align-right bright precipitation">
-                        {{ hour.precipitationProbability }}%
+                        <span class="precipitationProbability">{{ hour.precipitationProbability }}%</span>
                     </td>
                 {% endif %}
             </tr>
