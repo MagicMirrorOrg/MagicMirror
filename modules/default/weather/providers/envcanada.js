@@ -527,8 +527,7 @@ WeatherProvider.register("envcanada", {
 		// Check Today element for POP
 
 		if (foreGroup[today].querySelector("abbreviatedForecast pop").textContent > 0) {
-			weather.precipitationAmount = foreGroup[today].querySelector("abbreviatedForecast pop").textContent;
-			weather.precipitationUnits = foreGroup[today].querySelector("abbreviatedForecast pop").getAttribute("units");
+			weather.precipitationProbability = foreGroup[today].querySelector("abbreviatedForecast pop").textContent;
 		}
 	},
 
