@@ -33,4 +33,30 @@ describe("Weather module: Weather Hourly Forecast", () => {
 			}
 		});
 	});
+
+	describe("Show precipitations", () => {
+		beforeAll(async () => {
+			await weatherFunc.startApp("tests/configs/modules/weather/hourlyweather_showPrecipitation.js", {});
+		});
+
+		describe("Shows precipitation amount", () => {
+			const amounts = ["", "", "", "0.13 mm", "0.13 mm"];
+			for (const [index, amount] of amounts.entries()) {
+				it(`should render precipitation amount ${amount}`, async () => {
+					await weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td.precipitation span.precipitationAmount`, amount);
+				});
+			}
+		});
+
+		describe("Shows precipitation propability", () => {
+			const propabilities = [undefined, undefined, "12%", "(36%)", "(44%)"];
+			for (const [index, pop] of propabilities.entries()) {
+				if (pop) {
+					it(`should render propability ${pop}`, async () => {
+						await weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td.precipitation span.precipitationProbability`, pop);
+					});
+				}
+			}
+		});
+	});
 });
