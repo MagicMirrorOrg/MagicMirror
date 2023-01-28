@@ -30,8 +30,6 @@ class WeatherObject {
 		this.maxTemperature = null;
 		this.weatherType = null;
 		this.humidity = null;
-		this.rain = null;
-		this.snow = null;
 		this.precipitationAmount = null;
 		this.precipitationUnits = null;
 		this.precipitationProbability = null;

@@ -210,8 +210,6 @@ WeatherProvider.register("weathergov", {
 		currentWeather.minTemperature = currentWeatherData.minTemperatureLast24Hours.value;
 		currentWeather.maxTemperature = currentWeatherData.maxTemperatureLast24Hours.value;
 		currentWeather.humidity = Math.round(currentWeatherData.relativeHumidity.value);
-		currentWeather.rain = null;
-		currentWeather.snow = null;
 		currentWeather.precipitationAmount = this.convertLength(currentWeatherData.precipitationLastHour.value);
 		if (currentWeatherData.heatIndex.value !== null) {
 			currentWeather.feelsLikeTemp = currentWeatherData.heatIndex.value;

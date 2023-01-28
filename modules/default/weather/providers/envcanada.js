@@ -230,11 +230,6 @@ WeatherProvider.register("envcanada", {
 
 		const foreGroup = ECdoc.querySelectorAll("siteData forecastGroup forecast");
 
-		// For simplicity, we will only accumulate precipitation and will not try to break out
-		// rain vs snow accumulations
-
-		weather.rain = null;
-		weather.snow = null;
 		weather.precipitationAmount = null;
 
 		//
@@ -343,8 +338,6 @@ WeatherProvider.register("envcanada", {
 
 			this.setMinMaxTemps(weather, foreGroup, stepDay, true, currentTemp);
 
-			weather.rain = null;
-			weather.snow = null;
 			weather.precipitationAmount = null;
 
 			this.setPrecipitation(weather, foreGroup, stepDay);
