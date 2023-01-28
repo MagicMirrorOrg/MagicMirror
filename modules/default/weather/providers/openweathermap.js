@@ -283,6 +283,7 @@ WeatherProvider.register("openweathermap", {
 			}
 
 			weather.precipitationAmount = weather.rain + weather.snow;
+			weather.precipitationProbability = weather.pop * 100;
 
 			days.push(weather);
 		}
@@ -344,6 +345,7 @@ WeatherProvider.register("openweathermap", {
 				weather.windSpeed = hour.wind_speed;
 				weather.windFromDirection = hour.wind_deg;
 				weather.weatherType = this.convertWeatherType(hour.weather[0].icon);
+				weather.precipitationProbability = hour.pop ? hour.pop * 100 : undefined;
 				precip = false;
 				if (hour.hasOwnProperty("rain") && !isNaN(hour.rain["1h"])) {
 					if (this.config.units === "imperial") {
@@ -383,6 +385,7 @@ WeatherProvider.register("openweathermap", {
 				weather.windSpeed = day.wind_speed;
 				weather.windFromDirection = day.wind_deg;
 				weather.weatherType = this.convertWeatherType(day.weather[0].icon);
+				weather.precipitationProbability = day.pop ? day.pop * 100 : undefined;
 				precip = false;
 				if (!isNaN(day.rain)) {
 					if (this.config.units === "imperial") {
