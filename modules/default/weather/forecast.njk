@@ -22,24 +22,17 @@
                 <td class="align-right min-temp">
                     {{ f.minTemperature | roundValue | unit("temperature") | decimalSymbol }}
                 </td>
-                 {% if config.showPrecipitation %}
-                    {% if f.precipitationAmount %}
-                        {% if f.precipitationUnits %}
-                            {% set precipitationAmountWithUnit = f.precipitationAmount + f.precipitationUnits %}
-                        {% else %}
-                            {% set precipitationAmountWithUnit = f.precipitationAmount | unit("precip") %}
+                {% if config.showPrecipitation and (f.precipitationAmount or f.precipitationProbability) %}
+                    <td class="align-right bright precipitation">    
+                        {% if f.precipitationUnits and f.precipitationAmount %}  
+                            <span class="precipitationAmount">{{ f.precipitationAmount }}{{ f.precipitationUnits }}</span>
+                        {% elif f.precipitationAmount %}
+                            <span class="precipitationAmount">{{ f.precipitationAmount | unit("precip") }}</span>
                         {% endif %}
-                    {% endif %}
-                    {% set precipitationProbability = "" %}
-                    {% if f.precipitationProbability %}
-                            {% set precipitationProbability = f.precipitationProbability %}
-                    {% endif %}
-                    <td class="align-right bright precipitation">
-                        <span class="precipitationAmount">{{ precipitationAmountWithUnit }}</span>
-                        {% if precipitationAmountWithUnit and precipitationProbability !== "" %}
-                            <span class="precipitationProbability">({{ precipitationProbability }}%)</span>
-                        {% elif precipitationProbability !== "" %}
-                            <span class="precipitationProbability">{{ precipitationProbability }}%</span>
+                        {% if f.precipitationAmount and f.precipitationProbability %}
+                            <span class="precipitationProbability">({{ f.precipitationProbability }}%)</span>
+                        {% elif f.precipitationProbability %}
+                            <span class="precipitationProbability">{{ f.precipitationProbability }}%</span>
                         {% endif %}
                     </td>			
                 {% endif %}
