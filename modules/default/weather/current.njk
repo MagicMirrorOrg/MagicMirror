@@ -54,16 +54,32 @@
             </div>
         {% endif %}
     </div>
-    {% if (config.showFeelsLike or config.showPrecipitationAmount) and not config.onlyTemp %}
+    {% if (config.showFeelsLike or config.showPrecipitation or config.showPrecipitationAmount or config.showPrecipitationProbability) and not config.onlyTemp %}
         <div class="normal medium feelslike">
             {% if config.showFeelsLike %}
                 <span class="dimmed">
                     {{ "FEELS" | translate({DEGREE: current.feelsLike() | roundValue | unit("temperature") | decimalSymbol }) }}
                 </span>
             {% endif %}
-            {% if config.showPrecipitationAmount %}
+            {% if config.showPrecipitation and (current.precipitationAmount or current.precipitationProbability) %}
                 <span class="dimmed">
-                    {{ "PRECIP" | translate }} {{ current.precipitationAmount | unit("precip") }}
+                    <span class="precipitationLeadText">{{ "PRECIP" | translate }}</span>
+                    {% if current.precipitationAmount %}
+                        <span class="precipitationAmount">{{ current.precipitationAmount | unit("precip") }}</span>
+                        {% if current.precipitationProbability %}
+                            <span class="precipitationProbability">({{ current.precipitationProbability }}%)</span>
+                        {% endif %}
+                    {% elif current.precipitationProbability %}
+                        <span class="precipitationProbability">{{ current.precipitationProbability }}%</span>
+                    {% endif %}
+                </span>
+            {% elif config.showPrecipitationAmount %}           
+                <span class="dimmed">
+                    {{ "PRECIP_AMOUNT" | translate }} {{ current.precipitationAmount | unit("precip") }}
+                </span>
+            {% elif config.showPrecipitationProbability %}           
+                <span class="dimmed">
+                    {{ "PRECIP_POP" | translate }} {{ current.precipitationProbability }}%
                 </span>
             {% endif %}
         </div>

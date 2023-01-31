@@ -25,7 +25,9 @@
 	"NNW": "NNW",
 
 	"FEELS": "Feels like {DEGREE}",
-	"PRECIP": "PoP",
+	"PRECIP": "Precipitation",
+	"PRECIP_POP": "PoP",
+	"PRECIP_AMOUNT": "Precipitation",
 
 	"MODULE_CONFIG_CHANGED": "The configuration options for the {MODULE_NAME} module have changed.\nPlease check the documentation.",
 	"MODULE_CONFIG_ERROR": "Error in the {MODULE_NAME} module. {ERROR}",
