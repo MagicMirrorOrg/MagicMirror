@@ -283,7 +283,7 @@ WeatherProvider.register("openweathermap", {
 			}
 
 			weather.precipitationAmount = weather.rain + weather.snow;
-			weather.precipitationProbability = weather.pop * 100;
+			weather.precipitationProbability = forecast.pop ? forecast.pop * 100 : undefined;
 
 			days.push(weather);
 		}
