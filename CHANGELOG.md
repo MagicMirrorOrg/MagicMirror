@@ -32,6 +32,7 @@ _This release is scheduled to be released on 2023-04-01._
 - Update weather tests
 - Changed updatenotification module for MagicMirror repo only: Send only notifications for `master` if there is a tag on a newer commit
 - Update dates in Calendar widgets every minute
+- More callback -> async refactoring
 
 ### Fixed
 
