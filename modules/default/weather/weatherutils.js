@@ -23,6 +23,27 @@ const WeatherUtils = {
 	},
 
 	/**
+	 * Convert a value in a given unit to a string with a converted
+	 * value and a postfix matching the output unit system.
+	 *
+	 * @param {number} value - The value to convert.
+	 * @param {string} valueUnit - The unit the values has. Default is mm.
+	 * @param {string} outputUnit - The unit system (imperial/metric) the return value should have.
+	 * @returns a string with tha value and a unit postfix.
+	 */
+	convertPrecipitationUnit(value, valueUnit, outputUnit) {
+		if (outputUnit === "imperial") {
+			if (valueUnit && valueUnit.toLowerCase() === "cm") value = value * 0.3937007874;
+			else value = value * 0.03937007874;
+			valueUnit = "in";
+		} else {
+			valueUnit = valueUnit ? valueUnit : "mm";
+		}
+
+		return `${value.toFixed(2)} ${valueUnit}`;
+	},
+
+	/**
 	 * Convert temp (from degrees C) into imperial or metric unit depending on
 	 * your config
 	 *

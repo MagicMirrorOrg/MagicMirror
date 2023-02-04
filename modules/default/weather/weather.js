@@ -247,7 +247,7 @@ Module.register("weather", {
 					if (value === null || isNaN(value) || value === 0 || value.toFixed(2) === "0.00") {
 						value = "";
 					} else {
-						value = this.convertPrecipitationUnit(value, valueUnit, this.config.units);
+						value = WeatherUtils.convertPrecipitationUnit(value, valueUnit, this.config.units);
 					}
 				} else if (type === "humidity") {
 					value += "%";
@@ -305,17 +305,5 @@ Module.register("weather", {
 				}
 			}.bind(this)
 		);
-	},
-
-	convertPrecipitationUnit(value, valueUnit, outputUnit) {
-		if (outputUnit === "imperial") {
-			if (valueUnit && valueUnit.toLowerCase() === "cm") value = value * 0.3937007874;
-			else value = value * 0.03937007874;
-			valueUnit = "in";
-		} else {
-			valueUnit = valueUnit ? valueUnit : "mm";
-		}
-
-		return `${value.toFixed(2)} ${valueUnit}`;
 	}
 });
