@@ -210,9 +210,7 @@ WeatherProvider.register("weathergov", {
 		currentWeather.minTemperature = currentWeatherData.minTemperatureLast24Hours.value;
 		currentWeather.maxTemperature = currentWeatherData.maxTemperatureLast24Hours.value;
 		currentWeather.humidity = Math.round(currentWeatherData.relativeHumidity.value);
-		currentWeather.rain = null;
-		currentWeather.snow = null;
-		currentWeather.precipitation = this.convertLength(currentWeatherData.precipitationLastHour.value);
+		currentWeather.precipitationAmount = currentWeatherData.precipitationLastHour.value;
 		if (currentWeatherData.heatIndex.value !== null) {
 			currentWeather.feelsLikeTemp = currentWeatherData.heatIndex.value;
 		} else if (currentWeatherData.windChill.value !== null) {
@@ -240,6 +238,8 @@ WeatherProvider.register("weathergov", {
 	 * fetch forecast information for daily forecast.
 	 */
 	fetchForecastDaily(forecasts) {
+		const precipitationProbabilityRegEx = "Chance of precipitation is ([0-9]+?)%";
+
 		// initial variable declaration
 		const days = [];
 		// variables for temperature range and rain
@@ -248,7 +248,6 @@ WeatherProvider.register("weathergov", {
 		// variable for date
 		let date = "";
 		let weather = new WeatherObject();
-		weather.precipitation = 0;
 
 		for (const forecast of forecasts) {
 			if (date !== moment(forecast.startTime).format("YYYY-MM-DD")) {
@@ -263,7 +262,8 @@ WeatherProvider.register("weathergov", {
 
 				minTemp = [];
 				maxTemp = [];
-				weather.precipitation = 0;
+				const precipitation = new RegExp(precipitationProbabilityRegEx, "g").exec(forecast.detailedForecast);
+				if (precipitation) weather.precipitationProbability = precipitation[1];
 
 				// set new date
 				date = moment(forecast.startTime).format("YYYY-MM-DD");
@@ -293,18 +293,6 @@ WeatherProvider.register("weathergov", {
 		// push weather information to days array
 		days.push(weather);
 		return days.slice(1);
-	},
-
-	/*
-	 * Unit conversions
-	 */
-	// conversion to inches
-	convertLength(meters) {
-		if (this.config.units === "imperial") {
-			return meters * 39.3701;
-		} else {
-			return meters;
-		}
 	},
 
 	/*

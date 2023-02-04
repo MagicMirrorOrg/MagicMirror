@@ -26,7 +26,7 @@
 	"NNW": "NNO",
 
 	"FEELS": "Sensación térmica de {DEGREE}",
-	"PRECIP": "Precipitación",
+	"PRECIP_POP": "Precipitación",
 
 	"MODULE_CONFIG_CHANGED": "Las opciones de configuración para el módulo {MODULE_NAME} han cambiado. \nVerifique la documentación.",
 

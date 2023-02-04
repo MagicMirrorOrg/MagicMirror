@@ -55,6 +55,7 @@ WeatherProvider.register("weatherflow", {
 					weather.date = moment.unix(forecast.day_start_local);
 					weather.minTemperature = forecast.air_temp_low;
 					weather.maxTemperature = forecast.air_temp_high;
+					weather.precipitationProbability = forecast.precip_probability;
 					weather.weatherType = forecast.icon;
 					weather.snow = 0;
 

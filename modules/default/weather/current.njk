@@ -54,16 +54,21 @@
             </div>
         {% endif %}
     </div>
-    {% if (config.showFeelsLike or config.showPrecipitationAmount) and not config.onlyTemp %}
+    {% if (config.showFeelsLike or config.showPrecipitationAmount or config.showPrecipitationProbability) and not config.onlyTemp %}
         <div class="normal medium feelslike">
             {% if config.showFeelsLike %}
                 <span class="dimmed">
                     {{ "FEELS" | translate({DEGREE: current.feelsLike() | roundValue | unit("temperature") | decimalSymbol }) }}
-                </span>
+                </span><br/>
             {% endif %}
-            {% if config.showPrecipitationAmount %}
+            {% if config.showPrecipitationAmount and current.precipitationAmount %}           
                 <span class="dimmed">
-                    {{ "PRECIP" | translate }} {{ current.precipitation | unit("precip") }}
+                    <span class="precipitationLeadText">{{ "PRECIP_AMOUNT" | translate }}</span> {{ current.precipitationAmount | unit("precip", current.precipitationUnits) }}
+                </span><br/>
+            {% endif %}
+            {% if config.showPrecipitationProbability and current.precipitationProbability  %}           
+                <span class="dimmed">
+                    <span class="precipitationLeadText">{{ "PRECIP_POP" | translate }}</span> {{ current.precipitationProbability }}%
                 </span>
             {% endif %}
         </div>

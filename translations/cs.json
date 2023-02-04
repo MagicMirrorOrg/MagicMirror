@@ -26,7 +26,7 @@
 	"NNW": "SSZ",
 
 	"FEELS": "Pocitově {DEGREE}",
-	"PRECIP": "Pravděpodobnost deště",
+	"PRECIP_POP": "Pravděpodobnost deště",
 
 	"NEWSFEED_NO_ITEMS": "Žádné zprávy.",
 

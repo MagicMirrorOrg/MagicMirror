@@ -11,15 +11,14 @@
                     {{ hour.temperature | roundValue | unit("temperature") }}
                 </td>
                 {% if config.showPrecipitationAmount %}
-                    {% if hour.precipitationUnits %}	
-                        <td class="align-right bright precipitation">
-                            {{ hour.precipitation }}{{ hour.precipitationUnits }}
-                        </td>			
-		                {% else %}
-                        <td class="align-right bright precipitation">
-                            {{ hour.precipitation | unit("precip") }}
-                        </td>
-                    {% endif %}
+                    <td class="align-right bright precipitationAmount">
+                        {{ hour.precipitationAmount | unit("precip", hour.precipitationUnits) }}
+                    </td>
+                {% endif %}
+                {% if config.showPrecipitationProbability %}
+                    <td class="align-right bright precipitationProbability">
+                        {{ hour.precipitationProbability }}%
+                    </td>
                 {% endif %}
             </tr>
             {% set currentStep = currentStep + 1 %}

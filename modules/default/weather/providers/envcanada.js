@@ -230,12 +230,7 @@ WeatherProvider.register("envcanada", {
 
 		const foreGroup = ECdoc.querySelectorAll("siteData forecastGroup forecast");
 
-		// For simplicity, we will only accumulate precipitation and will not try to break out
-		// rain vs snow accumulations
-
-		weather.rain = null;
-		weather.snow = null;
-		weather.precipitation = null;
+		weather.precipitationAmount = null;
 
 		//
 		// The EC forecast is held in a 12-element array - Elements 0 to 11 - with each day encompassing
@@ -343,9 +338,7 @@ WeatherProvider.register("envcanada", {
 
 			this.setMinMaxTemps(weather, foreGroup, stepDay, true, currentTemp);
 
-			weather.rain = null;
-			weather.snow = null;
-			weather.precipitation = null;
+			weather.precipitationAmount = null;
 
 			this.setPrecipitation(weather, foreGroup, stepDay);
 
@@ -402,8 +395,7 @@ WeatherProvider.register("envcanada", {
 			const precipLOP = hourGroup[stepHour].querySelector("lop").textContent * 1.0;
 
 			if (precipLOP > 0) {
-				weather.precipitation = precipLOP;
-				weather.precipitationUnits = hourGroup[stepHour].querySelector("lop").getAttribute("units");
+				weather.precipitationProbability = precipLOP;
 			}
 
 			//
@@ -508,27 +500,14 @@ WeatherProvider.register("envcanada", {
 
 	setPrecipitation(weather, foreGroup, today) {
 		if (foreGroup[today].querySelector("precipitation accumulation")) {
-			weather.precipitation = foreGroup[today].querySelector("precipitation accumulation amount").textContent * 1.0;
-
-			weather.precipitationUnits = " " + foreGroup[today].querySelector("precipitation accumulation amount").getAttribute("units");
-
-			if (this.config.units === "imperial") {
-				if (weather.precipitationUnits === " cm") {
-					weather.precipitation = (weather.precipitation * 0.394).toFixed(2);
-					weather.precipitationUnits = " in";
-				}
-				if (weather.precipitationUnits === " mm") {
-					weather.precipitation = (weather.precipitation * 0.0394).toFixed(2);
-					weather.precipitationUnits = " in";
-				}
-			}
+			weather.precipitationAmount = foreGroup[today].querySelector("precipitation accumulation amount").textContent * 1.0;
+			weather.precipitationUnits = foreGroup[today].querySelector("precipitation accumulation amount").getAttribute("units");
 		}
 
 		// Check Today element for POP
 
 		if (foreGroup[today].querySelector("abbreviatedForecast pop").textContent > 0) {
-			weather.precipitation = foreGroup[today].querySelector("abbreviatedForecast pop").textContent;
-			weather.precipitationUnits = foreGroup[today].querySelector("abbreviatedForecast pop").getAttribute("units");
+			weather.precipitationProbability = foreGroup[today].querySelector("abbreviatedForecast pop").textContent;
 		}
 	},
 

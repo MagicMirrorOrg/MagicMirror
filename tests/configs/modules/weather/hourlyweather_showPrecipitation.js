@@ -1,22 +1,21 @@
-/* MagicMirror² Test config default weather
+/* MagicMirror² Test config hourly weather
  *
- * By rejas
+ * By rejas https://github.com/rejas
  * MIT Licensed.
  */
 let config = {
-	units: "imperial",
+	timeFormat: 12,
 
 	modules: [
 		{
 			module: "weather",
 			position: "bottom_bar",
 			config: {
-				type: "forecast",
-				location: "Munich",
+				type: "hourly",
+				location: "Berlin",
 				mockData: '"#####WEATHERDATA#####"',
-				weatherEndpoint: "/forecast/daily",
-				decimalSymbol: "_",
-				showPrecipitationAmount: true
+				showPrecipitationAmount: true,
+				showPrecipitationProbability: true
 			}
 		}
 	]

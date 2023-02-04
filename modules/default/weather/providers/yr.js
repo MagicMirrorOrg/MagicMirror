@@ -65,7 +65,8 @@ WeatherProvider.register("yr", {
 		}
 		const forecastXHours = this.getForecastForXHoursFrom(forecast.data);
 		forecast.weatherType = this.convertWeatherType(forecastXHours.summary.symbol_code, forecast.time);
-		forecast.precipitation = forecastXHours.details?.precipitation_amount;
+		forecast.precipitationAmount = forecastXHours.details?.precipitation_amount;
+		forecast.precipitationProbability = forecastXHours.details?.probability_of_precipitation;
 		forecast.minTemperature = forecastXHours.details?.air_temperature_min;
 		forecast.maxTemperature = forecastXHours.details?.air_temperature_max;
 		return this.getWeatherDataFrom(forecast, stellarData, weatherData.properties.meta.units);
@@ -358,7 +359,7 @@ WeatherProvider.register("yr", {
 	},
 
 	getWeatherDataFrom(forecast, stellarData, units) {
-		const weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
+		const weather = new WeatherObject();
 		const stellarTimesToday = stellarData?.today ? this.getStellarTimesFrom(stellarData.today, moment().format("YYYY-MM-DD")) : undefined;
 		const stellarTimesTomorrow = stellarData?.tomorrow ? this.getStellarTimesFrom(stellarData.tomorrow, moment().add(1, "days").format("YYYY-MM-DD")) : undefined;
 
@@ -370,7 +371,8 @@ WeatherProvider.register("yr", {
 		weather.maxTemperature = forecast.maxTemperature;
 		weather.weatherType = forecast.weatherType;
 		weather.humidity = forecast.data.instant.details.relative_humidity;
-		weather.precipitation = forecast.precipitation;
+		weather.precipitationAmount = forecast.precipitationAmount;
+		weather.precipitationProbability = forecast.precipitationProbability;
 		weather.precipitationUnits = units.precipitation_amount;
 
 		if (stellarTimesToday) {
@@ -554,7 +556,8 @@ WeatherProvider.register("yr", {
 
 		for (const forecast of weatherData.properties.timeseries) {
 			forecast.symbol = forecast.data.next_1_hours?.summary?.symbol_code;
-			forecast.precipitation = forecast.data.next_1_hours?.details?.precipitation_amount;
+			forecast.precipitationAmount = forecast.data.next_1_hours?.details?.precipitation_amount;
+			forecast.precipitationProbability = forecast.data.next_1_hours?.details?.probability_of_precipitation;
 			forecast.minTemperature = forecast.data.next_1_hours?.details?.air_temperature_min;
 			forecast.maxTemperature = forecast.data.next_1_hours?.details?.air_temperature_max;
 			forecast.weatherType = this.convertWeatherType(forecast.symbol, forecast.time);
@@ -599,7 +602,8 @@ WeatherProvider.register("yr", {
 			const forecastXHours = forecast.data.next_12_hours ?? forecast.data.next_6_hours ?? forecast.data.next_1_hours;
 			if (forecastXHours) {
 				forecast.symbol = forecastXHours.summary?.symbol_code;
-				forecast.precipitation = forecastXHours.details?.precipitation_amount;
+				forecast.precipitationAmount = forecastXHours.details?.precipitation_amount ?? forecast.data.next_6_hours?.details?.precipitation_amount; // 6 hours is likely to have precipitation amount even if 12 hours does not
+				forecast.precipitationProbability = forecastXHours.details?.probability_of_precipitation;
 				forecast.minTemperature = minTemperature;
 				forecast.maxTemperature = maxTemperature;
 

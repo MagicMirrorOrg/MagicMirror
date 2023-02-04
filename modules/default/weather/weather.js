@@ -26,6 +26,7 @@ Module.register("weather", {
 		showPeriod: true,
 		showPeriodUpper: false,
 		showPrecipitationAmount: false,
+		showPrecipitationProbability: false,
 		showSun: true,
 		showWindDirection: true,
 		showWindDirectionAsArrow: false,
@@ -230,7 +231,7 @@ Module.register("weather", {
 
 		this.nunjucksEnvironment().addFilter(
 			"unit",
-			function (value, type) {
+			function (value, type, valueUnit) {
 				if (type === "temperature") {
 					value = this.roundValue(WeatherUtils.convertTemp(value, this.config.tempUnits)) + "°";
 					if (this.config.degreeLabel) {
@@ -246,11 +247,7 @@ Module.register("weather", {
 					if (value === null || isNaN(value) || value === 0 || value.toFixed(2) === "0.00") {
 						value = "";
 					} else {
-						if (this.config.weatherProvider === "ukmetoffice" || this.config.weatherProvider === "ukmetofficedatahub") {
-							value += "%";
-						} else {
-							value = `${value.toFixed(2)} ${this.config.units === "imperial" ? "in" : "mm"}`;
-						}
+						value = WeatherUtils.convertPrecipitationUnit(value, valueUnit, this.config.units);
 					}
 				} else if (type === "humidity") {
 					value += "%";

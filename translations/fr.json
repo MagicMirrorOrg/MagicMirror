@@ -26,7 +26,7 @@
 	"NNW": "NNO",
 
 	"FEELS": "Ressenti {DEGREE}",
-	"PRECIP": "Probabilité de précipitations",
+	"PRECIP_POP": "Probabilité de précipitations",
 
 	"MODULE_CONFIG_CHANGED": "Les options de configuration du module {MODULE_NAME} ont changé.\nVeuillez consulter la documentation.",
 	"MODULE_CONFIG_ERROR": "Erreur dans le module {MODULE_NAME}. {ERROR}",

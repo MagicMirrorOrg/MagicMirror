@@ -81,16 +81,29 @@ describe("Weather module: Weather Forecast", () => {
 		});
 	});
 
-	describe("Forecast weather units", () => {
+	describe("Forecast weather with imperial units", () => {
 		beforeAll(async () => {
 			await weatherFunc.startApp("tests/configs/modules/weather/forecastweather_units.js", {});
 		});
 
-		const temperatures = ["75_9°", "69_8°", "73_2°", "74_1°", "69_1°"];
-		for (const [index, temp] of temperatures.entries()) {
-			it("should render custom decimalSymbol = '_' for temp " + temp, async () => {
-				await weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(3)`, temp);
-			});
-		}
+		describe("Temperature units", () => {
+			const temperatures = ["75_9°", "69_8°", "73_2°", "74_1°", "69_1°"];
+			for (const [index, temp] of temperatures.entries()) {
+				it("should render custom decimalSymbol = '_' for temp " + temp, async () => {
+					await weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(3)`, temp);
+				});
+			}
+		});
+
+		describe("Precipitation units", () => {
+			const precipitations = [undefined, "0.10 in"];
+			for (const [index, precipitation] of precipitations.entries()) {
+				if (precipitation) {
+					it("should render precipitation value " + precipitation, async () => {
+						await weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td.precipitationAmount`, precipitation);
+					});
+				}
+			}
+		});
 	});
 });
