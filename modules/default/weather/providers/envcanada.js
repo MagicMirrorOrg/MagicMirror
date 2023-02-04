@@ -395,8 +395,7 @@ WeatherProvider.register("envcanada", {
 			const precipLOP = hourGroup[stepHour].querySelector("lop").textContent * 1.0;
 
 			if (precipLOP > 0) {
-				weather.precipitationAmount = precipLOP;
-				weather.precipitationUnits = hourGroup[stepHour].querySelector("lop").getAttribute("units");
+				weather.precipitationProbability = precipLOP;
 			}
 
 			//
