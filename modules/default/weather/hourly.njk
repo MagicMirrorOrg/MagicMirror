@@ -12,10 +12,8 @@
                 </td>
                  {% if config.showPrecipitation and (hour.precipitationAmount or hour.precipitationProbability) %}
                     <td class="align-right bright precipitation">    
-                        {% if hour.precipitationUnits and hour.precipitationAmount %}  
-                            <span class="precipitationAmount">{{ hour.precipitationAmount }}{{ hour.precipitationUnits }}</span>
-                        {% elif hour.precipitationAmount %}
-                            <span class="precipitationAmount">{{ hour.precipitationAmount | unit("precip") }}</span>
+                        {% if hour.precipitationAmount %}
+                            <span class="precipitationAmount">{{ hour.precipitationAmount | unit("precip", hour.precipitationUnits) }}</span>
                         {% endif %}
                         {% if hour.precipitationAmount and hour.precipitationProbability %}
                             <span class="precipitationProbability">({{ hour.precipitationProbability }}%)</span>
@@ -25,15 +23,9 @@
                     </td>			
                 {% endif %}
                 {% if config.showPrecipitationAmount %}
-                    {% if hour.precipitationUnits %}	
-                        <td class="align-right bright precipitation">
-                            <span class="precipitationAmount">{{ hour.precipitationAmount }}{{ hour.precipitationUnits }}</span>
-                        </td>			
-		                {% else %}
-                        <td class="align-right bright precipitation">
-                            <span class="precipitationAmount">{{ hour.precipitationAmount | unit("precip") }}</span>
-                        </td>
-                    {% endif %}
+                    <td class="align-right bright precipitation">
+                        <span class="precipitationAmount">{{ hour.precipitationAmount | unit("precip", hour.precipitationUnits) }}</span>
+                    </td>
                 {% endif %}
                 {% if config.showPrecipitationProbability %}
                     <td class="align-right bright precipitation">

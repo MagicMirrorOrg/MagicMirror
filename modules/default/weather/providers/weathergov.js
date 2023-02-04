@@ -210,7 +210,7 @@ WeatherProvider.register("weathergov", {
 		currentWeather.minTemperature = currentWeatherData.minTemperatureLast24Hours.value;
 		currentWeather.maxTemperature = currentWeatherData.maxTemperatureLast24Hours.value;
 		currentWeather.humidity = Math.round(currentWeatherData.relativeHumidity.value);
-		currentWeather.precipitationAmount = this.convertLength(currentWeatherData.precipitationLastHour.value);
+		currentWeather.precipitationAmount = currentWeatherData.precipitationLastHour.value;
 		if (currentWeatherData.heatIndex.value !== null) {
 			currentWeather.feelsLikeTemp = currentWeatherData.heatIndex.value;
 		} else if (currentWeatherData.windChill.value !== null) {
@@ -293,18 +293,6 @@ WeatherProvider.register("weathergov", {
 		// push weather information to days array
 		days.push(weather);
 		return days.slice(1);
-	},
-
-	/*
-	 * Unit conversions
-	 */
-	// conversion to inches
-	convertLength(meters) {
-		if (this.config.units === "imperial") {
-			return meters * 39.3701;
-		} else {
-			return meters;
-		}
 	},
 
 	/*

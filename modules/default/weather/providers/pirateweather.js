@@ -94,13 +94,8 @@ WeatherProvider.register("pirateweather", {
 			weather.rain = 0;
 
 			let precip = 0;
-			// The API will return centimeters if units is 'si' and will return inches for 'us'
 			if (forecast.hasOwnProperty("precipAccumulation")) {
-				if (this.config.units === "imperial" && !isNaN(forecast.precipAccumulation)) {
-					precip = forecast.precipAccumulation;
-				} else if (!isNaN(forecast.precipAccumulation)) {
-					precip = forecast.precipAccumulation * 10;
-				}
+				precip = forecast.precipAccumulation * 10;
 			}
 
 			weather.precipitationAmount = precip;

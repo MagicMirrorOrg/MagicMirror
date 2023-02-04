@@ -501,19 +501,7 @@ WeatherProvider.register("envcanada", {
 	setPrecipitation(weather, foreGroup, today) {
 		if (foreGroup[today].querySelector("precipitation accumulation")) {
 			weather.precipitationAmount = foreGroup[today].querySelector("precipitation accumulation amount").textContent * 1.0;
-
-			weather.precipitationUnits = " " + foreGroup[today].querySelector("precipitation accumulation amount").getAttribute("units");
-
-			if (this.config.units === "imperial") {
-				if (weather.precipitationUnits === " cm") {
-					weather.precipitationAmount = (weather.precipitationAmount * 0.394).toFixed(2);
-					weather.precipitationUnits = " in";
-				}
-				if (weather.precipitationUnits === " mm") {
-					weather.precipitationAmount = (weather.precipitationAmount * 0.0394).toFixed(2);
-					weather.precipitationUnits = " in";
-				}
-			}
+			weather.precipitationUnits = foreGroup[today].querySelector("precipitation accumulation amount").getAttribute("units");
 		}
 
 		// Check Today element for POP

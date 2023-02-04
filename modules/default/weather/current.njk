@@ -65,7 +65,7 @@
                 <span class="dimmed">
                     <span class="precipitationLeadText">{{ "PRECIP" | translate }}</span>
                     {% if current.precipitationAmount %}
-                        <span class="precipitationAmount">{{ current.precipitationAmount | unit("precip") }}</span>
+                        <span class="precipitationAmount">{{ current.precipitationAmount | unit("precip", current.precipitationUnits) }}</span>
                         {% if current.precipitationProbability %}
                             <span class="precipitationProbability">({{ current.precipitationProbability }}%)</span>
                         {% endif %}
@@ -75,7 +75,7 @@
                 </span>
             {% elif config.showPrecipitationAmount %}           
                 <span class="dimmed">
-                    <span class="precipitationLeadText">{{ "PRECIP_AMOUNT" | translate }}</span> {{ current.precipitationAmount | unit("precip") }}
+                    <span class="precipitationLeadText">{{ "PRECIP_AMOUNT" | translate }}</span> {{ current.precipitationAmount | unit("precip", current.precipitationUnits) }}
                 </span>
             {% elif config.showPrecipitationProbability %}           
                 <span class="dimmed">

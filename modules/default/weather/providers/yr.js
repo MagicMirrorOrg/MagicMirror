@@ -359,7 +359,7 @@ WeatherProvider.register("yr", {
 	},
 
 	getWeatherDataFrom(forecast, stellarData, units) {
-		const weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits, this.config.useKmh);
+		const weather = new WeatherObject();
 		const stellarTimesToday = stellarData?.today ? this.getStellarTimesFrom(stellarData.today, moment().format("YYYY-MM-DD")) : undefined;
 		const stellarTimesTomorrow = stellarData?.tomorrow ? this.getStellarTimesFrom(stellarData.tomorrow, moment().add(1, "days").format("YYYY-MM-DD")) : undefined;
 

@@ -367,7 +367,7 @@ WeatherProvider.register("openmeteo", {
 		 * `current_weather` object.
 		 */
 		const h = moment().hour();
-		const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+		const currentWeather = new WeatherObject();
 
 		currentWeather.date = weather.current_weather.time;
 		currentWeather.windSpeed = weather.current_weather.windspeed;
@@ -391,7 +391,7 @@ WeatherProvider.register("openmeteo", {
 		const days = [];
 
 		weathers.daily.forEach((weather, i) => {
-			const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+			const currentWeather = new WeatherObject();
 
 			currentWeather.date = weather.time;
 			currentWeather.windSpeed = weather.windspeed_10m_max;
@@ -422,7 +422,7 @@ WeatherProvider.register("openmeteo", {
 				return;
 			}
 
-			const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+			const currentWeather = new WeatherObject();
 			const h = Math.ceil((i + 1) / 24) - 1;
 
 			currentWeather.date = weather.time;
