@@ -29,7 +29,7 @@ const WeatherUtils = {
 	 * @param {number} value - The value to convert.
 	 * @param {string} valueUnit - The unit the values has. Default is mm.
 	 * @param {string} outputUnit - The unit system (imperial/metric) the return value should have.
-	 * @returns a string with tha value and a unit postfix.
+	 * @returns {string} - A string with tha value and a unit postfix.
 	 */
 	convertPrecipitationUnit(value, valueUnit, outputUnit) {
 		if (outputUnit === "imperial") {
