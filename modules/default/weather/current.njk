@@ -54,30 +54,19 @@
             </div>
         {% endif %}
     </div>
-    {% if (config.showFeelsLike or config.showPrecipitation or config.showPrecipitationAmount or config.showPrecipitationProbability) and not config.onlyTemp %}
+    {% if (config.showFeelsLike or config.showPrecipitationAmount or config.showPrecipitationProbability) and not config.onlyTemp %}
         <div class="normal medium feelslike">
             {% if config.showFeelsLike %}
                 <span class="dimmed">
                     {{ "FEELS" | translate({DEGREE: current.feelsLike() | roundValue | unit("temperature") | decimalSymbol }) }}
-                </span>
+                </span><br/>
             {% endif %}
-            {% if config.showPrecipitation and (current.precipitationAmount or current.precipitationProbability) %}
-                <span class="dimmed">
-                    <span class="precipitationLeadText">{{ "PRECIP" | translate }}</span>
-                    {% if current.precipitationAmount %}
-                        <span class="precipitationAmount">{{ current.precipitationAmount | unit("precip", current.precipitationUnits) }}</span>
-                        {% if current.precipitationProbability %}
-                            <span class="precipitationProbability">({{ current.precipitationProbability }}%)</span>
-                        {% endif %}
-                    {% elif current.precipitationProbability %}
-                        <span class="precipitationProbability">{{ current.precipitationProbability }}%</span>
-                    {% endif %}
-                </span>
-            {% elif config.showPrecipitationAmount %}           
+            {% if config.showPrecipitationAmount %}           
                 <span class="dimmed">
                     <span class="precipitationLeadText">{{ "PRECIP_AMOUNT" | translate }}</span> {{ current.precipitationAmount | unit("precip", current.precipitationUnits) }}
-                </span>
-            {% elif config.showPrecipitationProbability %}           
+                </span><br/>
+            {% endif %}
+            {% if config.showPrecipitationProbability %}           
                 <span class="dimmed">
                     <span class="precipitationLeadText">{{ "PRECIP_POP" | translate }}</span> {{ current.precipitationProbability }}%
                 </span>

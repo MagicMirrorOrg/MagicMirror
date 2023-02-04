@@ -100,7 +100,7 @@ describe("Weather module: Weather Forecast", () => {
 			for (const [index, precipitation] of precipitations.entries()) {
 				if (precipitation) {
 					it("should render precipitation value " + precipitation, async () => {
-						await weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td.precipitation span.precipitationAmount`, precipitation);
+						await weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td.precipitationAmount`, precipitation);
 					});
 				}
 			}

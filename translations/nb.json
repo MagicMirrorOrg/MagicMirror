@@ -26,9 +26,8 @@
 	"NNW": "NNV",
 
 	"FEELS": "Føles som {DEGREE}",
-	"PRECIP": "Nedbør",
-	"PRECIP_POP": "Nedbør",
-	"PRECIP_AMOUNT": "Nedbør",
+	"PRECIP_POP": "Sannsynlighet for nedbør",
+	"PRECIP_AMOUNT": "Nedbørsmengde",
 
 	"UPDATE_NOTIFICATION": "MagicMirror²-oppdatering er tilgjengelig.",
 	"UPDATE_NOTIFICATION_MODULE": "Oppdatering tilgjengelig for modulen {MODULE_NAME}.",

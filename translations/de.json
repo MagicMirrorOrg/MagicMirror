@@ -26,7 +26,6 @@
 	"NNW": "NNW",
 
 	"FEELS": "Gefühlt {DEGREE}",
-	"PRECIP": "Niederschlag",
 	"PRECIP_POP": "Niederschlagswahrscheinlichkeit",
 	"PRECIP_AMOUNT": "Niederschlagsmenge",
 

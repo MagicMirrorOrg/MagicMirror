@@ -16,7 +16,7 @@ let config = {
 				mockData: '"#####WEATHERDATA#####"',
 				weatherEndpoint: "/forecast/daily",
 				decimalSymbol: "_",
-				showPrecipitation: true
+				showPrecipitationAmount: true
 			}
 		}
 	]

@@ -44,18 +44,18 @@ describe("Weather module: Weather Hourly Forecast", () => {
 			for (const [index, amount] of amounts.entries()) {
 				if (amount) {
 					it(`should render precipitation amount ${amount}`, async () => {
-						await weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td.precipitation span.precipitationAmount`, amount);
+						await weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td.precipitationAmount`, amount);
 					});
 				}
 			}
 		});
 
 		describe("Shows precipitation propability", () => {
-			const propabilities = [undefined, undefined, "12%", "(36%)", "(44%)"];
+			const propabilities = [undefined, undefined, "12%", "36%", "44%"];
 			for (const [index, pop] of propabilities.entries()) {
 				if (pop) {
 					it(`should render propability ${pop}`, async () => {
-						await weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td.precipitation span.precipitationProbability`, pop);
+						await weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td.precipitationProbability`, pop);
 					});
 				}
 			}

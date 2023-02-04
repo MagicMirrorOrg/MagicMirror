@@ -25,7 +25,6 @@ Module.register("weather", {
 		showIndoorTemperature: false,
 		showPeriod: true,
 		showPeriodUpper: false,
-		showPrecipitation: false,
 		showPrecipitationAmount: false,
 		showPrecipitationProbability: false,
 		showSun: true,

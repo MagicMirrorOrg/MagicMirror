@@ -10,26 +10,14 @@
                 <td class="align-right bright">
                     {{ hour.temperature | roundValue | unit("temperature") }}
                 </td>
-                 {% if config.showPrecipitation and (hour.precipitationAmount or hour.precipitationProbability) %}
-                    <td class="align-right bright precipitation">    
-                        {% if hour.precipitationAmount %}
-                            <span class="precipitationAmount">{{ hour.precipitationAmount | unit("precip", hour.precipitationUnits) }}</span>
-                        {% endif %}
-                        {% if hour.precipitationAmount and hour.precipitationProbability %}
-                            <span class="precipitationProbability">({{ hour.precipitationProbability }}%)</span>
-                        {% elif hour.precipitationProbability %}
-                            <span class="precipitationProbability">{{ hour.precipitationProbability }}%</span>
-                        {% endif %}
-                    </td>			
-                {% endif %}
                 {% if config.showPrecipitationAmount %}
-                    <td class="align-right bright precipitation">
-                        <span class="precipitationAmount">{{ hour.precipitationAmount | unit("precip", hour.precipitationUnits) }}</span>
+                    <td class="align-right bright precipitationAmount">
+                        {{ hour.precipitationAmount | unit("precip", hour.precipitationUnits) }}
                     </td>
                 {% endif %}
                 {% if config.showPrecipitationProbability %}
-                    <td class="align-right bright precipitation">
-                        <span class="precipitationProbability">{{ hour.precipitationProbability }}%</span>
+                    <td class="align-right bright precipitationProbability">
+                        {{ hour.precipitationProbability }}%
                     </td>
                 {% endif %}
             </tr>
