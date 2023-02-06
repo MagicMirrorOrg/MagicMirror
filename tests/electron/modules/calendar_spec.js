@@ -7,11 +7,8 @@ describe("Calendar module", () => {
 	 * @param {string} cssClass css selector
 	 */
 	const doTest = async (cssClass) => {
-		await helpers.getElement(".calendar");
-		await helpers.getElement(".module-content");
-		const events = await global.page.locator(".event");
-		const elem = await events.locator(cssClass);
-		expect(elem).not.toBe(null);
+		let elem = await helpers.getElement(".calendar .module-content .event" + cssClass);
+		expect(await elem.isVisible()).toBe(true);
 	};
 
 	afterEach(async () => {
@@ -25,7 +22,7 @@ describe("Calendar module", () => {
 		});
 
 		it("has css class tomorrow", async () => {
-			await helpers.startApplication("tests/configs/modules/calendar/custom.js", "31 Dez 2029 12:30:00 GMT");
+			await helpers.startApplication("tests/configs/modules/calendar/custom.js", "31 Dec 2029 12:30:00 GMT");
 			await doTest(".tomorrow");
 		});
 	});

@@ -29,7 +29,7 @@ _This release is scheduled to be released on 2023-04-01._
 - Update issue template and contributing doc
 - The weather modules clearly separates precipation amount and probability (risk of rain/snow)
   - This requires all providers that only supports probability to change the config from `showPrecipitationAmount` to `showPrecipitationProbability`.
-- Update weather tests
+- Update tests for weather and calendar module
 - Changed updatenotification module for MagicMirror repo only: Send only notifications for `master` if there is a tag on a newer commit
 - Update dates in Calendar widgets every minute
 

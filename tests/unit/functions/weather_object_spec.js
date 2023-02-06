@@ -49,6 +49,11 @@ describe("WeatherObject", () => {
 });
 
 describe("WeatherUtils", () => {
+	it("should convert windspeed correctly from mps to beaufort", () => {
+		expect(Math.round(WeatherUtils.convertWind(5, "beaufort"))).toBe(3);
+		expect(Math.round(WeatherUtils.convertWind(42, "beaufort"))).toBe(12);
+	});
+
 	it("should convert windspeed correctly from mph to mps", () => {
 		expect(Math.round(WeatherUtils.convertWindToMetric(93.951324266285))).toBe(42);
 	});
@@ -63,5 +68,9 @@ describe("WeatherUtils", () => {
 
 	it("should return a calculated feelsLike info", () => {
 		expect(WeatherUtils.calculateFeelsLike(0, 20, 40)).toBe(-9.444444444444445);
+	});
+
+	it("should return a calculated feelsLike info", () => {
+		expect(WeatherUtils.calculateFeelsLike(30, 0, 60)).toBe(32.8320322777777);
 	});
 });
