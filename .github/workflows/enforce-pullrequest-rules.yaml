@@ -1,0 +1,26 @@
+# This workflow enforces on every pull request:
+# - the update of our CHANGELOG.md file
+# - that the PR is based against develo and not master
+
+name: "Enforce pullrequest rules"
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Enforce changelog
+        uses: dangoslen/changelog-enforcer@v3
+        with:
+          changeLogPath: "CHANGELOG.md"
+          skipLabels: "Skip Changelog"
+
+      - name: Enforce develop branch
+        uses: a-b-r-o-w-n/check-base-branch-action@v1
+        with:
+          protected-branches: "master"
+          default-branch: "develop"
