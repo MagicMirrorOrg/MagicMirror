@@ -24,8 +24,8 @@
 	"NW": "ต.ต.น.",
 	"NNW": "น.ต.ต.น.",
 
-	"FEELS": "รู้สึกเหมือน {DEGREE}",
-	"PRECIP": "ความแม่นยำ",
+	"PRECIP_POP": "ความแม่นยำ",
+	"PRECIP_AMOUNT": "ปริมาณน้ำฝน",
 
 	"MODULE_CONFIG_CHANGED": "ตัวเลือกการกำหนดค่าสำหรับโมดูล {MODULE_NAME} มีการเปลี่ยนแปลง\nโปรดตรวจสอบเอกสารประกอบ",
 	"MODULE_CONFIG_ERROR": "เกิดข้อผิดพลาดในโมดูล {MODULE_NAME} {ERROR}",
