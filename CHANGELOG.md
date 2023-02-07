@@ -65,6 +65,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Added Yr as a weather provider
 - Added config options "ignoreXOriginHeader" and "ignoreContentSecurityPolicy"
 - Added thai language
+- Added workflow rule to make sure PRs are based against develop
 
 ### Removed
 
