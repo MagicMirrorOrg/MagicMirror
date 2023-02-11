@@ -240,6 +240,17 @@ Module.register("calendar", {
 				}
 			}
 
+			const eventContainer = document.createElement("table");
+			eventContainer.className = "event-container";
+
+			if (this.config.coloredBackground) {
+				eventContainer.style.backgroundColor = this.bgColorForUrl(event.url);
+			}
+
+			if (this.config.coloredBorder) {
+				eventContainer.style.borderColor = this.colorForUrl(event.url);
+			}
+
 			const eventWrapper = document.createElement("tr");
 
 			if (this.config.coloredText) {
