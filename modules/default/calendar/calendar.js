@@ -67,7 +67,7 @@ Module.register("calendar", {
 		coloredSymbol: false,
 		coloredBackground: false,
 		limitDaysNeverSkip: false,
-		flipDateHeaderTitle: false,
+		flipDateHeaderTitle: false
 	},
 
 	requiresVersion: "2.1.0",
@@ -230,7 +230,7 @@ Module.register("calendar", {
 					lastSeenDate = dateAsString;
 				}
 			}
-			
+
 			const eventWrapper = document.createElement("tr");
 
 			if (this.config.coloredText) {
@@ -312,8 +312,7 @@ Module.register("calendar", {
 			}
 
 			if (this.config.timeFormat === "dateheaders") {
-				if (this.config.flipDateHeaderTitle) 
-					eventWrapper.appendChild(titleWrapper);
+				if (this.config.flipDateHeaderTitle) eventWrapper.appendChild(titleWrapper);
 
 				if (event.fullDayEvent) {
 					titleWrapper.colSpan = "2";
@@ -332,11 +331,9 @@ Module.register("calendar", {
 
 					eventWrapper.appendChild(timeWrapper);
 
-					if (!this.config.flipDateHeaderTitle) 
-						titleWrapper.classList.add("align-right");
+					if (!this.config.flipDateHeaderTitle) titleWrapper.classList.add("align-right");
 				}
-				if (!this.config.flipDateHeaderTitle)
-					eventWrapper.appendChild(titleWrapper);
+				if (!this.config.flipDateHeaderTitle) eventWrapper.appendChild(titleWrapper);
 			} else {
 				const timeWrapper = document.createElement("td");
 
@@ -527,18 +524,18 @@ Module.register("calendar", {
 				const event = JSON.parse(JSON.stringify(calendar[e])); // clone object
 
 				if (this.config.hidePrivate && event.class === "PRIVATE") {
-						// do not add the current event, skip it
-						continue;
-					}
+					// do not add the current event, skip it
+					continue;
+				}
 				if (limitNumberOfEntries) {
 					if (event.endDate < now) {
 						continue;
 					}
 					if (this.config.hideOngoing && event.startDate < now) {
 						continue;
-				}
-				if (this.listContainsEvent(events, event)) {
-					continue;
+					}
+					if (this.listContainsEvent(events, event)) {
+						continue;
 					}
 					if (--remainingEntries < 0) {
 						break;
@@ -605,7 +602,7 @@ Module.register("calendar", {
 				// check if we already are showing max unique days
 				if (eventDate > lastDate) {
 					// if the only entry in the first day is a full day event that day is not counted as unique
-					if (!this.config.limitDaysNeverSkip && (newEvents.length === 1 && days === 1 && newEvents[0].fullDayEvent)) {
+					if (!this.config.limitDaysNeverSkip && newEvents.length === 1 && days === 1 && newEvents[0].fullDayEvent) {
 						days--;
 					}
 					days++;
@@ -751,10 +748,9 @@ Module.register("calendar", {
 	 * @param {string} url The calendar url
 	 * @returns {string} The color
 	 */
-	 bgColorForUrl: function (url) {
+	bgColorForUrl: function (url) {
 		return this.getCalendarProperty(url, "bgColor", "#fff");
 	},
-	
 
 	/**
 	 * Retrieves the count title for a specific calendar url.
@@ -772,9 +768,9 @@ Module.register("calendar", {
 	 * @param {string} url The calendar url
 	 * @returns {number} The maximum entry count
 	 */
-		maximumEntriesForUrl: function (url) {
-			return this.getCalendarProperty(url, "maximumEntries", this.config.maximumEntries);
-		},
+	maximumEntriesForUrl: function (url) {
+		return this.getCalendarProperty(url, "maximumEntries", this.config.maximumEntries);
+	},
 
 	/**
 	 * Helper method to retrieve the property for a specific calendar url.
