@@ -61,7 +61,13 @@ Module.register("calendar", {
 		sliceMultiDayEvents: false,
 		broadcastPastEvents: false,
 		nextDaysRelative: false,
-		selfSignedCert: false
+		selfSignedCert: false,
+		coloredText: false,
+		coloredBorder: false,
+		coloredSymbol: false,
+		coloredBackground: false,
+		limitDaysNeverSkip: false,
+		flipDateHeaderTitle: false,
 	},
 
 	requiresVersion: "2.1.0",
@@ -86,8 +92,6 @@ Module.register("calendar", {
 
 	// Override start method.
 	start: function () {
-		const ONE_MINUTE = 60 * 1000;
-
 		Log.info("Starting module: " + this.name);
 
 		// Set locale.
@@ -133,14 +137,6 @@ Module.register("calendar", {
 			// fetcher till cycle
 			this.addCalendar(calendar.url, calendar.auth, calendarConfig);
 		});
-
-		// Refresh the DOM every minute if needed: When using relative date format for events that start
-		// or end in less than an hour, the date shows minute granularity and we want to keep that accurate.
-		setTimeout(() => {
-			setInterval(() => {
-				this.updateDom(1);
-			}, ONE_MINUTE);
-		}, ONE_MINUTE - (new Date() % ONE_MINUTE));
 	},
 
 	// Override socket notification handler.
@@ -214,7 +210,7 @@ Module.register("calendar", {
 			if (this.config.timeFormat === "dateheaders") {
 				if (lastSeenDate !== dateAsString) {
 					const dateRow = document.createElement("tr");
-					dateRow.className = "normal";
+					dateRow.className = "dateheader normal";
 					if (event.today) dateRow.className += " today";
 					else if (event.tomorrow) dateRow.className += " tomorrow";
 
@@ -234,10 +230,10 @@ Module.register("calendar", {
 					lastSeenDate = dateAsString;
 				}
 			}
-
+			
 			const eventWrapper = document.createElement("tr");
 
-			if (this.config.colored && !this.config.coloredSymbolOnly) {
+			if (this.config.coloredText) {
 				eventWrapper.style.cssText = "color:" + this.colorForUrl(event.url);
 			}
 
@@ -248,7 +244,7 @@ Module.register("calendar", {
 			const symbolWrapper = document.createElement("td");
 
 			if (this.config.displaySymbol) {
-				if (this.config.colored && this.config.coloredSymbolOnly) {
+				if (this.config.coloredSymbol) {
 					symbolWrapper.style.cssText = "color:" + this.colorForUrl(event.url);
 				}
 
@@ -281,7 +277,7 @@ Module.register("calendar", {
 					const thisYear = new Date(parseInt(event.startDate)).getFullYear(),
 						yearDiff = thisYear - event.firstYear;
 
-					repeatingCountTitle = ", " + yearDiff + repeatingCountTitle;
+					repeatingCountTitle = ", " + yearDiff + ". " + repeatingCountTitle;
 				}
 			}
 
@@ -292,11 +288,11 @@ Module.register("calendar", {
 						let needle = new RegExp(this.config.customEvents[ev].keyword, "gi");
 						if (needle.test(event.title)) {
 							// Respect parameter ColoredSymbolOnly also for custom events
-							if (!this.config.coloredSymbolOnly) {
+							if (this.config.coloredText) {
 								eventWrapper.style.cssText = "color:" + this.config.customEvents[ev].color;
 								titleWrapper.style.cssText = "color:" + this.config.customEvents[ev].color;
 							}
-							if (this.config.displaySymbol) {
+							if (this.config.displaySymbol && this.config.coloredSymbol) {
 								symbolWrapper.style.cssText = "color:" + this.config.customEvents[ev].color;
 							}
 							break;
@@ -309,32 +305,38 @@ Module.register("calendar", {
 
 			const titleClass = this.titleClassForUrl(event.url);
 
-			if (!this.config.colored) {
+			if (!this.config.coloredText) {
 				titleWrapper.className = "title bright " + titleClass;
 			} else {
 				titleWrapper.className = "title " + titleClass;
 			}
 
 			if (this.config.timeFormat === "dateheaders") {
+				if (this.config.flipDateHeaderTitle) 
+					eventWrapper.appendChild(titleWrapper);
+
 				if (event.fullDayEvent) {
 					titleWrapper.colSpan = "2";
 					titleWrapper.classList.add("align-left");
 				} else {
 					const timeWrapper = document.createElement("td");
-					timeWrapper.className = "time light align-left " + this.timeClassForUrl(event.url);
+					timeWrapper.className = "time light " + (this.config.flipDateHeaderTitle ? "align-right " : "align-left ") + this.timeClassForUrl(event.url);
 					timeWrapper.style.paddingLeft = "2px";
+					timeWrapper.style.textAlign = this.config.flipDateHeaderTitle ? "right" : "left";
 					timeWrapper.innerHTML = moment(event.startDate, "x").format("LT");
 
 					// Add endDate to dataheaders if showEnd is enabled
 					if (this.config.showEnd) {
-						timeWrapper.innerHTML += " - " + moment(event.endDate, "x").format("LT");
+						timeWrapper.innerHTML += " - " + this.capFirst(moment(event.endDate, "x").format("LT"));
 					}
 
 					eventWrapper.appendChild(timeWrapper);
-					titleWrapper.classList.add("align-right");
-				}
 
-				eventWrapper.appendChild(titleWrapper);
+					if (!this.config.flipDateHeaderTitle) 
+						titleWrapper.classList.add("align-right");
+				}
+				if (!this.config.flipDateHeaderTitle)
+					eventWrapper.appendChild(titleWrapper);
 			} else {
 				const timeWrapper = document.createElement("td");
 
@@ -423,7 +425,7 @@ Module.register("calendar", {
 				eventWrapper.appendChild(timeWrapper);
 			}
 
-			wrapper.appendChild(eventWrapper);
+			eventContainer.appendChild(eventWrapper);
 
 			// Create fade effect.
 			if (index >= startFade) {
@@ -449,7 +451,7 @@ Module.register("calendar", {
 					descCell.innerHTML = this.titleTransform(event.location, this.config.locationTitleReplace, this.config.wrapLocationEvents, this.config.maxLocationTitleLength, this.config.maxEventTitleLines);
 					locationRow.appendChild(descCell);
 
-					wrapper.appendChild(locationRow);
+					eventContainer.appendChild(locationRow);
 
 					if (index >= startFade) {
 						currentFadeStep = index - startFade;
@@ -457,6 +459,7 @@ Module.register("calendar", {
 					}
 				}
 			}
+			wrapper.appendChild(eventContainer);
 		});
 
 		return wrapper;
@@ -524,18 +527,18 @@ Module.register("calendar", {
 				const event = JSON.parse(JSON.stringify(calendar[e])); // clone object
 
 				if (this.config.hidePrivate && event.class === "PRIVATE") {
-					// do not add the current event, skip it
-					continue;
-				}
+						// do not add the current event, skip it
+						continue;
+					}
 				if (limitNumberOfEntries) {
 					if (event.endDate < now) {
 						continue;
 					}
 					if (this.config.hideOngoing && event.startDate < now) {
 						continue;
-					}
-					if (this.listContainsEvent(events, event)) {
-						continue;
+				}
+				if (this.listContainsEvent(events, event)) {
+					continue;
 					}
 					if (--remainingEntries < 0) {
 						break;
@@ -602,7 +605,7 @@ Module.register("calendar", {
 				// check if we already are showing max unique days
 				if (eventDate > lastDate) {
 					// if the only entry in the first day is a full day event that day is not counted as unique
-					if (newEvents.length === 1 && days === 1 && newEvents[0].fullDayEvent) {
+					if (!this.config.limitDaysNeverSkip && (newEvents.length === 1 && days === 1 && newEvents[0].fullDayEvent)) {
 						days--;
 					}
 					days++;
@@ -675,9 +678,7 @@ Module.register("calendar", {
 			if (typeof ev.symbol !== "undefined" && ev.symbol !== "") {
 				let needle = new RegExp(ev.keyword, "gi");
 				if (needle.test(event.title)) {
-					// Get the default prefix for this class name and add to the custom symbol provided
-					const className = this.getCalendarProperty(event.url, "symbolClassName", this.config.defaultSymbolClassName);
-					symbols[0] = className + ev.symbol;
+					symbols[0] = ev.symbol;
 					break;
 				}
 			}
@@ -745,6 +746,17 @@ Module.register("calendar", {
 	},
 
 	/**
+	 * Retrieves the bgColor for a specific calendar url.
+	 *
+	 * @param {string} url The calendar url
+	 * @returns {string} The color
+	 */
+	 bgColorForUrl: function (url) {
+		return this.getCalendarProperty(url, "bgColor", "#fff");
+	},
+	
+
+	/**
 	 * Retrieves the count title for a specific calendar url.
 	 *
 	 * @param {string} url The calendar url
@@ -760,9 +772,9 @@ Module.register("calendar", {
 	 * @param {string} url The calendar url
 	 * @returns {number} The maximum entry count
 	 */
-	maximumEntriesForUrl: function (url) {
-		return this.getCalendarProperty(url, "maximumEntries", this.config.maximumEntries);
-	},
+		maximumEntriesForUrl: function (url) {
+			return this.getCalendarProperty(url, "maximumEntries", this.config.maximumEntries);
+		},
 
 	/**
 	 * Helper method to retrieve the property for a specific calendar url.
