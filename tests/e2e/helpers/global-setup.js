@@ -19,13 +19,11 @@ exports.startApplication = async (configFilename, exec) => {
 };
 
 exports.stopApplication = async () => {
-	if (global.app) {
-		return new Promise((resolve) => {
-			global.app.stop(resolve);
-			delete global.app;
-		});
+	if (!global.app) {
+		return Promise.resolve();
 	}
-	return Promise.resolve();
+	await global.app.stop();
+	delete global.app;
 };
 
 exports.getDocument = () => {

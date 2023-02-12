@@ -157,18 +157,19 @@ app.on("activate", function () {
  * Note: this is only used if running Electron. Otherwise
  * core.stop() is called by process.on("SIGINT"... in `app.js`
  */
-app.on("before-quit", (event) => {
+app.on("before-quit", async (event) => {
 	Log.log("Shutting down server...");
 	event.preventDefault();
 	setTimeout(() => {
 		process.exit(0);
 	}, 3000); // Force-quit after 3 seconds.
-	core.stop();
+	await core.stop();
 	process.exit(0);
 });
 
-/* handle errors from self signed certificates */
-
+/**
+ * Handle errors from self-signed certificates
+ */
 app.on("certificate-error", (event, webContents, url, error, certificate, callback) => {
 	event.preventDefault();
 	callback(true);
