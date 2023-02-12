@@ -14,6 +14,7 @@ const Log = require("logger");
 const Server = require(`${__dirname}/server`);
 const Utils = require(`${__dirname}/utils`);
 const defaultModules = require(`${__dirname}/../modules/default/defaultmodules`);
+const envsub = require("envsub");
 
 // Get version number.
 global.version = require(`${__dirname}/../package.json`).version;
@@ -51,25 +52,71 @@ function App() {
 	let httpServer;
 
 	/**
-	 * Loads the config file. Combines it with the defaults, and runs the
-	 * callback with the found config as argument.
-	 *
-	 * @param {Function} callback Function to be called after loading the config
+	 * Loads the config file. Combines it with the defaults and returns the config
 	 */
-	function loadConfig(callback) {
+	async function loadConfig() {
 		Log.log("Loading config ...");
 		const defaults = require(`${__dirname}/defaults`);
 
 		// For this check proposed to TestSuite
 		// https://forum.magicmirror.builders/topic/1456/test-suite-for-magicmirror/8
 		const configFilename = path.resolve(global.configuration_file || `${global.root_path}/config/config.js`);
+		let templateFile = configFilename + ".template";
+
+		// check if templateFile exists
+		try {
+			fs.accessSync(templateFile, fs.F_OK);
+		} catch (err) {
+			templateFile = null;
+			Log.debug("config template file not exists, no envsubst");
+		}
+
+		if (templateFile) {
+			// save current config.js
+			try {
+				if (fs.existsSync(configFilename)) {
+					fs.copyFileSync(configFilename, configFilename + "_" + Date.now());
+				}
+			} catch (err) {
+				Log.warn("Could not copy " + configFilename + ": " + err.message);
+			}
+
+			// check if config.env exists
+			const envFiles = [];
+			const configEnvFile = configFilename.substr(0, configFilename.lastIndexOf(".")) + ".env";
+			try {
+				if (fs.existsSync(configEnvFile)) {
+					envFiles.push(configEnvFile);
+				}
+			} catch (err) {
+				Log.debug(configEnvFile + " does not exist. " + err.message);
+			}
+
+			let options = {
+				all: true,
+				diff: false,
+				envFiles: envFiles,
+				protect: false,
+				syntax: "default",
+				system: true
+			};
+
+			// envsubst variables in templateFile and create new config.js
+			// naming for envsub must be templateFile and outputFile
+			const outputFile = configFilename;
+			try {
+				await envsub({ templateFile, outputFile, options });
+			} catch (err) {
+				Log.error("Could not envsubst variables: " + err.message);
+			}
+		}
 
 		try {
 			fs.accessSync(configFilename, fs.F_OK);
 			const c = require(configFilename);
 			checkDeprecatedOptions(c);
 			const config = Object.assign(defaults, c);
-			callback(config);
+			return config;
 		} catch (e) {
 			if (e.code === "ENOENT") {
 				Log.error(Utils.colors.error("WARNING! Could not find config file. Please create one. Starting with default configuration."));
@@ -78,7 +125,7 @@ function App() {
 			} else {
 				Log.error(Utils.colors.error(`WARNING! Could not load config file. Starting with default configuration. Error found: ${e}`));
 			}
-			callback(defaults);
+			return defaults;
 		}
 	}
 
@@ -217,7 +264,7 @@ function App() {
 	 * @param {Function} callback Function to be called after start
 	 */
 	this.start = function (callback) {
-		loadConfig(function (c) {
+		loadConfig().then((c) => {
 			config = c;
 
 			Log.setLogLevel(config.logLevel);
