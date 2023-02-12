@@ -177,7 +177,5 @@ app.on("certificate-error", (event, webContents, url, error, certificate, callba
 // Start the core application if server is run on localhost
 // This starts all node helpers and starts the webserver.
 if (["localhost", "127.0.0.1", "::1", "::ffff:127.0.0.1", undefined].includes(config.address)) {
-	core.start(function (c) {
-		config = c;
-	});
+	core.start().then((c) => (config = c));
 }

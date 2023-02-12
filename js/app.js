@@ -53,6 +53,9 @@ function App() {
 
 	/**
 	 * Loads the config file. Combines it with the defaults and returns the config
+	 *
+	 * @async
+	 * @returns {Promise<object>} the loaded config or the defaults if something goes wrong
 	 */
 	async function loadConfig() {
 		Log.log("Loading config ...");
@@ -115,8 +118,7 @@ function App() {
 			fs.accessSync(configFilename, fs.F_OK);
 			const c = require(configFilename);
 			checkDeprecatedOptions(c);
-			const config = Object.assign(defaults, c);
-			return config;
+			return Object.assign(defaults, c);
 		} catch (e) {
 			if (e.code === "ENOENT") {
 				Log.error(Utils.colors.error("WARNING! Could not find config file. Please create one. Starting with default configuration."));
@@ -125,8 +127,9 @@ function App() {
 			} else {
 				Log.error(Utils.colors.error(`WARNING! Could not load config file. Starting with default configuration. Error found: ${e}`));
 			}
-			return defaults;
 		}
+
+		return defaults;
 	}
 
 	/**
@@ -261,56 +264,53 @@ function App() {
 	 * It loads the config, then it loads all modules. When it's done it
 	 * executes the callback with the config as argument.
 	 *
-	 * @param {Function} callback Function to be called after start
+	 * @async
+	 * @returns {Promise<object>} the config used
 	 */
-	this.start = function (callback) {
-		loadConfig().then((c) => {
-			config = c;
+	this.start = async function () {
+		config = await loadConfig();
 
-			Log.setLogLevel(config.logLevel);
+		Log.setLogLevel(config.logLevel);
 
-			let modules = [];
+		let modules = [];
 
-			for (const module of config.modules) {
-				if (!modules.includes(module.module) && !module.disabled) {
-					modules.push(module.module);
+		for (const module of config.modules) {
+			if (!modules.includes(module.module) && !module.disabled) {
+				modules.push(module.module);
+			}
+		}
+
+		loadModules(modules, async function () {
+			httpServer = new Server(config);
+			const { app, io } = await httpServer.open();
+			Log.log("Server started ...");
+
+			const nodePromises = [];
+			for (let nodeHelper of nodeHelpers) {
+				nodeHelper.setExpressApp(app);
+				nodeHelper.setSocketIO(io);
+
+				try {
+					nodePromises.push(nodeHelper.start());
+				} catch (error) {
+					Log.error(`Error when starting node_helper for module ${nodeHelper.name}:`);
+					Log.error(error);
 				}
 			}
 
-			loadModules(modules, async function () {
-				httpServer = new Server(config);
-				const { app, io } = await httpServer.open();
-				Log.log("Server started ...");
-
-				const nodePromises = [];
-				for (let nodeHelper of nodeHelpers) {
-					nodeHelper.setExpressApp(app);
-					nodeHelper.setSocketIO(io);
-
-					try {
-						nodePromises.push(nodeHelper.start());
-					} catch (error) {
-						Log.error(`Error when starting node_helper for module ${nodeHelper.name}:`);
-						Log.error(error);
+			Promise.allSettled(nodePromises).then((results) => {
+				// Log errors that happened during async node_helper startup
+				results.forEach((result) => {
+					if (result.status === "rejected") {
+						Log.error(result.reason);
 					}
-				}
-
-				Promise.allSettled(nodePromises).then((results) => {
-					// Log errors that happened during async node_helper startup
-					results.forEach((result) => {
-						if (result.status === "rejected") {
-							Log.error(result.reason);
-						}
-					});
-
-					Log.log("Sockets connected & modules started ...");
 				});
-			});
 
-			if (typeof callback === "function") {
-				callback(config);
-			}
+				Log.log("Sockets connected & modules started ...");
+			});
 		});
+
+		return config;
 	};
 
 	/**

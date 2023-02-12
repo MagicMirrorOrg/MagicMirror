@@ -15,9 +15,7 @@ exports.startApplication = async (configFilename, exec) => {
 	if (exec) exec;
 	global.app = require("app.js");
 
-	return new Promise((resolve) => {
-		global.app.start(resolve);
-	});
+	return global.app.start();
 };
 
 exports.stopApplication = async () => {
