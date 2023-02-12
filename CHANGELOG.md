@@ -36,6 +36,7 @@ _This release is scheduled to be released on 2023-04-01._
 - Changed updatenotification module for MagicMirror repo only: Send only notifications for `master` if there is a tag on a newer commit
 - Update dates in Calendar widgets every minute
 - Cleanup jest coverage for patches
+- Convert more callbacks to async/awaits
 - Update `stylelint` dependencies, switch to `stylelint-config-standard` and handle `stylelint` issues
 - Convert translator callbacks to async/await
 
