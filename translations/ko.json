@@ -34,9 +34,11 @@
 	"MODULE_ERROR_NO_CONNECTION": "인터넷이 연결되지 않았습니다.",
 	"MODULE_ERROR_UNAUTHORIZED": "인증이 실패했습니다.",
 	"MODULE_ERROR_UNSPECIFIED": "상세 내용은 로그를 확인하세요.",
+	
+	"NEWSFEED_NO_ITEMS": "새로운 뉴스가 없습니다.",
 
 	"UPDATE_NOTIFICATION": "새로운 MagicMirror² 업데이트가 있습니다.",
 	"UPDATE_NOTIFICATION_MODULE": "{MODULE_NAME} 모듈에서 사용 가능한 업데이트 입니다.",
-	"UPDATE_INFO_SINGLE": "설치할 {COMMIT_COUNT} commit 는 {BRANCH_NAME} 분기에 해당됩니다.",
-	"UPDATE_INFO_MULTIPLE": "설치할 {COMMIT_COUNT} commits 는 {BRANCH_NAME} 분기에 해당됩니다."
+	"UPDATE_INFO_SINGLE": "설치할 {COMMIT_COUNT}개의 커밋은 {BRANCH_NAME} 브랜치에 해당됩니다.",
+	"UPDATE_INFO_MULTIPLE": "설치할 {COMMIT_COUNT}개의 커밋들은 {BRANCH_NAME} 브랜치에 해당됩니다."
 }
