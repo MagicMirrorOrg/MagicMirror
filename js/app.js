@@ -261,8 +261,7 @@ function App() {
 	/**
 	 * Start the core app.
 	 *
-	 * It loads the config, then it loads all modules. When it's done it
-	 * executes the callback with the config as argument.
+	 * It loads the config, then it loads all modules.
 	 *
 	 * @async
 	 * @returns {Promise<object>} the config used
