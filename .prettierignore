@@ -1,4 +1,3 @@
 /config
 /coverage
 package-lock.json
-tests/configs/port_variable.js
