@@ -91,9 +91,13 @@ Module.register("calendar", {
 
 	// Override start method.
 	start: function () {
-		const ONE_MINUTE = 60 * 1000;
-
 		Log.info("Starting module: " + this.name);
+
+		if (this.config.coloredSymbolOnly) {
+			Log.warn("Your are using the deprecated config values 'coloredSymbolOnly'. Please switch to  'coloredSymbol' & 'coloredText'!");
+			this.config.coloredText = false;
+			this.config.coloredSymbol = true;
+		}
 
 		// Set locale.
 		moment.updateLocale(config.language, this.getLocaleSpecification(config.timeFormat));
@@ -138,14 +142,6 @@ Module.register("calendar", {
 			// fetcher till cycle
 			this.addCalendar(calendar.url, calendar.auth, calendarConfig);
 		});
-
-		// Refresh the DOM every minute if needed: When using relative date format for events that start
-		// or end in less than an hour, the date shows minute granularity and we want to keep that accurate.
-		setTimeout(() => {
-			setInterval(() => {
-				this.updateDom(1);
-			}, ONE_MINUTE);
-		}, ONE_MINUTE - (new Date() % ONE_MINUTE));
 	},
 
 	// Override socket notification handler.
@@ -244,17 +240,17 @@ Module.register("calendar", {
 			eventContainer.className = "event-container";
 
 			if (this.config.coloredBackground) {
-				eventContainer.style.backgroundColor = this.bgColorForUrl(event.url);
+				eventContainer.style.backgroundColor = this.colorForUrl(event.url, true);
 			}
 
 			if (this.config.coloredBorder) {
-				eventContainer.style.borderColor = this.colorForUrl(event.url);
+				eventContainer.style.borderColor = this.colorForUrl(event.url, false);
 			}
 
 			const eventWrapper = document.createElement("tr");
 
 			if (this.config.coloredText) {
-				eventWrapper.style.cssText = "color:" + this.colorForUrl(event.url);
+				eventWrapper.style.cssText = "color:" + this.colorForUrl(event.url, false);
 			}
 
 			eventWrapper.className = "normal event";
@@ -265,7 +261,7 @@ Module.register("calendar", {
 
 			if (this.config.displaySymbol) {
 				if (this.config.coloredSymbol) {
-					symbolWrapper.style.cssText = "color:" + this.colorForUrl(event.url);
+					symbolWrapper.style.cssText = "color:" + this.colorForUrl(event.url, false);
 				}
 
 				const symbolClass = this.symbolClassForUrl(event.url);
@@ -759,20 +755,11 @@ Module.register("calendar", {
 	 * Retrieves the color for a specific calendar url.
 	 *
 	 * @param {string} url The calendar url
+	 * @param {boolean} isBg Determines if we fetch the bgColor or not
 	 * @returns {string} The color
 	 */
-	colorForUrl: function (url) {
-		return this.getCalendarProperty(url, "color", "#fff");
-	},
-
-	/**
-	 * Retrieves the bgColor for a specific calendar url.
-	 *
-	 * @param {string} url The calendar url
-	 * @returns {string} The color
-	 */
-	bgColorForUrl: function (url) {
-		return this.getCalendarProperty(url, "bgColor", "#fff");
+	colorForUrl: function (url, isBg) {
+		return this.getCalendarProperty(url, isBg ? "bgColor" : "color", "#fff");
 	},
 
 	/**
@@ -929,7 +916,7 @@ Module.register("calendar", {
 		for (const event of eventList) {
 			event.symbol = this.symbolsForEvent(event);
 			event.calendarName = this.calendarNameForUrl(event.url);
-			event.color = this.colorForUrl(event.url);
+			event.color = this.colorForUrl(event.url, false);
 			delete event.url;
 		}
 
