@@ -455,11 +455,12 @@ Module.register("calendar", {
 				currentFadeStep = index - startFade;
 				eventWrapper.style.opacity = 1 - (1 / fadeSteps) * currentFadeStep;
 			}
+			wrapper.appendChild(eventWrapper);
 
 			if (this.config.showLocation) {
 				if (event.location !== false) {
 					const locationRow = document.createElement("tr");
-					locationRow.className = "normal xsmall light";
+					locationRow.className = "event-wrapper-location normal xsmall light";
 					if (event.today) locationRow.className += " today";
 					else if (event.tomorrow) locationRow.className += " tomorrow";
 
@@ -468,13 +469,25 @@ Module.register("calendar", {
 						locationRow.appendChild(symbolCell);
 					}
 
+					if (this.config.coloredText) {
+						locationRow.style.cssText = "color:" + this.colorForUrl(event.url, false);
+					}
+
+					if (this.config.coloredBackground) {
+						locationRow.style.backgroundColor = this.colorForUrl(event.url, true);
+					}
+
+					if (this.config.coloredBorder) {
+						locationRow.style.borderColor = this.colorForUrl(event.url, false);
+					}
+
 					const descCell = document.createElement("td");
 					descCell.className = "location";
 					descCell.colSpan = "2";
 					descCell.innerHTML = this.titleTransform(event.location, this.config.locationTitleReplace, this.config.wrapLocationEvents, this.config.maxLocationTitleLength, this.config.maxEventTitleLines);
 					locationRow.appendChild(descCell);
 
-					eventWrapper.appendChild(locationRow);
+					wrapper.appendChild(locationRow);
 
 					if (index >= startFade) {
 						currentFadeStep = index - startFade;
@@ -482,7 +495,6 @@ Module.register("calendar", {
 					}
 				}
 			}
-			wrapper.appendChild(eventWrapper);
 		});
 
 		return wrapper;
