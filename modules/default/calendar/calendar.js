@@ -710,7 +710,6 @@ Module.register("calendar", {
 					// Get the default prefix for this class name and add to the custom symbol provided
 					const className = this.getCalendarProperty(event.url, "symbolClassName", this.config.defaultSymbolClassName);
 					symbols[0] = className + ev.symbol;
-					symbols[0] = ev.symbol;
 					break;
 				}
 			}
