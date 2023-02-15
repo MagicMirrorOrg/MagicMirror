@@ -265,7 +265,7 @@ Module.register("calendar", {
 				eventWrapper.style.borderColor = this.colorForUrl(event.url, false);
 			}
 
-			eventWrapper.className = "normal event";
+			eventWrapper.className = "event-wrapper normal event";
 			if (event.today) eventWrapper.className += " today";
 			else if (event.tomorrow) eventWrapper.className += " tomorrow";
 
