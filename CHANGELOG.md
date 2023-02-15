@@ -54,6 +54,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 
 ### Added
 
+- Added new calendar options for colored entries and improved styling (#3033)
 - Added test for remoteFile option in compliments module
 - Added hourlyWeather functionality to Weather.gov weather provider
 - Removed weatherEndpoint definition from weathergov.js (not used)
