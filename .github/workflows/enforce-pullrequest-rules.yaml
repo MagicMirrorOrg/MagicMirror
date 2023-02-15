@@ -18,6 +18,12 @@ jobs:
         with:
           changeLogPath: "CHANGELOG.md"
           skipLabels: "Skip Changelog"
+      - name: "DEBUG"
+        run: |
+          echo "DEBUG"
+          echo ${{ github.base_ref == 'master' }}
+          echo ${{ !contains(github.event.pull_request.labels.*.name, 'mastermerge') }}
+          echo ${{ github.base_ref == 'master' && !contains(github.event.pull_request.labels.*.name, 'mastermerge') }}
       - name: "Enforce develop branch"
         if: ${{ github.base_ref == 'master' && !contains(github.event.pull_request.labels.*.name, 'mastermerge') }}
         run: |
