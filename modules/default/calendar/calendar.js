@@ -251,21 +251,18 @@ Module.register("calendar", {
 				}
 			}
 
-			const eventContainer = document.createElement("table");
-			eventContainer.className = "event-container";
-
-			if (this.config.coloredBackground) {
-				eventContainer.style.backgroundColor = this.colorForUrl(event.url, true);
-			}
-
-			if (this.config.coloredBorder) {
-				eventContainer.style.borderColor = this.colorForUrl(event.url, false);
-			}
-
 			const eventWrapper = document.createElement("tr");
 
 			if (this.config.coloredText) {
 				eventWrapper.style.cssText = "color:" + this.colorForUrl(event.url, false);
+			}
+
+			if (this.config.coloredBackground) {
+				eventWrapper.style.backgroundColor = this.colorForUrl(event.url, true);
+			}
+
+			if (this.config.coloredBorder) {
+				eventWrapper.style.borderColor = this.colorForUrl(event.url, false);
 			}
 
 			eventWrapper.className = "normal event";
@@ -453,8 +450,6 @@ Module.register("calendar", {
 				eventWrapper.appendChild(timeWrapper);
 			}
 
-			eventContainer.appendChild(eventWrapper);
-
 			// Create fade effect.
 			if (index >= startFade) {
 				currentFadeStep = index - startFade;
@@ -479,7 +474,7 @@ Module.register("calendar", {
 					descCell.innerHTML = this.titleTransform(event.location, this.config.locationTitleReplace, this.config.wrapLocationEvents, this.config.maxLocationTitleLength, this.config.maxEventTitleLines);
 					locationRow.appendChild(descCell);
 
-					eventContainer.appendChild(locationRow);
+					eventWrapper.appendChild(locationRow);
 
 					if (index >= startFade) {
 						currentFadeStep = index - startFade;
@@ -487,7 +482,7 @@ Module.register("calendar", {
 					}
 				}
 			}
-			wrapper.appendChild(eventContainer);
+			wrapper.appendChild(eventWrapper);
 		});
 
 		return wrapper;
