@@ -98,7 +98,7 @@ Module.register("calendar", {
 		if (this.config.colored) {
 			Log.warn("Your are using the deprecated config values 'colored'. Please switch to  'coloredSymbol' & 'coloredText'!");
 			this.config.coloredText = true;
-			this.config.coloredSymbol = true;		
+			this.config.coloredSymbol = true;
 		}
 		if (this.config.coloredSymbolOnly) {
 			Log.warn("Your are using the deprecated config values 'coloredSymbolOnly'. Please switch to  'coloredSymbol' & 'coloredText'!");
@@ -150,7 +150,6 @@ Module.register("calendar", {
 			this.addCalendar(calendar.url, calendar.auth, calendarConfig);
 		});
 
-		
 		// Refresh the DOM every minute if needed: When using relative date format for events that start
 		// or end in less than an hour, the date shows minute granularity and we want to keep that accurate.
 		setTimeout(() => {
