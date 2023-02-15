@@ -22,6 +22,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Added a WeatherProvider for Open-Meteo
 - Added Yr as a weather provider
 - Added config options "ignoreXOriginHeader" and "ignoreContentSecurityPolicy"
+- Added workflow rule to make sure PRs are based against develop
 
 ### Removed
 
