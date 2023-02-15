@@ -1,4 +1,7 @@
 .calendar .symbol {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
   padding-left: 0;
   padding-right: 10px;
   font-size: var(--font-size-small);
