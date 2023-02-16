@@ -13,7 +13,7 @@
 		"install-fonts": "echo \"Installing fonts ...\n\" && cd fonts && npm install --loglevel=error --no-audit --no-fund --no-update-notifier",
 		"postinstall": "npm run install-vendor && npm run install-fonts && echo \"MagicMirror² installation finished successfully! \n\"",
 		"test": "NODE_ENV=test jest -i --forceExit",
-		"test:coverage": "NODE_ENV=test jest --coverage -i --forceExit",
+		"test:coverage": "NODE_ENV=test jest --coverage -i --verbose false --forceExit",
 		"test:electron": "NODE_ENV=test jest --selectProjects electron -i --forceExit",
 		"test:e2e": "NODE_ENV=test jest --selectProjects e2e -i --forceExit",
 		"test:unit": "NODE_ENV=test jest --selectProjects unit -i --forceExit",
