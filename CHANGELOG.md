@@ -27,7 +27,7 @@ _This release is scheduled to be released on 2023-04-01._
 ### Updated
 
 - Use develop as target branch for dependabot
-- Update issue template and contributing doc
+- Update issue template, contributing doc and sample config
 - The weather modules clearly separates precipitation amount and probability (risk of rain/snow)
   - This requires all providers that only supports probability to change the config from `showPrecipitationAmount` to `showPrecipitationProbability`.
 - Update tests for weather and calendar module
