@@ -6,6 +6,7 @@ This document describes how collaborators of this repository should work togethe
 - never merge without someone having approved (approving and merging from same person is allowed)
 - wait for all approvals requested (or the author decides something different in the comments)
 - never merge to `master`, except for releases (because of update notification)
+- merges to master should be tagged with the "mastermerge" label so that the test runs through
 
 ## Issues
 
