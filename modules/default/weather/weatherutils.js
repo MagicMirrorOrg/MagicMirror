@@ -40,6 +40,8 @@ const WeatherUtils = {
 			valueUnit = valueUnit ? valueUnit : "mm";
 		}
 
+		if (valueUnit === "%") return `${value}${valueUnit}`;
+
 		return `${value.toFixed(2)} ${valueUnit}`;
 	},
 
