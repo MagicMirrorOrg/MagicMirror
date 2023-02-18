@@ -1,7 +1,7 @@
 /* Based on work by https://tympanus.net/codrops/licensing/ */
 
 .ns-box {
-  background-color: rgba(0, 0, 0, 0.93);
+  background-color: rgb(0 0 0 / 93%);
   padding: 17px;
   line-height: 1.4;
   margin-bottom: 10px;
@@ -233,6 +233,7 @@
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
