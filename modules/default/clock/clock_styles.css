@@ -1,3 +1,5 @@
+/* stylelint-disable selector-class-pattern */
+
 .clockGrid {
   display: inline-flex;
   gap: 15px;

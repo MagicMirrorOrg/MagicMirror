@@ -1,3 +1,5 @@
+/* stylelint-disable number-max-precision */
+
 /* Based on work by https://tympanus.net/codrops/licensing/ */
 
 .ns-box {
@@ -55,15 +57,15 @@
 
 .ns-effect-flip.ns-show,
 .ns-effect-flip.ns-hide {
-  animation-name: animFlipFront;
+  animation-name: anim-flip-front;
   animation-duration: 0.3s;
 }
 
 .ns-effect-flip.ns-hide {
-  animation-name: animFlipBack;
+  animation-name: anim-flip-back;
 }
 
-@keyframes animFlipFront {
+@keyframes anim-flip-front {
   0% {
     transform: perspective(1000px) rotate3d(1, 0, 0, -90deg);
   }
@@ -73,7 +75,7 @@
   }
 }
 
-@keyframes animFlipBack {
+@keyframes anim-flip-back {
   0% {
     transform: perspective(1000px) rotate3d(1, 0, 0, 90deg);
   }
@@ -85,11 +87,11 @@
 
 .ns-effect-bouncyflip.ns-show,
 .ns-effect-bouncyflip.ns-hide {
-  animation-name: flipInX;
+  animation-name: flip-in-x;
   animation-duration: 0.8s;
 }
 
-@keyframes flipInX {
+@keyframes flip-in-x {
   0% {
     transform: perspective(400px) rotate3d(1, 0, 0, -90deg);
     transition-timing-function: ease-in;
@@ -117,11 +119,11 @@
 }
 
 .ns-effect-bouncyflip.ns-hide {
-  animation-name: flipInXSimple;
+  animation-name: flip-in-x-simple;
   animation-duration: 0.3s;
 }
 
-@keyframes flipInXSimple {
+@keyframes flip-in-x-simple {
   0% {
     transform: perspective(400px) rotate3d(1, 0, 0, -90deg);
     transition-timing-function: ease-in;
@@ -141,11 +143,11 @@
 }
 
 .ns-effect-exploader.ns-show {
-  animation-name: animLoad;
+  animation-name: anim-load;
   animation-duration: 1s;
 }
 
-@keyframes animLoad {
+@keyframes anim-load {
   0% {
     opacity: 1;
     transform: scale3d(0, 0.3, 1);
@@ -158,7 +160,7 @@
 }
 
 .ns-effect-exploader.ns-hide {
-  animation-name: animFade;
+  animation-name: anim-fade;
   animation-duration: 0.3s;
 }
 
@@ -170,15 +172,15 @@
 }
 
 .ns-effect-exploader.ns-show .ns-close {
-  animation-name: animFade;
+  animation-name: anim-fade;
 }
 
 .ns-effect-exploader.ns-show .ns-box-inner {
-  animation-name: animFadeMove;
+  animation-name: anim-fade-move;
   animation-timing-function: ease-out;
 }
 
-@keyframes animFadeMove {
+@keyframes anim-fade-move {
   0% {
     opacity: 0;
     transform: translate3d(0, 10px, 0);
@@ -190,7 +192,7 @@
   }
 }
 
-@keyframes animFade {
+@keyframes anim-fade {
   0% {
     opacity: 0;
   }
@@ -202,11 +204,11 @@
 
 .ns-effect-scale.ns-show,
 .ns-effect-scale.ns-hide {
-  animation-name: animScale;
+  animation-name: anim-scale;
   animation-duration: 0.25s;
 }
 
-@keyframes animScale {
+@keyframes anim-scale {
   0% {
     opacity: 0;
     transform: translate3d(0, 40px, 0) scale3d(0.1, 0.6, 1);
@@ -219,17 +221,17 @@
 }
 
 .ns-effect-jelly.ns-show {
-  animation-name: animJelly;
+  animation-name: anim-jelly;
   animation-duration: 1s;
   animation-timing-function: linear;
 }
 
 .ns-effect-jelly.ns-hide {
-  animation-name: animFade;
+  animation-name: anim-fade;
   animation-duration: 0.3s;
 }
 
-@keyframes animFade {
+@keyframes anim-fade {
   0% {
     opacity: 0;
   }
@@ -239,7 +241,7 @@
   }
 }
 
-@keyframes animJelly {
+@keyframes anim-jelly {
   0% {
     transform: matrix3d(0.7, 0, 0, 0, 0, 0.7, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
   }
@@ -438,12 +440,12 @@
 }
 
 .ns-effect-slide-left.ns-show {
-  animation-name: animSlideElasticLeft;
+  animation-name: anim-slide-elastic-left;
   animation-duration: 1s;
   animation-timing-function: linear;
 }
 
-@keyframes animSlideElasticLeft {
+@keyframes anim-slide-elastic-left {
   0% {
     transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -1000, 0, 0, 1);
   }
@@ -690,11 +692,11 @@
 }
 
 .ns-effect-slide-left.ns-hide {
-  animation-name: animSlideLeft;
+  animation-name: anim-slide-left;
   animation-duration: 0.25s;
 }
 
-@keyframes animSlideLeft {
+@keyframes anim-slide-left {
   0% {
     transform: translate3d(-30px, 0, 0) translate3d(-100%, 0, 0);
   }
@@ -705,10 +707,10 @@
 }
 
 .ns-effect-slide-right.ns-show {
-  animation: animSlideElasticRight 2000ms linear both;
+  animation: anim-slide-elastic-right 2000ms linear both;
 }
 
-@keyframes animSlideElasticRight {
+@keyframes anim-slide-elastic-right {
   0% {
     transform: matrix3d(2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1000, 0, 0, 1);
   }
@@ -787,11 +789,11 @@
 }
 
 .ns-effect-slide-right.ns-hide {
-  animation-name: animSlideRight;
+  animation-name: anim-slide-right;
   animation-duration: 0.25s;
 }
 
-@keyframes animSlideRight {
+@keyframes anim-slide-right {
   0% {
     transform: translate3d(30px, 0, 0) translate3d(100%, 0, 0);
   }
@@ -802,10 +804,10 @@
 }
 
 .ns-effect-slide-center.ns-show {
-  animation: animSlideElasticCenter 2000ms linear both;
+  animation: anim-slide-elastic-center 2000ms linear both;
 }
 
-@keyframes animSlideElasticCenter {
+@keyframes anim-slide-elastic-center {
   0% {
     transform: matrix3d(1, 0, 0, 0, 0, 3, 0, 0, 0, 0, 1, 0, 0, -300, 0, 1);
   }
@@ -884,11 +886,11 @@
 }
 
 .ns-effect-slide-center.ns-hide {
-  animation-name: animSlideCenter;
+  animation-name: anim-slide-center;
   animation-duration: 0.25s;
 }
 
-@keyframes animSlideCenter {
+@keyframes anim-slide-center {
   0% {
     transform: translate3d(0, -30px, 0) translate3d(0, -100%, 0);
   }
@@ -900,11 +902,11 @@
 
 .ns-effect-genie.ns-show,
 .ns-effect-genie.ns-hide {
-  animation-name: animGenie;
+  animation-name: anim-genie;
   animation-duration: 0.4s;
 }
 
-@keyframes animGenie {
+@keyframes anim-genie {
   0% {
     opacity: 0;
     transform: translate3d(0, calc(200% + 30px), 0) scale3d(0, 1, 1);
