@@ -51,7 +51,15 @@ describe("WeatherObject", () => {
 describe("WeatherUtils", () => {
 	it("should convert windspeed correctly from mps to beaufort", () => {
 		expect(Math.round(WeatherUtils.convertWind(5, "beaufort"))).toBe(3);
-		expect(Math.round(WeatherUtils.convertWind(42, "beaufort"))).toBe(12);
+		expect(Math.round(WeatherUtils.convertWind(300, "beaufort"))).toBe(12);
+	});
+
+	it("should convert windspeed correctly from mps to kmh", () => {
+		expect(Math.round(WeatherUtils.convertWind(11.75, "kmh"))).toBe(42);
+	});
+
+	it("should convert windspeed correctly from mps to knots", () => {
+		expect(Math.round(WeatherUtils.convertWind(10, "knots"))).toBe(19);
 	});
 
 	it("should convert windspeed correctly from mph to mps", () => {
