@@ -12,7 +12,7 @@ const WeatherUtils = {
 	 * @returns {number} the speed in beaufort
 	 */
 	beaufortWindSpeed(speedInMS) {
-		const windInKmh = (speedInMS * 3600) / 1000;
+		const windInKmh = this.convertWind(speedInMS, "kmh");
 		const speeds = [1, 5, 11, 19, 28, 38, 49, 61, 74, 88, 102, 117, 1000];
 		for (const [index, speed] of speeds.entries()) {
 			if (speed > windInKmh) {
@@ -39,6 +39,8 @@ const WeatherUtils = {
 		} else {
 			valueUnit = valueUnit ? valueUnit : "mm";
 		}
+
+		if (valueUnit === "%") return `${value}${valueUnit}`;
 
 		return `${value.toFixed(2)} ${valueUnit}`;
 	},

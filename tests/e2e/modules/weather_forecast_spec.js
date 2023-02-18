@@ -79,6 +79,15 @@ describe("Weather module: Weather Forecast", () => {
 			expect(table.rows).not.toBe(null);
 			expect(table.rows.length).toBe(5);
 		});
+
+		const precipitations = [undefined, "2.51 mm"];
+		for (const [index, precipitation] of precipitations.entries()) {
+			if (precipitation) {
+				it("should render precipitation amount " + precipitation, async () => {
+					await weatherFunc.getText(`.weather table tr:nth-child(${index + 1}) td.precipitation-amount`, precipitation);
+				});
+			}
+		}
 	});
 
 	describe("Forecast weather with imperial units", () => {
@@ -99,8 +108,8 @@ describe("Weather module: Weather Forecast", () => {
 			const precipitations = [undefined, "0.10 in"];
 			for (const [index, precipitation] of precipitations.entries()) {
 				if (precipitation) {
-					it("should render precipitation value " + precipitation, async () => {
-						await weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td.precipitationAmount`, precipitation);
+					it("should render precipitation amount " + precipitation, async () => {
+						await weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td.precipitation-amount`, precipitation);
 					});
 				}
 			}

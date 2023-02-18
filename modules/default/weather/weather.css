@@ -29,7 +29,8 @@
   padding-right: 0;
 }
 
-.weather .precipitation {
+.weather .precipitation-amount,
+.weather .precipitation-prob {
   padding-left: 20px;
   padding-right: 0;
 }
