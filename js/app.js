@@ -297,16 +297,16 @@ function App() {
 				}
 			}
 
-			Promise.allSettled(nodePromises).then((results) => {
-				// Log errors that happened during async node_helper startup
-				results.forEach((result) => {
-					if (result.status === "rejected") {
-						Log.error(result.reason);
-					}
-				});
+			const results = await Promise.allSettled(nodePromises);
 
-				Log.log("Sockets connected & modules started ...");
+			// Log errors that happened during async node_helper startup
+			results.forEach((result) => {
+				if (result.status === "rejected") {
+					Log.error(result.reason);
+				}
 			});
+
+			Log.log("Sockets connected & modules started ...");
 		});
 
 		return config;
@@ -342,6 +342,7 @@ function App() {
 				Log.error(result.reason);
 			}
 		});
+
 		Log.log("Node_helpers stopped ...");
 
 		// To be able to stop the app even if it hasn't been started (when
