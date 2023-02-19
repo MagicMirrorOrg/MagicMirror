@@ -47,20 +47,35 @@ const Loader = (function () {
 	 * Loops thru all modules and requests start for every module.
 	 */
 	const startModules = function () {
+		const modulePromises = [];
 		for (const module of moduleObjects) {
-			module.start();
-		}
-
-		// Notify core of loaded modules.
-		MM.modulesStarted(moduleObjects);
-
-		// Starting modules also hides any modules that have requested to be initially hidden
-		for (const thisModule of moduleObjects) {
-			if (thisModule.data.hiddenOnStartup) {
-				Log.info("Initially hiding " + thisModule.name);
-				thisModule.hide();
+			try {
+				modulePromises.push(module.start());
+			} catch (error) {
+				Log.error(`Error when starting node_helper for module ${module.name}:`);
+				Log.error(error);
 			}
 		}
+
+		Promise.allSettled(modulePromises).then((results) => {
+			// Log errors that happened during async node_helper startup
+			results.forEach((result) => {
+				if (result.status === "rejected") {
+					Log.error(result.reason);
+				}
+			});
+
+			// Notify core of loaded modules.
+			MM.modulesStarted(moduleObjects);
+
+			// Starting modules also hides any modules that have requested to be initially hidden
+			for (const thisModule of moduleObjects) {
+				if (thisModule.data.hiddenOnStartup) {
+					Log.info("Initially hiding " + thisModule.name);
+					thisModule.hide();
+				}
+			}
+		});
 	};
 
 	/**
