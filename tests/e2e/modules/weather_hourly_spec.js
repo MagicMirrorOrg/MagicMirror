@@ -51,7 +51,7 @@ describe("Weather module: Weather Hourly Forecast", () => {
 		});
 
 		describe("Shows precipitation probability", () => {
-			const propabilities = [undefined, undefined, "12%", "36%", "44%"];
+			const propabilities = [undefined, undefined, "12 %", "36 %", "44 %"];
 			for (const [index, pop] of propabilities.entries()) {
 				if (pop) {
 					it(`should render probability ${pop}`, async () => {
