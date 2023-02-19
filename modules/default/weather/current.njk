@@ -16,7 +16,7 @@
                 {% endif %}
             </span>
             {% if config.showHumidity and current.humidity %}
-                <span>{{ current.humidity | decimalSymbol }}</span><sup>&nbsp;<i class="wi wi-humidity humidityIcon"></i></sup>
+                <span>{{ current.humidity | decimalSymbol }}</span><sup>&nbsp;<i class="wi wi-humidity humidity-icon"></i></sup>
             {% endif %}
             {% if config.showSun %}
                 <span class="wi dimmed wi-{{ current.nextSunAction() }}"></span>

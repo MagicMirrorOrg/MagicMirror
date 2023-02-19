@@ -103,7 +103,7 @@ describe("Clock module", () => {
 		});
 
 		it("should show the analog clock face", async () => {
-			const elem = helpers.waitForElement(".clockCircle");
+			const elem = helpers.waitForElement(".clock-circle");
 			expect(elem).not.toBe(null);
 		});
 	});

@@ -91,13 +91,13 @@ Module.register("clock", {
 	// Override dom generator.
 	getDom: function () {
 		const wrapper = document.createElement("div");
-		wrapper.classList.add("clockGrid");
+		wrapper.classList.add("clock-grid");
 
 		/************************************
 		 * Create wrappers for analog and digital clock
 		 */
 		const analogWrapper = document.createElement("div");
-		analogWrapper.className = "clockCircle";
+		analogWrapper.className = "clock-circle";
 		const digitalWrapper = document.createElement("div");
 		digitalWrapper.className = "digital";
 		digitalWrapper.style.gridArea = "center";
@@ -276,16 +276,16 @@ Module.register("clock", {
 				analogWrapper.style.border = "2px solid white";
 			}
 			const clockFace = document.createElement("div");
-			clockFace.className = "clockFace";
+			clockFace.className = "clock-face";
 
 			const clockHour = document.createElement("div");
-			clockHour.id = "clockHour";
+			clockHour.id = "clock-hour";
 			clockHour.style.transform = "rotate(" + hour + "deg)";
-			clockHour.className = "clockHour";
+			clockHour.className = "clock-hour";
 			const clockMinute = document.createElement("div");
-			clockMinute.id = "clockMinute";
+			clockMinute.id = "clock-minute";
 			clockMinute.style.transform = "rotate(" + minute + "deg)";
-			clockMinute.className = "clockMinute";
+			clockMinute.className = "clock-minute";
 
 			// Combine analog wrappers
 			clockFace.appendChild(clockHour);
@@ -293,9 +293,9 @@ Module.register("clock", {
 
 			if (this.config.displaySeconds) {
 				const clockSecond = document.createElement("div");
-				clockSecond.id = "clockSecond";
+				clockSecond.id = "clock-second";
 				clockSecond.style.transform = "rotate(" + second + "deg)";
-				clockSecond.className = "clockSecond";
+				clockSecond.className = "clock-second";
 				clockSecond.style.backgroundColor = this.config.secondsColor;
 				clockFace.appendChild(clockSecond);
 			}
@@ -308,15 +308,15 @@ Module.register("clock", {
 		if (this.config.displayType === "analog") {
 			// Display only an analog clock
 			if (this.config.analogShowDate === "top") {
-				wrapper.classList.add("clockGrid--bottom");
+				wrapper.classList.add("clock-grid-bottom");
 			} else if (this.config.analogShowDate === "bottom") {
-				wrapper.classList.add("clockGrid--top");
+				wrapper.classList.add("clock-grid-top");
 			}
 			wrapper.appendChild(analogWrapper);
 		} else if (this.config.displayType === "digital") {
 			wrapper.appendChild(digitalWrapper);
 		} else if (this.config.displayType === "both") {
-			wrapper.classList.add("clockGrid--" + this.config.analogPlacement);
+			wrapper.classList.add("clock-grid-" + this.config.analogPlacement);
 			wrapper.appendChild(analogWrapper);
 			wrapper.appendChild(digitalWrapper);
 		}
