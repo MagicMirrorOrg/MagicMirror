@@ -19,6 +19,7 @@ _This release is scheduled to be released on 2023-04-01._
 - Added error message if `<modulename>.js` file is missing in module folder to get a hint in the logs (#2403)
 - Added possibility to use environment variables in `config.js` (#1756)
 - Added option `pastDaysCount` to default calendar module to control of how many days past events should be displayed
+- Added thai language to alert module
 
 ### Removed
 
@@ -48,7 +49,7 @@ _This release is scheduled to be released on 2023-04-01._
 - Yr wind direction is no longer inverted
 - Fix async node_helper stopping electron start (#2487)
 - The wind direction arrow now points in the direction the wind is flowing, not into the wind (#3019)
-- Fix precipitation css styles
+- Fix precipitation css styles and rounding value
 
 ## [2.22.0] - 2023-01-01
 

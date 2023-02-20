@@ -145,9 +145,9 @@ WeatherProvider.register("openweathermap", {
 	 */
 	generateWeatherObjectsFromForecast(forecasts) {
 		if (this.config.weatherEndpoint === "/forecast") {
-			return this.fetchForecastHourly(forecasts);
+			return this.generateForecastHourly(forecasts);
 		} else if (this.config.weatherEndpoint === "/forecast/daily") {
-			return this.fetchForecastDaily(forecasts);
+			return this.generateForecastDaily(forecasts);
 		}
 		// if weatherEndpoint does not match forecast or forecast/daily, what should be returned?
 		return [new WeatherObject()];
@@ -165,9 +165,10 @@ WeatherProvider.register("openweathermap", {
 	},
 
 	/*
-	 * fetch forecast information for 3-hourly forecast (available for free subscription).
+	 * Generate forecast information for 3-hourly forecast (available for free
+	 * subscription).
 	 */
-	fetchForecastHourly(forecasts) {
+	generateForecastHourly(forecasts) {
 		// initial variable declaration
 		const days = [];
 		// variables for temperature range and rain
@@ -238,9 +239,10 @@ WeatherProvider.register("openweathermap", {
 	},
 
 	/*
-	 * fetch forecast information for daily forecast (available for paid subscription or old apiKey).
+	 * Generate forecast information for daily forecast (available for paid
+	 * subscription or old apiKey).
 	 */
-	fetchForecastDaily(forecasts) {
+	generateForecastDaily(forecasts) {
 		// initial variable declaration
 		const days = [];
 

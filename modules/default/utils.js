@@ -5,8 +5,8 @@
  * @param {string} type what contenttype to expect in the response, can be "json" or "xml"
  * @param {boolean} useCorsProxy A flag to indicate
  * @param {Array.<{name: string, value:string}>} requestHeaders the HTTP headers to send
- * @param {Array.<string>} expectedResponseHeaders the expected HTTP headers to recieve
- * @returns {Promise} resolved when the fetch is done. The response headers is placed in a headers-property (provided the response does not allready contain a headers-property).
+ * @param {Array.<string>} expectedResponseHeaders the expected HTTP headers to receive
+ * @returns {Promise} resolved when the fetch is done. The response headers is placed in a headers-property (provided the response does not already contain a headers-property).
  */
 async function performWebRequest(url, type = "json", useCorsProxy = false, requestHeaders = undefined, expectedResponseHeaders = undefined) {
 	const request = {};
@@ -36,7 +36,7 @@ async function performWebRequest(url, type = "json", useCorsProxy = false, reque
  *
  * @param {string} url the url to fetch from
  * @param {Array.<{name: string, value:string}>} requestHeaders the HTTP headers to send
- * @param {Array.<string>} expectedResponseHeaders the expected HTTP headers to recieve
+ * @param {Array.<string>} expectedResponseHeaders the expected HTTP headers to receive
  * @returns {string} to be used as URL when calling CORS-method on server.
  */
 const getCorsUrl = function (url, requestHeaders, expectedResponseHeaders) {
@@ -84,7 +84,7 @@ const getRequestHeaderString = function (requestHeaders) {
 };
 
 /**
- * Gets headers and values to attatch to the web request.
+ * Gets headers and values to attach to the web request.
  *
  * @param {Array.<{name: string, value:string}>} requestHeaders the HTTP headers to send
  * @returns {object} An object specifying name and value of the headers.
@@ -101,9 +101,9 @@ const getHeadersToSend = (requestHeaders) => {
 };
 
 /**
- * Gets the part of the CORS URL that represents the expected HTTP headers to recieve.
+ * Gets the part of the CORS URL that represents the expected HTTP headers to receive.
  *
- * @param {Array.<string>} expectedResponseHeaders the expected HTTP headers to recieve
+ * @param {Array.<string>} expectedResponseHeaders the expected HTTP headers to receive
  * @returns {string} to be used as the expected HTTP-headers component in CORS URL.
  */
 const getExpectedResponseHeadersString = function (expectedResponseHeaders) {
@@ -124,7 +124,7 @@ const getExpectedResponseHeadersString = function (expectedResponseHeaders) {
 /**
  * Gets the values for the expected headers from the response.
  *
- * @param {Array.<string>} expectedResponseHeaders the expected HTTP headers to recieve
+ * @param {Array.<string>} expectedResponseHeaders the expected HTTP headers to receive
  * @param {Response} response the HTTP response
  * @returns {string} to be used as the expected HTTP-headers component in CORS URL.
  */
