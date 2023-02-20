@@ -1,6 +1,8 @@
 {
 	"LOADING": "Lade …",
 
+	"DAYBEFOREYESTERDAY": "Vorgestern",
+	"YESTERDAY": "Gestern",
 	"TODAY": "Heute",
 	"TOMORROW": "Morgen",
 	"DAYAFTERTOMORROW": "Übermorgen",

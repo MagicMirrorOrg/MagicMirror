@@ -1,6 +1,8 @@
 {
 	"LOADING": "A carregar …",
 
+	"DAYBEFOREYESTERDAY": "Anteontem",
+	"YESTERDAY": "Ontem",
 	"TODAY": "Hoje",
 	"TOMORROW": "Amanhã",
 	"DAYAFTERTOMORROW": "Depois de amanhã",

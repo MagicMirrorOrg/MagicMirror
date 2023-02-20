@@ -1,6 +1,8 @@
 {
 	"LOADING": "Kraunasi …",
 
+	"DAYBEFOREYESTERDAY": "Užvakar",
+	"YESTERDAY": "Vakar",
 	"TODAY": "Šiandien",
 	"TOMORROW": "Rytoj",
 	"DAYAFTERTOMORROW": "Už 2 dienų",

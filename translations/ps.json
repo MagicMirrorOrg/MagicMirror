@@ -1,6 +1,8 @@
 {
 	"LOADING": "پیلېدل",
 
+	"DAYBEFOREYESTERDAY": "پرون ورځ",
+	"YESTERDAY": "پرون",
 	"TODAY": "نن",
 	"TOMORROW": "سبا",
 	"DAYAFTERTOMORROW": "بل سبا",
