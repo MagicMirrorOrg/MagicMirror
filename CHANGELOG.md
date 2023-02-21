@@ -37,6 +37,7 @@ _This release is scheduled to be released on 2023-04-01._
 - Update dates in Calendar widgets every minute
 - Cleanup jest coverage for patches
 - Update `stylelint` dependencies, switch to `stylelint-config-standard` and handle `stylelint` issues
+- Convert module start to async/await
 - Convert translator callbacks to async/await
 
 ### Fixed
