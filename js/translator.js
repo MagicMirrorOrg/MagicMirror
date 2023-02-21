@@ -50,7 +50,7 @@ const Translator = (function () {
 		 * @returns {string} the translated key
 		 */
 		translate: function (module, key, variables) {
-			variables = variables || {}; //Empty object by default
+			variables = variables || {}; // Empty object by default
 
 			/**
 			 * Combines template and variables like:
@@ -133,7 +133,7 @@ const Translator = (function () {
 		},
 
 		/**
-		 * Load the core translations fallback.
+		 * Load the core translations' fallback.
 		 * The first language defined in translations.js will be used.
 		 */
 		loadCoreTranslationsFallback: async function () {
