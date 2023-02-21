@@ -1,6 +1,8 @@
 {
 	"LOADING": "Lataa …",
 
+	"DAYBEFOREYESTERDAY": "Toissapäivänä",
+	"YESTERDAY": "Eilen",
 	"TODAY": "Tänään",
 	"TOMORROW": "Huomenna",
 	"DAYAFTERTOMORROW": "Ylihuomenna",

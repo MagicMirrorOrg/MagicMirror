@@ -1,6 +1,8 @@
 {
 	"LOADING": "正在載入 …",
 
+	"DAYBEFOREYESTERDAY": "前天",
+	"YESTERDAY": "昨天",
 	"TODAY": "今天",
 	"TOMORROW": "明天",
 	"DAYAFTERTOMORROW": "後天",

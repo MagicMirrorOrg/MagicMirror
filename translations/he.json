@@ -1,6 +1,8 @@
 {
 	"LOADING": "טוען...",
 
+	"DAYBEFOREYESTERDAY": "שלשום",
+	"YESTERDAY": "אתמול",
 	"TODAY": "היום",
 	"TOMORROW": "מחר",
 	"DAYAFTERTOMORROW": "בעוד יומיים",

@@ -1,6 +1,8 @@
 {
 	"LOADING": "Bezig met laden …",
 
+	"DAYBEFOREYESTERDAY": "Eergisteren",
+	"YESTERDAY": "Gisteren",
 	"TODAY": "Vandaag",
 	"TOMORROW": "Morgen",
 	"DAYAFTERTOMORROW": "Overmorgen",

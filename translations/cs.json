@@ -1,6 +1,8 @@
 {
 	"LOADING": "Načítání …",
 
+	"DAYBEFOREYESTERDAY": "Předevčírem",
+	"YESTERDAY": "Včera",
 	"TODAY": "Dnes",
 	"TOMORROW": "Zítra",
 	"DAYAFTERTOMORROW": "Pozítří",

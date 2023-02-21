@@ -12,6 +12,7 @@ Module.register("calendar", {
 		maximumEntries: 10, // Total Maximum Entries
 		maximumNumberOfDays: 365,
 		limitDays: 0, // Limit the number of days shown, 0 = no limit
+		pastDaysCount: 0,
 		displaySymbol: true,
 		defaultSymbol: "calendar-alt", // Fontawesome Symbol see https://fontawesome.com/cheatsheet?from=io
 		defaultSymbolClassName: "fas fa-fw fa-",
@@ -121,6 +122,7 @@ Module.register("calendar", {
 			const calendarConfig = {
 				maximumEntries: calendar.maximumEntries,
 				maximumNumberOfDays: calendar.maximumNumberOfDays,
+				pastDaysCount: calendar.pastDaysCount,
 				broadcastPastEvents: calendar.broadcastPastEvents,
 				selfSignedCert: calendar.selfSignedCert
 			};
@@ -232,7 +234,10 @@ Module.register("calendar", {
 					const dateRow = document.createElement("tr");
 					dateRow.className = "dateheader normal";
 					if (event.today) dateRow.className += " today";
+					else if (event.dayBeforeYesterday) dateRow.className += " dayBeforeYesterday";
+					else if (event.yesterday) dateRow.className += " yesterday";
 					else if (event.tomorrow) dateRow.className += " tomorrow";
+					else if (event.dayAfterTomorrow) dateRow.className += " dayAfterTomorrow";
 
 					const dateCell = document.createElement("td");
 					dateCell.colSpan = "3";
@@ -267,7 +272,10 @@ Module.register("calendar", {
 
 			eventWrapper.className = "event-wrapper normal event";
 			if (event.today) eventWrapper.className += " today";
+			else if (event.dayBeforeYesterday) eventWrapper.className += " dayBeforeYesterday";
+			else if (event.yesterday) eventWrapper.className += " yesterday";
 			else if (event.tomorrow) eventWrapper.className += " tomorrow";
+			else if (event.dayAfterTomorrow) eventWrapper.className += " dayAfterTomorrow";
 
 			const symbolWrapper = document.createElement("td");
 
@@ -397,6 +405,8 @@ Module.register("calendar", {
 						// Full days events within the next two days
 						if (event.today) {
 							timeWrapper.innerHTML = this.capFirst(this.translate("TODAY"));
+						} else if (event.yesterday) {
+							timeWrapper.innerHTML = this.capFirst(this.translate("YESTERDAY"));
 						} else if (event.startDate - now < ONE_DAY && event.startDate - now > 0) {
 							timeWrapper.innerHTML = this.capFirst(this.translate("TOMORROW"));
 						} else if (event.startDate - now < 2 * ONE_DAY && event.startDate - now > 0) {
@@ -425,6 +435,12 @@ Module.register("calendar", {
 							// Full days events within the next two days
 							if (event.today) {
 								timeWrapper.innerHTML = this.capFirst(this.translate("TODAY"));
+							} else if (event.dayBeforeYesterday) {
+								if (this.translate("DAYBEFOREYESTERDAY") !== "DAYBEFOREYESTERDAY") {
+									timeWrapper.innerHTML = this.capFirst(this.translate("DAYBEFOREYESTERDAY"));
+								}
+							} else if (event.yesterday) {
+								timeWrapper.innerHTML = this.capFirst(this.translate("YESTERDAY"));
 							} else if (event.startDate - now < ONE_DAY && event.startDate - now > 0) {
 								timeWrapper.innerHTML = this.capFirst(this.translate("TOMORROW"));
 							} else if (event.startDate - now < 2 * ONE_DAY && event.startDate - now > 0) {
@@ -462,7 +478,10 @@ Module.register("calendar", {
 					const locationRow = document.createElement("tr");
 					locationRow.className = "event-wrapper-location normal xsmall light";
 					if (event.today) locationRow.className += " today";
+					else if (event.dayBeforeYesterday) locationRow.className += " dayBeforeYesterday";
+					else if (event.yesterday) locationRow.className += " yesterday";
 					else if (event.tomorrow) locationRow.className += " tomorrow";
+					else if (event.dayAfterTomorrow) locationRow.className += " dayAfterTomorrow";
 
 					if (this.config.displaySymbol) {
 						const symbolCell = document.createElement("td");
@@ -558,6 +577,7 @@ Module.register("calendar", {
 		for (const calendarUrl in this.calendarData) {
 			const calendar = this.calendarData[calendarUrl];
 			let remainingEntries = this.maximumEntriesForUrl(calendarUrl);
+			let maxPastDaysCompare = now - this.maximumPastDaysForUrl(calendarUrl) * ONE_DAY;
 			for (const e in calendar) {
 				const event = JSON.parse(JSON.stringify(calendar[e])); // clone object
 
@@ -566,7 +586,7 @@ Module.register("calendar", {
 					continue;
 				}
 				if (limitNumberOfEntries) {
-					if (event.endDate < now) {
+					if (event.endDate < maxPastDaysCompare) {
 						continue;
 					}
 					if (this.config.hideOngoing && event.startDate < now) {
@@ -581,7 +601,10 @@ Module.register("calendar", {
 				}
 				event.url = calendarUrl;
 				event.today = event.startDate >= today && event.startDate < today + ONE_DAY;
+				event.dayBeforeYesterday = event.startDate >= today - ONE_DAY * 2 && event.startDate < today - ONE_DAY;
+				event.yesterday = event.startDate >= today - ONE_DAY && event.startDate < today;
 				event.tomorrow = !event.today && event.startDate >= today + ONE_DAY && event.startDate < today + 2 * ONE_DAY;
+				event.dayAfterTomorrow = !event.tomorrow && event.startDate >= today + ONE_DAY * 2 && event.startDate < today + 3 * ONE_DAY;
 
 				/* if sliceMultiDayEvents is set to true, multiday events (events exceeding at least one midnight) are sliced into days,
 				 * otherwise, esp. in dateheaders mode it is not clear how long these events are.
@@ -681,6 +704,7 @@ Module.register("calendar", {
 			excludedEvents: calendarConfig.excludedEvents || this.config.excludedEvents,
 			maximumEntries: calendarConfig.maximumEntries || this.config.maximumEntries,
 			maximumNumberOfDays: calendarConfig.maximumNumberOfDays || this.config.maximumNumberOfDays,
+			pastDaysCount: calendarConfig.pastDaysCount || this.config.pastDaysCount,
 			fetchInterval: this.config.fetchInterval,
 			symbolClass: calendarConfig.symbolClass,
 			titleClass: calendarConfig.titleClass,
@@ -801,6 +825,16 @@ Module.register("calendar", {
 	 */
 	maximumEntriesForUrl: function (url) {
 		return this.getCalendarProperty(url, "maximumEntries", this.config.maximumEntries);
+	},
+
+	/**
+	 * Retrieves the maximum count of past days which events of should be displayed for a specific calendar url.
+	 *
+	 * @param {string} url The calendar url
+	 * @returns {number} The maximum past days count
+	 */
+	maximumPastDaysForUrl: function (url) {
+		return this.getCalendarProperty(url, "pastDaysCount", this.config.pastDaysCount);
 	},
 
 	/**

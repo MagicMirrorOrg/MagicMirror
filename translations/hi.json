@@ -1,6 +1,8 @@
 {
 	"LOADING": "लोड हो रहा है …",
 
+	"DAYBEFOREYESTERDAY": "परसों",
+	"YESTERDAY": "कल",
 	"TODAY": "आज",
 	"TOMORROW": "आने वाला कल",
 	"DAYAFTERTOMORROW": "2 दिनों में",
