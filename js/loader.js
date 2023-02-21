@@ -160,7 +160,7 @@ const Loader = (function () {
 			Log.log("Scripts loaded for: " + module.name);
 			mObj.loadStyles(function () {
 				Log.log("Styles loaded for: " + module.name);
-				mObj.loadTranslations(function () {
+				mObj.loadTranslations().then(() => {
 					Log.log("Translations loaded for: " + module.name);
 					moduleObjects.push(mObj);
 					callback();

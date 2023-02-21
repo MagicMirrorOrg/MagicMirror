@@ -302,10 +302,8 @@ const Module = Class.extend({
 
 	/**
 	 * Load all translations.
-	 *
-	 * @param {Function} callback Function called when done.
 	 */
-	loadTranslations(callback) {
+	async loadTranslations() {
 		const translations = this.getTranslations() || {};
 		const language = config.language.toLowerCase();
 
@@ -313,7 +311,6 @@ const Module = Class.extend({
 		const fallbackLanguage = languages[0];
 
 		if (languages.length === 0) {
-			callback();
 			return;
 		}
 
@@ -321,17 +318,14 @@ const Module = Class.extend({
 		const translationsFallbackFile = translations[fallbackLanguage];
 
 		if (!translationFile) {
-			Translator.load(this, translationsFallbackFile, true, callback);
-			return;
+			return Translator.load(this, translationsFallbackFile, true);
 		}
 
-		Translator.load(this, translationFile, false, () => {
-			if (translationFile !== translationsFallbackFile) {
-				Translator.load(this, translationsFallbackFile, true, callback);
-			} else {
-				callback();
-			}
-		});
+		await Translator.load(this, translationFile, false);
+
+		if (translationFile !== translationsFallbackFile) {
+			return Translator.load(this, translationsFallbackFile, true);
+		}
 	},
 
 	/**
