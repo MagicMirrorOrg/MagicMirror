@@ -190,13 +190,13 @@ const Loader = (function () {
 	 * @param {string} fileName Path of the file we want to load.
 	 * @returns {Promise} resolved when the file is loaded
 	 */
-	const loadFile = function (fileName) {
+	const loadFile = async function (fileName) {
 		const extension = fileName.slice((Math.max(0, fileName.lastIndexOf(".")) || Infinity) + 1);
 		let script, stylesheet;
 
 		switch (extension.toLowerCase()) {
 			case "js":
-				return new Promise((resolve, reject) => {
+				return new Promise((resolve) => {
 					Log.log("Load script: " + fileName);
 					script = document.createElement("script");
 					script.type = "text/javascript";
@@ -211,7 +211,7 @@ const Loader = (function () {
 					document.getElementsByTagName("body")[0].appendChild(script);
 				});
 			case "css":
-				return new Promise((resolve, reject) => {
+				return new Promise((resolve) => {
 					Log.log("Load stylesheet: " + fileName);
 
 					stylesheet = document.createElement("link");
@@ -247,7 +247,7 @@ const Loader = (function () {
 		 * @param {Module} module The module that calls the loadFile function.
 		 * @returns {Promise} resolved when the file is loaded
 		 */
-		loadFile: function (fileName, module) {
+		loadFileForModule: async function (fileName, module) {
 			if (loadedFiles.indexOf(fileName.toLowerCase()) !== -1) {
 				Log.log("File already loaded: " + fileName);
 				return Promise.resolve();

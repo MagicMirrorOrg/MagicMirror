@@ -288,7 +288,7 @@ const Module = Class.extend({
 		const loadNextDependency = async () => {
 			if (dependencies.length > 0) {
 				const nextDependency = dependencies[0];
-				await Loader.loadFile(nextDependency, this);
+				await Loader.loadFileForModule(nextDependency, this);
 				dependencies = dependencies.slice(1);
 				await loadNextDependency();
 			} else {
