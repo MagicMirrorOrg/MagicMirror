@@ -141,7 +141,7 @@ const Loader = (function () {
 		const afterLoad = function () {
 			const moduleObject = Module.create(module.name);
 			if (moduleObject) {
-				bootstrapModule(module, moduleObject, function () {
+				bootstrapModule(module, moduleObject).then(() => {
 					callback();
 				});
 			} else {
@@ -164,24 +164,21 @@ const Loader = (function () {
 	 *
 	 * @param {object} module Information about the module we want to load.
 	 * @param {Module} mObj Modules instance.
-	 * @param {Function} callback Function called when done.
 	 */
-	const bootstrapModule = function (module, mObj, callback) {
+	const bootstrapModule = async function (module, mObj) {
 		Log.info("Bootstrapping module: " + module.name);
-
 		mObj.setData(module);
 
-		mObj.loadScripts().then(() => {
-			Log.log("Scripts loaded for: " + module.name);
-			mObj.loadStyles().then(() => {
-				Log.log("Styles loaded for: " + module.name);
-				mObj.loadTranslations().then(() => {
-					Log.log("Translations loaded for: " + module.name);
-					moduleObjects.push(mObj);
-					callback();
-				});
-			});
-		});
+		await mObj.loadScripts();
+		Log.log("Scripts loaded for: " + module.name);
+
+		await mObj.loadStyles();
+		Log.log("Styles loaded for: " + module.name);
+
+		await mObj.loadTranslations();
+		Log.log("Translations loaded for: " + module.name);
+
+		moduleObjects.push(mObj);
 	};
 
 	/**
