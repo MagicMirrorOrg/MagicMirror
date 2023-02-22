@@ -16,31 +16,28 @@ const Loader = (function () {
 	/* Private Methods */
 
 	/**
-	 * Loops thru all modules and requests load for every module.
+	 * Loops through all modules and requests load for every module.
 	 */
-	const loadModules = function () {
+	const loadModules = async function () {
 		let moduleData = getModuleData();
 
-		const loadNextModule = function () {
+		const loadNextModule = async function () {
 			if (moduleData.length > 0) {
 				const nextModule = moduleData[0];
-				loadModule(nextModule, function () {
-					moduleData = moduleData.slice(1);
-					loadNextModule();
-				});
+				await loadModule(nextModule);
+				moduleData = moduleData.slice(1);
+				await loadNextModule();
 			} else {
 				// All modules loaded. Load custom.css
 				// This is done after all the modules so we can
 				// overwrite all the defined styles.
-
-				loadFile(config.customCss).then(() => {
-					// custom.css loaded. Start all modules.
-					startModules();
-				});
+				await loadFile(config.customCss);
+				// custom.css loaded. Start all modules.
+				startModules();
 			}
 		};
 
-		loadNextModule();
+		await loadNextModule();
 	};
 
 	/**
@@ -130,32 +127,28 @@ const Loader = (function () {
 	};
 
 	/**
-	 * Load modules via ajax request and create module objects.s
+	 * Load modules via ajax request and create module objects.
 	 *
 	 * @param {object} module Information about the module we want to load.
-	 * @param {Function} callback Function called when done.
+	 * @returns {Promise<void>} resolved when module is loaded
 	 */
-	const loadModule = function (module, callback) {
+	const loadModule = async function (module) {
 		const url = module.path + module.file;
 
-		const afterLoad = function () {
+		const afterLoad = async function () {
 			const moduleObject = Module.create(module.name);
 			if (moduleObject) {
-				bootstrapModule(module, moduleObject).then(() => {
-					callback();
-				});
-			} else {
-				callback();
+				await bootstrapModule(module, moduleObject);
 			}
+			return Promise.resolve();
 		};
 
 		if (loadedModuleFiles.indexOf(url) !== -1) {
-			afterLoad();
+			await afterLoad();
 		} else {
-			loadFile(url).then(() => {
-				loadedModuleFiles.push(url);
-				afterLoad();
-			});
+			await loadFile(url);
+			loadedModuleFiles.push(url);
+			await afterLoad();
 		}
 	};
 
@@ -232,8 +225,8 @@ const Loader = (function () {
 		/**
 		 * Load all modules as defined in the config.
 		 */
-		loadModules: function () {
-			loadModules();
+		loadModules: async function () {
+			await loadModules();
 		},
 
 		/**
