@@ -38,6 +38,7 @@ _This release is scheduled to be released on 2023-04-01._
 - Cleanup jest coverage for patches
 - Update `stylelint` dependencies, switch to `stylelint-config-standard` and handle `stylelint` issues
 - Convert translator callbacks to async/await
+- Convert app-start/-stop callbacks to async/awaits
 
 ### Fixed
 
