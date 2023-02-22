@@ -261,43 +261,42 @@ const Module = Class.extend({
 	/**
 	 * Load all required stylesheets by requesting the MM object to load the files.
 	 *
-	 * @param {Function} callback Function called when done.
+	 * @returns {Promise<void>}
 	 */
-	loadStyles: function (callback) {
-		this.loadDependencies("getStyles", callback);
+	loadStyles: function () {
+		return this.loadDependencies("getStyles");
 	},
 
 	/**
 	 * Load all required scripts by requesting the MM object to load the files.
 	 *
-	 * @param {Function} callback Function called when done.
+	 * @returns {Promise<void>}
 	 */
-	loadScripts: function (callback) {
-		this.loadDependencies("getScripts", callback);
+	loadScripts: function () {
+		return this.loadDependencies("getScripts");
 	},
 
 	/**
 	 * Helper method to load all dependencies.
 	 *
 	 * @param {string} funcName Function name to call to get scripts or styles.
-	 * @param {Function} callback Function called when done.
+	 * @returns {Promise<void>}
 	 */
-	loadDependencies: function (funcName, callback) {
+	loadDependencies: async function (funcName) {
 		let dependencies = this[funcName]();
 
-		const loadNextDependency = () => {
+		const loadNextDependency = async () => {
 			if (dependencies.length > 0) {
 				const nextDependency = dependencies[0];
-				Loader.loadFile(nextDependency, this, () => {
-					dependencies = dependencies.slice(1);
-					loadNextDependency();
-				});
+				await Loader.loadFile(nextDependency, this);
+				dependencies = dependencies.slice(1);
+				await loadNextDependency();
 			} else {
-				callback();
+				return Promise.resolve();
 			}
 		};
 
-		loadNextDependency();
+		await loadNextDependency();
 	},
 
 	/**
