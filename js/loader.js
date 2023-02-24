@@ -33,7 +33,7 @@ const Loader = (function () {
 				// overwrite all the defined styles.
 				await loadFile(config.customCss);
 				// custom.css loaded. Start all modules.
-				startModules();
+				await startModules();
 			}
 		};
 
@@ -41,9 +41,9 @@ const Loader = (function () {
 	};
 
 	/**
-	 * Loops thru all modules and requests start for every module.
+	 * Loops through all modules and requests start for every module.
 	 */
-	const startModules = function () {
+	const startModules = async function () {
 		const modulePromises = [];
 		for (const module of moduleObjects) {
 			try {
@@ -54,25 +54,25 @@ const Loader = (function () {
 			}
 		}
 
-		Promise.allSettled(modulePromises).then((results) => {
-			// Log errors that happened during async node_helper startup
-			results.forEach((result) => {
-				if (result.status === "rejected") {
-					Log.error(result.reason);
-				}
-			});
+		const results = await Promise.allSettled(modulePromises);
 
-			// Notify core of loaded modules.
-			MM.modulesStarted(moduleObjects);
-
-			// Starting modules also hides any modules that have requested to be initially hidden
-			for (const thisModule of moduleObjects) {
-				if (thisModule.data.hiddenOnStartup) {
-					Log.info("Initially hiding " + thisModule.name);
-					thisModule.hide();
-				}
+		// Log errors that happened during async node_helper startup
+		results.forEach((result) => {
+			if (result.status === "rejected") {
+				Log.error(result.reason);
 			}
 		});
+
+		// Notify core of loaded modules.
+		MM.modulesStarted(moduleObjects);
+
+		// Starting modules also hides any modules that have requested to be initially hidden
+		for (const thisModule of moduleObjects) {
+			if (thisModule.data.hiddenOnStartup) {
+				Log.info("Initially hiding " + thisModule.name);
+				thisModule.hide();
+			}
+		}
 	};
 
 	/**
