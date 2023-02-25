@@ -211,6 +211,9 @@ function App() {
 		return new Promise((resolve) => {
 			Log.log("Loading module helpers ...");
 
+			/**
+			 *
+			 */
 			function loadNextModule() {
 				if (modules.length > 0) {
 					const nextModule = modules[0];

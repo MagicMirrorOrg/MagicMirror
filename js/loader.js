@@ -16,31 +16,6 @@ const Loader = (function () {
 	/* Private Methods */
 
 	/**
-	 * Loops through all modules and requests load for every module.
-	 */
-	const loadModules = async function () {
-		let moduleData = getModuleData();
-
-		const loadNextModule = async function () {
-			if (moduleData.length > 0) {
-				const nextModule = moduleData[0];
-				await loadModule(nextModule);
-				moduleData = moduleData.slice(1);
-				await loadNextModule();
-			} else {
-				// All modules loaded. Load custom.css
-				// This is done after all the modules so we can
-				// overwrite all the defined styles.
-				await loadFile(config.customCss);
-				// custom.css loaded. Start all modules.
-				await startModules();
-			}
-		};
-
-		await loadNextModule();
-	};
-
-	/**
 	 * Loops through all modules and requests start for every module.
 	 */
 	const startModules = async function () {
@@ -135,12 +110,14 @@ const Loader = (function () {
 	const loadModule = async function (module) {
 		const url = module.path + module.file;
 
+		/**
+		 * @returns {Promise<void>}
+		 */
 		const afterLoad = async function () {
 			const moduleObject = Module.create(module.name);
 			if (moduleObject) {
 				await bootstrapModule(module, moduleObject);
 			}
-			return Promise.resolve();
 		};
 
 		if (loadedModuleFiles.indexOf(url) !== -1) {
@@ -226,7 +203,27 @@ const Loader = (function () {
 		 * Load all modules as defined in the config.
 		 */
 		loadModules: async function () {
-			await loadModules();
+			let moduleData = getModuleData();
+
+			/**
+			 * @returns {Promise<void>} when all modules are loaded
+			 */
+			const loadNextModule = async function () {
+				if (moduleData.length > 0) {
+					const nextModule = moduleData[0];
+					await loadModule(nextModule);
+					moduleData = moduleData.slice(1);
+					await loadNextModule();
+				} else {
+					// All modules loaded. Load custom.css
+					// This is done after all the modules so we can
+					// overwrite all the defined styles.
+					await loadFile(config.customCss);
+					// custom.css loaded. Start all modules.
+					await startModules();
+				}
+			};
+			await loadNextModule();
 		},
 
 		/**
@@ -240,7 +237,7 @@ const Loader = (function () {
 		loadFileForModule: async function (fileName, module) {
 			if (loadedFiles.indexOf(fileName.toLowerCase()) !== -1) {
 				Log.log("File already loaded: " + fileName);
-				return Promise.resolve();
+				return;
 			}
 
 			if (fileName.indexOf("http://") === 0 || fileName.indexOf("https://") === 0 || fileName.indexOf("/") !== -1) {
