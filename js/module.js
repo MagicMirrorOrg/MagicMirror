@@ -25,7 +25,7 @@ const Module = Class.extend({
 	// visibility when hiding and showing module.
 	lockStrings: [],
 
-	// Storage of the nunjuck Environment,
+	// Storage of the nunjucks Environment,
 	// This should not be referenced directly.
 	// Use the nunjucksEnvironment() to get it.
 	_nunjucksEnvironment: null,
@@ -302,7 +302,7 @@ const Module = Class.extend({
 	/**
 	 * Load all translations.
 	 */
-	async loadTranslations() {
+	loadTranslations: async function () {
 		const translations = this.getTranslations() || {};
 		const language = config.language.toLowerCase();
 
