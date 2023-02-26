@@ -152,9 +152,8 @@ function App() {
 	 * Loads a specific module.
 	 *
 	 * @param {string} module The name of the module (including subpath).
-	 * @param {Function} callback Function to be called after loading
 	 */
-	function loadModule(module, callback) {
+	function loadModule(module) {
 		const elements = module.split("/");
 		const moduleName = elements[elements.length - 1];
 		let moduleFolder = `${__dirname}/../modules/${module}`;
@@ -199,39 +198,37 @@ function App() {
 			m.setPath(path.resolve(moduleFolder));
 			nodeHelpers.push(m);
 
-			m.loaded(callback);
-		} else {
-			callback();
+			m.loaded();
 		}
 	}
 
 	/**
 	 * Loads all modules.
 	 *
-	 * @param {Module[]} modules All modules to be loaded
-	 * @param {Function} callback Function to be called after loading
+	 * @param {string[]} modules All modules to be loaded
 	 */
-	function loadModules(modules, callback) {
-		Log.log("Loading module helpers ...");
+	async function loadModules(modules) {
+		return new Promise((resolve) => {
+			Log.log("Loading module helpers ...");
 
-		/**
-		 *
-		 */
-		function loadNextModule() {
-			if (modules.length > 0) {
-				const nextModule = modules[0];
-				loadModule(nextModule, function () {
+			/**
+			 *
+			 */
+			function loadNextModule() {
+				if (modules.length > 0) {
+					const nextModule = modules[0];
+					loadModule(nextModule);
 					modules = modules.slice(1);
 					loadNextModule();
-				});
-			} else {
-				// All modules are loaded
-				Log.log("All module helpers loaded.");
-				callback();
+				} else {
+					// All modules are loaded
+					Log.log("All module helpers loaded.");
+					resolve();
+				}
 			}
-		}
 
-		loadNextModule();
+			loadNextModule();
+		});
 	}
 
 	/**
@@ -272,42 +269,40 @@ function App() {
 		Log.setLogLevel(config.logLevel);
 
 		let modules = [];
-
 		for (const module of config.modules) {
 			if (!modules.includes(module.module) && !module.disabled) {
 				modules.push(module.module);
 			}
 		}
+		await loadModules(modules);
 
-		loadModules(modules, async function () {
-			httpServer = new Server(config);
-			const { app, io } = await httpServer.open();
-			Log.log("Server started ...");
+		httpServer = new Server(config);
+		const { app, io } = await httpServer.open();
+		Log.log("Server started ...");
 
-			const nodePromises = [];
-			for (let nodeHelper of nodeHelpers) {
-				nodeHelper.setExpressApp(app);
-				nodeHelper.setSocketIO(io);
+		const nodePromises = [];
+		for (let nodeHelper of nodeHelpers) {
+			nodeHelper.setExpressApp(app);
+			nodeHelper.setSocketIO(io);
 
-				try {
-					nodePromises.push(nodeHelper.start());
-				} catch (error) {
-					Log.error(`Error when starting node_helper for module ${nodeHelper.name}:`);
-					Log.error(error);
-				}
+			try {
+				nodePromises.push(nodeHelper.start());
+			} catch (error) {
+				Log.error(`Error when starting node_helper for module ${nodeHelper.name}:`);
+				Log.error(error);
 			}
+		}
 
-			const results = await Promise.allSettled(nodePromises);
+		const results = await Promise.allSettled(nodePromises);
 
-			// Log errors that happened during async node_helper startup
-			results.forEach((result) => {
-				if (result.status === "rejected") {
-					Log.error(result.reason);
-				}
-			});
-
-			Log.log("Sockets connected & modules started ...");
+		// Log errors that happened during async node_helper startup
+		results.forEach((result) => {
+			if (result.status === "rejected") {
+				Log.error(result.reason);
+			}
 		});
+
+		Log.log("Sockets connected & modules started ...");
 
 		return config;
 	};

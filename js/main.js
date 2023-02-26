@@ -479,13 +479,14 @@ const MM = (function () {
 		/**
 		 * Main init method.
 		 */
-		init: function () {
+		init: async function () {
 			Log.info("Initializing MagicMirror².");
 			loadConfig();
 
 			Log.setLogLevel(config.logLevel);
 
-			Translator.loadCoreTranslations(config.language).then(() => Loader.loadModules());
+			await Translator.loadCoreTranslations(config.language);
+			await Loader.loadModules();
 		},
 
 		/**
