@@ -24,7 +24,7 @@ WeatherProvider.register("openmeteo", {
 		apiBase: OPEN_METEO_BASE,
 		lat: 0,
 		lon: 0,
-		past_days: 0,
+		pastDays: 0,
 		type: "current"
 	},
 
@@ -227,12 +227,12 @@ WeatherProvider.register("openmeteo", {
 			longitude: this.config.lon,
 			timeformat: "unixtime",
 			timezone: "auto",
-			past_days: this.config.past_days ?? 0,
+			past_days: this.config.pastDays ?? 0,
 			daily: this.dailyParams,
 			hourly: this.hourlyParams,
 			// Fixed units as metric
 			temperature_unit: "celsius",
-			windspeed_unit: "kmh",
+			windspeed_unit: "ms",
 			precipitation_unit: "mm"
 		};
 
