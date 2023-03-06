@@ -1,10 +1,7 @@
-.calendar .event-wrapper {
+.calendar .symbol {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-}
-
-.calendar .symbol {
   padding-left: 0;
   padding-right: 10px;
   font-size: var(--font-size-small);
@@ -17,9 +14,11 @@
 .calendar .title {
   padding-left: 0;
   padding-right: 0;
+  vertical-align: top;
 }
 
 .calendar .time {
   padding-left: 30px;
   text-align: right;
+  vertical-align: top;
 }
