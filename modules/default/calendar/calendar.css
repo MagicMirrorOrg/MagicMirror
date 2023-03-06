@@ -14,6 +14,7 @@
 .calendar .title {
   padding-left: 0;
   padding-right: 0;
+  vertical-align: top;
 }
 
 .calendar .time {
