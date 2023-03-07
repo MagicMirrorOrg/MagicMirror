@@ -33,7 +33,7 @@ const Loader = (function () {
 				// This is done after all the modules so we can
 				// overwrite all the defined styles.
 
-				loadFile(config.customCss).then(() => {
+				loadFile(config.customCss, function () {
 					// custom.css loaded. Start all modules.
 					startModules();
 				});
@@ -152,7 +152,7 @@ const Loader = (function () {
 		if (loadedModuleFiles.indexOf(url) !== -1) {
 			afterLoad();
 		} else {
-			loadFile(url).then(() => {
+			loadFile(url, function () {
 				loadedModuleFiles.push(url);
 				afterLoad();
 			});
@@ -171,9 +171,9 @@ const Loader = (function () {
 
 		mObj.setData(module);
 
-		mObj.loadScripts().then(() => {
+		mObj.loadScripts(function () {
 			Log.log("Scripts loaded for: " + module.name);
-			mObj.loadStyles().then(() => {
+			mObj.loadStyles(function () {
 				Log.log("Styles loaded for: " + module.name);
 				mObj.loadTranslations().then(() => {
 					Log.log("Translations loaded for: " + module.name);
@@ -188,45 +188,52 @@ const Loader = (function () {
 	 * Load a script or stylesheet by adding it to the dom.
 	 *
 	 * @param {string} fileName Path of the file we want to load.
-	 * @returns {Promise} resolved when the file is loaded
+	 * @param {Function} callback Function called when done.
 	 */
-	const loadFile = async function (fileName) {
+	const loadFile = function (fileName, callback) {
 		const extension = fileName.slice((Math.max(0, fileName.lastIndexOf(".")) || Infinity) + 1);
 		let script, stylesheet;
 
 		switch (extension.toLowerCase()) {
 			case "js":
-				return new Promise((resolve) => {
-					Log.log("Load script: " + fileName);
-					script = document.createElement("script");
-					script.type = "text/javascript";
-					script.src = fileName;
-					script.onload = function () {
-						resolve();
-					};
-					script.onerror = function () {
-						Log.error("Error on loading script:", fileName);
-						resolve();
-					};
-					document.getElementsByTagName("body")[0].appendChild(script);
-				});
-			case "css":
-				return new Promise((resolve) => {
-					Log.log("Load stylesheet: " + fileName);
+				Log.log("Load script: " + fileName);
+				script = document.createElement("script");
+				script.type = "text/javascript";
+				script.src = fileName;
+				script.onload = function () {
+					if (typeof callback === "function") {
+						callback();
+					}
+				};
+				script.onerror = function () {
+					Log.error("Error on loading script:", fileName);
+					if (typeof callback === "function") {
+						callback();
+					}
+				};
 
-					stylesheet = document.createElement("link");
-					stylesheet.rel = "stylesheet";
-					stylesheet.type = "text/css";
-					stylesheet.href = fileName;
-					stylesheet.onload = function () {
-						resolve();
-					};
-					stylesheet.onerror = function () {
-						Log.error("Error on loading stylesheet:", fileName);
-						resolve();
-					};
-					document.getElementsByTagName("head")[0].appendChild(stylesheet);
-				});
+				document.getElementsByTagName("body")[0].appendChild(script);
+				break;
+			case "css":
+				Log.log("Load stylesheet: " + fileName);
+				stylesheet = document.createElement("link");
+				stylesheet.rel = "stylesheet";
+				stylesheet.type = "text/css";
+				stylesheet.href = fileName;
+				stylesheet.onload = function () {
+					if (typeof callback === "function") {
+						callback();
+					}
+				};
+				stylesheet.onerror = function () {
+					Log.error("Error on loading stylesheet:", fileName);
+					if (typeof callback === "function") {
+						callback();
+					}
+				};
+
+				document.getElementsByTagName("head")[0].appendChild(stylesheet);
+				break;
 		}
 	};
 
@@ -245,32 +252,35 @@ const Loader = (function () {
 		 *
 		 * @param {string} fileName Path of the file we want to load.
 		 * @param {Module} module The module that calls the loadFile function.
-		 * @returns {Promise} resolved when the file is loaded
+		 * @param {Function} callback Function called when done.
 		 */
-		loadFileForModule: async function (fileName, module) {
+		loadFile: function (fileName, module, callback) {
 			if (loadedFiles.indexOf(fileName.toLowerCase()) !== -1) {
 				Log.log("File already loaded: " + fileName);
-				return Promise.resolve();
+				callback();
+				return;
 			}
 
 			if (fileName.indexOf("http://") === 0 || fileName.indexOf("https://") === 0 || fileName.indexOf("/") !== -1) {
 				// This is an absolute or relative path.
 				// Load it and then return.
 				loadedFiles.push(fileName.toLowerCase());
-				return loadFile(fileName);
+				loadFile(fileName, callback);
+				return;
 			}
 
 			if (vendor[fileName] !== undefined) {
 				// This file is available in the vendor folder.
 				// Load it from this vendor folder.
 				loadedFiles.push(fileName.toLowerCase());
-				return loadFile(config.paths.vendor + "/" + vendor[fileName]);
+				loadFile(config.paths.vendor + "/" + vendor[fileName], callback);
+				return;
 			}
 
 			// File not loaded yet.
 			// Load it based on the module path.
 			loadedFiles.push(fileName.toLowerCase());
-			return loadFile(module.file(fileName));
+			loadFile(module.file(fileName), callback);
 		}
 	};
 })();
