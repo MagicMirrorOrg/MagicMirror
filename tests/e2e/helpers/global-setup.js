@@ -15,15 +15,19 @@ exports.startApplication = async (configFilename, exec) => {
 	if (exec) exec;
 	global.app = require("app.js");
 
-	return global.app.start();
+	return new Promise((resolve) => {
+		global.app.start(resolve);
+	});
 };
 
 exports.stopApplication = async () => {
-	if (!global.app) {
-		return Promise.resolve();
+	if (global.app) {
+		return new Promise((resolve) => {
+			global.app.stop(resolve);
+			delete global.app;
+		});
 	}
-	await global.app.stop();
-	delete global.app;
+	return Promise.resolve();
 };
 
 exports.getDocument = () => {

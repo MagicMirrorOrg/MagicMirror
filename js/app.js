@@ -53,9 +53,6 @@ function App() {
 
 	/**
 	 * Loads the config file. Combines it with the defaults and returns the config
-	 *
-	 * @async
-	 * @returns {Promise<object>} the loaded config or the defaults if something goes wrong
 	 */
 	async function loadConfig() {
 		Log.log("Loading config ...");
@@ -118,7 +115,8 @@ function App() {
 			fs.accessSync(configFilename, fs.F_OK);
 			const c = require(configFilename);
 			checkDeprecatedOptions(c);
-			return Object.assign(defaults, c);
+			const config = Object.assign(defaults, c);
+			return config;
 		} catch (e) {
 			if (e.code === "ENOENT") {
 				Log.error(Utils.colors.error("WARNING! Could not find config file. Please create one. Starting with default configuration."));
@@ -127,9 +125,8 @@ function App() {
 			} else {
 				Log.error(Utils.colors.error(`WARNING! Could not load config file. Starting with default configuration. Error found: ${e}`));
 			}
+			return defaults;
 		}
-
-		return defaults;
 	}
 
 	/**
@@ -261,55 +258,59 @@ function App() {
 	/**
 	 * Start the core app.
 	 *
-	 * It loads the config, then it loads all modules.
+	 * It loads the config, then it loads all modules. When it's done it
+	 * executes the callback with the config as argument.
 	 *
-	 * @async
-	 * @returns {Promise<object>} the config used
+	 * @param {Function} callback Function to be called after start
 	 */
-	this.start = async function () {
-		config = await loadConfig();
+	this.start = function (callback) {
+		loadConfig().then((c) => {
+			config = c;
 
-		Log.setLogLevel(config.logLevel);
+			Log.setLogLevel(config.logLevel);
 
-		let modules = [];
+			let modules = [];
 
-		for (const module of config.modules) {
-			if (!modules.includes(module.module) && !module.disabled) {
-				modules.push(module.module);
-			}
-		}
-
-		loadModules(modules, async function () {
-			httpServer = new Server(config);
-			const { app, io } = await httpServer.open();
-			Log.log("Server started ...");
-
-			const nodePromises = [];
-			for (let nodeHelper of nodeHelpers) {
-				nodeHelper.setExpressApp(app);
-				nodeHelper.setSocketIO(io);
-
-				try {
-					nodePromises.push(nodeHelper.start());
-				} catch (error) {
-					Log.error(`Error when starting node_helper for module ${nodeHelper.name}:`);
-					Log.error(error);
+			for (const module of config.modules) {
+				if (!modules.includes(module.module) && !module.disabled) {
+					modules.push(module.module);
 				}
 			}
 
-			const results = await Promise.allSettled(nodePromises);
+			loadModules(modules, async function () {
+				httpServer = new Server(config);
+				const { app, io } = await httpServer.open();
+				Log.log("Server started ...");
 
-			// Log errors that happened during async node_helper startup
-			results.forEach((result) => {
-				if (result.status === "rejected") {
-					Log.error(result.reason);
+				const nodePromises = [];
+				for (let nodeHelper of nodeHelpers) {
+					nodeHelper.setExpressApp(app);
+					nodeHelper.setSocketIO(io);
+
+					try {
+						nodePromises.push(nodeHelper.start());
+					} catch (error) {
+						Log.error(`Error when starting node_helper for module ${nodeHelper.name}:`);
+						Log.error(error);
+					}
 				}
+
+				Promise.allSettled(nodePromises).then((results) => {
+					// Log errors that happened during async node_helper startup
+					results.forEach((result) => {
+						if (result.status === "rejected") {
+							Log.error(result.reason);
+						}
+					});
+
+					Log.log("Sockets connected & modules started ...");
+				});
 			});
 
-			Log.log("Sockets connected & modules started ...");
+			if (typeof callback === "function") {
+				callback(config);
+			}
 		});
-
-		return config;
 	};
 
 	/**
@@ -318,40 +319,15 @@ function App() {
 	 *
 	 * Added to fix #1056
 	 *
-	 * @returns {Promise} A promise that is resolved when all node_helpers and
-	 * the http server has been closed
+	 * @param {Function} callback Function to be called after the app has stopped
 	 */
-	this.stop = async function () {
-		const nodePromises = [];
-		for (let nodeHelper of nodeHelpers) {
-			try {
-				if (typeof nodeHelper.stop === "function") {
-					nodePromises.push(nodeHelper.stop());
-				}
-			} catch (error) {
-				Log.error(`Error when stopping node_helper for module ${nodeHelper.name}:`);
-				console.error(error);
+	this.stop = function (callback) {
+		for (const nodeHelper of nodeHelpers) {
+			if (typeof nodeHelper.stop === "function") {
+				nodeHelper.stop();
 			}
 		}
-
-		const results = await Promise.allSettled(nodePromises);
-
-		// Log errors that happened during async node_helper stopping
-		results.forEach((result) => {
-			if (result.status === "rejected") {
-				Log.error(result.reason);
-			}
-		});
-
-		Log.log("Node_helpers stopped ...");
-
-		// To be able to stop the app even if it hasn't been started (when
-		// running with Electron against another server)
-		if (!httpServer) {
-			return Promise.resolve();
-		}
-
-		return httpServer.close();
+		httpServer.close().then(callback);
 	};
 
 	/**
@@ -361,12 +337,12 @@ function App() {
 	 * Note: this is only used if running `server-only`. Otherwise
 	 * this.stop() is called by app.on("before-quit"... in `electron.js`
 	 */
-	process.on("SIGINT", async () => {
+	process.on("SIGINT", () => {
 		Log.log("[SIGINT] Received. Shutting down server...");
 		setTimeout(() => {
 			process.exit(0);
 		}, 3000); // Force quit after 3 seconds
-		await this.stop();
+		this.stop();
 		process.exit(0);
 	});
 
@@ -374,12 +350,12 @@ function App() {
 	 * Listen to SIGTERM signals so we can stop everything when we
 	 * are asked to stop by the OS.
 	 */
-	process.on("SIGTERM", async () => {
+	process.on("SIGTERM", () => {
 		Log.log("[SIGTERM] Received. Shutting down server...");
 		setTimeout(() => {
 			process.exit(0);
 		}, 3000); // Force quit after 3 seconds
-		await this.stop();
+		this.stop();
 		process.exit(0);
 	});
 }
