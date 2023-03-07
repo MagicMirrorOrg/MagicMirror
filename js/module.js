@@ -40,7 +40,7 @@ const Module = Class.extend({
 	/**
 	 * Called when the module is started.
 	 */
-	start: async function () {
+	start: function () {
 		Log.info("Starting module: " + this.name);
 	},
 

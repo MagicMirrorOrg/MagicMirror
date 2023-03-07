@@ -44,7 +44,7 @@ Module.register("alert", {
 		return `templates/${type}.njk`;
 	},
 
-	async start() {
+	start() {
 		Log.info(`Starting module: ${this.name}`);
 
 		if (this.config.effect === "slide") {
@@ -53,7 +53,7 @@ Module.register("alert", {
 
 		if (this.config.welcome_message) {
 			const message = this.config.welcome_message === true ? this.translate("welcome") : this.config.welcome_message;
-			await this.showNotification({ title: this.translate("sysTitle"), message });
+			this.showNotification({ title: this.translate("sysTitle"), message });
 		}
 	},
 
