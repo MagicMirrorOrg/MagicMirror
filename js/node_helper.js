@@ -13,8 +13,9 @@ const NodeHelper = Class.extend({
 		Log.log("Initializing new module helper ...");
 	},
 
-	loaded() {
+	loaded(callback) {
 		Log.log(`Module helper loaded: ${this.name}`);
+		callback();
 	},
 
 	start() {

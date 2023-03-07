@@ -16,9 +16,37 @@ const Loader = (function () {
 	/* Private Methods */
 
 	/**
-	 * Loops through all modules and requests start for every module.
+	 * Loops thru all modules and requests load for every module.
 	 */
-	const startModules = async function () {
+	const loadModules = function () {
+		let moduleData = getModuleData();
+
+		const loadNextModule = function () {
+			if (moduleData.length > 0) {
+				const nextModule = moduleData[0];
+				loadModule(nextModule, function () {
+					moduleData = moduleData.slice(1);
+					loadNextModule();
+				});
+			} else {
+				// All modules loaded. Load custom.css
+				// This is done after all the modules so we can
+				// overwrite all the defined styles.
+
+				loadFile(config.customCss).then(() => {
+					// custom.css loaded. Start all modules.
+					startModules();
+				});
+			}
+		};
+
+		loadNextModule();
+	};
+
+	/**
+	 * Loops thru all modules and requests start for every module.
+	 */
+	const startModules = function () {
 		const modulePromises = [];
 		for (const module of moduleObjects) {
 			try {
@@ -29,25 +57,25 @@ const Loader = (function () {
 			}
 		}
 
-		const results = await Promise.allSettled(modulePromises);
+		Promise.allSettled(modulePromises).then((results) => {
+			// Log errors that happened during async node_helper startup
+			results.forEach((result) => {
+				if (result.status === "rejected") {
+					Log.error(result.reason);
+				}
+			});
 
-		// Log errors that happened during async node_helper startup
-		results.forEach((result) => {
-			if (result.status === "rejected") {
-				Log.error(result.reason);
+			// Notify core of loaded modules.
+			MM.modulesStarted(moduleObjects);
+
+			// Starting modules also hides any modules that have requested to be initially hidden
+			for (const thisModule of moduleObjects) {
+				if (thisModule.data.hiddenOnStartup) {
+					Log.info("Initially hiding " + thisModule.name);
+					thisModule.hide();
+				}
 			}
 		});
-
-		// Notify core of loaded modules.
-		MM.modulesStarted(moduleObjects);
-
-		// Starting modules also hides any modules that have requested to be initially hidden
-		for (const thisModule of moduleObjects) {
-			if (thisModule.data.hiddenOnStartup) {
-				Log.info("Initially hiding " + thisModule.name);
-				thisModule.hide();
-			}
-		}
 	};
 
 	/**
@@ -102,30 +130,32 @@ const Loader = (function () {
 	};
 
 	/**
-	 * Load modules via ajax request and create module objects.
+	 * Load modules via ajax request and create module objects.s
 	 *
 	 * @param {object} module Information about the module we want to load.
-	 * @returns {Promise<void>} resolved when module is loaded
+	 * @param {Function} callback Function called when done.
 	 */
-	const loadModule = async function (module) {
+	const loadModule = function (module, callback) {
 		const url = module.path + module.file;
 
-		/**
-		 * @returns {Promise<void>}
-		 */
-		const afterLoad = async function () {
+		const afterLoad = function () {
 			const moduleObject = Module.create(module.name);
 			if (moduleObject) {
-				await bootstrapModule(module, moduleObject);
+				bootstrapModule(module, moduleObject, function () {
+					callback();
+				});
+			} else {
+				callback();
 			}
 		};
 
 		if (loadedModuleFiles.indexOf(url) !== -1) {
-			await afterLoad();
+			afterLoad();
 		} else {
-			await loadFile(url);
-			loadedModuleFiles.push(url);
-			await afterLoad();
+			loadFile(url).then(() => {
+				loadedModuleFiles.push(url);
+				afterLoad();
+			});
 		}
 	};
 
@@ -134,21 +164,24 @@ const Loader = (function () {
 	 *
 	 * @param {object} module Information about the module we want to load.
 	 * @param {Module} mObj Modules instance.
+	 * @param {Function} callback Function called when done.
 	 */
-	const bootstrapModule = async function (module, mObj) {
+	const bootstrapModule = function (module, mObj, callback) {
 		Log.info("Bootstrapping module: " + module.name);
+
 		mObj.setData(module);
 
-		await mObj.loadScripts();
-		Log.log("Scripts loaded for: " + module.name);
-
-		await mObj.loadStyles();
-		Log.log("Styles loaded for: " + module.name);
-
-		await mObj.loadTranslations();
-		Log.log("Translations loaded for: " + module.name);
-
-		moduleObjects.push(mObj);
+		mObj.loadScripts().then(() => {
+			Log.log("Scripts loaded for: " + module.name);
+			mObj.loadStyles().then(() => {
+				Log.log("Styles loaded for: " + module.name);
+				mObj.loadTranslations().then(() => {
+					Log.log("Translations loaded for: " + module.name);
+					moduleObjects.push(mObj);
+					callback();
+				});
+			});
+		});
 	};
 
 	/**
@@ -202,28 +235,8 @@ const Loader = (function () {
 		/**
 		 * Load all modules as defined in the config.
 		 */
-		loadModules: async function () {
-			let moduleData = getModuleData();
-
-			/**
-			 * @returns {Promise<void>} when all modules are loaded
-			 */
-			const loadNextModule = async function () {
-				if (moduleData.length > 0) {
-					const nextModule = moduleData[0];
-					await loadModule(nextModule);
-					moduleData = moduleData.slice(1);
-					await loadNextModule();
-				} else {
-					// All modules loaded. Load custom.css
-					// This is done after all the modules so we can
-					// overwrite all the defined styles.
-					await loadFile(config.customCss);
-					// custom.css loaded. Start all modules.
-					await startModules();
-				}
-			};
-			await loadNextModule();
+		loadModules: function () {
+			loadModules();
 		},
 
 		/**
@@ -237,7 +250,7 @@ const Loader = (function () {
 		loadFileForModule: async function (fileName, module) {
 			if (loadedFiles.indexOf(fileName.toLowerCase()) !== -1) {
 				Log.log("File already loaded: " + fileName);
-				return;
+				return Promise.resolve();
 			}
 
 			if (fileName.indexOf("http://") === 0 || fileName.indexOf("https://") === 0 || fileName.indexOf("/") !== -1) {

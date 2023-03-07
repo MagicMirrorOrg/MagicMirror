@@ -9,9 +9,6 @@ const path = require("path");
 const ipfilter = require("express-ipfilter").IpFilter;
 const fs = require("fs");
 const helmet = require("helmet");
-const socketio = require("socket.io");
-const http = require("http");
-const https = require("https");
 
 const Log = require("logger");
 const Utils = require("./utils.js");
@@ -41,11 +38,11 @@ function Server(config) {
 					key: fs.readFileSync(config.httpsPrivateKey),
 					cert: fs.readFileSync(config.httpsCertificate)
 				};
-				server = https.Server(options, app);
+				server = require("https").Server(options, app);
 			} else {
-				server = http.Server(app);
+				server = require("http").Server(app);
 			}
-			const io = socketio(server, {
+			const io = require("socket.io")(server, {
 				cors: {
 					origin: /.*$/,
 					credentials: true
