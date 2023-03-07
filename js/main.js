@@ -485,7 +485,8 @@ const MM = (function () {
 
 			Log.setLogLevel(config.logLevel);
 
-			Translator.loadCoreTranslations(config.language).then(() => Loader.loadModules());
+			Translator.loadCoreTranslations(config.language);
+			Loader.loadModules();
 		},
 
 		/**

@@ -11,28 +11,26 @@ const Translator = (function () {
 	 * Load a JSON file via XHR.
 	 *
 	 * @param {string} file Path of the file we want to load.
-	 * @returns {Promise<object>} the translations in the specified file
+	 * @param {Function} callback Function called when done.
 	 */
-	async function loadJSON(file) {
+	function loadJSON(file, callback) {
 		const xhr = new XMLHttpRequest();
-		return new Promise(function (resolve, reject) {
-			xhr.overrideMimeType("application/json");
-			xhr.open("GET", file, true);
-			xhr.onreadystatechange = function () {
-				if (xhr.readyState === 4 && xhr.status === 200) {
-					// needs error handler try/catch at least
-					let fileinfo = null;
-					try {
-						fileinfo = JSON.parse(xhr.responseText);
-					} catch (exception) {
-						// nothing here, but don't die
-						Log.error(" loading json file =" + file + " failed");
-					}
-					resolve(fileinfo);
+		xhr.overrideMimeType("application/json");
+		xhr.open("GET", file, true);
+		xhr.onreadystatechange = function () {
+			if (xhr.readyState === 4 && xhr.status === 200) {
+				// needs error handler try/catch at least
+				let fileinfo = null;
+				try {
+					fileinfo = JSON.parse(xhr.responseText);
+				} catch (exception) {
+					// nothing here, but don't die
+					Log.error(" loading json file =" + file + " failed");
 				}
-			};
-			xhr.send(null);
-		});
+				callback(fileinfo);
+			}
+		};
+		xhr.send(null);
 	}
 
 	return {
@@ -50,7 +48,7 @@ const Translator = (function () {
 		 * @returns {string} the translated key
 		 */
 		translate: function (module, key, variables) {
-			variables = variables || {}; // Empty object by default
+			variables = variables || {}; //Empty object by default
 
 			/**
 			 * Combines template and variables like:
@@ -103,17 +101,21 @@ const Translator = (function () {
 		 * @param {Module} module The module to load the translation file for.
 		 * @param {string} file Path of the file we want to load.
 		 * @param {boolean} isFallback Flag to indicate fallback translations.
+		 * @param {Function} callback Function called when done.
 		 */
-		async load(module, file, isFallback) {
+		load(module, file, isFallback, callback) {
 			Log.log(`${module.name} - Load translation${isFallback ? " fallback" : ""}: ${file}`);
 
 			if (this.translationsFallback[module.name]) {
+				callback();
 				return;
 			}
 
-			const json = await loadJSON(module.file(file));
-			const property = isFallback ? "translationsFallback" : "translations";
-			this[property][module.name] = json;
+			loadJSON(module.file(file), (json) => {
+				const property = isFallback ? "translationsFallback" : "translations";
+				this[property][module.name] = json;
+				callback();
+			});
 		},
 
 		/**
@@ -121,26 +123,30 @@ const Translator = (function () {
 		 *
 		 * @param {string} lang The language identifier of the core language.
 		 */
-		loadCoreTranslations: async function (lang) {
+		loadCoreTranslations: function (lang) {
 			if (lang in translations) {
 				Log.log("Loading core translation file: " + translations[lang]);
-				this.coreTranslations = await loadJSON(translations[lang]);
+				loadJSON(translations[lang], (translations) => {
+					this.coreTranslations = translations;
+				});
 			} else {
 				Log.log("Configured language not found in core translations.");
 			}
 
-			await this.loadCoreTranslationsFallback();
+			this.loadCoreTranslationsFallback();
 		},
 
 		/**
-		 * Load the core translations' fallback.
+		 * Load the core translations fallback.
 		 * The first language defined in translations.js will be used.
 		 */
-		loadCoreTranslationsFallback: async function () {
+		loadCoreTranslationsFallback: function () {
 			let first = Object.keys(translations)[0];
 			if (first) {
 				Log.log("Loading core translation fallback file: " + translations[first]);
-				this.coreTranslationsFallback = await loadJSON(translations[first]);
+				loadJSON(translations[first], (translations) => {
+					this.coreTranslationsFallback = translations;
+				});
 			}
 		}
 	};
