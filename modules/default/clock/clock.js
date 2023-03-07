@@ -22,6 +22,7 @@ Module.register("clock", {
 		showTime: true,
 		showWeek: false,
 		dateFormat: "dddd, LL",
+		sendNotifications: false,
 
 		/* specific to the analog clock */
 		analogSize: "200px",
@@ -66,23 +67,27 @@ Module.register("clock", {
 		const notificationTimer = () => {
 			this.updateDom();
 
-			// If seconds is displayed CLOCK_SECOND-notification should be sent (but not when CLOCK_MINUTE-notification is sent)
-			if (this.config.displaySeconds) {
-				this.second = moment().second();
-				if (this.second !== 0) {
-					this.sendNotification("CLOCK_SECOND", this.second);
-					setTimeout(notificationTimer, delayCalculator(0));
-					return;
+			if (this.config.sendNotifications) {
+				// If seconds is displayed CLOCK_SECOND-notification should be sent (but not when CLOCK_MINUTE-notification is sent)
+				if (this.config.displaySeconds) {
+					this.second = moment().second();
+					if (this.second !== 0) {
+						this.sendNotification("CLOCK_SECOND", this.second);
+						setTimeout(notificationTimer, delayCalculator(0));
+						return;
+					}
 				}
+
+				// If minute changed or seconds isn't displayed send CLOCK_MINUTE-notification
+				this.minute = moment().minute();
+				this.sendNotification("CLOCK_MINUTE", this.minute);
 			}
 
-			// If minute changed or seconds isn't displayed send CLOCK_MINUTE-notification
-			this.minute = moment().minute();
-			this.sendNotification("CLOCK_MINUTE", this.minute);
 			setTimeout(notificationTimer, delayCalculator(0));
 		};
 
-		// Set the initial timeout with the amount of seconds elapsed as reducedSeconds so it will trigger when the minute changes
+		// Set the initial timeout with the amount of seconds elapsed as
+		// reducedSeconds, so it will trigger when the minute changes
 		setTimeout(notificationTimer, delayCalculator(this.second));
 
 		// Set locale.
