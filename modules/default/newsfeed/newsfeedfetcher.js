@@ -72,11 +72,15 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 
 		parser.on("end", () => {
 			this.broadcastItems();
-			scheduleTimer();
 		});
 
 		parser.on("error", (error) => {
 			fetchFailedCallback(this, error);
+			scheduleTimer();
+		});
+
+		//"end" event is not broadcast if the feed is empty but "finish" is used for both
+		parser.on("finish", () => {
 			scheduleTimer();
 		});
 
