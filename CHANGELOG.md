@@ -53,6 +53,7 @@ _This release is scheduled to be released on 2023-04-01._
 - The wind direction arrow now points in the direction the wind is flowing, not into the wind (#3019)
 - Fix precipitation css styles and rounding value
 - Fix wrong vertical alignment of calendar title column when wrapEvents is true (#3053)
+- Fix empty news feed stopping the reload forever
 
 ## [2.22.0] - 2023-01-01
 
