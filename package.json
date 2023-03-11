@@ -16,7 +16,7 @@
 		"test:coverage": "NODE_ENV=test jest --coverage -i --verbose false --forceExit",
 		"test:electron": "NODE_ENV=test jest --selectProjects electron -i --forceExit",
 		"test:e2e": "NODE_ENV=test jest --selectProjects e2e -i --forceExit",
-		"test:unit": "NODE_ENV=test jest --selectProjects unit -i --forceExit",
+		"test:unit": "NODE_ENV=test jest --selectProjects unit",
 		"test:prettier": "prettier . --check",
 		"test:js": "eslint 'js/**/*.js' 'modules/default/**/*.js' 'clientonly/*.js' 'serveronly/*.js' 'translations/*.js' 'vendor/*.js' 'tests/**/*.js' 'config/*' --config .eslintrc.json",
 		"test:css": "stylelint 'css/main.css' 'fonts/*.css' 'modules/default/**/*.css' 'vendor/*.css' --config .stylelintrc.json",
