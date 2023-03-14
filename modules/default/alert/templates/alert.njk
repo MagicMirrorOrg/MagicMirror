@@ -8,11 +8,11 @@
   <br/>
 {% endif %}
 {% if title %}
-  <span class="thin dimmed medium">{{ title | safe if (titleType == null || titleType == 'html') else title }}</span>
+  <span class="thin dimmed medium">{{ title | safe if (titleType == null or titleType == 'html') else title }}</span>
 {% endif %}
 {% if message %}
   {% if title %}
     <br/>
   {% endif %}
-  <span class="light bright small">{{ message | safe if (messageType == null || messageType == 'html') else message }}</span>
+  <span class="light bright small">{{ message | safe if (messageType == null or messageType == 'html') else message }}</span>
 {% endif %}
