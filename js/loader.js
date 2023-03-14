@@ -44,7 +44,7 @@ const Loader = (function () {
 		// Starting modules also hides any modules that have requested to be initially hidden
 		for (const thisModule of moduleObjects) {
 			if (thisModule.data.hiddenOnStartup) {
-				Log.info("Initially hiding " + thisModule.name);
+				Log.info(`Initially hiding ${thisModule.name}`);
 				thisModule.hide();
 			}
 		}
@@ -73,10 +73,10 @@ const Loader = (function () {
 
 			const elements = module.split("/");
 			const moduleName = elements[elements.length - 1];
-			let moduleFolder = config.paths.modules + "/" + module;
+			let moduleFolder = `${config.paths.modules}/${module}`;
 
 			if (defaultModules.indexOf(moduleName) !== -1) {
-				moduleFolder = config.paths.modules + "/default/" + module;
+				moduleFolder = `${config.paths.modules}/default/${module}`;
 			}
 
 			if (moduleData.disabled === true) {
@@ -85,16 +85,16 @@ const Loader = (function () {
 
 			moduleFiles.push({
 				index: index,
-				identifier: "module_" + index + "_" + module,
+				identifier: `module_${index}_${module}`,
 				name: moduleName,
-				path: moduleFolder + "/",
-				file: moduleName + ".js",
+				path: `${moduleFolder}/`,
+				file: `${moduleName}.js`,
 				position: moduleData.position,
 				hiddenOnStartup: moduleData.hiddenOnStartup,
 				header: moduleData.header,
 				configDeepMerge: typeof moduleData.configDeepMerge === "boolean" ? moduleData.configDeepMerge : false,
 				config: moduleData.config,
-				classes: typeof moduleData.classes !== "undefined" ? moduleData.classes + " " + module : module
+				classes: typeof moduleData.classes !== "undefined" ? `${moduleData.classes} ${module}` : module
 			});
 		});
 
@@ -136,17 +136,17 @@ const Loader = (function () {
 	 * @param {Module} mObj Modules instance.
 	 */
 	const bootstrapModule = async function (module, mObj) {
-		Log.info("Bootstrapping module: " + module.name);
+		Log.info(`Bootstrapping module: ${module.name}`);
 		mObj.setData(module);
 
 		await mObj.loadScripts();
-		Log.log("Scripts loaded for: " + module.name);
+		Log.log(`Scripts loaded for: ${module.name}`);
 
 		await mObj.loadStyles();
-		Log.log("Styles loaded for: " + module.name);
+		Log.log(`Styles loaded for: ${module.name}`);
 
 		await mObj.loadTranslations();
-		Log.log("Translations loaded for: " + module.name);
+		Log.log(`Translations loaded for: ${module.name}`);
 
 		moduleObjects.push(mObj);
 	};
@@ -164,7 +164,7 @@ const Loader = (function () {
 		switch (extension.toLowerCase()) {
 			case "js":
 				return new Promise((resolve) => {
-					Log.log("Load script: " + fileName);
+					Log.log(`Load script: ${fileName}`);
 					script = document.createElement("script");
 					script.type = "text/javascript";
 					script.src = fileName;
@@ -179,7 +179,7 @@ const Loader = (function () {
 				});
 			case "css":
 				return new Promise((resolve) => {
-					Log.log("Load stylesheet: " + fileName);
+					Log.log(`Load stylesheet: ${fileName}`);
 
 					stylesheet = document.createElement("link");
 					stylesheet.rel = "stylesheet";
@@ -236,7 +236,7 @@ const Loader = (function () {
 		 */
 		loadFileForModule: async function (fileName, module) {
 			if (loadedFiles.indexOf(fileName.toLowerCase()) !== -1) {
-				Log.log("File already loaded: " + fileName);
+				Log.log(`File already loaded: ${fileName}`);
 				return;
 			}
 
@@ -251,7 +251,7 @@ const Loader = (function () {
 				// This file is available in the vendor folder.
 				// Load it from this vendor folder.
 				loadedFiles.push(fileName.toLowerCase());
-				return loadFile(config.paths.vendor + "/" + vendor[fileName]);
+				return loadFile(`${config.paths.vendor}/${vendor[fileName]}`);
 			}
 
 			// File not loaded yet.

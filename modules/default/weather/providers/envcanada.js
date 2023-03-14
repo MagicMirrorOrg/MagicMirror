@@ -138,7 +138,7 @@ WeatherProvider.register("envcanada", {
 	// being accessed. This is only pertinent when using the EC data elements that contain a textual forecast.
 	//
 	getUrl() {
-		return "https://dd.weather.gc.ca/citypage_weather/xml/" + this.config.provCode + "/" + this.config.siteCode + "_e.xml";
+		return `https://dd.weather.gc.ca/citypage_weather/xml/${this.config.provCode}/${this.config.siteCode}_e.xml`;
 	},
 
 	//

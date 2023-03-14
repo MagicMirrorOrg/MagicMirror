@@ -131,7 +131,7 @@ class GitHelper {
 
 		// this is the default if there was no match from "git fetch -n --dry-run".
 		// Its a fallback because if there was a real "git fetch", the above "git fetch -n --dry-run" would deliver nothing.
-		let refDiff = gitInfo.current + "..origin/" + gitInfo.current;
+		let refDiff = `${gitInfo.current}..origin/${gitInfo.current}`;
 		if (matches && matches[0]) {
 			refDiff = matches[0];
 		}

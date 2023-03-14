@@ -33,7 +33,7 @@ WeatherProvider.register("smhi", {
 				this.setFetchedLocation(this.config.location || `(${coordinates.lat},${coordinates.lon})`);
 				this.setCurrentWeather(weatherObject);
 			})
-			.catch((error) => Log.error("Could not load data: " + error.message))
+			.catch((error) => Log.error(`Could not load data: ${error.message}`))
 			.finally(() => this.updateAvailable());
 	},
 
@@ -48,7 +48,7 @@ WeatherProvider.register("smhi", {
 				this.setFetchedLocation(this.config.location || `(${coordinates.lat},${coordinates.lon})`);
 				this.setWeatherForecast(weatherObjects);
 			})
-			.catch((error) => Log.error("Could not load data: " + error.message))
+			.catch((error) => Log.error(`Could not load data: ${error.message}`))
 			.finally(() => this.updateAvailable());
 	},
 
@@ -63,7 +63,7 @@ WeatherProvider.register("smhi", {
 				this.setFetchedLocation(this.config.location || `(${coordinates.lat},${coordinates.lon})`);
 				this.setWeatherHourly(weatherObjects);
 			})
-			.catch((error) => Log.error("Could not load data: " + error.message))
+			.catch((error) => Log.error(`Could not load data: ${error.message}`))
 			.finally(() => this.updateAvailable());
 	},
 
@@ -75,7 +75,7 @@ WeatherProvider.register("smhi", {
 	setConfig(config) {
 		this.config = config;
 		if (!config.precipitationValue || ["pmin", "pmean", "pmedian", "pmax"].indexOf(config.precipitationValue) === -1) {
-			Log.log("invalid or not set: " + config.precipitationValue);
+			Log.log(`invalid or not set: ${config.precipitationValue}`);
 			config.precipitationValue = this.defaults.precipitationValue;
 		}
 	},

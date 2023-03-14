@@ -64,9 +64,9 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 			} else if (logFeedWarnings) {
 				Log.warn("Can't parse feed item:");
 				Log.warn(item);
-				Log.warn("Title: " + title);
-				Log.warn("Description: " + description);
-				Log.warn("Pubdate: " + pubdate);
+				Log.warn(`Title: ${title}`);
+				Log.warn(`Description: ${description}`);
+				Log.warn(`Pubdate: ${pubdate}`);
 			}
 		});
 
@@ -90,16 +90,16 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 				const ttlms = Math.min(minutes * 60 * 1000, 86400000);
 				if (ttlms > reloadInterval) {
 					reloadInterval = ttlms;
-					Log.info("Newsfeed-Fetcher: reloadInterval set to ttl=" + reloadInterval + " for url " + url);
+					Log.info(`Newsfeed-Fetcher: reloadInterval set to ttl=${reloadInterval} for url ${url}`);
 				}
 			} catch (error) {
-				Log.warn("Newsfeed-Fetcher: feed ttl is no valid integer=" + minutes + " for url " + url);
+				Log.warn(`Newsfeed-Fetcher: feed ttl is no valid integer=${minutes} for url ${url}`);
 			}
 		});
 
 		const nodeVersion = Number(process.version.match(/^v(\d+\.\d+)/)[1]);
 		const headers = {
-			"User-Agent": "Mozilla/5.0 (Node.js " + nodeVersion + ") MagicMirror/" + global.version,
+			"User-Agent": `Mozilla/5.0 (Node.js ${nodeVersion}) MagicMirror/${global.version}`,
 			"Cache-Control": "max-age=0, no-cache, no-store, must-revalidate",
 			Pragma: "no-cache"
 		};
@@ -159,7 +159,7 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 			Log.info("Newsfeed-Fetcher: No items to broadcast yet.");
 			return;
 		}
-		Log.info("Newsfeed-Fetcher: Broadcasting " + items.length + " items.");
+		Log.info(`Newsfeed-Fetcher: Broadcasting ${items.length} items.`);
 		itemsReceivedCallback(this);
 	};
 

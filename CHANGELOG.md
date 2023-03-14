@@ -55,6 +55,7 @@ _This release is scheduled to be released on 2023-04-01._
 - Fix wrong vertical alignment of calendar title column when wrapEvents is true (#3053)
 - Fix empty news feed stopping the reload forever
 - Fix e2e tests (failed after async changes) by running calendar and newsfeed tests last
+- Lint: Use template literals instead of string concatenation
 
 ## [2.22.0] - 2023-01-01
 

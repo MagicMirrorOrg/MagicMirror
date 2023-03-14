@@ -89,7 +89,7 @@ describe("Clock module", () => {
 
 		it("should show the week with the correct number of week of year", async () => {
 			const currentWeekNumber = moment().week();
-			const weekToShow = "Week " + currentWeekNumber;
+			const weekToShow = `Week ${currentWeekNumber}`;
 			const elem = await helpers.waitForElement(".clock .week");
 			expect(elem).not.toBe(null);
 			expect(elem.textContent).toBe(weekToShow);

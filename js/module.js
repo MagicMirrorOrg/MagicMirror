@@ -41,7 +41,7 @@ const Module = Class.extend({
 	 * Called when the module is started.
 	 */
 	start: async function () {
-		Log.info("Starting module: " + this.name);
+		Log.info(`Starting module: ${this.name}`);
 	},
 
 	/**
@@ -127,7 +127,7 @@ const Module = Class.extend({
 	 * @returns {string} The template string of filename.
 	 */
 	getTemplate: function () {
-		return '<div class="normal">' + this.name + '</div><div class="small dimmed">' + this.identifier + "</div>";
+		return `<div class="normal">${this.name}</div><div class="small dimmed">${this.identifier}</div>`;
 	},
 
 	/**
@@ -185,21 +185,21 @@ const Module = Class.extend({
 	 * @param {*} payload The payload of the notification.
 	 */
 	socketNotificationReceived: function (notification, payload) {
-		Log.log(this.name + " received a socket notification: " + notification + " - Payload: " + payload);
+		Log.log(`${this.name} received a socket notification: ${notification} - Payload: ${payload}`);
 	},
 
 	/**
 	 * Called when the module is hidden.
 	 */
 	suspend: function () {
-		Log.log(this.name + " is suspended.");
+		Log.log(`${this.name} is suspended.`);
 	},
 
 	/**
 	 * Called when the module is shown.
 	 */
 	resume: function () {
-		Log.log(this.name + " is resumed.");
+		Log.log(`${this.name} is resumed.`);
 	},
 
 	/*********************************************
@@ -255,7 +255,7 @@ const Module = Class.extend({
 	 * @returns {string} the file path
 	 */
 	file: function (file) {
-		return (this.data.path + "/" + file).replace("//", "/");
+		return `${this.data.path}/${file}`.replace("//", "/");
 	},
 
 	/**
@@ -491,15 +491,15 @@ Module.create = function (name) {
 
 Module.register = function (name, moduleDefinition) {
 	if (moduleDefinition.requiresVersion) {
-		Log.log("Check MagicMirror² version for module '" + name + "' - Minimum version:  " + moduleDefinition.requiresVersion + " - Current version: " + window.mmVersion);
+		Log.log(`Check MagicMirror² version for module '${name}' - Minimum version:  ${moduleDefinition.requiresVersion} - Current version: ${window.mmVersion}`);
 		if (cmpVersions(window.mmVersion, moduleDefinition.requiresVersion) >= 0) {
 			Log.log("Version is ok!");
 		} else {
-			Log.warn("Version is incorrect. Skip module: '" + name + "'");
+			Log.warn(`Version is incorrect. Skip module: '${name}'`);
 			return;
 		}
 	}
-	Log.log("Module registered: " + name);
+	Log.log(`Module registered: ${name}`);
 	Module.definitions[name] = moduleDefinition;
 };
 

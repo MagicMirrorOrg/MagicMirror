@@ -55,7 +55,7 @@ WeatherProvider.register("weatherbit", {
 				const forecast = this.generateWeatherObjectsFromForecast(data.data);
 				this.setWeatherForecast(forecast);
 
-				this.fetchedLocationName = data.city_name + ", " + data.state_code;
+				this.fetchedLocationName = `${data.city_name}, ${data.state_code}`;
 			})
 			.catch(function (request) {
 				Log.error("Could not load data ... ", request);
@@ -111,7 +111,7 @@ WeatherProvider.register("weatherbit", {
 		currentWeather.sunrise = moment(currentWeatherData.data[0].sunrise, "HH:mm").add(tzOffset, "m");
 		currentWeather.sunset = moment(currentWeatherData.data[0].sunset, "HH:mm").add(tzOffset, "m");
 
-		this.fetchedLocationName = currentWeatherData.data[0].city_name + ", " + currentWeatherData.data[0].state_code;
+		this.fetchedLocationName = `${currentWeatherData.data[0].city_name}, ${currentWeatherData.data[0].state_code}`;
 
 		return currentWeather;
 	},
