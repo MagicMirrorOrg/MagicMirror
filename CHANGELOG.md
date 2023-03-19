@@ -36,7 +36,7 @@ _This release is scheduled to be released on 2023-04-01._
 - Changed updatenotification module for MagicMirror repo only: Send only notifications for `master` if there is a tag on a newer commit
 - Update dates in Calendar widgets every minute
 - Cleanup jest coverage for patches
-- Update `stylelint` dependencies, switch to `stylelint-config-standard` and handle `stylelint` issues
+- Update `stylelint` dependencies, switch to `stylelint-config-standard` and handle `stylelint` issues, update `main.css` matching new rules
 - Convert lots of callbacks to async/await
 - Fixed Open-Meteo wind speed units
 
