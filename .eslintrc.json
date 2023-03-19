@@ -3,7 +3,7 @@
 	"plugins": ["prettier", "jsdoc", "jest"],
 	"env": {
 		"browser": true,
-		"es6": true,
+		"es2022": true,
 		"jest/globals": true,
 		"node": true
 	},
@@ -16,7 +16,7 @@
 	},
 	"parserOptions": {
 		"sourceType": "module",
-		"ecmaVersion": 2020,
+		"ecmaVersion": 2022,
 		"ecmaFeatures": {
 			"globalReturn": true
 		}
