@@ -188,7 +188,7 @@ describe("Translator", () => {
 				const file = "translation_test.json";
 
 				XMLHttpRequest.prototype.send = () => {
-					throw "Shouldn't load files";
+					throw new Error("Shouldn't load files");
 				};
 
 				Translator.translationsFallback[mmm.name] = {
