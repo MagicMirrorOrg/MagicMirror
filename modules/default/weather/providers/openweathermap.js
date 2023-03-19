@@ -413,8 +413,8 @@ WeatherProvider.register("openweathermap", {
 	getParams() {
 		let params = "?";
 		if (this.config.weatherEndpoint === "/onecall") {
-			params += "lat=" + this.config.lat;
-			params += "&lon=" + this.config.lon;
+			params += `lat=${this.config.lat}`;
+			params += `&lon=${this.config.lon}`;
 			if (this.config.type === "current") {
 				params += "&exclude=minutely,hourly,daily";
 			} else if (this.config.type === "hourly") {
@@ -425,23 +425,23 @@ WeatherProvider.register("openweathermap", {
 				params += "&exclude=minutely";
 			}
 		} else if (this.config.lat && this.config.lon) {
-			params += "lat=" + this.config.lat + "&lon=" + this.config.lon;
+			params += `lat=${this.config.lat}&lon=${this.config.lon}`;
 		} else if (this.config.locationID) {
-			params += "id=" + this.config.locationID;
+			params += `id=${this.config.locationID}`;
 		} else if (this.config.location) {
-			params += "q=" + this.config.location;
+			params += `q=${this.config.location}`;
 		} else if (this.firstEvent && this.firstEvent.geo) {
-			params += "lat=" + this.firstEvent.geo.lat + "&lon=" + this.firstEvent.geo.lon;
+			params += `lat=${this.firstEvent.geo.lat}&lon=${this.firstEvent.geo.lon}`;
 		} else if (this.firstEvent && this.firstEvent.location) {
-			params += "q=" + this.firstEvent.location;
+			params += `q=${this.firstEvent.location}`;
 		} else {
 			this.hide(this.config.animationSpeed, { lockString: this.identifier });
 			return;
 		}
 
 		params += "&units=metric"; // WeatherProviders should use metric internally and use the units only for when displaying data
-		params += "&lang=" + this.config.lang;
-		params += "&APPID=" + this.config.apiKey;
+		params += `&lang=${this.config.lang}`;
+		params += `&APPID=${this.config.apiKey}`;
 
 		return params;
 	}

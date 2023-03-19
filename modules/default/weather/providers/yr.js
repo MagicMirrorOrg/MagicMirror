@@ -252,12 +252,12 @@ WeatherProvider.register("yr", {
 						this.cacheStellarData(stellarData);
 						resolve(stellarData);
 					} else {
-						reject("No stellar data returned from Yr for " + tomorrow);
+						reject(`No stellar data returned from Yr for ${tomorrow}`);
 					}
 				})
 				.catch((err) => {
 					Log.error(err);
-					reject("Unable to get stellar data from Yr for " + tomorrow);
+					reject(`Unable to get stellar data from Yr for ${tomorrow}`);
 				})
 				.finally(() => {
 					localStorage.removeItem("yrIsFetchingStellarData");
@@ -275,7 +275,7 @@ WeatherProvider.register("yr", {
 						this.cacheStellarData(stellarData);
 						resolve(stellarData);
 					} else {
-						Log.error("Something went wrong when fetching stellar data. Responses: " + stellarData);
+						Log.error(`Something went wrong when fetching stellar data. Responses: ${stellarData}`);
 						reject(stellarData);
 					}
 				})

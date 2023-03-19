@@ -28,7 +28,7 @@ exports.stopApplication = async () => {
 
 exports.getDocument = () => {
 	return new Promise((resolve) => {
-		const url = "http://" + (config.address || "localhost") + ":" + (config.port || "8080");
+		const url = `http://${config.address || "localhost"}:${config.port || "8080"}`;
 		jsdom.JSDOM.fromURL(url, { resources: "usable", runScripts: "dangerously" }).then((dom) => {
 			dom.window.name = "jsdom";
 			dom.window.fetch = corefetch;

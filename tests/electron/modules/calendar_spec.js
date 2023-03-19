@@ -7,7 +7,7 @@ describe("Calendar module", () => {
 	 * @param {string} cssClass css selector
 	 */
 	const doTest = async (cssClass) => {
-		let elem = await helpers.getElement(".calendar .module-content .event" + cssClass);
+		let elem = await helpers.getElement(`.calendar .module-content .event${cssClass}`);
 		expect(await elem.isVisible()).toBe(true);
 	};
 

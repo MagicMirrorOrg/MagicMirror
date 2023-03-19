@@ -94,7 +94,7 @@ Module.register("calendar", {
 	start: function () {
 		const ONE_MINUTE = 60 * 1000;
 
-		Log.info("Starting module: " + this.name);
+		Log.info(`Starting module: ${this.name}`);
 
 		if (this.config.colored) {
 			Log.warn("Your are using the deprecated config values 'colored'. Please switch to  'coloredSymbol' & 'coloredText'!");
@@ -203,13 +203,13 @@ Module.register("calendar", {
 
 		if (this.error) {
 			wrapper.innerHTML = this.error;
-			wrapper.className = this.config.tableClass + " dimmed";
+			wrapper.className = `${this.config.tableClass} dimmed`;
 			return wrapper;
 		}
 
 		if (events.length === 0) {
 			wrapper.innerHTML = this.loaded ? this.translate("EMPTY") : this.translate("LOADING");
-			wrapper.className = this.config.tableClass + " dimmed";
+			wrapper.className = `${this.config.tableClass} dimmed`;
 			return wrapper;
 		}
 
@@ -259,7 +259,7 @@ Module.register("calendar", {
 			const eventWrapper = document.createElement("tr");
 
 			if (this.config.coloredText) {
-				eventWrapper.style.cssText = "color:" + this.colorForUrl(event.url, false);
+				eventWrapper.style.cssText = `color:${this.colorForUrl(event.url, false)}`;
 			}
 
 			if (this.config.coloredBackground) {
@@ -281,11 +281,11 @@ Module.register("calendar", {
 
 			if (this.config.displaySymbol) {
 				if (this.config.coloredSymbol) {
-					symbolWrapper.style.cssText = "color:" + this.colorForUrl(event.url, false);
+					symbolWrapper.style.cssText = `color:${this.colorForUrl(event.url, false)}`;
 				}
 
 				const symbolClass = this.symbolClassForUrl(event.url);
-				symbolWrapper.className = "symbol align-right " + symbolClass;
+				symbolWrapper.className = `symbol align-right ${symbolClass}`;
 
 				const symbols = this.symbolsForEvent(event);
 				symbols.forEach((s, index) => {
@@ -313,7 +313,7 @@ Module.register("calendar", {
 					const thisYear = new Date(parseInt(event.startDate)).getFullYear(),
 						yearDiff = thisYear - event.firstYear;
 
-					repeatingCountTitle = ", " + yearDiff + ". " + repeatingCountTitle;
+					repeatingCountTitle = `, ${yearDiff}. ${repeatingCountTitle}`;
 				}
 			}
 
@@ -325,11 +325,11 @@ Module.register("calendar", {
 						if (needle.test(event.title)) {
 							// Respect parameter ColoredSymbolOnly also for custom events
 							if (this.config.coloredText) {
-								eventWrapper.style.cssText = "color:" + this.config.customEvents[ev].color;
-								titleWrapper.style.cssText = "color:" + this.config.customEvents[ev].color;
+								eventWrapper.style.cssText = `color:${this.config.customEvents[ev].color}`;
+								titleWrapper.style.cssText = `color:${this.config.customEvents[ev].color}`;
 							}
 							if (this.config.displaySymbol && this.config.coloredSymbol) {
-								symbolWrapper.style.cssText = "color:" + this.config.customEvents[ev].color;
+								symbolWrapper.style.cssText = `color:${this.config.customEvents[ev].color}`;
 							}
 							break;
 						}
@@ -342,9 +342,9 @@ Module.register("calendar", {
 			const titleClass = this.titleClassForUrl(event.url);
 
 			if (!this.config.coloredText) {
-				titleWrapper.className = "title bright " + titleClass;
+				titleWrapper.className = `title bright ${titleClass}`;
 			} else {
-				titleWrapper.className = "title " + titleClass;
+				titleWrapper.className = `title ${titleClass}`;
 			}
 
 			if (this.config.timeFormat === "dateheaders") {
@@ -355,14 +355,14 @@ Module.register("calendar", {
 					titleWrapper.classList.add("align-left");
 				} else {
 					const timeWrapper = document.createElement("td");
-					timeWrapper.className = "time light " + (this.config.flipDateHeaderTitle ? "align-right " : "align-left ") + this.timeClassForUrl(event.url);
+					timeWrapper.className = `time light ${this.config.flipDateHeaderTitle ? "align-right " : "align-left "}${this.timeClassForUrl(event.url)}`;
 					timeWrapper.style.paddingLeft = "2px";
 					timeWrapper.style.textAlign = this.config.flipDateHeaderTitle ? "right" : "left";
 					timeWrapper.innerHTML = moment(event.startDate, "x").format("LT");
 
 					// Add endDate to dataheaders if showEnd is enabled
 					if (this.config.showEnd) {
-						timeWrapper.innerHTML += " - " + this.capFirst(moment(event.endDate, "x").format("LT"));
+						timeWrapper.innerHTML += ` - ${this.capFirst(moment(event.endDate, "x").format("LT"))}`;
 					}
 
 					eventWrapper.appendChild(timeWrapper);
@@ -393,7 +393,7 @@ Module.register("calendar", {
 						// Ongoing and getRelative is set
 						timeWrapper.innerHTML = this.capFirst(
 							this.translate("RUNNING", {
-								fallback: this.translate("RUNNING") + " {timeUntilEnd}",
+								fallback: `${this.translate("RUNNING")} {timeUntilEnd}`,
 								timeUntilEnd: moment(event.endDate, "x").fromNow(true)
 							})
 						);
@@ -424,8 +424,8 @@ Module.register("calendar", {
 						} else {
 							timeWrapper.innerHTML = this.capFirst(
 								moment(event.startDate, "x").calendar(null, {
-									sameDay: this.config.showTimeToday ? "LT" : "[" + this.translate("TODAY") + "]",
-									nextDay: "[" + this.translate("TOMORROW") + "]",
+									sameDay: this.config.showTimeToday ? "LT" : `[${this.translate("TODAY")}]`,
+									nextDay: `[${this.translate("TOMORROW")}]`,
 									nextWeek: "dddd",
 									sameElse: event.fullDayEvent ? this.config.fullDayEventDateFormat : this.config.dateFormat
 								})
@@ -456,13 +456,13 @@ Module.register("calendar", {
 						// Ongoing event
 						timeWrapper.innerHTML = this.capFirst(
 							this.translate("RUNNING", {
-								fallback: this.translate("RUNNING") + " {timeUntilEnd}",
+								fallback: `${this.translate("RUNNING")} {timeUntilEnd}`,
 								timeUntilEnd: moment(event.endDate, "x").fromNow(true)
 							})
 						);
 					}
 				}
-				timeWrapper.className = "time light " + this.timeClassForUrl(event.url);
+				timeWrapper.className = `time light ${this.timeClassForUrl(event.url)}`;
 				eventWrapper.appendChild(timeWrapper);
 			}
 
@@ -489,7 +489,7 @@ Module.register("calendar", {
 					}
 
 					if (this.config.coloredText) {
-						locationRow.style.cssText = "color:" + this.colorForUrl(event.url, false);
+						locationRow.style.cssText = `color:${this.colorForUrl(event.url, false)}`;
 					}
 
 					if (this.config.coloredBackground) {
@@ -619,7 +619,7 @@ Module.register("calendar", {
 						thisEvent.today = thisEvent.startDate >= today && thisEvent.startDate < today + ONE_DAY;
 						thisEvent.tomorrow = !thisEvent.today && thisEvent.startDate >= today + ONE_DAY && thisEvent.startDate < today + 2 * ONE_DAY;
 						thisEvent.endDate = midnight;
-						thisEvent.title += " (" + count + "/" + maxCount + ")";
+						thisEvent.title += ` (${count}/${maxCount})`;
 						splitEvents.push(thisEvent);
 
 						event.startDate = midnight;
@@ -627,7 +627,7 @@ Module.register("calendar", {
 						midnight = moment(midnight, "x").add(1, "day").format("x"); // next day
 					}
 					// Last day
-					event.title += " (" + count + "/" + maxCount + ")";
+					event.title += ` (${count}/${maxCount})`;
 					event.today += event.startDate >= today && event.startDate < today + ONE_DAY;
 					event.tomorrow = !event.today && event.startDate >= today + ONE_DAY && event.startDate < today + 2 * ONE_DAY;
 					splitEvents.push(event);
@@ -894,7 +894,7 @@ Module.register("calendar", {
 				const word = words[i];
 				if (currentLine.length + word.length < (typeof maxLength === "number" ? maxLength : 25) - 1) {
 					// max - 1 to account for a space
-					currentLine += word + " ";
+					currentLine += `${word} `;
 				} else {
 					line++;
 					if (line > maxTitleLines - 1) {
@@ -905,9 +905,9 @@ Module.register("calendar", {
 					}
 
 					if (currentLine.length > 0) {
-						temp += currentLine + "<br>" + word + " ";
+						temp += `${currentLine}<br>${word} `;
 					} else {
-						temp += word + "<br>";
+						temp += `${word}<br>`;
 					}
 					currentLine = "";
 				}
@@ -916,7 +916,7 @@ Module.register("calendar", {
 			return (temp + currentLine).trim();
 		} else {
 			if (maxLength && typeof maxLength === "number" && string.length > maxLength) {
-				return string.trim().slice(0, maxLength) + "…";
+				return `${string.trim().slice(0, maxLength)}…`;
 			} else {
 				return string.trim();
 			}

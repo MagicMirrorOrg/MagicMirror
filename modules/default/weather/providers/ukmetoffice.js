@@ -195,8 +195,8 @@ WeatherProvider.register("ukmetoffice", {
 	 */
 	getParams(forecastType) {
 		let params = "?";
-		params += "res=" + forecastType;
-		params += "&key=" + this.config.apiKey;
+		params += `res=${forecastType}`;
+		params += `&key=${this.config.apiKey}`;
 		return params;
 	}
 });

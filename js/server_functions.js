@@ -30,7 +30,7 @@ async function cors(req, res) {
 
 		const match = new RegExp(urlRegEx, "g").exec(req.url);
 		if (!match) {
-			url = "invalid url: " + req.url;
+			url = `invalid url: ${req.url}`;
 			Log.error(url);
 			res.send(url);
 		} else {
@@ -39,7 +39,7 @@ async function cors(req, res) {
 			const headersToSend = getHeadersToSend(req.url);
 			const expectedRecievedHeaders = geExpectedRecievedHeaders(req.url);
 
-			Log.log("cors url: " + url);
+			Log.log(`cors url: ${url}`);
 			const response = await fetch(url, { headers: headersToSend });
 
 			for (const header of expectedRecievedHeaders) {
@@ -62,7 +62,7 @@ async function cors(req, res) {
  * @returns {object} An object specifying name and value of the headers.
  */
 function getHeadersToSend(url) {
-	const headersToSend = { "User-Agent": "Mozilla/5.0 MagicMirror/" + global.version };
+	const headersToSend = { "User-Agent": `Mozilla/5.0 MagicMirror/${global.version}` };
 	const headersToSendMatch = new RegExp("sendheaders=(.+?)(&|$)", "g").exec(url);
 	if (headersToSendMatch) {
 		const headers = headersToSendMatch[1].split(",");

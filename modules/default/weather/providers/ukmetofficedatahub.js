@@ -55,9 +55,9 @@ WeatherProvider.register("ukmetofficedatahub", {
 	// Build URL with query strings according to DataHub API (https://metoffice.apiconnect.ibmcloud.com/metoffice/production/api)
 	getUrl(forecastType) {
 		let queryStrings = "?";
-		queryStrings += "latitude=" + this.config.lat;
-		queryStrings += "&longitude=" + this.config.lon;
-		queryStrings += "&includeLocationName=" + true;
+		queryStrings += `latitude=${this.config.lat}`;
+		queryStrings += `&longitude=${this.config.lon}`;
+		queryStrings += `&includeLocationName=${true}`;
 
 		// Return URL, making sure there is a trailing "/" in the base URL.
 		return this.config.apiBase + (this.config.apiBase.endsWith("/") ? "" : "/") + forecastType + queryStrings;
@@ -104,7 +104,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 			})
 
 			// Catch any error(s)
-			.catch((error) => Log.error("Could not load data: " + error.message))
+			.catch((error) => Log.error(`Could not load data: ${error.message}`))
 
 			// Let the module know there is data available
 			.finally(() => this.updateAvailable());
@@ -173,7 +173,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 			})
 
 			// Catch any error(s)
-			.catch((error) => Log.error("Could not load data: " + error.message))
+			.catch((error) => Log.error(`Could not load data: ${error.message}`))
 
 			// Let the module know there is new data available
 			.finally(() => this.updateAvailable());

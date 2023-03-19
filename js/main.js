@@ -29,7 +29,7 @@ const MM = (function () {
 			dom.className = module.name;
 
 			if (typeof module.data.classes === "string") {
-				dom.className = "module " + dom.className + " " + module.data.classes;
+				dom.className = `module ${dom.className} ${module.data.classes}`;
 			}
 
 			dom.opacity = 0;
@@ -243,7 +243,7 @@ const MM = (function () {
 
 		const moduleWrapper = document.getElementById(module.identifier);
 		if (moduleWrapper !== null) {
-			moduleWrapper.style.transition = "opacity " + speed / 1000 + "s";
+			moduleWrapper.style.transition = `opacity ${speed / 1000}s`;
 			moduleWrapper.style.opacity = 0;
 			moduleWrapper.classList.add("hidden");
 
@@ -291,7 +291,7 @@ const MM = (function () {
 		// Check if there are no more lockstrings set, or the force option is set.
 		// Otherwise cancel show action.
 		if (module.lockStrings.length !== 0 && options.force !== true) {
-			Log.log("Will not show " + module.name + ". LockStrings active: " + module.lockStrings.join(","));
+			Log.log(`Will not show ${module.name}. LockStrings active: ${module.lockStrings.join(",")}`);
 			if (typeof options.onError === "function") {
 				options.onError(new Error("LOCK_STRING_ACTIVE"));
 			}
@@ -302,13 +302,13 @@ const MM = (function () {
 
 		// If forced show, clean current lockstrings.
 		if (module.lockStrings.length !== 0 && options.force === true) {
-			Log.log("Force show of module: " + module.name);
+			Log.log(`Force show of module: ${module.name}`);
 			module.lockStrings = [];
 		}
 
 		const moduleWrapper = document.getElementById(module.identifier);
 		if (moduleWrapper !== null) {
-			moduleWrapper.style.transition = "opacity " + speed / 1000 + "s";
+			moduleWrapper.style.transition = `opacity ${speed / 1000}s`;
 			// Restore the position. See hideModule() for more info.
 			moduleWrapper.style.position = "static";
 			moduleWrapper.classList.remove("hidden");

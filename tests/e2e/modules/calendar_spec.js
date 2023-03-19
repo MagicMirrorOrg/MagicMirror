@@ -91,7 +91,7 @@ describe("Calendar module", () => {
 				await helpers.getDocument();
 			});
 
-			it('should contain text "Mar 25th" in timezone UTC ' + -i, async () => {
+			it(`should contain text "Mar 25th" in timezone UTC ${-i}`, async () => {
 				await testTextContain(".calendar", "Mar 25th");
 			});
 		});

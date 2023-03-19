@@ -264,9 +264,9 @@ WeatherProvider.register("openmeteo", {
 				switch (key) {
 					case "hourly":
 					case "daily":
-						return encodeURIComponent(key) + "=" + params[key].join(",");
+						return `${encodeURIComponent(key)}=${params[key].join(",")}`;
 					default:
-						return encodeURIComponent(key) + "=" + encodeURIComponent(params[key]);
+						return `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`;
 				}
 			})
 			.join("&");

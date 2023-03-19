@@ -60,13 +60,13 @@ Module.register("weather", {
 
 	// Return the scripts that are necessary for the weather module.
 	getScripts: function () {
-		return ["moment.js", this.file("../utils.js"), "weatherutils.js", "weatherprovider.js", "weatherobject.js", "suncalc.js", this.file("providers/" + this.config.weatherProvider.toLowerCase() + ".js")];
+		return ["moment.js", this.file("../utils.js"), "weatherutils.js", "weatherprovider.js", "weatherobject.js", "suncalc.js", this.file(`providers/${this.config.weatherProvider.toLowerCase()}.js`)];
 	},
 
 	// Override getHeader method.
 	getHeader: function () {
 		if (this.config.appendLocationNameToHeader && this.weatherProvider) {
-			if (this.data.header) return this.data.header + " " + this.weatherProvider.fetchedLocation();
+			if (this.data.header) return `${this.data.header} ${this.weatherProvider.fetchedLocation()}`;
 			else return this.weatherProvider.fetchedLocation();
 		}
 
@@ -233,7 +233,7 @@ Module.register("weather", {
 			"unit",
 			function (value, type, valueUnit) {
 				if (type === "temperature") {
-					value = this.roundValue(WeatherUtils.convertTemp(value, this.config.tempUnits)) + "°";
+					value = `${this.roundValue(WeatherUtils.convertTemp(value, this.config.tempUnits))}°`;
 					if (this.config.degreeLabel) {
 						if (this.config.tempUnits === "metric") {
 							value += "C";

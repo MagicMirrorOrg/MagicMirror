@@ -18,7 +18,7 @@ const envsub = require("envsub");
 
 // Get version number.
 global.version = require(`${__dirname}/../package.json`).version;
-Log.log("Starting MagicMirror: v" + global.version);
+Log.log(`Starting MagicMirror: v${global.version}`);
 
 // global absolute root path
 global.root_path = path.resolve(`${__dirname}/../`);
@@ -64,7 +64,7 @@ function App() {
 		// For this check proposed to TestSuite
 		// https://forum.magicmirror.builders/topic/1456/test-suite-for-magicmirror/8
 		const configFilename = path.resolve(global.configuration_file || `${global.root_path}/config/config.js`);
-		let templateFile = configFilename + ".template";
+		let templateFile = `${configFilename}.template`;
 
 		// check if templateFile exists
 		try {
@@ -78,21 +78,21 @@ function App() {
 			// save current config.js
 			try {
 				if (fs.existsSync(configFilename)) {
-					fs.copyFileSync(configFilename, configFilename + "_" + Date.now());
+					fs.copyFileSync(configFilename, `${configFilename}_${Date.now()}`);
 				}
 			} catch (err) {
-				Log.warn("Could not copy " + configFilename + ": " + err.message);
+				Log.warn(`Could not copy ${configFilename}: ${err.message}`);
 			}
 
 			// check if config.env exists
 			const envFiles = [];
-			const configEnvFile = configFilename.substr(0, configFilename.lastIndexOf(".")) + ".env";
+			const configEnvFile = `${configFilename.substr(0, configFilename.lastIndexOf("."))}.env`;
 			try {
 				if (fs.existsSync(configEnvFile)) {
 					envFiles.push(configEnvFile);
 				}
 			} catch (err) {
-				Log.debug(configEnvFile + " does not exist. " + err.message);
+				Log.debug(`${configEnvFile} does not exist. ${err.message}`);
 			}
 
 			let options = {
@@ -110,7 +110,7 @@ function App() {
 			try {
 				await envsub({ templateFile, outputFile, options });
 			} catch (err) {
-				Log.error("Could not envsubst variables: " + err.message);
+				Log.error(`Could not envsubst variables: ${err.message}`);
 			}
 		}
 
