@@ -56,6 +56,7 @@ _This release is scheduled to be released on 2023-04-01._
 - Fix empty news feed stopping the reload forever
 - Fix e2e tests (failed after async changes) by running calendar and newsfeed tests last
 - Lint: Use template literals instead of string concatenation
+- Fix default alert module to render HTML for title and message
 
 ## [2.22.0] - 2023-01-01
 
