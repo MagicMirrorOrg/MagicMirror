@@ -26,6 +26,7 @@
 		"eqeqeq": "error",
 		"no-prototype-builtins": "off",
 		"no-unused-vars": "off",
-		"no-useless-return": "error"
+		"no-useless-return": "error",
+		"prefer-template": "error"
 	}
 }
