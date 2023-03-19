@@ -406,7 +406,7 @@ Module.register("newsfeed", {
 		}
 		clearInterval(this.timer);
 		this.timer = null;
-		Log.debug(this.name + " - showing " + this.isShowingDescription ? "article description" : "full article");
+		Log.debug(`${this.name} - showing ${this.isShowingDescription ? "article description" : "full article"}`);
 		this.updateDom(100);
 	}
 });
