@@ -171,10 +171,7 @@ sup {
 
 .region.fullscreen {
   position: absolute;
-  top: calc(-1 * var(--gap-body-top));
-  left: calc(-1 * var(--gap-body-left));
-  right: calc(-1 * var(--gap-body-right));
-  bottom: calc(-1 * var(--gap-body-bottom));
+  inset: calc(-1 * var(--gap-body-top)) calc(-1 * var(--gap-body-right)) calc(-1 * var(--gap-body-bottom)) calc(-1 * var(--gap-body-left));
   pointer-events: none;
 }
 

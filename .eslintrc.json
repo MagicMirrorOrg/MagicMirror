@@ -3,7 +3,7 @@
 	"plugins": ["prettier", "jsdoc", "jest"],
 	"env": {
 		"browser": true,
-		"es6": true,
+		"es2022": true,
 		"jest/globals": true,
 		"node": true
 	},
@@ -16,16 +16,17 @@
 	},
 	"parserOptions": {
 		"sourceType": "module",
-		"ecmaVersion": 2020,
+		"ecmaVersion": 2022,
 		"ecmaFeatures": {
 			"globalReturn": true
 		}
 	},
 	"rules": {
-		"prettier/prettier": "error",
 		"eqeqeq": "error",
 		"no-prototype-builtins": "off",
+		"no-throw-literal": "error",
 		"no-unused-vars": "off",
-		"no-useless-return": "error"
+		"no-useless-return": "error",
+		"prefer-template": "error"
 	}
 }

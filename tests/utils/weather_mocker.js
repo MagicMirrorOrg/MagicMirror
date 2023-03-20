@@ -23,7 +23,7 @@ const readMockData = (type, extendedData = {}) => {
 			break;
 	}
 
-	return JSON.stringify(_.merge({}, JSON.parse(fs.readFileSync(path.resolve(__dirname + "/../mocks/" + fileName)).toString()), extendedData));
+	return JSON.stringify(_.merge({}, JSON.parse(fs.readFileSync(path.resolve(`${__dirname}/../mocks/${fileName}`)).toString()), extendedData));
 };
 
 const injectMockData = (configFileName, extendedData = {}) => {
@@ -35,9 +35,9 @@ const injectMockData = (configFileName, extendedData = {}) => {
 	} else {
 		mockWeather = readMockData("current", extendedData);
 	}
-	let content = fs.readFileSync(path.resolve(__dirname + "../../../" + configFileName)).toString();
+	let content = fs.readFileSync(path.resolve(`${__dirname}../../../${configFileName}`)).toString();
 	content = content.replace("#####WEATHERDATA#####", mockWeather);
-	fs.writeFileSync(path.resolve(__dirname + "../../../config/config.js"), content);
+	fs.writeFileSync(path.resolve(`${__dirname}../../../config/config.js`), content);
 };
 
 module.exports = { injectMockData };

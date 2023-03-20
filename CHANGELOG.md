@@ -37,7 +37,8 @@ _This release is scheduled to be released on 2023-04-01._
 - Changed updatenotification module for MagicMirror repo only: Send only notifications for `master` if there is a tag on a newer commit
 - Update dates in Calendar widgets every minute
 - Cleanup jest coverage for patches
-- Update `stylelint` dependencies, switch to `stylelint-config-standard` and handle `stylelint` issues
+- Update `stylelint` dependencies, switch to `stylelint-config-standard` and handle `stylelint` issues, update `main.css` matching new rules
+- Update Eslint config, add new rule and handle issue
 - Convert lots of callbacks to async/await
 - Fixed Open-Meteo wind speed units
 
@@ -54,6 +55,10 @@ _This release is scheduled to be released on 2023-04-01._
 - The wind direction arrow now points in the direction the wind is flowing, not into the wind (#3019)
 - Fix precipitation css styles and rounding value
 - Fix wrong vertical alignment of calendar title column when wrapEvents is true (#3053)
+- Fix empty news feed stopping the reload forever
+- Fix e2e tests (failed after async changes) by running calendar and newsfeed tests last
+- Lint: Use template literals instead of string concatenation
+- Fix default alert module to render HTML for title and message
 
 ## [2.22.0] - 2023-01-01
 

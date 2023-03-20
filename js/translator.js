@@ -26,7 +26,7 @@ const Translator = (function () {
 						fileinfo = JSON.parse(xhr.responseText);
 					} catch (exception) {
 						// nothing here, but don't die
-						Log.error(" loading json file =" + file + " failed");
+						Log.error(` loading json file =${file} failed`);
 					}
 					resolve(fileinfo);
 				}
@@ -70,7 +70,7 @@ const Translator = (function () {
 					template = variables.fallback;
 				}
 				return template.replace(new RegExp("{([^}]+)}", "g"), function (_unused, varName) {
-					return varName in variables ? variables[varName] : "{" + varName + "}";
+					return varName in variables ? variables[varName] : `{${varName}}`;
 				});
 			}
 
@@ -123,7 +123,7 @@ const Translator = (function () {
 		 */
 		loadCoreTranslations: async function (lang) {
 			if (lang in translations) {
-				Log.log("Loading core translation file: " + translations[lang]);
+				Log.log(`Loading core translation file: ${translations[lang]}`);
 				this.coreTranslations = await loadJSON(translations[lang]);
 			} else {
 				Log.log("Configured language not found in core translations.");
@@ -139,7 +139,7 @@ const Translator = (function () {
 		loadCoreTranslationsFallback: async function () {
 			let first = Object.keys(translations)[0];
 			if (first) {
-				Log.log("Loading core translation fallback file: " + translations[first]);
+				Log.log(`Loading core translation fallback file: ${translations[first]}`);
 				this.coreTranslationsFallback = await loadJSON(translations[first]);
 			}
 		}

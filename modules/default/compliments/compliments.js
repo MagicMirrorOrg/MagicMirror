@@ -34,7 +34,7 @@ Module.register("compliments", {
 
 	// Define start sequence.
 	start: async function () {
-		Log.info("Starting module: " + this.name);
+		Log.info(`Starting module: ${this.name}`);
 
 		this.lastComplimentIndex = -1;
 

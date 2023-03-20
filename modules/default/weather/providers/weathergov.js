@@ -129,10 +129,10 @@ WeatherProvider.register("weathergov", {
 					// points URL did not respond with usable data.
 					return;
 				}
-				this.fetchedLocationName = data.properties.relativeLocation.properties.city + ", " + data.properties.relativeLocation.properties.state;
-				Log.log("Forecast location is " + this.fetchedLocationName);
-				this.forecastURL = data.properties.forecast + "?units=si";
-				this.forecastHourlyURL = data.properties.forecastHourly + "?units=si";
+				this.fetchedLocationName = `${data.properties.relativeLocation.properties.city}, ${data.properties.relativeLocation.properties.state}`;
+				Log.log(`Forecast location is ${this.fetchedLocationName}`);
+				this.forecastURL = `${data.properties.forecast}?units=si`;
+				this.forecastHourlyURL = `${data.properties.forecastHourly}?units=si`;
 				this.forecastGridDataURL = data.properties.forecastGridData;
 				this.observationStationsURL = data.properties.observationStations;
 				// with this URL, we chain another promise for the station obs URL
@@ -143,7 +143,7 @@ WeatherProvider.register("weathergov", {
 					// obs station URL did not respond with usable data.
 					return;
 				}
-				this.stationObsURL = obsData.features[0].id + "/observations/latest";
+				this.stationObsURL = `${obsData.features[0].id}/observations/latest`;
 			})
 			.catch((err) => {
 				Log.error(err);
