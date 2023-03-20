@@ -1,5 +1,5 @@
-const helpers = require("../helpers/global-setup");
 const moment = require("moment");
+const helpers = require("../helpers/global-setup");
 
 describe("Clock module", () => {
 	afterAll(async () => {

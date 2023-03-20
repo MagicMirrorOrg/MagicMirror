@@ -6,7 +6,7 @@
  */
 
 const NodeHelper = require("node_helper");
-const NewsfeedFetcher = require("./newsfeedfetcher.js");
+const NewsfeedFetcher = require("./newsfeedfetcher");
 const Log = require("logger");
 
 module.exports = NodeHelper.create({

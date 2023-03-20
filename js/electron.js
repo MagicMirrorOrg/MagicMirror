@@ -1,7 +1,7 @@
 "use strict";
 
 const electron = require("electron");
-const core = require("./app.js");
+const core = require("./app");
 const Log = require("logger");
 
 // Config

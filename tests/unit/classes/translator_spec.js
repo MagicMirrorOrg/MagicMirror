@@ -2,6 +2,7 @@ const path = require("path");
 const helmet = require("helmet");
 const { JSDOM } = require("jsdom");
 const express = require("express");
+
 const sockets = new Set();
 
 describe("Translator", () => {

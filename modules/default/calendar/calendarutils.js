@@ -11,7 +11,7 @@
 const moment = require("moment");
 const path = require("path");
 const zoneTable = require(path.join(__dirname, "windowsZones.json"));
-const Log = require("../../../js/logger.js");
+const Log = require("../../../js/logger");
 
 const CalendarUtils = {
 	/**

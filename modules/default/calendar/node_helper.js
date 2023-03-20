@@ -5,7 +5,7 @@
  * MIT Licensed.
  */
 const NodeHelper = require("node_helper");
-const CalendarFetcher = require("./calendarfetcher.js");
+const CalendarFetcher = require("./calendarfetcher");
 const Log = require("logger");
 
 module.exports = NodeHelper.create({

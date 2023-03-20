@@ -4,9 +4,9 @@
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-const Class = require("./class.js");
-const Log = require("logger");
 const express = require("express");
+const Class = require("./class");
+const Log = require("logger");
 
 const NodeHelper = Class.extend({
 	init() {

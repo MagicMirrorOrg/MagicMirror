@@ -5,7 +5,8 @@
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.
  */
-const Linter = require("eslint").Linter;
+const { Linter } = require("eslint");
+
 const linter = new Linter();
 
 const path = require("path");

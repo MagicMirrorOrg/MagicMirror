@@ -14,8 +14,8 @@ const http = require("http");
 const https = require("https");
 
 const Log = require("logger");
-const Utils = require("./utils.js");
-const { cors, getConfig, getHtml, getVersion } = require("./server_functions.js");
+const Utils = require("./utils");
+const { cors, getConfig, getHtml, getVersion } = require("./server_functions");
 
 /**
  * Server
