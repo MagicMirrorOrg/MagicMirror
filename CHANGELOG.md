@@ -56,6 +56,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Fix electron tests failing sometimes in github workflow
 - Fixed gap in clock module when displayed on the left side with displayType=digital
 - Fixed playwright issue by upgrading to v1.29.1 (#2969)
+- Fixed bug in clock module where sunrise/sunset times were shown in system timezone rather than requested timezone
 
 ## [2.21.0] - 2022-10-01
 
