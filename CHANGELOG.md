@@ -37,6 +37,7 @@ _This release is scheduled to be released on 2023-04-01._
 - Update dates in Calendar widgets every minute
 - Cleanup jest coverage for patches
 - Update `stylelint` dependencies, switch to `stylelint-config-standard` and handle `stylelint` issues, update `main.css` matching new rules
+- Update Eslint config, add new rule and handle issue
 - Convert lots of callbacks to async/await
 - Fixed Open-Meteo wind speed units
 
