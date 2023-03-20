@@ -199,8 +199,8 @@ Module.register("clock", {
 
 			// Convert sunrise/sunset time to local representation of requested timezone
 			if (this.config.timezone) {
-				sunTimes.sunrise = sunTimes.sunrise.toLocaleString("en-us", { timeZone: this.config.timezone})
-				sunTimes.sunset = sunTimes.sunset.toLocaleString("en-us", { timeZone: this.config.timezone})
+				sunTimes.sunrise = sunTimes.sunrise.toLocaleString("en-us", { timeZone: this.config.timezone });
+				sunTimes.sunset = sunTimes.sunset.toLocaleString("en-us", { timeZone: this.config.timezone });
 			}
 			sunWrapper.innerHTML =
 				`<span class="${isVisible ? "bright" : ""}"><i class="fas fa-sun" aria-hidden="true"></i> ${untilNextEventString}</span>` +
