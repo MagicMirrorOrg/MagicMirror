@@ -4,13 +4,14 @@
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-const CalendarUtils = require("./calendarutils");
-const Log = require("logger");
-const NodeHelper = require("node_helper");
+
+const https = require("https");
+const digest = require("digest-fetch");
 const ical = require("node-ical");
 const fetch = require("fetch");
-const digest = require("digest-fetch");
-const https = require("https");
+const Log = require("logger");
+const NodeHelper = require("node_helper");
+const CalendarUtils = require("./calendarutils");
 
 /**
  *

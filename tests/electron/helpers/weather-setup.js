@@ -1,5 +1,5 @@
-const helpers = require("./global-setup");
 const { injectMockData } = require("../../utils/weather_mocker");
+const helpers = require("./global-setup");
 
 exports.getText = async (element, result) => {
 	const elem = await helpers.getElement(element);

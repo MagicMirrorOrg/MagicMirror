@@ -13,7 +13,7 @@ exports.startApplication = async (configFilename, exec) => {
 		process.env.MM_CONFIG_FILE = configFilename;
 	}
 	if (exec) exec;
-	global.app = require("app.js");
+	global.app = require("../../../js/app");
 
 	return global.app.start();
 };

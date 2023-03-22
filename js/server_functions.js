@@ -1,7 +1,7 @@
-const fetch = require("./fetch");
 const fs = require("fs");
 const path = require("path");
 const Log = require("logger");
+const fetch = require("./fetch");
 
 /**
  * Gets the config.
