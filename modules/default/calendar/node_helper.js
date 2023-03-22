@@ -5,8 +5,8 @@
  * MIT Licensed.
  */
 const NodeHelper = require("node_helper");
-const CalendarFetcher = require("./calendarfetcher");
 const Log = require("logger");
+const CalendarFetcher = require("./calendarfetcher");
 
 module.exports = NodeHelper.create({
 	// Override start method.

@@ -2,7 +2,7 @@
 
 const electron = require("electron");
 const core = require("./app");
-const Log = require("logger");
+const Log = require("./logger");
 
 // Config
 let config = process.env.config ? JSON.parse(process.env.config) : {};

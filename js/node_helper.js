@@ -5,8 +5,8 @@
  * MIT Licensed.
  */
 const express = require("express");
-const Class = require("./class");
 const Log = require("logger");
+const Class = require("./class");
 
 const NodeHelper = Class.extend({
 	init() {

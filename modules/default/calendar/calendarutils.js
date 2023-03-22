@@ -8,8 +8,8 @@
 /**
  * @external Moment
  */
-const moment = require("moment");
 const path = require("path");
+const moment = require("moment");
 const zoneTable = require(path.join(__dirname, "windowsZones.json"));
 const Log = require("../../../js/logger");
 

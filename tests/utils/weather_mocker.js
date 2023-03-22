@@ -1,6 +1,6 @@
-const _ = require("lodash");
 const fs = require("fs");
 const path = require("path");
+const _ = require("lodash");
 
 /**
  * @param {string} type what data to read, can be "current" "forecast" or "hourly

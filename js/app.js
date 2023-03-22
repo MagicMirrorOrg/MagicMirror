@@ -8,9 +8,9 @@
 // Alias modules mentioned in package.js under _moduleAliases.
 require("module-alias/register");
 
-const envsub = require("envsub");
 const fs = require("fs");
 const path = require("path");
+const envsub = require("envsub");
 const Log = require("logger");
 const Server = require(`${__dirname}/server`);
 const Utils = require(`${__dirname}/utils`);
