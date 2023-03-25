@@ -62,6 +62,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Update Eslint config, add new rule and handle issue
 - Convert lots of callbacks to async/await
 - Revise require imports (#3071 and #3072)
+- Refactor formatTime into common util function for default modules
 
 ### Fixed
 
