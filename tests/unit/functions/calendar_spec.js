@@ -10,7 +10,7 @@ describe("Functions into modules/default/calendar/calendar.js", () => {
 
 	beforeAll(() => {
 		// load calendar.js
-		require("../../../modules/default/calendar/calendar.js");
+		require("../../../modules/default/calendar/calendar");
 	});
 
 	describe("capFirst", () => {

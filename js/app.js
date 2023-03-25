@@ -10,11 +10,11 @@ require("module-alias/register");
 
 const fs = require("fs");
 const path = require("path");
+const envsub = require("envsub");
 const Log = require("logger");
 const Server = require(`${__dirname}/server`);
 const Utils = require(`${__dirname}/utils`);
 const defaultModules = require(`${__dirname}/../modules/default/defaultmodules`);
-const envsub = require("envsub");
 
 // Get version number.
 global.version = require(`${__dirname}/../package.json`).version;

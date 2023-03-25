@@ -1,4 +1,5 @@
-const { performWebRequest } = require("../../../../modules/default/utils.js");
+const { performWebRequest } = require("../../../../modules/default/utils");
+
 const nodeVersion = process.version.match(/^v(\d+)\.*/)[1];
 
 describe("Utils tests", () => {

@@ -2,6 +2,7 @@ const path = require("path");
 const helmet = require("helmet");
 const { JSDOM } = require("jsdom");
 const express = require("express");
+
 const sockets = new Set();
 
 describe("Translator", () => {
@@ -188,7 +189,7 @@ describe("Translator", () => {
 				const file = "translation_test.json";
 
 				XMLHttpRequest.prototype.send = () => {
-					throw "Shouldn't load files";
+					throw new Error("Shouldn't load files");
 				};
 
 				Translator.translationsFallback[mmm.name] = {

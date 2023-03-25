@@ -1,4 +1,4 @@
-const weather = require("../../../../../modules/default/weather/weatherutils.js");
+const weather = require("../../../../../modules/default/weather/weatherutils");
 
 describe("Weather utils tests", () => {
 	describe("convertPrecipitationUnit tests", () => {
