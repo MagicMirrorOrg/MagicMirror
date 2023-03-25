@@ -149,15 +149,21 @@ const getHeadersFromResponse = (expectedResponseHeaders, response) => {
  * @returns {string} The formatted time string
  */
 const formatTime = (config, time) => {
-	let hourSymbol = "HH";
+	const date = moment(time);
+
 	if (config.timeFormat !== 24) {
-		hourSymbol = "h";
+		if (config.showPeriod) {
+			if (config.showPeriodUpper) {
+				return date.format("h:mm A");
+			} else {
+				return date.format("h:mm a");
+			}
+		} else {
+			return date.format("h:mm");
+		}
 	}
-	let formatString = `${hourSymbol}:mm`;
-	if (config.showPeriod && config.timeFormat !== 24) {
-		formatString += config.showPeriodUpper ? "A" : "a";
-	}
-	return moment(time).format(formatString);
+
+	return date.format("HH:mm");
 };
 
 if (typeof module !== "undefined")
