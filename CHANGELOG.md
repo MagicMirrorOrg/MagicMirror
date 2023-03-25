@@ -39,7 +39,7 @@ _This release is scheduled to be released on 2023-04-01._
 - Update `stylelint` dependencies, switch to `stylelint-config-standard` and handle `stylelint` issues, update `main.css` matching new rules
 - Update Eslint config, add new rule and handle issue
 - Convert lots of callbacks to async/await
-- Revise require imports
+- Revise require imports (#3071 and #3072)
 
 ### Fixed
 
@@ -58,7 +58,7 @@ _This release is scheduled to be released on 2023-04-01._
 - Fix e2e tests (failed after async changes) by running calendar and newsfeed tests last
 - Lint: Use template literals instead of string concatenation
 - Fix default alert module to render HTML for title and message
-- Fixed Open-Meteo wind speed units
+- Fix Open-Meteo wind speed units
 
 ## [2.22.0] - 2023-01-01
 
