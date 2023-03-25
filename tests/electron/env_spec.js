@@ -1,5 +1,5 @@
-const helpers = require("./helpers/global-setup");
 const events = require("events");
+const helpers = require("./helpers/global-setup");
 
 describe("Electron app environment", () => {
 	beforeEach(async () => {

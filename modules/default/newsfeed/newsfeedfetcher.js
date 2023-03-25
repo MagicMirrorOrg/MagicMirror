@@ -4,12 +4,13 @@
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-const Log = require("logger");
-const FeedMe = require("feedme");
-const NodeHelper = require("node_helper");
-const fetch = require("fetch");
-const iconv = require("iconv-lite");
+
 const stream = require("stream");
+const FeedMe = require("feedme");
+const iconv = require("iconv-lite");
+const fetch = require("fetch");
+const Log = require("logger");
+const NodeHelper = require("node_helper");
 
 /**
  * Responsible for requesting an update on the set interval and broadcasting the data.

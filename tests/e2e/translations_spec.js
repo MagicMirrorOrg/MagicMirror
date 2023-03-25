@@ -1,10 +1,10 @@
 const fs = require("fs");
 const path = require("path");
-const translations = require("../../translations/translations.js");
 const helmet = require("helmet");
 const { JSDOM } = require("jsdom");
 const express = require("express");
 const sinon = require("sinon");
+const translations = require("../../translations/translations");
 
 describe("Translations", () => {
 	let server;
