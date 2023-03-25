@@ -1,4 +1,4 @@
-/* global WeatherProvider, WeatherUtils */
+/* global WeatherProvider, WeatherUtils, formatTime */
 
 /* MagicMirror²
  * Module: Weather
