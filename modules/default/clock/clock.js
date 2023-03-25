@@ -1,4 +1,4 @@
-/* global SunCalc */
+/* global SunCalc, formatTime */
 
 /* MagicMirror²
  * Module: Clock
@@ -167,21 +167,6 @@ Module.register("clock", {
 				timeWrapper.appendChild(periodWrapper);
 			}
 			digitalWrapper.appendChild(timeWrapper);
-		}
-
-		/**
-		 * Format the time according to the config
-		 *
-		 * @param {object} config The config of the module
-		 * @param {object} time time to format
-		 * @returns {string} The formatted time string
-		 */
-		function formatTime(config, time) {
-			let formatString = `${hourSymbol}:mm`;
-			if (config.showPeriod && config.timeFormat !== 24) {
-				formatString += config.showPeriodUpper ? "A" : "a";
-			}
-			return moment(time).format(formatString);
 		}
 
 		/****************************************************************

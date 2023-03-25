@@ -141,7 +141,27 @@ const getHeadersFromResponse = (expectedResponseHeaders, response) => {
 	return responseHeaders;
 };
 
+/**
+ * Format the time according to the config
+ *
+ * @param {object} config The config of the module
+ * @param {object} time time to format
+ * @returns {string} The formatted time string
+ */
+const formatTime = (config, time) => {
+	let hourSymbol = "HH";
+	if (config.timeFormat !== 24) {
+		hourSymbol = "h";
+	}
+	let formatString = `${hourSymbol}:mm`;
+	if (config.showPeriod && config.timeFormat !== 24) {
+		formatString += config.showPeriodUpper ? "A" : "a";
+	}
+	return moment(time).format(formatString);
+};
+
 if (typeof module !== "undefined")
 	module.exports = {
-		performWebRequest
+		performWebRequest,
+		formatTime
 	};
