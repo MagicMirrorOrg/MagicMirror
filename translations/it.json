@@ -1,6 +1,7 @@
 {
-	"LOADING": "Caricamento in corso &hellip;",
+	"LOADING": "Caricamento in corso …",
 
+	"YESTERDAY": "Ieri",
 	"TODAY": "Oggi",
 	"TOMORROW": "Domani",
 	"DAYAFTERTOMORROW": "Dopodomani",

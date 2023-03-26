@@ -1,0 +1,28 @@
+# This workflow enforces on every pull request:
+# - the update of our CHANGELOG.md file, see: https://github.com/dangoslen/changelog-enforcer
+# - that the PR is not based against master, taken from https://github.com/oppia/oppia-android/pull/2832/files
+
+name: "Enforce Pull-Request Rules"
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: "Enforce changelog"
+        uses: dangoslen/changelog-enforcer@v3
+        with:
+          changeLogPath: "CHANGELOG.md"
+          skipLabels: "Skip Changelog"
+      - name: "Enforce develop branch"
+        if: ${{ github.base_ref == 'master' && !contains(github.event.pull_request.labels.*.name, 'mastermerge') }}
+        run: |
+          echo "This PR is based against the master branch and not a release or hotfix."
+          echo "Please don't do this. Switch the branch to 'develop'."
+          exit 1
+        env:
+          BASE_BRANCH: ${{ github.base_ref }}

@@ -2,24 +2,23 @@
 
 /* MagicMirror²
  * Module: Weather
- * Provider: Dark Sky
+ * Provider: Pirate Weather
  *
- * By Nicholas Hubbard https://github.com/nhubbard
+ * Written by Nicholas Hubbard https://github.com/nhubbard for formerly Dark Sky Provider
+ * Modified by Karsten Hassel for Pirate Weather
  * MIT Licensed
  *
- * This class is a provider for Dark Sky.
- * Note that the Dark Sky API does not provide rainfall. Instead it provides
- * snowfall and precipitation probability
+ * This class is a provider for Pirate Weather, it is a replacement for Dark Sky (same api).
  */
-WeatherProvider.register("darksky", {
+WeatherProvider.register("pirateweather", {
 	// Set the name of the provider.
 	// Not strictly required, but helps for debugging.
-	providerName: "Dark Sky",
+	providerName: "pirateweather",
 
 	// Set the default config properties that is specific to this provider
 	defaults: {
 		useCorsProxy: true,
-		apiBase: "https://api.darksky.net",
+		apiBase: "https://api.pirateweather.net",
 		weatherEndpoint: "/forecast",
 		apiKey: "",
 		lat: 0,
@@ -73,7 +72,7 @@ WeatherProvider.register("darksky", {
 		currentWeather.humidity = parseFloat(currentWeatherData.currently.humidity);
 		currentWeather.temperature = parseFloat(currentWeatherData.currently.temperature);
 		currentWeather.windSpeed = parseFloat(currentWeatherData.currently.windSpeed);
-		currentWeather.windDirection = currentWeatherData.currently.windBearing;
+		currentWeather.windFromDirection = currentWeatherData.currently.windBearing;
 		currentWeather.weatherType = this.convertWeatherType(currentWeatherData.currently.icon);
 		currentWeather.sunrise = moment.unix(currentWeatherData.daily.data[0].sunriseTime);
 		currentWeather.sunset = moment.unix(currentWeatherData.daily.data[0].sunsetTime);
@@ -92,19 +91,21 @@ WeatherProvider.register("darksky", {
 			weather.maxTemperature = forecast.temperatureMax;
 			weather.weatherType = this.convertWeatherType(forecast.icon);
 			weather.snow = 0;
+			weather.rain = 0;
 
-			// The API will return centimeters if units is 'si' and will return inches for 'us'
-			// Note that the Dark Sky API does not provide rainfall.
-			// Instead it provides snowfall and precipitation probability
+			let precip = 0;
 			if (forecast.hasOwnProperty("precipAccumulation")) {
-				if (this.config.units === "imperial" && !isNaN(forecast.precipAccumulation)) {
-					weather.snow = forecast.precipAccumulation;
-				} else if (!isNaN(forecast.precipAccumulation)) {
-					weather.snow = forecast.precipAccumulation * 10;
-				}
+				precip = forecast.precipAccumulation * 10;
 			}
 
-			weather.precipitation = weather.snow;
+			weather.precipitationAmount = precip;
+			if (forecast.hasOwnProperty("precipType")) {
+				if (forecast.precipType === "snow") {
+					weather.snow = precip;
+				} else {
+					weather.rain = precip;
+				}
+			}
 
 			days.push(weather);
 		}
@@ -112,7 +113,7 @@ WeatherProvider.register("darksky", {
 		return days;
 	},
 
-	// Map icons from Dark Sky to our icons.
+	// Map icons from Pirate Weather to our icons.
 	convertWeatherType(weatherType) {
 		const weatherTypes = {
 			"clear-day": "day-sunny",

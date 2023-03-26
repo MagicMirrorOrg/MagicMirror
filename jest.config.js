@@ -2,7 +2,7 @@ module.exports = async () => {
 	return {
 		verbose: true,
 		testTimeout: 20000,
-		testSequencer: "<rootDir>/tests/configs/test_sequencer.js",
+		testSequencer: "<rootDir>/tests/utils/test_sequencer.js",
 		projects: [
 			{
 				displayName: "unit",
@@ -25,7 +25,7 @@ module.exports = async () => {
 				testPathIgnorePatterns: ["<rootDir>/tests/e2e/helpers/", "<rootDir>/tests/e2e/mocks"]
 			}
 		],
-		collectCoverageFrom: ["./clientonly/**/*.js", "./js/**/*.js", "./modules/**/*.js", "./serveronly/**/*.js"],
+		collectCoverageFrom: ["./clientonly/**/*.js", "./js/**/*.js", "./modules/default/**/*.js", "./serveronly/**/*.js"],
 		coverageReporters: ["lcov", "text"],
 		coverageProvider: "v8"
 	};

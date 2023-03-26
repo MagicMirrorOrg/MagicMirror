@@ -1,6 +1,8 @@
 {
-	"LOADING": "Ładowanie &hellip;",
+	"LOADING": "Ładowanie …",
 
+	"DAYBEFOREYESTERDAY": "Wczoraj",
+	"YESTERDAY": "Przedwczoraj",
 	"TODAY": "Dziś",
 	"TOMORROW": "Jutro",
 	"DAYAFTERTOMORROW": "Pojutrze",
@@ -26,7 +28,7 @@
 	"NNW": "NNW",
 
 	"FEELS": "Odczuwalna {DEGREE}",
-	"PRECIP": "Szansa opadów",
+	"PRECIP_POP": "Szansa opadów",
 
 	"UPDATE_NOTIFICATION": "Dostępna jest aktualizacja MagicMirror².",
 	"UPDATE_NOTIFICATION_MODULE": "Dostępna jest aktualizacja modułu {MODULE_NAME}.",

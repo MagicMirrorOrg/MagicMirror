@@ -1,6 +1,7 @@
 {
-	"LOADING": "લોડ થઈ રહ્યું છે &hellip;",
+	"LOADING": "લોડ થઈ રહ્યું છે …",
 
+	"YESTERDAY": "ગઇકાલે",
 	"TODAY": "આજે",
 	"TOMORROW": "આવતી કાલે",
 	"DAYAFTERTOMORROW": "પરમ દિવસે",
@@ -26,7 +27,7 @@
 	"NNW": "ઉઉપ",
 
 	"FEELS": "{DEGREE} જેવું લાગશે",
-	"PRECIP": "PoP",
+	"PRECIP_POP": "PoP",
 
 	"MODULE_CONFIG_CHANGED": "{MODULE_NAME} મોડ્યુલ માટે ગોઠવણી વિકલ્પો બદલાયા છે. \nકૃપા કરીને દસ્તાવેજોને તપાસો.",
 

@@ -15,7 +15,6 @@ exports.startApplication = async (configFilename, electronParams = ["js/electron
 	await this.stopApplication();
 	process.env.MM_CONFIG_FILE = configFilename;
 	process.env.TZ = "GMT";
-	jest.retryTimes(3);
 	global.electronApp = await electron.launch({ args: electronParams });
 
 	//Make sure new open windows gets mocked too

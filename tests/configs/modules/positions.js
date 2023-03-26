@@ -14,7 +14,7 @@ let config = {
 					module: "helloworld",
 					position: positions[idx],
 					config: {
-						text: "Text in " + positions[idx]
+						text: `Text in ${positions[idx]}`
 					}
 				});
 			}

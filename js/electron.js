@@ -1,8 +1,8 @@
 "use strict";
 
 const electron = require("electron");
-const core = require("./app.js");
-const Log = require("logger");
+const core = require("./app");
+const Log = require("./logger");
 
 // Config
 let config;
@@ -59,8 +59,10 @@ function createWindow() {
 	if (config.kioskmode) {
 		electronOptionsDefaults.kiosk = true;
 	} else {
-		electronOptionsDefaults.fullscreen = true;
-		electronOptionsDefaults.autoHideMenuBar = true;
+		electronOptionsDefaults.show = false;
+		electronOptionsDefaults.frame = false;
+		electronOptionsDefaults.transparent = true;
+		electronOptionsDefaults.hasShadow = false;
 	}
 
 	const electronOptions = Object.assign({}, electronOptionsDefaults, config.electronOptions);
@@ -116,6 +118,25 @@ function createWindow() {
 			}, 1000);
 		});
 	}
+
+	//remove response headers that prevent sites of being embedded into iframes if configured
+	mainWindow.webContents.session.webRequest.onHeadersReceived((details, callback) => {
+		let curHeaders = details.responseHeaders;
+		if (config["ignoreXOriginHeader"] || false) {
+			curHeaders = Object.fromEntries(Object.entries(curHeaders).filter((header) => !/x-frame-options/i.test(header[0])));
+		}
+
+		if (config["ignoreContentSecurityPolicy"] || false) {
+			curHeaders = Object.fromEntries(Object.entries(curHeaders).filter((header) => !/content-security-policy/i.test(header[0])));
+		}
+
+		callback({ responseHeaders: curHeaders });
+	});
+
+	mainWindow.once("ready-to-show", () => {
+		mainWindow.setFullScreen(true);
+		mainWindow.show();
+	});
 }
 
 // This method will be called when Electron has finished
@@ -157,8 +178,9 @@ app.on("before-quit", async (event) => {
 	process.exit(0);
 });
 
-/* handle errors from self signed certificates */
-
+/**
+ * Handle errors from self-signed certificates
+ */
 app.on("certificate-error", (event, webContents, url, error, certificate, callback) => {
 	event.preventDefault();
 	callback(true);

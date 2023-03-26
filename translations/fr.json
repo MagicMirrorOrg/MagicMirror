@@ -1,6 +1,8 @@
 {
-	"LOADING": "Chargement &hellip;",
+	"LOADING": "Chargement…",
 
+	"DAYBEFOREYESTERDAY": "Avant-hier",
+	"YESTERDAY": "Hier",
 	"TODAY": "Aujourd'hui",
 	"TOMORROW": "Demain",
 	"DAYAFTERTOMORROW": "Après-demain",
@@ -26,13 +28,13 @@
 	"NNW": "NNO",
 
 	"FEELS": "Ressenti {DEGREE}",
-	"PRECIP": "Probabilité de précipitations",
+	"PRECIP_POP": "Probabilité de précipitations",
 
-	"MODULE_CONFIG_CHANGED": "Les options de configuration du module {MODULE_NAME} ont changé. \nVeuillez consulter la documentation.",
+	"MODULE_CONFIG_CHANGED": "Les options de configuration du module {MODULE_NAME} ont changé.\nVeuillez consulter la documentation.",
 	"MODULE_CONFIG_ERROR": "Erreur dans le module {MODULE_NAME}. {ERROR}",
 
 	"UPDATE_NOTIFICATION": "Une mise à jour de MagicMirror² est disponible",
-	"UPDATE_NOTIFICATION_MODULE": "Une mise à jour est disponible pour le module {MODULE_NAME} .",
-	"UPDATE_INFO_SINGLE": "L'installation actuelle est {COMMIT_COUNT} commit en retard sur la branche {BRANCH_NAME} .",
-	"UPDATE_INFO_MULTIPLE": "L'installation actuelle est {COMMIT_COUNT} commits en retard sur la branche {BRANCH_NAME} ."
+	"UPDATE_NOTIFICATION_MODULE": "Une mise à jour est disponible pour le module {MODULE_NAME}.",
+	"UPDATE_INFO_SINGLE": "L'installation actuelle est {COMMIT_COUNT} commit en retard sur la branche {BRANCH_NAME}.",
+	"UPDATE_INFO_MULTIPLE": "L'installation actuelle est {COMMIT_COUNT} commits en retard sur la branche {BRANCH_NAME}."
 }

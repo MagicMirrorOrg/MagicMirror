@@ -1,6 +1,8 @@
 {
-	"LOADING": "Lastar &hellip;",
+	"LOADING": "Lastar …",
 
+	"DAYBEFOREYESTERDAY": "I forgårs",
+	"YESTERDAY": "I går",
 	"TODAY": "I dag",
 	"TOMORROW": "I morgon",
 	"DAYAFTERTOMORROW": "I overmorgon",

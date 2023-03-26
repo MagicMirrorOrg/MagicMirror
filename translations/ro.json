@@ -1,6 +1,8 @@
 {
-	"LOADING": "Se încarcă &hellip;",
+	"LOADING": "Se încarcă …",
 
+	"DAYBEFOREYESTERDAY": "Alaltaieri",
+	"YESTERDAY": "Ieri",
 	"TODAY": "Astăzi",
 	"TOMORROW": "Mâine",
 	"DAYAFTERTOMORROW": "Poimâine",

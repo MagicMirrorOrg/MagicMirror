@@ -1,6 +1,8 @@
 {
-	"LOADING": "Kraunasi &hellip;",
+	"LOADING": "Kraunasi …",
 
+	"DAYBEFOREYESTERDAY": "Užvakar",
+	"YESTERDAY": "Vakar",
 	"TODAY": "Šiandien",
 	"TOMORROW": "Rytoj",
 	"DAYAFTERTOMORROW": "Už 2 dienų",
@@ -26,7 +28,7 @@
 	"NNW": "ŠŠV",
 
 	"FEELS": "Jutiminė temp. {DEGREE}",
-	"PRECIP": "Krituliai",
+	"PRECIP_POP": "Krituliai",
 
 	"UPDATE_NOTIFICATION": "Galimas MagicMirror² naujinimas.",
 	"UPDATE_NOTIFICATION_MODULE": "Galimas {MODULE_NAME} naujinimas.",

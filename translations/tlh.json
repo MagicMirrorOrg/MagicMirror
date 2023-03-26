@@ -1,6 +1,8 @@
 {
-	"LOADING": "loS &hellip;",
+	"LOADING": "loS …",
 
+	"DAYBEFOREYESTERDAY": "cha'Hu'",
+	"YESTERDAY": "wa'Hu'",
 	"TODAY": "DaHjaj",
 	"TOMORROW": "wa'leS",
 	"DAYAFTERTOMORROW": "cha'leS",

@@ -1,5 +1,5 @@
-const Utils = require("../../../js/utils.js");
 const colors = require("colors/safe");
+const Utils = require("../../../js/utils");
 
 describe("Utils", () => {
 	describe("colors", () => {

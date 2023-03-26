@@ -1,6 +1,8 @@
 {
-	"LOADING": "Завантаження &hellip;",
+	"LOADING": "Завантаження …",
 
+	"DAYBEFOREYESTERDAY": "Позавчора",
+	"YESTERDAY": "вчора",
 	"TODAY": "Сьогодні",
 	"TOMORROW": "Завтра",
 	"DAYAFTERTOMORROW": "Післязавтра",
@@ -26,7 +28,7 @@
 	"NNW": "ПнПнЗх",
 
 	"FEELS": "Відчувається як {DEGREE}",
-	"PRECIP": "Опади",
+	"PRECIP_POP": "Опади",
 
 	"UPDATE_NOTIFICATION": "Є оновлення для MagicMirror².",
 	"UPDATE_NOTIFICATION_MODULE": "Є оновлення для модуля {MODULE_NAME}.",

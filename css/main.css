@@ -3,22 +3,18 @@
   --color-text-dimmed: #666;
   --color-text-bright: #fff;
   --color-background: #000;
-
   --font-primary: "Roboto Condensed";
   --font-secondary: "Roboto";
-
   --font-size: 20px;
   --font-size-xsmall: 0.75rem;
   --font-size-small: 1rem;
   --font-size-medium: 1.5rem;
   --font-size-large: 3.25rem;
   --font-size-xlarge: 3.75rem;
-
   --gap-body-top: 60px;
   --gap-body-right: 60px;
   --gap-body-bottom: 60px;
   --gap-body-left: 60px;
-
   --gap-modules: 30px;
 }
 
@@ -175,10 +171,7 @@ sup {
 
 .region.fullscreen {
   position: absolute;
-  top: calc(-1 * var(--gap-body-top));
-  left: calc(-1 * var(--gap-body-left));
-  right: calc(-1 * var(--gap-body-right));
-  bottom: calc(-1 * var(--gap-body-bottom));
+  inset: calc(-1 * var(--gap-body-top)) calc(-1 * var(--gap-body-right)) calc(-1 * var(--gap-body-bottom)) calc(-1 * var(--gap-body-left));
   pointer-events: none;
 }
 

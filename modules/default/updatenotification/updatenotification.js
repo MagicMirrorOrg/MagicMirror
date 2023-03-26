@@ -77,7 +77,7 @@ Module.register("updatenotification", {
 
 	addFilters() {
 		this.nunjucksEnvironment().addFilter("diffLink", (text, status) => {
-			if (status.module !== "default") {
+			if (status.module !== "MagicMirror") {
 				return text;
 			}
 

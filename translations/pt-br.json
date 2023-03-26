@@ -1,6 +1,8 @@
 {
-	"LOADING": "Carregando &hellip;",
+	"LOADING": "Carregando …",
 
+	"DAYBEFOREYESTERDAY": "Anteontem",
+	"YESTERDAY": "Ontem",
 	"TODAY": "Hoje",
 	"TOMORROW": "Amanhã",
 	"RUNNING": "Acaba em",
@@ -24,7 +26,7 @@
 	"NNW": "NNO",
 
 	"FEELS": "Percebida {DEGREE}",
-	"PRECIP": "PoP",
+	"PRECIP_POP": "PoP",
 
 	"UPDATE_NOTIFICATION": "Nova atualização para MagicMirror² disponível.",
 	"UPDATE_NOTIFICATION_MODULE": "Atualização para o módulo {MODULE_NAME} disponível.",

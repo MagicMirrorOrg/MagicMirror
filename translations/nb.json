@@ -1,6 +1,8 @@
 {
-	"LOADING": "Laster &hellip;",
+	"LOADING": "Laster …",
 
+	"DAYBEFOREYESTERDAY": "I forgårs",
+	"YESTERDAY": "I går",
 	"TODAY": "I dag",
 	"TOMORROW": "I morgen",
 	"DAYAFTERTOMORROW": "I overmorgen",
@@ -26,6 +28,8 @@
 	"NNW": "NNV",
 
 	"FEELS": "Føles som {DEGREE}",
+	"PRECIP_POP": "Sannsynlighet for nedbør",
+	"PRECIP_AMOUNT": "Nedbørsmengde",
 
 	"UPDATE_NOTIFICATION": "MagicMirror²-oppdatering er tilgjengelig.",
 	"UPDATE_NOTIFICATION_MODULE": "Oppdatering tilgjengelig for modulen {MODULE_NAME}.",

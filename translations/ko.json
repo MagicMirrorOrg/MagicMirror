@@ -1,6 +1,7 @@
 {
-	"LOADING": "로드 중 &hellip;",
+	"LOADING": "로드 중 …",
 
+	"YESTERDAY": "어제",
 	"TODAY": "오늘",
 	"TOMORROW": "내일",
 	"DAYAFTERTOMORROW": "모레",
@@ -26,7 +27,7 @@
 	"NNW": "북북서풍",
 
 	"FEELS": "체감온도 {DEGREE}",
-	"PRECIP": "PoP",
+	"PRECIP_POP": "PoP",
 
 	"MODULE_CONFIG_CHANGED": "모듈 {MODULE_NAME}의 설정값이 바뀌었습니다.\n매뉴얼을 참고하세요.",
 	"MODULE_CONFIG_ERROR": "에러 : {MODULE_NAME} - {ERROR}",

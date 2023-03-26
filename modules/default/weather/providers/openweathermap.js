@@ -132,7 +132,7 @@ WeatherProvider.register("openweathermap", {
 		currentWeather.temperature = currentWeatherData.main.temp;
 		currentWeather.feelsLikeTemp = currentWeatherData.main.feels_like;
 		currentWeather.windSpeed = currentWeatherData.wind.speed;
-		currentWeather.windDirection = currentWeatherData.wind.deg;
+		currentWeather.windFromDirection = currentWeatherData.wind.deg;
 		currentWeather.weatherType = this.convertWeatherType(currentWeatherData.weather[0].icon);
 		currentWeather.sunrise = moment.unix(currentWeatherData.sys.sunrise);
 		currentWeather.sunset = moment.unix(currentWeatherData.sys.sunset);
@@ -145,9 +145,9 @@ WeatherProvider.register("openweathermap", {
 	 */
 	generateWeatherObjectsFromForecast(forecasts) {
 		if (this.config.weatherEndpoint === "/forecast") {
-			return this.fetchForecastHourly(forecasts);
+			return this.generateForecastHourly(forecasts);
 		} else if (this.config.weatherEndpoint === "/forecast/daily") {
-			return this.fetchForecastDaily(forecasts);
+			return this.generateForecastDaily(forecasts);
 		}
 		// if weatherEndpoint does not match forecast or forecast/daily, what should be returned?
 		return [new WeatherObject()];
@@ -165,9 +165,10 @@ WeatherProvider.register("openweathermap", {
 	},
 
 	/*
-	 * fetch forecast information for 3-hourly forecast (available for free subscription).
+	 * Generate forecast information for 3-hourly forecast (available for free
+	 * subscription).
 	 */
-	fetchForecastHourly(forecasts) {
+	generateForecastHourly(forecasts) {
 		// initial variable declaration
 		const days = [];
 		// variables for temperature range and rain
@@ -186,7 +187,7 @@ WeatherProvider.register("openweathermap", {
 				weather.maxTemperature = Math.max.apply(null, maxTemp);
 				weather.rain = rain;
 				weather.snow = snow;
-				weather.precipitation = weather.rain + weather.snow;
+				weather.precipitationAmount = (weather.rain ?? 0) + (weather.snow ?? 0);
 				// push weather information to days array
 				days.push(weather);
 				// create new weather-object
@@ -216,20 +217,12 @@ WeatherProvider.register("openweathermap", {
 			minTemp.push(forecast.main.temp_min);
 			maxTemp.push(forecast.main.temp_max);
 
-			if (forecast.hasOwnProperty("rain")) {
-				if (this.config.units === "imperial" && !isNaN(forecast.rain["3h"])) {
-					rain += forecast.rain["3h"] / 25.4;
-				} else if (!isNaN(forecast.rain["3h"])) {
-					rain += forecast.rain["3h"];
-				}
+			if (forecast.hasOwnProperty("rain") && !isNaN(forecast.rain["3h"])) {
+				rain += forecast.rain["3h"];
 			}
 
-			if (forecast.hasOwnProperty("snow")) {
-				if (this.config.units === "imperial" && !isNaN(forecast.snow["3h"])) {
-					snow += forecast.snow["3h"] / 25.4;
-				} else if (!isNaN(forecast.snow["3h"])) {
-					snow += forecast.snow["3h"];
-				}
+			if (forecast.hasOwnProperty("snow") && !isNaN(forecast.snow["3h"])) {
+				snow += forecast.snow["3h"];
 			}
 		}
 
@@ -239,16 +232,17 @@ WeatherProvider.register("openweathermap", {
 		weather.maxTemperature = Math.max.apply(null, maxTemp);
 		weather.rain = rain;
 		weather.snow = snow;
-		weather.precipitation = weather.rain + weather.snow;
+		weather.precipitationAmount = (weather.rain ?? 0) + (weather.snow ?? 0);
 		// push weather information to days array
 		days.push(weather);
 		return days.slice(1);
 	},
 
 	/*
-	 * fetch forecast information for daily forecast (available for paid subscription or old apiKey).
+	 * Generate forecast information for daily forecast (available for paid
+	 * subscription or old apiKey).
 	 */
-	fetchForecastDaily(forecasts) {
+	generateForecastDaily(forecasts) {
 		// initial variable declaration
 		const days = [];
 
@@ -264,25 +258,18 @@ WeatherProvider.register("openweathermap", {
 
 			// forecast.rain not available if amount is zero
 			// The API always returns in millimeters
-			if (forecast.hasOwnProperty("rain")) {
-				if (this.config.units === "imperial" && !isNaN(forecast.rain)) {
-					weather.rain = forecast.rain / 25.4;
-				} else if (!isNaN(forecast.rain)) {
-					weather.rain = forecast.rain;
-				}
+			if (forecast.hasOwnProperty("rain") && !isNaN(forecast.rain)) {
+				weather.rain = forecast.rain;
 			}
 
 			// forecast.snow not available if amount is zero
 			// The API always returns in millimeters
-			if (forecast.hasOwnProperty("snow")) {
-				if (this.config.units === "imperial" && !isNaN(forecast.snow)) {
-					weather.snow = forecast.snow / 25.4;
-				} else if (!isNaN(forecast.snow)) {
-					weather.snow = forecast.snow;
-				}
+			if (forecast.hasOwnProperty("snow") && !isNaN(forecast.snow)) {
+				weather.snow = forecast.snow;
 			}
 
-			weather.precipitation = weather.rain + weather.snow;
+			weather.precipitationAmount = weather.rain + weather.snow;
+			weather.precipitationProbability = forecast.pop ? forecast.pop * 100 : undefined;
 
 			days.push(weather);
 		}
@@ -303,30 +290,22 @@ WeatherProvider.register("openweathermap", {
 		if (data.hasOwnProperty("current")) {
 			current.date = moment.unix(data.current.dt).utcOffset(data.timezone_offset / 60);
 			current.windSpeed = data.current.wind_speed;
-			current.windDirection = data.current.wind_deg;
+			current.windFromDirection = data.current.wind_deg;
 			current.sunrise = moment.unix(data.current.sunrise).utcOffset(data.timezone_offset / 60);
 			current.sunset = moment.unix(data.current.sunset).utcOffset(data.timezone_offset / 60);
 			current.temperature = data.current.temp;
 			current.weatherType = this.convertWeatherType(data.current.weather[0].icon);
 			current.humidity = data.current.humidity;
 			if (data.current.hasOwnProperty("rain") && !isNaN(data.current["rain"]["1h"])) {
-				if (this.config.units === "imperial") {
-					current.rain = data.current["rain"]["1h"] / 25.4;
-				} else {
-					current.rain = data.current["rain"]["1h"];
-				}
+				current.rain = data.current["rain"]["1h"];
 				precip = true;
 			}
 			if (data.current.hasOwnProperty("snow") && !isNaN(data.current["snow"]["1h"])) {
-				if (this.config.units === "imperial") {
-					current.snow = data.current["snow"]["1h"] / 25.4;
-				} else {
-					current.snow = data.current["snow"]["1h"];
-				}
+				current.snow = data.current["snow"]["1h"];
 				precip = true;
 			}
 			if (precip) {
-				current.precipitation = current.rain + current.snow;
+				current.precipitationAmount = (current.rain ?? 0) + (current.snow ?? 0);
 			}
 			current.feelsLikeTemp = data.current.feels_like;
 		}
@@ -342,27 +321,20 @@ WeatherProvider.register("openweathermap", {
 				weather.feelsLikeTemp = hour.feels_like;
 				weather.humidity = hour.humidity;
 				weather.windSpeed = hour.wind_speed;
-				weather.windDirection = hour.wind_deg;
+				weather.windFromDirection = hour.wind_deg;
 				weather.weatherType = this.convertWeatherType(hour.weather[0].icon);
+				weather.precipitationProbability = hour.pop ? hour.pop * 100 : undefined;
 				precip = false;
 				if (hour.hasOwnProperty("rain") && !isNaN(hour.rain["1h"])) {
-					if (this.config.units === "imperial") {
-						weather.rain = hour.rain["1h"] / 25.4;
-					} else {
-						weather.rain = hour.rain["1h"];
-					}
+					weather.rain = hour.rain["1h"];
 					precip = true;
 				}
 				if (hour.hasOwnProperty("snow") && !isNaN(hour.snow["1h"])) {
-					if (this.config.units === "imperial") {
-						weather.snow = hour.snow["1h"] / 25.4;
-					} else {
-						weather.snow = hour.snow["1h"];
-					}
+					weather.snow = hour.snow["1h"];
 					precip = true;
 				}
 				if (precip) {
-					weather.precipitation = weather.rain + weather.snow;
+					weather.precipitationAmount = (weather.rain ?? 0) + (weather.snow ?? 0);
 				}
 
 				hours.push(weather);
@@ -381,27 +353,20 @@ WeatherProvider.register("openweathermap", {
 				weather.maxTemperature = day.temp.max;
 				weather.humidity = day.humidity;
 				weather.windSpeed = day.wind_speed;
-				weather.windDirection = day.wind_deg;
+				weather.windFromDirection = day.wind_deg;
 				weather.weatherType = this.convertWeatherType(day.weather[0].icon);
+				weather.precipitationProbability = day.pop ? day.pop * 100 : undefined;
 				precip = false;
 				if (!isNaN(day.rain)) {
-					if (this.config.units === "imperial") {
-						weather.rain = day.rain / 25.4;
-					} else {
-						weather.rain = day.rain;
-					}
+					weather.rain = day.rain;
 					precip = true;
 				}
 				if (!isNaN(day.snow)) {
-					if (this.config.units === "imperial") {
-						weather.snow = day.snow / 25.4;
-					} else {
-						weather.snow = day.snow;
-					}
+					weather.snow = day.snow;
 					precip = true;
 				}
 				if (precip) {
-					weather.precipitation = weather.rain + weather.snow;
+					weather.precipitationAmount = (weather.rain ?? 0) + (weather.snow ?? 0);
 				}
 
 				days.push(weather);
@@ -448,8 +413,8 @@ WeatherProvider.register("openweathermap", {
 	getParams() {
 		let params = "?";
 		if (this.config.weatherEndpoint === "/onecall") {
-			params += "lat=" + this.config.lat;
-			params += "&lon=" + this.config.lon;
+			params += `lat=${this.config.lat}`;
+			params += `&lon=${this.config.lon}`;
 			if (this.config.type === "current") {
 				params += "&exclude=minutely,hourly,daily";
 			} else if (this.config.type === "hourly") {
@@ -460,23 +425,23 @@ WeatherProvider.register("openweathermap", {
 				params += "&exclude=minutely";
 			}
 		} else if (this.config.lat && this.config.lon) {
-			params += "lat=" + this.config.lat + "&lon=" + this.config.lon;
+			params += `lat=${this.config.lat}&lon=${this.config.lon}`;
 		} else if (this.config.locationID) {
-			params += "id=" + this.config.locationID;
+			params += `id=${this.config.locationID}`;
 		} else if (this.config.location) {
-			params += "q=" + this.config.location;
+			params += `q=${this.config.location}`;
 		} else if (this.firstEvent && this.firstEvent.geo) {
-			params += "lat=" + this.firstEvent.geo.lat + "&lon=" + this.firstEvent.geo.lon;
+			params += `lat=${this.firstEvent.geo.lat}&lon=${this.firstEvent.geo.lon}`;
 		} else if (this.firstEvent && this.firstEvent.location) {
-			params += "q=" + this.firstEvent.location;
+			params += `q=${this.firstEvent.location}`;
 		} else {
 			this.hide(this.config.animationSpeed, { lockString: this.identifier });
 			return;
 		}
 
 		params += "&units=metric"; // WeatherProviders should use metric internally and use the units only for when displaying data
-		params += "&lang=" + this.config.lang;
-		params += "&APPID=" + this.config.apiKey;
+		params += `&lang=${this.config.lang}`;
+		params += `&APPID=${this.config.apiKey}`;
 
 		return params;
 	}

@@ -1,6 +1,8 @@
 {
-	"LOADING": "Laen &hellip;",
+	"LOADING": "Laen …",
 
+	"DAYBEFOREYESTERDAY": "Üleeile",
+	"YESTERDAY": "Eile",
 	"TODAY": "Täna",
 	"TOMORROW": "Homme",
 	"DAYAFTERTOMORROW": "Ülehomme",

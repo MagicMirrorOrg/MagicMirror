@@ -1,6 +1,7 @@
 {
-	"LOADING": "Yükleniyor &hellip;",
+	"LOADING": "Yükleniyor …",
 
+	"YESTERDAY": "Dün",
 	"TODAY": "Bugün",
 	"TOMORROW": "Yarın",
 	"DAYAFTERTOMORROW": "İki gün içinde",
@@ -26,7 +27,7 @@
 	"NNW": "KKB",
 
 	"FEELS": "Hissedilen {DEGREE}",
-	"PRECIP": "Yağış",
+	"PRECIP_POP": "Yağış",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² güncellemesi mevcut.",
 	"UPDATE_NOTIFICATION_MODULE": "{MODULE_NAME} modulü için güncelleme mevcut.",

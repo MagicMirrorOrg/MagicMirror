@@ -1,6 +1,8 @@
 {
-	"LOADING": "Cargando &hellip;",
+	"LOADING": "Cargando …",
 
+	"DAYBEFOREYESTERDAY": "Anteayer",
+	"YESTERDAY": "Ayer",
 	"TODAY": "Hoy",
 	"TOMORROW": "Mañana",
 	"DAYAFTERTOMORROW": "Pasado mañana",
@@ -26,7 +28,7 @@
 	"NNW": "NNO",
 
 	"FEELS": "Sensación térmica de {DEGREE}",
-	"PRECIP": "Precipitación",
+	"PRECIP_POP": "Precipitación",
 
 	"MODULE_CONFIG_CHANGED": "Las opciones de configuración para el módulo {MODULE_NAME} han cambiado. \nVerifique la documentación.",
 

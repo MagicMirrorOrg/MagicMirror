@@ -1,6 +1,7 @@
 {
-	"LOADING": "Cargando &hellip;",
+	"LOADING": "Cargando …",
 
+	"YESTERDAY": "Onte",
 	"TODAY": "Hoxe",
 	"TOMORROW": "Mañá",
 	"DAYAFTERTOMORROW": "Pasado mañá",
@@ -35,5 +36,5 @@
 	"UPDATE_INFO_MULTIPLE": "A instalación actual está {COMMIT_COUNT} commits detrás da rama {BRANCH_NAME}.",
 
 	"FEELS": "Semella como {DEGREE}",
-	"PRECIP": "Precipitacións"
+	"PRECIP_POP": "Precipitacións"
 }

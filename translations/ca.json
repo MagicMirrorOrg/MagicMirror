@@ -1,6 +1,7 @@
 {
-	"LOADING": "Carregant &hellip;",
+	"LOADING": "Carregant …",
 
+	"YESTERDAY": "Ahir",
 	"TODAY": "Avui",
 	"TOMORROW": "Demà",
 	"DAYAFTERTOMORROW": "Demà passat",

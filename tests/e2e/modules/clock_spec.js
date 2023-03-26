@@ -1,5 +1,5 @@
-const helpers = require("../helpers/global-setup");
 const moment = require("moment");
+const helpers = require("../helpers/global-setup");
 
 describe("Clock module", () => {
 	afterAll(async () => {
@@ -89,7 +89,7 @@ describe("Clock module", () => {
 
 		it("should show the week with the correct number of week of year", async () => {
 			const currentWeekNumber = moment().week();
-			const weekToShow = "Week " + currentWeekNumber;
+			const weekToShow = `Week ${currentWeekNumber}`;
 			const elem = await helpers.waitForElement(".clock .week");
 			expect(elem).not.toBe(null);
 			expect(elem.textContent).toBe(weekToShow);
@@ -103,7 +103,7 @@ describe("Clock module", () => {
 		});
 
 		it("should show the analog clock face", async () => {
-			const elem = helpers.waitForElement(".clockCircle");
+			const elem = helpers.waitForElement(".clock-circle");
 			expect(elem).not.toBe(null);
 		});
 	});

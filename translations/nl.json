@@ -1,6 +1,8 @@
 {
-	"LOADING": "Bezig met laden &hellip;",
+	"LOADING": "Bezig met laden …",
 
+	"DAYBEFOREYESTERDAY": "Eergisteren",
+	"YESTERDAY": "Gisteren",
 	"TODAY": "Vandaag",
 	"TOMORROW": "Morgen",
 	"DAYAFTERTOMORROW": "Overmorgen",
@@ -26,7 +28,7 @@
 	"NNW": "NNW",
 
 	"FEELS": "Voelt als {DEGREE}",
-	"PRECIP": "Neerslagkans",
+	"PRECIP_POP": "Neerslagkans",
 
 	"MODULE_CONFIG_CHANGED": "De configuratie opties voor de module {MODULE_NAME} zijn gewijzigd.\nControleer de documentatie.",
 	"MODULE_CONFIG_ERROR": "Fout in de {MODULE_NAME} module. {ERROR}",

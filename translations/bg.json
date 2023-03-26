@@ -1,6 +1,8 @@
 {
-	"LOADING": "Зареждане на &hellip;",
+	"LOADING": "Зареждане на …",
 
+	"DAYBEFOREYESTERDAY": "Завчера",
+	"YESTERDAY": "Вчера",
 	"TODAY": "Днес",
 	"TOMORROW": "Утре",
 	"DAYAFTERTOMORROW": "Вдругиден",

@@ -1,6 +1,8 @@
 {
-	"LOADING": "正在載入 &hellip;",
+	"LOADING": "正在載入 …",
 
+	"DAYBEFOREYESTERDAY": "前天",
+	"YESTERDAY": "昨天",
 	"TODAY": "今天",
 	"TOMORROW": "明天",
 	"DAYAFTERTOMORROW": "後天",
@@ -26,7 +28,7 @@
 	"NNW": "北偏西風",
 
 	"FEELS": "體感溫度 {DEGREE}",
-	"PRECIP": "降雨機率",
+	"PRECIP_POP": "降雨機率",
 
 	"MODULE_CONFIG_CHANGED": "模組 {MODULE_NAME} 的設定檔選項已更改。\n請參見說明文件。",
 	"MODULE_CONFIG_ERROR": "{MODULE_NAME} 模組發生錯誤。{ERROR}",

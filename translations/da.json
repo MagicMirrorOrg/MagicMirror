@@ -1,6 +1,8 @@
 {
-	"LOADING": "Indlæser &hellip;",
+	"LOADING": "Indlæser …",
 
+	"DAYBEFOREYESTERDAY": "Forgårs",
+	"YESTERDAY": "I går",
 	"TODAY": "I dag",
 	"TOMORROW": "I morgen",
 	"DAYAFTERTOMORROW": "I overmorgen",
@@ -26,7 +28,7 @@
 	"NNW": "NNV",
 
 	"FEELS": "Føles som {DEGREE}",
-	"PRECIP": "Sandsynlighed for nedbør",
+	"PRECIP_POP": "Sandsynlighed for nedbør",
 
 	"MODULE_CONFIG_CHANGED": "Konfigurationsmulighederne for {MODULE_NAME} modulet er ændret.\nSe venligst dokumentationen.",
 	"MODULE_CONFIG_ERROR": "Fejl i {MODULE_NAME} modulet. {ERROR}",

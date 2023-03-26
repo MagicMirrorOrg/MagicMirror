@@ -33,16 +33,15 @@ Module.register("compliments", {
 	},
 
 	// Define start sequence.
-	start: function () {
-		Log.info("Starting module: " + this.name);
+	start: async function () {
+		Log.info(`Starting module: ${this.name}`);
 
 		this.lastComplimentIndex = -1;
 
 		if (this.config.remoteFile !== null) {
-			this.complimentFile((response) => {
-				this.config.compliments = JSON.parse(response);
-				this.updateDom();
-			});
+			const response = await this.loadComplimentFile();
+			this.config.compliments = JSON.parse(response);
+			this.updateDom();
 		}
 
 		// Schedule update timer.
@@ -85,29 +84,29 @@ Module.register("compliments", {
 	complimentArray: function () {
 		const hour = moment().hour();
 		const date = moment().format("YYYY-MM-DD");
-		let compliments;
+		let compliments = [];
 
+		// Add time of day compliments
 		if (hour >= this.config.morningStartTime && hour < this.config.morningEndTime && this.config.compliments.hasOwnProperty("morning")) {
-			compliments = this.config.compliments.morning.slice(0);
+			compliments = [...this.config.compliments.morning];
 		} else if (hour >= this.config.afternoonStartTime && hour < this.config.afternoonEndTime && this.config.compliments.hasOwnProperty("afternoon")) {
-			compliments = this.config.compliments.afternoon.slice(0);
+			compliments = [...this.config.compliments.afternoon];
 		} else if (this.config.compliments.hasOwnProperty("evening")) {
-			compliments = this.config.compliments.evening.slice(0);
+			compliments = [...this.config.compliments.evening];
 		}
 
-		if (typeof compliments === "undefined") {
-			compliments = [];
-		}
-
+		// Add compliments based on weather
 		if (this.currentWeatherType in this.config.compliments) {
-			compliments.push.apply(compliments, this.config.compliments[this.currentWeatherType]);
+			Array.prototype.push.apply(compliments, this.config.compliments[this.currentWeatherType]);
 		}
 
-		compliments.push.apply(compliments, this.config.compliments.anytime);
+		// Add compliments for anytime
+		Array.prototype.push.apply(compliments, this.config.compliments.anytime);
 
+		// Add compliments for special days
 		for (let entry in this.config.compliments) {
 			if (new RegExp(entry).test(date)) {
-				compliments.push.apply(compliments, this.config.compliments[entry]);
+				Array.prototype.push.apply(compliments, this.config.compliments[entry]);
 			}
 		}
 
@@ -117,20 +116,13 @@ Module.register("compliments", {
 	/**
 	 * Retrieve a file from the local filesystem
 	 *
-	 * @param {Function} callback Called when the file is retrieved.
+	 * @returns {Promise} Resolved when the file is loaded
 	 */
-	complimentFile: function (callback) {
-		const xobj = new XMLHttpRequest(),
-			isRemote = this.config.remoteFile.indexOf("http://") === 0 || this.config.remoteFile.indexOf("https://") === 0,
-			path = isRemote ? this.config.remoteFile : this.file(this.config.remoteFile);
-		xobj.overrideMimeType("application/json");
-		xobj.open("GET", path, true);
-		xobj.onreadystatechange = function () {
-			if (xobj.readyState === 4 && xobj.status === 200) {
-				callback(xobj.responseText);
-			}
-		};
-		xobj.send(null);
+	loadComplimentFile: async function () {
+		const isRemote = this.config.remoteFile.indexOf("http://") === 0 || this.config.remoteFile.indexOf("https://") === 0,
+			url = isRemote ? this.config.remoteFile : this.file(this.config.remoteFile);
+		const response = await fetch(url);
+		return await response.text();
 	},
 
 	/**
@@ -138,7 +130,7 @@ Module.register("compliments", {
 	 *
 	 * @returns {string} a compliment
 	 */
-	randomCompliment: function () {
+	getRandomCompliment: function () {
 		// get the current time of day compliments list
 		const compliments = this.complimentArray();
 		// variable for index to next message to display
@@ -161,34 +153,33 @@ Module.register("compliments", {
 		const wrapper = document.createElement("div");
 		wrapper.className = this.config.classes ? this.config.classes : "thin xlarge bright pre-line";
 		// get the compliment text
-		const complimentText = this.randomCompliment();
+		const complimentText = this.getRandomCompliment();
 		// split it into parts on newline text
 		const parts = complimentText.split("\n");
-		// create a span to hold it all
+		// create a span to hold the compliment
 		const compliment = document.createElement("span");
 		// process all the parts of the compliment text
 		for (const part of parts) {
-			// create a text element for each part
-			compliment.appendChild(document.createTextNode(part));
-			// add a break `
-			compliment.appendChild(document.createElement("BR"));
+			if (part !== "") {
+				// create a text element for each part
+				compliment.appendChild(document.createTextNode(part));
+				// add a break
+				compliment.appendChild(document.createElement("BR"));
+			}
 		}
-		// remove the last break
-		compliment.lastElementChild.remove();
-		wrapper.appendChild(compliment);
-
+		// only add compliment to wrapper if there is actual text in there
+		if (compliment.children.length > 0) {
+			// remove the last break
+			compliment.lastElementChild.remove();
+			wrapper.appendChild(compliment);
+		}
 		return wrapper;
-	},
-
-	// From data currentweather set weather type
-	setCurrentWeatherType: function (type) {
-		this.currentWeatherType = type;
 	},
 
 	// Override notification handler.
 	notificationReceived: function (notification, payload, sender) {
 		if (notification === "CURRENTWEATHER_TYPE") {
-			this.setCurrentWeatherType(payload.type);
+			this.currentWeatherType = payload.type;
 		}
 	}
 });

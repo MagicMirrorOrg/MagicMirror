@@ -1,6 +1,8 @@
 {
-	"LOADING": "A carregar &hellip;",
+	"LOADING": "A carregar …",
 
+	"DAYBEFOREYESTERDAY": "Anteontem",
+	"YESTERDAY": "Ontem",
 	"TODAY": "Hoje",
 	"TOMORROW": "Amanhã",
 	"DAYAFTERTOMORROW": "Depois de amanhã",
@@ -26,7 +28,7 @@
 	"NNW": "NNO",
 
 	"FEELS": "Sentida {DEGREE}",
-	"PRECIP": "Prob. Precipitação",
+	"PRECIP_POP": "Prob. Precipitação",
 
 	"MODULE_CONFIG_CHANGED": "As opções na configuração do módulo {MODULE_NAME} foram alteradas.\nPor favor, verifica a documentação.",
 

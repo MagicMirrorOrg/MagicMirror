@@ -1,6 +1,7 @@
 {
-	"LOADING": "Tunggu Sebentar &hellip;",
+	"LOADING": "Tunggu Sebentar …",
 
+	"YESTERDAY": "Semalam",
 	"TODAY": "Hari ini",
 	"TOMORROW": "Esok",
 	"DAYAFTERTOMORROW": "Lusa",

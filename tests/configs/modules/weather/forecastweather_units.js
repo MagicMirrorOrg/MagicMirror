@@ -15,7 +15,8 @@ let config = {
 				location: "Munich",
 				mockData: '"#####WEATHERDATA#####"',
 				weatherEndpoint: "/forecast/daily",
-				decimalSymbol: "_"
+				decimalSymbol: "_",
+				showPrecipitationAmount: true
 			}
 		}
 	]

@@ -1,6 +1,7 @@
 {
-	"LOADING": "Memuat &hellip;",
+	"LOADING": "Memuat …",
 
+	"YESTERDAY": "Kemarin",
 	"TODAY": "Hari ini",
 	"TOMORROW": "Besok",
 	"DAYAFTERTOMORROW": "Lusa",

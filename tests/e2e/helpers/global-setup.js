@@ -13,7 +13,7 @@ exports.startApplication = async (configFilename, exec) => {
 		process.env.MM_CONFIG_FILE = configFilename;
 	}
 	if (exec) exec;
-	global.app = require("app.js");
+	global.app = require("../../../js/app");
 
 	await global.app.start();
 };
@@ -27,9 +27,10 @@ exports.stopApplication = async () => {
 
 exports.getDocument = () => {
 	return new Promise((resolve) => {
-		const url = "http://" + (config.address || "localhost") + ":" + (config.port || "8080");
+		const url = `http://${config.address || "localhost"}:${config.port || "8080"}`;
 		jsdom.JSDOM.fromURL(url, { resources: "usable", runScripts: "dangerously" }).then((dom) => {
 			dom.window.name = "jsdom";
+			dom.window.fetch = corefetch;
 			dom.window.onload = () => {
 				global.document = dom.window.document;
 				resolve();

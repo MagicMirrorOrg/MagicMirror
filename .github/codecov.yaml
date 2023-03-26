@@ -4,3 +4,7 @@ coverage:
       default:
         # advanced settings
         informational: true
+    patch:
+      default:
+        threshold: 0%
+        target: 0

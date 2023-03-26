@@ -10,7 +10,7 @@ describe("Functions into modules/default/calendar/calendar.js", () => {
 
 	beforeAll(() => {
 		// load calendar.js
-		require("../../../modules/default/calendar/calendar.js");
+		require("../../../modules/default/calendar/calendar");
 	});
 
 	describe("capFirst", () => {
@@ -87,8 +87,8 @@ describe("Functions into modules/default/calendar/calendar.js", () => {
 
 	describe("shorten", () => {
 		const strings = {
-			" String with whitespace at the beginning that needs trimming": { length: 16, return: "String with whit&hellip;" },
-			"long string that needs shortening": { length: 16, return: "long string that&hellip;" },
+			" String with whitespace at the beginning that needs trimming": { length: 16, return: "String with whit…" },
+			"long string that needs shortening": { length: 16, return: "long string that…" },
 			"short string": { length: 16, return: "short string" },
 			"long string with no maxLength defined": { return: "long string with no maxLength defined" }
 		};
@@ -121,7 +121,7 @@ describe("Functions into modules/default/calendar/calendar.js", () => {
 
 		it("should wrap and shorten the string in the second line if called with wrapEvents = true and maxTitleLines = 2", () => {
 			expect(Module.definitions.calendar.shorten("This is a wrapEvent and maxTitleLines test. Should wrap and shorten the string in the second line if called with wrapEvents = true and maxTitleLines = 2", undefined, true, 2)).toBe(
-				"This is a wrapEvent and <br>maxTitleLines test. Should wrap and &hellip;"
+				"This is a wrapEvent and <br>maxTitleLines test. Should wrap and …"
 			);
 		});
 	});

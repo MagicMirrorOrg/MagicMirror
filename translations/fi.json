@@ -1,6 +1,8 @@
 {
-	"LOADING": "Lataa &hellip;",
+	"LOADING": "Lataa …",
 
+	"DAYBEFOREYESTERDAY": "Toissapäivänä",
+	"YESTERDAY": "Eilen",
 	"TODAY": "Tänään",
 	"TOMORROW": "Huomenna",
 	"DAYAFTERTOMORROW": "Ylihuomenna",
@@ -26,7 +28,7 @@
 	"NNW": "PPL",
 
 	"FEELS": "Tuntuu kuin {DEGREE}",
-	"PRECIP": "Sateen todennäköisyys",
+	"PRECIP_POP": "Sateen todennäköisyys",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² päivitys saatavilla.",
 	"UPDATE_NOTIFICATION_MODULE": "Päivitys saatavilla moduulille {MODULE_NAME}.",

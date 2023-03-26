@@ -1,6 +1,8 @@
 {
-	"LOADING": "Načítání &hellip;",
+	"LOADING": "Načítání …",
 
+	"DAYBEFOREYESTERDAY": "Předevčírem",
+	"YESTERDAY": "Včera",
 	"TODAY": "Dnes",
 	"TOMORROW": "Zítra",
 	"DAYAFTERTOMORROW": "Pozítří",
@@ -26,7 +28,7 @@
 	"NNW": "SSZ",
 
 	"FEELS": "Pocitově {DEGREE}",
-	"PRECIP": "Pravděpodobnost deště",
+	"PRECIP_POP": "Pravděpodobnost deště",
 
 	"NEWSFEED_NO_ITEMS": "Žádné zprávy.",
 

@@ -129,10 +129,10 @@ WeatherProvider.register("weathergov", {
 					// points URL did not respond with usable data.
 					return;
 				}
-				this.fetchedLocationName = data.properties.relativeLocation.properties.city + ", " + data.properties.relativeLocation.properties.state;
-				Log.log("Forecast location is " + this.fetchedLocationName);
-				this.forecastURL = data.properties.forecast + "?units=si";
-				this.forecastHourlyURL = data.properties.forecastHourly + "?units=si";
+				this.fetchedLocationName = `${data.properties.relativeLocation.properties.city}, ${data.properties.relativeLocation.properties.state}`;
+				Log.log(`Forecast location is ${this.fetchedLocationName}`);
+				this.forecastURL = `${data.properties.forecast}?units=si`;
+				this.forecastHourlyURL = `${data.properties.forecastHourly}?units=si`;
 				this.forecastGridDataURL = data.properties.forecastGridData;
 				this.observationStationsURL = data.properties.observationStations;
 				// with this URL, we chain another promise for the station obs URL
@@ -143,7 +143,7 @@ WeatherProvider.register("weathergov", {
 					// obs station URL did not respond with usable data.
 					return;
 				}
-				this.stationObsURL = obsData.features[0].id + "/observations/latest";
+				this.stationObsURL = `${obsData.features[0].id}/observations/latest`;
 			})
 			.catch((err) => {
 				Log.error(err);
@@ -179,9 +179,9 @@ WeatherProvider.register("weathergov", {
 			} else {
 				weather.windSpeed = forecast.windSpeed.slice(0, forecast.windSpeed.search(" "));
 			}
-			weather.windDirection = this.convertWindDirection(forecast.windDirection);
+			weather.windSpeed = WeatherUtils.convertWindToMs(weather.windSpeed);
+			weather.windFromDirection = forecast.windDirection;
 			weather.temperature = forecast.temperature;
-			weather.tempUnits = forecast.temperatureUnit;
 			// use the forecast isDayTime attribute to help build the weatherType label
 			weather.weatherType = this.convertWeatherType(forecast.shortForecast, forecast.isDaytime);
 
@@ -206,13 +206,11 @@ WeatherProvider.register("weathergov", {
 		currentWeather.date = moment(currentWeatherData.timestamp);
 		currentWeather.temperature = currentWeatherData.temperature.value;
 		currentWeather.windSpeed = WeatherUtils.convertWindToMs(currentWeatherData.windSpeed.value);
-		currentWeather.windDirection = currentWeatherData.windDirection.value;
+		currentWeather.windFromDirection = currentWeatherData.windDirection.value;
 		currentWeather.minTemperature = currentWeatherData.minTemperatureLast24Hours.value;
 		currentWeather.maxTemperature = currentWeatherData.maxTemperatureLast24Hours.value;
 		currentWeather.humidity = Math.round(currentWeatherData.relativeHumidity.value);
-		currentWeather.rain = null;
-		currentWeather.snow = null;
-		currentWeather.precipitation = this.convertLength(currentWeatherData.precipitationLastHour.value);
+		currentWeather.precipitationAmount = currentWeatherData.precipitationLastHour.value;
 		if (currentWeatherData.heatIndex.value !== null) {
 			currentWeather.feelsLikeTemp = currentWeatherData.heatIndex.value;
 		} else if (currentWeatherData.windChill.value !== null) {
@@ -240,6 +238,8 @@ WeatherProvider.register("weathergov", {
 	 * fetch forecast information for daily forecast.
 	 */
 	fetchForecastDaily(forecasts) {
+		const precipitationProbabilityRegEx = "Chance of precipitation is ([0-9]+?)%";
+
 		// initial variable declaration
 		const days = [];
 		// variables for temperature range and rain
@@ -248,7 +248,6 @@ WeatherProvider.register("weathergov", {
 		// variable for date
 		let date = "";
 		let weather = new WeatherObject();
-		weather.precipitation = 0;
 
 		for (const forecast of forecasts) {
 			if (date !== moment(forecast.startTime).format("YYYY-MM-DD")) {
@@ -263,7 +262,8 @@ WeatherProvider.register("weathergov", {
 
 				minTemp = [];
 				maxTemp = [];
-				weather.precipitation = 0;
+				const precipitation = new RegExp(precipitationProbabilityRegEx, "g").exec(forecast.detailedForecast);
+				if (precipitation) weather.precipitationProbability = precipitation[1];
 
 				// set new date
 				date = moment(forecast.startTime).format("YYYY-MM-DD");
@@ -293,18 +293,6 @@ WeatherProvider.register("weathergov", {
 		// push weather information to days array
 		days.push(weather);
 		return days.slice(1);
-	},
-
-	/*
-	 * Unit conversions
-	 */
-	// conversion to inches
-	convertLength(meters) {
-		if (this.config.units === "imperial") {
-			return meters * 39.3701;
-		} else {
-			return meters;
-		}
 	},
 
 	/*

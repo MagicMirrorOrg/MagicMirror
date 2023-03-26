@@ -1,5 +1,5 @@
 const helpers = require("../helpers/global-setup");
-const serverBasicAuth = require("../helpers/basic-auth.js");
+const serverBasicAuth = require("../helpers/basic-auth");
 
 describe("Calendar module", () => {
 	/**
@@ -48,12 +48,16 @@ describe("Calendar module", () => {
 			await helpers.getDocument();
 		});
 
-		it("should show the custom maximumEntries of 4", async () => {
-			await testElementLength(".calendar .event", 4);
+		it("should show the custom maximumEntries of 5", async () => {
+			await testElementLength(".calendar .event", 5);
 		});
 
-		it("should show the custom calendar symbol in each event", async () => {
+		it("should show the custom calendar symbol in four events", async () => {
 			await testElementLength(".calendar .event .fa-birthday-cake", 4);
+		});
+
+		it("should show a customEvent calendar symbol in one event", async () => {
+			await testElementLength(".calendar .event .fa-dice", 1);
 		});
 
 		it("should show two custom icons for repeating events", async () => {
@@ -87,7 +91,7 @@ describe("Calendar module", () => {
 				await helpers.getDocument();
 			});
 
-			it('should contain text "Mar 25th" in timezone UTC ' + -i, async () => {
+			it(`should contain text "Mar 25th" in timezone UTC ${-i}`, async () => {
 				await testTextContain(".calendar", "Mar 25th");
 			});
 		});

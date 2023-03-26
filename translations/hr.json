@@ -1,6 +1,8 @@
 {
-	"LOADING": "Učitavanje &hellip;",
+	"LOADING": "Učitavanje …",
 
+	"DAYBEFOREYESTERDAY": "Prekjučer",
+	"YESTERDAY": "Jučer",
 	"TODAY": "Danas",
 	"TOMORROW": "Sutra",
 	"DAYAFTERTOMORROW": "Prekosutra",

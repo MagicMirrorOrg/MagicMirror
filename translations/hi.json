@@ -1,6 +1,8 @@
 {
-	"LOADING": "लोड हो रहा है &hellip;",
+	"LOADING": "लोड हो रहा है …",
 
+	"DAYBEFOREYESTERDAY": "परसों",
+	"YESTERDAY": "कल",
 	"TODAY": "आज",
 	"TOMORROW": "आने वाला कल",
 	"DAYAFTERTOMORROW": "2 दिनों में",
@@ -26,7 +28,7 @@
 	"NNW": "उउप",
 
 	"FEELS": "{DEGREE} की तरह लगना",
-	"PRECIP": "PoP",
+	"PRECIP_POP": "PoP",
 
 	"MODULE_CONFIG_CHANGED": "{MODULE_NAME} मॉड्यूल के लिए कॉन्फ़िगरेशन विकल्प बदल गए हैं।  n कृपया दस्तावेज़ देखें।",
 

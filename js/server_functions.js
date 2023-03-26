@@ -1,7 +1,7 @@
-const fetch = require("./fetch");
 const fs = require("fs");
 const path = require("path");
 const Log = require("logger");
+const fetch = require("./fetch");
 
 /**
  * Gets the config.
@@ -14,7 +14,7 @@ function getConfig(req, res) {
 }
 
 /**
- * A method that forewards HTTP Get-methods to the internet to avoid CORS-errors.
+ * A method that forwards HTTP Get-methods to the internet to avoid CORS-errors.
  *
  * Example input request url: /cors?sendheaders=header1:value1,header2:value2&expectedheaders=header1,header2&url=http://www.test.com/path?param1=value1
  *
@@ -26,11 +26,11 @@ function getConfig(req, res) {
 async function cors(req, res) {
 	try {
 		const urlRegEx = "url=(.+?)$";
-		let url = "";
+		let url;
 
 		const match = new RegExp(urlRegEx, "g").exec(req.url);
 		if (!match) {
-			url = "invalid url: " + req.url;
+			url = `invalid url: ${req.url}`;
 			Log.error(url);
 			res.send(url);
 		} else {
@@ -39,7 +39,7 @@ async function cors(req, res) {
 			const headersToSend = getHeadersToSend(req.url);
 			const expectedRecievedHeaders = geExpectedRecievedHeaders(req.url);
 
-			Log.log("cors url: " + url);
+			Log.log(`cors url: ${url}`);
 			const response = await fetch(url, { headers: headersToSend });
 
 			for (const header of expectedRecievedHeaders) {
@@ -56,13 +56,13 @@ async function cors(req, res) {
 }
 
 /**
- * Gets headers and values to attatch to the web request.
+ * Gets headers and values to attach to the web request.
  *
  * @param {string} url - The url containing the headers and values to send.
  * @returns {object} An object specifying name and value of the headers.
  */
 function getHeadersToSend(url) {
-	const headersToSend = { "User-Agent": "Mozilla/5.0 MagicMirror/" + global.version };
+	const headersToSend = { "User-Agent": `Mozilla/5.0 MagicMirror/${global.version}` };
 	const headersToSendMatch = new RegExp("sendheaders=(.+?)(&|$)", "g").exec(url);
 	if (headersToSendMatch) {
 		const headers = headersToSendMatch[1].split(",");
