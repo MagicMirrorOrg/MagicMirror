@@ -1,4 +1,4 @@
-global.moment = require("moment");
+global.moment = require("moment-timezone");
 const { performWebRequest, formatTime } = require("../../../../modules/default/utils");
 
 const nodeVersion = process.version.match(/^v(\d+)\.*/)[1];
@@ -114,6 +114,22 @@ describe("Default modules utils tests", () => {
 	describe("formatTime", () => {
 		const time = new Date();
 
+		beforeAll(() => {
+			jest.useFakeTimers();
+		});
+
+		beforeEach(async () => {
+			jest.setSystemTime(new Date("2023-01-01 13:13"));
+		});
+
+		afterEach(async () => {
+			jest.setSystemTime(new Date());
+		});
+
+		afterAll(() => {
+			jest.useRealTimers();
+		});
+
 		it("should convert correctly according to the config", () => {
 			time.setHours(13, 13);
 			expect(
@@ -153,6 +169,18 @@ describe("Default modules utils tests", () => {
 					time
 				)
 			).toBe("1:13");
+		});
+
+		it("should convert correctly into another timezone", () => {
+			expect(
+				formatTime(
+					{
+						timeFormat: 24,
+						timezone: "America/Toronto"
+					},
+					time
+				)
+			).toBe("07:13");
 		});
 	});
 });

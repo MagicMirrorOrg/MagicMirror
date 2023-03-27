@@ -149,7 +149,11 @@ const getHeadersFromResponse = (expectedResponseHeaders, response) => {
  * @returns {string} The formatted time string
  */
 const formatTime = (config, time) => {
-	const date = moment(time);
+	let date = moment(time);
+
+	if (config.timezone) {
+		date = moment.tz(config.timezone);
+	}
 
 	if (config.timeFormat !== 24) {
 		if (config.showPeriod) {
