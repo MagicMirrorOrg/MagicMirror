@@ -1,8 +1,9 @@
-const { performWebRequest } = require("../../../../modules/default/utils");
+global.moment = require("moment");
+const { performWebRequest, formatTime } = require("../../../../modules/default/utils");
 
 const nodeVersion = process.version.match(/^v(\d+)\.*/)[1];
 
-describe("Utils tests", () => {
+describe("Default modules utils tests", () => {
 	describe("The performWebRequest-method", () => {
 		if (nodeVersion > 18) {
 			const locationHost = "localhost:8080";
@@ -108,5 +109,50 @@ describe("Utils tests", () => {
 		} else {
 			test("Always ok, need one test", () => {});
 		}
+	});
+
+	describe("formatTime", () => {
+		const time = new Date();
+
+		it("should convert correctly according to the config", () => {
+			time.setHours(13, 13);
+			expect(
+				formatTime(
+					{
+						timeFormat: 24
+					},
+					time
+				)
+			).toBe("13:13");
+			expect(
+				formatTime(
+					{
+						showPeriod: true,
+						showPeriodUpper: true,
+						timeFormat: 12
+					},
+					time
+				)
+			).toBe("1:13 PM");
+			expect(
+				formatTime(
+					{
+						showPeriod: true,
+						showPeriodUpper: false,
+						timeFormat: 12
+					},
+					time
+				)
+			).toBe("1:13 pm");
+			expect(
+				formatTime(
+					{
+						showPeriod: false,
+						timeFormat: 12
+					},
+					time
+				)
+			).toBe("1:13");
+		});
 	});
 });
