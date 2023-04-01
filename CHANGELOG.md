@@ -20,6 +20,7 @@ _This release is scheduled to be released on 2023-04-01._
 - Added possibility to use environment variables in `config.js` (#1756)
 - Added option `pastDaysCount` to default calendar module to control of how many days past events should be displayed
 - Added thai language to alert module
+- Added option `sendNotifications` in clock module (#3056)
 
 ### Removed
 
