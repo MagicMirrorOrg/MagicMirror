@@ -25,7 +25,7 @@ const Module = Class.extend({
 	// visibility when hiding and showing module.
 	lockStrings: [],
 
-	// Storage of the nunjuck Environment,
+	// Storage of the nunjucks Environment,
 	// This should not be referenced directly.
 	// Use the nunjucksEnvironment() to get it.
 	_nunjucksEnvironment: null,
@@ -40,8 +40,8 @@ const Module = Class.extend({
 	/**
 	 * Called when the module is started.
 	 */
-	start: function () {
-		Log.info("Starting module: " + this.name);
+	start: async function () {
+		Log.info(`Starting module: ${this.name}`);
 	},
 
 	/**
@@ -127,7 +127,7 @@ const Module = Class.extend({
 	 * @returns {string} The template string of filename.
 	 */
 	getTemplate: function () {
-		return '<div class="normal">' + this.name + '</div><div class="small dimmed">' + this.identifier + "</div>";
+		return `<div class="normal">${this.name}</div><div class="small dimmed">${this.identifier}</div>`;
 	},
 
 	/**
@@ -185,21 +185,21 @@ const Module = Class.extend({
 	 * @param {*} payload The payload of the notification.
 	 */
 	socketNotificationReceived: function (notification, payload) {
-		Log.log(this.name + " received a socket notification: " + notification + " - Payload: " + payload);
+		Log.log(`${this.name} received a socket notification: ${notification} - Payload: ${payload}`);
 	},
 
 	/**
 	 * Called when the module is hidden.
 	 */
 	suspend: function () {
-		Log.log(this.name + " is suspended.");
+		Log.log(`${this.name} is suspended.`);
 	},
 
 	/**
 	 * Called when the module is shown.
 	 */
 	resume: function () {
-		Log.log(this.name + " is resumed.");
+		Log.log(`${this.name} is resumed.`);
 	},
 
 	/*********************************************
@@ -255,57 +255,54 @@ const Module = Class.extend({
 	 * @returns {string} the file path
 	 */
 	file: function (file) {
-		return (this.data.path + "/" + file).replace("//", "/");
+		return `${this.data.path}/${file}`.replace("//", "/");
 	},
 
 	/**
 	 * Load all required stylesheets by requesting the MM object to load the files.
 	 *
-	 * @param {Function} callback Function called when done.
+	 * @returns {Promise<void>}
 	 */
-	loadStyles: function (callback) {
-		this.loadDependencies("getStyles", callback);
+	loadStyles: function () {
+		return this.loadDependencies("getStyles");
 	},
 
 	/**
 	 * Load all required scripts by requesting the MM object to load the files.
 	 *
-	 * @param {Function} callback Function called when done.
+	 * @returns {Promise<void>}
 	 */
-	loadScripts: function (callback) {
-		this.loadDependencies("getScripts", callback);
+	loadScripts: function () {
+		return this.loadDependencies("getScripts");
 	},
 
 	/**
 	 * Helper method to load all dependencies.
 	 *
 	 * @param {string} funcName Function name to call to get scripts or styles.
-	 * @param {Function} callback Function called when done.
+	 * @returns {Promise<void>}
 	 */
-	loadDependencies: function (funcName, callback) {
+	loadDependencies: async function (funcName) {
 		let dependencies = this[funcName]();
 
-		const loadNextDependency = () => {
+		const loadNextDependency = async () => {
 			if (dependencies.length > 0) {
 				const nextDependency = dependencies[0];
-				Loader.loadFile(nextDependency, this, () => {
-					dependencies = dependencies.slice(1);
-					loadNextDependency();
-				});
+				await Loader.loadFileForModule(nextDependency, this);
+				dependencies = dependencies.slice(1);
+				await loadNextDependency();
 			} else {
-				callback();
+				return Promise.resolve();
 			}
 		};
 
-		loadNextDependency();
+		await loadNextDependency();
 	},
 
 	/**
 	 * Load all translations.
-	 *
-	 * @param {Function} callback Function called when done.
 	 */
-	loadTranslations(callback) {
+	loadTranslations: async function () {
 		const translations = this.getTranslations() || {};
 		const language = config.language.toLowerCase();
 
@@ -313,7 +310,6 @@ const Module = Class.extend({
 		const fallbackLanguage = languages[0];
 
 		if (languages.length === 0) {
-			callback();
 			return;
 		}
 
@@ -321,17 +317,14 @@ const Module = Class.extend({
 		const translationsFallbackFile = translations[fallbackLanguage];
 
 		if (!translationFile) {
-			Translator.load(this, translationsFallbackFile, true, callback);
-			return;
+			return Translator.load(this, translationsFallbackFile, true);
 		}
 
-		Translator.load(this, translationFile, false, () => {
-			if (translationFile !== translationsFallbackFile) {
-				Translator.load(this, translationsFallbackFile, true, callback);
-			} else {
-				callback();
-			}
-		});
+		await Translator.load(this, translationFile, false);
+
+		if (translationFile !== translationsFallbackFile) {
+			return Translator.load(this, translationsFallbackFile, true);
+		}
 	},
 
 	/**
@@ -498,15 +491,15 @@ Module.create = function (name) {
 
 Module.register = function (name, moduleDefinition) {
 	if (moduleDefinition.requiresVersion) {
-		Log.log("Check MagicMirror² version for module '" + name + "' - Minimum version:  " + moduleDefinition.requiresVersion + " - Current version: " + window.mmVersion);
+		Log.log(`Check MagicMirror² version for module '${name}' - Minimum version:  ${moduleDefinition.requiresVersion} - Current version: ${window.mmVersion}`);
 		if (cmpVersions(window.mmVersion, moduleDefinition.requiresVersion) >= 0) {
 			Log.log("Version is ok!");
 		} else {
-			Log.warn("Version is incorrect. Skip module: '" + name + "'");
+			Log.warn(`Version is incorrect. Skip module: '${name}'`);
 			return;
 		}
 	}
-	Log.log("Module registered: " + name);
+	Log.log(`Module registered: ${name}`);
 	Module.definitions[name] = moduleDefinition;
 };
 

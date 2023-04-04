@@ -8,11 +8,11 @@
   <br/>
 {% endif %}
 {% if title %}
-  <span class="thin dimmed medium">{{ title }}</span>
+  <span class="thin dimmed medium">{{ title if titleType == 'text' else title | safe }}</span>
 {% endif %}
 {% if message %}
   {% if title %}
     <br/>
   {% endif %}
-  <span class="light bright small">{{ message }}</span>
+  <span class="light bright small">{{ message if messageType == 'text' else message | safe }}</span>
 {% endif %}

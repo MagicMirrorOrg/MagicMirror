@@ -4,15 +4,18 @@
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-const express = require("express");
-const path = require("path");
-const ipfilter = require("express-ipfilter").IpFilter;
 const fs = require("fs");
+const http = require("http");
+const https = require("https");
+const path = require("path");
+const express = require("express");
+const ipfilter = require("express-ipfilter").IpFilter;
 const helmet = require("helmet");
+const socketio = require("socket.io");
 
 const Log = require("logger");
-const Utils = require("./utils.js");
-const { cors, getConfig, getHtml, getVersion } = require("./server_functions.js");
+const Utils = require("./utils");
+const { cors, getConfig, getHtml, getVersion } = require("./server_functions");
 
 /**
  * Server
@@ -38,11 +41,11 @@ function Server(config) {
 					key: fs.readFileSync(config.httpsPrivateKey),
 					cert: fs.readFileSync(config.httpsCertificate)
 				};
-				server = require("https").Server(options, app);
+				server = https.Server(options, app);
 			} else {
-				server = require("http").Server(app);
+				server = http.Server(app);
 			}
-			const io = require("socket.io")(server, {
+			const io = socketio(server, {
 				cors: {
 					origin: /.*$/,
 					credentials: true

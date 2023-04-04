@@ -13,10 +13,10 @@ describe("Position of modules", () => {
 
 	for (const position of positions) {
 		const className = position.replace("_", ".");
-		it("should show text in " + position, async () => {
-			const elem = await helpers.waitForElement("." + className);
+		it(`should show text in ${position}`, async () => {
+			const elem = await helpers.waitForElement(`.${className}`);
 			expect(elem).not.toBe(null);
-			expect(elem.textContent).toContain("Text in " + position);
+			expect(elem.textContent).toContain(`Text in ${position}`);
 		});
 	}
 });

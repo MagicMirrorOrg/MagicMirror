@@ -8,7 +8,7 @@
 // Alias modules mentioned in package.js under _moduleAliases.
 require("module-alias/register");
 
-const CalendarFetcher = require("./calendarfetcher.js");
+const CalendarFetcher = require("./calendarfetcher");
 
 const url = "https://calendar.google.com/calendar/ical/pkm1t2uedjbp0uvq1o7oj1jouo%40group.calendar.google.com/private-08ba559f89eec70dd74bbd887d0a3598/basic.ics"; // Standard test URL
 //const url = "https://www.googleapis.com/calendar/v3/calendars/primary/events/"; // URL for Bearer auth (must be configured  in Google OAuth2 first)

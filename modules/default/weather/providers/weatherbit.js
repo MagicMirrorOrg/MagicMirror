@@ -55,7 +55,7 @@ WeatherProvider.register("weatherbit", {
 				const forecast = this.generateWeatherObjectsFromForecast(data.data);
 				this.setWeatherForecast(forecast);
 
-				this.fetchedLocationName = data.city_name + ", " + data.state_code;
+				this.fetchedLocationName = `${data.city_name}, ${data.state_code}`;
 			})
 			.catch(function (request) {
 				Log.error("Could not load data ... ", request);
@@ -106,12 +106,12 @@ WeatherProvider.register("weatherbit", {
 		currentWeather.humidity = parseFloat(currentWeatherData.data[0].rh);
 		currentWeather.temperature = parseFloat(currentWeatherData.data[0].temp);
 		currentWeather.windSpeed = parseFloat(currentWeatherData.data[0].wind_spd);
-		currentWeather.windDirection = currentWeatherData.data[0].wind_dir;
+		currentWeather.windFromDirection = currentWeatherData.data[0].wind_dir;
 		currentWeather.weatherType = this.convertWeatherType(currentWeatherData.data[0].weather.icon);
 		currentWeather.sunrise = moment(currentWeatherData.data[0].sunrise, "HH:mm").add(tzOffset, "m");
 		currentWeather.sunset = moment(currentWeatherData.data[0].sunset, "HH:mm").add(tzOffset, "m");
 
-		this.fetchedLocationName = currentWeatherData.data[0].city_name + ", " + currentWeatherData.data[0].state_code;
+		this.fetchedLocationName = `${currentWeatherData.data[0].city_name}, ${currentWeatherData.data[0].state_code}`;
 
 		return currentWeather;
 	},
@@ -125,7 +125,8 @@ WeatherProvider.register("weatherbit", {
 			weather.date = moment(forecast.datetime, "YYYY-MM-DD");
 			weather.minTemperature = forecast.min_temp;
 			weather.maxTemperature = forecast.max_temp;
-			weather.precipitation = forecast.precip;
+			weather.precipitationAmount = forecast.precip;
+			weather.precipitationProbability = forecast.pop;
 			weather.weatherType = this.convertWeatherType(forecast.weather.icon);
 
 			days.push(weather);

@@ -5,6 +5,64 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror².
 
+## [2.23.0] - 2023-04-04
+
+Thanks to: @angeldeejay, @buxxi, @CarJem, @dariom, @DaveChild, @dWoolridge, @grenagit, @Hirschberger, @KristjanESPERANTO, @MagMar94, @naveensrinivasan, @nfogal, @psieg, @rajniszp, @retroflex, @SkySails and @tomzt.
+
+Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not all) of the work on this release as project collaborators. This version would not be there without their effort. Thank you guys! You are awesome!
+
+### Added
+
+- Added increments for hourly forecasts in weather module (#2996)
+- Added tests for hourly weather forecast
+- Added possibility to ignore MagicMirror repo in updatenotification module
+- Added Pirate Weather as new weather provider (#3005)
+- Added possibility to use your own templates in Alert module
+- Added error message if `<modulename>.js` file is missing in module folder to get a hint in the logs (#2403)
+- Added possibility to use environment variables in `config.js` (#1756)
+- Added option `pastDaysCount` to default calendar module to control of how many days past events should be displayed
+- Added thai language to alert module
+- Added option `sendNotifications` in clock module (#3056)
+
+### Removed
+
+- Removed darksky weather provider
+- Removed unneeded (and unwanted) '.' after the year in calendar repeatingCountTitle (#2896)
+
+### Updated
+
+- Use develop as target branch for dependabot
+- Update issue template, contributing doc and sample config
+- The weather modules clearly separates precipitation amount and probability (risk of rain/snow)
+  - This requires all providers that only supports probability to change the config from `showPrecipitationAmount` to `showPrecipitationProbability`.
+- Update tests for weather and calendar module
+- Changed updatenotification module for MagicMirror repo only: Send only notifications for `master` if there is a tag on a newer commit
+- Update dates in Calendar widgets every minute
+- Cleanup jest coverage for patches
+- Update `stylelint` dependencies, switch to `stylelint-config-standard` and handle `stylelint` issues, update `main.css` matching new rules
+- Update Eslint config, add new rule and handle issue
+- Convert lots of callbacks to async/await
+- Revise require imports (#3071 and #3072)
+
+### Fixed
+
+- Fix wrong day labels in envcanada forecast (#2987)
+- Fix for missing default class name prefix for customEvents in calendar
+- Fix electron flashing white screen on startup (#1919)
+- Fix weathergov provider hourly forecast (#3008)
+- Fix message display with HTML code into alert module (#2828)
+- Fix typo in french translation
+- Yr wind direction is no longer inverted
+- Fix async node_helper stopping electron start (#2487)
+- The wind direction arrow now points in the direction the wind is flowing, not into the wind (#3019)
+- Fix precipitation css styles and rounding value
+- Fix wrong vertical alignment of calendar title column when wrapEvents is true (#3053)
+- Fix empty news feed stopping the reload forever
+- Fix e2e tests (failed after async changes) by running calendar and newsfeed tests last
+- Lint: Use template literals instead of string concatenation
+- Fix default alert module to render HTML for title and message
+- Fix Open-Meteo wind speed units
+
 ## [2.22.0] - 2023-01-01
 
 Thanks to: @angeldeejay, @buxxi, @dariom, @dWoolridge, @KristjanESPERANTO, @MagMar94, @naveensrinivasan, @retroflex, @SkySails and @Tom.
@@ -13,9 +71,9 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 
 ### Added
 
+- Added new calendar options for colored entries and improved styling (#3033)
 - Added test for remoteFile option in compliments module
 - Added hourlyWeather functionality to Weather.gov weather provider
-- Removed weatherEndpoint definition from weathergov.js (not used)
 - Added css class names "today" and "tomorrow" for default calendar
 - Added Collaboration.md
 - Added new github action for dependency review (#2862)
@@ -23,10 +81,12 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Added Yr as a weather provider
 - Added config options "ignoreXOriginHeader" and "ignoreContentSecurityPolicy"
 - Added thai language
+- Added workflow rule to make sure PRs are based against develop
 
 ### Removed
 
 - Removed usage of internal fetch function of node until it is more stable
+- Removed weatherEndpoint definition from weathergov.js (not used)
 
 ### Updated
 
@@ -40,7 +100,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
   - Reworked how weatherproviders handle units (#2849)
   - Use unix() method for parsing times, fix suntimes on the way (#2950)
   - Refactor conversion functions into utils class (#2958)
-- The `cors`-method in `server.js` now supports sending and recieving HTTP headers
+- The `cors`-method in `server.js` now supports sending and receiving HTTP headers
 - Replace `&hellip;` by `…`
 - Cleanup compliments module
 - Updated dependencies including electron to v22 (#2903)

@@ -8,10 +8,10 @@
 /**
  * @external Moment
  */
-const moment = require("moment");
 const path = require("path");
+const moment = require("moment");
 const zoneTable = require(path.join(__dirname, "windowsZones.json"));
-const Log = require("../../../js/logger.js");
+const Log = require("../../../js/logger");
 
 const CalendarUtils = {
 	/**
@@ -29,7 +29,7 @@ const CalendarUtils = {
 			Log.debug(" if no tz, guess based on now");
 			event.start.tz = moment.tz.guess();
 		}
-		Log.debug("initial tz=" + event.start.tz);
+		Log.debug(`initial tz=${event.start.tz}`);
 
 		// if there is a start date specified
 		if (event.start.tz) {
@@ -37,7 +37,7 @@ const CalendarUtils = {
 			if (event.start.tz.includes(" ")) {
 				// use the lookup table to get theIANA name as moment and date don't know MS timezones
 				let tz = CalendarUtils.getIanaTZFromMS(event.start.tz);
-				Log.debug("corrected TZ=" + tz);
+				Log.debug(`corrected TZ=${tz}`);
 				// watch out for unregistered windows timezone names
 				// if we had a successful lookup
 				if (tz) {
@@ -46,7 +46,7 @@ const CalendarUtils = {
 					// Log.debug("corrected timezone="+event.start.tz)
 				}
 			}
-			Log.debug("corrected tz=" + event.start.tz);
+			Log.debug(`corrected tz=${event.start.tz}`);
 			let current_offset = 0; // offset  from TZ string or calculated
 			let mm = 0; // date with tz or offset
 			let start_offset = 0; // utc offset of created with tz
@@ -57,18 +57,18 @@ const CalendarUtils = {
 				let start_offset = parseInt(start_offsetString[0]);
 				start_offset *= event.start.tz[1] === "-" ? -1 : 1;
 				adjustHours = start_offset;
-				Log.debug("defined offset=" + start_offset + " hours");
+				Log.debug(`defined offset=${start_offset} hours`);
 				current_offset = start_offset;
 				event.start.tz = "";
-				Log.debug("ical offset=" + current_offset + " date=" + date);
+				Log.debug(`ical offset=${current_offset} date=${date}`);
 				mm = moment(date);
 				let x = parseInt(moment(new Date()).utcOffset());
-				Log.debug("net mins=" + (current_offset * 60 - x));
+				Log.debug(`net mins=${current_offset * 60 - x}`);
 
 				mm = mm.add(x - current_offset * 60, "minutes");
 				adjustHours = (current_offset * 60 - x) / 60;
 				event.start = mm.toDate();
-				Log.debug("adjusted date=" + event.start);
+				Log.debug(`adjusted date=${event.start}`);
 			} else {
 				// get the start time in that timezone
 				let es = moment(event.start);
@@ -76,18 +76,18 @@ const CalendarUtils = {
 				if (es.format("YYYY") < 2007) {
 					es.set("year", 2013); // if so, use a closer date
 				}
-				Log.debug("start date/time=" + es.toDate());
+				Log.debug(`start date/time=${es.toDate()}`);
 				start_offset = moment.tz(es, event.start.tz).utcOffset();
-				Log.debug("start offset=" + start_offset);
+				Log.debug(`start offset=${start_offset}`);
 
-				Log.debug("start date/time w tz =" + moment.tz(moment(event.start), event.start.tz).toDate());
+				Log.debug(`start date/time w tz =${moment.tz(moment(event.start), event.start.tz).toDate()}`);
 
 				// get the specified date in that timezone
 				mm = moment.tz(moment(date), event.start.tz);
-				Log.debug("event date=" + mm.toDate());
+				Log.debug(`event date=${mm.toDate()}`);
 				current_offset = mm.utcOffset();
 			}
-			Log.debug("event offset=" + current_offset + " hour=" + mm.format("H") + " event date=" + mm.toDate());
+			Log.debug(`event offset=${current_offset} hour=${mm.format("H")} event date=${mm.toDate()}`);
 
 			// if the offset is greater than 0, east of london
 			if (current_offset !== start_offset) {
@@ -113,7 +113,7 @@ const CalendarUtils = {
 				}
 			}
 		}
-		Log.debug("adjustHours=" + adjustHours);
+		Log.debug(`adjustHours=${adjustHours}`);
 		return adjustHours;
 	},
 
@@ -138,7 +138,7 @@ const CalendarUtils = {
 			return CalendarUtils.isFullDayEvent(event) ? moment(event[time], "YYYYMMDD") : moment(new Date(event[time]));
 		};
 
-		Log.debug("There are " + Object.entries(data).length + " calendar entries.");
+		Log.debug(`There are ${Object.entries(data).length} calendar entries.`);
 		Object.entries(data).forEach(([key, event]) => {
 			Log.debug("Processing entry...");
 			const now = new Date();
@@ -160,7 +160,7 @@ const CalendarUtils = {
 			}
 
 			if (event.type === "VEVENT") {
-				Log.debug("Event:\n" + JSON.stringify(event));
+				Log.debug(`Event:\n${JSON.stringify(event)}`);
 				let startDate = eventDate(event, "start");
 				let endDate;
 
@@ -177,12 +177,12 @@ const CalendarUtils = {
 					}
 				}
 
-				Log.debug("start: " + startDate.toDate());
-				Log.debug("end:: " + endDate.toDate());
+				Log.debug(`start: ${startDate.toDate()}`);
+				Log.debug(`end:: ${endDate.toDate()}`);
 
 				// Calculate the duration of the event for use with recurring events.
 				let duration = parseInt(endDate.format("x")) - parseInt(startDate.format("x"));
-				Log.debug("duration: " + duration);
+				Log.debug(`duration: ${duration}`);
 
 				// FIXME: Since the parsed json object from node-ical comes with time information
 				// this check could be removed (?)
@@ -191,7 +191,7 @@ const CalendarUtils = {
 				}
 
 				const title = CalendarUtils.getTitleFromEvent(event);
-				Log.debug("title: " + title);
+				Log.debug(`title: ${title}`);
 
 				let excluded = false,
 					dateFilter = null;
@@ -271,8 +271,8 @@ const CalendarUtils = {
 						pastLocal = pastMoment.toDate();
 						futureLocal = futureMoment.toDate();
 
-						Log.debug("pastLocal: " + pastLocal);
-						Log.debug("futureLocal: " + futureLocal);
+						Log.debug(`pastLocal: ${pastLocal}`);
+						Log.debug(`futureLocal: ${futureLocal}`);
 					} else {
 						// if we want past events
 						if (config.includePastEvents) {
@@ -284,9 +284,9 @@ const CalendarUtils = {
 						}
 						futureLocal = futureMoment.toDate(); // future
 					}
-					Log.debug("Search for recurring events between: " + pastLocal + " and " + futureLocal);
+					Log.debug(`Search for recurring events between: ${pastLocal} and ${futureLocal}`);
 					const dates = rule.between(pastLocal, futureLocal, true, limitFunction);
-					Log.debug("Title: " + event.summary + ", with dates: " + JSON.stringify(dates));
+					Log.debug(`Title: ${event.summary}, with dates: ${JSON.stringify(dates)}`);
 					// The "dates" array contains the set of dates within our desired date range range that are valid
 					// for the recurrence rule. *However*, it's possible for us to have a specific recurrence that
 					// had its date changed from outside the range to inside the range.  For the time being,
@@ -294,7 +294,7 @@ const CalendarUtils = {
 					// because the logic below will filter out any recurrences that don't actually belong within
 					// our display range.
 					// Would be great if there was a better way to handle this.
-					Log.debug("event.recurrences: " + event.recurrences);
+					Log.debug(`event.recurrences: ${event.recurrences}`);
 					if (event.recurrences !== undefined) {
 						for (let r in event.recurrences) {
 							// Only add dates that weren't already in the range we added from the rrule so that
@@ -323,10 +323,10 @@ const CalendarUtils = {
 						let dateoffset = date.getTimezoneOffset();
 
 						// Reduce the time by the following offset.
-						Log.debug(" recurring date is " + date + " offset is " + dateoffset);
+						Log.debug(` recurring date is ${date} offset is ${dateoffset}`);
 
 						let dh = moment(date).format("HH");
-						Log.debug(" recurring date is " + date + " offset is " + dateoffset / 60 + " Hour is " + dh);
+						Log.debug(` recurring date is ${date} offset is ${dateoffset / 60} Hour is ${dh}`);
 
 						if (CalendarUtils.isFullDayEvent(event)) {
 							Log.debug("Fullday");
@@ -342,7 +342,7 @@ const CalendarUtils = {
 									// the duration was calculated way back at the top before we could correct the start time..
 									// fix it for this event entry
 									//duration = 24 * 60 * 60 * 1000;
-									Log.debug("new recurring date1 fulldate is " + date);
+									Log.debug(`new recurring date1 fulldate is ${date}`);
 								}
 							} else {
 								// if the timezones are the same, correct date if needed
@@ -357,7 +357,7 @@ const CalendarUtils = {
 									// the duration was calculated way back at the top before we could correct the start time..
 									// fix it for this event entry
 									//duration = 24 * 60 * 60 * 1000;
-									Log.debug("new recurring date2 fulldate is " + date);
+									Log.debug(`new recurring date2 fulldate is ${date}`);
 								}
 								//}
 							}
@@ -376,7 +376,7 @@ const CalendarUtils = {
 									// the duration was calculated way back at the top before we could correct the start time..
 									// fix it for this event entry
 									//duration = 24 * 60 * 60 * 1000;
-									Log.debug("new recurring date1 is " + date);
+									Log.debug(`new recurring date1 is ${date}`);
 								}
 							} else {
 								// if the timezones are the same, correct date if needed
@@ -391,13 +391,13 @@ const CalendarUtils = {
 									// the duration was calculated way back at the top before we could correct the start time..
 									// fix it for this event entry
 									//duration = 24 * 60 * 60 * 1000;
-									Log.debug("new recurring date2 is " + date);
+									Log.debug(`new recurring date2 is ${date}`);
 								}
 								//}
 							}
 						}
 						startDate = moment(date);
-						Log.debug("Corrected startDate: " + startDate.toDate());
+						Log.debug(`Corrected startDate: ${startDate.toDate()}`);
 
 						let adjustDays = CalendarUtils.calculateTimezoneAdjustment(event, date);
 
@@ -413,7 +413,7 @@ const CalendarUtils = {
 							// This date is an exception date, which means we should skip it in the recurrence pattern.
 							showRecurrence = false;
 						}
-						Log.debug("duration: " + duration);
+						Log.debug(`duration: ${duration}`);
 
 						endDate = moment(parseInt(startDate.format("x")) + duration, "x");
 						if (startDate.format("x") === endDate.format("x")) {
@@ -433,7 +433,7 @@ const CalendarUtils = {
 						}
 
 						if (showRecurrence === true) {
-							Log.debug("saving event: " + description);
+							Log.debug(`saving event: ${description}`);
 							addedEvents++;
 							newEvents.push({
 								title: recurrenceTitle,
@@ -573,7 +573,7 @@ const CalendarUtils = {
 		if (filter) {
 			const until = filter.split(" "),
 				value = parseInt(until[0]),
-				increment = until[1].slice(-1) === "s" ? until[1] : until[1] + "s", // Massage the data for moment js
+				increment = until[1].slice(-1) === "s" ? until[1] : `${until[1]}s`, // Massage the data for moment js
 				filterUntil = moment(endDate.format()).subtract(value, increment);
 
 			return now < filterUntil.format("x");

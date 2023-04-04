@@ -20,14 +20,14 @@ jobs:
       matrix:
         node-version: [14.x, 16.x, 18.x]
     steps:
-      - name: Checkout code
+      - name: "Checkout code"
         uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: "Use Node.js ${{ matrix.node-version }}"
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-      - name: Install dependencies and run tests
+      - name: "Install dependencies and run tests"
         run: |
           Xvfb :99 -screen 0 1024x768x16 &
           export DISPLAY=:99

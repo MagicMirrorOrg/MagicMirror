@@ -1,10 +1,10 @@
 const fs = require("fs");
 const path = require("path");
-const translations = require("../../translations/translations.js");
 const helmet = require("helmet");
 const { JSDOM } = require("jsdom");
 const express = require("express");
 const sinon = require("sinon");
+const translations = require("../../translations/translations");
 
 describe("Translations", () => {
 	let server;
@@ -21,8 +21,8 @@ describe("Translations", () => {
 		server = app.listen(3000);
 	});
 
-	afterAll(() => {
-		server.close();
+	afterAll(async () => {
+		await server.close();
 	});
 
 	it("should have a translation file in the specified path", () => {
@@ -48,17 +48,15 @@ describe("Translations", () => {
 			dom.window.onload = async () => {
 				const { Translator, Module, config } = dom.window;
 				config.language = "en";
-				Translator.load = sinon.stub().callsFake((_m, _f, _fb, callback) => callback());
+				Translator.load = sinon.stub().callsFake((_m, _f, _fb) => null);
 
 				Module.register("name", { getTranslations: () => translations });
 				const MMM = Module.create("name");
 
-				const loaded = sinon.stub();
-				MMM.loadTranslations(loaded);
+				await MMM.loadTranslations();
 
-				expect(loaded.callCount).toBe(1);
 				expect(Translator.load.args.length).toBe(1);
-				expect(Translator.load.calledWith(MMM, "translations/en.json", false, sinon.match.func)).toBe(true);
+				expect(Translator.load.calledWith(MMM, "translations/en.json", false)).toBe(true);
 
 				done();
 			};
@@ -67,18 +65,16 @@ describe("Translations", () => {
 		it("should load translation + fallback file", (done) => {
 			dom.window.onload = async () => {
 				const { Translator, Module } = dom.window;
-				Translator.load = sinon.stub().callsFake((_m, _f, _fb, callback) => callback());
+				Translator.load = sinon.stub().callsFake((_m, _f, _fb) => null);
 
 				Module.register("name", { getTranslations: () => translations });
 				const MMM = Module.create("name");
 
-				const loaded = sinon.stub();
-				MMM.loadTranslations(loaded);
+				await MMM.loadTranslations();
 
-				expect(loaded.callCount).toBe(1);
 				expect(Translator.load.args.length).toBe(2);
-				expect(Translator.load.calledWith(MMM, "translations/de.json", false, sinon.match.func)).toBe(true);
-				expect(Translator.load.calledWith(MMM, "translations/en.json", true, sinon.match.func)).toBe(true);
+				expect(Translator.load.calledWith(MMM, "translations/de.json", false)).toBe(true);
+				expect(Translator.load.calledWith(MMM, "translations/en.json", true)).toBe(true);
 
 				done();
 			};
@@ -88,17 +84,15 @@ describe("Translations", () => {
 			dom.window.onload = async () => {
 				const { Translator, Module, config } = dom.window;
 				config.language = "--";
-				Translator.load = sinon.stub().callsFake((_m, _f, _fb, callback) => callback());
+				Translator.load = sinon.stub().callsFake((_m, _f, _fb) => null);
 
 				Module.register("name", { getTranslations: () => translations });
 				const MMM = Module.create("name");
 
-				const loaded = sinon.stub();
-				MMM.loadTranslations(loaded);
+				await MMM.loadTranslations();
 
-				expect(loaded.callCount).toBe(1);
 				expect(Translator.load.args.length).toBe(1);
-				expect(Translator.load.calledWith(MMM, "translations/en.json", true, sinon.match.func)).toBe(true);
+				expect(Translator.load.calledWith(MMM, "translations/en.json", true)).toBe(true);
 
 				done();
 			};
@@ -112,10 +106,8 @@ describe("Translations", () => {
 				Module.register("name", {});
 				const MMM = Module.create("name");
 
-				const loaded = sinon.stub();
-				MMM.loadTranslations(loaded);
+				await MMM.loadTranslations();
 
-				expect(loaded.callCount).toBe(1);
 				expect(Translator.load.callCount).toBe(0);
 
 				done();
@@ -138,14 +130,13 @@ describe("Translations", () => {
 					<script src="file://${path.join(__dirname, "..", "..", "js", "translator.js")}">`,
 					{ runScripts: "dangerously", resources: "usable" }
 				);
-				dom.window.onload = () => {
+				dom.window.onload = async () => {
 					const { Translator } = dom.window;
 
-					Translator.load(mmm, translations[language], false, () => {
-						expect(typeof Translator.translations[mmm.name]).toBe("object");
-						expect(Object.keys(Translator.translations[mmm.name]).length).toBeGreaterThanOrEqual(1);
-						done();
-					});
+					await Translator.load(mmm, translations[language], false);
+					expect(typeof Translator.translations[mmm.name]).toBe("object");
+					expect(Object.keys(Translator.translations[mmm.name]).length).toBeGreaterThanOrEqual(1);
+					done();
 				};
 			});
 		}
@@ -161,13 +152,12 @@ describe("Translations", () => {
 					<script src="file://${path.join(__dirname, "..", "..", "js", "translator.js")}">`,
 				{ runScripts: "dangerously", resources: "usable" }
 			);
-			dom.window.onload = () => {
+			dom.window.onload = async () => {
 				const { Translator } = dom.window;
 
-				Translator.load(mmm, translations.de, false, () => {
-					base = Object.keys(Translator.translations[mmm.name]).sort();
-					done();
-				});
+				await Translator.load(mmm, translations.de, false);
+				base = Object.keys(Translator.translations[mmm.name]).sort();
+				done();
 			};
 		});
 
@@ -191,13 +181,12 @@ describe("Translations", () => {
 					<script src="file://${path.join(__dirname, "..", "..", "js", "translator.js")}">`,
 						{ runScripts: "dangerously", resources: "usable" }
 					);
-					dom.window.onload = () => {
+					dom.window.onload = async () => {
 						const { Translator } = dom.window;
 
-						Translator.load(mmm, translations[language], false, () => {
-							keys = Object.keys(Translator.translations[mmm.name]).sort();
-							done();
-						});
+						await Translator.load(mmm, translations[language], false);
+						keys = Object.keys(Translator.translations[mmm.name]).sort();
+						done();
 					};
 				});
 

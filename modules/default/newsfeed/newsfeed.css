@@ -1,5 +1,6 @@
 iframe.newsfeed-fullarticle {
   width: 100vw;
+
   /* very large height value to allow scrolling */
   height: 3000px;
   top: 0;

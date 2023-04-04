@@ -32,7 +32,7 @@ WeatherProvider.register("weatherflow", {
 				currentWeather.humidity = data.current_conditions.relative_humidity;
 				currentWeather.temperature = data.current_conditions.air_temperature;
 				currentWeather.windSpeed = WeatherUtils.convertWindToMs(data.current_conditions.wind_avg);
-				currentWeather.windDirection = data.current_conditions.wind_direction;
+				currentWeather.windFromDirection = data.current_conditions.wind_direction;
 				currentWeather.weatherType = data.forecast.daily[0].icon;
 				currentWeather.sunrise = moment.unix(data.forecast.daily[0].sunrise);
 				currentWeather.sunset = moment.unix(data.forecast.daily[0].sunset);
@@ -55,6 +55,7 @@ WeatherProvider.register("weatherflow", {
 					weather.date = moment.unix(forecast.day_start_local);
 					weather.minTemperature = forecast.air_temp_low;
 					weather.maxTemperature = forecast.air_temp_high;
+					weather.precipitationProbability = forecast.precip_probability;
 					weather.weatherType = forecast.icon;
 					weather.snow = 0;
 

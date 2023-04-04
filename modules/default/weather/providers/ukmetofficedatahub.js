@@ -55,9 +55,9 @@ WeatherProvider.register("ukmetofficedatahub", {
 	// Build URL with query strings according to DataHub API (https://metoffice.apiconnect.ibmcloud.com/metoffice/production/api)
 	getUrl(forecastType) {
 		let queryStrings = "?";
-		queryStrings += "latitude=" + this.config.lat;
-		queryStrings += "&longitude=" + this.config.lon;
-		queryStrings += "&includeLocationName=" + true;
+		queryStrings += `latitude=${this.config.lat}`;
+		queryStrings += `&longitude=${this.config.lon}`;
+		queryStrings += `&includeLocationName=${true}`;
 
 		// Return URL, making sure there is a trailing "/" in the base URL.
 		return this.config.apiBase + (this.config.apiBase.endsWith("/") ? "" : "/") + forecastType + queryStrings;
@@ -104,7 +104,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 			})
 
 			// Catch any error(s)
-			.catch((error) => Log.error("Could not load data: " + error.message))
+			.catch((error) => Log.error(`Could not load data: ${error.message}`))
 
 			// Let the module know there is data available
 			.finally(() => this.updateAvailable());
@@ -126,7 +126,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 			if (nowUtc.isSameOrAfter(forecastTime) && nowUtc.isBefore(moment(forecastTime.add(1, "h")))) {
 				currentWeather.date = forecastTime;
 				currentWeather.windSpeed = forecastDataHours[hour].windSpeed10m;
-				currentWeather.windDirection = forecastDataHours[hour].windDirectionFrom10m;
+				currentWeather.windFromDirection = forecastDataHours[hour].windDirectionFrom10m;
 				currentWeather.temperature = forecastDataHours[hour].screenTemperature;
 				currentWeather.minTemperature = forecastDataHours[hour].minScreenAirTemp;
 				currentWeather.maxTemperature = forecastDataHours[hour].maxScreenAirTemp;
@@ -134,7 +134,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 				currentWeather.humidity = forecastDataHours[hour].screenRelativeHumidity;
 				currentWeather.rain = forecastDataHours[hour].totalPrecipAmount;
 				currentWeather.snow = forecastDataHours[hour].totalSnowAmount;
-				currentWeather.precipitation = forecastDataHours[hour].probOfPrecipitation;
+				currentWeather.precipitationProbability = forecastDataHours[hour].probOfPrecipitation;
 				currentWeather.feelsLikeTemp = forecastDataHours[hour].feelsLikeTemperature;
 
 				// Pass on full details, so they can be used in custom templates
@@ -173,7 +173,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 			})
 
 			// Catch any error(s)
-			.catch((error) => Log.error("Could not load data: " + error.message))
+			.catch((error) => Log.error(`Could not load data: ${error.message}`))
 
 			// Let the module know there is new data available
 			.finally(() => this.updateAvailable());
@@ -204,9 +204,9 @@ WeatherProvider.register("ukmetofficedatahub", {
 
 				// Using daytime forecast values
 				forecastWeather.windSpeed = forecastDataDays[day].midday10MWindSpeed;
-				forecastWeather.windDirection = forecastDataDays[day].midday10MWindDirection;
+				forecastWeather.windFromDirection = forecastDataDays[day].midday10MWindDirection;
 				forecastWeather.weatherType = this.convertWeatherType(forecastDataDays[day].daySignificantWeatherCode);
-				forecastWeather.precipitation = forecastDataDays[day].dayProbabilityOfPrecipitation;
+				forecastWeather.precipitationProbability = forecastDataDays[day].dayProbabilityOfPrecipitation;
 				forecastWeather.temperature = forecastDataDays[day].dayMaxScreenTemperature;
 				forecastWeather.humidity = forecastDataDays[day].middayRelativeHumidity;
 				forecastWeather.rain = forecastDataDays[day].dayProbabilityOfRain;

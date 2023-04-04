@@ -11,9 +11,10 @@ let config = {
 			module: "calendar",
 			position: "bottom_bar",
 			config: {
+				customEvents: [{ keyword: "CustomEvent", symbol: "dice" }],
 				calendars: [
 					{
-						maximumEntries: 4,
+						maximumEntries: 5,
 						maximumNumberOfDays: 10000,
 						symbol: "birthday-cake",
 						fullDaySymbol: "calendar-day",

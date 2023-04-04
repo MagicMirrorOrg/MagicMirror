@@ -10,6 +10,7 @@ require("module-alias/register");
 
 const fs = require("fs");
 const path = require("path");
+const envsub = require("envsub");
 const Log = require("logger");
 const Server = require(`${__dirname}/server`);
 const Utils = require(`${__dirname}/utils`);
@@ -17,7 +18,7 @@ const defaultModules = require(`${__dirname}/../modules/default/defaultmodules`)
 
 // Get version number.
 global.version = require(`${__dirname}/../package.json`).version;
-Log.log("Starting MagicMirror: v" + global.version);
+Log.log(`Starting MagicMirror: v${global.version}`);
 
 // global absolute root path
 global.root_path = path.resolve(`${__dirname}/../`);
@@ -51,25 +52,73 @@ function App() {
 	let httpServer;
 
 	/**
-	 * Loads the config file. Combines it with the defaults, and runs the
-	 * callback with the found config as argument.
+	 * Loads the config file. Combines it with the defaults and returns the config
 	 *
-	 * @param {Function} callback Function to be called after loading the config
+	 * @async
+	 * @returns {Promise<object>} the loaded config or the defaults if something goes wrong
 	 */
-	function loadConfig(callback) {
+	async function loadConfig() {
 		Log.log("Loading config ...");
 		const defaults = require(`${__dirname}/defaults`);
 
 		// For this check proposed to TestSuite
 		// https://forum.magicmirror.builders/topic/1456/test-suite-for-magicmirror/8
 		const configFilename = path.resolve(global.configuration_file || `${global.root_path}/config/config.js`);
+		let templateFile = `${configFilename}.template`;
+
+		// check if templateFile exists
+		try {
+			fs.accessSync(templateFile, fs.F_OK);
+		} catch (err) {
+			templateFile = null;
+			Log.debug("config template file not exists, no envsubst");
+		}
+
+		if (templateFile) {
+			// save current config.js
+			try {
+				if (fs.existsSync(configFilename)) {
+					fs.copyFileSync(configFilename, `${configFilename}_${Date.now()}`);
+				}
+			} catch (err) {
+				Log.warn(`Could not copy ${configFilename}: ${err.message}`);
+			}
+
+			// check if config.env exists
+			const envFiles = [];
+			const configEnvFile = `${configFilename.substr(0, configFilename.lastIndexOf("."))}.env`;
+			try {
+				if (fs.existsSync(configEnvFile)) {
+					envFiles.push(configEnvFile);
+				}
+			} catch (err) {
+				Log.debug(`${configEnvFile} does not exist. ${err.message}`);
+			}
+
+			let options = {
+				all: true,
+				diff: false,
+				envFiles: envFiles,
+				protect: false,
+				syntax: "default",
+				system: true
+			};
+
+			// envsubst variables in templateFile and create new config.js
+			// naming for envsub must be templateFile and outputFile
+			const outputFile = configFilename;
+			try {
+				await envsub({ templateFile, outputFile, options });
+			} catch (err) {
+				Log.error(`Could not envsubst variables: ${err.message}`);
+			}
+		}
 
 		try {
 			fs.accessSync(configFilename, fs.F_OK);
 			const c = require(configFilename);
 			checkDeprecatedOptions(c);
-			const config = Object.assign(defaults, c);
-			callback(config);
+			return Object.assign(defaults, c);
 		} catch (e) {
 			if (e.code === "ENOENT") {
 				Log.error(Utils.colors.error("WARNING! Could not find config file. Please create one. Starting with default configuration."));
@@ -78,8 +127,9 @@ function App() {
 			} else {
 				Log.error(Utils.colors.error(`WARNING! Could not load config file. Starting with default configuration. Error found: ${e}`));
 			}
-			callback(defaults);
 		}
+
+		return defaults;
 	}
 
 	/**
@@ -102,15 +152,22 @@ function App() {
 	 * Loads a specific module.
 	 *
 	 * @param {string} module The name of the module (including subpath).
-	 * @param {Function} callback Function to be called after loading
 	 */
-	function loadModule(module, callback) {
+	function loadModule(module) {
 		const elements = module.split("/");
 		const moduleName = elements[elements.length - 1];
 		let moduleFolder = `${__dirname}/../modules/${module}`;
 
 		if (defaultModules.includes(moduleName)) {
 			moduleFolder = `${__dirname}/../modules/default/${module}`;
+		}
+
+		const moduleFile = `${moduleFolder}/${module}.js`;
+
+		try {
+			fs.accessSync(moduleFile, fs.R_OK);
+		} catch (e) {
+			Log.warn(`No ${moduleFile} found for module: ${moduleName}.`);
 		}
 
 		const helperPath = `${moduleFolder}/node_helper.js`;
@@ -141,39 +198,37 @@ function App() {
 			m.setPath(path.resolve(moduleFolder));
 			nodeHelpers.push(m);
 
-			m.loaded(callback);
-		} else {
-			callback();
+			m.loaded();
 		}
 	}
 
 	/**
 	 * Loads all modules.
 	 *
-	 * @param {Module[]} modules All modules to be loaded
-	 * @param {Function} callback Function to be called after loading
+	 * @param {string[]} modules All modules to be loaded
 	 */
-	function loadModules(modules, callback) {
-		Log.log("Loading module helpers ...");
+	async function loadModules(modules) {
+		return new Promise((resolve) => {
+			Log.log("Loading module helpers ...");
 
-		/**
-		 *
-		 */
-		function loadNextModule() {
-			if (modules.length > 0) {
-				const nextModule = modules[0];
-				loadModule(nextModule, function () {
+			/**
+			 *
+			 */
+			function loadNextModule() {
+				if (modules.length > 0) {
+					const nextModule = modules[0];
+					loadModule(nextModule);
 					modules = modules.slice(1);
 					loadNextModule();
-				});
-			} else {
-				// All modules are loaded
-				Log.log("All module helpers loaded.");
-				callback();
+				} else {
+					// All modules are loaded
+					Log.log("All module helpers loaded.");
+					resolve();
+				}
 			}
-		}
 
-		loadNextModule();
+			loadNextModule();
+		});
 	}
 
 	/**
@@ -203,58 +258,53 @@ function App() {
 	/**
 	 * Start the core app.
 	 *
-	 * It loads the config, then it loads all modules. When it's done it
-	 * executes the callback with the config as argument.
+	 * It loads the config, then it loads all modules.
 	 *
-	 * @param {Function} callback Function to be called after start
+	 * @async
+	 * @returns {Promise<object>} the config used
 	 */
-	this.start = function (callback) {
-		loadConfig(function (c) {
-			config = c;
+	this.start = async function () {
+		config = await loadConfig();
 
-			Log.setLogLevel(config.logLevel);
+		Log.setLogLevel(config.logLevel);
 
-			let modules = [];
-
-			for (const module of config.modules) {
-				if (!modules.includes(module.module) && !module.disabled) {
-					modules.push(module.module);
-				}
+		let modules = [];
+		for (const module of config.modules) {
+			if (!modules.includes(module.module) && !module.disabled) {
+				modules.push(module.module);
 			}
+		}
+		await loadModules(modules);
 
-			loadModules(modules, async function () {
-				httpServer = new Server(config);
-				const { app, io } = await httpServer.open();
-				Log.log("Server started ...");
+		httpServer = new Server(config);
+		const { app, io } = await httpServer.open();
+		Log.log("Server started ...");
 
-				const nodePromises = [];
-				for (let nodeHelper of nodeHelpers) {
-					nodeHelper.setExpressApp(app);
-					nodeHelper.setSocketIO(io);
+		const nodePromises = [];
+		for (let nodeHelper of nodeHelpers) {
+			nodeHelper.setExpressApp(app);
+			nodeHelper.setSocketIO(io);
 
-					try {
-						nodePromises.push(nodeHelper.start());
-					} catch (error) {
-						Log.error(`Error when starting node_helper for module ${nodeHelper.name}:`);
-						Log.error(error);
-					}
-				}
+			try {
+				nodePromises.push(nodeHelper.start());
+			} catch (error) {
+				Log.error(`Error when starting node_helper for module ${nodeHelper.name}:`);
+				Log.error(error);
+			}
+		}
 
-				Promise.allSettled(nodePromises).then((results) => {
-					// Log errors that happened during async node_helper startup
-					results.forEach((result) => {
-						if (result.status === "rejected") {
-							Log.error(result.reason);
-						}
-					});
+		const results = await Promise.allSettled(nodePromises);
 
-					Log.log("Sockets connected & modules started ...");
-					if (typeof callback === "function") {
-						callback(config);
-					}
-				});
-			});
+		// Log errors that happened during async node_helper startup
+		results.forEach((result) => {
+			if (result.status === "rejected") {
+				Log.error(result.reason);
+			}
 		});
+
+		Log.log("Sockets connected & modules started ...");
+
+		return config;
 	};
 
 	/**
@@ -263,15 +313,40 @@ function App() {
 	 *
 	 * Added to fix #1056
 	 *
-	 * @param {Function} callback Function to be called after the app has stopped
+	 * @returns {Promise} A promise that is resolved when all node_helpers and
+	 * the http server has been closed
 	 */
-	this.stop = function (callback) {
-		for (const nodeHelper of nodeHelpers) {
-			if (typeof nodeHelper.stop === "function") {
-				nodeHelper.stop();
+	this.stop = async function () {
+		const nodePromises = [];
+		for (let nodeHelper of nodeHelpers) {
+			try {
+				if (typeof nodeHelper.stop === "function") {
+					nodePromises.push(nodeHelper.stop());
+				}
+			} catch (error) {
+				Log.error(`Error when stopping node_helper for module ${nodeHelper.name}:`);
+				console.error(error);
 			}
 		}
-		httpServer.close().then(callback);
+
+		const results = await Promise.allSettled(nodePromises);
+
+		// Log errors that happened during async node_helper stopping
+		results.forEach((result) => {
+			if (result.status === "rejected") {
+				Log.error(result.reason);
+			}
+		});
+
+		Log.log("Node_helpers stopped ...");
+
+		// To be able to stop the app even if it hasn't been started (when
+		// running with Electron against another server)
+		if (!httpServer) {
+			return Promise.resolve();
+		}
+
+		return httpServer.close();
 	};
 
 	/**
@@ -281,12 +356,12 @@ function App() {
 	 * Note: this is only used if running `server-only`. Otherwise
 	 * this.stop() is called by app.on("before-quit"... in `electron.js`
 	 */
-	process.on("SIGINT", () => {
+	process.on("SIGINT", async () => {
 		Log.log("[SIGINT] Received. Shutting down server...");
 		setTimeout(() => {
 			process.exit(0);
 		}, 3000); // Force quit after 3 seconds
-		this.stop();
+		await this.stop();
 		process.exit(0);
 	});
 
@@ -294,12 +369,12 @@ function App() {
 	 * Listen to SIGTERM signals so we can stop everything when we
 	 * are asked to stop by the OS.
 	 */
-	process.on("SIGTERM", () => {
+	process.on("SIGTERM", async () => {
 		Log.log("[SIGTERM] Received. Shutting down server...");
 		setTimeout(() => {
 			process.exit(0);
 		}, 3000); // Force quit after 3 seconds
-		this.stop();
+		await this.stop();
 		process.exit(0);
 	});
 }

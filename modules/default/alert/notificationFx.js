@@ -80,7 +80,7 @@
 	NotificationFx.prototype._init = function () {
 		// create HTML structure
 		this.ntf = document.createElement("div");
-		this.ntf.className = this.options.al_no + " ns-" + this.options.layout + " ns-effect-" + this.options.effect + " ns-type-" + this.options.type;
+		this.ntf.className = `${this.options.al_no} ns-${this.options.layout} ns-effect-${this.options.effect} ns-type-${this.options.type}`;
 		let strinner = '<div class="ns-box-inner">';
 		strinner += this.options.message;
 		strinner += "</div>";

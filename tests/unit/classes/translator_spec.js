@@ -2,6 +2,7 @@ const path = require("path");
 const helmet = require("helmet");
 const { JSDOM } = require("jsdom");
 const express = require("express");
+
 const sockets = new Set();
 
 describe("Translator", () => {
@@ -23,14 +24,13 @@ describe("Translator", () => {
 		});
 	});
 
-	afterAll(() => {
+	afterAll(async () => {
 		for (const socket of sockets) {
 			socket.destroy();
-
 			sockets.delete(socket);
 		}
 
-		server.close();
+		await server.close();
 	});
 
 	describe("translate", () => {
@@ -158,53 +158,50 @@ describe("Translator", () => {
 
 		it("should load translations", (done) => {
 			const dom = new JSDOM(`<script>var Log = {log: () => {}};</script><script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
-			dom.window.onload = () => {
+			dom.window.onload = async () => {
 				const { Translator } = dom.window;
 				const file = "translation_test.json";
 
-				Translator.load(mmm, file, false, () => {
-					const json = require(path.join(__dirname, "..", "..", "..", "tests", "mocks", file));
-					expect(Translator.translations[mmm.name]).toEqual(json);
-					done();
-				});
+				await Translator.load(mmm, file, false);
+				const json = require(path.join(__dirname, "..", "..", "..", "tests", "mocks", file));
+				expect(Translator.translations[mmm.name]).toEqual(json);
+				done();
 			};
 		});
 
 		it("should load translation fallbacks", (done) => {
 			const dom = new JSDOM(`<script>var Log = {log: () => {}};</script><script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
-			dom.window.onload = () => {
+			dom.window.onload = async () => {
 				const { Translator } = dom.window;
 				const file = "translation_test.json";
 
-				Translator.load(mmm, file, true, () => {
-					const json = require(path.join(__dirname, "..", "..", "..", "tests", "mocks", file));
-					expect(Translator.translationsFallback[mmm.name]).toEqual(json);
-					done();
-				});
+				await Translator.load(mmm, file, true);
+				const json = require(path.join(__dirname, "..", "..", "..", "tests", "mocks", file));
+				expect(Translator.translationsFallback[mmm.name]).toEqual(json);
+				done();
 			};
 		});
 
 		it("should not load translations, if module fallback exists", (done) => {
 			const dom = new JSDOM(`<script>var Log = {log: () => {}};</script><script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
-			dom.window.onload = () => {
+			dom.window.onload = async () => {
 				const { Translator, XMLHttpRequest } = dom.window;
 				const file = "translation_test.json";
 
 				XMLHttpRequest.prototype.send = () => {
-					throw "Shouldn't load files";
+					throw new Error("Shouldn't load files");
 				};
 
 				Translator.translationsFallback[mmm.name] = {
 					Hello: "Hallo"
 				};
 
-				Translator.load(mmm, file, false, () => {
-					expect(Translator.translations[mmm.name]).toBe(undefined);
-					expect(Translator.translationsFallback[mmm.name]).toEqual({
-						Hello: "Hallo"
-					});
-					done();
+				await Translator.load(mmm, file, false);
+				expect(Translator.translations[mmm.name]).toBe(undefined);
+				expect(Translator.translationsFallback[mmm.name]).toEqual({
+					Hello: "Hallo"
 				});
+				done();
 			};
 		});
 	});
@@ -216,9 +213,9 @@ describe("Translator", () => {
 					<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`,
 				{ runScripts: "dangerously", resources: "usable" }
 			);
-			dom.window.onload = () => {
+			dom.window.onload = async () => {
 				const { Translator } = dom.window;
-				Translator.loadCoreTranslations("en");
+				await Translator.loadCoreTranslations("en");
 
 				const en = require(path.join(__dirname, "..", "..", "..", "tests", "mocks", "translation_test.json"));
 				setTimeout(() => {
@@ -235,9 +232,9 @@ describe("Translator", () => {
 					<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`,
 				{ runScripts: "dangerously", resources: "usable" }
 			);
-			dom.window.onload = () => {
+			dom.window.onload = async () => {
 				const { Translator } = dom.window;
-				Translator.loadCoreTranslations("MISSINGLANG");
+				await Translator.loadCoreTranslations("MISSINGLANG");
 
 				const en = require(path.join(__dirname, "..", "..", "..", "tests", "mocks", "translation_test.json"));
 				setTimeout(() => {
@@ -256,9 +253,9 @@ describe("Translator", () => {
 					<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`,
 				{ runScripts: "dangerously", resources: "usable" }
 			);
-			dom.window.onload = () => {
+			dom.window.onload = async () => {
 				const { Translator } = dom.window;
-				Translator.loadCoreTranslationsFallback();
+				await Translator.loadCoreTranslationsFallback();
 
 				const en = require(path.join(__dirname, "..", "..", "..", "tests", "mocks", "translation_test.json"));
 				setTimeout(() => {
@@ -274,9 +271,9 @@ describe("Translator", () => {
 					<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`,
 				{ runScripts: "dangerously", resources: "usable" }
 			);
-			dom.window.onload = () => {
+			dom.window.onload = async () => {
 				const { Translator } = dom.window;
-				Translator.loadCoreTranslations();
+				await Translator.loadCoreTranslations();
 
 				setTimeout(() => {
 					expect(Translator.coreTranslationsFallback).toEqual({});

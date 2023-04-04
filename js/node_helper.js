@@ -4,18 +4,17 @@
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-const Class = require("./class.js");
-const Log = require("logger");
 const express = require("express");
+const Log = require("logger");
+const Class = require("./class");
 
 const NodeHelper = Class.extend({
 	init() {
 		Log.log("Initializing new module helper ...");
 	},
 
-	loaded(callback) {
+	loaded() {
 		Log.log(`Module helper loaded: ${this.name}`);
-		callback();
 	},
 
 	start() {

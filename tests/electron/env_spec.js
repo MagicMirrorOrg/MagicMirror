@@ -1,5 +1,5 @@
-const helpers = require("./helpers/global-setup");
 const events = require("events");
+const helpers = require("./helpers/global-setup");
 
 describe("Electron app environment", () => {
 	beforeEach(async () => {
@@ -13,7 +13,7 @@ describe("Electron app environment", () => {
 	it("should open browserwindow", async () => {
 		const module = await helpers.getElement("#module_0_helloworld");
 		expect(await module.textContent()).toContain("Test Display Header");
-		expect(await global.electronApp.windows().length).toBe(1);
+		expect(global.electronApp.windows().length).toBe(1);
 	});
 });
 

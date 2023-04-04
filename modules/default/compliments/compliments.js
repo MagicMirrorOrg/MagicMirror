@@ -33,16 +33,15 @@ Module.register("compliments", {
 	},
 
 	// Define start sequence.
-	start: function () {
-		Log.info("Starting module: " + this.name);
+	start: async function () {
+		Log.info(`Starting module: ${this.name}`);
 
 		this.lastComplimentIndex = -1;
 
 		if (this.config.remoteFile !== null) {
-			this.loadComplimentFile().then((response) => {
-				this.config.compliments = JSON.parse(response);
-				this.updateDom();
-			});
+			const response = await this.loadComplimentFile();
+			this.config.compliments = JSON.parse(response);
+			this.updateDom();
 		}
 
 		// Schedule update timer.
