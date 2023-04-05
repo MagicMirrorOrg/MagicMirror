@@ -233,7 +233,9 @@ Module.register("calendar", {
 				if (lastSeenDate !== dateAsString) {
 					const dateRow = document.createElement("tr");
 					dateRow.className = "dateheader normal";
-					if (event.today) dateRow.className += " today";
+					if (event.veryurgent) dateRow.className += " today veryurgent";
+					else if (event.urgent) dateRow.className += " today urgent";
+					else if (event.today) dateRow.className += " today";
 					else if (event.dayBeforeYesterday) dateRow.className += " dayBeforeYesterday";
 					else if (event.yesterday) dateRow.className += " yesterday";
 					else if (event.tomorrow) dateRow.className += " tomorrow";
@@ -271,7 +273,9 @@ Module.register("calendar", {
 			}
 
 			eventWrapper.className = "event-wrapper normal event";
-			if (event.today) eventWrapper.className += " today";
+			if (event.veryurgent) eventWrapper.className += " today veryurgent";
+			else if (event.urgent) eventWrapper.className += " today urgent";
+			else if (event.today) eventWrapper.className += " today";
 			else if (event.dayBeforeYesterday) eventWrapper.className += " dayBeforeYesterday";
 			else if (event.yesterday) eventWrapper.className += " yesterday";
 			else if (event.tomorrow) eventWrapper.className += " tomorrow";
@@ -477,7 +481,9 @@ Module.register("calendar", {
 				if (event.location !== false) {
 					const locationRow = document.createElement("tr");
 					locationRow.className = "event-wrapper-location normal xsmall light";
-					if (event.today) locationRow.className += " today";
+					if (event.veryurgent) locationRow.className += " today veryurgent";
+					else if (event.urgent) locationRow.className += " today urgent";
+					else if (event.today) locationRow.className += " today";
 					else if (event.dayBeforeYesterday) locationRow.className += " dayBeforeYesterday";
 					else if (event.yesterday) locationRow.className += " yesterday";
 					else if (event.tomorrow) locationRow.className += " tomorrow";
@@ -600,6 +606,8 @@ Module.register("calendar", {
 					}
 				}
 				event.url = calendarUrl;
+				event.veryurgent = event.startDate >= today && event.startDate - now < (this.config.getRelative / 2) * ONE_HOUR;
+				event.urgent = event.startDate >= today && event.startDate - now < this.config.getRelative * ONE_HOUR;
 				event.today = event.startDate >= today && event.startDate < today + ONE_DAY;
 				event.dayBeforeYesterday = event.startDate >= today - ONE_DAY * 2 && event.startDate < today - ONE_DAY;
 				event.yesterday = event.startDate >= today - ONE_DAY && event.startDate < today;
