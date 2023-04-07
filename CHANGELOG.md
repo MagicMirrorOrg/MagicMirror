@@ -20,7 +20,8 @@ _This release is scheduled to be released on 2023-07-01._
 ### Updated
 
 - Update electron to v24
-- Use node v19 in github workflow (replacing v14).
+- Use node v19 in github workflow (replacing v14)
+- Refactor formatTime into common util function for default modules
 
 ### Fixed
 

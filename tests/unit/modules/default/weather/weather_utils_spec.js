@@ -7,7 +7,7 @@ describe("Weather utils tests", () => {
 			const units = ["mm", "cm"];
 
 			for (let i = 0; i < values.length; i++) {
-				var result = weather.convertPrecipitationUnit(values[i], units[i], undefined);
+				const result = weather.convertPrecipitationUnit(values[i], units[i], undefined);
 				expect(result).toBe(`${values[i].toFixed(2)} ${units[i]}`);
 			}
 		});
@@ -17,7 +17,7 @@ describe("Weather utils tests", () => {
 			const units = ["mm", "cm"];
 
 			for (let i = 0; i < values.length; i++) {
-				var result = weather.convertPrecipitationUnit(values[i], units[i], "metric");
+				const result = weather.convertPrecipitationUnit(values[i], units[i], "metric");
 				expect(result).toBe(`${values[i].toFixed(2)} ${units[i]}`);
 			}
 		});
@@ -26,7 +26,7 @@ describe("Weather utils tests", () => {
 			const values = [1, 2];
 
 			for (let i = 0; i < values.length; i++) {
-				var result = weather.convertPrecipitationUnit(values[i], undefined, "metric");
+				const result = weather.convertPrecipitationUnit(values[i], undefined, "metric");
 				expect(result).toBe(`${values[i].toFixed(2)} mm`);
 			}
 		});
@@ -37,7 +37,7 @@ describe("Weather utils tests", () => {
 			const expectedValues = [0.04, 0.79];
 
 			for (let i = 0; i < values.length; i++) {
-				var result = weather.convertPrecipitationUnit(values[i], units[i], "imperial");
+				const result = weather.convertPrecipitationUnit(values[i], units[i], "imperial");
 				expect(result).toBe(`${expectedValues[i]} in`);
 			}
 		});

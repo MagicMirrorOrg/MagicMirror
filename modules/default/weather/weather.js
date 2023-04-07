@@ -1,4 +1,4 @@
-/* global WeatherProvider, WeatherUtils */
+/* global WeatherProvider, WeatherUtils, formatTime */
 
 /* MagicMirror²
  * Module: Weather
@@ -211,21 +211,7 @@ Module.register("weather", {
 		this.nunjucksEnvironment().addFilter(
 			"formatTime",
 			function (date) {
-				date = moment(date);
-
-				if (this.config.timeFormat !== 24) {
-					if (this.config.showPeriod) {
-						if (this.config.showPeriodUpper) {
-							return date.format("h:mm A");
-						} else {
-							return date.format("h:mm a");
-						}
-					} else {
-						return date.format("h:mm");
-					}
-				}
-
-				return date.format("HH:mm");
+				return formatTime(this.config, date);
 			}.bind(this)
 		);
 
