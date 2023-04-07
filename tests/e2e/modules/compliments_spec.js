@@ -25,7 +25,7 @@ describe("Compliments module", () => {
 				await helpers.getDocument();
 			});
 
-			it("Show anytime because if configure empty parts of day compliments and set anytime compliments", async () => {
+			it("shows anytime because if configure empty parts of day compliments and set anytime compliments", async () => {
 				await doTest(["Anytime here"]);
 			});
 		});
@@ -36,7 +36,7 @@ describe("Compliments module", () => {
 				await helpers.getDocument();
 			});
 
-			it("Show anytime compliments", async () => {
+			it("shows anytime compliments", async () => {
 				await doTest(["Anytime here"]);
 			});
 		});

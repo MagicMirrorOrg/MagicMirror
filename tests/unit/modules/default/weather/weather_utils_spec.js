@@ -2,7 +2,7 @@ const weather = require("../../../../../modules/default/weather/weatherutils");
 
 describe("Weather utils tests", () => {
 	describe("convertPrecipitationUnit tests", () => {
-		it("Should keep value and unit if outputUnit is undefined", () => {
+		it("should keep value and unit if outputUnit is undefined", () => {
 			const values = [1, 2];
 			const units = ["mm", "cm"];
 
@@ -12,7 +12,7 @@ describe("Weather utils tests", () => {
 			}
 		});
 
-		it("Should keep value and unit if outputUnit is metric", () => {
+		it("should keep value and unit if outputUnit is metric", () => {
 			const values = [1, 2];
 			const units = ["mm", "cm"];
 
@@ -22,7 +22,7 @@ describe("Weather utils tests", () => {
 			}
 		});
 
-		it("Should use mm unit if input unit is undefined", () => {
+		it("should use mm unit if input unit is undefined", () => {
 			const values = [1, 2];
 
 			for (let i = 0; i < values.length; i++) {
@@ -31,7 +31,7 @@ describe("Weather utils tests", () => {
 			}
 		});
 
-		it("Should convert value and unit if outputUnit is imperial", () => {
+		it("should convert value and unit if outputUnit is imperial", () => {
 			const values = [1, 2];
 			const units = ["mm", "cm"];
 			const expectedValues = [0.04, 0.79];

@@ -9,13 +9,13 @@ describe("Check configuration without modules", () => {
 		await helpers.stopApplication();
 	});
 
-	it("Show the message MagicMirror² title", async () => {
+	it("shows the message MagicMirror² title", async () => {
 		const elem = await helpers.waitForElement("#module_1_helloworld .module-content");
 		expect(elem).not.toBe(null);
 		expect(elem.textContent).toContain("MagicMirror²");
 	});
 
-	it("Show the url of michael's website", async () => {
+	it("shows the url of michael's website", async () => {
 		const elem = await helpers.waitForElement("#module_5_helloworld .module-content");
 		expect(elem).not.toBe(null);
 		expect(elem.textContent).toContain("www.michaelteeuw.nl");
