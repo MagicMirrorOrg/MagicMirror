@@ -13,6 +13,8 @@ _This release is scheduled to be released on 2023-07-01._
 
 ### Removed
 
+- Removed unneeded (and unwanted) '.' after the year in calendar repeatingCountTitle (#2896, second attempt ...)
+
 ### Updated
 
 - Update electron to v24
