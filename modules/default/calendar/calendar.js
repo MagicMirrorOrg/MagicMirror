@@ -313,7 +313,7 @@ Module.register("calendar", {
 					const thisYear = new Date(parseInt(event.startDate)).getFullYear(),
 						yearDiff = thisYear - event.firstYear;
 
-					repeatingCountTitle = `, ${yearDiff}. ${repeatingCountTitle}`;
+					repeatingCountTitle = `, ${yearDiff} ${repeatingCountTitle}`;
 				}
 			}
 
