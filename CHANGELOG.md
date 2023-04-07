@@ -12,6 +12,7 @@ _This release is scheduled to be released on 2023-07-01._
 ### Added
 
 - Added tests for severonly
+- Set Timezone `Europe/Berlin` in unit tests (needed for new formatTime tests)
 
 ### Removed
 
