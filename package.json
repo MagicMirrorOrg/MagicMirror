@@ -95,6 +95,6 @@
 		"fetch": "js/fetch.js"
 	},
 	"engines": {
-		"node": ">=14"
+		"node": ">=16"
 	}
 }
