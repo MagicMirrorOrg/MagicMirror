@@ -116,6 +116,7 @@ describe("Default modules utils tests", () => {
 
 		beforeAll(() => {
 			jest.useFakeTimers();
+			moment.tz.setDefault("Europe/Berlin");
 		});
 
 		beforeEach(async () => {
