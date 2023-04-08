@@ -82,7 +82,6 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Fix e2e tests (failed after async changes) by running calendar and newsfeed tests last
 - Lint: Use template literals instead of string concatenation
 - Fix default alert module to render HTML for title and message
-- Fix for bug in clock module where sunrise/sunset times were shown in system timezone rather than requested timezone
 - Fix Open-Meteo wind speed units
 
 ## [2.22.0] - 2023-01-01
