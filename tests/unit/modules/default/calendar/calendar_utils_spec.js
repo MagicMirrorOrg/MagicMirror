@@ -30,18 +30,11 @@ describe("Calendar utils tests", () => {
 
 	describe("titleTransform and shorten combined", () => {
 		it("should replace the birthday and wrap nicely", () => {
-			expect(
-				CalendarUtils.titleTransform(
-					"Michael Teeuw's birthday",
-					{
-						"De verjaardag van ": "",
-						"'s birthday": ""
-					},
-					true,
-					10,
-					2
-				)
-			).toBe("Michael <br>Teeuw");
+			const transformedTitle = CalendarUtils.titleTransform("Michael Teeuw's birthday", {
+				"De verjaardag van ": "",
+				"'s birthday": ""
+			});
+			expect(CalendarUtils.shorten(transformedTitle, 10, true, 2)).toBe("Michael <br>Teeuw");
 		});
 	});
 });

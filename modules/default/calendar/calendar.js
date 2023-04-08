@@ -337,7 +337,8 @@ Module.register("calendar", {
 				}
 			}
 
-			titleWrapper.innerHTML = CalendarUtils.titleTransform(event.title, this.config.titleReplace, this.config.wrapEvents, this.config.maxTitleLength, this.config.maxTitleLines) + repeatingCountTitle;
+			const transformedTitle = CalendarUtils.titleTransform(event.title, this.config.titleReplace);
+			titleWrapper.innerHTML = CalendarUtils.shorten(transformedTitle, this.config.maxTitleLength, this.config.wrapEvents, this.config.maxTitleLines) + repeatingCountTitle;
 
 			const titleClass = this.titleClassForUrl(event.url);
 
@@ -503,7 +504,9 @@ Module.register("calendar", {
 					const descCell = document.createElement("td");
 					descCell.className = "location";
 					descCell.colSpan = "2";
-					descCell.innerHTML = CalendarUtils.titleTransform(event.location, this.config.locationTitleReplace, this.config.wrapLocationEvents, this.config.maxLocationTitleLength, this.config.maxEventTitleLines);
+
+					const transformedTitle = CalendarUtils.titleTransform(event.location, this.config.locationTitleReplace);
+					descCell.innerHTML = CalendarUtils.shorten(transformedTitle, this.config.maxLocationTitleLength, this.config.wrapLocationEvents, this.config.maxEventTitleLines);
 					locationRow.appendChild(descCell);
 
 					wrapper.appendChild(locationRow);

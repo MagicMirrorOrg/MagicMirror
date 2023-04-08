@@ -75,12 +75,9 @@ const CalendarUtils = {
 	 *
 	 * @param {string} title The title to transform.
 	 * @param {object} titleReplace Pairs of strings to be replaced in the title
-	 * @param {boolean} wrapEvents Wrap the text after the line has reached maxLength
-	 * @param {number} maxTitleLength The max length of the string
-	 * @param {number} maxTitleLines The max number of vertical lines before cutting event title
 	 * @returns {string} The transformed title.
 	 */
-	titleTransform: function (title, titleReplace, wrapEvents, maxTitleLength, maxTitleLines) {
+	titleTransform: function (title, titleReplace) {
 		for (let needle in titleReplace) {
 			const replacement = titleReplace[needle];
 
@@ -92,8 +89,6 @@ const CalendarUtils = {
 
 			title = title.replace(needle, replacement);
 		}
-
-		title = this.shorten(title, maxTitleLength, wrapEvents, maxTitleLines);
 		return title;
 	}
 };
