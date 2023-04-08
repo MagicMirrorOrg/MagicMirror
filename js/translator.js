@@ -49,9 +49,7 @@ const Translator = (function () {
 		 * @param {object} variables The variables to use within the translation template (optional)
 		 * @returns {string} the translated key
 		 */
-		translate: function (module, key, variables) {
-			variables = variables || {}; // Empty object by default
-
+		translate: function (module, key, variables = {}) {
 			/**
 			 * Combines template and variables like:
 			 * template: "Please wait for {timeToWait} before continuing with {work}."
