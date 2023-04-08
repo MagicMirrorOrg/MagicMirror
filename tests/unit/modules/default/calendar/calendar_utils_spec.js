@@ -27,4 +27,21 @@ describe("Calendar utils tests", () => {
 			expect(CalendarUtils.shorten("Example event at 12 o clock", 10, false, 3)).toBe("Example ev…");
 		});
 	});
+
+	describe("titleTransform and shorten combined", () => {
+		it("should replace the birthday and wrap nicely", () => {
+			expect(
+				CalendarUtils.titleTransform(
+					"Michael Teeuw's birthday",
+					{
+						"De verjaardag van ": "",
+						"'s birthday": ""
+					},
+					true,
+					10,
+					2
+				)
+			).toBe("Michael <br>Teeuw");
+		});
+	});
 });
