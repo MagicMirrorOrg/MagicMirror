@@ -154,17 +154,17 @@ WeatherProvider.register = function (providerIdentifier, providerDetails) {
  * @returns {object} The new weather provider
  */
 WeatherProvider.initialize = function (providerIdentifier, delegate) {
-	providerIdentifier = providerIdentifier.toLowerCase();
+	const pi = providerIdentifier.toLowerCase();
 
-	const provider = new WeatherProvider.providers[providerIdentifier]();
+	const provider = new WeatherProvider.providers[pi]();
 	const config = Object.assign({}, provider.defaults, delegate.config);
 
 	provider.delegate = delegate;
 	provider.setConfig(config);
 
-	provider.providerIdentifier = providerIdentifier;
+	provider.providerIdentifier = pi;
 	if (!provider.providerName) {
-		provider.providerName = providerIdentifier;
+		provider.providerName = pi;
 	}
 
 	return provider;
