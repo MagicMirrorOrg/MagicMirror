@@ -11,7 +11,7 @@ _This release is scheduled to be released on 2023-07-01._
 
 ### Added
 
-- Added tests for severonly
+- Added tests for serveronly
 - Set Timezone `Europe/Berlin` in unit tests (needed for new formatTime tests)
 
 ### Removed
@@ -23,6 +23,7 @@ _This release is scheduled to be released on 2023-07-01._
 - Update electron to v24
 - Use node v19 in github workflow (replacing v14)
 - Refactor formatTime into common util function for default modules
+- Refactor some calendar methods into own class and added tests for them
 
 ### Fixed
 
