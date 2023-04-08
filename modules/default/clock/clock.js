@@ -186,6 +186,12 @@ Module.register("clock", {
 			}
 			const untilNextEvent = moment.duration(moment(nextEvent).diff(now));
 			const untilNextEventString = `${untilNextEvent.hours()}h ${untilNextEvent.minutes()}m`;
+
+			// Convert sunrise/sunset time to local representation of requested timezone
+			if (this.config.timezone) {
+				sunTimes.sunrise = sunTimes.sunrise.toLocaleString(this.config.locale, { timeZone: this.config.timezone });
+				sunTimes.sunset = sunTimes.sunset.toLocaleString(this.config.locale, { timeZone: this.config.timezone });
+			}
 			sunWrapper.innerHTML =
 				`<span class="${isVisible ? "bright" : ""}"><i class="fas fa-sun" aria-hidden="true"></i> ${untilNextEventString}</span>` +
 				`<span><i class="fas fa-arrow-up" aria-hidden="true"></i> ${formatTime(this.config, sunTimes.sunrise)}</span>` +
