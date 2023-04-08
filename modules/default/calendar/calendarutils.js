@@ -16,6 +16,28 @@ const CalendarUtils = {
 	},
 
 	/**
+	 * This function accepts a number (either 12 or 24) and returns a moment.js LocaleSpecification with the
+	 * corresponding timeformat to be used in the calendar display. If no number is given (or otherwise invalid input)
+	 * it will a localeSpecification object with the system locale time format.
+	 *
+	 * @param {number} timeFormat Specifies either 12 or 24 hour time format
+	 * @returns {moment.LocaleSpecification} formatted time
+	 */
+	getLocaleSpecification: function (timeFormat) {
+		switch (timeFormat) {
+			case 12: {
+				return { longDateFormat: { LT: "h:mm A" } };
+			}
+			case 24: {
+				return { longDateFormat: { LT: "HH:mm" } };
+			}
+			default: {
+				return { longDateFormat: { LT: moment.localeData().longDateFormat("LT") } };
+			}
+		}
+	},
+
+	/**
 	 * Shortens a string if it's longer than maxLength and add a ellipsis to the end
 	 *
 	 * @param {string} string Text string to shorten
