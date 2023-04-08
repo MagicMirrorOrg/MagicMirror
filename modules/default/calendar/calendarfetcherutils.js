@@ -1,5 +1,5 @@
 /* MagicMirror²
- * Calendar Util Methods
+ * Calendar Fetcher Util Methods
  *
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
@@ -13,12 +13,12 @@ const moment = require("moment");
 const zoneTable = require(path.join(__dirname, "windowsZones.json"));
 const Log = require("../../../js/logger");
 
-const CalendarUtils = {
+const CalendarFetcherUtils = {
 	/**
 	 * Calculate the time correction, either dst/std or full day in cases where
 	 * utc time is day before plus offset
 	 *
-	 * @param {object} event the event which needs adjustement
+	 * @param {object} event the event which needs adjustment
 	 * @param {Date} date the date on which this event happens
 	 * @returns {number} the necessary adjustment in hours
 	 */
@@ -36,7 +36,7 @@ const CalendarUtils = {
 			// if this is a windows timezone
 			if (event.start.tz.includes(" ")) {
 				// use the lookup table to get theIANA name as moment and date don't know MS timezones
-				let tz = CalendarUtils.getIanaTZFromMS(event.start.tz);
+				let tz = CalendarFetcherUtils.getIanaTZFromMS(event.start.tz);
 				Log.debug(`corrected TZ=${tz}`);
 				// watch out for unregistered windows timezone names
 				// if we had a successful lookup
@@ -135,7 +135,7 @@ const CalendarUtils = {
 		};
 
 		const eventDate = function (event, time) {
-			return CalendarUtils.isFullDayEvent(event) ? moment(event[time], "YYYYMMDD") : moment(new Date(event[time]));
+			return CalendarFetcherUtils.isFullDayEvent(event) ? moment(event[time], "YYYYMMDD") : moment(new Date(event[time]));
 		};
 
 		Log.debug(`There are ${Object.entries(data).length} calendar entries.`);
@@ -190,7 +190,7 @@ const CalendarUtils = {
 					startDate = startDate.startOf("day");
 				}
 
-				const title = CalendarUtils.getTitleFromEvent(event);
+				const title = CalendarFetcherUtils.getTitleFromEvent(event);
 				Log.debug(`title: ${title}`);
 
 				let excluded = false,
@@ -229,7 +229,7 @@ const CalendarUtils = {
 						filter = filter.toLowerCase();
 					}
 
-					if (CalendarUtils.titleFilterApplies(testTitle, filter, useRegex, regexFlags)) {
+					if (CalendarFetcherUtils.titleFilterApplies(testTitle, filter, useRegex, regexFlags)) {
 						if (until) {
 							dateFilter = until;
 						} else {
@@ -265,7 +265,7 @@ const CalendarUtils = {
 					// kblankenship1989 - to fix issue #1798, converting all dates to locale time first, then converting back to UTC time
 					let pastLocal = 0;
 					let futureLocal = 0;
-					if (CalendarUtils.isFullDayEvent(event)) {
+					if (CalendarFetcherUtils.isFullDayEvent(event)) {
 						Log.debug("fullday");
 						// if full day event, only use the date part of the ranges
 						pastLocal = pastMoment.toDate();
@@ -328,7 +328,7 @@ const CalendarUtils = {
 						let dh = moment(date).format("HH");
 						Log.debug(` recurring date is ${date} offset is ${dateoffset / 60} Hour is ${dh}`);
 
-						if (CalendarUtils.isFullDayEvent(event)) {
+						if (CalendarFetcherUtils.isFullDayEvent(event)) {
 							Log.debug("Fullday");
 							// If the offset is negative (east of GMT), where the problem is
 							if (dateoffset < 0) {
@@ -399,7 +399,7 @@ const CalendarUtils = {
 						startDate = moment(date);
 						Log.debug(`Corrected startDate: ${startDate.toDate()}`);
 
-						let adjustDays = CalendarUtils.calculateTimezoneAdjustment(event, date);
+						let adjustDays = CalendarFetcherUtils.calculateTimezoneAdjustment(event, date);
 
 						// For each date that we're checking, it's possible that there is a recurrence override for that one day.
 						if (curEvent.recurrences !== undefined && curEvent.recurrences[dateKey] !== undefined) {
@@ -420,7 +420,7 @@ const CalendarUtils = {
 							endDate = endDate.endOf("day");
 						}
 
-						const recurrenceTitle = CalendarUtils.getTitleFromEvent(curEvent);
+						const recurrenceTitle = CalendarFetcherUtils.getTitleFromEvent(curEvent);
 
 						// If this recurrence ends before the start of the date range, or starts after the end of the date range, don"t add
 						// it to the event list.
@@ -428,7 +428,7 @@ const CalendarUtils = {
 							showRecurrence = false;
 						}
 
-						if (CalendarUtils.timeFilterApplies(now, endDate, dateFilter)) {
+						if (CalendarFetcherUtils.timeFilterApplies(now, endDate, dateFilter)) {
 							showRecurrence = false;
 						}
 
@@ -439,7 +439,7 @@ const CalendarUtils = {
 								title: recurrenceTitle,
 								startDate: (adjustDays ? (adjustDays > 0 ? startDate.add(adjustDays, "hours") : startDate.subtract(Math.abs(adjustDays), "hours")) : startDate).format("x"),
 								endDate: (adjustDays ? (adjustDays > 0 ? endDate.add(adjustDays, "hours") : endDate.subtract(Math.abs(adjustDays), "hours")) : endDate).format("x"),
-								fullDayEvent: CalendarUtils.isFullDayEvent(event),
+								fullDayEvent: CalendarFetcherUtils.isFullDayEvent(event),
 								recurringEvent: true,
 								class: event.class,
 								firstYear: event.start.getFullYear(),
@@ -452,7 +452,7 @@ const CalendarUtils = {
 					// End recurring event parsing.
 				} else {
 					// Single event.
-					const fullDayEvent = isFacebookBirthday ? true : CalendarUtils.isFullDayEvent(event);
+					const fullDayEvent = isFacebookBirthday ? true : CalendarFetcherUtils.isFullDayEvent(event);
 					// Log.debug("full day event")
 
 					if (config.includePastEvents) {
@@ -477,7 +477,7 @@ const CalendarUtils = {
 						return;
 					}
 
-					if (CalendarUtils.timeFilterApplies(now, endDate, dateFilter)) {
+					if (CalendarFetcherUtils.timeFilterApplies(now, endDate, dateFilter)) {
 						return;
 					}
 
@@ -486,7 +486,7 @@ const CalendarUtils = {
 						endDate = endDate.endOf("day");
 					}
 					// get correction for date saving and dst change between now and then
-					let adjustDays = CalendarUtils.calculateTimezoneAdjustment(event, startDate.toDate());
+					let adjustDays = CalendarFetcherUtils.calculateTimezoneAdjustment(event, startDate.toDate());
 					// Every thing is good. Add it to the list.
 					newEvents.push({
 						title: title,
@@ -609,5 +609,5 @@ const CalendarUtils = {
 };
 
 if (typeof module !== "undefined") {
-	module.exports = CalendarUtils;
+	module.exports = CalendarFetcherUtils;
 }
