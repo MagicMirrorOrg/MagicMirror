@@ -22,12 +22,6 @@ jobs:
     steps:
       - name: "Checkout code"
         uses: actions/checkout@v3
-      - name: "Set timezone"
-        uses: szenius/set-timezone@v1.2
-        with:
-          timezoneLinux: "Europe/Berlin"
-          timezoneMacos: "Europe/Berlin"
-          timezoneWindows: "Europe/Berlin"
       - name: "Use Node.js ${{ matrix.node-version }}"
         uses: actions/setup-node@v3
         with:
