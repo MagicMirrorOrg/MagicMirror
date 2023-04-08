@@ -1,4 +1,4 @@
-/* global cloneObject */
+/* global CalendarUtils, cloneObject */
 
 /* MagicMirror²
  * Module: Calendar
@@ -79,7 +79,7 @@ Module.register("calendar", {
 
 	// Define required scripts.
 	getScripts: function () {
-		return ["moment.js"];
+		return ["calendarutils.js", "moment.js"];
 	},
 
 	// Define required translations.
@@ -362,7 +362,7 @@ Module.register("calendar", {
 
 					// Add endDate to dataheaders if showEnd is enabled
 					if (this.config.showEnd) {
-						timeWrapper.innerHTML += ` - ${this.capFirst(moment(event.endDate, "x").format("LT"))}`;
+						timeWrapper.innerHTML += ` - ${CalendarUtils.capFirst(moment(event.endDate, "x").format("LT"))}`;
 					}
 
 					eventWrapper.appendChild(timeWrapper);
@@ -378,20 +378,20 @@ Module.register("calendar", {
 
 				if (this.config.timeFormat === "absolute") {
 					// Use dateFormat
-					timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").format(this.config.dateFormat));
+					timeWrapper.innerHTML = CalendarUtils.capFirst(moment(event.startDate, "x").format(this.config.dateFormat));
 					// Add end time if showEnd
 					if (this.config.showEnd) {
 						timeWrapper.innerHTML += "-";
-						timeWrapper.innerHTML += this.capFirst(moment(event.endDate, "x").format(this.config.dateEndFormat));
+						timeWrapper.innerHTML += CalendarUtils.capFirst(moment(event.endDate, "x").format(this.config.dateEndFormat));
 					}
 					// For full day events we use the fullDayEventDateFormat
 					if (event.fullDayEvent) {
 						//subtract one second so that fullDayEvents end at 23:59:59, and not at 0:00:00 one the next day
 						event.endDate -= ONE_SECOND;
-						timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").format(this.config.fullDayEventDateFormat));
+						timeWrapper.innerHTML = CalendarUtils.capFirst(moment(event.startDate, "x").format(this.config.fullDayEventDateFormat));
 					} else if (this.config.getRelative > 0 && event.startDate < now) {
 						// Ongoing and getRelative is set
-						timeWrapper.innerHTML = this.capFirst(
+						timeWrapper.innerHTML = CalendarUtils.capFirst(
 							this.translate("RUNNING", {
 								fallback: `${this.translate("RUNNING")} {timeUntilEnd}`,
 								timeUntilEnd: moment(event.endDate, "x").fromNow(true)
@@ -399,19 +399,19 @@ Module.register("calendar", {
 						);
 					} else if (this.config.urgency > 0 && event.startDate - now < this.config.urgency * ONE_DAY) {
 						// Within urgency days
-						timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
+						timeWrapper.innerHTML = CalendarUtils.capFirst(moment(event.startDate, "x").fromNow());
 					}
 					if (event.fullDayEvent && this.config.nextDaysRelative) {
 						// Full days events within the next two days
 						if (event.today) {
-							timeWrapper.innerHTML = this.capFirst(this.translate("TODAY"));
+							timeWrapper.innerHTML = CalendarUtils.capFirst(this.translate("TODAY"));
 						} else if (event.yesterday) {
-							timeWrapper.innerHTML = this.capFirst(this.translate("YESTERDAY"));
+							timeWrapper.innerHTML = CalendarUtils.capFirst(this.translate("YESTERDAY"));
 						} else if (event.startDate - now < ONE_DAY && event.startDate - now > 0) {
-							timeWrapper.innerHTML = this.capFirst(this.translate("TOMORROW"));
+							timeWrapper.innerHTML = CalendarUtils.capFirst(this.translate("TOMORROW"));
 						} else if (event.startDate - now < 2 * ONE_DAY && event.startDate - now > 0) {
 							if (this.translate("DAYAFTERTOMORROW") !== "DAYAFTERTOMORROW") {
-								timeWrapper.innerHTML = this.capFirst(this.translate("DAYAFTERTOMORROW"));
+								timeWrapper.innerHTML = CalendarUtils.capFirst(this.translate("DAYAFTERTOMORROW"));
 							}
 						}
 					}
@@ -420,9 +420,9 @@ Module.register("calendar", {
 					if (event.startDate >= now || (event.fullDayEvent && event.today)) {
 						// Use relative time
 						if (!this.config.hideTime && !event.fullDayEvent) {
-							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").calendar(null, { sameElse: this.config.dateFormat }));
+							timeWrapper.innerHTML = CalendarUtils.capFirst(moment(event.startDate, "x").calendar(null, { sameElse: this.config.dateFormat }));
 						} else {
-							timeWrapper.innerHTML = this.capFirst(
+							timeWrapper.innerHTML = CalendarUtils.capFirst(
 								moment(event.startDate, "x").calendar(null, {
 									sameDay: this.config.showTimeToday ? "LT" : `[${this.translate("TODAY")}]`,
 									nextDay: `[${this.translate("TOMORROW")}]`,
@@ -434,27 +434,27 @@ Module.register("calendar", {
 						if (event.fullDayEvent) {
 							// Full days events within the next two days
 							if (event.today) {
-								timeWrapper.innerHTML = this.capFirst(this.translate("TODAY"));
+								timeWrapper.innerHTML = CalendarUtils.capFirst(this.translate("TODAY"));
 							} else if (event.dayBeforeYesterday) {
 								if (this.translate("DAYBEFOREYESTERDAY") !== "DAYBEFOREYESTERDAY") {
-									timeWrapper.innerHTML = this.capFirst(this.translate("DAYBEFOREYESTERDAY"));
+									timeWrapper.innerHTML = CalendarUtils.capFirst(this.translate("DAYBEFOREYESTERDAY"));
 								}
 							} else if (event.yesterday) {
-								timeWrapper.innerHTML = this.capFirst(this.translate("YESTERDAY"));
+								timeWrapper.innerHTML = CalendarUtils.capFirst(this.translate("YESTERDAY"));
 							} else if (event.startDate - now < ONE_DAY && event.startDate - now > 0) {
-								timeWrapper.innerHTML = this.capFirst(this.translate("TOMORROW"));
+								timeWrapper.innerHTML = CalendarUtils.capFirst(this.translate("TOMORROW"));
 							} else if (event.startDate - now < 2 * ONE_DAY && event.startDate - now > 0) {
 								if (this.translate("DAYAFTERTOMORROW") !== "DAYAFTERTOMORROW") {
-									timeWrapper.innerHTML = this.capFirst(this.translate("DAYAFTERTOMORROW"));
+									timeWrapper.innerHTML = CalendarUtils.capFirst(this.translate("DAYAFTERTOMORROW"));
 								}
 							}
 						} else if (event.startDate - now < this.config.getRelative * ONE_HOUR) {
 							// If event is within getRelative hours, display 'in xxx' time format or moment.fromNow()
-							timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
+							timeWrapper.innerHTML = CalendarUtils.capFirst(moment(event.startDate, "x").fromNow());
 						}
 					} else {
 						// Ongoing event
-						timeWrapper.innerHTML = this.capFirst(
+						timeWrapper.innerHTML = CalendarUtils.capFirst(
 							this.translate("RUNNING", {
 								fallback: `${this.translate("RUNNING")} {timeUntilEnd}`,
 								timeUntilEnd: moment(event.endDate, "x").fromNow(true)
@@ -921,16 +921,6 @@ Module.register("calendar", {
 				return string.trim();
 			}
 		}
-	},
-
-	/**
-	 * Capitalize the first letter of a string
-	 *
-	 * @param {string} string The string to capitalize
-	 * @returns {string} The capitalized string
-	 */
-	capFirst: function (string) {
-		return string.charAt(0).toUpperCase() + string.slice(1);
 	},
 
 	/**
