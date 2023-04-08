@@ -13,22 +13,6 @@ describe("Functions into modules/default/calendar/calendar.js", () => {
 		require("../../../modules/default/calendar/calendar");
 	});
 
-	describe("capFirst", () => {
-		const words = {
-			rodrigo: "Rodrigo",
-			"123m": "123m",
-			"magic mirror": "Magic mirror",
-			",a": ",a",
-			ñandú: "Ñandú"
-		};
-
-		Object.keys(words).forEach((word) => {
-			it(`for '${word}' should return '${words[word]}'`, () => {
-				expect(Module.definitions.calendar.capFirst(word)).toBe(words[word]);
-			});
-		});
-	});
-
 	describe("getLocaleSpecification", () => {
 		it("should return a valid moment.LocaleSpecification for a 12-hour format", () => {
 			expect(Module.definitions.calendar.getLocaleSpecification(12)).toEqual({ longDateFormat: { LT: "h:mm A" } });

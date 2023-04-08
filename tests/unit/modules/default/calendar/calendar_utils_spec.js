@@ -2,9 +2,20 @@ const CalendarUtils = require("../../../../../modules/default/calendar/calendaru
 
 describe("Calendar utils tests", () => {
 	describe("capFirst", () => {
-		it("should capitalize the first letter", () => {
-			expect(CalendarUtils.capFirst("event")).toBe("Event");
+		const words = {
+			rodrigo: "Rodrigo",
+			"123m": "123m",
+			"magic mirror": "Magic mirror",
+			",a": ",a",
+			ñandú: "Ñandú"
+		};
+
+		Object.keys(words).forEach((word) => {
+			it(`for '${word}' should return '${words[word]}'`, () => {
+				expect(CalendarUtils.capFirst(word)).toBe(words[word]);
+			});
 		});
+
 		it("should not capitalize other letters", () => {
 			expect(CalendarUtils.capFirst("event")).not.toBe("EVent");
 		});
