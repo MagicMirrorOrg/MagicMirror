@@ -9,4 +9,22 @@ describe("Calendar utils tests", () => {
 			expect(CalendarUtils.capFirst("event")).not.toBe("EVent");
 		});
 	});
+
+	describe("shorten", () => {
+		it("should not shorten if short enough", () => {
+			expect(CalendarUtils.shorten("Event 1", 10, false, 1)).toBe("Event 1");
+		});
+
+		it("should shorten into one line", () => {
+			expect(CalendarUtils.shorten("Example event at 12 o clock", 10, true, 1)).toBe("Example …");
+		});
+
+		it("should shorten into three lines", () => {
+			expect(CalendarUtils.shorten("Example event at 12 o clock", 10, true, 3)).toBe("Example <br>event at 12 o <br>clock");
+		});
+
+		it("should not shorten into three lines if wrap is false", () => {
+			expect(CalendarUtils.shorten("Example event at 12 o clock", 10, false, 3)).toBe("Example ev…");
+		});
+	});
 });
