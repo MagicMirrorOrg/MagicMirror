@@ -203,35 +203,6 @@ function App() {
 	}
 
 	/**
-	 * Loads all modules.
-	 *
-	 * @param {string[]} modules All modules to be loaded
-	 */
-	async function loadModules(modules) {
-		return new Promise((resolve) => {
-			Log.log("Loading module helpers ...");
-
-			/**
-			 *
-			 */
-			function loadNextModule() {
-				if (modules.length > 0) {
-					const nextModule = modules[0];
-					loadModule(nextModule);
-					modules = modules.slice(1);
-					loadNextModule();
-				} else {
-					// All modules are loaded
-					Log.log("All module helpers loaded.");
-					resolve();
-				}
-			}
-
-			loadNextModule();
-		});
-	}
-
-	/**
 	 * Compare two semantic version numbers and return the difference.
 	 *
 	 * @param {string} a Version number a.
@@ -274,7 +245,12 @@ function App() {
 				modules.push(module.module);
 			}
 		}
-		await loadModules(modules);
+
+		Log.log("Loading module helpers ...");
+		modules.forEach((module) => {
+			loadModule(module);
+		});
+		Log.log("All module helpers loaded.");
 
 		httpServer = new Server(config);
 		const { app, io } = await httpServer.open();
