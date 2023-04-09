@@ -152,7 +152,7 @@ const formatTime = (config, time) => {
 	let date = moment(time);
 
 	if (config.timezone) {
-		date = moment.tz(config.timezone);
+		date = date.tz(config.timezone);
 	}
 
 	if (config.timeFormat !== 24) {
