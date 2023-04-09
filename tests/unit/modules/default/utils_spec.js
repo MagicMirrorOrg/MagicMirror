@@ -114,24 +114,11 @@ describe("Default modules utils tests", () => {
 	describe("formatTime", () => {
 		const time = new Date();
 
-		beforeAll(() => {
-			jest.useFakeTimers();
-		});
-
 		beforeEach(async () => {
-			jest.setSystemTime(new Date("2023-01-01 13:13"));
-		});
-
-		afterEach(async () => {
-			jest.setSystemTime(new Date());
-		});
-
-		afterAll(() => {
-			jest.useRealTimers();
+			time.setHours(13, 13);
 		});
 
 		it("should convert correctly according to the config", () => {
-			time.setHours(13, 13);
 			expect(
 				formatTime(
 					{
