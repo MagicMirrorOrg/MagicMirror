@@ -32,17 +32,19 @@ const WeatherUtils = {
 	 * @returns {string} - A string with tha value and a unit postfix.
 	 */
 	convertPrecipitationUnit(value, valueUnit, outputUnit) {
+		let convertedValue = value;
+		let conversionUnit = valueUnit;
 		if (outputUnit === "imperial") {
-			if (valueUnit && valueUnit.toLowerCase() === "cm") value = value * 0.3937007874;
-			else value = value * 0.03937007874;
-			valueUnit = "in";
+			if (valueUnit && valueUnit.toLowerCase() === "cm") convertedValue = convertedValue * 0.3937007874;
+			else convertedValue = convertedValue * 0.03937007874;
+			conversionUnit = "in";
 		} else {
-			valueUnit = valueUnit ? valueUnit : "mm";
+			conversionUnit = valueUnit ? valueUnit : "mm";
 		}
 
-		if (valueUnit === "%") return `${value.toFixed(0)} ${valueUnit}`;
+		if (valueUnit === "%") return `${convertedValue.toFixed(0)} ${conversionUnit}`;
 
-		return `${value.toFixed(2)} ${valueUnit}`;
+		return `${convertedValue.toFixed(2)} ${conversionUnit}`;
 	},
 
 	/**
