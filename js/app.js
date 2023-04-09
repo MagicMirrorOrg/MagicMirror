@@ -203,6 +203,22 @@ function App() {
 	}
 
 	/**
+	 * Loads all modules.
+	 *
+	 * @param {Module[]} modules All modules to be loaded
+	 * @returns {Promise} A promise that is resolved when all modules been loaded
+	 */
+	async function loadModules(modules) {
+		Log.log("Loading module helpers ...");
+
+		for (let module of modules) {
+			await loadModule(module);
+		}
+
+		Log.log("All module helpers loaded.");
+	}
+
+	/**
 	 * Compare two semantic version numbers and return the difference.
 	 *
 	 * @param {string} a Version number a.
@@ -240,17 +256,14 @@ function App() {
 		Log.setLogLevel(config.logLevel);
 
 		let modules = [];
+
 		for (const module of config.modules) {
 			if (!modules.includes(module.module) && !module.disabled) {
 				modules.push(module.module);
 			}
 		}
 
-		Log.log("Loading module helpers ...");
-		modules.forEach((module) => {
-			loadModule(module);
-		});
-		Log.log("All module helpers loaded.");
+		await loadModules(modules);
 
 		httpServer = new Server(config);
 		const { app, io } = await httpServer.open();
