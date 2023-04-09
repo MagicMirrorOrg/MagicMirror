@@ -11,7 +11,7 @@ const ical = require("node-ical");
 const fetch = require("fetch");
 const Log = require("logger");
 const NodeHelper = require("node_helper");
-const CalendarUtils = require("./calendarutils");
+const CalendarFetcherUtils = require("./calendarfetcherutils");
 
 /**
  *
@@ -72,7 +72,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 				try {
 					data = ical.parseICS(responseData);
 					Log.debug(`parsed data=${JSON.stringify(data)}`);
-					events = CalendarUtils.filterEvents(data, {
+					events = CalendarFetcherUtils.filterEvents(data, {
 						excludedEvents,
 						includePastEvents,
 						maximumEntries,
