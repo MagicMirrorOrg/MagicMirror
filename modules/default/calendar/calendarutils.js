@@ -100,6 +100,7 @@ const CalendarUtils = {
 	 * @returns {string} The transformed title.
 	 */
 	titleTransform: function (title, titleReplace) {
+		let transformedTitle = title;
 		for (let needle in titleReplace) {
 			const replacement = titleReplace[needle];
 
@@ -109,9 +110,9 @@ const CalendarUtils = {
 				needle = new RegExp(regParts[1], regParts[2]);
 			}
 
-			title = title.replace(needle, replacement);
+			transformedTitle = transformedTitle.replace(needle, replacement);
 		}
-		return title;
+		return transformedTitle;
 	}
 };
 
