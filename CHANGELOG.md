@@ -27,6 +27,8 @@ _This release is scheduled to be released on 2023-07-01._
 
 ### Fixed
 
+- Fix envcanada hourly forecast time (#3080)
+
 ## [2.23.0] - 2023-04-04
 
 Thanks to: @angeldeejay, @buxxi, @CarJem, @dariom, @DaveChild, @dWoolridge, @grenagit, @Hirschberger, @KristjanESPERANTO, @MagMar94, @naveensrinivasan, @nfogal, @psieg, @rajniszp, @retroflex, @SkySails and @tomzt.
