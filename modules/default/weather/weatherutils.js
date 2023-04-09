@@ -30,6 +30,8 @@ const WeatherUtils = {
 	 * @returns {string} - A string with tha value and a unit postfix.
 	 */
 	convertPrecipitationUnit(value, valueUnit, outputUnit) {
+		if (valueUnit === "%") return `${value.toFixed(0)} ${valueUnit}`;
+
 		let convertedValue = value;
 		let conversionUnit = valueUnit;
 		if (outputUnit === "imperial") {
@@ -40,7 +42,6 @@ const WeatherUtils = {
 			conversionUnit = valueUnit ? valueUnit : "mm";
 		}
 
-		if (valueUnit === "%") return `${convertedValue.toFixed(0)} ${conversionUnit}`;
 
 		return `${convertedValue.toFixed(2)} ${conversionUnit}`;
 	},

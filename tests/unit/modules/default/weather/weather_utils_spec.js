@@ -41,5 +41,15 @@ describe("Weather utils tests", () => {
 				expect(result).toBe(`${expectedValues[i]} in`);
 			}
 		});
+
+		it("should round percentage values regardless of output units", () => {
+			const values = [0.1, 2.22, 9.999];
+			const output = [undefined, "imperial", "metric"];
+			const result = ["0 %", "2 %", "10 %"];
+
+			for (let i = 0; i < values.length; i++) {
+				expect(weather.convertPrecipitationUnit(values[i], "%", output[i])).toBe(result[i]);
+			}
+		});
 	});
 });
