@@ -126,13 +126,6 @@ function createWindow() {
 	});
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-app.on("ready", function () {
-	Log.log("Launching application.");
-	createWindow();
-});
-
 // Quit when all windows are closed.
 app.on("window-all-closed", function () {
 	if (process.env.JEST_WORKER_ID !== undefined) {
@@ -178,5 +171,11 @@ app.on("certificate-error", (event, webContents, url, error, certificate, callba
 // Start the core application if server is run on localhost
 // This starts all node helpers and starts the webserver.
 if (["localhost", "127.0.0.1", "::1", "::ffff:127.0.0.1", undefined].includes(config.address)) {
-	core.start().then((c) => (config = c));
+	core.start().then((c) => {
+		config = c;
+		app.whenReady().then(() => {
+			Log.log("Launching application.");
+			createWindow();
+		});
+	});
 }
