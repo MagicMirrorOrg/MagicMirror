@@ -15,7 +15,7 @@ const Translator = (function () {
 	 */
 	async function loadJSON(file) {
 		const xhr = new XMLHttpRequest();
-		return new Promise(function (resolve, reject) {
+		return new Promise(function (resolve) {
 			xhr.overrideMimeType("application/json");
 			xhr.open("GET", file, true);
 			xhr.onreadystatechange = function () {
@@ -49,9 +49,7 @@ const Translator = (function () {
 		 * @param {object} variables The variables to use within the translation template (optional)
 		 * @returns {string} the translated key
 		 */
-		translate: function (module, key, variables) {
-			variables = variables || {}; // Empty object by default
-
+		translate: function (module, key, variables = {}) {
 			/**
 			 * Combines template and variables like:
 			 * template: "Please wait for {timeToWait} before continuing with {work}."
@@ -66,10 +64,11 @@ const Translator = (function () {
 				if (Object.prototype.toString.call(template) !== "[object String]") {
 					return template;
 				}
+				let templateToUse = template;
 				if (variables.fallback && !template.match(new RegExp("{.+}"))) {
-					template = variables.fallback;
+					templateToUse = variables.fallback;
 				}
-				return template.replace(new RegExp("{([^}]+)}", "g"), function (_unused, varName) {
+				return templateToUse.replace(new RegExp("{([^}]+)}", "g"), function (_unused, varName) {
 					return varName in variables ? variables[varName] : `{${varName}}`;
 				});
 			}

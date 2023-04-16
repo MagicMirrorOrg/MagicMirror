@@ -378,23 +378,24 @@ const Module = Class.extend({
 	 * @param {Function} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the hide method.
 	 */
-	hide: function (speed, callback, options) {
-		if (typeof callback === "object") {
-			options = callback;
-			callback = function () {};
-		}
+	hide: function (speed, callback, options = {}) {
+		let usedCallback = callback || function () {};
+		let usedOptions = options;
 
-		callback = callback || function () {};
-		options = options || {};
+		if (typeof callback === "object") {
+			Log.error("Parameter mismatch in module.hide: callback is not an optional parameter!");
+			usedOptions = callback;
+			usedCallback = function () {};
+		}
 
 		MM.hideModule(
 			this,
 			speed,
 			() => {
 				this.suspend();
-				callback();
+				usedCallback();
 			},
-			options
+			usedOptions
 		);
 	},
 
@@ -406,22 +407,23 @@ const Module = Class.extend({
 	 * @param {object} [options] Optional settings for the show method.
 	 */
 	show: function (speed, callback, options) {
-		if (typeof callback === "object") {
-			options = callback;
-			callback = function () {};
-		}
+		let usedCallback = callback || function () {};
+		let usedOptions = options;
 
-		callback = callback || function () {};
-		options = options || {};
+		if (typeof callback === "object") {
+			Log.error("Parameter mismatch in module.show: callback is not an optional parameter!");
+			usedOptions = callback;
+			usedCallback = function () {};
+		}
 
 		MM.showModule(
 			this,
 			speed,
 			() => {
 				this.resume();
-				callback();
+				usedCallback();
 			},
-			options
+			usedOptions
 		);
 	}
 });

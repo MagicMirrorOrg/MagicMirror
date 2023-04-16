@@ -205,30 +205,17 @@ function App() {
 	/**
 	 * Loads all modules.
 	 *
-	 * @param {string[]} modules All modules to be loaded
+	 * @param {Module[]} modules All modules to be loaded
+	 * @returns {Promise} A promise that is resolved when all modules been loaded
 	 */
 	async function loadModules(modules) {
-		return new Promise((resolve) => {
-			Log.log("Loading module helpers ...");
+		Log.log("Loading module helpers ...");
 
-			/**
-			 *
-			 */
-			function loadNextModule() {
-				if (modules.length > 0) {
-					const nextModule = modules[0];
-					loadModule(nextModule);
-					modules = modules.slice(1);
-					loadNextModule();
-				} else {
-					// All modules are loaded
-					Log.log("All module helpers loaded.");
-					resolve();
-				}
-			}
+		for (let module of modules) {
+			await loadModule(module);
+		}
 
-			loadNextModule();
-		});
+		Log.log("All module helpers loaded.");
 	}
 
 	/**
@@ -269,11 +256,13 @@ function App() {
 		Log.setLogLevel(config.logLevel);
 
 		let modules = [];
+
 		for (const module of config.modules) {
 			if (!modules.includes(module.module) && !module.disabled) {
 				modules.push(module.module);
 			}
 		}
+
 		await loadModules(modules);
 
 		httpServer = new Server(config);

@@ -110,13 +110,15 @@ WeatherProvider.register("yr", {
 			this.getWeatherDataFromYr(weatherData?.downloadedAt)
 				.then((weatherData) => {
 					Log.debug("Got weather data from yr.");
+					let data;
 					if (weatherData) {
 						this.cacheWeatherData(weatherData);
+						data = weatherData;
 					} else {
 						//Undefined if unchanged
-						weatherData = this.getWeatherDataFromCache();
+						data = this.getWeatherDataFromCache();
 					}
-					resolve(weatherData);
+					resolve(data);
 				})
 				.catch((err) => {
 					Log.error(err);
@@ -266,14 +268,14 @@ WeatherProvider.register("yr", {
 			this.getStellarDataFromYr(today, 2)
 				.then((stellarData) => {
 					if (stellarData) {
-						stellarData = {
+						const data = {
 							today: stellarData
 						};
-						stellarData.tomorrow = Object.assign({}, stellarData.today);
-						stellarData.today.date = today;
-						stellarData.tomorrow.date = tomorrow;
-						this.cacheStellarData(stellarData);
-						resolve(stellarData);
+						data.tomorrow = Object.assign({}, data.today);
+						data.today.date = today;
+						data.tomorrow.date = tomorrow;
+						this.cacheStellarData(data);
+						resolve(data);
 					} else {
 						Log.error(`Something went wrong when fetching stellar data. Responses: ${stellarData}`);
 						reject(stellarData);

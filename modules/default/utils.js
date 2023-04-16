@@ -10,12 +10,14 @@
  */
 async function performWebRequest(url, type = "json", useCorsProxy = false, requestHeaders = undefined, expectedResponseHeaders = undefined) {
 	const request = {};
+	let requestUrl;
 	if (useCorsProxy) {
-		url = getCorsUrl(url, requestHeaders, expectedResponseHeaders);
+		requestUrl = getCorsUrl(url, requestHeaders, expectedResponseHeaders);
 	} else {
+		requestUrl = url;
 		request.headers = getHeadersToSend(requestHeaders);
 	}
-	const response = await fetch(url, request);
+	const response = await fetch(requestUrl, request);
 	const data = await response.text();
 
 	if (type === "xml") {

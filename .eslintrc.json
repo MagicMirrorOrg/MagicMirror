@@ -24,6 +24,7 @@
 	"rules": {
 		"eqeqeq": "error",
 		"import/order": "error",
+		"no-param-reassign": "error",
 		"no-prototype-builtins": "off",
 		"no-throw-literal": "error",
 		"no-unused-vars": "off",

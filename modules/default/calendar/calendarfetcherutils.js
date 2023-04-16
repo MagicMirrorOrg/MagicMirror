@@ -593,15 +593,13 @@ const CalendarFetcherUtils = {
 	 */
 	titleFilterApplies: function (title, filter, useRegex, regexFlags) {
 		if (useRegex) {
+			let regexFilter = filter;
 			// Assume if leading slash, there is also trailing slash
 			if (filter[0] === "/") {
 				// Strip leading and trailing slashes
-				filter = filter.substr(1).slice(0, -1);
+				regexFilter = filter.substr(1).slice(0, -1);
 			}
-
-			filter = new RegExp(filter, regexFlags);
-
-			return filter.test(title);
+			return new RegExp(regexFilter, regexFlags).test(title);
 		} else {
 			return title.includes(filter);
 		}
