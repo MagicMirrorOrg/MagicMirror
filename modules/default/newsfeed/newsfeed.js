@@ -215,6 +215,11 @@ Module.register("newsfeed", {
 				return true;
 			}, this);
 		}
+
+		// HTML entity conversion: dummy textarea for conversion and regex for safe matching
+		const entity_regex = /&(?:#x[a-f0-9]+|#[0-9]+|[a-z0-9]+);?/gi;
+		const entity_converter = document.createElement("textarea");
+
 		newsItems.forEach((item) => {
 			//Remove selected tags from the beginning of rss feed items (title or description)
 			if (this.config.removeStartTags === "title" || this.config.removeStartTags === "both") {
@@ -251,6 +256,12 @@ Module.register("newsfeed", {
 					}
 				}
 			}
+
+			//Convert HTML entities to characters
+			item.title = item.title.replace(entity_regex, (t) => {
+				entity_converter.innerHTML = t;
+				return entity_converter.textContent;
+			});
 		});
 
 		// get updated news items and broadcast them
