@@ -8,6 +8,10 @@ describe("Weather utils tests", () => {
 			expect(Math.round(WeatherUtils.convertWind(300, "beaufort"))).toBe(12);
 		});
 
+		it("should convert windspeed correctly from mps to mps", () => {
+			expect(WeatherUtils.convertWind(11.75, "FOOBAR")).toBe(11.75);
+		});
+
 		it("should convert windspeed correctly from mps to kmh", () => {
 			expect(Math.round(WeatherUtils.convertWind(11.75, "kmh"))).toBe(42);
 		});
