@@ -44,7 +44,6 @@ process.on("uncaughtException", function (err) {
 
 /**
  * The core app.
- *
  * @class
  */
 function App() {
@@ -53,7 +52,6 @@ function App() {
 
 	/**
 	 * Loads the config file. Combines it with the defaults and returns the config
-	 *
 	 * @async
 	 * @returns {Promise<object>} the loaded config or the defaults if something goes wrong
 	 */
@@ -135,7 +133,6 @@ function App() {
 	/**
 	 * Checks the config for deprecated options and throws a warning in the logs
 	 * if it encounters one option from the deprecated.js list
-	 *
 	 * @param {object} userConfig The user config
 	 */
 	function checkDeprecatedOptions(userConfig) {
@@ -150,7 +147,6 @@ function App() {
 
 	/**
 	 * Loads a specific module.
-	 *
 	 * @param {string} module The name of the module (including subpath).
 	 */
 	function loadModule(module) {
@@ -204,7 +200,6 @@ function App() {
 
 	/**
 	 * Loads all modules.
-	 *
 	 * @param {Module[]} modules All modules to be loaded
 	 * @returns {Promise} A promise that is resolved when all modules been loaded
 	 */
@@ -220,7 +215,6 @@ function App() {
 
 	/**
 	 * Compare two semantic version numbers and return the difference.
-	 *
 	 * @param {string} a Version number a.
 	 * @param {string} b Version number b.
 	 * @returns {number} A positive number if a is larger than b, a negative
@@ -246,7 +240,6 @@ function App() {
 	 * Start the core app.
 	 *
 	 * It loads the config, then it loads all modules.
-	 *
 	 * @async
 	 * @returns {Promise<object>} the config used
 	 */
@@ -301,7 +294,6 @@ function App() {
 	 * exists.
 	 *
 	 * Added to fix #1056
-	 *
 	 * @returns {Promise} A promise that is resolved when all node_helpers and
 	 * the http server has been closed
 	 */

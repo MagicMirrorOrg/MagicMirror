@@ -17,7 +17,6 @@ const CalendarFetcherUtils = {
 	/**
 	 * Calculate the time correction, either dst/std or full day in cases where
 	 * utc time is day before plus offset
-	 *
 	 * @param {object} event the event which needs adjustment
 	 * @param {Date} date the date on which this event happens
 	 * @returns {number} the necessary adjustment in hours
@@ -119,7 +118,6 @@ const CalendarFetcherUtils = {
 
 	/**
 	 * Filter the events from ical according to the given config
-	 *
 	 * @param {object} data the calendar data from ical
 	 * @param {object} config The configuration object
 	 * @returns {string[]} the filtered events
@@ -511,7 +509,6 @@ const CalendarFetcherUtils = {
 
 	/**
 	 * Lookup iana tz from windows
-	 *
 	 * @param {string} msTZName the timezone name to lookup
 	 * @returns {string|null} the iana name or null of none is found
 	 */
@@ -524,7 +521,6 @@ const CalendarFetcherUtils = {
 
 	/**
 	 * Gets the title from the event.
-	 *
 	 * @param {object} event The event object to check.
 	 * @returns {string} The title of the event, or "Event" if no title is found.
 	 */
@@ -541,7 +537,6 @@ const CalendarFetcherUtils = {
 
 	/**
 	 * Checks if an event is a fullday event.
-	 *
 	 * @param {object} event The event object to check.
 	 * @returns {boolean} True if the event is a fullday event, false otherwise
 	 */
@@ -563,7 +558,6 @@ const CalendarFetcherUtils = {
 
 	/**
 	 * Determines if the user defined time filter should apply
-	 *
 	 * @param {Date} now Date object using previously created object for consistency
 	 * @param {Moment} endDate Moment object representing the event end date
 	 * @param {string} filter The time to subtract from the end date to determine if an event should be shown
@@ -584,7 +578,6 @@ const CalendarFetcherUtils = {
 
 	/**
 	 * Determines if the user defined title filter should apply
-	 *
 	 * @param {string} title the title of the event
 	 * @param {string} filter the string to look for, can be a regex also
 	 * @param {boolean} useRegex true if a regex should be used, otherwise it just looks for the filter as a string

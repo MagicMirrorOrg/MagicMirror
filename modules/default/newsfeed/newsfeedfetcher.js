@@ -14,7 +14,6 @@ const NodeHelper = require("node_helper");
 
 /**
  * Responsible for requesting an update on the set interval and broadcasting the data.
- *
  * @param {string} url URL of the news feed.
  * @param {number} reloadInterval Reload interval in milliseconds.
  * @param {string} encoding Encoding of the feed.
@@ -137,7 +136,6 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 
 	/**
 	 * Update the reload interval, but only if we need to increase the speed.
-	 *
 	 * @param {number} interval Interval for the update in milliseconds.
 	 */
 	this.setReloadInterval = function (interval) {

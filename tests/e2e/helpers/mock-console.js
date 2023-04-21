@@ -1,6 +1,5 @@
 /**
  * Suppresses errors concerning web server already shut down.
- *
  * @param {string} err The error message.
  */
 const mockError = (err) => {
