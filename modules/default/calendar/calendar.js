@@ -524,7 +524,6 @@ Module.register("calendar", {
 
 	/**
 	 * Checks if this config contains the calendar url.
-	 *
 	 * @param {string} url The calendar url
 	 * @returns {boolean} True if the calendar config contains the url, False otherwise
 	 */
@@ -540,7 +539,6 @@ Module.register("calendar", {
 
 	/**
 	 * Creates the sorted list of all events.
-	 *
 	 * @param {boolean} limitNumberOfEntries Whether to filter returned events for display.
 	 * @returns {object[]} Array with events.
 	 */
@@ -673,7 +671,6 @@ Module.register("calendar", {
 
 	/**
 	 * Requests node helper to add calendar url.
-	 *
 	 * @param {string} url The calendar url to add
 	 * @param {object} auth The authentication method and credentials
 	 * @param {object} calendarConfig The config of the specific calendar
@@ -698,7 +695,6 @@ Module.register("calendar", {
 
 	/**
 	 * Retrieves the symbols for a specific event.
-	 *
 	 * @param {object} event Event to look for.
 	 * @returns {string[]} The symbols
 	 */
@@ -739,7 +735,6 @@ Module.register("calendar", {
 
 	/**
 	 * Retrieves the symbolClass for a specific calendar url.
-	 *
 	 * @param {string} url The calendar url
 	 * @returns {string} The class to be used for the symbols of the calendar
 	 */
@@ -749,7 +744,6 @@ Module.register("calendar", {
 
 	/**
 	 * Retrieves the titleClass for a specific calendar url.
-	 *
 	 * @param {string} url The calendar url
 	 * @returns {string} The class to be used for the title of the calendar
 	 */
@@ -759,7 +753,6 @@ Module.register("calendar", {
 
 	/**
 	 * Retrieves the timeClass for a specific calendar url.
-	 *
 	 * @param {string} url The calendar url
 	 * @returns {string} The class to be used for the time of the calendar
 	 */
@@ -769,7 +762,6 @@ Module.register("calendar", {
 
 	/**
 	 * Retrieves the calendar name for a specific calendar url.
-	 *
 	 * @param {string} url The calendar url
 	 * @returns {string} The name of the calendar
 	 */
@@ -779,7 +771,6 @@ Module.register("calendar", {
 
 	/**
 	 * Retrieves the color for a specific calendar url.
-	 *
 	 * @param {string} url The calendar url
 	 * @param {boolean} isBg Determines if we fetch the bgColor or not
 	 * @returns {string} The color
@@ -790,7 +781,6 @@ Module.register("calendar", {
 
 	/**
 	 * Retrieves the count title for a specific calendar url.
-	 *
 	 * @param {string} url The calendar url
 	 * @returns {string} The title
 	 */
@@ -800,7 +790,6 @@ Module.register("calendar", {
 
 	/**
 	 * Retrieves the maximum entry count for a specific calendar url.
-	 *
 	 * @param {string} url The calendar url
 	 * @returns {number} The maximum entry count
 	 */
@@ -810,7 +799,6 @@ Module.register("calendar", {
 
 	/**
 	 * Retrieves the maximum count of past days which events of should be displayed for a specific calendar url.
-	 *
 	 * @param {string} url The calendar url
 	 * @returns {number} The maximum past days count
 	 */
@@ -820,7 +808,6 @@ Module.register("calendar", {
 
 	/**
 	 * Helper method to retrieve the property for a specific calendar url.
-	 *
 	 * @param {string} url The calendar url
 	 * @param {string} property The property to look for
 	 * @param {string} defaultValue The value if the property is not found

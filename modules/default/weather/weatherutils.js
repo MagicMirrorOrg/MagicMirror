@@ -7,7 +7,6 @@
 const WeatherUtils = {
 	/**
 	 * Convert wind (from m/s) to beaufort scale
-	 *
 	 * @param {number} speedInMS the windspeed you want to convert
 	 * @returns {number} the speed in beaufort
 	 */
@@ -25,7 +24,6 @@ const WeatherUtils = {
 	/**
 	 * Convert a value in a given unit to a string with a converted
 	 * value and a postfix matching the output unit system.
-	 *
 	 * @param {number} value - The value to convert.
 	 * @param {string} valueUnit - The unit the values has. Default is mm.
 	 * @param {string} outputUnit - The unit system (imperial/metric) the return value should have.
@@ -50,7 +48,6 @@ const WeatherUtils = {
 	/**
 	 * Convert temp (from degrees C) into imperial or metric unit depending on
 	 * your config
-	 *
 	 * @param {number} tempInC the temperature in celsius you want to convert
 	 * @param {string} unit can be 'imperial' or 'metric'
 	 * @returns {number} the converted temperature
@@ -61,7 +58,6 @@ const WeatherUtils = {
 
 	/**
 	 * Convert wind speed into another unit.
-	 *
 	 * @param {number} windInMS the windspeed in meter/sec you want to convert
 	 * @param {string} unit can be 'beaufort', 'kmh', 'knots, 'imperial' (mph)
 	 * or 'metric' (mps)

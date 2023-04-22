@@ -52,7 +52,6 @@ Module.register("compliments", {
 
 	/**
 	 * Generate a random index for a list of compliments.
-	 *
 	 * @param {string[]} compliments Array with compliments.
 	 * @returns {number} a random index of given array
 	 */
@@ -78,7 +77,6 @@ Module.register("compliments", {
 
 	/**
 	 * Retrieve an array of compliments for the time of the day.
-	 *
 	 * @returns {string[]} array with compliments for the time of the day.
 	 */
 	complimentArray: function () {
@@ -115,7 +113,6 @@ Module.register("compliments", {
 
 	/**
 	 * Retrieve a file from the local filesystem
-	 *
 	 * @returns {Promise} Resolved when the file is loaded
 	 */
 	loadComplimentFile: async function () {
@@ -127,7 +124,6 @@ Module.register("compliments", {
 
 	/**
 	 * Retrieve a random compliment.
-	 *
 	 * @returns {string} a compliment
 	 */
 	getRandomCompliment: function () {

@@ -68,7 +68,6 @@ const MM = (function () {
 
 	/**
 	 * Select the wrapper dom object for a specific position.
-	 *
 	 * @param {string} position The name of the position.
 	 * @returns {HTMLElement | void} the wrapper element
 	 */
@@ -85,7 +84,6 @@ const MM = (function () {
 
 	/**
 	 * Send a notification to all modules.
-	 *
 	 * @param {string} notification The identifier of the notification.
 	 * @param {*} payload The payload of the notification.
 	 * @param {Module} sender The module that sent the notification.
@@ -102,7 +100,6 @@ const MM = (function () {
 
 	/**
 	 * Update the dom for a specific module.
-	 *
 	 * @param {Module} module The module that needs an update.
 	 * @param {number} [speed] The (optional) number of microseconds for the animation.
 	 * @returns {Promise} Resolved when the dom is fully updated.
@@ -129,7 +126,6 @@ const MM = (function () {
 
 	/**
 	 * Update the dom with the specified content
-	 *
 	 * @param {Module} module The module that needs an update.
 	 * @param {number} [speed] The (optional) number of microseconds for the animation.
 	 * @param {string} newHeader The new header that is generated.
@@ -167,7 +163,6 @@ const MM = (function () {
 
 	/**
 	 * Check if the content has changed.
-	 *
 	 * @param {Module} module The module to check.
 	 * @param {string} newHeader The new header that is generated.
 	 * @param {HTMLElement} newContent The new content that is generated.
@@ -198,7 +193,6 @@ const MM = (function () {
 
 	/**
 	 * Update the content of a module on screen.
-	 *
 	 * @param {Module} module The module to check.
 	 * @param {string} newHeader The new header that is generated.
 	 * @param {HTMLElement} newContent The new content that is generated.
@@ -224,7 +218,6 @@ const MM = (function () {
 
 	/**
 	 * Hide the module.
-	 *
 	 * @param {Module} module The module to hide.
 	 * @param {number} speed The speed of the hide animation.
 	 * @param {Function} callback Called when the animation is done.
@@ -269,7 +262,6 @@ const MM = (function () {
 
 	/**
 	 * Show the module.
-	 *
 	 * @param {Module} module The module to show.
 	 * @param {number} speed The speed of the show animation.
 	 * @param {Function} callback Called when the animation is done.
@@ -376,13 +368,11 @@ const MM = (function () {
 
 	/**
 	 * Adds special selectors on a collection of modules.
-	 *
 	 * @param {Module[]} modules Array of modules.
 	 */
 	const setSelectionMethodsForModules = function (modules) {
 		/**
 		 * Filter modules with the specified classes.
-		 *
 		 * @param {string|string[]} className one or multiple classnames (array or space divided).
 		 * @returns {Module[]} Filtered collection of modules.
 		 */
@@ -392,7 +382,6 @@ const MM = (function () {
 
 		/**
 		 * Filter modules without the specified classes.
-		 *
 		 * @param {string|string[]} className one or multiple classnames (array or space divided).
 		 * @returns {Module[]} Filtered collection of modules.
 		 */
@@ -402,7 +391,6 @@ const MM = (function () {
 
 		/**
 		 * Filters a collection of modules based on classname(s).
-		 *
 		 * @param {string|string[]} className one or multiple classnames (array or space divided).
 		 * @param {boolean} include if the filter should include or exclude the modules with the specific classes.
 		 * @returns {Module[]} Filtered collection of modules.
@@ -431,7 +419,6 @@ const MM = (function () {
 
 		/**
 		 * Removes a module instance from the collection.
-		 *
 		 * @param {object} module The module instance to remove from the collection.
 		 * @returns {Module[]} Filtered collection of modules.
 		 */
@@ -446,7 +433,6 @@ const MM = (function () {
 
 		/**
 		 * Walks thru a collection of modules and executes the callback with the module as an argument.
-		 *
 		 * @param {Function} callback The function to execute with the module as an argument.
 		 */
 		const enumerate = function (callback) {
@@ -487,7 +473,6 @@ const MM = (function () {
 
 		/**
 		 * Gets called when all modules are started.
-		 *
 		 * @param {Module[]} moduleObjects All module instances.
 		 */
 		modulesStarted: function (moduleObjects) {
@@ -502,7 +487,6 @@ const MM = (function () {
 
 		/**
 		 * Send a notification to all modules.
-		 *
 		 * @param {string} notification The identifier of the notification.
 		 * @param {*} payload The payload of the notification.
 		 * @param {Module} sender The module that sent the notification.
@@ -529,7 +513,6 @@ const MM = (function () {
 
 		/**
 		 * Update the dom for a specific module.
-		 *
 		 * @param {Module} module The module that needs an update.
 		 * @param {number} [speed] The number of microseconds for the animation.
 		 */
@@ -550,7 +533,6 @@ const MM = (function () {
 
 		/**
 		 * Returns a collection of all modules currently active.
-		 *
 		 * @returns {Module[]} A collection of all modules currently active.
 		 */
 		getModules: function () {
@@ -560,7 +542,6 @@ const MM = (function () {
 
 		/**
 		 * Hide the module.
-		 *
 		 * @param {Module} module The module to hide.
 		 * @param {number} speed The speed of the hide animation.
 		 * @param {Function} callback Called when the animation is done.
@@ -573,7 +554,6 @@ const MM = (function () {
 
 		/**
 		 * Show the module.
-		 *
 		 * @param {Module} module The module to show.
 		 * @param {number} speed The speed of the show animation.
 		 * @param {Function} callback Called when the animation is done.

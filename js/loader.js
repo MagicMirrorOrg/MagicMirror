@@ -52,7 +52,6 @@ const Loader = (function () {
 
 	/**
 	 * Retrieve list of all modules.
-	 *
 	 * @returns {object[]} module data as configured in config
 	 */
 	const getAllModules = function () {
@@ -61,7 +60,6 @@ const Loader = (function () {
 
 	/**
 	 * Generate array with module information including module paths.
-	 *
 	 * @returns {object[]} Module information.
 	 */
 	const getModuleData = function () {
@@ -103,7 +101,6 @@ const Loader = (function () {
 
 	/**
 	 * Load modules via ajax request and create module objects.
-	 *
 	 * @param {object} module Information about the module we want to load.
 	 * @returns {Promise<void>} resolved when module is loaded
 	 */
@@ -131,7 +128,6 @@ const Loader = (function () {
 
 	/**
 	 * Bootstrap modules by setting the module data and loading the scripts & styles.
-	 *
 	 * @param {object} module Information about the module we want to load.
 	 * @param {Module} mObj Modules instance.
 	 */
@@ -153,7 +149,6 @@ const Loader = (function () {
 
 	/**
 	 * Load a script or stylesheet by adding it to the dom.
-	 *
 	 * @param {string} fileName Path of the file we want to load.
 	 * @returns {Promise} resolved when the file is loaded
 	 */
@@ -229,7 +224,6 @@ const Loader = (function () {
 		/**
 		 * Load a file (script or stylesheet).
 		 * Prevent double loading and search for files in the vendor folder.
-		 *
 		 * @param {string} fileName Path of the file we want to load.
 		 * @param {Module} module The module that calls the loadFile function.
 		 * @returns {Promise} resolved when the file is loaded

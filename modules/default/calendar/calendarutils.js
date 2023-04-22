@@ -7,7 +7,6 @@
 const CalendarUtils = {
 	/**
 	 * Capitalize the first letter of a string
-	 *
 	 * @param {string} string The string to capitalize
 	 * @returns {string} The capitalized string
 	 */
@@ -19,7 +18,6 @@ const CalendarUtils = {
 	 * This function accepts a number (either 12 or 24) and returns a moment.js LocaleSpecification with the
 	 * corresponding time-format to be used in the calendar display. If no number is given (or otherwise invalid input)
 	 * it will a localeSpecification object with the system locale time format.
-	 *
 	 * @param {number} timeFormat Specifies either 12 or 24-hour time format
 	 * @returns {moment.LocaleSpecification} formatted time
 	 */
@@ -39,7 +37,6 @@ const CalendarUtils = {
 
 	/**
 	 * Shortens a string if it's longer than maxLength and add an ellipsis to the end
-	 *
 	 * @param {string} string Text string to shorten
 	 * @param {number} maxLength The max length of the string
 	 * @param {boolean} wrapEvents Wrap the text after the line has reached maxLength
@@ -94,7 +91,6 @@ const CalendarUtils = {
 	 * Transforms the title of an event for usage.
 	 * Replaces parts of the text as defined in config.titleReplace.
 	 * Shortens title based on config.maxTitleLength and config.wrapEvents
-	 *
 	 * @param {string} title The title to transform.
 	 * @param {object} titleReplace Pairs of strings to be replaced in the title
 	 * @returns {string} The transformed title.

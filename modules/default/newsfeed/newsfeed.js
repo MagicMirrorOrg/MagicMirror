@@ -179,7 +179,6 @@ Module.register("newsfeed", {
 
 	/**
 	 * Generate an ordered list of items for this configured module.
-	 *
 	 * @param {object} feeds An object with feeds returned by the node helper.
 	 */
 	generateFeed: function (feeds) {
@@ -272,7 +271,6 @@ Module.register("newsfeed", {
 
 	/**
 	 * Check if this module is configured to show this feed.
-	 *
 	 * @param {string} feedUrl Url of the feed to check.
 	 * @returns {boolean} True if it is subscribed, false otherwise
 	 */
@@ -287,7 +285,6 @@ Module.register("newsfeed", {
 
 	/**
 	 * Returns title for the specific feed url.
-	 *
 	 * @param {string} feedUrl Url of the feed
 	 * @returns {string} The title of the feed
 	 */
