@@ -453,6 +453,11 @@ const CalendarFetcherUtils = {
 					const fullDayEvent = isFacebookBirthday ? true : CalendarFetcherUtils.isFullDayEvent(event);
 					// Log.debug("full day event")
 
+					// if the start and end are the same, then make end the 'end of day' value (start is at 00:00:00)
+					if (fullDayEvent && startDate.format("x") === endDate.format("x")) {
+						endDate = endDate.endOf("day");
+					}
+
 					if (config.includePastEvents) {
 						// Past event is too far in the past, so skip.
 						if (endDate < past) {
@@ -479,10 +484,6 @@ const CalendarFetcherUtils = {
 						return;
 					}
 
-					// if the start and end are the same, then make end the 'end of day' value (start is at 00:00:00)
-					if (fullDayEvent && startDate.format("x") === endDate.format("x")) {
-						endDate = endDate.endOf("day");
-					}
 					// get correction for date saving and dst change between now and then
 					let adjustDays = CalendarFetcherUtils.calculateTimezoneAdjustment(event, startDate.toDate());
 					// Every thing is good. Add it to the list.

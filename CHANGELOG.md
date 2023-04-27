@@ -31,6 +31,7 @@ _This release is scheduled to be released on 2023-07-01._
 - Fix envcanada hourly forecast time (#3080)
 - Fix electron not running under windows after async changes (#3083)
 - Fix style issues after eslint-plugin-jsdoc update
+- Fix don't filter out ongoing full day events (#3095)
 
 ## [2.23.0] - 2023-04-04
 
