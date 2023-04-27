@@ -9,6 +9,7 @@ describe("Calendar fetcher utils test", () => {
 		maximumEntries: 10,
 		maximumNumberOfDays: 365
 	};
+
 	describe("filterEvents", () => {
 		it("should return only ongoing and upcoming non full day events", () => {
 			const minusOneHour = moment().subtract(1, "hours").toDate();
@@ -16,16 +17,18 @@ describe("Calendar fetcher utils test", () => {
 			const plusOneHour = moment().add(1, "hours").toDate();
 			const plusTwoHours = moment().add(2, "hours").toDate();
 
-			const newEvents = CalendarFetcherUtils.filterEvents(
+			const filteredEvents = CalendarFetcherUtils.filterEvents(
 				{
-					pastEvent: { type: "VEVENT", start: minusTwoHours, end: minusOneHour },
-					ongoingEvent: { type: "VEVENT", start: minusOneHour, end: plusOneHour },
-					upcomingEvent: { type: "VEVENT", start: plusOneHour, end: plusTwoHours }
+					pastEvent: { type: "VEVENT", start: minusTwoHours, end: minusOneHour, summary: "pastEvent" },
+					ongoingEvent: { type: "VEVENT", start: minusOneHour, end: plusOneHour, summary: "ongoingEvent" },
+					upcomingEvent: { type: "VEVENT", start: plusOneHour, end: plusTwoHours, summary: "upcomingEvent" }
 				},
 				defaultConfig
 			);
 
-			expect(newEvents.length).toEqual(2);
+			expect(filteredEvents.length).toEqual(2);
+			expect(filteredEvents[0].title).toBe("ongoingEvent");
+			expect(filteredEvents[1].title).toBe("upcomingEvent");
 		});
 
 		it("should return only ongoing and upcoming full day events", () => {
@@ -33,16 +36,18 @@ describe("Calendar fetcher utils test", () => {
 			const today = moment().startOf("day").toDate();
 			const tomorrow = moment().add(1, "days").startOf("day").toDate();
 
-			const newEvents = CalendarFetcherUtils.filterEvents(
+			const filteredEvents = CalendarFetcherUtils.filterEvents(
 				{
-					pastEvent: { type: "VEVENT", start: yesterday, end: yesterday },
-					ongoingEvent: { type: "VEVENT", start: today, end: today },
-					upcomingEvent: { type: "VEVENT", start: tomorrow, end: tomorrow }
+					pastEvent: { type: "VEVENT", start: yesterday, end: yesterday, summary: "pastEvent" },
+					ongoingEvent: { type: "VEVENT", start: today, end: today, summary: "ongoingEvent" },
+					upcomingEvent: { type: "VEVENT", start: tomorrow, end: tomorrow, summary: "upcomingEvent" }
 				},
 				defaultConfig
 			);
 
-			expect(newEvents.length).toEqual(2);
+			expect(filteredEvents.length).toEqual(2);
+			expect(filteredEvents[0].title).toBe("ongoingEvent");
+			expect(filteredEvents[1].title).toBe("upcomingEvent");
 		});
 	});
 });
