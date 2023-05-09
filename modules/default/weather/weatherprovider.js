@@ -113,7 +113,6 @@ const WeatherProvider = Class.extend({
 
 	/**
 	 * A convenience function to make requests.
-	 *
 	 * @param {string} url the url to fetch from
 	 * @param {string} type what contenttype to expect in the response, can be "json" or "xml"
 	 * @param {Array.<{name: string, value:string}>} requestHeaders the HTTP headers to send
@@ -138,7 +137,6 @@ WeatherProvider.providers = [];
 
 /**
  * Static method to register a new weather provider.
- *
  * @param {string} providerIdentifier The name of the weather provider
  * @param {object} providerDetails The details of the weather provider
  */
@@ -148,23 +146,22 @@ WeatherProvider.register = function (providerIdentifier, providerDetails) {
 
 /**
  * Static method to initialize a new weather provider.
- *
  * @param {string} providerIdentifier The name of the weather provider
  * @param {object} delegate The weather module
  * @returns {object} The new weather provider
  */
 WeatherProvider.initialize = function (providerIdentifier, delegate) {
-	providerIdentifier = providerIdentifier.toLowerCase();
+	const pi = providerIdentifier.toLowerCase();
 
-	const provider = new WeatherProvider.providers[providerIdentifier]();
+	const provider = new WeatherProvider.providers[pi]();
 	const config = Object.assign({}, provider.defaults, delegate.config);
 
 	provider.delegate = delegate;
 	provider.setConfig(config);
 
-	provider.providerIdentifier = providerIdentifier;
+	provider.providerIdentifier = pi;
 	if (!provider.providerName) {
-		provider.providerName = providerIdentifier;
+		provider.providerName = pi;
 	}
 
 	return provider;

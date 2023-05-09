@@ -3,7 +3,6 @@ const helpers = require("../helpers/global-setup");
 describe("Compliments module", () => {
 	/**
 	 * move similar tests in function doTest
-	 *
 	 * @param {Array} complimentsArray The array of compliments.
 	 */
 	const doTest = async (complimentsArray) => {
@@ -36,7 +35,7 @@ describe("Compliments module", () => {
 
 	describe("Feature date in compliments module", () => {
 		describe("Set date and empty compliments for anytime, morning, evening and afternoon", () => {
-			it("Show happy new year compliment on new years day", async () => {
+			it("shows happy new year compliment on new years day", async () => {
 				await helpers.startApplication("tests/configs/modules/compliments/compliments_date.js", "01 Jan 2022 10:00:00 GMT");
 				await doTest(["Happy new year!"]);
 			});

@@ -5,7 +5,6 @@ const fetch = require("./fetch");
 
 /**
  * Gets the config.
- *
  * @param {Request} req - the request
  * @param {Response} res - the result
  */
@@ -19,7 +18,6 @@ function getConfig(req, res) {
  * Example input request url: /cors?sendheaders=header1:value1,header2:value2&expectedheaders=header1,header2&url=http://www.test.com/path?param1=value1
  *
  * Only the url-param of the input request url is required. It must be the last parameter.
- *
  * @param {Request} req - the request
  * @param {Response} res - the result
  */
@@ -57,7 +55,6 @@ async function cors(req, res) {
 
 /**
  * Gets headers and values to attach to the web request.
- *
  * @param {string} url - The url containing the headers and values to send.
  * @returns {object} An object specifying name and value of the headers.
  */
@@ -79,7 +76,6 @@ function getHeadersToSend(url) {
 
 /**
  * Gets the headers expected from the response.
- *
  * @param {string} url - The url containing the expected headers from the response.
  * @returns {string[]} headers - The name of the expected headers.
  */
@@ -97,7 +93,6 @@ function geExpectedRecievedHeaders(url) {
 
 /**
  * Gets the HTML to display the magic mirror.
- *
  * @param {Request} req - the request
  * @param {Response} res - the result
  */
@@ -116,7 +111,6 @@ function getHtml(req, res) {
 
 /**
  * Gets the MagicMirror version.
- *
  * @param {Request} req - the request
  * @param {Response} res - the result
  */

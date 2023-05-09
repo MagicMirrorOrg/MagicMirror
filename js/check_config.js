@@ -18,7 +18,6 @@ const Utils = require(`${rootPath}/js/utils.js`);
 /**
  * Returns a string with path of configuration file.
  * Check if set by environment variable MM_CONFIG_FILE
- *
  * @returns {string} path and filename of the config file
  */
 function getConfigFile() {

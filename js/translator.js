@@ -9,13 +9,12 @@
 const Translator = (function () {
 	/**
 	 * Load a JSON file via XHR.
-	 *
 	 * @param {string} file Path of the file we want to load.
 	 * @returns {Promise<object>} the translations in the specified file
 	 */
 	async function loadJSON(file) {
 		const xhr = new XMLHttpRequest();
-		return new Promise(function (resolve, reject) {
+		return new Promise(function (resolve) {
 			xhr.overrideMimeType("application/json");
 			xhr.open("GET", file, true);
 			xhr.onreadystatechange = function () {
@@ -43,21 +42,17 @@ const Translator = (function () {
 
 		/**
 		 * Load a translation for a given key for a given module.
-		 *
 		 * @param {Module} module The module to load the translation for.
 		 * @param {string} key The key of the text to translate.
 		 * @param {object} variables The variables to use within the translation template (optional)
 		 * @returns {string} the translated key
 		 */
-		translate: function (module, key, variables) {
-			variables = variables || {}; // Empty object by default
-
+		translate: function (module, key, variables = {}) {
 			/**
 			 * Combines template and variables like:
 			 * template: "Please wait for {timeToWait} before continuing with {work}."
 			 * variables: {timeToWait: "2 hours", work: "painting"}
 			 * to: "Please wait for 2 hours before continuing with painting."
-			 *
 			 * @param {string} template Text with placeholder
 			 * @param {object} variables Variables for the placeholder
 			 * @returns {string} the template filled with the variables
@@ -66,10 +61,11 @@ const Translator = (function () {
 				if (Object.prototype.toString.call(template) !== "[object String]") {
 					return template;
 				}
+				let templateToUse = template;
 				if (variables.fallback && !template.match(new RegExp("{.+}"))) {
-					template = variables.fallback;
+					templateToUse = variables.fallback;
 				}
-				return template.replace(new RegExp("{([^}]+)}", "g"), function (_unused, varName) {
+				return templateToUse.replace(new RegExp("{([^}]+)}", "g"), function (_unused, varName) {
 					return varName in variables ? variables[varName] : `{${varName}}`;
 				});
 			}
@@ -99,7 +95,6 @@ const Translator = (function () {
 
 		/**
 		 * Load a translation file (json) and remember the data.
-		 *
 		 * @param {Module} module The module to load the translation file for.
 		 * @param {string} file Path of the file we want to load.
 		 * @param {boolean} isFallback Flag to indicate fallback translations.
@@ -118,7 +113,6 @@ const Translator = (function () {
 
 		/**
 		 * Load the core translations.
-		 *
 		 * @param {string} lang The language identifier of the core language.
 		 */
 		loadCoreTranslations: async function (lang) {

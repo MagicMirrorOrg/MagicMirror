@@ -9,13 +9,11 @@
  *
  * Copyright 2014, Codrops
  * https://tympanus.net/codrops/
- *
  * @param {object} window The window object
  */
 (function (window) {
 	/**
 	 * Extend one object with another one
-	 *
 	 * @param {object} a The object to extend
 	 * @param {object} b The object which extends the other, overwrites existing keys
 	 * @returns {object} The merged object
@@ -31,7 +29,6 @@
 
 	/**
 	 * NotificationFx constructor
-	 *
 	 * @param {object} options The configuration options
 	 * @class
 	 */
@@ -124,7 +121,6 @@
 
 	/**
 	 * Dismiss the notification
-	 *
 	 * @param {boolean} [close] call the onClose callback at the end
 	 */
 	NotificationFx.prototype.dismiss = function (close = true) {

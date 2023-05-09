@@ -69,7 +69,6 @@ WeatherProvider.register("smhi", {
 
 	/**
 	 * Overrides method for setting config with checks for the precipitationValue being unset or invalid
-	 *
 	 * @param {object} config The configuration object
 	 */
 	setConfig(config) {
@@ -82,7 +81,6 @@ WeatherProvider.register("smhi", {
 
 	/**
 	 * Of all the times returned find out which one is closest to the current time, should be the first if the data isn't old.
-	 *
 	 * @param {object[]} times Array of time objects
 	 * @returns {object} The weatherdata closest to the current time
 	 */
@@ -100,7 +98,6 @@ WeatherProvider.register("smhi", {
 
 	/**
 	 * Get the forecast url for the configured coordinates
-	 *
 	 * @returns {string} the url for the specified coordinates
 	 */
 	getURL() {
@@ -115,7 +112,6 @@ WeatherProvider.register("smhi", {
 
 	/**
 	 * Calculates the apparent temperature based on known atmospheric data.
-	 *
 	 * @param {object} weatherData Weatherdata to use for the calculation
 	 * @returns {number} The apparent temperature
 	 */
@@ -132,7 +128,6 @@ WeatherProvider.register("smhi", {
 	 * Converts the returned data into a WeatherObject with required properties set for both current weather and forecast.
 	 * The returned units is always in metric system.
 	 * Requires coordinates to determine if its daytime or nighttime to know which icon to use and also to set sunrise and sunset.
-	 *
 	 * @param {object} weatherData Weatherdata to convert
 	 * @param {object} coordinates Coordinates of the locations of the weather
 	 * @returns {WeatherObject} The converted weatherdata at the specified location
@@ -178,7 +173,6 @@ WeatherProvider.register("smhi", {
 
 	/**
 	 * Takes all the data points and converts it to one WeatherObject per day.
-	 *
 	 * @param {object[]} allWeatherData Array of weatherdata
 	 * @param {object} coordinates Coordinates of the locations of the weather
 	 * @param {string} groupBy The interval to use for grouping the data (day, hour)
@@ -230,7 +224,6 @@ WeatherProvider.register("smhi", {
 	/**
 	 * Resolve coordinates from the response data (probably preferably to use
 	 * this if it's not matching the config values exactly)
-	 *
 	 * @param {object} data Response data from the weather service
 	 * @returns {{lon, lat}} the lat/long coordinates of the data
 	 */
@@ -241,7 +234,6 @@ WeatherProvider.register("smhi", {
 	/**
 	 * The distance between the data points is increasing in the data the more distant the prediction is.
 	 * Find these gaps and fill them with the previous hours data to make the data returned a complete set.
-	 *
 	 * @param {object[]} data Response data from the weather service
 	 * @returns {object[]} Given data with filled gaps
 	 */
@@ -263,7 +255,6 @@ WeatherProvider.register("smhi", {
 
 	/**
 	 * Helper method to get a property from the returned data set.
-	 *
 	 * @param {object} currentWeatherData Weatherdata to get from
 	 * @param {string} name The name of the property
 	 * @returns {*} The value of the property in the weatherdata
@@ -276,7 +267,6 @@ WeatherProvider.register("smhi", {
 	 * Map the icon value from SMHI to an icon that MagicMirror² understands.
 	 * Uses different icons depending on if its daytime or nighttime.
 	 * SMHI's description of what the numeric value means is the comment after the case.
-	 *
 	 * @param {number} input The SMHI icon value
 	 * @param {boolean} isDayTime True if the icon should be for daytime, false for nighttime
 	 * @returns {string} The icon name for the MagicMirror

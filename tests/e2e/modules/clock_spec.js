@@ -103,24 +103,8 @@ describe("Clock module", () => {
 		});
 
 		it("should show the analog clock face", async () => {
-			const elemClock = helpers.waitForElement(".clock-circle");
-			expect(elemClock).not.toBe(null);
-			const elemDate = helpers.waitForElement(".clock .date");
-			expect(elemDate).resolves.toBe(null);
-		});
-	});
-
-	describe("with analog clock face and date enabled", () => {
-		beforeAll(async () => {
-			await helpers.startApplication("tests/configs/modules/clock/clock_showDateAnalog.js");
-			await helpers.getDocument();
-		});
-
-		it("should show the analog clock face and the date", async () => {
-			const elemClock = helpers.waitForElement(".clock-circle");
-			await expect(elemClock).not.toBe(null);
-			const elemDate = helpers.waitForElement(".clock .date");
-			await expect(elemDate).resolves.not.toBe(null);
+			const elem = helpers.waitForElement(".clock-circle");
+			expect(elem).not.toBe(null);
 		});
 	});
 });

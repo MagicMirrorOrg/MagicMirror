@@ -19,7 +19,6 @@ const { cors, getConfig, getHtml, getVersion } = require("./server_functions");
 
 /**
  * Server
- *
  * @param {object} config The MM config
  * @class
  */
@@ -31,7 +30,6 @@ function Server(config) {
 
 	/**
 	 * Opens the server for incoming connections
-	 *
 	 * @returns {Promise} A promise that is resolved when the server listens to connections
 	 */
 	this.open = function () {
@@ -106,7 +104,6 @@ function Server(config) {
 
 	/**
 	 * Closes the server and destroys all lingering connections to it.
-	 *
 	 * @returns {Promise} A promise that resolves when server has successfully shut down
 	 */
 	this.close = function () {

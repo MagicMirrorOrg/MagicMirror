@@ -194,7 +194,6 @@ WeatherProvider.register("openmeteo", {
 
 	/**
 	 * Overrides method for setting config to check if endpoint is correct for hourly
-	 *
 	 * @param {object} config The configuration object
 	 */
 	setConfig(config) {

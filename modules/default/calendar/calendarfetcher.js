@@ -11,7 +11,7 @@ const ical = require("node-ical");
 const fetch = require("fetch");
 const Log = require("logger");
 const NodeHelper = require("node_helper");
-const CalendarUtils = require("./calendarutils");
+const CalendarFetcherUtils = require("./calendarfetcherutils");
 
 /**
  *
@@ -72,7 +72,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 				try {
 					data = ical.parseICS(responseData);
 					Log.debug(`parsed data=${JSON.stringify(data)}`);
-					events = CalendarUtils.filterEvents(data, {
+					events = CalendarFetcherUtils.filterEvents(data, {
 						excludedEvents,
 						includePastEvents,
 						maximumEntries,
@@ -121,7 +121,6 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 
 	/**
 	 * Sets the on success callback
-	 *
 	 * @param {Function} callback The on success callback.
 	 */
 	this.onReceive = function (callback) {
@@ -130,7 +129,6 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 
 	/**
 	 * Sets the on error callback
-	 *
 	 * @param {Function} callback The on error callback.
 	 */
 	this.onError = function (callback) {
@@ -139,7 +137,6 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 
 	/**
 	 * Returns the url of this fetcher.
-	 *
 	 * @returns {string} The url of this fetcher.
 	 */
 	this.url = function () {
@@ -148,7 +145,6 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 
 	/**
 	 * Returns current available events for this fetcher.
-	 *
 	 * @returns {object[]} The current available events for this fetcher.
 	 */
 	this.events = function () {

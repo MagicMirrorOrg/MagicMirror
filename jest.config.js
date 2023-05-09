@@ -6,23 +6,24 @@ module.exports = async () => {
 		projects: [
 			{
 				displayName: "unit",
+				globalSetup: "<rootDir>/tests/unit/helpers/global-setup.js",
 				moduleNameMapper: {
 					logger: "<rootDir>/js/logger.js"
 				},
 				testMatch: ["**/tests/unit/**/*.[jt]s?(x)"],
-				testPathIgnorePatterns: ["<rootDir>/tests/unit/mocks"]
+				testPathIgnorePatterns: ["<rootDir>/tests/unit/mocks", "<rootDir>/tests/unit/helpers"]
 			},
 			{
 				displayName: "electron",
 				testMatch: ["**/tests/electron/**/*.[jt]s?(x)"],
-				testPathIgnorePatterns: ["<rootDir>/tests/electron/helpers/"]
+				testPathIgnorePatterns: ["<rootDir>/tests/electron/helpers"]
 			},
 			{
 				displayName: "e2e",
 				setupFilesAfterEnv: ["<rootDir>/tests/e2e/helpers/mock-console.js"],
 				testMatch: ["**/tests/e2e/**/*.[jt]s?(x)"],
 				modulePaths: ["<rootDir>/js/"],
-				testPathIgnorePatterns: ["<rootDir>/tests/e2e/helpers/", "<rootDir>/tests/e2e/mocks"]
+				testPathIgnorePatterns: ["<rootDir>/tests/e2e/helpers", "<rootDir>/tests/e2e/mocks"]
 			}
 		],
 		collectCoverageFrom: ["./clientonly/**/*.js", "./js/**/*.js", "./modules/default/**/*.js", "./serveronly/**/*.js"],

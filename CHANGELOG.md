@@ -5,6 +5,33 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror².
 
+## [2.24.0] - Unreleased (`develop` branch)
+
+_This release is scheduled to be released on 2023-07-01._
+
+### Added
+
+- Added tests for serveronly
+- Set Timezone `Europe/Berlin` in unit tests (needed for new formatTime tests)
+- Added no-param-reassign eslint rule and fix warnings
+
+### Removed
+
+- Removed unneeded (and unwanted) '.' after the year in calendar repeatingCountTitle (#2896, second attempt ...)
+
+### Updated
+
+- Update electron to v24
+- Use node v20 in github workflow (replacing v14)
+- Refactor formatTime into common util function for default modules
+- Refactor some calendar methods into own class and added tests for them
+
+### Fixed
+
+- Fix envcanada hourly forecast time (#3080)
+- Fix electron not running under windows after async changes (#3083)
+- Fix style issues after eslint-plugin-jsdoc update
+
 ## [2.23.0] - 2023-04-04
 
 Thanks to: @angeldeejay, @buxxi, @CarJem, @dariom, @DaveChild, @dWoolridge, @grenagit, @Hirschberger, @KristjanESPERANTO, @MagMar94, @naveensrinivasan, @nfogal, @psieg, @rajniszp, @retroflex, @SkySails and @tomzt.

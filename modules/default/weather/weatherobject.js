@@ -75,7 +75,6 @@ class WeatherObject {
 	/**
 	 * Determines if the sun sets or rises next. Uses the current time and not
 	 * the date from the weather-forecast.
-	 *
 	 * @param {Moment} date an optional date where you want to get the next
 	 * action for. Useful only in tests, defaults to the current time.
 	 * @returns {string} "sunset" or "sunrise"
@@ -93,7 +92,6 @@ class WeatherObject {
 
 	/**
 	 * Checks if the weatherObject is at dayTime.
-	 *
 	 * @returns {boolean} true if it is at dayTime
 	 */
 	isDayTime() {
@@ -105,7 +103,6 @@ class WeatherObject {
 	 * Update the sunrise / sunset time depending on the location. This can be
 	 * used if your provider doesn't provide that data by itself. Then SunCalc
 	 * is used here to calculate them according to the location.
-	 *
 	 * @param {number} lat latitude
 	 * @param {number} lon longitude
 	 */
@@ -121,7 +118,6 @@ class WeatherObject {
 	 *
 	 * Before being handed to other modules, mutable values must be cloned safely.
 	 * Especially 'moment' object is not immutable, so original 'date', 'sunrise', 'sunset' could be corrupted or changed by other modules.
-	 *
 	 * @returns {object} plained object clone of original weatherObject
 	 */
 	simpleClone() {

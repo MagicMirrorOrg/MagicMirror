@@ -384,7 +384,7 @@ WeatherProvider.register("envcanada", {
 
 			const foreTime = moment(hourGroup[stepHour].getAttribute("dateTimeUTC"), "YYYYMMDDhhmmss");
 			const currTime = foreTime.add(hourOffset, "hours");
-			weather.date = moment.unix(currTime);
+			weather.date = moment(currTime);
 
 			// Capture the temperature
 

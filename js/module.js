@@ -46,7 +46,6 @@ const Module = Class.extend({
 
 	/**
 	 * Returns a list of scripts the module requires to be loaded.
-	 *
 	 * @returns {string[]} An array with filenames.
 	 */
 	getScripts: function () {
@@ -55,7 +54,6 @@ const Module = Class.extend({
 
 	/**
 	 * Returns a list of stylesheets the module requires to be loaded.
-	 *
 	 * @returns {string[]} An array with filenames.
 	 */
 	getStyles: function () {
@@ -66,7 +64,6 @@ const Module = Class.extend({
 	 * Returns a map of translation files the module requires to be loaded.
 	 *
 	 * return Map<String, String> -
-	 *
 	 * @returns {*} A map with langKeys and filenames.
 	 */
 	getTranslations: function () {
@@ -77,7 +74,6 @@ const Module = Class.extend({
 	 * Generates the dom which needs to be displayed. This method is called by the MagicMirror² core.
 	 * This method can to be subclassed if the module wants to display info on the mirror.
 	 * Alternatively, the getTemplate method could be subclassed.
-	 *
 	 * @returns {HTMLElement|Promise} The dom or a promise with the dom to display.
 	 */
 	getDom: function () {
@@ -111,7 +107,6 @@ const Module = Class.extend({
 	 * Generates the header string which needs to be displayed if a user has a header configured for this module.
 	 * This method is called by the MagicMirror² core, but only if the user has configured a default header for the module.
 	 * This method needs to be subclassed if the module wants to display modified headers on the mirror.
-	 *
 	 * @returns {string} The header to display above the header.
 	 */
 	getHeader: function () {
@@ -123,7 +118,6 @@ const Module = Class.extend({
 	 * This method needs to be subclassed if the module wants to use a template.
 	 * It can either return a template sting, or a template filename.
 	 * If the string ends with '.html' it's considered a file from within the module's folder.
-	 *
 	 * @returns {string} The template string of filename.
 	 */
 	getTemplate: function () {
@@ -133,7 +127,6 @@ const Module = Class.extend({
 	/**
 	 * Returns the data to be used in the template.
 	 * This method needs to be subclassed if the module wants to use a custom data.
-	 *
 	 * @returns {object} The data for the template
 	 */
 	getTemplateData: function () {
@@ -142,7 +135,6 @@ const Module = Class.extend({
 
 	/**
 	 * Called by the MagicMirror² core when a notification arrives.
-	 *
 	 * @param {string} notification The identifier of the notification.
 	 * @param {*} payload The payload of the notification.
 	 * @param {Module} sender The module that sent the notification.
@@ -158,7 +150,6 @@ const Module = Class.extend({
 	/**
 	 * Returns the nunjucks environment for the current module.
 	 * The environment is checked in the _nunjucksEnvironment instance variable.
-	 *
 	 * @returns {object} The Nunjucks Environment
 	 */
 	nunjucksEnvironment: function () {
@@ -180,7 +171,6 @@ const Module = Class.extend({
 
 	/**
 	 * Called when a socket notification arrives.
-	 *
 	 * @param {string} notification The identifier of the notification.
 	 * @param {*} payload The payload of the notification.
 	 */
@@ -208,7 +198,6 @@ const Module = Class.extend({
 
 	/**
 	 * Set the module data.
-	 *
 	 * @param {object} data The module data
 	 */
 	setData: function (data) {
@@ -222,7 +211,6 @@ const Module = Class.extend({
 
 	/**
 	 * Set the module config and combine it with the module defaults.
-	 *
 	 * @param {object} config The combined module config.
 	 * @param {boolean} deep Merge module config in deep.
 	 */
@@ -233,7 +221,6 @@ const Module = Class.extend({
 	/**
 	 * Returns a socket object. If it doesn't exist, it's created.
 	 * It also registers the notification callback.
-	 *
 	 * @returns {MMSocket} a socket object
 	 */
 	socket: function () {
@@ -250,7 +237,6 @@ const Module = Class.extend({
 
 	/**
 	 * Retrieve the path to a module file.
-	 *
 	 * @param {string} file Filename
 	 * @returns {string} the file path
 	 */
@@ -260,7 +246,6 @@ const Module = Class.extend({
 
 	/**
 	 * Load all required stylesheets by requesting the MM object to load the files.
-	 *
 	 * @returns {Promise<void>}
 	 */
 	loadStyles: function () {
@@ -269,7 +254,6 @@ const Module = Class.extend({
 
 	/**
 	 * Load all required scripts by requesting the MM object to load the files.
-	 *
 	 * @returns {Promise<void>}
 	 */
 	loadScripts: function () {
@@ -278,7 +262,6 @@ const Module = Class.extend({
 
 	/**
 	 * Helper method to load all dependencies.
-	 *
 	 * @param {string} funcName Function name to call to get scripts or styles.
 	 * @returns {Promise<void>}
 	 */
@@ -301,6 +284,7 @@ const Module = Class.extend({
 
 	/**
 	 * Load all translations.
+	 * @returns {Promise<void>}
 	 */
 	loadTranslations: async function () {
 		const translations = this.getTranslations() || {};
@@ -329,7 +313,6 @@ const Module = Class.extend({
 
 	/**
 	 * Request the translation for a given key with optional variables and default value.
-	 *
 	 * @param {string} key The key of the string to translate
 	 * @param {string|object} [defaultValueOrVariables] The default value or variables for translating.
 	 * @param {string} [defaultValue] The default value with variables.
@@ -344,7 +327,6 @@ const Module = Class.extend({
 
 	/**
 	 * Request an (animated) update of the module.
-	 *
 	 * @param {number} [speed] The speed of the animation.
 	 */
 	updateDom: function (speed) {
@@ -353,7 +335,6 @@ const Module = Class.extend({
 
 	/**
 	 * Send a notification to all modules.
-	 *
 	 * @param {string} notification The identifier of the notification.
 	 * @param {*} payload The payload of the notification.
 	 */
@@ -363,7 +344,6 @@ const Module = Class.extend({
 
 	/**
 	 * Send a socket notification to the node helper.
-	 *
 	 * @param {string} notification The identifier of the notification.
 	 * @param {*} payload The payload of the notification.
 	 */
@@ -373,55 +353,55 @@ const Module = Class.extend({
 
 	/**
 	 * Hide this module.
-	 *
 	 * @param {number} speed The speed of the hide animation.
 	 * @param {Function} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the hide method.
 	 */
-	hide: function (speed, callback, options) {
-		if (typeof callback === "object") {
-			options = callback;
-			callback = function () {};
-		}
+	hide: function (speed, callback, options = {}) {
+		let usedCallback = callback || function () {};
+		let usedOptions = options;
 
-		callback = callback || function () {};
-		options = options || {};
+		if (typeof callback === "object") {
+			Log.error("Parameter mismatch in module.hide: callback is not an optional parameter!");
+			usedOptions = callback;
+			usedCallback = function () {};
+		}
 
 		MM.hideModule(
 			this,
 			speed,
 			() => {
 				this.suspend();
-				callback();
+				usedCallback();
 			},
-			options
+			usedOptions
 		);
 	},
 
 	/**
 	 * Show this module.
-	 *
 	 * @param {number} speed The speed of the show animation.
 	 * @param {Function} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the show method.
 	 */
 	show: function (speed, callback, options) {
-		if (typeof callback === "object") {
-			options = callback;
-			callback = function () {};
-		}
+		let usedCallback = callback || function () {};
+		let usedOptions = options;
 
-		callback = callback || function () {};
-		options = options || {};
+		if (typeof callback === "object") {
+			Log.error("Parameter mismatch in module.show: callback is not an optional parameter!");
+			usedOptions = callback;
+			usedCallback = function () {};
+		}
 
 		MM.showModule(
 			this,
 			speed,
 			() => {
 				this.resume();
-				callback();
+				usedCallback();
 			},
-			options
+			usedOptions
 		);
 	}
 });
@@ -445,7 +425,6 @@ const Module = Class.extend({
  * -------
  *
  * Todo: idea of Mich determinate what do you want to merge or not
- *
  * @param {object} result the initial object
  * @returns {object} the merged config
  */
@@ -507,7 +486,6 @@ window.Module = Module;
 
 /**
  * Compare two semantic version numbers and return the difference.
- *
  * @param {string} a Version number a.
  * @param {string} b Version number b.
  * @returns {number} A positive number if a is larger than b, a negative
