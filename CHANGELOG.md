@@ -20,6 +20,7 @@ _This release is scheduled to be released on 2023-07-01._
 - Removed unneeded (and unwanted) '.' after the year in calendar repeatingCountTitle (#2896, second attempt ...)
 
 ### Updated
+
 - Added support for precipitation probability with openmeteo weather provider
 - Update electron to v24
 - Use node v20 in github workflow (replacing v14)
