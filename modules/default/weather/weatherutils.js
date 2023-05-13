@@ -42,7 +42,6 @@ const WeatherUtils = {
 			conversionUnit = valueUnit ? valueUnit : "mm";
 		}
 
-
 		return `${convertedValue.toFixed(2)} ${conversionUnit}`;
 	},
 
