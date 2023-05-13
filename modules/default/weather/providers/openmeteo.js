@@ -76,6 +76,8 @@ WeatherProvider.register("openmeteo", {
 		"et0_fao_evapotranspiration",
 		// Total precipitation (rain, showers, snow) sum of the preceding hour
 		"precipitation",
+		//Precipitation Probability
+		"precipitation_probability",
 		// Snowfall amount of the preceding hour in centimeters. For the water equivalent in millimeter, divide by 7. E.g. 7 cm snow = 10 mm precipitation water equivalent
 		"snowfall",
 		// Rain from large scale weather systems of the preceding hour in millimeter
@@ -381,6 +383,7 @@ WeatherProvider.register("openmeteo", {
 		currentWeather.rain = parseFloat(weather.hourly[h].rain);
 		currentWeather.snow = parseFloat(weather.hourly[h].snowfall * 10);
 		currentWeather.precipitationAmount = parseFloat(weather.hourly[h].precipitation);
+		currentWeather.precipitationProbability = parseFloat(weather.precipitation_probability);
 
 		return currentWeather;
 	},
@@ -404,6 +407,7 @@ WeatherProvider.register("openmeteo", {
 			currentWeather.rain = parseFloat(weather.rain_sum);
 			currentWeather.snow = parseFloat(weather.snowfall_sum * 10);
 			currentWeather.precipitationAmount = parseFloat(weather.precipitation_sum);
+			currentWeather.precipitationProbability = parseFloat(weather.precipitation_probability);
 
 			days.push(currentWeather);
 		});
@@ -437,6 +441,7 @@ WeatherProvider.register("openmeteo", {
 			currentWeather.rain = parseFloat(weather.rain);
 			currentWeather.snow = parseFloat(weather.snowfall * 10);
 			currentWeather.precipitationAmount = parseFloat(weather.precipitation);
+			currentWeather.precipitationProbability = parseFloat(weather.precipitation_probability);
 
 			hours.push(currentWeather);
 		});
