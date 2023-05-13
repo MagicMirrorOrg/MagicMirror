@@ -51,6 +51,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Added option `pastDaysCount` to default calendar module to control of how many days past events should be displayed
 - Added thai language to alert module
 - Added option `sendNotifications` in clock module (#3056)
+- Added tests for some weather utils
 
 ### Removed
 
