@@ -76,7 +76,7 @@ function App() {
 			// save current config.js
 			try {
 				if (fs.existsSync(configFilename)) {
-					fs.copyFileSync(configFilename, `${configFilename}_${Date.now()}`);
+					fs.copyFileSync(configFilename, `${configFilename}-old`);
 				}
 			} catch (err) {
 				Log.warn(`Could not copy ${configFilename}: ${err.message}`);
