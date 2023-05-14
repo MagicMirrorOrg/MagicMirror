@@ -71,6 +71,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Update Eslint config, add new rule and handle issue
 - Convert lots of callbacks to async/await
 - Revise require imports (#3071 and #3072)
+- Use `config.js-old` instead of file with timestamp suffix when backing up config with a `config.template` in use (#3104)
 
 ### Fixed
 
