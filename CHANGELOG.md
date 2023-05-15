@@ -21,6 +21,7 @@ _This release is scheduled to be released on 2023-07-01._
 
 ### Updated
 
+- Added support for precipitation probability with openmeteo weather provider
 - Update electron to v24
 - Use node v20 in github workflow (replacing v14)
 - Refactor formatTime into common util function for default modules
@@ -31,8 +32,9 @@ _This release is scheduled to be released on 2023-07-01._
 - Fix envcanada hourly forecast time (#3080)
 - Fix electron not running under windows after async changes (#3083)
 - Fix style issues after eslint-plugin-jsdoc update
-- Fix date not sown when clock in analog mode (#3100)
-
+- Fix date not shown when clock in analog mode (#3100)
+- Fix don't filter out ongoing full day events (#3095)
+- 
 ## [2.23.0] - 2023-04-04
 
 Thanks to: @angeldeejay, @buxxi, @CarJem, @dariom, @DaveChild, @dWoolridge, @grenagit, @Hirschberger, @KristjanESPERANTO, @MagMar94, @naveensrinivasan, @nfogal, @psieg, @rajniszp, @retroflex, @SkySails and @tomzt.
@@ -71,6 +73,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Update Eslint config, add new rule and handle issue
 - Convert lots of callbacks to async/await
 - Revise require imports (#3071 and #3072)
+- Use `config.js-old` instead of file with timestamp suffix when backing up config with a `config.template` in use (#3104)
 
 ### Fixed
 
