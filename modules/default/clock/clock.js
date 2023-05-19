@@ -281,9 +281,14 @@ Module.register("clock", {
 		 */
 		if (this.config.displayType === "analog") {
 			// Display only an analog clock
-			if (this.config.analogShowDate === "top") {
+			if (this.config.showDate) {
+				// Add date to the analog clock
+				dateWrapper.innerHTML = now.format(this.config.dateFormat);
+				wrapper.appendChild(dateWrapper);
+			}
+			if (this.config.analogShowDate === "bottom") {
 				wrapper.classList.add("clock-grid-bottom");
-			} else if (this.config.analogShowDate === "bottom") {
+			} else if (this.config.analogShowDate === "top") {
 				wrapper.classList.add("clock-grid-top");
 			}
 			wrapper.appendChild(analogWrapper);
