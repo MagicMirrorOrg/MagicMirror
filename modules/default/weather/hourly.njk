@@ -7,9 +7,14 @@
             <tr {% if config.colored %}class="colored"{% endif %} {% if config.fade %}style="opacity: {{ currentStep | opacity(numSteps) }};"{% endif %}>
                 <td class="day">{{ hour.date | formatTime }}</td>
                 <td class="bright weather-icon"><span class="wi weathericon wi-{{ hour.weatherType }}"></span></td>
-                <td class="align-right bright">
+                <td class="align-right bright temperature">
                     {{ hour.temperature | roundValue | unit("temperature") }}
                 </td>
+                {% if config.showUV_Index %}
+                    <td class="align-right bright uv_index">
+                        {{ hour.uv_index+1 }}
+                    </td>
+                {% endif %}
                 {% if config.showPrecipitationAmount %}
                     <td class="align-right bright precipitation-amount">
                         {{ hour.precipitationAmount | unit("precip", hour.precipitationUnits) }}
