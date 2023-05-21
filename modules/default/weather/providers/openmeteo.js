@@ -385,8 +385,8 @@ WeatherProvider.register("openmeteo", {
 		currentWeather.rain = parseFloat(weather.hourly[h].rain);
 		currentWeather.snow = parseFloat(weather.hourly[h].snowfall * 10);
 		currentWeather.precipitationAmount = parseFloat(weather.hourly[h].precipitation);
-		currentWeather.precipitationProbability = parseFloat(weather.precipitation_probability);
-		currentWeather.uv_index = parseFloat(weather.uv_index);
+		currentWeather.precipitationProbability = parseFloat(weather.hourly[h].precipitation_probability);
+		currentWeather.uv_index = parseFloat(weather.hourly[h+2].uv_index); //for some reason h is two hours in the past for me
 
 		return currentWeather;
 	},
@@ -411,7 +411,7 @@ WeatherProvider.register("openmeteo", {
 			currentWeather.snow = parseFloat(weather.snowfall_sum * 10);
 			currentWeather.precipitationAmount = parseFloat(weather.precipitation_sum);
 			currentWeather.precipitationProbability = parseFloat(weather.precipitation_probability);
-			currentWeather.uv_index = parseFloat(weather.uv_index);
+			currentWeather.uv_index = parseFloat(weather.uv_index); //currently broken
 
 			days.push(currentWeather);
 		});
