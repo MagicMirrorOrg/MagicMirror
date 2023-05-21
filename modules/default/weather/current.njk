@@ -28,6 +28,12 @@
                     {% endif %}
                 </span>
             {% endif %}
+            {% if config.showUV_Index %}
+                    <td class="align-right bright uv_index">
+                    <div class="wi wi-hot"></div>
+                        {{ current.uv_index }}
+                    </td>
+                {% endif %}
         </div>
     {% endif %}
     <div class="large light">
