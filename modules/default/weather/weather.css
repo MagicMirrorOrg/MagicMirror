@@ -31,7 +31,7 @@
 
 .weather .precipitation-amount,
 .weather .precipitation-prob,
-.weather .uv_index{
+.weather .uv_index {
   padding-left: 20px;
   padding-right: 0;
 }

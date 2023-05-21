@@ -386,7 +386,7 @@ WeatherProvider.register("openmeteo", {
 		currentWeather.snow = parseFloat(weather.hourly[h].snowfall * 10);
 		currentWeather.precipitationAmount = parseFloat(weather.hourly[h].precipitation);
 		currentWeather.precipitationProbability = parseFloat(weather.hourly[h].precipitation_probability);
-		currentWeather.uv_index = parseFloat(weather.hourly[h+2].uv_index); //for some reason h is two hours in the past for me
+		currentWeather.uv_index = parseFloat(weather.hourly[h + 2].uv_index); //for some reason h is two hours in the past for me
 
 		return currentWeather;
 	},
