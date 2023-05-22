@@ -7,15 +7,18 @@
         {% endif %}
         {% set forecast = forecast.slice(0, numSteps) %}
         {% for f in forecast %}
-            <tr {% if config.colored %}class="colored"{% endif %} {% if config.fade %}style="opacity: {{ currentStep | opacity(numSteps) }};"{% endif %}>
+            <tr {% if config.colored %}class="colored"{% endif %}
+                {% if config.fade %}style="opacity: {{ currentStep | opacity(numSteps) }};"{% endif %}>
                 {% if (currentStep == 0) and config.ignoreToday == false and config.absoluteDates == false %}
                     <td class="day">{{ "TODAY" | translate }}</td>
                 {% elif (currentStep == 1) and config.ignoreToday == false and config.absoluteDates == false %}
                     <td class="day">{{ "TOMORROW" | translate }}</td>
                 {% else %}
-                    <td class="day">{{ f.date.format('ddd') }}</td>
+                    <td class="day">{{ f.date.format("ddd") }}</td>
                 {% endif %}
-                <td class="bright weather-icon"><span class="wi weathericon wi-{{ f.weatherType }}"></span></td>
+                <td class="bright weather-icon">
+                    <span class="wi weathericon wi-{{ f.weatherType }}"></span>
+                </td>
                 <td class="align-right bright max-temp">
                     {{ f.maxTemperature | roundValue | unit("temperature") | decimalSymbol }}
                 </td>
@@ -29,7 +32,7 @@
                 {% endif %}
                 {% if config.showPrecipitationProbability %}
                     <td class="align-right bright precipitation-prob">
-                        {{ f.precipitationProbability | unit("precip", "%") }}
+                        {{ f.precipitationProbability | unit(('precip', '%') ) }}
                     </td>
                 {% endif %}
                 {% if config.showUVIndex %}
@@ -43,10 +46,7 @@
         {% endfor %}
     </table>
 {% else %}
-    <div class="dimmed light small">
-        {{ "LOADING" | translate }}
-    </div>
+    <div class="dimmed light small">{{ "LOADING" | translate }}</div>
 {% endif %}
-
 <!-- Uncomment the line below to see the contents of the `forecast` object. -->
 <!-- <div style="word-wrap:break-word" class="xsmall dimmed">{{forecast | dump}}</div> -->
