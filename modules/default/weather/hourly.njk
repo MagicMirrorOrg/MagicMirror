@@ -7,7 +7,7 @@
             <tr {% if config.colored %}class="colored"{% endif %} {% if config.fade %}style="opacity: {{ currentStep | opacity(numSteps) }};"{% endif %}>
                 <td class="day">{{ hour.date | formatTime }}</td>
                 <td class="bright weather-icon"><span class="wi weathericon wi-{{ hour.weatherType }}"></span></td>
-                <td class="align-right bright temperature">
+                <td class="align-right bright">
                     {{ hour.temperature | roundValue | unit("temperature") }}
                 </td>
                 {% if config.showUV_Index %}
