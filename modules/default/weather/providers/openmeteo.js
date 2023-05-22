@@ -134,6 +134,8 @@ WeatherProvider.register("openmeteo", {
 		"winddirection_10m_dominant",
 		// The sum of solar radiation on a given day in Megajoules
 		"shortwave_radiation_sum",
+		//UV Index
+		"uv_index_max",
 		// Daily sum of ET₀ Reference Evapotranspiration of a well watered grass field
 		"et0_fao_evapotranspiration"
 	],
@@ -386,7 +388,7 @@ WeatherProvider.register("openmeteo", {
 		currentWeather.snow = parseFloat(weather.hourly[h].snowfall * 10);
 		currentWeather.precipitationAmount = parseFloat(weather.hourly[h].precipitation);
 		currentWeather.precipitationProbability = parseFloat(weather.hourly[h].precipitation_probability);
-		currentWeather.uv_index = parseFloat(weather.hourly[h + 2].uv_index); //for some reason h is two hours in the past for me
+		currentWeather.uv_index = parseFloat(weather.hourly[h].uv_index);
 
 		return currentWeather;
 	},
@@ -411,7 +413,7 @@ WeatherProvider.register("openmeteo", {
 			currentWeather.snow = parseFloat(weather.snowfall_sum * 10);
 			currentWeather.precipitationAmount = parseFloat(weather.precipitation_sum);
 			currentWeather.precipitationProbability = parseFloat(weather.precipitation_probability);
-			currentWeather.uv_index = parseFloat(weather.uv_index); //currently broken
+			currentWeather.uv_index = parseFloat(weather.uv_index_max);
 
 			days.push(currentWeather);
 		});
