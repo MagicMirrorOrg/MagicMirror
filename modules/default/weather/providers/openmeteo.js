@@ -76,8 +76,10 @@ WeatherProvider.register("openmeteo", {
 		"et0_fao_evapotranspiration",
 		// Total precipitation (rain, showers, snow) sum of the preceding hour
 		"precipitation",
-		//Precipitation Probability
+		// Precipitation Probability
 		"precipitation_probability",
+		// UV index
+		"uv_index",
 		// Snowfall amount of the preceding hour in centimeters. For the water equivalent in millimeter, divide by 7. E.g. 7 cm snow = 10 mm precipitation water equivalent
 		"snowfall",
 		// Rain from large scale weather systems of the preceding hour in millimeter
@@ -132,6 +134,8 @@ WeatherProvider.register("openmeteo", {
 		"winddirection_10m_dominant",
 		// The sum of solar radiation on a given day in Megajoules
 		"shortwave_radiation_sum",
+		//UV Index
+		"uv_index_max",
 		// Daily sum of ET₀ Reference Evapotranspiration of a well watered grass field
 		"et0_fao_evapotranspiration"
 	],
@@ -383,7 +387,8 @@ WeatherProvider.register("openmeteo", {
 		currentWeather.rain = parseFloat(weather.hourly[h].rain);
 		currentWeather.snow = parseFloat(weather.hourly[h].snowfall * 10);
 		currentWeather.precipitationAmount = parseFloat(weather.hourly[h].precipitation);
-		currentWeather.precipitationProbability = parseFloat(weather.precipitation_probability);
+		currentWeather.precipitationProbability = parseFloat(weather.hourly[h].precipitation_probability);
+		currentWeather.uv_index = parseFloat(weather.hourly[h].uv_index);
 
 		return currentWeather;
 	},
@@ -408,6 +413,7 @@ WeatherProvider.register("openmeteo", {
 			currentWeather.snow = parseFloat(weather.snowfall_sum * 10);
 			currentWeather.precipitationAmount = parseFloat(weather.precipitation_sum);
 			currentWeather.precipitationProbability = parseFloat(weather.precipitation_probability);
+			currentWeather.uv_index = parseFloat(weather.uv_index_max);
 
 			days.push(currentWeather);
 		});
@@ -442,6 +448,7 @@ WeatherProvider.register("openmeteo", {
 			currentWeather.snow = parseFloat(weather.snowfall * 10);
 			currentWeather.precipitationAmount = parseFloat(weather.precipitation);
 			currentWeather.precipitationProbability = parseFloat(weather.precipitation_probability);
+			currentWeather.uv_index = parseFloat(weather.uv_index);
 
 			hours.push(currentWeather);
 		});

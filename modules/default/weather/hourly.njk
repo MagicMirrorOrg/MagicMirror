@@ -10,6 +10,14 @@
                 <td class="align-right bright">
                     {{ hour.temperature | roundValue | unit("temperature") }}
                 </td>
+                {% if config.showUVIndex %}
+                    <td class="align-right bright uv-index">
+                        {% if hour.uv_index!=0 %}
+                            {{ hour.uv_index }}
+                            <span class="wi weathericon wi-hot"></span>
+                        {% endif %}
+                    </td>
+                {% endif %}
                 {% if config.showPrecipitationAmount %}
                     <td class="align-right bright precipitation-amount">
                         {{ hour.precipitationAmount | unit("precip", hour.precipitationUnits) }}

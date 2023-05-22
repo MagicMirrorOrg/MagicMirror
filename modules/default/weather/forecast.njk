@@ -32,6 +32,12 @@
                         {{ f.precipitationProbability | unit("precip", "%") }}
                     </td>
                 {% endif %}
+                {% if config.showUVIndex %}
+                    <td class="align-right dimmed uv-index">
+                        {{ f.uv_index }}
+                        <span class="wi dimmed weathericon wi-hot"></span>
+                    </td>
+                {% endif %}
             </tr>
             {% set currentStep = currentStep + 1 %}
         {% endfor %}

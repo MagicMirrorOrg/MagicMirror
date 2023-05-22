@@ -27,6 +27,7 @@ Module.register("weather", {
 		showPeriodUpper: false,
 		showPrecipitationAmount: false,
 		showPrecipitationProbability: false,
+		showUVIndex: false,
 		showSun: true,
 		showWindDirection: true,
 		showWindDirectionAsArrow: false,
