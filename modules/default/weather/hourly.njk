@@ -28,7 +28,7 @@
                 {% endif %}
                 {% if config.showPrecipitationProbability %}
                     <td class="align-right bright precipitation-prob">
-                        {{ hour.precipitationProbability | unit(('precip', '%') ) }}
+                        {{ hour.precipitationProbability | unit('precip', '%') }}
                     </td>
                 {% endif %}
             </tr>
