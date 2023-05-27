@@ -27,6 +27,7 @@ _This release is scheduled to be released on 2023-07-01._
 - Use node v20 in github workflow (replacing v14)
 - Refactor formatTime into common util function for default modules
 - Refactor some calendar methods into own class and added tests for them
+- Split install and run commands in github actions
 
 ### Fixed
 
