@@ -141,7 +141,12 @@ function AnimateCSS(element, animation, animationTime) {
 	return new Promise((resolve) => {
 		const animationName = `animate__${animation}`;
 		const node = document.getElementById(element);
-		if (!node) return Log.warn(`node not found for`, element);
+		if (!node) {
+			// don't execute animate and resolve
+			Log.warn(`AnimateCSS: node not found for`, element);
+			resolve();
+			return;
+		}
 		node.style.setProperty("--animate-duration", `${animationTime}s`);
 		node.classList.add("animate__animated", animationName);
 
@@ -151,6 +156,7 @@ function AnimateCSS(element, animation, animationTime) {
 		 */
 		function handleAnimationEnd(event) {
 			node.classList.remove("animate__animated", animationName);
+			node.style.removeProperty("--animate-duration", `${animationTime}s`);
 			event.stopPropagation();
 			resolve();
 		}

@@ -331,7 +331,7 @@ const Module = Class.extend({
 	 * @param {number} [animateOut] AnimateCss animation number before hidden
 	 * @param {number} [animateIn] AnimateCss animation number on show
 	 */
-	updateDom: function (speed, animateOut, animateIn) {
+	updateDom: function (speed, animateOut = 0, animateIn = 0) {
 		MM.updateDom(this, speed, animateOut, animateIn);
 	},
 

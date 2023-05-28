@@ -232,7 +232,7 @@ const MM = (function () {
 	 * @param {Function} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the hide method.
 	 */
-	const hideModule = async function (module, speed, callback, options = {}) {
+	const hideModule = function (module, speed, callback, options = {}) {
 		// set lockString if set in options.
 		if (options.lockString) {
 			// Log.log("Has lockstring: " + options.lockString);
@@ -243,24 +243,14 @@ const MM = (function () {
 
 		const moduleWrapper = document.getElementById(module.identifier);
 		if (moduleWrapper !== null) {
-			if (options.animate) {
-				// for testing @todo better
-				clearTimeout(module.showHideTimer);
-				await AnimateCSS(module.identifier, _AnimateCSSOut[options.animate], speed / 1000);
-				moduleWrapper.style.opacity = 0;
-				moduleWrapper.classList.add("hidden");
-				moduleWrapper.style.position = "fixed";
-
-				updateWrapperStates();
-				if (typeof callback === "function") {
-					callback();
-				}
-			} else {
+			if (!options.animate) {
+				// clearTimeout(module.showHideTimer); <-- better there no ?
+				// default MM hide
 				moduleWrapper.style.transition = `opacity ${speed / 1000}s`;
 				moduleWrapper.style.opacity = 0;
 				moduleWrapper.classList.add("hidden");
 
-				clearTimeout(module.showHideTimer);
+				clearTimeout(module.showHideTimer); // <-- not sure it's the better position
 				module.showHideTimer = setTimeout(function () {
 					// To not take up any space, we just make the position absolute.
 					// since it's fade out anyway, we can see it lay above or
@@ -274,6 +264,20 @@ const MM = (function () {
 						callback();
 					}
 				}, speed);
+			} else {
+				Log.log(`${module.identifier} Has animateOut: ${options.animate}`);
+				// AnimateCSS for testing @todo better
+				clearTimeout(module.showHideTimer);
+				AnimateCSS(module.identifier, _AnimateCSSOut[options.animate], speed / 1000).then(() => {
+					moduleWrapper.style.opacity = 0;
+					moduleWrapper.classList.add("hidden");
+					moduleWrapper.style.position = "fixed";
+
+					updateWrapperStates();
+					if (typeof callback === "function") {
+						callback();
+					}
+				});
 			}
 		} else {
 			// invoke callback even if no content, issue 1308
@@ -290,7 +294,7 @@ const MM = (function () {
 	 * @param {Function} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the show method.
 	 */
-	const showModule = async function (module, speed, callback, options = {}) {
+	const showModule = function (module, speed, callback, options = {}) {
 		// remove lockString if set in options.
 		if (options.lockString) {
 			const index = module.lockStrings.indexOf(options.lockString);
@@ -319,19 +323,9 @@ const MM = (function () {
 
 		const moduleWrapper = document.getElementById(module.identifier);
 		if (moduleWrapper !== null) {
-			if (options.animate) {
-				// for testing @todo better
-				clearTimeout(module.showHideTimer);
-				moduleWrapper.style.position = "static";
-				moduleWrapper.classList.remove("hidden");
-				updateWrapperStates();
-				moduleWrapper.style.opacity = 1;
-				await AnimateCSS(module.identifier, _AnimateCSSIn[options.animate], speed / 1000);
-				if (typeof callback === "function") {
-					callback();
-				}
-			} else {
-				// don't use animateCSS (original)
+			if (!options.animate) {
+				// clearTimeout(module.showHideTimer); <-- better there no ?
+				// default MM show
 				moduleWrapper.style.transition = `opacity ${speed / 1000}s`;
 				// Restore the position. See hideModule() for more info.
 				moduleWrapper.style.position = "static";
@@ -343,12 +337,26 @@ const MM = (function () {
 				const dummy = moduleWrapper.parentElement.parentElement.offsetHeight;
 				moduleWrapper.style.opacity = 1;
 
-				clearTimeout(module.showHideTimer);
+				clearTimeout(module.showHideTimer); // <-- not sure it's the better position
 				module.showHideTimer = setTimeout(function () {
 					if (typeof callback === "function") {
 						callback();
 					}
 				}, speed);
+			} else {
+				Log.log(`${module.identifier} Has animateIn: ${options.animate}`);
+				// AnimateCSS for testing @todo better
+				clearTimeout(module.showHideTimer);
+				moduleWrapper.style.position = "static";
+				moduleWrapper.classList.remove("hidden");
+				updateWrapperStates();
+				const dummy = moduleWrapper.parentElement.parentElement.offsetHeight;
+				moduleWrapper.style.opacity = 1;
+				AnimateCSS(module.identifier, _AnimateCSSIn[options.animate], speed / 1000).then(() => {
+					if (typeof callback === "function") {
+						callback();
+					}
+				});
 			}
 		} else {
 			// invoke callback

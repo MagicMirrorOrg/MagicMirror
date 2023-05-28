@@ -16,7 +16,7 @@ Module.register("compliments", {
 		},
 		updateInterval: 30000,
 		remoteFile: null,
-		fadeSpeed: 2000,
+		fadeSpeed: 4000,
 		morningStartTime: 3,
 		morningEndTime: 12,
 		afternoonStartTime: 12,
@@ -46,7 +46,7 @@ Module.register("compliments", {
 
 		// Schedule update timer.
 		setInterval(() => {
-			this.updateDom(this.config.fadeSpeed, 23, 36);
+			this.updateDom(this.config.fadeSpeed);
 		}, this.config.updateInterval);
 	},
 

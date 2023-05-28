@@ -301,7 +301,7 @@ Module.register("newsfeed", {
 	 * Schedule visual update.
 	 */
 	scheduleUpdateInterval: function () {
-		this.updateDom(this.config.animationSpeed, 3, 14);
+		this.updateDom(this.config.animationSpeed);
 
 		// Broadcast NewsFeed if needed
 		if (this.config.broadcastNewsFeeds) {
@@ -313,7 +313,7 @@ Module.register("newsfeed", {
 
 		this.timer = setInterval(() => {
 			this.activeItem++;
-			this.updateDom(this.config.animationSpeed, 3, 14);
+			this.updateDom(this.config.animationSpeed);
 
 			// Broadcast NewsFeed if needed
 			if (this.config.broadcastNewsFeeds) {
