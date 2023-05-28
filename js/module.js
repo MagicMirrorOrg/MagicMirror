@@ -1,4 +1,4 @@
-/* global Class, cloneObject, Loader, MMSocket, nunjucks, Translator */
+/* global Class, cloneObject, Loader, MMSocket, nunjucks, Translator, animateCSS */
 
 /* MagicMirror²
  * Module Blueprint.
@@ -328,8 +328,8 @@ const Module = Class.extend({
 	/**
 	 * Request an (animated) update of the module.
 	 * @param {number} [speed] The speed of the animation.
-	 * @param (bumber) [animateOut] AnimateCss animation number before hidden
-	 * @param (bumber) [animateIn] AnimateCss animation number on show
+	 * @param (number) [animateOut] AnimateCss animation number before hidden
+	 * @param (number) [animateIn] AnimateCss animation number on show
 	 */
 	updateDom: function (speed, animateOut, animateIn) {
 		MM.updateDom(this, speed, animateOut, animateIn);
