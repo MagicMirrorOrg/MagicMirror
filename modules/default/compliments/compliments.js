@@ -16,7 +16,7 @@ Module.register("compliments", {
 		},
 		updateInterval: 30000,
 		remoteFile: null,
-		fadeSpeed: 4000,
+		fadeSpeed: 2000,
 		morningStartTime: 3,
 		morningEndTime: 12,
 		afternoonStartTime: 12,
