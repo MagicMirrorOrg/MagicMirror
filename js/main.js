@@ -104,7 +104,7 @@ const MM = (function () {
 	 * @param {number} [speed] The (optional) number of microseconds for the animation.
 	 * @returns {Promise} Resolved when the dom is fully updated.
 	 */
-	const updateDom = function (module, speed) {
+	const updateDom = function (module, speed, animateOut, animateIn) {
 		return new Promise(function (resolve) {
 			const newHeader = module.getHeader();
 			let newContentPromise = module.getDom();
@@ -116,7 +116,7 @@ const MM = (function () {
 
 			newContentPromise
 				.then(function (newContent) {
-					const updatePromise = updateDomWithContent(module, speed, newHeader, newContent);
+					const updatePromise = updateDomWithContent(module, speed, newHeader, newContent, animateOut, animateIn);
 
 					updatePromise.then(resolve).catch(Log.error);
 				})
@@ -132,7 +132,7 @@ const MM = (function () {
 	 * @param {HTMLElement} newContent The new content that is generated.
 	 * @returns {Promise} Resolved when the module dom has been updated.
 	 */
-	const updateDomWithContent = function (module, speed, newHeader, newContent) {
+	const updateDomWithContent = function (module, speed, newHeader, newContent, animateOut, animateIn) {
 		return new Promise(function (resolve) {
 			if (module.hidden || !speed) {
 				updateModuleContent(module, newHeader, newContent);
@@ -151,13 +151,18 @@ const MM = (function () {
 				return;
 			}
 
-			hideModule(module, speed / 2, function () {
-				updateModuleContent(module, newHeader, newContent);
-				if (!module.hidden) {
-					showModule(module, speed / 2);
-				}
-				resolve();
-			});
+			hideModule(
+				module,
+				speed / 2,
+				function () {
+					updateModuleContent(module, newHeader, newContent);
+					if (!module.hidden) {
+						showModule(module, speed / 2, null, { animate: animateIn });
+					}
+					resolve();
+				},
+				{ animate: animateOut }
+			);
 		});
 	};
 
@@ -223,7 +228,7 @@ const MM = (function () {
 	 * @param {Function} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the hide method.
 	 */
-	const hideModule = function (module, speed, callback, options = {}) {
+	const hideModule = async function (module, speed, callback, options = {}) {
 		// set lockString if set in options.
 		if (options.lockString) {
 			// Log.log("Has lockstring: " + options.lockString);
@@ -234,24 +239,38 @@ const MM = (function () {
 
 		const moduleWrapper = document.getElementById(module.identifier);
 		if (moduleWrapper !== null) {
-			moduleWrapper.style.transition = `opacity ${speed / 1000}s`;
-			moduleWrapper.style.opacity = 0;
-			moduleWrapper.classList.add("hidden");
-
-			clearTimeout(module.showHideTimer);
-			module.showHideTimer = setTimeout(function () {
-				// To not take up any space, we just make the position absolute.
-				// since it's fade out anyway, we can see it lay above or
-				// below other modules. This works way better than adjusting
-				// the .display property.
+			if (options.animate) {
+				// for testing @todo better
+				clearTimeout(module.showHideTimer);
+				await AnimateCSS(module.identifier, _AnimateCSSOut[options.animate], speed / 1000);
+				moduleWrapper.style.opacity = 0;
+				moduleWrapper.classList.add("hidden");
 				moduleWrapper.style.position = "fixed";
 
 				updateWrapperStates();
-
 				if (typeof callback === "function") {
 					callback();
 				}
-			}, speed);
+			} else {
+				moduleWrapper.style.transition = `opacity ${speed / 1000}s`;
+				moduleWrapper.style.opacity = 0;
+				moduleWrapper.classList.add("hidden");
+
+				clearTimeout(module.showHideTimer);
+				module.showHideTimer = setTimeout(function () {
+					// To not take up any space, we just make the position absolute.
+					// since it's fade out anyway, we can see it lay above or
+					// below other modules. This works way better than adjusting
+					// the .display property.
+					moduleWrapper.style.position = "fixed";
+
+					updateWrapperStates();
+
+					if (typeof callback === "function") {
+						callback();
+					}
+				}, speed);
+			}
 		} else {
 			// invoke callback even if no content, issue 1308
 			if (typeof callback === "function") {
@@ -267,7 +286,7 @@ const MM = (function () {
 	 * @param {Function} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the show method.
 	 */
-	const showModule = function (module, speed, callback, options = {}) {
+	const showModule = async function (module, speed, callback, options = {}) {
 		// remove lockString if set in options.
 		if (options.lockString) {
 			const index = module.lockStrings.indexOf(options.lockString);
@@ -296,23 +315,37 @@ const MM = (function () {
 
 		const moduleWrapper = document.getElementById(module.identifier);
 		if (moduleWrapper !== null) {
-			moduleWrapper.style.transition = `opacity ${speed / 1000}s`;
-			// Restore the position. See hideModule() for more info.
-			moduleWrapper.style.position = "static";
-			moduleWrapper.classList.remove("hidden");
-
-			updateWrapperStates();
-
-			// Waiting for DOM-changes done in updateWrapperStates before we can start the animation.
-			const dummy = moduleWrapper.parentElement.parentElement.offsetHeight;
-			moduleWrapper.style.opacity = 1;
-
-			clearTimeout(module.showHideTimer);
-			module.showHideTimer = setTimeout(function () {
+			if (options.animate) {
+				// for testing @todo better
+				clearTimeout(module.showHideTimer);
+				moduleWrapper.style.position = "static";
+				moduleWrapper.classList.remove("hidden");
+				updateWrapperStates();
+				moduleWrapper.style.opacity = 1;
+				await AnimateCSS(module.identifier, _AnimateCSSIn[options.animate], speed / 1000);
 				if (typeof callback === "function") {
 					callback();
 				}
-			}, speed);
+			} else {
+				// don't use animateCSS (original)
+				moduleWrapper.style.transition = `opacity ${speed / 1000}s`;
+				// Restore the position. See hideModule() for more info.
+				moduleWrapper.style.position = "static";
+				moduleWrapper.classList.remove("hidden");
+
+				updateWrapperStates();
+
+				// Waiting for DOM-changes done in updateWrapperStates before we can start the animation.
+				const dummy = moduleWrapper.parentElement.parentElement.offsetHeight;
+				moduleWrapper.style.opacity = 1;
+
+				clearTimeout(module.showHideTimer);
+				module.showHideTimer = setTimeout(function () {
+					if (typeof callback === "function") {
+						callback();
+					}
+				}, speed);
+			}
 		} else {
 			// invoke callback
 			if (typeof callback === "function") {
@@ -516,7 +549,7 @@ const MM = (function () {
 		 * @param {Module} module The module that needs an update.
 		 * @param {number} [speed] The number of microseconds for the animation.
 		 */
-		updateDom: function (module, speed) {
+		updateDom: function (module, speed, animateOut, animateIn) {
 			if (!(module instanceof Module)) {
 				Log.error("updateDom: Sender should be a module.");
 				return;
@@ -528,7 +561,7 @@ const MM = (function () {
 			}
 
 			// Further implementation is done in the private method.
-			updateDom(module, speed);
+			updateDom(module, speed, animateOut, animateIn);
 		},
 
 		/**

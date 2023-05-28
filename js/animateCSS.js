@@ -1,131 +1,149 @@
-const _AnimateCSSIn = {
-	// Attention seekers
-	1: "bounce",
-	2: "flash",
-	3: "pulse",
-	4: "rubberBand",
-	5: "shakeX",
-	6: "shakeY",
-	7: "headShake",
-	8: "swing",
-	9: "tada",
-	10: "wobble",
-	11: "jello",
-	12: "heartBeat",
-	// Back entrances
-	13: "backInDown",
-	14: "backInLeft",
-	15: "backInRight",
-	16: "backInUp",
-	// Bouncing entrances
-	17: "bounceIn",
-	18: "bounceInDown",
-	19: "bounceInLeft",
-	20: "bounceInRight",
-	21: "bounceInUp",
-	// Fading entrances
-	22: "fadeIn",
-	23: "fadeInDown",
-	24: "fadeInDownBig",
-	25: "fadeInLeft",
-	26: "fadeInLeftBig",
-	27: "fadeInRight",
-	28: "fadeInRightBig",
-	29: "fadeInUp",
-	30: "fadeInUpBig",
-	31: "fadeInTopLeft",
-	32: "fadeInTopRight",
-	33: "fadeInBottomLeft",
-	34: "fadeInBottomRight",
-	// Flippers
-	35: "flip",
-	36: "flipInX",
-	37: "flipInY",
-	// Lightspeed
-	38: "lightSpeedInRight",
-	39: "lightSpeedInLeft",
-	// Rotating entrances
-	40: "rotateIn",
-	41: "rotateInDownLeft",
-	42: "rotateInDownRight",
-	43: "rotateInUpLeft",
-	44: "rotateInUpRight",
-	// Specials
-	45: "jackInTheBox",
-	46: "rollIn",
-	// Zooming entrances
-	47: "zoomIn",
-	48: "zoomInDown",
-	49: "zoomInLeft",
-	50: "zoomInRight",
-	51: "zoomInUp",
-	// Sliding entrances
-	52: "slideInDown",
-	53: "slideInLeft",
-	54: "slideInRight",
-	55: "slideInUp"
-};
+/* MagicMirror²
+ * AnimateCSS System
+ *
+ * by @bugsounet
+ * for Michael Teeuw https://michaelteeuw.nl
+ * MIT Licensed.
+ */
 
-const _AnimateCSSOut = {
-	// Back exits
-	1: "backOutDown",
-	2: "backOutLeft",
-	3: "backOutRight",
-	4: "backOutUp",
-	// Bouncing exits
-	5: "bounceOut",
-	6: "bounceOutDown",
-	7: "bounceOutLeft",
-	8: "bounceOutRight",
-	9: "bounceOutUp",
-	// Fading exits
-	10: "fadeOut",
-	11: "fadeOutDown",
-	12: "fadeOutDownBig",
-	13: "fadeOutLeft",
-	14: "fadeOutLeftBig",
-	15: "fadeOutRight",
-	16: "fadeOutRightBig",
-	17: "fadeOutUp",
-	18: "fadeOutUpBig",
-	19: "fadeOutTopLeft",
-	20: "fadeOutTopRight",
-	21: "fadeOutBottomRight",
-	22: "fadeOutBottomLeft",
+/* enumeration of animations in Array **/
+const _AnimateCSSIn = [
+	null, // 0 not used (default MM animation)
+	// Attention seekers
+	"bounce", // 1
+	"flash", // 2
+	"pulse", // 3
+	"rubberBand", // 4
+	"shakeX", // 5
+	"shakeY", // 6
+	"headShake", // 7
+	"swing", // 8
+	"tada", // 9
+	"wobble", // 10
+	"jello", // 11
+	"heartBeat", // 12
+	// Back entrances
+	"backInDown", // 13
+	"backInLeft", // 14
+	"backInRight", // 15
+	"backInUp", // 16
+	// Bouncing entrances
+	"bounceIn", // 17
+	"bounceInDown", // 18
+	"bounceInLeft", // 19
+	"bounceInRight", // 20
+	"bounceInUp", // 21
+	// Fading entrances
+	"fadeIn", // 22
+	"fadeInDown", // 23
+	"fadeInDownBig", // 24
+	"fadeInLeft", // 25
+	"fadeInLeftBig", // 26
+	"fadeInRight", // 27
+	"fadeInRightBig", // 28
+	"fadeInUp", // 29
+	"fadeInUpBig", // 30
+	"fadeInTopLeft", // 31
+	"fadeInTopRight", // 32
+	"fadeInBottomLeft", // 33
+	"fadeInBottomRight", // 34
 	// Flippers
-	23: "flipOutX",
-	24: "flipOutY",
+	"flip", // 35
+	"flipInX", // 36
+	"flipInY", // 37
 	// Lightspeed
-	25: "lightSpeedOutRight",
-	26: "lightSpeedOutLeft",
-	// Rotating exits
-	27: "rotateOut",
-	28: "rotateOutDownLeft",
-	29: "rotateOutDownRight",
-	30: "rotateOutUpLeft",
-	31: "rotateOutUpRight",
+	"lightSpeedInRight", // 38
+	"lightSpeedInLeft", // 39
+	// Rotating entrances
+	"rotateIn", // 40
+	"rotateInDownLeft", // 41
+	"rotateInDownRight", // 42
+	"rotateInUpLeft", // 43
+	"rotateInUpRight", // 44
 	// Specials
-	32: "hinge",
-	33: "rollOut",
+	"jackInTheBox", // 45
+	"rollIn", // 46
+	// Zooming entrances
+	"zoomIn", // 47
+	"zoomInDown", // 48
+	"zoomInLeft", // 49
+	"zoomInRight", // 50
+	"zoomInUp", // 51
+	// Sliding entrances
+	"slideInDown", // 52
+	"slideInLeft", // 53
+	"slideInRight", // 54
+	"slideInUp" // 55
+];
+
+const _AnimateCSSOut = [
+	null, // 0 not used (default MM animation)
+	"backOutDown", // 1
+	"backOutLeft", // 2
+	"backOutRight", // 3
+	"backOutUp", // 4
+	// Bouncing exits
+	"bounceOut", // 5
+	"bounceOutDown", // 6
+	"bounceOutLeft", // 7
+	"bounceOutRight", // 8
+	"bounceOutUp", // 9
+	// Fading exits
+	"fadeOut", // 10
+	"fadeOutDown", // 11
+	"fadeOutDownBig", // 12
+	"fadeOutLeft", // 13
+	"fadeOutLeftBig", // 14
+	"fadeOutRight", // 15
+	"fadeOutRightBig", // 16
+	"fadeOutUp", // 17
+	"fadeOutUpBig", // 18
+	"fadeOutTopLeft", // 19
+	"fadeOutTopRight", // 20
+	"fadeOutBottomRight", // 21
+	"fadeOutBottomLeft", // 22
+	// Flippers
+	"flipOutX", // 23
+	"flipOutY", // 24
+	// Lightspeed
+	"lightSpeedOutRight", // 25
+	"lightSpeedOutLeft", // 26
+	// Rotating exits
+	"rotateOut", // 27
+	"rotateOutDownLeft", // 28
+	"rotateOutDownRight", // 29
+	"rotateOutUpLeft", // 30
+	"rotateOutUpRight", // 31
+	// Specials
+	"hinge", // 32
+	"rollOut", // 33
 	// Zooming exits
-	34: "zoomOut",
-	35: "zoomOutDown",
-	36: "zoomOutLeft",
-	37: "zoomOutRight",
-	38: "zoomOutUp",
+	"zoomOut", // 34
+	"zoomOutDown", // 35
+	"zoomOutLeft", // 36
+	"zoomOutRight", // 37
+	"zoomOutUp", // 38
 	// Sliding exits
-	39: "slideOutDown",
-	40: "slideOutLeft",
-	41: "slideOutRight",
-	42: "slideOutUp"
-};
+	"slideOutDown", // 39
+	"slideOutLeft", // 40
+	"slideOutRight", // 41
+	"slideOutUp" // 42
+];
+
+/**
+ * Create an animation with Animate CSS
+ * resolved as Promise when done
+ * @param {string} div element to animate.
+ * @param {string} animation name.
+ * @param {number} animation duration.
+ */
 
 function AnimateCSS(element, animation, animationTime) {
 	// We create a Promise and return it
 	return new Promise((resolve) => {
 		const animationName = "animate__" + animation;
 		const node = document.getElementById(element);
-		if (!node) return Log.warn(`[Pages] node not found for`, element);
+		if (!node) return Log.warn(`node not found for`, element);
 		node.style.setProperty("--animate-duration", animationTime + "s");
 		node.classList.add("animate__animated", animationName);
 
