@@ -46,7 +46,7 @@ Module.register("compliments", {
 
 		// Schedule update timer.
 		setInterval(() => {
-			this.updateDom(this.config.fadeSpeed);
+			this.updateDom(this.config.fadeSpeed, 23, 36);
 		}, this.config.updateInterval);
 	},
 
