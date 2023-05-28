@@ -132,20 +132,23 @@ const _AnimateCSSOut = [
 /**
  * Create an animation with Animate CSS
  * resolved as Promise when done
- * @param {string} div element to animate.
- * @param {string} animation name.
- * @param {number} animation duration.
+ * @param {string} [element] div element to animate.
+ * @param {string} [animation] animation name.
+ * @param {number} [animationTime] animation duration.
  */
 function AnimateCSS(element, animation, animationTime) {
 	/* We create a Promise and return it */
 	return new Promise((resolve) => {
-		const animationName = "animate__" + animation;
+		const animationName = `animate__${animation}`;
 		const node = document.getElementById(element);
 		if (!node) return Log.warn(`node not found for`, element);
-		node.style.setProperty("--animate-duration", animationTime + "s");
+		node.style.setProperty("--animate-duration", `${animationTime}s`);
 		node.classList.add("animate__animated", animationName);
 
-		/* When the animation ends, we clean the classes and resolve the Promise */
+		/**
+		 * When the animation ends, we clean the classes and resolve the Promise
+		 * @param {object} event object
+		 */
 		function handleAnimationEnd(event) {
 			node.classList.remove("animate__animated", animationName);
 			event.stopPropagation();
