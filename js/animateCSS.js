@@ -1,6 +1,5 @@
 /* MagicMirror²
- * AnimateCSS System
- *
+ * AnimateCSS System from https://animate.style/
  * by @bugsounet
  * for Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
