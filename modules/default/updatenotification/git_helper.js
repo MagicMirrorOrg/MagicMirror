@@ -9,6 +9,7 @@ const BASE_DIR = path.normalize(`${__dirname}/../../../`);
 class GitHelper {
 	constructor() {
 		this.gitRepos = [];
+		this.gitResultList = [];
 	}
 
 	getRefRegex(branch) {
@@ -171,21 +172,38 @@ class GitHelper {
 	}
 
 	async getRepos() {
-		const gitResultList = [];
+		this.gitResultList = [];
 
 		for (const repo of this.gitRepos) {
 			try {
 				const gitInfo = await this.getRepoInfo(repo);
 
 				if (gitInfo) {
-					gitResultList.push(gitInfo);
+					this.gitResultList.push(gitInfo);
 				}
 			} catch (e) {
 				Log.error(`Failed to retrieve repo info for ${repo.module}: ${e}`);
 			}
 		}
 
-		return gitResultList;
+		return this.gitResultList;
+	}
+
+	async checkUpdates() {
+		var updates = [];
+
+		const allRepos = await this.gitResultList.map((module) => {
+			return new Promise((resolve) => {
+				if (module.behind > 0 && module.module !== "MagicMirror") {
+					Log.info(`Update found for module: ${module.module}`);
+					updates.push(module);
+				}
+				resolve(module);
+			});
+		});
+		await Promise.all(allRepos);
+
+		return updates;
 	}
 }
 

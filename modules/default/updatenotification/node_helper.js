@@ -44,6 +44,11 @@ module.exports = NodeHelper.create({
 			this.sendSocketNotification("STATUS", repo);
 		}
 
+		if (this.config.sendUpdatesNotifications) {
+			updates = await this.gitHelper.checkUpdates();
+			if (updates.length) this.sendSocketNotification("UPDATES", updates);
+		}
+
 		this.scheduleNextFetch(this.config.updateInterval);
 	},
 
