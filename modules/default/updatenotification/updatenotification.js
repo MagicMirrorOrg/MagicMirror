@@ -46,7 +46,7 @@ Module.register("updatenotification", {
 				this.updateUI(payload);
 				break;
 			case "UPDATES":
-				this.sendSocketNotification("UPDATES", payload);
+				this.sendNotification("UPDATES", payload);
 				break;
 		}
 	},
