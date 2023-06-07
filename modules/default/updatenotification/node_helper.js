@@ -45,7 +45,7 @@ module.exports = NodeHelper.create({
 		}
 
 		if (this.config.sendUpdatesNotifications) {
-			updates = await this.gitHelper.checkUpdates();
+			const updates = await this.gitHelper.checkUpdates();
 			if (updates.length) this.sendSocketNotification("UPDATES", updates);
 		}
 
