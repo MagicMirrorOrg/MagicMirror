@@ -8,7 +8,8 @@ Module.register("updatenotification", {
 	defaults: {
 		updateInterval: 10 * 60 * 1000, // every 10 minutes
 		refreshInterval: 24 * 60 * 60 * 1000, // one day
-		ignoreModules: []
+		ignoreModules: [],
+		sendUpdatesNotifications: false
 	},
 
 	suspended: false,
@@ -40,8 +41,13 @@ Module.register("updatenotification", {
 	},
 
 	socketNotificationReceived(notification, payload) {
-		if (notification === "STATUS") {
-			this.updateUI(payload);
+		switch (notification) {
+			case "STATUS":
+				this.updateUI(payload);
+				break;
+			case "UPDATES":
+				this.sendNotification("UPDATES", payload);
+				break;
 		}
 	},
 
