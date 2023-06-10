@@ -15,6 +15,7 @@ _This release is scheduled to be released on 2023-07-01._
 - Added tests for serveronly
 - Set Timezone `Europe/Berlin` in unit tests (needed for new formatTime tests)
 - Added no-param-reassign eslint rule and fix warnings
+- updatenotification: Added `sendUpdatesNotifications` feature. Broadcast update with `UPDATES` notification to other modules
 - Added optional AnimateCSS animate for `hide()`, `show()`, `updateDom()`
 
 ### Removed
@@ -24,10 +25,11 @@ _This release is scheduled to be released on 2023-07-01._
 ### Updated
 
 - Added support for precipitation probability with openmeteo weather provider
-- Update electron to v24
+- Update electron to v25 and other dependencies
 - Use node v20 in github workflow (replacing v14)
 - Refactor formatTime into common util function for default modules
 - Refactor some calendar methods into own class and added tests for them
+- Split install and run commands in github actions
 
 ### Fixed
 
