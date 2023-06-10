@@ -247,7 +247,7 @@ const MM = (function () {
 
 			// haveAnimate for verify if we are using AninateCSS
 			// we check AnimateCSS Array for validate it too
-			let haveAnimate = options.animate && _AnimateCSSOut[options.animate];
+			const haveAnimate = options.animate && _AnimateCSSOut[options.animate];
 
 			if (!haveAnimate) moduleWrapper.style.transition = `opacity ${speed / 1000}s`;
 			else {
@@ -329,7 +329,7 @@ const MM = (function () {
 
 			// haveAnimate for verify if we are using AninateCSS
 			// we check AnimateCSS Array for validate it too
-			let haveAnimate = options.animate && _AnimateCSSIn[options.animate];
+			const haveAnimate = options.animate && _AnimateCSSIn[options.animate];
 
 			if (!haveAnimate) moduleWrapper.style.transition = `opacity ${speed / 1000}s`;
 			// Restore the position. See hideModule() for more info.
