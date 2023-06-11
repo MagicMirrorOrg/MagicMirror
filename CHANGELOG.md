@@ -57,6 +57,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Added thai language to alert module
 - Added option `sendNotifications` in clock module (#3056)
 - Added tests for some weather utils
+- Added option `reset` to reset lockStrings in `show()`, `hide()` and set a new lockString in replacement
 
 ### Removed
 

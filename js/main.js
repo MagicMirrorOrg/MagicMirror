@@ -224,6 +224,11 @@ const MM = (function () {
 	 * @param {object} [options] Optional settings for the hide method.
 	 */
 	const hideModule = function (module, speed, callback, options = {}) {
+		// reset lockString and prepare for set the new one
+		if (options.reset === true && options.lockString) {
+			module.lockStrings = [];
+		}
+
 		// set lockString if set in options.
 		if (options.lockString) {
 			// Log.log("Has lockstring: " + options.lockString);
@@ -268,6 +273,11 @@ const MM = (function () {
 	 * @param {object} [options] Optional settings for the show method.
 	 */
 	const showModule = function (module, speed, callback, options = {}) {
+		// reset lockString and prepare for set the new one
+		if (options.reset === true && options.lockString) {
+			module.lockStrings = [];
+		}
+
 		// remove lockString if set in options.
 		if (options.lockString) {
 			const index = module.lockStrings.indexOf(options.lockString);
