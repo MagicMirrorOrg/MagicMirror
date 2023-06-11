@@ -22,6 +22,10 @@ const MM = (function () {
 				return;
 			}
 
+			var haveAnimateIn = null;
+			// check if have valid animateIn in module definition (module.data.animateIn)
+			if (module.data.animateIn && _AnimateCSSIn.indexOf(module.data.animateIn) !== -1) haveAnimateIn = module.data.animateIn;
+
 			const wrapper = selectWrapper(module.data.position);
 
 			const dom = document.createElement("div");
@@ -50,7 +54,12 @@ const MM = (function () {
 			moduleContent.className = "module-content";
 			dom.appendChild(moduleContent);
 
-			const domCreationPromise = updateDom(module, 0);
+			// create the domCreationPromise with AnimateCSS (with animateIn of module definition)
+			// or just display it
+			var domCreationPromise;
+			if (haveAnimateIn) domCreationPromise = updateDom(module, 500, null, null, true);
+			else domCreationPromise = updateDom(module, 0);
+
 			domCreationPromises.push(domCreationPromise);
 			domCreationPromise
 				.then(function () {
@@ -102,11 +111,12 @@ const MM = (function () {
 	 * Update the dom for a specific module.
 	 * @param {Module} module The module that needs an update.
 	 * @param {number} [speed] The (optional) number of microseconds for the animation.
-	 * @param {number} [animateOut] AnimateCss animation name before hidden
-	 * @param {number} [animateIn] AnimateCss animation name on show
+	 * @param {string} [animateOut] AnimateCss animation name before hidden
+	 * @param {string} [animateIn] AnimateCss animation name on show
+	 * @param {boolean} [createAnimatedDom] for displaying only animateIn (used on first start)
 	 * @returns {Promise} Resolved when the dom is fully updated.
 	 */
-	const updateDom = function (module, speed, animateOut, animateIn) {
+	const updateDom = function (module, speed, animateOut, animateIn, createAnimatedDom = false) {
 		return new Promise(function (resolve) {
 			const newHeader = module.getHeader();
 			let newContentPromise = module.getDom();
@@ -118,7 +128,7 @@ const MM = (function () {
 
 			newContentPromise
 				.then(function (newContent) {
-					const updatePromise = updateDomWithContent(module, speed, newHeader, newContent, animateOut, animateIn);
+					const updatePromise = updateDomWithContent(module, speed, newHeader, newContent, animateOut, animateIn, createAnimatedDom);
 
 					updatePromise.then(resolve).catch(Log.error);
 				})
@@ -132,11 +142,12 @@ const MM = (function () {
 	 * @param {number} [speed] The (optional) number of microseconds for the animation.
 	 * @param {string} newHeader The new header that is generated.
 	 * @param {HTMLElement} newContent The new content that is generated.
-	 * @param {number} [animateOut] AnimateCss animation name before hidden
-	 * @param {number} [animateIn] AnimateCss animation name on show
+	 * @param {string} [animateOut] AnimateCss animation name before hidden
+	 * @param {string} [animateIn] AnimateCss animation name on show
+	 * @param {boolean} [createAnimatedDom] for displaying only animateIn (used on first start)
 	 * @returns {Promise} Resolved when the module dom has been updated.
 	 */
-	const updateDomWithContent = function (module, speed, newHeader, newContent, animateOut, animateIn) {
+	const updateDomWithContent = function (module, speed, newHeader, newContent, animateOut, animateIn, createAnimatedDom = false) {
 		return new Promise(function (resolve) {
 			if (module.hidden || !speed) {
 				updateModuleContent(module, newHeader, newContent);
@@ -151,6 +162,15 @@ const MM = (function () {
 
 			if (!speed) {
 				updateModuleContent(module, newHeader, newContent);
+				resolve();
+				return;
+			}
+
+			if (createAnimatedDom) {
+				updateModuleContent(module, newHeader, newContent);
+				if (!module.hidden) {
+					showModule(module, speed, null, { animate: animateIn });
+				}
 				resolve();
 				return;
 			}
@@ -249,7 +269,7 @@ const MM = (function () {
 			// we check _AnimateCSSOut Array for validate it
 			// and finaly return the animate name or `null` (for default MM² animation)
 			var haveAnimateName = null;
-			// check if have valid animateOut in module definition
+			// check if have valid animateOut in module definition (module.data.animateOut)
 			if (module.data.animateOut && _AnimateCSSOut.indexOf(module.data.animateOut) !== -1) haveAnimateName = module.data.animateOut;
 			// can't be override with options.animate
 			else if (options.animate && _AnimateCSSOut.indexOf(options.animate) !== -1) haveAnimateName = options.animate;
@@ -336,7 +356,7 @@ const MM = (function () {
 			// we check _AnimateCSSIn Array for validate it
 			// and finaly return the animate name or `null` (for default MM² animation)
 			var haveAnimateName = null;
-			// check if have valid animateOut in module definition (config.animateIn)
+			// check if have valid animateOut in module definition (module.data.animateIn)
 			if (module.data.animateIn && _AnimateCSSIn.indexOf(module.data.animateIn) !== -1) haveAnimateName = module.data.animateIn;
 			// can't be override with options.animate
 			else if (options.animate && _AnimateCSSIn.indexOf(options.animate) !== -1) haveAnimateName = options.animate;
@@ -568,8 +588,8 @@ const MM = (function () {
 		 * Update the dom for a specific module.
 		 * @param {Module} module The module that needs an update.
 		 * @param {number} [speed] The number of microseconds for the animation.
-		 * @param {number} [animateOut] AnimateCss animation name before hidden
-		 * @param {number} [animateIn] AnimateCss animation name on show
+		 * @param {string} [animateOut] AnimateCss animation name before hidden
+		 * @param {string} [animateIn] AnimateCss animation name on show
 		 */
 		updateDom: function (module, speed, animateOut, animateIn) {
 			if (!(module instanceof Module)) {
