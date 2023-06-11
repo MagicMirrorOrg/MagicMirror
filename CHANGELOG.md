@@ -18,6 +18,7 @@ _This release is scheduled to be released on 2023-07-01._
 - updatenotification: Added `sendUpdatesNotifications` feature. Broadcast update with `UPDATES` notification to other modules
 - Added optional AnimateCSS animate for `hide()`, `show()`, `updateDom()`
 - Added AnimateIn and animateOut in module config definition
+- Apply AnimateIn rules on the first start
 
 ### Removed
 
