@@ -331,8 +331,8 @@ const Module = Class.extend({
 	/**
 	 * Request an (animated) update of the module.
 	 * @param {number} [speed] The speed of the animation.
-	 * @param {number} [animateOut] AnimateCss animation number before hidden
-	 * @param {number} [animateIn] AnimateCss animation number on show
+	 * @param {number} [animateOut] AnimateCss animation name before hidden
+	 * @param {number} [animateIn] AnimateCss animation name on show
 	 */
 	updateDom: function (speed, animateOut = null, animateIn = null) {
 		MM.updateDom(this, speed, animateOut, animateIn);

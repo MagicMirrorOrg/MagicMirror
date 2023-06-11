@@ -17,6 +17,7 @@ _This release is scheduled to be released on 2023-07-01._
 - Added no-param-reassign eslint rule and fix warnings
 - updatenotification: Added `sendUpdatesNotifications` feature. Broadcast update with `UPDATES` notification to other modules
 - Added optional AnimateCSS animate for `hide()`, `show()`, `updateDom()`
+- Added AnimateIn and animateOut in module config definition
 
 ### Removed
 

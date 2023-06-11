@@ -102,8 +102,8 @@ const MM = (function () {
 	 * Update the dom for a specific module.
 	 * @param {Module} module The module that needs an update.
 	 * @param {number} [speed] The (optional) number of microseconds for the animation.
-	 * @param {number} [animateOut] AnimateCss animation number before hidden
-	 * @param {number} [animateIn] AnimateCss animation number on show
+	 * @param {number} [animateOut] AnimateCss animation name before hidden
+	 * @param {number} [animateIn] AnimateCss animation name on show
 	 * @returns {Promise} Resolved when the dom is fully updated.
 	 */
 	const updateDom = function (module, speed, animateOut, animateIn) {
@@ -132,8 +132,8 @@ const MM = (function () {
 	 * @param {number} [speed] The (optional) number of microseconds for the animation.
 	 * @param {string} newHeader The new header that is generated.
 	 * @param {HTMLElement} newContent The new content that is generated.
-	 * @param {number} [animateOut] AnimateCss animation number before hidden
-	 * @param {number} [animateIn] AnimateCss animation number on show
+	 * @param {number} [animateOut] AnimateCss animation name before hidden
+	 * @param {number} [animateIn] AnimateCss animation name on show
 	 * @returns {Promise} Resolved when the module dom has been updated.
 	 */
 	const updateDomWithContent = function (module, speed, newHeader, newContent, animateOut, animateIn) {
