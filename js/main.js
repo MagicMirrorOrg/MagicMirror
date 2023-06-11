@@ -225,7 +225,7 @@ const MM = (function () {
 	 */
 	const hideModule = function (module, speed, callback, options = {}) {
 		// reset lockString and prepare for set the new one
-		if (options.reset === true && options.lockString) {
+		if (options.resetLockStrings === true && options.lockString) {
 			module.lockStrings = [];
 		}
 
@@ -274,7 +274,7 @@ const MM = (function () {
 	 */
 	const showModule = function (module, speed, callback, options = {}) {
 		// reset lockString and prepare for set the new one
-		if (options.reset === true && options.lockString) {
+		if (options.resetLockStrings === true && options.lockString) {
 			module.lockStrings = [];
 		}
 
