@@ -16,6 +16,7 @@ _This release is scheduled to be released on 2023-07-01._
 - Set Timezone `Europe/Berlin` in unit tests (needed for new formatTime tests)
 - Added no-param-reassign eslint rule and fix warnings
 - Added optional AnimateCSS animate for `hide()`, `show()`, `updateDom()`
+- Added AnimateIn and animateOut in module config definition
 
 ### Removed
 
