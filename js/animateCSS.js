@@ -7,126 +7,125 @@
 
 /* enumeration of animations in Array **/
 const _AnimateCSSIn = [
-	null, // 0 not used (default MM animation)
 	// Attention seekers
-	"bounce", // 1
-	"flash", // 2
-	"pulse", // 3
-	"rubberBand", // 4
-	"shakeX", // 5
-	"shakeY", // 6
-	"headShake", // 7
-	"swing", // 8
-	"tada", // 9
-	"wobble", // 10
-	"jello", // 11
-	"heartBeat", // 12
+	"bounce",
+	"flash",
+	"pulse",
+	"rubberBand",
+	"shakeX",
+	"shakeY",
+	"headShake",
+	"swing",
+	"tada",
+	"wobble",
+	"jello",
+	"heartBeat",
 	// Back entrances
-	"backInDown", // 13
-	"backInLeft", // 14
-	"backInRight", // 15
-	"backInUp", // 16
+	"backInDown",
+	"backInLeft",
+	"backInRight",
+	"backInUp",
 	// Bouncing entrances
-	"bounceIn", // 17
-	"bounceInDown", // 18
-	"bounceInLeft", // 19
-	"bounceInRight", // 20
-	"bounceInUp", // 21
+	"bounceIn",
+	"bounceInDown",
+	"bounceInLeft",
+	"bounceInRight",
+	"bounceInUp",
 	// Fading entrances
-	"fadeIn", // 22
-	"fadeInDown", // 23
-	"fadeInDownBig", // 24
-	"fadeInLeft", // 25
-	"fadeInLeftBig", // 26
-	"fadeInRight", // 27
-	"fadeInRightBig", // 28
-	"fadeInUp", // 29
-	"fadeInUpBig", // 30
-	"fadeInTopLeft", // 31
-	"fadeInTopRight", // 32
-	"fadeInBottomLeft", // 33
-	"fadeInBottomRight", // 34
+	"fadeIn",
+	"fadeInDown",
+	"fadeInDownBig",
+	"fadeInLeft",
+	"fadeInLeftBig",
+	"fadeInRight",
+	"fadeInRightBig",
+	"fadeInUp",
+	"fadeInUpBig",
+	"fadeInTopLeft",
+	"fadeInTopRight",
+	"fadeInBottomLeft",
+	"fadeInBottomRight",
 	// Flippers
-	"flip", // 35
-	"flipInX", // 36
-	"flipInY", // 37
+	"flip",
+	"flipInX",
+	"flipInY",
 	// Lightspeed
-	"lightSpeedInRight", // 38
-	"lightSpeedInLeft", // 39
+	"lightSpeedInRight",
+	"lightSpeedInLeft",
 	// Rotating entrances
-	"rotateIn", // 40
-	"rotateInDownLeft", // 41
-	"rotateInDownRight", // 42
-	"rotateInUpLeft", // 43
-	"rotateInUpRight", // 44
+	"rotateIn",
+	"rotateInDownLeft",
+	"rotateInDownRight",
+	"rotateInUpLeft",
+	"rotateInUpRight",
 	// Specials
-	"jackInTheBox", // 45
-	"rollIn", // 46
+	"jackInTheBox",
+	"rollIn",
 	// Zooming entrances
-	"zoomIn", // 47
-	"zoomInDown", // 48
-	"zoomInLeft", // 49
-	"zoomInRight", // 50
-	"zoomInUp", // 51
+	"zoomIn",
+	"zoomInDown",
+	"zoomInLeft",
+	"zoomInRight",
+	"zoomInUp",
 	// Sliding entrances
-	"slideInDown", // 52
-	"slideInLeft", // 53
-	"slideInRight", // 54
-	"slideInUp" // 55
+	"slideInDown",
+	"slideInLeft",
+	"slideInRight",
+	"slideInUp"
 ];
 
 const _AnimateCSSOut = [
-	null, // 0 not used (default MM animation)
-	"backOutDown", // 1
-	"backOutLeft", // 2
-	"backOutRight", // 3
-	"backOutUp", // 4
+	// Back exits
+	"backOutDown",
+	"backOutLeft",
+	"backOutRight",
+	"backOutUp",
 	// Bouncing exits
-	"bounceOut", // 5
-	"bounceOutDown", // 6
-	"bounceOutLeft", // 7
-	"bounceOutRight", // 8
-	"bounceOutUp", // 9
+	"bounceOut",
+	"bounceOutDown",
+	"bounceOutLeft",
+	"bounceOutRight",
+	"bounceOutUp",
 	// Fading exits
-	"fadeOut", // 10
-	"fadeOutDown", // 11
-	"fadeOutDownBig", // 12
-	"fadeOutLeft", // 13
-	"fadeOutLeftBig", // 14
-	"fadeOutRight", // 15
-	"fadeOutRightBig", // 16
-	"fadeOutUp", // 17
-	"fadeOutUpBig", // 18
-	"fadeOutTopLeft", // 19
-	"fadeOutTopRight", // 20
-	"fadeOutBottomRight", // 21
-	"fadeOutBottomLeft", // 22
+	"fadeOut",
+	"fadeOutDown",
+	"fadeOutDownBig",
+	"fadeOutLeft",
+	"fadeOutLeftBig",
+	"fadeOutRight",
+	"fadeOutRightBig",
+	"fadeOutUp",
+	"fadeOutUpBig",
+	"fadeOutTopLeft",
+	"fadeOutTopRight",
+	"fadeOutBottomRight",
+	"fadeOutBottomLeft",
 	// Flippers
-	"flipOutX", // 23
-	"flipOutY", // 24
+	"flipOutX",
+	"flipOutY",
 	// Lightspeed
-	"lightSpeedOutRight", // 25
-	"lightSpeedOutLeft", // 26
+	"lightSpeedOutRight",
+	"lightSpeedOutLeft",
 	// Rotating exits
-	"rotateOut", // 27
-	"rotateOutDownLeft", // 28
-	"rotateOutDownRight", // 29
-	"rotateOutUpLeft", // 30
-	"rotateOutUpRight", // 31
+	"rotateOut",
+	"rotateOutDownLeft",
+	"rotateOutDownRight",
+	"rotateOutUpLeft",
+	"rotateOutUpRight",
 	// Specials
-	"hinge", // 32
-	"rollOut", // 33
+	"hinge",
+	"rollOut",
 	// Zooming exits
-	"zoomOut", // 34
-	"zoomOutDown", // 35
-	"zoomOutLeft", // 36
-	"zoomOutRight", // 37
-	"zoomOutUp", // 38
+	"zoomOut",
+	"zoomOutDown",
+	"zoomOutLeft",
+	"zoomOutRight",
+	"zoomOutUp",
 	// Sliding exits
-	"slideOutDown", // 39
-	"slideOutLeft", // 40
-	"slideOutRight", // 41
-	"slideOutUp" // 42
+	"slideOutDown",
+	"slideOutLeft",
+	"slideOutRight",
+	"slideOutUp"
 ];
 
 /**

@@ -245,20 +245,25 @@ const MM = (function () {
 		if (moduleWrapper !== null) {
 			clearTimeout(module.showHideTimer);
 
-			// haveAnimate for verify if we are using AninateCSS
-			// we check AnimateCSS Array for validate it too
-			const haveAnimate = options.animate && _AnimateCSSOut[options.animate];
+			// haveAnimateName for verify if we are using AninateCSS library
+			// we check _AnimateCSSOut Array for validate it
+			// and finaly return the animate name or `null` (for default MM² animation)
+			var haveAnimateName = null;
+			// check if have valid animateOut in module definition
+			if (module.data.animateOut && _AnimateCSSOut.indexOf(module.data.animateOut) !== -1) haveAnimateName = module.data.animateOut;
+			// can't be override with options.animate
+			else if (options.animate && _AnimateCSSOut.indexOf(options.animate) !== -1) haveAnimateName = options.animate;
 
-			if (!haveAnimate) moduleWrapper.style.transition = `opacity ${speed / 1000}s`;
+			if (!haveAnimateName) moduleWrapper.style.transition = `opacity ${speed / 1000}s`;
 			else {
-				Log.log(`${module.identifier} Has animateOut: ${haveAnimate}`);
-				await AnimateCSS(module.identifier, _AnimateCSSOut[options.animate], speed / 1000);
+				Log.log(`${module.identifier} Has animateOut: ${haveAnimateName}`);
+				await AnimateCSS(module.identifier, haveAnimateName, speed / 1000);
 			}
 
 			moduleWrapper.style.opacity = 0;
 			moduleWrapper.classList.add("hidden");
 
-			if (!haveAnimate) {
+			if (!haveAnimateName) {
 				module.showHideTimer = setTimeout(function () {
 					// To not take up any space, we just make the position absolute.
 					// since it's fade out anyway, we can see it lay above or
@@ -327,11 +332,16 @@ const MM = (function () {
 		if (moduleWrapper !== null) {
 			clearTimeout(module.showHideTimer);
 
-			// haveAnimate for verify if we are using AninateCSS
-			// we check AnimateCSS Array for validate it too
-			const haveAnimate = options.animate && _AnimateCSSIn[options.animate];
+			// haveAnimateName for verify if we are using AninateCSS library
+			// we check _AnimateCSSIn Array for validate it
+			// and finaly return the animate name or `null` (for default MM² animation)
+			var haveAnimateName = null;
+			// check if have valid animateOut in module definition (config.animateIn)
+			if (module.data.animateIn && _AnimateCSSIn.indexOf(module.data.animateIn) !== -1) haveAnimateName = module.data.animateIn;
+			// can't be override with options.animate
+			else if (options.animate && _AnimateCSSIn.indexOf(options.animate) !== -1) haveAnimateName = options.animate;
 
-			if (!haveAnimate) moduleWrapper.style.transition = `opacity ${speed / 1000}s`;
+			if (!haveAnimateName) moduleWrapper.style.transition = `opacity ${speed / 1000}s`;
 			// Restore the position. See hideModule() for more info.
 			moduleWrapper.style.position = "static";
 			moduleWrapper.classList.remove("hidden");
@@ -342,15 +352,15 @@ const MM = (function () {
 			const dummy = moduleWrapper.parentElement.parentElement.offsetHeight;
 			moduleWrapper.style.opacity = 1;
 
-			if (!haveAnimate) {
+			if (!haveAnimateName) {
 				module.showHideTimer = setTimeout(function () {
 					if (typeof callback === "function") {
 						callback();
 					}
 				}, speed);
 			} else {
-				Log.log(`${module.identifier} Has animateIn: ${haveAnimate}`);
-				AnimateCSS(module.identifier, _AnimateCSSIn[options.animate], speed / 1000).then(() => {
+				Log.log(`${module.identifier} Has animateIn: ${haveAnimateName}`);
+				AnimateCSS(module.identifier, haveAnimateName, speed / 1000).then(() => {
 					if (typeof callback === "function") {
 						callback();
 					}
@@ -558,8 +568,8 @@ const MM = (function () {
 		 * Update the dom for a specific module.
 		 * @param {Module} module The module that needs an update.
 		 * @param {number} [speed] The number of microseconds for the animation.
-		 * @param {number} [animateOut] AnimateCss animation number before hidden
-		 * @param {number} [animateIn] AnimateCss animation number on show
+		 * @param {number} [animateOut] AnimateCss animation name before hidden
+		 * @param {number} [animateIn] AnimateCss animation name on show
 		 */
 		updateDom: function (module, speed, animateOut, animateIn) {
 			if (!(module instanceof Module)) {
