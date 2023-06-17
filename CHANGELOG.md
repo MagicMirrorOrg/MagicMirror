@@ -37,6 +37,8 @@ Thanks to: @btoconnor, @bugsounet, @khassel, @kleinmantara and @WallysWellies.
 - [weather] Fixed type=daily for provider openmeteo showing nightly icons in forecast when current time is "nightly" (#3458)
 - [weather] Fixed forecast and hourly weather for provider openmeteo to use real temperatures, not apparent temperatures (#3466)
 - [tests] Fixed e2e tests running in docker container which needs `address: "0.0.0.0"` (#3479)
+- Fix outdated API response formatting (#3124)
+
 
 ## [2.27.0] - 2024-04-01
 
