@@ -34,9 +34,14 @@ Module.register("updatenotification", {
 	},
 
 	notificationReceived(notification) {
-		if (notification === "DOM_OBJECTS_CREATED") {
-			this.sendSocketNotification("CONFIG", this.config);
-			this.sendSocketNotification("MODULES", Object.keys(Module.definitions));
+		switch (notification) {
+			case "DOM_OBJECTS_CREATED":
+				this.sendSocketNotification("CONFIG", this.config);
+				this.sendSocketNotification("MODULES", Object.keys(Module.definitions));
+				break;
+			case "SCAN_UPDATES":
+				this.sendSocketNotification("SCAN_UPDATES");
+				break;
 		}
 	},
 
