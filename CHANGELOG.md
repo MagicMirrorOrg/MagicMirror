@@ -39,6 +39,7 @@ _This release is scheduled to be released on 2023-07-01._
 - Fix don't filter out ongoing full day events (#3095)
 - Fix date not shown when clock in analog mode (#3100)
 - Fix envcanada today percentage-of-precipitation (#3106)
+- Fix engine check on npm install
 
 ## [2.23.0] - 2023-04-04
 
