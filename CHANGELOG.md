@@ -24,7 +24,7 @@ _This release is scheduled to be released on 2023-07-01._
 
 ### Updated
 
-- Added support for precipitation probability with openmeteo weather provider
+- Added support for precipitation probability with openmeteo weather-provider
 - Update electron to v25 and other dependencies
 - Use node v20 in github workflow (replacing v14)
 - Refactor formatTime into common util function for default modules
@@ -52,7 +52,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Added increments for hourly forecasts in weather module (#2996)
 - Added tests for hourly weather forecast
 - Added possibility to ignore MagicMirror repo in updatenotification module
-- Added Pirate Weather as new weather provider (#3005)
+- Added Pirate Weather as new weather-provider (#3005)
 - Added possibility to use your own templates in Alert module
 - Added error message if `<modulename>.js` file is missing in module folder to get a hint in the logs (#2403)
 - Added possibility to use environment variables in `config.js` (#1756)
@@ -63,7 +63,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 
 ### Removed
 
-- Removed darksky weather provider
+- Removed darksky weather-provider
 - Removed unneeded (and unwanted) '.' after the year in calendar repeatingCountTitle (#2896)
 
 ### Updated
@@ -111,12 +111,12 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 
 - Added new calendar options for colored entries and improved styling (#3033)
 - Added test for remoteFile option in compliments module
-- Added hourlyWeather functionality to Weather.gov weather provider
+- Added hourlyWeather functionality to Weather.gov weather-provider
 - Added css class names "today" and "tomorrow" for default calendar
 - Added Collaboration.md
 - Added new github action for dependency review (#2862)
 - Added a WeatherProvider for Open-Meteo
-- Added Yr as a weather provider
+- Added Yr as a weather-provider
 - Added config options "ignoreXOriginHeader" and "ignoreContentSecurityPolicy"
 - Added thai language
 - Added workflow rule to make sure PRs are based against develop
@@ -134,8 +134,8 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Updated da translation
 - Rework weather module
   - Make sure smhi provider api only gets a maximum of 6 digits coordinates (#2955)
-  - Use fetch instead of XMLHttpRequest in weatherprovider (#2935)
-  - Reworked how weatherproviders handle units (#2849)
+  - Use fetch instead of XMLHttpRequest in weather-provider (#2935)
+  - Reworked how weather-providers handle units (#2849)
   - Use unix() method for parsing times, fix suntimes on the way (#2950)
   - Refactor conversion functions into utils class (#2958)
 - The `cors`-method in `server.js` now supports sending and receiving HTTP headers
@@ -145,7 +145,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 
 ### Fixed
 
-- Correctly show apparent temperature in SMHI weather provider
+- Correctly show apparent temperature in SMHI weather-provider
 - Ensure updatenotification module isn't shown when local is _ahead_ of remote
 - Handle node_helper errors during startup (#2944)
 - Possibility to change FontAwesome class in calendar, so icons like `fab fa-facebook-square` works.
@@ -164,7 +164,7 @@ Special thanks to: @BKeyport, @buxxi, @davide125, @khassel, @kolbyjack, @krukle,
 - Added possibility to fetch calendars through socket notifications.
 - New scripts `install-mm` (and `install-mm:dev`) for simplifying mm installation (now: `npm run install-mm`) and adding params `--no-audit --no-fund --no-update-notifier` for less noise.
 - New `showTimeToday` option in calendar module shows time for current-day events even if `timeFormat` is `"relative"`.
-- Added hourly forecasts, apparent temperature & custom location name to SMHI weather provider.
+- Added hourly forecasts, apparent temperature & custom location name to SMHI weather-provider.
 - Added new electron tests for calendar and moved some compliments tests from `e2e` to `electron` because of date mocking, removed mock stuff from compliments module.
 
 ### Removed
@@ -220,7 +220,7 @@ Special thanks to the following contributors: @10bias, @CFenner, @JHWelch, @k1rd
 - Added test for new weather forecast `absoluteDates` property.
 - The modules get a class hidden added/removed if they get hidden/shown which will also toggle pointer-events.
 - Added new config option `showTitleAsUrl` to newsfeed module. If set, the displayed title is a link to the article which is useful when running in a browser and you want to read this article.
-- Added internal cors proxy to get weather providers working without public proxies (fixes #2714). The new url `http(s)://address:port/cors?url=https://whatever-to-proxy` can be used in other modules too.
+- Added internal cors proxy to get weather-providers working without public proxies (fixes #2714). The new url `http(s)://address:port/cors?url=https://whatever-to-proxy` can be used in other modules too.
 - Added a WeatherProvider for Weatherflow.
 - Added new env var `ELECTRON_DISABLE_GPU` which disable gpu under electron if set (fixes #2831).
 - Added missing Czech translations.
@@ -314,7 +314,7 @@ Special thanks to the following contributors: @apiontek, @eouia, @jupadin, @khas
 - Updated jsdocs and print warnings during testing too.
 - Updated weathergov provider to try fetching not just current, but also foreacst, when API URLs available.
 - Refactored clock layout.
-- Refactored methods from weatherproviders into weatherobject (isDaytime, updateSunTime).
+- Refactored methods from weather-providers into weatherobject (isDaytime, updateSunTime).
 - Use of `logger.js` in jest tests.
 - Run prettier over all relevant files.
 - Move tests needing electron in new category `electron`, use `server only` mode in `e2e` tests.
@@ -412,7 +412,7 @@ Special thanks to the following contributors: @EdgardosReis, @MystaraTheGreat, @
 - Code cleanup for FEELS like and added {DEGREE} placeholder for FEELSLIKE for each language.
 - Converted newsfeed module to use templates.
 - Updated documentation and help screen about invalid config files.
-- Moving weather provider specific code and configuration into each provider and making hourly part of the interface.
+- Moving weather-provider specific code and configuration into each provider and making hourly part of the interface.
 - Bump electron to v11 and enable contextIsolation.
 - Don't update the DOM when a module is not displayed.
 - Cleaned up jsdoc and tests.
@@ -494,7 +494,7 @@ Special thanks to the following contributors: @Alvinger, @AndyPoms, @ashishtank,
 - Rename Greek translation to correct ISO 639-1 alpha-2 code (gr > el). (#2155)
 - Add a space after icons of sunrise and sunset. (#2169)
 - Fix calendar when no DTEND record found in event, startDate overlay when endDate set. (#2177)
-- Fix windspeed conversion error in ukmetoffice weather provider. (#2189)
+- Fix windspeed conversion error in ukmetoffice weather-provider. (#2189)
 - Fix console.debug not having timestamps. (#2199)
 - Fix calendar full day event east of UTC start time. (#2200)
 - Fix non-fullday recurring rule processing. (#2216)
@@ -723,7 +723,7 @@ Special thanks to @sdetweil for all his great contributions!
 - Use Feels Like temp from feed if present
 - Optionally display probability of precipitation (PoP) in current weather (UK Met Office data)
 - Automatically try to fix eslint errors by passing `--fix` option to it
-- Added sunrise and sunset times to weathergov weather provider [#1705](https://github.com/MichMich/MagicMirror/issues/1705)
+- Added sunrise and sunset times to weathergov weather-provider [#1705](https://github.com/MichMich/MagicMirror/issues/1705)
 - Added "useLocationAsHeader" to display "location" in `config.js` as header when location name is not returned
 - Added to `newsfeed.js`: in order to design the news article better with css, three more class-names were introduced: newsfeed-desc, newsfeed-desc, newsfeed-desc
 
@@ -734,7 +734,7 @@ Special thanks to @sdetweil for all his great contributions!
 - Updated `ical.js` to solve various calendar issues.
 - Updated weather city list url [#1676](https://github.com/MichMich/MagicMirror/issues/1676)
 - Only update clock once per minute when seconds aren't shown
-- Updated weatherprovider documentation.
+- Updated weather-provider documentation.
 
 ### Fixed
 
@@ -816,7 +816,7 @@ Fixed `package.json` version number.
 - Added fade, fadePoint and maxNumberOfDays properties to the forecast mode [#1516](https://github.com/MichMich/MagicMirror/issues/1516)
 - Fixed Loading string and decimalSymbol string replace [#1538](https://github.com/MichMich/MagicMirror/issues/1538)
 - Show Snow amounts in new weather module [#1545](https://github.com/MichMich/MagicMirror/issues/1545)
-- Added weather.gov as a new weather provider for US locations
+- Added weather.gov as a new weather-provider for US locations
 
 ## [2.6.0] - 2019-01-01
 
