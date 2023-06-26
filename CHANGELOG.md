@@ -30,6 +30,7 @@ _This release is scheduled to be released on 2023-07-01._
 - Refactor formatTime into common util function for default modules
 - Refactor some calendar methods into own class and added tests for them
 - Split install and run commands in github actions
+- Update engine node >=18 (#3135)
 
 ### Fixed
 
@@ -39,7 +40,7 @@ _This release is scheduled to be released on 2023-07-01._
 - Fix don't filter out ongoing full day events (#3095)
 - Fix date not shown when clock in analog mode (#3100)
 - Fix envcanada today percentage-of-precipitation (#3106)
-- Fix engine check on npm install
+- Fix engine check on npm install (#3135)
 
 ## [2.23.0] - 2023-04-04
 
