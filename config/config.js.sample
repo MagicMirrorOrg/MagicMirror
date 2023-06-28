@@ -53,6 +53,7 @@ let config = {
 			header: "US Holidays",
 			position: "top_left",
 			config: {
+				fetchInterval: 30 * 60 * 1000,
 				calendars: [
 					{
 						symbol: "calendar-check",

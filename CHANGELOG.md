@@ -30,6 +30,7 @@ _This release is scheduled to be released on 2023-07-01._
 - Refactor formatTime into common util function for default modules
 - Refactor some calendar methods into own class and added tests for them
 - Split install and run commands in github actions
+- Add `fetchInterval` of calendar in `config.js.sample` not to request example calendar too frequently. (Requested by calendarlab, the ical provider)
 
 ### Fixed
 
