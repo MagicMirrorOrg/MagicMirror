@@ -683,7 +683,7 @@ Module.register("calendar", {
 			maximumEntries: calendarConfig.maximumEntries || this.config.maximumEntries,
 			maximumNumberOfDays: calendarConfig.maximumNumberOfDays || this.config.maximumNumberOfDays,
 			pastDaysCount: calendarConfig.pastDaysCount || this.config.pastDaysCount,
-			fetchInterval: this.config.fetchInterval,
+			fetchInterval: calendarConfig.fetchInterval || this.config.fetchInterval,
 			symbolClass: calendarConfig.symbolClass,
 			titleClass: calendarConfig.titleClass,
 			timeClass: calendarConfig.timeClass,
