@@ -403,6 +403,7 @@ Special thanks to the following contributors: @EdgardosReis, @MystaraTheGreat, @
 - Added locale to sample config file.
 - Added support for self-signed certificates for the default calendar module (#466).
 - Added hiddenOnStartup flag to module config (#2475).
+- Added per-calendar fetchInterval
 
 ### Updated
 
@@ -421,6 +422,7 @@ Special thanks to the following contributors: @EdgardosReis, @MystaraTheGreat, @
 - Refactored calendar fetcher.
 - Cleaned up newsfeed module.
 - Cleaned up translations and translator code.
+- Changed `fetchInterval` of calendar in `config.js.sample` to 14 days so we not to request example calendar too frequently
 
 ### Removed
 
