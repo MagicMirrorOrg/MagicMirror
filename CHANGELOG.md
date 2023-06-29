@@ -17,6 +17,7 @@ _This release is scheduled to be released on 2023-07-01._
 - Added no-param-reassign eslint rule and fix warnings
 - updatenotification: Added `sendUpdatesNotifications` feature. Broadcast update with `UPDATES` notification to other modules
 - updatenotification: allow force scanning with `SCAN_UPDATES` notification from other modules
+- Added per-calendar fetchInterval
 
 ### Removed
 
@@ -30,6 +31,9 @@ _This release is scheduled to be released on 2023-07-01._
 - Refactor formatTime into common util function for default modules
 - Refactor some calendar methods into own class and added tests for them
 - Split install and run commands in github actions
+- Changed `fetchInterval` of calendar in `config.js.sample` to 14 days so we not to request example calendar too frequently
+- Changed default calendar fetchInterval to one hour
+- Changed calendar url in sample config
 
 ### Fixed
 
@@ -403,7 +407,6 @@ Special thanks to the following contributors: @EdgardosReis, @MystaraTheGreat, @
 - Added locale to sample config file.
 - Added support for self-signed certificates for the default calendar module (#466).
 - Added hiddenOnStartup flag to module config (#2475).
-- Added per-calendar fetchInterval
 
 ### Updated
 
@@ -422,7 +425,6 @@ Special thanks to the following contributors: @EdgardosReis, @MystaraTheGreat, @
 - Refactored calendar fetcher.
 - Cleaned up newsfeed module.
 - Cleaned up translations and translator code.
-- Changed `fetchInterval` of calendar in `config.js.sample` to 14 days so we not to request example calendar too frequently
 
 ### Removed
 
