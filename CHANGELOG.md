@@ -26,7 +26,7 @@ _This release is scheduled to be released on 2023-07-01._
 ### Updated
 
 - Added support for precipitation probability with openmeteo weather-provider
-- Update electron to v25 and other dependencies
+- Update electron to v25.2 and other dependencies
 - Use node v20 in github workflow (replacing v14)
 - Refactor formatTime into common util function for default modules
 - Refactor some calendar methods into own class and added tests for them
