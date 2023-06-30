@@ -31,7 +31,7 @@ _This release is scheduled to be released on 2023-07-01._
 - Refactor formatTime into common util function for default modules
 - Refactor some calendar methods into own class and added tests for them
 - Split install and run commands in github actions
-- Changed `fetchInterval` of calendar in `config.js.sample` to 14 days so we not to request example calendar too frequently
+- Changed `fetchInterval` of calendar in `config.js.sample` to 7 days so we not to request example calendar too frequently
 - Changed default calendar fetchInterval to one hour
 - Changed calendar url in sample config
 
