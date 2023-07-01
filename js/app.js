@@ -44,7 +44,6 @@ process.on("uncaughtException", function (err) {
 
 /**
  * The core app.
- *
  * @class
  */
 function App() {
@@ -53,7 +52,6 @@ function App() {
 
 	/**
 	 * Loads the config file. Combines it with the defaults and returns the config
-	 *
 	 * @async
 	 * @returns {Promise<object>} the loaded config or the defaults if something goes wrong
 	 */
@@ -78,7 +76,7 @@ function App() {
 			// save current config.js
 			try {
 				if (fs.existsSync(configFilename)) {
-					fs.copyFileSync(configFilename, `${configFilename}_${Date.now()}`);
+					fs.copyFileSync(configFilename, `${configFilename}-old`);
 				}
 			} catch (err) {
 				Log.warn(`Could not copy ${configFilename}: ${err.message}`);
@@ -135,7 +133,6 @@ function App() {
 	/**
 	 * Checks the config for deprecated options and throws a warning in the logs
 	 * if it encounters one option from the deprecated.js list
-	 *
 	 * @param {object} userConfig The user config
 	 */
 	function checkDeprecatedOptions(userConfig) {
@@ -150,7 +147,6 @@ function App() {
 
 	/**
 	 * Loads a specific module.
-	 *
 	 * @param {string} module The name of the module (including subpath).
 	 */
 	function loadModule(module) {
@@ -204,36 +200,21 @@ function App() {
 
 	/**
 	 * Loads all modules.
-	 *
-	 * @param {string[]} modules All modules to be loaded
+	 * @param {Module[]} modules All modules to be loaded
+	 * @returns {Promise} A promise that is resolved when all modules been loaded
 	 */
 	async function loadModules(modules) {
-		return new Promise((resolve) => {
-			Log.log("Loading module helpers ...");
+		Log.log("Loading module helpers ...");
 
-			/**
-			 *
-			 */
-			function loadNextModule() {
-				if (modules.length > 0) {
-					const nextModule = modules[0];
-					loadModule(nextModule);
-					modules = modules.slice(1);
-					loadNextModule();
-				} else {
-					// All modules are loaded
-					Log.log("All module helpers loaded.");
-					resolve();
-				}
-			}
+		for (let module of modules) {
+			await loadModule(module);
+		}
 
-			loadNextModule();
-		});
+		Log.log("All module helpers loaded.");
 	}
 
 	/**
 	 * Compare two semantic version numbers and return the difference.
-	 *
 	 * @param {string} a Version number a.
 	 * @param {string} b Version number b.
 	 * @returns {number} A positive number if a is larger than b, a negative
@@ -259,7 +240,6 @@ function App() {
 	 * Start the core app.
 	 *
 	 * It loads the config, then it loads all modules.
-	 *
 	 * @async
 	 * @returns {Promise<object>} the config used
 	 */
@@ -274,6 +254,7 @@ function App() {
 				modules.push(module.module);
 			}
 		}
+
 		await loadModules(modules);
 
 		httpServer = new Server(config);
@@ -312,7 +293,6 @@ function App() {
 	 * exists.
 	 *
 	 * Added to fix #1056
-	 *
 	 * @returns {Promise} A promise that is resolved when all node_helpers and
 	 * the http server has been closed
 	 */

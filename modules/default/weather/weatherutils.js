@@ -7,7 +7,6 @@
 const WeatherUtils = {
 	/**
 	 * Convert wind (from m/s) to beaufort scale
-	 *
 	 * @param {number} speedInMS the windspeed you want to convert
 	 * @returns {number} the speed in beaufort
 	 */
@@ -25,30 +24,30 @@ const WeatherUtils = {
 	/**
 	 * Convert a value in a given unit to a string with a converted
 	 * value and a postfix matching the output unit system.
-	 *
 	 * @param {number} value - The value to convert.
 	 * @param {string} valueUnit - The unit the values has. Default is mm.
 	 * @param {string} outputUnit - The unit system (imperial/metric) the return value should have.
 	 * @returns {string} - A string with tha value and a unit postfix.
 	 */
 	convertPrecipitationUnit(value, valueUnit, outputUnit) {
-		if (outputUnit === "imperial") {
-			if (valueUnit && valueUnit.toLowerCase() === "cm") value = value * 0.3937007874;
-			else value = value * 0.03937007874;
-			valueUnit = "in";
-		} else {
-			valueUnit = valueUnit ? valueUnit : "mm";
-		}
-
 		if (valueUnit === "%") return `${value.toFixed(0)} ${valueUnit}`;
 
-		return `${value.toFixed(2)} ${valueUnit}`;
+		let convertedValue = value;
+		let conversionUnit = valueUnit;
+		if (outputUnit === "imperial") {
+			if (valueUnit && valueUnit.toLowerCase() === "cm") convertedValue = convertedValue * 0.3937007874;
+			else convertedValue = convertedValue * 0.03937007874;
+			conversionUnit = "in";
+		} else {
+			conversionUnit = valueUnit ? valueUnit : "mm";
+		}
+
+		return `${convertedValue.toFixed(2)} ${conversionUnit}`;
 	},
 
 	/**
 	 * Convert temp (from degrees C) into imperial or metric unit depending on
 	 * your config
-	 *
 	 * @param {number} tempInC the temperature in celsius you want to convert
 	 * @param {string} unit can be 'imperial' or 'metric'
 	 * @returns {number} the converted temperature
@@ -59,7 +58,6 @@ const WeatherUtils = {
 
 	/**
 	 * Convert wind speed into another unit.
-	 *
 	 * @param {number} windInMS the windspeed in meter/sec you want to convert
 	 * @param {string} unit can be 'beaufort', 'kmh', 'knots, 'imperial' (mph)
 	 * or 'metric' (mps)

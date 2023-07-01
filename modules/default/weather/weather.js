@@ -1,4 +1,4 @@
-/* global WeatherProvider, WeatherUtils */
+/* global WeatherProvider, WeatherUtils, formatTime */
 
 /* MagicMirror²
  * Module: Weather
@@ -27,6 +27,7 @@ Module.register("weather", {
 		showPeriodUpper: false,
 		showPrecipitationAmount: false,
 		showPrecipitationProbability: false,
+		showUVIndex: false,
 		showSun: true,
 		showWindDirection: true,
 		showWindDirectionAsArrow: false,
@@ -211,50 +212,37 @@ Module.register("weather", {
 		this.nunjucksEnvironment().addFilter(
 			"formatTime",
 			function (date) {
-				date = moment(date);
-
-				if (this.config.timeFormat !== 24) {
-					if (this.config.showPeriod) {
-						if (this.config.showPeriodUpper) {
-							return date.format("h:mm A");
-						} else {
-							return date.format("h:mm a");
-						}
-					} else {
-						return date.format("h:mm");
-					}
-				}
-
-				return date.format("HH:mm");
+				return formatTime(this.config, date);
 			}.bind(this)
 		);
 
 		this.nunjucksEnvironment().addFilter(
 			"unit",
 			function (value, type, valueUnit) {
+				let formattedValue;
 				if (type === "temperature") {
-					value = `${this.roundValue(WeatherUtils.convertTemp(value, this.config.tempUnits))}°`;
+					formattedValue = `${this.roundValue(WeatherUtils.convertTemp(value, this.config.tempUnits))}°`;
 					if (this.config.degreeLabel) {
 						if (this.config.tempUnits === "metric") {
-							value += "C";
+							formattedValue += "C";
 						} else if (this.config.tempUnits === "imperial") {
-							value += "F";
+							formattedValue += "F";
 						} else {
-							value += "K";
+							formattedValue += "K";
 						}
 					}
 				} else if (type === "precip") {
 					if (value === null || isNaN(value) || value === 0 || value.toFixed(2) === "0.00") {
-						value = "";
+						formattedValue = "";
 					} else {
-						value = WeatherUtils.convertPrecipitationUnit(value, valueUnit, this.config.units);
+						formattedValue = WeatherUtils.convertPrecipitationUnit(value, valueUnit, this.config.units);
 					}
 				} else if (type === "humidity") {
-					value += "%";
+					formattedValue = `${value}%`;
 				} else if (type === "wind") {
-					value = WeatherUtils.convertWind(value, this.config.windUnits);
+					formattedValue = WeatherUtils.convertWind(value, this.config.windUnits);
 				}
-				return value;
+				return formattedValue;
 			}.bind(this)
 		);
 

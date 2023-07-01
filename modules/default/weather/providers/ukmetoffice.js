@@ -189,7 +189,6 @@ WeatherProvider.register("ukmetoffice", {
 
 	/**
 	 * Generates an url with api parameters based on the config.
-	 *
 	 * @param {string} forecastType daily or 3hourly forecast
 	 * @returns {string} url
 	 */

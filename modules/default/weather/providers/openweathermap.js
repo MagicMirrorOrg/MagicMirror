@@ -90,7 +90,6 @@ WeatherProvider.register("openweathermap", {
 
 	/**
 	 * Overrides method for setting config to check if endpoint is correct for hourly
-	 *
 	 * @param {object} config The configuration object
 	 */
 	setConfig(config) {
@@ -435,6 +434,7 @@ WeatherProvider.register("openweathermap", {
 		} else if (this.firstEvent && this.firstEvent.location) {
 			params += `q=${this.firstEvent.location}`;
 		} else {
+			// TODO hide doesnt exist!
 			this.hide(this.config.animationSpeed, { lockString: this.identifier });
 			return;
 		}

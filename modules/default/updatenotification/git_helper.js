@@ -9,6 +9,7 @@ const BASE_DIR = path.normalize(`${__dirname}/../../../`);
 class GitHelper {
 	constructor() {
 		this.gitRepos = [];
+		this.gitResultList = [];
 	}
 
 	getRefRegex(branch) {
@@ -93,18 +94,21 @@ class GitHelper {
 		// ## develop...origin/develop
 		// ## master...origin/master [behind 8]
 		// ## master...origin/master [ahead 8, behind 1]
+		// ## HEAD (no branch)
 		status = status.match(/## (.*)\.\.\.([^ ]*)(?: .*behind (\d+))?/);
 		// examples for status:
 		// [ '## develop...origin/develop', 'develop', 'origin/develop' ]
 		// [ '## master...origin/master [behind 8]', 'master', 'origin/master', '8' ]
 		// [ '## master...origin/master [ahead 8, behind 1]', 'master', 'origin/master', '1' ]
-		gitInfo.current = status[1];
-		gitInfo.tracking = status[2];
+		if (status) {
+			gitInfo.current = status[1];
+			gitInfo.tracking = status[2];
 
-		if (status[3]) {
-			// git fetch was already called before so `git status -sb` delivers already the behind number
-			gitInfo.behind = parseInt(status[3]);
-			gitInfo.isBehindInStatus = true;
+			if (status[3]) {
+				// git fetch was already called before so `git status -sb` delivers already the behind number
+				gitInfo.behind = parseInt(status[3]);
+				gitInfo.isBehindInStatus = true;
+			}
 		}
 
 		return gitInfo;
@@ -113,7 +117,7 @@ class GitHelper {
 	async getRepoInfo(repo) {
 		const gitInfo = await this.getStatusInfo(repo);
 
-		if (!gitInfo) {
+		if (!gitInfo || !gitInfo.current) {
 			return;
 		}
 
@@ -171,21 +175,38 @@ class GitHelper {
 	}
 
 	async getRepos() {
-		const gitResultList = [];
+		this.gitResultList = [];
 
 		for (const repo of this.gitRepos) {
 			try {
 				const gitInfo = await this.getRepoInfo(repo);
 
 				if (gitInfo) {
-					gitResultList.push(gitInfo);
+					this.gitResultList.push(gitInfo);
 				}
 			} catch (e) {
 				Log.error(`Failed to retrieve repo info for ${repo.module}: ${e}`);
 			}
 		}
 
-		return gitResultList;
+		return this.gitResultList;
+	}
+
+	async checkUpdates() {
+		var updates = [];
+
+		const allRepos = await this.gitResultList.map((module) => {
+			return new Promise((resolve) => {
+				if (module.behind > 0 && module.module !== "MagicMirror") {
+					Log.info(`Update found for module: ${module.module}`);
+					updates.push(module);
+				}
+				resolve(module);
+			});
+		});
+		await Promise.all(allRepos);
+
+		return updates;
 	}
 }
 

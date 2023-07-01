@@ -1,6 +1,5 @@
 /**
  * A function to make HTTP requests via the server to avoid CORS-errors.
- *
  * @param {string} url the url to fetch from
  * @param {string} type what contenttype to expect in the response, can be "json" or "xml"
  * @param {boolean} useCorsProxy A flag to indicate
@@ -10,12 +9,14 @@
  */
 async function performWebRequest(url, type = "json", useCorsProxy = false, requestHeaders = undefined, expectedResponseHeaders = undefined) {
 	const request = {};
+	let requestUrl;
 	if (useCorsProxy) {
-		url = getCorsUrl(url, requestHeaders, expectedResponseHeaders);
+		requestUrl = getCorsUrl(url, requestHeaders, expectedResponseHeaders);
 	} else {
+		requestUrl = url;
 		request.headers = getHeadersToSend(requestHeaders);
 	}
-	const response = await fetch(url, request);
+	const response = await fetch(requestUrl, request);
 	const data = await response.text();
 
 	if (type === "xml") {
@@ -33,7 +34,6 @@ async function performWebRequest(url, type = "json", useCorsProxy = false, reque
 
 /**
  * Gets a URL that will be used when calling the CORS-method on the server.
- *
  * @param {string} url the url to fetch from
  * @param {Array.<{name: string, value:string}>} requestHeaders the HTTP headers to send
  * @param {Array.<string>} expectedResponseHeaders the expected HTTP headers to receive
@@ -64,7 +64,6 @@ const getCorsUrl = function (url, requestHeaders, expectedResponseHeaders) {
 
 /**
  * Gets the part of the CORS URL that represents the HTTP headers to send.
- *
  * @param {Array.<{name: string, value:string}>} requestHeaders the HTTP headers to send
  * @returns {string} to be used as request-headers component in CORS URL.
  */
@@ -85,7 +84,6 @@ const getRequestHeaderString = function (requestHeaders) {
 
 /**
  * Gets headers and values to attach to the web request.
- *
  * @param {Array.<{name: string, value:string}>} requestHeaders the HTTP headers to send
  * @returns {object} An object specifying name and value of the headers.
  */
@@ -102,7 +100,6 @@ const getHeadersToSend = (requestHeaders) => {
 
 /**
  * Gets the part of the CORS URL that represents the expected HTTP headers to receive.
- *
  * @param {Array.<string>} expectedResponseHeaders the expected HTTP headers to receive
  * @returns {string} to be used as the expected HTTP-headers component in CORS URL.
  */
@@ -123,7 +120,6 @@ const getExpectedResponseHeadersString = function (expectedResponseHeaders) {
 
 /**
  * Gets the values for the expected headers from the response.
- *
  * @param {Array.<string>} expectedResponseHeaders the expected HTTP headers to receive
  * @param {Response} response the HTTP response
  * @returns {string} to be used as the expected HTTP-headers component in CORS URL.
@@ -141,7 +137,36 @@ const getHeadersFromResponse = (expectedResponseHeaders, response) => {
 	return responseHeaders;
 };
 
+/**
+ * Format the time according to the config
+ * @param {object} config The config of the module
+ * @param {object} time time to format
+ * @returns {string} The formatted time string
+ */
+const formatTime = (config, time) => {
+	let date = moment(time);
+
+	if (config.timezone) {
+		date = date.tz(config.timezone);
+	}
+
+	if (config.timeFormat !== 24) {
+		if (config.showPeriod) {
+			if (config.showPeriodUpper) {
+				return date.format("h:mm A");
+			} else {
+				return date.format("h:mm a");
+			}
+		} else {
+			return date.format("h:mm");
+		}
+	}
+
+	return date.format("HH:mm");
+};
+
 if (typeof module !== "undefined")
 	module.exports = {
-		performWebRequest
+		performWebRequest,
+		formatTime
 	};

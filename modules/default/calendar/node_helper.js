@@ -33,7 +33,6 @@ module.exports = NodeHelper.create({
 	/**
 	 * Creates a fetcher for a new url if it doesn't exist yet.
 	 * Otherwise it reuses the existing one.
-	 *
 	 * @param {string} url The url of the calendar
 	 * @param {number} fetchInterval How often does the calendar needs to be fetched in ms
 	 * @param {string[]} excludedEvents An array of words / phrases from event titles that will be excluded from being shown.

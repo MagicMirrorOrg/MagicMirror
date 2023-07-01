@@ -26,7 +26,6 @@ module.exports = NodeHelper.create({
 	/**
 	 * Creates a fetcher for a new feed if it doesn't exist yet.
 	 * Otherwise it reuses the existing one.
-	 *
 	 * @param {object} feed The feed object
 	 * @param {object} config The configuration object
 	 */

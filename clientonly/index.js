@@ -11,7 +11,6 @@
 		/**
 		 * Get command line parameters
 		 * Assumes that a cmdline parameter is defined with `--key [value]`
-		 *
 		 * @param {string} key key to look for at the command line
 		 * @param {string} defaultValue value if no key is given at the command line
 		 * @returns {string} the value of the parameter
@@ -33,7 +32,6 @@
 
 	/**
 	 * Gets the config from the specified server url
-	 *
 	 * @param {string} url location where the server is running.
 	 * @returns {Promise} the config
 	 */
@@ -63,7 +61,6 @@
 
 	/**
 	 * Print a message to the console in case of errors
-	 *
 	 * @param {string} message error message to print
 	 * @param {number} code error code for the exit call
 	 */

@@ -8,7 +8,8 @@ Module.register("updatenotification", {
 	defaults: {
 		updateInterval: 10 * 60 * 1000, // every 10 minutes
 		refreshInterval: 24 * 60 * 60 * 1000, // one day
-		ignoreModules: []
+		ignoreModules: [],
+		sendUpdatesNotifications: false
 	},
 
 	suspended: false,
@@ -33,15 +34,25 @@ Module.register("updatenotification", {
 	},
 
 	notificationReceived(notification) {
-		if (notification === "DOM_OBJECTS_CREATED") {
-			this.sendSocketNotification("CONFIG", this.config);
-			this.sendSocketNotification("MODULES", Object.keys(Module.definitions));
+		switch (notification) {
+			case "DOM_OBJECTS_CREATED":
+				this.sendSocketNotification("CONFIG", this.config);
+				this.sendSocketNotification("MODULES", Object.keys(Module.definitions));
+				break;
+			case "SCAN_UPDATES":
+				this.sendSocketNotification("SCAN_UPDATES");
+				break;
 		}
 	},
 
 	socketNotificationReceived(notification, payload) {
-		if (notification === "STATUS") {
-			this.updateUI(payload);
+		switch (notification) {
+			case "STATUS":
+				this.updateUI(payload);
+				break;
+			case "UPDATES":
+				this.sendNotification("UPDATES", payload);
+				break;
 		}
 	},
 

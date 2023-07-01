@@ -44,10 +44,7 @@ const MMSocket = function (moduleName) {
 		notificationCallback = callback;
 	};
 
-	this.sendNotification = (notification, payload) => {
-		if (typeof payload === "undefined") {
-			payload = {};
-		}
+	this.sendNotification = (notification, payload = {}) => {
 		this.socket.emit(notification, payload);
 	};
 };

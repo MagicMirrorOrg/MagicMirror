@@ -1,5 +1,4 @@
-const WeatherObject = require("../../../modules/default/weather/weatherobject");
-const WeatherUtils = require("../../../modules/default/weather/weatherutils");
+const WeatherObject = require("../../../../../modules/default/weather/weatherobject");
 
 global.moment = require("moment-timezone");
 global.SunCalc = require("suncalc");
@@ -45,40 +44,5 @@ describe("WeatherObject", () => {
 
 	afterAll(() => {
 		moment.tz.setDefault(originalTimeZone);
-	});
-});
-
-describe("WeatherUtils", () => {
-	it("should convert windspeed correctly from mps to beaufort", () => {
-		expect(Math.round(WeatherUtils.convertWind(5, "beaufort"))).toBe(3);
-		expect(Math.round(WeatherUtils.convertWind(300, "beaufort"))).toBe(12);
-	});
-
-	it("should convert windspeed correctly from mps to kmh", () => {
-		expect(Math.round(WeatherUtils.convertWind(11.75, "kmh"))).toBe(42);
-	});
-
-	it("should convert windspeed correctly from mps to knots", () => {
-		expect(Math.round(WeatherUtils.convertWind(10, "knots"))).toBe(19);
-	});
-
-	it("should convert windspeed correctly from mph to mps", () => {
-		expect(Math.round(WeatherUtils.convertWindToMetric(93.951324266285))).toBe(42);
-	});
-
-	it("should convert windspeed correctly from kmh to mps", () => {
-		expect(Math.round(WeatherUtils.convertWindToMs(151.2))).toBe(42);
-	});
-
-	it("should convert wind direction correctly from cardinal to value", () => {
-		expect(WeatherUtils.convertWindDirection("SSE")).toBe(157);
-	});
-
-	it("should return a calculated feelsLike info", () => {
-		expect(WeatherUtils.calculateFeelsLike(0, 20, 40)).toBe(-9.444444444444445);
-	});
-
-	it("should return a calculated feelsLike info", () => {
-		expect(WeatherUtils.calculateFeelsLike(30, 0, 60)).toBe(32.8320322777777);
 	});
 });

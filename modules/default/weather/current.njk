@@ -28,6 +28,12 @@
                     {% endif %}
                 </span>
             {% endif %}
+            {% if config.showUVIndex %}
+                    <td class="align-right bright uv-index">
+                    <div class="wi dimmed wi-hot"></div>
+                        {{ current.uv_index }}
+                    </td>
+            {% endif %}
         </div>
     {% endif %}
     <div class="large light">
@@ -61,12 +67,12 @@
                     {{ "FEELS" | translate({DEGREE: current.feelsLike() | roundValue | unit("temperature") | decimalSymbol }) }}
                 </span><br/>
             {% endif %}
-            {% if config.showPrecipitationAmount and current.precipitationAmount %}           
+            {% if config.showPrecipitationAmount and current.precipitationAmount %}
                 <span class="dimmed">
                     <span class="precipitationLeadText">{{ "PRECIP_AMOUNT" | translate }}</span> {{ current.precipitationAmount | unit("precip", current.precipitationUnits) }}
                 </span><br/>
             {% endif %}
-            {% if config.showPrecipitationProbability and current.precipitationProbability  %}           
+            {% if config.showPrecipitationProbability and current.precipitationProbability  %}
                 <span class="dimmed">
                     <span class="precipitationLeadText">{{ "PRECIP_POP" | translate }}</span> {{ current.precipitationProbability }}%
                 </span>

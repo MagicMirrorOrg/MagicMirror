@@ -384,7 +384,7 @@ WeatherProvider.register("envcanada", {
 
 			const foreTime = moment(hourGroup[stepHour].getAttribute("dateTimeUTC"), "YYYYMMDDhhmmss");
 			const currTime = foreTime.add(hourOffset, "hours");
-			weather.date = moment.unix(currTime);
+			weather.date = moment(currTime);
 
 			// Capture the temperature
 
@@ -505,9 +505,9 @@ WeatherProvider.register("envcanada", {
 		}
 
 		// Check Today element for POP
-
-		if (foreGroup[today].querySelector("abbreviatedForecast pop").textContent > 0) {
-			weather.precipitationProbability = foreGroup[today].querySelector("abbreviatedForecast pop").textContent;
+		const precipPOP = foreGroup[today].querySelector("abbreviatedForecast pop").textContent * 1.0;
+		if (precipPOP > 0) {
+			weather.precipitationProbability = precipPOP;
 		}
 	},
 

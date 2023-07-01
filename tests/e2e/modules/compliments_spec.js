@@ -3,7 +3,6 @@ const helpers = require("../helpers/global-setup");
 describe("Compliments module", () => {
 	/**
 	 * move similar tests in function doTest
-	 *
 	 * @param {Array} complimentsArray The array of compliments.
 	 */
 	const doTest = async (complimentsArray) => {
@@ -25,7 +24,7 @@ describe("Compliments module", () => {
 				await helpers.getDocument();
 			});
 
-			it("Show anytime because if configure empty parts of day compliments and set anytime compliments", async () => {
+			it("shows anytime because if configure empty parts of day compliments and set anytime compliments", async () => {
 				await doTest(["Anytime here"]);
 			});
 		});
@@ -36,7 +35,7 @@ describe("Compliments module", () => {
 				await helpers.getDocument();
 			});
 
-			it("Show anytime compliments", async () => {
+			it("shows anytime compliments", async () => {
 				await doTest(["Anytime here"]);
 			});
 		});

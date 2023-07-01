@@ -14,7 +14,6 @@ const NodeHelper = require("node_helper");
 
 /**
  * Responsible for requesting an update on the set interval and broadcasting the data.
- *
  * @param {string} url URL of the news feed.
  * @param {number} reloadInterval Reload interval in milliseconds.
  * @param {string} encoding Encoding of the feed.
@@ -25,12 +24,13 @@ const NodeHelper = require("node_helper");
 const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings, useCorsProxy) {
 	let reloadTimer = null;
 	let items = [];
+	let reloadIntervalMS = reloadInterval;
 
 	let fetchFailedCallback = function () {};
 	let itemsReceivedCallback = function () {};
 
-	if (reloadInterval < 1000) {
-		reloadInterval = 1000;
+	if (reloadIntervalMS < 1000) {
+		reloadIntervalMS = 1000;
 	}
 
 	/* private methods */
@@ -89,9 +89,9 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 			try {
 				// 86400000 = 24 hours is mentioned in the docs as maximum value:
 				const ttlms = Math.min(minutes * 60 * 1000, 86400000);
-				if (ttlms > reloadInterval) {
-					reloadInterval = ttlms;
-					Log.info(`Newsfeed-Fetcher: reloadInterval set to ttl=${reloadInterval} for url ${url}`);
+				if (ttlms > reloadIntervalMS) {
+					reloadIntervalMS = ttlms;
+					Log.info(`Newsfeed-Fetcher: reloadInterval set to ttl=${reloadIntervalMS} for url ${url}`);
 				}
 			} catch (error) {
 				Log.warn(`Newsfeed-Fetcher: feed ttl is no valid integer=${minutes} for url ${url}`);
@@ -129,19 +129,18 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 		clearTimeout(reloadTimer);
 		reloadTimer = setTimeout(function () {
 			fetchNews();
-		}, reloadInterval);
+		}, reloadIntervalMS);
 	};
 
 	/* public methods */
 
 	/**
 	 * Update the reload interval, but only if we need to increase the speed.
-	 *
 	 * @param {number} interval Interval for the update in milliseconds.
 	 */
 	this.setReloadInterval = function (interval) {
-		if (interval > 1000 && interval < reloadInterval) {
-			reloadInterval = interval;
+		if (interval > 1000 && interval < reloadIntervalMS) {
+			reloadIntervalMS = interval;
 		}
 	};
 
