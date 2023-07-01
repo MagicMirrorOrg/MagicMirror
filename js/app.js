@@ -249,7 +249,6 @@ function App() {
 		Log.setLogLevel(config.logLevel);
 
 		let modules = [];
-
 		for (const module of config.modules) {
 			if (!modules.includes(module.module) && !module.disabled) {
 				modules.push(module.module);
