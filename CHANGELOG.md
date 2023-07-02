@@ -19,6 +19,8 @@ _This release is scheduled to be released on 2023-10-01._
 
 ### Fixed
 
+- Fix undefined formatTime method in clock module (#3143)
+
 ## [2.24.0] - 2023-07-01
 
 Thanks to: @angeldeejay, @bugsounet, @buxxi, @CarJem, @dariom, @DaveChild, @dWoolridge, @eddiehung, @grenagit, @Hirschberger, @ismarslomic, @JakeBinney, @KristjanESPERANTO, @MagMar94, @naveensrinivasan, @nfogal, @oscarb, @OWL4C, @psieg, @rajniszp, @retroflex, @SkySails and @tomzt
