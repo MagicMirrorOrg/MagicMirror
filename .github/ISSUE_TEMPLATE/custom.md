@@ -22,6 +22,10 @@ If you are facing an issue or found a bug while trying to install MagicMirror² 
 If you are facing an issue or found a bug while running MagicMirror² inside a Docker container please create an issue in the corresponding repository:
 [https://gitlab.com/khassel/magicmirror](https://gitlab.com/khassel/magicmirror)
 
+## I'm having troubles installing or configuring foreign modules
+
+Please open an issue in the module repository or ask for help in the [forum](https://forum.magicmirror.builders/)
+
 ---
 
 ## I found a bug in MagicMirror
