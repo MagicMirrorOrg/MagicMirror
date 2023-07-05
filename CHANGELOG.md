@@ -18,6 +18,7 @@ _This release is scheduled to be released on 2023-10-01._
 ### Updated
 
 - update roboto fonts to version v5
+- update issue template
 
 ### Fixed
 
