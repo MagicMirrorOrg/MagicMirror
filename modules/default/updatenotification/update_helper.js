@@ -1,7 +1,7 @@
-const Log = require("logger");
 const Exec = require("child_process").exec;
 const Spawn = require("child_process").spawn;
 const pm2 = require("pm2");
+const Log = require("logger");
 
 class Updater {
 	constructor(config, callback) {
@@ -38,7 +38,7 @@ class Updater {
 					}
 					this.moduleList[module.module].neverUpdated = false;
 				}
-			} else if (update.behind === 0) {
+			} else if (module.behind === 0) {
 				if (this.moduleList[module.module] !== undefined) delete this.moduleList[module.module];
 			}
 			//Log.info("updatenotification Result:", this.moduleList[module.module])
@@ -47,8 +47,8 @@ class Updater {
 
 	updateProcess(module) {
 		let Command = null;
-		var Path = this.root_path + "/modules/";
-		var modulePath = Path + module.name;
+		const Path = `${this.root_path}/modules/`;
+		const modulePath = Path + module.name;
 
 		if (module.updateCommand) {
 			Command = module.updateCommand;
@@ -79,7 +79,7 @@ class Updater {
 		if (this.usePM2) {
 			this.lib.pm2.restart(this.PM2, (err, proc) => {
 				if (err) {
-					Log.error("updatenotification:[PM2] restart Error" + err);
+					Log.error("updatenotification:[PM2] restart Error", err);
 				}
 			});
 		} else this.doRestart();
