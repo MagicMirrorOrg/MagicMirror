@@ -77,7 +77,7 @@ class Updater {
 
 	restart() {
 		if (this.usePM2) {
-			this.lib.pm2.restart(this.PM2, (err, proc) => {
+			pm2.restart(this.PM2, (err, proc) => {
 				if (err) {
 					Log.error("updatenotification:[PM2] restart Error", err);
 				}
