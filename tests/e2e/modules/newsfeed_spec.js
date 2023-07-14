@@ -25,8 +25,8 @@ describe("Newsfeed module", () => {
 
 		it("should NOT show the newsfeed description", async () => {
 			await helpers.waitForElement(".newsfeed");
-			const element = document.querySelector(".newsfeed .newsfeed-desc");
-			expect(element).toBe(null);
+			const elem = document.querySelector(".newsfeed .newsfeed-desc");
+			expect(elem).toBe(null);
 		});
 	});
 
