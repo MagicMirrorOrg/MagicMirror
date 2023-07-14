@@ -1,6 +1,7 @@
 const NodeHelper = require("node_helper");
 const defaultModules = require("../defaultmodules");
 const GitHelper = require("./git_helper");
+const UpdateHelper = require("./update_helper");
 
 const ONE_MINUTE = 60 * 1000;
 
@@ -11,6 +12,23 @@ module.exports = NodeHelper.create({
 	updateProcessStarted: false,
 
 	gitHelper: new GitHelper(),
+	updateHelper: null,
+
+	async updatesCallbacks(cb, module) {
+		//console.log(cb,module)
+		switch (cb) {
+			case "UPDATED":
+				console.log("Updated:", module);
+				break;
+			case "UPDATE_ERROR":
+				console.log("update Error:", module);
+				break;
+			case "NEEDRESTART":
+				clearTimeout(this.updateTimer);
+				await this.performFetch();
+				break;
+		}
+	},
 
 	async configureModules(modules) {
 		for (const moduleName of modules) {
@@ -28,6 +46,8 @@ module.exports = NodeHelper.create({
 		switch (notification) {
 			case "CONFIG":
 				this.config = payload;
+				this.updateHelper = new UpdateHelper(this.config, (cb, module) => this.updatesCallbacks(cb, module));
+				await this.updateHelper.check_PM2_Process();
 				break;
 			case "MODULES":
 				// if this is the 1st time thru the update check process
@@ -54,10 +74,13 @@ module.exports = NodeHelper.create({
 			this.sendSocketNotification("STATUS", repo);
 		}
 
-		if (this.config.sendUpdatesNotifications) {
-			const updates = await this.gitHelper.checkUpdates();
-			if (updates.length) this.sendSocketNotification("UPDATES", updates);
+		const updates = await this.gitHelper.checkUpdates();
+
+		if (this.config.sendUpdatesNotifications && updates.length) {
+			this.sendSocketNotification("UPDATES", updates);
 		}
+
+		this.updateHelper.add(updates);
 
 		this.scheduleNextFetch(this.config.updateInterval);
 	},
