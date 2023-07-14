@@ -21,11 +21,11 @@ Module.register("calendar", {
 		defaultRepeatingCountTitle: "",
 		maxTitleLength: 25,
 		maxLocationTitleLength: 25,
-		wrapEvents: false, // wrap events to multiple lines breaking at maxTitleLength
+		wrapEvents: false, // Wrap events to multiple lines breaking at maxTitleLength
 		wrapLocationEvents: false,
 		maxTitleLines: 3,
 		maxEventTitleLines: 3,
-		fetchInterval: 5 * 60 * 1000, // Update every 5 minutes.
+		fetchInterval: 60 * 60 * 1000, // Update every hour
 		animationSpeed: 2000,
 		fade: true,
 		urgency: 7,
@@ -683,7 +683,7 @@ Module.register("calendar", {
 			maximumEntries: calendarConfig.maximumEntries || this.config.maximumEntries,
 			maximumNumberOfDays: calendarConfig.maximumNumberOfDays || this.config.maximumNumberOfDays,
 			pastDaysCount: calendarConfig.pastDaysCount || this.config.pastDaysCount,
-			fetchInterval: this.config.fetchInterval,
+			fetchInterval: calendarConfig.fetchInterval || this.config.fetchInterval,
 			symbolClass: calendarConfig.symbolClass,
 			titleClass: calendarConfig.titleClass,
 			timeClass: calendarConfig.timeClass,
