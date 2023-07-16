@@ -23,6 +23,7 @@ _This release is scheduled to be released on 2023-10-01._
 ### Fixed
 
 - Fix undefined formatTime method in clock module (#3143)
+- Fix clientonly startup fails after async added (#3151)
 
 ## [2.24.0] - 2023-07-01
 
