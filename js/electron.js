@@ -1,8 +1,8 @@
 "use strict";
 
 const electron = require("electron");
-const core = require("./app.js");
-const Log = require("logger");
+const core = require("./app");
+const Log = require("./logger");
 
 // Config
 let config = process.env.config ? JSON.parse(process.env.config) : {};
@@ -46,8 +46,10 @@ function createWindow() {
 	if (config.kioskmode) {
 		electronOptionsDefaults.kiosk = true;
 	} else {
-		electronOptionsDefaults.fullscreen = true;
-		electronOptionsDefaults.autoHideMenuBar = true;
+		electronOptionsDefaults.show = false;
+		electronOptionsDefaults.frame = false;
+		electronOptionsDefaults.transparent = true;
+		electronOptionsDefaults.hasShadow = false;
 	}
 
 	const electronOptions = Object.assign({}, electronOptionsDefaults, config.electronOptions);
@@ -103,14 +105,26 @@ function createWindow() {
 			}, 1000);
 		});
 	}
-}
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-app.on("ready", function () {
-	Log.log("Launching application.");
-	createWindow();
-});
+	//remove response headers that prevent sites of being embedded into iframes if configured
+	mainWindow.webContents.session.webRequest.onHeadersReceived((details, callback) => {
+		let curHeaders = details.responseHeaders;
+		if (config["ignoreXOriginHeader"] || false) {
+			curHeaders = Object.fromEntries(Object.entries(curHeaders).filter((header) => !/x-frame-options/i.test(header[0])));
+		}
+
+		if (config["ignoreContentSecurityPolicy"] || false) {
+			curHeaders = Object.fromEntries(Object.entries(curHeaders).filter((header) => !/content-security-policy/i.test(header[0])));
+		}
+
+		callback({ responseHeaders: curHeaders });
+	});
+
+	mainWindow.once("ready-to-show", () => {
+		mainWindow.setFullScreen(true);
+		mainWindow.show();
+	});
+}
 
 // Quit when all windows are closed.
 app.on("window-all-closed", function () {
@@ -136,27 +150,39 @@ app.on("activate", function () {
  * Note: this is only used if running Electron. Otherwise
  * core.stop() is called by process.on("SIGINT"... in `app.js`
  */
-app.on("before-quit", (event) => {
+app.on("before-quit", async (event) => {
 	Log.log("Shutting down server...");
 	event.preventDefault();
 	setTimeout(() => {
 		process.exit(0);
 	}, 3000); // Force-quit after 3 seconds.
-	core.stop();
+	await core.stop();
 	process.exit(0);
 });
 
-/* handle errors from self signed certificates */
-
+/**
+ * Handle errors from self-signed certificates
+ */
 app.on("certificate-error", (event, webContents, url, error, certificate, callback) => {
 	event.preventDefault();
 	callback(true);
 });
 
+if (process.env.clientonly) {
+	app.whenReady().then(() => {
+		Log.log("Launching client viewer application.");
+		createWindow();
+	});
+}
+
 // Start the core application if server is run on localhost
 // This starts all node helpers and starts the webserver.
 if (["localhost", "127.0.0.1", "::1", "::ffff:127.0.0.1", undefined].includes(config.address)) {
-	core.start(function (c) {
+	core.start().then((c) => {
 		config = c;
+		app.whenReady().then(() => {
+			Log.log("Launching application.");
+			createWindow();
+		});
 	});
 }
