@@ -73,6 +73,7 @@
 	},
 	"dependencies": {
 		"colors": "^1.4.0",
+		"command-exists": "^1.2.9",
 		"console-stamp": "^3.1.1",
 		"digest-fetch": "^2.0.3",
 		"envsub": "^4.1.0",
@@ -87,7 +88,6 @@
 		"moment": "^2.29.4",
 		"node-fetch": "^2.6.12",
 		"node-ical": "^0.16.1",
-		"pm2": "^5.3.0",
 		"socket.io": "^4.7.1"
 	},
 	"_moduleAliases": {

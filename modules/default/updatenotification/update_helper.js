@@ -1,6 +1,6 @@
 const Exec = require("child_process").exec;
 const Spawn = require("child_process").spawn;
-const pm2 = require("pm2");
+const commandExists = require("command-exists");
 const Log = require("logger");
 
 class Updater {
@@ -65,7 +65,7 @@ class Updater {
 				Log.info(`updatenotification: Update logs of ${module.name}: ${stdout}`);
 				this.callback("UPDATED", module.name);
 				if (this.autoRestart) {
-					Log.info("updatenotification:: Process update done");
+					Log.info("updatenotification: Process update done");
 					setTimeout(() => this.restart(), 3000);
 				} else {
 					Log.info("updatenotification: Process update done, don't forget to restart MagicMirror!");
@@ -77,7 +77,8 @@ class Updater {
 
 	restart() {
 		if (this.usePM2) {
-			pm2.restart(this.PM2, (err, proc) => {
+			Log.info("updatenotification: PM2 will restarting MagicMirror...");
+			Exec(`pm2 restart ${this.PM2}`, (err, std, sde) => {
 				if (err) {
 					Log.error("updatenotification:[PM2] restart Error", err);
 				}
@@ -94,21 +95,20 @@ class Updater {
 		process.exit();
 	}
 
+	// Check using pm2
 	check_PM2_Process() {
+		Log.info("updatenotification: Checking PM2 using...");
 		return new Promise((resolve) => {
-			pm2.connect((err) => {
-				if (err) {
-					Log.error("updatenotification [PM2]", err);
-					this.usePM2 = false;
-					resolve(false);
-				}
-				pm2.list((err, list) => {
-					if (err) {
-						Log.error("updatenotification [PM2]", err);
+			commandExists("pm2")
+				.then(async () => {
+					var PM2_List = await this.PM2_GetList();
+					if (!PM2_List) {
+						Log.error("updatenotification: [PM2] Can't get process List!");
 						this.usePM2 = false;
 						resolve(false);
+						return;
 					}
-					list.forEach((pm) => {
+					PM2_List.forEach((pm) => {
 						if (pm.pm2_env.version === this.version && pm.pm2_env.status === "online" && pm.pm2_env.PWD.includes(this.root_path)) {
 							this.PM2 = pm.name;
 							this.usePM2 = true;
@@ -116,13 +116,30 @@ class Updater {
 							resolve(true);
 						}
 					});
-					pm2.disconnect();
 					if (!this.PM2) {
 						Log.info("updatenotification: You are not using pm2");
 						this.usePM2 = false;
 						resolve(false);
 					}
+				})
+				.catch(() => {
+					Log.info("updatenotification: You are not using pm2");
+					this.usePM2 = false;
+					resolve(false);
 				});
+		});
+	}
+
+	// Get the list of pm2 process
+	PM2_GetList() {
+		return new Promise((resolve) => {
+			Exec("pm2 jlist", (err, std, sde) => {
+				if (err) {
+					resolve(null);
+					return;
+				}
+				let result = JSON.parse(std);
+				resolve(result);
 			});
 		});
 	}
