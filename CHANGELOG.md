@@ -12,6 +12,7 @@ _This release is scheduled to be released on 2023-10-01._
 ### Added
 
 - Added UV Index support to OpenWeatherMap
+- Added updatenotification Updater (for 3rd party modules)
 
 ### Removed
 

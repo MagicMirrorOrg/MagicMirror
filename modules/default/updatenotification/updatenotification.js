@@ -9,7 +9,28 @@ Module.register("updatenotification", {
 		updateInterval: 10 * 60 * 1000, // every 10 minutes
 		refreshInterval: 24 * 60 * 60 * 1000, // one day
 		ignoreModules: [],
-		sendUpdatesNotifications: false
+		sendUpdatesNotifications: false,
+		updates: [
+			// array of module update commands
+			{
+				// with embed npm script
+				"MMM-Test": "npm run update"
+			},
+			{
+				// with "complex" process
+				"MMM-OtherSample": "rm -rf package-lock.json && git reset --hard && git pull && npm install"
+			},
+			{
+				// with git pull && npm install
+				"MMM-OtherSample2": "git pull && npm install"
+			},
+			{
+				// with a simple git pull
+				"MMM-OtherSample3": "git pull"
+			}
+		],
+		updateTimeout: 2 * 60 * 1000, // max update duration
+		updateAutorestart: false // autoRestart MM when update done ?
 	},
 
 	suspended: false,
