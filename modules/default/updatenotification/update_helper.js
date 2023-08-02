@@ -15,7 +15,7 @@ class Updater {
 		this.PM2 = null;
 		this.version = global.version;
 		this.root_path = global.root_path;
-		Log.info("Updater Class Loaded!");
+		Log.info("updatenotification: Updater Class Loaded!");
 	}
 
 	add(modules) {
@@ -65,10 +65,10 @@ class Updater {
 				Log.info(`updatenotification: Update logs of ${module.name}: ${stdout}`);
 				this.callback("UPDATED", module.name);
 				if (this.autoRestart) {
-					Log.info("updatenotification: Process update done");
+					Log.info("updatenotification: Update done");
 					setTimeout(() => this.restart(), 3000);
 				} else {
-					Log.info("updatenotification: Process update done, don't forget to restart MagicMirror!");
+					Log.info("updatenotification: Update done, don't forget to restart MagicMirror!");
 					this.callback("NEEDRESTART");
 				}
 			}

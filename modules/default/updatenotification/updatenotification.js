@@ -35,6 +35,8 @@ Module.register("updatenotification", {
 
 	suspended: false,
 	moduleList: {},
+	needRestart: false,
+	updates: {},
 
 	start() {
 		Log.info(`Starting module: ${this.name}`);
@@ -74,6 +76,16 @@ Module.register("updatenotification", {
 			case "UPDATES":
 				this.sendNotification("UPDATES", payload);
 				break;
+			case "UPDATED":
+				this.updatesNotifier(payload);
+				break;
+			case "UPDATE_ERROR":
+				this.updatesNotifier(payload, false);
+				break;
+			case "NEED_RESTART":
+				this.needRestart = true;
+				this.updateDom(2);
+				break;
 		}
 	},
 
@@ -86,7 +98,7 @@ Module.register("updatenotification", {
 	},
 
 	getTemplateData() {
-		return { moduleList: this.moduleList, suspended: this.suspended };
+		return { moduleList: this.moduleList, updatesList: this.updates, suspended: this.suspended, needRestart: this.needRestart };
 	},
 
 	updateUI(payload) {
@@ -117,5 +129,13 @@ Module.register("updatenotification", {
 			const remoteRef = status.tracking.replace(/.*\//, "");
 			return `<a href="https://github.com/MichMich/MagicMirror/compare/${localRef}...${remoteRef}" class="xsmall dimmed difflink" target="_blank">${text}</a>`;
 		});
+	},
+
+	updatesNotifier(payload, done = true) {
+		this.updates[payload] = {
+			name: payload,
+			done: done
+		};
+		this.updateDom(2);
 	}
 });

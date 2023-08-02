@@ -15,17 +15,17 @@ module.exports = NodeHelper.create({
 	updateHelper: null,
 
 	async updatesCallbacks(cb, module) {
-		//console.log(cb,module)
 		switch (cb) {
 			case "UPDATED":
-				console.log("Updated:", module);
+				this.sendSocketNotification("UPDATED", module);
 				break;
 			case "UPDATE_ERROR":
-				console.log("update Error:", module);
+				this.sendSocketNotification("UPDATE_ERROR", module);
 				break;
 			case "NEEDRESTART":
 				clearTimeout(this.updateTimer);
 				await this.performFetch();
+				this.sendSocketNotification("NEED_RESTART");
 				break;
 		}
 	},

@@ -1,4 +1,13 @@
 {% if not suspended %}
+  {% if needRestart %}
+    <div class="small bright">
+      {% set restartTextLabel = "UPDATE_NOTIFICATION_NEED-RESTART" %}
+      <i class="fas fa-rotate"></i>
+        <span>
+          {{ restartTextLabel | translate() | safe }}
+        </span>
+    </div>
+  {% endif %}
   {% for name, status in moduleList %}
     <div class="small bright">
       <i class="fas fa-exclamation-circle"></i>
@@ -10,6 +19,23 @@
     <div class="xsmall dimmed">
       {% set subTextLabel = "UPDATE_INFO_SINGLE" if status.behind === 1 else "UPDATE_INFO_MULTIPLE" %}
       {{ subTextLabel | translate({COMMIT_COUNT: status.behind, BRANCH_NAME: status.current}) | diffLink(status) | safe }}
+    </div>
+  {% endfor %}
+  {% for name, status in updatesList %}
+    <div class="small bright">
+      {% if status.done %}
+        {% set updateTextLabel = "UPDATE_NOTIFICATION_DONE" %}
+        <i class="fas fa-check" style="color: lightgreen;"></i>
+        <span>
+         {{ updateTextLabel | translate({MODULE_NAME: name}) | safe }}
+        </span>
+      {% else %}
+        {% set updateTextLabel = "UPDATE_NOTIFICATION_ERROR" %}
+        <i class="fas fa-xmark" style="color: red;"></i>
+        <span>
+          {{ updateTextLabel | translate({MODULE_NAME: name}) | safe }}
+        </span>
+      {% endif %}
     </div>
   {% endfor %}
 {% endif %}
