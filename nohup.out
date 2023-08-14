@@ -1,0 +1,95 @@
+
+> magicmirror@2.24.0 start
+> .\node_modules\.bin\electron js\electron.js
+
+
+[14.08.2023 11:49.43.485] [LOG]   Starting MagicMirror: v2.24.0
+[14.08.2023 11:49.43.487] [LOG]   Loading config ...
+[14.08.2023 11:49.43.497] [DEBUG] config template file not exists, no envsubst
+[14.08.2023 11:49.43.512] [LOG]   Loading module helpers ...
+[14.08.2023 11:49.43.512] [LOG]   No helper found for module: alert.
+[14.08.2023 11:49.43.554] [LOG]   Initializing new module helper ...
+[14.08.2023 11:49.43.554] [LOG]   Module helper loaded: updatenotification
+[14.08.2023 11:49.43.554] [LOG]   No helper found for module: clock.
+[14.08.2023 11:49.43.555] [LOG]   No helper found for module: weather.
+[14.08.2023 11:49.43.555] [WARN]  No C:\Users\oksej\Programming\privat\MagicMirror\js/../modules/googlecalendar/googlecalendar.js found for module: googlecalendar.
+[14.08.2023 11:49.43.555] [LOG]   No helper found for module: googlecalendar.
+[14.08.2023 11:49.45.421] [LOG]   Initializing new module helper ...
+[14.08.2023 11:49.45.421] [LOG]   Module helper loaded: MMM-Todoist
+[14.08.2023 11:49.45.552] [LOG]   Initializing new module helper ...
+[14.08.2023 11:49.45.553] [LOG]   Module helper loaded: newsfeed
+[14.08.2023 11:49.45.553] [LOG]   All module helpers loaded.
+[14.08.2023 11:49.45.556] [LOG]   Starting server on port 8080 ... 
+
+> magicmirror@2.24.0 start
+> .\node_modules\.bin\electron js\electron.js
+
+
+[14.08.2023 11:49.46.596] [LOG]   Starting MagicMirror: v2.24.0
+[14.08.2023 11:49.46.598] [LOG]   Loading config ...
+[14.08.2023 11:49.46.599] [DEBUG] config template file not exists, no envsubst
+[14.08.2023 11:49.46.601] [LOG]   Loading module helpers ...
+[14.08.2023 11:49.46.601] [LOG]   No helper found for module: alert.
+[14.08.2023 11:49.46.606] [LOG]   Initializing new module helper ...
+[14.08.2023 11:49.46.607] [LOG]   Module helper loaded: updatenotification
+[14.08.2023 11:49.46.607] [LOG]   No helper found for module: clock.
+[14.08.2023 11:49.46.607] [LOG]   No helper found for module: weather.
+[14.08.2023 11:49.46.607] [WARN]  No C:\Users\oksej\Programming\privat\MagicMirror\js/../modules/googlecalendar/googlecalendar.js found for module: googlecalendar.
+[14.08.2023 11:49.46[14.08.2023 11:49.46.610] [INFO]  Checking git for module:[14.08.2023 11:49.46.748] [LOG]   Initializing new module helper ...
+[14.08.2023 11:[14.08.2023 11:49.46.825] [INFO]  Newsfeed-Fetcher: Broadcasting 20 items.
+[14.08.2023 11:49.46.884] [INFO]  Newsfeed-Fetcher: Broadcasting 100 items.
+C:\Users\oksej\Programming\privat\MagicMirror\node_modules\electron\dist\electron.exe exited with signal SIGINT
+49.46.759] [LOG]   Starting server on port 8080 ... 
+[14.08.2023 11:49.46.795] [ERROR] Whoops! There was an uncaught exception...
+[14.08.2023 11:49.46.797] [ERROR] Error: listen EADDRINUSE: address already in use ::1:8080
+    at Server.setupListenHandle [as _listen2] (node:net:1740:16)
+    at listenInCluster (node:net:1788:12)
+    at GetAddrInfoReqWrap.doListen [as callback] (node:net:1937:7)
+    at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:109:8) {
+  code: 'EADDRINUSE',
+  errno: -4091,
+  syscall: 'listen',
+  address: '::1',
+  port: 8080
+}
+[14.08.2023 11:49.46.797] [ERROR] MagicMirror² will not quit, but it might be a good idea to check why this happened. Maybe no internet connection?
+[14.08.2023 11:49.46.797] [ERROR] If you think this really is an issue, please open an issue on GitHub: https://github.com/MichMich/MagicMirror/issues
+C:\Users\oksej\Programming\privat\MagicMirror\node_modules\electron\dist\electron.exe exited with signal SIGINT
+
+> magicmirror@2.24.0 start
+> .\node_modules\.bin\electron js\electron.js
+
+
+[14.08.2023 11:50.13.462] [LOG]   Starting MagicMirror: v2.24.0
+[14.08.2023 11:50.13.464] [LOG]   Loading config ...
+[14.08.2023 11:50.13.466] [DEBUG] config template file not exists, no envsubst
+[14.08.2023 11:50.13.467] [LOG]   Loading module helpers ...
+[14.08.2023 11:50.13.467] [LOG]   No helper found for module: alert.
+[14.08.2023 11:50.13.472] [LOG]   Initializing new module helper ...
+[14.08.2023 11:50.13.472] [LOG]   Module helper loaded: updatenotification
+[14.08.2023 11:50.13.472] [LOG]   No helper found for module: clock.
+[14.08.2023 11:50.13.472] [LOG]   No helper found for module: weather.
+[14.08.2023 11:50.13.473] [WARN]  No C:\Users\oksej\Programming\privat\MagicMirror\js/../modules/googlecalendar/googlecalendar.js found for module: googlecalendar.
+[14.08.2023 11:50.13.473] [LOG]   No helper found for module: googlecalendar.
+[14.08.2023 11:50.13.589] [LOG]   Initializing new module helper ...
+[14.08.2023 11:50.13.589] [LOG]   Module helper loaded: MMM-Todoist
+[14.08.2023 11:50.13.597] [LOG]   Initializing new module helper ...
+[14.08.2023 11:50.13.597] [LOG]   Module helper loaded: newsfeed
+[14.08.2023 11:50.13.597] [LOG]   All module helpers loaded.
+[14.08.2023 11:50.13.600] [LOG]   Starting server on port 8080 ... 
+[14.08.2023 11:50.13.637] [LOG]   Server started ...
+[14.08.2023 11:50.13.638] [LOG]   Connecting socket for: updatenotification
+[14.08.2023 11:50.13.638] [LOG]   Starting module helper: updatenotification
+[14.08.2023 11:50.13.638] [LOG]   Connecting socket for: MMM-Todoist
+[14.08.2023 11:50.13.638] [LOG]   Starting node helper for: MMM-Todoist
+[14.08.2023 11:50.13.638] [LOG]   Connecting socket for: newsfeed
+[14.08.2023 11:50.13.638] [LOG]   Starting node helper for: newsfeed
+[14.08.2023 11:50.13.638] [LOG]   Sockets connected & modules started ...
+[14.08.2023 11:50.13.642] [LOG]   Launching application.
+[14.08.2023 11:50.14.170] [LOG]   Create new newsfetcher for url: https://www.kn-online.de/arc/outboundfeeds/rss/ - Interval: 300000
+[14.08.2023 11:50.14.194] [LOG]   Create new newsfetcher for url: https://newsfeed.kicker.de/news/aktuell - Interval: 300000
+[14.08.2023 11:50.14.198] [INFO]  Checking git for module: MMM-Todoist
+[14.08.2023 11:50.14.263] [INFO]  Newsfeed-Fetcher: Broadcasting 20 items.
+[14.08.2023 11:50.14.269] [INFO]  Checking git for module: MagicMirror
+[14.08.2023 11:50.14.350] [INFO]  Newsfeed-Fetcher: Broadcasting 100 items.
+C:\Users\oksej\Programming\privat\MagicMirror\node_modules\electron\dist\electron.exe exited with signal SIGINT
