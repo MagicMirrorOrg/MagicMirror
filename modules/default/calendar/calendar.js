@@ -559,7 +559,7 @@ Module.register("calendar", {
 			let maxPastDaysCompare = now - this.maximumPastDaysForUrl(calendarUrl) * ONE_DAY;
 			for (const e in calendar) {
 				const event = JSON.parse(JSON.stringify(calendar[e])); // clone object
-
+				event.url = calendarUrl;
 				if (this.config.hidePrivate && event.class === "PRIVATE") {
 					// do not add the current event, skip it
 					continue;
@@ -578,7 +578,7 @@ Module.register("calendar", {
 						break;
 					}
 				}
-				event.url = calendarUrl;
+
 				event.today = event.startDate >= today && event.startDate < today + ONE_DAY;
 				event.dayBeforeYesterday = event.startDate >= today - ONE_DAY * 2 && event.startDate < today - ONE_DAY;
 				event.yesterday = event.startDate >= today - ONE_DAY && event.startDate < today;
@@ -662,7 +662,7 @@ Module.register("calendar", {
 
 	listContainsEvent: function (eventList, event) {
 		for (const evt of eventList) {
-			if (evt.title === event.title && parseInt(evt.startDate) === parseInt(event.startDate)) {
+			if (evt.title === event.title && parseInt(evt.startDate) === parseInt(event.startDate) && evt.url === event.url) {
 				return true;
 			}
 		}
