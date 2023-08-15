@@ -86,8 +86,8 @@ describe("Calendar module", () => {
 			await helpers.getDocument();
 		});
 
-		it("should show 2 events with the same title and start time from different calendars", async () => {
-			await testElementLength(".calendar .event", 2);
+		it("should show multiple events with the same title and start time from different calendars", async () => {
+			await testElementLength(".calendar .event", 22);
 		});
 	});
 
