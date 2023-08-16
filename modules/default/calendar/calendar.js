@@ -154,11 +154,14 @@ Module.register("calendar", {
 
 		// Refresh the DOM every minute if needed: When using relative date format for events that start
 		// or end in less than an hour, the date shows minute granularity and we want to keep that accurate.
-		setTimeout(() => {
-			setInterval(() => {
-				this.updateDom(1);
-			}, ONE_MINUTE);
-		}, ONE_MINUTE - (new Date() % ONE_MINUTE));
+		setTimeout(
+			() => {
+				setInterval(() => {
+					this.updateDom(1);
+				}, ONE_MINUTE);
+			},
+			ONE_MINUTE - (new Date() % ONE_MINUTE)
+		);
 	},
 
 	// Override socket notification handler.
