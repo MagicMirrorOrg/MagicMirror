@@ -20,6 +20,7 @@ _This release is scheduled to be released on 2023-10-01._
 - Update roboto fonts to version v5
 - Update issue template
 - Update dependencies incl. electron to v26 (except prettier v3)
+- Minimum node version is now v18. v16 reached it's end of life.
 
 ### Fixed
 
