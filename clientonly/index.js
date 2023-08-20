@@ -84,6 +84,7 @@
 			.then(function (configReturn) {
 				// Pass along the server config via an environment variable
 				const env = Object.create(process.env);
+				env.clientonly = true; // set to pass to electron.js
 				const options = { env: env };
 				configReturn.address = config.address;
 				configReturn.port = config.port;

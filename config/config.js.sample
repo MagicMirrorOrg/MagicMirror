@@ -55,8 +55,9 @@ let config = {
 			config: {
 				calendars: [
 					{
+						fetchInterval: 7 * 24 * 60 * 60 * 1000,
 						symbol: "calendar-check",
-						url: "webcal://www.calendarlabs.com/ical-calendar/ics/76/US_Holidays.ics"
+						url: "https://ics.calendarlabs.com/76/mm3137/US_Holidays.ics"
 					}
 				]
 			}

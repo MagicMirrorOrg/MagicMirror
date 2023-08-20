@@ -5,9 +5,36 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror².
 
-## [2.24.0] - Unreleased (`develop` branch)
+## [2.25.0] - Unreleased (`develop` branch)
 
-_This release is scheduled to be released on 2023-07-01._
+_This release is scheduled to be released on 2023-10-01._
+
+### Added
+
+- Added UV Index support to OpenWeatherMap
+
+### Removed
+
+### Updated
+
+- Update roboto fonts to version v5
+- Update issue template
+- Update dependencies incl. electron to v26
+- Replace pretty-quick by lint-staged (<https://github.com/azz/pretty-quick/issues/164>)
+- Update engine node >=18. v16 reached it's end of life. (#3170)
+
+### Fixed
+
+- Fix engine check on npm install (#3135)
+- Fix undefined formatTime method in clock module (#3143)
+- Fix clientonly startup fails after async added (#3151)
+- Fix electron width/heigth when using xrandr under bullseye
+
+## [2.24.0] - 2023-07-01
+
+Thanks to: @angeldeejay, @bugsounet, @buxxi, @CarJem, @dariom, @DaveChild, @dWoolridge, @eddiehung, @grenagit, @Hirschberger, @ismarslomic, @JakeBinney, @KristjanESPERANTO, @MagMar94, @naveensrinivasan, @nfogal, @oscarb, @OWL4C, @psieg, @rajniszp, @retroflex, @SkySails and @tomzt
+
+Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not all) of the work on this release as project collaborators. This version would not be there without their effort. Thank you guys! You are awesome!
 
 ### Added
 
@@ -17,6 +44,7 @@ _This release is scheduled to be released on 2023-07-01._
 - Added no-param-reassign eslint rule and fix warnings
 - updatenotification: Added `sendUpdatesNotifications` feature. Broadcast update with `UPDATES` notification to other modules
 - updatenotification: allow force scanning with `SCAN_UPDATES` notification from other modules
+- Added per-calendar fetchInterval
 
 ### Removed
 
@@ -25,12 +53,14 @@ _This release is scheduled to be released on 2023-07-01._
 ### Updated
 
 - Added support for precipitation probability with openmeteo weather-provider
-- Update electron to v25 and other dependencies
+- Update electron to v25.2 and other dependencies
 - Use node v20 in github workflow (replacing v14)
 - Refactor formatTime into common util function for default modules
 - Refactor some calendar methods into own class and added tests for them
 - Split install and run commands in github actions
-- Update engine node >=18 (#3135)
+- Changed `fetchInterval` of calendar in `config.js.sample` to 7 days so we not to request example calendar too frequently
+- Changed default calendar fetchInterval to one hour
+- Changed calendar url in sample config
 
 ### Fixed
 
@@ -40,7 +70,7 @@ _This release is scheduled to be released on 2023-07-01._
 - Fix don't filter out ongoing full day events (#3095)
 - Fix date not shown when clock in analog mode (#3100)
 - Fix envcanada today percentage-of-precipitation (#3106)
-- Fix engine check on npm install (#3135)
+- Fix updatenotification where no branch is checked out but e.g. a version tag (#3130)
 
 ## [2.23.0] - 2023-04-04
 

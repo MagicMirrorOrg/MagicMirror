@@ -21,11 +21,11 @@ Module.register("calendar", {
 		defaultRepeatingCountTitle: "",
 		maxTitleLength: 25,
 		maxLocationTitleLength: 25,
-		wrapEvents: false, // wrap events to multiple lines breaking at maxTitleLength
+		wrapEvents: false, // Wrap events to multiple lines breaking at maxTitleLength
 		wrapLocationEvents: false,
 		maxTitleLines: 3,
 		maxEventTitleLines: 3,
-		fetchInterval: 5 * 60 * 1000, // Update every 5 minutes.
+		fetchInterval: 60 * 60 * 1000, // Update every hour
 		animationSpeed: 2000,
 		fade: true,
 		urgency: 7,
@@ -154,11 +154,14 @@ Module.register("calendar", {
 
 		// Refresh the DOM every minute if needed: When using relative date format for events that start
 		// or end in less than an hour, the date shows minute granularity and we want to keep that accurate.
-		setTimeout(() => {
-			setInterval(() => {
-				this.updateDom(1);
-			}, ONE_MINUTE);
-		}, ONE_MINUTE - (new Date() % ONE_MINUTE));
+		setTimeout(
+			() => {
+				setInterval(() => {
+					this.updateDom(1);
+				}, ONE_MINUTE);
+			},
+			ONE_MINUTE - (new Date() % ONE_MINUTE)
+		);
 	},
 
 	// Override socket notification handler.
@@ -683,7 +686,7 @@ Module.register("calendar", {
 			maximumEntries: calendarConfig.maximumEntries || this.config.maximumEntries,
 			maximumNumberOfDays: calendarConfig.maximumNumberOfDays || this.config.maximumNumberOfDays,
 			pastDaysCount: calendarConfig.pastDaysCount || this.config.pastDaysCount,
-			fetchInterval: this.config.fetchInterval,
+			fetchInterval: calendarConfig.fetchInterval || this.config.fetchInterval,
 			symbolClass: calendarConfig.symbolClass,
 			titleClass: calendarConfig.titleClass,
 			timeClass: calendarConfig.timeClass,

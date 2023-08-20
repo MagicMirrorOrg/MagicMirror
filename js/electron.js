@@ -25,11 +25,20 @@ let mainWindow;
  *
  */
 function createWindow() {
+	// see https://www.electronjs.org/docs/latest/api/screen
+	// Create a window that fills the screen's available work area.
+	let electronSize = (800, 600);
+	try {
+		electronSize = electron.screen.getPrimaryDisplay().workAreaSize;
+	} catch {
+		Log.warn("Could not get display size, using defaults ...");
+	}
+
 	let electronSwitchesDefaults = ["autoplay-policy", "no-user-gesture-required"];
 	app.commandLine.appendSwitch(...new Set(electronSwitchesDefaults, config.electronSwitches));
 	let electronOptionsDefaults = {
-		width: 800,
-		height: 600,
+		width: electronSize.width,
+		height: electronSize.height,
 		x: 0,
 		y: 0,
 		darkTheme: true,
@@ -167,6 +176,13 @@ app.on("certificate-error", (event, webContents, url, error, certificate, callba
 	event.preventDefault();
 	callback(true);
 });
+
+if (process.env.clientonly) {
+	app.whenReady().then(() => {
+		Log.log("Launching client viewer application.");
+		createWindow();
+	});
+}
 
 // Start the core application if server is run on localhost
 // This starts all node helpers and starts the webserver.
