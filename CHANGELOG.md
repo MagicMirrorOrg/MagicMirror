@@ -21,10 +21,11 @@ _This release is scheduled to be released on 2023-10-01._
 - Update issue template
 - Update dependencies incl. electron to v26
 - Replace pretty-quick by lint-staged (<https://github.com/azz/pretty-quick/issues/164>)
-- Minimum node version is now v18. v16 reached it's end of life.
+- Update engine node >=18. v16 reached it's end of life. (#3170)
 
 ### Fixed
 
+- Fix engine check on npm install (#3135)
 - Fix undefined formatTime method in clock module (#3143)
 - Fix clientonly startup fails after async added (#3151)
 - Fix electron width/heigth when using xrandr under bullseye
