@@ -12,6 +12,7 @@ let config = {
 			position: "bottom_bar",
 			config: {
 				maximumEntries: 30,
+				hideDuplicates: false,
 				calendars: [
 					{
 						maximumEntries: 15,
