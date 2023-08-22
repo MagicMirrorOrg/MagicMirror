@@ -82,7 +82,7 @@ describe("Calendar module", () => {
 
 	describe("Events from multiple calendars", () => {
 		beforeAll(async () => {
-			await helpers.startApplication("tests/configs/modules/calendar/multiple-calendars.js");
+			await helpers.startApplication("tests/configs/modules/calendar/show-duplicates-in-calendar.js");
 			await helpers.getDocument();
 		});
 

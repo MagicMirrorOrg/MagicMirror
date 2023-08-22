@@ -22,7 +22,7 @@ let config = {
 					{
 						maximumEntries: 15,
 						maximumNumberOfDays: 10000,
-						url: "http://localhost:8080/tests/mocks/calendar_test_multiple_calendars.ics" // clone of upper calendar
+						url: "http://localhost:8080/tests/mocks/calendar_test_clone.ics" // clone of upper calendar
 					}
 				]
 			}
