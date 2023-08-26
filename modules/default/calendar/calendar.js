@@ -39,6 +39,7 @@ Module.register("calendar", {
 		hidePrivate: false,
 		hideOngoing: false,
 		hideTime: false,
+		hideDuplicates: true,
 		showTimeToday: false,
 		colored: false,
 		customEvents: [], // Array of {keyword: "", symbol: "", color: ""} where Keyword is a regexp and symbol/color are to be applied for matched
@@ -574,13 +575,14 @@ Module.register("calendar", {
 					if (this.config.hideOngoing && event.startDate < now) {
 						continue;
 					}
-					if (this.listContainsEvent(events, event)) {
+					if (this.config.hideDuplicates && this.listContainsEvent(events, event)) {
 						continue;
 					}
 					if (--remainingEntries < 0) {
 						break;
 					}
 				}
+
 				event.url = calendarUrl;
 				event.today = event.startDate >= today && event.startDate < today + ONE_DAY;
 				event.dayBeforeYesterday = event.startDate >= today - ONE_DAY * 2 && event.startDate < today - ONE_DAY;
@@ -665,7 +667,7 @@ Module.register("calendar", {
 
 	listContainsEvent: function (eventList, event) {
 		for (const evt of eventList) {
-			if (evt.title === event.title && parseInt(evt.startDate) === parseInt(event.startDate)) {
+			if (evt.title === event.title && parseInt(evt.startDate) === parseInt(event.startDate) && parseInt(evt.endDate) === parseInt(event.endDate)) {
 				return true;
 			}
 		}
