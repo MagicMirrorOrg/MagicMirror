@@ -80,6 +80,17 @@ describe("Calendar module", () => {
 		});
 	});
 
+	describe("Events from multiple calendars", () => {
+		beforeAll(async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/show-duplicates-in-calendar.js");
+			await helpers.getDocument();
+		});
+
+		it("should show multiple events with the same title and start time from different calendars", async () => {
+			await testElementLength(".calendar .event", 22);
+		});
+	});
+
 	process.setMaxListeners(0);
 	for (let i = -12; i < 12; i++) {
 		describe("Recurring event per timezone", () => {
