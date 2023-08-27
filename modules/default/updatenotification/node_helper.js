@@ -46,7 +46,7 @@ module.exports = NodeHelper.create({
 		switch (notification) {
 			case "CONFIG":
 				this.config = payload;
-				this.updateHelper = new UpdateHelper(this.config, (cb, module) => this.updatesCallbacks(cb, module));
+				this.updateHelper = new UpdateHelper(this.config);
 				await this.updateHelper.check_PM2_Process();
 				break;
 			case "MODULES":
@@ -71,7 +71,7 @@ module.exports = NodeHelper.create({
 		const repos = await this.gitHelper.getRepos();
 
 		for (const repo of repos) {
-			this.sendSocketNotification("STATUS", repo);
+			this.sendSocketNotification("REPO_STATUS", repo);
 		}
 
 		const updates = await this.gitHelper.checkUpdates();
@@ -80,7 +80,14 @@ module.exports = NodeHelper.create({
 			this.sendSocketNotification("UPDATES", updates);
 		}
 
-		this.updateHelper.add(updates);
+		if (updates.length) {
+			const updateResult = await this.updateHelper.parse(updates);
+			for (const update of updateResult) {
+				if (update.inProgress) {
+					this.sendSocketNotification("UPDATE_STATUS", update);
+				}
+			}
+		}
 
 		this.scheduleNextFetch(this.config.updateInterval);
 	},

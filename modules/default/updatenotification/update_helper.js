@@ -3,12 +3,14 @@ const Spawn = require("child_process").spawn;
 const commandExists = require("command-exists");
 const Log = require("logger");
 
+/** @todo comment how this class work */
+/** Soon... */
+
 class Updater {
-	constructor(config, callback) {
+	constructor(config) {
 		this.updates = config.updates;
 		this.timeout = config.updateTimeout;
 		this.autoRestart = config.updateAutorestart;
-		this.callback = callback;
 		this.moduleList = {};
 		this.updating = false;
 		this.usePM2 = false;
@@ -18,34 +20,39 @@ class Updater {
 		Log.info("updatenotification: Updater Class Loaded!");
 	}
 
-	add(modules) {
-		modules.forEach(async (module) => {
-			if (module.behind > 0) {
-				if (this.moduleList[module.module] === undefined) {
-					this.moduleList[module.module] = {};
-					this.moduleList[module.module].name = module.module;
-					this.moduleList[module.module].updateCommand = await this.applyCommand(module.module);
-					this.moduleList[module.module].neverUpdated = true;
-				}
-				if (this.moduleList[module.module].neverUpdated) {
-					if (!this.updating) {
-						if (!this.moduleList[module.module].updateCommand) {
-							this.updating = false;
-						} else {
-							this.updateProcess(this.moduleList[module.module]);
-							this.updating = true;
-						}
-					}
-					this.moduleList[module.module].neverUpdated = false;
-				}
-			} else if (module.behind === 0) {
-				if (this.moduleList[module.module] !== undefined) delete this.moduleList[module.module];
+	async parse(modules) {
+		var parser = modules.map(async (module) => {
+			if (this.moduleList[module.module] === undefined) {
+				this.moduleList[module.module] = {};
+				this.moduleList[module.module].name = module.module;
+				this.moduleList[module.module].updateCommand = await this.applyCommand(module.module);
+				(this.moduleList[module.module].inProgress = false), (this.moduleList[module.module].error = null);
+				(this.moduleList[module.module].updated = false), (this.moduleList[module.module].needRestart = false);
 			}
-			//Log.info("updatenotification Result:", this.moduleList[module.module])
+			if (!this.moduleList[module.module].inProgress) {
+				if (!this.updating) {
+					if (!this.moduleList[module.module].updateCommand) {
+						this.updating = false;
+					} else {
+						this.updating = true;
+						(this.moduleList[module.module].inProgress = true), Object.assign(this.moduleList[module.module], await this.updateProcess(this.moduleList[module.module]));
+					}
+				}
+			}
 		});
+
+		await Promise.all(parser);
+		let updater = Object.values(this.moduleList);
+		Log.debug("updatenotification Update Result:", updater);
+		return updater;
 	}
 
 	updateProcess(module) {
+		let Result = {
+			error: false,
+			updated: false,
+			needRestart: false
+		};
 		let Command = null;
 		const Path = `${this.root_path}/modules/`;
 		const modulePath = Path + module.name;
@@ -53,25 +60,29 @@ class Updater {
 		if (module.updateCommand) {
 			Command = module.updateCommand;
 		} else {
-			return Log.warn(`updatenotification: Update of ${module.name} is not supported.`);
+			Log.warn(`updatenotification: Update of ${module.name} is not supported.`);
+			return Result;
 		}
 		Log.info(`updatenotification: Updating ${module.name}...`);
 
-		Exec(Command, { cwd: modulePath, timeout: this.timeout }, (error, stdout, stderr) => {
-			if (error) {
-				Log.error(`updatenotification: exec error: ${error}`);
-				this.callback("UPDATE_ERROR", module.name);
-			} else {
-				Log.info(`updatenotification: Update logs of ${module.name}: ${stdout}`);
-				this.callback("UPDATED", module.name);
-				if (this.autoRestart) {
-					Log.info("updatenotification: Update done");
-					setTimeout(() => this.restart(), 3000);
+		return new Promise((resolve) => {
+			Exec(Command, { cwd: modulePath, timeout: this.timeout }, (error, stdout, stderr) => {
+				if (error) {
+					Log.error(`updatenotification: exec error: ${error}`);
+					Result.error = true;
 				} else {
-					Log.info("updatenotification: Update done, don't forget to restart MagicMirror!");
-					this.callback("NEEDRESTART");
+					Log.info(`updatenotification: Update logs of ${module.name}: ${stdout}`);
+					Result.updated = true;
+					if (this.autoRestart) {
+						Log.info("updatenotification: Update done");
+						setTimeout(() => this.restart(), 3000);
+					} else {
+						Log.info("updatenotification: Update done, don't forget to restart MagicMirror!");
+						Result.needRestart = true;
+					}
 				}
-			}
+				resolve(Result);
+			});
 		});
 	}
 

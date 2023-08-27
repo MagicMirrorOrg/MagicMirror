@@ -10,25 +10,7 @@ Module.register("updatenotification", {
 		refreshInterval: 24 * 60 * 60 * 1000, // one day
 		ignoreModules: [],
 		sendUpdatesNotifications: false,
-		updates: [
-			// array of module update commands
-			{
-				// with embed npm script
-				"MMM-Test": "npm run update"
-			},
-			{
-				// with "complex" process
-				"MMM-OtherSample": "rm -rf package-lock.json && git reset --hard && git pull && npm install"
-			},
-			{
-				// with git pull && npm install
-				"MMM-OtherSample2": "git pull && npm install"
-			},
-			{
-				// with a simple git pull
-				"MMM-OtherSample3": "git pull"
-			}
-		],
+		updates: [],
 		updateTimeout: 2 * 60 * 1000, // max update duration
 		updateAutorestart: false // autoRestart MM when update done ?
 	},
@@ -70,21 +52,14 @@ Module.register("updatenotification", {
 
 	socketNotificationReceived(notification, payload) {
 		switch (notification) {
-			case "STATUS":
+			case "REPO_STATUS":
 				this.updateUI(payload);
 				break;
 			case "UPDATES":
 				this.sendNotification("UPDATES", payload);
 				break;
-			case "UPDATED":
+			case "UPDATE_STATUS":
 				this.updatesNotifier(payload);
-				break;
-			case "UPDATE_ERROR":
-				this.updatesNotifier(payload, false);
-				break;
-			case "NEED_RESTART":
-				this.needRestart = true;
-				this.updateDom(2);
 				break;
 		}
 	},
@@ -132,10 +107,26 @@ Module.register("updatenotification", {
 	},
 
 	updatesNotifier(payload, done = true) {
-		this.updates[payload] = {
-			name: payload,
-			done: done
-		};
-		this.updateDom(2);
+		if (this.updates[payload.name] === undefined) {
+			this.updates[payload.name] = {
+				name: payload.name,
+				done: done
+			};
+
+			if (payload.error) {
+				this.sendSocketNotification("UPDATE_ERROR", payload.name);
+				this.updates[payload.name].done = false;
+			} else {
+				if (payload.updated) {
+					delete this.moduleList[payload.name];
+					this.updates[payload.name].done = true;
+				}
+				if (payload.needRestart) {
+					this.needRestart = true;
+				}
+			}
+
+			this.updateDom(2);
+		}
 	}
 });
