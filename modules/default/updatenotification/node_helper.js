@@ -14,22 +14,6 @@ module.exports = NodeHelper.create({
 	gitHelper: new GitHelper(),
 	updateHelper: null,
 
-	async updatesCallbacks(cb, module) {
-		switch (cb) {
-			case "UPDATED":
-				this.sendSocketNotification("UPDATED", module);
-				break;
-			case "UPDATE_ERROR":
-				this.sendSocketNotification("UPDATE_ERROR", module);
-				break;
-			case "NEEDRESTART":
-				clearTimeout(this.updateTimer);
-				await this.performFetch();
-				this.sendSocketNotification("NEED_RESTART");
-				break;
-		}
-	},
-
 	async configureModules(modules) {
 		for (const moduleName of modules) {
 			if (!this.ignoreUpdateChecking(moduleName)) {
