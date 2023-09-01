@@ -50,6 +50,7 @@ function App() {
 	let nodeHelpers = [];
 	let httpServer;
 
+	writePid();
 	/**
 	 * Loads the config file. Combines it with the defaults and returns the config
 	 * @async
@@ -328,6 +329,18 @@ function App() {
 
 		return httpServer.close();
 	};
+
+	/**
+	 * Write MagicMirror pid
+	 */
+	function writePid() {
+		let pid = process.pid;
+		Log.log(`MagicMirror is available on pid: ${pid}`);
+		fs.writeFile("MagicMirror.pid", pid.toString(), (error) => {
+			if (error) Log.error(`MagicMirror.pid writing error!: ${error.message}`);
+			else Log.debug(`MagicMirror.pid file writed!`);
+		});
+	}
 
 	/**
 	 * Listen for SIGINT signal and call stop() function.
