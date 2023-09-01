@@ -3,8 +3,40 @@ const Spawn = require("child_process").spawn;
 const commandExists = require("command-exists");
 const Log = require("logger");
 
-/** @todo comment how this class work */
-/** Soon... */
+/* class Updater
+ * Allow to self updating 3rd party modules from command defined in config
+ *
+ * [constructor] read value in config:
+ * updates: [ // array of modules update commands
+ *		{
+ *			<module name>: <update command>
+ *		},
+ * 	{
+ * 		...
+ * 	}
+ * ],
+ * updateTimeout: 2 * 60 * 1000, // max update duration
+ * updateAutorestart: false // autoRestart MM when update done ?
+ *
+ * [main command]: parse(<Array of modules>):
+ * parse if module update is needed
+ * --> Apply ONLY one update (first of the module list)
+ * --> auto-restart MagicMirror or wait manual restart by user
+ * return array with modules update state information for `updatenotification` module displayer information
+ * [
+ *		{
+ *			name = <module-name>, // name of the module
+ *			updateCommand = <update command>, // update command (if found)
+ *			inProgress = <boolean>, // an update if in progress for this module
+ *			error = <boolean>, // an error if detected when updating
+ *			updated = <boolean>, // updated successfully
+ *			needRestart = <boolean> // manual restart of MagicMirror is required by user
+ *		},
+ *		{
+ *			...
+ * 		}
+ * ]
+ */
 
 class Updater {
 	constructor(config) {
@@ -20,14 +52,17 @@ class Updater {
 		Log.info("updatenotification: Updater Class Loaded!");
 	}
 
+	// [main command] parse if module update is needed
 	async parse(modules) {
 		var parser = modules.map(async (module) => {
 			if (this.moduleList[module.module] === undefined) {
 				this.moduleList[module.module] = {};
 				this.moduleList[module.module].name = module.module;
 				this.moduleList[module.module].updateCommand = await this.applyCommand(module.module);
-				(this.moduleList[module.module].inProgress = false), (this.moduleList[module.module].error = null);
-				(this.moduleList[module.module].updated = false), (this.moduleList[module.module].needRestart = false);
+				this.moduleList[module.module].inProgress = false;
+				this.moduleList[module.module].error = null;
+				this.moduleList[module.module].updated = false;
+				this.moduleList[module.module].needRestart = false;
 			}
 			if (!this.moduleList[module.module].inProgress) {
 				if (!this.updating) {
@@ -35,7 +70,8 @@ class Updater {
 						this.updating = false;
 					} else {
 						this.updating = true;
-						(this.moduleList[module.module].inProgress = true), Object.assign(this.moduleList[module.module], await this.updateProcess(this.moduleList[module.module]));
+						this.moduleList[module.module].inProgress = true;
+						Object.assign(this.moduleList[module.module], await this.updateProcess(this.moduleList[module.module]));
 					}
 				}
 			}
@@ -47,6 +83,13 @@ class Updater {
 		return updater;
 	}
 
+	// module updater with his proper command
+	// return object as result
+	//{
+	//	error: <boolean>, // if error detected
+	//	updated: <boolean>, // if updated successfully
+	//	needRestart: <boolean> // if magicmirror restart required
+	//};
 	updateProcess(module) {
 		let Result = {
 			error: false,
@@ -86,18 +129,24 @@ class Updater {
 		});
 	}
 
+	// restart rules (pm2 or npm start)
 	restart() {
-		if (this.usePM2) {
-			Log.info("updatenotification: PM2 will restarting MagicMirror...");
-			Exec(`pm2 restart ${this.PM2}`, (err, std, sde) => {
-				if (err) {
-					Log.error("updatenotification:[PM2] restart Error", err);
-				}
-			});
-		} else this.doRestart();
+		if (this.usePM2) this.pm2Restart();
+		else this.npmRestart();
 	}
 
-	doRestart() {
+	// restart MagicMiror with "pm2"
+	pm2Restart() {
+		Log.info("updatenotification: PM2 will restarting MagicMirror...");
+		Exec(`pm2 restart ${this.PM2}`, (err, std, sde) => {
+			if (err) {
+				Log.error("updatenotification:[PM2] restart Error", err);
+			}
+		});
+	}
+
+	// restart MagicMiror with "npm start"
+	npmRestart() {
 		Log.info("updatenotification: Restarting MagicMirror...");
 		const out = process.stdout;
 		const err = process.stderr;
@@ -155,13 +204,15 @@ class Updater {
 		});
 	}
 
-	canBeUpdated(module) {
-		if (module === "MagicMirror") return false;
-		return true;
+	// check if module is MagicMirror
+	isMagicMirror(module) {
+		if (module === "MagicMirror") return true;
+		return false;
 	}
 
+	// search update module command
 	applyCommand(module) {
-		if (!this.canBeUpdated(module.module)) return null;
+		if (this.isMagicMirror(module.module)) return null;
 		let command = null;
 		this.updates.forEach((updater) => {
 			if (updater[module]) command = updater[module];
