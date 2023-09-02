@@ -22,6 +22,10 @@ If you are facing an issue or found a bug while trying to install MagicMirror² 
 If you are facing an issue or found a bug while running MagicMirror² inside a Docker container please create an issue in the corresponding repository:
 [https://gitlab.com/khassel/magicmirror](https://gitlab.com/khassel/magicmirror)
 
+## I'm having troubles installing or configuring foreign modules
+
+Please open an issue in the module repository or ask for help in the [forum](https://forum.magicmirror.builders/)
+
 ---
 
 ## I found a bug in MagicMirror
@@ -31,7 +35,7 @@ When submitting a new issue, please supply the following information:
 
 **Platform**: Place your platform here... give us your web browser/Electron version _and_ your hardware (Raspberry Pi 2/3/4, Windows, Mac, Linux, System V UNIX).
 
-**Node Version**: Make sure it's version 16 or later (recommended is 18).
+**Node Version**: Make sure it's version 18 or later (recommended is 20).
 
 **MagicMirror² Version**: Please let us know which version of MagicMirror² you are running. It can be found in the `package.json` file.
 

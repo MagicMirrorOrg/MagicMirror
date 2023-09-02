@@ -94,18 +94,21 @@ class GitHelper {
 		// ## develop...origin/develop
 		// ## master...origin/master [behind 8]
 		// ## master...origin/master [ahead 8, behind 1]
+		// ## HEAD (no branch)
 		status = status.match(/## (.*)\.\.\.([^ ]*)(?: .*behind (\d+))?/);
 		// examples for status:
 		// [ '## develop...origin/develop', 'develop', 'origin/develop' ]
 		// [ '## master...origin/master [behind 8]', 'master', 'origin/master', '8' ]
 		// [ '## master...origin/master [ahead 8, behind 1]', 'master', 'origin/master', '1' ]
-		gitInfo.current = status[1];
-		gitInfo.tracking = status[2];
+		if (status) {
+			gitInfo.current = status[1];
+			gitInfo.tracking = status[2];
 
-		if (status[3]) {
-			// git fetch was already called before so `git status -sb` delivers already the behind number
-			gitInfo.behind = parseInt(status[3]);
-			gitInfo.isBehindInStatus = true;
+			if (status[3]) {
+				// git fetch was already called before so `git status -sb` delivers already the behind number
+				gitInfo.behind = parseInt(status[3]);
+				gitInfo.isBehindInStatus = true;
+			}
 		}
 
 		return gitInfo;
@@ -114,7 +117,7 @@ class GitHelper {
 	async getRepoInfo(repo) {
 		const gitInfo = await this.getStatusInfo(repo);
 
-		if (!gitInfo) {
+		if (!gitInfo || !gitInfo.current) {
 			return;
 		}
 

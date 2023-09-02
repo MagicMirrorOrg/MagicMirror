@@ -21,11 +21,11 @@ Module.register("calendar", {
 		defaultRepeatingCountTitle: "",
 		maxTitleLength: 25,
 		maxLocationTitleLength: 25,
-		wrapEvents: false, // wrap events to multiple lines breaking at maxTitleLength
+		wrapEvents: false, // Wrap events to multiple lines breaking at maxTitleLength
 		wrapLocationEvents: false,
 		maxTitleLines: 3,
 		maxEventTitleLines: 3,
-		fetchInterval: 5 * 60 * 1000, // Update every 5 minutes.
+		fetchInterval: 60 * 60 * 1000, // Update every hour
 		animationSpeed: 2000,
 		fade: true,
 		urgency: 7,
@@ -39,6 +39,7 @@ Module.register("calendar", {
 		hidePrivate: false,
 		hideOngoing: false,
 		hideTime: false,
+		hideDuplicates: true,
 		showTimeToday: false,
 		colored: false,
 		customEvents: [], // Array of {keyword: "", symbol: "", color: ""} where Keyword is a regexp and symbol/color are to be applied for matched
@@ -154,11 +155,14 @@ Module.register("calendar", {
 
 		// Refresh the DOM every minute if needed: When using relative date format for events that start
 		// or end in less than an hour, the date shows minute granularity and we want to keep that accurate.
-		setTimeout(() => {
-			setInterval(() => {
-				this.updateDom(1);
-			}, ONE_MINUTE);
-		}, ONE_MINUTE - (new Date() % ONE_MINUTE));
+		setTimeout(
+			() => {
+				setInterval(() => {
+					this.updateDom(1);
+				}, ONE_MINUTE);
+			},
+			ONE_MINUTE - (new Date() % ONE_MINUTE)
+		);
 	},
 
 	// Override socket notification handler.
@@ -571,13 +575,14 @@ Module.register("calendar", {
 					if (this.config.hideOngoing && event.startDate < now) {
 						continue;
 					}
-					if (this.listContainsEvent(events, event)) {
+					if (this.config.hideDuplicates && this.listContainsEvent(events, event)) {
 						continue;
 					}
 					if (--remainingEntries < 0) {
 						break;
 					}
 				}
+
 				event.url = calendarUrl;
 				event.today = event.startDate >= today && event.startDate < today + ONE_DAY;
 				event.dayBeforeYesterday = event.startDate >= today - ONE_DAY * 2 && event.startDate < today - ONE_DAY;
@@ -662,7 +667,7 @@ Module.register("calendar", {
 
 	listContainsEvent: function (eventList, event) {
 		for (const evt of eventList) {
-			if (evt.title === event.title && parseInt(evt.startDate) === parseInt(event.startDate)) {
+			if (evt.title === event.title && parseInt(evt.startDate) === parseInt(event.startDate) && parseInt(evt.endDate) === parseInt(event.endDate)) {
 				return true;
 			}
 		}
@@ -683,7 +688,7 @@ Module.register("calendar", {
 			maximumEntries: calendarConfig.maximumEntries || this.config.maximumEntries,
 			maximumNumberOfDays: calendarConfig.maximumNumberOfDays || this.config.maximumNumberOfDays,
 			pastDaysCount: calendarConfig.pastDaysCount || this.config.pastDaysCount,
-			fetchInterval: this.config.fetchInterval,
+			fetchInterval: calendarConfig.fetchInterval || this.config.fetchInterval,
 			symbolClass: calendarConfig.symbolClass,
 			titleClass: calendarConfig.titleClass,
 			timeClass: calendarConfig.timeClass,
