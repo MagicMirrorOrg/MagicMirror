@@ -57,7 +57,7 @@ const MM = (function () {
 			// create the domCreationPromise with AnimateCSS (with animateIn of module definition)
 			// or just display it
 			var domCreationPromise;
-			if (haveAnimateIn) domCreationPromise = updateDom(module, 500, null, null, true);
+			if (haveAnimateIn) domCreationPromise = updateDom(module, 1000, null, haveAnimateIn, true);
 			else domCreationPromise = updateDom(module, 0);
 
 			domCreationPromises.push(domCreationPromise);
@@ -166,7 +166,8 @@ const MM = (function () {
 				return;
 			}
 
-			if (createAnimatedDom) {
+			if (createAnimatedDom && animateIn !== null) {
+				// Log.log(`${module.identifier} createAnimatedDom (${animateIn})`);
 				updateModuleContent(module, newHeader, newContent);
 				if (!module.hidden) {
 					showModule(module, speed, null, { animate: animateIn });
@@ -274,16 +275,24 @@ const MM = (function () {
 			// can't be override with options.animate
 			else if (options.animate && _AnimateCSSOut.indexOf(options.animate) !== -1) haveAnimateName = options.animate;
 
-			if (!haveAnimateName) moduleWrapper.style.transition = `opacity ${speed / 1000}s`;
-			else {
-				Log.log(`${module.identifier} Has animateOut: ${haveAnimateName}`);
+			if (haveAnimateName) {
+				// with AnimateCSS
+				// Log.log(`${module.identifier} Has animateOut: ${haveAnimateName}`);
 				await AnimateCSS(module.identifier, haveAnimateName, speed / 1000);
-			}
+				// AnimateCSS is now done
+				moduleWrapper.style.opacity = 0;
+				moduleWrapper.classList.add("hidden");
+				moduleWrapper.style.position = "fixed";
 
-			moduleWrapper.style.opacity = 0;
-			moduleWrapper.classList.add("hidden");
-
-			if (!haveAnimateName) {
+				updateWrapperStates();
+				if (typeof callback === "function") {
+					callback();
+				}
+			} else {
+				// default MM² Animate
+				moduleWrapper.style.transition = `opacity ${speed / 1000}s`;
+				moduleWrapper.style.opacity = 0;
+				moduleWrapper.classList.add("hidden");
 				module.showHideTimer = setTimeout(function () {
 					// To not take up any space, we just make the position absolute.
 					// since it's fade out anyway, we can see it lay above or
@@ -297,14 +306,6 @@ const MM = (function () {
 						callback();
 					}
 				}, speed);
-			} else {
-				// AnimateCSS is now done
-				moduleWrapper.style.position = "fixed";
-
-				updateWrapperStates();
-				if (typeof callback === "function") {
-					callback();
-				}
 			}
 		} else {
 			// invoke callback even if no content, issue 1308
@@ -321,7 +322,7 @@ const MM = (function () {
 	 * @param {Function} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the show method.
 	 */
-	const showModule = function (module, speed, callback, options = {}) {
+	const showModule = async function (module, speed, callback, options = {}) {
 		// remove lockString if set in options.
 		if (options.lockString) {
 			const index = module.lockStrings.indexOf(options.lockString);
@@ -372,19 +373,20 @@ const MM = (function () {
 			const dummy = moduleWrapper.parentElement.parentElement.offsetHeight;
 			moduleWrapper.style.opacity = 1;
 
-			if (!haveAnimateName) {
+			if (haveAnimateName) {
+				// with AnimateCSS
+				// Log.log(`${module.identifier} Has animateIn: ${haveAnimateName}`);
+				await AnimateCSS(module.identifier, haveAnimateName, speed / 1000);
+				if (typeof callback === "function") {
+					callback();
+				}
+			} else {
+				// default MM² Animate
 				module.showHideTimer = setTimeout(function () {
 					if (typeof callback === "function") {
 						callback();
 					}
 				}, speed);
-			} else {
-				Log.log(`${module.identifier} Has animateIn: ${haveAnimateName}`);
-				AnimateCSS(module.identifier, haveAnimateName, speed / 1000).then(() => {
-					if (typeof callback === "function") {
-						callback();
-					}
-				});
 			}
 		} else {
 			// invoke callback
