@@ -1,5 +1,3 @@
-const Class = require("../../../../js/class.js");
-
 /* Wrapper to enable the injection of local sensor data */
 const LocalWrapper = Class.extend({
 	baseProvider: null,

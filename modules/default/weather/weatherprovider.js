@@ -1,4 +1,3 @@
-const LocalWrapper = require("./providers/localWrapper.js");
 /* global Class, performWebRequest */
 
 /* MagicMirror²
