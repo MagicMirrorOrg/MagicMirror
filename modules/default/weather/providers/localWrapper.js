@@ -1,3 +1,5 @@
+/* global Class */
+
 /* Wrapper to enable the injection of local sensor data */
 const LocalWrapper = Class.extend({
 	baseProvider: null,
