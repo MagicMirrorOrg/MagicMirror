@@ -1,4 +1,4 @@
-/* global Class, performWebRequest */
+/* global Class, performWebRequest, LocalWrapper */
 
 /* MagicMirror²
  * Module: Weather
