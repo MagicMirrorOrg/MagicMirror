@@ -1,3 +1,4 @@
+const LocalWrapper = require("./providers/localWrapper.js");
 /* global Class, performWebRequest */
 
 /* MagicMirror²
@@ -153,7 +154,7 @@ WeatherProvider.register = function (providerIdentifier, providerDetails) {
 WeatherProvider.initialize = function (providerIdentifier, delegate) {
 	const pi = providerIdentifier.toLowerCase();
 
-	const provider = new WeatherProvider.providers[pi]();
+	let provider = new WeatherProvider.providers[pi]();
 	const config = Object.assign({}, provider.defaults, delegate.config);
 
 	provider.delegate = delegate;
@@ -162,6 +163,10 @@ WeatherProvider.initialize = function (providerIdentifier, delegate) {
 	provider.providerIdentifier = pi;
 	if (!provider.providerName) {
 		provider.providerName = pi;
+	}
+
+	if (config.allowOverrideNotification) {
+		provider = new LocalWrapper(provider);
 	}
 
 	return provider;
