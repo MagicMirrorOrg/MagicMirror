@@ -153,7 +153,7 @@ WeatherProvider.register = function (providerIdentifier, providerDetails) {
 WeatherProvider.initialize = function (providerIdentifier, delegate) {
 	const pi = providerIdentifier.toLowerCase();
 
-	let provider = new WeatherProvider.providers[pi]();
+	const provider = new WeatherProvider.providers[pi]();
 	const config = Object.assign({}, provider.defaults, delegate.config);
 
 	provider.delegate = delegate;
@@ -165,7 +165,7 @@ WeatherProvider.initialize = function (providerIdentifier, delegate) {
 	}
 
 	if (config.allowOverrideNotification) {
-		provider = new LocalWrapper(provider);
+		return new LocalWrapper(provider);
 	}
 
 	return provider;
