@@ -1,20 +1,37 @@
 /* global Class */
 
-/* Wrapper to enable the injection of local sensor data */
-const LocalWrapper = Class.extend({
+/*
+ * Wrapper class to enable overrides of currentOverrideWeatherObject.
+ *
+ * Sits between the weather.js module and the provider implementations to allow us to
+ * combine the incoming data from the CURRENT_WEATHER_OVERRIDE notification with the
+ * existing data received from the current api provider. If no notifications have
+ * been received then the api provider's data is used.
+ *
+ * The intent is to allow partial WeatherObjects from local sensors to augment or
+ * replace the WeatherObjects from the api providers.
+ *
+ * This class shares the signature of WeatherProvider, and passes any methods not
+ * concerning the current weather directly to the api provider implementation that
+ * is currently in use.
+ */
+const OverrideWrapper = Class.extend({
 	baseProvider: null,
 	providerName: "localWrapper",
-	overrideWeatherObject: null,
-	currentWeatherObject: null,
+	notificationWeatherObject: null,
+	currentOverrideWeatherObject: null,
 
 	init(baseProvider) {
 		this.baseProvider = baseProvider;
 
-		// baseProvider does not inherit LocalWrapper - need to be explicit to replace
-		// methods inherited from Weatherprovider
+		// Binding the scope of current weather functions so any fetchData calls with
+		// setCurrentWeather nested in them call this classes implementation instead
+		// of the provider's default
 		this.baseProvider.setCurrentWeather = this.setCurrentWeather.bind(this);
 		this.baseProvider.currentWeather = this.currentWeather.bind(this);
 	},
+
+	/* Unchanged Api Provider Methods */
 
 	setConfig(config) {
 		this.baseProvider.setConfig(config);
@@ -31,7 +48,6 @@ const LocalWrapper = Class.extend({
 	fetchWeatherHourly() {
 		this.baseProvider.fetchEatherHourly();
 	},
-
 	weatherForecast() {
 		this.baseProvider.weatherForecast();
 	},
@@ -57,20 +73,43 @@ const LocalWrapper = Class.extend({
 		this.baseProvider.fetchData(url, type, requestHeaders, expectedResponseHeaders);
 	},
 
-	// "Override" to fetch the currentWeatherObject from this class, not the provider
+	/* Override Methods */
+
+	/**
+	 * Override to return this scope's
+	 *
+	 * @return {WeatherObject} The current weather object. May or may not contain overridden data.
+	 */
 	currentWeather() {
-		return this.currentWeatherObject;
+		return this.currentOverrideWeatherObject;
 	},
 
-	// "Override" to set the currentWeatherObject ot this class, not the provider
+	/**
+	 * Override to combine the overrideWeatherObejct provided in the
+	 * notificationReceived method with the currentOverrideWeatherObject provided by the
+	 * api provider fetchData implementation.
+	 *
+	 * @param {WeatherObject} currentOverrideWeatherObject - the api provider weather object
+	 */
 	setCurrentWeather(currentWeatherObject) {
-		// Merge in any sensor data we got
-		this.currentWeatherObject = Object.assign(currentWeatherObject, this.overrideWeatherObject);
+		this.currentOverrideWeatherObject = Object.assign(currentWeatherObject, this.notificationWeatherObject);
 	},
 
+	/**
+	 * Updates the overrideWeatherObject, calls setCurrentWeather to combine it with
+	 * the existing current weather object provided by the base provider, and signals
+	 * that an update is ready.
+	 *
+	 * @param {weatherObject} payload - the weather object received from the CURRENT_WEATHER_OVERRIDE
+	 *                                  notification. Represents information to augment the
+	 *                                  existing currentOverrideWeatherObject with.
+	 */
 	notificationReceived(payload) {
-		this.overrideWeatherObject = payload;
-		this.setCurrentWeather(this.currentWeatherObject);
+		this.notificationWeatherObject = payload;
+
+		// setCurrentWeather combines the newly received notification weather with
+		// the existing weather object we return for current weather
+		this.setCurrentWeather(this.currentOverrideWeatherObject);
 		this.updateAvailable();
 	}
 });
