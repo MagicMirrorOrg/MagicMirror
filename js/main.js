@@ -605,11 +605,9 @@ const MM = (function () {
 		/**
 		 * Update the dom for a specific module.
 		 * @param {Module} module The module that needs an update.
-		 * @param {number} [speed] The number of microseconds for the animation.
-		 * @param {string} [animateOut] AnimateCss animation name before hidden
-		 * @param {string} [animateIn] AnimateCss animation name on show
+		 * @param {object|number} [updateOptions] The (optional) number of microseconds for the animation or object with updateOptions (speed/animates)
 		 */
-		updateDom: function (module, speed, animateOut, animateIn) {
+		updateDom: function (module, updateOptions) {
 			if (!(module instanceof Module)) {
 				Log.error("updateDom: Sender should be a module.");
 				return;
@@ -621,7 +619,7 @@ const MM = (function () {
 			}
 
 			// Further implementation is done in the private method.
-			updateDom(module, speed, animateOut, animateIn);
+			updateDom(module, updateOptions);
 		},
 
 		/**
