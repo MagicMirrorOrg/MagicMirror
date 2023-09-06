@@ -285,7 +285,7 @@ const MM = (function () {
 			// haveAnimateName for verify if we are using AninateCSS library
 			// we check AnimateCSSOut Array for validate it
 			// and finaly return the animate name or `null` (for default MM² animation)
-			var haveAnimateName = null;
+			let haveAnimateName = null;
 			// check if have valid animateOut in module definition (module.data.animateOut)
 			if (module.data.animateOut && AnimateCSSOut.indexOf(module.data.animateOut) !== -1) haveAnimateName = module.data.animateOut;
 			// can't be override with options.animate
