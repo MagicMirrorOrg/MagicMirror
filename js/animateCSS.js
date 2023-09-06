@@ -6,7 +6,7 @@
  */
 
 /* enumeration of animations in Array **/
-const _AnimateCSSIn = [
+const AnimateCSSIn = [
 	// Attention seekers
 	"bounce",
 	"flash",
@@ -74,7 +74,7 @@ const _AnimateCSSIn = [
 	"slideInUp"
 ];
 
-const _AnimateCSSOut = [
+const AnimateCSSOut = [
 	// Back exits
 	"backOutDown",
 	"backOutLeft",

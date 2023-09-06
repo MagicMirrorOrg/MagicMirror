@@ -1,4 +1,4 @@
-/* global Loader, defaults, Translator, AnimateCSS, _AnimateCSSIn, _AnimateCSSOut */
+/* global Loader, defaults, Translator, AnimateCSS, AnimateCSSIn, AnimateCSSOut */
 
 /* MagicMirror²
  * Main System
@@ -22,9 +22,9 @@ const MM = (function () {
 				return;
 			}
 
-			var haveAnimateIn = null;
+			let haveAnimateIn = null;
 			// check if have valid animateIn in module definition (module.data.animateIn)
-			if (module.data.animateIn && _AnimateCSSIn.indexOf(module.data.animateIn) !== -1) haveAnimateIn = module.data.animateIn;
+			if (module.data.animateIn && AnimateCSSIn.indexOf(module.data.animateIn) !== -1) haveAnimateIn = module.data.animateIn;
 
 			const wrapper = selectWrapper(module.data.position);
 
@@ -110,14 +110,30 @@ const MM = (function () {
 	/**
 	 * Update the dom for a specific module.
 	 * @param {Module} module The module that needs an update.
-	 * @param {number} [speed] The (optional) number of microseconds for the animation.
-	 * @param {string} [animateOut] AnimateCss animation name before hidden
-	 * @param {string} [animateIn] AnimateCss animation name on show
-	 * @param {boolean} [createAnimatedDom] for displaying only animateIn (used on first start)
+	 * @param {object|number} [updateOptions] The (optional) number of microseconds for the animation or object with updateOptions (speed/animates)
+	 * @param {boolean} [createAnimatedDom] for displaying only animateIn (used on first start of MagicMirror)
 	 * @returns {Promise} Resolved when the dom is fully updated.
 	 */
-	const updateDom = function (module, speed, animateOut, animateIn, createAnimatedDom = false) {
+	const updateDom = function (module, updateOptions, createAnimatedDom = false) {
 		return new Promise(function (resolve) {
+			let speed = updateOptions;
+			let animateOut = null;
+			let animateIn = null;
+			if (typeof updateOptions === "object") {
+				if (typeof updateOptions.options === "object" && updateOptions.options.speed !== undefined) {
+					speed = updateOptions.options.speed;
+					Log.debug(`updateDom: ${module.identifier} Has speed in object: ${speed}`);
+					if (typeof updateOptions.options.animate === "object") {
+						animateOut = updateOptions.options.animate.out;
+						animateIn = updateOptions.options.animate.in;
+						Log.debug(`updateDom: ${module.identifier} Has animate in object: out->${animateOut}, in->${animateIn}`);
+					}
+				} else {
+					Log.debug(`updateDom: ${module.identifier} Has no speed in object`);
+					speed = 0;
+				}
+			}
+
 			const newHeader = module.getHeader();
 			let newContentPromise = module.getDom();
 
@@ -167,7 +183,7 @@ const MM = (function () {
 			}
 
 			if (createAnimatedDom && animateIn !== null) {
-				// Log.log(`${module.identifier} createAnimatedDom (${animateIn})`);
+				Log.debug(`${module.identifier} createAnimatedDom (${animateIn})`);
 				updateModuleContent(module, newHeader, newContent);
 				if (!module.hidden) {
 					showModule(module, speed, null, { animate: animateIn });
@@ -267,17 +283,17 @@ const MM = (function () {
 			clearTimeout(module.showHideTimer);
 
 			// haveAnimateName for verify if we are using AninateCSS library
-			// we check _AnimateCSSOut Array for validate it
+			// we check AnimateCSSOut Array for validate it
 			// and finaly return the animate name or `null` (for default MM² animation)
 			var haveAnimateName = null;
 			// check if have valid animateOut in module definition (module.data.animateOut)
-			if (module.data.animateOut && _AnimateCSSOut.indexOf(module.data.animateOut) !== -1) haveAnimateName = module.data.animateOut;
+			if (module.data.animateOut && AnimateCSSOut.indexOf(module.data.animateOut) !== -1) haveAnimateName = module.data.animateOut;
 			// can't be override with options.animate
-			else if (options.animate && _AnimateCSSOut.indexOf(options.animate) !== -1) haveAnimateName = options.animate;
+			else if (options.animate && AnimateCSSOut.indexOf(options.animate) !== -1) haveAnimateName = options.animate;
 
 			if (haveAnimateName) {
 				// with AnimateCSS
-				// Log.log(`${module.identifier} Has animateOut: ${haveAnimateName}`);
+				Log.debug(`${module.identifier} Has animateOut: ${haveAnimateName}`);
 				await AnimateCSS(module.identifier, haveAnimateName, speed / 1000);
 				// AnimateCSS is now done
 				moduleWrapper.style.opacity = 0;
@@ -354,13 +370,13 @@ const MM = (function () {
 			clearTimeout(module.showHideTimer);
 
 			// haveAnimateName for verify if we are using AninateCSS library
-			// we check _AnimateCSSIn Array for validate it
+			// we check AnimateCSSIn Array for validate it
 			// and finaly return the animate name or `null` (for default MM² animation)
-			var haveAnimateName = null;
+			let haveAnimateName = null;
 			// check if have valid animateOut in module definition (module.data.animateIn)
-			if (module.data.animateIn && _AnimateCSSIn.indexOf(module.data.animateIn) !== -1) haveAnimateName = module.data.animateIn;
+			if (module.data.animateIn && AnimateCSSIn.indexOf(module.data.animateIn) !== -1) haveAnimateName = module.data.animateIn;
 			// can't be override with options.animate
-			else if (options.animate && _AnimateCSSIn.indexOf(options.animate) !== -1) haveAnimateName = options.animate;
+			else if (options.animate && AnimateCSSIn.indexOf(options.animate) !== -1) haveAnimateName = options.animate;
 
 			if (!haveAnimateName) moduleWrapper.style.transition = `opacity ${speed / 1000}s`;
 			// Restore the position. See hideModule() for more info.
@@ -375,7 +391,7 @@ const MM = (function () {
 
 			if (haveAnimateName) {
 				// with AnimateCSS
-				// Log.log(`${module.identifier} Has animateIn: ${haveAnimateName}`);
+				Log.debug(`${module.identifier} Has animateIn: ${haveAnimateName}`);
 				await AnimateCSS(module.identifier, haveAnimateName, speed / 1000);
 				if (typeof callback === "function") {
 					callback();

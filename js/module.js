@@ -205,9 +205,6 @@ const Module = Class.extend({
 		this.name = data.name;
 		this.identifier = data.identifier;
 		this.hidden = false;
-		// is it really useful? (not sure)
-		// this.animateIn = data.animateIn;
-		// this.animateOut = data.animateOut;
 
 		this.setConfig(data.config, data.configDeepMerge);
 	},
@@ -330,12 +327,10 @@ const Module = Class.extend({
 
 	/**
 	 * Request an (animated) update of the module.
-	 * @param {number} [speed] The speed of the animation.
-	 * @param {number} [animateOut] AnimateCss animation name before hidden
-	 * @param {number} [animateIn] AnimateCss animation name on show
+	 * @param {number|object} [updateOptions] The speed of the animation or object with for updateOptions (speed/animates)
 	 */
-	updateDom: function (speed, animateOut = null, animateIn = null) {
-		MM.updateDom(this, speed, animateOut, animateIn);
+	updateDom: function (updateOptions) {
+		MM.updateDom(this, updateOptions);
 	},
 
 	/**
