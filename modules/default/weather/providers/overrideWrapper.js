@@ -1,4 +1,4 @@
-/* global Class */
+/* global Class, WeatherObject */
 
 /*
  * Wrapper class to enable overrides of currentOverrideWeatherObject.
@@ -77,8 +77,7 @@ const OverrideWrapper = Class.extend({
 
 	/**
 	 * Override to return this scope's
-	 *
-	 * @return {WeatherObject} The current weather object. May or may not contain overridden data.
+	 * @returns {WeatherObject} The current weather object. May or may not contain overridden data.
 	 */
 	currentWeather() {
 		return this.currentOverrideWeatherObject;
@@ -88,8 +87,7 @@ const OverrideWrapper = Class.extend({
 	 * Override to combine the overrideWeatherObejct provided in the
 	 * notificationReceived method with the currentOverrideWeatherObject provided by the
 	 * api provider fetchData implementation.
-	 *
-	 * @param {WeatherObject} currentOverrideWeatherObject - the api provider weather object
+	 * @param {WeatherObject} currentWeatherObject - the api provider weather object
 	 */
 	setCurrentWeather(currentWeatherObject) {
 		this.currentOverrideWeatherObject = Object.assign(currentWeatherObject, this.notificationWeatherObject);
@@ -99,8 +97,7 @@ const OverrideWrapper = Class.extend({
 	 * Updates the overrideWeatherObject, calls setCurrentWeather to combine it with
 	 * the existing current weather object provided by the base provider, and signals
 	 * that an update is ready.
-	 *
-	 * @param {weatherObject} payload - the weather object received from the CURRENT_WEATHER_OVERRIDE
+	 * @param {WeatherObject} payload - the weather object received from the CURRENT_WEATHER_OVERRIDE
 	 *                                  notification. Represents information to augment the
 	 *                                  existing currentOverrideWeatherObject with.
 	 */
