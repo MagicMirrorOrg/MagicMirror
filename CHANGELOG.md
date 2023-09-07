@@ -24,6 +24,7 @@ _This release is scheduled to be released on 2023-10-01._
 - Replace pretty-quick by lint-staged (<https://github.com/azz/pretty-quick/issues/164>)
 - Update engine node >=18. v16 reached it's end of life. (#3170)
 - Update typescript definition for modules
+- Cleaned up nunjuck templates
 
 ### Fixed
 
@@ -31,6 +32,7 @@ _This release is scheduled to be released on 2023-10-01._
 - Fix undefined formatTime method in clock module (#3143)
 - Fix clientonly startup fails after async added (#3151)
 - Fix electron width/heigth when using xrandr under bullseye
+- Fix ipWhiteList test (#3179)
 
 ## [2.24.0] - 2023-07-01
 
