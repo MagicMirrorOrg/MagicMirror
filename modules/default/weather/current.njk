@@ -7,7 +7,8 @@
                 {% if config.showWindDirection %}
                     <sup>
                         {% if config.showWindDirectionAsArrow %}
-                            <i class="fas fa-long-arrow-alt-down" style="transform:rotate({{ current.windFromDirection }}deg);"></i>
+                            <i class="fas fa-long-arrow-alt-down"
+                               style="transform:rotate({{ current.windFromDirection }}deg)"></i>
                         {% else %}
                             {{ current.cardinalWindDirection() | translate }}
                         {% endif %}
@@ -29,34 +30,28 @@
                 </span>
             {% endif %}
             {% if config.showUVIndex %}
-                    <td class="align-right bright uv-index">
+                <td class="align-right bright uv-index">
                     <div class="wi dimmed wi-hot"></div>
-                        {{ current.uv_index }}
-                    </td>
+                    {{ current.uv_index }}
+                </td>
             {% endif %}
         </div>
     {% endif %}
     <div class="large light">
-        <span class="wi weathericon wi-{{current.weatherType}}"></span>
-        <span class="bright">
-            {{ current.temperature | roundValue | unit("temperature") | decimalSymbol }}
-        </span>
+        <span class="wi weathericon wi-{{ current.weatherType }}"></span>
+        <span class="bright">{{ current.temperature | roundValue | unit("temperature") | decimalSymbol }}</span>
     </div>
     <div class="normal light indoor">
         {% if config.showIndoorTemperature and indoor.temperature %}
             <div>
                 <span class="fas fa-home"></span>
-                <span class="bright">
-                    {{ indoor.temperature | roundValue | unit("temperature") | decimalSymbol }}
-                </span>
+                <span class="bright">{{ indoor.temperature | roundValue | unit("temperature") | decimalSymbol }}</span>
             </div>
         {% endif %}
         {% if config.showIndoorHumidity and indoor.humidity %}
             <div>
                 <span class="fas fa-tint"></span>
-                <span class="bright">
-                    {{ indoor.humidity | roundValue | unit("humidity") | decimalSymbol }}
-                </span>
+                <span class="bright">{{ indoor.humidity | roundValue | unit("humidity") | decimalSymbol }}</span>
             </div>
         {% endif %}
     </div>
@@ -65,14 +60,16 @@
             {% if config.showFeelsLike %}
                 <span class="dimmed">
                     {{ "FEELS" | translate({DEGREE: current.feelsLike() | roundValue | unit("temperature") | decimalSymbol }) }}
-                </span><br/>
+                </span>
+                <br />
             {% endif %}
             {% if config.showPrecipitationAmount and current.precipitationAmount %}
                 <span class="dimmed">
                     <span class="precipitationLeadText">{{ "PRECIP_AMOUNT" | translate }}</span> {{ current.precipitationAmount | unit("precip", current.precipitationUnits) }}
-                </span><br/>
+                </span>
+                <br />
             {% endif %}
-            {% if config.showPrecipitationProbability and current.precipitationProbability  %}
+            {% if config.showPrecipitationProbability and current.precipitationProbability %}
                 <span class="dimmed">
                     <span class="precipitationLeadText">{{ "PRECIP_POP" | translate }}</span> {{ current.precipitationProbability }}%
                 </span>
@@ -80,10 +77,7 @@
         </div>
     {% endif %}
 {% else %}
-    <div class="dimmed light small">
-        {{ "LOADING" | translate }}
-    </div>
+    <div class="dimmed light small">{{ "LOADING" | translate }}</div>
 {% endif %}
-
 <!-- Uncomment the line below to see the contents of the `current` object. -->
 <!-- <div style="word-wrap:break-word" class="xsmall dimmed">{{current | dump}}</div> -->
