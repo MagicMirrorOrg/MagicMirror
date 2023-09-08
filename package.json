@@ -85,7 +85,6 @@
 		"luxon": "^1.28.1",
 		"module-alias": "^2.2.3",
 		"moment": "^2.29.4",
-		"node-fetch": "^2.6.12",
 		"node-ical": "^0.16.1",
 		"socket.io": "^4.7.2"
 	},
@@ -96,8 +95,7 @@
 	},
 	"_moduleAliases": {
 		"node_helper": "js/node_helper.js",
-		"logger": "js/logger.js",
-		"fetch": "js/fetch.js"
+		"logger": "js/logger.js"
 	},
 	"engines": {
 		"node": ">=18"

@@ -25,6 +25,7 @@ _This release is scheduled to be released on 2023-10-01._
 - Update engine node >=18. v16 reached it's end of life. (#3170)
 - Update typescript definition for modules
 - Cleaned up nunjuck templates
+- Replace node-fetch with internal fetch (#2649)
 
 ### Fixed
 

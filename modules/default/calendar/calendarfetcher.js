@@ -8,7 +8,6 @@
 const https = require("https");
 const digest = require("digest-fetch");
 const ical = require("node-ical");
-const fetch = require("fetch");
 const Log = require("logger");
 const NodeHelper = require("node_helper");
 const CalendarFetcherUtils = require("./calendarfetcherutils");
