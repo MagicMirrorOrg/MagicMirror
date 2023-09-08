@@ -50,6 +50,9 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - updatenotification: Added `sendUpdatesNotifications` feature. Broadcast update with `UPDATES` notification to other modules
 - updatenotification: allow force scanning with `SCAN_UPDATES` notification from other modules
 - Added per-calendar fetchInterval
+- Added optional AnimateCSS animate for `hide()`, `show()`, `updateDom()`
+- Added AnimateIn and animateOut in module config definition
+- Apply AnimateIn rules on the first start
 
 ### Removed
 

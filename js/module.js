@@ -193,7 +193,7 @@ const Module = Class.extend({
 	},
 
 	/*********************************************
-	 * The methods below don"t need subclassing. *
+	 * The methods below don't need subclassing. *
 	 *********************************************/
 
 	/**
@@ -327,10 +327,10 @@ const Module = Class.extend({
 
 	/**
 	 * Request an (animated) update of the module.
-	 * @param {number} [speed] The speed of the animation.
+	 * @param {number|object} [updateOptions] The speed of the animation or object with for updateOptions (speed/animates)
 	 */
-	updateDom: function (speed) {
-		MM.updateDom(this, speed);
+	updateDom: function (updateOptions) {
+		MM.updateDom(this, updateOptions);
 	},
 
 	/**
