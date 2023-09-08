@@ -30,6 +30,7 @@ exports.getDocument = () => {
 		const url = `http://${config.address || "localhost"}:${config.port || "8080"}`;
 		jsdom.JSDOM.fromURL(url, { resources: "usable", runScripts: "dangerously" }).then((dom) => {
 			dom.window.name = "jsdom";
+			dom.window.fetch = fetch;
 			dom.window.onload = () => {
 				global.document = dom.window.document;
 				resolve();
