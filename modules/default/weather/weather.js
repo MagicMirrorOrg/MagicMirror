@@ -23,6 +23,7 @@ Module.register("weather", {
 		showHumidity: false,
 		showIndoorHumidity: false,
 		showIndoorTemperature: false,
+		allowOverrideNotification: false,
 		showPeriod: true,
 		showPeriodUpper: false,
 		showPrecipitationAmount: false,
@@ -61,7 +62,7 @@ Module.register("weather", {
 
 	// Return the scripts that are necessary for the weather module.
 	getScripts: function () {
-		return ["moment.js", this.file("../utils.js"), "weatherutils.js", "weatherprovider.js", "weatherobject.js", "suncalc.js", this.file(`providers/${this.config.weatherProvider.toLowerCase()}.js`)];
+		return ["moment.js", this.file("../utils.js"), "weatherutils.js", "weatherobject.js", this.file("providers/overrideWrapper.js"), "weatherprovider.js", "suncalc.js", this.file(`providers/${this.config.weatherProvider.toLowerCase()}.js`)];
 	},
 
 	// Override getHeader method.
@@ -119,6 +120,8 @@ Module.register("weather", {
 		} else if (notification === "INDOOR_HUMIDITY") {
 			this.indoorHumidity = this.roundValue(payload);
 			this.updateDom(300);
+		} else if (notification === "CURRENT_WEATHER_OVERRIDE" && this.config.allowOverrideNotification) {
+			this.weatherProvider.notificationReceived(payload);
 		}
 	},
 

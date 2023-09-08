@@ -13,6 +13,7 @@ _This release is scheduled to be released on 2023-10-01._
 
 - Added UV Index support to OpenWeatherMap
 - Added 'hideDuplicates' flag to the calendar module
+- Added `allowOverrideNotification` to weather module to enable sending current weather objects with the `CURRENT_WEATHER_OVERRIDE` notification to supplement/replace the current weather displayed
 
 ### Removed
 
