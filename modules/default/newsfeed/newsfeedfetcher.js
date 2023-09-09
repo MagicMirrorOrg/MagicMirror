@@ -8,7 +8,6 @@
 const stream = require("stream");
 const FeedMe = require("feedme");
 const iconv = require("iconv-lite");
-const fetch = require("fetch");
 const Log = require("logger");
 const NodeHelper = require("node_helper");
 

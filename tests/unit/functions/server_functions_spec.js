@@ -8,13 +8,9 @@ describe("server_functions tests", () => {
 		let corsResponse;
 		let request;
 
-		jest.mock("node-fetch");
-		let nodefetch = require("node-fetch");
 		let fetchMock;
 
 		beforeEach(() => {
-			nodefetch.mockReset();
-
 			fetchResponseHeadersGet = jest.fn(() => {});
 			fetchResponseHeadersText = jest.fn(() => {});
 			fetchResponse = {
@@ -23,10 +19,11 @@ describe("server_functions tests", () => {
 				},
 				text: fetchResponseHeadersText
 			};
-			jest.mock("node-fetch", () => jest.fn());
-			nodefetch.mockImplementation(() => fetchResponse);
+			// eslint-disable-next-line
+			fetch = jest.fn();
+			fetch.mockImplementation(() => fetchResponse);
 
-			fetchMock = nodefetch;
+			fetchMock = fetch;
 
 			corsResponse = {
 				set: jest.fn(() => {}),
