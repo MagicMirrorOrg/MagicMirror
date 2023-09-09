@@ -9,6 +9,8 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 _This release is scheduled to be released on 2023-10-01._
 
+> ⚠️ This release needs nodejs version > `v18`, older release have reached end of life and will not work!
+
 ### Added
 
 - Added UV Index support to OpenWeatherMap
