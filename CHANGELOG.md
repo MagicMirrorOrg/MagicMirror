@@ -43,6 +43,7 @@ _This release is scheduled to be released on 2023-10-01._
 - Fix electron width/heigth when using xrandr under bullseye
 - Fix time issue with certain recurring events in calendar module
 - Fix ipWhiteList test (#3179)
+- Fix newsfeed: Convert HTML entities, codes and tag in description (#3191)
 
 ## [2.24.0] - 2023-07-01
 
