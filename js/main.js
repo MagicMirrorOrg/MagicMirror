@@ -568,12 +568,33 @@ const MM = (function () {
 		 */
 		modulesStarted: function (moduleObjects) {
 			modules = [];
+			let startUp = "";
+
 			moduleObjects.forEach((module) => modules.push(module));
 
 			Log.info("All modules started!");
 			sendNotification("ALL_MODULES_STARTED");
 
 			createDomObjects();
+
+			if (config.reloadAfterServerRestart) {
+				setInterval(async () => {
+					// if server startup time has changed (which means server was restarted)
+					// the client reloads the mm page
+					try {
+						const res = await fetch(`${location.protocol}//${location.host}/startup`);
+						const curr = await res.text();
+						if (startUp === "") startUp = curr;
+						if (startUp !== curr) {
+							startUp = "";
+							window.location.reload(true);
+							console.warn("Refreshing Website because server was restarted");
+						}
+					} catch (err) {
+						Log.error(`MagicMirror not reachable: ${err}`);
+					}
+				}, config.checkServerInterval);
+			}
 		},
 
 		/**
