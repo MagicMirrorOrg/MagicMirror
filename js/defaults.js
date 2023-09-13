@@ -29,6 +29,11 @@ const defaults = {
 	// e.g. you need to add `frameguard: false` for embedding MagicMirror in another website, see https://github.com/MichMich/MagicMirror/issues/2847
 	httpHeaders: { contentSecurityPolicy: false, crossOriginOpenerPolicy: false, crossOriginEmbedderPolicy: false, crossOriginResourcePolicy: false, originAgentCluster: false },
 
+	// properties for checking if server is alive and has same startup-timestamp, the check is per default enabled
+	// (interval 30 seconds). If startup-timestamp has changed the client reloads the magicmirror webpage.
+	checkServerInterval: 30 * 1000,
+	reloadAfterServerRestart: false,
+
 	modules: [
 		{
 			module: "updatenotification",
