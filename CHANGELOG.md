@@ -9,7 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 _This release is scheduled to be released on 2023-10-01._
 
-> ⚠️ This release needs nodejs version > `v18`, older release have reached end of life and will not work!
+> ⚠️ This release needs nodejs version >= `v18`, older release have reached end of life and will not work!
 
 ### Added
 
@@ -45,6 +45,7 @@ _This release is scheduled to be released on 2023-10-01._
 - Fix time issue with certain recurring events in calendar module
 - Fix ipWhiteList test (#3179)
 - Fix newsfeed: Convert HTML entities, codes and tag in description (#3191)
+- Respect width/height (no fullscreen) if set in electronOptions in `config.js` (#3174)
 
 ## [2.24.0] - 2023-07-01
 
