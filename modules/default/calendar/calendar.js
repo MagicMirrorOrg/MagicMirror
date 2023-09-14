@@ -321,12 +321,12 @@ Module.register("calendar", {
 				}
 			}
 
-			// Color events if custom color is specified
+			// Color events if custom color or eventClass are specified
 			if (this.config.customEvents.length > 0) {
 				for (let ev in this.config.customEvents) {
-					if (typeof this.config.customEvents[ev].color !== "undefined" && this.config.customEvents[ev].color !== "") {
-						let needle = new RegExp(this.config.customEvents[ev].keyword, "gi");
-						if (needle.test(event.title)) {
+					let needle = new RegExp(this.config.customEvents[ev].keyword, "gi");
+					if (needle.test(event.title)) {
+						if (typeof this.config.customEvents[ev].color !== "undefined" && this.config.customEvents[ev].color !== "") {
 							// Respect parameter ColoredSymbolOnly also for custom events
 							if (this.config.coloredText) {
 								eventWrapper.style.cssText = `color:${this.config.customEvents[ev].color}`;
@@ -336,6 +336,9 @@ Module.register("calendar", {
 								symbolWrapper.style.cssText = `color:${this.config.customEvents[ev].color}`;
 							}
 							break;
+						}
+						if (typeof this.config.customEvents[ev].eventClass !== "undefined" && this.config.customEvents[ev].eventClass !== "") {
+							eventWrapper.className += ` ${this.config.customEvents[ev].eventClass}`;
 						}
 					}
 				}
