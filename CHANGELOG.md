@@ -20,6 +20,8 @@ _This release is scheduled to be released on 2023-10-01._
 - Added AnimateIn and animateOut in module config definition
 - Apply AnimateIn rules on the first start
 - Added automatic client page reload when server was restarted by setting `reloadAfterServerRestart: true` in `config.js`, per default `false` (#3105)
+- Added eventClass option for customEvents on the default calendar
+
 
 ### Removed
 
