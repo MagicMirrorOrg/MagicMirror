@@ -35,6 +35,7 @@ _This release is scheduled to be released on 2023-10-01._
 - Update typescript definition for modules
 - Cleaned up nunjuck templates
 - Replace `node-fetch` with internal fetch (#2649) and remove `digest-fetch`
+- Updated the French translation according to the English file.
 
 ### Fixed
 
