@@ -22,7 +22,6 @@ _This release is scheduled to be released on 2023-10-01._
 - Added automatic client page reload when server was restarted by setting `reloadAfterServerRestart: true` in `config.js`, per default `false` (#3105)
 - Added eventClass option for customEvents on the default calendar
 
-
 ### Removed
 
 - **Breaking Change**: Removed `digest` authentication method from calendar module (which was already broken since release `2.15.0`)
