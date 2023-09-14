@@ -9,11 +9,11 @@
  *
  * Copyright 2014, Codrops
  * https://tympanus.net/codrops/
+ * @param {object} window The window object
  */
 (function (window) {
 	/**
 	 * Extend one object with another one
-	 *
 	 * @param {object} a The object to extend
 	 * @param {object} b The object which extends the other, overwrites existing keys
 	 * @returns {object} The merged object
@@ -29,7 +29,6 @@
 
 	/**
 	 * NotificationFx constructor
-	 *
 	 * @param {object} options The configuration options
 	 * @class
 	 */
@@ -78,7 +77,7 @@
 	NotificationFx.prototype._init = function () {
 		// create HTML structure
 		this.ntf = document.createElement("div");
-		this.ntf.className = this.options.al_no + " ns-" + this.options.layout + " ns-effect-" + this.options.effect + " ns-type-" + this.options.type;
+		this.ntf.className = `${this.options.al_no} ns-${this.options.layout} ns-effect-${this.options.effect} ns-type-${this.options.type}`;
 		let strinner = '<div class="ns-box-inner">';
 		strinner += this.options.message;
 		strinner += "</div>";
@@ -122,8 +121,9 @@
 
 	/**
 	 * Dismiss the notification
+	 * @param {boolean} [close] call the onClose callback at the end
 	 */
-	NotificationFx.prototype.dismiss = function () {
+	NotificationFx.prototype.dismiss = function (close = true) {
 		this.active = false;
 		clearTimeout(this.dismissttl);
 		this.ntf.classList.remove("ns-show");
@@ -131,7 +131,7 @@
 			this.ntf.classList.add("ns-hide");
 
 			// callback
-			this.options.onClose();
+			if (close) this.options.onClose();
 		}, 25);
 
 		// after animation ends remove ntf from the DOM

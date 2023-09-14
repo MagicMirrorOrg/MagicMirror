@@ -1,15 +1,15 @@
-/* Magic Mirror
+/* MagicMirror²
  *
  * Check the configuration file for errors
  *
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.
  */
-const Linter = require("eslint").Linter;
-const linter = new Linter();
-
 const path = require("path");
 const fs = require("fs");
+const { Linter } = require("eslint");
+
+const linter = new Linter();
 
 const rootPath = path.resolve(`${__dirname}/../`);
 const Log = require(`${rootPath}/js/logger.js`);
@@ -18,7 +18,6 @@ const Utils = require(`${rootPath}/js/utils.js`);
 /**
  * Returns a string with path of configuration file.
  * Check if set by environment variable MM_CONFIG_FILE
- *
  * @returns {string} path and filename of the config file
  */
 function getConfigFile() {
@@ -52,7 +51,13 @@ function checkConfigFile() {
 	// I'm not sure if all ever is utf-8
 	const configFile = fs.readFileSync(configFileName, "utf-8");
 
-	const errors = linter.verify(configFile);
+	// Explicitly tell linter that he might encounter es6 syntax ("let config = {...}")
+	const errors = linter.verify(configFile, {
+		env: {
+			es6: true
+		}
+	});
+
 	if (errors.length === 0) {
 		Log.info(Utils.colors.pass("Your configuration file doesn't contain syntax errors :)"));
 	} else {

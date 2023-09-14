@@ -1,12 +1,13 @@
 {
-	"LOADING": "Зареждане на &hellip;",
+	"LOADING": "Зареждане на …",
 
+	"DAYBEFOREYESTERDAY": "Завчера",
+	"YESTERDAY": "Вчера",
 	"TODAY": "Днес",
 	"TOMORROW": "Утре",
 	"DAYAFTERTOMORROW": "Вдругиден",
 	"RUNNING": "Свършва след",
 	"EMPTY": "Няма предстоящи събития.",
-
 	"WEEK": "Седмица {weekNumber}",
 
 	"N": "С",

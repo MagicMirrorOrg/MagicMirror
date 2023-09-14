@@ -1,5 +1,6 @@
 iframe.newsfeed-fullarticle {
   width: 100vw;
+
   /* very large height value to allow scrolling */
   height: 3000px;
   top: 0;
@@ -11,4 +12,13 @@ iframe.newsfeed-fullarticle {
 .region.bottom.bar.newsfeed-fullarticle {
   bottom: inherit;
   top: -90px;
+}
+
+.newsfeed-list {
+  list-style: none;
+}
+
+.newsfeed-list li {
+  text-align: justify;
+  margin-bottom: 0.5em;
 }

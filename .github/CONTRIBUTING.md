@@ -4,36 +4,48 @@ Thanks for contributing to MagicMirror²!
 
 We hold our code to standard, and these standards are documented below.
 
-If you wish to run our linters, use `npm run lint` without any arguments.
+## Linters
+
+We use prettier for automatic linting of all our files: `npm run lint:prettier`.
 
 ### JavaScript: Run ESLint
 
 We use [ESLint](https://eslint.org) on our JavaScript files.
 
-Our ESLint configuration is in our .eslintrc.json and .eslintignore files.
+Our ESLint configuration is in our `.eslintrc.json` and `.eslintignore` files.
 
 To run ESLint, use `npm run lint:js`.
 
 ### CSS: Run StyleLint
 
-We use [StyleLint](https://stylelint.io) to lint our CSS. Our configuration is in our .stylelintrc file.
+We use [StyleLint](https://stylelint.io) to lint our CSS. Our configuration is in our `.stylelintrc` file.
 
-To run StyleLint, use `npm run lint:style`.
+To run StyleLint, use `npm run lint:css`.
 
-### Submitting Issues
+## Testing
+
+We use [Jest](https://jestjs.io) for JavaScript testing.
+
+To run all tests, use `npm run test`.
+
+The specific test commands are defined in `package.json`.
+So you can also run the specific tests with other commands, e.g. `npm run test:unit` or `npx jest tests/e2e/env_spec.js`.
+
+## Submitting Issues
 
 Please only submit reproducible issues.
 
 If you're not sure if it's a real bug or if it's just you, please open a topic on the forum: [https://forum.magicmirror.builders/category/15/bug-hunt](https://forum.magicmirror.builders/category/15/bug-hunt)
+
 Problems installing or configuring your MagicMirror? Check out: [https://forum.magicmirror.builders/category/10/troubleshooting](https://forum.magicmirror.builders/category/10/troubleshooting)
 
 When submitting a new issue, please supply the following information:
 
-**Platform**: Place your platform here... give us your web browser/Electron version _and_ your hardware (Raspberry Pi 2/3, Windows, Mac, Linux, System V UNIX).
+**Platform**: Place your platform here... give us your web browser/Electron version _and_ your hardware (Raspberry Pi 2/3/4, Windows, Mac, Linux, System V UNIX).
 
-**Node Version**: Make sure it's version 0.12.13 or later.
+**Node Version**: Make sure it's version 18 or later (recommended is 20).
 
-**MagicMirror Version**: Now that the versions have split, tell us if you are using the PHP version (v1) or the newer JavaScript version (v2).
+**MagicMirror² Version**: Please let us know which version of MagicMirror² you are running. It can be found in the `package.json` file.
 
 **Description**: Provide a detailed description about the issue and include specific details to help us understand the problem. Adding screenshots will help describing the problem.
 

@@ -1,0 +1,7 @@
+#!/bin/sh
+
+[ -f "$(dirname "$0")/_/husky.sh" ] && . "$(dirname "$0")/_/husky.sh"
+
+if command -v npm &> /dev/null; then
+  npm run lint:staged
+fi

@@ -1,11 +1,13 @@
 {
-	"LOADING": "A carregar &hellip;",
+	"LOADING": "A carregar …",
+
+	"DAYBEFOREYESTERDAY": "Anteontem",
+	"YESTERDAY": "Ontem",
 	"TODAY": "Hoje",
 	"TOMORROW": "Amanhã",
 	"DAYAFTERTOMORROW": "Depois de amanhã",
 	"RUNNING": "Termina em",
 	"EMPTY": "Sem eventos programados.",
-
 	"WEEK": "Semana {weekNumber}",
 
 	"N": "N",
@@ -25,13 +27,13 @@
 	"NW": "NO",
 	"NNW": "NNO",
 
+	"FEELS": "Sentida {DEGREE}",
+	"PRECIP_POP": "Prob. Precipitação",
+
 	"MODULE_CONFIG_CHANGED": "As opções na configuração do módulo {MODULE_NAME} foram alteradas.\nPor favor, verifica a documentação.",
 
 	"UPDATE_NOTIFICATION": "Atualização do MagicMirror² disponível.",
 	"UPDATE_NOTIFICATION_MODULE": "Atualização para o módulo {MODULE_NAME} disponível.",
 	"UPDATE_INFO_SINGLE": "A instalação atual está {COMMIT_COUNT} commit atrasada no branch {BRANCH_NAME}.",
-	"UPDATE_INFO_MULTIPLE": "A instalação atual está {COMMIT_COUNT} commits atrasada no branch {BRANCH_NAME}.",
-
-	"FEELS": "Sentida {DEGREE}",
-	"PRECIP": "Prob. Precipitação"
+	"UPDATE_INFO_MULTIPLE": "A instalação atual está {COMMIT_COUNT} commits atrasada no branch {BRANCH_NAME}."
 }

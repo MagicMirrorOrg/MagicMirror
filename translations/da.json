@@ -1,12 +1,13 @@
 {
-	"LOADING": "Indlæser &hellip;",
+	"LOADING": "Indlæser …",
 
+	"DAYBEFOREYESTERDAY": "Forgårs",
+	"YESTERDAY": "I går",
 	"TODAY": "I dag",
 	"TOMORROW": "I morgen",
 	"DAYAFTERTOMORROW": "I overmorgen",
 	"RUNNING": "Slutter om",
 	"EMPTY": "Ingen kommende begivenheder.",
-	"FEELS": "Føles som {DEGREE}",
 	"WEEK": "Uge {weekNumber}",
 
 	"N": "N",
@@ -25,6 +26,18 @@
 	"WNW": "VNV",
 	"NW": "NV",
 	"NNW": "NNV",
+
+	"FEELS": "Føles som {DEGREE}",
+	"PRECIP_POP": "Sandsynlighed for nedbør",
+
+	"MODULE_CONFIG_CHANGED": "Konfigurationsmulighederne for {MODULE_NAME} modulet er ændret.\nSe venligst dokumentationen.",
+	"MODULE_CONFIG_ERROR": "Fejl i {MODULE_NAME} modulet. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "Forkert url.",
+	"MODULE_ERROR_NO_CONNECTION": "Ingen internetforbindelse.",
+	"MODULE_ERROR_UNAUTHORIZED": "Godkendelse mislykkedes.",
+	"MODULE_ERROR_UNSPECIFIED": "Tjek logfiler for flere detaljer.",
+
+	"NEWSFEED_NO_ITEMS": "Ingen nyheder i øjeblikket.",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² opdatering tilgængelig.",
 	"UPDATE_NOTIFICATION_MODULE": "Opdatering tilgængelig for {MODULE_NAME} modulet.",

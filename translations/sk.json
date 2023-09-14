@@ -1,12 +1,13 @@
 {
-	"LOADING": "Načítanie &hellip;",
+	"LOADING": "Načítanie …",
 
+	"DAYBEFOREYESTERDAY": "Predvčerom",
+	"YESTERDAY": "Včera",
 	"TODAY": "Dnes",
 	"TOMORROW": "Zajtra",
 	"DAYAFTERTOMORROW": "Pozajtra",
 	"RUNNING": "Končí o",
 	"EMPTY": "Žiadne nadchádzajúce udalosti.",
-
 	"WEEK": "{weekNumber}. týždeň",
 
 	"N": "S",

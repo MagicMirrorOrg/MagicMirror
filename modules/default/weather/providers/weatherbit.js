@@ -1,13 +1,14 @@
 /* global WeatherProvider, WeatherObject */
 
-/* Magic Mirror
+/* MagicMirror²
  * Module: Weather
  * Provider: Weatherbit
  *
  * By Andrew Pometti
  * MIT Licensed
  *
- * This class is a provider for Weatherbit, based on Nicholas Hubbard's class for Dark Sky & Vince Peri's class for Weather.gov.
+ * This class is a provider for Weatherbit, based on Nicholas Hubbard's class
+ * for Dark Sky & Vince Peri's class for Weather.gov.
  */
 WeatherProvider.register("weatherbit", {
 	// Set the name of the provider.
@@ -17,15 +18,9 @@ WeatherProvider.register("weatherbit", {
 	// Set the default config properties that is specific to this provider
 	defaults: {
 		apiBase: "https://api.weatherbit.io/v2.0",
-		weatherEndpoint: "/current",
 		apiKey: "",
 		lat: 0,
 		lon: 0
-	},
-
-	units: {
-		imperial: "I",
-		metric: "M"
 	},
 
 	fetchedLocation: function () {
@@ -60,7 +55,7 @@ WeatherProvider.register("weatherbit", {
 				const forecast = this.generateWeatherObjectsFromForecast(data.data);
 				this.setWeatherForecast(forecast);
 
-				this.fetchedLocationName = data.city_name + ", " + data.state_code;
+				this.fetchedLocationName = `${data.city_name}, ${data.state_code}`;
 			})
 			.catch(function (request) {
 				Log.error("Could not load data ... ", request);
@@ -68,10 +63,33 @@ WeatherProvider.register("weatherbit", {
 			.finally(() => this.updateAvailable());
 	},
 
+	/**
+	 * Overrides method for setting config to check if endpoint is correct for hourly
+	 * @param {object} config The configuration object
+	 */
+	setConfig(config) {
+		this.config = config;
+		if (!this.config.weatherEndpoint) {
+			switch (this.config.type) {
+				case "hourly":
+					this.config.weatherEndpoint = "/forecast/hourly";
+					break;
+				case "daily":
+				case "forecast":
+					this.config.weatherEndpoint = "/forecast/daily";
+					break;
+				case "current":
+					this.config.weatherEndpoint = "/current";
+					break;
+				default:
+					Log.error("weatherEndpoint not configured and could not resolve it based on type");
+			}
+		}
+	},
+
 	// Create a URL from the config and base URL.
 	getUrl() {
-		const units = this.units[this.config.units] || "auto";
-		return `${this.config.apiBase}${this.config.weatherEndpoint}?lat=${this.config.lat}&lon=${this.config.lon}&units=${units}&key=${this.config.apiKey}`;
+		return `${this.config.apiBase}${this.config.weatherEndpoint}?lat=${this.config.lat}&lon=${this.config.lon}&units=M&key=${this.config.apiKey}`;
 	},
 
 	// Implement WeatherDay generator.
@@ -81,19 +99,18 @@ WeatherProvider.register("weatherbit", {
 		let tzOffset = d.getTimezoneOffset();
 		tzOffset = tzOffset * -1;
 
-		const currentWeather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+		const currentWeather = new WeatherObject();
 
-		currentWeather.date = moment(currentWeatherData.data[0].ts, "X");
+		currentWeather.date = moment.unix(currentWeatherData.data[0].ts);
 		currentWeather.humidity = parseFloat(currentWeatherData.data[0].rh);
 		currentWeather.temperature = parseFloat(currentWeatherData.data[0].temp);
 		currentWeather.windSpeed = parseFloat(currentWeatherData.data[0].wind_spd);
-		currentWeather.windDirection = currentWeatherData.data[0].wind_dir;
+		currentWeather.windFromDirection = currentWeatherData.data[0].wind_dir;
 		currentWeather.weatherType = this.convertWeatherType(currentWeatherData.data[0].weather.icon);
-		Log.log("Wx Icon: " + currentWeatherData.data[0].weather.icon);
 		currentWeather.sunrise = moment(currentWeatherData.data[0].sunrise, "HH:mm").add(tzOffset, "m");
 		currentWeather.sunset = moment(currentWeatherData.data[0].sunset, "HH:mm").add(tzOffset, "m");
 
-		this.fetchedLocationName = currentWeatherData.data[0].city_name + ", " + currentWeatherData.data[0].state_code;
+		this.fetchedLocationName = `${currentWeatherData.data[0].city_name}, ${currentWeatherData.data[0].state_code}`;
 
 		return currentWeather;
 	},
@@ -102,12 +119,13 @@ WeatherProvider.register("weatherbit", {
 		const days = [];
 
 		for (const forecast of forecasts) {
-			const weather = new WeatherObject(this.config.units, this.config.tempUnits, this.config.windUnits);
+			const weather = new WeatherObject();
 
 			weather.date = moment(forecast.datetime, "YYYY-MM-DD");
 			weather.minTemperature = forecast.min_temp;
 			weather.maxTemperature = forecast.max_temp;
-			weather.precipitation = forecast.precip;
+			weather.precipitationAmount = forecast.precip;
+			weather.precipitationProbability = forecast.pop;
 			weather.weatherType = this.convertWeatherType(forecast.weather.icon);
 
 			days.push(weather);

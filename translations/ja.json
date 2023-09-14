@@ -1,6 +1,8 @@
 {
-	"LOADING": "ローディング &hellip;",
+	"LOADING": "ローディング …",
 
+	"DAYBEFOREYESTERDAY": "おととい",
+	"YESTERDAY": "昨日",
 	"TODAY": "今日",
 	"TOMORROW": "明日",
 	"RUNNING": "で終わります",

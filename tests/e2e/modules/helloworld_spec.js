@@ -1,50 +1,33 @@
-const helpers = require("../global-setup");
+const helpers = require("../helpers/global-setup");
 
-const describe = global.describe;
-const it = global.it;
-const beforeEach = global.beforeEach;
-const afterEach = global.afterEach;
-
-describe("Test helloworld module", function () {
-	helpers.setupTimeout(this);
-
-	var app = null;
-
-	beforeEach(function () {
-		return helpers
-			.startApplication({
-				args: ["js/electron.js"]
-			})
-			.then(function (startedApp) {
-				app = startedApp;
-			});
+describe("Test helloworld module", () => {
+	afterAll(async () => {
+		await helpers.stopApplication();
 	});
 
-	afterEach(function () {
-		return helpers.stopApplication(app);
-	});
-
-	describe("helloworld set config text", function () {
-		before(function () {
-			// Set config sample for use in test
-			process.env.MM_CONFIG_FILE = "tests/configs/modules/helloworld/helloworld.js";
+	describe("helloworld set config text", () => {
+		beforeAll(async () => {
+			await helpers.startApplication("tests/configs/modules/helloworld/helloworld.js");
+			await helpers.getDocument();
 		});
 
-		it("Test message helloworld module", async function () {
-			const elem = await app.client.$("helloworld");
-			return elem.getText(".helloworld").should.eventually.equal("Test HelloWorld Module");
+		it("Test message helloworld module", async () => {
+			const elem = await helpers.waitForElement(".helloworld");
+			expect(elem).not.toBe(null);
+			expect(elem.textContent).toContain("Test HelloWorld Module");
 		});
 	});
 
-	describe("helloworld default config text", function () {
-		before(function () {
-			// Set config sample for use in test
-			process.env.MM_CONFIG_FILE = "tests/configs/modules/helloworld/helloworld_default.js";
+	describe("helloworld default config text", () => {
+		beforeAll(async () => {
+			await helpers.startApplication("tests/configs/modules/helloworld/helloworld_default.js");
+			await helpers.getDocument();
 		});
 
-		it("Test message helloworld module", async function () {
-			const elem = await app.client.$("helloworld");
-			return elem.getText(".helloworld").should.eventually.equal("Hello World!");
+		it("Test message helloworld module", async () => {
+			const elem = await helpers.waitForElement(".helloworld");
+			expect(elem).not.toBe(null);
+			expect(elem.textContent).toContain("Hello World!");
 		});
 	});
 });

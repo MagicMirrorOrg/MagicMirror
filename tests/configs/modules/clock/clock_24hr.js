@@ -1,23 +1,9 @@
-/* Magic Mirror Test config for default clock module
+/* MagicMirror² Test config for default clock module
  *
  * By Sergey Morozov
  * MIT Licensed.
  */
-
-var config = {
-	port: 8080,
-	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1"],
-
-	language: "en",
-	timeFormat: 24,
-	units: "metric",
-	electronOptions: {
-		webPreferences: {
-			nodeIntegration: true,
-			enableRemoteModule: true
-		}
-	},
-
+let config = {
 	modules: [
 		{
 			module: "clock",

@@ -1,6 +1,8 @@
 {
-	"LOADING": "Hleð upp &hellip;",
+	"LOADING": "Hleð upp …",
 
+	"DAYBEFOREYESTERDAY": "Í fyrradag",
+	"YESTERDAY": "Í gær",
 	"TODAY": "Í dag",
 	"TOMORROW": "Á morgun",
 	"DAYAFTERTOMORROW": "Ekki á morgun, heldur hinn",

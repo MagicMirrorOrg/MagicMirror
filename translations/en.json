@@ -1,12 +1,11 @@
 {
-	"LOADING": "Loading &hellip;",
+	"LOADING": "Loading …",
 
+	"YESTERDAY": "Yesterday",
 	"TODAY": "Today",
 	"TOMORROW": "Tomorrow",
-	"DAYAFTERTOMORROW": "In 2 days",
 	"RUNNING": "Ends in",
 	"EMPTY": "No upcoming events.",
-
 	"WEEK": "Week {weekNumber}",
 
 	"N": "N",
@@ -26,13 +25,21 @@
 	"NW": "NW",
 	"NNW": "NNW",
 
+	"FEELS": "Feels like {DEGREE}",
+	"PRECIP_POP": "PoP",
+	"PRECIP_AMOUNT": "Precipitation amount",
+
 	"MODULE_CONFIG_CHANGED": "The configuration options for the {MODULE_NAME} module have changed.\nPlease check the documentation.",
+	"MODULE_CONFIG_ERROR": "Error in the {MODULE_NAME} module. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "Malformed url.",
+	"MODULE_ERROR_NO_CONNECTION": "No internet connection.",
+	"MODULE_ERROR_UNAUTHORIZED": "Authorization failed.",
+	"MODULE_ERROR_UNSPECIFIED": "Check logs for more details.",
+
+	"NEWSFEED_NO_ITEMS": "No news at the moment.",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² update available.",
 	"UPDATE_NOTIFICATION_MODULE": "Update available for {MODULE_NAME} module.",
 	"UPDATE_INFO_SINGLE": "The current installation is {COMMIT_COUNT} commit behind on the {BRANCH_NAME} branch.",
-	"UPDATE_INFO_MULTIPLE": "The current installation is {COMMIT_COUNT} commits behind on the {BRANCH_NAME} branch.",
-
-	"FEELS": "Feels like {DEGREE}",
-	"PRECIP": "PoP"
+	"UPDATE_INFO_MULTIPLE": "The current installation is {COMMIT_COUNT} commits behind on the {BRANCH_NAME} branch."
 }

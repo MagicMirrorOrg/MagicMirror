@@ -1,18 +1,17 @@
-/* Magic Mirror
+/* MagicMirror²
  * Node Helper: Calendar
  *
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
 const NodeHelper = require("node_helper");
-const validUrl = require("valid-url");
-const CalendarFetcher = require("./calendarfetcher.js");
 const Log = require("logger");
+const CalendarFetcher = require("./calendarfetcher");
 
 module.exports = NodeHelper.create({
 	// Override start method.
 	start: function () {
-		Log.log("Starting node helper for: " + this.name);
+		Log.log(`Starting node helper for: ${this.name}`);
 		this.fetchers = [];
 	},
 
@@ -20,13 +19,20 @@ module.exports = NodeHelper.create({
 	socketNotificationReceived: function (notification, payload) {
 		if (notification === "ADD_CALENDAR") {
 			this.createFetcher(payload.url, payload.fetchInterval, payload.excludedEvents, payload.maximumEntries, payload.maximumNumberOfDays, payload.auth, payload.broadcastPastEvents, payload.selfSignedCert, payload.id);
+		} else if (notification === "FETCH_CALENDAR") {
+			const key = payload.id + payload.url;
+			if (typeof this.fetchers[key] === "undefined") {
+				Log.error("Calendar Error. No fetcher exists with key: ", key);
+				this.sendSocketNotification("CALENDAR_ERROR", { error_type: "MODULE_ERROR_UNSPECIFIED" });
+				return;
+			}
+			this.fetchers[key].startFetch();
 		}
 	},
 
 	/**
 	 * Creates a fetcher for a new url if it doesn't exist yet.
 	 * Otherwise it reuses the existing one.
-	 *
 	 * @param {string} url The url of the calendar
 	 * @param {number} fetchInterval How often does the calendar needs to be fetched in ms
 	 * @param {string[]} excludedEvents An array of words / phrases from event titles that will be excluded from being shown.
@@ -38,41 +44,52 @@ module.exports = NodeHelper.create({
 	 * @param {string} identifier ID of the module
 	 */
 	createFetcher: function (url, fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, broadcastPastEvents, selfSignedCert, identifier) {
-		var self = this;
-
-		if (!validUrl.isUri(url)) {
-			self.sendSocketNotification("INCORRECT_URL", { id: identifier, url: url });
+		try {
+			new URL(url);
+		} catch (error) {
+			Log.error("Calendar Error. Malformed calendar url: ", url, error);
+			this.sendSocketNotification("CALENDAR_ERROR", { error_type: "MODULE_ERROR_MALFORMED_URL" });
 			return;
 		}
 
-		var fetcher;
-		if (typeof self.fetchers[identifier + url] === "undefined") {
-			Log.log("Create new calendar fetcher for url: " + url + " - Interval: " + fetchInterval);
+		let fetcher;
+		if (typeof this.fetchers[identifier + url] === "undefined") {
+			Log.log(`Create new calendarfetcher for url: ${url} - Interval: ${fetchInterval}`);
 			fetcher = new CalendarFetcher(url, fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, broadcastPastEvents, selfSignedCert);
 
-			fetcher.onReceive(function (fetcher) {
-				self.sendSocketNotification("CALENDAR_EVENTS", {
-					id: identifier,
-					url: fetcher.url(),
-					events: fetcher.events()
-				});
+			fetcher.onReceive((fetcher) => {
+				this.broadcastEvents(fetcher, identifier);
 			});
 
-			fetcher.onError(function (fetcher, error) {
+			fetcher.onError((fetcher, error) => {
 				Log.error("Calendar Error. Could not fetch calendar: ", fetcher.url(), error);
-				self.sendSocketNotification("FETCH_ERROR", {
+				let error_type = NodeHelper.checkFetchError(error);
+				this.sendSocketNotification("CALENDAR_ERROR", {
 					id: identifier,
-					url: fetcher.url(),
-					error: error
+					error_type
 				});
 			});
 
-			self.fetchers[identifier + url] = fetcher;
+			this.fetchers[identifier + url] = fetcher;
 		} else {
-			Log.log("Use existing calendar fetcher for url: " + url);
-			fetcher = self.fetchers[identifier + url];
+			Log.log(`Use existing calendarfetcher for url: ${url}`);
+			fetcher = this.fetchers[identifier + url];
+			fetcher.broadcastEvents();
 		}
 
 		fetcher.startFetch();
+	},
+
+	/**
+	 *
+	 * @param {object} fetcher the fetcher associated with the calendar
+	 * @param {string} identifier the identifier of the calendar
+	 */
+	broadcastEvents: function (fetcher, identifier) {
+		this.sendSocketNotification("CALENDAR_EVENTS", {
+			id: identifier,
+			url: fetcher.url(),
+			events: fetcher.events()
+		});
 	}
 });

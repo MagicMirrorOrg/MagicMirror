@@ -1,20 +1,21 @@
 {
-  "name": "magicmirror-vendors",
-  "description": "Package for vendors use by MagicMirror Core.",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/MichMich/MagicMirror.git"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/MichMich/MagicMirror/issues"
-  },
-  "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.15.2",
-    "moment": "^2.29.1",
-    "moment-timezone": "^0.5.33",
-    "nunjucks": "^3.2.3",
-    "suncalc": "^1.8.0",
-    "weathericons": "^2.1.0"
-  }
+	"name": "magicmirror-vendors",
+	"description": "Package for vendors use by MagicMirror² Core.",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/MichMich/MagicMirror.git"
+	},
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/MichMich/MagicMirror/issues"
+	},
+	"dependencies": {
+		"@fortawesome/fontawesome-free": "^6.4.2",
+		"animate.css": "^4.1.1",
+		"moment": "^2.29.4",
+		"moment-timezone": "^0.5.43",
+		"nunjucks": "^3.2.4",
+		"suncalc": "^1.9.0",
+		"weathericons": "^2.1.0"
+	}
 }

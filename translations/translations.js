@@ -1,11 +1,11 @@
-/* Magic Mirror
+/* MagicMirror²
  * Translation Definition
  *
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
 
-var translations = {
+let translations = {
 	en: "translations/en.json", // English
 	nl: "translations/nl.json", // Dutch
 	de: "translations/de.json", // German
@@ -34,7 +34,7 @@ var translations = {
 	hu: "translations/hu.json", // Hungarian
 	is: "translations/is.json", // Icelandic
 	et: "translations/et.json", // Estonian
-	kr: "translations/kr.json", // Korean
+	ko: "translations/ko.json", // Korean
 	ro: "translations/ro.json", // Romanian
 	cy: "translations/cy.json", // Welsh (Cymraeg)
 	bg: "translations/bg.json", // Bulgarian
@@ -46,7 +46,10 @@ var translations = {
 	he: "translations/he.json", // Hebrew
 	uk: "translations/uk.json", // Ukrainian
 	hi: "translations/hi.json", // Hindi
-	gu: "translations/gu.json" // Gujarati
+	gu: "translations/gu.json", // Gujarati
+	gl: "translations/gl.json", // Galego
+	lt: "translations/lt.json", // Lithuanian
+	th: "translations/th.json" // Thai
 };
 
 if (typeof module !== "undefined") {

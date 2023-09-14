@@ -6,7 +6,7 @@
   transform: translate(0, -3px);
 }
 
-.weather .humidityIcon {
+.weather .humidity-icon {
   padding-right: 4px;
 }
 
@@ -29,7 +29,9 @@
   padding-right: 0;
 }
 
-.weather .precipitation {
+.weather .precipitation-amount,
+.weather .precipitation-prob,
+.weather .uv-index {
   padding-left: 20px;
   padding-right: 0;
 }

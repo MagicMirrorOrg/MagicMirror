@@ -1,6 +1,8 @@
 {
-	"LOADING": "Lastar &hellip;",
+	"LOADING": "Lastar …",
 
+	"DAYBEFOREYESTERDAY": "I forgårs",
+	"YESTERDAY": "I går",
 	"TODAY": "I dag",
 	"TOMORROW": "I morgon",
 	"DAYAFTERTOMORROW": "I overmorgon",
@@ -24,10 +26,10 @@
 	"NW": "NV",
 	"NNW": "NNV",
 
+	"FEELS": "Kjenst som {DEGREE}",
+
 	"UPDATE_NOTIFICATION": "MagicMirror² oppdatering er tilgjengeleg.",
 	"UPDATE_NOTIFICATION_MODULE": "Oppdatering tilgjengeleg for modulen {MODULE_NAME}.",
 	"UPDATE_INFO_SINGLE": "noverande installasjon er {COMMIT_COUNT} commit bak {BRANCH_NAME} greinen.",
-	"UPDATE_INFO_MULTIPLE": "noverande installasjon er {COMMIT_COUNT} commits bak {BRANCH_NAME} greinen.",
-
-	"FEELS": "Kjenst som {DEGREE}"
+	"UPDATE_INFO_MULTIPLE": "noverande installasjon er {COMMIT_COUNT} commits bak {BRANCH_NAME} greinen."
 }

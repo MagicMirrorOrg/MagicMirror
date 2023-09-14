@@ -1,0 +1,100 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Updatenotification custom module returns status information without hash 1`] = `
+{
+  "behind": 7,
+  "current": "master",
+  "hash": "",
+  "isBehindInStatus": false,
+  "module": "MMM-Fuel",
+  "tracking": "origin/master",
+}
+`;
+
+exports[`Updatenotification MagicMirror on develop returns status information 1`] = `
+{
+  "behind": 5,
+  "current": "develop",
+  "hash": "332e429a41f1a2339afd4f0ae96dd125da6beada",
+  "isBehindInStatus": false,
+  "module": "MagicMirror",
+  "tracking": "origin/develop",
+}
+`;
+
+exports[`Updatenotification MagicMirror on develop returns status information early if isBehindInStatus 1`] = `
+{
+  "behind": 5,
+  "current": "develop",
+  "hash": "332e429a41f1a2339afd4f0ae96dd125da6beada",
+  "isBehindInStatus": true,
+  "module": "MagicMirror",
+  "tracking": "origin/develop",
+}
+`;
+
+exports[`Updatenotification MagicMirror on master (empty taglist) returns status information 1`] = `
+{
+  "behind": 5,
+  "current": "master",
+  "hash": "332e429a41f1a2339afd4f0ae96dd125da6beada",
+  "isBehindInStatus": false,
+  "module": "MagicMirror",
+  "tracking": "origin/master",
+}
+`;
+
+exports[`Updatenotification MagicMirror on master (empty taglist) returns status information early if isBehindInStatus 1`] = `
+{
+  "behind": 5,
+  "current": "master",
+  "hash": "332e429a41f1a2339afd4f0ae96dd125da6beada",
+  "isBehindInStatus": true,
+  "module": "MagicMirror",
+  "tracking": "origin/master",
+}
+`;
+
+exports[`Updatenotification MagicMirror on master with match in taglist returns status information 1`] = `
+{
+  "behind": 5,
+  "current": "master",
+  "hash": "332e429a41f1a2339afd4f0ae96dd125da6beada",
+  "isBehindInStatus": false,
+  "module": "MagicMirror",
+  "tracking": "origin/master",
+}
+`;
+
+exports[`Updatenotification MagicMirror on master with match in taglist returns status information early if isBehindInStatus 1`] = `
+{
+  "behind": 5,
+  "current": "master",
+  "hash": "332e429a41f1a2339afd4f0ae96dd125da6beada",
+  "isBehindInStatus": true,
+  "module": "MagicMirror",
+  "tracking": "origin/master",
+}
+`;
+
+exports[`Updatenotification MagicMirror on master without match in taglist returns status information 1`] = `
+{
+  "behind": 0,
+  "current": "master",
+  "hash": "332e429a41f1a2339afd4f0ae96dd125da6beada",
+  "isBehindInStatus": false,
+  "module": "MagicMirror",
+  "tracking": "origin/master",
+}
+`;
+
+exports[`Updatenotification MagicMirror on master without match in taglist returns status information early if isBehindInStatus 1`] = `
+{
+  "behind": 0,
+  "current": "master",
+  "hash": "332e429a41f1a2339afd4f0ae96dd125da6beada",
+  "isBehindInStatus": true,
+  "module": "MagicMirror",
+  "tracking": "origin/master",
+}
+`;

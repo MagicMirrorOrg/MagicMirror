@@ -1,10 +1,14 @@
 {
-	"LOADING": "正在加載 &hellip;",
+	"LOADING": "正在載入 …",
 
+	"DAYBEFOREYESTERDAY": "前天",
+	"YESTERDAY": "昨天",
 	"TODAY": "今天",
 	"TOMORROW": "明天",
+	"DAYAFTERTOMORROW": "後天",
 	"RUNNING": "結束日期",
 	"EMPTY": "沒有更多的活動。",
+	"WEEK": "第 {weekNumber} 週",
 
 	"N": "北風",
 	"NNE": "北偏東風",
@@ -21,5 +25,22 @@
 	"W": "西風",
 	"WNW": "西偏北風",
 	"NW": "西北風",
-	"NNW": "北偏西風"
+	"NNW": "北偏西風",
+
+	"FEELS": "體感溫度 {DEGREE}",
+	"PRECIP_POP": "降雨機率",
+
+	"MODULE_CONFIG_CHANGED": "模組 {MODULE_NAME} 的設定檔選項已更改。\n請參見說明文件。",
+	"MODULE_CONFIG_ERROR": "{MODULE_NAME} 模組發生錯誤。{ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "網址格式錯誤。",
+	"MODULE_ERROR_NO_CONNECTION": "無網路連線。",
+	"MODULE_ERROR_UNAUTHORIZED": "授權失敗。",
+	"MODULE_ERROR_UNSPECIFIED": "查看日誌以了解詳情。",
+
+	"NEWSFEED_NO_ITEMS": "目前沒有新聞。",
+
+	"UPDATE_NOTIFICATION": "MagicMirror² 有可用更新。",
+	"UPDATE_NOTIFICATION_MODULE": "{MODULE_NAME} 模組有可用更新。",
+	"UPDATE_INFO_SINGLE": "目前版本在 {BRANCH_NAME} 分支上已落後了 {COMMIT_COUNT} 次 commit。",
+	"UPDATE_INFO_MULTIPLE": "目前版本在 {BRANCH_NAME} 分支上已落後了 {COMMIT_COUNT} 次 commit。"
 }

@@ -1,61 +1,27 @@
-const helpers = require("./global-setup");
-const request = require("request");
-const expect = require("chai").expect;
+const helpers = require("./helpers/global-setup");
 
-const describe = global.describe;
-const it = global.it;
-const beforeEach = global.beforeEach;
-const afterEach = global.afterEach;
-
-describe("Electron app environment", function () {
-	helpers.setupTimeout(this);
-
-	var app = null;
-
-	before(function () {
-		// Set config sample for use in test
-		process.env.MM_CONFIG_FILE = "tests/configs/env.js";
+describe("App environment", () => {
+	beforeAll(async () => {
+		await helpers.startApplication("tests/configs/default.js");
+		await helpers.getDocument();
+	});
+	afterAll(async () => {
+		await helpers.stopApplication();
 	});
 
-	beforeEach(function () {
-		return helpers
-			.startApplication({
-				args: ["js/electron.js"]
-			})
-			.then(function (startedApp) {
-				app = startedApp;
-			});
+	it("get request from http://localhost:8080 should return 200", async () => {
+		const res = await fetch("http://localhost:8080");
+		expect(res.status).toBe(200);
 	});
 
-	afterEach(function () {
-		return helpers.stopApplication(app);
+	it("get request from http://localhost:8080/nothing should return 404", async () => {
+		const res = await fetch("http://localhost:8080/nothing");
+		expect(res.status).toBe(404);
 	});
 
-	it("should open a browserwindow", async function () {
-		await app.client.waitUntilWindowLoaded();
-		app.browserWindow.focus();
-		expect(await app.client.getWindowCount()).to.equal(1);
-		expect(await app.browserWindow.isMinimized()).to.be.false;
-		expect(await app.browserWindow.isDevToolsOpened()).to.be.false;
-		expect(await app.browserWindow.isVisible()).to.be.true;
-		expect(await app.browserWindow.isFocused()).to.be.true;
-		const bounds = await app.browserWindow.getBounds();
-		expect(bounds.width).to.be.above(0);
-		expect(bounds.height).to.be.above(0);
-		expect(await app.browserWindow.getTitle()).to.equal("MagicMirror²");
-	});
-
-	it("get request from http://localhost:8080 should return 200", function (done) {
-		request.get("http://localhost:8080", function (err, res, body) {
-			expect(res.statusCode).to.equal(200);
-			done();
-		});
-	});
-
-	it("get request from http://localhost:8080/nothing should return 404", function (done) {
-		request.get("http://localhost:8080/nothing", function (err, res, body) {
-			expect(res.statusCode).to.equal(404);
-			done();
-		});
+	it("should show the title MagicMirror²", async () => {
+		const elem = await helpers.waitForElement("title");
+		expect(elem).not.toBe(null);
+		expect(elem.textContent).toBe("MagicMirror²");
 	});
 });

@@ -1,18 +1,20 @@
 .calendar .symbol {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
   padding-left: 0;
   padding-right: 10px;
-  font-size: 80%;
-  vertical-align: top;
+  font-size: var(--font-size-small);
 }
 
 .calendar .symbol span {
-  display: inline-block;
-  transform: translate(0, 2px);
+  padding-top: 4px;
 }
 
 .calendar .title {
   padding-left: 0;
   padding-right: 0;
+  vertical-align: top;
 }
 
 .calendar .time {

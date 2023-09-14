@@ -1,12 +1,13 @@
 {
-	"LOADING": "Загрузка &hellip;",
+	"LOADING": "Загрузка …",
 
+	"DAYBEFOREYESTERDAY": "Позавчера",
+	"YESTERDAY": "Вчера",
 	"TODAY": "Сегодня",
 	"TOMORROW": "Завтра",
 	"DAYAFTERTOMORROW": "Послезавтра",
 	"RUNNING": "Заканчивается через",
 	"EMPTY": "Нет предстоящих событий",
-
 	"WEEK": "Неделя {weekNumber}",
 
 	"N": "С",
@@ -25,6 +26,7 @@
 	"WNW": "ЗСЗ",
 	"NW": "СЗ",
 	"NNW": "ССЗ",
+
 	"FEELS": "По ощущению {DEGREE}",
 
 	"UPDATE_NOTIFICATION": "Есть обновление для MagicMirror².",

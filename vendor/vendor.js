@@ -1,10 +1,10 @@
-/* Magic Mirror
+/* MagicMirror²
  * Vendor File Definition
  *
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-var vendor = {
+const vendor = {
 	"moment.js": "node_modules/moment/min/moment-with-locales.js",
 	"moment-timezone.js": "node_modules/moment-timezone/builds/moment-timezone-with-data.js",
 	"weather-icons.css": "node_modules/weathericons/css/weather-icons.css",

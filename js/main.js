@@ -1,41 +1,45 @@
-/* global Loader, defaults, Translator */
+/* global Loader, defaults, Translator, AnimateCSS, AnimateCSSIn, AnimateCSSOut */
 
-/* Magic Mirror
+/* MagicMirror²
  * Main System
  *
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-var MM = (function () {
-	var modules = [];
+const MM = (function () {
+	let modules = [];
 
 	/* Private Methods */
 
 	/**
 	 * Create dom objects for all modules that are configured for a specific position.
 	 */
-	var createDomObjects = function () {
-		var domCreationPromises = [];
+	const createDomObjects = function () {
+		const domCreationPromises = [];
 
 		modules.forEach(function (module) {
 			if (typeof module.data.position !== "string") {
 				return;
 			}
 
-			var wrapper = selectWrapper(module.data.position);
+			let haveAnimateIn = null;
+			// check if have valid animateIn in module definition (module.data.animateIn)
+			if (module.data.animateIn && AnimateCSSIn.indexOf(module.data.animateIn) !== -1) haveAnimateIn = module.data.animateIn;
 
-			var dom = document.createElement("div");
+			const wrapper = selectWrapper(module.data.position);
+
+			const dom = document.createElement("div");
 			dom.id = module.identifier;
 			dom.className = module.name;
 
 			if (typeof module.data.classes === "string") {
-				dom.className = "module " + dom.className + " " + module.data.classes;
+				dom.className = `module ${dom.className} ${module.data.classes}`;
 			}
 
 			dom.opacity = 0;
 			wrapper.appendChild(dom);
 
-			var moduleHeader = document.createElement("header");
+			const moduleHeader = document.createElement("header");
 			moduleHeader.innerHTML = module.getHeader();
 			moduleHeader.className = "module-header";
 			dom.appendChild(moduleHeader);
@@ -46,11 +50,16 @@ var MM = (function () {
 				moduleHeader.style.display = "block;";
 			}
 
-			var moduleContent = document.createElement("div");
+			const moduleContent = document.createElement("div");
 			moduleContent.className = "module-content";
 			dom.appendChild(moduleContent);
 
-			var domCreationPromise = updateDom(module, 0);
+			// create the domCreationPromise with AnimateCSS (with animateIn of module definition)
+			// or just display it
+			var domCreationPromise;
+			if (haveAnimateIn) domCreationPromise = updateDom(module, 1000, null, haveAnimateIn, true);
+			else domCreationPromise = updateDom(module, 0);
+
 			domCreationPromises.push(domCreationPromise);
 			domCreationPromise
 				.then(function () {
@@ -68,16 +77,14 @@ var MM = (function () {
 
 	/**
 	 * Select the wrapper dom object for a specific position.
-	 *
 	 * @param {string} position The name of the position.
-	 *
-	 * @returns {HTMLElement} the wrapper element
+	 * @returns {HTMLElement | void} the wrapper element
 	 */
-	var selectWrapper = function (position) {
-		var classes = position.replace("_", " ");
-		var parentWrapper = document.getElementsByClassName(classes);
+	const selectWrapper = function (position) {
+		const classes = position.replace("_", " ");
+		const parentWrapper = document.getElementsByClassName(classes);
 		if (parentWrapper.length > 0) {
-			var wrapper = parentWrapper[0].getElementsByClassName("container");
+			const wrapper = parentWrapper[0].getElementsByClassName("container");
 			if (wrapper.length > 0) {
 				return wrapper[0];
 			}
@@ -86,15 +93,14 @@ var MM = (function () {
 
 	/**
 	 * Send a notification to all modules.
-	 *
 	 * @param {string} notification The identifier of the notification.
 	 * @param {*} payload The payload of the notification.
 	 * @param {Module} sender The module that sent the notification.
 	 * @param {Module} [sendTo] The (optional) module to send the notification to.
 	 */
-	var sendNotification = function (notification, payload, sender, sendTo) {
-		for (var m in modules) {
-			var module = modules[m];
+	const sendNotification = function (notification, payload, sender, sendTo) {
+		for (const m in modules) {
+			const module = modules[m];
 			if (module !== sender && (!sendTo || module === sendTo)) {
 				module.notificationReceived(notification, payload, sender);
 			}
@@ -103,16 +109,33 @@ var MM = (function () {
 
 	/**
 	 * Update the dom for a specific module.
-	 *
 	 * @param {Module} module The module that needs an update.
-	 * @param {number} [speed] The (optional) number of microseconds for the animation.
-	 *
+	 * @param {object|number} [updateOptions] The (optional) number of microseconds for the animation or object with updateOptions (speed/animates)
+	 * @param {boolean} [createAnimatedDom] for displaying only animateIn (used on first start of MagicMirror)
 	 * @returns {Promise} Resolved when the dom is fully updated.
 	 */
-	var updateDom = function (module, speed) {
+	const updateDom = function (module, updateOptions, createAnimatedDom = false) {
 		return new Promise(function (resolve) {
-			var newContentPromise = module.getDom();
-			var newHeader = module.getHeader();
+			let speed = updateOptions;
+			let animateOut = null;
+			let animateIn = null;
+			if (typeof updateOptions === "object") {
+				if (typeof updateOptions.options === "object" && updateOptions.options.speed !== undefined) {
+					speed = updateOptions.options.speed;
+					Log.debug(`updateDom: ${module.identifier} Has speed in object: ${speed}`);
+					if (typeof updateOptions.options.animate === "object") {
+						animateOut = updateOptions.options.animate.out;
+						animateIn = updateOptions.options.animate.in;
+						Log.debug(`updateDom: ${module.identifier} Has animate in object: out->${animateOut}, in->${animateIn}`);
+					}
+				} else {
+					Log.debug(`updateDom: ${module.identifier} Has no speed in object`);
+					speed = 0;
+				}
+			}
+
+			const newHeader = module.getHeader();
+			let newContentPromise = module.getDom();
 
 			if (!(newContentPromise instanceof Promise)) {
 				// convert to a promise if not already one to avoid if/else's everywhere
@@ -121,7 +144,7 @@ var MM = (function () {
 
 			newContentPromise
 				.then(function (newContent) {
-					var updatePromise = updateDomWithContent(module, speed, newHeader, newContent);
+					const updatePromise = updateDomWithContent(module, speed, newHeader, newContent, animateOut, animateIn, createAnimatedDom);
 
 					updatePromise.then(resolve).catch(Log.error);
 				})
@@ -131,15 +154,16 @@ var MM = (function () {
 
 	/**
 	 * Update the dom with the specified content
-	 *
 	 * @param {Module} module The module that needs an update.
 	 * @param {number} [speed] The (optional) number of microseconds for the animation.
 	 * @param {string} newHeader The new header that is generated.
 	 * @param {HTMLElement} newContent The new content that is generated.
-	 *
+	 * @param {string} [animateOut] AnimateCss animation name before hidden
+	 * @param {string} [animateIn] AnimateCss animation name on show
+	 * @param {boolean} [createAnimatedDom] for displaying only animateIn (used on first start)
 	 * @returns {Promise} Resolved when the module dom has been updated.
 	 */
-	var updateDomWithContent = function (module, speed, newHeader, newContent) {
+	const updateDomWithContent = function (module, speed, newHeader, newContent, animateOut, animateIn, createAnimatedDom = false) {
 		return new Promise(function (resolve) {
 			if (module.hidden || !speed) {
 				updateModuleContent(module, newHeader, newContent);
@@ -158,42 +182,55 @@ var MM = (function () {
 				return;
 			}
 
-			hideModule(module, speed / 2, function () {
+			if (createAnimatedDom && animateIn !== null) {
+				Log.debug(`${module.identifier} createAnimatedDom (${animateIn})`);
 				updateModuleContent(module, newHeader, newContent);
 				if (!module.hidden) {
-					showModule(module, speed / 2);
+					showModule(module, speed, null, { animate: animateIn });
 				}
 				resolve();
-			});
+				return;
+			}
+
+			hideModule(
+				module,
+				speed / 2,
+				function () {
+					updateModuleContent(module, newHeader, newContent);
+					if (!module.hidden) {
+						showModule(module, speed / 2, null, { animate: animateIn });
+					}
+					resolve();
+				},
+				{ animate: animateOut }
+			);
 		});
 	};
 
 	/**
 	 * Check if the content has changed.
-	 *
 	 * @param {Module} module The module to check.
 	 * @param {string} newHeader The new header that is generated.
 	 * @param {HTMLElement} newContent The new content that is generated.
-	 *
 	 * @returns {boolean} True if the module need an update, false otherwise
 	 */
-	var moduleNeedsUpdate = function (module, newHeader, newContent) {
-		var moduleWrapper = document.getElementById(module.identifier);
+	const moduleNeedsUpdate = function (module, newHeader, newContent) {
+		const moduleWrapper = document.getElementById(module.identifier);
 		if (moduleWrapper === null) {
 			return false;
 		}
 
-		var contentWrapper = moduleWrapper.getElementsByClassName("module-content");
-		var headerWrapper = moduleWrapper.getElementsByClassName("module-header");
+		const contentWrapper = moduleWrapper.getElementsByClassName("module-content");
+		const headerWrapper = moduleWrapper.getElementsByClassName("module-header");
 
-		var headerNeedsUpdate = false;
-		var contentNeedsUpdate = false;
+		let headerNeedsUpdate = false;
+		let contentNeedsUpdate;
 
 		if (headerWrapper.length > 0) {
 			headerNeedsUpdate = newHeader !== headerWrapper[0].innerHTML;
 		}
 
-		var tempContentWrapper = document.createElement("div");
+		const tempContentWrapper = document.createElement("div");
 		tempContentWrapper.appendChild(newContent);
 		contentNeedsUpdate = tempContentWrapper.innerHTML !== contentWrapper[0].innerHTML;
 
@@ -202,18 +239,17 @@ var MM = (function () {
 
 	/**
 	 * Update the content of a module on screen.
-	 *
 	 * @param {Module} module The module to check.
 	 * @param {string} newHeader The new header that is generated.
 	 * @param {HTMLElement} newContent The new content that is generated.
 	 */
-	var updateModuleContent = function (module, newHeader, newContent) {
-		var moduleWrapper = document.getElementById(module.identifier);
+	const updateModuleContent = function (module, newHeader, newContent) {
+		const moduleWrapper = document.getElementById(module.identifier);
 		if (moduleWrapper === null) {
 			return;
 		}
-		var headerWrapper = moduleWrapper.getElementsByClassName("module-header");
-		var contentWrapper = moduleWrapper.getElementsByClassName("module-content");
+		const headerWrapper = moduleWrapper.getElementsByClassName("module-header");
+		const contentWrapper = moduleWrapper.getElementsByClassName("module-content");
 
 		contentWrapper[0].innerHTML = "";
 		contentWrapper[0].appendChild(newContent);
@@ -228,15 +264,12 @@ var MM = (function () {
 
 	/**
 	 * Hide the module.
-	 *
 	 * @param {Module} module The module to hide.
 	 * @param {number} speed The speed of the hide animation.
 	 * @param {Function} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the hide method.
 	 */
-	var hideModule = function (module, speed, callback, options) {
-		options = options || {};
-
+	const hideModule = async function (module, speed, callback, options = {}) {
 		// set lockString if set in options.
 		if (options.lockString) {
 			// Log.log("Has lockstring: " + options.lockString);
@@ -245,25 +278,51 @@ var MM = (function () {
 			}
 		}
 
-		var moduleWrapper = document.getElementById(module.identifier);
+		const moduleWrapper = document.getElementById(module.identifier);
 		if (moduleWrapper !== null) {
-			moduleWrapper.style.transition = "opacity " + speed / 1000 + "s";
-			moduleWrapper.style.opacity = 0;
-
 			clearTimeout(module.showHideTimer);
-			module.showHideTimer = setTimeout(function () {
-				// To not take up any space, we just make the position absolute.
-				// since it's fade out anyway, we can see it lay above or
-				// below other modules. This works way better than adjusting
-				// the .display property.
+
+			// haveAnimateName for verify if we are using AninateCSS library
+			// we check AnimateCSSOut Array for validate it
+			// and finaly return the animate name or `null` (for default MM² animation)
+			let haveAnimateName = null;
+			// check if have valid animateOut in module definition (module.data.animateOut)
+			if (module.data.animateOut && AnimateCSSOut.indexOf(module.data.animateOut) !== -1) haveAnimateName = module.data.animateOut;
+			// can't be override with options.animate
+			else if (options.animate && AnimateCSSOut.indexOf(options.animate) !== -1) haveAnimateName = options.animate;
+
+			if (haveAnimateName) {
+				// with AnimateCSS
+				Log.debug(`${module.identifier} Has animateOut: ${haveAnimateName}`);
+				await AnimateCSS(module.identifier, haveAnimateName, speed / 1000);
+				// AnimateCSS is now done
+				moduleWrapper.style.opacity = 0;
+				moduleWrapper.classList.add("hidden");
 				moduleWrapper.style.position = "fixed";
 
 				updateWrapperStates();
-
 				if (typeof callback === "function") {
 					callback();
 				}
-			}, speed);
+			} else {
+				// default MM² Animate
+				moduleWrapper.style.transition = `opacity ${speed / 1000}s`;
+				moduleWrapper.style.opacity = 0;
+				moduleWrapper.classList.add("hidden");
+				module.showHideTimer = setTimeout(function () {
+					// To not take up any space, we just make the position absolute.
+					// since it's fade out anyway, we can see it lay above or
+					// below other modules. This works way better than adjusting
+					// the .display property.
+					moduleWrapper.style.position = "fixed";
+
+					updateWrapperStates();
+
+					if (typeof callback === "function") {
+						callback();
+					}
+				}, speed);
+			}
 		} else {
 			// invoke callback even if no content, issue 1308
 			if (typeof callback === "function") {
@@ -274,18 +333,15 @@ var MM = (function () {
 
 	/**
 	 * Show the module.
-	 *
 	 * @param {Module} module The module to show.
 	 * @param {number} speed The speed of the show animation.
 	 * @param {Function} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the show method.
 	 */
-	var showModule = function (module, speed, callback, options) {
-		options = options || {};
-
+	const showModule = async function (module, speed, callback, options = {}) {
 		// remove lockString if set in options.
 		if (options.lockString) {
-			var index = module.lockStrings.indexOf(options.lockString);
+			const index = module.lockStrings.indexOf(options.lockString);
 			if (index !== -1) {
 				module.lockStrings.splice(index, 1);
 			}
@@ -294,7 +350,7 @@ var MM = (function () {
 		// Check if there are no more lockstrings set, or the force option is set.
 		// Otherwise cancel show action.
 		if (module.lockStrings.length !== 0 && options.force !== true) {
-			Log.log("Will not show " + module.name + ". LockStrings active: " + module.lockStrings.join(","));
+			Log.log(`Will not show ${module.name}. LockStrings active: ${module.lockStrings.join(",")}`);
 			if (typeof options.onError === "function") {
 				options.onError(new Error("LOCK_STRING_ACTIVE"));
 			}
@@ -305,28 +361,49 @@ var MM = (function () {
 
 		// If forced show, clean current lockstrings.
 		if (module.lockStrings.length !== 0 && options.force === true) {
-			Log.log("Force show of module: " + module.name);
+			Log.log(`Force show of module: ${module.name}`);
 			module.lockStrings = [];
 		}
 
-		var moduleWrapper = document.getElementById(module.identifier);
+		const moduleWrapper = document.getElementById(module.identifier);
 		if (moduleWrapper !== null) {
-			moduleWrapper.style.transition = "opacity " + speed / 1000 + "s";
+			clearTimeout(module.showHideTimer);
+
+			// haveAnimateName for verify if we are using AninateCSS library
+			// we check AnimateCSSIn Array for validate it
+			// and finaly return the animate name or `null` (for default MM² animation)
+			let haveAnimateName = null;
+			// check if have valid animateOut in module definition (module.data.animateIn)
+			if (module.data.animateIn && AnimateCSSIn.indexOf(module.data.animateIn) !== -1) haveAnimateName = module.data.animateIn;
+			// can't be override with options.animate
+			else if (options.animate && AnimateCSSIn.indexOf(options.animate) !== -1) haveAnimateName = options.animate;
+
+			if (!haveAnimateName) moduleWrapper.style.transition = `opacity ${speed / 1000}s`;
 			// Restore the position. See hideModule() for more info.
 			moduleWrapper.style.position = "static";
+			moduleWrapper.classList.remove("hidden");
 
 			updateWrapperStates();
 
 			// Waiting for DOM-changes done in updateWrapperStates before we can start the animation.
-			var dummy = moduleWrapper.parentElement.parentElement.offsetHeight;
+			const dummy = moduleWrapper.parentElement.parentElement.offsetHeight;
 			moduleWrapper.style.opacity = 1;
 
-			clearTimeout(module.showHideTimer);
-			module.showHideTimer = setTimeout(function () {
+			if (haveAnimateName) {
+				// with AnimateCSS
+				Log.debug(`${module.identifier} Has animateIn: ${haveAnimateName}`);
+				await AnimateCSS(module.identifier, haveAnimateName, speed / 1000);
 				if (typeof callback === "function") {
 					callback();
 				}
-			}, speed);
+			} else {
+				// default MM² Animate
+				module.showHideTimer = setTimeout(function () {
+					if (typeof callback === "function") {
+						callback();
+					}
+				}, speed);
+			}
 		} else {
 			// invoke callback
 			if (typeof callback === "function") {
@@ -346,14 +423,14 @@ var MM = (function () {
 	 * an ugly top margin. By using this function, the top bar will be hidden if the
 	 * update notification is not visible.
 	 */
-	var updateWrapperStates = function () {
-		var positions = ["top_bar", "top_left", "top_center", "top_right", "upper_third", "middle_center", "lower_third", "bottom_left", "bottom_center", "bottom_right", "bottom_bar", "fullscreen_above", "fullscreen_below"];
+	const updateWrapperStates = function () {
+		const positions = ["top_bar", "top_left", "top_center", "top_right", "upper_third", "middle_center", "lower_third", "bottom_left", "bottom_center", "bottom_right", "bottom_bar", "fullscreen_above", "fullscreen_below"];
 
 		positions.forEach(function (position) {
-			var wrapper = selectWrapper(position);
-			var moduleWrappers = wrapper.getElementsByClassName("module");
+			const wrapper = selectWrapper(position);
+			const moduleWrappers = wrapper.getElementsByClassName("module");
 
-			var showWrapper = false;
+			let showWrapper = false;
 			Array.prototype.forEach.call(moduleWrappers, function (moduleWrapper) {
 				if (moduleWrapper.style.position === "" || moduleWrapper.style.position === "static") {
 					showWrapper = true;
@@ -367,7 +444,7 @@ var MM = (function () {
 	/**
 	 * Loads the core config and combines it with the system defaults.
 	 */
-	var loadConfig = function () {
+	const loadConfig = function () {
 		// FIXME: Think about how to pass config around without breaking tests
 		/* eslint-disable */
 		if (typeof config === "undefined") {
@@ -382,51 +459,43 @@ var MM = (function () {
 
 	/**
 	 * Adds special selectors on a collection of modules.
-	 *
 	 * @param {Module[]} modules Array of modules.
 	 */
-	var setSelectionMethodsForModules = function (modules) {
+	const setSelectionMethodsForModules = function (modules) {
 		/**
 		 * Filter modules with the specified classes.
-		 *
 		 * @param {string|string[]} className one or multiple classnames (array or space divided).
-		 *
 		 * @returns {Module[]} Filtered collection of modules.
 		 */
-		var withClass = function (className) {
+		const withClass = function (className) {
 			return modulesByClass(className, true);
 		};
 
 		/**
 		 * Filter modules without the specified classes.
-		 *
 		 * @param {string|string[]} className one or multiple classnames (array or space divided).
-		 *
 		 * @returns {Module[]} Filtered collection of modules.
 		 */
-		var exceptWithClass = function (className) {
+		const exceptWithClass = function (className) {
 			return modulesByClass(className, false);
 		};
 
 		/**
 		 * Filters a collection of modules based on classname(s).
-		 *
 		 * @param {string|string[]} className one or multiple classnames (array or space divided).
 		 * @param {boolean} include if the filter should include or exclude the modules with the specific classes.
-		 *
 		 * @returns {Module[]} Filtered collection of modules.
 		 */
-		var modulesByClass = function (className, include) {
-			var searchClasses = className;
+		const modulesByClass = function (className, include) {
+			let searchClasses = className;
 			if (typeof className === "string") {
 				searchClasses = className.split(" ");
 			}
 
-			var newModules = modules.filter(function (module) {
-				var classes = module.data.classes.toLowerCase().split(" ");
+			const newModules = modules.filter(function (module) {
+				const classes = module.data.classes.toLowerCase().split(" ");
 
-				for (var c in searchClasses) {
-					var searchClass = searchClasses[c];
+				for (const searchClass of searchClasses) {
 					if (classes.indexOf(searchClass.toLowerCase()) !== -1) {
 						return include;
 					}
@@ -441,12 +510,11 @@ var MM = (function () {
 
 		/**
 		 * Removes a module instance from the collection.
-		 *
 		 * @param {object} module The module instance to remove from the collection.
 		 * @returns {Module[]} Filtered collection of modules.
 		 */
-		var exceptModule = function (module) {
-			var newModules = modules.filter(function (mod) {
+		const exceptModule = function (module) {
+			const newModules = modules.filter(function (mod) {
 				return mod.identifier !== module.identifier;
 			});
 
@@ -456,10 +524,9 @@ var MM = (function () {
 
 		/**
 		 * Walks thru a collection of modules and executes the callback with the module as an argument.
-		 *
 		 * @param {Function} callback The function to execute with the module as an argument.
 		 */
-		var enumerate = function (callback) {
+		const enumerate = function (callback) {
 			modules.map(function (module) {
 				callback(module);
 			});
@@ -485,34 +552,53 @@ var MM = (function () {
 		/**
 		 * Main init method.
 		 */
-		init: function () {
-			Log.info("Initializing MagicMirror.");
+		init: async function () {
+			Log.info("Initializing MagicMirror².");
 			loadConfig();
 
 			Log.setLogLevel(config.logLevel);
 
-			Translator.loadCoreTranslations(config.language);
-			Loader.loadModules();
+			await Translator.loadCoreTranslations(config.language);
+			await Loader.loadModules();
 		},
 
 		/**
 		 * Gets called when all modules are started.
-		 *
 		 * @param {Module[]} moduleObjects All module instances.
 		 */
 		modulesStarted: function (moduleObjects) {
 			modules = [];
+			let startUp = "";
+
 			moduleObjects.forEach((module) => modules.push(module));
 
 			Log.info("All modules started!");
 			sendNotification("ALL_MODULES_STARTED");
 
 			createDomObjects();
+
+			if (config.reloadAfterServerRestart) {
+				setInterval(async () => {
+					// if server startup time has changed (which means server was restarted)
+					// the client reloads the mm page
+					try {
+						const res = await fetch(`${location.protocol}//${location.host}/startup`);
+						const curr = await res.text();
+						if (startUp === "") startUp = curr;
+						if (startUp !== curr) {
+							startUp = "";
+							window.location.reload(true);
+							console.warn("Refreshing Website because server was restarted");
+						}
+					} catch (err) {
+						Log.error(`MagicMirror not reachable: ${err}`);
+					}
+				}, config.checkServerInterval);
+			}
 		},
 
 		/**
 		 * Send a notification to all modules.
-		 *
 		 * @param {string} notification The identifier of the notification.
 		 * @param {*} payload The payload of the notification.
 		 * @param {Module} sender The module that sent the notification.
@@ -539,11 +625,10 @@ var MM = (function () {
 
 		/**
 		 * Update the dom for a specific module.
-		 *
 		 * @param {Module} module The module that needs an update.
-		 * @param {number} [speed] The number of microseconds for the animation.
+		 * @param {object|number} [updateOptions] The (optional) number of microseconds for the animation or object with updateOptions (speed/animates)
 		 */
-		updateDom: function (module, speed) {
+		updateDom: function (module, updateOptions) {
 			if (!(module instanceof Module)) {
 				Log.error("updateDom: Sender should be a module.");
 				return;
@@ -555,12 +640,11 @@ var MM = (function () {
 			}
 
 			// Further implementation is done in the private method.
-			updateDom(module, speed);
+			updateDom(module, updateOptions);
 		},
 
 		/**
 		 * Returns a collection of all modules currently active.
-		 *
 		 * @returns {Module[]} A collection of all modules currently active.
 		 */
 		getModules: function () {
@@ -570,7 +654,6 @@ var MM = (function () {
 
 		/**
 		 * Hide the module.
-		 *
 		 * @param {Module} module The module to hide.
 		 * @param {number} speed The speed of the hide animation.
 		 * @param {Function} callback Called when the animation is done.
@@ -583,7 +666,6 @@ var MM = (function () {
 
 		/**
 		 * Show the module.
-		 *
 		 * @param {Module} module The module to show.
 		 * @param {number} speed The speed of the show animation.
 		 * @param {Function} callback Called when the animation is done.
@@ -604,11 +686,11 @@ if (typeof Object.assign !== "function") {
 			if (target === undefined || target === null) {
 				throw new TypeError("Cannot convert undefined or null to object");
 			}
-			var output = Object(target);
-			for (var index = 1; index < arguments.length; index++) {
-				var source = arguments[index];
+			const output = Object(target);
+			for (let index = 1; index < arguments.length; index++) {
+				const source = arguments[index];
 				if (source !== undefined && source !== null) {
-					for (var nextKey in source) {
+					for (const nextKey in source) {
 						if (source.hasOwnProperty(nextKey)) {
 							output[nextKey] = source[nextKey];
 						}

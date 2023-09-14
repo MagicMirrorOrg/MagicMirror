@@ -1,6 +1,8 @@
 {
-	"LOADING": "Φόρτωση &hellip;",
+	"LOADING": "Φόρτωση …",
 
+	"DAYBEFOREYESTERDAY": "Προχθές",
+	"YESTERDAY": "Εχθές",
 	"TODAY": "Σήμερα",
 	"TOMORROW": "Αύριο",
 	"RUNNING": "Λήγει σε",

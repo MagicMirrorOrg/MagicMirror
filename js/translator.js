@@ -1,36 +1,37 @@
 /* global translations */
 
-/* Magic Mirror
+/* MagicMirror²
  * Translator (l10n)
  *
  * By Christopher Fenner https://github.com/CFenner
  * MIT Licensed.
  */
-var Translator = (function () {
+const Translator = (function () {
 	/**
 	 * Load a JSON file via XHR.
-	 *
 	 * @param {string} file Path of the file we want to load.
-	 * @param {Function} callback Function called when done.
+	 * @returns {Promise<object>} the translations in the specified file
 	 */
-	function loadJSON(file, callback) {
-		var xhr = new XMLHttpRequest();
-		xhr.overrideMimeType("application/json");
-		xhr.open("GET", file, true);
-		xhr.onreadystatechange = function () {
-			if (xhr.readyState === 4 && xhr.status === 200) {
-				// needs error handler try/catch at least
-				let fileinfo = null;
-				try {
-					fileinfo = JSON.parse(xhr.responseText);
-				} catch (exception) {
-					// nothing here, but don't die
-					Log.error(" loading json file =" + file + " failed");
+	async function loadJSON(file) {
+		const xhr = new XMLHttpRequest();
+		return new Promise(function (resolve) {
+			xhr.overrideMimeType("application/json");
+			xhr.open("GET", file, true);
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState === 4 && xhr.status === 200) {
+					// needs error handler try/catch at least
+					let fileinfo = null;
+					try {
+						fileinfo = JSON.parse(xhr.responseText);
+					} catch (exception) {
+						// nothing here, but don't die
+						Log.error(` loading json file =${file} failed`);
+					}
+					resolve(fileinfo);
 				}
-				callback(fileinfo);
-			}
-		};
-		xhr.send(null);
+			};
+			xhr.send(null);
+		});
 	}
 
 	return {
@@ -41,21 +42,17 @@ var Translator = (function () {
 
 		/**
 		 * Load a translation for a given key for a given module.
-		 *
 		 * @param {Module} module The module to load the translation for.
 		 * @param {string} key The key of the text to translate.
 		 * @param {object} variables The variables to use within the translation template (optional)
 		 * @returns {string} the translated key
 		 */
-		translate: function (module, key, variables) {
-			variables = variables || {}; //Empty object by default
-
+		translate: function (module, key, variables = {}) {
 			/**
 			 * Combines template and variables like:
 			 * template: "Please wait for {timeToWait} before continuing with {work}."
 			 * variables: {timeToWait: "2 hours", work: "painting"}
 			 * to: "Please wait for 2 hours before continuing with painting."
-			 *
 			 * @param {string} template Text with placeholder
 			 * @param {object} variables Variables for the placeholder
 			 * @returns {string} the template filled with the variables
@@ -64,11 +61,12 @@ var Translator = (function () {
 				if (Object.prototype.toString.call(template) !== "[object String]") {
 					return template;
 				}
+				let templateToUse = template;
 				if (variables.fallback && !template.match(new RegExp("{.+}"))) {
-					template = variables.fallback;
+					templateToUse = variables.fallback;
 				}
-				return template.replace(new RegExp("{([^}]+)}", "g"), function (_unused, varName) {
-					return varName in variables ? variables[varName] : "{" + varName + "}";
+				return templateToUse.replace(new RegExp("{([^}]+)}", "g"), function (_unused, varName) {
+					return varName in variables ? variables[varName] : `{${varName}}`;
 				});
 			}
 
@@ -97,66 +95,49 @@ var Translator = (function () {
 
 		/**
 		 * Load a translation file (json) and remember the data.
-		 *
 		 * @param {Module} module The module to load the translation file for.
 		 * @param {string} file Path of the file we want to load.
 		 * @param {boolean} isFallback Flag to indicate fallback translations.
-		 * @param {Function} callback Function called when done.
 		 */
-		load(module, file, isFallback, callback) {
-			Log.log(`${module.name} - Load translation${isFallback && " fallback"}: ${file}`);
+		async load(module, file, isFallback) {
+			Log.log(`${module.name} - Load translation${isFallback ? " fallback" : ""}: ${file}`);
 
 			if (this.translationsFallback[module.name]) {
-				callback();
 				return;
 			}
 
-			loadJSON(module.file(file), (json) => {
-				const property = isFallback ? "translationsFallback" : "translations";
-				this[property][module.name] = json;
-				callback();
-			});
+			const json = await loadJSON(module.file(file));
+			const property = isFallback ? "translationsFallback" : "translations";
+			this[property][module.name] = json;
 		},
 
 		/**
 		 * Load the core translations.
-		 *
 		 * @param {string} lang The language identifier of the core language.
 		 */
-		loadCoreTranslations: function (lang) {
-			var self = this;
-
+		loadCoreTranslations: async function (lang) {
 			if (lang in translations) {
-				Log.log("Loading core translation file: " + translations[lang]);
-				loadJSON(translations[lang], function (translations) {
-					self.coreTranslations = translations;
-				});
+				Log.log(`Loading core translation file: ${translations[lang]}`);
+				this.coreTranslations = await loadJSON(translations[lang]);
 			} else {
 				Log.log("Configured language not found in core translations.");
 			}
 
-			self.loadCoreTranslationsFallback();
+			await this.loadCoreTranslationsFallback();
 		},
 
 		/**
-		 * Load the core translations fallback.
+		 * Load the core translations' fallback.
 		 * The first language defined in translations.js will be used.
 		 */
-		loadCoreTranslationsFallback: function () {
-			var self = this;
-
-			// The variable `first` will contain the first
-			// defined translation after the following line.
-			for (var first in translations) {
-				break;
-			}
-
+		loadCoreTranslationsFallback: async function () {
+			let first = Object.keys(translations)[0];
 			if (first) {
-				Log.log("Loading core translation fallback file: " + translations[first]);
-				loadJSON(translations[first], function (translations) {
-					self.coreTranslationsFallback = translations;
-				});
+				Log.log(`Loading core translation fallback file: ${translations[first]}`);
+				this.coreTranslationsFallback = await loadJSON(translations[first]);
 			}
 		}
 	};
 })();
+
+window.Translator = Translator;

@@ -1,0 +1,18 @@
+# This workflow scans your pull requests for dependency changes, and will raise an error if any vulnerabilities or invalid licenses are being introduced.
+# For more information see: https://github.com/actions/dependency-review-action
+
+name: "Review Dependencies"
+
+on: [pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  dependency-review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v4
+      - name: "Dependency Review"
+        uses: actions/dependency-review-action@v3

@@ -1,0 +1,40 @@
+{
+	"LOADING": "Cargando …",
+
+	"YESTERDAY": "Onte",
+	"TODAY": "Hoxe",
+	"TOMORROW": "Mañá",
+	"DAYAFTERTOMORROW": "Pasado mañá",
+	"RUNNING": "Remata en",
+	"EMPTY": "Non hai próximos eventos.",
+
+	"WEEK": "Semana {weekNumber}",
+
+	"N": "N",
+	"NNE": "NNE",
+	"NE": "NE",
+	"ENE": "ENE",
+	"E": "E",
+	"ESE": "ESE",
+	"SE": "SE",
+	"SSE": "SSE",
+	"S": "S",
+	"SSW": "SSW",
+	"SW": "SW",
+	"WSW": "WSW",
+	"W": "W",
+	"WNW": "WNW",
+	"NW": "NW",
+	"NNW": "NNW",
+
+	"MODULE_CONFIG_CHANGED": "Cambiaron as opcións de configuración para o módulo {MODULE_NAME}.\nPor favor, verifique a documentación.",
+	"MODULE_CONFIG_ERROR": "Hai un erro no módulo {MODULE_NAME}. {ERROR}",
+
+	"UPDATE_NOTIFICATION": "Actualización dispoñible para MagicMirror².",
+	"UPDATE_NOTIFICATION_MODULE": "Actualización dispoñible para o módulo {MODULE_NAME}.",
+	"UPDATE_INFO_SINGLE": "A instalación actual está {COMMIT_COUNT} commits detrás da rama {BRANCH_NAME}.",
+	"UPDATE_INFO_MULTIPLE": "A instalación actual está {COMMIT_COUNT} commits detrás da rama {BRANCH_NAME}.",
+
+	"FEELS": "Semella como {DEGREE}",
+	"PRECIP_POP": "Precipitacións"
+}
