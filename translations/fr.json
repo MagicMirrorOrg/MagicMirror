@@ -1,40 +1,53 @@
 {
-	"LOADING": "Chargement…",
-
-	"DAYBEFOREYESTERDAY": "Avant-hier",
-	"YESTERDAY": "Hier",
-	"TODAY": "Aujourd'hui",
-	"TOMORROW": "Demain",
 	"DAYAFTERTOMORROW": "Après-demain",
-	"RUNNING": "Se termine dans",
-	"EMPTY": "Aucun RDV à venir.",
-	"WEEK": "Semaine {weekNumber}",
+	"DAYBEFOREYESTERDAY": "Avant-hier",
 
-	"N": "N",
-	"NNE": "NNE",
-	"NE": "NE",
-	"ENE": "ENE",
 	"E": "E",
+	"EMPTY": "Aucun RDV à venir.",
+	"ENE": "ENE",
 	"ESE": "ESE",
-	"SE": "SE",
-	"SSE": "SSE",
-	"S": "S",
-	"SSW": "SSO",
-	"SW": "SO",
-	"WSW": "OSO",
-	"W": "O",
-	"WNW": "ONO",
-	"NW": "NO",
-	"NNW": "NNO",
 
 	"FEELS": "Ressenti {DEGREE}",
-	"PRECIP_POP": "Probabilité de précipitations",
+
+	"LOADING": "Chargement…",
 
 	"MODULE_CONFIG_CHANGED": "Les options de configuration du module {MODULE_NAME} ont changé.\nVeuillez consulter la documentation.",
 	"MODULE_CONFIG_ERROR": "Erreur dans le module {MODULE_NAME}. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "URL mal formée.",
+	"MODULE_ERROR_NO_CONNECTION": "Pas de connexion Internet.",
+	"MODULE_ERROR_UNAUTHORIZED": "L'autorisation à échouée.",
+	"MODULE_ERROR_UNSPECIFIED": "Consultez les journaux pour plus de détails.",
 
-	"UPDATE_NOTIFICATION": "Une mise à jour de MagicMirror² est disponible",
-	"UPDATE_NOTIFICATION_MODULE": "Une mise à jour est disponible pour le module {MODULE_NAME}.",
+	"N": "N",
+	"NE": "NE",
+	"NEWSFEED_NO_ITEMS": "Aucune nouvelle pour le moment.",
+	"NNE": "NNE",
+	"NNW": "NNO",
+	"NW": "NO",
+
+	"PRECIP_AMOUNT": "Precipitation amount",
+	"PRECIP_POP": "Probabilité de précipitations",
+
+	"RUNNING": "Se termine dans",
+
+	"S": "S",
+	"SE": "SE",
+	"SSE": "SSE",
+	"SSW": "SSO",
+	"SW": "SO",
+
+	"TODAY": "Aujourd'hui",
+	"TOMORROW": "Demain",
+
+	"UPDATE_INFO_MULTIPLE": "L'installation actuelle est {COMMIT_COUNT} commits en retard sur la branche {BRANCH_NAME}.",
 	"UPDATE_INFO_SINGLE": "L'installation actuelle est {COMMIT_COUNT} commit en retard sur la branche {BRANCH_NAME}.",
-	"UPDATE_INFO_MULTIPLE": "L'installation actuelle est {COMMIT_COUNT} commits en retard sur la branche {BRANCH_NAME}."
+	"UPDATE_NOTIFICATION_MODULE": "Une mise à jour est disponible pour le module {MODULE_NAME}.",
+	"UPDATE_NOTIFICATION": "Une mise à jour de MagicMirror² est disponible",
+
+	"W": "O",
+	"WEEK": "Semaine {weekNumber}",
+	"WNW": "ONO",
+	"WSW": "OSO",
+
+	"YESTERDAY": "Hier"
 }
