@@ -57,7 +57,7 @@ const MM = (function () {
 			// create the domCreationPromise with AnimateCSS (with animateIn of module definition)
 			// or just display it
 			var domCreationPromise;
-			if (haveAnimateIn) domCreationPromise = updateDom(module, 1000, null, haveAnimateIn, true);
+			if (haveAnimateIn) domCreationPromise = updateDom(module, { options: { speed: 1000, animate: { in: haveAnimateIn } } }, true);
 			else domCreationPromise = updateDom(module, 0);
 
 			domCreationPromises.push(domCreationPromise);
