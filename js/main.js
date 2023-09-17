@@ -283,10 +283,12 @@ const MM = (function () {
 			clearTimeout(module.showHideTimer);
 			if (module.hasAnimateOut) {
 				removeAnimateCSS(module.identifier, module.hasAnimateOut);
+				module.hasAnimateOut = false;
 				Log.debug(`${module.identifier} Force remove animateOut (in hide): ${module.hasAnimateOut}`);
 			}
 			if (module.hasAnimateIn) {
 				removeAnimateCSS(module.identifier, module.hasAnimateIn);
+				module.hasAnimateIn = false;
 				Log.debug(`${module.identifier} Force remove animateIn (in hide): ${module.hasAnimateIn}`);
 			}
 			// haveAnimateName for verify if we are using AninateCSS library
@@ -372,10 +374,12 @@ const MM = (function () {
 
 		if (module.hasAnimateOut) {
 			removeAnimateCSS(module.identifier, module.hasAnimateOut);
+			module.hasAnimateOut = false;
 			Log.debug(`${module.identifier} Force remove animateOut (in show): ${module.hasAnimateOut}`);
 		}
 		if (module.hasAnimateIn) {
 			removeAnimateCSS(module.identifier, module.hasAnimateIn);
+			module.hasAnimateIn = false;
 			Log.debug(`${module.identifier} Force remove animateIn (in show): ${module.hasAnimateIn}`);
 		}
 
