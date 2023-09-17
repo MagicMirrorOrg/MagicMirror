@@ -281,6 +281,7 @@ const MM = (function () {
 		const moduleWrapper = document.getElementById(module.identifier);
 		if (moduleWrapper !== null) {
 			clearTimeout(module.showHideTimer);
+			// reset all animations if needed
 			if (module.hasAnimateOut) {
 				removeAnimateCSS(module.identifier, module.hasAnimateOut);
 				Log.debug(`${module.identifier} Force remove animateOut (in hide): ${module.hasAnimateOut}`);
@@ -371,7 +372,7 @@ const MM = (function () {
 			}
 			return;
 		}
-
+		// reset all animations if needed
 		if (module.hasAnimateOut) {
 			removeAnimateCSS(module.identifier, module.hasAnimateOut);
 			Log.debug(`${module.identifier} Force remove animateOut (in show): ${module.hasAnimateOut}`);
