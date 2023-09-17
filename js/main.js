@@ -269,7 +269,7 @@ const MM = (function () {
 	 * @param {Function} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the hide method.
 	 */
-	const hideModule = async function (module, speed, callback, options = {}) {
+	const hideModule = function (module, speed, callback, options = {}) {
 		// set lockString if set in options.
 		if (options.lockString) {
 			// Log.log("Has lockstring: " + options.lockString);
@@ -302,7 +302,7 @@ const MM = (function () {
 				// with AnimateCSS
 				Log.debug(`${module.identifier} Has animateOut: ${haveAnimateName}`);
 				module.hasAnimateOut = haveAnimateName;
-				await addAnimateCSS(module.identifier, haveAnimateName, speed / 1000);
+				addAnimateCSS(module.identifier, haveAnimateName, speed / 1000);
 				module.showHideTimer = setTimeout(function () {
 					removeAnimateCSS(module.identifier, haveAnimateName);
 					Log.debug(`${module.identifier} Remove animateOut: ${module.hasAnimateOut}`);
@@ -351,7 +351,7 @@ const MM = (function () {
 	 * @param {Function} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the show method.
 	 */
-	const showModule = async function (module, speed, callback, options = {}) {
+	const showModule = function (module, speed, callback, options = {}) {
 		// remove lockString if set in options.
 		if (options.lockString) {
 			const index = module.lockStrings.indexOf(options.lockString);
@@ -415,7 +415,7 @@ const MM = (function () {
 				// with AnimateCSS
 				Log.debug(`${module.identifier} Has animateIn: ${haveAnimateName}`);
 				module.hasAnimateIn = haveAnimateName;
-				await addAnimateCSS(module.identifier, haveAnimateName, speed / 1000);
+				addAnimateCSS(module.identifier, haveAnimateName, speed / 1000);
 				module.showHideTimer = setTimeout(function () {
 					removeAnimateCSS(module.identifier, haveAnimateName);
 					Log.debug(`${module.identifier} Remove animateIn: ${haveAnimateName}`);
