@@ -47,6 +47,7 @@ _This release is scheduled to be released on 2023-10-01._
 - Fix ipWhiteList test (#3179)
 - Fix newsfeed: Convert HTML entities, codes and tag in description (#3191)
 - Respect width/height (no fullscreen) if set in electronOptions (together with `fullscreen: false`) in `config.js` (#3174)
+- Fix `Uncaught SyntaxError: Identifier 'getCorsUrl' has already been declared (at utils.js:1:1)` when using `clock` and `weather` module (#3204)
 
 ## [2.24.0] - 2023-07-01
 
