@@ -130,36 +130,35 @@ const AnimateCSSOut = [
 
 /**
  * Create an animation with Animate CSS
- * resolved as Promise when done
  * @param {string} [element] div element to animate.
  * @param {string} [animation] animation name.
  * @param {number} [animationTime] animation duration.
  */
-function AnimateCSS(element, animation, animationTime) {
-	/* We create a Promise and return it */
-	return new Promise((resolve) => {
-		const animationName = `animate__${animation}`;
-		const node = document.getElementById(element);
-		if (!node) {
-			// don't execute animate and resolve
-			Log.warn(`AnimateCSS: node not found for`, element);
-			resolve();
-			return;
-		}
-		node.style.setProperty("--animate-duration", `${animationTime}s`);
-		node.classList.add("animate__animated", animationName);
+function addAnimateCSS(element, animation, animationTime) {
+	const animationName = `animate__${animation}`;
+	const node = document.getElementById(element);
+	if (!node) {
+		// don't execute animate: we don't find div
+		Log.warn(`addAnimateCSS: node not found for`, element);
+		return;
+	}
+	node.style.setProperty("--animate-duration", `${animationTime}s`);
+	node.classList.add("animate__animated", animationName);
+}
 
-		/**
-		 * When the animation ends, we clean the classes and resolve the Promise
-		 * @param {object} event object
-		 */
-		function handleAnimationEnd(event) {
-			node.classList.remove("animate__animated", animationName);
-			node.style.removeProperty("--animate-duration", `${animationTime}s`);
-			event.stopPropagation();
-			resolve();
-		}
-
-		node.addEventListener("animationend", handleAnimationEnd, { once: true });
-	});
+/**
+ * Remove an animation with Animate CSS
+ * @param {string} [element] div element to animate.
+ * @param {string} [animation] animation name.
+ */
+function removeAnimateCSS(element, animation) {
+	const animationName = `animate__${animation}`;
+	const node = document.getElementById(element);
+	if (!node) {
+		// don't execute animate: we don't find div
+		Log.warn(`removeAnimateCSS: node not found for`, element);
+		return;
+	}
+	node.classList.remove("animate__animated", animationName);
+	node.style.removeProperty("--animate-duration");
 }

@@ -1,4 +1,4 @@
-/* global Loader, defaults, Translator, AnimateCSS, AnimateCSSIn, AnimateCSSOut */
+/* global Loader, defaults, Translator, addAnimateCSS, removeAnimateCSS, AnimateCSSIn, AnimateCSSOut */
 
 /* MagicMirror²
  * Main System
@@ -57,7 +57,7 @@ const MM = (function () {
 			// create the domCreationPromise with AnimateCSS (with animateIn of module definition)
 			// or just display it
 			var domCreationPromise;
-			if (haveAnimateIn) domCreationPromise = updateDom(module, 1000, null, haveAnimateIn, true);
+			if (haveAnimateIn) domCreationPromise = updateDom(module, { options: { speed: 1000, animate: { in: haveAnimateIn } } }, true);
 			else domCreationPromise = updateDom(module, 0);
 
 			domCreationPromises.push(domCreationPromise);
@@ -269,7 +269,7 @@ const MM = (function () {
 	 * @param {Function} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the hide method.
 	 */
-	const hideModule = async function (module, speed, callback, options = {}) {
+	const hideModule = function (module, speed, callback, options = {}) {
 		// set lockString if set in options.
 		if (options.lockString) {
 			// Log.log("Has lockstring: " + options.lockString);
@@ -281,7 +281,17 @@ const MM = (function () {
 		const moduleWrapper = document.getElementById(module.identifier);
 		if (moduleWrapper !== null) {
 			clearTimeout(module.showHideTimer);
-
+			// reset all animations if needed
+			if (module.hasAnimateOut) {
+				removeAnimateCSS(module.identifier, module.hasAnimateOut);
+				Log.debug(`${module.identifier} Force remove animateOut (in hide): ${module.hasAnimateOut}`);
+				module.hasAnimateOut = false;
+			}
+			if (module.hasAnimateIn) {
+				removeAnimateCSS(module.identifier, module.hasAnimateIn);
+				Log.debug(`${module.identifier} Force remove animateIn (in hide): ${module.hasAnimateIn}`);
+				module.hasAnimateIn = false;
+			}
 			// haveAnimateName for verify if we are using AninateCSS library
 			// we check AnimateCSSOut Array for validate it
 			// and finaly return the animate name or `null` (for default MM² animation)
@@ -294,16 +304,22 @@ const MM = (function () {
 			if (haveAnimateName) {
 				// with AnimateCSS
 				Log.debug(`${module.identifier} Has animateOut: ${haveAnimateName}`);
-				await AnimateCSS(module.identifier, haveAnimateName, speed / 1000);
-				// AnimateCSS is now done
-				moduleWrapper.style.opacity = 0;
-				moduleWrapper.classList.add("hidden");
-				moduleWrapper.style.position = "fixed";
+				module.hasAnimateOut = haveAnimateName;
+				addAnimateCSS(module.identifier, haveAnimateName, speed / 1000);
+				module.showHideTimer = setTimeout(function () {
+					removeAnimateCSS(module.identifier, haveAnimateName);
+					Log.debug(`${module.identifier} Remove animateOut: ${module.hasAnimateOut}`);
+					// AnimateCSS is now done
+					moduleWrapper.style.opacity = 0;
+					moduleWrapper.classList.add("hidden");
+					moduleWrapper.style.position = "fixed";
+					module.hasAnimateOut = false;
 
-				updateWrapperStates();
-				if (typeof callback === "function") {
-					callback();
-				}
+					updateWrapperStates();
+					if (typeof callback === "function") {
+						callback();
+					}
+				}, speed);
 			} else {
 				// default MM² Animate
 				moduleWrapper.style.transition = `opacity ${speed / 1000}s`;
@@ -338,7 +354,7 @@ const MM = (function () {
 	 * @param {Function} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the show method.
 	 */
-	const showModule = async function (module, speed, callback, options = {}) {
+	const showModule = function (module, speed, callback, options = {}) {
 		// remove lockString if set in options.
 		if (options.lockString) {
 			const index = module.lockStrings.indexOf(options.lockString);
@@ -355,6 +371,17 @@ const MM = (function () {
 				options.onError(new Error("LOCK_STRING_ACTIVE"));
 			}
 			return;
+		}
+		// reset all animations if needed
+		if (module.hasAnimateOut) {
+			removeAnimateCSS(module.identifier, module.hasAnimateOut);
+			Log.debug(`${module.identifier} Force remove animateOut (in show): ${module.hasAnimateOut}`);
+			module.hasAnimateOut = false;
+		}
+		if (module.hasAnimateIn) {
+			removeAnimateCSS(module.identifier, module.hasAnimateIn);
+			Log.debug(`${module.identifier} Force remove animateIn (in show): ${module.hasAnimateIn}`);
+			module.hasAnimateIn = false;
 		}
 
 		module.hidden = false;
@@ -392,10 +419,16 @@ const MM = (function () {
 			if (haveAnimateName) {
 				// with AnimateCSS
 				Log.debug(`${module.identifier} Has animateIn: ${haveAnimateName}`);
-				await AnimateCSS(module.identifier, haveAnimateName, speed / 1000);
-				if (typeof callback === "function") {
-					callback();
-				}
+				module.hasAnimateIn = haveAnimateName;
+				addAnimateCSS(module.identifier, haveAnimateName, speed / 1000);
+				module.showHideTimer = setTimeout(function () {
+					removeAnimateCSS(module.identifier, haveAnimateName);
+					Log.debug(`${module.identifier} Remove animateIn: ${haveAnimateName}`);
+					module.hasAnimateIn = false;
+					if (typeof callback === "function") {
+						callback();
+					}
+				}, speed);
 			} else {
 				// default MM² Animate
 				module.showHideTimer = setTimeout(function () {

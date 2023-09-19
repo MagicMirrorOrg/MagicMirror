@@ -205,6 +205,8 @@ const Module = Class.extend({
 		this.name = data.name;
 		this.identifier = data.identifier;
 		this.hidden = false;
+		this.hasAnimateIn = false;
+		this.hasAnimateOut = false;
 
 		this.setConfig(data.config, data.configDeepMerge);
 	},
