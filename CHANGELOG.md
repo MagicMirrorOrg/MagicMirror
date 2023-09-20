@@ -91,6 +91,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Fix date not shown when clock in analog mode (#3100)
 - Fix envcanada today percentage-of-precipitation (#3106)
 - Fix updatenotification where no branch is checked out but e.g. a version tag (#3130)
+- Fix yr weather provider after changes in yr API (#3189)
 
 ## [2.23.0] - 2023-04-04
 
