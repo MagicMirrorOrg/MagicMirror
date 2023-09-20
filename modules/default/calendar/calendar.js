@@ -42,7 +42,7 @@ Module.register("calendar", {
 		hideDuplicates: true,
 		showTimeToday: false,
 		colored: false,
-		customEvents: [], // Array of {keyword: "", symbol: "", color: ""} where Keyword is a regexp and symbol/color are to be applied for matched
+		customEvents: [], // Array of {keyword: "", symbol: "", color: "", eventClass: ""} where Keyword is a regexp and symbol/color/eventClass are to be applied for matched
 		tableClass: "small",
 		calendars: [
 			{
