@@ -374,8 +374,8 @@ WeatherProvider.register("yr", {
 		weather.precipitationProbability = forecast.precipitationProbability;
 		weather.precipitationUnits = units.precipitation_amount;
 
-		weather.sunrise  = stellarData?.today?.properties?.sunrise?.time;
-		weather.sunset  = stellarData?.today?.properties?.sunset?.time;
+		weather.sunrise = stellarData?.today?.properties?.sunrise?.time;
+		weather.sunset = stellarData?.today?.properties?.sunset?.time;
 
 		return weather;
 	},
