@@ -38,7 +38,7 @@ Module.register("clock", {
 	},
 	// Define required scripts.
 	getScripts: function () {
-		return ["moment.js", "moment-timezone.js", "suncalc.js", this.file("../utils.js")];
+		return ["moment.js", "moment-timezone.js", "suncalc.js"];
 	},
 	// Define styles.
 	getStyles: function () {

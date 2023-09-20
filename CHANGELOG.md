@@ -35,6 +35,7 @@ _This release is scheduled to be released on 2023-10-01._
 - Update typescript definition for modules
 - Cleaned up nunjuck templates
 - Replace `node-fetch` with internal fetch (#2649) and remove `digest-fetch`
+- Updated the French translation according to the English file.
 
 ### Fixed
 
@@ -46,6 +47,8 @@ _This release is scheduled to be released on 2023-10-01._
 - Fix ipWhiteList test (#3179)
 - Fix newsfeed: Convert HTML entities, codes and tag in description (#3191)
 - Respect width/height (no fullscreen) if set in electronOptions (together with `fullscreen: false`) in `config.js` (#3174)
+- Fix: AnimateCSS merge hide() and show() animated css class when we do multiple call
+- Fix `Uncaught SyntaxError: Identifier 'getCorsUrl' has already been declared (at utils.js:1:1)` when using `clock` and `weather` module (#3204)
 
 ## [2.24.0] - 2023-07-01
 
@@ -88,6 +91,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Fix date not shown when clock in analog mode (#3100)
 - Fix envcanada today percentage-of-precipitation (#3106)
 - Fix updatenotification where no branch is checked out but e.g. a version tag (#3130)
+- Fix yr weather provider after changes in yr API (#3189)
 
 ## [2.23.0] - 2023-04-04
 
