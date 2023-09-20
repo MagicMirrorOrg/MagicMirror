@@ -60,6 +60,10 @@ describe("Calendar module", () => {
 			await testElementLength(".calendar .event .fa-dice", 1);
 		});
 
+		it("should show a customEvent calendar eventClass in one event", async () => {
+			await testElementLength(".calendar .event.undo", 1);
+		});
+
 		it("should show two custom icons for repeating events", async () => {
 			await testElementLength(".calendar .event .fa-undo", 2);
 		});
