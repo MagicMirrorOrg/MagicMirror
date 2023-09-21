@@ -1,6 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 const _ = require("lodash");
+const util = require("util");
+const exec = util.promisify(require("child_process").exec);
 
 /**
  * @param {string} type what data to read, can be "current" "forecast" or "hourly
@@ -37,9 +39,14 @@ const injectMockData = (configFileName, extendedData = {}) => {
 	}
 	let content = fs.readFileSync(configFileName).toString();
 	content = content.replace("#####WEATHERDATA#####", mockWeather);
-	const newFile = configFileName.replace(".js", "_full.js");
-	fs.writeFileSync(newFile, content);
-	return newFile;
+	const tempFile = configFileName.replace(".js", "_temp.js");
+	fs.writeFileSync(tempFile, content);
+	return tempFile;
 };
 
-module.exports = { injectMockData };
+const cleanupMockData = async () => {
+	const tempDir = path.resolve(`${__dirname}/../configs`).toString();
+	await exec(`find ${tempDir} -type f -name *_temp.js -delete`);
+};
+
+module.exports = { injectMockData, cleanupMockData };
