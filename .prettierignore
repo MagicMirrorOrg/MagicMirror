@@ -1,3 +1,4 @@
 /config
 /coverage
 package-lock.json
+/tests/configs/**/*_full.js

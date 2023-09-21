@@ -35,9 +35,11 @@ const injectMockData = (configFileName, extendedData = {}) => {
 	} else {
 		mockWeather = readMockData("current", extendedData);
 	}
-	let content = fs.readFileSync(path.resolve(`${__dirname}../../../${configFileName}`)).toString();
+	let content = fs.readFileSync(configFileName).toString();
 	content = content.replace("#####WEATHERDATA#####", mockWeather);
-	fs.writeFileSync(path.resolve(`${__dirname}../../../config/config.js`), content);
+	const newFile = configFileName.replace(".js", "_full.js");
+	fs.writeFileSync(newFile, content);
+	return newFile;
 };
 
 module.exports = { injectMockData };
