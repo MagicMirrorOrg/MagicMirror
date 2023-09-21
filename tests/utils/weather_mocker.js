@@ -1,8 +1,8 @@
 const fs = require("fs");
 const path = require("path");
-const _ = require("lodash");
 const util = require("util");
 const exec = util.promisify(require("child_process").exec);
+const _ = require("lodash");
 
 /**
  * @param {string} type what data to read, can be "current" "forecast" or "hourly
