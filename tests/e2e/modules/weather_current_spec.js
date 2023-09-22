@@ -1,9 +1,11 @@
 const helpers = require("../helpers/global-setup");
 const weatherFunc = require("../helpers/weather-functions");
+const { cleanupMockData } = require("../../utils/weather_mocker");
 
 describe("Weather module", () => {
 	afterAll(async () => {
 		await helpers.stopApplication();
+		await cleanupMockData();
 	});
 
 	describe("Current weather", () => {
