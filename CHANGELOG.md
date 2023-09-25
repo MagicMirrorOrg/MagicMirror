@@ -52,6 +52,7 @@ _This release is scheduled to be released on 2023-10-01._
 - Fix: AnimateCSS merge hide() and show() animated css class when we do multiple call
 - Fix `Uncaught SyntaxError: Identifier 'getCorsUrl' has already been declared (at utils.js:1:1)` when using `clock` and `weather` module (#3204)
 - Fix overriding `config.js` when running tests (#3201)
+- Fix issue in weathergov provider with probability of precipitation not showing up on hourly or daily forecast
 
 ## [2.24.0] - 2023-07-01
 

@@ -183,7 +183,7 @@ WeatherProvider.register("weathergov", {
 			weather.windFromDirection = forecast.windDirection;
 			weather.temperature = forecast.temperature;
 			//assign probability of precipitation
-			if (forecast.probabilityOfPrecipitation.value == null) {
+			if (forecast.probabilityOfPrecipitation.value === null) {
 				weather.precipitationProbability = 0;
 			} else {
 				weather.precipitationProbability = forecast.probabilityOfPrecipitation.value;
@@ -244,7 +244,6 @@ WeatherProvider.register("weathergov", {
 	 * fetch forecast information for daily forecast.
 	 */
 	fetchForecastDaily(forecasts) {
-		
 		// initial variable declaration
 		const days = [];
 		// variables for temperature range and rain
@@ -268,11 +267,11 @@ WeatherProvider.register("weathergov", {
 				minTemp = [];
 				maxTemp = [];
 				//assign probability of precipitation
-				if (forecast.probabilityOfPrecipitation.value == null) {
-				weather.precipitationProbability = 0;
-			} else {
-				weather.precipitationProbability = forecast.probabilityOfPrecipitation.value;
-			}
+				if (forecast.probabilityOfPrecipitation.value === null) {
+					weather.precipitationProbability = 0;
+				} else {
+					weather.precipitationProbability = forecast.probabilityOfPrecipitation.value;
+				}
 
 				// set new date
 				date = moment(forecast.startTime).format("YYYY-MM-DD");
