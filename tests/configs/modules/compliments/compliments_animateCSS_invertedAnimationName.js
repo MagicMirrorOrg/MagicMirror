@@ -1,5 +1,5 @@
 /* MagicMirror² Test config sample for AnimateCSS integration with compliments module
- *
+ * --> inversed name animation : in for out and vice versa (must return no animation)
  * By bugsounet https://github.com/bugsounet
  * 09/2023
  * MIT Licensed.
