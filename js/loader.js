@@ -88,6 +88,8 @@ const Loader = (function () {
 				path: `${moduleFolder}/`,
 				file: `${moduleName}.js`,
 				position: moduleData.position,
+				animateIn: moduleData.animateIn,
+				animateOut: moduleData.animateOut,
 				hiddenOnStartup: moduleData.hiddenOnStartup,
 				header: moduleData.header,
 				configDeepMerge: typeof moduleData.configDeepMerge === "boolean" ? moduleData.configDeepMerge : false,

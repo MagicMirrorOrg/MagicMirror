@@ -60,6 +60,10 @@ describe("Calendar module", () => {
 			await testElementLength(".calendar .event .fa-dice", 1);
 		});
 
+		it("should show a customEvent calendar eventClass in one event", async () => {
+			await testElementLength(".calendar .event.undo", 1);
+		});
+
 		it("should show two custom icons for repeating events", async () => {
 			await testElementLength(".calendar .event .fa-undo", 2);
 		});
@@ -77,6 +81,17 @@ describe("Calendar module", () => {
 
 		it("should show the recurring birthday event 6 times", async () => {
 			await testElementLength(".calendar .event", 6);
+		});
+	});
+
+	describe("Events from multiple calendars", () => {
+		beforeAll(async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/show-duplicates-in-calendar.js");
+			await helpers.getDocument();
+		});
+
+		it("should show multiple events with the same title and start time from different calendars", async () => {
+			await testElementLength(".calendar .event", 22);
 		});
 	});
 

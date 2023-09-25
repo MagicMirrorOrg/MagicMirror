@@ -71,8 +71,25 @@ describe("Clock module", () => {
 		});
 
 		it("should not show the time when digital clock is shown", async () => {
-			const elem = await document.querySelector(".clock .digital .time");
+			const elem = document.querySelector(".clock .digital .time");
 			expect(elem).toBe(null);
+		});
+	});
+
+	describe("with showSun/MoonTime enabled", () => {
+		beforeAll(async () => {
+			await helpers.startApplication("tests/configs/modules/clock/clock_showSunMoon.js");
+			await helpers.getDocument();
+		});
+
+		it("should show the sun times", async () => {
+			const elem = await helpers.waitForElement(".clock .digital .sun");
+			expect(elem).not.toBe(null);
+		});
+
+		it("should show the moon times", async () => {
+			const elem = await helpers.waitForElement(".clock .digital .moon");
+			expect(elem).not.toBe(null);
 		});
 	});
 

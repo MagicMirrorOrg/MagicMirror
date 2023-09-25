@@ -65,9 +65,12 @@ module.exports = NodeHelper.create({
 	scheduleNextFetch(delay) {
 		clearTimeout(this.updateTimer);
 
-		this.updateTimer = setTimeout(() => {
-			this.performFetch();
-		}, Math.max(delay, ONE_MINUTE));
+		this.updateTimer = setTimeout(
+			() => {
+				this.performFetch();
+			},
+			Math.max(delay, ONE_MINUTE)
+		);
 	},
 
 	ignoreUpdateChecking(moduleName) {

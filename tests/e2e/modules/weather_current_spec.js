@@ -1,9 +1,11 @@
 const helpers = require("../helpers/global-setup");
 const weatherFunc = require("../helpers/weather-functions");
+const { cleanupMockData } = require("../../utils/weather_mocker");
 
 describe("Weather module", () => {
 	afterAll(async () => {
 		await helpers.stopApplication();
+		await cleanupMockData();
 	});
 
 	describe("Current weather", () => {
@@ -48,7 +50,7 @@ describe("Weather module", () => {
 		it("should render windDirection with an arrow", async () => {
 			const elem = await helpers.waitForElement(".weather .normal.medium sup i.fa-long-arrow-alt-down");
 			expect(elem).not.toBe(null);
-			expect(elem.outerHTML).toContain("transform:rotate(250deg);");
+			expect(elem.outerHTML).toContain("transform:rotate(250deg)");
 		});
 
 		it("should render humidity", async () => {

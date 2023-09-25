@@ -8,7 +8,7 @@
 const stream = require("stream");
 const FeedMe = require("feedme");
 const iconv = require("iconv-lite");
-const fetch = require("fetch");
+const { htmlToText } = require("html-to-text");
 const Log = require("logger");
 const NodeHelper = require("node_helper");
 
@@ -54,6 +54,8 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 			if (title && pubdate) {
 				const regex = /(<([^>]+)>)/gi;
 				description = description.toString().replace(regex, "");
+				// Convert HTML entities, codes and tag
+				description = htmlToText(description, { wordwrap: false });
 
 				items.push({
 					title: title,

@@ -13,7 +13,6 @@ exports.getText = async (element, result) => {
 };
 
 exports.startApp = async (configFileName, additionalMockData) => {
-	injectMockData(configFileName, additionalMockData);
-	await helpers.startApplication("");
+	await helpers.startApplication(injectMockData(configFileName, additionalMockData));
 	await helpers.getDocument();
 };

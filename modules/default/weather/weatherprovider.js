@@ -1,4 +1,4 @@
-/* global Class, performWebRequest */
+/* global Class, performWebRequest, OverrideWrapper */
 
 /* MagicMirror²
  * Module: Weather
@@ -162,6 +162,10 @@ WeatherProvider.initialize = function (providerIdentifier, delegate) {
 	provider.providerIdentifier = pi;
 	if (!provider.providerName) {
 		provider.providerName = pi;
+	}
+
+	if (config.allowOverrideNotification) {
+		return new OverrideWrapper(provider);
 	}
 
 	return provider;
