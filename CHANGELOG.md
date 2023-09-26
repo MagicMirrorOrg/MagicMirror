@@ -31,13 +31,13 @@ _This release is scheduled to be released on 2023-10-01._
 
 - Update roboto fonts to version v5
 - Update issue template
-- Update dependencies incl. electron to v26
+- Update dev/dependencies incl. electron to v26
 - Replace pretty-quick by lint-staged (<https://github.com/azz/pretty-quick/issues/164>)
 - Update engine node >=18. v16 reached it's end of life. (#3170)
 - Update typescript definition for modules
 - Cleaned up nunjuck templates
 - Replace `node-fetch` with internal fetch (#2649) and remove `digest-fetch`
-- Updated the French translation according to the English file.
+- Update the French translation according to the English file.
 
 ### Fixed
 
