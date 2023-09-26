@@ -62,7 +62,7 @@
 		"lodash": "^4.17.21",
 		"playwright": "^1.37.1",
 		"prettier": "^3.0.3",
-		"sinon": "^15.2.0",
+		"sinon": "^16.0.0",
 		"stylelint": "^15.10.3",
 		"stylelint-config-standard": "^34.0.0",
 		"stylelint-prettier": "^4.0.2",
