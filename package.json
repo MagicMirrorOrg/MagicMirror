@@ -51,7 +51,7 @@
 	"devDependencies": {
 		"eslint-config-prettier": "^9.0.0",
 		"eslint-plugin-import": "^2.28.1",
-		"eslint-plugin-jest": "^27.2.3",
+		"eslint-plugin-jest": "^27.4.0",
 		"eslint-plugin-jsdoc": "^46.5.1",
 		"eslint-plugin-prettier": "^5.0.0",
 		"express-basic-auth": "^1.2.1",
