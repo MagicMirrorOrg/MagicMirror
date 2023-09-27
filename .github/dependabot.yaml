@@ -5,3 +5,9 @@ updates:
     schedule:
       interval: "weekly"
     target-branch: "develop"
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    target-branch: "develop"
