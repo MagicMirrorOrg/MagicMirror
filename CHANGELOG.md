@@ -9,7 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 _This release is scheduled to be released on 2023-10-01._
 
-> ⚠️ This release needs nodejs version >= `v18`, older release have reached end of life and will not work!
+> ⚠️ This release needs nodejs version >= `v18`, older releases have reached end of life and will not work!
 
 ### Added
 
@@ -23,6 +23,7 @@ _This release is scheduled to be released on 2023-10-01._
 - Added eventClass option for customEvents on the default calendar
 - Added AnimateCSS integration in tests suite (#3206)
 - Added npm dependabot [Reserved to developer] (#3210)
+- Added improved logging for calendar (#3110)
 
 ### Removed
 
