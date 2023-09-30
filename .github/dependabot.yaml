@@ -11,3 +11,15 @@ updates:
     schedule:
       interval: "monthly"
     target-branch: "develop"
+
+  - package-ecosystem: "npm"
+    directory: "/vendor"
+    schedule:
+      interval: "monthly"
+    target-branch: "develop"
+
+  - package-ecosystem: "npm"
+    directory: "/fonts"
+    schedule:
+      interval: "monthly"
+    target-branch: "develop"

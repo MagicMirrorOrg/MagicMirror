@@ -40,6 +40,8 @@ _This release is scheduled to be released on 2023-10-01._
 - Cleaned up nunjuck templates
 - Replace `node-fetch` with internal fetch (#2649) and remove `digest-fetch`
 - Update the French translation according to the English file.
+- Update dependabot incl. vendor/fonts (monthly check)
+- Renew `package-lock.json` for release
 
 ### Fixed
 
