@@ -5,9 +5,11 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror².
 
-## [2.25.0] - Unreleased (`develop` branch)
+## [2.25.0] - 2023-10-01
 
-_This release is scheduled to be released on 2023-10-01._
+Thanks to: @bugsounet, @dgoth, @dependabot, @kenzal, @Knapoc, @KristjanESPERANTO, @martingron, @NolanKingdon, @Paranoid93, @TeddyStarinvest and @Ybbet.
+
+Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not all) of the work on this release as project collaborators. This version would not be there without their effort. Thank you guys! You are awesome!
 
 > ⚠️ This release needs nodejs version >= `v18`, older releases have reached end of life and will not work!
 
