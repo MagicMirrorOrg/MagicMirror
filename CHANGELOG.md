@@ -5,6 +5,61 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror².
 
+## [2.25.0] - 2023-10-01
+
+Thanks to: @bugsounet, @dgoth, @dependabot, @kenzal, @Knapoc, @KristjanESPERANTO, @martingron, @NolanKingdon, @Paranoid93, @TeddyStarinvest and @Ybbet.
+
+Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not all) of the work on this release as project collaborators. This version would not be there without their effort. Thank you guys! You are awesome!
+
+> ⚠️ This release needs nodejs version >= `v18`, older releases have reached end of life and will not work!
+
+### Added
+
+- Added UV Index support to OpenWeatherMap
+- Added 'hideDuplicates' flag to the calendar module
+- Added `allowOverrideNotification` to weather module to enable sending current weather objects with the `CURRENT_WEATHER_OVERRIDE` notification to supplement/replace the current weather displayed
+- Added optional AnimateCSS animate for `hide()`, `show()`, `updateDom()`
+- Added AnimateIn and animateOut in module config definition
+- Apply AnimateIn rules on the first start
+- Added automatic client page reload when server was restarted by setting `reloadAfterServerRestart: true` in `config.js`, per default `false` (#3105)
+- Added eventClass option for customEvents on the default calendar
+- Added AnimateCSS integration in tests suite (#3206)
+- Added npm dependabot [Reserved to developer] (#3210)
+- Added improved logging for calendar (#3110)
+
+### Removed
+
+- **Breaking Change**: Removed `digest` authentication method from calendar module (which was already broken since release `2.15.0`)
+
+### Updated
+
+- Update roboto fonts to version v5
+- Update issue template
+- Update dev/dependencies incl. electron to v26
+- Replace pretty-quick by lint-staged (<https://github.com/azz/pretty-quick/issues/164>)
+- Update engine node >=18. v16 reached it's end of life. (#3170)
+- Update typescript definition for modules
+- Cleaned up nunjuck templates
+- Replace `node-fetch` with internal fetch (#2649) and remove `digest-fetch`
+- Update the French translation according to the English file.
+- Update dependabot incl. vendor/fonts (monthly check)
+- Renew `package-lock.json` for release
+
+### Fixed
+
+- Fix engine check on npm install (#3135)
+- Fix undefined formatTime method in clock module (#3143)
+- Fix clientonly startup fails after async added (#3151)
+- Fix electron width/heigth when using xrandr under bullseye
+- Fix time issue with certain recurring events in calendar module
+- Fix ipWhiteList test (#3179)
+- Fix newsfeed: Convert HTML entities, codes and tag in description (#3191)
+- Respect width/height (no fullscreen) if set in electronOptions (together with `fullscreen: false`) in `config.js` (#3174)
+- Fix: AnimateCSS merge hide() and show() animated css class when we do multiple call
+- Fix `Uncaught SyntaxError: Identifier 'getCorsUrl' has already been declared (at utils.js:1:1)` when using `clock` and `weather` module (#3204)
+- Fix overriding `config.js` when running tests (#3201)
+- Fix issue in weathergov provider with probability of precipitation not showing up on hourly or daily forecast
+
 ## [2.24.0] - 2023-07-01
 
 Thanks to: @angeldeejay, @bugsounet, @buxxi, @CarJem, @dariom, @DaveChild, @dWoolridge, @eddiehung, @grenagit, @Hirschberger, @ismarslomic, @JakeBinney, @KristjanESPERANTO, @MagMar94, @naveensrinivasan, @nfogal, @oscarb, @OWL4C, @psieg, @rajniszp, @retroflex, @SkySails and @tomzt
@@ -46,6 +101,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Fix date not shown when clock in analog mode (#3100)
 - Fix envcanada today percentage-of-precipitation (#3106)
 - Fix updatenotification where no branch is checked out but e.g. a version tag (#3130)
+- Fix yr weather provider after changes in yr API (#3189)
 
 ## [2.23.0] - 2023-04-04
 

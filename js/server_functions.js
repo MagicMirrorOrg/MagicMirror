@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const Log = require("logger");
-const fetch = require("./fetch");
+const startUp = new Date();
 
 /**
  * Gets the config.
@@ -10,6 +10,15 @@ const fetch = require("./fetch");
  */
 function getConfig(req, res) {
 	res.send(config);
+}
+
+/**
+ * Gets the startup time.
+ * @param {Request} req - the request
+ * @param {Response} res - the result
+ */
+function getStartup(req, res) {
+	res.send(startUp);
 }
 
 /**
@@ -118,4 +127,4 @@ function getVersion(req, res) {
 	res.send(global.version);
 }
 
-module.exports = { cors, getConfig, getHtml, getVersion };
+module.exports = { cors, getConfig, getHtml, getVersion, getStartup };

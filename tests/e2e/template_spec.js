@@ -1,3 +1,4 @@
+const fs = require("fs");
 const helpers = require("./helpers/global-setup");
 
 describe("templated config with port variable", () => {
@@ -6,10 +7,15 @@ describe("templated config with port variable", () => {
 	});
 	afterAll(async () => {
 		await helpers.stopApplication();
+		try {
+			fs.unlinkSync("tests/configs/port_variable.js");
+		} catch (err) {
+			// do nothing
+		}
 	});
 
 	it("should return 200", async () => {
-		const res = await helpers.fetch("http://localhost:8090");
+		const res = await fetch("http://localhost:8090");
 		expect(res.status).toBe(200);
 	});
 });

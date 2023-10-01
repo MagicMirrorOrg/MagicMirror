@@ -6,9 +6,7 @@
  */
 
 const https = require("https");
-const digest = require("digest-fetch");
 const ical = require("node-ical");
-const fetch = require("fetch");
 const Log = require("logger");
 const NodeHelper = require("node_helper");
 const CalendarFetcherUtils = require("./calendarfetcherutils");
@@ -39,7 +37,6 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 		clearTimeout(reloadTimer);
 		reloadTimer = null;
 		const nodeVersion = Number(process.version.match(/^v(\d+\.\d+)/)[1]);
-		let fetcher = null;
 		let httpsAgent = null;
 		let headers = {
 			"User-Agent": `Mozilla/5.0 (Node.js ${nodeVersion}) MagicMirror/${global.version}`
@@ -53,17 +50,12 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 		if (auth) {
 			if (auth.method === "bearer") {
 				headers.Authorization = `Bearer ${auth.pass}`;
-			} else if (auth.method === "digest") {
-				fetcher = new digest(auth.user, auth.pass).fetch(url, { headers: headers, agent: httpsAgent });
 			} else {
 				headers.Authorization = `Basic ${Buffer.from(`${auth.user}:${auth.pass}`).toString("base64")}`;
 			}
 		}
-		if (fetcher === null) {
-			fetcher = fetch(url, { headers: headers, agent: httpsAgent });
-		}
 
-		fetcher
+		fetch(url, { headers: headers, agent: httpsAgent })
 			.then(NodeHelper.checkFetchStatus)
 			.then((response) => response.text())
 			.then((responseData) => {
@@ -115,7 +107,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 	 * Broadcast the existing events.
 	 */
 	this.broadcastEvents = function () {
-		Log.info(`Calendar-Fetcher: Broadcasting ${events.length} events.`);
+		Log.info(`Calendar-Fetcher: Broadcasting ${events.length} events from ${url}.`);
 		eventsReceivedCallback(this);
 	};
 

@@ -15,7 +15,7 @@ const socketio = require("socket.io");
 
 const Log = require("logger");
 const Utils = require("./utils");
-const { cors, getConfig, getHtml, getVersion } = require("./server_functions");
+const { cors, getConfig, getHtml, getVersion, getStartup } = require("./server_functions");
 
 /**
  * Server
@@ -90,6 +90,8 @@ function Server(config) {
 			app.get("/version", (req, res) => getVersion(req, res));
 
 			app.get("/config", (req, res) => getConfig(req, res));
+
+			app.get("/startup", (req, res) => getStartup(req, res));
 
 			app.get("/", (req, res) => getHtml(req, res));
 

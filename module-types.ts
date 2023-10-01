@@ -1,16 +1,19 @@
 type ModuleProperties = {
   defaults?: object;
+  [key: string]: any;
   start?(): void;
+  getScripts?(): string[];
+  getStyles?(): string[];
+  getTranslations?(): object;
+  getDom?(): HTMLElement;
   getHeader?(): string;
   getTemplate?(): string;
   getTemplateData?(): object;
   notificationReceived?(notification: string, payload: any, sender: object): void;
+  nunjucksEnvironment?(): void;
   socketNotificationReceived?(notification: string, payload: any): void;
   suspend?(): void;
   resume?(): void;
-  getDom?(): HTMLElement;
-  getStyles?(): string[];
-  [key: string]: any;
 };
 
 export declare const Module: {

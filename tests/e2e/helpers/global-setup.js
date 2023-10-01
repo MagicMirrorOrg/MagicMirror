@@ -1,5 +1,4 @@
 const jsdom = require("jsdom");
-const corefetch = require("fetch");
 
 exports.startApplication = async (configFilename, exec) => {
 	jest.resetModules();
@@ -31,7 +30,8 @@ exports.getDocument = () => {
 		const url = `http://${config.address || "localhost"}:${config.port || "8080"}`;
 		jsdom.JSDOM.fromURL(url, { resources: "usable", runScripts: "dangerously" }).then((dom) => {
 			dom.window.name = "jsdom";
-			dom.window.fetch = corefetch;
+			global.window = dom.window;
+			dom.window.fetch = fetch;
 			dom.window.onload = () => {
 				global.document = dom.window.document;
 				resolve();
@@ -77,14 +77,6 @@ exports.waitForAllElements = (selector) => {
 				}
 			}
 		}, 100);
-	});
-};
-
-exports.fetch = (url) => {
-	return new Promise((resolve) => {
-		corefetch(url).then((res) => {
-			resolve(res);
-		});
 	});
 };
 
