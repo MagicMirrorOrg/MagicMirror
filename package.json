@@ -82,7 +82,7 @@
 		"helmet": "^7.0.0",
 		"html-to-text": "^9.0.5",
 		"iconv-lite": "^0.6.3",
-		"luxon": "^1.28.1",
+		"luxon": "^3.4.3",
 		"module-alias": "^2.2.3",
 		"moment": "^2.29.4",
 		"node-ical": "^0.16.1",
