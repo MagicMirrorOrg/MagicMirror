@@ -16,6 +16,7 @@ _This release is scheduled to be released on 2024-01-01._
 ### Updated
 
 ### Fixed
+
 - Fix the option eventClass on customEvents.
 
 ## [2.25.0] - 2023-10-01
