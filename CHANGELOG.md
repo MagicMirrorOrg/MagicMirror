@@ -17,6 +17,8 @@ _This release is scheduled to be released on 2024-01-01._
 
 ### Fixed
 
+- Avoid fade out/in on updateDom when many calendars are used
+
 ## [2.25.0] - 2023-10-01
 
 Thanks to: @bugsounet, @dgoth, @dependabot, @kenzal, @Knapoc, @KristjanESPERANTO, @martingron, @NolanKingdon, @Paranoid93, @TeddyStarinvest and @Ybbet.

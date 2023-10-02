@@ -117,6 +117,11 @@ Module.register("calendar", {
 		// indicate no data available yet
 		this.loaded = false;
 
+		// data holder of calendar url and timer. Avoid fade out/in on updateDom (one for each calendar update)
+		this.calendarDisplayer = {
+			timer: null
+		};
+
 		this.config.calendars.forEach((calendar) => {
 			calendar.url = calendar.url.replace("webcal://", "http://");
 
@@ -158,7 +163,9 @@ Module.register("calendar", {
 		setTimeout(
 			() => {
 				setInterval(() => {
-					this.updateDom(1);
+					Log.debug("[Calendar] self update");
+					// no speed needed
+					this.updateDom();
 				}, ONE_MINUTE);
 			},
 			ONE_MINUTE - (new Date() % ONE_MINUTE)
@@ -177,13 +184,29 @@ Module.register("calendar", {
 
 		if (notification === "CALENDAR_EVENTS") {
 			if (this.hasCalendarURL(payload.url)) {
+				clearTimeout(this.calendarDisplayer.timer);
 				this.calendarData[payload.url] = payload.events;
 				this.error = null;
 				this.loaded = true;
+				if (this.calendarDisplayer[payload.url] === undefined) {
+					// calendar will never displayed, so display it
+					this.updateDom(this.config.animationSpeed);
+					// set this calendar as displayed
+					this.calendarDisplayer[payload.url] = true;
+				} else {
+					// waiting other calendar before update
+					Log.debug("[Calendar] delayed display", payload.url);
+					this.calendarDisplayer.timer = setTimeout(() => {
+						Log.debug("[Calendar] delayed done -> Update the DOM");
+						this.updateDom(this.config.animationSpeed);
+					}, 1000 * this.config.calendars.length);
+				}
 
 				if (this.config.broadcastEvents) {
 					this.broadcastEvents();
 				}
+
+				return;
 			}
 		} else if (notification === "CALENDAR_ERROR") {
 			let error_message = this.translate(payload.error_type);
