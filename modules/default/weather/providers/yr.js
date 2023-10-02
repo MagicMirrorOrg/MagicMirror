@@ -44,8 +44,7 @@ WeatherProvider.register("yr", {
 	},
 
 	async getCurrentWeather() {
-		const getRequests = [this.getWeatherData(), this.getStellarData()];
-		const [weatherData, stellarData] = await Promise.all(getRequests);
+		const [weatherData, stellarData] = await Promise.all([this.getWeatherData(), this.getStellarData()]);
 		if (!stellarData) {
 			Log.warn("No stellar data available.");
 		}
@@ -170,7 +169,7 @@ WeatherProvider.register("yr", {
 			});
 	},
 
-	getForecastUrl() {
+	getConfigOptions() {
 		if (!this.config.lat) {
 			Log.error("Latitude not provided.");
 			throw new Error("Latitude not provided.");
@@ -183,6 +182,11 @@ WeatherProvider.register("yr", {
 		let lat = this.config.lat.toString();
 		let lon = this.config.lon.toString();
 		const altitude = this.config.altitude ?? 0;
+		return { lat, lon, altitude };
+	},
+
+	getForecastUrl() {
+		let { lat, lon, altitude } = this.getConfigOptions();
 
 		if (lat.includes(".") && lat.split(".")[1].length > 4) {
 			Log.warn("Latitude is too specific for weather data. Do not use more than four decimals. Trimming to maximum length.");
@@ -200,11 +204,6 @@ WeatherProvider.register("yr", {
 
 	cacheWeatherData(weatherData) {
 		localStorage.setItem("weatherData", JSON.stringify(weatherData));
-	},
-
-	getAuthenticationString() {
-		if (!this.config.authenticationEmail) throw new Error("Authentication email not provided.");
-		return `${this.config.applicaitionName} ${this.config.authenticationEmail}`;
 	},
 
 	getStellarData() {
@@ -302,7 +301,7 @@ WeatherProvider.register("yr", {
 
 	getStellarDataFromYr(date, days = 1) {
 		const requestHeaders = [{ name: "Accept", value: "application/json" }];
-		return this.fetchData(this.getStellarDatatUrl(date, days), "json", requestHeaders)
+		return this.fetchData(this.getStellarDataUrl(date, days), "json", requestHeaders)
 			.then((data) => {
 				Log.debug("Got stellar data from yr.");
 				return data;
@@ -313,19 +312,8 @@ WeatherProvider.register("yr", {
 			});
 	},
 
-	getStellarDatatUrl(date, days) {
-		if (!this.config.lat) {
-			Log.error("Latitude not provided.");
-			throw new Error("Latitude not provided.");
-		}
-		if (!this.config.lon) {
-			Log.error("Longitude not provided.");
-			throw new Error("Longitude not provided.");
-		}
-
-		let lat = this.config.lat.toString();
-		let lon = this.config.lon.toString();
-		const altitude = this.config.altitude ?? 0;
+	getStellarDataUrl(date, days) {
+		let { lat, lon, altitude } = this.getConfigOptions();
 
 		if (lat.includes(".") && lat.split(".")[1].length > 4) {
 			Log.warn("Latitude is too specific for stellar data. Do not use more than four decimals. Trimming to maximum length.");
@@ -472,15 +460,6 @@ WeatherProvider.register("yr", {
 		return weatherTypes.hasOwnProperty(weatherType) ? weatherTypes[weatherType] : null;
 	},
 
-	getStellarTimesFrom(stellarData, date) {
-		for (const time of stellarData.location.time) {
-			if (time.date === date) {
-				return time;
-			}
-		}
-		return undefined;
-	},
-
 	getForecastForXHoursFrom(weather) {
 		if (this.config.currentForecastHours === 1) {
 			if (weather.next_1_hours) {
@@ -522,8 +501,7 @@ WeatherProvider.register("yr", {
 	},
 
 	async getWeatherForecast(type) {
-		const getRequests = [this.getWeatherData(), this.getStellarData()];
-		const [weatherData, stellarData] = await Promise.all(getRequests);
+		const [weatherData, stellarData] = await Promise.all([this.getWeatherData(), this.getStellarData()]);
 		if (!weatherData.properties.timeseries || !weatherData.properties.timeseries[0]) {
 			Log.error("No weather data available.");
 			return;
@@ -573,7 +551,7 @@ WeatherProvider.register("yr", {
 			return days;
 		}, Object.create(null));
 
-		Object.keys(days).forEach(function (time, index) {
+		Object.keys(days).forEach(function (time) {
 			let minTemperature = undefined;
 			let maxTemperature = undefined;
 
