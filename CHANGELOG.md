@@ -5,11 +5,25 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror².
 
-## [2.25.0] - Unreleased (`develop` branch)
+## [2.26.0] - Unreleased (`develop` branch)
 
-_This release is scheduled to be released on 2023-10-01._
+_This release is scheduled to be released on 2024-01-01._
 
-> ⚠️ This release needs nodejs version >= `v18`, older release have reached end of life and will not work!
+### Added
+
+### Removed
+
+### Updated
+
+### Fixed
+
+## [2.25.0] - 2023-10-01
+
+Thanks to: @bugsounet, @dgoth, @dependabot, @kenzal, @Knapoc, @KristjanESPERANTO, @martingron, @NolanKingdon, @Paranoid93, @TeddyStarinvest and @Ybbet.
+
+Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not all) of the work on this release as project collaborators. This version would not be there without their effort. Thank you guys! You are awesome!
+
+> ⚠️ This release needs nodejs version >= `v18`, older releases have reached end of life and will not work!
 
 ### Added
 
@@ -20,6 +34,10 @@ _This release is scheduled to be released on 2023-10-01._
 - Added AnimateIn and animateOut in module config definition
 - Apply AnimateIn rules on the first start
 - Added automatic client page reload when server was restarted by setting `reloadAfterServerRestart: true` in `config.js`, per default `false` (#3105)
+- Added eventClass option for customEvents on the default calendar
+- Added AnimateCSS integration in tests suite (#3206)
+- Added npm dependabot [Reserved to developer] (#3210)
+- Added improved logging for calendar (#3110)
 
 ### Removed
 
@@ -29,13 +47,15 @@ _This release is scheduled to be released on 2023-10-01._
 
 - Update roboto fonts to version v5
 - Update issue template
-- Update dependencies incl. electron to v26
+- Update dev/dependencies incl. electron to v26
 - Replace pretty-quick by lint-staged (<https://github.com/azz/pretty-quick/issues/164>)
 - Update engine node >=18. v16 reached it's end of life. (#3170)
 - Update typescript definition for modules
 - Cleaned up nunjuck templates
 - Replace `node-fetch` with internal fetch (#2649) and remove `digest-fetch`
-- Updated the French translation according to the English file.
+- Update the French translation according to the English file.
+- Update dependabot incl. vendor/fonts (monthly check)
+- Renew `package-lock.json` for release
 
 ### Fixed
 
@@ -49,6 +69,8 @@ _This release is scheduled to be released on 2023-10-01._
 - Respect width/height (no fullscreen) if set in electronOptions (together with `fullscreen: false`) in `config.js` (#3174)
 - Fix: AnimateCSS merge hide() and show() animated css class when we do multiple call
 - Fix `Uncaught SyntaxError: Identifier 'getCorsUrl' has already been declared (at utils.js:1:1)` when using `clock` and `weather` module (#3204)
+- Fix overriding `config.js` when running tests (#3201)
+- Fix issue in weathergov provider with probability of precipitation not showing up on hourly or daily forecast
 
 ## [2.24.0] - 2023-07-01
 
