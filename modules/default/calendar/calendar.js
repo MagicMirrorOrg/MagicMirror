@@ -68,7 +68,8 @@ Module.register("calendar", {
 		coloredSymbol: false,
 		coloredBackground: false,
 		limitDaysNeverSkip: false,
-		flipDateHeaderTitle: false
+		flipDateHeaderTitle: false,
+		updateOnFetch: false
 	},
 
 	requiresVersion: "2.1.0",
@@ -93,8 +94,6 @@ Module.register("calendar", {
 
 	// Override start method.
 	start: function () {
-		const ONE_MINUTE = 60 * 1000;
-
 		Log.info(`Starting module: ${this.name}`);
 
 		if (this.config.colored) {
@@ -117,10 +116,8 @@ Module.register("calendar", {
 		// indicate no data available yet
 		this.loaded = false;
 
-		// data holder of calendar url and timer. Avoid fade out/in on updateDom (one for each calendar update)
-		this.calendarDisplayer = {
-			timer: null
-		};
+		// data holder of calendar url. Avoid fade out/in on updateDom (one for each calendar update)
+		this.calendarDisplayer = {};
 
 		this.config.calendars.forEach((calendar) => {
 			calendar.url = calendar.url.replace("webcal://", "http://");
@@ -158,18 +155,7 @@ Module.register("calendar", {
 			this.addCalendar(calendar.url, calendar.auth, calendarConfig);
 		});
 
-		// Refresh the DOM every minute if needed: When using relative date format for events that start
-		// or end in less than an hour, the date shows minute granularity and we want to keep that accurate.
-		setTimeout(
-			() => {
-				setInterval(() => {
-					Log.debug("[Calendar] self update");
-					// no speed needed
-					this.updateDom();
-				}, ONE_MINUTE);
-			},
-			ONE_MINUTE - (new Date() % ONE_MINUTE)
-		);
+		this.selfUpdate();
 	},
 
 	// Override socket notification handler.
@@ -184,29 +170,25 @@ Module.register("calendar", {
 
 		if (notification === "CALENDAR_EVENTS") {
 			if (this.hasCalendarURL(payload.url)) {
-				clearTimeout(this.calendarDisplayer.timer);
 				this.calendarData[payload.url] = payload.events;
 				this.error = null;
 				this.loaded = true;
-				if (this.calendarDisplayer[payload.url] === undefined) {
-					// calendar will never displayed, so display it
-					this.updateDom(this.config.animationSpeed);
-					// set this calendar as displayed
-					this.calendarDisplayer[payload.url] = true;
-				} else {
-					// waiting other calendar before update
-					Log.debug("[Calendar] delayed display", payload.url);
-					this.calendarDisplayer.timer = setTimeout(() => {
-						Log.debug("[Calendar] delayed done -> Update the DOM");
-						this.updateDom(this.config.animationSpeed);
-					}, 1000 * this.config.calendars.length);
-				}
 
 				if (this.config.broadcastEvents) {
 					this.broadcastEvents();
 				}
 
-				return;
+				if (!this.config.updateOnFetch) {
+					if (this.calendarDisplayer[payload.url] === undefined) {
+						// calendar will never displayed, so display it
+						this.updateDom(this.config.animationSpeed);
+						// set this calendar as displayed
+						this.calendarDisplayer[payload.url] = true;
+					} else {
+						Log.debug("[Calendar] DOM not updated waiting self update()");
+					}
+					return;
+				}
 			}
 		} else if (notification === "CALENDAR_ERROR") {
 			let error_message = this.translate(payload.error_type);
@@ -883,5 +865,30 @@ Module.register("calendar", {
 		}
 
 		this.sendNotification("CALENDAR_EVENTS", eventList);
+	},
+
+	/**
+	 * Refresh the DOM every minute if needed: When using relative date format for events that start
+	 * or end in less than an hour, the date shows minute granularity and we want to keep that accurate.
+	 * --
+	 * When updateOnFetch is not set, it will Avoid fade out/in on updateDom when many calendars are used
+	 * and it's allow to refresh The DOM every minute with animation speed too
+	 * (because updateDom is not set in CALENDAR_EVENTS for this case)
+	 */
+	selfUpdate: function () {
+		const ONE_MINUTE = 60 * 1000;
+		setTimeout(
+			() => {
+				setInterval(() => {
+					Log.debug("[Calendar] self update");
+					if (this.config.updateOnFetch) {
+						this.updateDom(1);
+					} else {
+						this.updateDom(this.config.animationSpeed);
+					}
+				}, ONE_MINUTE);
+			},
+			ONE_MINUTE - (new Date() % ONE_MINUTE)
+		);
 	}
 });
