@@ -18,6 +18,7 @@ _This release is scheduled to be released on 2024-01-01._
 ### Fixed
 
 - Avoid fade out/in on updateDom when many calendars are used
+- Fix the option eventClass on customEvents.
 
 ## [2.25.0] - 2023-10-01
 
