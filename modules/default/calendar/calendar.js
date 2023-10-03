@@ -69,7 +69,7 @@ Module.register("calendar", {
 		coloredBackground: false,
 		limitDaysNeverSkip: false,
 		flipDateHeaderTitle: false,
-		updateOnFetch: false
+		updateOnFetch: true
 	},
 
 	requiresVersion: "2.1.0",
