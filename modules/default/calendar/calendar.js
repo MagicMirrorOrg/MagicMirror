@@ -335,7 +335,6 @@ Module.register("calendar", {
 							if (this.config.displaySymbol && this.config.coloredSymbol) {
 								symbolWrapper.style.cssText = `color:${this.config.customEvents[ev].color}`;
 							}
-							break;
 						}
 						if (typeof this.config.customEvents[ev].eventClass !== "undefined" && this.config.customEvents[ev].eventClass !== "") {
 							eventWrapper.className += ` ${this.config.customEvents[ev].eventClass}`;
