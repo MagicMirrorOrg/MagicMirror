@@ -11,6 +11,8 @@ _This release is scheduled to be released on 2024-01-01._
 
 ### Added
 
+- Added updatenotification Updater (for 3rd party modules)
+
 ### Removed
 
 ### Updated
@@ -30,7 +32,6 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 ### Added
 
 - Added UV Index support to OpenWeatherMap
-- Added updatenotification Updater (for 3rd party modules)
 - Added 'hideDuplicates' flag to the calendar module
 - Added `allowOverrideNotification` to weather module to enable sending current weather objects with the `CURRENT_WEATHER_OVERRIDE` notification to supplement/replace the current weather displayed
 - Added optional AnimateCSS animate for `hide()`, `show()`, `updateDom()`
