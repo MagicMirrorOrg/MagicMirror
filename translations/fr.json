@@ -29,9 +29,16 @@
 
 	"FEELS": "Ressenti {DEGREE}",
 	"PRECIP_POP": "Probabilité de précipitations",
+	"PRECIP_AMOUNT": "Quantité des précipitations",
 
 	"MODULE_CONFIG_CHANGED": "Les options de configuration du module {MODULE_NAME} ont changé.\nVeuillez consulter la documentation.",
 	"MODULE_CONFIG_ERROR": "Erreur dans le module {MODULE_NAME}. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "URL mal formée.",
+	"MODULE_ERROR_NO_CONNECTION": "Pas de connexion Internet.",
+	"MODULE_ERROR_UNAUTHORIZED": "L'autorisation à échouée.",
+	"MODULE_ERROR_UNSPECIFIED": "Consultez les journaux pour plus de détails.",
+
+	"NEWSFEED_NO_ITEMS": "Aucune nouvelle pour le moment.",
 
 	"UPDATE_NOTIFICATION": "Une mise à jour de MagicMirror² est disponible",
 	"UPDATE_NOTIFICATION_MODULE": "Une mise à jour est disponible pour le module {MODULE_NAME}.",

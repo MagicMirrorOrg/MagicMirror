@@ -313,6 +313,9 @@ const CalendarFetcherUtils = {
 						let curEvent = event;
 						let showRecurrence = true;
 
+						// set the time information in the date to equal the time information in the event
+						date.setUTCHours(curEvent.start.getUTCHours(), curEvent.start.getUTCMinutes(), curEvent.start.getUTCSeconds(), curEvent.start.getUTCMilliseconds());
+
 						// Get the offset of today where we are processing
 						// This will be the correction, we need to apply.
 						let nowOffset = new Date().getTimezoneOffset();

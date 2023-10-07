@@ -59,6 +59,7 @@ function createWindow() {
 		electronOptionsDefaults.frame = false;
 		electronOptionsDefaults.transparent = true;
 		electronOptionsDefaults.hasShadow = false;
+		electronOptionsDefaults.fullscreen = true;
 	}
 
 	const electronOptions = Object.assign({}, electronOptionsDefaults, config.electronOptions);
@@ -130,7 +131,6 @@ function createWindow() {
 	});
 
 	mainWindow.once("ready-to-show", () => {
-		mainWindow.setFullScreen(true);
 		mainWindow.show();
 	});
 }

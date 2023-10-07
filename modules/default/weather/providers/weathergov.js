@@ -182,6 +182,12 @@ WeatherProvider.register("weathergov", {
 			weather.windSpeed = WeatherUtils.convertWindToMs(weather.windSpeed);
 			weather.windFromDirection = forecast.windDirection;
 			weather.temperature = forecast.temperature;
+			//assign probability of precipitation
+			if (forecast.probabilityOfPrecipitation.value === null) {
+				weather.precipitationProbability = 0;
+			} else {
+				weather.precipitationProbability = forecast.probabilityOfPrecipitation.value;
+			}
 			// use the forecast isDayTime attribute to help build the weatherType label
 			weather.weatherType = this.convertWeatherType(forecast.shortForecast, forecast.isDaytime);
 
@@ -238,8 +244,6 @@ WeatherProvider.register("weathergov", {
 	 * fetch forecast information for daily forecast.
 	 */
 	fetchForecastDaily(forecasts) {
-		const precipitationProbabilityRegEx = "Chance of precipitation is ([0-9]+?)%";
-
 		// initial variable declaration
 		const days = [];
 		// variables for temperature range and rain
@@ -262,8 +266,12 @@ WeatherProvider.register("weathergov", {
 
 				minTemp = [];
 				maxTemp = [];
-				const precipitation = new RegExp(precipitationProbabilityRegEx, "g").exec(forecast.detailedForecast);
-				if (precipitation) weather.precipitationProbability = precipitation[1];
+				//assign probability of precipitation
+				if (forecast.probabilityOfPrecipitation.value === null) {
+					weather.precipitationProbability = 0;
+				} else {
+					weather.precipitationProbability = forecast.probabilityOfPrecipitation.value;
+				}
 
 				// set new date
 				date = moment(forecast.startTime).format("YYYY-MM-DD");
