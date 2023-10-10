@@ -11,6 +11,17 @@ _This release is scheduled to be released on 2024-01-01._
 
 ### Added
 
+- custom module positions
+  reason see e.g.
+
+  - https://github.com/MichMich/MagicMirror/issues/3212
+  - https://forum.magicmirror.builders/topic/18069/multiple-modules-in-a-region/17
+
+  usage:
+
+  - define own module positions as html in `config.js`, key is `modulePositions`
+  - define own css styles in a new file in the `css` directory, the name of this file is specified in `config.js`, key is `modulePositionsCss`
+
 ### Removed
 
 ### Updated
