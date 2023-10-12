@@ -199,7 +199,7 @@ WeatherProvider.register("yr", {
 			lon = `${lonParts[0]}.${lonParts[1].substring(0, 4)}`;
 		}
 
-		return `${this.config.apiBase}/locationforecast/2.0/complete?&altitude=${altitude}&lat=${lat}&lon=${lon}`;
+		return `${this.config.apiBase}/locationforecast/3.0/complete?&altitude=${altitude}&lat=${lat}&lon=${lon}`;
 	},
 
 	cacheWeatherData(weatherData) {
