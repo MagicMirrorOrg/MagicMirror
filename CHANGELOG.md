@@ -18,6 +18,7 @@ _This release is scheduled to be released on 2024-01-01._
 ### Fixed
 
 - Fix the option eventClass on customEvents.
+- Fix yr API version in locationforecast call (#3227)
 
 ## [2.25.0] - 2023-10-01
 
@@ -116,7 +117,6 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Fix date not shown when clock in analog mode (#3100)
 - Fix envcanada today percentage-of-precipitation (#3106)
 - Fix updatenotification where no branch is checked out but e.g. a version tag (#3130)
--
 
 ## [2.23.0] - 2023-04-04
 
