@@ -18,6 +18,8 @@ WeatherProvider.register("yr", {
 	defaults: {
 		useCorsProxy: true,
 		apiBase: "https://api.met.no/weatherapi",
+		forecastApiVersion: "3.0",
+		sunriseApiVersion: "3.0",
 		altitude: 0,
 		currentForecastHours: 1 //1, 6 or 12
 	},
@@ -199,7 +201,7 @@ WeatherProvider.register("yr", {
 			lon = `${lonParts[0]}.${lonParts[1].substring(0, 4)}`;
 		}
 
-		return `${this.config.apiBase}/locationforecast/3.0/complete?&altitude=${altitude}&lat=${lat}&lon=${lon}`;
+		return `${this.config.apiBase}/locationforecast/${this.config.forecastApiVersion}/complete?&altitude=${altitude}&lat=${lat}&lon=${lon}`;
 	},
 
 	cacheWeatherData(weatherData) {
@@ -340,7 +342,7 @@ WeatherProvider.register("yr", {
 		if (hours.length < 2) {
 			hours = `0${hours}`;
 		}
-		return `${this.config.apiBase}/sunrise/2.3/sun?lat=${lat}&lon=${lon}&date=${date}&offset=${utcOffsetPrefix}${hours}%3A${minutes}`;
+		return `${this.config.apiBase}/sunrise/${this.config.sunriseApiVersion}/sun?lat=${lat}&lon=${lon}&date=${date}&offset=${utcOffsetPrefix}${hours}%3A${minutes}`;
 	},
 
 	cacheStellarData(data) {
