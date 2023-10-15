@@ -20,6 +20,7 @@ _This release is scheduled to be released on 2024-01-01._
 ### Fixed
 
 - Fix the option eventClass on customEvents.
+- Fix yr API version in locationforecast call (#3227)
 
 ## [2.25.0] - 2023-10-01
 
@@ -75,6 +76,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Fix `Uncaught SyntaxError: Identifier 'getCorsUrl' has already been declared (at utils.js:1:1)` when using `clock` and `weather` module (#3204)
 - Fix overriding `config.js` when running tests (#3201)
 - Fix issue in weathergov provider with probability of precipitation not showing up on hourly or daily forecast
+- Fix yr weather provider after changes in yr API (#3189)
 
 ## [2.24.0] - 2023-07-01
 
@@ -117,7 +119,6 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Fix date not shown when clock in analog mode (#3100)
 - Fix envcanada today percentage-of-precipitation (#3106)
 - Fix updatenotification where no branch is checked out but e.g. a version tag (#3130)
-- Fix yr weather provider after changes in yr API (#3189)
 
 ## [2.23.0] - 2023-04-04
 
