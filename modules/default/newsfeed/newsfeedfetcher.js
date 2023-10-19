@@ -48,7 +48,7 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 		parser.on("item", (item) => {
 			const title = item.title;
 			let description = item.description || item.summary || item.content || "";
-			const pubdate = item.pubdate || item.published || item.updated || item["dc:date"];
+			const pubdate = item.pubdate || item.published || item.updated || item["dc:date"] || item["a10:updated"];
 			const url = item.url || item.link || "";
 
 			if (title && pubdate) {
