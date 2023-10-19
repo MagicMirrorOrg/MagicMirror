@@ -90,6 +90,10 @@ function cloneObject(obj) {
 		return obj;
 	}
 
+	if (obj.constructor.name === "RegExp") {
+		return new RegExp(obj);
+	}
+
 	const temp = obj.constructor(); // give temp the original obj's constructor
 	for (const key in obj) {
 		temp[key] = cloneObject(obj[key]);
