@@ -21,6 +21,7 @@ _This release is scheduled to be released on 2024-01-01._
 
 - Fix the option eventClass on customEvents.
 - Fix yr API version in locationforecast call (#3227)
+- Fix cloneObject() function to respect RegExp (#3237)
 
 ## [2.25.0] - 2023-10-01
 

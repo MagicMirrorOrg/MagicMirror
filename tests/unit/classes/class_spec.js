@@ -49,6 +49,13 @@ describe("File js/class", () => {
 			expect(obj).toBe(expected);
 		});
 
+		it("should clone regex", () => {
+			const expected = /.*Magic/;
+			const obj = clone(expected);
+			expect(obj).toEqual(expected);
+			expect(expected === obj).toBe(false);
+		});
+
 		it("should clone undefined", () => {
 			const expected = undefined;
 			const obj = clone(expected);
