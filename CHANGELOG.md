@@ -17,6 +17,8 @@ _This release is scheduled to be released on 2024-01-01._
 
 ### Updated
 
+- Update electron to v27 and update other dependencies
+
 ### Fixed
 
 - Fix the option eventClass on customEvents.
