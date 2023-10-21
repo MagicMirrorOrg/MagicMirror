@@ -146,11 +146,6 @@ sup {
   pointer-events: auto;
 }
 
-.region.bottom .module {
-  margin-top: var(--gap-modules);
-  margin-bottom: 0;
-}
-
 .no-wrap {
   white-space: nowrap;
   overflow: hidden;
@@ -159,83 +154,4 @@ sup {
 
 .pre-line {
   white-space: pre-line;
-}
-
-/**
- * Region Definitions.
- */
-
-.region {
-  position: absolute;
-}
-
-.region.fullscreen {
-  position: absolute;
-  inset: calc(-1 * var(--gap-body-top)) calc(-1 * var(--gap-body-right)) calc(-1 * var(--gap-body-bottom)) calc(-1 * var(--gap-body-left));
-  pointer-events: none;
-}
-
-.region.right {
-  right: 0;
-  text-align: right;
-}
-
-.region.top {
-  top: 0;
-}
-
-.region.top.center,
-.region.bottom.center {
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.region.top.right,
-.region.top.left,
-.region.top.center {
-  top: 100%;
-}
-
-.region.bottom {
-  bottom: 0;
-}
-
-.region.bottom.right,
-.region.bottom.center,
-.region.bottom.left {
-  bottom: 100%;
-}
-
-.region.bar {
-  width: 100%;
-  text-align: center;
-}
-
-.region.third,
-.region.middle.center {
-  width: 100%;
-  text-align: center;
-  transform: translateY(-50%);
-}
-
-.region.upper.third {
-  top: 33%;
-}
-
-.region.middle.center {
-  top: 50%;
-}
-
-.region.lower.third {
-  top: 66%;
-}
-
-.region.left {
-  text-align: left;
-}
-
-.region table {
-  width: 100%;
-  border-spacing: 0;
-  border-collapse: separate;
 }
