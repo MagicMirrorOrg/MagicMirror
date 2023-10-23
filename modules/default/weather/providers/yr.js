@@ -18,7 +18,7 @@ WeatherProvider.register("yr", {
 	defaults: {
 		useCorsProxy: true,
 		apiBase: "https://api.met.no/weatherapi",
-		forecastApiVersion: "3.0",
+		forecastApiVersion: "2.0",
 		sunriseApiVersion: "3.0",
 		altitude: 0,
 		currentForecastHours: 1 //1, 6 or 12
