@@ -11,13 +11,15 @@ _This release is scheduled to be released on 2024-01-01._
 
 ### Added
 
+- Added node 21 to the test matrix
+
 ### Removed
 
 - Removed Codecov workflow (not working anymore, other workflow required) (#3107)
 
 ### Updated
 
-- Update electron to v27 and update other dependencies
+- Update electron to v27 and update other dependencies as well as github actions
 
 ### Fixed
 
@@ -60,7 +62,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Update issue template
 - Update dev/dependencies incl. electron to v26
 - Replace pretty-quick by lint-staged (<https://github.com/azz/pretty-quick/issues/164>)
-- Update engine node >=18. v16 reached it's end of life. (#3170)
+- Update engine node >=18. v16 reached its end of life. (#3170)
 - Update typescript definition for modules
 - Cleaned up nunjuck templates
 - Replace `node-fetch` with internal fetch (#2649) and remove `digest-fetch`
@@ -73,7 +75,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Fix engine check on npm install (#3135)
 - Fix undefined formatTime method in clock module (#3143)
 - Fix clientonly startup fails after async added (#3151)
-- Fix electron width/heigth when using xrandr under bullseye
+- Fix electron width/height when using xrandr under bullseye
 - Fix time issue with certain recurring events in calendar module
 - Fix ipWhiteList test (#3179)
 - Fix newsfeed: Convert HTML entities, codes and tag in description (#3191)
