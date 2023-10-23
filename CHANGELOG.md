@@ -25,7 +25,7 @@ _This release is scheduled to be released on 2024-01-01._
 
 - Avoid fade out/in on updateDom when many calendars are used
 - Fix the option eventClass on customEvents.
-- Fix yr API version in locationforecast call (#3227)
+- Fix yr API version in locationforecast and sunrise call (#3227)
 - Fix cloneObject() function to respect RegExp (#3237)
 - Fix newsfeed module for feeds using "a10:updated" tag (#3238)
 - Fix issue template (3167)
