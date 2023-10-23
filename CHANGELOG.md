@@ -11,6 +11,8 @@ _This release is scheduled to be released on 2024-01-01._
 
 ### Added
 
+- Added node 21 to the test matrix
+
 ### Removed
 
 - Removed Codecov workflow (not working anymore, other workflow required) (#3107)
