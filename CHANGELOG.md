@@ -12,7 +12,7 @@ _This release is scheduled to be released on 2024-01-01._
 ### Added
 
 - Added node 21 to the test matrix
-- Added yearmatchgroup to calendar:customEvents
+- Added transform object to calendar:customEvents
 
 ### Removed
 
