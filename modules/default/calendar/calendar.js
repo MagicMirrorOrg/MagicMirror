@@ -156,10 +156,10 @@ Module.register("calendar", {
 		});
 
 		// for backward compatibility titleReplace
-		if (typeof this.config.titleReplace !== 'undefined') {
+		if (typeof this.config.titleReplace !== "undefined") {
 			Log.warn("Deprecation warning: Please consider upgrading your calendar titleReplace configuration to customEvents.");
 			for (const [titlesearchstr, titlereplacestr] of Object.entries(this.config.titleReplace)) {
-				this.config.customEvents.push({ 'keyword': '.*', 'transform': { 'search': titlesearchstr, 'replace':titlereplacestr}});
+				this.config.customEvents.push({ keyword: ".*", transform: { search: titlesearchstr, replace: titlereplacestr } });
 			}
 		}
 
@@ -360,7 +360,6 @@ Module.register("calendar", {
 					}
 				}
 			}
-
 
 			titleWrapper.innerHTML = CalendarUtils.shorten(transformedTitle, this.config.maxTitleLength, this.config.wrapEvents, this.config.maxTitleLines) + repeatingCountTitle;
 

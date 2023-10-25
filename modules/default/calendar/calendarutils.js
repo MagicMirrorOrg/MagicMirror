@@ -101,24 +101,23 @@ const CalendarUtils = {
 	titleTransform: function (title, titleReplace) {
 		let transformedTitle = title;
 		for (let tr in titleReplace) {
-			var transform=titleReplace[tr];
-			if (typeof transform === 'object') {
-				if ((typeof transform.search !== "undefined") && (transform.search !== "") && (typeof transform.replace !== "undefined")) {
-
+			var transform = titleReplace[tr];
+			if (typeof transform === "object") {
+				if (typeof transform.search !== "undefined" && transform.search !== "" && typeof transform.replace !== "undefined") {
 					let regParts = transform.search.match(/^\/(.+)\/([gim]*)$/);
 					if (regParts) {
 						// the parsed pattern is a regexp.
 						needle = new RegExp(regParts[1], regParts[2]);
 					} else {
-						needle = new RegExp(transform.search,"g")
+						needle = new RegExp(transform.search, "g");
 					}
 
-					let replacement=transform.replace;
+					let replacement = transform.replace;
 					if (typeof transform.yearmatchgroup !== "undefined" && transform.yearmatchgroup !== "") {
-						const yearmatch=[...title.matchAll(needle)];
-						if ((yearmatch[0].length >= transform.yearmatchgroup+1) && (yearmatch[0][transform.yearmatchgroup]*1 >=1900 )) {
-							var calcage=new Date().getFullYear()-(yearmatch[0][transform.yearmatchgroup]*1)
-							replacement=replacement.replace('$'+transform.yearmatchgroup,calcage)
+						const yearmatch = [...title.matchAll(needle)];
+						if (yearmatch[0].length >= transform.yearmatchgroup + 1 && yearmatch[0][transform.yearmatchgroup] * 1 >= 1900) {
+							var calcage = new Date().getFullYear() - yearmatch[0][transform.yearmatchgroup] * 1;
+							replacement = replacement.replace("$" + transform.yearmatchgroup, calcage);
 						}
 					}
 					transformedTitle = transformedTitle.replace(needle, replacement);
