@@ -90,23 +90,40 @@ const CalendarUtils = {
 	/**
 	 * Transforms the title of an event for usage.
 	 * Replaces parts of the text as defined in config.titleReplace.
-	 * Shortens title based on config.maxTitleLength and config.wrapEvents
 	 * @param {string} title The title to transform.
-	 * @param {object} titleReplace Pairs of strings to be replaced in the title
+	 * @param {object} titleReplace object definition of parts to be replaced in the title
+	 *                 object definition:
+	 *                    search: {string,required} RegEx in format //x or simple string to be searched. For (birthday) year calcluation, the element matching the year must be in a RegEx group
+	 *                    replace: {string,required} Replacement string, may contain match group references (latter is required for year calculation)
+	 *                    yearmatchgroup: {number,optional} match group for year element
 	 * @returns {string} The transformed title.
 	 */
 	titleTransform: function (title, titleReplace) {
 		let transformedTitle = title;
-		for (let needle in titleReplace) {
-			const replacement = titleReplace[needle];
+		for (let tr in titleReplace) {
+			var transform=titleReplace[tr];
+			if (typeof transform === 'object') {
+				if ((typeof transform.search !== "undefined") && (transform.search !== "") && (typeof transform.replace !== "undefined")) {
 
-			const regParts = needle.match(/^\/(.+)\/([gim]*)$/);
-			if (regParts) {
-				// the parsed pattern is a regexp.
-				needle = new RegExp(regParts[1], regParts[2]);
+					let regParts = transform.search.match(/^\/(.+)\/([gim]*)$/);
+					if (regParts) {
+						// the parsed pattern is a regexp.
+						needle = new RegExp(regParts[1], regParts[2]);
+					} else {
+						needle = new RegExp(transform.search,"g")
+					}
+
+					let replacement=transform.replace;
+					if (typeof transform.yearmatchgroup !== "undefined" && transform.yearmatchgroup !== "") {
+						const yearmatch=[...title.matchAll(needle)];
+						if ((yearmatch[0].length >= transform.yearmatchgroup+1) && (yearmatch[0][transform.yearmatchgroup]*1 >=1900 )) {
+							var calcage=new Date().getFullYear()-(yearmatch[0][transform.yearmatchgroup]*1)
+							replacement=replacement.replace('$'+transform.yearmatchgroup,calcage)
+						}
+					}
+					transformedTitle = transformedTitle.replace(needle, replacement);
+				}
 			}
-
-			transformedTitle = transformedTitle.replace(needle, replacement);
 		}
 		return transformedTitle;
 	}
