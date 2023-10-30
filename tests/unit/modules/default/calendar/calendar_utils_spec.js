@@ -145,10 +145,9 @@ describe("Calendar utils tests", () => {
 
 	describe("titleTransform with yearmatchgroup", () => {
 		it("should replace the birthday and wrap nicely", () => {
-			const transformedTitle = CalendarUtils.titleTransform("Luciella '2000", { search: '^([^\']*) \'(\\d{4})$' , replace: '$1 ($2.)', yearmatchgroup: 2} );
-			const expectedResult = "Luciella ("+(new Date().getFullYear()-2000)+".)"
+			const transformedTitle = CalendarUtils.titleTransform("Luciella '2000", { search: "^([^']*) '(\\d{4})$", replace: "$1 ($2.)", yearmatchgroup: 2 });
+			const expectedResult = `Luciella (${new Date().getFullYear() - 2000}.)`;
 			expect(transformedTitle).toBe(expectedResult);
 		});
 	});
-
 });
