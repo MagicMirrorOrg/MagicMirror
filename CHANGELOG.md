@@ -30,7 +30,8 @@ _This release is scheduled to be released on 2024-01-01._
 - Fix yr API version in locationforecast and sunrise call (#3227)
 - Fix cloneObject() function to respect RegExp (#3237)
 - Fix newsfeed module for feeds using "a10:updated" tag (#3238)
-- Fix issue template (3167)
+- Fix issue template (#3167)
+- Hotfix for failing unit test (#3254)
 
 ## [2.25.0] - 2023-10-01
 
