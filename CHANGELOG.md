@@ -13,6 +13,7 @@ _This release is scheduled to be released on 2024-01-01._
 
 - Added node 21 to the test matrix
 - Added transform object to calendar:customEvents
+- Added configuration option for `User-Agent`, used by calendar & news module
 
 ### Removed
 

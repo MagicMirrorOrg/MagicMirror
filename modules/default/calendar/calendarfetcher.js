@@ -9,6 +9,7 @@ const https = require("https");
 const ical = require("node-ical");
 const Log = require("logger");
 const NodeHelper = require("node_helper");
+const { getUserAgent } = require("../../../js/server_functions");
 const CalendarFetcherUtils = require("./calendarfetcherutils");
 
 /**
@@ -36,10 +37,9 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 	const fetchCalendar = () => {
 		clearTimeout(reloadTimer);
 		reloadTimer = null;
-		const nodeVersion = Number(process.version.match(/^v(\d+\.\d+)/)[1]);
 		let httpsAgent = null;
 		let headers = {
-			"User-Agent": `Mozilla/5.0 (Node.js ${nodeVersion}) MagicMirror/${global.version}`
+			"User-Agent": getUserAgent()
 		};
 
 		if (selfSignedCert) {

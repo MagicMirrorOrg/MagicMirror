@@ -68,7 +68,7 @@ async function cors(req, res) {
  * @returns {object} An object specifying name and value of the headers.
  */
 function getHeadersToSend(url) {
-	const headersToSend = { "User-Agent": `Mozilla/5.0 MagicMirror/${global.version}` };
+	const headersToSend = { "User-Agent": getUserAgent() };
 	const headersToSendMatch = new RegExp("sendheaders=(.+?)(&|$)", "g").exec(url);
 	if (headersToSendMatch) {
 		const headers = headersToSendMatch[1].split(",");
@@ -127,4 +127,25 @@ function getVersion(req, res) {
 	res.send(global.version);
 }
 
-module.exports = { cors, getConfig, getHtml, getVersion, getStartup };
+/**
+ * Gets the preferred `User-Agent`
+ * @returns {string} `User-Agent` to be used
+ */
+function getUserAgent() {
+	const defaultUserAgent = `Mozilla/5.0 (Node.js ${Number(process.version.match(/^v(\d+\.\d+)/)[1])}) MagicMirror/${global.version}`;
+
+	if (typeof config === "undefined") {
+		return defaultUserAgent;
+	}
+
+	switch (typeof config.userAgent) {
+		case "function":
+			return config.userAgent();
+		case "string":
+			return config.userAgent;
+		default:
+			return defaultUserAgent;
+	}
+}
+
+module.exports = { cors, getConfig, getHtml, getVersion, getStartup, getUserAgent };

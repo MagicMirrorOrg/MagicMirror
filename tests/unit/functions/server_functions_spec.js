@@ -1,4 +1,5 @@
-const { cors } = require("../../../js/server_functions");
+const { expect } = require("playwright/test");
+const { cors, getUserAgent } = require("../../../js/server_functions");
 
 describe("server_functions tests", () => {
 	describe("The cors method", () => {
@@ -141,6 +142,22 @@ describe("server_functions tests", () => {
 			expect(corsResponse.set.mock.calls[1][1]).toBe("value1");
 			expect(corsResponse.set.mock.calls[2][0]).toBe("header2");
 			expect(corsResponse.set.mock.calls[2][1]).toBe("value2");
+		});
+
+		test("Gets User-Agent from configuration", async () => {
+			config = {};
+			let userAgent;
+
+			userAgent = getUserAgent();
+			expect(userAgent).toContain("Mozilla/5.0 (Node.js ");
+
+			config.userAgent = "Mozilla/5.0 (Foo)";
+			userAgent = getUserAgent();
+			expect(userAgent).toBe("Mozilla/5.0 (Foo)");
+
+			config.userAgent = () => "Mozilla/5.0 (Bar)";
+			userAgent = getUserAgent();
+			expect(userAgent).toBe("Mozilla/5.0 (Bar)");
 		});
 	});
 });
