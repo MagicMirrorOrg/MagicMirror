@@ -283,8 +283,12 @@ const CalendarFetcherUtils = {
 						futureLocal = futureMoment.toDate(); // future
 					}
 					Log.debug(`Search for recurring events between: ${pastLocal} and ${futureLocal}`);
-					const dates = rule.between(pastLocal, futureLocal, true, limitFunction);
+					let dates = rule.between(pastLocal, futureLocal, true, limitFunction);
 					Log.debug(`Title: ${event.summary}, with dates: ${JSON.stringify(dates)}`);
+					dates = dates.filter((d) => {
+						if (JSON.stringify(d) === "null") return false;
+						else return true;
+					});
 					// The "dates" array contains the set of dates within our desired date range range that are valid
 					// for the recurrence rule. *However*, it's possible for us to have a specific recurrence that
 					// had its date changed from outside the range to inside the range.  For the time being,
