@@ -12,10 +12,12 @@ _This release is scheduled to be released on 2024-01-01._
 ### Added
 
 - Added node 21 to the test matrix
+- Added transform object to calendar:customEvents
 
 ### Removed
 
 - Removed Codecov workflow (not working anymore, other workflow required) (#3107)
+- Removed titleReplace from calendar, replaced + extended by customEvents (backward compatibility included)
 
 ### Updated
 
