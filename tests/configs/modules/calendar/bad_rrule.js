@@ -1,6 +1,6 @@
-/* MagicMirror² Test config default calendar with auth by default
+/* MagicMirror² Test ics with out of date event causing bad return from rrule.between
  *
- * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
+ * By Sam Detweiler
  * MIT Licensed.
  */
 let config = {
