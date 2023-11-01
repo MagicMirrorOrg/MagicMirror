@@ -12,10 +12,12 @@ _This release is scheduled to be released on 2024-01-01._
 ### Added
 
 - Added node 21 to the test matrix
+- Added transform object to calendar:customEvents
 
 ### Removed
 
 - Removed Codecov workflow (not working anymore, other workflow required) (#3107)
+- Removed titleReplace from calendar, replaced + extended by customEvents (backward compatibility included)
 
 ### Updated
 
@@ -30,6 +32,7 @@ _This release is scheduled to be released on 2024-01-01._
 - Fix newsfeed module for feeds using "a10:updated" tag (#3238)
 - Fix issue template (3167)
 - Fix #3256 filter out bad results from rrule.between
+- Fix for failing unit test (#3254)
 
 ## [2.25.0] - 2023-10-01
 

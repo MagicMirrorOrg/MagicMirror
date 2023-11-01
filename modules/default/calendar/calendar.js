@@ -155,6 +155,14 @@ Module.register("calendar", {
 			this.addCalendar(calendar.url, calendar.auth, calendarConfig);
 		});
 
+		// for backward compatibility titleReplace
+		if (typeof this.config.titleReplace !== "undefined") {
+			Log.warn("Deprecation warning: Please consider upgrading your calendar titleReplace configuration to customEvents.");
+			for (const [titlesearchstr, titlereplacestr] of Object.entries(this.config.titleReplace)) {
+				this.config.customEvents.push({ keyword: ".*", transform: { search: titlesearchstr, replace: titlereplacestr } });
+			}
+		}
+
 		this.selfUpdate();
 	},
 
@@ -326,11 +334,16 @@ Module.register("calendar", {
 				}
 			}
 
-			// Color events if custom color or eventClass are specified
+			var transformedTitle = event.title;
+
+			// Color events if custom color or eventClass are specified, transform title if required
 			if (this.config.customEvents.length > 0) {
 				for (let ev in this.config.customEvents) {
 					let needle = new RegExp(this.config.customEvents[ev].keyword, "gi");
 					if (needle.test(event.title)) {
+						if (typeof this.config.customEvents[ev].transform === "object") {
+							transformedTitle = CalendarUtils.titleTransform(transformedTitle, [this.config.customEvents[ev].transform]);
+						}
 						if (typeof this.config.customEvents[ev].color !== "undefined" && this.config.customEvents[ev].color !== "") {
 							// Respect parameter ColoredSymbolOnly also for custom events
 							if (this.config.coloredText) {
@@ -348,7 +361,6 @@ Module.register("calendar", {
 				}
 			}
 
-			const transformedTitle = CalendarUtils.titleTransform(event.title, this.config.titleReplace);
 			titleWrapper.innerHTML = CalendarUtils.shorten(transformedTitle, this.config.maxTitleLength, this.config.wrapEvents, this.config.maxTitleLines) + repeatingCountTitle;
 
 			const titleClass = this.titleClassForUrl(event.url);
