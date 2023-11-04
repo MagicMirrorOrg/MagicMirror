@@ -3,6 +3,12 @@ const WeatherUtils = require("../../../../../modules/default/weather/weatherutil
 
 describe("Weather utils tests", () => {
 	describe("windspeed conversion", () => {
+		it("should convert temp correctly from Celsius to Fahrenheit", () => {
+			expect(Math.round(WeatherUtils.convertTemp(10, "imperial"))).toBe(50);
+		});
+	});
+
+	describe("windspeed conversion", () => {
 		it("should convert windspeed correctly from mps to beaufort", () => {
 			expect(Math.round(WeatherUtils.convertWind(5, "beaufort"))).toBe(3);
 			expect(Math.round(WeatherUtils.convertWind(300, "beaufort"))).toBe(12);
@@ -32,6 +38,7 @@ describe("Weather utils tests", () => {
 	describe("wind direction conversion", () => {
 		it("should convert wind direction correctly from cardinal to value", () => {
 			expect(WeatherUtils.convertWindDirection("SSE")).toBe(157);
+			expect(WeatherUtils.convertWindDirection("XXX")).toBe(null);
 		});
 	});
 

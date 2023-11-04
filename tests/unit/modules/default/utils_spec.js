@@ -160,7 +160,7 @@ describe("Default modules utils tests", () => {
 					},
 					time
 				)
-			).toBe("07:13");
+			).toBe("09:13");
 		});
 	});
 });

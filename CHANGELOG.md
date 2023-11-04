@@ -12,14 +12,28 @@ _This release is scheduled to be released on 2024-01-01._
 ### Added
 
 - Added updatenotification Updater (for 3rd party modules)
+- Added node 21 to the test matrix
+- Added transform object to calendar:customEvents
 
 ### Removed
 
+- Removed Codecov workflow (not working anymore, other workflow required) (#3107)
+- Removed titleReplace from calendar, replaced + extended by customEvents (backward compatibility included)
+
 ### Updated
+
+- Update electron to v27 and update other dependencies as well as github actions
 
 ### Fixed
 
+- Avoid fade out/in on updateDom when many calendars are used
 - Fix the option eventClass on customEvents.
+- Fix yr API version in locationforecast and sunrise call (#3227)
+- Fix cloneObject() function to respect RegExp (#3237)
+- Fix newsfeed module for feeds using "a10:updated" tag (#3238)
+- Fix issue template (#3167)
+- Fix for failing unit test (#3254)
+- Fix calendar events sometimes not respecting deleted events (#3250)
 
 ## [2.25.0] - 2023-10-01
 
@@ -53,7 +67,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Update issue template
 - Update dev/dependencies incl. electron to v26
 - Replace pretty-quick by lint-staged (<https://github.com/azz/pretty-quick/issues/164>)
-- Update engine node >=18. v16 reached it's end of life. (#3170)
+- Update engine node >=18. v16 reached its end of life. (#3170)
 - Update typescript definition for modules
 - Cleaned up nunjuck templates
 - Replace `node-fetch` with internal fetch (#2649) and remove `digest-fetch`
@@ -66,7 +80,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Fix engine check on npm install (#3135)
 - Fix undefined formatTime method in clock module (#3143)
 - Fix clientonly startup fails after async added (#3151)
-- Fix electron width/heigth when using xrandr under bullseye
+- Fix electron width/height when using xrandr under bullseye
 - Fix time issue with certain recurring events in calendar module
 - Fix ipWhiteList test (#3179)
 - Fix newsfeed: Convert HTML entities, codes and tag in description (#3191)
@@ -75,6 +89,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Fix `Uncaught SyntaxError: Identifier 'getCorsUrl' has already been declared (at utils.js:1:1)` when using `clock` and `weather` module (#3204)
 - Fix overriding `config.js` when running tests (#3201)
 - Fix issue in weathergov provider with probability of precipitation not showing up on hourly or daily forecast
+- Fix yr weather provider after changes in yr API (#3189)
 
 ## [2.24.0] - 2023-07-01
 
@@ -117,7 +132,6 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Fix date not shown when clock in analog mode (#3100)
 - Fix envcanada today percentage-of-precipitation (#3106)
 - Fix updatenotification where no branch is checked out but e.g. a version tag (#3130)
-- Fix yr weather provider after changes in yr API (#3189)
 
 ## [2.23.0] - 2023-04-04
 
