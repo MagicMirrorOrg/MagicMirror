@@ -31,6 +31,7 @@ _This release is scheduled to be released on 2024-01-01._
 - Fix cloneObject() function to respect RegExp (#3237)
 - Fix newsfeed module for feeds using "a10:updated" tag (#3238)
 - Fix issue template (#3167)
+- Fix #3256 filter out bad results from rrule.between
 - Fix for failing unit test (#3254)
 - Fix calendar events sometimes not respecting deleted events (#3250)
 
