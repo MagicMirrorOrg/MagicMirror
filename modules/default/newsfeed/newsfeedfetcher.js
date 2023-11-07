@@ -52,10 +52,22 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 			const url = item.url || item.link || "";
 
 			if (title && pubdate) {
-				const regex = /(<([^>]+)>)/gi;
-				description = description.toString().replace(regex, "");
+				Log.log("---");
+				Log.log("newsfeed -- Feed: ", description);
+				// const regex = /(<([^>]+)>)/gi;
+				// description = description.toString().replace(regex, " ");
 				// Convert HTML entities, codes and tag
-				description = htmlToText(description, { wordwrap: false });
+
+				description = htmlToText(description, {
+					wordwrap: false,
+					selectors: [
+						{ selector: "a", options: { ignoreHref: true, noAnchorUrl: true } },
+						{ selector: "br", format: "inlineSurround", options: { prefix: " " } },
+						{ selector: "img", format: "skip" }
+						// { selector: 'p', format: "inlineSurround", options: { prefix: " " } },
+					]
+				});
+				Log.log("newsfeed -- Result:", description);
 
 				items.push({
 					title: title,

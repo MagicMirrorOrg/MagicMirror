@@ -22,6 +22,7 @@ _This release is scheduled to be released on 2024-01-01._
 ### Updated
 
 - Update electron to v27 and update other dependencies as well as github actions
+- Update newsfeed: Use `html-to-text` instead of regex for transform description
 
 ### Fixed
 
