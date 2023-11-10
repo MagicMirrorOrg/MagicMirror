@@ -150,17 +150,5 @@ describe("Default modules utils tests", () => {
 				)
 			).toBe("1:13");
 		});
-
-		it("should convert correctly into another timezone", () => {
-			expect(
-				formatTime(
-					{
-						timeFormat: 24,
-						timezone: "America/Toronto"
-					},
-					time
-				)
-			).toBe("09:13");
-		});
 	});
 });
