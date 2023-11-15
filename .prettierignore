@@ -1,3 +1,6 @@
+.eslintignore
+.prettierignore
 /config
 /coverage
 package-lock.json
+**.ics

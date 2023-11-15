@@ -283,8 +283,12 @@ const CalendarFetcherUtils = {
 						futureLocal = futureMoment.toDate(); // future
 					}
 					Log.debug(`Search for recurring events between: ${pastLocal} and ${futureLocal}`);
-					const dates = rule.between(pastLocal, futureLocal, true, limitFunction);
+					let dates = rule.between(pastLocal, futureLocal, true, limitFunction);
 					Log.debug(`Title: ${event.summary}, with dates: ${JSON.stringify(dates)}`);
+					dates = dates.filter((d) => {
+						if (JSON.stringify(d) === "null") return false;
+						else return true;
+					});
 					// The "dates" array contains the set of dates within our desired date range range that are valid
 					// for the recurrence rule. *However*, it's possible for us to have a specific recurrence that
 					// had its date changed from outside the range to inside the range.  For the time being,
@@ -305,11 +309,6 @@ const CalendarFetcherUtils = {
 					// Loop through the set of date entries to see which recurrences should be added to our event list.
 					for (let d in dates) {
 						let date = dates[d];
-						// Remove the time information of each date by using its substring, using the following method:
-						// .toISOString().substring(0,10).
-						// since the date is given as ISOString with YYYY-MM-DDTHH:MM:SS.SSSZ
-						// (see https://momentjs.com/docs/#/displaying/as-iso-string/).
-						const dateKey = date.toISOString().substring(0, 10);
 						let curEvent = event;
 						let showRecurrence = true;
 
@@ -401,6 +400,13 @@ const CalendarFetcherUtils = {
 						Log.debug(`Corrected startDate: ${startDate.toDate()}`);
 
 						let adjustDays = CalendarFetcherUtils.calculateTimezoneAdjustment(event, date);
+
+						// Remove the time information of each date by using its substring, using the following method:
+						// .toISOString().substring(0,10).
+						// since the date is given as ISOString with YYYY-MM-DDTHH:MM:SS.SSSZ
+						// (see https://momentjs.com/docs/#/displaying/as-iso-string/).
+						// This must be done after `date` is adjusted
+						const dateKey = date.toISOString().substring(0, 10);
 
 						// For each date that we're checking, it's possible that there is a recurrence override for that one day.
 						if (curEvent.recurrences !== undefined && curEvent.recurrences[dateKey] !== undefined) {

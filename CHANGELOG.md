@@ -11,15 +11,20 @@ _This release is scheduled to be released on 2024-01-01._
 
 ### Added
 
+- Added updatenotification Updater (for 3rd party modules)
 - Added node 21 to the test matrix
+- Added transform object to calendar:customEvents
 
 ### Removed
 
 - Removed Codecov workflow (not working anymore, other workflow required) (#3107)
+- Removed titleReplace from calendar, replaced + extended by customEvents (backward compatibility included)
+- Removed failing unit test (#3254)
 
 ### Updated
 
 - Update electron to v27 and update other dependencies as well as github actions
+- Update newsfeed: Use `html-to-text` instead of regex for transform description
 
 ### Fixed
 
@@ -28,8 +33,10 @@ _This release is scheduled to be released on 2024-01-01._
 - Fix yr API version in locationforecast and sunrise call (#3227)
 - Fix cloneObject() function to respect RegExp (#3237)
 - Fix newsfeed module for feeds using "a10:updated" tag (#3238)
-- Fix issue template (3167)
-- Fix electron loadurl locally on Windows when address "0.0.0.0" #2550
+- Fix issue template (#3167)
+- Fix #3256 filter out bad results from rrule.between
+- Fix calendar events sometimes not respecting deleted events (#3250)
+- Fix electron loadurl locally on Windows when address "0.0.0.0" #2550- 
 
 ## [2.25.0] - 2023-10-01
 
