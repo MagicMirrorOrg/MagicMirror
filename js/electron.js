@@ -77,7 +77,7 @@ function createWindow() {
 		prefix = "http://";
 	}
 
-	let address = (config.address === void 0) | (config.address === "") ? (config.address = "localhost") : config.address;
+	let address = (config.address === void 0) | (config.address === "") | (config.address === "0.0.0.0") ? (config.address = "localhost") : config.address;
 	mainWindow.loadURL(`${prefix}${address}:${config.port}`);
 
 	// Open the DevTools if run with "npm start dev"
