@@ -29,6 +29,7 @@ _This release is scheduled to be released on 2024-01-01._
 - Fix cloneObject() function to respect RegExp (#3237)
 - Fix newsfeed module for feeds using "a10:updated" tag (#3238)
 - Fix issue template (3167)
+- Fix electron loadurl locally on Windows when address "0.0.0.0" #2550
 
 ## [2.25.0] - 2023-10-01
 
