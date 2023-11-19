@@ -25,6 +25,7 @@
 		"eqeqeq": "error",
 		"import/order": "error",
 		"import/extensions": "error",
+		"import/newline-after-import": "error",
 		"no-param-reassign": "error",
 		"no-prototype-builtins": "off",
 		"no-throw-literal": "error",
