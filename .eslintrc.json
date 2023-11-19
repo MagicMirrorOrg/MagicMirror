@@ -1,6 +1,6 @@
 {
 	"extends": ["eslint:recommended", "plugin:import/recommended", "plugin:prettier/recommended", "plugin:jsdoc/recommended"],
-	"plugins": ["jsdoc", "jest"],
+	"plugins": ["jest"],
 	"env": {
 		"browser": true,
 		"es2022": true,
