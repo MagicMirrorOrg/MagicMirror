@@ -24,6 +24,7 @@
 	"rules": {
 		"eqeqeq": "error",
 		"import/order": "error",
+		"import/extensions": "error",
 		"no-param-reassign": "error",
 		"no-prototype-builtins": "off",
 		"no-throw-literal": "error",

@@ -5,7 +5,7 @@
  * 09/2023
  * MIT Licensed.
  */
-const helpers = require("./helpers/global-setup.js");
+const helpers = require("./helpers/global-setup");
 
 describe("AnimateCSS integration Test", () => {
 	// define config file for testing
