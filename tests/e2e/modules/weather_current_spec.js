@@ -15,15 +15,15 @@ describe("Weather module", () => {
 			});
 
 			it("should render wind speed and wind direction", async () => {
-				await weatherFunc.getText(".weather .normal.medium span:nth-child(2)", "12 WSW");
+				await expect(weatherFunc.getText(".weather .normal.medium span:nth-child(2)", "12 WSW")).resolves.toBe(true);
 			});
 
 			it("should render temperature with icon", async () => {
-				await weatherFunc.getText(".weather .large.light span.bright", "1.5°");
+				await expect(weatherFunc.getText(".weather .large.light span.bright", "1.5°")).resolves.toBe(true);
 			});
 
 			it("should render feels like temperature", async () => {
-				await weatherFunc.getText(".weather .normal.medium.feelslike span.dimmed", "Feels like -5.6°");
+				await expect(weatherFunc.getText(".weather .normal.medium.feelslike span.dimmed", "Feels like -5.6°")).resolves.toBe(true);
 			});
 		});
 	});
@@ -34,7 +34,7 @@ describe("Weather module", () => {
 		});
 
 		it("should render a compliment based on the current weather", async () => {
-			await weatherFunc.getText(".compliments .module-content span", "snow");
+			await expect(weatherFunc.getText(".compliments .module-content span", "snow")).resolves.toBe(true);
 		});
 	});
 
@@ -44,7 +44,7 @@ describe("Weather module", () => {
 		});
 
 		it("should render windUnits in beaufort", async () => {
-			await weatherFunc.getText(".weather .normal.medium span:nth-child(2)", "6");
+			await expect(weatherFunc.getText(".weather .normal.medium span:nth-child(2)", "6")).resolves.toBe(true);
 		});
 
 		it("should render windDirection with an arrow", async () => {
@@ -54,15 +54,15 @@ describe("Weather module", () => {
 		});
 
 		it("should render humidity", async () => {
-			await weatherFunc.getText(".weather .normal.medium span:nth-child(3)", "93.7");
+			await expect(weatherFunc.getText(".weather .normal.medium span:nth-child(3)", "93.7")).resolves.toBe(true);
 		});
 
 		it("should render degreeLabel for temp", async () => {
-			await weatherFunc.getText(".weather .large.light span.bright", "1°C");
+			await expect(weatherFunc.getText(".weather .large.light span.bright", "1°C")).resolves.toBe(true);
 		});
 
 		it("should render degreeLabel for feels like", async () => {
-			await weatherFunc.getText(".weather .normal.medium.feelslike span.dimmed", "Feels like -6°C");
+			await expect(weatherFunc.getText(".weather .normal.medium.feelslike span.dimmed", "Feels like -6°C")).resolves.toBe(true);
 		});
 	});
 
@@ -72,15 +72,15 @@ describe("Weather module", () => {
 		});
 
 		it("should render wind in imperial units", async () => {
-			await weatherFunc.getText(".weather .normal.medium span:nth-child(2)", "26 WSW");
+			await expect(weatherFunc.getText(".weather .normal.medium span:nth-child(2)", "26 WSW")).resolves.toBe(true);
 		});
 
 		it("should render temperatures in fahrenheit", async () => {
-			await weatherFunc.getText(".weather .large.light span.bright", "34,7°");
+			await expect(weatherFunc.getText(".weather .large.light span.bright", "34,7°")).resolves.toBe(true);
 		});
 
 		it("should render 'feels like' in fahrenheit", async () => {
-			await weatherFunc.getText(".weather .normal.medium.feelslike span.dimmed", "Feels like 21,9°");
+			await expect(weatherFunc.getText(".weather .normal.medium.feelslike span.dimmed", "Feels like 21,9°")).resolves.toBe(true);
 		});
 	});
 });

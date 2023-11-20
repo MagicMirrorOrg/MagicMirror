@@ -4,17 +4,19 @@ const { JSDOM } = require("jsdom");
 describe("Test function cmpVersions in js/module.js", () => {
 	let cmp;
 
-	beforeAll((done) => {
-		const dom = new JSDOM(
-			`<script>var Class = {extend: () => { return {}; }};</script>\
+	beforeAll(() => {
+		return new Promise((done) => {
+			const dom = new JSDOM(
+				`<script>var Class = {extend: () => { return {}; }};</script>\
 				<script src="file://${path.join(__dirname, "..", "..", "..", "js", "module.js")}">`,
-			{ runScripts: "dangerously", resources: "usable" }
-		);
-		dom.window.onload = () => {
-			const { cmpVersions } = dom.window;
-			cmp = cmpVersions;
-			done();
-		};
+				{ runScripts: "dangerously", resources: "usable" }
+			);
+			dom.window.onload = () => {
+				const { cmpVersions } = dom.window;
+				cmp = cmpVersions;
+				done();
+			};
+		});
 	});
 
 	it("should return -1 when comparing 2.1 to 2.2", () => {
