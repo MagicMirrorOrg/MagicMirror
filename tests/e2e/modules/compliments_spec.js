@@ -7,9 +7,9 @@ describe("Compliments module", () => {
 	 */
 	const doTest = async (complimentsArray) => {
 		let elem = await helpers.waitForElement(".compliments");
-		expect(elem).not.toBe(null);
+		expect(elem).not.toBeNull();
 		elem = await helpers.waitForElement(".module-content");
-		expect(elem).not.toBe(null);
+		expect(elem).not.toBeNull();
 		expect(complimentsArray).toContain(elem.textContent);
 	};
 
@@ -18,7 +18,7 @@ describe("Compliments module", () => {
 	});
 
 	describe("Feature anytime in compliments module", () => {
-		describe("Set anytime and empty compliments for morning, evening and afternoon ", () => {
+		describe("Set anytime and empty compliments for morning, evening and afternoon", () => {
 			beforeAll(async () => {
 				await helpers.startApplication("tests/configs/modules/compliments/compliments_anytime.js");
 				await helpers.getDocument();

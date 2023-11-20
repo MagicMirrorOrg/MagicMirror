@@ -37,9 +37,9 @@ exports.stopApplication = async () => {
 };
 
 exports.getElement = async (selector) => {
-	expect(global.page);
+	expect(global.page).not.toBeNull();
 	let elem = global.page.locator(selector);
 	await elem.waitFor();
-	expect(elem).not.toBe(null);
+	expect(elem).not.toBeNull();
 	return elem;
 };

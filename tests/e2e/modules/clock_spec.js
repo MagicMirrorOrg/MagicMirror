@@ -72,7 +72,7 @@ describe("Clock module", () => {
 
 		it("should not show the time when digital clock is shown", async () => {
 			const elem = document.querySelector(".clock .digital .time");
-			expect(elem).toBe(null);
+			expect(elem).toBeNull();
 		});
 	});
 
@@ -84,12 +84,12 @@ describe("Clock module", () => {
 
 		it("should show the sun times", async () => {
 			const elem = await helpers.waitForElement(".clock .digital .sun");
-			expect(elem).not.toBe(null);
+			expect(elem).not.toBeNull();
 		});
 
 		it("should show the moon times", async () => {
 			const elem = await helpers.waitForElement(".clock .digital .moon");
-			expect(elem).not.toBe(null);
+			expect(elem).not.toBeNull();
 		});
 	});
 
@@ -108,7 +108,7 @@ describe("Clock module", () => {
 			const currentWeekNumber = moment().week();
 			const weekToShow = `Week ${currentWeekNumber}`;
 			const elem = await helpers.waitForElement(".clock .week");
-			expect(elem).not.toBe(null);
+			expect(elem).not.toBeNull();
 			expect(elem.textContent).toBe(weekToShow);
 		});
 	});
@@ -121,7 +121,7 @@ describe("Clock module", () => {
 
 		it("should show the analog clock face", async () => {
 			const elem = helpers.waitForElement(".clock-circle");
-			expect(elem).not.toBe(null);
+			expect(elem).not.toBeNull();
 		});
 	});
 
@@ -133,9 +133,9 @@ describe("Clock module", () => {
 
 		it("should show the analog clock face and the date", async () => {
 			const elemClock = helpers.waitForElement(".clock-circle");
-			await expect(elemClock).not.toBe(null);
+			await expect(elemClock).not.toBeNull();
 			const elemDate = helpers.waitForElement(".clock .date");
-			await expect(elemDate).not.toBe(null);
+			await expect(elemDate).not.toBeNull();
 		});
 	});
 });

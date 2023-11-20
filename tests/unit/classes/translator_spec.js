@@ -197,7 +197,7 @@ describe("Translator", () => {
 				};
 
 				await Translator.load(mmm, file, false);
-				expect(Translator.translations[mmm.name]).toBe(undefined);
+				expect(Translator.translations[mmm.name]).toBeUndefined();
 				expect(Translator.translationsFallback[mmm.name]).toEqual({
 					Hello: "Hallo"
 				});

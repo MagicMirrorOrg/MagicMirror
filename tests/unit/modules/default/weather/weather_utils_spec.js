@@ -2,13 +2,13 @@ const weather = require("../../../../../modules/default/weather/weatherutils");
 const WeatherUtils = require("../../../../../modules/default/weather/weatherutils");
 
 describe("Weather utils tests", () => {
-	describe("windspeed conversion", () => {
+	describe("windspeed conversion to imperial", () => {
 		it("should convert temp correctly from Celsius to Fahrenheit", () => {
 			expect(Math.round(WeatherUtils.convertTemp(10, "imperial"))).toBe(50);
 		});
 	});
 
-	describe("windspeed conversion", () => {
+	describe("windspeed conversion to beaufort", () => {
 		it("should convert windspeed correctly from mps to beaufort", () => {
 			expect(Math.round(WeatherUtils.convertWind(5, "beaufort"))).toBe(3);
 			expect(Math.round(WeatherUtils.convertWind(300, "beaufort"))).toBe(12);
@@ -38,16 +38,16 @@ describe("Weather utils tests", () => {
 	describe("wind direction conversion", () => {
 		it("should convert wind direction correctly from cardinal to value", () => {
 			expect(WeatherUtils.convertWindDirection("SSE")).toBe(157);
-			expect(WeatherUtils.convertWindDirection("XXX")).toBe(null);
+			expect(WeatherUtils.convertWindDirection("XXX")).toBeNull();
 		});
 	});
 
 	describe("feelsLike calculation", () => {
-		it("should return a calculated feelsLike info", () => {
+		it("should return a calculated feelsLike info (negative value)", () => {
 			expect(WeatherUtils.calculateFeelsLike(0, 20, 40)).toBe(-9.444444444444445);
 		});
 
-		it("should return a calculated feelsLike info", () => {
+		it("should return a calculated feelsLike info (positiv value)", () => {
 			expect(WeatherUtils.calculateFeelsLike(30, 0, 60)).toBe(32.8320322777777);
 		});
 	});

@@ -7,7 +7,7 @@ describe("Calendar module", () => {
 	 */
 	const doTest = async (cssClass) => {
 		let elem = await helpers.getElement(`.calendar .module-content .event${cssClass}`);
-		expect(await elem.isVisible()).toBe(true);
+		await expect(elem.isVisible()).resolves.toBe(true);
 	};
 
 	afterEach(async () => {

@@ -25,22 +25,22 @@ describe("AnimateCSS integration Test", () => {
 	const doTest = async (animationIn, animationOut) => {
 		await helpers.getDocument();
 		let elem = await helpers.waitForElement(`.compliments`);
-		expect(elem).not.toBe(null);
+		expect(elem).not.toBeNull();
 		let styles = window.getComputedStyle(elem);
 
 		if (animationIn && animationIn !== "") {
 			expect(styles._values["animation-name"]).toBe(animationIn);
 		} else {
-			expect(styles._values["animation-name"]).toBe(undefined);
+			expect(styles._values["animation-name"]).toBeUndefined();
 		}
 
 		if (animationOut && animationOut !== "") {
 			elem = await helpers.waitForElement(`.compliments.animate__animated.animate__${animationOut}`);
-			expect(elem).not.toBe(null);
+			expect(elem).not.toBeNull();
 			styles = window.getComputedStyle(elem);
 			expect(styles._values["animation-name"]).toBe(animationOut);
 		} else {
-			expect(styles._values["animation-name"]).toBe(undefined);
+			expect(styles._values["animation-name"]).toBeUndefined();
 		}
 	};
 
