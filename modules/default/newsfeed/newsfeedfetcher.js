@@ -11,6 +11,7 @@ const iconv = require("iconv-lite");
 const { htmlToText } = require("html-to-text");
 const Log = require("logger");
 const NodeHelper = require("node_helper");
+const { getUserAgent } = require("../../../js/server_functions");
 
 /**
  * Responsible for requesting an update on the set interval and broadcasting the data.
@@ -105,9 +106,8 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 			}
 		});
 
-		const nodeVersion = Number(process.version.match(/^v(\d+\.\d+)/)[1]);
 		const headers = {
-			"User-Agent": `Mozilla/5.0 (Node.js ${nodeVersion}) MagicMirror/${global.version}`,
+			"User-Agent": getUserAgent(),
 			"Cache-Control": "max-age=0, no-cache, no-store, must-revalidate",
 			Pragma: "no-cache"
 		};
