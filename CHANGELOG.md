@@ -14,6 +14,7 @@ _This release is scheduled to be released on 2024-01-01._
 - Added updatenotification Updater (for 3rd party modules)
 - Added node 21 to the test matrix
 - Added transform object to calendar:customEvents
+- Added ESLint rules for jest
 
 ### Removed
 

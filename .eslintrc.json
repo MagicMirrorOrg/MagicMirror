@@ -1,6 +1,6 @@
 {
-	"extends": ["eslint:recommended", "plugin:import/recommended", "plugin:jsdoc/recommended", "plugin:prettier/recommended"],
-	"plugins": ["jest"],
+	"extends": ["eslint:recommended", "plugin:import/recommended", "plugin:jest/recommended", "plugin:jsdoc/recommended", "plugin:prettier/recommended"],
+	"plugins": [],
 	"env": {
 		"browser": true,
 		"es2022": true,
@@ -26,6 +26,13 @@
 		"import/order": "error",
 		"import/extensions": "error",
 		"import/newline-after-import": "error",
+		"jest/consistent-test-it": "warn",
+		"jest/expect-expect": "off",
+		"jest/no-done-callback": "off",
+		"jest/prefer-expect-resolves": "warn",
+		"jest/prefer-mock-promise-shorthand": "warn",
+		"jest/prefer-to-be": "warn",
+		"jest/prefer-to-have-length": "warn",
 		"no-param-reassign": "error",
 		"no-prototype-builtins": "off",
 		"no-throw-literal": "error",
