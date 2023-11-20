@@ -8,7 +8,7 @@ describe("Compliments module", () => {
 	const doTest = async (complimentsArray) => {
 		await helpers.getElement(".compliments");
 		const elem = await helpers.getElement(".module-content");
-		expect(elem).not.toBe(null);
+		expect(elem).not.toBeNull();
 		expect(complimentsArray).toContain(await elem.textContent());
 	};
 

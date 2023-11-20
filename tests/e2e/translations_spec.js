@@ -55,7 +55,7 @@ describe("Translations", () => {
 
 				await MMM.loadTranslations();
 
-				expect(Translator.load.args.length).toBe(1);
+				expect(Translator.load.args).toHaveLength(1);
 				expect(Translator.load.calledWith(MMM, "translations/en.json", false)).toBe(true);
 
 				done();
@@ -72,7 +72,7 @@ describe("Translations", () => {
 
 				await MMM.loadTranslations();
 
-				expect(Translator.load.args.length).toBe(2);
+				expect(Translator.load.args).toHaveLength(2);
 				expect(Translator.load.calledWith(MMM, "translations/de.json", false)).toBe(true);
 				expect(Translator.load.calledWith(MMM, "translations/en.json", true)).toBe(true);
 
@@ -91,7 +91,7 @@ describe("Translations", () => {
 
 				await MMM.loadTranslations();
 
-				expect(Translator.load.args.length).toBe(1);
+				expect(Translator.load.args).toHaveLength(1);
 				expect(Translator.load.calledWith(MMM, "translations/en.json", true)).toBe(true);
 
 				done();

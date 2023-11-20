@@ -26,7 +26,7 @@ describe("Calendar fetcher utils test", () => {
 				defaultConfig
 			);
 
-			expect(filteredEvents.length).toEqual(2);
+			expect(filteredEvents).toHaveLength(2);
 			expect(filteredEvents[0].title).toBe("ongoingEvent");
 			expect(filteredEvents[1].title).toBe("upcomingEvent");
 		});
@@ -45,7 +45,7 @@ describe("Calendar fetcher utils test", () => {
 				defaultConfig
 			);
 
-			expect(filteredEvents.length).toEqual(2);
+			expect(filteredEvents).toHaveLength(2);
 			expect(filteredEvents[0].title).toBe("ongoingEvent");
 			expect(filteredEvents[1].title).toBe("upcomingEvent");
 		});

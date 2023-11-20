@@ -9,17 +9,17 @@ describe("Calendar module", () => {
 	 */
 	const testElementLength = async (element, result, not) => {
 		const elem = await helpers.waitForAllElements(element);
-		expect(elem).not.toBe(null);
+		expect(elem).not.toBeNull();
 		if (not === "not") {
-			expect(elem.length).not.toBe(result);
+			expect(elem).not.toHaveLength(result);
 		} else {
-			expect(elem.length).toBe(result);
+			expect(elem).toHaveLength(result);
 		}
 	};
 
 	const testTextContain = async (element, text) => {
 		const elem = await helpers.waitForElement(element, "undefinedLoading");
-		expect(elem).not.toBe(null);
+		expect(elem).not.toBeNull();
 		expect(elem.textContent).toContain(text);
 	};
 

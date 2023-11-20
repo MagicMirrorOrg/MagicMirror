@@ -82,6 +82,6 @@ exports.waitForAllElements = (selector) => {
 
 exports.testMatch = async (element, regex) => {
 	const elem = await this.waitForElement(element);
-	expect(elem).not.toBe(null);
+	expect(elem).not.toBeNull();
 	expect(elem.textContent).toMatch(regex);
 };

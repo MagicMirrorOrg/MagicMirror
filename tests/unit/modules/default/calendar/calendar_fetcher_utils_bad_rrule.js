@@ -23,7 +23,7 @@ describe("Calendar fetcher utils test", () => {
 				defaultConfig
 			);
 
-			expect(filteredEvents.length).toEqual(0);
+			expect(filteredEvents).toHaveLength(0);
 		});
 	});
 });

@@ -24,7 +24,7 @@ describe("Weather module: Weather Forecast", () => {
 		for (const [index, icon] of icons.entries()) {
 			it(`should render icon ${icon}`, async () => {
 				const elem = await helpers.waitForElement(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(2) span.wi-${icon}`);
-				expect(elem).not.toBe(null);
+				expect(elem).not.toBeNull();
 			});
 		}
 
@@ -46,7 +46,7 @@ describe("Weather module: Weather Forecast", () => {
 		for (const [index, opacity] of opacities.entries()) {
 			it(`should render fading of rows with opacity=${opacity}`, async () => {
 				const elem = await helpers.waitForElement(`.weather table.small tr:nth-child(${index + 1})`);
-				expect(elem).not.toBe(null);
+				expect(elem).not.toBeNull();
 				expect(elem.outerHTML).toContain(`<tr style="opacity: ${opacity};">`);
 			});
 		}
@@ -72,14 +72,14 @@ describe("Weather module: Weather Forecast", () => {
 
 		it("should render custom table class", async () => {
 			const elem = await helpers.waitForElement(".weather table.myTableClass");
-			expect(elem).not.toBe(null);
+			expect(elem).not.toBeNull();
 		});
 
 		it("should render colored rows", async () => {
 			const table = await helpers.waitForElement(".weather table.myTableClass");
-			expect(table).not.toBe(null);
-			expect(table.rows).not.toBe(null);
-			expect(table.rows.length).toBe(5);
+			expect(table).not.toBeNull();
+			expect(table.rows).not.toBeNull();
+			expect(table.rows).toHaveLength(5);
 		});
 
 		const precipitations = [undefined, "2.51 mm"];
