@@ -10,6 +10,7 @@ exports.getText = async (element, result) => {
 			.replace(/(\r\n|\n|\r)/gm, "")
 			.replace(/[ ]+/g, " ")
 	).toBe(result);
+	return true;
 };
 
 exports.startApp = async (configFileName, additionalMockData) => {

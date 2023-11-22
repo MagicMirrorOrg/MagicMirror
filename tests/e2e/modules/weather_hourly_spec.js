@@ -16,7 +16,7 @@ describe("Weather module: Weather Hourly Forecast", () => {
 		const minTemps = ["7:00 pm", "8:00 pm", "9:00 pm", "10:00 pm", "11:00 pm"];
 		for (const [index, hour] of minTemps.entries()) {
 			it(`should render forecast for hour ${hour}`, async () => {
-				await weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td.day`, hour);
+				await expect(weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td.day`, hour)).resolves.toBe(true);
 			});
 		}
 	});
@@ -30,7 +30,7 @@ describe("Weather module: Weather Hourly Forecast", () => {
 			const minTemps = ["7:00 pm", "9:00 pm", "11:00 pm", "1:00 am", "3:00 am"];
 			for (const [index, hour] of minTemps.entries()) {
 				it(`should render forecast for hour ${hour}`, async () => {
-					await weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td.day`, hour);
+					await expect(weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td.day`, hour)).resolves.toBe(true);
 				});
 			}
 		});
@@ -46,7 +46,7 @@ describe("Weather module: Weather Hourly Forecast", () => {
 			for (const [index, amount] of amounts.entries()) {
 				if (amount) {
 					it(`should render precipitation amount ${amount}`, async () => {
-						await weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td.precipitation-amount`, amount);
+						await expect(weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td.precipitation-amount`, amount)).resolves.toBe(true);
 					});
 				}
 			}
@@ -57,7 +57,7 @@ describe("Weather module: Weather Hourly Forecast", () => {
 			for (const [index, pop] of propabilities.entries()) {
 				if (pop) {
 					it(`should render probability ${pop}`, async () => {
-						await weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td.precipitation-prob`, pop);
+						await expect(weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td.precipitation-prob`, pop)).resolves.toBe(true);
 					});
 				}
 			}

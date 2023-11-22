@@ -13,12 +13,12 @@ describe("Clock set to spanish language module", () => {
 
 		it("shows date with correct format", async () => {
 			const dateRegex = /^(?:lunes|martes|miércoles|jueves|viernes|sábado|domingo), \d{1,2} de (?:enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre) de \d{4}$/;
-			await helpers.testMatch(".clock .date", dateRegex);
+			await expect(helpers.testMatch(".clock .date", dateRegex)).resolves.toBe(true);
 		});
 
 		it("shows time in 24hr format", async () => {
 			const timeRegex = /^(?:2[0-3]|[01]\d):[0-5]\d[0-5]\d$/;
-			await helpers.testMatch(".clock .time", timeRegex);
+			await expect(helpers.testMatch(".clock .time", timeRegex)).resolves.toBe(true);
 		});
 	});
 
@@ -30,12 +30,12 @@ describe("Clock set to spanish language module", () => {
 
 		it("shows date with correct format", async () => {
 			const dateRegex = /^(?:lunes|martes|miércoles|jueves|viernes|sábado|domingo), \d{1,2} de (?:enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre) de \d{4}$/;
-			await helpers.testMatch(".clock .date", dateRegex);
+			await expect(helpers.testMatch(".clock .date", dateRegex)).resolves.toBe(true);
 		});
 
 		it("shows time in 12hr format", async () => {
 			const timeRegex = /^(?:1[0-2]|[1-9]):[0-5]\d[0-5]\d[ap]m$/;
-			await helpers.testMatch(".clock .time", timeRegex);
+			await expect(helpers.testMatch(".clock .time", timeRegex)).resolves.toBe(true);
 		});
 	});
 
@@ -47,7 +47,7 @@ describe("Clock set to spanish language module", () => {
 
 		it("shows 12hr time with upper case AM/PM", async () => {
 			const timeRegex = /^(?:1[0-2]|[1-9]):[0-5]\d[0-5]\d[AP]M$/;
-			await helpers.testMatch(".clock .time", timeRegex);
+			await expect(helpers.testMatch(".clock .time", timeRegex)).resolves.toBe(true);
 		});
 	});
 
@@ -59,7 +59,7 @@ describe("Clock set to spanish language module", () => {
 
 		it("shows week with correct format", async () => {
 			const weekRegex = /^Semana [0-9]{1,2}$/;
-			await helpers.testMatch(".clock .week", weekRegex);
+			await expect(helpers.testMatch(".clock .week", weekRegex)).resolves.toBe(true);
 		});
 	});
 });

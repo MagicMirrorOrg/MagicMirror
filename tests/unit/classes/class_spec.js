@@ -6,17 +6,19 @@ describe("File js/class", () => {
 		let clone;
 		let dom;
 
-		beforeAll((done) => {
-			dom = new JSDOM(
-				`<script>var Log = {log: () => {}};</script>\
+		beforeAll(() => {
+			return new Promise((done) => {
+				dom = new JSDOM(
+					`<script>var Log = {log: () => {}};</script>\
 					<script src="file://${path.join(__dirname, "..", "..", "..", "js", "class.js")}">`,
-				{ runScripts: "dangerously", resources: "usable" }
-			);
-			dom.window.onload = () => {
-				const { cloneObject } = dom.window;
-				clone = cloneObject;
-				done();
-			};
+					{ runScripts: "dangerously", resources: "usable" }
+				);
+				dom.window.onload = () => {
+					const { cloneObject } = dom.window;
+					clone = cloneObject;
+					done();
+				};
+			});
 		});
 
 		it("should clone object", () => {
