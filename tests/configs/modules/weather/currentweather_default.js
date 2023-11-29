@@ -7,6 +7,7 @@ let config = {
 			position: "bottom_bar",
 			config: {
 				location: "Munich",
+				showHumidity: "feelslike",
 				mockData: '"#####WEATHERDATA#####"'
 			}
 		}

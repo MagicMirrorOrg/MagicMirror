@@ -23,7 +23,10 @@ describe("Weather module", () => {
 			});
 
 			it("should render feels like temperature", async () => {
-				await expect(weatherFunc.getText(".weather .normal.medium.feelslike span.dimmed", "Feels like -5.6°")).resolves.toBe(true);
+				await expect(weatherFunc.getText(".weather .normal.medium.feelslike span.dimmed", "93.7  Feels like -5.6°")).resolves.toBe(true);
+			});
+			it("should render humidity next to feels-like", async () => {
+				await expect(weatherFunc.getText(".weather .normal.medium.feelslike span.dimmed .humidity", "93.7")).resolves.toBe(true);
 			});
 		});
 	});
@@ -53,8 +56,8 @@ describe("Weather module", () => {
 			expect(elem.outerHTML).toContain("transform:rotate(250deg)");
 		});
 
-		it("should render humidity", async () => {
-			await expect(weatherFunc.getText(".weather .normal.medium span:nth-child(3)", "93.7")).resolves.toBe(true);
+		it("should render humidity next to wind", async () => {
+			await expect(weatherFunc.getText(".weather .normal.medium .humidity", "93.7")).resolves.toBe(true);
 		});
 
 		it("should render degreeLabel for temp", async () => {

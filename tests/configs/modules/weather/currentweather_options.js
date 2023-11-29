@@ -9,7 +9,7 @@ let config = {
 				windUnits: "beaufort",
 				showWindDirectionAsArrow: true,
 				showSun: false,
-				showHumidity: true,
+				showHumidity: "wind",
 				roundTemp: true,
 				degreeLabel: true
 			}
