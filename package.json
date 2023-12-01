@@ -86,7 +86,7 @@
 		"luxon": "^1.28.1",
 		"module-alias": "^2.2.3",
 		"moment": "^2.29.4",
-		"node-ical": "^0.16.1",
+		"node-ical": "^0.17.0",
 		"socket.io": "^4.7.2"
 	},
 	"lint-staged": {
