@@ -27,6 +27,7 @@ _This release is scheduled to be released on 2024-01-01._
 - Update electron to v27 and update other dependencies as well as github actions
 - Update newsfeed: Use `html-to-text` instead of regex for transform description
 - Review ESLint config (#3269)
+- Updated dependencies
 
 ### Fixed
 
