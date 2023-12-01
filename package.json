@@ -57,7 +57,7 @@
 		"express-basic-auth": "^1.2.1",
 		"husky": "^8.0.3",
 		"jest": "^29.7.0",
-		"jsdom": "^22.1.0",
+		"jsdom": "^23.0.1",
 		"lint-staged": "^15.0.2",
 		"lodash": "^4.17.21",
 		"playwright": "^1.39.0",
