@@ -61,7 +61,7 @@
 		"lint-staged": "^15.1.0",
 		"lodash": "^4.17.21",
 		"playwright": "^1.39.0",
-		"prettier": "^3.0.3",
+		"prettier": "^3.1.0",
 		"sinon": "^17.0.0",
 		"stylelint": "^15.11.0",
 		"stylelint-config-standard": "^34.0.0",
