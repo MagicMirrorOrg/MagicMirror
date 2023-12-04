@@ -198,8 +198,14 @@ class Updater {
 					resolve(null);
 					return;
 				}
-				let result = JSON.parse(std);
-				resolve(result);
+				try {
+					let result = JSON.parse(std);
+					resolve(result);
+				} catch (e) {
+					Log.error("updatenotification: [PM2] can't GetList!");
+					Log.debug("updatenotification: [PM2] GetList is not an JSON format", e);
+					resolve(null);
+				}
 			});
 		});
 	}
