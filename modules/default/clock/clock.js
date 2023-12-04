@@ -208,7 +208,7 @@ Module.register("clock", {
 				moonSet = nextMoonTimes.set;
 			}
 			const isVisible = now.isBetween(moonRise, moonSet) || moonTimes.alwaysUp === true;
-			const phase = [..."🌑🌒🌓🌔🌕🌖🌗🌔"][Math.floor(moonIllumination.phase * 8)];
+			const phase = [..."🌑🌒🌓🌔🌕🌖🌗🌘"][Math.floor(moonIllumination.phase * 8)];
 			moonWrapper.innerHTML =
 				`<span class="${isVisible ? "bright" : ""}">${phase}</span>` +
 				`<span><i class="fas fa-arrow-up" aria-hidden="true"></i> ${moonRise ? formatTime(this.config, moonRise) : "..."}</span>` +
