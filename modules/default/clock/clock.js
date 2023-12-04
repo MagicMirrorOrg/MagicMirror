@@ -208,9 +208,9 @@ Module.register("clock", {
 				moonSet = nextMoonTimes.set;
 			}
 			const isVisible = now.isBetween(moonRise, moonSet) || moonTimes.alwaysUp === true;
-			const illuminatedFractionString = `${Math.round(moonIllumination.fraction * 100)}%`;
+			const phase = [..."🌑🌒🌓🌔🌕🌖🌗🌔"][Math.floor(moonIllumination.phase * 8)];
 			moonWrapper.innerHTML =
-				`<span class="${isVisible ? "bright" : ""}"><i class="fas fa-moon" aria-hidden="true"></i> ${illuminatedFractionString}</span>` +
+				`<span class="${isVisible ? "bright" : ""}">${phase}</span>` +
 				`<span><i class="fas fa-arrow-up" aria-hidden="true"></i> ${moonRise ? formatTime(this.config, moonRise) : "..."}</span>` +
 				`<span><i class="fas fa-arrow-down" aria-hidden="true"></i> ${moonSet ? formatTime(this.config, moonSet) : "..."}</span>`;
 			digitalWrapper.appendChild(moonWrapper);
