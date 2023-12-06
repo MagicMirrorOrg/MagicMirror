@@ -130,13 +130,13 @@ Module.register("calendar", {
 				selfSignedCert: calendar.selfSignedCert
 			};
 
-			if (calendar.symbolClass === "undefined" || calendar.symbolClass === null) {
+			if (typeof calendar.symbolClass === "undefined" || calendar.symbolClass === null) {
 				calendarConfig.symbolClass = "";
 			}
-			if (calendar.titleClass === "undefined" || calendar.titleClass === null) {
+			if (typeof calendar.titleClass === "undefined" || calendar.titleClass === null) {
 				calendarConfig.titleClass = "";
 			}
-			if (calendar.timeClass === "undefined" || calendar.timeClass === null) {
+			if (typeof calendar.timeClass === "undefined" || calendar.timeClass === null) {
 				calendarConfig.timeClass = "";
 			}
 

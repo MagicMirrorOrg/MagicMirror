@@ -41,6 +41,7 @@ _This release is scheduled to be released on 2024-01-01._
 - Fix calendar events sometimes not respecting deleted events (#3250)
 - Fix electron loadurl locally on Windows when address "0.0.0.0" (#2550)
 - Fix updatanotification (update_helper.js): catch error if reponse is not an JSON format (check PM2)
+- Fix missing typeof in calendar module
 
 ## [2.25.0] - 2023-10-01
 
