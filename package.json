@@ -73,7 +73,6 @@
 	},
 	"dependencies": {
 		"colors": "^1.4.0",
-		"command-exists": "^1.2.9",
 		"console-stamp": "^3.1.2",
 		"envsub": "^4.1.0",
 		"eslint": "^8.54.0",
@@ -87,6 +86,7 @@
 		"module-alias": "^2.2.3",
 		"moment": "^2.29.4",
 		"node-ical": "0.16.1",
+		"pm2": "^5.3.0",
 		"socket.io": "^4.7.2"
 	},
 	"lint-staged": {

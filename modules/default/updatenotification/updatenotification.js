@@ -18,7 +18,7 @@ Module.register("updatenotification", {
 	suspended: false,
 	moduleList: {},
 	needRestart: false,
-	updates: {},
+	updates: [],
 
 	start() {
 		Log.info(`Starting module: ${this.name}`);
