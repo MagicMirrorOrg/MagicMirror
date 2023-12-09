@@ -53,7 +53,7 @@
 
 								return ret;
 							};
-					  })(name, prop[name])
+						})(name, prop[name])
 					: prop[name];
 		}
 
