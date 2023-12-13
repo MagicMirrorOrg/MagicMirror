@@ -29,6 +29,7 @@ _This release is scheduled to be released on 2024-01-01._
 - Review ESLint config (#3269)
 - Updated dependencies
 - Clock module: optionally display current moon phase in addition to rise/set times
+- electron is now per default started without gpu, if needed it must be enabled with new env var `ELECTRON_ENABLE_GPU=1` on startup (#3226)
 
 ### Fixed
 
@@ -42,6 +43,8 @@ _This release is scheduled to be released on 2024-01-01._
 - Fix calendar events sometimes not respecting deleted events (#3250)
 - Fix electron loadurl locally on Windows when address "0.0.0.0" (#2550)
 - Fix updatanotification (update_helper.js): Recode with pm2 library
+- Fix missing typeof in calendar module
+- Fix style issues after prettier update
 
 ## [2.25.0] - 2023-10-01
 
