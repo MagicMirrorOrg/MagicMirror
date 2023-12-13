@@ -28,7 +28,7 @@ _This release is scheduled to be released on 2024-01-01._
 - Update newsfeed: Use `html-to-text` instead of regex for transform description
 - Review ESLint config (#3269)
 - Updated dependencies
-- Clock module: swapped moon percent lit for current phase icon
+- Clock module: optionally display current moon phase in addition to rise/set times
 
 ### Fixed
 
