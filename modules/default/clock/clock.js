@@ -208,8 +208,8 @@ Module.register("clock", {
 				moonSet = nextMoonTimes.set;
 			}
 			const isVisible = now.isBetween(moonRise, moonSet) || moonTimes.alwaysUp === true;
-			const showFraction = ['both', 'percent'].includes(this.config.showMoonTimes);
-			const showUnicode  = ['both',   'phase'].includes(this.config.showMoonTimes);
+			const showFraction = ["both", "percent"].includes(this.config.showMoonTimes);
+			const showUnicode = ["both", "phase"].includes(this.config.showMoonTimes);
 			const illuminatedFractionString = `${Math.round(moonIllumination.fraction * 100)}%`;
 			const image = showUnicode ? [..."🌑🌒🌓🌔🌕🌖🌗🌘"][Math.floor(moonIllumination.phase * 8)] : '<i class="fas fa-moon" aria-hidden="true"></i>';
 
