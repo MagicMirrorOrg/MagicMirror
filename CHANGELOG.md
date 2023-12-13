@@ -29,6 +29,7 @@ _This release is scheduled to be released on 2024-01-01._
 - Review ESLint config (#3269)
 - Updated dependencies
 - Clock module: optionally display current moon phase in addition to rise/set times
+- electron is now per default started without gpu, if needed it must be enabled with new env var `ELECTRON_ENABLE_GPU=1` on startup (#3226)
 
 ### Fixed
 
