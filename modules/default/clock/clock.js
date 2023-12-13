@@ -32,7 +32,7 @@ Module.register("clock", {
 		secondsColor: "#888888",
 
 		showSunTimes: false,
-		showMoonTimes: false,
+		showMoonTimes: false, // options: false, 'times' (rise/set), 'percent' (lit percent), 'phase' (current phase), or 'both' (percent & phase)
 		lat: 47.630539,
 		lon: -122.344147
 	},
@@ -208,9 +208,13 @@ Module.register("clock", {
 				moonSet = nextMoonTimes.set;
 			}
 			const isVisible = now.isBetween(moonRise, moonSet) || moonTimes.alwaysUp === true;
+			const showFraction = ["both", "percent"].includes(this.config.showMoonTimes);
+			const showUnicode = ["both", "phase"].includes(this.config.showMoonTimes);
 			const illuminatedFractionString = `${Math.round(moonIllumination.fraction * 100)}%`;
+			const image = showUnicode ? [..."🌑🌒🌓🌔🌕🌖🌗🌘"][Math.floor(moonIllumination.phase * 8)] : '<i class="fas fa-moon" aria-hidden="true"></i>';
+
 			moonWrapper.innerHTML =
-				`<span class="${isVisible ? "bright" : ""}"><i class="fas fa-moon" aria-hidden="true"></i> ${illuminatedFractionString}</span>` +
+				`<span class="${isVisible ? "bright" : ""}">${image} ${showFraction ? illuminatedFractionString : ""}</span>` +
 				`<span><i class="fas fa-arrow-up" aria-hidden="true"></i> ${moonRise ? formatTime(this.config, moonRise) : "..."}</span>` +
 				`<span><i class="fas fa-arrow-down" aria-hidden="true"></i> ${moonSet ? formatTime(this.config, moonSet) : "..."}</span>`;
 			digitalWrapper.appendChild(moonWrapper);
