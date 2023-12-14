@@ -92,12 +92,12 @@ Module.register("calendar", {
 		Log.info(`Starting module: ${this.name}`);
 
 		if (this.config.colored) {
-			Log.warn("Your are using the deprecated config values 'colored'. Please switch to  'coloredSymbol' & 'coloredText'!");
+			Log.warn("Your are using the deprecated config values 'colored'. Please switch to 'coloredSymbol' & 'coloredText'!");
 			this.config.coloredText = true;
 			this.config.coloredSymbol = true;
 		}
 		if (this.config.coloredSymbolOnly) {
-			Log.warn("Your are using the deprecated config values 'coloredSymbolOnly'. Please switch to  'coloredSymbol' & 'coloredText'!");
+			Log.warn("Your are using the deprecated config values 'coloredSymbolOnly'. Please switch to 'coloredSymbol' & 'coloredText'!");
 			this.config.coloredText = false;
 			this.config.coloredSymbol = true;
 		}
