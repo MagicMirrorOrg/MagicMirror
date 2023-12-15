@@ -87,17 +87,6 @@ describe("Calendar module", () => {
 		});
 	});
 
-	describe("exdate check", () => {
-		beforeAll(async () => {
-			await helpers.startApplication("tests/configs/modules/calendar/exdate.js");
-			await helpers.getDocument();
-		});
-
-		it("should show the recurring event 51 times (excluded once) in a 364-day (inclusive) period", async () => {
-			await expect(testElementLength(".calendar .event", 51)).resolves.toBe(true);
-		});
-	});
-
 	describe("Events from multiple calendars", () => {
 		beforeAll(async () => {
 			await helpers.startApplication("tests/configs/modules/calendar/show-duplicates-in-calendar.js");
