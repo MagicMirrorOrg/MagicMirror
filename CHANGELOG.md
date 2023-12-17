@@ -45,6 +45,7 @@ _This release is scheduled to be released on 2024-01-01._
 - Fix updatanotification (update_helper.js): catch error if reponse is not an JSON format (check PM2)
 - Fix missing typeof in calendar module
 - Fix style issues after prettier update
+- Fix calendar test (#3291) by moving "Exdate check" from e2e to electron to run on a Thursday
 
 ## [2.25.0] - 2023-10-01
 

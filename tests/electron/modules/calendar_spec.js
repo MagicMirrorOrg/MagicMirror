@@ -7,7 +7,7 @@ describe("Calendar module", () => {
 	 * @returns {boolean} result
 	 */
 	const doTest = async (cssClass) => {
-		let elem = await helpers.getElement(`.calendar .module-content .event${cssClass}`);
+		const elem = await helpers.getElement(`.calendar .module-content .event${cssClass}`);
 		await expect(elem.isVisible()).resolves.toBe(true);
 		return true;
 	};
@@ -40,6 +40,20 @@ describe("Calendar module", () => {
 		it("has css class dayAfterTomorrow", async () => {
 			await helpers.startApplication("tests/configs/modules/calendar/custom.js", "30 Dec 2029 12:30:00 GMT");
 			await expect(doTest(".dayAfterTomorrow")).resolves.toBe(true);
+		});
+	});
+
+	describe("Exdate check", () => {
+		it("should show the recurring event 51 times (excluded once) in a 364-day (inclusive) period", async () => {
+			// test must run on a Thursday
+			await helpers.startApplication("tests/configs/modules/calendar/exdate.js", "14 Dec 2023 12:30:00 GMT");
+			expect(global.page).not.toBeNull();
+			const loc = await global.page.locator(".calendar .event");
+			const elem = loc.first();
+			await elem.waitFor();
+			expect(elem).not.toBeNull();
+			const cnt = await loc.count();
+			expect(cnt).toBe(51);
 		});
 	});
 });
