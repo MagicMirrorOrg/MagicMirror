@@ -127,7 +127,9 @@ Module.register("calendar", {
 				maximumNumberOfDays: calendar.maximumNumberOfDays,
 				pastDaysCount: calendar.pastDaysCount,
 				broadcastPastEvents: calendar.broadcastPastEvents,
-				selfSignedCert: calendar.selfSignedCert
+				selfSignedCert: calendar.selfSignedCert,
+				excludedEvents: calendar.excludedEvents,
+				fetchInterval: calendar.fetchInterval
 			};
 
 			if (typeof calendar.symbolClass === "undefined" || calendar.symbolClass === null) {

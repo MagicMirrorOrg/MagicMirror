@@ -46,6 +46,7 @@ _This release is scheduled to be released on 2024-01-01._
 - Fix missing typeof in calendar module
 - Fix style issues after prettier update
 - Fix calendar test (#3291) by moving "Exdate check" from e2e to electron to run on a Thursday
+- Fix calendar config params `fetchInterval` and `excludedEvents` were never used from single calendar config (#3297)
 
 ## [2.25.0] - 2023-10-01
 
