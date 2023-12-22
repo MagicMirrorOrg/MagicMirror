@@ -143,7 +143,7 @@ Module.register("calendar", {
 			// we check user and password here for backwards compatibility with old configs
 			if (calendar.user && calendar.pass) {
 				Log.warn("Deprecation warning: Please update your calendar authentication configuration.");
-				Log.warn("https://github.com/MichMich/MagicMirror/tree/v2.1.2/modules/default/calendar#calendar-authentication-options");
+				Log.warn("https://docs.magicmirror.builders/modules/calendar.html#configuration-options");
 				calendar.auth = {
 					user: calendar.user,
 					pass: calendar.pass
