@@ -28,6 +28,7 @@ Module.register("calendar", {
 		fetchInterval: 60 * 60 * 1000, // Update every hour
 		animationSpeed: 2000,
 		fade: true,
+		fadePoint: 0.25, // Start on 1/4th of the list.
 		urgency: 7,
 		timeFormat: "relative",
 		dateFormat: "MMM Do",
@@ -35,14 +36,12 @@ Module.register("calendar", {
 		fullDayEventDateFormat: "MMM Do",
 		showEnd: false,
 		getRelative: 6,
-		fadePoint: 0.25, // Start on 1/4th of the list.
 		hidePrivate: false,
 		hideOngoing: false,
 		hideTime: false,
 		hideDuplicates: true,
 		showTimeToday: false,
 		colored: false,
-		customEvents: [], // Array of {keyword: "", symbol: "", color: "", eventClass: ""} where Keyword is a regexp and symbol/color/eventClass are to be applied for matched
 		tableClass: "small",
 		calendars: [
 			{
@@ -50,10 +49,11 @@ Module.register("calendar", {
 				url: "https://www.calendarlabs.com/templates/ical/US-Holidays.ics"
 			}
 		],
-		titleReplace: {
-			"De verjaardag van ": "",
-			"'s birthday": ""
-		},
+		customEvents: [
+			// Array of {keyword: "", symbol: "", color: "", eventClass: ""} where Keyword is a regexp and symbol/color/eventClass are to be applied for matched
+			{ keyword: ".*", transform: { search: "De verjaardag van ", replace: "" } },
+			{ keyword: ".*", transform: { search: "'s birthday", replace: "" } }
+		],
 		locationTitleReplace: {
 			"street ": ""
 		},
@@ -145,7 +145,7 @@ Module.register("calendar", {
 			// we check user and password here for backwards compatibility with old configs
 			if (calendar.user && calendar.pass) {
 				Log.warn("Deprecation warning: Please update your calendar authentication configuration.");
-				Log.warn("https://github.com/MichMich/MagicMirror/tree/v2.1.2/modules/default/calendar#calendar-authentication-options");
+				Log.warn("https://docs.magicmirror.builders/modules/calendar.html#configuration-options");
 				calendar.auth = {
 					user: calendar.user,
 					pass: calendar.pass

@@ -19,7 +19,7 @@ _This release is scheduled to be released on 2024-01-01._
 ### Removed
 
 - Removed Codecov workflow (not working anymore, other workflow required) (#3107)
-- Removed titleReplace from calendar, replaced + extended by customEvents (backward compatibility included)
+- Removed titleReplace from calendar, replaced + extended by customEvents (backward compatibility included) (#3249)
 - Removed failing unit test (#3254)
 
 ### Updated
