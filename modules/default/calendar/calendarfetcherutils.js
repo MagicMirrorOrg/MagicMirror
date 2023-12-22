@@ -248,7 +248,6 @@ const CalendarFetcherUtils = {
 
 				if (typeof event.rrule !== "undefined" && event.rrule !== null && !isFacebookBirthday) {
 					const rule = event.rrule;
-					let addedEvents = 0;
 
 					const pastMoment = moment(past);
 					const futureMoment = moment(future);
@@ -442,7 +441,6 @@ const CalendarFetcherUtils = {
 
 						if (showRecurrence === true) {
 							Log.debug(`saving event: ${description}`);
-							addedEvents++;
 							newEvents.push({
 								title: recurrenceTitle,
 								startDate: (adjustDays ? (adjustDays > 0 ? startDate.add(adjustDays, "hours") : startDate.subtract(Math.abs(adjustDays), "hours")) : startDate).format("x"),
