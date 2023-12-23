@@ -397,7 +397,7 @@ WeatherProvider.register("openmeteo", {
 	generateWeatherObjectsFromForecast(weathers) {
 		const days = [];
 
-		weathers.daily.forEach((weather, i) => {
+		weathers.daily.forEach((weather) => {
 			const currentWeather = new WeatherObject();
 
 			currentWeather.date = weather.time;

@@ -50,7 +50,7 @@
 
 		logLevel.setLogLevel = function (newLevel) {
 			if (newLevel) {
-				Object.keys(logLevel).forEach(function (key, index) {
+				Object.keys(logLevel).forEach(function (key) {
 					if (!newLevel.includes(key.toLocaleUpperCase())) {
 						logLevel[key] = function () {};
 					}

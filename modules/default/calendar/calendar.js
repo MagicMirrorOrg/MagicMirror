@@ -1,4 +1,4 @@
-/* global CalendarUtils, cloneObject */
+/* global CalendarUtils */
 
 /* MagicMirror²
  * Module: Calendar
