@@ -1,4 +1,4 @@
-.eslintignore
+*.js
 .prettierignore
 /config
 /coverage
