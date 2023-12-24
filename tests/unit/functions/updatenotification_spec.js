@@ -32,7 +32,7 @@ describe("Updatenotification", () => {
 		const { promisify } = require("util");
 		promisify.mockReturnValue(execMock);
 
-		const GitHelper = require(`../../../modules/default/updatenotification/git_helper`);
+		const GitHelper = require("../../../modules/default/updatenotification/git_helper");
 		gitHelper = new GitHelper();
 	});
 

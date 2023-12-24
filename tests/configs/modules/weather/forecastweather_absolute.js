@@ -13,7 +13,7 @@ let config = {
 			config: {
 				type: "forecast",
 				location: "Munich",
-				mockData: '"#####WEATHERDATA#####"',
+				mockData: "\"#####WEATHERDATA#####\"",
 				weatherEndpoint: "/forecast/daily",
 				absoluteDates: true
 			}

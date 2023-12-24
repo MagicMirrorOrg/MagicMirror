@@ -140,11 +140,11 @@ WeatherProvider.register("openmeteo", {
 		"et0_fao_evapotranspiration"
 	],
 
-	fetchedLocation: function () {
+	fetchedLocation () {
 		return this.fetchedLocationName || "";
 	},
 
-	fetchCurrentWeather() {
+	fetchCurrentWeather () {
 		this.fetchData(this.getUrl())
 			.then((data) => this.parseWeatherApiResponse(data))
 			.then((parsedData) => {
@@ -162,7 +162,7 @@ WeatherProvider.register("openmeteo", {
 			.finally(() => this.updateAvailable());
 	},
 
-	fetchWeatherForecast() {
+	fetchWeatherForecast () {
 		this.fetchData(this.getUrl())
 			.then((data) => this.parseWeatherApiResponse(data))
 			.then((parsedData) => {
@@ -180,7 +180,7 @@ WeatherProvider.register("openmeteo", {
 			.finally(() => this.updateAvailable());
 	},
 
-	fetchWeatherHourly() {
+	fetchWeatherHourly () {
 		this.fetchData(this.getUrl())
 			.then((data) => this.parseWeatherApiResponse(data))
 			.then((parsedData) => {
@@ -202,7 +202,7 @@ WeatherProvider.register("openmeteo", {
 	 * Overrides method for setting config to check if endpoint is correct for hourly
 	 * @param {object} config The configuration object
 	 */
-	setConfig(config) {
+	setConfig (config) {
 		this.config = {
 			lang: config.lang ?? "en",
 			...this.defaults,
@@ -226,7 +226,7 @@ WeatherProvider.register("openmeteo", {
 	},
 
 	// Generate valid query params to perform the request
-	getQueryParameters() {
+	getQueryParameters () {
 		let params = {
 			latitude: this.config.lat,
 			longitude: this.config.lon,
@@ -278,25 +278,23 @@ WeatherProvider.register("openmeteo", {
 	},
 
 	// Create a URL from the config and base URL.
-	getUrl() {
+	getUrl () {
 		return `${this.config.apiBase}/forecast?${this.getQueryParameters()}`;
 	},
 
 	// Transpose hourly and daily data matrices
-	transposeDataMatrix(data) {
-		return data.time.map((_, index) =>
-			Object.keys(data).reduce((row, key) => {
-				return {
-					...row,
-					// Parse time values as momentjs instances
-					[key]: ["time", "sunrise", "sunset"].includes(key) ? moment.unix(data[key][index]) : data[key][index]
-				};
-			}, {})
-		);
+	transposeDataMatrix (data) {
+		return data.time.map((_, index) => Object.keys(data).reduce((row, key) => {
+			return {
+				...row,
+				// Parse time values as momentjs instances
+				[key]: ["time", "sunrise", "sunset"].includes(key) ? moment.unix(data[key][index]) : data[key][index]
+			};
+		}, {}));
 	},
 
 	// Sanitize and validate API response
-	parseWeatherApiResponse(data) {
+	parseWeatherApiResponse (data) {
 		const validByType = {
 			current: data.current_weather && data.current_weather.time,
 			hourly: data.hourly && data.hourly.time && Array.isArray(data.hourly.time) && data.hourly.time.length > 0,
@@ -334,7 +332,7 @@ WeatherProvider.register("openmeteo", {
 	},
 
 	// Reverse geocoding from latitude and longitude provided
-	fetchLocation() {
+	fetchLocation () {
 		this.fetchData(`${GEOCODE_BASE}?latitude=${this.config.lat}&longitude=${this.config.lon}&localityLanguage=${this.config.lang}`)
 			.then((data) => {
 				if (!data || !data.city) {
@@ -349,7 +347,8 @@ WeatherProvider.register("openmeteo", {
 	},
 
 	// Implement WeatherDay generator.
-	generateWeatherDayFromCurrentWeather(weather) {
+	generateWeatherDayFromCurrentWeather (weather) {
+
 		/**
 		 * Since some units comes from API response "splitted" into daily, hourly and current_weather
 		 * every time you request it, you have to ensure to get the data from the right place every time.
@@ -394,7 +393,7 @@ WeatherProvider.register("openmeteo", {
 	},
 
 	// Implement WeatherForecast generator.
-	generateWeatherObjectsFromForecast(weathers) {
+	generateWeatherObjectsFromForecast (weathers) {
 		const days = [];
 
 		weathers.daily.forEach((weather) => {
@@ -422,7 +421,7 @@ WeatherProvider.register("openmeteo", {
 	},
 
 	// Implement WeatherHourly generator.
-	generateWeatherObjectsFromHourly(weathers) {
+	generateWeatherObjectsFromHourly (weathers) {
 		const hours = [];
 		const now = moment();
 
@@ -457,7 +456,7 @@ WeatherProvider.register("openmeteo", {
 	},
 
 	// Map icons from Dark Sky to our icons.
-	convertWeatherType(weathercode, isDayTime) {
+	convertWeatherType (weathercode, isDayTime) {
 		const weatherConditions = {
 			0: "clear",
 			1: "mainly-clear",
@@ -542,7 +541,7 @@ WeatherProvider.register("openmeteo", {
 	},
 
 	// Define required scripts.
-	getScripts: function () {
+	getScripts () {
 		return ["moment.js"];
 	}
 });

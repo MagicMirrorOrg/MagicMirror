@@ -163,7 +163,7 @@ describe("Translator", () => {
 	describe("load", () => {
 		const mmm = {
 			name: "TranslationTest",
-			file(file) {
+			file (file) {
 				return `http://localhost:3000/translations/${file}`;
 			}
 		};

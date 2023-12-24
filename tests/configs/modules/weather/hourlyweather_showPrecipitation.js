@@ -13,7 +13,7 @@ let config = {
 			config: {
 				type: "hourly",
 				location: "Berlin",
-				mockData: '"#####WEATHERDATA#####"',
+				mockData: "\"#####WEATHERDATA#####\"",
 				showPrecipitationAmount: true,
 				showPrecipitationProbability: true
 			}

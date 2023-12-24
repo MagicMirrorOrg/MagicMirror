@@ -15,6 +15,7 @@ const zoneTable = require(path.join(__dirname, "windowsZones.json"));
 const Log = require("../../../js/logger");
 
 const CalendarFetcherUtils = {
+
 	/**
 	 * Calculate the time correction, either dst/std or full day in cases where
 	 * utc time is day before plus offset
@@ -22,7 +23,7 @@ const CalendarFetcherUtils = {
 	 * @param {Date} date the date on which this event happens
 	 * @returns {number} the necessary adjustment in hours
 	 */
-	calculateTimezoneAdjustment: function (event, date) {
+	calculateTimezoneAdjustment (event, date) {
 		let adjustHours = 0;
 		// if a timezone was specified
 		if (!event.start.tz) {
@@ -123,7 +124,7 @@ const CalendarFetcherUtils = {
 	 * @param {object} config The configuration object
 	 * @returns {string[]} the filtered events
 	 */
-	filterEvents: function (data, config) {
+	filterEvents (data, config) {
 		const newEvents = [];
 
 		// limitFunction doesn't do much limiting, see comment re: the dates
@@ -142,7 +143,12 @@ const CalendarFetcherUtils = {
 			Log.debug("Processing entry...");
 			const now = new Date();
 			const today = moment().startOf("day").toDate();
-			const future = moment().startOf("day").add(config.maximumNumberOfDays, "days").subtract(1, "seconds").toDate(); // Subtract 1 second so that events that start on the middle of the night will not repeat.
+			const future
+				= moment()
+					.startOf("day")
+					.add(config.maximumNumberOfDays, "days")
+					.subtract(1, "seconds") // Subtract 1 second so that events that start on the middle of the night will not repeat.
+					.toDate();
 			let past = today;
 
 			if (config.includePastEvents) {
@@ -521,7 +527,7 @@ const CalendarFetcherUtils = {
 	 * @param {string} msTZName the timezone name to lookup
 	 * @returns {string|null} the iana name or null of none is found
 	 */
-	getIanaTZFromMS: function (msTZName) {
+	getIanaTZFromMS (msTZName) {
 		// Get hash entry
 		const he = zoneTable[msTZName];
 		// If found return iana name, else null
@@ -533,7 +539,7 @@ const CalendarFetcherUtils = {
 	 * @param {object} event The event object to check.
 	 * @returns {string} The title of the event, or "Event" if no title is found.
 	 */
-	getTitleFromEvent: function (event) {
+	getTitleFromEvent (event) {
 		let title = "Event";
 		if (event.summary) {
 			title = typeof event.summary.val !== "undefined" ? event.summary.val : event.summary;
@@ -549,7 +555,7 @@ const CalendarFetcherUtils = {
 	 * @param {object} event The event object to check.
 	 * @returns {boolean} True if the event is a fullday event, false otherwise
 	 */
-	isFullDayEvent: function (event) {
+	isFullDayEvent (event) {
 		if (event.start.length === 8 || event.start.dateOnly || event.datetype === "date") {
 			return true;
 		}
@@ -572,7 +578,7 @@ const CalendarFetcherUtils = {
 	 * @param {string} filter The time to subtract from the end date to determine if an event should be shown
 	 * @returns {boolean} True if the event should be filtered out, false otherwise
 	 */
-	timeFilterApplies: function (now, endDate, filter) {
+	timeFilterApplies (now, endDate, filter) {
 		if (filter) {
 			const until = filter.split(" "),
 				value = parseInt(until[0]),
@@ -593,7 +599,7 @@ const CalendarFetcherUtils = {
 	 * @param {string} regexFlags flags that should be applied to the regex
 	 * @returns {boolean} True if the title should be filtered out, false otherwise
 	 */
-	titleFilterApplies: function (title, filter, useRegex, regexFlags) {
+	titleFilterApplies (title, filter, useRegex, regexFlags) {
 		if (useRegex) {
 			let regexFilter = filter;
 			// Assume if leading slash, there is also trailing slash

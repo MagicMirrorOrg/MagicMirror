@@ -42,7 +42,7 @@ Module.register("newsfeed", {
 		dangerouslyDisableAutoEscaping: false
 	},
 
-	getUrlPrefix: function (item) {
+	getUrlPrefix (item) {
 		if (item.useCorsProxy) {
 			return `${location.protocol}//${location.host}/cors?url=`;
 		} else {
@@ -51,17 +51,17 @@ Module.register("newsfeed", {
 	},
 
 	// Define required scripts.
-	getScripts: function () {
+	getScripts () {
 		return ["moment.js"];
 	},
 
 	//Define required styles.
-	getStyles: function () {
+	getStyles () {
 		return ["newsfeed.css"];
 	},
 
 	// Define required translations.
-	getTranslations: function () {
+	getTranslations () {
 		// The translations for the default modules are defined in the core translation files.
 		// Therefor we can just return false. Otherwise we should have returned a dictionary.
 		// If you're trying to build your own module including translations, check out the documentation.
@@ -69,7 +69,7 @@ Module.register("newsfeed", {
 	},
 
 	// Define start sequence.
-	start: function () {
+	start () {
 		Log.info(`Starting module: ${this.name}`);
 
 		// Set locale.
@@ -87,7 +87,7 @@ Module.register("newsfeed", {
 	},
 
 	// Override socket notification handler.
-	socketNotificationReceived: function (notification, payload) {
+	socketNotificationReceived (notification, payload) {
 		if (notification === "NEWS_ITEMS") {
 			this.generateFeed(payload);
 
@@ -107,7 +107,7 @@ Module.register("newsfeed", {
 	},
 
 	//Override fetching of template name
-	getTemplate: function () {
+	getTemplate () {
 		if (this.config.feedUrl) {
 			return "oldconfig.njk";
 		} else if (this.config.showFullArticle) {
@@ -117,7 +117,7 @@ Module.register("newsfeed", {
 	},
 
 	//Override template data and return whats used for the current template
-	getTemplateData: function () {
+	getTemplateData () {
 		// this.config.showFullArticle is a run-time configuration, triggered by optional notifications
 		if (this.config.showFullArticle) {
 			return {
@@ -156,7 +156,7 @@ Module.register("newsfeed", {
 		};
 	},
 
-	getActiveItemURL: function () {
+	getActiveItemURL () {
 		const item = this.newsItems[this.activeItem];
 		if (item) {
 			return typeof item.url === "string" ? this.getUrlPrefix(item) + item.url : this.getUrlPrefix(item) + item.url.href;
@@ -168,7 +168,7 @@ Module.register("newsfeed", {
 	/**
 	 * Registers the feeds to be used by the backend.
 	 */
-	registerFeeds: function () {
+	registerFeeds () {
 		for (let feed of this.config.feeds) {
 			this.sendSocketNotification("ADD_FEED", {
 				feed: feed,
@@ -181,7 +181,7 @@ Module.register("newsfeed", {
 	 * Generate an ordered list of items for this configured module.
 	 * @param {object} feeds An object with feeds returned by the node helper.
 	 */
-	generateFeed: function (feeds) {
+	generateFeed (feeds) {
 		let newsItems = [];
 		for (let feed in feeds) {
 			const feedItems = feeds[feed];
@@ -274,7 +274,7 @@ Module.register("newsfeed", {
 	 * @param {string} feedUrl Url of the feed to check.
 	 * @returns {boolean} True if it is subscribed, false otherwise
 	 */
-	subscribedToFeed: function (feedUrl) {
+	subscribedToFeed (feedUrl) {
 		for (let feed of this.config.feeds) {
 			if (feed.url === feedUrl) {
 				return true;
@@ -288,7 +288,7 @@ Module.register("newsfeed", {
 	 * @param {string} feedUrl Url of the feed
 	 * @returns {string} The title of the feed
 	 */
-	titleForFeed: function (feedUrl) {
+	titleForFeed (feedUrl) {
 		for (let feed of this.config.feeds) {
 			if (feed.url === feedUrl) {
 				return feed.title || "";
@@ -300,7 +300,7 @@ Module.register("newsfeed", {
 	/**
 	 * Schedule visual update.
 	 */
-	scheduleUpdateInterval: function () {
+	scheduleUpdateInterval () {
 		this.updateDom(this.config.animationSpeed);
 
 		// Broadcast NewsFeed if needed
@@ -322,7 +322,7 @@ Module.register("newsfeed", {
 		}, this.config.updateInterval);
 	},
 
-	resetDescrOrFullArticleAndTimer: function () {
+	resetDescrOrFullArticleAndTimer () {
 		this.isShowingDescription = this.config.showDescription;
 		this.config.showFullArticle = false;
 		this.scrollPosition = 0;
@@ -333,7 +333,7 @@ Module.register("newsfeed", {
 		}
 	},
 
-	notificationReceived: function (notification, payload, sender) {
+	notificationReceived (notification, payload, sender) {
 		const before = this.activeItem;
 		if (notification === "MODULE_DOM_CREATED" && this.config.hideLoading) {
 			this.hide();
@@ -394,7 +394,7 @@ Module.register("newsfeed", {
 		}
 	},
 
-	showFullArticle: function () {
+	showFullArticle () {
 		this.isShowingDescription = !this.isShowingDescription;
 		this.config.showFullArticle = !this.isShowingDescription;
 		// make bottom bar align to top to allow scrolling

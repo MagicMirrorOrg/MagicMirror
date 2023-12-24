@@ -84,7 +84,7 @@ describe("Default modules utils tests", () => {
 
 			it("Returns object when data is received", async () => {
 				urlToCall = "www.test.com";
-				fetchResponse = new Response('{"body": "some content"}');
+				fetchResponse = new Response("{\"body\": \"some content\"}");
 
 				const response = await performWebRequest(urlToCall);
 
@@ -93,7 +93,7 @@ describe("Default modules utils tests", () => {
 
 			it("Returns expected headers when data is received", async () => {
 				urlToCall = "www.test.com";
-				fetchResponse = new Response('{"body": "some content"}', { headers: { header1: "value1", header2: "value2" } });
+				fetchResponse = new Response("{\"body\": \"some content\"}", { headers: { header1: "value1", header2: "value2" } });
 
 				const response = await performWebRequest(urlToCall, "json", false, undefined, ["header1"]);
 

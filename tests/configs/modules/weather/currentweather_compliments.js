@@ -20,7 +20,7 @@ let config = {
 			position: "bottom_bar",
 			config: {
 				location: "Munich",
-				mockData: '"#####WEATHERDATA#####"'
+				mockData: "\"#####WEATHERDATA#####\""
 			}
 		}
 	]

@@ -39,7 +39,7 @@ const Log = require("logger");
  */
 
 class Updater {
-	constructor(config) {
+	constructor (config) {
 		this.updates = config.updates;
 		this.timeout = config.updateTimeout;
 		this.autoRestart = config.updateAutorestart;
@@ -53,7 +53,7 @@ class Updater {
 	}
 
 	// [main command] parse if module update is needed
-	async parse(modules) {
+	async parse (modules) {
 		var parser = modules.map(async (module) => {
 			if (this.moduleList[module.module] === undefined) {
 				this.moduleList[module.module] = {};
@@ -90,7 +90,7 @@ class Updater {
 	//	updated: <boolean>, // if updated successfully
 	//	needRestart: <boolean> // if magicmirror restart required
 	//};
-	updateProcess(module) {
+	updateProcess (module) {
 		let Result = {
 			error: false,
 			updated: false,
@@ -130,13 +130,13 @@ class Updater {
 	}
 
 	// restart rules (pm2 or npm start)
-	restart() {
+	restart () {
 		if (this.usePM2) this.pm2Restart();
 		else this.npmRestart();
 	}
 
 	// restart MagicMiror with "pm2"
-	pm2Restart() {
+	pm2Restart () {
 		Log.info("updatenotification: PM2 will restarting MagicMirror...");
 		Exec(`pm2 restart ${this.PM2}`, (err, std, sde) => {
 			if (err) {
@@ -146,7 +146,7 @@ class Updater {
 	}
 
 	// restart MagicMiror with "npm start"
-	npmRestart() {
+	npmRestart () {
 		Log.info("updatenotification: Restarting MagicMirror...");
 		const out = process.stdout;
 		const err = process.stderr;
@@ -156,7 +156,7 @@ class Updater {
 	}
 
 	// Check using pm2
-	check_PM2_Process() {
+	check_PM2_Process () {
 		Log.info("updatenotification: Checking PM2 using...");
 		return new Promise((resolve) => {
 			commandExists("pm2")
@@ -191,7 +191,7 @@ class Updater {
 	}
 
 	// Get the list of pm2 process
-	PM2_GetList() {
+	PM2_GetList () {
 		return new Promise((resolve) => {
 			Exec("pm2 jlist", (err, std, sde) => {
 				if (err) {
@@ -211,13 +211,13 @@ class Updater {
 	}
 
 	// check if module is MagicMirror
-	isMagicMirror(module) {
+	isMagicMirror (module) {
 		if (module === "MagicMirror") return true;
 		return false;
 	}
 
 	// search update module command
-	applyCommand(module) {
+	applyCommand (module) {
 		if (this.isMagicMirror(module.module)) return null;
 		let command = null;
 		this.updates.forEach((updater) => {

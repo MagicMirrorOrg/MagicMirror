@@ -17,15 +17,15 @@ Module.register("alert", {
 		welcome_message: false // shown at startup
 	},
 
-	getScripts() {
+	getScripts () {
 		return ["notificationFx.js"];
 	},
 
-	getStyles() {
-		return ["font-awesome.css", this.file(`./styles/notificationFx.css`), this.file(`./styles/${this.config.position}.css`)];
+	getStyles () {
+		return ["font-awesome.css", this.file("./styles/notificationFx.css"), this.file(`./styles/${this.config.position}.css`)];
 	},
 
-	getTranslations() {
+	getTranslations () {
 		return {
 			bg: "translations/bg.json",
 			da: "translations/da.json",
@@ -40,11 +40,11 @@ Module.register("alert", {
 		};
 	},
 
-	getTemplate(type) {
+	getTemplate (type) {
 		return `templates/${type}.njk`;
 	},
 
-	async start() {
+	async start () {
 		Log.info(`Starting module: ${this.name}`);
 
 		if (this.config.effect === "slide") {
@@ -57,7 +57,7 @@ Module.register("alert", {
 		}
 	},
 
-	notificationReceived(notification, payload, sender) {
+	notificationReceived (notification, payload, sender) {
 		if (notification === "SHOW_ALERT") {
 			if (payload.type === "notification") {
 				this.showNotification(payload);
@@ -69,7 +69,7 @@ Module.register("alert", {
 		}
 	},
 
-	async showNotification(notification) {
+	async showNotification (notification) {
 		const message = await this.renderMessage(notification.templateName || "notification", notification);
 
 		new NotificationFx({
@@ -80,7 +80,7 @@ Module.register("alert", {
 		}).show();
 	},
 
-	async showAlert(alert, sender) {
+	async showAlert (alert, sender) {
 		// If module already has an open alert close it
 		if (this.alerts[sender.name]) {
 			this.hideAlert(sender, false);
@@ -113,7 +113,7 @@ Module.register("alert", {
 		}
 	},
 
-	hideAlert(sender, close = true) {
+	hideAlert (sender, close = true) {
 		// Dismiss alert and remove from this.alerts
 		if (this.alerts[sender.name]) {
 			this.alerts[sender.name].dismiss(close);
@@ -125,7 +125,7 @@ Module.register("alert", {
 		}
 	},
 
-	renderMessage(type, data) {
+	renderMessage (type, data) {
 		return new Promise((resolve) => {
 			this.nunjucksEnvironment().render(this.getTemplate(type), data, function (err, res) {
 				if (err) {
@@ -137,7 +137,7 @@ Module.register("alert", {
 		});
 	},
 
-	toggleBlur(add = false) {
+	toggleBlur (add = false) {
 		const method = add ? "add" : "remove";
 		const modules = document.querySelectorAll(".module");
 		for (const module of modules) {

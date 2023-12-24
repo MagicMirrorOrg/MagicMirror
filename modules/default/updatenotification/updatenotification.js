@@ -20,7 +20,7 @@ Module.register("updatenotification", {
 	needRestart: false,
 	updates: {},
 
-	start() {
+	start () {
 		Log.info(`Starting module: ${this.name}`);
 		this.addFilters();
 		setInterval(() => {
@@ -29,16 +29,16 @@ Module.register("updatenotification", {
 		}, this.config.refreshInterval);
 	},
 
-	suspend() {
+	suspend () {
 		this.suspended = true;
 	},
 
-	resume() {
+	resume () {
 		this.suspended = false;
 		this.updateDom(2);
 	},
 
-	notificationReceived(notification) {
+	notificationReceived (notification) {
 		switch (notification) {
 			case "DOM_OBJECTS_CREATED":
 				this.sendSocketNotification("CONFIG", this.config);
@@ -50,7 +50,7 @@ Module.register("updatenotification", {
 		}
 	},
 
-	socketNotificationReceived(notification, payload) {
+	socketNotificationReceived (notification, payload) {
 		switch (notification) {
 			case "REPO_STATUS":
 				this.updateUI(payload);
@@ -64,19 +64,19 @@ Module.register("updatenotification", {
 		}
 	},
 
-	getStyles() {
+	getStyles () {
 		return [`${this.name}.css`];
 	},
 
-	getTemplate() {
+	getTemplate () {
 		return `${this.name}.njk`;
 	},
 
-	getTemplateData() {
+	getTemplateData () {
 		return { moduleList: this.moduleList, updatesList: this.updates, suspended: this.suspended, needRestart: this.needRestart };
 	},
 
-	updateUI(payload) {
+	updateUI (payload) {
 		if (payload && payload.behind > 0) {
 			// if we haven't seen info for this module
 			if (this.moduleList[payload.module] === undefined) {
@@ -94,7 +94,7 @@ Module.register("updatenotification", {
 		}
 	},
 
-	addFilters() {
+	addFilters () {
 		this.nunjucksEnvironment().addFilter("diffLink", (text, status) => {
 			if (status.module !== "MagicMirror") {
 				return text;
@@ -106,7 +106,7 @@ Module.register("updatenotification", {
 		});
 	},
 
-	updatesNotifier(payload, done = true) {
+	updatesNotifier (payload, done = true) {
 		if (this.updates[payload.name] === undefined) {
 			this.updates[payload.name] = {
 				name: payload.name,

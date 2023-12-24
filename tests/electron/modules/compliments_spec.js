@@ -1,6 +1,7 @@
 const helpers = require("../helpers/global-setup");
 
 describe("Compliments module", () => {
+
 	/**
 	 * move similar tests in function doTest
 	 * @param {Array} complimentsArray The array of compliments.

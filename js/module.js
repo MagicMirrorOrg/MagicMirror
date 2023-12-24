@@ -8,6 +8,7 @@
  * MIT Licensed.
  */
 const Module = Class.extend({
+
 	/*********************************************************
 	 * All methods (and properties) below can be subclassed. *
 	 *********************************************************/
@@ -33,14 +34,14 @@ const Module = Class.extend({
 	/**
 	 * Called when the module is instantiated.
 	 */
-	init: function () {
+	init () {
 		//Log.log(this.defaults);
 	},
 
 	/**
 	 * Called when the module is started.
 	 */
-	start: async function () {
+	async start () {
 		Log.info(`Starting module: ${this.name}`);
 	},
 
@@ -48,7 +49,7 @@ const Module = Class.extend({
 	 * Returns a list of scripts the module requires to be loaded.
 	 * @returns {string[]} An array with filenames.
 	 */
-	getScripts: function () {
+	getScripts () {
 		return [];
 	},
 
@@ -56,7 +57,7 @@ const Module = Class.extend({
 	 * Returns a list of stylesheets the module requires to be loaded.
 	 * @returns {string[]} An array with filenames.
 	 */
-	getStyles: function () {
+	getStyles () {
 		return [];
 	},
 
@@ -66,7 +67,7 @@ const Module = Class.extend({
 	 * return Map<String, String> -
 	 * @returns {*} A map with langKeys and filenames.
 	 */
-	getTranslations: function () {
+	getTranslations () {
 		return false;
 	},
 
@@ -76,14 +77,14 @@ const Module = Class.extend({
 	 * Alternatively, the getTemplate method could be subclassed.
 	 * @returns {HTMLElement|Promise} The dom or a promise with the dom to display.
 	 */
-	getDom: function () {
+	getDom () {
 		return new Promise((resolve) => {
 			const div = document.createElement("div");
 			const template = this.getTemplate();
 			const templateData = this.getTemplateData();
 
 			// Check to see if we need to render a template string or a file.
-			if (/^.*((\.html)|(\.njk))$/.test(template)) {
+			if ((/^.*((\.html)|(\.njk))$/).test(template)) {
 				// the template is a filename
 				this.nunjucksEnvironment().render(template, templateData, function (err, res) {
 					if (err) {
@@ -109,7 +110,7 @@ const Module = Class.extend({
 	 * This method needs to be subclassed if the module wants to display modified headers on the mirror.
 	 * @returns {string} The header to display above the header.
 	 */
-	getHeader: function () {
+	getHeader () {
 		return this.data.header;
 	},
 
@@ -120,7 +121,7 @@ const Module = Class.extend({
 	 * If the string ends with '.html' it's considered a file from within the module's folder.
 	 * @returns {string} The template string of filename.
 	 */
-	getTemplate: function () {
+	getTemplate () {
 		return `<div class="normal">${this.name}</div><div class="small dimmed">${this.identifier}</div>`;
 	},
 
@@ -129,7 +130,7 @@ const Module = Class.extend({
 	 * This method needs to be subclassed if the module wants to use a custom data.
 	 * @returns {object} The data for the template
 	 */
-	getTemplateData: function () {
+	getTemplateData () {
 		return {};
 	},
 
@@ -139,7 +140,7 @@ const Module = Class.extend({
 	 * @param {*} payload The payload of the notification.
 	 * @param {Module} sender The module that sent the notification.
 	 */
-	notificationReceived: function (notification, payload, sender) {
+	notificationReceived (notification, payload, sender) {
 		if (sender) {
 			// Log.log(this.name + " received a module notification: " + notification + " from sender: " + sender.name);
 		} else {
@@ -152,7 +153,7 @@ const Module = Class.extend({
 	 * The environment is checked in the _nunjucksEnvironment instance variable.
 	 * @returns {object} The Nunjucks Environment
 	 */
-	nunjucksEnvironment: function () {
+	nunjucksEnvironment () {
 		if (this._nunjucksEnvironment !== null) {
 			return this._nunjucksEnvironment;
 		}
@@ -174,21 +175,21 @@ const Module = Class.extend({
 	 * @param {string} notification The identifier of the notification.
 	 * @param {*} payload The payload of the notification.
 	 */
-	socketNotificationReceived: function (notification, payload) {
+	socketNotificationReceived (notification, payload) {
 		Log.log(`${this.name} received a socket notification: ${notification} - Payload: ${payload}`);
 	},
 
 	/**
 	 * Called when the module is hidden.
 	 */
-	suspend: function () {
+	suspend () {
 		Log.log(`${this.name} is suspended.`);
 	},
 
 	/**
 	 * Called when the module is shown.
 	 */
-	resume: function () {
+	resume () {
 		Log.log(`${this.name} is resumed.`);
 	},
 
@@ -200,7 +201,7 @@ const Module = Class.extend({
 	 * Set the module data.
 	 * @param {object} data The module data
 	 */
-	setData: function (data) {
+	setData (data) {
 		this.data = data;
 		this.name = data.name;
 		this.identifier = data.identifier;
@@ -216,7 +217,7 @@ const Module = Class.extend({
 	 * @param {object} config The combined module config.
 	 * @param {boolean} deep Merge module config in deep.
 	 */
-	setConfig: function (config, deep) {
+	setConfig (config, deep) {
 		this.config = deep ? configMerge({}, this.defaults, config) : Object.assign({}, this.defaults, config);
 	},
 
@@ -225,7 +226,7 @@ const Module = Class.extend({
 	 * It also registers the notification callback.
 	 * @returns {MMSocket} a socket object
 	 */
-	socket: function () {
+	socket () {
 		if (typeof this._socket === "undefined") {
 			this._socket = new MMSocket(this.name);
 		}
@@ -242,7 +243,7 @@ const Module = Class.extend({
 	 * @param {string} file Filename
 	 * @returns {string} the file path
 	 */
-	file: function (file) {
+	file (file) {
 		return `${this.data.path}/${file}`.replace("//", "/");
 	},
 
@@ -250,7 +251,7 @@ const Module = Class.extend({
 	 * Load all required stylesheets by requesting the MM object to load the files.
 	 * @returns {Promise<void>}
 	 */
-	loadStyles: function () {
+	loadStyles () {
 		return this.loadDependencies("getStyles");
 	},
 
@@ -258,7 +259,7 @@ const Module = Class.extend({
 	 * Load all required scripts by requesting the MM object to load the files.
 	 * @returns {Promise<void>}
 	 */
-	loadScripts: function () {
+	loadScripts () {
 		return this.loadDependencies("getScripts");
 	},
 
@@ -267,7 +268,7 @@ const Module = Class.extend({
 	 * @param {string} funcName Function name to call to get scripts or styles.
 	 * @returns {Promise<void>}
 	 */
-	loadDependencies: async function (funcName) {
+	async loadDependencies (funcName) {
 		let dependencies = this[funcName]();
 
 		const loadNextDependency = async () => {
@@ -288,7 +289,7 @@ const Module = Class.extend({
 	 * Load all translations.
 	 * @returns {Promise<void>}
 	 */
-	loadTranslations: async function () {
+	async loadTranslations () {
 		const translations = this.getTranslations() || {};
 		const language = config.language.toLowerCase();
 
@@ -320,7 +321,7 @@ const Module = Class.extend({
 	 * @param {string} [defaultValue] The default value with variables.
 	 * @returns {string} the translated key
 	 */
-	translate: function (key, defaultValueOrVariables, defaultValue) {
+	translate (key, defaultValueOrVariables, defaultValue) {
 		if (typeof defaultValueOrVariables === "object") {
 			return Translator.translate(this, key, defaultValueOrVariables) || defaultValue || "";
 		}
@@ -331,7 +332,7 @@ const Module = Class.extend({
 	 * Request an (animated) update of the module.
 	 * @param {number|object} [updateOptions] The speed of the animation or object with for updateOptions (speed/animates)
 	 */
-	updateDom: function (updateOptions) {
+	updateDom (updateOptions) {
 		MM.updateDom(this, updateOptions);
 	},
 
@@ -340,7 +341,7 @@ const Module = Class.extend({
 	 * @param {string} notification The identifier of the notification.
 	 * @param {*} payload The payload of the notification.
 	 */
-	sendNotification: function (notification, payload) {
+	sendNotification (notification, payload) {
 		MM.sendNotification(notification, payload, this);
 	},
 
@@ -349,7 +350,7 @@ const Module = Class.extend({
 	 * @param {string} notification The identifier of the notification.
 	 * @param {*} payload The payload of the notification.
 	 */
-	sendSocketNotification: function (notification, payload) {
+	sendSocketNotification (notification, payload) {
 		this.socket().sendNotification(notification, payload);
 	},
 
@@ -359,7 +360,7 @@ const Module = Class.extend({
 	 * @param {Function} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the hide method.
 	 */
-	hide: function (speed, callback, options = {}) {
+	hide (speed, callback, options = {}) {
 		let usedCallback = callback || function () {};
 		let usedOptions = options;
 
@@ -386,7 +387,7 @@ const Module = Class.extend({
 	 * @param {Function} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the show method.
 	 */
-	show: function (speed, callback, options) {
+	show (speed, callback, options) {
 		let usedCallback = callback || function () {};
 		let usedOptions = options;
 
@@ -430,7 +431,7 @@ const Module = Class.extend({
  * @param {object} result the initial object
  * @returns {object} the merged config
  */
-function configMerge(result) {
+function configMerge (result) {
 	const stack = Array.prototype.slice.call(arguments, 1);
 	let item, key;
 
@@ -493,7 +494,7 @@ window.Module = Module;
  * @returns {number} A positive number if a is larger than b, a negative
  * number if a is smaller and 0 if they are the same
  */
-function cmpVersions(a, b) {
+function cmpVersions (a, b) {
 	const regExStrip0 = /(\.0+)+$/;
 	const segmentsA = a.replace(regExStrip0, "").split(".");
 	const segmentsB = b.replace(regExStrip0, "").split(".");

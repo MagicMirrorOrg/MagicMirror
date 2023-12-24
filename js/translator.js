@@ -7,12 +7,13 @@
  * MIT Licensed.
  */
 const Translator = (function () {
+
 	/**
 	 * Load a JSON file via XHR.
 	 * @param {string} file Path of the file we want to load.
 	 * @returns {Promise<object>} the translations in the specified file
 	 */
-	async function loadJSON(file) {
+	async function loadJSON (file) {
 		const xhr = new XMLHttpRequest();
 		return new Promise(function (resolve) {
 			xhr.overrideMimeType("application/json");
@@ -47,7 +48,8 @@ const Translator = (function () {
 		 * @param {object} variables The variables to use within the translation template (optional)
 		 * @returns {string} the translated key
 		 */
-		translate: function (module, key, variables = {}) {
+		translate (module, key, variables = {}) {
+
 			/**
 			 * Combines template and variables like:
 			 * template: "Please wait for {timeToWait} before continuing with {work}."
@@ -57,7 +59,7 @@ const Translator = (function () {
 			 * @param {object} variables Variables for the placeholder
 			 * @returns {string} the template filled with the variables
 			 */
-			function createStringFromTemplate(template, variables) {
+			function createStringFromTemplate (template, variables) {
 				if (Object.prototype.toString.call(template) !== "[object String]") {
 					return template;
 				}
@@ -99,7 +101,7 @@ const Translator = (function () {
 		 * @param {string} file Path of the file we want to load.
 		 * @param {boolean} isFallback Flag to indicate fallback translations.
 		 */
-		async load(module, file, isFallback) {
+		async load (module, file, isFallback) {
 			Log.log(`${module.name} - Load translation${isFallback ? " fallback" : ""}: ${file}`);
 
 			if (this.translationsFallback[module.name]) {
@@ -115,7 +117,7 @@ const Translator = (function () {
 		 * Load the core translations.
 		 * @param {string} lang The language identifier of the core language.
 		 */
-		loadCoreTranslations: async function (lang) {
+		async loadCoreTranslations (lang) {
 			if (lang in translations) {
 				Log.log(`Loading core translation file: ${translations[lang]}`);
 				this.coreTranslations = await loadJSON(translations[lang]);
@@ -130,7 +132,7 @@ const Translator = (function () {
 		 * Load the core translations' fallback.
 		 * The first language defined in translations.js will be used.
 		 */
-		loadCoreTranslationsFallback: async function () {
+		async loadCoreTranslationsFallback () {
 			let first = Object.keys(translations)[0];
 			if (first) {
 				Log.log(`Loading core translation fallback file: ${translations[first]}`);
@@ -138,6 +140,6 @@ const Translator = (function () {
 			}
 		}
 	};
-})();
+}());
 
 window.Translator = Translator;

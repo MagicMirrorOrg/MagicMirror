@@ -53,7 +53,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 	},
 
 	// Build URL with query strings according to DataHub API (https://metoffice.apiconnect.ibmcloud.com/metoffice/production/api)
-	getUrl(forecastType) {
+	getUrl (forecastType) {
 		let queryStrings = "?";
 		queryStrings += `latitude=${this.config.lat}`;
 		queryStrings += `&longitude=${this.config.lon}`;
@@ -66,7 +66,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 	// Build the list of headers for the request
 	// For DataHub requests, the API key/secret are sent in the headers rather than as query strings.
 	// Headers defined according to Data Hub API (https://metoffice.apiconnect.ibmcloud.com/metoffice/production/api)
-	getHeaders() {
+	getHeaders () {
 		return {
 			accept: "application/json",
 			"x-ibm-client-id": this.config.apiKey,
@@ -75,7 +75,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 	},
 
 	// Fetch data using supplied URL and request headers
-	async fetchWeather(url, headers) {
+	async fetchWeather (url, headers) {
 		const response = await fetch(url, { headers: headers });
 
 		// Return JSON data
@@ -83,7 +83,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 	},
 
 	// Fetch hourly forecast data (to use for current weather)
-	fetchCurrentWeather() {
+	fetchCurrentWeather () {
 		this.fetchWeather(this.getUrl("hourly"), this.getHeaders())
 			.then((data) => {
 				// Check data is usable
@@ -111,7 +111,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 	},
 
 	// Create a WeatherObject using current weather data (data for the current hour)
-	generateWeatherObjectFromCurrentWeather(currentWeatherData) {
+	generateWeatherObjectFromCurrentWeather (currentWeatherData) {
 		const currentWeather = new WeatherObject();
 
 		// Extract the actual forecasts
@@ -152,7 +152,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 	},
 
 	// Fetch daily forecast data
-	fetchWeatherForecast() {
+	fetchWeatherForecast () {
 		this.fetchWeather(this.getUrl("daily"), this.getHeaders())
 			.then((data) => {
 				// Check data is usable
@@ -180,7 +180,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 	},
 
 	// Create a WeatherObject for each day using daily forecast data
-	generateWeatherObjectsFromForecast(forecasts) {
+	generateWeatherObjectsFromForecast (forecasts) {
 		const dailyForecasts = [];
 
 		// Extract the actual forecasts
@@ -225,14 +225,14 @@ WeatherProvider.register("ukmetofficedatahub", {
 	},
 
 	// Set the fetched location name.
-	setFetchedLocation: function (name) {
+	setFetchedLocation (name) {
 		this.fetchedLocationName = name;
 	},
 
 	// Match the Met Office "significant weather code" to a weathericons.css icon
 	// Use: https://metoffice.apiconnect.ibmcloud.com/metoffice/production/node/264
 	// and: https://erikflowers.github.io/weather-icons/
-	convertWeatherType(weatherType) {
+	convertWeatherType (weatherType) {
 		const weatherTypes = {
 			0: "night-clear",
 			1: "day-sunny",

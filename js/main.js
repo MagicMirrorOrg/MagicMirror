@@ -495,6 +495,7 @@ const MM = (function () {
 	 * @param {Module[]} modules Array of modules.
 	 */
 	const setSelectionMethodsForModules = function (modules) {
+
 		/**
 		 * Filter modules with the specified classes.
 		 * @param {string|string[]} className one or multiple classnames (array or space divided).
@@ -580,12 +581,13 @@ const MM = (function () {
 	};
 
 	return {
+
 		/* Public Methods */
 
 		/**
 		 * Main init method.
 		 */
-		init: async function () {
+		async init () {
 			Log.info("Initializing MagicMirror².");
 			loadConfig();
 
@@ -599,7 +601,7 @@ const MM = (function () {
 		 * Gets called when all modules are started.
 		 * @param {Module[]} moduleObjects All module instances.
 		 */
-		modulesStarted: function (moduleObjects) {
+		modulesStarted (moduleObjects) {
 			modules = [];
 			let startUp = "";
 
@@ -636,7 +638,7 @@ const MM = (function () {
 		 * @param {*} payload The payload of the notification.
 		 * @param {Module} sender The module that sent the notification.
 		 */
-		sendNotification: function (notification, payload, sender) {
+		sendNotification (notification, payload, sender) {
 			if (arguments.length < 3) {
 				Log.error("sendNotification: Missing arguments.");
 				return;
@@ -661,7 +663,7 @@ const MM = (function () {
 		 * @param {Module} module The module that needs an update.
 		 * @param {object|number} [updateOptions] The (optional) number of microseconds for the animation or object with updateOptions (speed/animates)
 		 */
-		updateDom: function (module, updateOptions) {
+		updateDom (module, updateOptions) {
 			if (!(module instanceof Module)) {
 				Log.error("updateDom: Sender should be a module.");
 				return;
@@ -680,7 +682,7 @@ const MM = (function () {
 		 * Returns a collection of all modules currently active.
 		 * @returns {Module[]} A collection of all modules currently active.
 		 */
-		getModules: function () {
+		getModules () {
 			setSelectionMethodsForModules(modules);
 			return modules;
 		},
@@ -692,7 +694,7 @@ const MM = (function () {
 		 * @param {Function} callback Called when the animation is done.
 		 * @param {object} [options] Optional settings for the hide method.
 		 */
-		hideModule: function (module, speed, callback, options) {
+		hideModule (module, speed, callback, options) {
 			module.hidden = true;
 			hideModule(module, speed, callback, options);
 		},
@@ -704,12 +706,12 @@ const MM = (function () {
 		 * @param {Function} callback Called when the animation is done.
 		 * @param {object} [options] Optional settings for the show method.
 		 */
-		showModule: function (module, speed, callback, options) {
+		showModule (module, speed, callback, options) {
 			// do not change module.hidden yet, only if we really show it later
 			showModule(module, speed, callback, options);
 		}
 	};
-})();
+}());
 
 // Add polyfill for Object.assign.
 if (typeof Object.assign !== "function") {
@@ -732,7 +734,7 @@ if (typeof Object.assign !== "function") {
 			}
 			return output;
 		};
-	})();
+	}());
 }
 
 MM.init();
