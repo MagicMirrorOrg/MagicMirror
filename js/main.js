@@ -479,7 +479,6 @@ const MM = (function () {
 	 */
 	const loadConfig = function () {
 		// FIXME: Think about how to pass config around without breaking tests
-		/* eslint-disable */
 		if (typeof config === "undefined") {
 			config = defaults;
 			Log.error("Config file is missing! Please create a config file.");
@@ -487,7 +486,6 @@ const MM = (function () {
 		}
 
 		config = Object.assign({}, defaults, config);
-		/* eslint-enable */
 	};
 
 	/**
