@@ -10,7 +10,7 @@ let config = {
 			position: "bottom_bar",
 			config: {
 				location: "Munich",
-				mockData: "\"#####WEATHERDATA#####\"",
+				mockData: '"#####WEATHERDATA#####"',
 				windUnits: "beaufort",
 				showWindDirectionAsArrow: true,
 				showSun: false,

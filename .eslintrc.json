@@ -72,6 +72,12 @@
 				"@stylistic/indent": "off",
 				"@stylistic/no-multi-spaces": "off"
 			}
+		},
+		{
+			"files": ["tests/configs/modules/weather/*.js"],
+			"rules": {
+				"@stylistic/quotes": "off"
+			}
 		}
 	]
 }
