@@ -25,7 +25,7 @@ Log.log(`Starting MagicMirror: v${global.version}`);
 global.root_path = path.resolve(`${__dirname}/../`);
 
 if (process.env.MM_CONFIG_FILE) {
-	global.configuration_file = process.env.MM_CONFIG_FILE;
+	global.configuration_file = process.env.MM_CONFIG_FILE.replace(`${global.root_path}/`, "");
 }
 
 // FIXME: Hotfix Pull Request

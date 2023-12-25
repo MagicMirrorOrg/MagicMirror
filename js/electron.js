@@ -79,7 +79,8 @@ function createWindow () {
 	}
 
 	let address = (config.address === void 0) | (config.address === "") | (config.address === "0.0.0.0") ? (config.address = "localhost") : config.address;
-	mainWindow.loadURL(`${prefix}${address}:${config.port}`);
+	const port = process.env.MM_PORT || config.port;
+	mainWindow.loadURL(`${prefix}${address}:${port}`);
 
 	// Open the DevTools if run with "npm start dev"
 	if (process.argv.includes("dev")) {
