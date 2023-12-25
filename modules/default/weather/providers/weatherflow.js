@@ -23,7 +23,7 @@ WeatherProvider.register("weatherflow", {
 		stationid: ""
 	},
 
-	fetchCurrentWeather() {
+	fetchCurrentWeather () {
 		this.fetchData(this.getUrl())
 			.then((data) => {
 				const currentWeather = new WeatherObject();
@@ -44,7 +44,7 @@ WeatherProvider.register("weatherflow", {
 			.finally(() => this.updateAvailable());
 	},
 
-	fetchWeatherForecast() {
+	fetchWeatherForecast () {
 		this.fetchData(this.getUrl())
 			.then((data) => {
 				const days = [];
@@ -71,7 +71,7 @@ WeatherProvider.register("weatherflow", {
 	},
 
 	// Create a URL from the config and base URL.
-	getUrl() {
+	getUrl () {
 		return `${this.config.apiBase}better_forecast?station_id=${this.config.stationid}&units_temp=c&units_wind=kph&units_pressure=mb&units_precip=mm&units_distance=km&token=${this.config.token}`;
 	}
 });

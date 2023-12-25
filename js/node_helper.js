@@ -9,15 +9,15 @@ const Log = require("logger");
 const Class = require("./class");
 
 const NodeHelper = Class.extend({
-	init() {
+	init () {
 		Log.log("Initializing new module helper ...");
 	},
 
-	loaded() {
+	loaded () {
 		Log.log(`Module helper loaded: ${this.name}`);
 	},
 
-	start() {
+	start () {
 		Log.log(`Starting module helper: ${this.name}`);
 	},
 
@@ -26,7 +26,7 @@ const NodeHelper = Class.extend({
 	 * Close any open connections, stop any sub-processes and
 	 * gracefully exit the module.
 	 */
-	stop() {
+	stop () {
 		Log.log(`Stopping module helper: ${this.name}`);
 	},
 
@@ -35,7 +35,7 @@ const NodeHelper = Class.extend({
 	 * @param {string} notification The identifier of the notification.
 	 * @param {*}  payload The payload of the notification.
 	 */
-	socketNotificationReceived(notification, payload) {
+	socketNotificationReceived (notification, payload) {
 		Log.log(`${this.name} received a socket notification: ${notification} - Payload: ${payload}`);
 	},
 
@@ -43,7 +43,7 @@ const NodeHelper = Class.extend({
 	 * Set the module name.
 	 * @param {string} name Module name.
 	 */
-	setName(name) {
+	setName (name) {
 		this.name = name;
 	},
 
@@ -51,7 +51,7 @@ const NodeHelper = Class.extend({
 	 * Set the module path.
 	 * @param {string} path Module path.
 	 */
-	setPath(path) {
+	setPath (path) {
 		this.path = path;
 	},
 
@@ -61,7 +61,7 @@ const NodeHelper = Class.extend({
 	 * argument notification string - The identifier of the notification.
 	 * argument payload mixed - The payload of the notification.
 	 */
-	sendSocketNotification(notification, payload) {
+	sendSocketNotification (notification, payload) {
 		this.io.of(this.name).emit(notification, payload);
 	},
 
@@ -71,7 +71,7 @@ const NodeHelper = Class.extend({
 	 *
 	 * argument app Express app - The Express app object.
 	 */
-	setExpressApp(app) {
+	setExpressApp (app) {
 		this.expressApp = app;
 
 		app.use(`/${this.name}`, express.static(`${this.path}/public`));
@@ -83,7 +83,7 @@ const NodeHelper = Class.extend({
 	 *
 	 * argument io Socket.io - The Socket io object.
 	 */
-	setSocketIO(io) {
+	setSocketIO (io) {
 		this.io = io;
 
 		Log.log(`Connecting socket for: ${this.name}`);

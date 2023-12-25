@@ -25,7 +25,7 @@ let mainWindow;
 /**
  *
  */
-function createWindow() {
+function createWindow () {
 	// see https://www.electronjs.org/docs/latest/api/screen
 	// Create a window that fills the screen's available work area.
 	let electronSize = (800, 600);
@@ -121,11 +121,11 @@ function createWindow() {
 	mainWindow.webContents.session.webRequest.onHeadersReceived((details, callback) => {
 		let curHeaders = details.responseHeaders;
 		if (config["ignoreXOriginHeader"] || false) {
-			curHeaders = Object.fromEntries(Object.entries(curHeaders).filter((header) => !/x-frame-options/i.test(header[0])));
+			curHeaders = Object.fromEntries(Object.entries(curHeaders).filter((header) => !(/x-frame-options/i).test(header[0])));
 		}
 
 		if (config["ignoreContentSecurityPolicy"] || false) {
-			curHeaders = Object.fromEntries(Object.entries(curHeaders).filter((header) => !/content-security-policy/i.test(header[0])));
+			curHeaders = Object.fromEntries(Object.entries(curHeaders).filter((header) => !(/content-security-policy/i).test(header[0])));
 		}
 
 		callback({ responseHeaders: curHeaders });

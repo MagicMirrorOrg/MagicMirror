@@ -5,12 +5,13 @@
  * MIT Licensed.
  */
 const CalendarUtils = {
+
 	/**
 	 * Capitalize the first letter of a string
 	 * @param {string} string The string to capitalize
 	 * @returns {string} The capitalized string
 	 */
-	capFirst: function (string) {
+	capFirst (string) {
 		return string.charAt(0).toUpperCase() + string.slice(1);
 	},
 
@@ -21,7 +22,7 @@ const CalendarUtils = {
 	 * @param {number} timeFormat Specifies either 12 or 24-hour time format
 	 * @returns {moment.LocaleSpecification} formatted time
 	 */
-	getLocaleSpecification: function (timeFormat) {
+	getLocaleSpecification (timeFormat) {
 		switch (timeFormat) {
 			case 12: {
 				return { longDateFormat: { LT: "h:mm A" } };
@@ -43,7 +44,7 @@ const CalendarUtils = {
 	 * @param {number} maxTitleLines The max number of vertical lines before cutting event title
 	 * @returns {string} The shortened string
 	 */
-	shorten: function (string, maxLength, wrapEvents, maxTitleLines) {
+	shorten (string, maxLength, wrapEvents, maxTitleLines) {
 		if (typeof string !== "string") {
 			return "";
 		}
@@ -98,7 +99,7 @@ const CalendarUtils = {
 	 *                    yearmatchgroup: {number,optional} match group for year element
 	 * @returns {string} The transformed title.
 	 */
-	titleTransform: function (title, titleReplace) {
+	titleTransform (title, titleReplace) {
 		let transformedTitle = title;
 		for (let tr in titleReplace) {
 			let transform = titleReplace[tr];

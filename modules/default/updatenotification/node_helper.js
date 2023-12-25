@@ -14,7 +14,7 @@ module.exports = NodeHelper.create({
 	gitHelper: new GitHelper(),
 	updateHelper: null,
 
-	async configureModules(modules) {
+	async configureModules (modules) {
 		for (const moduleName of modules) {
 			if (!this.ignoreUpdateChecking(moduleName)) {
 				await this.gitHelper.add(moduleName);
@@ -26,7 +26,7 @@ module.exports = NodeHelper.create({
 		}
 	},
 
-	async socketNotificationReceived(notification, payload) {
+	async socketNotificationReceived (notification, payload) {
 		switch (notification) {
 			case "CONFIG":
 				this.config = payload;
@@ -51,7 +51,7 @@ module.exports = NodeHelper.create({
 		}
 	},
 
-	async performFetch() {
+	async performFetch () {
 		const repos = await this.gitHelper.getRepos();
 
 		for (const repo of repos) {
@@ -76,7 +76,7 @@ module.exports = NodeHelper.create({
 		this.scheduleNextFetch(this.config.updateInterval);
 	},
 
-	scheduleNextFetch(delay) {
+	scheduleNextFetch (delay) {
 		clearTimeout(this.updateTimer);
 
 		this.updateTimer = setTimeout(
@@ -87,7 +87,7 @@ module.exports = NodeHelper.create({
 		);
 	},
 
-	ignoreUpdateChecking(moduleName) {
+	ignoreUpdateChecking (moduleName) {
 		// Should not check for updates for default modules
 		if (defaultModules.includes(moduleName)) {
 			return true;

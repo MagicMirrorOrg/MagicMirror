@@ -7,7 +7,7 @@
  * @param {Array.<string>} expectedResponseHeaders the expected HTTP headers to receive
  * @returns {Promise} resolved when the fetch is done. The response headers is placed in a headers-property (provided the response does not already contain a headers-property).
  */
-async function performWebRequest(url, type = "json", useCorsProxy = false, requestHeaders = undefined, expectedResponseHeaders = undefined) {
+async function performWebRequest (url, type = "json", useCorsProxy = false, requestHeaders = undefined, expectedResponseHeaders = undefined) {
 	const request = {};
 	let requestUrl;
 	if (useCorsProxy) {
@@ -165,8 +165,7 @@ const formatTime = (config, time) => {
 	return date.format("HH:mm");
 };
 
-if (typeof module !== "undefined")
-	module.exports = {
-		performWebRequest,
-		formatTime
-	};
+if (typeof module !== "undefined") module.exports = {
+	performWebRequest,
+	formatTime
+};

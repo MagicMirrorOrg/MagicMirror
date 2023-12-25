@@ -134,12 +134,12 @@ const AnimateCSSOut = [
  * @param {string} [animation] animation name.
  * @param {number} [animationTime] animation duration.
  */
-function addAnimateCSS(element, animation, animationTime) {
+function addAnimateCSS (element, animation, animationTime) {
 	const animationName = `animate__${animation}`;
 	const node = document.getElementById(element);
 	if (!node) {
 		// don't execute animate: we don't find div
-		Log.warn(`addAnimateCSS: node not found for`, element);
+		Log.warn("addAnimateCSS: node not found for", element);
 		return;
 	}
 	node.style.setProperty("--animate-duration", `${animationTime}s`);
@@ -151,12 +151,12 @@ function addAnimateCSS(element, animation, animationTime) {
  * @param {string} [element] div element to animate.
  * @param {string} [animation] animation name.
  */
-function removeAnimateCSS(element, animation) {
+function removeAnimateCSS (element, animation) {
 	const animationName = `animate__${animation}`;
 	const node = document.getElementById(element);
 	if (!node) {
 		// don't execute animate: we don't find div
-		Log.warn(`removeAnimateCSS: node not found for`, element);
+		Log.warn("removeAnimateCSS: node not found for", element);
 		return;
 	}
 	node.classList.remove("animate__animated", animationName);

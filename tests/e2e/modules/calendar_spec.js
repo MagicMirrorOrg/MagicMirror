@@ -2,6 +2,7 @@ const helpers = require("../helpers/global-setup");
 const serverBasicAuth = require("../helpers/basic-auth");
 
 describe("Calendar module", () => {
+
 	/**
 	 * @param {string} element css selector
 	 * @param {string} result expected number

@@ -16,10 +16,11 @@
  * @external Moment
  */
 class WeatherObject {
+
 	/**
 	 * Constructor for a WeatherObject
 	 */
-	constructor() {
+	constructor () {
 		this.date = null;
 		this.windSpeed = null;
 		this.windFromDirection = null;
@@ -36,7 +37,7 @@ class WeatherObject {
 		this.feelsLikeTemp = null;
 	}
 
-	cardinalWindDirection() {
+	cardinalWindDirection () {
 		if (this.windFromDirection > 11.25 && this.windFromDirection <= 33.75) {
 			return "NNE";
 		} else if (this.windFromDirection > 33.75 && this.windFromDirection <= 56.25) {
@@ -79,11 +80,11 @@ class WeatherObject {
 	 * action for. Useful only in tests, defaults to the current time.
 	 * @returns {string} "sunset" or "sunrise"
 	 */
-	nextSunAction(date = moment()) {
+	nextSunAction (date = moment()) {
 		return date.isBetween(this.sunrise, this.sunset) ? "sunset" : "sunrise";
 	}
 
-	feelsLike() {
+	feelsLike () {
 		if (this.feelsLikeTemp) {
 			return this.feelsLikeTemp;
 		}
@@ -94,7 +95,7 @@ class WeatherObject {
 	 * Checks if the weatherObject is at dayTime.
 	 * @returns {boolean} true if it is at dayTime
 	 */
-	isDayTime() {
+	isDayTime () {
 		const now = !this.date ? moment() : this.date;
 		return now.isBetween(this.sunrise, this.sunset, undefined, "[]");
 	}
@@ -106,7 +107,7 @@ class WeatherObject {
 	 * @param {number} lat latitude
 	 * @param {number} lon longitude
 	 */
-	updateSunTime(lat, lon) {
+	updateSunTime (lat, lon) {
 		const now = !this.date ? new Date() : this.date.toDate();
 		const times = SunCalc.getTimes(now, lat, lon);
 		this.sunrise = moment(times.sunrise);
@@ -120,7 +121,7 @@ class WeatherObject {
 	 * Especially 'moment' object is not immutable, so original 'date', 'sunrise', 'sunset' could be corrupted or changed by other modules.
 	 * @returns {object} plained object clone of original weatherObject
 	 */
-	simpleClone() {
+	simpleClone () {
 		const toFlat = ["date", "sunrise", "sunset"];
 		let clone = { ...this };
 		for (const prop of toFlat) {

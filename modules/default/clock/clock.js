@@ -37,15 +37,15 @@ Module.register("clock", {
 		lon: -122.344147
 	},
 	// Define required scripts.
-	getScripts: function () {
+	getScripts () {
 		return ["moment.js", "moment-timezone.js", "suncalc.js"];
 	},
 	// Define styles.
-	getStyles: function () {
+	getStyles () {
 		return ["clock_styles.css"];
 	},
 	// Define start sequence.
-	start: function () {
+	start () {
 		Log.info(`Starting module: ${this.name}`);
 
 		// Schedule update interval.
@@ -94,7 +94,7 @@ Module.register("clock", {
 		moment.locale(config.language);
 	},
 	// Override dom generator.
-	getDom: function () {
+	getDom () {
 		const wrapper = document.createElement("div");
 		wrapper.classList.add("clock-grid");
 
@@ -186,10 +186,10 @@ Module.register("clock", {
 			}
 			const untilNextEvent = moment.duration(moment(nextEvent).diff(now));
 			const untilNextEventString = `${untilNextEvent.hours()}h ${untilNextEvent.minutes()}m`;
-			sunWrapper.innerHTML =
-				`<span class="${isVisible ? "bright" : ""}"><i class="fas fa-sun" aria-hidden="true"></i> ${untilNextEventString}</span>` +
-				`<span><i class="fas fa-arrow-up" aria-hidden="true"></i> ${formatTime(this.config, sunTimes.sunrise)}</span>` +
-				`<span><i class="fas fa-arrow-down" aria-hidden="true"></i> ${formatTime(this.config, sunTimes.sunset)}</span>`;
+			sunWrapper.innerHTML
+				= `<span class="${isVisible ? "bright" : ""}"><i class="fas fa-sun" aria-hidden="true"></i> ${untilNextEventString}</span>`
+				+ `<span><i class="fas fa-arrow-up" aria-hidden="true"></i> ${formatTime(this.config, sunTimes.sunrise)}</span>`
+				+ `<span><i class="fas fa-arrow-down" aria-hidden="true"></i> ${formatTime(this.config, sunTimes.sunset)}</span>`;
 			digitalWrapper.appendChild(sunWrapper);
 		}
 
@@ -211,12 +211,12 @@ Module.register("clock", {
 			const showFraction = ["both", "percent"].includes(this.config.showMoonTimes);
 			const showUnicode = ["both", "phase"].includes(this.config.showMoonTimes);
 			const illuminatedFractionString = `${Math.round(moonIllumination.fraction * 100)}%`;
-			const image = showUnicode ? [..."🌑🌒🌓🌔🌕🌖🌗🌘"][Math.floor(moonIllumination.phase * 8)] : '<i class="fas fa-moon" aria-hidden="true"></i>';
+			const image = showUnicode ? [..."🌑🌒🌓🌔🌕🌖🌗🌘"][Math.floor(moonIllumination.phase * 8)] : "<i class=\"fas fa-moon\" aria-hidden=\"true\"></i>";
 
-			moonWrapper.innerHTML =
-				`<span class="${isVisible ? "bright" : ""}">${image} ${showFraction ? illuminatedFractionString : ""}</span>` +
-				`<span><i class="fas fa-arrow-up" aria-hidden="true"></i> ${moonRise ? formatTime(this.config, moonRise) : "..."}</span>` +
-				`<span><i class="fas fa-arrow-down" aria-hidden="true"></i> ${moonSet ? formatTime(this.config, moonSet) : "..."}</span>`;
+			moonWrapper.innerHTML
+				= `<span class="${isVisible ? "bright" : ""}">${image} ${showFraction ? illuminatedFractionString : ""}</span>`
+				+ `<span><i class="fas fa-arrow-up" aria-hidden="true"></i> ${moonRise ? formatTime(this.config, moonRise) : "..."}</span>`
+				+ `<span><i class="fas fa-arrow-down" aria-hidden="true"></i> ${moonSet ? formatTime(this.config, moonSet) : "..."}</span>`;
 			digitalWrapper.appendChild(moonWrapper);
 		}
 

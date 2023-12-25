@@ -22,7 +22,7 @@ const { cors, getConfig, getHtml, getVersion, getStartup } = require("./server_f
  * @param {object} config The MM config
  * @class
  */
-function Server(config) {
+function Server (config) {
 	const app = express();
 	const port = process.env.MM_PORT || config.port;
 	const serverSockets = new Set();

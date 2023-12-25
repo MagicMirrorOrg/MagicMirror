@@ -25,7 +25,7 @@ describe("AnimateCSS integration Test", () => {
 	 */
 	const doTest = async (animationIn, animationOut) => {
 		await helpers.getDocument();
-		let elem = await helpers.waitForElement(`.compliments`);
+		let elem = await helpers.waitForElement(".compliments");
 		expect(elem).not.toBeNull();
 		let styles = window.getComputedStyle(elem);
 

@@ -1,6 +1,7 @@
 const helpers = require("../helpers/global-setup");
 
 describe("Calendar module", () => {
+
 	/**
 	 * move similar tests in function doTest
 	 * @param {string} cssClass css selector

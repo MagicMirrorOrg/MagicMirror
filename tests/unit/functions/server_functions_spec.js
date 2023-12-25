@@ -31,7 +31,7 @@ describe("server_functions tests", () => {
 			};
 
 			request = {
-				url: `/cors?url=www.test.com`
+				url: "/cors?url=www.test.com"
 			};
 		});
 
