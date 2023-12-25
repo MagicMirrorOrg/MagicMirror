@@ -66,7 +66,7 @@
 	},
 	"overrides": [
 		{
-			"files": ["config/config.js.sample"],
+			"files": ["config/config.js*"],
 			"rules": {
 				"@stylistic/comma-dangle": "off",
 				"@stylistic/indent": "off",
