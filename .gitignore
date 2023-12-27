@@ -77,3 +77,5 @@ Temporary Items
 *.orig
 *.rej
 *.bak
+
+package-lock.json
