@@ -43,7 +43,7 @@ var config = {
 	// true, force serveronly mode, because you want to.. no UI on this device
 
 	modules: [
-		{
+		/*{
 			module: "MMM-pages",
 			config: {
 				modules: [
@@ -71,18 +71,18 @@ var config = {
 				rotationDelay: 30000,
 				//rotationFirstPage: 15000,
 			}
-		},
+		},*/
 		{
 			module: "alert",
 		},
-		{
+		/*{
 			module: 'mmm-systemtemperature',
 			position: 'top_right',	// This can be any of the regions.
 			classes: 'small dimmed', // Add your own styling. Optional.
 			config: {
 				prependString: "Systemtemperatur: ",
 			}
-		},
+		},*/
 		/*{
 			module: 'MMM-Snow',
 			position: 'fullscreen_above',
@@ -136,11 +136,11 @@ var config = {
 					},
 					{
 						symbol: 'calendar-check',
-						url: 'webcal://localhost:8080/modules/calendars/9FCA1545-F107-4A23-B64E-07214646975D.ics',
+						url: 'webcal://p65-caldav.icloud.com/published/2/MTM1NTM3NzUzNDEzNTUzN8u9bcLtSE9w_ovBQqETYPj23oMWhkPwlc26rT0YdmPf2FizXkwc8SWyUmvlRt623l01NQGGwRzJSNca3CS85_Q',
 					},
 					{
 						symbol: 'birthday-cake',
-						url: 'webcal://localhost:8080/modules/calendars/birthdays.ics',
+						url: 'webcal://localhost:8080/modules/static/birthdays.ics',
 					},
 				]
 			}
@@ -158,40 +158,40 @@ var config = {
 				fadePoint: 0.25
 			}
 		},
-		{
+		/*{
 			module: "MMM-Spotify",
 			position: "top_center", // "bottom_bar" or "top_bar" for miniBar
 			config: {
-			  debug: false, // debug mode
-			  style: "mini", // "default" or "mini" available (inactive for miniBar)
-			  control: "default",
-			  accountDefault: 0, // default account number, attention : 0 is the first account
-			  updateInterval: 1000, // update interval when playing
-			  idleInterval: 30000, // update interval on idle
-			  onStart: null, // disable onStart feature with `null`
-			  deviceDisplay: "Gehört auf:", // text to display in the device block (default style only)
-			  allowDevices: [], //If you want to limit devices to display info, use this.
-			  // allowDevices: ["RASPOTIFY", "My iPhoneX", "My Home speaker"],
-			  miniBarConfig: {
-				album: true, // display Album name in miniBar style
-				scroll: true, // scroll title / artist / album in miniBar style
-				logo: true, // display Spotify logo in miniBar style
-			  }
+				debug: false, // debug mode
+			  	style: "mini", // "default" or "mini" available (inactive for miniBar)
+			  	control: "default",
+			  	accountDefault: 0, // default account number, attention : 0 is the first account
+			  	updateInterval: 1000, // update interval when playing
+			  	idleInterval: 30000, // update interval on idle
+			  	onStart: null, // disable onStart feature with `null`
+			  	deviceDisplay: "Gehört auf:", // text to display in the device block (default style only)
+			  	allowDevices: [], //If you want to limit devices to display info, use this.
+			  	// allowDevices: ["RASPOTIFY", "My iPhoneX", "My Home speaker"],
+			  	miniBarConfig: {
+					album: true, // display Album name in miniBar style
+					scroll: true, // scroll title / artist / album in miniBar style
+					logo: true, // display Spotify logo in miniBar style
+				}
 			}
-		  },
-		{
+		},*/
+		/*{
 			module: 'MMM-WiFiPassword',
     		position: "top_right",
       		config: {
-				network: "WLAN Solo", 
-				password: "Chewiellennium#Falcon",
+				network: "Wlan Solo", 
+				password: "AlderaanWasAnInsideJob",
 				authTpye: "WPA",
 				showNetwork: false,
 				showPassword: false,
 				showAuthType: false
 			}
-		},
-		{
+		},*/
+		/*{
 			module: "MMM-WeatherOrNot",
 			position: "top_right",
 			config: {
@@ -220,7 +220,7 @@ var config = {
 				animationSpeed: 3000,
 				updateInterval: 10 * 60 * 1000
 			}
-		},
+		},*/
 		/*{
 			module: "compliments",
 			position: "bottom_center",
@@ -245,7 +245,7 @@ var config = {
 				}
 			}
 		},*/
-		{
+		/*{
 			module: "MMM-Vrr",
 			position: "bottom_right",
 			config: {
@@ -258,7 +258,7 @@ var config = {
 				scrollAfter: false,
 				line: "CE"
 			}
-		},
+		},*/
 		{
 			module: "MMM-Fuel",
 			position: "bottom_left",
@@ -286,14 +286,6 @@ var config = {
 						title: "Heise",
 						url: "https://www.heise.de/rss/heise-top-atom.xml",
 					},
-					{
-						title: "Süddeutsche Zeitung",
-						url: "https://rss.sueddeutsche.de/rss/Eilmeldungen",
-					},
-					{
-						title: "Polygon",
-						url: "https://www.polygon.com/rss/index.xml",
-					}
 				],
 				showSourceTitle: true,
 				showPublishDate: true,
@@ -301,7 +293,7 @@ var config = {
 				ignoreOlderThan: 86400000,
 			}
 		},
-		{
+		/*{
 			module: 'MMM-NFL',
 			position: 'top_left',
 			config: {
@@ -309,15 +301,15 @@ var config = {
 				focus_on: ["GB", "SEA", "PIT", "ARI"],
 				format: "D. MMM HH:mm",
 			}
-		},
-		{
+		},*/
+		/*{
 			module: "MMM-SoccerLiveScore",
 			position: "bottom_center",
 			config: {
 				leagues: [35, 1, 9]
 			}
-		},
-		{
+		},*/
+		/*{
 			module: "MMM-Liquipedia-Dota2",
 			position: "bottom_left",
 			header: "Upcoming Dota2 Matches",
@@ -331,7 +323,7 @@ var config = {
 					"teamliquid",
 				],
 			}
-		},
+		},*/
 		{
 			module: 'MMM-page-indicator',
 			position: 'bottom_bar',
