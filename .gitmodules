@@ -1,0 +1,24 @@
+[submodule "modules/MMM-Watchdog"]
+	path = modules/MMM-Watchdog
+	url = https://github.com/MichMich/MMM-Watchdog
+[submodule "modules/MMM-pages"]
+	path = modules/MMM-pages
+	url = https://github.com/edward-shen/MMM-pages
+[submodule "modules/MMM-MyGarbage"]
+	path = modules/MMM-MyGarbage
+	url = https://github.com/Feedy88/MMM-MyGarbage
+[submodule "modules/MMM-PIR-Sensor"]
+	path = modules/MMM-PIR-Sensor
+	url = https://github.com/MarcLandis/MMM-PIR-Sensor
+[submodule "modules/MMM-Fuel"]
+	path = modules/MMM-Fuel
+	url = https://github.com/fewieden/MMM-Fuel
+[submodule "modules/MMM-page-indicator"]
+	path = modules/MMM-page-indicator
+	url = https://github.com/edward-shen/MMM-page-indicator
+[submodule "modules/MMM-network-signal"]
+	path = modules/MMM-network-signal
+	url = https://github.com/PoOwAa/MMM-network-signal
+[submodule "modules/MMM-NetworkConnection"]
+	path = modules/MMM-NetworkConnection
+	url = https://github.com/slametps/MMM-NetworkConnection
