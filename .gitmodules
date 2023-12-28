@@ -7,9 +7,6 @@
 [submodule "modules/MMM-MyGarbage"]
 	path = modules/MMM-MyGarbage
 	url = https://github.com/Feedy88/MMM-MyGarbage
-[submodule "modules/MMM-PIR-Sensor"]
-	path = modules/MMM-PIR-Sensor
-	url = https://github.com/MarcLandis/MMM-PIR-Sensor
 [submodule "modules/MMM-Fuel"]
 	path = modules/MMM-Fuel
 	url = https://github.com/fewieden/MMM-Fuel
