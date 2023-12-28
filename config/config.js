@@ -98,6 +98,16 @@ var config = {
 				timeout: 10,
 			}
 		},
+		{
+			module: 'MMM-PIR-Sensor',
+			config: {
+				sensorPin: 23,
+				powerSavingDelay: 5,
+				powerSavingNotification: true,
+				powerSavingMessage: "Bildschirm wird abgeschaltet",
+				supportCEC: false,
+			}
+		},
 		/*{
 			module: "updatenotification",
 			position: "top_bar"
