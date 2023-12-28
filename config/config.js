@@ -158,6 +158,13 @@ var config = {
 				fadePoint: 0.25
 			}
 		},
+		{
+			module: "MMM-network-signal",
+			position: "top_right",
+			config: {
+				scale: 0.45
+			}
+		},
 		/*{
 			module: "MMM-Spotify",
 			position: "top_center", // "bottom_bar" or "top_bar" for miniBar
