@@ -12,7 +12,7 @@
 	"dependencies": {
 		"@fortawesome/fontawesome-free": "^6.5.1",
 		"animate.css": "^4.1.1",
-		"moment": "^2.29.4",
+		"moment": "^2.30.1",
 		"moment-timezone": "^0.5.43",
 		"nunjucks": "^3.2.4",
 		"suncalc": "^1.9.0",
