@@ -158,13 +158,6 @@ var config = {
 				fadePoint: 0.25
 			}
 		},
-		{
-			module: 'MMM-NetworkConnection', /*check if exchange for HA sensor to spare speedtest*/
-			position: 'top_right',
-			config: {
-				displayTextStatus: false,
-			}
-		},
 		/*{
 			module: "MMM-Spotify",
 			position: "top_center", // "bottom_bar" or "top_bar" for miniBar
