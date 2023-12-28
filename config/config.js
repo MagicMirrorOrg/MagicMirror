@@ -99,13 +99,13 @@ var config = {
 			}
 		},
 		{
-			module: 'MMM-PIR-Sensor',
+			module: 'MMM-PIR-Sensor-Lite',
 			config: {
 				sensorPin: 23,
-				powerSavingDelay: 5,
-				powerSavingNotification: true,
-				powerSavingMessage: "Bildschirm wird abgeschaltet",
-				supportCEC: false,
+				commandType: 'xrandr',
+				hdmiPort: 'HDMI-1',
+				title: "Bildschirm wird abgeschaltet",
+				debugMode: true,
 			}
 		},
 		/*{
