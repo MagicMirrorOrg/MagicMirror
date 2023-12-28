@@ -159,10 +159,10 @@ var config = {
 			}
 		},
 		{
-			module: "MMM-network-signal",
-			position: "top_right",
+			module: 'MMM-NetworkConnection', /*check if exchange for HA sensor to spare speedtest*/
+			position: 'top_right',
 			config: {
-				scale: 0.45
+				displayTextStatus: false,
 			}
 		},
 		/*{

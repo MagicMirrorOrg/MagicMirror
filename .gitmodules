@@ -16,9 +16,6 @@
 [submodule "modules/MMM-page-indicator"]
 	path = modules/MMM-page-indicator
 	url = https://github.com/edward-shen/MMM-page-indicator
-[submodule "modules/MMM-network-signal"]
-	path = modules/MMM-network-signal
-	url = https://github.com/PoOwAa/MMM-network-signal
 [submodule "modules/MMM-NetworkConnection"]
 	path = modules/MMM-NetworkConnection
 	url = https://github.com/slametps/MMM-NetworkConnection
