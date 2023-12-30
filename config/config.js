@@ -105,7 +105,7 @@ var config = {
 			  debug: false,
 			  delay: 2 * 60 * 1000,
 			  turnOffDisplay: true,
-			  mode: 1,
+			  mode: 9,
 			  ecoMode: true,
 			  displayCounter: true,
 			  displayBar: true,
@@ -116,8 +116,8 @@ var config = {
 			  mode6_clearGpioValue: true,
 			  pir_gpio: 23,
 			  pir_reverseValue: false,
-			  /*xrandrForceRotation: "normal",
-			  wrandrForceRotation: "normal"*/
+			  xrandrForceRotation: "normal",
+			  //wrandrForceRotation: "normal"
 			}
 		  },
 		/*{
