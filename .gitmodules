@@ -12,7 +12,4 @@
 	url = https://github.com/fewieden/MMM-Fuel
 [submodule "modules/MMM-page-indicator"]
 	path = modules/MMM-page-indicator
-	url = https://github.com/edward-shen/MMM-page-indicator
-[submodule "modules/MMM-PIR-Sensor-Lite"]
-	path = modules/MMM-PIR-Sensor-Lite
-	url = https://github.com/grenagit/MMM-PIR-Sensor-Lite/
+	url = https://github.com/edward-shen/MMM-page-indicators
