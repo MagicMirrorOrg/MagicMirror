@@ -22,7 +22,7 @@ var config = {
 	port: 8080,
 	basePath: "/", 	// The URL path where MagicMirror is hosted. If you are using a Reverse proxy
 			// you must set the sub path here. basePath must end with a /
-	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1","localhost"], 	// Set [] to allow all IP addresses
+	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1","localhost", "192.168.178.0/24"], 	// Set [] to allow all IP addresses
 								// or add a specific IPv4 of 192.168.1.5 :
 								// ["127.0.0.1", "::ffff:127.0.0.1", "::1", "::ffff:192.168.1.5"],
 								// or IPv4 range of 192.168.3.0 --> 192.168.3.15 use CIDR format :
@@ -99,15 +99,27 @@ var config = {
 			}
 		},
 		{
-			module: 'MMM-PIR-Sensor-Lite',
+			module: 'MMM-Pir',
+			position: 'top_right',
 			config: {
-				sensorPin: 23,
-				commandType: 'xrandr',
-				hdmiPort: 'HDMI-1',
-				title: "Bildschirm wird abgeschaltet",
-				debugMode: true,
+			  debug: false,
+			  delay: 2 * 2 * 1000,
+			  turnOffDisplay: true,
+			  mode: 1,
+			  ecoMode: true,
+			  displayCounter: true,
+			  displayBar: true,
+			  displayStyle: "Line",
+			  displayLastPresence: true,
+			  lastPresenceTimeFormat: "LL H:mm",
+			  mode6_gpio: 20,
+			  mode6_clearGpioValue: true,
+			  pir_gpio: 23,
+			  pir_reverseValue: false,
+			  /*xrandrForceRotation: "normal",
+			  wrandrForceRotation: "normal"*/
 			}
-		},
+		  },
 		/*{
 			module: "updatenotification",
 			position: "top_bar"
