@@ -109,7 +109,7 @@ var config = {
 			  ecoMode: true,
 			  displayCounter: true,
 			  displayBar: true,
-			  displayStyle: "Bar",
+			  displayStyle: "Text",
 			  displayLastPresence: true,
 			  lastPresenceTimeFormat: "LL H:mm",
 			  mode6_gpio: 20,
