@@ -13,3 +13,6 @@
 [submodule "modules/MMM-page-indicator"]
 	path = modules/MMM-page-indicator
 	url = https://github.com/edward-shen/MMM-page-indicators
+[submodule "modules/MMM-Pir"]
+	path = modules/MMM-Pir
+	url = https://github.com/bugsounet/MMM-Pir
