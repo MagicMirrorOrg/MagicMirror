@@ -33,6 +33,7 @@ _This release is scheduled to be released on 2024-01-01._
 - electron is now per default started without gpu, if needed it must be enabled with new env var `ELECTRON_ENABLE_GPU=1` on startup (#3226)
 - Replace prettier by stylistic in ESLint config to lint JavaScript (and disable some rules for `config/config.js*` files)
 - Update node-ical to v0.17.1 and fix tests
+- Changed `new Date()` to `Date.now()` to aid debugging (#3252)
 
 ### Fixed
 
