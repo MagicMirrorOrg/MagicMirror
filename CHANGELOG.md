@@ -15,6 +15,8 @@ _This release is scheduled to be released on 2024-04-01._
 
 ### Fixed
 
+- Skip changelog requirement when running tests for dependency updates (#3320)
+
 ### Deleted
 
 ## [2.26.0] - 01-01-2024
