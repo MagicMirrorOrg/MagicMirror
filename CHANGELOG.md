@@ -5,13 +5,17 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror².
 
-## [2.26.0] - Unreleased (`develop` branch)
+## [2.26.0] - 01-01-2024
 
-_This release is scheduled to be released on 2024-01-01._
+Thanks to: @bnitkin, @bugsounet, @dependabot, @jkriegshauser, @kaennchenstruggle, @KristjanESPERANTO and @Ybbet.
+
+Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not all) of the work on this release as project collaborators. This version would not be there without their effort. Thank you guys! You are awesome!
+
+This release also marks the latest release by Michael Teeuw. For more info, please read the following post: [A New Chapter for MagicMirror: The Community Takes the Lead](https://forum.magicmirror.builders/topic/18329/a-new-chapter-for-magicmirror-the-community-takes-the-lead).
 
 ### Added
 
-- Added updatenotification Updater (for 3rd party modules)
+- Added update notification updater (for 3rd party modules)
 - Added node 21 to the test matrix
 - Added transform object to calendar:customEvents
 - Added ESLint rules for jest (including jest/expect-expect and jest/no-done-callback)
