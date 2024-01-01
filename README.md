@@ -4,14 +4,14 @@
   <a href="https://choosealicense.com/licenses/mit">
 		<img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License">
 	</a>
-	<img src="https://img.shields.io/github/actions/workflow/status/michmich/magicmirror/automated-tests.yaml" alt="GitHub Actions">
-	<img src="https://img.shields.io/github/checks-status/michmich/magicmirror/master" alt="Build Status">
-	<a href="https://github.com/MichMich/MagicMirror">
-		<img src="https://img.shields.io/github/stars/michmich/magicmirror?style=social">
+	<img src="https://img.shields.io/github/actions/workflow/status/magicmirrororg/magicmirror/automated-tests.yaml" alt="GitHub Actions">
+	<img src="https://img.shields.io/github/checks-status/magicmirrororg/magicmirror/master" alt="Build Status">
+	<a href="https://github.com/MagicMirrorOrg/MagicMirror">
+		<img src="https://img.shields.io/github/stars/magicmirrororg/magicmirror?style=social">
 	</a>
 </p>
 
-**MagicMirror²** is an open source modular smart mirror platform. With a growing list of installable modules, the **MagicMirror²** allows you to convert your hallway or bathroom mirror into your personal assistant. **MagicMirror²** is built by the creator of [the original MagicMirror](https://michaelteeuw.nl/tagged/magicmirror) with the incredible help of a [growing community of contributors](https://github.com/MichMich/MagicMirror/graphs/contributors).
+**MagicMirror²** is an open source modular smart mirror platform. With a growing list of installable modules, the **MagicMirror²** allows you to convert your hallway or bathroom mirror into your personal assistant. **MagicMirror²** is built by the creator of [the original MagicMirror](https://michaelteeuw.nl/tagged/magicmirror) with the incredible help of a [growing community of contributors](https://github.com/MagicMirrorOrg/MagicMirror/graphs/contributors).
 
 MagicMirror² focuses on a modular plugin system and uses [Electron](https://www.electronjs.org/) as an application wrapper. So no more web server or browser installs necessary!
 

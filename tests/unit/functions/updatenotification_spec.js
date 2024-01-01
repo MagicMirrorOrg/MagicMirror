@@ -75,10 +75,10 @@ describe("Updatenotification", () => {
 		const moduleName = "MagicMirror";
 
 		beforeEach(async () => {
-			gitRemoteOut = "origin\tgit@github.com:MichMich/MagicMirror.git (fetch)\norigin\tgit@github.com:MichMich/MagicMirror.git (push)\n";
+			gitRemoteOut = "origin\tgit@github.com:MagicMirrorOrg/MagicMirror.git (fetch)\norigin\tgit@github.com:MagicMirrorOrg/MagicMirror.git (push)\n";
 			gitRevParseOut = "332e429a41f1a2339afd4f0ae96dd125da6beada";
 			gitStatusOut = "## develop...origin/develop\n M tests/unit/functions/updatenotification_spec.js\n";
-			gitFetchErr = "From github.com:MichMich/MagicMirror\n60e0377..332e429  develop          -> origin/develop\n";
+			gitFetchErr = "From github.com:MagicMirrorOrg/MagicMirror\n60e0377..332e429  develop          -> origin/develop\n";
 			gitRevListCountOut = "5";
 
 			await gitHelper.add(moduleName);
@@ -114,10 +114,10 @@ describe("Updatenotification", () => {
 		const moduleName = "MagicMirror";
 
 		beforeEach(async () => {
-			gitRemoteOut = "origin\tgit@github.com:MichMich/MagicMirror.git (fetch)\norigin\tgit@github.com:MichMich/MagicMirror.git (push)\n";
+			gitRemoteOut = "origin\tgit@github.com:MagicMirrorOrg/MagicMirror.git (fetch)\norigin\tgit@github.com:MagicMirrorOrg/MagicMirror.git (push)\n";
 			gitRevParseOut = "332e429a41f1a2339afd4f0ae96dd125da6beada";
 			gitStatusOut = "## master...origin/master\n M tests/unit/functions/updatenotification_spec.js\n";
-			gitFetchErr = "From github.com:MichMich/MagicMirror\n60e0377..332e429  master          -> origin/master\n";
+			gitFetchErr = "From github.com:MagicMirrorOrg/MagicMirror\n60e0377..332e429  master          -> origin/master\n";
 			gitRevListCountOut = "5";
 
 			await gitHelper.add(moduleName);
@@ -153,10 +153,10 @@ describe("Updatenotification", () => {
 		const moduleName = "MagicMirror";
 
 		beforeEach(async () => {
-			gitRemoteOut = "origin\tgit@github.com:MichMich/MagicMirror.git (fetch)\norigin\tgit@github.com:MichMich/MagicMirror.git (push)\n";
+			gitRemoteOut = "origin\tgit@github.com:MagicMirrorOrg/MagicMirror.git (fetch)\norigin\tgit@github.com:MagicMirrorOrg/MagicMirror.git (push)\n";
 			gitRevParseOut = "332e429a41f1a2339afd4f0ae96dd125da6beada";
 			gitStatusOut = "## master...origin/master\n M tests/unit/functions/updatenotification_spec.js\n";
-			gitFetchErr = "From github.com:MichMich/MagicMirror\n60e0377..332e429  master          -> origin/master\n";
+			gitFetchErr = "From github.com:MagicMirrorOrg/MagicMirror\n60e0377..332e429  master          -> origin/master\n";
 			gitRevListCountOut = "5";
 			gitTagListOut = "332e429a41f1a2339afd4f0ae96dd125da6beada...tag...\n";
 			gitRevListOut = "332e429a41f1a2339afd4f0ae96dd125da6beada\n";
@@ -194,10 +194,10 @@ describe("Updatenotification", () => {
 		const moduleName = "MagicMirror";
 
 		beforeEach(async () => {
-			gitRemoteOut = "origin\tgit@github.com:MichMich/MagicMirror.git (fetch)\norigin\tgit@github.com:MichMich/MagicMirror.git (push)\n";
+			gitRemoteOut = "origin\tgit@github.com:MagicMirrorOrg/MagicMirror.git (fetch)\norigin\tgit@github.com:MagicMirrorOrg/MagicMirror.git (push)\n";
 			gitRevParseOut = "332e429a41f1a2339afd4f0ae96dd125da6beada";
 			gitStatusOut = "## master...origin/master\n M tests/unit/functions/updatenotification_spec.js\n";
-			gitFetchErr = "From github.com:MichMich/MagicMirror\n60e0377..332e429  master          -> origin/master\n";
+			gitFetchErr = "From github.com:MagicMirrorOrg/MagicMirror\n60e0377..332e429  master          -> origin/master\n";
 			gitRevListCountOut = "5";
 			gitTagListOut = "xxxe429a41f1a2339afd4f0ae96dd125da6beada...tag...\n";
 			gitRevListOut = "332e429a41f1a2339afd4f0ae96dd125da6beada\n";
