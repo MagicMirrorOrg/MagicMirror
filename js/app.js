@@ -29,7 +29,7 @@ if (process.env.MM_CONFIG_FILE) {
 }
 
 // FIXME: Hotfix Pull Request
-// https://github.com/MichMich/MagicMirror/pull/673
+// https://github.com/MagicMirrorOrg/MagicMirror/pull/673
 if (process.env.MM_PORT) {
 	global.mmPort = process.env.MM_PORT;
 }
@@ -40,7 +40,7 @@ process.on("uncaughtException", function (err) {
 	Log.error("Whoops! There was an uncaught exception...");
 	Log.error(err);
 	Log.error("MagicMirror² will not quit, but it might be a good idea to check why this happened. Maybe no internet connection?");
-	Log.error("If you think this really is an issue, please open an issue on GitHub: https://github.com/MichMich/MagicMirror/issues");
+	Log.error("If you think this really is an issue, please open an issue on GitHub: https://github.com/MagicMirrorOrg/MagicMirror/issues");
 });
 
 /**
