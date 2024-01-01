@@ -95,7 +95,7 @@ WeatherProvider.register("weatherbit", {
 	// Implement WeatherDay generator.
 	generateWeatherDayFromCurrentWeather (currentWeatherData) {
 		//Calculate TZ Offset and invert to convert Sunrise/Sunset times to Local
-		const d = new Date();
+		const d = new Date(Date.now());
 		let tzOffset = d.getTimezoneOffset();
 		tzOffset = tzOffset * -1;
 

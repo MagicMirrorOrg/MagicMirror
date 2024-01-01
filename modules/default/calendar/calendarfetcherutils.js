@@ -63,7 +63,7 @@ const CalendarFetcherUtils = {
 				event.start.tz = "";
 				Log.debug(`ical offset=${current_offset} date=${date}`);
 				mm = moment(date);
-				let x = parseInt(moment(new Date()).utcOffset());
+				let x = parseInt(moment(Date.now()).utcOffset());
 				Log.debug(`net mins=${current_offset * 60 - x}`);
 
 				mm = mm.add(x - current_offset * 60, "minutes");
@@ -141,7 +141,7 @@ const CalendarFetcherUtils = {
 		Log.debug(`There are ${Object.entries(data).length} calendar entries.`);
 		Object.entries(data).forEach(([key, event]) => {
 			Log.debug("Processing entry...");
-			const now = new Date();
+			const now = new Date(Date.now());
 			const today = moment().startOf("day").toDate();
 			const future
 				= moment()
@@ -323,7 +323,7 @@ const CalendarFetcherUtils = {
 
 						// Get the offset of today where we are processing
 						// This will be the correction, we need to apply.
-						let nowOffset = new Date().getTimezoneOffset();
+						let nowOffset = new Date(Date.now()).getTimezoneOffset();
 						// For full day events, the time might be off from RRULE/Luxon problem
 						// Get time zone offset of the rule calculated event
 						let dateoffset = date.getTimezoneOffset();
@@ -479,7 +479,7 @@ const CalendarFetcherUtils = {
 						}
 					} else {
 						// It's not a fullday event, and it is in the past, so skip.
-						if (!fullDayEvent && endDate < new Date()) {
+						if (!fullDayEvent && endDate < new Date(Date.now())) {
 							return;
 						}
 
