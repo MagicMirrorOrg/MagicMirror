@@ -1,6 +1,6 @@
 Hello and thank you for opening an issue.
 
-**Please make sure that you have read the following lines before submitting your Issue:**
+**⚠️ Please make sure that you have read the following lines before submitting your Issue:**
 
 ## I'm not sure if this is a bug
 

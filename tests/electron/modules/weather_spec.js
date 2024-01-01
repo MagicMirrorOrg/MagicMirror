@@ -14,7 +14,7 @@ describe("Weather module", () => {
 		});
 
 		it("should render sunrise", async () => {
-			await weatherHelper.getText(".weather .normal.medium span:nth-child(4)", "7:00 am");
+			await expect(weatherHelper.getText(".weather .normal.medium span:nth-child(4)", "7:00 am")).resolves.toBe(true);
 		});
 	});
 
@@ -24,7 +24,7 @@ describe("Weather module", () => {
 		});
 
 		it("should render sunset", async () => {
-			await weatherHelper.getText(".weather .normal.medium span:nth-child(4)", "3:45 pm");
+			await expect(weatherHelper.getText(".weather .normal.medium span:nth-child(4)", "3:45 pm")).resolves.toBe(true);
 		});
 	});
 });

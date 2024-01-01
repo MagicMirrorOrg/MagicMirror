@@ -12,6 +12,7 @@ const fs = require("fs");
 const path = require("path");
 const envsub = require("envsub");
 const Log = require("logger");
+
 const Server = require(`${__dirname}/server`);
 const Utils = require(`${__dirname}/utils`);
 const defaultModules = require(`${__dirname}/../modules/default/defaultmodules`);
@@ -24,7 +25,7 @@ Log.log(`Starting MagicMirror: v${global.version}`);
 global.root_path = path.resolve(`${__dirname}/../`);
 
 if (process.env.MM_CONFIG_FILE) {
-	global.configuration_file = process.env.MM_CONFIG_FILE;
+	global.configuration_file = process.env.MM_CONFIG_FILE.replace(`${global.root_path}/`, "");
 }
 
 // FIXME: Hotfix Pull Request
@@ -46,7 +47,7 @@ process.on("uncaughtException", function (err) {
  * The core app.
  * @class
  */
-function App() {
+function App () {
 	let nodeHelpers = [];
 	let httpServer;
 
@@ -55,7 +56,7 @@ function App() {
 	 * @async
 	 * @returns {Promise<object>} the loaded config or the defaults if something goes wrong
 	 */
-	async function loadConfig() {
+	async function loadConfig () {
 		Log.log("Loading config ...");
 		const defaults = require(`${__dirname}/defaults`);
 
@@ -135,7 +136,7 @@ function App() {
 	 * if it encounters one option from the deprecated.js list
 	 * @param {object} userConfig The user config
 	 */
-	function checkDeprecatedOptions(userConfig) {
+	function checkDeprecatedOptions (userConfig) {
 		const deprecated = require(`${global.root_path}/js/deprecated`);
 		const deprecatedOptions = deprecated.configs;
 
@@ -149,7 +150,7 @@ function App() {
 	 * Loads a specific module.
 	 * @param {string} module The name of the module (including subpath).
 	 */
-	function loadModule(module) {
+	function loadModule (module) {
 		const elements = module.split("/");
 		const moduleName = elements[elements.length - 1];
 		let moduleFolder = `${__dirname}/../modules/${module}`;
@@ -203,7 +204,7 @@ function App() {
 	 * @param {Module[]} modules All modules to be loaded
 	 * @returns {Promise} A promise that is resolved when all modules been loaded
 	 */
-	async function loadModules(modules) {
+	async function loadModules (modules) {
 		Log.log("Loading module helpers ...");
 
 		for (let module of modules) {
@@ -220,7 +221,7 @@ function App() {
 	 * @returns {number} A positive number if a is larger than b, a negative
 	 * number if a is smaller and 0 if they are the same
 	 */
-	function cmpVersions(a, b) {
+	function cmpVersions (a, b) {
 		let i, diff;
 		const regExStrip0 = /(\.0+)+$/;
 		const segmentsA = a.replace(regExStrip0, "").split(".");

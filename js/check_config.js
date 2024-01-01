@@ -20,7 +20,7 @@ const Utils = require(`${rootPath}/js/utils.js`);
  * Check if set by environment variable MM_CONFIG_FILE
  * @returns {string} path and filename of the config file
  */
-function getConfigFile() {
+function getConfigFile () {
 	// FIXME: This function should be in core. Do you want refactor me ;) ?, be good!
 	return path.resolve(process.env.MM_CONFIG_FILE || `${rootPath}/config/config.js`);
 }
@@ -28,7 +28,7 @@ function getConfigFile() {
 /**
  * Checks the config file using eslint.
  */
-function checkConfigFile() {
+function checkConfigFile () {
 	const configFileName = getConfigFile();
 
 	// Check if file is present

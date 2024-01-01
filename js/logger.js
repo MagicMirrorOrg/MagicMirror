@@ -22,7 +22,7 @@
 		// Browser globals (root is window)
 		root.Log = factory(root.config);
 	}
-})(this, function (config) {
+}(this, function (config) {
 	let logLevel;
 	let enableLog;
 	if (typeof exports === "object") {
@@ -50,7 +50,7 @@
 
 		logLevel.setLogLevel = function (newLevel) {
 			if (newLevel) {
-				Object.keys(logLevel).forEach(function (key, index) {
+				Object.keys(logLevel).forEach(function (key) {
 					if (!newLevel.includes(key.toLocaleUpperCase())) {
 						logLevel[key] = function () {};
 					}
@@ -59,21 +59,21 @@
 		};
 	} else {
 		logLevel = {
-			debug: function () {},
-			log: function () {},
-			info: function () {},
-			warn: function () {},
-			error: function () {},
-			group: function () {},
-			groupCollapsed: function () {},
-			groupEnd: function () {},
-			time: function () {},
-			timeEnd: function () {},
-			timeStamp: function () {}
+			debug () {},
+			log () {},
+			info () {},
+			warn () {},
+			error () {},
+			group () {},
+			groupCollapsed () {},
+			groupEnd () {},
+			time () {},
+			timeEnd () {},
+			timeStamp () {}
 		};
 
 		logLevel.setLogLevel = function () {};
 	}
 
 	return logLevel;
-});
+}));

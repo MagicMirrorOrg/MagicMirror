@@ -8,9 +8,10 @@ const Log = require("./logger");
 let config = process.env.config ? JSON.parse(process.env.config) : {};
 // Module to control application life.
 const app = electron.app;
-// If ELECTRON_DISABLE_GPU is set electron is started with --disable-gpu flag.
+// Per default electron is started with --disable-gpu flag, if you want the gpu enabled,
+// you must set the env var ELECTRON_ENABLE_GPU=1 on startup.
 // See https://www.electronjs.org/docs/latest/tutorial/offscreen-rendering for more info.
-if (process.env.ELECTRON_DISABLE_GPU !== undefined) {
+if (process.env.ELECTRON_ENABLE_GPU !== "1") {
 	app.disableHardwareAcceleration();
 }
 
@@ -24,7 +25,7 @@ let mainWindow;
 /**
  *
  */
-function createWindow() {
+function createWindow () {
 	// see https://www.electronjs.org/docs/latest/api/screen
 	// Create a window that fills the screen's available work area.
 	let electronSize = (800, 600);
@@ -77,8 +78,9 @@ function createWindow() {
 		prefix = "http://";
 	}
 
-	let address = (config.address === void 0) | (config.address === "") ? (config.address = "localhost") : config.address;
-	mainWindow.loadURL(`${prefix}${address}:${config.port}`);
+	let address = (config.address === void 0) | (config.address === "") | (config.address === "0.0.0.0") ? (config.address = "localhost") : config.address;
+	const port = process.env.MM_PORT || config.port;
+	mainWindow.loadURL(`${prefix}${address}:${port}`);
 
 	// Open the DevTools if run with "npm start dev"
 	if (process.argv.includes("dev")) {
@@ -120,11 +122,11 @@ function createWindow() {
 	mainWindow.webContents.session.webRequest.onHeadersReceived((details, callback) => {
 		let curHeaders = details.responseHeaders;
 		if (config["ignoreXOriginHeader"] || false) {
-			curHeaders = Object.fromEntries(Object.entries(curHeaders).filter((header) => !/x-frame-options/i.test(header[0])));
+			curHeaders = Object.fromEntries(Object.entries(curHeaders).filter((header) => !(/x-frame-options/i).test(header[0])));
 		}
 
 		if (config["ignoreContentSecurityPolicy"] || false) {
-			curHeaders = Object.fromEntries(Object.entries(curHeaders).filter((header) => !/content-security-policy/i.test(header[0])));
+			curHeaders = Object.fromEntries(Object.entries(curHeaders).filter((header) => !(/content-security-policy/i).test(header[0])));
 		}
 
 		callback({ responseHeaders: curHeaders });

@@ -138,11 +138,16 @@ describe("Calendar utils tests", () => {
 
 	describe("titleTransform and shorten combined", () => {
 		it("should replace the birthday and wrap nicely", () => {
-			const transformedTitle = CalendarUtils.titleTransform("Michael Teeuw's birthday", {
-				"De verjaardag van ": "",
-				"'s birthday": ""
-			});
+			const transformedTitle = CalendarUtils.titleTransform("Michael Teeuw's birthday", [{ search: "'s birthday", replace: "" }]);
 			expect(CalendarUtils.shorten(transformedTitle, 10, true, 2)).toBe("Michael <br>Teeuw");
+		});
+	});
+
+	describe("titleTransform with yearmatchgroup", () => {
+		it("should replace the birthday and wrap nicely", () => {
+			const transformedTitle = CalendarUtils.titleTransform("Luciella '2000", [{ search: "^([^']*) '(\\d{4})$", replace: "$1 ($2.)", yearmatchgroup: 2 }]);
+			const expectedResult = `Luciella (${new Date().getFullYear() - 2000}.)`;
+			expect(transformedTitle).toBe(expectedResult);
 		});
 	});
 });

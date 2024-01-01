@@ -24,16 +24,16 @@ describe("Default modules utils tests", () => {
 				}
 			});
 
-			test("Calls correct URL once", async () => {
+			it("Calls correct URL once", async () => {
 				urlToCall = "http://www.test.com/path?param1=value1";
 
 				await performWebRequest(urlToCall, "json", true);
 
-				expect(fetchMock.mock.calls.length).toBe(1);
+				expect(fetchMock.mock.calls).toHaveLength(1);
 				expect(fetchMock.mock.calls[0][0]).toBe(`${locationProtocol}//${locationHost}/cors?url=${urlToCall}`);
 			});
 
-			test("Sends correct headers", async () => {
+			it("Sends correct headers", async () => {
 				urlToCall = "http://www.test.com/path?param1=value1";
 
 				const headers = [
@@ -43,22 +43,22 @@ describe("Default modules utils tests", () => {
 
 				await performWebRequest(urlToCall, "json", true, headers);
 
-				expect(fetchMock.mock.calls.length).toBe(1);
+				expect(fetchMock.mock.calls).toHaveLength(1);
 				expect(fetchMock.mock.calls[0][0]).toBe(`${locationProtocol}//${locationHost}/cors?sendheaders=header1:value1,header2:value2&url=${urlToCall}`);
 			});
 		});
 
 		describe("When not using cors proxy", () => {
-			test("Calls correct URL once", async () => {
+			it("Calls correct URL once", async () => {
 				urlToCall = "http://www.test.com/path?param1=value1";
 
 				await performWebRequest(urlToCall);
 
-				expect(fetchMock.mock.calls.length).toBe(1);
+				expect(fetchMock.mock.calls).toHaveLength(1);
 				expect(fetchMock.mock.calls[0][0]).toBe(urlToCall);
 			});
 
-			test("Sends correct headers", async () => {
+			it("Sends correct headers", async () => {
 				urlToCall = "http://www.test.com/path?param1=value1";
 				const headers = [
 					{ name: "header1", value: "value1" },
@@ -68,36 +68,36 @@ describe("Default modules utils tests", () => {
 				await performWebRequest(urlToCall, "json", false, headers);
 
 				const expectedHeaders = { headers: { header1: "value1", header2: "value2" } };
-				expect(fetchMock.mock.calls.length).toBe(1);
+				expect(fetchMock.mock.calls).toHaveLength(1);
 				expect(fetchMock.mock.calls[0][1]).toStrictEqual(expectedHeaders);
 			});
 		});
 
 		describe("When receiving json format", () => {
-			test("Returns undefined when no data is received", async () => {
+			it("Returns undefined when no data is received", async () => {
 				urlToCall = "www.test.com";
 
 				const response = await performWebRequest(urlToCall);
 
-				expect(response).toBe(undefined);
+				expect(response).toBeUndefined();
 			});
 
-			test("Returns object when data is received", async () => {
+			it("Returns object when data is received", async () => {
 				urlToCall = "www.test.com";
-				fetchResponse = new Response('{"body": "some content"}');
+				fetchResponse = new Response("{\"body\": \"some content\"}");
 
 				const response = await performWebRequest(urlToCall);
 
 				expect(response.body).toBe("some content");
 			});
 
-			test("Returns expected headers when data is received", async () => {
+			it("Returns expected headers when data is received", async () => {
 				urlToCall = "www.test.com";
-				fetchResponse = new Response('{"body": "some content"}', { headers: { header1: "value1", header2: "value2" } });
+				fetchResponse = new Response("{\"body\": \"some content\"}", { headers: { header1: "value1", header2: "value2" } });
 
 				const response = await performWebRequest(urlToCall, "json", false, undefined, ["header1"]);
 
-				expect(response.headers.length).toBe(1);
+				expect(response.headers).toHaveLength(1);
 				expect(response.headers[0].name).toBe("header1");
 				expect(response.headers[0].value).toBe("value1");
 			});
@@ -149,18 +149,6 @@ describe("Default modules utils tests", () => {
 					time
 				)
 			).toBe("1:13");
-		});
-
-		it("should convert correctly into another timezone", () => {
-			expect(
-				formatTime(
-					{
-						timeFormat: 24,
-						timezone: "America/Toronto"
-					},
-					time
-				)
-			).toBe("07:13");
 		});
 	});
 });

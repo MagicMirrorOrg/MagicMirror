@@ -6,17 +6,19 @@ describe("File js/class", () => {
 		let clone;
 		let dom;
 
-		beforeAll((done) => {
-			dom = new JSDOM(
-				`<script>var Log = {log: () => {}};</script>\
+		beforeAll(() => {
+			return new Promise((done) => {
+				dom = new JSDOM(
+					`<script>var Log = {log: () => {}};</script>\
 					<script src="file://${path.join(__dirname, "..", "..", "..", "js", "class.js")}">`,
-				{ runScripts: "dangerously", resources: "usable" }
-			);
-			dom.window.onload = () => {
-				const { cloneObject } = dom.window;
-				clone = cloneObject;
-				done();
-			};
+					{ runScripts: "dangerously", resources: "usable" }
+				);
+				dom.window.onload = () => {
+					const { cloneObject } = dom.window;
+					clone = cloneObject;
+					done();
+				};
+			});
 		});
 
 		it("should clone object", () => {
@@ -47,6 +49,13 @@ describe("File js/class", () => {
 			const expected = "Perfect stranger";
 			const obj = clone(expected);
 			expect(obj).toBe(expected);
+		});
+
+		it("should clone regex", () => {
+			const expected = /.*Magic/;
+			const obj = clone(expected);
+			expect(obj).toEqual(expected);
+			expect(expected === obj).toBe(false);
 		});
 
 		it("should clone undefined", () => {

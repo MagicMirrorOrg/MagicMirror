@@ -16,7 +16,7 @@ describe("Weather module: Weather Forecast", () => {
 		const days = ["Today", "Tomorrow", "Sun", "Mon", "Tue"];
 		for (const [index, day] of days.entries()) {
 			it(`should render day ${day}`, async () => {
-				await weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(1)`, day);
+				await expect(weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(1)`, day)).resolves.toBe(true);
 			});
 		}
 
@@ -24,21 +24,21 @@ describe("Weather module: Weather Forecast", () => {
 		for (const [index, icon] of icons.entries()) {
 			it(`should render icon ${icon}`, async () => {
 				const elem = await helpers.waitForElement(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(2) span.wi-${icon}`);
-				expect(elem).not.toBe(null);
+				expect(elem).not.toBeNull();
 			});
 		}
 
 		const maxTemps = ["24.4°", "21.0°", "22.9°", "23.4°", "20.6°"];
 		for (const [index, temp] of maxTemps.entries()) {
 			it(`should render max temperature ${temp}`, async () => {
-				await weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(3)`, temp);
+				await expect(weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(3)`, temp)).resolves.toBe(true);
 			});
 		}
 
 		const minTemps = ["15.3°", "13.6°", "13.8°", "13.9°", "10.9°"];
 		for (const [index, temp] of minTemps.entries()) {
 			it(`should render min temperature ${temp}`, async () => {
-				await weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(4)`, temp);
+				await expect(weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(4)`, temp)).resolves.toBe(true);
 			});
 		}
 
@@ -46,7 +46,7 @@ describe("Weather module: Weather Forecast", () => {
 		for (const [index, opacity] of opacities.entries()) {
 			it(`should render fading of rows with opacity=${opacity}`, async () => {
 				const elem = await helpers.waitForElement(`.weather table.small tr:nth-child(${index + 1})`);
-				expect(elem).not.toBe(null);
+				expect(elem).not.toBeNull();
 				expect(elem.outerHTML).toContain(`<tr style="opacity: ${opacity};">`);
 			});
 		}
@@ -60,7 +60,7 @@ describe("Weather module: Weather Forecast", () => {
 		const days = ["Fri", "Sat", "Sun", "Mon", "Tue"];
 		for (const [index, day] of days.entries()) {
 			it(`should render day ${day}`, async () => {
-				await weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(1)`, day);
+				await expect(weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(1)`, day)).resolves.toBe(true);
 			});
 		}
 	});
@@ -72,21 +72,21 @@ describe("Weather module: Weather Forecast", () => {
 
 		it("should render custom table class", async () => {
 			const elem = await helpers.waitForElement(".weather table.myTableClass");
-			expect(elem).not.toBe(null);
+			expect(elem).not.toBeNull();
 		});
 
 		it("should render colored rows", async () => {
 			const table = await helpers.waitForElement(".weather table.myTableClass");
-			expect(table).not.toBe(null);
-			expect(table.rows).not.toBe(null);
-			expect(table.rows.length).toBe(5);
+			expect(table).not.toBeNull();
+			expect(table.rows).not.toBeNull();
+			expect(table.rows).toHaveLength(5);
 		});
 
 		const precipitations = [undefined, "2.51 mm"];
 		for (const [index, precipitation] of precipitations.entries()) {
 			if (precipitation) {
 				it(`should render precipitation amount ${precipitation}`, async () => {
-					await weatherFunc.getText(`.weather table tr:nth-child(${index + 1}) td.precipitation-amount`, precipitation);
+					await expect(weatherFunc.getText(`.weather table tr:nth-child(${index + 1}) td.precipitation-amount`, precipitation)).resolves.toBe(true);
 				});
 			}
 		}
@@ -101,7 +101,7 @@ describe("Weather module: Weather Forecast", () => {
 			const temperatures = ["75_9°", "69_8°", "73_2°", "74_1°", "69_1°"];
 			for (const [index, temp] of temperatures.entries()) {
 				it(`should render custom decimalSymbol = '_' for temp ${temp}`, async () => {
-					await weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(3)`, temp);
+					await expect(weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(3)`, temp)).resolves.toBe(true);
 				});
 			}
 		});
@@ -111,7 +111,7 @@ describe("Weather module: Weather Forecast", () => {
 			for (const [index, precipitation] of precipitations.entries()) {
 				if (precipitation) {
 					it(`should render precipitation amount ${precipitation}`, async () => {
-						await weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td.precipitation-amount`, precipitation);
+						await expect(weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td.precipitation-amount`, precipitation)).resolves.toBe(true);
 					});
 				}
 			}

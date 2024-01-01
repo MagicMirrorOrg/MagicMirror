@@ -1,7 +1,7 @@
 const TestSequencer = require("@jest/test-sequencer").default;
 
 class CustomSequencer extends TestSequencer {
-	sort(tests) {
+	sort (tests) {
 		const orderPath = ["unit", "electron", "e2e"];
 		return tests.sort((testA, testB) => {
 			let indexA = -1;

@@ -77,209 +77,235 @@ describe("Translator", () => {
 			Translator.coreTranslationsFallback = coreTranslationsFallback;
 		};
 
-		it("should return custom module translation", (done) => {
-			const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
-			dom.window.onload = () => {
-				const { Translator } = dom.window;
-				setTranslations(Translator);
-				let translation = Translator.translate({ name: "MMM-Module" }, "Hello");
-				expect(translation).toBe("Hallo");
-				translation = Translator.translate({ name: "MMM-Module" }, "Hello {username}", { username: "fewieden" });
-				expect(translation).toBe("Hallo fewieden");
-				done();
-			};
+		it("should return custom module translation", () => {
+			return new Promise((done) => {
+				const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
+				dom.window.onload = () => {
+					const { Translator } = dom.window;
+					setTranslations(Translator);
+					let translation = Translator.translate({ name: "MMM-Module" }, "Hello");
+					expect(translation).toBe("Hallo");
+					translation = Translator.translate({ name: "MMM-Module" }, "Hello {username}", { username: "fewieden" });
+					expect(translation).toBe("Hallo fewieden");
+					done();
+				};
+			});
 		});
 
-		it("should return core translation", (done) => {
-			const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
-			dom.window.onload = () => {
-				const { Translator } = dom.window;
-				setTranslations(Translator);
-				let translation = Translator.translate({ name: "MMM-Module" }, "FOO");
-				expect(translation).toBe("Foo");
-				translation = Translator.translate({ name: "MMM-Module" }, "BAR {something}", { something: "Lorem Ipsum" });
-				expect(translation).toBe("Bar Lorem Ipsum");
-				done();
-			};
+		it("should return core translation", () => {
+			return new Promise((done) => {
+				const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
+				dom.window.onload = () => {
+					const { Translator } = dom.window;
+					setTranslations(Translator);
+					let translation = Translator.translate({ name: "MMM-Module" }, "FOO");
+					expect(translation).toBe("Foo");
+					translation = Translator.translate({ name: "MMM-Module" }, "BAR {something}", { something: "Lorem Ipsum" });
+					expect(translation).toBe("Bar Lorem Ipsum");
+					done();
+				};
+			});
 		});
 
-		it("should return custom module translation fallback", (done) => {
-			const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
-			dom.window.onload = () => {
-				const { Translator } = dom.window;
-				setTranslations(Translator);
-				const translation = Translator.translate({ name: "MMM-Module" }, "A key");
-				expect(translation).toBe("A translation");
-				done();
-			};
+		it("should return custom module translation fallback", () => {
+			return new Promise((done) => {
+				const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
+				dom.window.onload = () => {
+					const { Translator } = dom.window;
+					setTranslations(Translator);
+					const translation = Translator.translate({ name: "MMM-Module" }, "A key");
+					expect(translation).toBe("A translation");
+					done();
+				};
+			});
 		});
 
-		it("should return core translation fallback", (done) => {
-			const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
-			dom.window.onload = () => {
-				const { Translator } = dom.window;
-				setTranslations(Translator);
-				const translation = Translator.translate({ name: "MMM-Module" }, "Fallback");
-				expect(translation).toBe("core fallback");
-				done();
-			};
+		it("should return core translation fallback", () => {
+			return new Promise((done) => {
+				const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
+				dom.window.onload = () => {
+					const { Translator } = dom.window;
+					setTranslations(Translator);
+					const translation = Translator.translate({ name: "MMM-Module" }, "Fallback");
+					expect(translation).toBe("core fallback");
+					done();
+				};
+			});
 		});
 
-		it("should return translation with placeholder for missing variables", (done) => {
-			const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
-			dom.window.onload = () => {
-				const { Translator } = dom.window;
-				setTranslations(Translator);
-				const translation = Translator.translate({ name: "MMM-Module" }, "Hello {username}");
-				expect(translation).toBe("Hallo {username}");
-				done();
-			};
+		it("should return translation with placeholder for missing variables", () => {
+			return new Promise((done) => {
+				const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
+				dom.window.onload = () => {
+					const { Translator } = dom.window;
+					setTranslations(Translator);
+					const translation = Translator.translate({ name: "MMM-Module" }, "Hello {username}");
+					expect(translation).toBe("Hallo {username}");
+					done();
+				};
+			});
 		});
 
-		it("should return key if no translation was found", (done) => {
-			const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
-			dom.window.onload = () => {
-				const { Translator } = dom.window;
-				setTranslations(Translator);
-				const translation = Translator.translate({ name: "MMM-Module" }, "MISSING");
-				expect(translation).toBe("MISSING");
-				done();
-			};
+		it("should return key if no translation was found", () => {
+			return new Promise((done) => {
+				const dom = new JSDOM(`<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
+				dom.window.onload = () => {
+					const { Translator } = dom.window;
+					setTranslations(Translator);
+					const translation = Translator.translate({ name: "MMM-Module" }, "MISSING");
+					expect(translation).toBe("MISSING");
+					done();
+				};
+			});
 		});
 	});
 
 	describe("load", () => {
 		const mmm = {
 			name: "TranslationTest",
-			file(file) {
+			file (file) {
 				return `http://localhost:3000/translations/${file}`;
 			}
 		};
 
-		it("should load translations", (done) => {
-			const dom = new JSDOM(`<script>var Log = {log: () => {}};</script><script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
-			dom.window.onload = async () => {
-				const { Translator } = dom.window;
-				const file = "translation_test.json";
+		it("should load translations", () => {
+			return new Promise((done) => {
+				const dom = new JSDOM(`<script>var Log = {log: () => {}};</script><script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
+				dom.window.onload = async () => {
+					const { Translator } = dom.window;
+					const file = "translation_test.json";
 
-				await Translator.load(mmm, file, false);
-				const json = require(path.join(__dirname, "..", "..", "..", "tests", "mocks", file));
-				expect(Translator.translations[mmm.name]).toEqual(json);
-				done();
-			};
+					await Translator.load(mmm, file, false);
+					const json = require(path.join(__dirname, "..", "..", "..", "tests", "mocks", file));
+					expect(Translator.translations[mmm.name]).toEqual(json);
+					done();
+				};
+			});
 		});
 
-		it("should load translation fallbacks", (done) => {
-			const dom = new JSDOM(`<script>var Log = {log: () => {}};</script><script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
-			dom.window.onload = async () => {
-				const { Translator } = dom.window;
-				const file = "translation_test.json";
+		it("should load translation fallbacks", () => {
+			return new Promise((done) => {
+				const dom = new JSDOM(`<script>var Log = {log: () => {}};</script><script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
+				dom.window.onload = async () => {
+					const { Translator } = dom.window;
+					const file = "translation_test.json";
 
-				await Translator.load(mmm, file, true);
-				const json = require(path.join(__dirname, "..", "..", "..", "tests", "mocks", file));
-				expect(Translator.translationsFallback[mmm.name]).toEqual(json);
-				done();
-			};
+					await Translator.load(mmm, file, true);
+					const json = require(path.join(__dirname, "..", "..", "..", "tests", "mocks", file));
+					expect(Translator.translationsFallback[mmm.name]).toEqual(json);
+					done();
+				};
+			});
 		});
 
-		it("should not load translations, if module fallback exists", (done) => {
-			const dom = new JSDOM(`<script>var Log = {log: () => {}};</script><script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
-			dom.window.onload = async () => {
-				const { Translator, XMLHttpRequest } = dom.window;
-				const file = "translation_test.json";
+		it("should not load translations, if module fallback exists", () => {
+			return new Promise((done) => {
+				const dom = new JSDOM(`<script>var Log = {log: () => {}};</script><script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`, { runScripts: "dangerously", resources: "usable" });
+				dom.window.onload = async () => {
+					const { Translator, XMLHttpRequest } = dom.window;
+					const file = "translation_test.json";
 
-				XMLHttpRequest.prototype.send = () => {
-					throw new Error("Shouldn't load files");
+					XMLHttpRequest.prototype.send = () => {
+						throw new Error("Shouldn't load files");
+					};
+
+					Translator.translationsFallback[mmm.name] = {
+						Hello: "Hallo"
+					};
+
+					await Translator.load(mmm, file, false);
+					expect(Translator.translations[mmm.name]).toBeUndefined();
+					expect(Translator.translationsFallback[mmm.name]).toEqual({
+						Hello: "Hallo"
+					});
+					done();
 				};
-
-				Translator.translationsFallback[mmm.name] = {
-					Hello: "Hallo"
-				};
-
-				await Translator.load(mmm, file, false);
-				expect(Translator.translations[mmm.name]).toBe(undefined);
-				expect(Translator.translationsFallback[mmm.name]).toEqual({
-					Hello: "Hallo"
-				});
-				done();
-			};
+			});
 		});
 	});
 
 	describe("loadCoreTranslations", () => {
-		it("should load core translations and fallback", (done) => {
-			const dom = new JSDOM(
-				`<script>var translations = {en: "http://localhost:3000/translations/translation_test.json"}; var Log = {log: () => {}};</script>\
+		it("should load core translations and fallback", () => {
+			return new Promise((done) => {
+				const dom = new JSDOM(
+					`<script>var translations = {en: "http://localhost:3000/translations/translation_test.json"}; var Log = {log: () => {}};</script>\
 					<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`,
-				{ runScripts: "dangerously", resources: "usable" }
-			);
-			dom.window.onload = async () => {
-				const { Translator } = dom.window;
-				await Translator.loadCoreTranslations("en");
+					{ runScripts: "dangerously", resources: "usable" }
+				);
+				dom.window.onload = async () => {
+					const { Translator } = dom.window;
+					await Translator.loadCoreTranslations("en");
 
-				const en = require(path.join(__dirname, "..", "..", "..", "tests", "mocks", "translation_test.json"));
-				setTimeout(() => {
-					expect(Translator.coreTranslations).toEqual(en);
-					expect(Translator.coreTranslationsFallback).toEqual(en);
-					done();
-				}, 500);
-			};
+					const en = require(path.join(__dirname, "..", "..", "..", "tests", "mocks", "translation_test.json"));
+					setTimeout(() => {
+						expect(Translator.coreTranslations).toEqual(en);
+						expect(Translator.coreTranslationsFallback).toEqual(en);
+						done();
+					}, 500);
+				};
+			});
 		});
 
-		it("should load core fallback if language cannot be found", (done) => {
-			const dom = new JSDOM(
-				`<script>var translations = {en: "http://localhost:3000/translations/translation_test.json"}; var Log = {log: () => {}};</script>\
+		it("should load core fallback if language cannot be found", () => {
+			return new Promise((done) => {
+				const dom = new JSDOM(
+					`<script>var translations = {en: "http://localhost:3000/translations/translation_test.json"}; var Log = {log: () => {}};</script>\
 					<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`,
-				{ runScripts: "dangerously", resources: "usable" }
-			);
-			dom.window.onload = async () => {
-				const { Translator } = dom.window;
-				await Translator.loadCoreTranslations("MISSINGLANG");
+					{ runScripts: "dangerously", resources: "usable" }
+				);
+				dom.window.onload = async () => {
+					const { Translator } = dom.window;
+					await Translator.loadCoreTranslations("MISSINGLANG");
 
-				const en = require(path.join(__dirname, "..", "..", "..", "tests", "mocks", "translation_test.json"));
-				setTimeout(() => {
-					expect(Translator.coreTranslations).toEqual({});
-					expect(Translator.coreTranslationsFallback).toEqual(en);
-					done();
-				}, 500);
-			};
+					const en = require(path.join(__dirname, "..", "..", "..", "tests", "mocks", "translation_test.json"));
+					setTimeout(() => {
+						expect(Translator.coreTranslations).toEqual({});
+						expect(Translator.coreTranslationsFallback).toEqual(en);
+						done();
+					}, 500);
+				};
+			});
 		});
 	});
 
 	describe("loadCoreTranslationsFallback", () => {
-		it("should load core translations fallback", (done) => {
-			const dom = new JSDOM(
-				`<script>var translations = {en: "http://localhost:3000/translations/translation_test.json"}; var Log = {log: () => {}};</script>\
+		it("should load core translations fallback", () => {
+			return new Promise((done) => {
+				const dom = new JSDOM(
+					`<script>var translations = {en: "http://localhost:3000/translations/translation_test.json"}; var Log = {log: () => {}};</script>\
 					<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`,
-				{ runScripts: "dangerously", resources: "usable" }
-			);
-			dom.window.onload = async () => {
-				const { Translator } = dom.window;
-				await Translator.loadCoreTranslationsFallback();
+					{ runScripts: "dangerously", resources: "usable" }
+				);
+				dom.window.onload = async () => {
+					const { Translator } = dom.window;
+					await Translator.loadCoreTranslationsFallback();
 
-				const en = require(path.join(__dirname, "..", "..", "..", "tests", "mocks", "translation_test.json"));
-				setTimeout(() => {
-					expect(Translator.coreTranslationsFallback).toEqual(en);
-					done();
-				}, 500);
-			};
+					const en = require(path.join(__dirname, "..", "..", "..", "tests", "mocks", "translation_test.json"));
+					setTimeout(() => {
+						expect(Translator.coreTranslationsFallback).toEqual(en);
+						done();
+					}, 500);
+				};
+			});
 		});
 
-		it("should load core fallback if language cannot be found", (done) => {
-			const dom = new JSDOM(
-				`<script>var translations = {}; var Log = {log: () => {}};</script>\
+		it("should load core fallback if language cannot be found", () => {
+			return new Promise((done) => {
+				const dom = new JSDOM(
+					`<script>var translations = {}; var Log = {log: () => {}};</script>\
 					<script src="file://${path.join(__dirname, "..", "..", "..", "js", "translator.js")}">`,
-				{ runScripts: "dangerously", resources: "usable" }
-			);
-			dom.window.onload = async () => {
-				const { Translator } = dom.window;
-				await Translator.loadCoreTranslations();
+					{ runScripts: "dangerously", resources: "usable" }
+				);
+				dom.window.onload = async () => {
+					const { Translator } = dom.window;
+					await Translator.loadCoreTranslations();
 
-				setTimeout(() => {
-					expect(Translator.coreTranslationsFallback).toEqual({});
-					done();
-				}, 500);
-			};
+					setTimeout(() => {
+						expect(Translator.coreTranslationsFallback).toEqual({});
+						done();
+					}, 500);
+				};
+			});
 		});
 	});
 });
