@@ -52,7 +52,7 @@
 		"@stylistic/eslint-plugin": "^1.5.1",
 		"eslint-plugin-import": "^2.29.1",
 		"eslint-plugin-jest": "^27.6.0",
-		"eslint-plugin-jsdoc": "^46.9.1",
+		"eslint-plugin-jsdoc": "^47.0.2",
 		"express-basic-auth": "^1.2.1",
 		"husky": "^8.0.3",
 		"jest": "^29.7.0",
