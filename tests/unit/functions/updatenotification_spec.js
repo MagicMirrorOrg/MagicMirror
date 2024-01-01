@@ -32,7 +32,7 @@ describe("Updatenotification", () => {
 		const { promisify } = require("util");
 		promisify.mockReturnValue(execMock);
 
-		const GitHelper = require(`../../../modules/default/updatenotification/git_helper`);
+		const GitHelper = require("../../../modules/default/updatenotification/git_helper");
 		gitHelper = new GitHelper();
 	});
 
@@ -103,7 +103,7 @@ describe("Updatenotification", () => {
 			execMock.mockRejectedValueOnce(errorMessage);
 
 			const repos = await gitHelper.getRepos();
-			expect(repos.length).toBe(0);
+			expect(repos).toHaveLength(0);
 
 			const { error } = require("logger");
 			expect(error).toHaveBeenCalledWith(`Failed to retrieve repo info for ${moduleName}: Failed to retrieve status`);
@@ -142,7 +142,7 @@ describe("Updatenotification", () => {
 			execMock.mockRejectedValueOnce(errorMessage);
 
 			const repos = await gitHelper.getRepos();
-			expect(repos.length).toBe(0);
+			expect(repos).toHaveLength(0);
 
 			const { error } = require("logger");
 			expect(error).toHaveBeenCalledWith(`Failed to retrieve repo info for ${moduleName}: Failed to retrieve status`);
@@ -183,7 +183,7 @@ describe("Updatenotification", () => {
 			execMock.mockRejectedValueOnce(errorMessage);
 
 			const repos = await gitHelper.getRepos();
-			expect(repos.length).toBe(0);
+			expect(repos).toHaveLength(0);
 
 			const { error } = require("logger");
 			expect(error).toHaveBeenCalledWith(`Failed to retrieve repo info for ${moduleName}: Failed to retrieve status`);
@@ -224,7 +224,7 @@ describe("Updatenotification", () => {
 			execMock.mockRejectedValueOnce(errorMessage);
 
 			const repos = await gitHelper.getRepos();
-			expect(repos.length).toBe(0);
+			expect(repos).toHaveLength(0);
 
 			const { error } = require("logger");
 			expect(error).toHaveBeenCalledWith(`Failed to retrieve repo info for ${moduleName}: Failed to retrieve status`);

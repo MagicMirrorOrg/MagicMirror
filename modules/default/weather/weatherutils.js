@@ -5,12 +5,13 @@
  * MIT Licensed.
  */
 const WeatherUtils = {
+
 	/**
 	 * Convert wind (from m/s) to beaufort scale
 	 * @param {number} speedInMS the windspeed you want to convert
 	 * @returns {number} the speed in beaufort
 	 */
-	beaufortWindSpeed(speedInMS) {
+	beaufortWindSpeed (speedInMS) {
 		const windInKmh = this.convertWind(speedInMS, "kmh");
 		const speeds = [1, 5, 11, 19, 28, 38, 49, 61, 74, 88, 102, 117, 1000];
 		for (const [index, speed] of speeds.entries()) {
@@ -29,7 +30,7 @@ const WeatherUtils = {
 	 * @param {string} outputUnit - The unit system (imperial/metric) the return value should have.
 	 * @returns {string} - A string with tha value and a unit postfix.
 	 */
-	convertPrecipitationUnit(value, valueUnit, outputUnit) {
+	convertPrecipitationUnit (value, valueUnit, outputUnit) {
 		if (valueUnit === "%") return `${value.toFixed(0)} ${valueUnit}`;
 
 		let convertedValue = value;
@@ -52,7 +53,7 @@ const WeatherUtils = {
 	 * @param {string} unit can be 'imperial' or 'metric'
 	 * @returns {number} the converted temperature
 	 */
-	convertTemp(tempInC, unit) {
+	convertTemp (tempInC, unit) {
 		return unit === "imperial" ? tempInC * 1.8 + 32 : tempInC;
 	},
 
@@ -63,7 +64,7 @@ const WeatherUtils = {
 	 * or 'metric' (mps)
 	 * @returns {number} the converted windspeed
 	 */
-	convertWind(windInMS, unit) {
+	convertWind (windInMS, unit) {
 		switch (unit) {
 			case "beaufort":
 				return this.beaufortWindSpeed(windInMS);
@@ -82,7 +83,7 @@ const WeatherUtils = {
 	/*
 	 * Convert the wind direction cardinal to value
 	 */
-	convertWindDirection(windDirection) {
+	convertWindDirection (windDirection) {
 		const windCardinals = {
 			N: 0,
 			NNE: 22,
@@ -105,15 +106,15 @@ const WeatherUtils = {
 		return windCardinals.hasOwnProperty(windDirection) ? windCardinals[windDirection] : null;
 	},
 
-	convertWindToMetric(mph) {
+	convertWindToMetric (mph) {
 		return mph / 2.2369362920544;
 	},
 
-	convertWindToMs(kmh) {
+	convertWindToMs (kmh) {
 		return kmh * 0.27777777777778;
 	},
 
-	calculateFeelsLike(temperature, windSpeed, humidity) {
+	calculateFeelsLike (temperature, windSpeed, humidity) {
 		const windInMph = this.convertWind(windSpeed, "imperial");
 		const tempInF = this.convertTemp(temperature, "imperial");
 		let feelsLike = tempInF;
@@ -121,16 +122,16 @@ const WeatherUtils = {
 		if (windInMph > 3 && tempInF < 50) {
 			feelsLike = Math.round(35.74 + 0.6215 * tempInF - 35.75 * Math.pow(windInMph, 0.16) + 0.4275 * tempInF * Math.pow(windInMph, 0.16));
 		} else if (tempInF > 80 && humidity > 40) {
-			feelsLike =
-				-42.379 +
-				2.04901523 * tempInF +
-				10.14333127 * humidity -
-				0.22475541 * tempInF * humidity -
-				6.83783 * Math.pow(10, -3) * tempInF * tempInF -
-				5.481717 * Math.pow(10, -2) * humidity * humidity +
-				1.22874 * Math.pow(10, -3) * tempInF * tempInF * humidity +
-				8.5282 * Math.pow(10, -4) * tempInF * humidity * humidity -
-				1.99 * Math.pow(10, -6) * tempInF * tempInF * humidity * humidity;
+			feelsLike
+				= -42.379
+				+ 2.04901523 * tempInF
+				+ 10.14333127 * humidity
+				- 0.22475541 * tempInF * humidity
+				- 6.83783 * Math.pow(10, -3) * tempInF * tempInF
+				- 5.481717 * Math.pow(10, -2) * humidity * humidity
+				+ 1.22874 * Math.pow(10, -3) * tempInF * tempInF * humidity
+				+ 8.5282 * Math.pow(10, -4) * tempInF * humidity * humidity
+				- 1.99 * Math.pow(10, -6) * tempInF * tempInF * humidity * humidity;
 		}
 
 		return ((feelsLike - 32) * 5) / 9;

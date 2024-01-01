@@ -5,6 +5,57 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror².
 
+## [2.26.0] - 01-01-2024
+
+Thanks to: @bnitkin, @bugsounet, @dependabot, @jkriegshauser, @kaennchenstruggle, @KristjanESPERANTO and @Ybbet.
+
+Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not all) of the work on this release as project collaborators. This version would not be there without their effort. Thank you guys! You are awesome!
+
+This release also marks the latest release by Michael Teeuw. For more info, please read the following post: [A New Chapter for MagicMirror: The Community Takes the Lead](https://forum.magicmirror.builders/topic/18329/a-new-chapter-for-magicmirror-the-community-takes-the-lead).
+
+### Added
+
+- Added update notification updater (for 3rd party modules)
+- Added node 21 to the test matrix
+- Added transform object to calendar:customEvents
+- Added ESLint rules for jest (including jest/expect-expect and jest/no-done-callback)
+
+### Removed
+
+- Removed Codecov workflow (not working anymore, other workflow required) (#3107)
+- Removed titleReplace from calendar, replaced + extended by customEvents (backward compatibility included) (#3249)
+- Removed failing unit test (#3254)
+- Removed some unused variables
+
+### Updated
+
+- Update electron to v27 and update other dependencies as well as github actions
+- Update newsfeed: Use `html-to-text` instead of regex for transform description
+- Review ESLint config (#3269)
+- Updated dependencies
+- Clock module: optionally display current moon phase in addition to rise/set times
+- electron is now per default started without gpu, if needed it must be enabled with new env var `ELECTRON_ENABLE_GPU=1` on startup (#3226)
+- Replace prettier by stylistic in ESLint config to lint JavaScript (and disable some rules for `config/config.js*` files)
+- Update node-ical to v0.17.1 and fix tests
+
+### Fixed
+
+- Avoid fade out/in on updateDom when many calendars are used
+- Fix the option eventClass on customEvents.
+- Fix yr API version in locationforecast and sunrise call (#3227)
+- Fix cloneObject() function to respect RegExp (#3237)
+- Fix newsfeed module for feeds using "a10:updated" tag (#3238)
+- Fix issue template (#3167)
+- Fix #3256 filter out bad results from rrule.between
+- Fix calendar events sometimes not respecting deleted events (#3250)
+- Fix electron loadurl locally on Windows when address "0.0.0.0" (#2550)
+- Fix updatanotification (update_helper.js): catch error if reponse is not an JSON format (check PM2)
+- Fix missing typeof in calendar module
+- Fix style issues after prettier update
+- Fix calendar test (#3291) by moving "Exdate check" from e2e to electron to run on a Thursday
+- Fix calendar config params `fetchInterval` and `excludedEvents` were never used from single calendar config (#3297)
+- Fix MM_PORT variable not used in electron and allow full path for MM_CONFIG_FILE variable (#3302)
+
 ## [2.25.0] - 2023-10-01
 
 Thanks to: @bugsounet, @dgoth, @dependabot, @kenzal, @Knapoc, @KristjanESPERANTO, @martingron, @NolanKingdon, @Paranoid93, @TeddyStarinvest and @Ybbet.
@@ -37,7 +88,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Update issue template
 - Update dev/dependencies incl. electron to v26
 - Replace pretty-quick by lint-staged (<https://github.com/azz/pretty-quick/issues/164>)
-- Update engine node >=18. v16 reached it's end of life. (#3170)
+- Update engine node >=18. v16 reached its end of life. (#3170)
 - Update typescript definition for modules
 - Cleaned up nunjuck templates
 - Replace `node-fetch` with internal fetch (#2649) and remove `digest-fetch`
@@ -50,7 +101,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Fix engine check on npm install (#3135)
 - Fix undefined formatTime method in clock module (#3143)
 - Fix clientonly startup fails after async added (#3151)
-- Fix electron width/heigth when using xrandr under bullseye
+- Fix electron width/height when using xrandr under bullseye
 - Fix time issue with certain recurring events in calendar module
 - Fix ipWhiteList test (#3179)
 - Fix newsfeed: Convert HTML entities, codes and tag in description (#3191)
@@ -59,6 +110,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Fix `Uncaught SyntaxError: Identifier 'getCorsUrl' has already been declared (at utils.js:1:1)` when using `clock` and `weather` module (#3204)
 - Fix overriding `config.js` when running tests (#3201)
 - Fix issue in weathergov provider with probability of precipitation not showing up on hourly or daily forecast
+- Fix yr weather provider after changes in yr API (#3189)
 
 ## [2.24.0] - 2023-07-01
 
@@ -101,7 +153,6 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Fix date not shown when clock in analog mode (#3100)
 - Fix envcanada today percentage-of-precipitation (#3106)
 - Fix updatenotification where no branch is checked out but e.g. a version tag (#3130)
-- Fix yr weather provider after changes in yr API (#3189)
 
 ## [2.23.0] - 2023-04-04
 

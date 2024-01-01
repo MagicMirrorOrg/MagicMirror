@@ -1,4 +1,4 @@
-/* global CalendarUtils, cloneObject */
+/* global CalendarUtils */
 
 /* MagicMirror²
  * Module: Calendar
@@ -28,6 +28,7 @@ Module.register("calendar", {
 		fetchInterval: 60 * 60 * 1000, // Update every hour
 		animationSpeed: 2000,
 		fade: true,
+		fadePoint: 0.25, // Start on 1/4th of the list.
 		urgency: 7,
 		timeFormat: "relative",
 		dateFormat: "MMM Do",
@@ -35,14 +36,12 @@ Module.register("calendar", {
 		fullDayEventDateFormat: "MMM Do",
 		showEnd: false,
 		getRelative: 6,
-		fadePoint: 0.25, // Start on 1/4th of the list.
 		hidePrivate: false,
 		hideOngoing: false,
 		hideTime: false,
 		hideDuplicates: true,
 		showTimeToday: false,
 		colored: false,
-		customEvents: [], // Array of {keyword: "", symbol: "", color: "", eventClass: ""} where Keyword is a regexp and symbol/color/eventClass are to be applied for matched
 		tableClass: "small",
 		calendars: [
 			{
@@ -50,10 +49,11 @@ Module.register("calendar", {
 				url: "https://www.calendarlabs.com/templates/ical/US-Holidays.ics"
 			}
 		],
-		titleReplace: {
-			"De verjaardag van ": "",
-			"'s birthday": ""
-		},
+		customEvents: [
+			// Array of {keyword: "", symbol: "", color: "", eventClass: ""} where Keyword is a regexp and symbol/color/eventClass are to be applied for matched
+			{ keyword: ".*", transform: { search: "De verjaardag van ", replace: "" } },
+			{ keyword: ".*", transform: { search: "'s birthday", replace: "" } }
+		],
 		locationTitleReplace: {
 			"street ": ""
 		},
@@ -68,23 +68,24 @@ Module.register("calendar", {
 		coloredSymbol: false,
 		coloredBackground: false,
 		limitDaysNeverSkip: false,
-		flipDateHeaderTitle: false
+		flipDateHeaderTitle: false,
+		updateOnFetch: true
 	},
 
 	requiresVersion: "2.1.0",
 
 	// Define required scripts.
-	getStyles: function () {
+	getStyles () {
 		return ["calendar.css", "font-awesome.css"];
 	},
 
 	// Define required scripts.
-	getScripts: function () {
+	getScripts () {
 		return ["calendarutils.js", "moment.js"];
 	},
 
 	// Define required translations.
-	getTranslations: function () {
+	getTranslations () {
 		// The translations for the default modules are defined in the core translation files.
 		// Therefore we can just return false. Otherwise we should have returned a dictionary.
 		// If you're trying to build your own module including translations, check out the documentation.
@@ -92,9 +93,7 @@ Module.register("calendar", {
 	},
 
 	// Override start method.
-	start: function () {
-		const ONE_MINUTE = 60 * 1000;
-
+	start () {
 		Log.info(`Starting module: ${this.name}`);
 
 		if (this.config.colored) {
@@ -117,6 +116,9 @@ Module.register("calendar", {
 		// indicate no data available yet
 		this.loaded = false;
 
+		// data holder of calendar url. Avoid fade out/in on updateDom (one for each calendar update)
+		this.calendarDisplayer = {};
+
 		this.config.calendars.forEach((calendar) => {
 			calendar.url = calendar.url.replace("webcal://", "http://");
 
@@ -125,23 +127,25 @@ Module.register("calendar", {
 				maximumNumberOfDays: calendar.maximumNumberOfDays,
 				pastDaysCount: calendar.pastDaysCount,
 				broadcastPastEvents: calendar.broadcastPastEvents,
-				selfSignedCert: calendar.selfSignedCert
+				selfSignedCert: calendar.selfSignedCert,
+				excludedEvents: calendar.excludedEvents,
+				fetchInterval: calendar.fetchInterval
 			};
 
-			if (calendar.symbolClass === "undefined" || calendar.symbolClass === null) {
+			if (typeof calendar.symbolClass === "undefined" || calendar.symbolClass === null) {
 				calendarConfig.symbolClass = "";
 			}
-			if (calendar.titleClass === "undefined" || calendar.titleClass === null) {
+			if (typeof calendar.titleClass === "undefined" || calendar.titleClass === null) {
 				calendarConfig.titleClass = "";
 			}
-			if (calendar.timeClass === "undefined" || calendar.timeClass === null) {
+			if (typeof calendar.timeClass === "undefined" || calendar.timeClass === null) {
 				calendarConfig.timeClass = "";
 			}
 
 			// we check user and password here for backwards compatibility with old configs
 			if (calendar.user && calendar.pass) {
 				Log.warn("Deprecation warning: Please update your calendar authentication configuration.");
-				Log.warn("https://github.com/MichMich/MagicMirror/tree/v2.1.2/modules/default/calendar#calendar-authentication-options");
+				Log.warn("https://docs.magicmirror.builders/modules/calendar.html#configuration-options");
 				calendar.auth = {
 					user: calendar.user,
 					pass: calendar.pass
@@ -153,20 +157,19 @@ Module.register("calendar", {
 			this.addCalendar(calendar.url, calendar.auth, calendarConfig);
 		});
 
-		// Refresh the DOM every minute if needed: When using relative date format for events that start
-		// or end in less than an hour, the date shows minute granularity and we want to keep that accurate.
-		setTimeout(
-			() => {
-				setInterval(() => {
-					this.updateDom(1);
-				}, ONE_MINUTE);
-			},
-			ONE_MINUTE - (new Date() % ONE_MINUTE)
-		);
+		// for backward compatibility titleReplace
+		if (typeof this.config.titleReplace !== "undefined") {
+			Log.warn("Deprecation warning: Please consider upgrading your calendar titleReplace configuration to customEvents.");
+			for (const [titlesearchstr, titlereplacestr] of Object.entries(this.config.titleReplace)) {
+				this.config.customEvents.push({ keyword: ".*", transform: { search: titlesearchstr, replace: titlereplacestr } });
+			}
+		}
+
+		this.selfUpdate();
 	},
 
 	// Override socket notification handler.
-	socketNotificationReceived: function (notification, payload) {
+	socketNotificationReceived (notification, payload) {
 		if (notification === "FETCH_CALENDAR") {
 			this.sendSocketNotification(notification, { url: payload.url, id: this.identifier });
 		}
@@ -184,6 +187,18 @@ Module.register("calendar", {
 				if (this.config.broadcastEvents) {
 					this.broadcastEvents();
 				}
+
+				if (!this.config.updateOnFetch) {
+					if (this.calendarDisplayer[payload.url] === undefined) {
+						// calendar will never displayed, so display it
+						this.updateDom(this.config.animationSpeed);
+						// set this calendar as displayed
+						this.calendarDisplayer[payload.url] = true;
+					} else {
+						Log.debug("[Calendar] DOM not updated waiting self update()");
+					}
+					return;
+				}
 			}
 		} else if (notification === "CALENDAR_ERROR") {
 			let error_message = this.translate(payload.error_type);
@@ -195,7 +210,7 @@ Module.register("calendar", {
 	},
 
 	// Override dom generator.
-	getDom: function () {
+	getDom () {
 		const ONE_SECOND = 1000; // 1,000 milliseconds
 		const ONE_MINUTE = ONE_SECOND * 60;
 		const ONE_HOUR = ONE_MINUTE * 60;
@@ -321,11 +336,16 @@ Module.register("calendar", {
 				}
 			}
 
-			// Color events if custom color or eventClass are specified
+			var transformedTitle = event.title;
+
+			// Color events if custom color or eventClass are specified, transform title if required
 			if (this.config.customEvents.length > 0) {
 				for (let ev in this.config.customEvents) {
 					let needle = new RegExp(this.config.customEvents[ev].keyword, "gi");
 					if (needle.test(event.title)) {
+						if (typeof this.config.customEvents[ev].transform === "object") {
+							transformedTitle = CalendarUtils.titleTransform(transformedTitle, [this.config.customEvents[ev].transform]);
+						}
 						if (typeof this.config.customEvents[ev].color !== "undefined" && this.config.customEvents[ev].color !== "") {
 							// Respect parameter ColoredSymbolOnly also for custom events
 							if (this.config.coloredText) {
@@ -335,7 +355,6 @@ Module.register("calendar", {
 							if (this.config.displaySymbol && this.config.coloredSymbol) {
 								symbolWrapper.style.cssText = `color:${this.config.customEvents[ev].color}`;
 							}
-							break;
 						}
 						if (typeof this.config.customEvents[ev].eventClass !== "undefined" && this.config.customEvents[ev].eventClass !== "") {
 							eventWrapper.className += ` ${this.config.customEvents[ev].eventClass}`;
@@ -344,7 +363,6 @@ Module.register("calendar", {
 				}
 			}
 
-			const transformedTitle = CalendarUtils.titleTransform(event.title, this.config.titleReplace);
 			titleWrapper.innerHTML = CalendarUtils.shorten(transformedTitle, this.config.maxTitleLength, this.config.wrapEvents, this.config.maxTitleLines) + repeatingCountTitle;
 
 			const titleClass = this.titleClassForUrl(event.url);
@@ -534,7 +552,7 @@ Module.register("calendar", {
 	 * @param {string} url The calendar url
 	 * @returns {boolean} True if the calendar config contains the url, False otherwise
 	 */
-	hasCalendarURL: function (url) {
+	hasCalendarURL (url) {
 		for (const calendar of this.config.calendars) {
 			if (calendar.url === url) {
 				return true;
@@ -549,7 +567,7 @@ Module.register("calendar", {
 	 * @param {boolean} limitNumberOfEntries Whether to filter returned events for display.
 	 * @returns {object[]} Array with events.
 	 */
-	createEventList: function (limitNumberOfEntries) {
+	createEventList (limitNumberOfEntries) {
 		const ONE_SECOND = 1000; // 1,000 milliseconds
 		const ONE_MINUTE = ONE_SECOND * 60;
 		const ONE_HOUR = ONE_MINUTE * 60;
@@ -599,7 +617,12 @@ Module.register("calendar", {
 				const maxCount = Math.ceil((event.endDate - 1 - moment(event.startDate, "x").endOf("day").format("x")) / ONE_DAY) + 1;
 				if (this.config.sliceMultiDayEvents && maxCount > 1) {
 					const splitEvents = [];
-					let midnight = moment(event.startDate, "x").clone().startOf("day").add(1, "day").format("x");
+					let midnight
+						= moment(event.startDate, "x")
+							.clone()
+							.startOf("day")
+							.add(1, "day")
+							.format("x");
 					let count = 1;
 					while (event.endDate > midnight) {
 						const thisEvent = JSON.parse(JSON.stringify(event)); // clone object
@@ -668,7 +691,7 @@ Module.register("calendar", {
 		return events.slice(0, this.config.maximumEntries);
 	},
 
-	listContainsEvent: function (eventList, event) {
+	listContainsEvent (eventList, event) {
 		for (const evt of eventList) {
 			if (evt.title === event.title && parseInt(evt.startDate) === parseInt(event.startDate) && parseInt(evt.endDate) === parseInt(event.endDate)) {
 				return true;
@@ -683,7 +706,7 @@ Module.register("calendar", {
 	 * @param {object} auth The authentication method and credentials
 	 * @param {object} calendarConfig The config of the specific calendar
 	 */
-	addCalendar: function (url, auth, calendarConfig) {
+	addCalendar (url, auth, calendarConfig) {
 		this.sendSocketNotification("ADD_CALENDAR", {
 			id: this.identifier,
 			url: url,
@@ -706,7 +729,7 @@ Module.register("calendar", {
 	 * @param {object} event Event to look for.
 	 * @returns {string[]} The symbols
 	 */
-	symbolsForEvent: function (event) {
+	symbolsForEvent (event) {
 		let symbols = this.getCalendarPropertyAsArray(event.url, "symbol", this.config.defaultSymbol);
 
 		if (event.recurringEvent === true && this.hasCalendarProperty(event.url, "recurringSymbol")) {
@@ -733,7 +756,7 @@ Module.register("calendar", {
 		return symbols;
 	},
 
-	mergeUnique: function (arr1, arr2) {
+	mergeUnique (arr1, arr2) {
 		return arr1.concat(
 			arr2.filter(function (item) {
 				return arr1.indexOf(item) === -1;
@@ -746,7 +769,7 @@ Module.register("calendar", {
 	 * @param {string} url The calendar url
 	 * @returns {string} The class to be used for the symbols of the calendar
 	 */
-	symbolClassForUrl: function (url) {
+	symbolClassForUrl (url) {
 		return this.getCalendarProperty(url, "symbolClass", "");
 	},
 
@@ -755,7 +778,7 @@ Module.register("calendar", {
 	 * @param {string} url The calendar url
 	 * @returns {string} The class to be used for the title of the calendar
 	 */
-	titleClassForUrl: function (url) {
+	titleClassForUrl (url) {
 		return this.getCalendarProperty(url, "titleClass", "");
 	},
 
@@ -764,7 +787,7 @@ Module.register("calendar", {
 	 * @param {string} url The calendar url
 	 * @returns {string} The class to be used for the time of the calendar
 	 */
-	timeClassForUrl: function (url) {
+	timeClassForUrl (url) {
 		return this.getCalendarProperty(url, "timeClass", "");
 	},
 
@@ -773,7 +796,7 @@ Module.register("calendar", {
 	 * @param {string} url The calendar url
 	 * @returns {string} The name of the calendar
 	 */
-	calendarNameForUrl: function (url) {
+	calendarNameForUrl (url) {
 		return this.getCalendarProperty(url, "name", "");
 	},
 
@@ -783,7 +806,7 @@ Module.register("calendar", {
 	 * @param {boolean} isBg Determines if we fetch the bgColor or not
 	 * @returns {string} The color
 	 */
-	colorForUrl: function (url, isBg) {
+	colorForUrl (url, isBg) {
 		return this.getCalendarProperty(url, isBg ? "bgColor" : "color", "#fff");
 	},
 
@@ -792,7 +815,7 @@ Module.register("calendar", {
 	 * @param {string} url The calendar url
 	 * @returns {string} The title
 	 */
-	countTitleForUrl: function (url) {
+	countTitleForUrl (url) {
 		return this.getCalendarProperty(url, "repeatingCountTitle", this.config.defaultRepeatingCountTitle);
 	},
 
@@ -801,7 +824,7 @@ Module.register("calendar", {
 	 * @param {string} url The calendar url
 	 * @returns {number} The maximum entry count
 	 */
-	maximumEntriesForUrl: function (url) {
+	maximumEntriesForUrl (url) {
 		return this.getCalendarProperty(url, "maximumEntries", this.config.maximumEntries);
 	},
 
@@ -810,7 +833,7 @@ Module.register("calendar", {
 	 * @param {string} url The calendar url
 	 * @returns {number} The maximum past days count
 	 */
-	maximumPastDaysForUrl: function (url) {
+	maximumPastDaysForUrl (url) {
 		return this.getCalendarProperty(url, "pastDaysCount", this.config.pastDaysCount);
 	},
 
@@ -821,7 +844,7 @@ Module.register("calendar", {
 	 * @param {string} defaultValue The value if the property is not found
 	 * @returns {*} The property
 	 */
-	getCalendarProperty: function (url, property, defaultValue) {
+	getCalendarProperty (url, property, defaultValue) {
 		for (const calendar of this.config.calendars) {
 			if (calendar.url === url && calendar.hasOwnProperty(property)) {
 				return calendar[property];
@@ -831,7 +854,7 @@ Module.register("calendar", {
 		return defaultValue;
 	},
 
-	getCalendarPropertyAsArray: function (url, property, defaultValue) {
+	getCalendarPropertyAsArray (url, property, defaultValue) {
 		let p = this.getCalendarProperty(url, property, defaultValue);
 		if (property === "symbol" || property === "recurringSymbol" || property === "fullDaySymbol") {
 			const className = this.getCalendarProperty(url, "symbolClassName", this.config.defaultSymbolClassName);
@@ -842,7 +865,7 @@ Module.register("calendar", {
 		return p;
 	},
 
-	hasCalendarProperty: function (url, property) {
+	hasCalendarProperty (url, property) {
 		return !!this.getCalendarProperty(url, property, undefined);
 	},
 
@@ -850,7 +873,7 @@ Module.register("calendar", {
 	 * Broadcasts the events to all other modules for reuse.
 	 * The all events available in one array, sorted on startdate.
 	 */
-	broadcastEvents: function () {
+	broadcastEvents () {
 		const eventList = this.createEventList(false);
 		for (const event of eventList) {
 			event.symbol = this.symbolsForEvent(event);
@@ -860,5 +883,30 @@ Module.register("calendar", {
 		}
 
 		this.sendNotification("CALENDAR_EVENTS", eventList);
+	},
+
+	/**
+	 * Refresh the DOM every minute if needed: When using relative date format for events that start
+	 * or end in less than an hour, the date shows minute granularity and we want to keep that accurate.
+	 * --
+	 * When updateOnFetch is not set, it will Avoid fade out/in on updateDom when many calendars are used
+	 * and it's allow to refresh The DOM every minute with animation speed too
+	 * (because updateDom is not set in CALENDAR_EVENTS for this case)
+	 */
+	selfUpdate () {
+		const ONE_MINUTE = 60 * 1000;
+		setTimeout(
+			() => {
+				setInterval(() => {
+					Log.debug("[Calendar] self update");
+					if (this.config.updateOnFetch) {
+						this.updateDom(1);
+					} else {
+						this.updateDom(this.config.animationSpeed);
+					}
+				}, ONE_MINUTE);
+			},
+			ONE_MINUTE - (new Date() % ONE_MINUTE)
+		);
 	}
 });

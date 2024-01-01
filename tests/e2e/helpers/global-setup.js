@@ -31,6 +31,11 @@ exports.getDocument = () => {
 		jsdom.JSDOM.fromURL(url, { resources: "usable", runScripts: "dangerously" }).then((dom) => {
 			dom.window.name = "jsdom";
 			global.window = dom.window;
+			// Following fixes `navigator is not defined` errors in e2e tests, found here
+			// https://www.appsloveworld.com/reactjs/100/37/mocha-react-navigator-is-not-defined
+			global.navigator = {
+				useragent: "node.js"
+			};
 			dom.window.fetch = fetch;
 			dom.window.onload = () => {
 				global.document = dom.window.document;
@@ -82,6 +87,7 @@ exports.waitForAllElements = (selector) => {
 
 exports.testMatch = async (element, regex) => {
 	const elem = await this.waitForElement(element);
-	expect(elem).not.toBe(null);
+	expect(elem).not.toBeNull();
 	expect(elem.textContent).toMatch(regex);
+	return true;
 };

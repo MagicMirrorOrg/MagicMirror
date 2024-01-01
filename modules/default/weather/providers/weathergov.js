@@ -37,24 +37,24 @@ WeatherProvider.register("weathergov", {
 	stationObsURL: "tbd",
 
 	// Called to set the config, this config is the same as the weather module's config.
-	setConfig: function (config) {
+	setConfig (config) {
 		this.config = config;
 		this.config.apiBase = "https://api.weather.gov";
 		this.fetchWxGovURLs(this.config);
 	},
 
 	// Called when the weather provider is about to start.
-	start: function () {
+	start () {
 		Log.info(`Weather provider: ${this.providerName} started.`);
 	},
 
 	// This returns the name of the fetched location or an empty string.
-	fetchedLocation: function () {
+	fetchedLocation () {
 		return this.fetchedLocationName || "";
 	},
 
 	// Overwrite the fetchCurrentWeather method.
-	fetchCurrentWeather() {
+	fetchCurrentWeather () {
 		if (!this.configURLs) {
 			Log.info("fetchCurrentWeather: fetch wx waiting on config URLs");
 			return;
@@ -75,7 +75,7 @@ WeatherProvider.register("weathergov", {
 	},
 
 	// Overwrite the fetchWeatherForecast method.
-	fetchWeatherForecast() {
+	fetchWeatherForecast () {
 		if (!this.configURLs) {
 			Log.info("fetchWeatherForecast: fetch wx waiting on config URLs");
 			return;
@@ -96,7 +96,7 @@ WeatherProvider.register("weathergov", {
 	},
 
 	// Overwrite the fetchWeatherHourly method.
-	fetchWeatherHourly() {
+	fetchWeatherHourly () {
 		if (!this.configURLs) {
 			Log.info("fetchWeatherHourly: fetch wx waiting on config URLs");
 			return;
@@ -122,7 +122,7 @@ WeatherProvider.register("weathergov", {
 	/*
 	 * Get specific URLs
 	 */
-	fetchWxGovURLs(config) {
+	fetchWxGovURLs (config) {
 		this.fetchData(`${config.apiBase}/points/${config.lat},${config.lon}`)
 			.then((data) => {
 				if (!data || !data.properties) {
@@ -162,12 +162,13 @@ WeatherProvider.register("weathergov", {
 				}
 			});
 	},
+
 	/*
 	 * Generate a WeatherObject based on hourlyWeatherInformation
 	 * Weather.gov API uses specific units; API does not include choice of units
 	 * ... object needs data in units based on config!
 	 */
-	generateWeatherObjectsFromHourly(forecasts) {
+	generateWeatherObjectsFromHourly (forecasts) {
 		const days = [];
 
 		// variable for date
@@ -206,7 +207,7 @@ WeatherProvider.register("weathergov", {
 	 * Weather.gov API uses specific units; API does not include choice of units
 	 * ... object needs data in units based on config!
 	 */
-	generateWeatherObjectFromCurrentWeather(currentWeatherData) {
+	generateWeatherObjectFromCurrentWeather (currentWeatherData) {
 		const currentWeather = new WeatherObject();
 
 		currentWeather.date = moment(currentWeatherData.timestamp);
@@ -236,14 +237,14 @@ WeatherProvider.register("weathergov", {
 	/*
 	 * Generate WeatherObjects based on forecast information
 	 */
-	generateWeatherObjectsFromForecast(forecasts) {
+	generateWeatherObjectsFromForecast (forecasts) {
 		return this.fetchForecastDaily(forecasts);
 	},
 
 	/*
 	 * fetch forecast information for daily forecast.
 	 */
-	fetchForecastDaily(forecasts) {
+	fetchForecastDaily (forecasts) {
 		// initial variable declaration
 		const days = [];
 		// variables for temperature range and rain
@@ -306,7 +307,7 @@ WeatherProvider.register("weathergov", {
 	/*
 	 * Convert the icons to a more usable name.
 	 */
-	convertWeatherType(weatherType, isDaytime) {
+	convertWeatherType (weatherType, isDaytime) {
 		//https://w1.weather.gov/xml/current_obs/weather.php
 		// There are way too many types to create, so lets just look for certain strings
 

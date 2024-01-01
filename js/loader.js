@@ -7,6 +7,7 @@
  * MIT Licensed.
  */
 const Loader = (function () {
+
 	/* Create helper variables */
 
 	const loadedModuleFiles = [];
@@ -196,10 +197,11 @@ const Loader = (function () {
 
 	/* Public Methods */
 	return {
+
 		/**
 		 * Load all modules as defined in the config.
 		 */
-		loadModules: async function () {
+		async loadModules () {
 			let moduleData = getModuleData();
 
 			/**
@@ -230,7 +232,7 @@ const Loader = (function () {
 		 * @param {Module} module The module that calls the loadFile function.
 		 * @returns {Promise} resolved when the file is loaded
 		 */
-		loadFileForModule: async function (fileName, module) {
+		async loadFileForModule (fileName, module) {
 			if (loadedFiles.indexOf(fileName.toLowerCase()) !== -1) {
 				Log.log(`File already loaded: ${fileName}`);
 				return;
@@ -256,4 +258,4 @@ const Loader = (function () {
 			return loadFile(module.file(fileName));
 		}
 	};
-})();
+}());

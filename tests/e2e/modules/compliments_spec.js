@@ -1,16 +1,19 @@
 const helpers = require("../helpers/global-setup");
 
 describe("Compliments module", () => {
+
 	/**
 	 * move similar tests in function doTest
 	 * @param {Array} complimentsArray The array of compliments.
+	 * @returns {boolean} result
 	 */
 	const doTest = async (complimentsArray) => {
 		let elem = await helpers.waitForElement(".compliments");
-		expect(elem).not.toBe(null);
+		expect(elem).not.toBeNull();
 		elem = await helpers.waitForElement(".module-content");
-		expect(elem).not.toBe(null);
+		expect(elem).not.toBeNull();
 		expect(complimentsArray).toContain(elem.textContent);
+		return true;
 	};
 
 	afterAll(async () => {
@@ -18,14 +21,14 @@ describe("Compliments module", () => {
 	});
 
 	describe("Feature anytime in compliments module", () => {
-		describe("Set anytime and empty compliments for morning, evening and afternoon ", () => {
+		describe("Set anytime and empty compliments for morning, evening and afternoon", () => {
 			beforeAll(async () => {
 				await helpers.startApplication("tests/configs/modules/compliments/compliments_anytime.js");
 				await helpers.getDocument();
 			});
 
 			it("shows anytime because if configure empty parts of day compliments and set anytime compliments", async () => {
-				await doTest(["Anytime here"]);
+				await expect(doTest(["Anytime here"])).resolves.toBe(true);
 			});
 		});
 
@@ -36,7 +39,7 @@ describe("Compliments module", () => {
 			});
 
 			it("shows anytime compliments", async () => {
-				await doTest(["Anytime here"]);
+				await expect(doTest(["Anytime here"])).resolves.toBe(true);
 			});
 		});
 	});
@@ -48,7 +51,7 @@ describe("Compliments module", () => {
 		});
 
 		it("should show compliments from a remote file", async () => {
-			await doTest(["Remote compliment file works!"]);
+			await expect(doTest(["Remote compliment file works!"])).resolves.toBe(true);
 		});
 	});
 });

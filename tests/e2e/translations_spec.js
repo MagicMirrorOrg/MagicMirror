@@ -44,100 +44,110 @@ describe("Translations", () => {
 			);
 		});
 
-		it("should load translation file", (done) => {
-			dom.window.onload = async () => {
-				const { Translator, Module, config } = dom.window;
-				config.language = "en";
-				Translator.load = sinon.stub().callsFake((_m, _f, _fb) => null);
+		it("should load translation file", () => {
+			return new Promise((done) => {
+				dom.window.onload = async () => {
+					const { Translator, Module, config } = dom.window;
+					config.language = "en";
+					Translator.load = sinon.stub().callsFake((_m, _f, _fb) => null);
 
-				Module.register("name", { getTranslations: () => translations });
-				const MMM = Module.create("name");
+					Module.register("name", { getTranslations: () => translations });
+					const MMM = Module.create("name");
 
-				await MMM.loadTranslations();
+					await MMM.loadTranslations();
 
-				expect(Translator.load.args.length).toBe(1);
-				expect(Translator.load.calledWith(MMM, "translations/en.json", false)).toBe(true);
+					expect(Translator.load.args).toHaveLength(1);
+					expect(Translator.load.calledWith(MMM, "translations/en.json", false)).toBe(true);
 
-				done();
-			};
+					done();
+				};
+			});
 		});
 
-		it("should load translation + fallback file", (done) => {
-			dom.window.onload = async () => {
-				const { Translator, Module } = dom.window;
-				Translator.load = sinon.stub().callsFake((_m, _f, _fb) => null);
+		it("should load translation + fallback file", () => {
+			return new Promise((done) => {
+				dom.window.onload = async () => {
+					const { Translator, Module } = dom.window;
+					Translator.load = sinon.stub().callsFake((_m, _f, _fb) => null);
 
-				Module.register("name", { getTranslations: () => translations });
-				const MMM = Module.create("name");
+					Module.register("name", { getTranslations: () => translations });
+					const MMM = Module.create("name");
 
-				await MMM.loadTranslations();
+					await MMM.loadTranslations();
 
-				expect(Translator.load.args.length).toBe(2);
-				expect(Translator.load.calledWith(MMM, "translations/de.json", false)).toBe(true);
-				expect(Translator.load.calledWith(MMM, "translations/en.json", true)).toBe(true);
+					expect(Translator.load.args).toHaveLength(2);
+					expect(Translator.load.calledWith(MMM, "translations/de.json", false)).toBe(true);
+					expect(Translator.load.calledWith(MMM, "translations/en.json", true)).toBe(true);
 
-				done();
-			};
+					done();
+				};
+			});
 		});
 
-		it("should load translation fallback file", (done) => {
-			dom.window.onload = async () => {
-				const { Translator, Module, config } = dom.window;
-				config.language = "--";
-				Translator.load = sinon.stub().callsFake((_m, _f, _fb) => null);
+		it("should load translation fallback file", () => {
+			return new Promise((done) => {
+				dom.window.onload = async () => {
+					const { Translator, Module, config } = dom.window;
+					config.language = "--";
+					Translator.load = sinon.stub().callsFake((_m, _f, _fb) => null);
 
-				Module.register("name", { getTranslations: () => translations });
-				const MMM = Module.create("name");
+					Module.register("name", { getTranslations: () => translations });
+					const MMM = Module.create("name");
 
-				await MMM.loadTranslations();
+					await MMM.loadTranslations();
 
-				expect(Translator.load.args.length).toBe(1);
-				expect(Translator.load.calledWith(MMM, "translations/en.json", true)).toBe(true);
+					expect(Translator.load.args).toHaveLength(1);
+					expect(Translator.load.calledWith(MMM, "translations/en.json", true)).toBe(true);
 
-				done();
-			};
+					done();
+				};
+			});
 		});
 
-		it("should load no file", (done) => {
-			dom.window.onload = async () => {
-				const { Translator, Module } = dom.window;
-				Translator.load = sinon.stub();
+		it("should load no file", () => {
+			return new Promise((done) => {
+				dom.window.onload = async () => {
+					const { Translator, Module } = dom.window;
+					Translator.load = sinon.stub();
 
-				Module.register("name", {});
-				const MMM = Module.create("name");
+					Module.register("name", {});
+					const MMM = Module.create("name");
 
-				await MMM.loadTranslations();
+					await MMM.loadTranslations();
 
-				expect(Translator.load.callCount).toBe(0);
+					expect(Translator.load.callCount).toBe(0);
 
-				done();
-			};
+					done();
+				};
+			});
 		});
 	});
 
 	const mmm = {
 		name: "TranslationTest",
-		file(file) {
+		file (file) {
 			return `http://localhost:3000/${file}`;
 		}
 	};
 
 	describe("Parsing language files through the Translator class", () => {
 		for (let language in translations) {
-			it(`should parse ${language}`, (done) => {
-				const dom = new JSDOM(
-					`<script>var translations = ${JSON.stringify(translations)}; var Log = {log: () => {}};</script>\
+			it(`should parse ${language}`, () => {
+				return new Promise((done) => {
+					const dom = new JSDOM(
+						`<script>var translations = ${JSON.stringify(translations)}; var Log = {log: () => {}};</script>\
 					<script src="file://${path.join(__dirname, "..", "..", "js", "translator.js")}">`,
-					{ runScripts: "dangerously", resources: "usable" }
-				);
-				dom.window.onload = async () => {
-					const { Translator } = dom.window;
+						{ runScripts: "dangerously", resources: "usable" }
+					);
+					dom.window.onload = async () => {
+						const { Translator } = dom.window;
 
-					await Translator.load(mmm, translations[language], false);
-					expect(typeof Translator.translations[mmm.name]).toBe("object");
-					expect(Object.keys(Translator.translations[mmm.name]).length).toBeGreaterThanOrEqual(1);
-					done();
-				};
+						await Translator.load(mmm, translations[language], false);
+						expect(typeof Translator.translations[mmm.name]).toBe("object");
+						expect(Object.keys(Translator.translations[mmm.name]).length).toBeGreaterThanOrEqual(1);
+						done();
+					};
+				});
 			});
 		}
 	});
@@ -146,19 +156,21 @@ describe("Translations", () => {
 		let base;
 		let missing = [];
 
-		beforeAll((done) => {
-			const dom = new JSDOM(
-				`<script>var translations = ${JSON.stringify(translations)}; var Log = {log: () => {}};</script>\
+		beforeAll(() => {
+			return new Promise((done) => {
+				const dom = new JSDOM(
+					`<script>var translations = ${JSON.stringify(translations)}; var Log = {log: () => {}};</script>\
 					<script src="file://${path.join(__dirname, "..", "..", "js", "translator.js")}">`,
-				{ runScripts: "dangerously", resources: "usable" }
-			);
-			dom.window.onload = async () => {
-				const { Translator } = dom.window;
+					{ runScripts: "dangerously", resources: "usable" }
+				);
+				dom.window.onload = async () => {
+					const { Translator } = dom.window;
 
-				await Translator.load(mmm, translations.de, false);
-				base = Object.keys(Translator.translations[mmm.name]).sort();
-				done();
-			};
+					await Translator.load(mmm, translations.de, false);
+					base = Object.keys(Translator.translations[mmm.name]).sort();
+					done();
+				};
+			});
 		});
 
 		afterAll(() => {
@@ -175,19 +187,21 @@ describe("Translations", () => {
 			describe(`Translation keys of ${language}`, () => {
 				let keys;
 
-				beforeAll((done) => {
-					const dom = new JSDOM(
-						`<script>var translations = ${JSON.stringify(translations)}; var Log = {log: () => {}};</script>\
+				beforeAll(() => {
+					return new Promise((done) => {
+						const dom = new JSDOM(
+							`<script>var translations = ${JSON.stringify(translations)}; var Log = {log: () => {}};</script>\
 					<script src="file://${path.join(__dirname, "..", "..", "js", "translator.js")}">`,
-						{ runScripts: "dangerously", resources: "usable" }
-					);
-					dom.window.onload = async () => {
-						const { Translator } = dom.window;
+							{ runScripts: "dangerously", resources: "usable" }
+						);
+						dom.window.onload = async () => {
+							const { Translator } = dom.window;
 
-						await Translator.load(mmm, translations[language], false);
-						keys = Object.keys(Translator.translations[mmm.name]).sort();
-						done();
-					};
+							await Translator.load(mmm, translations[language], false);
+							keys = Object.keys(Translator.translations[mmm.name]).sort();
+							done();
+						};
+					});
 				});
 
 				it(`${language} keys should be in base`, () => {

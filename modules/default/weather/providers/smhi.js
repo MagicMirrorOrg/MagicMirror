@@ -24,7 +24,7 @@ WeatherProvider.register("smhi", {
 	/**
 	 * Implements method in interface for fetching current weather.
 	 */
-	fetchCurrentWeather() {
+	fetchCurrentWeather () {
 		this.fetchData(this.getURL())
 			.then((data) => {
 				const closest = this.getClosestToCurrentTime(data.timeSeries);
@@ -40,7 +40,7 @@ WeatherProvider.register("smhi", {
 	/**
 	 * Implements method in interface for fetching a multi-day forecast.
 	 */
-	fetchWeatherForecast() {
+	fetchWeatherForecast () {
 		this.fetchData(this.getURL())
 			.then((data) => {
 				const coordinates = this.resolveCoordinates(data);
@@ -55,7 +55,7 @@ WeatherProvider.register("smhi", {
 	/**
 	 * Implements method in interface for fetching hourly forecasts.
 	 */
-	fetchWeatherHourly() {
+	fetchWeatherHourly () {
 		this.fetchData(this.getURL())
 			.then((data) => {
 				const coordinates = this.resolveCoordinates(data);
@@ -71,7 +71,7 @@ WeatherProvider.register("smhi", {
 	 * Overrides method for setting config with checks for the precipitationValue being unset or invalid
 	 * @param {object} config The configuration object
 	 */
-	setConfig(config) {
+	setConfig (config) {
 		this.config = config;
 		if (!config.precipitationValue || ["pmin", "pmean", "pmedian", "pmax"].indexOf(config.precipitationValue) === -1) {
 			Log.log(`invalid or not set: ${config.precipitationValue}`);
@@ -84,7 +84,7 @@ WeatherProvider.register("smhi", {
 	 * @param {object[]} times Array of time objects
 	 * @returns {object} The weatherdata closest to the current time
 	 */
-	getClosestToCurrentTime(times) {
+	getClosestToCurrentTime (times) {
 		let now = moment();
 		let minDiff = undefined;
 		for (const time of times) {
@@ -100,7 +100,7 @@ WeatherProvider.register("smhi", {
 	 * Get the forecast url for the configured coordinates
 	 * @returns {string} the url for the specified coordinates
 	 */
-	getURL() {
+	getURL () {
 		const formatter = new Intl.NumberFormat("en-US", {
 			minimumFractionDigits: 6,
 			maximumFractionDigits: 6
@@ -115,7 +115,7 @@ WeatherProvider.register("smhi", {
 	 * @param {object} weatherData Weatherdata to use for the calculation
 	 * @returns {number} The apparent temperature
 	 */
-	calculateApparentTemperature(weatherData) {
+	calculateApparentTemperature (weatherData) {
 		const Ta = this.paramValue(weatherData, "t");
 		const rh = this.paramValue(weatherData, "r");
 		const ws = this.paramValue(weatherData, "ws");
@@ -132,7 +132,7 @@ WeatherProvider.register("smhi", {
 	 * @param {object} coordinates Coordinates of the locations of the weather
 	 * @returns {WeatherObject} The converted weatherdata at the specified location
 	 */
-	convertWeatherDataToObject(weatherData, coordinates) {
+	convertWeatherDataToObject (weatherData, coordinates) {
 		let currentWeather = new WeatherObject();
 
 		currentWeather.date = moment(weatherData.validTime);
@@ -178,7 +178,7 @@ WeatherProvider.register("smhi", {
 	 * @param {string} groupBy The interval to use for grouping the data (day, hour)
 	 * @returns {WeatherObject[]} Array of weatherobjects
 	 */
-	convertWeatherDataGroupedBy(allWeatherData, coordinates, groupBy = "day") {
+	convertWeatherDataGroupedBy (allWeatherData, coordinates, groupBy = "day") {
 		let currentWeather;
 		let result = [];
 
@@ -227,7 +227,7 @@ WeatherProvider.register("smhi", {
 	 * @param {object} data Response data from the weather service
 	 * @returns {{lon, lat}} the lat/long coordinates of the data
 	 */
-	resolveCoordinates(data) {
+	resolveCoordinates (data) {
 		return { lat: data.geometry.coordinates[0][1], lon: data.geometry.coordinates[0][0] };
 	},
 
@@ -237,7 +237,7 @@ WeatherProvider.register("smhi", {
 	 * @param {object[]} data Response data from the weather service
 	 * @returns {object[]} Given data with filled gaps
 	 */
-	fillInGaps(data) {
+	fillInGaps (data) {
 		let result = [];
 		for (let i = 1; i < data.length; i++) {
 			let to = moment(data[i].validTime);
@@ -259,7 +259,7 @@ WeatherProvider.register("smhi", {
 	 * @param {string} name The name of the property
 	 * @returns {*} The value of the property in the weatherdata
 	 */
-	paramValue(currentWeatherData, name) {
+	paramValue (currentWeatherData, name) {
 		return currentWeatherData.parameters.filter((p) => p.name === name).flatMap((p) => p.values)[0];
 	},
 
@@ -271,7 +271,7 @@ WeatherProvider.register("smhi", {
 	 * @param {boolean} isDayTime True if the icon should be for daytime, false for nighttime
 	 * @returns {string} The icon name for the MagicMirror
 	 */
-	convertWeatherType(input, isDayTime) {
+	convertWeatherType (input, isDayTime) {
 		switch (input) {
 			case 1:
 				return isDayTime ? "day-sunny" : "night-clear"; // Clear sky

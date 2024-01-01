@@ -9,13 +9,18 @@ Module.register("updatenotification", {
 		updateInterval: 10 * 60 * 1000, // every 10 minutes
 		refreshInterval: 24 * 60 * 60 * 1000, // one day
 		ignoreModules: [],
-		sendUpdatesNotifications: false
+		sendUpdatesNotifications: false,
+		updates: [],
+		updateTimeout: 2 * 60 * 1000, // max update duration
+		updateAutorestart: false // autoRestart MM when update done ?
 	},
 
 	suspended: false,
 	moduleList: {},
+	needRestart: false,
+	updates: {},
 
-	start() {
+	start () {
 		Log.info(`Starting module: ${this.name}`);
 		this.addFilters();
 		setInterval(() => {
@@ -24,16 +29,16 @@ Module.register("updatenotification", {
 		}, this.config.refreshInterval);
 	},
 
-	suspend() {
+	suspend () {
 		this.suspended = true;
 	},
 
-	resume() {
+	resume () {
 		this.suspended = false;
 		this.updateDom(2);
 	},
 
-	notificationReceived(notification) {
+	notificationReceived (notification) {
 		switch (notification) {
 			case "DOM_OBJECTS_CREATED":
 				this.sendSocketNotification("CONFIG", this.config);
@@ -45,30 +50,33 @@ Module.register("updatenotification", {
 		}
 	},
 
-	socketNotificationReceived(notification, payload) {
+	socketNotificationReceived (notification, payload) {
 		switch (notification) {
-			case "STATUS":
+			case "REPO_STATUS":
 				this.updateUI(payload);
 				break;
 			case "UPDATES":
 				this.sendNotification("UPDATES", payload);
 				break;
+			case "UPDATE_STATUS":
+				this.updatesNotifier(payload);
+				break;
 		}
 	},
 
-	getStyles() {
+	getStyles () {
 		return [`${this.name}.css`];
 	},
 
-	getTemplate() {
+	getTemplate () {
 		return `${this.name}.njk`;
 	},
 
-	getTemplateData() {
-		return { moduleList: this.moduleList, suspended: this.suspended };
+	getTemplateData () {
+		return { moduleList: this.moduleList, updatesList: this.updates, suspended: this.suspended, needRestart: this.needRestart };
 	},
 
-	updateUI(payload) {
+	updateUI (payload) {
 		if (payload && payload.behind > 0) {
 			// if we haven't seen info for this module
 			if (this.moduleList[payload.module] === undefined) {
@@ -86,7 +94,7 @@ Module.register("updatenotification", {
 		}
 	},
 
-	addFilters() {
+	addFilters () {
 		this.nunjucksEnvironment().addFilter("diffLink", (text, status) => {
 			if (status.module !== "MagicMirror") {
 				return text;
@@ -96,5 +104,29 @@ Module.register("updatenotification", {
 			const remoteRef = status.tracking.replace(/.*\//, "");
 			return `<a href="https://github.com/MichMich/MagicMirror/compare/${localRef}...${remoteRef}" class="xsmall dimmed difflink" target="_blank">${text}</a>`;
 		});
+	},
+
+	updatesNotifier (payload, done = true) {
+		if (this.updates[payload.name] === undefined) {
+			this.updates[payload.name] = {
+				name: payload.name,
+				done: done
+			};
+
+			if (payload.error) {
+				this.sendSocketNotification("UPDATE_ERROR", payload.name);
+				this.updates[payload.name].done = false;
+			} else {
+				if (payload.updated) {
+					delete this.moduleList[payload.name];
+					this.updates[payload.name].done = true;
+				}
+				if (payload.needRestart) {
+					this.needRestart = true;
+				}
+			}
+
+			this.updateDom(2);
+		}
 	}
 });
