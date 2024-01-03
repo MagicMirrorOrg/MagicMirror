@@ -11,7 +11,7 @@ const si = require("systeminformation");
 try {
 	global.electronVersion = require(`${__dirname}/../node_modules/electron/package.json`).version;
 } catch (error) {
-	Log.error(`Can't find electron. Have you performed 'npm run install-mm'? ${error}`);
+	global.electronVersion = "not installed";
 }
 
 module.exports = {
