@@ -21,6 +21,9 @@ const defaultModules = require(`${__dirname}/../modules/default/defaultmodules`)
 global.version = require(`${__dirname}/../package.json`).version;
 Log.log(`Starting MagicMirror: v${global.version}`);
 
+// Log system information.
+Utils.logSystemInformation();
+
 // global absolute root path
 global.root_path = path.resolve(`${__dirname}/../`);
 
