@@ -25,7 +25,7 @@ module.exports = {
 	async logSystemInformation  () {
 		try {
 			const staticData = await si.getStaticData();
-			let systemDataString = "The following lines provide information about your system and may be of interest when troubleshooting.";
+			let systemDataString = "System information:";
 			systemDataString += `\n ### SYSTEM:   manufacturer: ${staticData["system"]["manufacturer"]}; model: ${staticData["system"]["model"]}; raspberry: ${staticData["system"]["raspberry"]}; virtual: ${staticData["system"]["virtual"]}`;
 			systemDataString += `\n ### OS:       platform: ${staticData["os"]["platform"]}; distro: ${staticData["os"]["distro"]}; release: ${staticData["os"]["release"]}`;
 			systemDataString += `\n ### VERSIONS: MagicMirror: ${global.version}; electron: ${global.electronVersion}; kernel: ${staticData["versions"]["kernel"]}; node: ${staticData["versions"]["node"]}; npm: ${staticData["versions"]["npm"]}; pm2: ${staticData["versions"]["pm2"]}; docker: ${staticData["versions"]["docker"]}`;
