@@ -13,6 +13,8 @@ _This release is scheduled to be released on 2024-04-01._
 
 ### Updated
 
+- Update updatenotification (update_helper.js): Recode with pm2 library
+
 ### Fixed
 
 - Skip changelog requirement when running tests for dependency updates (#3320)
