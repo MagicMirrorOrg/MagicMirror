@@ -1,7 +1,7 @@
-const util = require("util");
-const exec = util.promisify(require("child_process").exec);
-const fs = require("fs");
-const path = require("path");
+const util = require("node:util");
+const exec = util.promisify(require("node:child_process").exec);
+const fs = require("node:fs");
+const path = require("node:path");
 const Log = require("logger");
 
 const BASE_DIR = path.normalize(`${__dirname}/../../../`);

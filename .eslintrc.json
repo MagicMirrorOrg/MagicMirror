@@ -1,9 +1,9 @@
 {
 	"extends": ["eslint:recommended", "plugin:@stylistic/all-extends", "plugin:import/recommended", "plugin:jest/recommended", "plugin:jsdoc/recommended"],
-	"plugins": [],
+	"plugins": ["unicorn"],
 	"env": {
 		"browser": true,
-		"es2023": true,
+		"es2024": true,
 		"jest/globals": true,
 		"node": true
 	},
@@ -16,7 +16,7 @@
 	},
 	"parserOptions": {
 		"sourceType": "module",
-		"ecmaVersion": 2023,
+		"ecmaVersion": "latest",
 		"ecmaFeatures": {
 			"globalReturn": true
 		}
@@ -62,7 +62,8 @@
 		"@stylistic/indent": ["error", "tab"],
 		"@stylistic/semi": ["error", "always"],
 		"@stylistic/space-before-function-paren": ["error", "always"],
-		"@stylistic/spaced-comment": "off"
+		"@stylistic/spaced-comment": "off",
+		"unicorn/prefer-node-protocol": "error"
 	},
 	"overrides": [
 		{

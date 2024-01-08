@@ -5,7 +5,7 @@
  * MIT Licensed.
  */
 
-const stream = require("stream");
+const stream = require("node:stream");
 const FeedMe = require("feedme");
 const iconv = require("iconv-lite");
 const { htmlToText } = require("html-to-text");

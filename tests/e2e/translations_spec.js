@@ -1,5 +1,5 @@
-const fs = require("fs");
-const path = require("path");
+const fs = require("node:fs");
+const path = require("node:path");
 const helmet = require("helmet");
 const { JSDOM } = require("jsdom");
 const express = require("express");
