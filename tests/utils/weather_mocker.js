@@ -2,7 +2,6 @@ const fs = require("node:fs");
 const path = require("node:path");
 const util = require("node:util");
 const exec = util.promisify(require("node:child_process").exec);
-const _ = require("lodash");
 
 /**
  * @param {string} type what data to read, can be "current" "forecast" or "hourly
@@ -25,7 +24,9 @@ const readMockData = (type, extendedData = {}) => {
 			break;
 	}
 
-	return JSON.stringify(_.merge({}, JSON.parse(fs.readFileSync(path.resolve(`${__dirname}/../mocks/${fileName}`)).toString()), extendedData));
+	const fileData = JSON.parse(fs.readFileSync(path.resolve(`${__dirname}/../mocks/${fileName}`)).toString());
+	const mergedData = JSON.stringify({ ...{}, ...fileData, ...extendedData });
+	return mergedData;
 };
 
 const injectMockData = (configFileName, extendedData = {}) => {

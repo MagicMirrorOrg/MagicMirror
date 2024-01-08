@@ -15,7 +15,8 @@ _This release is scheduled to be released on 2024-04-01._
 
 ### Updated
 
-- Use node prefix for build-in modules
+- Removing lodash dependency by replacing merge by spread operator (#3339)
+- Use node prefix for build-in modules (#3340)
 
 ### Fixed
 
