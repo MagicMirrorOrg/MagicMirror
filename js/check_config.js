@@ -5,8 +5,8 @@
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.
  */
-const path = require("path");
-const fs = require("fs");
+const path = require("node:path");
+const fs = require("node:fs");
 const { Linter } = require("eslint");
 
 const linter = new Linter();

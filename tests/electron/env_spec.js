@@ -1,4 +1,4 @@
-const events = require("events");
+const events = require("node:events");
 const helpers = require("./helpers/global-setup");
 
 describe("Electron app environment", () => {

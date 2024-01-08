@@ -1,5 +1,5 @@
-const Exec = require("child_process").exec;
-const Spawn = require("child_process").spawn;
+const Exec = require("node:child_process").exec;
+const Spawn = require("node:child_process").spawn;
 const commandExists = require("command-exists");
 const Log = require("logger");
 
