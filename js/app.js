@@ -8,8 +8,8 @@
 // Alias modules mentioned in package.js under _moduleAliases.
 require("module-alias/register");
 
-const fs = require("fs");
-const path = require("path");
+const fs = require("node:fs");
+const path = require("node:path");
 const envsub = require("envsub");
 const Log = require("logger");
 

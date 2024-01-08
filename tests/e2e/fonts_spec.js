@@ -3,7 +3,7 @@ const helpers = require("./helpers/global-setup");
 describe("All font files from roboto.css should be downloadable", () => {
 	const fontFiles = [];
 	// Statements below filters out all 'url' lines in the CSS file
-	const fileContent = require("fs").readFileSync(`${__dirname}/../../fonts/roboto.css`, "utf8");
+	const fileContent = require("node:fs").readFileSync(`${__dirname}/../../fonts/roboto.css`, "utf8");
 	const regex = /\burl\(['"]([^'"]+)['"]\)/g;
 	let match = regex.exec(fileContent);
 	while (match !== null) {

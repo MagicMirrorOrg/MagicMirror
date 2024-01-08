@@ -4,10 +4,10 @@
  * By Michael Teeuw https://michaelteeuw.nl
  * MIT Licensed.
  */
-const fs = require("fs");
-const http = require("http");
-const https = require("https");
-const path = require("path");
+const fs = require("node:fs");
+const http = require("node:http");
+const https = require("node:https");
+const path = require("node:path");
 const express = require("express");
 const ipfilter = require("express-ipfilter").IpFilter;
 const helmet = require("helmet");

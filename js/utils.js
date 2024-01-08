@@ -4,7 +4,7 @@
  * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
  * MIT Licensed.
  */
-const execSync = require("child_process").execSync;
+const execSync = require("node:child_process").execSync;
 const colors = require("colors/safe");
 const Log = require("logger");
 const si = require("systeminformation");
