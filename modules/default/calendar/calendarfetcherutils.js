@@ -3,7 +3,6 @@
  */
 const path = require("node:path");
 const moment = require("moment");
-const assert = require("assert");
 
 const zoneTable = require(path.join(__dirname, "windowsZones.json"));
 const Log = require("../../../js/logger");
@@ -301,7 +300,7 @@ const CalendarFetcherUtils = {
 					Log.debug(`event.recurrences: ${event.recurrences}`);
 					if (event.recurrences !== undefined) {
 						for (let r in event.recurrences) {
-							let ev = event.recurrences[r]
+							let ev = event.recurrences[r];
 							// Only add dates that weren't already in the range we added from the rrule so that
 							// we don"t double-add those events.
 							if (!dates.includes(ev.start) && moment(ev.start).isBetween(pastMoment, futureMoment)) {
