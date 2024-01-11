@@ -21,6 +21,7 @@ _This release is scheduled to be released on 2024-04-01._
 ### Fixed
 
 - Skip changelog requirement when running tests for dependency updates (#3320)
+- Display precipitation probability when it is 0% instead of blank/empty (#3345)
 
 ### Deleted
 
