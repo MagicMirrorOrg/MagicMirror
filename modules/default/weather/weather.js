@@ -235,7 +235,7 @@ Module.register("weather", {
 						}
 					}
 				} else if (type === "precip") {
-					if (value === null || isNaN(value) || value === 0 || value.toFixed(2) === "0.00") {
+					if (value === null || isNaN(value)) {
 						formattedValue = "";
 					} else {
 						formattedValue = WeatherUtils.convertPrecipitationUnit(value, valueUnit, this.config.units);
