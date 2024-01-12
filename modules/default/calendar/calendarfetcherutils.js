@@ -290,6 +290,15 @@ const CalendarFetcherUtils = {
 						if (JSON.stringify(d) === "null") return false;
 						else return true;
 					});
+
+					// The dates array from rrule can be confused by DST. If the event was created during DST and we
+					// are querying a date range during non-DST, rrule can have the incorrect time for the date range.
+					// Reprocess the array here computing and applying the time offset.
+					dates.forEach((date, index, arr) => {
+						let adjustHours = CalendarFetcherUtils.calculateTimezoneAdjustment(event, date);
+						arr[index] = new Date(date.valueOf() + (adjustHours * 60 * 60 * 1000));
+					});
+
 					// The "dates" array contains the set of dates within our desired date range range that are valid
 					// for the recurrence rule. *However*, it's possible for us to have a specific recurrence that
 					// had its date changed from outside the range to inside the range.  For the time being,
@@ -302,9 +311,17 @@ const CalendarFetcherUtils = {
 						for (let r in event.recurrences) {
 							let ev = event.recurrences[r];
 							// Only add dates that weren't already in the range we added from the rrule so that
-							// we don"t double-add those events.
-							if (!dates.includes(ev.start) && moment(ev.start).isBetween(pastMoment, futureMoment)) {
-								dates.push(ev.start);
+							// we don't double-add those events. Unfortunately dates.includes doesn't do an exact match.
+							if (moment(ev.start).isBetween(pastMoment, futureMoment)) {
+								let found = false;
+								dates.forEach((d) => { 
+									if (d.valueOf() == ev.start.valueOf()) {
+										found = true;
+									}
+								});
+								if (!found) {
+									dates.push(ev.start);
+								}
 							}
 						}
 					}
@@ -314,95 +331,7 @@ const CalendarFetcherUtils = {
 						let curEvent = event;
 						let showRecurrence = true;
 
-						// set the time information in the date to equal the time information in the event
-						date.setUTCHours(curEvent.start.getUTCHours(), curEvent.start.getUTCMinutes(), curEvent.start.getUTCSeconds(), curEvent.start.getUTCMilliseconds());
-
-						// Get the offset of today where we are processing
-						// This will be the correction, we need to apply.
-						let nowOffset = new Date().getTimezoneOffset();
-						// For full day events, the time might be off from RRULE/Luxon problem
-						// Get time zone offset of the rule calculated event
-						let dateoffset = date.getTimezoneOffset();
-
-						// Reduce the time by the following offset.
-						Log.debug(` recurring date is ${date} offset is ${dateoffset}`);
-
-						let dh = moment(date).format("HH");
-						Log.debug(` recurring date is ${date} offset is ${dateoffset / 60} Hour is ${dh}`);
-
-						if (CalendarFetcherUtils.isFullDayEvent(event)) {
-							Log.debug("Fullday");
-							// If the offset is negative (east of GMT), where the problem is
-							if (dateoffset < 0) {
-								if (dh < Math.abs(dateoffset / 60)) {
-									// if the rrule byweekday WAS explicitly set , correct it
-									// reduce the time by the offset
-									if (curEvent.rrule.origOptions.byweekday !== undefined) {
-										// Apply the correction to the date/time to get it UTC relative
-										date = new Date(date.getTime() - Math.abs(24 * 60) * 60000);
-									}
-									// the duration was calculated way back at the top before we could correct the start time..
-									// fix it for this event entry
-									//duration = 24 * 60 * 60 * 1000;
-									Log.debug(`new recurring date1 fulldate is ${date}`);
-								}
-							} else {
-								// if the timezones are the same, correct date if needed
-								//if (event.start.tz === moment.tz.guess()) {
-								// if the date hour is less than the offset
-								if (24 - dh <= Math.abs(dateoffset / 60)) {
-									// if the rrule byweekday WAS explicitly set , correct it
-									if (curEvent.rrule.origOptions.byweekday !== undefined) {
-										// apply the correction to the date/time back to right day
-										date = new Date(date.getTime() + Math.abs(24 * 60) * 60000);
-									}
-									// the duration was calculated way back at the top before we could correct the start time..
-									// fix it for this event entry
-									//duration = 24 * 60 * 60 * 1000;
-									Log.debug(`new recurring date2 fulldate is ${date}`);
-								}
-								//}
-							}
-						} else {
-							// not full day, but luxon can still screw up the date on the rule processing
-							// we need to correct the date to get back to the right event for
-							if (dateoffset < 0) {
-								// if the date hour is less than the offset
-								if (dh <= Math.abs(dateoffset / 60)) {
-									// if the rrule byweekday WAS explicitly set , correct it
-									if (curEvent.rrule.origOptions.byweekday !== undefined) {
-										// Reduce the time by t:
-										// Apply the correction to the date/time to get it UTC relative
-										date = new Date(date.getTime() - Math.abs(24 * 60) * 60000);
-									}
-									// the duration was calculated way back at the top before we could correct the start time..
-									// fix it for this event entry
-									//duration = 24 * 60 * 60 * 1000;
-									Log.debug(`new recurring date1 is ${date}`);
-								}
-							} else {
-								// if the timezones are the same, correct date if needed
-								//if (event.start.tz === moment.tz.guess()) {
-								// if the date hour is less than the offset
-								if (24 - dh <= Math.abs(dateoffset / 60)) {
-									// if the rrule byweekday WAS explicitly set , correct it
-									if (curEvent.rrule.origOptions.byweekday !== undefined) {
-										// apply the correction to the date/time back to right day
-										date = new Date(date.getTime() + Math.abs(24 * 60) * 60000);
-									}
-									// the duration was calculated way back at the top before we could correct the start time..
-									// fix it for this event entry
-									//duration = 24 * 60 * 60 * 1000;
-									Log.debug(`new recurring date2 is ${date}`);
-								}
-								//}
-							}
-						}
-
 						startMoment = moment(date);
-						Log.debug(`Corrected startDate: ${startMoment.toDate()}`);
-
-						let adjustHours = CalendarFetcherUtils.calculateTimezoneAdjustment(event, date);
 
 						// Remove the time information of each date by using its substring, using the following method:
 						// .toISOString().substring(0,10).
@@ -446,8 +375,8 @@ const CalendarFetcherUtils = {
 							Log.debug(`saving event: ${description}`);
 							newEvents.push({
 								title: recurrenceTitle,
-								startDate: (adjustHours ? (adjustHours > 0 ? startMoment.add(adjustHours, "hours") : startMoment.subtract(Math.abs(adjustHours), "hours")) : startMoment).format("x"),
-								endDate: (adjustHours ? (adjustHours > 0 ? endMoment.add(adjustHours, "hours") : endMoment.subtract(Math.abs(adjustHours), "hours")) : endMoment).format("x"),
+								startDate: startMoment.format("x"),
+								endDate: endMoment.format("x"),
 								fullDayEvent: CalendarFetcherUtils.isFullDayEvent(event),
 								recurringEvent: true,
 								class: event.class,
@@ -497,11 +426,15 @@ const CalendarFetcherUtils = {
 
 					// get correction for date saving and dst change between now and then
 					let adjustHours = CalendarFetcherUtils.calculateTimezoneAdjustment(event, startMoment.toDate());
+					// This shouldn't happen
+					if (adjustHours) {
+						Log.warn(`Unexpected timezone adjustment of ${adjustHours} hours on non-recurring event`);
+					}
 					// Every thing is good. Add it to the list.
 					newEvents.push({
 						title: title,
-						startDate: (adjustHours ? (adjustHours > 0 ? startMoment.add(adjustHours, "hours") : startMoment.subtract(Math.abs(adjustHours), "hours")) : startMoment).format("x"),
-						endDate: (adjustHours ? (adjustHours > 0 ? endMoment.add(adjustHours, "hours") : endMoment.subtract(Math.abs(adjustHours), "hours")) : endMoment).format("x"),
+						startDate: startMoment.add(adjustHours, "hours").format("x"),
+						endDate: endMoment.add(adjustHours, "hours").format("x"),
 						fullDayEvent: fullDayEvent,
 						class: event.class,
 						location: location,
