@@ -8,8 +8,8 @@
 // Alias modules mentioned in package.js under _moduleAliases.
 require("module-alias/register");
 
-const fs = require("fs");
-const path = require("path");
+const fs = require("node:fs");
+const path = require("node:path");
 const envsub = require("envsub");
 const Log = require("logger");
 
@@ -20,6 +20,9 @@ const defaultModules = require(`${__dirname}/../modules/default/defaultmodules`)
 // Get version number.
 global.version = require(`${__dirname}/../package.json`).version;
 Log.log(`Starting MagicMirror: v${global.version}`);
+
+// Log system information.
+Utils.logSystemInformation();
 
 // global absolute root path
 global.root_path = path.resolve(`${__dirname}/../`);

@@ -1,9 +1,9 @@
-jest.mock("util", () => ({
+jest.mock("node:util", () => ({
 	...jest.requireActual("util"),
 	promisify: jest.fn()
 }));
 
-jest.mock("fs", () => ({
+jest.mock("node:fs", () => ({
 	...jest.requireActual("fs"),
 	statSync: jest.fn()
 }));
@@ -29,7 +29,7 @@ describe("Updatenotification", () => {
 	let gitTagListOut;
 
 	beforeAll(async () => {
-		const { promisify } = require("util");
+		const { promisify } = require("node:util");
 		promisify.mockReturnValue(execMock);
 
 		const GitHelper = require("../../../modules/default/updatenotification/git_helper");

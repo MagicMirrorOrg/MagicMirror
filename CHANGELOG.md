@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
-❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror².
+❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/#donate) With your help we can continue to improve the MagicMirror².
 
 ## [2.27.0] - Develop Branch (unreleased)
 
@@ -11,9 +11,13 @@ _This release is scheduled to be released on 2024-04-01._
 
 ### Added
 
+- Output of system information to the console for troubleshooting (#3328 and #3337)
+
 ### Updated
 
 - Update updatenotification (update_helper.js): Recode with pm2 library (#3332)
+- Removing lodash dependency by replacing merge by spread operator (#3339)
+- Use node prefix for build-in modules (#3340)
 
 ### Fixed
 
