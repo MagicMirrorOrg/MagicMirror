@@ -118,6 +118,9 @@ Module.register("newsfeed", {
 
 	//Override template data and return whats used for the current template
 	getTemplateData () {
+		if (this.activeItem >= this.newsItems.length) {
+			this.activeItem = 0;
+		}
 		// this.config.showFullArticle is a run-time configuration, triggered by optional notifications
 		if (this.config.showFullArticle) {
 			return {
@@ -133,9 +136,6 @@ Module.register("newsfeed", {
 			return {
 				empty: true
 			};
-		}
-		if (this.activeItem >= this.newsItems.length) {
-			this.activeItem = 0;
 		}
 
 		const item = this.newsItems[this.activeItem];
