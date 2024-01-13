@@ -150,7 +150,7 @@ Module.register("newsfeed", {
 			sourceTitle: item.sourceTitle,
 			publishDate: moment(new Date(item.pubdate)).fromNow(),
 			title: item.title,
-			url: this.getUrlPrefix(item) + item.url,
+			url: this.getActiveItemURL(),
 			description: item.description,
 			items: items
 		};
