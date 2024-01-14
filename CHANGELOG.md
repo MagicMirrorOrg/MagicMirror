@@ -21,6 +21,8 @@ _This release is scheduled to be released on 2024-04-01._
 ### Fixed
 
 - Skip changelog requirement when running tests for dependency updates (#3320)
+- [newsfeed] Suppress unsightly animation cases when there are 0 or 1 active news items
+- [newsfeed] Always compute the feed item URL using the same helper function
 
 ### Deleted
 

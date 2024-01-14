@@ -118,27 +118,33 @@ Module.register("newsfeed", {
 
 	//Override template data and return whats used for the current template
 	getTemplateData () {
+		if (this.activeItem >= this.newsItems.length) {
+			this.activeItem = 0;
+		}
+		this.activeItemCount = this.newsItems.length;
 		// this.config.showFullArticle is a run-time configuration, triggered by optional notifications
 		if (this.config.showFullArticle) {
+			this.activeItemHash = this.newsItems[this.activeItem]?.hash;
 			return {
 				url: this.getActiveItemURL()
 			};
 		}
 		if (this.error) {
+			this.activeItemHash = undefined;
 			return {
 				error: this.error
 			};
 		}
 		if (this.newsItems.length === 0) {
+			this.activeItemHash = undefined;
 			return {
 				empty: true
 			};
 		}
-		if (this.activeItem >= this.newsItems.length) {
-			this.activeItem = 0;
-		}
 
 		const item = this.newsItems[this.activeItem];
+		this.activeItemHash = item.hash;
+
 		const items = this.newsItems.map(function (item) {
 			item.publishDate = moment(new Date(item.pubdate)).fromNow();
 			return item;
@@ -150,7 +156,7 @@ Module.register("newsfeed", {
 			sourceTitle: item.sourceTitle,
 			publishDate: moment(new Date(item.pubdate)).fromNow(),
 			title: item.title,
-			url: this.getUrlPrefix(item) + item.url,
+			url: this.getActiveItemURL(),
 			description: item.description,
 			items: items
 		};
@@ -312,8 +318,27 @@ Module.register("newsfeed", {
 		if (this.timer) clearInterval(this.timer);
 
 		this.timer = setInterval(() => {
-			this.activeItem++;
-			this.updateDom(this.config.animationSpeed);
+
+			/*
+			 * When animations are enabled, don't update the DOM unless we are actually changing what we are displaying.
+			 * (Animating from a headline to itself is unsightly.)
+			 * Cases:
+			 *
+			 * Number of items | Number of items | Display
+			 * at last update  |   right now     | Behaviour
+			 * ----------------------------------------------------
+			 *     0           |      0          | do not update
+			 *     0           |     >0          | update
+			 *     1           |   0 or >1       | update
+			 *     1           |      1          | update only if item details (hash value) changed
+			 *    >1           |    any          | update
+			 *
+			 * (N.B. We set activeItemCount and activeItemHash in getTemplateData().)
+			 */
+			if (this.newsItems.length !== this.activeItemCount || this.activeItemHash !== this.newsItems[0]?.hash) {
+				this.activeItem++; // this is OK if newsItems.Length==1; getTemplateData will wrap it around
+				this.updateDom(this.config.animationSpeed);
+			}
 
 			// Broadcast NewsFeed if needed
 			if (this.config.broadcastNewsFeeds) {
