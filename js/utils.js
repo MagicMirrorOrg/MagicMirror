@@ -1,21 +1,14 @@
 /* MagicMirror²
  * Utils
  *
- * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
+ * By KristjanESPERANTO https://github.com/KristjanESPERANTO
  * MIT Licensed.
  */
 const execSync = require("node:child_process").execSync;
-const colors = require("colors/safe");
 const Log = require("logger");
 const si = require("systeminformation");
 
 module.exports = {
-	colors: {
-		warn: colors.yellow,
-		error: colors.red,
-		info: colors.blue,
-		pass: colors.green
-	},
 
 	async logSystemInformation  () {
 		try {
