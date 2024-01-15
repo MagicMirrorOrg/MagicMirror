@@ -1,7 +1,6 @@
 /* MagicMirror²
  * Utils
  *
- * By KristjanESPERANTO https://github.com/KristjanESPERANTO
  * MIT Licensed.
  */
 const execSync = require("node:child_process").execSync;
