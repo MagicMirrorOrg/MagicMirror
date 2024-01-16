@@ -24,6 +24,9 @@ module.exports = {
 			systemDataString += `\n### VERSIONS: electron: ${process.versions.electron}; used node: ${staticData["versions"]["node"]}; installed node: ${installedNodeVersion}; npm: ${staticData["versions"]["npm"]}; pm2: ${staticData["versions"]["pm2"]}`;
 			systemDataString += `\n### OTHER:    timeZone: ${Intl.DateTimeFormat().resolvedOptions().timeZone}; ELECTRON_ENABLE_GPU: ${process.env.ELECTRON_ENABLE_GPU}`;
 			Log.info(systemDataString);
+
+			// Return is currently only for jest
+			return systemDataString;
 		} catch (e) {
 			Log.error(e);
 		}
