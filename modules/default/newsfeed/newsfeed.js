@@ -335,7 +335,7 @@ Module.register("newsfeed", {
 			 *
 			 * (N.B. We set activeItemCount and activeItemHash in getTemplateData().)
 			 */
-			if (this.newsItems.length !== this.activeItemCount || this.activeItemHash !== this.newsItems[0]?.hash) {
+			if (this.newsItems.length > 1 || this.newsItems.length !== this.activeItemCount || this.activeItemHash !== this.newsItems[0]?.hash) {
 				this.activeItem++; // this is OK if newsItems.Length==1; getTemplateData will wrap it around
 				this.updateDom(this.config.animationSpeed);
 			}
