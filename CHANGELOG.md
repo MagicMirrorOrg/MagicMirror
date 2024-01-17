@@ -26,6 +26,7 @@ _This release is scheduled to be released on 2024-04-01._
 - [newsfeed] Suppress unsightly animation cases when there are 0 or 1 active news items (#3336)
 - [newsfeed] Always compute the feed item URL using the same helper function (#3336)
 - Ignore all custom css files (#3359)
+- [newsfeed] Fix newsfeed stall issue introduced by #3336 (#3361)
 
 ### Deleted
 
