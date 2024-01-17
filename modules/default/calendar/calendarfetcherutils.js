@@ -314,8 +314,8 @@ const CalendarFetcherUtils = {
 							// we don't double-add those events. Unfortunately dates.includes doesn't do an exact match.
 							if (moment(ev.start).isBetween(pastMoment, futureMoment)) {
 								let found = false;
-								dates.forEach((d) => { 
-									if (d.valueOf() == ev.start.valueOf()) {
+								dates.forEach((d) => {
+									if (d.valueOf() === ev.start.valueOf()) {
 										found = true;
 									}
 								});
