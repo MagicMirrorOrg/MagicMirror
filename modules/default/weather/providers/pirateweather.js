@@ -1,15 +1,5 @@
 /* global WeatherProvider, WeatherObject */
 
-/* MagicMirror²
- * Module: Weather
- * Provider: Pirate Weather
- *
- * Written by Nicholas Hubbard https://github.com/nhubbard for formerly Dark Sky Provider
- * Modified by Karsten Hassel for Pirate Weather
- * MIT Licensed
- *
- * This class is a provider for Pirate Weather, it is a replacement for Dark Sky (same api).
- */
 WeatherProvider.register("pirateweather", {
 	// Set the name of the provider.
 	// Not strictly required, but helps for debugging.

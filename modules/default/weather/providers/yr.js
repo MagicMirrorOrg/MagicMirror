@@ -1,16 +1,5 @@
 /* global WeatherProvider, WeatherObject */
 
-/* MagicMirror²
- * Module: Weather
- * Provider: Yr.no
- *
- * By Magnus Marthinsen
- * MIT Licensed
- *
- * This class is a provider for Yr.no, a norwegian weather service.
- *
- * Terms of service: https://developer.yr.no/doc/TermsOfService/
- */
 WeatherProvider.register("yr", {
 	providerName: "Yr",
 

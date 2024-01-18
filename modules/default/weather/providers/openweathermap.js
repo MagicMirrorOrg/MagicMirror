@@ -1,13 +1,5 @@
 /* global WeatherProvider, WeatherObject */
 
-/* MagicMirror²
- * Module: Weather
- *
- * By Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
- *
- * This class is the blueprint for a weather provider.
- */
 WeatherProvider.register("openweathermap", {
 	// Set the name of the provider.
 	// This isn't strictly necessary, since it will fallback to the provider identifier

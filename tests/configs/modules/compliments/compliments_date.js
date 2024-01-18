@@ -1,8 +1,3 @@
-/* MagicMirror² Test config compliments with date type
- *
- * By Rejas
- * MIT Licensed.
- */
 let config = {
 	timeFormat: 12,
 

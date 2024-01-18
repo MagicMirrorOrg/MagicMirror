@@ -1,11 +1,5 @@
 /* global defaultModules, vendor */
 
-/* MagicMirror²
- * Module and File loaders.
- *
- * By Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
- */
 const Loader = (function () {
 
 	/* Create helper variables */

@@ -1,10 +1,3 @@
-/* MagicMirror²
- * The Core App (Server)
- *
- * By Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
- */
-
 // Alias modules mentioned in package.js under _moduleAliases.
 require("module-alias/register");
 

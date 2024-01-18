@@ -1,15 +1,5 @@
 /* global WeatherProvider, WeatherObject */
 
-/* MagicMirror²
- * Module: Weather
- * Provider: Weatherbit
- *
- * By Andrew Pometti
- * MIT Licensed
- *
- * This class is a provider for Weatherbit, based on Nicholas Hubbard's class
- * for Dark Sky & Vince Peri's class for Weather.gov.
- */
 WeatherProvider.register("weatherbit", {
 	// Set the name of the provider.
 	// Not strictly required, but helps for debugging.

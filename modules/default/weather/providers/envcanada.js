@@ -1,39 +1,5 @@
 /* global WeatherProvider, WeatherObject, WeatherUtils */
 
-/* MagicMirror²
- * Module: Weather
- * Provider: Environment Canada (EC)
- *
- * This class is a provider for Environment Canada MSC Datamart
- * Note that this is only for Canadian locations and does not require an API key (access is anonymous)
- *
- * EC Documentation at following links:
- * 	https://dd.weather.gc.ca/citypage_weather/schema/
- * 	https://eccc-msc.github.io/open-data/msc-datamart/readme_en/
- *
- * This module supports Canadian locations only and requires 2 additional config parameters:
- *
- * siteCode - the city/town unique identifier for which weather is to be displayed. Format is 's0000000'.
- *
- * provCode - the 2-character province code for the selected city/town.
- *
- * Example: for Toronto, Ontario, the following parameters would be used
- *
- * siteCode: 's0000458',
- * provCode: 'ON'
- *
- * To determine the siteCode and provCode values for a Canadian city/town, look at the Environment Canada document
- * at https://dd.weather.gc.ca/citypage_weather/docs/site_list_en.csv (or site_list_fr.csv). There you will find a table
- * with locations you can search under column B (English Names), with the corresponding siteCode under
- * column A (Codes) and provCode under column C (Province).
- *
- * Original by Kevin Godin
- *
- * License to use Environment Canada (EC) data is detailed here:
- * 	https://eccc-msc.github.io/open-data/licence/readme_en/
- *
- */
-
 WeatherProvider.register("envcanada", {
 	// Set the name of the provider for debugging and alerting purposes (eg. provide eye-catcher)
 	providerName: "Environment Canada",

@@ -1,8 +1,3 @@
-/* MagicMirror² Test config for multiple calendar events having the same name and start date/time
- *
- * By Paranoid93 https://github.com/Paranoid93/
- * MIT Licensed.
- */
 let config = {
 	timeFormat: 12,
 

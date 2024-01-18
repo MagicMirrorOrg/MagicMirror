@@ -1,9 +1,3 @@
-/* MagicMirror²
- * Node Helper Superclass
- *
- * By Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
- */
 const express = require("express");
 const Log = require("logger");
 const Class = require("./class");

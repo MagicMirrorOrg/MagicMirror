@@ -1,8 +1,3 @@
-/* MagicMirror² Test ics with out of date event causing bad return from rrule.between
- *
- * By Sam Detweiler
- * MIT Licensed.
- */
 let config = {
 	timeFormat: 12,
 	logLevel: ["INFO", "LOG", "WARN", "ERROR", "DEBUG"],

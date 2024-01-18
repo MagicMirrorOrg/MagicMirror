@@ -1,11 +1,5 @@
 /* global mmPort */
 
-/* MagicMirror²
- * Config Defaults
- *
- * By Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
- */
 const address = "localhost";
 let port = 8080;
 if (typeof mmPort !== "undefined") {

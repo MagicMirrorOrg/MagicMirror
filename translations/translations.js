@@ -1,10 +1,3 @@
-/* MagicMirror²
- * Translation Definition
- *
- * By Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
- */
-
 let translations = {
 	en: "translations/en.json", // English
 	nl: "translations/nl.json", // Dutch

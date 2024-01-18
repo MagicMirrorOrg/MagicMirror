@@ -1,15 +1,5 @@
 /* global WeatherProvider, WeatherObject */
 
-/* MagicMirror²
- * Module: Weather
- * Provider: Open-Meteo
- *
- * By Andrés Vanegas
- * MIT Licensed
- *
- * This class is a provider for Open-Meteo, based on Andrew Pometti's class
- * for Weatherbit.
- */
 // https://www.bigdatacloud.com/docs/api/free-reverse-geocode-to-city-api
 const GEOCODE_BASE = "https://api.bigdatacloud.net/data/reverse-geocode-client";
 const OPEN_METEO_BASE = "https://api.open-meteo.com/v1";

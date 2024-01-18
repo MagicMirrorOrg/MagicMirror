@@ -1,8 +1,3 @@
-/* MagicMirror² Test config compliments with remote file
- *
- * By Rejas
- * MIT Licensed.
- */
 let config = {
 	modules: [
 		{

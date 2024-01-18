@@ -1,10 +1,3 @@
-/* MagicMirror²
- * Calendar Fetcher Util Methods
- *
- * By Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
- */
-
 /**
  * @external Moment
  */

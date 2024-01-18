@@ -1,11 +1,5 @@
 /* global Loader, defaults, Translator, addAnimateCSS, removeAnimateCSS, AnimateCSSIn, AnimateCSSOut */
 
-/* MagicMirror²
- * Main System
- *
- * By Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
- */
 const MM = (function () {
 	let modules = [];
 

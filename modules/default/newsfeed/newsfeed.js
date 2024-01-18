@@ -1,9 +1,3 @@
-/* MagicMirror²
- * Module: NewsFeed
- *
- * By Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
- */
 Module.register("newsfeed", {
 	// Default module config.
 	defaults: {

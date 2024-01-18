@@ -1,15 +1,5 @@
 /* global WeatherProvider, WeatherObject */
 
-/* MagicMirror²
- * Module: Weather
- * Provider: SMHI
- *
- * By BuXXi https://github.com/buxxi
- * MIT Licensed
- *
- * This class is a provider for SMHI (Sweden only). Metric system is the only
- * supported unit.
- */
 WeatherProvider.register("smhi", {
 	providerName: "SMHI",
 

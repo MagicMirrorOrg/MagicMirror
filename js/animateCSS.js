@@ -1,10 +1,3 @@
-/* MagicMirror²
- * AnimateCSS System from https://animate.style/
- * by @bugsounet
- * for Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
- */
-
 /* enumeration of animations in Array **/
 const AnimateCSSIn = [
 	// Attention seekers
