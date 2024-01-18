@@ -1,10 +1,3 @@
-/* AnimateCSS integration Test with compliments module
- *
- * By bugsounet https://github.com/bugsounet
- * and helped by khassel
- * 09/2023
- * MIT Licensed.
- */
 const helpers = require("./helpers/global-setup");
 
 describe("AnimateCSS integration Test", () => {

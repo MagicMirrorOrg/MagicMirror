@@ -1,16 +1,3 @@
-/**
- * Based on work by
- *
- * notificationFx.js v1.0.0
- * https://tympanus.net/codrops/
- *
- * Licensed under the MIT license.
- * https://opensource.org/licenses/mit-license.php
- *
- * Copyright 2014, Codrops
- * https://tympanus.net/codrops/
- * @param {object} window The window object
- */
 (function (window) {
 
 	/**

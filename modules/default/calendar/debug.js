@@ -1,9 +1,6 @@
 /* CalendarFetcher Tester
  * use this script with `node debug.js` to test the fetcher without the need
  * of starting the MagicMirror² core. Adjust the values below to your desire.
- *
- * By Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
  */
 // Alias modules mentioned in package.js under _moduleAliases.
 require("module-alias/register");

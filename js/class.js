@@ -1,12 +1,5 @@
 /* global Class, xyz */
 
-/* Simple JavaScript Inheritance
- * By John Resig https://johnresig.com/
- *
- * Inspired by base2 and Prototype
- *
- * MIT Licensed.
- */
 (function () {
 	let initializing = false;
 	const fnTest = (/xyz/).test(function () {
