@@ -76,7 +76,7 @@ function App () {
 			fs.accessSync(templateFile, fs.F_OK);
 		} catch (err) {
 			templateFile = null;
-			Log.debug("config template file not exists, no envsubst");
+			Log.log("config template file not exists, no envsubst");
 		}
 
 		if (templateFile) {
@@ -97,7 +97,7 @@ function App () {
 					envFiles.push(configEnvFile);
 				}
 			} catch (err) {
-				Log.debug(`${configEnvFile} does not exist. ${err.message}`);
+				Log.log(`${configEnvFile} does not exist. ${err.message}`);
 			}
 
 			let options = {
