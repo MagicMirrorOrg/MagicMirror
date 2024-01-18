@@ -1,3 +1,10 @@
+/* Custom CSS Sample
+ *
+ * Change color and fonts here.
+ *
+ * Beware that properties cannot be unitless, so for example write '--gap-body: 0px;' instead of just '--gap-body: 0;'
+ */
+
 /* Uncomment and adjust accordingly if you want to import another font from the google-fonts-api: */
 /* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;700&display=swap'); */
 
@@ -9,7 +16,7 @@
 
   --font-primary: "Roboto Condensed";
   --font-secondary: "Roboto";
-  
+
   --font-size: 20px;
   --font-size-small: 0.75rem;
 
@@ -17,6 +24,6 @@
   --gap-body-right: 60px;
   --gap-body-bottom: 60px;
   --gap-body-left: 60px;
-  
+
   --gap-modules: 30px;
 }

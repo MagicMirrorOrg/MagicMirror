@@ -1,5 +1,13 @@
 /* global WeatherProvider, WeatherObject, WeatherUtils */
 
+/* Provider: weather.gov
+ * https://weather-gov.github.io/api/general-faqs
+ *
+ * This class is a provider for weather.gov.
+ * Note that this is only for US locations (lat and lon) and does not require an API key
+ * Since it is free, there are some items missing - like sunrise, sunset
+ */
+
 WeatherProvider.register("weathergov", {
 	// Set the name of the provider.
 	// This isn't strictly necessary, since it will fallback to the provider identifier

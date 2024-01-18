@@ -1,3 +1,9 @@
+/* NOTE: calendar_test_exdate.ics has exdate entries for the next 20 years, but without some
+ * way to set a debug date for tests, this test may become flaky on specific days (i.e. could
+ * not test easily on leap-years, the BYDAY specified in exdate, etc.) or when the 20 years
+ * elapses if this project is still in active development ;)
+ * See issue #3250
+ */
 let config = {
 	timeFormat: 12,
 

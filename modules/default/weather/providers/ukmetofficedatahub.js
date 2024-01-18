@@ -1,5 +1,37 @@
 /* global WeatherProvider, WeatherObject */
 
+/* This class is a provider for UK Met Office Data Hub (the replacement for their Data Point services).
+ * For more information on Data Hub, see https://www.metoffice.gov.uk/services/data/datapoint/notifications/weather-datahub
+ * Data available:
+ * 		Hourly data for next 2 days ("hourly") - https://www.metoffice.gov.uk/binaries/content/assets/metofficegovuk/pdf/data/global-spot-data-hourly.pdf
+ * 		3-hourly data for the next 7 days ("3hourly") - https://www.metoffice.gov.uk/binaries/content/assets/metofficegovuk/pdf/data/global-spot-data-3-hourly.pdf
+ * 		Daily data for the next 7 days ("daily") - https://www.metoffice.gov.uk/binaries/content/assets/metofficegovuk/pdf/data/global-spot-data-daily.pdf
+ *
+ * NOTES
+ * This provider requires longitude/latitude coordinates, rather than a location ID (as with the previous Met Office provider)
+ * Provide the following in your config.js file:
+ * 		weatherProvider: "ukmetofficedatahub",
+ * 		apiBase: "https://api-metoffice.apiconnect.ibmcloud.com/metoffice/production/v0/forecasts/point/",
+ * 		apiKey: "[YOUR API KEY]",
+ * 		apiSecret: "[YOUR API SECRET]",
+ * 		lat: [LATITUDE (DECIMAL)],
+ * 		lon: [LONGITUDE (DECIMAL)]
+ *
+ * At time of writing, free accounts are limited to 360 requests a day per service (hourly, 3hourly, daily); take this in mind when
+ * setting your update intervals. For reference, 360 requests per day is once every 4 minutes.
+ *
+ * Pay attention to the units of the supplied data from the Met Office - it is given in SI/metric units where applicable:
+ * 	- Temperatures are in degrees Celsius (°C)
+ * 	- Wind speeds are in metres per second (m/s)
+ * 	- Wind direction given in degrees (°)
+ * 	- Pressures are in Pascals (Pa)
+ * 	- Distances are in metres (m)
+ * 	- Probabilities and humidity are given as percentages (%)
+ * 	- Precipitation is measured in millimetres (mm) with rates per hour (mm/h)
+ *
+ * See the PDFs linked above for more information on the data their corresponding units.
+ */
+
 WeatherProvider.register("ukmetofficedatahub", {
 	// Set the name of the provider.
 	providerName: "UK Met Office (DataHub)",
