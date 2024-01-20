@@ -333,20 +333,12 @@ const CalendarFetcherUtils = {
 					// Would be great if there was a better way to handle this.
 					Log.debug(`event.recurrences: ${event.recurrences}`);
 					if (event.recurrences !== undefined) {
-						for (let r in event.recurrences) {
-							let ev = event.recurrences[r];
+						for (let dateKey in event.recurrences) {
 							// Only add dates that weren't already in the range we added from the rrule so that
 							// we don't double-add those events. Unfortunately dates.includes doesn't do an exact match.
-							if (moment(ev.start).isBetween(pastMoment, futureMoment)) {
-								let found = false;
-								dates.forEach((d) => {
-									if (d.valueOf() === ev.start.valueOf()) {
-										found = true;
-									}
-								});
-								if (!found) {
-									dates.push(ev.start);
-								}
+							let d = new Date(dateKey);
+							if (!moment(d).isBetween(pastMoment, futureMoment)) {
+								dates.push(d);
 							}
 						}
 					}
