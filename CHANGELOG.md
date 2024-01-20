@@ -11,17 +11,24 @@ _This release is scheduled to be released on 2024-04-01._
 
 ### Added
 
-- Output of system information to the console for troubleshooting (#3328 and #3337)
+- Output of system information to the console for troubleshooting (#3328 and #3337), ignore errors under aarch64
 
 ### Updated
 
 - Update updatenotification (update_helper.js): Recode with pm2 library (#3332)
 - Removing lodash dependency by replacing merge by spread operator (#3339)
 - Use node prefix for build-in modules (#3340)
+- Rework logging colors (#3350)
+- Update electron to v28 and update other dependencies (#3357)
 
 ### Fixed
 
 - Skip changelog requirement when running tests for dependency updates (#3320)
+- [newsfeed] Suppress unsightly animation cases when there are 0 or 1 active news items (#3336)
+- [newsfeed] Always compute the feed item URL using the same helper function (#3336)
+- Ignore all custom css files (#3359)
+- [newsfeed] Fix newsfeed stall issue introduced by #3336 (#3361)
+- Changed `log.debug` to `log.log` in `app.js` where logLevel is not set because config is not loaded at this time (#3353)
 
 ### Deleted
 
