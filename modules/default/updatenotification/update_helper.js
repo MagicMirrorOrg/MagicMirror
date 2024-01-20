@@ -175,7 +175,7 @@ class Updater {
 						return;
 					}
 					list.forEach((pm) => {
-						if (pm.pm2_env.version === this.version && pm.pm2_env.status === "online" && pm.pm2_env.PWD.includes(this.root_path)) {
+						if (pm.pm2_env.version === this.version && pm.pm2_env.status === "online" && pm.pm2_env.pm_cwd.includes(`${this.root_path}/`)) {
 							this.PM2 = pm.name;
 							this.usePM2 = true;
 							Log.info("updatenotification: [PM2] You are using pm2 with", this.PM2);
