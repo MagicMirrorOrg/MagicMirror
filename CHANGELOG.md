@@ -20,6 +20,7 @@ _This release is scheduled to be released on 2024-04-01._
 - Use node prefix for build-in modules (#3340)
 - Rework logging colors (#3350)
 - Update electron to v28 and update other dependencies (#3357)
+- Update pm2 to v5.3.1 with no allow-ghsas (#3364)
 
 ### Fixed
 
