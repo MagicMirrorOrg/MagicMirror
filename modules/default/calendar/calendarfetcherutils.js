@@ -287,6 +287,7 @@ const CalendarFetcherUtils = {
 					const hasByWeekdayRule = rule.options.byweekday !== undefined && rule.options.byweekday !== null;
 					const oneDayInMs = 24 * 60 * 60 * 1000;
 					Log.debug(`RRule: ${rule.toString()}`);
+					rule.options.tzid = null; // RRule gets *very* confused with timezones
 					let dates = rule.between(new Date(pastLocal.valueOf() - oneDayInMs), new Date(futureLocal.valueOf() + oneDayInMs), true, () => { return true; });
 					Log.debug(`Title: ${event.summary}, with dates: ${JSON.stringify(dates)}`);
 					dates = dates.filter((d) => {
