@@ -15,6 +15,7 @@ _This release is scheduled to be released on 2024-04-01._
 
 ### Updated
 
+- Update updatenotification (update_helper.js): Recode with pm2 library (#3332)
 - Removing lodash dependency by replacing merge by spread operator (#3339)
 - Use node prefix for build-in modules (#3340)
 - Rework logging colors (#3350)
