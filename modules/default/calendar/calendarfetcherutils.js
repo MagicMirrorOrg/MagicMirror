@@ -181,7 +181,7 @@ const CalendarFetcherUtils = {
 				Log.debug(`end:: ${endMoment.toDate()}`);
 
 				// Calculate the duration of the event for use with recurring events.
-				let durationMs = endMoment.valueOf() - startMoment.valueOf();
+				const durationMs = endMoment.valueOf() - startMoment.valueOf();
 				Log.debug(`duration: ${durationMs}`);
 
 				// FIXME: Since the parsed json object from node-ical comes with time information
@@ -358,6 +358,7 @@ const CalendarFetcherUtils = {
 					for (let d in dates) {
 						let date = dates[d];
 						let curEvent = event;
+						let curDurationMs = durationMs;
 						let showRecurrence = true;
 
 						startMoment = moment(date);
@@ -374,16 +375,16 @@ const CalendarFetcherUtils = {
 							// We found an override, so for this recurrence, use a potentially different title, start date, and duration.
 							curEvent = curEvent.recurrences[dateKey];
 							startMoment = moment(curEvent.start);
-							durationMs = curEvent.end.valueOf() - startMoment.valueOf();
+							curDurationMs = curEvent.end.valueOf() - startMoment.valueOf();
 						}
 						// If there's no recurrence override, check for an exception date.  Exception dates represent exceptions to the rule.
 						else if (curEvent.exdate !== undefined && curEvent.exdate[dateKey] !== undefined) {
 							// This date is an exception date, which means we should skip it in the recurrence pattern.
 							showRecurrence = false;
 						}
-						Log.debug(`duration: ${durationMs}`);
+						Log.debug(`duration: ${curDurationMs}`);
 
-						endMoment = moment(startMoment.valueOf() + durationMs);
+						endMoment = moment(startMoment.valueOf() + curDurationMs);
 						if (startMoment.valueOf() === endMoment.valueOf()) {
 							endMoment = endMoment.endOf("day");
 						}
