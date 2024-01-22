@@ -335,7 +335,7 @@ const CalendarFetcherUtils = {
 					if (event.recurrences !== undefined) {
 						for (let dateKey in event.recurrences) {
 							// Only add dates that weren't already in the range we added from the rrule so that
-							// we don't double-add those events. Unfortunately dates.includes doesn't do an exact match.
+							// we don't double-add those events.
 							let d = new Date(dateKey);
 							if (!moment(d).isBetween(pastMoment, futureMoment)) {
 								dates.push(d);
@@ -344,7 +344,7 @@ const CalendarFetcherUtils = {
 					}
 
 					// Lastly, sometimes rrule doesn't include the event.start even if it is in the requested range. Ensure
-					// inclusion here.
+					// inclusion here. Unfortunately dates.includes() doesn't find it so we have to do forEach().
 					{
 						let found = false;
 						dates.forEach((d) => { if (d.valueOf() === event.start.valueOf()) found = true; });
@@ -359,10 +359,6 @@ const CalendarFetcherUtils = {
 						let date = dates[d];
 						let curEvent = event;
 						let showRecurrence = true;
-
-						if (date < pastLocal || date > futureLocal) {
-							continue;
-						}
 
 						startMoment = moment(date);
 
