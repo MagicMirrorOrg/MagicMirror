@@ -1,1 +1,2 @@
-modules/default/calendar/vendor/*
+modules/*
+!modules/default/

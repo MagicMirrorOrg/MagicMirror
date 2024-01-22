@@ -79,6 +79,15 @@
 			"rules": {
 				"@stylistic/quotes": "off"
 			}
+		},
+		{
+			"extends": ["plugin:package-json/recommended"],
+			"files": ["package.json"],
+			"parser": "jsonc-eslint-parser",
+			"plugins": ["package-json"],
+			"rules": {
+				"package-json/sort-collections": ["error", ["devDependencies", "dependencies", "peerDependencies", "config"]]
+			}
 		}
 	]
 }
