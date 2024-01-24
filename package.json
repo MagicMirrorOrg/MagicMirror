@@ -18,20 +18,17 @@
 		"test:e2e": "NODE_ENV=test jest --selectProjects e2e -i --forceExit",
 		"test:unit": "NODE_ENV=test jest --selectProjects unit",
 		"test:prettier": "prettier . --check",
-		"test:js": "eslint 'js/**/*.js' 'modules/default/**/*.js' 'clientonly/*.js' 'serveronly/*.js' 'translations/*.js' 'vendor/*.js' 'tests/**/*.js' 'config/*'",
+		"test:js": "eslint .",
 		"test:css": "stylelint 'css/main.css' 'fonts/*.css' 'modules/default/**/*.css' 'vendor/*.css' --config .stylelintrc.json",
 		"test:calendar": "node ./modules/default/calendar/debug.js",
 		"config:check": "node js/check_config.js",
 		"lint:prettier": "prettier . --write",
-		"lint:js": "eslint 'js/**/*.js' 'modules/default/**/*.js' 'clientonly/*.js' 'serveronly/*.js' 'translations/*.js' 'vendor/*.js' 'tests/**/*.js' 'config/*' --fix",
+		"lint:js": "eslint . --fix",
 		"lint:css": "stylelint 'css/main.css' 'fonts/*.css' 'modules/default/**/*.css' 'vendor/*.css' --config .stylelintrc.json --fix",
 		"lint:staged": "lint-staged",
 		"prepare": "[ -f node_modules/.bin/husky ] && husky install || echo no husky installed."
 	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/MagicMirrorOrg/MagicMirror.git"
-	},
+	"repository": "MagicMirrorOrg/MagicMirror",
 	"keywords": [
 		"magic mirror",
 		"magicmirror",
@@ -53,6 +50,7 @@
 		"eslint-plugin-import": "^2.29.1",
 		"eslint-plugin-jest": "^27.6.3",
 		"eslint-plugin-jsdoc": "^48.0.2",
+		"eslint-plugin-package-json": "^0.10.0",
 		"eslint-plugin-unicorn": "^50.0.1",
 		"express-basic-auth": "^1.2.1",
 		"husky": "^8.0.3",
