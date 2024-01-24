@@ -1,5 +1,9 @@
 /* global WeatherProvider, WeatherObject */
 
+/* This class is a provider for Open-Meteo,
+ * see https://open-meteo.com/
+ */
+
 // https://www.bigdatacloud.com/docs/api/free-reverse-geocode-to-city-api
 const GEOCODE_BASE = "https://api.bigdatacloud.net/data/reverse-geocode-client";
 const OPEN_METEO_BASE = "https://api.open-meteo.com/v1";

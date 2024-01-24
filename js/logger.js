@@ -1,3 +1,4 @@
+// This logger is very simple, but needs to be extended.
 (function (root, factory) {
 	if (typeof exports === "object") {
 		if (process.env.JEST_WORKER_ID === undefined) {

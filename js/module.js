@@ -1,5 +1,8 @@
 /* global Class, cloneObject, Loader, MMSocket, nunjucks, Translator */
 
+/* Module Blueprint.
+ * @typedef {Object} Module
+ */
 const Module = Class.extend({
 
 	/*********************************************************

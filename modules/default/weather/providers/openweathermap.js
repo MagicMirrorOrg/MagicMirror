@@ -1,5 +1,8 @@
 /* global WeatherProvider, WeatherObject */
 
+/* This class is a provider for Openweathermap,
+ * see https://openweathermap.org/
+ */
 WeatherProvider.register("openweathermap", {
 	// Set the name of the provider.
 	// This isn't strictly necessary, since it will fallback to the provider identifier

@@ -1,5 +1,8 @@
 /* global WeatherProvider, WeatherObject, WeatherUtils */
 
+/* This class is a provider for UK Met Office Datapoint,
+ * see https://www.metoffice.gov.uk/
+ */
 WeatherProvider.register("ukmetoffice", {
 	// Set the name of the provider.
 	// This isn't strictly necessary, since it will fallback to the provider identifier

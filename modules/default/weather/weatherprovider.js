@@ -1,5 +1,6 @@
 /* global Class, performWebRequest, OverrideWrapper */
 
+// This class is the blueprint for a weather provider.
 const WeatherProvider = Class.extend({
 	// Weather Provider Properties
 	providerName: null,
