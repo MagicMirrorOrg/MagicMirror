@@ -1,11 +1,5 @@
 /* global CalendarUtils */
 
-/* MagicMirror²
- * Module: Calendar
- *
- * By Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
- */
 Module.register("calendar", {
 	// Define module defaults
 	defaults: {

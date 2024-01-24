@@ -1,13 +1,6 @@
 /* global WeatherProvider, WeatherObject */
 
-/* MagicMirror²
- * Module: Weather
- *
- * By Malcolm Oakes https://github.com/maloakes
- * Existing Met Office provider edited for new MetOffice Data Hub by CreepinJesus http://github.com/XBCreepinJesus
- * MIT Licensed.
- *
- * This class is a provider for UK Met Office Data Hub (the replacement for their Data Point services).
+/* This class is a provider for UK Met Office Data Hub (the replacement for their Data Point services).
  * For more information on Data Hub, see https://www.metoffice.gov.uk/services/data/datapoint/notifications/weather-datahub
  * Data available:
  * 		Hourly data for next 2 days ("hourly") - https://www.metoffice.gov.uk/binaries/content/assets/metofficegovuk/pdf/data/global-spot-data-hourly.pdf

@@ -1,10 +1,3 @@
-/* MagicMirror²
- * Node Helper: Newsfeed - NewsfeedFetcher
- *
- * By Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
- */
-
 const crypto = require("node:crypto");
 const stream = require("node:stream");
 const FeedMe = require("feedme");

@@ -1,9 +1,3 @@
-/* MagicMirror²
- * Server
- *
- * By Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
- */
 const fs = require("node:fs");
 const http = require("node:http");
 const https = require("node:https");

@@ -1,8 +1,3 @@
-/* MagicMirror²
- * Utils
- *
- * MIT Licensed.
- */
 const execSync = require("node:child_process").execSync;
 const Log = require("logger");
 const si = require("systeminformation");

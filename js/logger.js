@@ -1,12 +1,4 @@
-/* MagicMirror²
- * Log
- *
- * This logger is very simple, but needs to be extended.
- * This system can eventually be used to push the log messages to an external target.
- *
- * By Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
- */
+// This logger is very simple, but needs to be extended.
 (function (root, factory) {
 	if (typeof exports === "object") {
 		if (process.env.JEST_WORKER_ID === undefined) {

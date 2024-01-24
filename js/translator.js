@@ -1,11 +1,5 @@
 /* global translations */
 
-/* MagicMirror²
- * Translator (l10n)
- *
- * By Christopher Fenner https://github.com/CFenner
- * MIT Licensed.
- */
 const Translator = (function () {
 
 	/**

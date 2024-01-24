@@ -1,9 +1,3 @@
-/* MagicMirror²
- * Module: UpdateNotification
- *
- * By Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
- */
 Module.register("updatenotification", {
 	defaults: {
 		updateInterval: 10 * 60 * 1000, // every 10 minutes

@@ -1,8 +1,3 @@
-/* MagicMirror² Test config for position setters module using the helloworld module
- *
- * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
- * MIT Licensed.
- */
 let config = {
 	modules:
 		// Using exotic content. This is why don't accept go to JSON configuration file

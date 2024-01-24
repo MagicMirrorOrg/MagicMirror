@@ -1,8 +1,3 @@
-/* MagicMirror² Test config sample module alert
- *
- * By rejas
- * MIT Licensed.
- */
 let config = {
 	modules: [
 		{

@@ -1,8 +1,3 @@
-/* MagicMirror² Test config sample ipWhitelist
- *
- * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
- * MIT Licensed.
- */
 let config = require(`${process.cwd()}/tests/configs/default.js`).configFactory({
 	ipWhitelist: ["x.x.x.x"],
 	port: 8181

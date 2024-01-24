@@ -1,11 +1,5 @@
 /* global SunCalc, formatTime */
 
-/* MagicMirror²
- * Module: Clock
- *
- * By Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
- */
 Module.register("clock", {
 	// Module config defaults.
 	defaults: {

@@ -1,10 +1,3 @@
-/* MagicMirror²
- *
- * Check the configuration file for errors
- *
- * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
- * MIT Licensed.
- */
 const path = require("node:path");
 const fs = require("node:fs");
 const colors = require("ansis");
