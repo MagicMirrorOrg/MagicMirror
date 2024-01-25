@@ -394,7 +394,7 @@ Module.register("calendar", {
 				const timeWrapper = document.createElement("td");
 
 				eventWrapper.appendChild(titleWrapper);
-				const now = new Date();
+				const now = new Date(Date.now());
 
 				if (this.config.timeFormat === "absolute") {
 					// Use dateFormat
@@ -567,7 +567,7 @@ Module.register("calendar", {
 		const ONE_HOUR = ONE_MINUTE * 60;
 		const ONE_DAY = ONE_HOUR * 24;
 
-		const now = new Date();
+		const now = new Date(); // new Date(Date.now()); // breaks tests
 		const today = moment().startOf("day");
 		const future = moment().startOf("day").add(this.config.maximumNumberOfDays, "days").toDate();
 		let events = [];
@@ -900,7 +900,7 @@ Module.register("calendar", {
 					}
 				}, ONE_MINUTE);
 			},
-			ONE_MINUTE - (new Date() % ONE_MINUTE)
+			ONE_MINUTE - (Date.now() % ONE_MINUTE)
 		);
 	}
 });

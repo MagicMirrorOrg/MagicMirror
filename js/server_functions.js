@@ -2,7 +2,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const Log = require("logger");
 
-const startUp = new Date();
+const startUp = new Date(Date.now());
 
 /**
  * Gets the config.

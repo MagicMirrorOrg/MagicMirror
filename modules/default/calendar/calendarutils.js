@@ -110,7 +110,7 @@ const CalendarUtils = {
 					if (typeof transform.yearmatchgroup !== "undefined" && transform.yearmatchgroup !== "") {
 						const yearmatch = [...title.matchAll(needle)];
 						if (yearmatch[0].length >= transform.yearmatchgroup + 1 && yearmatch[0][transform.yearmatchgroup] * 1 >= 1900) {
-							let calcage = new Date().getFullYear() - yearmatch[0][transform.yearmatchgroup] * 1;
+							let calcage = new Date(Date.now()).getFullYear() - yearmatch[0][transform.yearmatchgroup] * 1;
 							let searchstr = `$${transform.yearmatchgroup}`;
 							replacement = replacement.replace(searchstr, calcage);
 						}

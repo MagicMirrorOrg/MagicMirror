@@ -96,7 +96,7 @@ class WeatherObject {
 	 * @param {number} lon longitude
 	 */
 	updateSunTime (lat, lon) {
-		const now = !this.date ? new Date() : this.date.toDate();
+		const now = !this.date ? new Date(Date.now()) : this.date.toDate();
 		const times = SunCalc.getTimes(now, lat, lon);
 		this.sunrise = moment(times.sunrise);
 		this.sunset = moment(times.sunset);
