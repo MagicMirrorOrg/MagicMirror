@@ -36,6 +36,7 @@ Module.register("calendar", {
 		hideDuplicates: true,
 		showTimeToday: false,
 		colored: false,
+		forceUseCurrentTime: false,
 		tableClass: "small",
 		calendars: [
 			{
@@ -567,9 +568,16 @@ Module.register("calendar", {
 		const ONE_HOUR = ONE_MINUTE * 60;
 		const ONE_DAY = ONE_HOUR * 24;
 
-		const now = new Date();
-		const today = moment().startOf("day");
-		const future = moment().startOf("day").add(this.config.maximumNumberOfDays, "days").toDate();
+		let now, today, future;
+		if (this.config.forceUseCurrentTime || this.defaults.forceUseCurrentTime) {
+			now = new Date();
+			today = moment().startOf("day");
+			future = moment().startOf("day").add(this.config.maximumNumberOfDays, "days").toDate();
+		} else {
+			now = new Date(Date.now()); // Can use overridden time
+			today = moment(now).startOf("day");
+			future = moment(now).startOf("day").add(this.config.maximumNumberOfDays, "days").toDate();
+		}
 		let events = [];
 
 		for (const calendarUrl in this.calendarData) {

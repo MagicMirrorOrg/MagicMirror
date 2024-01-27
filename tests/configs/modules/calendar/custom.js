@@ -7,6 +7,7 @@ let config = {
 			position: "bottom_bar",
 			config: {
 				customEvents: [{ keyword: "CustomEvent", symbol: "dice", eventClass: "undo" }],
+				forceUseCurrentTime: true,
 				calendars: [
 					{
 						maximumEntries: 5,
