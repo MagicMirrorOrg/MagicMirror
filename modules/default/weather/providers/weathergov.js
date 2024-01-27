@@ -34,7 +34,6 @@ WeatherProvider.register("weathergov", {
 	// Called to set the config, this config is the same as the weather module's config.
 	setConfig (config) {
 		this.config = config;
-		this.config.apiBase = "https://api.weather.gov";
 		this.fetchWxGovURLs(this.config);
 	},
 
@@ -118,7 +117,7 @@ WeatherProvider.register("weathergov", {
 	 * Get specific URLs
 	 */
 	fetchWxGovURLs (config) {
-		this.fetchData(`${config.apiBase}/points/${config.lat},${config.lon}`)
+		this.fetchData(`${config.apiBase}/${config.lat},${config.lon}`)
 			.then((data) => {
 				if (!data || !data.properties) {
 					// points URL did not respond with usable data.

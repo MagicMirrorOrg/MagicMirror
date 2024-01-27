@@ -25,6 +25,7 @@ _This release is scheduled to be released on 2024-04-01._
 
 ### Fixed
 
+- Correct apibase of weathergov weatherprovider to match documentation (#2926)
 - Worked around several issues in the RRULE library that were causing deleted calender events to still show, some
   initial and recurring events to not show, and some event times to be off an hour. (#3291)
 - Skip changelog requirement when running tests for dependency updates (#3320)
