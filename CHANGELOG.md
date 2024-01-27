@@ -11,8 +11,8 @@ _This release is scheduled to be released on 2024-04-01._
 
 ### Added
 
-- Output of system information to the console for troubleshooting (#3328 and #3337), ignore errors under aarch64
-- [chore] Add `eslint-plugin-package-json` to lint the `package.json` files
+- Output of system information to the console for troubleshooting (#3328 and #3337), ignore errors under aarch64 (#3349)
+- [chore] Add `eslint-plugin-package-json` to lint the `package.json` files (#3368)
 
 ### Updated
 
@@ -22,6 +22,7 @@ _This release is scheduled to be released on 2024-04-01._
 - Rework logging colors (#3350)
 - Update electron to v28 and update other dependencies (#3357)
 - Update pm2 to v5.3.1 with no allow-ghsas (#3364)
+- [chore] Update husky and let lint-staged fix ESLint issues
 
 ### Fixed
 
