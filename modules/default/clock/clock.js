@@ -99,7 +99,6 @@ Module.register("clock", {
 		analogWrapper.className = "clock-circle";
 		const digitalWrapper = document.createElement("div");
 		digitalWrapper.className = "digital";
-		digitalWrapper.style.gridArea = "center";
 
 		/************************************
 		 * Create wrappers for DIGITAL clock
