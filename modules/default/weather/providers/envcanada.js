@@ -1,10 +1,6 @@
 /* global WeatherProvider, WeatherObject, WeatherUtils */
 
-/* MagicMirror²
- * Module: Weather
- * Provider: Environment Canada (EC)
- *
- * This class is a provider for Environment Canada MSC Datamart
+/* This class is a provider for Environment Canada MSC Datamart
  * Note that this is only for Canadian locations and does not require an API key (access is anonymous)
  *
  * EC Documentation at following links:
@@ -26,8 +22,6 @@
  * at https://dd.weather.gc.ca/citypage_weather/docs/site_list_en.csv (or site_list_fr.csv). There you will find a table
  * with locations you can search under column B (English Names), with the corresponding siteCode under
  * column A (Codes) and provCode under column C (Province).
- *
- * Original by Kevin Godin
  *
  * License to use Environment Canada (EC) data is detailed here:
  * 	https://eccc-msc.github.io/open-data/licence/readme_en/

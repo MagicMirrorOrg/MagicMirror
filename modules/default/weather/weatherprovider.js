@@ -1,13 +1,6 @@
 /* global Class, performWebRequest, OverrideWrapper */
 
-/* MagicMirror²
- * Module: Weather
- *
- * By Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
- *
- * This class is the blueprint for a weather provider.
- */
+// This class is the blueprint for a weather provider.
 const WeatherProvider = Class.extend({
 	// Weather Provider Properties
 	providerName: null,

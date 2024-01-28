@@ -1,12 +1,7 @@
 /* global WeatherProvider, WeatherObject, WeatherUtils */
 
-/* MagicMirror²
- * Module: Weather
- *
- * By Malcolm Oakes https://github.com/maloakes
- * MIT Licensed.
- *
- * This class is a provider for UK Met Office Datapoint.
+/* This class is a provider for UK Met Office Datapoint,
+ * see https://www.metoffice.gov.uk/
  */
 WeatherProvider.register("ukmetoffice", {
 	// Set the name of the provider.

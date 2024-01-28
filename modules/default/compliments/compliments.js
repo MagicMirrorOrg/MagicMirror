@@ -1,9 +1,3 @@
-/* MagicMirror²
- * Module: Compliments
- *
- * By Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
- */
 Module.register("compliments", {
 	// Module config defaults.
 	defaults: {

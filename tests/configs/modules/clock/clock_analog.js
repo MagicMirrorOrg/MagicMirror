@@ -1,7 +1,3 @@
-/* MagicMirror² Test config for analog clock face
- *
- * MIT Licensed.
- */
 let config = {
 	modules: [
 		{

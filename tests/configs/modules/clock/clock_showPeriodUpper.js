@@ -1,8 +1,3 @@
-/* MagicMirror² Test config for default clock module
- *
- * By Sergey Morozov
- * MIT Licensed.
- */
 let config = {
 	timeFormat: 12,
 

@@ -1,8 +1,3 @@
-/* MagicMirror² Test config hourly weather
- *
- * By rejas https://github.com/rejas
- * MIT Licensed.
- */
 let config = {
 	timeFormat: 12,
 

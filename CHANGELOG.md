@@ -11,19 +11,34 @@ _This release is scheduled to be released on 2024-04-01._
 
 ### Added
 
-- Output of system information to the console for troubleshooting (#3328 and #3337)
+- Output of system information to the console for troubleshooting (#3328 and #3337), ignore errors under aarch64
+- [chore] Add `eslint-plugin-package-json` to lint the `package.json` files
 
 ### Updated
 
+- Update updatenotification (update_helper.js): Recode with pm2 library (#3332)
 - Removing lodash dependency by replacing merge by spread operator (#3339)
 - Use node prefix for build-in modules (#3340)
+- Rework logging colors (#3350)
+- Update electron to v28 and update other dependencies (#3357)
+- Update pm2 to v5.3.1 with no allow-ghsas (#3364)
 
 ### Fixed
 
+- Correct apibase of weathergov weatherprovider to match documentation (#2926)
+- Worked around several issues in the RRULE library that were causing deleted calender events to still show, some
+  initial and recurring events to not show, and some event times to be off an hour. (#3291)
 - Skip changelog requirement when running tests for dependency updates (#3320)
 - Display precipitation probability when it is 0% instead of blank/empty (#3345)
+- [newsfeed] Suppress unsightly animation cases when there are 0 or 1 active news items (#3336)
+- [newsfeed] Always compute the feed item URL using the same helper function (#3336)
+- Ignore all custom css files (#3359)
+- [newsfeed] Fix newsfeed stall issue introduced by #3336 (#3361)
+- Changed `log.debug` to `log.log` in `app.js` where logLevel is not set because config is not loaded at this time (#3353)
 
 ### Deleted
+
+- Unneeded file headers (#3358)
 
 ## [2.26.0] - 01-01-2024
 

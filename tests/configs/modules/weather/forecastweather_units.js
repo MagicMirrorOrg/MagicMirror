@@ -1,8 +1,3 @@
-/* MagicMirror² Test config default weather
- *
- * By rejas
- * MIT Licensed.
- */
 let config = {
 	units: "imperial",
 

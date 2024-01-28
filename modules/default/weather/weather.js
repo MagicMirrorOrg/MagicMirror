@@ -1,11 +1,5 @@
 /* global WeatherProvider, WeatherUtils, formatTime */
 
-/* MagicMirror²
- * Module: Weather
- *
- * By Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
- */
 Module.register("weather", {
 	// Default module config.
 	defaults: {

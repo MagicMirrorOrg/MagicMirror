@@ -1,11 +1,5 @@
 /* global NotificationFx */
 
-/* MagicMirror²
- * Module: alert
- *
- * By Paul-Vincent Roll https://paulvincentroll.com/
- * MIT Licensed.
- */
 Module.register("alert", {
 	alerts: {},
 

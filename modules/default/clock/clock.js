@@ -1,11 +1,5 @@
 /* global SunCalc, formatTime */
 
-/* MagicMirror²
- * Module: Clock
- *
- * By Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
- */
 Module.register("clock", {
 	// Module config defaults.
 	defaults: {
@@ -105,7 +99,6 @@ Module.register("clock", {
 		analogWrapper.className = "clock-circle";
 		const digitalWrapper = document.createElement("div");
 		digitalWrapper.className = "digital";
-		digitalWrapper.style.gridArea = "center";
 
 		/************************************
 		 * Create wrappers for DIGITAL clock

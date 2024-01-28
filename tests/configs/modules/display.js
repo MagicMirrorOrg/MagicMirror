@@ -1,8 +1,3 @@
-/* MagicMirror² Test config for display setters module using the helloworld module
- *
- * By Rejas
- * MIT Licensed.
- */
 let config = {
 	modules: [
 		{

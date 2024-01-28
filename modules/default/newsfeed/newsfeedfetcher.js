@@ -1,10 +1,4 @@
-/* MagicMirror²
- * Node Helper: Newsfeed - NewsfeedFetcher
- *
- * By Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
- */
-
+const crypto = require("node:crypto");
 const stream = require("node:stream");
 const FeedMe = require("feedme");
 const iconv = require("iconv-lite");
@@ -67,7 +61,8 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 					description: description,
 					pubdate: pubdate,
 					url: url,
-					useCorsProxy: useCorsProxy
+					useCorsProxy: useCorsProxy,
+					hash: crypto.createHash("sha256").update(`${pubdate} :: ${title} :: ${url}`).digest("hex")
 				});
 			} else if (logFeedWarnings) {
 				Log.warn("Can't parse feed item:");
