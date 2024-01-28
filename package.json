@@ -89,7 +89,7 @@
 	"lint-staged": {
 		"*": "prettier --write",
 		"*.js": "eslint --fix",
-		"*.css": "stylelint"
+		"*.css": "stylelint --fix"
 	},
 	"_moduleAliases": {
 		"node_helper": "js/node_helper.js",
