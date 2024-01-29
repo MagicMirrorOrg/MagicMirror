@@ -7,7 +7,7 @@
 	"TOMORROW": "Homme",
 	"DAYAFTERTOMORROW": "Ülehomme",
 	"RUNNING": "Lõpeb",
-	"EMPTY": "Eelseisvad sündmused puuduvad.",
+	"EMPTY": "Eelolevaid sündmusi pole.",
 	"WEEK": "Nädal {weekNumber}",
 
 	"N": "Põhi",
@@ -31,20 +31,20 @@
 	"PRECIP_POP": "Sademete tõenäosus",
 	"PRECIP_AMOUNT": "Sademete hulk",
 
-	"MODULE_CONFIG_CHANGED": "Konfiguratiooni sätted {MODULE_NAME} moodulile on muutunud.\nPalun vaadake dokumentatiooni.",
+	"MODULE_CONFIG_CHANGED": "Konfiguratiooni sätted {MODULE_NAME} moodulile on muutunud.\nPalun vaadake dokumentatsiooni.",
 	"MODULE_CONFIG_ERROR": "Error moodulis {MODULE_NAME}. {ERROR}",
-	"MODULE_ERROR_MALFORMED_URL": "Malformed url.",
+	"MODULE_ERROR_MALFORMED_URL": "Ebakorrektne url.",
 	"MODULE_ERROR_NO_CONNECTION": "Interneti ühendus puudub.",
 	"MODULE_ERROR_UNAUTHORIZED": "Autoriseerimine ebaõnnestus.",
 	"MODULE_ERROR_UNSPECIFIED": "Lisateabe saamiseks kontrollige logifaile.",
 
 	"NEWSFEED_NO_ITEMS": "Hetkel ei ole uudiseid.",
 
-	"UPDATE_NOTIFICATION": "MagicMirror²´le uuendus saadaval.",
+	"UPDATE_NOTIFICATION": "MagicMirror²'le on uuendus saadaval.",
 	"UPDATE_NOTIFICATION_MODULE": "Uuendus saadaval {MODULE_NAME} moodulile.",
-	"UPDATE_INFO_SINGLE": "Praegune paigaldus on {COMMIT_COUNT} muudatust tagapool {BRANCH_NAME} harul.",
-	"UPDATE_INFO_MULTIPLE": "Praegune paigaldus on {COMMIT_COUNT} muudatust tagapool {BRANCH_NAME} harul.",
-	"UPDATE_NOTIFICATION_DONE": "Uuendus {MODULE_NAME} moodulile oli edukas",
-	"UPDATE_NOTIFICATION_ERROR": "{MODULE_NAME} mooduli uuendus ebaõnnestus",
+	"UPDATE_INFO_SINGLE": "Praegune paigaldus on {COMMIT_COUNT} muudatust tagapool {BRANCH_NAME} harus.",
+	"UPDATE_INFO_MULTIPLE": "Praegune paigaldus on {COMMIT_COUNT} muudatust tagapool {BRANCH_NAME} harus.",
+	"UPDATE_NOTIFICATION_DONE": "{MODULE_NAME} moodul uuendati edukalt",
+	"UPDATE_NOTIFICATION_ERROR": "{MODULE_NAME} mooduli uuendamine ebaõnnestus",
 	"UPDATE_NOTIFICATION_NEED-RESTART": "Palun taaskäivitage MagicMirror."
 }
