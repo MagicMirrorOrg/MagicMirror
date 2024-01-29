@@ -23,7 +23,8 @@ describe("Weather module", () => {
 			});
 
 			it("should render feels like temperature", async () => {
-				await expect(weatherFunc.getText(".weather .normal.medium.feelslike span.dimmed", "93.7  Feels like -5.6°")).resolves.toBe(true);
+				// Template contains &nbsp; which renders as \xa0
+				await expect(weatherFunc.getText(".weather .normal.medium.feelslike span.dimmed", "93.7\xa0 Feels like -5.6°")).resolves.toBe(true);
 			});
 			it("should render humidity next to feels-like", async () => {
 				await expect(weatherFunc.getText(".weather .normal.medium.feelslike span.dimmed .humidity", "93.7")).resolves.toBe(true);
