@@ -9,7 +9,7 @@ let config = {
 				location: "Munich",
 				mockData: '"#####WEATHERDATA#####"',
 				decimalSymbol: ",",
-				showHumidity: true
+				showHumidity: "wind"
 			}
 		}
 	]

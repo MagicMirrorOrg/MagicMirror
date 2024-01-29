@@ -1,3 +1,8 @@
+{% macro humidity() %}
+    {% if current.humidity %}
+        <span class="humidity"><span>{{ current.humidity | decimalSymbol }}</span><sup>&nbsp;<i class="wi wi-humidity humidity-icon"></i></sup></span>
+    {% endif %}
+{% endmacro %}
 {% if current %}
     {% if not config.onlyTemp %}
         <div class="normal medium">
@@ -16,8 +21,8 @@
                     </sup>
                 {% endif %}
             </span>
-            {% if config.showHumidity and current.humidity %}
-                <span>{{ current.humidity | decimalSymbol }}</span><sup>&nbsp;<i class="wi wi-humidity humidity-icon"></i></sup>
+            {% if config.showHumidity === "wind" %}
+                {{ humidity() }}
             {% endif %}
             {% if config.showSun %}
                 <span class="wi dimmed wi-{{ current.nextSunAction() }}"></span>
@@ -40,6 +45,9 @@
     <div class="large light">
         <span class="wi weathericon wi-{{ current.weatherType }}"></span>
         <span class="bright">{{ current.temperature | roundValue | unit("temperature") | decimalSymbol }}</span>
+        {% if config.showHumidity === "temp" %}
+            <span class="medium bright">{{ humidity() }}</span>
+        {% endif %}
     </div>
     <div class="normal light indoor">
         {% if config.showIndoorTemperature and indoor.temperature %}
@@ -59,6 +67,9 @@
         <div class="normal medium feelslike">
             {% if config.showFeelsLike %}
                 <span class="dimmed">
+                    {% if config.showHumidity === "feelslike" %}
+                        {{ humidity() }}
+                    {% endif %}
                     {{ "FEELS" | translate({DEGREE: current.feelsLike() | roundValue | unit("temperature") | decimalSymbol }) }}
                 </span>
                 <br />
@@ -75,6 +86,9 @@
                 </span>
             {% endif %}
         </div>
+    {% endif %}
+    {% if config.showHumidity === "below" %}
+        <span class="medium dimmed">{{ humidity() }}</span>
     {% endif %}
 {% else %}
     <div class="dimmed light small">{{ "LOADING" | translate }}</div>

@@ -14,7 +14,7 @@ Module.register("weather", {
 		updateInterval: 10 * 60 * 1000, // every 10 minutes
 		animationSpeed: 1000,
 		showFeelsLike: true,
-		showHumidity: false,
+		showHumidity: "none", // this is now a string; see current.njk
 		showIndoorHumidity: false,
 		showIndoorTemperature: false,
 		allowOverrideNotification: false,
@@ -79,6 +79,10 @@ Module.register("weather", {
 		} else if (this.config.useBeaufort) {
 			Log.warn("Your are using the deprecated config values 'useBeaufort'. Please switch to windUnits!");
 			this.windUnits = "beaufort";
+		}
+		if (typeof this.config.showHumidity === "boolean") {
+			Log.warn("[weather] Deprecation warning: Please consider updating showHumidity to the new style (config string).");
+			this.config.showHumidity = this.config.showHumidity ? "wind" : "none";
 		}
 
 		// Initialize the weather provider.
