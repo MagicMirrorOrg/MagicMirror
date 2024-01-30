@@ -3,7 +3,44 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
-❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/donate) With your help we can continue to improve the MagicMirror².
+❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/#donate) With your help we can continue to improve the MagicMirror².
+
+## [2.27.0] - Develop Branch (unreleased)
+
+_This release is scheduled to be released on 2024-04-01._
+
+### Added
+
+- Output of system information to the console for troubleshooting (#3328 and #3337), ignore errors under aarch64 (#3349)
+- [chore] Add `eslint-plugin-package-json` to lint the `package.json` files (#3368)
+- weather: `showHumidity` config is now a string describing where to show this element. Supported values: "wind", "temp", "feelslike", "below", "none". (#3330)
+
+### Updated
+
+- Update updatenotification (update_helper.js): Recode with pm2 library (#3332)
+- Removing lodash dependency by replacing merge by spread operator (#3339)
+- Use node prefix for build-in modules (#3340)
+- Rework logging colors (#3350)
+- Update electron to v28 and update other dependencies (#3357)
+- Update pm2 to v5.3.1 with no allow-ghsas (#3364)
+- [chore] Update husky and let lint-staged fix ESLint issues
+- Updated translations for estonian (#3371)
+
+### Fixed
+
+- Correct apibase of weathergov weatherprovider to match documentation (#2926)
+- Worked around several issues in the RRULE library that were causing deleted calender events to still show, some
+  initial and recurring events to not show, and some event times to be off an hour. (#3291)
+- Skip changelog requirement when running tests for dependency updates (#3320)
+- [newsfeed] Suppress unsightly animation cases when there are 0 or 1 active news items (#3336)
+- [newsfeed] Always compute the feed item URL using the same helper function (#3336)
+- Ignore all custom css files (#3359)
+- [newsfeed] Fix newsfeed stall issue introduced by #3336 (#3361)
+- Changed `log.debug` to `log.log` in `app.js` where logLevel is not set because config is not loaded at this time (#3353)
+
+### Deleted
+
+- Unneeded file headers (#3358)
 
 ## [2.26.0] - 01-01-2024
 
@@ -652,12 +689,12 @@ Special thanks to the following contributors: @bryanzzhu, @bugsounet, @chamakura
 ### Fixed
 
 - Fix backward compatibility issues for Safari < 11.
-- Fix the use of "maxNumberOfDays" in the module "weatherforecast depending on the endpoint (forecast/daily or forecast)". [#2018](https://github.com/MichMich/MagicMirror/issues/2018)
-- Fix calendar display. Account for current timezone. [#2068](https://github.com/MichMich/MagicMirror/issues/2068)
+- Fix the use of "maxNumberOfDays" in the module "weatherforecast depending on the endpoint (forecast/daily or forecast)". [#2018](https://github.com/MagicMirrorOrg/MagicMirror/issues/2018)
+- Fix calendar display. Account for current timezone. [#2068](https://github.com/MagicMirrorOrg/MagicMirror/issues/2068)
 - Fix logLevel being set before loading config.
-- Fix incorrect namespace links in svg clockfaces. [#2072](https://github.com/MichMich/MagicMirror/issues/2072)
-- Fix weather/providers/weathergov for API guidelines. [#2045](https://github.com/MichMich/MagicMirror/issues/2045)
-- Fix "undefined" in weather modules header. [#1985](https://github.com/MichMich/MagicMirror/issues/1985)
+- Fix incorrect namespace links in svg clockfaces. [#2072](https://github.com/MagicMirrorOrg/MagicMirror/issues/2072)
+- Fix weather/providers/weathergov for API guidelines. [#2045](https://github.com/MagicMirrorOrg/MagicMirror/issues/2045)
+- Fix "undefined" in weather modules header. [#1985](https://github.com/MagicMirrorOrg/MagicMirror/issues/1985)
 - Fix #2110, #2111, #2118: Recurring full day events should not use timezone adjustment. Just compare month/day.
 
 ## [2.12.0] - 2020-07-01
@@ -691,14 +728,14 @@ Special thanks to the following contributors: @AndreKoepke, @andrezibaia, @bryan
 
 ### Fixed
 
-- The broken modules due to Socket.io change from last release. [#1973](https://github.com/MichMich/MagicMirror/issues/1973)
-- Add backward compatibility for old module code in socketclient.js. [#1973](https://github.com/MichMich/MagicMirror/issues/1973)
-- Support multiple instances of calendar module with different config. [#1109](https://github.com/MichMich/MagicMirror/issues/1109)
-- Fix the use of "maxNumberOfDays" in the module "weatherforecast". [#2018](https://github.com/MichMich/MagicMirror/issues/2018)
-- Throw error when check_config fails. [#1928](https://github.com/MichMich/MagicMirror/issues/1928)
-- Bug fix related to 'maxEntries' not displaying Calendar events. [#2050](https://github.com/MichMich/MagicMirror/issues/2050)
-- Updated ical library to the latest version. [#1926](https://github.com/MichMich/MagicMirror/issues/1926)
-- Fix config check after merge of prettier [#2109](https://github.com/MichMich/MagicMirror/issues/2109)
+- The broken modules due to Socket.io change from last release. [#1973](https://github.com/MagicMirrorOrg/MagicMirror/issues/1973)
+- Add backward compatibility for old module code in socketclient.js. [#1973](https://github.com/MagicMirrorOrg/MagicMirror/issues/1973)
+- Support multiple instances of calendar module with different config. [#1109](https://github.com/MagicMirrorOrg/MagicMirror/issues/1109)
+- Fix the use of "maxNumberOfDays" in the module "weatherforecast". [#2018](https://github.com/MagicMirrorOrg/MagicMirror/issues/2018)
+- Throw error when check_config fails. [#1928](https://github.com/MagicMirrorOrg/MagicMirror/issues/1928)
+- Bug fix related to 'maxEntries' not displaying Calendar events. [#2050](https://github.com/MagicMirrorOrg/MagicMirror/issues/2050)
+- Updated ical library to the latest version. [#1926](https://github.com/MagicMirrorOrg/MagicMirror/issues/1926)
+- Fix config check after merge of prettier [#2109](https://github.com/MagicMirrorOrg/MagicMirror/issues/2109)
 
 ## [2.11.0] - 2020-04-01
 
@@ -706,7 +743,7 @@ Special thanks to the following contributors: @AndreKoepke, @andrezibaia, @bryan
 
 In the past years the project has grown a lot. This came with a huge downside: poor maintainability. If I let the project continue the way it was, it would eventually crash and burn. More important: I would completely lose the drive and interest to continue the project. Because of this the decision was made to simplify the core by removing all side features like automatic installers and support for exotic platforms. This release (2.11.0) is the first real release that will reflect (parts) of these changes. As a result of this, some things might break. So before you continue make sure to backup your installation. Your config, your modules or better yet: your full MagicMirror² folder. In other words: update at your own risk.
 
-For more information regarding this major change, please check issue [#1860](https://github.com/MichMich/MagicMirror/issues/1860).
+For more information regarding this major change, please check issue [#1860](https://github.com/MagicMirrorOrg/MagicMirror/issues/1860).
 
 ### Deleted
 
@@ -736,8 +773,8 @@ For more information regarding this major change, please check issue [#1860](htt
 - Fix calendar time offset for recurring events crossing Daylight Savings Time (ISSUE #1798)
 - Fix regression in currentweather module causing 'undefined' to show up when config.hideTemp is false
 - Fix FEELS translation for Croatian
-- Fixed weather tests [#1840](https://github.com/MichMich/MagicMirror/issues/1840)
-- Fixed Socket.io can't be used with Reverse Proxy in serveronly mode [#1934](https://github.com/MichMich/MagicMirror/issues/1934)
+- Fixed weather tests [#1840](https://github.com/MagicMirrorOrg/MagicMirror/issues/1840)
+- Fixed Socket.io can't be used with Reverse Proxy in serveronly mode [#1934](https://github.com/MagicMirrorOrg/MagicMirror/issues/1934)
 - Fix update checking skipping 3rd party modules the first time
 
 ### Changed
@@ -805,14 +842,14 @@ Special thanks to @sdetweil for all his great contributions!
 
 - Updatenotification module: Display update notification for a limited (configurable) time.
 - Enabled e2e/vendor_spec.js tests.
-- The css/custom.css will be renamed after the next release. We've added into `run-start.sh` an instruction by GIT to ignore with `--skip-worktree` and `rm --cached`. [#1540](https://github.com/MichMich/MagicMirror/issues/1540)
+- The css/custom.css will be renamed after the next release. We've added into `run-start.sh` an instruction by GIT to ignore with `--skip-worktree` and `rm --cached`. [#1540](https://github.com/MagicMirrorOrg/MagicMirror/issues/1540)
 - Disable sending of notification CLOCK_SECOND when displaySeconds is false.
 
 ### Fixed
 
 - Updatenotification module: Properly handle race conditions, prevent crash.
 - Send `NEWS_FEED` notification also for the first news messages which are shown.
-- Fixed issue where weather module would not refresh data after a network or API outage. [#1722](https://github.com/MichMich/MagicMirror/issues/1722)
+- Fixed issue where weather module would not refresh data after a network or API outage. [#1722](https://github.com/MagicMirrorOrg/MagicMirror/issues/1722)
 - Fixed weatherforecast module not displaying rain amount on fallback endpoint.
 - Notifications CLOCK_SECOND & CLOCK_MINUTE being from startup instead of matched against the clock and avoid drifting.
 
@@ -827,7 +864,7 @@ Special thanks to @sdetweil for all his great contributions!
 - Russian translation for “Feels”
 - Calendar module: added `nextDaysRelative` config option
 - Add `broadcastPastEvents` config option for calendars to include events from the past `maximumNumberOfDays` in event broadcasts
-- Added feature to broadcast news feed items `NEWS_FEED` and updated news items `NEWS_FEED_UPDATED` in default [newsfeed](https://github.com/MichMich/MagicMirror/tree/develop/modules/default/newsfeed) module (when news is updated) with documented default and `config.js` options in [README.md](https://github.com/MichMich/MagicMirror/blob/develop/modules/default/newsfeed/README.md)
+- Added feature to broadcast news feed items `NEWS_FEED` and updated news items `NEWS_FEED_UPDATED` in default [newsfeed](https://github.com/MagicMirrorOrg/MagicMirror/tree/develop/modules/default/newsfeed) module (when news is updated) with documented default and `config.js` options in [README.md](https://github.com/MagicMirrorOrg/MagicMirror/blob/develop/modules/default/newsfeed/README.md)
 - Added notifications to default `clock` module broadcasting `CLOCK_SECOND` and `CLOCK_MINUTE` for the respective time elapsed.
 - Added UK Met Office Datapoint feed as a provider in the default weather module.
 - Added new provider class
@@ -836,7 +873,7 @@ Special thanks to @sdetweil for all his great contributions!
 - Use Feels Like temp from feed if present
 - Optionally display probability of precipitation (PoP) in current weather (UK Met Office data)
 - Automatically try to fix eslint errors by passing `--fix` option to it
-- Added sunrise and sunset times to weathergov weather-provider [#1705](https://github.com/MichMich/MagicMirror/issues/1705)
+- Added sunrise and sunset times to weathergov weather-provider [#1705](https://github.com/MagicMirrorOrg/MagicMirror/issues/1705)
 - Added "useLocationAsHeader" to display "location" in `config.js` as header when location name is not returned
 - Added to `newsfeed.js`: in order to design the news article better with css, three more class-names were introduced: newsfeed-desc, newsfeed-desc, newsfeed-desc
 
@@ -845,18 +882,18 @@ Special thanks to @sdetweil for all his great contributions!
 - English translation for "Feels" to "Feels like"
 - Fixed the example calendar url in `config.js.sample`
 - Updated `ical.js` to solve various calendar issues.
-- Updated weather city list url [#1676](https://github.com/MichMich/MagicMirror/issues/1676)
+- Updated weather city list url [#1676](https://github.com/MagicMirrorOrg/MagicMirror/issues/1676)
 - Only update clock once per minute when seconds aren't shown
 - Updated weather-provider documentation.
 
 ### Fixed
 
 - Fixed uncaught exception, race condition on module update
-- Fixed issue [#1696](https://github.com/MichMich/MagicMirror/issues/1696), some ical files start date to not parse to date type
+- Fixed issue [#1696](https://github.com/MagicMirrorOrg/MagicMirror/issues/1696), some ical files start date to not parse to date type
 - Allowance HTML5 autoplay-policy (policy is changed from Chrome 66 updates)
 - Handle SIGTERM messages
 - Fixes sliceMultiDayEvents so it respects maximumNumberOfDays
-- Minor types in default NewsFeed [README.md](https://github.com/MichMich/MagicMirror/blob/develop/modules/default/newsfeed/README.md)
+- Minor types in default NewsFeed [README.md](https://github.com/MagicMirrorOrg/MagicMirror/blob/develop/modules/default/newsfeed/README.md)
 - Fix typos and small syntax errors, cleanup dependencies, remove multiple-empty-lines, add semi-rule
 - Fixed issues with calendar not displaying one-time changes to repeating events
 - Updated the fetchedLocationName variable in currentweather.js so that city shows up in the header
@@ -894,41 +931,41 @@ Fixed `package.json` version number.
 
 ### Updated
 
-- Bumped the Electron dependency to v3.0.13 to support the most recent Raspbian. [#1500](https://github.com/MichMich/MagicMirror/issues/1500)
+- Bumped the Electron dependency to v3.0.13 to support the most recent Raspbian. [#1500](https://github.com/MagicMirrorOrg/MagicMirror/issues/1500)
 - Updated modernizr code in alert module, fixed a small typo there too
 - More verbose error message on console if the config is malformed
 - Updated installer script to install Node.js version 10.x
 
 ### Fixed
 
-- Fixed temperature displays in currentweather and weatherforecast modules [#1503](https://github.com/MichMich/MagicMirror/issues/1503), [#1511](https://github.com/MichMich/MagicMirror/issues/1511).
-- Fixed unhandled error on bad git data in updatenotification module [#1285](https://github.com/MichMich/MagicMirror/issues/1285).
-- Weather forecast now works with openweathermap in new weather module. Daily data are displayed, see issue [#1504](https://github.com/MichMich/MagicMirror/issues/1504).
+- Fixed temperature displays in currentweather and weatherforecast modules [#1503](https://github.com/MagicMirrorOrg/MagicMirror/issues/1503), [#1511](https://github.com/MagicMirrorOrg/MagicMirror/issues/1511).
+- Fixed unhandled error on bad git data in updatenotification module [#1285](https://github.com/MagicMirrorOrg/MagicMirror/issues/1285).
+- Weather forecast now works with openweathermap in new weather module. Daily data are displayed, see issue [#1504](https://github.com/MagicMirrorOrg/MagicMirror/issues/1504).
 - Fixed analogue clock border display issue where non-black backgrounds used (previous fix for issue 611)
-- Fixed compatibility issues caused when modules request different versions of Font Awesome, see issue [#1522](https://github.com/MichMich/MagicMirror/issues/1522). MagicMirror² now uses [Font Awesome 5 with v4 shims included for backwards compatibility](https://fontawesome.com/how-to-use/on-the-web/setup/upgrading-from-version-4#shims).
+- Fixed compatibility issues caused when modules request different versions of Font Awesome, see issue [#1522](https://github.com/MagicMirrorOrg/MagicMirror/issues/1522). MagicMirror² now uses [Font Awesome 5 with v4 shims included for backwards compatibility](https://fontawesome.com/how-to-use/on-the-web/setup/upgrading-from-version-4#shims).
 - Installation script problems with raspbian
-- Calendar: only show repeating count if the event is actually repeating [#1534](https://github.com/MichMich/MagicMirror/pull/1534)
+- Calendar: only show repeating count if the event is actually repeating [#1534](https://github.com/MagicMirrorOrg/MagicMirror/pull/1534)
 - Calendar: Fix exdate handling when multiple values are specified (comma separated)
-- Calendar: Fix relative date handling for fulldate events, calculate difference always from start of day [#1572](https://github.com/MichMich/MagicMirror/issues/1572)
+- Calendar: Fix relative date handling for fulldate events, calculate difference always from start of day [#1572](https://github.com/MagicMirrorOrg/MagicMirror/issues/1572)
 - Fix null dereference in moduleNeedsUpdate when the module isn't visible
 - Calendar: Fixed event end times by setting default calendarEndTime to "LT" (Local time format). [#1479]
-- Calendar: Fixed missing calendar fetchers after server process restarts [#1589](https://github.com/MichMich/MagicMirror/issues/1589)
+- Calendar: Fixed missing calendar fetchers after server process restarts [#1589](https://github.com/MagicMirrorOrg/MagicMirror/issues/1589)
 - Notification: fixed background color (was white text on white background)
 - Use getHeader instead of data.header when creating the DOM so overwriting the function also propagates into it
 - Fix documentation of `useKMPHwind` option in currentweather
 
 ### New weather module
 
-- Fixed weather forecast table display [#1499](https://github.com/MichMich/MagicMirror/issues/1499).
+- Fixed weather forecast table display [#1499](https://github.com/MagicMirrorOrg/MagicMirror/issues/1499).
 - Dimmed loading indicator for weather forecast.
-- Implemented config option `decimalSymbol` [#1499](https://github.com/MichMich/MagicMirror/issues/1499).
-- Aligned indoor values in current weather vertical [#1499](https://github.com/MichMich/MagicMirror/issues/1499).
+- Implemented config option `decimalSymbol` [#1499](https://github.com/MagicMirrorOrg/MagicMirror/issues/1499).
+- Aligned indoor values in current weather vertical [#1499](https://github.com/MagicMirrorOrg/MagicMirror/issues/1499).
 - Added humidity support to nunjuck unit filter.
-- Do not display degree symbol for temperature in Kelvin [#1503](https://github.com/MichMich/MagicMirror/issues/1503).
-- Weather forecast now works with openweathermap for both, `/forecast` and `/forecast/daily`, in new weather module. If you use the `/forecast`-weatherEndpoint, the hourly data are converted to daily data, see issues [#1504](https://github.com/MichMich/MagicMirror/issues/1504), [#1513](https://github.com/MichMich/MagicMirror/issues/1513).
-- Added fade, fadePoint and maxNumberOfDays properties to the forecast mode [#1516](https://github.com/MichMich/MagicMirror/issues/1516)
-- Fixed Loading string and decimalSymbol string replace [#1538](https://github.com/MichMich/MagicMirror/issues/1538)
-- Show Snow amounts in new weather module [#1545](https://github.com/MichMich/MagicMirror/issues/1545)
+- Do not display degree symbol for temperature in Kelvin [#1503](https://github.com/MagicMirrorOrg/MagicMirror/issues/1503).
+- Weather forecast now works with openweathermap for both, `/forecast` and `/forecast/daily`, in new weather module. If you use the `/forecast`-weatherEndpoint, the hourly data are converted to daily data, see issues [#1504](https://github.com/MagicMirrorOrg/MagicMirror/issues/1504), [#1513](https://github.com/MagicMirrorOrg/MagicMirror/issues/1513).
+- Added fade, fadePoint and maxNumberOfDays properties to the forecast mode [#1516](https://github.com/MagicMirrorOrg/MagicMirror/issues/1516)
+- Fixed Loading string and decimalSymbol string replace [#1538](https://github.com/MagicMirrorOrg/MagicMirror/issues/1538)
+- Show Snow amounts in new weather module [#1545](https://github.com/MagicMirrorOrg/MagicMirror/issues/1545)
 - Added weather.gov as a new weather-provider for US locations
 
 ## [2.6.0] - 2019-01-01
@@ -953,7 +990,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 - Screenshot for the weather forecast module
 - Portuguese translation for "Feels"
 - Croatian translation
-- Fading for dateheaders timeFormat in Calendar [#1464](https://github.com/MichMich/MagicMirror/issues/1464)
+- Fading for dateheaders timeFormat in Calendar [#1464](https://github.com/MagicMirrorOrg/MagicMirror/issues/1464)
 - Documentation for the existing `scale` option in the Weather Forecast module.
 
 ### Fixed
@@ -962,7 +999,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 - Fixed Polish translation for Single Update Info
 - Ignore entries with unparseable details in the calendar module
 - Bug showing FullDayEvents one day too long in calendar fixed
-- Bug in newsfeed when `removeStartTags` is used on the description [#1478](https://github.com/MichMich/MagicMirror/issues/1478)
+- Bug in newsfeed when `removeStartTags` is used on the description [#1478](https://github.com/MagicMirrorOrg/MagicMirror/issues/1478)
 
 ### Updated
 
@@ -995,7 +1032,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 - Fixed mixup between german and spanish translation for newsfeed.
 - Fixed close dates to be absolute, if no configured in the config.js - module Calendar
 - Fixed the updatenotification module message about new commits in the repository, so they can be correctly localized in singular and plural form.
-- Fix for weatherforecast rainfall rounding [#1374](https://github.com/MichMich/MagicMirror/issues/1374)
+- Fix for weatherforecast rainfall rounding [#1374](https://github.com/MagicMirrorOrg/MagicMirror/issues/1374)
 - Fix calendar parsing issue for Midori on RasperryPi Zero w, related to issue #694.
 - Fix weather city ID link in sample config
 - Fixed issue with clientonly not updating with IP address and port provided on command line.
@@ -1017,7 +1054,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 
 ## [2.4.0] - 2018-07-01
 
-⚠️ **Warning:** This release includes an updated version of Electron. This requires a Raspberry Pi configuration change to allow the best performance and prevent the CPU from overheating. Please read the information on the [MagicMirror² Wiki](https://github.com/michmich/magicmirror/wiki/configuring-the-raspberry-pi#enable-the-open-gl-driver-to-decrease-electrons-cpu-usage).
+⚠️ **Warning:** This release includes an updated version of Electron. This requires a Raspberry Pi configuration change to allow the best performance and prevent the CPU from overheating. Please read the information on the [MagicMirror² Wiki](https://github.com/MagicMirrorOrg/MagicMirror/wiki/configuring-the-raspberry-pi#enable-the-open-gl-driver-to-decrease-electrons-cpu-usage).
 
 ℹ️ **Note:** This update uses new dependencies. Please update using the following command: `git pull && npm install`
 
@@ -1039,20 +1076,20 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 
 - Upgrade to Electron 2.0.0.
 - Remove yarn-or-npm which breaks production builds.
-- Invoke module suspend even if no dom content. [#1308](https://github.com/MichMich/MagicMirror/issues/1308)
+- Invoke module suspend even if no dom content. [#1308](https://github.com/MagicMirrorOrg/MagicMirror/issues/1308)
 
 ### Fixed
 
-- Fixed issue where wind chill could not be displayed in Fahrenheit. [#1247](https://github.com/MichMich/MagicMirror/issues/1247)
-- Fixed issues where a module crashes when it tries to dismiss a non existing alert. [#1240](https://github.com/MichMich/MagicMirror/issues/1240)
+- Fixed issue where wind chill could not be displayed in Fahrenheit. [#1247](https://github.com/MagicMirrorOrg/MagicMirror/issues/1247)
+- Fixed issues where a module crashes when it tries to dismiss a non existing alert. [#1240](https://github.com/MagicMirrorOrg/MagicMirror/issues/1240)
 - In default module currentWeather/currentWeather.js line 296, 300, self.config.animationSpeed can not be found because the notificationReceived function does not have "self" variable.
 - Fixed browser-side code to work on the Midori browser.
-- Fixed issue where heat index was reporting incorrect values in Celsius and Fahrenheit. [#1263](https://github.com/MichMich/MagicMirror/issues/1263)
+- Fixed issue where heat index was reporting incorrect values in Celsius and Fahrenheit. [#1263](https://github.com/MagicMirrorOrg/MagicMirror/issues/1263)
 - Fixed weatherforecast to use dt_txt field instead of dt to handle timezones better
-- Newsfeed now remembers to show the description when `"ARTICLE_LESS_DETAILS"` is called if the user wants to always show the description. [#1282](https://github.com/MichMich/MagicMirror/issues/1282)
+- Newsfeed now remembers to show the description when `"ARTICLE_LESS_DETAILS"` is called if the user wants to always show the description. [#1282](https://github.com/MagicMirrorOrg/MagicMirror/issues/1282)
 - `clientonly/*.js` is now linted, and one linting error is fixed
 - Fix issue #1196 by changing underscore to hyphen in locale id, in align with momentjs.
-- Fixed issue where heat index and wind chill were reporting incorrect values in Kelvin. [#1263](https://github.com/MichMich/MagicMirror/issues/1263)
+- Fixed issue where heat index and wind chill were reporting incorrect values in Kelvin. [#1263](https://github.com/MagicMirrorOrg/MagicMirror/issues/1263)
 
 ### Updated
 
@@ -1064,7 +1101,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 
 ### Fixed
 
-- Downgrade electron to 1.4.15 to solve the black screen issue.[#1243](https://github.com/MichMich/MagicMirror/issues/1243)
+- Downgrade electron to 1.4.15 to solve the black screen issue.[#1243](https://github.com/MagicMirrorOrg/MagicMirror/issues/1243)
 
 ## [2.3.0] - 2018-04-01
 
@@ -1190,8 +1227,8 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 
 ### Changed
 
-- Revert Docker related changes in favor of [docker-MagicMirror](https://github.com/bastilimbach/docker-MagicMirror). All Docker images are outsourced. ([#856](https://github.com/MichMich/MagicMirror/pull/856))
-- Change Docker base image (Debian + Node) to an arm based distro (AlpineARM + Node) ([#846](https://github.com/MichMich/MagicMirror/pull/846))
+- Revert Docker related changes in favor of [docker-MagicMirror](https://github.com/bastilimbach/docker-MagicMirror). All Docker images are outsourced. ([#856](https://github.com/MagicMirrorOrg/MagicMirror/pull/856))
+- Change Docker base image (Debian + Node) to an arm based distro (AlpineARM + Node) ([#846](https://github.com/MagicMirrorOrg/MagicMirror/pull/846))
 - Fix the dockerfile to have it running from the first time.
 
 ### Added
@@ -1238,7 +1275,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 - Add `anytime` group for Compliments module.
 - Compliments module can use remoteFile without default daytime arrays defined.
 - Installer: Use init config.js from config.js.sample.
-- Switched out `rrule` package for `rrule-alt` and fixes in `ical.js` in order to fix calendar issues. ([#565](https://github.com/MichMich/MagicMirror/issues/565))
+- Switched out `rrule` package for `rrule-alt` and fixes in `ical.js` in order to fix calendar issues. ([#565](https://github.com/MagicMirrorOrg/MagicMirror/issues/565))
 - Make mouse events pass through the region fullscreen_above to modules below.
 - Scaled the splash screen down to make it a bit more subtle.
 - Replace HTML tables with markdown tables in README files.
@@ -1251,7 +1288,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 
 ### Added
 
-- Added Docker support (Pull Request [#673](https://github.com/MichMich/MagicMirror/pull/673)).
+- Added Docker support (Pull Request [#673](https://github.com/MagicMirrorOrg/MagicMirror/pull/673)).
 - Calendar-specific support for `maximumEntries`, and `maximumNumberOfDays`.
 - Add loaded function to modules, providing an async callback.
 - Made default newsfeed module aware of gesture events from [MMM-Gestures](https://github.com/thobach/MMM-Gestures)
@@ -1297,7 +1334,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 - Updated .gitignore to not ignore default modules folder.
 - Remove white flash on boot up.
 - Added `update` in Raspberry Pi installation script.
-- Fix an issue where the analog clock looked scrambled. ([#611](https://github.com/MichMich/MagicMirror/issues/611))
+- Fix an issue where the analog clock looked scrambled. ([#611](https://github.com/MagicMirrorOrg/MagicMirror/issues/611))
 - If units are set to imperial, the showRainAmount option of weatherforecast will show the correct unit.
 - Module currentWeather: check if temperature received from api is defined.
 - Fix an issue with module hidden status changing to `true` although lock string prevented showing it.
@@ -1314,18 +1351,18 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 - Finnish translation.
 - Danish translation.
 - Turkish translation.
-- Option to limit access to certain IP addresses based on the value of `ipWhitelist` in the `config.js`, default is access from localhost only (Issue [#456](https://github.com/MichMich/MagicMirror/issues/456)).
+- Option to limit access to certain IP addresses based on the value of `ipWhitelist` in the `config.js`, default is access from localhost only (Issue [#456](https://github.com/MagicMirrorOrg/MagicMirror/issues/456)).
 - Added ability to change the point of time when calendar events get relative.
 - Add Splash screen on boot.
 - Add option to show humidity in currentWeather module.
 - Add VSCode IntelliSense support.
-- Module API: Add Visibility locking to module system. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules#visibility-locking) for more information.
-- Module API: Method to overwrite the module's header. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules#getheader) for more information.
-- Module API: Option to define the minimum MagicMirror² version to run a module. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules#requiresversion) for more information.
-- Calendar module now broadcasts the event list to all other modules using the notification system. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules/default/calendar) for more information.
-- Possibility to use the calendar feed as the source for the weather (currentweather & weatherforecast) location data. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules/default/weatherforecast) for more information.
+- Module API: Add Visibility locking to module system. [See documentation](https://github.com/MagicMirrorOrg/MagicMirror/tree/develop/modules#visibility-locking) for more information.
+- Module API: Method to overwrite the module's header. [See documentation](https://github.com/MagicMirrorOrg/MagicMirror/tree/develop/modules#getheader) for more information.
+- Module API: Option to define the minimum MagicMirror² version to run a module. [See documentation](https://github.com/MagicMirrorOrg/MagicMirror/tree/develop/modules#requiresversion) for more information.
+- Calendar module now broadcasts the event list to all other modules using the notification system. [See documentation](https://github.com/MagicMirrorOrg/MagicMirror/tree/develop/modules/default/calendar) for more information.
+- Possibility to use the calendar feed as the source for the weather (currentweather & weatherforecast) location data. [See documentation](https://github.com/MagicMirrorOrg/MagicMirror/tree/develop/modules/default/weatherforecast) for more information.
 - Added option to show rain amount in the weatherforecast default module
-- Add module `updatenotification` to get an update whenever a new version is available. [See documentation](https://github.com/MichMich/MagicMirror/tree/develop/modules/default/updatenotification) for more information.
+- Add module `updatenotification` to get an update whenever a new version is available. [See documentation](https://github.com/MagicMirrorOrg/MagicMirror/tree/develop/modules/default/updatenotification) for more information.
 - Add the ability to set timezone on the date display in the Clock Module
 - Ability to set date format in calendar module
 - Possibility to use currentweather for the compliments
@@ -1395,11 +1432,11 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 ### Fixed
 
 - Prevent `getModules()` selectors from returning duplicate entries.
-- Append endpoints of weather modules with `/` to retrieve the correct data. (Issue [#337](https://github.com/MichMich/MagicMirror/issues/337))
+- Append endpoints of weather modules with `/` to retrieve the correct data. (Issue [#337](https://github.com/MagicMirrorOrg/MagicMirror/issues/337))
 - Corrected grammar in `module.js` from 'suspend' to 'suspended'.
 - Fixed openweathermap.org URL in config sample.
 - Prevent currentweather module from crashing when received data object is incorrect.
-- Fix issue where translation loading prevented the UI start-up when the language was set to 'en'. (Issue [#388](https://github.com/MichMich/MagicMirror/issues/388))
+- Fix issue where translation loading prevented the UI start-up when the language was set to 'en'. (Issue [#388](https://github.com/MagicMirrorOrg/MagicMirror/issues/388))
 
 ### Updated
 
@@ -1419,8 +1456,8 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 
 ### Fixed
 
-- Edit Alert Module to display title & message if they are provided in the notification (Issue [#300](https://github.com/MichMich/MagicMirror/issues/300))
-- Removed 'null' reference from updateModuleContent(). This fixes recent Edge and Internet Explorer browser displays (Issue [#319](https://github.com/MichMich/MagicMirror/issues/319))
+- Edit Alert Module to display title & message if they are provided in the notification (Issue [#300](https://github.com/MagicMirrorOrg/MagicMirror/issues/300))
+- Removed 'null' reference from updateModuleContent(). This fixes recent Edge and Internet Explorer browser displays (Issue [#319](https://github.com/MagicMirrorOrg/MagicMirror/issues/319))
 
 ### Changed
 
@@ -1437,7 +1474,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 ### Fixed
 
 - Added reference to Italian Translation.
-- Added the missing NE translation to all languages. [#344](https://github.com/MichMich/MagicMirror/issues/344)
+- Added the missing NE translation to all languages. [#344](https://github.com/MagicMirrorOrg/MagicMirror/issues/344)
 - Added proper User-Agent string to calendar call.
 
 ### Changed
