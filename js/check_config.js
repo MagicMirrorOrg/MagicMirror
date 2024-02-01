@@ -1,19 +1,12 @@
-/* MagicMirror²
- *
- * Check the configuration file for errors
- *
- * By Rodrigo Ramírez Norambuena https://rodrigoramirez.com
- * MIT Licensed.
- */
-const path = require("path");
-const fs = require("fs");
+const path = require("node:path");
+const fs = require("node:fs");
+const colors = require("ansis");
 const { Linter } = require("eslint");
 
 const linter = new Linter();
 
 const rootPath = path.resolve(`${__dirname}/../`);
 const Log = require(`${rootPath}/js/logger.js`);
-const Utils = require(`${rootPath}/js/utils.js`);
 
 /**
  * Returns a string with path of configuration file.
@@ -33,7 +26,7 @@ function checkConfigFile () {
 
 	// Check if file is present
 	if (fs.existsSync(configFileName) === false) {
-		Log.error(Utils.colors.error("File not found: "), configFileName);
+		Log.error(`File not found: ${configFileName}`);
 		throw new Error("No config file present!");
 	}
 
@@ -41,12 +34,12 @@ function checkConfigFile () {
 	try {
 		fs.accessSync(configFileName, fs.F_OK);
 	} catch (e) {
-		Log.error(Utils.colors.error(e));
+		Log.error(e);
 		throw new Error("No permission to access config file!");
 	}
 
 	// Validate syntax of the configuration file.
-	Log.info(Utils.colors.info("Checking file... "), configFileName);
+	Log.info("Checking file... ", configFileName);
 
 	// I'm not sure if all ever is utf-8
 	const configFile = fs.readFileSync(configFileName, "utf-8");
@@ -59,9 +52,9 @@ function checkConfigFile () {
 	});
 
 	if (errors.length === 0) {
-		Log.info(Utils.colors.pass("Your configuration file doesn't contain syntax errors :)"));
+		Log.info(colors.green("Your configuration file doesn't contain syntax errors :)"));
 	} else {
-		Log.error(Utils.colors.error("Your configuration file contains syntax errors :("));
+		Log.error(colors.red("Your configuration file contains syntax errors :("));
 
 		for (const error of errors) {
 			Log.error(`Line ${error.line} column ${error.column}: ${error.message}`);

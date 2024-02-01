@@ -1,12 +1,7 @@
 /* global WeatherProvider, WeatherObject, WeatherUtils */
 
-/* MagicMirror²
- * Module: Weather
- * Provider: weather.gov
+/* Provider: weather.gov
  * https://weather-gov.github.io/api/general-faqs
- *
- * Original by Vince Peri
- * MIT Licensed.
  *
  * This class is a provider for weather.gov.
  * Note that this is only for US locations (lat and lon) and does not require an API key
@@ -39,7 +34,6 @@ WeatherProvider.register("weathergov", {
 	// Called to set the config, this config is the same as the weather module's config.
 	setConfig (config) {
 		this.config = config;
-		this.config.apiBase = "https://api.weather.gov";
 		this.fetchWxGovURLs(this.config);
 	},
 
@@ -123,7 +117,7 @@ WeatherProvider.register("weathergov", {
 	 * Get specific URLs
 	 */
 	fetchWxGovURLs (config) {
-		this.fetchData(`${config.apiBase}/points/${config.lat},${config.lon}`)
+		this.fetchData(`${config.apiBase}/${config.lat},${config.lon}`)
 			.then((data) => {
 				if (!data || !data.properties) {
 					// points URL did not respond with usable data.

@@ -1,9 +1,3 @@
-/* MagicMirror²
- * Weather Util Methods
- *
- * By Rejas
- * MIT Licensed.
- */
 const WeatherUtils = {
 
 	/**

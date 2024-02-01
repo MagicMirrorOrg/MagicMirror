@@ -1,11 +1,7 @@
 /* global Class, cloneObject, Loader, MMSocket, nunjucks, Translator */
 
-/* MagicMirror²
- * Module Blueprint.
+/* Module Blueprint.
  * @typedef {Object} Module
- *
- * By Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
  */
 const Module = Class.extend({
 

@@ -40,7 +40,7 @@
 		// Return new pending promise
 		return new Promise((resolve, reject) => {
 			// Select http or https module, depending on requested url
-			const lib = url.startsWith("https") ? require("https") : require("http");
+			const lib = url.startsWith("https") ? require("node:https") : require("node:http");
 			const request = lib.get(url, (response) => {
 				let configData = "";
 
@@ -94,7 +94,7 @@
 
 				// Spawn electron application
 				const electron = require("electron");
-				const child = require("child_process").spawn(electron, ["js/electron.js"], options);
+				const child = require("node:child_process").spawn(electron, ["js/electron.js"], options);
 
 				// Pipe all child process output to current stdout
 				child.stdout.on("data", function (buf) {

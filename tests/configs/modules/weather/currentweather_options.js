@@ -1,8 +1,3 @@
-/* MagicMirror² Test config default weather
- *
- * By fewieden https://github.com/fewieden
- * MIT Licensed.
- */
 let config = {
 	modules: [
 		{
@@ -14,7 +9,7 @@ let config = {
 				windUnits: "beaufort",
 				showWindDirectionAsArrow: true,
 				showSun: false,
-				showHumidity: true,
+				showHumidity: "wind",
 				roundTemp: true,
 				degreeLabel: true
 			}

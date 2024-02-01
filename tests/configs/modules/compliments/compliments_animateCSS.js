@@ -1,9 +1,3 @@
-/* MagicMirror² Test config sample for AnimateCSS integration with compliments module
- *
- * By bugsounet https://github.com/bugsounet
- * 09/2023
- * MIT Licensed.
- */
 let config = {
 	modules: [
 		{

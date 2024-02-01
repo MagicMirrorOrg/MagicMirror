@@ -1,9 +1,3 @@
-/* MagicMirror²
- * Calendar Util Methods
- *
- * By Rejas
- * MIT Licensed.
- */
 const CalendarUtils = {
 
 	/**

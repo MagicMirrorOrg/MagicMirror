@@ -15,4 +15,4 @@ This document describes how collaborators of this repository should work togethe
 
 ## Releases
 
-- are done by @MichMich only
+Are done by @rejas or @khassel.

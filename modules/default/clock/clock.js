@@ -1,11 +1,5 @@
 /* global SunCalc, formatTime */
 
-/* MagicMirror²
- * Module: Clock
- *
- * By Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
- */
 Module.register("clock", {
 	// Module config defaults.
 	defaults: {
@@ -105,7 +99,6 @@ Module.register("clock", {
 		analogWrapper.className = "clock-circle";
 		const digitalWrapper = document.createElement("div");
 		digitalWrapper.className = "digital";
-		digitalWrapper.style.gridArea = "center";
 
 		/************************************
 		 * Create wrappers for DIGITAL clock
@@ -129,7 +122,7 @@ Module.register("clock", {
 		// Set content of wrappers.
 		// The moment().format("h") method has a bug on the Raspberry Pi.
 		// So we need to generate the timestring manually.
-		// See issue: https://github.com/MichMich/MagicMirror/issues/181
+		// See issue: https://github.com/MagicMirrorOrg/MagicMirror/issues/181
 		let timeString;
 		const now = moment();
 		if (this.config.timezone) {
@@ -247,7 +240,7 @@ Module.register("clock", {
 				analogWrapper.style.background = `url(${this.data.path}faces/${this.config.analogFace}.svg)`;
 				analogWrapper.style.backgroundSize = "100%";
 
-				// The following line solves issue: https://github.com/MichMich/MagicMirror/issues/611
+				// The following line solves issue: https://github.com/MagicMirrorOrg/MagicMirror/issues/611
 				// analogWrapper.style.border = "1px solid black";
 				analogWrapper.style.border = "rgba(0, 0, 0, 0.1)"; //Updated fix for Issue 611 where non-black backgrounds are used
 			} else if (this.config.analogFace !== "none") {

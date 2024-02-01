@@ -1,13 +1,11 @@
 {
 	"name": "magicmirror-fonts",
-	"description": "Package for fonts use by MagicMirror² Core.",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/MichMich/MagicMirror.git"
-	},
+	"version": "1.0.0",
+	"description": "Package for fonts use by MagicMirror² core.",
+	"repository": "MagicMirrorOrg/MagicMirror",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/MichMich/MagicMirror/issues"
+		"url": "https://github.com/MagicMirrorOrg/MagicMirror/issues"
 	},
 	"dependencies": {
 		"@fontsource/roboto": "^5.0.8",
