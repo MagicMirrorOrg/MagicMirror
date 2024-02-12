@@ -115,6 +115,9 @@ function App () {
 		try {
 			fs.accessSync(configFilename, fs.F_OK);
 			const c = require(configFilename);
+			if( Object.keys(c).length == 0 ) {
+                          Log.error("WARNING! Config file appears empty, maybe missing module.exports last line?");
+			}
 			checkDeprecatedOptions(c);
 			return Object.assign(defaults, c);
 		} catch (e) {
