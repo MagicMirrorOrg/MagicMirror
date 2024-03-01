@@ -66,7 +66,7 @@
 		"suncalc": "^1.9.0"
 	},
 	"optionalDependencies": {
-		"electron": "^29.0.1"
+		"electron": "^29.1.0"
 	},
 	"dependencies": {
 		"ansis": "^2.3.0",
