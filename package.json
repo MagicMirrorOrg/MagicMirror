@@ -81,7 +81,7 @@
 		"iconv-lite": "^0.6.3",
 		"module-alias": "^2.2.3",
 		"moment": "^2.30.1",
-		"node-ical": "^0.17.2",
+		"node-ical": "^0.18.0",
 		"pm2": "^5.3.1",
 		"socket.io": "^4.7.4",
 		"systeminformation": "^5.22.0"
