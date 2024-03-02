@@ -11,8 +11,6 @@ jobs:
         uses: actions/checkout@v4
       - name: Install MagicMirror
         run: npm run install-mm
-      - name: Test install electron v28
-        run: npm install electron@28
       - name: Install @electron/rebuild
         run: npm install @electron/rebuild
       - name: Install some test library to be rebuilded
