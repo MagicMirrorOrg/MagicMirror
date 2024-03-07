@@ -99,6 +99,35 @@ describe("Calendar module", () => {
 		});
 	});
 
+	//Will contain everyday an fullDayEvent that starts today and ends tomorrow, and one starting tomorrow and ending the day after tomorrow
+	describe("FullDayEvent over several days should show how many days are left from the from the starting date on", () => {
+		beforeAll(async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/long-fullday-event.js");
+			await helpers.getDocument();
+		});
+
+		it(`should contain text "Ends in" with the left days`, async () => {
+			await testTextContain(".calendar .time", "Ends in a day");
+		});
+		it(`should contain in total two events`, async () => {
+			await testElementLength(".calendar .event", 2);
+		});
+	});
+
+	describe("FullDayEvent Single day, should show Today", () => {
+		beforeAll(async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/single-fullday-event.js");
+			await helpers.getDocument();
+		});
+
+		it(`should contain text "Today"`, async () => {
+			await testTextContain(".calendar .time", "Today");
+		});
+		it(`should contain in total two events`, async () => {
+			await testElementLength(".calendar .event", 2);
+		});
+	});
+
 	process.setMaxListeners(0);
 	for (let i = -12; i < 12; i++) {
 		describe("Recurring event per timezone", () => {

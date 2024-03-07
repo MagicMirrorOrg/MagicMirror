@@ -203,6 +203,10 @@ Module.register("calendar", {
 
 		this.updateDom(this.config.animationSpeed);
 	},
+	eventEndingWithinNextFullTimeUnit: function (event, ONE_DAY) {
+		const now = new Date();
+		return event.endDate - now <= ONE_DAY;
+	},
 
 	// Override dom generator.
 	getDom () {
@@ -438,7 +442,7 @@ Module.register("calendar", {
 					}
 				} else {
 					// Show relative times
-					if (event.startDate >= now || (event.fullDayEvent && event.today)) {
+					if (event.startDate >= now || (event.fullDayEvent && this.eventEndingWithinNextFullTimeUnit(event, ONE_DAY))) {
 						// Use relative time
 						if (!this.config.hideTime && !event.fullDayEvent) {
 							timeWrapper.innerHTML = CalendarUtils.capFirst(moment(event.startDate, "x").calendar(null, { sameElse: this.config.dateFormat }));
@@ -454,7 +458,7 @@ Module.register("calendar", {
 						}
 						if (event.fullDayEvent) {
 							// Full days events within the next two days
-							if (event.today) {
+							if (event.today || (event.fullDayEvent && this.eventEndingWithinNextFullTimeUnit(event, ONE_DAY))) {
 								timeWrapper.innerHTML = CalendarUtils.capFirst(this.translate("TODAY"));
 							} else if (event.dayBeforeYesterday) {
 								if (this.translate("DAYBEFOREYESTERDAY") !== "DAYBEFOREYESTERDAY") {
