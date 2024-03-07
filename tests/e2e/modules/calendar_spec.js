@@ -106,10 +106,10 @@ describe("Calendar module", () => {
 			await helpers.getDocument();
 		});
 
-		it(`should contain text "Ends in" with the left days`, async () => {
+		it("should contain text 'Ends in' with the left days", async () => {
 			await expect(testTextContain(".calendar .time", "Ends in a day")).resolves.toBe(true);
 		});
-		it(`should contain in total two events`, async () => {
+		it("should contain in total two events", async () => {
 			await expect(testElementLength(".calendar .event", 2)).resolves.toBe(true);
 		});
 	});
@@ -120,10 +120,10 @@ describe("Calendar module", () => {
 			await helpers.getDocument();
 		});
 
-		it(`should contain text "Today"`, async () => {
+		it("should contain text 'Today' ", async () => {
 			await expect(testTextContain(".calendar .time", "Today")).resolves.toBe(true);
 		});
-		it(`should contain in total two events`, async () => {
+		it("should contain in total two events", async () => {
 			await expect(testElementLength(".calendar .event", 2)).resolves.toBe(true);
 		});
 	});
