@@ -120,7 +120,7 @@ describe("Calendar module", () => {
 			await helpers.getDocument();
 		});
 
-		it("should contain text 'Today' ", async () => {
+		it("should contain text 'Today'", async () => {
 			await expect(testTextContain(".calendar .time", "Today")).resolves.toBe(true);
 		});
 		it("should contain in total two events", async () => {

@@ -203,7 +203,8 @@ Module.register("calendar", {
 
 		this.updateDom(this.config.animationSpeed);
 	},
-	eventEndingWithinNextFullTimeUnit: function (event, ONE_DAY) {
+
+	eventEndingWithinNextFullTimeUnit (event, ONE_DAY) {
 		const now = new Date();
 		return event.endDate - now <= ONE_DAY;
 	},
