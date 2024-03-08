@@ -12,8 +12,7 @@
                 {% if config.showWindDirection %}
                     <sup>
                         {% if config.showWindDirectionAsArrow %}
-                            <i class="fas fa-long-arrow-alt-down"
-                               style="transform:rotate({{ current.windFromDirection }}deg)"></i>
+                            <i class="fas fa-long-arrow-alt-down" style="transform:rotate({{ current.windFromDirection }}deg)"></i>
                         {% else %}
                             {{ current.cardinalWindDirection() | translate }}
                         {% endif %}
@@ -42,25 +41,30 @@
             {% endif %}
         </div>
     {% endif %}
-    <div class="large light">
-        <span class="wi weathericon wi-{{ current.weatherType }}"></span>
-        <span class="bright">{{ current.temperature | roundValue | unit("temperature") | decimalSymbol }}</span>
+    <div class="large">
+        {% if config.showIndoorTemperature and indoor.temperature %}
+            <span class="medium fas fa-home"></span>
+            <span style="display: inline-block">
+                    {% if config.showIndoorTemperature and indoor.temperature %}
+                            <sup class="small" style="position: relative; display: block; text-align: left;">
+                                    <span>
+                                        {{ indoor.temperature | roundValue | unit("temperature") | decimalSymbol }}
+                                    </span>
+                            </sup>
+                    {% endif %}
+                    {% if config.showIndoorHumidity and indoor.humidity %}
+                            <sub class="small" style="position: relative; display: block; text-align: left;">
+                                    <span>
+                                            {{ indoor.humidity | roundValue | unit("humidity") | decimalSymbol }}
+                                    </span>
+                            </sub>
+                    {% endif %}
+            </span>
+        {% endif %}
+        <span class="light wi weathericon wi-{{ current.weatherType }}"></span>
+        <span class="light bright">{{ current.temperature | roundValue | unit("temperature") | decimalSymbol }}</span>
         {% if config.showHumidity === "temp" %}
             <span class="medium bright">{{ humidity() }}</span>
-        {% endif %}
-    </div>
-    <div class="normal light indoor">
-        {% if config.showIndoorTemperature and indoor.temperature %}
-            <div>
-                <span class="fas fa-home"></span>
-                <span class="bright">{{ indoor.temperature | roundValue | unit("temperature") | decimalSymbol }}</span>
-            </div>
-        {% endif %}
-        {% if config.showIndoorHumidity and indoor.humidity %}
-            <div>
-                <span class="fas fa-tint"></span>
-                <span class="bright">{{ indoor.humidity | roundValue | unit("humidity") | decimalSymbol }}</span>
-            </div>
         {% endif %}
     </div>
     {% if (config.showFeelsLike or config.showPrecipitationAmount or config.showPrecipitationProbability) and not config.onlyTemp %}
