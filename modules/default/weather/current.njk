@@ -42,7 +42,7 @@
         </div>
     {% endif %}
     <div class="large">
-        {% if config.showIndoorTemperature and indoor.temperature %}
+        {% if config.showIndoorTemperature and indoor.temperature or config.showIndoorHumidity and indoor.humidity %}
             <span class="medium fas fa-home"></span>
             <span style="display: inline-block">
                     {% if config.showIndoorTemperature and indoor.temperature %}
