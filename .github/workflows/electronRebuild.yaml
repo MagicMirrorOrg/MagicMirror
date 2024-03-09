@@ -14,7 +14,7 @@ jobs:
       - name: Install @electron/rebuild
         run: npm install @electron/rebuild
       - name: Install some test library to be rebuilded
-        run: npm install onoff node-pty usb drivelist
+        run: npm install onoff node-pty drivelist
       - name: Install nan
         run: npm install nan
       - name: Run electron-rebuild
