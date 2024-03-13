@@ -1,11 +1,3 @@
-/* MagicMirror² Test calendar exdate
- *
- * By jkriegshauser
- * MIT Licensed.
- *
- * See issue #3250
- * See tests/electron/modules/calendar_spec.js
- */
 let config = {
 	timeFormat: 12,
 
