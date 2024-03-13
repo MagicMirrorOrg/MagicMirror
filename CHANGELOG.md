@@ -39,6 +39,7 @@ _This release is scheduled to be released on 2024-04-01._
 - [newsfeed] Fix newsfeed stall issue introduced by #3336 (#3361)
 - Changed `log.debug` to `log.log` in `app.js` where logLevel is not set because config is not loaded at this time (#3353)
 - added message in case where config.js is missing the module.export line PR #3383
+- Fixed an issue where recurring events could extend past their recurrence end date (#3393)
 
 ### Deleted
 
