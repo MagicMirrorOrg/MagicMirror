@@ -33,6 +33,7 @@ _This release is scheduled to be released on 2024-04-01._
 - Worked around several issues in the RRULE library that were causing deleted calender events to still show, some
   initial and recurring events to not show, and some event times to be off an hour. (#3291)
 - Skip changelog requirement when running tests for dependency updates (#3320)
+- Display precipitation probability when it is 0% instead of blank/empty (#3345)
 - [newsfeed] Suppress unsightly animation cases when there are 0 or 1 active news items (#3336)
 - [newsfeed] Always compute the feed item URL using the same helper function (#3336)
 - Ignore all custom css files (#3359)
