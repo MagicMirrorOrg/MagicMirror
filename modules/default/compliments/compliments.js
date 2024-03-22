@@ -50,7 +50,7 @@ Module.register("compliments", {
 	 * @returns {number} a random index of given array
 	 */
 	randomIndex (compliments) {
-		if (compliments.length === 1) {
+		if (compliments.length <= 1) {
 			return 0;
 		}
 
