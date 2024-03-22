@@ -43,6 +43,7 @@ _This release is scheduled to be released on 2024-04-01._
 - added message in case where config.js is missing the module.export line PR #3383
 - Fixed an issue where recurring events could extend past their recurrence end date (#3393)
 - Don't display any `npm WARN <....>` on install (#3399)
+- Fixed move suncalc dependency to production from dev, as it is used by clock module
 
 ### Deleted
 

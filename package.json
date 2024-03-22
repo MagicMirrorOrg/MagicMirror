@@ -62,8 +62,7 @@
 		"sinon": "^17.0.1",
 		"stylelint": "^16.2.1",
 		"stylelint-config-standard": "^36.0.0",
-		"stylelint-prettier": "^5.0.0",
-		"suncalc": "^1.9.0"
+		"stylelint-prettier": "^5.0.0"
 	},
 	"optionalDependencies": {
 		"electron": "^29.1.0"
@@ -84,6 +83,7 @@
 		"node-ical": "^0.18.0",
 		"pm2": "^5.3.1",
 		"socket.io": "^4.7.4",
+                "suncalc": "^1.9.0"
 		"systeminformation": "^5.22.0"
 	},
 	"lint-staged": {
