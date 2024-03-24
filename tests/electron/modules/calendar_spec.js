@@ -45,6 +45,22 @@ describe("Calendar module", () => {
 	});
 
 	/****************************/
+	// RRULE TESTS:
+	// Add any tests that check rrule functionality here.
+	describe("rrule", () => {
+		it("Issue #3393 recurrence dates past rrule until date", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/rrule_until.js", "07 Mar 2024 10:38:00 GMT-07:00", ["js/electron.js"], "America/Los_Angeles");
+			expect(global.page).not.toBeNull();
+			const loc = await global.page.locator(".calendar .event");
+			const elem = loc.first();
+			await elem.waitFor();
+			expect(elem).not.toBeNull();
+			const cnt = await loc.count();
+			expect(cnt).toBe(1);
+		});
+	});
+
+	/****************************/
 	// LOS ANGELES TESTS:
 	//  In 2023, DST (GMT-7) was until 5 Nov, after which is standard (STD) (GMT-8) time.
 	//  Test takes place on Thu 19 Oct, recurring event on a Wednesday. maximumNumberOfDays=28, so there should be

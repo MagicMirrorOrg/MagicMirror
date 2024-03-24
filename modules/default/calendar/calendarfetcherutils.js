@@ -311,6 +311,12 @@ const CalendarFetcherUtils = {
 								arr[index] = new Date(date.valueOf() + oneDayInMs);
 							}
 						});
+						// Adjusting the dates could push it beyond the 'until' date, so filter those out here.
+						if (rule.options.until !== null) {
+							dates = dates.filter((date) => {
+								return date.valueOf() <= rule.options.until.valueOf();
+							});
+						}
 					}
 
 					// The dates array from rrule can be confused by DST. If the event was created during DST and we

@@ -26,7 +26,8 @@ _This release is scheduled to be released on 2024-04-01._
 - [chore] Update dependencies including electron to v28 (#3357) and node-ical
 - Updated translations for estonian (#3371)
 - Update electron to v29 and update other dependencies
-- Update calendar: fullDay events over several days now show the left days from the first day on and 'today' on the last day
+- [calendar] fullDay events over several days now show the left days from the first day on and 'today' on the last day
+- Updated layout of current weather indoor values
 
 ### Fixed
 
@@ -34,12 +35,18 @@ _This release is scheduled to be released on 2024-04-01._
 - Worked around several issues in the RRULE library that were causing deleted calender events to still show, some
   initial and recurring events to not show, and some event times to be off an hour. (#3291)
 - Skip changelog requirement when running tests for dependency updates (#3320)
+- Display precipitation probability when it is 0% instead of blank/empty (#3345)
 - [newsfeed] Suppress unsightly animation cases when there are 0 or 1 active news items (#3336)
 - [newsfeed] Always compute the feed item URL using the same helper function (#3336)
 - Ignore all custom css files (#3359)
 - [newsfeed] Fix newsfeed stall issue introduced by #3336 (#3361)
 - Changed `log.debug` to `log.log` in `app.js` where logLevel is not set because config is not loaded at this time (#3353)
+- [calendar] deny fetch interval < 60000 and set 60000 in this case (prevent fetch loop failed) (#3382)
 - added message in case where config.js is missing the module.export line PR #3383
+- Fixed an issue where recurring events could extend past their recurrence end date (#3393)
+- Don't display any `npm WARN <....>` on install (#3399)
+- Fixed move suncalc dependency to production from dev, as it is used by clock module
+- [compliments] Fix mirror not responding anymore when no compliments are to be shown (#3385)
 
 ### Deleted
 
@@ -89,7 +96,7 @@ This release also marks the latest release by Michael Teeuw. For more info, plea
 - Fix #3256 filter out bad results from rrule.between
 - Fix calendar events sometimes not respecting deleted events (#3250)
 - Fix electron loadurl locally on Windows when address "0.0.0.0" (#2550)
-- Fix updatanotification (update_helper.js): catch error if reponse is not an JSON format (check PM2)
+- Fix updatanotification (update_helper.js): catch error if response is not an JSON format (check PM2)
 - Fix missing typeof in calendar module
 - Fix style issues after prettier update
 - Fix calendar test (#3291) by moving "Exdate check" from e2e to electron to run on a Thursday
@@ -164,8 +171,8 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Added tests for serveronly
 - Set Timezone `Europe/Berlin` in unit tests (needed for new formatTime tests)
 - Added no-param-reassign eslint rule and fix warnings
-- updatenotification: Added `sendUpdatesNotifications` feature. Broadcast update with `UPDATES` notification to other modules
-- updatenotification: allow force scanning with `SCAN_UPDATES` notification from other modules
+- [updatenotification] Added `sendUpdatesNotifications` feature. Broadcast update with `UPDATES` notification to other modules
+- [updatenotification] Allow force scanning with `SCAN_UPDATES` notification from other modules
 - Added per-calendar fetchInterval
 
 ### Removed
