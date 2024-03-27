@@ -23,7 +23,7 @@ _This release is scheduled to be released on 2024-04-01._
 - Rework logging colors (#3350)
 - Update pm2 to v5.3.1 with no allow-ghsas (#3364)
 - [chore] Update husky and let lint-staged fix ESLint issues
-- [chore] Update dependencies including electron to v28 (#3357) and node-ical
+- [chore] Update dependencies including electron to v29 (#3357) and node-ical
 - Updated translations for estonian (#3371)
 - Update electron to v29 and update other dependencies
 - Updated layout of current weather indoor values
