@@ -14,6 +14,7 @@ _This release is scheduled to be released on 2024-04-01._
 - Output of system information to the console for troubleshooting (#3328 and #3337), ignore errors under aarch64 (#3349)
 - [chore] Add `eslint-plugin-package-json` to lint the `package.json` files (#3368)
 - weather: `showHumidity` config is now a string describing where to show this element. Supported values: "wind", "temp", "feelslike", "below", "none". (#3330)
+- electron-rebuild test suite for electron and 3rd party modules compatibility (#3392)
 
 ### Updated
 
