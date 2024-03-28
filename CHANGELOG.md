@@ -15,6 +15,7 @@ _This release is scheduled to be released on 2024-04-01._
 - [chore] Add `eslint-plugin-package-json` to lint the `package.json` files (#3368)
 - weather: `showHumidity` config is now a string describing where to show this element. Supported values: "wind", "temp", "feelslike", "below", "none". (#3330)
 - electron-rebuild test suite for electron and 3rd party modules compatibility (#3392)
+- Create MM² icon and attach it to electron process (#3407)
 
 ### Updated
 
