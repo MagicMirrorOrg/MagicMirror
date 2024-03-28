@@ -40,6 +40,7 @@ function createWindow () {
 	let electronOptionsDefaults = {
 		width: electronSize.width,
 		height: electronSize.height,
+		icon: "MM².png",
 		x: 0,
 		y: 0,
 		darkTheme: true,
