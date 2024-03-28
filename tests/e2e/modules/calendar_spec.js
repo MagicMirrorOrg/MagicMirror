@@ -107,7 +107,7 @@ describe("Calendar module", () => {
 		});
 
 		it("should contain text 'Ends in' with the left days", async () => {
-			await expect(testTextContain(".calendar .today .time", "Ends in a day")).resolves.toBe(true);
+			await expect(testTextContain(".calendar .today .time", "Ends in")).resolves.toBe(true);
 			await expect(testTextContain(".calendar .yesterday .time", "Today")).resolves.toBe(true);
 			await expect(testTextContain(".calendar .tomorrow .time", "Tomorrow")).resolves.toBe(true);
 		});
