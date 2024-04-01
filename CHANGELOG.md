@@ -53,6 +53,7 @@ For more info, please read the following post: [A New Chapter for MagicMirror: T
 - Don't display any `npm WARN <....>` on install (#3399)
 - Fixed move suncalc dependency to production from dev, as it is used by clock module
 - [compliments] Fix mirror not responding anymore when no compliments are to be shown (#3385)
+- [chore] Fixed mastermerge workflow (#3415)
 
 ### Deleted
 
