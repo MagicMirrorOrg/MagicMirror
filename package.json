@@ -71,7 +71,7 @@
 		"electron": "^29.1.6"
 	},
 	"dependencies": {
-		"ansis": "^2.3.0",
+		"ansis": "^3.0.0",
 		"console-stamp": "^3.1.2",
 		"envsub": "^4.1.0",
 		"eslint": "^8.57.0",
