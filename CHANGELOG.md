@@ -58,6 +58,7 @@ For more info, please read the following post: [A New Chapter for MagicMirror: T
 ### Deleted
 
 - Unneeded file headers (#3358)
+- Removed codecov.yaml
 
 ## [2.26.0] - 2024-01-01
 
