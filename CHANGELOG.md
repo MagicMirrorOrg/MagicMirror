@@ -5,15 +5,19 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/#donate) With your help we can continue to improve the MagicMirror².
 
-## [2.27.0] - Develop Branch (unreleased)
+## [2.27.0] - 2024-04-01
 
-_This release is scheduled to be released on 2024-04-01._
+Thanks to: @bugsounet, @crazyscot, @illimarkangur, @jkriegshauser, @khassel, @KristjanESPERANTO, @Paranoid93, @rejas, @sdetweil and @vppencilsharpener.
+
+This release marks the first release without Michael Teeuw (@michmich). A very special thanks to him for creating MagicMirror and leading the project for so many years.
+
+For more info, please read the following post: [A New Chapter for MagicMirror: The Community Takes the Lead](https://forum.magicmirror.builders/topic/18329/a-new-chapter-for-magicmirror-the-community-takes-the-lead).
 
 ### Added
 
 - Output of system information to the console for troubleshooting (#3328 and #3337), ignore errors under aarch64 (#3349)
 - [chore] Add `eslint-plugin-package-json` to lint the `package.json` files (#3368)
-- weather: `showHumidity` config is now a string describing where to show this element. Supported values: "wind", "temp", "feelslike", "below", "none". (#3330)
+- [weather] `showHumidity` config is now a string describing where to show this element. Supported values: "wind", "temp", "feelslike", "below", "none". (#3330)
 - electron-rebuild test suite for electron and 3rd party modules compatibility (#3392)
 - Create MM² icon and attach it to electron process (#3407)
 
@@ -54,7 +58,7 @@ _This release is scheduled to be released on 2024-04-01._
 
 - Unneeded file headers (#3358)
 
-## [2.26.0] - 01-01-2024
+## [2.26.0] - 2024-01-01
 
 Thanks to: @bnitkin, @bugsounet, @dependabot, @jkriegshauser, @kaennchenstruggle, @KristjanESPERANTO and @Ybbet.
 
