@@ -1,8 +1,3 @@
-/* MagicMirror² Test config custom calendar
- *
- * By Rejas
- * MIT Licensed.
- */
 let config = {
 	timeFormat: 12,
 
@@ -12,6 +7,7 @@ let config = {
 			position: "bottom_bar",
 			config: {
 				customEvents: [{ keyword: "CustomEvent", symbol: "dice", eventClass: "undo" }],
+				forceUseCurrentTime: true,
 				calendars: [
 					{
 						maximumEntries: 5,

@@ -1,0 +1,20 @@
+name: "Electron Rebuild Testing"
+
+on: [pull_request]
+
+jobs:
+  rebuild:
+    name: Run electron-rebuild
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install MagicMirror
+        run: npm run install-mm
+      - name: Install @electron/rebuild
+        run: npm install @electron/rebuild
+      - name: Install some test library to be rebuilded
+        run: npm install onoff node-pty drivelist
+      - name: Run electron-rebuild
+        run: npx electron-rebuild
+        continue-on-error: false

@@ -19,7 +19,7 @@ jobs:
           changeLogPath: "CHANGELOG.md"
           skipLabels: "Skip Changelog"
       - name: "Enforce develop branch"
-        if: ${{ github.base_ref == 'master' && !contains(github.event.pull_request.labels.*.name, 'mastermerge') }}
+        if: ${{ github.event.pull_request.base.ref == 'master' && !contains(github.event.pull_request.labels.*.name, 'mastermerge') }}
         run: |
           echo "This PR is based against the master branch and not a release or hotfix."
           echo "Please don't do this. Switch the branch to 'develop'."

@@ -1,8 +1,3 @@
-/* MagicMirror² Test config default weather
- *
- * By fewieden https://github.com/fewieden
- * MIT Licensed.
- */
 let config = {
 	units: "imperial",
 
@@ -14,7 +9,7 @@ let config = {
 				location: "Munich",
 				mockData: '"#####WEATHERDATA#####"',
 				decimalSymbol: ",",
-				showHumidity: true
+				showHumidity: "wind"
 			}
 		}
 	]

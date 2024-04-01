@@ -19,11 +19,15 @@ describe("Weather module", () => {
 			});
 
 			it("should render temperature with icon", async () => {
-				await expect(weatherFunc.getText(".weather .large.light span.bright", "1.5°")).resolves.toBe(true);
+				await expect(weatherFunc.getText(".weather .large span.light.bright", "1.5°")).resolves.toBe(true);
 			});
 
 			it("should render feels like temperature", async () => {
-				await expect(weatherFunc.getText(".weather .normal.medium.feelslike span.dimmed", "Feels like -5.6°")).resolves.toBe(true);
+				// Template contains &nbsp; which renders as \xa0
+				await expect(weatherFunc.getText(".weather .normal.medium.feelslike span.dimmed", "93.7\xa0 Feels like -5.6°")).resolves.toBe(true);
+			});
+			it("should render humidity next to feels-like", async () => {
+				await expect(weatherFunc.getText(".weather .normal.medium.feelslike span.dimmed .humidity", "93.7")).resolves.toBe(true);
 			});
 		});
 	});
@@ -53,12 +57,12 @@ describe("Weather module", () => {
 			expect(elem.outerHTML).toContain("transform:rotate(250deg)");
 		});
 
-		it("should render humidity", async () => {
-			await expect(weatherFunc.getText(".weather .normal.medium span:nth-child(3)", "93.7")).resolves.toBe(true);
+		it("should render humidity next to wind", async () => {
+			await expect(weatherFunc.getText(".weather .normal.medium .humidity", "93.7")).resolves.toBe(true);
 		});
 
 		it("should render degreeLabel for temp", async () => {
-			await expect(weatherFunc.getText(".weather .large.light span.bright", "1°C")).resolves.toBe(true);
+			await expect(weatherFunc.getText(".weather .large span.bright.light", "1°C")).resolves.toBe(true);
 		});
 
 		it("should render degreeLabel for feels like", async () => {
@@ -76,7 +80,7 @@ describe("Weather module", () => {
 		});
 
 		it("should render temperatures in fahrenheit", async () => {
-			await expect(weatherFunc.getText(".weather .large.light span.bright", "34,7°")).resolves.toBe(true);
+			await expect(weatherFunc.getText(".weather .large span.bright.light", "34,7°")).resolves.toBe(true);
 		});
 
 		it("should render 'feels like' in fahrenheit", async () => {

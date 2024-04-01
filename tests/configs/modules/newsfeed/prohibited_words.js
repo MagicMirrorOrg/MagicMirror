@@ -1,7 +1,3 @@
-/* MagicMirror² Test config newsfeed module
- *
- * MIT Licensed.
- */
 let config = {
 	timeFormat: 12,
 

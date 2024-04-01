@@ -1,9 +1,3 @@
-/* MagicMirror²
- * Module: Compliments
- *
- * By Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
- */
 Module.register("compliments", {
 	// Module config defaults.
 	defaults: {
@@ -56,7 +50,7 @@ Module.register("compliments", {
 	 * @returns {number} a random index of given array
 	 */
 	randomIndex (compliments) {
-		if (compliments.length === 1) {
+		if (compliments.length <= 1) {
 			return 0;
 		}
 

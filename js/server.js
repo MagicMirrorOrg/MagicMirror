@@ -1,13 +1,7 @@
-/* MagicMirror²
- * Server
- *
- * By Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
- */
-const fs = require("fs");
-const http = require("http");
-const https = require("https");
-const path = require("path");
+const fs = require("node:fs");
+const http = require("node:http");
+const https = require("node:https");
+const path = require("node:path");
 const express = require("express");
 const ipfilter = require("express-ipfilter").IpFilter;
 const helmet = require("helmet");
@@ -62,7 +56,7 @@ function Server (config) {
 			server.listen(port, config.address || "localhost");
 
 			if (config.ipWhitelist instanceof Array && config.ipWhitelist.length === 0) {
-				Log.warn(Utils.colors.warn("You're using a full whitelist configuration to allow for all IPs"));
+				Log.warn("You're using a full whitelist configuration to allow for all IPs");
 			}
 
 			app.use(function (req, res, next) {

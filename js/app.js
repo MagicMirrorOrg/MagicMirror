@@ -1,15 +1,8 @@
-/* MagicMirror²
- * The Core App (Server)
- *
- * By Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
- */
-
 // Alias modules mentioned in package.js under _moduleAliases.
 require("module-alias/register");
 
-const fs = require("fs");
-const path = require("path");
+const fs = require("node:fs");
+const path = require("node:path");
 const envsub = require("envsub");
 const Log = require("logger");
 
@@ -21,6 +14,9 @@ const defaultModules = require(`${__dirname}/../modules/default/defaultmodules`)
 global.version = require(`${__dirname}/../package.json`).version;
 Log.log(`Starting MagicMirror: v${global.version}`);
 
+// Log system information.
+Utils.logSystemInformation();
+
 // global absolute root path
 global.root_path = path.resolve(`${__dirname}/../`);
 
@@ -29,7 +25,7 @@ if (process.env.MM_CONFIG_FILE) {
 }
 
 // FIXME: Hotfix Pull Request
-// https://github.com/MichMich/MagicMirror/pull/673
+// https://github.com/MagicMirrorOrg/MagicMirror/pull/673
 if (process.env.MM_PORT) {
 	global.mmPort = process.env.MM_PORT;
 }
@@ -37,10 +33,13 @@ if (process.env.MM_PORT) {
 // The next part is here to prevent a major exception when there
 // is no internet connection. This could probable be solved better.
 process.on("uncaughtException", function (err) {
-	Log.error("Whoops! There was an uncaught exception...");
-	Log.error(err);
-	Log.error("MagicMirror² will not quit, but it might be a good idea to check why this happened. Maybe no internet connection?");
-	Log.error("If you think this really is an issue, please open an issue on GitHub: https://github.com/MichMich/MagicMirror/issues");
+	// ignore strange exceptions under aarch64 coming from systeminformation:
+	if (!err.stack.includes("node_modules/systeminformation")) {
+		Log.error("Whoops! There was an uncaught exception...");
+		Log.error(err);
+		Log.error("MagicMirror² will not quit, but it might be a good idea to check why this happened. Maybe no internet connection?");
+		Log.error("If you think this really is an issue, please open an issue on GitHub: https://github.com/MagicMirrorOrg/MagicMirror/issues");
+	}
 });
 
 /**
@@ -70,7 +69,7 @@ function App () {
 			fs.accessSync(templateFile, fs.F_OK);
 		} catch (err) {
 			templateFile = null;
-			Log.debug("config template file not exists, no envsubst");
+			Log.log("config template file not exists, no envsubst");
 		}
 
 		if (templateFile) {
@@ -91,7 +90,7 @@ function App () {
 					envFiles.push(configEnvFile);
 				}
 			} catch (err) {
-				Log.debug(`${configEnvFile} does not exist. ${err.message}`);
+				Log.log(`${configEnvFile} does not exist. ${err.message}`);
 			}
 
 			let options = {
@@ -116,15 +115,18 @@ function App () {
 		try {
 			fs.accessSync(configFilename, fs.F_OK);
 			const c = require(configFilename);
+			if (Object.keys(c).length === 0) {
+				Log.error("WARNING! Config file appears empty, maybe missing module.exports last line?");
+			}
 			checkDeprecatedOptions(c);
 			return Object.assign(defaults, c);
 		} catch (e) {
 			if (e.code === "ENOENT") {
-				Log.error(Utils.colors.error("WARNING! Could not find config file. Please create one. Starting with default configuration."));
+				Log.error("WARNING! Could not find config file. Please create one. Starting with default configuration.");
 			} else if (e instanceof ReferenceError || e instanceof SyntaxError) {
-				Log.error(Utils.colors.error(`WARNING! Could not validate config file. Starting with default configuration. Please correct syntax errors at or above this line: ${e.stack}`));
+				Log.error(`WARNING! Could not validate config file. Starting with default configuration. Please correct syntax errors at or above this line: ${e.stack}`);
 			} else {
-				Log.error(Utils.colors.error(`WARNING! Could not load config file. Starting with default configuration. Error found: ${e}`));
+				Log.error(`WARNING! Could not load config file. Starting with default configuration. Error found: ${e}`);
 			}
 		}
 
@@ -142,7 +144,7 @@ function App () {
 
 		const usedDeprecated = deprecatedOptions.filter((option) => userConfig.hasOwnProperty(option));
 		if (usedDeprecated.length > 0) {
-			Log.warn(Utils.colors.warn(`WARNING! Your config is using deprecated options: ${usedDeprecated.join(", ")}. Check README and CHANGELOG for more up-to-date ways of getting the same functionality.`));
+			Log.warn(`WARNING! Your config is using deprecated options: ${usedDeprecated.join(", ")}. Check README and CHANGELOG for more up-to-date ways of getting the same functionality.`);
 		}
 	}
 
