@@ -140,7 +140,10 @@ const MM = (function () {
 				.then(function (newContent) {
 					const updatePromise = updateDomWithContent(module, speed, newHeader, newContent, animateOut, animateIn, createAnimatedDom);
 
-					updatePromise.then(resolve).catch(Log.error);
+					updatePromise
+						.then(resolve)
+						.then(() => module.notificationReceived("DOM_CONTENT_UPDATED", null, null))
+						.catch(Log.error);
 				})
 				.catch(Log.error);
 		});

@@ -11,6 +11,9 @@ _This release is scheduled to be released on 2024-07-01._
 
 ### Added
 
+- wrapper ClassName when using njk
+- `DOM_CONTENT_UPDATED` notification when updateDom() complete
+
 ### Removed
 
 ### Updated

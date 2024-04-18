@@ -76,6 +76,8 @@ const Module = Class.extend({
 	getDom () {
 		return new Promise((resolve) => {
 			const div = document.createElement("div");
+			// set className to njk wrapper
+			div.className = `${this.name}-njk`;
 			const template = this.getTemplate();
 			const templateData = this.getTemplateData();
 
