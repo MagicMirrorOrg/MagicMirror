@@ -1,3 +1,7 @@
 .module.updatenotification a.difflink {
   text-decoration: none;
 }
+
+.module.updatenotification .inactive {
+  display: none;
+}

@@ -38,6 +38,9 @@ Module.register("updatenotification", {
 				this.sendSocketNotification("CONFIG", this.config);
 				this.sendSocketNotification("MODULES", Object.keys(Module.definitions));
 				break;
+			case "DOM_CONTENT_UPDATED":
+				this.checkActive();
+				break;
 			case "SCAN_UPDATES":
 				this.sendSocketNotification("SCAN_UPDATES");
 				break;
@@ -121,6 +124,19 @@ Module.register("updatenotification", {
 			}
 
 			this.updateDom(2);
+		}
+	},
+
+	checkActive () {
+		const njkWrapper = `${this.name}-njk`;
+		const moduleIdentifier = document.getElementById(this.identifier);
+		const wrapper = moduleIdentifier?.getElementsByClassName(njkWrapper)[0];
+		const conditions = Object.keys(this.moduleList).length || this.updates.length || this.needRestart;
+
+		if (conditions) {
+			wrapper?.classList.remove("inactive");
+		} else {
+			wrapper?.classList.add("inactive");
 		}
 	}
 });

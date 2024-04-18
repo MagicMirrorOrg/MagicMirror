@@ -11,6 +11,8 @@ _This release is scheduled to be released on 2024-07-01._
 
 ### Added
 
+- [updatenotification] check if module is active (avoid unwanted <div></div> and module spacing)
+
 ### Removed
 
 ### Updated
