@@ -12,6 +12,6 @@
 	},
 	"dependencies": {
 		"@fontsource/roboto": "^5.0.12",
-		"@fontsource/roboto-condensed": "^5.0.15"
+		"@fontsource/roboto-condensed": "^5.0.16"
 	}
 }
