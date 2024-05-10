@@ -50,7 +50,7 @@ const Loader = (function () {
 	 * @returns {object[]} module data as configured in config
 	 */
 	const getAllModules = function () {
-		const AllModules = config.modules.filter(module => module.module !== undefined);
+		const AllModules = config.modules.filter((module) => module.module !== undefined);
 		return AllModules;
 	};
 
