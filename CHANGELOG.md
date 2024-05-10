@@ -19,6 +19,8 @@ _This release is scheduled to be released on 2024-07-01._
 
 ### Fixed
 
+- Fix crash possibility if `module: <name>` is not defined
+
 ## [2.27.0] - 2024-04-01
 
 Thanks to: @bugsounet, @crazyscot, @illimarkangur, @jkriegshauser, @khassel, @KristjanESPERANTO, @Paranoid93, @rejas, @sdetweil and @vppencilsharpener.

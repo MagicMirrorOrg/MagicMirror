@@ -253,8 +253,10 @@ function App () {
 
 		let modules = [];
 		for (const module of config.modules) {
-			if (!modules.includes(module.module) && !module.disabled) {
-				modules.push(module.module);
+			if (module.module) {
+				if (!module.disabled) modules.push(module.module);
+			} else {
+				Log.warn("No module name found for this configuration:", module);
 			}
 		}
 
