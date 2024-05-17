@@ -405,7 +405,7 @@ WeatherProvider.register("openmeteo", {
 			currentWeather.rain = parseFloat(weather.rain_sum);
 			currentWeather.snow = parseFloat(weather.snowfall_sum * 10);
 			currentWeather.precipitationAmount = parseFloat(weather.precipitation_sum);
-			currentWeather.precipitationProbability = parseFloat(weather.precipitation_probability);
+			currentWeather.precipitationProbability = parseFloat(weather.precipitation_hours * 100 / 24);
 			currentWeather.uv_index = parseFloat(weather.uv_index_max);
 
 			days.push(currentWeather);
