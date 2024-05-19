@@ -420,7 +420,7 @@ WeatherProvider.register("openmeteo", {
 		const now = moment();
 
 		weathers.hourly.forEach((weather, i) => {
-			if ((hours.length === 0 && weather.time.hour() <= now.hour()) || hours.length >= this.config.maxEntries) {
+			if ((hours.length === 0 && weather.time <= now) || hours.length >= this.config.maxEntries) {
 				return;
 			}
 
