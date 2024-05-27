@@ -46,19 +46,20 @@ let config = {
 			position: "top_left"
 		},
 		{
-			module: "calendar",
-			header: "US Holidays",
-			position: "top_left",
-			config: {
-				calendars: [
-					{
-						fetchInterval: 7 * 24 * 60 * 60 * 1000,
-						symbol: "calendar-check",
-						url: "https://ics.calendarlabs.com/76/mm3137/US_Holidays.ics"
-					}
-				]
-			}
+		    module: "calendar",
+		    header: "Belgian Holidays",
+		    position: "top_left",
+		    config: {
+		        calendars: [
+		            {
+		                fetchInterval: 7 * 24 * 60 * 60 * 1000,
+		                symbol: "calendar-check",
+		                url: "https://www.officeholidays.com/ics/belgium"
+		            }
+		        ]
+		    }
 		},
+		
 		{
 			module: "compliments",
 			position: "lower_third"
@@ -69,9 +70,9 @@ let config = {
 			config: {
 				weatherProvider: "openweathermap",
 				type: "current",
-				location: "New York",
-				locationID: "5128581", //ID from http://bulk.openweathermap.org/sample/city.list.json.gz; unzip the gz file and find your city
-				apiKey: "YOUR_OPENWEATHER_API_KEY"
+				location: "Brussels",
+				locationID: "2800866",
+				apiKey: "f8b3c5d1e4b3a80422d92bdf820148e9"
 			}
 		},
 		{
@@ -81,9 +82,9 @@ let config = {
 			config: {
 				weatherProvider: "openweathermap",
 				type: "forecast",
-				location: "New York",
-				locationID: "5128581", //ID from http://bulk.openweathermap.org/sample/city.list.json.gz; unzip the gz file and find your city
-				apiKey: "YOUR_OPENWEATHER_API_KEY"
+				location: "Brussels",
+				locationID: "2800866",
+				apiKey: "f8b3c5d1e4b3a80422d92bdf820148e9"
 			}
 		},
 		{
