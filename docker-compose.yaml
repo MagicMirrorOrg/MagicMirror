@@ -1,0 +1,9 @@
+version: '3'
+services:
+  magic_mirror:
+    build: .
+    image: magic_mirror
+    container_name: magic_mirror
+    ports:
+      - "8080:8080"
+    restart: unless-stopped

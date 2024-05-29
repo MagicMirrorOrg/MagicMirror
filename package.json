@@ -30,7 +30,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/MagicMirrorOrg/MagicMirror"
+		"url": "https://github.com/AndreaCalabro-AYES/MagicMirror"
 	},
 	"keywords": [
 		"magic mirror",
@@ -49,6 +49,7 @@
 	},
 	"homepage": "https://magicmirror.builders",
 	"devDependencies": {
+		"electron": "^29.1.6",
 		"@stylistic/eslint-plugin": "^1.7.0",
 		"eslint-plugin-import": "^2.29.1",
 		"eslint-plugin-jest": "^27.9.0",
@@ -67,12 +68,10 @@
 		"stylelint-config-standard": "^36.0.0",
 		"stylelint-prettier": "^5.0.0"
 	},
-	"optionalDependencies": {
-		"electron": "^29.1.6"
-	},
 	"dependencies": {
 		"ansis": "^2.3.0",
 		"console-stamp": "^3.1.2",
+		"electron": "^29.1.6",
 		"envsub": "^4.1.0",
 		"eslint": "^8.57.0",
 		"express": "^4.19.2",
