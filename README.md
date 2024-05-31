@@ -84,7 +84,11 @@ This guide will walk you through the process of setting up Docker to run contain
 
 ## Play
 
-1. **Run the container as expected**
+1. **Modify the docker-compose file**
+- Go to the docker-compose file
+- In the line below environment
+- DISPLAY=<YOUR_IP_ADDRESS_HERE>:0, put your IP address in place of YOUR_IP_ADDRESS_HERE
+2. **Run the container as expected**
 - Run the container as intended
 - docker-compose up
 
