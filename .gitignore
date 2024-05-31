@@ -68,9 +68,10 @@ Temporary Items
 !/css/custom.css.sample
 !/css/main.css
 
+# We will have a basic config file, then each branch its own?
 # Ignore users config file but keep the sample.
-/config/*
-!/config/config.js.sample
+# /config/*
+# !/config/config.js.sample
 
 # Vim
 ## swap
