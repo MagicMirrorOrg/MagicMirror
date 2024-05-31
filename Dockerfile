@@ -1,34 +1,63 @@
-# Set the default OS to Linux
-ARG OS=linux
+# Dockerfile for MagicMirror
 
-# Use the official Node.js image as base
-FROM node:21
+# FROM node:21
 
-# Set the working directory in the container to /app
-WORKDIR /app
+FROM ubuntu:22.04
 
-# Copy package.json and package-lock.json into the container at /app
-COPY package*.json ./
+# Install Node.js and npm, keep the FROM to just one per dockerfile
+RUN apt-get update && apt-get install -y curl software-properties-common
+RUN curl -sL https://deb.nodesource.com/setup_21.x | bash -
+RUN apt-get update && apt-get install -y nodejs
 
-# Bundle the app source inside the Docker image 
-# (i.e., copy the rest of the application into the Docker image)
+# Make sure to have x11-apps to perform screen forwarding
+RUN apt-get update && apt-get install -qqy x11-apps
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    cmake \
+    libopenblas-dev \
+    liblapack-dev \
+    libnss3 \
+    libgtk-3-0 \
+    libx11-xcb1 \
+    libxcomposite1 \
+    libxcursor1 \
+    libxdamage1 \
+    libxi6 \
+    libxtst6 \
+    libxrandr2 \
+    libasound2 \
+    libpangocairo-1.0-0 \
+    libatk1.0-0 \
+    libcups2 \
+    libdbus-1-3 \
+    libdrm2 \
+    libxss1 \
+    libgbm1 \
+    libxshmfence1 \
+    libglu1-mesa \
+    && rm -rf /var/lib/apt/lists/*
+
+
+
+# Set working directory
+WORKDIR /opt/magicmirror
+
+# Copy MagicMirror files
 COPY . .
 
-# Install any needed packages specified in package.json
+# Copy the configuration file
+COPY config/config.js ./config/config.js
+
+# Install MagicMirror dependencies
 RUN npm install
 
-# Install dependencies in the vendor directory (only for Windows)
-RUN if [ "$OS" = "windows" ]; then \
-    cd /app/vendor && npm install; \
-  fi
-
-# Install dependencies in the font directory (only for Windows)
-RUN if [ "$OS" = "windows" ]; then \
-    cd /app/fonts && npm install; \
-  fi
-
-# Make port 8080 available to the world outside this container
+# Expose port
 EXPOSE 8080
+# EXPOSE 6000
 
-# Run MagicMirror² when the container launches, using the server only mode
-CMD ["npm", "run", "server"]
+# Start MagicMirror in server-only mode
+# CMD ["node", "serveronly"]
+# CMD ["npm", "start", "--", "--no-sandbox"]
+CMD ["npm", "start", "--", "--no-sandbox"]

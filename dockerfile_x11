@@ -1,0 +1,11 @@
+FROM ubuntu:22.04
+
+RUN apt-get update && apt-get install -qqy x11-apps
+
+# RUN apt-get install -y iputils-ping
+
+# RUN apt-get install -y telnet
+
+# EXPOSE 6000 8080 8000
+
+# CMD ["-e", "DISPLAY=192.168.178.21:0"]
