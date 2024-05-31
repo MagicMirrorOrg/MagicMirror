@@ -66,6 +66,7 @@ This guide will walk you through the process of setting up Docker to run contain
 1.  Add your IP address to the xhost list
 - xhost +your_host_ip (replace your_host_ip with the actual IP address of your Mac machine)
 
+# After - common steps to build, test, and run the container
 
 
 ## Building Docker Container
