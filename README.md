@@ -1,3 +1,100 @@
+# Docker Setup with X Server Forwarding for Windows
+
+## Prerequisites
+- Docker Desktop for Windows
+- VcXsrv Windows X Server
+
+## Installation & Configuration
+
+1. **Install Docker Desktop for Windows**
+   - Download and install from the Docker website.
+
+2. **Install VcXsrv Windows X Server**
+   - Download VcXsrv from SourceForge.
+   - Run XLaunch, choose your display settings, and ensure "Disable access control" is checked.
+
+3. **Configure Docker - Not always needed**
+   - Do this only if you have any issue on the first run
+   - In Docker settings, ensure "Expose daemon on tcp://localhost:2375 without TLS" is enabled.
+
+4. **Retrieve IP Address**
+   - Open Command Prompt and execute `ipconfig` to find your "IPv4 Address".
+
+5. **Firewall**
+    - Set the correct **Firewall Settings** to allow X server forwarding
+
+
+# Docker with X Server Forwarding on macOS
+
+This guide will walk you through the process of setting up Docker to run containers that can display GUI applications on macOS using X server forwarding.
+
+## Step 1: Install Docker Desktop for Mac
+
+- Download **Docker Desktop for Mac** from the Docker website.
+- Follow the installation instructions provided by the installer.
+
+## Step 2: Install XQuartz
+
+- Download **XQuartz** from the XQuartz website.
+- Install XQuartz and then restart your computer to ensure the changes take effect.
+
+## Step 3: Configure XQuartz
+
+- Open **XQuartz**.
+- In the top menu, go to `XQuartz` > `Preferences`.
+- Click on the **Security** tab.
+- Check the option **"Allow connections from network clients"**.
+
+## Step 4: Retrieve Your IP Address
+
+- Open the **Terminal** application.
+- Type `ifconfig` and press **Enter**.
+- Look for the **"inet"** address associated with your active network connection (not the loopback `127.0.0.1`).
+
+## Step 5: Firewall
+
+ - Open the **System Preferences** from the Apple menu
+ - Click on **Security & Privacy**
+ - Select the **Firewall** tab
+ - If the firewall is turned on, click on the lock icon and enter your admin pwd
+ - Click on **Firewall Options**
+ - Set the correct **Firewall Settings** to allow X server forwarding
+ - Re-lock the settings to ensure 
+
+## Step 6: Addittional - in case of extra issues
+
+1.  Add your IP address to the xhost list
+- xhost +your_host_ip (replace your_host_ip with the actual IP address of your Mac machine)
+
+
+
+## Building Docker Container
+
+1. Go in the project folder 
+
+2. **Run the command**
+    - docker-compose build
+
+## Test
+
+1. **Run in interactive mode**
+ - Run the docker container as follow 
+   docker run --rm -it <image_name>
+
+## Play
+
+1. **Run the container as expected**
+- Run the container as intended
+- docker-compose up
+
+
+
+
+
+
+
+
+
 ![MagicMirror²: The open source modular smart mirror platform. ](.github/header.png)
 
 <p style="text-align: center">
