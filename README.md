@@ -75,12 +75,17 @@ This guide will walk you through the process of setting up Docker to run contain
 
 2. **Run the command**
     - docker-compose build
+  
+
+**As of now, keep your X Server Emulator (Xserver or Qwartz) launched - as explained above**
 
 ## Test
 
 1. **Run in interactive mode**
  - Run the docker container as follow 
    docker run --rm -it <image_name>
+ - Use the following command
+   xeyes
 
 ## Play
 
