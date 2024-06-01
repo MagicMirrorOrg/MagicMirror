@@ -70,7 +70,7 @@
 		"pm2": "^5.3.1",
 		"socket.io": "^4.7.5",
 		"suncalc": "^1.9.0",
-		"systeminformation": "^5.22.7"
+		"systeminformation": "^5.22.10"
 	},
 	"devDependencies": {
 		"@stylistic/eslint-plugin": "^1.8.0",
