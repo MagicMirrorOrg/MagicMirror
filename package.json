@@ -76,7 +76,7 @@
 		"@stylistic/eslint-plugin": "^1.8.0",
 		"eslint-plugin-import": "^2.29.1",
 		"eslint-plugin-jest": "^28.3.0",
-		"eslint-plugin-jsdoc": "^48.2.3",
+		"eslint-plugin-jsdoc": "^48.2.7",
 		"eslint-plugin-package-json": "^0.13.1",
 		"eslint-plugin-unicorn": "^52.0.0",
 		"express-basic-auth": "^1.2.1",
