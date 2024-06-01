@@ -10,7 +10,7 @@
    - Download and install from the Docker [website](https://docs.docker.com/desktop/install/windows-install/).
 
 2. **Install VcXsrv Windows X Server**
-   - Download VcXsrv from SourceForge.
+   - Download [VcXsrv from SourceForge](https://sourceforge.net/projects/vcxsrv/).
    - Run XLaunch, choose your display settings, and ensure "Disable access control" is checked.
 
 3. **Configure Docker - Not always needed**
@@ -30,12 +30,12 @@ This guide will walk you through the process of setting up Docker to run contain
 
 ## Step 1: Install Docker Desktop for Mac
 
-- Download **Docker Desktop for Mac** from the Docker website.
+- Download **Docker Desktop for Mac** from the Docker [website](https://docs.docker.com/desktop/install/mac-install/).
 - Follow the installation instructions provided by the installer.
 
 ## Step 2: Install XQuartz
 
-- Download **XQuartz** from the XQuartz website.
+- Download **XQuartz** from the [XQuartz website](https://www.xquartz.org/).
 - Install XQuartz and then restart your computer to ensure the changes take effect.
 
 ## Step 3: Configure XQuartz
