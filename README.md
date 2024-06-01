@@ -7,7 +7,7 @@
 ## Installation & Configuration
 
 1. **Install Docker Desktop for Windows**
-   - Download and install from the Docker website.
+   - Download and install from the Docker [website](https://docs.docker.com/desktop/install/windows-install/).
 
 2. **Install VcXsrv Windows X Server**
    - Download VcXsrv from SourceForge.
