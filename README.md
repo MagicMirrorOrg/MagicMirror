@@ -7,10 +7,10 @@
 ## Installation & Configuration
 
 1. **Install Docker Desktop for Windows**
-   - Download and install from the Docker website.
+   - Download and install from the Docker [website](https://docs.docker.com/desktop/install/windows-install/).
 
 2. **Install VcXsrv Windows X Server**
-   - Download VcXsrv from SourceForge.
+   - Download [VcXsrv from SourceForge](https://sourceforge.net/projects/vcxsrv/).
    - Run XLaunch, choose your display settings, and ensure "Disable access control" is checked.
 
 3. **Configure Docker - Not always needed**
@@ -30,12 +30,12 @@ This guide will walk you through the process of setting up Docker to run contain
 
 ## Step 1: Install Docker Desktop for Mac
 
-- Download **Docker Desktop for Mac** from the Docker website.
+- Download **Docker Desktop for Mac** from the Docker [website](https://docs.docker.com/desktop/install/mac-install/).
 - Follow the installation instructions provided by the installer.
 
 ## Step 2: Install XQuartz
 
-- Download **XQuartz** from the XQuartz website.
+- Download **XQuartz** from the [XQuartz website](https://www.xquartz.org/).
 - Install XQuartz and then restart your computer to ensure the changes take effect.
 
 ## Step 3: Configure XQuartz
@@ -75,16 +75,25 @@ This guide will walk you through the process of setting up Docker to run contain
 
 2. **Run the command**
     - docker-compose build
+  
+
+**As of now, keep your X Server Emulator (Xserver or Qwartz) launched - as explained above**
 
 ## Test
 
 1. **Run in interactive mode**
  - Run the docker container as follow 
    docker run --rm -it <image_name>
+ - Use the following command
+   xeyes
 
 ## Play
 
-1. **Run the container as expected**
+1. **Modify the docker-compose file**
+- Go to the docker-compose file
+- In the line below environment
+- DISPLAY=<YOUR_IP_ADDRESS_HERE>:0, put your IP address in place of YOUR_IP_ADDRESS_HERE
+2. **Run the container as expected**
 - Run the container as intended
 - docker-compose up
 
