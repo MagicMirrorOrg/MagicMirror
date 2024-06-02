@@ -55,9 +55,7 @@ RUN npm install
 
 # Expose port
 EXPOSE 8080
-# EXPOSE 6000
 
 # Start MagicMirror in server-only mode
 # CMD ["node", "serveronly"]
-# CMD ["npm", "start", "--", "--no-sandbox"]
 CMD ["npm", "start", "--", "--no-sandbox"]
