@@ -29,7 +29,7 @@ let config = {
 
 	language: "en",
 	locale: "en-US",
-	logLevel: ["INFO", "LOG", "WARN", "ERROR"], // Add "DEBUG" for even more logging
+	logLevel: ["INFO", "LOG", "WARN", "ERROR", "DEBUG"], // Add "DEBUG" for even more logging
 	timeFormat: 24,
 	units: "metric",
 
@@ -42,23 +42,35 @@ let config = {
 			position: "top_bar"
 		},
 		{
-			module: "clock",
-			position: "top_left"
-		},
-		{
-		    module: "calendar",
-		    header: "Belgian Holidays",
+		    module: "helloworld",
 		    position: "top_left",
 		    config: {
-		        calendars: [
-		            {
-		                fetchInterval: 7 * 24 * 60 * 60 * 1000,
-		                symbol: "calendar-check",
-		                url: "https://www.officeholidays.com/ics/belgium"
-		            }
-		        ]
+				text: "Say Yes to AYES!",
+				imagePath: "modules/default/helloworld/AYES_Icon.png"
+		        
 		    }
 		},
+		{
+			module: "clock",
+			position: "top_left",
+			config: {
+				timezone: "Europe/Brussels",
+			}
+		},
+		// {
+		//     module: "calendar",
+		//     header: "Belgian Holidays",
+		//     position: "top_left",
+		//     config: {
+		//         calendars: [
+		//             {
+		//                 fetchInterval: 7 * 24 * 60 * 60 * 1000,
+		//                 symbol: "calendar-check",
+		//                 url: "https://www.officeholidays.com/ics/belgium"
+		//             }
+		//         ]
+		//     }
+		// },
 		
 		{
 			module: "compliments",

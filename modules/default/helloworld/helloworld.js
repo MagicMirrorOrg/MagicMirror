@@ -1,14 +1,41 @@
 Module.register("helloworld", {
-	// Default module config.
 	defaults: {
-		text: "Hello World!"
+	  text: "Say Yes to AYES!",
+	  imagePath: "modules/default/helloworld/AYES_Icon.png",
+	  imageWidth: "40%",
+	  imageHeight: "40%"
 	},
-
-	getTemplate () {
-		return "helloworld.njk";
+  
+	start: function() {
+	  this.sendNotification("SHOW_ALERT", {
+		type: "notification",
+		title: "Hello World!",
+		message: "Module is loaded!"
+	  });
 	},
-
-	getTemplateData () {
-		return this.config;
+  
+	getStyles: function() {
+	  return ["helloworld.css"];
+	},
+  
+	getDom: function() {
+	  var wrapper = document.createElement("div");
+	  wrapper.className = "helloworld-container";
+  
+	  if (this.config.imagePath) {
+		var img = document.createElement("img");
+		img.src = this.config.imagePath;
+		img.style.width = this.config.imageWidth;
+		img.style.height = this.config.imageHeight;
+		img.className = "helloworld-image";
+		wrapper.appendChild(img);
+	  }
+  
+	  var text = document.createElement("div");
+	  text.innerHTML = this.config.text;
+	  text.className = "helloworld-text";
+	  wrapper.appendChild(text);
+  
+	  return wrapper;
 	}
-});
+  });

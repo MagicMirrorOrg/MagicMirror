@@ -7,7 +7,7 @@ services:
       dockerfile: dockerfile
     container_name: magic_mirror
     environment:
-      - DISPLAY=<YOUR_IP_ADDRESS_HERE>:0
+      - DISPLAY=192.168.178.21:0
     ports:
       - "8080:8080"
     volumes:
