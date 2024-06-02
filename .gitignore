@@ -82,3 +82,6 @@ Temporary Items
 *.orig
 *.rej
 *.bak
+
+# Ignore the docker-compose file to avoid unwanted IP address pushing
+docker-compose.yaml
