@@ -83,8 +83,8 @@ let config = {
 				weatherProvider: "openweathermap",
 				type: "current",
 				location: "Brussels",
-				locationID: "2800866",
-				apiKey: "f8b3c5d1e4b3a80422d92bdf820148e9"
+				// locationID: "2800866",
+				apiKey: "f8b3c5d1e4b3a80422d92bdf820148e9",
 			}
 		},
 		{
@@ -95,8 +95,9 @@ let config = {
 				weatherProvider: "openweathermap",
 				type: "forecast",
 				location: "Brussels",
-				locationID: "2800866",
-				apiKey: "f8b3c5d1e4b3a80422d92bdf820148e9"
+				// locationID: "2800866",
+				apiKey: "f8b3c5d1e4b3a80422d92bdf820148e9",
+				colored: true
 			}
 		},
 		{
