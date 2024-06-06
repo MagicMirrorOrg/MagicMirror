@@ -8,8 +8,6 @@ services:
     container_name: magic_mirror
     environment:
       - DISPLAY=192.168.178.21:0
-    ports:
-      - "8080:8080"
     volumes:
       - ./config:/opt/magicmirror/config
       - /tmp/.X11-unix:/tmp/.X11-unix
