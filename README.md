@@ -68,6 +68,11 @@ This guide will walk you through the process of setting up Docker to run contain
 
 # After - common steps to build, test, and run the container
 
+## Clone the repository
+1. Create a new folder 
+2. In the new folder git clone this repo 
+
+**If you already downloaded the repo and built locally, you can't use the same folder**
 
 ## Building Docker Container
 
