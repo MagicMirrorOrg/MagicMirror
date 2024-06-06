@@ -107,18 +107,18 @@ This guide will walk you through the process of setting up Docker to run contain
 ## Prepare the Raspberry Pi
 
 1. Update the list of available packages and their version
-  sudo apt-get update
+  - sudo apt-get update
 2. Installs Docker and Docker-Compose
-   sudo apt-get install -y docker.io docker-compose 
+  - sudo apt-get install -y docker.io docker-compose 
 3. Start the docker service, and ensure it will run on boot
-  sudo systemctl start docker
-  sudo systemctl enable docker
+  - sudo systemctl start docker
+  - sudo systemctl enable docker
 4. The X server manages the graphical display. To allow the Docker container to interact with it, use:
-  xhost +si:localuser:root
+  - xhost +si:localuser:root
 
 ## Optional: Use a Non-Root User for Docker
 By default, Docker commands require sudo. To run Docker commands without sudo, add your user to the docker group, and later reboot:
-sudo usermod -aG docker $USER
+  - sudo usermod -aG docker $USER
 
 ## Start the mirror
 1. Clone the repository in a local folder
@@ -126,15 +126,15 @@ sudo usermod -aG docker $USER
       - DISPLAY=:0
 3. Navigate to the folder
 4. Run the container
-  (sudo) docker-compose up
+  - (sudo) docker-compose up
 
 ## Optional: debug and test
 1. Build the container instead of running it
-  (sudo) docker-compose build
+  - (sudo) docker-compose build
 2. Run the container using the following command
-  docker run --rm -e DISPLAY=:0 -v /tmp/.X11-unix:/tmp/.X11-unix x11-apps xeyes
+  - docker run --rm -e DISPLAY=:0 -v /tmp/.X11-unix:/tmp/.X11-unix x11-apps xeyes
 3. Check the logs
-  docker-compose logs
+  - docker-compose logs
 
 
 
