@@ -4,7 +4,7 @@ services:
     image: magic_mirror
     build: 
       context: .
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     container_name: magic_mirror
     environment:
       - DISPLAY=192.168.178.21:0
