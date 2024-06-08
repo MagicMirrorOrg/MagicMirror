@@ -255,7 +255,8 @@ function App () {
 
 		let modules = [];
 		for (const module of config.modules) {
-			if (module.module && !module.disabled) {
+			if (module.disabled) continue;
+			if (module.module) {
 				if (positions.indexOf(module.position) > -1 || typeof (module.position) === "undefined") {
 					modules.push(module.module);
 				} else {
