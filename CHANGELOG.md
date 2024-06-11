@@ -21,6 +21,8 @@ _This release is scheduled to be released on 2024-07-01._
 
 - Fix crash possibility if `module: <name>` is not defined and on `postion: <positon>` misktake.
 - [weather] Fixed precipitationProbability in forecast for provider openmeteo (#3446)
+- [weather] Fixed type=daily for provider openmeteo having no data when running after 23:00 (#3449)
+- [weather] Fixed type=daily for provider openmeteo showing nightly icons in forecast when current time is "nightly" (#3458)
 
 ## [2.27.0] - 2024-04-01
 
@@ -68,7 +70,7 @@ For more info, please read the following post: [A New Chapter for MagicMirror: T
 - added message in case where config.js is missing the module.export line PR #3383
 - Fixed an issue where recurring events could extend past their recurrence end date (#3393)
 - Don't display any `npm WARN <....>` on install (#3399)
-- Fixed move suncalc dependency to production from dev, as it is used by clock module
+- [chore] Moved suncalc dependency to production from dev, as it is used by clock module
 - [compliments] Fix mirror not responding anymore when no compliments are to be shown (#3385)
 - [chore] Fixed mastermerge workflow (#3415)
 
@@ -104,7 +106,7 @@ This release also marks the latest release by Michael Teeuw. For more info, plea
 - Update electron to v27 and update other dependencies as well as github actions
 - Update newsfeed: Use `html-to-text` instead of regex for transform description
 - Review ESLint config (#3269)
-- Updated dependencies
+- Update dependencies
 - Clock module: optionally display current moon phase in addition to rise/set times
 - electron is now per default started without gpu, if needed it must be enabled with new env var `ELECTRON_ENABLE_GPU=1` on startup (#3226)
 - Replace prettier by stylistic in ESLint config to lint JavaScript (and disable some rules for `config/config.js*` files)
