@@ -21,6 +21,7 @@ _This release is scheduled to be released on 2024-07-01._
 
 - [weather] Fixed precipitationProbability in forecast for provider openmeteo (#3446)
 - [weather] Fixed type=daily for provider openmeteo having no data when running after 23:00 (#3449)
+- [weather] Fixed type=daily for provider openmeteo showing nightly icons in forecast when current time is "nightly" (#3458)
 
 ## [2.27.0] - 2024-04-01
 
