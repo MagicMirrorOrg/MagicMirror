@@ -6,6 +6,9 @@ jobs:
   rebuild:
     name: Run electron-rebuild
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x, 22.x]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
