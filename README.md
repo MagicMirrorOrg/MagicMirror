@@ -1,7 +1,7 @@
 # Docker Setup with X Server Forwarding for Windows
 
 ## Prerequisites
-- Docker Desktop for Windows
+- Docker Desktop
 - VcXsrv Windows X Server
 
 ## Installation & Configuration
