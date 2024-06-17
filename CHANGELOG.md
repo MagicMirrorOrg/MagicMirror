@@ -7,7 +7,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [2.27.0] - 2024-04-01
 
-Thanks to: @bugsounet, @crazyscot, @illimarkangur, @jkriegshauser, @khassel, @KristjanESPERANTO, @Paranoid93, @rejas, @sdetweil and @vppencilsharpener.
+Thanks to: @bugsounet, @crazyscot, @illimarkangur, @jkriegshauser, @khassel, @KristjanESPERANTO, @Paranoid93, @rejas, @sdetweil, @vppencilsharpener and @WallysWellies.
 
 This release marks the first release without Michael Teeuw (@michmich). A very special thanks to him for creating MagicMirror and leading the project for so many years.
 
@@ -20,6 +20,7 @@ For more info, please read the following post: [A New Chapter for MagicMirror: T
 - [weather] `showHumidity` config is now a string describing where to show this element. Supported values: "wind", "temp", "feelslike", "below", "none". (#3330)
 - electron-rebuild test suite for electron and 3rd party modules compatibility (#3392)
 - Create MM² icon and attach it to electron process (#3407)
+- [compliments] Added `specialDayUnique` config option which defaults to "true", replacing the existing compliments array with only the compliments that have been configured for that day (#3465)
 
 ### Updated
 
