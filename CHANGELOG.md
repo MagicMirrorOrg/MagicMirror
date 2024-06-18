@@ -11,7 +11,7 @@ _This release is scheduled to be released on 2024-07-01._
 
 ### Added
 
-- [compliments] Added `specialDayUnique` config option, defaults to `false`. When set to `true` it replaces the existing compliments array with only the compliments that have been configured for that day (#3465)
+- [compliments] Added `specialDayUnique` config option, defaults to `false`. (#3465)
 
 ### Removed
 
