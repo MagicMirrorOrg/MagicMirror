@@ -86,7 +86,7 @@ This guide will walk you through the process of setting up Docker to run contain
 
 ## Test
 
-1. **Run in interactive mode**
+1. **Run the container in interactive mode**
  - Run the docker container as follow 
    docker run --rm -it <image_name>
  - Use the following command
