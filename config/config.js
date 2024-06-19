@@ -85,6 +85,7 @@ let config = {
 				location: "Brussels",
 				// locationID: "2800866",
 				apiKey: "f8b3c5d1e4b3a80422d92bdf820148e9",
+				timezone: "Europe/Brussels"
 			}
 		},
 		{
