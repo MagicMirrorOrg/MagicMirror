@@ -17,7 +17,7 @@ _This release is scheduled to be released on 2024-07-01._
 
 ### Updated
 
-- [chore] Update dependencies including electron to v30
+- [chore] Update dependencies including electron to v31
 - [core] use node >= v20
 
 ### Fixed
