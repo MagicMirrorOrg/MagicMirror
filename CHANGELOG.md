@@ -13,9 +13,12 @@ _This release is scheduled to be released on 2024-07-01._
 
 ### Removed
 
+- [test suite] delete node v18 support
+
 ### Updated
 
 - [chore] Update dependencies including electron to v30
+- [core] use node >= v20
 
 ### Fixed
 
