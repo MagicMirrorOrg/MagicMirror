@@ -29,6 +29,7 @@ Module.register("calendar", {
 		dateEndFormat: "LT",
 		fullDayEventDateFormat: "MMM Do",
 		showEnd: false,
+		showEndsOnlyWithDuration: false,
 		getRelative: 6,
 		hidePrivate: false,
 		hideOngoing: false,
@@ -388,7 +389,11 @@ Module.register("calendar", {
 
 					// Add endDate to dataheaders if showEnd is enabled
 					if (this.config.showEnd) {
-						timeWrapper.innerHTML += ` - ${CalendarUtils.capFirst(moment(event.endDate, "x").format("LT"))}`;
+						if (this.config.showEndsOnlyWithDuration && event.startDate === event.endDate) {
+							// no duration here, don't display end
+						} else {
+							timeWrapper.innerHTML += ` - ${CalendarUtils.capFirst(moment(event.endDate, "x").format("LT"))}`;
+						}
 					}
 
 					eventWrapper.appendChild(timeWrapper);
@@ -407,8 +412,12 @@ Module.register("calendar", {
 					timeWrapper.innerHTML = CalendarUtils.capFirst(moment(event.startDate, "x").format(this.config.dateFormat));
 					// Add end time if showEnd
 					if (this.config.showEnd) {
-						timeWrapper.innerHTML += "-";
-						timeWrapper.innerHTML += CalendarUtils.capFirst(moment(event.endDate, "x").format(this.config.dateEndFormat));
+						if (this.config.showEndsOnlyWithDuration && event.startDate === event.endDate) {
+							// no duration here, don't display end
+						} else {
+							timeWrapper.innerHTML += "-";
+							timeWrapper.innerHTML += CalendarUtils.capFirst(moment(event.endDate, "x").format(this.config.dateEndFormat));
+						}
 					}
 					// For full day events we use the fullDayEventDateFormat
 					if (event.fullDayEvent) {
