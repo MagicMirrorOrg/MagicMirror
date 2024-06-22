@@ -17,8 +17,9 @@ _This release is scheduled to be released on 2024-07-01._
 
 ### Updated
 
-- [chore] Update dependencies including electron to v31
+- [core] Update dependencies including electron to v31
 - [core] use node >= v20
+- [core] Update `config.js.sample` to use openmeteo as weather provider which needs no api key
 
 ### Fixed
 
@@ -37,7 +38,7 @@ For more info, please read the following post: [A New Chapter for MagicMirror: T
 ### Added
 
 - Output of system information to the console for troubleshooting (#3328 and #3337), ignore errors under aarch64 (#3349)
-- [chore] Add `eslint-plugin-package-json` to lint the `package.json` files (#3368)
+- [core] Add `eslint-plugin-package-json` to lint the `package.json` files (#3368)
 - [weather] `showHumidity` config is now a string describing where to show this element. Supported values: "wind", "temp", "feelslike", "below", "none". (#3330)
 - electron-rebuild test suite for electron and 3rd party modules compatibility (#3392)
 - Create MM² icon and attach it to electron process (#3407)
@@ -49,8 +50,8 @@ For more info, please read the following post: [A New Chapter for MagicMirror: T
 - Use node prefix for build-in modules (#3340)
 - Rework logging colors (#3350)
 - Update pm2 to v5.3.1 with no allow-ghsas (#3364)
-- [chore] Update husky and let lint-staged fix ESLint issues
-- [chore] Update dependencies including electron to v29 (#3357) and node-ical
+- [core] Update husky and let lint-staged fix ESLint issues
+- [core] Update dependencies including electron to v29 (#3357) and node-ical
 - Update translations for estonian (#3371)
 - Update electron to v29 and update other dependencies
 - [calendar] fullDay events over several days now show the left days from the first day on and 'today' on the last day
@@ -72,9 +73,9 @@ For more info, please read the following post: [A New Chapter for MagicMirror: T
 - added message in case where config.js is missing the module.export line PR #3383
 - Fixed an issue where recurring events could extend past their recurrence end date (#3393)
 - Don't display any `npm WARN <....>` on install (#3399)
-- [chore] Moved suncalc dependency to production from dev, as it is used by clock module
+- [core] Moved suncalc dependency to production from dev, as it is used by clock module
 - [compliments] Fix mirror not responding anymore when no compliments are to be shown (#3385)
-- [chore] Fixed mastermerge workflow (#3415)
+- [core] Fixed mastermerge workflow (#3415)
 
 ### Deleted
 
