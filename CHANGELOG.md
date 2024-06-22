@@ -11,6 +11,8 @@ _This release is scheduled to be released on 2024-07-01._
 
 ### Added
 
+- [calendar] Added config option "showEndsOnlyWithDuration" for default calendar
+
 ### Removed
 
 - [test suite] delete node v18 support
