@@ -67,8 +67,6 @@ const CalendarUtils = {
 						temp += `${currentLine}<br>${word} `;
 					} else {
 						temp += `${word}<br>`;
-							// see https://forum.magicmirror.builders/topic/17380/calendar-event-same-start-and-enddate-wrong-google-calendar
-							//endDate = endDate.endOf("day");
 					}
 					currentLine = "";
 				}

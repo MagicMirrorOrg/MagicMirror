@@ -389,6 +389,7 @@ Module.register("calendar", {
 
 					// Add endDate to dataheaders if showEnd is enabled
 					if (this.config.showEnd) {
+						if (this.config.showEndsOnlyWithDuration && event.startDate === event.endDate) {
 							// no duration here, don't display end
 						} else {
 							timeWrapper.innerHTML += ` - ${CalendarUtils.capFirst(moment(event.endDate, "x").format("LT"))}`;
@@ -411,7 +412,7 @@ Module.register("calendar", {
 					timeWrapper.innerHTML = CalendarUtils.capFirst(moment(event.startDate, "x").format(this.config.dateFormat));
 					// Add end time if showEnd
 					if (this.config.showEnd) {
-						if(this.config.showEndsOnlyWithDuration && event.startDate == event.endDate) {
+						if (this.config.showEndsOnlyWithDuration && event.startDate === event.endDate) {
 							// no duration here, don't display end
 						} else {
 							timeWrapper.innerHTML += "-";
