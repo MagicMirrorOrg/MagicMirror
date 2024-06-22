@@ -451,7 +451,13 @@ const MM = (function () {
 	 * update notification is not visible.
 	 */
 	const updateWrapperStates = function () {
-		const positions = ["top_bar", "top_left", "top_center", "top_right", "upper_third", "middle_center", "lower_third", "bottom_left", "bottom_center", "bottom_right", "bottom_bar", "fullscreen_above", "fullscreen_below"];
+		let livePos = config.modulePositions.replaceAll('"', "").split("<div class=");
+		let positions = [];
+		for (let i in livePos) {
+			if (!livePos[i].includes("/div") && livePos[i].length > 0) {
+				positions.push(livePos[i].replace("region ", "").replace(">", "").replace(" ", "_"));
+			}
+		}
 
 		positions.forEach(function (position) {
 			const wrapper = selectWrapper(position);

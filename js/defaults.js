@@ -27,6 +27,9 @@ const defaults = {
 	// (interval 30 seconds). If startup-timestamp has changed the client reloads the magicmirror webpage.
 	checkServerInterval: 30 * 1000,
 	reloadAfterServerRestart: false,
+	modulePositions:
+		'<div class="region fullscreen below"><div class="container"></div></div><div class="region top bar"><div class="container"></div><div class="region top left"><div class="container"></div></div><div class="region top center"><div class="container"></div></div><div class="region top right"><div class="container"></div></div></div><div class="region upper third"><div class="container"></div></div><div class="region middle center"><div class="container"></div></div><div class="region lower third"><div class="container"><br /></div></div><div class="region bottom bar"><div class="container"></div><div class="region bottom left"><div class="container"></div></div><div class="region bottom center"><div class="container"></div></div><div class="region bottom right"><div class="container"></div></div></div><div class="region fullscreen above"><div class="container"></div></div>',
+	modulePositionsCss: "module.css",
 
 	modules: [
 		{

@@ -115,6 +115,8 @@ function getHtml (req, res) {
 		configFile = global.configuration_file;
 	}
 	html = html.replace("#CONFIG_FILE#", configFile);
+	html = html.replace("#MODULE_POSITIONS#", config.modulePositions);
+	html = html.replace("#MODULE_CSS#", config.modulePositionsCss);
 
 	res.send(html);
 }
