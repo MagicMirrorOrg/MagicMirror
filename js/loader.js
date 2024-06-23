@@ -50,8 +50,7 @@ const Loader = (function () {
 	 * @returns {object[]} module data as configured in config
 	 */
 	const getAllModules = function () {
-		const positions = ["top_bar", "top_left", "top_center", "top_right", "upper_third", "middle_center", "lower_third", "bottom_left", "bottom_center", "bottom_right", "bottom_bar", "fullscreen_above", "fullscreen_below"];
-		const AllModules = config.modules.filter((module) => (module.module !== undefined) && (positions.indexOf(module.position) > -1 || typeof (module.position) === "undefined"));
+		const AllModules = config.modules.filter((module) => (module.module !== undefined) && (MM.getAvailableModulePositions.indexOf(module.position) > -1 || typeof (module.position) === "undefined"));
 		return AllModules;
 	};
 

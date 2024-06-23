@@ -450,10 +450,10 @@ const MM = (function () {
 	 * an ugly top margin. By using this function, the top bar will be hidden if the
 	 * update notification is not visible.
 	 */
-	const updateWrapperStates = function () {
-		const positions = ["top_bar", "top_left", "top_center", "top_right", "upper_third", "middle_center", "lower_third", "bottom_left", "bottom_center", "bottom_right", "bottom_bar", "fullscreen_above", "fullscreen_below"];
+	const modulePositions = ["top_bar", "top_left", "top_center", "top_right", "upper_third", "middle_center", "lower_third", "bottom_left", "bottom_center", "bottom_right", "bottom_bar", "fullscreen_above", "fullscreen_below"];
 
-		positions.forEach(function (position) {
+	const updateWrapperStates = function () {
+		modulePositions.forEach(function (position) {
 			const wrapper = selectWrapper(position);
 			const moduleWrappers = wrapper.getElementsByClassName("module");
 
@@ -701,7 +701,10 @@ const MM = (function () {
 		showModule (module, speed, callback, options) {
 			// do not change module.hidden yet, only if we really show it later
 			showModule(module, speed, callback, options);
-		}
+		},
+
+		// return all available module postions.
+		getAvailableModulePositions: modulePositions
 	};
 }());
 

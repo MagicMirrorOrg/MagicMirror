@@ -251,13 +251,11 @@ function App () {
 
 		Log.setLogLevel(config.logLevel);
 
-		const positions = ["top_bar", "top_left", "top_center", "top_right", "upper_third", "middle_center", "lower_third", "bottom_left", "bottom_center", "bottom_right", "bottom_bar", "fullscreen_above", "fullscreen_below"];
-
 		let modules = [];
 		for (const module of config.modules) {
 			if (module.disabled) continue;
 			if (module.module) {
-				if (positions.indexOf(module.position) > -1 || typeof (module.position) === "undefined") {
+				if (Utils.moduleHasValidPosition(module.position) || typeof (module.position) === "undefined") {
 					modules.push(module.module);
 				} else {
 					Log.warn("Invalid module position found for this configuration:", module);
