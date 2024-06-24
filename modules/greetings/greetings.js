@@ -29,7 +29,6 @@ Module.register("greetings", {
 
         this.personsDetected = [];
         this.lastgreetingIndex = -1;
-        this.sendSocketNotification("ADD_GREETINGS"); // Establish connection with node helper if needed
 	},
 
     // Override notification handler.
