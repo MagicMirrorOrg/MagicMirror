@@ -9,8 +9,11 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 _This release is scheduled to be released on 2024-07-01._
 
+Thanks to: @kleinmantara (to be continued before release)
+
 ### Added
 
+- [calendar] Added config option "showEndsOnlyWithDuration" for default calendar
 - [compliments] Added `specialDayUnique` config option, defaults to `false`. (#3465)
 
 ### Removed
@@ -25,6 +28,7 @@ _This release is scheduled to be released on 2024-07-01._
 
 ### Fixed
 
+- Fix crash possibility if `module: <name>` is not defined and on `postion: <positon>` misktake.
 - [weather] Fixed precipitationProbability in forecast for provider openmeteo (#3446)
 - [weather] Fixed type=daily for provider openmeteo having no data when running after 23:00 (#3449)
 - [weather] Fixed type=daily for provider openmeteo showing nightly icons in forecast when current time is "nightly" (#3458)
