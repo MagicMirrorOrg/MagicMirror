@@ -27,10 +27,11 @@ Thanks to: @kleinmantara (to be continued before release)
 
 ### Fixed
 
-- Fix crash possibility if `module: <name>` is not defined and on `postion: <positon>` misktake.
+- [core] Fixed crash possibility if `module: <name>` is not defined and on `postion: <positon>` misktake.
 - [weather] Fixed precipitationProbability in forecast for provider openmeteo (#3446)
 - [weather] Fixed type=daily for provider openmeteo having no data when running after 23:00 (#3449)
 - [weather] Fixed type=daily for provider openmeteo showing nightly icons in forecast when current time is "nightly" (#3458)
+- [weather] Fixed forecast and hourly weather for provider openmeteo to use real temperatures, not apparent temperatures
 
 ## [2.27.0] - 2024-04-01
 
