@@ -11,6 +11,9 @@ _This release is scheduled to be released on 2024-07-01._
 
 ### Added
 
+- [compliments] Added support to filter out anytime/morning/afternoon/evening events if a special date format event triggers, specialDayUnique:true
+- [compliments] Added support for cron type date/time format entries.. mm hh DD MM dow (minutes/hours/days/months and day of week) see https://crontab.cronhub.io for consuction
+
 ### Removed
 
 - [test suite] delete node v18 support
