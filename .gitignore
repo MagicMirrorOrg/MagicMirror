@@ -67,6 +67,10 @@ Temporary Items
 !/modules/greetings
 !/modules/greetings/**
 
+# Do not ignore MQTT module.
+!/modules/MMM-MQTTbridge
+!/modules/MMM-MQTTbridge/**
+
 # Ignore changes to the custom css files but keep the sample and main.
 /css/*
 !/css/custom.css.sample

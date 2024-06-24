@@ -86,7 +86,9 @@
 		"pm2": "^5.3.1",
 		"socket.io": "^4.7.5",
 		"suncalc": "^1.9.0",
-		"systeminformation": "^5.22.6"
+		"systeminformation": "^5.22.6",
+		"mqtt": "4.3.7",
+    	"jsonpath-plus": "5.0.1"
 	},
 	"lint-staged": {
 		"*": "prettier --write",

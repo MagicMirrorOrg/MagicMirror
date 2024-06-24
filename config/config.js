@@ -81,6 +81,18 @@ let config = {
 			position: "lower_third"
         },
 		{
+			module: 'MMM-MQTTbridge',
+			disabled: false,
+			config: {
+				mqttServer: "mqtt://broker.emqx.io:1883",
+				mqttConfig:
+				{
+					listenMqtt: true,
+					interval: 300000,
+				},
+			}
+		},
+		{
 			module: "weather",
 			position: "top_right",
 			config: {
