@@ -9,7 +9,11 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 _This release is scheduled to be released on 2024-07-01._
 
+Thanks to: @kleinmantara (to be continued before release)
+
 ### Added
+
+- [calendar] Added config option "showEndsOnlyWithDuration" for default calendar
 
 ### Removed
 
