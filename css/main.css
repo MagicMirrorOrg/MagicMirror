@@ -11,10 +11,10 @@
   --font-size-medium: 1.5rem;
   --font-size-large: 3.25rem;
   --font-size-xlarge: 3.75rem;
-  --gap-body-top: 60px;
-  --gap-body-right: 60px;
+  --gap-body-top: 0px;
+  --gap-body-right: 30px;
   --gap-body-bottom: 60px;
-  --gap-body-left: 60px;
+  --gap-body-left: 30px;
   --gap-modules: 30px;
 }
 
