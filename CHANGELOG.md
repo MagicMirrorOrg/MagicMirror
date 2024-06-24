@@ -23,6 +23,7 @@ _This release is scheduled to be released on 2024-07-01._
 
 ### Fixed
 
+- Fix crash possibility if `module: <name>` is not defined and on `postion: <positon>` misktake.
 - [weather] Fixed precipitationProbability in forecast for provider openmeteo (#3446)
 - [weather] Fixed type=daily for provider openmeteo having no data when running after 23:00 (#3449)
 - [weather] Fixed type=daily for provider openmeteo showing nightly icons in forecast when current time is "nightly" (#3458)
