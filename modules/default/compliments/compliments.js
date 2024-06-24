@@ -15,7 +15,8 @@ Module.register("compliments", {
 		morningEndTime: 12,
 		afternoonStartTime: 12,
 		afternoonEndTime: 17,
-		random: true
+		random: true,
+		specialDayUnique: false
 	},
 	lastIndexUsed: -1,
 	// Set currentweather from module
@@ -98,6 +99,10 @@ Module.register("compliments", {
 		// Add compliments for special days
 		for (let entry in this.config.compliments) {
 			if (new RegExp(entry).test(date)) {
+				// Only display compliments configured for the day if specialDayUnique is set to true
+				if (this.config.specialDayUnique) {
+					compliments.length = 0;
+				}
 				Array.prototype.push.apply(compliments, this.config.compliments[entry]);
 			}
 		}

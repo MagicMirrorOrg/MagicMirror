@@ -14,6 +14,7 @@ Thanks to: @kleinmantara (to be continued before release)
 ### Added
 
 - [calendar] Added config option "showEndsOnlyWithDuration" for default calendar
+- [compliments] Added `specialDayUnique` config option, defaults to `false`. (#3465)
 
 ### Removed
 
