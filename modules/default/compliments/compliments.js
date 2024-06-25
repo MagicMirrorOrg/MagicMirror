@@ -120,20 +120,16 @@ Module.register("compliments", {
 		// Add compliments based on weather
 		if (this.currentWeatherType in this.config.compliments) {
 			Array.prototype.push.apply(compliments, this.config.compliments[this.currentWeatherType]);
-		}
-
-		// Add compliments for anytime
-		Array.prototype.push.apply(compliments, this.config.compliments.anytime);
-
-		// watch out for a weather type being set
-		// multiple times during our run...
-		if (this.currentWeatherType.length > 0) {
 			// if the predefine list doesn't include it (yet)
 			if (!this.pre_defined_types.includes(this.currentWeatherType)) {
 				// add it
 				this.pre_defined_types.push(this.currentWeatherType);
 			}
 		}
+
+		// Add compliments for anytime
+		Array.prototype.push.apply(compliments, this.config.compliments.anytime);
+
 		// get the list of just date entry keys
 		let temp_list = Object.keys(this.config.compliments).filter((k) => {
 			if (this.pre_defined_types.includes(k)) return false;
