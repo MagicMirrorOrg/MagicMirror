@@ -13,13 +13,9 @@ Thanks to: @kleinmantara (to be continued before release)
 
 ### Added
 
-<<<<<<< update_compliments
-- [compliments] Added support to filter out anytime/morning/afternoon/evening events if a special date format event triggers, specialDayUnique:true
 - [compliments] Added support for cron type date/time format entries.. mm hh DD MM dow (minutes/hours/days/months and day of week) see https://crontab.cronhub.io for construction
-=======
 - [calendar] Added config option "showEndsOnlyWithDuration" for default calendar
 - [compliments] Added `specialDayUnique` config option, defaults to `false`. (#3465)
->>>>>>> develop
 
 ### Removed
 
