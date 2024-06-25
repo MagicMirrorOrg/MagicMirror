@@ -25,5 +25,16 @@ module.exports = {
 		} catch (e) {
 			Log.error(e);
 		}
+	},
+
+	// return all available module positions
+	getAvailableModulePositions () {
+		return ["top_bar", "top_left", "top_center", "top_right", "upper_third", "middle_center", "lower_third", "bottom_left", "bottom_center", "bottom_right", "bottom_bar", "fullscreen_above", "fullscreen_below"];
+	},
+
+	// return if postion is on modulePositions Array (true/false)
+	moduleHasValidPosition (position) {
+		if (this.getAvailableModulePositions().indexOf(position) === -1) return false;
+		return true;
 	}
 };
