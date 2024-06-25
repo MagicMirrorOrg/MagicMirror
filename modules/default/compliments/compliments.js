@@ -156,15 +156,6 @@ Module.register("compliments", {
 			if (this.config.specialDayUnique) {
 				// clear the non-date compliments if any
 				compliments.length = 0;
-=======
-		for (let entry in this.config.compliments) {
-			if (new RegExp(entry).test(date)) {
-				// Only display compliments configured for the day if specialDayUnique is set to true
-				if (this.config.specialDayUnique) {
-					compliments.length = 0;
-				}
-				Array.prototype.push.apply(compliments, this.config.compliments[entry]);
->>>>>>> develop
 			}
 			// put the date based compliments on the list
 			Array.prototype.push.apply(compliments, date_compliments);
