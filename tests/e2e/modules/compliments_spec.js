@@ -59,6 +59,7 @@ describe("Compliments module", () => {
 		describe("Test only custom date events shown with new property", () => {
 			it("shows 'Special day message' on May 6", async () => {
 				await helpers.startApplication("tests/configs/modules/compliments/compliments_specialDayUnique_true.js", "06 May 2022 10:00:00 GMT");
+				await helpers.getDocument();
 				await expect(doTest(["Special day message"])).resolves.toBe(true);
 			});
 		});
@@ -66,6 +67,7 @@ describe("Compliments module", () => {
 		describe("Test all date events shown without new property", () => {
 			it("shows 'any message' on May 6", async () => {
 				await helpers.startApplication("tests/configs/modules/compliments/compliments_specialDayUnique_false.js", "06 May 2022 10:00:00 GMT");
+				await helpers.getDocument();
 				await expect(doTest(["Special day message", "Typical message 1", "Typical message 2", "Typical message 3"])).resolves.toBe(true);
 			});
 		});
@@ -73,6 +75,7 @@ describe("Compliments module", () => {
 		describe("Test only custom cron date event shown with new property", () => {
 			it("shows 'any message' on May 6", async () => {
 				await helpers.startApplication("tests/configs/modules/compliments/compliments_cron_entry.js", "06 May 2022 17:03:00 GMT");
+				await helpers.getDocument();
 				await expect(doTest(["just pub time"])).resolves.toBe(true);
 			});
 		});
@@ -80,6 +83,7 @@ describe("Compliments module", () => {
 		describe("Test any event shows after time window", () => {
 			it("shows 'any message' on May 6", async () => {
 				await helpers.startApplication("tests/configs/modules/compliments/compliments_cron_entry.js", "06 May 2022 17:11:00 GMT");
+				await helpers.getDocument();
 				await expect(doTest(["just a test"])).resolves.toBe(true);
 			});
 		});
@@ -87,6 +91,7 @@ describe("Compliments module", () => {
 		describe("Test any event shows different day", () => {
 			it("shows 'any message' on May 5", async () => {
 				await helpers.startApplication("tests/configs/modules/compliments/compliments_cron_entry.js", "05 May 2022 17:00:00 GMT");
+				await helpers.getDocument();
 				await expect(doTest(["just a test"])).resolves.toBe(true);
 			});
 		});
