@@ -134,7 +134,6 @@ Module.register("compliments", {
 
 		let date_compliments = [];
 		// Add compliments for special days
-<<<<<<< update_compliments
 		for (let entry of temp_list) {
 			// check if this could be a cron type entry
 			if (entry.includes(" ")) {
