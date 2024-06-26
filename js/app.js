@@ -58,6 +58,10 @@ function App () {
 	async function loadConfig () {
 		Log.log("Loading config ...");
 		const defaults = require(`${__dirname}/defaults`);
+		if (process.env.JEST_WORKER_ID !== undefined) {
+			// if we are running with jest
+			defaults.address = "0.0.0.0";
+		}
 
 		// For this check proposed to TestSuite
 		// https://forum.magicmirror.builders/topic/1456/test-suite-for-magicmirror/8
