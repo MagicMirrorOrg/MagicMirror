@@ -46,13 +46,22 @@ Module.register("compliments", {
 			this.config.compliments = JSON.parse(response);
 			this.updateDom();
 		}
-		let minute_sync_delay = 60 - (moment().second());
-		// Schedule update timer. sync to the minute start, so minute based events happen on the minute start
+		let minute_sync_delay = 1;
+		// loop thru all the configured when events
+		for (let m of Object.keys(this.config.compliments)) {
+			// if one contains a space, its a cron entry
+			if (m.includes(" ")) {
+				// we need to synch our interval cycle to the minute
+				minute_sync_delay = (60 - (moment().second())) * 1000;
+				break;
+			}
+		}
+		// Schedule update timer. sync to the minute start (if needed), so minute based events happen on the minute start
 		setTimeout(() => {
 			setInterval(() => {
 				this.updateDom(this.config.fadeSpeed);
 			}, this.config.updateInterval); },
-		minute_sync_delay * 1000);
+		minute_sync_delay);
 	},
 
 	/**
@@ -163,11 +172,6 @@ Module.register("compliments", {
 			}
 			// put the date based compliments on the list
 			Array.prototype.push.apply(compliments, date_compliments);
-		}
-		// compliments list cannot be empty
-		if (compliments.length === 0) {
-			// add a blank one
-			compliments.push(" ");
 		}
 
 		return compliments;
