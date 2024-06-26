@@ -25,6 +25,7 @@ Thanks to: @kleinmantara (to be continued before release)
 - [core] Update dependencies including electron to v31
 - [core] use node >= v20
 - [core] Update `config.js.sample` to use openmeteo as weather provider which needs no api key
+- [Tests] Use latest@version of node for automated-tests.yaml
 
 ### Fixed
 
