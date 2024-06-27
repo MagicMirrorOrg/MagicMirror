@@ -34,6 +34,7 @@ Thanks to: @kleinmantara (to be continued before release)
 - [weather] Fixed type=daily for provider openmeteo having no data when running after 23:00 (#3449)
 - [weather] Fixed type=daily for provider openmeteo showing nightly icons in forecast when current time is "nightly" (#3458)
 - [weather] Fixed forecast and hourly weather for provider openmeteo to use real temperatures, not apparent temperatures
+- [tests] Fixed e2e tests running in docker container which needs `address: "0.0.0.0"` (#3479)
 
 ## [2.27.0] - 2024-04-01
 
