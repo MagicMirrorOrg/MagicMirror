@@ -11,6 +11,8 @@ _This release is scheduled to be released on 2024-07-01._
 
 Thanks to: @kleinmantara (to be continued before release)
 
+> ⚠️ This release needs nodejs version >= v20
+
 ### Added
 
 - [calendar] Added config option "showEndsOnlyWithDuration" for default calendar
@@ -18,18 +20,18 @@ Thanks to: @kleinmantara (to be continued before release)
 
 ### Removed
 
-- [test suite] delete node v18 support
+- [tests] delete node v18 support (#3462)
 
 ### Updated
 
 - [core] Update dependencies including electron to v31
-- [core] use node >= v20
+- [core] use node >= v20 (#3462)
 - [core] Update `config.js.sample` to use openmeteo as weather provider which needs no api key
-- [Tests] Use latest@version of node for automated-tests.yaml
+- [tests] Use latest@version of node for automated-tests.yaml (#3483)
 
 ### Fixed
 
-- [core] Fixed crash possibility if `module: <name>` is not defined and on `postion: <positon>` misktake.
+- [core] Fixed crash possibility if `module: <name>` is not defined and on `postion: <positon>` misktake. (#3445)
 - [weather] Fixed precipitationProbability in forecast for provider openmeteo (#3446)
 - [weather] Fixed type=daily for provider openmeteo having no data when running after 23:00 (#3449)
 - [weather] Fixed type=daily for provider openmeteo showing nightly icons in forecast when current time is "nightly" (#3458)
