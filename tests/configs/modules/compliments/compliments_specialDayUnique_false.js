@@ -4,7 +4,6 @@ let config = {
 			module: "compliments",
 			position: "middle_center",
 			config: {
-				updateInterval: 1000 * 5, // Update every 5 secs
 				specialDayUnique: false,
 				compliments: {
 					anytime: [
