@@ -11,7 +11,7 @@ let config = {
 						"Typical message 2",
 						"Typical message 3"
 					],
-					"....-05-06": ["Special day message"]
+					"....-..-..": ["Special day message"]
 				}
 			}
 		}
