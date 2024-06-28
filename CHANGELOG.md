@@ -9,7 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 _This release is scheduled to be released on 2024-07-01._
 
-Thanks to: @btoconnor, @bugsounet, @khassel, @kleinmantara and @WallysWellies.
+Thanks to: @btoconnor, @bugsounet, @JasonStieber, @khassel, @kleinmantara and @WallysWellies.
 
 > ⚠️ This release needs nodejs version >= v20
 
@@ -29,6 +29,7 @@ Thanks to: @btoconnor, @bugsounet, @khassel, @kleinmantara and @WallysWellies.
 - [core] use node >= v20 (#3462)
 - [core] Update `config.js.sample` to use openmeteo as weather provider which needs no api key
 - [tests] Use latest@version of node for `automated-tests.yaml` (#3483)
+- [updatenotification] Avoid using pm2 when running in docker container
 
 ### Fixed
 
