@@ -5,18 +5,19 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/#donate) With your help we can continue to improve the MagicMirror².
 
-## [2.28.0] - Unreleased (`develop` branch)
+todo: Release Title: "Summer Heat and Weather Fixes"
+todo: Is "Thanks to" complete?
 
-_This release is scheduled to be released on 2024-07-01._
+## [2.28.0] - 2024-07-01
 
-Thanks to: @kleinmantara (to be continued before release)
+Thanks to: @btoconnor, @bugsounet, @khassel, @kleinmantara and @WallysWellies.
 
 > ⚠️ This release needs nodejs version >= v20
 
 ### Added
 
 - [calendar] Added config option "showEndsOnlyWithDuration" for default calendar
-- [compliments] Added `specialDayUnique` config option, defaults to `false`. (#3465)
+- [compliments] Added `specialDayUnique` config option, defaults to `false` (#3465)
 
 ### Removed
 
@@ -27,15 +28,15 @@ Thanks to: @kleinmantara (to be continued before release)
 - [core] Update dependencies including electron to v31
 - [core] use node >= v20 (#3462)
 - [core] Update `config.js.sample` to use openmeteo as weather provider which needs no api key
-- [tests] Use latest@version of node for automated-tests.yaml (#3483)
+- [tests] Use latest@version of node for `automated-tests.yaml` (#3483)
 
 ### Fixed
 
-- [core] Fixed crash possibility if `module: <name>` is not defined and on `postion: <positon>` misktake. (#3445)
+- [core] Fixed crash possibility if `module: <name>` is not defined and on `postion: <positon>` mistake (#3445)
 - [weather] Fixed precipitationProbability in forecast for provider openmeteo (#3446)
 - [weather] Fixed type=daily for provider openmeteo having no data when running after 23:00 (#3449)
 - [weather] Fixed type=daily for provider openmeteo showing nightly icons in forecast when current time is "nightly" (#3458)
-- [weather] Fixed forecast and hourly weather for provider openmeteo to use real temperatures, not apparent temperatures
+- [weather] Fixed forecast and hourly weather for provider openmeteo to use real temperatures, not apparent temperatures (#3466)
 - [tests] Fixed e2e tests running in docker container which needs `address: "0.0.0.0"` (#3479)
 
 ## [2.27.0] - 2024-04-01
