@@ -84,7 +84,7 @@ let config = {
 			module: 'MMM-MQTTbridge',
 			disabled: false,
 			config: {
-				mqttServer: "mqtt://broker.emqx.io:1883",
+				mqttServer: "mqtt://localhost:1883",
 				mqttConfig:
 				{
 					listenMqtt: true,
