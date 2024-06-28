@@ -17,6 +17,7 @@ Thanks to: @btoconnor, @bugsounet, @khassel, @kleinmantara and @WallysWellies.
 
 - [calendar] Added config option "showEndsOnlyWithDuration" for default calendar
 - [compliments] Added `specialDayUnique` config option, defaults to `false` (#3465)
+- [weather] Provider weathergov: Use `precipitationLast3Hours` if `precipitationLastHour` is `null` (#3124)
 
 ### Removed
 
