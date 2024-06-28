@@ -5,10 +5,9 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/#donate) With your help we can continue to improve the MagicMirror².
 
-todo: Release Title: "Summer Heat and Weather Fixes"
-todo: Is "Thanks to" complete?
+## [2.28.0] - Unreleased (`develop` branch)
 
-## [2.28.0] - 2024-07-01
+_This release is scheduled to be released on 2024-07-01._
 
 Thanks to: @btoconnor, @bugsounet, @khassel, @kleinmantara and @WallysWellies.
 
