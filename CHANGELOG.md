@@ -5,6 +5,39 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/#donate) With your help we can continue to improve the MagicMirror².
 
+## [2.28.0] - 2024-07-01
+
+Thanks to: @btoconnor, @bugsounet, @JasonStieber, @khassel, @kleinmantara and @WallysWellies.
+
+> ⚠️ This release needs nodejs version >= v20
+
+### Added
+
+- [calendar] Added config option "showEndsOnlyWithDuration" for default calendar
+- [compliments] Added `specialDayUnique` config option, defaults to `false` (#3465)
+- [weather] Provider weathergov: Use `precipitationLast3Hours` if `precipitationLastHour` is `null` (#3124)
+
+### Removed
+
+- [tests] delete node v18 support (#3462)
+
+### Updated
+
+- [core] Update dependencies including electron to v31
+- [core] use node >= v20 (#3462)
+- [core] Update `config.js.sample` to use openmeteo as weather provider which needs no api key
+- [tests] Use latest@version of node for `automated-tests.yaml` (#3483)
+- [updatenotification] Avoid using pm2 when running in docker container
+
+### Fixed
+
+- [core] Fixed crash possibility if `module: <name>` is not defined and on `postion: <positon>` mistake (#3445)
+- [weather] Fixed precipitationProbability in forecast for provider openmeteo (#3446)
+- [weather] Fixed type=daily for provider openmeteo having no data when running after 23:00 (#3449)
+- [weather] Fixed type=daily for provider openmeteo showing nightly icons in forecast when current time is "nightly" (#3458)
+- [weather] Fixed forecast and hourly weather for provider openmeteo to use real temperatures, not apparent temperatures (#3466)
+- [tests] Fixed e2e tests running in docker container which needs `address: "0.0.0.0"` (#3479)
+
 ## [2.27.0] - 2024-04-01
 
 Thanks to: @bugsounet, @crazyscot, @illimarkangur, @jkriegshauser, @khassel, @KristjanESPERANTO, @Paranoid93, @rejas, @sdetweil and @vppencilsharpener.
@@ -16,7 +49,7 @@ For more info, please read the following post: [A New Chapter for MagicMirror: T
 ### Added
 
 - Output of system information to the console for troubleshooting (#3328 and #3337), ignore errors under aarch64 (#3349)
-- [chore] Add `eslint-plugin-package-json` to lint the `package.json` files (#3368)
+- [core] Add `eslint-plugin-package-json` to lint the `package.json` files (#3368)
 - [weather] `showHumidity` config is now a string describing where to show this element. Supported values: "wind", "temp", "feelslike", "below", "none". (#3330)
 - electron-rebuild test suite for electron and 3rd party modules compatibility (#3392)
 - Create MM² icon and attach it to electron process (#3407)
@@ -28,8 +61,8 @@ For more info, please read the following post: [A New Chapter for MagicMirror: T
 - Use node prefix for build-in modules (#3340)
 - Rework logging colors (#3350)
 - Update pm2 to v5.3.1 with no allow-ghsas (#3364)
-- [chore] Update husky and let lint-staged fix ESLint issues
-- [chore] Update dependencies including electron to v29 (#3357) and node-ical
+- [core] Update husky and let lint-staged fix ESLint issues
+- [core] Update dependencies including electron to v29 (#3357) and node-ical
 - Update translations for estonian (#3371)
 - Update electron to v29 and update other dependencies
 - [calendar] fullDay events over several days now show the left days from the first day on and 'today' on the last day
@@ -51,9 +84,9 @@ For more info, please read the following post: [A New Chapter for MagicMirror: T
 - added message in case where config.js is missing the module.export line PR #3383
 - Fixed an issue where recurring events could extend past their recurrence end date (#3393)
 - Don't display any `npm WARN <....>` on install (#3399)
-- Fixed move suncalc dependency to production from dev, as it is used by clock module
+- [core] Moved suncalc dependency to production from dev, as it is used by clock module
 - [compliments] Fix mirror not responding anymore when no compliments are to be shown (#3385)
-- [chore] Fixed mastermerge workflow (#3415)
+- [core] Fixed mastermerge workflow (#3415)
 
 ### Deleted
 
@@ -87,7 +120,7 @@ This release also marks the latest release by Michael Teeuw. For more info, plea
 - Update electron to v27 and update other dependencies as well as github actions
 - Update newsfeed: Use `html-to-text` instead of regex for transform description
 - Review ESLint config (#3269)
-- Updated dependencies
+- Update dependencies
 - Clock module: optionally display current moon phase in addition to rise/set times
 - electron is now per default started without gpu, if needed it must be enabled with new env var `ELECTRON_ENABLE_GPU=1` on startup (#3226)
 - Replace prettier by stylistic in ESLint config to lint JavaScript (and disable some rules for `config/config.js*` files)

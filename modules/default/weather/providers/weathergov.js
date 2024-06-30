@@ -211,7 +211,7 @@ WeatherProvider.register("weathergov", {
 		currentWeather.minTemperature = currentWeatherData.minTemperatureLast24Hours.value;
 		currentWeather.maxTemperature = currentWeatherData.maxTemperatureLast24Hours.value;
 		currentWeather.humidity = Math.round(currentWeatherData.relativeHumidity.value);
-		currentWeather.precipitationAmount = currentWeatherData.precipitationLastHour.value;
+		currentWeather.precipitationAmount = currentWeatherData.precipitationLastHour.value ? currentWeatherData.precipitationLastHour.value : currentWeatherData.precipitationLast3Hours.value;
 		if (currentWeatherData.heatIndex.value !== null) {
 			currentWeather.feelsLikeTemp = currentWeatherData.heatIndex.value;
 		} else if (currentWeatherData.windChill.value !== null) {

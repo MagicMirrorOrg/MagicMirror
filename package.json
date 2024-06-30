@@ -1,7 +1,27 @@
 {
 	"name": "magicmirror",
-	"version": "2.27.0",
+	"version": "2.28.0",
 	"description": "The open source modular smart mirror platform.",
+	"keywords": [
+		"magic mirror",
+		"magicmirror",
+		"smart mirror",
+		"mirror UI",
+		"modular"
+	],
+	"homepage": "https://magicmirror.builders",
+	"bugs": {
+		"url": "https://github.com/MagicMirrorOrg/MagicMirror/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/MagicMirrorOrg/MagicMirror"
+	},
+	"license": "MIT",
+	"author": "Michael Teeuw",
+	"contributors": [
+		"https://github.com/MagicMirrorOrg/MagicMirror/graphs/contributors"
+	],
 	"main": "js/electron.js",
 	"scripts": {
 		"start": "DISPLAY=\"${DISPLAY:=:0}\" ./node_modules/.bin/electron js/electron.js",
@@ -28,50 +48,14 @@
 		"lint:staged": "lint-staged",
 		"prepare": "[ -f node_modules/.bin/husky ] && husky || echo no husky installed."
 	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/MagicMirrorOrg/MagicMirror"
-	},
-	"keywords": [
-		"magic mirror",
-		"magicmirror",
-		"smart mirror",
-		"mirror UI",
-		"modular"
-	],
-	"author": "Michael Teeuw",
-	"contributors": [
-		"https://github.com/MagicMirrorOrg/MagicMirror/graphs/contributors"
-	],
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/MagicMirrorOrg/MagicMirror/issues"
-	},
-	"homepage": "https://magicmirror.builders",
-	"devDependencies": {
-		"@stylistic/eslint-plugin": "^1.7.0",
-		"eslint-plugin-import": "^2.29.1",
-		"eslint-plugin-jest": "^27.9.0",
-		"eslint-plugin-jsdoc": "^48.2.2",
-		"eslint-plugin-package-json": "^0.12.1",
-		"eslint-plugin-unicorn": "^51.0.1",
-		"express-basic-auth": "^1.2.1",
-		"husky": "^9.0.11",
-		"jest": "^29.7.0",
-		"jsdom": "^24.0.0",
-		"lint-staged": "^15.2.2",
-		"playwright": "^1.42.1",
-		"prettier": "^3.2.5",
-		"sinon": "^17.0.1",
-		"stylelint": "^16.3.1",
-		"stylelint-config-standard": "^36.0.0",
-		"stylelint-prettier": "^5.0.0"
-	},
-	"optionalDependencies": {
-		"electron": "^29.1.6"
+	"lint-staged": {
+		"*": "prettier --write",
+		"*.js": "eslint --fix",
+		"*.css": "stylelint --fix"
 	},
 	"dependencies": {
-		"ansis": "^2.3.0",
+		"ajv": "^8.16.0",
+		"ansis": "^3.2.0",
 		"console-stamp": "^3.1.2",
 		"envsub": "^4.1.0",
 		"eslint": "^8.57.0",
@@ -84,21 +68,38 @@
 		"module-alias": "^2.2.3",
 		"moment": "^2.30.1",
 		"node-ical": "^0.18.0",
-		"pm2": "^5.3.1",
+		"pm2": "^5.4.1",
 		"socket.io": "^4.7.5",
 		"suncalc": "^1.9.0",
-		"systeminformation": "^5.22.6"
+		"systeminformation": "^5.22.11"
 	},
-	"lint-staged": {
-		"*": "prettier --write",
-		"*.js": "eslint --fix",
-		"*.css": "stylelint --fix"
+	"devDependencies": {
+		"@stylistic/eslint-plugin": "^1.8.1",
+		"eslint-plugin-import": "^2.29.1",
+		"eslint-plugin-jest": "^28.6.0",
+		"eslint-plugin-jsdoc": "^48.5.0",
+		"eslint-plugin-package-json": "^0.15.0",
+		"eslint-plugin-unicorn": "^54.0.0",
+		"express-basic-auth": "^1.2.1",
+		"husky": "^9.0.11",
+		"jest": "^29.7.0",
+		"jsdom": "^24.1.0",
+		"lint-staged": "^15.2.7",
+		"playwright": "^1.45.0",
+		"prettier": "^3.3.2",
+		"sinon": "^18.0.0",
+		"stylelint": "^16.6.1",
+		"stylelint-config-standard": "^36.0.1",
+		"stylelint-prettier": "^5.0.0"
+	},
+	"optionalDependencies": {
+		"electron": "^31.1.0"
+	},
+	"engines": {
+		"node": ">=20"
 	},
 	"_moduleAliases": {
 		"node_helper": "js/node_helper.js",
 		"logger": "js/logger.js"
-	},
-	"engines": {
-		"node": ">=18"
 	}
 }

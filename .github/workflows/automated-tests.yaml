@@ -18,7 +18,7 @@ jobs:
     timeout-minutes: 30
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 21.x]
+        node-version: [20.x, 22.x]
     steps:
       - name: "Checkout code"
         uses: actions/checkout@v4
@@ -26,6 +26,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          check-latest: true
           cache: "npm"
       - name: "Install dependencies"
         run: |

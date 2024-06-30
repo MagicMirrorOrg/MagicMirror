@@ -58,6 +58,10 @@ function App () {
 	async function loadConfig () {
 		Log.log("Loading config ...");
 		const defaults = require(`${__dirname}/defaults`);
+		if (process.env.JEST_WORKER_ID !== undefined) {
+			// if we are running with jest
+			defaults.address = "0.0.0.0";
+		}
 
 		// For this check proposed to TestSuite
 		// https://forum.magicmirror.builders/topic/1456/test-suite-for-magicmirror/8
@@ -253,8 +257,15 @@ function App () {
 
 		let modules = [];
 		for (const module of config.modules) {
-			if (!modules.includes(module.module) && !module.disabled) {
-				modules.push(module.module);
+			if (module.disabled) continue;
+			if (module.module) {
+				if (Utils.moduleHasValidPosition(module.position) || typeof (module.position) === "undefined") {
+					modules.push(module.module);
+				} else {
+					Log.warn("Invalid module position found for this configuration:", module);
+				}
+			} else {
+				Log.warn("No module name found for this configuration:", module);
 			}
 		}
 
