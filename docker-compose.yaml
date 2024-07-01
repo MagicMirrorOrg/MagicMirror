@@ -13,7 +13,7 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix
     devices:
       - /dev/dri:/dev/dri
-    network_mode: host
+    # network_mode: host
     privileged: true
 
     restart: unless-stopped
