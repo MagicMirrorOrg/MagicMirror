@@ -13,6 +13,8 @@ _This release is scheduled to be released on 2024-10-01._
 
 ### Removed
 
+- [core] removed installer only files, (#3492)
+
 ### Updated
 
 ### Fixed
