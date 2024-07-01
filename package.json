@@ -74,7 +74,7 @@
 		"systeminformation": "^5.22.11"
 	},
 	"devDependencies": {
-		"@stylistic/eslint-plugin": "^1.8.1",
+		"@stylistic/eslint-plugin": "^2.3.0",
 		"eslint-plugin-import": "^2.29.1",
 		"eslint-plugin-jest": "^28.6.0",
 		"eslint-plugin-jsdoc": "^48.5.0",
