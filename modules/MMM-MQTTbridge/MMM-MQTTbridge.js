@@ -10,7 +10,7 @@ Module.register("MMM-MQTTbridge", {
   defaults: {
     mqttDictConf: "./dict/mqttDictionary.js",
     notiDictConf: "./dict/notiDictionary.js",
-    mqttServer: "mqtt://:@localhost:1883",
+    mqttServer: "mqtt://mqtt_broker:1883",
     stringifyPayload: true,
     newlineReplacement: null,
     notiConfig: {}, //default values will be set in start function
