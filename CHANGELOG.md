@@ -19,6 +19,8 @@ _This release is scheduled to be released on 2024-10-01._
 
 ### Fixed
 
+- Fixed `checks` badge in README.md
+
 ## [2.28.0] - 2024-07-01
 
 Thanks to: @btoconnor, @bugsounet, @JasonStieber, @khassel, @kleinmantara and @WallysWellies.
