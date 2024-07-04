@@ -16,7 +16,7 @@ Module.register("weather", {
 		showFeelsLike: true,
 		showHumidity: "none", // this is now a string; see current.njk
 		showIndoorHumidity: false,
-		showIndoorTemperature: false,
+		showIndoorTemperature: true, // Set to display simulated indoor temperature 
 		allowOverrideNotification: false,
 		showPeriod: true,
 		showPeriodUpper: false,

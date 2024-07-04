@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: magic_mirror
     environment:
-      - DISPLAY=<YOUR_IP_ADDRESS>:0
+      - DISPLAY=192.168.3.18:0
       # - MQTT_BROKER_HOST=mqtt_broker
       # - MQTT_BROKER_PORT=1883
     volumes:
