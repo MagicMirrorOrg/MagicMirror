@@ -113,7 +113,7 @@ Module.register("weather", {
 				}
 			}
 		} else if (notification === "INDOOR_TEMPERATURE") {
-			this.indoorTemperature = this.roundValue(payload);
+			this.indoorTemperature = this.roundValue(payload.temperature);
 			this.updateDom(300);
 		} else if (notification === "INDOOR_HUMIDITY") {
 			this.indoorHumidity = this.roundValue(payload);
