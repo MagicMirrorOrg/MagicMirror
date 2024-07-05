@@ -17,6 +17,8 @@ _This release is scheduled to be released on 2024-10-01._
 
 ### Updated
 
+- [weather] Updated `apiVersion` default from 2.5 to 3.0
+
 ### Fixed
 
 - Fixed `checks` badge in README.md
