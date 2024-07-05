@@ -16,7 +16,7 @@ Module.register("weather", {
 		showFeelsLike: true,
 		showHumidity: "none", // this is now a string; see current.njk
 		showIndoorHumidity: false,
-		showIndoorTemperature: true, // Set to display simulated indoor temperature 
+		showIndoorTemperature: false, // Set to display simulated indoor temperature 
 		allowOverrideNotification: false,
 		showPeriod: true,
 		showPeriodUpper: false,
@@ -113,7 +113,7 @@ Module.register("weather", {
 				}
 			}
 		} else if (notification === "INDOOR_TEMPERATURE") {
-			this.indoorTemperature = this.roundValue(payload.temperature);
+			this.indoorTemperature = this.roundValue(payload.temperature);  // The .temperature is added because maybe we will re
 			this.updateDom(300);
 		} else if (notification === "INDOOR_HUMIDITY") {
 			this.indoorHumidity = this.roundValue(payload);
