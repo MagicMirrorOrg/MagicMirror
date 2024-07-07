@@ -22,7 +22,6 @@ _This release is scheduled to be released on 2024-10-01._
 - Fixed `checks` badge in README.md
 - [weather] Fixed issue with the UK Met Office provider following a change in their API paths and header info.
 
-
 ## [2.28.0] - 2024-07-01
 
 Thanks to: @btoconnor, @bugsounet, @JasonStieber, @khassel, @kleinmantara and @WallysWellies.
