@@ -60,7 +60,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 	getHeaders () {
 		return {
 			accept: "application/json",
-			apikey: this.config.apiKey,
+			apikey: this.config.apiKey
 		};
 	},
 
