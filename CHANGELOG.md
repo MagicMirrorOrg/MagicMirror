@@ -5,8 +5,22 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/#donate) With your help we can continue to improve the MagicMirror².
 
+
+## [2.29.0] - Unreleased (`develop` branch)
+
+_This release is scheduled to be released on 2024-10-01._
+
+### Added
+
+### Removed
+
+- [core] removed installer only files, (#3492)
+
+### Updated
+
 ### Fixed
 
+- Fixed `checks` badge in README.md
 - [weather] Fixed issue with the UK Met Office provider following a change in their API paths and header info.
 
 ## [2.28.0] - 2024-07-01
