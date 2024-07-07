@@ -11,9 +11,8 @@
  * This provider requires longitude/latitude coordinates, rather than a location ID (as with the previous Met Office provider)
  * Provide the following in your config.js file:
  * 		weatherProvider: "ukmetofficedatahub",
- * 		apiBase: "https://api-metoffice.apiconnect.ibmcloud.com/metoffice/production/v0/forecasts/point/",
+ * 		apiBase: "https://data.hub.api.metoffice.gov.uk/sitespecific/v0/point/",
  * 		apiKey: "[YOUR API KEY]",
- * 		apiSecret: "[YOUR API SECRET]",
  * 		lat: [LATITUDE (DECIMAL)],
  * 		lon: [LONGITUDE (DECIMAL)]
  *
@@ -38,14 +37,13 @@ WeatherProvider.register("ukmetofficedatahub", {
 
 	// Set the default config properties that is specific to this provider
 	defaults: {
-		apiBase: "https://api-metoffice.apiconnect.ibmcloud.com/metoffice/production/v0/forecasts/point/",
+		apiBase: "https://data.hub.api.metoffice.gov.uk/sitespecific/v0/point/",
 		apiKey: "",
-		apiSecret: "",
 		lat: 0,
 		lon: 0
 	},
 
-	// Build URL with query strings according to DataHub API (https://metoffice.apiconnect.ibmcloud.com/metoffice/production/api)
+	// Build URL with query strings according to DataHub API (https://datahub.metoffice.gov.uk/docs/f/category/site-specific/type/site-specific/api-documentation#get-/point/hourly)
 	getUrl (forecastType) {
 		let queryStrings = "?";
 		queryStrings += `latitude=${this.config.lat}`;
@@ -58,12 +56,11 @@ WeatherProvider.register("ukmetofficedatahub", {
 
 	// Build the list of headers for the request
 	// For DataHub requests, the API key/secret are sent in the headers rather than as query strings.
-	// Headers defined according to Data Hub API (https://metoffice.apiconnect.ibmcloud.com/metoffice/production/api)
+	// Headers defined according to Data Hub API (https://datahub.metoffice.gov.uk/docs/f/category/site-specific/type/site-specific/api-documentation#get-/point/hourly)
 	getHeaders () {
 		return {
 			accept: "application/json",
-			"x-ibm-client-id": this.config.apiKey,
-			"x-ibm-client-secret": this.config.apiSecret
+			apikey: this.config.apiKey,
 		};
 	},
 
