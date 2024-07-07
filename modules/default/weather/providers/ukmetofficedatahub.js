@@ -11,9 +11,8 @@
  * This provider requires longitude/latitude coordinates, rather than a location ID (as with the previous Met Office provider)
  * Provide the following in your config.js file:
  * 		weatherProvider: "ukmetofficedatahub",
- * 		apiBase: "https://api-metoffice.apiconnect.ibmcloud.com/metoffice/production/v0/forecasts/point/",
+ * 		apiBase: "https://data.hub.api.metoffice.gov.uk/sitespecific/v0/point/",
  * 		apiKey: "[YOUR API KEY]",
- * 		apiSecret: "[YOUR API SECRET]",
  * 		lat: [LATITUDE (DECIMAL)],
  * 		lon: [LONGITUDE (DECIMAL)]
  *
@@ -38,9 +37,8 @@ WeatherProvider.register("ukmetofficedatahub", {
 
 	// Set the default config properties that is specific to this provider
 	defaults: {
-		apiBase: "https://api-metoffice.apiconnect.ibmcloud.com/metoffice/production/v0/forecasts/point/",
+		apiBase: "https://data.hub.api.metoffice.gov.uk/sitespecific/v0/point/",
 		apiKey: "",
-		apiSecret: "",
 		lat: 0,
 		lon: 0
 	},
@@ -62,8 +60,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 	getHeaders () {
 		return {
 			accept: "application/json",
-			"x-ibm-client-id": this.config.apiKey,
-			"x-ibm-client-secret": this.config.apiSecret
+			"apikey": this.config.apiKey
 		};
 	},
 
