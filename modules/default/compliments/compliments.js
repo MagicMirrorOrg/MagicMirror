@@ -43,8 +43,8 @@ Module.register("compliments", {
 		let minute_sync_delay = 1;
 		// loop thru all the configured when events
 		for (let m of Object.keys(this.config.compliments)) {
-			// if one contains a space, its a cron entry
-			if (m.includes(" ")) {
+			// if it is a cron entry
+			if (this.isCronEntry(m)) {
 				// we need to synch our interval cycle to the minute
 				minute_sync_delay = (60 - (moment().second())) * 1000;
 				break;
@@ -54,8 +54,14 @@ Module.register("compliments", {
 		setTimeout(() => {
 			setInterval(() => {
 				this.updateDom(this.config.fadeSpeed);
-			}, this.config.updateInterval); },
+			}, this.config.updateInterval);
+		},
 		minute_sync_delay);
+	},
+
+	// check to see if this entry could be a cron entry wich contains spaces
+	isCronEntry (entry) {
+		return entry.includes(" ");
 	},
 
 	/**
@@ -72,7 +78,7 @@ Module.register("compliments", {
 		const cronJob = new Cron(cronExpression);
 		const nextRunTime = cronJob.nextRun(adjustedTimestamp);
 
-		let secondsDelta = (nextRunTime - adjustedTimestamp) / 1000;
+		const secondsDelta = (nextRunTime - adjustedTimestamp) / 1000;
 		return secondsDelta;
 	},
 
@@ -82,7 +88,7 @@ Module.register("compliments", {
 	 * @returns {number} a random index of given array
 	 */
 	randomIndex (compliments) {
-		if (compliments.length === 1) {
+		if (compliments.length <= 1) {
 			return 0;
 		}
 
@@ -140,10 +146,10 @@ Module.register("compliments", {
 		});
 
 		let date_compliments = [];
-		// Add compliments for special days
+		// Add compliments for special day/times
 		for (let entry of temp_list) {
 			// check if this could be a cron type entry
-			if (entry.includes(" ")) {
+			if (this.isCronEntry(entry)) {
 				// make sure the regex is valid
 				if (new RegExp(this.cron_regex).test(entry)) {
 					// check if we are in the time range for the cron entry
