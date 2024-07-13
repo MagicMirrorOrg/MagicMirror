@@ -46,7 +46,7 @@
             <span class="medium fas fa-home"></span>
             <span style="display: inline-block">
                     {% if config.showIndoorTemperature and indoor.temperature %}
-                            <sup class="small" style="position: relative; display: block; text-align: left;">
+                            <sup class="large" style="position: relative; display: block; text-align: left;">
                                     <span>
                                         {{ indoor.temperature | roundValue | unit("temperature") | decimalSymbol }}
                                     </span>
