@@ -50,6 +50,9 @@ COPY . .
 # Copy the configuration file
 COPY config/config.js ./config/config.js
 
+# Copy the entrypoint script
+COPY entrypoint.sh /opt/magicmirror/entrypoint.sh
+
 # Install MagicMirror dependencies
 RUN npm install
 
@@ -59,3 +62,4 @@ EXPOSE 8080
 # Start MagicMirror in server-only mode
 # CMD ["node", "serveronly"]
 CMD ["npm", "start", "--", "--no-sandbox"]
+# ENTRYPOINT ["/opt/magicmirror/entrypoint.sh"]

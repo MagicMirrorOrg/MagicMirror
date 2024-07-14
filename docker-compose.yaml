@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: magic_mirror
     environment:
-      - DISPLAY=<YOUR_IP_ADDRESS>:0
+      - DISPLAY=192.168.178.21:0
       # - MQTT_BROKER_HOST=mqtt_broker
       # - MQTT_BROKER_PORT=1883
     volumes:
@@ -15,13 +15,12 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix
     devices:
       - /dev/dri:/dev/dri
-    networks:
-      - mqtt_network
-    privileged: true
+    # networks:
+    #   - mqtt_network
+    network_mode: host
 
+    privileged: true
+    
     restart: unless-stopped
 
 
-networks:
-  mqtt_network:
-    external: true
