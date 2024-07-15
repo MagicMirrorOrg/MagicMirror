@@ -1,3 +1,5 @@
+/* global Cron */
+
 Module.register("compliments", {
 	// Module config defaults.
 	defaults: {
@@ -74,7 +76,6 @@ Module.register("compliments", {
 		const adjustedTimestamp = new Date(timestamp.getTime() - 1000);
 
 		// https://www.npmjs.com/package/croner
-		/*eslint-disable-next-line*/
 		const cronJob = new Cron(cronExpression);
 		const nextRunTime = cronJob.nextRun(adjustedTimestamp);
 
