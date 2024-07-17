@@ -47,8 +47,8 @@ let config = {
 		    config: {
 				text: "Say Yes to AYES!",
 				imagePath: "modules/default/helloworld/AYES_Icon.png",
-				imageWidth: "90%",
-				imageHeight: "90%",
+				imageWidth: "60%",
+				imageHeight: "60%",
 		        
 		    }
 		},
