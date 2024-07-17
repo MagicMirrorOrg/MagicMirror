@@ -2,8 +2,8 @@ Module.register("helloworld", {
 	defaults: {
 	  text: "Say Yes to AYES!",
 	  imagePath: "modules/default/helloworld/AYES_Icon.png",
-	  imageWidth: "40%",
-	  imageHeight: "40%"
+	  imageWidth: "60%",
+	  imageHeight: "60%"
 	},
   
 	start: function() {
