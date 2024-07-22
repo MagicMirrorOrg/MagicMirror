@@ -18,8 +18,9 @@ _This release is scheduled to be released on 2024-10-01._
 
 ### Updated
 
-- [weather] Updated `apiVersion` default from 2.5 to 3.0
+- [weather] Updated `apiVersion` default from 2.5 to 3.0 (#3424)
 - [core] Updated dependencies
+- [core] Allow custom module positions by setting `allowCustomModulePositions` in `config.js` (fixes #3504, related to https://github.com/MagicMirrorOrg/MagicMirror/pull/3445)
 
 ### Fixed
 
