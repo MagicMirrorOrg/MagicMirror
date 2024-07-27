@@ -129,6 +129,24 @@ const WeatherUtils = {
 		}
 
 		return ((feelsLike - 32) * 5) / 9;
+	},
+
+	convertWeatherObjectToImperial(weatherObject) {
+		if (!weatherObject || Object.keys(weatherObject).length === 0) return null;
+		
+		let imperialWeatherObject = {...weatherObject};
+
+		if (imperialWeatherObject) {
+			if (imperialWeatherObject.feelsLikeTemp) imperialWeatherObject.feelsLikeTemp = this.convertTemp(imperialWeatherObject.feelsLikeTemp, 'imperial');
+			if (imperialWeatherObject.maxTemperature) imperialWeatherObject.maxTemperature = this.convertTemp(imperialWeatherObject.maxTemperature, 'imperial');
+			if (imperialWeatherObject.minTemperature) imperialWeatherObject.minTemperature = this.convertTemp(imperialWeatherObject.minTemperature, 'imperial');
+			if (imperialWeatherObject.precipitationAmount) imperialWeatherObject.precipitationAmount = this.convertPrecipitationUnit(imperialWeatherObject.precipitationAmount, 'imperial');
+			if (imperialWeatherObject.temperature) imperialWeatherObject.temperature = this.convertTemp(imperialWeatherObject.temperature, 'imperial');
+			if (imperialWeatherObject.windSpeed) imperialWeatherObject.windSpeed = this.convertWind(imperialWeatherObject.windSpeed, 'imperial');
+			// TODO add if section and method for precipitationAmount convert
+		}
+
+		return imperialWeatherObject;
 	}
 };
 
