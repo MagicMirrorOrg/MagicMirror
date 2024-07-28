@@ -131,6 +131,21 @@ const WeatherUtils = {
 		return ((feelsLike - 32) * 5) / 9;
 	},
 
+	/**
+	 * Convert precipitation value into inch
+	 * @param {number} value the precipitation value for convert
+	 * @param {string} valueUnit can be 'mm' or 'cm'
+	 * @returns {number} the converted precipitation value
+	 */
+	convertPrecipitationToInch(value, valueUnit) {
+		if (valueUnit && valueUnit.toLowerCase() === "cm") return value * 0.3937007874;
+		else return value * 0.03937007874;	},
+
+		/**
+	 * Converts the Weather Object's values into imperial unit
+	 * @param {WeatherObject} weatherObject the weather object
+	 * @returns {WeatherObject} the weather object with converted values to imperial
+	 */	
 	convertWeatherObjectToImperial(weatherObject) {
 		if (!weatherObject || Object.keys(weatherObject).length === 0) return null;
 		
@@ -140,10 +155,9 @@ const WeatherUtils = {
 			if (imperialWeatherObject.feelsLikeTemp) imperialWeatherObject.feelsLikeTemp = this.convertTemp(imperialWeatherObject.feelsLikeTemp, 'imperial');
 			if (imperialWeatherObject.maxTemperature) imperialWeatherObject.maxTemperature = this.convertTemp(imperialWeatherObject.maxTemperature, 'imperial');
 			if (imperialWeatherObject.minTemperature) imperialWeatherObject.minTemperature = this.convertTemp(imperialWeatherObject.minTemperature, 'imperial');
-			if (imperialWeatherObject.precipitationAmount) imperialWeatherObject.precipitationAmount = this.convertPrecipitationUnit(imperialWeatherObject.precipitationAmount, 'imperial');
+			if (imperialWeatherObject.precipitationAmount) imperialWeatherObject.precipitationAmount = this.convertPerticipationToInch(imperialWeatherObject.precipitationAmount, 'imperial', imperialWeatherObject.precipitationUnits);
 			if (imperialWeatherObject.temperature) imperialWeatherObject.temperature = this.convertTemp(imperialWeatherObject.temperature, 'imperial');
 			if (imperialWeatherObject.windSpeed) imperialWeatherObject.windSpeed = this.convertWind(imperialWeatherObject.windSpeed, 'imperial');
-			// TODO add if section and method for precipitationAmount convert
 		}
 
 		return imperialWeatherObject;
