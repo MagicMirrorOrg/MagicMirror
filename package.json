@@ -90,7 +90,7 @@
 		"sinon": "^18.0.0",
 		"stylelint": "^16.6.1",
 		"stylelint-config-standard": "^36.0.1",
-		"stylelint-prettier": "^5.0.0"
+		"stylelint-prettier": "^5.0.2"
 	},
 	"optionalDependencies": {
 		"electron": "^31.1.0"
