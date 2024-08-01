@@ -34,6 +34,7 @@ module.exports = {
 
 	// return if postion is on modulePositions Array (true/false)
 	moduleHasValidPosition (position) {
+		if (config.allowCustomModulePositions) return true;
 		if (this.getAvailableModulePositions().indexOf(position) === -1) return false;
 		return true;
 	}
