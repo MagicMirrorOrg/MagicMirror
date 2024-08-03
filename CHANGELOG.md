@@ -19,6 +19,8 @@ _This release is scheduled to be released on 2024-10-01._
 
 ### Fixed
 
+[core] add check for node_helper loading for multiple instances of same module (#3502)
+
 ## [2.28.0] - 2024-07-01
 
 Thanks to: @btoconnor, @bugsounet, @JasonStieber, @khassel, @kleinmantara and @WallysWellies.
