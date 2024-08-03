@@ -177,7 +177,7 @@ function App () {
 		const helperPath = `${moduleFolder}/node_helper.js`;
 
 		// find out if helper was loaded before for this module
-		// only lload it once
+		// only load it once
 		let loadHelper = helperhash[moduleName] ? false : true;
 
 		// if this is the 1st time for this module, check for helper file
