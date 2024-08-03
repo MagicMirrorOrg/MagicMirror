@@ -1,6 +1,15 @@
 const execSync = require("node:child_process").execSync;
-const Log = require("logger");
+const path = require("node:path");
+
+const rootPath = path.resolve(`${__dirname}/../`);
+const Log = require(`${rootPath}/js/logger.js`);
+const os = require("node:os");
+const fs = require("node:fs");
 const si = require("systeminformation");
+
+const modulePositions = []; // will get list from index.html
+const regionRegEx = /"region ([^"]*)/i;
+const indexFileName = "index.html";
 
 module.exports = {
 
@@ -29,13 +38,31 @@ module.exports = {
 
 	// return all available module positions
 	getAvailableModulePositions () {
-		return ["top_bar", "top_left", "top_center", "top_right", "upper_third", "middle_center", "lower_third", "bottom_left", "bottom_center", "bottom_right", "bottom_bar", "fullscreen_above", "fullscreen_below"];
+		return modulePositions;
 	},
 
 	// return if postion is on modulePositions Array (true/false)
 	moduleHasValidPosition (position) {
-		if (config.allowCustomModulePositions) return true;
 		if (this.getAvailableModulePositions().indexOf(position) === -1) return false;
 		return true;
+	},
+
+	getModulePositions () {
+		// get the lines of the index.html
+		const lines = fs.readFileSync(indexFileName).toString().split(os.EOL);
+		// loop thru the lines
+		lines.forEach((line) => {
+			// run the regex on each line
+			const results = regionRegEx.exec(line);
+			// if the regex returned something
+			if (results && results.length > 0) {
+				// get the postition parts and replace space with underscore
+				const positionName = results[1].replace(" ", "_");
+				// add it to the list
+				modulePositions.push(positionName);
+			}
+		});
+		// return the list to the caller
+		return modulePositions;
 	}
 };

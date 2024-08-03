@@ -9,6 +9,7 @@ const Log = require("logger");
 const Server = require(`${__dirname}/server`);
 const Utils = require(`${__dirname}/utils`);
 const defaultModules = require(`${__dirname}/../modules/default/defaultmodules`);
+const helperhash = {};
 
 // Get version number.
 global.version = require(`${__dirname}/../package.json`).version;
@@ -175,14 +176,21 @@ function App () {
 
 		const helperPath = `${moduleFolder}/node_helper.js`;
 
-		let loadHelper = true;
-		try {
-			fs.accessSync(helperPath, fs.R_OK);
-		} catch (e) {
-			loadHelper = false;
-			Log.log(`No helper found for module: ${moduleName}.`);
-		}
+		// find out if helper was loaded before for this module
+		// only load it once
+		let loadHelper = helperhash[moduleName] ? false : true;
 
+		// if this is the 1st time for this module, check for helper file
+		// otherwise, its already loaded, if found
+		if (loadHelper) {
+			try {
+				fs.accessSync(helperPath, fs.R_OK);
+			} catch (e) {
+				loadHelper = false;
+				Log.log(`No helper found for module: ${moduleName}.`);
+			}
+		}
+		// if already loaded or require successful
 		if (loadHelper) {
 			const Module = require(helperPath);
 			let m = new Module();
@@ -255,6 +263,9 @@ function App () {
 
 		Log.setLogLevel(config.logLevel);
 
+		// get the used module positions
+		Utils.getModulePositions();
+
 		let modules = [];
 		for (const module of config.modules) {
 			if (module.disabled) continue;
@@ -262,10 +273,10 @@ function App () {
 				if (Utils.moduleHasValidPosition(module.position) || typeof (module.position) === "undefined") {
 					modules.push(module.module);
 				} else {
-					Log.warn("Invalid module position found for this configuration:", module);
+					Log.warn("Invalid module position found for this configuration:" + `\n${JSON.stringify(module, null, 2)}`);
 				}
 			} else {
-				Log.warn("No module name found for this configuration:", module);
+				Log.warn("No module name found for this configuration:" + `\n${JSON.stringify(module, null, 2)}`);
 			}
 		}
 
