@@ -185,6 +185,8 @@ function App () {
 		if (loadHelper) {
 			try {
 				fs.accessSync(helperPath, fs.R_OK);
+				// indicte we found one to load for this module
+				helperhash[moduleName] = true;
 			} catch (e) {
 				loadHelper = false;
 				Log.log(`No helper found for module: ${moduleName}.`);
