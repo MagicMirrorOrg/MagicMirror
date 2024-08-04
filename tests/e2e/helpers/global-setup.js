@@ -1,4 +1,14 @@
+const os = require("node:os");
+const fs = require("node:fs");
 const jsdom = require("jsdom");
+
+const indexFile = "index.html";
+const cssFile = "css/custom.css";
+var indexData = [];
+var cssData = [];
+const sampleCss = ".region.row3 {  top: 0;}\
+.region.row3.left {top: 100%;}";
+
 
 exports.startApplication = async (configFilename, exec) => {
 	jest.resetModules();
@@ -90,4 +100,25 @@ exports.testMatch = async (element, regex) => {
 	expect(elem).not.toBeNull();
 	expect(elem.textContent).toMatch(regex);
 	return true;
+};
+
+exports.fixupIndex = () => {
+	cssData = fs.readFileSync(cssFile).toString();
+	indexData = fs.readFileSync(indexFile).toString();
+	let workIndexLines = indexData.split(os.EOL);
+	for (let l in workIndexLines) {
+		if (workIndexLines[l].includes("region top right")) {
+			workIndexLines.splice(l, 0, "<div class=\"region row3 left\"><div class=\"container\"></div></div>");
+			break;
+		}
+	}
+	fs.writeFileSync(indexFile, workIndexLines.join(os.EOL), { flush: true });
+	fs.writeFileSync(cssFile, sampleCss, { flush: true });
+};
+
+exports.restoreIndex = () => {
+	if (indexData.length > 1) {
+		fs.writeFileSync(indexFile, indexData, { flush: true });
+		fs.writeFileSync(cssFile, cssData, { flush: true });
+	}
 };

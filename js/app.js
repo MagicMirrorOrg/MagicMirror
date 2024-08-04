@@ -192,7 +192,7 @@ function App () {
 				Log.log(`No helper found for module: ${moduleName}.`);
 			}
 		}
-		// if the helper was found, AND needed 1st time
+		// if already loaded or require successful
 		if (loadHelper) {
 			const Module = require(helperPath);
 			let m = new Module();
@@ -265,17 +265,21 @@ function App () {
 
 		Log.setLogLevel(config.logLevel);
 
+		// get the used module positions
+		Utils.getModulePositions();
+
 		let modules = [];
 		for (const module of config.modules) {
 			if (module.disabled) continue;
 			if (module.module) {
 				if (Utils.moduleHasValidPosition(module.position) || typeof (module.position) === "undefined") {
+					console.log(`pushing module=${module.module}`);
 					modules.push(module.module);
 				} else {
-					Log.warn("Invalid module position found for this configuration:", module);
+					Log.warn("Invalid module position found for this configuration:" + `\n${JSON.stringify(module, null, 2)}`);
 				}
 			} else {
-				Log.warn("No module name found for this configuration:", module);
+				Log.warn("No module name found for this configuration:" + `\n${JSON.stringify(module, null, 2)}`);
 			}
 		}
 
