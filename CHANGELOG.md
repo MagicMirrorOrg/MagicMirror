@@ -13,13 +13,20 @@ _This release is scheduled to be released on 2024-10-01._
 
 ### Removed
 
-- [core] removed installer only files, (#3492)
+- [core] removed installer only files (#3492)
+- [core] removed raspberry object from systeminformation (#3505)
 
 ### Updated
 
+- [weather] Updated `apiVersion` default from 2.5 to 3.0 (#3424)
+- [core] Updated dependencies
+- [core] Allow custom module positions by setting `allowCustomModulePositions` in `config.js` (fixes #3504, related to https://github.com/MagicMirrorOrg/MagicMirror/pull/3445)
+
 ### Fixed
 
-[core] add check for node_helper loading for multiple instances of same module (#3502)
+- Fixed `checks` badge in README.md
+- [weather] Fixed issue with the UK Met Office provider following a change in their API paths and header info.
+- [core] add check for node_helper loading for multiple instances of same module (#3502)
 
 ## [2.28.0] - 2024-07-01
 
@@ -29,6 +36,7 @@ Thanks to: @btoconnor, @bugsounet, @JasonStieber, @khassel, @kleinmantara and @W
 
 ### Added
 
+- [compliments] Added support for cron type date/time format entries.. mm hh DD MM dow (minutes/hours/days/months and day of week) see https://crontab.cronhub.io for construction
 - [calendar] Added config option "showEndsOnlyWithDuration" for default calendar
 - [compliments] Added `specialDayUnique` config option, defaults to `false` (#3465)
 - [weather] Provider weathergov: Use `precipitationLast3Hours` if `precipitationLastHour` is `null` (#3124)

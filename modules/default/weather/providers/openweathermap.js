@@ -11,7 +11,7 @@ WeatherProvider.register("openweathermap", {
 
 	// Set the default config properties that is specific to this provider
 	defaults: {
-		apiVersion: "2.5",
+		apiVersion: "3.0",
 		apiBase: "https://api.openweathermap.org/data/",
 		weatherEndpoint: "", // can be "onecall", "forecast" or "weather" (for current)
 		locationID: false,

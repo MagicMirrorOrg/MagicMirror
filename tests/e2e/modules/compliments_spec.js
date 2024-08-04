@@ -77,5 +77,16 @@ describe("Compliments module", () => {
 				await expect(doTest(["Special day message"])).resolves.toBe(true);
 			});
 		});
+
+		describe("cron type key", () => {
+			beforeAll(async () => {
+				await helpers.startApplication("tests/configs/modules/compliments/compliments_e2e_cron_entry.js");
+				await helpers.getDocument();
+			});
+
+			it("compliments array contains only special value", async () => {
+				await expect(doTest(["anytime cron"])).resolves.toBe(true);
+			});
+		});
 	});
 });
