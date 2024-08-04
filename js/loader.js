@@ -50,7 +50,9 @@ const Loader = (function () {
 	 * @returns {object[]} module data as configured in config
 	 */
 	const getAllModules = function () {
-		const AllModules = config.modules.filter((module) => (module.module !== undefined) && (MM.getAvailableModulePositions.indexOf(module.position) > -1 || typeof (module.position) === "undefined" || config.allowCustomModulePositions));
+		console.log(`all modules pre=${JSON.stringify(config.modules)}`);
+		const AllModules = config.modules.filter((module) => (module.module !== undefined) && (MM.getAvailableModulePositions.indexOf(module.position) > -1 || typeof (module.position) === "undefined"));
+		console.log(`all modules=${JSON.stringify(AllModules)}`);
 		return AllModules;
 	};
 
