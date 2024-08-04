@@ -183,9 +183,6 @@ Module.register("weather", {
 			providerName: this.weatherProvider.providerName
 		};
 
-
-		console.log(notificationPayload);
-
 		this.sendNotification("WEATHER_UPDATED", notificationPayload);
 	},
 
