@@ -11,6 +11,8 @@ _This release is scheduled to be released on 2024-10-01._
 
 ### Added
 
+- Check config at every start of MagicMirror².
+
 ### Removed
 
 - [core] removed installer only files (#3492)
