@@ -170,13 +170,13 @@ Module.register("weather", {
 		}
 
 		const notificationPayload = {
-			currentWeather: this.config.units === 'imperial' 
-				? WeatherUtils.convertWeatherObjectToImperial(this.weatherProvider?.currentWeatherObject?.simpleClone()) ?? null 
+			currentWeather: this.config.units === "imperial"
+				? WeatherUtils.convertWeatherObjectToImperial(this.weatherProvider?.currentWeatherObject?.simpleClone()) ?? null
 				: this.weatherProvider?.currentWeatherObject?.simpleClone() ?? null,
-			forecastArray: this.config.units === 'imperial' 
+			forecastArray: this.config.units === "imperial"
 				? this.weatherProvider?.weatherForecastArray?.map((ar) => WeatherUtils.convertWeatherObjectToImperial(ar.simpleClone())) ?? []
 				: this.weatherProvider?.weatherForecastArray?.map((ar) => ar.simpleClone()) ?? [],
-			hourlyArray:  this.config.units === 'imperial' 
+			hourlyArray: this.config.units === "imperial"
 				? this.weatherProvider?.weatherHourlyArray?.map((ar) => WeatherUtils.convertWeatherObjectToImperial(ar.simpleClone())) ?? []
 				: this.weatherProvider?.weatherHourlyArray?.map((ar) => ar.simpleClone()) ?? [],
 			locationName: this.weatherProvider?.fetchedLocationName,
