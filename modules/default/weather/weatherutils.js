@@ -148,6 +148,7 @@ const WeatherUtils = {
 	 * @returns {object} the weather object with converted values to imperial
 	 */
 	convertWeatherObjectToImperial (weatherObject) {
+		console.log("edo");
 		if (!weatherObject || Object.keys(weatherObject).length === 0) return null;
 
 		let imperialWeatherObject = { ...weatherObject };
@@ -156,7 +157,7 @@ const WeatherUtils = {
 			if (imperialWeatherObject.feelsLikeTemp) imperialWeatherObject.feelsLikeTemp = this.convertTemp(imperialWeatherObject.feelsLikeTemp, "imperial");
 			if (imperialWeatherObject.maxTemperature) imperialWeatherObject.maxTemperature = this.convertTemp(imperialWeatherObject.maxTemperature, "imperial");
 			if (imperialWeatherObject.minTemperature) imperialWeatherObject.minTemperature = this.convertTemp(imperialWeatherObject.minTemperature, "imperial");
-			if (imperialWeatherObject.precipitationAmount) imperialWeatherObject.precipitationAmount = this.convertPerticipationToInch(imperialWeatherObject.precipitationAmount, "imperial", imperialWeatherObject.precipitationUnits);
+			if (imperialWeatherObject.precipitationAmount) imperialWeatherObject.precipitationAmount = this.convertPrecipitationToInch(imperialWeatherObject.precipitationAmount, "imperial", imperialWeatherObject.precipitationUnits);
 			if (imperialWeatherObject.temperature) imperialWeatherObject.temperature = this.convertTemp(imperialWeatherObject.temperature, "imperial");
 			if (imperialWeatherObject.windSpeed) imperialWeatherObject.windSpeed = this.convertWind(imperialWeatherObject.windSpeed, "imperial");
 		}
