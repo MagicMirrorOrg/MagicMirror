@@ -1,6 +1,3 @@
-const WeatherObject = require("./weatherobject");
-
-
 const WeatherUtils = {
 
 	/**
@@ -147,8 +144,8 @@ const WeatherUtils = {
 
 	/**
 	 * Converts the Weather Object's values into imperial unit
-	 * @param {WeatherObject} weatherObject the weather object
-	 * @returns {WeatherObject} the weather object with converted values to imperial
+	 * @param {object} weatherObject the weather object
+	 * @returns {object} the weather object with converted values to imperial
 	 */
 	convertWeatherObjectToImperial (weatherObject) {
 		if (!weatherObject || Object.keys(weatherObject).length === 0) return null;
