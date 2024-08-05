@@ -44,7 +44,7 @@ const WeatherUtils = {
 	 * Convert temp (from degrees C) into imperial or metric unit depending on
 	 * your config
 	 * @param {number} tempInC the temperature in celsius you want to convert
-	 * @param {string} unit can be "imperial" or 'metric'
+	 * @param {string} unit can be 'imperial' or 'metric'
 	 * @returns {number} the converted temperature
 	 */
 	convertTemp (tempInC, unit) {
@@ -54,7 +54,7 @@ const WeatherUtils = {
 	/**
 	 * Convert wind speed into another unit.
 	 * @param {number} windInMS the windspeed in meter/sec you want to convert
-	 * @param {string} unit can be 'beaufort', 'kmh', 'knots, "imperial" (mph)
+	 * @param {string} unit can be 'beaufort', 'kmh', 'knots, 'imperial' (mph)
 	 * or 'metric' (mps)
 	 * @returns {number} the converted windspeed
 	 */
