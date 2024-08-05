@@ -156,7 +156,7 @@ const WeatherUtils = {
 			if (imperialWeatherObject.feelsLikeTemp) imperialWeatherObject.feelsLikeTemp = this.convertTemp(imperialWeatherObject.feelsLikeTemp, "imperial");
 			if (imperialWeatherObject.maxTemperature) imperialWeatherObject.maxTemperature = this.convertTemp(imperialWeatherObject.maxTemperature, "imperial");
 			if (imperialWeatherObject.minTemperature) imperialWeatherObject.minTemperature = this.convertTemp(imperialWeatherObject.minTemperature, "imperial");
-			if (imperialWeatherObject.precipitationAmount) imperialWeatherObject.precipitationAmount = this.convertPrecipitationToInch(imperialWeatherObject.precipitationAmount, "imperial", imperialWeatherObject.precipitationUnits);
+			if (imperialWeatherObject.precipitationAmount) imperialWeatherObject.precipitationAmount = this.convertPrecipitationToInch(imperialWeatherObject.precipitationAmount, imperialWeatherObject.precipitationUnits);
 			if (imperialWeatherObject.temperature) imperialWeatherObject.temperature = this.convertTemp(imperialWeatherObject.temperature, "imperial");
 			if (imperialWeatherObject.windSpeed) imperialWeatherObject.windSpeed = this.convertWind(imperialWeatherObject.windSpeed, "imperial");
 		}
