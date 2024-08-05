@@ -148,7 +148,6 @@ const WeatherUtils = {
 	 * @returns {object} the weather object with converted values to imperial
 	 */
 	convertWeatherObjectToImperial (weatherObject) {
-		console.log("edo");
 		if (!weatherObject || Object.keys(weatherObject).length === 0) return null;
 
 		let imperialWeatherObject = { ...weatherObject };
