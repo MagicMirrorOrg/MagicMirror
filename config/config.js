@@ -45,7 +45,7 @@ let config = {
 		    module: "helloworld",
 		    position: "top_left",
 		    config: {
-				text: "Say Yes to AYES!",
+				// text: "Say Yes to AYES!",
 				imagePath: "modules/default/helloworld/AYES_Icon.png",
 				imageWidth: "60%",
 				imageHeight: "60%",
