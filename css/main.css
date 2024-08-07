@@ -1,8 +1,8 @@
 :root {
-  --color-text: #999;
-  --color-text-dimmed: #666;
-  --color-text-bright: #fff;
-  --color-background: #000;
+  --color-text: #1f69a1;
+  --color-text-dimmed: #001e4b;
+  --color-text-bright: #288bf4;
+  --color-background: #ffffff;
   --font-primary: "Roboto Condensed";
   --font-secondary: "Roboto";
   --font-size: 20px;

@@ -13,7 +13,7 @@ Module.register("newsfeed", {
 		showPublishDate: true,
 		broadcastNewsFeeds: true,
 		broadcastNewsUpdates: true,
-		showDescription: false,
+		showDescription: true,
 		showTitleAsUrl: false,
 		wrapTitle: true,
 		wrapDescription: true,

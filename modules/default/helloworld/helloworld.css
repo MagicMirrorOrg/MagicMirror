@@ -14,7 +14,11 @@ margin-bottom: 10px;
 }
 
 .helloworld-image {
-max-width: 40%; /* Set the image size */
-height: 40%;
+max-width: 80%; /* Set the image size */
+max-height: 80%;
 margin: 0; /* Remove any default margin */
+}
+
+.highlight-a {
+	color: red; /* Highlight the letter 'A' in red */
 }
