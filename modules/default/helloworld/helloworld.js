@@ -1,6 +1,6 @@
 Module.register("helloworld", {
 	defaults: {
-	  text: "Say YES to <span class='highlight-a'>A</span>YES!",
+	  text: "Say YES, Say <span class='highlight-a'>A</span>YES!",
 	  imagePath: "modules/default/helloworld/AYES_Icon.png",
 	  imageWidth: "60%",
 	  imageHeight: "60%"
