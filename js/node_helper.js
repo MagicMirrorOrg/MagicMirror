@@ -49,7 +49,8 @@ const NodeHelper = Class.extend({
 		this.path = path;
 	},
 
-	/* sendSocketNotification(notification, payload)
+	/*
+	 * sendSocketNotification(notification, payload)
 	 * Send a socket notification to the node helper.
 	 *
 	 * argument notification string - The identifier of the notification.
@@ -59,7 +60,8 @@ const NodeHelper = Class.extend({
 		this.io.of(this.name).emit(notification, payload);
 	},
 
-	/* setExpressApp(app)
+	/*
+	 * setExpressApp(app)
 	 * Sets the express app object for this module.
 	 * This allows you to host files from the created webserver.
 	 *
@@ -71,7 +73,8 @@ const NodeHelper = Class.extend({
 		app.use(`/${this.name}`, express.static(`${this.path}/public`));
 	},
 
-	/* setSocketIO(io)
+	/*
+	 * setSocketIO(io)
 	 * Sets the socket io object for this module.
 	 * Binds message receiver.
 	 *

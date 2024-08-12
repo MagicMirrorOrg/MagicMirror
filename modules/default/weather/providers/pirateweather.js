@@ -1,11 +1,15 @@
 /* global WeatherProvider, WeatherObject */
 
-/* This class is a provider for Pirate Weather, it is a replacement for Dark Sky (same api),
+/*
+ * This class is a provider for Pirate Weather, it is a replacement for Dark Sky (same api),
  * see http://pirateweather.net/en/latest/
  */
 WeatherProvider.register("pirateweather", {
-	// Set the name of the provider.
-	// Not strictly required, but helps for debugging.
+
+	/*
+	 * Set the name of the provider.
+	 * Not strictly required, but helps for debugging.
+	 */
 	providerName: "pirateweather",
 
 	// Set the default config properties that is specific to this provider

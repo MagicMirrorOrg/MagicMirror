@@ -1,4 +1,5 @@
-/* MagicMirror² Test config for fullday calendar entries over multiple days
+/*
+ * MagicMirror² Test config for fullday calendar entries over multiple days
  *
  * By Paranoid93 https://github.com/Paranoid93/
  * MIT Licensed.
