@@ -262,7 +262,7 @@ function App () {
 			if (module.module) {
 				if (Utils.moduleHasValidPosition(module.position) || typeof (module.position) === "undefined") {
 					// Only add this module to be loaded if it is not a duplicate (repeated instance of the same module)
-					if(!modules.includes(module.module)){
+					if (!modules.includes(module.module)) {
 						modules.push(module.module);
 					}
 				} else {
