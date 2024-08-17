@@ -273,7 +273,6 @@ function App () {
 			if (module.disabled) continue;
 			if (module.module) {
 				if (Utils.moduleHasValidPosition(module.position) || typeof (module.position) === "undefined") {
-					console.log(`pushing module=${module.module}`);
 					modules.push(module.module);
 				} else {
 					Log.warn("Invalid module position found for this configuration:" + `\n${JSON.stringify(module, null, 2)}`);

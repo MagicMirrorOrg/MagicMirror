@@ -39,7 +39,6 @@ module.exports = {
 
 	// return all available module positions
 	getAvailableModulePositions () {
-		console.log(`modules positions=${JSON.stringify(modulePositions)}`);
 		return modulePositions;
 	},
 
@@ -60,7 +59,6 @@ module.exports = {
 			if (results && results.length > 0) {
 				// get the postition parts and replace space with underscore
 				const positionName = results[1].replace(" ", "_");
-				console.log(`saving module position=${positionName}`);
 				// add it to the list
 				modulePositions.push(positionName);
 			}
