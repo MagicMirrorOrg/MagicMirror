@@ -1,11 +1,15 @@
 /* global WeatherProvider, WeatherObject, WeatherUtils */
 
-/* This class is a provider for Weatherflow.
+/*
+ * This class is a provider for Weatherflow.
  * Note that the Weatherflow API does not provide snowfall.
  */
 WeatherProvider.register("weatherflow", {
-	// Set the name of the provider.
-	// Not strictly required, but helps for debugging
+
+	/*
+	 * Set the name of the provider.
+	 * Not strictly required, but helps for debugging
+	 */
 	providerName: "WeatherFlow",
 
 	// Set the default config properties that is specific to this provider

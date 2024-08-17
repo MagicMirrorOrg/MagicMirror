@@ -8,9 +8,12 @@ const Log = require("./logger");
 let config = process.env.config ? JSON.parse(process.env.config) : {};
 // Module to control application life.
 const app = electron.app;
-// Per default electron is started with --disable-gpu flag, if you want the gpu enabled,
-// you must set the env var ELECTRON_ENABLE_GPU=1 on startup.
-// See https://www.electronjs.org/docs/latest/tutorial/offscreen-rendering for more info.
+
+/*
+ * Per default electron is started with --disable-gpu flag, if you want the gpu enabled,
+ * you must set the env var ELECTRON_ENABLE_GPU=1 on startup.
+ * See https://www.electronjs.org/docs/latest/tutorial/offscreen-rendering for more info.
+ */
 if (process.env.ELECTRON_ENABLE_GPU !== "1") {
 	app.disableHardwareAcceleration();
 }
@@ -18,16 +21,21 @@ if (process.env.ELECTRON_ENABLE_GPU !== "1") {
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
+/*
+ * Keep a global reference of the window object, if you don't, the window will
+ * be closed automatically when the JavaScript object is garbage collected.
+ */
 let mainWindow;
 
 /**
  *
  */
 function createWindow () {
-	// see https://www.electronjs.org/docs/latest/api/screen
-	// Create a window that fills the screen's available work area.
+
+	/*
+	 * see https://www.electronjs.org/docs/latest/api/screen
+	 * Create a window that fills the screen's available work area.
+	 */
 	let electronSize = (800, 600);
 	try {
 		electronSize = electron.screen.getPrimaryDisplay().workAreaSize;
@@ -52,8 +60,10 @@ function createWindow () {
 		backgroundColor: "#000000"
 	};
 
-	// DEPRECATED: "kioskmode" backwards compatibility, to be removed
-	// settings these options directly instead provides cleaner interface
+	/*
+	 * DEPRECATED: "kioskmode" backwards compatibility, to be removed
+	 * settings these options directly instead provides cleaner interface
+	 */
 	if (config.kioskmode) {
 		electronOptionsDefaults.kiosk = true;
 	} else {
@@ -69,8 +79,10 @@ function createWindow () {
 	// Create the browser window.
 	mainWindow = new BrowserWindow(electronOptions);
 
-	// and load the index.html of the app.
-	// If config.address is not defined or is an empty string (listening on all interfaces), connect to localhost
+	/*
+	 * and load the index.html of the app.
+	 * If config.address is not defined or is an empty string (listening on all interfaces), connect to localhost
+	 */
 
 	let prefix;
 	if ((config["tls"] !== null && config["tls"]) || config.useHttps) {
@@ -149,14 +161,18 @@ app.on("window-all-closed", function () {
 });
 
 app.on("activate", function () {
-	// On OS X it's common to re-create a window in the app when the
-	// dock icon is clicked and there are no other windows open.
+
+	/*
+	 * On OS X it's common to re-create a window in the app when the
+	 * dock icon is clicked and there are no other windows open.
+	 */
 	if (mainWindow === null) {
 		createWindow();
 	}
 });
 
-/* This method will be called when SIGINT is received and will call
+/*
+ * This method will be called when SIGINT is received and will call
  * each node_helper's stop function if it exists. Added to fix #1056
  *
  * Note: this is only used if running Electron. Otherwise
@@ -187,8 +203,10 @@ if (process.env.clientonly) {
 	});
 }
 
-// Start the core application if server is run on localhost
-// This starts all node helpers and starts the webserver.
+/*
+ * Start the core application if server is run on localhost
+ * This starts all node helpers and starts the webserver.
+ */
 if (["localhost", "127.0.0.1", "::1", "::ffff:127.0.0.1", undefined].includes(config.address)) {
 	core.start().then((c) => {
 		config = c;

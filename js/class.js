@@ -1,6 +1,7 @@
 /* global Class, xyz */
 
-/* Simple JavaScript Inheritance
+/*
+ * Simple JavaScript Inheritance
  * By John Resig https://johnresig.com/
  *
  * Inspired by base2 and Prototype
@@ -22,8 +23,10 @@
 	Class.extend = function (prop) {
 		let _super = this.prototype;
 
-		// Instantiate a base class (but only create the instance,
-		// don't run the init constructor)
+		/*
+		 * Instantiate a base class (but only create the instance,
+		 * don't run the init constructor)
+		 */
 		initializing = true;
 		const prototype = new this();
 		initializing = false;
@@ -42,12 +45,16 @@
 						return function () {
 							const tmp = this._super;
 
-							// Add a new ._super() method that is the same method
-							// but on the super-class
+							/*
+							 * Add a new ._super() method that is the same method
+							 * but on the super-class
+							 */
 							this._super = _super[name];
 
-							// The method only need to be bound temporarily, so we
-							// remove it when we're done executing
+							/*
+							 * The method only need to be bound temporarily, so we
+							 * remove it when we're done executing
+							 */
 							const ret = fn.apply(this, arguments);
 							this._super = tmp;
 

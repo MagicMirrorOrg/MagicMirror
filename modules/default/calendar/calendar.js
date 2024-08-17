@@ -82,9 +82,12 @@ Module.register("calendar", {
 
 	// Define required translations.
 	getTranslations () {
-		// The translations for the default modules are defined in the core translation files.
-		// Therefore we can just return false. Otherwise we should have returned a dictionary.
-		// If you're trying to build your own module including translations, check out the documentation.
+
+		/*
+		 * The translations for the default modules are defined in the core translation files.
+		 * Therefore we can just return false. Otherwise we should have returned a dictionary.
+		 * If you're trying to build your own module including translations, check out the documentation.
+		 */
 		return false;
 	},
 
@@ -148,8 +151,10 @@ Module.register("calendar", {
 				};
 			}
 
-			// tell helper to start a fetcher for this calendar
-			// fetcher till cycle
+			/*
+			 * tell helper to start a fetcher for this calendar
+			 * fetcher till cycle
+			 */
 			this.addCalendar(calendar.url, calendar.auth, calendarConfig);
 		});
 
@@ -627,7 +632,8 @@ Module.register("calendar", {
 				event.tomorrow = !event.today && event.startDate >= today + ONE_DAY && event.startDate < today + 2 * ONE_DAY;
 				event.dayAfterTomorrow = !event.tomorrow && event.startDate >= today + ONE_DAY * 2 && event.startDate < today + 3 * ONE_DAY;
 
-				/* if sliceMultiDayEvents is set to true, multiday events (events exceeding at least one midnight) are sliced into days,
+				/*
+				 * if sliceMultiDayEvents is set to true, multiday events (events exceeding at least one midnight) are sliced into days,
 				 * otherwise, esp. in dateheaders mode it is not clear how long these events are.
 				 */
 				const maxCount = Math.ceil((event.endDate - 1 - moment(event.startDate, "x").endOf("day").format("x")) / ONE_DAY) + 1;
@@ -677,16 +683,21 @@ Module.register("calendar", {
 			return events;
 		}
 
-		// Limit the number of days displayed
-		// If limitDays is set > 0, limit display to that number of days
+		/*
+		 * Limit the number of days displayed
+		 * If limitDays is set > 0, limit display to that number of days
+		 */
 		if (this.config.limitDays > 0) {
 			let newEvents = [];
 			let lastDate = today.clone().subtract(1, "days").format("YYYYMMDD");
 			let days = 0;
 			for (const ev of events) {
 				let eventDate = moment(ev.startDate, "x").format("YYYYMMDD");
-				// if date of event is later than lastdate
-				// check if we already are showing max unique days
+
+				/*
+				 * if date of event is later than lastdate
+				 * check if we already are showing max unique days
+				 */
 				if (eventDate > lastDate) {
 					// if the only entry in the first day is a full day event that day is not counted as unique
 					if (!this.config.limitDaysNeverSkip && newEvents.length === 1 && days === 1 && newEvents[0].fullDayEvent) {
