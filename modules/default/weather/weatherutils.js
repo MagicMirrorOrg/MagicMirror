@@ -30,14 +30,24 @@ const WeatherUtils = {
 		let convertedValue = value;
 		let conversionUnit = valueUnit;
 		if (outputUnit === "imperial") {
-			if (valueUnit && valueUnit.toLowerCase() === "cm") convertedValue = convertedValue * 0.3937007874;
-			else convertedValue = convertedValue * 0.03937007874;
+			convertedValue = this.convertPrecipitationToInch(value, valueUnit);
 			conversionUnit = "in";
 		} else {
 			conversionUnit = valueUnit ? valueUnit : "mm";
 		}
 
 		return `${convertedValue.toFixed(2)} ${conversionUnit}`;
+	},
+
+	/**
+	 * Convert precipitation value into inch
+	 * @param {number} value the precipitation value for convert
+	 * @param {string} valueUnit can be 'mm' or 'cm'
+	 * @returns {number} the converted precipitation value
+	 */
+	convertPrecipitationToInch (value, valueUnit) {
+		if (valueUnit && valueUnit.toLowerCase() === "cm") return value * 0.3937007874;
+		else return value * 0.03937007874;
 	},
 
 	/**
@@ -129,17 +139,6 @@ const WeatherUtils = {
 		}
 
 		return ((feelsLike - 32) * 5) / 9;
-	},
-
-	/**
-	 * Convert precipitation value into inch
-	 * @param {number} value the precipitation value for convert
-	 * @param {string} valueUnit can be 'mm' or 'cm'
-	 * @returns {number} the converted precipitation value
-	 */
-	convertPrecipitationToInch (value, valueUnit) {
-		if (valueUnit && valueUnit.toLowerCase() === "cm") return value * 0.3937007874;
-		else return value * 0.03937007874;
 	},
 
 	/**
