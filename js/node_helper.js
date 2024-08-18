@@ -86,20 +86,9 @@ const NodeHelper = Class.extend({
 		Log.log(`Connecting socket for: ${this.name}`);
 
 		io.of(this.name).on("connection", (socket) => {
-			// add a catch all event.
-			const onevent = socket.onevent;
-			socket.onevent = function (packet) {
-				const args = packet.data || [];
-				onevent.call(this, packet); // original call
-				packet.data = ["*"].concat(args);
-				onevent.call(this, packet); // additional call to catch-all
-			};
-
 			// register catch all.
-			socket.on("*", (notification, payload) => {
-				if (notification !== "*") {
-					this.socketNotificationReceived(notification, payload);
-				}
+			socket.onAny((notification, payload) => {
+				this.socketNotificationReceived(notification, payload);
 			});
 		});
 	}
