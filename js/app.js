@@ -256,6 +256,9 @@ function App () {
 
 		Log.setLogLevel(config.logLevel);
 
+		// get the used module positions
+		Utils.getModulePositions();
+
 		let modules = [];
 		for (const module of config.modules) {
 			if (module.disabled) continue;
@@ -266,10 +269,10 @@ function App () {
 						modules.push(module.module);
 					}
 				} else {
-					Log.warn("Invalid module position found for this configuration:", module);
+					Log.warn("Invalid module position found for this configuration:" + `\n${JSON.stringify(module, null, 2)}`);
 				}
 			} else {
-				Log.warn("No module name found for this configuration:", module);
+				Log.warn("No module name found for this configuration:" + `\n${JSON.stringify(module, null, 2)}`);
 			}
 		}
 
