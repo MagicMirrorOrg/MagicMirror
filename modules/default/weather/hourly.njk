@@ -8,7 +8,7 @@
                 {% if config.fade %}style="opacity: {{ currentStep | opacity(numSteps) }};"{% endif %}>
                 <td class="day">{{ hour.date | formatTime }}</td>
                 <td class="bright weather-icon">
-                    <span class="wi weathericon wi-{{ hour.weatherType }}"></span>
+                    <i class="wi weathericon wi-{{ hour.weatherType }}"></i>
                 </td>
                 <td class="align-right bright">
                     {{ hour.temperature | roundValue | unit("temperature") }}
@@ -31,14 +31,16 @@
                   </td>
                 {% endif %}
                 {% if config.showPrecipitationAmount %}
-                  {% if config.showZeroes and hour.precipitationAmount!=0 %}
+                  {% if config.hideZeroes and hour.precipitationAmount==0 %}
+                  {% else %}
                       <td class="align-right bright precipitation-amount">
                           {{ hour.precipitationAmount | unit("precip", hour.precipitationUnits) }}
                       </td>
                   {% endif %}
                 {% endif %}
                 {% if config.showPrecipitationProbability %}
-                  {% if config.showZeroes and hour.precipitationAmount!=0 %}
+                  {% if config.hideZeroes and hour.precipitationAmount==0 %}
+                  {% else %}
                     <td class="align-right bright precipitation-prob">
                       {{ hour.precipitationProbability | unit('precip', '%') }}
                     </td>
