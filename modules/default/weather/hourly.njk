@@ -40,7 +40,7 @@
                 {% if config.showPrecipitationProbability %}
                   {% if config.showZeroes and hour.precipitationAmount!=0 %}
                     <td class="align-right bright precipitation-prob">
-                            {{ hour.precipitationProbability | unit('precip', '%') }}
+                      {{ hour.precipitationProbability | unit('precip', '%') }}
                     </td>
                   {% endif %}
                 {% endif %}
