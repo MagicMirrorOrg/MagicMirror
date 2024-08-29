@@ -5,6 +5,33 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/#donate) With your help we can continue to improve the MagicMirror².
 
+## [2.29.0] - Unreleased (`develop` branch)
+
+_This release is scheduled to be released on 2024-10-01._
+
+### Added
+
+### Removed
+
+- [core] removed installer only files (#3492)
+- [core] removed raspberry object from systeminformation (#3505)
+
+### Updated
+
+- [weather] Updated `apiVersion` default from 2.5 to 3.0 (#3424)
+- [core] Updated dependencies including stylistic-eslint
+- [core] Updated SocketIO catch all to new API
+- [core] Allow custom modules positions by scanning index.html for the defined regions, instead of hard coded(fixes #3504)
+- [weather] Added humidity to hourly, as well as hiding empty entries.
+
+### Fixed
+
+- Fixed `checks` badge in README.md
+- [weather] Fixed issue with the UK Met Office provider following a change in their API paths and header info.
+- [core] add check for node_helper loading for multiple instances of same module (#3502)
+- [weather] Fixed issue for respecting unit config on broadcasted notifications
+- [weather] Fixed minor spacing issues when using UV Index in Hourly
+
 ## [2.28.0] - 2024-07-01
 
 Thanks to: @btoconnor, @bugsounet, @JasonStieber, @khassel, @kleinmantara and @WallysWellies.
@@ -13,6 +40,7 @@ Thanks to: @btoconnor, @bugsounet, @JasonStieber, @khassel, @kleinmantara and @W
 
 ### Added
 
+- [compliments] Added support for cron type date/time format entries.. mm hh DD MM dow (minutes/hours/days/months and day of week) see https://crontab.cronhub.io for construction
 - [calendar] Added config option "showEndsOnlyWithDuration" for default calendar
 - [compliments] Added `specialDayUnique` config option, defaults to `false` (#3465)
 - [weather] Provider weathergov: Use `precipitationLast3Hours` if `precipitationLastHour` is `null` (#3124)
