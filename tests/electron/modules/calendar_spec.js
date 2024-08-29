@@ -44,9 +44,10 @@ describe("Calendar module", () => {
 		});
 	});
 
-	/****************************/
-	// RRULE TESTS:
-	// Add any tests that check rrule functionality here.
+	/*
+	 * RRULE TESTS:
+	 * Add any tests that check rrule functionality here.
+	 */
 	describe("rrule", () => {
 		it("Issue #3393 recurrence dates past rrule until date", async () => {
 			await helpers.startApplication("tests/configs/modules/calendar/rrule_until.js", "07 Mar 2024 10:38:00 GMT-07:00", ["js/electron.js"], "America/Los_Angeles");
@@ -60,15 +61,16 @@ describe("Calendar module", () => {
 		});
 	});
 
-	/****************************/
-	// LOS ANGELES TESTS:
-	//  In 2023, DST (GMT-7) was until 5 Nov, after which is standard (STD) (GMT-8) time.
-	//  Test takes place on Thu 19 Oct, recurring event on a Wednesday. maximumNumberOfDays=28, so there should be
-	//  4 events (25 Oct, 1 Nov, (switch to STD), 8 Nov, Nov 15), but 1 Nov and 8 Nov are excluded.
-	//  There are three separate tests:
-	//  * before midnight GMT (3pm local time)
-	//  * at midnight GMT in STD time (4pm local time)
-	//  * at midnight GMT in DST time (5pm local time)
+	/*
+	 * LOS ANGELES TESTS:
+	 *  In 2023, DST (GMT-7) was until 5 Nov, after which is standard (STD) (GMT-8) time.
+	 *  Test takes place on Thu 19 Oct, recurring event on a Wednesday. maximumNumberOfDays=28, so there should be
+	 *  4 events (25 Oct, 1 Nov, (switch to STD), 8 Nov, Nov 15), but 1 Nov and 8 Nov are excluded.
+	 *  There are three separate tests:
+	 *  * before midnight GMT (3pm local time)
+	 *  * at midnight GMT in STD time (4pm local time)
+	 *  * at midnight GMT in DST time (5pm local time)
+	 */
 	describe("Exdate: LA crossover DST before midnight GMT", () => {
 		it("LA crossover DST before midnight GMT should have 2 events", async () => {
 			await helpers.startApplication("tests/configs/modules/calendar/exdate_la_before_midnight.js", "19 Oct 2023 12:30:00 GMT-07:00", ["js/electron.js"], "America/Los_Angeles");
@@ -107,15 +109,16 @@ describe("Calendar module", () => {
 		});
 	});
 
-	/****************************/
-	// SYDNEY TESTS:
-	//  In 2023, standard time (STD) (GMT+10) was until 1 Oct, after which is DST (GMT+11).
-	//  Test takes place on Thu 14 Sep, recurring event on a Wednesday. maximumNumberOfDays=28, so there should be
-	//  4 events (20 Sep, 27 Sep, (switch to DST), 4 Oct, 11 Oct), but 27 Sep and 4 Oct are excluded.
-	//  There are three separate tests:
-	//  * before midnight GMT (9am local time)
-	//  * at midnight GMT in STD time (10am local time)
-	//  * at midnight GMT in DST time (11am local time)
+	/*
+	 * SYDNEY TESTS:
+	 *  In 2023, standard time (STD) (GMT+10) was until 1 Oct, after which is DST (GMT+11).
+	 *  Test takes place on Thu 14 Sep, recurring event on a Wednesday. maximumNumberOfDays=28, so there should be
+	 *  4 events (20 Sep, 27 Sep, (switch to DST), 4 Oct, 11 Oct), but 27 Sep and 4 Oct are excluded.
+	 *  There are three separate tests:
+	 *  * before midnight GMT (9am local time)
+	 *  * at midnight GMT in STD time (10am local time)
+	 *  * at midnight GMT in DST time (11am local time)
+	 */
 	describe("Exdate: SYD crossover DST before midnight GMT", () => {
 		it("LA crossover DST before midnight GMT should have 2 events", async () => {
 			await helpers.startApplication("tests/configs/modules/calendar/exdate_syd_before_midnight.js", "14 Sep 2023 12:30:00 GMT+10:00", ["js/electron.js"], "Australia/Sydney");

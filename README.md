@@ -5,7 +5,7 @@
 		<img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License">
 	</a>
 	<img src="https://img.shields.io/github/actions/workflow/status/magicmirrororg/magicmirror/automated-tests.yaml" alt="GitHub Actions">
-	<img src="https://img.shields.io/github/checks-status/magicmirrororg/magicmirror/master" alt="Build Status">
+	<img src="https://img.shields.io/github/check-runs/magicmirrororg/magicmirror/master" alt="Build Status">
 	<a href="https://github.com/MagicMirrorOrg/MagicMirror">
 		<img src="https://img.shields.io/github/stars/magicmirrororg/magicmirror?style=social">
 	</a>

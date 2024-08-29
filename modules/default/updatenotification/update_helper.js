@@ -4,7 +4,8 @@ const fs = require("node:fs");
 
 const Log = require("logger");
 
-/* class Updater
+/*
+ * class Updater
  * Allow to self updating 3rd party modules from command defined in config
  *
  * [constructor] read value in config:
@@ -84,13 +85,15 @@ class Updater {
 		return updater;
 	}
 
-	// module updater with his proper command
-	// return object as result
-	//{
-	//	error: <boolean>, // if error detected
-	//	updated: <boolean>, // if updated successfully
-	//	needRestart: <boolean> // if magicmirror restart required
-	//};
+	/*
+	 *  module updater with his proper command
+	 *  return object as result
+	 * {
+	 * 	error: <boolean>, // if error detected
+	 * 	updated: <boolean>, // if updated successfully
+	 * 	needRestart: <boolean> // if magicmirror restart required
+	 * };
+	 */
 	updateProcess (module) {
 		let Result = {
 			error: false,
