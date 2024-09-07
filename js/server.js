@@ -72,7 +72,7 @@ function Server (config) {
 			app.use(helmet(config.httpHeaders));
 			app.use("/js", express.static(__dirname));
 
-			let directories = ["/config", "/css", "/fonts", "/modules", "/vendor", "/translations", "/env"];
+			let directories = ["/config", "/css", "/fonts", "/modules", "/vendor", "/translations"];
 			if (process.env.JEST_WORKER_ID !== undefined) {
 				// add tests directories only when running tests
 				directories.push("/tests/configs", "/tests/mocks");
