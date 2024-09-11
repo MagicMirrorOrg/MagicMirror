@@ -256,7 +256,7 @@ const Loader = (function () {
 				// This file is available in the vendor folder.
 				// Load it from this vendor folder.
 				loadedFiles.push(fileName.toLowerCase());
-				return loadFile(`${config.paths.vendor}/${vendor[fileName]}`);
+				return loadFile(`vendor/${vendor[fileName]}`);
 			}
 
 			// File not loaded yet.

@@ -12,8 +12,9 @@ _This release is scheduled to be released on 2024-10-01._
 ### Added
 
 - [core] Add spelling check (cspell): `npm run test:spelling` and handle spelling issues
+- [core] removed `config.paths.vendor` (could not work because `vendor` is hardcoded in `index.html`), renamed `config.paths.modules` to `config.foreignModulesDir`
 - [core] add variable `MM_CUSTOMCSS_FILE` which - if set - overrides `config.customCss`
-- [core] add variable `MM_MODULES_DIR` which - if set - overrides `config.paths.modules` for foreign modules (not default modules)
+- [core] add variable `MM_MODULES_DIR` which - if set - overrides `config.foreignModulesDir`
 
 ### Removed
 
