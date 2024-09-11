@@ -176,6 +176,7 @@ const Loader = (function () {
 					};
 					script.onerror = function () {
 						Log.error("Error on loading script:", fileName);
+						script.remove();
 						resolve();
 					};
 					document.getElementsByTagName("body")[0].appendChild(script);
@@ -193,6 +194,7 @@ const Loader = (function () {
 					};
 					stylesheet.onerror = function () {
 						Log.error("Error on loading stylesheet:", fileName);
+						stylesheet.remove();
 						resolve();
 					};
 					document.getElementsByTagName("head")[0].appendChild(stylesheet);
