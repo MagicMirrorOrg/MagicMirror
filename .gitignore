@@ -81,3 +81,6 @@ Temporary Items
 *.orig
 *.rej
 *.bak
+
+# Ignore positions file (#3518)
+js/positions.js

@@ -21,7 +21,7 @@ _This release is scheduled to be released on 2024-10-01._
 - [weather] Updated `apiVersion` default from 2.5 to 3.0 (#3424)
 - [core] Updated dependencies including stylistic-eslint
 - [core] Updated SocketIO catch all to new API
-- [core] Allow custom modules positions by scanning index.html for the defined regions, instead of hard coded(fixes #3504)
+- [core] Allow custom modules positions by scanning index.html for the defined regions, instead of hard coded (PR #3518 fixes issue #3504)
 - [core] Update dependencies
 
 ### Fixed
