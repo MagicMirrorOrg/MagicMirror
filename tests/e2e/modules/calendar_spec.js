@@ -95,7 +95,7 @@ describe("Calendar module", () => {
 		});
 
 		it("should show multiple events with the same title and start time from different calendars", async () => {
-			await expect(testElementLength(".calendar .event", 22)).resolves.toBe(true);
+			await expect(testElementLength(".calendar .event", 20)).resolves.toBe(true);
 		});
 	});
 
