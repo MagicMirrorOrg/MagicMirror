@@ -29,7 +29,7 @@ _This release is scheduled to be released on 2024-10-01._
 - [weather] Fixed issue with the UK Met Office provider following a change in their API paths and header info.
 - [core] add check for node_helper loading for multiple instances of same module (#3502)
 - [weather] Fixed issue for respecting unit config on broadcasted notifications
-- [tests] Fixes calendar e2e test (#3532)
+- [tests] Fixes calendar test by moving it from e2e to electron with fixed date (#3532)
 
 ## [2.28.0] - 2024-07-01
 
