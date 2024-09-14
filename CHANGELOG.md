@@ -11,6 +11,9 @@ _This release is scheduled to be released on 2024-10-01._
 
 ### Added
 
+- [weather] Added option Humidity to hourly View
+- [weather] Added option to hide hourly entries that are Zero, hiding the entire column if empty.
+
 ### Removed
 
 - [core] removed installer only files (#3492)
@@ -21,8 +24,8 @@ _This release is scheduled to be released on 2024-10-01._
 - [weather] Updated `apiVersion` default from 2.5 to 3.0 (#3424)
 - [core] Updated dependencies including stylistic-eslint
 - [core] Updated SocketIO catch all to new API
-- [core] Allow custom modules positions by scanning index.html for the defined regions, instead of hard coded(fixes #3504)
-- [weather] Added humidity to hourly, as well as hiding empty entries.
+- [core] Allow custom modules positions by scanning index.html for the defined regions, instead of hard coded (PR #3518 fixes issue #3504)
+- [core] Update dependencies
 
 ### Fixed
 
@@ -30,6 +33,7 @@ _This release is scheduled to be released on 2024-10-01._
 - [weather] Fixed issue with the UK Met Office provider following a change in their API paths and header info.
 - [core] add check for node_helper loading for multiple instances of same module (#3502)
 - [weather] Fixed issue for respecting unit config on broadcasted notifications
+- [tests] Fixes calendar e2e test (#3532)
 - [weather] Fixed minor spacing issues when using UV Index in Hourly
 
 ## [2.28.0] - 2024-07-01
