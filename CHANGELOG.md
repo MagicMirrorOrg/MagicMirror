@@ -20,8 +20,8 @@ _This release is scheduled to be released on 2024-10-01._
 
 - [weather] Updated `apiVersion` default from 2.5 to 3.0 (#3424)
 - [core] Updated dependencies including stylistic-eslint
-- [core] Allow custom module positions by setting `allowCustomModulePositions` in `config.js` (fixes #3504, related to https://github.com/MagicMirrorOrg/MagicMirror/pull/3445)
 - [core] Updated SocketIO catch all to new API
+- [core] Allow custom modules positions by scanning index.html for the defined regions, instead of hard coded (PR #3518 fixes issue #3504)
 
 ### Fixed
 
@@ -29,6 +29,7 @@ _This release is scheduled to be released on 2024-10-01._
 - [weather] Fixed issue with the UK Met Office provider following a change in their API paths and header info.
 - [core] add check for node_helper loading for multiple instances of same module (#3502)
 - [weather] Fixed issue for respecting unit config on broadcasted notifications
+- [tests] Fixes calendar test by moving it from e2e to electron with fixed date (#3532)
 - [calendar] fixed sliceMultiDayEvents getting wrong count and displaying incorrect entries, Europe/Berlin (#3542)
 
 ## [2.28.0] - 2024-07-01

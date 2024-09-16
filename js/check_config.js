@@ -11,6 +11,7 @@ const ajv = new Ajv();
 
 const rootPath = path.resolve(`${__dirname}/../`);
 const Log = require(`${rootPath}/js/logger.js`);
+const Utils = require(`${rootPath}/js/utils.js`);
 
 /**
  * Returns a string with path of configuration file.
@@ -68,6 +69,7 @@ function checkConfigFile () {
 
 	Log.info("Checking modules structure configuration... ");
 
+	const position_list = Utils.getModulePositions();
 	// Make Ajv schema confguration of modules config
 	// only scan "module" and "position"
 	const schema = {
@@ -83,21 +85,7 @@ function checkConfigFile () {
 						},
 						position: {
 							type: "string",
-							enum: [
-								"top_bar",
-								"top_left",
-								"top_center",
-								"top_right",
-								"upper_third",
-								"middle_center",
-								"lower_third",
-								"bottom_left",
-								"bottom_center",
-								"bottom_right",
-								"bottom_bar",
-								"fullscreen_above",
-								"fullscreen_below"
-							]
+							enum: position_list
 						}
 					},
 					required: ["module"]
@@ -116,10 +104,10 @@ function checkConfigFile () {
 		let position = validate.errors[0].instancePath.split("/")[3];
 
 		Log.error(colors.red("This module configuration contains errors:"));
-		Log.error(data.modules[module]);
+		Log.error(`\n${JSON.stringify(data.modules[module], null, 2)}`);
 		if (position) {
 			Log.error(colors.red(`${position}: ${validate.errors[0].message}`));
-			Log.error(validate.errors[0].params.allowedValues);
+			Log.error(`\n${JSON.stringify(validate.errors[0].params.allowedValues, null, 2).slice(1, -1)}`);
 		} else {
 			Log.error(colors.red(validate.errors[0].message));
 		}

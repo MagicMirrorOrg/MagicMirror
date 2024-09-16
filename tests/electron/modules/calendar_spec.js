@@ -13,6 +13,15 @@ describe("Calendar module", () => {
 		return true;
 	};
 
+	const doTestCount = async () => {
+		expect(global.page).not.toBeNull();
+		const loc = await global.page.locator(".calendar .event");
+		const elem = loc.first();
+		await elem.waitFor();
+		expect(elem).not.toBeNull();
+		return await loc.count();
+	};
+
 	afterEach(async () => {
 		await helpers.stopApplication();
 	});
@@ -44,6 +53,13 @@ describe("Calendar module", () => {
 		});
 	});
 
+	describe("Events from multiple calendars", () => {
+		it("should show multiple events with the same title and start time from different calendars", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/show-duplicates-in-calendar.js", "15 Sep 2024 12:30:00 GMT");
+			await expect(doTestCount()).resolves.toBe(20);
+		});
+	});
+
 	/*
 	 * RRULE TESTS:
 	 * Add any tests that check rrule functionality here.
@@ -51,13 +67,7 @@ describe("Calendar module", () => {
 	describe("rrule", () => {
 		it("Issue #3393 recurrence dates past rrule until date", async () => {
 			await helpers.startApplication("tests/configs/modules/calendar/rrule_until.js", "07 Mar 2024 10:38:00 GMT-07:00", ["js/electron.js"], "America/Los_Angeles");
-			expect(global.page).not.toBeNull();
-			const loc = await global.page.locator(".calendar .event");
-			const elem = loc.first();
-			await elem.waitFor();
-			expect(elem).not.toBeNull();
-			const cnt = await loc.count();
-			expect(cnt).toBe(1);
+			await expect(doTestCount()).resolves.toBe(1);
 		});
 	});
 
@@ -74,38 +84,20 @@ describe("Calendar module", () => {
 	describe("Exdate: LA crossover DST before midnight GMT", () => {
 		it("LA crossover DST before midnight GMT should have 2 events", async () => {
 			await helpers.startApplication("tests/configs/modules/calendar/exdate_la_before_midnight.js", "19 Oct 2023 12:30:00 GMT-07:00", ["js/electron.js"], "America/Los_Angeles");
-			expect(global.page).not.toBeNull();
-			const loc = await global.page.locator(".calendar .event");
-			const elem = loc.first();
-			await elem.waitFor();
-			expect(elem).not.toBeNull();
-			const cnt = await loc.count();
-			expect(cnt).toBe(2);
+			await expect(doTestCount()).resolves.toBe(2);
 		});
 	});
 
 	describe("Exdate: LA crossover DST at midnight GMT local STD", () => {
 		it("LA crossover DST before midnight GMT should have 2 events", async () => {
 			await helpers.startApplication("tests/configs/modules/calendar/exdate_la_at_midnight_std.js", "19 Oct 2023 12:30:00 GMT-07:00", ["js/electron.js"], "America/Los_Angeles");
-			expect(global.page).not.toBeNull();
-			const loc = await global.page.locator(".calendar .event");
-			const elem = loc.first();
-			await elem.waitFor();
-			expect(elem).not.toBeNull();
-			const cnt = await loc.count();
-			expect(cnt).toBe(2);
+			await expect(doTestCount()).resolves.toBe(2);
 		});
 	});
 	describe("Exdate: LA crossover DST at midnight GMT local DST", () => {
 		it("LA crossover DST before midnight GMT should have 2 events", async () => {
 			await helpers.startApplication("tests/configs/modules/calendar/exdate_la_at_midnight_dst.js", "19 Oct 2023 12:30:00 GMT-07:00", ["js/electron.js"], "America/Los_Angeles");
-			expect(global.page).not.toBeNull();
-			const loc = await global.page.locator(".calendar .event");
-			const elem = loc.first();
-			await elem.waitFor();
-			expect(elem).not.toBeNull();
-			const cnt = await loc.count();
-			expect(cnt).toBe(2);
+			await expect(doTestCount()).resolves.toBe(2);
 		});
 	});
 
@@ -122,37 +114,19 @@ describe("Calendar module", () => {
 	describe("Exdate: SYD crossover DST before midnight GMT", () => {
 		it("LA crossover DST before midnight GMT should have 2 events", async () => {
 			await helpers.startApplication("tests/configs/modules/calendar/exdate_syd_before_midnight.js", "14 Sep 2023 12:30:00 GMT+10:00", ["js/electron.js"], "Australia/Sydney");
-			expect(global.page).not.toBeNull();
-			const loc = await global.page.locator(".calendar .event");
-			const elem = loc.first();
-			await elem.waitFor();
-			expect(elem).not.toBeNull();
-			const cnt = await loc.count();
-			expect(cnt).toBe(2);
+			await expect(doTestCount()).resolves.toBe(2);
 		});
 	});
 	describe("Exdate: SYD crossover DST at midnight GMT local STD", () => {
 		it("LA crossover DST before midnight GMT should have 2 events", async () => {
 			await helpers.startApplication("tests/configs/modules/calendar/exdate_syd_at_midnight_std.js", "14 Sep 2023 12:30:00 GMT+10:00", ["js/electron.js"], "Australia/Sydney");
-			expect(global.page).not.toBeNull();
-			const loc = await global.page.locator(".calendar .event");
-			const elem = loc.first();
-			await elem.waitFor();
-			expect(elem).not.toBeNull();
-			const cnt = await loc.count();
-			expect(cnt).toBe(2);
+			await expect(doTestCount()).resolves.toBe(2);
 		});
 	});
 	describe("Exdate: SYD crossover DST at midnight GMT local DST", () => {
 		it("SYD crossover DST at midnight GMT local DST should have 2 events", async () => {
 			await helpers.startApplication("tests/configs/modules/calendar/exdate_syd_at_midnight_dst.js", "14 Sep 2023 12:30:00 GMT+10:00", ["js/electron.js"], "Australia/Sydney");
-			expect(global.page).not.toBeNull();
-			const loc = await global.page.locator(".calendar .event");
-			const elem = loc.first();
-			await elem.waitFor();
-			expect(elem).not.toBeNull();
-			const cnt = await loc.count();
-			expect(cnt).toBe(2);
+			await expect(doTestCount()).resolves.toBe(2);
 		});
 	});
 
