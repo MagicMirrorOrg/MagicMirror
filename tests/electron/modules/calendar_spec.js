@@ -155,4 +155,22 @@ describe("Calendar module", () => {
 			expect(cnt).toBe(2);
 		});
 	});
+
+	/*
+         * RRULE TESTS:
+         * Add any tests that check rrule functionality here.
+         */
+	describe("sliceMultiDayEvents", () => {
+		it("Issue #3452 split multiday in Europe", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/sliceMultiDayEvents.js", "01 Sept 2024 10:38:00 GMT+02:00", ["js/electron.js"], "Europe/Berlin");
+			expect(global.page).not.toBeNull();
+			const loc = await global.page.locator(".calendar .event");
+			const elem = loc.first();
+			await elem.waitFor();
+			expect(elem).not.toBeNull();
+			const cnt = await loc.count();
+			expect(cnt).toBe(6);
+		});
+	});
+
 });
