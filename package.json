@@ -24,8 +24,8 @@
 	],
 	"main": "js/electron.js",
 	"scripts": {
-		"start": "DISPLAY=\"${DISPLAY:=:0}\" ./node_modules/.bin/electron js/electron.js",
-		"start:dev": "DISPLAY=\"${DISPLAY:=:0}\" ./node_modules/.bin/electron js/electron.js dev",
+		"start": ".\\node_modules\\.bin\\electron js\\electron.js",
+		"start:dev": ".\\node_modules\\.bin\\electron js\\electron.js dev",
 		"server": "node ./serveronly",
 		"install-mm": "npm install --no-audit --no-fund --no-update-notifier --only=prod --omit=dev",
 		"install-mm:dev": "npm install --no-audit --no-fund --no-update-notifier",
@@ -75,6 +75,7 @@
 	},
 	"devDependencies": {
 		"@stylistic/eslint-plugin": "^1.8.1",
+		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-import": "^2.29.1",
 		"eslint-plugin-jest": "^28.6.0",
 		"eslint-plugin-jsdoc": "^48.5.0",
