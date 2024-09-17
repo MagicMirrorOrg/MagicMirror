@@ -61,7 +61,7 @@ Thanks to: @btoconnor, @bugsounet, @JasonStieber, @khassel, @kleinmantara and @W
 
 ### Fixed
 
-- [core] Fixed crash possibility if `module: <name>` is not defined and on `postion: <positon>` mistake (#3445)
+- [core] Fixed crash possibility if `module: <name>` is not defined and on `position: <position>` mistake (#3445)
 - [weather] Fixed precipitationProbability in forecast for provider openmeteo (#3446)
 - [weather] Fixed type=daily for provider openmeteo having no data when running after 23:00 (#3449)
 - [weather] Fixed type=daily for provider openmeteo showing nightly icons in forecast when current time is "nightly" (#3458)
@@ -100,7 +100,7 @@ For more info, please read the following post: [A New Chapter for MagicMirror: T
 
 ### Fixed
 
-- Correct apibase of weathergov weatherprovider to match documentation (#2926)
+- Correct apiBase of weathergov weatherProvider to match documentation (#2926)
 - Worked around several issues in the RRULE library that were causing deleted calender events to still show, some
   initial and recurring events to not show, and some event times to be off an hour. (#3291)
 - Skip changelog requirement when running tests for dependency updates (#3320)
@@ -166,8 +166,8 @@ This release also marks the latest release by Michael Teeuw. For more info, plea
 - Fix issue template (#3167)
 - Fix #3256 filter out bad results from rrule.between
 - Fix calendar events sometimes not respecting deleted events (#3250)
-- Fix electron loadurl locally on Windows when address "0.0.0.0" (#2550)
-- Fix updatanotification (update_helper.js): catch error if response is not an JSON format (check PM2)
+- Fix electron loadURL locally on Windows when address "0.0.0.0" (#2550)
+- Fix updatenotification (update_helper.js): catch error if response is not an JSON format (check PM2)
 - Fix missing typeof in calendar module
 - Fix style issues after prettier update
 - Fix calendar test (#3291) by moving "Exdate check" from e2e to electron to run on a Thursday
@@ -425,7 +425,7 @@ Special thanks to the following contributors: @eouia, @khassel, @kolbyjack, @Kri
 
 ### Added
 
-- Added a new config option `httpHeaders` used by helmet (see https://helmetjs.github.io/). You can now set own httpHeaders which will override the defaults in `js/defauls.js` which is useful e.g. if you want to embed MagicMirror into annother website (solves #2847).
+- Added a new config option `httpHeaders` used by helmet (see https://helmetjs.github.io/). You can now set own httpHeaders which will override the defaults in `js/defaults.js` which is useful e.g. if you want to embed MagicMirror into another website (solves #2847).
 - Show endDate for calendar events when dateHeader is enabled and showEnd is set to true (#2192).
 - Added the notification emitting from the weather module on information updated.
 - Use recommended file extension for YAML files (#2864).
@@ -474,7 +474,7 @@ Special thanks to the following contributors: @10bias, @CFenner, @JHWelch, @k1rd
 - Fix minor console output issue for loading translations (#2814).
 - Don't adjust startDate for full day events if endDate is in the past.
 - Fix windspeed conversion error in openweathermap provider. (#2812)
-- Fix conflicting parms turning off showEnd for full day events. (#2629)
+- Fix conflicting parameter turning off showEnd for full day events. (#2629)
 - Fix regression, calendar.maximumEntries not used to filter calendar level entries (#2868)
 
 ## [2.18.0] - 2022-01-01
@@ -506,7 +506,7 @@ Special thanks to the following contributors: @AmpioRosso, @eouia, @fewieden, @j
 ### Fixed
 
 - Fixed wrong file `kr.json` to `ko.json`. Use language code 'ko' instead of 'kr' for Korean language.
-- Fixed `feels_like` data from openweathermaps current weather being ignored (#2678).
+- Fixed `feels_like` data from openweathermap's current weather being ignored (#2678).
 - Fixed chaotic newsfeed display after network connection loss thanks to @jalibu (#2638).
 - Fixed incorrect time zone correction of recurring full day events (#2632 and #2634).
 - Fixed e2e tests by increasing testTimeout.
@@ -543,7 +543,7 @@ Special thanks to the following contributors: @apiontek, @eouia, @jupadin, @khas
 - Updated github templates.
 - Actually test all js and css files when lint script is run.
 - Updated jsdocs and print warnings during testing too.
-- Updated weathergov provider to try fetching not just current, but also foreacst, when API URLs available.
+- Updated weathergov provider to try fetching not just current, but also forecast, when API URLs available.
 - Refactored clock layout.
 - Refactored methods from weather-providers into weatherobject (isDaytime, updateSunTime).
 - Use of `logger.js` in jest tests.
@@ -893,7 +893,7 @@ Special thanks to @sdetweil for all his great contributions!
 ### Updated
 
 - Updated lower bound of `lodash` and `helmet` dependencies for security patches.
-- Updated compliments.js to handle newline in text, as textfields to not interpolate contents.
+- Updated compliments.js to handle newline in text, as text fields to not interpolate contents.
 - Updated raspberry.sh installer script to handle new platform issues, split node/npm, pm2, and screen saver changes.
 - Improve handling for armv6l devices, where electron support has gone away, add optional serveronly config option.
 - Improved run-start.sh to handle for serveronly mode, by choice, or when electron not available.
@@ -1114,7 +1114,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 - Fixed close dates to be absolute, if no configured in the config.js - module Calendar
 - Fixed the updatenotification module message about new commits in the repository, so they can be correctly localized in singular and plural form.
 - Fix for weatherforecast rainfall rounding [#1374](https://github.com/MagicMirrorOrg/MagicMirror/issues/1374)
-- Fix calendar parsing issue for Midori on RasperryPi Zero w, related to issue #694.
+- Fix calendar parsing issue for Midori on Raspberry Pi Zero w, related to issue #694.
 - Fix weather city ID link in sample config
 - Fixed issue with clientonly not updating with IP address and port provided on command line.
 
@@ -1169,7 +1169,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 - Fixed weatherforecast to use dt_txt field instead of dt to handle timezones better
 - Newsfeed now remembers to show the description when `"ARTICLE_LESS_DETAILS"` is called if the user wants to always show the description. [#1282](https://github.com/MagicMirrorOrg/MagicMirror/issues/1282)
 - `clientonly/*.js` is now linted, and one linting error is fixed
-- Fix issue #1196 by changing underscore to hyphen in locale id, in align with momentjs.
+- Fix issue #1196 by changing underscore to hyphen in locale id, in align with moment.js.
 - Fixed issue where heat index and wind chill were reporting incorrect values in Kelvin. [#1263](https://github.com/MagicMirrorOrg/MagicMirror/issues/1263)
 
 ### Updated
@@ -1194,7 +1194,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 - Implement Danger.js to notify contributors when CHANGELOG.md is missing in PR.
 - Allow scrolling in full page article view of default newsfeed module with gesture events from [MMM-Gestures](https://github.com/thobach/MMM-Gestures)
 - Changed 'compliments.js' - Updated DOM if remote compliments are loaded instead of waiting one updateInterval to show custom compliments
-- Automated unit tests utils, deprecated, translator, cloneObject(lockstrings)
+- Automated unit tests utils, deprecated, translator, cloneObject(lockStrings)
 - Automated integration tests translations
 - Add advanced filtering to the excludedEvents configuration of the default calendar module
 - New currentweather module config option: `showFeelsLike`: Shows how it actually feels like. (wind chill or heat index)
@@ -1298,7 +1298,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 ### Fixed
 
 - Fixed issue with incorrect alignment of analog clock when displayed in the center column of the MM.
-- Fixed ipWhitelist behaviour to make empty whitelist ([]) allow any and all hosts access to the MM.
+- Fixed ipWhitelist behavior to make empty whitelist ([]) allow any and all hosts access to the MM.
 - Fixed issue with calendar module where 'excludedEvents' count towards 'maximumEntries'.
 - Fixed issue with calendar module where global configuration of maximumEntries was not overridden by calendar specific config (see module doc).
 - Fixed issue where `this.file(filename)` returns a path with two hashes.
@@ -1403,7 +1403,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 - Added multiple calendar icon support.
 - Added tests for Translations, dev argument, version, dev console.
 - Added test anytime feature compliments module.
-- Added test ipwhitelist configuration directive.
+- Added test ipWhitelist configuration directive.
 - Added test for calendar module: default, basic-auth, backward compatibility, fail-basic-auth.
 - Added meta tags to support fullscreen mode on iOS (for server mode)
 - Added `ignoreOldItems` and `ignoreOlderThan` options to the News Feed module
