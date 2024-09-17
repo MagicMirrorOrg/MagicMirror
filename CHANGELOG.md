@@ -11,6 +11,8 @@ _This release is scheduled to be released on 2024-10-01._
 
 ### Added
 
+- [core] Add spelling check (cspell): `npm run test:spelling` and handle spelling issues
+
 ### Removed
 
 - [core] removed installer only files (#3492)
