@@ -636,7 +636,7 @@ Module.register("calendar", {
 				 * if sliceMultiDayEvents is set to true, multiday events (events exceeding at least one midnight) are sliced into days,
 				 * otherwise, esp. in dateheaders mode it is not clear how long these events are.
 				 */
-				const maxCount = Math.ceil((event.endDate - 1 - moment(event.startDate, "x").endOf("day").format("x")) / ONE_DAY) + 1;
+				const maxCount = Math.round((event.endDate - 1 - moment(event.startDate, "x").endOf("day").format("x")) / ONE_DAY) + 1;
 				if (this.config.sliceMultiDayEvents && maxCount > 1) {
 					const splitEvents = [];
 					let midnight
@@ -644,6 +644,7 @@ Module.register("calendar", {
 							.clone()
 							.startOf("day")
 							.add(1, "day")
+							.endOf("day")
 							.format("x");
 					let count = 1;
 					while (event.endDate > midnight) {
@@ -656,7 +657,7 @@ Module.register("calendar", {
 
 						event.startDate = midnight;
 						count += 1;
-						midnight = moment(midnight, "x").add(1, "day").format("x"); // next day
+						midnight = moment(midnight, "x").add(1, "day").endOf("day").format("x"); // next day
 					}
 					// Last day
 					event.title += ` (${count}/${maxCount})`;
