@@ -42,7 +42,7 @@ module.exports = {
 		return modulePositions;
 	},
 
-	// return if postion is on modulePositions Array (true/false)
+	// return if position is on modulePositions Array (true/false)
 	moduleHasValidPosition (position) {
 		if (this.getAvailableModulePositions().indexOf(position) === -1) return false;
 		return true;
@@ -57,7 +57,7 @@ module.exports = {
 			const results = regionRegEx.exec(line);
 			// if the regex returned something
 			if (results && results.length > 0) {
-				// get the postition parts and replace space with underscore
+				// get the position parts and replace space with underscore
 				const positionName = results[1].replace(" ", "_");
 				// add it to the list
 				modulePositions.push(positionName);

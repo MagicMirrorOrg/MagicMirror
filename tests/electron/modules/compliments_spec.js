@@ -51,7 +51,7 @@ describe("Compliments module", () => {
 			});
 		});
 
-		describe("Test all date events shown without neww property", () => {
+		describe("Test all date events shown without new property", () => {
 			it("shows 'any message' on May 6", async () => {
 				await helpers.startApplication("tests/configs/modules/compliments/compliments_specialDayUnique_false.js", "06 May 2022 10:00:00 GMT");
 				await expect(doTest(["Special day message", "Typical message 1", "Typical message 2", "Typical message 3"])).resolves.toBe(true);

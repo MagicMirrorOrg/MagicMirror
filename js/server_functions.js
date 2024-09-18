@@ -45,12 +45,12 @@ async function cors (req, res) {
 			url = match[1];
 
 			const headersToSend = getHeadersToSend(req.url);
-			const expectedRecievedHeaders = geExpectedRecievedHeaders(req.url);
+			const expectedReceivedHeaders = geExpectedReceivedHeaders(req.url);
 
 			Log.log(`cors url: ${url}`);
 			const response = await fetch(url, { headers: headersToSend });
 
-			for (const header of expectedRecievedHeaders) {
+			for (const header of expectedReceivedHeaders) {
 				const headerValue = response.headers.get(header);
 				if (header) res.set(header, headerValue);
 			}
@@ -89,16 +89,16 @@ function getHeadersToSend (url) {
  * @param {string} url - The url containing the expected headers from the response.
  * @returns {string[]} headers - The name of the expected headers.
  */
-function geExpectedRecievedHeaders (url) {
-	const expectedRecievedHeaders = ["Content-Type"];
-	const expectedRecievedHeadersMatch = new RegExp("expectedheaders=(.+?)(&|$)", "g").exec(url);
-	if (expectedRecievedHeadersMatch) {
-		const headers = expectedRecievedHeadersMatch[1].split(",");
+function geExpectedReceivedHeaders (url) {
+	const expectedReceivedHeaders = ["Content-Type"];
+	const expectedReceivedHeadersMatch = new RegExp("expectedheaders=(.+?)(&|$)", "g").exec(url);
+	if (expectedReceivedHeadersMatch) {
+		const headers = expectedReceivedHeadersMatch[1].split(",");
 		for (const header of headers) {
-			expectedRecievedHeaders.push(header);
+			expectedReceivedHeaders.push(header);
 		}
 	}
-	return expectedRecievedHeaders;
+	return expectedReceivedHeaders;
 }
 
 /**

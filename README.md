@@ -41,7 +41,7 @@ For the full contribution guidelines, check out: [https://docs.magicmirror.build
 
 ## Enjoying MagicMirror? Consider a donation!
 
-MagicMirror² is opensource and free. That doesn't mean we don't need any money.
+MagicMirror² is Open Source and free. That doesn't mean we don't need any money.
 
 Please consider a donation to help us cover the ongoing costs like webservers and email services.
 If we receive enough donations we might even be able to free up some working hours and spend some extra time improving the MagicMirror² core.

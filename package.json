@@ -41,6 +41,7 @@
 		"test:js": "eslint .",
 		"test:css": "stylelint 'css/main.css' 'fonts/*.css' 'modules/default/**/*.css' 'vendor/*.css' --config .stylelintrc.json",
 		"test:calendar": "node ./modules/default/calendar/debug.js",
+		"test:spelling": "cspell . --gitignore",
 		"config:check": "node js/check_config.js",
 		"lint:prettier": "prettier . --write",
 		"lint:js": "eslint . --fix",
@@ -75,6 +76,7 @@
 	},
 	"devDependencies": {
 		"@stylistic/eslint-plugin": "^2.8.0",
+		"cspell": "^8.14.3",
 		"eslint-plugin-import": "^2.30.0",
 		"eslint-plugin-jest": "^28.8.3",
 		"eslint-plugin-jsdoc": "^50.2.3",
