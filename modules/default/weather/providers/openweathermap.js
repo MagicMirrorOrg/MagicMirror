@@ -1,17 +1,21 @@
 /* global WeatherProvider, WeatherObject */
 
-/* This class is a provider for Openweathermap,
+/*
+ * This class is a provider for Openweathermap,
  * see https://openweathermap.org/
  */
 WeatherProvider.register("openweathermap", {
-	// Set the name of the provider.
-	// This isn't strictly necessary, since it will fallback to the provider identifier
-	// But for debugging (and future alerts) it would be nice to have the real name.
+
+	/*
+	 * Set the name of the provider.
+	 * This isn't strictly necessary, since it will fallback to the provider identifier
+	 * But for debugging (and future alerts) it would be nice to have the real name.
+	 */
 	providerName: "OpenWeatherMap",
 
 	// Set the default config properties that is specific to this provider
 	defaults: {
-		apiVersion: "2.5",
+		apiVersion: "3.0",
 		apiBase: "https://api.openweathermap.org/data/",
 		weatherEndpoint: "", // can be "onecall", "forecast" or "weather" (for current)
 		locationID: false,
@@ -67,8 +71,11 @@ WeatherProvider.register("openweathermap", {
 		this.fetchData(this.getUrl())
 			.then((data) => {
 				if (!data) {
-					// Did not receive usable new data.
-					// Maybe this needs a better check?
+
+					/*
+					 * Did not receive usable new data.
+					 * Maybe this needs a better check?
+					 */
 					return;
 				}
 
@@ -206,8 +213,10 @@ WeatherProvider.register("openweathermap", {
 				weather.weatherType = this.convertWeatherType(forecast.weather[0].icon);
 			}
 
-			// the same day as before
-			// add values from forecast to corresponding variables
+			/*
+			 * the same day as before
+			 * add values from forecast to corresponding variables
+			 */
 			minTemp.push(forecast.main.temp_min);
 			maxTemp.push(forecast.main.temp_max);
 
@@ -220,8 +229,10 @@ WeatherProvider.register("openweathermap", {
 			}
 		}
 
-		// last day
-		// calculate minimum/maximum temperature, specify rain amount
+		/*
+		 * last day
+		 * calculate minimum/maximum temperature, specify rain amount
+		 */
 		weather.minTemperature = Math.min.apply(null, minTemp);
 		weather.maxTemperature = Math.max.apply(null, maxTemp);
 		weather.rain = rain;
@@ -250,14 +261,18 @@ WeatherProvider.register("openweathermap", {
 			weather.rain = 0;
 			weather.snow = 0;
 
-			// forecast.rain not available if amount is zero
-			// The API always returns in millimeters
+			/*
+			 * forecast.rain not available if amount is zero
+			 * The API always returns in millimeters
+			 */
 			if (forecast.hasOwnProperty("rain") && !isNaN(forecast.rain)) {
 				weather.rain = forecast.rain;
 			}
 
-			// forecast.snow not available if amount is zero
-			// The API always returns in millimeters
+			/*
+			 * forecast.snow not available if amount is zero
+			 * The API always returns in millimeters
+			 */
 			if (forecast.hasOwnProperty("snow") && !isNaN(forecast.snow)) {
 				weather.snow = forecast.snow;
 			}
@@ -402,7 +417,8 @@ WeatherProvider.register("openweathermap", {
 		return weatherTypes.hasOwnProperty(weatherType) ? weatherTypes[weatherType] : null;
 	},
 
-	/* getParams(compliments)
+	/*
+	 * getParams(compliments)
 	 * Generates an url with api parameters based on the config.
 	 *
 	 * return String - URL params.

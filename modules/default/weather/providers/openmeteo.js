@@ -1,6 +1,7 @@
 /* global WeatherProvider, WeatherObject */
 
-/* This class is a provider for Open-Meteo,
+/*
+ * This class is a provider for Open-Meteo,
  * see https://open-meteo.com/
  */
 
@@ -9,8 +10,11 @@ const GEOCODE_BASE = "https://api.bigdatacloud.net/data/reverse-geocode-client";
 const OPEN_METEO_BASE = "https://api.open-meteo.com/v1";
 
 WeatherProvider.register("openmeteo", {
-	// Set the name of the provider.
-	// Not strictly required, but helps for debugging.
+
+	/*
+	 * Set the name of the provider.
+	 * Not strictly required, but helps for debugging.
+	 */
 	providerName: "Open-Meteo",
 
 	// Set the default config properties that is specific to this provider
@@ -398,10 +402,10 @@ WeatherProvider.register("openmeteo", {
 			currentWeather.windFromDirection = weather.winddirection_10m_dominant;
 			currentWeather.sunrise = weather.sunrise;
 			currentWeather.sunset = weather.sunset;
-			currentWeather.temperature = parseFloat((weather.apparent_temperature_max + weather.apparent_temperature_min) / 2);
-			currentWeather.minTemperature = parseFloat(weather.apparent_temperature_min);
-			currentWeather.maxTemperature = parseFloat(weather.apparent_temperature_max);
-			currentWeather.weatherType = this.convertWeatherType(weather.weathercode, currentWeather.isDayTime());
+			currentWeather.temperature = parseFloat((weather.temperature_2m_max + weather.temperature_2m_min) / 2);
+			currentWeather.minTemperature = parseFloat(weather.temperature_2m_min);
+			currentWeather.maxTemperature = parseFloat(weather.temperature_2m_max);
+			currentWeather.weatherType = this.convertWeatherType(weather.weathercode, true);
 			currentWeather.rain = parseFloat(weather.rain_sum);
 			currentWeather.snow = parseFloat(weather.snowfall_sum * 10);
 			currentWeather.precipitationAmount = parseFloat(weather.precipitation_sum);
@@ -420,7 +424,7 @@ WeatherProvider.register("openmeteo", {
 		const now = moment();
 
 		weathers.hourly.forEach((weather, i) => {
-			if ((hours.length === 0 && weather.time.hour() <= now.hour()) || hours.length >= this.config.maxEntries) {
+			if ((hours.length === 0 && weather.time <= now) || hours.length >= this.config.maxEntries) {
 				return;
 			}
 
@@ -432,9 +436,9 @@ WeatherProvider.register("openmeteo", {
 			currentWeather.windFromDirection = weather.winddirection_10m;
 			currentWeather.sunrise = weathers.daily[h].sunrise;
 			currentWeather.sunset = weathers.daily[h].sunset;
-			currentWeather.temperature = parseFloat(weather.apparent_temperature);
-			currentWeather.minTemperature = parseFloat(weathers.daily[h].apparent_temperature_min);
-			currentWeather.maxTemperature = parseFloat(weathers.daily[h].apparent_temperature_max);
+			currentWeather.temperature = parseFloat(weather.temperature_2m);
+			currentWeather.minTemperature = parseFloat(weathers.daily[h].temperature_2m_min);
+			currentWeather.maxTemperature = parseFloat(weathers.daily[h].temperature_2m_max);
 			currentWeather.weatherType = this.convertWeatherType(weather.weathercode, currentWeather.isDayTime());
 			currentWeather.humidity = parseFloat(weather.relativehumidity_2m);
 			currentWeather.rain = parseFloat(weather.rain);

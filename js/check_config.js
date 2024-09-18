@@ -5,8 +5,13 @@ const { Linter } = require("eslint");
 
 const linter = new Linter();
 
+const Ajv = require("ajv");
+
+const ajv = new Ajv();
+
 const rootPath = path.resolve(`${__dirname}/../`);
 const Log = require(`${rootPath}/js/logger.js`);
+const Utils = require(`${rootPath}/js/utils.js`);
 
 /**
  * Returns a string with path of configuration file.
@@ -60,6 +65,57 @@ function checkConfigFile () {
 			Log.error(`Line ${error.line} column ${error.column}: ${error.message}`);
 		}
 		process.exit(1);
+	}
+
+	Log.info("Checking modules structure configuration... ");
+
+	const position_list = Utils.getModulePositions();
+
+	/*
+	 * Make Ajv schema configuration of modules config
+	 * only scan "module" and "position"
+	 */
+	const schema = {
+		type: "object",
+		properties: {
+			modules: {
+				type: "array",
+				items: {
+					type: "object",
+					properties: {
+						module: {
+							type: "string"
+						},
+						position: {
+							type: "string",
+							enum: position_list
+						}
+					},
+					required: ["module"]
+				}
+			}
+		}
+	};
+
+	// scan all modules
+	const validate = ajv.compile(schema);
+	const data = require(configFileName);
+
+	const valid = validate(data);
+	if (!valid) {
+		let module = validate.errors[0].instancePath.split("/")[2];
+		let position = validate.errors[0].instancePath.split("/")[3];
+
+		Log.error(colors.red("This module configuration contains errors:"));
+		Log.error(`\n${JSON.stringify(data.modules[module], null, 2)}`);
+		if (position) {
+			Log.error(colors.red(`${position}: ${validate.errors[0].message}`));
+			Log.error(`\n${JSON.stringify(validate.errors[0].params.allowedValues, null, 2).slice(1, -1)}`);
+		} else {
+			Log.error(colors.red(validate.errors[0].message));
+		}
+	} else {
+		Log.info(colors.green("Your modules structure configuration doesn't contain errors :)"));
 	}
 }
 

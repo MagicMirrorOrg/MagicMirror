@@ -54,4 +54,39 @@ describe("Compliments module", () => {
 			await expect(doTest(["Remote compliment file works!"])).resolves.toBe(true);
 		});
 	});
+
+	describe("Feature specialDayUnique in compliments module", () => {
+		describe("specialDayUnique is false", () => {
+			beforeAll(async () => {
+				await helpers.startApplication("tests/configs/modules/compliments/compliments_specialDayUnique_false.js");
+				await helpers.getDocument();
+			});
+
+			it("compliments array can contain all values", async () => {
+				await expect(doTest(["Special day message", "Typical message 1", "Typical message 2", "Typical message 3"])).resolves.toBe(true);
+			});
+		});
+
+		describe("specialDayUnique is true", () => {
+			beforeAll(async () => {
+				await helpers.startApplication("tests/configs/modules/compliments/compliments_specialDayUnique_true.js");
+				await helpers.getDocument();
+			});
+
+			it("compliments array contains only special value", async () => {
+				await expect(doTest(["Special day message"])).resolves.toBe(true);
+			});
+		});
+
+		describe("cron type key", () => {
+			beforeAll(async () => {
+				await helpers.startApplication("tests/configs/modules/compliments/compliments_e2e_cron_entry.js");
+				await helpers.getDocument();
+			});
+
+			it("compliments array contains only special value", async () => {
+				await expect(doTest(["anytime cron"])).resolves.toBe(true);
+			});
+		});
+	});
 });

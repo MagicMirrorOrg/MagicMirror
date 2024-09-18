@@ -1,6 +1,7 @@
 /* global WeatherProvider, WeatherObject, WeatherUtils */
 
-/* Provider: weather.gov
+/*
+ * Provider: weather.gov
  * https://weather-gov.github.io/api/general-faqs
  *
  * This class is a provider for weather.gov.
@@ -9,9 +10,12 @@
  */
 
 WeatherProvider.register("weathergov", {
-	// Set the name of the provider.
-	// This isn't strictly necessary, since it will fallback to the provider identifier
-	// But for debugging (and future alerts) it would be nice to have the real name.
+
+	/*
+	 * Set the name of the provider.
+	 * This isn't strictly necessary, since it will fallback to the provider identifier
+	 * But for debugging (and future alerts) it would be nice to have the real name.
+	 */
 	providerName: "Weather.gov",
 
 	// Set the default config properties that is specific to this provider
@@ -98,8 +102,11 @@ WeatherProvider.register("weathergov", {
 		this.fetchData(this.forecastHourlyURL)
 			.then((data) => {
 				if (!data) {
-					// Did not receive usable new data.
-					// Maybe this needs a better check?
+
+					/*
+					 * Did not receive usable new data.
+					 * Maybe this needs a better check?
+					 */
 					return;
 				}
 				const hourly = this.generateWeatherObjectsFromHourly(data.properties.periods);
@@ -211,7 +218,7 @@ WeatherProvider.register("weathergov", {
 		currentWeather.minTemperature = currentWeatherData.minTemperatureLast24Hours.value;
 		currentWeather.maxTemperature = currentWeatherData.maxTemperatureLast24Hours.value;
 		currentWeather.humidity = Math.round(currentWeatherData.relativeHumidity.value);
-		currentWeather.precipitationAmount = currentWeatherData.precipitationLastHour.value;
+		currentWeather.precipitationAmount = currentWeatherData.precipitationLastHour.value ? currentWeatherData.precipitationLastHour.value : currentWeatherData.precipitationLast3Hours.value;
 		if (currentWeatherData.heatIndex.value !== null) {
 			currentWeather.feelsLikeTemp = currentWeatherData.heatIndex.value;
 		} else if (currentWeatherData.windChill.value !== null) {
@@ -282,14 +289,18 @@ WeatherProvider.register("weathergov", {
 				weather.weatherType = this.convertWeatherType(forecast.shortForecast, forecast.isDaytime);
 			}
 
-			// the same day as before
-			// add values from forecast to corresponding variables
+			/*
+			 * the same day as before
+			 * add values from forecast to corresponding variables
+			 */
 			minTemp.push(forecast.temperature);
 			maxTemp.push(forecast.temperature);
 		}
 
-		// last day
-		// calculate minimum/maximum temperature
+		/*
+		 * last day
+		 * calculate minimum/maximum temperature
+		 */
 		weather.minTemperature = Math.min.apply(null, minTemp);
 		weather.maxTemperature = Math.max.apply(null, maxTemp);
 
@@ -302,8 +313,11 @@ WeatherProvider.register("weathergov", {
 	 * Convert the icons to a more usable name.
 	 */
 	convertWeatherType (weatherType, isDaytime) {
-		//https://w1.weather.gov/xml/current_obs/weather.php
-		// There are way too many types to create, so lets just look for certain strings
+
+		/*
+		 * https://w1.weather.gov/xml/current_obs/weather.php
+		 *  There are way too many types to create, so lets just look for certain strings
+		 */
 
 		if (weatherType.includes("Cloudy") || weatherType.includes("Partly")) {
 			if (isDaytime) {

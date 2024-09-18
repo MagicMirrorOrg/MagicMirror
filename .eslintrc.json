@@ -49,6 +49,7 @@
 		"@stylistic/function-paren-newline": ["error", "consistent"],
 		"@stylistic/implicit-arrow-linebreak": ["error", "beside"],
 		"@stylistic/max-statements-per-line": ["error", { "max": 2 }],
+		"@stylistic/multiline-comment-style": "off",
 		"@stylistic/multiline-ternary": ["error", "always-multiline"],
 		"@stylistic/newline-per-chained-call": ["error", { "ignoreChainWithDepth": 4 }],
 		"@stylistic/no-extra-parens": "off",

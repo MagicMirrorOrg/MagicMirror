@@ -11,7 +11,7 @@
 	},
 	"license": "MIT",
 	"dependencies": {
-		"@fontsource/roboto": "^5.0.13",
-		"@fontsource/roboto-condensed": "^5.0.16"
+		"@fontsource/roboto": "^5.1.0",
+		"@fontsource/roboto-condensed": "^5.1.0"
 	}
 }

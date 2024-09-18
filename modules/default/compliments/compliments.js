@@ -1,3 +1,5 @@
+/* global Cron */
+
 Module.register("compliments", {
 	// Module config defaults.
 	defaults: {
@@ -15,15 +17,18 @@ Module.register("compliments", {
 		morningEndTime: 12,
 		afternoonStartTime: 12,
 		afternoonEndTime: 17,
-		random: true
+		random: true,
+		specialDayUnique: false
 	},
 	lastIndexUsed: -1,
 	// Set currentweather from module
 	currentWeatherType: "",
-
+	cron_regex: /^(((\d+,)+\d+|((\d+|[*])[/]\d+|((JAN|FEB|APR|MA[RY]|JU[LN]|AUG|SEP|OCT|NOV|DEC)(-(JAN|FEB|APR|MA[RY]|JU[LN]|AUG|SEP|OCT|NOV|DEC))?))|(\d+-\d+)|\d+(-\d+)?[/]\d+(-\d+)?|\d+|[*]|(MON|TUE|WED|THU|FRI|SAT|SUN)(-(MON|TUE|WED|THU|FRI|SAT|SUN))?) ?){5}$/i,
+	date_regex: "[1-9.][0-9.][0-9.]{2}-([0][1-9]|[1][0-2])-([1-2][0-9]|[0][1-9]|[3][0-1])",
+	pre_defined_types: ["anytime", "morning", "afternoon", "evening"],
 	// Define required scripts.
 	getScripts () {
-		return ["moment.js"];
+		return ["croner.js", "moment.js"];
 	},
 
 	// Define start sequence.
@@ -37,11 +42,45 @@ Module.register("compliments", {
 			this.config.compliments = JSON.parse(response);
 			this.updateDom();
 		}
+		let minute_sync_delay = 1;
+		// loop thru all the configured when events
+		for (let m of Object.keys(this.config.compliments)) {
+			// if it is a cron entry
+			if (this.isCronEntry(m)) {
+				// we need to synch our interval cycle to the minute
+				minute_sync_delay = (60 - (moment().second())) * 1000;
+				break;
+			}
+		}
+		// Schedule update timer. sync to the minute start (if needed), so minute based events happen on the minute start
+		setTimeout(() => {
+			setInterval(() => {
+				this.updateDom(this.config.fadeSpeed);
+			}, this.config.updateInterval);
+		},
+		minute_sync_delay);
+	},
 
-		// Schedule update timer.
-		setInterval(() => {
-			this.updateDom(this.config.fadeSpeed);
-		}, this.config.updateInterval);
+	// check to see if this entry could be a cron entry wich contains spaces
+	isCronEntry (entry) {
+		return entry.includes(" ");
+	},
+
+	/**
+	 * @param {string} cronExpression The cron expression. See https://croner.56k.guru/usage/pattern/
+	 * @param {Date} [timestamp] The timestamp to check. Defaults to the current time.
+	 * @returns {number} The number of seconds until the next cron run.
+	 */
+	getSecondsUntilNextCronRun (cronExpression, timestamp = new Date()) {
+		// Required for seconds precision
+		const adjustedTimestamp = new Date(timestamp.getTime() - 1000);
+
+		// https://www.npmjs.com/package/croner
+		const cronJob = new Cron(cronExpression);
+		const nextRunTime = cronJob.nextRun(adjustedTimestamp);
+
+		const secondsDelta = (nextRunTime - adjustedTimestamp) / 1000;
+		return secondsDelta;
 	},
 
 	/**
@@ -74,8 +113,9 @@ Module.register("compliments", {
 	 * @returns {string[]} array with compliments for the time of the day.
 	 */
 	complimentArray () {
-		const hour = moment().hour();
-		const date = moment().format("YYYY-MM-DD");
+		const now = moment();
+		const hour = now.hour();
+		const date = now.format("YYYY-MM-DD");
 		let compliments = [];
 
 		// Add time of day compliments
@@ -90,16 +130,49 @@ Module.register("compliments", {
 		// Add compliments based on weather
 		if (this.currentWeatherType in this.config.compliments) {
 			Array.prototype.push.apply(compliments, this.config.compliments[this.currentWeatherType]);
+			// if the predefine list doesn't include it (yet)
+			if (!this.pre_defined_types.includes(this.currentWeatherType)) {
+				// add it
+				this.pre_defined_types.push(this.currentWeatherType);
+			}
 		}
 
 		// Add compliments for anytime
 		Array.prototype.push.apply(compliments, this.config.compliments.anytime);
 
-		// Add compliments for special days
-		for (let entry in this.config.compliments) {
-			if (new RegExp(entry).test(date)) {
-				Array.prototype.push.apply(compliments, this.config.compliments[entry]);
+		// get the list of just date entry keys
+		let temp_list = Object.keys(this.config.compliments).filter((k) => {
+			if (this.pre_defined_types.includes(k)) return false;
+			else return true;
+		});
+
+		let date_compliments = [];
+		// Add compliments for special day/times
+		for (let entry of temp_list) {
+			// check if this could be a cron type entry
+			if (this.isCronEntry(entry)) {
+				// make sure the regex is valid
+				if (new RegExp(this.cron_regex).test(entry)) {
+					// check if we are in the time range for the cron entry
+					if (this.getSecondsUntilNextCronRun(entry, now.set("seconds", 0).toDate()) <= 1) {
+						// if so, use its notice entries
+						Array.prototype.push.apply(date_compliments, this.config.compliments[entry]);
+					}
+				} else Log.error(`compliments cron syntax invalid=${JSON.stringify(entry)}`);
+			} else if (new RegExp(entry).test(date)) {
+				Array.prototype.push.apply(date_compliments, this.config.compliments[entry]);
 			}
+		}
+
+		// if we found any date compliments
+		if (date_compliments.length) {
+			// and the special flag is true
+			if (this.config.specialDayUnique) {
+				// clear the non-date compliments if any
+				compliments.length = 0;
+			}
+			// put the date based compliments on the list
+			Array.prototype.push.apply(compliments, date_compliments);
 		}
 
 		return compliments;

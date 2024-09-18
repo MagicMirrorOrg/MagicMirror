@@ -1,10 +1,11 @@
 const Exec = require("node:child_process").exec;
 const Spawn = require("node:child_process").spawn;
-const pm2 = require("pm2");
+const fs = require("node:fs");
 
 const Log = require("logger");
 
-/* class Updater
+/*
+ * class Updater
  * Allow to self updating 3rd party modules from command defined in config
  *
  * [constructor] read value in config:
@@ -84,13 +85,15 @@ class Updater {
 		return updater;
 	}
 
-	// module updater with his proper command
-	// return object as result
-	//{
-	//	error: <boolean>, // if error detected
-	//	updated: <boolean>, // if updated successfully
-	//	needRestart: <boolean> // if magicmirror restart required
-	//};
+	/*
+	 *  module updater with his proper command
+	 *  return object as result
+	 * {
+	 * 	error: <boolean>, // if error detected
+	 * 	updated: <boolean>, // if updated successfully
+	 * 	needRestart: <boolean> // if magicmirror restart required
+	 * };
+	 */
 	updateProcess (module) {
 		let Result = {
 			error: false,
@@ -139,6 +142,7 @@ class Updater {
 	// restart MagicMiror with "pm2"
 	pm2Restart () {
 		Log.info("updatenotification: PM2 will restarting MagicMirror...");
+		const pm2 = require("pm2");
 		pm2.restart(this.PM2, (err, proc) => {
 			if (err) {
 				Log.error("updatenotification:[PM2] restart Error", err);
@@ -160,6 +164,14 @@ class Updater {
 	check_PM2_Process () {
 		Log.info("updatenotification: Checking PM2 using...");
 		return new Promise((resolve) => {
+			if (fs.existsSync("/.dockerenv")) {
+				Log.info("updatenotification: Running in docker container, not using PM2 ...");
+				this.usePM2 = false;
+				resolve(false);
+				return;
+			}
+
+			const pm2 = require("pm2");
 			pm2.connect((err) => {
 				if (err) {
 					Log.error("updatenotification: [PM2]", err);

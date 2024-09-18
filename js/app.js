@@ -62,6 +62,10 @@ function App () {
 	async function loadConfig () {
 		Log.log("Loading config ...");
 		const defaults = require(`${__dirname}/defaults`);
+		if (process.env.JEST_WORKER_ID !== undefined) {
+			// if we are running with jest
+			defaults.address = "0.0.0.0";
+		}
 
 		/*
 		 * For this check proposed to TestSuite
@@ -189,6 +193,7 @@ function App () {
 			Log.log(`No helper found for module: ${moduleName}.`);
 		}
 
+		// if the helper was found
 		if (loadHelper) {
 			const Module = require(helperPath);
 			let m = new Module();
@@ -261,10 +266,23 @@ function App () {
 
 		Log.setLogLevel(config.logLevel);
 
+		// get the used module positions
+		Utils.getModulePositions();
+
 		let modules = [];
 		for (const module of config.modules) {
-			if (!modules.includes(module.module) && !module.disabled) {
-				modules.push(module.module);
+			if (module.disabled) continue;
+			if (module.module) {
+				if (Utils.moduleHasValidPosition(module.position) || typeof (module.position) === "undefined") {
+					// Only add this module to be loaded if it is not a duplicate (repeated instance of the same module)
+					if (!modules.includes(module.module)) {
+						modules.push(module.module);
+					}
+				} else {
+					Log.warn("Invalid module position found for this configuration:" + `\n${JSON.stringify(module, null, 2)}`);
+				}
+			} else {
+				Log.warn("No module name found for this configuration:" + `\n${JSON.stringify(module, null, 2)}`);
 			}
 		}
 
