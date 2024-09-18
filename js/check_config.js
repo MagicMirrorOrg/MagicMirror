@@ -64,12 +64,13 @@ function checkConfigFile () {
 		for (const error of errors) {
 			Log.error(`Line ${error.line} column ${error.column}: ${error.message}`);
 		}
-		return;
+		process.exit(1);
 	}
 
 	Log.info("Checking modules structure configuration... ");
 
 	const position_list = Utils.getModulePositions();
+
 	// Make Ajv schema configuration of modules config
 	// only scan "module" and "position"
 	const schema = {

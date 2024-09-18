@@ -117,6 +117,8 @@ function App () {
 			}
 		}
 
+		require(`${global.root_path}/js/check_config.js`);
+
 		try {
 			fs.accessSync(configFilename, fs.F_OK);
 			const c = require(configFilename);
