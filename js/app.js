@@ -24,18 +24,14 @@ if (process.env.MM_CONFIG_FILE) {
 	global.configuration_file = process.env.MM_CONFIG_FILE.replace(`${global.root_path}/`, "");
 }
 
-/*
- * FIXME: Hotfix Pull Request
- * https://github.com/MagicMirrorOrg/MagicMirror/pull/673
- */
+// FIXME: Hotfix Pull Request
+// https://github.com/MagicMirrorOrg/MagicMirror/pull/673
 if (process.env.MM_PORT) {
 	global.mmPort = process.env.MM_PORT;
 }
 
-/*
- * The next part is here to prevent a major exception when there
- * is no internet connection. This could probable be solved better.
- */
+// The next part is here to prevent a major exception when there
+// is no internet connection. This could probable be solved better.
 process.on("uncaughtException", function (err) {
 	// ignore strange exceptions under aarch64 coming from systeminformation:
 	if (!err.stack.includes("node_modules/systeminformation")) {
@@ -67,10 +63,8 @@ function App () {
 			defaults.address = "0.0.0.0";
 		}
 
-		/*
-		 * For this check proposed to TestSuite
-		 * https://forum.magicmirror.builders/topic/1456/test-suite-for-magicmirror/8
-		 */
+		// For this check proposed to TestSuite
+		// https://forum.magicmirror.builders/topic/1456/test-suite-for-magicmirror/8
 		const configFilename = path.resolve(global.configuration_file || `${global.root_path}/config/config.js`);
 		let templateFile = `${configFilename}.template`;
 
@@ -112,10 +106,8 @@ function App () {
 				system: true
 			};
 
-			/*
-			 * envsubst variables in templateFile and create new config.js
-			 * naming for envsub must be templateFile and outputFile
-			 */
+			// envsubst variables in templateFile and create new config.js
+			// naming for envsub must be templateFile and outputFile
 			const outputFile = configFilename;
 			try {
 				await envsub({ templateFile, outputFile, options });
@@ -351,10 +343,8 @@ function App () {
 
 		Log.log("Node_helpers stopped ...");
 
-		/*
-		 * To be able to stop the app even if it hasn't been started (when
-		 * running with Electron against another server)
-		 */
+		// To be able to stop the app even if it hasn't been started (when
+		// running with Electron against another server)
 		if (!httpServer) {
 			return Promise.resolve();
 		}

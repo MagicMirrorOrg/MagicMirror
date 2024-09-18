@@ -71,10 +71,8 @@ function checkConfigFile () {
 
 	const position_list = Utils.getModulePositions();
 
-	/*
-	 * Make Ajv schema configuration of modules config
-	 * only scan "module" and "position"
-	 */
+	// Make Ajv schema confguration of modules config
+	// only scan "module" and "position"
 	const schema = {
 		type: "object",
 		properties: {
