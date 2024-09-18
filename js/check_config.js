@@ -59,6 +59,7 @@ function checkConfigFile () {
 		for (const error of errors) {
 			Log.error(`Line ${error.line} column ${error.column}: ${error.message}`);
 		}
+		process.exit(1);
 	}
 }
 
