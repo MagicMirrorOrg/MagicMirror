@@ -15,6 +15,7 @@ _This release is scheduled to be released on 2024-10-01._
 - [core] Add spelling check (cspell): `npm run test:spelling` and handle spelling issues (#3544)
 - [core] removed `config.paths.vendor` (could not work because `vendor` is hardcoded in `index.html`), renamed `config.paths.modules` to `config.foreignModulesDir`, added variable `MM_CUSTOMCSS_FILE` which - if set - overrides `config.customCss`, added variable `MM_MODULES_DIR` which - if set - overrides `config.foreignModulesDir` (#3530)
 - [core] elements are now removed from `index.html` when loading script or stylesheet files fails
+- [core] Added `DOM_OBJECTS_UPDATED` notification each time the DOM is re-rendered via `updateDom` (#3534)
 
 ### Removed
 
@@ -50,7 +51,6 @@ Thanks to: @btoconnor, @bugsounet, @JasonStieber, @khassel, @kleinmantara and @W
 - [calendar] Added config option "showEndsOnlyWithDuration" for default calendar
 - [compliments] Added `specialDayUnique` config option, defaults to `false` (#3465)
 - [weather] Provider weathergov: Use `precipitationLast3Hours` if `precipitationLastHour` is `null` (#3124)
-- [core] Added `DOM_OBJECTS_UPDATED` notification each time the DOM is re-rendered via `updateDom` (#3534)
 
 ### Removed
 
