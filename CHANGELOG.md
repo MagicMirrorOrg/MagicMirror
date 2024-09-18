@@ -49,6 +49,7 @@ Thanks to: @btoconnor, @bugsounet, @JasonStieber, @khassel, @kleinmantara and @W
 - [calendar] Added config option "showEndsOnlyWithDuration" for default calendar
 - [compliments] Added `specialDayUnique` config option, defaults to `false` (#3465)
 - [weather] Provider weathergov: Use `precipitationLast3Hours` if `precipitationLastHour` is `null` (#3124)
+- [core] Added `DOM_OBJECTS_UPDATED` notification each time the DOM is re-rendered via `updateDom` (#3534)
 
 ### Removed
 
