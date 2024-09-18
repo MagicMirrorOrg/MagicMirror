@@ -12,9 +12,9 @@ _This release is scheduled to be released on 2024-10-01._
 ### Added
 
 - [core] Check config at every start of MagicMirror² (#3450)
-- [core] Add spelling check (cspell): `npm run test:spelling` and handle spelling issues
-- [core] removed `config.paths.vendor` (could not work because `vendor` is hardcoded in `index.html`), renamed `config.paths.modules` to `config.foreignModulesDir`, added variable `MM_CUSTOMCSS_FILE` which - if set - overrides `config.customCss`, added variable `MM_MODULES_DIR` which - if set - overrides `config.foreignModulesDir`
-- [core] elements are now removed from index.html when loading script or stylesheet files fails
+- [core] Add spelling check (cspell): `npm run test:spelling` and handle spelling issues (#3544)
+- [core] removed `config.paths.vendor` (could not work because `vendor` is hardcoded in `index.html`), renamed `config.paths.modules` to `config.foreignModulesDir`, added variable `MM_CUSTOMCSS_FILE` which - if set - overrides `config.customCss`, added variable `MM_MODULES_DIR` which - if set - overrides `config.foreignModulesDir` (#3530)
+- [core] elements are now removed from `index.html` when loading script or stylesheet files fails
 
 ### Removed
 
@@ -27,6 +27,7 @@ _This release is scheduled to be released on 2024-10-01._
 - [core] Updated dependencies including stylistic-eslint
 - [core] Updated SocketIO catch all to new API
 - [core] Allow custom modules positions by scanning index.html for the defined regions, instead of hard coded (PR #3518 fixes issue #3504)
+- [core] Detail optimizations in `config_check.js`
 
 ### Fixed
 

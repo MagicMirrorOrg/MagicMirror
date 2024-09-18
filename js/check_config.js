@@ -1,17 +1,15 @@
 const path = require("node:path");
 const fs = require("node:fs");
+const Ajv = require("ajv");
 const colors = require("ansis");
 const { Linter } = require("eslint");
-
-const linter = new Linter();
-
-const Ajv = require("ajv");
-
-const ajv = new Ajv();
 
 const rootPath = path.resolve(`${__dirname}/../`);
 const Log = require(`${rootPath}/js/logger.js`);
 const Utils = require(`${rootPath}/js/utils.js`);
+
+const linter = new Linter();
+const ajv = new Ajv();
 
 /**
  * Returns a string with path of configuration file.
@@ -38,28 +36,28 @@ function checkConfigFile () {
 	// Check permission
 	try {
 		fs.accessSync(configFileName, fs.F_OK);
-	} catch (e) {
-		Log.error(e);
+	} catch (error) {
+		Log.error(error);
 		throw new Error("No permission to access config file!");
 	}
 
 	// Validate syntax of the configuration file.
-	Log.info("Checking file... ", configFileName);
+	Log.info(`Checking config file ${configFileName} ...`);
 
 	// I'm not sure if all ever is utf-8
 	const configFile = fs.readFileSync(configFileName, "utf-8");
 
-	// Explicitly tell linter that he might encounter es6 syntax ("let config = {...}")
+	// Explicitly tell linter that he might encounter es2024 syntax ("let config = {...}")
 	const errors = linter.verify(configFile, {
 		env: {
-			es6: true
+			es2024: true
 		}
 	});
 
 	if (errors.length === 0) {
 		Log.info(colors.green("Your configuration file doesn't contain syntax errors :)"));
 	} else {
-		Log.error(colors.red("Your configuration file contains syntax errors :("));
+		Log.error("Your configuration file contains syntax errors :(");
 
 		for (const error of errors) {
 			Log.error(`Line ${error.line} column ${error.column}: ${error.message}`);
@@ -67,9 +65,9 @@ function checkConfigFile () {
 		process.exit(1);
 	}
 
-	Log.info("Checking modules structure configuration... ");
+	Log.info("Checking modules structure configuration ...");
 
-	const position_list = Utils.getModulePositions();
+	const positionList = Utils.getModulePositions();
 
 	// Make Ajv schema configuration of modules config
 	// only scan "module" and "position"
@@ -86,7 +84,7 @@ function checkConfigFile () {
 						},
 						position: {
 							type: "string",
-							enum: position_list
+							enum: positionList
 						}
 					},
 					required: ["module"]
@@ -95,25 +93,25 @@ function checkConfigFile () {
 		}
 	};
 
-	// scan all modules
+	// Scan all modules
 	const validate = ajv.compile(schema);
 	const data = require(configFileName);
 
 	const valid = validate(data);
-	if (!valid) {
-		let module = validate.errors[0].instancePath.split("/")[2];
-		let position = validate.errors[0].instancePath.split("/")[3];
+	if (valid) {
+		Log.info(colors.green("Your modules structure configuration doesn't contain errors :)"));
+	} else {
+		const module = validate.errors[0].instancePath.split("/")[2];
+		const position = validate.errors[0].instancePath.split("/")[3];
 
-		Log.error(colors.red("This module configuration contains errors:"));
+		Log.error("This module configuration contains errors:");
 		Log.error(`\n${JSON.stringify(data.modules[module], null, 2)}`);
 		if (position) {
-			Log.error(colors.red(`${position}: ${validate.errors[0].message}`));
+			Log.error(`${position}: ${validate.errors[0].message}`);
 			Log.error(`\n${JSON.stringify(validate.errors[0].params.allowedValues, null, 2).slice(1, -1)}`);
 		} else {
-			Log.error(colors.red(validate.errors[0].message));
+			Log.error(validate.errors[0].message);
 		}
-	} else {
-		Log.info(colors.green("Your modules structure configuration doesn't contain errors :)"));
 	}
 }
 
