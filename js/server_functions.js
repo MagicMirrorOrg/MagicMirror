@@ -128,4 +128,30 @@ function getVersion (req, res) {
 	res.send(global.version);
 }
 
-module.exports = { cors, getConfig, getHtml, getVersion, getStartup };
+/**
+ * Gets environment variables needed in the browser.
+ * @returns {object} environment variables key: values
+ */
+function getEnvVarsAsObj () {
+	const obj = { modulesDir: `${config.foreignModulesDir}`, customCss: `${config.customCss}` };
+	if (process.env.MM_MODULES_DIR) {
+		obj.modulesDir = process.env.MM_MODULES_DIR.replace(`${global.root_path}/`, "");
+	}
+	if (process.env.MM_CUSTOMCSS_FILE) {
+		obj.customCss = process.env.MM_CUSTOMCSS_FILE.replace(`${global.root_path}/`, "");
+	}
+
+	return obj;
+}
+
+/**
+ * Gets environment variables needed in the browser.
+ * @param {Request} req - the request
+ * @param {Response} res - the result
+ */
+function getEnvVars (req, res) {
+	const obj = getEnvVarsAsObj();
+	res.send(obj);
+}
+
+module.exports = { cors, getConfig, getHtml, getVersion, getStartup, getEnvVars, getEnvVarsAsObj };
