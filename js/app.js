@@ -9,6 +9,7 @@ const Log = require("logger");
 const Server = require(`${__dirname}/server`);
 const Utils = require(`${__dirname}/utils`);
 const defaultModules = require(`${__dirname}/../modules/default/defaultmodules`);
+const { getEnvVarsAsObj } = require(`${__dirname}/server_functions`);
 
 // Get version number.
 global.version = require(`${__dirname}/../package.json`).version;
@@ -161,7 +162,8 @@ function App () {
 	function loadModule (module) {
 		const elements = module.split("/");
 		const moduleName = elements[elements.length - 1];
-		let moduleFolder = `${__dirname}/../modules/${module}`;
+		const env = getEnvVarsAsObj();
+		let moduleFolder = `${__dirname}/../${env.modulesDir}/${module}`;
 
 		if (defaultModules.includes(moduleName)) {
 			moduleFolder = `${__dirname}/../modules/default/${module}`;

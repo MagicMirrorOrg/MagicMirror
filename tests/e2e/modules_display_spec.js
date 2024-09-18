@@ -12,7 +12,7 @@ describe("Display of modules", () => {
 	it("should show the test header", async () => {
 		const elem = await helpers.waitForElement("#module_0_helloworld .module-header");
 		expect(elem).not.toBeNull();
-		// textContent gibt hier lowercase zurück, das uppercase wird durch css realisiert, was daher nicht in textContent landet
+		// textContent returns lowercase here, the uppercase is realized by CSS, which therefore does not end up in textContent
 		expect(elem.textContent).toBe("test_header");
 	});
 
