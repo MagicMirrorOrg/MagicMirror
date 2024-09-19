@@ -166,7 +166,15 @@ function App () {
 		let moduleFolder = `${__dirname}/../${env.modulesDir}/${module}`;
 
 		if (defaultModules.includes(moduleName)) {
-			moduleFolder = `${__dirname}/../modules/default/${module}`;
+			const defaultModuleFolder = `${__dirname}/../modules/default/${module}`;
+			if (process.env.JEST_WORKER_ID === undefined) {
+				moduleFolder = defaultModuleFolder;
+			} else {
+				// running in Jest, allow defaultModules placed under moduleDir for testing
+				if (env.modulesDir === "modules") {
+					moduleFolder = defaultModuleFolder;
+				}
+			}
 		}
 
 		const moduleFile = `${moduleFolder}/${module}.js`;
