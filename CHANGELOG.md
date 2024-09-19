@@ -11,6 +11,7 @@ _This release is scheduled to be released on 2024-10-01._
 
 ### Added
 
+- [compliments] Added support for cron type date/time format entries mm hh DD MM dow (minutes/hours/days/months and day of week) see https://crontab.cronhub.io for construction (#3481)
 - [core] Check config at every start of MagicMirror² (#3450)
 - [core] Add spelling check (cspell): `npm run test:spelling` and handle spelling issues (#3544)
 - [core] removed `config.paths.vendor` (could not work because `vendor` is hardcoded in `index.html`), renamed `config.paths.modules` to `config.foreignModulesDir`, added variable `MM_CUSTOMCSS_FILE` which - if set - overrides `config.customCss`, added variable `MM_MODULES_DIR` which - if set - overrides `config.foreignModulesDir`, added test for `MM_MODULES_DIR` (#3530)
@@ -47,7 +48,6 @@ Thanks to: @btoconnor, @bugsounet, @JasonStieber, @khassel, @kleinmantara and @W
 
 ### Added
 
-- [compliments] Added support for cron type date/time format entries.. mm hh DD MM dow (minutes/hours/days/months and day of week) see https://crontab.cronhub.io for construction
 - [calendar] Added config option "showEndsOnlyWithDuration" for default calendar
 - [compliments] Added `specialDayUnique` config option, defaults to `false` (#3465)
 - [weather] Provider weathergov: Use `precipitationLast3Hours` if `precipitationLastHour` is `null` (#3124)
