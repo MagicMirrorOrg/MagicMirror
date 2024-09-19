@@ -668,7 +668,7 @@ const MM = (function () {
 			// Further implementation is done in the private method.
 			updateDom(module, updateOptions).then(function () {
 				// Once the update is complete and rendered, send a notification to the module that the DOM has been updated
-				sendNotification("DOM_OBJECTS_UPDATED", null, null, module);
+				sendNotification("MODULE_DOM_UPDATED", null, null, module);
 			});
 		},
 
