@@ -59,7 +59,7 @@
 		"ansis": "^3.3.2",
 		"console-stamp": "^3.1.2",
 		"envsub": "^4.1.0",
-		"eslint": "^8.57.0",
+		"eslint": "^9.10.0",
 		"express": "^4.21.0",
 		"express-ipfilter": "^1.3.2",
 		"feedme": "^2.0.2",
