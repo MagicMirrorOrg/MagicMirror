@@ -72,6 +72,20 @@ const config = [
 			"jest/prefer-to-be": "warn",
 			"jest/prefer-to-have-length": "warn"
 		}
+	},
+	{
+		files: ["config/config.js*"],
+		rules: {
+			"@stylistic/comma-dangle": "off",
+			"@stylistic/indent": "off",
+			"@stylistic/no-multi-spaces": "off"
+		}
+	},
+	{
+		files: ["tests/configs/modules/weather/*.js"],
+		rules: {
+			"@stylistic/quotes": "off"
+		}
 	}
 ];
 
