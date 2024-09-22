@@ -39,6 +39,7 @@ _This release is scheduled to be released on 2024-10-01._
 - [weather] Fixed issue for respecting unit config on broadcasted notifications
 - [tests] Fixes calendar test by moving it from e2e to electron with fixed date (#3532)
 - [calendar] fixed sliceMultiDayEvents getting wrong count and displaying incorrect entries, Europe/Berlin (#3542)
+- [tests] Try to move js tests to eslint v9.x
 
 ## [2.28.0] - 2024-07-01
 
