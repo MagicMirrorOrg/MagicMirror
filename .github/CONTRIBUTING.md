@@ -12,7 +12,7 @@ We use prettier for automatic linting of all our files: `npm run lint:prettier`.
 
 We use [ESLint](https://eslint.org) on our JavaScript files.
 
-Our ESLint configuration is in our `.eslintrc.json` and `.eslintignore` files.
+Our ESLint configuration is in our `eslint.config.mjs` files.
 
 To run ESLint, use `npm run lint:js`.
 

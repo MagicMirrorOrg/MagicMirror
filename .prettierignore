@@ -1,5 +1,4 @@
 *.js
-.eslintignore
 .husky/pre-commit
 .prettierignore
 /config

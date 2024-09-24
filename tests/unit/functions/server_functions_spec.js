@@ -19,7 +19,7 @@ describe("server_functions tests", () => {
 				},
 				text: fetchResponseHeadersText
 			};
-			// eslint-disable-next-line
+
 			fetch = jest.fn();
 			fetch.mockImplementation(() => fetchResponse);
 
