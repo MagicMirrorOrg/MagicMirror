@@ -61,6 +61,7 @@ function checkConfigFile () {
 
 	if (errors.length === 0) {
 		Log.info(colors.green("Your configuration file doesn't contain syntax errors :)"));
+		validateModulePositions(configFileName);
 	} else {
 		let errorMessage = "Your configuration file contains syntax errors :(";
 
@@ -69,7 +70,9 @@ function checkConfigFile () {
 		}
 		throw new Error(errorMessage);
 	}
+}
 
+function validateModulePositions (configFileName) {
 	Log.info("Checking modules structure configuration ...");
 
 	const positionList = Utils.getModulePositions();
@@ -116,7 +119,7 @@ function checkConfigFile () {
 		} else {
 			errorMessage += validate.errors[0].message;
 		}
-		throw new Error(errorMessage);
+		Log.error(errorMessage);
 	}
 }
 
