@@ -63,16 +63,18 @@ let config = {
 			module: "compliments",
 			position: "lower_third"
 		},
-		{
-			module: "weather",
-			position: "top_right",
-			config: {
-				weatherProvider: "openmeteo",
-				type: "current",
-				lat: 40.776676,
-				lon: -73.971321
-			}
-		},
+	{
+	    module: 	'MMM-Weather-Now',
+  	  position: 	'top_right',
+  	  config: {
+  	  api_key:    'xxxxxxxxxxxxxxxxxxxxxx',
+		  lat:		37.3397352,
+		  lon:		-121.894958,
+		  units:		'M',
+		  lang:		'en',
+		  interval:   900000
+  	}
+   },
 		{
 			module: "weather",
 			position: "top_right",
