@@ -651,7 +651,7 @@ Module.register("calendar", {
 						const thisEvent = JSON.parse(JSON.stringify(event)); // clone object
 						thisEvent.today = thisEvent.startDate >= today && thisEvent.startDate < today + ONE_DAY;
 						thisEvent.tomorrow = !thisEvent.today && thisEvent.startDate >= today + ONE_DAY && thisEvent.startDate < today + 2 * ONE_DAY;
-						thisEvent.endDate = midnight;
+						thisEvent.endDate = moment(midnight, "x").clone().subtract(1, "day").format("x");
 						thisEvent.title += ` (${count}/${maxCount})`;
 						splitEvents.push(thisEvent);
 
