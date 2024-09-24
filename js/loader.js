@@ -80,7 +80,15 @@ const Loader = (function () {
 			let moduleFolder = `${envVars.modulesDir}/${module}`;
 
 			if (defaultModules.indexOf(moduleName) !== -1) {
-				moduleFolder = `modules/default/${module}`;
+				const defaultModuleFolder = `modules/default/${module}`;
+				if (window.name !== "jsdom") {
+					moduleFolder = defaultModuleFolder;
+				} else {
+					// running in Jest, allow defaultModules placed under moduleDir for testing
+					if (envVars.modulesDir === "modules") {
+						moduleFolder = defaultModuleFolder;
+					}
+				}
 			}
 
 			if (moduleData.disabled === true) {

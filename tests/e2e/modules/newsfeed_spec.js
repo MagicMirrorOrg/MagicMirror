@@ -82,10 +82,10 @@ describe("Newsfeed module", () => {
 });
 
 describe("Newsfeed module located in config directory", () => {
-	beforeAll(async () => {
+	beforeAll(() => {
 		const baseDir = `${__dirname}/../../..`;
 		if (!fs.existsSync(`${baseDir}/config/newsfeed`)) {
-			await fs.cp(`${baseDir}/modules/default/newsfeed`, `${baseDir}/config/newsfeed`, { recursive: true }, (err) => err && console.error(err));
+			fs.cpSync(`${baseDir}/modules/default/newsfeed`, `${baseDir}/config/newsfeed`, { recursive: true });
 		}
 		process.env.MM_MODULES_DIR = "config";
 	});
