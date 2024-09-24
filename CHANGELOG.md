@@ -17,6 +17,7 @@ _This release is scheduled to be released on 2024-10-01._
 - [core] removed `config.paths.vendor` (could not work because `vendor` is hardcoded in `index.html`), renamed `config.paths.modules` to `config.foreignModulesDir`, added variable `MM_CUSTOMCSS_FILE` which - if set - overrides `config.customCss`, added variable `MM_MODULES_DIR` which - if set - overrides `config.foreignModulesDir`, added test for `MM_MODULES_DIR` (#3530)
 - [core] elements are now removed from `index.html` when loading script or stylesheet files fails
 - [core] Added `MODULE_DOM_UPDATED` notification each time the DOM is re-rendered via `updateDom` (#3534)
+- [tests] added minimal needed node version to tests (currently v20.9.0) to avoid releases with wrong node version info
 
 ### Removed
 
@@ -44,7 +45,7 @@ _This release is scheduled to be released on 2024-10-01._
 
 Thanks to: @btoconnor, @bugsounet, @JasonStieber, @khassel, @kleinmantara and @WallysWellies.
 
-> ⚠️ This release needs nodejs version >= v20
+> ⚠️ This release needs nodejs version >= v20.9.0
 
 ### Added
 
