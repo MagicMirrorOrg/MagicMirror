@@ -23,6 +23,7 @@ _This release is scheduled to be released on 2024-10-01._
 
 - [core] removed installer only files (#3492)
 - [core] removed raspberry object from systeminformation (#3505)
+- [linter] removed `eslint-plugin-import`, because it doesn't support ESLint v9. We will reenter it later when it does.
 
 ### Updated
 
@@ -32,6 +33,7 @@ _This release is scheduled to be released on 2024-10-01._
 - [core] Allow custom modules positions by scanning index.html for the defined regions, instead of hard coded (PR #3518 fixes issue #3504)
 - [core] Detail optimizations in `config_check.js`
 - [core] Updated minimal needed node version in `package.json` (currently v20.9.0)
+- [linter] Switch to ESLint v9 and flat config and replace `eslint-plugin-unicorn` by `@eslint/js`
 
 ### Fixed
 
