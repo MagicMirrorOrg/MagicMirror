@@ -95,7 +95,7 @@
 		"stylelint-prettier": "^5.0.2"
 	},
 	"optionalDependencies": {
-		"electron": "^31.6.0"
+		"electron": "^32.1.2"
 	},
 	"engines": {
 		"node": ">=20.9.0"
