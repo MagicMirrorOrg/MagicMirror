@@ -21,8 +21,10 @@ jobs:
         run: npm run install-mm
       - name: Install @electron/rebuild
         run: npm install @electron/rebuild
+      - name: Install node-libgpiod deps
+        run: sudo apt-get install gpiod libgpiod2 libgpiod-dev
       - name: Install some test library to be rebuilded
-        run: npm install onoff node-pty drivelist
+        run: npm install node-libgpiod node-pty drivelist
       - name: Run electron-rebuild
         run: npx electron-rebuild
         continue-on-error: false
