@@ -18,12 +18,14 @@ _This release is scheduled to be released on 2024-10-01._
 - [core] elements are now removed from `index.html` when loading script or stylesheet files fails
 - [core] Added `MODULE_DOM_UPDATED` notification each time the DOM is re-rendered via `updateDom` (#3534)
 - [tests] added minimal needed node version to tests (currently v20.9.0) to avoid releases with wrong node version info
+- [tests] Added `node-libgpiod` library to electron-rebuild tests (#3563)
 
 ### Removed
 
 - [core] removed installer only files (#3492)
 - [core] removed raspberry object from systeminformation (#3505)
 - [linter] removed `eslint-plugin-import`, because it doesn't support ESLint v9. We will reenter it later when it does.
+- [tests] removed `onoff` library from electron-rebuild tests (#3563)
 
 ### Updated
 
