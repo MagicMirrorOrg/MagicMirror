@@ -97,7 +97,7 @@
 		"electron": "^31.6.0"
 	},
 	"engines": {
-		"node": ">=20.9.0"
+		"node": ">=20.9.0 <21 || 22"
 	},
 	"_moduleAliases": {
 		"node_helper": "js/node_helper.js",
