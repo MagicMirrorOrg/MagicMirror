@@ -32,7 +32,7 @@ _This release is scheduled to be released on 2024-10-01._
 - [core] Updated SocketIO catch all to new API
 - [core] Allow custom modules positions by scanning index.html for the defined regions, instead of hard coded (PR #3518 fixes issue #3504)
 - [core] Detail optimizations in `config_check.js`
-- [core] Updated minimal needed node version in `package.json` (currently v20.9.0)
+- [core] Updated minimal needed node version in `package.json` (currently v20.9.0) (#3559) and except for v21 (no security updates) (#3561)
 - [linter] Switch to ESLint v9 and flat config and replace `eslint-plugin-unicorn` by `@eslint/js`
 
 ### Fixed
