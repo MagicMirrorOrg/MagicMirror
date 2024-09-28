@@ -31,6 +31,7 @@ _This release is scheduled to be released on 2024-10-01._
 
 - [weather] Updated `apiVersion` default from 2.5 to 3.0 (#3424)
 - [core] Updated dependencies including stylistic-eslint
+- [core] nail down `node-ical` version to `0.18.0` with exception `allow-ghsas: GHSA-8hc4-vh64-cxmj` in `dep-review.yaml` (which should removed after next `node-ical` update)
 - [core] Updated SocketIO catch all to new API
 - [core] Allow custom modules positions by scanning index.html for the defined regions, instead of hard coded (PR #3518 fixes issue #3504)
 - [core] Detail optimizations in `config_check.js`
