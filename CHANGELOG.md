@@ -36,6 +36,7 @@ _This release is scheduled to be released on 2024-10-01._
 - [core] Detail optimizations in `config_check.js`
 - [core] Updated minimal needed node version in `package.json` (currently v20.9.0) (#3559) and except for v21 (no security updates) (#3561)
 - [linter] Switch to ESLint v9 and flat config and replace `eslint-plugin-unicorn` by `@eslint/js`
+- [core] fix discovering module positions twice after #3450
 
 ### Fixed
 

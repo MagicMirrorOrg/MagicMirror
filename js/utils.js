@@ -49,21 +49,24 @@ module.exports = {
 	},
 
 	getModulePositions () {
-		// get the lines of the index.html
-		const lines = fs.readFileSync(indexFileName).toString().split(os.EOL);
-		// loop thru the lines
-		lines.forEach((line) => {
-			// run the regex on each line
-			const results = regionRegEx.exec(line);
-			// if the regex returned something
-			if (results && results.length > 0) {
-				// get the position parts and replace space with underscore
-				const positionName = results[1].replace(" ", "_");
-				// add it to the list
-				modulePositions.push(positionName);
-			}
-		});
-		fs.writeFileSync(discoveredPositionsJSFilename, `const modulePositions=${JSON.stringify(modulePositions)}`);
+		// if not already discovered
+		if (modulePositions.length === 0) {
+			// get the lines of the index.html
+			const lines = fs.readFileSync(indexFileName).toString().split(os.EOL);
+			// loop thru the lines
+			lines.forEach((line) => {
+				// run the regex on each line
+				const results = regionRegEx.exec(line);
+				// if the regex returned something
+				if (results && results.length > 0) {
+					// get the position parts and replace space with underscore
+					const positionName = results[1].replace(" ", "_");
+					// add it to the list
+					modulePositions.push(positionName);
+				}
+			});
+			fs.writeFileSync(discoveredPositionsJSFilename, `const modulePositions=${JSON.stringify(modulePositions)}`);
+		}
 		// return the list to the caller
 		return modulePositions;
 	}
