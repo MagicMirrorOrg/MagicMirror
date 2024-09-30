@@ -5,6 +5,18 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/#donate) With your help we can continue to improve the MagicMirror².
 
+## [2.30.0] - Unreleased (`develop` branch)
+
+_This release is scheduled to be released on 2025-01-01._
+
+### Added
+
+### Removed
+
+### Updated
+
+### Fixed
+
 ## [2.29.0] - 2024-10-01
 
 Thanks to: @bugsounet, @dkallen78, @jargordon, @khassel, @KristjanESPERANTO, @MarcLandis, @rejas, @ryan-d-williams, @sdetweil, @skpanagiotis.
