@@ -88,17 +88,6 @@ describe("Calendar module", () => {
 		});
 	});
 
-	describe("Events from multiple calendars", () => {
-		beforeAll(async () => {
-			await helpers.startApplication("tests/configs/modules/calendar/show-duplicates-in-calendar.js");
-			await helpers.getDocument();
-		});
-
-		it("should show multiple events with the same title and start time from different calendars", async () => {
-			await expect(testElementLength(".calendar .event", 22)).resolves.toBe(true);
-		});
-	});
-
 	//Will contain everyday an fullDayEvent that starts today and ends tomorrow, and one starting tomorrow and ending the day after tomorrow
 	describe("FullDayEvent over several days should show how many days are left from the from the starting date on", () => {
 		beforeAll(async () => {

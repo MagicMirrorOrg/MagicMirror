@@ -1,13 +1,16 @@
 /* global Class, cloneObject, Loader, MMSocket, nunjucks, Translator */
 
-/* Module Blueprint.
+/*
+ * Module Blueprint.
  * @typedef {Object} Module
  */
 const Module = Class.extend({
 
-	/*********************************************************
+	/**
+	 ********************************************************
 	 * All methods (and properties) below can be subclassed. *
-	 *********************************************************/
+	 ********************************************************
+	 */
 
 	// Set the minimum MagicMirror² module version for this module.
 	requiresVersion: "2.0.0",
@@ -18,13 +21,17 @@ const Module = Class.extend({
 	// Timer reference used for showHide animation callbacks.
 	showHideTimer: null,
 
-	// Array to store lockStrings. These strings are used to lock
-	// visibility when hiding and showing module.
+	/*
+	 * Array to store lockStrings. These strings are used to lock
+	 * visibility when hiding and showing module.
+	 */
 	lockStrings: [],
 
-	// Storage of the nunjucks Environment,
-	// This should not be referenced directly.
-	// Use the nunjucksEnvironment() to get it.
+	/*
+	 * Storage of the nunjucks Environment,
+	 * This should not be referenced directly.
+	 * Use the nunjucksEnvironment() to get it.
+	 */
 	_nunjucksEnvironment: null,
 
 	/**
@@ -189,9 +196,11 @@ const Module = Class.extend({
 		Log.log(`${this.name} is resumed.`);
 	},
 
-	/*********************************************
+	/**
+	 ********************************************
 	 * The methods below don't need subclassing. *
-	 *********************************************/
+	 ********************************************
+	 */
 
 	/**
 	 * Set the module data.

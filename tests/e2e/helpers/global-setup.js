@@ -1,4 +1,19 @@
+const os = require("node:os");
+const fs = require("node:fs");
 const jsdom = require("jsdom");
+
+const indexFile = `${__dirname}/../../../index.html`;
+const cssFile = `${__dirname}/../../../css/custom.css`;
+const sampleCss = [
+	".region.row3 {",
+	" top: 0;",
+	"}",
+	".region.row3.left {",
+	" top: 100%;",
+	"}"
+];
+var indexData = [];
+var cssData = [];
 
 exports.startApplication = async (configFilename, exec) => {
 	jest.resetModules();
@@ -45,11 +60,12 @@ exports.getDocument = () => {
 	});
 };
 
-exports.waitForElement = (selector, ignoreValue = "") => {
+exports.waitForElement = (selector, ignoreValue = "", timeout = 0) => {
 	return new Promise((resolve) => {
 		let oldVal = "dummy12345";
+		let element = null;
 		const interval = setInterval(() => {
-			const element = document.querySelector(selector);
+			element = document.querySelector(selector);
 			if (element) {
 				let newVal = element.textContent;
 				if (newVal === oldVal) {
@@ -64,6 +80,12 @@ exports.waitForElement = (selector, ignoreValue = "") => {
 				}
 			}
 		}, 100);
+		if (timeout !== 0) {
+			setTimeout(() => {
+				if (interval) clearInterval(interval);
+				resolve(null);
+			}, timeout);
+		}
 	});
 };
 
@@ -90,4 +112,35 @@ exports.testMatch = async (element, regex) => {
 	expect(elem).not.toBeNull();
 	expect(elem.textContent).toMatch(regex);
 	return true;
+};
+
+exports.fixupIndex = async () => {
+	// read and save the git level index file
+	indexData = (await fs.promises.readFile(indexFile)).toString();
+	// make lines of the content
+	let workIndexLines = indexData.split(os.EOL);
+	// loop thru the lines to find place to insert new region
+	for (let l in workIndexLines) {
+		if (workIndexLines[l].includes("region top right")) {
+			// insert a new line with new region definition
+			workIndexLines.splice(l, 0, "      <div class=\"region row3 left\"><div class=\"container\"></div></div>");
+			break;
+		}
+	}
+	// write out the new index.html file, not append
+	await fs.promises.writeFile(indexFile, workIndexLines.join(os.EOL), { flush: true });
+	// read in the current custom.css
+	cssData = (await fs.promises.readFile(cssFile)).toString();
+	// write out the custom.css for this testcase, matching the new region name
+	await fs.promises.writeFile(cssFile, sampleCss.join(os.EOL), { flush: true });
+};
+
+exports.restoreIndex = async () => {
+	// if we read in data
+	if (indexData.length > 1) {
+		//write out saved index.html
+		await fs.promises.writeFile(indexFile, indexData, { flush: true });
+		// write out saved custom.css
+		await fs.promises.writeFile(cssFile, cssData, { flush: true });
+	}
 };

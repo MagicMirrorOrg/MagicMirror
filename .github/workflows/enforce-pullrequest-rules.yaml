@@ -5,7 +5,7 @@
 name: "Enforce Pull-Request Rules"
 
 on:
-  pull_request:
+  pull_request_target:
     types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
 
 jobs:
@@ -25,4 +25,4 @@ jobs:
           echo "Please don't do this. Switch the branch to 'develop'."
           exit 1
         env:
-          BASE_BRANCH: ${{ github.base_ref }}
+          BASE_BRANCH: ${{ github.event.pull_request.base.ref }}

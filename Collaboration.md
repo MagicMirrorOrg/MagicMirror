@@ -15,24 +15,44 @@ This document describes how collaborators of this repository should work togethe
 
 ## Releases
 
-Are done by @rejas or @khassel.
+Are done by
+
+- [ ] @rejas
+- [ ] @sdetweil
+- [ ] @khassel
+
+### Pre-Deployment steps
+
+- [ ] update dependencies (a few days before)
 
 ### Deployment steps
 
-- pull latest `develop` branch
-- update `package.json` to reflect correct version number
-- run `npm install` to generate new `package-lock.json`
-- test `develop` branch
-- update `CHANGELOG.md` (don't forget to add all contributor names)
-- commit and push all changes
-- after successful test run via github actions: create pull request to `master` branch
-- after PR tests run without issues, merge PR
-- create new release with corresponding version tag
-- publish release notes with link to github release on forum in new locked topic
+- [ ] pull latest `develop` branch
+- [ ] update `package.json` and `package-lock.json` to reflect correct version number `2.xx.0`
+- [ ] test `develop` branch
+- [ ] update `CHANGELOG.md`
+  - [ ] add all contributor names: `...`
+  - [ ] add min. node version: > ⚠️ This release needs nodejs version `v20` or `v22`, minimum version is `v20.9.0`
+- [ ] commit and push all changes
+- [ ] after successful test run via github actions: create pull request from `develop` to `master` branch
+  - [ ] add label `mastermerge`
+  - [ ] title of the PR is `Release 2.xx.0`
+  - [ ] description of the PR is the section of the `CHANGELOG.md`
+- [ ] after PR tests run without issues, merge PR
+- [ ] create new release with
+  - [ ] corresponding version tag `v2.xx.0`
+  - [ ] a release name: `...`
+  - [ ] description of the PR is the section of the `CHANGELOG.md`
 
 ### Draft new development release
 
-- checkout `develop` branch
-- update `package.json` to reflect correct version number `2.xx.0-develop`
-- draft new section in `CHANGELOG.md`
-- commit and publish `develop` branch
+- [ ] checkout `develop` branch
+- [ ] update `package.json` and `package-lock.json` to reflect correct version number `2.xx.0-develop`
+- [ ] draft new section in `CHANGELOG.md`
+- [ ] commit and publish `develop` branch
+
+### After release
+
+- [ ] publish release notes with link to github release on forum in new locked topic
+- [ ] close all issues with label `ready (coming with next release)`
+- [ ] release new documentation by merging `develop` on `master` in documentation repository

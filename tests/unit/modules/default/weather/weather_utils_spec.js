@@ -47,7 +47,7 @@ describe("Weather utils tests", () => {
 			expect(WeatherUtils.calculateFeelsLike(0, 20, 40)).toBe(-9.444444444444445);
 		});
 
-		it("should return a calculated feelsLike info (positiv value)", () => {
+		it("should return a calculated feelsLike info (positive value)", () => {
 			expect(WeatherUtils.calculateFeelsLike(30, 0, 60)).toBe(32.8320322777777);
 		});
 	});

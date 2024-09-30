@@ -8,8 +8,7 @@ const helmet = require("helmet");
 const socketio = require("socket.io");
 
 const Log = require("logger");
-const Utils = require("./utils");
-const { cors, getConfig, getHtml, getVersion, getStartup } = require("./server_functions");
+const { cors, getConfig, getHtml, getVersion, getStartup, getEnvVars } = require("./server_functions");
 
 /**
  * Server
@@ -73,8 +72,11 @@ function Server (config) {
 			app.use(helmet(config.httpHeaders));
 			app.use("/js", express.static(__dirname));
 
-			// TODO add tests directory only when running tests?
-			const directories = ["/config", "/css", "/fonts", "/modules", "/vendor", "/translations", "/tests/configs", "/tests/mocks"];
+			let directories = ["/config", "/css", "/fonts", "/modules", "/vendor", "/translations"];
+			if (process.env.JEST_WORKER_ID !== undefined) {
+				// add tests directories only when running tests
+				directories.push("/tests/configs", "/tests/mocks");
+			}
 			for (const directory of directories) {
 				app.use(directory, express.static(path.resolve(global.root_path + directory)));
 			}
@@ -86,6 +88,8 @@ function Server (config) {
 			app.get("/config", (req, res) => getConfig(req, res));
 
 			app.get("/startup", (req, res) => getStartup(req, res));
+
+			app.get("/env", (req, res) => getEnvVars(req, res));
 
 			app.get("/", (req, res) => getHtml(req, res));
 

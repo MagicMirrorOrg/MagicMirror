@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [20.x, 22.x]
+        node-version: [20.9.0, 20.x, 22.x]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -21,8 +21,10 @@ jobs:
         run: npm run install-mm
       - name: Install @electron/rebuild
         run: npm install @electron/rebuild
+      - name: Install node-libgpiod deps
+        run: sudo apt-get install gpiod libgpiod2 libgpiod-dev
       - name: Install some test library to be rebuilded
-        run: npm install onoff node-pty drivelist
+        run: npm install node-libgpiod node-pty drivelist
       - name: Run electron-rebuild
         run: npx electron-rebuild
         continue-on-error: false

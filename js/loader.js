@@ -11,6 +11,15 @@ const Loader = (function () {
 	/* Private Methods */
 
 	/**
+	 * Retrieve object of env variables.
+	 * @returns {object} with key: values as assembled in js/server_functions.js
+	 */
+	const getEnvVars = async function () {
+		const res = await fetch(`${location.protocol}//${location.host}/env`);
+		return JSON.parse(await res.text());
+	};
+
+	/**
 	 * Loops through all modules and requests start for every module.
 	 */
 	const startModules = async function () {
@@ -58,19 +67,28 @@ const Loader = (function () {
 	 * Generate array with module information including module paths.
 	 * @returns {object[]} Module information.
 	 */
-	const getModuleData = function () {
+	const getModuleData = async function () {
 		const modules = getAllModules();
 		const moduleFiles = [];
+		const envVars = await getEnvVars();
 
 		modules.forEach(function (moduleData, index) {
 			const module = moduleData.module;
 
 			const elements = module.split("/");
 			const moduleName = elements[elements.length - 1];
-			let moduleFolder = `${config.paths.modules}/${module}`;
+			let moduleFolder = `${envVars.modulesDir}/${module}`;
 
 			if (defaultModules.indexOf(moduleName) !== -1) {
-				moduleFolder = `${config.paths.modules}/default/${module}`;
+				const defaultModuleFolder = `modules/default/${module}`;
+				if (window.name !== "jsdom") {
+					moduleFolder = defaultModuleFolder;
+				} else {
+					// running in Jest, allow defaultModules placed under moduleDir for testing
+					if (envVars.modulesDir === "modules") {
+						moduleFolder = defaultModuleFolder;
+					}
+				}
 			}
 
 			if (moduleData.disabled === true) {
@@ -166,6 +184,7 @@ const Loader = (function () {
 					};
 					script.onerror = function () {
 						Log.error("Error on loading script:", fileName);
+						script.remove();
 						resolve();
 					};
 					document.getElementsByTagName("body")[0].appendChild(script);
@@ -183,6 +202,7 @@ const Loader = (function () {
 					};
 					stylesheet.onerror = function () {
 						Log.error("Error on loading stylesheet:", fileName);
+						stylesheet.remove();
 						resolve();
 					};
 					document.getElementsByTagName("head")[0].appendChild(stylesheet);
@@ -197,7 +217,9 @@ const Loader = (function () {
 		 * Load all modules as defined in the config.
 		 */
 		async loadModules () {
-			let moduleData = getModuleData();
+			let moduleData = await getModuleData();
+			const envVars = await getEnvVars();
+			const customCss = envVars.customCss;
 
 			/**
 			 * @returns {Promise<void>} when all modules are loaded
@@ -212,7 +234,7 @@ const Loader = (function () {
 					// All modules loaded. Load custom.css
 					// This is done after all the modules so we can
 					// overwrite all the defined styles.
-					await loadFile(config.customCss);
+					await loadFile(customCss);
 					// custom.css loaded. Start all modules.
 					await startModules();
 				}
@@ -244,7 +266,7 @@ const Loader = (function () {
 				// This file is available in the vendor folder.
 				// Load it from this vendor folder.
 				loadedFiles.push(fileName.toLowerCase());
-				return loadFile(`${config.paths.vendor}/${vendor[fileName]}`);
+				return loadFile(`vendor/${vendor[fileName]}`);
 			}
 
 			// File not loaded yet.

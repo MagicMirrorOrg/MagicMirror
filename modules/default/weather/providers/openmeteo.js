@@ -1,6 +1,7 @@
 /* global WeatherProvider, WeatherObject */
 
-/* This class is a provider for Open-Meteo,
+/*
+ * This class is a provider for Open-Meteo,
  * see https://open-meteo.com/
  */
 
@@ -9,8 +10,11 @@ const GEOCODE_BASE = "https://api.bigdatacloud.net/data/reverse-geocode-client";
 const OPEN_METEO_BASE = "https://api.open-meteo.com/v1";
 
 WeatherProvider.register("openmeteo", {
-	// Set the name of the provider.
-	// Not strictly required, but helps for debugging.
+
+	/*
+	 * Set the name of the provider.
+	 * Not strictly required, but helps for debugging.
+	 */
 	providerName: "Open-Meteo",
 
 	// Set the default config properties that is specific to this provider

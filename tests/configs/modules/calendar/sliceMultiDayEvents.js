@@ -1,12 +1,3 @@
-/*
- * MagicMirror² Test calendar exdate
- *
- * By jkriegshauser
- * MIT Licensed.
- *
- * See issue #3250
- * See tests/electron/modules/calendar_spec.js
- */
 let config = {
 	timeFormat: 12,
 
@@ -15,12 +6,13 @@ let config = {
 			module: "calendar",
 			position: "bottom_bar",
 			config: {
+				hideDuplicates: false,
 				maximumEntries: 100,
+				sliceMultiDayEvents: true,
 				calendars: [
 					{
 						maximumEntries: 100,
-						maximumNumberOfDays: 28, // 4 weeks, 2 of which are skipped
-						url: "http://localhost:8080/tests/mocks/exdate_syd_before_midnight.ics"
+						url: "http://localhost:8080/tests/mocks/sliceMultiDayEvents.ics"
 					}
 				]
 			}
@@ -29,7 +21,7 @@ let config = {
 };
 
 Date.now = () => {
-	return new Date("14 Sep 2023 12:30:00 GMT+10:00").valueOf();
+	return new Date("01 Sept 2024 10:38:00 GMT+2:00").valueOf();
 };
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/

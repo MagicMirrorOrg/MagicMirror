@@ -1,10 +1,7 @@
+const fs = require("node:fs");
 const helpers = require("../helpers/global-setup");
 
-describe("Newsfeed module", () => {
-	afterAll(async () => {
-		await helpers.stopApplication();
-	});
-
+const runTests = async () => {
 	describe("Default configuration", () => {
 		beforeAll(async () => {
 			await helpers.startApplication("tests/configs/modules/newsfeed/default.js");
@@ -74,4 +71,28 @@ describe("Newsfeed module", () => {
 			expect(elem.textContent).toContain("No news at the moment.");
 		});
 	});
+};
+
+describe("Newsfeed module", () => {
+	afterAll(async () => {
+		await helpers.stopApplication();
+	});
+
+	runTests();
+});
+
+describe("Newsfeed module located in config directory", () => {
+	beforeAll(() => {
+		const baseDir = `${__dirname}/../../..`;
+		if (!fs.existsSync(`${baseDir}/config/newsfeed`)) {
+			fs.cpSync(`${baseDir}/modules/default/newsfeed`, `${baseDir}/config/newsfeed`, { recursive: true });
+		}
+		process.env.MM_MODULES_DIR = "config";
+	});
+
+	afterAll(async () => {
+		await helpers.stopApplication();
+	});
+
+	runTests();
 });
