@@ -13,7 +13,7 @@ _This release is scheduled to be released on 2025-01-01._
 
 ### Removed
 
-- [tests] Removed node-pty and drivelist from rebuilded test
+- [tests] Removed node-pty and drivelist from rebuilded test (#3575)
 
 ### Updated
 
