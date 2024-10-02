@@ -79,7 +79,7 @@
 		"@stylistic/eslint-plugin": "^2.8.0",
 		"cspell": "^8.14.4",
 		"eslint-plugin-jest": "^28.8.3",
-		"eslint-plugin-jsdoc": "^50.3.0",
+		"eslint-plugin-jsdoc": "^50.3.1",
 		"eslint-plugin-package-json": "^0.15.3",
 		"express-basic-auth": "^1.2.1",
 		"husky": "^9.1.6",
