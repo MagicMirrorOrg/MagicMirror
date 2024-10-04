@@ -17,6 +17,8 @@ _This release is scheduled to be released on 2025-01-01._
 
 ### Updated
 
+- [repo] reactivated `stale.yaml` as github action to mark issues as stale after 60 days and close them 7 days later (if no activity)
+
 ### Fixed
 
 - [updatenotification] Fix pm2 using detection when pm2 script is in MagicMirror root folder (#3576)
