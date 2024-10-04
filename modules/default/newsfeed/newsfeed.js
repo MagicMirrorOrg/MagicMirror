@@ -24,8 +24,10 @@ Module.register("newsfeed", {
 		updateInterval: 10 * 1000,
 		animationSpeed: 2.5 * 1000,
 		maxNewsItems: 0, // 0 for unlimited
-		ignoreOldItems: false,
-		ignoreOlderThan: 24 * 60 * 60 * 1000, // 1 day
+		// Lets make this an array, so it holds the value for each newsfeed, currently there is only one: New York Times
+		ignoreOldItems: Array.from({length: feeds.length}, () => false),
+		// Let's make this an array, so it holds the values for each newsfeed, currently there is only one: New York Times 
+		ignoreOlderThan:Array.from({length: feeds.length}, () => 24 * 60 * 60 * 1000), // all feeds are set to 1 day 
 		removeStartTags: "",
 		removeEndTags: "",
 		startTags: [],
@@ -183,12 +185,12 @@ Module.register("newsfeed", {
 	 */
 	generateFeed (feeds) {
 		let newsItems = [];
-		for (let feed in feeds) {
-			const feedItems = feeds[feed];
-			if (this.subscribedToFeed(feed)) {
+		for (let i = 0; i < feeds.length; i++) {
+			const feedItems = feeds[i];
+			if (this.subscribedToFeed(feedItems)) {
 				for (let item of feedItems) {
-					item.sourceTitle = this.titleForFeed(feed);
-					if (!(this.config.ignoreOldItems && Date.now() - new Date(item.pubdate) > this.config.ignoreOlderThan)) {
+					item.sourceTitle = this.titleForFeed(feedItems);
+					if (!(this.config.ignoreOldItems[i] && Date.now() - new Date(item.pubdate) > this.config.ignoreOlderThan[i])) {
 						newsItems.push(item);
 					}
 				}
