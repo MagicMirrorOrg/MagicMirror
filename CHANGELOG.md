@@ -11,6 +11,9 @@ _This release is scheduled to be released on 2025-01-01._
 
 ### Added
 
+- [weather] Added option Humidity to hourly View
+- [weather] Added option to hide hourly entries that are Zero, hiding the entire column if empty.
+
 ### Removed
 
 - [tests] Removed node-pty and drivelist from rebuilded test (#3575)
@@ -66,6 +69,7 @@ Thanks to: @bugsounet, @dkallen78, @jargordon, @khassel, @KristjanESPERANTO, @Ma
 - [weather] Fixed issue with the UK Met Office provider following a change in their API paths and header info.
 - [core] add check for node_helper loading for multiple instances of same module (#3502)
 - [weather] Fixed issue for respecting unit config on broadcasted notifications
+- [weather] Fixed minor spacing issues when using UV Index in Hourly
 - [tests] Fixes calendar test by moving it from e2e to electron with fixed date (#3532)
 - [calendar] fixed sliceMultiDayEvents getting wrong count and displaying incorrect entries, Europe/Berlin (#3542)
 - [tests] ignore `js/positions.js` when linting (this file is created at runtime)
