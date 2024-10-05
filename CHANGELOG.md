@@ -22,6 +22,7 @@ _This release is scheduled to be released on 2025-01-01._
 ### Fixed
 
 - [updatenotification] Fix pm2 using detection when pm2 script is in MagicMirror root folder (#3576)
+- [core] Fix loading node_helper of modules: avoid black screen, display errors and continue loading with next module (#3578)
 
 ## [2.29.0] - 2024-10-01
 
