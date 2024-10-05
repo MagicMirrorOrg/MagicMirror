@@ -1,6 +1,7 @@
 name: "Close stale issues and PRs"
 
 on:
+  workflow_dispatch: # needed for manually running this workflow
   schedule:
     - cron: "30 1 * * 6" # every Saturday at 1:30
 
