@@ -273,6 +273,7 @@ WeatherProvider.register("ukmetofficedatahub", {
 			30: "thunderstorm"
 		};
 
+		// TODO check for duplicat eand if neeeded
 		return weatherTypes.hasOwnProperty(weatherType) ? weatherTypes[weatherType] : null;
 	}
 });

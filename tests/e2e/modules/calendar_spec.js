@@ -9,7 +9,7 @@ describe("Calendar module", () => {
 	 * @param {string} not reverse result
 	 * @returns {boolean} result
 	 */
-	const testElementLength = async (element, result, not) => {
+	const testElementLength = async (element, result, not = "") => {
 		const elem = await helpers.waitForAllElements(element);
 		expect(elem).not.toBeNull();
 		if (not === "not") {
