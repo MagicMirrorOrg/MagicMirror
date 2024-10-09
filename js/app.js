@@ -197,7 +197,13 @@ function App () {
 
 		// if the helper was found
 		if (loadHelper) {
-			const Module = require(helperPath);
+			let Module;
+			try {
+				Module = require(helperPath);
+			} catch (e) {
+				Log.error(`Error when loading ${moduleName}:`, e.message);
+				return;
+			}
 			let m = new Module();
 
 			if (m.requiresVersion) {
