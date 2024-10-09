@@ -17,9 +17,9 @@ WeatherProvider.register("openweathermap", {
 	defaults: {
 		apiVersion: "3.0",
 		apiBase: "https://api.openweathermap.org/data/",
-		// weatherEndpoint is "/onecall" since API 3.0
+		// weatherEndpoint is "onecall" since API 3.0
 		// "onecall", "forecast" or "weather" only for pro customers
-		weatherEndpoint: "/onecall",
+		weatherEndpoint: "onecall",
 		locationID: false,
 		location: false,
 		// the onecall endpoint needs lat / lon values, it doesn't support the locationId
