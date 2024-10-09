@@ -5,25 +5,25 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/#donate) With your help we can continue to improve the MagicMirror².
 
-## [2.30.0] - 2025-01-01
+## [2.30.0] - Unreleased (`develop` branch)
 
-Thanks to: @HeikoGr
-
-> ⚠️ This release needs nodejs version `v20` or `v22`, minimum version is `v20.9.0`
+_This release is scheduled to be released on 2025-01-01._
 
 ### Added
 
 ### Removed
 
+- [tests] Removed node-pty and drivelist from rebuilded test (#3575)
+
 ### Updated
+
+- [repo] reactivated `stale.yaml` as github action to mark issues as stale after 60 days and close them 7 days later (if no activity)
 
 ### Fixed
 
+- [updatenotification] Fix pm2 using detection when pm2 script is in MagicMirror root folder (#3576)
+- [core] Fix loading node_helper of modules: avoid black screen, display errors and continue loading with next module (#3578)
 - [weather] changed default value for weatherEndpoint to "/onecall" (#3574)
-
-### Deleted
-
-- [weather] 
 
 ## [2.29.0] - 2024-10-01
 
