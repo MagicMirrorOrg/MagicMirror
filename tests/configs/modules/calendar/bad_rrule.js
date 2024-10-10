@@ -1,4 +1,6 @@
 let config = {
+	address: "0.0.0.0",
+	ipWhitelist: [],
 	timeFormat: 12,
 	logLevel: ["INFO", "LOG", "WARN", "ERROR", "DEBUG"],
 	modules: [
