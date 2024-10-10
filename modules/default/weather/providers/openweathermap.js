@@ -17,10 +17,13 @@ WeatherProvider.register("openweathermap", {
 	defaults: {
 		apiVersion: "3.0",
 		apiBase: "https://api.openweathermap.org/data/",
-		weatherEndpoint: "", // can be "onecall", "forecast" or "weather" (for current)
+		// weatherEndpoint is "/onecall" since API 3.0
+		// "/onecall", "/forecast" or "/weather" only for pro customers
+		weatherEndpoint: "/onecall",
 		locationID: false,
 		location: false,
-		lat: 0, // the onecall endpoint needs lat / lon values, it doesn't support the locationId
+		// the /onecall endpoint needs lat / lon values, it doesn't support the locationId
+		lat: 0,
 		lon: 0,
 		apiKey: ""
 	},
@@ -88,30 +91,6 @@ WeatherProvider.register("openweathermap", {
 				Log.error("Could not load data ... ", request);
 			})
 			.finally(() => this.updateAvailable());
-	},
-
-	/**
-	 * Overrides method for setting config to check if endpoint is correct for hourly
-	 * @param {object} config The configuration object
-	 */
-	setConfig (config) {
-		this.config = config;
-		if (!this.config.weatherEndpoint) {
-			switch (this.config.type) {
-				case "hourly":
-					this.config.weatherEndpoint = "/onecall";
-					break;
-				case "daily":
-				case "forecast":
-					this.config.weatherEndpoint = "/forecast";
-					break;
-				case "current":
-					this.config.weatherEndpoint = "/weather";
-					break;
-				default:
-					Log.error("weatherEndpoint not configured and could not resolve it based on type");
-			}
-		}
 	},
 
 	/** OpenWeatherMap Specific Methods - These are not part of the default provider methods */

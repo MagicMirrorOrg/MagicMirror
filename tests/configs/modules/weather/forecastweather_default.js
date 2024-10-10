@@ -8,8 +8,9 @@ let config = {
 			config: {
 				type: "forecast",
 				location: "Munich",
-				mockData: '"#####WEATHERDATA#####"',
-				weatherEndpoint: "/forecast/daily"
+				weatherProvider: "openweathermap",
+				weatherEndpoint: "/forecast/daily",
+				mockData: '"#####WEATHERDATA#####"'
 			}
 		}
 	]

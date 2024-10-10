@@ -8,6 +8,8 @@ let config = {
 			config: {
 				type: "hourly",
 				location: "Berlin",
+				weatherProvider: "openweathermap",
+				weatherEndpoint: "/onecall",
 				mockData: '"#####WEATHERDATA#####"',
 				hourlyForecastIncrements: 2
 			}
