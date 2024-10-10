@@ -15,6 +15,8 @@ let config = {
 			position: "bottom_bar",
 			config: {
 				location: "Munich",
+				weatherProvider: "openweathermap",
+				weatherEndpoint: "/weather",
 				mockData: '"#####WEATHERDATA#####"'
 			}
 		}
