@@ -105,6 +105,7 @@ WeatherProvider.register("openweathermap", {
 				case "daily":
 				case "forecast":
 				case "current":
+				case "":
 					this.config.weatherEndpoint = "/onecall";
 					break;
 				default:
