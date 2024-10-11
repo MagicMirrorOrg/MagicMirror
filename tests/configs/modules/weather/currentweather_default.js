@@ -8,6 +8,8 @@ let config = {
 			config: {
 				location: "Munich",
 				showHumidity: "feelslike",
+				weatherProvider: "openweathermap",
+				weatherEndpoint: "/weather",
 				mockData: '"#####WEATHERDATA#####"'
 			}
 		}
