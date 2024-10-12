@@ -1,5 +1,6 @@
 let config = {
-	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1", "::ffff:192.168.10.1"]
+	address: "0.0.0.0",
+	ipWhitelist: []
 };
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/

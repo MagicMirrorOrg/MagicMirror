@@ -8,6 +8,8 @@
  * See tests/electron/modules/calendar_spec.js
  */
 let config = {
+	address: "0.0.0.0",
+	ipWhitelist: [],
 	timeFormat: 12,
 
 	modules: [
