@@ -78,6 +78,7 @@
 		"@eslint/js": "^9.11.1",
 		"@stylistic/eslint-plugin": "^2.8.0",
 		"cspell": "^8.14.4",
+		"eslint-plugin-import": "^2.31.0",
 		"eslint-plugin-jest": "^28.8.3",
 		"eslint-plugin-jsdoc": "^50.3.1",
 		"eslint-plugin-package-json": "^0.15.3",
