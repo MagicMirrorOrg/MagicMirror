@@ -1,12 +1,12 @@
+import eslintPluginImport from "eslint-plugin-import";
 import eslintPluginJest from "eslint-plugin-jest";
 import eslintPluginJs from "@eslint/js";
 import eslintPluginStylistic from "@stylistic/eslint-plugin";
 import globals from "globals";
-import importPlugin from "eslint-plugin-import";
 
 const config = [
 	eslintPluginJs.configs.recommended,
-	importPlugin.flatConfigs.recommended,
+	eslintPluginImport.flatConfigs.recommended,
 	{
 		files: ["**/*.js"],
 		languageOptions: {
