@@ -1,3 +1,4 @@
+import eslintPluginImport from "eslint-plugin-import";
 import eslintPluginJest from "eslint-plugin-jest";
 import eslintPluginJs from "@eslint/js";
 import eslintPluginStylistic from "@stylistic/eslint-plugin";
@@ -5,6 +6,7 @@ import globals from "globals";
 
 const config = [
 	eslintPluginJs.configs.recommended,
+	eslintPluginImport.flatConfigs.recommended,
 	{
 		files: ["**/*.js"],
 		languageOptions: {
@@ -53,6 +55,9 @@ const config = [
 			"@stylistic/spaced-comment": "off",
 			eqeqeq: "error",
 			"id-length": "off",
+			"import/order": "error",
+			"import/extensions": "error",
+			"import/newline-after-import": "error",
 			"init-declarations": "off",
 			"jest/consistent-test-it": "warn",
 			"jest/no-done-callback": "warn",
