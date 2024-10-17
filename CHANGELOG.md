@@ -11,8 +11,6 @@ _This release is scheduled to be released on 2025-01-01._
 
 ### Added
 
-- [linter] re-added `eslint-plugin-import`now that it supports ESLint v9
-
 ### Removed
 
 - [tests] Removed node-pty and drivelist from rebuilded test (#3575)
@@ -21,13 +19,13 @@ _This release is scheduled to be released on 2025-01-01._
 
 - [repo] reactivated `stale.yaml` as github action to mark issues as stale after 60 days and close them 7 days later (if no activity)
 - [core] Update electron dependency to v32 (test electron rebuild)
-- [tests] All test configs have been updated to allow full external access, allowing for easier debugging (especially when running as a container)
 
 ### Fixed
 
 - [updatenotification] Fix pm2 using detection when pm2 script is in MagicMirror root folder (#3576)
 - [core] Fix loading node_helper of modules: avoid black screen, display errors and continue loading with next module (#3578)
 - [weather] changed default value for weatherEndpoint of provider openweathermap to "/onecall" (#3574)
+- [calendar] - update to resolve issues #3098 #3144 #3351 #3422 #3443 #3467 #3537 related to timezone changes
 
 ## [2.29.0] - 2024-10-01
 

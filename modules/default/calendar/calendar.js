@@ -168,12 +168,17 @@ Module.register("calendar", {
 
 		this.selfUpdate();
 	},
+	notificationReceived(notification,payload,sender){
+
+		if (notification === "FETCH_CALENDAR") {
+			if (this.hasCalendarURL(payload.url)) {
+				this.sendSocketNotification(notification, { url: payload.url, id: this.identifier });
+			}
+		}
+	},
 
 	// Override socket notification handler.
 	socketNotificationReceived (notification, payload) {
-		if (notification === "FETCH_CALENDAR") {
-			this.sendSocketNotification(notification, { url: payload.url, id: this.identifier });
-		}
 
 		if (this.identifier !== payload.id) {
 			return;
