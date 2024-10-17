@@ -1,12 +1,5 @@
 let config = {
 	timeFormat: 24,
-	logLevel: [
-		"INFO",
-		"LOG",
-		"WARN",
-		"ERROR",
-		"DEBUG"
-	],
 	modules: [
 		{
 			module: "calendar",
