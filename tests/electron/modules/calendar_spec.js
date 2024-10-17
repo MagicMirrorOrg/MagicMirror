@@ -22,6 +22,14 @@ describe("Calendar module", () => {
 		return await loc.count();
 	};
 
+	const doTestTableContent = async (table_row, table_column, content) => {
+		const elem = await global.page.locator(table_row);
+		const table_col_data = await global.page.locator(table_column);
+		const date = table_col_data.first();
+		await expect(date.textContent()).resolves.toContain(content);
+		return true;
+	};
+
 	afterEach(async () => {
 		await helpers.stopApplication();
 	});
@@ -144,6 +152,34 @@ describe("Calendar module", () => {
 			expect(elem).not.toBeNull();
 			const cnt = await loc.count();
 			expect(cnt).toBe(6);
+		});
+	});
+
+	describe("sliceMultiDayEvents direct count", () => {
+		it("Issue #3452 split multiday in Europe", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/sliceMultiDayEvents.js", "01 Sept 2024 10:38:00 GMT+02:00", ["js/electron.js"], "Europe/Berlin");
+			await expect(doTestCount()).resolves.toBe(6);
+		});
+	});
+
+	describe("germany timezone", () => {
+		it("Issue #unknown fullday timezone East of UTC edge", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/germany_at_end_of_day_repeating.js", "01 Sept 2024 10:38:00 GMT+02:00", ["js/electron.js"], "Europe/Berlin");
+			await expect(doTestTableContent(".calendar .event", ".time", "Oct 22nd, 23:00")).resolves.toBe(true);
+		});
+	});
+
+	describe("germany all day repeating moved (recurrence and exdate)", () => {
+		it("Issue #unknown fullday timezone East of UTC event moved", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/3_move_first_allday_repeating_event.js", "01 Oct 2024 10:38:00 GMT+02:00", ["js/electron.js"], "Europe/Berlin");
+			await expect(doTestTableContent(".calendar .event", ".time", "12th.Oct")).resolves.toBe(true);
+		});
+	});
+
+	describe("chicago late in timezone", () => {
+		it("Issue #unknown rrule US close to timezone edge", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/chicago_late_in_timezone.js", "01 Sept 2024 10:38:00 GMT-5:00", ["js/electron.js"], "America/Chicago");
+			await expect(doTestTableContent(".calendar .event", ".time", "10th.Sep, 20:15")).resolves.toBe(true);
 		});
 	});
 
