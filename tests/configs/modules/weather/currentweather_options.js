@@ -1,10 +1,14 @@
 let config = {
+	address: "0.0.0.0",
+	ipWhitelist: [],
 	modules: [
 		{
 			module: "weather",
 			position: "bottom_bar",
 			config: {
 				location: "Munich",
+				weatherProvider: "openweathermap",
+				weatherEndpoint: "/weather",
 				mockData: '"#####WEATHERDATA#####"',
 				windUnits: "beaufort",
 				showWindDirectionAsArrow: true,

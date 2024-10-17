@@ -1,4 +1,6 @@
 let config = {
+	address: "0.0.0.0",
+	ipWhitelist: [],
 	timeFormat: 12,
 
 	modules: [
@@ -8,8 +10,9 @@ let config = {
 			config: {
 				type: "forecast",
 				location: "Munich",
-				mockData: '"#####WEATHERDATA#####"',
-				weatherEndpoint: "/forecast/daily"
+				weatherProvider: "openweathermap",
+				weatherEndpoint: "/forecast/daily",
+				mockData: '"#####WEATHERDATA#####"'
 			}
 		}
 	]

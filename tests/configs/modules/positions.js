@@ -1,4 +1,6 @@
 let config = {
+	address: "0.0.0.0",
+	ipWhitelist: [],
 	modules:
 		// Using exotic content. This is why don't accept go to JSON configuration file
 		(() => {

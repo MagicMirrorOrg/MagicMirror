@@ -5,9 +5,35 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/#donate) With your help we can continue to improve the MagicMirror².
 
-## [2.29.0] - Unreleased (`develop` branch)
+## [2.30.0] - Unreleased (`develop` branch)
 
-_This release is scheduled to be released on 2024-10-01._
+_This release is scheduled to be released on 2025-01-01._
+
+### Added
+
+- [linter] re-added `eslint-plugin-import`now that it supports ESLint v9
+
+### Removed
+
+- [tests] Removed node-pty and drivelist from rebuilded test (#3575)
+
+### Updated
+
+- [repo] reactivated `stale.yaml` as github action to mark issues as stale after 60 days and close them 7 days later (if no activity)
+- [core] Update electron dependency to v32 (test electron rebuild)
+- [tests] All test configs have been updated to allow full external access, allowing for easier debugging (especially when running as a container)
+
+### Fixed
+
+- [updatenotification] Fix pm2 using detection when pm2 script is in MagicMirror root folder (#3576)
+- [core] Fix loading node_helper of modules: avoid black screen, display errors and continue loading with next module (#3578)
+- [weather] changed default value for weatherEndpoint of provider openweathermap to "/onecall" (#3574)
+
+## [2.29.0] - 2024-10-01
+
+Thanks to: @bugsounet, @dkallen78, @jargordon, @khassel, @KristjanESPERANTO, @MarcLandis, @rejas, @ryan-d-williams, @sdetweil, @skpanagiotis.
+
+> ⚠️ This release needs nodejs version `v20` or `v22`, minimum version is `v20.9.0`
 
 ### Added
 
@@ -31,11 +57,13 @@ _This release is scheduled to be released on 2024-10-01._
 
 - [weather] Updated `apiVersion` default from 2.5 to 3.0 (#3424)
 - [core] Updated dependencies including stylistic-eslint
+- [core] nail down `node-ical` version to `0.18.0` with exception `allow-ghsas: GHSA-8hc4-vh64-cxmj` in `dep-review.yaml` (which should removed after next `node-ical` update)
 - [core] Updated SocketIO catch all to new API
 - [core] Allow custom modules positions by scanning index.html for the defined regions, instead of hard coded (PR #3518 fixes issue #3504)
 - [core] Detail optimizations in `config_check.js`
 - [core] Updated minimal needed node version in `package.json` (currently v20.9.0) (#3559) and except for v21 (no security updates) (#3561)
 - [linter] Switch to ESLint v9 and flat config and replace `eslint-plugin-unicorn` by `@eslint/js`
+- [core] fix discovering module positions twice after #3450
 
 ### Fixed
 
