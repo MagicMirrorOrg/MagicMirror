@@ -11,7 +11,7 @@ let config = {
 				fullDayEventDateFormat: "Do.MMM",
 				timeFormat: "absolute",
 				getRelative: 0,
-				maximumNumberOFDays: 4,
+				maximumNumberOfDays: 20,
 				calendars: [
 					{
 						maximumEntries: 100,
