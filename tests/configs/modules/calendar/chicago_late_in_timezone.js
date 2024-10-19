@@ -1,4 +1,7 @@
 let config = {
+	address: "0.0.0.0",
+	ipWhitelist: [],
+
 	timeFormat: 24,
 	modules: [
 		{
@@ -16,7 +19,7 @@ let config = {
 					{
 						maximumEntries: 100,
 						//url: "http://localhost:8080/tests/mocks/chicago_late_in_timezone.ics"
-						url: "http://localhost:8080/modules/default/calendar/chicago_late_in_timezone.ics"
+						url: "http://localhost:8080/tests/mocks/chicago_late_in_timezone.ics"
 					}
 				]
 			}

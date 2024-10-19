@@ -1,4 +1,7 @@
 let config = {
+	address: "0.0.0.0",
+	ipWhitelist: [],
+
 	timeFormat: 24,
 	units: "metric",
 	modules: [
