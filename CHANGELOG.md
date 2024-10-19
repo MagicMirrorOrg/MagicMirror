@@ -19,6 +19,8 @@ _This release is scheduled to be released on 2025-01-01._
 
 - [repo] reactivated `stale.yaml` as github action to mark issues as stale after 60 days and close them 7 days later (if no activity)
 - [core] Update electron dependency to v32 (test electron rebuild)
+- [tests] All test configs have been updated to allow full external access, allowing for easier debugging (especially when running as a container)
+- [core] Run and test with node 23
 
 ### Fixed
 
