@@ -1,4 +1,7 @@
 const helpers = require("../helpers/global-setup");
+//const stdMocks = require('std-mocks')
+
+//stdMocks.use();
 
 describe("Calendar module", () => {
 
@@ -22,10 +25,12 @@ describe("Calendar module", () => {
 		return await loc.count();
 	};
 
-	const doTestTableContent = async (table_row, table_column, content) => {
+	const doTestTableContent = async (table_row, table_column, content, last = false) => {
 		const elem = await global.page.locator(table_row);
 		const table_col_data = await global.page.locator(table_column);
-		const date = table_col_data.first();
+		let date;
+		if (last) date = table_col_data.last();
+		else date = table_col_data.first();
 		await expect(date.textContent()).resolves.toContain(content);
 		return true;
 	};
@@ -183,4 +188,29 @@ describe("Calendar module", () => {
 		});
 	});
 
+	describe("berlin late in day event moved, viewed from berlin", () => {
+		it("Issue #unknown rrule ETC+2 close to timezone edge", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/end_of_day_berlin_moved.js", "08 Oct 2024 12:30:00 GMT+02:00", ["js/electron.js"], "Europe/Berlin");
+			await expect(doTestTableContent(".calendar .event", ".time", "24th.Oct, 23:00-00:00", true)).resolves.toBe(true);
+		});
+	});
+
+	describe("berlin late in day event moved, viewed from sydney", () => {
+		it("Issue #unknown rrule ETC+2 close to timezone edge", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/end_of_day_berlin_moved.js", "08 Oct 2024 12:30:00 GMT+02:00", ["js/electron.js"], "Australia/Sydney");
+			await expect(doTestTableContent(".calendar .event", ".time", "25th.Oct, 01:00-02:00", true)).resolves.toBe(true);
+		});
+	});
+
+	describe("berlin late in day event moved, viewed from chicago", () => {
+		it("Issue #unknown rrule ETC+2 close to timezone edge", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/end_of_day_berlin_moved.js", "08 Oct 2024 12:30:00 GMT+02:00", ["js/electron.js"], "America/Chicago");
+			await expect(doTestTableContent(".calendar .event", ".time", "24th.Oct, 16:00-17:00", true)).resolves.toBe(true);
+		});
+	});
+
+
 });
+
+//var output = stdMocks.flush()
+//console.log(output.stdout)
