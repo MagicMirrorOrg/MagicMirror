@@ -32,6 +32,7 @@ describe("Calendar module", () => {
 
 	// get results of table row and column, can select specific row of results,
 	// row is 0 based index  -1 is last, 0 is first...  need 10th(human count), use 9 as row
+	// uses playwright nth locator syntax
 	const doTestTableContent = async (table_row, table_column, content, row = first) => {
 		const elem = await global.page.locator(table_row);
 		const date = await global.page.locator(table_column).locator(`nth=${row}`);

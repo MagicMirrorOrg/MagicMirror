@@ -263,9 +263,10 @@ const CalendarFetcherUtils = {
 
 					// For recurring events, get the set of start dates that fall within the range
 					// of dates we're looking for.
-					// kblankenship1989 - to fix issue #1798, converting all dates to locale time first, then converting back to UTC time
+
 					let pastLocal;
 					let futureLocal;
+
 					if (CalendarFetcherUtils.isFullDayEvent(event)) {
 						Log.debug("fullday");
 						// if full day event, only use the date part of the ranges
@@ -290,8 +291,7 @@ const CalendarFetcherUtils = {
 					d2=new Date(new Date(futureLocal.valueOf() + oneDayInMs).getTime())
 					Log.debug(`Search for recurring events between: ${d1} and ${d2}`);
 
-					//rule.origOptions.dtstart=rule.options.dtstart=
-					event.start=rule.options.dtstart// new Date(new Date(event.start.valueOf()).getTime())
+					event.start=rule.options.dtstart
 
 					Log.debug("fix rrule start=",rule.options.dtstart)
 					Log.debug("event before rrule.between=",JSON.stringify(event,null,2), "exdates=", event.exdate)
@@ -341,6 +341,9 @@ const CalendarFetcherUtils = {
 					// because the logic below will filter out any recurrences that don't actually belong within
 					// our display range.
 					// Would be great if there was a better way to handle this.
+					//
+					// i don't think we will ever see this anymore (oct 2024) due to code fixes for rrule.between()
+					//
 					Log.debug("event.recurrences:",event.recurrences);
 					if (event.recurrences !== undefined) {
 						for (let dateKey in event.recurrences) {
@@ -498,6 +501,12 @@ const CalendarFetcherUtils = {
 
 		return newEvents;
 	},
+	/**
+	 * fixup thew event fields that have dates to use local time
+	 * BEFORE calling rrule.between
+	 * @param the event being processed
+	 * @returns nothing
+	 */
 	fixEventtoLocal(event){
 		// if there are excluded dates, their date is incorrect and possibly key as well.
 		if(event.exdate != undefined){
@@ -529,7 +538,13 @@ const CalendarFetcherUtils = {
 		}
 		Log.debug("modified recurrences before rrule.between", event.recurrences)
 	},
-
+	/**
+	 * convert a UTC date to local time
+	 * BEFORE calling rrule.between
+	 * @param date ti conert
+	 * 				tz event is currently in
+	 * @returns updated date object
+	 */
 	convertDateToLocalTime(date,tz){
 		let delta_tz_offset=0
 		let now_offset=CalendarFetcherUtils.getTimezoneOffsetFromTimezone(moment.tz.guess())
@@ -569,63 +584,51 @@ const CalendarFetcherUtils = {
 		Log.debug("modified date =", newdate)
 		return newdate
 	},
+	/**
+	 * get the exdate/recurrence hash key from the date object
+	 * BEFORE calling rrule.between
+	 * @param the date of the event
+	 * @returns string date key YYYY-MM-DD
+	 */
 	getDateKeyFromDate(date){
 		// get our runtime timezone offset
 		const nowDiff=CalendarFetcherUtils.getTimezoneOffsetFromTimezone(moment.tz.guess())
 		let startday= date.getDate();
 		let adjustment=0
 		Log.debug(" day of month=", ("0"+startday).slice(-2), " nowDiff=", nowDiff, " start time="+date.toString().split(" ")[4].slice(0,2))
-		// Remove the time information of each date by using its substring, using the following method:
-		// .toISOString().substring(0,10).
-		// since the date is given as ISOString with YYYY-MM-DDTHH:MM:SS.SSSZ
-		// (see https://momentjs.com/docs/#/displaying/as-iso-string/).
-		// This must be done after `date` is adjusted
-		//
-		// BUT be careful of DST/STD date shift, use the raw day of the month,
-		//
 		Log.debug("date string=    ",date.toString())
 		Log.debug("date iso string ", date.toISOString() )
 		// if the dates are different
-		//if(date.toString().slice(8,10) != date.toISOString().slice(8,10)){
-			// if the tostring date is less
-			if(date.toString().slice(8,10) < date.toISOString().slice(8,10)){
-				startday=date.toString().slice(8,10)
-				Log.debug("< ", startday)
-				/*
-				Log.debug("less hour before conversion=",date.toString().split(" ")[4].slice(0,2), " after=", date.toISOString().substring(11, 13) )
-				if(date.toString().split(" ")[4].slice(0,2)>date.toISOString().substring(11, 13)){
-					Log.debug("tso ",date.toString().split(" ")[4].slice(0,2)," is  more than iso ",date.toISOString().substring(11, 13))
-					adjustment=-1;
-					Log.debug("subtracting a day")
-				} else {
-					Log.debug("adding a day")
-					adjustment=1;
-				}*/
-			} else {  // tostring is more
-				if(date.toString().slice(8,10) > date.toISOString().slice(8,10)){
-					startday=date.toISOString().slice(8,10)
-					Log.debug("> ", startday)
-					/*Log.debug("more hour before conversion=",date.toString().split(" ")[4].slice(0,2), " after=", date.toISOString().substring(11, 13) )
-					if(date.toString().split(" ")[4].slice(0,2)<date.toISOString().substring(11, 13)){
-						Log.debug("adding a day")
-						adjustment=1;
-					} else {
-						if(date.toString().split(" ")[4].slice(0,2)>date.toISOString().substring(11, 13)){
-							adjustment=-1;
-							Log.debug("subtracting a day")
-						}
-					}*/
-				}
+		if(date.toString().slice(8,10) < date.toISOString().slice(8,10)){
+			startday=date.toString().slice(8,10)
+			Log.debug("< ", startday)
+		} else {  // tostring is more
+			if(date.toString().slice(8,10) > date.toISOString().slice(8,10)){
+				startday=date.toISOString().slice(8,10)
+				Log.debug("> ", startday)
 			}
-		//}
+		}
 		return dateKey = date.toISOString().substring(0, 8)+("0"+startday).slice(-2);
 	},
+	/**
+	 * get the timezone offset from the timezone string
+	 *
+	 * @param the timezone string
+	 * @returns the numerical offset
+	 */
 	getTimezoneOffsetFromTimezone(timeZone){
 		const str = new Date().toLocaleString('en', {timeZone, timeZoneName: 'longOffset'});
 		Log.debug("tz offset=",str)
 		const [_,h,m] = str.match(/([+-]\d+):(\d+)$/) || [, '+00', '00'];
 		return h * 60 + (h > 0 ? +m : -m);
 	},
+	/**
+	 * fixup the date start moment after rrule.between returns date array
+	 *
+	 * @param date object from rrule.between results
+	 *  			the event object it came from
+	 * @returns moment object
+	 */
 	getAdjustedStartMoment(date, event){
 
 		let startMoment = moment(date)
