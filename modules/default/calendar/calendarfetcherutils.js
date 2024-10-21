@@ -305,68 +305,34 @@ const CalendarFetcherUtils = {
 
 					Log.debug(`Title: ${event.summary}, with dates: \n\n${JSON.stringify(dates)}\n`);
 
+					// shouldn't need this  anymore, as RRULE not passed junk
 					dates = dates.filter((d) => {
 						if (JSON.stringify(d) === "null") return false;
 						else return true;
 					});
-					if(true){
 
-						let datesLocal=[]
-						let offset =  d1.getTimezoneOffset()  // this will be local timezone.. oops.. need relative to ics timezone
-						Log.debug("offset =",offset)
-						dates.forEach(d =>{
-							let dtext=d.toISOString().slice(0,-5)
-							Log.debug(" date text form without tz=",dtext)
-							let dLocal= new Date(d.valueOf()+(offset*60000))
-							let offset2=dLocal.getTimezoneOffset()
-							Log.debug("date after offset applied=", dLocal)
-							if(offset!=offset2){
-								// woops, dst/std switch
-								let delta = offset-offset2
-								Log.debug("offset delta=", delta)
-								dLocal= new Date(d.valueOf()+((offset-delta)*60000))
-								Log.debug("corrected normalized date=",dLocal)
-							} else
-								Log.debug(" neutralized date=",dLocal);
-							datesLocal.push(dLocal)
-						})
-						dates=datesLocal
-					}
+					// go thru all the rrule.between() dates and put back the tz offset removed so between would work
+					let datesLocal=[]
+					let offset =  d1.getTimezoneOffset()
+					Log.debug("offset =",offset)
+					dates.forEach(d =>{
+						let dtext=d.toISOString().slice(0,-5)
+						Log.debug(" date text form without tz=",dtext)
+						let dLocal= new Date(d.valueOf()+(offset*60000))
+						let offset2=dLocal.getTimezoneOffset()
+						Log.debug("date after offset applied=", dLocal)
+						if(offset!=offset2){
+							// woops, dst/std switch
+							let delta = offset-offset2
+							Log.debug("offset delta=", delta)
+							dLocal= new Date(d.valueOf()+((offset-delta)*60000))
+							Log.debug("corrected normalized date=",dLocal)
+						} else
+							Log.debug(" neutralized date=",dLocal);
+						datesLocal.push(dLocal)
+					})
+					dates=datesLocal
 
-					// RRule can generate dates with an incorrect recurrence date. Process the array here and apply date correction.
-					if (false) {
-						Log.debug("Rule has byweekday, checking for correction");
-						dates.forEach((date, index, arr) => {
-							// NOTE: getTimezoneOffset() is negative of the expected value. For America/Los_Angeles under DST (GMT-7),
-							// this value is +420. For Australia/Sydney under DST (GMT+11), this value is -660.
-							const tzOffset = date.getTimezoneOffset() / 60;
-							const hour = date.getHours();
-							if ((tzOffset < 0) && (hour < -tzOffset)) { // east of GMT
-								Log.debug(`East of GMT (tzOffset: ${tzOffset}) and hour=${hour} < ${-tzOffset}, Subtracting 1 day from ${date}`);
-								arr[index] = new Date(date.valueOf() - oneDayInMs);
-							} else if ((tzOffset > 0) && (hour >= (24 - tzOffset))) { // west of GMT
-								Log.debug(`West of GMT (tzOffset: ${tzOffset}) and hour=${hour} >= 24-${tzOffset}, Adding 1 day to ${date}`);
-								arr[index] = new Date(date.valueOf() + oneDayInMs);
-							}
-						});
-						// Adjusting the dates could push it beyond the 'until' date, so filter those out here.
-						if (rule.options.until !== null) {
-							dates = dates.filter((date) => {
-								return date.valueOf() <= rule.options.until.valueOf();
-							});
-						}
-					}
-
-					// The dates array from rrule can be confused by DST. If the event was created during DST and we
-					// are querying a date range during non-DST, rrule can have the incorrect time for the date range.
-					// Reprocess the array here computing and applying the time offset.
-					/*dates.forEach((date, index, arr) => {
-						let adjustHours = CalendarFetcherUtils.calculateTimezoneAdjustment(event, date);
-						if (adjustHours !== 0) {
-							Log.debug(`Applying timezone adjustment hours=${adjustHours} to ${date}`);
-							arr[index] = new Date(date.valueOf() + (adjustHours * 60 * 60 * 1000));
-						}
-					});*/
 
 					// The "dates" array contains the set of dates within our desired date range range that are valid
 					// for the recurrence rule. *However*, it's possible for us to have a specific recurrence that
@@ -387,17 +353,6 @@ const CalendarFetcherUtils = {
 							}
 						}
 					}
-
-					// Lastly, sometimes rrule doesn't include the event.start even if it is in the requested range. Ensure
-					// inclusion here. Unfortunately dates.includes() doesn't find it so we have to do forEach().
-					/*{
-						let found = false;
-						dates.forEach((d) => { Log.debug(" d=",d, "start=", event.start); if (d.valueOf() == event.start.valueOf()) found = true; });
-						if (!found) {
-							Log.debug(`event.start=${event.start} was not included in results from rrule; adding`);
-							dates.splice(0, 0, event.start);
-						}
-					}*/
 
 					// Loop through the set of date entries to see which recurrences should be added to our event list.
 					for (let d in dates) {
@@ -420,7 +375,7 @@ const CalendarFetcherUtils = {
 								curEvent = curEvent.recurrences[dateKey];
 								curEvent.start= new Date(new Date(curEvent.start.valueOf()).getTime())
 								curEvent.end= new Date(new Date(curEvent.end.valueOf()).getTime())
-								startMoment = CalendarFetcherUtils.getAdjustedStartMoment(curEvent.start, event) //moment(curEvent.start);
+								startMoment = CalendarFetcherUtils.getAdjustedStartMoment(curEvent.start, event)
 								endMoment= CalendarFetcherUtils.getAdjustedStartMoment(curEvent.end, event)
 								date=curEvent.start
 								curDurationMs = new Date(endMoment).valueOf() - startMoment.valueOf();
@@ -429,7 +384,7 @@ const CalendarFetcherUtils = {
 							}
 						}
 						// If there's no recurrence override, check for an exception date.  Exception dates represent exceptions to the rule.
-						else if (curEvent.exdate !== undefined){
+						if (curEvent.exdate !== undefined){
 							Log.debug("have datekey=", dateKey, " exdates=", curEvent.exdate)
 							if(curEvent.exdate[dateKey] !== undefined) {
 								// This date is an exception date, which means we should skip it in the recurrence pattern.
@@ -526,7 +481,9 @@ const CalendarFetcherUtils = {
 						startDate: startMoment.add(adjustHours, "hours").format("x"),
 						endDate: endMoment.add(adjustHours, "hours").format("x"),
 						fullDayEvent: fullDayEvent,
+						recurringEvent: false,
 						class: event.class,
+						firstYear: event.start.getFullYear(),
 						location: location,
 						geo: geo,
 						description: description

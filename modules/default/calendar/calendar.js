@@ -891,7 +891,10 @@ Module.register("calendar", {
 		let p = this.getCalendarProperty(url, property, defaultValue);
 		if (property === "symbol" || property === "recurringSymbol" || property === "fullDaySymbol") {
 			const className = this.getCalendarProperty(url, "symbolClassName", this.config.defaultSymbolClassName);
-			p = className + p;
+			if(p instanceof Array)
+				p.push(className)
+			else
+				p = className + p;
 		}
 
 		if (!(p instanceof Array)) p = [p];
