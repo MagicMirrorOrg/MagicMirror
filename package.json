@@ -80,7 +80,7 @@
 		"cspell": "^8.15.1",
 		"eslint-plugin-import": "^2.31.0",
 		"eslint-plugin-jest": "^28.8.3",
-		"eslint-plugin-jsdoc": "^50.3.2",
+		"eslint-plugin-jsdoc": "^50.4.3",
 		"eslint-plugin-package-json": "^0.15.3",
 		"express-basic-auth": "^1.2.1",
 		"husky": "^9.1.6",
