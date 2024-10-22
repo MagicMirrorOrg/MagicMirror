@@ -77,7 +77,7 @@
 	"devDependencies": {
 		"@eslint/js": "^9.12.0",
 		"@stylistic/eslint-plugin": "^2.9.0",
-		"cspell": "^8.15.1",
+		"cspell": "^8.15.4",
 		"eslint-plugin-import": "^2.31.0",
 		"eslint-plugin-jest": "^28.8.3",
 		"eslint-plugin-jsdoc": "^50.3.2",
