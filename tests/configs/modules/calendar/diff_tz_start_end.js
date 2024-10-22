@@ -2,24 +2,25 @@ let config = {
 	address: "0.0.0.0",
 	ipWhitelist: [],
 
-	timeFormat: 12,
-
+	timeFormat: 24,
 	modules: [
 		{
 			module: "calendar",
 			position: "bottom_bar",
 			config: {
-				hideDuplicates: false,
-				maximumEntries: 100,
-				sliceMultiDayEvents: true,
-				dateFormat: "MMM Do, HH:mm",
+				fade: false,
+				urgency: 0,
+				dateFormat: "Do.MMM, HH:mm",
+				dateEndFormat: "Do.MMM, HH:mm",
+				fullDayEventDateFormat: "Do.MMM",
 				timeFormat: "absolute",
 				getRelative: 0,
-				urgency: 0,
+				maximumNumberOfDays: 28,
+				showEnd: true,
 				calendars: [
 					{
 						maximumEntries: 100,
-						url: "http://localhost:8080/tests/mocks/germany_at_end_of_day_repeating.ics"
+						url: "http://localhost:8080/tests/mocks/diff_tz_start_end.ics"
 					}
 				]
 			}
@@ -28,7 +29,7 @@ let config = {
 };
 
 Date.now = () => {
-	return new Date("01 Oct 2024 10:38:00 GMT+2:00").valueOf();
+	return new Date("08 Oct 2024 12:30:00 GMT-07:00").valueOf();
 };
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/

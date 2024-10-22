@@ -174,8 +174,8 @@ describe("Calendar module", () => {
 
 	describe("germany timezone", () => {
 		it("Issue #unknown fullday timezone East of UTC edge", async () => {
-			await helpers.startApplication("tests/configs/modules/calendar/germany_at_end_of_day_repeating.js", "01 Sept 2024 10:38:00 GMT+02:00", ["js/electron.js"], "Europe/Berlin");
-			await expect(doTestTableContent(".calendar .event", ".time", "Oct 22nd, 23:00")).resolves.toBe(true);
+			await helpers.startApplication("tests/configs/modules/calendar/germany_at_end_of_day_repeating.js", "01 Oct 2024 10:38:00 GMT+02:00", ["js/electron.js"], "Europe/Berlin");
+			await expect(doTestTableContent(".calendar .event", ".time", "Oct 22nd, 23:00", first)).resolves.toBe(true);
 		});
 	});
 
@@ -247,6 +247,14 @@ describe("Calendar module", () => {
 			await expect(doTestTableContent(".calendar .event", ".time", "22nd.Oct, 14:30-15:30", first)).resolves.toBe(true);
 			// remaining original 4th, now 3rd
 			await expect(doTestTableContent(".calendar .event", ".time", "26th.Oct, 14:30-15:30", second)).resolves.toBe(true);
+		});
+	});
+
+	describe("one event", () => {
+		it("start/end in diff timezones", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/diff_tz_start_end.js", "08 Oct 2024 12:30:00 GMT-07:00", ["js/electron.js"], "America/Chicago");
+			// just
+			await expect(doTestTableContent(".calendar .event", ".time", "29th.Oct, 05:00-30th.Oct, 18:00", first)).resolves.toBe(true);
 		});
 	});
 
