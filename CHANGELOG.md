@@ -11,6 +11,8 @@ _This release is scheduled to be released on 2025-01-01._
 
 ### Added
 
+- [calendar] - added ability to display end date for full date events, where end is not same day (showEnd=true)
+
 ### Removed
 
 - [tests] Removed node-pty and drivelist from rebuilded test (#3575)

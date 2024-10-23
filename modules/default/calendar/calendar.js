@@ -434,6 +434,10 @@ Module.register("calendar", {
 						//subtract one second so that fullDayEvents end at 23:59:59, and not at 0:00:00 one the next day
 						event.endDate -= ONE_SECOND;
 						timeWrapper.innerHTML = CalendarUtils.capFirst(moment(event.startDate, "x").format(this.config.fullDayEventDateFormat));
+						if (this.config.showEnd && event.startDate !== event.endDate) {
+							timeWrapper.innerHTML += "-";
+							timeWrapper.innerHTML += CalendarUtils.capFirst(moment(event.endDate, "x").format(this.config.dateEndFormat));
+						}
 					} else if (this.config.getRelative > 0 && event.startDate < now) {
 						// Ongoing and getRelative is set
 						timeWrapper.innerHTML = CalendarUtils.capFirst(
