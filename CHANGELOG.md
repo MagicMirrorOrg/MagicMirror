@@ -11,7 +11,8 @@ _This release is scheduled to be released on 2025-01-01._
 
 ### Added
 
-- [linter] re-added `eslint-plugin-import`now that it supports ESLint v9
+- [linter] re-added `eslint-plugin-import`now that it supports ESLint v9 (#3586)
+- [core] Add wayland and windows options to package.json (#3594)
 
 ### Removed
 
@@ -22,7 +23,7 @@ _This release is scheduled to be released on 2025-01-01._
 - [repo] reactivated `stale.yaml` as github action to mark issues as stale after 60 days and close them 7 days later (if no activity)
 - [core] Update electron dependency to v32 (test electron rebuild)
 - [tests] All test configs have been updated to allow full external access, allowing for easier debugging (especially when running as a container)
-- [core] Run and test with node 23
+- [core] Run and test with node 23 (#3588)
 
 ### Fixed
 
