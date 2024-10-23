@@ -1,4 +1,7 @@
 const helpers = require("../helpers/global-setup");
+//const stdMocks = require('std-mocks')
+
+//stdMocks.use();
 
 describe("Calendar module", () => {
 
@@ -20,6 +23,21 @@ describe("Calendar module", () => {
 		await elem.waitFor();
 		expect(elem).not.toBeNull();
 		return await loc.count();
+	};
+
+	const first = 0;
+	const second = 1;
+	const third = 2;
+	const last = -1;
+
+	// get results of table row and column, can select specific row of results,
+	// row is 0 based index  -1 is last, 0 is first...  need 10th(human count), use 9 as row
+	// uses playwright nth locator syntax
+	const doTestTableContent = async (table_row, table_column, content, row = first) => {
+		const elem = await global.page.locator(table_row);
+		const date = await global.page.locator(table_column).locator(`nth=${row}`);
+		await expect(date.textContent()).resolves.toContain(content);
+		return true;
 	};
 
 	afterEach(async () => {
@@ -147,4 +165,100 @@ describe("Calendar module", () => {
 		});
 	});
 
+	describe("sliceMultiDayEvents direct count", () => {
+		it("Issue #3452 split multiday in Europe", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/sliceMultiDayEvents.js", "01 Sept 2024 10:38:00 GMT+02:00", ["js/electron.js"], "Europe/Berlin");
+			await expect(doTestCount()).resolves.toBe(6);
+		});
+	});
+
+	describe("germany timezone", () => {
+		it("Issue #unknown fullday timezone East of UTC edge", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/germany_at_end_of_day_repeating.js", "01 Oct 2024 10:38:00 GMT+02:00", ["js/electron.js"], "Europe/Berlin");
+			await expect(doTestTableContent(".calendar .event", ".time", "Oct 22nd, 23:00", first)).resolves.toBe(true);
+		});
+	});
+
+	describe("germany all day repeating moved (recurrence and exdate)", () => {
+		it("Issue #unknown fullday timezone East of UTC event moved", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/3_move_first_allday_repeating_event.js", "01 Oct 2024 10:38:00 GMT+02:00", ["js/electron.js"], "Europe/Berlin");
+			await expect(doTestTableContent(".calendar .event", ".time", "12th.Oct")).resolves.toBe(true);
+		});
+	});
+
+	describe("chicago late in timezone", () => {
+		it("Issue #unknown rrule US close to timezone edge", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/chicago_late_in_timezone.js", "01 Sept 2024 10:38:00 GMT-5:00", ["js/electron.js"], "America/Chicago");
+			await expect(doTestTableContent(".calendar .event", ".time", "10th.Sep, 20:15")).resolves.toBe(true);
+		});
+	});
+
+	describe("berlin late in day event moved, viewed from berlin", () => {
+		it("Issue #unknown rrule ETC+2 close to timezone edge", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/end_of_day_berlin_moved.js", "08 Oct 2024 12:30:00 GMT+02:00", ["js/electron.js"], "Europe/Berlin");
+			await expect(doTestTableContent(".calendar .event", ".time", "24th.Oct, 23:00-00:00", last)).resolves.toBe(true);
+		});
+	});
+
+	describe("berlin late in day event moved, viewed from sydney", () => {
+		it("Issue #unknown rrule ETC+2 close to timezone edge", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/end_of_day_berlin_moved.js", "08 Oct 2024 12:30:00 GMT+02:00", ["js/electron.js"], "Australia/Sydney");
+			await expect(doTestTableContent(".calendar .event", ".time", "25th.Oct, 01:00-02:00", last)).resolves.toBe(true);
+		});
+	});
+
+	describe("berlin late in day event moved, viewed from chicago", () => {
+		it("Issue #unknown rrule ETC+2 close to timezone edge", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/end_of_day_berlin_moved.js", "08 Oct 2024 12:30:00 GMT+02:00", ["js/electron.js"], "America/Chicago");
+			await expect(doTestTableContent(".calendar .event", ".time", "24th.Oct, 16:00-17:00", last)).resolves.toBe(true);
+		});
+	});
+
+	describe("berlin multi-events inside offset", () => {
+		it("some events before DST. some after midnight", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/berlin_multi.js", "08 Oct 2024 12:30:00 GMT+02:00", ["js/electron.js"], "Europe/Berlin");
+			await expect(doTestTableContent(".calendar .event", ".time", "30th.Oct, 00:00-01:00", last)).resolves.toBe(true);
+			await expect(doTestTableContent(".calendar .event", ".time", "21st.Oct, 00:00-01:00", first)).resolves.toBe(true);
+		});
+	});
+
+	describe("berlin whole day repeating, start moved after end", () => {
+		it("some events before DST. some after", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/berlin_whole_day_event_moved_over_dst_change.js", "08 Oct 2024 12:30:00 GMT+02:00", ["js/electron.js"], "Europe/Berlin");
+			await expect(doTestTableContent(".calendar .event", ".time", "30th.Oct", last)).resolves.toBe(true);
+			await expect(doTestTableContent(".calendar .event", ".time", "27th.Oct", first)).resolves.toBe(true);
+		});
+	});
+
+	describe("berlin 11pm-midnight", () => {
+		it("right inside the offset, before midnight", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/berlin_end_of_day_repeating.js", "08 Oct 2024 12:30:00 GMT+02:00", ["js/electron.js"], "Europe/Berlin");
+			await expect(doTestTableContent(".calendar .event", ".time", "24th.Oct, 23:00-00:00", last)).resolves.toBe(true);
+			await expect(doTestTableContent(".calendar .event", ".time", "22nd.Oct, 23:00-00:00", first)).resolves.toBe(true);
+		});
+	});
+
+	describe("both moved and delete events in recurring list", () => {
+		it("with moved before and after original", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/exdate_and_recurrence_together.js", "08 Oct 2024 12:30:00 GMT-07:00", ["js/electron.js"], "America/Los_Angeles");
+			// moved after end at oct 26
+			await expect(doTestTableContent(".calendar .event", ".time", "27th.Oct, 14:30-15:30", last)).resolves.toBe(true);
+			// moved before start at oct 23
+			await expect(doTestTableContent(".calendar .event", ".time", "22nd.Oct, 14:30-15:30", first)).resolves.toBe(true);
+			// remaining original 4th, now 3rd
+			await expect(doTestTableContent(".calendar .event", ".time", "26th.Oct, 14:30-15:30", second)).resolves.toBe(true);
+		});
+	});
+
+	describe("one event", () => {
+		it("start/end in diff timezones", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/diff_tz_start_end.js", "08 Oct 2024 12:30:00 GMT-07:00", ["js/electron.js"], "America/Chicago");
+			// just
+			await expect(doTestTableContent(".calendar .event", ".time", "29th.Oct, 05:00-30th.Oct, 18:00", first)).resolves.toBe(true);
+		});
+	});
+
 });
+
+//var output = stdMocks.flush()
+//console.log(output.stdout)

@@ -14,6 +14,7 @@ _This release is scheduled to be released on 2025-01-01._
 - [core] Add wayland and windows start options to `package.json` (#3594)
 - [linter] re-added `eslint-plugin-import`now that it supports ESLint v9 (#3586)
 - [docs] Added step for npm publishing in release process (#3595)
+- [calendar] - added ability to display end date for full date events, where end is not same day (showEnd=true)
 
 ### Removed
 
@@ -31,6 +32,8 @@ _This release is scheduled to be released on 2025-01-01._
 - [updatenotification] Fix pm2 using detection when pm2 script is in MagicMirror root folder (#3576)
 - [core] Fix loading node_helper of modules: avoid black screen, display errors and continue loading with next module (#3578)
 - [weather] changed default value for weatherEndpoint of provider openweathermap to "/onecall" (#3574)
+- [calendar] - update to resolve issues #3098 #3144 #3351 #3422 #3443 #3467 #3537 related to timezone changes
+- [calendar] - fixes #3267 (styles array), also fixes event with both exdate AND recurrence(and testcase)
 
 ## [2.29.0] - 2024-10-01
 

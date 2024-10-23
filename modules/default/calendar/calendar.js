@@ -168,12 +168,17 @@ Module.register("calendar", {
 
 		this.selfUpdate();
 	},
+	notificationReceived(notification,payload,sender){
+
+		if (notification === "FETCH_CALENDAR") {
+			if (this.hasCalendarURL(payload.url)) {
+				this.sendSocketNotification(notification, { url: payload.url, id: this.identifier });
+			}
+		}
+	},
 
 	// Override socket notification handler.
 	socketNotificationReceived (notification, payload) {
-		if (notification === "FETCH_CALENDAR") {
-			this.sendSocketNotification(notification, { url: payload.url, id: this.identifier });
-		}
 
 		if (this.identifier !== payload.id) {
 			return;
@@ -429,6 +434,10 @@ Module.register("calendar", {
 						//subtract one second so that fullDayEvents end at 23:59:59, and not at 0:00:00 one the next day
 						event.endDate -= ONE_SECOND;
 						timeWrapper.innerHTML = CalendarUtils.capFirst(moment(event.startDate, "x").format(this.config.fullDayEventDateFormat));
+						if (this.config.showEnd && event.startDate !== event.endDate) {
+							timeWrapper.innerHTML += "-";
+							timeWrapper.innerHTML += CalendarUtils.capFirst(moment(event.endDate, "x").format(this.config.dateEndFormat));
+						}
 					} else if (this.config.getRelative > 0 && event.startDate < now) {
 						// Ongoing and getRelative is set
 						timeWrapper.innerHTML = CalendarUtils.capFirst(
@@ -886,7 +895,10 @@ Module.register("calendar", {
 		let p = this.getCalendarProperty(url, property, defaultValue);
 		if (property === "symbol" || property === "recurringSymbol" || property === "fullDaySymbol") {
 			const className = this.getCalendarProperty(url, "symbolClassName", this.config.defaultSymbolClassName);
-			p = className + p;
+			if(p instanceof Array)
+				p.push(className)
+			else
+				p = className + p;
 		}
 
 		if (!(p instanceof Array)) p = [p];
