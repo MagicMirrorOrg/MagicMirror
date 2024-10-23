@@ -56,3 +56,4 @@ Are done by
 - [ ] publish release notes with link to github release on forum in new locked topic
 - [ ] close all issues with label `ready (coming with next release)`
 - [ ] release new documentation by merging `develop` on `master` in documentation repository
+- [ ] publish new version on [npm](https://www.npmjs.com/package/magicmirror)
