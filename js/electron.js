@@ -79,7 +79,6 @@ function createWindow () {
 	if (process.env.JEST_WORKER_ID !== undefined && process.env.MOCK_DATE !== undefined) {
 		// if we are running with jest and we want to mock the current date
 		const fakeNow = new Date(process.env.MOCK_DATE).valueOf();
-		global.originalDate = global.Date;
 		Date = class extends Date {
 			constructor (...args) {
 				if (args.length === 0) {
