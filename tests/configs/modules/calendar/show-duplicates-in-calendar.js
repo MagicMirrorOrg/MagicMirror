@@ -28,10 +28,6 @@ let config = {
 };
 
 // adde here short term, was executed in the testcase runner helper, but failed??
-Date.now = () => {
-	return new Date("15 Sep 2024 12:30:00 GMT").valueOf();
-};
-
 /*************** DO NOT EDIT THE LINE BELOW ***************/
 if (typeof module !== "undefined") {
 	module.exports = config;

@@ -14,13 +14,12 @@ let config = {
 				fullDayEventDateFormat: "Do.MMM",
 				timeFormat: "absolute",
 				getRelative: 0,
-				maximumNumberOfDays: 28,
 				showEnd: true,
 				showEndsOnlyWithDuration: true,
 				calendars: [
 					{
 						maximumEntries: 100,
-						url: "http://localhost:8080/tests/mocks/exdate_and_recurrence_together.ics"
+						url: "http://localhost:8080/tests/mocks/fullday_event_over_multiple_days_nonrepeating.ics"
 					}
 				]
 			}

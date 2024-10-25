@@ -36,6 +36,8 @@ _This release is scheduled to be released on 2025-01-01._
 - [tests] fix testcases with hard coded Date.now (#3597)
 - [calendar] - update to resolve issues #3098 #3144 #3351 #3422 #3443 #3467 #3537 related to timezone changes
 - [calendar] - fixes #3267 (styles array), also fixes event with both exdate AND recurrence(and testcase)
+- [calendar] - fix showEndsOnlyWithDuration not working, #3598
+- [calendar] - fix showEnd for Full Day events #3602
 
 ## [2.29.0] - 2024-10-01
 

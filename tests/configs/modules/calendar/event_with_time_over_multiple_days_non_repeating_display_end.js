@@ -11,16 +11,16 @@ let config = {
 				fade: false,
 				urgency: 0,
 				dateFormat: "Do.MMM, HH:mm",
+				dateEndFormat: "Do.MMM, HH:mm",
 				fullDayEventDateFormat: "Do.MMM",
 				timeFormat: "absolute",
 				getRelative: 0,
-				maximumNumberOfDays: 28,
 				showEnd: true,
 				showEndsOnlyWithDuration: true,
 				calendars: [
 					{
 						maximumEntries: 100,
-						url: "http://localhost:8080/tests/mocks/exdate_and_recurrence_together.ics"
+						url: "http://localhost:8080/tests/mocks/event_with_time_over_multiple_days_non_repeating.ics"
 					}
 				]
 			}

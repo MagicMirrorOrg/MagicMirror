@@ -250,11 +250,35 @@ describe("Calendar module", () => {
 		});
 	});
 
-	describe("one event", () => {
+	describe("one event diff tz", () => {
 		it("start/end in diff timezones", async () => {
 			await helpers.startApplication("tests/configs/modules/calendar/diff_tz_start_end.js", "08 Oct 2024 12:30:00 GMT-07:00", ["js/electron.js"], "America/Chicago");
 			// just
 			await expect(doTestTableContent(".calendar .event", ".time", "29th.Oct, 05:00-30th.Oct, 18:00", first)).resolves.toBe(true);
+		});
+	});
+
+	describe("one event non repeating", () => {
+		it("fullday non-repeating", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/fullday_event_over_multiple_days_nonrepeating.js", "08 Oct 2024 12:30:00 GMT-07:00", ["js/electron.js"], "America/Chicago");
+			// just
+			await expect(doTestTableContent(".calendar .event", ".time", "25th.Oct-30th.Oct", first)).resolves.toBe(true);
+		});
+	});
+
+	describe("one event no end display", () => {
+		it("don't display end", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/event_with_time_over_multiple_days_non_repeating_no_display_end.js", "08 Oct 2024 12:30:00 GMT-07:00", ["js/electron.js"], "America/Chicago");
+			// just
+			await expect(doTestTableContent(".calendar .event", ".time", "25th.Oct, 20:00", first)).resolves.toBe(true);
+		});
+	});
+
+	describe("display end display end", () => {
+		it("display end", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/event_with_time_over_multiple_days_non_repeating_display_end.js", "08 Oct 2024 12:30:00 GMT-07:00", ["js/electron.js"], "America/Chicago");
+			// just
+			await expect(doTestTableContent(".calendar .event", ".time", "25th.Oct, 20:00-26th.Oct, 06:00", first)).resolves.toBe(true);
 		});
 	});
 

@@ -16,6 +16,7 @@ let config = {
 				getRelative: 0,
 				maximumNumberOfDays: 28,
 				showEnd: true,
+				showEndsOnlyWithDuration: true,
 				calendars: [
 					{
 						maximumEntries: 100,
@@ -25,10 +26,6 @@ let config = {
 			}
 		}
 	]
-};
-
-Date.now = () => {
-	return new Date("08 Oct 2024 12:30:00 GMT+02:00").valueOf();
 };
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/

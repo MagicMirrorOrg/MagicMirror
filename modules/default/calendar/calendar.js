@@ -422,21 +422,23 @@ Module.register("calendar", {
 					timeWrapper.innerHTML = CalendarUtils.capFirst(moment(event.startDate, "x").format(this.config.dateFormat));
 					// Add end time if showEnd
 					if (this.config.showEnd) {
-						if (this.config.showEndsOnlyWithDuration && event.startDate === event.endDate) {
-							// no duration here, don't display end
-						} else {
-							timeWrapper.innerHTML += "-";
-							timeWrapper.innerHTML += CalendarUtils.capFirst(moment(event.endDate, "x").format(this.config.dateEndFormat));
+						if (event.startDate !== event.endDate) {
+							//  duration here, display end if requested
+						  if(this.config.showEndsOnlyWithDuration){
+								timeWrapper.innerHTML += "-";
+								timeWrapper.innerHTML += CalendarUtils.capFirst(moment(event.endDate, "x").format(this.config.dateEndFormat));
+							}
 						}
 					}
+
 					// For full day events we use the fullDayEventDateFormat
 					if (event.fullDayEvent) {
 						//subtract one second so that fullDayEvents end at 23:59:59, and not at 0:00:00 one the next day
 						event.endDate -= ONE_SECOND;
 						timeWrapper.innerHTML = CalendarUtils.capFirst(moment(event.startDate, "x").format(this.config.fullDayEventDateFormat));
-						if (this.config.showEnd && event.startDate !== event.endDate) {
+						if (this.config.showEnd && moment(event.startDate,"x").format("YYYYMMDD") !== moment(event.endDate,"x").format("YYYYMMDD")) {
 							timeWrapper.innerHTML += "-";
-							timeWrapper.innerHTML += CalendarUtils.capFirst(moment(event.endDate, "x").format(this.config.dateEndFormat));
+							timeWrapper.innerHTML += CalendarUtils.capFirst(moment(event.endDate, "x").format(this.config.fullDayEventDateFormat));
 						}
 					} else if (this.config.getRelative > 0 && event.startDate < now) {
 						// Ongoing and getRelative is set
