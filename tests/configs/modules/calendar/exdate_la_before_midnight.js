@@ -30,10 +30,6 @@ let config = {
 	]
 };
 
-Date.now = () => {
-	return new Date("19 Oct 2023 12:30:00 GMT-07:00").valueOf();
-};
-
 /*************** DO NOT EDIT THE LINE BELOW ***************/
 if (typeof module !== "undefined") {
 	module.exports = config;

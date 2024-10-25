@@ -1,8 +1,8 @@
 let config = {
 	address: "0.0.0.0",
 	ipWhitelist: [],
+	timeFormat: 12,
 
-	timeFormat: 24,
 	modules: [
 		{
 			module: "calendar",
@@ -11,16 +11,17 @@ let config = {
 				fade: false,
 				urgency: 0,
 				dateFormat: "Do.MMM, HH:mm",
+				dateEndFormat: "Do.MMM, HH:mm",
 				fullDayEventDateFormat: "Do.MMM",
 				timeFormat: "absolute",
 				getRelative: 0,
 				maximumNumberOfDays: 28,
 				showEnd: true,
-				showEndsOnlyWithDuration: true,
 				calendars: [
 					{
-						maximumEntries: 100,
-						url: "http://localhost:8080/tests/mocks/exdate_and_recurrence_together.ics"
+						maximumEntries: 15,
+						maximumNumberOfDays: 100,
+						url: "http://localhost:8080/tests/mocks/fullday_event_over_multiple_days_nonrepeating.ics" // contains 11 events
 					}
 				]
 			}
@@ -28,6 +29,7 @@ let config = {
 	]
 };
 
+/*************** DO NOT EDIT THE LINE BELOW ***************/
 if (typeof module !== "undefined") {
 	module.exports = config;
 }

@@ -35,6 +35,7 @@ _This release is scheduled to be released on 2025-01-01._
 - [calendar] - update to resolve issues #3098 #3144 #3351 #3422 #3443 #3467 #3537 related to timezone changes
 - [calendar] - fixes #3267 (styles array), also fixes event with both exdate AND recurrence(and testcase)
 - [tests] fix electron tests with mock dates, the mock on server side was missing (#3597)
+- [tests] remove Date.now from electron calendar testcases, #3597
 
 ## [2.29.0] - 2024-10-01
 
