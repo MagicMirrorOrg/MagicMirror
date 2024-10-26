@@ -15,6 +15,8 @@ let config = {
 				fullDayEventDateFormat: "Do.MMM",
 				timeFormat: "absolute",
 				getRelative: 0,
+				showEnd: true,
+				showEndsOnlyWithDuration: true,
 				calendars: [
 					{
 						maximumEntries: 100,

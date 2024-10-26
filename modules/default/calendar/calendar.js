@@ -422,12 +422,10 @@ Module.register("calendar", {
 					timeWrapper.innerHTML = CalendarUtils.capFirst(moment(event.startDate, "x").format(this.config.dateFormat));
 					// Add end time if showEnd
 					if (this.config.showEnd) {
+						// andhas a duation
 						if (event.startDate !== event.endDate) {
-							//  duration here, display end if requested
-						  if(this.config.showEndsOnlyWithDuration){
 								timeWrapper.innerHTML += "-";
 								timeWrapper.innerHTML += CalendarUtils.capFirst(moment(event.endDate, "x").format(this.config.dateEndFormat));
-							}
 						}
 					}
 
@@ -436,7 +434,8 @@ Module.register("calendar", {
 						//subtract one second so that fullDayEvents end at 23:59:59, and not at 0:00:00 one the next day
 						event.endDate -= ONE_SECOND;
 						timeWrapper.innerHTML = CalendarUtils.capFirst(moment(event.startDate, "x").format(this.config.fullDayEventDateFormat));
-						if (this.config.showEnd && moment(event.startDate,"x").format("YYYYMMDD") !== moment(event.endDate,"x").format("YYYYMMDD")) {
+						// only show end if requested and allowed and the dates are different
+						if (this.config.showEnd && !this.config.showEndsOnlyWithDuration && moment(event.startDate,"x").format("YYYYMMDD") !== moment(event.endDate,"x").format("YYYYMMDD")) {
 							timeWrapper.innerHTML += "-";
 							timeWrapper.innerHTML += CalendarUtils.capFirst(moment(event.endDate, "x").format(this.config.fullDayEventDateFormat));
 						}

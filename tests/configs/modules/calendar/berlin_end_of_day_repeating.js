@@ -16,7 +16,6 @@ let config = {
 				getRelative: 0,
 				maximumNumberOfDays: 28,
 				showEnd: true,
-				showEndsOnlyWithDuration: true,
 				calendars: [
 					{
 						maximumEntries: 100,

@@ -16,7 +16,6 @@ let config = {
 				timeFormat: "absolute",
 				getRelative: 0,
 				showEnd: true,
-				showEndsOnlyWithDuration: true,
 				calendars: [
 					{
 						maximumEntries: 100,
