@@ -42,6 +42,7 @@ Thanks to: @bugsounet, @dkallen78, @jargordon, @khassel, @KristjanESPERANTO, @Ma
 
 ### Added
 
+- [compliments] Added config for refreshing the remote file on an interval (default - no refresh)
 - [compliments] Added support for cron type date/time format entries mm hh DD MM dow (minutes/hours/days/months and day of week) see https://crontab.cronhub.io for construction (#3481)
 - [core] Check config at every start of MagicMirror² (#3450)
 - [core] Add spelling check (cspell): `npm run test:spelling` and handle spelling issues (#3544)
