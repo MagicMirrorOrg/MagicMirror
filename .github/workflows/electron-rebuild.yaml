@@ -19,8 +19,8 @@ jobs:
           check-latest: true
       - name: Install MagicMirror
         run: npm run install-mm
-      - name: Install @electron/rebuild
-        run: npm install @electron/rebuild
+      - name: Install @electron/rebuild and tests deps
+        run: npm install @electron/rebuild https://github.com/nodejs/nan#node23 node-abi@latest
       - name: Install node-libgpiod deps
         run: sudo apt-get install gpiod libgpiod2 libgpiod-dev
       - name: Install test library (node-libgpiod) to be rebuilded
