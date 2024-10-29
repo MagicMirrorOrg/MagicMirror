@@ -42,11 +42,12 @@ Module.register("compliments", {
 			const response = await this.loadComplimentFile();
 			this.config.compliments = JSON.parse(response);
 			this.updateDom();
-			if (this.remoteFileRefreshInterval != null) {
+			if (this.config.remoteFileRefreshInterval != null) {
 				this.remoteFileRefreshFunc = setInterval(() => {
 					const response = await this.loadComplimentFile();
 					this.config.compliments = JSON.parse(response);
-				}, this.remoteFileRefreshInterval)
+					this.lastIndexUsed = -1;
+				}, this.config.remoteFileRefreshInterval)
 			}
 		}
 		let minute_sync_delay = 1;
