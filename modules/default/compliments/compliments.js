@@ -12,6 +12,7 @@ Module.register("compliments", {
 		},
 		updateInterval: 30000,
 		remoteFile: null,
+		remoteFileRefreshPeriod: null,
 		fadeSpeed: 4000,
 		morningStartTime: 3,
 		morningEndTime: 12,
@@ -41,6 +42,12 @@ Module.register("compliments", {
 			const response = await this.loadComplimentFile();
 			this.config.compliments = JSON.parse(response);
 			this.updateDom();
+			if (this.removeFileRefreshPeriod != null) {
+				this.remoteFileRefreshFunc = setInterval(() => {
+					const response = await this.loadComplimentFile();
+					this.config.compliments = JSON.parse(response);
+				}, this.remoteFileRefreshPeriod)
+			}
 		}
 		let minute_sync_delay = 1;
 		// loop thru all the configured when events
