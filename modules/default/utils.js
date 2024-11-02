@@ -5,13 +5,14 @@
  * @param {boolean} useCorsProxy A flag to indicate
  * @param {Array.<{name: string, value:string}>} requestHeaders the HTTP headers to send
  * @param {Array.<string>} expectedResponseHeaders the expected HTTP headers to receive
+ * @param {string} basePath, default /
  * @returns {Promise} resolved when the fetch is done. The response headers is placed in a headers-property (provided the response does not already contain a headers-property).
  */
-async function performWebRequest (url, type = "json", useCorsProxy = false, requestHeaders = undefined, expectedResponseHeaders = undefined) {
+async function performWebRequest (url, type = "json", useCorsProxy = false, requestHeaders = undefined, expectedResponseHeaders = undefined, basePath = "/") {
 	const request = {};
 	let requestUrl;
 	if (useCorsProxy) {
-		requestUrl = getCorsUrl(url, requestHeaders, expectedResponseHeaders);
+		requestUrl = getCorsUrl(url, requestHeaders, expectedResponseHeaders, basePath);
 	} else {
 		requestUrl = url;
 		request.headers = getHeadersToSend(requestHeaders);
@@ -37,13 +38,14 @@ async function performWebRequest (url, type = "json", useCorsProxy = false, requ
  * @param {string} url the url to fetch from
  * @param {Array.<{name: string, value:string}>} requestHeaders the HTTP headers to send
  * @param {Array.<string>} expectedResponseHeaders the expected HTTP headers to receive
+ * @param {string} basePath, default /
  * @returns {string} to be used as URL when calling CORS-method on server.
  */
-const getCorsUrl = function (url, requestHeaders, expectedResponseHeaders) {
+const getCorsUrl = function (url, requestHeaders, expectedResponseHeaders, basePath = "/") {
 	if (!url || url.length < 1) {
 		throw new Error(`Invalid URL: ${url}`);
 	} else {
-		let corsUrl = `${location.protocol}//${location.host}/cors?`;
+		let corsUrl = `${location.protocol}//${location.host}${basePath}cors?`;
 
 		const requestHeaderString = getRequestHeaderString(requestHeaders);
 		if (requestHeaderString) corsUrl = `${corsUrl}sendheaders=${requestHeaderString}`;

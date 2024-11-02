@@ -33,6 +33,7 @@ _This release is scheduled to be released on 2025-01-01._
 - [weather] changed default value for weatherEndpoint of provider openweathermap to "/onecall" (#3574)
 - [tests] fix electron tests with mock dates, the mock on server side was missing (#3597)
 - [tests] fix testcases with hard coded Date.now (#3597)
+- [core] Fix missing `basePath` where `location.host` is used (#3613)
 
 ## [2.29.0] - 2024-10-01
 

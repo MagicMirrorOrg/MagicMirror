@@ -608,7 +608,7 @@ const MM = (function () {
 					// if server startup time has changed (which means server was restarted)
 					// the client reloads the mm page
 					try {
-						const res = await fetch(`${location.protocol}//${location.host}/startup`);
+						const res = await fetch(`${location.protocol}//${location.host}${config.basePath}startup`);
 						const curr = await res.text();
 						if (startUp === "") startUp = curr;
 						if (startUp !== curr) {
