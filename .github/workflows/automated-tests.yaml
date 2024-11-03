@@ -40,3 +40,4 @@ jobs:
           npm run test:js
           npm run test:css
           npm run test
+          npm run test:spelling

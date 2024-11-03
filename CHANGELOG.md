@@ -14,6 +14,7 @@ _This release is scheduled to be released on 2025-01-01._
 - [core] Add wayland and windows start options to `package.json` (#3594)
 - [linter] re-added `eslint-plugin-import`now that it supports ESLint v9 (#3586)
 - [docs] Added step for npm publishing in release process (#3595)
+- [core] Run spelling check in GitHub workflow
 
 ### Removed
 
