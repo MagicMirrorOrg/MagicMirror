@@ -17,8 +17,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          ref: development
-
+          ref: develop
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
