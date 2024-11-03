@@ -1,0 +1,31 @@
+# This workflow will run a spellcheck on the codebase.
+# It runs a few days before each release. At 00:00 on day-of-month 27 in March, June, September, and December.
+
+name: Run Spellcheck
+
+on:
+  schedule:
+    - cron: "0 0 27 3,6,9,12 *"
+
+permissions:
+  contents: read
+
+jobs:
+  spellcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: develop
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          check-latest: true
+          cache: "npm"
+      - name: Install dependencies
+        run: |
+          npm run install-mm:dev
+      - name: Run Spellcheck
+        run: npm run test:spellcheck
