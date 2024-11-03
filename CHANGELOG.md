@@ -30,9 +30,9 @@ _This release is scheduled to be released on 2025-01-01._
 
 - [updatenotification] Fix pm2 using detection when pm2 script is inside or outside MagicMirror root folder (#3576) (#3605)
 - [core] Fix loading node_helper of modules: avoid black screen, display errors and continue loading with next module (#3578)
-- [weather] changed default value for weatherEndpoint of provider openweathermap to "/onecall" (#3574)
-- [tests] fix electron tests with mock dates, the mock on server side was missing (#3597)
-- [tests] fix testcases with hard coded Date.now (#3597)
+- [weather] Changed default value for weatherEndpoint of provider openweathermap to "/onecall" (#3574)
+- [tests] Fix electron tests with mock dates, the mock on server side was missing (#3597)
+- [tests] Fix test cases with hard coded Date.now (#3597)
 - [core] Fix missing `basePath` where `location.host` is used (#3613)
 
 ## [2.29.0] - 2024-10-01
