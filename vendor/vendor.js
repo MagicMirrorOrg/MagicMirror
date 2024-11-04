@@ -6,7 +6,7 @@ const vendor = {
 	"font-awesome.css": "css/font-awesome.css",
 	"nunjucks.js": "node_modules/nunjucks/browser/nunjucks.min.js",
 	"suncalc.js": "node_modules/suncalc/suncalc.js",
-	"croner.js": "node_modules/croner/dist/croner.umd.min.js"
+	"croner.js": "node_modules/croner/dist/croner.umd.js"
 };
 
 if (typeof module !== "undefined") {
