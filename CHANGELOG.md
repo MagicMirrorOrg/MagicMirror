@@ -14,6 +14,7 @@ _This release is scheduled to be released on 2025-01-01._
 - [core] Add wayland and windows start options to `package.json` (#3594)
 - [linter] re-added `eslint-plugin-import`now that it supports ESLint v9 (#3586)
 - [docs] Added step for npm publishing in release process (#3595)
+- [core] Add GitHub workflow to run spellcheck a few days before each release.
 - [calendar] - added ability to display end date for full date events, where end is not same day (showEnd=true)
 
 ### Removed
@@ -23,13 +24,13 @@ _This release is scheduled to be released on 2025-01-01._
 ### Updated
 
 - [repo] reactivated `stale.yaml` as github action to mark issues as stale after 60 days and close them 7 days later (if no activity)
-- [core] Update electron dependency to v32 (test electron rebuild)
+- [core] Update electron dependency to v32 (test electron rebuild) and other dependencies too
 - [tests] All test configs have been updated to allow full external access, allowing for easier debugging (especially when running as a container)
 - [core] Run and test with node 23 (#3588)
 
 ### Fixed
 
-- [updatenotification] Fix pm2 using detection when pm2 script is in MagicMirror root folder (#3576)
+- [updatenotification] Fix pm2 using detection when pm2 script is inside or outside MagicMirror root folder (#3576) (#3605)
 - [core] Fix loading node_helper of modules: avoid black screen, display errors and continue loading with next module (#3578)
 - [weather] changed default value for weatherEndpoint of provider openweathermap to "/onecall" (#3574)
 - [tests] fix electron tests with mock dates, the mock on server side was missing (#3597)
