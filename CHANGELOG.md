@@ -15,6 +15,7 @@ _This release is scheduled to be released on 2025-01-01._
 - [linter] re-added `eslint-plugin-import`now that it supports ESLint v9 (#3586)
 - [docs] Added step for npm publishing in release process (#3595)
 - [core] Add GitHub workflow to run spellcheck a few days before each release.
+- [compliments] add support for refreshing remote compliments file, and testcases
 
 ### Removed
 
