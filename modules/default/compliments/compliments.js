@@ -1,9 +1,6 @@
 /* global Cron */
 /* global global */
 
-console.log("window name='"+window.name+"'")
-const compliments_test_mode=(window.name=='jsdom')?true:false
-
 Module.register("compliments", {
 	// Module config defaults.
 	defaults: {
@@ -50,7 +47,7 @@ Module.register("compliments", {
 			this.config.compliments = JSON.parse(response);
 			this.updateDom();
 			if (this.config.remoteFileRefreshInterval !== 0){
-			  if(this.config.remoteFileRefreshInterval >= this.refreshMinimumDelay) {
+			  if(this.config.remoteFileRefreshInterval >= this.refreshMinimumDelay || window.intest) {
 					setInterval(async () => {
 							const response = await this.loadComplimentFile();
 							this.compliments_new = JSON.parse(response);
