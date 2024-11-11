@@ -11,6 +11,7 @@ exports.startApplication = async (configFilename, systemDate = null, electronPar
 	if (systemDate) {
 		process.env.MOCK_DATE = systemDate;
 	}
+	process.env.intest = true;
 
 	global.electronApp = await electron.launch({ args: electronParams });
 
@@ -39,6 +40,7 @@ exports.stopApplication = async () => {
 	global.electronApp = null;
 	global.page = null;
 	process.env.MOCK_DATE = undefined;
+	process.env.jstest = undefined;
 };
 
 exports.getElement = async (selector) => {

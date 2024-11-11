@@ -109,6 +109,7 @@ function geExpectedReceivedHeaders (url) {
 function getHtml (req, res) {
 	let html = fs.readFileSync(path.resolve(`${global.root_path}/index.html`), { encoding: "utf8" });
 	html = html.replace("#VERSION#", global.version);
+	html = html.replace("#TESTMODE#", global.intest);
 
 	let configFile = "config/config.js";
 	if (typeof global.configuration_file !== "undefined") {
