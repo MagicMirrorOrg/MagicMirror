@@ -27,6 +27,7 @@ Module.register("compliments", {
 	},
 	urlSuffix:"",
 	compliments_new:null,
+	refreshMinimumDelay:15*60*60*1000,  // 15 minutes
 	lastIndexUsed: -1,
 	// Set currentweather from module
 	currentWeatherType: "",
@@ -48,13 +49,17 @@ Module.register("compliments", {
 			const response = await this.loadComplimentFile();
 			this.config.compliments = JSON.parse(response);
 			this.updateDom();
-			if (this.config.remoteFileRefreshInterval !== null) {
-				this.remoteFileRefreshFunc = setInterval(async () => {
-					const response = await this.loadComplimentFile();
-					this.compliments_new = JSON.parse(response);
-				},
-				this.config.remoteFileRefreshInterval
-				)
+			if (this.config.remoteFileRefreshInterval !== null){
+			  if(this.config.remoteFileRefreshInterval>=this.refreshMinimumDelay) {
+					setInterval(async () => {
+							const response = await this.loadComplimentFile();
+							this.compliments_new = JSON.parse(response);
+						},
+						this.config.remoteFileRefreshInterval
+					)
+				} else {
+					Log.error(this.name+" remoteFileRefreshInterval less than minimum")
+				}
 			}
 		}
 		let minute_sync_delay = 1;
