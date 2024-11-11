@@ -16,7 +16,7 @@ Module.register("compliments", {
 		},
 		updateInterval: 30000,
 		remoteFile: null,
-		remoteFileRefreshInterval: null,
+		remoteFileRefreshInterval: 0,
 		fadeSpeed: 4000,
 		morningStartTime: 3,
 		morningEndTime: 12,
@@ -49,8 +49,8 @@ Module.register("compliments", {
 			const response = await this.loadComplimentFile();
 			this.config.compliments = JSON.parse(response);
 			this.updateDom();
-			if (this.config.remoteFileRefreshInterval !== null){
-			  if(this.config.remoteFileRefreshInterval>=this.refreshMinimumDelay) {
+			if (this.config.remoteFileRefreshInterval !== 0){
+			  if(this.config.remoteFileRefreshInterval >= this.refreshMinimumDelay) {
 					setInterval(async () => {
 							const response = await this.loadComplimentFile();
 							this.compliments_new = JSON.parse(response);
