@@ -206,7 +206,7 @@ Module.register("compliments", {
 		// we need to force the server to not give us the cached result
 		// create an extra property (ignored by the server handler) just so the url string is different
 		// that will never be the same, using the ms value of date
-		if(this.config.remoteFileRefreshInterval!=null)
+		if(this.config.remoteFileRefreshInterval!=0)
 			this.urlSuffix= "?dummy="+Date.now()
 		//
 		const response = await fetch(url+this.urlSuffix);
@@ -274,7 +274,7 @@ Module.register("compliments", {
 		// only in test mode
 		if (window.mmTestMode === 'true') {
 			// check for (undocumented) remoteFile2 to test new file load
-			if(this.config.remoteFile2!== null && this.config.remoteFileRefreshInterval!==null){
+			if(this.config.remoteFile2!== null && this.config.remoteFileRefreshInterval!==0){
 				// switch the file so that next time it will be loaded from a changed file
 	 			this.config.remoteFile=this.config.remoteFile2
 			}
