@@ -40,7 +40,6 @@ exports.stopApplication = async () => {
 	global.electronApp = null;
 	global.page = null;
 	process.env.MOCK_DATE = undefined;
-	process.env.jstest = undefined;
 };
 
 exports.getElement = async (selector) => {
