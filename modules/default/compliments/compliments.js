@@ -47,7 +47,7 @@ Module.register("compliments", {
 			this.config.compliments = JSON.parse(response);
 			this.updateDom();
 			if (this.config.remoteFileRefreshInterval !== 0){
-			  if(this.config.remoteFileRefreshInterval >= this.refreshMinimumDelay || window.intest) {
+			  if((this.config.remoteFileRefreshInterval >= this.refreshMinimumDelay) || window.mmTestMode == 'true') {
 					setInterval(async () => {
 							const response = await this.loadComplimentFile();
 							this.compliments_new = JSON.parse(response);
@@ -271,14 +271,14 @@ Module.register("compliments", {
 				this.lastIndexUsed = -1;
 			}
 		}
-		// in test mode only
-		//if (compliments_test_mode) {
-			// check for (undocumented) remote file2 to change test new load
+		// only in test mode
+		if (window.mmTestMode === 'true') {
+			// check for (undocumented) remoteFile2 to test new file load
 			if(this.config.remoteFile2!== null && this.config.remoteFileRefreshInterval!==null){
-	 			 console.log("running in test");
-	 			 this.config.remoteFile=this.config.remoteFile2
+				// switch the file so that next time it will be loaded from a changed file
+	 			this.config.remoteFile=this.config.remoteFile2
 			}
-		//}
+		}
 		return wrapper;
 	},
 
