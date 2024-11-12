@@ -15,6 +15,7 @@ _This release is scheduled to be released on 2025-01-01._
 - [linter] re-added `eslint-plugin-import`now that it supports ESLint v9 (#3586)
 - [docs] Added step for npm publishing in release process (#3595)
 - [core] Add GitHub workflow to run spellcheck a few days before each release.
+- [core] Add intest flag to index.html to pass to module js for test mode detection (needed by #3630)
 - [compliments] add support for refreshing remote compliments file, and testcases
 
 ### Removed
@@ -30,7 +31,7 @@ _This release is scheduled to be released on 2025-01-01._
 
 ### Fixed
 
-- [updatenotification] Fix pm2 using detection when pm2 script is inside or outside MagicMirror root folder (#3576) (#3605)
+- [updatenotification] Fix pm2 using detection when pm2 script is inside or outside MagicMirror root folder (#3576) (#3605) (#3626) (#3628)
 - [core] Fix loading node_helper of modules: avoid black screen, display errors and continue loading with next module (#3578)
 - [weather] Changed default value for weatherEndpoint of provider openweathermap to "/onecall" (#3574)
 - [tests] Fix electron tests with mock dates, the mock on server side was missing (#3597)
