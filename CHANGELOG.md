@@ -37,6 +37,7 @@ _This release is scheduled to be released on 2025-01-01._
 - [tests] Fix test cases with hard coded Date.now (#3597)
 - [core] Fix missing `basePath` where `location.host` is used (#3613)
 - [compliments] croner library changed filenames used in latest version (#3624)
+- [linter] Fix ESLint ignore pattern which caused that default modules not to be linted. (#3632).
 
 ## [2.29.0] - 2024-10-01
 
