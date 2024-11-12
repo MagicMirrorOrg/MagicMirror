@@ -1,5 +1,4 @@
 /* global Cron */
-/* global global */
 
 Module.register("compliments", {
 	// Module config defaults.
