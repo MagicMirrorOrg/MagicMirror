@@ -26,6 +26,7 @@ exports.startApplication = async (configFilename, exec) => {
 	} else {
 		process.env.MM_CONFIG_FILE = configFilename;
 	}
+	process.env.mmTestMode = "true";
 	if (exec) exec;
 	global.app = require("../../../js/app");
 
