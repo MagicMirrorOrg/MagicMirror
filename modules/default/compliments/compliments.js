@@ -267,6 +267,8 @@ Module.register("compliments", {
 			if(JSON.stringify(this.config.compliments)!== JSON.stringify(this.compliments_new)){
 				// only reset if the contents changes
 				this.config.compliments = this.compliments_new
+				// clear new file list so we don't waste cycles comparing between refreshes
+				this.compliments_new = null
 				// reset the index
 				this.lastIndexUsed = -1;
 			}
