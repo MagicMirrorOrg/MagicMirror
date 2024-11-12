@@ -65,7 +65,7 @@ const config = [
 			"jest/prefer-mock-promise-shorthand": "warn",
 			"jest/prefer-to-be": "warn",
 			"jest/prefer-to-have-length": "warn",
-			"max-lines-per-function": ["warn", 350],
+			"max-lines-per-function": ["warn", 400],
 			"max-statements": "off",
 			"no-global-assign": "off",
 			"no-inline-comments": "off",
