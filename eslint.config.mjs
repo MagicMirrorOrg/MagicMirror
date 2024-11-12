@@ -119,7 +119,7 @@ const config = [
 		}
 	},
 	{
-		ignores: ["config/**", "modules/**", "!modules/default/**", "js/positions.js"]
+		ignores: ["config/**", "modules/**/*", "!modules/default/**", "js/positions.js"]
 	}
 ];
 
