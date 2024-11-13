@@ -613,6 +613,7 @@ Module.register("calendar", {
 			const calendar = this.calendarData[calendarUrl];
 			let remainingEntries = this.maximumEntriesForUrl(calendarUrl);
 			let maxPastDaysCompare = now - this.maximumPastDaysForUrl(calendarUrl) * ONE_DAY;
+			let by_url_calevents = [];
 			for (const e in calendar) {
 				const event = JSON.parse(JSON.stringify(calendar[e])); // clone object
 
@@ -630,9 +631,9 @@ Module.register("calendar", {
 					if (this.config.hideDuplicates && this.listContainsEvent(events, event)) {
 						continue;
 					}
-					if (--remainingEntries < 0) {
-						break;
-					}
+					//if (--remainingEntries < 0) {
+					//	break;
+					//}
 				}
 
 				event.url = calendarUrl;
@@ -677,15 +678,21 @@ Module.register("calendar", {
 
 					for (let splitEvent of splitEvents) {
 						if (splitEvent.endDate > now && splitEvent.endDate <= future) {
-							events.push(splitEvent);
+							by_url_calevents = by_url_calevents.concat(splitEvent);
 						}
 					}
 				} else {
-					events.push(event);
+					by_url_calevents.push(event);
 				}
 			}
+			by_url_calevents.sort(function (a, b) {
+				return a.startDate - b.startDate;
+			});
+			Log.info(`pushing ${by_url_calevents.length} events to total with room for ${remainingEntries}`);
+			events = events.concat(by_url_calevents.slice(0, remainingEntries));
+			Log.info(`events for calendar=${events.length}`);
 		}
-
+		Log.info(`sorting events count=${events.length}`);
 		events.sort(function (a, b) {
 			return a.startDate - b.startDate;
 		});
@@ -725,10 +732,18 @@ Module.register("calendar", {
 			}
 			events = newEvents;
 		}
-
+		Log.info(`slicing events total maxcount=${this.config.maximumEntries}`);
 		return events.slice(0, this.config.maximumEntries);
 	},
 
+	getMinNumberOfEventsforAll (events, max) {
+		let min = max;
+		events.forEach((event) => {
+			const urlmax = this.maximumEntriesForUrl(event.url);
+			min = Math.min(min, urlmax);
+		});
+		return min;
+	},
 	listContainsEvent (eventList, event) {
 		for (const evt of eventList) {
 			if (evt.title === event.title && parseInt(evt.startDate) === parseInt(event.startDate) && parseInt(evt.endDate) === parseInt(event.endDate)) {
@@ -896,8 +911,9 @@ Module.register("calendar", {
 		let p = this.getCalendarProperty(url, property, defaultValue);
 		if (property === "symbol" || property === "recurringSymbol" || property === "fullDaySymbol") {
 			const className = this.getCalendarProperty(url, "symbolClassName", this.config.defaultSymbolClassName);
-			if (p instanceof Array) p.push(className);
-			else p = className + p;
+			//if (p instanceof Array) p.push(className);
+			//else
+			p = className + p;
 		}
 
 		if (!(p instanceof Array)) p = [p];
