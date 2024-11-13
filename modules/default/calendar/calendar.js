@@ -168,7 +168,7 @@ Module.register("calendar", {
 
 		this.selfUpdate();
 	},
-	notificationReceived(notification,payload,sender){
+	notificationReceived (notification, payload, sender) {
 
 		if (notification === "FETCH_CALENDAR") {
 			if (this.hasCalendarURL(payload.url)) {
@@ -424,8 +424,8 @@ Module.register("calendar", {
 					if (this.config.showEnd) {
 						// andhas a duation
 						if (event.startDate !== event.endDate) {
-								timeWrapper.innerHTML += "-";
-								timeWrapper.innerHTML += CalendarUtils.capFirst(moment(event.endDate, "x").format(this.config.dateEndFormat));
+							timeWrapper.innerHTML += "-";
+							timeWrapper.innerHTML += CalendarUtils.capFirst(moment(event.endDate, "x").format(this.config.dateEndFormat));
 						}
 					}
 
@@ -435,7 +435,7 @@ Module.register("calendar", {
 						event.endDate -= ONE_SECOND;
 						timeWrapper.innerHTML = CalendarUtils.capFirst(moment(event.startDate, "x").format(this.config.fullDayEventDateFormat));
 						// only show end if requested and allowed and the dates are different
-						if (this.config.showEnd && !this.config.showEndsOnlyWithDuration && moment(event.startDate,"x").format("YYYYMMDD") !== moment(event.endDate,"x").format("YYYYMMDD")) {
+						if (this.config.showEnd && !this.config.showEndsOnlyWithDuration && moment(event.startDate, "x").format("YYYYMMDD") !== moment(event.endDate, "x").format("YYYYMMDD")) {
 							timeWrapper.innerHTML += "-";
 							timeWrapper.innerHTML += CalendarUtils.capFirst(moment(event.endDate, "x").format(this.config.fullDayEventDateFormat));
 						}
@@ -896,10 +896,8 @@ Module.register("calendar", {
 		let p = this.getCalendarProperty(url, property, defaultValue);
 		if (property === "symbol" || property === "recurringSymbol" || property === "fullDaySymbol") {
 			const className = this.getCalendarProperty(url, "symbolClassName", this.config.defaultSymbolClassName);
-			if(p instanceof Array)
-				p.push(className)
-			else
-				p = className + p;
+			if (p instanceof Array) p.push(className);
+			else p = className + p;
 		}
 
 		if (!(p instanceof Array)) p = [p];
