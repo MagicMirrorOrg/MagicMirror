@@ -15,6 +15,8 @@ _This release is scheduled to be released on 2025-01-01._
 - [linter] re-added `eslint-plugin-import`now that it supports ESLint v9 (#3586)
 - [docs] Added step for npm publishing in release process (#3595)
 - [core] Add GitHub workflow to run spellcheck a few days before each release.
+- [core] Add intest flag to index.html to pass to module js for test mode detection (needed by #3630)
+- [compliments] add support for refreshing remote compliments file, and testcases (#3630)
 - [calendar] - added ability to display end date for full date events, where end is not same day (showEnd=true)
 
 ### Removed
@@ -30,13 +32,14 @@ _This release is scheduled to be released on 2025-01-01._
 
 ### Fixed
 
-- [updatenotification] Fix pm2 using detection when pm2 script is inside or outside MagicMirror root folder (#3576) (#3605)
+- [updatenotification] Fix pm2 using detection when pm2 script is inside or outside MagicMirror root folder (#3576) (#3605) (#3626) (#3628)
 - [core] Fix loading node_helper of modules: avoid black screen, display errors and continue loading with next module (#3578)
 - [weather] changed default value for weatherEndpoint of provider openweathermap to "/onecall" (#3574)
 - [tests] fix electron tests with mock dates, the mock on server side was missing (#3597)
 - [tests] fix testcases with hard coded Date.now (#3597)
 - [core] Fix missing `basePath` where `location.host` is used (#3613)
 - [compliments] croner library changed filenames used in latest version (#3624)
+- [linter] Fix ESLint ignore pattern which caused that default modules not to be linted. (#3632).
 - [calendar] - update to resolve issues #3098 #3144 #3351 #3422 #3443 #3467 #3537 related to timezone changes
 - [calendar] - fixes #3267 (styles array), also fixes event with both exdate AND recurrence(and testcase)
 - [calendar] - fix showEndsOnlyWithDuration not working, #3598, applies ONLY to full day events
