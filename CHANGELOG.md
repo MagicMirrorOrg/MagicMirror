@@ -16,6 +16,7 @@ _This release is scheduled to be released on 2025-01-01._
 - [docs] Added step for npm publishing in release process (#3595)
 - [core] Add GitHub workflow to run spellcheck a few days before each release.
 - [core] Add intest flag to index.html to pass to module js for test mode detection (needed by #3630)
+- [compliments] add support for refreshing remote compliments file, and testcases
 
 ### Removed
 
