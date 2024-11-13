@@ -25,7 +25,7 @@ Module.register("calendar", {
 		fadePoint: 0.25, // Start on 1/4th of the list.
 		urgency: 7,
 		timeFormat: "relative",
-		dateFormat: "MMM Do",
+		dateFormat: "MMM Do MM:hh",
 		dateEndFormat: "LT",
 		fullDayEventDateFormat: "MMM Do",
 		showEnd: false,
@@ -470,16 +470,18 @@ Module.register("calendar", {
 					if (event.startDate >= now || (event.fullDayEvent && this.eventEndingWithinNextFullTimeUnit(event, ONE_DAY))) {
 						// Use relative time
 						if (!this.config.hideTime && !event.fullDayEvent) {
-							timeWrapper.innerHTML = CalendarUtils.capFirst(moment(event.startDate, "x").calendar(null, { sameElse: this.config.dateFormat }));
+							Log.info("event not hidden and not fullday");
+							timeWrapper.innerText = `${CalendarUtils.capFirst(moment(event.startDate, "x").calendar(null, { sameElse: this.config.dateFormat }))} A ${event.startDate}`;
 						} else {
-							timeWrapper.innerHTML = CalendarUtils.capFirst(
+							Log.info("event full day or hidden");
+							timeWrapper.innerText = `${CalendarUtils.capFirst(
 								moment(event.startDate, "x").calendar(null, {
 									sameDay: this.config.showTimeToday ? "LT" : `[${this.translate("TODAY")}]`,
 									nextDay: `[${this.translate("TOMORROW")}]`,
 									nextWeek: "dddd",
 									sameElse: event.fullDayEvent ? this.config.fullDayEventDateFormat : this.config.dateFormat
 								})
-							);
+							)} B ${event.startDate}`;
 						}
 						if (event.fullDayEvent) {
 							// Full days events within the next two days
@@ -498,9 +500,11 @@ Module.register("calendar", {
 									timeWrapper.innerHTML = CalendarUtils.capFirst(this.translate("DAYAFTERTOMORROW"));
 								}
 							}
+							Log.info("event fullday");
 						} else if (event.startDate - now < this.config.getRelative * ONE_HOUR) {
+							Log.info("not full day but within getrelative size");
 							// If event is within getRelative hours, display 'in xxx' time format or moment.fromNow()
-							timeWrapper.innerHTML = CalendarUtils.capFirst(moment(event.startDate, "x").fromNow());
+							timeWrapper.innerText = `${CalendarUtils.capFirst(moment(event.startDate, "x").fromNow())} C ${event.startDate}`;
 						}
 					} else {
 						// Ongoing event
@@ -678,7 +682,7 @@ Module.register("calendar", {
 
 					for (let splitEvent of splitEvents) {
 						if (splitEvent.endDate > now && splitEvent.endDate <= future) {
-							by_url_calevents = by_url_calevents.concat(splitEvent);
+							by_url_calevents.push(splitEvent);
 						}
 					}
 				} else {
@@ -736,14 +740,6 @@ Module.register("calendar", {
 		return events.slice(0, this.config.maximumEntries);
 	},
 
-	getMinNumberOfEventsforAll (events, max) {
-		let min = max;
-		events.forEach((event) => {
-			const urlmax = this.maximumEntriesForUrl(event.url);
-			min = Math.min(min, urlmax);
-		});
-		return min;
-	},
 	listContainsEvent (eventList, event) {
 		for (const evt of eventList) {
 			if (evt.title === event.title && parseInt(evt.startDate) === parseInt(event.startDate) && parseInt(evt.endDate) === parseInt(event.endDate)) {
