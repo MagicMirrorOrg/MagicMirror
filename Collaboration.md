@@ -33,6 +33,7 @@ Are done by
 - [ ] update `CHANGELOG.md`
   - [ ] add all contributor names: `...`
   - [ ] add min. node version: > ⚠️ This release needs nodejs version `v20` or `v22`, minimum version is `v20.9.0`
+  - [ ] check release link at the bottom of the file
 - [ ] commit and push all changes
 - [ ] after successful test run via github actions: create pull request from `develop` to `master` branch
   - [ ] add label `mastermerge`
@@ -49,6 +50,7 @@ Are done by
 - [ ] checkout `develop` branch
 - [ ] update `package.json` and `package-lock.json` to reflect correct version number `2.xx.0-develop`
 - [ ] draft new section in `CHANGELOG.md`
+  - [ ] create new release link at the bottom of the file
 - [ ] commit and publish `develop` branch
 
 ### After release
