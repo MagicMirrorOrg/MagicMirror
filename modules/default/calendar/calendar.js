@@ -504,7 +504,7 @@ Module.register("calendar", {
 						} else if (event.startDate - now < this.config.getRelative * ONE_HOUR) {
 							Log.info("not full day but within getrelative size");
 							// If event is within getRelative hours, display 'in xxx' time format or moment.fromNow()
-							timeWrapper.innerText = `${CalendarUtils.capFirst(moment(event.startDate, "x").fromNow())}`; // C ${event.startDate};
+							timeWrapper.innerHTML = `${CalendarUtils.capFirst(moment(event.startDate, "x").fromNow())}`; // C ${event.startDate};
 						}
 					} else {
 						// Ongoing event

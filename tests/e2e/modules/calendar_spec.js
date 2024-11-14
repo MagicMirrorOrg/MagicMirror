@@ -53,7 +53,7 @@ describe("Calendar module", () => {
 		});
 
 		it("should show the custom maximumEntries of 5", async () => {
-			await expect(testElementLength(".calendar .event", 6)).resolves.toBe(true);
+			await expect(testElementLength(".calendar .event", 5)).resolves.toBe(true);
 		});
 
 		it("should show the custom calendar symbol in four events", async () => {
