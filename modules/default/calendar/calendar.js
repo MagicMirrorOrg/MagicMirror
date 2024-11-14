@@ -471,17 +471,17 @@ Module.register("calendar", {
 						// Use relative time
 						if (!this.config.hideTime && !event.fullDayEvent) {
 							Log.info("event not hidden and not fullday");
-							timeWrapper.innerText = `${CalendarUtils.capFirst(moment(event.startDate, "x").calendar(null, { sameElse: this.config.dateFormat }))} A ${event.startDate}`;
+							timeWrapper.innerHTML = `${CalendarUtils.capFirst(moment(event.startDate, "x").calendar(null, { sameElse: this.config.dateFormat }))}`; // A ${event.startDate};
 						} else {
 							Log.info("event full day or hidden");
-							timeWrapper.innerText = `${CalendarUtils.capFirst(
+							timeWrapper.innerHTML = `${CalendarUtils.capFirst(
 								moment(event.startDate, "x").calendar(null, {
 									sameDay: this.config.showTimeToday ? "LT" : `[${this.translate("TODAY")}]`,
 									nextDay: `[${this.translate("TOMORROW")}]`,
 									nextWeek: "dddd",
 									sameElse: event.fullDayEvent ? this.config.fullDayEventDateFormat : this.config.dateFormat
 								})
-							)} B ${event.startDate}`;
+							)}`; // B ${event.startDate};
 						}
 						if (event.fullDayEvent) {
 							// Full days events within the next two days
@@ -504,7 +504,7 @@ Module.register("calendar", {
 						} else if (event.startDate - now < this.config.getRelative * ONE_HOUR) {
 							Log.info("not full day but within getrelative size");
 							// If event is within getRelative hours, display 'in xxx' time format or moment.fromNow()
-							timeWrapper.innerText = `${CalendarUtils.capFirst(moment(event.startDate, "x").fromNow())} C ${event.startDate}`;
+							timeWrapper.innerText = `${CalendarUtils.capFirst(moment(event.startDate, "x").fromNow())}`; // C ${event.startDate};
 						}
 					} else {
 						// Ongoing event
