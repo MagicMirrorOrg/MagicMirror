@@ -1,7 +1,9 @@
-# MagicMirror² Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file.
-This project adheres to [Semantic Versioning](https://semver.org/).
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/#donate) With your help we can continue to improve the MagicMirror².
 
@@ -53,7 +55,7 @@ Thanks to: @bugsounet, @dkallen78, @jargordon, @khassel, @KristjanESPERANTO, @Ma
 
 ### Added
 
-- [compliments] Added support for cron type date/time format entries mm hh DD MM dow (minutes/hours/days/months and day of week) see https://crontab.cronhub.io for construction (#3481)
+- [compliments] Added support for cron type date/time format entries mm hh DD MM dow (minutes/hours/days/months and day of week) see <https://crontab.cronhub.io> for construction (#3481)
 - [core] Check config at every start of MagicMirror² (#3450)
 - [core] Add spelling check (cspell): `npm run test:spelling` and handle spelling issues (#3544)
 - [core] removed `config.paths.vendor` (could not work because `vendor` is hardcoded in `index.html`), renamed `config.paths.modules` to `config.foreignModulesDir`, added variable `MM_CUSTOMCSS_FILE` which - if set - overrides `config.customCss`, added variable `MM_MODULES_DIR` which - if set - overrides `config.foreignModulesDir`, added test for `MM_MODULES_DIR` (#3530)
@@ -482,7 +484,7 @@ Special thanks to the following contributors: @eouia, @khassel, @kolbyjack, @Kri
 
 ### Added
 
-- Added a new config option `httpHeaders` used by helmet (see https://helmetjs.github.io/). You can now set own httpHeaders which will override the defaults in `js/defaults.js` which is useful e.g. if you want to embed MagicMirror into another website (solves #2847).
+- Added a new config option `httpHeaders` used by helmet (see <https://helmetjs.github.io/>). You can now set own httpHeaders which will override the defaults in `js/defaults.js` which is useful e.g. if you want to embed MagicMirror into another website (solves #2847).
 - Show endDate for calendar events when dateHeader is enabled and showEnd is set to true (#2192).
 - Added the notification emitting from the weather module on information updated.
 - Use recommended file extension for YAML files (#2864).
@@ -1646,3 +1648,50 @@ It includes (but is not limited to) the following features:
 ### Initial release of MagicMirror
 
 This was part of the blogpost: [https://michaelteeuw.nl/post/83916869600/magic-mirror-part-vi-production-of-the](https://michaelteeuw.nl/post/83916869600/magic-mirror-part-vi-production-of-the)
+
+[2.30.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.29.0...v2.30.0
+[2.29.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.28.0...v2.29.0
+[2.28.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.27.0...v2.28.0
+[2.27.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.26.0...v2.27.0
+[2.26.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.25.0...v2.26.0
+[2.25.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.24.0...v2.25.0
+[2.24.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.23.0...v2.24.0
+[2.23.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.22.0...v2.23.0
+[2.22.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.21.0...v2.22.0
+[2.21.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.20.0...v2.21.0
+[2.20.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.19.0...v2.20.0
+[2.19.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.18.0...v2.19.0
+[2.18.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.17.1...v2.18.0
+[2.17.1]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.17.0...v2.17.1
+[2.17.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.16.0...v2.17.0
+[2.16.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.15.0...v2.16.0
+[2.15.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.14.0...v2.15.0
+[2.14.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.13.0...v2.14.0
+[2.13.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.12.0...v2.13.0
+[2.12.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.11.0...v2.12.0
+[2.11.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.10.1...v2.11.0
+[2.10.1]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.10.0...v2.10.1
+[2.10.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.9.0...v2.10.0
+[2.9.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.8.0...v2.9.0
+[2.8.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.7.1...v2.8.0
+[2.7.1]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.7.0...v2.7.1
+[2.7.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.6.0...v2.7.0
+[2.6.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.5.0...v2.6.0
+[2.5.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.4.1...v2.5.0
+[2.4.1]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.4.0...v2.4.1
+[2.4.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.3.1...v2.4.0
+[2.3.1]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.3.0...v2.3.1
+[2.3.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.2.2...v2.3.0
+[2.2.2]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.2.1...v2.2.2
+[2.2.1]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.2.0...v2.2.1
+[2.2.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.1.3...v2.2.0
+[2.1.3]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.1.2...v2.1.3
+[2.1.2]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.1.1...v2.1.2
+[2.1.1]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.1.0...v2.1.1
+[2.1.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.0.5...v2.1.0
+[2.0.5]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.0.4...v2.0.5
+[2.0.4]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.0.3...v2.0.4
+[2.0.3]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.0.2...v2.0.3
+[2.0.2]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.0.1...v2.0.2
+[2.0.1]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.0.0...v2.0.1
+[2.0.0]: https://github.com/MagicMirrorOrg/MagicMirror/releases/tag/v2.0.0
