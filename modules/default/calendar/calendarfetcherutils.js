@@ -618,7 +618,7 @@ const CalendarFetcherUtils = {
 	getTimezoneOffsetFromTimezone (timeZone) {
 		const str = new Date().toLocaleString("en", { timeZone, timeZoneName: "longOffset" });
 		Log.debug("tz offset=", str);
-		const [_, h, m] = str.match(/([+-]\d+):(\d+)$/) || ["+00", "00"];
+		const [_, h, m] = str.match(/([+-]\d+):(\d+)$/) || ["", "+00", "00"];
 		return h * 60 + (h > 0 ? +m : -m);
 	},
 
