@@ -88,7 +88,7 @@ describe("Compliments module", () => {
 			});
 		});
 		describe("get updated list from remote file", () => {
-			it("shows 'test in morning' as test time set to 10am", async () => {
+			it("shows 'test in morning'", async () => {
 				await helpers.startApplication("tests/configs/modules/compliments/compliments_file_change.js", "01 Jan 2022 10:00:00 GMT");
 				await expect(doTest(["Remote compliment file works!"])).resolves.toBe(true);
 				await new Promise((r) => setTimeout(r, 10000));
