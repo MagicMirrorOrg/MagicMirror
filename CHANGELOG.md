@@ -23,7 +23,7 @@ _This release is scheduled to be released on 2025-01-01._
 ### Removed
 
 - [tests] Removed node-pty and drivelist from rebuilded test (#3575)
-- [deps] Remove `@eslint/js` dependency. Already installed with `eslint` in deep (#3XXX)
+- [deps] Remove `@eslint/js` dependency. Already installed with `eslint` in deep (#3636)
 
 ### Updated
 
