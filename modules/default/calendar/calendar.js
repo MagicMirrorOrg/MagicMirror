@@ -438,7 +438,10 @@ Module.register("calendar", {
 						if (this.config.showEnd && !this.config.showEndsOnlyWithDuration && moment(event.startDate, "x").format("YYYYMMDD") !== moment(event.endDate, "x").format("YYYYMMDD")) {
 							timeWrapper.innerHTML += "-";
 							timeWrapper.innerHTML += CalendarUtils.capFirst(moment(event.endDate, "x").format(this.config.fullDayEventDateFormat));
-						}
+						} else
+							if ((moment(event.startDate, "x").format("YYYYMMDD") !== moment(event.endDate, "x").format("YYYYMMDD")) && (moment(event.startDate, "x") < moment(now, "x"))) {
+								timeWrapper.innerHTML = CalendarUtils.capFirst(moment(now, "x").format(this.config.fullDayEventDateFormat));
+							}
 					} else if (this.config.getRelative > 0 && event.startDate < now) {
 						// Ongoing and getRelative is set
 						timeWrapper.innerHTML = CalendarUtils.capFirst(
