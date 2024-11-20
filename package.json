@@ -81,7 +81,6 @@
 		"systeminformation": "^5.23.5"
 	},
 	"devDependencies": {
-		"@eslint/js": "^9.14.0",
 		"@stylistic/eslint-plugin": "^2.10.1",
 		"cspell": "^8.15.7",
 		"eslint-plugin-import": "^2.31.0",
