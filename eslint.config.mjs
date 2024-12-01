@@ -1,12 +1,14 @@
 import eslintPluginImport from "eslint-plugin-import";
 import eslintPluginJest from "eslint-plugin-jest";
 import eslintPluginJs from "@eslint/js";
+import eslintPluginPackageJson from "eslint-plugin-package-json/configs/recommended";
 import eslintPluginStylistic from "@stylistic/eslint-plugin";
 import globals from "globals";
 
 const config = [
 	eslintPluginJs.configs.recommended,
 	eslintPluginImport.flatConfigs.recommended,
+	eslintPluginPackageJson,
 	{
 		files: ["**/*.js"],
 		languageOptions: {
@@ -106,6 +108,7 @@ const config = [
 			"@stylistic/quote-props": ["error", "as-needed"],
 			"func-style": "off",
 			"import/namespace": "off",
+			"import/no-unresolved": "off",
 			"max-lines-per-function": ["error", 100],
 			"no-magic-numbers": "off",
 			"one-var": "off",
