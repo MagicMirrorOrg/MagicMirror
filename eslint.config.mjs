@@ -122,12 +122,6 @@ const config = [
 		}
 	},
 	{
-		files: ["package.json"],
-		rules: {
-			"package-json/sort-collections": "off"
-		}
-	},
-	{
 		ignores: ["config/**", "modules/**/*", "!modules/default/**", "js/positions.js"]
 	}
 ];
