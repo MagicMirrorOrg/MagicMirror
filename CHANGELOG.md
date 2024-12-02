@@ -20,6 +20,7 @@ _This release is scheduled to be released on 2025-01-01._
 - [compliments] add support for refreshing remote compliments file, and testcases (#3630)
 - [linter] Re-add `eslint-plugin-import`now that it supports ESLint v9 (#3586)
 - [linter] Re-activate `eslint-plugin-package-json` to lint `package.json`
+- [core] Add export on animation names
 
 ### Removed
 
