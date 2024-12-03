@@ -5,7 +5,7 @@ Module.register("clock", {
 	defaults: {
 		displayType: "digital", // options: digital, analog, both
 
-		timeFormat: config.timeFormat,
+		timeFormat: 12,
 		timezone: null,
 
 		displaySeconds: true,

@@ -6,11 +6,13 @@ Module.register("weather", {
 		weatherProvider: "openweathermap",
 		roundTemp: false,
 		type: "current", // current, forecast, daily (equivalent to forecast), hourly (only with OpenWeatherMap /onecall endpoint)
-		lang: config.language,
-		units: config.units,
-		tempUnits: config.units,
-		windUnits: config.units,
-		timeFormat: config.timeFormat,
+		lang: 'en',
+		lat: 41.136391,
+		lon: -81.484253,
+		units: 'imperial',
+		tempUnits: 'imperial',
+		windUnits: 'imperial',
+		timeFormat: 12,
 		updateInterval: 10 * 60 * 1000, // every 10 minutes
 		animationSpeed: 1000,
 		showFeelsLike: true,
