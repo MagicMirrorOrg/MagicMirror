@@ -1,7 +1,4 @@
 const helpers = require("../helpers/global-setup");
-//const stdMocks = require('std-mocks')
-
-//stdMocks.use();
 
 describe("Calendar module", () => {
 

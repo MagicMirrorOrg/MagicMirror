@@ -422,7 +422,7 @@ Module.register("calendar", {
 					timeWrapper.innerHTML = CalendarUtils.capFirst(moment(event.startDate, "x").format(this.config.dateFormat));
 					// Add end time if showEnd
 					if (this.config.showEnd) {
-						// andhas a duation
+						// and has a duation
 						if (event.startDate !== event.endDate) {
 							timeWrapper.innerHTML += "-";
 							timeWrapper.innerHTML += CalendarUtils.capFirst(moment(event.endDate, "x").format(this.config.dateEndFormat));
@@ -473,10 +473,10 @@ Module.register("calendar", {
 					if (event.startDate >= now || (event.fullDayEvent && this.eventEndingWithinNextFullTimeUnit(event, ONE_DAY))) {
 						// Use relative time
 						if (!this.config.hideTime && !event.fullDayEvent) {
-							Log.info("event not hidden and not fullday");
-							timeWrapper.innerHTML = `${CalendarUtils.capFirst(moment(event.startDate, "x").calendar(null, { sameElse: this.config.dateFormat }))}`; // A ${event.startDate};
+							Log.debug("event not hidden and not fullday");
+							timeWrapper.innerHTML = `${CalendarUtils.capFirst(moment(event.startDate, "x").calendar(null, { sameElse: this.config.dateFormat }))}`;
 						} else {
-							Log.info("event full day or hidden");
+							Log.debug("event full day or hidden");
 							timeWrapper.innerHTML = `${CalendarUtils.capFirst(
 								moment(event.startDate, "x").calendar(null, {
 									sameDay: this.config.showTimeToday ? "LT" : `[${this.translate("TODAY")}]`,
@@ -484,7 +484,7 @@ Module.register("calendar", {
 									nextWeek: "dddd",
 									sameElse: event.fullDayEvent ? this.config.fullDayEventDateFormat : this.config.dateFormat
 								})
-							)}`; // B ${event.startDate};
+							)}`;
 						}
 						if (event.fullDayEvent) {
 							// Full days events within the next two days
@@ -507,7 +507,7 @@ Module.register("calendar", {
 						} else if (event.startDate - now < this.config.getRelative * ONE_HOUR) {
 							Log.info("not full day but within getrelative size");
 							// If event is within getRelative hours, display 'in xxx' time format or moment.fromNow()
-							timeWrapper.innerHTML = `${CalendarUtils.capFirst(moment(event.startDate, "x").fromNow())}`; // C ${event.startDate};
+							timeWrapper.innerHTML = `${CalendarUtils.capFirst(moment(event.startDate, "x").fromNow())}`;
 						}
 					} else {
 						// Ongoing event
@@ -638,9 +638,6 @@ Module.register("calendar", {
 					if (this.config.hideDuplicates && this.listContainsEvent(events, event)) {
 						continue;
 					}
-					//if (--remainingEntries < 0) {
-					//	break;
-					//}
 				}
 
 				event.url = calendarUrl;
@@ -695,9 +692,9 @@ Module.register("calendar", {
 			by_url_calevents.sort(function (a, b) {
 				return a.startDate - b.startDate;
 			});
-			Log.info(`pushing ${by_url_calevents.length} events to total with room for ${remainingEntries}`);
+			Log.debug(`pushing ${by_url_calevents.length} events to total with room for ${remainingEntries}`);
 			events = events.concat(by_url_calevents.slice(0, remainingEntries));
-			Log.info(`events for calendar=${events.length}`);
+			Log.debug(`events for calendar=${events.length}`);
 		}
 		Log.info(`sorting events count=${events.length}`);
 		events.sort(function (a, b) {
@@ -910,8 +907,6 @@ Module.register("calendar", {
 		let p = this.getCalendarProperty(url, property, defaultValue);
 		if (property === "symbol" || property === "recurringSymbol" || property === "fullDaySymbol") {
 			const className = this.getCalendarProperty(url, "symbolClassName", this.config.defaultSymbolClassName);
-			//if (p instanceof Array) p.push(className);
-			//else
 			p = className + p;
 		}
 
