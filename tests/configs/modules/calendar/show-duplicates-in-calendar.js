@@ -27,7 +27,6 @@ let config = {
 	]
 };
 
-// adde here short term, was executed in the testcase runner helper, but failed??
 /*************** DO NOT EDIT THE LINE BELOW ***************/
 if (typeof module !== "undefined") {
 	module.exports = config;
