@@ -280,6 +280,3 @@ describe("Calendar module", () => {
 	});
 
 });
-
-//var output = stdMocks.flush()
-//console.log(output.stdout)
