@@ -24,7 +24,7 @@ _This release is scheduled to be released on 2025-01-01._
 
 ### Removed
 
-- [tests] Removed node-pty and drivelist from rebuilded test (#3575)
+- [tests] Remove `node-pty` and `drivelist` from rebuilded test (#3575)
 - [deps] Remove `@eslint/js` dependency. Already installed with `eslint` in deep (#3636)
 
 ### Updated
@@ -43,7 +43,8 @@ _This release is scheduled to be released on 2025-01-01._
 - [tests] Fix test cases with hard coded Date.now (#3597)
 - [core] Fix missing `basePath` where `location.host` is used (#3613)
 - [compliments] croner library changed filenames used in latest version (#3624)
-- [linter] Fix ESLint ignore pattern which caused that default modules not to be linted. (#3632).
+- [linter] Fix ESLint ignore pattern which caused that default modules not to be linted (#3632)
+- [tests] Suppress "module is not defined" in e2e tests
 
 ## [2.29.0] - 2024-10-01
 
