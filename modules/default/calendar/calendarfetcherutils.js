@@ -160,7 +160,7 @@ const CalendarFetcherUtils = {
 			}
 
 			if (event.type === "VEVENT") {
-				Log.debug(`Event:\n${JSON.stringify(event)}`);
+				Log.debug(`Event:\n${JSON.stringify(event, null, 2)}`);
 				let startMoment = eventDate(event, "start");
 				let endMoment;
 
@@ -246,6 +246,8 @@ const CalendarFetcherUtils = {
 				const location = event.location || false;
 				const geo = event.geo || false;
 				const description = event.description || false;
+				let d1;
+				let d2;
 
 				if (event.rrule && typeof event.rrule !== "undefined" && !isFacebookBirthday) {
 					const rule = event.rrule;
@@ -261,9 +263,10 @@ const CalendarFetcherUtils = {
 
 					// For recurring events, get the set of start dates that fall within the range
 					// of dates we're looking for.
-					// kblankenship1989 - to fix issue #1798, converting all dates to locale time first, then converting back to UTC time
+
 					let pastLocal;
 					let futureLocal;
+
 					if (CalendarFetcherUtils.isFullDayEvent(event)) {
 						Log.debug("fullday");
 						// if full day event, only use the date part of the ranges
@@ -283,52 +286,52 @@ const CalendarFetcherUtils = {
 						}
 						futureLocal = futureMoment.toDate(); // future
 					}
-					Log.debug(`Search for recurring events between: ${pastLocal} and ${futureLocal}`);
-					const hasByWeekdayRule = rule.options.byweekday !== undefined && rule.options.byweekday !== null;
 					const oneDayInMs = 24 * 60 * 60 * 1000;
+					d1 = new Date(new Date(pastLocal.valueOf() - oneDayInMs).getTime());
+					d2 = new Date(new Date(futureLocal.valueOf() + oneDayInMs).getTime());
+					Log.debug(`Search for recurring events between: ${d1} and ${d2}`);
+
+					event.start = rule.options.dtstart;
+
+					Log.debug("fix rrule start=", rule.options.dtstart);
+					Log.debug("event before rrule.between=", JSON.stringify(event, null, 2), "exdates=", event.exdate);
+					// fixup the exdate and recurrence date to local time too for post between() handling
+					CalendarFetcherUtils.fixEventtoLocal(event);
+
 					Log.debug(`RRule: ${rule.toString()}`);
 					rule.options.tzid = null; // RRule gets *very* confused with timezones
-					let dates = rule.between(new Date(pastLocal.valueOf() - oneDayInMs), new Date(futureLocal.valueOf() + oneDayInMs), true, () => { return true; });
-					Log.debug(`Title: ${event.summary}, with dates: ${JSON.stringify(dates)}`);
+
+					let dates = rule.between(d1, d2, true, () => { return true; });
+
+					Log.debug(`Title: ${event.summary}, with dates: \n\n${JSON.stringify(dates)}\n`);
+
+					// shouldn't need this  anymore, as RRULE not passed junk
 					dates = dates.filter((d) => {
 						if (JSON.stringify(d) === "null") return false;
 						else return true;
 					});
 
-					// RRule can generate dates with an incorrect recurrence date. Process the array here and apply date correction.
-					if (hasByWeekdayRule) {
-						Log.debug("Rule has byweekday, checking for correction");
-						dates.forEach((date, index, arr) => {
-							// NOTE: getTimezoneOffset() is negative of the expected value. For America/Los_Angeles under DST (GMT-7),
-							// this value is +420. For Australia/Sydney under DST (GMT+11), this value is -660.
-							const tzOffset = date.getTimezoneOffset() / 60;
-							const hour = date.getHours();
-							if ((tzOffset < 0) && (hour < -tzOffset)) { // east of GMT
-								Log.debug(`East of GMT (tzOffset: ${tzOffset}) and hour=${hour} < ${-tzOffset}, Subtracting 1 day from ${date}`);
-								arr[index] = new Date(date.valueOf() - oneDayInMs);
-							} else if ((tzOffset > 0) && (hour >= (24 - tzOffset))) { // west of GMT
-								Log.debug(`West of GMT (tzOffset: ${tzOffset}) and hour=${hour} >= 24-${tzOffset}, Adding 1 day to ${date}`);
-								arr[index] = new Date(date.valueOf() + oneDayInMs);
-							}
-						});
-						// Adjusting the dates could push it beyond the 'until' date, so filter those out here.
-						if (rule.options.until !== null) {
-							dates = dates.filter((date) => {
-								return date.valueOf() <= rule.options.until.valueOf();
-							});
-						}
-					}
-
-					// The dates array from rrule can be confused by DST. If the event was created during DST and we
-					// are querying a date range during non-DST, rrule can have the incorrect time for the date range.
-					// Reprocess the array here computing and applying the time offset.
-					dates.forEach((date, index, arr) => {
-						let adjustHours = CalendarFetcherUtils.calculateTimezoneAdjustment(event, date);
-						if (adjustHours !== 0) {
-							Log.debug(`Applying timezone adjustment hours=${adjustHours} to ${date}`);
-							arr[index] = new Date(date.valueOf() + (adjustHours * 60 * 60 * 1000));
-						}
+					// go thru all the rrule.between() dates and put back the tz offset removed so rrule.between would work
+					let datesLocal = [];
+					let offset = d1.getTimezoneOffset();
+					Log.debug("offset =", offset);
+					dates.forEach((d) => {
+						let dtext = d.toISOString().slice(0, -5);
+						Log.debug(" date text form without tz=", dtext);
+						let dLocal = new Date(d.valueOf() + (offset * 60000));
+						let offset2 = dLocal.getTimezoneOffset();
+						Log.debug("date after offset applied=", dLocal);
+						if (offset !== offset2) {
+							// woops, dst/std switch
+							let delta = offset - offset2;
+							Log.debug("offset delta=", delta);
+							dLocal = new Date(d.valueOf() + ((offset - delta) * 60000));
+							Log.debug("corrected normalized date=", dLocal);
+						} else Log.debug(" neutralized date=", dLocal);
+						datesLocal.push(dLocal);
 					});
+					dates = datesLocal;
+
 
 					// The "dates" array contains the set of dates within our desired date range range that are valid
 					// for the recurrence rule. *However*, it's possible for us to have a specific recurrence that
@@ -337,26 +340,19 @@ const CalendarFetcherUtils = {
 					// because the logic below will filter out any recurrences that don't actually belong within
 					// our display range.
 					// Would be great if there was a better way to handle this.
-					Log.debug(`event.recurrences: ${event.recurrences}`);
+					//
+					// i don't think we will ever see this anymore (oct 2024) due to code fixes for rrule.between()
+					//
+					Log.debug("event.recurrences:", event.recurrences);
 					if (event.recurrences !== undefined) {
 						for (let dateKey in event.recurrences) {
 							// Only add dates that weren't already in the range we added from the rrule so that
 							// we don't double-add those events.
 							let d = new Date(dateKey);
-							if (!moment(d).isBetween(pastMoment, futureMoment)) {
+							if (!moment(d).isBetween(d1, d2)) {
+								Log.debug("adding recurring event not found in between list =", d, " should not happen now using local dates oct 17,24");
 								dates.push(d);
 							}
-						}
-					}
-
-					// Lastly, sometimes rrule doesn't include the event.start even if it is in the requested range. Ensure
-					// inclusion here. Unfortunately dates.includes() doesn't find it so we have to do forEach().
-					{
-						let found = false;
-						dates.forEach((d) => { if (d.valueOf() === event.start.valueOf()) found = true; });
-						if (!found) {
-							Log.debug(`event.start=${event.start} was not included in results from rrule; adding`);
-							dates.splice(0, 0, event.start);
 						}
 					}
 
@@ -367,30 +363,42 @@ const CalendarFetcherUtils = {
 						let curDurationMs = durationMs;
 						let showRecurrence = true;
 
-						startMoment = moment(date);
+						let startMoment = moment(date);
 
-						// Remove the time information of each date by using its substring, using the following method:
-						// .toISOString().substring(0,10).
-						// since the date is given as ISOString with YYYY-MM-DDTHH:MM:SS.SSSZ
-						// (see https://momentjs.com/docs/#/displaying/as-iso-string/).
-						// This must be done after `date` is adjusted
-						const dateKey = date.toISOString().substring(0, 10);
+						let dateKey = CalendarFetcherUtils.getDateKeyFromDate(date);
 
+						Log.debug("event date dateKey=", dateKey);
 						// For each date that we're checking, it's possible that there is a recurrence override for that one day.
-						if (curEvent.recurrences !== undefined && curEvent.recurrences[dateKey] !== undefined) {
-							// We found an override, so for this recurrence, use a potentially different title, start date, and duration.
-							curEvent = curEvent.recurrences[dateKey];
-							startMoment = moment(curEvent.start);
-							curDurationMs = curEvent.end.valueOf() - startMoment.valueOf();
+						if (curEvent.recurrences !== undefined) {
+							Log.debug("have recurrences=", curEvent.recurrences);
+							if (curEvent.recurrences[dateKey] !== undefined) {
+								Log.debug("have a recurrence match for dateKey=", dateKey);
+								// We found an override, so for this recurrence, use a potentially different title, start date, and duration.
+								curEvent = curEvent.recurrences[dateKey];
+								curEvent.start = new Date(new Date(curEvent.start.valueOf()).getTime());
+								curEvent.end = new Date(new Date(curEvent.end.valueOf()).getTime());
+								startMoment = CalendarFetcherUtils.getAdjustedStartMoment(curEvent.start, event);
+								endMoment = CalendarFetcherUtils.getAdjustedStartMoment(curEvent.end, event);
+								date = curEvent.start;
+								curDurationMs = new Date(endMoment).valueOf() - startMoment.valueOf();
+							} else {
+								Log.debug("recurrence key ", dateKey, " doesn't match");
+							}
 						}
 						// If there's no recurrence override, check for an exception date.  Exception dates represent exceptions to the rule.
-						else if (curEvent.exdate !== undefined && curEvent.exdate[dateKey] !== undefined) {
-							// This date is an exception date, which means we should skip it in the recurrence pattern.
-							showRecurrence = false;
+						if (curEvent.exdate !== undefined) {
+							Log.debug("have datekey=", dateKey, " exdates=", curEvent.exdate);
+							if (curEvent.exdate[dateKey] !== undefined) {
+								// This date is an exception date, which means we should skip it in the recurrence pattern.
+								showRecurrence = false;
+							}
 						}
 						Log.debug(`duration: ${curDurationMs}`);
 
+						startMoment = CalendarFetcherUtils.getAdjustedStartMoment(date, event);
+
 						endMoment = moment(startMoment.valueOf() + curDurationMs);
+
 						if (startMoment.valueOf() === endMoment.valueOf()) {
 							endMoment = endMoment.endOf("day");
 						}
@@ -408,7 +416,7 @@ const CalendarFetcherUtils = {
 						}
 
 						if (showRecurrence === true) {
-							Log.debug(`saving event: ${description}`);
+							Log.debug(`saving event: ${recurrenceTitle}`);
 							newEvents.push({
 								title: recurrenceTitle,
 								startDate: startMoment.format("x"),
@@ -421,7 +429,10 @@ const CalendarFetcherUtils = {
 								geo: geo,
 								description: description
 							});
+						} else {
+							Log.debug("not saving event ", recurrenceTitle, new Date(startMoment));
 						}
+						Log.debug(" ");
 					}
 					// End recurring event parsing.
 				} else {
@@ -472,7 +483,9 @@ const CalendarFetcherUtils = {
 						startDate: startMoment.add(adjustHours, "hours").format("x"),
 						endDate: endMoment.add(adjustHours, "hours").format("x"),
 						fullDayEvent: fullDayEvent,
+						recurringEvent: false,
 						class: event.class,
+						firstYear: event.start.getFullYear(),
 						location: location,
 						geo: geo,
 						description: description
@@ -486,6 +499,200 @@ const CalendarFetcherUtils = {
 		});
 
 		return newEvents;
+	},
+
+	/**
+	 * fixup thew event fields that have dates to use local time
+	 * BEFORE calling rrule.between
+	 * @param the event being processed
+	 * @returns nothing
+	 */
+	fixEventtoLocal (event) {
+		// if there are excluded dates, their date is incorrect and possibly key as well.
+		if (event.exdate !== undefined) {
+			Object.keys(event.exdate).forEach((dateKey) => {
+				// get the date
+				let exdate = event.exdate[dateKey];
+				Log.debug("exdate w key=", exdate);
+				//exdate=CalendarFetcherUtils.convertDateToLocalTime(exdate, event.end.tz)
+				exdate = new Date(new Date(exdate.valueOf() - ((120 * 60 * 1000))).getTime());
+				Log.debug("new exDate item=", exdate, " with old key=", dateKey);
+				let newkey = exdate.toISOString().slice(0, 10);
+				if (newkey !== dateKey) {
+					Log.debug("new exDate item=", exdate, ` key=${newkey}`);
+					event.exdate[newkey] = exdate;
+					//delete event.exdate[dateKey]
+				}
+			});
+			Log.debug("updated exdate list=", event.exdate);
+		}
+		if (event.recurrences) {
+			Object.keys(event.recurrences).forEach((dateKey) => {
+				let exdate = event.recurrences[dateKey];
+				//exdate=new Date(new Date(exdate.valueOf()-(60*60*1000)).getTime())
+				Log.debug("new recurrence item=", exdate, " with old key=", dateKey);
+				exdate.start = CalendarFetcherUtils.convertDateToLocalTime(exdate.start, exdate.start.tz);
+				exdate.end = CalendarFetcherUtils.convertDateToLocalTime(exdate.end, exdate.end.tz);
+				Log.debug("adjusted recurringEvent start=", exdate.start, " end=", exdate.end);
+			});
+		}
+		Log.debug("modified recurrences before rrule.between", event.recurrences);
+	},
+
+	/**
+	 * convert a UTC date to local time
+	 * BEFORE calling rrule.between
+	 * @param date ti conert
+	 * 				tz event is currently in
+	 * @returns updated date object
+	 */
+	convertDateToLocalTime (date, tz) {
+		let delta_tz_offset = 0;
+		let now_offset = CalendarFetcherUtils.getTimezoneOffsetFromTimezone(moment.tz.guess());
+		let event_offset = CalendarFetcherUtils.getTimezoneOffsetFromTimezone(tz);
+		Log.debug("date to convert=", date);
+		if (Math.sign(now_offset) !== Math.sign(event_offset)) {
+			delta_tz_offset = Math.abs(now_offset) + Math.abs(event_offset);
+		} else {
+			// signs are the same
+			// if negative
+			if (Math.sign(now_offset) === -1) {
+				// la looking at chicago
+				if (now_offset < event_offset) { // 5 -7
+					delta_tz_offset = now_offset - event_offset;
+				}
+				else { //7 -5 , chicago looking at LA
+					delta_tz_offset = event_offset - now_offset;
+				}
+			}
+			else {
+				// berlin looking at sydney
+				if (now_offset < event_offset) { // 5 -7
+					delta_tz_offset = event_offset - now_offset;
+					Log.debug("less delta=", delta_tz_offset);
+				}
+				else { // 11 - 2, sydney looking at berlin
+					delta_tz_offset = -(now_offset - event_offset);
+					Log.debug("more delta=", delta_tz_offset);
+				}
+			}
+		}
+		const newdate = new Date(new Date(date.valueOf() + (delta_tz_offset * 60 * 1000)).getTime());
+		Log.debug("modified date =", newdate);
+		return newdate;
+	},
+
+	/**
+	 * get the exdate/recurrence hash key from the date object
+	 * BEFORE calling rrule.between
+	 * @param the date of the event
+	 * @returns string date key YYYY-MM-DD
+	 */
+	getDateKeyFromDate (date) {
+		// get our runtime timezone offset
+		const nowDiff = CalendarFetcherUtils.getTimezoneOffsetFromTimezone(moment.tz.guess());
+		let startday = date.getDate();
+		let adjustment = 0;
+		Log.debug(" day of month=", (`0${startday}`).slice(-2), " nowDiff=", nowDiff, ` start time=${date.toString().split(" ")[4].slice(0, 2)}`);
+		Log.debug("date string=    ", date.toString());
+		Log.debug("date iso string ", date.toISOString());
+		// if the dates are different
+		if (date.toString().slice(8, 10) < date.toISOString().slice(8, 10)) {
+			startday = date.toString().slice(8, 10);
+			Log.debug("< ", startday);
+		} else { // tostring is more
+			if (date.toString().slice(8, 10) > date.toISOString().slice(8, 10)) {
+				startday = date.toISOString().slice(8, 10);
+				Log.debug("> ", startday);
+			}
+		}
+		return date.toISOString().substring(0, 8) + (`0${startday}`).slice(-2);
+	},
+
+	/**
+	 * get the timezone offset from the timezone string
+	 *
+	 * @param the timezone string
+	 * @returns the numerical offset
+	 */
+	getTimezoneOffsetFromTimezone (timeZone) {
+		const str = new Date().toLocaleString("en", { timeZone, timeZoneName: "longOffset" });
+		Log.debug("tz offset=", str);
+		const [_, h, m] = str.match(/([+-]\d+):(\d+)$/) || ["", "+00", "00"];
+		return h * 60 + (h > 0 ? +m : -m);
+	},
+
+	/**
+	 * fixup the date start moment after rrule.between returns date array
+	 *
+	 * @param date object from rrule.between results
+	 *  			the event object it came from
+	 * @returns moment object
+	 */
+	getAdjustedStartMoment (date, event) {
+
+		let startMoment = moment(date);
+
+		Log.debug("startMoment pre=", startMoment);
+		// get our runtime timezone offset
+		const nowDiff = CalendarFetcherUtils.getTimezoneOffsetFromTimezone(moment.tz.guess()); //  10/18 16:49, 300
+		let eventDiff = CalendarFetcherUtils.getTimezoneOffsetFromTimezone(event.end.tz); // watch out, start tz is cleared to handle rrule 120 23:49
+
+		Log.debug("tz diff event=", eventDiff, " local=", nowDiff, " end event timezone=", event.end.tz);
+
+		// if the diffs are different (not same tz for processing as event)
+		if (nowDiff !== eventDiff) {
+			// if signs are different
+			if (Math.sign(nowDiff) !== Math.sign(eventDiff)) {
+				// its the accumulated total
+				Log.debug("diff signs, accumulate");
+				eventDiff = Math.abs(eventDiff) + Math.abs(nowDiff);
+				// sign of diff depends on where you are looking at which event.
+				// australia looking at US, add to get same time
+				Log.debug("new different event diff=", eventDiff);
+				if (Math.sign(nowDiff) === -1) {
+					eventDiff *= -1;
+					// US looking at australia event have to subtract
+					Log.debug("new diff, same sign, total event diff=", eventDiff);
+				}
+			}
+			else {
+				// signs are the same, all east of UTC or all west of UTC
+				// if the signs are negative (west of UTC)
+				Log.debug("signs are the same");
+				if (Math.sign(eventDiff) === -1) {
+					//if west, looking at more west
+					if (nowDiff < eventDiff) {
+						//-600        -420
+						eventDiff = -(eventDiff - (nowDiff - eventDiff)); //-180
+						Log.debug("now looking back east delta diff=", eventDiff);
+					}
+					else {
+						Log.debug("now looking more west");
+						eventDiff = Math.abs(eventDiff - nowDiff);
+					}
+				} else {
+					Log.debug("signs are both positive");
+					// signs are positive (east of UTC)
+					// berlin < sydney
+					if (nowDiff < eventDiff) {
+						// germany vs australia
+						eventDiff = -(eventDiff - nowDiff);
+					}
+					else {
+						// australia vs germany
+						//eventDiff = eventDiff; //- nowDiff
+					}
+				}
+			}
+			startMoment = moment.tz(new Date(date.valueOf() + (eventDiff * (60 * 1000))), event.end.tz);
+		} else {
+			Log.debug("same tz event and display");
+			eventDiff = 0;
+			startMoment = moment.tz(new Date(date.valueOf() - (eventDiff * (60 * 1000))), event.end.tz);
+		}
+		Log.debug("startMoment post=", startMoment);
+		return startMoment;
 	},
 
 	/**
