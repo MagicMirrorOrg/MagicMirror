@@ -1,3 +1,5 @@
+# Collaboration
+
 This document describes how collaborators of this repository should work together.
 
 ## Pull Requests
