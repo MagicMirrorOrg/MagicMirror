@@ -22,10 +22,11 @@ _This release is scheduled to be released on 2025-01-01._
 - [linter] Re-add `eslint-plugin-import`now that it supports ESLint v9 (#3586)
 - [linter] Re-activate `eslint-plugin-package-json` to lint `package.json` (#3643)
 - [linter] Add linting for markdown files.
+- [calendar] - added ability to display end date for full date events, where end is not same day (showEnd=true)
 
 ### Removed
 
-- [tests] Removed node-pty and drivelist from rebuilded test (#3575)
+- [tests] Remove `node-pty` and `drivelist` from rebuilded test (#3575)
 - [deps] Remove `@eslint/js` dependency. Already installed with `eslint` in deep (#3636)
 
 ### Updated
@@ -39,12 +40,17 @@ _This release is scheduled to be released on 2025-01-01._
 
 - [updatenotification] Fix pm2 using detection when pm2 script is inside or outside MagicMirror root folder (#3576) (#3605) (#3626) (#3628)
 - [core] Fix loading node_helper of modules: avoid black screen, display errors and continue loading with next module (#3578)
-- [weather] Changed default value for weatherEndpoint of provider openweathermap to "/onecall" (#3574)
-- [tests] Fix electron tests with mock dates, the mock on server side was missing (#3597)
-- [tests] Fix test cases with hard coded Date.now (#3597)
+- [weather] changed default value for weatherEndpoint of provider openweathermap to "/onecall" (#3574)
+- [tests] fix electron tests with mock dates, the mock on server side was missing (#3597)
+- [tests] fix testcases with hard coded Date.now (#3597)
 - [core] Fix missing `basePath` where `location.host` is used (#3613)
 - [compliments] croner library changed filenames used in latest version (#3624)
-- [linter] Fix ESLint ignore pattern which caused that default modules not to be linted. (#3632).
+- [linter] Fix ESLint ignore pattern which caused that default modules not to be linted (#3632)
+- [calendar] - update to resolve issues #3098 #3144 #3351 #3422 #3443 #3467 #3537 related to timezone changes
+- [calendar] - fixes #3267 (styles array), also fixes event with both exdate AND recurrence(and testcase)
+- [calendar] - fix showEndsOnlyWithDuration not working, #3598, applies ONLY to full day events
+- [calendar] - fix showEnd for Full Day events #3602
+- [tests] Suppress "module is not defined" in e2e tests
 
 ## [2.29.0] - 2024-10-01
 

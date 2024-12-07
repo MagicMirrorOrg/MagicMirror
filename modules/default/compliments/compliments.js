@@ -49,7 +49,12 @@ Module.register("compliments", {
 				if ((this.config.remoteFileRefreshInterval >= this.refreshMinimumDelay) || window.mmTestMode === "true") {
 					setInterval(async () => {
 						const response = await this.loadComplimentFile();
-						this.compliments_new = JSON.parse(response);
+						if (response) {
+							this.compliments_new = JSON.parse(response);
+						}
+						else {
+							Log.error(`${this.name} remoteFile refresh failed`);
+						}
 					},
 					this.config.remoteFileRefreshInterval);
 				} else {
@@ -204,10 +209,14 @@ Module.register("compliments", {
 		// we need to force the server to not give us the cached result
 		// create an extra property (ignored by the server handler) just so the url string is different
 		// that will never be the same, using the ms value of date
-		if (this.config.remoteFileRefreshInterval !== 0) this.urlSuffix = `?dummy=${Date.now()}`;
+		if (isRemote && this.config.remoteFileRefreshInterval !== 0) this.urlSuffix = `?dummy=${Date.now()}`;
 		//
-		const response = await fetch(url + this.urlSuffix);
-		return await response.text();
+		try {
+			const response = await fetch(url + this.urlSuffix);
+			return await response.text();
+		} catch (error) {
+			Log.info(`${this.name} fetch failed error=`, error);
+		}
 	},
 
 	/**
