@@ -16,13 +16,17 @@ _This release is scheduled to be released on 2025-01-01._
 - [core] Add wayland and windows start options to `package.json` (#3594)
 - [docs] Add step for npm publishing in release process (#3595)
 - [core] Add GitHub workflow to run spellcheck a few days before each release (#3623)
-- [core] Add test flag to index.html to pass to module js for test mode detection (needed by #3630)
+- [core] Add test flag to `index.html` to pass to module js for test mode detection (needed by #3630)
 - [core] Add export on animation names (#3644)
-- [compliments] add support for refreshing remote compliments file, and test cases (#3630)
+- [compliments] Add support for refreshing remote compliments file, and test cases (#3630)
 - [linter] Re-add `eslint-plugin-import`now that it supports ESLint v9 (#3586)
 - [linter] Re-activate `eslint-plugin-package-json` to lint `package.json` (#3643)
-- [linter] Add linting for markdown files.
+- [linter] Add linting for markdown files (#3646)
 - [calendar] - added ability to display end date for full date events, where end is not same day (showEnd=true)
+
+### Changed
+
+- [core] Run code style checks in workflow only once.
 
 ### Removed
 
@@ -31,7 +35,7 @@ _This release is scheduled to be released on 2025-01-01._
 
 ### Updated
 
-- [repo] reactivated `stale.yaml` as github action to mark issues as stale after 60 days and close them 7 days later (if no activity)
+- [repo] Reactivate `stale.yaml` as GitHub action to mark issues as stale after 60 days and close them 7 days later (if no activity) (#3577, #3580, #3581)
 - [core] Update electron dependency to v32 (test electron rebuild) and other dependencies too
 - [tests] All test configs have been updated to allow full external access, allowing for easier debugging (especially when running as a container)
 - [core] Run and test with node 23 (#3588)
