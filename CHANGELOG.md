@@ -16,11 +16,12 @@ _This release is scheduled to be released on 2025-01-01._
 - [core] Add wayland and windows start options to `package.json` (#3594)
 - [docs] Add step for npm publishing in release process (#3595)
 - [core] Add GitHub workflow to run spellcheck a few days before each release (#3623)
-- [core] Add intest flag to index.html to pass to module js for test mode detection (needed by #3630)
-- [compliments] add support for refreshing remote compliments file, and testcases (#3630)
+- [core] Add test flag to index.html to pass to module js for test mode detection (needed by #3630)
+- [core] Add export on animation names (#3644)
+- [compliments] add support for refreshing remote compliments file, and test cases (#3630)
 - [linter] Re-add `eslint-plugin-import`now that it supports ESLint v9 (#3586)
-- [linter] Re-activate `eslint-plugin-package-json` to lint `package.json`
-- [core] Add export on animation names
+- [linter] Re-activate `eslint-plugin-package-json` to lint `package.json` (#3643)
+- [linter] Add linting for markdown files.
 - [calendar] - added ability to display end date for full date events, where end is not same day (showEnd=true)
 
 ### Removed
