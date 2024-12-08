@@ -13,6 +13,26 @@ permissions:
   contents: read
 
 jobs:
+  code-style-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v4
+      - name: "Use Node.js"
+        uses: actions/setup-node@v4
+        with:
+          node-version: 23
+          cache: "npm"
+      - name: "Install dependencies"
+        run: |
+          npm run install-mm:dev
+      - name: "Run linter tests"
+        run: |
+          npm run test:prettier
+          npm run test:js
+          npm run test:css
+          npm run test:markdown
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -36,7 +56,4 @@ jobs:
           Xvfb :99 -screen 0 1024x768x16 &
           export DISPLAY=:99
           touch css/custom.css
-          npm run test:prettier
-          npm run test:js
-          npm run test:css
           npm run test
