@@ -27,6 +27,7 @@ _This release is scheduled to be released on 2025-01-01._
 ### Changed
 
 - [core] Run code style checks in workflow only once.
+- [core] fix animations export #3644 only on server side
 
 ### Removed
 
