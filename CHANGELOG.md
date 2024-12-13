@@ -57,6 +57,7 @@ _This release is scheduled to be released on 2025-01-01._
 - [calendar] - fix showEnd for Full Day events #3602
 - [tests] Suppress "module is not defined" in e2e tests
 - [calendar] - fixes #3267 (styles array, really this time!)
+- [core] Fix module path in case of sub/sub folder is used and use path.resolve for resolve `moduleFolder` and `defaultModuleFolder` in app.js (#3xxx)
 
 ## [2.29.0] - 2024-10-01
 
