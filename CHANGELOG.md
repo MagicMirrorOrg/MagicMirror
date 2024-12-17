@@ -23,6 +23,7 @@ _This release is scheduled to be released on 2025-01-01._
 - [linter] Re-activate `eslint-plugin-package-json` to lint `package.json` (#3643)
 - [linter] Add linting for markdown files (#3646)
 - [calendar] - added ability to display end date for full date events, where end is not same day (showEnd=true)
+- [core] - added text to the config.js.sample file about the locale variable (#3654)
 
 ### Changed
 
