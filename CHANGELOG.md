@@ -22,12 +22,13 @@ _This release is scheduled to be released on 2025-01-01._
 - [linter] Re-add `eslint-plugin-import`now that it supports ESLint v9 (#3586)
 - [linter] Re-activate `eslint-plugin-package-json` to lint `package.json` (#3643)
 - [linter] Add linting for markdown files (#3646)
-- [calendar] - added ability to display end date for full date events, where end is not same day (showEnd=true)
+- [calendar] Add ability to display end date for full date events, where end is not same day (showEnd=true) (#3650)
 
 ### Changed
 
-- [core] Run code style checks in workflow only once.
-- [core] fix animations export #3644 only on server side
+- [core] Run code style checks in workflow only once (#3648)
+- [core] Fix animations export #3644 only on server side (#3649)
+- [core] Use project URL in fallback config.
 
 ### Removed
 
@@ -45,18 +46,18 @@ _This release is scheduled to be released on 2025-01-01._
 
 - [updatenotification] Fix pm2 using detection when pm2 script is inside or outside MagicMirror root folder (#3576) (#3605) (#3626) (#3628)
 - [core] Fix loading node_helper of modules: avoid black screen, display errors and continue loading with next module (#3578)
-- [weather] changed default value for weatherEndpoint of provider openweathermap to "/onecall" (#3574)
-- [tests] fix electron tests with mock dates, the mock on server side was missing (#3597)
-- [tests] fix testcases with hard coded Date.now (#3597)
+- [weather] Change default value for weatherEndpoint of provider openweathermap to "/onecall" (#3574)
+- [tests] Fix electron tests with mock dates, the mock on server side was missing (#3597)
+- [tests] Fix testcases with hard coded Date.now (#3597)
 - [core] Fix missing `basePath` where `location.host` is used (#3613)
 - [compliments] croner library changed filenames used in latest version (#3624)
 - [linter] Fix ESLint ignore pattern which caused that default modules not to be linted (#3632)
-- [calendar] - update to resolve issues #3098 #3144 #3351 #3422 #3443 #3467 #3537 related to timezone changes
-- [calendar] - fixes #3267 (styles array), also fixes event with both exdate AND recurrence(and testcase)
-- [calendar] - fix showEndsOnlyWithDuration not working, #3598, applies ONLY to full day events
-- [calendar] - fix showEnd for Full Day events #3602
-- [tests] Suppress "module is not defined" in e2e tests
-- [calendar] - fixes #3267 (styles array, really this time!)
+- [calendar] Update to resolve issues #3098 #3144 #3351 #3422 #3443 #3467 #3537 related to timezone changes
+- [calendar] Fix #3267 (styles array), also fixes event with both exdate AND recurrence(and testcase)
+- [calendar] Fix showEndsOnlyWithDuration not working, #3598, applies ONLY to full day events
+- [calendar] Fix showEnd for Full Day events (#3602)
+- [tests] Suppress "module is not defined" in e2e tests (#3647)
+- [calendar] Fix #3267 (styles array, really this time!)
 
 ## [2.29.0] - 2024-10-01
 
