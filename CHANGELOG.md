@@ -32,7 +32,6 @@ _This release is scheduled to be released on 2025-01-01._
 - [core] Use project URL in fallback config.
 - [core] fix Access Denied crash writing js/positions.js (on synology nas) #3651. new message, MM starts, but no modules showing
 
-
 ### Removed
 
 - [tests] Remove `node-pty` and `drivelist` from rebuilded test (#3575)
