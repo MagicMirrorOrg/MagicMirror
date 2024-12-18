@@ -15,9 +15,9 @@ describe("Check configuration without modules", () => {
 		expect(elem.textContent).toContain("MagicMirror²");
 	});
 
-	it("shows the url of michael's website", async () => {
+	it("shows the project URL", async () => {
 		const elem = await helpers.waitForElement("#module_5_helloworld .module-content");
 		expect(elem).not.toBeNull();
-		expect(elem.textContent).toContain("www.michaelteeuw.nl");
+		expect(elem.textContent).toContain("https://magicmirror.builders/");
 	});
 });

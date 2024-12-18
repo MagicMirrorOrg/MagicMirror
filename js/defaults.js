@@ -70,7 +70,7 @@ const defaults = {
 			position: "bottom_bar",
 			classes: "xsmall dimmed",
 			config: {
-				text: "www.michaelteeuw.nl"
+				text: "https://magicmirror.builders/"
 			}
 		}
 	]
