@@ -30,7 +30,7 @@ _This release is scheduled to be released on 2025-01-01._
 - [core] Run code style checks in workflow only once (#3648)
 - [core] Fix animations export #3644 only on server side (#3649)
 - [core] Use project URL in fallback config.
-- [core] fix Access Denied crash writing js/positions.js (on synology nas) #3651. new message, MM starts, but no modules showing, positions list empty
+- [core] fix Access Denied crash writing js/positions.js (on synology nas) #3651. new message, MM starts, but no modules showing
 
 
 ### Removed
