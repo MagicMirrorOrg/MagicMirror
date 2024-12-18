@@ -106,7 +106,7 @@
 		"electron": "^32.2.7"
 	},
 	"engines": {
-		"node": ">=20.9.0 <21 || 22 || >=23"
+		"node": ">=20.9.0 <21 || >=22"
 	},
 	"_moduleAliases": {
 		"node_helper": "js/node_helper.js",
