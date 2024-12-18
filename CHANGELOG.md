@@ -54,6 +54,7 @@ _This release is scheduled to be released on 2025-01-01._
 - [core] Fix missing `basePath` where `location.host` is used (#3613)
 - [compliments] croner library changed filenames used in latest version (#3624)
 - [linter] Fix ESLint ignore pattern which caused that default modules not to be linted (#3632)
+- [core] Fix module path in case of sub/sub folder is used and use path.resolve for resolve `moduleFolder` and `defaultModuleFolder` in app.js (#3653)
 - [calendar] Update to resolve issues #3098 #3144 #3351 #3422 #3443 #3467 #3537 related to timezone changes
 - [calendar] Fix #3267 (styles array), also fixes event with both exdate AND recurrence(and testcase)
 - [calendar] Fix showEndsOnlyWithDuration not working, #3598, applies ONLY to full day events
