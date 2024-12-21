@@ -33,7 +33,6 @@
 		"lint:js": "eslint . --fix",
 		"lint:markdown": "markdownlint-cli2 . --fix",
 		"lint:prettier": "prettier . --write",
-		"lint:staged": "lint-staged",
 		"postinstall": "npm run install-vendor && npm run install-fonts && echo \"MagicMirror² installation finished successfully! \n\"",
 		"prepare": "[ -f node_modules/.bin/husky ] && husky || echo no husky installed.",
 		"server": "node ./serveronly",
