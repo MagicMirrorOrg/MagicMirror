@@ -23,14 +23,15 @@ _This release is scheduled to be released on 2025-01-01._
 - [linter] Re-activate `eslint-plugin-package-json` to lint `package.json` (#3643)
 - [linter] Add linting for markdown files (#3646)
 - [calendar] Add ability to display end date for full date events, where end is not same day (showEnd=true) (#3650)
-- [core] Add text to the config.js.sample file about the locale variable (#3654)
+- [core] Add text to the config.js.sample file about the locale variable (#3654, #3655)
 
 ### Changed
 
 - [core] Run code style checks in workflow only once (#3648)
 - [core] Fix animations export #3644 only on server side (#3649)
-- [core] Use project URL in fallback config.
-- [core] fix Access Denied crash writing js/positions.js (on synology nas) #3651. new message, MM starts, but no modules showing
+- [core] Use project URL in fallback config (#3656)
+- [core] Fix Access Denied crash writing js/positions.js (on synology nas) #3651. new message, MM starts, but no modules showing (#3652)
+- [linter] Switch to 'npx' for lint-staged in pre-commit hook
 
 ### Removed
 
@@ -40,7 +41,7 @@ _This release is scheduled to be released on 2025-01-01._
 ### Updated
 
 - [repo] Reactivate `stale.yaml` as GitHub action to mark issues as stale after 60 days and close them 7 days later (if no activity) (#3577, #3580, #3581)
-- [core] Update electron dependency to v32 (test electron rebuild) and other dependencies
+- [core] Update electron dependency to v32 (test electron rebuild) and other dependencies (#3657)
 - [tests] All test configs have been updated to allow full external access, allowing for easier debugging (especially when running as a container)
 - [core] Run and test with node 23 (#3588)
 
