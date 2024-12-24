@@ -44,7 +44,7 @@ _This release is scheduled to be released on 2025-01-01._
 - [core] Update electron dependency to v32 (test electron rebuild) and other dependencies (#3657)
 - [tests] All test configs have been updated to allow full external access, allowing for easier debugging (especially when running as a container)
 - [core] Run and test with node 23 (#3588)
-- [workflow] delete exception `allow-ghsas: GHSA-8hc4-vh64-cxmj` in `dep-review.yaml` (#3XXX)
+- [workflow] delete exception `allow-ghsas: GHSA-8hc4-vh64-cxmj` in `dep-review.yaml` (#3659)
 
 ### Fixed
 
