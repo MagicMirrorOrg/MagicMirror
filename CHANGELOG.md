@@ -23,14 +23,16 @@ _This release is scheduled to be released on 2025-01-01._
 - [linter] Re-activate `eslint-plugin-package-json` to lint `package.json` (#3643)
 - [linter] Add linting for markdown files (#3646)
 - [calendar] Add ability to display end date for full date events, where end is not same day (showEnd=true) (#3650)
-- [core] Add text to the config.js.sample file about the locale variable (#3654)
+- [core] Add text to the config.js.sample file about the locale variable (#3654, #3655)
 - [core] Add fetch timeout for all node_helpers (thru undici, forces node 20.18.1 minimum) to help on slower systems.
 
 ### Changed
 
 - [core] Run code style checks in workflow only once (#3648)
 - [core] Fix animations export #3644 only on server side (#3649)
-- [core] Use project URL in fallback config.
+- [core] Use project URL in fallback config (#3656)
+- [core] Fix Access Denied crash writing js/positions.js (on synology nas) #3651. new message, MM starts, but no modules showing (#3652)
+- [linter] Switch to 'npx' for lint-staged in pre-commit hook (#3658)
 
 ### Removed
 
@@ -40,9 +42,10 @@ _This release is scheduled to be released on 2025-01-01._
 ### Updated
 
 - [repo] Reactivate `stale.yaml` as GitHub action to mark issues as stale after 60 days and close them 7 days later (if no activity) (#3577, #3580, #3581)
-- [core] Update electron dependency to v32 (test electron rebuild) and other dependencies too
+- [core] Update electron dependency to v32 (test electron rebuild) and other dependencies (#3657)
 - [tests] All test configs have been updated to allow full external access, allowing for easier debugging (especially when running as a container)
 - [core] Run and test with node 23 (#3588)
+- [workflow] delete exception `allow-ghsas: GHSA-8hc4-vh64-cxmj` in `dep-review.yaml` (#3659)
 
 ### Fixed
 
@@ -54,6 +57,7 @@ _This release is scheduled to be released on 2025-01-01._
 - [core] Fix missing `basePath` where `location.host` is used (#3613)
 - [compliments] croner library changed filenames used in latest version (#3624)
 - [linter] Fix ESLint ignore pattern which caused that default modules not to be linted (#3632)
+- [core] Fix module path in case of sub/sub folder is used and use path.resolve for resolve `moduleFolder` and `defaultModuleFolder` in app.js (#3653)
 - [calendar] Update to resolve issues #3098 #3144 #3351 #3422 #3443 #3467 #3537 related to timezone changes
 - [calendar] Fix #3267 (styles array), also fixes event with both exdate AND recurrence(and testcase)
 - [calendar] Fix showEndsOnlyWithDuration not working, #3598, applies ONLY to full day events

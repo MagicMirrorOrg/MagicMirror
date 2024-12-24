@@ -169,10 +169,10 @@ function App () {
 		const elements = module.split("/");
 		const moduleName = elements[elements.length - 1];
 		const env = getEnvVarsAsObj();
-		let moduleFolder = `${__dirname}/../${env.modulesDir}/${module}`;
+		let moduleFolder = path.resolve(`${__dirname}/../${env.modulesDir}`, module);
 
 		if (defaultModules.includes(moduleName)) {
-			const defaultModuleFolder = `${__dirname}/../modules/default/${module}`;
+			const defaultModuleFolder = path.resolve(`${__dirname}/../modules/default/`, module);
 			if (process.env.JEST_WORKER_ID === undefined) {
 				moduleFolder = defaultModuleFolder;
 			} else {
@@ -183,7 +183,7 @@ function App () {
 			}
 		}
 
-		const moduleFile = `${moduleFolder}/${module}.js`;
+		const moduleFile = `${moduleFolder}/${moduleName}.js`;
 
 		try {
 			fs.accessSync(moduleFile, fs.R_OK);
