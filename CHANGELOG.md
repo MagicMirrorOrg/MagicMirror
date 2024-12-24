@@ -31,7 +31,7 @@ _This release is scheduled to be released on 2025-01-01._
 - [core] Fix animations export #3644 only on server side (#3649)
 - [core] Use project URL in fallback config (#3656)
 - [core] Fix Access Denied crash writing js/positions.js (on synology nas) #3651. new message, MM starts, but no modules showing (#3652)
-- [linter] Switch to 'npx' for lint-staged in pre-commit hook
+- [linter] Switch to 'npx' for lint-staged in pre-commit hook (#3658)
 
 ### Removed
 
@@ -44,6 +44,7 @@ _This release is scheduled to be released on 2025-01-01._
 - [core] Update electron dependency to v32 (test electron rebuild) and other dependencies (#3657)
 - [tests] All test configs have been updated to allow full external access, allowing for easier debugging (especially when running as a container)
 - [core] Run and test with node 23 (#3588)
+- [workflow] delete exception `allow-ghsas: GHSA-8hc4-vh64-cxmj` in `dep-review.yaml` (#3XXX)
 
 ### Fixed
 
