@@ -14,7 +14,7 @@ const { getEnvVarsAsObj } = require(`${__dirname}/server_functions`);
 // used to control fetch timeout for node_helpers
 const { setGlobalDispatcher, Agent } = require("undici");
 // common timeout value, provide environment override in case
-const fetch_timeout = process.env.mmFetchTimeout !== undefined ? process.env.mmTestMode : 30000;
+const fetch_timeout = process.env.mmFetchTimeout !== undefined ? process.env.mmFetchTimeout : 30000;
 
 // Get version number.
 global.version = require(`${__dirname}/../package.json`).version;
