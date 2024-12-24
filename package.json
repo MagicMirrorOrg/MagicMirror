@@ -80,7 +80,8 @@
 		"pm2": "^5.4.2",
 		"socket.io": "^4.8.1",
 		"suncalc": "^1.9.0",
-		"systeminformation": "^5.23.5"
+		"systeminformation": "^5.23.5",
+		"undici": "^7.2.0"
 	},
 	"devDependencies": {
 		"@stylistic/eslint-plugin": "^2.10.1",
@@ -106,7 +107,7 @@
 		"electron": "^32.2.2"
 	},
 	"engines": {
-		"node": ">=20.9.0 <21 || 22 || >=23"
+		"node": ">=20.18.1 <21 || 22 || >=23"
 	},
 	"_moduleAliases": {
 		"node_helper": "js/node_helper.js",
