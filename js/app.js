@@ -11,6 +11,11 @@ const Utils = require(`${__dirname}/utils`);
 const defaultModules = require(`${__dirname}/../modules/default/defaultmodules`);
 const { getEnvVarsAsObj } = require(`${__dirname}/server_functions`);
 
+// used to control fetch timeout for node_helpers
+const { setGlobalDispatcher, Agent } = require("undici");
+// common timeout value, provide environment override in case
+const fetch_timeout = process.env.mmFetchTimeout !== undefined ? process.env.mmFetchTimeout : 30000;
+
 // Get version number.
 global.version = require(`${__dirname}/../package.json`).version;
 global.mmTestMode = process.env.mmTestMode === "true" ? true : false;
@@ -294,6 +299,8 @@ function App () {
 				Log.warn("No module name found for this configuration:" + `\n${JSON.stringify(module, null, 2)}`);
 			}
 		}
+
+		setGlobalDispatcher(new Agent({ connect: { timeout: fetch_timeout } }));
 
 		await loadModules(modules);
 
