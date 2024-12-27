@@ -24,7 +24,7 @@ _This release is scheduled to be released on 2025-01-01._
 - [linter] Add linting for markdown files (#3646)
 - [calendar] Add ability to display end date for full date events, where end is not same day (showEnd=true) (#3650)
 - [core] Add text to the config.js.sample file about the locale variable (#3654, #3655)
-- [core] Add fetch timeout for all node_helpers (thru undici, forces node 20.18.1 minimum) to help on slower systems.
+- [core] Add fetch timeout for all node_helpers (thru undici, forces node 20.18.1 minimum) to help on slower systems. (#3660) (3661)
 
 ### Changed
 
