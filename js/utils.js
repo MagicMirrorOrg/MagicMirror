@@ -52,7 +52,7 @@ module.exports = {
 		// if not already discovered
 		if (modulePositions.length === 0) {
 			// get the lines of the index.html
-			const lines = fs.readFileSync(indexFileName).toString().split(os.EOL);
+			const lines = fs.readFileSync(indexFileName).toString().split("\n");
 			// loop thru the lines
 			lines.forEach((line) => {
 				// run the regex on each line
