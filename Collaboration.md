@@ -45,7 +45,7 @@ Are done by
 - [ ] create new release with
   - [ ] corresponding version tag `v2.xx.0`
   - [ ] a release name: `...`
-  - [ ] description of the PR is the section of the `CHANGELOG.md`
+  - [ ] description of the release is the section of the `CHANGELOG.md`
 
 ### Draft new development release
 
