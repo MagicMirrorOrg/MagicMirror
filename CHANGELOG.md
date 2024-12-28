@@ -64,6 +64,7 @@ _This release is scheduled to be released on 2025-01-01._
 - [calendar] Fix showEnd for Full Day events (#3602)
 - [tests] Suppress "module is not defined" in e2e tests (#3647)
 - [calendar] Fix #3267 (styles array, really this time!)
+- [core] Fix #3662 js/positions.js created incorrectly
 
 ## [2.29.0] - 2024-10-01
 
