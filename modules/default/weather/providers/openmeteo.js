@@ -244,17 +244,17 @@ WeatherProvider.register("openmeteo", {
 			.add(Math.max(0, Math.min(7, this.config.maxNumberOfDays)), "days")
 			.endOf("day");
 
-		params["start_date"] = startDate.format("YYYY-MM-DD");
+		params.start_date = startDate.format("YYYY-MM-DD");
 
 		switch (this.config.type) {
 			case "hourly":
 			case "daily":
 			case "forecast":
-				params["end_date"] = endDate.format("YYYY-MM-DD");
+				params.end_date = endDate.format("YYYY-MM-DD");
 				break;
 			case "current":
-				params["current_weather"] = true;
-				params["end_date"] = params["start_date"];
+				params.current_weather = true;
+				params.end_date = params.start_date;
 				break;
 			default:
 				// Failsafe
@@ -262,7 +262,7 @@ WeatherProvider.register("openmeteo", {
 		}
 
 		return Object.keys(params)
-			.filter((key) => (params[key] ? true : false))
+			.filter((key) => (!!params[key]))
 			.map((key) => {
 				switch (key) {
 					case "hourly":
