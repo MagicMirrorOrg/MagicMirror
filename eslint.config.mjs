@@ -55,11 +55,12 @@ const config = [
 			"@stylistic/semi": ["error", "always"],
 			"@stylistic/space-before-function-paren": ["error", "always"],
 			"@stylistic/spaced-comment": "off",
+			"dot-notation": "error",
 			eqeqeq: "error",
 			"id-length": "off",
-			"import/order": "error",
 			"import/extensions": "error",
 			"import/newline-after-import": "error",
+			"import/order": "error",
 			"init-declarations": "off",
 			"jest/consistent-test-it": "warn",
 			"jest/no-done-callback": "warn",
@@ -78,6 +79,7 @@ const config = [
 			"no-ternary": "off",
 			"no-throw-literal": "error",
 			"no-undefined": "off",
+			"no-unneeded-ternary": "error",
 			"no-unused-vars": "off",
 			"no-useless-return": "error",
 			"no-warning-comments": "off",
@@ -112,7 +114,8 @@ const config = [
 			"max-lines-per-function": ["error", 100],
 			"no-magic-numbers": "off",
 			"one-var": "off",
-			"prefer-destructuring": "off"
+			"prefer-destructuring": "off",
+			"sort-keys": "error"
 		}
 	},
 	{

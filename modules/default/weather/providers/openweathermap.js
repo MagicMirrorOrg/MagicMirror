@@ -285,12 +285,12 @@ WeatherProvider.register("openweathermap", {
 			current.weatherType = this.convertWeatherType(data.current.weather[0].icon);
 			current.humidity = data.current.humidity;
 			current.uv_index = data.current.uvi;
-			if (data.current.hasOwnProperty("rain") && !isNaN(data.current["rain"]["1h"])) {
-				current.rain = data.current["rain"]["1h"];
+			if (data.current.hasOwnProperty("rain") && !isNaN(data.current.rain["1h"])) {
+				current.rain = data.current.rain["1h"];
 				precip = true;
 			}
-			if (data.current.hasOwnProperty("snow") && !isNaN(data.current["snow"]["1h"])) {
-				current.snow = data.current["snow"]["1h"];
+			if (data.current.hasOwnProperty("snow") && !isNaN(data.current.snow["1h"])) {
+				current.snow = data.current.snow["1h"];
 				precip = true;
 			}
 			if (precip) {
