@@ -15,19 +15,13 @@ planned for 2025-04-01
 
 ### Added
 
-
 ### Changed
-
 
 ### Removed
 
-
 ### Updated
 
-
 ### Fixed
-
-
 
 ## [2.30.0] - 2025-01-01
 
