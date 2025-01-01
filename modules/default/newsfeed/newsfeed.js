@@ -5,7 +5,9 @@ Module.register("newsfeed", {
 			{
 				title: "New York Times",
 				url: "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
-				encoding: "UTF-8" //ISO-8859-1
+				encoding: "UTF-8", //ISO-8859-1
+				ignoreOldItems: false, 
+				ignoreOlderThan: 24 * 60 * 60 * 1000
 			}
 		],
 		showAsList: false,
@@ -24,8 +26,10 @@ Module.register("newsfeed", {
 		updateInterval: 10 * 1000,
 		animationSpeed: 2.5 * 1000,
 		maxNewsItems: 0, // 0 for unlimited
-		ignoreOldItems: false,
-		ignoreOlderThan: 24 * 60 * 60 * 1000, // 1 day
+		// // Lets make this an array, so it holds the value for each newsfeed, currently there is only one: New York Times
+		// ignoreOldItems: Array.from({length: feeds.length}, () => false),
+		// // Let's make this an array, so it holds the values for each newsfeed, currently there is only one: New York Times 
+		// ignoreOlderThan:Array.from({length: feeds.length}, () => 24 * 60 * 60 * 1000), // all feeds are set to 1 day 
 		removeStartTags: "",
 		removeEndTags: "",
 		startTags: [],
@@ -176,19 +180,23 @@ Module.register("newsfeed", {
 			});
 		}
 	},
-
+	getFeedProperty(feed, property) {
+		return feed[property] || defaultValues[property];
+	},
 	/**
 	 * Generate an ordered list of items for this configured module.
 	 * @param {object} feeds An object with feeds returned by the node helper.
 	 */
 	generateFeed (feeds) {
 		let newsItems = [];
-		for (let feed in feeds) {
-			const feedItems = feeds[feed];
-			if (this.subscribedToFeed(feed)) {
+		for (let i = 0; i < feeds.length; i++) {
+			const feedItems = feeds[i];
+			if (this.subscribedToFeed(feedItems)) {
 				for (let item of feedItems) {
-					item.sourceTitle = this.titleForFeed(feed);
-					if (!(this.config.ignoreOldItems && Date.now() - new Date(item.pubdate) > this.config.ignoreOlderThan)) {
+					let ignoreOldItems = getFeedProperty(feedItems, 'ignoreOldItems');
+                	let ignoreOlderThan = getFeedProperty(feedItems, 'ignoreOlderThan');
+					item.sourceTitle = this.titleForFeed(feedItems);
+					if (!(ignoreOldItems && Date.now() - new Date(item.pubdate) > ignoreOlderThan)) {
 						newsItems.push(item);
 					}
 				}
