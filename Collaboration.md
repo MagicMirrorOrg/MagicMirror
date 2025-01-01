@@ -37,6 +37,7 @@ Are done by
   - [ ] add min. node version: > ⚠️ This release needs nodejs version `v20` or `v22`, minimum version is `v20.9.0`
   - [ ] check release link at the bottom of the file
 - [ ] commit and push all changes
+- [ ] after successful test run via github actions: merge pull request to `develop`
 - [ ] after successful test run via github actions: create pull request from `develop` to `master` branch
   - [ ] add label `mastermerge`
   - [ ] title of the PR is `Release 2.xx.0`
