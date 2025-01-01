@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/#donate) With your help we can continue to improve the MagicMirror².
 
-## [2.30.0] - 25-01-01
+## [2.30.0] - 2025-01-01
 
 Thanks to: @xsorifc28, @HeikoGr, @bugsounet, @khassel, @KristjanESPERANTO, @rejas, @sdetweil.
 
