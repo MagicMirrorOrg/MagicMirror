@@ -1,6 +1,6 @@
 {
 	"name": "magicmirror",
-	"version": "2.30.0-develop",
+	"version": "2.30.0",
 	"description": "The open source modular smart mirror platform.",
 	"keywords": [
 		"magic mirror",
