@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/#donate) With your help we can continue to improve the MagicMirror².
 
-## [2.30.0] - Unreleased (`develop` branch)
+## [2.30.0] - 2025-01-01
 
-_This release is scheduled to be released on 2025-01-01._
+Thanks to: @xsorifc28, @HeikoGr, @bugsounet, @khassel, @KristjanESPERANTO, @rejas, @sdetweil.
+
+> ⚠️ This release needs nodejs version `v20` or `v22 or higher`, minimum version is `v20.18.1`
 
 ### Added
 
