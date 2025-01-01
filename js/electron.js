@@ -76,6 +76,23 @@ function createWindow () {
 
 	const electronOptions = Object.assign({}, electronOptionsDefaults, config.electronOptions);
 
+	if (process.env.JEST_WORKER_ID !== undefined && process.env.MOCK_DATE !== undefined) {
+		// if we are running with jest and we want to mock the current date
+		const fakeNow = new Date(process.env.MOCK_DATE).valueOf();
+		Date = class extends Date {
+			constructor (...args) {
+				if (args.length === 0) {
+					super(fakeNow);
+				} else {
+					super(...args);
+				}
+			}
+		};
+		const __DateNowOffset = fakeNow - Date.now();
+		const __DateNow = Date.now;
+		Date.now = () => __DateNow() + __DateNowOffset;
+	}
+
 	// Create the browser window.
 	mainWindow = new BrowserWindow(electronOptions);
 
@@ -85,7 +102,7 @@ function createWindow () {
 	 */
 
 	let prefix;
-	if ((config["tls"] !== null && config["tls"]) || config.useHttps) {
+	if ((config.tls !== null && config.tls) || config.useHttps) {
 		prefix = "https://";
 	} else {
 		prefix = "http://";
@@ -134,11 +151,11 @@ function createWindow () {
 	//remove response headers that prevent sites of being embedded into iframes if configured
 	mainWindow.webContents.session.webRequest.onHeadersReceived((details, callback) => {
 		let curHeaders = details.responseHeaders;
-		if (config["ignoreXOriginHeader"] || false) {
+		if (config.ignoreXOriginHeader || false) {
 			curHeaders = Object.fromEntries(Object.entries(curHeaders).filter((header) => !(/x-frame-options/i).test(header[0])));
 		}
 
-		if (config["ignoreContentSecurityPolicy"] || false) {
+		if (config.ignoreContentSecurityPolicy || false) {
 			curHeaders = Object.fromEntries(Object.entries(curHeaders).filter((header) => !(/content-security-policy/i).test(header[0])));
 		}
 

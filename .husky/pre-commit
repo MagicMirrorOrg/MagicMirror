@@ -1,5 +1,5 @@
 #!/bin/sh
 
-if command -v npm &> /dev/null; then
-  npm run lint:staged
+if command -v npx &> /dev/null; then
+  npx lint-staged
 fi

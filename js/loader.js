@@ -15,7 +15,7 @@ const Loader = (function () {
 	 * @returns {object} with key: values as assembled in js/server_functions.js
 	 */
 	const getEnvVars = async function () {
-		const res = await fetch(`${location.protocol}//${location.host}/env`);
+		const res = await fetch(`${location.protocol}//${location.host}${config.basePath}env`);
 		return JSON.parse(await res.text());
 	};
 

@@ -1,10 +1,14 @@
+import eslintPluginImport from "eslint-plugin-import";
 import eslintPluginJest from "eslint-plugin-jest";
 import eslintPluginJs from "@eslint/js";
+import eslintPluginPackageJson from "eslint-plugin-package-json/configs/recommended";
 import eslintPluginStylistic from "@stylistic/eslint-plugin";
 import globals from "globals";
 
 const config = [
 	eslintPluginJs.configs.recommended,
+	eslintPluginImport.flatConfigs.recommended,
+	eslintPluginPackageJson,
 	{
 		files: ["**/*.js"],
 		languageOptions: {
@@ -51,8 +55,12 @@ const config = [
 			"@stylistic/semi": ["error", "always"],
 			"@stylistic/space-before-function-paren": ["error", "always"],
 			"@stylistic/spaced-comment": "off",
+			"dot-notation": "error",
 			eqeqeq: "error",
 			"id-length": "off",
+			"import/extensions": "error",
+			"import/newline-after-import": "error",
+			"import/order": "error",
 			"init-declarations": "off",
 			"jest/consistent-test-it": "warn",
 			"jest/no-done-callback": "warn",
@@ -60,7 +68,7 @@ const config = [
 			"jest/prefer-mock-promise-shorthand": "warn",
 			"jest/prefer-to-be": "warn",
 			"jest/prefer-to-have-length": "warn",
-			"max-lines-per-function": ["warn", 350],
+			"max-lines-per-function": ["warn", 400],
 			"max-statements": "off",
 			"no-global-assign": "off",
 			"no-inline-comments": "off",
@@ -71,6 +79,7 @@ const config = [
 			"no-ternary": "off",
 			"no-throw-literal": "error",
 			"no-undefined": "off",
+			"no-unneeded-ternary": "error",
 			"no-unused-vars": "off",
 			"no-useless-return": "error",
 			"no-warning-comments": "off",
@@ -101,10 +110,12 @@ const config = [
 			"@stylistic/quote-props": ["error", "as-needed"],
 			"func-style": "off",
 			"import/namespace": "off",
+			"import/no-unresolved": "off",
 			"max-lines-per-function": ["error", 100],
 			"no-magic-numbers": "off",
 			"one-var": "off",
-			"prefer-destructuring": "off"
+			"prefer-destructuring": "off",
+			"sort-keys": "error"
 		}
 	},
 	{
@@ -114,7 +125,7 @@ const config = [
 		}
 	},
 	{
-		ignores: ["config/**", "modules/**", "!modules/default/**", "js/positions.js"]
+		ignores: ["config/**", "modules/**/*", "!modules/default/**", "js/positions.js"]
 	}
 ];
 

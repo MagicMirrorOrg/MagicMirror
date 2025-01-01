@@ -1,4 +1,6 @@
 let config = {
+	address: "0.0.0.0",
+	ipWhitelist: [],
 	timeFormat: 12,
 
 	modules: [
@@ -18,10 +20,6 @@ let config = {
 			}
 		}
 	]
-};
-
-Date.now = () => {
-	return new Date("07 Mar 2024 10:38:00 GMT-07:00").valueOf();
 };
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/

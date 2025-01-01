@@ -78,6 +78,22 @@ describe("Compliments module", () => {
 				await expect(doTest(["just a test"])).resolves.toBe(true);
 			});
 		});
+	});
 
+	describe("Feature remote compliments file", () => {
+		describe("get list from remote file", () => {
+			it("shows 'Remote compliment file works!' as only anytime list set", async () => {
+				await helpers.startApplication("tests/configs/modules/compliments/compliments_file.js", "01 Jan 2022 10:00:00 GMT");
+				await expect(doTest(["Remote compliment file works!"])).resolves.toBe(true);
+			});
+		});
+		describe("get updated list from remote file", () => {
+			it("shows 'test in morning'", async () => {
+				await helpers.startApplication("tests/configs/modules/compliments/compliments_file_change.js", "01 Jan 2022 10:00:00 GMT");
+				await expect(doTest(["Remote compliment file works!"])).resolves.toBe(true);
+				await new Promise((r) => setTimeout(r, 10000));
+				await expect(doTest(["test in morning"])).resolves.toBe(true);
+			});
+		});
 	});
 });

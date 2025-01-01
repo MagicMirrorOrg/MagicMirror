@@ -12,6 +12,7 @@ Module.register("compliments", {
 		},
 		updateInterval: 30000,
 		remoteFile: null,
+		remoteFileRefreshInterval: 0,
 		fadeSpeed: 4000,
 		morningStartTime: 3,
 		morningEndTime: 12,
@@ -20,6 +21,9 @@ Module.register("compliments", {
 		random: true,
 		specialDayUnique: false
 	},
+	urlSuffix: "",
+	compliments_new: null,
+	refreshMinimumDelay: 15 * 60 * 60 * 1000, // 15 minutes
 	lastIndexUsed: -1,
 	// Set currentweather from module
 	currentWeatherType: "",
@@ -41,6 +45,22 @@ Module.register("compliments", {
 			const response = await this.loadComplimentFile();
 			this.config.compliments = JSON.parse(response);
 			this.updateDom();
+			if (this.config.remoteFileRefreshInterval !== 0) {
+				if ((this.config.remoteFileRefreshInterval >= this.refreshMinimumDelay) || window.mmTestMode === "true") {
+					setInterval(async () => {
+						const response = await this.loadComplimentFile();
+						if (response) {
+							this.compliments_new = JSON.parse(response);
+						}
+						else {
+							Log.error(`${this.name} remoteFile refresh failed`);
+						}
+					},
+					this.config.remoteFileRefreshInterval);
+				} else {
+					Log.error(`${this.name} remoteFileRefreshInterval less than minimum`);
+				}
+			}
 		}
 		let minute_sync_delay = 1;
 		// loop thru all the configured when events
@@ -185,8 +205,18 @@ Module.register("compliments", {
 	async loadComplimentFile () {
 		const isRemote = this.config.remoteFile.indexOf("http://") === 0 || this.config.remoteFile.indexOf("https://") === 0,
 			url = isRemote ? this.config.remoteFile : this.file(this.config.remoteFile);
-		const response = await fetch(url);
-		return await response.text();
+		// because we may be fetching the same url,
+		// we need to force the server to not give us the cached result
+		// create an extra property (ignored by the server handler) just so the url string is different
+		// that will never be the same, using the ms value of date
+		if (isRemote && this.config.remoteFileRefreshInterval !== 0) this.urlSuffix = `?dummy=${Date.now()}`;
+		//
+		try {
+			const response = await fetch(url + this.urlSuffix);
+			return await response.text();
+		} catch (error) {
+			Log.info(`${this.name} fetch failed error=`, error);
+		}
 	},
 
 	/**
@@ -235,6 +265,27 @@ Module.register("compliments", {
 			// remove the last break
 			compliment.lastElementChild.remove();
 			wrapper.appendChild(compliment);
+		}
+		// if a new set of compliments was loaded from the refresh task
+		// we do this here to make sure no other function is using the compliments list
+		if (this.compliments_new) {
+			// use them
+			if (JSON.stringify(this.config.compliments) !== JSON.stringify(this.compliments_new)) {
+				// only reset if the contents changes
+				this.config.compliments = this.compliments_new;
+				// reset the index
+				this.lastIndexUsed = -1;
+			}
+			// clear new file list so we don't waste cycles comparing between refreshes
+			this.compliments_new = null;
+		}
+		// only in test mode
+		if (window.mmTestMode === "true") {
+			// check for (undocumented) remoteFile2 to test new file load
+			if (this.config.remoteFile2 !== null && this.config.remoteFileRefreshInterval !== 0) {
+				// switch the file so that next time it will be loaded from a changed file
+				this.config.remoteFile = this.config.remoteFile2;
+			}
 		}
 		return wrapper;
 	},

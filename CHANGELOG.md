@@ -1,9 +1,73 @@
-# MagicMirror² Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file.
-This project adheres to [Semantic Versioning](https://semver.org/).
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/#donate) With your help we can continue to improve the MagicMirror².
+
+## [2.30.0] - 2025-01-01
+
+Thanks to: @xsorifc28, @HeikoGr, @bugsounet, @khassel, @KristjanESPERANTO, @rejas, @sdetweil.
+
+> ⚠️ This release needs nodejs version `v20` or `v22 or higher`, minimum version is `v20.18.1`
+
+### Added
+
+- [core] Add wayland and windows start options to `package.json` (#3594)
+- [docs] Add step for npm publishing in release process (#3595)
+- [core] Add GitHub workflow to run spellcheck a few days before each release (#3623)
+- [core] Add test flag to `index.html` to pass to module js for test mode detection (needed by #3630)
+- [core] Add export on animation names (#3644)
+- [compliments] Add support for refreshing remote compliments file, and test cases (#3630)
+- [linter] Re-add `eslint-plugin-import`now that it supports ESLint v9 (#3586)
+- [linter] Re-activate `eslint-plugin-package-json` to lint `package.json` (#3643)
+- [linter] Add linting for markdown files (#3646)
+- [linter] Add some handy ESLint rules.
+- [calendar] Add ability to display end date for full date events, where end is not same day (showEnd=true) (#3650)
+- [core] Add text to the config.js.sample file about the locale variable (#3654, #3655)
+- [core] Add fetch timeout for all node_helpers (thru undici, forces node 20.18.1 minimum) to help on slower systems. (#3660) (3661)
+
+### Changed
+
+- [core] Run code style checks in workflow only once (#3648)
+- [core] Fix animations export #3644 only on server side (#3649)
+- [core] Use project URL in fallback config (#3656)
+- [core] Fix Access Denied crash writing js/positions.js (on synology nas) #3651. new message, MM starts, but no modules showing (#3652)
+- [linter] Switch to 'npx' for lint-staged in pre-commit hook (#3658)
+
+### Removed
+
+- [tests] Remove `node-pty` and `drivelist` from rebuilded test (#3575)
+- [deps] Remove `@eslint/js` dependency. Already installed with `eslint` in deep (#3636)
+
+### Updated
+
+- [repo] Reactivate `stale.yaml` as GitHub action to mark issues as stale after 60 days and close them 7 days later (if no activity) (#3577, #3580, #3581)
+- [core] Update electron dependency to v32 (test electron rebuild) and all other dependencies too (#3657)
+- [tests] All test configs have been updated to allow full external access, allowing for easier debugging (especially when running as a container)
+- [core] Run and test with node 23 (#3588)
+- [workflow] delete exception `allow-ghsas: GHSA-8hc4-vh64-cxmj` in `dep-review.yaml` (#3659)
+
+### Fixed
+
+- [updatenotification] Fix pm2 using detection when pm2 script is inside or outside MagicMirror root folder (#3576) (#3605) (#3626) (#3628)
+- [core] Fix loading node_helper of modules: avoid black screen, display errors and continue loading with next module (#3578)
+- [weather] Change default value for weatherEndpoint of provider openweathermap to "/onecall" (#3574)
+- [tests] Fix electron tests with mock dates, the mock on server side was missing (#3597)
+- [tests] Fix testcases with hard coded Date.now (#3597)
+- [core] Fix missing `basePath` where `location.host` is used (#3613)
+- [compliments] croner library changed filenames used in latest version (#3624)
+- [linter] Fix ESLint ignore pattern which caused that default modules not to be linted (#3632)
+- [core] Fix module path in case of sub/sub folder is used and use path.resolve for resolve `moduleFolder` and `defaultModuleFolder` in app.js (#3653)
+- [calendar] Update to resolve issues #3098 #3144 #3351 #3422 #3443 #3467 #3537 related to timezone changes
+- [calendar] Fix #3267 (styles array), also fixes event with both exdate AND recurrence(and testcase)
+- [calendar] Fix showEndsOnlyWithDuration not working, #3598, applies ONLY to full day events
+- [calendar] Fix showEnd for Full Day events (#3602)
+- [tests] Suppress "module is not defined" in e2e tests (#3647)
+- [calendar] Fix #3267 (styles array, really this time!)
+- [core] Fix #3662 js/positions.js created incorrectly
 
 ## [2.29.0] - 2024-10-01
 
@@ -13,7 +77,7 @@ Thanks to: @bugsounet, @dkallen78, @jargordon, @khassel, @KristjanESPERANTO, @Ma
 
 ### Added
 
-- [compliments] Added support for cron type date/time format entries mm hh DD MM dow (minutes/hours/days/months and day of week) see https://crontab.cronhub.io for construction (#3481)
+- [compliments] Added support for cron type date/time format entries mm hh DD MM dow (minutes/hours/days/months and day of week) see <https://crontab.cronhub.io> for construction (#3481)
 - [core] Check config at every start of MagicMirror² (#3450)
 - [core] Add spelling check (cspell): `npm run test:spelling` and handle spelling issues (#3544)
 - [core] removed `config.paths.vendor` (could not work because `vendor` is hardcoded in `index.html`), renamed `config.paths.modules` to `config.foreignModulesDir`, added variable `MM_CUSTOMCSS_FILE` which - if set - overrides `config.customCss`, added variable `MM_MODULES_DIR` which - if set - overrides `config.foreignModulesDir`, added test for `MM_MODULES_DIR` (#3530)
@@ -43,9 +107,9 @@ Thanks to: @bugsounet, @dkallen78, @jargordon, @khassel, @KristjanESPERANTO, @Ma
 
 ### Fixed
 
-- Fixed `checks` badge in README.md
+- [docs] Fixed `checks` badge in README.md
 - [weather] Fixed issue with the UK Met Office provider following a change in their API paths and header info.
-- [core] add check for node_helper loading for multiple instances of same module (#3502)
+- [core] Add check for node_helper loading for multiple instances of same module (#3502)
 - [weather] Fixed issue for respecting unit config on broadcasted notifications
 - [tests] Fixes calendar test by moving it from e2e to electron with fixed date (#3532)
 - [calendar] fixed sliceMultiDayEvents getting wrong count and displaying incorrect entries, Europe/Berlin (#3542)
@@ -117,7 +181,7 @@ For more info, please read the following post: [A New Chapter for MagicMirror: T
 
 ### Fixed
 
-- Correct apiBase of weathergov weatherProvider to match documentation (#2926)
+- [weather] Correct apiBase of weathergov weatherProvider to match documentation (#2926)
 - Worked around several issues in the RRULE library that were causing deleted calender events to still show, some
   initial and recurring events to not show, and some event times to be off an hour. (#3291)
 - Skip changelog requirement when running tests for dependency updates (#3320)
@@ -269,7 +333,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 
 ### Updated
 
-- Added support for precipitation probability with openmeteo weather-provider
+- [weather] Added support for precipitation probability with openmeteo weather-provider
 - Update electron to v25.2 and other dependencies
 - Use node v20 in github workflow (replacing v14)
 - Refactor formatTime into common util function for default modules
@@ -442,7 +506,7 @@ Special thanks to the following contributors: @eouia, @khassel, @kolbyjack, @Kri
 
 ### Added
 
-- Added a new config option `httpHeaders` used by helmet (see https://helmetjs.github.io/). You can now set own httpHeaders which will override the defaults in `js/defaults.js` which is useful e.g. if you want to embed MagicMirror into another website (solves #2847).
+- Added a new config option `httpHeaders` used by helmet (see <https://helmetjs.github.io/>). You can now set own httpHeaders which will override the defaults in `js/defaults.js` which is useful e.g. if you want to embed MagicMirror into another website (solves #2847).
 - Show endDate for calendar events when dateHeader is enabled and showEnd is set to true (#2192).
 - Added the notification emitting from the weather module on information updated.
 - Use recommended file extension for YAML files (#2864).
@@ -1606,3 +1670,50 @@ It includes (but is not limited to) the following features:
 ### Initial release of MagicMirror
 
 This was part of the blogpost: [https://michaelteeuw.nl/post/83916869600/magic-mirror-part-vi-production-of-the](https://michaelteeuw.nl/post/83916869600/magic-mirror-part-vi-production-of-the)
+
+[2.30.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.29.0...v2.30.0
+[2.29.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.28.0...v2.29.0
+[2.28.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.27.0...v2.28.0
+[2.27.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.26.0...v2.27.0
+[2.26.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.25.0...v2.26.0
+[2.25.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.24.0...v2.25.0
+[2.24.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.23.0...v2.24.0
+[2.23.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.22.0...v2.23.0
+[2.22.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.21.0...v2.22.0
+[2.21.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.20.0...v2.21.0
+[2.20.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.19.0...v2.20.0
+[2.19.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.18.0...v2.19.0
+[2.18.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.17.1...v2.18.0
+[2.17.1]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.17.0...v2.17.1
+[2.17.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.16.0...v2.17.0
+[2.16.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.15.0...v2.16.0
+[2.15.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.14.0...v2.15.0
+[2.14.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.13.0...v2.14.0
+[2.13.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.12.0...v2.13.0
+[2.12.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.11.0...v2.12.0
+[2.11.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.10.1...v2.11.0
+[2.10.1]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.10.0...v2.10.1
+[2.10.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.9.0...v2.10.0
+[2.9.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.8.0...v2.9.0
+[2.8.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.7.1...v2.8.0
+[2.7.1]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.7.0...v2.7.1
+[2.7.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.6.0...v2.7.0
+[2.6.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.5.0...v2.6.0
+[2.5.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.4.1...v2.5.0
+[2.4.1]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.4.0...v2.4.1
+[2.4.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.3.1...v2.4.0
+[2.3.1]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.3.0...v2.3.1
+[2.3.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.2.2...v2.3.0
+[2.2.2]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.2.1...v2.2.2
+[2.2.1]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.2.0...v2.2.1
+[2.2.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.1.3...v2.2.0
+[2.1.3]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.1.2...v2.1.3
+[2.1.2]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.1.1...v2.1.2
+[2.1.1]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.1.0...v2.1.1
+[2.1.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.0.5...v2.1.0
+[2.0.5]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.0.4...v2.0.5
+[2.0.4]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.0.3...v2.0.4
+[2.0.3]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.0.2...v2.0.3
+[2.0.2]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.0.1...v2.0.2
+[2.0.1]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.0.0...v2.0.1
+[2.0.0]: https://github.com/MagicMirrorOrg/MagicMirror/releases/tag/v2.0.0

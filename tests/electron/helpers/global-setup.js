@@ -8,6 +8,11 @@ exports.startApplication = async (configFilename, systemDate = null, electronPar
 	global.page = null;
 	process.env.MM_CONFIG_FILE = configFilename;
 	process.env.TZ = timezone;
+	if (systemDate) {
+		process.env.MOCK_DATE = systemDate;
+	}
+	process.env.mmTestMode = "true";
+
 	global.electronApp = await electron.launch({ args: electronParams });
 
 	await global.electronApp.firstWindow();
@@ -34,6 +39,7 @@ exports.stopApplication = async () => {
 	}
 	global.electronApp = null;
 	global.page = null;
+	process.env.MOCK_DATE = undefined;
 };
 
 exports.getElement = async (selector) => {

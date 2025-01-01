@@ -89,4 +89,37 @@ describe("Compliments module", () => {
 			});
 		});
 	});
+
+	describe("Feature remote compliments file", () => {
+		describe("get list from remote file", () => {
+			beforeAll(async () => {
+				await helpers.startApplication("tests/configs/modules/compliments/compliments_file.js");
+				await helpers.getDocument();
+			});
+			it("shows 'Remote compliment file works!' as only anytime list set", async () => {
+				//await helpers.startApplication("tests/configs/modules/compliments/compliments_file.js", "01 Jan 2022 10:00:00 GMT");
+				await expect(doTest(["Remote compliment file works!"])).resolves.toBe(true);
+			});
+			//			afterAll(async () =>{
+			//				await helpers.stopApplication()
+			//			});
+		});
+
+		describe("get list from remote file w update", () => {
+			beforeAll(async () => {
+				await helpers.startApplication("tests/configs/modules/compliments/compliments_file_change.js");
+				await helpers.getDocument();
+			});
+			it("shows 'test in morning' as test time set to 10am", async () => {
+				//await helpers.startApplication("tests/configs/modules/compliments/compliments_file_change.js", "01 Jan 2022 10:00:00 GMT");
+				await expect(doTest(["Remote compliment file works!"])).resolves.toBe(true);
+				await new Promise((r) => setTimeout(r, 10000));
+				await expect(doTest(["test in morning"])).resolves.toBe(true);
+			});
+			//			afterAll(async () =>{
+			//				await helpers.stopApplication()
+			//			});
+		});
+	});
+
 });

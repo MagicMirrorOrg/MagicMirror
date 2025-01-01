@@ -1,4 +1,6 @@
 let config = {
+	address: "0.0.0.0",
+	ipWhitelist: [],
 	modules: [
 		{
 			module: "compliments",
@@ -15,6 +17,8 @@ let config = {
 			position: "bottom_bar",
 			config: {
 				location: "Munich",
+				weatherProvider: "openweathermap",
+				weatherEndpoint: "/weather",
 				mockData: '"#####WEATHERDATA#####"'
 			}
 		}

@@ -1,4 +1,6 @@
 let config = {
+	address: "0.0.0.0",
+	ipWhitelist: [],
 	timeFormat: 12,
 
 	modules: [
@@ -11,6 +13,8 @@ let config = {
 				calendars: [
 					{
 						maximumEntries: 5,
+						pastDaysCount: 5,
+						broadcastPastEvents: true,
 						maximumNumberOfDays: 10000,
 						symbol: "birthday-cake",
 						fullDaySymbol: "calendar-day",

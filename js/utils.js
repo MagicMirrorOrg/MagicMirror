@@ -24,9 +24,9 @@ module.exports = {
 				versions: "kernel, node, npm, pm2"
 			});
 			let systemDataString = "System information:";
-			systemDataString += `\n### SYSTEM:   manufacturer: ${staticData["system"]["manufacturer"]}; model: ${staticData["system"]["model"]}; virtual: ${staticData["system"]["virtual"]}`;
-			systemDataString += `\n### OS:       platform: ${staticData["osInfo"]["platform"]}; distro: ${staticData["osInfo"]["distro"]}; release: ${staticData["osInfo"]["release"]}; arch: ${staticData["osInfo"]["arch"]}; kernel: ${staticData["versions"]["kernel"]}`;
-			systemDataString += `\n### VERSIONS: electron: ${process.versions.electron}; used node: ${staticData["versions"]["node"]}; installed node: ${installedNodeVersion}; npm: ${staticData["versions"]["npm"]}; pm2: ${staticData["versions"]["pm2"]}`;
+			systemDataString += `\n### SYSTEM:   manufacturer: ${staticData.system.manufacturer}; model: ${staticData.system.model}; virtual: ${staticData.system.virtual}`;
+			systemDataString += `\n### OS:       platform: ${staticData.osInfo.platform}; distro: ${staticData.osInfo.distro}; release: ${staticData.osInfo.release}; arch: ${staticData.osInfo.arch}; kernel: ${staticData.versions.kernel}`;
+			systemDataString += `\n### VERSIONS: electron: ${process.versions.electron}; used node: ${staticData.versions.node}; installed node: ${installedNodeVersion}; npm: ${staticData.versions.npm}; pm2: ${staticData.versions.pm2}`;
 			systemDataString += `\n### OTHER:    timeZone: ${Intl.DateTimeFormat().resolvedOptions().timeZone}; ELECTRON_ENABLE_GPU: ${process.env.ELECTRON_ENABLE_GPU}`;
 			Log.info(systemDataString);
 
@@ -52,7 +52,7 @@ module.exports = {
 		// if not already discovered
 		if (modulePositions.length === 0) {
 			// get the lines of the index.html
-			const lines = fs.readFileSync(indexFileName).toString().split(os.EOL);
+			const lines = fs.readFileSync(indexFileName).toString().split("\n");
 			// loop thru the lines
 			lines.forEach((line) => {
 				// run the regex on each line
@@ -65,7 +65,12 @@ module.exports = {
 					modulePositions.push(positionName);
 				}
 			});
-			fs.writeFileSync(discoveredPositionsJSFilename, `const modulePositions=${JSON.stringify(modulePositions)}`);
+			try {
+				fs.writeFileSync(discoveredPositionsJSFilename, `const modulePositions=${JSON.stringify(modulePositions)}`);
+			}
+			catch (error) {
+				console.error("unable to write js/positions.js with the discovered module positions\nmake the MagicMirror/js folder writeable by the user starting MagicMirror");
+			}
 		}
 		// return the list to the caller
 		return modulePositions;
