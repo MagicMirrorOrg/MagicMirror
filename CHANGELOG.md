@@ -43,7 +43,7 @@ _This release is scheduled to be released on 2025-01-01._
 ### Updated
 
 - [repo] Reactivate `stale.yaml` as GitHub action to mark issues as stale after 60 days and close them 7 days later (if no activity) (#3577, #3580, #3581)
-- [core] Update electron dependency to v32 (test electron rebuild) and other dependencies too (#3657)
+- [core] Update electron dependency to v32 (test electron rebuild) and all other dependencies too (#3657)
 - [tests] All test configs have been updated to allow full external access, allowing for easier debugging (especially when running as a container)
 - [core] Run and test with node 23 (#3588)
 - [workflow] delete exception `allow-ghsas: GHSA-8hc4-vh64-cxmj` in `dep-review.yaml` (#3659)
@@ -107,7 +107,7 @@ Thanks to: @bugsounet, @dkallen78, @jargordon, @khassel, @KristjanESPERANTO, @Ma
 
 - [docs] Fixed `checks` badge in README.md
 - [weather] Fixed issue with the UK Met Office provider following a change in their API paths and header info.
-- [core] add check for node_helper loading for multiple instances of same module (#3502)
+- [core] Add check for node_helper loading for multiple instances of same module (#3502)
 - [weather] Fixed issue for respecting unit config on broadcasted notifications
 - [tests] Fixes calendar test by moving it from e2e to electron with fixed date (#3532)
 - [calendar] fixed sliceMultiDayEvents getting wrong count and displaying incorrect entries, Europe/Berlin (#3542)
@@ -179,7 +179,7 @@ For more info, please read the following post: [A New Chapter for MagicMirror: T
 
 ### Fixed
 
-- Correct apiBase of weathergov weatherProvider to match documentation (#2926)
+- [weather] Correct apiBase of weathergov weatherProvider to match documentation (#2926)
 - Worked around several issues in the RRULE library that were causing deleted calender events to still show, some
   initial and recurring events to not show, and some event times to be off an hour. (#3291)
 - Skip changelog requirement when running tests for dependency updates (#3320)
@@ -331,7 +331,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 
 ### Updated
 
-- Added support for precipitation probability with openmeteo weather-provider
+- [weather] Added support for precipitation probability with openmeteo weather-provider
 - Update electron to v25.2 and other dependencies
 - Use node v20 in github workflow (replacing v14)
 - Refactor formatTime into common util function for default modules
