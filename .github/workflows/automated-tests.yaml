@@ -34,7 +34,7 @@ jobs:
           npm run test:css
           npm run test:markdown
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 30
     strategy:
       matrix:
