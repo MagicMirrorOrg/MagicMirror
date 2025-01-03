@@ -692,9 +692,13 @@ Module.register("calendar", {
 			by_url_calevents.sort(function (a, b) {
 				return a.startDate - b.startDate;
 			});
-			Log.debug(`pushing ${by_url_calevents.length} events to total with room for ${remainingEntries}`);
-			events = events.concat(by_url_calevents.slice(0, remainingEntries));
-			Log.debug(`events for calendar=${events.length}`);
+			if (limitNumberOfEntries) {
+				Log.debug(`pushing ${by_url_calevents.length} events to total with room for ${remainingEntries}`);
+				events = events.concat(by_url_calevents.slice(0, remainingEntries));
+				Log.debug(`events for calendar=${events.length}`);
+			} else {
+				events = events.concat(by_url_calevents);
+			}
 		}
 		Log.info(`sorting events count=${events.length}`);
 		events.sort(function (a, b) {
