@@ -23,6 +23,8 @@ planned for 2025-04-01
 
 ### Fixed
 
+- [calendar] fix clipping events being broadcast (#3678)
+
 ## [2.30.0] - 2025-01-01
 
 Thanks to: @xsorifc28, @HeikoGr, @bugsounet, @khassel, @KristjanESPERANTO, @rejas, @sdetweil.
