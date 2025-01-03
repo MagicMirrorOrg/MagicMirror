@@ -132,7 +132,16 @@ function App () {
 				Log.error("WARNING! Config file appears empty, maybe missing module.exports last line?");
 			}
 			checkDeprecatedOptions(c);
-			return Object.assign(defaults, c);
+			var finalConfig = Object.assign(defaults, c);
+			if (finalConfig.modules.length) {
+				for (const [index, module] of finalConfig.modules.entries()) {
+					const moduleConfig = await loadModuleConfig(module);
+					console.log("=> moduleConfig", moduleConfig, index, module.module);
+					if (moduleConfig) finalConfig.modules[index].config = moduleConfig;
+				}
+			}
+			console.log("finalConfig --->", finalConfig);
+			return finalConfig;
 		} catch (e) {
 			if (e.code === "ENOENT") {
 				Log.error("WARNING! Could not find config file. Please create one. Starting with default configuration.");
@@ -245,6 +254,31 @@ function App () {
 		Log.log("All module helpers loaded.");
 	}
 
+	function loadModuleConfig (module) {
+		console.log("[loadModuleConfig] module", module);
+
+		if (module.moduleConfig) {
+			var moduleFolder = path.resolve(`${__dirname}/../modules/`, module.module);
+
+			if (defaultModules.includes(module.module)) {
+				moduleFolder = path.resolve(`${__dirname}/../modules/default/`, module.module);
+			}
+
+
+			const moduleConfigFile = `${moduleFolder}/config/config.js`;
+			console.log("[loadModuleConfig] moduleConfigFile", moduleConfigFile);
+			try {
+				fs.accessSync(moduleConfigFile, fs.R_OK);
+				const configFile = require(moduleConfigFile);
+				console.log("[loadModuleConfig] configFile", configFile);
+				return configFile;
+			} catch (e) {
+				Log.error(`${moduleConfigFile} loading error for module: ${module.module}.`, e.message);
+				return null;
+			}
+		}
+	}
+
 	/**
 	 * Compare two semantic version numbers and return the difference.
 	 * @param {string} a Version number a.
@@ -287,6 +321,10 @@ function App () {
 		for (const module of config.modules) {
 			if (module.disabled) continue;
 			if (module.module) {
+				//const moduleConfig = await loadModuleConfig(module)
+				//console.log("=> moduleConfig", moduleConfig)
+				//if (moduleConfig) module.config = moduleConfig
+
 				if (Utils.moduleHasValidPosition(module.position) || typeof (module.position) === "undefined") {
 					// Only add this module to be loaded if it is not a duplicate (repeated instance of the same module)
 					if (!modules.includes(module.module)) {
@@ -331,7 +369,6 @@ function App () {
 		});
 
 		Log.log("Sockets connected & modules started ...");
-
 		return config;
 	};
 
