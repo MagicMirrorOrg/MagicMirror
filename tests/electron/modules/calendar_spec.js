@@ -12,10 +12,11 @@ describe("Calendar module", () => {
 		await expect(elem.isVisible()).resolves.toBe(true);
 		return true;
 	};
+	//doTestTableContent(".testNotification tr", "td.elementCount", "12", first)).resolves.toBe(true);
 
-	const doTestCount = async () => {
+	const doTestCount = async (locator = ".calendar .event") => {
 		expect(global.page).not.toBeNull();
-		const loc = await global.page.locator(".calendar .event");
+		const loc = await global.page.locator(locator);
 		const elem = loc.first();
 		await elem.waitFor();
 		expect(elem).not.toBeNull();
@@ -32,8 +33,8 @@ describe("Calendar module", () => {
 	// uses playwright nth locator syntax
 	const doTestTableContent = async (table_row, table_column, content, row = first) => {
 		const elem = await global.page.locator(table_row);
-		const date = await global.page.locator(table_column).locator(`nth=${row}`);
-		await expect(date.textContent()).resolves.toContain(content);
+		const column = await elem.locator(table_column).locator(`nth=${row}`);
+		await expect(column.textContent()).resolves.toContain(content);
 		return true;
 	};
 
@@ -279,4 +280,22 @@ describe("Calendar module", () => {
 		});
 	});
 
+	describe("count and check symbols", () => {
+		it("in array", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/symboltest.js", "08 Oct 2024 12:30:00 GMT-07:00", ["js/electron.js"], "America/Chicago");
+			// just
+			await expect(doTestCount(".calendar .event .symbol .fa-fw")).resolves.toBe(2);
+			await expect(doTestCount(".calendar .event .symbol .fa-calendar-check")).resolves.toBe(1);
+			await expect(doTestCount(".calendar .event .symbol .fa-google")).resolves.toBe(1);
+
+		});
+	});
+
+	describe("count events broadcast", () => {
+		it("with maxentries set to 12", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/countCalendarEvents.js", "01 Jan 2024 12:30:00 GMT-076:00", ["js/electron.js"], "America/Chicago");
+			await new Promise((r) => setTimeout(r, 60000));
+			await expect(doTestTableContent(".testNotification", ".elementCount", "12", first)).resolves.toBe(true);
+		});
+	});
 });

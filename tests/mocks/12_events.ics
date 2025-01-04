@@ -1,0 +1,164 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Calendar Labs//Calendar 1.0//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:US Holidays
+X-WR-TIMEZONE:Etc/GMT
+BEGIN:VEVENT
+SUMMARY:Start of Month 1
+DTSTART:20190101
+DTEND:20190101
+RRULE:FREQ=YEARLY;WKST=SU;INTERVAL=1
+LOCATION:United States
+DESCRIPTION:Visit https://calendarlabs.com/holidays/us/new-years-day.php to know more about New Year's Day. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+UID:5e52949sada28d231582470298@calendarlabs.com
+DTSTAMP:20200223T150458Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Start of Month 2
+DTSTART:20190201
+DTEND:20190201
+RRULE:FREQ=YEARLY;WKST=SU;INTERVAL=1
+LOCATION:United States
+DESCRIPTION:Visit https://calendarlabs.com/holidays/us/new-years-day.php to know more about New Year's Day. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+UID:5e52949a2wds8d231582470298@calendarlabs.com
+DTSTAMP:20200223T150458Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Start of Month 3
+DTSTART:20190301
+DTEND:20190301
+RRULE:FREQ=YEARLY;WKST=SU;INTERVAL=1
+LOCATION:United States
+DESCRIPTION:Visit https://calendarlabs.com/holidays/us/new-years-day.php to know more about New Year's Day. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+UID:5e52949a2SDD8d231582470298@calendarlabs.com
+DTSTAMP:20200223T150458Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Start of Month 4
+DTSTART:20190401
+DTEND:20190401
+RRULE:FREQ=YEARLY;WKST=SU;INTERVAL=1
+LOCATION:United States
+DESCRIPTION:Visit https://calendarlabs.com/holidays/us/new-years-day.php to know more about New Year's Day. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+UID:5e52949a2SDD8d231582FDSFD470298@calendarlabs.com
+DTSTAMP:20200223T150458Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Start of Month 5
+DTSTART:20190501
+DTEND:20190501
+RRULE:FREQ=YEARLY;WKST=SU;INTERVAL=1
+LOCATION:United States
+DESCRIPTION:Visit https://calendarlabs.com/holidays/us/new-years-day.php to know more about New Year's Day. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+UID:5e52949a2SDD8d2DD315824702598@calendarlabs.com
+DTSTAMP:20200223T150458Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Start of Month 6
+DTSTART:20190601
+DTEND:20190601
+RRULE:FREQ=YEARLY;WKST=SU;INTERVAL=1
+LOCATION:United States
+DESCRIPTION:Visit https://calendarlabs.com/holidays/us/new-years-day.php to know more about New Year's Day. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+UID:5e52949a2SDD8d2DD31582470298@calendarlabs.com
+DTSTAMP:20200223T150458Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Start of Month 7
+DTSTART:20190701
+DTEND:20190701
+RRULE:FREQ=YEARLY;WKST=SU;INTERVAL=1
+LOCATION:United States
+DESCRIPTION:Visit https://calendarlabs.com/holidays/us/new-years-day.php to know more about New Year's Day. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+UID:5e52942SDD8d2DD31582470298@calendarlabs.com
+DTSTAMP:20200223T150458Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Start of Month 8
+DTSTART:20190801
+DTEND:20190801
+RRULE:FREQ=YEARLY;WKST=SU;INTERVAL=1
+LOCATION:United States
+DESCRIPTION:Visit https://calendarlabs.com/holidays/us/new-years-day.php to know more about New Year's Day. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+UID:5e52949a2SDD8d2DDt31582470298@calendarlabs.com
+DTSTAMP:20200223T150458Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Start of Month 9
+DTSTART:20190901
+DTEND:20190901
+RRULE:FREQ=YEARLY;WKST=SU;INTERVAL=1
+LOCATION:United States
+DESCRIPTION:Visit https://calendarlabs.com/holidays/us/new-years-day.php to know more about New Year's Day. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+UID:5e529449a2SDD8d2DDt315824702798@calendarlabs.com
+DTSTAMP:20200223T150458Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Start of Month 10
+DTSTART:20191001
+DTEND:20191001
+RRULE:FREQ=YEARLY;WKST=SU;INTERVAL=1
+LOCATION:United States
+DESCRIPTION:Visit https://calendarlabs.com/holidays/us/new-years-day.php to know more about New Year's Day. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+UID:5e529449a2SDD8d2DDt31582470298@calendarlabs.com
+DTSTAMP:20200223T150458Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Start of Month 11
+DTSTART:20191101
+DTEND:20191101
+RRULE:FREQ=YEARLY;WKST=SU;INTERVAL=1
+LOCATION:United States
+DESCRIPTION:Visit https://calendarlabs.com/holidays/us/new-years-day.php to know more about New Year's Day. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+UID:5e5294449a2SDD8d2DDt31582470298@calendarlabs.com
+DTSTAMP:20200223T150458Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Start of Month 12
+DTSTART:20191201
+DTEND:20191201
+RRULE:FREQ=YEARLY;WKST=SU;INTERVAL=1
+LOCATION:United States
+DESCRIPTION:Visit https://calendarlabs.com/holidays/us/new-years-day.php to know more about New Year's Day. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+UID:5e5294a2SDD8d2DDt31582470298@calendarlabs.com
+DTSTAMP:20200223T150458Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+END:VEVENT
+END:VCALENDAR
