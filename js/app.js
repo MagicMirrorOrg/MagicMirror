@@ -133,14 +133,17 @@ function App () {
 			}
 			checkDeprecatedOptions(c);
 			var finalConfig = Object.assign(defaults, c);
-			if (finalConfig.modules.length) {
+
+			/*
+      if (finalConfig.modules.length) {
 				for (const [index, module] of finalConfig.modules.entries()) {
 					const moduleConfig = await loadModuleConfig(module);
-					console.log("=> moduleConfig", moduleConfig, index, module.module);
-					if (moduleConfig) finalConfig.modules[index].config = moduleConfig;
+					if (moduleConfig) {
+            finalConfig.modules[index].config = moduleConfig;
+          }
 				}
 			}
-			console.log("finalConfig --->", finalConfig);
+      */
 			return finalConfig;
 		} catch (e) {
 			if (e.code === "ENOENT") {
@@ -254,9 +257,8 @@ function App () {
 		Log.log("All module helpers loaded.");
 	}
 
+	/*
 	function loadModuleConfig (module) {
-		console.log("[loadModuleConfig] module", module);
-
 		if (module.moduleConfig) {
 			var moduleFolder = path.resolve(`${__dirname}/../modules/`, module.module);
 
@@ -264,13 +266,11 @@ function App () {
 				moduleFolder = path.resolve(`${__dirname}/../modules/default/`, module.module);
 			}
 
-
 			const moduleConfigFile = `${moduleFolder}/config/config.js`;
 			console.log("[loadModuleConfig] moduleConfigFile", moduleConfigFile);
 			try {
 				fs.accessSync(moduleConfigFile, fs.R_OK);
 				const configFile = require(moduleConfigFile);
-				console.log("[loadModuleConfig] configFile", configFile);
 				return configFile;
 			} catch (e) {
 				Log.error(`${moduleConfigFile} loading error for module: ${module.module}.`, e.message);
@@ -278,7 +278,7 @@ function App () {
 			}
 		}
 	}
-
+*/
 	/**
 	 * Compare two semantic version numbers and return the difference.
 	 * @param {string} a Version number a.
@@ -311,7 +311,6 @@ function App () {
 	 */
 	this.start = async function () {
 		config = await loadConfig();
-
 		Log.setLogLevel(config.logLevel);
 
 		// get the used module positions
@@ -321,10 +320,6 @@ function App () {
 		for (const module of config.modules) {
 			if (module.disabled) continue;
 			if (module.module) {
-				//const moduleConfig = await loadModuleConfig(module)
-				//console.log("=> moduleConfig", moduleConfig)
-				//if (moduleConfig) module.config = moduleConfig
-
 				if (Utils.moduleHasValidPosition(module.position) || typeof (module.position) === "undefined") {
 					// Only add this module to be loaded if it is not a duplicate (repeated instance of the same module)
 					if (!modules.includes(module.module)) {

@@ -479,7 +479,6 @@ const MM = (function () {
 		}
 
 		config = Object.assign({}, defaults, config);
-		console.log("config:", config);
 	};
 
 	/**

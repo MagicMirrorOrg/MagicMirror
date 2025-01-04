@@ -226,6 +226,21 @@ const Module = Class.extend({
 		this.config = deep ? configMerge({}, this.defaults, config) : Object.assign({}, this.defaults, config);
 	},
 
+	moduleConfig (module) {
+		console.log("ok", module);
+		return new Promise(function (resolve) {
+			fetch(`${module.path}/config/config.js`)
+				.then((response) => response.text())
+				.then((txt) => {
+					console.log("1--->", txt);
+					const definedConfig = eval(txt);
+					console.log("2---->", definedConfig);
+					//module.config = json
+					//resolve()
+				});
+		});
+	},
+
 	/**
 	 * Returns a socket object. If it doesn't exist, it's created.
 	 * It also registers the notification callback.

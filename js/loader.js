@@ -107,6 +107,7 @@ const Loader = (function () {
 				hiddenOnStartup: moduleData.hiddenOnStartup,
 				header: moduleData.header,
 				configDeepMerge: typeof moduleData.configDeepMerge === "boolean" ? moduleData.configDeepMerge : false,
+				moduleConfig: moduleData.moduleConfig,
 				config: moduleData.config,
 				classes: typeof moduleData.classes !== "undefined" ? `${moduleData.classes} ${module}` : module
 			});
@@ -148,6 +149,10 @@ const Loader = (function () {
 	 * @param {Module} mObj Modules instance.
 	 */
 	const bootstrapModule = async function (module, mObj) {
+		if (module.moduleConfig) {
+			Log.log(`Init config for: ${module.name}`);
+			await mObj.moduleConfig(module);
+		}
 		Log.info(`Bootstrapping module: ${module.name}`);
 		mObj.setData(module);
 
