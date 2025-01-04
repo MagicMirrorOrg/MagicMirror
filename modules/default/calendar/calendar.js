@@ -689,7 +689,7 @@ Module.register("calendar", {
 					by_url_calevents.push(event);
 				}
 			}
-			if (true, limitNumberOfEntries) {
+			if (limitNumberOfEntries) {
 				// sort entries before clipping
 				by_url_calevents.sort(function (a, b) {
 					return a.startDate - b.startDate;
