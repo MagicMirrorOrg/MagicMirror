@@ -26,6 +26,7 @@ planned for 2025-04-01
 ### Fixed
 
 - [calendar] fix clipping events being broadcast (#3678)
+- [calendar] fix arrayed symbols, #3267, again, add testcase
 
 ## [2.30.0] - 2025-01-01
 
