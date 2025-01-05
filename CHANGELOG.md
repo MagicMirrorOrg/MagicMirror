@@ -17,11 +17,15 @@ planned for 2025-04-01
 
 ### Changed
 
+- [core] starting clientonly now checks for needed env var `WAYLAND_DISPLAY` or `DISPLAY` and starts electron with needed parameters (if both are set wayland is used)
+
 ### Removed
 
 ### Updated
 
 ### Fixed
+
+- [calendar] fix clipping events being broadcast (#3678)
 
 ## [2.30.0] - 2025-01-01
 
