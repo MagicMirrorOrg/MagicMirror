@@ -6,3 +6,5 @@
 /coverage
 package-lock.json
 **.ics
+modules/default/**/config/*.js.sample
+.gitignore
