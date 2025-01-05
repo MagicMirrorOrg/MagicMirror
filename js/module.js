@@ -226,9 +226,17 @@ const Module = Class.extend({
 		this.config = deep ? configMerge({}, this.defaults, config) : Object.assign({}, this.defaults, config);
 	},
 
+
+	/**
+	 * Load remote config file of a module from moduleConfig string
+	 * @param {object} module object
+	 */
 	moduleConfig (module) {
 		return new Promise(function (resolve) {
-			fetch(`${module.path}/config/${module.moduleConfig}`)
+			const isRemote = module.moduleConfig.startsWith("http://") || module.moduleConfig.startsWith("https://");
+			const url = isRemote ? module.moduleConfig : `${module.path}/config/${module.moduleConfig}`;
+
+			fetch(url)
 				.then((response) => response.text())
 				.then((txt) => {
 					const definedConfig = eval(txt);
@@ -236,7 +244,7 @@ const Module = Class.extend({
 					resolve();
 				})
 				.catch((error) => {
-					console.error("Error when loading File:", error);
+					Log.error("Error when loading File:", error);
 					resolve();
 				});
 		});

@@ -22,9 +22,6 @@ global.version = require(`${__dirname}/../package.json`).version;
 global.mmTestMode = process.env.mmTestMode === "true";
 Log.log(`Starting MagicMirror: v${global.version}`);
 
-// Log system information.
-Utils.logSystemInformation();
-
 // global absolute root path
 global.root_path = path.resolve(`${__dirname}/../`);
 
@@ -246,25 +243,47 @@ function App () {
 		Log.log("All module helpers loaded.");
 	}
 
+	/**
+	 * Load remote config file of a module from moduleConfig string
+	 * @param {object} module object
+	 * @returns {object} module config found
+	 */
 	function loadModuleConfig (module) {
-		var moduleFolder = path.resolve(`${__dirname}/../modules/`, module.module);
+		return new Promise(function (resolve) {
+			if (module.moduleConfig.startsWith("http://") || module.moduleConfig.startsWith("https://")) {
+				Log.info(`Loading config for ${module.module} from ${module.moduleConfig}`);
+				fetch(`${module.moduleConfig}`)
+					.then((response) => response.text())
+					.then((txt) => {
+						const configFile = eval(txt);
+						Log.debug("Config Result:", configFile);
+						resolve(configFile);
+					})
+					.catch((e) => {
+						Log.error(`Config loading error for module: ${module.module}.`, e.message);
+						resolve(null);
+					});
+			} else {
+				var moduleFolder = path.resolve(`${__dirname}/../modules/`, module.module);
 
-		if (defaultModules.includes(module.module)) {
-			moduleFolder = path.resolve(`${__dirname}/../modules/default/`, module.module);
-		}
+				if (defaultModules.includes(module.module)) {
+					moduleFolder = path.resolve(`${__dirname}/../modules/default/`, module.module);
+				}
 
-		const moduleConfigFile = `${moduleFolder}/config/${module.moduleConfig}`;
-		Log.info(`Loading config for ${module.module} in ${moduleConfigFile}`);
-		try {
-			fs.accessSync(moduleConfigFile, fs.R_OK);
-			const configFile = eval(require(moduleConfigFile));
-			Log.debug("Config Result:", configFile);
-			return configFile;
-		} catch (e) {
-			Log.error(`Config loading error for module: ${module.module}.`, e.message);
-			Log.error(`Config: ${moduleConfigFile}`);
-			return null;
-		}
+				const moduleConfigFile = `${moduleFolder}/config/${module.moduleConfig}`;
+				Log.info(`Loading config for ${module.module} in ${moduleConfigFile}`);
+				try {
+					fs.accessSync(moduleConfigFile, fs.R_OK);
+					const configFile = eval(require(moduleConfigFile));
+					Log.debug("Config Result:", configFile);
+					resolve(configFile);
+				} catch (e) {
+					Log.error(`Config loading error for module: ${module.module}.`, e.message);
+					Log.error(`Config: ${moduleConfigFile}`);
+					resolve(null);
+				}
+			}
+		});
 	}
 
 	/**
@@ -298,6 +317,8 @@ function App () {
 	 * @returns {Promise<object>} the config used
 	 */
 	this.start = async function () {
+		// Log system information.
+		await Utils.logSystemInformation();
 		config = await loadConfig();
 		Log.setLogLevel(config.logLevel);
 
