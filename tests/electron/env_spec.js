@@ -19,7 +19,7 @@ describe("Electron app environment", () => {
 
 describe("Development console tests", () => {
 	beforeEach(async () => {
-		await helpers.startApplication("tests/configs/modules/display.js", null, ["js/electron.js", "dev"]);
+		await helpers.startApplication("tests/configs/modules/display.js", null, ["dev"]);
 	});
 
 	afterEach(async () => {

@@ -3,7 +3,7 @@
 // https://www.anycodings.com/1questions/958135/can-i-set-the-date-for-playwright-browser
 const { _electron: electron } = require("playwright");
 
-exports.startApplication = async (configFilename, systemDate = null, electronParams = ["js/electron.js"], timezone = "GMT") => {
+exports.startApplication = async (configFilename, systemDate = null, electronParams = [], timezone = "GMT") => {
 	global.electronApp = null;
 	global.page = null;
 	process.env.MM_CONFIG_FILE = configFilename;
@@ -12,6 +12,8 @@ exports.startApplication = async (configFilename, systemDate = null, electronPar
 		process.env.MOCK_DATE = systemDate;
 	}
 	process.env.mmTestMode = "true";
+
+	electronParams.unshift("js/electron.js", "--enable-features=UseOzonePlatform", "--ozone-platform=wayland");
 
 	global.electronApp = await electron.launch({ args: electronParams });
 
