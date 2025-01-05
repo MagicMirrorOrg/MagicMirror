@@ -150,11 +150,12 @@ const Loader = (function () {
 	 */
 	const bootstrapModule = async function (module, mObj) {
 		if (module.moduleConfig) {
-			Log.log(`Init config for: ${module.name}`);
 			await mObj.moduleConfig(module);
+			Log.log(`Config loaded for: ${module.name}`);
 		}
+
 		Log.info(`Bootstrapping module: ${module.name}`);
-		mObj.setData(module);
+		await mObj.setData(module);
 
 		await mObj.loadScripts();
 		Log.log(`Scripts loaded for: ${module.name}`);

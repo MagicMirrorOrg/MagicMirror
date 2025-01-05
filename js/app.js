@@ -5,6 +5,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const envsub = require("envsub");
 const Log = require("logger");
+const colors = require("ansis");
 
 const Server = require(`${__dirname}/server`);
 const Utils = require(`${__dirname}/utils`);
@@ -132,19 +133,7 @@ function App () {
 				Log.error("WARNING! Config file appears empty, maybe missing module.exports last line?");
 			}
 			checkDeprecatedOptions(c);
-			var finalConfig = Object.assign(defaults, c);
-
-			/*
-      if (finalConfig.modules.length) {
-				for (const [index, module] of finalConfig.modules.entries()) {
-					const moduleConfig = await loadModuleConfig(module);
-					if (moduleConfig) {
-            finalConfig.modules[index].config = moduleConfig;
-          }
-				}
-			}
-      */
-			return finalConfig;
+			return Object.assign(defaults, c);
 		} catch (e) {
 			if (e.code === "ENOENT") {
 				Log.error("WARNING! Could not find config file. Please create one. Starting with default configuration.");
@@ -257,28 +246,27 @@ function App () {
 		Log.log("All module helpers loaded.");
 	}
 
-	/*
 	function loadModuleConfig (module) {
-		if (module.moduleConfig) {
-			var moduleFolder = path.resolve(`${__dirname}/../modules/`, module.module);
+		var moduleFolder = path.resolve(`${__dirname}/../modules/`, module.module);
 
-			if (defaultModules.includes(module.module)) {
-				moduleFolder = path.resolve(`${__dirname}/../modules/default/`, module.module);
-			}
+		if (defaultModules.includes(module.module)) {
+			moduleFolder = path.resolve(`${__dirname}/../modules/default/`, module.module);
+		}
 
-			const moduleConfigFile = `${moduleFolder}/config/config.js`;
-			console.log("[loadModuleConfig] moduleConfigFile", moduleConfigFile);
-			try {
-				fs.accessSync(moduleConfigFile, fs.R_OK);
-				const configFile = require(moduleConfigFile);
-				return configFile;
-			} catch (e) {
-				Log.error(`${moduleConfigFile} loading error for module: ${module.module}.`, e.message);
-				return null;
-			}
+		const moduleConfigFile = `${moduleFolder}/config/${module.moduleConfig}`;
+		Log.info(`Loading config for ${module.module} in ${moduleConfigFile}`);
+		try {
+			fs.accessSync(moduleConfigFile, fs.R_OK);
+			const configFile = eval(require(moduleConfigFile));
+			Log.debug("Config Result:", configFile);
+			return configFile;
+		} catch (e) {
+			Log.error(`Config loading error for module: ${module.module}.`, e.message);
+			Log.error(`Config: ${moduleConfigFile}`);
+			return null;
 		}
 	}
-*/
+
 	/**
 	 * Compare two semantic version numbers and return the difference.
 	 * @param {string} a Version number a.
@@ -320,6 +308,13 @@ function App () {
 		for (const module of config.modules) {
 			if (module.disabled) continue;
 			if (module.module) {
+				if (module.moduleConfig) {
+					const moduleConfig = await loadModuleConfig(module);
+					if (moduleConfig) {
+						module.config = moduleConfig;
+						Log.info(colors.green(`Config loaded for ${module.module}`));
+					}
+				}
 				if (Utils.moduleHasValidPosition(module.position) || typeof (module.position) === "undefined") {
 					// Only add this module to be loaded if it is not a duplicate (repeated instance of the same module)
 					if (!modules.includes(module.module)) {

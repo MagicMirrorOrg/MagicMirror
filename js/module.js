@@ -227,16 +227,17 @@ const Module = Class.extend({
 	},
 
 	moduleConfig (module) {
-		console.log("ok", module);
 		return new Promise(function (resolve) {
-			fetch(`${module.path}/config/config.js`)
+			fetch(`${module.path}/config/${module.moduleConfig}`)
 				.then((response) => response.text())
 				.then((txt) => {
-					console.log("1--->", txt);
 					const definedConfig = eval(txt);
-					console.log("2---->", definedConfig);
-					//module.config = json
-					//resolve()
+					module.config = definedConfig;
+					resolve();
+				})
+				.catch((error) => {
+					console.error("Error when loading File:", error);
+					resolve();
 				});
 		});
 	},
