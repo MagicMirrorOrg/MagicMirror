@@ -177,7 +177,7 @@ function App () {
 				moduleFolder = defaultModuleFolder;
 			} else {
 				// running in Jest, allow defaultModules placed under moduleDir for testing
-				if (env.modulesDir === "modules" || env.modulesDir === "tests") {
+				if (env.modulesDir === "modules" || env.modulesDir === "tests/mocks") {
 					moduleFolder = defaultModuleFolder;
 				}
 			}

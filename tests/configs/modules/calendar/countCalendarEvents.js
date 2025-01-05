@@ -2,7 +2,7 @@ let config = {
 	address: "0.0.0.0",
 	ipWhitelist: [],
 	timeFormat: 12,
-	foreignModulesDir: "tests",
+	foreignModulesDir: "tests/mocks",
 	modules: [
 		{
 			module: "calendar",

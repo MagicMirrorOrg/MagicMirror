@@ -72,7 +72,7 @@ function Server (config) {
 			app.use(helmet(config.httpHeaders));
 			app.use("/js", express.static(__dirname));
 
-			let directories = ["/config", "/css", "/fonts", "/modules", "/vendor", "/translations", "/tests/configs", "/tests/mocks", "/tests"];
+			let directories = ["/config", "/css", "/fonts", "/modules", "/vendor", "/translations", "/tests"];
 			for (const directory of directories) {
 				app.use(directory, express.static(path.resolve(global.root_path + directory)));
 			}
