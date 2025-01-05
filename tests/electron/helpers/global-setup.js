@@ -14,7 +14,7 @@ exports.startApplication = async (configFilename, systemDate = null, electronPar
 	process.env.mmTestMode = "true";
 
 	// check environment for DISPLAY or WAYLAND_DISPLAY
-	if (process.env.WAYLAND_DISPLAY !== "") {
+	if (process.env.WAYLAND_DISPLAY) {
 		electronParams.unshift("js/electron.js", "--enable-features=UseOzonePlatform", "--ozone-platform=wayland");
 	} else {
 		electronParams.unshift("js/electron.js");
