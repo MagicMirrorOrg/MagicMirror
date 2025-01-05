@@ -292,9 +292,9 @@ describe("Calendar module", () => {
 	});
 
 	describe("count events broadcast", () => {
-		it("with maxentries set to 12", async () => {
+		it("get 12 with maxentries set to 1", async () => {
 			await helpers.startApplication("tests/configs/modules/calendar/countCalendarEvents.js", "01 Jan 2024 12:30:00 GMT-076:00", ["js/electron.js"], "America/Chicago");
-			await new Promise((r) => setTimeout(r, 60000));
+			//await new Promise((r) => setTimeout(r, 60000));
 			await expect(doTestTableContent(".testNotification", ".elementCount", "12", first)).resolves.toBe(true);
 		});
 	});
