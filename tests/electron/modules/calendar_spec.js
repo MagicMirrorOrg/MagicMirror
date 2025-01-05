@@ -12,7 +12,7 @@ describe("Calendar module", () => {
 		await expect(elem.isVisible()).resolves.toBe(true);
 		return true;
 	};
-	
+
 	const doTestCount = async (locator = ".calendar .event") => {
 		expect(global.page).not.toBeNull();
 		const loc = await global.page.locator(locator);
