@@ -63,6 +63,10 @@ Temporary Items
 !/modules/default/**
 !/modules/README.md**
 
+# Ignore All remote config
+/modules/default/*/config/*
+!/modules/default/*/config/config.js.sample
+
 # Ignore changes to the custom css files but keep the sample and main.
 /css/*
 !/css/custom.css.sample
