@@ -55,6 +55,7 @@ Are done by
 - [ ] draft new section in `CHANGELOG.md`
   - [ ] create new release link at the bottom of the file
 - [ ] commit and publish `develop` branch
+- [ ] if new release will be in January, update the year in LICENSE.md
 
 ### After release
 
