@@ -46,7 +46,7 @@ Thanks to: @xsorifc28, @HeikoGr, @bugsounet, @khassel, @KristjanESPERANTO, @reja
 - [linter] Re-add `eslint-plugin-import`now that it supports ESLint v9 (#3586)
 - [linter] Re-activate `eslint-plugin-package-json` to lint `package.json` (#3643)
 - [linter] Add linting for markdown files (#3646)
-- [linter] Add some handy ESLint rules.
+- [linter] Add some handy ESLint rules (#3665)
 - [calendar] Add ability to display end date for full date events, where end is not same day (showEnd=true) (#3650)
 - [core] Add text to the config.js.sample file about the locale variable (#3654, #3655)
 - [core] Add fetch timeout for all node_helpers (thru undici, forces node 20.18.1 minimum) to help on slower systems. (#3660) (3661)
