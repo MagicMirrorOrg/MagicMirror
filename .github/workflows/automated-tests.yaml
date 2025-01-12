@@ -1,6 +1,3 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
 name: "Run Automated Tests"
 
 on:
@@ -16,29 +13,35 @@ jobs:
   code-style-check:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    strategy:
+      matrix:
+        node-version: [20.x, 22.x]
     steps:
       - name: "Checkout code"
         uses: actions/checkout@v4
-      - name: "Use Node.js"
+      - name: "Use Node.js ${{ matrix.node-version }}"
         uses: actions/setup-node@v4
         with:
-          node-version: 23
+          node-version: ${{ matrix.node-version }}
           cache: "npm"
       - name: "Install dependencies"
         run: |
-          npm run install-mm:dev
-      - name: "Run linter tests"
-        run: |
-          npm run test:prettier
-          npm run test:js
-          npm run test:css
-          npm run test:markdown
+          npm ci
+      - name: "Run Prettier"
+        run: npm run test:prettier
+      - name: "Run JS Linter"
+        run: npm run test:js
+      - name: "Run CSS Linter"
+        run: npm run test:css
+      - name: "Run Markdown Linter"
+        run: npm run test:markdown
+
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     strategy:
       matrix:
-        node-version: [20.18.1, 20.x, 22.x, 23.x]
+        node-version: [20.18.1, 20.x, 22.x]
     steps:
       - name: "Checkout code"
         uses: actions/checkout@v4
@@ -50,10 +53,15 @@ jobs:
           cache: "npm"
       - name: "Install dependencies"
         run: |
-          npm run install-mm:dev
+          npm ci
       - name: "Run tests"
         run: |
           Xvfb :99 -screen 0 1024x768x16 &
           export DISPLAY=:99
           touch css/custom.css
           npm run test
+      - name: "Upload coverage report"
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage/
