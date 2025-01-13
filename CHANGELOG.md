@@ -25,9 +25,10 @@ planned for 2025-04-01
 
 ### Fixed
 
-- [calendar] fix clipping events being broadcast (#3678)
+- [calendar] Fix clipping events being broadcast (#3678)
 - [tests] Electron tests: Fixes for running under new github image ubuntu-24.04, replace xserver with labwc (#3676)
-- [calendar] fix arrayed symbols, #3267, again, add testcase, add testcase for #3678
+- [calendar] Fix arrayed symbols, #3267, again, add testcase, add testcase for #3678
+- [weather] Fix wrong weatherCondition name in openmeteo provider which lead to n/a icon
 
 ## [2.30.0] - 2025-01-01
 
