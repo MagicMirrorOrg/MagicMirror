@@ -85,11 +85,11 @@
 			.then(function (configReturn) {
 				// check environment for DISPLAY or WAYLAND_DISPLAY
 				const elecParams = ["js/electron.js"];
-				if (process.env.WAYLAND_DISPLAY !== "") {
+				if (process.env.WAYLAND_DISPLAY) {
 					console.log(`Client: Using WAYLAND_DISPLAY=${process.env.WAYLAND_DISPLAY}`);
 					elecParams.push("--enable-features=UseOzonePlatform");
 					elecParams.push("--ozone-platform=wayland");
-				} else if (process.env.DISPLAY !== "") {
+				} else if (process.env.DISPLAY) {
 					console.log(`Client: Using DISPLAY=${process.env.DISPLAY}`);
 				} else {
 					fail("Error: Requires environment variable WAYLAND_DISPLAY or DISPLAY, none is provided.");
