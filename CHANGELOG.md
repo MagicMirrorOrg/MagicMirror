@@ -24,6 +24,8 @@ planned for 2025-04-01
 
 ### Updated
 
+- [core] Update dependencies and formatting
+
 ### Fixed
 
 - [calendar] Fix clipping events being broadcast (#3678)
