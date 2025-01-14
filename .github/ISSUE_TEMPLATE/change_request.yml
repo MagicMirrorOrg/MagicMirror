@@ -1,5 +1,5 @@
 name: 🔀 Request a change
-description: Request a change that is not a bug fix, rule change, or new rule
+description: Request a change that is not a bug fix, a feature request or a support request.
 title: "[Change Request] {{ brief description }}"
 labels:
   - enhancement
