@@ -16,12 +16,22 @@ body:
       description: |
         Please tell us about how your MagicMirror² is set up.
 
+        Optimal would be the systeminformation from the logs, which looks like this:
+        ```bash
+        [2025-01-14 20:05:03.529] [INFO]  System information:
+        ### SYSTEM:    manufacturer: Raspberry Pi Foundation; model: Raspberry Pi 4 Model B Rev 1.5; virtual: false
+        ### OS:        platform: linux; distro: Debian GNU/Linux; release: 12; arch: arm64; kernel: 6.1.21-v8+
+        ### VERSIONS:  electron: 31.2.1; used node: 20.15.0; installed node: 22.4.1; npm: 10.8.1; pm2:
+        ### OTHER:     timeZone: Europe/Berlin; ELECTRON_ENABLE_GPU: undefined
+        ```
+
+        If you can't provide this information, please provide the following:
         - MagicMirror² version: Can be found in the `package.json` file. Please use the latest version before reporting a bug.
         - Node version: Run `node -v` to find out. Make sure it's version 20 or later (recommended is 22).
         - npm version: Run `npm -v` to find out.
         - Platform: Are you using a Raspberry Pi (2/3/4/5), Windows, Mac, Linux, Docker, or something else?
       value: |
-        MagicMirror² version:
+        MagicMirror² version: 
         Node version: 
         npm version: 
         Platform:
