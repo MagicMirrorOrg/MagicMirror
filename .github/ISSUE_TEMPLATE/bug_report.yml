@@ -37,6 +37,8 @@ body:
         - "npm run start:wayland"
         - "npm run start:windows"
         - "npm run start:x11"
+        - "npm run server"
+        - "node clientonly --address ... --port ..."
     validations:
       required: true
   - type: dropdown
