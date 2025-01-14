@@ -15,15 +15,16 @@ body:
       label: Environment
       description: |
         Please tell us about how your MagicMirror² is set up.
+
+        - MagicMirror² version: Can be found in the `package.json` file. Please use the latest version before reporting a bug.
+        - Node version: Run `node -v` to find out. Make sure it's version 20 or later (recommended is 22).
+        - npm version: Run `npm -v` to find out.
+        - Platform: Are you using a Raspberry Pi (2/3/4/5), Windows, Mac, Linux, Docker, or something else?
       value: |
         MagicMirror² version:
-          (It can be found in the `package.json` file. Please use the latest version before reporting a bug.)
         Node version: 
-          (Run `node -v` to find out. Make sure it's version 20 or later (recommended is 22))
         npm version: 
-          (Run `npm -v` to find out.)
-        Platform: 
-          (Raspberry Pi 2/3/4/5, Windows, Mac, Linux, System V UNIX, ...)
+        Platform:
     validations:
       required: true
   - type: dropdown
