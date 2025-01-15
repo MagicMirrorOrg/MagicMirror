@@ -25,6 +25,8 @@ jobs:
         run: sudo apt-get install gpiod libgpiod2 libgpiod-dev
       - name: Install test library (node-libgpiod) to be rebuilded
         run: npm install node-libgpiod
+      - name: Fix for nan and electron rebuild as long as https://github.com/nodejs/nan/pull/979 is not merged
+        run: sed -i 's|^#include .nan_scriptorigin\.h.*||g' ./node_modules/nan/nan.h
       - name: Run electron-rebuild
         run: npx electron-rebuild
         continue-on-error: false

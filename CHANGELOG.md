@@ -24,7 +24,7 @@ planned for 2025-04-01
 
 ### Updated
 
-- [core] Update dependencies and formatting
+- [core] Update dependencies and formatting including electron to v34
 
 ### Fixed
 
