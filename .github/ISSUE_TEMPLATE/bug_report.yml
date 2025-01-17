@@ -1,0 +1,154 @@
+name: 🐛 Report a problem
+description: Report an issue with MagicMirror² 🚨
+title: "[Bug] {{ brief description }}"
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug! Please fill in the following template to help us reproduce the issue.
+        Please only submit reproducible issues. If you're not sure if it's a real bug or if it's just you, please open a topic on the forum.
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: |
+        Please tell us about how your MagicMirror² is set up.
+
+        Optimal would be the systeminformation from the logs, which looks like this:
+        ```bash
+        [2025-01-14 20:05:03.529] [INFO]  System information:
+        ### SYSTEM:    manufacturer: Raspberry Pi Foundation; model: Raspberry Pi 4 Model B Rev 1.5; virtual: false
+        ### OS:        platform: linux; distro: Debian GNU/Linux; release: 12; arch: arm64; kernel: 6.1.21-v8+
+        ### VERSIONS:  electron: 31.2.1; used node: 20.15.0; installed node: 22.4.1; npm: 10.8.1; pm2:
+        ### OTHER:     timeZone: Europe/Berlin; ELECTRON_ENABLE_GPU: undefined
+        ```
+
+        If you can't provide this information, please provide the following:
+        - MagicMirror² version: Can be found in the `package.json` file. Please use the latest version before reporting a bug.
+        - Node version: Run `node -v` to find out. Make sure it's version 20 or later (recommended is 22).
+        - npm version: Run `npm -v` to find out.
+        - Platform: Are you using a Raspberry Pi (2/3/4/5), Windows, Mac, Linux, Docker, or something else?
+      value: |
+        MagicMirror² version: 
+        Node version: 
+        npm version: 
+        Platform:
+    validations:
+      required: true
+  - type: dropdown
+    id: start-option
+    attributes:
+      label: Which start option are you using?
+      description: |
+        Please keep in mind that some problems are specific to certain start options.
+      options:
+        - "npm run start"
+        - "npm run start:wayland"
+        - "npm run start:windows"
+        - "npm run start:x11"
+        - "npm run server"
+        - "node clientonly --address ... --port ..."
+    validations:
+      required: true
+  - type: dropdown
+    id: pm2
+    attributes:
+      label: Are you using PM2?
+      options:
+        - "No"
+        - "Yes"
+        - "I don't know"
+    validations:
+      required: true
+  - type: dropdown
+    id: module
+    attributes:
+      label: Module
+      description: |
+        If the issue is related to a specific module, please provide the name of the module.
+        Note: Please don't report issues with 3rd party modules here. Report them on the module's repository.
+      options:
+        - "alert"
+        - "calendar"
+        - "clock"
+        - "compliments"
+        - "helloworld"
+        - "newsfeed"
+        - "updatenotification"
+        - "weather"
+  - type: checkboxes
+    id: module-disabled
+    attributes:
+      label: Have you tried disabling other modules?
+      options:
+        - label: "Yes"
+        - label: "No"
+  - type: checkboxes
+    id: search
+    attributes:
+      label: Have you searched if someone else has already reported the issue on the forum or in the issues?
+      options:
+        - label: "Yes"
+          required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What did you do?
+      description: |
+        Please include a *minimal* reproduction case. List the step by step process to reproduce the issue.
+        You can use Markdown in this field.
+      value: |
+        <details>
+        <summary>Configuration</summary>
+
+        ```
+        <!-- Paste your configuration here. Don't forget to remove any sensitive information! -->
+        ```
+        </details>
+
+        ```js
+        <!-- Paste relevant code here -->
+        ```
+
+        Steps to reproduce the issue:
+    validations:
+      required: true
+  - type: textarea
+    id: expectation
+    attributes:
+      label: What did you expect to happen?
+      description: |
+        You can use Markdown in this field.
+    validations:
+      required: true
+  - type: textarea
+    id: lint-output
+    attributes:
+      label: What actually happened?
+      description: |
+        Please copy-paste relevant log output or error messages.
+        You can use Markdown in this field.
+    validations:
+      required: true
+
+  - type: textarea
+    id: comments
+    attributes:
+      label: Additional comments
+      description: |
+        Is there anything else that's important for the team to know?
+        Fill out all fields and provide as much information as possible.
+        Adding screenshots might help us understand your problem better.
+
+  - type: checkboxes
+    attributes:
+      label: Participation
+      options:
+        - label: "I am willing to submit a pull request for this change."
+          required: false
+
+  - type: markdown
+    attributes:
+      value: Please **do not** open a pull request until this issue has been accepted by the team.
