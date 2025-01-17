@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📚 Documentation
+    url: https://github.com/MagicMirrorOrg/MagicMirror-Documentation/issues
+    about: This issue tracker is not for documentation issues. Please file documentation issues on the docs repo.
+  - name: 🤔 Support Question
+    url: https://forum.magicmirror.builders/
+    about: Problems installing or configuring your MagicMirror? Please post your question on the MagicMirror² Forum.
+  - name: 💬 Exchange of ideas
+    url: https://discord.gg/AmGBBwPph5
+    about: This issue tracker is not for general discussion. Please use the Discord channel.
+  - name: 📦 Issues with a 3rd-party module
+    url: https://kristjanesperanto.github.io/MagicMirror-3rd-Party-Modules/
+    about: This issue tracker is not for 3rd-party module issues. Please file 3rd-party module issues on the module's repo.

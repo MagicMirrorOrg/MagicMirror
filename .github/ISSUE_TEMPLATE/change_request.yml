@@ -1,0 +1,41 @@
+name: 🔀 Request a change
+description: Request a change that is not a bug fix, a feature request or a support request.
+title: "[Change Request] {{ brief description }}"
+labels:
+  - enhancement
+  - core
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for requesting a change! Please fill in the following template to help us understand your request.
+  - type: textarea
+    attributes:
+      label: What problem do you want to solve with this change?
+      description: |
+        Please explain your use case in as much detail as possible.
+      placeholder: |
+        Currently...
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: What do you think is the correct solution?
+      description: |
+        Please explain how you'd like to change MagicMirror² to address the problem.
+      placeholder: |
+        I'd like MagicMirror² to...
+    validations:
+      required: true
+  - type: checkboxes
+    attributes:
+      label: Participation
+      options:
+        - label: I am willing to submit a pull request for this change.
+          required: false
+  - type: markdown
+    attributes:
+      value: Please **do not** open a pull request until this issue has been accepted by the team.
+  - type: textarea
+    attributes:
+      label: Additional comments
+      description: Is there anything else that's important for the team to know?
