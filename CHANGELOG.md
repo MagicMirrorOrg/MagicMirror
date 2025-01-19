@@ -18,21 +18,22 @@ planned for 2025-04-01
 ### Changed
 
 - [core] starting clientonly now checks for needed env var `WAYLAND_DISPLAY` or `DISPLAY` and starts electron with needed parameters (if both are set wayland is used) (#3677)
-- [core] Optimize systeminformation calls and output
-- [core] Add issue templates for feature requests and bug reports
+- [core] Optimize systeminformation calls and output (#3689)
+- [core] Add issue templates for feature requests and bug reports (#3695)
+- [core] Adapt `start:x11:dev` script
 
 ### Removed
 
 ### Updated
 
-- [core] Update dependencies and formatting
+- [core] Update dependencies and formatting (#3693)
 
 ### Fixed
 
 - [calendar] Fix clipping events being broadcast (#3678)
 - [tests] Electron tests: Fixes for running under new github image ubuntu-24.04, replace xserver with labwc, running under xserver and labwc depending on env variable WAYLAND_DISPLAY is set (#3676)
 - [calendar] Fix arrayed symbols, #3267, again, add testcase, add testcase for #3678
-- [weather] Fix wrong weatherCondition name in openmeteo provider which lead to n/a icon
+- [weather] Fix wrong weatherCondition name in openmeteo provider which lead to n/a icon (#3691)
 - [core] Fix wrong port in log message when starting server only (#3696)
 
 ## [2.30.0] - 2025-01-01

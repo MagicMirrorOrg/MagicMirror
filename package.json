@@ -43,7 +43,7 @@
 		"start:windows": ".\\node_modules\\.bin\\electron js\\electron.js",
 		"start:windows:dev": "npm run start:windows -- dev",
 		"start:x11": "DISPLAY=\"${DISPLAY:=:0}\" ./node_modules/.bin/electron js/electron.js",
-		"start:x11:dev": "npm run start -- dev",
+		"start:x11:dev": "npm run start:x11 -- dev",
 		"test": "NODE_ENV=test jest -i --forceExit",
 		"test:calendar": "node ./modules/default/calendar/debug.js",
 		"test:coverage": "NODE_ENV=test jest --coverage -i --verbose false --forceExit",
