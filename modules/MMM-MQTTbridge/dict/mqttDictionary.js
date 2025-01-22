@@ -16,10 +16,18 @@ var mqttHook = [
       ],
     },
     {
-      mqttTopic: "temperature/internal",
+      mqttTopic: "temperature/indoor",
       mqttPayload: [
         {
-          mqttNotiCmd: ["Internal Temperature"]
+          mqttNotiCmd: ["Indoor Temperature"]
+        },
+      ],
+    },
+    {
+      mqttTopic: "humidity/indoor",
+      mqttPayload: [
+        {
+          mqttNotiCmd: ["Indoor Humidity"]
         },
       ],
     },
@@ -36,8 +44,12 @@ var mqttNotiCommands = [
       notiID: "FACE_REMOVED"
     },
     {
-      commandId: "Internal Temperature",
+      commandId: "Indoor Temperature",
       notiID: "INDOOR_TEMPERATURE"
+    },
+    {
+      commandId: "Indoor Humidity",
+      notiID: "INDOOR_HUMIDITY"
     },
   ];
 
