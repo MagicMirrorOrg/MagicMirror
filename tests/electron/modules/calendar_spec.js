@@ -253,6 +253,11 @@ describe("Calendar module", () => {
 			// just
 			await expect(doTestTableContent(".calendar .event", ".time", "29th.Oct, 05:00-30th.Oct, 18:00", first)).resolves.toBe(true);
 		});
+		it("viewing from further west in diff timezones", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/chicago-looking-at-ny-recurring.js", "22 Jan 2025 14:30:00 GMT-06:00", [], "America/Chicago");
+			// just
+			await expect(doTestTableContent(".calendar .event", ".time", "22nd.Jan, 17:30-19:30", first)).resolves.toBe(true);
+		});
 	});
 
 	describe("one event non repeating", () => {

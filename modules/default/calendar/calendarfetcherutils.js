@@ -662,9 +662,11 @@ const CalendarFetcherUtils = {
 				Log.debug("signs are the same");
 				if (Math.sign(eventDiff) === -1) {
 					//if west, looking at more west
+					//  -350 <-300
 					if (nowDiff < eventDiff) {
 						//-600        -420
-						eventDiff = -(eventDiff - (nowDiff - eventDiff)); //-180
+						//300           -300         -360      +300
+						eventDiff = nowDiff - eventDiff; //-180
 						Log.debug("now looking back east delta diff=", eventDiff);
 					}
 					else {
