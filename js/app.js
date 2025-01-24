@@ -21,9 +21,6 @@ global.version = require(`${__dirname}/../package.json`).version;
 global.mmTestMode = process.env.mmTestMode === "true";
 Log.log(`Starting MagicMirror: v${global.version}`);
 
-// Log system information.
-Utils.logSystemInformation();
-
 // global absolute root path
 global.root_path = path.resolve(`${__dirname}/../`);
 
@@ -276,6 +273,9 @@ function App () {
 	 * @returns {Promise<object>} the config used
 	 */
 	this.start = async function () {
+		// Log system information.
+		await Utils.logSystemInformation();
+
 		config = await loadConfig();
 
 		Log.setLogLevel(config.logLevel);
