@@ -21,7 +21,7 @@ planned for 2025-04-01
 - [core] Optimize systeminformation calls and output (#3689)
 - [core] Add issue templates for feature requests and bug reports (#3695)
 - [core] Adapt `start:x11:dev` script
-- [core] Déplace l'affichage des informations système au démarrage du noyau (promesse) (#XXXX)
+- [core] Déplace l'affichage des informations système au démarrage du noyau (promesse) (#3703)
 
 ### Removed
 
