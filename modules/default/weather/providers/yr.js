@@ -23,6 +23,10 @@ WeatherProvider.register("yr", {
 			Log.error("The Yr weather provider requires local storage.");
 			throw new Error("Local storage not available");
 		}
+		if (this.config.updateInterval < 600000) {
+			Log.warn("The Yr weather provider requires a minimum update interval of 10 minutes (600 000 ms). The configuration has been adjusted to meet this requirement.");
+			this.delegate.config.updateInterval = 600000;
+		}
 		Log.info(`Weather provider: ${this.providerName} started.`);
 	},
 

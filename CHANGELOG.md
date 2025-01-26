@@ -21,6 +21,7 @@ planned for 2025-04-01
 - [core] Optimize systeminformation calls and output (#3689)
 - [core] Add issue templates for feature requests and bug reports (#3695)
 - [core] Adapt `start:x11:dev` script
+- [weather/yr] The Yr weather provider now enforces a minimum `updateInterval` of 600 000 ms (10 minutes) to comply with the terms of service. If a lower value is set, it will be automatically increased to this minimum.
 
 ### Removed
 
