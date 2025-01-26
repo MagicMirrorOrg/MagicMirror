@@ -119,7 +119,12 @@ WeatherProvider.register("yr", {
 				})
 				.catch((err) => {
 					Log.error(err);
-					reject("Unable to get weather data from Yr.");
+					if (weatherData) {
+						Log.warn("Using outdated cached weather data.");
+						resolve(weatherData);
+					} else {
+						reject("Unable to get weather data from Yr.");
+					}
 				})
 				.finally(() => {
 					localStorage.removeItem("yrIsFetchingWeatherData");
