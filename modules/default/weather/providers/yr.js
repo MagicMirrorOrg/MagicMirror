@@ -34,7 +34,7 @@ WeatherProvider.register("yr", {
 			})
 			.catch((error) => {
 				Log.error(error);
-				throw new Error(error);
+				this.updateAvailable();
 			});
 	},
 
@@ -497,7 +497,7 @@ WeatherProvider.register("yr", {
 			})
 			.catch((error) => {
 				Log.error(error);
-				throw new Error(error);
+				this.updateAvailable();
 			});
 	},
 
@@ -600,7 +600,7 @@ WeatherProvider.register("yr", {
 			})
 			.catch((error) => {
 				Log.error(error);
-				throw new Error(error);
+				this.updateAvailable();
 			});
 	}
 });
