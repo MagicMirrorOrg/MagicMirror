@@ -530,7 +530,15 @@ WeatherProvider.register("yr", {
 	getHourlyForecastFrom (weatherData) {
 		const series = [];
 
+		const now = moment({
+			year: moment().year(),
+			month: moment().month(),
+			day: moment().date(),
+			hour: moment().hour()
+		});
 		for (const forecast of weatherData.properties.timeseries) {
+			if (now.isAfter(moment(forecast.time))) continue;
+
 			forecast.symbol = forecast.data.next_1_hours?.summary?.symbol_code;
 			forecast.precipitationAmount = forecast.data.next_1_hours?.details?.precipitation_amount;
 			forecast.precipitationProbability = forecast.data.next_1_hours?.details?.probability_of_precipitation;
