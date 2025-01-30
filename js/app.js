@@ -210,7 +210,7 @@ function App () {
 				Log.error(`Error when loading ${moduleName}:`, e.message);
 				return;
 			}
-			let m = new Module();
+			let m = new Module(moduleName, path.resolve(moduleFolder));
 
 			if (m.requiresVersion) {
 				Log.log(`Check MagicMirror² version for node helper '${moduleName}' - Minimum version: ${m.requiresVersion} - Current version: ${global.version}`);
@@ -222,8 +222,6 @@ function App () {
 				}
 			}
 
-			m.setName(moduleName);
-			m.setPath(path.resolve(moduleFolder));
 			nodeHelpers.push(m);
 
 			m.loaded();

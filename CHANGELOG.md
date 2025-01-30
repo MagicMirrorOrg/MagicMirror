@@ -39,6 +39,7 @@ planned for 2025-04-01
 - [core] Fix wrong port in log message when starting server only (#3696)
 - [calendar] NewYork event processed on system in Central timezone shows wrong time #3701
 - [weather/yr] The Yr weather provider is now able to recover from bad API resposes instead of freezing (#3296)
+- [core] Add missing name and path to node_helper init function (#3708)
 
 ## [2.30.0] - 2025-01-01
 

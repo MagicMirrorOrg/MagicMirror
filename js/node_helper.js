@@ -3,8 +3,11 @@ const Log = require("logger");
 const Class = require("./class");
 
 const NodeHelper = Class.extend({
-	init () {
-		Log.log("Initializing new module helper ...");
+	init (name, path) {
+		this.setName(name);
+		this.setPath(path);
+
+		Log.log(`Initializing new module helper: ${this.name}`);
 	},
 
 	loaded () {
