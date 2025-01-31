@@ -41,7 +41,9 @@ jobs:
         node-version: [20.18.1, 20.x, 22.x, 23.x]
     steps:
       - name: Install electron dependencies and labwc
-        run: sudo apt-get install -y libnss3 libasound2t64 labwc
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libnss3 libasound2t64 labwc
       - name: "Checkout code"
         uses: actions/checkout@v4
       - name: "Use Node.js ${{ matrix.node-version }}"
