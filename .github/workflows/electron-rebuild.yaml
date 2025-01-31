@@ -22,7 +22,9 @@ jobs:
       - name: Install @electron/rebuild
         run: npm install @electron/rebuild
       - name: Install node-libgpiod deps
-        run: sudo apt-get install gpiod libgpiod2 libgpiod-dev
+        run: |
+          sudo apt-get update
+          sudo apt-get install gpiod libgpiod2 libgpiod-dev
       - name: Install test library (node-libgpiod) to be rebuilded
         run: npm install node-libgpiod
       - name: Run electron-rebuild
