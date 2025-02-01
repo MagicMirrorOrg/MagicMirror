@@ -28,16 +28,16 @@ planned for 2025-04-01
 
 ### Updated
 
-- [core] Update dependencies and formatting (#3693)
+- [core] Update dependencies and formatting (#3693, #3717)
 
 ### Fixed
 
 - [calendar] Fix clipping events being broadcast (#3678)
-- [tests] Electron tests: Fixes for running under new github image ubuntu-24.04, replace xserver with labwc, running under xserver and labwc depending on env variable WAYLAND_DISPLAY is set (#3676)
+- [tests] Fix Electron tests by running them under new github image ubuntu-24.04, replace xserver with labwc, running under xserver and labwc depending on env variable WAYLAND_DISPLAY is set (#3676)
 - [calendar] Fix arrayed symbols, #3267, again, add testcase, add testcase for #3678
 - [weather] Fix wrong weatherCondition name in openmeteo provider which lead to n/a icon (#3691)
 - [core] Fix wrong port in log message when starting server only (#3696)
-- [calendar] NewYork event processed on system in Central timezone shows wrong time #3701
+- [calendar] Fix NewYork event processed on system in Central timezone shows wrong time #3701
 - [weather/yr] The Yr weather provider is now able to recover from bad API resposes instead of freezing (#3296)
 
 ## [2.30.0] - 2025-01-01
@@ -136,7 +136,7 @@ Thanks to: @bugsounet, @dkallen78, @jargordon, @khassel, @KristjanESPERANTO, @Ma
 - [core] Detail optimizations in `config_check.js`
 - [core] Updated minimal needed node version in `package.json` (currently v20.9.0) (#3559) and except for v21 (no security updates) (#3561)
 - [linter] Switch to ESLint v9 and flat config and replace `eslint-plugin-unicorn` by `@eslint/js`
-- [core] fix discovering module positions twice after #3450
+- [core] Fix discovering module positions twice after #3450
 
 ### Fixed
 
