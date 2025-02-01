@@ -83,7 +83,7 @@
 		"undici": "^7.2.1"
 	},
 	"devDependencies": {
-		"@stylistic/eslint-plugin": "^2.13.0",
+		"@stylistic/eslint-plugin": "^3.0.1",
 		"cspell": "^8.17.2",
 		"eslint-plugin-import": "^2.31.0",
 		"eslint-plugin-jest": "^28.10.0",
