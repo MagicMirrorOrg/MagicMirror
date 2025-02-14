@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y nodejs
 
 # Make sure to have x11-apps to perform screen forwarding
 RUN apt-get update && apt-get install -qqy x11-apps
+
 # Install dependencies
 RUN apt-get update && apt-get install -y \
     python3 \
@@ -39,23 +40,23 @@ RUN apt-get update && apt-get install -y \
     libglu1-mesa \
     && rm -rf /var/lib/apt/lists/*
 
-
-
 # Set working directory
 WORKDIR /opt/magicmirror
+
+COPY package.json ./package.json
+COPY package-lock.json ./package-lock.json
+COPY vendor/ ./vendor/
+COPY fonts/ ./fonts/
+RUN npm install --verbose
 
 # Copy MagicMirror files
 COPY . .
 
-# Copy the configuration file
-COPY config/config.js ./config/config.js
-
-# Install MagicMirror dependencies
-RUN npm install
-
 # Expose port
 EXPOSE 8080
 
-# Start MagicMirror in server-only mode
+# Start MagicMirror in server mode
 # CMD ["node", "serveronly"]
+
+# Start MagicMirror in client mode
 CMD ["npm", "start", "--", "--no-sandbox"]

@@ -56,5 +56,12 @@
     <script type="text/javascript" src="js/socketclient.js"></script>
     <script type="text/javascript" src="js/animateCSS.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
+
+    <script>
+		window.googleApiCallback = function() {
+			console.log("Google API is loaded");		
+		}
+	</script>
+    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=googleApiCallback&v=weekly&loading=async"></script>
   </body>
 </html>
