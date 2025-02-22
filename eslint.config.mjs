@@ -6,9 +6,11 @@ import eslintPluginStylistic from "@stylistic/eslint-plugin";
 import globals from "globals";
 
 const config = [
-	eslintPluginJs.configs.recommended,
 	eslintPluginImport.flatConfigs.recommended,
+	eslintPluginJest.configs["flat/recommended"],
+	eslintPluginJs.configs.recommended,
 	eslintPluginPackageJson,
+	eslintPluginStylistic.configs.all,
 	{
 		files: ["**/*.js"],
 		languageOptions: {
@@ -24,13 +26,7 @@ const config = [
 				moment: "readonly"
 			}
 		},
-		plugins: {
-			...eslintPluginStylistic.configs["all-flat"].plugins,
-			...eslintPluginJest.configs["flat/recommended"].plugins
-		},
 		rules: {
-			...eslintPluginStylistic.configs["all-flat"].rules,
-			...eslintPluginJest.configs["flat/recommended"].rules,
 			"@stylistic/array-element-newline": ["error", "consistent"],
 			"@stylistic/arrow-parens": ["error", "always"],
 			"@stylistic/brace-style": "off",
@@ -99,11 +95,7 @@ const config = [
 			},
 			sourceType: "module"
 		},
-		plugins: {
-			...eslintPluginStylistic.configs["all-flat"].plugins
-		},
 		rules: {
-			...eslintPluginStylistic.configs["all-flat"].rules,
 			"@stylistic/array-element-newline": "off",
 			"@stylistic/indent": ["error", "tab"],
 			"@stylistic/padded-blocks": ["error", "never"],
