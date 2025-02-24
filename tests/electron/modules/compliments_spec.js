@@ -34,6 +34,10 @@ describe("Compliments module", () => {
 			await helpers.startApplication("tests/configs/modules/compliments/compliments_parts_day.js", "01 Oct 2022 20:00:00 GMT");
 			await expect(doTest(["Hello There", "Good Evening", "Evening test"])).resolves.toBe(true);
 		});
+
+		it("doesnt show evening compliments during the day when the other parts of day are not set", async () => {
+			await helpers.startApplication("tests/configs/modules/compliments/compliments_evening.js", "01 Oct 2022 10:00:00 GMT");
+		});
 	});
 
 	describe("Feature date in compliments module", () => {
