@@ -42,6 +42,7 @@ planned for 2025-04-01
 - [core] Fix wrong port in log message when starting server only (#3696)
 - [calendar] Fix NewYork event processed on system in Central timezone shows wrong time #3701
 - [weather/yr] The Yr weather provider is now able to recover from bad API responses instead of freezing (#3296)
+- [compliments] Fix evening events being shown during the day (#3727)
 
 ## [2.30.0] - 2025-01-01
 
