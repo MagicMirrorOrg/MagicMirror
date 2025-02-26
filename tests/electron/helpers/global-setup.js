@@ -49,10 +49,10 @@ exports.stopApplication = async () => {
 	process.env.MOCK_DATE = undefined;
 };
 
-exports.getElement = async (selector) => {
+exports.getElement = async (selector, state = "visible") => {
 	expect(global.page).not.toBeNull();
-	let elem = global.page.locator(selector);
-	await elem.waitFor();
+	const elem = global.page.locator(selector);
+	await elem.waitFor({ state: state });
 	expect(elem).not.toBeNull();
 	return elem;
 };

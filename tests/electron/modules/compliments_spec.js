@@ -7,9 +7,9 @@ describe("Compliments module", () => {
 	 * @param {Array} complimentsArray The array of compliments.
 	 * @returns {boolean} result
 	 */
-	const doTest = async (complimentsArray) => {
-		await helpers.getElement(".compliments");
-		const elem = await helpers.getElement(".module-content");
+	const doTest = async (complimentsArray, state = "visible") => {
+		await helpers.getElement(".compliments", state);
+		const elem = await helpers.getElement(".module-content", state);
 		expect(elem).not.toBeNull();
 		expect(complimentsArray).toContain(await elem.textContent());
 		return true;
