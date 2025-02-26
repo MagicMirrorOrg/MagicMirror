@@ -63,7 +63,7 @@
 	},
 	"dependencies": {
 		"ajv": "^8.17.1",
-		"ansis": "^3.10.0",
+		"ansis": "^3.16.0",
 		"console-stamp": "^3.1.2",
 		"envsub": "^4.1.0",
 		"eslint": "^9.21.0",
@@ -83,8 +83,8 @@
 		"undici": "^7.3.0"
 	},
 	"devDependencies": {
-		"@stylistic/eslint-plugin": "^4.0.1",
-		"cspell": "^8.17.3",
+		"@stylistic/eslint-plugin": "^4.1.0",
+		"cspell": "^8.17.5",
 		"eslint-plugin-import": "^2.31.0",
 		"eslint-plugin-jest": "^28.11.0",
 		"eslint-plugin-jsdoc": "^50.6.3",
@@ -96,7 +96,7 @@
 		"lint-staged": "^15.4.3",
 		"markdownlint-cli2": "^0.17.2",
 		"playwright": "^1.50.1",
-		"prettier": "^3.4.2",
+		"prettier": "^3.5.2",
 		"sinon": "^19.0.2",
 		"stylelint": "^16.14.1",
 		"stylelint-config-standard": "^37.0.0",
