@@ -139,7 +139,7 @@ Module.register("compliments", {
 		let compliments = [];
 
 		// Add time of day compliments
-		let timeOfDay = "";
+		let timeOfDay;
 		if (hour >= this.config.morningStartTime && hour < this.config.morningEndTime) {
 			timeOfDay = "morning";
 		} else if (hour >= this.config.afternoonStartTime && hour < this.config.afternoonEndTime) {
