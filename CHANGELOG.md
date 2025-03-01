@@ -31,7 +31,7 @@ planned for 2025-04-01
 
 ### Updated
 
-- [core] Update dependencies and formatting (#3693, #3717)
+- [core] Update dependencies incl. electron to v34 and formatting (#3593, #3693, #3717)
 - [core] Update ESLint and simplify config
 
 ### Fixed
