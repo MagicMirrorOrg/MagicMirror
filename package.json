@@ -80,7 +80,7 @@
 		"socket.io": "^4.8.1",
 		"suncalc": "^1.9.0",
 		"systeminformation": "^5.25.11",
-		"undici": "^7.3.0"
+		"undici": "^7.4.0"
 	},
 	"devDependencies": {
 		"@stylistic/eslint-plugin": "^4.1.0",
@@ -98,12 +98,12 @@
 		"playwright": "^1.50.1",
 		"prettier": "^3.5.2",
 		"sinon": "^19.0.2",
-		"stylelint": "^16.14.1",
+		"stylelint": "^16.15.0",
 		"stylelint-config-standard": "^37.0.0",
 		"stylelint-prettier": "^5.0.3"
 	},
 	"optionalDependencies": {
-		"electron": "^32.3.0"
+		"electron": "^35.0.0"
 	},
 	"engines": {
 		"node": ">=20.18.1 <21 || >=22"
