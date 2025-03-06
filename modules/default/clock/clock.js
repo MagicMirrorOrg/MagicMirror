@@ -146,6 +146,8 @@ Module.register("clock", {
 		}
 
 		if (this.config.displayType !== "analog" && this.config.showTime) {
+			let ts = timeString.split(":");
+			timeString = `<span class="clock_hour">${ts[0]}</span>:<span class="clock_minute">${ts[1]}</span>`;
 			timeWrapper.innerHTML = timeString;
 			secondsWrapper.innerHTML = now.format("ss");
 			if (this.config.showPeriodUpper) {
