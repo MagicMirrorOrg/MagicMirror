@@ -24,6 +24,8 @@ Module.register("clock", {
 		analogPlacement: "bottom", // options: 'top', 'bottom', 'left', 'right'
 		analogShowDate: "top", // OBSOLETE, can be replaced with analogPlacement and showTime, options: false, 'top', or 'bottom'
 		secondsColor: "#888888",
+		minutesColor: "#fff",
+		hoursColor: "#fff",
 
 		showSunTimes: false,
 		showMoonTimes: false, // options: false, 'times' (rise/set), 'percent' (lit percent), 'phase' (current phase), or 'both' (percent & phase)
@@ -147,7 +149,11 @@ Module.register("clock", {
 
 		if (this.config.displayType !== "analog" && this.config.showTime) {
 			let ts = timeString.split(":");
-			timeString = `<span class="clock_hour">${ts[0]}</span>:<span class="clock_minute">${ts[1]}</span>`;
+			let hour_style_string = "";
+			let minute_style_string = "";
+			if (this.defaults.hoursColor !== this.config.hoursColor) hour_style_string = ` style="color:${this.config.hoursColor}"`;
+			if (this.defaults.minutesColor !== this.config.minutesColor) minute_style_string = ` style="color:${this.config.minutesColor}"`;
+			timeString = `<span class="clock-hour-digital" ${hour_style_string} ">${ts[0]}</span>:<span class="clock-minute-digital" ${minute_style_string}>${ts[1]}</span>`;
 			timeWrapper.innerHTML = timeString;
 			secondsWrapper.innerHTML = now.format("ss");
 			if (this.config.showPeriodUpper) {
@@ -254,10 +260,12 @@ Module.register("clock", {
 			const clockHour = document.createElement("div");
 			clockHour.id = "clock-hour";
 			clockHour.style.transform = `rotate(${hour}deg)`;
+			clockHour.style.backgroundColor = this.config.hoursColor;
 			clockHour.className = "clock-hour";
 			const clockMinute = document.createElement("div");
 			clockMinute.id = "clock-minute";
 			clockMinute.style.transform = `rotate(${minute}deg)`;
+			clockMinute.style.backgroundColor = this.config.minutesColor;
 			clockMinute.className = "clock-minute";
 
 			// Combine analog wrappers
