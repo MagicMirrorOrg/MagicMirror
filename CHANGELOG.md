@@ -16,7 +16,7 @@ planned for 2025-04-01
 ### Added
 
 - Added Arabic translation.
-- add support for css on digital clock hour/minute thru css using clock_hour and clock_minute classes
+- Add CSS support to the digital clock hour/minute/second through the use of the classes `clock-hour-digital`, `clock-minute-digital`, and `clock-second-digital`.
 
 ### Changed
 

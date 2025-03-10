@@ -92,10 +92,14 @@
   flex: 1;
 }
 
-/*
 .module.clock .clock-hour-digital {
-
+  color: var(--color-text-bright);
 }
-.module.clock .clock-minute-digital {
 
-} */
+.module.clock .clock-minute-digital {
+  color: var(--color-text-bright);
+}
+
+.module.clock .clock-second-digital {
+  color: var(--color-text-dimmed);
+}
