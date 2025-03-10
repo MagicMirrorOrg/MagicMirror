@@ -17,6 +17,7 @@ planned for 2025-04-01
 
 - Added Arabic translation.
 - Add CSS support to the digital clock hour/minute/second through the use of the classes `clock-hour-digital`, `clock-minute-digital`, and `clock-second-digital`.
+- Mark option `secondsColor` as deprecated in clock module.
 
 ### Changed
 
