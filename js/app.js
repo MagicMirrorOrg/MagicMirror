@@ -153,11 +153,23 @@ function App () {
 	 */
 	function checkDeprecatedOptions (userConfig) {
 		const deprecated = require(`${global.root_path}/js/deprecated`);
-		const deprecatedOptions = deprecated.configs;
 
+		// check for deprecated core options
+		const deprecatedOptions = deprecated.configs;
 		const usedDeprecated = deprecatedOptions.filter((option) => userConfig.hasOwnProperty(option));
 		if (usedDeprecated.length > 0) {
-			Log.warn(`WARNING! Your config is using deprecated options: ${usedDeprecated.join(", ")}. Check README and CHANGELOG for more up-to-date ways of getting the same functionality.`);
+			Log.warn(`WARNING! Your config is using deprecated option(s): ${usedDeprecated.join(", ")}. Check README and CHANGELOG for more up-to-date ways of getting the same functionality.`);
+		}
+
+		// check for deprecated module options
+		for (const element of userConfig.modules) {
+			if (deprecated[element.module] !== undefined && element.config !== undefined) {
+				const deprecatedModuleOptions = deprecated[element.module];
+				const usedDeprecatedModuleOptions = deprecatedModuleOptions.filter((option) => element.config.hasOwnProperty(option));
+				if (usedDeprecatedModuleOptions.length > 0) {
+					Log.warn(`WARNING! Your config for module ${element.module} is using deprecated option(s): ${usedDeprecatedModuleOptions.join(", ")}. Check README and CHANGELOG for more up-to-date ways of getting the same functionality.`);
+				}
+			}
 		}
 	}
 
