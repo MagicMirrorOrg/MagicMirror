@@ -15,7 +15,7 @@ planned for 2025-04-01
 
 ### Added
 
-- Added Arabic translation.
+- Add Arabic (#3719) and Esperanto translation.
 
 ### Changed
 
