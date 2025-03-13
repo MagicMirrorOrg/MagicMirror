@@ -270,6 +270,7 @@ Module.register("clock", {
 				clockSecond.id = "clock-second";
 				clockSecond.style.transform = `rotate(${second}deg)`;
 				clockSecond.className = "clock-second";
+				clockSecond.style.backgroundColor = this.config.secondsColor; /* DEPRECATED, to be removed in a future version , use CSS instead */
 				clockFace.appendChild(clockSecond);
 			}
 			analogWrapper.appendChild(clockFace);
