@@ -16,6 +16,7 @@ planned for 2025-04-01
 ### Added
 
 - Add Arabic (#3719) and Esperanto translation.
+- Add Greek translation to Alerts module.
 
 ### Changed
 
@@ -33,6 +34,7 @@ planned for 2025-04-01
 
 - [core] Update dependencies incl. electron to v35 and formatting (#3593, #3693, #3717)
 - [core] Update ESLint and simplify config
+- Update Greek translation
 
 ### Fixed
 

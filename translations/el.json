@@ -1,8 +1,8 @@
 {
-	"LOADING": "Φόρτωση …",
+	"LOADING": "Φόρτωση ...",
 
 	"DAYBEFOREYESTERDAY": "Προχθές",
-	"YESTERDAY": "Εχθές",
+	"YESTERDAY": "Χθες",
 	"TODAY": "Σήμερα",
 	"TOMORROW": "Αύριο",
 	"RUNNING": "Λήγει σε",
@@ -23,5 +23,26 @@
 	"W": "Δ",
 	"WNW": "ΔΒΔ",
 	"NW": "ΒΔ",
-	"NNW": "ΒΒΔ"
+	"NNW": "ΒΒΔ",
+
+	"FEELS": "Αίσθηση {DEGREE}",
+	"PRECIP_POP": "Πιθ. υετού",
+	"PRECIP_AMOUNT": "Ποσότητα υετού",
+
+	"MODULE_CONFIG_CHANGED": "Οι επιλογές διαμόρφωσης για το module {MODULE_NAME} έχουν αλλάξει.\nΕλέγξτε την τεκμηρίωση.",
+	"MODULE_CONFIG_ERROR": "Σφάλμα στο module {MODULE_NAME}. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "Λανθασμένη μορφή url.",
+	"MODULE_ERROR_NO_CONNECTION": "Δεν υπάρχει σύνδεση στο διαδίκτυο.",
+	"MODULE_ERROR_UNAUTHORIZED": "Η εξουσιοδότηση απέτυχε.",
+	"MODULE_ERROR_UNSPECIFIED": "Ελέγξτε τα αρχεία καταγραφής για περισσότερες λεπτομέρειες.",
+
+	"NEWSFEED_NO_ITEMS": "Δεν υπάρχουν ειδήσεις αυτή τη στιγμή.",
+
+	"UPDATE_NOTIFICATION": "Διατίθεται ενημέρωση MagicMirror².",
+	"UPDATE_NOTIFICATION_MODULE": "Διατίθεται ενημέρωση για το module {MODULE_NAME}.",
+	"UPDATE_INFO_SINGLE": "Η τρέχουσα εγκατάσταση είναι {COMMIT_COUNT} commit πίσω στο branch {BRANCH_NAME}.",
+	"UPDATE_INFO_MULTIPLE": "Η τρέχουσα εγκατάσταση είναι {COMMIT_COUNT} commit πίσω στο branch {BRANCH_NAME}",
+	"UPDATE_NOTIFICATION_DONE": "Η ενημέρωση ολοκληρώθηκε για το module {MODULE_NAME}",
+	"UPDATE_NOTIFICATION_ERROR": "Η ενημέρωση απέτυχε για το module {MODULE_NAME}",
+	"UPDATE_NOTIFICATION_NEED-RESTART": "Απαιτείται επανεκκίνηση του MagicMirror."
 }
