@@ -38,6 +38,13 @@ describe("Clock module", () => {
 			const timeRegex = /^(?:1[0-2]|[1-9]):[0-5]\d[0-5]\d[ap]m$/;
 			await expect(helpers.testMatch(".clock .time", timeRegex)).resolves.toBe(true);
 		});
+
+		it("check for discreet elements of clock", async () => {
+			let elemClock = helpers.waitForElement(".clock-hour-digital");
+			await expect(elemClock).not.toBeNull();
+			elemClock = helpers.waitForElement(".clock-minute-digital");
+			await expect(elemClock).not.toBeNull();
+		});
 	});
 
 	describe("with showPeriodUpper config enabled", () => {

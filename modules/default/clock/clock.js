@@ -23,7 +23,7 @@ Module.register("clock", {
 		analogFace: "simple", // options: 'none', 'simple', 'face-###' (where ### is 001 to 012 inclusive)
 		analogPlacement: "bottom", // options: 'top', 'bottom', 'left', 'right'
 		analogShowDate: "top", // OBSOLETE, can be replaced with analogPlacement and showTime, options: false, 'top', or 'bottom'
-		secondsColor: "#888888",
+		secondsColor: "#888888", // DEPRECATED, use CSS instead. Class "clock-second-digital" for digital clock, "clock-second" for analog clock.
 
 		showSunTimes: false,
 		showMoonTimes: false, // options: false, 'times' (rise/set), 'percent' (lit percent), 'phase' (current phase), or 'both' (percent & phase)
@@ -105,6 +105,8 @@ Module.register("clock", {
 		 */
 		const dateWrapper = document.createElement("div");
 		const timeWrapper = document.createElement("div");
+		const hoursWrapper = document.createElement("span");
+		const minutesWrapper = document.createElement("span");
 		const secondsWrapper = document.createElement("sup");
 		const periodWrapper = document.createElement("span");
 		const sunWrapper = document.createElement("div");
@@ -114,30 +116,17 @@ Module.register("clock", {
 		// Style Wrappers
 		dateWrapper.className = "date normal medium";
 		timeWrapper.className = "time bright large light";
-		secondsWrapper.className = "seconds dimmed";
+		hoursWrapper.className = "clock-hour-digital";
+		minutesWrapper.className = "clock-minute-digital";
+		secondsWrapper.className = "clock-second-digital dimmed";
 		sunWrapper.className = "sun dimmed small";
 		moonWrapper.className = "moon dimmed small";
 		weekWrapper.className = "week dimmed medium";
 
 		// Set content of wrappers.
-		// The moment().format("h") method has a bug on the Raspberry Pi.
-		// So we need to generate the timestring manually.
-		// See issue: https://github.com/MagicMirrorOrg/MagicMirror/issues/181
-		let timeString;
 		const now = moment();
 		if (this.config.timezone) {
 			now.tz(this.config.timezone);
-		}
-
-		let hourSymbol = "HH";
-		if (this.config.timeFormat !== 24) {
-			hourSymbol = "h";
-		}
-
-		if (this.config.clockBold) {
-			timeString = now.format(`${hourSymbol}[<span class="bold">]mm[</span>]`);
-		} else {
-			timeString = now.format(`${hourSymbol}:mm`);
 		}
 
 		if (this.config.showDate) {
@@ -146,7 +135,21 @@ Module.register("clock", {
 		}
 
 		if (this.config.displayType !== "analog" && this.config.showTime) {
-			timeWrapper.innerHTML = timeString;
+			let hourSymbol = "HH";
+			if (this.config.timeFormat !== 24) {
+				hourSymbol = "h";
+			}
+
+			hoursWrapper.innerHTML = now.format(hourSymbol);
+			minutesWrapper.innerHTML = now.format("mm");
+
+			timeWrapper.appendChild(hoursWrapper);
+			if (this.config.clockBold) {
+				minutesWrapper.classList.add("bold");
+			} else {
+				timeWrapper.innerHTML += ":";
+			}
+			timeWrapper.appendChild(minutesWrapper);
 			secondsWrapper.innerHTML = now.format("ss");
 			if (this.config.showPeriodUpper) {
 				periodWrapper.innerHTML = now.format("A");
@@ -267,7 +270,7 @@ Module.register("clock", {
 				clockSecond.id = "clock-second";
 				clockSecond.style.transform = `rotate(${second}deg)`;
 				clockSecond.className = "clock-second";
-				clockSecond.style.backgroundColor = this.config.secondsColor;
+				clockSecond.style.backgroundColor = this.config.secondsColor; /* DEPRECATED, to be removed in a future version , use CSS instead */
 				clockFace.appendChild(clockSecond);
 			}
 			analogWrapper.appendChild(clockFace);
