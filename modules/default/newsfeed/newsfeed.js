@@ -178,6 +178,18 @@ Module.register("newsfeed", {
 	},
 
 	/**
+	 * Gets a feed property by name
+	 * @param {object} feed A feed object.
+	 * @param {string} property The name of the property.
+	 */
+	getFeedProperty (feed, property) {
+		let res = this.config[property];
+		const f = this.config.feeds.find((feedItem) => feedItem.url === feed);
+		if (f && f[property]) res = f[property];
+		return res;
+	},
+
+	/**
 	 * Generate an ordered list of items for this configured module.
 	 * @param {object} feeds An object with feeds returned by the node helper.
 	 */
@@ -188,7 +200,7 @@ Module.register("newsfeed", {
 			if (this.subscribedToFeed(feed)) {
 				for (let item of feedItems) {
 					item.sourceTitle = this.titleForFeed(feed);
-					if (!(this.config.ignoreOldItems && Date.now() - new Date(item.pubdate) > this.config.ignoreOlderThan)) {
+					if (!(this.getFeedProperty(feed, "ignoreOldItems") && Date.now() - new Date(item.pubdate) > this.getFeedProperty(feed, "ignoreOlderThan"))) {
 						newsItems.push(item);
 					}
 				}
