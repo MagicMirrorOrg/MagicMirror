@@ -19,6 +19,7 @@ planned for 2025-04-01
 - Add Arabic (#3719) and Esperanto translation.
 - Mark option `secondsColor` as deprecated in clock module.
 - Add Greek translation to Alerts module.
+- [newsfeed] Add specific ignoreOlderThan value (override) per feed (#3360)
 
 ### Changed
 
