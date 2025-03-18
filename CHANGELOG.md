@@ -36,7 +36,7 @@ planned for 2025-04-01
 ### Updated
 
 - [core] Update dependencies incl. electron to v35 and formatting (#3593, #3693, #3717)
-- [core] Update ESLint and simplify config
+- [core] Update prettier, ESLint and simplify config
 - Update Greek translation
 
 ### Fixed

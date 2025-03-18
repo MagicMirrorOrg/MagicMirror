@@ -1,7 +1,7 @@
 import eslintPluginImport from "eslint-plugin-import";
 import eslintPluginJest from "eslint-plugin-jest";
 import eslintPluginJs from "@eslint/js";
-import eslintPluginPackageJson from "eslint-plugin-package-json/configs/recommended";
+import eslintPluginPackageJson from "eslint-plugin-package-json";
 import eslintPluginStylistic from "@stylistic/eslint-plugin";
 import globals from "globals";
 
@@ -9,7 +9,7 @@ const config = [
 	eslintPluginImport.flatConfigs.recommended,
 	eslintPluginJest.configs["flat/recommended"],
 	eslintPluginJs.configs.recommended,
-	eslintPluginPackageJson,
+	eslintPluginPackageJson.configs.recommended,
 	eslintPluginStylistic.configs.all,
 	{
 		files: ["**/*.js"],
