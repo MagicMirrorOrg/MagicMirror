@@ -8,7 +8,7 @@
                 {% if config.fade %}style="opacity: {{ currentStep | opacity(numSteps) }};"{% endif %}>
                 <td class="day">{{ hour.date | formatTime }}</td>
                 <td class="bright weather-icon">
-                    <i class="wi weathericon wi-{{ hour.weatherType }}"></i>
+                    <span class="wi weathericon wi-{{ hour.weatherType }}"></span>
                 </td>
                 <td class="align-right bright">
                     {{ hour.temperature | roundValue | unit("temperature") }}
@@ -21,10 +21,10 @@
                         {% endif %}
                     </td>
                 {% endif %}
-                {% if config.showHumidity %}
+                {% if config.showHumidity != "none" %}
                   <td class="align-left bright humidity-hourly">
                           {{ hour.humidity }}
-                          <i class="wi wi-humidity humidity-icon"></i>
+                          <span class="wi wi-humidity humidity-icon"></span>
                   </td>
                 {% endif %}
                 {% if config.showPrecipitationAmount %}
