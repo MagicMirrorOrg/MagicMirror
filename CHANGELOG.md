@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 planned for 2025-04-01
 
-> ⚠️ This release needs nodejs version `v20` or `v22 or higher`, minimum version is `v20.18.1`
+> ⚠️ This release needs nodejs version `v22.14.0 or higher`
 
 ### Added
 
@@ -35,7 +35,7 @@ planned for 2025-04-01
 
 ### Updated
 
-- [core] Update dependencies incl. electron to v35 and formatting (#3593, #3693, #3717)
+- [core] Update requirements and dependencies incl. electron to v35 and formatting (#3593, #3693, #3717)
 - [core] Update prettier, ESLint and simplify config
 - Update Greek translation
 
