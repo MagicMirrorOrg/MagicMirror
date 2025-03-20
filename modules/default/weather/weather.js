@@ -14,7 +14,8 @@ Module.register("weather", {
 		updateInterval: 10 * 60 * 1000, // every 10 minutes
 		animationSpeed: 1000,
 		showFeelsLike: true,
-		showHumidity: "none", // this is now a string; see current.njk
+		showHumidity: "none", // for current possible options are "none", "wind", "temp", "feelslike" or "below", for hourly "none" or "true"
+		hideZeroes: false, // hide zeroes (and empty columns) in hourly, currently only for precipitation
 		showIndoorHumidity: false,
 		showIndoorTemperature: false,
 		allowOverrideNotification: false,

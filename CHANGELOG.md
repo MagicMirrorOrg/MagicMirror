@@ -20,6 +20,8 @@ planned for 2025-04-01
 - Mark option `secondsColor` as deprecated in clock module.
 - Add Greek translation to Alerts module.
 - [newsfeed] Add specific ignoreOlderThan value (override) per feed (#3360)
+- [weather] Added option Humidity to hourly View
+- [weather] Added option to hide hourly entries that are Zero, hiding the entire column if empty.
 
 ### Changed
 
@@ -49,6 +51,7 @@ planned for 2025-04-01
 - [calendar] Fix NewYork event processed on system in Central timezone shows wrong time #3701
 - [weather/yr] The Yr weather provider is now able to recover from bad API responses instead of freezing (#3296)
 - [compliments] Fix evening events being shown during the day (#3727)
+- [weather] Fixed minor spacing issues when using UV Index in Hourly
 
 ## [2.30.0] - 2025-01-01
 
