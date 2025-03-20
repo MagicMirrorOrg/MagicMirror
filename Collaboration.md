@@ -34,7 +34,7 @@ Are done by
 - [ ] test `develop` branch
 - [ ] update `CHANGELOG.md`
   - [ ] add all contributor names: `...`
-  - [ ] add min. node version: > ⚠️ This release needs nodejs version `v20` or `v22`, minimum version is `v20.9.0`
+  - [ ] add min. node version: > ⚠️ This release needs nodejs version `v22.14.0` or higher
   - [ ] check release link at the bottom of the file
 - [ ] commit and push all changes
 - [ ] after successful test run via github actions: merge pull request to `develop`
