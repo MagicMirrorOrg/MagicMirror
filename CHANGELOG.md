@@ -30,6 +30,7 @@ planned for 2025-04-01
 - [weather/yr] The Yr weather provider now enforces a minimum `updateInterval` of 600 000 ms (10 minutes) to comply with the terms of service. If a lower value is set, it will be automatically increased to this minimum.
 - [weather/weatherflow] Fixed icons and added hourly support as well as UV, precipitation, and location name support.
 - [workflow] Run `sudo apt-get update` before installing packages to avoid install errors
+- [workflow] Exclude issues with label `ready (coming with next release)` from stale job
 
 ### Removed
 
