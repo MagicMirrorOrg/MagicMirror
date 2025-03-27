@@ -51,11 +51,7 @@ let config = {
 				imageHeight: "60%",
 		        
 		    }
-		},		
-		{
-			module: "streetmap",
-			position: "middle_center"
-	        },
+		},
 		{
 			module: "clock",
 			position: "top_left",
@@ -63,10 +59,6 @@ let config = {
 				timezone: "Europe/Brussels",
 			}
 		},
-		{
-			module: "greetings",
-			position: "lower_third"
-	        },
 		{
 			module: 'MMM-MQTTbridge',
 			disabled: false,
@@ -103,7 +95,15 @@ let config = {
 				apiKey: "f8b3c5d1e4b3a80422d92bdf820148e9",
 				colored: true
 			}
-		},
+		}, 
+		// {
+		// 	module: "streetmap",
+		// 	position: "middle_center"
+	    // },
+		{
+			module: "greetings",
+			position: "lower_third"
+	    },
 		{
 			module: "newsfeed",
 			position: "bottom_bar",
