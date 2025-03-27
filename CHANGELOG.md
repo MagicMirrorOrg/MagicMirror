@@ -50,6 +50,7 @@ planned for 2025-04-01
 - [calendar] Fix NewYork event processed on system in Central timezone shows wrong time #3701
 - [weather/yr] The Yr weather provider is now able to recover from bad API responses instead of freezing (#3296)
 - [compliments] Fix evening events being shown during the day (#3727)
+- [workflow] Fix command to run spellcheck
 
 ## [2.30.0] - 2025-01-01
 
