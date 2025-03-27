@@ -28,14 +28,14 @@
                   </td>
                 {% endif %}
                 {% if config.showPrecipitationAmount %}
-                  {% if (!config.hideZeroes or hour.precipitationAmount>0) %}
+                  {% if (not config.hideZeroes or hour.precipitationAmount>0) %}
                       <td class="align-right bright precipitation-amount">
                           {{ hour.precipitationAmount | unit("precip", hour.precipitationUnits) }}
                       </td>
                   {% endif %}
                 {% endif %}
                 {% if config.showPrecipitationProbability %}
-                  {% if (!config.hideZeroes or hour.precipitationAmount>0) %}
+                  {% if (not config.hideZeroes or hour.precipitationAmount>0) %}
                     <td class="align-right bright precipitation-prob">
                       {{ hour.precipitationProbability | unit('precip', '%') }}
                     </td>
