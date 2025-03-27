@@ -28,4 +28,4 @@ jobs:
         run: |
           npm run install-mm:dev
       - name: Run Spellcheck
-        run: npm run test:spellcheck
+        run: npm run test:spelling

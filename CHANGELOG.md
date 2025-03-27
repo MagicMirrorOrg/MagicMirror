@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 planned for 2025-04-01
 
-> ⚠️ This release needs nodejs version `v20` or `v22 or higher`, minimum version is `v20.18.1`
+> ⚠️ This release needs nodejs version `v22.14.0 or higher`
 
 ### Added
 
@@ -32,12 +32,13 @@ planned for 2025-04-01
 - [weather/yr] The Yr weather provider now enforces a minimum `updateInterval` of 600 000 ms (10 minutes) to comply with the terms of service. If a lower value is set, it will be automatically increased to this minimum.
 - [weather/weatherflow] Fixed icons and added hourly support as well as UV, precipitation, and location name support.
 - [workflow] Run `sudo apt-get update` before installing packages to avoid install errors
+- [workflow] Exclude issues with label `ready (coming with next release)` from stale job
 
 ### Removed
 
 ### Updated
 
-- [core] Update dependencies incl. electron to v35 and formatting (#3593, #3693, #3717)
+- [core] Update requirements and dependencies incl. electron to v35 and formatting (#3593, #3693, #3717)
 - [core] Update prettier, ESLint and simplify config
 - Update Greek translation
 
@@ -52,6 +53,7 @@ planned for 2025-04-01
 - [weather/yr] The Yr weather provider is now able to recover from bad API responses instead of freezing (#3296)
 - [compliments] Fix evening events being shown during the day (#3727)
 - [weather] Fixed minor spacing issues when using UV Index in Hourly
+- [workflow] Fix command to run spellcheck
 
 ## [2.30.0] - 2025-01-01
 
