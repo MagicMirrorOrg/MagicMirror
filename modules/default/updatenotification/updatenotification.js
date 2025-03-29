@@ -6,7 +6,8 @@ Module.register("updatenotification", {
 		sendUpdatesNotifications: false,
 		updates: [],
 		updateTimeout: 2 * 60 * 1000, // max update duration
-		updateAutorestart: false // autoRestart MM when update done ?
+		updateAutorestart: false, // autoRestart MM when update done ?
+		useModulesFromConfig: true // if `false` iterate over modules directory
 	},
 
 	suspended: false,
