@@ -22,6 +22,7 @@ planned for 2025-04-01
 - [newsfeed] Add specific ignoreOlderThan value (override) per feed (#3360)
 - [weather] Added option Humidity to hourly View
 - [weather] Added option to hide hourly entries that are Zero, hiding the entire column if empty.
+- [updatenotification] Added option to iterate over modules directory instead using modules defined in `config.js` (#3739)
 
 ### Changed
 
