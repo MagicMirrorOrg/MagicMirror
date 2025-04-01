@@ -23,6 +23,10 @@ WeatherProvider.register("yr", {
 			Log.error("The Yr weather provider requires local storage.");
 			throw new Error("Local storage not available");
 		}
+		if (this.config.updateInterval < 600000) {
+			Log.warn("The Yr weather provider requires a minimum update interval of 10 minutes (600 000 ms). The configuration has been adjusted to meet this requirement.");
+			this.delegate.config.updateInterval = 600000;
+		}
 		Log.info(`Weather provider: ${this.providerName} started.`);
 	},
 
@@ -34,7 +38,7 @@ WeatherProvider.register("yr", {
 			})
 			.catch((error) => {
 				Log.error(error);
-				throw new Error(error);
+				this.updateAvailable();
 			});
 	},
 
@@ -119,7 +123,12 @@ WeatherProvider.register("yr", {
 				})
 				.catch((err) => {
 					Log.error(err);
-					reject("Unable to get weather data from Yr.");
+					if (weatherData) {
+						Log.warn("Using outdated cached weather data.");
+						resolve(weatherData);
+					} else {
+						reject("Unable to get weather data from Yr.");
+					}
 				})
 				.finally(() => {
 					localStorage.removeItem("yrIsFetchingWeatherData");
@@ -497,7 +506,7 @@ WeatherProvider.register("yr", {
 			})
 			.catch((error) => {
 				Log.error(error);
-				throw new Error(error);
+				this.updateAvailable();
 			});
 	},
 
@@ -530,7 +539,15 @@ WeatherProvider.register("yr", {
 	getHourlyForecastFrom (weatherData) {
 		const series = [];
 
+		const now = moment({
+			year: moment().year(),
+			month: moment().month(),
+			day: moment().date(),
+			hour: moment().hour()
+		});
 		for (const forecast of weatherData.properties.timeseries) {
+			if (now.isAfter(moment(forecast.time))) continue;
+
 			forecast.symbol = forecast.data.next_1_hours?.summary?.symbol_code;
 			forecast.precipitationAmount = forecast.data.next_1_hours?.details?.precipitation_amount;
 			forecast.precipitationProbability = forecast.data.next_1_hours?.details?.probability_of_precipitation;
@@ -600,7 +617,7 @@ WeatherProvider.register("yr", {
 			})
 			.catch((error) => {
 				Log.error(error);
-				throw new Error(error);
+				this.updateAvailable();
 			});
 	}
 });

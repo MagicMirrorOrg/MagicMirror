@@ -139,12 +139,17 @@ Module.register("compliments", {
 		let compliments = [];
 
 		// Add time of day compliments
-		if (hour >= this.config.morningStartTime && hour < this.config.morningEndTime && this.config.compliments.hasOwnProperty("morning")) {
-			compliments = [...this.config.compliments.morning];
-		} else if (hour >= this.config.afternoonStartTime && hour < this.config.afternoonEndTime && this.config.compliments.hasOwnProperty("afternoon")) {
-			compliments = [...this.config.compliments.afternoon];
-		} else if (this.config.compliments.hasOwnProperty("evening")) {
-			compliments = [...this.config.compliments.evening];
+		let timeOfDay;
+		if (hour >= this.config.morningStartTime && hour < this.config.morningEndTime) {
+			timeOfDay = "morning";
+		} else if (hour >= this.config.afternoonStartTime && hour < this.config.afternoonEndTime) {
+			timeOfDay = "afternoon";
+		} else {
+			timeOfDay = "evening";
+		}
+
+		if (timeOfDay && this.config.compliments.hasOwnProperty(timeOfDay)) {
+			compliments = [...this.config.compliments[timeOfDay]];
 		}
 
 		// Add compliments based on weather

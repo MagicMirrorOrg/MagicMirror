@@ -7,6 +7,55 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/#donate) With your help we can continue to improve the MagicMirror².
 
+## [2.31.0] - 2025-04-01
+
+Thanks to: @Developer-Incoming, @eltociear, @geraki, @khassel, @KristjanESPERANTO, @MagMar94, @mixasgr, @n8many, @OWL4C, @rejas, @savvadam, @sdetweil.
+
+> ⚠️ This release needs nodejs version `v22.14.0 or higher`
+
+### Added
+
+- Add CSS support to the digital clock hour/minute/second through the use of the classes `clock-hour-digital`, `clock-minute-digital`, and `clock-second-digital`.
+- Add Arabic (#3719) and Esperanto translation.
+- Mark option `secondsColor` as deprecated in clock module.
+- Add Greek translation to Alerts module.
+- [newsfeed] Add specific ignoreOlderThan value (override) per feed (#3360)
+- [weather] Added option Humidity to hourly View
+- [weather] Added option to hide hourly entries that are Zero, hiding the entire column if empty.
+- [updatenotification] Added option to iterate over modules directory instead using modules defined in `config.js` (#3739)
+
+### Changed
+
+- [core] starting clientonly now checks for needed env var `WAYLAND_DISPLAY` or `DISPLAY` and starts electron with needed parameters (if both are set wayland is used) (#3677)
+- [core] Optimize systeminformation calls and output (#3689)
+- [core] Add issue templates for feature requests and bug reports (#3695)
+- [core] Adapt `start:x11:dev` script
+- [weather/yr] The Yr weather provider now enforces a minimum `updateInterval` of 600 000 ms (10 minutes) to comply with the terms of service. If a lower value is set, it will be automatically increased to this minimum.
+- [weather/weatherflow] Fixed icons and added hourly support as well as UV, precipitation, and location name support.
+- [workflow] Run `sudo apt-get update` before installing packages to avoid install errors
+- [workflow] Exclude issues with label `ready (coming with next release)` from stale job
+
+### Removed
+
+### Updated
+
+- [core] Update requirements and dependencies including electron to v35 and formatting (#3593, #3693, #3717)
+- [core] Update prettier, ESLint and simplify config
+- Update Greek translation
+
+### Fixed
+
+- [calendar] Fix clipping events being broadcast (#3678)
+- [tests] Fix Electron tests by running them under new github image ubuntu-24.04, replace xserver with labwc, running under xserver and labwc depending on env variable WAYLAND_DISPLAY is set (#3676)
+- [calendar] Fix arrayed symbols, #3267, again, add testcase, add testcase for #3678
+- [weather] Fix wrong weatherCondition name in openmeteo provider which lead to n/a icon (#3691)
+- [core] Fix wrong port in log message when starting server only (#3696)
+- [calendar] Fix NewYork event processed on system in Central timezone shows wrong time #3701
+- [weather/yr] The Yr weather provider is now able to recover from bad API responses instead of freezing (#3296)
+- [compliments] Fix evening events being shown during the day (#3727)
+- [weather] Fixed minor spacing issues when using UV Index in Hourly
+- [workflow] Fix command to run spellcheck
+
 ## [2.30.0] - 2025-01-01
 
 Thanks to: @xsorifc28, @HeikoGr, @bugsounet, @khassel, @KristjanESPERANTO, @rejas, @sdetweil.
@@ -24,7 +73,7 @@ Thanks to: @xsorifc28, @HeikoGr, @bugsounet, @khassel, @KristjanESPERANTO, @reja
 - [linter] Re-add `eslint-plugin-import`now that it supports ESLint v9 (#3586)
 - [linter] Re-activate `eslint-plugin-package-json` to lint `package.json` (#3643)
 - [linter] Add linting for markdown files (#3646)
-- [linter] Add some handy ESLint rules.
+- [linter] Add some handy ESLint rules (#3665)
 - [calendar] Add ability to display end date for full date events, where end is not same day (showEnd=true) (#3650)
 - [core] Add text to the config.js.sample file about the locale variable (#3654, #3655)
 - [core] Add fetch timeout for all node_helpers (thru undici, forces node 20.18.1 minimum) to help on slower systems. (#3660) (3661)
@@ -103,7 +152,7 @@ Thanks to: @bugsounet, @dkallen78, @jargordon, @khassel, @KristjanESPERANTO, @Ma
 - [core] Detail optimizations in `config_check.js`
 - [core] Updated minimal needed node version in `package.json` (currently v20.9.0) (#3559) and except for v21 (no security updates) (#3561)
 - [linter] Switch to ESLint v9 and flat config and replace `eslint-plugin-unicorn` by `@eslint/js`
-- [core] fix discovering module positions twice after #3450
+- [core] Fix discovering module positions twice after #3450
 
 ### Fixed
 
@@ -167,7 +216,7 @@ For more info, please read the following post: [A New Chapter for MagicMirror: T
 
 ### Updated
 
-- Update updatenotification (update_helper.js): Recode with pm2 library (#3332)
+- [updatenotification] Recode update_helper.js with pm2 library (#3332)
 - Removing lodash dependency by replacing merge by spread operator (#3339)
 - Use node prefix for build-in modules (#3340)
 - Rework logging colors (#3350)
@@ -1671,6 +1720,7 @@ It includes (but is not limited to) the following features:
 
 This was part of the blogpost: [https://michaelteeuw.nl/post/83916869600/magic-mirror-part-vi-production-of-the](https://michaelteeuw.nl/post/83916869600/magic-mirror-part-vi-production-of-the)
 
+[2.31.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.30.0...v2.31.0
 [2.30.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.29.0...v2.30.0
 [2.29.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.28.0...v2.29.0
 [2.28.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.27.0...v2.28.0

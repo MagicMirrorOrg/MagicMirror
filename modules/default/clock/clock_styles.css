@@ -78,7 +78,12 @@
   left: 50%;
   margin: -38% -1px 0 0; /* numbers must match negative length & thickness */
   padding: 38% 1px 0 0; /* indicator length & thickness */
-  background: var(--color-text);
+
+  /* background: #888888 !important; */
+
+  /* use this instead of secondsColor */
+
+  /* have to use !important, because the code explicitly sets the color currently */
   transform-origin: 50% 100%;
 }
 
@@ -90,4 +95,16 @@
 .module.clock .sun > *,
 .module.clock .moon > * {
   flex: 1;
+}
+
+.module.clock .clock-hour-digital {
+  color: var(--color-text-bright);
+}
+
+.module.clock .clock-minute-digital {
+  color: var(--color-text-bright);
+}
+
+.module.clock .clock-second-digital {
+  color: var(--color-text-dimmed);
 }

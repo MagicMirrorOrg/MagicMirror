@@ -19,4 +19,4 @@ jobs:
           days-before-issue-close: 7
           operations-per-run: 100
           stale-issue-label: "wontfix"
-          exempt-issue-labels: "pinned,security,under investigation,pr welcome"
+          exempt-issue-labels: "pinned,security,under investigation,pr welcome,ready (coming with next release)"

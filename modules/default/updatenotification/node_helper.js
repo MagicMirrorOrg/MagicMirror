@@ -1,3 +1,5 @@
+const fs = require("node:fs");
+const path = require("node:path");
 const NodeHelper = require("node_helper");
 const defaultModules = require("../defaultmodules");
 const GitHelper = require("./git_helper");
@@ -14,8 +16,23 @@ module.exports = NodeHelper.create({
 	gitHelper: new GitHelper(),
 	updateHelper: null,
 
+	getModules (modules) {
+		if (this.config.useModulesFromConfig) {
+			return modules;
+		} else {
+			// get modules from modules-directory
+			const moduleDir = path.normalize(`${__dirname}/../../`);
+			const getDirectories = (source) => {
+				return fs.readdirSync(source, { withFileTypes: true })
+					.filter((dirent) => dirent.isDirectory() && dirent.name !== "default")
+					.map((dirent) => dirent.name);
+			};
+			return getDirectories(moduleDir);
+		}
+	},
+
 	async configureModules (modules) {
-		for (const moduleName of modules) {
+		for (const moduleName of this.getModules(modules)) {
 			if (!this.ignoreUpdateChecking(moduleName)) {
 				await this.gitHelper.add(moduleName);
 			}

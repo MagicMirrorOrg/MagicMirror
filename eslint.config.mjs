@@ -1,14 +1,16 @@
 import eslintPluginImport from "eslint-plugin-import";
 import eslintPluginJest from "eslint-plugin-jest";
 import eslintPluginJs from "@eslint/js";
-import eslintPluginPackageJson from "eslint-plugin-package-json/configs/recommended";
+import eslintPluginPackageJson from "eslint-plugin-package-json";
 import eslintPluginStylistic from "@stylistic/eslint-plugin";
 import globals from "globals";
 
 const config = [
-	eslintPluginJs.configs.recommended,
 	eslintPluginImport.flatConfigs.recommended,
-	eslintPluginPackageJson,
+	eslintPluginJest.configs["flat/recommended"],
+	eslintPluginJs.configs.recommended,
+	eslintPluginPackageJson.configs.recommended,
+	eslintPluginStylistic.configs.all,
 	{
 		files: ["**/*.js"],
 		languageOptions: {
@@ -24,13 +26,7 @@ const config = [
 				moment: "readonly"
 			}
 		},
-		plugins: {
-			...eslintPluginStylistic.configs["all-flat"].plugins,
-			...eslintPluginJest.configs["flat/recommended"].plugins
-		},
 		rules: {
-			...eslintPluginStylistic.configs["all-flat"].rules,
-			...eslintPluginJest.configs["flat/recommended"].rules,
 			"@stylistic/array-element-newline": ["error", "consistent"],
 			"@stylistic/arrow-parens": ["error", "always"],
 			"@stylistic/brace-style": "off",
@@ -99,11 +95,7 @@ const config = [
 			},
 			sourceType: "module"
 		},
-		plugins: {
-			...eslintPluginStylistic.configs["all-flat"].plugins
-		},
 		rules: {
-			...eslintPluginStylistic.configs["all-flat"].rules,
 			"@stylistic/array-element-newline": "off",
 			"@stylistic/indent": ["error", "tab"],
 			"@stylistic/padded-blocks": ["error", "never"],

@@ -470,7 +470,7 @@ WeatherProvider.register("openmeteo", {
 			61: "rain-slight-intensity",
 			63: "rain-moderate-intensity",
 			65: "rain-heavy-intensity",
-			66: "freezing-rain-light-heavy-intensity",
+			66: "freezing-rain-light-intensity",
 			67: "freezing-rain-heavy-intensity",
 			71: "snow-fall-slight-intensity",
 			73: "snow-fall-moderate-intensity",

@@ -128,14 +128,14 @@ const WeatherUtils = {
 		} else if (tempInF > 80 && humidity > 40) {
 			feelsLike
 				= -42.379
-				+ 2.04901523 * tempInF
-				+ 10.14333127 * humidity
-				- 0.22475541 * tempInF * humidity
-				- 6.83783 * Math.pow(10, -3) * tempInF * tempInF
-				- 5.481717 * Math.pow(10, -2) * humidity * humidity
-				+ 1.22874 * Math.pow(10, -3) * tempInF * tempInF * humidity
-				+ 8.5282 * Math.pow(10, -4) * tempInF * humidity * humidity
-				- 1.99 * Math.pow(10, -6) * tempInF * tempInF * humidity * humidity;
+				  + 2.04901523 * tempInF
+				  + 10.14333127 * humidity
+				  - 0.22475541 * tempInF * humidity
+				  - 6.83783 * Math.pow(10, -3) * tempInF * tempInF
+				  - 5.481717 * Math.pow(10, -2) * humidity * humidity
+				  + 1.22874 * Math.pow(10, -3) * tempInF * tempInF * humidity
+				  + 8.5282 * Math.pow(10, -4) * tempInF * humidity * humidity
+				  - 1.99 * Math.pow(10, -6) * tempInF * tempInF * humidity * humidity;
 		}
 
 		return ((feelsLike - 32) * 5) / 9;
