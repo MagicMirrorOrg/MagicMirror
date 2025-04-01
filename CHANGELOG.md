@@ -216,7 +216,7 @@ For more info, please read the following post: [A New Chapter for MagicMirror: T
 
 ### Updated
 
-- Update updatenotification (update_helper.js): Recode with pm2 library (#3332)
+- [updatenotification] Recode update_helper.js with pm2 library (#3332)
 - Removing lodash dependency by replacing merge by spread operator (#3339)
 - Use node prefix for build-in modules (#3340)
 - Rework logging colors (#3350)
