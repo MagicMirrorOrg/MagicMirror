@@ -30,14 +30,16 @@ Are done by
 ### Deployment steps
 
 - [ ] pull latest `develop` branch
-- [ ] update `package.json` and `package-lock.json` to reflect correct version number `2.xx.0`
-- [ ] test `develop` branch
-- [ ] update `CHANGELOG.md`
-  - [ ] add all contributor names: `...`
-  - [ ] add min. node version: > ⚠️ This release needs nodejs version `v22.14.0` or higher
-  - [ ] check release link at the bottom of the file
-- [ ] commit and push all changes
-- [ ] after successful test run via github actions: merge pull request to `develop`
+- [ ] create `prep-release` branch from `develop`
+  - [ ] update `package.json` and `package-lock.json` to reflect correct version number `2.xx.0`
+  - [ ] test `prep-release` branch
+  - [ ] update `CHANGELOG.md`
+    - [ ] add all contributor names: `...`
+    - [ ] add min. node version: > ⚠️ This release needs nodejs version `v22.14.0` or higher
+    - [ ] check release link at the bottom of the file
+  - [ ] commit and push all changes
+  - [ ] create pull request from `prep-release` to `develop` branch
+  - [ ] after successful test run via github actions: merge pull request to `develop`
 - [ ] after successful test run via github actions: create pull request from `develop` to `master` branch
   - [ ] add label `mastermerge`
   - [ ] title of the PR is `Release 2.xx.0`
