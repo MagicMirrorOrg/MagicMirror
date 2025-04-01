@@ -38,7 +38,7 @@ Are done by
     - [ ] add min. node version: > ⚠️ This release needs nodejs version `v22.14.0` or higher
     - [ ] check release link at the bottom of the file
   - [ ] commit and push all changes
-  - [ ] create pull request from `prep-release` to `develop` branch
+  - [ ] create pull request from `prep-release` to `develop` branch with title `Prepare Release 2.xx.0`
   - [ ] after successful test run via github actions: merge pull request to `develop`
 - [ ] after successful test run via github actions: create pull request from `develop` to `master` branch
   - [ ] add label `mastermerge`
