@@ -13,7 +13,7 @@ planned for 2025-07-01
 
 ### Added
 
-- [config] Allow to change module order for final renderer (or dynamicaly with CSS): Feature `order` in config. (#xxxx)
+- [config] Allow to change module order for final renderer (or dynamicaly with CSS): Feature `order` in config. (#3762)
 
 ### Changed
 
