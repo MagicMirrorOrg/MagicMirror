@@ -108,7 +108,8 @@ const Loader = (function () {
 				header: moduleData.header,
 				configDeepMerge: typeof moduleData.configDeepMerge === "boolean" ? moduleData.configDeepMerge : false,
 				config: moduleData.config,
-				classes: typeof moduleData.classes !== "undefined" ? `${moduleData.classes} ${module}` : module
+				classes: typeof moduleData.classes !== "undefined" ? `${moduleData.classes} ${module}` : module,
+				order: (typeof moduleData.order === "number" && Number.isInteger(moduleData.order)) ? moduleData.order : 0
 			});
 		});
 

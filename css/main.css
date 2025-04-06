@@ -239,3 +239,16 @@ sup {
   border-spacing: 0;
   border-collapse: separate;
 }
+
+/**
+ * Container Definitions.
+ */
+
+.region .container {
+  display: flex;
+  flex-direction: column;
+}
+
+.region .container.hidden {
+  display: none;
+}

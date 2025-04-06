@@ -30,6 +30,8 @@ const MM = (function () {
 				dom.className = `module ${dom.className} ${module.data.classes}`;
 			}
 
+			dom.style.order = (typeof module.data.order === "number" && Number.isInteger(module.data.order)) ? module.data.order : 0;
+
 			dom.opacity = 0;
 			wrapper.appendChild(dom);
 
@@ -463,7 +465,8 @@ const MM = (function () {
 				}
 			});
 
-			wrapper.style.display = showWrapper ? "block" : "none";
+			// move container definitions to main CSS
+			wrapper.className = showWrapper ? "container" : "container hidden";
 		});
 	};
 
