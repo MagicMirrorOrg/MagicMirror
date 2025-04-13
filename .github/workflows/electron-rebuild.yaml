@@ -18,7 +18,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           check-latest: true
       - name: Install MagicMirror
-        run: npm run install-mm
+        run: node --run install-mm
       - name: Install @electron/rebuild
         run: npm install @electron/rebuild
       - name: Install node-libgpiod deps
