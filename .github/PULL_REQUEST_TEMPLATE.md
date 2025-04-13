@@ -10,7 +10,7 @@ Hello and thank you for wanting to contribute to the MagicMirror² project!
 > - What does the pull request accomplish? Use a list if needed.
 > - If it includes major visual changes please add screenshots.
 >
-> 3. Please run `npm run lint:prettier` before submitting so that
+> 3. Please run `node --run lint:prettier` before submitting so that
 >    style issues are fixed.
 > 4. Don't forget to add an entry about your changes to
 >    the CHANGELOG.md file.

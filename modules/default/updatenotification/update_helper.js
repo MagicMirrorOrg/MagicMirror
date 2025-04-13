@@ -133,10 +133,10 @@ class Updater {
 		});
 	}
 
-	// restart rules (pm2 or npm start)
+	// restart rules (pm2 or node --run start)
 	restart () {
 		if (this.usePM2) this.pm2Restart();
-		else this.npmRestart();
+		else this.nodeRestart();
 	}
 
 	// restart MagicMiror with "pm2": use PM2Id for restart it
@@ -150,12 +150,12 @@ class Updater {
 		});
 	}
 
-	// restart MagicMiror with "npm start"
-	npmRestart () {
+	// restart MagicMiror with "node --run start"
+	nodeRestart () {
 		Log.info("updatenotification: Restarting MagicMirror...");
 		const out = process.stdout;
 		const err = process.stderr;
-		const subprocess = Spawn("npm start", { cwd: this.root_path, shell: true, detached: true, stdio: ["ignore", out, err] });
+		const subprocess = Spawn("node --run start", { cwd: this.root_path, shell: true, detached: true, stdio: ["ignore", out, err] });
 		subprocess.unref(); // detach the newly launched process from the master process
 		process.exit();
 	}

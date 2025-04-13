@@ -26,13 +26,13 @@ jobs:
           cache: "npm"
       - name: "Install dependencies"
         run: |
-          npm run install-mm:dev
+          node --run install-mm:dev
       - name: "Run linter tests"
         run: |
-          npm run test:prettier
-          npm run test:js
-          npm run test:css
-          npm run test:markdown
+          node --run test:prettier
+          node --run test:js
+          node --run test:css
+          node --run test:markdown
   test:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
@@ -54,7 +54,7 @@ jobs:
           cache: "npm"
       - name: "Install MagicMirror²"
         run: |
-          npm run install-mm:dev
+          node --run install-mm:dev
       - name: "Run tests"
         run: |
           # Fix chrome-sandbox permissions:
@@ -64,4 +64,4 @@ jobs:
           WLR_BACKENDS=headless WLR_LIBINPUT_NO_DEVICES=1 WLR_RENDERER=pixman labwc &
           export WAYLAND_DISPLAY=wayland-0
           touch css/custom.css
-          npm run test
+          node --run test
