@@ -13,6 +13,7 @@ planned for 2025-07-01
 
 ### Changed
 
+- [refactor] Simplify module loading process (#3766)
 - Use "node --run" instead of "npm run" (#1511)
 
 ## [2.31.0] - 2025-04-01
@@ -34,7 +35,7 @@ Thanks to: @Developer-Incoming, @eltociear, @geraki, @khassel, @KristjanESPERANT
 
 ### Changed
 
-- [core] starting clientonly now checks for needed env var `WAYLAND_DISPLAY` or `DISPLAY` and starts electron with needed parameters (if both are set wayland is used) (#3677)
+- [core] Starting clientonly now checks for needed env var `WAYLAND_DISPLAY` or `DISPLAY` and starts electron with needed parameters (if both are set wayland is used) (#3677)
 - [core] Optimize systeminformation calls and output (#3689)
 - [core] Add issue templates for feature requests and bug reports (#3695)
 - [core] Adapt `start:x11:dev` script
