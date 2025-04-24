@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 planned for 2025-07-01
 
+### Added
+
+- [clock] Added option showSunNextEvent to show/hide next sun event.
+
 ### Changed
 
 - [refactor] Simplify module loading process

@@ -26,6 +26,7 @@ Module.register("clock", {
 		secondsColor: "#888888", // DEPRECATED, use CSS instead. Class "clock-second-digital" for digital clock, "clock-second" for analog clock.
 
 		showSunTimes: false,
+		showSunNextEvent: true,
 		showMoonTimes: false, // options: false, 'times' (rise/set), 'percent' (lit percent), 'phase' (current phase), or 'both' (percent & phase)
 		lat: 47.630539,
 		lon: -122.344147
@@ -171,21 +172,28 @@ Module.register("clock", {
 		if (this.config.showSunTimes) {
 			const sunTimes = SunCalc.getTimes(now, this.config.lat, this.config.lon);
 			const isVisible = now.isBetween(sunTimes.sunrise, sunTimes.sunset);
-			let nextEvent;
-			if (now.isBefore(sunTimes.sunrise)) {
-				nextEvent = sunTimes.sunrise;
-			} else if (now.isBefore(sunTimes.sunset)) {
-				nextEvent = sunTimes.sunset;
-			} else {
-				const tomorrowSunTimes = SunCalc.getTimes(now.clone().add(1, "day"), this.config.lat, this.config.lon);
-				nextEvent = tomorrowSunTimes.sunrise;
+			let sunWrapperInnerHTML = "";
+
+			if (this.config.showSunNextEvent) {
+				let nextEvent;
+				if (now.isBefore(sunTimes.sunrise)) {
+					nextEvent = sunTimes.sunrise;
+				} else if (now.isBefore(sunTimes.sunset)) {
+					nextEvent = sunTimes.sunset;
+				} else {
+					const tomorrowSunTimes = SunCalc.getTimes(now.clone().add(1, "day"), this.config.lat, this.config.lon);
+					nextEvent = tomorrowSunTimes.sunrise;
+				}
+				const untilNextEvent = moment.duration(moment(nextEvent).diff(now));
+				const untilNextEventString = `${untilNextEvent.hours()}h ${untilNextEvent.minutes()}m`;
+
+				sunWrapperInnerHTML = `<span class="${isVisible ? "bright" : ""}"><i class="fas fa-sun" aria-hidden="true"></i> ${untilNextEventString}</span>`;
 			}
-			const untilNextEvent = moment.duration(moment(nextEvent).diff(now));
-			const untilNextEventString = `${untilNextEvent.hours()}h ${untilNextEvent.minutes()}m`;
-			sunWrapper.innerHTML
-				= `<span class="${isVisible ? "bright" : ""}"><i class="fas fa-sun" aria-hidden="true"></i> ${untilNextEventString}</span>`
-				  + `<span><i class="fas fa-arrow-up" aria-hidden="true"></i> ${formatTime(this.config, sunTimes.sunrise)}</span>`
-				  + `<span><i class="fas fa-arrow-down" aria-hidden="true"></i> ${formatTime(this.config, sunTimes.sunset)}</span>`;
+
+			sunWrapperInnerHTML += `<span><i class="fas fa-arrow-up" aria-hidden="true"></i> ${formatTime(this.config, sunTimes.sunrise)}</span>`
+			  + `<span><i class="fas fa-arrow-down" aria-hidden="true"></i> ${formatTime(this.config, sunTimes.sunset)}</span>`;
+
+			sunWrapper.innerHTML = sunWrapperInnerHTML;
 			digitalWrapper.appendChild(sunWrapper);
 		}
 

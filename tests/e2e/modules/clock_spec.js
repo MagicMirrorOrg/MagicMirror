@@ -92,11 +92,29 @@ describe("Clock module", () => {
 		it("should show the sun times", async () => {
 			const elem = await helpers.waitForElement(".clock .digital .sun");
 			expect(elem).not.toBeNull();
+
+			const elem2 = await helpers.waitForElement(".clock .digital .sun .fas.fa-sun");
+			expect(elem2).not.toBeNull();
 		});
 
 		it("should show the moon times", async () => {
 			const elem = await helpers.waitForElement(".clock .digital .moon");
 			expect(elem).not.toBeNull();
+		});
+	});
+
+	describe("with showSunNextEvent disabled", () => {
+		beforeAll(async () => {
+			await helpers.startApplication("tests/configs/modules/clock/clock_showSunNoEvent.js");
+			await helpers.getDocument();
+		});
+
+		it("should show the sun times", async () => {
+			const elem = await helpers.waitForElement(".clock .digital .sun");
+			expect(elem).not.toBeNull();
+
+			const elem2 = document.querySelector(".clock .digital .sun .fas.fa-sun");
+			expect(elem2).toBeNull();
 		});
 	});
 
