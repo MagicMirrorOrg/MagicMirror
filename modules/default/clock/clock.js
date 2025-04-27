@@ -25,8 +25,7 @@ Module.register("clock", {
 		analogShowDate: "top", // OBSOLETE, can be replaced with analogPlacement and showTime, options: false, 'top', or 'bottom'
 		secondsColor: "#888888", // DEPRECATED, use CSS instead. Class "clock-second-digital" for digital clock, "clock-second" for analog clock.
 
-		showSunTimes: false,
-		showSunNextEvent: true,
+		showSunTimes: false, // options: true, false, 'disableNextEvent'
 		showMoonTimes: false, // options: false, 'times' (rise/set), 'percent' (lit percent), 'phase' (current phase), or 'both' (percent & phase)
 		lat: 47.630539,
 		lon: -122.344147
@@ -174,7 +173,7 @@ Module.register("clock", {
 			const isVisible = now.isBetween(sunTimes.sunrise, sunTimes.sunset);
 			let sunWrapperInnerHTML = "";
 
-			if (this.config.showSunNextEvent) {
+			if (this.config.showSunTimes !== "disableNextEvent") {
 				let nextEvent;
 				if (now.isBefore(sunTimes.sunrise)) {
 					nextEvent = sunTimes.sunrise;

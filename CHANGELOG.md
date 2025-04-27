@@ -13,7 +13,7 @@ planned for 2025-07-01
 
 ### Added
 
-- [clock] Added option showSunNextEvent to show/hide next sun event.
+- [clock] Added option 'disableNextEvent' to hide next sun event.
 
 ### Changed
 

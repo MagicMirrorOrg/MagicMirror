@@ -8,8 +8,7 @@ let config = {
 			module: "clock",
 			position: "middle_center",
 			config: {
-				showSunTimes: true,
-				showSunNextEvent: false
+				showSunTimes: "disableNextEvent"
 			}
 		}
 	]
