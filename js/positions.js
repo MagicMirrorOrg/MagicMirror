@@ -1,0 +1,1 @@
+const modulePositions=["fullscreen_below","top_bar","top_left","top_center","top_right","upper_third","middle_center","lower_third","bottom_bar","bottom_left","bottom_center","bottom_right","fullscreen_above"]
