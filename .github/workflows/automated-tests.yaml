@@ -22,7 +22,7 @@ jobs:
       - name: "Use Node.js"
         uses: actions/setup-node@v4
         with:
-          node-version: 23
+          node-version: lts/*
           cache: "npm"
       - name: "Install dependencies"
         run: |
@@ -55,7 +55,7 @@ jobs:
       - name: "Install MagicMirror²"
         run: |
           node --run install-mm:dev
-      - name: "Run tests"
+      - name: "Prepare environment for tests"
         run: |
           # Fix chrome-sandbox permissions:
           sudo chown root:root ./node_modules/electron/dist/chrome-sandbox
@@ -64,4 +64,6 @@ jobs:
           WLR_BACKENDS=headless WLR_LIBINPUT_NO_DEVICES=1 WLR_RENDERER=pixman labwc &
           export WAYLAND_DISPLAY=wayland-0
           touch css/custom.css
+      - name: "Run tests"
+        run: |
           node --run test

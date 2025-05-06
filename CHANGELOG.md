@@ -18,7 +18,9 @@ planned for 2025-07-01
 ### Changed
 
 - [refactor] Simplify module loading process (#3766)
-- Use "node --run" instead of "npm run" (#1511)
+- Use "node --run" instead of "npm run" (#3764)
+- [workflow] Run linter und spellcheck with LTS node version (#3767)
+- [workflow] Split "Run test" step into two steps for more clarity (#3767)
 
 ## [2.31.0] - 2025-04-01
 
