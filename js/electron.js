@@ -112,7 +112,7 @@ function createWindow () {
 	const port = process.env.MM_PORT || config.port;
 	mainWindow.loadURL(`${prefix}${address}:${port}`);
 
-	// Open the DevTools if run with "npm start dev"
+	// Open the DevTools if run with "node --run start:dev"
 	if (process.argv.includes("dev")) {
 		if (process.env.JEST_WORKER_ID !== undefined) {
 			// if we are running with jest
