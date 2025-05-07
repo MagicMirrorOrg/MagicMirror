@@ -37,7 +37,7 @@
 		"prepare": "[ -f node_modules/.bin/husky ] && husky || echo no husky installed.",
 		"server": "node ./serveronly",
 		"start": "node --run start:x11",
-		"start:dev": "node --run start -- dev",
+		"start:dev": "node --run start:x11 -- dev",
 		"start:wayland": "WAYLAND_DISPLAY=\"${WAYLAND_DISPLAY:=wayland-1}\" ./node_modules/.bin/electron js/electron.js --enable-features=UseOzonePlatform --ozone-platform=wayland",
 		"start:wayland:dev": "node --run start:wayland -- dev",
 		"start:windows": ".\\node_modules\\.bin\\electron js\\electron.js",
