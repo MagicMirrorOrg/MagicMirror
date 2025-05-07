@@ -21,11 +21,11 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: lts/*
           check-latest: true
           cache: "npm"
       - name: Install dependencies
         run: |
-          npm run install-mm:dev
+          node --run install-mm:dev
       - name: Run Spellcheck
-        run: npm run test:spelling
+        run: node --run test:spelling
