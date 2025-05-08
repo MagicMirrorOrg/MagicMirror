@@ -59,8 +59,13 @@ representative at an online or offline event.
 ## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported to the community leaders responsible for enforcement at
-[INSERT CONTACT METHOD].
+reported to the community leaders responsible for enforcement:
+Contact [Rejas](https://forum.magicmirror.builders/user/rejas),
+[Karsten](https://forum.magicmirror.builders/user/karsten13),
+[Sam](https://forum.magicmirror.builders/user/sdetweil) or
+[Kristjan](https://forum.magicmirror.builders/user/kristjanesperanto)
+via private message in the forum.
+
 All complaints will be reviewed and investigated promptly and fairly.
 
 All community leaders are obligated to respect the privacy and security of the
