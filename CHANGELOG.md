@@ -22,6 +22,7 @@ planned for 2025-07-01
 - Use `node --run` instead of `npm run` (#3764) and adapt `start:dev` script.
 - [workflow] Run linter und spellcheck with LTS node version (#3767)
 - [workflow] Split "Run test" step into two steps for more clarity (#3767)
+- [workflow] Replace Node.js version v23 with v24 (#3770)
 
 ### Updated
 
