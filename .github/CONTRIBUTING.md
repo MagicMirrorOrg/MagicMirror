@@ -26,7 +26,7 @@ To run StyleLint, use `node --run lint:css`.
 
 We use [markdownlint-cli2](https://github.com/DavidAnson/markdownlint-cli2) to lint our markdown files. The configuration is in our `.markdownlint.json` file.
 
-To run markdownlint, use `node --run markdownlint:css`.
+To run markdownlint, use `node --run lint:markdown`.
 
 ## Testing
 

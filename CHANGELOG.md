@@ -19,13 +19,17 @@ planned for 2025-07-01
 ### Changed
 
 - [refactor] Simplify module loading process (#3766)
-- Use `node --run` instead of `npm run` (#3764) and adapt `start:dev` script.
-- [workflow] Run linter und spellcheck with LTS node version (#3767)
+- Use `node --run` instead of `npm run` (#3764) and adapt `start:dev` script (#3773)
+- [workflow] Run linter and spellcheck with LTS node version (#3767)
 - [workflow] Split "Run test" step into two steps for more clarity (#3767)
 
 ### Updated
 
 - [core] Update dependencies
+
+### Fixed
+
+- [docs] Fix command to lint markdown
 
 ## [2.31.0] - 2025-04-01
 
@@ -46,7 +50,7 @@ Thanks to: @Developer-Incoming, @eltociear, @geraki, @khassel, @KristjanESPERANT
 
 ### Changed
 
-- [core] Starting clientonly now checks for needed env var `WAYLAND_DISPLAY` or `DISPLAY` and starts electron with needed parameters (if both are set wayland is used) (#3677)
+- [core] Starting clientonly now checks for needed env var `WAYLAND_DISPLAY` or `DISPLAY` and starts electron with needed parameters (if both are set Wayland is used) (#3677)
 - [core] Optimize systeminformation calls and output (#3689)
 - [core] Add issue templates for feature requests and bug reports (#3695)
 - [core] Adapt `start:x11:dev` script
@@ -84,7 +88,7 @@ Thanks to: @xsorifc28, @HeikoGr, @bugsounet, @khassel, @KristjanESPERANTO, @reja
 
 ### Added
 
-- [core] Add wayland and windows start options to `package.json` (#3594)
+- [core] Add Wayland and Windows start options to `package.json` (#3594)
 - [docs] Add step for npm publishing in release process (#3595)
 - [core] Add GitHub workflow to run spellcheck a few days before each release (#3623)
 - [core] Add test flag to `index.html` to pass to module js for test mode detection (needed by #3630)
