@@ -8,6 +8,8 @@
 	"DAYAFTERTOMORROW": "Ekki á morgun, heldur hinn",
 	"RUNNING": "Endar eftir",
 	"EMPTY": "Ekkert framundan.",
+	"WEEK": "Vika {weekNumber}",
+	"WEEK_SHORT": "V{weekNumber}",
 
 	"N": "N",
 	"NNE": "NNA",

@@ -9,6 +9,7 @@
 	"RUNNING": "结束日期",
 	"EMPTY": "无日程安排。",
 	"WEEK": "第{weekNumber}周",
+	"WEEK_SHORT": "{weekNumber}周",
 
 	"N": "北风",
 	"NNE": "北偏东风",

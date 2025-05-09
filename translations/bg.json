@@ -9,6 +9,7 @@
 	"RUNNING": "Свършва след",
 	"EMPTY": "Няма предстоящи събития.",
 	"WEEK": "Седмица {weekNumber}",
+	"WEEK_SHORT": "С{weekNumber}",
 
 	"N": "С",
 	"NNE": "ССИ",

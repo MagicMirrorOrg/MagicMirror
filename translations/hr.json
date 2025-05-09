@@ -9,6 +9,7 @@
 	"RUNNING": "Završava za",
 	"EMPTY": "Nema nadolazećih događaja.",
 	"WEEK": "Tjedan {weekNumber}",
+	"WEEK_SHORT": "T{weekNumber}",
 
 	"N": "N",
 	"NNE": "NNE",

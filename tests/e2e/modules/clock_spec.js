@@ -138,6 +138,26 @@ describe("Clock module", () => {
 		});
 	});
 
+	describe("with showWeek short config enabled", () => {
+		beforeAll(async () => {
+			await helpers.startApplication("tests/configs/modules/clock/clock_showWeek_short.js");
+			await helpers.getDocument();
+		});
+
+		it("should show the week in the correct format", async () => {
+			const weekRegex = /^W[0-9]{1,2}$/;
+			await expect(helpers.testMatch(".clock .week", weekRegex)).resolves.toBe(true);
+		});
+
+		it("should show the week with the correct number of week of year", async () => {
+			const currentWeekNumber = moment().week();
+			const weekToShow = `W${currentWeekNumber}`;
+			const elem = await helpers.waitForElement(".clock .week");
+			expect(elem).not.toBeNull();
+			expect(elem.textContent).toBe(weekToShow);
+		});
+	});
+
 	describe("with analog clock face enabled", () => {
 		beforeAll(async () => {
 			await helpers.startApplication("tests/configs/modules/clock/clock_analog.js");

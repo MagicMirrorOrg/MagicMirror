@@ -9,6 +9,7 @@
 	"RUNNING": "noch",
 	"EMPTY": "Keine Termine.",
 	"WEEK": "{weekNumber}. Kalenderwoche",
+	"WEEK_SHORT": "{weekNumber}K",
 
 	"N": "N",
 	"NNE": "NNO",

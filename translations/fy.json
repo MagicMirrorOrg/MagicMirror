@@ -7,6 +7,8 @@
 	"DAYAFTERTOMORROW": "Oaremoarn",
 	"RUNNING": "Einigest oer",
 	"EMPTY": "Gjin plande &ocirc;fspraken.",
+	"WEEK": "Wike {weekNumber}",
+	"WEEK_SHORT": "W{weekNumber}",
 
 	"N": "N",
 	"NNE": "NNE",
