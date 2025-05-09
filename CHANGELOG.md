@@ -26,6 +26,11 @@ planned for 2025-07-01
 ### Fixed
 
 - [calendar] fix fullday event rrule until with timezone offset (#3781)
+ 
+### Updated
+
+- [core] Update dependencies
+
 
 ## [2.31.0] - 2025-04-01
 
