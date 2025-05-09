@@ -1,16 +1,16 @@
-import eslintPluginImport from "eslint-plugin-import";
 import eslintPluginJest from "eslint-plugin-jest";
 import eslintPluginJs from "@eslint/js";
 import eslintPluginPackageJson from "eslint-plugin-package-json";
 import eslintPluginStylistic from "@stylistic/eslint-plugin";
 import globals from "globals";
+import {flatConfigs as importX} from "eslint-plugin-import-x";
 
 const config = [
-	eslintPluginImport.flatConfigs.recommended,
 	eslintPluginJest.configs["flat/recommended"],
 	eslintPluginJs.configs.recommended,
 	eslintPluginPackageJson.configs.recommended,
 	eslintPluginStylistic.configs.all,
+	importX.recommended,
 	{
 		files: ["**/*.js"],
 		languageOptions: {
@@ -54,9 +54,9 @@ const config = [
 			"dot-notation": "error",
 			eqeqeq: "error",
 			"id-length": "off",
-			"import/extensions": "error",
-			"import/newline-after-import": "error",
-			"import/order": "error",
+			"import-x/extensions": "error",
+			"import-x/newline-after-import": "error",
+			"import-x/order": "error",
 			"init-declarations": "off",
 			"jest/consistent-test-it": "warn",
 			"jest/no-done-callback": "warn",
@@ -101,8 +101,6 @@ const config = [
 			"@stylistic/padded-blocks": ["error", "never"],
 			"@stylistic/quote-props": ["error", "as-needed"],
 			"func-style": "off",
-			"import/namespace": "off",
-			"import/no-unresolved": "off",
 			"max-lines-per-function": ["error", 100],
 			"no-magic-numbers": "off",
 			"one-var": "off",
