@@ -18,7 +18,7 @@ To run ESLint, use `node --run lint:js`.
 
 ### CSS: Run StyleLint
 
-We use [StyleLint](https://stylelint.io) to lint our CSS. The configuration is in our `.stylelintrc.json` file.
+We use [StyleLint](https://stylelint.io) to lint our CSS. The configuration is in our `stylelint.config.mjs` file.
 
 To run StyleLint, use `node --run lint:css`.
 
