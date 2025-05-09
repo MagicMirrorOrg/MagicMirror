@@ -14,7 +14,7 @@ Module.register("clock", {
 		clockBold: false,
 		showDate: true,
 		showTime: true,
-		showWeek: false,
+		showWeek: false, // options: true, false, 'short'
 		dateFormat: "dddd, LL",
 		sendNotifications: false,
 
@@ -224,7 +224,18 @@ Module.register("clock", {
 		}
 
 		if (this.config.showWeek) {
-			weekWrapper.innerHTML = this.translate("WEEK", { weekNumber: now.week() });
+			const weekTranslated = this.translate("WEEK", { weekNumber: now.week() });
+
+			if (this.config.showWeek === "short") {
+				const weekTextArr = weekTranslated.split(" ");
+				const weekTextShort = weekTextArr[0][0];
+				const weekValue = weekTextArr.at(-1);
+
+				weekWrapper.innerHTML = weekTextShort + weekValue;
+			} else {
+				weekWrapper.innerHTML = weekTranslated;
+			}
+
 			digitalWrapper.appendChild(weekWrapper);
 		}
 
