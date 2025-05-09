@@ -84,6 +84,10 @@ describe("Calendar module", () => {
 			await helpers.startApplication("tests/configs/modules/calendar/rrule_until.js", "07 Mar 2024 10:38:00 GMT-07:00", [], "America/Los_Angeles");
 			await expect(doTestCount()).resolves.toBe(1);
 		});
+		it("Issue #3781 recurrence rrule until with date only uses timezone offset incorrectly", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/fullday_until.js", "01 May 2025", [], "America/Los_Angeles");
+			await expect(doTestCount()).resolves.toBe(1);
+		});
 	});
 
 	/*
