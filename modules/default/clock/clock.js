@@ -231,7 +231,7 @@ Module.register("clock", {
 				const weekTextShort = weekTextArr[0][0];
 				const weekValue = weekTextArr.at(-1);
 
-				weekWrapper.innerHTML = weekTextShort + weekValue;
+				weekWrapper.innerHTML = `${weekTextShort}${weekValue}`;
 			} else {
 				weekWrapper.innerHTML = weekTranslated;
 			}
