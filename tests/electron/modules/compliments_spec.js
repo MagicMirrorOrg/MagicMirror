@@ -36,7 +36,7 @@ describe("Compliments module", () => {
 			await expect(doTest(["Hello There", "Good Evening", "Evening test"])).resolves.toBe(true);
 		});
 
-		it("doesnt show evening compliments during the day when the other parts of day are not set", async () => {
+		it("doesn't show evening compliments during the day when the other parts of day are not set", async () => {
 			await helpers.startApplication("tests/configs/modules/compliments/compliments_evening.js", "01 Oct 2022 08:00:00 GMT");
 			await expect(doTest([""], "attached")).resolves.toBe(true);
 		});
