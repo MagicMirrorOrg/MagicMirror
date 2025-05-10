@@ -5,7 +5,7 @@
  * @param {boolean} useCorsProxy A flag to indicate
  * @param {Array.<{name: string, value:string}>} requestHeaders the HTTP headers to send
  * @param {Array.<string>} expectedResponseHeaders the expected HTTP headers to receive
- * @param {string} basePath, default /
+ * @param {string} basePath The base path, default is "/"
  * @returns {Promise} resolved when the fetch is done. The response headers is placed in a headers-property (provided the response does not already contain a headers-property).
  */
 async function performWebRequest (url, type = "json", useCorsProxy = false, requestHeaders = undefined, expectedResponseHeaders = undefined, basePath = "/") {
@@ -38,7 +38,7 @@ async function performWebRequest (url, type = "json", useCorsProxy = false, requ
  * @param {string} url the url to fetch from
  * @param {Array.<{name: string, value:string}>} requestHeaders the HTTP headers to send
  * @param {Array.<string>} expectedResponseHeaders the expected HTTP headers to receive
- * @param {string} basePath, default /
+ * @param {string} basePath The base path, default is "/"
  * @returns {string} to be used as URL when calling CORS-method on server.
  */
 const getCorsUrl = function (url, requestHeaders, expectedResponseHeaders, basePath = "/") {
