@@ -9,6 +9,7 @@
 	"RUNNING": "Заканчивается через",
 	"EMPTY": "Нет предстоящих событий",
 	"WEEK": "Неделя {weekNumber}",
+	"WEEK_SHORT": "Н{weekNumber}",
 
 	"N": "С",
 	"NNE": "ССВ",

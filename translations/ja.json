@@ -7,6 +7,8 @@
 	"TOMORROW": "明日",
 	"RUNNING": "で終わります",
 	"EMPTY": "直近のイベントはありません",
+	"WEEK": "第{weekNumber}週",
+	"WEEK_SHORT": "{weekNumber}週",
 
 	"N": "北",
 	"NNE": "北北東",

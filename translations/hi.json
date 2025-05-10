@@ -9,6 +9,7 @@
 	"RUNNING": "में समाप्त",
 	"EMPTY": "कोई आगामी कार्यक्रम नहीं।",
 	"WEEK": "सप्ताह {weekNumber}",
+	"WEEK_SHORT": "स{weekNumber}",
 
 	"N": "उ",
 	"NNE": "उउपु",

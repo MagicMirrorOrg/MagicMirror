@@ -8,6 +8,7 @@
 	"RUNNING": "종료 일",
 	"EMPTY": "예정된 이벤트가 없습니다.",
 	"WEEK": "{weekNumber}주차",
+	"WEEK_SHORT": "{weekNumber}주",
 
 	"N": "북풍",
 	"NNE": "북북동풍",

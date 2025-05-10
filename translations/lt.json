@@ -9,6 +9,7 @@
 	"RUNNING": "Pasibaigs už",
 	"EMPTY": "Nėra artimų įvykių.",
 	"WEEK": "{weekNumber} savaitė",
+	"WEEK_SHORT": "{weekNumber}S",
 
 	"N": "Š",
 	"NNE": "ŠŠR",

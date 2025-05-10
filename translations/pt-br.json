@@ -7,6 +7,8 @@
 	"TOMORROW": "Amanhã",
 	"RUNNING": "Acaba em",
 	"EMPTY": "Nenhum evento novo.",
+	"WEEK": "Semana {weekNumber}",
+	"WEEK_SHORT": "S{weekNumber}",
 
 	"N": "N",
 	"NNE": "NNE",

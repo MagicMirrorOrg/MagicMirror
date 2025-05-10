@@ -9,6 +9,7 @@
 	"RUNNING": "Slutar",
 	"EMPTY": "Inga kommande händelser.",
 	"WEEK": "Vecka {weekNumber}",
+	"WEEK_SHORT": "V{weekNumber}",
 
 	"N": "N",
 	"NNE": "NNO",

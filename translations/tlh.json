@@ -9,6 +9,7 @@
 	"RUNNING": "Dor",
 	"EMPTY": "Sumbe' wanI'.",
 	"WEEK": "Hogh (terran) {weekNumber}",
+	"WEEK_SHORT": "H{weekNumber}",
 
 	"N": "N",
 	"NNE": "NNE",

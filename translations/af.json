@@ -7,6 +7,8 @@
 	"DAYAFTERTOMORROW": "Oormôre",
 	"RUNNING": "Eindig in",
 	"EMPTY": "Geen komende gebeurtenisse.",
+	"WEEK": "Week {weekNumber}",
+	"WEEK_SHORT": "W{weekNumber}",
 
 	"N": "N",
 	"NNE": "NNO",

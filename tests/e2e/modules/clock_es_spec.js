@@ -62,4 +62,16 @@ describe("Clock set to spanish language module", () => {
 			await expect(helpers.testMatch(".clock .week", weekRegex)).resolves.toBe(true);
 		});
 	});
+
+	describe("with showWeek short config enabled", () => {
+		beforeAll(async () => {
+			await helpers.startApplication("tests/configs/modules/clock/es/clock_showWeek_short.js");
+			await helpers.getDocument();
+		});
+
+		it("shows week with correct format", async () => {
+			const weekRegex = /^S[0-9]{1,2}$/;
+			await expect(helpers.testMatch(".clock .week", weekRegex)).resolves.toBe(true);
+		});
+	});
 });

@@ -9,6 +9,7 @@
 	"RUNNING": "Закінчується через",
 	"EMPTY": "Немає найближчих подій",
 	"WEEK": "Тиждень {weekNumber}",
+	"WEEK_SHORT": "Т{weekNumber}",
 
 	"N": "Пн",
 	"NNE": "ПнПнСх",

@@ -7,6 +7,7 @@
 	"RUNNING": "Vége lesz",
 	"EMPTY": "Nincs közelgő esemény.",
 	"WEEK": "{weekNumber}. hét",
+	"WEEK_SHORT": "{weekNumber}H",
 
 	"N": "É",
 	"NNE": "ÉÉK",
