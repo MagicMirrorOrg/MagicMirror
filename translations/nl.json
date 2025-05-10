@@ -9,6 +9,7 @@
 	"RUNNING": "Eindigt over",
 	"EMPTY": "Geen geplande afspraken.",
 	"WEEK": "Week {weekNumber}",
+	"WEEK_SHORT": "W{weekNumber}",
 
 	"N": "N",
 	"NNE": "NNO",

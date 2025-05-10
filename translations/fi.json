@@ -9,6 +9,7 @@
 	"RUNNING": "Päättyy {timeUntilEnd} päästä",
 	"EMPTY": "Ei tulevia tapahtumia.",
 	"WEEK": "Viikko {weekNumber}",
+	"WEEK_SHORT": "V{weekNumber}",
 
 	"N": "P",
 	"NNE": "PPI",

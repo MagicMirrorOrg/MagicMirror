@@ -9,6 +9,7 @@
 	"RUNNING": "מסתיים ב",
 	"EMPTY": "אין ארועים",
 	"WEEK": "{weekNumber} שבוע",
+	"WEEK_SHORT": "{weekNumber}ש",
 
 	"N": "צ",
 	"NNE": "צ-צ-מז",

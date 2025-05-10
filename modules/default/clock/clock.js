@@ -224,16 +224,10 @@ Module.register("clock", {
 		}
 
 		if (this.config.showWeek) {
-			const weekTranslated = this.translate("WEEK", { weekNumber: now.week() });
-
 			if (this.config.showWeek === "short") {
-				const weekTextArr = weekTranslated.split(" ");
-				const weekTextShort = weekTextArr[0][0];
-				const weekValue = weekTextArr.at(-1);
-
-				weekWrapper.innerHTML = `${weekTextShort}${weekValue}`;
+				weekWrapper.innerHTML = this.translate("WEEK_SHORT", { weekNumber: now.week() });
 			} else {
-				weekWrapper.innerHTML = weekTranslated;
+				weekWrapper.innerHTML = this.translate("WEEK", { weekNumber: now.week() });
 			}
 
 			digitalWrapper.appendChild(weekWrapper);

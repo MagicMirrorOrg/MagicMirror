@@ -8,6 +8,7 @@
 	"RUNNING": "Berakhir dalam",
 	"EMPTY": "Tidak ada agenda",
 	"WEEK": "Minggu ke-{weekNumber}",
+	"WEEK_SHORT": "M{weekNumber}",
 
 	"N": "U",
 	"NNE": "UUT",
