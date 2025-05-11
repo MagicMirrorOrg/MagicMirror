@@ -8,7 +8,6 @@
 	"RUNNING": "Biten",
 	"EMPTY": "Yakında etkinlik yok.",
 	"WEEK": "Hafta {weekNumber}",
-	"WEEK_SHORT": "H{weekNumber}",
 
 	"N": "K",
 	"NNE": "KKD",

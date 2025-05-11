@@ -9,7 +9,6 @@
 	"RUNNING": "Lõpeb",
 	"EMPTY": "Eelolevaid sündmusi pole.",
 	"WEEK": "Nädal {weekNumber}",
-	"WEEK_SHORT": "N{weekNumber}",
 
 	"N": "Põhi",
 	"NNE": "Põhjakirre",

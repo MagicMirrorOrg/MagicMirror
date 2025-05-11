@@ -8,7 +8,6 @@
 	"RUNNING": "Gorffen mewn",
 	"EMPTY": "Dim digwyddiadau.",
 	"WEEK": "Wythnos {weekNumber}",
-	"WEEK_SHORT": "W{weekNumber}",
 
 	"N": "Go",
 	"NNE": "GoGoDw",

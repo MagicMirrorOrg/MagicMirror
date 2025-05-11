@@ -7,8 +7,6 @@
 	"TOMORROW": "Αύριο",
 	"RUNNING": "Λήγει σε",
 	"EMPTY": "Δεν υπάρχουν προσεχείς εκδηλώσεις.",
-	"WEEK": "Εβδομάδα {weekNumber}",
-	"WEEK_SHORT": "Ε{weekNumber}",
 
 	"N": "B",
 	"NNE": "BBA",

@@ -7,7 +7,6 @@
 	"RUNNING": "ينتهي خلال",
 	"EMPTY": "لا توجد أحداث قادمة.",
 	"WEEK": "الأسبوع {weekNumber}",
-	"WEEK_SHORT": "أ{weekNumber}",
 
 	"N": "شمال",
 	"NNE": "شمال شمال شرقي",

@@ -8,8 +8,6 @@
 	"DAYAFTERTOMORROW": "I overmorgon",
 	"RUNNING": "Sluttar om",
 	"EMPTY": "Ingen komande hendingar.",
-	"WEEK": "Veke {weekNumber}",
-	"WEEK_SHORT": "V{weekNumber}",
 
 	"N": "N",
 	"NNE": "NNA",

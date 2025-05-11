@@ -6,7 +6,6 @@
 	"RUNNING": "สิ้นสุดใน",
 	"EMPTY": "ไม่มีกิจกรรมที่กำลังจะมาถึง",
 	"WEEK": "สัปดาห์ที่ {weekNumber}",
-	"WEEK_SHORT": "ส{weekNumber}",
 
 	"N": "น",
 	"NNE": "น.ต.อ.น.",

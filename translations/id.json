@@ -7,8 +7,7 @@
 	"DAYAFTERTOMORROW": "Lusa",
 	"RUNNING": "Berakhir dalam",
 	"EMPTY": "Tidak ada agenda",
-	"WEEK": "Pekan {weekNumber}",
-	"WEEK_SHORT": "P{weekNumber}",
+	"WEEK": "Pekan",
 
 	"N": "U",
 	"NNE": "UTL",

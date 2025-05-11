@@ -9,7 +9,6 @@
 	"RUNNING": "Končí za",
 	"EMPTY": "Žádné nadcházející události.",
 	"WEEK": "{weekNumber}. týden",
-	"WEEK_SHORT": "{weekNumber}T",
 
 	"N": "S",
 	"NNE": "SSV",
