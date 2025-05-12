@@ -23,6 +23,10 @@ planned for 2025-07-01
 - [workflow] Run linter und spellcheck with LTS node version (#3767)
 - [workflow] Split "Run test" step into two steps for more clarity (#3767)
 
+### Fixed
+
+- [calendar] fix fullday event rrule until with timezone offset (#3781)
+
 ### Updated
 
 - [core] Update dependencies

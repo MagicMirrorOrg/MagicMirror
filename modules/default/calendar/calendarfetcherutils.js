@@ -293,6 +293,13 @@ const CalendarFetcherUtils = {
 
 					event.start = rule.options.dtstart;
 
+					// if until is set, and its a full day event, force the time to midnight. rrule gets confused with non-00 offset
+					// looks like MS Outlook sets the until time incorrectly for fullday events
+					if ((rule.options.until !== undefined) && CalendarFetcherUtils.isFullDayEvent(event)) {
+						Log.debug("fixup rrule until");
+						rule.options.until = new Date(new Date(moment(rule.options.until).startOf("day").add(1, "day")).getTime());
+					}
+
 					Log.debug("fix rrule start=", rule.options.dtstart);
 					Log.debug("event before rrule.between=", JSON.stringify(event, null, 2), "exdates=", event.exdate);
 					// fixup the exdate and recurrence date to local time too for post between() handling
