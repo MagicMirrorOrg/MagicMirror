@@ -509,10 +509,10 @@ const CalendarFetcherUtils = {
 	},
 
 	/**
-	 * fixup thew event fields that have dates to use local time
-	 * BEFORE calling rrule.between
-	 * @param the event being processed
-	 * @returns nothing
+	 * Fixes the event fields that have dates to use local time
+	 * before calling rrule.between.
+	 * @param {object} event - The event being processed.
+	 * @returns {void}
 	 */
 	fixEventtoLocal (event) {
 		// if there are excluded dates, their date is incorrect and possibly key as well.
@@ -549,9 +549,9 @@ const CalendarFetcherUtils = {
 	/**
 	 * convert a UTC date to local time
 	 * BEFORE calling rrule.between
-	 * @param date ti conert
-	 * 				tz event is currently in
-	 * @returns updated date object
+	 * @param {Date} date The date to convert
+	 * @param {string} tz The timezone string to convert the date to.
+	 * @returns {Date} updated date object
 	 */
 	convertDateToLocalTime (date, tz) {
 		let delta_tz_offset = 0;
@@ -592,8 +592,8 @@ const CalendarFetcherUtils = {
 	/**
 	 * get the exdate/recurrence hash key from the date object
 	 * BEFORE calling rrule.between
-	 * @param the date of the event
-	 * @returns string date key YYYY-MM-DD
+	 * @param {Date} date The date of the event
+	 * @returns {string} date key in the format YYYY-MM-DD
 	 */
 	getDateKeyFromDate (date) {
 		// get our runtime timezone offset
@@ -618,9 +618,8 @@ const CalendarFetcherUtils = {
 
 	/**
 	 * get the timezone offset from the timezone string
-	 *
-	 * @param the timezone string
-	 * @returns the numerical offset
+	 * @param {string} timeZone The timezone string
+	 * @returns {number} The numerical offset in minutes from UTC.
 	 */
 	getTimezoneOffsetFromTimezone (timeZone) {
 		const str = new Date().toLocaleString("en", { timeZone, timeZoneName: "longOffset" });
@@ -631,10 +630,10 @@ const CalendarFetcherUtils = {
 
 	/**
 	 * fixup the date start moment after rrule.between returns date array
-	 *
-	 * @param date object from rrule.between results
+	 * @param {Date} date object from rrule.between results
 	 *  			the event object it came from
-	 * @returns moment object
+	 * @param {object} event - The event object it came from.
+	 * @returns {Moment} moment object
 	 */
 	getAdjustedStartMoment (date, event) {
 

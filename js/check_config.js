@@ -72,6 +72,10 @@ function checkConfigFile () {
 	}
 }
 
+/**
+ *
+ * @param {string} configFileName - The path and filename of the configuration file to validate.
+ */
 function validateModulePositions (configFileName) {
 	Log.info("Checking modules structure configuration ...");
 

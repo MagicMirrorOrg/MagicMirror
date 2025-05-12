@@ -181,6 +181,7 @@ Module.register("newsfeed", {
 	 * Gets a feed property by name
 	 * @param {object} feed A feed object.
 	 * @param {string} property The name of the property.
+	 * @returns {*} The value of the specified property for the feed.
 	 */
 	getFeedProperty (feed, property) {
 		let res = this.config[property];
