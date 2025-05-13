@@ -38,7 +38,7 @@ jobs:
     timeout-minutes: 30
     strategy:
       matrix:
-        node-version: [22.14.0, 22.x, 23.x]
+        node-version: [22.14.0, 22.x, 24.x]
     steps:
       - name: Install electron dependencies and labwc
         run: |
