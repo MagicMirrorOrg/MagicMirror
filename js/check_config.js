@@ -54,7 +54,8 @@ function checkConfigFile () {
 				globals: {
 					...globals.node
 				}
-			}
+			},
+			rules: { "no-undef": "error" }
 		},
 		configFileName
 	);
