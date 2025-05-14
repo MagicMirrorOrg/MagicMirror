@@ -32,10 +32,8 @@ planned for 2025-07-01
 ### Fixed
 
 - [fix] Handle spellcheck issues (#3783)
-
-### Fixed
-
 - [calendar] fix fullday event rrule until with timezone offset (#3781)
+- [feat] Add rule `no-undef` in config file validation to fix #3785 (#3786)
 
 ### Updated
 
