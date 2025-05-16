@@ -29,6 +29,7 @@ planned for 2025-07-01
   - Refactor ESLint config to use `defineConfig` and `globalIgnores`
   - Replace `eslint-plugin-import` with `eslint-plugin-import-x`
   - Switch Stylelint config to flat format and simplify Stylelint scripts
+- [workflow] Replace Node.js version v23 with v24 (#3770)
 
 ### Fixed
 
