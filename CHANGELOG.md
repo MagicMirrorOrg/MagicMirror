@@ -35,6 +35,7 @@ planned for 2025-07-01
 - [fix] Handle spellcheck issues (#3783)
 - [calendar] fix fullday event rrule until with timezone offset (#3781)
 - [feat] Add rule `no-undef` in config file validation to fix #3785 (#3786)
+- [fonts] Fix `roboto.css` to avoid error message `Unknown descriptor 'var(' in @font-face rule.` in firefox console
 
 ### Updated
 
