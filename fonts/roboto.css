@@ -2,7 +2,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 100;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-cyrillic-ext-100-normal.woff2") format("woff2"),
@@ -14,7 +14,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 100;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-cyrillic-100-normal.woff2") format("woff2"),
@@ -26,7 +26,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 100;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-greek-ext-100-normal.woff2") format("woff2"),
@@ -38,7 +38,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 100;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-greek-100-normal.woff2") format("woff2"),
@@ -50,7 +50,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 100;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-vietnamese-100-normal.woff2") format("woff2"),
@@ -62,7 +62,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 100;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-latin-ext-100-normal.woff2") format("woff2"),
@@ -74,7 +74,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 100;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-latin-100-normal.woff2") format("woff2"),
@@ -86,7 +86,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 300;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-cyrillic-ext-300-normal.woff2") format("woff2"),
@@ -98,7 +98,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 300;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-cyrillic-300-normal.woff2") format("woff2"),
@@ -110,7 +110,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 300;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-greek-ext-300-normal.woff2") format("woff2"),
@@ -122,7 +122,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 300;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-greek-300-normal.woff2") format("woff2"),
@@ -134,7 +134,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 300;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-vietnamese-300-normal.woff2") format("woff2"),
@@ -146,7 +146,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 300;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-latin-ext-300-normal.woff2") format("woff2"),
@@ -158,7 +158,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 300;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-latin-300-normal.woff2") format("woff2"),
@@ -170,7 +170,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 400;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-cyrillic-ext-400-normal.woff2") format("woff2"),
@@ -182,7 +182,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 400;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-cyrillic-400-normal.woff2") format("woff2"),
@@ -194,7 +194,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 400;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-greek-ext-400-normal.woff2") format("woff2"),
@@ -206,7 +206,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 400;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-greek-400-normal.woff2") format("woff2"),
@@ -218,7 +218,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 400;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-vietnamese-400-normal.woff2") format("woff2"),
@@ -230,7 +230,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 400;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-latin-ext-400-normal.woff2") format("woff2"),
@@ -242,7 +242,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 400;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-latin-400-normal.woff2") format("woff2"),
@@ -254,7 +254,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 500;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-cyrillic-ext-500-normal.woff2") format("woff2"),
@@ -266,7 +266,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 500;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-cyrillic-500-normal.woff2") format("woff2"),
@@ -278,7 +278,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 500;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-greek-ext-500-normal.woff2") format("woff2"),
@@ -290,7 +290,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 500;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-greek-500-normal.woff2") format("woff2"),
@@ -302,7 +302,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 500;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-vietnamese-500-normal.woff2") format("woff2"),
@@ -314,7 +314,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 500;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-latin-ext-500-normal.woff2") format("woff2"),
@@ -326,7 +326,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 500;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-latin-500-normal.woff2") format("woff2"),
@@ -338,7 +338,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 700;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-cyrillic-ext-700-normal.woff2") format("woff2"),
@@ -350,7 +350,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 700;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-cyrillic-700-normal.woff2") format("woff2"),
@@ -362,7 +362,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 700;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-greek-ext-700-normal.woff2") format("woff2"),
@@ -374,7 +374,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 700;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-greek-700-normal.woff2") format("woff2"),
@@ -386,7 +386,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 700;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-vietnamese-700-normal.woff2") format("woff2"),
@@ -398,7 +398,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 700;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-latin-ext-700-normal.woff2") format("woff2"),
@@ -410,7 +410,7 @@
 @font-face {
   font-family: Roboto;
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 700;
   src:
     url("node_modules/@fontsource/roboto/files/roboto-latin-700-normal.woff2") format("woff2"),
@@ -422,7 +422,7 @@
 @font-face {
   font-family: "Roboto Condensed";
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 300;
   src:
     url("node_modules/@fontsource/roboto-condensed/files/roboto-condensed-cyrillic-ext-300-normal.woff2") format("woff2"),
@@ -434,7 +434,7 @@
 @font-face {
   font-family: "Roboto Condensed";
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 300;
   src:
     url("node_modules/@fontsource/roboto-condensed/files/roboto-condensed-cyrillic-300-normal.woff2") format("woff2"),
@@ -446,7 +446,7 @@
 @font-face {
   font-family: "Roboto Condensed";
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 300;
   src:
     url("node_modules/@fontsource/roboto-condensed/files/roboto-condensed-greek-ext-300-normal.woff2") format("woff2"),
@@ -458,7 +458,7 @@
 @font-face {
   font-family: "Roboto Condensed";
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 300;
   src:
     url("node_modules/@fontsource/roboto-condensed/files/roboto-condensed-greek-300-normal.woff2") format("woff2"),
@@ -470,7 +470,7 @@
 @font-face {
   font-family: "Roboto Condensed";
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 300;
   src:
     url("node_modules/@fontsource/roboto-condensed/files/roboto-condensed-vietnamese-300-normal.woff2") format("woff2"),
@@ -482,7 +482,7 @@
 @font-face {
   font-family: "Roboto Condensed";
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 300;
   src:
     url("node_modules/@fontsource/roboto-condensed/files/roboto-condensed-latin-ext-300-normal.woff2") format("woff2"),
@@ -494,7 +494,7 @@
 @font-face {
   font-family: "Roboto Condensed";
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 300;
   src:
     url("node_modules/@fontsource/roboto-condensed/files/roboto-condensed-latin-300-normal.woff2") format("woff2"),
@@ -506,7 +506,7 @@
 @font-face {
   font-family: "Roboto Condensed";
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 400;
   src:
     url("node_modules/@fontsource/roboto-condensed/files/roboto-condensed-cyrillic-ext-400-normal.woff2") format("woff2"),
@@ -518,7 +518,7 @@
 @font-face {
   font-family: "Roboto Condensed";
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 400;
   src:
     url("node_modules/@fontsource/roboto-condensed/files/roboto-condensed-cyrillic-400-normal.woff2") format("woff2"),
@@ -530,7 +530,7 @@
 @font-face {
   font-family: "Roboto Condensed";
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 400;
   src:
     url("node_modules/@fontsource/roboto-condensed/files/roboto-condensed-greek-ext-400-normal.woff2") format("woff2"),
@@ -542,7 +542,7 @@
 @font-face {
   font-family: "Roboto Condensed";
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 400;
   src:
     url("node_modules/@fontsource/roboto-condensed/files/roboto-condensed-greek-400-normal.woff2") format("woff2"),
@@ -554,7 +554,7 @@
 @font-face {
   font-family: "Roboto Condensed";
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 400;
   src:
     url("node_modules/@fontsource/roboto-condensed/files/roboto-condensed-vietnamese-400-normal.woff2") format("woff2"),
@@ -566,7 +566,7 @@
 @font-face {
   font-family: "Roboto Condensed";
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 400;
   src:
     url("node_modules/@fontsource/roboto-condensed/files/roboto-condensed-latin-ext-400-normal.woff2") format("woff2"),
@@ -578,7 +578,7 @@
 @font-face {
   font-family: "Roboto Condensed";
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 400;
   src:
     url("node_modules/@fontsource/roboto-condensed/files/roboto-condensed-latin-400-normal.woff2") format("woff2"),
@@ -590,7 +590,7 @@
 @font-face {
   font-family: "Roboto Condensed";
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 700;
   src:
     url("node_modules/@fontsource/roboto-condensed/files/roboto-condensed-cyrillic-ext-700-normal.woff2") format("woff2"),
@@ -602,7 +602,7 @@
 @font-face {
   font-family: "Roboto Condensed";
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 700;
   src:
     url("node_modules/@fontsource/roboto-condensed/files/roboto-condensed-cyrillic-700-normal.woff2") format("woff2"),
@@ -614,7 +614,7 @@
 @font-face {
   font-family: "Roboto Condensed";
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 700;
   src:
     url("node_modules/@fontsource/roboto-condensed/files/roboto-condensed-greek-ext-700-normal.woff2") format("woff2"),
@@ -626,7 +626,7 @@
 @font-face {
   font-family: "Roboto Condensed";
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 700;
   src:
     url("node_modules/@fontsource/roboto-condensed/files/roboto-condensed-greek-700-normal.woff2") format("woff2"),
@@ -638,7 +638,7 @@
 @font-face {
   font-family: "Roboto Condensed";
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 700;
   src:
     url("node_modules/@fontsource/roboto-condensed/files/roboto-condensed-vietnamese-700-normal.woff2") format("woff2"),
@@ -650,7 +650,7 @@
 @font-face {
   font-family: "Roboto Condensed";
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 700;
   src:
     url("node_modules/@fontsource/roboto-condensed/files/roboto-condensed-latin-ext-700-normal.woff2") format("woff2"),
@@ -662,7 +662,7 @@
 @font-face {
   font-family: "Roboto Condensed";
   font-style: normal;
-  font-display: var(--fontsource-display, swap);
+  font-display: swap;
   font-weight: 700;
   src:
     url("node_modules/@fontsource/roboto-condensed/files/roboto-condensed-latin-700-normal.woff2") format("woff2"),
