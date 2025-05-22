@@ -39,7 +39,7 @@ planned for 2025-07-01
 
 ### Updated
 
-- [core] Update dependencies (#3774)
+- [core] Update dependencies incl. electron to v36 (#3774)
 
 ## [2.31.0] - 2025-04-01
 
@@ -1504,7 +1504,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 ### Fixed
 
 - Fix instruction in README for using automatically installer script.
-- Bug of duplicated compliments as described in [here](https://forum.magicmirror.builders/topic/2381/compliments-module-stops-cycling-compliments).
+- Bug of [duplicated compliments](https://forum.magicmirror.builders/topic/2381/compliments-module-stops-cycling-compliments).
 - Fix double message about port when server is starting
 - Corrected Swedish translations for TODAY/TOMORROW/DAYAFTERTOMORROW.
 - Removed unused import from js/electron.js
