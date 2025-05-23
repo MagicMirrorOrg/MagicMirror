@@ -77,7 +77,7 @@ function App () {
 
 		// check if templateFile exists
 		try {
-			fs.accessSync(templateFile, fs.F_OK);
+			fs.accessSync(templateFile, fs.constants.F_OK);
 		} catch (err) {
 			templateFile = null;
 			Log.log("config template file not exists, no envsubst");
@@ -126,7 +126,7 @@ function App () {
 		require(`${global.root_path}/js/check_config.js`);
 
 		try {
-			fs.accessSync(configFilename, fs.F_OK);
+			fs.accessSync(configFilename, fs.constants.F_OK);
 			const c = require(configFilename);
 			if (Object.keys(c).length === 0) {
 				Log.error("WARNING! Config file appears empty, maybe missing module.exports last line?");
@@ -198,7 +198,7 @@ function App () {
 		const moduleFile = `${moduleFolder}/${moduleName}.js`;
 
 		try {
-			fs.accessSync(moduleFile, fs.R_OK);
+			fs.accessSync(moduleFile, fs.constants.R_OK);
 		} catch (e) {
 			Log.warn(`No ${moduleFile} found for module: ${moduleName}.`);
 		}
@@ -207,7 +207,7 @@ function App () {
 
 		let loadHelper = true;
 		try {
-			fs.accessSync(helperPath, fs.R_OK);
+			fs.accessSync(helperPath, fs.constants.R_OK);
 		} catch (e) {
 			loadHelper = false;
 			Log.log(`No helper found for module: ${moduleName}.`);
