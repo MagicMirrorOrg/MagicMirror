@@ -30,7 +30,7 @@ planned for 2025-07-01
   - Replace `eslint-plugin-import` with `eslint-plugin-import-x`
   - Switch Stylelint config to flat format and simplify Stylelint scripts
 - [workflow] Replace Node.js version v23 with v24 (#3770)
-- [refactor] Replace deprecated constants
+- [refactor] Replace deprecated constants `fs.F_OK` and `fs.R_OK` (#3789)
 
 ### Fixed
 
