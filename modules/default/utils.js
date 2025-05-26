@@ -18,7 +18,7 @@ async function performWebRequest (url, type = "json", useCorsProxy = false, requ
 		request.headers = getHeadersToSend(requestHeaders);
 	}
 
-	let response = await fetch(requestUrl, request);
+	const response = await fetch(requestUrl, request);
 	if (response.ok) {
 		const data = await response.text();
 
