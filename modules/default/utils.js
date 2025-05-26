@@ -17,20 +17,26 @@ async function performWebRequest (url, type = "json", useCorsProxy = false, requ
 		requestUrl = url;
 		request.headers = getHeadersToSend(requestHeaders);
 	}
-	const response = await fetch(requestUrl, request);
-	const data = await response.text();
 
-	if (type === "xml") {
-		return new DOMParser().parseFromString(data, "text/html");
-	} else {
-		if (!data || !data.length > 0) return undefined;
+	let response = await fetch(requestUrl, request);
+	if (response.ok) {
+		const data = await response.text();
 
-		const dataResponse = JSON.parse(data);
-		if (!dataResponse.headers) {
-			dataResponse.headers = getHeadersFromResponse(expectedResponseHeaders, response);
+		if (type === "xml") {
+			return new DOMParser().parseFromString(data, "text/html");
+		} else {
+			if (!data || !data.length > 0) return "null"; //undefined;
+
+			const dataResponse = JSON.parse(data);
+			if (!dataResponse.headers) {
+				dataResponse.headers = getHeadersFromResponse(expectedResponseHeaders, response);
+			}
+			return dataResponse;
 		}
-		return dataResponse;
+	} else {
+		throw new Error(`Response status: ${response.status}`);
 	}
+
 }
 
 /**
