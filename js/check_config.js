@@ -1,7 +1,7 @@
 const path = require("node:path");
 const fs = require("node:fs");
+const { styleText } = require("node:util");
 const Ajv = require("ajv");
-const colors = require("ansis");
 const globals = require("globals");
 const { Linter } = require("eslint");
 
@@ -61,7 +61,7 @@ function checkConfigFile () {
 	);
 
 	if (errors.length === 0) {
-		Log.info(colors.green("Your configuration file doesn't contain syntax errors :)"));
+		Log.info(styleText("green", "Your configuration file doesn't contain syntax errors :)"));
 		validateModulePositions(configFileName);
 	} else {
 		let errorMessage = "Your configuration file contains syntax errors :(";
@@ -112,7 +112,7 @@ function validateModulePositions (configFileName) {
 
 	const valid = validate(data);
 	if (valid) {
-		Log.info(colors.green("Your modules structure configuration doesn't contain errors :)"));
+		Log.info(styleText("green", "Your modules structure configuration doesn't contain errors :)"));
 	} else {
 		const module = validate.errors[0].instancePath.split("/")[2];
 		const position = validate.errors[0].instancePath.split("/")[3];
