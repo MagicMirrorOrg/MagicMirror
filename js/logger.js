@@ -2,7 +2,7 @@
 (function (root, factory) {
 	if (typeof exports === "object") {
 		if (process.env.JEST_WORKER_ID === undefined) {
-			const colors = require("ansis");
+			const { styleText } = require("node:util");
 
 			// add timestamps in front of log messages
 			require("console-stamp")(console, {
@@ -12,13 +12,13 @@
 						const { method, defaultTokens } = arg;
 						let label = defaultTokens.label(arg);
 						if (method === "error") {
-							label = colors.red(label);
+							label = styleText("red", label);
 						} else if (method === "warn") {
-							label = colors.yellow(label);
+							label = styleText("yellow", label);
 						} else if (method === "debug") {
-							label = colors.bgBlue(label);
+							label = styleText("bgBlue", label);
 						} else if (method === "info") {
-							label = colors.blue(label);
+							label = styleText("blue", label);
 						}
 						return label;
 					},
@@ -26,11 +26,11 @@
 						const { method, defaultTokens } = arg;
 						let msg = defaultTokens.msg(arg);
 						if (method === "error") {
-							msg = colors.red(msg);
+							msg = styleText("red", msg);
 						} else if (method === "warn") {
-							msg = colors.yellow(msg);
+							msg = styleText("yellow", msg);
 						} else if (method === "info") {
-							msg = colors.blue(msg);
+							msg = styleText("blue", msg);
 						}
 						return msg;
 					}
