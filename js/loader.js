@@ -1,4 +1,4 @@
-/* global defaultModules, vendor */
+/* global defaultModules */
 
 const Loader = (function () {
 
@@ -238,7 +238,7 @@ const Loader = (function () {
 
 		/**
 		 * Load a file (script or stylesheet).
-		 * Prevent double loading and search for files in the vendor folder.
+		 * Prevent double loading.
 		 * @param {string} fileName Path of the file we want to load.
 		 * @param {Module} module The module that calls the loadFile function.
 		 * @returns {Promise} resolved when the file is loaded
@@ -254,13 +254,6 @@ const Loader = (function () {
 				// Load it and then return.
 				loadedFiles.push(fileName.toLowerCase());
 				return loadFile(fileName);
-			}
-
-			if (vendor[fileName] !== undefined) {
-				// This file is available in the vendor folder.
-				// Load it from this vendor folder.
-				loadedFiles.push(fileName.toLowerCase());
-				return loadFile(`vendor/${vendor[fileName]}`);
 			}
 
 			// File not loaded yet.

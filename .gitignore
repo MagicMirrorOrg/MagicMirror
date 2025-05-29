@@ -10,7 +10,6 @@ coverage
 .lock-wscript
 build/Release
 /node_modules/**/*
-vendor/node_modules/**/*
 !/tests/node_modules/**/*
 jspm_modules
 .npm
@@ -67,6 +66,7 @@ Temporary Items
 !/css/custom.css.sample
 !/css/main.css
 !/css/roboto.css
+!/css/font-awesome.css
 
 # Ignore users config file but keep the sample.
 /config/*
