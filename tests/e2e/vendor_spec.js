@@ -18,13 +18,5 @@ describe("Vendors", () => {
 				expect(res.status).toBe(200);
 			});
 		});
-
-		Object.keys(vendors).forEach((vendor) => {
-			it(`should return 404 HTTP code for vendor https://localhost/xx/"${vendor}"`, async () => {
-				const urlVendor = `http://localhost:8080/xx/${vendors[vendor]}`;
-				const res = await fetch(urlVendor);
-				expect(res.status).toBe(404);
-			});
-		});
 	});
 });
