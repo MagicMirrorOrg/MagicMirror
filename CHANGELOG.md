@@ -31,8 +31,8 @@ planned for 2025-07-01
   - Switch Stylelint config to flat format and simplify Stylelint scripts
 - [workflow] Replace Node.js version v23 with v24 (#3770)
 - [refactor] Replace deprecated constants `fs.F_OK` and `fs.R_OK` (#3789)
-- [refactor] Replace `ansis` with built-in function `util.styleText`
-- [core] Integrate stuff from `vendor` and `fonts` folders into main `package.json`, simplifies install and maintaining dependencies
+- [refactor] Replace `ansis` with built-in function `util.styleText` (#3793)
+- [core] Integrate stuff from `vendor` and `fonts` folders into main `package.json`, simplifies install and maintaining dependencies (#3795)
 
 ### Fixed
 
