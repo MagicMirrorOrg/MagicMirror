@@ -43,7 +43,7 @@ planned for 2025-07-01
 
 ### Updated
 
-- [core] Update dependencies incl. electron to v36 (#3774, #3788)
+- [core] Update dependencies including electron to v36 (#3774, #3788)
 
 ## [2.31.0] - 2025-04-01
 
