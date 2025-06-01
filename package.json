@@ -32,6 +32,7 @@
 		"lint:js": "eslint --fix",
 		"lint:markdown": "markdownlint-cli2 . --fix",
 		"lint:prettier": "prettier . --write",
+		"postinstall": "git clean -df fonts vendor",
 		"prepare": "[ -f node_modules/.bin/husky ] && husky || echo no husky installed.",
 		"server": "node ./serveronly",
 		"start": "node --run start:x11",
