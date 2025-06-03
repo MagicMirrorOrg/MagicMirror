@@ -29,11 +29,22 @@
 
 	"FEELS": "Pocitově {DEGREE}",
 	"PRECIP_POP": "Pravděpodobnost deště",
+	"PRECIP_AMOUNT": "Množství deště",
+
+	"MODULE_CONFIG_CHANGED": "Konfigurační možnosti modulu {MODULE_NAME} byly změněny.\nProsím, zkontrolujte dokumentaci.",
+	"MODULE_CONFIG_ERROR": "Chyba v modulu {MODULE_NAME}. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "Nesprávná URL adresa.",
+	"MODULE_ERROR_NO_CONNECTION": "Není připojení k internetu.",
+	"MODULE_ERROR_UNAUTHORIZED": "Autorizace selhala.",
+	"MODULE_ERROR_UNSPECIFIED": "Zkontrolujte protokoly pro více informací.",
 
 	"NEWSFEED_NO_ITEMS": "Žádné zprávy.",
 
 	"UPDATE_NOTIFICATION": "Dostupná aktualizace pro MagicMirror².",
 	"UPDATE_NOTIFICATION_MODULE": "Dostupná aktualizace pro modul {MODULE_NAME}.",
 	"UPDATE_INFO_SINGLE": "Současná instalace je na větvi {BRANCH_NAME} pozadu o {COMMIT_COUNT} commit.",
-	"UPDATE_INFO_MULTIPLE": "Současná instalace je na větvi {BRANCH_NAME} pozadu o {COMMIT_COUNT} commits."
+	"UPDATE_INFO_MULTIPLE": "Současná instalace je na větvi {BRANCH_NAME} pozadu o {COMMIT_COUNT} commits.",
+	"UPDATE_NOTIFICATION_DONE": "Aktualizace dokončena pro modul {MODULE_NAME}.",
+	"UPDATE_NOTIFICATION_ERROR": "Chyba aktualizace modulu {MODULE_NAME}.",
+	"UPDATE_NOTIFICATION_NEED-RESTART": "Je třeba restartovat MagicMirror."
 }

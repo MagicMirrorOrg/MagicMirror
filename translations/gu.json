@@ -1,6 +1,7 @@
 {
 	"LOADING": "લોડ થઈ રહ્યું છે …",
 
+	"DAYBEFOREYESTERDAY": "પરમ ગઇકાલે",
 	"YESTERDAY": "ગઇકાલે",
 	"TODAY": "આજે",
 	"TOMORROW": "આવતી કાલે",
@@ -27,12 +28,23 @@
 	"NNW": "ઉઉપ",
 
 	"FEELS": "{DEGREE} જેવું લાગશે",
-	"PRECIP_POP": "PoP",
+	"PRECIP_POP": "વર્ષા સંભાવના",
+	"PRECIP_AMOUNT": "વર્ષા માત્રા",
 
 	"MODULE_CONFIG_CHANGED": "{MODULE_NAME} મોડ્યુલ માટે ગોઠવણી વિકલ્પો બદલાયા છે. \nકૃપા કરીને દસ્તાવેજોને તપાસો.",
+	"MODULE_CONFIG_ERROR": "{MODULE_NAME} મોડ્યુલમાં ભૂલ છે. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "ખોટી URL.",
+	"MODULE_ERROR_NO_CONNECTION": "ઇન્ટરનેટ કનેક્શન નથી.",
+	"MODULE_ERROR_UNAUTHORIZED": "અધિકૃત કરવું નિષ્ફળ.",
+	"MODULE_ERROR_UNSPECIFIED": "વધુ વિગતો માટે લોગ તપાસો.",
+
+	"NEWSFEED_NO_ITEMS": "હાલમાં કોઈ સમાચાર નથી.",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² અપડેટ ઉપલબ્ધ છે.",
 	"UPDATE_NOTIFICATION_MODULE": "{MODULE_NAME} મોડ્યુલ માટે અપડેટ ઉપલબ્ધ છે.",
 	"UPDATE_INFO_SINGLE": "વર્તમાન ઇન્સ્ટોલેશન  એ  {BRANCH_NAME} શાખા  ની {COMMIT_COUNT} કમીટ પાછળ છે. ",
-	"UPDATE_INFO_MULTIPLE": "વર્તમાન ઇન્સ્ટોલેશન  એ  {BRANCH_NAME} શાખા  ની {COMMIT_COUNT} કમીટ પાછળ છે. "
+	"UPDATE_INFO_MULTIPLE": "વર્તમાન ઇન્સ્ટોલેશન  એ  {BRANCH_NAME} શાખા  ની {COMMIT_COUNT} કમીટ પાછળ છે. ",
+	"UPDATE_NOTIFICATION_DONE": "{MODULE_NAME} મોડ્યુલ માટે અપડેટ પૂર્ણ થયું.",
+	"UPDATE_NOTIFICATION_ERROR": "{MODULE_NAME} મોડ્યુલ માટે અપડેટમાં ભૂલ આવી.",
+	"UPDATE_NOTIFICATION_NEED-RESTART": "MagicMirror ને ફરી શરૂ કરવાની જરૂર છે."
 }

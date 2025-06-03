@@ -31,8 +31,20 @@
 	"PRECIP_POP": "Sannsynlighet for nedbør",
 	"PRECIP_AMOUNT": "Nedbørsmengde",
 
+	"MODULE_CONFIG_CHANGED": "Innstillingene for {MODULE_NAME} modulen har endret seg.\nVennligst sjekk dokumentasjonen.",
+	"MODULE_CONFIG_ERROR": "Feil i {MODULE_NAME} modulen. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "Ugyldig URL.",
+	"MODULE_ERROR_NO_CONNECTION": "Ingen internettforbindelse.",
+	"MODULE_ERROR_UNAUTHORIZED": "Autentisering mislyktes.",
+	"MODULE_ERROR_UNSPECIFIED": "Vennligst sjekk loggene for mer informasjon.",
+
+	"NEWSFEED_NO_ITEMS": "Ingen nyheter tilgjengelig nå.",
+
 	"UPDATE_NOTIFICATION": "MagicMirror²-oppdatering er tilgjengelig.",
 	"UPDATE_NOTIFICATION_MODULE": "Oppdatering tilgjengelig for modulen {MODULE_NAME}.",
 	"UPDATE_INFO_SINGLE": "Nåværende installasjon er {COMMIT_COUNT} commit bak {BRANCH_NAME} grenen.",
-	"UPDATE_INFO_MULTIPLE": "Nåværende installasjon er {COMMIT_COUNT} commits bak {BRANCH_NAME} grenen."
+	"UPDATE_INFO_MULTIPLE": "Nåværende installasjon er {COMMIT_COUNT} commits bak {BRANCH_NAME} grenen.",
+	"UPDATE_NOTIFICATION_DONE": "Oppdateringen av modulen {MODULE_NAME} er fullført.",
+	"UPDATE_NOTIFICATION_ERROR": "Det oppstod en feil under oppdateringen av modulen {MODULE_NAME}.",
+	"UPDATE_NOTIFICATION_NEED-RESTART": "Det er nødvendig med en omstart av MagicMirror."
 }

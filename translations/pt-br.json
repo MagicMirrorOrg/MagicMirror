@@ -7,6 +7,7 @@
 	"TOMORROW": "Amanhã",
 	"RUNNING": "Acaba em",
 	"EMPTY": "Nenhum evento novo.",
+	"WEEK": "Semana {weekNumber}",
 
 	"N": "N",
 	"NNE": "NNE",
@@ -26,10 +27,23 @@
 	"NNW": "NNO",
 
 	"FEELS": "Percebida {DEGREE}",
-	"PRECIP_POP": "PoP",
+	"PRECIP_POP": "Probabilidade de precipitação",
+	"PRECIP_AMOUNT": "Quantidade de precipitação",
+
+	"MODULE_CONFIG_CHANGED": "As opções de configuração do módulo {MODULE_NAME} foram alteradas.\nConsulte a documentação.",
+	"MODULE_CONFIG_ERROR": "Erro no módulo {MODULE_NAME}. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "URL inválido.",
+	"MODULE_ERROR_NO_CONNECTION": "Sem conexão com a Internet.",
+	"MODULE_ERROR_UNAUTHORIZED": "Falha na autenticação.",
+	"MODULE_ERROR_UNSPECIFIED": "Verifique os logs para mais detalhes.",
+
+	"NEWSFEED_NO_ITEMS": "Atualmente não há notícias.",
 
 	"UPDATE_NOTIFICATION": "Nova atualização para MagicMirror² disponível.",
 	"UPDATE_NOTIFICATION_MODULE": "Atualização para o módulo {MODULE_NAME} disponível.",
 	"UPDATE_INFO_SINGLE": "Sua versão atual é a {COMMIT_COUNT} commit dentro do seguinte branch {BRANCH_NAME}.",
-	"UPDATE_INFO_MULTIPLE": "Sua versão atual é a {COMMIT_COUNT} commits dentro do seguinte branch {BRANCH_NAME}."
+	"UPDATE_INFO_MULTIPLE": "Sua versão atual é a {COMMIT_COUNT} commits dentro do seguinte branch {BRANCH_NAME}.",
+	"UPDATE_NOTIFICATION_DONE": "A atualização do módulo {MODULE_NAME} foi concluída.",
+	"UPDATE_NOTIFICATION_ERROR": "Ocorreu um erro ao atualizar o módulo {MODULE_NAME}.",
+	"UPDATE_NOTIFICATION_NEED-RESTART": "É necessário reiniciar o MagicMirror."
 }

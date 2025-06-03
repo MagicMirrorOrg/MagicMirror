@@ -27,8 +27,24 @@
 	"NW": "SZ",
 	"NNW": "SSZ",
 
+	"FEELS": "Pocit ako {DEGREE}",
+	"PRECIP_POP": "Pravdepodobnosť zrážok",
+	"PRECIP_AMOUNT": "Množstvo zrážok",
+
+	"MODULE_CONFIG_CHANGED": "Konfiguračné možnosti modulu {MODULE_NAME} boli zmenené.\nProsím, skontrolujte dokumentáciu.",
+	"MODULE_CONFIG_ERROR": "Chyba v module {MODULE_NAME}. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "Nesprávna URL adresa.",
+	"MODULE_ERROR_NO_CONNECTION": "Nie je pripojenie k internetu.",
+	"MODULE_ERROR_UNAUTHORIZED": "Autorizácia zlyhala.",
+	"MODULE_ERROR_UNSPECIFIED": "Skontrolujte protokoly pre viac informácií.",
+
+	"NEWSFEED_NO_ITEMS": "Momentálne žiadne správy.",
+
 	"UPDATE_NOTIFICATION": "Dostupná aktualizácia pre MagicMirror².",
 	"UPDATE_NOTIFICATION_MODULE": "Dostupná aktualizácia pre modul {MODULE_NAME}.",
 	"UPDATE_INFO_SINGLE": "Súčasná inštalácia je na vetve {BRANCH_NAME} pozadu o {COMMIT_COUNT} commit.",
-	"UPDATE_INFO_MULTIPLE": "Súčasná inštalácia je na vetve {BRANCH_NAME} pozadu o {COMMIT_COUNT} commitov."
+	"UPDATE_INFO_MULTIPLE": "Súčasná inštalácia je na vetve {BRANCH_NAME} pozadu o {COMMIT_COUNT} commitov.",
+	"UPDATE_NOTIFICATION_DONE": "Aktualizácia dokončená pre modul {MODULE_NAME}.",
+	"UPDATE_NOTIFICATION_ERROR": "Chyba aktualizácie modulu {MODULE_NAME}.",
+	"UPDATE_NOTIFICATION_NEED-RESTART": "Je potrebné reštartovať MagicMirror."
 }
