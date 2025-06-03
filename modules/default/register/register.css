@@ -1,0 +1,154 @@
+.flex-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 가운데 정렬 */
+  gap: 1rem; /* 요소 간 간격 */
+  padding: 1rem;
+}
+
+.flex-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem; /* 요소 간 간격 */
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.width-100 {
+  width: 100%;
+}
+
+.bottom-sheet {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  padding: 1em;
+  text-align: center;
+  z-index: 9999;
+  border-top-left-radius: 28px;
+  border-top-right-radius: 28px;
+  background: black;
+
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+  transform: translateY(100%);
+  transition: transform 0.4s ease-in-out;
+}
+
+.bottom-sheet.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.bottom-sheet.hidden {
+  transform: translateY(200%);
+  opacity: 0;
+}
+
+.sheet-container video {
+  border-radius: 8px;
+}
+
+.sheet-container button {
+  margin-top: 2em;
+}
+
+.sheet-info-box {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.sheet-info-box p {
+  margin: 0;
+  padding: 0;
+}
+
+/** html style **/
+input {
+  all: unset; /* 기본 스타일 초기화 */
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  background-color: #fafafa;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  cursor: text;
+}
+
+input:focus {
+  border-color: #635bff;
+  background-color: #fff;
+  box-shadow: 0 0 8px rgba(99, 91, 255, 0.3);
+  outline: none;
+}
+
+button {
+  all: unset; /* 기본 스타일 초기화 */
+  display: inline-block;
+  padding: 12px 24px;
+  margin-top: 1em;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.3s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 0.1);
+  background-color: #635bff;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #4a3dd1;
+  box-shadow: 0 4px 12px rgba(99, 91, 255, 0.4);
+}
+
+p {
+  font-size: 1.5rem;
+}
+
+/** page wrapper **/
+.page-wrapper {
+  padding: 50px;
+  text-align: center;
+  animation: fadeIn 1s;
+}
+
+.page-wrapper h1 {
+  color: #2c3e50;
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.page-wrapper button {
+  padding: 15px 30px;
+  font-size: 1em;
+  background: #4285f4;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.page-wrapper button:hover {
+  background: #3073e0;
+  transform: translateY(-3px);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
