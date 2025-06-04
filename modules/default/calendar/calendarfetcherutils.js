@@ -253,8 +253,8 @@ const CalendarFetcherUtils = {
 							Log.debug(`saving event: ${recurrenceTitle}`);
 							newEvents.push({
 								title: recurrenceTitle,
-								startDate: recurringEventStartMoment.format("x"),
-								endDate: recurringEventEndMoment.format("x"),
+								startDate: recurringEventStartMoment.unix(),
+								endDate: recurringEventEndMoment.unix(),
 								fullDayEvent: CalendarFetcherUtils.isFullDayEvent(event),
 								recurringEvent: true,
 								class: event.class,
@@ -308,8 +308,8 @@ const CalendarFetcherUtils = {
 					// Every thing is good. Add it to the list.
 					newEvents.push({
 						title: title,
-						startDate: eventStartMoment.format("x"),
-						endDate: eventEndMoment.format("x"),
+						startDate: eventStartMoment.unix(),
+						endDate: eventEndMoment.unix(),
 						fullDayEvent: fullDayEvent,
 						recurringEvent: false,
 						class: event.class,

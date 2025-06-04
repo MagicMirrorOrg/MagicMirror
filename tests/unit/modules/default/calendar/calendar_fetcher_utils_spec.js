@@ -72,19 +72,19 @@ END:VEVENT`);
 
 			const filteredEvents = CalendarFetcherUtils.filterEvents(data, defaultConfig);
 
-			const januaryFirst = filteredEvents.filter((event) => moment.unix(event.startDate / 1000).format("MM-DD") === "01-01");
-			const julyFirst = filteredEvents.filter((event) => moment.unix(event.startDate / 1000).format("MM-DD") === "07-01");
+			const januaryFirst = filteredEvents.filter((event) => moment.unix(event.startDate).format("MM-DD") === "01-01");
+			const julyFirst = filteredEvents.filter((event) => moment.unix(event.startDate).format("MM-DD") === "07-01");
 
-			let januaryMoment = moment(`${moment.unix(januaryFirst[0].startDate / 1000).format("YYYY")}-01-01T09:00:00`)
+			let januaryMoment = moment(`${moment.unix(januaryFirst[0].startDate).format("YYYY")}-01-01T09:00:00`)
 				.tz("Europe/Amsterdam", true) // Convert to Europe/Amsterdam timezone (see event ical) but keep 9 o'clock
 				.tz(moment.tz.guess()); // Convert to guessed timezone as that is used in the filterEvents
 
-			let julyMoment = moment(`${moment.unix(julyFirst[0].startDate / 1000).format("YYYY")}-07-01T09:00:00`)
+			let julyMoment = moment(`${moment.unix(julyFirst[0].startDate).format("YYYY")}-07-01T09:00:00`)
 				.tz("Europe/Amsterdam", true) // Convert to Europe/Amsterdam timezone (see event ical) but keep 9 o'clock
 				.tz(moment.tz.guess()); // Convert to guessed timezone as that is used in the filterEvents
 
-			expect(januaryFirst[0].startDate).toEqual(januaryMoment.format("x"));
-			expect(julyFirst[0].startDate).toEqual(julyMoment.format("x"));
+			expect(januaryFirst[0].startDate).toEqual(januaryMoment.unix());
+			expect(julyFirst[0].startDate).toEqual(julyMoment.unix());
 		});
 
 		it("should return the correct moments based on the timezone given", () => {
