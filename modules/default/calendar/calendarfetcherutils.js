@@ -97,9 +97,6 @@ const CalendarFetcherUtils = {
 
 		Log.debug("fix rrule start=", rule.options.dtstart);
 		Log.debug("event before rrule.between=", JSON.stringify(event, null, 2), "exdates=", event.exdate);
-		// fixup the exdate and recurrence date to local time too for post between() handling
-		// TODO figure out what this does
-		// CalendarFetcherUtils.fixEventtoLocal(event);
 
 		Log.debug(`RRule: ${rule.toString()}`);
 		rule.options.tzid = null; // RRule gets *very* confused with timezones
@@ -115,9 +112,12 @@ const CalendarFetcherUtils = {
 			return JSON.stringify(d) !== "null";
 		});
 
+		console.log(dates);
+		console.log(event);
+
 		// Dates are returned in UTC timezone but with localdatetime because tzid is null.
 		// So we map the date to a moment using the original timezone of the event.
-		return dates.map((d) => moment(d).tz(event.start.tz, true));
+		return dates.map((d) => (event.start.tz ? moment(d).tz(event.start.tz, true) : moment(d)));
 	},
 
 	/**
@@ -200,9 +200,13 @@ const CalendarFetcherUtils = {
 					// Recurring event.
 					let moments = CalendarFetcherUtils.getMomentsFromRecurringEvent(event, pastLocalMoment, futureLocalMoment);
 
+					console.log(moments);
+
 					// Loop through the set of moment entries to see which recurrences should be added to our event list.
 					// TODO This should create an event per moment so we can change anything we want.
 					for (let m in moments) {
+						console.log(typeof moments[m]);
+						console.log(moments[m]);
 						let curEvent = event;
 						let showRecurrence = true;
 						let recurringEventStartMoment = moments[m].tz(moment.tz.guess()).clone();
@@ -218,8 +222,17 @@ const CalendarFetcherUtils = {
 								Log.debug("have a recurrence match for dateKey=", dateKey);
 								// We found an override, so for this recurrence, use a potentially different title, start date, and duration.
 								curEvent = curEvent.recurrences[dateKey];
-								recurringEventStartMoment = moment(curEvent.start).tz(curEvent.start.tz, true).tz(moment.tz.guess());
-								recurringEventEndMoment = moment(curEvent.end).tz(curEvent.end.tz, true).tz(moment.tz.guess());
+								// Some event start/end dates don't have timezones
+								if (curEvent.start.tz) {
+									recurringEventStartMoment = moment(curEvent.start).tz(curEvent.start.tz).tz(moment.tz.guess());
+								} else {
+									recurringEventStartMoment = moment(curEvent.start).tz(moment.tz.guess());
+								}
+								if (curEvent.end.tz) {
+									recurringEventEndMoment = moment(curEvent.end).tz(curEvent.end.tz).tz(moment.tz.guess());
+								} else {
+									recurringEventEndMoment = moment(curEvent.end).tz(moment.tz.guess());
+								}
 							} else {
 								Log.debug("recurrence key ", dateKey, " doesn't match");
 							}
@@ -330,87 +343,6 @@ const CalendarFetcherUtils = {
 	},
 
 	/**
-	 * Fixes the event fields that have dates to use local time
-	 * before calling rrule.between.
-	 * @param {object} event - The event being processed.
-	 * @returns {void}
-	 */
-	fixEventtoLocal (event) {
-		// if there are excluded dates, their date is incorrect and possibly key as well.
-		if (event.exdate !== undefined) {
-			Object.keys(event.exdate).forEach((dateKey) => {
-				// get the date
-				let exdate = event.exdate[dateKey];
-				Log.debug("exdate w key=", exdate);
-				//exdate=CalendarFetcherUtils.convertDateToLocalTime(exdate, event.end.tz)
-				exdate = new Date(new Date(exdate.valueOf() - ((120 * 60 * 1000))).getTime());
-				Log.debug("new exDate item=", exdate, " with old key=", dateKey);
-				let newkey = exdate.toISOString().slice(0, 10);
-				if (newkey !== dateKey) {
-					Log.debug("new exDate item=", exdate, ` key=${newkey}`);
-					event.exdate[newkey] = exdate;
-					//delete event.exdate[dateKey]
-				}
-			});
-			Log.debug("updated exdate list=", event.exdate);
-		}
-		if (event.recurrences) {
-			Object.keys(event.recurrences).forEach((dateKey) => {
-				let exdate = event.recurrences[dateKey];
-				//exdate=new Date(new Date(exdate.valueOf()-(60*60*1000)).getTime())
-				Log.debug("new recurrence item=", exdate, " with old key=", dateKey);
-				exdate.start = CalendarFetcherUtils.convertDateToLocalTime(exdate.start, exdate.start.tz);
-				exdate.end = CalendarFetcherUtils.convertDateToLocalTime(exdate.end, exdate.end.tz);
-				Log.debug("adjusted recurringEvent start=", exdate.start, " end=", exdate.end);
-			});
-		}
-		Log.debug("modified recurrences before rrule.between", event.recurrences);
-	},
-
-	/**
-	 * convert a UTC date to local time
-	 * BEFORE calling rrule.between
-	 * @param {Date} date The date to convert
-	 * @param {string} tz The timezone string to convert the date to.
-	 * @returns {Date} updated date object
-	 */
-	convertDateToLocalTime (date, tz) {
-		let delta_tz_offset = 0;
-		let now_offset = CalendarFetcherUtils.getTimezoneOffsetFromTimezone(moment.tz.guess());
-		let event_offset = CalendarFetcherUtils.getTimezoneOffsetFromTimezone(tz);
-		Log.debug("date to convert=", date);
-		if (Math.sign(now_offset) !== Math.sign(event_offset)) {
-			delta_tz_offset = Math.abs(now_offset) + Math.abs(event_offset);
-		} else {
-			// signs are the same
-			// if negative
-			if (Math.sign(now_offset) === -1) {
-				// la looking at chicago
-				if (now_offset < event_offset) { // 5 -7
-					delta_tz_offset = now_offset - event_offset;
-				}
-				else { //7 -5 , chicago looking at LA
-					delta_tz_offset = event_offset - now_offset;
-				}
-			}
-			else {
-				// berlin looking at sydney
-				if (now_offset < event_offset) { // 5 -7
-					delta_tz_offset = event_offset - now_offset;
-					Log.debug("less delta=", delta_tz_offset);
-				}
-				else { // 11 - 2, sydney looking at berlin
-					delta_tz_offset = -(now_offset - event_offset);
-					Log.debug("more delta=", delta_tz_offset);
-				}
-			}
-		}
-		const newdate = new Date(new Date(date.valueOf() + (delta_tz_offset * 60 * 1000)).getTime());
-		Log.debug("modified date =", newdate);
-		return newdate;
-	},
-
-	/**
 	 * get the exdate/recurrence hash key from the date object
 	 * BEFORE calling rrule.between
 	 * @param {Date} date The date of the event
@@ -418,9 +350,8 @@ const CalendarFetcherUtils = {
 	 */
 	getDateKeyFromDate (date) {
 		// get our runtime timezone offset
-		const nowDiff = CalendarFetcherUtils.getTimezoneOffsetFromTimezone(moment.tz.guess());
 		let startday = date.getDate();
-		Log.debug(" day of month=", (`0${startday}`).slice(-2), " nowDiff=", nowDiff, ` start time=${date.toString().split(" ")[4].slice(0, 2)}`);
+		Log.debug(" day of month=", (`0${startday}`).slice(-2), ` start time=${date.toString().split(" ")[4].slice(0, 2)}`);
 		Log.debug("date string=    ", date.toString());
 		Log.debug("date iso string ", date.toISOString());
 		// if the dates are different
@@ -434,18 +365,6 @@ const CalendarFetcherUtils = {
 			}
 		}
 		return date.toISOString().substring(0, 8) + (`0${startday}`).slice(-2);
-	},
-
-	/**
-	 * get the timezone offset from the timezone string
-	 * @param {string} timeZone The timezone string
-	 * @returns {number} The numerical offset in minutes from UTC.
-	 */
-	getTimezoneOffsetFromTimezone (timeZone) {
-		const str = new Date().toLocaleString("en", { timeZone, timeZoneName: "longOffset" });
-		Log.debug("tz offset=", str);
-		const [_, h, m] = str.match(/([+-]\d+):(\d+)$/) || ["", "+00", "00"];
-		return h * 60 + (h > 0 ? +m : -m);
 	},
 
 	/**

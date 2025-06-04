@@ -1,7 +1,5 @@
 /* global CalendarUtils */
 
-const moment = require("moment-timezone");
-
 Module.register("calendar", {
 	// Define module defaults
 	defaults: {
