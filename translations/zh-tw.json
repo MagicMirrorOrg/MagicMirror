@@ -29,6 +29,7 @@
 
 	"FEELS": "體感溫度 {DEGREE}",
 	"PRECIP_POP": "降雨機率",
+	"PRECIP_AMOUNT": "降雨量",
 
 	"MODULE_CONFIG_CHANGED": "模組 {MODULE_NAME} 的設定檔選項已更改。\n請參見說明文件。",
 	"MODULE_CONFIG_ERROR": "{MODULE_NAME} 模組發生錯誤。{ERROR}",
@@ -42,5 +43,8 @@
 	"UPDATE_NOTIFICATION": "MagicMirror² 有可用更新。",
 	"UPDATE_NOTIFICATION_MODULE": "{MODULE_NAME} 模組有可用更新。",
 	"UPDATE_INFO_SINGLE": "目前版本在 {BRANCH_NAME} 分支上已落後了 {COMMIT_COUNT} 次 commit。",
-	"UPDATE_INFO_MULTIPLE": "目前版本在 {BRANCH_NAME} 分支上已落後了 {COMMIT_COUNT} 次 commit。"
+	"UPDATE_INFO_MULTIPLE": "目前版本在 {BRANCH_NAME} 分支上已落後了 {COMMIT_COUNT} 次 commit。",
+	"UPDATE_NOTIFICATION_DONE": "{MODULE_NAME} 模組更新完成。",
+	"UPDATE_NOTIFICATION_ERROR": "{MODULE_NAME} 模組更新錯誤。",
+	"UPDATE_NOTIFICATION_NEED-RESTART": "需要重新啟動 MagicMirror。"
 }

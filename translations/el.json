@@ -5,8 +5,10 @@
 	"YESTERDAY": "Χθες",
 	"TODAY": "Σήμερα",
 	"TOMORROW": "Αύριο",
+	"DAYAFTERTOMORROW": "Μεθαύριο",
 	"RUNNING": "Λήγει σε",
 	"EMPTY": "Δεν υπάρχουν προσεχείς εκδηλώσεις.",
+	"WEEK": "Εβδομάδα {weekNumber}",
 
 	"N": "B",
 	"NNE": "BBA",

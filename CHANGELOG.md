@@ -33,6 +33,7 @@ planned for 2025-07-01
 - [refactor] Replace deprecated constants `fs.F_OK` and `fs.R_OK` (#3789)
 - [refactor] Replace `ansis` with built-in function `util.styleText` (#3793)
 - [core] Integrate stuff from `vendor` and `fonts` folders into main `package.json`, simplifies install and maintaining dependencies (#3795)
+- [l10n] Complete translations (with the help of translation tools) (#3794)
 
 ### Fixed
 

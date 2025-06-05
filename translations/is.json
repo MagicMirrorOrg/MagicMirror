@@ -8,6 +8,7 @@
 	"DAYAFTERTOMORROW": "Ekki á morgun, heldur hinn",
 	"RUNNING": "Endar eftir",
 	"EMPTY": "Ekkert framundan.",
+	"WEEK": "Vika {weekNumber}",
 
 	"N": "N",
 	"NNE": "NNA",
@@ -26,8 +27,24 @@
 	"NW": "NV",
 	"NNW": "NNV",
 
+	"FEELS": "Kælist á {DEGREE}",
+	"PRECIP_POP": "Úrkoma",
+	"PRECIP_AMOUNT": "Magn úrkomu",
+
+	"MODULE_CONFIG_CHANGED": "Stillingar fyrir {MODULE_NAME} module hafa breyst.\nVinsamlegast skoðaðu skjöl.",
+	"MODULE_CONFIG_ERROR": "Villa í {MODULE_NAME} module. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "Villa í slóð.",
+	"MODULE_ERROR_NO_CONNECTION": "Engin nettenging.",
+	"MODULE_ERROR_UNAUTHORIZED": "Auðkenning mistókst.",
+	"MODULE_ERROR_UNSPECIFIED": "Vinsamlegast athugaðu skráningu fyrir frekari upplýsingar.",
+
+	"NEWSFEED_NO_ITEMS": "Engar fréttir í boði núna.",
+
 	"UPDATE_NOTIFICATION": "MagicMirror² uppfærsla í boði.",
 	"UPDATE_NOTIFICATION_MODULE": "Uppfærsla í boði fyrir {MODULE_NAME} module.",
 	"UPDATE_INFO_SINGLE": "Núverandi kerfi er {COMMIT_COUNT} commit á eftir {BRANCH_NAME} branchinu.",
-	"UPDATE_INFO_MULTIPLE": "Núverandi kerfi er {COMMIT_COUNT} commits á eftir {BRANCH_NAME} branchinu."
+	"UPDATE_INFO_MULTIPLE": "Núverandi kerfi er {COMMIT_COUNT} commits á eftir {BRANCH_NAME} branchinu.",
+	"UPDATE_NOTIFICATION_DONE": "Uppfærsla lokið fyrir {MODULE_NAME} module",
+	"UPDATE_NOTIFICATION_ERROR": "Villa við uppfærslu fyrir {MODULE_NAME} module",
+	"UPDATE_NOTIFICATION_NEED-RESTART": "Endurræsa MagicMirror er nauðsynlegt."
 }
