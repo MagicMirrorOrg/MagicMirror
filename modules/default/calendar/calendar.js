@@ -664,7 +664,7 @@ Module.register("calendar", {
 
 						event.startDate = midnight.unix();
 						count += 1;
-						midnight = midnight.clone().add(1, "day").endOf("day").unix(); // next day
+						midnight = midnight.clone().add(1, "day").endOf("day"); // next day
 					}
 					// Last day
 					event.title += ` (${count}/${maxCount})`;

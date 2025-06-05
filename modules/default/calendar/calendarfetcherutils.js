@@ -68,6 +68,15 @@ const CalendarFetcherUtils = {
 	},
 
 	/**
+	 * Get local timezone.
+	 * This method makes it easier to test if different timezones cause problems by changing this implementation.
+	 * @returns {string} timezone
+	 */
+	getLocalTimezone () {
+		return "America/Los_Angeles";
+	},
+
+	/**
 	 * This function returns a list of moments for a recurring event.
 	 * @param {object} event the current event which is a recurring event
 	 * @param {moment.Moment} pastLocalMoment The past date to search for recurring events
@@ -114,7 +123,7 @@ const CalendarFetcherUtils = {
 
 		// Dates are returned in UTC timezone but with localdatetime because tzid is null.
 		// So we map the date to a moment using the original timezone of the event.
-		return dates.map((d) => (event.start.tz ? moment.tz(d, "UTC").tz(event.start.tz, true) : moment.tz(d, "UTC").tz(moment.tz.guess(), true)));
+		return dates.map((d) => (event.start.tz ? moment.tz(d, "UTC").tz(event.start.tz, true) : moment.tz(d, "UTC").tz(CalendarFetcherUtils.getLocalTimezone(), true)));
 	},
 
 	/**
@@ -202,10 +211,10 @@ const CalendarFetcherUtils = {
 					for (let m in moments) {
 						let curEvent = event;
 						let showRecurrence = true;
-						let recurringEventStartMoment = moments[m].tz(moment.tz.guess()).clone();
+						let recurringEventStartMoment = moments[m].tz(CalendarFetcherUtils.getLocalTimezone()).clone();
 						let recurringEventEndMoment = recurringEventStartMoment.clone().add(durationMs, "ms");
 
-						let dateKey = CalendarFetcherUtils.getDateKeyFromDate(recurringEventStartMoment.toDate());
+						let dateKey = recurringEventStartMoment.tz("UTC").format("YYYY-MM-DD");
 
 						Log.debug("event date dateKey=", dateKey);
 						// For each date that we're checking, it's possible that there is a recurrence override for that one day.
@@ -217,14 +226,14 @@ const CalendarFetcherUtils = {
 								curEvent = curEvent.recurrences[dateKey];
 								// Some event start/end dates don't have timezones
 								if (curEvent.start.tz) {
-									recurringEventStartMoment = moment(curEvent.start).tz(curEvent.start.tz).tz(moment.tz.guess());
+									recurringEventStartMoment = moment(curEvent.start).tz(curEvent.start.tz).tz(CalendarFetcherUtils.getLocalTimezone());
 								} else {
-									recurringEventStartMoment = moment(curEvent.start).tz(moment.tz.guess());
+									recurringEventStartMoment = moment(curEvent.start).tz(CalendarFetcherUtils.getLocalTimezone());
 								}
 								if (curEvent.end.tz) {
-									recurringEventEndMoment = moment(curEvent.end).tz(curEvent.end.tz).tz(moment.tz.guess());
+									recurringEventEndMoment = moment(curEvent.end).tz(curEvent.end.tz).tz(CalendarFetcherUtils.getLocalTimezone());
 								} else {
-									recurringEventEndMoment = moment(curEvent.end).tz(moment.tz.guess());
+									recurringEventEndMoment = moment(curEvent.end).tz(CalendarFetcherUtils.getLocalTimezone());
 								}
 							} else {
 								Log.debug("recurrence key ", dateKey, " doesn't match");
@@ -232,7 +241,7 @@ const CalendarFetcherUtils = {
 						}
 						// If there's no recurrence override, check for an exception date.  Exception dates represent exceptions to the rule.
 						if (curEvent.exdate !== undefined) {
-							Log.debug("have datekey=", dateKey, " exdates=", curEvent.exdate);
+							console.log("have datekey=", dateKey, " exdates=", curEvent.exdate);
 							if (curEvent.exdate[dateKey] !== undefined) {
 								// This date is an exception date, which means we should skip it in the recurrence pattern.
 								showRecurrence = false;
@@ -333,31 +342,6 @@ const CalendarFetcherUtils = {
 		});
 
 		return newEvents;
-	},
-
-	/**
-	 * get the exdate/recurrence hash key from the date object
-	 * BEFORE calling rrule.between
-	 * @param {Date} date The date of the event
-	 * @returns {string} date key in the format YYYY-MM-DD
-	 */
-	getDateKeyFromDate (date) {
-		// get our runtime timezone offset
-		let startday = date.getDate();
-		Log.debug(" day of month=", (`0${startday}`).slice(-2), ` start time=${date.toString().split(" ")[4].slice(0, 2)}`);
-		Log.debug("date string=    ", date.toString());
-		Log.debug("date iso string ", date.toISOString());
-		// if the dates are different
-		if (date.toString().slice(8, 10) < date.toISOString().slice(8, 10)) {
-			startday = date.toString().slice(8, 10);
-			Log.debug("< ", startday);
-		} else { // tostring is more
-			if (date.toString().slice(8, 10) > date.toISOString().slice(8, 10)) {
-				startday = date.toISOString().slice(8, 10);
-				Log.debug("> ", startday);
-			}
-		}
-		return date.toISOString().substring(0, 8) + (`0${startday}`).slice(-2);
 	},
 
 	/**
