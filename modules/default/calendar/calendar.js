@@ -77,7 +77,7 @@ Module.register("calendar", {
 
 	// Define required scripts.
 	getScripts () {
-		return ["calendarutils.js", "moment-timezone.js", "moment.js"];
+		return ["calendarutils.js", "moment.js", "moment-timezone.js"];
 	},
 
 	// Define required translations.
@@ -218,10 +218,6 @@ Module.register("calendar", {
 	// Override dom generator.
 	getDom () {
 		const ONE_SECOND = 1000; // 1,000 milliseconds
-		const ONE_MINUTE = ONE_SECOND * 60;
-		const ONE_HOUR = ONE_MINUTE * 60;
-		const ONE_DAY = ONE_HOUR * 24;
-
 		const events = this.createEventList(true);
 		const wrapper = document.createElement("table");
 		wrapper.className = this.config.tableClass;
