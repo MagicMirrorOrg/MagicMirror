@@ -28,9 +28,23 @@
 	"NNW": "NNW",
 
 	"FEELS": "Se simte ca fiind {DEGREE}",
+	"PRECIP_POP": "Probabilitate de precipitații",
+	"PRECIP_AMOUNT": "Cantitate de precipitații",
+
+	"MODULE_CONFIG_CHANGED": "Opțiunile de configurare pentru modulul {MODULE_NAME} s-au schimbat.\nVă rugăm să verificați documentația.",
+	"MODULE_CONFIG_ERROR": "Eroare în modulul {MODULE_NAME}. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "URL incorect.",
+	"MODULE_ERROR_NO_CONNECTION": "Fără conexiune la internet.",
+	"MODULE_ERROR_UNAUTHORIZED": "Autorizarea a eșuat.",
+	"MODULE_ERROR_UNSPECIFIED": "Verificați jurnalele pentru mai multe detalii.",
+
+	"NEWSFEED_NO_ITEMS": "Nu există știri în acest moment.",
 
 	"UPDATE_NOTIFICATION": "Un update este disponibil pentru MagicMirror².",
 	"UPDATE_NOTIFICATION_MODULE": "Un update este disponibil pentru modulul {MODULE_NAME}.",
 	"UPDATE_INFO_SINGLE": "Există {COMMIT_COUNT} commit-uri noi pe branch-ul {BRANCH_NAME}.",
-	"UPDATE_INFO_MULTIPLE": "Există {COMMIT_COUNT} commit-uri noi pe branch-ul {BRANCH_NAME}."
+	"UPDATE_INFO_MULTIPLE": "Există {COMMIT_COUNT} commit-uri noi pe branch-ul {BRANCH_NAME}.",
+	"UPDATE_NOTIFICATION_DONE": "Update-ul a fost finalizat pentru modulul {MODULE_NAME}",
+	"UPDATE_NOTIFICATION_ERROR": "Eroare la update-ul modulului {MODULE_NAME}",
+	"UPDATE_NOTIFICATION_NEED-RESTART": "Este necesară repornirea MagicMirror."
 }
