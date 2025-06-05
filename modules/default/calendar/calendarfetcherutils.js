@@ -112,12 +112,9 @@ const CalendarFetcherUtils = {
 			return JSON.stringify(d) !== "null";
 		});
 
-		console.log(dates);
-		console.log(event);
-
 		// Dates are returned in UTC timezone but with localdatetime because tzid is null.
 		// So we map the date to a moment using the original timezone of the event.
-		return dates.map((d) => (event.start.tz ? moment(d).tz(event.start.tz, true) : moment(d)));
+		return dates.map((d) => (event.start.tz ? moment.tz(d, "UTC").tz(event.start.tz, true) : moment.tz(d, "UTC").tz(moment.tz.guess(), true)));
 	},
 
 	/**
@@ -200,13 +197,9 @@ const CalendarFetcherUtils = {
 					// Recurring event.
 					let moments = CalendarFetcherUtils.getMomentsFromRecurringEvent(event, pastLocalMoment, futureLocalMoment);
 
-					console.log(moments);
-
 					// Loop through the set of moment entries to see which recurrences should be added to our event list.
 					// TODO This should create an event per moment so we can change anything we want.
 					for (let m in moments) {
-						console.log(typeof moments[m]);
-						console.log(moments[m]);
 						let curEvent = event;
 						let showRecurrence = true;
 						let recurringEventStartMoment = moments[m].tz(moment.tz.guess()).clone();

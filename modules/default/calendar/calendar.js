@@ -77,7 +77,7 @@ Module.register("calendar", {
 
 	// Define required scripts.
 	getScripts () {
-		return ["calendarutils.js", "moment-timezone.js"];
+		return ["calendarutils.js", "moment-timezone.js", "moment.js"];
 	},
 
 	// Define required translations.
