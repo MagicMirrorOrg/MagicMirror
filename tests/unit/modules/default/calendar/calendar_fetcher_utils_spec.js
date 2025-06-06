@@ -114,28 +114,5 @@ END:VEVENT`);
 			expect(januaryFirst[0].toISOString(true)).toContain("09:00:00.000+01:00");
 			expect(julyFirst[0].toISOString(true)).toContain("09:00:00.000+02:00");
 		});
-
-		it("debug", () => {
-			const data = ical.parseICS(`BEGIN:VEVENT
-DTSTART;TZID=America/New_York:20240918T183000
-DTEND;TZID=America/New_York:20240918T203000
-RRULE:FREQ=WEEKLY;BYDAY=WE
-EXDATE;TZID=America/New_York:20241127T183000
-EXDATE;TZID=America/New_York:20241225T183000
-DTSTAMP:20250122T045443Z
-UID:_@google.com
-CREATED:20240916T131843Z
-LAST-MODIFIED:20241222T235014Z
-SEQUENCE:0
-STATUS:CONFIRMED
-SUMMARY:Derby
-TRANSP:OPAQUE
-END:VEVENT`);
-
-			const filteredEvents = CalendarFetcherUtils.filterEvents(data, defaultConfig);
-
-			console.log(filteredEvents);
-
-		});
 	});
 });
