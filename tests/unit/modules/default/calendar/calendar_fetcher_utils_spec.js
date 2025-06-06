@@ -72,19 +72,21 @@ END:VEVENT`);
 
 			const filteredEvents = CalendarFetcherUtils.filterEvents(data, defaultConfig);
 
-			const januaryFirst = filteredEvents.filter((event) => moment.unix(event.startDate).format("MM-DD") === "01-01");
-			const julyFirst = filteredEvents.filter((event) => moment.unix(event.startDate).format("MM-DD") === "07-01");
+			console.log(filteredEvents);
 
-			let januaryMoment = moment(`${moment.unix(januaryFirst[0].startDate).format("YYYY")}-01-01T09:00:00`)
+			const januaryFirst = filteredEvents.filter((event) => moment(event.startDate, "x").format("MM-DD") === "01-01");
+			const julyFirst = filteredEvents.filter((event) => moment(event.startDate, "x").format("MM-DD") === "07-01");
+
+			let januaryMoment = moment(`${moment(januaryFirst[0].startDate, "x").format("YYYY")}-01-01T09:00:00`)
 				.tz("Europe/Amsterdam", true) // Convert to Europe/Amsterdam timezone (see event ical) but keep 9 o'clock
 				.tz(moment.tz.guess()); // Convert to guessed timezone as that is used in the filterEvents
 
-			let julyMoment = moment(`${moment.unix(julyFirst[0].startDate).format("YYYY")}-07-01T09:00:00`)
+			let julyMoment = moment(`${moment(julyFirst[0].startDate, "x").format("YYYY")}-07-01T09:00:00`)
 				.tz("Europe/Amsterdam", true) // Convert to Europe/Amsterdam timezone (see event ical) but keep 9 o'clock
 				.tz(moment.tz.guess()); // Convert to guessed timezone as that is used in the filterEvents
 
-			expect(januaryFirst[0].startDate).toEqual(januaryMoment.unix());
-			expect(julyFirst[0].startDate).toEqual(julyMoment.unix());
+			expect(januaryFirst[0].startDate).toEqual(januaryMoment.format("x"));
+			expect(julyFirst[0].startDate).toEqual(julyMoment.format("x"));
 		});
 
 		it("should return the correct moments based on the timezone given", () => {
@@ -111,6 +113,29 @@ END:VEVENT`);
 
 			expect(januaryFirst[0].toISOString(true)).toContain("09:00:00.000+01:00");
 			expect(julyFirst[0].toISOString(true)).toContain("09:00:00.000+02:00");
+		});
+
+		it("debug", () => {
+			const data = ical.parseICS(`BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20240918T183000
+DTEND;TZID=America/New_York:20240918T203000
+RRULE:FREQ=WEEKLY;BYDAY=WE
+EXDATE;TZID=America/New_York:20241127T183000
+EXDATE;TZID=America/New_York:20241225T183000
+DTSTAMP:20250122T045443Z
+UID:_@google.com
+CREATED:20240916T131843Z
+LAST-MODIFIED:20241222T235014Z
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Derby
+TRANSP:OPAQUE
+END:VEVENT`);
+
+			const filteredEvents = CalendarFetcherUtils.filterEvents(data, defaultConfig);
+
+			console.log(filteredEvents);
+
 		});
 	});
 });

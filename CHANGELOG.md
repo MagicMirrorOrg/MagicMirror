@@ -38,7 +38,6 @@ planned for 2025-07-01
   - Removed as many of the date conversions as possible
   - Use `moment-timezone` when calculating recurring events, this will fix problems from the past with offsets and DST not being handled properly
   - Added some tests to test the behavior of the refactored methodes to make sure the correct event dates are returned
-  - Changed the behaviour of the `calendarfetcherutils` so it returns proper unix timestamps in milliseconds instead of microseconds and it will always be in UTC
 
 ### Fixed
 

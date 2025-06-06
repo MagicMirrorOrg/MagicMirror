@@ -91,8 +91,9 @@ const CalendarFetcherUtils = {
 			rule.options.dtstart.setYear(1900);
 		}
 
-		// subtract the duration of this event to find events in the past that are currently still running and should therefor be displayed.
-		let searchFromDate = pastLocalMoment.clone().subtract(durationInMs, "milliseconds").toDate();
+		// subtract the max of the duration of this event or 1 day to find events in the past that are currently still running and should therefor be displayed.
+		const oneDayInMs = 24 * 60 * 60000;
+		let searchFromDate = pastLocalMoment.clone().subtract(Math.max(durationInMs, oneDayInMs), "milliseconds").toDate();
 		let searchToDate = futureLocalMoment.clone().add(1, "days").toDate();
 		Log.debug(`Search for recurring events between: ${searchFromDate} and ${searchToDate}`);
 
@@ -269,8 +270,8 @@ const CalendarFetcherUtils = {
 							Log.debug(`saving event: ${recurrenceTitle}`);
 							newEvents.push({
 								title: recurrenceTitle,
-								startDate: recurringEventStartMoment.unix(),
-								endDate: recurringEventEndMoment.unix(),
+								startDate: recurringEventStartMoment.format("x"),
+								endDate: recurringEventEndMoment.format("x"),
 								fullDayEvent: CalendarFetcherUtils.isFullDayEvent(event),
 								recurringEvent: true,
 								class: event.class,
@@ -324,8 +325,8 @@ const CalendarFetcherUtils = {
 					// Every thing is good. Add it to the list.
 					newEvents.push({
 						title: title,
-						startDate: eventStartMoment.unix(),
-						endDate: eventEndMoment.unix(),
+						startDate: eventStartMoment.format("x"),
+						endDate: eventEndMoment.format("x"),
 						fullDayEvent: fullDayEvent,
 						recurringEvent: false,
 						class: event.class,

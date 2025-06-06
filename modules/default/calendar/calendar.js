@@ -591,7 +591,7 @@ Module.register("calendar", {
 	 * @returns {moment.Moment} moment with a timezone
 	 */
 	timestampToMoment (timestamp) {
-		return moment.unix(timestamp).tz(moment.tz.guess());
+		return moment(timestamp, "x").tz(moment.tz.guess());
 	},
 
 	/**
@@ -657,11 +657,11 @@ Module.register("calendar", {
 						const thisEvent = JSON.parse(JSON.stringify(event)); // clone object
 						thisEvent.today = this.timestampToMoment(thisEvent.startDate).isSame(now, "d");
 						thisEvent.tomorrow = this.timestampToMoment(thisEvent.startDate).isSame(now.clone().add(1, "days"), "d");
-						thisEvent.endDate = midnight.clone().subtract(1, "day").unix();
+						thisEvent.endDate = midnight.clone().subtract(1, "day").format("x");
 						thisEvent.title += ` (${count}/${maxCount})`;
 						splitEvents.push(thisEvent);
 
-						event.startDate = midnight.unix();
+						event.startDate = midnight.format("x");
 						count += 1;
 						midnight = midnight.clone().add(1, "day").endOf("day"); // next day
 					}
