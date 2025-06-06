@@ -1,10 +1,8 @@
 /**
  * @external Moment
  */
-const path = require("node:path");
 const moment = require("moment-timezone");
 
-const zoneTable = require(path.join(__dirname, "windowsZones.json"));
 const Log = require("../../../js/logger");
 
 const CalendarFetcherUtils = {
@@ -73,7 +71,7 @@ const CalendarFetcherUtils = {
 	 * @returns {string} timezone
 	 */
 	getLocalTimezone () {
-		return "America/Los_Angeles";
+		return moment.tz.guess();
 	},
 
 	/**
@@ -136,7 +134,8 @@ const CalendarFetcherUtils = {
 		const newEvents = [];
 
 		const eventDate = function (event, time) {
-			return CalendarFetcherUtils.isFullDayEvent(event) ? moment.tz(event[time], event[time].tz).startOf("day") : moment.tz(event[time], event[time].tz);
+			const startMoment = event[time].tz ? moment.tz(event[time], event[time].tz) : moment.tz(event[time], CalendarFetcherUtils.getLocalTimezone());
+			return CalendarFetcherUtils.isFullDayEvent(event) ? startMoment.startOf("day") : startMoment;
 		};
 
 		Log.debug(`There are ${Object.entries(data).length} calendar entries.`);

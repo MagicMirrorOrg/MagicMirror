@@ -425,16 +425,15 @@ Module.register("calendar", {
 					// For full day events we use the fullDayEventDateFormat
 					if (event.fullDayEvent) {
 						//subtract one second so that fullDayEvents end at 23:59:59, and not at 0:00:00 one the next day
-						event.endDate -= ONE_SECOND;
+						eventEndDateMoment.subtract(1, "second");
 						timeWrapper.innerHTML = CalendarUtils.capFirst(eventStartDateMoment.format(this.config.fullDayEventDateFormat));
 						// only show end if requested and allowed and the dates are different
 						if (this.config.showEnd && !this.config.showEndsOnlyWithDuration && !eventStartDateMoment.isSame(eventEndDateMoment, "d")) {
 							timeWrapper.innerHTML += "-";
 							timeWrapper.innerHTML += CalendarUtils.capFirst(eventEndDateMoment.format(this.config.fullDayEventDateFormat));
-						} else
-							if (!eventStartDateMoment.isSame(eventEndDateMoment, "d") && eventStartDateMoment.isBefore(now)) {
-								timeWrapper.innerHTML = CalendarUtils.capFirst(now.format(this.config.fullDayEventDateFormat));
-							}
+						} else if (!eventStartDateMoment.isSame(eventEndDateMoment, "d") && eventStartDateMoment.isBefore(now)) {
+							timeWrapper.innerHTML = CalendarUtils.capFirst(now.format(this.config.fullDayEventDateFormat));
+						}
 					} else if (this.config.getRelative > 0 && eventStartDateMoment.isBefore(now)) {
 						// Ongoing and getRelative is set
 						timeWrapper.innerHTML = CalendarUtils.capFirst(
@@ -588,7 +587,7 @@ Module.register("calendar", {
 
 	/**
 	 * converts the given timestamp to a moment with a timezone
-	 * @param timestamp timestamp from an event
+	 * @param {number} timestamp timestamp from an event
 	 * @returns {moment.Moment} moment with a timezone
 	 */
 	timestampToMoment (timestamp) {
@@ -644,7 +643,7 @@ Module.register("calendar", {
 				 * if sliceMultiDayEvents is set to true, multiday events (events exceeding at least one midnight) are sliced into days,
 				 * otherwise, esp. in dateheaders mode it is not clear how long these events are.
 				 */
-				const maxCount = eventEndDateMoment.diff(eventStartDateMoment, "days") + 1;
+				const maxCount = eventEndDateMoment.diff(eventStartDateMoment, "days");
 				if (this.config.sliceMultiDayEvents && maxCount > 1) {
 					const splitEvents = [];
 					let midnight
