@@ -79,9 +79,10 @@ const CalendarFetcherUtils = {
 	 * @param {object} event the current event which is a recurring event
 	 * @param {moment.Moment} pastLocalMoment The past date to search for recurring events
 	 * @param {moment.Moment} futureLocalMoment The future date to search for recurring events
+	 * @param {number} durationInMs the duration of the event, this is used to take into account currently running events
 	 * @returns {moment.Moment[]} All moments for the recurring event
 	 */
-	getMomentsFromRecurringEvent (event, pastLocalMoment, futureLocalMoment) {
+	getMomentsFromRecurringEvent (event, pastLocalMoment, futureLocalMoment, durationInMs) {
 		const rule = event.rrule;
 
 		// can cause problems with e.g. birthdays before 1900
@@ -90,7 +91,8 @@ const CalendarFetcherUtils = {
 			rule.options.dtstart.setYear(1900);
 		}
 
-		let searchFromDate = pastLocalMoment.clone().subtract(1, "days").toDate();
+		// subtract the duration of this event to find events in the past that are currently still running and should therefor be displayed.
+		let searchFromDate = pastLocalMoment.clone().subtract(durationInMs, "milliseconds").toDate();
 		let searchToDate = futureLocalMoment.clone().add(1, "days").toDate();
 		Log.debug(`Search for recurring events between: ${searchFromDate} and ${searchToDate}`);
 
@@ -203,7 +205,7 @@ const CalendarFetcherUtils = {
 				// TODO This should be a seperate function.
 				if (event.rrule && typeof event.rrule !== "undefined" && !isFacebookBirthday) {
 					// Recurring event.
-					let moments = CalendarFetcherUtils.getMomentsFromRecurringEvent(event, pastLocalMoment, futureLocalMoment);
+					let moments = CalendarFetcherUtils.getMomentsFromRecurringEvent(event, pastLocalMoment, futureLocalMoment, durationMs);
 
 					// Loop through the set of moment entries to see which recurrences should be added to our event list.
 					// TODO This should create an event per moment so we can change anything we want.
