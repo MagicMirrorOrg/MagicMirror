@@ -3,30 +3,21 @@
 const Translator = (function () {
 
 	/**
-	 * Load a JSON file via XHR.
+	 * Load a JSON file using fetch.
 	 * @param {string} file Path of the file we want to load.
 	 * @returns {Promise<object>} the translations in the specified file
 	 */
 	async function loadJSON (file) {
-		const xhr = new XMLHttpRequest();
-		return new Promise(function (resolve) {
-			xhr.overrideMimeType("application/json");
-			xhr.open("GET", file, true);
-			xhr.onreadystatechange = function () {
-				if (xhr.readyState === 4 && xhr.status === 200) {
-					// needs error handler try/catch at least
-					let fileInfo = null;
-					try {
-						fileInfo = JSON.parse(xhr.responseText);
-					} catch (exception) {
-						// nothing here, but don't die
-						Log.error(` loading json file =${file} failed`);
-					}
-					resolve(fileInfo);
-				}
-			};
-			xhr.send(null);
-		});
+		try {
+			const response = await fetch(file);
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+			return await response.json();
+		} catch (error) {
+			Log.error(`Loading json file ${file} failed: ${error.message}`);
+			return null;
+		}
 	}
 
 	return {
