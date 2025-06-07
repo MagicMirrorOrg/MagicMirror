@@ -38,6 +38,7 @@ planned for 2025-07-01
   - Removed as many of the date conversions as possible
   - Use `moment-timezone` when calculating recurring events, this will fix problems from the past with offsets and DST not being handled properly
   - Added some tests to test the behavior of the refactored methods to make sure the correct event dates are returned
+- [refactor] Simplify the `loadJSON` function in `translator.js` by replacing `XMLHttpRequest` with `fetch` (#3792)
 
 ### Fixed
 
