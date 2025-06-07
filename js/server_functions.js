@@ -41,25 +41,29 @@ async function cors (req, res) {
 			url = `invalid url: ${req.url}`;
 			Log.error(url);
 			res.send(url);
-		} else {
-			url = match[1];
+			return;
+		}
+		url = match[1];
 
-			const headersToSend = getHeadersToSend(req.url);
-			const expectedReceivedHeaders = geExpectedReceivedHeaders(req.url);
+		const headersToSend = getHeadersToSend(req.url);
+		const expectedReceivedHeaders = geExpectedReceivedHeaders(req.url);
+		Log.log(`cors url: ${url}`);
 
-			Log.log(`cors url: ${url}`);
-			const response = await fetch(url, { headers: headersToSend });
-
+		const response = await fetch(url, { headers: headersToSend });
+		if (response.ok) {
 			for (const header of expectedReceivedHeaders) {
 				const headerValue = response.headers.get(header);
 				if (header) res.set(header, headerValue);
 			}
 			const data = await response.text();
 			res.send(data);
+		} else {
+			res.status(response.status).json({ message: response.statusText });
 		}
+
 	} catch (error) {
 		Log.error(error);
-		res.send(error);
+		res.status(500).json({ message: error.message });
 	}
 }
 
