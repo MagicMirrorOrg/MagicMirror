@@ -243,7 +243,7 @@ const CalendarFetcherUtils = {
 						}
 						// If there's no recurrence override, check for an exception date.  Exception dates represent exceptions to the rule.
 						if (curEvent.exdate !== undefined) {
-							console.log("have datekey=", dateKey, " exdates=", curEvent.exdate);
+							Log.debug("have datekey=", dateKey, " exdates=", curEvent.exdate);
 							if (curEvent.exdate[dateKey] !== undefined) {
 								// This date is an exception date, which means we should skip it in the recurrence pattern.
 								showRecurrence = false;

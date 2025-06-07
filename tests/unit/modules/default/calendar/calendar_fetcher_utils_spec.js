@@ -72,8 +72,6 @@ END:VEVENT`);
 
 			const filteredEvents = CalendarFetcherUtils.filterEvents(data, defaultConfig);
 
-			console.log(filteredEvents);
-
 			const januaryFirst = filteredEvents.filter((event) => moment(event.startDate, "x").format("MM-DD") === "01-01");
 			const julyFirst = filteredEvents.filter((event) => moment(event.startDate, "x").format("MM-DD") === "07-01");
 
