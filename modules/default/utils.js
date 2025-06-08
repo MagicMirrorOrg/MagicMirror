@@ -18,25 +18,28 @@ async function performWebRequest (url, type = "json", useCorsProxy = false, requ
 		request.headers = getHeadersToSend(requestHeaders);
 	}
 
-	const response = await fetch(requestUrl, request);
-	if (response.ok) {
-		const data = await response.text();
+	try {
+		const response = await fetch(requestUrl, request);
+		if (response.ok) {
+			const data = await response.text();
 
-		if (type === "xml") {
-			return new DOMParser().parseFromString(data, "text/html");
-		} else {
-			if (!data || !data.length > 0) return "null"; //undefined;
+			if (type === "xml") {
+				return new DOMParser().parseFromString(data, "text/html");
+			} else {
+				if (!data || !data.length > 0) return undefined;
 
-			const dataResponse = JSON.parse(data);
-			if (!dataResponse.headers) {
-				dataResponse.headers = getHeadersFromResponse(expectedResponseHeaders, response);
+				const dataResponse = JSON.parse(data);
+				if (!dataResponse.headers) {
+					dataResponse.headers = getHeadersFromResponse(expectedResponseHeaders, response);
+				}
+				return dataResponse;
 			}
-			return dataResponse;
+		} else {
+			throw new Error(`Response status: ${response.status}`);
 		}
-	} else {
-		throw new Error(`Response status: ${response.status}`);
+	} catch (error) {
+		Log.error(`Error fetching data from ${url}: ${error}`);
 	}
-
 }
 
 /**
