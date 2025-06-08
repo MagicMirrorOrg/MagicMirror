@@ -174,7 +174,7 @@ describe("Translations", () => {
 		};
 
 		// Function to initialize JSDOM and load translations
-		const initializeTranslationDOM = async (language) => {
+		const initializeTranslationDOM = (language) => {
 			const dom = new JSDOM("", { runScripts: "dangerously", resources: "usable" });
 			dom.window.Log = { log: jest.fn() };
 			dom.window.translations = translations;
@@ -197,15 +197,15 @@ describe("Translations", () => {
 			base = Object.keys(germanTranslations).sort();
 		});
 
-		for (let language in translations) {
+		for (const language in translations) {
 			if (language === "de") continue;
 
 			describe(`Translation keys of ${language}`, () => {
 				let keys;
 
 				beforeAll(async () => {
-					const translations = await initializeTranslationDOM(language);
-					keys = Object.keys(translations).sort();
+					const languageTranslations = await initializeTranslationDOM(language);
+					keys = Object.keys(languageTranslations).sort();
 				});
 
 				it(`${language} should not contain keys that are not in base language`, () => {
