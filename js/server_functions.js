@@ -46,19 +46,22 @@ async function cors (req, res) {
 
 			const headersToSend = getHeadersToSend(req.url);
 			const expectedReceivedHeaders = geExpectedReceivedHeaders(req.url);
-
 			Log.log(`cors url: ${url}`);
-			const response = await fetch(url, { headers: headersToSend });
 
-			for (const header of expectedReceivedHeaders) {
-				const headerValue = response.headers.get(header);
-				if (header) res.set(header, headerValue);
+			const response = await fetch(url, { headers: headersToSend });
+			if (response.ok) {
+				for (const header of expectedReceivedHeaders) {
+					const headerValue = response.headers.get(header);
+					if (header) res.set(header, headerValue);
+				}
+				const data = await response.text();
+				res.send(data);
+			} else {
+				throw new Error(`Response status: ${response.status}`);
 			}
-			const data = await response.text();
-			res.send(data);
 		}
 	} catch (error) {
-		Log.error(error);
+		Log.error(`Error in CORS request: ${error}`);
 		res.send(error);
 	}
 }

@@ -22,38 +22,36 @@ WeatherProvider.register("pirateweather", {
 		lon: 0
 	},
 
-	fetchCurrentWeather () {
-		this.fetchData(this.getUrl())
-			.then((data) => {
-				if (!data || !data.currently || typeof data.currently.temperature === "undefined") {
-					// No usable data?
-					return;
-				}
+	async fetchCurrentWeather () {
+		try {
+			const data = await this.fetchData(this.getUrl());
+			if (!data || !data.currently || typeof data.currently.temperature === "undefined") {
+				throw new Error("No usable data received from Pirate Weather API.");
+			}
 
-				const currentWeather = this.generateWeatherDayFromCurrentWeather(data);
-				this.setCurrentWeather(currentWeather);
-			})
-			.catch(function (request) {
-				Log.error("Could not load data ... ", request);
-			})
-			.finally(() => this.updateAvailable());
+			const currentWeather = this.generateWeatherDayFromCurrentWeather(data);
+			this.setCurrentWeather(currentWeather);
+		} catch (error) {
+			Log.error("Could not load data ... ", error);
+		} finally {
+			this.updateAvailable();
+		}
 	},
 
-	fetchWeatherForecast () {
-		this.fetchData(this.getUrl())
-			.then((data) => {
-				if (!data || !data.daily || !data.daily.data.length) {
-					// No usable data?
-					return;
-				}
+	async fetchWeatherForecast () {
+		try {
+			const data = await this.fetchData(this.getUrl());
+			if (!data || !data.daily || !data.daily.data.length) {
+				throw new Error("No usable data received from Pirate Weather API.");
+			}
 
-				const forecast = this.generateWeatherObjectsFromForecast(data.daily.data);
-				this.setWeatherForecast(forecast);
-			})
-			.catch(function (request) {
-				Log.error("Could not load data ... ", request);
-			})
-			.finally(() => this.updateAvailable());
+			const forecast = this.generateWeatherObjectsFromForecast(data.daily.data);
+			this.setWeatherForecast(forecast);
+		} catch (error) {
+			Log.error("Could not load data ... ", error);
+		} finally {
+			this.updateAvailable();
+		}
 	},
 
 	// Create a URL from the config and base URL.

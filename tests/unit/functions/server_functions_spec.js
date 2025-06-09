@@ -17,7 +17,8 @@ describe("server_functions tests", () => {
 				headers: {
 					get: fetchResponseHeadersGet
 				},
-				text: fetchResponseHeadersText
+				text: fetchResponseHeadersText,
+				ok: true
 			};
 
 			fetch = jest.fn();
