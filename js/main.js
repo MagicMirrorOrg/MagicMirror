@@ -617,7 +617,7 @@ const MM = (function () {
 						if (startUp !== curr) {
 							startUp = "";
 							window.location.reload(true);
-							console.warn("Refreshing Website because server was restarted");
+							Log.warn("Refreshing Website because server was restarted");
 						}
 					} catch (err) {
 						Log.error(`MagicMirror not reachable: ${err}`);

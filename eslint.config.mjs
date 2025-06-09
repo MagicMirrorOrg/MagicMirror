@@ -85,6 +85,16 @@ export default defineConfig([
 		}
 	},
 	{
+		files: ["**/*.js"],
+		ignores: [
+			"clientonly/index.js",
+			"modules/default/calendar/debug.js",
+			"js/logger.js",
+			"tests/**/*.js"
+		],
+		rules: {"no-console": "error"}
+	},
+	{
 		files: ["**/package.json"],
 		plugins: {packageJson},
 		extends: ["packageJson/recommended"]
