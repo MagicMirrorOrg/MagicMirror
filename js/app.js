@@ -364,7 +364,7 @@ function App () {
 				}
 			} catch (error) {
 				Log.error(`Error when stopping node_helper for module ${nodeHelper.name}:`);
-				console.error(error);
+				Log.error(error);
 			}
 		}
 
