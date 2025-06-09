@@ -31,6 +31,13 @@ planned for 2025-07-01
   - Switch Stylelint config to flat format and simplify Stylelint scripts
 - [workflow] Replace Node.js version v23 with v24 (#3770)
 - [refactor] Replace deprecated constants `fs.F_OK` and `fs.R_OK` (#3789)
+- [refactor] Replace `ansis` with built-in function `util.styleText` (#3793)
+- [core] Integrate stuff from `vendor` and `fonts` folders into main `package.json`, simplifies install and maintaining dependencies (#3795, #3805)
+- [l10n] Complete translations (with the help of translation tools) (#3794)
+- [refactor] Refactored `calendarfetcherutils` in Calendar module to handle timezones better (#3806)
+  - Removed as many of the date conversions as possible
+  - Use `moment-timezone` when calculating recurring events, this will fix problems from the past with offsets and DST not being handled properly
+  - Added some tests to test the behavior of the refactored methods to make sure the correct event dates are returned
 
 ### Fixed
 
@@ -38,11 +45,12 @@ planned for 2025-07-01
 - [calendar] fix fullday event rrule until with timezone offset (#3781)
 - [feat] Add rule `no-undef` in config file validation to fix #3785 (#3786)
 - [fonts] Fix `roboto.css` to avoid error message `Unknown descriptor 'var(' in @font-face rule.` in firefox console (#3787)
+- [tests] Fix and refactor e2e test `Same keys` in `translations_spec.js` (#3809)
 - [weather] Add error handling to fetch functions including cors (#3791)
 
 ### Updated
 
-- [core] Update dependencies incl. electron to v36 (#3774, #3788)
+- [core] Update dependencies including electron to v36 (#3774, #3788)
 
 ## [2.31.0] - 2025-04-01
 

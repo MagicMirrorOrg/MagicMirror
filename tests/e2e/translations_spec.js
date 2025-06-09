@@ -154,77 +154,79 @@ describe("Translations", () => {
 
 	describe("Same keys", () => {
 		let base;
-		let missing = [];
 
-		beforeAll(() => {
-			return new Promise((done) => {
-				const dom = new JSDOM(
-					`<script>var translations = ${JSON.stringify(translations)}; var Log = {log: () => {}};</script>\
-					<script src="file://${path.join(__dirname, "..", "..", "js", "translator.js")}">`,
-					{ runScripts: "dangerously", resources: "usable" }
-				);
+		// Some expressions are not easy to translate automatically. For the sake of a working test, we filter them out.
+		const COMMON_EXCEPTIONS = ["WEEK_SHORT"];
+
+		// Some languages don't have certain words, so we need to filter those language specific exceptions.
+		const LANGUAGE_EXCEPTIONS = {
+			ca: ["DAYBEFOREYESTERDAY"],
+			cv: ["DAYBEFOREYESTERDAY"],
+			cy: ["DAYBEFOREYESTERDAY"],
+			en: ["DAYAFTERTOMORROW", "DAYBEFOREYESTERDAY"],
+			fy: ["DAYBEFOREYESTERDAY"],
+			gl: ["DAYBEFOREYESTERDAY"],
+			hu: ["DAYBEFOREYESTERDAY"],
+			id: ["DAYBEFOREYESTERDAY"],
+			it: ["DAYBEFOREYESTERDAY"],
+			"pt-br": ["DAYAFTERTOMORROW"],
+			tr: ["DAYBEFOREYESTERDAY"]
+		};
+
+		// Function to initialize JSDOM and load translations
+		const initializeTranslationDOM = (language) => {
+			const dom = new JSDOM("", { runScripts: "dangerously", resources: "usable" });
+			dom.window.Log = { log: jest.fn() };
+			dom.window.translations = translations;
+			const translatorJs = fs.readFileSync(path.join(__dirname, "..", "..", "js", "translator.js"), "utf-8");
+			dom.window.eval(translatorJs);
+
+			return new Promise((resolve) => {
 				dom.window.onload = async () => {
 					const { Translator } = dom.window;
-
-					await Translator.load(mmm, translations.de, false);
-					base = Object.keys(Translator.translations[mmm.name]).sort();
-					done();
+					await Translator.load(mmm, translations[language], false);
+					resolve(Translator.translations[mmm.name]);
 				};
 			});
+		};
+
+		beforeAll(async () => {
+			// Using German as the base rather than English, since
+			// some words do not have a direct translation in English.
+			const germanTranslations = await initializeTranslationDOM("de");
+			base = Object.keys(germanTranslations).sort();
 		});
 
-		afterAll(() => {
-			console.log(missing);
-		});
-
-		// Using German as the base rather than English, since
-		// at least one translated word doesn't exist in English.
-		for (let language in translations) {
-			if (language === "de") {
-				continue;
-			}
+		for (const language in translations) {
+			if (language === "de") continue;
 
 			describe(`Translation keys of ${language}`, () => {
 				let keys;
 
-				beforeAll(() => {
-					return new Promise((done) => {
-						const dom = new JSDOM(
-							`<script>var translations = ${JSON.stringify(translations)}; var Log = {log: () => {}};</script>\
-					<script src="file://${path.join(__dirname, "..", "..", "js", "translator.js")}">`,
-							{ runScripts: "dangerously", resources: "usable" }
-						);
-						dom.window.onload = async () => {
-							const { Translator } = dom.window;
-
-							await Translator.load(mmm, translations[language], false);
-							keys = Object.keys(Translator.translations[mmm.name]).sort();
-							done();
-						};
-					});
+				beforeAll(async () => {
+					const languageTranslations = await initializeTranslationDOM(language);
+					keys = Object.keys(languageTranslations).sort();
 				});
 
-				it(`${language} keys should be in base`, () => {
+				it(`${language} should not contain keys that are not in base language`, () => {
 					keys.forEach((key) => {
-						expect(base.indexOf(key)).toBeGreaterThanOrEqual(0);
+						expect(base).toContain(key, `Translation key '${key}' in language '${language}' is not present in base language`);
 					});
 				});
 
-				it(`${language} should contain all base keys`, () => {
-					// TODO: when all translations are fixed, use
-					// expect(keys).toEqual(base);
-					// instead of the try-catch-block
+				it(`${language} should contain all base keys (excluding defined exceptions)`, () => {
+					let filteredBase = base.filter((key) => !COMMON_EXCEPTIONS.includes(key));
+					let filteredKeys = keys.filter((key) => !COMMON_EXCEPTIONS.includes(key));
 
-					try {
-						expect(keys).toEqual(base);
-					} catch (e) {
-						if (e.message.match(/expect.*toEqual/)) {
-							const diff = base.filter((key) => !keys.includes(key));
-							missing.push(`Missing Translations for language ${language}: ${diff}`);
-						} else {
-							throw e;
-						}
+					if (LANGUAGE_EXCEPTIONS[language]) {
+						const exceptions = LANGUAGE_EXCEPTIONS[language];
+						filteredBase = filteredBase.filter((key) => !exceptions.includes(key));
+						filteredKeys = filteredKeys.filter((key) => !exceptions.includes(key));
 					}
+
+					filteredBase.forEach((baseKey) => {
+						expect(filteredKeys).toContain(baseKey, `Translation key '${baseKey}' is missing in language '${language}'`);
+					});
 				});
 			});
 		}

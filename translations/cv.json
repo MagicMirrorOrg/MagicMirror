@@ -27,9 +27,23 @@
 	"NNW": "ҪҪА",
 
 	"FEELS": "Туйӑннӑ {DEGREE}",
+	"PRECIP_POP": "Ҫумӑр ҫума пултарасси",
+	"PRECIP_AMOUNT": "Ҫумӑр виҫи",
+
+	"MODULE_CONFIG_CHANGED": "{MODULE_NAME} модулӗн конфигураци опциялӗ пур ҫӗнтерӗ.",
+	"MODULE_CONFIG_ERROR": "{MODULE_NAME} модулӗнде хата. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "Ҫӗҫ ҫӗнӗ URL хата.",
+	"MODULE_ERROR_NO_CONNECTION": "Интернет-пулла хӗҫҫӗн.",
+	"MODULE_ERROR_UNAUTHORIZED": "Авторизация хата.",
+	"MODULE_ERROR_UNSPECIFIED": "Тӗп лог ҫӗнтерӗ.",
+
+	"NEWSFEED_NO_ITEMS": "Пулас ҫӗнтер ҫук.",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² валли ҫӗнетӳ пур.",
 	"UPDATE_NOTIFICATION_MODULE": "{MODULE_NAME} модуль валли ҫӗнетӳ пур.",
 	"UPDATE_INFO_SINGLE": "Ҫак инсталляци {BRANCH_NAME} commit турат {COMMIT_COUNT} коммитпа кая уйрӑлса тӑрать.",
-	"UPDATE_INFO_MULTIPLE": "Ҫак инсталляци {BRANCH_NAME} commit турат {COMMIT_COUNT} коммитпа кая уйрӑлса тӑрать."
+	"UPDATE_INFO_MULTIPLE": "Ҫак инсталляци {BRANCH_NAME} commit турат {COMMIT_COUNT} коммитпа кая уйрӑлса тӑрать.",
+	"UPDATE_NOTIFICATION_DONE": "{MODULE_NAME} модулӗнде валли ҫӗнетӳ пур.",
+	"UPDATE_NOTIFICATION_ERROR": "{MODULE_NAME} модулӗнде валли ҫӗнетӳ хата.",
+	"UPDATE_NOTIFICATION_NEED-RESTART": "MagicMirror перезагрузка тӗрӗҫҫӗн тӑрать."
 }

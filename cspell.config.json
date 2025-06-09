@@ -52,6 +52,8 @@
 		"dkallen",
 		"drivelist",
 		"DTEND",
+		"DTSTAMP",
+		"DTSTART",
 		"Duffman",
 		"earlman",
 		"easyas",
@@ -107,6 +109,7 @@
 		"jsonlint",
 		"jupadin",
 		"kaennchenstruggle",
+		"Kalenderwoche",
 		"kenzal",
 		"Keyport",
 		"khassel",
@@ -244,6 +247,6 @@
 		"Ybbet",
 		"yearmatchgroup"
 	],
-	"ignorePaths": ["node_modules/**", "modules/**", "vendor/node_modules/**", "translations/**", "tests/mocks/**", "tests/e2e/modules/clock_es_spec.js", "fonts/roboto.css"],
+	"ignorePaths": ["node_modules/**", "modules/**", "translations/**", "tests/mocks/**", "tests/e2e/modules/clock_es_spec.js", "css/roboto.css"],
 	"dictionaries": ["node"]
 }
