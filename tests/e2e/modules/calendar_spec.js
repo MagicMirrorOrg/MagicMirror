@@ -119,7 +119,6 @@ describe("Calendar module", () => {
 		});
 	});
 
-	process.setMaxListeners(0);
 	for (let i = -12; i < 12; i++) {
 		describe("Recurring event per timezone", () => {
 			beforeAll(async () => {

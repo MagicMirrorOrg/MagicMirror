@@ -40,9 +40,9 @@ describe("Clock module", () => {
 		});
 
 		it("check for discreet elements of clock", async () => {
-			let elemClock = helpers.waitForElement(".clock-hour-digital");
+			let elemClock = await helpers.waitForElement(".clock-hour-digital");
 			await expect(elemClock).not.toBeNull();
-			elemClock = helpers.waitForElement(".clock-minute-digital");
+			elemClock = await helpers.waitForElement(".clock-minute-digital");
 			await expect(elemClock).not.toBeNull();
 		});
 	});
@@ -165,7 +165,7 @@ describe("Clock module", () => {
 		});
 
 		it("should show the analog clock face", async () => {
-			const elem = helpers.waitForElement(".clock-circle");
+			const elem = await helpers.waitForElement(".clock-circle");
 			expect(elem).not.toBeNull();
 		});
 	});
@@ -177,9 +177,9 @@ describe("Clock module", () => {
 		});
 
 		it("should show the analog clock face and the date", async () => {
-			const elemClock = helpers.waitForElement(".clock-circle");
+			const elemClock = await helpers.waitForElement(".clock-circle");
 			await expect(elemClock).not.toBeNull();
-			const elemDate = helpers.waitForElement(".clock .date");
+			const elemDate = await helpers.waitForElement(".clock .date");
 			await expect(elemDate).not.toBeNull();
 		});
 	});
