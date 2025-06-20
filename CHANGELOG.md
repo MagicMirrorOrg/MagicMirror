@@ -51,7 +51,7 @@ planned for 2025-07-01
 ### Updated
 
 - [core] Update dependencies including electron to v36 (#3774, #3788, #3811)
-- [logger] Review factory code part: use `switch/case` instead of `if/else if` (#XXXX)
+- [logger] Review factory code part: use `switch/case` instead of `if/else if` (#3812)
 
 ## [2.31.0] - 2025-04-01
 
