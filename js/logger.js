@@ -11,26 +11,35 @@
 					label: (arg) => {
 						const { method, defaultTokens } = arg;
 						let label = defaultTokens.label(arg);
-						if (method === "error") {
-							label = styleText("red", label);
-						} else if (method === "warn") {
-							label = styleText("yellow", label);
-						} else if (method === "debug") {
-							label = styleText("bgBlue", label);
-						} else if (method === "info") {
-							label = styleText("blue", label);
+						switch (method) {
+							case "error":
+								label = styleText("red", label);
+								break;
+							case "warn":
+								label = styleText("yellow", label);
+								break;
+							case "debug":
+								label = styleText("bgBlue", label);
+								break;
+							case "info":
+								label = styleText("blue", label);
+								break;
 						}
 						return label;
 					},
 					msg: (arg) => {
 						const { method, defaultTokens } = arg;
 						let msg = defaultTokens.msg(arg);
-						if (method === "error") {
-							msg = styleText("red", msg);
-						} else if (method === "warn") {
-							msg = styleText("yellow", msg);
-						} else if (method === "info") {
-							msg = styleText("blue", msg);
+						switch (method) {
+							case "error":
+								msg = styleText("red", msg);
+								break;
+							case "warn":
+								msg = styleText("yellow", msg);
+								break;
+							case "info":
+								msg = styleText("blue", msg);
+								break;
 						}
 						return msg;
 					}
