@@ -22,7 +22,7 @@
 	"contributors": [
 		"https://github.com/MagicMirrorOrg/MagicMirror/graphs/contributors"
 	],
-	"type": "",
+	"type": "commonjs",
 	"main": "js/electron.js",
 	"scripts": {
 		"config:check": "node js/check_config.js",
