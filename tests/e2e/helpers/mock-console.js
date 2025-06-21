@@ -27,3 +27,5 @@ global.console = {
 	info: jest.fn(),
 	debug: console.debug
 };
+
+process.setMaxListeners(0);
