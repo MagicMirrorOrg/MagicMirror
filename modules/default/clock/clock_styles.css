@@ -90,6 +90,7 @@
 .module.clock .sun,
 .module.clock .moon {
   display: flex;
+  white-space: nowrap;
 }
 
 .module.clock .sun > *,
