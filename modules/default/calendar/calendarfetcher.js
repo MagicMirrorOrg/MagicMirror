@@ -81,10 +81,13 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 	 * Schedule the timer for the next update.
 	 */
 	const scheduleTimer = function () {
-		clearTimeout(reloadTimer);
-		reloadTimer = setTimeout(function () {
-			fetchCalendar();
-		}, reloadInterval);
+		if (process.env.JEST_WORKER_ID === undefined) {
+			// only set timer when not running in jest
+			clearTimeout(reloadTimer);
+			reloadTimer = setTimeout(function () {
+				fetchCalendar();
+			}, reloadInterval);
+		}
 	};
 
 	/* public methods */
