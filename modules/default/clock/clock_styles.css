@@ -91,6 +91,7 @@
 .module.clock .moon {
   display: flex;
   white-space: nowrap;
+  gap: 10px;
   padding-top: 3px;
 }
 
@@ -98,17 +99,6 @@
 .module.clock .moon > * {
   flex: 1;
 }
-
-.module.clock .fa-sun,
-.module.clock .fa-moon {
-  padding-left: 3px;
-}
-
-.module.clock .fa-arrow-up,
-.module.clock .fa-arrow.down {
-  padding-left: 10px;
-}
-
 .module.clock .clock-hour-digital {
   color: var(--color-text-bright);
 }
