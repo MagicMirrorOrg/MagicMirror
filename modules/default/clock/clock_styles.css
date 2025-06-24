@@ -99,6 +99,7 @@
 .module.clock .moon > * {
   flex: 1;
 }
+
 .module.clock .clock-hour-digital {
   color: var(--color-text-bright);
 }
