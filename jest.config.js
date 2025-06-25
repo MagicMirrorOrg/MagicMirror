@@ -20,7 +20,6 @@ module.exports = async () => {
 			},
 			{
 				displayName: "e2e",
-				setupFilesAfterEnv: ["<rootDir>/tests/e2e/helpers/mock-console.js"],
 				testMatch: ["**/tests/e2e/**/*.[jt]s?(x)"],
 				modulePaths: ["<rootDir>/js/"],
 				testPathIgnorePatterns: ["<rootDir>/tests/e2e/helpers", "<rootDir>/tests/e2e/mocks"]

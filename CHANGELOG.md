@@ -48,6 +48,7 @@ planned for 2025-07-01
 - [feat] Add rule `no-undef` in config file validation to fix #3785 (#3786)
 - [fonts] Fix `roboto.css` to avoid error message `Unknown descriptor 'var(' in @font-face rule.` in firefox console (#3787)
 - [tests] Fix and refactor e2e test `Same keys` in `translations_spec.js` (#3809)
+- [tests] Fix e2e tests newsfeed and calendar to exit without open handles (#3817)
 
 ### Updated
 
