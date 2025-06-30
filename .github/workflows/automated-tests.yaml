@@ -22,23 +22,23 @@ jobs:
       - name: "Use Node.js"
         uses: actions/setup-node@v4
         with:
-          node-version: 23
+          node-version: lts/*
           cache: "npm"
       - name: "Install dependencies"
         run: |
-          npm run install-mm:dev
+          node --run install-mm:dev
       - name: "Run linter tests"
         run: |
-          npm run test:prettier
-          npm run test:js
-          npm run test:css
-          npm run test:markdown
+          node --run test:prettier
+          node --run test:js
+          node --run test:css
+          node --run test:markdown
   test:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     strategy:
       matrix:
-        node-version: [22.14.0, 22.x, 23.x]
+        node-version: [22.14.0, 22.x, 24.x]
     steps:
       - name: Install electron dependencies and labwc
         run: |
@@ -54,14 +54,16 @@ jobs:
           cache: "npm"
       - name: "Install MagicMirror²"
         run: |
-          npm run install-mm:dev
-      - name: "Run tests"
+          node --run install-mm:dev
+      - name: "Prepare environment for tests"
         run: |
           # Fix chrome-sandbox permissions:
           sudo chown root:root ./node_modules/electron/dist/chrome-sandbox
           sudo chmod 4755 ./node_modules/electron/dist/chrome-sandbox
           # Start labwc
           WLR_BACKENDS=headless WLR_LIBINPUT_NO_DEVICES=1 WLR_RENDERER=pixman labwc &
-          export WAYLAND_DISPLAY=wayland-0
           touch css/custom.css
-          npm run test
+      - name: "Run tests"
+        run: |
+          export WAYLAND_DISPLAY=wayland-0
+          node --run test

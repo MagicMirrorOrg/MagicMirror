@@ -9,6 +9,7 @@
 	"RUNNING": "Se termine dans",
 	"EMPTY": "Aucun RDV à venir.",
 	"WEEK": "Semaine {weekNumber}",
+	"WEEK_SHORT": "S{weekNumber}",
 
 	"N": "N",
 	"NNE": "NNE",

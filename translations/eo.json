@@ -9,6 +9,7 @@
 	"RUNNING": "ankoraŭ",
 	"EMPTY": "Neniu evento.",
 	"WEEK": "{weekNumber}a kalendara semajno",
+	"WEEK_SHORT": "{weekNumber}a KS",
 
 	"N": "N",
 	"NNE": "NNOr",

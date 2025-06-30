@@ -1,16 +1,14 @@
-import eslintPluginImport from "eslint-plugin-import";
-import eslintPluginJest from "eslint-plugin-jest";
-import eslintPluginJs from "@eslint/js";
-import eslintPluginPackageJson from "eslint-plugin-package-json";
-import eslintPluginStylistic from "@stylistic/eslint-plugin";
+import {defineConfig, globalIgnores} from "eslint/config";
 import globals from "globals";
+import {flatConfigs as importX} from "eslint-plugin-import-x";
+import jest from "eslint-plugin-jest";
+import js from "@eslint/js";
+import jsdoc from "eslint-plugin-jsdoc";
+import packageJson from "eslint-plugin-package-json";
+import stylistic from "@stylistic/eslint-plugin";
 
-const config = [
-	eslintPluginImport.flatConfigs.recommended,
-	eslintPluginJest.configs["flat/recommended"],
-	eslintPluginJs.configs.recommended,
-	eslintPluginPackageJson.configs.recommended,
-	eslintPluginStylistic.configs.all,
+export default defineConfig([
+	globalIgnores(["config/**", "modules/**/*", "!modules/default/**", "js/positions.js"]),
 	{
 		files: ["**/*.js"],
 		languageOptions: {
@@ -18,7 +16,6 @@ const config = [
 			globals: {
 				...globals.browser,
 				...globals.node,
-				...globals.jest,
 				Log: "readonly",
 				MM: "readonly",
 				Module: "readonly",
@@ -26,6 +23,8 @@ const config = [
 				moment: "readonly"
 			}
 		},
+		plugins: {js, jsdoc, stylistic},
+		extends: [importX.recommended, jest.configs["flat/recommended"], "js/recommended", jsdoc.configs["flat/recommended"], "stylistic/all"],
 		rules: {
 			"@stylistic/array-element-newline": ["error", "consistent"],
 			"@stylistic/arrow-parens": ["error", "always"],
@@ -54,9 +53,9 @@ const config = [
 			"dot-notation": "error",
 			eqeqeq: "error",
 			"id-length": "off",
-			"import/extensions": "error",
-			"import/newline-after-import": "error",
-			"import/order": "error",
+			"import-x/extensions": "error",
+			"import-x/newline-after-import": "error",
+			"import-x/order": "error",
 			"init-declarations": "off",
 			"jest/consistent-test-it": "warn",
 			"jest/no-done-callback": "warn",
@@ -81,10 +80,24 @@ const config = [
 			"no-warning-comments": "off",
 			"object-shorthand": ["error", "methods"],
 			"one-var": "off",
-			"prefer-destructuring": "off",
 			"prefer-template": "error",
 			"sort-keys": "off"
 		}
+	},
+	{
+		files: ["**/*.js"],
+		ignores: [
+			"clientonly/index.js",
+			"modules/default/calendar/debug.js",
+			"js/logger.js",
+			"tests/**/*.js"
+		],
+		rules: {"no-console": "error"}
+	},
+	{
+		files: ["**/package.json"],
+		plugins: {packageJson},
+		extends: ["packageJson/recommended"]
 	},
 	{
 		files: ["**/*.mjs"],
@@ -95,19 +108,19 @@ const config = [
 			},
 			sourceType: "module"
 		},
+		plugins: {js, stylistic},
+		extends: [importX.recommended, "js/all", "stylistic/all"],
 		rules: {
 			"@stylistic/array-element-newline": "off",
 			"@stylistic/indent": ["error", "tab"],
+			"@stylistic/object-property-newline": ["error", {allowAllPropertiesOnSameLine: true}],
 			"@stylistic/padded-blocks": ["error", "never"],
 			"@stylistic/quote-props": ["error", "as-needed"],
-			"func-style": "off",
-			"import/namespace": "off",
-			"import/no-unresolved": "off",
+			"import-x/no-unresolved": ["error", {ignore: ["eslint/config"]}],
 			"max-lines-per-function": ["error", 100],
 			"no-magic-numbers": "off",
-			"one-var": "off",
-			"prefer-destructuring": "off",
-			"sort-keys": "error"
+			"one-var": ["error", "never"],
+			"sort-keys": "off"
 		}
 	},
 	{
@@ -115,10 +128,5 @@ const config = [
 		rules: {
 			"@stylistic/quotes": "off"
 		}
-	},
-	{
-		ignores: ["config/**", "modules/**/*", "!modules/default/**", "js/positions.js"]
 	}
-];
-
-export default config;
+]);

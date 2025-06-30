@@ -27,13 +27,21 @@ exports.startApplication = async (configFilename, exec) => {
 		process.env.MM_CONFIG_FILE = configFilename;
 	}
 	process.env.mmTestMode = "true";
+	process.setMaxListeners(0);
 	if (exec) exec;
 	global.app = require("../../../js/app");
 
 	return global.app.start();
 };
 
-exports.stopApplication = async () => {
+exports.stopApplication = async (waitTime = 1000) => {
+	if (global.window) {
+		// no closing causes jest errors and memory leaks
+		global.window.close();
+		delete global.window;
+		// give above closing some extra time to finish
+		await new Promise((resolve) => setTimeout(resolve, waitTime));
+	}
 	if (!global.app) {
 		return Promise.resolve();
 	}

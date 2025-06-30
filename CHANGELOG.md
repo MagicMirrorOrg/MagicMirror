@@ -7,6 +7,57 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/#donate) With your help we can continue to improve the MagicMirror².
 
+## [2.32.0] - 2025-07-01
+
+Thanks to: @bughaver, @bugsounet, @khassel, @KristjanESPERANTO, @plebcity, @rejas, @sdetweil.
+
+> ⚠️ This release needs nodejs version `v22.14.0 or higher`
+
+### Added
+
+- [config] Allow to change module order for final renderer (or dynamically with CSS): Feature `order` in config (#3762)
+- [clock] Added option 'disableNextEvent' to hide next sun event (#3769)
+- [clock] Implement short syntax for clock week (#3775)
+
+### Changed
+
+- [refactor] Simplify module loading process (#3766)
+- Use `node --run` instead of `npm run` (#3764) and adapt `start:dev` script (#3773)
+- [workflow] Run linter and spellcheck with LTS node version (#3767)
+- [workflow] Split "Run test" step into two steps for more clarity (#3767)
+- [linter] Review linter setup (#3783)
+  - Fix command to lint markdown in `CONTRIBUTING.md`
+  - Re-activate JSDoc linting and fix linting issues
+  - Refactor ESLint config to use `defineConfig` and `globalIgnores`
+  - Replace `eslint-plugin-import` with `eslint-plugin-import-x`
+  - Switch Stylelint config to flat format and simplify Stylelint scripts
+- [workflow] Replace Node.js version v23 with v24 (#3770)
+- [refactor] Replace deprecated constants `fs.F_OK` and `fs.R_OK` (#3789)
+- [refactor] Replace `ansis` with built-in function `util.styleText` (#3793)
+- [core] Integrate stuff from `vendor` and `fonts` folders into main `package.json`, simplifies install and maintaining dependencies (#3795, #3805)
+- [l10n] Complete translations (with the help of translation tools) (#3794)
+- [refactor] Refactored `calendarfetcherutils` in Calendar module to handle timezones better (#3806)
+  - Removed as many of the date conversions as possible
+  - Use `moment-timezone` when calculating recurring events, this will fix problems from the past with offsets and DST not being handled properly
+  - Added some tests to test the behavior of the refactored methods to make sure the correct event dates are returned
+- [linter] Enable ESLint rule `no-console` and replace `console` with `Log` in some files (#3810)
+- [tests] Review and refactor translation tests (#3792)
+
+### Fixed
+
+- [fix] Handle spellcheck issues (#3783)
+- [calendar] fix fullday event rrule until with timezone offset (#3781)
+- [feat] Add rule `no-undef` in config file validation to fix #3785 (#3786)
+- [fonts] Fix `roboto.css` to avoid error message `Unknown descriptor 'var(' in @font-face rule.` in firefox console (#3787)
+- [tests] Fix and refactor e2e test `Same keys` in `translations_spec.js` (#3809)
+- [tests] Fix e2e tests newsfeed and calendar to exit without open handles (#3817)
+
+### Updated
+
+- [core] Update dependencies including electron to v36 (#3774, #3788, #3811, #3804, #3815, #3823)
+- [core] Update package type to `commonjs`
+- [logger] Review factory code part: use `switch/case` instead of `if/else if` (#3812)
+
 ## [2.31.0] - 2025-04-01
 
 Thanks to: @Developer-Incoming, @eltociear, @geraki, @khassel, @KristjanESPERANTO, @MagMar94, @mixasgr, @n8many, @OWL4C, @rejas, @savvadam, @sdetweil.
@@ -16,7 +67,7 @@ Thanks to: @Developer-Incoming, @eltociear, @geraki, @khassel, @KristjanESPERANT
 ### Added
 
 - Add CSS support to the digital clock hour/minute/second through the use of the classes `clock-hour-digital`, `clock-minute-digital`, and `clock-second-digital`.
-- Add Arabic (#3719) and Esperanto translation.
+- Add Arabic (#3719) and Esperanto translation (#3740)
 - Mark option `secondsColor` as deprecated in clock module.
 - Add Greek translation to Alerts module.
 - [newsfeed] Add specific ignoreOlderThan value (override) per feed (#3360)
@@ -26,7 +77,7 @@ Thanks to: @Developer-Incoming, @eltociear, @geraki, @khassel, @KristjanESPERANT
 
 ### Changed
 
-- [core] starting clientonly now checks for needed env var `WAYLAND_DISPLAY` or `DISPLAY` and starts electron with needed parameters (if both are set wayland is used) (#3677)
+- [core] Starting clientonly now checks for needed env var `WAYLAND_DISPLAY` or `DISPLAY` and starts electron with needed parameters (if both are set Wayland is used) (#3677)
 - [core] Optimize systeminformation calls and output (#3689)
 - [core] Add issue templates for feature requests and bug reports (#3695)
 - [core] Adapt `start:x11:dev` script
@@ -64,7 +115,7 @@ Thanks to: @xsorifc28, @HeikoGr, @bugsounet, @khassel, @KristjanESPERANTO, @reja
 
 ### Added
 
-- [core] Add wayland and windows start options to `package.json` (#3594)
+- [core] Add Wayland and Windows start options to `package.json` (#3594)
 - [docs] Add step for npm publishing in release process (#3595)
 - [core] Add GitHub workflow to run spellcheck a few days before each release (#3623)
 - [core] Add test flag to `index.html` to pass to module js for test mode detection (needed by #3630)
@@ -1470,7 +1521,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 ### Fixed
 
 - Fix instruction in README for using automatically installer script.
-- Bug of duplicated compliments as described in [here](https://forum.magicmirror.builders/topic/2381/compliments-module-stops-cycling-compliments).
+- Bug of [duplicated compliments](https://forum.magicmirror.builders/topic/2381/compliments-module-stops-cycling-compliments).
 - Fix double message about port when server is starting
 - Corrected Swedish translations for TODAY/TOMORROW/DAYAFTERTOMORROW.
 - Removed unused import from js/electron.js
@@ -1720,6 +1771,7 @@ It includes (but is not limited to) the following features:
 
 This was part of the blogpost: [https://michaelteeuw.nl/post/83916869600/magic-mirror-part-vi-production-of-the](https://michaelteeuw.nl/post/83916869600/magic-mirror-part-vi-production-of-the)
 
+[2.32.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.31.0...v2.32.0
 [2.31.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.30.0...v2.31.0
 [2.30.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.29.0...v2.30.0
 [2.29.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.28.0...v2.29.0

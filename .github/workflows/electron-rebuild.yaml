@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [22.14.0, 22.x, 23.x]
+        node-version: [22.14.0, 22.x, 24.x]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -18,7 +18,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           check-latest: true
       - name: Install MagicMirror
-        run: npm run install-mm
+        run: node --run install-mm
       - name: Install @electron/rebuild
         run: npm install @electron/rebuild
       - name: Install node-libgpiod deps

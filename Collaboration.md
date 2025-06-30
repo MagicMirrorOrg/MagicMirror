@@ -56,7 +56,7 @@ Are done by
 - [ ] update `package.json` and `package-lock.json` to reflect correct version number `2.xx.0-develop`
 - [ ] draft new section in `CHANGELOG.md`
   - [ ] create new release link at the bottom of the file
-- [ ] commit and publish `develop` branch
+- [ ] commit and push `develop` branch
 - [ ] if new release will be in January, update the year in LICENSE.md
 
 ### After release

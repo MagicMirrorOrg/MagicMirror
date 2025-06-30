@@ -108,7 +108,8 @@ const Loader = (function () {
 				header: moduleData.header,
 				configDeepMerge: typeof moduleData.configDeepMerge === "boolean" ? moduleData.configDeepMerge : false,
 				config: moduleData.config,
-				classes: typeof moduleData.classes !== "undefined" ? `${moduleData.classes} ${module}` : module
+				classes: typeof moduleData.classes !== "undefined" ? `${moduleData.classes} ${module}` : module,
+				order: (typeof moduleData.order === "number" && Number.isInteger(moduleData.order)) ? moduleData.order : 0
 			});
 		});
 
@@ -217,29 +218,22 @@ const Loader = (function () {
 		 * Load all modules as defined in the config.
 		 */
 		async loadModules () {
-			let moduleData = await getModuleData();
+			const moduleData = await getModuleData();
 			const envVars = await getEnvVars();
 			const customCss = envVars.customCss;
 
-			/**
-			 * @returns {Promise<void>} when all modules are loaded
-			 */
-			const loadNextModule = async function () {
-				if (moduleData.length > 0) {
-					const nextModule = moduleData[0];
-					await loadModule(nextModule);
-					moduleData = moduleData.slice(1);
-					await loadNextModule();
-				} else {
-					// All modules loaded. Load custom.css
-					// This is done after all the modules so we can
-					// overwrite all the defined styles.
-					await loadFile(customCss);
-					// custom.css loaded. Start all modules.
-					await startModules();
-				}
-			};
-			await loadNextModule();
+			// Load all modules
+			for (const module of moduleData) {
+				await loadModule(module);
+			}
+
+			// Load custom.css
+			// Since this happens after loading the modules,
+			// it overwrites the default styles.
+			await loadFile(customCss);
+
+			// Start all modules.
+			await startModules();
 		},
 
 		/**
@@ -266,7 +260,7 @@ const Loader = (function () {
 				// This file is available in the vendor folder.
 				// Load it from this vendor folder.
 				loadedFiles.push(fileName.toLowerCase());
-				return loadFile(`vendor/${vendor[fileName]}`);
+				return loadFile(`${vendor[fileName]}`);
 			}
 
 			// File not loaded yet.
