@@ -128,10 +128,13 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 	 * Schedule the timer for the next update.
 	 */
 	const scheduleTimer = function () {
-		clearTimeout(reloadTimer);
-		reloadTimer = setTimeout(function () {
-			fetchNews();
-		}, reloadIntervalMS);
+		if (process.env.JEST_WORKER_ID === undefined) {
+			// only set timer when not running in jest
+			clearTimeout(reloadTimer);
+			reloadTimer = setTimeout(function () {
+				fetchNews();
+			}, reloadIntervalMS);
+		}
 	};
 
 	/* public methods */

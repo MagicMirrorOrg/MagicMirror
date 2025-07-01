@@ -7,9 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/#donate) With your help we can continue to improve the MagicMirror².
 
-## [2.32.0] - unreleased
+## [2.33.0] - unreleased
 
-planned for 2025-07-01
+planned for 2025-10-01
+
+## [2.32.0] - 2025-07-01
+
+Thanks to: @bughaver, @bugsounet, @khassel, @KristjanESPERANTO, @plebcity, @rejas, @sdetweil.
+
+> ⚠️ This release needs nodejs version `v22.14.0 or higher`
 
 ### Added
 
@@ -49,10 +55,11 @@ planned for 2025-07-01
 - [feat] Add rule `no-undef` in config file validation to fix #3785 (#3786)
 - [fonts] Fix `roboto.css` to avoid error message `Unknown descriptor 'var(' in @font-face rule.` in firefox console (#3787)
 - [tests] Fix and refactor e2e test `Same keys` in `translations_spec.js` (#3809)
+- [tests] Fix e2e tests newsfeed and calendar to exit without open handles (#3817)
 
 ### Updated
 
-- [core] Update dependencies including electron to v36 (#3774, #3788, #3811, #3804, #3815)
+- [core] Update dependencies including electron to v36 (#3774, #3788, #3811, #3804, #3815, #3823)
 - [core] Update package type to `commonjs`
 - [logger] Review factory code part: use `switch/case` instead of `if/else if` (#3812)
 
@@ -1769,7 +1776,8 @@ It includes (but is not limited to) the following features:
 
 This was part of the blogpost: [https://michaelteeuw.nl/post/83916869600/magic-mirror-part-vi-production-of-the](https://michaelteeuw.nl/post/83916869600/magic-mirror-part-vi-production-of-the)
 
-[2.32.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.31.0...develop
+[2.33.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.32.0...develop
+[2.32.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.31.0...v2.32.0
 [2.31.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.30.0...v2.31.0
 [2.30.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.29.0...v2.30.0
 [2.29.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.28.0...v2.29.0
