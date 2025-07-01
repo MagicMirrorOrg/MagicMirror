@@ -93,7 +93,7 @@
 		"cspell": "^9.1.2",
 		"eslint-plugin-import-x": "^4.16.1",
 		"eslint-plugin-jest": "^29.0.1",
-		"eslint-plugin-jsdoc": "^51.2.3",
+		"eslint-plugin-jsdoc": "^51.3.1",
 		"eslint-plugin-package-json": "^0.42.0",
 		"express-basic-auth": "^1.2.1",
 		"husky": "^9.1.7",
@@ -101,7 +101,7 @@
 		"jsdom": "^26.1.0",
 		"lint-staged": "^16.1.2",
 		"markdownlint-cli2": "^0.18.1",
-		"playwright": "^1.53.1",
+		"playwright": "^1.53.2",
 		"prettier": "^3.6.2",
 		"sinon": "^21.0.0",
 		"stylelint": "^16.21.0",
@@ -109,7 +109,7 @@
 		"stylelint-prettier": "^5.0.3"
 	},
 	"optionalDependencies": {
-		"electron": "^36.6.0"
+		"electron": "^37.1.0"
 	},
 	"engines": {
 		"node": ">=22.14.0"
