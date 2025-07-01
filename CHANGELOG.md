@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 planned for 2025-10-01
 
+### Updated
+
+- [core] Update dependencies including electron to v37 (#3831)
+
 ## [2.32.0] - 2025-07-01
 
 Thanks to: @bughaver, @bugsounet, @khassel, @KristjanESPERANTO, @plebcity, @rejas, @sdetweil.
