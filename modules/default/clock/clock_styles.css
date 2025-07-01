@@ -87,12 +87,17 @@
   transform-origin: 50% 100%;
 }
 
+.module.clock .digital {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
 .module.clock .sun,
 .module.clock .moon {
   display: flex;
   white-space: nowrap;
   gap: 10px;
-  padding-top: 3px;
 }
 
 .module.clock .sun > *,
