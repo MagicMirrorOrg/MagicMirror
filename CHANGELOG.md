@@ -13,8 +13,6 @@ planned for 2025-10-01
 
 Thanks to: @dathbe.
 
-> ⚠️ This release needs nodejs version `v22.14.0 or higher`
-
 ### Changed
 
 - [clock] Add CSS to prevent line breaking of sunset/sunrise time display (#3816)
