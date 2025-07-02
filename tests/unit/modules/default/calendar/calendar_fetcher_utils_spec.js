@@ -10,7 +10,7 @@ describe("Calendar fetcher utils test", () => {
 		excludedEvents: [],
 		includePastEvents: false,
 		maximumEntries: 10,
-		maximumNumberOfDays: 365
+		maximumNumberOfDays: 367
 	};
 
 	describe("filterEvents", () => {
@@ -53,7 +53,6 @@ describe("Calendar fetcher utils test", () => {
 			expect(filteredEvents[1].title).toBe("upcomingEvent");
 		});
 
-		/*
 		it("should return the correct times when recurring events pass through daylight saving time", () => {
 			const data = ical.parseICS(`BEGIN:VEVENT
 DTSTART;TZID=Europe/Amsterdam:20250311T090000
@@ -87,7 +86,6 @@ END:VEVENT`);
 			expect(januaryFirst[0].startDate).toEqual(januaryMoment.format("x"));
 			expect(julyFirst[0].startDate).toEqual(julyMoment.format("x"));
 		});
-*/
 
 		it("should return the correct moments based on the timezone given", () => {
 			const data = ical.parseICS(`BEGIN:VEVENT

@@ -21,6 +21,10 @@ Thanks to: @dathbe.
 
 - [core] Update dependencies including electron to v37 (#3831)
 
+### Fixed
+
+- [calendar] Fixed broken unittest that only broke at 1st of july and 1st of january (#3830)
+
 ## [2.32.0] - 2025-07-01
 
 Thanks to: @bughaver, @bugsounet, @khassel, @KristjanESPERANTO, @plebcity, @rejas, @sdetweil.
