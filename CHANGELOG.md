@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 planned for 2025-10-01
 
+Thanks to: @dathbe.
+
+### Changed
+
+- [clock] Add CSS to prevent line breaking of sunset/sunrise time display (#3816)
+
 ### Updated
 
 - [core] Update dependencies including electron to v37 (#3831)
