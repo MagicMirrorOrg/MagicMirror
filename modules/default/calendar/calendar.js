@@ -586,12 +586,13 @@ Module.register("calendar", {
 	},
 
 	/**
-	 * converts the given timestamp to a moment with a timezone
+	 * Converts the given timestamp to a moment with a timezone.
+	 * But keeps the localtime since the unix timestamp is already in local timezone.
 	 * @param {number} timestamp timestamp from an event
 	 * @returns {moment.Moment} moment with a timezone
 	 */
 	timestampToMoment (timestamp) {
-		return moment(timestamp, "x").tz(moment.tz.guess());
+		return moment(timestamp, "x").tz(moment.tz.guess(), true);
 	},
 
 	/**

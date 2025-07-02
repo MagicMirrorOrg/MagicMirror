@@ -268,10 +268,11 @@ const CalendarFetcherUtils = {
 
 						if (showRecurrence === true) {
 							Log.debug(`saving event: ${recurrenceTitle}`);
+							// TODO Make the event start and endDate a UTC unix timestamp, but this break compatibility with other modules
 							newEvents.push({
 								title: recurrenceTitle,
-								startDate: recurringEventStartMoment.format("x"),
-								endDate: recurringEventEndMoment.format("x"),
+								startDate: recurringEventStartMoment.format("x"), // This is a local timezone unix timestamp
+								endDate: recurringEventEndMoment.format("x"), // This is a local timezone unix timestamp
 								fullDayEvent: CalendarFetcherUtils.isFullDayEvent(event),
 								recurringEvent: true,
 								class: event.class,
@@ -323,10 +324,11 @@ const CalendarFetcherUtils = {
 					}
 
 					// Every thing is good. Add it to the list.
+					// TODO Make the event start and endDate a UTC unix timestamp, but this break compatibility with other modules
 					newEvents.push({
 						title: title,
-						startDate: eventStartMoment.format("x"),
-						endDate: eventEndMoment.format("x"),
+						startDate: eventStartMoment.format("x"), // This is a local timezone unix timestamp
+						endDate: eventEndMoment.format("x"), // This is a local timezone unix timestamp
 						fullDayEvent: fullDayEvent,
 						recurringEvent: false,
 						class: event.class,
