@@ -11,6 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 planned for 2025-10-01
 
+Thanks to: @dathbe.
+
+> ⚠️ This release needs nodejs version `v22.14.0 or higher`
+
+### Changed
+
+- [clock] Add CSS to prevent line breaking of sunset/sunrise time display (#3816)
+
 ### Updated
 
 - [core] Update dependencies including electron to v37 (#3831)
@@ -26,7 +34,6 @@ Thanks to: @bughaver, @bugsounet, @khassel, @KristjanESPERANTO, @plebcity, @reja
 - [config] Allow to change module order for final renderer (or dynamically with CSS): Feature `order` in config (#3762)
 - [clock] Added option 'disableNextEvent' to hide next sun event (#3769)
 - [clock] Implement short syntax for clock week (#3775)
-- [clock] Add CSS to prevent line breaking of sunset/sunrise time display (#3816)
 
 ### Changed
 
