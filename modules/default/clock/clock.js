@@ -36,7 +36,7 @@ Module.register("clock", {
 	},
 	// Define styles.
 	getStyles () {
-		return ["clock_styles.css"];
+		return ["clock_styles.css", "font-awesome.css"];
 	},
 	// Define start sequence.
 	start () {
