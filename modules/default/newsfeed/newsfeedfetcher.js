@@ -5,7 +5,7 @@ const iconv = require("iconv-lite");
 const { htmlToText } = require("html-to-text");
 const Log = require("logger");
 const NodeHelper = require("node_helper");
-const { scheduleTimer } = require("../server_utils");
+const { scheduleTimer } = require("module_functions");
 
 /**
  * Responsible for requesting an update on the set interval and broadcasting the data.

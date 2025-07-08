@@ -116,6 +116,7 @@
 	},
 	"_moduleAliases": {
 		"node_helper": "js/node_helper.js",
-		"logger": "js/logger.js"
+		"logger": "js/logger.js",
+		"module_functions": "js/module_functions.js"
 	}
 }
