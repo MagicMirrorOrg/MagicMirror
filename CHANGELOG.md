@@ -16,6 +16,7 @@ Thanks to: @dathbe.
 ### Changed
 
 - [clock] Add CSS to prevent line breaking of sunset/sunrise time display (#3816)
+- [refactor] Add new file `modules/default/server_utils.js` to move code used in several modules to one place (#3837)
 
 ### Updated
 

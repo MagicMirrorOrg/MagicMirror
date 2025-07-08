@@ -2,6 +2,7 @@ const https = require("node:https");
 const ical = require("node-ical");
 const Log = require("logger");
 const NodeHelper = require("node_helper");
+const { scheduleTimer } = require("../server_utils");
 const CalendarFetcherUtils = require("./calendarfetcherutils");
 
 /**
@@ -65,29 +66,16 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 					});
 				} catch (error) {
 					fetchFailedCallback(this, error);
-					scheduleTimer();
+					scheduleTimer(reloadTimer, reloadInterval, fetchCalendar);
 					return;
 				}
 				this.broadcastEvents();
-				scheduleTimer();
+				scheduleTimer(reloadTimer, reloadInterval, fetchCalendar);
 			})
 			.catch((error) => {
 				fetchFailedCallback(this, error);
-				scheduleTimer();
+				scheduleTimer(reloadTimer, reloadInterval, fetchCalendar);
 			});
-	};
-
-	/**
-	 * Schedule the timer for the next update.
-	 */
-	const scheduleTimer = function () {
-		if (process.env.JEST_WORKER_ID === undefined) {
-			// only set timer when not running in jest
-			clearTimeout(reloadTimer);
-			reloadTimer = setTimeout(function () {
-				fetchCalendar();
-			}, reloadInterval);
-		}
 	};
 
 	/* public methods */
