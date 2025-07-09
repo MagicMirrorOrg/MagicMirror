@@ -23,6 +23,11 @@
 		"https://github.com/MagicMirrorOrg/MagicMirror/graphs/contributors"
 	],
 	"type": "commonjs",
+	"imports": {
+		"#module_functions": {
+			"default": "./js/module_functions.js"
+		}
+	},
 	"main": "js/electron.js",
 	"scripts": {
 		"config:check": "node js/check_config.js",
@@ -116,7 +121,6 @@
 	},
 	"_moduleAliases": {
 		"node_helper": "js/node_helper.js",
-		"logger": "js/logger.js",
-		"module_functions": "js/module_functions.js"
+		"logger": "js/logger.js"
 	}
 }
