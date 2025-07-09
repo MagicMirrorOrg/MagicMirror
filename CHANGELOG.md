@@ -16,6 +16,7 @@ Thanks to: @dathbe.
 ### Changed
 
 - [clock] Add CSS to prevent line breaking of sunset/sunrise time display (#3816)
+- [core] Enhance system information logging format and include additional env and RAM details
 
 ### Updated
 
