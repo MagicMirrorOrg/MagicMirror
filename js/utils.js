@@ -23,12 +23,16 @@ module.exports = {
 				osInfo: "platform, distro, release, arch",
 				versions: "kernel, node, npm, pm2"
 			});
-			let systemDataString = `System information:
-					### SYSTEM:   manufacturer: ${staticData.system.manufacturer}; model: ${staticData.system.model}; virtual: ${staticData.system.virtual}
-					### OS:       platform: ${staticData.osInfo.platform}; distro: ${staticData.osInfo.distro}; release: ${staticData.osInfo.release}; arch: ${staticData.osInfo.arch}; kernel: ${staticData.versions.kernel}
-					### VERSIONS: electron: ${process.versions.electron}; used node: ${staticData.versions.node}; installed node: ${installedNodeVersion}; npm: ${staticData.versions.npm}; pm2: ${staticData.versions.pm2}
-					### OTHER:    timeZone: ${Intl.DateTimeFormat().resolvedOptions().timeZone}; ELECTRON_ENABLE_GPU: ${process.env.ELECTRON_ENABLE_GPU}`
-				.replace(/\t/g, "");
+			let systemDataString = [
+				"\n#####  System Information  #####",
+				`- SYSTEM:    manufacturer: ${staticData.system.manufacturer}; model: ${staticData.system.model}; virtual: ${staticData.system.virtual}; timeZone: ${Intl.DateTimeFormat().resolvedOptions().timeZone}`,
+				`- OS:        platform: ${staticData.osInfo.platform}; distro: ${staticData.osInfo.distro}; release: ${staticData.osInfo.release}; arch: ${staticData.osInfo.arch}; kernel: ${staticData.versions.kernel}`,
+				`- VERSIONS:  electron: ${process.versions.electron}; used node: ${staticData.versions.node}; installed node: ${installedNodeVersion}; npm: ${staticData.versions.npm}; pm2: ${staticData.versions.pm2}`,
+				`- ENV:       XDG_SESSION_TYPE: ${process.env.XDG_SESSION_TYPE}; MM_CONFIG_FILE: ${process.env.MM_CONFIG_FILE};`,
+				`             WAYLAND_DISPLAY:  ${process.env.WAYLAND_DISPLAY}; DISPLAY: ${process.env.DISPLAY}; ELECTRON_ENABLE_GPU: ${process.env.ELECTRON_ENABLE_GPU}`,
+				`- RAM:       total: ${(os.totalmem() / 1024 / 1024).toFixed(2)} MB; free: ${(os.freemem() / 1024 / 1024).toFixed(2)} MB; used: ${((os.totalmem() - os.freemem()) / 1024 / 1024).toFixed(2)} MB`,
+				`- UPTIME:    ${Math.floor(os.uptime() / 60)} minutes`
+			].join("\n");
 			Log.info(systemDataString);
 
 			// Return is currently only for jest
