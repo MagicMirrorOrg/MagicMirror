@@ -16,7 +16,7 @@ Thanks to: @dathbe.
 ### Changed
 
 - [clock] Add CSS to prevent line breaking of sunset/sunrise time display (#3816)
-- [core] Enhance system information logging format and include additional env and RAM details (#3839)
+- [core] Enhance system information logging format and include additional env and RAM details (#3839, #3843)
 - [refactor] Add new file `js/module_functions.js` to move code used in several modules to one place (#3837)
 
 ### Updated
