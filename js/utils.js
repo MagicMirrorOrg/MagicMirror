@@ -1,4 +1,3 @@
-const execSync = require("node:child_process").execSync;
 const path = require("node:path");
 
 const rootPath = path.resolve(`${__dirname}/../`);
@@ -14,31 +13,34 @@ const discoveredPositionsJSFilename = "js/positions.js";
 
 module.exports = {
 
-	async logSystemInformation  () {
+	async logSystemInformation (mirrorVersion) {
 		try {
-			let installedNodeVersion = execSync("node -v", { encoding: "utf-8" }).replace("v", "").replace(/(?:\r\n|\r|\n)/g, "");
+			const system = await si.system();
+			const osInfo = await si.osInfo();
+			const versions = await si.versions();
 
-			const staticData = await si.get({
-				system: "manufacturer, model, virtual",
-				osInfo: "platform, distro, release, arch",
-				versions: "kernel, node, npm, pm2"
-			});
+			const usedNodeVersion = process.version.replace("v", "");
+			const installedNodeVersion = versions.node;
+			const totalRam = (os.totalmem() / 1024 / 1024).toFixed(2);
+			const freeRam = (os.freemem() / 1024 / 1024).toFixed(2);
+			const usedRam = ((os.totalmem() - os.freemem()) / 1024 / 1024).toFixed(2);
+
 			let systemDataString = [
-				"\n#####  System Information  #####",
-				`- SYSTEM:    manufacturer: ${staticData.system.manufacturer}; model: ${staticData.system.model}; virtual: ${staticData.system.virtual}; timeZone: ${Intl.DateTimeFormat().resolvedOptions().timeZone}`,
-				`- OS:        platform: ${staticData.osInfo.platform}; distro: ${staticData.osInfo.distro}; release: ${staticData.osInfo.release}; arch: ${staticData.osInfo.arch}; kernel: ${staticData.versions.kernel}`,
-				`- VERSIONS:  electron: ${process.versions.electron}; used node: ${staticData.versions.node}; installed node: ${installedNodeVersion}; npm: ${staticData.versions.npm}; pm2: ${staticData.versions.pm2}`,
-				`- ENV:       XDG_SESSION_TYPE: ${process.env.XDG_SESSION_TYPE}; MM_CONFIG_FILE: ${process.env.MM_CONFIG_FILE};`,
-				`             WAYLAND_DISPLAY:  ${process.env.WAYLAND_DISPLAY}; DISPLAY: ${process.env.DISPLAY}; ELECTRON_ENABLE_GPU: ${process.env.ELECTRON_ENABLE_GPU}`,
-				`- RAM:       total: ${(os.totalmem() / 1024 / 1024).toFixed(2)} MB; free: ${(os.freemem() / 1024 / 1024).toFixed(2)} MB; used: ${((os.totalmem() - os.freemem()) / 1024 / 1024).toFixed(2)} MB`,
-				`- UPTIME:    ${Math.floor(os.uptime() / 60)} minutes`
+				"\n####  System Information  ####",
+				`- SYSTEM:   manufacturer: ${system.manufacturer}; model: ${system.model}; virtual: ${system.virtual}; MM: ${mirrorVersion}`,
+				`- OS:       platform: ${osInfo.platform}; distro: ${osInfo.distro}; release: ${osInfo.release}; arch: ${osInfo.arch}; kernel: ${versions.kernel}`,
+				`- VERSIONS: electron: ${process.versions.electron}; used node: ${usedNodeVersion}; installed node: ${installedNodeVersion}; npm: ${versions.npm}; pm2: ${versions.pm2}`,
+				`- ENV:      XDG_SESSION_TYPE: ${process.env.XDG_SESSION_TYPE}; MM_CONFIG_FILE: ${process.env.MM_CONFIG_FILE}`,
+				`            WAYLAND_DISPLAY:  ${process.env.WAYLAND_DISPLAY}; DISPLAY: ${process.env.DISPLAY}; ELECTRON_ENABLE_GPU: ${process.env.ELECTRON_ENABLE_GPU}`,
+				`- RAM:      total: ${totalRam} MB; free: ${freeRam} MB; used: ${usedRam} MB`,
+				`- OTHERS:   uptime: ${Math.floor(os.uptime() / 60)} minutes; timeZone: ${Intl.DateTimeFormat().resolvedOptions().timeZone}`
 			].join("\n");
 			Log.info(systemDataString);
 
 			// Return is currently only for jest
 			return systemDataString;
-		} catch (e) {
-			Log.error(e);
+		} catch (error) {
+			Log.error(error);
 		}
 	},
 

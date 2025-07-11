@@ -22,7 +22,7 @@ global.mmTestMode = process.env.mmTestMode === "true";
 Log.log(`Starting MagicMirror: v${global.version}`);
 
 // Log system information.
-Utils.logSystemInformation();
+Utils.logSystemInformation(global.version);
 
 // global absolute root path
 global.root_path = path.resolve(`${__dirname}/../`);
