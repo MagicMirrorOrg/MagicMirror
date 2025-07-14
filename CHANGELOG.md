@@ -19,6 +19,7 @@ Thanks to: @dathbe.
 - [core] Enhance system information logging format and include additional env and RAM details (#3839, #3843)
 - [refactor] Add new file `js/module_functions.js` to move code used in several modules to one place (#3837)
 - [tests] refactor: simplify jest config file (#3844)
+- [tests] refactor: extract constants for weather electron tests
 
 ### Updated
 
