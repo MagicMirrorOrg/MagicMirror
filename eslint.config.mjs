@@ -88,7 +88,6 @@ export default defineConfig([
 		files: ["**/*.js"],
 		ignores: [
 			"clientonly/index.js",
-			"modules/default/calendar/debug.js",
 			"js/logger.js",
 			"tests/**/*.js"
 		],

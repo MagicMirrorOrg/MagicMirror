@@ -5,6 +5,7 @@
  */
 // Alias modules mentioned in package.js under _moduleAliases.
 require("module-alias/register");
+const Log = require("../../../js/logger");
 
 const CalendarFetcher = require("./calendarfetcher");
 
@@ -20,22 +21,22 @@ const auth = {
 	pass: pass
 };
 
-console.log("Create fetcher ...");
+Log.log("Create fetcher ...");
 
 const fetcher = new CalendarFetcher(url, fetchInterval, [], maximumEntries, maximumNumberOfDays, auth);
 
 fetcher.onReceive(function (fetcher) {
-	console.log(fetcher.events());
-	console.log("------------------------------------------------------------");
+	Log.log(fetcher.events());
+	Log.log("------------------------------------------------------------");
 	process.exit(0);
 });
 
 fetcher.onError(function (fetcher, error) {
-	console.log("Fetcher error:");
-	console.log(error);
+	Log.log("Fetcher error:");
+	Log.log(error);
 	process.exit(1);
 });
 
 fetcher.startFetch();
 
-console.log("Create fetcher done! ");
+Log.log("Create fetcher done! ");

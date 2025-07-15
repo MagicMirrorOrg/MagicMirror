@@ -20,6 +20,7 @@ Thanks to: @dathbe.
 - [refactor] Add new file `js/module_functions.js` to move code used in several modules to one place (#3837)
 - [tests] refactor: simplify jest config file (#3844)
 - [tests] refactor: extract constants for weather electron tests (#3845)
+- [tests] replace `console` with `Log` in calendar `debug.js` to avoid exception in eslint config (#3846)
 
 ### Updated
 
