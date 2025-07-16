@@ -34,7 +34,7 @@ exports.startApplication = async (configFilename, exec) => {
 	return global.app.start();
 };
 
-exports.stopApplication = async (waitTime = 1000) => {
+exports.stopApplication = async (waitTime = 10) => {
 	if (global.window) {
 		// no closing causes jest errors and memory leaks
 		global.window.close();

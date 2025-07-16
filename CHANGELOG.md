@@ -21,6 +21,7 @@ Thanks to: @dathbe.
 - [tests] refactor: simplify jest config file (#3844)
 - [tests] refactor: extract constants for weather electron tests (#3845)
 - [tests] replace `console` with `Log` in calendar `debug.js` to avoid exception in eslint config (#3846)
+- [tests] speed up e2e tests (#3847)
 
 ### Updated
 
