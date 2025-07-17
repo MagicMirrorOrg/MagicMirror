@@ -5,7 +5,7 @@ const { cleanupMockData } = require("../../utils/weather_mocker");
 describe("Weather module: Weather Hourly Forecast", () => {
 	afterAll(async () => {
 		await helpers.stopApplication();
-		await cleanupMockData();
+		cleanupMockData();
 	});
 
 	describe("Default configuration", () => {

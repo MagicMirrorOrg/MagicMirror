@@ -12,7 +12,7 @@ const EXPECTED_SUNSET_TEXT = "3:45 pm";
 describe("Weather module", () => {
 	afterEach(async () => {
 		await helpers.stopApplication();
-		await cleanupMockData();
+		cleanupMockData();
 	});
 
 	describe("Current weather with sunrise", () => {

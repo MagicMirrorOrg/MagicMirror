@@ -1,7 +1,6 @@
 const fs = require("node:fs");
 const path = require("node:path");
-const util = require("node:util");
-const exec = util.promisify(require("node:child_process").exec);
+const exec = require("node:child_process").execSync;
 
 /**
  * @param {string} type what data to read, can be "current" "forecast" or "hourly
@@ -45,9 +44,9 @@ const injectMockData = (configFileName, extendedData = {}) => {
 	return tempFile;
 };
 
-const cleanupMockData = async () => {
+const cleanupMockData = () => {
 	const tempDir = path.resolve(`${__dirname}/../configs`).toString();
-	await exec(`find ${tempDir} -type f -name *_temp.js -delete`);
+	exec(`find ${tempDir} -type f -name *_temp.js -delete`);
 };
 
 module.exports = { injectMockData, cleanupMockData };
