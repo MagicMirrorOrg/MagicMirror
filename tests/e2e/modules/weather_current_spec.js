@@ -1,17 +1,15 @@
 const helpers = require("../helpers/global-setup");
 const weatherFunc = require("../helpers/weather-functions");
-const { cleanupMockData } = require("../../utils/weather_mocker");
 
 describe("Weather module", () => {
 	afterAll(async () => {
-		await helpers.stopApplication();
-		cleanupMockData();
+		await weatherFunc.stopApplication();
 	});
 
 	describe("Current weather", () => {
 		describe("Default configuration", () => {
 			beforeAll(async () => {
-				await weatherFunc.startApp("tests/configs/modules/weather/currentweather_default.js", {});
+				await weatherFunc.startApplication("tests/configs/modules/weather/currentweather_default.js", {});
 			});
 
 			it("should render wind speed and wind direction", async () => {
@@ -34,7 +32,7 @@ describe("Weather module", () => {
 
 	describe("Compliments Integration", () => {
 		beforeAll(async () => {
-			await weatherFunc.startApp("tests/configs/modules/weather/currentweather_compliments.js", {});
+			await weatherFunc.startApplication("tests/configs/modules/weather/currentweather_compliments.js", {});
 		});
 
 		it("should render a compliment based on the current weather", async () => {
@@ -44,7 +42,7 @@ describe("Weather module", () => {
 
 	describe("Configuration Options", () => {
 		beforeAll(async () => {
-			await weatherFunc.startApp("tests/configs/modules/weather/currentweather_options.js", {});
+			await weatherFunc.startApplication("tests/configs/modules/weather/currentweather_options.js", {});
 		});
 
 		it("should render windUnits in beaufort", async () => {
@@ -72,7 +70,7 @@ describe("Weather module", () => {
 
 	describe("Current weather with imperial units", () => {
 		beforeAll(async () => {
-			await weatherFunc.startApp("tests/configs/modules/weather/currentweather_units.js", {});
+			await weatherFunc.startApplication("tests/configs/modules/weather/currentweather_units.js", {});
 		});
 
 		it("should render wind in imperial units", async () => {

@@ -1,16 +1,14 @@
 const helpers = require("../helpers/global-setup");
 const weatherFunc = require("../helpers/weather-functions");
-const { cleanupMockData } = require("../../utils/weather_mocker");
 
 describe("Weather module: Weather Forecast", () => {
 	afterAll(async () => {
-		await helpers.stopApplication();
-		cleanupMockData();
+		await weatherFunc.stopApplication();
 	});
 
 	describe("Default configuration", () => {
 		beforeAll(async () => {
-			await weatherFunc.startApp("tests/configs/modules/weather/forecastweather_default.js", {});
+			await weatherFunc.startApplication("tests/configs/modules/weather/forecastweather_default.js", {});
 		});
 
 		const days = ["Today", "Tomorrow", "Sun", "Mon", "Tue"];
@@ -54,7 +52,7 @@ describe("Weather module: Weather Forecast", () => {
 
 	describe("Absolute configuration", () => {
 		beforeAll(async () => {
-			await weatherFunc.startApp("tests/configs/modules/weather/forecastweather_absolute.js", {});
+			await weatherFunc.startApplication("tests/configs/modules/weather/forecastweather_absolute.js", {});
 		});
 
 		const days = ["Fri", "Sat", "Sun", "Mon", "Tue"];
@@ -67,7 +65,7 @@ describe("Weather module: Weather Forecast", () => {
 
 	describe("Configuration Options", () => {
 		beforeAll(async () => {
-			await weatherFunc.startApp("tests/configs/modules/weather/forecastweather_options.js", {});
+			await weatherFunc.startApplication("tests/configs/modules/weather/forecastweather_options.js", {});
 		});
 
 		it("should render custom table class", async () => {
@@ -94,7 +92,7 @@ describe("Weather module: Weather Forecast", () => {
 
 	describe("Forecast weather with imperial units", () => {
 		beforeAll(async () => {
-			await weatherFunc.startApp("tests/configs/modules/weather/forecastweather_units.js", {});
+			await weatherFunc.startApplication("tests/configs/modules/weather/forecastweather_units.js", {});
 		});
 
 		describe("Temperature units", () => {
