@@ -163,7 +163,8 @@ Module.register("weather", {
 	// What to do when the weather provider has new information available?
 	updateAvailable () {
 		Log.log("New weather information available.");
-		this.updateDom(0);
+		// this value was changed from 0 to 300 to stabilize weather tests:
+		this.updateDom(300);
 		this.scheduleUpdate();
 
 		if (this.weatherProvider.currentWeather()) {
