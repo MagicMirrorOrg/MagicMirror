@@ -68,13 +68,13 @@
 	"dependencies": {
 		"@fontsource/roboto": "^5.2.6",
 		"@fontsource/roboto-condensed": "^5.2.6",
-		"@fortawesome/fontawesome-free": "^6.7.2",
+		"@fortawesome/fontawesome-free": "^7.0.0",
 		"ajv": "^8.17.1",
 		"animate.css": "^4.1.1",
 		"console-stamp": "^3.1.2",
 		"croner": "^9.1.0",
 		"envsub": "^4.1.0",
-		"eslint": "^9.30.1",
+		"eslint": "^9.31.0",
 		"express": "^5.1.0",
 		"express-ipfilter": "^1.3.2",
 		"feedme": "^2.0.2",
@@ -90,31 +90,31 @@
 		"socket.io": "^4.8.1",
 		"suncalc": "^1.9.0",
 		"systeminformation": "^5.27.7",
-		"undici": "^7.11.0",
+		"undici": "^7.12.0",
 		"weathericons": "^2.1.0"
 	},
 	"devDependencies": {
-		"@stylistic/eslint-plugin": "^5.1.0",
-		"cspell": "^9.1.2",
+		"@stylistic/eslint-plugin": "^5.2.2",
+		"cspell": "^9.2.0",
 		"eslint-plugin-import-x": "^4.16.1",
 		"eslint-plugin-jest": "^29.0.1",
-		"eslint-plugin-jsdoc": "^51.3.3",
-		"eslint-plugin-package-json": "^0.43.2",
+		"eslint-plugin-jsdoc": "^51.4.1",
+		"eslint-plugin-package-json": "^0.45.1",
 		"express-basic-auth": "^1.2.1",
 		"husky": "^9.1.7",
-		"jest": "^30.0.4",
+		"jest": "^30.0.5",
 		"jsdom": "^26.1.0",
 		"lint-staged": "^16.1.2",
 		"markdownlint-cli2": "^0.18.1",
-		"playwright": "^1.53.2",
+		"playwright": "^1.54.1",
 		"prettier": "^3.6.2",
 		"sinon": "^21.0.0",
-		"stylelint": "^16.21.1",
+		"stylelint": "^16.22.0",
 		"stylelint-config-standard": "^38.0.0",
 		"stylelint-prettier": "^5.0.3"
 	},
 	"optionalDependencies": {
-		"electron": "^37.2.0"
+		"electron": "^37.2.3"
 	},
 	"engines": {
 		"node": ">=22.14.0"
