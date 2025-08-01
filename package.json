@@ -99,7 +99,7 @@
 		"eslint-plugin-import-x": "^4.16.1",
 		"eslint-plugin-jest": "^29.0.1",
 		"eslint-plugin-jsdoc": "^51.4.1",
-		"eslint-plugin-package-json": "^0.45.1",
+		"eslint-plugin-package-json": "^0.48.0",
 		"express-basic-auth": "^1.2.1",
 		"husky": "^9.1.7",
 		"jest": "^30.0.5",
