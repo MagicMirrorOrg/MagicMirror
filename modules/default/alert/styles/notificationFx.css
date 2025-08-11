@@ -9,7 +9,7 @@
   font-size: 70%;
   position: relative;
   display: table;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
   max-width: 100%;
   border-width: 1px;
   border-radius: 5px;
@@ -35,7 +35,7 @@
   top: 40%;
   width: 40%;
   height: auto;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
   border-radius: 20px;
 }
 
