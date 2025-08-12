@@ -29,8 +29,9 @@ Thanks to: @dathbe.
 
 ### Fixed
 
-- [calendar] Fixed broken unittest that only broke at 1st of july and 1st of january (#3830)
+- [calendar] Fixed broken unittest that only broke on the 1st of July and 1st of january (#3830)
 - [clock] Fixed missing icons when no other modules with icons is loaded (#3834)
+- [weather] Fixed handling of empty values in weathergov providers handling of precipitationAmount (#3859)
 
 ## [2.32.0] - 2025-07-01
 
