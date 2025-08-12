@@ -25,7 +25,7 @@ Thanks to: @dathbe.
 
 ### Updated
 
-- [core] Update dependencies including electron to v37 (#3831, #3849, #3857)
+- [core] Update dependencies including electron to v37 as well as github actions (#3831, #3849, #3857, #3858)
 
 ### Fixed
 
