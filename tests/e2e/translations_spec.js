@@ -6,6 +6,21 @@ const express = require("express");
 const sinon = require("sinon");
 const translations = require("../../translations/translations");
 
+/**
+ * Helper function to setup DOM environment.
+ * @returns {object} The JSDOM window object
+ */
+function setupDOMEnvironment () {
+	const dom = new JSDOM("", { runScripts: "dangerously", resources: "usable" });
+
+	dom.window.Log = { log: jest.fn(), error: jest.fn() };
+	const translatorJs = fs.readFileSync(path.join(__dirname, "..", "..", "js", "translator.js"), "utf-8");
+	dom.window.translations = translations;
+	dom.window.eval(translatorJs);
+
+	return dom.window;
+}
+
 describe("translations", () => {
 	let server;
 
@@ -38,10 +53,10 @@ describe("translations", () => {
 
 		beforeEach(() => {
 			// Create a new JSDOM instance for each test
-			dom = new JSDOM("", { runScripts: "dangerously", resources: "usable" });
+			const window = setupDOMEnvironment();
+			dom = { window };
 
-			// Mock the necessary global objects
-			dom.window.Log = { log: jest.fn(), error: jest.fn() };
+			// Additional setup for loadTranslations tests
 			dom.window.Translator = {};
 			dom.window.config = { language: "de" };
 
@@ -132,21 +147,16 @@ describe("translations", () => {
 		}
 	};
 
-	const translatorJs = fs.readFileSync(path.join(__dirname, "..", "..", "js", "translator.js"), "utf-8");
-
 	describe("parsing language files through the Translator class", () => {
 		for (const language in translations) {
 			it(`should parse ${language}`, async () => {
-				const dom = new JSDOM("", { runScripts: "dangerously", resources: "usable" });
-				dom.window.Log = { log: jest.fn() };
-				dom.window.translations = translations;
-				dom.window.eval(translatorJs);
+				const window = setupDOMEnvironment();
 
 				await new Promise((resolve) => {
-					dom.window.onload = resolve;
+					window.onload = resolve;
 				});
 
-				const { Translator } = dom.window;
+				const { Translator } = window;
 				await Translator.load(mmm, translations[language], false);
 
 				expect(typeof Translator.translations[mmm.name]).toBe("object");
@@ -178,14 +188,11 @@ describe("translations", () => {
 
 		// Function to initialize JSDOM and load translations
 		const initializeTranslationDOM = (language) => {
-			const dom = new JSDOM("", { runScripts: "dangerously", resources: "usable" });
-			dom.window.Log = { log: jest.fn() };
-			dom.window.translations = translations;
-			dom.window.eval(translatorJs);
+			const window = setupDOMEnvironment();
 
 			return new Promise((resolve) => {
-				dom.window.onload = async () => {
-					const { Translator } = dom.window;
+				window.onload = async () => {
+					const { Translator } = window;
 					await Translator.load(mmm, translations[language], false);
 					resolve(Translator.translations[mmm.name]);
 				};

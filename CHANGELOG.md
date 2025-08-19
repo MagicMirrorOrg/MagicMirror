@@ -20,6 +20,7 @@ Thanks to: @dathbe.
 - [refactor] Add new file `js/module_functions.js` to move code used in several modules to one place (#3837)
 - [tests] refactor: simplify jest config file (#3844)
 - [tests] refactor: extract constants for weather electron tests (#3845)
+- [tests] refactor: add `setupDOMEnvironment` helper function to eliminate repetitive JSDOM setup code
 - [tests] replace `console` with `Log` in calendar `debug.js` to avoid exception in eslint config (#3846)
 - [tests] speed up e2e tests, cleanup and stabilize weather e2e tests (#3847, #3848)
 
