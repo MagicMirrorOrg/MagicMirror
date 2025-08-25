@@ -133,7 +133,7 @@ function getVersion (req, res) {
  * Gets the preferred `User-Agent`
  * @returns {string} `User-Agent` to be used
  */
-function getUserAgent() {
+function getUserAgent () {
 	const defaultUserAgent = `Mozilla/5.0 (Node.js ${Number(process.version.match(/^v(\d+\.\d+)/)[1])}) MagicMirror/${global.version}`;
 
 	if (typeof config === "undefined") {

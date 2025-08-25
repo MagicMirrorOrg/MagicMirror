@@ -144,7 +144,7 @@ describe("server_functions tests", () => {
 			expect(corsResponse.set.mock.calls[2][1]).toBe("value2");
 		});
 
-		test("Gets User-Agent from configuration", async () => {
+		it("Gets User-Agent from configuration", async () => {
 			config = {};
 			let userAgent;
 
