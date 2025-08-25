@@ -1,0 +1,48 @@
+{
+	"LOADING": "جار التحميل …",
+
+	"YESTERDAY": "أمس",
+	"TODAY": "اليوم",
+	"TOMORROW": "غدًا",
+	"RUNNING": "ينتهي خلال",
+	"EMPTY": "لا توجد أحداث قادمة.",
+	"WEEK": "الأسبوع {weekNumber}",
+
+	"N": "شمال",
+	"NNE": "شمال شمال شرقي",
+	"NE": "شمال شرقي",
+	"ENE": "شرق شمال شرقي",
+	"E": "شرق",
+	"ESE": "شرق جنوب شرقي",
+	"SE": "جنوب شرقي",
+	"SSE": "جنوب جنوب شرقي",
+	"S": "جنوب",
+	"SSW": "جنوب جنوب غربي",
+	"SW": "جنوب غربي",
+	"WSW": "غرب جنوب غربي",
+	"W": "غرب",
+	"WNW": "غرب شمال غربي",
+	"NW": "شمال غربي",
+	"NNW": "شمال شمال غربي",
+
+	"FEELS": "كأنها {DEGREE}",
+	"PRECIP_POP": "احتمالية الهطول",
+	"PRECIP_AMOUNT": "كمية الهطول",
+
+	"MODULE_CONFIG_CHANGED": "تم تغيير خيارات التهيئة لوحدة {MODULE_NAME}.\nيرجى مراجعة الوثائق.",
+	"MODULE_CONFIG_ERROR": "خطأ في وحدة {MODULE_NAME}. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "رابط غير صحيح.",
+	"MODULE_ERROR_NO_CONNECTION": "لا يوجد اتصال بالإنترنت.",
+	"MODULE_ERROR_UNAUTHORIZED": "فشل التصريح.",
+	"MODULE_ERROR_UNSPECIFIED": "تحقق من السجلات لمزيد من التفاصيل.",
+
+	"NEWSFEED_NO_ITEMS": "لا توجد أخبار في الوقت الحالي.",
+
+	"UPDATE_NOTIFICATION": "تحديث MagicMirror² متاح.",
+	"UPDATE_NOTIFICATION_MODULE": "تحديث متاح لوحدة {MODULE_NAME}.",
+	"UPDATE_INFO_SINGLE": "التثبيت الحالي متخلف عن تحديث واحد على فرع {BRANCH_NAME}.",
+	"UPDATE_INFO_MULTIPLE": "التثبيت الحالي متخلف عن {COMMIT_COUNT} تحديثات على فرع {BRANCH_NAME}.",
+	"UPDATE_NOTIFICATION_DONE": "تم التحديث لوحدة {MODULE_NAME}",
+	"UPDATE_NOTIFICATION_ERROR": "حدث خطأ أثناء تحديث وحدة {MODULE_NAME}",
+	"UPDATE_NOTIFICATION_NEED-RESTART": "يتطلب إعادة تشغيل MagicMirror."
+}

@@ -1,9 +1,6 @@
-/* MagicMirror² Test config hourly weather
- *
- * By rejas https://github.com/rejas
- * MIT Licensed.
- */
 let config = {
+	address: "0.0.0.0",
+	ipWhitelist: [],
 	timeFormat: 12,
 
 	modules: [
@@ -13,6 +10,8 @@ let config = {
 			config: {
 				type: "hourly",
 				location: "Berlin",
+				weatherProvider: "openweathermap",
+				weatherEndpoint: "/onecall",
 				mockData: '"#####WEATHERDATA#####"'
 			}
 		}

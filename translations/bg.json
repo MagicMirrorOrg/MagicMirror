@@ -27,8 +27,24 @@
 	"NW": "СЗ",
 	"NNW": "ССЗ",
 
+	"FEELS": "Усеща се като {DEGREE}",
+	"PRECIP_POP": "Вероятност за валежи",
+	"PRECIP_AMOUNT": "Количество валежи",
+
+	"MODULE_CONFIG_CHANGED": "Променени са опциите за конфигурация на модула „{MODULE_NAME}“.\nМоля, проверете документацията.",
+	"MODULE_CONFIG_ERROR": "Грешка в модула „{MODULE_NAME}“. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "Неправилен URL адрес.",
+	"MODULE_ERROR_NO_CONNECTION": "Няма интернет връзка.",
+	"MODULE_ERROR_UNAUTHORIZED": "Неуспешна авторизация.",
+	"MODULE_ERROR_UNSPECIFIED": "Проверете логовете за повече подробности.",
+
+	"NEWSFEED_NO_ITEMS": "Няма новини в момента.",
+
 	"UPDATE_NOTIFICATION": "Налична е актуализация за MagicMirror².",
 	"UPDATE_NOTIFICATION_MODULE": "Налична е актуализация за модула „{MODULE_NAME}“.",
 	"UPDATE_INFO_SINGLE": "Инсталираната версия е с {COMMIT_COUNT} ревизия назад от клона „{BRANCH_NAME}“.",
-	"UPDATE_INFO_MULTIPLE": "Инсталираната версия е с {COMMIT_COUNT} ревизии назад от клона „{BRANCH_NAME}“."
+	"UPDATE_INFO_MULTIPLE": "Инсталираната версия е с {COMMIT_COUNT} ревизии назад от клона „{BRANCH_NAME}“.",
+	"UPDATE_NOTIFICATION_DONE": "Актуализацията на модула „{MODULE_NAME}“ е завършена.",
+	"UPDATE_NOTIFICATION_ERROR": "Грешка при актуализацията на модула „{MODULE_NAME}“",
+	"UPDATE_NOTIFICATION_NEED-RESTART": "Необходимо е рестартиране на MagicMirror."
 }

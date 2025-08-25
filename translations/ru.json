@@ -28,9 +28,23 @@
 	"NNW": "ССЗ",
 
 	"FEELS": "По ощущению {DEGREE}",
+	"PRECIP_POP": "Вероятность осадков",
+	"PRECIP_AMOUNT": "Количество осадков",
+
+	"MODULE_CONFIG_CHANGED": "Настройки модуля {MODULE_NAME} изменены.\nПожалуйста, проверьте документацию.",
+	"MODULE_CONFIG_ERROR": "Ошибка в модуле {MODULE_NAME}. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "Неверный URL.",
+	"MODULE_ERROR_NO_CONNECTION": "Нет интернет-соединения.",
+	"MODULE_ERROR_UNAUTHORIZED": "Не удалось авторизоваться.",
+	"MODULE_ERROR_UNSPECIFIED": "Пожалуйста, проверьте логи для получения дополнительной информации.",
+
+	"NEWSFEED_NO_ITEMS": "В данный момент нет новостей.",
 
 	"UPDATE_NOTIFICATION": "Есть обновление для MagicMirror².",
 	"UPDATE_NOTIFICATION_MODULE": "Есть обновление для {MODULE_NAME} модуля.",
 	"UPDATE_INFO_SINGLE": "Данная инсталляция позади {BRANCH_NAME} commit ветки на {COMMIT_COUNT} коммитов.",
-	"UPDATE_INFO_MULTIPLE": "Данная инсталляция позади {BRANCH_NAME} commits ветки на {COMMIT_COUNT} коммитов."
+	"UPDATE_INFO_MULTIPLE": "Данная инсталляция позади {BRANCH_NAME} commits ветки на {COMMIT_COUNT} коммитов.",
+	"UPDATE_NOTIFICATION_DONE": "Обновление модуля {MODULE_NAME} завершено.",
+	"UPDATE_NOTIFICATION_ERROR": "Ошибка обновления модуля {MODULE_NAME}.",
+	"UPDATE_NOTIFICATION_NEED-RESTART": "Требуется перезапуск MagicMirror."
 }

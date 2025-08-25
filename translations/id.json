@@ -26,8 +26,24 @@
 	"NW": "BL",
 	"NNW": "UBL",
 
+	"FEELS": "Terasa {DEGREE}",
+	"PRECIP_POP": "Kemungkinan curah hujan",
+	"PRECIP_AMOUNT": "Jumlah curah hujan",
+
+	"MODULE_CONFIG_CHANGED": "Opsi konfigurasi modul {MODULE_NAME} telah diubah.\nSilakan periksa dokumentasi.",
+	"MODULE_CONFIG_ERROR": "Terjadi kesalahan pada modul {MODULE_NAME}. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "URL tidak valid.",
+	"MODULE_ERROR_NO_CONNECTION": "Tidak ada koneksi internet.",
+	"MODULE_ERROR_UNAUTHORIZED": "Gagal otentikasi.",
+	"MODULE_ERROR_UNSPECIFIED": "Silakan periksa log untuk informasi lebih lanjut.",
+
+	"NEWSFEED_NO_ITEMS": "Saat ini tidak ada berita.",
+
 	"UPDATE_NOTIFICATION": "Memperbarui MagicMirror² tersedia.",
 	"UPDATE_NOTIFICATION_MODULE": "Memperbarui tersedia untuk modul {MODULE_NAME}.",
 	"UPDATE_INFO_SINGLE": "Instalasi saat ini tertinggal {COMMIT_COUNT} commit pada cabang {BRANCH_NAME}.",
-	"UPDATE_INFO_MULTIPLE": "Instalasi saat ini tertinggal {COMMIT_COUNT} commits pada cabang {BRANCH_NAME}."
+	"UPDATE_INFO_MULTIPLE": "Instalasi saat ini tertinggal {COMMIT_COUNT} commits pada cabang {BRANCH_NAME}.",
+	"UPDATE_NOTIFICATION_DONE": "Pembaruan modul {MODULE_NAME} selesai.",
+	"UPDATE_NOTIFICATION_ERROR": "Terjadi kesalahan saat memperbarui modul {MODULE_NAME}.",
+	"UPDATE_NOTIFICATION_NEED-RESTART": "Diperlukan restart MagicMirror."
 }

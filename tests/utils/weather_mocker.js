@@ -1,8 +1,6 @@
-const fs = require("fs");
-const path = require("path");
-const util = require("util");
-const exec = util.promisify(require("child_process").exec);
-const _ = require("lodash");
+const fs = require("node:fs");
+const path = require("node:path");
+const exec = require("node:child_process").execSync;
 
 /**
  * @param {string} type what data to read, can be "current" "forecast" or "hourly
@@ -25,7 +23,9 @@ const readMockData = (type, extendedData = {}) => {
 			break;
 	}
 
-	return JSON.stringify(_.merge({}, JSON.parse(fs.readFileSync(path.resolve(`${__dirname}/../mocks/${fileName}`)).toString()), extendedData));
+	const fileData = JSON.parse(fs.readFileSync(path.resolve(`${__dirname}/../mocks/${fileName}`)).toString());
+	const mergedData = JSON.stringify({ ...{}, ...fileData, ...extendedData });
+	return mergedData;
 };
 
 const injectMockData = (configFileName, extendedData = {}) => {
@@ -44,9 +44,9 @@ const injectMockData = (configFileName, extendedData = {}) => {
 	return tempFile;
 };
 
-const cleanupMockData = async () => {
+const cleanupMockData = () => {
 	const tempDir = path.resolve(`${__dirname}/../configs`).toString();
-	await exec(`find ${tempDir} -type f -name *_temp.js -delete`);
+	exec(`find ${tempDir} -type f -name *_temp.js -delete`);
 };
 
 module.exports = { injectMockData, cleanupMockData };

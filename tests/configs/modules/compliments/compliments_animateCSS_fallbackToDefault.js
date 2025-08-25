@@ -1,11 +1,6 @@
-/* MagicMirror² Test config sample for AnimateCSS integration with compliments module
- * --> if animation name is not an AnimateCSS animation
- * --> must fallback to default (no animation)
- * By bugsounet https://github.com/bugsounet
- * 09/2023
- * MIT Licensed.
- */
 let config = {
+	address: "0.0.0.0",
+	ipWhitelist: [],
 	modules: [
 		{
 			module: "compliments",

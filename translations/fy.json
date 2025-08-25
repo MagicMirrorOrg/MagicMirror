@@ -7,6 +7,7 @@
 	"DAYAFTERTOMORROW": "Oaremoarn",
 	"RUNNING": "Einigest oer",
 	"EMPTY": "Gjin plande &ocirc;fspraken.",
+	"WEEK": "Wike {weekNumber}",
 
 	"N": "N",
 	"NNE": "NNE",
@@ -23,5 +24,26 @@
 	"W": "W",
 	"WNW": "WNW",
 	"NW": "NW",
-	"NNW": "NNW"
+	"NNW": "NNW",
+
+	"FEELS": "Voelt as {DEGREE}",
+	"PRECIP_POP": "Kans op rein",
+	"PRECIP_AMOUNT": "Hoeveelheid rein",
+
+	"MODULE_CONFIG_CHANGED": "De konfiguraasje fan it {MODULE_NAME} module is feroare.\nSjoch de dokumintaasje foar mear ynformaasje.",
+	"MODULE_CONFIG_ERROR": "Fout yn it {MODULE_NAME} module. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "De URL is net jildich.",
+	"MODULE_ERROR_NO_CONNECTION": "Gjin ynternetferbining.",
+	"MODULE_ERROR_UNAUTHORIZED": "Autorisearje mislearre.",
+	"MODULE_ERROR_UNSPECIFIED": "Sjoch de logs foar mear ynformaasje.",
+
+	"NEWSFEED_NO_ITEMS": "Op it stuit gjin nijsberjochten.",
+
+	"UPDATE_NOTIFICATION": "Der is in update beskikber foar MagicMirror².",
+	"UPDATE_NOTIFICATION_MODULE": "Der is in update beskikber foar it {MODULE_NAME} module.",
+	"UPDATE_INFO_SINGLE": "Dizze ynstallaasje is {BRANCH_NAME} commit efter op {COMMIT_COUNT} commits.",
+	"UPDATE_INFO_MULTIPLE": "Dizze ynstallaasje is {BRANCH_NAME} commits achter op {COMMIT_COUNT} commits.",
+	"UPDATE_NOTIFICATION_DONE": "It {MODULE_NAME} module is bywurke.",
+	"UPDATE_NOTIFICATION_ERROR": "Fout by it bywurkje fan it {MODULE_NAME} module.",
+	"UPDATE_NOTIFICATION_NEED-RESTART": "It is nedich om MagicMirror te herstarten."
 }

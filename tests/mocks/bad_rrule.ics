@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+BEGIN:VEVENT
+DTSTAMP:20210413T203456Z
+UID:E689AEB8C02C4E2CADD8C7D3D303CEAD0
+DTSTART;TZID="Amsterdam, Belgrade, Berlin, Brussels, Budapest, Madrid, Paris, Prague, Stockholm":20210415T190000
+DTEND;TZID="Amsterdam, Belgrade, Berlin, Brussels, Budapest, Madrid, Paris, Prague, Stockholm":20210415T210000
+CLASS:PUBLIC
+LOCATION:albert heijn
+SUMMARY:xxx xxxx
+SEQUENCE:10
+RRULE:FREQ=DAILY;UNTIL=20210418T170000Z
+EXDATE;TZID="Amsterdam, Belgrade, Berlin, Brussels, Budapest, Madrid, Paris, Prague, Stockholm":20210417T190000
+EXDATE;TZID="Amsterdam, Belgrade, Berlin, Brussels, Budapest, Madrid, Paris, Prague, Stockholm":20210416T190000
+EXDATE;TZID="Amsterdam, Belgrade, Berlin, Brussels, Budapest, Madrid, Paris, Prague, Stockholm":20210415T190000
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER;RELATED=START:-PT15M
+END:VALARM
+END:VEVENT
+END:VCALENDAR

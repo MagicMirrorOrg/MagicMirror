@@ -1,12 +1,27 @@
-const fs = require("fs");
-const path = require("path");
+const fs = require("node:fs");
+const path = require("node:path");
 const helmet = require("helmet");
 const { JSDOM } = require("jsdom");
 const express = require("express");
 const sinon = require("sinon");
 const translations = require("../../translations/translations");
 
-describe("Translations", () => {
+/**
+ * Helper function to setup DOM environment.
+ * @returns {object} The JSDOM window object
+ */
+function setupDOMEnvironment () {
+	const dom = new JSDOM("", { runScripts: "dangerously", resources: "usable" });
+
+	dom.window.Log = { log: jest.fn(), error: jest.fn() };
+	const translatorJs = fs.readFileSync(path.join(__dirname, "..", "..", "js", "translator.js"), "utf-8");
+	dom.window.translations = translations;
+	dom.window.eval(translatorJs);
+
+	return dom.window;
+}
+
+describe("translations", () => {
 	let server;
 
 	beforeAll(() => {
@@ -26,8 +41,9 @@ describe("Translations", () => {
 	});
 
 	it("should have a translation file in the specified path", () => {
-		for (let language in translations) {
+		for (const language in translations) {
 			const file = fs.statSync(translations[language]);
+
 			expect(file.isFile()).toBe(true);
 		}
 	});
@@ -36,181 +52,190 @@ describe("Translations", () => {
 		let dom;
 
 		beforeEach(() => {
-			dom = new JSDOM(
-				`<script>var Translator = {}; var Log = {log: () => {}}; var config = {language: 'de'};</script>\
-					<script src="file://${path.join(__dirname, "..", "..", "js", "class.js")}"></script>\
-					<script src="file://${path.join(__dirname, "..", "..", "js", "module.js")}"></script>`,
-				{ runScripts: "dangerously", resources: "usable" }
-			);
+			// Create a new JSDOM instance for each test
+			const window = setupDOMEnvironment();
+			dom = { window };
+
+			// Additional setup for loadTranslations tests
+			dom.window.Translator = {};
+			dom.window.config = { language: "de" };
+
+			// Load class.js and module.js content directly
+			const classJs = fs.readFileSync(path.join(__dirname, "..", "..", "js", "class.js"), "utf-8");
+			const moduleJs = fs.readFileSync(path.join(__dirname, "..", "..", "js", "module.js"), "utf-8");
+
+			// Execute the scripts in the JSDOM context
+			dom.window.eval(classJs);
+			dom.window.eval(moduleJs);
 		});
 
-		it("should load translation file", (done) => {
-			dom.window.onload = async () => {
-				const { Translator, Module, config } = dom.window;
-				config.language = "en";
-				Translator.load = sinon.stub().callsFake((_m, _f, _fb) => null);
+		it("should load translation file", async () => {
+			await new Promise((resolve) => {
+				dom.window.onload = resolve;
+			});
 
-				Module.register("name", { getTranslations: () => translations });
-				const MMM = Module.create("name");
+			const { Translator, Module, config } = dom.window;
+			config.language = "en";
+			Translator.load = sinon.stub().callsFake((_m, _f, _fb) => null);
 
-				await MMM.loadTranslations();
+			Module.register("name", { getTranslations: () => translations });
+			const MMM = Module.create("name");
 
-				expect(Translator.load.args.length).toBe(1);
-				expect(Translator.load.calledWith(MMM, "translations/en.json", false)).toBe(true);
+			await MMM.loadTranslations();
 
-				done();
-			};
+			expect(Translator.load.args).toHaveLength(1);
+			expect(Translator.load.calledWith(MMM, "translations/en.json", false)).toBe(true);
 		});
 
-		it("should load translation + fallback file", (done) => {
-			dom.window.onload = async () => {
-				const { Translator, Module } = dom.window;
-				Translator.load = sinon.stub().callsFake((_m, _f, _fb) => null);
+		it("should load translation + fallback file", async () => {
+			await new Promise((resolve) => {
+				dom.window.onload = resolve;
+			});
 
-				Module.register("name", { getTranslations: () => translations });
-				const MMM = Module.create("name");
+			const { Translator, Module } = dom.window;
+			Translator.load = sinon.stub().callsFake((_m, _f, _fb) => null);
 
-				await MMM.loadTranslations();
+			Module.register("name", { getTranslations: () => translations });
+			const MMM = Module.create("name");
 
-				expect(Translator.load.args.length).toBe(2);
-				expect(Translator.load.calledWith(MMM, "translations/de.json", false)).toBe(true);
-				expect(Translator.load.calledWith(MMM, "translations/en.json", true)).toBe(true);
+			await MMM.loadTranslations();
 
-				done();
-			};
+			expect(Translator.load.args).toHaveLength(2);
+			expect(Translator.load.calledWith(MMM, "translations/de.json", false)).toBe(true);
+			expect(Translator.load.calledWith(MMM, "translations/en.json", true)).toBe(true);
 		});
 
-		it("should load translation fallback file", (done) => {
-			dom.window.onload = async () => {
-				const { Translator, Module, config } = dom.window;
-				config.language = "--";
-				Translator.load = sinon.stub().callsFake((_m, _f, _fb) => null);
+		it("should load translation fallback file", async () => {
+			await new Promise((resolve) => {
+				dom.window.onload = resolve;
+			});
 
-				Module.register("name", { getTranslations: () => translations });
-				const MMM = Module.create("name");
+			const { Translator, Module, config } = dom.window;
+			config.language = "--";
+			Translator.load = sinon.stub().callsFake((_m, _f, _fb) => null);
 
-				await MMM.loadTranslations();
+			Module.register("name", { getTranslations: () => translations });
+			const MMM = Module.create("name");
 
-				expect(Translator.load.args.length).toBe(1);
-				expect(Translator.load.calledWith(MMM, "translations/en.json", true)).toBe(true);
+			await MMM.loadTranslations();
 
-				done();
-			};
+			expect(Translator.load.args).toHaveLength(1);
+			expect(Translator.load.calledWith(MMM, "translations/en.json", true)).toBe(true);
 		});
 
-		it("should load no file", (done) => {
-			dom.window.onload = async () => {
-				const { Translator, Module } = dom.window;
-				Translator.load = sinon.stub();
+		it("should load no file", async () => {
+			await new Promise((resolve) => {
+				dom.window.onload = resolve;
+			});
 
-				Module.register("name", {});
-				const MMM = Module.create("name");
+			const { Translator, Module } = dom.window;
+			Translator.load = sinon.stub();
 
-				await MMM.loadTranslations();
+			Module.register("name", {});
+			const MMM = Module.create("name");
 
-				expect(Translator.load.callCount).toBe(0);
+			await MMM.loadTranslations();
 
-				done();
-			};
+			expect(Translator.load.callCount).toBe(0);
 		});
 	});
 
 	const mmm = {
 		name: "TranslationTest",
-		file(file) {
+		file (file) {
 			return `http://localhost:3000/${file}`;
 		}
 	};
 
-	describe("Parsing language files through the Translator class", () => {
-		for (let language in translations) {
-			it(`should parse ${language}`, (done) => {
-				const dom = new JSDOM(
-					`<script>var translations = ${JSON.stringify(translations)}; var Log = {log: () => {}};</script>\
-					<script src="file://${path.join(__dirname, "..", "..", "js", "translator.js")}">`,
-					{ runScripts: "dangerously", resources: "usable" }
-				);
-				dom.window.onload = async () => {
-					const { Translator } = dom.window;
+	describe("parsing language files through the Translator class", () => {
+		for (const language in translations) {
+			it(`should parse ${language}`, async () => {
+				const window = setupDOMEnvironment();
 
-					await Translator.load(mmm, translations[language], false);
-					expect(typeof Translator.translations[mmm.name]).toBe("object");
-					expect(Object.keys(Translator.translations[mmm.name]).length).toBeGreaterThanOrEqual(1);
-					done();
-				};
+				await new Promise((resolve) => {
+					window.onload = resolve;
+				});
+
+				const { Translator } = window;
+				await Translator.load(mmm, translations[language], false);
+
+				expect(typeof Translator.translations[mmm.name]).toBe("object");
+				expect(Object.keys(Translator.translations[mmm.name]).length).toBeGreaterThanOrEqual(1);
 			});
 		}
 	});
 
-	describe("Same keys", () => {
+	describe("same keys", () => {
 		let base;
-		let missing = [];
 
-		beforeAll((done) => {
-			const dom = new JSDOM(
-				`<script>var translations = ${JSON.stringify(translations)}; var Log = {log: () => {}};</script>\
-					<script src="file://${path.join(__dirname, "..", "..", "js", "translator.js")}">`,
-				{ runScripts: "dangerously", resources: "usable" }
-			);
-			dom.window.onload = async () => {
-				const { Translator } = dom.window;
+		// Some expressions are not easy to translate automatically. For the sake of a working test, we filter them out.
+		const COMMON_EXCEPTIONS = ["WEEK_SHORT"];
 
-				await Translator.load(mmm, translations.de, false);
-				base = Object.keys(Translator.translations[mmm.name]).sort();
-				done();
-			};
+		// Some languages don't have certain words, so we need to filter those language specific exceptions.
+		const LANGUAGE_EXCEPTIONS = {
+			ca: ["DAYBEFOREYESTERDAY"],
+			cv: ["DAYBEFOREYESTERDAY"],
+			cy: ["DAYBEFOREYESTERDAY"],
+			en: ["DAYAFTERTOMORROW", "DAYBEFOREYESTERDAY"],
+			fy: ["DAYBEFOREYESTERDAY"],
+			gl: ["DAYBEFOREYESTERDAY"],
+			hu: ["DAYBEFOREYESTERDAY"],
+			id: ["DAYBEFOREYESTERDAY"],
+			it: ["DAYBEFOREYESTERDAY"],
+			"pt-br": ["DAYAFTERTOMORROW"],
+			tr: ["DAYBEFOREYESTERDAY"]
+		};
+
+		// Function to initialize JSDOM and load translations
+		const initializeTranslationDOM = (language) => {
+			const window = setupDOMEnvironment();
+
+			return new Promise((resolve) => {
+				window.onload = async () => {
+					const { Translator } = window;
+					await Translator.load(mmm, translations[language], false);
+					resolve(Translator.translations[mmm.name]);
+				};
+			});
+		};
+
+		beforeAll(async () => {
+			// Using German as the base rather than English, since
+			// some words do not have a direct translation in English.
+			const germanTranslations = await initializeTranslationDOM("de");
+			base = Object.keys(germanTranslations).sort();
 		});
 
-		afterAll(() => {
-			console.log(missing);
-		});
-
-		// Using German as the base rather than English, since
-		// at least one translated word doesn't exist in English.
-		for (let language in translations) {
-			if (language === "de") {
-				continue;
-			}
+		for (const language in translations) {
+			if (language === "de") continue;
 
 			describe(`Translation keys of ${language}`, () => {
 				let keys;
 
-				beforeAll((done) => {
-					const dom = new JSDOM(
-						`<script>var translations = ${JSON.stringify(translations)}; var Log = {log: () => {}};</script>\
-					<script src="file://${path.join(__dirname, "..", "..", "js", "translator.js")}">`,
-						{ runScripts: "dangerously", resources: "usable" }
-					);
-					dom.window.onload = async () => {
-						const { Translator } = dom.window;
-
-						await Translator.load(mmm, translations[language], false);
-						keys = Object.keys(Translator.translations[mmm.name]).sort();
-						done();
-					};
+				beforeAll(async () => {
+					const languageTranslations = await initializeTranslationDOM(language);
+					keys = Object.keys(languageTranslations).sort();
 				});
 
-				it(`${language} keys should be in base`, () => {
+				it(`${language} should not contain keys that are not in base language`, () => {
 					keys.forEach((key) => {
-						expect(base.indexOf(key)).toBeGreaterThanOrEqual(0);
+						expect(base).toContain(key, `Translation key '${key}' in language '${language}' is not present in base language`);
 					});
 				});
 
-				it(`${language} should contain all base keys`, () => {
-					// TODO: when all translations are fixed, use
-					// expect(keys).toEqual(base);
-					// instead of the try-catch-block
+				it(`${language} should contain all base keys (excluding defined exceptions)`, () => {
+					let filteredBase = base.filter((key) => !COMMON_EXCEPTIONS.includes(key));
+					let filteredKeys = keys.filter((key) => !COMMON_EXCEPTIONS.includes(key));
 
-					try {
-						expect(keys).toEqual(base);
-					} catch (e) {
-						if (e.message.match(/expect.*toEqual/)) {
-							const diff = base.filter((key) => !keys.includes(key));
-							missing.push(`Missing Translations for language ${language}: ${diff}`);
-						} else {
-							throw e;
-						}
+					if (LANGUAGE_EXCEPTIONS[language]) {
+						const exceptions = LANGUAGE_EXCEPTIONS[language];
+						filteredBase = filteredBase.filter((key) => !exceptions.includes(key));
+						filteredKeys = filteredKeys.filter((key) => !exceptions.includes(key));
 					}
+
+					filteredBase.forEach((baseKey) => {
+						expect(filteredKeys).toContain(baseKey, `Translation key '${baseKey}' is missing in language '${language}'`);
+					});
 				});
 			});
 		}

@@ -28,9 +28,23 @@
 	"NNW": "NNW",
 
 	"FEELS": "jem {DEGREE}",
+	"PRECIP_POP": "nIHmey",
+	"PRECIP_AMOUNT": "nIHmey Daq",
+
+	"MODULE_CONFIG_CHANGED": "mIghtaH {MODULE_NAME} mIghtaHmey lIjwI'pu'.\nDoHbe' yImev.",
+	"MODULE_CONFIG_ERROR": "{MODULE_NAME} mIghtaHmeyDaq ghobe' yImev. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "URL ghobe' yImev.",
+	"MODULE_ERROR_NO_CONNECTION": "Internet ghobe' yImev.",
+	"MODULE_ERROR_UNAUTHORIZED": "ghobe' yImev.",
+	"MODULE_ERROR_UNSPECIFIED": "logmeyDaq yImev.",
+
+	"NEWSFEED_NO_ITEMS": "DaHghachmey ghobe' yImev.",
 
 	"UPDATE_NOTIFICATION": " De'chu' MagicMirror² lI'laH.",
 	"UPDATE_NOTIFICATION_MODULE": "bobcho' {MODULE_NAME} lI'laH De'chu.",
-	"UPDATE_INFO_SINGLE": "The current installation is {COMMIT_COUNT} commit behind on the {BRANCH_NAME} branch.",
-	"UPDATE_INFO_MULTIPLE": "The current installation is {COMMIT_COUNT} commits behind on the {BRANCH_NAME} branch."
+	"UPDATE_INFO_SINGLE": "{BRANCH_NAME} ghoghDaq {COMMIT_COUNT} commit lIjwI'pu'.",
+	"UPDATE_INFO_MULTIPLE": "{BRANCH_NAME} ghoghDaq {COMMIT_COUNT} commit lIjwI'pu'.",
+	"UPDATE_NOTIFICATION_DONE": "{MODULE_NAME} mIghtaHmeyDaq bobcho' lIjwI'pu'.",
+	"UPDATE_NOTIFICATION_ERROR": "{MODULE_NAME} mIghtaHmeyDaq bobcho' ghobe' yImev.",
+	"UPDATE_NOTIFICATION_NEED-RESTART": "MagicMirrorDaq yImev."
 }

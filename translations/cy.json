@@ -26,8 +26,24 @@
 	"NW": "GoGr",
 	"NNW": "GoGoGe",
 
+	"FEELS": "Teimlad {DEGREE}",
+	"PRECIP_POP": "Tebygolrwydd glawiad",
+	"PRECIP_AMOUNT": "Cyfanswm glawiad",
+
+	"MODULE_CONFIG_CHANGED": "Mae'r dewisiadau ar gyfer y modiwl {MODULE_NAME} wedi newid.\nGwiriwch y ddogfennaeth.",
+	"MODULE_CONFIG_ERROR": "Gwall yn y modiwl {MODULE_NAME}. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "URL anghywir.",
+	"MODULE_ERROR_NO_CONNECTION": "Dim cysylltiad rhyngrwyd.",
+	"MODULE_ERROR_UNAUTHORIZED": "Methiant awdurdodi.",
+	"MODULE_ERROR_UNSPECIFIED": "Gwiriwch y logiau am ragor o fanylion.",
+
+	"NEWSFEED_NO_ITEMS": "Dim newyddion ar hyn o bryd.",
+
 	"UPDATE_NOTIFICATION": "MagicMirror² mwy diweddar yn barod.",
 	"UPDATE_NOTIFICATION_MODULE": "Mae diweddaraiad ar gyfer y modiwl {MODULE_NAME}.",
 	"UPDATE_INFO_SINGLE": "Mae'r fersiwn bresenol {COMMIT_COUNT} commit tu ôl i'r gangen {BRANCH_NAME}.",
-	"UPDATE_INFO_MULTIPLE": "Mae'r fersiwn bresenol {COMMIT_COUNT} commit tu ôl i'r gangen {BRANCH_NAME}."
+	"UPDATE_INFO_MULTIPLE": "Mae'r fersiwn bresenol {COMMIT_COUNT} commit tu ôl i'r gangen {BRANCH_NAME}.",
+	"UPDATE_NOTIFICATION_DONE": "Diweddariad wedi'i gwblhau ar gyfer y modiwl {MODULE_NAME}",
+	"UPDATE_NOTIFICATION_ERROR": "Gwall diweddariad ar gyfer y modiwl {MODULE_NAME}",
+	"UPDATE_NOTIFICATION_NEED-RESTART": "Mae angen ailgychwyn MagicMirror."
 }

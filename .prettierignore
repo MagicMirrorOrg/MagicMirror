@@ -1,4 +1,6 @@
-.eslintignore
+*.js
+*.mjs
+.husky/pre-commit
 .prettierignore
 /config
 /coverage

@@ -1,6 +1,7 @@
 {
 	"LOADING": "Tunggu Sebentar …",
 
+	"DAYBEFOREYESTERDAY": "Kelmarin",
 	"YESTERDAY": "Semalam",
 	"TODAY": "Hari ini",
 	"TOMORROW": "Esok",
@@ -26,8 +27,24 @@
 	"NW": "BL",
 	"NNW": "UBL",
 
+	"FEELS": "Rasa seperti {DEGREE}",
+	"PRECIP_POP": "Kemungkinan hujan",
+	"PRECIP_AMOUNT": "Jumlah hujan",
+
+	"MODULE_CONFIG_CHANGED": "Pilihan konfigurasi untuk modul {MODULE_NAME} telah berubah.\nSila rujuk dokumentasi.",
+	"MODULE_CONFIG_ERROR": "Ralat dalam modul {MODULE_NAME}. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "URL tidak sah.",
+	"MODULE_ERROR_NO_CONNECTION": "Tiada sambungan internet.",
+	"MODULE_ERROR_UNAUTHORIZED": "Kebenaran gagal.",
+	"MODULE_ERROR_UNSPECIFIED": "Sila semak log untuk maklumat lanjut.",
+
+	"NEWSFEED_NO_ITEMS": "Tiada berita buat masa ini.",
+
 	"UPDATE_NOTIFICATION": "MagicMirror² mempunyai update terkini.",
 	"UPDATE_NOTIFICATION_MODULE": "Modul {MODULE_NAME} mempunyai update terkini.",
 	"UPDATE_INFO_SINGLE": "Pemasangan MagicMirror² ini mempunyai {COMMIT_COUNT} commit terkebelakang dari branch {BRANCH_NAME}.",
-	"UPDATE_INFO_MULTIPLE": "Pemasangan MagicMirror² ini mempunyai {COMMIT_COUNT} commit terkebelakang dari branch {BRANCH_NAME}."
+	"UPDATE_INFO_MULTIPLE": "Pemasangan MagicMirror² ini mempunyai {COMMIT_COUNT} commit terkebelakang dari branch {BRANCH_NAME}.",
+	"UPDATE_NOTIFICATION_DONE": "Update selesai untuk modul {MODULE_NAME}",
+	"UPDATE_NOTIFICATION_ERROR": "Ralat update untuk modul {MODULE_NAME}",
+	"UPDATE_NOTIFICATION_NEED-RESTART": "Perlu restart MagicMirror."
 }

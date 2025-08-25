@@ -1,9 +1,6 @@
-/* MagicMirror² Test config custom calendar
- *
- * By Rejas
- * MIT Licensed.
- */
 let config = {
+	address: "0.0.0.0",
+	ipWhitelist: [],
 	timeFormat: 12,
 
 	modules: [

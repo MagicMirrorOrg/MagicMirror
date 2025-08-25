@@ -29,9 +29,22 @@
 
 	"FEELS": "Odczuwalna {DEGREE}",
 	"PRECIP_POP": "Szansa opadów",
+	"PRECIP_AMOUNT": "Ilość opadów",
+
+	"MODULE_CONFIG_CHANGED": "Opcje konfiguracji modułu {MODULE_NAME} zostały zmienione.\nProszę sprawdzić dokumentację.",
+	"MODULE_CONFIG_ERROR": "Błąd w module {MODULE_NAME}. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "Nieprawidłowy adres URL.",
+	"MODULE_ERROR_NO_CONNECTION": "Brak połączenia z internetem.",
+	"MODULE_ERROR_UNAUTHORIZED": "Autoryzacja nie powiodła się.",
+	"MODULE_ERROR_UNSPECIFIED": "Sprawdź logi, aby uzyskać więcej informacji.",
+
+	"NEWSFEED_NO_ITEMS": "Brak wiadomości w tej chwili.",
 
 	"UPDATE_NOTIFICATION": "Dostępna jest aktualizacja MagicMirror².",
 	"UPDATE_NOTIFICATION_MODULE": "Dostępna jest aktualizacja modułu {MODULE_NAME}.",
 	"UPDATE_INFO_SINGLE": "Zainstalowana wersja odbiega o {COMMIT_COUNT} commit od gałęzi {BRANCH_NAME}.",
-	"UPDATE_INFO_MULTIPLE": "Zainstalowana wersja odbiega o {COMMIT_COUNT} commitów od gałęzi {BRANCH_NAME}."
+	"UPDATE_INFO_MULTIPLE": "Zainstalowana wersja odbiega o {COMMIT_COUNT} commitów od gałęzi {BRANCH_NAME}.",
+	"UPDATE_NOTIFICATION_DONE": "Aktualizacja modułu {MODULE_NAME} zakończona.",
+	"UPDATE_NOTIFICATION_ERROR": "Błąd aktualizacji modułu {MODULE_NAME}.",
+	"UPDATE_NOTIFICATION_NEED-RESTART": "Wymagany jest restart MagicMirror."
 }

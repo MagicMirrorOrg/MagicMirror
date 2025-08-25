@@ -29,9 +29,22 @@
 
 	"FEELS": "Відчувається як {DEGREE}",
 	"PRECIP_POP": "Опади",
+	"PRECIP_AMOUNT": "Кількість опадів",
+
+	"MODULE_CONFIG_CHANGED": "Змінились параметри конфігурації модуля {MODULE_NAME}.\nБудь ласка, перевірте документацію.",
+	"MODULE_CONFIG_ERROR": "Помилка в модулі {MODULE_NAME}. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "Неправильний URL.",
+	"MODULE_ERROR_NO_CONNECTION": "Немає підключення до Інтернету.",
+	"MODULE_ERROR_UNAUTHORIZED": "Авторизація не вдалася.",
+	"MODULE_ERROR_UNSPECIFIED": "Перевірте журнали для отримання додаткової інформації.",
+
+	"NEWSFEED_NO_ITEMS": "Немає новин на даний момент.",
 
 	"UPDATE_NOTIFICATION": "Є оновлення для MagicMirror².",
 	"UPDATE_NOTIFICATION_MODULE": "Є оновлення для модуля {MODULE_NAME}.",
 	"UPDATE_INFO_SINGLE": "Поточна версія на {COMMIT_COUNT} комміт позаду від гілки {BRANCH_NAME}.",
-	"UPDATE_INFO_MULTIPLE": "Поточна інсталяція на {COMMIT_COUNT} комітів позаду від гілки {BRANCH_NAME}."
+	"UPDATE_INFO_MULTIPLE": "Поточна інсталяція на {COMMIT_COUNT} комітів позаду від гілки {BRANCH_NAME}.",
+	"UPDATE_NOTIFICATION_DONE": "Оновлення завершено для модуля {MODULE_NAME}",
+	"UPDATE_NOTIFICATION_ERROR": "Помилка оновлення модуля {MODULE_NAME}",
+	"UPDATE_NOTIFICATION_NEED-RESTART": "Потрібен перезапуск MagicMirror."
 }

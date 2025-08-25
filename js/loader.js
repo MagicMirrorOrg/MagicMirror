@@ -1,12 +1,7 @@
 /* global defaultModules, vendor */
 
-/* MagicMirror²
- * Module and File loaders.
- *
- * By Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
- */
 const Loader = (function () {
+
 	/* Create helper variables */
 
 	const loadedModuleFiles = [];
@@ -14,6 +9,15 @@ const Loader = (function () {
 	const moduleObjects = [];
 
 	/* Private Methods */
+
+	/**
+	 * Retrieve object of env variables.
+	 * @returns {object} with key: values as assembled in js/server_functions.js
+	 */
+	const getEnvVars = async function () {
+		const res = await fetch(`${location.protocol}//${location.host}${config.basePath}env`);
+		return JSON.parse(await res.text());
+	};
 
 	/**
 	 * Loops through all modules and requests start for every module.
@@ -55,26 +59,36 @@ const Loader = (function () {
 	 * @returns {object[]} module data as configured in config
 	 */
 	const getAllModules = function () {
-		return config.modules;
+		const AllModules = config.modules.filter((module) => (module.module !== undefined) && (MM.getAvailableModulePositions.indexOf(module.position) > -1 || typeof (module.position) === "undefined"));
+		return AllModules;
 	};
 
 	/**
 	 * Generate array with module information including module paths.
 	 * @returns {object[]} Module information.
 	 */
-	const getModuleData = function () {
+	const getModuleData = async function () {
 		const modules = getAllModules();
 		const moduleFiles = [];
+		const envVars = await getEnvVars();
 
 		modules.forEach(function (moduleData, index) {
 			const module = moduleData.module;
 
 			const elements = module.split("/");
 			const moduleName = elements[elements.length - 1];
-			let moduleFolder = `${config.paths.modules}/${module}`;
+			let moduleFolder = `${envVars.modulesDir}/${module}`;
 
 			if (defaultModules.indexOf(moduleName) !== -1) {
-				moduleFolder = `${config.paths.modules}/default/${module}`;
+				const defaultModuleFolder = `modules/default/${module}`;
+				if (window.name !== "jsdom") {
+					moduleFolder = defaultModuleFolder;
+				} else {
+					// running in Jest, allow defaultModules placed under moduleDir for testing
+					if (envVars.modulesDir === "modules") {
+						moduleFolder = defaultModuleFolder;
+					}
+				}
 			}
 
 			if (moduleData.disabled === true) {
@@ -94,7 +108,8 @@ const Loader = (function () {
 				header: moduleData.header,
 				configDeepMerge: typeof moduleData.configDeepMerge === "boolean" ? moduleData.configDeepMerge : false,
 				config: moduleData.config,
-				classes: typeof moduleData.classes !== "undefined" ? `${moduleData.classes} ${module}` : module
+				classes: typeof moduleData.classes !== "undefined" ? `${moduleData.classes} ${module}` : module,
+				order: (typeof moduleData.order === "number" && Number.isInteger(moduleData.order)) ? moduleData.order : 0
 			});
 		});
 
@@ -170,6 +185,7 @@ const Loader = (function () {
 					};
 					script.onerror = function () {
 						Log.error("Error on loading script:", fileName);
+						script.remove();
 						resolve();
 					};
 					document.getElementsByTagName("body")[0].appendChild(script);
@@ -187,6 +203,7 @@ const Loader = (function () {
 					};
 					stylesheet.onerror = function () {
 						Log.error("Error on loading stylesheet:", fileName);
+						stylesheet.remove();
 						resolve();
 					};
 					document.getElementsByTagName("head")[0].appendChild(stylesheet);
@@ -196,31 +213,27 @@ const Loader = (function () {
 
 	/* Public Methods */
 	return {
+
 		/**
 		 * Load all modules as defined in the config.
 		 */
-		loadModules: async function () {
-			let moduleData = getModuleData();
+		async loadModules () {
+			const moduleData = await getModuleData();
+			const envVars = await getEnvVars();
+			const customCss = envVars.customCss;
 
-			/**
-			 * @returns {Promise<void>} when all modules are loaded
-			 */
-			const loadNextModule = async function () {
-				if (moduleData.length > 0) {
-					const nextModule = moduleData[0];
-					await loadModule(nextModule);
-					moduleData = moduleData.slice(1);
-					await loadNextModule();
-				} else {
-					// All modules loaded. Load custom.css
-					// This is done after all the modules so we can
-					// overwrite all the defined styles.
-					await loadFile(config.customCss);
-					// custom.css loaded. Start all modules.
-					await startModules();
-				}
-			};
-			await loadNextModule();
+			// Load all modules
+			for (const module of moduleData) {
+				await loadModule(module);
+			}
+
+			// Load custom.css
+			// Since this happens after loading the modules,
+			// it overwrites the default styles.
+			await loadFile(customCss);
+
+			// Start all modules.
+			await startModules();
 		},
 
 		/**
@@ -230,7 +243,7 @@ const Loader = (function () {
 		 * @param {Module} module The module that calls the loadFile function.
 		 * @returns {Promise} resolved when the file is loaded
 		 */
-		loadFileForModule: async function (fileName, module) {
+		async loadFileForModule (fileName, module) {
 			if (loadedFiles.indexOf(fileName.toLowerCase()) !== -1) {
 				Log.log(`File already loaded: ${fileName}`);
 				return;
@@ -247,7 +260,7 @@ const Loader = (function () {
 				// This file is available in the vendor folder.
 				// Load it from this vendor folder.
 				loadedFiles.push(fileName.toLowerCase());
-				return loadFile(`${config.paths.vendor}/${vendor[fileName]}`);
+				return loadFile(`${vendor[fileName]}`);
 			}
 
 			// File not loaded yet.
@@ -256,4 +269,4 @@ const Loader = (function () {
 			return loadFile(module.file(fileName));
 		}
 	};
-})();
+}());

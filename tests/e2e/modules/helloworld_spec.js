@@ -13,7 +13,7 @@ describe("Test helloworld module", () => {
 
 		it("Test message helloworld module", async () => {
 			const elem = await helpers.waitForElement(".helloworld");
-			expect(elem).not.toBe(null);
+			expect(elem).not.toBeNull();
 			expect(elem.textContent).toContain("Test HelloWorld Module");
 		});
 	});
@@ -26,7 +26,7 @@ describe("Test helloworld module", () => {
 
 		it("Test message helloworld module", async () => {
 			const elem = await helpers.waitForElement(".helloworld");
-			expect(elem).not.toBe(null);
+			expect(elem).not.toBeNull();
 			expect(elem.textContent).toContain("Hello World!");
 		});
 	});

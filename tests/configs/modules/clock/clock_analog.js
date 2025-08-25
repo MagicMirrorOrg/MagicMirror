@@ -1,8 +1,6 @@
-/* MagicMirror² Test config for analog clock face
- *
- * MIT Licensed.
- */
 let config = {
+	address: "0.0.0.0",
+	ipWhitelist: [],
 	modules: [
 		{
 			module: "clock",

@@ -27,9 +27,23 @@
 	"NNW": "NNO",
 
 	"FEELS": "Percepiti {DEGREE}",
+	"PRECIP_POP": "Probabilità di precipitazioni",
+	"PRECIP_AMOUNT": "Quantità di precipitazioni",
+
+	"MODULE_CONFIG_CHANGED": "Le opzioni di configurazione del modulo {MODULE_NAME} sono state modificate.\nSi prega di consultare la documentazione.",
+	"MODULE_CONFIG_ERROR": "Errore nel modulo {MODULE_NAME}. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "URL non valido.",
+	"MODULE_ERROR_NO_CONNECTION": "Nessuna connessione a Internet.",
+	"MODULE_ERROR_UNAUTHORIZED": "Autenticazione non riuscita.",
+	"MODULE_ERROR_UNSPECIFIED": "Si prega di controllare i log per ulteriori dettagli.",
+
+	"NEWSFEED_NO_ITEMS": "Al momento non ci sono notizie.",
 
 	"UPDATE_NOTIFICATION": "E' disponibile un aggiornamento di MagicMirror².",
 	"UPDATE_NOTIFICATION_MODULE": "E' disponibile un aggiornamento del modulo {MODULE_NAME}.",
 	"UPDATE_INFO_SINGLE": "L'installazione è {COMMIT_COUNT} commit indietro rispetto all'attuale branch {BRANCH_NAME}.",
-	"UPDATE_INFO_MULTIPLE": "L'installazione è {COMMIT_COUNT} commits indietro rispetto all'attuale branch {BRANCH_NAME}."
+	"UPDATE_INFO_MULTIPLE": "L'installazione è {COMMIT_COUNT} commits indietro rispetto all'attuale branch {BRANCH_NAME}.",
+	"UPDATE_NOTIFICATION_DONE": "L'aggiornamento del modulo {MODULE_NAME} è stato completato.",
+	"UPDATE_NOTIFICATION_ERROR": "Errore durante l'aggiornamento del modulo {MODULE_NAME}.",
+	"UPDATE_NOTIFICATION_NEED-RESTART": "E' necessario riavviare MagicMirror."
 }

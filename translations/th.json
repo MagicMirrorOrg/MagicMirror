@@ -1,8 +1,11 @@
 {
 	"LOADING": "กำลังโหลด …",
 
+	"DAYBEFOREYESTERDAY": "เมื่อวานซืน",
+	"YESTERDAY": "เมื่อวานนี้",
 	"TODAY": "วันนี้",
 	"TOMORROW": "พรุ่งนี้",
+	"DAYAFTERTOMORROW": "มะรืนนี้",
 	"RUNNING": "สิ้นสุดใน",
 	"EMPTY": "ไม่มีกิจกรรมที่กำลังจะมาถึง",
 	"WEEK": "สัปดาห์ที่ {weekNumber}",
@@ -24,6 +27,7 @@
 	"NW": "ต.ต.น.",
 	"NNW": "น.ต.ต.น.",
 
+	"FEELS": "รู้สึกเหมือน {DEGREE}",
 	"PRECIP_POP": "ความแม่นยำ",
 	"PRECIP_AMOUNT": "ปริมาณน้ำฝน",
 
@@ -39,5 +43,8 @@
 	"UPDATE_NOTIFICATION": "MagicMirror² มีการอัปเดต",
 	"UPDATE_NOTIFICATION_MODULE": "มีการอัปเดตสำหรับโมดูล {MODULE_NAME}",
 	"UPDATE_INFO_SINGLE": "การติดตั้งปัจจุบันถูกคอมมิท {COMMIT_COUNT} รายการในสาขา {BRANCH_NAME}",
-	"UPDATE_INFO_MULTIPLE": "การติดตั้งปัจจุบันคือ {COMMIT_COUNT} เป็นคอมมิทที่อยู่เบื้องหลังในสาขา {BRANCH_NAME}"
+	"UPDATE_INFO_MULTIPLE": "การติดตั้งปัจจุบันคือ {COMMIT_COUNT} เป็นคอมมิทที่อยู่เบื้องหลังในสาขา {BRANCH_NAME}",
+	"UPDATE_NOTIFICATION_DONE": "การอัปเดตเสร็จสิ้นสำหรับโมดูล {MODULE_NAME}",
+	"UPDATE_NOTIFICATION_ERROR": "เกิดข้อผิดพลาดในการอัปเดตโมดูล {MODULE_NAME}",
+	"UPDATE_NOTIFICATION_NEED-RESTART": "ต้องรีสตาร์ท MagicMirror"
 }

@@ -1,5 +1,5 @@
-const fs = require("fs");
-const path = require("path");
+const fs = require("node:fs");
+const path = require("node:path");
 
 const root_path = path.join(__dirname, "../../..");
 const version = require(`${__dirname}/../../../package.json`).version;
@@ -14,11 +14,11 @@ describe("'global.root_path' set in js/app.js", () => {
 	});
 
 	it("should not modify global.root_path for testing", () => {
-		expect(global.root_path).toBe(undefined);
+		expect(global.root_path).toBeUndefined();
 	});
 
 	it("should not modify global.version for testing", () => {
-		expect(global.version).toBe(undefined);
+		expect(global.version).toBeUndefined();
 	});
 
 	it("should expect the global.version equals package.json file", () => {

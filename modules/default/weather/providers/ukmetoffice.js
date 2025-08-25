@@ -1,17 +1,16 @@
 /* global WeatherProvider, WeatherObject, WeatherUtils */
 
-/* MagicMirror²
- * Module: Weather
- *
- * By Malcolm Oakes https://github.com/maloakes
- * MIT Licensed.
- *
- * This class is a provider for UK Met Office Datapoint.
+/*
+ * This class is a provider for UK Met Office Datapoint,
+ * see https://www.metoffice.gov.uk/
  */
 WeatherProvider.register("ukmetoffice", {
-	// Set the name of the provider.
-	// This isn't strictly necessary, since it will fallback to the provider identifier
-	// But for debugging (and future alerts) it would be nice to have the real name.
+
+	/*
+	 * Set the name of the provider.
+	 * This isn't strictly necessary, since it will fallback to the provider identifier
+	 * But for debugging (and future alerts) it would be nice to have the real name.
+	 */
 	providerName: "UK Met Office",
 
 	// Set the default config properties that is specific to this provider
@@ -22,12 +21,15 @@ WeatherProvider.register("ukmetoffice", {
 	},
 
 	// Overwrite the fetchCurrentWeather method.
-	fetchCurrentWeather() {
+	fetchCurrentWeather () {
 		this.fetchData(this.getUrl("3hourly"))
 			.then((data) => {
 				if (!data || !data.SiteRep || !data.SiteRep.DV || !data.SiteRep.DV.Location || !data.SiteRep.DV.Location.Period || data.SiteRep.DV.Location.Period.length === 0) {
-					// Did not receive usable new data.
-					// Maybe this needs a better check?
+
+					/*
+					 * Did not receive usable new data.
+					 * Maybe this needs a better check?
+					 */
 					return;
 				}
 
@@ -43,12 +45,15 @@ WeatherProvider.register("ukmetoffice", {
 	},
 
 	// Overwrite the fetchCurrentWeather method.
-	fetchWeatherForecast() {
+	fetchWeatherForecast () {
 		this.fetchData(this.getUrl("daily"))
 			.then((data) => {
 				if (!data || !data.SiteRep || !data.SiteRep.DV || !data.SiteRep.DV.Location || !data.SiteRep.DV.Location.Period || data.SiteRep.DV.Location.Period.length === 0) {
-					// Did not receive usable new data.
-					// Maybe this needs a better check?
+
+					/*
+					 * Did not receive usable new data.
+					 * Maybe this needs a better check?
+					 */
 					return;
 				}
 
@@ -67,14 +72,14 @@ WeatherProvider.register("ukmetoffice", {
 	/*
 	 * Gets the complete url for the request
 	 */
-	getUrl(forecastType) {
+	getUrl (forecastType) {
 		return this.config.apiBase + this.config.locationID + this.getParams(forecastType);
 	},
 
 	/*
 	 * Generate a WeatherObject based on currentWeatherInformation
 	 */
-	generateWeatherObjectFromCurrentWeather(currentWeatherData) {
+	generateWeatherObjectFromCurrentWeather (currentWeatherData) {
 		const currentWeather = new WeatherObject();
 		const location = currentWeatherData.SiteRep.DV.Location;
 
@@ -91,8 +96,11 @@ WeatherProvider.register("ukmetoffice", {
 			if (periodDate.isSameOrAfter(moment.utc().startOf("day"))) {
 				// check this is the period we want, after today the diff will be -ve
 				if (moment().diff(periodDate, "minutes") > 0) {
-					// loop round the reports looking for the one we are in
-					// $ value specifies the time in minutes-of-the-day: 0, 180, 360,...1260
+
+					/*
+					 * loop round the reports looking for the one we are in
+					 * $ value specifies the time in minutes-of-the-day: 0, 180, 360,...1260
+					 */
 					for (const rep of period.Rep) {
 						const p = rep.$;
 						if (timeInMins >= p && timeInMins - 180 < p) {
@@ -119,11 +127,13 @@ WeatherProvider.register("ukmetoffice", {
 	/*
 	 * Generate WeatherObjects based on forecast information
 	 */
-	generateWeatherObjectsFromForecast(forecasts) {
+	generateWeatherObjectsFromForecast (forecasts) {
 		const days = [];
 
-		// loop round the (5) periods getting the data
-		// for each period array, Day is [0], Night is [1]
+		/*
+		 * loop round the (5) periods getting the data
+		 * for each period array, Day is [0], Night is [1]
+		 */
 		for (const period of forecasts.SiteRep.DV.Location.Period) {
 			const weather = new WeatherObject();
 
@@ -150,7 +160,7 @@ WeatherProvider.register("ukmetoffice", {
 	/*
 	 * Convert the Met Office icons to a more usable name.
 	 */
-	convertWeatherType(weatherType) {
+	convertWeatherType (weatherType) {
 		const weatherTypes = {
 			0: "night-clear",
 			1: "day-sunny",
@@ -192,7 +202,7 @@ WeatherProvider.register("ukmetoffice", {
 	 * @param {string} forecastType daily or 3hourly forecast
 	 * @returns {string} url
 	 */
-	getParams(forecastType) {
+	getParams (forecastType) {
 		let params = "?";
 		params += `res=${forecastType}`;
 		params += `&key=${this.config.apiKey}`;

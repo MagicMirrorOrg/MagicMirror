@@ -8,6 +8,7 @@
 	"DAYAFTERTOMORROW": "I overmorgon",
 	"RUNNING": "Sluttar om",
 	"EMPTY": "Ingen komande hendingar.",
+	"WEEK": "Veke {weekNumber}",
 
 	"N": "N",
 	"NNE": "NNA",
@@ -27,9 +28,23 @@
 	"NNW": "NNV",
 
 	"FEELS": "Kjenst som {DEGREE}",
+	"PRECIP_POP": "Sannsyn for nedbør",
+	"PRECIP_AMOUNT": "Nedbørsmengde",
+
+	"MODULE_CONFIG_CHANGED": "Innstillingane for {MODULE_NAME} modulen har endra seg.\nVennligst sjekk dokumentasjonen.",
+	"MODULE_CONFIG_ERROR": "Feil i {MODULE_NAME} modulen. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "Ugyldig URL.",
+	"MODULE_ERROR_NO_CONNECTION": "Ingen internettforbindelse.",
+	"MODULE_ERROR_UNAUTHORIZED": "Autentisering mislyktes.",
+	"MODULE_ERROR_UNSPECIFIED": "Vennligst sjekk loggfilene for meir informasjon.",
+
+	"NEWSFEED_NO_ITEMS": "Ingen nyhende tilgjengeleg no.",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² oppdatering er tilgjengeleg.",
 	"UPDATE_NOTIFICATION_MODULE": "Oppdatering tilgjengeleg for modulen {MODULE_NAME}.",
 	"UPDATE_INFO_SINGLE": "noverande installasjon er {COMMIT_COUNT} commit bak {BRANCH_NAME} greinen.",
-	"UPDATE_INFO_MULTIPLE": "noverande installasjon er {COMMIT_COUNT} commits bak {BRANCH_NAME} greinen."
+	"UPDATE_INFO_MULTIPLE": "noverande installasjon er {COMMIT_COUNT} commits bak {BRANCH_NAME} greinen.",
+	"UPDATE_NOTIFICATION_DONE": "Oppdateringa av modulen {MODULE_NAME} er fullført.",
+	"UPDATE_NOTIFICATION_ERROR": "Det oppstod ein feil under oppdateringa av modulen {MODULE_NAME}.",
+	"UPDATE_NOTIFICATION_NEED-RESTART": "Det er nødvendig med ein omstart av MagicMirror."
 }

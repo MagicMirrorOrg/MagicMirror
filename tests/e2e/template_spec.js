@@ -1,4 +1,4 @@
-const fs = require("fs");
+const fs = require("node:fs");
 const helpers = require("./helpers/global-setup");
 
 describe("templated config with port variable", () => {

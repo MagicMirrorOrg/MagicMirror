@@ -11,7 +11,7 @@ describe("Alert module", () => {
 
 	it("should show the welcome message", async () => {
 		const elem = await helpers.waitForElement(".ns-box .ns-box-inner .light.bright.small");
-		expect(elem).not.toBe(null);
+		expect(elem).not.toBeNull();
 		expect(elem.textContent).toContain("Welcome, start was successful!");
 	});
 });

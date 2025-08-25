@@ -1,16 +1,17 @@
 {
-	"LOADING": "Laen …",
+	"LOADING": "Laadimine…",
 
 	"DAYBEFOREYESTERDAY": "Üleeile",
 	"YESTERDAY": "Eile",
 	"TODAY": "Täna",
 	"TOMORROW": "Homme",
 	"DAYAFTERTOMORROW": "Ülehomme",
-	"RUNNING": "Teoksil",
-	"EMPTY": "Pole tulevasi sündmuseid.",
+	"RUNNING": "Lõpeb",
+	"EMPTY": "Eelolevaid sündmusi pole.",
+	"WEEK": "Nädal {weekNumber}",
 
 	"N": "Põhi",
-	"NNE": "Põhikirre",
+	"NNE": "Põhjakirre",
 	"NE": "Kirre",
 	"ENE": "Idakirre",
 	"E": "Ida",
@@ -26,8 +27,24 @@
 	"NW": "Loe",
 	"NNW": "Põhjaloe",
 
-	"UPDATE_NOTIFICATION": "MagicMirror²´le uuendus saadaval.",
+	"FEELS": "Tajutav temperatuur {DEGREE}",
+	"PRECIP_POP": "Sademete tõenäosus",
+	"PRECIP_AMOUNT": "Sademete hulk",
+
+	"MODULE_CONFIG_CHANGED": "Konfiguratiooni sätted {MODULE_NAME} moodulile on muutunud.\nPalun vaadake dokumentatsiooni.",
+	"MODULE_CONFIG_ERROR": "Error moodulis {MODULE_NAME}. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "Ebakorrektne url.",
+	"MODULE_ERROR_NO_CONNECTION": "Interneti ühendus puudub.",
+	"MODULE_ERROR_UNAUTHORIZED": "Autoriseerimine ebaõnnestus.",
+	"MODULE_ERROR_UNSPECIFIED": "Lisateabe saamiseks kontrollige logifaile.",
+
+	"NEWSFEED_NO_ITEMS": "Hetkel ei ole uudiseid.",
+
+	"UPDATE_NOTIFICATION": "MagicMirror²'le on uuendus saadaval.",
 	"UPDATE_NOTIFICATION_MODULE": "Uuendus saadaval {MODULE_NAME} moodulile.",
-	"UPDATE_INFO_SINGLE": "Praegune paigaldus on {COMMIT_COUNT} commit tagapool {BRANCH_NAME} harul.",
-	"UPDATE_INFO_MULTIPLE": "Praegune paigaldus on {COMMIT_COUNT} commits tagapool {BRANCH_NAME} harul."
+	"UPDATE_INFO_SINGLE": "Praegune paigaldus on {COMMIT_COUNT} muudatust tagapool {BRANCH_NAME} harus.",
+	"UPDATE_INFO_MULTIPLE": "Praegune paigaldus on {COMMIT_COUNT} muudatust tagapool {BRANCH_NAME} harus.",
+	"UPDATE_NOTIFICATION_DONE": "{MODULE_NAME} moodul uuendati edukalt",
+	"UPDATE_NOTIFICATION_ERROR": "{MODULE_NAME} mooduli uuendamine ebaõnnestus",
+	"UPDATE_NOTIFICATION_NEED-RESTART": "Palun taaskäivitage MagicMirror."
 }

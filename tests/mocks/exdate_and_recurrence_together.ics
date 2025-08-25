@@ -1,0 +1,48 @@
+BEGIN:VCALENDAR
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20241023T143000
+DTEND;TZID=America/Los_Angeles:20241023T153000
+RRULE:FREQ=DAILY;COUNT=4
+EXDATE;TZID=America/Los_Angeles:20241025T143000
+DTSTAMP:20241021T193426Z
+UID:18rd721lfqpue2o08icsqek198@google.com
+CREATED:20241021T192450Z
+DESCRIPTION:we will move one entry and delete another  ending w 3 of the 4 
+  start/end\, middle moved after end and 3rd deleted
+LAST-MODIFIED:20241021T193419Z
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:recurrence and exclusion together
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20241022T143000
+DTEND;TZID=America/Los_Angeles:20241022T153000
+DTSTAMP:20241021T193426Z
+UID:18rd721lfqpue2o08icsqek198@google.com
+RECURRENCE-ID;TZID=America/Los_Angeles:20241023T143000
+CREATED:20241021T192450Z
+DESCRIPTION:we will move one entry and delete another  ending w 3 of the 4 
+  start/end\, middle moved after end and 3rd deleted
+LAST-MODIFIED:20241021T193419Z
+SEQUENCE:1
+STATUS:CONFIRMED
+SUMMARY:recurrence and exclusion together
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20241027T143000
+DTEND;TZID=America/Los_Angeles:20241027T153000
+DTSTAMP:20241021T193426Z
+UID:18rd721lfqpue2o08icsqek198@google.com
+RECURRENCE-ID;TZID=America/Los_Angeles:20241024T143000
+CREATED:20241021T192450Z
+DESCRIPTION:we will move one entry and delete another  ending w 3 of the 4 
+  start/end\, middle moved after end and 3rd deleted
+LAST-MODIFIED:20241021T193419Z
+SEQUENCE:1
+STATUS:CONFIRMED
+SUMMARY:recurrence and exclusion together
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

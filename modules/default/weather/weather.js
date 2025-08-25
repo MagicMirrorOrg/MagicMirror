@@ -1,11 +1,5 @@
 /* global WeatherProvider, WeatherUtils, formatTime */
 
-/* MagicMirror²
- * Module: Weather
- *
- * By Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
- */
 Module.register("weather", {
 	// Default module config.
 	defaults: {
@@ -20,7 +14,8 @@ Module.register("weather", {
 		updateInterval: 10 * 60 * 1000, // every 10 minutes
 		animationSpeed: 1000,
 		showFeelsLike: true,
-		showHumidity: false,
+		showHumidity: "none", // possible options for "current" weather are "none", "wind", "temp", "feelslike" or "below", for "hourly" weather "none" or "true"
+		hideZeroes: false, // hide zeroes (and empty columns) in hourly, currently only for precipitation
 		showIndoorHumidity: false,
 		showIndoorTemperature: false,
 		allowOverrideNotification: false,
@@ -56,17 +51,17 @@ Module.register("weather", {
 	firstEvent: null,
 
 	// Define required scripts.
-	getStyles: function () {
+	getStyles () {
 		return ["font-awesome.css", "weather-icons.css", "weather.css"];
 	},
 
 	// Return the scripts that are necessary for the weather module.
-	getScripts: function () {
+	getScripts () {
 		return ["moment.js", "weatherutils.js", "weatherobject.js", this.file("providers/overrideWrapper.js"), "weatherprovider.js", "suncalc.js", this.file(`providers/${this.config.weatherProvider.toLowerCase()}.js`)];
 	},
 
 	// Override getHeader method.
-	getHeader: function () {
+	getHeader () {
 		if (this.config.appendLocationNameToHeader && this.weatherProvider) {
 			if (this.data.header) return `${this.data.header} ${this.weatherProvider.fetchedLocation()}`;
 			else return this.weatherProvider.fetchedLocation();
@@ -76,7 +71,7 @@ Module.register("weather", {
 	},
 
 	// Start the weather module.
-	start: function () {
+	start () {
 		moment.locale(this.config.lang);
 
 		if (this.config.useKmh) {
@@ -85,6 +80,10 @@ Module.register("weather", {
 		} else if (this.config.useBeaufort) {
 			Log.warn("Your are using the deprecated config values 'useBeaufort'. Please switch to windUnits!");
 			this.windUnits = "beaufort";
+		}
+		if (typeof this.config.showHumidity === "boolean") {
+			Log.warn("[weather] Deprecation warning: Please consider updating showHumidity to the new style (config string).");
+			this.config.showHumidity = this.config.showHumidity ? "wind" : "none";
 		}
 
 		// Initialize the weather provider.
@@ -101,7 +100,7 @@ Module.register("weather", {
 	},
 
 	// Override notification handler.
-	notificationReceived: function (notification, payload, sender) {
+	notificationReceived (notification, payload, sender) {
 		if (notification === "CALENDAR_EVENTS") {
 			const senderClasses = sender.data.classes.toLowerCase().split(" ");
 			if (senderClasses.indexOf(this.config.calendarClass.toLowerCase()) !== -1) {
@@ -126,7 +125,7 @@ Module.register("weather", {
 	},
 
 	// Select the template depending on the display type.
-	getTemplate: function () {
+	getTemplate () {
 		switch (this.config.type.toLowerCase()) {
 			case "current":
 				return "current.njk";
@@ -142,7 +141,7 @@ Module.register("weather", {
 	},
 
 	// Add all the data to the template.
-	getTemplateData: function () {
+	getTemplateData () {
 		const currentData = this.weatherProvider.currentWeather();
 		const forecastData = this.weatherProvider.weatherForecast();
 
@@ -162,9 +161,10 @@ Module.register("weather", {
 	},
 
 	// What to do when the weather provider has new information available?
-	updateAvailable: function () {
+	updateAvailable () {
 		Log.log("New weather information available.");
-		this.updateDom(0);
+		// this value was changed from 0 to 300 to stabilize weather tests:
+		this.updateDom(300);
 		this.scheduleUpdate();
 
 		if (this.weatherProvider.currentWeather()) {
@@ -172,16 +172,23 @@ Module.register("weather", {
 		}
 
 		const notificationPayload = {
-			currentWeather: this.weatherProvider?.currentWeatherObject?.simpleClone() ?? null,
-			forecastArray: this.weatherProvider?.weatherForecastArray?.map((ar) => ar.simpleClone()) ?? [],
-			hourlyArray: this.weatherProvider?.weatherHourlyArray?.map((ar) => ar.simpleClone()) ?? [],
+			currentWeather: this.config.units === "imperial"
+				? WeatherUtils.convertWeatherObjectToImperial(this.weatherProvider?.currentWeatherObject?.simpleClone()) ?? null
+				: this.weatherProvider?.currentWeatherObject?.simpleClone() ?? null,
+			forecastArray: this.config.units === "imperial"
+				? this.weatherProvider?.weatherForecastArray?.map((ar) => WeatherUtils.convertWeatherObjectToImperial(ar.simpleClone())) ?? []
+				: this.weatherProvider?.weatherForecastArray?.map((ar) => ar.simpleClone()) ?? [],
+			hourlyArray: this.config.units === "imperial"
+				? this.weatherProvider?.weatherHourlyArray?.map((ar) => WeatherUtils.convertWeatherObjectToImperial(ar.simpleClone())) ?? []
+				: this.weatherProvider?.weatherHourlyArray?.map((ar) => ar.simpleClone()) ?? [],
 			locationName: this.weatherProvider?.fetchedLocationName,
 			providerName: this.weatherProvider.providerName
 		};
+
 		this.sendNotification("WEATHER_UPDATED", notificationPayload);
 	},
 
-	scheduleUpdate: function (delay = null) {
+	scheduleUpdate (delay = null) {
 		let nextLoad = this.config.updateInterval;
 		if (delay !== null && delay >= 0) {
 			nextLoad = delay;
@@ -205,13 +212,13 @@ Module.register("weather", {
 		}, nextLoad);
 	},
 
-	roundValue: function (temperature) {
+	roundValue (temperature) {
 		const decimals = this.config.roundTemp ? 0 : 1;
 		const roundValue = parseFloat(temperature).toFixed(decimals);
 		return roundValue === "-0" ? 0 : roundValue;
 	},
 
-	addFilters() {
+	addFilters () {
 		this.nunjucksEnvironment().addFilter(
 			"formatTime",
 			function (date) {
@@ -235,7 +242,7 @@ Module.register("weather", {
 						}
 					}
 				} else if (type === "precip") {
-					if (value === null || isNaN(value) || value === 0 || value.toFixed(2) === "0.00") {
+					if (value === null || isNaN(value)) {
 						formattedValue = "";
 					} else {
 						formattedValue = WeatherUtils.convertPrecipitationUnit(value, valueUnit, this.config.units);

@@ -1,17 +1,12 @@
-/* MagicMirror²
- * Node Helper: Newsfeed - NewsfeedFetcher
- *
- * By Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
- */
-
-const stream = require("stream");
+const crypto = require("node:crypto");
+const stream = require("node:stream");
 const FeedMe = require("feedme");
 const iconv = require("iconv-lite");
 const { htmlToText } = require("html-to-text");
 const Log = require("logger");
 const NodeHelper = require("node_helper");
 const { getUserAgent } = require("../../../js/server_functions");
+const { scheduleTimer } = require("#module_functions");
 
 /**
  * Responsible for requesting an update on the set interval and broadcasting the data.
@@ -53,17 +48,23 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 			const url = item.url || item.link || "";
 
 			if (title && pubdate) {
-				const regex = /(<([^>]+)>)/gi;
-				description = description.toString().replace(regex, "");
 				// Convert HTML entities, codes and tag
-				description = htmlToText(description, { wordwrap: false });
+				description = htmlToText(description, {
+					wordwrap: false,
+					selectors: [
+						{ selector: "a", options: { ignoreHref: true, noAnchorUrl: true } },
+						{ selector: "br", format: "inlineSurround", options: { prefix: " " } },
+						{ selector: "img", format: "skip" }
+					]
+				});
 
 				items.push({
 					title: title,
 					description: description,
 					pubdate: pubdate,
 					url: url,
-					useCorsProxy: useCorsProxy
+					useCorsProxy: useCorsProxy,
+					hash: crypto.createHash("sha256").update(`${pubdate} :: ${title} :: ${url}`).digest("hex")
 				});
 			} else if (logFeedWarnings) {
 				Log.warn("Can't parse feed item:");
@@ -80,12 +81,12 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 
 		parser.on("error", (error) => {
 			fetchFailedCallback(this, error);
-			scheduleTimer();
+			scheduleTimer(reloadTimer, reloadIntervalMS, fetchNews);
 		});
 
 		//"end" event is not broadcast if the feed is empty but "finish" is used for both
 		parser.on("finish", () => {
-			scheduleTimer();
+			scheduleTimer(reloadTimer, reloadIntervalMS, fetchNews);
 		});
 
 		parser.on("ttl", (minutes) => {
@@ -120,18 +121,8 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 			})
 			.catch((error) => {
 				fetchFailedCallback(this, error);
-				scheduleTimer();
+				scheduleTimer(reloadTimer, reloadIntervalMS, fetchNews);
 			});
-	};
-
-	/**
-	 * Schedule the timer for the next update.
-	 */
-	const scheduleTimer = function () {
-		clearTimeout(reloadTimer);
-		reloadTimer = setTimeout(function () {
-			fetchNews();
-		}, reloadIntervalMS);
 	};
 
 	/* public methods */

@@ -21,7 +21,7 @@ const OverrideWrapper = Class.extend({
 	notificationWeatherObject: null,
 	currentOverrideWeatherObject: null,
 
-	init(baseProvider) {
+	init (baseProvider) {
 		this.baseProvider = baseProvider;
 
 		// Binding the scope of current weather functions so any fetchData calls with
@@ -33,43 +33,43 @@ const OverrideWrapper = Class.extend({
 
 	/* Unchanged Api Provider Methods */
 
-	setConfig(config) {
+	setConfig (config) {
 		this.baseProvider.setConfig(config);
 	},
-	start() {
+	start () {
 		this.baseProvider.start();
 	},
-	fetchCurrentWeather() {
+	fetchCurrentWeather () {
 		this.baseProvider.fetchCurrentWeather();
 	},
-	fetchWeatherForecast() {
+	fetchWeatherForecast () {
 		this.baseProvider.fetchWeatherForecast();
 	},
-	fetchWeatherHourly() {
+	fetchWeatherHourly () {
 		this.baseProvider.fetchEatherHourly();
 	},
-	weatherForecast() {
+	weatherForecast () {
 		this.baseProvider.weatherForecast();
 	},
-	weatherHourly() {
+	weatherHourly () {
 		this.baseProvider.weatherHourly();
 	},
-	fetchedLocation() {
+	fetchedLocation () {
 		this.baseProvider.fetchedLocation();
 	},
-	setWeatherForecast(weatherForecastArray) {
+	setWeatherForecast (weatherForecastArray) {
 		this.baseProvider.setWeatherForecast(weatherForecastArray);
 	},
-	setWeatherHourly(weatherHourlyArray) {
+	setWeatherHourly (weatherHourlyArray) {
 		this.baseProvider.setWeatherHourly(weatherHourlyArray);
 	},
-	setFetchedLocation(name) {
+	setFetchedLocation (name) {
 		this.baseProvider.setFetchedLocation(name);
 	},
-	updateAvailable() {
+	updateAvailable () {
 		this.baseProvider.updateAvailable();
 	},
-	async fetchData(url, type = "json", requestHeaders = undefined, expectedResponseHeaders = undefined) {
+	async fetchData (url, type = "json", requestHeaders = undefined, expectedResponseHeaders = undefined) {
 		this.baseProvider.fetchData(url, type, requestHeaders, expectedResponseHeaders);
 	},
 
@@ -79,7 +79,7 @@ const OverrideWrapper = Class.extend({
 	 * Override to return this scope's
 	 * @returns {WeatherObject} The current weather object. May or may not contain overridden data.
 	 */
-	currentWeather() {
+	currentWeather () {
 		return this.currentOverrideWeatherObject;
 	},
 
@@ -89,7 +89,7 @@ const OverrideWrapper = Class.extend({
 	 * api provider fetchData implementation.
 	 * @param {WeatherObject} currentWeatherObject - the api provider weather object
 	 */
-	setCurrentWeather(currentWeatherObject) {
+	setCurrentWeather (currentWeatherObject) {
 		this.currentOverrideWeatherObject = Object.assign(currentWeatherObject, this.notificationWeatherObject);
 	},
 
@@ -101,7 +101,7 @@ const OverrideWrapper = Class.extend({
 	 *                                  notification. Represents information to augment the
 	 *                                  existing currentOverrideWeatherObject with.
 	 */
-	notificationReceived(payload) {
+	notificationReceived (payload) {
 		this.notificationWeatherObject = payload;
 
 		// setCurrentWeather combines the newly received notification weather with

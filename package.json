@@ -1,37 +1,7 @@
 {
 	"name": "magicmirror",
-	"version": "2.26.0-develop",
+	"version": "2.33.0-develop",
 	"description": "The open source modular smart mirror platform.",
-	"main": "js/electron.js",
-	"scripts": {
-		"start": "DISPLAY=\"${DISPLAY:=:0}\" ./node_modules/.bin/electron js/electron.js",
-		"start:dev": "DISPLAY=\"${DISPLAY:=:0}\" ./node_modules/.bin/electron js/electron.js dev",
-		"server": "node ./serveronly",
-		"install-mm": "npm install --no-audit --no-fund --no-update-notifier --only=prod --omit=dev",
-		"install-mm:dev": "npm install --no-audit --no-fund --no-update-notifier",
-		"install-vendor": "echo \"Installing vendor files ...\n\" && cd vendor && npm install --loglevel=error --no-audit --no-fund --no-update-notifier",
-		"install-fonts": "echo \"Installing fonts ...\n\" && cd fonts && npm install --loglevel=error --no-audit --no-fund --no-update-notifier",
-		"postinstall": "npm run install-vendor && npm run install-fonts && echo \"MagicMirror² installation finished successfully! \n\"",
-		"test": "NODE_ENV=test jest -i --forceExit",
-		"test:coverage": "NODE_ENV=test jest --coverage -i --verbose false --forceExit",
-		"test:electron": "NODE_ENV=test jest --selectProjects electron -i --forceExit",
-		"test:e2e": "NODE_ENV=test jest --selectProjects e2e -i --forceExit",
-		"test:unit": "NODE_ENV=test jest --selectProjects unit",
-		"test:prettier": "prettier . --check",
-		"test:js": "eslint 'js/**/*.js' 'modules/default/**/*.js' 'clientonly/*.js' 'serveronly/*.js' 'translations/*.js' 'vendor/*.js' 'tests/**/*.js' 'config/*' --config .eslintrc.json",
-		"test:css": "stylelint 'css/main.css' 'fonts/*.css' 'modules/default/**/*.css' 'vendor/*.css' --config .stylelintrc.json",
-		"test:calendar": "node ./modules/default/calendar/debug.js",
-		"config:check": "node js/check_config.js",
-		"lint:prettier": "prettier . --write",
-		"lint:js": "eslint 'js/**/*.js' 'modules/default/**/*.js' 'clientonly/*.js' 'serveronly/*.js' 'translations/*.js' 'vendor/*.js' 'tests/**/*.js' 'config/*' --config .eslintrc.json --fix",
-		"lint:css": "stylelint 'css/main.css' 'fonts/*.css' 'modules/default/**/*.css' 'vendor/*.css' --config .stylelintrc.json --fix",
-		"lint:staged": "lint-staged",
-		"prepare": "[ -f node_modules/.bin/husky ] && husky install || echo no husky installed."
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/MichMich/MagicMirror.git"
-	},
 	"keywords": [
 		"magic mirror",
 		"magicmirror",
@@ -39,65 +9,118 @@
 		"mirror UI",
 		"modular"
 	],
+	"homepage": "https://magicmirror.builders",
+	"bugs": {
+		"url": "https://github.com/MagicMirrorOrg/MagicMirror/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/MagicMirrorOrg/MagicMirror"
+	},
+	"license": "MIT",
 	"author": "Michael Teeuw",
 	"contributors": [
-		"https://github.com/MichMich/MagicMirror/graphs/contributors"
+		"https://github.com/MagicMirrorOrg/MagicMirror/graphs/contributors"
 	],
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/MichMich/MagicMirror/issues"
+	"type": "commonjs",
+	"imports": {
+		"#module_functions": {
+			"default": "./js/module_functions.js"
+		}
 	},
-	"homepage": "https://magicmirror.builders",
-	"devDependencies": {
-		"eslint-config-prettier": "^9.0.0",
-		"eslint-plugin-import": "^2.29.0",
-		"eslint-plugin-jest": "^27.6.0",
-		"eslint-plugin-jsdoc": "^46.8.2",
-		"eslint-plugin-prettier": "^5.0.1",
-		"express-basic-auth": "^1.2.1",
-		"husky": "^8.0.3",
-		"jest": "^29.7.0",
-		"jsdom": "^22.1.0",
-		"lint-staged": "^15.0.2",
-		"lodash": "^4.17.21",
-		"playwright": "^1.39.0",
-		"prettier": "^3.0.3",
-		"sinon": "^17.0.0",
-		"stylelint": "^15.11.0",
-		"stylelint-config-standard": "^34.0.0",
-		"stylelint-prettier": "^4.0.2",
-		"suncalc": "^1.9.0"
-	},
-	"optionalDependencies": {
-		"electron": "^27.0.2"
-	},
-	"dependencies": {
-		"colors": "^1.4.0",
-		"console-stamp": "^3.1.2",
-		"envsub": "^4.1.0",
-		"eslint": "^8.52.0",
-		"express": "^4.18.2",
-		"express-ipfilter": "^1.3.1",
-		"feedme": "^2.0.2",
-		"helmet": "^7.0.0",
-		"html-to-text": "^9.0.5",
-		"iconv-lite": "^0.6.3",
-		"luxon": "^1.28.1",
-		"module-alias": "^2.2.3",
-		"moment": "^2.29.4",
-		"node-ical": "^0.16.1",
-		"socket.io": "^4.7.2"
+	"main": "js/electron.js",
+	"scripts": {
+		"config:check": "node js/check_config.js",
+		"postinstall": "git clean -df fonts vendor",
+		"install-mm": "npm install --no-audit --no-fund --no-update-notifier --only=prod --omit=dev",
+		"install-mm:dev": "npm install --no-audit --no-fund --no-update-notifier",
+		"lint:css": "stylelint 'css/main.css' 'css/roboto.css' 'css/font-awesome.css' 'modules/default/**/*.css' --fix",
+		"lint:js": "eslint --fix",
+		"lint:markdown": "markdownlint-cli2 . --fix",
+		"lint:prettier": "prettier . --write",
+		"prepare": "[ -f node_modules/.bin/husky ] && husky || echo no husky installed.",
+		"server": "node ./serveronly",
+		"start": "node --run start:x11",
+		"start:dev": "node --run start:x11 -- dev",
+		"start:wayland": "WAYLAND_DISPLAY=\"${WAYLAND_DISPLAY:=wayland-1}\" ./node_modules/.bin/electron js/electron.js --enable-features=UseOzonePlatform --ozone-platform=wayland",
+		"start:wayland:dev": "node --run start:wayland -- dev",
+		"start:windows": ".\\node_modules\\.bin\\electron js\\electron.js",
+		"start:windows:dev": "node --run start:windows -- dev",
+		"start:x11": "DISPLAY=\"${DISPLAY:=:0}\" ./node_modules/.bin/electron js/electron.js",
+		"start:x11:dev": "node --run start:x11 -- dev",
+		"test": "NODE_ENV=test jest -i --forceExit",
+		"test:calendar": "node ./modules/default/calendar/debug.js",
+		"test:coverage": "NODE_ENV=test jest --coverage -i --verbose false --forceExit",
+		"test:css": "stylelint 'css/main.css' 'css/roboto.css' 'css/font-awesome.css' 'modules/default/**/*.css'",
+		"test:e2e": "NODE_ENV=test jest --selectProjects e2e -i --forceExit",
+		"test:electron": "NODE_ENV=test jest --selectProjects electron -i --forceExit",
+		"test:js": "eslint",
+		"test:markdown": "markdownlint-cli2 .",
+		"test:prettier": "prettier . --check",
+		"test:spelling": "cspell . --gitignore",
+		"test:unit": "NODE_ENV=test jest --selectProjects unit"
 	},
 	"lint-staged": {
 		"*": "prettier --write",
-		"*.js": "eslint",
-		"*.css": "stylelint"
+		"*.js": "eslint --fix",
+		"*.css": "stylelint --fix"
+	},
+	"dependencies": {
+		"@fontsource/roboto": "^5.2.6",
+		"@fontsource/roboto-condensed": "^5.2.6",
+		"@fortawesome/fontawesome-free": "^7.0.0",
+		"ajv": "^8.17.1",
+		"animate.css": "^4.1.1",
+		"console-stamp": "^3.1.2",
+		"croner": "^9.1.0",
+		"envsub": "^4.1.0",
+		"eslint": "^9.33.0",
+		"express": "^5.1.0",
+		"express-ipfilter": "^1.3.2",
+		"feedme": "^2.0.2",
+		"helmet": "^8.1.0",
+		"html-to-text": "^9.0.5",
+		"iconv-lite": "^0.6.3",
+		"module-alias": "^2.2.3",
+		"moment": "^2.30.1",
+		"moment-timezone": "^0.6.0",
+		"node-ical": "^0.20.1",
+		"nunjucks": "^3.2.4",
+		"pm2": "^6.0.8",
+		"socket.io": "^4.8.1",
+		"suncalc": "^1.9.0",
+		"systeminformation": "^5.27.7",
+		"undici": "^7.13.0",
+		"weathericons": "^2.1.0"
+	},
+	"devDependencies": {
+		"@stylistic/eslint-plugin": "^5.2.3",
+		"cspell": "^9.2.0",
+		"eslint-plugin-import-x": "^4.16.1",
+		"eslint-plugin-jest": "^29.0.1",
+		"eslint-plugin-jsdoc": "^52.0.4",
+		"eslint-plugin-package-json": "^0.52.1",
+		"express-basic-auth": "^1.2.1",
+		"husky": "^9.1.7",
+		"jest": "^30.0.5",
+		"jsdom": "^26.1.0",
+		"lint-staged": "^16.1.5",
+		"markdownlint-cli2": "^0.18.1",
+		"playwright": "^1.54.2",
+		"prettier": "^3.6.2",
+		"sinon": "^21.0.0",
+		"stylelint": "^16.23.1",
+		"stylelint-config-standard": "^39.0.0",
+		"stylelint-prettier": "^5.0.3"
+	},
+	"optionalDependencies": {
+		"electron": "^37.2.6"
+	},
+	"engines": {
+		"node": ">=22.14.0"
 	},
 	"_moduleAliases": {
 		"node_helper": "js/node_helper.js",
 		"logger": "js/logger.js"
-	},
-	"engines": {
-		"node": ">=18"
 	}
 }

@@ -28,9 +28,23 @@
 	"NNW": "NNW",
 
 	"FEELS": "Osjećaj {DEGREE}",
+	"PRECIP_POP": "Vjerojatnost padalina",
+	"PRECIP_AMOUNT": "Količina padalina",
+
+	"MODULE_CONFIG_CHANGED": "Opcije konfiguracije za modul {MODULE_NAME} su promijenjene.\nMolimo provjerite dokumentaciju.",
+	"MODULE_CONFIG_ERROR": "Greška u modulu {MODULE_NAME}. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "Neispravan URL.",
+	"MODULE_ERROR_NO_CONNECTION": "Nema internetske veze.",
+	"MODULE_ERROR_UNAUTHORIZED": "Autorizacija nije uspjela.",
+	"MODULE_ERROR_UNSPECIFIED": "Provjerite dnevnike za više informacija.",
+
+	"NEWSFEED_NO_ITEMS": "Trenutno nema vijesti.",
 
 	"UPDATE_NOTIFICATION": "Dostupna je aktualizacija MagicMirror².",
 	"UPDATE_NOTIFICATION_MODULE": "Dostupna je aktualizacija modula {MODULE_NAME}.",
 	"UPDATE_INFO_SINGLE": "Instalirana verzija {COMMIT_COUNT} commit kasni za branch-om {BRANCH_NAME}.",
-	"UPDATE_INFO_MULTIPLE": "Instalirana verzija {COMMIT_COUNT} commit-ova kasni za branch-om {BRANCH_NAME}."
+	"UPDATE_INFO_MULTIPLE": "Instalirana verzija {COMMIT_COUNT} commit-ova kasni za branch-om {BRANCH_NAME}.",
+	"UPDATE_NOTIFICATION_DONE": "Ažuriranje je završeno za modul {MODULE_NAME}.",
+	"UPDATE_NOTIFICATION_ERROR": "Greška pri ažuriranju modula {MODULE_NAME}.",
+	"UPDATE_NOTIFICATION_NEED-RESTART": "Potrebno je ponovno pokretanje MagicMirror-a."
 }

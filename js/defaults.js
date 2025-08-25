@@ -1,11 +1,5 @@
 /* global mmPort */
 
-/* MagicMirror²
- * Config Defaults
- *
- * By Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
- */
 const address = "localhost";
 let port = 8080;
 if (typeof mmPort !== "undefined") {
@@ -25,8 +19,9 @@ const defaults = {
 	units: "metric",
 	zoom: 1,
 	customCss: "css/custom.css",
+	foreignModulesDir: "modules",
 	// httpHeaders used by helmet, see https://helmetjs.github.io/. You can add other/more object values by overriding this in config.js,
-	// e.g. you need to add `frameguard: false` for embedding MagicMirror in another website, see https://github.com/MichMich/MagicMirror/issues/2847
+	// e.g. you need to add `frameguard: false` for embedding MagicMirror in another website, see https://github.com/MagicMirrorOrg/MagicMirror/issues/2847
 	httpHeaders: { contentSecurityPolicy: false, crossOriginOpenerPolicy: false, crossOriginEmbedderPolicy: false, crossOriginResourcePolicy: false, originAgentCluster: false },
 
 	// properties for checking if server is alive and has same startup-timestamp, the check is per default enabled
@@ -67,7 +62,7 @@ const defaults = {
 			position: "middle_center",
 			classes: "xsmall",
 			config: {
-				text: "If you get this message while your config file is already created,<br>" + "it probably contains an error. To validate your config file run in your MagicMirror² directory<br>" + "<pre>npm run config:check</pre>"
+				text: "If you get this message while your config file is already created,<br>" + "it probably contains an error. To validate your config file run in your MagicMirror² directory<br>" + "<pre>node --run config:check</pre>"
 			}
 		},
 		{
@@ -75,15 +70,10 @@ const defaults = {
 			position: "bottom_bar",
 			classes: "xsmall dimmed",
 			config: {
-				text: "www.michaelteeuw.nl"
+				text: "https://magicmirror.builders/"
 			}
 		}
-	],
-
-	paths: {
-		modules: "modules",
-		vendor: "vendor"
-	}
+	]
 };
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/

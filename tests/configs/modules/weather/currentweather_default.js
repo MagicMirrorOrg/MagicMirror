@@ -1,9 +1,6 @@
-/* MagicMirror² Test config default weather
- *
- * By fewieden https://github.com/fewieden
- * MIT Licensed.
- */
 let config = {
+	address: "0.0.0.0",
+	ipWhitelist: [],
 	timeFormat: 12,
 
 	modules: [
@@ -12,6 +9,9 @@ let config = {
 			position: "bottom_bar",
 			config: {
 				location: "Munich",
+				showHumidity: "feelslike",
+				weatherProvider: "openweathermap",
+				weatherEndpoint: "/weather",
 				mockData: '"#####WEATHERDATA#####"'
 			}
 		}

@@ -2,25 +2,29 @@ const helpers = require("../helpers/global-setup");
 const serverBasicAuth = require("../helpers/basic-auth");
 
 describe("Calendar module", () => {
+
 	/**
 	 * @param {string} element css selector
 	 * @param {string} result expected number
 	 * @param {string} not reverse result
+	 * @returns {boolean} result
 	 */
 	const testElementLength = async (element, result, not) => {
 		const elem = await helpers.waitForAllElements(element);
-		expect(elem).not.toBe(null);
+		expect(elem).not.toBeNull();
 		if (not === "not") {
-			expect(elem.length).not.toBe(result);
+			expect(elem).not.toHaveLength(result);
 		} else {
-			expect(elem.length).toBe(result);
+			expect(elem).toHaveLength(result);
 		}
+		return true;
 	};
 
 	const testTextContain = async (element, text) => {
 		const elem = await helpers.waitForElement(element, "undefinedLoading");
-		expect(elem).not.toBe(null);
+		expect(elem).not.toBeNull();
 		expect(elem.textContent).toContain(text);
+		return true;
 	};
 
 	afterAll(async () => {
@@ -34,11 +38,11 @@ describe("Calendar module", () => {
 		});
 
 		it("should show the default maximumEntries of 10", async () => {
-			await testElementLength(".calendar .event", 10);
+			await expect(testElementLength(".calendar .event", 10)).resolves.toBe(true);
 		});
 
 		it("should show the default calendar symbol in each event", async () => {
-			await testElementLength(".calendar .event .fa-calendar-alt", 0, "not");
+			await expect(testElementLength(".calendar .event .fa-calendar-alt", 0, "not")).resolves.toBe(true);
 		});
 	});
 
@@ -49,27 +53,27 @@ describe("Calendar module", () => {
 		});
 
 		it("should show the custom maximumEntries of 5", async () => {
-			await testElementLength(".calendar .event", 5);
+			await expect(testElementLength(".calendar .event", 5)).resolves.toBe(true);
 		});
 
 		it("should show the custom calendar symbol in four events", async () => {
-			await testElementLength(".calendar .event .fa-birthday-cake", 4);
+			await expect(testElementLength(".calendar .event .fa-birthday-cake", 4)).resolves.toBe(true);
 		});
 
 		it("should show a customEvent calendar symbol in one event", async () => {
-			await testElementLength(".calendar .event .fa-dice", 1);
+			await expect(testElementLength(".calendar .event .fa-dice", 1)).resolves.toBe(true);
 		});
 
 		it("should show a customEvent calendar eventClass in one event", async () => {
-			await testElementLength(".calendar .event.undo", 1);
+			await expect(testElementLength(".calendar .event.undo", 1)).resolves.toBe(true);
 		});
 
 		it("should show two custom icons for repeating events", async () => {
-			await testElementLength(".calendar .event .fa-undo", 2);
+			await expect(testElementLength(".calendar .event .fa-undo", 2)).resolves.toBe(true);
 		});
 
 		it("should show two custom icons for day events", async () => {
-			await testElementLength(".calendar .event .fa-calendar-day", 2);
+			await expect(testElementLength(".calendar .event .fa-calendar-day", 2)).resolves.toBe(true);
 		});
 	});
 
@@ -80,33 +84,41 @@ describe("Calendar module", () => {
 		});
 
 		it("should show the recurring birthday event 6 times", async () => {
-			await testElementLength(".calendar .event", 6);
+			await expect(testElementLength(".calendar .event", 6)).resolves.toBe(true);
 		});
 	});
 
-	describe("exdate check", () => {
+	//Will contain everyday an fullDayEvent that starts today and ends tomorrow, and one starting tomorrow and ending the day after tomorrow
+	describe("FullDayEvent over several days should show how many days are left from the from the starting date on", () => {
 		beforeAll(async () => {
-			await helpers.startApplication("tests/configs/modules/calendar/exdate.js");
+			await helpers.startApplication("tests/configs/modules/calendar/long-fullday-event.js");
 			await helpers.getDocument();
 		});
 
-		it("should show the recurring event 51 times (excluded once) in a 364-day (inclusive) period", async () => {
-			await testElementLength(".calendar .event", 51);
+		it("should contain text 'Ends in' with the left days", async () => {
+			await expect(testTextContain(".calendar .today .time", "Ends in")).resolves.toBe(true);
+			await expect(testTextContain(".calendar .yesterday .time", "Today")).resolves.toBe(true);
+			await expect(testTextContain(".calendar .tomorrow .time", "Tomorrow")).resolves.toBe(true);
+		});
+		it("should contain in total three events", async () => {
+			await expect(testElementLength(".calendar .event", 3)).resolves.toBe(true);
 		});
 	});
 
-	describe("Events from multiple calendars", () => {
+	describe("FullDayEvent Single day, should show Today", () => {
 		beforeAll(async () => {
-			await helpers.startApplication("tests/configs/modules/calendar/show-duplicates-in-calendar.js");
+			await helpers.startApplication("tests/configs/modules/calendar/single-fullday-event.js");
 			await helpers.getDocument();
 		});
 
-		it("should show multiple events with the same title and start time from different calendars", async () => {
-			await testElementLength(".calendar .event", 22);
+		it("should contain text 'Today'", async () => {
+			await expect(testTextContain(".calendar .time", "Today")).resolves.toBe(true);
+		});
+		it("should contain in total two events", async () => {
+			await expect(testElementLength(".calendar .event", 2)).resolves.toBe(true);
 		});
 	});
 
-	process.setMaxListeners(0);
 	for (let i = -12; i < 12; i++) {
 		describe("Recurring event per timezone", () => {
 			beforeAll(async () => {
@@ -118,7 +130,7 @@ describe("Calendar module", () => {
 			});
 
 			it(`should contain text "Mar 25th" in timezone UTC ${-i}`, async () => {
-				await testTextContain(".calendar", "Mar 25th");
+				await expect(testTextContain(".calendar", "Mar 25th")).resolves.toBe(true);
 			});
 		});
 	}
@@ -135,7 +147,7 @@ describe("Calendar module", () => {
 		});
 
 		it("should return TestEvents", async () => {
-			await testElementLength(".calendar .event", 0, "not");
+			await expect(testElementLength(".calendar .event", 0, "not")).resolves.toBe(true);
 		});
 	});
 
@@ -146,7 +158,7 @@ describe("Calendar module", () => {
 		});
 
 		it("should return TestEvents", async () => {
-			await testElementLength(".calendar .event", 0, "not");
+			await expect(testElementLength(".calendar .event", 0, "not")).resolves.toBe(true);
 		});
 	});
 
@@ -157,7 +169,7 @@ describe("Calendar module", () => {
 		});
 
 		it("should return TestEvents", async () => {
-			await testElementLength(".calendar .event", 0, "not");
+			await expect(testElementLength(".calendar .event", 0, "not")).resolves.toBe(true);
 		});
 	});
 
@@ -168,7 +180,7 @@ describe("Calendar module", () => {
 		});
 
 		it("should return TestEvents", async () => {
-			await testElementLength(".calendar .event", 0, "not");
+			await expect(testElementLength(".calendar .event", 0, "not")).resolves.toBe(true);
 		});
 	});
 
@@ -184,7 +196,7 @@ describe("Calendar module", () => {
 		});
 
 		it("should show Unauthorized error", async () => {
-			await testTextContain(".calendar", "Error in the calendar module. Authorization failed");
+			await expect(testTextContain(".calendar", "Error in the calendar module. Authorization failed")).resolves.toBe(true);
 		});
 	});
 });

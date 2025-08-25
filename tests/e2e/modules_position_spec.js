@@ -15,7 +15,7 @@ describe("Position of modules", () => {
 		const className = position.replace("_", ".");
 		it(`should show text in ${position}`, async () => {
 			const elem = await helpers.waitForElement(`.${className}`);
-			expect(elem).not.toBe(null);
+			expect(elem).not.toBeNull();
 			expect(elem.textContent).toContain(`Text in ${position}`);
 		});
 	}

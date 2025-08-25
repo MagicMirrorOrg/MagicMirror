@@ -1,3 +1,8 @@
+{% macro humidity() %}
+    {% if current.humidity %}
+        <span class="humidity"><span>{{ current.humidity | decimalSymbol }}</span><sup>&nbsp;<i class="wi wi-humidity humidity-icon"></i></sup></span>
+    {% endif %}
+{% endmacro %}
 {% if current %}
     {% if not config.onlyTemp %}
         <div class="normal medium">
@@ -7,8 +12,7 @@
                 {% if config.showWindDirection %}
                     <sup>
                         {% if config.showWindDirectionAsArrow %}
-                            <i class="fas fa-long-arrow-alt-down"
-                               style="transform:rotate({{ current.windFromDirection }}deg)"></i>
+                            <i class="fas fa-long-arrow-alt-down" style="transform:rotate({{ current.windFromDirection }}deg)"></i>
                         {% else %}
                             {{ current.cardinalWindDirection() | translate }}
                         {% endif %}
@@ -16,8 +20,8 @@
                     </sup>
                 {% endif %}
             </span>
-            {% if config.showHumidity and current.humidity %}
-                <span>{{ current.humidity | decimalSymbol }}</span><sup>&nbsp;<i class="wi wi-humidity humidity-icon"></i></sup>
+            {% if config.showHumidity === "wind" %}
+                {{ humidity() }}
             {% endif %}
             {% if config.showSun %}
                 <span class="wi dimmed wi-{{ current.nextSunAction() }}"></span>
@@ -37,28 +41,39 @@
             {% endif %}
         </div>
     {% endif %}
-    <div class="large light">
-        <span class="wi weathericon wi-{{ current.weatherType }}"></span>
-        <span class="bright">{{ current.temperature | roundValue | unit("temperature") | decimalSymbol }}</span>
-    </div>
-    <div class="normal light indoor">
-        {% if config.showIndoorTemperature and indoor.temperature %}
-            <div>
-                <span class="fas fa-home"></span>
-                <span class="bright">{{ indoor.temperature | roundValue | unit("temperature") | decimalSymbol }}</span>
-            </div>
+    <div class="large">
+        {% if config.showIndoorTemperature and indoor.temperature or config.showIndoorHumidity and indoor.humidity %}
+            <span class="medium fas fa-home"></span>
+            <span style="display: inline-block">
+                    {% if config.showIndoorTemperature and indoor.temperature %}
+                            <sup class="small" style="position: relative; display: block; text-align: left;">
+                                    <span>
+                                        {{ indoor.temperature | roundValue | unit("temperature") | decimalSymbol }}
+                                    </span>
+                            </sup>
+                    {% endif %}
+                    {% if config.showIndoorHumidity and indoor.humidity %}
+                            <sub class="small" style="position: relative; display: block; text-align: left;">
+                                    <span>
+                                            {{ indoor.humidity | roundValue | unit("humidity") | decimalSymbol }}
+                                    </span>
+                            </sub>
+                    {% endif %}
+            </span>
         {% endif %}
-        {% if config.showIndoorHumidity and indoor.humidity %}
-            <div>
-                <span class="fas fa-tint"></span>
-                <span class="bright">{{ indoor.humidity | roundValue | unit("humidity") | decimalSymbol }}</span>
-            </div>
+        <span class="light wi weathericon wi-{{ current.weatherType }}"></span>
+        <span class="light bright">{{ current.temperature | roundValue | unit("temperature") | decimalSymbol }}</span>
+        {% if config.showHumidity === "temp" %}
+            <span class="medium bright">{{ humidity() }}</span>
         {% endif %}
     </div>
     {% if (config.showFeelsLike or config.showPrecipitationAmount or config.showPrecipitationProbability) and not config.onlyTemp %}
         <div class="normal medium feelslike">
             {% if config.showFeelsLike %}
                 <span class="dimmed">
+                    {% if config.showHumidity === "feelslike" %}
+                        {{ humidity() }}
+                    {% endif %}
                     {{ "FEELS" | translate({DEGREE: current.feelsLike() | roundValue | unit("temperature") | decimalSymbol }) }}
                 </span>
                 <br />
@@ -75,6 +90,9 @@
                 </span>
             {% endif %}
         </div>
+    {% endif %}
+    {% if config.showHumidity === "below" %}
+        <span class="medium dimmed">{{ humidity() }}</span>
     {% endif %}
 {% else %}
     <div class="dimmed light small">{{ "LOADING" | translate }}</div>

@@ -5,8 +5,10 @@
 	"YESTERDAY": "昨日",
 	"TODAY": "今日",
 	"TOMORROW": "明日",
+	"DAYAFTERTOMORROW": "明後日",
 	"RUNNING": "で終わります",
 	"EMPTY": "直近のイベントはありません",
+	"WEEK": "第 {weekNumber} 週",
 
 	"N": "北",
 	"NNE": "北北東",
@@ -23,5 +25,26 @@
 	"W": "西",
 	"WNW": "西北西",
 	"NW": "北西",
-	"NNW": "北北西"
+	"NNW": "北北西",
+
+	"FEELS": "体感温度 {DEGREE}",
+	"PRECIP_POP": "降水確率",
+	"PRECIP_AMOUNT": "降水量",
+
+	"MODULE_CONFIG_CHANGED": "モジュール {MODULE_NAME} の設定オプションが変更されました。\nドキュメントを確認してください。",
+	"MODULE_CONFIG_ERROR": "モジュール {MODULE_NAME} でエラーが発生しました。{ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "不正なURLです。",
+	"MODULE_ERROR_NO_CONNECTION": "インターネット接続がありません。",
+	"MODULE_ERROR_UNAUTHORIZED": "認証に失敗しました。",
+	"MODULE_ERROR_UNSPECIFIED": "詳細はログを確認してください。",
+
+	"NEWSFEED_NO_ITEMS": "現在ニュースはありません。",
+
+	"UPDATE_NOTIFICATION": "MagicMirror² のアップデートが利用可能です。",
+	"UPDATE_NOTIFICATION_MODULE": "モジュール {MODULE_NAME} のアップデートが利用可能です。",
+	"UPDATE_INFO_SINGLE": "現在のインストールは {BRANCH_NAME} ブランチから {COMMIT_COUNT} コミット遅れています。",
+	"UPDATE_INFO_MULTIPLE": "現在のインストールは {BRANCH_NAME} ブランチから {COMMIT_COUNT} コミット遅れています。",
+	"UPDATE_NOTIFICATION_DONE": "モジュール {MODULE_NAME} のアップデートが完了しました。",
+	"UPDATE_NOTIFICATION_ERROR": "モジュール {MODULE_NAME} のアップデート中にエラーが発生しました。",
+	"UPDATE_NOTIFICATION_NEED-RESTART": "MagicMirror の再起動が必要です。"
 }

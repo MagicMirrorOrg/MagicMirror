@@ -28,9 +28,23 @@
 	"NNW": "NNV",
 
 	"FEELS": "Känns som {DEGREE}",
+	"PRECIP_POP": "Nederbördsrisk",
+	"PRECIP_AMOUNT": "Nederbördsmängd",
+
+	"MODULE_CONFIG_CHANGED": "Konfigurationsalternativen för modulen {MODULE_NAME} har ändrats.\nVänligen se dokumentationen.",
+	"MODULE_CONFIG_ERROR": "Fel i modulen {MODULE_NAME}. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "Felaktig URL.",
+	"MODULE_ERROR_NO_CONNECTION": "Ingen internetanslutning.",
+	"MODULE_ERROR_UNAUTHORIZED": "Autentisering misslyckades.",
+	"MODULE_ERROR_UNSPECIFIED": "Vänligen kontrollera loggarna för mer information.",
+
+	"NEWSFEED_NO_ITEMS": "Inga nyheter för tillfället.",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² uppdatering finns tillgänglig.",
 	"UPDATE_NOTIFICATION_MODULE": "Uppdatering finns tillgänglig av {MODULE_NAME} modulen.",
 	"UPDATE_INFO_SINGLE": "Denna installation ligger {COMMIT_COUNT} commit steg bakom {BRANCH_NAME} grenen.",
-	"UPDATE_INFO_MULTIPLE": "Denna installation ligger {COMMIT_COUNT} commits steg bakom {BRANCH_NAME} grenen."
+	"UPDATE_INFO_MULTIPLE": "Denna installation ligger {COMMIT_COUNT} commits steg bakom {BRANCH_NAME} grenen.",
+	"UPDATE_NOTIFICATION_DONE": "Uppdateringen av modulen {MODULE_NAME} har slutförts.",
+	"UPDATE_NOTIFICATION_ERROR": "Ett fel inträffade vid uppdateringen av modulen {MODULE_NAME}.",
+	"UPDATE_NOTIFICATION_NEED-RESTART": "Det krävs en omstart av MagicMirror."
 }

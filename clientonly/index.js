@@ -7,7 +7,8 @@
 	/**
 	 * Helper function to get server address/hostname from either the commandline or env
 	 */
-	function getServerAddress() {
+	function getServerAddress () {
+
 		/**
 		 * Get command line parameters
 		 * Assumes that a cmdline parameter is defined with `--key [value]`
@@ -15,7 +16,7 @@
 		 * @param {string} defaultValue value if no key is given at the command line
 		 * @returns {string} the value of the parameter
 		 */
-		function getCommandLineParameter(key, defaultValue = undefined) {
+		function getCommandLineParameter (key, defaultValue = undefined) {
 			const index = process.argv.indexOf(`--${key}`);
 			const value = index > -1 ? process.argv[index + 1] : undefined;
 			return value !== undefined ? String(value) : defaultValue;
@@ -27,7 +28,7 @@
 		});
 
 		// determine if "--use-tls"-flag was provided
-		config["tls"] = process.argv.indexOf("--use-tls") > 0;
+		config.tls = process.argv.indexOf("--use-tls") > 0;
 	}
 
 	/**
@@ -35,11 +36,11 @@
 	 * @param {string} url location where the server is running.
 	 * @returns {Promise} the config
 	 */
-	function getServerConfig(url) {
+	function getServerConfig (url) {
 		// Return new pending promise
 		return new Promise((resolve, reject) => {
 			// Select http or https module, depending on requested url
-			const lib = url.startsWith("https") ? require("https") : require("http");
+			const lib = url.startsWith("https") ? require("node:https") : require("node:http");
 			const request = lib.get(url, (response) => {
 				let configData = "";
 
@@ -64,7 +65,7 @@
 	 * @param {string} message error message to print
 	 * @param {number} code error code for the exit call
 	 */
-	function fail(message, code = 1) {
+	function fail (message, code = 1) {
 		if (message !== undefined && typeof message === "string") {
 			console.log(message);
 		} else {
@@ -82,6 +83,17 @@
 	if (["localhost", "127.0.0.1", "::1", "::ffff:127.0.0.1", undefined].indexOf(config.address) === -1) {
 		getServerConfig(`${prefix}${config.address}:${config.port}/config/`)
 			.then(function (configReturn) {
+				// check environment for DISPLAY or WAYLAND_DISPLAY
+				const elecParams = ["js/electron.js"];
+				if (process.env.WAYLAND_DISPLAY) {
+					console.log(`Client: Using WAYLAND_DISPLAY=${process.env.WAYLAND_DISPLAY}`);
+					elecParams.push("--enable-features=UseOzonePlatform");
+					elecParams.push("--ozone-platform=wayland");
+				} else if (process.env.DISPLAY) {
+					console.log(`Client: Using DISPLAY=${process.env.DISPLAY}`);
+				} else {
+					fail("Error: Requires environment variable WAYLAND_DISPLAY or DISPLAY, none is provided.");
+				}
 				// Pass along the server config via an environment variable
 				const env = Object.create(process.env);
 				env.clientonly = true; // set to pass to electron.js
@@ -93,7 +105,7 @@
 
 				// Spawn electron application
 				const electron = require("electron");
-				const child = require("child_process").spawn(electron, ["js/electron.js"], options);
+				const child = require("node:child_process").spawn(electron, elecParams, options);
 
 				// Pipe all child process output to current stdout
 				child.stdout.on("data", function (buf) {
@@ -121,4 +133,4 @@
 	} else {
 		fail();
 	}
-})();
+}());

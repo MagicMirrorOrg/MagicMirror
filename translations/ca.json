@@ -26,8 +26,24 @@
 	"NW": "NO",
 	"NNW": "NNO",
 
+	"FEELS": "Sensació tèrmica {DEGREE}",
+	"PRECIP_POP": "Probabilitat de precipitació",
+	"PRECIP_AMOUNT": "Quantitat de precipitació",
+
+	"MODULE_CONFIG_CHANGED": "S'ha canviat l'opció de configuració del mòdul {MODULE_NAME}.\nConsulta la documentació.",
+	"MODULE_CONFIG_ERROR": "S'ha produït un error al mòdul {MODULE_NAME}. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "L'URL és mal format.",
+	"MODULE_ERROR_NO_CONNECTION": "No hi ha connexió a Internet.",
+	"MODULE_ERROR_UNAUTHORIZED": "L'autorització ha fallat.",
+	"MODULE_ERROR_UNSPECIFIED": "Consulta els registres per a més detalls.",
+
+	"NEWSFEED_NO_ITEMS": "No hi ha notícies disponibles en aquest moment.",
+
 	"UPDATE_NOTIFICATION": "MagicMirror² actualizació disponible.",
 	"UPDATE_NOTIFICATION_MODULE": "Disponible una actualizació per al mòdul {MODULE_NAME}.",
 	"UPDATE_INFO_SINGLE": "La teva instal·lació actual està {COMMIT_COUNT} commit canvis darrere de la branca {BRANCH_NAME}.",
-	"UPDATE_INFO_MULTIPLE": "La teva instal·lació actual està {COMMIT_COUNT} commits canvis darrere de la branca {BRANCH_NAME}."
+	"UPDATE_INFO_MULTIPLE": "La teva instal·lació actual està {COMMIT_COUNT} commits canvis darrere de la branca {BRANCH_NAME}.",
+	"UPDATE_NOTIFICATION_DONE": "S'ha completat l'actualització del mòdul {MODULE_NAME}.",
+	"UPDATE_NOTIFICATION_ERROR": "S'ha produït un error durant l'actualització del mòdul {MODULE_NAME}.",
+	"UPDATE_NOTIFICATION_NEED-RESTART": "És necessari reiniciar MagicMirror."
 }

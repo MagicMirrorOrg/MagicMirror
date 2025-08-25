@@ -1,11 +1,5 @@
-/* global Loader, defaults, Translator, addAnimateCSS, removeAnimateCSS, AnimateCSSIn, AnimateCSSOut */
+/* global Loader, defaults, Translator, addAnimateCSS, removeAnimateCSS, AnimateCSSIn, AnimateCSSOut, modulePositions */
 
-/* MagicMirror²
- * Main System
- *
- * By Michael Teeuw https://michaelteeuw.nl
- * MIT Licensed.
- */
 const MM = (function () {
 	let modules = [];
 
@@ -35,6 +29,8 @@ const MM = (function () {
 			if (typeof module.data.classes === "string") {
 				dom.className = `module ${dom.className} ${module.data.classes}`;
 			}
+
+			dom.style.order = (typeof module.data.order === "number" && Number.isInteger(module.data.order)) ? module.data.order : 0;
 
 			dom.opacity = 0;
 			wrapper.appendChild(dom);
@@ -292,9 +288,9 @@ const MM = (function () {
 				Log.debug(`${module.identifier} Force remove animateIn (in hide): ${module.hasAnimateIn}`);
 				module.hasAnimateIn = false;
 			}
-			// haveAnimateName for verify if we are using AninateCSS library
+			// haveAnimateName for verify if we are using AnimateCSS library
 			// we check AnimateCSSOut Array for validate it
-			// and finaly return the animate name or `null` (for default MM² animation)
+			// and finally return the animate name or `null` (for default MM² animation)
 			let haveAnimateName = null;
 			// check if have valid animateOut in module definition (module.data.animateOut)
 			if (module.data.animateOut && AnimateCSSOut.indexOf(module.data.animateOut) !== -1) haveAnimateName = module.data.animateOut;
@@ -363,7 +359,7 @@ const MM = (function () {
 			}
 		}
 
-		// Check if there are no more lockstrings set, or the force option is set.
+		// Check if there are no more lockStrings set, or the force option is set.
 		// Otherwise cancel show action.
 		if (module.lockStrings.length !== 0 && options.force !== true) {
 			Log.log(`Will not show ${module.name}. LockStrings active: ${module.lockStrings.join(",")}`);
@@ -386,7 +382,7 @@ const MM = (function () {
 
 		module.hidden = false;
 
-		// If forced show, clean current lockstrings.
+		// If forced show, clean current lockStrings.
 		if (module.lockStrings.length !== 0 && options.force === true) {
 			Log.log(`Force show of module: ${module.name}`);
 			module.lockStrings = [];
@@ -396,9 +392,9 @@ const MM = (function () {
 		if (moduleWrapper !== null) {
 			clearTimeout(module.showHideTimer);
 
-			// haveAnimateName for verify if we are using AninateCSS library
+			// haveAnimateName for verify if we are using AnimateCSS library
 			// we check AnimateCSSIn Array for validate it
-			// and finaly return the animate name or `null` (for default MM² animation)
+			// and finally return the animate name or `null` (for default MM² animation)
 			let haveAnimateName = null;
 			// check if have valid animateOut in module definition (module.data.animateIn)
 			if (module.data.animateIn && AnimateCSSIn.indexOf(module.data.animateIn) !== -1) haveAnimateName = module.data.animateIn;
@@ -456,10 +452,9 @@ const MM = (function () {
 	 * an ugly top margin. By using this function, the top bar will be hidden if the
 	 * update notification is not visible.
 	 */
-	const updateWrapperStates = function () {
-		const positions = ["top_bar", "top_left", "top_center", "top_right", "upper_third", "middle_center", "lower_third", "bottom_left", "bottom_center", "bottom_right", "bottom_bar", "fullscreen_above", "fullscreen_below"];
 
-		positions.forEach(function (position) {
+	const updateWrapperStates = function () {
+		modulePositions.forEach(function (position) {
 			const wrapper = selectWrapper(position);
 			const moduleWrappers = wrapper.getElementsByClassName("module");
 
@@ -470,7 +465,8 @@ const MM = (function () {
 				}
 			});
 
-			wrapper.style.display = showWrapper ? "block" : "none";
+			// move container definitions to main CSS
+			wrapper.className = showWrapper ? "container" : "container hidden";
 		});
 	};
 
@@ -479,7 +475,6 @@ const MM = (function () {
 	 */
 	const loadConfig = function () {
 		// FIXME: Think about how to pass config around without breaking tests
-		/* eslint-disable */
 		if (typeof config === "undefined") {
 			config = defaults;
 			Log.error("Config file is missing! Please create a config file.");
@@ -487,7 +482,6 @@ const MM = (function () {
 		}
 
 		config = Object.assign({}, defaults, config);
-		/* eslint-enable */
 	};
 
 	/**
@@ -495,6 +489,7 @@ const MM = (function () {
 	 * @param {Module[]} modules Array of modules.
 	 */
 	const setSelectionMethodsForModules = function (modules) {
+
 		/**
 		 * Filter modules with the specified classes.
 		 * @param {string|string[]} className one or multiple classnames (array or space divided).
@@ -580,12 +575,13 @@ const MM = (function () {
 	};
 
 	return {
+
 		/* Public Methods */
 
 		/**
 		 * Main init method.
 		 */
-		init: async function () {
+		async init () {
 			Log.info("Initializing MagicMirror².");
 			loadConfig();
 
@@ -599,7 +595,7 @@ const MM = (function () {
 		 * Gets called when all modules are started.
 		 * @param {Module[]} moduleObjects All module instances.
 		 */
-		modulesStarted: function (moduleObjects) {
+		modulesStarted (moduleObjects) {
 			modules = [];
 			let startUp = "";
 
@@ -615,13 +611,13 @@ const MM = (function () {
 					// if server startup time has changed (which means server was restarted)
 					// the client reloads the mm page
 					try {
-						const res = await fetch(`${location.protocol}//${location.host}/startup`);
+						const res = await fetch(`${location.protocol}//${location.host}${config.basePath}startup`);
 						const curr = await res.text();
 						if (startUp === "") startUp = curr;
 						if (startUp !== curr) {
 							startUp = "";
 							window.location.reload(true);
-							console.warn("Refreshing Website because server was restarted");
+							Log.warn("Refreshing Website because server was restarted");
 						}
 					} catch (err) {
 						Log.error(`MagicMirror not reachable: ${err}`);
@@ -636,7 +632,7 @@ const MM = (function () {
 		 * @param {*} payload The payload of the notification.
 		 * @param {Module} sender The module that sent the notification.
 		 */
-		sendNotification: function (notification, payload, sender) {
+		sendNotification (notification, payload, sender) {
 			if (arguments.length < 3) {
 				Log.error("sendNotification: Missing arguments.");
 				return;
@@ -661,7 +657,7 @@ const MM = (function () {
 		 * @param {Module} module The module that needs an update.
 		 * @param {object|number} [updateOptions] The (optional) number of microseconds for the animation or object with updateOptions (speed/animates)
 		 */
-		updateDom: function (module, updateOptions) {
+		updateDom (module, updateOptions) {
 			if (!(module instanceof Module)) {
 				Log.error("updateDom: Sender should be a module.");
 				return;
@@ -673,14 +669,17 @@ const MM = (function () {
 			}
 
 			// Further implementation is done in the private method.
-			updateDom(module, updateOptions);
+			updateDom(module, updateOptions).then(function () {
+				// Once the update is complete and rendered, send a notification to the module that the DOM has been updated
+				sendNotification("MODULE_DOM_UPDATED", null, null, module);
+			});
 		},
 
 		/**
 		 * Returns a collection of all modules currently active.
 		 * @returns {Module[]} A collection of all modules currently active.
 		 */
-		getModules: function () {
+		getModules () {
 			setSelectionMethodsForModules(modules);
 			return modules;
 		},
@@ -692,7 +691,7 @@ const MM = (function () {
 		 * @param {Function} callback Called when the animation is done.
 		 * @param {object} [options] Optional settings for the hide method.
 		 */
-		hideModule: function (module, speed, callback, options) {
+		hideModule (module, speed, callback, options) {
 			module.hidden = true;
 			hideModule(module, speed, callback, options);
 		},
@@ -704,12 +703,15 @@ const MM = (function () {
 		 * @param {Function} callback Called when the animation is done.
 		 * @param {object} [options] Optional settings for the show method.
 		 */
-		showModule: function (module, speed, callback, options) {
+		showModule (module, speed, callback, options) {
 			// do not change module.hidden yet, only if we really show it later
 			showModule(module, speed, callback, options);
-		}
+		},
+
+		// Return all available module positions.
+		getAvailableModulePositions: modulePositions
 	};
-})();
+}());
 
 // Add polyfill for Object.assign.
 if (typeof Object.assign !== "function") {
@@ -732,7 +734,7 @@ if (typeof Object.assign !== "function") {
 			}
 			return output;
 		};
-	})();
+	}());
 }
 
 MM.init();

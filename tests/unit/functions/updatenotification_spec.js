@@ -1,9 +1,9 @@
-jest.mock("util", () => ({
+jest.mock("node:util", () => ({
 	...jest.requireActual("util"),
 	promisify: jest.fn()
 }));
 
-jest.mock("fs", () => ({
+jest.mock("node:fs", () => ({
 	...jest.requireActual("fs"),
 	statSync: jest.fn()
 }));
@@ -29,10 +29,10 @@ describe("Updatenotification", () => {
 	let gitTagListOut;
 
 	beforeAll(async () => {
-		const { promisify } = require("util");
+		const { promisify } = require("node:util");
 		promisify.mockReturnValue(execMock);
 
-		const GitHelper = require(`../../../modules/default/updatenotification/git_helper`);
+		const GitHelper = require("../../../modules/default/updatenotification/git_helper");
 		gitHelper = new GitHelper();
 	});
 
@@ -75,10 +75,10 @@ describe("Updatenotification", () => {
 		const moduleName = "MagicMirror";
 
 		beforeEach(async () => {
-			gitRemoteOut = "origin\tgit@github.com:MichMich/MagicMirror.git (fetch)\norigin\tgit@github.com:MichMich/MagicMirror.git (push)\n";
+			gitRemoteOut = "origin\tgit@github.com:MagicMirrorOrg/MagicMirror.git (fetch)\norigin\tgit@github.com:MagicMirrorOrg/MagicMirror.git (push)\n";
 			gitRevParseOut = "332e429a41f1a2339afd4f0ae96dd125da6beada";
 			gitStatusOut = "## develop...origin/develop\n M tests/unit/functions/updatenotification_spec.js\n";
-			gitFetchErr = "From github.com:MichMich/MagicMirror\n60e0377..332e429  develop          -> origin/develop\n";
+			gitFetchErr = "From github.com:MagicMirrorOrg/MagicMirror\n60e0377..332e429  develop          -> origin/develop\n";
 			gitRevListCountOut = "5";
 
 			await gitHelper.add(moduleName);
@@ -103,7 +103,7 @@ describe("Updatenotification", () => {
 			execMock.mockRejectedValueOnce(errorMessage);
 
 			const repos = await gitHelper.getRepos();
-			expect(repos.length).toBe(0);
+			expect(repos).toHaveLength(0);
 
 			const { error } = require("logger");
 			expect(error).toHaveBeenCalledWith(`Failed to retrieve repo info for ${moduleName}: Failed to retrieve status`);
@@ -114,10 +114,10 @@ describe("Updatenotification", () => {
 		const moduleName = "MagicMirror";
 
 		beforeEach(async () => {
-			gitRemoteOut = "origin\tgit@github.com:MichMich/MagicMirror.git (fetch)\norigin\tgit@github.com:MichMich/MagicMirror.git (push)\n";
+			gitRemoteOut = "origin\tgit@github.com:MagicMirrorOrg/MagicMirror.git (fetch)\norigin\tgit@github.com:MagicMirrorOrg/MagicMirror.git (push)\n";
 			gitRevParseOut = "332e429a41f1a2339afd4f0ae96dd125da6beada";
 			gitStatusOut = "## master...origin/master\n M tests/unit/functions/updatenotification_spec.js\n";
-			gitFetchErr = "From github.com:MichMich/MagicMirror\n60e0377..332e429  master          -> origin/master\n";
+			gitFetchErr = "From github.com:MagicMirrorOrg/MagicMirror\n60e0377..332e429  master          -> origin/master\n";
 			gitRevListCountOut = "5";
 
 			await gitHelper.add(moduleName);
@@ -142,7 +142,7 @@ describe("Updatenotification", () => {
 			execMock.mockRejectedValueOnce(errorMessage);
 
 			const repos = await gitHelper.getRepos();
-			expect(repos.length).toBe(0);
+			expect(repos).toHaveLength(0);
 
 			const { error } = require("logger");
 			expect(error).toHaveBeenCalledWith(`Failed to retrieve repo info for ${moduleName}: Failed to retrieve status`);
@@ -153,10 +153,10 @@ describe("Updatenotification", () => {
 		const moduleName = "MagicMirror";
 
 		beforeEach(async () => {
-			gitRemoteOut = "origin\tgit@github.com:MichMich/MagicMirror.git (fetch)\norigin\tgit@github.com:MichMich/MagicMirror.git (push)\n";
+			gitRemoteOut = "origin\tgit@github.com:MagicMirrorOrg/MagicMirror.git (fetch)\norigin\tgit@github.com:MagicMirrorOrg/MagicMirror.git (push)\n";
 			gitRevParseOut = "332e429a41f1a2339afd4f0ae96dd125da6beada";
 			gitStatusOut = "## master...origin/master\n M tests/unit/functions/updatenotification_spec.js\n";
-			gitFetchErr = "From github.com:MichMich/MagicMirror\n60e0377..332e429  master          -> origin/master\n";
+			gitFetchErr = "From github.com:MagicMirrorOrg/MagicMirror\n60e0377..332e429  master          -> origin/master\n";
 			gitRevListCountOut = "5";
 			gitTagListOut = "332e429a41f1a2339afd4f0ae96dd125da6beada...tag...\n";
 			gitRevListOut = "332e429a41f1a2339afd4f0ae96dd125da6beada\n";
@@ -183,7 +183,7 @@ describe("Updatenotification", () => {
 			execMock.mockRejectedValueOnce(errorMessage);
 
 			const repos = await gitHelper.getRepos();
-			expect(repos.length).toBe(0);
+			expect(repos).toHaveLength(0);
 
 			const { error } = require("logger");
 			expect(error).toHaveBeenCalledWith(`Failed to retrieve repo info for ${moduleName}: Failed to retrieve status`);
@@ -194,10 +194,10 @@ describe("Updatenotification", () => {
 		const moduleName = "MagicMirror";
 
 		beforeEach(async () => {
-			gitRemoteOut = "origin\tgit@github.com:MichMich/MagicMirror.git (fetch)\norigin\tgit@github.com:MichMich/MagicMirror.git (push)\n";
+			gitRemoteOut = "origin\tgit@github.com:MagicMirrorOrg/MagicMirror.git (fetch)\norigin\tgit@github.com:MagicMirrorOrg/MagicMirror.git (push)\n";
 			gitRevParseOut = "332e429a41f1a2339afd4f0ae96dd125da6beada";
 			gitStatusOut = "## master...origin/master\n M tests/unit/functions/updatenotification_spec.js\n";
-			gitFetchErr = "From github.com:MichMich/MagicMirror\n60e0377..332e429  master          -> origin/master\n";
+			gitFetchErr = "From github.com:MagicMirrorOrg/MagicMirror\n60e0377..332e429  master          -> origin/master\n";
 			gitRevListCountOut = "5";
 			gitTagListOut = "xxxe429a41f1a2339afd4f0ae96dd125da6beada...tag...\n";
 			gitRevListOut = "332e429a41f1a2339afd4f0ae96dd125da6beada\n";
@@ -224,7 +224,7 @@ describe("Updatenotification", () => {
 			execMock.mockRejectedValueOnce(errorMessage);
 
 			const repos = await gitHelper.getRepos();
-			expect(repos.length).toBe(0);
+			expect(repos).toHaveLength(0);
 
 			const { error } = require("logger");
 			expect(error).toHaveBeenCalledWith(`Failed to retrieve repo info for ${moduleName}: Failed to retrieve status`);

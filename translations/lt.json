@@ -29,9 +29,22 @@
 
 	"FEELS": "Jutiminė temp. {DEGREE}",
 	"PRECIP_POP": "Krituliai",
+	"PRECIP_AMOUNT": "Kritulių kiekis",
+
+	"MODULE_CONFIG_CHANGED": "Modulio {MODULE_NAME} konfigūracijos parinktys pasikeitė.\nPrašome patikrinti dokumentaciją.",
+	"MODULE_CONFIG_ERROR": "Klaida modulyje {MODULE_NAME}. {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "Netinkama URL nuoroda.",
+	"MODULE_ERROR_NO_CONNECTION": "Nėra interneto ryšio.",
+	"MODULE_ERROR_UNAUTHORIZED": "Autorizacija nepavyko.",
+	"MODULE_ERROR_UNSPECIFIED": "Patikrinkite žurnalus, kad gautumėte daugiau informacijos.",
+
+	"NEWSFEED_NO_ITEMS": "Šiuo metu naujienų nėra.",
 
 	"UPDATE_NOTIFICATION": "Galimas MagicMirror² naujinimas.",
 	"UPDATE_NOTIFICATION_MODULE": "Galimas {MODULE_NAME} naujinimas.",
 	"UPDATE_INFO_SINGLE": "Šis įdiegimas atsilieka {COMMIT_COUNT} įsipareigojimu {BRANCH_NAME} šakoje.",
-	"UPDATE_INFO_MULTIPLE": "Šis įdiegimas atsilieka {COMMIT_COUNT} įsipareigojimais {BRANCH_NAME} šakoje."
+	"UPDATE_INFO_MULTIPLE": "Šis įdiegimas atsilieka {COMMIT_COUNT} įsipareigojimais {BRANCH_NAME} šakoje.",
+	"UPDATE_NOTIFICATION_DONE": "Naujinimas {MODULE_NAME} baigtas.",
+	"UPDATE_NOTIFICATION_ERROR": "Klaida atnaujinant {MODULE_NAME}.",
+	"UPDATE_NOTIFICATION_NEED-RESTART": "Reikalingas MagicMirror perkrovimas."
 }

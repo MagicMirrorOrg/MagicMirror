@@ -1,28 +1,28 @@
-const util = require("util");
-const exec = util.promisify(require("child_process").exec);
-const fs = require("fs");
-const path = require("path");
+const util = require("node:util");
+const exec = util.promisify(require("node:child_process").exec);
+const fs = require("node:fs");
+const path = require("node:path");
 const Log = require("logger");
 
 const BASE_DIR = path.normalize(`${__dirname}/../../../`);
 
 class GitHelper {
-	constructor() {
+	constructor () {
 		this.gitRepos = [];
 		this.gitResultList = [];
 	}
 
-	getRefRegex(branch) {
+	getRefRegex (branch) {
 		return new RegExp(`s*([a-z,0-9]+[.][.][a-z,0-9]+)  ${branch}`, "g");
 	}
 
-	async execShell(command) {
+	async execShell (command) {
 		const { stdout = "", stderr = "" } = await exec(command);
 
 		return { stdout, stderr };
 	}
 
-	async isGitRepo(moduleFolder) {
+	async isGitRepo (moduleFolder) {
 		const { stderr } = await this.execShell(`cd ${moduleFolder} && git remote -v`);
 
 		if (stderr) {
@@ -34,7 +34,7 @@ class GitHelper {
 		return true;
 	}
 
-	async add(moduleName) {
+	async add (moduleName) {
 		let moduleFolder = BASE_DIR;
 
 		if (moduleName !== "MagicMirror") {
@@ -59,7 +59,7 @@ class GitHelper {
 		}
 	}
 
-	async getStatusInfo(repo) {
+	async getStatusInfo (repo) {
 		let gitInfo = {
 			module: repo.module,
 			behind: 0, // commits behind
@@ -114,7 +114,7 @@ class GitHelper {
 		return gitInfo;
 	}
 
-	async getRepoInfo(repo) {
+	async getRepoInfo (repo) {
 		const gitInfo = await this.getStatusInfo(repo);
 
 		if (!gitInfo || !gitInfo.current) {
@@ -128,7 +128,7 @@ class GitHelper {
 		const { stderr } = await this.execShell(`cd ${repo.folder} && git fetch -n --dry-run`);
 
 		// example output:
-		// From https://github.com/MichMich/MagicMirror
+		// From https://github.com/MagicMirrorOrg/MagicMirror
 		//    e40ddd4..06389e3  develop    -> origin/develop
 		// here the result is in stderr (this is a git default, don't ask why ...)
 		const matches = stderr.match(this.getRefRegex(gitInfo.current));
@@ -174,7 +174,7 @@ class GitHelper {
 		}
 	}
 
-	async getRepos() {
+	async getRepos () {
 		this.gitResultList = [];
 
 		for (const repo of this.gitRepos) {
@@ -192,7 +192,7 @@ class GitHelper {
 		return this.gitResultList;
 	}
 
-	async checkUpdates() {
+	async checkUpdates () {
 		var updates = [];
 
 		const allRepos = await this.gitResultList.map((module) => {
