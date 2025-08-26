@@ -1,5 +1,5 @@
 const { expect } = require("playwright/test");
-const { cors, getUserAgent } = require("../../../js/server_functions");
+const { cors, getUserAgent } = require("#server_functions");
 
 describe("server_functions tests", () => {
 	describe("The cors method", () => {

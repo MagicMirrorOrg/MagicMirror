@@ -9,10 +9,9 @@ const Log = require("logger");
 const Server = require(`${__dirname}/server`);
 const Utils = require(`${__dirname}/utils`);
 const defaultModules = require(`${__dirname}/../modules/default/defaultmodules`);
-const { getEnvVarsAsObj } = require(`${__dirname}/server_functions`);
-
 // used to control fetch timeout for node_helpers
 const { setGlobalDispatcher, Agent } = require("undici");
+const { getEnvVarsAsObj } = require("#server_functions");
 // common timeout value, provide environment override in case
 const fetch_timeout = process.env.mmFetchTimeout !== undefined ? process.env.mmFetchTimeout : 30000;
 

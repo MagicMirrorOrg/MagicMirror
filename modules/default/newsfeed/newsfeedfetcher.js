@@ -5,7 +5,7 @@ const iconv = require("iconv-lite");
 const { htmlToText } = require("html-to-text");
 const Log = require("logger");
 const NodeHelper = require("node_helper");
-const { getUserAgent } = require("../../../js/server_functions");
+const { getUserAgent } = require("#server_functions");
 const { scheduleTimer } = require("#module_functions");
 
 /**
