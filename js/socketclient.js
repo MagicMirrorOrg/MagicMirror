@@ -13,7 +13,9 @@ const MMSocket = function (moduleName) {
 		base = config.basePath;
 	}
 	this.socket = io(`/${this.moduleName}`, {
-		path: `${base}socket.io`
+		path: `${base}socket.io`,
+		pingInterval: 120000, // send pings every 2 mins     // add
+		pingTimeout: 120000 // wait up to 2 mins for a pong  // add
 	});
 
 	let notificationCallback = function () {};

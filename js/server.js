@@ -42,7 +42,9 @@ function Server (config) {
 					origin: /.*$/,
 					credentials: true
 				},
-				allowEIO3: true
+				allowEIO3: true,
+				pingInterval: 120000, // server → client ping every 2 mins   //add
+				pingTimeout: 120000 // wait up to 2 mins for client pong   //add
 			});
 
 			server.on("connection", (socket) => {
