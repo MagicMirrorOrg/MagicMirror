@@ -15,7 +15,7 @@ Thanks to: @dathbe.
 
 ### Added
 
-- Added configuration option for `User-Agent`, used by calendar & news module
+- Added configuration option for `User-Agent`, used by calendar & news module (#3255)
 
 ### Changed
 
