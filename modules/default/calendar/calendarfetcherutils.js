@@ -16,7 +16,7 @@ const CalendarFetcherUtils = {
 	 * until: the date until the event should be excluded.
 	 */
 	shouldEventBeExcluded (config, title) {
-		let filter = {
+		let result = { // change name
 			excluded: false,
 			until: null
 		};
@@ -52,17 +52,20 @@ const CalendarFetcherUtils = {
 			} else {
 				filter = filter.toLowerCase();
 			}
-
+			Log.debug("should be excluded ", testTitle, filter, useRegex, regexFlags);
 			if (CalendarFetcherUtils.titleFilterApplies(testTitle, filter, useRegex, regexFlags)) {
 				if (until) {
-					filter.until = until;
+					result.until = until; // change assignment
 				} else {
-					filter.excluded = true;
+					Log.debug("event should be excluded = true,", testTitle);
+					result.excluded = true; // change assignment
 				}
+				Log.debug("filter applies result =", result);
 				break;
 			}
 		}
-		return filter;
+		Log.debug("filter applies returning =", result);
+		return result; // return outer
 	},
 
 	/**
