@@ -52,19 +52,15 @@ const CalendarFetcherUtils = {
 			} else {
 				filter = filter.toLowerCase();
 			}
-			Log.debug("should be excluded ", testTitle, filter, useRegex, regexFlags);
 			if (CalendarFetcherUtils.titleFilterApplies(testTitle, filter, useRegex, regexFlags)) {
 				if (until) {
 					result.until = until;
 				} else {
-					Log.debug("event should be excluded = true,", testTitle);
 					result.excluded = true; // change assignment
 				}
-				Log.debug("filter applies result =", result);
 				break;
 			}
 		}
-		Log.debug("filter applies returning =", result);
 		return result; // return outer
 	},
 
