@@ -705,7 +705,7 @@ Module.register("calendar", {
 		 * Limit the number of days displayed
 		 * If limitDays is set > 0, limit display to that number of days
 		 */
-		if (this.config.limitDays > 0 && events.length > 0) {
+		if (this.config.limitDays > 0 && events.length > 0) { // watch out for initial display before events arrive from helper
 			// Group all events by date, events on the same date will be in a list with the key being the date.
 			const eventsByDate = Object.groupBy(events, (ev) => this.timestampToMoment(ev.startDate).format("YYYY-MM-DD"));
 			const newEvents = [];
