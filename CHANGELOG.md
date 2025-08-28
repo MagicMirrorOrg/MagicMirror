@@ -26,7 +26,7 @@ Thanks to: @dathbe.
 - [tests] refactor: extract constants for weather electron tests (#3845)
 - [tests] refactor: add `setupDOMEnvironment` helper function to eliminate repetitive JSDOM setup code (#3860)
 - [tests] replace `console` with `Log` in calendar `debug.js` to avoid exception in eslint config (#3846)
-- [tests] speed up e2e tests, cleanup and stabilize weather e2e tests (#3847, #3848)
+- [tests] speed up e2e tests, cleanup and stabilize weather e2e tests, update snapshot url (#3847, #3848, #3861)
 
 ### Updated
 
@@ -37,6 +37,8 @@ Thanks to: @dathbe.
 - [calendar] Fixed broken unittest that only broke on the 1st of July and 1st of january (#3830)
 - [clock] Fixed missing icons when no other modules with icons is loaded (#3834)
 - [weather] Fixed handling of empty values in weathergov providers handling of precipitationAmount (#3859)
+- [calendar] Fix regression handling of limit days (#3840)
+- [calendar] Fixed regression of calendarfetcherutils.shouldEventBeExcluded (#3841)
 - [core] Fixed socket.io timeout when server is slow to send notification, notification lost at client (#3380)
 
 ## [2.32.0] - 2025-07-01
