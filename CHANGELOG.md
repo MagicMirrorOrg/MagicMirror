@@ -34,6 +34,7 @@ Thanks to: @dathbe.
   - Simplify DOM setup by removing unnecessary Promise/async patterns
   - Avoid potential port conflicts by using port 3001 for translator unit tests
   - Improve test reliability and maintainability
+- [tests] add alert module tests for different welcome_message configurations (#3867)
 
 ### Updated
 
