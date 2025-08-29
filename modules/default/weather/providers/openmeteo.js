@@ -381,6 +381,7 @@ WeatherProvider.register("openmeteo", {
 		currentWeather.maxTemperature = parseFloat(weather.daily[0].temperature_2m_max);
 		currentWeather.weatherType = this.convertWeatherType(weather.current_weather.weathercode, currentWeather.isDayTime());
 		currentWeather.humidity = parseFloat(weather.hourly[h].relativehumidity_2m);
+		currentWeather.feelsLikeTemp = parseFloat(weather.hourly[h].apparent_temperature);
 		currentWeather.rain = parseFloat(weather.hourly[h].rain);
 		currentWeather.snow = parseFloat(weather.hourly[h].snowfall * 10);
 		currentWeather.precipitationAmount = parseFloat(weather.hourly[h].precipitation);
