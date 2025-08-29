@@ -13,7 +13,7 @@ WeatherProvider.register("openmeteo", {
 
 	/*
 	 * Set the name of the provider.
-	 * Not strictly required, but helps for debugging.
+	 * Not strictly required but helps for debugging.
 	 */
 	providerName: "Open-Meteo",
 
@@ -348,7 +348,7 @@ WeatherProvider.register("openmeteo", {
 	generateWeatherDayFromCurrentWeather (weather) {
 
 		/**
-		 * Since some units comes from API response "splitted" into daily, hourly and current_weather
+		 * Since some units come from API response "splitted" into daily, hourly and current_weather
 		 * every time you request it, you have to ensure to get the data from the right place every time.
 		 * For the current weather case, the response have the following structure (after transposing):
 		 * ```

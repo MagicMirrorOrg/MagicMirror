@@ -2,7 +2,7 @@ const weather = require("../../../../../modules/default/weather/weatherutils");
 const WeatherUtils = require("../../../../../modules/default/weather/weatherutils");
 
 describe("Weather utils tests", () => {
-	describe("windspeed conversion to imperial", () => {
+	describe("temperature conversion to imperial", () => {
 		it("should convert temp correctly from Celsius to Fahrenheit", () => {
 			expect(Math.round(WeatherUtils.convertTemp(10, "imperial"))).toBe(50);
 		});

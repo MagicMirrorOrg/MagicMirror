@@ -53,7 +53,7 @@ const WeatherUtils = {
 	/**
 	 * Convert temp (from degrees C) into imperial or metric unit depending on
 	 * your config
-	 * @param {number} tempInC the temperature in celsius you want to convert
+	 * @param {number} tempInC the temperature in Celsius you want to convert
 	 * @param {string} unit can be 'imperial' or 'metric'
 	 * @returns {number} the converted temperature
 	 */
