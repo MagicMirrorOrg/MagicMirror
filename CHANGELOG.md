@@ -48,6 +48,7 @@ Thanks to: @dathbe.
 - [calendar] Fix regression handling of limit days (#3840)
 - [calendar] Fixed regression of calendarfetcherutils.shouldEventBeExcluded (#3841)
 - [core] Fixed socket.io timeout when server is slow to send notification, notification lost at client (#3380)
+- [weather] Use `apparent_temperature` data from openmeteo's hourly weather for current feelsLikeTemp ().
 
 ## [2.32.0] - 2025-07-01
 
@@ -729,7 +730,7 @@ Special thanks to the following contributors: @AmpioRosso, @eouia, @fewieden, @j
 ### Fixed
 
 - Fixed wrong file `kr.json` to `ko.json`. Use language code 'ko' instead of 'kr' for Korean language.
-- Fixed `feels_like` data from openweathermap's current weather being ignored (#2678).
+- [weather] Fixed `feels_like` data from openweathermap's current weather being ignored (#2678).
 - Fixed chaotic newsfeed display after network connection loss thanks to @jalibu (#2638).
 - Fixed incorrect time zone correction of recurring full day events (#2632 and #2634).
 - Fixed e2e tests by increasing testTimeout.
