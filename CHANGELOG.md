@@ -48,7 +48,7 @@ Thanks to: @dathbe.
 - [calendar] Fix regression handling of limit days (#3840)
 - [calendar] Fixed regression of calendarfetcherutils.shouldEventBeExcluded (#3841)
 - [core] Fixed socket.io timeout when server is slow to send notification, notification lost at client (#3380)
-- [weather] Use `apparent_temperature` data from openmeteo's hourly weather for current feelsLikeTemp ().
+- [weather] Use `apparent_temperature` data from openmeteo's hourly weather for current feelsLikeTemp (#3868).
 
 ## [2.32.0] - 2025-07-01
 
