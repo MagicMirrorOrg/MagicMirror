@@ -3,8 +3,16 @@ const WeatherUtils = require("../../../../../modules/default/weather/weatherutil
 
 describe("Weather utils tests", () => {
 	describe("temperature conversion to imperial", () => {
+		it("should convert temp correctly from Celsius to Celsius", () => {
+			expect(Math.round(WeatherUtils.convertTemp(10, "metric"))).toBe(10);
+		});
+
 		it("should convert temp correctly from Celsius to Fahrenheit", () => {
 			expect(Math.round(WeatherUtils.convertTemp(10, "imperial"))).toBe(50);
+		});
+
+		it("should convert temp correctly from Fahrenheit to Celsius", () => {
+			expect(Math.round(WeatherUtils.convertTempToMetric(10))).toBe(-12);
 		});
 	});
 
