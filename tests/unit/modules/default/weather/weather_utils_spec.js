@@ -44,11 +44,11 @@ describe("Weather utils tests", () => {
 
 	describe("feelsLike calculation", () => {
 		it("should return a calculated feelsLike info (negative value)", () => {
-			expect(WeatherUtils.calculateFeelsLike(0, 20, 40)).toBe(-9.444444444444445);
+			expect(WeatherUtils.calculateFeelsLike(0, 20, 40)).toBe(-9.397005931555448);
 		});
 
 		it("should return a calculated feelsLike info (positive value)", () => {
-			expect(WeatherUtils.calculateFeelsLike(30, 0, 60)).toBe(32.8320322777777);
+			expect(WeatherUtils.calculateFeelsLike(30, 0, 60)).toBe(32.832032277777756);
 		});
 	});
 

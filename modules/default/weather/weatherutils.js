@@ -62,6 +62,15 @@ const WeatherUtils = {
 	},
 
 	/**
+	 * Convert temp (from degrees C) into metric unit
+	 * @param {number} tempInF the temperature in Fahrenheit you want to convert
+	 * @returns {number} the converted temperature
+	 */
+	convertTempToMetric (tempInF) {
+		return ((tempInF - 32) * 5) / 9;
+	},
+
+	/**
 	 * Convert wind speed into another unit.
 	 * @param {number} windInMS the windspeed in meter/sec you want to convert
 	 * @param {string} unit can be 'beaufort', 'kmh', 'knots, 'imperial' (mph)
@@ -118,27 +127,51 @@ const WeatherUtils = {
 		return kmh * 0.27777777777778;
 	},
 
+	/**
+	 * Taken from https://community.home-assistant.io/t/calculating-apparent-feels-like-temperature/370834/18
+	 * @param {number} temperature temperature in degrees Celsius
+	 * @param {number} windSpeed wind speed in meter/second
+	 * @param {number} humidity relative humidity in percent
+	 * @returns {number} the feels like temperature in degrees Celsius
+	 */
 	calculateFeelsLike (temperature, windSpeed, humidity) {
 		const windInMph = this.convertWind(windSpeed, "imperial");
 		const tempInF = this.convertTemp(temperature, "imperial");
-		let feelsLike = tempInF;
 
-		if (windInMph > 3 && tempInF < 50) {
-			feelsLike = Math.round(35.74 + 0.6215 * tempInF - 35.75 * Math.pow(windInMph, 0.16) + 0.4275 * tempInF * Math.pow(windInMph, 0.16));
-		} else if (tempInF > 80 && humidity > 40) {
-			feelsLike
-				= -42.379
-				  + 2.04901523 * tempInF
-				  + 10.14333127 * humidity
-				  - 0.22475541 * tempInF * humidity
-				  - 6.83783 * Math.pow(10, -3) * tempInF * tempInF
-				  - 5.481717 * Math.pow(10, -2) * humidity * humidity
-				  + 1.22874 * Math.pow(10, -3) * tempInF * tempInF * humidity
-				  + 8.5282 * Math.pow(10, -4) * tempInF * humidity * humidity
-				  - 1.99 * Math.pow(10, -6) * tempInF * tempInF * humidity * humidity;
+		let HI;
+		let WC = tempInF;
+
+		// Calculate wind chill for certain conditions
+		if (tempInF <= 70 && windInMph >= 3) {
+			WC = 35.74 + (0.6215 * tempInF) - 35.75 * Math.pow(windInMph, 0.16) + ((0.4275 * tempInF) * Math.pow(windInMph, 0.16));
 		}
 
-		return ((feelsLike - 32) * 5) / 9;
+		// Steadman Heat Index Vorberechnung
+		const STEADMAN_HI = 0.5 * (tempInF + 61.0 + ((tempInF - 68.0) * 1.2) + (humidity * 0.094));
+
+		if (STEADMAN_HI >= 80) {
+			// Rothfusz-Komplex
+			const ROTHFUSZ_HI = -42.379 + 2.04901523 * tempInF + 10.14333127 * humidity - 0.22475541 * tempInF * humidity - 0.00683783 * tempInF * tempInF - 0.05481717 * humidity * humidity + 0.00122874 * tempInF * tempInF * humidity + 0.00085282 * tempInF * humidity * humidity - 0.00000199 * tempInF * tempInF * humidity * humidity;
+
+			HI = ROTHFUSZ_HI;
+
+			if (humidity < 13 && tempInF > 80 && tempInF < 112) {
+				const ADJUSTMENT = ((13 - humidity) / 4) * Math.pow(Math.abs(17 - (tempInF - 95)), 0.5) / 17; // sqrt Teil
+				HI = HI - ADJUSTMENT;
+			} else if (humidity > 85 && tempInF > 80 && tempInF < 87) {
+				const ADJUSTMENT = ((humidity - 85) / 10) * ((87 - tempInF) / 5);
+				HI = HI + ADJUSTMENT;
+			}
+
+		} else { HI = STEADMAN_HI; }
+
+		// Feuchte Lastberechnung FL
+		let FL;
+		if (tempInF < 50) { FL = WC; }
+		else if (tempInF >= 50 && tempInF < 70) { FL = ((70 - tempInF) / 20) * WC + ((tempInF - 50) / 20) * HI; }
+		else if (tempInF >= 70) { FL = HI; }
+
+		return this.convertTempToMetric(FL);
 	},
 
 	/**
