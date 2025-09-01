@@ -39,6 +39,7 @@ Thanks to: @dathbe.
 ### Updated
 
 - [core] Update dependencies including electron to v37 as well as github actions (#3831, #3849, #3857, #3858)
+- [weather] Update feels_like temperature calculation formula (#3869)
 
 ### Fixed
 
