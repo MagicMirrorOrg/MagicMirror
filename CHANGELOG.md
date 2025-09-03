@@ -13,6 +13,8 @@ planned for 2025-10-01
 
 Thanks to: @dathbe.
 
+> ⚠️ This release needs nodejs version `v22.18.0 or higher`
+
 ### Added
 
 - Added configuration option for `User-Agent`, used by calendar & news module (#3255)

@@ -119,7 +119,7 @@
 		"electron": "^38.0.0"
 	},
 	"engines": {
-		"node": ">=22.14.0"
+		"node": ">=22.18.0"
 	},
 	"_moduleAliases": {
 		"node_helper": "js/node_helper.js",
