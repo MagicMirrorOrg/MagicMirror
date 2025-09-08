@@ -24,6 +24,8 @@
  * with locations you can search under column B (English Names), with the corresponding siteCode under
  * column A (Codes) and provCode under column C (Province).
  *
+ * Acknowledgement: Some logic and code for parsing Environment Canada web pages is based on material from MMM-EnvCanada
+ *
  * License to use Environment Canada (EC) data is detailed here:
  * 	https://eccc-msc.github.io/open-data/licence/readme_en/
  */
@@ -106,7 +108,7 @@ WeatherProvider.register("envcanada", {
 	 * 1. Query the MSC Datamart Index page, which returns a list of all the filenames for all the cities that have
 	 *    weather data currently available.
 	 *
-	 * 2. With the city filename identified, build the approrpiate URL and get the weather data (XML document) for the
+	 * 2. With the city filename identified, build the appropriate URL and get the weather data (XML document) for the
 	 *    city specified in the Weather module Config information
 	 */
 	fetchCommon (target) {
@@ -114,7 +116,7 @@ WeatherProvider.register("envcanada", {
 		const forecastURL = this.getUrl(); // Get the approriate URL for the MSC Datamart Index page
 
 		if (this.config.debug) {
-			Log.info(`weather.envcanada ${target} Index url: ${forecastURL}`);
+			Log.debug(`[weather.envcanada] ${target} Index url: ${forecastURL}`);
 		}
 
 		this.fetchData(forecastURL, "xml") // Query the Index page URL
@@ -146,7 +148,7 @@ WeatherProvider.register("envcanada", {
 				}
 
 				if (this.config.debug) {
-					Log.info(`weather.envcanada ${target} Citypage url: ${forecastFileURL}`);
+					Log.debug(`[weather.envcanada] ${target} Citypage url: ${forecastFileURL}`);
 				}
 
 				/*
@@ -156,7 +158,7 @@ WeatherProvider.register("envcanada", {
 
 				if (target === "Current" && this.lastCityPageCurrent === forecastFileURL) {
 					if (this.config.debug) {
-						Log.info(`weather.envcanada ${target} - Newest Citypage has already been seen - skipping!`);
+						Log.debug(`[weather.envcanada] ${target} - Newest Citypage has already been seen - skipping!`);
 					}
 					this.updateAvailable(); // Update anyways to reset refresh timer
 					return;
@@ -164,7 +166,7 @@ WeatherProvider.register("envcanada", {
 
 				if (target === "Forecast" && this.lastCityPageForecast === forecastFileURL) {
 					if (this.config.debug) {
-						Log.info(`weather.envcanada ${target} - Newest Citypage has already been seen - skipping!`);
+						Log.debug(`[weather.envcanada] ${target} - Newest Citypage has already been seen - skipping!`);
 					}
 					this.updateAvailable(); // Update anyways to reset refresh timer
 					return;
@@ -173,7 +175,7 @@ WeatherProvider.register("envcanada", {
 
 				if (target === "Hourly" && this.lastCityPageHourly === forecastFileURL) {
 					if (this.config.debug) {
-						Log.info(`weather.envcanada ${target} - Newest Citypage has already been seen - skipping!`);
+						Log.debug(`[weather.envcanada] ${target} - Newest Citypage has already been seen - skipping!`);
 					}
 					this.updateAvailable(); // Update anyways to reset refresh timer
 					return;
@@ -193,7 +195,7 @@ WeatherProvider.register("envcanada", {
 			 * elements to create a weather object. Next, set Weather modules details from that object.
 			 */
 						if (this.config.debug) {
-							Log.info(`weather.envcanada ${target} - Citypage has been read and will be processed for updates`);
+							Log.debug(`[weather.envcanada] ${target} - Citypage has been read and will be processed for updates`);
 						}
 
 
