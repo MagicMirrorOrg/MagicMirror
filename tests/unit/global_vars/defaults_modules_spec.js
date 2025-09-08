@@ -4,7 +4,7 @@ const path = require("node:path");
 const root_path = path.join(__dirname, "../../..");
 
 describe("Default modules set in modules/default/defaultmodules.js", () => {
-	const expectedDefaultModules = require("../../../modules/default/defaultmodules");
+	const expectedDefaultModules = require(`${root_path}/modules/default/defaultmodules`);
 
 	for (const defaultModule of expectedDefaultModules) {
 		it(`contains a folder for modules/default/${defaultModule}"`, () => {

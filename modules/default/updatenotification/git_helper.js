@@ -4,8 +4,6 @@ const fs = require("node:fs");
 const path = require("node:path");
 const Log = require("logger");
 
-const BASE_DIR = path.normalize(`${__dirname}/../../../`);
-
 class GitHelper {
 	constructor () {
 		this.gitRepos = [];
@@ -35,10 +33,10 @@ class GitHelper {
 	}
 
 	async add (moduleName) {
-		let moduleFolder = BASE_DIR;
+		let moduleFolder = `${global.root_path}`;
 
 		if (moduleName !== "MagicMirror") {
-			moduleFolder = `${moduleFolder}modules/${moduleName}`;
+			moduleFolder = `${moduleFolder}/modules/${moduleName}`;
 		}
 
 		try {

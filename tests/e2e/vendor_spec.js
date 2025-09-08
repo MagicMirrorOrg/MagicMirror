@@ -9,7 +9,7 @@ describe("Vendors", () => {
 	});
 
 	describe("Get list vendors", () => {
-		const vendors = require(`${__dirname}/../../js/vendor.js`);
+		const vendors = require(`${global.root_path}/js/vendor.js`);
 
 		Object.keys(vendors).forEach((vendor) => {
 			it(`should return 200 HTTP code for vendor "${vendor}"`, async () => {

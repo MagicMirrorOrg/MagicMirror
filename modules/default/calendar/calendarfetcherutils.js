@@ -3,7 +3,7 @@
  */
 const moment = require("moment-timezone");
 
-const Log = require("../../../js/logger");
+const Log = require("logger");
 
 const CalendarFetcherUtils = {
 
