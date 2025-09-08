@@ -41,7 +41,7 @@ Thanks to: @dathbe.
 ### Updated
 
 - [calendar] Update defaultSymbol name and also the link to the icon search site (#3879)
-- [core] Update dependencies including electron to v38 as well as github actions (#3831, #3849, #3857, #3858, #3872, #3876)
+- [core] Update dependencies including electron to v38 as well as github actions (#3831, #3849, #3857, #3858, #3872, #3876, #3882)
 - [weather] Update feels_like temperature calculation formula (#3869)
 
 ### Fixed
