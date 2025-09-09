@@ -5,8 +5,9 @@ const Ajv = require("ajv");
 const globals = require("globals");
 const { Linter } = require("eslint");
 
-const Log = require(`${global.root_path}/js/logger.js`);
-const Utils = require(`${global.root_path}/js/utils.js`);
+const rootPath = path.resolve(`${__dirname}/../`);
+const Log = require(`${rootPath}/js/logger.js`);
+const Utils = require(`${rootPath}/js/utils.js`);
 
 const linter = new Linter({ configType: "flat" });
 const ajv = new Ajv();
@@ -18,7 +19,7 @@ const ajv = new Ajv();
  */
 function getConfigFile () {
 	// FIXME: This function should be in core. Do you want refactor me ;) ?, be good!
-	return path.resolve(process.env.MM_CONFIG_FILE || `${global.root_path}/config/config.js`);
+	return path.resolve(process.env.MM_CONFIG_FILE || `${rootPath}/config/config.js`);
 }
 
 /**
