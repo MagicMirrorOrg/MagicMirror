@@ -35,7 +35,6 @@ WeatherProvider.register("envcanada", {
 
 	// Set the default config properties that is specific to this provider
 	defaults: {
-		debug: false,
 		useCorsProxy: true,
 		siteCode: "s1234567",
 		provCode: "ON"
@@ -73,7 +72,6 @@ WeatherProvider.register("envcanada", {
 
 		this.fetchCommon("Current");
 
-
 	},
 
 	/*
@@ -84,7 +82,6 @@ WeatherProvider.register("envcanada", {
 
 		this.fetchCommon("Forecast");
 
-
 	},
 
 	/*
@@ -94,7 +91,6 @@ WeatherProvider.register("envcanada", {
 	fetchWeatherHourly () {
 
 		this.fetchCommon("Hourly");
-
 
 	},
 
@@ -115,9 +111,7 @@ WeatherProvider.register("envcanada", {
 
 		const forecastURL = this.getUrl(); // Get the approriate URL for the MSC Datamart Index page
 
-		if (this.config.debug) {
-			Log.debug(`[weather.envcanada] ${target} Index url: ${forecastURL}`);
-		}
+		Log.debug(`[weather.envcanada] ${target} Index url: ${forecastURL}`);
 
 		this.fetchData(forecastURL, "xml") // Query the Index page URL
 			.then((indexData) => {
@@ -147,36 +141,28 @@ WeatherProvider.register("envcanada", {
 					forecastFileURL = forecastURL + forecastFile; // Create full URL to the city's weather data
 				}
 
-				if (this.config.debug) {
-					Log.debug(`[weather.envcanada] ${target} Citypage url: ${forecastFileURL}`);
-				}
+				Log.debug(`[weather.envcanada] ${target} Citypage url: ${forecastFileURL}`);
 
-				/*
+			/*
 			 * If the Citypage filename has not changed since the last Weather refresh, the forecast has not changed and
 			 * and therefore we can skip reading the Citypage URL.
 			 */
 
 				if (target === "Current" && this.lastCityPageCurrent === forecastFileURL) {
-					if (this.config.debug) {
-						Log.debug(`[weather.envcanada] ${target} - Newest Citypage has already been seen - skipping!`);
-					}
+					Log.debug(`[weather.envcanada] ${target} - Newest Citypage has already been seen - skipping!`);
 					this.updateAvailable(); // Update anyways to reset refresh timer
 					return;
 				}
 
 				if (target === "Forecast" && this.lastCityPageForecast === forecastFileURL) {
-					if (this.config.debug) {
-						Log.debug(`[weather.envcanada] ${target} - Newest Citypage has already been seen - skipping!`);
-					}
+					Log.debug(`[weather.envcanada] ${target} - Newest Citypage has already been seen - skipping!`);
 					this.updateAvailable(); // Update anyways to reset refresh timer
 					return;
 				}
 
 
 				if (target === "Hourly" && this.lastCityPageHourly === forecastFileURL) {
-					if (this.config.debug) {
-						Log.debug(`[weather.envcanada] ${target} - Newest Citypage has already been seen - skipping!`);
-					}
+					Log.debug(`[weather.envcanada] ${target} - Newest Citypage has already been seen - skipping!`);
 					this.updateAvailable(); // Update anyways to reset refresh timer
 					return;
 				}
@@ -194,10 +180,7 @@ WeatherProvider.register("envcanada", {
 			 * With the city's weather data read, parse the resulting XML document for the appropriate weather data
 			 * elements to create a weather object. Next, set Weather modules details from that object.
 			 */
-						if (this.config.debug) {
-							Log.debug(`[weather.envcanada] ${target} - Citypage has been read and will be processed for updates`);
-						}
-
+						Log.debug(`[weather.envcanada] ${target} - Citypage has been read and will be processed for updates`);
 
 						if (target === "Current") {
 
