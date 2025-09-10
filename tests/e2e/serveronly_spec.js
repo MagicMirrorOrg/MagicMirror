@@ -24,3 +24,11 @@ describe("App environment", () => {
 		expect(res.status).toBe(404);
 	});
 });
+
+describe("Check config", () => {
+	it("config check should return without errors", async () => {
+		process.env.MM_CONFIG_FILE = "tests/configs/default.js";
+		const serverProcess = await require("node:child_process").spawnSync("node", ["--run", "config:check"], { env: process.env });
+		expect(serverProcess.stderr.toString()).toBe("");
+	});
+});
