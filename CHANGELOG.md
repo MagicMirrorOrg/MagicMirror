@@ -18,6 +18,7 @@ Thanks to: @dathbe.
 ### Added
 
 - Added configuration option for `User-Agent`, used by calendar & news module (#3255)
+- [linter] Added prettier plugin for nunjuck templates (#3887)
 
 ### Changed
 
@@ -308,7 +309,7 @@ For more info, please read the following post: [A New Chapter for MagicMirror: T
 ### Added
 
 - Output of system information to the console for troubleshooting (#3328 and #3337), ignore errors under aarch64 (#3349)
-- [core] Add `eslint-plugin-package-json` to lint the `package.json` files (#3368)
+- [linter] Add `eslint-plugin-package-json` to lint the `package.json` files (#3368)
 - [weather] `showHumidity` config is now a string describing where to show this element. Supported values: "wind", "temp", "feelslike", "below", "none". (#3330)
 - electron-rebuild test suite for electron and 3rd party modules compatibility (#3392)
 - Create MM² icon and attach it to electron process (#3407)
@@ -470,7 +471,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Added UV Index to hourly and current Weather, with support for Openmeteo
 - Added tests for serveronly
 - Set Timezone `Europe/Berlin` in unit tests (needed for new formatTime tests)
-- Added no-param-reassign eslint rule and fix warnings
+- [linter] Added no-param-reassign eslint rule and fix warnings
 - [updatenotification] Added `sendUpdatesNotifications` feature. Broadcast update with `UPDATES` notification to other modules
 - [updatenotification] Allow force scanning with `SCAN_UPDATES` notification from other modules
 - Added per-calendar fetchInterval
