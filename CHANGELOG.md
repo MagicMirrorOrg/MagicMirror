@@ -39,6 +39,7 @@ Thanks to: @dathbe.
   - Avoid potential port conflicts by using port 3001 for translator unit tests
   - Improve test reliability and maintainability
 - [tests] add alert module tests for different welcome_message configurations (#3867)
+- [lint-staged] use `prettier --write --ignore-unknown` in `lint-staged` to avoid errors on unsupported files
 
 ### Updated
 
