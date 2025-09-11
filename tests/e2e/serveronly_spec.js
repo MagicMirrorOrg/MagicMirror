@@ -2,6 +2,12 @@ const delay = (time) => {
 	return new Promise((resolve) => setTimeout(resolve, time));
 };
 
+const runConfigCheck = async () => {
+	const serverProcess = await require("node:child_process").spawnSync("node", ["--run", "config:check"], { env: process.env });
+	expect(serverProcess.stderr.toString()).toBe("");
+	return await serverProcess.status;
+};
+
 describe("App environment", () => {
 	let serverProcess;
 	beforeAll(async () => {
@@ -28,7 +34,11 @@ describe("App environment", () => {
 describe("Check config", () => {
 	it("config check should return without errors", async () => {
 		process.env.MM_CONFIG_FILE = "tests/configs/default.js";
-		const serverProcess = await require("node:child_process").spawnSync("node", ["--run", "config:check"], { env: process.env });
-		expect(serverProcess.stderr.toString()).toBe("");
+		await expect(runConfigCheck()).resolves.toBe(0);
+	});
+
+	it("config check should fail with non existent config file", async () => {
+		process.env.MM_CONFIG_FILE = "tests/configs/not_exists.js";
+		await expect(runConfigCheck()).resolves.toBe(1);
 	});
 });

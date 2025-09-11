@@ -25,7 +25,7 @@ Thanks to: @dathbe.
 - [clock] Add CSS to prevent line breaking of sunset/sunrise time display (#3816)
 - [core] Enhance system information logging format and include additional env and RAM details (#3839, #3843)
 - [refactor] Add new file `js/module_functions.js` to move code used in several modules to one place (#3837)
-- [refactor] Use global.root_path where possible and add test for config:check (#3883, #3885, #3886)
+- [refactor] Use global.root_path where possible and add tests for config:check (#3883, #3885, #3886, #3889)
 - [tests] refactor: simplify jest config file (#3844)
 - [tests] refactor: extract constants for weather electron tests (#3845)
 - [tests] refactor: add `setupDOMEnvironment` helper function to eliminate repetitive JSDOM setup code (#3860)
