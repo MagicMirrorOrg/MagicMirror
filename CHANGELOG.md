@@ -17,8 +17,9 @@ Thanks to: @dathbe.
 
 ### Added
 
-- Added configuration option for `User-Agent`, used by calendar & news module (#3255)
-- [linter] Added prettier plugin for nunjuck templates (#3887)
+- Add configuration option for `User-Agent`, used by calendar & news module (#3255)
+- [linter] Add prettier plugin for nunjuck templates (#3887)
+- [core] Add clear log for occupied port at startup (#3890)
 
 ### Changed
 
