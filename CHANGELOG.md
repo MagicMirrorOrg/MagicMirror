@@ -45,7 +45,7 @@ Thanks to: @dathbe.
 ### Updated
 
 - [calendar] Update defaultSymbol name and also the link to the icon search site (#3879)
-- [core] Update dependencies including electron to v38 as well as github actions (#3831, #3849, #3857, #3858, #3872, #3876, #3882)
+- [core] Update dependencies including electron to v38 as well as github actions (#3831, #3849, #3857, #3858, #3872, #3876, #3882, #3891)
 - [weather] Update feels_like temperature calculation formula (#3869)
 
 ### Fixed
@@ -56,6 +56,7 @@ Thanks to: @dathbe.
 - [calendar] Fix regression handling of limit days (#3840)
 - [calendar] Fixed regression of calendarfetcherutils.shouldEventBeExcluded (#3841)
 - [core] Fixed socket.io timeout when server is slow to send notification, notification lost at client (#3380)
+- [tests] refactor AnimateCSS tests after jsdom 27 upgrade (#3891)
 - [weather] Use `apparent_temperature` data from openmeteo's hourly weather for current feelsLikeTemp (#3868).
 
 ## [2.32.0] - 2025-07-01
