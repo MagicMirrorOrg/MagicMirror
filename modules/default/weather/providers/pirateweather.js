@@ -34,7 +34,7 @@ WeatherProvider.register("pirateweather", {
 				this.setCurrentWeather(currentWeather);
 			})
 			.catch(function (request) {
-				Log.error("Could not load data ... ", request);
+				Log.error("[weatherprovider] Could not load data ... ", request);
 			})
 			.finally(() => this.updateAvailable());
 	},
@@ -51,7 +51,7 @@ WeatherProvider.register("pirateweather", {
 				this.setWeatherForecast(forecast);
 			})
 			.catch(function (request) {
-				Log.error("Could not load data ... ", request);
+				Log.error("[weatherprovider] Could not load data ... ", request);
 			})
 			.finally(() => this.updateAvailable());
 	},

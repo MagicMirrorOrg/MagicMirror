@@ -5,7 +5,7 @@ const CalendarFetcher = require("./calendarfetcher");
 module.exports = NodeHelper.create({
 	// Override start method.
 	start () {
-		Log.log(`Starting node helper for: ${this.name}`);
+		Log.log(`[calendar] Starting node helper for: ${this.name}`);
 		this.fetchers = [];
 	},
 
@@ -16,7 +16,7 @@ module.exports = NodeHelper.create({
 		} else if (notification === "FETCH_CALENDAR") {
 			const key = payload.id + payload.url;
 			if (typeof this.fetchers[key] === "undefined") {
-				Log.error("Calendar Error. No fetcher exists with key: ", key);
+				Log.error("[calendar] No fetcher exists with key: ", key);
 				this.sendSocketNotification("CALENDAR_ERROR", { error_type: "MODULE_ERROR_UNSPECIFIED" });
 				return;
 			}
@@ -41,7 +41,7 @@ module.exports = NodeHelper.create({
 		try {
 			new URL(url);
 		} catch (error) {
-			Log.error("Calendar Error. Malformed calendar url: ", url, error);
+			Log.error("[calendar] Malformed calendar url: ", url, error);
 			this.sendSocketNotification("CALENDAR_ERROR", { error_type: "MODULE_ERROR_MALFORMED_URL" });
 			return;
 		}
@@ -50,10 +50,10 @@ module.exports = NodeHelper.create({
 		let fetchIntervalCorrected;
 		if (typeof this.fetchers[identifier + url] === "undefined") {
 			if (fetchInterval < 60000) {
-				Log.warn(`fetchInterval for url ${url} must be >= 60000`);
+				Log.warn(`[calendar] fetchInterval for url ${url} must be >= 60000`);
 				fetchIntervalCorrected = 60000;
 			}
-			Log.log(`Create new calendarfetcher for url: ${url} - Interval: ${fetchIntervalCorrected || fetchInterval}`);
+			Log.log(`[calendar] Create new calendarfetcher for url: ${url} - Interval: ${fetchIntervalCorrected || fetchInterval}`);
 			fetcher = new CalendarFetcher(url, fetchIntervalCorrected || fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, broadcastPastEvents, selfSignedCert);
 
 			fetcher.onReceive((fetcher) => {
@@ -61,7 +61,7 @@ module.exports = NodeHelper.create({
 			});
 
 			fetcher.onError((fetcher, error) => {
-				Log.error("Calendar Error. Could not fetch calendar: ", fetcher.url(), error);
+				Log.error("[calendar] Calendar Error. Could not fetch calendar: ", fetcher.url(), error);
 				let error_type = NodeHelper.checkFetchError(error);
 				this.sendSocketNotification("CALENDAR_ERROR", {
 					id: identifier,
@@ -71,7 +71,7 @@ module.exports = NodeHelper.create({
 
 			this.fetchers[identifier + url] = fetcher;
 		} else {
-			Log.log(`Use existing calendarfetcher for url: ${url}`);
+			Log.log(`[calendar] Use existing calendarfetcher for url: ${url}`);
 			fetcher = this.fetchers[identifier + url];
 			fetcher.broadcastEvents();
 		}

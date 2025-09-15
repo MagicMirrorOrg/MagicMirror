@@ -41,11 +41,6 @@ WeatherProvider.register("weathergov", {
 		this.fetchWxGovURLs(this.config);
 	},
 
-	// Called when the weather provider is about to start.
-	start () {
-		Log.info(`Weather provider: ${this.providerName} started.`);
-	},
-
 	// This returns the name of the fetched location or an empty string.
 	fetchedLocation () {
 		return this.fetchedLocationName || "";
@@ -54,7 +49,7 @@ WeatherProvider.register("weathergov", {
 	// Overwrite the fetchCurrentWeather method.
 	fetchCurrentWeather () {
 		if (!this.configURLs) {
-			Log.info("fetchCurrentWeather: fetch wx waiting on config URLs");
+			Log.info("[weatherprovider] fetchCurrentWeather: fetch wx waiting on config URLs");
 			return;
 		}
 		this.fetchData(this.stationObsURL)
@@ -67,7 +62,7 @@ WeatherProvider.register("weathergov", {
 				this.setCurrentWeather(currentWeather);
 			})
 			.catch(function (request) {
-				Log.error("Could not load station obs data ... ", request);
+				Log.error("[weatherprovider] Could not load station obs data ... ", request);
 			})
 			.finally(() => this.updateAvailable());
 	},
@@ -75,7 +70,7 @@ WeatherProvider.register("weathergov", {
 	// Overwrite the fetchWeatherForecast method.
 	fetchWeatherForecast () {
 		if (!this.configURLs) {
-			Log.info("fetchWeatherForecast: fetch wx waiting on config URLs");
+			Log.info("[weatherprovider] fetchWeatherForecast: fetch wx waiting on config URLs");
 			return;
 		}
 		this.fetchData(this.forecastURL)
@@ -88,7 +83,7 @@ WeatherProvider.register("weathergov", {
 				this.setWeatherForecast(forecast);
 			})
 			.catch(function (request) {
-				Log.error("Could not load forecast hourly data ... ", request);
+				Log.error("[weatherprovider] Could not load forecast hourly data ... ", request);
 			})
 			.finally(() => this.updateAvailable());
 	},
@@ -96,7 +91,7 @@ WeatherProvider.register("weathergov", {
 	// Overwrite the fetchWeatherHourly method.
 	fetchWeatherHourly () {
 		if (!this.configURLs) {
-			Log.info("fetchWeatherHourly: fetch wx waiting on config URLs");
+			Log.info("[weatherprovider] fetchWeatherHourly: fetch wx waiting on config URLs");
 			return;
 		}
 		this.fetchData(this.forecastHourlyURL)
@@ -113,7 +108,7 @@ WeatherProvider.register("weathergov", {
 				this.setWeatherHourly(hourly);
 			})
 			.catch(function (request) {
-				Log.error("Could not load data ... ", request);
+				Log.error("[weatherprovider] Could not load data ... ", request);
 			})
 			.finally(() => this.updateAvailable());
 	},
@@ -131,7 +126,7 @@ WeatherProvider.register("weathergov", {
 					return;
 				}
 				this.fetchedLocationName = `${data.properties.relativeLocation.properties.city}, ${data.properties.relativeLocation.properties.state}`;
-				Log.log(`Forecast location is ${this.fetchedLocationName}`);
+				Log.log(`[weatherprovider] Forecast location is ${this.fetchedLocationName}`);
 				this.forecastURL = `${data.properties.forecast}?units=si`;
 				this.forecastHourlyURL = `${data.properties.forecastHourly}?units=si`;
 				this.forecastGridDataURL = data.properties.forecastGridData;
@@ -147,7 +142,7 @@ WeatherProvider.register("weathergov", {
 				this.stationObsURL = `${obsData.features[0].id}/observations/latest`;
 			})
 			.catch((err) => {
-				Log.error(err);
+				Log.error("[weatherprovider] fetchWxGovURLs error: ", err);
 			})
 			.finally(() => {
 				// excellent, let's fetch some actual wx data

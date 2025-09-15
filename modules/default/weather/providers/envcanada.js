@@ -60,7 +60,7 @@ WeatherProvider.register("envcanada", {
 	 * Called when the weather provider is started
 	 */
 	start () {
-		Log.info(`Weather provider: ${this.providerName} started.`);
+		Log.info(`[weatherprovider] ${this.providerName} started.`);
 		this.setFetchedLocation(this.config.location);
 	},
 

@@ -53,12 +53,12 @@ Module.register("compliments", {
 							this.compliments_new = JSON.parse(response);
 						}
 						else {
-							Log.error(`${this.name} remoteFile refresh failed`);
+							Log.error(`[compliments] ${this.name} remoteFile refresh failed`);
 						}
 					},
 					this.config.remoteFileRefreshInterval);
 				} else {
-					Log.error(`${this.name} remoteFileRefreshInterval less than minimum`);
+					Log.error(`[compliments] ${this.name} remoteFileRefreshInterval less than minimum`);
 				}
 			}
 		}
@@ -183,7 +183,7 @@ Module.register("compliments", {
 						// if so, use its notice entries
 						Array.prototype.push.apply(date_compliments, this.config.compliments[entry]);
 					}
-				} else Log.error(`compliments cron syntax invalid=${JSON.stringify(entry)}`);
+				} else Log.error(`[compliments] cron syntax invalid=${JSON.stringify(entry)}`);
 			} else if (new RegExp(entry).test(date)) {
 				Array.prototype.push.apply(date_compliments, this.config.compliments[entry]);
 			}
@@ -220,7 +220,7 @@ Module.register("compliments", {
 			const response = await fetch(url + this.urlSuffix);
 			return await response.text();
 		} catch (error) {
-			Log.info(`${this.name} fetch failed error=`, error);
+			Log.info(`[compliments] ${this.name} fetch failed error=`, error);
 		}
 	},
 

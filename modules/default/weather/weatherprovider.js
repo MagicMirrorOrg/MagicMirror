@@ -25,36 +25,36 @@ const WeatherProvider = Class.extend({
 	// Called when a weather provider is initialized.
 	init (config) {
 		this.config = config;
-		Log.info(`Weather provider: ${this.providerName} initialized.`);
+		Log.info(`[weatherprovider] ${this.providerName} initialized.`);
 	},
 
 	// Called to set the config, this config is the same as the weather module's config.
 	setConfig (config) {
 		this.config = config;
-		Log.info(`Weather provider: ${this.providerName} config set.`, this.config);
+		Log.info(`[weatherprovider] ${this.providerName} config set.`, this.config);
 	},
 
 	// Called when the weather provider is about to start.
 	start () {
-		Log.info(`Weather provider: ${this.providerName} started.`);
+		Log.info(`[weatherprovider] ${this.providerName} started.`);
 	},
 
 	// This method should start the API request to fetch the current weather.
 	// This method should definitely be overwritten in the provider.
 	fetchCurrentWeather () {
-		Log.warn(`Weather provider: ${this.providerName} does not subclass the fetchCurrentWeather method.`);
+		Log.warn(`[weatherprovider] ${this.providerName} does not subclass the fetchCurrentWeather method.`);
 	},
 
 	// This method should start the API request to fetch the weather forecast.
 	// This method should definitely be overwritten in the provider.
 	fetchWeatherForecast () {
-		Log.warn(`Weather provider: ${this.providerName} does not subclass the fetchWeatherForecast method.`);
+		Log.warn(`[weatherprovider] ${this.providerName} does not subclass the fetchWeatherForecast method.`);
 	},
 
 	// This method should start the API request to fetch the weather hourly.
 	// This method should definitely be overwritten in the provider.
 	fetchWeatherHourly () {
-		Log.warn(`Weather provider: ${this.providerName} does not subclass the fetchWeatherHourly method.`);
+		Log.warn(`[weatherprovider] ${this.providerName} does not subclass the fetchWeatherHourly method.`);
 	},
 
 	// This returns a WeatherDay object for the current weather.
@@ -109,7 +109,7 @@ const WeatherProvider = Class.extend({
 	 * @param {string} url the url to fetch from
 	 * @param {string} type what contenttype to expect in the response, can be "json" or "xml"
 	 * @param {Array.<{name: string, value:string}>} requestHeaders the HTTP headers to send
-	 * @param {Array.<string>} expectedResponseHeaders the expected HTTP headers to recieve
+	 * @param {Array.<string>} expectedResponseHeaders the expected HTTP headers to receive
 	 * @returns {Promise} resolved when the fetch is done
 	 */
 	async fetchData (url, type = "json", requestHeaders = undefined, expectedResponseHeaders = undefined) {
