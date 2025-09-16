@@ -168,7 +168,7 @@ Module.register("weather", {
 		this.scheduleUpdate();
 
 		if (this.weatherProvider.currentWeather()) {
-			this.sendNotification("CURRENTWEATHER_TYPE", { type: this.weatherProvider.currentWeather().weatherType.replace("-", "_") });
+			this.sendNotification("CURRENTWEATHER_TYPE", { type: this.weatherProvider.currentWeather().weatherType?.replace("-", "_") });
 		}
 
 		const notificationPayload = {
