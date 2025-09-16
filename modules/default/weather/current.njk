@@ -59,7 +59,7 @@
         {% endif %}
       </span>
     {% endif %}
-    {% if config.weatherType %}
+    {% if current.weatherType %}
       <span class="light wi weathericon wi-{{ current.weatherType }}"></span>
     {% endif %}
     <span class="light bright">{{ current.temperature | roundValue | unit("temperature") | decimalSymbol }}</span>
