@@ -44,7 +44,7 @@ function checkConfigFile () {
 	}
 
 	// Validate syntax of the configuration file.
-	Log.info(`Checking config file ${configFileName} ...`);
+	Log.info(`[checkconfig] Checking config file ${configFileName} ...`);
 
 	// I'm not sure if all ever is utf-8
 	const configFile = fs.readFileSync(configFileName, "utf-8");
@@ -67,7 +67,7 @@ function checkConfigFile () {
 	);
 
 	if (errors.length === 0) {
-		Log.info(styleText("green", "Your configuration file doesn't contain syntax errors :)"));
+		Log.info(styleText("green", "[checkconfig] Your configuration file doesn't contain syntax errors :)"));
 		validateModulePositions(configFileName);
 	} else {
 		let errorMessage = "Your configuration file contains syntax errors :(";
@@ -84,7 +84,7 @@ function checkConfigFile () {
  * @param {string} configFileName - The path and filename of the configuration file to validate.
  */
 function validateModulePositions (configFileName) {
-	Log.info("Checking modules structure configuration ...");
+	Log.info("[checkconfig] Checking modules structure configuration ...");
 
 	const positionList = Utils.getModulePositions();
 
@@ -118,7 +118,7 @@ function validateModulePositions (configFileName) {
 
 	const valid = validate(data);
 	if (valid) {
-		Log.info(styleText("green", "Your modules structure configuration doesn't contain errors :)"));
+		Log.info(styleText("green", "[checkconfig] Your modules structure configuration doesn't contain errors :)"));
 	} else {
 		const module = validate.errors[0].instancePath.split("/")[2];
 		const position = validate.errors[0].instancePath.split("/")[3];
@@ -130,13 +130,13 @@ function validateModulePositions (configFileName) {
 		} else {
 			errorMessage += validate.errors[0].message;
 		}
-		Log.error(errorMessage);
+		Log.error("[checkconfig]", errorMessage);
 	}
 }
 
 try {
 	checkConfigFile();
 } catch (error) {
-	Log.error(error.message);
+	Log.error("[checkconfig]", error);
 	process.exit(1);
 }

@@ -38,7 +38,6 @@ const Module = Class.extend({
 	 * Called when the module is instantiated.
 	 */
 	init () {
-		//Log.log(this.defaults);
 	},
 
 	/**
@@ -145,9 +144,9 @@ const Module = Class.extend({
 	 */
 	notificationReceived (notification, payload, sender) {
 		if (sender) {
-			// Log.log(this.name + " received a module notification: " + notification + " from sender: " + sender.name);
+			Log.debug(`${this.name} received a module notification: ${notification} from sender: ${sender.name}`);
 		} else {
-			// Log.log(this.name + " received a system notification: " + notification);
+			Log.debug(`${this.name} received a system notification: ${notification}`);
 		}
 	},
 

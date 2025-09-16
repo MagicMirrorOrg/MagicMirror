@@ -287,7 +287,6 @@ const CalendarFetcherUtils = {
 				} else {
 					// Single event.
 					const fullDayEvent = isFacebookBirthday ? true : CalendarFetcherUtils.isFullDayEvent(event);
-					// Log.debug("full day event")
 
 					// if the start and end are the same, then make end the 'end of day' value (start is at 00:00:00)
 					if (fullDayEvent && eventStartMoment.valueOf() === eventEndMoment.valueOf()) {
