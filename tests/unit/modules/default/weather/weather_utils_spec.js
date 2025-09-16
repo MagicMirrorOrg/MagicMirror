@@ -3,8 +3,16 @@ const WeatherUtils = require("../../../../../modules/default/weather/weatherutil
 
 describe("Weather utils tests", () => {
 	describe("temperature conversion to imperial", () => {
+		it("should convert temp correctly from Celsius to Celsius", () => {
+			expect(Math.round(WeatherUtils.convertTemp(10, "metric"))).toBe(10);
+		});
+
 		it("should convert temp correctly from Celsius to Fahrenheit", () => {
 			expect(Math.round(WeatherUtils.convertTemp(10, "imperial"))).toBe(50);
+		});
+
+		it("should convert temp correctly from Fahrenheit to Celsius", () => {
+			expect(Math.round(WeatherUtils.convertTempToMetric(10))).toBe(-12);
 		});
 	});
 
@@ -44,11 +52,11 @@ describe("Weather utils tests", () => {
 
 	describe("feelsLike calculation", () => {
 		it("should return a calculated feelsLike info (negative value)", () => {
-			expect(WeatherUtils.calculateFeelsLike(0, 20, 40)).toBe(-9.444444444444445);
+			expect(WeatherUtils.calculateFeelsLike(0, 20, 40)).toBe(-9.397005931555448);
 		});
 
 		it("should return a calculated feelsLike info (positive value)", () => {
-			expect(WeatherUtils.calculateFeelsLike(30, 0, 60)).toBe(32.8320322777777);
+			expect(WeatherUtils.calculateFeelsLike(30, 0, 60)).toBe(32.832032277777756);
 		});
 	});
 

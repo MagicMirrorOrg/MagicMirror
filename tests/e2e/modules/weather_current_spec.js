@@ -18,12 +18,16 @@ describe("Weather module", () => {
 
 			it("should render temperature with icon", async () => {
 				await expect(weatherFunc.getText(".weather .large span.light.bright", "1.5°")).resolves.toBe(true);
+
+				const elem = await helpers.waitForElement(".weather .large span.weathericon");
+				expect(elem).not.toBeNull();
 			});
 
 			it("should render feels like temperature", async () => {
 				// Template contains &nbsp; which renders as \xa0
 				await expect(weatherFunc.getText(".weather .normal.medium.feelslike span.dimmed", "93.7\xa0 Feels like -5.6°")).resolves.toBe(true);
 			});
+
 			it("should render humidity next to feels-like", async () => {
 				await expect(weatherFunc.getText(".weather .normal.medium.feelslike span.dimmed .humidity", "93.7")).resolves.toBe(true);
 			});

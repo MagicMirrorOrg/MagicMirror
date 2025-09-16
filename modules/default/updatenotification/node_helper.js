@@ -1,7 +1,8 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const NodeHelper = require("node_helper");
-const defaultModules = require("../defaultmodules");
+
+const defaultModules = require(`${global.root_path}/modules/default/defaultmodules`);
 const GitHelper = require("./git_helper");
 const UpdateHelper = require("./update_helper");
 
@@ -21,7 +22,7 @@ module.exports = NodeHelper.create({
 			return modules;
 		} else {
 			// get modules from modules-directory
-			const moduleDir = path.normalize(`${__dirname}/../../`);
+			const moduleDir = path.normalize(`${global.root_path}/modules`);
 			const getDirectories = (source) => {
 				return fs.readdirSync(source, { withFileTypes: true })
 					.filter((dirent) => dirent.isDirectory() && dirent.name !== "default")

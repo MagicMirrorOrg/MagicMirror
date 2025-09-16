@@ -6,9 +6,13 @@ const path = require("node:path");
 const envsub = require("envsub");
 const Log = require("logger");
 
+// global absolute root path
+global.root_path = path.resolve(`${__dirname}/../`);
+
 const Server = require(`${__dirname}/server`);
 const Utils = require(`${__dirname}/utils`);
-const defaultModules = require(`${__dirname}/../modules/default/defaultmodules`);
+
+const defaultModules = require(`${global.root_path}/modules/default/defaultmodules`);
 // used to control fetch timeout for node_helpers
 const { setGlobalDispatcher, Agent } = require("undici");
 const { getEnvVarsAsObj } = require("#server_functions");
@@ -16,15 +20,12 @@ const { getEnvVarsAsObj } = require("#server_functions");
 const fetch_timeout = process.env.mmFetchTimeout !== undefined ? process.env.mmFetchTimeout : 30000;
 
 // Get version number.
-global.version = require(`${__dirname}/../package.json`).version;
+global.version = require(`${global.root_path}/package.json`).version;
 global.mmTestMode = process.env.mmTestMode === "true";
 Log.log(`Starting MagicMirror: v${global.version}`);
 
 // Log system information.
 Utils.logSystemInformation(global.version);
-
-// global absolute root path
-global.root_path = path.resolve(`${__dirname}/../`);
 
 if (process.env.MM_CONFIG_FILE) {
 	global.configuration_file = process.env.MM_CONFIG_FILE.replace(`${global.root_path}/`, "");
@@ -180,10 +181,10 @@ function App () {
 		const elements = module.split("/");
 		const moduleName = elements[elements.length - 1];
 		const env = getEnvVarsAsObj();
-		let moduleFolder = path.resolve(`${__dirname}/../${env.modulesDir}`, module);
+		let moduleFolder = path.resolve(`${global.root_path}/${env.modulesDir}`, module);
 
 		if (defaultModules.includes(moduleName)) {
-			const defaultModuleFolder = path.resolve(`${__dirname}/../modules/default/`, module);
+			const defaultModuleFolder = path.resolve(`${global.root_path}/modules/default/`, module);
 			if (process.env.JEST_WORKER_ID === undefined) {
 				moduleFolder = defaultModuleFolder;
 			} else {

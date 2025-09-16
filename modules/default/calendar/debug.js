@@ -5,7 +5,7 @@
  */
 // Alias modules mentioned in package.js under _moduleAliases.
 require("module-alias/register");
-const Log = require("../../../js/logger");
+const Log = require("logger");
 
 const CalendarFetcher = require("./calendarfetcher");
 

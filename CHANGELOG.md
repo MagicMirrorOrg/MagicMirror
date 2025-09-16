@@ -13,15 +13,20 @@ planned for 2025-10-01
 
 Thanks to: @dathbe.
 
+> ⚠️ This release needs nodejs version `v22.18.0 or higher`
+
 ### Added
 
-- Added configuration option for `User-Agent`, used by calendar & news module (#3255)
+- Add configuration option for `User-Agent`, used by calendar & news module (#3255)
+- [linter] Add prettier plugin for nunjuck templates (#3887)
+- [core] Add clear log for occupied port at startup (#3890)
 
 ### Changed
 
 - [clock] Add CSS to prevent line breaking of sunset/sunrise time display (#3816)
 - [core] Enhance system information logging format and include additional env and RAM details (#3839, #3843)
 - [refactor] Add new file `js/module_functions.js` to move code used in several modules to one place (#3837)
+- [refactor] Use global.root_path where possible and add tests for config:check (#3883, #3885, #3886, #3889)
 - [tests] refactor: simplify jest config file (#3844)
 - [tests] refactor: extract constants for weather electron tests (#3845)
 - [tests] refactor: add `setupDOMEnvironment` helper function to eliminate repetitive JSDOM setup code (#3860)
@@ -35,10 +40,14 @@ Thanks to: @dathbe.
   - Avoid potential port conflicts by using port 3001 for translator unit tests
   - Improve test reliability and maintainability
 - [tests] add alert module tests for different welcome_message configurations (#3867)
+- [lint-staged] use `prettier --write --ignore-unknown` in `lint-staged` to avoid errors on unsupported files (#3888)
 
 ### Updated
 
-- [core] Update dependencies including electron to v37 as well as github actions (#3831, #3849, #3857, #3858)
+- [calendar] Update defaultSymbol name and also the link to the icon search site (#3879)
+- [core] Update dependencies including electron to v38 as well as github actions (#3831, #3849, #3857, #3858, #3872, #3876, #3882, #3891)
+- [weather] Update feels_like temperature calculation formula (#3869)
+- [weather] Update null value handling for weather type (#3892)
 
 ### Fixed
 
@@ -48,6 +57,7 @@ Thanks to: @dathbe.
 - [calendar] Fix regression handling of limit days (#3840)
 - [calendar] Fixed regression of calendarfetcherutils.shouldEventBeExcluded (#3841)
 - [core] Fixed socket.io timeout when server is slow to send notification, notification lost at client (#3380)
+- [tests] refactor AnimateCSS tests after jsdom 27 upgrade (#3891)
 - [weather] Use `apparent_temperature` data from openmeteo's hourly weather for current feelsLikeTemp (#3868).
 - [weather] Updated envcanada Provider to use new database/URL schema for accessing weather data (#3822).
 
@@ -304,7 +314,7 @@ For more info, please read the following post: [A New Chapter for MagicMirror: T
 ### Added
 
 - Output of system information to the console for troubleshooting (#3328 and #3337), ignore errors under aarch64 (#3349)
-- [core] Add `eslint-plugin-package-json` to lint the `package.json` files (#3368)
+- [linter] Add `eslint-plugin-package-json` to lint the `package.json` files (#3368)
 - [weather] `showHumidity` config is now a string describing where to show this element. Supported values: "wind", "temp", "feelslike", "below", "none". (#3330)
 - electron-rebuild test suite for electron and 3rd party modules compatibility (#3392)
 - Create MM² icon and attach it to electron process (#3407)
@@ -466,7 +476,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Added UV Index to hourly and current Weather, with support for Openmeteo
 - Added tests for serveronly
 - Set Timezone `Europe/Berlin` in unit tests (needed for new formatTime tests)
-- Added no-param-reassign eslint rule and fix warnings
+- [linter] Added no-param-reassign eslint rule and fix warnings
 - [updatenotification] Added `sendUpdatesNotifications` feature. Broadcast update with `UPDATES` notification to other modules
 - [updatenotification] Allow force scanning with `SCAN_UPDATES` notification from other modules
 - Added per-calendar fetchInterval

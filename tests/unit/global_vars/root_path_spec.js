@@ -2,7 +2,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const root_path = path.join(__dirname, "../../..");
-const version = require(`${__dirname}/../../../package.json`).version;
+const version = require(`${root_path}/package.json`).version;
 
 describe("'global.root_path' set in js/app.js", () => {
 	const expectedSubPaths = ["modules", "serveronly", "js", "js/app.js", "js/main.js", "js/electron.js", "config"];

@@ -1,9 +1,6 @@
 .weather .weathericon,
 .weather .fa-home {
   font-size: 75%;
-  line-height: 65px;
-  display: inline-block;
-  transform: translate(0, -3px);
 }
 
 .weather .humidity-icon {
@@ -37,14 +34,16 @@
   padding-right: 0;
 }
 
-.weather tr .weathericon {
-  line-height: 25px;
-}
-
 .weather tr.colored .min-temp {
   color: #bcddff;
 }
 
 .weather tr.colored .max-temp {
   color: #ff8e99;
+}
+
+.weather .type-temp {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }

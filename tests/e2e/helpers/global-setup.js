@@ -1,9 +1,13 @@
+const path = require("node:path");
 const os = require("node:os");
 const fs = require("node:fs");
 const jsdom = require("jsdom");
 
-const indexFile = `${__dirname}/../../../index.html`;
-const cssFile = `${__dirname}/../../../css/custom.css`;
+// global absolute root path
+global.root_path = path.resolve(`${__dirname}/../../../`);
+
+const indexFile = `${global.root_path}/index.html`;
+const cssFile = `${global.root_path}/css/custom.css`;
 const sampleCss = [
 	".region.row3 {",
 	" top: 0;",
@@ -29,7 +33,7 @@ exports.startApplication = async (configFilename, exec) => {
 	process.env.mmTestMode = "true";
 	process.setMaxListeners(0);
 	if (exec) exec;
-	global.app = require("../../../js/app");
+	global.app = require(`${global.root_path}/js/app`);
 
 	return global.app.start();
 };

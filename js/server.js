@@ -55,6 +55,29 @@ function Server (config) {
 			});
 
 			Log.log(`Starting server on port ${port} ... `);
+
+			// Add explicit error handling BEFORE calling listen so we can give user-friendly feedback
+			server.once("error", (err) => {
+				if (err && err.code === "EADDRINUSE") {
+					const bindAddr = config.address || "localhost";
+					const portInUseMessage = [
+						"",
+						"────────────────────────────────────────────────────────────────",
+						` PORT IN USE: ${bindAddr}:${port}`,
+						"",
+						" Another process (most likely another MagicMirror instance)",
+						" is already using this port.",
+						"",
+						" Stop the other process (free the port) or use a different port.",
+						"────────────────────────────────────────────────────────────────"
+					].join("\n");
+					Log.error(portInUseMessage);
+					return;
+				}
+
+				Log.error("Failed to start server:", err);
+			});
+
 			server.listen(port, config.address || "localhost");
 
 			if (config.ipWhitelist instanceof Array && config.ipWhitelist.length === 0) {
