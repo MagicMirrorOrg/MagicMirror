@@ -143,10 +143,10 @@ WeatherProvider.register("envcanada", {
 
 				Log.debug(`[weather.envcanada] ${target} Citypage url: ${forecastFileURL}`);
 
-			/*
-			 * If the Citypage filename has not changed since the last Weather refresh, the forecast has not changed and
-			 * and therefore we can skip reading the Citypage URL.
-			 */
+				/*
+				 * If the Citypage filename has not changed since the last Weather refresh, the forecast has not changed and
+				 * and therefore we can skip reading the Citypage URL.
+				 */
 
 				if (target === "Current" && this.lastCityPageCurrent === forecastFileURL) {
 					Log.debug(`[weather.envcanada] ${target} - Newest Citypage has already been seen - skipping!`);
@@ -177,9 +177,9 @@ WeatherProvider.register("envcanada", {
 						}
 
 						/*
-			 * With the city's weather data read, parse the resulting XML document for the appropriate weather data
-			 * elements to create a weather object. Next, set Weather modules details from that object.
-			 */
+						 * With the city's weather data read, parse the resulting XML document for the appropriate weather data
+						 * elements to create a weather object. Next, set Weather modules details from that object.
+						 */
 						Log.debug(`[weather.envcanada] ${target} - Citypage has been read and will be processed for updates`);
 
 						if (target === "Current") {
