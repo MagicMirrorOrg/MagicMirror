@@ -48,6 +48,7 @@ Thanks to: @dathbe.
 - [core] Update dependencies including electron to v38 as well as github actions (#3831, #3849, #3857, #3858, #3872, #3876, #3882, #3891)
 - [weather] Update feels_like temperature calculation formula (#3869)
 - [weather] Update null value handling for weather type (#3892)
+- [layout] Update styles for weather and calendar (#3894)
 
 ### Fixed
 
@@ -331,7 +332,7 @@ For more info, please read the following post: [A New Chapter for MagicMirror: T
 - Update translations for estonian (#3371)
 - Update electron to v29 and update other dependencies
 - [calendar] fullDay events over several days now show the left days from the first day on and 'today' on the last day
-- Update layout of current weather indoor values
+- [weather] Update layout of current weather indoor values
 
 ### Fixed
 
@@ -779,7 +780,7 @@ Special thanks to the following contributors: @apiontek, @eouia, @jupadin, @khas
 - Actually test all js and css files when lint script is run.
 - Updated jsdocs and print warnings during testing too.
 - Updated weathergov provider to try fetching not just current, but also forecast, when API URLs available.
-- Refactored clock layout.
+- [clock] Refactored clock layout.
 - Refactored methods from weather-providers into weatherobject (isDaytime, updateSunTime).
 - Use of `logger.js` in jest tests.
 - Run prettier over all relevant files.
