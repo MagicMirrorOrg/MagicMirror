@@ -2,23 +2,14 @@
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  padding-left: 0;
-  padding-right: 10px;
-  font-size: var(--font-size-small);
-}
-
-.calendar .symbol span {
-  padding-top: 4px;
+  gap: 5px;
 }
 
 .calendar .title {
-  padding-left: 0;
-  padding-right: 0;
-  vertical-align: top;
+  padding: 0 10px;
 }
 
 .calendar .time {
-  padding-left: 30px;
+  padding-left: 20px;
   text-align: right;
-  vertical-align: top;
 }

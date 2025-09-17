@@ -168,8 +168,8 @@ Module.register("calendar", {
 
 		this.selfUpdate();
 	},
-	notificationReceived (notification, payload, sender) {
 
+	notificationReceived (notification, payload, sender) {
 		if (notification === "FETCH_CALENDAR") {
 			if (this.hasCalendarURL(payload.url)) {
 				this.sendSocketNotification(notification, { url: payload.url, id: this.identifier });
@@ -217,7 +217,6 @@ Module.register("calendar", {
 
 	// Override dom generator.
 	getDom () {
-		const ONE_SECOND = 1000; // 1,000 milliseconds
 		const events = this.createEventList(true);
 		const wrapper = document.createElement("table");
 		wrapper.className = this.config.tableClass;
@@ -308,15 +307,12 @@ Module.register("calendar", {
 				}
 
 				const symbolClass = this.symbolClassForUrl(event.url);
-				symbolWrapper.className = `symbol align-right ${symbolClass}`;
+				symbolWrapper.className = `symbol ${symbolClass}`;
 
 				const symbols = this.symbolsForEvent(event);
-				symbols.forEach((s, index) => {
+				symbols.forEach((s) => {
 					const symbol = document.createElement("span");
 					symbol.className = s;
-					if (index > 0) {
-						symbol.style.paddingLeft = "5px";
-					}
 					symbolWrapper.appendChild(symbol);
 				});
 				eventWrapper.appendChild(symbolWrapper);
@@ -601,7 +597,6 @@ Module.register("calendar", {
 	 */
 	createEventList (limitNumberOfEntries) {
 		let now = moment();
-		let today = now.clone().startOf("day");
 		let future = now.clone().startOf("day").add(this.config.maximumNumberOfDays, "days");
 
 		let events = [];
