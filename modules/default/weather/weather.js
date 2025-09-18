@@ -47,6 +47,8 @@ Module.register("weather", {
 	// Module properties.
 	weatherProvider: null,
 
+	error: null,
+
 	// Can be used by the provider to display location of event if nothing else is specified
 	firstEvent: null,
 
@@ -148,6 +150,12 @@ Module.register("weather", {
 		// Skip some hourly forecast entries if configured
 		const hourlyData = this.weatherProvider.weatherHourly()?.filter((e, i) => (i + 1) % this.config.hourlyForecastIncrements === this.config.hourlyForecastIncrements - 1);
 
+		if (this.error) {
+			return {
+				error: this.error
+			};
+		}
+
 		return {
 			config: this.config,
 			current: currentData,
@@ -194,20 +202,26 @@ Module.register("weather", {
 			nextLoad = delay;
 		}
 
-		setTimeout(() => {
-			switch (this.config.type.toLowerCase()) {
-				case "current":
-					this.weatherProvider.fetchCurrentWeather();
-					break;
-				case "hourly":
-					this.weatherProvider.fetchWeatherHourly();
-					break;
-				case "daily":
-				case "forecast":
-					this.weatherProvider.fetchWeatherForecast();
-					break;
-				default:
-					Log.error(`Invalid type ${this.config.type} configured (must be one of 'current', 'hourly', 'daily' or 'forecast')`);
+		setTimeout(async () => {
+			try {
+				switch (this.config.type.toLowerCase()) {
+					case "current":
+						await this.weatherProvider.fetchCurrentWeather();
+						break;
+					case "hourly":
+						this.weatherProvider.fetchWeatherHourly();
+						break;
+					case "daily":
+					case "forecast":
+						this.weatherProvider.fetchWeatherForecast();
+						break;
+					default:
+						Log.error(`Invalid type ${this.config.type} configured (must be one of 'current', 'hourly', 'daily' or 'forecast')`);
+				}
+				this.error = null;
+			} catch (error) {
+				this.error = error;
+				this.updateAvailable();
 			}
 		}, nextLoad);
 	},

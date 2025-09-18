@@ -143,55 +143,40 @@ WeatherProvider.register("openmeteo", {
 	},
 
 	fetchCurrentWeather () {
-		this.fetchData(this.getUrl())
+		return this.fetchData(this.getUrl())
 			.then((data) => this.parseWeatherApiResponse(data))
 			.then((parsedData) => {
 				if (!parsedData) {
-					// No usable data?
-					return;
+					throw new Error("No usable data ...");
 				}
-
 				const currentWeather = this.generateWeatherDayFromCurrentWeather(parsedData);
 				this.setCurrentWeather(currentWeather);
-			})
-			.catch(function (request) {
-				Log.error("Could not load data ... ", request);
 			})
 			.finally(() => this.updateAvailable());
 	},
 
 	fetchWeatherForecast () {
-		this.fetchData(this.getUrl())
+		return this.fetchData(this.getUrl())
 			.then((data) => this.parseWeatherApiResponse(data))
 			.then((parsedData) => {
 				if (!parsedData) {
-					// No usable data?
-					return;
+					throw new Error("No usable data ...");
 				}
-
 				const dailyForecast = this.generateWeatherObjectsFromForecast(parsedData);
 				this.setWeatherForecast(dailyForecast);
-			})
-			.catch(function (request) {
-				Log.error("Could not load data ... ", request);
 			})
 			.finally(() => this.updateAvailable());
 	},
 
 	fetchWeatherHourly () {
-		this.fetchData(this.getUrl())
+		return this.fetchData(this.getUrl())
 			.then((data) => this.parseWeatherApiResponse(data))
 			.then((parsedData) => {
 				if (!parsedData) {
-					// No usable data?
-					return;
+					throw new Error("No usable data ...");
 				}
-
 				const hourlyForecast = this.generateWeatherObjectsFromHourly(parsedData);
 				this.setWeatherHourly(hourlyForecast);
-			})
-			.catch(function (request) {
-				Log.error("Could not load data ... ", request);
 			})
 			.finally(() => this.updateAvailable());
 	},

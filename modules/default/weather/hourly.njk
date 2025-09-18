@@ -41,10 +41,8 @@
       {% set currentStep = currentStep + 1 %}
     {% endfor %}
   </table>
-{% elseif error %}
-    <div class="small dimmed">
-        {{ "MODULE_CONFIG_ERROR" | translate({MODULE_NAME: "Weather", ERROR: error}) | safe }}
-    </div>
+  {% elseif error %}
+  <div class="small dimmed">{{ "MODULE_CONFIG_ERROR" | translate({MODULE_NAME: "Weather", ERROR: error}) | safe }}</div>
 {% else %}
   <div class="dimmed light small">{{ "LOADING" | translate }}</div>
 {% endif %}
