@@ -90,7 +90,7 @@ const MM = (function () {
 	/**
 	 * Send a notification to all modules.
 	 * @param {string} notification The identifier of the notification.
-	 * @param {*} payload The payload of the notification.
+	 * @param {object} payload The payload of the notification.
 	 * @param {Module} sender The module that sent the notification.
 	 * @param {Module} [sendTo] The (optional) module to send the notification to.
 	 */
@@ -262,7 +262,7 @@ const MM = (function () {
 	 * Hide the module.
 	 * @param {Module} module The module to hide.
 	 * @param {number} speed The speed of the hide animation.
-	 * @param {Function} callback Called when the animation is done.
+	 * @param {Promise} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the hide method.
 	 */
 	const hideModule = function (module, speed, callback, options = {}) {
@@ -347,7 +347,7 @@ const MM = (function () {
 	 * Show the module.
 	 * @param {Module} module The module to show.
 	 * @param {number} speed The speed of the show animation.
-	 * @param {Function} callback Called when the animation is done.
+	 * @param {Promise} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the show method.
 	 */
 	const showModule = function (module, speed, callback, options = {}) {
@@ -552,7 +552,7 @@ const MM = (function () {
 
 		/**
 		 * Walks thru a collection of modules and executes the callback with the module as an argument.
-		 * @param {Function} callback The function to execute with the module as an argument.
+		 * @param {module} callback The function to execute with the module as an argument.
 		 */
 		const enumerate = function (callback) {
 			modules.map(function (module) {
@@ -629,7 +629,7 @@ const MM = (function () {
 		/**
 		 * Send a notification to all modules.
 		 * @param {string} notification The identifier of the notification.
-		 * @param {*} payload The payload of the notification.
+		 * @param {object} payload The payload of the notification.
 		 * @param {Module} sender The module that sent the notification.
 		 */
 		sendNotification (notification, payload, sender) {
@@ -688,7 +688,7 @@ const MM = (function () {
 		 * Hide the module.
 		 * @param {Module} module The module to hide.
 		 * @param {number} speed The speed of the hide animation.
-		 * @param {Function} callback Called when the animation is done.
+		 * @param {Promise} callback Called when the animation is done.
 		 * @param {object} [options] Optional settings for the hide method.
 		 */
 		hideModule (module, speed, callback, options) {
@@ -700,7 +700,7 @@ const MM = (function () {
 		 * Show the module.
 		 * @param {Module} module The module to show.
 		 * @param {number} speed The speed of the show animation.
-		 * @param {Function} callback Called when the animation is done.
+		 * @param {Promise} callback Called when the animation is done.
 		 * @param {object} [options] Optional settings for the show method.
 		 */
 		showModule (module, speed, callback, options) {

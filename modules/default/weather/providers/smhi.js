@@ -254,7 +254,7 @@ WeatherProvider.register("smhi", {
 	 * Helper method to get a property from the returned data set.
 	 * @param {object} currentWeatherData Weatherdata to get from
 	 * @param {string} name The name of the property
-	 * @returns {*} The value of the property in the weatherdata
+	 * @returns {string} The value of the property in the weatherdata
 	 */
 	paramValue (currentWeatherData, name) {
 		return currentWeatherData.parameters.filter((p) => p.name === name).flatMap((p) => p.values)[0];

@@ -97,7 +97,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 
 	/**
 	 * Sets the on success callback
-	 * @param {Function} callback The on success callback.
+	 * @param {eventsReceivedCallback} callback The on success callback.
 	 */
 	this.onReceive = function (callback) {
 		eventsReceivedCallback = callback;
@@ -105,7 +105,7 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 
 	/**
 	 * Sets the on error callback
-	 * @param {Function} callback The on error callback.
+	 * @param {fetchFailedCallback} callback The on error callback.
 	 */
 	this.onError = function (callback) {
 		fetchFailedCallback = callback;

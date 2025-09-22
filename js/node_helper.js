@@ -27,7 +27,7 @@ const NodeHelper = Class.extend({
 	/**
 	 * This method is called when a socket notification arrives.
 	 * @param {string} notification The identifier of the notification.
-	 * @param {*}  payload The payload of the notification.
+	 * @param {object}  payload The payload of the notification.
 	 */
 	socketNotificationReceived (notification, payload) {
 		Log.log(`${this.name} received a socket notification: ${notification} - Payload: ${payload}`);

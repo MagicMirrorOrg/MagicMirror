@@ -68,7 +68,7 @@ const Module = Class.extend({
 	 * Returns a map of translation files the module requires to be loaded.
 	 *
 	 * return Map<String, String> -
-	 * @returns {*} A map with langKeys and filenames.
+	 * @returns {Map} A map with langKeys and filenames.
 	 */
 	getTranslations () {
 		return false;
@@ -140,7 +140,7 @@ const Module = Class.extend({
 	/**
 	 * Called by the MagicMirror² core when a notification arrives.
 	 * @param {string} notification The identifier of the notification.
-	 * @param {*} payload The payload of the notification.
+	 * @param {object} payload The payload of the notification.
 	 * @param {Module} sender The module that sent the notification.
 	 */
 	notificationReceived (notification, payload, sender) {
@@ -176,7 +176,7 @@ const Module = Class.extend({
 	/**
 	 * Called when a socket notification arrives.
 	 * @param {string} notification The identifier of the notification.
-	 * @param {*} payload The payload of the notification.
+	 * @param {object} payload The payload of the notification.
 	 */
 	socketNotificationReceived (notification, payload) {
 		Log.log(`${this.name} received a socket notification: ${notification} - Payload: ${payload}`);
@@ -344,7 +344,7 @@ const Module = Class.extend({
 	/**
 	 * Send a notification to all modules.
 	 * @param {string} notification The identifier of the notification.
-	 * @param {*} payload The payload of the notification.
+	 * @param {object} payload The payload of the notification.
 	 */
 	sendNotification (notification, payload) {
 		MM.sendNotification(notification, payload, this);
@@ -353,7 +353,7 @@ const Module = Class.extend({
 	/**
 	 * Send a socket notification to the node helper.
 	 * @param {string} notification The identifier of the notification.
-	 * @param {*} payload The payload of the notification.
+	 * @param {object} payload The payload of the notification.
 	 */
 	sendSocketNotification (notification, payload) {
 		this.socket().sendNotification(notification, payload);
@@ -362,7 +362,7 @@ const Module = Class.extend({
 	/**
 	 * Hide this module.
 	 * @param {number} speed The speed of the hide animation.
-	 * @param {Function} callback Called when the animation is done.
+	 * @param {Promise} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the hide method.
 	 */
 	hide (speed, callback, options = {}) {
@@ -389,7 +389,7 @@ const Module = Class.extend({
 	/**
 	 * Show this module.
 	 * @param {number} speed The speed of the show animation.
-	 * @param {Function} callback Called when the animation is done.
+	 * @param {Promise} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the show method.
 	 */
 	show (speed, callback, options) {
