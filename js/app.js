@@ -1,5 +1,5 @@
-// Alias modules mentioned in package.js under _moduleAliases.
-require("module-alias/register");
+// Load lightweight internal alias resolver
+require("./alias-resolver");
 
 const fs = require("node:fs");
 const path = require("node:path");

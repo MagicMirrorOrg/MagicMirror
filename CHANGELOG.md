@@ -15,6 +15,8 @@ planned for 2026-01-01
 
 ### Changed
 
+- [core] refactor: replace `module-alias` dependency with internal alias resolver (#3893)
+
 ### Fixed
 
 ### Updated

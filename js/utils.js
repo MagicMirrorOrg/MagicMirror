@@ -1,10 +1,7 @@
-const path = require("node:path");
-
-const rootPath = path.resolve(`${__dirname}/../`);
-const Log = require(`${rootPath}/js/logger.js`);
 const os = require("node:os");
 const fs = require("node:fs");
 const si = require("systeminformation");
+const Log = require("logger");
 
 const modulePositions = []; // will get list from index.html
 const regionRegEx = /"region ([^"]*)/i;

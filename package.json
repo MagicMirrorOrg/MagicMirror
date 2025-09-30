@@ -84,7 +84,6 @@
 		"helmet": "^8.1.0",
 		"html-to-text": "^9.0.5",
 		"iconv-lite": "^0.7.0",
-		"module-alias": "^2.2.3",
 		"moment": "^2.30.1",
 		"moment-timezone": "^0.6.0",
 		"node-ical": "^0.21.0",
@@ -121,9 +120,5 @@
 	},
 	"engines": {
 		"node": ">=22.18.0"
-	},
-	"_moduleAliases": {
-		"node_helper": "js/node_helper.js",
-		"logger": "js/logger.js"
 	}
 }

@@ -3,8 +3,8 @@
  * use this script with `node debug.js` to test the fetcher without the need
  * of starting the MagicMirror² core. Adjust the values below to your desire.
  */
-// Alias modules mentioned in package.js under _moduleAliases.
-require("module-alias/register");
+// Load internal alias resolver
+require("../../../js/alias-resolver");
 const Log = require("logger");
 
 const CalendarFetcher = require("./calendarfetcher");
