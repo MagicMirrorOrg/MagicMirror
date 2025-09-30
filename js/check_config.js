@@ -1,12 +1,15 @@
+// Ensure internal require aliases (e.g., "logger") resolve when this file is run as a standalone script
+require("./alias-resolver");
+
 const path = require("node:path");
 const fs = require("node:fs");
 const { styleText } = require("node:util");
 const Ajv = require("ajv");
 const globals = require("globals");
 const { Linter } = require("eslint");
+const Log = require("logger");
 
 const rootPath = path.resolve(`${__dirname}/../`);
-const Log = require(`${rootPath}/js/logger.js`);
 const Utils = require(`${rootPath}/js/utils.js`);
 
 const linter = new Linter({ configType: "flat" });

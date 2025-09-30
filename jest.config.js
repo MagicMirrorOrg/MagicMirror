@@ -1,3 +1,7 @@
+const aliasMapper = {
+	logger: "<rootDir>/js/logger.js"
+};
+
 const config = {
 	verbose: true,
 	testTimeout: 20000,
@@ -6,21 +10,21 @@ const config = {
 		{
 			displayName: "unit",
 			globalSetup: "<rootDir>/tests/unit/helpers/global-setup.js",
-			moduleNameMapper: {
-				logger: "<rootDir>/js/logger.js"
-			},
+			moduleNameMapper: aliasMapper,
 			testMatch: ["**/tests/unit/**/*.[jt]s?(x)"],
 			testPathIgnorePatterns: ["<rootDir>/tests/unit/mocks", "<rootDir>/tests/unit/helpers"]
 		},
 		{
 			displayName: "electron",
 			testMatch: ["**/tests/electron/**/*.[jt]s?(x)"],
+			moduleNameMapper: aliasMapper,
 			testPathIgnorePatterns: ["<rootDir>/tests/electron/helpers"]
 		},
 		{
 			displayName: "e2e",
 			testMatch: ["**/tests/e2e/**/*.[jt]s?(x)"],
 			modulePaths: ["<rootDir>/js/"],
+			moduleNameMapper: aliasMapper,
 			testPathIgnorePatterns: ["<rootDir>/tests/e2e/helpers", "<rootDir>/tests/e2e/mocks"]
 		}
 	],
