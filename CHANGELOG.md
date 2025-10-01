@@ -21,6 +21,8 @@ planned for 2026-01-01
 
 ### Updated
 
+- [core] Update dependencies (#)
+
 ## [2.33.0] - 2025-10-01
 
 Thanks to: @Crazylegstoo, @dathbe, @m-idler, @plebcity, @khassel, @KristjanESPERANTO, @rejas and @sdetweil!
