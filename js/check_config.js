@@ -58,7 +58,10 @@ function checkConfigFile () {
 					...globals.node
 				}
 			},
-			rules: { "no-undef": "error" }
+			rules: {
+				"no-sparse-arrays": "error",
+				"no-undef": "error"
+			}
 		},
 		configFileName
 	);

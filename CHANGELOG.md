@@ -19,6 +19,8 @@ planned for 2026-01-01
 
 ### Fixed
 
+- feat: add ESlint rule `no-sparse-arrays` for config check to fix #3910 (#3911)
+
 ### Updated
 
 - [core] Update dependencies (#3909)
