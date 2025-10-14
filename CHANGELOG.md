@@ -20,6 +20,7 @@ planned for 2026-01-01
 ### Fixed
 
 - feat: add ESlint rule `no-sparse-arrays` for config check to fix #3910 (#3911)
+- fixed eslint warnings shown in #3911 and updated npm publish docs (#3913)
 
 ### Updated
 

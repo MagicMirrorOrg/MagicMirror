@@ -415,7 +415,7 @@ const Module = Class.extend({
 });
 
 /**
- * Merging MagicMirror² (or other) default/config script by @bugsounet
+ * Merging MagicMirror² (or other) default/config script by `@bugsounet`
  * Merge 2 objects or/with array
  *
  * Usage:

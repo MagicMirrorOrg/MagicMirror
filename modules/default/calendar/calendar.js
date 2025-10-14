@@ -876,7 +876,7 @@ Module.register("calendar", {
 	 * @param {string} url The calendar url
 	 * @param {string} property The property to look for
 	 * @param {string} defaultValue The value if the property is not found
-	 * @returns {property} The property
+	 * @returns {string} The property
 	 */
 	getCalendarProperty (url, property, defaultValue) {
 		for (const calendar of this.config.calendars) {
