@@ -36,7 +36,7 @@ Are done by
   - [ ] test `prep-release` branch
   - [ ] update `CHANGELOG.md`
     - [ ] add all contributor names: `...`
-    - [ ] add min. node version: > ⚠️ This release needs nodejs version `v22.18.0` or higher
+    - [ ] add min. node version: > ⚠️ This release needs nodejs version `v22.20.0` or higher
     - [ ] check release link at the bottom of the file
   - [ ] commit and push all changes
   - [ ] create pull request from `prep-release` to `develop` branch with title `Prepare Release 2.xx.0`
