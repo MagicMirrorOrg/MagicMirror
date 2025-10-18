@@ -21,6 +21,7 @@ planned for 2026-01-01
 
 - feat: add ESlint rule `no-sparse-arrays` for config check to fix #3910 (#3911)
 - fixed eslint warnings shown in #3911 and updated npm publish docs (#3913)
+- [core] refactor: replace `express-ipfilter` with lightweight custom middleware (#3917) - This fixes security issue [CVE-2023-42282](https://github.com/advisories/GHSA-78xj-cgh5-2h22), which is not very likely to be exploitable in MagicMirror² setups, but still should be fixed.
 
 ### Updated
 
