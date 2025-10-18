@@ -208,7 +208,7 @@ WeatherProvider.register("envcanada", {
 	 *   Fixed value + Prov code specified in Weather module Config.js + current hour as GMT
 	 */
 	getUrl () {
-		let forecastURL = `https://dd.weather.gc.ca/citypage_weather/${this.config.provCode}`;
+		let forecastURL = `https://dd.weather.gc.ca/today/citypage_weather/${this.config.provCode}`;
 		const hour = this.getCurrentHourGMT();
 		forecastURL += `/${hour}/`;
 		return forecastURL;
@@ -243,8 +243,13 @@ WeatherProvider.register("envcanada", {
 		} else {
 			currentWeather.temperature = this.cacheCurrentTemp;
 		}
+		
+		if (ECdoc.querySelector("siteData currentConditions wind speed").textContent === "calm") {
+			currentWeather.windSpeed = "0";
+		} else {
+			currentWeather.windSpeed = WeatherUtils.convertWindToMs(ECdoc.querySelector("siteData currentConditions wind speed").textContent);
+		}
 
-		currentWeather.windSpeed = WeatherUtils.convertWindToMs(ECdoc.querySelector("siteData currentConditions wind speed").textContent);
 		currentWeather.windFromDirection = ECdoc.querySelector("siteData currentConditions wind bearing").textContent;
 
 		currentWeather.humidity = ECdoc.querySelector("siteData currentConditions relativeHumidity").textContent;
