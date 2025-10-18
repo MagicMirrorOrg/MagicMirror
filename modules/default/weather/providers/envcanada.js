@@ -243,7 +243,7 @@ WeatherProvider.register("envcanada", {
 		} else {
 			currentWeather.temperature = this.cacheCurrentTemp;
 		}
-		
+
 		if (ECdoc.querySelector("siteData currentConditions wind speed").textContent === "calm") {
 			currentWeather.windSpeed = "0";
 		} else {
