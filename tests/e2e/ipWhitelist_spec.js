@@ -1,7 +1,7 @@
 const helpers = require("./helpers/global-setup");
 
 describe("ipWhitelist directive configuration", () => {
-	describe("Set ipWhitelist without access", () => {
+	describe("When IP is not in whitelist", () => {
 		beforeAll(async () => {
 			await helpers.startApplication("tests/configs/noIpWhiteList.js");
 		});
@@ -9,13 +9,13 @@ describe("ipWhitelist directive configuration", () => {
 			await helpers.stopApplication();
 		});
 
-		it("should return 403", async () => {
+		it("should reject request with 403 (Forbidden)", async () => {
 			const res = await fetch("http://localhost:8181");
 			expect(res.status).toBe(403);
 		});
 	});
 
-	describe("Set ipWhitelist []", () => {
+	describe("When whitelist is empty (allow all IPs)", () => {
 		beforeAll(async () => {
 			await helpers.startApplication("tests/configs/empty_ipWhiteList.js");
 		});
@@ -23,7 +23,7 @@ describe("ipWhitelist directive configuration", () => {
 			await helpers.stopApplication();
 		});
 
-		it("should return 200", async () => {
+		it("should allow request with 200 (OK)", async () => {
 			const res = await fetch("http://localhost:8282");
 			expect(res.status).toBe(200);
 		});
