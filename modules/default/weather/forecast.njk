@@ -16,7 +16,7 @@
         {% elif (currentStep == 1) and config.ignoreToday == false and config.absoluteDates == false %}
           <td class="day">{{ "TOMORROW" | translate }}</td>
         {% else %}
-          <td class="day">{{ f.date.format("ddd") }}</td>
+          <td class="day">{{ f.date.format(config.forecastDateFormat) }}</td>
         {% endif %}
         <td class="bright weather-icon">
           <span class="wi weathericon wi-{{ f.weatherType }}"></span>

@@ -13,6 +13,8 @@ planned for 2026-01-01
 
 ### Added
 
+- [weather] feat: add configurable forecast date format option (#3918)
+
 ### Changed
 
 - [core] refactor: replace `module-alias` dependency with internal alias resolver (#3893)

@@ -41,6 +41,7 @@ Module.register("weather", {
 		onlyTemp: false,
 		colored: false,
 		absoluteDates: false,
+		forecastDateFormat: "ddd", // format for forecast date display, e.g., "ddd" = Mon, "dddd" = Monday, "D MMM" = 18 Oct
 		hourlyForecastIncrements: 1
 	},
 
