@@ -68,6 +68,9 @@
 		"*.js": "eslint --fix",
 		"*.css": "stylelint --fix"
 	},
+	"overrides": {
+		"parse5": "7.3.0"
+	},
 	"dependencies": {
 		"@fontsource/roboto": "^5.2.8",
 		"@fontsource/roboto-condensed": "^5.2.8",
