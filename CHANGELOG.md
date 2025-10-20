@@ -28,7 +28,7 @@ planned for 2026-01-01
 
 ### Updated
 
-- [core] Update dependencies (#3909, #3916, #3921)
+- [core] Update dependencies (#3909, #3916, #3921, #3925)
 
 ## [2.33.0] - 2025-10-01
 
