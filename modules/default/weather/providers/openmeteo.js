@@ -155,7 +155,7 @@ WeatherProvider.register("openmeteo", {
 				this.setCurrentWeather(currentWeather);
 			})
 			.catch(function (request) {
-				Log.error("[weatherprovider] Could not load data ... ", request);
+				Log.error("[weatherprovider.openmeteo] Could not load data ... ", request);
 			})
 			.finally(() => this.updateAvailable());
 	},
@@ -173,7 +173,7 @@ WeatherProvider.register("openmeteo", {
 				this.setWeatherForecast(dailyForecast);
 			})
 			.catch(function (request) {
-				Log.error("[weatherprovider] Could not load data ... ", request);
+				Log.error("[weatherprovider.openmeteo] Could not load data ... ", request);
 			})
 			.finally(() => this.updateAvailable());
 	},
@@ -191,7 +191,7 @@ WeatherProvider.register("openmeteo", {
 				this.setWeatherHourly(hourlyForecast);
 			})
 			.catch(function (request) {
-				Log.error("[weatherprovider] Could not load data ... ", request);
+				Log.error("[weatherprovider.openmeteo] Could not load data ... ", request);
 			})
 			.finally(() => this.updateAvailable());
 	},
@@ -217,7 +217,7 @@ WeatherProvider.register("openmeteo", {
 		this.config.maxEntries = Math.max(1, Math.min(this.config.maxEntries, maxEntriesLimit));
 
 		if (!this.config.type) {
-			Log.error("[weatherprovider] type not configured and could not resolve it");
+			Log.error("[weatherprovider.openmeteo] type not configured and could not resolve it");
 		}
 
 		this.fetchLocation();
@@ -340,7 +340,7 @@ WeatherProvider.register("openmeteo", {
 				this.fetchedLocationName = `${data.city}, ${data.principalSubdivisionCode}`;
 			})
 			.catch((request) => {
-				Log.error("[weatherprovider] Could not load data ... ", request);
+				Log.error("[weatherprovider.openmeteo] Could not load data ... ", request);
 			});
 	},
 

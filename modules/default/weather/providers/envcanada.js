@@ -60,7 +60,7 @@ WeatherProvider.register("envcanada", {
 	 * Called when the weather provider is started
 	 */
 	start () {
-		Log.info(`[weatherprovider] ${this.providerName} started.`);
+		Log.info(`[weatherprovider.envcanada] ${this.providerName} started.`);
 		this.setFetchedLocation(this.config.location);
 	},
 
@@ -103,13 +103,13 @@ WeatherProvider.register("envcanada", {
 	fetchCommon (target) {
 		const forecastURL = this.getUrl(); // Get the approriate URL for the MSC Datamart Index page
 
-		Log.debug(`[weather.envcanada] ${target} Index url: ${forecastURL}`);
+		Log.debug(`[weatherprovider.envcanada] ${target} Index url: ${forecastURL}`);
 
 		this.fetchData(forecastURL, "xml") // Query the Index page URL
 			.then((indexData) => {
 				if (!indexData) {
 					// Did not receive usable new data.
-					Log.info(`weather.envcanada ${target} - did not receive usable index data`);
+					Log.info(`[weatherprovider.envcanada] ${target} - did not receive usable index data`);
 					this.updateAvailable(); // If there were issues, update anyways to reset timer
 					return;
 				}
@@ -133,7 +133,7 @@ WeatherProvider.register("envcanada", {
 					forecastFileURL = forecastURL + forecastFile; // Create full URL to the city's weather data
 				}
 
-				Log.debug(`[weather.envcanada] ${target} Citypage url: ${forecastFileURL}`);
+				Log.debug(`[weatherprovider.envcanada] ${target} Citypage url: ${forecastFileURL}`);
 
 				/*
 				 * If the Citypage filename has not changed since the last Weather refresh, the forecast has not changed and
@@ -141,19 +141,19 @@ WeatherProvider.register("envcanada", {
 				 */
 
 				if (target === "Current" && this.lastCityPageCurrent === forecastFileURL) {
-					Log.debug(`[weather.envcanada] ${target} - Newest Citypage has already been seen - skipping!`);
+					Log.debug(`[weatherprovider.envcanada] ${target} - Newest Citypage has already been seen - skipping!`);
 					this.updateAvailable(); // Update anyways to reset refresh timer
 					return;
 				}
 
 				if (target === "Forecast" && this.lastCityPageForecast === forecastFileURL) {
-					Log.debug(`[weather.envcanada] ${target} - Newest Citypage has already been seen - skipping!`);
+					Log.debug(`[weatherprovider.envcanada] ${target} - Newest Citypage has already been seen - skipping!`);
 					this.updateAvailable(); // Update anyways to reset refresh timer
 					return;
 				}
 
 				if (target === "Hourly" && this.lastCityPageHourly === forecastFileURL) {
-					Log.debug(`[weather.envcanada] ${target} - Newest Citypage has already been seen - skipping!`);
+					Log.debug(`[weatherprovider.envcanada] ${target} - Newest Citypage has already been seen - skipping!`);
 					this.updateAvailable(); // Update anyways to reset refresh timer
 					return;
 				}
@@ -162,7 +162,7 @@ WeatherProvider.register("envcanada", {
 					.then((cityData) => {
 						if (!cityData) {
 							// Did not receive usable new data.
-							Log.info(`weather.envcanada ${target} - did not receive usable citypage data`);
+							Log.info(`[weatherprovider.envcanada] ${target} - did not receive usable citypage data`);
 							return;
 						}
 
@@ -170,7 +170,7 @@ WeatherProvider.register("envcanada", {
 						 * With the city's weather data read, parse the resulting XML document for the appropriate weather data
 						 * elements to create a weather object. Next, set Weather modules details from that object.
 						 */
-						Log.debug(`[weather.envcanada] ${target} - Citypage has been read and will be processed for updates`);
+						Log.debug(`[weatherprovider.envcanada] ${target} - Citypage has been read and will be processed for updates`);
 
 						if (target === "Current") {
 							const currentWeather = this.generateWeatherObjectFromCurrentWeather(cityData);
@@ -191,12 +191,12 @@ WeatherProvider.register("envcanada", {
 						}
 					})
 					.catch(function (cityRequest) {
-						Log.info(`weather.envcanada ${target} - could not load citypage data from: ${forecastFileURL}`);
+						Log.info(`[weatherprovider.envcanada] ${target} - could not load citypage data from: ${forecastFileURL}`);
 					})
 					.finally(() => this.updateAvailable()); // Update no matter what to reset weather refresh timer
 			})
 			.catch(function (indexRequest) {
-				Log.error(`weather.envcanada ${target} - could not load index data ... `, indexRequest);
+				Log.error(`[weatherprovider.envcanada] ${target} - could not load index data ... `, indexRequest);
 				this.updateAvailable(); // If there were issues, update anyways to reset timer
 			});
 	},

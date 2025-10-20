@@ -41,7 +41,7 @@ WeatherProvider.register("weatherflow", {
 				this.fetchedLocationName = data.location_name;
 			})
 			.catch(function (request) {
-				Log.error("[weatherprovider] Could not load data ... ", request);
+				Log.error("[weatherprovider.weatherflow] Could not load data ... ", request);
 			})
 			.finally(() => this.updateAvailable());
 	},
@@ -81,7 +81,7 @@ WeatherProvider.register("weatherflow", {
 				this.fetchedLocationName = data.location_name;
 			})
 			.catch(function (request) {
-				Log.error("[weatherprovider] Could not load data ... ", request);
+				Log.error("[weatherprovider.weatherflow] Could not load data ... ", request);
 			})
 			.finally(() => this.updateAvailable());
 	},
@@ -112,7 +112,7 @@ WeatherProvider.register("weatherflow", {
 				this.fetchedLocationName = data.location_name;
 			})
 			.catch(function (request) {
-				Log.error("[weatherprovider] Could not load data ... ", request);
+				Log.error("[weatherprovider.weatherflow] Could not load data ... ", request);
 			})
 			.finally(() => this.updateAvailable());
 	},

@@ -42,7 +42,7 @@ WeatherProvider.register("openweathermap", {
 				this.setCurrentWeather(currentWeather);
 			})
 			.catch(function (request) {
-				Log.error("[weatherprovider] Could not load data ... ", request);
+				Log.error("[weatherprovider.openweathermap] Could not load data ... ", request);
 			})
 			.finally(() => this.updateAvailable());
 	},
@@ -64,7 +64,7 @@ WeatherProvider.register("openweathermap", {
 				this.setFetchedLocation(location);
 			})
 			.catch(function (request) {
-				Log.error("[weatherprovider] Could not load data ... ", request);
+				Log.error("[weatherprovider.openweathermap] Could not load data ... ", request);
 			})
 			.finally(() => this.updateAvailable());
 	},
@@ -88,7 +88,7 @@ WeatherProvider.register("openweathermap", {
 				this.setWeatherHourly(weatherData.hours);
 			})
 			.catch(function (request) {
-				Log.error("[weatherprovider] Could not load data ... ", request);
+				Log.error("[weatherprovider.openweathermap] Could not load data ... ", request);
 			})
 			.finally(() => this.updateAvailable());
 	},

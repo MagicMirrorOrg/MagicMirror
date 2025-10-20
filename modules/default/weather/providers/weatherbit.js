@@ -36,7 +36,7 @@ WeatherProvider.register("weatherbit", {
 				this.setCurrentWeather(currentWeather);
 			})
 			.catch(function (request) {
-				Log.error("[weatherprovider] Could not load data ... ", request);
+				Log.error("[weatherprovider.weatherbit] Could not load data ... ", request);
 			})
 			.finally(() => this.updateAvailable());
 	},
@@ -55,7 +55,7 @@ WeatherProvider.register("weatherbit", {
 				this.fetchedLocationName = `${data.city_name}, ${data.state_code}`;
 			})
 			.catch(function (request) {
-				Log.error("[weatherprovider] Could not load data ... ", request);
+				Log.error("[weatherprovider.weatherbit] Could not load data ... ", request);
 			})
 			.finally(() => this.updateAvailable());
 	},
@@ -79,7 +79,7 @@ WeatherProvider.register("weatherbit", {
 					this.config.weatherEndpoint = "/current";
 					break;
 				default:
-					Log.error("[weatherprovider] weatherEndpoint not configured and could not resolve it based on type");
+					Log.error("[weatherprovider.weatherbit] weatherEndpoint not configured and could not resolve it based on type");
 			}
 		}
 	},
