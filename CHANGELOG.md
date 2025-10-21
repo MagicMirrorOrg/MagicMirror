@@ -29,7 +29,7 @@ planned for 2026-01-01
 ### Updated
 
 - [core] Update dependencies (#3909, #3916, #3921, #3925)
-- [logger] Add prefixes to most Log messages (#3923)
+- [logger] Add prefixes to most Log messages (#3923, #3926)
 
 ## [2.33.0] - 2025-10-01
 
