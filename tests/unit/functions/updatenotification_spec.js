@@ -106,7 +106,7 @@ describe("Updatenotification", () => {
 			expect(repos).toHaveLength(0);
 
 			const { error } = require("logger");
-			expect(error).toHaveBeenCalledWith(`Failed to retrieve repo info for ${moduleName}: Failed to retrieve status`);
+			expect(error).toHaveBeenCalledWith(`[updatenotification] Failed to retrieve repo info for ${moduleName}: Failed to retrieve status`);
 		});
 	});
 
@@ -145,7 +145,7 @@ describe("Updatenotification", () => {
 			expect(repos).toHaveLength(0);
 
 			const { error } = require("logger");
-			expect(error).toHaveBeenCalledWith(`Failed to retrieve repo info for ${moduleName}: Failed to retrieve status`);
+			expect(error).toHaveBeenCalledWith(`[updatenotification] Failed to retrieve repo info for ${moduleName}: Failed to retrieve status`);
 		});
 	});
 
@@ -186,7 +186,7 @@ describe("Updatenotification", () => {
 			expect(repos).toHaveLength(0);
 
 			const { error } = require("logger");
-			expect(error).toHaveBeenCalledWith(`Failed to retrieve repo info for ${moduleName}: Failed to retrieve status`);
+			expect(error).toHaveBeenCalledWith(`[updatenotification] Failed to retrieve repo info for ${moduleName}: Failed to retrieve status`);
 		});
 	});
 
@@ -227,7 +227,7 @@ describe("Updatenotification", () => {
 			expect(repos).toHaveLength(0);
 
 			const { error } = require("logger");
-			expect(error).toHaveBeenCalledWith(`Failed to retrieve repo info for ${moduleName}: Failed to retrieve status`);
+			expect(error).toHaveBeenCalledWith(`[updatenotification] Failed to retrieve repo info for ${moduleName}: Failed to retrieve status`);
 		});
 	});
 
