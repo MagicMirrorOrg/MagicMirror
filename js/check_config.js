@@ -142,7 +142,7 @@ function validateModulePositions (configFileName) {
 		} else {
 			errorMessage += validate.errors[0].message;
 		}
-		Log.error("[check_config]", errorMessage);
+		Log.error(errorMessage);
 		process.exit(1);
 	}
 }
