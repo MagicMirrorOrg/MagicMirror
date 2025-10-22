@@ -14,7 +14,7 @@ planned for 2026-01-01
 ### Added
 
 - [weather] feat: add configurable forecast date format option (#3918)
-- [core] Add new script `server:watch` to start MagicMirror² server only without electron but with live reload support on changes for `node_helpers.js` files in `modules` directory and `config` folder
+- [core] Add new `server:watch` script to run MagicMirror² server-only with automatic restarts when JS files in `modules`, `js`, `serveronly`, or the `config` files changes (#3920)
 
 ### Changed
 
