@@ -43,6 +43,7 @@
 		"lint:prettier": "prettier . --write",
 		"prepare": "[ -f node_modules/.bin/husky ] && husky || echo no husky installed.",
 		"server": "node ./serveronly",
+		"server:dev": "nodemon",
 		"start": "node --run start:x11",
 		"start:dev": "node --run start:x11 -- dev",
 		"start:wayland": "WAYLAND_DISPLAY=\"${WAYLAND_DISPLAY:=wayland-1}\" ./node_modules/.bin/electron js/electron.js --enable-features=UseOzonePlatform --ozone-platform=wayland",
