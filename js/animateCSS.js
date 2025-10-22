@@ -132,7 +132,7 @@ function addAnimateCSS (element, animation, animationTime) {
 	const node = document.getElementById(element);
 	if (!node) {
 		// don't execute animate: we don't find div
-		Log.warn("[animateCSS] node not found for adding", element);
+		Log.warn("node not found for adding", element);
 		return;
 	}
 	node.style.setProperty("--animate-duration", `${animationTime}s`);
@@ -149,7 +149,7 @@ function removeAnimateCSS (element, animation) {
 	const node = document.getElementById(element);
 	if (!node) {
 		// don't execute animate: we don't find div
-		Log.warn("[animateCSS] node not found for removing", element);
+		Log.warn("node not found for removing", element);
 		return;
 	}
 	node.classList.remove("animate__animated", animationName);

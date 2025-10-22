@@ -95,26 +95,26 @@ const CalendarFetcherUtils = {
 		const oneDayInMs = 24 * 60 * 60000;
 		let searchFromDate = pastLocalMoment.clone().subtract(Math.max(durationInMs, oneDayInMs), "milliseconds").toDate();
 		let searchToDate = futureLocalMoment.clone().add(1, "days").toDate();
-		Log.debug(`[calendar] Search for recurring events between: ${searchFromDate} and ${searchToDate}`);
+		Log.debug(`Search for recurring events between: ${searchFromDate} and ${searchToDate}`);
 
 		// if until is set, and its a full day event, force the time to midnight. rrule gets confused with non-00 offset
 		// looks like MS Outlook sets the until time incorrectly for fullday events
 		if ((rule.options.until !== undefined) && CalendarFetcherUtils.isFullDayEvent(event)) {
-			Log.debug("[calendar] fixup rrule until");
+			Log.debug("fixup rrule until");
 			rule.options.until = moment(rule.options.until).clone().startOf("day").add(1, "day")
 				.toDate();
 		}
 
-		Log.debug("[calendar] fix rrule start=", rule.options.dtstart);
-		Log.debug("[calendar] event before rrule.between=", JSON.stringify(event, null, 2), "exdates=", event.exdate);
-		Log.debug(`[calendar] RRule: ${rule.toString()}`);
+		Log.debug("fix rrule start=", rule.options.dtstart);
+		Log.debug("event before rrule.between=", JSON.stringify(event, null, 2), "exdates=", event.exdate);
+		Log.debug(`RRule: ${rule.toString()}`);
 		rule.options.tzid = null; // RRule gets *very* confused with timezones
 
 		let dates = rule.between(searchFromDate, searchToDate, true, () => {
 			return true;
 		});
 
-		Log.debug(`[calendar] Title: ${event.summary}, with dates: \n\n${JSON.stringify(dates)}\n`);
+		Log.debug(`Title: ${event.summary}, with dates: \n\n${JSON.stringify(dates)}\n`);
 
 		// shouldn't need this  anymore, as RRULE not passed junk
 		dates = dates.filter((d) => {
@@ -140,7 +140,7 @@ const CalendarFetcherUtils = {
 			return CalendarFetcherUtils.isFullDayEvent(event) ? startMoment.startOf("day") : startMoment;
 		};
 
-		Log.debug(`[calendar] There are ${Object.entries(data).length} calendar entries.`);
+		Log.debug(`There are ${Object.entries(data).length} calendar entries.`);
 
 		const now = moment();
 		const pastLocalMoment = config.includePastEvents ? now.clone().startOf("day").subtract(config.maximumNumberOfDays, "days") : now;
@@ -153,10 +153,10 @@ const CalendarFetcherUtils = {
 				.subtract(1, "seconds");
 
 		Object.entries(data).forEach(([key, event]) => {
-			Log.debug("[calendar] Processing entry...");
+			Log.debug("Processing entry...");
 
 			const title = CalendarFetcherUtils.getTitleFromEvent(event);
-			Log.debug(`[calendar] title: ${title}`);
+			Log.debug(`title: ${title}`);
 
 			// Return quickly if event should be excluded.
 			let { excluded, eventFilterUntil } = this.shouldEventBeExcluded(config, title);
@@ -174,7 +174,7 @@ const CalendarFetcherUtils = {
 			}
 
 			if (event.type === "VEVENT") {
-				Log.debug(`[calendar] Event:\n${JSON.stringify(event, null, 2)}`);
+				Log.debug(`Event:\n${JSON.stringify(event, null, 2)}`);
 				let eventStartMoment = eventDate(event, "start");
 				let eventEndMoment;
 
@@ -191,12 +191,12 @@ const CalendarFetcherUtils = {
 					}
 				}
 
-				Log.debug(`[calendar] start: ${eventStartMoment.toDate()}`);
-				Log.debug(`[calendar] end:   ${eventEndMoment.toDate()}`);
+				Log.debug(`start: ${eventStartMoment.toDate()}`);
+				Log.debug(`end:   ${eventEndMoment.toDate()}`);
 
 				// Calculate the duration of the event for use with recurring events.
 				const durationMs = eventEndMoment.valueOf() - eventStartMoment.valueOf();
-				Log.debug(`[calendar] duration: ${durationMs}`);
+				Log.debug(`duration: ${durationMs}`);
 
 				const location = event.location || false;
 				const geo = event.geo || false;
@@ -217,12 +217,12 @@ const CalendarFetcherUtils = {
 
 						let dateKey = recurringEventStartMoment.tz("UTC").format("YYYY-MM-DD");
 
-						Log.debug("[calendar] event date dateKey=", dateKey);
+						Log.debug("event date dateKey=", dateKey);
 						// For each date that we're checking, it's possible that there is a recurrence override for that one day.
 						if (curEvent.recurrences !== undefined) {
-							Log.debug("[calendar] have recurrences=", curEvent.recurrences);
+							Log.debug("have recurrences=", curEvent.recurrences);
 							if (curEvent.recurrences[dateKey] !== undefined) {
-								Log.debug("[calendar] have a recurrence match for dateKey=", dateKey);
+								Log.debug("have a recurrence match for dateKey=", dateKey);
 								// We found an override, so for this recurrence, use a potentially different title, start date, and duration.
 								curEvent = curEvent.recurrences[dateKey];
 								// Some event start/end dates don't have timezones
@@ -237,12 +237,12 @@ const CalendarFetcherUtils = {
 									recurringEventEndMoment = moment(curEvent.end).tz(CalendarFetcherUtils.getLocalTimezone());
 								}
 							} else {
-								Log.debug("[calendar] recurrence key ", dateKey, " doesn't match");
+								Log.debug("recurrence key ", dateKey, " doesn't match");
 							}
 						}
 						// If there's no recurrence override, check for an exception date.  Exception dates represent exceptions to the rule.
 						if (curEvent.exdate !== undefined) {
-							Log.debug("[calendar] have datekey=", dateKey, " exdates=", curEvent.exdate);
+							Log.debug("have datekey=", dateKey, " exdates=", curEvent.exdate);
 							if (curEvent.exdate[dateKey] !== undefined) {
 								// This date is an exception date, which means we should skip it in the recurrence pattern.
 								showRecurrence = false;
@@ -266,7 +266,7 @@ const CalendarFetcherUtils = {
 						}
 
 						if (showRecurrence === true) {
-							Log.debug(`[calendar] saving event: ${recurrenceTitle}`);
+							Log.debug(`saving event: ${recurrenceTitle}`);
 							newEvents.push({
 								title: recurrenceTitle,
 								startDate: recurringEventStartMoment.format("x"),
@@ -280,7 +280,7 @@ const CalendarFetcherUtils = {
 								description: description
 							});
 						} else {
-							Log.debug("[calendar] not saving event ", recurrenceTitle, eventStartMoment);
+							Log.debug("not saving event ", recurrenceTitle, eventStartMoment);
 						}
 					}
 					// End recurring event parsing.

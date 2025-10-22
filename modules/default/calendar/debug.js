@@ -21,20 +21,20 @@ const auth = {
 	pass: pass
 };
 
-Log.log("[calendar] Create fetcher ...");
+Log.log("Create fetcher ...");
 
 const fetcher = new CalendarFetcher(url, fetchInterval, [], maximumEntries, maximumNumberOfDays, auth);
 
 fetcher.onReceive(function (fetcher) {
-	Log.log("[calendar] ", fetcher.events());
+	Log.log(fetcher.events());
 	process.exit(0);
 });
 
 fetcher.onError(function (fetcher, error) {
-	Log.log("[calendar] Fetcher error:", error);
+	Log.log("Fetcher error:", error);
 	process.exit(1);
 });
 
 fetcher.startFetch();
 
-Log.log("[calendar] Create fetcher done! ");
+Log.log("Create fetcher done! ");

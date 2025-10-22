@@ -24,7 +24,7 @@ class GitHelper {
 		const { stderr } = await this.execShell(`cd ${moduleFolder} && git remote -v`);
 
 		if (stderr) {
-			Log.error(`[updatenotification] Failed to fetch git data for ${moduleFolder}: ${stderr}`);
+			Log.error(`Failed to fetch git data for ${moduleFolder}: ${stderr}`);
 
 			return false;
 		}
@@ -40,7 +40,7 @@ class GitHelper {
 		}
 
 		try {
-			Log.info(`[updatenotification] Checking git for module: ${moduleName}`);
+			Log.info(`Checking git for module: ${moduleName}`);
 			// Throws error if file doesn't exist
 			fs.statSync(path.join(moduleFolder, ".git"));
 
@@ -72,7 +72,7 @@ class GitHelper {
 			const { stderr, stdout } = await this.execShell(`cd ${repo.folder} && git rev-parse HEAD`);
 
 			if (stderr) {
-				Log.error(`[updatenotification] Failed to get current commit hash for ${repo.module}: ${stderr}`);
+				Log.error(`Failed to get current commit hash for ${repo.module}: ${stderr}`);
 			}
 
 			gitInfo.hash = stdout;
@@ -81,7 +81,7 @@ class GitHelper {
 		const { stderr, stdout } = await this.execShell(`cd ${repo.folder} && git status -sb`);
 
 		if (stderr) {
-			Log.error(`[updatenotification] Failed to get git status for ${repo.module}: ${stderr}`);
+			Log.error(`Failed to get git status for ${repo.module}: ${stderr}`);
 			// exit without git status info
 			return;
 		}
@@ -151,7 +151,7 @@ class GitHelper {
 					const { stdout } = await this.execShell(`cd ${repo.folder} && git ls-remote -q --tags --refs`);
 					tagList = stdout.trim();
 				} catch (err) {
-					Log.error(`[updatenotification] Failed to get tag list for ${repo.module}: ${err}`);
+					Log.error(`Failed to get tag list for ${repo.module}: ${err}`);
 				}
 				// check if tag is between commits and only report behind > 0 if so
 				try {
@@ -162,13 +162,13 @@ class GitHelper {
 					}
 					if (cnt === 0) gitInfo.behind = 0;
 				} catch (err) {
-					Log.error(`[updatenotification] Failed to get git revisions for ${repo.module}: ${err}`);
+					Log.error(`Failed to get git revisions for ${repo.module}: ${err}`);
 				}
 			}
 
 			return gitInfo;
 		} catch (err) {
-			Log.error(`[updatenotification] Failed to get git revisions for ${repo.module}: ${err}`);
+			Log.error(`Failed to get git revisions for ${repo.module}: ${err}`);
 		}
 	}
 
@@ -183,7 +183,7 @@ class GitHelper {
 					this.gitResultList.push(gitInfo);
 				}
 			} catch (e) {
-				Log.error(`[updatenotification] Failed to retrieve repo info for ${repo.module}: ${e}`);
+				Log.error(`Failed to retrieve repo info for ${repo.module}: ${e}`);
 			}
 		}
 
@@ -196,7 +196,7 @@ class GitHelper {
 		const allRepos = await this.gitResultList.map((module) => {
 			return new Promise((resolve) => {
 				if (module.behind > 0 && module.module !== "MagicMirror") {
-					Log.info(`[updatenotification] Update found for module: ${module.module}`);
+					Log.info(`Update found for module: ${module.module}`);
 					updates.push(module);
 				}
 				resolve(module);

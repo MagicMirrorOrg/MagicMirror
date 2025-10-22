@@ -40,7 +40,7 @@ function createWindow () {
 	try {
 		electronSize = electron.screen.getPrimaryDisplay().workAreaSize;
 	} catch {
-		Log.warn("[electron] Could not get display size, using defaults ...");
+		Log.warn("Could not get display size, using defaults ...");
 	}
 
 	let electronSwitchesDefaults = ["autoplay-policy", "no-user-gesture-required"];
@@ -196,7 +196,7 @@ app.on("activate", function () {
  * core.stop() is called by process.on("SIGINT"... in `app.js`
  */
 app.on("before-quit", async (event) => {
-	Log.log("[electron] Shutting down server...");
+	Log.log("Shutting down server...");
 	event.preventDefault();
 	setTimeout(() => {
 		process.exit(0);
@@ -215,7 +215,7 @@ app.on("certificate-error", (event, webContents, url, error, certificate, callba
 
 if (process.env.clientonly) {
 	app.whenReady().then(() => {
-		Log.log("[electron] Launching client viewer application.");
+		Log.log("Launching client viewer application.");
 		createWindow();
 	});
 }
@@ -228,7 +228,7 @@ if (["localhost", "127.0.0.1", "::1", "::ffff:127.0.0.1", undefined].includes(co
 	core.start().then((c) => {
 		config = c;
 		app.whenReady().then(() => {
-			Log.log("[electron] Launching application.");
+			Log.log("Launching application.");
 			createWindow();
 		});
 	});

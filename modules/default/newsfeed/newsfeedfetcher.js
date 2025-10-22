@@ -67,10 +67,10 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 					hash: crypto.createHash("sha256").update(`${pubdate} :: ${title} :: ${url}`).digest("hex")
 				});
 			} else if (logFeedWarnings) {
-				Log.warn("[newsfeed] Can't parse feed item:", item);
-				Log.warn(`[newsfeed] Title: ${title}`);
-				Log.warn(`[newsfeed] Description: ${description}`);
-				Log.warn(`[newsfeed] Pubdate: ${pubdate}`);
+				Log.warn("Can't parse feed item:", item);
+				Log.warn(`Title: ${title}`);
+				Log.warn(`Description: ${description}`);
+				Log.warn(`Pubdate: ${pubdate}`);
 			}
 		});
 
@@ -94,10 +94,10 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 				const ttlms = Math.min(minutes * 60 * 1000, 86400000);
 				if (ttlms > reloadIntervalMS) {
 					reloadIntervalMS = ttlms;
-					Log.info(`[newsfeed] reloadInterval set to ttl=${reloadIntervalMS} for url ${url}`);
+					Log.info(`reloadInterval set to ttl=${reloadIntervalMS} for url ${url}`);
 				}
 			} catch (error) {
-				Log.warn(`[newsfeed] feed ttl is no valid integer=${minutes} for url ${url}`);
+				Log.warn(`feed ttl is no valid integer=${minutes} for url ${url}`);
 			}
 		});
 
@@ -148,10 +148,10 @@ const NewsfeedFetcher = function (url, reloadInterval, encoding, logFeedWarnings
 	 */
 	this.broadcastItems = function () {
 		if (items.length <= 0) {
-			Log.info("[newsfeed] No items to broadcast yet.");
+			Log.info("No items to broadcast yet.");
 			return;
 		}
-		Log.info(`[newsfeed] Broadcasting ${items.length} items.`);
+		Log.info(`Broadcasting ${items.length} items.`);
 		itemsReceivedCallback(this);
 	};
 

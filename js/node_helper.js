@@ -4,15 +4,15 @@ const Class = require("./class");
 
 const NodeHelper = Class.extend({
 	init () {
-		Log.log("[nodehelper] Initializing new module helper ...");
+		Log.log("Initializing new module helper ...");
 	},
 
 	loaded () {
-		Log.log(`[nodehelper] Module helper loaded: ${this.name}`);
+		Log.log(`Module helper loaded: ${this.name}`);
 	},
 
 	start () {
-		Log.log(`[nodehelper] Starting module helper: ${this.name}`);
+		Log.log(`Starting module helper: ${this.name}`);
 	},
 
 	/**
@@ -21,7 +21,7 @@ const NodeHelper = Class.extend({
 	 * gracefully exit the module.
 	 */
 	stop () {
-		Log.log(`[nodehelper] Stopping module helper: ${this.name}`);
+		Log.log(`Stopping module helper: ${this.name}`);
 	},
 
 	/**
@@ -30,7 +30,7 @@ const NodeHelper = Class.extend({
 	 * @param {object}  payload The payload of the notification.
 	 */
 	socketNotificationReceived (notification, payload) {
-		Log.log(`[nodehelper] ${this.name} received a socket notification: ${notification} - Payload: ${payload}`);
+		Log.log(`${this.name} received a socket notification: ${notification} - Payload: ${payload}`);
 	},
 
 	/**
@@ -83,7 +83,7 @@ const NodeHelper = Class.extend({
 	setSocketIO (io) {
 		this.io = io;
 
-		Log.log(`[nodehelper] Connecting socket for: ${this.name}`);
+		Log.log(`Connecting socket for: ${this.name}`);
 
 		io.of(this.name).on("connection", (socket) => {
 			// register catch all.
