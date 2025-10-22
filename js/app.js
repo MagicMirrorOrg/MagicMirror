@@ -388,6 +388,16 @@ function App () {
 		return httpServer.close();
 	};
 
+
+	this.restart = async function () {
+		Log.info("Restarting MagicMirror...");
+
+		await this.stop();
+		await this.start();
+
+		Log.info("MagicMirror restarted!");
+	};
+
 	/**
 	 * Listen for SIGINT signal and call stop() function.
 	 *
@@ -415,6 +425,17 @@ function App () {
 		}, 3000); // Force quit after 3 seconds
 		await this.stop();
 		process.exit(0);
+	});
+
+	/**
+	 * Listen for input 'restart' or 'rs' on stdin to restart the server.
+	 */
+	process.stdin.setEncoding("utf8").on("data", (data) => {
+		const input = data.trim();
+
+		if (input === "restart" || input === "rs") {
+			this.restart();
+		}
 	});
 }
 
