@@ -31,16 +31,18 @@ function getConfigFile () {
 function checkConfigFile () {
 	const configFileName = getConfigFile();
 
-	// Check if file is present
-	if (fs.existsSync(configFileName) === false) {
-		throw new Error(`File not found: ${configFileName}\nNo config file present!`);
-	}
-
-	// Check permission
+	// Check if file exists and is accessible
 	try {
-		fs.accessSync(configFileName, fs.constants.F_OK);
+		fs.accessSync(configFileName, fs.constants.R_OK);
 	} catch (error) {
-		throw new Error(`${error}\nNo permission to access config file!`);
+		if (error.code === "ENOENT") {
+			Log.error(`File not found: ${configFileName}`);
+		} else if (error.code === "EACCES") {
+			Log.error(`No permission to read config file: ${configFileName}`);
+		} else {
+			Log.error(`Cannot access config file: ${configFileName}\n${error.message}`);
+		}
+		process.exit(1);
 	}
 
 	// Validate syntax of the configuration file.
@@ -75,7 +77,8 @@ function checkConfigFile () {
 		for (const error of errors) {
 			errorMessage += `\nLine ${error.line} column ${error.column}: ${error.message}`;
 		}
-		throw new Error(errorMessage);
+		Log.error(errorMessage);
+		process.exit(1);
 	}
 }
 
@@ -102,8 +105,7 @@ function validateModulePositions (configFileName) {
 							type: "string"
 						},
 						position: {
-							type: "string",
-							enum: positionList
+							type: "string"
 						}
 					},
 					required: ["module"]
@@ -119,6 +121,16 @@ function validateModulePositions (configFileName) {
 	const valid = validate(data);
 	if (valid) {
 		Log.info(styleText("green", "Your modules structure configuration doesn't contain errors :)"));
+
+		// Check for unknown positions (warning only, not an error)
+		if (data.modules) {
+			for (const [index, module] of data.modules.entries()) {
+				if (module.position && !positionList.includes(module.position)) {
+					Log.warn(`Module ${index} ("${module.module}") uses unknown position: "${module.position}"`);
+					Log.warn(`Known positions are: ${positionList.join(", ")}`);
+				}
+			}
+		}
 	} else {
 		const module = validate.errors[0].instancePath.split("/")[2];
 		const position = validate.errors[0].instancePath.split("/")[3];
@@ -130,13 +142,15 @@ function validateModulePositions (configFileName) {
 		} else {
 			errorMessage += validate.errors[0].message;
 		}
-		Log.error("[checkconfig]", errorMessage);
+		Log.error("[check_config]", errorMessage);
+		process.exit(1);
 	}
 }
 
 try {
 	checkConfigFile();
 } catch (error) {
-	Log.error("[checkconfig]", error);
+	const message = error && error.message ? error.message : error;
+	Log.error(`Unexpected error: ${message}`);
 	process.exit(1);
 }
