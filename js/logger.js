@@ -18,7 +18,12 @@
 								const file = line.getFileName();
 								if (file && !file.includes("node:") && !file.includes("js/logger.js") && !file.includes("node_modules")) {
 									const filename = file.replace(/.*\/(.*).js/, "$1");
-									return styleText("grey", `[${filename}]`);
+									const filepath = file.replace(/.*\/(.*)\/.*.js/, "$1");
+									if (filepath === "js") {
+										return styleText("grey", `[${filename}]`);
+									} else {
+										return styleText("grey", `[${filepath}]`);
+									}
 								}
 							}
 						} catch (err) {
