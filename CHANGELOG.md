@@ -14,6 +14,8 @@ planned for 2026-01-01
 ### Added
 
 - [weather] feat: add configurable forecast date format option (#3918)
+- [config] Add `.nvmrc` file to specify node version for nvm users
+- [core] Add new script `server:dev` to start MagicMirror² server only without electron but with live reload support
 
 ### Changed
 
