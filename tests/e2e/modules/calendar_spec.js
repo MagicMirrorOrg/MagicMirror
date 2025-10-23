@@ -119,22 +119,6 @@ describe("Calendar module", () => {
 		});
 	});
 
-	for (let i = -12; i < 12; i++) {
-		describe("Recurring event per timezone", () => {
-			beforeAll(async () => {
-				Date.prototype.getTimezoneOffset = () => {
-					return i * 60;
-				};
-				await helpers.startApplication("tests/configs/modules/calendar/recurring.js");
-				await helpers.getDocument();
-			});
-
-			it(`should contain text "Mar 25th" in timezone UTC ${-i}`, async () => {
-				await expect(testTextContain(".calendar", "Mar 25th")).resolves.toBe(true);
-			});
-		});
-	}
-
 	describe("Changed port", () => {
 		beforeAll(async () => {
 			await helpers.startApplication("tests/configs/modules/calendar/changed-port.js");

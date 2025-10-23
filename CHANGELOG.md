@@ -18,6 +18,7 @@ planned for 2026-01-01
 ### Changed
 
 - [core] refactor: replace `module-alias` dependency with internal alias resolver (#3893)
+- [calendar] test: remove "Recurring event per timezone" test (#3929)
 
 ### Fixed
 
