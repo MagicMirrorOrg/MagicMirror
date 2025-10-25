@@ -280,13 +280,24 @@ WeatherProvider.register("openmeteo", {
 		return `${this.config.apiBase}/forecast?${this.getQueryParameters()}`;
 	},
 
+	// fix daylight-saving-time differences
+	checkDST (dt) {
+		const uxdt = moment.unix(dt);
+		const nowDST = moment().isDST();
+		if (nowDST === moment(uxdt).isDST()) {
+			return uxdt;
+		} else {
+			return uxdt.add(nowDST ? +1 : -1, "hour");
+		}
+	},
+
 	// Transpose hourly and daily data matrices
 	transposeDataMatrix (data) {
 		return data.time.map((_, index) => Object.keys(data).reduce((row, key) => {
 			return {
 				...row,
 				// Parse time values as momentjs instances
-				[key]: ["time", "sunrise", "sunset"].includes(key) ? moment.unix(data[key][index]) : data[key][index]
+				[key]: ["time", "sunrise", "sunset"].includes(key) ? this.checkDST(data[key][index]) : data[key][index]
 			};
 		}, {}));
 	},
