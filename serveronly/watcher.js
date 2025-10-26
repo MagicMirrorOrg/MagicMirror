@@ -2,6 +2,7 @@ const { spawn } = require("child_process");
 const fs = require("fs");
 const path = require("path");
 const net = require("net");
+const http = require("http");
 const Log = require("../js/logger");
 
 const RESTART_DELAY_MS = 500;
@@ -12,8 +13,8 @@ let child = null;
 let restartTimer = null;
 let isShuttingDown = false;
 let isRestarting = false;
-let watcherErrorLogged = false;
 let serverPort = null;
+const rootDir = path.join(__dirname, "..");
 
 /**
  * Get the server port from config
@@ -107,6 +108,32 @@ function startServer () {
 }
 
 /**
+ * Send reload notification to all connected clients
+ */
+function notifyClientsToReload () {
+	const port = getServerPort();
+	const options = {
+		hostname: "localhost",
+		port: port,
+		path: "/reload",
+		method: "GET"
+	};
+
+	const req = http.request(options, (res) => {
+		if (res.statusCode === 200) {
+			Log.info("Reload notification sent to clients");
+		}
+	});
+
+	req.on("error", (err) => {
+		// Server might not be running yet, ignore
+		Log.debug(`Could not send reload notification: ${err.message}`);
+	});
+
+	req.end();
+}
+
+/**
  * Restart the server process
  * @param {string} reason The reason for the restart
  */
@@ -121,6 +148,9 @@ async function restartServer (reason) {
 
 			// Get the actual port being used
 			const port = getServerPort();
+
+			// Notify clients to reload before restart
+			notifyClientsToReload();
 
 			// Set up one-time listener for the exit event
 			child.once("exit", async () => {
@@ -139,54 +169,25 @@ async function restartServer (reason) {
 }
 
 /**
- * Watch a directory for changes and restart the server on change
- * @param {string} dir The directory path to watch
- */
-function watchDir (dir) {
-	try {
-		const watcher = fs.watch(dir, { recursive: true }, (_eventType, filename) => {
-			if (!filename) return;
-
-			// Ignore node_modules - too many changes during npm install
-			// After installing dependencies, manually restart the watcher
-			if (filename.includes("node_modules")) return;
-
-			// Only watch .js, .mjs and .cjs files
-			if (!filename.endsWith(".js") && !filename.endsWith(".mjs") && !filename.endsWith(".cjs")) return;
-
-			if (restartTimer) clearTimeout(restartTimer);
-
-			restartTimer = setTimeout(() => {
-				restartServer(`Changes detected in ${dir}: ${filename} — restarting...`);
-			}, RESTART_DELAY_MS);
-		});
-
-		watcher.on("error", (error) => {
-			if (error.code === "ENOSPC") {
-				if (!watcherErrorLogged) {
-					watcherErrorLogged = true;
-					Log.error("System limit for file watchers reached. Try increasing: sudo sysctl fs.inotify.max_user_watches=524288");
-				}
-			} else {
-				Log.error(`Watcher error for ${dir}:`, error.message);
-			}
-		});
-	} catch (error) {
-		Log.error(`Failed to watch directory ${dir}:`, error.message);
-	}
-}
-
-/**
  * Watch a specific file for changes and restart the server on change
+ * Watches the parent directory to handle editors that use atomic writes
  * @param {string} file The file path to watch
  */
 function watchFile (file) {
 	try {
-		const watcher = fs.watch(file, (_eventType) => {
+		const fileName = path.basename(file);
+		const dirName = path.dirname(file);
+
+		const watcher = fs.watch(dirName, (_eventType, changedFile) => {
+			// Only trigger for the specific file we're interested in
+			if (changedFile !== fileName) return;
+
+			Log.info(`[watchFile] Change detected in: ${file}`);
 			if (restartTimer) clearTimeout(restartTimer);
 
 			restartTimer = setTimeout(() => {
-				restartServer(`Config file changed: ${path.basename(file)} — restarting...`);
+				Log.info(`[watchFile] Triggering restart due to change in: ${file}`);
+				restartServer(`File changed: ${path.basename(file)} — restarting...`);
 			}, RESTART_DELAY_MS);
 		});
 
@@ -194,7 +195,7 @@ function watchFile (file) {
 			Log.error(`Watcher error for ${file}:`, error.message);
 		});
 
-		Log.log(`Watching config file: ${file}`);
+		Log.log(`Watching file: ${file}`);
 	} catch (error) {
 		Log.error(`Failed to watch file ${file}:`, error.message);
 	}
@@ -223,13 +224,91 @@ startServer();
 const configFile = getConfigFilePath();
 watchFile(configFile);
 
-// Watch core directories (modules, js and serveronly)
-// We watch specific directories instead of the whole project root to avoid
-// watching unnecessary files like node_modules (even though we filter it),
-// tests, translations, css, fonts, vendor, etc.
-watchDir(path.join(__dirname, "..", "modules"));
-watchDir(path.join(__dirname, "..", "js"));
-watchDir(path.join(__dirname)); // serveronly
+/**
+ * Resolve the active custom CSS path based on config or environment overrides
+ * @param {object} config The loaded MagicMirror config
+ * @returns {string} Absolute path to the CSS file
+ */
+function resolveCustomCssPath (config = {}) {
+	const cssFromEnv = process.env.MM_CUSTOMCSS_FILE;
+	let cssPath = cssFromEnv || config.customCss || "css/custom.css";
+
+	if (!cssPath || typeof cssPath !== "string") {
+		cssPath = "css/custom.css";
+	}
+
+	return path.isAbsolute(cssPath) ? cssPath : path.join(rootDir, cssPath);
+}
+
+/**
+ * Determine fallback watch targets when no explicit watchTargets are provided
+ * @param {object} config The loaded MagicMirror config (may be partial)
+ * @returns {string[]} Array of absolute paths to watch
+ */
+function getFallbackWatchTargets (config = {}) {
+	const targets = new Set();
+	if (configFile) {
+		targets.add(configFile);
+	}
+
+	const cssPath = resolveCustomCssPath(config);
+	if (cssPath) {
+		targets.add(cssPath);
+	}
+
+	return Array.from(targets);
+}
+
+// Setup file watching based on config
+try {
+	const configPath = getConfigFilePath();
+	delete require.cache[require.resolve(configPath)];
+	const config = require(configPath);
+
+	let watchTargets = [];
+	if (Array.isArray(config.watchTargets) && config.watchTargets.length > 0) {
+		watchTargets = config.watchTargets.filter((target) => typeof target === "string" && target.trim() !== "");
+	} else {
+		watchTargets = getFallbackWatchTargets(config);
+		Log.log("Watch targets not specified. Using active config and custom CSS as fallback.");
+	}
+
+	Log.log(`Watch mode enabled. Watching ${watchTargets.length} file(s)`);
+
+	// Watch each target file
+	for (const target of watchTargets) {
+		const targetPath = path.isAbsolute(target)
+			? target
+			: path.join(rootDir, target);
+
+		// Check if file exists
+		if (!fs.existsSync(targetPath)) {
+			Log.warn(`Watch target does not exist: ${targetPath}`);
+			continue;
+		}
+
+		// Check if it's a file (directories are not supported)
+		const stats = fs.statSync(targetPath);
+		if (stats.isFile()) {
+			watchFile(targetPath);
+		} else {
+			Log.warn(`Watch target is not a file (directories not supported): ${targetPath}`);
+		}
+	}
+} catch (err) {
+	// Config file might not exist or be invalid, use fallback targets
+	Log.warn("Could not load watchTargets from config, watching active config/custom CSS instead:", err.message);
+
+	for (const target of getFallbackWatchTargets()) {
+		if (!fs.existsSync(target)) {
+			Log.warn(`Fallback watch target does not exist: ${target}`);
+			continue;
+		}
+
+		watchFile(target);
+		Log.log(`Watching fallback file: ${target}`);
+	}
+}
 
 process.on("SIGINT", () => {
 	isShuttingDown = true;

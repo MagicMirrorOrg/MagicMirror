@@ -111,6 +111,13 @@ function Server (config) {
 
 			app.get("/", (req, res) => getHtml(req, res));
 
+			// Reload endpoint for watch mode - triggers browser reload
+			app.get("/reload", (req, res) => {
+				Log.info("Reload request received, notifying all clients");
+				io.emit("RELOAD");
+				res.status(200).send("OK");
+			});
+
 			server.on("listening", () => {
 				resolve({
 					app,

@@ -1,4 +1,4 @@
-/* global Loader, defaults, Translator, addAnimateCSS, removeAnimateCSS, AnimateCSSIn, AnimateCSSOut, modulePositions */
+/* global Loader, defaults, Translator, addAnimateCSS, removeAnimateCSS, AnimateCSSIn, AnimateCSSOut, modulePositions, io */
 
 const MM = (function () {
 	let modules = [];
@@ -604,6 +604,18 @@ const MM = (function () {
 			sendNotification("ALL_MODULES_STARTED");
 
 			createDomObjects();
+
+			// Setup global socket listener for RELOAD event (watch mode)
+			if (typeof io !== "undefined") {
+				const socket = io("/", {
+					path: `${config.basePath || "/"}socket.io`
+				});
+
+				socket.on("RELOAD", () => {
+					Log.warn("Reload notification received from server");
+					window.location.reload(true);
+				});
+			}
 
 			if (config.reloadAfterServerRestart) {
 				setInterval(async () => {
