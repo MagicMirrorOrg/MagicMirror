@@ -176,4 +176,12 @@ function getEnvVars (req, res) {
 	res.send(obj);
 }
 
-module.exports = { cors, getConfig, getHtml, getVersion, getStartup, getEnvVars, getEnvVarsAsObj, getUserAgent };
+/**
+ * Get the config file path from environment or default location
+ * @returns {string} The absolute config file path
+ */
+function getConfigFilePath () {
+	return path.resolve(global.configuration_file || `${global.root_path}/config/config.js`);
+}
+
+module.exports = { cors, getConfig, getHtml, getVersion, getStartup, getEnvVars, getEnvVarsAsObj, getUserAgent, getConfigFilePath };

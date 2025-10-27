@@ -15,7 +15,7 @@ const Utils = require(`${__dirname}/utils`);
 const defaultModules = require(`${global.root_path}/modules/default/defaultmodules`);
 // used to control fetch timeout for node_helpers
 const { setGlobalDispatcher, Agent } = require("undici");
-const { getEnvVarsAsObj } = require("#server_functions");
+const { getEnvVarsAsObj, getConfigFilePath } = require("#server_functions");
 // common timeout value, provide environment override in case
 const fetch_timeout = process.env.mmFetchTimeout !== undefined ? process.env.mmFetchTimeout : 30000;
 
@@ -72,7 +72,7 @@ function App () {
 
 		// For this check proposed to TestSuite
 		// https://forum.magicmirror.builders/topic/1456/test-suite-for-magicmirror/8
-		const configFilename = path.resolve(global.configuration_file || `${global.root_path}/config/config.js`);
+		const configFilename = getConfigFilePath();
 		let templateFile = `${configFilename}.template`;
 
 		// check if templateFile exists

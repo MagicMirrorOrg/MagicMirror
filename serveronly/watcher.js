@@ -1,9 +1,13 @@
+// Load lightweight internal alias resolver to enable require("logger")
+require("../js/alias-resolver");
+
 const { spawn } = require("child_process");
 const fs = require("fs");
 const path = require("path");
 const net = require("net");
 const http = require("http");
-const Log = require("../js/logger");
+const Log = require("logger");
+const { getConfigFilePath } = require("#server_functions");
 
 const RESTART_DELAY_MS = 500;
 const PORT_CHECK_MAX_ATTEMPTS = 20;
@@ -199,22 +203,6 @@ function watchFile (file) {
 	} catch (error) {
 		Log.error(`Failed to watch file ${file}:`, error.message);
 	}
-}
-
-/**
- * Get the config file path from environment or default location
- * @returns {string} The config file path
- */
-function getConfigFilePath () {
-	if (process.env.MM_CONFIG_FILE) {
-		return process.env.MM_CONFIG_FILE;
-	}
-
-	if (global.configuration_file && global.root_path) {
-		return path.resolve(global.root_path, global.configuration_file);
-	}
-
-	return path.join(__dirname, "..", "config", "config.js");
 }
 
 startServer();
