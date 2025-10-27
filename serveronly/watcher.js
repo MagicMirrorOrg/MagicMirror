@@ -17,31 +17,33 @@ let child = null;
 let restartTimer = null;
 let isShuttingDown = false;
 let isRestarting = false;
-let serverPort = null;
+let serverConfig = null;
 const rootDir = path.join(__dirname, "..");
 
 /**
- * Get the server port from config
- * @returns {number} The port number
+ * Get the server configuration (port and address)
+ * @returns {{port: number, address: string}} The server config
  */
-function getServerPort () {
-	if (serverPort) return serverPort;
+function getServerConfig () {
+	if (serverConfig) return serverConfig;
 
 	try {
-		// Try to read the config file to get the port
 		const configPath = getConfigFilePath();
 		delete require.cache[require.resolve(configPath)];
 		const config = require(configPath);
-		serverPort = global.mmPort || config.port || 8080;
+		serverConfig = {
+			port: global.mmPort || config.port || 8080,
+			address: config.address || "localhost"
+		};
 	} catch (err) {
-		serverPort = 8080;
+		serverConfig = { port: 8080, address: "localhost" };
 	}
 
-	return serverPort;
+	return serverConfig;
 }
 
 /**
- * Check if a port is available
+ * Check if a port is available on the configured address
  * @param {number} port The port to check
  * @returns {Promise<boolean>} True if port is available
  */
@@ -58,7 +60,9 @@ function isPortAvailable (port) {
 			resolve(true);
 		});
 
-		server.listen(port);
+		// Use the same address as the actual server will bind to
+		const { address } = getServerConfig();
+		server.listen(port, address);
 	});
 }
 
@@ -115,7 +119,7 @@ function startServer () {
  * Send reload notification to all connected clients
  */
 function notifyClientsToReload () {
-	const port = getServerPort();
+	const { port } = getServerConfig();
 	const options = {
 		hostname: "localhost",
 		port: port,
@@ -151,7 +155,7 @@ async function restartServer (reason) {
 			isRestarting = true;
 
 			// Get the actual port being used
-			const port = getServerPort();
+			const { port } = getServerConfig();
 
 			// Notify clients to reload before restart
 			notifyClientsToReload();
@@ -160,8 +164,8 @@ async function restartServer (reason) {
 			child.once("exit", async () => {
 				// Wait until port is actually available
 				await waitForPort(port);
-				// Reset port cache in case config changed
-				serverPort = null;
+				// Reset config cache in case it changed
+				serverConfig = null;
 				startServer();
 			});
 
