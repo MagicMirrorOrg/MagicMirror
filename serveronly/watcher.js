@@ -119,9 +119,9 @@ function startServer () {
  * Send reload notification to all connected clients
  */
 function notifyClientsToReload () {
-	const { port } = getServerConfig();
+	const { port, address } = getServerConfig();
 	const options = {
-		hostname: "localhost",
+		hostname: address,
 		port: port,
 		path: "/reload",
 		method: "GET"
