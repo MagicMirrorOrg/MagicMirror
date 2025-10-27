@@ -20,6 +20,7 @@ planned for 2026-01-01
 - [core] refactor: replace `module-alias` dependency with internal alias resolver (#3893)
 - [check_config] refactor: improve error handling (#3927)
 - [calendar] test: remove "Recurring event per timezone" test (#3929)
+- [calendar] chore: remove `requiresVersion: "2.1.0"` (#3932)
 
 ### Fixed
 

@@ -68,8 +68,6 @@ Module.register("calendar", {
 		updateOnFetch: true
 	},
 
-	requiresVersion: "2.1.0",
-
 	// Define required scripts.
 	getStyles () {
 		return ["calendar.css", "font-awesome.css"];
