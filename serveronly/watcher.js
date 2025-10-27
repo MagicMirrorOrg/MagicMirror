@@ -211,46 +211,6 @@ function watchFile (file) {
 
 startServer();
 
-// Watch the config file (might be in custom location)
-// Priority: MM_CONFIG_FILE env var, then global.configuration_file, then default
-const configFile = getConfigFilePath();
-watchFile(configFile);
-
-/**
- * Resolve the active custom CSS path based on config or environment overrides
- * @param {object} config The loaded MagicMirror config
- * @returns {string} Absolute path to the CSS file
- */
-function resolveCustomCssPath (config = {}) {
-	const cssFromEnv = process.env.MM_CUSTOMCSS_FILE;
-	let cssPath = cssFromEnv || config.customCss || "css/custom.css";
-
-	if (!cssPath || typeof cssPath !== "string") {
-		cssPath = "css/custom.css";
-	}
-
-	return path.isAbsolute(cssPath) ? cssPath : path.join(rootDir, cssPath);
-}
-
-/**
- * Determine fallback watch targets when no explicit watchTargets are provided
- * @param {object} config The loaded MagicMirror config (may be partial)
- * @returns {string[]} Array of absolute paths to watch
- */
-function getFallbackWatchTargets (config = {}) {
-	const targets = new Set();
-	if (configFile) {
-		targets.add(configFile);
-	}
-
-	const cssPath = resolveCustomCssPath(config);
-	if (cssPath) {
-		targets.add(cssPath);
-	}
-
-	return Array.from(targets);
-}
-
 // Setup file watching based on config
 try {
 	const configPath = getConfigFilePath();
@@ -260,9 +220,10 @@ try {
 	let watchTargets = [];
 	if (Array.isArray(config.watchTargets) && config.watchTargets.length > 0) {
 		watchTargets = config.watchTargets.filter((target) => typeof target === "string" && target.trim() !== "");
-	} else {
-		watchTargets = getFallbackWatchTargets(config);
-		Log.log("Watch targets not specified. Using active config and custom CSS as fallback.");
+	}
+
+	if (watchTargets.length === 0) {
+		Log.warn("Watch mode is enabled but no watchTargets are configured. No files will be monitored. Set the watchTargets array in your config.js to enable file watching.");
 	}
 
 	Log.log(`Watch mode enabled. Watching ${watchTargets.length} file(s)`);
@@ -289,17 +250,7 @@ try {
 	}
 } catch (err) {
 	// Config file might not exist or be invalid, use fallback targets
-	Log.warn("Could not load watchTargets from config, watching active config/custom CSS instead:", err.message);
-
-	for (const target of getFallbackWatchTargets()) {
-		if (!fs.existsSync(target)) {
-			Log.warn(`Fallback watch target does not exist: ${target}`);
-			continue;
-		}
-
-		watchFile(target);
-		Log.log(`Watching fallback file: ${target}`);
-	}
+	Log.warn("Could not load watchTargets from config.");
 }
 
 process.on("SIGINT", () => {
