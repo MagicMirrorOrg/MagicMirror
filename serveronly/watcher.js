@@ -25,7 +25,7 @@ function getServerPort () {
 
 	try {
 		// Try to read the config file to get the port
-		const configPath = path.join(__dirname, "..", "config", "config.js");
+		const configPath = getConfigFilePath();
 		delete require.cache[require.resolve(configPath)];
 		const config = require(configPath);
 		serverPort = global.mmPort || config.port || 8080;
@@ -54,7 +54,7 @@ function isPortAvailable (port) {
 			resolve(true);
 		});
 
-		server.listen(port, "127.0.0.1");
+		server.listen(port);
 	});
 }
 
