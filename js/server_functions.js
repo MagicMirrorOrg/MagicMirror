@@ -58,7 +58,10 @@ async function cors (req, res) {
 			res.send(data);
 		}
 	} catch (error) {
-		Log.error(error);
+		// Only log errors in non-test environments to keep test output clean
+		if (process.env.mmTestMode !== "true") {
+			Log.error(error);
+		}
 		res.send(error);
 	}
 }

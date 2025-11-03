@@ -183,7 +183,10 @@ class GitHelper {
 					this.gitResultList.push(gitInfo);
 				}
 			} catch (e) {
-				Log.error(`Failed to retrieve repo info for ${repo.module}: ${e}`);
+				// Only log errors in non-test environments to keep test output clean
+				if (process.env.mmTestMode !== "true") {
+					Log.error(`Failed to retrieve repo info for ${repo.module}: ${e}`);
+				}
 			}
 		}
 

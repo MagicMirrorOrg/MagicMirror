@@ -6,6 +6,9 @@
 const Module = require("node:module");
 const path = require("node:path");
 
+// Set test mode flag for application code to detect test environment
+process.env.mmTestMode = "true";
+
 // Store the original require
 const originalRequire = Module.prototype.require;
 
