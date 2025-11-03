@@ -1,10 +1,15 @@
 /**
- * Vitest setup file for module aliasing
+ * Vitest setup file for module aliasing and CI logging
  * This allows require("logger") to work in unit tests
  */
 
 const Module = require("node:module");
 const path = require("node:path");
+
+// Suppress debug/info logs in CI to keep output clean
+if (process.env.CI === "true" && !process.env.LOG_LEVEL) {
+	process.env.LOG_LEVEL = "ERROR";
+}
 
 // Store the original require
 const originalRequire = Module.prototype.require;
