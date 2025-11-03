@@ -22,7 +22,8 @@ Module.prototype.require = function (id) {
 		const logger = originalRequire.call(this, path.resolve(__dirname, "../../js/logger.js"));
 
 		// Suppress debug/info logs in CI to keep output clean
-		if (!logLevelApplied && process.env.CI === "true") {
+		// Unless GitHub Actions step debug logging is enabled
+		if (!logLevelApplied && process.env.CI === "true" && process.env.ACTIONS_STEP_DEBUG !== "true") {
 			logger.setLogLevel("ERROR");
 			logLevelApplied = true;
 		}

@@ -184,7 +184,8 @@ class GitHelper {
 				}
 			} catch (e) {
 				// Only log errors in non-test environments to keep test output clean
-				if (process.env.mmTestMode !== "true") {
+				// Unless GitHub Actions step debug logging is explicitly enabled
+				if (process.env.mmTestMode !== "true" || process.env.ACTIONS_STEP_DEBUG === "true") {
 					Log.error(`Failed to retrieve repo info for ${repo.module}: ${e}`);
 				}
 			}

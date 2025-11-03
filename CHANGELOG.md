@@ -23,6 +23,7 @@ planned for 2026-01-01
 - [calendar] test: remove "Recurring event per timezone" test (#3929)
 - [calendar] chore: remove `requiresVersion: "2.1.0"` (#3932)
 - [tests] migrate from `jest` to `vitest` (#3940, #3941)
+- [test] respect GitHub ACTIONS_STEP_DEBUG for verbose test logging (#3942)
 
 ### Fixed
 
