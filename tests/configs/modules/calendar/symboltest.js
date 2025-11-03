@@ -13,7 +13,7 @@ let config = {
 				calendars: [
 					{
 						symbol: ["calendar-check", "google"],
-						url: "http://localhost:8080/tests/mocks/calendar_symbols.ics"
+						url: "http://localhost:8080/tests/mocks/12_events.ics"
 					}
 				]
 			}
