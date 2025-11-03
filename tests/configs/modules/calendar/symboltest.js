@@ -12,9 +12,8 @@ let config = {
 				maximumEntries: 1,
 				calendars: [
 					{
-						fetchInterval: 7 * 24 * 60 * 60 * 1000,
 						symbol: ["calendar-check", "google"],
-						url: "https://ics.calendarlabs.com/76/mm3137/US_Holidays.ics"
+						url: "http://localhost:8080/tests/mocks/calendar_symbols.ics"
 					}
 				]
 			}
