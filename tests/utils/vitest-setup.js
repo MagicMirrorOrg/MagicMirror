@@ -6,19 +6,25 @@
 const Module = require("node:module");
 const path = require("node:path");
 
-// Suppress debug/info logs in CI to keep output clean
-if (process.env.CI === "true" && !process.env.LOG_LEVEL) {
-	process.env.LOG_LEVEL = "ERROR";
-}
-
 // Store the original require
 const originalRequire = Module.prototype.require;
+
+// Track if we've already applied log level
+let logLevelApplied = false;
 
 // Override require to handle our custom aliases
 Module.prototype.require = function (id) {
 	// Handle "logger" alias
 	if (id === "logger") {
-		return originalRequire.call(this, path.resolve(__dirname, "../../js/logger.js"));
+		const logger = originalRequire.call(this, path.resolve(__dirname, "../../js/logger.js"));
+
+		// Suppress debug/info logs in CI to keep output clean
+		if (!logLevelApplied && process.env.CI === "true") {
+			logger.setLogLevel("ERROR");
+			logLevelApplied = true;
+		}
+
+		return logger;
 	}
 
 	// Handle all other requires normally
