@@ -23,6 +23,7 @@ planned for 2026-01-01
 - [calendar] test: remove "Recurring event per timezone" test (#3929)
 - [calendar] chore: remove `requiresVersion: "2.1.0"` (#3932)
 - [tests] migrate from `jest` to `vitest` (#3940, #3941)
+- [tests] replace `node-libgpiod` with `serialport` in electron-rebuild workflow (#3945)
 
 ### Fixed
 
