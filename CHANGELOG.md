@@ -16,6 +16,10 @@ planned for 2026-01-01
 - [weather] feat: add configurable forecast date format option (#3918)
 - [core] Add new `server:watch` script to run MagicMirror² server-only with automatic restarts when files (defined in `config.watchTargets`) change (#3920)
 
+### Removed
+
+- [weather] Removed deprecated ukmetoffice datapoint provider (#3842, #3952)
+
 ### Changed
 
 - [core] refactor: replace `module-alias` dependency with internal alias resolver (#3893)
@@ -37,7 +41,7 @@ planned for 2026-01-01
 
 ### Updated
 
-- [core] Update dependencies (#3909, #3916, #3921, #3925, #3934)
+- [core] Update dependencies incl. electron to v39 (#3909, #3916, #3921, #3925, #3934)
 - [logger] Add prefixes to most Log messages (#3923, #3926)
 
 ## [2.33.0] - 2025-10-01
