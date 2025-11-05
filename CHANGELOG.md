@@ -33,6 +33,7 @@ planned for 2026-01-01
 - [core] refactor: replace `express-ipfilter` with lightweight custom middleware (#3917) - This fixes security issue [CVE-2023-42282](https://github.com/advisories/GHSA-78xj-cgh5-2h22), which is not very likely to be exploitable in MagicMirror² setups, but still should be fixed.
 - fixed the Environment Canada weather URL (#3912) and now converts a windspeed of 'calm' to 0
 - fixed problems with daylight-saving-time in weather provider `openmeto` (#3930, #3931)
+- [newsfeed] fixed header layout issue introduced with prettier njk linting (#3946)
 
 ### Updated
 
