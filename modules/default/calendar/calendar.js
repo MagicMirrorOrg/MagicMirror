@@ -332,7 +332,9 @@ Module.register("calendar", {
 					const thisYear = eventStartDateMoment.year(),
 						yearDiff = thisYear - event.firstYear;
 
-					repeatingCountTitle = `, ${yearDiff} ${repeatingCountTitle}`;
+					if (yearDiff > 0) {
+						repeatingCountTitle = `, ${yearDiff} ${repeatingCountTitle}`;
+					}
 				}
 			}
 
