@@ -30,6 +30,7 @@ function getStartup (req, res) {
  * Only the url-param of the input request url is required. It must be the last parameter.
  * @param {Request} req - the request
  * @param {Response} res - the result
+ * @returns {Promise<void>} A promise that resolves when the response is sent
  */
 async function cors (req, res) {
 	try {
@@ -40,27 +41,26 @@ async function cors (req, res) {
 		if (!match) {
 			url = `invalid url: ${req.url}`;
 			Log.error(url);
-			res.send(url);
-			return;
-		}
-		url = match[1];
-
-		const headersToSend = getHeadersToSend(req.url);
-		const expectedReceivedHeaders = geExpectedReceivedHeaders(req.url);
-		Log.log(`cors url: ${url}`);
-
-		const response = await fetch(url, { headers: headersToSend });
-		if (response.ok) {
-			for (const header of expectedReceivedHeaders) {
-				const headerValue = response.headers.get(header);
-				if (header) res.set(header, headerValue);
-			}
-			const data = await response.text();
-			res.send(data);
+			return res.status(400).send(url);
 		} else {
-			res.status(response.status).json({ message: response.statusText });
-		}
+			url = match[1];
 
+			const headersToSend = getHeadersToSend(req.url);
+			const expectedReceivedHeaders = geExpectedReceivedHeaders(req.url);
+			Log.log(`cors url: ${url}`);
+
+			const response = await fetch(url, { headers: headersToSend });
+			if (response.ok) {
+				for (const header of expectedReceivedHeaders) {
+					const headerValue = response.headers.get(header);
+					if (header) res.set(header, headerValue);
+				}
+				const data = await response.text();
+				res.send(data);
+			} else {
+				throw new Error(`Response status: ${response.status}`);
+			}
+		}
 	} catch (error) {
 		// Only log errors in non-test environments to keep test output clean
 		if (process.env.mmTestMode !== "true") {

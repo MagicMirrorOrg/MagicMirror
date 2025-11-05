@@ -16,7 +16,8 @@ describe("server_functions tests", () => {
 				headers: {
 					get: fetchResponseHeadersGet
 				},
-				text: fetchResponseHeadersText
+				text: fetchResponseHeadersText,
+				ok: true
 			};
 
 			fetch = vi.fn();
@@ -26,7 +27,12 @@ describe("server_functions tests", () => {
 
 			corsResponse = {
 				set: vi.fn(() => {}),
-				send: vi.fn(() => {})
+				send: vi.fn(() => {}),
+				status: vi.fn(function (code) {
+					this.statusCode = code;
+					return this;
+				}),
+				json: vi.fn(() => {})
 			};
 
 			request = {
@@ -91,15 +97,11 @@ describe("server_functions tests", () => {
 				throw error;
 			});
 
-			let sentData;
-			corsResponse.send = vi.fn((input) => {
-				sentData = input;
-			});
-
 			await cors(request, corsResponse);
 
 			expect(fetchResponseHeadersText.mock.calls).toHaveLength(1);
-			expect(sentData).toBe(error);
+			expect(corsResponse.status).toHaveBeenCalledWith(500);
+			expect(corsResponse.json).toHaveBeenCalledWith({ error: error.message });
 		});
 
 		it("Fetches with user agent by default", async () => {

@@ -39,6 +39,7 @@ async function performWebRequest (url, type = "json", useCorsProxy = false, requ
 		}
 	} catch (error) {
 		Log.error(`Error fetching data from ${url}: ${error}`);
+		return undefined;
 	}
 }
 
