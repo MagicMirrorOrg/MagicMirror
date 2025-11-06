@@ -101,7 +101,7 @@ WeatherProvider.register("envcanada", {
 	 *    city specified in the Weather module Config information
 	 */
 	fetchCommon (target) {
-		const forecastURL = this.getUrl(); // Get the approriate URL for the MSC Datamart Index page
+		const forecastURL = this.getUrl(); // Get the appropriate URL for the MSC Datamart Index page
 
 		Log.debug(`[weather.envcanada] ${target} Index url: ${forecastURL}`);
 
@@ -127,7 +127,7 @@ WeatherProvider.register("envcanada", {
 				const fileSuffix = `${this.config.siteCode}_en.xml`; // Build city filename
 				const nextFile = indexData.body.innerHTML.split(fileSuffix); // Find filename on Index page
 
-				if (nextFile.length > 1) { // Parse out the full unqiue file city filename
+				if (nextFile.length > 1) { // Parse out the full unique file city filename
 					// Find the last occurrence
 					forecastFile = nextFile[nextFile.length - 2].slice(-41) + fileSuffix;
 					forecastFileURL = forecastURL + forecastFile; // Create full URL to the city's weather data
@@ -459,7 +459,7 @@ WeatherProvider.register("envcanada", {
 	},
 
 	/*
-	 * Determine Min and Max temp based on a supplied Forecast Element index and a boolen that denotes if
+	 * Determine Min and Max temp based on a supplied Forecast Element index and a boolean that denotes if
 	 * the next Forecast element should be considered - i.e. look at Today *and* Tonight vs.Tonight-only
 	 */
 	setMinMaxTemps (weather, foreGroup, today, fullDay, currentTemp) {

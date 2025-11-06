@@ -81,7 +81,7 @@ Module.register("compliments", {
 		minute_sync_delay);
 	},
 
-	// check to see if this entry could be a cron entry wich contains spaces
+	// check to see if this entry could be a cron entry which contains spaces
 	isCronEntry (entry) {
 		return entry.includes(" ");
 	},

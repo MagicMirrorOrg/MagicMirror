@@ -91,7 +91,7 @@ const CalendarFetcherUtils = {
 			rule.options.dtstart.setYear(1900);
 		}
 
-		// subtract the max of the duration of this event or 1 day to find events in the past that are currently still running and should therefor be displayed.
+		// subtract the max of the duration of this event or 1 day to find events in the past that are currently still running and should therefore be displayed.
 		const oneDayInMs = 24 * 60 * 60000;
 		let searchFromDate = pastLocalMoment.clone().subtract(Math.max(durationInMs, oneDayInMs), "milliseconds").toDate();
 		let searchToDate = futureLocalMoment.clone().add(1, "days").toDate();
@@ -203,7 +203,7 @@ const CalendarFetcherUtils = {
 				const geo = event.geo || false;
 				const description = event.description || false;
 
-				// TODO This should be a seperate function.
+				// TODO This should be a separate function.
 				if (event.rrule && typeof event.rrule !== "undefined" && !isFacebookBirthday) {
 					// Recurring event.
 					let moments = CalendarFetcherUtils.getMomentsFromRecurringEvent(event, pastLocalMoment, futureLocalMoment, durationMs);

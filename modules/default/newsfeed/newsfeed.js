@@ -110,7 +110,7 @@ Module.register("newsfeed", {
 		return "newsfeed.njk";
 	},
 
-	//Override template data and return whats used for the current template
+	//Override template data and return what's used for the current template
 	getTemplateData () {
 		if (this.activeItem >= this.newsItems.length) {
 			this.activeItem = 0;

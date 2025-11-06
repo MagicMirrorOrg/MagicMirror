@@ -88,7 +88,7 @@ const CalendarUtils = {
 	 * @param {string} title The title to transform.
 	 * @param {object} titleReplace object definition of parts to be replaced in the title
 	 *                 object definition:
-	 *                    search: {string,required} RegEx in format //x or simple string to be searched. For (birthday) year calcluation, the element matching the year must be in a RegEx group
+	 *                    search: {string,required} RegEx in format //x or simple string to be searched. For (birthday) year calculation, the element matching the year must be in a RegEx group
 	 *                    replace: {string,required} Replacement string, may contain match group references (latter is required for year calculation)
 	 *                    yearmatchgroup: {number,optional} match group for year element
 	 * @returns {string} The transformed title.
