@@ -101,7 +101,7 @@ WeatherProvider.register("envcanada", {
 	 *    city specified in the Weather module Config information
 	 */
 	fetchCommon (target) {
-		const forecastURL = this.getUrl(); // Get the approriate URL for the MSC Datamart Index page
+		const forecastURL = this.getUrl(); // Get the appropriate URL for the MSC Datamart Index page
 
 		Log.debug(`[weatherprovider.envcanada] ${target} Index url: ${forecastURL}`);
 
@@ -127,7 +127,7 @@ WeatherProvider.register("envcanada", {
 				const fileSuffix = `${this.config.siteCode}_en.xml`; // Build city filename
 				const nextFile = indexData.body.innerHTML.split(fileSuffix); // Find filename on Index page
 
-				if (nextFile.length > 1) { // Parse out the full unqiue file city filename
+				if (nextFile.length > 1) { // Parse out the full unique file city filename
 					// Find the last occurrence
 					forecastFile = nextFile[nextFile.length - 2].slice(-41) + fileSuffix;
 					forecastFileURL = forecastURL + forecastFile; // Create full URL to the city's weather data
@@ -325,7 +325,7 @@ WeatherProvider.register("envcanada", {
 		 * off and Element 0 will contain Current Tonight. From there, the next 5 days will be contained in
 		 * Elements 1/2, 3/4, 5/6, 7/8, and 9/10. As well, Element 11 will contain a forecast for a 6th day,
 		 * but only for the Today portion (not Tonight). This module will create a 6-day forecast using
-		 * Elements 0 to 11, and will ignore the additional Todat forecast in Element 11.
+		 * Elements 0 to 11, and will ignore the additional Today forecast in Element 11.
 		 *
 		 * We need to determine if Element 0 is showing the forecast for Current Today or Current Tonight.
 		 * This is required to understand how Min and Max temperature will be determined, and to understand
@@ -431,7 +431,7 @@ WeatherProvider.register("envcanada", {
 
 		/*
 		 * The EC hourly forecast is held in a 24-element array - Elements 0 to 23 - with Element 0 holding
-		 * the forecast for the next 'on the hour' timeslot. This means the array is a rolling 24 hours.
+		 * the forecast for the next 'on the hour' time slot. This means the array is a rolling 24 hours.
 		 */
 		const hourGroup = ECdoc.querySelectorAll("siteData hourlyForecastGroup hourlyForecast");
 
@@ -464,7 +464,7 @@ WeatherProvider.register("envcanada", {
 	},
 
 	/*
-	 * Determine Min and Max temp based on a supplied Forecast Element index and a boolen that denotes if
+	 * Determine Min and Max temp based on a supplied Forecast Element index and a boolean that denotes if
 	 * the next Forecast element should be considered - i.e. look at Today *and* Tonight vs.Tonight-only
 	 */
 	setMinMaxTemps (weather, foreGroup, today, fullDay, currentTemp) {

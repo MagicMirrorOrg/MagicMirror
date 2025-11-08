@@ -427,7 +427,7 @@ WeatherProvider.register("openweathermap", {
 		} else if (this.firstEvent && this.firstEvent.location) {
 			params += `q=${this.firstEvent.location}`;
 		} else {
-			// TODO hide doesnt exist!
+			// TODO hide doesn't exist!
 			this.hide(this.config.animationSpeed, { lockString: this.identifier });
 			return;
 		}

@@ -141,7 +141,7 @@ WeatherProvider.register("smhi", {
 
 		/*
 		 * Determine the precipitation amount and category and update the
-		 * weatherObject with it, the valuetype to use can be configured or uses
+		 * weatherObject with it, the value type to use can be configured or uses
 		 * median as default.
 		 */
 		let precipitationValue = this.paramValue(weatherData, this.config.precipitationValue);
@@ -173,7 +173,7 @@ WeatherProvider.register("smhi", {
 	 * @param {object[]} allWeatherData Array of weatherdata
 	 * @param {object} coordinates Coordinates of the locations of the weather
 	 * @param {string} groupBy The interval to use for grouping the data (day, hour)
-	 * @returns {WeatherObject[]} Array of weatherobjects
+	 * @returns {WeatherObject[]} Array of weather objects
 	 */
 	convertWeatherDataGroupedBy (allWeatherData, coordinates, groupBy = "day") {
 		let currentWeather;

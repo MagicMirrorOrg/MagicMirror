@@ -411,7 +411,7 @@ Module.register("calendar", {
 					timeWrapper.innerHTML = CalendarUtils.capFirst(eventStartDateMoment.format(this.config.dateFormat));
 					// Add end time if showEnd
 					if (this.config.showEnd) {
-						// and has a duation
+						// and has a duration
 						if (event.startDate !== event.endDate) {
 							timeWrapper.innerHTML += "-";
 							timeWrapper.innerHTML += CalendarUtils.capFirst(eventEndDateMoment.format(this.config.dateEndFormat));
@@ -493,7 +493,7 @@ Module.register("calendar", {
 							}
 							Log.info("[calendar] event fullday");
 						} else if (eventStartDateMoment.diff(now, "h") < this.config.getRelative) {
-							Log.info("[calendar] not full day but within getrelative size");
+							Log.info("[calendar] not full day but within getRelative size");
 							// If event is within getRelative hours, display 'in xxx' time format or moment.fromNow()
 							timeWrapper.innerHTML = `${CalendarUtils.capFirst(eventStartDateMoment.fromNow())}`;
 						}
@@ -721,7 +721,7 @@ Module.register("calendar", {
 			}
 			events = newEvents;
 		}
-		Log.info(`[calendar] slicing events total maxcount=${this.config.maximumEntries}`);
+		Log.info(`[calendar] slicing events total maxCount=${this.config.maximumEntries}`);
 		return events.slice(0, this.config.maximumEntries);
 	},
 
@@ -909,7 +909,7 @@ Module.register("calendar", {
 
 	/**
 	 * Broadcasts the events to all other modules for reuse.
-	 * The all events available in one array, sorted on startdate.
+	 * The all events available in one array, sorted on startDate.
 	 */
 	broadcastEvents () {
 		const eventList = this.createEventList(false);

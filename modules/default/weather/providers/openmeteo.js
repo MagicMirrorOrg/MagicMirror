@@ -296,7 +296,7 @@ WeatherProvider.register("openmeteo", {
 		return data.time.map((_, index) => Object.keys(data).reduce((row, key) => {
 			return {
 				...row,
-				// Parse time values as momentjs instances
+				// Parse time values as moment.js instances
 				[key]: ["time", "sunrise", "sunset"].includes(key) ? this.checkDST(data[key][index]) : data[key][index]
 			};
 		}, {}));

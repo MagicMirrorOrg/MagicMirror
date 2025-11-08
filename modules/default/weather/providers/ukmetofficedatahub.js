@@ -27,7 +27,7 @@
  * 	- Pressures are in Pascals (Pa)
  * 	- Distances are in metres (m)
  * 	- Probabilities and humidity are given as percentages (%)
- * 	- Precipitation is measured in millimetres (mm) with rates per hour (mm/h)
+ * 	- Precipitation is measured in millimeters (mm) with rates per hour (mm/h)
  *
  * See the PDFs linked above for more information on the data their corresponding units.
  */

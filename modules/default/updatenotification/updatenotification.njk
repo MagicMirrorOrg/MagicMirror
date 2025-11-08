@@ -24,7 +24,7 @@
   {% for name, status in updatesList %}
     <div class="small bright">
       {% if status.done %}
-        <i class="fas fa-check" style="color: lightgreen;"></i>
+        <i class="fas fa-check" style="color: LightGreen;"></i>
         <span>
           {% set updateTextLabel = "UPDATE_NOTIFICATION_DONE" %}
           {{ updateTextLabel | translate({MODULE_NAME: name}) | safe }}

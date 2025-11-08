@@ -46,7 +46,7 @@ const OverrideWrapper = Class.extend({
 		this.baseProvider.fetchWeatherForecast();
 	},
 	fetchWeatherHourly () {
-		this.baseProvider.fetchEatherHourly();
+		this.baseProvider.fetchWeatherHourly();
 	},
 	weatherForecast () {
 		this.baseProvider.weatherForecast();
@@ -84,7 +84,7 @@ const OverrideWrapper = Class.extend({
 	},
 
 	/**
-	 * Override to combine the overrideWeatherObejct provided in the
+	 * Override to combine the overrideWeatherObject provided in the
 	 * notificationReceived method with the currentOverrideWeatherObject provided by the
 	 * api provider fetchData implementation.
 	 * @param {WeatherObject} currentWeatherObject - the api provider weather object

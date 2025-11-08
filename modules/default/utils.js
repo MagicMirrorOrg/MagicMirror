@@ -1,7 +1,7 @@
 /**
  * A function to make HTTP requests via the server to avoid CORS-errors.
  * @param {string} url the url to fetch from
- * @param {string} type what contenttype to expect in the response, can be "json" or "xml"
+ * @param {string} type what content-type to expect in the response, can be "json" or "xml"
  * @param {boolean} useCorsProxy A flag to indicate
  * @param {Array.<{name: string, value:string}>} requestHeaders the HTTP headers to send
  * @param {Array.<string>} expectedResponseHeaders the expected HTTP headers to receive

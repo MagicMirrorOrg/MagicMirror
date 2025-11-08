@@ -31,6 +31,7 @@ planned for 2026-01-01
 - [ci] Add concurrency to automated tests workflow to cancel outdated runs (#3943)
 - [tests] replace `node-libgpiod` with `serialport` in electron-rebuild workflow (#3945)
 - [calendar] hide repeatingCountTitle if the event count is zero (#3949)
+- [core] configure cspell to check default modules only and fix typos (#3955)
 
 ### Fixed
 

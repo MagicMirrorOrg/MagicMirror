@@ -107,7 +107,7 @@ const WeatherProvider = Class.extend({
 	/**
 	 * A convenience function to make requests.
 	 * @param {string} url the url to fetch from
-	 * @param {string} type what contenttype to expect in the response, can be "json" or "xml"
+	 * @param {string} type what content-type to expect in the response, can be "json" or "xml"
 	 * @param {Array.<{name: string, value:string}>} requestHeaders the HTTP headers to send
 	 * @param {Array.<string>} expectedResponseHeaders the expected HTTP headers to receive
 	 * @returns {Promise} resolved when the fetch is done

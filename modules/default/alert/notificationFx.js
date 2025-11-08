@@ -59,7 +59,7 @@
 		// notice, warning, error, success
 		// will add class ns-type-warning, ns-type-error or ns-type-success
 		type: "notice",
-		// if the user doesn´t close the notification then we remove it
+		// if the user doesn't close the notification then we remove it
 		// after the following time
 		ttl: 6000,
 		al_no: "ns-box",

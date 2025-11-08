@@ -121,7 +121,7 @@ const CalendarFetcherUtils = {
 			return JSON.stringify(d) !== "null";
 		});
 
-		// Dates are returned in UTC timezone but with localdatetime because tzid is null.
+		// Dates are returned in UTC timezone but with local datetime because tzid is null.
 		// So we map the date to a moment using the original timezone of the event.
 		return dates.map((d) => (event.start.tz ? moment.tz(d, "UTC").tz(event.start.tz, true) : moment.tz(d, "UTC").tz(CalendarFetcherUtils.getLocalTimezone(), true)));
 	},
@@ -202,7 +202,7 @@ const CalendarFetcherUtils = {
 				const geo = event.geo || false;
 				const description = event.description || false;
 
-				// TODO This should be a seperate function.
+				// TODO This should be a separate function.
 				if (event.rrule && typeof event.rrule !== "undefined" && !isFacebookBirthday) {
 					// Recurring event.
 					let moments = CalendarFetcherUtils.getMomentsFromRecurringEvent(event, pastLocalMoment, futureLocalMoment, durationMs);
