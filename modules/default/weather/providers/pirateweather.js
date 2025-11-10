@@ -116,7 +116,7 @@ WeatherProvider.register("pirateweather", {
 			rain: "rain",
 			snow: "snow",
 			sleet: "snow",
-			wind: "wind",
+			wind: "windy",
 			fog: "fog",
 			cloudy: "cloudy",
 			"partly-cloudy-day": "day-cloudy",
