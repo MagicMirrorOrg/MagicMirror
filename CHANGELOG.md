@@ -11,8 +11,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Updated
 
-- [l10n] Refine Portuguese translations (#3961)
-- [l10n] Add Portuguese translations for alert module (#3962)
 - [l10n] Add pt-br translations for alert module (#3963)
 
 ## [2.33.0] - 2025-10-01
