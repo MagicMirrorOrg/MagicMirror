@@ -30,6 +30,8 @@ Module.register("alert", {
 			fr: "translations/fr.json",
 			hu: "translations/hu.json",
 			nl: "translations/nl.json",
+			pt: "translations/pt.json",
+			pt-br: "translations/pt-br.json",
 			ru: "translations/ru.json",
 			th: "translations/th.json"
 		};
