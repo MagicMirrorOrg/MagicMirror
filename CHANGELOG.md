@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/#donate) With your help we can continue to improve the MagicMirror².
 
+## 2.34.0 - unreleased
+
+### Updated
+
+- [l10n] Add Portuguese translations for alert module (#3962)
+
 ## [2.33.0] - 2025-10-01
 
 Thanks to: @Crazylegstoo, @dathbe, @m-idler, @plebcity, @khassel, @KristjanESPERANTO, @rejas and @sdetweil!
