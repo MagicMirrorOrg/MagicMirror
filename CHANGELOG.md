@@ -11,13 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 planned for 2026-01-01
 
-## Added
+### Added
 
 - [weather] feat: add configurable forecast date format option (#3918)
 - [core] Add new `server:watch` script to run MagicMirror² server-only with automatic restarts when files (defined in `config.watchTargets`) change (#3920)
 - [weather] add error handling to fetch functions including cors (#3791)
-- [l10n] Add Portuguese (Portugal) translations for alert module (#3962)
-- [l10n] Add Portuguese (Brazil) translations for alert module (#3963)
+- [l10n] Add Portuguese (Portugal & Brazil) translations for alert module, Refine Portuguese (Portugal) translations
 
 ### Removed
 
@@ -53,7 +52,6 @@ planned for 2026-01-01
 
 - [core] Update dependencies incl. electron to v39 (#3909, #3916, #3921, #3925, #3934)
 - [logger] Add prefixes to most Log messages (#3923, #3926)
-- [l10n] Refine Portuguese (Portugal) translations (#3961)
 
 ## [2.33.0] - 2025-10-01
 
