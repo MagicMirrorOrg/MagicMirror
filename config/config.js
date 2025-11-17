@@ -1,20 +1,9 @@
 // MagicMirror Konfiguration
 // Zuletzt aktualisiert: 19.05.2025
 
-// Ausgelagerte API-Keys und vertrauliche Daten
-// Diese sollten in einer separaten Datei sein, die nicht im Git-Repository liegt
-const credentials = {
-    openWeatherApiKey: "9ea3a559d68a46f2a857089dd44a2506",
-    fuelApiKey: "b0619a4b-684f-850a-dca4-801cb7d352e4",
-    spotifyClientID: "5ff54d7644b34dfb93f690adff326c13",
-    spotifyClientSecret: "3465cefbe93644e392a8201418930019",
-    spotifyAccessToken: "BQDmcCwykX5bKiJCwCvVTXdGY13bbgxraQjFXun-XKoVz4BlKmE0vgDkQ1jsAIoGJDA4lUMDXwNJYw7m2OnManwogvFW_HBfpv2bUEKhnN5pbqRrCVK9uHHPl4zwkd_4rwSW10CJKS0cfhBVSFPMhc2FV7LHtodORe7mAId5ya9KbevEZzIXU9IEIqESZ3hm4w6AdBpYiVk1dDZajeQGxg",
-    spotifyRefreshToken: "AQCV41PfVxPBCimhc2fEn5GdXG4D-RUY7_JxMm7JzcUd6Kt-2HOKXx76MxOEYOZIo-K5HuvpJHvtPauM9ijF7YOLKCPSGBVDamPePa61L9jFHf_JvoyjwSDsWhQZ4ehfWv0",
-    newsApiKey: "fb8822efd5ed49e28ed4649040ca6d71",
-    // WLAN-Daten
-    wifiNetwork: "MagentaWLN-3UKJ",
-    wifiPassword: "15774643966064724748" // Achtung: Sollte in einem sicheren Speicher aufbewahrt werden
-};
+// Importiere sensible Credentials aus separater Datei
+// WICHTIG: credentials.js ist in .gitignore und wird NICHT ins Repository committed!
+const credentials = require('./credentials.js');
 
 // Standort-Konfigurationen
 const locationSettings = {
@@ -72,7 +61,7 @@ let config = {
         {
             module: "MMM-OpenWeatherForecast",
             header: "Wetter Dormagen",
-NN            position: "top_right",
+            position: "top_right",
             config: {
                 apikey: credentials.openWeatherApiKey,
                 latitude: locationSettings.latitude,
@@ -262,7 +251,7 @@ NN            position: "top_right",
                 position: "top_right",
                 config: {
                         apiKey: credentials.newsApiKey,
-                        debug: true,
+                        debug: false,
                         choice: "everything",
                         pageSize: 30,
                         sortBy: "publishedAt",

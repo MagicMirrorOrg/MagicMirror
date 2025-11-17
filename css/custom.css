@@ -67,7 +67,7 @@
 
 .module-header {
     text-transform: none;
-    font-size: var(--text-xs);
+    font-size: var(--font-size-xsmall);
 }
 header {
       text-transform: none;
@@ -112,7 +112,7 @@ header {
 }
 
 .module.clock .date {
-    font-size: var(--text-sm);
+    font-size: var(--font-size-small);
 }
 
 /*MMM-Wallpaper styles*/
