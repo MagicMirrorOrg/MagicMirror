@@ -1,0 +1,526 @@
+/* Uncomment and adjust accordingly if you want to import another font from the google-fonts-api: */
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;700&display=swap'); */
+
+:root {
+  --color-text: #999;
+  --color-text-dimmed: #666;
+  --color-text-bright: #fff;
+  --color-background: black;
+
+  --font-primary: "Roboto Condensed";
+  --font-secondary: "Roboto";
+
+  --font-size: 20px;
+  --font-size-small: 0.75rem;
+
+  --gap-body-top: 60px;
+  --gap-body-right: 0px;
+  --gap-body-bottom: 60px;
+  --gap-body-left: 60px;
+
+  --gap-modules: 30px;
+}
+
+
+.region.top.left {
+  width: 100%;
+  max-width: 650px;
+  min-width: 10vw;
+}
+
+
+.region.lower.third {
+  display: none;
+
+}
+
+.region.upper.third {
+  display: none;
+
+}
+
+.region.middle.center {
+  display: none;
+
+}
+
+.region.bottom.center {
+  display: none;
+
+}
+
+.region.bottom.right {
+  display: none;
+
+}
+
+
+
+.region.top.right {
+  width: 100%;
+
+
+
+}
+
+/* Smaller Header */
+
+.module-header {
+    text-transform: none;
+    font-size: var(--text-xs);
+}
+header {
+      text-transform: none;
+}
+
+/*Space between Module*/
+.module {
+  margin-bottom: 25px;
+}
+
+
+/* ALERT */
+
+.module.alert .small {
+    font-size: 12px;
+
+}
+
+.module.alert .medium {
+    font-size: 17px;
+
+}
+
+
+/* CLOCK */
+.module.clock .clock {
+    height: 200px;
+    width: 520px;
+    margin-bottom: 1px;
+
+}
+
+.module.clock .small {
+    font-size: 17px;
+
+}
+
+
+.module.clock .time {
+    font-size: 110px;
+    line-height: 1.2;
+}
+
+.module.clock .date {
+    font-size: var(--text-sm);
+}
+
+/*MMM-Wallpaper styles*/
+body {
+    background: rgba(3, 12, 29, 0.3);
+}
+
+.fullscreen {
+    height: 100%;
+}
+
+.fullscreen div {
+    height: 100%;
+}
+
+.fullscreen img {
+    min-height: 100%;
+    min-width: 100%;
+}
+
+.fullscreen .title {
+    position: absolute;
+    bottom: 0;
+    font-size: 12px;
+    height: auto;
+}
+
+/*Stundenplan*/
+
+.region.top.left .MMM-GoogleSheets .module-content {
+  width: 400px;
+}
+
+/*Spotify*/
+
+.MMM-NowPlayingOnSpotify .NPOS_coverArtArea { max-width: 125px; float: left; margin-right: 15px; }
+.MMM-NowPlayingOnSpotify .NPOS_infoText { font-size: 15px !important; }
+.MMM-NowPlayingOnSpotify .NPOS_infoText:first-child { color: #1ED760; }
+
+.MMM-NowPlayingOnSpotify .NPOS_nothingIsPlayingContent {
+  width: 30%;
+}
+
+.MMM-NowPlayingOnSpotify .NPOS_icon {
+  margin-right: 0.5em;
+}
+
+.MMM-NowPlayingOnSpotify progress.NPOS_progress {
+  background-color: transparent;
+  border-radius: 1em;
+  border: 1px solid #aaaaaa;
+  height: 0.5em;
+  width: 30%;
+}
+
+/*MMM-ToDoist*/
+.MMM-Todoist .small {
+    font-size: 17px;
+    text-transform: capitalize;
+    }
+
+/* MMM-Todoist Scrolling Animation */
+.MMM-Todoist .divTable {
+       white-space: nowrap;
+       overflow: hidden;
+       height:195px;
+       box-sizing: border-box;
+}
+
+.MMM-Todoist .divTable div {
+       -webkit-animation: divTable 25s linear infinite alternate;
+}
+
+@-webkit-keyframes divTable {
+      0% { -webkit-transform: translateY(5%); }
+    100% { -webkit-transform: translateY(-40%); }
+}
+
+
+/*MMM-Fuel (Spritpreise)*/
+.MMM-Fuel .small {
+    font-size: 18px;
+
+    }
+
+
+/*newsfeed*/
+
+.newsfeed .box
+{
+padding-top:10px;
+}
+
+.newsfeed .medium
+{
+font-size: 25px;
+line-height: 35px;
+}
+
+.newsfeed .small
+{
+font-size: 18px;
+line-height: 20px;
+}
+
+
+/*Wetter*/
+
+.MMM-OpenWeatherForecast .module-content {
+  width: auto;
+}
+
+.MMM-OpenWeatherForecast .extra-current-conditions-wrapper {
+  display: flex;
+  /*text-align: left;*/
+  /*background-color: #333;*/
+  word-wrap: normal;
+  font-size: 13px;
+  margin: 0px;
+  width: 120%;
+}
+
+
+
+.MMM-OpenWeatherForecast .weather-alert {
+  display: none;
+}
+
+
+
+/*Calendar*/
+.region.top.left .MMM-MyCalendar .module-content {
+  max-width: 600px;
+}
+
+.MMM-MyCalendar table {
+  border-collapse: unset;
+}
+
+
+.MMM-OpenWeatherForecast .attribution {
+  display:none;
+}
+
+.MMM-OpenWeatherForecast .wrapper.tiled .forecast-container {
+  border-top: none;
+}
+
+
+.MMM-OpenWeatherForecast .wrapper.tiled .forecast-container .forecast-item {
+    border-bottom: none;
+}
+
+
+/*NINA Warnungen */
+.MMM-NINA .nina-wrapper {
+  font-size: 0.7rem;
+  line-height: 1.0rem;
+}
+
+.MMM-NINA .nina-icon {
+  font-size: 1.2rem;
+  margin-right: 9px;
+  margin-left: 9px;
+  margin-bottom: 2%;
+}
+
+.MMM-NINA .nina-alert .nina-issue-date {
+  font-size: 0.5rem;
+}
+
+.MMM-NINA .nina-alert {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #FFBD44;
+}
+.MMM-NINA .nina-alert-data {
+  margin-left: 7px;
+}
+
+.MMM-NINA .nina-alert.severity-Fine {
+  color: #666;
+}
+
+.MMM-NINA .nina-alert.severity-Minor {
+  color: #FFBD44;
+}
+
+
+/*System temp*/
+.mmm-systemtemperature {
+  font-size: 0.5rem;
+  line-height: 1.0rem;
+}
+
+/*NewsAPI*/
+
+ #NEWSAPI {
+    line-height:1.1em;
+  }
+
+  #NEWSAPI .header .title {
+    display:block;
+    color:#FFF;
+    font-size:50%;
+    line-height:1.2em;
+
+  }
+
+  #NEWSAPI .content {
+    padding:7px;
+    font-size:30%;
+    line-height:1.2em;
+  }
+
+  #NEWSAPI .footer {
+    text-align:right;
+    font-size:30%;
+  }
+
+
+  #NEWSAPI.horizontal .content {
+    text-align:justify;
+  }
+
+  #NEWSAPI.horizontal .content .articleImage {
+    margin-right:10px;
+    margin-top:5px;
+    margin-bottom:30px;
+    float:left;
+    width:40%;
+    height:auto;
+    border-radius:4px;
+  }
+
+
+
+/*CountDown*/
+.MMM-CountDown .time {
+  text-align:left;
+  margin-left:35px;
+
+}
+
+.MMM-CountDown .event {
+  text-align:left;
+  font-size:45%;
+
+
+}
+
+/*PIR Sensor*/
+
+#EXT-SCREEN_PRESENCE,
+#EXT-SCREEN_SCREEN {
+  font-size: small;
+  display: flex;
+}
+
+
+/*Warnwetter*/
+.MMM-DWD-WarnWeather .description {
+    margin-left: 10px;
+    padding-left: 50px;
+    padding-top: 3px;
+    width: auto;
+    font-size: 12px;
+    line-height: normal;
+    text-align: justify;
+    justify-content: space-between;
+
+}
+
+
+
+/*Public Transport*/
+
+.MMM-PublicTransportHafas .small
+{
+font-size: 18px;
+line-height: 20px;
+}
+
+.MMM-PublicTransportHafas .pthSign {
+  font-weight: normal;
+}
+
+
+
+.MMM-MyVolvo .VOC .graphic {
+width: 40%;
+margin-right: 1px;
+margin-left: 10px;
+margin-top: -12px;
+float: right;
+}
+
+.MMM-Todoist {           /* your first module name */
+   position: absolute;    /* or absolute if you know where to put */
+   top: 0px;
+   height: 100px;         /* determine the height of the module */
+   width: 250px;          /* determine the width of the module */
+}
+
+.MMM-TwitterTrendsByPlace {           /* your second module name */
+   position: relative !important;    /* or absolute if you know where to put */
+   top: -125px;            /* is the height of first module plus module gap */
+   left: 275px;            /* to put module side by side with first plus 10px gap */
+   height: 100px;          /* determine the height of the module */
+   width: 250px;           /* determine the width of the module */
+   font-size: 10px;
+}
+
+.MMM-TwitterTrendsByPlace .small {
+   font-size: 12px;
+}
+
+/* MMM-SystemInfo Styling */
+.MMM-SystemInfo {
+  font-size: 15px;
+  line-height: 1.2;
+  margin-bottom: 15px;
+}
+
+.MMM-SystemInfo .qr-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+}
+
+.MMM-SystemInfo .qr-container img {
+  border: 2px solid #666;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: white;
+}
+
+.MMM-SystemInfo .wifi-info {
+  font-size: 14px;
+  margin-bottom: 10px;
+  color: var(--color-text-bright);
+}
+
+.MMM-SystemInfo .wifi-info .fa {
+  margin-right: 8px;
+  color: #1ED760; /* Gleiche Farbe wie bei Spotify für Konsistenz */
+}
+
+.MMM-SystemInfo .system-info-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.MMM-SystemInfo .system-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.MMM-SystemInfo .system-info .fa {
+  width: 20px;
+  margin-right: 10px;
+  text-align: center;
+}
+
+.MMM-SystemInfo .system-info-label {
+  color: var(--color-text-dimmed);
+  width: 90px;
+}
+
+.MMM-SystemInfo .system-info-value {
+  color: var(--color-text-bright);
+}
+
+/* Farbcodes für Status */
+.MMM-SystemInfo .status-ok {
+  color: #008000; /* Grün für OK-Status */
+}
+
+.MMM-SystemInfo .status-warning {
+  color: #FFBD44; /* Gleiche Warnfarbe wie bei NINA für Konsistenz */
+}
+
+.MMM-SystemInfo .status-critical {
+  color: #ff0000; /* Rot für kritischen Status */
+}
+
+/* Animation für QR-Code hover-Effekt */
+.MMM-SystemInfo .qr-container img:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+/* Layout-Anpassungen für kompaktere Darstellung */
+.MMM-SystemInfo.ltr {
+  display: flex;
+  align-items: flex-start;
+}
+
+.MMM-SystemInfo.rtl {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-start;
+}
+
+/* Ausrichtung verbessern, um zu anderen Modulen zu passen */
+.region.top.right .MMM-SystemInfo {
+  margin-top: 10px;
+}
