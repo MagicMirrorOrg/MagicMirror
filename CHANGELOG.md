@@ -47,6 +47,7 @@ planned for 2026-01-01
 - fixed problems with daylight-saving-time in weather provider `openmeto` (#3930, #3931)
 - [newsfeed] fixed header layout issue introduced with prettier njk linting (#3946)
 - [weather] fixed windy icon not showing up in pirateweather (#3957)
+- [compliments] fixed duplicate query param "?" when constructing refresh url (#3967)
 
 ### Updated
 

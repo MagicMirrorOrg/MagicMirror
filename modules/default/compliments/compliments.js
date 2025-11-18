@@ -214,8 +214,9 @@ Module.register("compliments", {
 		// we need to force the server to not give us the cached result
 		// create an extra property (ignored by the server handler) just so the url string is different
 		// that will never be the same, using the ms value of date
-		if (isRemote && this.config.remoteFileRefreshInterval !== 0) this.urlSuffix = `?dummy=${Date.now()}`;
-		//
+		if (isRemote && this.config.remoteFileRefreshInterval !== 0) {
+			this.urlSuffix = this.config.remoteFile.includes("?") ? `&dummy=${Date.now()}` : `?dummy=${Date.now()}`;
+		}
 		try {
 			const response = await fetch(url + this.urlSuffix);
 			return await response.text();
