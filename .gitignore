@@ -55,7 +55,7 @@ Temporary Items
 .Trash-*
 
 # Ignore all modules except the default modules.
-modules
+modules/*
 !modules/default
 
 # Ignore changes to the custom css files but keep the sample and main.
