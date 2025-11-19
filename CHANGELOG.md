@@ -38,7 +38,7 @@ planned for 2026-01-01
 - [tests] migrate e2e tests to Playwright (#3950)
 - [calendar] refactor: migrate CalendarFetcher to ES6 class and improve error handling (#3958)
 - [gitignore] cleanup/simplify .gitignore (#3952, #3954, #3968, #3969)
-- refactor(compliments): optimize `loadComplimentFile` method (#3969)
+- refactor(compliments): optimize `loadComplimentFile` method and add unit tests(#3969)
 
 ### Fixed
 
