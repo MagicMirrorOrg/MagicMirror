@@ -21,7 +21,6 @@ Module.register("compliments", {
 		random: true,
 		specialDayUnique: false
 	},
-	urlSuffix: "",
 	compliments_new: null,
 	refreshMinimumDelay: 15 * 60 * 60 * 1000, // 15 minutes
 	lastIndexUsed: -1,
@@ -205,23 +204,35 @@ Module.register("compliments", {
 
 	/**
 	 * Retrieve a file from the local filesystem
-	 * @returns {Promise} Resolved when the file is loaded
+	 * @returns {Promise<string|null>} Resolved with file content or null on error
 	 */
 	async loadComplimentFile () {
-		const isRemote = this.config.remoteFile.indexOf("http://") === 0 || this.config.remoteFile.indexOf("https://") === 0,
-			url = isRemote ? this.config.remoteFile : this.file(this.config.remoteFile);
-		// because we may be fetching the same url,
-		// we need to force the server to not give us the cached result
-		// create an extra property (ignored by the server handler) just so the url string is different
-		// that will never be the same, using the ms value of date
-		if (isRemote && this.config.remoteFileRefreshInterval !== 0) {
-			this.urlSuffix = this.config.remoteFile.includes("?") ? `&dummy=${Date.now()}` : `?dummy=${Date.now()}`;
-		}
+		const { remoteFile, remoteFileRefreshInterval } = this.config;
+		const isRemote = remoteFile.startsWith("http://") || remoteFile.startsWith("https://");
+		let url = isRemote ? remoteFile : this.file(remoteFile);
+
 		try {
-			const response = await fetch(url + this.urlSuffix);
+			// Validate URL
+			const urlObj = new URL(url);
+			// Add cache-busting parameter to remote URLs to prevent cached responses
+			if (isRemote && remoteFileRefreshInterval !== 0) {
+				urlObj.searchParams.set("dummy", Date.now());
+			}
+			url = urlObj.toString();
+		} catch {
+			Log.warn(`[compliments] Invalid URL: ${url}`);
+		}
+
+		try {
+			const response = await fetch(url);
+			if (!response.ok) {
+				Log.error(`[compliments] HTTP error: ${response.status} ${response.statusText}`);
+				return null;
+			}
 			return await response.text();
 		} catch (error) {
-			Log.info(`[compliments] ${this.name} fetch failed error=`, error);
+			Log.info("[compliments] fetch failed:", error.message);
+			return null;
 		}
 	},
 
