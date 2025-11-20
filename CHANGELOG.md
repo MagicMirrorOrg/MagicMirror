@@ -49,7 +49,7 @@ planned for 2026-01-01
 - [newsfeed] fixed header layout issue introduced with prettier njk linting (#3946)
 - [weather] fixed windy icon not showing up in pirateweather (#3957)
 - [compliments] fixed duplicate query param "?" when constructing refresh url (#3967)
-- [compliments] fixed compliments remote file minimum delay to be 15 minutes (#3969)
+- [compliments] fixed compliments remote file minimum delay to be 15 minutes (#3970)
 
 ### Updated
 
