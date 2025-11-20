@@ -23,7 +23,7 @@ Module.register("compliments", {
 	},
 	urlSuffix: "",
 	compliments_new: null,
-	refreshMinimumDelay: 15 * 60 * 60 * 1000, // 15 minutes
+	refreshMinimumDelay: 15 * 60 * 1000, // 15 minutes
 	lastIndexUsed: -1,
 	// Set currentweather from module
 	currentWeatherType: "",
