@@ -3,9 +3,9 @@
 Module.register("weather", {
 	// Default module config.
 	defaults: {
-		weatherProvider: "openweathermap",
+		weatherProvider: "weathergov",
 		roundTemp: false,
-		type: "current", // current, forecast, daily (equivalent to forecast), hourly (only with OpenWeatherMap /onecall endpoint)
+		type: "hourly", // current, forecast, daily (equivalent to forecast), hourly (only with OpenWeatherMap /onecall endpoint)
 		lang: config.language,
 		units: config.units,
 		tempUnits: config.units,
