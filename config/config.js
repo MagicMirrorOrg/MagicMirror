@@ -34,8 +34,8 @@ let config = {
 			   // see https://en.wikipedia.org/wiki/Locale_(computer_software) for the possibilities
 
 	logLevel: ["INFO", "LOG", "WARN", "ERROR"], // Add "DEBUG" for even more logging
-	timeFormat: 24,
-	units: "metric",
+	timeFormat: 12,
+	units: "imperial",
 
 	modules: [
 		{
@@ -64,6 +64,20 @@ let config = {
 			}
 		},
 		{
+			module: "calendar",
+			header: "Family",
+			position: "top_left",
+			config: {
+				calendars: [
+					{
+						fetchInterval: 7 * 24 * 60 * 60 * 1000,
+						symbol: "calendar-check",
+						url: ""
+					}
+				]
+			}
+		},
+		{
 			module: "compliments",
 			position: "lower_third",
 			config: {
@@ -74,10 +88,21 @@ let config = {
 			module: "weather",
 			position: "top_right",
 			config: {
-				weatherProvider: "openmeteo",
+				weatherProvider: "weathergov",
 				type: "current",
-				lat: 40.776676,
-				lon: -73.971321
+				lat: 28.600271,
+				lon: -81.337884
+			}
+		},
+		{
+			module: "weather",
+			position: "top_right",
+			header: "Weather Hourly",
+			config: {
+				weatherProvider: "weathergov",
+				type: "hourly",
+				lat: 28.600271,
+				lon: -81.337884
 			}
 		},
 		{
@@ -85,10 +110,10 @@ let config = {
 			position: "top_right",
 			header: "Weather Forecast",
 			config: {
-				weatherProvider: "openmeteo",
+				weatherProvider: "weathergov",
 				type: "forecast",
-				lat: 40.776676,
-				lon: -73.971321
+				lat: 28.600271,
+				lon: -81.337884
 			}
 		},
 		{
