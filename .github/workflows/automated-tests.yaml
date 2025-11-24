@@ -22,7 +22,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: "Checkout code"
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: "Use Node.js"
         uses: actions/setup-node@v6
         with:
@@ -49,7 +49,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libnss3 libasound2t64 labwc
       - name: "Checkout code"
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: "Use Node.js ${{ matrix.node-version }}"
         uses: actions/setup-node@v6
         with:
