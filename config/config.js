@@ -107,8 +107,21 @@ let config = {
 				broadcastNewsUpdates: true
 			}
 		},
+		{
+			module: "traffic",
+			position: "top_right",
+			header: "Traffic",
+			config: {
+				apiKey: "",
+				origin: "",
+				destination: "",
+				updateInterval: 5 * 60 * 1000, // 5 minutes
+				units: "imperial"// metric or imperial
+			}
+		},
 	]
 };
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/
 if (typeof module !== "undefined") { module.exports = config; }
+

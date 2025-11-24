@@ -110,8 +110,8 @@ let config = {
 			header: "Traffic",
 			config: {
 				apiKey: "",
-				origin: "7039 citrus point court, winter park, fl",
-				destination: "7079 S Kirkman Rd, Orlando, FL",
+				origin: "",
+				destination: "",
 				updateInterval: 5 * 60 * 1000, // 5 minutes
 				units: "imperial" // metric or imperial
 			}

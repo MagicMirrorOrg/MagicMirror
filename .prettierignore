@@ -7,3 +7,4 @@
 package-lock.json
 **.ics
 **/README.md
+docs/ai-generated/**
