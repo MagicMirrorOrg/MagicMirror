@@ -1,0 +1,73 @@
+{% if loading %}
+  <div class="traffic-loading">
+    <div class="small dimmed">Loading traffic data...</div>
+  </div>
+{% elif error %}
+  <div class="traffic-error">
+    <div class="small dimmed">{{ error }}</div>
+  </div>
+{% elif loaded and route and metrics %}
+  <div class="traffic-container">
+    <div class="traffic-route">
+      <div class="traffic-route-info">
+        <div class="traffic-origin-dest">
+          <span class="traffic-origin">{{ config.origin }}</span>
+          <span class="traffic-arrow">→</span>
+          <span class="traffic-destination">{{ config.destination }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="traffic-metrics">
+      {% if config.showDuration %}
+        <div class="traffic-metric">
+          <span class="traffic-label">Time:</span>
+          <span class="traffic-value">{{ metrics.duration }}</span>
+          {% if config.showTrafficDelay and metrics.delaySeconds > 0 %}
+            <span class="traffic-delay">(+{{ metrics.delay }})</span>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if config.showDistance %}
+        <div class="traffic-metric">
+          <span class="traffic-label">Distance:</span>
+          <span class="traffic-value">{{ metrics.distance }}</span>
+        </div>
+      {% endif %}
+
+      {% if config.showTrafficLevel %}
+        <div class="traffic-metric">
+          <span class="traffic-label">Traffic:</span>
+          <span class="traffic-level traffic-level-{{ metrics.trafficLevel }}"> {{ metrics.trafficLevelLabel }} </span>
+        </div>
+      {% endif %}
+    </div>
+
+    {% if route.warnings and route.warnings.length > 0 %}
+      <div class="traffic-warnings">
+        {% for warning in route.warnings %}
+          <div class="traffic-warning">
+            <span class="traffic-warning-icon">⚠</span>
+            <span class="traffic-warning-text">{{ warning }}</span>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if config.showAlternatives and alternatives.length > 0 %}
+      <div class="traffic-alternatives">
+        <div class="traffic-alternatives-header">Alternative routes:</div>
+        {% for altRoute in alternatives %}
+          <div class="traffic-alternative">
+            <span class="traffic-alt-info">Alternative route {{ loop.index }}</span>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+{% else %}
+  <div class="traffic-empty">
+    <div class="small dimmed">No traffic data available</div>
+  </div>
+{% endif %}

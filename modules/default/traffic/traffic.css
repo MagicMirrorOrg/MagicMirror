@@ -1,0 +1,142 @@
+.traffic-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.traffic-route {
+  margin-bottom: 8px;
+}
+
+.traffic-route-info {
+  font-size: 0.85em;
+}
+
+.traffic-origin-dest {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.traffic-origin,
+.traffic-destination {
+  color: #aaa;
+}
+
+.traffic-arrow {
+  color: #888;
+  font-weight: bold;
+}
+
+.traffic-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.9em;
+}
+
+.traffic-metric {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.traffic-label {
+  color: #aaa;
+  min-width: 60px;
+}
+
+.traffic-value {
+  color: #fff;
+  font-weight: 500;
+}
+
+.traffic-delay {
+  color: #ff9800;
+  font-size: 0.9em;
+}
+
+.traffic-level {
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.traffic-level-light {
+  background-color: rgb(76 175 80 / 30%);
+  color: #4caf50;
+}
+
+.traffic-level-moderate {
+  background-color: rgb(255 235 59 / 30%);
+  color: #ffeb3b;
+}
+
+.traffic-level-heavy {
+  background-color: rgb(255 152 0 / 30%);
+  color: #ff9800;
+}
+
+.traffic-level-severe {
+  background-color: rgb(244 67 54 / 30%);
+  color: #f44336;
+}
+
+.traffic-alternatives {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgb(255 255 255 / 10%);
+  font-size: 0.85em;
+}
+
+.traffic-alternatives-header {
+  color: #aaa;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.traffic-alternative {
+  margin-left: 10px;
+  color: #ccc;
+}
+
+.traffic-alt-info {
+  font-style: italic;
+}
+
+.traffic-loading,
+.traffic-error,
+.traffic-empty {
+  padding: 10px;
+  text-align: center;
+}
+
+.traffic-error {
+  color: #f44336;
+}
+
+.traffic-warnings {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgb(255 255 255 / 10%);
+  font-size: 0.85em;
+}
+
+.traffic-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin-bottom: 5px;
+  color: #ff9800;
+}
+
+.traffic-warning-icon {
+  font-size: 1.1em;
+  flex-shrink: 0;
+}
+
+.traffic-warning-text {
+  flex: 1;
+}
