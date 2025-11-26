@@ -1,5 +1,6 @@
 const fs = require("node:fs");
 const path = require("node:path");
+const os = require("node:os");
 const Log = require("logger");
 
 const startUp = new Date();
@@ -176,4 +177,93 @@ function getEnvVars (req, res) {
 	res.send(obj);
 }
 
-module.exports = { cors, getConfig, getHtml, getVersion, getStartup, getEnvVars, getEnvVarsAsObj, getUserAgent };
+/**
+ * Gets the config file path
+ * @returns {string} Path to config file
+ */
+function getConfigFilePath () {
+	return path.resolve(global.configuration_file || `${global.root_path}/config/config.js`);
+}
+
+/**
+ * Reads and parses the config file
+ * @returns {object} The config object
+ */
+function readConfig () {
+	try {
+		const configPath = getConfigFilePath();
+		// Clear require cache to get fresh config
+		delete require.cache[require.resolve(configPath)];
+		const config = require(configPath);
+		return config;
+	} catch (error) {
+		Log.error("[Admin] Error reading config:", error);
+		throw error;
+	}
+}
+
+/**
+ * Gets server information (IP address, port, protocol)
+ * @param {object} config The MM config
+ * @returns {object} Server info object
+ */
+function getServerInfo (config) {
+	const interfaces = os.networkInterfaces();
+	let ipAddress = config.address || "localhost";
+	const port = process.env.MM_PORT || config.port || 8080;
+	const protocol = config.useHttps ? "https" : "http";
+
+	// Find first non-internal IPv4 address
+	for (const name of Object.keys(interfaces)) {
+		for (const iface of interfaces[name]) {
+			if (iface.family === "IPv4" && !iface.internal) {
+				ipAddress = iface.address;
+				break;
+			}
+		}
+		if (ipAddress !== (config.address || "localhost")) break;
+	}
+
+	// If still localhost and address is 0.0.0.0, try to find any non-loopback IP
+	if (ipAddress === "localhost" && (config.address === "0.0.0.0" || config.address === "::")) {
+		for (const name of Object.keys(interfaces)) {
+			for (const iface of interfaces[name]) {
+				if (iface.family === "IPv4" && !iface.internal && iface.address !== "127.0.0.1") {
+					ipAddress = iface.address;
+					break;
+				}
+			}
+			if (ipAddress !== "localhost") break;
+		}
+	}
+
+	return {
+		address: ipAddress,
+		port: port,
+		protocol: protocol,
+		url: `${protocol}://${ipAddress}:${port}/admin`
+	};
+}
+
+/**
+ * Gets traffic module configuration
+ * @param {object} config The MM config
+ * @returns {object} Traffic module config
+ */
+function getTrafficConfig (config) {
+	// Find traffic module in config
+	const trafficModule = config.modules.find((m) => m.module === "traffic");
+	if (!trafficModule) {
+		return null;
+	}
+
+	const moduleConfig = trafficModule.config || {};
+	return {
+		enabled: !trafficModule.disabled,
+		destination: moduleConfig.destination || "",
+		trafficModel: moduleConfig.trafficModel || "BEST_GUESS",
+		updateInterval: moduleConfig.updateInterval || 5 * 60 * 1000
+	};
+}
+
+module.exports = { cors, getConfig, getHtml, getVersion, getStartup, getEnvVars, getEnvVarsAsObj, getUserAgent, readConfig, getServerInfo, getTrafficConfig, getConfigFilePath };

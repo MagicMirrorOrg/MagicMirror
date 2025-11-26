@@ -7,7 +7,7 @@ const ipfilter = require("express-ipfilter").IpFilter;
 const helmet = require("helmet");
 const socketio = require("socket.io");
 const Log = require("logger");
-const { cors, getConfig, getHtml, getVersion, getStartup, getEnvVars } = require("#server_functions");
+const { cors, getConfig, getHtml, getVersion, getStartup, getEnvVars, readConfig, getServerInfo, getTrafficConfig } = require("#server_functions");
 
 const vendor = require(`${__dirname}/vendor`);
 
@@ -21,6 +21,8 @@ function Server (config) {
 	const port = process.env.MM_PORT || config.port;
 	const serverSockets = new Set();
 	let server = null;
+	let io = null;
+	let currentModuleConfigs = {};
 
 	/**
 	 * Opens the server for incoming connections
@@ -37,7 +39,7 @@ function Server (config) {
 			} else {
 				server = http.Server(app);
 			}
-			const io = socketio(server, {
+			io = socketio(server, {
 				cors: {
 					origin: /.*$/,
 					credentials: true
@@ -79,6 +81,56 @@ function Server (config) {
 			});
 
 			server.listen(port, config.address || "localhost");
+
+			// Admin routes - placed before ipWhitelist to allow unrestricted access
+			app.use(express.json());
+			app.get("/admin", (req, res) => {
+				const adminHtml = fs.readFileSync(path.resolve(`${global.root_path}/admin.html`), { encoding: "utf8" });
+				res.send(adminHtml);
+			});
+
+			app.get("/admin/api/server-info", (req, res) => {
+				try {
+					const serverInfo = getServerInfo(config);
+					res.json({ success: true, serverInfo });
+				} catch (error) {
+					Log.error("[Admin] Error getting server info:", error);
+					res.json({ success: false, error: "Unable to determine server address" });
+				}
+			});
+
+			app.get("/admin/api/config/traffic", (req, res) => {
+				try {
+					const storedConfig = readConfig();
+					const currentTrafficConfig = currentModuleConfigs.traffic;
+					const storedTrafficConfig = getTrafficConfig(storedConfig);
+					if (storedTrafficConfig === null && currentTrafficConfig === null) {
+						res.json({ success: false, error: "Traffic module not found in config" });
+					} else {
+						res.json({ success: true, config: currentTrafficConfig || storedTrafficConfig });
+					}
+				} catch (error) {
+					Log.error("[Admin] Error getting traffic config:", error);
+					res.json({ success: false, error: error.message || "Failed to get traffic configuration" });
+				}
+			});
+
+			app.post("/admin/api/config/traffic", (req, res) => {
+				try {
+					// Broadcast socket notification to update modules
+					if (io) {
+						io.of("traffic").emit("MODULE_CONFIG_UPDATED", req.body);
+						if (req.body.enabled !== undefined) {
+							currentModuleConfigs.traffic = req.body;
+							io.of("traffic").emit(req.body.enabled ? "MODULE_ENABLED" : "MODULE_DISABLED", {});
+						}
+					}
+					res.json({ success: true, message: "Traffic module configuration updated successfully" });
+				} catch (error) {
+					Log.error("[Admin] Error updating traffic config:", error);
+					res.json({ success: false, error: error.message || "Failed to update traffic configuration" });
+				}
+			});
 
 			if (config.ipWhitelist instanceof Array && config.ipWhitelist.length === 0) {
 				Log.warn("You're using a full whitelist configuration to allow for all IPs");
