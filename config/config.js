@@ -78,29 +78,11 @@ let config = {
 			}
 		},
 		{
-			module: "compliments",
-			position: "lower_third",
-			config: {
-				remoteFile: "http://localhost:8080/config/custom_compliments.json"
-			}
-		},
-		{
 			module: "weather",
 			position: "top_right",
 			config: {
 				weatherProvider: "weathergov",
 				type: "current",
-				lat: 28.600271,
-				lon: -81.337884
-			}
-		},
-		{
-			module: "weather",
-			position: "top_right",
-			header: "Weather Hourly",
-			config: {
-				weatherProvider: "weathergov",
-				type: "hourly",
 				lat: 28.600271,
 				lon: -81.337884
 			}
