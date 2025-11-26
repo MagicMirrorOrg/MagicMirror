@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MagicMirror Admin</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+
+      .container {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        padding: 40px;
+        max-width: 600px;
+        width: 100%;
+      }
+
+      h1 {
+        color: #333;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        color: #555;
+        font-weight: 500;
+      }
+
+      input[type="text"],
+      input[type="number"],
+      select {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #e0e0e0;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+      }
+
+      input[type="text"]:focus,
+      input[type="number"]:focus,
+      select:focus {
+        outline: none;
+        border-color: #667eea;
+      }
+
+      .toggle-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .toggle-switch {
+        position: relative;
+        width: 50px;
+        height: 26px;
+      }
+
+      .toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: 0.4s;
+        border-radius: 26px;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 20px;
+        width: 20px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
+      }
+
+      input:checked + .slider {
+        background-color: #667eea;
+      }
+
+      input:checked + .slider:before {
+        transform: translateX(24px);
+      }
+
+      button {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+      }
+
+      button:active {
+        transform: translateY(0);
+      }
+
+      button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .message {
+        margin-top: 20px;
+        padding: 12px;
+        border-radius: 5px;
+        text-align: center;
+        display: none;
+      }
+
+      .message.success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .message.error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+
+      .loading {
+        text-align: center;
+        color: #666;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>MagicMirror Admin</h1>
+      <form id="adminForm">
+        <div class="form-group">
+          <label>Traffic Module</label>
+          <div class="toggle-group">
+            <label class="toggle-switch">
+              <input type="checkbox" id="enabled" checked />
+              <span class="slider"></span>
+            </label>
+            <span id="enabledLabel">Enabled</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="destination">Destination</label>
+          <input type="text" id="destination" placeholder="Enter destination address" required />
+        </div>
+
+        <div class="form-group">
+          <label for="trafficModel">Traffic Model</label>
+          <select id="trafficModel">
+            <option value="BEST_GUESS">BEST_GUESS</option>
+            <option value="PESSIMISTIC">PESSIMISTIC</option>
+            <option value="OPTIMISTIC">OPTIMISTIC</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="updateInterval">Update Interval (minutes)</label>
+          <input type="number" id="updateInterval" min="1" value="5" required />
+        </div>
+
+        <button type="submit" id="saveButton">Save Configuration</button>
+      </form>
+
+      <div id="message" class="message"></div>
+      <div id="loading" class="loading" style="display: none;">Loading...</div>
+    </div>
+
+    <script>
+      // Load current configuration
+      async function loadConfig() {
+        try {
+          document.getElementById("loading").style.display = "block";
+          const response = await fetch("/admin/api/config/traffic");
+          const data = await response.json();
+
+          if (data.success) {
+            document.getElementById("enabled").checked = data.config.enabled;
+            document.getElementById("enabledLabel").textContent = data.config.enabled ? "Enabled" : "Disabled";
+            document.getElementById("destination").value = data.config.destination || "";
+            document.getElementById("trafficModel").value = data.config.trafficModel || "BEST_GUESS";
+            document.getElementById("updateInterval").value = data.config.updateInterval / (60 * 1000) || 5;
+          } else {
+            showMessage("Error loading configuration: " + (data.error || "Unknown error"), "error");
+          }
+        } catch (error) {
+          showMessage("Failed to load configuration: " + error.message, "error");
+        } finally {
+          document.getElementById("loading").style.display = "none";
+        }
+      }
+
+      // Update enabled label
+      document.getElementById("enabled").addEventListener("change", function () {
+        document.getElementById("enabledLabel").textContent = this.checked ? "Enabled" : "Disabled";
+      });
+
+      // Handle form submission
+      document.getElementById("adminForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const enabled = document.getElementById("enabled").checked;
+        const destination = document.getElementById("destination").value;
+        const trafficModel = document.getElementById("trafficModel").value;
+        const updateInterval = parseInt(document.getElementById("updateInterval").value) * 60 * 1000;
+
+        const config = {
+          enabled: enabled,
+          destination: destination,
+          trafficModel: trafficModel,
+          updateInterval: updateInterval
+        };
+
+        try {
+          document.getElementById("saveButton").disabled = true;
+          document.getElementById("saveButton").textContent = "Saving...";
+
+          const response = await fetch("/admin/api/config/traffic", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(config)
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+            showMessage("Configuration saved successfully!", "success");
+          } else {
+            showMessage("Error saving configuration: " + (data.error || "Unknown error"), "error");
+          }
+        } catch (error) {
+          showMessage("Failed to save configuration: " + error.message, "error");
+        } finally {
+          document.getElementById("saveButton").disabled = false;
+          document.getElementById("saveButton").textContent = "Save Configuration";
+        }
+      });
+
+      // Show message
+      function showMessage(message, type) {
+        const messageEl = document.getElementById("message");
+        messageEl.textContent = message;
+        messageEl.className = "message " + type;
+        messageEl.style.display = "block";
+
+        setTimeout(() => {
+          messageEl.style.display = "none";
+        }, 5000);
+      }
+
+      // Load config on page load
+      loadConfig();
+    </script>
+  </body>
+</html>

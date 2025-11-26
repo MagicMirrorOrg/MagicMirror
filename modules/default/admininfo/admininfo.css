@@ -1,0 +1,16 @@
+.admininfo-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  color: rgb(255 255 255 / 60%);
+}
+
+.admininfo-label {
+  font-weight: 500;
+}
+
+.admininfo-url {
+  font-family: monospace;
+  color: rgb(255 255 255 / 80%);
+}

@@ -1,4 +1,8 @@
-{% if loading %}
+{% if disabled %}
+  <div class="traffic-disabled">
+    <div class="small dimmed">Traffic Module Disabled</div>
+  </div>
+{% elif loading %}
   <div class="traffic-loading">
     <div class="small dimmed">Loading traffic data...</div>
   </div>

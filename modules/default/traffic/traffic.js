@@ -19,7 +19,8 @@ Module.register("traffic", {
 		header: "Traffic",
 		animationSpeed: 1000,
 		fade: true,
-		fadePoint: 0.25
+		fadePoint: 0.25,
+		disabled: false
 	},
 
 	// Module properties.
@@ -29,6 +30,7 @@ Module.register("traffic", {
 	error: null,
 	updateTimer: null,
 	loaded: false,
+	disabled: false,
 
 	// Define required styles.
 	getStyles () {
@@ -39,16 +41,30 @@ Module.register("traffic", {
 	start () {
 		Log.info(`Starting module: ${this.name}`);
 
+		// Check if module is disabled
+		this.disabled = this.config.disabled || false;
+		if (this.disabled) {
+			Log.info("[Traffic] Module is disabled");
+			this.loaded = true;
+			this.updateDom();
+			return;
+		}
+
 		// Validate configuration
 		if (!this.config.apiKey) {
 			this.error = "API key is required";
 			Log.error("[Traffic] API key is missing in configuration");
+			this.disabled = true;
+			this.loaded = true;
+			this.updateDom();
 			return;
 		}
 
 		if (!this.config.origin || !this.config.destination) {
-			this.error = "Origin and destination are required";
-			Log.error("[Traffic] Origin and destination are missing in configuration");
+			Log.warn("[Traffic] Origin and destination are missing in configuration - disabling module");
+			this.disabled = true;
+			this.loaded = true;
+			this.updateDom();
 			return;
 		}
 
@@ -68,17 +84,25 @@ Module.register("traffic", {
 	// Override socket notification handler.
 	socketNotificationReceived (notification, payload) {
 		if (notification === "TRAFFIC_DATA") {
+			if (this.disabled) return;
 			this.processTrafficData(payload);
 			this.loaded = true;
 			this.error = null;
 			this.updateDom(this.config.animationSpeed);
 		} else if (notification === "TRAFFIC_ERROR") {
+			if (this.disabled) return;
 			this.error = payload.error || "Failed to fetch traffic data";
 			this.loaded = true;
 			Log.error(`[Traffic] Error: ${this.error}`);
 			this.updateDom(this.config.animationSpeed);
 			// Schedule retry
 			this.scheduleUpdate();
+		} else if (notification === "MODULE_CONFIG_UPDATED") {
+			this.handleConfigUpdate(payload);
+		} else if (notification === "MODULE_DISABLED") {
+			this.handleDisabled();
+		} else if (notification === "MODULE_ENABLED") {
+			this.handleEnabled();
 		}
 	},
 
@@ -124,6 +148,14 @@ Module.register("traffic", {
 
 	// Override getTemplateData method.
 	getTemplateData () {
+		// Check if module is disabled
+		if (this.disabled) {
+			return {
+				disabled: true,
+				loaded: true
+			};
+		}
+
 		if (this.error) {
 			return {
 				error: this.error,
@@ -288,9 +320,105 @@ Module.register("traffic", {
 	 */
 	resume () {
 		// Resume updates if needed
-		if (!this.updateTimer && this.loaded) {
+		if (!this.updateTimer && this.loaded && !this.disabled) {
 			this.scheduleUpdate();
 		}
+	},
+
+	/**
+	 * Handle configuration update from admin page
+	 * @param {object} updates Configuration updates
+	 */
+	handleConfigUpdate (updates) {
+		Log.info("[Traffic] Configuration updated via admin page");
+
+		// Update config values
+		if (updates.destination !== undefined) {
+			this.config.destination = updates.destination;
+		}
+		if (updates.trafficModel !== undefined) {
+			this.config.trafficModel = updates.trafficModel;
+		}
+		if (updates.updateInterval !== undefined) {
+			this.config.updateInterval = updates.updateInterval;
+		}
+
+		// Check if we have required config (origin and destination)
+		if (!this.config.origin || !this.config.destination) {
+			Log.warn("[Traffic] Origin or destination missing after update - disabling module");
+			this.disabled = true;
+			if (this.updateTimer) {
+				clearTimeout(this.updateTimer);
+				this.updateTimer = null;
+			}
+			this.updateDom();
+			return;
+		}
+
+		// Restart updates with new interval if module is enabled
+		if (!this.disabled) {
+			if (this.updateTimer) {
+				clearTimeout(this.updateTimer);
+				this.updateTimer = null;
+			}
+			// Re-validate and restart
+			if (this.config.apiKey && this.config.origin && this.config.destination) {
+				this.sendSocketNotification("FETCH_TRAFFIC", this.config);
+				this.scheduleUpdate();
+			}
+		}
+
+		this.updateDom();
+	},
+
+	/**
+	 * Handle module being disabled
+	 */
+	handleDisabled () {
+		Log.info("[Traffic] Module disabled via admin page");
+		this.disabled = true;
+		this.config.disabled = true;
+
+		// Stop updates
+		if (this.updateTimer) {
+			clearTimeout(this.updateTimer);
+			this.updateTimer = null;
+		}
+
+		this.updateDom();
+	},
+
+	/**
+	 * Handle module being enabled
+	 */
+	handleEnabled () {
+		Log.info("[Traffic] Module enabled via admin page");
+
+		// Check if we have required config (origin and destination)
+		if (!this.config.origin || !this.config.destination) {
+			Log.warn("[Traffic] Origin or destination missing - cannot enable module");
+			this.disabled = true;
+			this.loaded = true;
+			this.updateDom();
+			return;
+		}
+
+		this.disabled = false;
+		this.config.disabled = false;
+
+		// Restart if we have valid config
+		if (this.config.apiKey && this.config.origin && this.config.destination) {
+			this.loaded = false;
+			this.error = null;
+			this.sendSocketNotification("FETCH_TRAFFIC", this.config);
+			this.scheduleUpdate(this.config.initialLoadDelay);
+		} else {
+			this.error = "API key, origin, and destination are required";
+			this.disabled = true;
+			this.loaded = true;
+		}
+
+		this.updateDom();
 	}
 });
 
