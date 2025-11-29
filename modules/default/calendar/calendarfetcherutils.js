@@ -9,60 +9,26 @@ const CalendarFetcherUtils = {
 
 	/**
 	 * Determine based on the title of an event if it should be excluded from the list of events
-	 * TODO This seems like an overly complicated way to exclude events based on the title.
 	 * @param {object} config the global config
 	 * @param {string} title the title of the event
 	 * @returns {object} excluded: true if the event should be excluded, false otherwise
 	 * until: the date until the event should be excluded.
 	 */
 	shouldEventBeExcluded (config, title) {
-		let result = {
+		for (const filterConfig of config.excludedEvents) {
+			const match = CalendarFetcherUtils.checkEventAgainstFilter(title, filterConfig);
+			if (match) {
+				return {
+					excluded: !match.until,
+					until: match.until
+				};
+			}
+		}
+
+		return {
 			excluded: false,
 			until: null
 		};
-		for (let f in config.excludedEvents) {
-			let filter = config.excludedEvents[f],
-				testTitle = title.toLowerCase(),
-				until = null,
-				useRegex = false,
-				regexFlags = "g";
-
-			if (filter instanceof Object) {
-				if (typeof filter.until !== "undefined") {
-					until = filter.until;
-				}
-
-				if (typeof filter.regex !== "undefined") {
-					useRegex = filter.regex;
-				}
-
-				// If additional advanced filtering is added in, this section
-				// must remain last as we overwrite the filter object with the
-				// filterBy string
-				if (filter.caseSensitive) {
-					filter = filter.filterBy;
-					testTitle = title;
-				} else if (useRegex) {
-					filter = filter.filterBy;
-					testTitle = title;
-					regexFlags += "i";
-				} else {
-					filter = filter.filterBy.toLowerCase();
-				}
-			} else {
-				filter = filter.toLowerCase();
-			}
-
-			if (CalendarFetcherUtils.titleFilterApplies(testTitle, filter, useRegex, regexFlags)) {
-				if (until) {
-					result.until = until;
-				} else {
-					result.excluded = true;
-				}
-				break;
-			}
-		}
-		return result;
 	},
 
 	/**
@@ -391,6 +357,49 @@ const CalendarFetcherUtils = {
 			}
 		}
 		return instances;
+	},
+
+	/**
+	 * Checks if an event title matches a specific filter configuration.
+	 * @param {string} title The event title to check
+	 * @param {string|object} filterConfig The filter configuration (string or object)
+	 * @returns {object|null} Object with {until: string|null} if matched, null otherwise
+	 */
+	checkEventAgainstFilter (title, filterConfig) {
+		let filter = filterConfig;
+		let testTitle = title.toLowerCase();
+		let until = null;
+		let useRegex = false;
+		let regexFlags = "g";
+
+		if (filter instanceof Object) {
+			if (typeof filter.until !== "undefined") {
+				until = filter.until;
+			}
+
+			if (typeof filter.regex !== "undefined") {
+				useRegex = filter.regex;
+			}
+
+			if (filter.caseSensitive) {
+				filter = filter.filterBy;
+				testTitle = title;
+			} else if (useRegex) {
+				filter = filter.filterBy;
+				testTitle = title;
+				regexFlags += "i";
+			} else {
+				filter = filter.filterBy.toLowerCase();
+			}
+		} else {
+			filter = filter.toLowerCase();
+		}
+
+		if (CalendarFetcherUtils.titleFilterApplies(testTitle, filter, useRegex, regexFlags)) {
+			return { until };
+		}
+
+		return null;
 	}
 };
 
