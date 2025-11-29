@@ -84,46 +84,44 @@ const CalendarFetcherUtils = {
 	 */
 	getMomentsFromRecurringEvent (event, pastLocalMoment, futureLocalMoment, durationInMs) {
 		const rule = event.rrule;
+		const isFullDayEvent = CalendarFetcherUtils.isFullDayEvent(event);
+		const eventTimezone = event.start.tz || CalendarFetcherUtils.getLocalTimezone();
 
-		// can cause problems with e.g. birthdays before 1900
-		if ((rule.options && rule.origOptions && rule.origOptions.dtstart && rule.origOptions.dtstart.getFullYear() < 1900) || (rule.options && rule.options.dtstart && rule.options.dtstart.getFullYear() < 1900)) {
-			rule.origOptions.dtstart.setYear(1900);
-			rule.options.dtstart.setYear(1900);
+		// rrule.js interprets years < 1900 as offsets from 1900, causing issues with some birthday calendars
+		if (rule.origOptions?.dtstart?.getFullYear() < 1900) {
+			rule.origOptions.dtstart.setFullYear(1900);
+		}
+		if (rule.options?.dtstart?.getFullYear() < 1900) {
+			rule.options.dtstart.setFullYear(1900);
 		}
 
-		// subtract the max of the duration of this event or 1 day to find events in the past that are currently still running and should therefor be displayed.
-		const oneDayInMs = 24 * 60 * 60000;
-		let searchFromDate = pastLocalMoment.clone().subtract(Math.max(durationInMs, oneDayInMs), "milliseconds").toDate();
-		let searchToDate = futureLocalMoment.clone().add(1, "days").toDate();
-		Log.debug(`Search for recurring events between: ${searchFromDate} and ${searchToDate}`);
+		// Expand search window to include ongoing events
+		const oneDayInMs = 24 * 60 * 60 * 1000;
+		const searchFromDate = pastLocalMoment.clone().subtract(Math.max(durationInMs, oneDayInMs), "milliseconds").toDate();
+		const searchToDate = futureLocalMoment.clone().add(1, "days").toDate();
 
-		// if until is set, and its a full day event, force the time to midnight. rrule gets confused with non-00 offset
-		// looks like MS Outlook sets the until time incorrectly for fullday events
-		if ((rule.options.until !== undefined) && CalendarFetcherUtils.isFullDayEvent(event)) {
-			Log.debug("fixup rrule until");
-			rule.options.until = moment(rule.options.until).clone().startOf("day").add(1, "day")
-				.toDate();
+		// For all-day events, extend "until" to end of day to include the final occurrence
+		if (isFullDayEvent && rule.options?.until) {
+			rule.options.until = moment(rule.options.until).endOf("day").toDate();
 		}
 
-		Log.debug("fix rrule start=", rule.options.dtstart);
-		Log.debug("event before rrule.between=", JSON.stringify(event, null, 2), "exdates=", event.exdate);
-		Log.debug(`RRule: ${rule.toString()}`);
-		rule.options.tzid = null; // RRule gets *very* confused with timezones
+		// Clear tzid to prevent rrule.js from double-adjusting times
+		if (rule.options) {
+			rule.options.tzid = null;
+		}
 
-		let dates = rule.between(searchFromDate, searchToDate, true, () => {
-			return true;
+		const dates = rule.between(searchFromDate, searchToDate, true) || [];
+
+		// Convert dates to moments in the appropriate timezone
+		// rrule.js returns UTC dates with tzid cleared, so we interpret them in the event's original timezone
+		return dates.map((date) => {
+			if (isFullDayEvent) {
+				// For all-day events, anchor to calendar day in event's timezone
+				return moment.tz(date, eventTimezone).startOf("day");
+			}
+			// For timed events, preserve the time in the event's original timezone
+			return moment.tz(date, "UTC").tz(eventTimezone, true);
 		});
-
-		Log.debug(`Title: ${event.summary}, with dates: \n\n${JSON.stringify(dates)}\n`);
-
-		// shouldn't need this  anymore, as RRULE not passed junk
-		dates = dates.filter((d) => {
-			return JSON.stringify(d) !== "null";
-		});
-
-		// Dates are returned in UTC timezone but with local datetime because tzid is null.
-		// So we map the date to a moment using the original timezone of the event.
-		return dates.map((d) => (event.start.tz ? moment.tz(d, "UTC").tz(event.start.tz, true) : moment.tz(d, "UTC").tz(CalendarFetcherUtils.getLocalTimezone(), true)));
 	},
 
 	/**
@@ -205,14 +203,14 @@ const CalendarFetcherUtils = {
 				// TODO This should be a separate function.
 				if (event.rrule && typeof event.rrule !== "undefined" && !isFacebookBirthday) {
 					// Recurring event.
-					let moments = CalendarFetcherUtils.getMomentsFromRecurringEvent(event, pastLocalMoment, futureLocalMoment, durationMs);
+					const moments = CalendarFetcherUtils.getMomentsFromRecurringEvent(event, pastLocalMoment, futureLocalMoment, durationMs);
 
 					// Loop through the set of moment entries to see which recurrences should be added to our event list.
 					// TODO This should create an event per moment so we can change anything we want.
-					for (let m in moments) {
+					for (const startMoment of moments) {
 						let curEvent = event;
 						let showRecurrence = true;
-						let recurringEventStartMoment = moments[m].tz(CalendarFetcherUtils.getLocalTimezone()).clone();
+						let recurringEventStartMoment = startMoment.clone().tz(CalendarFetcherUtils.getLocalTimezone());
 						let recurringEventEndMoment = recurringEventStartMoment.clone().add(durationMs, "ms");
 
 						let dateKey = recurringEventStartMoment.tz("UTC").format("YYYY-MM-DD");
