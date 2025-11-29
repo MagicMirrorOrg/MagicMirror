@@ -40,6 +40,7 @@ planned for 2026-01-01
 - [gitignore] cleanup/simplify .gitignore (#3952, #3954, #3968, #3969)
 - [compliments] refactor: optimize `loadComplimentFile` method and add unit tests(#3969)
 - [core] chore: simplify Wayland start script (#3974)
+- [calendar] refactor: simplify recurring event handling and event exclusion logic (#3976)
 
 ### Fixed
 
@@ -52,6 +53,7 @@ planned for 2026-01-01
 - [weather] fixed windy icon not showing up in pirateweather (#3957)
 - [compliments] fixed duplicate query param "?" when constructing refresh url (#3967)
 - [compliments] fixed compliments remote file minimum delay to be 15 minutes (#3970)
+- [calendar] prevent excessive fetching with smart refresh strategy (#3976)
 
 ### Updated
 

@@ -70,13 +70,18 @@ module.exports = NodeHelper.create({
 			});
 
 			this.fetchers[identifier + url] = fetcher;
+			fetcher.fetchCalendar();
 		} else {
 			Log.log(`Use existing calendarfetcher for url: ${url}`);
 			fetcher = this.fetchers[identifier + url];
-			fetcher.broadcastEvents();
+			// Check if calendar data is stale and needs refresh
+			if (fetcher.shouldRefetch()) {
+				Log.log(`Calendar data is stale, fetching fresh data for url: ${url}`);
+				fetcher.fetchCalendar();
+			} else {
+				fetcher.broadcastEvents();
+			}
 		}
-
-		fetcher.fetchCalendar();
 	},
 
 	/**
