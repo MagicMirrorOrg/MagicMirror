@@ -20,7 +20,13 @@ Module.register("traffic", {
 		animationSpeed: 1000,
 		fade: true,
 		fadePoint: 0.25,
-		disabled: false
+		disabled: false,
+		// Scheduler configuration
+		schedulerEnabled: false,
+		schedulerMode: "timeRange", // "timeRange" or "duration"
+		enableTime: "06:30", // HH:MM format
+		disableTime: "08:00", // HH:MM format
+		enabledDuration: 90 // minutes (used when schedulerMode is "duration")
 	},
 
 	// Module properties.
@@ -77,6 +83,23 @@ Module.register("traffic", {
 		// Send initial request to node helper
 		this.sendSocketNotification("FETCH_TRAFFIC", this.config);
 
+		// Initialize scheduler if enabled
+		if (this.config.schedulerEnabled) {
+			// Calculate disableTime if not set (enableTime + 90 minutes)
+			let disableTime = this.config.disableTime;
+			if (!disableTime && this.config.enableTime) {
+				disableTime = this.calculateDisableTime(this.config.enableTime, 90);
+			}
+
+			this.sendSocketNotification("SCHEDULER_CONFIG_UPDATED", {
+				schedulerEnabled: this.config.schedulerEnabled,
+				schedulerMode: this.config.schedulerMode || "timeRange",
+				enableTime: this.config.enableTime || "08:00",
+				disableTime: disableTime || "09:30",
+				enabledDuration: this.config.enabledDuration || 90
+			});
+		}
+
 		// Schedule periodic updates
 		this.scheduleUpdate(this.config.initialLoadDelay);
 	},
@@ -103,6 +126,10 @@ Module.register("traffic", {
 			this.handleDisabled();
 		} else if (notification === "MODULE_ENABLED") {
 			this.handleEnabled();
+		} else if (notification === "SCHEDULER_ENABLED") {
+			this.handleEnabled();
+		} else if (notification === "SCHEDULER_DISABLED") {
+			this.handleDisabled();
 		}
 	},
 
@@ -306,6 +333,41 @@ Module.register("traffic", {
 	},
 
 	/**
+	 * Calculate disable time from enable time + duration in minutes
+	 * @param {string} enableTime Time string in HH:MM format
+	 * @param {number} durationMinutes Duration in minutes
+	 * @returns {string} Disable time in HH:MM format
+	 */
+	calculateDisableTime (enableTime, durationMinutes) {
+		if (!enableTime || typeof enableTime !== "string") {
+			return "09:30"; // Default fallback
+		}
+		const parts = enableTime.split(":");
+		if (parts.length !== 2) {
+			return "09:30"; // Default fallback
+		}
+		const hours = parseInt(parts[0], 10);
+		const minutes = parseInt(parts[1], 10);
+		if (isNaN(hours) || isNaN(minutes)) {
+			return "09:30"; // Default fallback
+		}
+
+		// Calculate total minutes since midnight
+		let totalMinutes = hours * 60 + minutes + durationMinutes;
+
+		// Handle wrap-around past midnight
+		if (totalMinutes >= 24 * 60) {
+			totalMinutes = totalMinutes % (24 * 60);
+		}
+
+		const disableHours = Math.floor(totalMinutes / 60);
+		const disableMinutes = totalMinutes % 60;
+
+		// Format as HH:MM
+		return `${String(disableHours).padStart(2, "0")}:${String(disableMinutes).padStart(2, "0")}`;
+	},
+
+	/**
 	 * Called when module is about to be hidden
 	 */
 	suspend () {
@@ -341,6 +403,40 @@ Module.register("traffic", {
 		}
 		if (updates.updateInterval !== undefined) {
 			this.config.updateInterval = updates.updateInterval;
+		}
+
+		// Update scheduler config
+		if (updates.schedulerEnabled !== undefined) {
+			this.config.schedulerEnabled = updates.schedulerEnabled;
+		}
+		if (updates.schedulerMode !== undefined) {
+			this.config.schedulerMode = updates.schedulerMode;
+		}
+		if (updates.enableTime !== undefined) {
+			this.config.enableTime = updates.enableTime;
+		}
+		if (updates.disableTime !== undefined) {
+			this.config.disableTime = updates.disableTime;
+		}
+		if (updates.enabledDuration !== undefined) {
+			this.config.enabledDuration = updates.enabledDuration;
+		}
+
+		// Send scheduler config update to node_helper
+		if (updates.schedulerEnabled !== undefined || updates.schedulerMode !== undefined) {
+			// Calculate disableTime if not set (enableTime + 90 minutes)
+			let disableTime = this.config.disableTime;
+			if (!disableTime && this.config.enableTime) {
+				disableTime = this.calculateDisableTime(this.config.enableTime, 90);
+			}
+
+			this.sendSocketNotification("SCHEDULER_CONFIG_UPDATED", {
+				schedulerEnabled: this.config.schedulerEnabled || false,
+				schedulerMode: this.config.schedulerMode || "timeRange",
+				enableTime: this.config.enableTime || "08:00",
+				disableTime: disableTime || "09:30",
+				enabledDuration: this.config.enabledDuration || 90
+			});
 		}
 
 		// Check if we have required config (origin and destination)

@@ -119,6 +119,36 @@ function Server (config) {
 				try {
 					// Broadcast socket notification to update modules
 					if (io) {
+						// Send scheduler config update to node_helper
+						if (req.body.schedulerEnabled !== undefined) {
+							// Calculate disableTime if not set (enableTime + 90 minutes)
+							let disableTime = req.body.disableTime;
+							if (!disableTime && req.body.enableTime) {
+								const enableParts = req.body.enableTime.split(":");
+								if (enableParts.length === 2) {
+									const hours = parseInt(enableParts[0], 10);
+									const minutes = parseInt(enableParts[1], 10);
+									if (!isNaN(hours) && !isNaN(minutes)) {
+										let totalMinutes = hours * 60 + minutes + 90;
+										if (totalMinutes >= 24 * 60) {
+											totalMinutes = totalMinutes % (24 * 60);
+										}
+										const disableHours = Math.floor(totalMinutes / 60);
+										const disableMinutes = totalMinutes % 60;
+										disableTime = `${String(disableHours).padStart(2, "0")}:${String(disableMinutes).padStart(2, "0")}`;
+									}
+								}
+							}
+
+							io.of("traffic").emit("SCHEDULER_CONFIG_UPDATED", {
+								schedulerEnabled: req.body.schedulerEnabled,
+								schedulerMode: req.body.schedulerMode || "timeRange",
+								enableTime: req.body.enableTime || "08:00",
+								disableTime: disableTime || "09:30",
+								enabledDuration: req.body.enabledDuration || 90
+							});
+						}
+
 						io.of("traffic").emit("MODULE_CONFIG_UPDATED", req.body);
 						if (req.body.enabled !== undefined) {
 							currentModuleConfigs.traffic = req.body;

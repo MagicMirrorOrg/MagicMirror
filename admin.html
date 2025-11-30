@@ -206,6 +206,51 @@
           <input type="number" id="updateInterval" min="1" value="5" required />
         </div>
 
+        <div class="form-group">
+          <label>Scheduler</label>
+          <div class="toggle-group">
+            <label class="toggle-switch">
+              <input type="checkbox" id="schedulerEnabled" />
+              <span class="slider"></span>
+            </label>
+            <span id="schedulerEnabledLabel">Disabled</span>
+          </div>
+        </div>
+
+        <div id="schedulerSettings" style="display: none;">
+          <div class="form-group">
+            <label for="schedulerMode">Scheduler Mode</label>
+            <select id="schedulerMode">
+              <option value="timeRange">Time Range (Enable/Disable Times)</option>
+              <option value="duration">Duration (Enable for X minutes)</option>
+            </select>
+          </div>
+
+          <div id="timeRangeSettings">
+            <div class="form-group">
+              <label for="enableTime">Enable Time</label>
+              <input type="time" id="enableTime" value="08:00" />
+            </div>
+
+            <div class="form-group">
+              <label for="disableTime">Disable Time</label>
+              <input type="time" id="disableTime" value="18:00" />
+            </div>
+          </div>
+
+          <div id="durationSettings" style="display: none;">
+            <div class="form-group">
+              <label for="enableTimeDuration">Enable Time</label>
+              <input type="time" id="enableTimeDuration" value="08:00" />
+            </div>
+
+            <div class="form-group">
+              <label for="enabledDuration">Enabled Duration (minutes)</label>
+              <input type="number" id="enabledDuration" min="1" value="90" />
+            </div>
+          </div>
+        </div>
+
         <button type="submit" id="saveButton">Save Configuration</button>
       </form>
 
@@ -227,6 +272,27 @@
             document.getElementById("destination").value = data.config.destination || "";
             document.getElementById("trafficModel").value = data.config.trafficModel || "BEST_GUESS";
             document.getElementById("updateInterval").value = data.config.updateInterval / (60 * 1000) || 5;
+
+            // Load scheduler settings
+            const schedulerEnabled = data.config.schedulerEnabled || false;
+            document.getElementById("schedulerEnabled").checked = schedulerEnabled;
+            document.getElementById("schedulerEnabledLabel").textContent = schedulerEnabled ? "Enabled" : "Disabled";
+            document.getElementById("schedulerSettings").style.display = schedulerEnabled ? "block" : "none";
+
+            const schedulerMode = data.config.schedulerMode || "timeRange";
+            document.getElementById("schedulerMode").value = schedulerMode;
+            if (schedulerMode === "duration") {
+              document.getElementById("timeRangeSettings").style.display = "none";
+              document.getElementById("durationSettings").style.display = "block";
+            } else {
+              document.getElementById("timeRangeSettings").style.display = "block";
+              document.getElementById("durationSettings").style.display = "none";
+            }
+
+            document.getElementById("enableTime").value = data.config.enableTime || "08:00";
+            document.getElementById("disableTime").value = data.config.disableTime || "";
+            document.getElementById("enableTimeDuration").value = data.config.enableTime || "08:00";
+            document.getElementById("enabledDuration").value = data.config.enabledDuration || 90;
           } else {
             showMessage("Error loading configuration: " + (data.error || "Unknown error"), "error");
           }
@@ -242,6 +308,25 @@
         document.getElementById("enabledLabel").textContent = this.checked ? "Enabled" : "Disabled";
       });
 
+      // Update scheduler enabled label and show/hide settings
+      document.getElementById("schedulerEnabled").addEventListener("change", function () {
+        const enabled = this.checked;
+        document.getElementById("schedulerEnabledLabel").textContent = enabled ? "Enabled" : "Disabled";
+        document.getElementById("schedulerSettings").style.display = enabled ? "block" : "none";
+      });
+
+      // Handle scheduler mode change
+      document.getElementById("schedulerMode").addEventListener("change", function () {
+        const mode = this.value;
+        if (mode === "duration") {
+          document.getElementById("timeRangeSettings").style.display = "none";
+          document.getElementById("durationSettings").style.display = "block";
+        } else {
+          document.getElementById("timeRangeSettings").style.display = "block";
+          document.getElementById("durationSettings").style.display = "none";
+        }
+      });
+
       // Handle form submission
       document.getElementById("adminForm").addEventListener("submit", async function (e) {
         e.preventDefault();
@@ -251,11 +336,40 @@
         const trafficModel = document.getElementById("trafficModel").value;
         const updateInterval = parseInt(document.getElementById("updateInterval").value) * 60 * 1000;
 
+        const schedulerEnabled = document.getElementById("schedulerEnabled").checked;
+        const schedulerMode = document.getElementById("schedulerMode").value;
+        const enableTime = schedulerMode === "duration" ? document.getElementById("enableTimeDuration").value : document.getElementById("enableTime").value;
+        let disableTime = document.getElementById("disableTime").value;
+        const enabledDuration = parseInt(document.getElementById("enabledDuration").value) || 90;
+
+        // Calculate disableTime if not set (enableTime + 90 minutes)
+        if (!disableTime && enableTime && schedulerMode === "timeRange") {
+          const enableParts = enableTime.split(":");
+          if (enableParts.length === 2) {
+            const hours = parseInt(enableParts[0], 10);
+            const minutes = parseInt(enableParts[1], 10);
+            if (!isNaN(hours) && !isNaN(minutes)) {
+              let totalMinutes = hours * 60 + minutes + 90;
+              if (totalMinutes >= 24 * 60) {
+                totalMinutes = totalMinutes % (24 * 60);
+              }
+              const disableHours = Math.floor(totalMinutes / 60);
+              const disableMinutes = totalMinutes % 60;
+              disableTime = `${String(disableHours).padStart(2, "0")}:${String(disableMinutes).padStart(2, "0")}`;
+            }
+          }
+        }
+
         const config = {
           enabled: enabled,
           destination: destination,
           trafficModel: trafficModel,
-          updateInterval: updateInterval
+          updateInterval: updateInterval,
+          schedulerEnabled: schedulerEnabled,
+          schedulerMode: schedulerMode,
+          enableTime: enableTime,
+          disableTime: disableTime,
+          enabledDuration: enabledDuration
         };
 
         try {

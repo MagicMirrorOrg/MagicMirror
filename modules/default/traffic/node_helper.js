@@ -6,12 +6,26 @@ module.exports = NodeHelper.create({
 	// Override start method.
 	start () {
 		Log.log(`Starting node helper for: ${this.name}`);
+		this.schedulerTimer = null;
+		this.schedulerConfig = null;
+		this.lastEnabledState = null;
+		this.enabledAtTime = null; // Track when module was enabled (for duration mode)
+	},
+
+	stop () {
+		// Clean up scheduler timer
+		if (this.schedulerTimer) {
+			clearInterval(this.schedulerTimer);
+			this.schedulerTimer = null;
+		}
 	},
 
 	// Override socketNotificationReceived.
 	socketNotificationReceived (notification, payload) {
 		if (notification === "FETCH_TRAFFIC") {
 			this.fetchTrafficData(payload);
+		} else if (notification === "SCHEDULER_CONFIG_UPDATED") {
+			this.updateScheduler(payload);
 		}
 	},
 
@@ -192,6 +206,142 @@ module.exports = NodeHelper.create({
 			routes: response.routes,
 			timestamp: new Date().toISOString()
 		};
+	},
+
+	/**
+	 * Update scheduler configuration and restart scheduler
+	 * @param {object} config Scheduler configuration
+	 */
+	updateScheduler (config) {
+		// Clear existing timer
+		if (this.schedulerTimer) {
+			clearInterval(this.schedulerTimer);
+			this.schedulerTimer = null;
+		}
+
+		// Reset state when config changes
+		this.lastEnabledState = null;
+		this.enabledAtTime = null;
+
+		this.schedulerConfig = config;
+
+		// If scheduler is disabled, stop here
+		if (!config || !config.schedulerEnabled) {
+			Log.info("[Traffic] Scheduler disabled");
+			return;
+		}
+
+		Log.info("[Traffic] Starting scheduler");
+		// Check immediately
+		this.checkScheduler();
+		// Check every minute
+		this.schedulerTimer = setInterval(() => {
+			this.checkScheduler();
+		}, 60 * 1000);
+	},
+
+	/**
+	 * Check scheduler and enable/disable module as needed
+	 */
+	checkScheduler () {
+		if (!this.schedulerConfig || !this.schedulerConfig.schedulerEnabled) {
+			return;
+		}
+
+		const now = new Date();
+		const currentTime = now.getHours() * 60 + now.getMinutes(); // minutes since midnight
+		let shouldBeEnabled = false;
+
+		if (this.schedulerConfig.schedulerMode === "duration") {
+			// Duration mode: enable for a specific duration after enableTime
+			const enableTime = this.parseTime(this.schedulerConfig.enableTime);
+			const duration = this.schedulerConfig.enabledDuration || 90;
+
+			// Check if we're at the enable time (within 1 minute window)
+			if (currentTime >= enableTime && currentTime < enableTime + 1) {
+				// Time to enable - mark the enable time
+				this.enabledAtTime = currentTime;
+				shouldBeEnabled = true;
+			} else if (this.enabledAtTime !== null) {
+				// Check if we're still within the duration window
+				let timeSinceEnable;
+				if (currentTime >= this.enabledAtTime) {
+					timeSinceEnable = currentTime - this.enabledAtTime;
+				} else {
+					// Wrapped around midnight
+					timeSinceEnable = (24 * 60 - this.enabledAtTime) + currentTime;
+				}
+
+				if (timeSinceEnable < duration) {
+					shouldBeEnabled = true;
+				} else {
+					// Duration expired, reset
+					this.enabledAtTime = null;
+					shouldBeEnabled = false;
+				}
+			} else {
+				// Not enabled yet and not at enable time
+				shouldBeEnabled = false;
+			}
+		} else {
+			// Time range mode: enable between enableTime and disableTime
+			const enableTime = this.parseTime(this.schedulerConfig.enableTime);
+			let disableTime = this.parseTime(this.schedulerConfig.disableTime);
+
+			// If disableTime is not set, calculate it as enableTime + 90 minutes
+			if (!disableTime && enableTime) {
+				disableTime = enableTime + 90;
+				// Handle wrap-around past midnight
+				if (disableTime >= 24 * 60) {
+					disableTime = disableTime % (24 * 60);
+				}
+			}
+
+			if (enableTime < disableTime) {
+				// Normal case: enableTime < disableTime (e.g., 08:00 to 18:00)
+				shouldBeEnabled = currentTime >= enableTime && currentTime < disableTime;
+			} else {
+				// Wraps around midnight (e.g., 22:00 to 06:00)
+				shouldBeEnabled = currentTime >= enableTime || currentTime < disableTime;
+			}
+		}
+
+		// Send notification if state should change
+		// We'll track the last state to avoid sending duplicate notifications
+		if (shouldBeEnabled && this.lastEnabledState !== true) {
+			Log.info("[Traffic] Scheduler: Enabling module");
+			this.sendSocketNotification("SCHEDULER_ENABLED", {});
+			this.lastEnabledState = true;
+		} else if (!shouldBeEnabled && this.lastEnabledState !== false) {
+			Log.info("[Traffic] Scheduler: Disabling module");
+			this.sendSocketNotification("SCHEDULER_DISABLED", {});
+			this.lastEnabledState = false;
+			// Reset enabledAtTime when disabling
+			if (this.schedulerConfig.schedulerMode === "duration") {
+				this.enabledAtTime = null;
+			}
+		}
+	},
+
+	/**
+	 * Parse time string (HH:MM) to minutes since midnight
+	 * @param {string} timeStr Time string in HH:MM format
+	 * @returns {number} Minutes since midnight
+	 */
+	parseTime (timeStr) {
+		if (!timeStr || typeof timeStr !== "string") {
+			return 0;
+		}
+		const parts = timeStr.split(":");
+		if (parts.length !== 2) {
+			return 0;
+		}
+		const hours = parseInt(parts[0], 10);
+		const minutes = parseInt(parts[1], 10);
+		if (isNaN(hours) || isNaN(minutes)) {
+			return 0;
+		}
+		return hours * 60 + minutes;
 	}
 });
 

@@ -72,7 +72,7 @@ let config = {
 					{
 						fetchInterval: 7 * 24 * 60 * 60 * 1000,
 						symbol: "calendar-check",
-						url: ""
+						url: "https://calendar.google.com/calendar/ical/f0mlu65sm65m4k6egc6fhp97fo%40group.calendar.google.com/private-cd3b81fa2641b012421b740c5e5413b8/basic.ics"
 					}
 				]
 			}
@@ -123,9 +123,9 @@ let config = {
 			position: "top_right",
 			header: "Traffic",
 			config: {
-				apiKey: "",
-				origin: "",
-				destination: "",
+				apiKey: "AIzaSyBNLwhHjaKa7rSSGZZMazpAR7ePn5XEMr0",
+				origin: "7039 citrus point court, winter park",
+				destination: "7079 S Kirkman Rd, Orlando, FL",
 				updateInterval: 5 * 60 * 1000, // 5 minutes
 				units: "imperial"// metric or imperial
 			}
@@ -135,4 +135,3 @@ let config = {
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/
 if (typeof module !== "undefined") { module.exports = config; }
-
