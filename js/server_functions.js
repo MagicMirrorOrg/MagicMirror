@@ -263,6 +263,7 @@ function getTrafficConfig (config) {
 		destination: moduleConfig.destination || "",
 		trafficModel: moduleConfig.trafficModel || "BEST_GUESS",
 		updateInterval: moduleConfig.updateInterval || 5 * 60 * 1000,
+		avoid: moduleConfig.avoid || [],
 		schedulerEnabled: moduleConfig.schedulerEnabled || false,
 		schedulerMode: moduleConfig.schedulerMode || "timeRange",
 		enableTime: moduleConfig.enableTime || "08:00",

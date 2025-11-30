@@ -404,6 +404,9 @@ Module.register("traffic", {
 		if (updates.updateInterval !== undefined) {
 			this.config.updateInterval = updates.updateInterval;
 		}
+		if (updates.avoid !== undefined) {
+			this.config.avoid = updates.avoid;
+		}
 
 		// Update scheduler config
 		if (updates.schedulerEnabled !== undefined) {
