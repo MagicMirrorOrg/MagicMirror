@@ -12,6 +12,9 @@
   </div>
 {% elif loaded and route and metrics %}
   <div class="traffic-container">
+    {% if showMap %}
+      <div class="traffic-map-container"></div>
+    {% endif %}
     <div class="traffic-route">
       <div class="traffic-route-info">
         <div class="traffic-origin-dest">

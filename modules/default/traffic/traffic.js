@@ -1,3 +1,4 @@
+/* global L */
 Module.register("traffic", {
 	// Default module config.
 	defaults: {
@@ -37,10 +38,19 @@ Module.register("traffic", {
 	updateTimer: null,
 	loaded: false,
 	disabled: false,
+	map: null,
+	mapInitialized: false,
+	routeLayer: null,
+	markers: [],
 
 	// Define required styles.
 	getStyles () {
-		return ["traffic.css"];
+		return ["traffic.css", "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"];
+	},
+
+	// Define required scripts.
+	getScripts () {
+		return ["https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"];
 	},
 
 	// Define start sequence.
@@ -112,6 +122,12 @@ Module.register("traffic", {
 			this.loaded = true;
 			this.error = null;
 			this.updateDom(this.config.animationSpeed);
+			// Initialize map after DOM update
+			setTimeout(() => {
+				if (!this.mapInitialized && typeof L !== "undefined") {
+					this.initializeMap();
+				}
+			}, 2500);
 		} else if (notification === "TRAFFIC_ERROR") {
 			if (this.disabled) return;
 			this.error = payload.error || "Failed to fetch traffic data";
@@ -142,6 +158,10 @@ Module.register("traffic", {
 		this.routes = data.routes || [];
 		this.lastUpdate = new Date();
 		Log.info(`[Traffic] Received traffic data: ${this.routes.length} route(s)`);
+		// Update map if initialized
+		if (this.mapInitialized) {
+			this.updateMap();
+		}
 	},
 
 	/**
@@ -215,7 +235,8 @@ Module.register("traffic", {
 			route: primaryRoute,
 			metrics: metrics,
 			lastUpdate: this.lastUpdate,
-			alternatives: this.config.showAlternatives ? this.routes.slice(1) : []
+			alternatives: this.config.showAlternatives ? this.routes.slice(1) : [],
+			showMap: true
 		};
 	},
 
@@ -375,6 +396,14 @@ Module.register("traffic", {
 			clearTimeout(this.updateTimer);
 			this.updateTimer = null;
 		}
+		// Clean up map
+		if (this.map) {
+			this.map.remove();
+			this.map = null;
+			this.mapInitialized = false;
+			this.routeLayer = null;
+			this.markers = [];
+		}
 	},
 
 	/**
@@ -385,6 +414,271 @@ Module.register("traffic", {
 		if (!this.updateTimer && this.loaded && !this.disabled) {
 			this.scheduleUpdate();
 		}
+		// Initialize map if not already done
+		setTimeout(() => {
+			if (!this.mapInitialized && this.loaded && !this.disabled && this.routes.length > 0 && typeof L !== "undefined") {
+				this.initializeMap();
+			}
+		}, 100);
+	},
+
+	/**
+	 * Initialize Leaflet map
+	 */
+	initializeMap () {
+		if (typeof L === "undefined") {
+			Log.warn("[Traffic] Leaflet library not loaded yet");
+			return;
+		}
+
+		const moduleWrapper = document.getElementById(this.identifier);
+		if (!moduleWrapper) {
+			Log.warn("[Traffic] Module wrapper not found");
+			return;
+		}
+
+		const mapContainer = moduleWrapper.querySelector(".traffic-map-container");
+		if (!mapContainer) {
+			Log.warn("[Traffic] Map container not found");
+			return;
+		}
+
+		try {
+			// Get route bounds or use default center
+			let center = [37.7749, -122.4194]; // Default to San Francisco
+			let zoom = 10;
+
+			if (this.routes.length > 0 && this.routes[0].polyline) {
+				// Decode polyline to get route bounds
+				const polyline = this.routes[0].polyline.encodedPolyline;
+				if (polyline) {
+					const decoded = this.decodePolyline(polyline);
+					if (decoded.length > 0) {
+						// Calculate bounds
+						const bounds = this.calculateBounds(decoded);
+						center = [(bounds.north + bounds.south) / 2, (bounds.east + bounds.west) / 2];
+						zoom = this.calculateZoom(bounds);
+					}
+				}
+			}
+
+			// Initialize map
+			this.map = L.map(mapContainer, {
+				zoomControl: false,
+				attributionControl: false,
+				scrollWheelZoom: false,
+				doubleClickZoom: false,
+				dragging: false,
+				touchZoom: false,
+				boxZoom: false,
+				keyboard: false
+			});
+
+			// Add tile layer (OpenStreetMap)
+			L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+				maxZoom: 19,
+				attribution: ""
+			}).addTo(this.map);
+
+			// Set view
+			this.map.setView(center, zoom);
+
+			this.mapInitialized = true;
+			Log.info("[Traffic] Map initialized");
+
+			// Update map with route data
+			this.updateMap();
+		} catch (error) {
+			Log.error("[Traffic] Error initializing map:", error);
+		}
+	},
+
+	/**
+	 * Update map with current route data
+	 */
+	updateMap () {
+		if (!this.map || !this.mapInitialized || this.routes.length === 0) {
+			return;
+		}
+
+		try {
+			// Remove existing route layer and markers
+			if (this.routeLayer) {
+				this.map.removeLayer(this.routeLayer);
+				this.routeLayer = null;
+			}
+			this.markers.forEach((marker) => {
+				this.map.removeLayer(marker);
+			});
+			this.markers = [];
+
+			const primaryRoute = this.routes[0];
+			if (!primaryRoute.polyline || !primaryRoute.polyline.encodedPolyline) {
+				return;
+			}
+
+			// Decode polyline
+			const decoded = this.decodePolyline(primaryRoute.polyline.encodedPolyline);
+			if (decoded.length === 0) {
+				return;
+			}
+
+			// Add route polyline
+			const latlngs = decoded.map((point) => [point.lat, point.lng]);
+			this.routeLayer = L.polyline(latlngs, {
+				color: this.getRouteColor(primaryRoute),
+				weight: 4,
+				opacity: 0.8
+			}).addTo(this.map);
+
+			// Add origin marker
+			if (decoded.length > 0) {
+				const origin = decoded[0];
+				const originMarker = L.marker([origin.lat, origin.lng], {
+					icon: L.divIcon({
+						className: "traffic-marker traffic-marker-origin",
+						html: "●",
+						iconSize: [12, 12]
+					})
+				}).addTo(this.map);
+				this.markers.push(originMarker);
+			}
+
+			// Add destination marker
+			if (decoded.length > 1) {
+				const destination = decoded[decoded.length - 1];
+				const destMarker = L.marker([destination.lat, destination.lng], {
+					icon: L.divIcon({
+						className: "traffic-marker traffic-marker-destination",
+						html: "●",
+						iconSize: [12, 12]
+					})
+				}).addTo(this.map);
+				this.markers.push(destMarker);
+			}
+
+			// Fit map to route bounds
+			const bounds = this.calculateBounds(decoded);
+			this.map.fitBounds([
+				[bounds.south, bounds.west],
+				[bounds.north, bounds.east]
+			], {
+				padding: [20, 20]
+			});
+		} catch (error) {
+			Log.error("[Traffic] Error updating map:", error);
+		}
+	},
+
+	/**
+	 * Decode Google encoded polyline
+	 * @param {string} encoded Encoded polyline string
+	 * @returns {Array} Array of {lat, lng} objects
+	 */
+	decodePolyline (encoded) {
+		const points = [];
+		let index = 0;
+		const len = encoded.length;
+		let lat = 0;
+		let lng = 0;
+
+		while (index < len) {
+			let b;
+			let shift = 0;
+			let result = 0;
+			do {
+				b = encoded.charCodeAt(index++) - 63;
+				result |= (b & 0x1f) << shift;
+				shift += 5;
+			} while (b >= 0x20);
+			const dlat = ((result & 1) !== 0) ? ~(result >> 1) : (result >> 1);
+			lat += dlat;
+
+			shift = 0;
+			result = 0;
+			do {
+				b = encoded.charCodeAt(index++) - 63;
+				result |= (b & 0x1f) << shift;
+				shift += 5;
+			} while (b >= 0x20);
+			const dlng = ((result & 1) !== 0) ? ~(result >> 1) : (result >> 1);
+			lng += dlng;
+
+			points.push({
+				lat: lat * 1e-5,
+				lng: lng * 1e-5
+			});
+		}
+
+		return points;
+	},
+
+	/**
+	 * Calculate bounds from decoded polyline points
+	 * @param {Array} points Array of {lat, lng} objects
+	 * @returns {object} Bounds object with north, south, east, west
+	 */
+	calculateBounds (points) {
+		if (points.length === 0) {
+			return { north: 0, south: 0, east: 0, west: 0 };
+		}
+
+		let north = points[0].lat;
+		let south = points[0].lat;
+		let east = points[0].lng;
+		let west = points[0].lng;
+
+		points.forEach((point) => {
+			north = Math.max(north, point.lat);
+			south = Math.min(south, point.lat);
+			east = Math.max(east, point.lng);
+			west = Math.min(west, point.lng);
+		});
+
+		return { north, south, east, west };
+	},
+
+	/**
+	 * Calculate appropriate zoom level from bounds
+	 * @param {object} bounds Bounds object
+	 * @returns {number} Zoom level
+	 */
+	calculateZoom (bounds) {
+		const latDiff = bounds.north - bounds.south;
+		const lngDiff = bounds.east - bounds.west;
+		const maxDiff = Math.max(latDiff, lngDiff);
+
+		if (maxDiff > 10) return 5;
+		if (maxDiff > 5) return 6;
+		if (maxDiff > 2) return 7;
+		if (maxDiff > 1) return 8;
+		if (maxDiff > 0.5) return 9;
+		if (maxDiff > 0.2) return 10;
+		if (maxDiff > 0.1) return 11;
+		if (maxDiff > 0.05) return 12;
+		if (maxDiff > 0.02) return 13;
+		return 14;
+	},
+
+	/**
+	 * Get route color based on traffic level
+	 * @param {object} route Route object
+	 * @returns {string} Color hex code
+	 */
+	getRouteColor (route) {
+		// Calculate traffic delay percentage
+		const totalDuration = this.parseDuration(route.duration || "0s");
+		const totalStaticDuration = this.parseDuration(route.staticDuration || "0s");
+		const delayPercent = totalStaticDuration > 0 ? ((totalDuration - totalStaticDuration) / totalStaticDuration) * 100 : 0;
+
+		if (delayPercent >= 50) {
+			return "#f44336"; // Red - Severe
+		} else if (delayPercent >= 30) {
+			return "#ff9800"; // Orange - Heavy
+		} else if (delayPercent >= 10) {
+			return "#ffeb3b"; // Yellow - Moderate
+		}
+		return "#4caf50"; // Green - Light
 	},
 
 	/**
@@ -482,6 +776,15 @@ Module.register("traffic", {
 		if (this.updateTimer) {
 			clearTimeout(this.updateTimer);
 			this.updateTimer = null;
+		}
+
+		// Clean up map
+		if (this.map) {
+			this.map.remove();
+			this.map = null;
+			this.mapInitialized = false;
+			this.routeLayer = null;
+			this.markers = [];
 		}
 
 		this.updateDom();
