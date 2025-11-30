@@ -207,6 +207,28 @@
         </div>
 
         <div class="form-group">
+          <label>Avoid Options</label>
+          <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 8px;">
+            <label style="display: flex; align-items: center; gap: 8px; font-weight: normal;">
+              <input type="checkbox" id="avoidTolls" value="TOLLS" />
+              <span>Avoid Tolls</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; font-weight: normal;">
+              <input type="checkbox" id="avoidHighways" value="HIGHWAYS" />
+              <span>Avoid Highways</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; font-weight: normal;">
+              <input type="checkbox" id="avoidFerries" value="FERRIES" />
+              <span>Avoid Ferries</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; font-weight: normal;">
+              <input type="checkbox" id="avoidIndoor" value="INDOOR" />
+              <span>Avoid Indoor</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
           <label>Scheduler</label>
           <div class="toggle-group">
             <label class="toggle-switch">
@@ -273,6 +295,13 @@
             document.getElementById("trafficModel").value = data.config.trafficModel || "BEST_GUESS";
             document.getElementById("updateInterval").value = data.config.updateInterval / (60 * 1000) || 5;
 
+            // Load avoid options
+            const avoid = data.config.avoid || [];
+            document.getElementById("avoidTolls").checked = avoid.includes("TOLLS");
+            document.getElementById("avoidHighways").checked = avoid.includes("HIGHWAYS");
+            document.getElementById("avoidFerries").checked = avoid.includes("FERRIES");
+            document.getElementById("avoidIndoor").checked = avoid.includes("INDOOR");
+
             // Load scheduler settings
             const schedulerEnabled = data.config.schedulerEnabled || false;
             document.getElementById("schedulerEnabled").checked = schedulerEnabled;
@@ -336,6 +365,13 @@
         const trafficModel = document.getElementById("trafficModel").value;
         const updateInterval = parseInt(document.getElementById("updateInterval").value) * 60 * 1000;
 
+        // Collect avoid options
+        const avoid = [];
+        if (document.getElementById("avoidTolls").checked) avoid.push("TOLLS");
+        if (document.getElementById("avoidHighways").checked) avoid.push("HIGHWAYS");
+        if (document.getElementById("avoidFerries").checked) avoid.push("FERRIES");
+        if (document.getElementById("avoidIndoor").checked) avoid.push("INDOOR");
+
         const schedulerEnabled = document.getElementById("schedulerEnabled").checked;
         const schedulerMode = document.getElementById("schedulerMode").value;
         const enableTime = schedulerMode === "duration" ? document.getElementById("enableTimeDuration").value : document.getElementById("enableTime").value;
@@ -365,6 +401,7 @@
           destination: destination,
           trafficModel: trafficModel,
           updateInterval: updateInterval,
+          avoid: avoid,
           schedulerEnabled: schedulerEnabled,
           schedulerMode: schedulerMode,
           enableTime: enableTime,
