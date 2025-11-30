@@ -262,7 +262,12 @@ function getTrafficConfig (config) {
 		enabled: !trafficModule.disabled,
 		destination: moduleConfig.destination || "",
 		trafficModel: moduleConfig.trafficModel || "BEST_GUESS",
-		updateInterval: moduleConfig.updateInterval || 5 * 60 * 1000
+		updateInterval: moduleConfig.updateInterval || 5 * 60 * 1000,
+		schedulerEnabled: moduleConfig.schedulerEnabled || false,
+		schedulerMode: moduleConfig.schedulerMode || "timeRange",
+		enableTime: moduleConfig.enableTime || "08:00",
+		disableTime: moduleConfig.disableTime || null, // Will be calculated if not set
+		enabledDuration: moduleConfig.enabledDuration || 90
 	};
 }
 
