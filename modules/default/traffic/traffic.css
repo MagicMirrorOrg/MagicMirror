@@ -4,6 +4,42 @@
   gap: 10px;
 }
 
+.traffic-map-container {
+  width: 100%;
+  height: 200px;
+  min-height: 200px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  background-color: rgb(0 0 0 / 20%);
+}
+
+.traffic-map-container .leaflet-container {
+  width: 100%;
+  height: 100%;
+  background-color: rgb(0 0 0 / 20%);
+}
+
+.traffic-map-container .leaflet-tile-container img {
+  filter: brightness(0.7) contrast(1.2);
+}
+
+.traffic-marker {
+  background-color: transparent;
+  border: none;
+  text-align: center;
+  line-height: 12px;
+  font-size: 12px;
+}
+
+.traffic-marker-origin {
+  color: #4caf50;
+}
+
+.traffic-marker-destination {
+  color: #f44336;
+}
+
 .traffic-route {
   margin-bottom: 8px;
 }

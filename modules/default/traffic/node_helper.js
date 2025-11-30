@@ -144,7 +144,7 @@ module.exports = NodeHelper.create({
 		return new Promise((resolve, reject) => {
 			const postData = JSON.stringify(requestBody);
 			// const fieldMask = "routes.duration,routes.distanceMeters,routes.legs.duration,routes.legs.staticDuration,routes.legs.distanceMeters,routes.legs.steps,routes.summary,routes.warnings,routes.routeLabels,routes.polyline";
-			const fieldMask = "routes.duration,routes.staticDuration,routes.distanceMeters,routes.travelAdvisory,routes.warnings";
+			const fieldMask = "routes.duration,routes.staticDuration,routes.distanceMeters,routes.travelAdvisory,routes.warnings,routes.polyline";
 			const options = {
 				hostname: "routes.googleapis.com",
 				path: "/directions/v2:computeRoutes",
