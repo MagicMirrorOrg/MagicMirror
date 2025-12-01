@@ -55,7 +55,7 @@ planned for 2026-01-01
 
 ### Updated
 
-- [core] Update dependencies incl. electron to v39 (#3909, #3916, #3921, #3925, #3934)
+- [core] Update dependencies incl. electron to v39 (#3909, #3916, #3921, #3925, #3934, #3982)
 - [logger] Add prefixes to most Log messages (#3923, #3926)
 
 ## [2.33.0] - 2025-10-01
