@@ -19,6 +19,7 @@
 	},
 	"license": "MIT",
 	"author": "Michael Teeuw",
+	"contributors": [
 		{
 			"name": "MagicMirror contributors",
 			"url": "https://github.com/MagicMirrorOrg/MagicMirror/graphs/contributors"
