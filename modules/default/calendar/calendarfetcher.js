@@ -182,15 +182,16 @@ class CalendarFetcher {
 	}
 
 	/**
-	 * Check if enough time has passed since the last fetch to warrant a new one
-	 * @param {number} minInterval - Minimum milliseconds between fetches (default: 3 minutes)
+	 * Check if enough time has passed since the last fetch to warrant a new one.
+	 * Uses reloadInterval as the threshold to respect user's configured fetchInterval.
 	 * @returns {boolean} True if a new fetch should be performed
 	 */
-	shouldRefetch (minInterval = 3 * 60 * 1000) {
+	shouldRefetch () {
 		if (!this.lastFetch) {
 			return true;
 		}
-		return (Date.now() - this.lastFetch) >= minInterval;
+		const timeSinceLastFetch = Date.now() - this.lastFetch;
+		return timeSinceLastFetch >= this.reloadInterval;
 	}
 
 	/**
