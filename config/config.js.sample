@@ -104,32 +104,6 @@ let config = {
 				broadcastNewsUpdates: true
 			}
 		},
-		// Example MMM-SenseHat module configuration.
-		// Uncomment this block on a Raspberry Pi with a Sense HAT installed:
-		// {
-		// 	module: "MMM-SenseHat",
-		// 	position: "top_right",
-		// 	config: {
-		// 		updateInterval: 5000,
-		// 		showTemperature: true,
-		// 		showHumidity: true,
-		// 		showPressure: true,
-		// 		showOrientation: false,
-		// 		temperatureUnit: "C",
-		// 		roundValues: 1,
-		// 		ledMatrixEnabled: true,
-		// 		ledMode: "status", // "off" | "status" | "text"
-		// 		ledText: "Hello from Sense HAT",
-		// 		ledColor: [0, 255, 0],
-		// 		criticalThresholds: {
-		// 			temperatureHigh: 30,
-		// 			temperatureLow: 10,
-		// 			humidityHigh: 80,
-		// 			humidityLow: 20
-		// 		},
-		// 		debug: false
-		// 	}
-		// },
 	]
 };
 
