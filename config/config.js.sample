@@ -104,10 +104,10 @@ let config = {
 				broadcastNewsUpdates: true
 			}
 		},
-		// Example Sense HAT module configuration.
+		// Example MMM-SenseHat module configuration.
 		// Uncomment this block on a Raspberry Pi with a Sense HAT installed:
 		// {
-		// 	module: "sensehat",
+		// 	module: "MMM-SenseHat",
 		// 	position: "top_right",
 		// 	config: {
 		// 		updateInterval: 5000,
