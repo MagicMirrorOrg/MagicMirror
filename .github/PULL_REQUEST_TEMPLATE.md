@@ -1,6 +1,6 @@
 Hello and thank you for wanting to contribute to the MagicMirror² project!
 
-**Please make sure that you have followed these 4 rules before submitting your Pull Request:**
+**Please make sure that you have followed these 3 rules before submitting your Pull Request:**
 
 > 1. Base your pull requests against the `develop` branch.
 > 2. Include these infos in the description:
@@ -12,8 +12,6 @@ Hello and thank you for wanting to contribute to the MagicMirror² project!
 >
 > 3. Please run `node --run lint:prettier` before submitting so that
 >    style issues are fixed.
-> 4. Don't forget to add an entry about your changes to
->    the CHANGELOG.md file.
 
 **Note**: Sometimes the development moves very fast. It is highly
 recommended that you update your branch of `develop` before creating a

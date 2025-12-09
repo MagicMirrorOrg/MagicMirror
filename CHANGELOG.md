@@ -7,58 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/#donate) With your help we can continue to improve the MagicMirror².
 
-## [2.34.0] - unreleased
+## Obsolete
 
-planned for 2026-01-01
-
-### Added
-
-- [weather] feat: add configurable forecast date format option (#3918)
-- [core] Add new `server:watch` script to run MagicMirror² server-only with automatic restarts when files (defined in `config.watchTargets`) change (#3920)
-- [weather] add error handling to fetch functions including cors (#3791)
-- [l10n] Add Portuguese (Portugal & Brazil) translations for alert module, Refine Portuguese (Portugal) translations
-
-### Removed
-
-- [weather] Removed deprecated `ukmetoffice` datapoint provider (#3842, #3952)
-
-### Changed
-
-- [core] refactor: replace `module-alias` dependency with internal alias resolver (#3893)
-- [check_config] refactor: improve error handling (#3927)
-- [calendar] test: remove "Recurring event per timezone" test (#3929)
-- [calendar] chore: remove `requiresVersion: "2.1.0"` (#3932)
-- [tests] migrate from `jest` to `vitest` (#3940, #3941)
-- [ci] Add concurrency to automated tests workflow to cancel outdated runs (#3943)
-- [tests] replace `node-libgpiod` with `serialport` in electron-rebuild workflow (#3945)
-- [calendar] hide repeatingCountTitle if the event count is zero (#3949)
-- [weatherprovider] update override warning wording (#3914)
-- [core] configure cspell to check default modules only and fix typos (#3955)
-- [core] refactor: replace `XMLHttpRequest` with `fetch` in `translator.js` (#3950)
-- [tests] migrate e2e tests to Playwright (#3950)
-- [calendar] refactor: migrate CalendarFetcher to ES6 class and improve error handling (#3958)
-- [gitignore] cleanup/simplify .gitignore (#3952, #3954, #3968, #3969)
-- [compliments] refactor: optimize `loadComplimentFile` method and add unit tests(#3969)
-- [core] chore: simplify Wayland start script (#3974)
-- [calendar] refactor: simplify recurring event handling and event exclusion logic (#3976)
-
-### Fixed
-
-- feat: add ESlint rule `no-sparse-arrays` for config check to fix #3910 (#3911)
-- fixed eslint warnings shown in #3911 and updated npm publish docs (#3913)
-- [core] refactor: replace `express-ipfilter` with lightweight custom middleware (#3917) - This fixes security issue [CVE-2023-42282](https://github.com/advisories/GHSA-78xj-cgh5-2h22), which is not very likely to be exploitable in MagicMirror² setups, but still should be fixed.
-- fixed the Environment Canada weather URL (#3912) and now converts a windspeed of 'calm' to 0
-- fixed problems with daylight-saving-time in weather provider `openmeto` (#3930, #3931)
-- [newsfeed] fixed header layout issue introduced with prettier njk linting (#3946)
-- [weather] fixed windy icon not showing up in pirateweather (#3957)
-- [compliments] fixed duplicate query param "?" when constructing refresh url (#3967)
-- [compliments] fixed compliments remote file minimum delay to be 15 minutes (#3970)
-- [calendar] prevent excessive fetching with smart refresh strategy (#3976)
-
-### Updated
-
-- [core] Update dependencies incl. electron to v39 (#3909, #3916, #3921, #3925, #3934, #3982)
-- [logger] Add prefixes to most Log messages (#3923, #3926)
+This file is no longer being updated. Release notes are now automatically generated via a GitHub action.
 
 ## [2.33.0] - 2025-10-01
 
@@ -1877,7 +1828,6 @@ It includes (but is not limited to) the following features:
 
 This was part of the blogpost: [https://michaelteeuw.nl/post/83916869600/magic-mirror-part-vi-production-of-the](https://michaelteeuw.nl/post/83916869600/magic-mirror-part-vi-production-of-the)
 
-[2.34.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.33.0...develop
 [2.33.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.32.0...v2.33.0
 [2.32.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.31.0...v2.32.0
 [2.31.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.30.0...v2.31.0
