@@ -1,3 +1,4 @@
+const zlib = require("node:zlib");
 const NodeHelper = require("node_helper");
 const Log = require("logger");
 const CalendarFetcher = require("./calendarfetcher");
@@ -90,10 +91,12 @@ module.exports = NodeHelper.create({
 	 * @param {string} identifier the identifier of the calendar
 	 */
 	broadcastEvents (fetcher, identifier) {
+		const checksum = zlib.crc32(Buffer.from(JSON.stringify(fetcher.events), "utf8"));
 		this.sendSocketNotification("CALENDAR_EVENTS", {
 			id: identifier,
 			url: fetcher.url,
-			events: fetcher.events
+			events: fetcher.events,
+			checksum: checksum
 		});
 	}
 });

@@ -184,13 +184,27 @@ Module.register("calendar", {
 
 		if (notification === "CALENDAR_EVENTS") {
 			if (this.hasCalendarURL(payload.url)) {
-				this.calendarData[payload.url] = payload.events;
+				// have we received data for this url
+				if (!this.calendarData[payload.url]) {
+					// no,m setup tehe structure
+					this.calendarData[payload.url] = { events: null, checksum: null };
+				}
+				// save the event list
+				this.calendarData[payload.url].events = payload.events;
+
 				this.error = null;
 				this.loaded = true;
 
 				if (this.config.broadcastEvents) {
 					this.broadcastEvents();
 				}
+				// if the checksum is the same
+				if (this.calendarData[payload.url].checksum === payload.checksum) {
+					// then don't update the UI
+					return;
+				}
+				// haven't seen or the checksum is different
+				this.calendarData[payload.url].checksum = payload.checksum;
 
 				if (!this.config.updateOnFetch) {
 					if (this.calendarDisplayer[payload.url] === undefined) {
@@ -602,7 +616,7 @@ Module.register("calendar", {
 		let events = [];
 
 		for (const calendarUrl in this.calendarData) {
-			const calendar = this.calendarData[calendarUrl];
+			const calendar = this.calendarData[calendarUrl].events;
 			let remainingEntries = this.maximumEntriesForUrl(calendarUrl);
 			let maxPastDaysCompare = now.clone().subtract(this.maximumPastDaysForUrl(calendarUrl), "days");
 			let by_url_calevents = [];
