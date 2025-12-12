@@ -184,9 +184,9 @@ Module.register("calendar", {
 
 		if (notification === "CALENDAR_EVENTS") {
 			if (this.hasCalendarURL(payload.url)) {
-				// have we received data for this url
+				// have we received events for this url
 				if (!this.calendarData[payload.url]) {
-					// no,m setup tehe structure
+					// no, setup the structure to hold the info
 					this.calendarData[payload.url] = { events: null, checksum: null };
 				}
 				// save the event list
