@@ -49,7 +49,7 @@
 		"server:watch": "node ./serveronly/watcher.js",
 		"start": "node --run start:x11",
 		"start:dev": "node --run start:x11 -- dev",
-		"start:wayland": "WAYLAND_DISPLAY=\"${WAYLAND_DISPLAY:=wayland-1}\" ./node_modules/.bin/electron js/electron.js",
+		"start:wayland": "WAYLAND_DISPLAY=\"${WAYLAND_DISPLAY:=wayland-1}\" ./node_modules/.bin/electron js/electron.js --ozone-platform=wayland",
 		"start:wayland:dev": "node --run start:wayland -- dev",
 		"start:windows": ".\\node_modules\\.bin\\electron js\\electron.js",
 		"start:windows:dev": "node --run start:windows -- dev",
