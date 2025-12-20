@@ -137,6 +137,19 @@ let config = {
 				units: "imperial"// metric or imperial
 			}
 		},
+		{
+			module: "MMM-Wallpaper",
+			position: "fullscreen_below",
+			config: {
+				source: "bing",
+				slideInterval: 5 * 60 * 1000, // Change slides every 5 minutes
+				updateInterval: 60 * 60 * 1000, // Check for new wallpapers every hour
+				maximumEntries: 10,
+				caption: true,
+				crossfade: true,
+				orientation: "auto"
+			}
+		},
 	]
 };
 
