@@ -8,6 +8,7 @@ let config = {
 			module: "compliments",
 			position: "middle_center",
 			config: {
+				updateInterval: 1000,
 				compliments: {
 					morning: ["Hi", "Good Morning", "Morning test"],
 					afternoon: ["Hello", "Good Afternoon", "Afternoon test"],

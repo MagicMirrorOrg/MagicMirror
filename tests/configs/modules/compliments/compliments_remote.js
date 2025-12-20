@@ -6,6 +6,7 @@ let config = {
 			module: "compliments",
 			position: "middle_center",
 			config: {
+				updateInterval: 1000,
 				remoteFile: "http://localhost:8080/tests/mocks/compliments_test.json"
 			}
 		}

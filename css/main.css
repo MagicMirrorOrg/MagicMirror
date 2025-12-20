@@ -184,10 +184,16 @@ sup {
   top: 0;
 }
 
+/* Reduce space at the top */
+.region.top.bar {
+  margin-top: -20px; /* Reduce top spacing */
+}
+
 .region.top.center,
 .region.bottom.center {
   left: 50%;
   transform: translateX(-50%);
+  width: 40%; /* Center column takes 40% of width */
 }
 
 .region.top.right,
@@ -211,6 +217,12 @@ sup {
   text-align: center;
 }
 
+/* Reduce spacing for top_bar modules */
+.region.top.bar .module,
+.region.bottom.bar .module {
+  margin-bottom: 10px; /* Reduced from var(--gap-modules) which is 30px */
+}
+
 .region.third,
 .region.middle.center {
   width: 100%;
@@ -232,6 +244,26 @@ sup {
 
 .region.left {
   text-align: left;
+}
+
+/* Set widths for left, center, and right regions to prevent overlap */
+.region.bottom.left,
+.region.top.left {
+  width: 30%; /* Left column takes 30% of width */
+  left: 0;
+}
+
+/* Add gutter on both sides of top_center */
+.region.top.center {
+  padding-left: 20px; /* Gutter on left side */
+  padding-right: 20px; /* Gutter on right side */
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.region.bottom.right,
+.region.top.right {
+  width: 30%; /* Right column takes 30% of width */
+  right: 0;
 }
 
 .region table {
@@ -263,4 +295,54 @@ sup {
 
 .region.right .flex {
   justify-content: flex-end;
+}
+
+/**
+ * Module content overflow handling.
+ */
+
+.module-content {
+  /* Smooth scrolling */
+  scrollbar-width: thin;
+  scrollbar-color: rgb(255 255 255 / 30%) transparent;
+}
+
+/* Constrain module content in bottom regions to prevent overlap */
+.region.bottom .module-content {
+  max-height: 40vh; /* Limit content height to prevent overlap */
+  overflow: hidden auto; /* Allow scrolling if content exceeds max-height */
+}
+
+.region.bottom.center .module-content {
+  max-height: 30vh; /* More constrained for center bottom (newsfeed) */
+}
+
+.region.bottom.left .module-content,
+.region.bottom.right .module-content {
+  max-height: 40vh; /* Constrain left and right bottom modules */
+}
+
+/* Make calendar modules smaller to prevent overflow */
+.region.bottom.left .calendar .module-content,
+.region.top.left .calendar .module-content {
+  max-height: 35vh; /* Constrain calendar height */
+  overflow: hidden auto;
+}
+
+/* For webkit browsers (Chrome, Safari, Edge) */
+.module-content::-webkit-scrollbar {
+  width: 4px;
+}
+
+.module-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.module-content::-webkit-scrollbar-thumb {
+  background-color: rgb(255 255 255 / 30%);
+  border-radius: 2px;
+}
+
+.module-content::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(255 255 255 / 50%);
 }

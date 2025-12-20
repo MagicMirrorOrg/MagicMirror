@@ -2,6 +2,8 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  max-height: inherit; /* Respect parent max-height */
+  overflow-y: auto; /* Allow scrolling if needed */
 }
 
 .traffic-map-container {

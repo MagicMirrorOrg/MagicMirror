@@ -46,6 +46,33 @@ let config = {
 			position: "top_bar"
 		},
 		{
+			module: "admininfo",
+			position: "top_bar"
+		},
+		{
+			module: "compliments",
+			position: "top_bar",
+			config: {
+				remoteFile: "../../config/custom_compliments.json"
+			}
+		},
+		{
+			module: "newsfeed",
+			position: "top_bar",
+			config: {
+				feeds: [
+					{
+						title: "New York Times",
+						url: "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml"
+					}
+				],
+				showSourceTitle: true,
+				showPublishDate: true,
+				broadcastNewsFeeds: true,
+				broadcastNewsUpdates: true
+			}
+		},
+		{
 			module: "clock",
 			position: "top_left"
 		},
@@ -99,28 +126,8 @@ let config = {
 			}
 		},
 		{
-			module: "newsfeed",
-			position: "bottom_bar",
-			config: {
-				feeds: [
-					{
-						title: "New York Times",
-						url: "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml"
-					}
-				],
-				showSourceTitle: true,
-				showPublishDate: true,
-				broadcastNewsFeeds: true,
-				broadcastNewsUpdates: true
-			}
-		},
-		{
-			module: "admininfo",
-			position: "bottom_bar"
-		},
-		{
 			module: "traffic",
-			position: "top_right",
+			position: "top_center",
 			header: "Traffic",
 			config: {
 				apiKey: "",

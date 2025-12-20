@@ -16,9 +16,15 @@ iframe.newsfeed-fullarticle {
 
 .newsfeed-list {
   list-style: none;
+  max-height: inherit; /* Respect parent max-height */
 }
 
 .newsfeed-list li {
   text-align: justify;
   margin-bottom: 0.5em;
+}
+
+.newsfeed-title {
+  overflow-wrap: break-word; /* Prevent long titles from breaking layout */
+  overflow-wrap: break-word;
 }
