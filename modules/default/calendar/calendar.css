@@ -1,3 +1,7 @@
+.calendar {
+  max-height: inherit; /* Respect parent max-height */
+}
+
 .calendar .symbol {
   display: flex;
   flex-direction: row;
@@ -7,9 +11,17 @@
 
 .calendar .title {
   padding: 0 10px;
+  overflow-wrap: break-word; /* Prevent long titles from breaking layout */
+  overflow-wrap: break-word;
 }
 
 .calendar .time {
   padding-left: 20px;
   text-align: right;
+}
+
+.calendar .event {
+  /* Ensure events don't cause overflow */
+  overflow-wrap: break-word;
+  overflow-wrap: break-word;
 }

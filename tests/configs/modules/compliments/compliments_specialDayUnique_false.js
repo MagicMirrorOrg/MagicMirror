@@ -6,6 +6,7 @@ let config = {
 			module: "compliments",
 			position: "middle_center",
 			config: {
+				updateInterval: 1000,
 				specialDayUnique: false,
 				compliments: {
 					anytime: [

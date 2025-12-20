@@ -11,7 +11,7 @@ let config = {
 				compliments: {
 					anytime: ["AnimateCSS Testing..."]
 				},
-				updateInterval: 2000,
+				updateInterval: 1000,
 				fadeSpeed: 1000
 			}
 		}
