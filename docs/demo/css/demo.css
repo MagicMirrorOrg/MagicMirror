@@ -1,0 +1,47 @@
+/* Demo Banner */
+#demo-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: #fff;
+  padding: 8px 20px;
+  text-align: center;
+  z-index: 10000;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid #333;
+}
+
+#demo-banner a {
+  color: #4fc3f7;
+  text-decoration: none;
+}
+
+#demo-banner a:hover {
+  text-decoration: underline;
+}
+
+#demo-banner button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0 5px;
+  margin-left: 10px;
+  opacity: 0.7;
+}
+
+#demo-banner button:hover {
+  opacity: 1;
+}
+
+/* Adjust body margin for banner */
+body {
+  margin-top: calc(var(--gap-body-top) + 40px);
+}

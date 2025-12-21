@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MagicMirror² Demo</title>
+    <meta name="description" content="A simplified MagicMirror² demo - runs entirely in the browser" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪞</text></svg>" />
+
+    <!-- Original MagicMirror CSS -->
+    <link rel="stylesheet" type="text/css" href="../../css/main.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/roboto.css" />
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" />
+
+    <!-- Weather Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.12/css/weather-icons.min.css" />
+
+    <!-- Module CSS -->
+    <link rel="stylesheet" type="text/css" href="../../modules/default/clock/clock_styles.css" />
+    <link rel="stylesheet" type="text/css" href="../../modules/default/weather/weather.css" />
+    <link rel="stylesheet" type="text/css" href="../../modules/default/calendar/calendar.css" />
+    <link rel="stylesheet" type="text/css" href="../../modules/default/newsfeed/newsfeed.css" />
+
+    <!-- Demo Overrides -->
+    <link rel="stylesheet" href="css/demo.css" />
+  </head>
+  <body>
+    <!-- Demo Info Banner -->
+    <div id="demo-banner">
+      <span>🪞 MagicMirror² Demo - <a href="https://github.com/MagicMirrorOrg/MagicMirror" target="_blank">GitHub</a></span>
+      <button onclick="this.parentElement.style.display='none'" aria-label="Close demo banner">×</button>
+    </div>
+
+    <!-- Original MagicMirror Layout -->
+    <div class="region fullscreen below"><div class="container"></div></div>
+
+    <div class="region top bar">
+      <div class="container"></div>
+      <div class="region top left"><div class="container"></div></div>
+      <div class="region top center"><div class="container"></div></div>
+      <div class="region top right"><div class="container"></div></div>
+    </div>
+
+    <div class="region upper third">
+      <div class="container"></div>
+    </div>
+
+    <div class="region middle center">
+      <div class="container"></div>
+    </div>
+
+    <div class="region lower third">
+      <div class="container"></div>
+    </div>
+
+    <div class="region bottom bar">
+      <div class="container"></div>
+      <div class="region bottom left"><div class="container"></div></div>
+      <div class="region bottom center"><div class="container"></div></div>
+      <div class="region bottom right"><div class="container"></div></div>
+    </div>
+
+    <div class="region fullscreen above"><div class="container"></div></div>
+
+    <!-- Demo Config -->
+    <script type="text/javascript">
+      // Global config for demo mode
+      window.mmTestMode = "true";
+    </script>
+    <script src="config.js"></script>
+
+    <!-- Original MagicMirror Core Files -->
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/locale/de.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment-timezone@0.5.43/builds/moment-timezone-with-data.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/suncalc@1.9.0/suncalc.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/croner@8.0.0/dist/croner.umd.min.js"></script>
+
+    <!-- MagicMirror Core -->
+    <script src="../../js/class.js"></script>
+    <script src="../../js/module.js"></script>
+    <script src="../../modules/default/utils.js"></script>
+
+    <!-- Demo Mocks & Loader -->
+    <script src="js/demo-mocks.js"></script>
+    <script src="js/demo-loader.js"></script>
+
+    <!-- Original Modules -->
+    <script src="../../modules/default/clock/clock.js"></script>
+    <script src="../../modules/default/compliments/compliments.js"></script>
+    <script src="../../modules/default/weather/weatherobject.js"></script>
+    <script src="../../modules/default/weather/weatherutils.js"></script>
+    <script src="../../modules/default/weather/weatherprovider.js"></script>
+    <script src="../../modules/default/weather/providers/openweathermap.js"></script>
+    <script src="../../modules/default/weather/weather.js"></script>
+    <script src="../../modules/default/calendar/calendarutils.js"></script>
+    <script src="../../modules/default/calendar/calendar.js"></script>
+    <script src="../../modules/default/newsfeed/newsfeed.js"></script>
+
+    <!-- Start Demo -->
+    <script src="js/demo-main.js"></script>
+  </body>
+</html>

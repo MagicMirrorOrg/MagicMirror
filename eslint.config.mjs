@@ -9,7 +9,7 @@ import stylistic from "@stylistic/eslint-plugin";
 import vitest from "eslint-plugin-vitest";
 
 export default defineConfig([
-	globalIgnores(["config/**", "modules/**/*", "!modules/default/**", "js/positions.js"]),
+	globalIgnores(["config/**", "modules/**/*", "!modules/default/**", "js/positions.js", "docs/demo/**"]),
 	{
 		files: ["**/*.js"],
 		languageOptions: {
