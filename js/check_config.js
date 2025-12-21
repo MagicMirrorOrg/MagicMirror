@@ -57,6 +57,7 @@ function checkConfigFile () {
 			languageOptions: {
 				ecmaVersion: "latest",
 				globals: {
+					...globals.browser,
 					...globals.node
 				}
 			},
