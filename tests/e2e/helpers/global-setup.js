@@ -29,7 +29,18 @@ let page;
  */
 async function ensureContext () {
 	if (!browser) {
-		browser = await chromium.launch({ headless: true });
+		// Additional args for CI stability to prevent crashes
+		const launchOptions = {
+			headless: true,
+			args: [
+				"--disable-dev-shm-usage", // Overcome limited resource problems in Docker/CI
+				"--disable-gpu", // Disable GPU hardware acceleration
+				"--no-sandbox", // Required for running as root in some CI environments
+				"--disable-setuid-sandbox",
+				"--single-process" // Run in single process mode for better stability in CI
+			]
+		};
+		browser = await chromium.launch(launchOptions);
 	}
 	if (!context) {
 		context = await browser.newContext();
