@@ -15,7 +15,7 @@
 
 MagicMirror² focuses on a modular plugin system and uses [Electron](https://www.electronjs.org/) as an application wrapper. So no more web server or browser installs necessary!
 
-![](https://magicmirror.builders/img/demo.gif)
+![Animated demonstration of MagicMirror²](https://magicmirror.builders/img/demo.gif)
 
 ## Documentation
 
