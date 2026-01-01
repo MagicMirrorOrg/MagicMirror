@@ -97,7 +97,7 @@
 		"pm2": "^6.0.14",
 		"socket.io": "^4.8.3",
 		"suncalc": "^1.9.0",
-		"systeminformation": "^5.28.2",
+		"systeminformation": "^5.28.8",
 		"undici": "^7.16.0",
 		"weathericons": "^2.1.0"
 	},
@@ -108,7 +108,7 @@
 		"cspell": "^9.4.0",
 		"eslint-plugin-import-x": "^4.16.1",
 		"eslint-plugin-jsdoc": "^61.5.0",
-		"eslint-plugin-package-json": "^0.85.0",
+		"eslint-plugin-package-json": "^0.87.1",
 		"eslint-plugin-playwright": "^2.4.0",
 		"eslint-plugin-vitest": "^0.5.4",
 		"express-basic-auth": "^1.2.1",

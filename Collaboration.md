@@ -61,11 +61,19 @@ Are done by
 
 ### After release
 
-- [ ] publish release notes with link to github release on forum in new locked topic
+- [ ] publish release notes with link to github release on forum in new locked topic (use edit release on github to copy the content with markdown syntax)
 - [ ] close all issues with label `ready (coming with next release)`
 - [ ] release new documentation by merging `develop` on `master` in documentation repository
 - [ ] publish new version on [npm](https://www.npmjs.com/package/magicmirror)
   - [ ] use a clean environment (e.g. container)
   - [ ] clone this repository with the new `master` branch and `cd` into the local repository directory
   - [ ] log in to npm with `npm login --auth-type legacy` which will ask for username and password and one-time-password which is sent via mail
-  - [ ] execute `npm publish`
+  - [ ] goto `https://www.npmjs.com/settings/<username>/tokens/` and click `generate new token`
+  - [ ] enable `Bypass two-factor authentication (2FA)` and under `Packages and scopes` give `Read and write` permission to the `magicmirror` package, press `Generate token`
+  - [ ] execute:
+
+    ```bash
+    NPM_TOKEN="npm_xxxxxx"
+    npm set "//registry.npmjs.org/:_authToken=$NPM_TOKEN"
+    npm publish
+    ```
