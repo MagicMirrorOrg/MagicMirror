@@ -46,6 +46,7 @@ Are done by
   - [ ] add label `mastermerge`
   - [ ] title of the PR is `Release 2.xx.0`
   - [ ] description of the PR is the body of the draft release with name `v2.xx.0`
+- [ ] check if new PR has merge conflicts, if so, merge `master` into the new PR and solve the conflicts
 - [ ] after PR tests run without issues, merge PR
 - [ ] edit draft release with name `v2.xx.0`
   - [ ] set corresponding version tag `v2.xx.0` (with `Select tag` and then `Create new tag`)
