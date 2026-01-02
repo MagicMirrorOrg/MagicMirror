@@ -3,6 +3,7 @@ require("./alias-resolver");
 
 const fs = require("node:fs");
 const path = require("node:path");
+const Spawn = require("node:child_process").spawn;
 const envsub = require("envsub");
 const Log = require("logger");
 
@@ -25,7 +26,7 @@ global.mmTestMode = process.env.mmTestMode === "true";
 Log.log(`Starting MagicMirror: v${global.version}`);
 
 // Log system information.
-Utils.logSystemInformation(global.version);
+Spawn("node ./js/systeminformation.js", { cwd: this.root_path, shell: true, detached: true, stdio: "inherit" });
 
 if (process.env.MM_CONFIG_FILE) {
 	global.configuration_file = process.env.MM_CONFIG_FILE.replace(`${global.root_path}/`, "");

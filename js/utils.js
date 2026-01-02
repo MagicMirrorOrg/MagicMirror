@@ -1,7 +1,7 @@
 const os = require("node:os");
 const fs = require("node:fs");
 const si = require("systeminformation");
-const Log = require("logger");
+const Log = require("./logger"); // needed with relative path because logSystemInformation is called in an own process in app.js
 
 const modulePositions = []; // will get list from index.html
 const regionRegEx = /"region ([^"]*)/i;
