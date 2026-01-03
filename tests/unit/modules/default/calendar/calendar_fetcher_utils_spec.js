@@ -111,5 +111,47 @@ END:VEVENT`);
 			expect(januaryFirst[0].toISOString(true)).toContain("09:00:00.000+01:00");
 			expect(julyFirst[0].toISOString(true)).toContain("09:00:00.000+02:00");
 		});
+
+		it("should return correct day-of-week for full-day recurring events across DST transitions", () => {
+			// Test case for GitHub issue #3976: recurring full-day events showing on wrong day
+			// This happens when DST transitions change the UTC offset between occurrences
+			const data = ical.parseICS(`BEGIN:VCALENDAR
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20251027
+DTEND;VALUE=DATE:20251028
+RRULE:FREQ=WEEKLY;WKST=SU;COUNT=3
+DTSTAMP:20260103T123138Z
+UID:dst-test@google.com
+SUMMARY:Weekly Monday Event
+END:VEVENT
+END:VCALENDAR`);
+
+			const event = data["dst-test@google.com"];
+
+			// Simulate calendar with timezone (e.g., from X-WR-TIMEZONE or user config)
+			// This is how MagicMirror handles full-day events from calendars with timezones
+			event.start.tz = "America/Chicago";
+
+			const pastMoment = moment("2025-10-01");
+			const futureMoment = moment("2025-11-30");
+
+			// Get moments for the recurring event
+			const moments = CalendarFetcherUtils.getMomentsFromRecurringEvent(event, pastMoment, futureMoment, 0);
+
+			// All occurrences should be on Monday (day() === 1) at midnight
+			// Oct 27, 2025 - Before DST ends
+			// Nov 3, 2025 - After DST ends (this was showing as Sunday before the fix)
+			// Nov 10, 2025 - After DST ends
+			expect(moments).toHaveLength(3);
+			expect(moments[0].day()).toBe(1); // Monday
+			expect(moments[0].format("YYYY-MM-DD")).toBe("2025-10-27");
+			expect(moments[0].hour()).toBe(0); // Midnight
+			expect(moments[1].day()).toBe(1); // Monday (not Sunday!)
+			expect(moments[1].format("YYYY-MM-DD")).toBe("2025-11-03");
+			expect(moments[1].hour()).toBe(0); // Midnight
+			expect(moments[2].day()).toBe(1); // Monday
+			expect(moments[2].format("YYYY-MM-DD")).toBe("2025-11-10");
+			expect(moments[2].hour()).toBe(0); // Midnight
+		});
 	});
 });

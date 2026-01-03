@@ -82,8 +82,12 @@ const CalendarFetcherUtils = {
 		// rrule.js returns UTC dates with tzid cleared, so we interpret them in the event's original timezone
 		return dates.map((date) => {
 			if (isFullDayEvent) {
-				// For all-day events, anchor to calendar day in event's timezone
-				return moment.tz(date, eventTimezone).startOf("day");
+				// For all-day events, extract UTC date components and interpret as local calendar date
+				// This prevents timezone offsets from shifting the date to the previous/next day
+				const utcYear = date.getUTCFullYear();
+				const utcMonth = date.getUTCMonth();
+				const utcDate = date.getUTCDate();
+				return moment.tz([utcYear, utcMonth, utcDate], eventTimezone);
 			}
 			// For timed events, preserve the time in the event's original timezone
 			return moment.tz(date, "UTC").tz(eventTimezone, true);
