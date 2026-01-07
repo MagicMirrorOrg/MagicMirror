@@ -68,13 +68,18 @@ Are done by
 - [ ] publish new version on [npm](https://www.npmjs.com/package/magicmirror)
   - [ ] use a clean environment (e.g. container)
   - [ ] clone this repository with the new `master` branch and `cd` into the local repository directory
-  - [ ] log in to npm with `npm login --auth-type legacy` which will ask for username and password and one-time-password which is sent via mail
-  - [ ] goto `https://www.npmjs.com/settings/<username>/tokens/` and click `generate new token`
-  - [ ] enable `Bypass two-factor authentication (2FA)` and under `Packages and scopes` give `Read and write` permission to the `magicmirror` package, press `Generate token`
-  - [ ] execute:
+  - [ ] **Method 1 (recommended): With browser and 2FA**
+    - [ ] execute `npm login` which will open a browser window
+    - [ ] log in with your npm credentials and enter your 2FA code
+    - [ ] execute `npm publish`
+  - [ ] **Method 2 (fallback for headless environments): With token (bypasses 2FA)**
+    - [ ] ⚠️ Note: This method bypasses 2FA and should only be used when a browser is not available
+    - [ ] goto `https://www.npmjs.com/settings/<username>/tokens/` and click `generate new token`
+    - [ ] enable `Bypass two-factor authentication (2FA)` and under `Packages and scopes` give `Read and write` permission to the `magicmirror` package, press `Generate token`
+    - [ ] execute:
 
-    ```bash
-    NPM_TOKEN="npm_xxxxxx"
-    npm set "//registry.npmjs.org/:_authToken=$NPM_TOKEN"
-    npm publish
-    ```
+      ```bash
+      NPM_TOKEN="npm_xxxxxx"
+      npm set "//registry.npmjs.org/:_authToken=$NPM_TOKEN"
+      npm publish
+      ```
