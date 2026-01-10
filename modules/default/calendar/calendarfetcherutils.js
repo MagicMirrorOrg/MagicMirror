@@ -71,26 +71,15 @@ const CalendarFetcherUtils = {
 			rule.options.until = moment(rule.options.until).endOf("day").toDate();
 		}
 
-		// Clear tzid to prevent rrule.js from double-adjusting times
-		if (rule.options) {
-			rule.options.tzid = null;
-		}
-
 		const dates = rule.between(searchFromDate, searchToDate, true) || [];
 
-		// Convert dates to moments in the appropriate timezone
-		// rrule.js returns UTC dates with tzid cleared, so we interpret them in the event's original timezone
+		// Convert dates to moments in the event's timezone.
+		// Full-day events need UTC component extraction to avoid date shifts across timezone boundaries.
 		return dates.map((date) => {
 			if (isFullDayEvent) {
-				// For all-day events, extract UTC date components and interpret as local calendar date
-				// This prevents timezone offsets from shifting the date to the previous/next day
-				const utcYear = date.getUTCFullYear();
-				const utcMonth = date.getUTCMonth();
-				const utcDate = date.getUTCDate();
-				return moment.tz([utcYear, utcMonth, utcDate], eventTimezone);
+				return moment.tz([date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()], eventTimezone);
 			}
-			// For timed events, preserve the time in the event's original timezone
-			return moment.tz(date, "UTC").tz(eventTimezone, true);
+			return moment.tz(date, eventTimezone);
 		});
 	},
 
