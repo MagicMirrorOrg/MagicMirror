@@ -92,7 +92,7 @@
 		"ipaddr.js": "^2.3.0",
 		"moment": "^2.30.1",
 		"moment-timezone": "^0.6.0",
-		"node-ical": "^0.23.0",
+		"node-ical": "^0.23.1",
 		"nunjucks": "^3.2.4",
 		"pm2": "^6.0.14",
 		"socket.io": "^4.8.3",
