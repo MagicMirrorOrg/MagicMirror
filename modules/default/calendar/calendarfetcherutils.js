@@ -308,7 +308,12 @@ const CalendarFetcherUtils = {
 			let recurringEventStartMoment = startMoment.clone().tz(CalendarFetcherUtils.getLocalTimezone());
 			let recurringEventEndMoment = recurringEventStartMoment.clone().add(durationMs, "ms");
 
-			const dateKey = recurringEventStartMoment.tz("UTC").format("YYYY-MM-DD");
+			// For full-day events, use local date components to match node-ical's getDateKey behavior
+			// For timed events, use UTC to match ISO string slice
+			const isFullDay = CalendarFetcherUtils.isFullDayEvent(event);
+			const dateKey = isFullDay
+				? recurringEventStartMoment.format("YYYY-MM-DD")
+				: recurringEventStartMoment.tz("UTC").format("YYYY-MM-DD");
 
 			// Check for overrides
 			if (curEvent.recurrences !== undefined) {
