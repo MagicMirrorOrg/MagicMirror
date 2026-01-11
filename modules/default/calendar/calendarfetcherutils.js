@@ -66,11 +66,6 @@ const CalendarFetcherUtils = {
 		const searchFromDate = pastLocalMoment.clone().subtract(Math.max(durationInMs, oneDayInMs), "milliseconds").toDate();
 		const searchToDate = futureLocalMoment.clone().add(1, "days").toDate();
 
-		// For all-day events, extend "until" to end of day to include the final occurrence
-		if (isFullDayEvent && rule.options?.until) {
-			rule.options.until = moment(rule.options.until).endOf("day").toDate();
-		}
-
 		const dates = rule.between(searchFromDate, searchToDate, true) || [];
 
 		// Convert dates to moments in the event's timezone.
