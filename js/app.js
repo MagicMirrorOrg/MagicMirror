@@ -26,7 +26,7 @@ global.mmTestMode = process.env.mmTestMode === "true";
 Log.log(`Starting MagicMirror: v${global.version}`);
 
 // Log system information.
-Spawn("node ./js/systeminformation.js", { cwd: this.root_path, shell: true, detached: true, stdio: "inherit" });
+Spawn("node ./js/systeminformation.js", { env: { ...process.env, ELECTRON_VERSION: `${process.versions.electron}` }, cwd: this.root_path, shell: true, detached: true, stdio: "inherit" });
 
 if (process.env.MM_CONFIG_FILE) {
 	global.configuration_file = process.env.MM_CONFIG_FILE.replace(`${global.root_path}/`, "");
