@@ -6,7 +6,7 @@ import jsdocPlugin from "eslint-plugin-jsdoc";
 import packageJson from "eslint-plugin-package-json";
 import playwright from "eslint-plugin-playwright";
 import stylistic from "@stylistic/eslint-plugin";
-import vitest from "eslint-plugin-vitest";
+import vitest from "@vitest/eslint-plugin";
 
 export default defineConfig([
 	globalIgnores(["config/**", "modules/**/*", "!modules/default/**", "js/positions.js"]),
@@ -17,7 +17,6 @@ export default defineConfig([
 			globals: {
 				...globals.browser,
 				...globals.node,
-				...vitest.environments.env.globals,
 				Log: "readonly",
 				MM: "readonly",
 				Module: "readonly",
@@ -25,8 +24,8 @@ export default defineConfig([
 				moment: "readonly"
 			}
 		},
-		plugins: {js, stylistic, vitest},
-		extends: [importX.recommended, vitest.configs.recommended, "js/recommended", jsdocPlugin.configs["flat/recommended"], "stylistic/all"],
+		plugins: {js, stylistic},
+		extends: [importX.recommended, "js/recommended", jsdocPlugin.configs["flat/recommended"], "stylistic/all"],
 		rules: {
 			"@stylistic/array-element-newline": ["error", "consistent"],
 			"@stylistic/arrow-parens": ["error", "always"],
@@ -59,23 +58,6 @@ export default defineConfig([
 			"import-x/newline-after-import": "error",
 			"import-x/order": "error",
 			"init-declarations": "off",
-			"vitest/consistent-test-it": "warn",
-			"vitest/expect-expect": [
-				"warn",
-				{
-					assertFunctionNames: [
-						"expect",
-						"testElementLength",
-						"testTextContain",
-						"doTest",
-						"runAnimationTest",
-						"waitForAnimationClass",
-						"assertNoAnimationWithin"
-					]
-				}
-			],
-			"vitest/prefer-to-be": "warn",
-			"vitest/prefer-to-have-length": "warn",
 			"max-lines-per-function": ["warn", 400],
 			"max-statements": "off",
 			"no-global-assign": "off",
@@ -133,6 +115,36 @@ export default defineConfig([
 			"no-magic-numbers": "off",
 			"one-var": ["error", "never"],
 			"sort-keys": "off"
+		}
+	},
+	{
+		files: ["tests/**/*.js"],
+		languageOptions: {
+			globals: {
+				...vitest.environments.env.globals
+			}
+		},
+		plugins: {vitest},
+		extends: [vitest.configs.recommended],
+		rules: {
+			"vitest/consistent-test-it": "error",
+			"vitest/expect-expect": [
+				"error",
+				{
+					assertFunctionNames: [
+						"expect",
+						"testElementLength",
+						"testTextContain",
+						"doTest",
+						"runAnimationTest",
+						"waitForAnimationClass",
+						"assertNoAnimationWithin"
+					]
+				}
+			],
+			"vitest/max-nested-describe": ["error", {max: 3}],
+			"vitest/prefer-to-be": "error",
+			"vitest/prefer-to-have-length": "error"
 		}
 	},
 	{
