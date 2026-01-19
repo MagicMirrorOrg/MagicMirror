@@ -35,6 +35,9 @@
 	"MODULE_ERROR_MALFORMED_URL": "Ҫӗҫ ҫӗнӗ URL хата.",
 	"MODULE_ERROR_NO_CONNECTION": "Интернет-пулла хӗҫҫӗн.",
 	"MODULE_ERROR_UNAUTHORIZED": "Авторизация хата.",
+	"MODULE_ERROR_RATE_LIMITED": "Too many requests. Retrying later.",
+	"MODULE_ERROR_SERVER_ERROR": "Server error. Retrying later.",
+	"MODULE_ERROR_CLIENT_ERROR": "Request failed.",
 	"MODULE_ERROR_UNSPECIFIED": "Тӗп лог ҫӗнтерӗ.",
 
 	"NEWSFEED_NO_ITEMS": "Пулас ҫӗнтер ҫук.",

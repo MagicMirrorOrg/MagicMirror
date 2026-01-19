@@ -36,6 +36,9 @@
 	"MODULE_ERROR_MALFORMED_URL": "Неверный URL.",
 	"MODULE_ERROR_NO_CONNECTION": "Нет интернет-соединения.",
 	"MODULE_ERROR_UNAUTHORIZED": "Не удалось авторизоваться.",
+	"MODULE_ERROR_RATE_LIMITED": "Too many requests. Retrying later.",
+	"MODULE_ERROR_SERVER_ERROR": "Server error. Retrying later.",
+	"MODULE_ERROR_CLIENT_ERROR": "Request failed.",
 	"MODULE_ERROR_UNSPECIFIED": "Пожалуйста, проверьте логи для получения дополнительной информации.",
 
 	"NEWSFEED_NO_ITEMS": "В данный момент нет новостей.",

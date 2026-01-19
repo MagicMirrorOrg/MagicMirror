@@ -36,6 +36,9 @@
 	"MODULE_ERROR_MALFORMED_URL": "Ongeldige URL.",
 	"MODULE_ERROR_NO_CONNECTION": "Geen internetverbinding.",
 	"MODULE_ERROR_UNAUTHORIZED": "Owerheid het misluk.",
+	"MODULE_ERROR_RATE_LIMITED": "Too many requests. Retrying later.",
+	"MODULE_ERROR_SERVER_ERROR": "Server error. Retrying later.",
+	"MODULE_ERROR_CLIENT_ERROR": "Request failed.",
 	"MODULE_ERROR_UNSPECIFIED": "Gaan die logs na vir meer besonderhede.",
 
 	"NEWSFEED_NO_ITEMS": "Geen nuus op die oomblik.",

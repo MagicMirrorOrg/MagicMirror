@@ -32,6 +32,9 @@
 		},
 		"#server_functions": {
 			"default": "./js/server_functions.js"
+		},
+		"#http_fetcher": {
+			"default": "./js/http_fetcher.js"
 		}
 	},
 	"main": "js/electron.js",
@@ -116,6 +119,7 @@
 		"jsdom": "^27.4.0",
 		"lint-staged": "^16.2.7",
 		"markdownlint-cli2": "^0.20.0",
+		"msw": "^2.12.7",
 		"playwright": "^1.57.0",
 		"prettier": "^3.7.4",
 		"prettier-plugin-jinja-template": "^2.1.0",

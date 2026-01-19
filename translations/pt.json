@@ -37,6 +37,9 @@
 	"MODULE_ERROR_MALFORMED_URL": "URL inválido.",
 	"MODULE_ERROR_NO_CONNECTION": "Sem ligação à internet.",
 	"MODULE_ERROR_UNAUTHORIZED": "Falha na autorização.",
+	"MODULE_ERROR_RATE_LIMITED": "Too many requests. Retrying later.",
+	"MODULE_ERROR_SERVER_ERROR": "Server error. Retrying later.",
+	"MODULE_ERROR_CLIENT_ERROR": "Request failed.",
 	"MODULE_ERROR_UNSPECIFIED": "Consulta os registos para mais detalhes.",
 
 	"NEWSFEED_NO_ITEMS": "Sem notícias de momento.",

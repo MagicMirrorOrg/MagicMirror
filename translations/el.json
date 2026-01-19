@@ -36,6 +36,9 @@
 	"MODULE_ERROR_MALFORMED_URL": "Λανθασμένη μορφή url.",
 	"MODULE_ERROR_NO_CONNECTION": "Δεν υπάρχει σύνδεση στο διαδίκτυο.",
 	"MODULE_ERROR_UNAUTHORIZED": "Η εξουσιοδότηση απέτυχε.",
+	"MODULE_ERROR_RATE_LIMITED": "Too many requests. Retrying later.",
+	"MODULE_ERROR_SERVER_ERROR": "Server error. Retrying later.",
+	"MODULE_ERROR_CLIENT_ERROR": "Request failed.",
 	"MODULE_ERROR_UNSPECIFIED": "Ελέγξτε τα αρχεία καταγραφής για περισσότερες λεπτομέρειες.",
 
 	"NEWSFEED_NO_ITEMS": "Δεν υπάρχουν ειδήσεις αυτή τη στιγμή.",

@@ -35,6 +35,9 @@
 	"MODULE_ERROR_MALFORMED_URL": "Hibás URL.",
 	"MODULE_ERROR_NO_CONNECTION": "Nincs internetkapcsolat.",
 	"MODULE_ERROR_UNAUTHORIZED": "Azonosítás sikertelen.",
+	"MODULE_ERROR_RATE_LIMITED": "Too many requests. Retrying later.",
+	"MODULE_ERROR_SERVER_ERROR": "Server error. Retrying later.",
+	"MODULE_ERROR_CLIENT_ERROR": "Request failed.",
 	"MODULE_ERROR_UNSPECIFIED": "Ellenőrizze a naplókat további részletekért.",
 
 	"NEWSFEED_NO_ITEMS": "Jelenleg nincsenek hírek.",

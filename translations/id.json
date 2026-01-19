@@ -35,6 +35,9 @@
 	"MODULE_ERROR_MALFORMED_URL": "URL tidak valid.",
 	"MODULE_ERROR_NO_CONNECTION": "Tidak ada koneksi internet.",
 	"MODULE_ERROR_UNAUTHORIZED": "Gagal otentikasi.",
+	"MODULE_ERROR_RATE_LIMITED": "Too many requests. Retrying later.",
+	"MODULE_ERROR_SERVER_ERROR": "Server error. Retrying later.",
+	"MODULE_ERROR_CLIENT_ERROR": "Request failed.",
 	"MODULE_ERROR_UNSPECIFIED": "Silakan periksa log untuk informasi lebih lanjut.",
 
 	"NEWSFEED_NO_ITEMS": "Saat ini tidak ada berita.",

@@ -36,6 +36,9 @@
 	"MODULE_ERROR_MALFORMED_URL": "잘못된 URL 형식입니다.",
 	"MODULE_ERROR_NO_CONNECTION": "인터넷이 연결되지 않았습니다.",
 	"MODULE_ERROR_UNAUTHORIZED": "인증이 실패했습니다.",
+	"MODULE_ERROR_RATE_LIMITED": "Too many requests. Retrying later.",
+	"MODULE_ERROR_SERVER_ERROR": "Server error. Retrying later.",
+	"MODULE_ERROR_CLIENT_ERROR": "Request failed.",
 	"MODULE_ERROR_UNSPECIFIED": "상세 내용은 로그를 확인하세요.",
 
 	"NEWSFEED_NO_ITEMS": "현재 뉴스가 없습니다.",

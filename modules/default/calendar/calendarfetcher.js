@@ -2,15 +2,11 @@ const ical = require("node-ical");
 const Log = require("logger");
 const { Agent } = require("undici");
 const CalendarFetcherUtils = require("./calendarfetcherutils");
-const { getUserAgent } = require("#server_functions");
-
-
-const FIFTEEN_MINUTES = 15 * 60 * 1000;
-const THIRTY_MINUTES = 30 * 60 * 1000;
-const MAX_SERVER_BACKOFF = 3;
+const HTTPFetcher = require("#http_fetcher");
 
 /**
- * CalendarFetcher - Fetches and parses iCal calendar data with MagicMirror-focused error handling
+ * CalendarFetcher - Fetches and parses iCal calendar data
+ * Uses HTTPFetcher for HTTP handling with intelligent error handling
  * @class
  */
 class CalendarFetcher {
@@ -28,162 +24,68 @@ class CalendarFetcher {
 	 */
 	constructor (url, reloadInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, includePastEvents, selfSignedCert) {
 		this.url = url;
-		this.reloadInterval = reloadInterval;
 		this.excludedEvents = excludedEvents;
 		this.maximumEntries = maximumEntries;
 		this.maximumNumberOfDays = maximumNumberOfDays;
-		this.auth = auth;
 		this.includePastEvents = includePastEvents;
-		this.selfSignedCert = selfSignedCert;
 
 		this.events = [];
-		this.reloadTimer = null;
-		this.serverErrorCount = 0;
 		this.lastFetch = null;
 		this.fetchFailedCallback = () => {};
 		this.eventsReceivedCallback = () => {};
+
+		// Use HTTPFetcher for HTTP handling (Composition)
+		this.httpFetcher = new HTTPFetcher(url, {
+			reloadInterval,
+			auth,
+			selfSignedCert
+		});
+
+		// Wire up HTTPFetcher events
+		this.httpFetcher.on("response", (response) => this.#handleResponse(response));
+		this.httpFetcher.on("error", (errorInfo) => this.fetchFailedCallback(this, errorInfo));
 	}
 
 	/**
-	 * Clears any pending reload timer
+	 * Handles successful HTTP response
+	 * @param {Response} response - The fetch Response object
 	 */
-	clearReloadTimer () {
-		if (this.reloadTimer) {
-			clearTimeout(this.reloadTimer);
-			this.reloadTimer = null;
-		}
-	}
+	async #handleResponse (response) {
+		try {
+			const responseData = await response.text();
+			const parsed = ical.parseICS(responseData);
 
-	/**
-	 * Schedules the next fetch respecting MagicMirror test mode
-	 * @param {number} delay - Delay in milliseconds
-	 */
-	scheduleNextFetch (delay) {
-		const nextDelay = Math.max(delay || this.reloadInterval, this.reloadInterval);
-		if (process.env.mmTestMode === "true") {
-			return;
-		}
-		this.reloadTimer = setTimeout(() => this.fetchCalendar(), nextDelay);
-	}
+			Log.debug(`Parsed iCal data from ${this.url} with ${Object.keys(parsed).length} entries.`);
 
-	/**
-	 * Builds the options object for fetch
-	 * @returns {object} Options object containing headers (and agent if needed)
-	 */
-	getRequestOptions () {
-		const headers = { "User-Agent": getUserAgent() };
-		const options = { headers };
+			this.events = CalendarFetcherUtils.filterEvents(parsed, {
+				excludedEvents: this.excludedEvents,
+				includePastEvents: this.includePastEvents,
+				maximumEntries: this.maximumEntries,
+				maximumNumberOfDays: this.maximumNumberOfDays
+			});
 
-		if (this.selfSignedCert) {
-			options.dispatcher = new Agent({
-				connect: {
-					rejectUnauthorized: false
-				}
+			this.lastFetch = Date.now();
+			this.broadcastEvents();
+		} catch (error) {
+			Log.error(`${this.url} - iCal parsing failed: ${error.message}`);
+			this.fetchFailedCallback(this, {
+				message: `iCal parsing failed: ${error.message}`,
+				status: null,
+				errorType: "PARSE_ERROR",
+				translationKey: "MODULE_ERROR_UNSPECIFIED",
+				retryAfter: this.httpFetcher.reloadInterval,
+				retryCount: 0,
+				url: this.url,
+				originalError: error
 			});
 		}
-
-		if (this.auth) {
-			if (this.auth.method === "bearer") {
-				headers.Authorization = `Bearer ${this.auth.pass}`;
-			} else {
-				headers.Authorization = `Basic ${Buffer.from(`${this.auth.user}:${this.auth.pass}`).toString("base64")}`;
-			}
-		}
-
-		return options;
 	}
 
 	/**
-	 * Parses the Retry-After header value
-	 * @param {string} retryAfter - The Retry-After header value
-	 * @returns {number|null} Milliseconds to wait or null if parsing failed
+	 * Starts fetching calendar data
 	 */
-	parseRetryAfter (retryAfter) {
-		const seconds = Number(retryAfter);
-		if (!Number.isNaN(seconds) && seconds >= 0) {
-			return seconds * 1000;
-		}
-
-		const retryDate = Date.parse(retryAfter);
-		if (!Number.isNaN(retryDate)) {
-			return Math.max(0, retryDate - Date.now());
-		}
-
-		return null;
-	}
-
-	/**
-	 * Determines the retry delay for a non-ok response
-	 * @param {Response} response - The fetch Response object
-	 * @returns {{delay: number, error: Error}} Error describing the issue and computed retry delay
-	 */
-	getDelayForResponse (response) {
-		const { status, statusText = "" } = response;
-		let delay = this.reloadInterval;
-
-		if (status === 401 || status === 403) {
-			delay = Math.max(this.reloadInterval * 5, THIRTY_MINUTES);
-			Log.error(`${this.url} - Authentication failed (${status}). Waiting ${Math.round(delay / 60000)} minutes before retry.`);
-		} else if (status === 429) {
-			const retryAfter = response.headers.get("retry-after");
-			const parsed = retryAfter ? this.parseRetryAfter(retryAfter) : null;
-			delay = parsed !== null ? Math.max(parsed, this.reloadInterval) : Math.max(this.reloadInterval * 2, FIFTEEN_MINUTES);
-			Log.warn(`${this.url} - Rate limited (429). Retrying in ${Math.round(delay / 60000)} minutes.`);
-		} else if (status >= 500) {
-			this.serverErrorCount = Math.min(this.serverErrorCount + 1, MAX_SERVER_BACKOFF);
-			delay = this.reloadInterval * Math.pow(2, this.serverErrorCount);
-			Log.error(`${this.url} - Server error (${status}). Retry #${this.serverErrorCount} in ${Math.round(delay / 60000)} minutes.`);
-		} else if (status >= 400) {
-			delay = Math.max(this.reloadInterval * 2, FIFTEEN_MINUTES);
-			Log.error(`${this.url} - Client error (${status}). Retrying in ${Math.round(delay / 60000)} minutes.`);
-		} else {
-			Log.error(`${this.url} - Unexpected HTTP status ${status}.`);
-		}
-
-		return {
-			delay,
-			error: new Error(`HTTP ${status} ${statusText}`.trim())
-		};
-	}
-
-	/**
-	 * Fetches and processes calendar data
-	 */
-	async fetchCalendar () {
-		this.clearReloadTimer();
-
-		let nextDelay = this.reloadInterval;
-		try {
-			const response = await fetch(this.url, this.getRequestOptions());
-			if (!response.ok) {
-				const { delay, error } = this.getDelayForResponse(response);
-				nextDelay = delay;
-				this.fetchFailedCallback(this, error);
-			} else {
-				this.serverErrorCount = 0;
-				const responseData = await response.text();
-				try {
-					const parsed = ical.parseICS(responseData);
-					Log.debug(`Parsed iCal data from ${this.url} with ${Object.keys(parsed).length} entries.`);
-					this.events = CalendarFetcherUtils.filterEvents(parsed, {
-						excludedEvents: this.excludedEvents,
-						includePastEvents: this.includePastEvents,
-						maximumEntries: this.maximumEntries,
-						maximumNumberOfDays: this.maximumNumberOfDays
-					});
-					this.lastFetch = Date.now();
-					this.broadcastEvents();
-				} catch (error) {
-					Log.error(`${this.url} - iCal parsing failed: ${error.message}`);
-					this.fetchFailedCallback(this, error);
-				}
-			}
-		} catch (error) {
-			Log.error(`${this.url} - Fetch failed: ${error.message}`);
-			this.fetchFailedCallback(this, error);
-		}
-
-		this.scheduleNextFetch(nextDelay);
+	fetchCalendar () {
+		this.httpFetcher.startPeriodicFetch();
 	}
 
 	/**
@@ -196,7 +98,7 @@ class CalendarFetcher {
 			return true;
 		}
 		const timeSinceLastFetch = Date.now() - this.lastFetch;
-		return timeSinceLastFetch >= this.reloadInterval;
+		return timeSinceLastFetch >= this.httpFetcher.reloadInterval;
 	}
 
 	/**

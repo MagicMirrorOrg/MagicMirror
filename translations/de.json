@@ -37,6 +37,9 @@
 	"MODULE_ERROR_MALFORMED_URL": "Fehlerhafte URL.",
 	"MODULE_ERROR_NO_CONNECTION": "Keine Internetverbindung.",
 	"MODULE_ERROR_UNAUTHORIZED": "Autorisierung fehlgeschlagen.",
+	"MODULE_ERROR_RATE_LIMITED": "Zu viele Anfragen. Erneuter Versuch später.",
+	"MODULE_ERROR_SERVER_ERROR": "Serverfehler. Erneuter Versuch später.",
+	"MODULE_ERROR_CLIENT_ERROR": "Anfrage fehlgeschlagen.",
 	"MODULE_ERROR_UNSPECIFIED": "Prüfe die Logdateien für weitere Details.",
 
 	"NEWSFEED_NO_ITEMS": "Momentan keine Neuigkeiten.",

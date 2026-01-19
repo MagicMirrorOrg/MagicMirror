@@ -36,6 +36,9 @@
 	"MODULE_ERROR_MALFORMED_URL": "URL ผิดรูปแบบ",
 	"MODULE_ERROR_NO_CONNECTION": "ไม่มีการเชื่อมต่ออินเทอร์เน็ต.",
 	"MODULE_ERROR_UNAUTHORIZED": "การอนุญาตล้มเหลว",
+	"MODULE_ERROR_RATE_LIMITED": "Too many requests. Retrying later.",
+	"MODULE_ERROR_SERVER_ERROR": "Server error. Retrying later.",
+	"MODULE_ERROR_CLIENT_ERROR": "Request failed.",
 	"MODULE_ERROR_UNSPECIFIED": "ตรวจสอบบันทึกสำหรับรายละเอียดเพิ่มเติม",
 
 	"NEWSFEED_NO_ITEMS": "ไม่มีข่าวในขณะนี้",

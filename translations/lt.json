@@ -36,6 +36,9 @@
 	"MODULE_ERROR_MALFORMED_URL": "Netinkama URL nuoroda.",
 	"MODULE_ERROR_NO_CONNECTION": "Nėra interneto ryšio.",
 	"MODULE_ERROR_UNAUTHORIZED": "Autorizacija nepavyko.",
+	"MODULE_ERROR_RATE_LIMITED": "Too many requests. Retrying later.",
+	"MODULE_ERROR_SERVER_ERROR": "Server error. Retrying later.",
+	"MODULE_ERROR_CLIENT_ERROR": "Request failed.",
 	"MODULE_ERROR_UNSPECIFIED": "Patikrinkite žurnalus, kad gautumėte daugiau informacijos.",
 
 	"NEWSFEED_NO_ITEMS": "Šiuo metu naujienų nėra.",

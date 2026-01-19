@@ -61,12 +61,11 @@ module.exports = NodeHelper.create({
 				this.broadcastEvents(fetcher, identifier);
 			});
 
-			fetcher.onError((fetcher, error) => {
-				Log.error("Calendar Error. Could not fetch calendar: ", fetcher.url, error);
-				let error_type = NodeHelper.checkFetchError(error);
+			fetcher.onError((fetcher, errorInfo) => {
+				Log.error("Calendar Error. Could not fetch calendar: ", fetcher.url, errorInfo.message || errorInfo);
 				this.sendSocketNotification("CALENDAR_ERROR", {
 					id: identifier,
-					error_type
+					error_type: errorInfo.translationKey
 				});
 			});
 

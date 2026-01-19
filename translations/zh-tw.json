@@ -36,6 +36,9 @@
 	"MODULE_ERROR_MALFORMED_URL": "網址格式錯誤。",
 	"MODULE_ERROR_NO_CONNECTION": "無網路連線。",
 	"MODULE_ERROR_UNAUTHORIZED": "授權失敗。",
+	"MODULE_ERROR_RATE_LIMITED": "Too many requests. Retrying later.",
+	"MODULE_ERROR_SERVER_ERROR": "Server error. Retrying later.",
+	"MODULE_ERROR_CLIENT_ERROR": "Request failed.",
 	"MODULE_ERROR_UNSPECIFIED": "查看日誌以了解詳情。",
 
 	"NEWSFEED_NO_ITEMS": "目前沒有新聞。",

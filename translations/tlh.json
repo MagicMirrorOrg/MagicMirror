@@ -36,6 +36,9 @@
 	"MODULE_ERROR_MALFORMED_URL": "URL ghobe' yImev.",
 	"MODULE_ERROR_NO_CONNECTION": "Internet ghobe' yImev.",
 	"MODULE_ERROR_UNAUTHORIZED": "ghobe' yImev.",
+	"MODULE_ERROR_RATE_LIMITED": "Too many requests. Retrying later.",
+	"MODULE_ERROR_SERVER_ERROR": "Server error. Retrying later.",
+	"MODULE_ERROR_CLIENT_ERROR": "Request failed.",
 	"MODULE_ERROR_UNSPECIFIED": "logmeyDaq yImev.",
 
 	"NEWSFEED_NO_ITEMS": "DaHghachmey ghobe' yImev.",

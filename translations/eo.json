@@ -37,6 +37,9 @@
 	"MODULE_ERROR_MALFORMED_URL": "Malĝusta URL.",
 	"MODULE_ERROR_NO_CONNECTION": "Neniu interreta konekto.",
 	"MODULE_ERROR_UNAUTHORIZED": "Aŭtorigo malsukcesis.",
+	"MODULE_ERROR_RATE_LIMITED": "Tro multaj petoj. Reprovo poste.",
+	"MODULE_ERROR_SERVER_ERROR": "Servila eraro. Reprovo poste.",
+	"MODULE_ERROR_CLIENT_ERROR": "Peto malsukcesis.",
 	"MODULE_ERROR_UNSPECIFIED": "Kontrolu la protokolajn dosierojn por pli da detaloj.",
 
 	"NEWSFEED_NO_ITEMS": "Momente neniu novaĵoj.",

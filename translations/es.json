@@ -37,6 +37,9 @@
 	"MODULE_ERROR_MALFORMED_URL": "URL mal formado.",
 	"MODULE_ERROR_NO_CONNECTION": "No hay conexión a Internet.",
 	"MODULE_ERROR_UNAUTHORIZED": "No autorizado.",
+	"MODULE_ERROR_RATE_LIMITED": "Too many requests. Retrying later.",
+	"MODULE_ERROR_SERVER_ERROR": "Server error. Retrying later.",
+	"MODULE_ERROR_CLIENT_ERROR": "Request failed.",
 	"MODULE_ERROR_UNSPECIFIED": "Por favor, consulte los registros para obtener más información.",
 
 	"NEWSFEED_NO_ITEMS": "No hay noticias disponibles en este momento.",

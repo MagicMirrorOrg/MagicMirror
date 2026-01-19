@@ -35,6 +35,9 @@
 	"MODULE_ERROR_MALFORMED_URL": "Hatalı URL.",
 	"MODULE_ERROR_NO_CONNECTION": "İnternet bağlantısı yok.",
 	"MODULE_ERROR_UNAUTHORIZED": "Yetkilendirme başarısız.",
+	"MODULE_ERROR_RATE_LIMITED": "Too many requests. Retrying later.",
+	"MODULE_ERROR_SERVER_ERROR": "Server error. Retrying later.",
+	"MODULE_ERROR_CLIENT_ERROR": "Request failed.",
 	"MODULE_ERROR_UNSPECIFIED": "Daha fazla ayrıntı için günlükleri kontrol edin.",
 
 	"NEWSFEED_NO_ITEMS": "Şu anda haber yok.",

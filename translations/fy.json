@@ -35,6 +35,9 @@
 	"MODULE_ERROR_MALFORMED_URL": "De URL is net jildich.",
 	"MODULE_ERROR_NO_CONNECTION": "Gjin ynternetferbining.",
 	"MODULE_ERROR_UNAUTHORIZED": "Autorisearje mislearre.",
+	"MODULE_ERROR_RATE_LIMITED": "Too many requests. Retrying later.",
+	"MODULE_ERROR_SERVER_ERROR": "Server error. Retrying later.",
+	"MODULE_ERROR_CLIENT_ERROR": "Request failed.",
 	"MODULE_ERROR_UNSPECIFIED": "Sjoch de logs foar mear ynformaasje.",
 
 	"NEWSFEED_NO_ITEMS": "Op it stuit gjin nijsberjochten.",

@@ -36,6 +36,9 @@
 	"MODULE_ERROR_MALFORMED_URL": "Nesprávna URL adresa.",
 	"MODULE_ERROR_NO_CONNECTION": "Nie je pripojenie k internetu.",
 	"MODULE_ERROR_UNAUTHORIZED": "Autorizácia zlyhala.",
+	"MODULE_ERROR_RATE_LIMITED": "Too many requests. Retrying later.",
+	"MODULE_ERROR_SERVER_ERROR": "Server error. Retrying later.",
+	"MODULE_ERROR_CLIENT_ERROR": "Request failed.",
 	"MODULE_ERROR_UNSPECIFIED": "Skontrolujte protokoly pre viac informácií.",
 
 	"NEWSFEED_NO_ITEMS": "Momentálne žiadne správy.",
