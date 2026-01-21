@@ -36,9 +36,9 @@
 	"MODULE_ERROR_MALFORMED_URL": "Felaktig URL.",
 	"MODULE_ERROR_NO_CONNECTION": "Ingen internetanslutning.",
 	"MODULE_ERROR_UNAUTHORIZED": "Autentisering misslyckades.",
-	"MODULE_ERROR_RATE_LIMITED": "Too many requests. Retrying later.",
-	"MODULE_ERROR_SERVER_ERROR": "Server error. Retrying later.",
-	"MODULE_ERROR_CLIENT_ERROR": "Request failed.",
+	"MODULE_ERROR_RATE_LIMITED": "För många förfrågningar. Försöker igen senare.",
+	"MODULE_ERROR_SERVER_ERROR": "Serverfel. Försöker igen senare.",
+	"MODULE_ERROR_CLIENT_ERROR": "Förfrågan misslyckades.",
 	"MODULE_ERROR_UNSPECIFIED": "Vänligen kontrollera loggarna för mer information.",
 
 	"NEWSFEED_NO_ITEMS": "Inga nyheter för tillfället.",

@@ -36,9 +36,9 @@
 	"MODULE_ERROR_MALFORMED_URL": "Ongeldige url.",
 	"MODULE_ERROR_NO_CONNECTION": "Geen internet verbinding.",
 	"MODULE_ERROR_UNAUTHORIZED": "Authenticatie mislukt.",
-	"MODULE_ERROR_RATE_LIMITED": "Too many requests. Retrying later.",
-	"MODULE_ERROR_SERVER_ERROR": "Server error. Retrying later.",
-	"MODULE_ERROR_CLIENT_ERROR": "Request failed.",
+	"MODULE_ERROR_RATE_LIMITED": "Te veel verzoeken. Later opnieuw proberen.",
+	"MODULE_ERROR_SERVER_ERROR": "Serverfout. Later opnieuw proberen.",
+	"MODULE_ERROR_CLIENT_ERROR": "Verzoek mislukt.",
 	"MODULE_ERROR_UNSPECIFIED": "Bekijk de logs voor meer informatie.",
 
 	"NEWSFEED_NO_ITEMS": "Geen nieuws op dit moment.",

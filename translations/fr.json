@@ -37,9 +37,9 @@
 	"MODULE_ERROR_MALFORMED_URL": "URL mal formée.",
 	"MODULE_ERROR_NO_CONNECTION": "Pas de connexion Internet.",
 	"MODULE_ERROR_UNAUTHORIZED": "L'autorisation à échouée.",
-	"MODULE_ERROR_RATE_LIMITED": "Too many requests. Retrying later.",
-	"MODULE_ERROR_SERVER_ERROR": "Server error. Retrying later.",
-	"MODULE_ERROR_CLIENT_ERROR": "Request failed.",
+	"MODULE_ERROR_RATE_LIMITED": "Trop de requêtes. Nouvelle tentative plus tard.",
+	"MODULE_ERROR_SERVER_ERROR": "Erreur du serveur. Nouvelle tentative plus tard.",
+	"MODULE_ERROR_CLIENT_ERROR": "La requête a échoué.",
 	"MODULE_ERROR_UNSPECIFIED": "Consultez les journaux pour plus de détails.",
 
 	"NEWSFEED_NO_ITEMS": "Aucune nouvelle pour le moment.",

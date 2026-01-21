@@ -36,9 +36,9 @@
 	"MODULE_ERROR_MALFORMED_URL": "Ebakorrektne url.",
 	"MODULE_ERROR_NO_CONNECTION": "Interneti ühendus puudub.",
 	"MODULE_ERROR_UNAUTHORIZED": "Autoriseerimine ebaõnnestus.",
-	"MODULE_ERROR_RATE_LIMITED": "Too many requests. Retrying later.",
-	"MODULE_ERROR_SERVER_ERROR": "Server error. Retrying later.",
-	"MODULE_ERROR_CLIENT_ERROR": "Request failed.",
+	"MODULE_ERROR_RATE_LIMITED": "Liiga palju päringuid. Proovin hiljem uuesti.",
+	"MODULE_ERROR_SERVER_ERROR": "Serveri viga. Proovin hiljem uuesti.",
+	"MODULE_ERROR_CLIENT_ERROR": "Päring ebaõnnestus.",
 	"MODULE_ERROR_UNSPECIFIED": "Lisateabe saamiseks kontrollige logifaile.",
 
 	"NEWSFEED_NO_ITEMS": "Hetkel ei ole uudiseid.",

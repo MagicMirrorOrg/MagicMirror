@@ -36,9 +36,9 @@
 	"MODULE_ERROR_MALFORMED_URL": "ખોટી URL.",
 	"MODULE_ERROR_NO_CONNECTION": "ઇન્ટરનેટ કનેક્શન નથી.",
 	"MODULE_ERROR_UNAUTHORIZED": "અધિકૃત કરવું નિષ્ફળ.",
-	"MODULE_ERROR_RATE_LIMITED": "Too many requests. Retrying later.",
-	"MODULE_ERROR_SERVER_ERROR": "Server error. Retrying later.",
-	"MODULE_ERROR_CLIENT_ERROR": "Request failed.",
+	"MODULE_ERROR_RATE_LIMITED": "ઘણી બધી વિનંતીઓ. પછીથી પુનઃપ્રયાસ.",
+	"MODULE_ERROR_SERVER_ERROR": "સર્વર ભૂલ. પછીથી પુનઃપ્રયાસ.",
+	"MODULE_ERROR_CLIENT_ERROR": "વિનંતી નિષ્ફળ.",
 	"MODULE_ERROR_UNSPECIFIED": "વધુ વિગતો માટે લોગ તપાસો.",
 
 	"NEWSFEED_NO_ITEMS": "હાલમાં કોઈ સમાચાર નથી.",

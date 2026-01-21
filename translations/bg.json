@@ -36,9 +36,9 @@
 	"MODULE_ERROR_MALFORMED_URL": "Неправилен URL адрес.",
 	"MODULE_ERROR_NO_CONNECTION": "Няма интернет връзка.",
 	"MODULE_ERROR_UNAUTHORIZED": "Неуспешна авторизация.",
-	"MODULE_ERROR_RATE_LIMITED": "Too many requests. Retrying later.",
-	"MODULE_ERROR_SERVER_ERROR": "Server error. Retrying later.",
-	"MODULE_ERROR_CLIENT_ERROR": "Request failed.",
+	"MODULE_ERROR_RATE_LIMITED": "Твърде много заявки. Повторен опит по-късно.",
+	"MODULE_ERROR_SERVER_ERROR": "Грешка в сървъра. Повторен опит по-късно.",
+	"MODULE_ERROR_CLIENT_ERROR": "Заявката неуспешна.",
 	"MODULE_ERROR_UNSPECIFIED": "Проверете логовете за повече подробности.",
 
 	"NEWSFEED_NO_ITEMS": "Няма новини в момента.",

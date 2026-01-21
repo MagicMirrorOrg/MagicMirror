@@ -36,9 +36,9 @@
 	"MODULE_ERROR_MALFORMED_URL": "Nieprawidłowy adres URL.",
 	"MODULE_ERROR_NO_CONNECTION": "Brak połączenia z internetem.",
 	"MODULE_ERROR_UNAUTHORIZED": "Autoryzacja nie powiodła się.",
-	"MODULE_ERROR_RATE_LIMITED": "Too many requests. Retrying later.",
-	"MODULE_ERROR_SERVER_ERROR": "Server error. Retrying later.",
-	"MODULE_ERROR_CLIENT_ERROR": "Request failed.",
+	"MODULE_ERROR_RATE_LIMITED": "Zbyt wiele żądań. Ponowna próba później.",
+	"MODULE_ERROR_SERVER_ERROR": "Błąd serwera. Ponowna próba później.",
+	"MODULE_ERROR_CLIENT_ERROR": "Żądanie nie powiodło się.",
 	"MODULE_ERROR_UNSPECIFIED": "Sprawdź logi, aby uzyskać więcej informacji.",
 
 	"NEWSFEED_NO_ITEMS": "Brak wiadomości w tej chwili.",

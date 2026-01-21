@@ -36,9 +36,9 @@
 	"MODULE_ERROR_MALFORMED_URL": "URL格式错误。",
 	"MODULE_ERROR_NO_CONNECTION": "无网络连接。",
 	"MODULE_ERROR_UNAUTHORIZED": "授权失败。",
-	"MODULE_ERROR_RATE_LIMITED": "Too many requests. Retrying later.",
-	"MODULE_ERROR_SERVER_ERROR": "Server error. Retrying later.",
-	"MODULE_ERROR_CLIENT_ERROR": "Request failed.",
+	"MODULE_ERROR_RATE_LIMITED": "请求过多。稍后重试。",
+	"MODULE_ERROR_SERVER_ERROR": "服务器错误。稍后重试。",
+	"MODULE_ERROR_CLIENT_ERROR": "请求失败。",
 	"MODULE_ERROR_UNSPECIFIED": "请查看日志以获取更多详细信息。",
 
 	"NEWSFEED_NO_ITEMS": "目前没有新闻。",

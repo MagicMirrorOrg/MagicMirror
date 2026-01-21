@@ -36,9 +36,9 @@
 	"MODULE_ERROR_MALFORMED_URL": "不正なURLです。",
 	"MODULE_ERROR_NO_CONNECTION": "インターネット接続がありません。",
 	"MODULE_ERROR_UNAUTHORIZED": "認証に失敗しました。",
-	"MODULE_ERROR_RATE_LIMITED": "Too many requests. Retrying later.",
-	"MODULE_ERROR_SERVER_ERROR": "Server error. Retrying later.",
-	"MODULE_ERROR_CLIENT_ERROR": "Request failed.",
+	"MODULE_ERROR_RATE_LIMITED": "リクエストが多すぎます。後で再試行します。",
+	"MODULE_ERROR_SERVER_ERROR": "サーバーエラー。後で再試行します。",
+	"MODULE_ERROR_CLIENT_ERROR": "リクエストが失敗しました。",
 	"MODULE_ERROR_UNSPECIFIED": "詳細はログを確認してください。",
 
 	"NEWSFEED_NO_ITEMS": "現在ニュースはありません。",

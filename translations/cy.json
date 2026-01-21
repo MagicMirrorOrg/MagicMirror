@@ -35,9 +35,9 @@
 	"MODULE_ERROR_MALFORMED_URL": "URL anghywir.",
 	"MODULE_ERROR_NO_CONNECTION": "Dim cysylltiad rhyngrwyd.",
 	"MODULE_ERROR_UNAUTHORIZED": "Methiant awdurdodi.",
-	"MODULE_ERROR_RATE_LIMITED": "Too many requests. Retrying later.",
-	"MODULE_ERROR_SERVER_ERROR": "Server error. Retrying later.",
-	"MODULE_ERROR_CLIENT_ERROR": "Request failed.",
+	"MODULE_ERROR_RATE_LIMITED": "Gormod o geisiadau. Yn ceisio eto yn nes ymlaen.",
+	"MODULE_ERROR_SERVER_ERROR": "Gwall gweinydd. Yn ceisio eto yn nes ymlaen.",
+	"MODULE_ERROR_CLIENT_ERROR": "Cais wedi methu.",
 	"MODULE_ERROR_UNSPECIFIED": "Gwiriwch y logiau am ragor o fanylion.",
 
 	"NEWSFEED_NO_ITEMS": "Dim newyddion ar hyn o bryd.",
