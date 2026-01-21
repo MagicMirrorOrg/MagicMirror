@@ -9,6 +9,7 @@ describe("App environment", () => {
 		await helpers.getDocument();
 		page = helpers.getPage();
 	});
+
 	afterAll(async () => {
 		await helpers.stopApplication();
 	});

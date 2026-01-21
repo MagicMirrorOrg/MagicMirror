@@ -9,6 +9,7 @@ describe("Display of modules", () => {
 		await helpers.getDocument();
 		page = helpers.getPage();
 	});
+
 	afterAll(async () => {
 		await helpers.stopApplication();
 	});

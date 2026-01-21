@@ -10,6 +10,7 @@ describe("Custom Position of modules", () => {
 		await helpers.getDocument();
 		page = helpers.getPage();
 	});
+
 	afterAll(async () => {
 		await helpers.stopApplication();
 		await helpers.restoreIndex();

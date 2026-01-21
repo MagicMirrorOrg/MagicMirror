@@ -5,6 +5,7 @@ describe("ipWhitelist directive configuration", () => {
 		beforeAll(async () => {
 			await helpers.startApplication("tests/configs/noIpWhiteList.js");
 		});
+
 		afterAll(async () => {
 			await helpers.stopApplication();
 		});
@@ -20,6 +21,7 @@ describe("ipWhitelist directive configuration", () => {
 		beforeAll(async () => {
 			await helpers.startApplication("tests/configs/empty_ipWhiteList.js");
 		});
+
 		afterAll(async () => {
 			await helpers.stopApplication();
 		});

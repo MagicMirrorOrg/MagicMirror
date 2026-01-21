@@ -20,6 +20,7 @@ describe("App environment", () => {
 		// we have to wait until the server is started
 		await delay(2000);
 	});
+
 	afterAll(async () => {
 		await process.kill(-serverProcess.pid);
 	});

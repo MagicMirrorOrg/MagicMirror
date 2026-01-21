@@ -7,6 +7,7 @@ describe("Position of modules", () => {
 		await helpers.startApplication("tests/configs/modules/positions.js");
 		await helpers.getDocument();
 	});
+
 	afterAll(async () => {
 		await helpers.stopApplication();
 	});

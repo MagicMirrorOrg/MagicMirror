@@ -5,6 +5,7 @@ describe("templated config with port variable", () => {
 	beforeAll(async () => {
 		await helpers.startApplication("tests/configs/port_variable.js");
 	});
+
 	afterAll(async () => {
 		await helpers.stopApplication();
 		try {
