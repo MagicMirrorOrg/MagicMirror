@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-slim
     strategy:
       matrix:
-        node-version: [22.21.1, 22.x, 24.x]
+        node-version: [22.x, 24.x, 25.x]
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
