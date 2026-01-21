@@ -91,7 +91,7 @@
 		"feedme": "^2.0.2",
 		"helmet": "^8.1.0",
 		"html-to-text": "^9.0.5",
-		"iconv-lite": "^0.7.1",
+		"iconv-lite": "^0.7.2",
 		"ipaddr.js": "^2.3.0",
 		"moment": "^2.30.1",
 		"moment-timezone": "^0.6.0",
@@ -100,20 +100,20 @@
 		"pm2": "^6.0.14",
 		"socket.io": "^4.8.3",
 		"suncalc": "^1.9.0",
-		"systeminformation": "^5.30.1",
-		"undici": "^7.18.2",
+		"systeminformation": "^5.30.5",
+		"undici": "^7.19.0",
 		"weathericons": "^2.1.0"
 	},
 	"devDependencies": {
-		"@stylistic/eslint-plugin": "^5.6.1",
-		"@vitest/coverage-v8": "^4.0.16",
+		"@stylistic/eslint-plugin": "^5.7.0",
+		"@vitest/coverage-v8": "^4.0.17",
 		"@vitest/eslint-plugin": "^1.6.6",
-		"@vitest/ui": "^4.0.16",
-		"cspell": "^9.4.0",
+		"@vitest/ui": "^4.0.17",
+		"cspell": "^9.6.0",
 		"eslint-plugin-import-x": "^4.16.1",
-		"eslint-plugin-jsdoc": "^61.5.0",
+		"eslint-plugin-jsdoc": "^62.3.0",
 		"eslint-plugin-package-json": "^0.88.1",
-		"eslint-plugin-playwright": "^2.4.0",
+		"eslint-plugin-playwright": "^2.5.0",
 		"express-basic-auth": "^1.2.1",
 		"husky": "^9.1.7",
 		"jsdom": "^27.4.0",
@@ -121,15 +121,15 @@
 		"markdownlint-cli2": "^0.20.0",
 		"msw": "^2.12.7",
 		"playwright": "^1.57.0",
-		"prettier": "^3.7.4",
+		"prettier": "^3.8.1",
 		"prettier-plugin-jinja-template": "^2.1.0",
-		"stylelint": "^16.26.1",
-		"stylelint-config-standard": "^39.0.1",
+		"stylelint": "^17.0.0",
+		"stylelint-config-standard": "^40.0.0",
 		"stylelint-prettier": "^5.0.3",
-		"vitest": "^4.0.16"
+		"vitest": "^4.0.17"
 	},
 	"optionalDependencies": {
-		"electron": "^39.2.7"
+		"electron": "^40.0.0"
 	},
 	"engines": {
 		"node": ">=22.21.1 <23 || >=24"
