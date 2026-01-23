@@ -16,12 +16,12 @@ describe("Compliments module", () => {
 		global.Cron = vi.fn();
 
 		// Load the module
-		require("../../../../../default/modules/compliments/compliments");
+		require("../../../../../defaultmodules/compliments/compliments");
 
 		// Setup module instance
 		complimentsModule.config = { ...complimentsModule.defaults };
 		complimentsModule.name = "compliments";
-		complimentsModule.file = vi.fn((path) => `http://localhost:8080/default/modules/compliments/${path}`);
+		complimentsModule.file = vi.fn((path) => `http://localhost:8080/defaultmodules/compliments/${path}`);
 	});
 
 	afterEach(() => {
@@ -144,7 +144,7 @@ describe("Compliments module", () => {
 				await complimentsModule.loadComplimentFile();
 
 				const calledUrl = fetch.mock.calls[0][0];
-				expect(calledUrl).toBe("http://localhost:8080/default/modules/compliments/compliments.json");
+				expect(calledUrl).toBe("http://localhost:8080/defaultmodules/compliments/compliments.json");
 				expect(calledUrl).not.toContain("dummy=");
 			});
 		});

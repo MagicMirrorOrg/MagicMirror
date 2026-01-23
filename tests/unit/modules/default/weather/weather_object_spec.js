@@ -1,4 +1,4 @@
-const WeatherObject = require("../../../../../default/modules/weather/weatherobject");
+const WeatherObject = require("../../../../../defaultmodules/weather/weatherobject");
 
 global.moment = require("moment-timezone");
 global.SunCalc = require("suncalc");

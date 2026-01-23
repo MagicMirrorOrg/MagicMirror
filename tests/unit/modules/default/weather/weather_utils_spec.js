@@ -1,5 +1,5 @@
-const weather = require("../../../../../default/modules/weather/weatherutils");
-const WeatherUtils = require("../../../../../default/modules/weather/weatherutils");
+const weather = require("../../../../../defaultmodules/weather/weatherutils");
+const WeatherUtils = require("../../../../../defaultmodules/weather/weatherutils");
 
 describe("Weather utils tests", () => {
 	describe("temperature conversion to imperial", () => {

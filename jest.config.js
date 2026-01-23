@@ -31,7 +31,7 @@ const config = {
 	collectCoverageFrom: [
 		"<rootDir>/clientonly/**/*.js",
 		"<rootDir>/js/**/*.js",
-		"<rootDir>/default/modules/**/*.js",
+		"<rootDir>/defaultmodules/**/*.js",
 		"<rootDir>/serveronly/**/*.js"
 	],
 	coverageReporters: ["lcov", "text"],

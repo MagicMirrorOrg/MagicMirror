@@ -343,11 +343,11 @@
 	"ignorePaths": [
 		"css/roboto.css",
 		"node_modules/**",
-		"modules/!(default)/**",
-		"default/modules/**/translations/!(en).json",
-		"default/modules/calendar/windowsZones.json",
-		"default/modules/clock/faces/*.svg",
-		"default/modules/weather/providers/yr.js",
+		"modules/**",
+		"defaultmodules/**/translations/!(en).json",
+		"defaultmodules/calendar/windowsZones.json",
+		"defaultmodules/clock/faces/*.svg",
+		"defaultmodules/weather/providers/yr.js",
 		"tests/mocks/**",
 		"tests/e2e/modules/clock_es_spec.js",
 		"translations/**"
