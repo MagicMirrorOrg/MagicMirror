@@ -45,7 +45,7 @@ export default defineConfig({
 					setupFiles: ["./tests/utils/vitest-setup.js"],
 					include: [
 						"tests/unit/**/*_spec.js",
-						"tests/unit/modules/default/calendar/calendar_fetcher_utils_bad_rrule.js"
+						"tests/unit/default/modules/calendar/calendar_fetcher_utils_bad_rrule.js"
 					],
 					testTimeout: 20000,
 					hookTimeout: 10000
@@ -82,7 +82,7 @@ export default defineConfig({
 			include: [
 				"clientonly/**/*.js",
 				"js/**/*.js",
-				"modules/default/**/*.js",
+				"default/modules/**/*.js",
 				"serveronly/**/*.js"
 			],
 			exclude: [

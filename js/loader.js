@@ -103,7 +103,7 @@ const Loader = (function () {
 			let moduleFolder = `${envVars.modulesDir}/${module}`;
 
 			if (defaultModules.indexOf(moduleName) !== -1) {
-				const defaultModuleFolder = `modules/default/${module}`;
+				const defaultModuleFolder = `default/modules/${module}`;
 				if (window.name !== "jsdom") {
 					moduleFolder = defaultModuleFolder;
 				} else {

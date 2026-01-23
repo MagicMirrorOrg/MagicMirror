@@ -80,7 +80,7 @@ describe("Newsfeed module", () => {
 
 describe("Newsfeed module located in config directory", () => {
 	beforeAll(() => {
-		fs.cpSync(`${global.root_path}/modules/default/newsfeed`, `${global.root_path}/config/newsfeed`, { recursive: true });
+		fs.cpSync(`${global.root_path}/default/modules/newsfeed`, `${global.root_path}/config/newsfeed`, { recursive: true });
 		process.env.MM_MODULES_DIR = "config";
 	});
 

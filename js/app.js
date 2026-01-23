@@ -13,7 +13,7 @@ global.root_path = path.resolve(`${__dirname}/../`);
 const Server = require(`${__dirname}/server`);
 const Utils = require(`${__dirname}/utils`);
 
-const defaultModules = require(`${global.root_path}/modules/default/defaultmodules`);
+const defaultModules = require(`${global.root_path}/default/modules/defaultmodules`);
 // used to control fetch timeout for node_helpers
 const { setGlobalDispatcher, Agent } = require("undici");
 const { getEnvVarsAsObj, getConfigFilePath } = require("#server_functions");
@@ -185,7 +185,7 @@ function App () {
 		let moduleFolder = path.resolve(`${global.root_path}/${env.modulesDir}`, module);
 
 		if (defaultModules.includes(moduleName)) {
-			const defaultModuleFolder = path.resolve(`${global.root_path}/modules/default/`, module);
+			const defaultModuleFolder = path.resolve(`${global.root_path}/default/modules/`, module);
 			if (!global.mmTestMode) {
 				moduleFolder = defaultModuleFolder;
 			} else {

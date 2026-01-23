@@ -19,7 +19,7 @@ async function createGitHelper (fsStatSyncMockRef, loggerMockRef, execShellSpyRe
 
 	vi.doMock("logger", () => loggerMockRef.current);
 
-	const gitHelperModule = await import("../../../modules/default/updatenotification/git_helper");
+	const gitHelperModule = await import("../../../default/modules/updatenotification/git_helper");
 	const GitHelper = gitHelperModule.default || gitHelperModule;
 	const instance = new GitHelper();
 	execShellSpyRef.current = vi.spyOn(instance, "execShell");
