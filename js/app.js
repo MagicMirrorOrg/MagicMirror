@@ -13,7 +13,6 @@ global.root_path = path.resolve(`${__dirname}/../`);
 const Server = require(`${__dirname}/server`);
 const Utils = require(`${__dirname}/utils`);
 
-const defaultModules = require(`${global.root_path}/defaultmodules/defaultmodules`);
 // used to control fetch timeout for node_helpers
 const { setGlobalDispatcher, Agent } = require("undici");
 const { getEnvVarsAsObj, getConfigFilePath } = require("#server_functions");
@@ -57,6 +56,7 @@ process.on("uncaughtException", function (err) {
 function App () {
 	let nodeHelpers = [];
 	let httpServer;
+	let defaultModules;
 
 	/**
 	 * Loads the config file. Combines it with the defaults and returns the config
@@ -185,7 +185,7 @@ function App () {
 		let moduleFolder = path.resolve(`${global.root_path}/${env.modulesDir}`, module);
 
 		if (defaultModules.includes(moduleName)) {
-			const defaultModuleFolder = path.resolve(`${global.root_path}/defaultmodules/`, module);
+			const defaultModuleFolder = path.resolve(`${global.root_path}/${global.defaultModulesDir}/`, module);
 			if (!global.mmTestMode) {
 				moduleFolder = defaultModuleFolder;
 			} else {
@@ -290,6 +290,9 @@ function App () {
 	 */
 	this.start = async function () {
 		config = await loadConfig();
+
+		global.defaultModulesDir = config.defaultModulesDir;
+		defaultModules = require(`${global.root_path}/${global.defaultModulesDir}/defaultmodules`);
 
 		Log.setLogLevel(config.logLevel);
 

@@ -1,5 +1,7 @@
 global.moment = require("moment-timezone");
-const { performWebRequest, formatTime } = require("../../../../defaultmodules/utils");
+const defaults = require("../../../../js/defaults");
+
+const { performWebRequest, formatTime } = require(`../../../../${defaults.defaultModulesDir}/utils`);
 
 describe("Default modules utils tests", () => {
 	describe("performWebRequest", () => {

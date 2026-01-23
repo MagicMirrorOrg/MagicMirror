@@ -17,6 +17,7 @@ const Loader = (function () {
 	const getEnvVarsFromConfig = function () {
 		return {
 			modulesDir: config.foreignModulesDir || "modules",
+			defaultModulesDir: config.defaultModulesDir || "defaultmodules",
 			customCss: config.customCss || "css/custom.css"
 		};
 	};
@@ -103,7 +104,7 @@ const Loader = (function () {
 			let moduleFolder = `${envVars.modulesDir}/${module}`;
 
 			if (defaultModules.indexOf(moduleName) !== -1) {
-				const defaultModuleFolder = `defaultmodules/${module}`;
+				const defaultModuleFolder = `${envVars.defaultModulesDir}/${module}`;
 				if (window.name !== "jsdom") {
 					moduleFolder = defaultModuleFolder;
 				} else {

@@ -16,12 +16,13 @@ describe("Compliments module", () => {
 		global.Cron = vi.fn();
 
 		// Load the module
-		require("../../../../../defaultmodules/compliments/compliments");
+		const defaults = require("../../../../../js/defaults");
+		require(`../../../../../${defaults.defaultModulesDir}/compliments/compliments`);
 
 		// Setup module instance
 		complimentsModule.config = { ...complimentsModule.defaults };
 		complimentsModule.name = "compliments";
-		complimentsModule.file = vi.fn((path) => `http://localhost:8080/defaultmodules/compliments/${path}`);
+		complimentsModule.file = vi.fn((path) => `http://localhost:8080/${defaults.defaultModulesDir}/compliments/${path}`);
 	});
 
 	afterEach(() => {

@@ -162,7 +162,7 @@ function getUserAgent () {
  * @returns {object} environment variables key: values
  */
 function getEnvVarsAsObj () {
-	const obj = { modulesDir: `${config.foreignModulesDir}`, customCss: `${config.customCss}` };
+	const obj = { modulesDir: `${config.foreignModulesDir}`, defaultModulesDir: `${config.defaultModulesDir}`, customCss: `${config.customCss}` };
 	if (process.env.MM_MODULES_DIR) {
 		obj.modulesDir = process.env.MM_MODULES_DIR.replace(`${global.root_path}/`, "");
 	}

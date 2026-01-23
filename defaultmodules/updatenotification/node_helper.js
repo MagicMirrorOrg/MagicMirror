@@ -2,7 +2,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const NodeHelper = require("node_helper");
 
-const defaultModules = require(`${global.root_path}/defaultmodules/defaultmodules`);
+const defaultModules = require(`${global.root_path}/${global.defaultModulesDir}/defaultmodules`);
 const GitHelper = require("./git_helper");
 const UpdateHelper = require("./update_helper");
 
