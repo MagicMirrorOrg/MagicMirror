@@ -69,7 +69,7 @@ jobs:
           sudo chmod 4755 ./node_modules/electron/dist/chrome-sandbox
           # Start labwc
           WLR_BACKENDS=headless WLR_LIBINPUT_NO_DEVICES=1 WLR_RENDERER=pixman labwc &
-          touch css/custom.css
+          touch config/custom.css
       - name: "Run tests"
         run: |
           export WAYLAND_DISPLAY=wayland-0

@@ -57,6 +57,7 @@ function App () {
 	let nodeHelpers = [];
 	let httpServer;
 	let defaultModules;
+	let env;
 
 	/**
 	 * Loads the config file. Combines it with the defaults and returns the config
@@ -181,7 +182,6 @@ function App () {
 	function loadModule (module) {
 		const elements = module.split("/");
 		const moduleName = elements[elements.length - 1];
-		const env = getEnvVarsAsObj();
 		let moduleFolder = path.resolve(`${global.root_path}/${env.modulesDir}`, module);
 
 		if (defaultModules.includes(moduleName)) {
@@ -295,6 +295,17 @@ function App () {
 		defaultModules = require(`${global.root_path}/${global.defaultModulesDir}/defaultmodules`);
 
 		Log.setLogLevel(config.logLevel);
+
+		env = getEnvVarsAsObj();
+		// check for deprecated css/custom.css and move it to new location
+		if ((!fs.existsSync(`${global.root_path}/${env.customCss}`)) && (fs.existsSync(`${global.root_path}/css/custom.css`))) {
+			try {
+				fs.renameSync(`${global.root_path}/css/custom.css`, `${global.root_path}/${env.customCss}`);
+				Log.warn(`WARNING! Your custom css file was moved from ${global.root_path}/css/custom.css to ${global.root_path}/${env.customCss}`);
+			} catch (err) {
+				Log.warn("WARNING! Your custom css file is currently located in the css folder. Please move it to the config folder!");
+			}
+		}
 
 		// get the used module positions
 		Utils.getModulePositions();

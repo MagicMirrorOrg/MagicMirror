@@ -18,7 +18,7 @@ const defaults = {
 	timeFormat: 24,
 	units: "metric",
 	zoom: 1,
-	customCss: "css/custom.css",
+	customCss: "config/custom.css",
 	foreignModulesDir: "modules",
 	defaultModulesDir: "defaultmodules",
 	// httpHeaders used by helmet, see https://helmetjs.github.io/. You can add other/more object values by overriding this in config.js,

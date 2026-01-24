@@ -18,7 +18,7 @@ const Loader = (function () {
 		return {
 			modulesDir: config.foreignModulesDir || "modules",
 			defaultModulesDir: config.defaultModulesDir || "defaultmodules",
-			customCss: config.customCss || "css/custom.css"
+			customCss: config.customCss || "config/custom.css"
 		};
 	};
 
@@ -262,7 +262,7 @@ const Loader = (function () {
 
 		/**
 		 * Load a file (script or stylesheet).
-		 * Prevent double loading and search for files in the vendor folder.
+		 * Prevent double loading and search for files defined in js/vendor.js.
 		 * @param {string} fileName Path of the file we want to load.
 		 * @param {Module} module The module that calls the loadFile function.
 		 * @returns {Promise} resolved when the file is loaded
@@ -281,8 +281,8 @@ const Loader = (function () {
 			}
 
 			if (vendor[fileName] !== undefined) {
-				// This file is available in the vendor folder.
-				// Load it from this vendor folder.
+				// This file is defined in js/vendor.js.
+				// Load it from its location.
 				loadedFiles.push(fileName.toLowerCase());
 				return loadFile(`${vendor[fileName]}`);
 			}
