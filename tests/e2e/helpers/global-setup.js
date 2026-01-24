@@ -88,7 +88,6 @@ exports.getPage = () => {
 	return page;
 };
 
-
 exports.startApplication = async (configFilename, exec) => {
 	vi.resetModules();
 

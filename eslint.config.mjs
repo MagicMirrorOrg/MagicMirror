@@ -1,6 +1,6 @@
-import {defineConfig, globalIgnores} from "eslint/config";
+import { defineConfig, globalIgnores } from "eslint/config";
 import globals from "globals";
-import {flatConfigs as importX} from "eslint-plugin-import-x";
+import { flatConfigs as importX } from "eslint-plugin-import-x";
 import js from "@eslint/js";
 import jsdocPlugin from "eslint-plugin-jsdoc";
 import packageJson from "eslint-plugin-package-json";
@@ -24,26 +24,25 @@ export default defineConfig([
 				moment: "readonly"
 			}
 		},
-		plugins: {js, stylistic},
-		extends: [importX.recommended, "js/recommended", jsdocPlugin.configs["flat/recommended"], "stylistic/all"],
+		plugins: { js, stylistic },
+		extends: [importX.recommended, "js/recommended", jsdocPlugin.configs["flat/recommended"], stylistic.configs.customize({ indent: "tab", quotes: "double", semi: true, commaDangle: "never" })],
 		rules: {
 			"@stylistic/array-element-newline": ["error", "consistent"],
 			"@stylistic/arrow-parens": ["error", "always"],
 			"@stylistic/brace-style": "off",
-			"@stylistic/comma-dangle": ["error", "never"],
 			"@stylistic/dot-location": ["error", "property"],
 			"@stylistic/function-call-argument-newline": ["error", "consistent"],
 			"@stylistic/function-paren-newline": ["error", "consistent"],
 			"@stylistic/implicit-arrow-linebreak": ["error", "beside"],
 			"@stylistic/indent": ["error", "tab"],
-			"@stylistic/max-statements-per-line": ["error", {max: 2}],
+			"@stylistic/max-statements-per-line": ["error", { max: 2 }],
 			"@stylistic/multiline-comment-style": "off",
 			"@stylistic/multiline-ternary": ["error", "always-multiline"],
-			"@stylistic/newline-per-chained-call": ["error", {ignoreChainWithDepth: 4}],
+			"@stylistic/newline-per-chained-call": ["error", { ignoreChainWithDepth: 4 }],
 			"@stylistic/no-extra-parens": "off",
 			"@stylistic/no-tabs": "off",
 			"@stylistic/object-curly-spacing": ["error", "always"],
-			"@stylistic/object-property-newline": ["error", {allowAllPropertiesOnSameLine: true}],
+			"@stylistic/object-property-newline": ["error", { allowAllPropertiesOnSameLine: true }],
 			"@stylistic/operator-linebreak": ["error", "before"],
 			"@stylistic/padded-blocks": "off",
 			"@stylistic/quote-props": ["error", "as-needed"],
@@ -86,11 +85,11 @@ export default defineConfig([
 			"js/logger.js",
 			"tests/**/*.js"
 		],
-		rules: {"no-console": "error"}
+		rules: { "no-console": "error" }
 	},
 	{
 		files: ["**/package.json"],
-		plugins: {packageJson},
+		plugins: { packageJson },
 		extends: ["packageJson/recommended"]
 	},
 	{
@@ -102,15 +101,15 @@ export default defineConfig([
 			},
 			sourceType: "module"
 		},
-		plugins: {js, stylistic},
-		extends: [importX.recommended, "js/all", "stylistic/all"],
+		plugins: { js, stylistic },
+		extends: [importX.recommended, "js/all", stylistic.configs.customize({ indent: "tab", quotes: "double", semi: true, commaDangle: "never" })],
 		rules: {
 			"@stylistic/array-element-newline": "off",
 			"@stylistic/indent": ["error", "tab"],
-			"@stylistic/object-property-newline": ["error", {allowAllPropertiesOnSameLine: true}],
+			"@stylistic/object-property-newline": ["error", { allowAllPropertiesOnSameLine: true }],
 			"@stylistic/padded-blocks": ["error", "never"],
 			"@stylistic/quote-props": ["error", "as-needed"],
-			"import-x/no-unresolved": ["error", {ignore: ["eslint/config"]}],
+			"import-x/no-unresolved": ["error", { ignore: ["eslint/config"] }],
 			"max-lines-per-function": ["error", 100],
 			"no-magic-numbers": "off",
 			"one-var": ["error", "never"],
@@ -124,7 +123,7 @@ export default defineConfig([
 				...vitest.environments.env.globals
 			}
 		},
-		plugins: {vitest},
+		plugins: { vitest },
 		extends: [vitest.configs.recommended],
 		rules: {
 			"vitest/consistent-test-it": "error",
@@ -142,7 +141,7 @@ export default defineConfig([
 					]
 				}
 			],
-			"vitest/max-nested-describe": ["error", {max: 3}],
+			"vitest/max-nested-describe": ["error", { max: 3 }],
 			"vitest/prefer-to-be": "error",
 			"vitest/prefer-to-have-length": "error"
 		}

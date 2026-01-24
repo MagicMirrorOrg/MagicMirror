@@ -1,4 +1,4 @@
-import {defineConfig} from "vitest/config";
+import { defineConfig } from "vitest/config";
 
 /*
  * Sequential execution keeps our shared test server stable:

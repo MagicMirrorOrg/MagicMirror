@@ -440,4 +440,3 @@ describe("fetch() method", () => {
 		expect(errorInfo.errorType).toBe("NETWORK_ERROR");
 	});
 });
-
