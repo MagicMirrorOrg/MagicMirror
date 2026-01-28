@@ -27,9 +27,6 @@
 	],
 	"type": "commonjs",
 	"imports": {
-		"#module_functions": {
-			"default": "./js/module_functions.js"
-		},
 		"#server_functions": {
 			"default": "./js/server_functions.js"
 		},

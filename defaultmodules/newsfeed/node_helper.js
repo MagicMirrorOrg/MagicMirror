@@ -26,8 +26,7 @@ module.exports = NodeHelper.create({
 		const url = feed.url || "";
 		const encoding = feed.encoding || "UTF-8";
 		const reloadInterval = feed.reloadInterval || config.reloadInterval || 5 * 60 * 1000;
-		let useCorsProxy = feed.useCorsProxy;
-		if (useCorsProxy === undefined) useCorsProxy = true;
+		const useCorsProxy = feed.useCorsProxy ?? true;
 
 		try {
 			new URL(url);
@@ -46,11 +45,10 @@ module.exports = NodeHelper.create({
 				this.broadcastFeeds();
 			});
 
-			fetcher.onError((fetcher, error) => {
-				Log.error("Error: Could not fetch newsfeed: ", url, error);
-				let error_type = NodeHelper.checkFetchError(error);
+			fetcher.onError((fetcher, errorInfo) => {
+				Log.error("Error: Could not fetch newsfeed: ", fetcher.url, errorInfo.message || errorInfo);
 				this.sendSocketNotification("NEWSFEED_ERROR", {
-					error_type
+					error_type: errorInfo.translationKey
 				});
 			});
 
@@ -71,8 +69,8 @@ module.exports = NodeHelper.create({
 	 */
 	broadcastFeeds () {
 		const feeds = {};
-		for (let f in this.fetchers) {
-			feeds[f] = this.fetchers[f].items();
+		for (const url in this.fetchers) {
+			feeds[url] = this.fetchers[url].items;
 		}
 		this.sendSocketNotification("NEWS_ITEMS", feeds);
 	}
