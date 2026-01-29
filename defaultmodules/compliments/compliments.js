@@ -4,11 +4,34 @@ Module.register("compliments", {
 	// Module config defaults.
 	defaults: {
 		compliments: {
-			anytime: ["Hey there sexy!"],
-			morning: ["Good morning, handsome!", "Enjoy your day!", "How was your sleep?"],
-			afternoon: ["Hello, beauty!", "You look sexy!", "Looking good today!"],
-			evening: ["Wow, you look hot!", "You look nice!", "Hi, sexy!"],
-			"....-01-01": ["Happy new year!"]
+			anytime: [
+				"Unstoppable energy today!",
+				"Confidence looks incredible on you.",
+				"The room lights up when you walk in.",
+				"Radiating pure excellence!"
+			],
+			morning: [
+				"Go get 'em, Legend!",
+				"The world is better because you're in it.",
+				"Fresh, sharp, and ready to win.",
+				"Dream big, look better."
+			],
+			afternoon: [
+				"Crushing your goals, as usual.",
+				"Still looking flawless at the halfway mark.",
+				"Style: 10/10. Performance: 10/10.",
+				"Take a second to admire that hustle."
+			],
+			evening: [
+				"That post-work glow is real.",
+				"Suave, sophisticated, and successful.",
+				"Whatever you did today, you made it look easy.",
+				"Effortlessly handsome tonight."
+			],
+			"....-01-01": [
+				"New Year, same powerhouse.",
+				"A fresh 365 days for you to dominate."
+			]
 		},
 		updateInterval: 30000,
 		remoteFile: null,
