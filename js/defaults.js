@@ -9,7 +9,6 @@ const defaults = {
 	address: address,
 	port: port,
 	basePath: "/",
-	kioskmode: false,
 	electronOptions: {},
 	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1"],
 

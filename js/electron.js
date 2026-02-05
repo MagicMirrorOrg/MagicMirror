@@ -60,19 +60,11 @@ function createWindow () {
 		backgroundColor: "#000000"
 	};
 
-	/*
-	 * DEPRECATED: "kioskmode" backwards compatibility, to be removed
-	 * settings these options directly instead provides cleaner interface
-	 */
-	if (config.kioskmode) {
-		electronOptionsDefaults.kiosk = true;
-	} else {
-		electronOptionsDefaults.show = false;
-		electronOptionsDefaults.frame = false;
-		electronOptionsDefaults.transparent = true;
-		electronOptionsDefaults.hasShadow = false;
-		electronOptionsDefaults.fullscreen = true;
-	}
+	electronOptionsDefaults.show = false;
+	electronOptionsDefaults.frame = false;
+	electronOptionsDefaults.transparent = true;
+	electronOptionsDefaults.hasShadow = false;
+	electronOptionsDefaults.fullscreen = true;
 
 	const electronOptions = Object.assign({}, electronOptionsDefaults, config.electronOptions);
 
@@ -131,22 +123,6 @@ function createWindow () {
 	mainWindow.on("closed", function () {
 		mainWindow = null;
 	});
-
-	if (config.kioskmode) {
-		mainWindow.on("blur", function () {
-			mainWindow.focus();
-		});
-
-		mainWindow.on("leave-full-screen", function () {
-			mainWindow.setFullScreen(true);
-		});
-
-		mainWindow.on("resize", function () {
-			setTimeout(function () {
-				mainWindow.reload();
-			}, 1000);
-		});
-	}
 
 	//remove response headers that prevent sites of being embedded into iframes if configured
 	mainWindow.webContents.session.webRequest.onHeadersReceived((details, callback) => {
