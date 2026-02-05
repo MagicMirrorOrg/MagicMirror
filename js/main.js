@@ -470,17 +470,15 @@ const MM = (function () {
 	};
 
 	/**
-	 * Loads the core config and combines it with the system defaults.
+	 * Loads the core config from the server (already combined with the system defaults).
 	 */
-	const loadConfig = function () {
-		// FIXME: Think about how to pass config around without breaking tests
-		if (typeof config === "undefined") {
-			config = defaults;
-			Log.error("Config file is missing! Please create a config file.");
-			return;
+	const loadConfig = async function () {
+		try {
+			const res = await fetch(new URL("config/", `${location.origin}${config.basePath}`));
+			config = JSON.parse(await res.text());
+		} catch (error) {
+			Log.error("Unable to retrieve config", error);
 		}
-
-		config = Object.assign({}, defaults, config);
 	};
 
 	/**
@@ -582,7 +580,7 @@ const MM = (function () {
 		 */
 		async init () {
 			Log.info("Initializing MagicMirror².");
-			loadConfig();
+			await loadConfig();
 
 			Log.setLogLevel(config.logLevel);
 

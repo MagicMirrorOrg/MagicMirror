@@ -5,15 +5,6 @@ const Log = require("logger");
 const startUp = new Date();
 
 /**
- * Gets the config.
- * @param {Request} req - the request
- * @param {Response} res - the result
- */
-function getConfig (req, res) {
-	res.send(config);
-}
-
-/**
  * Gets the startup time.
  * @param {Request} req - the request
  * @param {Response} res - the result
@@ -118,12 +109,6 @@ function getHtml (req, res) {
 	html = html.replace("#VERSION#", global.version);
 	html = html.replace("#TESTMODE#", global.mmTestMode);
 
-	let configFile = "config/config.js";
-	if (typeof global.configuration_file !== "undefined") {
-		configFile = global.configuration_file;
-	}
-	html = html.replace("#CONFIG_FILE#", configFile);
-
 	res.send(html);
 }
 
@@ -201,4 +186,4 @@ function getConfigFilePath () {
 	return path.resolve(global.configuration_file || `${global.root_path}/config/config.js`);
 }
 
-module.exports = { cors, getConfig, getHtml, getVersion, getStartup, getEnvVars, getEnvVarsAsObj, getUserAgent, getConfigFilePath };
+module.exports = { cors, getHtml, getVersion, getStartup, getEnvVars, getEnvVarsAsObj, getUserAgent, getConfigFilePath };

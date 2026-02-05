@@ -6,7 +6,7 @@ const express = require("express");
 const helmet = require("helmet");
 const socketio = require("socket.io");
 const Log = require("logger");
-const { cors, getConfig, getHtml, getVersion, getStartup, getEnvVars } = require("#server_functions");
+const { cors, getHtml, getVersion, getStartup, getEnvVars } = require("#server_functions");
 
 const { ipAccessControl } = require(`${__dirname}/ip_access_control`);
 
@@ -14,10 +14,11 @@ const vendor = require(`${__dirname}/vendor`);
 
 /**
  * Server
- * @param {object} config The MM config
+ * @param {object} configObj The MM config full and redacted
  * @class
  */
-function Server (config) {
+function Server (configObj) {
+	const config = configObj.fullConf;
 	const app = express();
 	const port = process.env.MM_PORT || config.port;
 	const serverSockets = new Set();
@@ -89,6 +90,12 @@ function Server (config) {
 			app.use(helmet(config.httpHeaders));
 			app.use("/js", express.static(__dirname));
 
+			if (config.hideConfigSecrets) {
+				app.get("/config/config.env", (req, res) => {
+					res.status(404).send("<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /config/config.env</pre>\n</body>\n</html>");
+				});
+			}
+
 			let directories = ["/config", "/css", "/favicon.svg", "/defaultmodules", "/modules", "/node_modules/animate.css", "/node_modules/@fontsource", "/node_modules/@fortawesome", "/translations", "/tests/configs", "/tests/mocks"];
 			for (const [key, value] of Object.entries(vendor)) {
 				const dirArr = value.split("/");
@@ -98,6 +105,14 @@ function Server (config) {
 			for (const directory of uniqDirs) {
 				app.use(directory, express.static(path.resolve(global.root_path + directory)));
 			}
+
+			const getConfig = (req, res) => {
+				if (config.hideConfigSecrets) {
+					res.send(configObj.redactedConf);
+				} else {
+					res.send(configObj.fullConf);
+				}
+			};
 
 			app.get("/cors", async (req, res) => await cors(req, res));
 

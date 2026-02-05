@@ -4,7 +4,6 @@ require("./alias-resolver");
 const fs = require("node:fs");
 const path = require("node:path");
 const Spawn = require("node:child_process").spawn;
-const envsub = require("envsub");
 const Log = require("logger");
 
 // global absolute root path
@@ -15,7 +14,7 @@ const Utils = require(`${__dirname}/utils`);
 
 // used to control fetch timeout for node_helpers
 const { setGlobalDispatcher, Agent } = require("undici");
-const { getEnvVarsAsObj, getConfigFilePath } = require("#server_functions");
+const { getEnvVarsAsObj } = require("#server_functions");
 // common timeout value, provide environment override in case
 const fetch_timeout = process.env.mmFetchTimeout !== undefined ? process.env.mmFetchTimeout : 30000;
 
@@ -58,122 +57,6 @@ function App () {
 	let httpServer;
 	let defaultModules;
 	let env;
-
-	/**
-	 * Loads the config file. Combines it with the defaults and returns the config
-	 * @async
-	 * @returns {Promise<object>} the loaded config or the defaults if something goes wrong
-	 */
-	async function loadConfig () {
-		Log.log("Loading config ...");
-		const defaults = require(`${__dirname}/defaults`);
-		if (global.mmTestMode) {
-			// if we are running in test mode
-			defaults.address = "0.0.0.0";
-		}
-
-		// For this check proposed to TestSuite
-		// https://forum.magicmirror.builders/topic/1456/test-suite-for-magicmirror/8
-		const configFilename = getConfigFilePath();
-		let templateFile = `${configFilename}.template`;
-
-		// check if templateFile exists
-		try {
-			fs.accessSync(templateFile, fs.constants.F_OK);
-		} catch (err) {
-			templateFile = null;
-			Log.log("config template file not exists, no envsubst");
-		}
-
-		if (templateFile) {
-			// save current config.js
-			try {
-				if (fs.existsSync(configFilename)) {
-					fs.copyFileSync(configFilename, `${configFilename}-old`);
-				}
-			} catch (err) {
-				Log.warn(`Could not copy ${configFilename}: ${err.message}`);
-			}
-
-			// check if config.env exists
-			const envFiles = [];
-			const configEnvFile = `${configFilename.substr(0, configFilename.lastIndexOf("."))}.env`;
-			try {
-				if (fs.existsSync(configEnvFile)) {
-					envFiles.push(configEnvFile);
-				}
-			} catch (err) {
-				Log.log(`${configEnvFile} does not exist. ${err.message}`);
-			}
-
-			let options = {
-				all: true,
-				diff: false,
-				envFiles: envFiles,
-				protect: false,
-				syntax: "default",
-				system: true
-			};
-
-			// envsubst variables in templateFile and create new config.js
-			// naming for envsub must be templateFile and outputFile
-			const outputFile = configFilename;
-			try {
-				await envsub({ templateFile, outputFile, options });
-			} catch (err) {
-				Log.error(`Could not envsubst variables: ${err.message}`);
-			}
-		}
-
-		require(`${global.root_path}/js/check_config.js`);
-
-		try {
-			fs.accessSync(configFilename, fs.constants.F_OK);
-			const c = require(configFilename);
-			if (Object.keys(c).length === 0) {
-				Log.error("WARNING! Config file appears empty, maybe missing module.exports last line?");
-			}
-			checkDeprecatedOptions(c);
-			return Object.assign(defaults, c);
-		} catch (e) {
-			if (e.code === "ENOENT") {
-				Log.error("WARNING! Could not find config file. Please create one. Starting with default configuration.");
-			} else if (e instanceof ReferenceError || e instanceof SyntaxError) {
-				Log.error(`WARNING! Could not validate config file. Starting with default configuration. Please correct syntax errors at or above this line: ${e.stack}`);
-			} else {
-				Log.error(`WARNING! Could not load config file. Starting with default configuration. Error found: ${e}`);
-			}
-		}
-
-		return defaults;
-	}
-
-	/**
-	 * Checks the config for deprecated options and throws a warning in the logs
-	 * if it encounters one option from the deprecated.js list
-	 * @param {object} userConfig The user config
-	 */
-	function checkDeprecatedOptions (userConfig) {
-		const deprecated = require(`${global.root_path}/js/deprecated`);
-
-		// check for deprecated core options
-		const deprecatedOptions = deprecated.configs;
-		const usedDeprecated = deprecatedOptions.filter((option) => userConfig.hasOwnProperty(option));
-		if (usedDeprecated.length > 0) {
-			Log.warn(`WARNING! Your config is using deprecated option(s): ${usedDeprecated.join(", ")}. Check README and Documentation for more up-to-date ways of getting the same functionality.`);
-		}
-
-		// check for deprecated module options
-		for (const element of userConfig.modules) {
-			if (deprecated[element.module] !== undefined && element.config !== undefined) {
-				const deprecatedModuleOptions = deprecated[element.module];
-				const usedDeprecatedModuleOptions = deprecatedModuleOptions.filter((option) => element.config.hasOwnProperty(option));
-				if (usedDeprecatedModuleOptions.length > 0) {
-					Log.warn(`WARNING! Your config for module ${element.module} is using deprecated option(s): ${usedDeprecatedModuleOptions.join(", ")}. Check README and Documentation for more up-to-date ways of getting the same functionality.`);
-				}
-			}
-		}
-	}
 
 	/**
 	 * Loads a specific module.
@@ -289,7 +172,9 @@ function App () {
 	 * @returns {Promise<object>} the config used
 	 */
 	this.start = async function () {
-		config = await loadConfig();
+		const configObj = Utils.loadConfig();
+		config = configObj.fullConf;
+		Utils.checkConfigFile(configObj);
 
 		global.defaultModulesDir = config.defaultModulesDir;
 		defaultModules = require(`${global.root_path}/${global.defaultModulesDir}/defaultmodules`);
@@ -331,7 +216,7 @@ function App () {
 
 		await loadModules(modules);
 
-		httpServer = new Server(config);
+		httpServer = new Server(configObj);
 		const { app, io } = await httpServer.open();
 		Log.log("Server started ...");
 
