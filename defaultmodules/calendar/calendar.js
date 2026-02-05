@@ -169,9 +169,7 @@ Module.register("calendar", {
 
 	notificationReceived (notification, payload, sender) {
 		if (notification === "FETCH_CALENDAR") {
-			if (this.hasCalendarURL(payload.url)) {
-				this.sendSocketNotification(notification, { url: payload.url, id: this.identifier });
-			}
+			this.sendSocketNotification(notification, { url: payload.url, id: this.identifier });
 		}
 	},
 
@@ -183,40 +181,38 @@ Module.register("calendar", {
 		}
 
 		if (notification === "CALENDAR_EVENTS") {
-			if (this.hasCalendarURL(payload.url)) {
-				// have we received events for this url
-				if (!this.calendarData[payload.url]) {
-					// no, setup the structure to hold the info
-					this.calendarData[payload.url] = { events: null, checksum: null };
-				}
-				// save the event list
-				this.calendarData[payload.url].events = payload.events;
+			// have we received events for this url
+			if (!this.calendarData[payload.url]) {
+				// no, setup the structure to hold the info
+				this.calendarData[payload.url] = { events: null, checksum: null };
+			}
+			// save the event list
+			this.calendarData[payload.url].events = payload.events;
 
-				this.error = null;
-				this.loaded = true;
+			this.error = null;
+			this.loaded = true;
 
-				if (this.config.broadcastEvents) {
-					this.broadcastEvents();
-				}
-				// if the checksum is the same
-				if (this.calendarData[payload.url].checksum === payload.checksum) {
-					// then don't update the UI
-					return;
-				}
-				// haven't seen or the checksum is different
-				this.calendarData[payload.url].checksum = payload.checksum;
+			if (this.config.broadcastEvents) {
+				this.broadcastEvents();
+			}
+			// if the checksum is the same
+			if (this.calendarData[payload.url].checksum === payload.checksum) {
+				// then don't update the UI
+				return;
+			}
+			// haven't seen or the checksum is different
+			this.calendarData[payload.url].checksum = payload.checksum;
 
-				if (!this.config.updateOnFetch) {
-					if (this.calendarDisplayer[payload.url] === undefined) {
-						// calendar will never displayed, so display it
-						this.updateDom(this.config.animationSpeed);
-						// set this calendar as displayed
-						this.calendarDisplayer[payload.url] = true;
-					} else {
-						Log.debug("[calendar] DOM not updated waiting self update()");
-					}
-					return;
+			if (!this.config.updateOnFetch) {
+				if (this.calendarDisplayer[payload.url] === undefined) {
+					// calendar will never displayed, so display it
+					this.updateDom(this.config.animationSpeed);
+					// set this calendar as displayed
+					this.calendarDisplayer[payload.url] = true;
+				} else {
+					Log.debug("[calendar] DOM not updated waiting self update()");
 				}
+				return;
 			}
 		} else if (notification === "CALENDAR_ERROR") {
 			let error_message = this.translate(payload.error_type);
@@ -578,21 +574,6 @@ Module.register("calendar", {
 		});
 
 		return wrapper;
-	},
-
-	/**
-	 * Checks if this config contains the calendar url.
-	 * @param {string} url The calendar url
-	 * @returns {boolean} True if the calendar config contains the url, False otherwise
-	 */
-	hasCalendarURL (url) {
-		for (const calendar of this.config.calendars) {
-			if (calendar.url === url) {
-				return true;
-			}
-		}
-
-		return false;
 	},
 
 	/**
