@@ -1,6 +1,7 @@
 const express = require("express");
 const Log = require("logger");
 const Class = require("./class");
+const { replaceSecretPlaceholder } = require("#server_functions");
 
 const NodeHelper = Class.extend({
 	init () {
@@ -90,9 +91,7 @@ const NodeHelper = Class.extend({
 			socket.onAny((notification, payload) => {
 				if (config.hideConfigSecrets && payload && typeof payload === "object") {
 					try {
-						const payloadStr = JSON.stringify(payload).replaceAll(/\*\*(SECRET_[^*]+)\*\*/g, (match, group) => {
-							return process.env[group];
-						});
+						const payloadStr = replaceSecretPlaceholder(JSON.stringify(payload));
 						this.socketNotificationReceived(notification, JSON.parse(payloadStr));
 					} catch (e) {
 						Log.error("Error substituting variables in payload: ", e);

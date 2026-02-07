@@ -14,6 +14,17 @@ function getStartup (req, res) {
 }
 
 /**
+ * A method that replaces the secret placeholders `**SECRET_ABC**` with the environment variable SECRET_ABC
+ * @param {string} input - the input string
+ * @returns {string} the input with real variable content
+ */
+function replaceSecretPlaceholder (input) {
+	return input.replaceAll(/\*\*(SECRET_[^*]+)\*\*/g, (match, group) => {
+		return process.env[group];
+	});
+}
+
+/**
  * A method that forwards HTTP Get-methods to the internet to avoid CORS-errors.
  *
  * Example input request url: /cors?sendheaders=header1:value1,header2:value2&expectedheaders=header1,header2&url=http://www.test.com/path?param1=value1
@@ -35,10 +46,10 @@ async function cors (req, res) {
 			return res.status(400).send(url);
 		} else {
 			url = match[1];
-			if (config.hideConfigSecrets) {
-				url = url.replaceAll(/\*\*(SECRET_[^*]+)\*\*/g, (match, group) => {
-					return process.env[group];
-				});
+			if (typeof config !== "undefined") {
+				if (config.hideConfigSecrets) {
+					url = replaceSecretPlaceholder(url);
+				}
 			}
 
 			const headersToSend = getHeadersToSend(req.url);
@@ -191,4 +202,4 @@ function getConfigFilePath () {
 	return path.resolve(global.configuration_file || `${global.root_path}/config/config.js`);
 }
 
-module.exports = { cors, getHtml, getVersion, getStartup, getEnvVars, getEnvVarsAsObj, getUserAgent, getConfigFilePath };
+module.exports = { cors, getHtml, getVersion, getStartup, getEnvVars, getEnvVarsAsObj, getUserAgent, getConfigFilePath, replaceSecretPlaceholder };
