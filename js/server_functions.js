@@ -35,6 +35,11 @@ async function cors (req, res) {
 			return res.status(400).send(url);
 		} else {
 			url = match[1];
+			if (config.hideConfigSecrets) {
+				url = url.replaceAll(/\*\*(SECRET_[^*]+)\*\*/g, (match, group) => {
+					return process.env[group];
+				});
+			}
 
 			const headersToSend = getHeadersToSend(req.url);
 			const expectedReceivedHeaders = geExpectedReceivedHeaders(req.url);

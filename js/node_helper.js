@@ -90,7 +90,7 @@ const NodeHelper = Class.extend({
 			socket.onAny((notification, payload) => {
 				if (config.hideConfigSecrets && payload && typeof payload === "object") {
 					try {
-						const payloadStr = JSON.stringify(payload).replaceAll(/\*\*(SECRET_.*)\*\*/g, (match, group) => {
+						const payloadStr = JSON.stringify(payload).replaceAll(/\*\*(SECRET_[^*]+)\*\*/g, (match, group) => {
 							return process.env[group];
 						});
 						this.socketNotificationReceived(notification, JSON.parse(payloadStr));
