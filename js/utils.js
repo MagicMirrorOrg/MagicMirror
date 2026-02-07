@@ -129,17 +129,21 @@ const loadConfig = () => {
 	// Load config.js and catch errors if not accessible
 	try {
 		let configContent = fs.readFileSync(configFilename, "utf-8");
+		const hideConfigSecrets = configContent.match(/^\s*hideConfigSecrets: true.*$/m);
 		let configContentFull = configContent;
-		let configContentRedacted = configContent;
+		let configContentRedacted = hideConfigSecrets ? configContent : undefined;
 		Object.keys(process.env).forEach((env) => {
 			configContentFull = configContentFull.replaceAll(`\${${env}}`, process.env[env]);
-			if (env.startsWith("SECRET_")) {
-				configContentRedacted = configContentRedacted.replaceAll(`"\${${env}}"`, `"**${env}**"`);
-				configContentRedacted = configContentRedacted.replaceAll(`\${${env}}`, `"**${env}**"`);
-			} else {
-				configContentRedacted = configContentRedacted.replaceAll(`\${${env}}`, process.env[env]);
+			if (hideConfigSecrets) {
+				if (env.startsWith("SECRET_")) {
+					configContentRedacted = configContentRedacted.replaceAll(`"\${${env}}"`, `"**${env}**"`);
+					configContentRedacted = configContentRedacted.replaceAll(`\${${env}}`, `**${env}**`);
+				} else {
+					configContentRedacted = configContentRedacted.replaceAll(`\${${env}}`, process.env[env]);
+				}
 			}
 		});
+		configContentRedacted = configContentRedacted ? configContentRedacted : configContentFull;
 		const configObj = {
 			configFilename: configFilename,
 			configContentFull: configContentFull,
