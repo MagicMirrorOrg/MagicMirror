@@ -48,8 +48,7 @@ async function cors (req, res) {
 				}
 				try {
 					const arrayBuffer = await response.arrayBuffer();
-					const buffer = Buffer.from(arrayBuffer);
-					res.send(buffer);
+					res.send(Buffer.from(arrayBuffer));
 				} catch (error) {
 					const data = await response.text();
 					res.send(data);
