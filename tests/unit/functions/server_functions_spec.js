@@ -1,6 +1,23 @@
-const { cors, getUserAgent } = require("#server_functions");
+const { cors, getUserAgent, replaceSecretPlaceholder } = require("#server_functions");
 
 describe("server_functions tests", () => {
+	describe("The replaceSecretPlaceholder method", () => {
+		it("Calls string without secret placeholder", () => {
+			const teststring = "test string without secret placeholder";
+			const result = replaceSecretPlaceholder(teststring);
+			expect(result).toBe(teststring);
+		});
+
+		it("Calls string with 2 secret placeholders", () => {
+			const teststring = "test string with secret1=**SECRET_ONE** and secret2=**SECRET_TWO**";
+			process.env.SECRET_ONE = "secret1";
+			process.env.SECRET_TWO = "secret2";
+			const resultstring = `test string with secret1=${process.env.SECRET_ONE} and secret2=${process.env.SECRET_TWO}`;
+			const result = replaceSecretPlaceholder(teststring);
+			expect(result).toBe(resultstring);
+		});
+	});
+
 	describe("The cors method", () => {
 		let fetchResponse;
 		let fetchResponseHeadersGet;
