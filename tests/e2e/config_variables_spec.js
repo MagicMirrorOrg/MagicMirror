@@ -6,6 +6,10 @@ describe("config with variables and secrets", () => {
 		await helpers.startApplication("tests/configs/config_variables.js");
 	});
 
+	afterAll(async () => {
+		await helpers.stopApplication();
+	});
+
 	it("config.language should be \"de\"", async () => {
 		expect(config.language).toBe("de");
 	});
