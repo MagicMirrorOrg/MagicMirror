@@ -46,13 +46,8 @@ async function cors (req, res) {
 					const headerValue = response.headers.get(header);
 					if (header) res.set(header, headerValue);
 				}
-				try {
-					const arrayBuffer = await response.arrayBuffer();
-					res.send(Buffer.from(arrayBuffer));
-				} catch (error) {
-					const data = await response.text();
-					res.send(data);
-				}
+				const arrayBuffer = await response.arrayBuffer();
+				res.send(Buffer.from(arrayBuffer));
 			} else {
 				throw new Error(`Response status: ${response.status}`);
 			}

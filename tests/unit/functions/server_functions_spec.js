@@ -4,19 +4,19 @@ describe("server_functions tests", () => {
 	describe("The cors method", () => {
 		let fetchResponse;
 		let fetchResponseHeadersGet;
-		let fetchResponseHeadersText;
+		let fetchResponseArrayBuffer;
 		let corsResponse;
 		let request;
 		let fetchMock;
 
 		beforeEach(() => {
 			fetchResponseHeadersGet = vi.fn(() => {});
-			fetchResponseHeadersText = vi.fn(() => {});
+			fetchResponseArrayBuffer = vi.fn(() => {});
 			fetchResponse = {
 				headers: {
 					get: fetchResponseHeadersGet
 				},
-				text: fetchResponseHeadersText,
+				arrayBuffer: fetchResponseArrayBuffer,
 				ok: true
 			};
 
@@ -78,7 +78,9 @@ describe("server_functions tests", () => {
 
 		it("Sends correct data from response", async () => {
 			const responseData = "some data";
-			fetchResponseHeadersText.mockImplementation(() => responseData);
+			const encoder = new TextEncoder();
+			const arrayBuffer = encoder.encode(responseData).buffer;
+			fetchResponseArrayBuffer.mockImplementation(() => arrayBuffer);
 
 			let sentData;
 			corsResponse.send = vi.fn((input) => {
@@ -87,19 +89,19 @@ describe("server_functions tests", () => {
 
 			await cors(request, corsResponse);
 
-			expect(fetchResponseHeadersText.mock.calls).toHaveLength(1);
-			expect(sentData).toBe(responseData);
+			expect(fetchResponseArrayBuffer.mock.calls).toHaveLength(1);
+			expect(sentData).toEqual(Buffer.from(arrayBuffer));
 		});
 
 		it("Sends error data from response", async () => {
 			const error = new Error("error data");
-			fetchResponseHeadersText.mockImplementation(() => {
+			fetchResponseArrayBuffer.mockImplementation(() => {
 				throw error;
 			});
 
 			await cors(request, corsResponse);
 
-			expect(fetchResponseHeadersText.mock.calls).toHaveLength(1);
+			expect(fetchResponseArrayBuffer.mock.calls).toHaveLength(1);
 			expect(corsResponse.status).toHaveBeenCalledWith(500);
 			expect(corsResponse.json).toHaveBeenCalledWith({ error: error.message });
 		});
