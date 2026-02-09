@@ -1,4 +1,3 @@
-const defaults = require("../../js/defaults");
 const helpers = require("./helpers/global-setup");
 
 describe("config with variables and secrets", () => {
@@ -14,18 +13,22 @@ describe("config with variables and secrets", () => {
 		expect(config.language).toBe("de");
 	});
 
-	it("config.loglevel should be default", async () => {
-		expect(config.logLevel).toStrictEqual(defaults.logLevel);
+	it("config.loglevel should be [\"ERROR\", \"LOG\", \"WARN\", \"INFO\"]", async () => {
+		expect(config.logLevel).toStrictEqual(["ERROR", "LOG", "WARN", "INFO"]);
 	});
 
-	it("config.ipWhitelist should be default", async () => {
-		expect(config.ipWhitelist).toStrictEqual(defaults.ipWhitelist);
+	it("config.ipWhitelist should be [\"::ffff:127.0.0.1\", \"::1\", \"127.0.0.1\"]", async () => {
+		expect(config.ipWhitelist).toStrictEqual(["::ffff:127.0.0.1", "::1", "127.0.0.1"]);
+	});
+
+	it("config.timeFormat should be 12", async () => {
+		expect(config.timeFormat).toBe(12); // default is 24
 	});
 
 	it("/config endpoint should show redacted secrets", async () => {
 		const res = await fetch(`http://localhost:${config.port}/config`);
 		expect(res.status).toBe(200);
 		const cfg = await res.json();
-		expect(cfg.ipWhitelist).toStrictEqual(["**SECRET_IP1**", "**SECRET_IP2**", "::**SECRET_IP3**"]);
+		expect(cfg.ipWhitelist).toStrictEqual(["**SECRET_IP2**", "::**SECRET_IP3**", "**SECRET_IP1**"]);
 	});
 });
