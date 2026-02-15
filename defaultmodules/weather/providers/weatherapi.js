@@ -70,8 +70,8 @@ WeatherProvider.register("weatherapi", {
 			.map((v) => `${v}`.trim())
 			.filter((v) => v !== "");
 
-		if (locationParts.length === 0) {
-			this.setFetchLocation(locationParts.join(", ").trim());
+		if (locationParts.length > 0) {
+			this.setFetchedLocation(locationParts.join(", ").trim());
 		}
 
 		return responseData;
@@ -291,7 +291,7 @@ WeatherProvider.register("weatherapi", {
 			case "NNW":
 				return (326.25 + 348.75) / 2;
 			default:
-				return "N";
+				return 0; // North by default
 		}
 	},
 
@@ -316,7 +316,8 @@ WeatherProvider.register("weatherapi", {
 		currentWeather.minTemperature = parseFloat(weather.day.mintemp_c);
 		currentWeather.maxTemperature = parseFloat(weather.day.maxtemp_c);
 		currentWeather.snow = parseFloat(data.current.snow_cm * 10);
-		currentWeather.precipitationAmount = parseFloat(data.current.precip_mm);
+		currentWeather.rain = parseFloat(data.current.precip_mm);
+		currentWeather.precipitationAmount = currentWeather.rain + currentWeather.snow;
 		currentWeather.uv_index = parseFloat(data.current.uv);
 
 		return currentWeather;
@@ -331,7 +332,7 @@ WeatherProvider.register("weatherapi", {
 			const refTime = moment(fd.date, "YYYY-MM-DD").format("YYYY-MM-DD HH:00");
 			const sameTime = fd.hour.find((h) => h.time === refTime);
 
-			const precipitationPropability
+			const precipitationProbability
 				= (fd.hour.reduce((acc, h) => {
 					const idxValue = ((h.will_it_rain ?? 0) + (h.will_it_snow ?? 0)) / 2;
 					return acc + idxValue;
@@ -346,8 +347,8 @@ WeatherProvider.register("weatherapi", {
 				fd.day.condition.code,
 				true
 			);
-			weather.windSpeed = fd.day.maxwind_kph * 0.2778;
-			weather.windFromDirection = this.cardinalWindDirection(sameTime.wind_dir);
+			weather.windSpeed = parseFloat(fd.day.maxwind_kph) * 0.2778;
+			weather.windFromDirection = this.cardinalWindDirection(sameTime?.wind_dir);
 			weather.sunrise = this.parseSunDatetime(fd, "sunrise");
 			weather.sunset = this.parseSunDatetime(fd, "sunset");
 			weather.temperature = parseFloat(fd.day.avgtemp_c);
@@ -355,7 +356,7 @@ WeatherProvider.register("weatherapi", {
 			weather.snow = parseFloat(fd.day.totalsnow_cm * 10);
 			weather.rain = parseFloat(fd.day.totalprecip_mm);
 			weather.precipitationAmount = weather.rain + weather.snow;
-			weather.precipitationPropability = precipitationPropability;
+			weather.precipitationProbability = precipitationProbability;
 			weather.uv_index = parseFloat(fd.day.uv);
 
 			days.push(weather);
@@ -389,7 +390,7 @@ WeatherProvider.register("weatherapi", {
 				weather.minTemperature = parseFloat(fd.day.mintemp_c);
 				weather.maxTemperature = parseFloat(fd.day.maxtemp_c);
 				weather.humidity = parseFloat(h.humidity);
-				weather.windSpeed = fd.day.maxwind_kph * 0.2778;
+				weather.windSpeed = parseFloat(fd.day.maxwind_kph) * 0.2778;
 				weather.windFromDirection = this.cardinalWindDirection(h.wind_dir);
 				weather.weatherType = this.convertWeatherType(
 					h.condition.code,
@@ -439,7 +440,7 @@ WeatherProvider.register("weatherapi", {
 			1168: { day: "day-sprinkle", night: "night-sprinkle" },
 			1171: { day: "day-sprinkle", night: "night-sprinkle" },
 			1180: { day: "day-sprinkle", night: "night-sprinkle" },
-			1183: { day: "Light rain", night: "Light rain" },
+			1183: { day: "day-sprinkle", night: "night-sprinkle" },
 			1186: { day: "day-showers", night: "night-showers" },
 			1189: { day: "day-showers", night: "night-showers" },
 			1192: { day: "day-showers", night: "night-showers" },
