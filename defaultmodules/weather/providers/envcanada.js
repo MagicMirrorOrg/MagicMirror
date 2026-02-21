@@ -84,8 +84,8 @@ class EnvCanadaProvider {
 				const cityPageURL = this.#extractCityPageURL(html);
 
 				if (!cityPageURL) {
-					Log.warn("[envcanada] Could not find city page URL");
-					return;
+				// This can happen during hour transitions when old responses arrive
+					Log.debug("[envcanada] Could not find city page URL (may be stale response from previous hour)");
 				}
 
 				if (cityPageURL === this.lastCityPageURL) {
