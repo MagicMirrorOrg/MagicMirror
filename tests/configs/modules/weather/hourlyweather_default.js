@@ -12,7 +12,8 @@ let config = {
 				lon: 11.58,
 				type: "hourly",
 				weatherProvider: "openweathermap",
-				apiKey: "test-api-key" }
+				apiKey: "test-api-key"
+			}
 		}
 	]
 };
