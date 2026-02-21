@@ -146,14 +146,14 @@ class WeatherbitProvider {
 		// Parse sunrise/sunset from HH:mm format (already in local time)
 		if (current.sunrise) {
 			const [hours, minutes] = current.sunrise.split(":");
-			const sunrise = new Date();
+			const sunrise = new Date(current.ts * 1000);
 			sunrise.setHours(parseInt(hours), parseInt(minutes), 0, 0);
 			weather.sunrise = sunrise;
 		}
 
 		if (current.sunset) {
 			const [hours, minutes] = current.sunset.split(":");
-			const sunset = new Date();
+			const sunset = new Date(current.ts * 1000);
 			sunset.setHours(parseInt(hours), parseInt(minutes), 0, 0);
 			weather.sunset = sunset;
 		}
