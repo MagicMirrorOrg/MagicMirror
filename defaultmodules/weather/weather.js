@@ -63,16 +63,9 @@ Module.register("weather", {
 
 	// Return the scripts that are necessary for the weather module.
 	getScripts () {
-		// Only load client-side dependencies for rendering, no provider scripts
-		// OpenMeteo runs server-side via node_helper
-		const scripts = ["moment.js", "weatherutils.js", "weatherobject.js", "suncalc.js"];
-
-		// Load client-side provider only if not using server-side providers
-		if (!this.usesServerSideProvider()) {
-			scripts.push(this.file("providers/overrideWrapper.js"), "weatherprovider.js", this.file(`providers/${this.config.weatherProvider.toLowerCase()}.js`));
-		}
-
-		return scripts;
+		// Only load client-side dependencies for rendering
+		// All providers run server-side via node_helper
+		return ["moment.js", "weatherutils.js", "weatherobject.js", "suncalc.js"];
 	},
 
 	usesServerSideProvider () {
@@ -156,8 +149,12 @@ Module.register("weather", {
 			this.indoorHumidity = this.roundValue(payload);
 			this.updateDom(300);
 		} else if (notification === "CURRENT_WEATHER_OVERRIDE" && this.config.allowOverrideNotification) {
-			if (this.weatherProvider) {
-				this.weatherProvider.notificationReceived(payload);
+			// Override current weather with data from local sensors
+			// Note: Only works with server-side providers (all providers are server-side now)
+			if (this.usesServerSideProvider() && this.currentWeatherObject) {
+				// Merge override data with existing current weather
+				Object.assign(this.currentWeatherObject, payload);
+				this.updateDom(this.config.animationSpeed);
 			}
 		}
 	},
