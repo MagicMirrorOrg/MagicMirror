@@ -302,10 +302,6 @@ class WeatherAPIProvider {
 			const dayDate = forecastDay.date_epoch
 				? new Date(forecastDay.date_epoch * 1000)
 				: new Date(`${forecastDay.date}T00:00:00`);
-			const noonHour = forecastDay.hour?.find((entry) => {
-				if (!entry.time_epoch) return false;
-				return new Date(entry.time_epoch * 1000).getHours() === 12;
-			}) ?? forecastDay.hour?.[0];
 
 			const precipitationProbability = forecastDay.hour?.length > 0
 				? (forecastDay.hour.reduce((sum, hourData) => {
@@ -313,6 +309,12 @@ class WeatherAPIProvider {
 					const snow = this.#toNumber(hourData.will_it_snow) ?? 0;
 					return sum + ((rain + snow) / 2);
 				}, 0) / forecastDay.hour.length) * 100
+				: null;
+
+			const avgWindDegree = forecastDay.hour?.length > 0
+				? forecastDay.hour.reduce((sum, hourData) => {
+					return sum + (this.#toNumber(hourData.wind_degree) ?? 0);
+				}, 0) / forecastDay.hour.length
 				: null;
 
 			weather.date = dayDate;
@@ -323,11 +325,8 @@ class WeatherAPIProvider {
 			const maxWind = this.#toNumber(forecastDay.day?.maxwind_kph);
 			if (maxWind !== null) weather.windSpeed = convertKmhToMs(maxWind);
 
-			if (noonHour?.wind_degree !== undefined) {
-				const windDegree = this.#toNumber(noonHour.wind_degree);
-				weather.windFromDirection = windDegree !== null
-					? windDegree
-					: cardinalToDegrees(noonHour?.wind_dir);
+			if (avgWindDegree !== null) {
+				weather.windFromDirection = avgWindDegree;
 			}
 
 			const sunrise = this.#parseSunDatetime(forecastDay, "sunrise");
