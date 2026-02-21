@@ -24,9 +24,9 @@ const EMPTY_RESPONSE_DATA = {
 
 WeatherProvider.register("weatherapi", {
 	/*
-   * Set the name of the provider.
-   * Not strictly required but helps for debugging.
-   */
+	 * Set the name of the provider.
+	 * Not strictly required but helps for debugging.
+	 */
 	providerName: "Weather API",
 
 	// Set the default config properties that is specific to this provider
@@ -53,22 +53,14 @@ WeatherProvider.register("weatherapi", {
 		responseData.current.condition ??= {};
 		responseData.forecast ??= {};
 		responseData.forecast.forecastday ??= [];
-		responseData.forecast.forecastday = responseData.forecast.forecastday.map(
-			(fd) => ({
-				...fd,
-				astro: fd.astro ?? {},
-				day: fd.day ?? {},
-				hour: fd.hour ?? []
-			})
-		);
+		responseData.forecast.forecastday = responseData.forecast.forecastday.map((fd) => ({
+			...fd,
+			astro: fd.astro ?? {},
+			day: fd.day ?? {},
+			hour: fd.hour ?? []
+		}));
 
-		const locationParts = [
-			responseData.location.name,
-			responseData.location.region,
-			responseData.location.country
-		]
-			.map((v) => `${v}`.trim())
-			.filter((v) => v !== "");
+		const locationParts = [responseData.location.name, responseData.location.region, responseData.location.country].map((v) => `${v}`.trim()).filter((v) => v !== "");
 
 		if (locationParts.length > 0) {
 			this.setFetchedLocation(locationParts.join(", ").trim());
@@ -87,8 +79,7 @@ WeatherProvider.register("weatherapi", {
 					return;
 				}
 
-				const currentWeather
-					= this.generateWeatherDayFromCurrentWeather(parsedData);
+				const currentWeather = this.generateWeatherDayFromCurrentWeather(parsedData);
 				this.setCurrentWeather(currentWeather);
 			})
 			.catch(function (err) {
@@ -107,8 +98,7 @@ WeatherProvider.register("weatherapi", {
 					return;
 				}
 
-				const dailyForecast
-					= this.generateWeatherObjectsFromForecast(parsedData);
+				const dailyForecast = this.generateWeatherObjectsFromForecast(parsedData);
 
 				this.setWeatherForecast(dailyForecast);
 			})
@@ -128,15 +118,11 @@ WeatherProvider.register("weatherapi", {
 					return;
 				}
 
-				const hourlyForecast
-					= this.generateWeatherObjectsFromHourly(parsedData);
+				const hourlyForecast = this.generateWeatherObjectsFromHourly(parsedData);
 				this.setWeatherHourly(hourlyForecast);
 			})
 			.catch(function (request) {
-				Log.error(
-					"[weatherprovider.weatherapi] Could not load data ... ",
-					request
-				);
+				Log.error("[weatherprovider.weatherapi] Could not load data ... ", request);
 			})
 			.finally(() => this.updateAvailable());
 	},
@@ -145,11 +131,7 @@ WeatherProvider.register("weatherapi", {
 	validateConfig () {
 		this.config.type = `${this.config.type ?? ""}`.trim().toLowerCase();
 		Object.keys(this.defaults).forEach((key) => {
-			if (
-				typeof this.config[key] === "undefined"
-				|| this.config[key] === null
-				|| `${this.config[key]}`.trim() === ""
-			) {
+			if (typeof this.config[key] === "undefined" || this.config[key] === null || `${this.config[key]}`.trim() === "") {
 				const message = `[weatherprovider.weatherapi] ${key} not configured`;
 				Log.error(message);
 				throw new Error(message);
@@ -227,9 +209,7 @@ WeatherProvider.register("weatherapi", {
 			return {
 				...row,
 				// Parse time values as moment.js instances
-				[key]: ["time", "sunrise", "sunset"].includes(key)
-					? this.checkDST(data[key][index])
-					: data[key][index]
+				[key]: ["time", "sunrise", "sunset"].includes(key) ? this.checkDST(data[key][index]) : data[key][index]
 			};
 		}, {}));
 	},
@@ -239,12 +219,7 @@ WeatherProvider.register("weatherapi", {
 		const _isObject = (obj) => obj && typeof obj === "object" && obj !== null && !Array.isArray(obj);
 		const _isArray = (obj) => obj && Array.isArray(obj);
 
-		if (
-			_isObject(data.location)
-			&& _isObject(data.current)
-			&& _isObject(data.forecast)
-			&& _isArray(data.forecast.forecastday)
-		) {
+		if (_isObject(data.location) && _isObject(data.current) && _isObject(data.forecast) && _isArray(data.forecast.forecastday)) {
 			return data;
 		}
 
@@ -257,70 +232,29 @@ WeatherProvider.register("weatherapi", {
 		return moment(`${date} ${astro[key]}`, "YYYY-MM-DD hh:mm A");
 	},
 
-	// Convert text wind direction to a degree measure
-	cardinalWindDirection (direction) {
-		switch (direction) {
-			case "NNE":
-				return (11.25 + 33.75) / 2;
-			case "NE":
-				return (33.75 + 56.25) / 2;
-			case "ENE":
-				return (56.25 + 78.75) / 2;
-			case "E":
-				return (78.75 + 101.25) / 2;
-			case "ESE":
-				return (101.25 + 123.75) / 2;
-			case "SE":
-				return (123.75 + 146.25) / 2;
-			case "SSE":
-				return (146.25 + 168.75) / 2;
-			case "S":
-				return (168.75 + 191.25) / 2;
-			case "SSW":
-				return (191.25 + 213.75) / 2;
-			case "SW":
-				return (213.75 + 236.25) / 2;
-			case "WSW":
-				return (236.25 + 258.75) / 2;
-			case "W":
-				return (258.75 + 281.25) / 2;
-			case "WNW":
-				return (281.25 + 303.75) / 2;
-			case "NW":
-				return (303.75 + 326.25) / 2;
-			case "NNW":
-				return (326.25 + 348.75) / 2;
-			default:
-				return 0; // North by default
-		}
-	},
-
 	// Implement WeatherDay generator.
 	generateWeatherDayFromCurrentWeather (data) {
-		const weather = data.forecast.forecastday[0];
-		const currentWeather = new WeatherObject();
+		const fd = data.forecast.forecastday[0];
+		const weather = new WeatherObject();
 
-		currentWeather.date = moment();
-		currentWeather.humidity = parseFloat(data.current.humidity);
-		currentWeather.temperature = parseFloat(data.current.temp_c);
-		currentWeather.feelsLikeTemp = parseFloat(data.current.feelslike_c);
-		currentWeather.windSpeed = parseFloat(data.current.wind_kph) * 0.2778;
-		currentWeather.windFromDirection = parseFloat(data.current.wind_degree);
-		currentWeather.weatherType = this.convertWeatherType(
-			data.current.condition.code,
-			data.current.is_day === 1
-		);
-		currentWeather.sunrise = this.parseSunDatetime(weather, "sunrise");
-		currentWeather.sunset = this.parseSunDatetime(weather, "sunset");
+		weather.date = moment();
+		weather.humidity = parseFloat(data.current.humidity);
+		weather.temperature = parseFloat(data.current.temp_c);
+		weather.feelsLikeTemp = parseFloat(data.current.feelslike_c);
+		weather.windSpeed = parseFloat(data.current.wind_kph) * 0.2778;
+		weather.windFromDirection = parseFloat(data.current.wind_degree);
+		weather.weatherType = this.convertWeatherType(data.current.condition.code, data.current.is_day === 1);
+		weather.sunrise = this.parseSunDatetime(fd, "sunrise");
+		weather.sunset = this.parseSunDatetime(fd, "sunset");
 		// Optional
-		currentWeather.minTemperature = parseFloat(weather.day.mintemp_c);
-		currentWeather.maxTemperature = parseFloat(weather.day.maxtemp_c);
-		currentWeather.snow = parseFloat(data.current.snow_cm * 10);
-		currentWeather.rain = parseFloat(data.current.precip_mm);
-		currentWeather.precipitationAmount = currentWeather.rain + currentWeather.snow;
-		currentWeather.uv_index = parseFloat(data.current.uv);
+		weather.minTemperature = parseFloat(fd.day.mintemp_c);
+		weather.maxTemperature = parseFloat(fd.day.maxtemp_c);
+		weather.snow = parseFloat(data.current.snow_cm * 10);
+		weather.rain = parseFloat(data.current.precip_mm);
+		weather.precipitationAmount = weather.rain + weather.snow;
+		weather.uv_index = parseFloat(data.current.uv);
 
-		return currentWeather;
+		return weather;
 	},
 
 	// Implement WeatherForecast generator.
@@ -329,8 +263,6 @@ WeatherProvider.register("weatherapi", {
 
 		for (const fd of data.forecast.forecastday) {
 			const weather = new WeatherObject();
-			const refTime = moment(fd.date, "YYYY-MM-DD").format("YYYY-MM-DD HH:00");
-			const sameTime = fd.hour.find((h) => h.time === refTime);
 
 			const precipitationProbability
 				= (fd.hour.reduce((acc, h) => {
@@ -340,15 +272,17 @@ WeatherProvider.register("weatherapi", {
 				/ fd.hour.length)
 			* 100;
 
+			const avgwind_degree
+				= fd.hour.reduce((acc, h) => {
+					return acc + (h.wind_degree ?? 0);
+				}, 0) / fd.hour.length;
+
 			weather.date = moment(fd.date).startOf("day");
 			weather.minTemperature = parseFloat(fd.day.mintemp_c);
 			weather.maxTemperature = parseFloat(fd.day.maxtemp_c);
-			weather.weatherType = this.convertWeatherType(
-				fd.day.condition.code,
-				true
-			);
+			weather.weatherType = this.convertWeatherType(fd.day.condition.code, true);
 			weather.windSpeed = parseFloat(fd.day.maxwind_kph) * 0.2778;
-			weather.windFromDirection = this.cardinalWindDirection(sameTime?.wind_dir);
+			weather.windFromDirection = parseFloat(avgwind_degree);
 			weather.sunrise = this.parseSunDatetime(fd, "sunrise");
 			weather.sunset = this.parseSunDatetime(fd, "sunset");
 			weather.temperature = parseFloat(fd.day.avgtemp_c);
@@ -390,17 +324,13 @@ WeatherProvider.register("weatherapi", {
 				weather.minTemperature = parseFloat(fd.day.mintemp_c);
 				weather.maxTemperature = parseFloat(fd.day.maxtemp_c);
 				weather.humidity = parseFloat(h.humidity);
-				weather.windSpeed = parseFloat(fd.day.maxwind_kph) * 0.2778;
-				weather.windFromDirection = this.cardinalWindDirection(h.wind_dir);
-				weather.weatherType = this.convertWeatherType(
-					h.condition.code,
-					h.is_day === 1
-				);
+				weather.windSpeed = parseFloat(h.wind_kph) * 0.2778;
+				weather.windFromDirection = parseFloat(h.wind_degree);
+				weather.weatherType = this.convertWeatherType(h.condition.code, h.is_day === 1);
 				weather.snow = parseFloat(h.snow_cm * 10);
 				weather.temperature = parseFloat(h.temp_c);
 				weather.precipitationAmount = parseFloat(h.precip_mm);
-				weather.precipitationProbability
-					= ((h.will_it_rain ?? 0) + (h.will_it_snow ?? 0)) * 50;
+				weather.precipitationProbability = ((h.will_it_rain ?? 0) + (h.will_it_snow ?? 0)) * 50;
 				weather.uv_index = parseFloat(h.uv);
 
 				hours.push(weather);
