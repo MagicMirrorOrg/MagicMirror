@@ -93,11 +93,9 @@ describe("OpenMeteoProvider", () => {
 			const dataPromise = new Promise((resolve, reject) => {
 				provider.setCallbacks(
 					(data) => {
-						console.log("[TEST] onDataCallback called");
 						resolve(data);
 					},
 					(error) => {
-						console.log("[TEST] onErrorCallback called:", error);
 						reject(error);
 					}
 				);
@@ -108,7 +106,6 @@ describe("OpenMeteoProvider", () => {
 					return HttpResponse.json(currentData);
 				})
 			);
-
 			await provider.initialize();
 			provider.start();
 

@@ -141,7 +141,7 @@ describe("EnvCanadaProvider", () => {
 
 			const result = await dataPromise;
 
-			// XML has windChill of -12
+			// XML has windChill of -31
 			expect(result.feelsLikeTemp).toBe(-31);
 		});
 
@@ -293,7 +293,7 @@ describe("EnvCanadaProvider", () => {
 
 			let errorCalled = false;
 			const errorPromise = new Promise((resolve, reject) => {
-				provider.setCallbacks(() => (errorCalled = true), resolve);
+				provider.setCallbacks(resolve, () => (errorCalled = true));
 			});
 
 			await provider.initialize();

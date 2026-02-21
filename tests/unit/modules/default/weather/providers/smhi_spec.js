@@ -10,8 +10,6 @@ import { describe, it, expect, vi, beforeAll, afterAll, afterEach } from "vitest
 
 import smhiData from "../../../../../mocks/weather_smhi.json" with { type: "json" };
 
-const SMHI_URL = "https://opendata-download-metfcst.smhi.se/*";
-
 let server;
 
 beforeAll(() => {
