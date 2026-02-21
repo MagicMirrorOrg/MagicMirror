@@ -123,10 +123,10 @@ class PirateweatherProvider {
 
 		const current = {
 			date: new Date(),
-			humidity: data.currently.humidity ? parseFloat(data.currently.humidity) * 100 : null,
+			humidity: data.currently.humidity != null ? parseFloat(data.currently.humidity) * 100 : null,
 			temperature: parseFloat(data.currently.temperature),
-			feelsLikeTemp: data.currently.apparentTemperature ? parseFloat(data.currently.apparentTemperature) : null,
-			windSpeed: data.currently.windSpeed ? parseFloat(data.currently.windSpeed) : null,
+			feelsLikeTemp: data.currently.apparentTemperature != null ? parseFloat(data.currently.apparentTemperature) : null,
+			windSpeed: data.currently.windSpeed != null ? parseFloat(data.currently.windSpeed) : null,
 			windDirection: data.currently.windBearing || null,
 			weatherType: this.convertWeatherType(data.currently.icon),
 			sunrise: null,
@@ -157,13 +157,13 @@ class PirateweatherProvider {
 		for (const forecast of data.daily.data) {
 			const day = {
 				date: new Date(forecast.time * 1000),
-				minTemperature: forecast.temperatureMin !== undefined ? parseFloat(forecast.temperatureMin) : null,
-				maxTemperature: forecast.temperatureMax !== undefined ? parseFloat(forecast.temperatureMax) : null,
+				minTemperature: forecast.temperatureMin != null ? parseFloat(forecast.temperatureMin) : null,
+				maxTemperature: forecast.temperatureMax != null ? parseFloat(forecast.temperatureMax) : null,
 				weatherType: this.convertWeatherType(forecast.icon),
 				snow: 0,
 				rain: 0,
 				precipitation: 0,
-				precipitationProbability: forecast.precipProbability ? parseFloat(forecast.precipProbability) * 100 : null
+				precipitationProbability: forecast.precipProbability != null ? parseFloat(forecast.precipProbability) * 100 : null
 			};
 
 			// Handle precipitation

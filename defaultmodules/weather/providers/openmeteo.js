@@ -522,23 +522,28 @@ class OpenMeteoProvider {
 		const now = new Date();
 
 		parsedData.hourly.forEach((weather, i) => {
-			if ((hours.length === 0 && weather.time <= now) || hours.length >= this.config.maxEntries) {
+			// Skip past entries, collect only future hours up to maxEntries
+			if (weather.time <= now || hours.length >= this.config.maxEntries) {
 				return;
 			}
 
+			// Calculate daily index with bounds check
 			const h = Math.ceil((i + 1) / 24) - 1;
+			const safeH = Math.max(0, Math.min(h, parsedData.daily.length - 1));
+			const dailyData = parsedData.daily[safeH];
+
 			const hourlyWeather = {
 				date: weather.time,
 				windSpeed: weather.windspeed_10m,
 				windFromDirection: weather.winddirection_10m,
-				sunrise: parsedData.daily[h].sunrise,
-				sunset: parsedData.daily[h].sunset,
+				sunrise: dailyData.sunrise,
+				sunset: dailyData.sunset,
 				temperature: parseFloat(weather.temperature_2m),
-				minTemperature: parseFloat(parsedData.daily[h].temperature_2m_min),
-				maxTemperature: parseFloat(parsedData.daily[h].temperature_2m_max),
+				minTemperature: parseFloat(dailyData.temperature_2m_min),
+				maxTemperature: parseFloat(dailyData.temperature_2m_max),
 				weatherType: this.#convertWeatherType(
 					weather.weathercode,
-					this.#isDayTime(weather.time, parsedData.daily[h].sunrise, parsedData.daily[h].sunset)
+					this.#isDayTime(weather.time, dailyData.sunrise, dailyData.sunset)
 				),
 				humidity: weather.relativehumidity_2m != null ? parseFloat(weather.relativehumidity_2m) : null,
 				rain: weather.rain != null ? parseFloat(weather.rain) : null,
