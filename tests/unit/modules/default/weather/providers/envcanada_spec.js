@@ -292,8 +292,8 @@ describe("EnvCanadaProvider", () => {
 			});
 
 			let errorCalled = false;
-			const errorPromise = new Promise((resolve, reject) => {
-				provider.setCallbacks(resolve, () => (errorCalled = true));
+			provider.setCallbacks(vi.fn(), () => {
+				errorCalled = true;
 			});
 
 			await provider.initialize();
