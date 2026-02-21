@@ -199,7 +199,8 @@ class WeatherbitProvider {
 	/**
 	 * Convert Weatherbit icon codes to weathericons.css icons
 	 * See: https://www.weatherbit.io/api/codes
-	 * @param weatherType
+	 * @param {string} weatherType - Weatherbit icon code
+	 * @returns {string|null} Weathericons.css icon name or null
 	 */
 	convertWeatherType (weatherType) {
 		const weatherTypes = {

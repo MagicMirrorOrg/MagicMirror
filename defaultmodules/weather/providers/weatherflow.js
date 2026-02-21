@@ -253,7 +253,7 @@ class WeatherFlowProvider {
 
 	/**
 	 * Set the data callback
-	 * @param {Function} callback - Callback function
+	 * @param {(data: object) => void} callback - Callback function
 	 */
 	setOnDataCallback (callback) {
 		this.onDataCallback = callback;
@@ -261,7 +261,7 @@ class WeatherFlowProvider {
 
 	/**
 	 * Set the error callback
-	 * @param {Function} callback - Callback function
+	 * @param {(error: object) => void} callback - Callback function
 	 */
 	setOnErrorCallback (callback) {
 		this.onErrorCallback = callback;

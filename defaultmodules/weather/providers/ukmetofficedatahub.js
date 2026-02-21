@@ -260,7 +260,8 @@ class UkMetOfficeDataHubProvider {
 	/**
 	 * Convert Met Office significant weather code to weathericons.css icon
 	 * See: https://metoffice.apiconnect.ibmcloud.com/metoffice/production/node/264
-	 * @param weatherType
+	 * @param {number} weatherType - Met Office weather code
+	 * @returns {string|null} Weathericons.css icon name or null
 	 */
 	convertWeatherType (weatherType) {
 		const weatherTypes = {

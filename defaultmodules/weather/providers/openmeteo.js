@@ -115,8 +115,8 @@ class OpenMeteoProvider {
 
 	/**
 	 * Set callbacks for data/error events
-	 * @param {Function} onData - Called with weather data
-	 * @param {Function} onError - Called with error info
+	 * @param {(data: object) => void} onData - Called with weather data
+	 * @param {(error: object) => void} onError - Called with error info
 	 */
 	setCallbacks (onData, onError) {
 		this.onDataCallback = onData;
