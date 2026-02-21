@@ -131,7 +131,13 @@ class UkMetOfficeDataHubProvider {
 				break;
 			default:
 				Log.error(`[ukmetofficedatahub] Unknown weather type: ${this.config.type}`);
-				break;
+				if (this.onErrorCallback) {
+					this.onErrorCallback({
+						message: `Unknown weather type: ${this.config.type}`,
+						translationKey: "MODULE_ERROR_UNSPECIFIED"
+					});
+				}
+				return;
 		}
 
 		if (weatherData && this.onDataCallback) {
