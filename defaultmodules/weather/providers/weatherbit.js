@@ -172,7 +172,7 @@ class WeatherbitProvider {
 				date: new Date(forecast.datetime),
 				minTemperature: forecast.min_temp !== undefined ? parseFloat(forecast.min_temp) : null,
 				maxTemperature: forecast.max_temp !== undefined ? parseFloat(forecast.max_temp) : null,
-				precipitation: forecast.precip !== undefined ? parseFloat(forecast.precip) : 0,
+				precipitationAmount: forecast.precip !== undefined ? parseFloat(forecast.precip) : 0,
 				precipitationProbability: forecast.pop !== undefined ? parseFloat(forecast.pop) : null,
 				weatherType: this.convertWeatherType(forecast.weather.icon)
 			});
@@ -188,7 +188,7 @@ class WeatherbitProvider {
 			hours.push({
 				date: new Date(forecast.timestamp_local),
 				temperature: forecast.temp !== undefined ? parseFloat(forecast.temp) : null,
-				precipitation: forecast.precip !== undefined ? parseFloat(forecast.precip) : 0,
+				precipitationAmount: forecast.precip !== undefined ? parseFloat(forecast.precip) : 0,
 				precipitationProbability: forecast.pop !== undefined ? parseFloat(forecast.pop) : null,
 				windSpeed: forecast.wind_spd !== undefined ? parseFloat(forecast.wind_spd) : null,
 				windDirection: forecast.wind_dir || null,
