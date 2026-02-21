@@ -1,6 +1,6 @@
 const fs = require("node:fs");
 const path = require("node:path");
-const weatherUtils = require("../../../defaultmodules/weather/utils");
+const weatherUtils = require("../../../defaultmodules/weather/provider-utils");
 const helpers = require("./global-setup");
 
 /**

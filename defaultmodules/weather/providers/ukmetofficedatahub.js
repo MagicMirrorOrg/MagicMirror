@@ -1,5 +1,5 @@
 const Log = require("logger");
-const SunCalc = require("suncalc");
+const { getSunTimes } = require("../provider-utils");
 const HTTPFetcher = require("#http_fetcher");
 
 /**
@@ -165,9 +165,9 @@ class UkMetOfficeDataHubProvider {
 				};
 
 				// Calculate sunrise/sunset using SunCalc
-				const sunTimes = SunCalc.getTimes(now, this.config.lat, this.config.lon);
-				current.sunrise = sunTimes.sunrise;
-				current.sunset = sunTimes.sunset;
+				const { sunrise, sunset } = getSunTimes(now, this.config.lat, this.config.lon);
+				current.sunrise = sunrise;
+				current.sunset = sunset;
 
 				return current;
 			}
@@ -187,9 +187,9 @@ class UkMetOfficeDataHubProvider {
 			sunset: null
 		};
 
-		const sunTimes = SunCalc.getTimes(now, this.config.lat, this.config.lon);
-		current.sunrise = sunTimes.sunrise;
-		current.sunset = sunTimes.sunset;
+		const { sunrise, sunset } = getSunTimes(now, this.config.lat, this.config.lon);
+		current.sunrise = sunrise;
+		current.sunset = sunset;
 
 		return current;
 	}

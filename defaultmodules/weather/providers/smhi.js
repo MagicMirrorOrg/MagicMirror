@@ -1,6 +1,5 @@
 const Log = require("logger");
-const SunCalc = require("suncalc");
-const { limitDecimals } = require("../utils");
+const { limitDecimals, getSunTimes, isDayTime } = require("../provider-utils");
 const HTTPFetcher = require("#http_fetcher");
 
 /**
@@ -163,8 +162,8 @@ class SMHIProvider {
 
 	#convertWeatherDataToObject (weatherData, coordinates) {
 		const date = new Date(weatherData.validTime);
-		const sunTimes = SunCalc.getTimes(date, coordinates.lat, coordinates.lon);
-		const isDayTime = date >= sunTimes.sunrise && date < sunTimes.sunset;
+		const { sunrise, sunset } = getSunTimes(date, coordinates.lat, coordinates.lon);
+		const isDay = isDayTime(date, sunrise, sunset);
 
 		const current = {
 			date: date,
@@ -172,10 +171,10 @@ class SMHIProvider {
 			temperature: this.#paramValue(weatherData, "t"),
 			windSpeed: this.#paramValue(weatherData, "ws"),
 			windFromDirection: this.#paramValue(weatherData, "wd"),
-			weatherType: this.#convertWeatherType(this.#paramValue(weatherData, "Wsymb2"), isDayTime),
+			weatherType: this.#convertWeatherType(this.#paramValue(weatherData, "Wsymb2"), isDay),
 			feelsLikeTemp: this.#calculateApparentTemperature(weatherData),
-			sunrise: sunTimes.sunrise,
-			sunset: sunTimes.sunset,
+			sunrise: sunrise,
+			sunset: sunset,
 			snow: 0,
 			rain: 0,
 			precipitationAmount: 0
@@ -238,10 +237,10 @@ class SMHIProvider {
 			}
 
 			// Track weather types during daytime
-			const sunTimes = SunCalc.getTimes(objDate, coordinates.lat, coordinates.lon);
-			const isDayTime = objDate >= sunTimes.sunrise && objDate < sunTimes.sunset;
+			const { sunrise: daySunrise, sunset: daySunset } = getSunTimes(objDate, coordinates.lat, coordinates.lon);
+			const isDay = isDayTime(objDate, daySunrise, daySunset);
 
-			if (isDayTime) {
+			if (isDay) {
 				dayWeatherTypes.push(weatherObject.weatherType);
 			}
 

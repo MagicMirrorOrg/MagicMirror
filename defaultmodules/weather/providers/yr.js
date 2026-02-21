@@ -1,5 +1,5 @@
 const Log = require("logger");
-const { limitDecimals } = require("../utils");
+const { limitDecimals, formatTimezoneOffset, getDateString } = require("../provider-utils");
 const HTTPFetcher = require("#http_fetcher");
 
 /**
@@ -80,7 +80,7 @@ class YrProvider {
 	}
 
 	async #fetchStellarData () {
-		const today = new Date().toISOString().split("T")[0];
+		const today = getDateString(new Date());
 
 		// Check if we already have today's data
 		if (this.stellarDataDate === today && this.stellarData) {
@@ -272,7 +272,7 @@ class YrProvider {
 
 		for (const entry of timeseries) {
 			const date = new Date(entry.time);
-			const dateStr = date.toISOString().split("T")[0];
+			const dateStr = getDateString(date);
 
 			if (currentDay !== dateStr) {
 				if (dayData) {
@@ -355,7 +355,7 @@ class YrProvider {
 	#getStellarInfoForDate (date) {
 		if (!this.stellarData) return null;
 
-		const dateStr = date.toISOString().split("T")[0];
+		const dateStr = getDateString(date);
 
 		for (const day of this.stellarData) {
 			const dayDate = day.date.split("T")[0];
@@ -429,17 +429,9 @@ class YrProvider {
 
 	#getSunriseUrl () {
 		const { lat, lon } = this.config;
-		const today = new Date().toISOString().split("T")[0];
-		const offset = this.#getTimezoneOffset();
+		const today = getDateString(new Date());
+		const offset = formatTimezoneOffset(-new Date().getTimezoneOffset());
 		return `${this.config.apiBase}/sunrise/${this.config.sunriseApiVersion}/sun?lat=${lat}&lon=${lon}&date=${today}&offset=${offset}`;
-	}
-
-	#getTimezoneOffset () {
-		const offsetMinutes = -new Date().getTimezoneOffset();
-		const hours = Math.floor(Math.abs(offsetMinutes) / 60);
-		const minutes = Math.abs(offsetMinutes) % 60;
-		const sign = offsetMinutes >= 0 ? "+" : "-";
-		return `${sign}${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
 	}
 }
 

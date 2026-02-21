@@ -1,5 +1,5 @@
 const Log = require("logger");
-const SunCalc = require("suncalc");
+const { getSunTimes, isDayTime, getDateString } = require("../provider-utils");
 const HTTPFetcher = require("#http_fetcher");
 
 /**
@@ -231,13 +231,13 @@ class WeatherGovProvider {
 		}
 
 		// Calculate sunrise/sunset (not provided by weather.gov)
-		const sunTimes = SunCalc.getTimes(current.date, this.config.lat, this.config.lon);
-		current.sunrise = sunTimes.sunrise;
-		current.sunset = sunTimes.sunset;
+		const { sunrise, sunset } = getSunTimes(current.date, this.config.lat, this.config.lon);
+		current.sunrise = sunrise;
+		current.sunset = sunset;
 
 		// Determine if daytime
-		const isDayTime = current.date >= current.sunrise && current.date < current.sunset;
-		current.weatherType = this.#convertWeatherType(currentWeatherData.textDescription, isDayTime);
+		const isDay = isDayTime(current.date, current.sunrise, current.sunset);
+		current.weatherType = this.#convertWeatherType(currentWeatherData.textDescription, isDay);
 
 		return current;
 	}
@@ -251,7 +251,7 @@ class WeatherGovProvider {
 
 		for (const forecast of forecasts) {
 			const forecastDate = new Date(forecast.startTime);
-			const dateStr = forecastDate.toISOString().split("T")[0];
+			const dateStr = getDateString(forecastDate);
 
 			if (date !== dateStr) {
 				// New day

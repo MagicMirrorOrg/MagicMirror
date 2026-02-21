@@ -60,8 +60,63 @@ function limitDecimals (value, decimals) {
 	return value;
 }
 
+/**
+ * Get sunrise and sunset times for a given date and location
+ * @param {Date} date - The date to calculate for
+ * @param {number} lat - Latitude
+ * @param {number} lon - Longitude
+ * @returns {object} Object with sunrise and sunset Date objects
+ */
+function getSunTimes (date, lat, lon) {
+	const SunCalc = require("suncalc");
+	const sunTimes = SunCalc.getTimes(date, lat, lon);
+	return {
+		sunrise: sunTimes.sunrise,
+		sunset: sunTimes.sunset
+	};
+}
+
+/**
+ * Check if a given time is during daylight hours
+ * @param {Date} date - The date/time to check
+ * @param {Date} sunrise - Sunrise time
+ * @param {Date} sunset - Sunset time
+ * @returns {boolean} True if during daylight hours
+ */
+function isDayTime (date, sunrise, sunset) {
+	if (!sunrise || !sunset) {
+		return true; // Default to day if times unavailable
+	}
+	return date >= sunrise && date < sunset;
+}
+
+/**
+ * Format timezone offset as string (e.g., "+01:00", "-05:30")
+ * @param {number} offsetMinutes - Timezone offset in minutes (use -new Date().getTimezoneOffset() for local)
+ * @returns {string} Formatted offset string
+ */
+function formatTimezoneOffset (offsetMinutes) {
+	const hours = Math.floor(Math.abs(offsetMinutes) / 60);
+	const minutes = Math.abs(offsetMinutes) % 60;
+	const sign = offsetMinutes >= 0 ? "+" : "-";
+	return `${sign}${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
+}
+
+/**
+ * Get date string in YYYY-MM-DD format
+ * @param {Date} date - The date to format
+ * @returns {string} Date string in YYYY-MM-DD format
+ */
+function getDateString (date) {
+	return date.toISOString().split("T")[0];
+}
+
 module.exports = {
 	convertWeatherType,
 	applyTimezoneOffset,
-	limitDecimals
+	limitDecimals,
+	getSunTimes,
+	isDayTime,
+	formatTimezoneOffset,
+	getDateString
 };

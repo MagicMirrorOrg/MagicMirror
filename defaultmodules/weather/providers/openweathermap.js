@@ -1,5 +1,5 @@
 const Log = require("logger");
-const weatherUtils = require("../utils");
+const weatherUtils = require("../provider-utils");
 const HTTPFetcher = require("#http_fetcher");
 
 /**
