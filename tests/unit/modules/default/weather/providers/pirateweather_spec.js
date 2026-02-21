@@ -210,7 +210,7 @@ describe("PirateweatherProvider", () => {
 			const result = await dataPromise;
 
 			// First day has precipAccumulation: 0.0 cm
-			expect(result[0].precipitation).toBe(0);
+			expect(result[0].precipitationAmount).toBe(0);
 		});
 
 		it("should categorize precipitation by type", async () => {
@@ -332,7 +332,7 @@ describe("PirateweatherProvider", () => {
 			const result = await dataPromise;
 
 			// First hour has 0.0 cm precipitation
-			expect(result[0].precipitation).toBe(0);
+			expect(result[0].precipitationAmount).toBe(0);
 			expect(result[0].rain).toBe(0);
 		});
 	});

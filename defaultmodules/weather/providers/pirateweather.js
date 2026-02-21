@@ -162,7 +162,7 @@ class PirateweatherProvider {
 				weatherType: this.convertWeatherType(forecast.icon),
 				snow: 0,
 				rain: 0,
-				precipitation: 0,
+				precipitationAmount: 0,
 				precipitationProbability: forecast.precipProbability != null ? parseFloat(forecast.precipProbability) * 100 : null
 			};
 
@@ -172,7 +172,7 @@ class PirateweatherProvider {
 				precip = forecast.precipAccumulation * 10; // cm to mm
 			}
 
-			day.precipitation = precip;
+			day.precipitationAmount = precip;
 
 			if (forecast.precipType) {
 				if (forecast.precipType === "snow") {
@@ -202,11 +202,11 @@ class PirateweatherProvider {
 				feelsLikeTemp: forecast.apparentTemperature !== undefined ? parseFloat(forecast.apparentTemperature) : null,
 				weatherType: this.convertWeatherType(forecast.icon),
 				windSpeed: forecast.windSpeed !== undefined ? parseFloat(forecast.windSpeed) : null,
-				windDirection: forecast.windBearing || null,
+				windFromDirection: forecast.windBearing || null,
 				precipitationProbability: forecast.precipProbability ? parseFloat(forecast.precipProbability) * 100 : null,
 				snow: 0,
 				rain: 0,
-				precipitation: 0
+				precipitationAmount: 0
 			};
 
 			// Handle precipitation
@@ -215,7 +215,7 @@ class PirateweatherProvider {
 				precip = forecast.precipAccumulation * 10; // cm to mm
 			}
 
-			hour.precipitation = precip;
+			hour.precipitationAmount = precip;
 
 			if (forecast.precipType) {
 				if (forecast.precipType === "snow") {
