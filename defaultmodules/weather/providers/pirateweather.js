@@ -168,7 +168,7 @@ class PirateweatherProvider {
 
 			// Handle precipitation
 			let precip = 0;
-			if (forecast.precipAccumulation !== undefined) {
+			if (forecast.hasOwnProperty("precipAccumulation")) {
 				precip = forecast.precipAccumulation * 10; // cm to mm
 			}
 
@@ -211,7 +211,7 @@ class PirateweatherProvider {
 
 			// Handle precipitation
 			let precip = 0;
-			if (forecast.precipAccumulation !== undefined) {
+			if (forecast.hasOwnProperty("precipAccumulation")) {
 				precip = forecast.precipAccumulation * 10; // cm to mm
 			}
 
