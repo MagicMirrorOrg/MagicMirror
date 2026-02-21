@@ -127,7 +127,7 @@ class PirateweatherProvider {
 			temperature: parseFloat(data.currently.temperature),
 			feelsLikeTemp: data.currently.apparentTemperature != null ? parseFloat(data.currently.apparentTemperature) : null,
 			windSpeed: data.currently.windSpeed != null ? parseFloat(data.currently.windSpeed) : null,
-			windDirection: data.currently.windBearing || null,
+			windFromDirection: data.currently.windBearing || null,
 			weatherType: this.convertWeatherType(data.currently.icon),
 			sunrise: null,
 			sunset: null

@@ -95,7 +95,7 @@ describe("WeatherbitProvider", () => {
 			expect(result).toBeDefined();
 			expect(result.temperature).toBe(1);
 			expect(result.windSpeed).toBe(1.5);
-			expect(result.windDirection).toBe(210);
+			expect(result.windFromDirection).toBe(210);
 			expect(result.humidity).toBe(47);
 		});
 

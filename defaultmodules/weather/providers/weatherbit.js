@@ -140,7 +140,7 @@ class WeatherbitProvider {
 			temperature: parseFloat(current.temp),
 			humidity: parseFloat(current.rh),
 			windSpeed: parseFloat(current.wind_spd),
-			windDirection: current.wind_dir || null,
+			windFromDirection: current.wind_dir || null,
 			weatherType: this.convertWeatherType(current.weather.icon),
 			sunrise: null,
 			sunset: null
@@ -191,7 +191,7 @@ class WeatherbitProvider {
 				precipitationAmount: forecast.precip !== undefined ? parseFloat(forecast.precip) : 0,
 				precipitationProbability: forecast.pop !== undefined ? parseFloat(forecast.pop) : null,
 				windSpeed: forecast.wind_spd !== undefined ? parseFloat(forecast.wind_spd) : null,
-				windDirection: forecast.wind_dir || null,
+				windFromDirection: forecast.wind_dir || null,
 				weatherType: this.convertWeatherType(forecast.weather.icon)
 			});
 		}

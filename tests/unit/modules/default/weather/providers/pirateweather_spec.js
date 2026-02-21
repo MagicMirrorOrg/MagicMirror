@@ -93,7 +93,7 @@ describe("PirateweatherProvider", () => {
 			expect(result.temperature).toBe(-0.26);
 			expect(result.feelsLikeTemp).toBe(-4.77);
 			expect(result.windSpeed).toBe(2.32);
-			expect(result.windDirection).toBe(166);
+			expect(result.windFromDirection).toBe(166);
 			expect(Math.round(result.humidity)).toBe(56); // 0.56 * 100 with rounding
 		});
 
