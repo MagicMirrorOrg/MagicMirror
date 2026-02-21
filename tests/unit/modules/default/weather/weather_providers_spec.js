@@ -4,13 +4,20 @@
  * Tests basic provider functionality: configuration, callbacks, and validation.
  * Parser logic with private methods (#) is validated through live testing.
  */
-import { describe, it, expect, vi, beforeEach, beforeAll } from "vitest";
+import { describe, it, expect, vi, beforeEach, beforeAll, afterAll } from "vitest";
 
 // Mock global fetch for location lookup
+const originalFetch = global.fetch;
+
 global.fetch = vi.fn(() => Promise.resolve({
 	ok: true,
 	json: () => Promise.resolve({ city: "Munich", locality: "Munich" })
 }));
+
+// Restore original fetch after all tests
+afterAll(() => {
+	global.fetch = originalFetch;
+});
 
 describe("Weather Provider Smoke Tests", () => {
 	describe("OpenMeteoProvider", () => {
