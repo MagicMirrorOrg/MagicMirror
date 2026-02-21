@@ -197,9 +197,9 @@ Module.register("weather", {
 		Object.assign(weather, {
 			...data,
 			// Convert to moment objects for template compatibility
-			date: moment(data.date),
-			sunrise: moment(data.sunrise),
-			sunset: moment(data.sunset)
+			date: data.date ? moment(data.date) : null,
+			sunrise: data.sunrise ? moment(data.sunrise) : null,
+			sunset: data.sunset ? moment(data.sunset) : null
 		});
 		return weather;
 	},
