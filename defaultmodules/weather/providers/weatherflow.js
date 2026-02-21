@@ -1,5 +1,6 @@
 const Log = require("logger");
 const HTTPFetcher = require("../../../js/http_fetcher");
+const { convertKmhToMs } = require("../provider-utils");
 
 /**
  * WeatherFlow weather provider
@@ -126,7 +127,7 @@ class WeatherFlowProvider {
 			humidity: current.relative_humidity || null,
 			temperature: current.air_temperature || null,
 			feelsLikeTemp: current.feels_like || null,
-			windSpeed: this.convertWindToMs(current.wind_avg),
+			windSpeed: convertKmhToMs(current.wind_avg),
 			windDirection: current.wind_direction || null,
 			weatherType: this.convertWeatherType(current.icon),
 			uvIndex: current.uv || null,
@@ -192,7 +193,7 @@ class WeatherFlowProvider {
 				temperature: hour.air_temperature || null,
 				feelsLikeTemp: hour.feels_like || null,
 				humidity: hour.relative_humidity || null,
-				windSpeed: this.convertWindToMs(hour.wind_avg),
+				windSpeed: convertKmhToMs(hour.wind_avg),
 				windDirection: hour.wind_direction || null,
 				weatherType: this.convertWeatherType(hour.icon),
 				precipitationProbability: hour.precip_probability || null,
@@ -239,16 +240,6 @@ class WeatherFlowProvider {
 		};
 
 		return weatherTypes[weatherType] || null;
-	}
-
-	/**
-	 * Convert wind speed from kph to m/s
-	 * @param {number} windInKph - Wind speed in kph
-	 * @returns {number} Wind speed in m/s
-	 */
-	convertWindToMs (windInKph) {
-		if (windInKph === null || windInKph === undefined) return null;
-		return windInKph / 3.6;
 	}
 
 	/**

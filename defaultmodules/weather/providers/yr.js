@@ -1,5 +1,5 @@
 const Log = require("logger");
-const { limitDecimals, formatTimezoneOffset, getDateString } = require("../provider-utils");
+const { formatTimezoneOffset, getDateString, validateCoordinates } = require("../provider-utils");
 const HTTPFetcher = require("#http_fetcher");
 
 /**
@@ -47,7 +47,8 @@ class YrProvider {
 	}
 
 	async initialize () {
-		this.#validateConfig();
+		// Yr.no requires max 4 decimal places
+		validateCoordinates(this.config, 4);
 		await this.#fetchStellarData();
 		this.#initializeFetcher();
 	}
@@ -67,17 +68,6 @@ class YrProvider {
 		if (this.fetcher) {
 			this.fetcher.clearTimer();
 		}
-	}
-
-	#validateConfig () {
-		if (this.config.lat == null || this.config.lon == null
-			|| !Number.isFinite(this.config.lat) || !Number.isFinite(this.config.lon)) {
-			throw new Error("Latitude and longitude are required");
-		}
-
-		// Yr.no requires max 4 decimal places
-		this.config.lat = limitDecimals(this.config.lat, 4);
-		this.config.lon = limitDecimals(this.config.lon, 4);
 	}
 
 	async #fetchStellarData () {

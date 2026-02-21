@@ -1,5 +1,5 @@
 const Log = require("logger");
-const { limitDecimals, getSunTimes, isDayTime } = require("../provider-utils");
+const { getSunTimes, isDayTime, validateCoordinates } = require("../provider-utils");
 const HTTPFetcher = require("#http_fetcher");
 
 /**
@@ -30,7 +30,8 @@ class SMHIProvider {
 	}
 
 	async initialize () {
-		this.#validateConfig();
+		// SMHI requires max 6 decimal places
+		validateCoordinates(this.config, 6);
 		this.#initializeFetcher();
 	}
 
@@ -49,16 +50,6 @@ class SMHIProvider {
 		if (this.fetcher) {
 			this.fetcher.clearTimer();
 		}
-	}
-
-	#validateConfig () {
-		if (this.config.lat == null || this.config.lon == null) {
-			throw new Error("Latitude and longitude are required");
-		}
-
-		// SMHI requires max 6 decimal places
-		this.config.lat = limitDecimals(this.config.lat, 6);
-		this.config.lon = limitDecimals(this.config.lon, 6);
 	}
 
 	#initializeFetcher () {

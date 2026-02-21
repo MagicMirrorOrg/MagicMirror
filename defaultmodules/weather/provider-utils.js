@@ -114,6 +114,31 @@ function getDateString (date) {
 	return `${year}-${month}-${day}`;
 }
 
+/**
+ * Convert wind speed from km/h to m/s
+ * @param {number} kmh - Wind speed in km/h
+ * @returns {number} Wind speed in m/s
+ */
+function convertKmhToMs (kmh) {
+	return kmh / 3.6;
+}
+
+/**
+ * Validate and limit coordinate precision
+ * @param {object} config - Configuration object with lat/lon properties
+ * @param {number} maxDecimals - Maximum decimal places to preserve
+ * @throws {Error} If coordinates are missing or invalid
+ */
+function validateCoordinates (config, maxDecimals = 4) {
+	if (config.lat == null || config.lon == null
+		|| !Number.isFinite(config.lat) || !Number.isFinite(config.lon)) {
+		throw new Error("Latitude and longitude are required");
+	}
+
+	config.lat = limitDecimals(config.lat, maxDecimals);
+	config.lon = limitDecimals(config.lon, maxDecimals);
+}
+
 module.exports = {
 	convertWeatherType,
 	applyTimezoneOffset,
@@ -121,5 +146,7 @@ module.exports = {
 	getSunTimes,
 	isDayTime,
 	formatTimezoneOffset,
-	getDateString
+	getDateString,
+	convertKmhToMs,
+	validateCoordinates
 };

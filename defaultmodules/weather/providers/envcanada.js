@@ -1,4 +1,5 @@
 const Log = require("logger");
+const { convertKmhToMs } = require("../provider-utils");
 const HTTPFetcher = require("#http_fetcher");
 
 /**
@@ -163,7 +164,7 @@ class EnvCanadaProvider {
 
 		// Wind
 		const windSpeed = this.#extract(xml, /<wind>.*?<speed[^>]*>(.*?)<\/speed>/s);
-		current.windSpeed = (windSpeed === "calm") ? 0 : parseFloat(windSpeed) / 3.6;
+		current.windSpeed = (windSpeed === "calm") ? 0 : convertKmhToMs(parseFloat(windSpeed));
 
 		const windBearing = this.#extract(xml, /<wind>.*?<bearing[^>]*>(.*?)<\/bearing>/s);
 		if (windBearing) current.windFromDirection = parseFloat(windBearing);

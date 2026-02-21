@@ -1,5 +1,5 @@
 const Log = require("logger");
-const { getSunTimes, isDayTime, getDateString } = require("../provider-utils");
+const { getSunTimes, isDayTime, getDateString, convertKmhToMs } = require("../provider-utils");
 const HTTPFetcher = require("#http_fetcher");
 
 /**
@@ -305,7 +305,7 @@ class WeatherGovProvider {
 			if (windSpeedStr.includes(" ")) {
 				windSpeed = windSpeedStr.split(" ")[0];
 			}
-			weather.windSpeed = this.#convertWindToMs(parseFloat(windSpeed));
+			weather.windSpeed = convertKmhToMs(parseFloat(windSpeed));
 			weather.windFromDirection = this.#convertWindDirection(forecast.windDirection);
 			weather.temperature = forecast.temperature;
 			weather.precipitationProbability = forecast.probabilityOfPrecipitation?.value ?? 0;
@@ -337,11 +337,6 @@ class WeatherGovProvider {
 			NNW: 337.5
 		};
 		return directions[direction] ?? null;
-	}
-
-	#convertWindToMs (windSpeedKmh) {
-		// Convert km/h to m/s
-		return windSpeedKmh / 3.6;
 	}
 
 	#convertWeatherType (weatherType, isDaytime) {
