@@ -12,6 +12,14 @@ const helpers = require("./global-setup");
 async function injectMockWeatherData (page, mockDataFile) {
 	const rawData = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../mocks", mockDataFile)).toString());
 
+	// Validate that the fixture has at least one expected weather data type
+	if (!rawData.current && !rawData.daily && !rawData.hourly) {
+		throw new Error(
+			"Invalid weather fixture: missing current, daily, and hourly data. "
+			+ `Available keys: ${Object.keys(rawData).join(", ")}`
+		);
+	}
+
 	// Determine weather type from the mock data structure
 	let type = "current";
 	let data = null;
