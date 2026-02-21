@@ -12,6 +12,7 @@ class PirateweatherProvider {
 			type: "current",
 			updateInterval: 10 * 60 * 1000,
 			units: "us",
+			lang: "en",
 			...config
 		};
 		this.fetcher = null;
@@ -227,7 +228,9 @@ class PirateweatherProvider {
 	getUrl () {
 		const apiBase = this.config.apiBase || "https://api.pirateweather.net";
 		const weatherEndpoint = this.config.weatherEndpoint || "/forecast";
-		return `${apiBase}${weatherEndpoint}/${this.config.apiKey}/${this.config.lat},${this.config.lon}?units=si&lang=${this.config.lang}`;
+		const units = this.config.units || "us";
+		const lang = this.config.lang || "en";
+		return `${apiBase}${weatherEndpoint}/${this.config.apiKey}/${this.config.lat},${this.config.lon}?units=${units}&lang=${lang}`;
 	}
 
 	convertWeatherType (weatherType) {
