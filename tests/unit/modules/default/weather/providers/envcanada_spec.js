@@ -181,8 +181,8 @@ describe("EnvCanadaProvider", () => {
 
 			const result = await dataPromise;
 
-			// Icon code 40 = "Blowing Snow" → "snow"
-			expect(result.weatherType).toBe("snow");
+			// Icon code 40 = "Blowing Snow" → "snow-wind"
+			expect(result.weatherType).toBe("snow-wind");
 		});
 	});
 
