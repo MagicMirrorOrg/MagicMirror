@@ -2,7 +2,7 @@
 	"lat": 48.14,
 	"lon": 11.58,
 	"timezone": "Europe/Berlin",
-	"timezone_offset": 3600,
+	"timezone_offset": 0,
 	"current": {
 		"dt": 1547387400,
 		"sunrise": 1547362817,
