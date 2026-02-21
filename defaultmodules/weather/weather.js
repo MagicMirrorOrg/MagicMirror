@@ -77,7 +77,7 @@ Module.register("weather", {
 
 	usesServerSideProvider () {
 		// Check if this provider uses server-side implementation
-		const serverSideProviders = ["openmeteo", "openweathermap", "weathergov", "yr", "smhi", "envcanada", "pirateweather"];
+		const serverSideProviders = ["openmeteo", "openweathermap", "weathergov", "yr", "smhi", "envcanada", "pirateweather", "ukmetofficedatahub"];
 		return serverSideProviders.includes(this.config.weatherProvider.toLowerCase());
 	},
 
