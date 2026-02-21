@@ -157,7 +157,7 @@ class UkMetOfficeDataHubProvider {
 					humidity: hour.screenRelativeHumidity || null,
 					rain: hour.totalPrecipAmount || 0,
 					snow: hour.totalSnowAmount || 0,
-					precipitation: (hour.totalPrecipAmount || 0) + (hour.totalSnowAmount || 0),
+					precipitationAmount: (hour.totalPrecipAmount || 0) + (hour.totalSnowAmount || 0),
 					precipitationProbability: hour.probOfPrecipitation || null,
 					feelsLikeTemp: hour.feelsLikeTemperature || null,
 					sunrise: null,
@@ -182,6 +182,10 @@ class UkMetOfficeDataHubProvider {
 			windDirection: firstHour.windDirectionFrom10m || null,
 			weatherType: this.#convertWeatherType(firstHour.significantWeatherCode),
 			humidity: firstHour.screenRelativeHumidity || null,
+			rain: firstHour.totalPrecipAmount || 0,
+			snow: firstHour.totalSnowAmount || 0,
+			precipitationAmount: (firstHour.totalPrecipAmount || 0) + (firstHour.totalSnowAmount || 0),
+			precipitationProbability: firstHour.probOfPrecipitation || null,
 			feelsLikeTemp: firstHour.feelsLikeTemperature || null,
 			sunrise: null,
 			sunset: null
@@ -217,7 +221,7 @@ class UkMetOfficeDataHubProvider {
 					humidity: day.middayRelativeHumidity || null,
 					rain: day.dayProbabilityOfRain || 0,
 					snow: day.dayProbabilityOfSnow || 0,
-					precipitation: 0,
+					precipitationAmount: 0,
 					precipitationProbability: day.dayProbabilityOfPrecipitation || null,
 					feelsLikeTemp: day.dayMaxFeelsLikeTemp || null
 				});
@@ -248,7 +252,7 @@ class UkMetOfficeDataHubProvider {
 				humidity: hour.screenRelativeHumidity || null,
 				rain: hour.totalPrecipAmount || 0,
 				snow: hour.totalSnowAmount || 0,
-				precipitation: (hour.totalPrecipAmount || 0) + (hour.totalSnowAmount || 0),
+				precipitationAmount: (hour.totalPrecipAmount || 0) + (hour.totalSnowAmount || 0),
 				precipitationProbability: hour.probOfPrecipitation || null,
 				feelsLikeTemp: hour.feelsLikeTemp || null
 			});
