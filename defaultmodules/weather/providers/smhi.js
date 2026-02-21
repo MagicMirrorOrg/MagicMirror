@@ -276,21 +276,27 @@ class SMHIProvider {
 	}
 
 	#fillInGaps (data) {
+		if (data.length === 0) return [];
+
 		const result = [];
+		result.push(data[0]); // Keep first data point
 
 		for (let i = 1; i < data.length; i++) {
 			const from = new Date(data[i - 1].validTime);
 			const to = new Date(data[i].validTime);
 			const hours = Math.floor((to - from) / (1000 * 60 * 60));
 
-			// Add datapoint for each hour
-			for (let j = 0; j < hours; j++) {
-				const current = { ...data[i] };
+			// Fill gaps with previous data point (start at j=1 since j=0 is already pushed)
+			for (let j = 1; j < hours; j++) {
+				const current = { ...data[i - 1] };
 				const newTime = new Date(from);
 				newTime.setHours(from.getHours() + j);
 				current.validTime = newTime.toISOString();
 				result.push(current);
 			}
+
+			// Push original data point
+			result.push(data[i]);
 		}
 
 		return result;
