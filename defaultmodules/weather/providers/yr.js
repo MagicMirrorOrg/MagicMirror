@@ -97,6 +97,18 @@ class YrProvider {
 			if (!response.ok) {
 				Log.warn(`[yr] Could not fetch stellar data: HTTP ${response.status}`);
 				this.stellarDataDate = today;
+			} else {
+				// Parse and store the stellar data
+				const data = await response.json();
+				// Transform single-day response into array format expected by #getStellarInfoForDate
+				if (data && data.properties) {
+					this.stellarData = [{
+						date: data.when.interval[0], // ISO date string
+						sunrise: data.properties.sunrise,
+						sunset: data.properties.sunset
+					}];
+				}
+				this.stellarDataDate = today;
 			}
 		} catch (error) {
 			Log.warn("[yr] Failed to fetch stellar data:", error);
