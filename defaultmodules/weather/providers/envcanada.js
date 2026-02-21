@@ -84,8 +84,9 @@ class EnvCanadaProvider {
 				const cityPageURL = this.#extractCityPageURL(html);
 
 				if (!cityPageURL) {
-				// This can happen during hour transitions when old responses arrive
+					// This can happen during hour transitions when old responses arrive
 					Log.debug("[envcanada] Could not find city page URL (may be stale response from previous hour)");
+					return;
 				}
 
 				if (cityPageURL === this.lastCityPageURL) {
@@ -154,8 +155,17 @@ class EnvCanadaProvider {
 	#generateCurrentWeather (xml) {
 		const current = { date: new Date() };
 
-		// Temperature (with caching for missing values)
-		const temp = this.#extract(xml, /<currentConditions>.*?<temperature[^>]*>(.*?)<\/temperature>/s);
+		// Since <currentConditions/> is often empty, extract from first forecast period
+		const firstForecast = xml.match(/<forecast>(.*?)<\/forecast>/s);
+		if (!firstForecast) {
+			Log.warn("[envcanada] No forecast data available");
+			return current;
+		}
+
+		const forecastXml = firstForecast[1];
+
+		// Temperature from first forecast (class can be "high" or "low" depending on time of day)
+		const temp = this.#extract(forecastXml, /<temperature[^>]*>(.*?)<\/temperature>/);
 		if (temp && temp !== "") {
 			current.temperature = parseFloat(temp);
 			this.cacheCurrentTemp = current.temperature;
@@ -165,32 +175,26 @@ class EnvCanadaProvider {
 			current.temperature = null;
 		}
 
-		// Wind
-		const windSpeed = this.#extract(xml, /<wind>.*?<speed[^>]*>(.*?)<\/speed>/s);
-		current.windSpeed = (windSpeed === "calm") ? 0 : convertKmhToMs(parseFloat(windSpeed));
-
-		const windBearing = this.#extract(xml, /<wind>.*?<bearing[^>]*>(.*?)<\/bearing>/s);
-		if (windBearing) current.windFromDirection = parseFloat(windBearing);
-
-		// Humidity
-		const humidity = this.#extract(xml, /<relativeHumidity[^>]*>(.*?)<\/relativeHumidity>/);
-		if (humidity) current.humidity = parseFloat(humidity);
-
-		// Feels like
-		current.feelsLikeTemp = current.temperature;
-		const windChill = this.#extract(xml, /<windChill[^>]*>(.*?)<\/windChill>/);
-		const humidex = this.#extract(xml, /<humidex[^>]*>(.*?)<\/humidex>/);
-		if (windChill) {
-			current.feelsLikeTemp = parseFloat(windChill);
-		} else if (humidex) {
-			current.feelsLikeTemp = parseFloat(humidex);
+		// Wind speed
+		const windSpeed = this.#extract(forecastXml, /<speed[^>]*>(.*?)<\/speed>/);
+		if (windSpeed) {
+			current.windSpeed = (windSpeed === "calm") ? 0 : convertKmhToMs(parseFloat(windSpeed));
 		}
 
-		// Weather type
-		const iconCode = this.#extract(xml, /<currentConditions>.*?<iconCode[^>]*>(.*?)<\/iconCode>/s);
+		const windBearing = this.#extract(forecastXml, /<bearing[^>]*>(.*?)<\/bearing>/);
+		if (windBearing) current.windFromDirection = parseFloat(windBearing);
+
+		// Weather type from icon code
+		const iconCode = this.#extract(forecastXml, /<iconCode[^>]*>(.*?)<\/iconCode>/);
 		if (iconCode) current.weatherType = this.#convertWeatherType(iconCode);
 
-		// Sunrise/sunset
+		// Precipitation probability
+		const pop = this.#extract(forecastXml, /<pop[^>]*>(.*?)<\/pop>/);
+		if (pop && pop !== "") {
+			current.precipitationProbability = parseFloat(pop);
+		}
+
+		// Sunrise/sunset (from riseSet, independent of currentConditions)
 		const sunriseTime = this.#extract(xml, /<dateTime[^>]*name="sunrise"[^>]*>.*?<timeStamp>(.*?)<\/timeStamp>/s);
 		const sunsetTime = this.#extract(xml, /<dateTime[^>]*name="sunset"[^>]*>.*?<timeStamp>(.*?)<\/timeStamp>/s);
 		if (sunriseTime) current.sunrise = this.#parseECTime(sunriseTime);
