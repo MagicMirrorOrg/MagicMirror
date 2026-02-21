@@ -88,12 +88,15 @@ exports.getText = async (element, result) => {
 exports.startApp = async (configFileName, systemDate, mockDataFile = "weather_onecall_current.json") => {
 	await helpers.startApplication(configFileName, systemDate);
 
-	// Wait for modules to initialize
-	await global.page.waitForTimeout(1000);
+	// Wait for weather module to be present in DOM
+	await global.page.waitForSelector(".weather", { timeout: 5000 });
 
 	// Inject mock weather data
 	await injectMockWeatherData(mockDataFile);
 
-	// Wait for rendering
-	await global.page.waitForTimeout(500);
+	// Wait for weather content to be rendered
+	await global.page.waitForFunction(() => {
+		const weatherRoot = document.querySelector(".weather");
+		return !!(weatherRoot && weatherRoot.textContent && weatherRoot.textContent.trim().length > 0);
+	}, { timeout: 5000 });
 };
