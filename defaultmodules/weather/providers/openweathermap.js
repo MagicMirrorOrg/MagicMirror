@@ -111,9 +111,12 @@ class OpenWeatherMapProvider {
 				case "hourly":
 					weatherData = onecallData.hours;
 					break;
+				default:
+					Log.error(`[weatherprovider.openweathermap] Unknown type: ${this.config.type}`);
+					throw new Error(`Unknown weather type: ${this.config.type}`);
 			}
 
-			if (this.onDataCallback) {
+			if (weatherData && this.onDataCallback) {
 				this.onDataCallback(weatherData);
 			}
 		} catch (error) {

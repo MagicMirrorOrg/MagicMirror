@@ -154,7 +154,7 @@ class OpenMeteoProvider {
 				this.locationName = `${data.city}, ${data.principalSubdivisionCode}`;
 			}
 		} catch (error) {
-			Log.error("[weatherprovider.openmeteo] Could not load location data:", error);
+			Log.error("Could not load location data:", error);
 		}
 	}
 
@@ -172,7 +172,7 @@ class OpenMeteoProvider {
 				const data = await response.json();
 				this.#handleResponse(data);
 			} catch (error) {
-				Log.error("[weatherprovider.openmeteo] Failed to parse JSON:", error);
+				Log.error("Failed to parse JSON:", error);
 				if (this.onErrorCallback) {
 					this.onErrorCallback({
 						message: "Failed to parse API response",
@@ -215,13 +215,16 @@ class OpenMeteoProvider {
 				case "hourly":
 					weatherData = this.#generateWeatherObjectsFromHourly(parsedData);
 					break;
+				default:
+					Log.error(`Unknown type: ${this.config.type}`);
+					throw new Error(`Unknown weather type: ${this.config.type}`);
 			}
 
-			if (this.onDataCallback) {
+			if (weatherData && this.onDataCallback) {
 				this.onDataCallback(weatherData);
 			}
 		} catch (error) {
-			Log.error("[weatherprovider.openmeteo] Error processing weather data:", error);
+			Log.error("Error processing weather data:", error);
 			if (this.onErrorCallback) {
 				this.onErrorCallback({
 					message: error.message,
