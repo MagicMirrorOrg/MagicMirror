@@ -440,7 +440,16 @@ class YrProvider {
 	#getSunriseUrl () {
 		const { lat, lon } = this.config;
 		const today = new Date().toISOString().split("T")[0];
-		return `${this.config.apiBase}/sunrise/${this.config.sunriseApiVersion}/sun?lat=${lat}&lon=${lon}&date=${today}&offset=+01:00`;
+		const offset = this.#getTimezoneOffset();
+		return `${this.config.apiBase}/sunrise/${this.config.sunriseApiVersion}/sun?lat=${lat}&lon=${lon}&date=${today}&offset=${offset}`;
+	}
+
+	#getTimezoneOffset () {
+		const offsetMinutes = -new Date().getTimezoneOffset();
+		const hours = Math.floor(Math.abs(offsetMinutes) / 60);
+		const minutes = Math.abs(offsetMinutes) % 60;
+		const sign = offsetMinutes >= 0 ? "+" : "-";
+		return `${sign}${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
 	}
 }
 
