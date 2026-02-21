@@ -471,13 +471,14 @@ class OpenMeteoProvider {
 			}
 		}
 
-		// Add daily data if available
-		if (parsedData.daily) {
-			if (parsedData.daily.sunrise?.[0]) {
-				current.sunrise = parsedData.daily.sunrise[0];
+		// Add daily data if available (after transpose, daily is array of objects)
+		if (parsedData.daily && Array.isArray(parsedData.daily) && parsedData.daily[0]) {
+			const today = parsedData.daily[0];
+			if (today.sunrise) {
+				current.sunrise = today.sunrise;
 			}
-			if (parsedData.daily.sunset?.[0]) {
-				current.sunset = parsedData.daily.sunset[0];
+			if (today.sunset) {
+				current.sunset = today.sunset;
 				// Update weatherType with correct day/night status
 				if (current.sunrise && current.sunset) {
 					current.weatherType = this.#convertWeatherType(
@@ -486,11 +487,11 @@ class OpenMeteoProvider {
 					);
 				}
 			}
-			if (parsedData.daily.temperature_2m_min?.[0]) {
-				current.minTemperature = parsedData.daily.temperature_2m_min[0];
+			if (today.temperature_2m_min !== undefined) {
+				current.minTemperature = today.temperature_2m_min;
 			}
-			if (parsedData.daily.temperature_2m_max?.[0]) {
-				current.maxTemperature = parsedData.daily.temperature_2m_max[0];
+			if (today.temperature_2m_max !== undefined) {
+				current.maxTemperature = today.temperature_2m_max;
 			}
 		}
 
