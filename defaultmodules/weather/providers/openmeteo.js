@@ -435,7 +435,7 @@ class OpenMeteoProvider {
 			// Handle both data shapes: object with arrays or array of objects (after transpose)
 			if (Array.isArray(parsedData.hourly)) {
 				// Array of objects (after transpose)
-				const hourlyIndex = parsedData.hourly.findIndex((hour) => String(hour.time) === String(currentTime));
+				const hourlyIndex = parsedData.hourly.findIndex((hour) => hour.time.getTime() === currentTime.getTime());
 				h = hourlyIndex !== -1 ? hourlyIndex : 0;
 
 				if (hourlyIndex === -1) {
