@@ -26,7 +26,7 @@ class EnvCanadaProvider {
 		this.onDataCallback = null;
 		this.onErrorCallback = null;
 		this.lastCityPageURL = null;
-		this.cacheCurrentTemp = 999;
+		this.cacheCurrentTemp = null;
 		this.currentHour = null; // Track current hour for URL updates
 	}
 
@@ -157,7 +157,7 @@ class EnvCanadaProvider {
 		if (temp && temp !== "") {
 			current.temperature = parseFloat(temp);
 			this.cacheCurrentTemp = current.temperature;
-		} else {
+		} else if (this.cacheCurrentTemp !== null) {
 			current.temperature = this.cacheCurrentTemp;
 		}
 
