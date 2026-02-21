@@ -179,9 +179,11 @@ class OpenWeatherMapProvider {
 				weather.windSpeed = hour.wind_speed;
 				weather.windFromDirection = hour.wind_deg;
 				weather.weatherType = weatherUtils.convertWeatherType(hour.weather[0].icon);
-				weather.precipitationProbability = hour.pop !== undefined ? hour.pop * 100 : undefined; weather.uvIndex = hour.uvi;
+				weather.precipitationProbability = hour.pop !== undefined ? hour.pop * 100 : undefined;
+				weather.uvIndex = hour.uvi;
 
-				precip = false; if (hour.hasOwnProperty("rain") && !isNaN(hour.rain["1h"])) {
+				precip = false;
+				if (hour.hasOwnProperty("rain") && !isNaN(hour.rain["1h"])) {
 					weather.rain = hour.rain["1h"];
 					precip = true;
 				}
@@ -212,9 +214,11 @@ class OpenWeatherMapProvider {
 				weather.windSpeed = day.wind_speed;
 				weather.windFromDirection = day.wind_deg;
 				weather.weatherType = weatherUtils.convertWeatherType(day.weather[0].icon);
-				weather.precipitationProbability = day.pop !== undefined ? day.pop * 100 : undefined; weather.uvIndex = day.uvi;
+				weather.precipitationProbability = day.pop !== undefined ? day.pop * 100 : undefined;
+				weather.uvIndex = day.uvi;
 
-				precip = false; if (!isNaN(day.rain)) {
+				precip = false;
+				if (!isNaN(day.rain)) {
 					weather.rain = day.rain;
 					precip = true;
 				}
