@@ -26,7 +26,7 @@ class PirateweatherProvider {
 
 	async initialize () {
 		if (!this.config.apiKey) {
-			Log.error("[weatherprovider.pirateweather] No API key configured");
+			Log.error("[pirateweather] No API key configured");
 			if (this.onErrorCallback) {
 				this.onErrorCallback({
 					message: "API key required",
@@ -56,7 +56,7 @@ class PirateweatherProvider {
 				const data = await response.json();
 				this.handleResponse(data);
 			} catch (error) {
-				Log.error("[weatherprovider.pirateweather] Parse error:", error);
+				Log.error("[pirateweather] Parse error:", error);
 				if (this.onErrorCallback) {
 					this.onErrorCallback({
 						message: "Failed to parse API response",
@@ -75,7 +75,7 @@ class PirateweatherProvider {
 
 	handleResponse (data) {
 		if (!data || (!data.currently && !data.daily && !data.hourly)) {
-			Log.error("[weatherprovider.pirateweather] No usable data received");
+			Log.error("[pirateweather] No usable data received");
 			if (this.onErrorCallback) {
 				this.onErrorCallback({
 					message: "No usable data in API response",
@@ -99,7 +99,7 @@ class PirateweatherProvider {
 				weatherData = this.generateHourly(data);
 				break;
 			default:
-				Log.error(`[weatherprovider.pirateweather] Unknown weather type: ${this.config.type}`);
+				Log.error(`[pirateweather] Unknown weather type: ${this.config.type}`);
 				break;
 
 		}

@@ -20,7 +20,7 @@ class SMHIProvider {
 
 		// Validate precipitationValue
 		if (!["pmin", "pmean", "pmedian", "pmax"].includes(this.config.precipitationValue)) {
-			Log.warn(`[weatherprovider.smhi] Invalid precipitationValue: ${this.config.precipitationValue}, using pmedian`);
+			Log.warn(`[smhi] Invalid precipitationValue: ${this.config.precipitationValue}, using pmedian`);
 			this.config.precipitationValue = "pmedian";
 		}
 
@@ -35,7 +35,7 @@ class SMHIProvider {
 			validateCoordinates(this.config, 6);
 			this.#initializeFetcher();
 		} catch (error) {
-			Log.error("[weatherprovider.smhi] Initialization failed:", error);
+			Log.error("[smhi] Initialization failed:", error);
 			if (this.onErrorCallback) {
 				this.onErrorCallback({
 					message: error.message,
@@ -75,7 +75,7 @@ class SMHIProvider {
 				const data = await response.json();
 				this.#handleResponse(data);
 			} catch (error) {
-				Log.error("[weatherprovider.smhi] Failed to parse JSON:", error);
+				Log.error("[smhi] Failed to parse JSON:", error);
 				if (this.onErrorCallback) {
 					this.onErrorCallback({
 						message: "Failed to parse API response",
@@ -113,7 +113,7 @@ class SMHIProvider {
 					weatherData = this.#generateHourly(data.timeSeries, coordinates);
 					break;
 				default:
-					Log.error(`[weatherprovider.smhi] Unknown weather type: ${this.config.type}`);
+					Log.error(`[smhi] Unknown weather type: ${this.config.type}`);
 					break;
 			}
 
@@ -121,7 +121,7 @@ class SMHIProvider {
 				this.onDataCallback(weatherData);
 			}
 		} catch (error) {
-			Log.error("[weatherprovider.smhi] Error processing weather data:", error);
+			Log.error("[smhi] Error processing weather data:", error);
 			if (this.onErrorCallback) {
 				this.onErrorCallback({
 					message: error.message,
@@ -316,7 +316,7 @@ class SMHIProvider {
 			};
 		}
 
-		Log.warn("[weatherprovider.smhi] Invalid coordinate structure in response, using config values");
+		Log.warn("[smhi] Invalid coordinate structure in response, using config values");
 		return {
 			lat: this.config.lat,
 			lon: this.config.lon

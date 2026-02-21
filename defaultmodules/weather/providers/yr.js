@@ -25,7 +25,7 @@ class YrProvider {
 
 		// Enforce 10 minute minimum per API terms
 		if (this.config.updateInterval < 600000) {
-			Log.warn("[weatherprovider.yr] Minimum update interval is 10 minutes (600000 ms). Adjusting configuration.");
+			Log.warn("[yr] Minimum update interval is 10 minutes (600000 ms). Adjusting configuration.");
 			this.config.updateInterval = 600000;
 		}
 
@@ -95,11 +95,11 @@ class YrProvider {
 			clearTimeout(timeoutId);
 
 			if (!response.ok) {
-				Log.warn(`[weatherprovider.yr] Could not fetch stellar data: HTTP ${response.status}`);
+				Log.warn(`[yr] Could not fetch stellar data: HTTP ${response.status}`);
 				this.stellarDataDate = today;
 			}
 		} catch (error) {
-			Log.warn("[weatherprovider.yr] Failed to fetch stellar data:", error);
+			Log.warn("[yr] Failed to fetch stellar data:", error);
 		}
 	}
 
@@ -126,7 +126,7 @@ class YrProvider {
 			try {
 				// Handle 304 Not Modified - use cached data
 				if (response.status === 304) {
-					Log.log("[weatherprovider.yr] Data not modified, using cache");
+					Log.log("[yr] Data not modified, using cache");
 					if (this.weatherCache.data) {
 						this.#handleResponse(this.weatherCache.data, true);
 					}
@@ -154,7 +154,7 @@ class YrProvider {
 
 				this.#handleResponse(data, false);
 			} catch (error) {
-				Log.error("[weatherprovider.yr] Failed to parse JSON:", error);
+				Log.error("[yr] Failed to parse JSON:", error);
 				if (this.onErrorCallback) {
 					this.onErrorCallback({
 						message: "Failed to parse API response",
@@ -203,7 +203,7 @@ class YrProvider {
 				this.onDataCallback(weatherData);
 			}
 		} catch (error) {
-			Log.error("[weatherprovider.yr] Error processing weather data:", error);
+			Log.error("[yr] Error processing weather data:", error);
 			if (this.onErrorCallback) {
 				this.onErrorCallback({
 					message: error.message,

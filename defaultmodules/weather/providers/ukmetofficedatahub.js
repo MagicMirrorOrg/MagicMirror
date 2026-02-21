@@ -37,7 +37,7 @@ class UkMetOfficeDataHubProvider {
 
 	async initialize () {
 		if (!this.config.apiKey || this.config.apiKey === "YOUR_API_KEY_HERE") {
-			Log.error("[weatherprovider.ukmetofficedatahub] No API key configured");
+			Log.error("[ukmetofficedatahub] No API key configured");
 			if (this.onErrorCallback) {
 				this.onErrorCallback({
 					message: "UK Met Office DataHub API key required. Get one at https://datahub.metoffice.gov.uk/",
@@ -68,7 +68,7 @@ class UkMetOfficeDataHubProvider {
 				const data = await response.json();
 				this.#handleResponse(data);
 			} catch (error) {
-				Log.error("[weatherprovider.ukmetofficedatahub] Parse error:", error);
+				Log.error("[ukmetofficedatahub] Parse error:", error);
 				if (this.onErrorCallback) {
 					this.onErrorCallback({
 						message: "Failed to parse API response",
@@ -106,7 +106,7 @@ class UkMetOfficeDataHubProvider {
 
 	#handleResponse (data) {
 		if (!data || !data.features || !data.features[0] || !data.features[0].properties || !data.features[0].properties.timeSeries || data.features[0].properties.timeSeries.length === 0) {
-			Log.error("[weatherprovider.ukmetofficedatahub] No usable data received");
+			Log.error("[ukmetofficedatahub] No usable data received");
 			if (this.onErrorCallback) {
 				this.onErrorCallback({
 					message: "No usable data in API response",
@@ -130,7 +130,7 @@ class UkMetOfficeDataHubProvider {
 				weatherData = this.#generateHourly(data);
 				break;
 			default:
-				Log.error(`[weatherprovider.ukmetofficedatahub] Unknown weather type: ${this.config.type}`);
+				Log.error(`[ukmetofficedatahub] Unknown weather type: ${this.config.type}`);
 				break;
 		}
 

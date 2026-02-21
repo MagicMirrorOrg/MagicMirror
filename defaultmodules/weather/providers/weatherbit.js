@@ -29,7 +29,7 @@ class WeatherbitProvider {
 
 	async initialize () {
 		if (!this.config.apiKey || this.config.apiKey === "YOUR_API_KEY_HERE") {
-			Log.error("[weatherprovider.weatherbit] No API key configured");
+			Log.error("[weatherbit] No API key configured");
 			if (this.onErrorCallback) {
 				this.onErrorCallback({
 					message: "Weatherbit API key required. Get one at https://www.weatherbit.io/",
@@ -58,7 +58,7 @@ class WeatherbitProvider {
 				const data = await response.json();
 				this.handleResponse(data);
 			} catch (error) {
-				Log.error("[weatherprovider.weatherbit] Parse error:", error);
+				Log.error("[weatherbit] Parse error:", error);
 				if (this.onErrorCallback) {
 					this.onErrorCallback({
 						message: "Failed to parse API response",
@@ -95,7 +95,7 @@ class WeatherbitProvider {
 
 	handleResponse (data) {
 		if (!data || !data.data || data.data.length === 0) {
-			Log.error("[weatherprovider.weatherbit] No usable data received");
+			Log.error("[weatherbit] No usable data received");
 			if (this.onErrorCallback) {
 				this.onErrorCallback({
 					message: "No usable data in API response",
@@ -119,7 +119,7 @@ class WeatherbitProvider {
 				weatherData = this.generateHourly(data);
 				break;
 			default:
-				Log.error(`[weatherprovider.weatherbit] Unknown weather type: ${this.config.type}`);
+				Log.error(`[weatherbit] Unknown weather type: ${this.config.type}`);
 				break;
 		}
 

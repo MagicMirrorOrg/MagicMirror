@@ -35,7 +35,7 @@ class OpenWeatherMapProvider {
 		}
 
 		if (!this.config.apiKey) {
-			Log.error("[weatherprovider.openweathermap] API key is required");
+			Log.error("[openweathermap] API key is required");
 			this.onErrorCallback({
 				message: "API key is required",
 				translationKey: "MODULE_ERROR_UNSPECIFIED"
@@ -77,7 +77,7 @@ class OpenWeatherMapProvider {
 				const data = await response.json();
 				this.#handleResponse(data);
 			} catch (error) {
-				Log.error("[weatherprovider.openweathermap] Failed to parse JSON:", error);
+				Log.error("[openweathermap] Failed to parse JSON:", error);
 				if (this.onErrorCallback) {
 					this.onErrorCallback({
 						message: "Failed to parse API response",
@@ -116,7 +116,7 @@ class OpenWeatherMapProvider {
 					weatherData = onecallData.hours;
 					break;
 				default:
-					Log.error(`[weatherprovider.openweathermap] Unknown type: ${this.config.type}`);
+					Log.error(`[openweathermap] Unknown type: ${this.config.type}`);
 					throw new Error(`Unknown weather type: ${this.config.type}`);
 			}
 
@@ -124,7 +124,7 @@ class OpenWeatherMapProvider {
 				this.onDataCallback(weatherData);
 			}
 		} catch (error) {
-			Log.error("[weatherprovider.openweathermap] Error processing weather data:", error);
+			Log.error("[openweathermap] Error processing weather data:", error);
 			if (this.onErrorCallback) {
 				this.onErrorCallback({
 					message: error.message,

@@ -33,7 +33,7 @@ class WeatherFlowProvider {
 	 */
 	async initialize () {
 		if (!this.config.token || this.config.token === "YOUR_API_TOKEN_HERE") {
-			Log.error("[weatherprovider.weatherflow] No API token configured. Get one at https://tempestwx.com/");
+			Log.error("[weatherflow] No API token configured. Get one at https://tempestwx.com/");
 			if (this.onErrorCallback) {
 				this.onErrorCallback({
 					message: "WeatherFlow API token required. Get one at https://tempestwx.com/",
@@ -44,7 +44,7 @@ class WeatherFlowProvider {
 		}
 
 		if (!this.config.stationid) {
-			Log.error("[weatherprovider.weatherflow] No station ID configured");
+			Log.error("[weatherflow] No station ID configured");
 			if (this.onErrorCallback) {
 				this.onErrorCallback({
 					message: "WeatherFlow station ID required",
@@ -78,7 +78,7 @@ class WeatherFlowProvider {
 				const processed = this.processData(data);
 				this.onDataCallback(processed);
 			} catch (error) {
-				Log.error("[weatherprovider.weatherflow] Failed to parse JSON:", error);
+				Log.error("[weatherflow] Failed to parse JSON:", error);
 			}
 		});
 
@@ -117,7 +117,7 @@ class WeatherFlowProvider {
 
 			return weatherData;
 		} catch (error) {
-			Log.error("[weatherprovider.weatherflow] Data processing error:", error);
+			Log.error("[weatherflow] Data processing error:", error);
 			if (this.onErrorCallback) {
 				this.onErrorCallback({
 					message: "Failed to process weather data",
@@ -135,7 +135,7 @@ class WeatherFlowProvider {
 	 */
 	generateCurrentWeather (data) {
 		if (!data || !data.current_conditions || !data.forecast || !Array.isArray(data.forecast.daily) || data.forecast.daily.length === 0) {
-			Log.error("[weatherprovider.weatherflow] Invalid current weather data structure");
+			Log.error("[weatherflow] Invalid current weather data structure");
 			return null;
 		}
 
@@ -165,7 +165,7 @@ class WeatherFlowProvider {
 	 */
 	generateForecast (data) {
 		if (!data || !data.forecast || !Array.isArray(data.forecast.daily) || !Array.isArray(data.forecast.hourly)) {
-			Log.error("[weatherprovider.weatherflow] Invalid forecast data structure");
+			Log.error("[weatherflow] Invalid forecast data structure");
 			return [];
 		}
 
@@ -211,7 +211,7 @@ class WeatherFlowProvider {
 	 */
 	generateHourly (data) {
 		if (!data || !data.forecast || !Array.isArray(data.forecast.hourly)) {
-			Log.error("[weatherprovider.weatherflow] Invalid hourly data structure");
+			Log.error("[weatherflow] Invalid hourly data structure");
 			return [];
 		}
 
