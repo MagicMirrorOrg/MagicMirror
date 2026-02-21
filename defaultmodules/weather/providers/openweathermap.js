@@ -28,14 +28,17 @@ class OpenWeatherMapProvider {
 	}
 
 	async initialize () {
+		// Validate callbacks exist
+		if (typeof this.onErrorCallback !== "function") {
+			throw new Error("setCallbacks() must be called before initialize()");
+		}
+
 		if (!this.config.apiKey) {
 			Log.error("[weatherprovider.openweathermap] API key is required");
-			if (this.onErrorCallback) {
-				this.onErrorCallback({
-					message: "API key is required",
-					translationKey: "MODULE_ERROR_UNSPECIFIED"
-				});
-			}
+			this.onErrorCallback({
+				message: "API key is required",
+				translationKey: "MODULE_ERROR_UNSPECIFIED"
+			});
 			return;
 		}
 
