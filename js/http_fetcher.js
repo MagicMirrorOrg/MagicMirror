@@ -177,7 +177,7 @@ class HTTPFetcher extends EventEmitter {
 		if (status === 401 || status === 403) {
 			errorType = "AUTH_FAILURE";
 			delay = Math.max(this.reloadInterval * 5, THIRTY_MINUTES);
-			message = `Authentication failed (${status}). Waiting ${Math.round(delay / 60000)} minutes before retry.`;
+			message = `Authentication failed (${status}). Check your API key. Waiting ${Math.round(delay / 60000)} minutes before retry.`;
 			Log.error(`${this.url} - ${message}`);
 		} else if (status === 429) {
 			errorType = "RATE_LIMITED";
