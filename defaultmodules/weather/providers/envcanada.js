@@ -347,7 +347,8 @@ class EnvCanadaProvider {
 		const min = parseInt(timeStr.substring(10, 12), 10);
 		const s = parseInt(timeStr.substring(12, 14), 10);
 
-		return new Date(y, m, d, h, min, s);
+		// Create UTC date since input timestamps are in UTC
+		return new Date(Date.UTC(y, m, d, h, min, s));
 	}
 
 	#convertWeatherType (iconCode) {
