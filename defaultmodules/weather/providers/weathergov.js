@@ -22,6 +22,8 @@ class WeatherGovProvider {
 		this.onDataCallback = null;
 		this.onErrorCallback = null;
 		this.locationName = null;
+		this.initRetryCount = 0;
+		this.initRetryTimer = null;
 
 		// Weather.gov specific URLs (fetched during initialization)
 		this.forecastURL = null;
@@ -32,18 +34,61 @@ class WeatherGovProvider {
 	}
 
 	async initialize () {
+		// Add small random delay to prevent all instances from starting simultaneously
+		// This reduces parallel DNS lookups which can cause EAI_AGAIN errors
+		const staggerDelay = Math.random() * 3000; // 0-3 seconds
+		await new Promise((resolve) => setTimeout(resolve, staggerDelay));
+
 		try {
 			await this.#fetchWeatherGovURLs();
 			this.#initializeFetcher();
+			this.initRetryCount = 0; // Reset on success
 		} catch (error) {
-			Log.error("[weathergov] Initialization failed:", error);
-			if (this.onErrorCallback) {
+			const errorInfo = this.#categorizeError(error);
+			Log.error(`[weathergov] Initialization failed: ${errorInfo.message}`);
+
+			// Retry on temporary errors (DNS, timeout, network)
+			if (errorInfo.isRetryable && this.initRetryCount < 5) {
+				this.initRetryCount++;
+				const delay = Math.min(30000 * Math.pow(2, this.initRetryCount - 1), 5 * 60 * 1000); // 30s, 60s, 120s, 240s, 300s max
+				Log.info(`[weathergov] Will retry initialization in ${Math.round(delay / 1000)}s (attempt ${this.initRetryCount}/5)`);
+				this.initRetryTimer = setTimeout(() => this.initialize(), delay);
+			} else if (this.onErrorCallback) {
 				this.onErrorCallback({
-					message: error.message,
+					message: errorInfo.message,
 					translationKey: "MODULE_ERROR_UNSPECIFIED"
 				});
 			}
 		}
+	}
+
+	#categorizeError (error) {
+		const cause = error.cause || error;
+		const code = cause.code || "";
+
+		if (code === "EAI_AGAIN" || code === "ENOTFOUND") {
+			return {
+				message: "DNS lookup failed for api.weather.gov - check your internet connection",
+				isRetryable: true
+			};
+		}
+		if (code === "ETIMEDOUT" || code === "ECONNREFUSED" || code === "ECONNRESET") {
+			return {
+				message: `Network error: ${code} - api.weather.gov may be temporarily unavailable`,
+				isRetryable: true
+			};
+		}
+		if (error.name === "AbortError") {
+			return {
+				message: "Request timeout - api.weather.gov is responding slowly",
+				isRetryable: true
+			};
+		}
+
+		return {
+			message: error.message || "Unknown error",
+			isRetryable: false
+		};
 	}
 
 	setCallbacks (onData, onError) {
@@ -61,6 +106,10 @@ class WeatherGovProvider {
 		if (this.fetcher) {
 			this.fetcher.clearTimer();
 		}
+		if (this.initRetryTimer) {
+			clearTimeout(this.initRetryTimer);
+			this.initRetryTimer = null;
+		}
 	}
 
 	async #fetchWeatherGovURLs () {
@@ -68,7 +117,7 @@ class WeatherGovProvider {
 		const pointsUrl = `${this.config.apiBase}${this.config.lat},${this.config.lon}`;
 
 		const controller = new AbortController();
-		const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout
+		const timeoutId = setTimeout(() => controller.abort(), 120000); // 120 second timeout - DNS can be slow
 
 		try {
 			const pointsResponse = await fetch(pointsUrl, {
