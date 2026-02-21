@@ -6,7 +6,7 @@ const express = require("express");
 const helmet = require("helmet");
 const socketio = require("socket.io");
 const Log = require("logger");
-const { cors, getHtml, getVersion, getStartup, getEnvVars } = require("#server_functions");
+const { getHtml, getEnvVars } = require("#server_functions");
 
 const { ipAccessControl } = require(`${__dirname}/ip_access_control`);
 
@@ -106,6 +106,9 @@ function Server (configObj) {
 				app.use(directory, express.static(path.resolve(global.root_path + directory)));
 			}
 
+			const startUp = new Date();
+			const getStartup = (req, res) => res.send(startUp);
+
 			const getConfig = (req, res) => {
 				if (config.hideConfigSecrets) {
 					res.send(configObj.redactedConf);
@@ -113,11 +116,6 @@ function Server (configObj) {
 					res.send(configObj.fullConf);
 				}
 			};
-
-			app.get("/cors", async (req, res) => await cors(req, res));
-
-			app.get("/version", (req, res) => getVersion(req, res));
-
 			app.get("/config", (req, res) => getConfig(req, res));
 
 			app.get("/startup", (req, res) => getStartup(req, res));

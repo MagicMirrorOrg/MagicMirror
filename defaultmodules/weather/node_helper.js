@@ -33,8 +33,8 @@ module.exports = NodeHelper.create({
 		}
 
 		try {
-			// Dynamically load the provider module (server-side version with _server suffix)
-			const providerPath = path.join(__dirname, "providers", `${identifier}_server.js`);
+			// Dynamically load the provider module
+			const providerPath = path.join(__dirname, "providers", `${identifier}.js`);
 			Log.log(`[weather] Loading provider from: ${providerPath}`);
 			const ProviderClass = require(providerPath);
 
