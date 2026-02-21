@@ -47,12 +47,12 @@ class UkMetOfficeDataHubProvider {
 			return;
 		}
 
-		this.initializeFetcher();
+		this.#initializeFetcher();
 	}
 
-	initializeFetcher () {
-		const forecastType = this.getForecastType();
-		const url = this.getUrl(forecastType);
+	#initializeFetcher () {
+		const forecastType = this.#getForecastType();
+		const url = this.#getUrl(forecastType);
 
 		this.fetcher = new HTTPFetcher(url, {
 			reloadInterval: this.config.updateInterval,
@@ -66,7 +66,7 @@ class UkMetOfficeDataHubProvider {
 		this.fetcher.on("response", async (response) => {
 			try {
 				const data = await response.json();
-				this.handleResponse(data);
+				this.#handleResponse(data);
 			} catch (error) {
 				Log.error("[weatherprovider.ukmetofficedatahub] Parse error:", error);
 				if (this.onErrorCallback) {
@@ -85,7 +85,7 @@ class UkMetOfficeDataHubProvider {
 		});
 	}
 
-	getForecastType () {
+	#getForecastType () {
 		switch (this.config.type) {
 			case "hourly":
 				return "three-hourly";
@@ -98,13 +98,13 @@ class UkMetOfficeDataHubProvider {
 		}
 	}
 
-	getUrl (forecastType) {
+	#getUrl (forecastType) {
 		const base = this.config.apiBase.endsWith("/") ? this.config.apiBase : `${this.config.apiBase}/`;
 		const queryStrings = `?latitude=${this.config.lat}&longitude=${this.config.lon}&includeLocationName=true`;
 		return `${base}${forecastType}${queryStrings}`;
 	}
 
-	handleResponse (data) {
+	#handleResponse (data) {
 		if (!data || !data.features || !data.features[0] || !data.features[0].properties || !data.features[0].properties.timeSeries || data.features[0].properties.timeSeries.length === 0) {
 			Log.error("[weatherprovider.ukmetofficedatahub] No usable data received");
 			if (this.onErrorCallback) {
@@ -120,14 +120,14 @@ class UkMetOfficeDataHubProvider {
 
 		switch (this.config.type) {
 			case "current":
-				weatherData = this.generateCurrentWeather(data);
+				weatherData = this.#generateCurrentWeather(data);
 				break;
 			case "forecast":
 			case "daily":
-				weatherData = this.generateForecast(data);
+				weatherData = this.#generateForecast(data);
 				break;
 			case "hourly":
-				weatherData = this.generateHourly(data);
+				weatherData = this.#generateHourly(data);
 				break;
 		}
 
@@ -136,7 +136,7 @@ class UkMetOfficeDataHubProvider {
 		}
 	}
 
-	generateCurrentWeather (data) {
+	#generateCurrentWeather (data) {
 		const timeSeries = data.features[0].properties.timeSeries;
 		const now = new Date();
 
@@ -153,7 +153,7 @@ class UkMetOfficeDataHubProvider {
 					maxTemperature: hour.maxScreenAirTemp || null,
 					windSpeed: hour.windSpeed10m || null,
 					windDirection: hour.windDirectionFrom10m || null,
-					weatherType: this.convertWeatherType(hour.significantWeatherCode),
+					weatherType: this.#convertWeatherType(hour.significantWeatherCode),
 					humidity: hour.screenRelativeHumidity || null,
 					rain: hour.totalPrecipAmount || 0,
 					snow: hour.totalSnowAmount || 0,
@@ -180,7 +180,7 @@ class UkMetOfficeDataHubProvider {
 			temperature: firstHour.screenTemperature || null,
 			windSpeed: firstHour.windSpeed10m || null,
 			windDirection: firstHour.windDirectionFrom10m || null,
-			weatherType: this.convertWeatherType(firstHour.significantWeatherCode),
+			weatherType: this.#convertWeatherType(firstHour.significantWeatherCode),
 			humidity: firstHour.screenRelativeHumidity || null,
 			feelsLikeTemp: firstHour.feelsLikeTemperature || null,
 			sunrise: null,
@@ -194,7 +194,7 @@ class UkMetOfficeDataHubProvider {
 		return current;
 	}
 
-	generateForecast (data) {
+	#generateForecast (data) {
 		const timeSeries = data.features[0].properties.timeSeries;
 		const days = [];
 		const today = new Date();
@@ -213,7 +213,7 @@ class UkMetOfficeDataHubProvider {
 					temperature: day.dayMaxScreenTemperature || null,
 					windSpeed: day.midday10MWindSpeed || null,
 					windDirection: day.midday10MWindDirection || null,
-					weatherType: this.convertWeatherType(day.daySignificantWeatherCode),
+					weatherType: this.#convertWeatherType(day.daySignificantWeatherCode),
 					humidity: day.middayRelativeHumidity || null,
 					rain: day.dayProbabilityOfRain || 0,
 					snow: day.dayProbabilityOfSnow || 0,
@@ -227,7 +227,7 @@ class UkMetOfficeDataHubProvider {
 		return days;
 	}
 
-	generateHourly (data) {
+	#generateHourly (data) {
 		const timeSeries = data.features[0].properties.timeSeries;
 		const hours = [];
 
@@ -244,7 +244,7 @@ class UkMetOfficeDataHubProvider {
 				temperature: temp,
 				windSpeed: hour.windSpeed10m || null,
 				windDirection: hour.windDirectionFrom10m || null,
-				weatherType: this.convertWeatherType(hour.significantWeatherCode),
+				weatherType: this.#convertWeatherType(hour.significantWeatherCode),
 				humidity: hour.screenRelativeHumidity || null,
 				rain: hour.totalPrecipAmount || 0,
 				snow: hour.totalSnowAmount || 0,
@@ -263,7 +263,7 @@ class UkMetOfficeDataHubProvider {
 	 * @param {number} weatherType - Met Office weather code
 	 * @returns {string|null} Weathericons.css icon name or null
 	 */
-	convertWeatherType (weatherType) {
+	#convertWeatherType (weatherType) {
 		const weatherTypes = {
 			0: "night-clear",
 			1: "day-sunny",
