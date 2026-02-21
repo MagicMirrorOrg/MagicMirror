@@ -66,7 +66,7 @@ class WeatherObject {
 	 * the date from the weather-forecast.
 	 * @param {Moment} date an optional date where you want to get the next
 	 * action for. Useful only in tests, defaults to the current time.
-	 * @returns {string} "sunset" or "sunrise"
+	 * @returns {string|null} "sunset", "sunrise", or null if sun data unavailable
 	 */
 	nextSunAction (date = moment()) {
 		// Return null if sunrise/sunset data is unavailable

@@ -2,6 +2,9 @@
  * Shared utility functions for weather providers
  */
 
+const Log = require("logger");
+const SunCalc = require("suncalc");
+
 /**
  * Convert OpenWeatherMap icon codes to internal weather types
  * @param {string} weatherType - OpenWeatherMap icon code (e.g., "01d", "02n")
@@ -68,7 +71,6 @@ function limitDecimals (value, decimals) {
  * @returns {object} Object with sunrise and sunset Date objects
  */
 function getSunTimes (date, lat, lon) {
-	const SunCalc = require("suncalc");
 	const sunTimes = SunCalc.getTimes(date, lat, lon);
 	return {
 		sunrise: sunTimes.sunrise,

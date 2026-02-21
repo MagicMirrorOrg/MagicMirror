@@ -3,7 +3,17 @@ const HTTPFetcher = require("#http_fetcher");
 
 class PirateweatherProvider {
 	constructor (config) {
-		this.config = config;
+		this.config = {
+			apiBase: "https://api.pirateweather.net",
+			weatherEndpoint: "/forecast",
+			apiKey: "",
+			lat: 0,
+			lon: 0,
+			type: "current",
+			updateInterval: 10 * 60 * 1000,
+			units: "us",
+			...config
+		};
 		this.fetcher = null;
 		this.onDataCallback = null;
 		this.onErrorCallback = null;
