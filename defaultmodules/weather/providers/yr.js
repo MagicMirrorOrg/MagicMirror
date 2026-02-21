@@ -205,6 +205,8 @@ class YrProvider {
 				case "hourly":
 					weatherData = this.#generateHourly(data);
 					break;
+				default:
+					throw new Error(`Unknown weather type: ${this.config.type}`);
 			}
 
 			if (this.onDataCallback) {
