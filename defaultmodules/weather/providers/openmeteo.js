@@ -509,11 +509,11 @@ class OpenMeteoProvider {
 			minTemperature: parseFloat(weather.temperature_2m_min),
 			maxTemperature: parseFloat(weather.temperature_2m_max),
 			weatherType: this.#convertWeatherType(weather.weathercode, true),
-			rain: parseFloat(weather.rain_sum),
-			snow: parseFloat(weather.snowfall_sum * 10),
-			precipitationAmount: parseFloat(weather.precipitation_sum),
-			precipitationProbability: parseFloat(weather.precipitation_hours * 100 / 24),
-			uvIndex: parseFloat(weather.uv_index_max)
+			rain: weather.rain_sum != null ? parseFloat(weather.rain_sum) : null,
+			snow: weather.snowfall_sum != null ? parseFloat(weather.snowfall_sum * 10) : null,
+			precipitationAmount: weather.precipitation_sum != null ? parseFloat(weather.precipitation_sum) : null,
+			precipitationProbability: weather.precipitation_hours != null ? parseFloat(weather.precipitation_hours * 100 / 24) : null,
+			uvIndex: weather.uv_index_max != null ? parseFloat(weather.uv_index_max) : null
 		}));
 	}
 
@@ -540,12 +540,12 @@ class OpenMeteoProvider {
 					weather.weathercode,
 					this.#isDayTime(weather.time, parsedData.daily[h].sunrise, parsedData.daily[h].sunset)
 				),
-				humidity: parseFloat(weather.relativehumidity_2m),
-				rain: parseFloat(weather.rain),
-				snow: parseFloat(weather.snowfall * 10),
-				precipitationAmount: parseFloat(weather.precipitation),
-				precipitationProbability: parseFloat(weather.precipitation_probability),
-				uvIndex: parseFloat(weather.uv_index)
+				humidity: weather.relativehumidity_2m != null ? parseFloat(weather.relativehumidity_2m) : null,
+				rain: weather.rain != null ? parseFloat(weather.rain) : null,
+				snow: weather.snowfall != null ? parseFloat(weather.snowfall * 10) : null,
+				precipitationAmount: weather.precipitation != null ? parseFloat(weather.precipitation) : null,
+				precipitationProbability: weather.precipitation_probability != null ? parseFloat(weather.precipitation_probability) : null,
+				uvIndex: weather.uv_index != null ? parseFloat(weather.uv_index) : null
 			};
 
 			hours.push(hourlyWeather);

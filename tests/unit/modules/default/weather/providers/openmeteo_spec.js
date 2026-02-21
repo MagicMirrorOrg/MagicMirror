@@ -213,9 +213,10 @@ describe("OpenMeteoProvider", () => {
 
 			const result = await dataPromise;
 
-			// Real data has null for rain_sum - parseFloat(null) returns NaN
-			expect(result[0].rain == null || result[0].rain === 0 || isNaN(result[0].rain)).toBe(true);
-			expect(result[0].precipitationAmount == null || result[0].precipitationAmount === 0 || isNaN(result[0].precipitationAmount)).toBe(true);
+			// Mock data has no rain_sum field - provider returns null for missing data
+			expect(result[0].rain).toBeNull();
+			// precipitation_sum has value 0.0 in mock data
+			expect(result[0].precipitationAmount).toBe(0.0);
 		});
 	});
 
