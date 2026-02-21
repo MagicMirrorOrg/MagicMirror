@@ -147,7 +147,7 @@ class OpenMeteoProvider {
 
 		try {
 			const controller = new AbortController();
-			const timeoutId = setTimeout(() => controller.abort(), 5000);
+			const timeoutId = setTimeout(() => controller.abort(), 10000);
 
 			const response = await fetch(url, { signal: controller.signal });
 			clearTimeout(timeoutId);
@@ -160,7 +160,7 @@ class OpenMeteoProvider {
 				this.locationName = `${data.city}, ${data.principalSubdivisionCode}`;
 			}
 		} catch (error) {
-			Log.error("[openmeteo] Could not load location data:", error);
+			Log.debug("[openmeteo] Could not load location data:", error.message);
 		}
 	}
 
