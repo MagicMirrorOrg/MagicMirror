@@ -132,9 +132,6 @@ class WeatherbitProvider {
 
 		const current = data.data[0];
 
-		// Calculate timezone offset to convert sunrise/sunset to local time
-		const tzOffset = new Date().getTimezoneOffset() * -1; // invert
-
 		const weather = {
 			date: new Date(current.ts * 1000),
 			temperature: parseFloat(current.temp),
@@ -146,18 +143,18 @@ class WeatherbitProvider {
 			sunset: null
 		};
 
-		// Parse sunrise/sunset from HH:mm format
+		// Parse sunrise/sunset from HH:mm format (already in local time)
 		if (current.sunrise) {
 			const [hours, minutes] = current.sunrise.split(":");
 			const sunrise = new Date();
-			sunrise.setHours(parseInt(hours), parseInt(minutes) + tzOffset, 0, 0);
+			sunrise.setHours(parseInt(hours), parseInt(minutes), 0, 0);
 			weather.sunrise = sunrise;
 		}
 
 		if (current.sunset) {
 			const [hours, minutes] = current.sunset.split(":");
 			const sunset = new Date();
-			sunset.setHours(parseInt(hours), parseInt(minutes) + tzOffset, 0, 0);
+			sunset.setHours(parseInt(hours), parseInt(minutes), 0, 0);
 			weather.sunset = sunset;
 		}
 

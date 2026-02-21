@@ -295,33 +295,14 @@ class OpenMeteoProvider {
 		return `${this.config.apiBase}/forecast?${this.#getQueryParameters()}`;
 	}
 
-	#checkDST (unixTimestamp) {
-		const date = new Date(unixTimestamp * 1000);
-		const now = new Date();
-
-		const nowDST = this.#isDST(now);
-		const dateDST = this.#isDST(date);
-
-		if (nowDST === dateDST) {
-			return date;
-		}
-
-		const offset = nowDST ? 3600000 : -3600000;
-		return new Date(date.getTime() + offset);
-	}
-
-	#isDST (date) {
-		const jan = new Date(date.getFullYear(), 0, 1).getTimezoneOffset();
-		const jul = new Date(date.getFullYear(), 6, 1).getTimezoneOffset();
-		return Math.max(jan, jul) !== date.getTimezoneOffset();
-	}
-
 	#transposeDataMatrix (data) {
 		return data.time.map((_, index) => Object.keys(data).reduce((row, key) => {
 			const value = data[key][index];
 			return {
 				...row,
-				[key]: ["time", "sunrise", "sunset"].includes(key) ? this.#checkDST(value) : value
+				// Convert Unix timestamps to Date objects
+				// timezone: "auto" returns times already in location timezone
+				[key]: ["time", "sunrise", "sunset"].includes(key) ? new Date(value * 1000) : value
 			};
 		}, {}));
 	}
