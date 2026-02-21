@@ -54,14 +54,14 @@ class WeatherFlowProvider {
 			return;
 		}
 
-		this.initializeFetcher();
+		this.#initializeFetcher();
 	}
 
 	/**
 	 * Initialize the HTTP fetcher
 	 */
-	initializeFetcher () {
-		const url = this.getUrl();
+	#initializeFetcher () {
+		const url = this.#getUrl();
 
 		this.fetcher = new HTTPFetcher(url, {
 			reloadInterval: this.config.updateInterval,
@@ -75,7 +75,7 @@ class WeatherFlowProvider {
 		this.fetcher.on("response", async (response) => {
 			try {
 				const data = await response.json();
-				const processed = this.processData(data);
+				const processed = this.#processData(data);
 				this.onDataCallback(processed);
 			} catch (error) {
 				Log.error("[weatherflow] Failed to parse JSON:", error);
@@ -94,7 +94,7 @@ class WeatherFlowProvider {
 	 * Generate the URL for API requests
 	 * @returns {string} The API URL
 	 */
-	getUrl () {
+	#getUrl () {
 		const base = this.config.apiBase || "https://swd.weatherflow.com/swd/rest/";
 		return `${base}better_forecast?station_id=${this.config.stationid}&units_temp=c&units_wind=kph&units_pressure=mb&units_precip=mm&units_distance=km&token=${this.config.token}`;
 	}
@@ -104,15 +104,15 @@ class WeatherFlowProvider {
 	 * @param {object} data - Raw API response
 	 * @returns {object} Processed weather data
 	 */
-	processData (data) {
+	#processData (data) {
 		try {
 			let weatherData;
 			if (this.config.type === "current") {
-				weatherData = this.generateCurrentWeather(data);
+				weatherData = this.#generateCurrent(data);
 			} else if (this.config.type === "hourly") {
-				weatherData = this.generateHourly(data);
+				weatherData = this.#generateHourly(data);
 			} else {
-				weatherData = this.generateForecast(data);
+				weatherData = this.#generateDaily(data);
 			}
 
 			return weatherData;
@@ -133,7 +133,7 @@ class WeatherFlowProvider {
 	 * @param {object} data - API response data
 	 * @returns {object} Current weather object
 	 */
-	generateCurrentWeather (data) {
+	#generateCurrent (data) {
 		if (!data || !data.current_conditions || !data.forecast || !Array.isArray(data.forecast.daily) || data.forecast.daily.length === 0) {
 			Log.error("[weatherflow] Invalid current weather data structure");
 			return null;
@@ -149,7 +149,7 @@ class WeatherFlowProvider {
 			feelsLikeTemp: current.feels_like || null,
 			windSpeed: current.wind_avg != null ? convertKmhToMs(current.wind_avg) : null,
 			windFromDirection: current.wind_direction || null,
-			weatherType: this.convertWeatherType(current.icon),
+			weatherType: this.#convertWeatherType(current.icon),
 			uvIndex: current.uv || null,
 			sunrise: daily.sunrise ? new Date(daily.sunrise * 1000) : null,
 			sunset: daily.sunset ? new Date(daily.sunset * 1000) : null
@@ -163,7 +163,7 @@ class WeatherFlowProvider {
 	 * @param {object} data - API response data
 	 * @returns {Array} Array of forecast objects
 	 */
-	generateForecast (data) {
+	#generateDaily (data) {
 		if (!data || !data.forecast || !Array.isArray(data.forecast.daily) || !Array.isArray(data.forecast.hourly)) {
 			Log.error("[weatherflow] Invalid forecast data structure");
 			return [];
@@ -177,7 +177,7 @@ class WeatherFlowProvider {
 				minTemperature: forecast.air_temp_low || null,
 				maxTemperature: forecast.air_temp_high || null,
 				precipitationProbability: forecast.precip_probability || null,
-				weatherType: this.convertWeatherType(forecast.icon),
+				weatherType: this.#convertWeatherType(forecast.icon),
 				precipitationAmount: 0.0,
 				precipitationUnits: "mm",
 				uvIndex: 0
@@ -212,7 +212,7 @@ class WeatherFlowProvider {
 	 * @param {object} data - API response data
 	 * @returns {Array} Array of hourly forecast objects
 	 */
-	generateHourly (data) {
+	#generateHourly (data) {
 		if (!data || !data.forecast || !Array.isArray(data.forecast.hourly)) {
 			Log.error("[weatherflow] Invalid hourly data structure");
 			return [];
@@ -228,7 +228,7 @@ class WeatherFlowProvider {
 				humidity: hour.relative_humidity || null,
 				windSpeed: hour.wind_avg != null ? convertKmhToMs(hour.wind_avg) : null,
 				windFromDirection: hour.wind_direction || null,
-				weatherType: this.convertWeatherType(hour.icon),
+				weatherType: this.#convertWeatherType(hour.icon),
 				precipitationProbability: hour.precip_probability || null,
 				precipitationAmount: hour.precip || 0,
 				precipitationUnits: "mm",
@@ -249,7 +249,7 @@ class WeatherFlowProvider {
 	 * @param {string} weatherType - WeatherFlow icon code
 	 * @returns {string} Weather icon CSS class
 	 */
-	convertWeatherType (weatherType) {
+	#convertWeatherType (weatherType) {
 		const weatherTypes = {
 			"clear-day": "day-sunny",
 			"clear-night": "night-clear",

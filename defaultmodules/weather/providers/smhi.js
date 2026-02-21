@@ -63,7 +63,7 @@ class SMHIProvider {
 	}
 
 	#initializeFetcher () {
-		const url = this.#getURL();
+		const url = this.#getUrl();
 
 		this.fetcher = new HTTPFetcher(url, {
 			reloadInterval: this.config.updateInterval,
@@ -387,7 +387,7 @@ class SMHIProvider {
 		}
 	}
 
-	#getURL () {
+	#getUrl () {
 		const lon = this.config.lon.toFixed(6);
 		const lat = this.config.lat.toFixed(6);
 		return `https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/${lon}/lat/${lat}/data.json`;

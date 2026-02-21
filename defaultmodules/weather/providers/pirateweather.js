@@ -37,11 +37,11 @@ class PirateweatherProvider {
 			return;
 		}
 
-		this.initializeFetcher();
+		this.#initializeFetcher();
 	}
 
-	initializeFetcher () {
-		const url = this.getUrl();
+	#initializeFetcher () {
+		const url = this.#getUrl();
 
 		this.fetcher = new HTTPFetcher(url, {
 			reloadInterval: this.config.updateInterval,
@@ -55,7 +55,7 @@ class PirateweatherProvider {
 		this.fetcher.on("response", async (response) => {
 			try {
 				const data = await response.json();
-				this.handleResponse(data);
+				this.#handleResponse(data);
 			} catch (error) {
 				Log.error("[pirateweather] Parse error:", error);
 				if (this.onErrorCallback) {
@@ -74,7 +74,7 @@ class PirateweatherProvider {
 		});
 	}
 
-	handleResponse (data) {
+	#handleResponse (data) {
 		if (!data || (!data.currently && !data.daily && !data.hourly)) {
 			Log.error("[pirateweather] No usable data received");
 			if (this.onErrorCallback) {
@@ -90,14 +90,14 @@ class PirateweatherProvider {
 
 		switch (this.config.type) {
 			case "current":
-				weatherData = this.generateCurrentWeather(data);
+				weatherData = this.#generateCurrent(data);
 				break;
 			case "forecast":
 			case "daily":
-				weatherData = this.generateForecast(data);
+				weatherData = this.#generateDaily(data);
 				break;
 			case "hourly":
-				weatherData = this.generateHourly(data);
+				weatherData = this.#generateHourly(data);
 				break;
 			default:
 				Log.error(`[pirateweather] Unknown weather type: ${this.config.type}`);
@@ -116,7 +116,7 @@ class PirateweatherProvider {
 		}
 	}
 
-	generateCurrentWeather (data) {
+	#generateCurrent (data) {
 		if (!data.currently || typeof data.currently.temperature === "undefined") {
 			return null;
 		}
@@ -128,7 +128,7 @@ class PirateweatherProvider {
 			feelsLikeTemp: data.currently.apparentTemperature != null ? parseFloat(data.currently.apparentTemperature) : null,
 			windSpeed: data.currently.windSpeed != null ? parseFloat(data.currently.windSpeed) : null,
 			windFromDirection: data.currently.windBearing || null,
-			weatherType: this.convertWeatherType(data.currently.icon),
+			weatherType: this.#convertWeatherType(data.currently.icon),
 			sunrise: null,
 			sunset: null
 		};
@@ -147,7 +147,7 @@ class PirateweatherProvider {
 		return current;
 	}
 
-	generateForecast (data) {
+	#generateDaily (data) {
 		if (!data.daily || !data.daily.data || !data.daily.data.length) {
 			return [];
 		}
@@ -159,7 +159,7 @@ class PirateweatherProvider {
 				date: new Date(forecast.time * 1000),
 				minTemperature: forecast.temperatureMin != null ? parseFloat(forecast.temperatureMin) : null,
 				maxTemperature: forecast.temperatureMax != null ? parseFloat(forecast.temperatureMax) : null,
-				weatherType: this.convertWeatherType(forecast.icon),
+				weatherType: this.#convertWeatherType(forecast.icon),
 				snow: 0,
 				rain: 0,
 				precipitationAmount: 0,
@@ -188,7 +188,7 @@ class PirateweatherProvider {
 		return days;
 	}
 
-	generateHourly (data) {
+	#generateHourly (data) {
 		if (!data.hourly || !data.hourly.data || !data.hourly.data.length) {
 			return [];
 		}
@@ -200,7 +200,7 @@ class PirateweatherProvider {
 				date: new Date(forecast.time * 1000),
 				temperature: forecast.temperature !== undefined ? parseFloat(forecast.temperature) : null,
 				feelsLikeTemp: forecast.apparentTemperature !== undefined ? parseFloat(forecast.apparentTemperature) : null,
-				weatherType: this.convertWeatherType(forecast.icon),
+				weatherType: this.#convertWeatherType(forecast.icon),
 				windSpeed: forecast.windSpeed !== undefined ? parseFloat(forecast.windSpeed) : null,
 				windFromDirection: forecast.windBearing || null,
 				precipitationProbability: forecast.precipProbability ? parseFloat(forecast.precipProbability) * 100 : null,
@@ -231,7 +231,7 @@ class PirateweatherProvider {
 		return hours;
 	}
 
-	getUrl () {
+	#getUrl () {
 		const apiBase = this.config.apiBase || "https://api.pirateweather.net";
 		const weatherEndpoint = this.config.weatherEndpoint || "/forecast";
 		const units = this.config.units || "us";
@@ -239,7 +239,7 @@ class PirateweatherProvider {
 		return `${apiBase}${weatherEndpoint}/${this.config.apiKey}/${this.config.lat},${this.config.lon}?units=${units}&lang=${lang}`;
 	}
 
-	convertWeatherType (weatherType) {
+	#convertWeatherType (weatherType) {
 		const weatherTypes = {
 			"clear-day": "day-sunny",
 			"clear-night": "night-clear",

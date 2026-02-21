@@ -39,11 +39,11 @@ class WeatherbitProvider {
 			return;
 		}
 
-		this.initializeFetcher();
+		this.#initializeFetcher();
 	}
 
-	initializeFetcher () {
-		const url = this.getUrl();
+	#initializeFetcher () {
+		const url = this.#getUrl();
 
 		this.fetcher = new HTTPFetcher(url, {
 			reloadInterval: this.config.updateInterval,
@@ -56,7 +56,7 @@ class WeatherbitProvider {
 		this.fetcher.on("response", async (response) => {
 			try {
 				const data = await response.json();
-				this.handleResponse(data);
+				this.#handleResponse(data);
 			} catch (error) {
 				Log.error("[weatherbit] Parse error:", error);
 				if (this.onErrorCallback) {
@@ -75,12 +75,12 @@ class WeatherbitProvider {
 		});
 	}
 
-	getUrl () {
-		const endpoint = this.getWeatherEndpoint();
+	#getUrl () {
+		const endpoint = this.#getWeatherEndpoint();
 		return `${this.config.apiBase}${endpoint}?lat=${this.config.lat}&lon=${this.config.lon}&units=M&key=${this.config.apiKey}`;
 	}
 
-	getWeatherEndpoint () {
+	#getWeatherEndpoint () {
 		switch (this.config.type) {
 			case "hourly":
 				return "/forecast/hourly";
@@ -93,7 +93,7 @@ class WeatherbitProvider {
 		}
 	}
 
-	handleResponse (data) {
+	#handleResponse (data) {
 		if (!data || !data.data || data.data.length === 0) {
 			Log.error("[weatherbit] No usable data received");
 			if (this.onErrorCallback) {
@@ -109,14 +109,14 @@ class WeatherbitProvider {
 
 		switch (this.config.type) {
 			case "current":
-				weatherData = this.generateCurrentWeather(data);
+				weatherData = this.#generateCurrent(data);
 				break;
 			case "forecast":
 			case "daily":
-				weatherData = this.generateForecast(data);
+				weatherData = this.#generateDaily(data);
 				break;
 			case "hourly":
-				weatherData = this.generateHourly(data);
+				weatherData = this.#generateHourly(data);
 				break;
 			default:
 				Log.error(`[weatherbit] Unknown weather type: ${this.config.type}`);
@@ -128,7 +128,7 @@ class WeatherbitProvider {
 		}
 	}
 
-	generateCurrentWeather (data) {
+	#generateCurrent (data) {
 		if (!data.data[0] || typeof data.data[0].temp === "undefined") {
 			return null;
 		}
@@ -141,7 +141,7 @@ class WeatherbitProvider {
 			humidity: parseFloat(current.rh),
 			windSpeed: parseFloat(current.wind_spd),
 			windFromDirection: current.wind_dir || null,
-			weatherType: this.convertWeatherType(current.weather.icon),
+			weatherType: this.#convertWeatherType(current.weather.icon),
 			sunrise: null,
 			sunset: null
 		};
@@ -164,7 +164,7 @@ class WeatherbitProvider {
 		return weather;
 	}
 
-	generateForecast (data) {
+	#generateDaily (data) {
 		const days = [];
 
 		for (const forecast of data.data) {
@@ -174,14 +174,14 @@ class WeatherbitProvider {
 				maxTemperature: forecast.max_temp !== undefined ? parseFloat(forecast.max_temp) : null,
 				precipitationAmount: forecast.precip !== undefined ? parseFloat(forecast.precip) : 0,
 				precipitationProbability: forecast.pop !== undefined ? parseFloat(forecast.pop) : null,
-				weatherType: this.convertWeatherType(forecast.weather.icon)
+				weatherType: this.#convertWeatherType(forecast.weather.icon)
 			});
 		}
 
 		return days;
 	}
 
-	generateHourly (data) {
+	#generateHourly (data) {
 		const hours = [];
 
 		for (const forecast of data.data) {
@@ -192,7 +192,7 @@ class WeatherbitProvider {
 				precipitationProbability: forecast.pop !== undefined ? parseFloat(forecast.pop) : null,
 				windSpeed: forecast.wind_spd !== undefined ? parseFloat(forecast.wind_spd) : null,
 				windFromDirection: forecast.wind_dir || null,
-				weatherType: this.convertWeatherType(forecast.weather.icon)
+				weatherType: this.#convertWeatherType(forecast.weather.icon)
 			});
 		}
 
@@ -205,7 +205,7 @@ class WeatherbitProvider {
 	 * @param {string} weatherType - Weatherbit icon code
 	 * @returns {string|null} Weathericons.css icon name or null
 	 */
-	convertWeatherType (weatherType) {
+	#convertWeatherType (weatherType) {
 		const weatherTypes = {
 			t01d: "day-thunderstorm",
 			t01n: "night-alt-thunderstorm",

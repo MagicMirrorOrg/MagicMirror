@@ -120,11 +120,11 @@ class UkMetOfficeDataHubProvider {
 
 		switch (this.config.type) {
 			case "current":
-				weatherData = this.#generateCurrentWeather(data);
+				weatherData = this.#generateCurrent(data);
 				break;
 			case "forecast":
 			case "daily":
-				weatherData = this.#generateForecast(data);
+				weatherData = this.#generateDaily(data);
 				break;
 			case "hourly":
 				weatherData = this.#generateHourly(data);
@@ -145,7 +145,7 @@ class UkMetOfficeDataHubProvider {
 		}
 	}
 
-	#generateCurrentWeather (data) {
+	#generateCurrent (data) {
 		const timeSeries = data.features[0].properties.timeSeries;
 		const now = new Date();
 
@@ -207,7 +207,7 @@ class UkMetOfficeDataHubProvider {
 		return current;
 	}
 
-	#generateForecast (data) {
+	#generateDaily (data) {
 		const timeSeries = data.features[0].properties.timeSeries;
 		const days = [];
 		const today = new Date();
