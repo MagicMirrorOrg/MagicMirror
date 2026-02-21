@@ -278,8 +278,14 @@ Module.register("weather", {
 	// scheduleUpdate removed - all providers use server-driven fetching via HTTPFetcher
 
 	roundValue (temperature) {
+		if (temperature === null || temperature === undefined) {
+			return "";
+		}
 		const decimals = this.config.roundTemp ? 0 : 1;
 		const roundValue = parseFloat(temperature).toFixed(decimals);
+		if (roundValue === "NaN") {
+			return "";
+		}
 		return roundValue === "-0" ? 0 : roundValue;
 	},
 
@@ -296,14 +302,18 @@ Module.register("weather", {
 			function (value, type, valueUnit) {
 				let formattedValue;
 				if (type === "temperature") {
-					formattedValue = `${this.roundValue(WeatherUtils.convertTemp(value, this.config.tempUnits))}°`;
-					if (this.config.degreeLabel) {
-						if (this.config.tempUnits === "metric") {
-							formattedValue += "C";
-						} else if (this.config.tempUnits === "imperial") {
-							formattedValue += "F";
-						} else {
-							formattedValue += "K";
+					if (value === null || value === undefined) {
+						formattedValue = "";
+					} else {
+						formattedValue = `${this.roundValue(WeatherUtils.convertTemp(value, this.config.tempUnits))}°`;
+						if (this.config.degreeLabel) {
+							if (this.config.tempUnits === "metric") {
+								formattedValue += "C";
+							} else if (this.config.tempUnits === "imperial") {
+								formattedValue += "F";
+							} else {
+								formattedValue += "K";
+							}
 						}
 					}
 				} else if (type === "precip") {

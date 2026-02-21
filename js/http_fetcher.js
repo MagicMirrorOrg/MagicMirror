@@ -269,7 +269,10 @@ class HTTPFetcher extends EventEmitter {
 			const isTimeout = error.name === "AbortError";
 			const message = isTimeout ? `Request timeout after ${this.timeout}ms` : `Network error: ${error.message}`;
 
-			Log.error(`${this.logContext}${this.url} - ${message}`);
+			// Truncate URL for cleaner logs
+			const urlObj = new URL(this.url);
+			const shortUrl = `${urlObj.origin}${urlObj.pathname}${urlObj.search.length > 50 ? "?..." : urlObj.search}`;
+			Log.error(`${this.logContext}${shortUrl} - ${message}`);
 
 			const errorInfo = this.#createErrorInfo(
 				message,

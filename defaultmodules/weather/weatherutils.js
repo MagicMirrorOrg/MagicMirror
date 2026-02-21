@@ -25,6 +25,9 @@ const WeatherUtils = {
 	 * @returns {string} - A string with tha value and a unit postfix.
 	 */
 	convertPrecipitationUnit (value, valueUnit, outputUnit) {
+		if (value === null || value === undefined || isNaN(value)) {
+			return "";
+		}
 		if (valueUnit === "%") return `${value.toFixed(0)} ${valueUnit}`;
 
 		let convertedValue = value;
