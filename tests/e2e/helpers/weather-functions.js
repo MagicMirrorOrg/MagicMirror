@@ -116,11 +116,13 @@ exports.startApplication = async (configFileName, mockDataFile) => {
 	// If mock data file is provided, inject it
 	if (mockDataFile) {
 		const page = helpers.getPage();
-		// Wait for modules to initialize
-		await page.waitForTimeout(1000);
+		// Wait for weather module to initialize
+		// eslint-disable-next-line playwright/no-wait-for-selector
+		await page.waitForSelector(".weather", { timeout: 5000 });
 		await injectMockWeatherData(page, mockDataFile);
-		// Wait for rendering
-		await page.waitForTimeout(500);
+		// Wait for data to be rendered
+		// eslint-disable-next-line playwright/no-wait-for-selector
+		await page.waitForSelector(".weather .weathericon", { timeout: 2000 });
 	}
 };
 
