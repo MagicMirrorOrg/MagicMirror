@@ -423,22 +423,47 @@ class OpenMeteoProvider {
 		};
 
 		// Add hourly data if available
-		if (parsedData.hourly && parsedData.hourly.time) {
+		if (parsedData.hourly) {
+			let h = 0;
 			const currentTime = parsedData.current_weather.time;
-			const hourlyIndex = parsedData.hourly.time.findIndex((time) => time === currentTime);
-			const h = hourlyIndex !== -1 ? hourlyIndex : 0;
 
-			if (hourlyIndex === -1) {
-				Log.warn("[weatherprovider.openmeteo] Could not find current time in hourly data, using index 0");
+			// Handle both data shapes: object with arrays or array of objects (after transpose)
+			if (Array.isArray(parsedData.hourly)) {
+				// Array of objects (after transpose)
+				const hourlyIndex = parsedData.hourly.findIndex((hour) => String(hour.time) === String(currentTime));
+				h = hourlyIndex !== -1 ? hourlyIndex : 0;
+
+				if (hourlyIndex === -1) {
+					Log.warn("[weatherprovider.openmeteo] Could not find current time in hourly data, using index 0");
+				}
+
+				const hourData = parsedData.hourly[h];
+				if (hourData) {
+					current.humidity = hourData.relativehumidity_2m;
+					current.feelsLikeTemp = hourData.apparent_temperature;
+					current.rain = hourData.rain;
+					current.snow = hourData.snowfall ? hourData.snowfall * 10 : undefined;
+					current.precipitationAmount = hourData.precipitation;
+					current.precipitationProbability = hourData.precipitation_probability;
+					current.uvIndex = hourData.uv_index;
+				}
+			} else if (parsedData.hourly.time) {
+				// Object with arrays (before transpose - shouldn't happen in normal flow)
+				const hourlyIndex = parsedData.hourly.time.findIndex((time) => time === currentTime);
+				h = hourlyIndex !== -1 ? hourlyIndex : 0;
+
+				if (hourlyIndex === -1) {
+					Log.warn("[weatherprovider.openmeteo] Could not find current time in hourly data, using index 0");
+				}
+
+				current.humidity = parsedData.hourly.relativehumidity_2m?.[h];
+				current.feelsLikeTemp = parsedData.hourly.apparent_temperature?.[h];
+				current.rain = parsedData.hourly.rain?.[h];
+				current.snow = parsedData.hourly.snowfall?.[h] ? parsedData.hourly.snowfall[h] * 10 : undefined;
+				current.precipitationAmount = parsedData.hourly.precipitation?.[h];
+				current.precipitationProbability = parsedData.hourly.precipitation_probability?.[h];
+				current.uvIndex = parsedData.hourly.uv_index?.[h];
 			}
-
-			current.humidity = parsedData.hourly.relativehumidity_2m?.[h];
-			current.feelsLikeTemp = parsedData.hourly.apparent_temperature?.[h];
-			current.rain = parsedData.hourly.rain?.[h];
-			current.snow = parsedData.hourly.snowfall?.[h] ? parsedData.hourly.snowfall[h] * 10 : undefined;
-			current.precipitationAmount = parsedData.hourly.precipitation?.[h];
-			current.precipitationProbability = parsedData.hourly.precipitation_probability?.[h];
-			current.uvIndex = parsedData.hourly.uv_index?.[h];
 		}
 
 		// Add daily data if available
