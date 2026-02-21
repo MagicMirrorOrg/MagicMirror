@@ -36,7 +36,7 @@ class WeatherGovProvider {
 			await this.#fetchWeatherGovURLs();
 			this.#initializeFetcher();
 		} catch (error) {
-			Log.error("[weatherprovider.weathergov] Initialization failed:", error);
+			Log.error("[weathergov] Initialization failed:", error);
 			if (this.onErrorCallback) {
 				this.onErrorCallback({
 					message: error.message,
@@ -67,56 +67,65 @@ class WeatherGovProvider {
 		// Step 1: Get grid point data
 		const pointsUrl = `${this.config.apiBase}${this.config.lat},${this.config.lon}`;
 
-		const pointsResponse = await fetch(pointsUrl, {
-			headers: {
-				"User-Agent": "MagicMirror",
-				Accept: "application/geo+json"
+		const controller = new AbortController();
+		const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout
+
+		try {
+			const pointsResponse = await fetch(pointsUrl, {
+				signal: controller.signal,
+				headers: {
+					"User-Agent": "MagicMirror",
+					Accept: "application/geo+json"
+				}
+			});
+
+			if (!pointsResponse.ok) {
+				throw new Error(`Failed to fetch grid point: HTTP ${pointsResponse.status}`);
 			}
-		});
 
-		if (!pointsResponse.ok) {
-			throw new Error(`Failed to fetch grid point: HTTP ${pointsResponse.status}`);
-		}
+			const pointsData = await pointsResponse.json();
 
-		const pointsData = await pointsResponse.json();
-
-		if (!pointsData || !pointsData.properties) {
-			throw new Error("Invalid grid point data");
-		}
-
-		// Extract location name
-		const relLoc = pointsData.properties.relativeLocation?.properties;
-		if (relLoc) {
-			this.locationName = `${relLoc.city}, ${relLoc.state}`;
-		}
-
-		// Store forecast URLs
-		this.forecastURL = `${pointsData.properties.forecast}?units=si`;
-		this.forecastHourlyURL = `${pointsData.properties.forecastHourly}?units=si`;
-		this.forecastGridDataURL = pointsData.properties.forecastGridData;
-		this.observationStationsURL = pointsData.properties.observationStations;
-
-		// Step 2: Get observation station URL
-		const stationsResponse = await fetch(this.observationStationsURL, {
-			headers: {
-				"User-Agent": "MagicMirror",
-				Accept: "application/geo+json"
+			if (!pointsData || !pointsData.properties) {
+				throw new Error("Invalid grid point data");
 			}
-		});
 
-		if (!stationsResponse.ok) {
-			throw new Error(`Failed to fetch observation stations: HTTP ${stationsResponse.status}`);
+			// Extract location name
+			const relLoc = pointsData.properties.relativeLocation?.properties;
+			if (relLoc) {
+				this.locationName = `${relLoc.city}, ${relLoc.state}`;
+			}
+
+			// Store forecast URLs
+			this.forecastURL = `${pointsData.properties.forecast}?units=si`;
+			this.forecastHourlyURL = `${pointsData.properties.forecastHourly}?units=si`;
+			this.forecastGridDataURL = pointsData.properties.forecastGridData;
+			this.observationStationsURL = pointsData.properties.observationStations;
+
+			// Step 2: Get observation station URL
+			const stationsResponse = await fetch(this.observationStationsURL, {
+				signal: controller.signal,
+				headers: {
+					"User-Agent": "MagicMirror",
+					Accept: "application/geo+json"
+				}
+			});
+
+			if (!stationsResponse.ok) {
+				throw new Error(`Failed to fetch observation stations: HTTP ${stationsResponse.status}`);
+			}
+
+			const stationsData = await stationsResponse.json();
+
+			if (!stationsData || !stationsData.features || stationsData.features.length === 0) {
+				throw new Error("No observation stations found");
+			}
+
+			this.stationObsURL = `${stationsData.features[0].id}/observations/latest`;
+
+			Log.log(`[weathergov] Initialized for ${this.locationName}`);
+		} finally {
+			clearTimeout(timeoutId);
 		}
-
-		const stationsData = await stationsResponse.json();
-
-		if (!stationsData || !stationsData.features || stationsData.features.length === 0) {
-			throw new Error("No observation stations found");
-		}
-
-		this.stationObsURL = `${stationsData.features[0].id}/observations/latest`;
-
-		Log.log(`[weatherprovider.weathergov] Initialized for ${this.locationName}`);
 	}
 
 	#initializeFetcher () {
@@ -139,6 +148,7 @@ class WeatherGovProvider {
 
 		this.fetcher = new HTTPFetcher(url, {
 			reloadInterval: this.config.updateInterval,
+			timeout: 60000, // 60 seconds - weather.gov can be slow
 			headers: {
 				"User-Agent": "MagicMirror",
 				Accept: "application/geo+json",
@@ -152,7 +162,7 @@ class WeatherGovProvider {
 				const data = await response.json();
 				this.#handleResponse(data);
 			} catch (error) {
-				Log.error("[weatherprovider.weathergov] Failed to parse JSON:", error);
+				Log.error("[weathergov] Failed to parse JSON:", error);
 				if (this.onErrorCallback) {
 					this.onErrorCallback({
 						message: "Failed to parse API response",
@@ -201,7 +211,7 @@ class WeatherGovProvider {
 				this.onDataCallback(weatherData);
 			}
 		} catch (error) {
-			Log.error("[weatherprovider.weathergov] Error processing weather data:", error);
+			Log.error("[weathergov] Error processing weather data:", error);
 			if (this.onErrorCallback) {
 				this.onErrorCallback({
 					message: error.message,
