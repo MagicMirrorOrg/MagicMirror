@@ -1,4 +1,5 @@
 const Log = require("logger");
+const weatherUtils = require("../utils");
 const HTTPFetcher = require("#http_fetcher");
 
 /**
@@ -140,13 +141,13 @@ class OpenWeatherMapProvider {
 		const current = {};
 		if (data.hasOwnProperty("current")) {
 			const timezoneOffset = data.timezone_offset / 60;
-			current.date = this.#applyOffset(new Date(data.current.dt * 1000), timezoneOffset);
+			current.date = weatherUtils.applyTimezoneOffset(new Date(data.current.dt * 1000), timezoneOffset);
 			current.windSpeed = data.current.wind_speed;
 			current.windFromDirection = data.current.wind_deg;
-			current.sunrise = this.#applyOffset(new Date(data.current.sunrise * 1000), timezoneOffset);
-			current.sunset = this.#applyOffset(new Date(data.current.sunset * 1000), timezoneOffset);
+			current.sunrise = weatherUtils.applyTimezoneOffset(new Date(data.current.sunrise * 1000), timezoneOffset);
+			current.sunset = weatherUtils.applyTimezoneOffset(new Date(data.current.sunset * 1000), timezoneOffset);
 			current.temperature = data.current.temp;
-			current.weatherType = this.#convertWeatherType(data.current.weather[0].icon);
+			current.weatherType = weatherUtils.convertWeatherType(data.current.weather[0].icon);
 			current.humidity = data.current.humidity;
 			current.uvIndex = data.current.uvi;
 
@@ -171,13 +172,13 @@ class OpenWeatherMapProvider {
 			const timezoneOffset = data.timezone_offset / 60;
 			for (const hour of data.hourly) {
 				const weather = {};
-				weather.date = this.#applyOffset(new Date(hour.dt * 1000), timezoneOffset);
+				weather.date = weatherUtils.applyTimezoneOffset(new Date(hour.dt * 1000), timezoneOffset);
 				weather.temperature = hour.temp;
 				weather.feelsLikeTemp = hour.feels_like;
 				weather.humidity = hour.humidity;
 				weather.windSpeed = hour.wind_speed;
 				weather.windFromDirection = hour.wind_deg;
-				weather.weatherType = this.#convertWeatherType(hour.weather[0].icon);
+				weather.weatherType = weatherUtils.convertWeatherType(hour.weather[0].icon);
 				weather.precipitationProbability = hour.pop ? hour.pop * 100 : undefined;
 				weather.uvIndex = hour.uvi;
 
@@ -204,15 +205,15 @@ class OpenWeatherMapProvider {
 			const timezoneOffset = data.timezone_offset / 60;
 			for (const day of data.daily) {
 				const weather = {};
-				weather.date = this.#applyOffset(new Date(day.dt * 1000), timezoneOffset);
-				weather.sunrise = this.#applyOffset(new Date(day.sunrise * 1000), timezoneOffset);
-				weather.sunset = this.#applyOffset(new Date(day.sunset * 1000), timezoneOffset);
+				weather.date = weatherUtils.applyTimezoneOffset(new Date(day.dt * 1000), timezoneOffset);
+				weather.sunrise = weatherUtils.applyTimezoneOffset(new Date(day.sunrise * 1000), timezoneOffset);
+				weather.sunset = weatherUtils.applyTimezoneOffset(new Date(day.sunset * 1000), timezoneOffset);
 				weather.minTemperature = day.temp.min;
 				weather.maxTemperature = day.temp.max;
 				weather.humidity = day.humidity;
 				weather.windSpeed = day.wind_speed;
 				weather.windFromDirection = day.wind_deg;
-				weather.weatherType = this.#convertWeatherType(day.weather[0].icon);
+				weather.weatherType = weatherUtils.convertWeatherType(day.weather[0].icon);
 				weather.precipitationProbability = day.pop ? day.pop * 100 : undefined;
 				weather.uvIndex = day.uvi;
 
@@ -234,37 +235,6 @@ class OpenWeatherMapProvider {
 		}
 
 		return { current, hours, days };
-	}
-
-	#applyOffset (date, offsetMinutes) {
-		// Apply timezone offset to date
-		const utcTime = date.getTime() + (date.getTimezoneOffset() * 60000);
-		return new Date(utcTime + (offsetMinutes * 60000));
-	}
-
-	#convertWeatherType (weatherType) {
-		const weatherTypes = {
-			"01d": "day-sunny",
-			"02d": "day-cloudy",
-			"03d": "cloudy",
-			"04d": "cloudy-windy",
-			"09d": "showers",
-			"10d": "rain",
-			"11d": "thunderstorm",
-			"13d": "snow",
-			"50d": "fog",
-			"01n": "night-clear",
-			"02n": "night-cloudy",
-			"03n": "night-cloudy",
-			"04n": "night-cloudy",
-			"09n": "night-showers",
-			"10n": "night-rain",
-			"11n": "night-thunderstorm",
-			"13n": "night-snow",
-			"50n": "night-alt-cloudy-windy"
-		};
-
-		return weatherTypes.hasOwnProperty(weatherType) ? weatherTypes[weatherType] : null;
 	}
 
 	#getUrl () {

@@ -1,5 +1,6 @@
 const fs = require("node:fs");
 const path = require("node:path");
+const weatherUtils = require("../../../defaultmodules/weather/utils");
 const helpers = require("./global-setup");
 
 /**
@@ -11,41 +12,9 @@ const helpers = require("./global-setup");
 async function injectMockWeatherData (page, mockDataFile) {
 	const rawData = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../mocks", mockDataFile)).toString());
 
-	// Convert OpenWeatherMap icon codes to internal weather types
-	const convertWeatherType = (weatherType) => {
-		const weatherTypes = {
-			"01d": "day-sunny",
-			"02d": "day-cloudy",
-			"03d": "cloudy",
-			"04d": "cloudy-windy",
-			"09d": "showers",
-			"10d": "rain",
-			"11d": "thunderstorm",
-			"13d": "snow",
-			"50d": "fog",
-			"01n": "night-clear",
-			"02n": "night-cloudy",
-			"03n": "night-cloudy",
-			"04n": "night-cloudy",
-			"09n": "night-showers",
-			"10n": "night-rain",
-			"11n": "night-thunderstorm",
-			"13n": "night-snow",
-			"50n": "night-alt-cloudy-windy"
-		};
-		return weatherTypes[weatherType] || null;
-	};
-
 	// Determine weather type from the mock data structure
 	let type = "current";
 	let data = null;
-
-	// Helper to apply timezone offset (mimics provider's #applyOffset method)
-	const applyOffset = (date, offsetMinutes) => {
-		// Apply timezone offset to date
-		const utcTime = date.getTime() + (date.getTimezoneOffset() * 60000);
-		return new Date(utcTime + (offsetMinutes * 60000));
-	};
 
 	const timezoneOffset = rawData.timezone_offset ? rawData.timezone_offset / 60 : 0;
 
@@ -53,23 +22,23 @@ async function injectMockWeatherData (page, mockDataFile) {
 		type = "current";
 		// Mock what the provider would send for current weather
 		data = {
-			date: applyOffset(new Date(rawData.current.dt * 1000), timezoneOffset),
+			date: weatherUtils.applyTimezoneOffset(new Date(rawData.current.dt * 1000), timezoneOffset),
 			windSpeed: rawData.current.wind_speed,
 			windFromDirection: rawData.current.wind_deg,
-			sunrise: applyOffset(new Date(rawData.current.sunrise * 1000), timezoneOffset),
-			sunset: applyOffset(new Date(rawData.current.sunset * 1000), timezoneOffset),
+			sunrise: weatherUtils.applyTimezoneOffset(new Date(rawData.current.sunrise * 1000), timezoneOffset),
+			sunset: weatherUtils.applyTimezoneOffset(new Date(rawData.current.sunset * 1000), timezoneOffset),
 			temperature: rawData.current.temp,
-			weatherType: convertWeatherType(rawData.current.weather[0].icon),
+			weatherType: weatherUtils.convertWeatherType(rawData.current.weather[0].icon),
 			humidity: rawData.current.humidity,
 			feelsLikeTemp: rawData.current.feels_like
 		};
 	} else if (rawData.daily) {
 		type = "forecast";
 		data = rawData.daily.map((day) => ({
-			date: applyOffset(new Date(day.dt * 1000), timezoneOffset),
+			date: weatherUtils.applyTimezoneOffset(new Date(day.dt * 1000), timezoneOffset),
 			minTemperature: day.temp.min,
 			maxTemperature: day.temp.max,
-			weatherType: convertWeatherType(day.weather[0].icon),
+			weatherType: weatherUtils.convertWeatherType(day.weather[0].icon),
 			rain: day.rain || 0,
 			snow: day.snow || 0,
 			precipitationAmount: (day.rain || 0) + (day.snow || 0)
@@ -77,13 +46,13 @@ async function injectMockWeatherData (page, mockDataFile) {
 	} else if (rawData.hourly) {
 		type = "hourly";
 		data = rawData.hourly.map((hour) => ({
-			date: applyOffset(new Date(hour.dt * 1000), timezoneOffset),
+			date: weatherUtils.applyTimezoneOffset(new Date(hour.dt * 1000), timezoneOffset),
 			temperature: hour.temp,
 			feelsLikeTemp: hour.feels_like,
 			humidity: hour.humidity,
 			windSpeed: hour.wind_speed,
 			windFromDirection: hour.wind_deg,
-			weatherType: convertWeatherType(hour.weather[0].icon),
+			weatherType: weatherUtils.convertWeatherType(hour.weather[0].icon),
 			precipitationProbability: hour.pop ? hour.pop * 100 : undefined,
 			precipitationAmount: (hour.rain?.["1h"] || 0) + (hour.snow?.["1h"] || 0)
 		}));
