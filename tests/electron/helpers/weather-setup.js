@@ -50,7 +50,7 @@ async function injectMockWeatherData (mockDataFile) {
 			windSpeed: hour.wind_speed,
 			windFromDirection: hour.wind_deg,
 			weatherType: weatherUtils.convertWeatherType(hour.weather[0].icon),
-			precipitationProbability: hour.pop ? hour.pop * 100 : undefined,
+			precipitationProbability: hour.pop != null ? hour.pop * 100 : undefined,
 			precipitationAmount: (hour.rain?.["1h"] || 0) + (hour.snow?.["1h"] || 0)
 		}));
 	}
