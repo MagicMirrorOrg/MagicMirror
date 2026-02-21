@@ -149,18 +149,18 @@ describe("Weather provider utils tests", () => {
 	});
 
 	describe("getDateString", () => {
-		it("should format date as YYYY-MM-DD", () => {
-			const date = new Date("2026-02-02T12:34:56Z");
+		it("should format date as YYYY-MM-DD (local time)", () => {
+			const date = new Date(2026, 1, 2, 12, 34, 56); // Feb 2, 2026 (month is 0-indexed)
 			expect(providerUtils.getDateString(date)).toBe("2026-02-02");
 		});
 
 		it("should handle single-digit months and days correctly", () => {
-			const date = new Date("2026-01-05T12:00:00Z");
+			const date = new Date(2026, 0, 5, 12, 0, 0); // Jan 5, 2026
 			expect(providerUtils.getDateString(date)).toBe("2026-01-05");
 		});
 
 		it("should handle end of year", () => {
-			const date = new Date("2025-12-31T23:59:59Z");
+			const date = new Date(2025, 11, 31, 23, 59, 59); // Dec 31, 2025
 			expect(providerUtils.getDateString(date)).toBe("2025-12-31");
 		});
 	});
