@@ -1,6 +1,6 @@
 const Log = require("logger");
-const HTTPFetcher = require("../../../js/http_fetcher");
 const { convertKmhToMs } = require("../provider-utils");
+const HTTPFetcher = require("#http_fetcher");
 
 /**
  * WeatherFlow weather provider
