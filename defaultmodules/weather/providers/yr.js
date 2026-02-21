@@ -258,46 +258,70 @@ class YrProvider {
 	}
 
 	#generateForecast (data) {
-		const days = [];
 		const timeseries = data.properties.timeseries;
-		let currentDay = null;
-		let dayData = null;
+		const dailyData = new Map();
 
+		// Collect all data points for each day
 		for (const entry of timeseries) {
 			const date = new Date(entry.time);
 			const dateStr = getDateString(date);
 
-			if (currentDay !== dateStr) {
-				if (dayData) {
-					days.push(dayData);
-				}
-
-				const forecast6h = entry.data.next_6_hours || entry.data.next_12_hours;
-				const stellarInfo = this.#getStellarInfoForDate(date);
-
-				dayData = {
+			if (!dailyData.has(dateStr)) {
+				dailyData.set(dateStr, {
 					date: date,
-					minTemperature: forecast6h?.details?.air_temperature_min,
-					maxTemperature: forecast6h?.details?.air_temperature_max,
-					precipitationAmount: forecast6h?.details?.precipitation_amount,
-					precipitationProbability: forecast6h?.details?.probability_of_precipitation,
-					weatherType: this.#convertWeatherType(forecast6h?.summary?.symbol_code, true)
-				};
+					temps: [],
+					precip: [],
+					precipProb: [],
+					symbols: []
+				});
+			}
 
-				if (stellarInfo) {
-					dayData.sunrise = new Date(stellarInfo.sunrise.time);
-					dayData.sunset = new Date(stellarInfo.sunset.time);
+			const dayData = dailyData.get(dateStr);
+
+			// Collect temperature from instant data
+			if (entry.data.instant?.details?.air_temperature !== undefined) {
+				dayData.temps.push(entry.data.instant.details.air_temperature);
+			}
+
+			// Collect data from forecast periods (prefer longer periods to avoid double-counting)
+			const forecast = entry.data.next_12_hours || entry.data.next_6_hours || entry.data.next_1_hours;
+			if (forecast) {
+				if (forecast.details?.precipitation_amount !== undefined) {
+					dayData.precip.push(forecast.details.precipitation_amount);
 				}
-
-				currentDay = dateStr;
+				if (forecast.details?.probability_of_precipitation !== undefined) {
+					dayData.precipProb.push(forecast.details.probability_of_precipitation);
+				}
+				if (forecast.summary?.symbol_code) {
+					dayData.symbols.push(forecast.summary.symbol_code);
+				}
 			}
 		}
 
-		if (dayData) {
+		// Convert collected data to forecast objects
+		const days = [];
+		for (const [dateStr, data] of dailyData) {
+			const stellarInfo = this.#getStellarInfoForDate(data.date);
+
+			const dayData = {
+				date: data.date,
+				minTemperature: data.temps.length > 0 ? Math.min(...data.temps) : null,
+				maxTemperature: data.temps.length > 0 ? Math.max(...data.temps) : null,
+				precipitationAmount: data.precip.length > 0 ? Math.max(...data.precip) : null,
+				precipitationProbability: data.precipProb.length > 0 ? Math.max(...data.precipProb) : null,
+				weatherType: data.symbols.length > 0 ? this.#convertWeatherType(data.symbols[0], true) : null
+			};
+
+			if (stellarInfo) {
+				dayData.sunrise = new Date(stellarInfo.sunrise.time);
+				dayData.sunset = new Date(stellarInfo.sunset.time);
+			}
+
 			days.push(dayData);
 		}
 
-		return days;
+		// Sort by date to ensure correct order
+		return days.sort((a, b) => a.date - b.date);
 	}
 
 	#generateHourly (data) {
