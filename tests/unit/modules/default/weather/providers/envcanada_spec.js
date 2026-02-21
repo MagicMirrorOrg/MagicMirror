@@ -181,8 +181,8 @@ describe("EnvCanadaProvider", () => {
 
 			const result = await dataPromise;
 
-			// Real data has icon code 40 which is not in the provider's map
-			expect(result.weatherType).toBeNull();
+			// Icon code 40 = "Blowing Snow" → "snow"
+			expect(result.weatherType).toBe("snow");
 		});
 	});
 

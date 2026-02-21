@@ -391,7 +391,8 @@ class EnvCanadaProvider {
 			36: "rain",
 			37: "rain-mix",
 			38: "snow",
-			39: "thunderstorm"
+			39: "thunderstorm",
+			40: "snow" // Blowing Snow
 		};
 		return map[code] || null;
 	}
