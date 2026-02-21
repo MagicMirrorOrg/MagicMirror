@@ -14,6 +14,18 @@ class WeatherFlowProvider {
 	constructor (config) {
 		this.config = config;
 		this.fetcher = null;
+		this.onDataCallback = null;
+		this.onErrorCallback = null;
+	}
+
+	/**
+	 * Set the callbacks for data and errors
+	 * @param {(data: object) => void} onDataCallback - Called when new data is available
+	 * @param {(error: object) => void} onErrorCallback - Called when an error occurs
+	 */
+	setCallbacks (onDataCallback, onErrorCallback) {
+		this.onDataCallback = onDataCallback;
+		this.onErrorCallback = onErrorCallback;
 	}
 
 	/**
@@ -60,8 +72,14 @@ class WeatherFlowProvider {
 			logContext: "weatherprovider.weatherflow"
 		});
 
-		this.fetcher.on("data", (data) => {
-			this.onDataCallback(this.processData(data));
+		this.fetcher.on("response", async (response) => {
+			try {
+				const data = await response.json();
+				const processed = this.processData(data);
+				this.onDataCallback(processed);
+			} catch (error) {
+				Log.error("[weatherprovider.weatherflow] Failed to parse JSON:", error);
+			}
 		});
 
 		this.fetcher.on("error", (errorInfo) => {
@@ -87,18 +105,17 @@ class WeatherFlowProvider {
 	 * @returns {object} Processed weather data
 	 */
 	processData (data) {
-		const result = {};
-
 		try {
+			let weatherData;
 			if (this.config.type === "current") {
-				result.currentWeather = this.generateCurrentWeather(data);
+				weatherData = this.generateCurrentWeather(data);
 			} else if (this.config.type === "hourly") {
-				result.weatherHourly = this.generateHourly(data);
+				weatherData = this.generateHourly(data);
 			} else {
-				result.weatherForecast = this.generateForecast(data);
+				weatherData = this.generateForecast(data);
 			}
 
-			result.locationName = data.location_name || null;
+			return weatherData;
 		} catch (error) {
 			Log.error("[weatherprovider.weatherflow] Data processing error:", error);
 			if (this.onErrorCallback) {
@@ -109,8 +126,6 @@ class WeatherFlowProvider {
 			}
 			return null;
 		}
-
-		return result;
 	}
 
 	/**
@@ -255,22 +270,6 @@ class WeatherFlowProvider {
 		};
 
 		return weatherTypes[weatherType] || null;
-	}
-
-	/**
-	 * Set the data callback
-	 * @param {(data: object) => void} callback - Callback function
-	 */
-	setOnDataCallback (callback) {
-		this.onDataCallback = callback;
-	}
-
-	/**
-	 * Set the error callback
-	 * @param {(error: object) => void} callback - Callback function
-	 */
-	setOnErrorCallback (callback) {
-		this.onErrorCallback = callback;
 	}
 
 	/**
