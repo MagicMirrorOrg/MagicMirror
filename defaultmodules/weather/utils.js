@@ -43,7 +43,25 @@ function applyTimezoneOffset (date, offsetMinutes) {
 	return new Date(utcTime + (offsetMinutes * 60000));
 }
 
+/**
+ * Limit decimal places for coordinates (truncate, not round)
+ * @param {number} value - The coordinate value
+ * @param {number} decimals - Maximum number of decimal places
+ * @returns {number} Value with limited decimal places
+ */
+function limitDecimals (value, decimals) {
+	const str = value.toString();
+	if (str.includes(".")) {
+		const parts = str.split(".");
+		if (parts[1].length > decimals) {
+			return parseFloat(`${parts[0]}.${parts[1].substring(0, decimals)}`);
+		}
+	}
+	return value;
+}
+
 module.exports = {
 	convertWeatherType,
-	applyTimezoneOffset
+	applyTimezoneOffset,
+	limitDecimals
 };

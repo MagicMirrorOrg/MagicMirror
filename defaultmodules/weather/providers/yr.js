@@ -1,4 +1,5 @@
 const Log = require("logger");
+const { limitDecimals } = require("../utils");
 const HTTPFetcher = require("#http_fetcher");
 
 /**
@@ -74,19 +75,8 @@ class YrProvider {
 		}
 
 		// Yr.no requires max 4 decimal places
-		this.config.lat = this.#limitDecimals(this.config.lat, 4);
-		this.config.lon = this.#limitDecimals(this.config.lon, 4);
-	}
-
-	#limitDecimals (value, decimals) {
-		const str = value.toString();
-		if (str.includes(".")) {
-			const parts = str.split(".");
-			if (parts[1].length > decimals) {
-				return parseFloat(`${parts[0]}.${parts[1].substring(0, decimals)}`);
-			}
-		}
-		return value;
+		this.config.lat = limitDecimals(this.config.lat, 4);
+		this.config.lon = limitDecimals(this.config.lon, 4);
 	}
 
 	async #fetchStellarData () {

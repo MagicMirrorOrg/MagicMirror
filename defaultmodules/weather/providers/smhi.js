@@ -1,5 +1,6 @@
 const Log = require("logger");
 const SunCalc = require("suncalc");
+const { limitDecimals } = require("../utils");
 const HTTPFetcher = require("#http_fetcher");
 
 /**
@@ -57,16 +58,8 @@ class SMHIProvider {
 		}
 
 		// SMHI requires max 6 decimal places
-		this.config.lat = this.#limitDecimals(this.config.lat, 6);
-		this.config.lon = this.#limitDecimals(this.config.lon, 6);
-	}
-
-	#limitDecimals (value, decimals) {
-		const formatter = new Intl.NumberFormat("en-US", {
-			minimumFractionDigits: decimals,
-			maximumFractionDigits: decimals
-		});
-		return parseFloat(formatter.format(value));
+		this.config.lat = limitDecimals(this.config.lat, 6);
+		this.config.lon = limitDecimals(this.config.lon, 6);
 	}
 
 	#initializeFetcher () {
@@ -371,12 +364,8 @@ class SMHIProvider {
 	}
 
 	#getURL () {
-		const formatter = new Intl.NumberFormat("en-US", {
-			minimumFractionDigits: 6,
-			maximumFractionDigits: 6
-		});
-		const lon = formatter.format(this.config.lon);
-		const lat = formatter.format(this.config.lat);
+		const lon = this.config.lon.toFixed(6);
+		const lat = this.config.lat.toFixed(6);
 		return `https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/${lon}/lat/${lat}/data.json`;
 	}
 }
