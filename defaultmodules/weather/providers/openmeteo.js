@@ -412,7 +412,15 @@ class OpenMeteoProvider {
 	}
 
 	#generateWeatherDayFromCurrentWeather (parsedData) {
-		const h = new Date().getHours();
+		// Find the correct hourly index by matching current_weather.time
+		const currentTime = parsedData.current_weather.time;
+		const hourlyIndex = parsedData.hourly.time.findIndex((time) => time === currentTime);
+		const h = hourlyIndex !== -1 ? hourlyIndex : 0;
+
+		if (hourlyIndex === -1) {
+			Log.warn("Could not find current time in hourly data, using index 0");
+		}
+
 		return {
 			date: parsedData.current_weather.time,
 			windSpeed: parsedData.current_weather.windspeed,
