@@ -147,6 +147,15 @@ export default defineConfig([
 		}
 	},
 	{
+		files: ["tests/unit/modules/default/weather/providers/*.js"],
+		rules: {
+			"import-x/namespace": "off",
+			"import-x/named": "off",
+			"import-x/default": "off",
+			"import-x/extensions": "off"
+		}
+	},
+	{
 		files: ["tests/configs/modules/weather/*.js"],
 		rules: {
 			"@stylistic/quotes": "off"
