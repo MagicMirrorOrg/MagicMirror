@@ -1,0 +1,28 @@
+{
+	"lat": 48.14,
+	"lon": 11.58,
+	"timezone": "Europe/Berlin",
+	"timezone_offset": 3600,
+	"current": {
+		"dt": 1547387400,
+		"sunrise": 1547362817,
+		"sunset": 1547394301,
+		"temp": 1.49,
+		"feels_like": -5.6,
+		"pressure": 1005,
+		"humidity": 93.7,
+		"uvi": 0,
+		"clouds": 75,
+		"visibility": 7000,
+		"wind_speed": 11.8,
+		"wind_deg": 250,
+		"weather": [
+			{
+				"id": 615,
+				"main": "Snow",
+				"description": "light rain and snow",
+				"icon": "13d"
+			}
+		]
+	}
+}

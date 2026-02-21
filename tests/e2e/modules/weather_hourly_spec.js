@@ -11,7 +11,7 @@ describe("Weather module: Weather Hourly Forecast", () => {
 
 	describe("Default configuration", () => {
 		beforeAll(async () => {
-			await weatherFunc.startApplication("tests/configs/modules/weather/hourlyweather_default.js", {});
+			await weatherFunc.startApplication("tests/configs/modules/weather/hourlyweather_default.js", "weather_onecall_hourly.json");
 			page = helpers.getPage();
 		});
 
@@ -26,7 +26,7 @@ describe("Weather module: Weather Hourly Forecast", () => {
 
 	describe("Hourly weather options", () => {
 		beforeAll(async () => {
-			await weatherFunc.startApplication("tests/configs/modules/weather/hourlyweather_options.js", {});
+			await weatherFunc.startApplication("tests/configs/modules/weather/hourlyweather_options.js", "weather_onecall_hourly.json");
 			page = helpers.getPage();
 		});
 
@@ -43,7 +43,7 @@ describe("Weather module: Weather Hourly Forecast", () => {
 
 	describe("Show precipitations", () => {
 		beforeAll(async () => {
-			await weatherFunc.startApplication("tests/configs/modules/weather/hourlyweather_showPrecipitation.js", {});
+			await weatherFunc.startApplication("tests/configs/modules/weather/hourlyweather_showPrecipitation.js", "weather_onecall_hourly.json");
 			page = helpers.getPage();
 		});
 
