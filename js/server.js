@@ -6,7 +6,7 @@ const express = require("express");
 const helmet = require("helmet");
 const socketio = require("socket.io");
 const Log = require("logger");
-const { getHtml, getEnvVars } = require("#server_functions");
+const { getHtml, getVersion, getEnvVars } = require("#server_functions");
 
 const { ipAccessControl } = require(`${__dirname}/ip_access_control`);
 
@@ -117,6 +117,8 @@ function Server (configObj) {
 				}
 			};
 			app.get("/config", (req, res) => getConfig(req, res));
+
+			app.get("/version", (req, res) => getVersion(req, res));
 
 			app.get("/startup", (req, res) => getStartup(req, res));
 
