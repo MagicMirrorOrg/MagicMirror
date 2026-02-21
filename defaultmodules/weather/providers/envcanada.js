@@ -73,7 +73,7 @@ class EnvCanadaProvider {
 				// Check if hour changed - restart fetcher with new URL
 				const newHour = new Date().toISOString().substring(11, 13);
 				if (newHour !== this.currentHour) {
-					Log.info("[weatherprovider.envcanada] Hour changed, reinitializing fetcher");
+					Log.info("[envcanada] Hour changed, reinitializing fetcher");
 					this.stop();
 					this.#initializeFetcher();
 					this.start();
@@ -84,12 +84,12 @@ class EnvCanadaProvider {
 				const cityPageURL = this.#extractCityPageURL(html);
 
 				if (!cityPageURL) {
-					Log.warn("[weatherprovider.envcanada] Could not find city page URL");
+					Log.warn("[envcanada] Could not find city page URL");
 					return;
 				}
 
 				if (cityPageURL === this.lastCityPageURL) {
-					Log.debug("[weatherprovider.envcanada] City page unchanged");
+					Log.debug("[envcanada] City page unchanged");
 					return;
 				}
 
@@ -97,7 +97,7 @@ class EnvCanadaProvider {
 				await this.#fetchCityPage(cityPageURL);
 
 			} catch (error) {
-				Log.error("[weatherprovider.envcanada] Error:", error);
+				Log.error("[envcanada] Error:", error);
 				if (this.onErrorCallback) {
 					this.onErrorCallback({
 						message: error.message,
@@ -126,7 +126,7 @@ class EnvCanadaProvider {
 				this.onDataCallback(weatherData);
 			}
 		} catch (error) {
-			Log.error("[weatherprovider.envcanada] Fetch city page error:", error);
+			Log.error("[envcanada] Fetch city page error:", error);
 			if (this.onErrorCallback) {
 				this.onErrorCallback({
 					message: "Failed to fetch city data",
@@ -146,7 +146,7 @@ class EnvCanadaProvider {
 			case "hourly":
 				return this.#generateHourly(xml);
 			default:
-				Log.error(`[weatherprovider.envcanada] Unknown weather type: ${this.config.type}`);
+				Log.error(`[envcanada] Unknown weather type: ${this.config.type}`);
 				return null;
 		}
 	}
@@ -292,14 +292,10 @@ class EnvCanadaProvider {
 		const hours = [];
 		const hourlyMatches = xml.matchAll(/<hourlyForecast[^>]*dateTimeUTC="([^"]*)"[^>]*>(.*?)<\/hourlyForecast>/gs);
 
-		const offsetStr = this.#extract(xml, /<hourlyForecastGroup>.*?UTCOffset="([^"]*)"/s);
-		const utcOffset = offsetStr ? parseInt(offsetStr, 10) : 0;
-
 		for (const [, dateTimeUTC, hourXML] of hourlyMatches) {
 			const weather = {};
 
-			const utcTime = this.#parseECTime(dateTimeUTC);
-			weather.date = new Date(utcTime.getTime() + utcOffset * 60 * 60 * 1000);
+			weather.date = this.#parseECTime(dateTimeUTC);
 
 			const temp = this.#extract(hourXML, /<temperature[^>]*>(.*?)<\/temperature>/);
 			if (temp) weather.temperature = parseFloat(temp);
@@ -340,14 +336,14 @@ class EnvCanadaProvider {
 	}
 
 	#parseECTime (timeStr) {
-		if (!timeStr || timeStr.length < 14) return new Date();
+		if (!timeStr || timeStr.length < 12) return new Date();
 
 		const y = parseInt(timeStr.substring(0, 4), 10);
 		const m = parseInt(timeStr.substring(4, 6), 10) - 1;
 		const d = parseInt(timeStr.substring(6, 8), 10);
 		const h = parseInt(timeStr.substring(8, 10), 10);
 		const min = parseInt(timeStr.substring(10, 12), 10);
-		const s = parseInt(timeStr.substring(12, 14), 10);
+		const s = timeStr.length >= 14 ? parseInt(timeStr.substring(12, 14), 10) : 0;
 
 		// Create UTC date since input timestamps are in UTC
 		return new Date(Date.UTC(y, m, d, h, min, s));
