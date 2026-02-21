@@ -43,6 +43,23 @@ const ERROR_TYPE_TO_TRANSLATION = {
 class HTTPFetcher extends EventEmitter {
 
 	/**
+	 * Calculates exponential backoff delay for retries
+	 * @param {number} attempt - Attempt number (1-based)
+	 * @param {object} options - Configuration options
+	 * @param {number} [options.baseDelay] - Initial delay in ms (default: 15s)
+	 * @param {number} [options.maxDelay] - Maximum delay in ms (default: 5min)
+	 * @returns {number} Delay in milliseconds
+	 * @example
+	 * HTTPFetcher.calculateBackoffDelay(1) // 15000 (15s)
+	 * HTTPFetcher.calculateBackoffDelay(2) // 30000 (30s)
+	 * HTTPFetcher.calculateBackoffDelay(3) // 60000 (60s)
+	 * HTTPFetcher.calculateBackoffDelay(6) // 300000 (5min, capped)
+	 */
+	static calculateBackoffDelay (attempt, { baseDelay = 15000, maxDelay = 300000 } = {}) {
+		return Math.min(baseDelay * Math.pow(2, attempt - 1), maxDelay);
+	}
+
+	/**
 	 * Creates a new HTTPFetcher instance
 	 * @param {string} url - The URL to fetch
 	 * @param {object} options - Configuration options
@@ -71,6 +88,7 @@ class HTTPFetcher extends EventEmitter {
 
 		this.reloadTimer = null;
 		this.serverErrorCount = 0;
+		this.networkErrorCount = 0;
 	}
 
 	/**
@@ -226,7 +244,7 @@ class HTTPFetcher extends EventEmitter {
 			errorType,
 			translationKey: ERROR_TYPE_TO_TRANSLATION[errorType] || "MODULE_ERROR_UNSPECIFIED",
 			retryAfter,
-			retryCount: this.serverErrorCount,
+			retryCount: errorType === "NETWORK_ERROR" ? this.networkErrorCount : this.serverErrorCount,
 			url: this.url,
 			originalError
 		};
@@ -255,8 +273,9 @@ class HTTPFetcher extends EventEmitter {
 				nextDelay = delay;
 				this.emit("error", errorInfo);
 			} else {
-				// Reset server error count on success
+				// Reset error counts on success
 				this.serverErrorCount = 0;
+				this.networkErrorCount = 0;
 
 				/**
 				 * Response event - fired when fetch succeeds
@@ -269,6 +288,13 @@ class HTTPFetcher extends EventEmitter {
 			const isTimeout = error.name === "AbortError";
 			const message = isTimeout ? `Request timeout after ${this.timeout}ms` : `Network error: ${error.message}`;
 
+			// Apply exponential backoff for network errors
+			this.networkErrorCount = Math.min(this.networkErrorCount + 1, this.maxRetries);
+			const backoffDelay = HTTPFetcher.calculateBackoffDelay(this.networkErrorCount, {
+				maxDelay: this.reloadInterval
+			});
+			nextDelay = backoffDelay;
+
 			// Truncate URL for cleaner logs
 			let shortUrl = this.url;
 			try {
@@ -277,13 +303,20 @@ class HTTPFetcher extends EventEmitter {
 			} catch (urlError) {
 				// If URL parsing fails, use original URL
 			}
-			Log.error(`${this.logContext}${shortUrl} - ${message}`);
+
+			// Gradual log-level escalation: WARN for first 2 attempts, ERROR after
+			const retryMessage = `Retry #${this.networkErrorCount} in ${Math.round(nextDelay / 1000)}s.`;
+			if (this.networkErrorCount <= 2) {
+				Log.warn(`${this.logContext}${shortUrl} - ${message} ${retryMessage}`);
+			} else {
+				Log.error(`${this.logContext}${shortUrl} - ${message} ${retryMessage}`);
+			}
 
 			const errorInfo = this.#createErrorInfo(
 				message,
 				null,
 				"NETWORK_ERROR",
-				this.reloadInterval,
+				nextDelay,
 				error
 			);
 

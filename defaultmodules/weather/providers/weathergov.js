@@ -50,7 +50,7 @@ class WeatherGovProvider {
 			// Retry on temporary errors (DNS, timeout, network)
 			if (errorInfo.isRetryable && this.initRetryCount < 5) {
 				this.initRetryCount++;
-				const delay = Math.min(30000 * Math.pow(2, this.initRetryCount - 1), 5 * 60 * 1000); // 30s, 60s, 120s, 240s, 300s max
+				const delay = HTTPFetcher.calculateBackoffDelay(this.initRetryCount);
 				Log.info(`[weathergov] Will retry initialization in ${Math.round(delay / 1000)}s (attempt ${this.initRetryCount}/5)`);
 				this.initRetryTimer = setTimeout(() => this.initialize(), delay);
 			} else if (this.onErrorCallback) {
