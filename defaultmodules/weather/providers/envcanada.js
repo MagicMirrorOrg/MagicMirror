@@ -161,6 +161,8 @@ class EnvCanadaProvider {
 			this.cacheCurrentTemp = current.temperature;
 		} else if (this.cacheCurrentTemp !== null) {
 			current.temperature = this.cacheCurrentTemp;
+		} else {
+			current.temperature = null;
 		}
 
 		// Wind
