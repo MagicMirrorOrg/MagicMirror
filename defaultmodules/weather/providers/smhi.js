@@ -30,9 +30,19 @@ class SMHIProvider {
 	}
 
 	async initialize () {
-		// SMHI requires max 6 decimal places
-		validateCoordinates(this.config, 6);
-		this.#initializeFetcher();
+		try {
+			// SMHI requires max 6 decimal places
+			validateCoordinates(this.config, 6);
+			this.#initializeFetcher();
+		} catch (error) {
+			Log.error("[weatherprovider.smhi] Initialization failed:", error);
+			if (this.onErrorCallback) {
+				this.onErrorCallback({
+					message: error.message,
+					translationKey: "MODULE_ERROR_UNSPECIFIED"
+				});
+			}
+		}
 	}
 
 	setCallbacks (onData, onError) {
