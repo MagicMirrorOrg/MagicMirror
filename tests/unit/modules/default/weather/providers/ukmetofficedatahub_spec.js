@@ -137,91 +137,93 @@ describe("UKMetOfficeDataHubProvider", () => {
 			provider.start();
 
 			await new Promise((resolve) => setTimeout(resolve, 100));
-			expect(requestedUrl).toContain("/three-hourly?");	});
+			expect(requestedUrl).toContain("/three-hourly?");
+		});
 	});
 
-	describe("Current Weather Parsing", () => { it("should parse current weather from hourly data", async () => {
-		const provider = new UKMetOfficeDataHubProvider({
-			apiKey: "test-key",
-			lat: 51.5,
-			lon: -0.12,
-			type: "current"
+	describe("Current Weather Parsing", () => {
+		it("should parse current weather from hourly data", async () => {
+			const provider = new UKMetOfficeDataHubProvider({
+				apiKey: "test-key",
+				lat: 51.5,
+				lon: -0.12,
+				type: "current"
+			});
+
+			const dataPromise = new Promise((resolve) => {
+				provider.setCallbacks(resolve, vi.fn());
+			});
+
+			server.use(
+				http.get(UKMETOFFICE_HOURLY_URL, () => {
+					return HttpResponse.json(hourlyData);
+				})
+			);
+
+			await provider.initialize();
+			provider.start();
+
+			const result = await dataPromise;
+
+			expect(result).toBeDefined();
+			expect(result.temperature).toBeDefined();
+			expect(result.windSpeed).toBeDefined();
+			expect(result.humidity).toBeDefined();
+			expect(result.weatherType).not.toBeNull();
 		});
 
-		const dataPromise = new Promise((resolve) => {
-			provider.setCallbacks(resolve, vi.fn());
+		it("should include sunrise/sunset from SunCalc", async () => {
+			const provider = new UKMetOfficeDataHubProvider({
+				apiKey: "test-key",
+				lat: 51.5,
+				lon: -0.12,
+				type: "current"
+			});
+
+			const dataPromise = new Promise((resolve) => {
+				provider.setCallbacks(resolve, vi.fn());
+			});
+
+			server.use(
+				http.get(UKMETOFFICE_HOURLY_URL, () => {
+					return HttpResponse.json(hourlyData);
+				})
+			);
+
+			await provider.initialize();
+			provider.start();
+
+			const result = await dataPromise;
+
+			expect(result.sunrise).toBeInstanceOf(Date);
+			expect(result.sunset).toBeInstanceOf(Date);
 		});
 
-		server.use(
-			http.get(UKMETOFFICE_HOURLY_URL, () => {
-				return HttpResponse.json(hourlyData);
-			})
-		);
+		it("should convert weather code to weather type", async () => {
+			const provider = new UKMetOfficeDataHubProvider({
+				apiKey: "test-key",
+				lat: 51.5,
+				lon: -0.12,
+				type: "current"
+			});
 
-		await provider.initialize();
-		provider.start();
+			const dataPromise = new Promise((resolve) => {
+				provider.setCallbacks(resolve, vi.fn());
+			});
 
-		const result = await dataPromise;
+			server.use(
+				http.get(UKMETOFFICE_HOURLY_URL, () => {
+					return HttpResponse.json(hourlyData);
+				})
+			);
 
-		expect(result).toBeDefined();
-		expect(result.temperature).toBeDefined();
-		expect(result.windSpeed).toBeDefined();
-		expect(result.humidity).toBeDefined();
-		expect(result.weatherType).not.toBeNull();
-	});
+			await provider.initialize();
+			provider.start();
 
-	it("should include sunrise/sunset from SunCalc", async () => {
-		const provider = new UKMetOfficeDataHubProvider({
-			apiKey: "test-key",
-			lat: 51.5,
-			lon: -0.12,
-			type: "current"
+			const result = await dataPromise;
+
+			expect(result.weatherType).toBeTruthy();
 		});
-
-		const dataPromise = new Promise((resolve) => {
-			provider.setCallbacks(resolve, vi.fn());
-		});
-
-		server.use(
-			http.get(UKMETOFFICE_HOURLY_URL, () => {
-				return HttpResponse.json(hourlyData);
-			})
-		);
-
-		await provider.initialize();
-		provider.start();
-
-		const result = await dataPromise;
-
-		expect(result.sunrise).toBeInstanceOf(Date);
-		expect(result.sunset).toBeInstanceOf(Date);
-	});
-
-	it("should convert weather code to weather type", async () => {
-		const provider = new UKMetOfficeDataHubProvider({
-			apiKey: "test-key",
-			lat: 51.5,
-			lon: -0.12,
-			type: "current"
-		});
-
-		const dataPromise = new Promise((resolve) => {
-			provider.setCallbacks(resolve, vi.fn());
-		});
-
-		server.use(
-			http.get(UKMETOFFICE_HOURLY_URL, () => {
-				return HttpResponse.json(hourlyData);
-			})
-		);
-
-		await provider.initialize();
-		provider.start();
-
-		const result = await dataPromise;
-
-		expect(result.weatherType).toBeTruthy();
-	});
 	});
 
 	describe("Forecast Parsing", () => {
