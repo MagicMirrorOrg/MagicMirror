@@ -51,7 +51,7 @@ export default defineConfig([
 			"@stylistic/space-before-function-paren": ["error", "always"],
 			"@stylistic/spaced-comment": "off",
 			"dot-notation": "error",
-			eqeqeq: "error",
+			eqeqeq: ["error", "always", { null: "ignore" }],
 			"id-length": "off",
 			"import-x/extensions": "error",
 			"import-x/newline-after-import": "error",

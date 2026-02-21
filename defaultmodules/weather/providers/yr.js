@@ -70,7 +70,8 @@ class YrProvider {
 	}
 
 	#validateConfig () {
-		if (!this.config.lat || !this.config.lon) {
+		if (this.config.lat == null || this.config.lon == null
+			|| !Number.isFinite(this.config.lat) || !Number.isFinite(this.config.lon)) {
 			throw new Error("Latitude and longitude are required");
 		}
 

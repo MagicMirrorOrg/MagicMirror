@@ -52,7 +52,7 @@ class SMHIProvider {
 	}
 
 	#validateConfig () {
-		if (!this.config.lat || !this.config.lon) {
+		if (this.config.lat == null || this.config.lon == null) {
 			throw new Error("Latitude and longitude are required");
 		}
 
