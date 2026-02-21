@@ -11,7 +11,7 @@ module.exports = NodeHelper.create({
 
 	socketNotificationReceived (notification, payload) {
 		if (notification === "INIT_WEATHER") {
-			Log.log(`[weather] Received INIT_WEATHER for instance ${payload.instanceId}`);
+			Log.log(`Received INIT_WEATHER for instance ${payload.instanceId}`);
 			this.initWeatherProvider(payload);
 		}
 		// FETCH_WEATHER is no longer needed - HTTPFetcher handles periodic fetching
@@ -25,7 +25,7 @@ module.exports = NodeHelper.create({
 		const identifier = config.weatherProvider.toLowerCase();
 		const instanceId = config.instanceId;
 
-		Log.log(`[weather] Attempting to initialize provider ${identifier} for instance ${instanceId}`);
+		Log.log(`Attempting to initialize provider ${identifier} for instance ${instanceId}`);
 
 		if (this.providers[instanceId]) {
 			Log.log(`Weather provider ${identifier} already initialized for instance ${instanceId}`);
@@ -35,7 +35,7 @@ module.exports = NodeHelper.create({
 		try {
 			// Dynamically load the provider module
 			const providerPath = path.join(__dirname, "providers", `${identifier}.js`);
-			Log.log(`[weather] Loading provider from: ${providerPath}`);
+			Log.log(`Loading provider from: ${providerPath}`);
 			const ProviderClass = require(providerPath);
 
 			// Create provider instance
