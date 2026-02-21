@@ -413,36 +413,58 @@ class OpenMeteoProvider {
 	}
 
 	#generateWeatherDayFromCurrentWeather (parsedData) {
-		// Find the correct hourly index by matching current_weather.time
-		const currentTime = parsedData.current_weather.time;
-		const hourlyIndex = parsedData.hourly.time.findIndex((time) => time === currentTime);
-		const h = hourlyIndex !== -1 ? hourlyIndex : 0;
-
-		if (hourlyIndex === -1) {
-			Log.warn("Could not find current time in hourly data, using index 0");
-		}
-
-		return {
+		// Basic current weather data
+		const current = {
 			date: parsedData.current_weather.time,
 			windSpeed: parsedData.current_weather.windspeed,
 			windFromDirection: parsedData.current_weather.winddirection,
-			sunrise: parsedData.daily[0].sunrise,
-			sunset: parsedData.daily[0].sunset,
-			temperature: parseFloat(parsedData.current_weather.temperature),
-			minTemperature: parseFloat(parsedData.daily[0].temperature_2m_min),
-			maxTemperature: parseFloat(parsedData.daily[0].temperature_2m_max),
-			weatherType: this.#convertWeatherType(
-				parsedData.current_weather.weathercode,
-				this.#isDayTime(parsedData.current_weather.time, parsedData.daily[0].sunrise, parsedData.daily[0].sunset)
-			),
-			humidity: parseFloat(parsedData.hourly[h].relativehumidity_2m),
-			feelsLikeTemp: parseFloat(parsedData.hourly[h].apparent_temperature),
-			rain: parseFloat(parsedData.hourly[h].rain),
-			snow: parseFloat(parsedData.hourly[h].snowfall * 10),
-			precipitationAmount: parseFloat(parsedData.hourly[h].precipitation),
-			precipitationProbability: parseFloat(parsedData.hourly[h].precipitation_probability),
-			uvIndex: parseFloat(parsedData.hourly[h].uv_index)
+			temperature: parsedData.current_weather.temperature,
+			weatherType: this.#convertWeatherType(parsedData.current_weather.weathercode, true)
 		};
+
+		// Add hourly data if available
+		if (parsedData.hourly && parsedData.hourly.time) {
+			const currentTime = parsedData.current_weather.time;
+			const hourlyIndex = parsedData.hourly.time.findIndex((time) => time === currentTime);
+			const h = hourlyIndex !== -1 ? hourlyIndex : 0;
+
+			if (hourlyIndex === -1) {
+				Log.warn("[weatherprovider.openmeteo] Could not find current time in hourly data, using index 0");
+			}
+
+			current.humidity = parsedData.hourly.relativehumidity_2m?.[h];
+			current.feelsLikeTemp = parsedData.hourly.apparent_temperature?.[h];
+			current.rain = parsedData.hourly.rain?.[h];
+			current.snow = parsedData.hourly.snowfall?.[h] ? parsedData.hourly.snowfall[h] * 10 : undefined;
+			current.precipitationAmount = parsedData.hourly.precipitation?.[h];
+			current.precipitationProbability = parsedData.hourly.precipitation_probability?.[h];
+			current.uvIndex = parsedData.hourly.uv_index?.[h];
+		}
+
+		// Add daily data if available
+		if (parsedData.daily) {
+			if (parsedData.daily.sunrise?.[0]) {
+				current.sunrise = parsedData.daily.sunrise[0];
+			}
+			if (parsedData.daily.sunset?.[0]) {
+				current.sunset = parsedData.daily.sunset[0];
+				// Update weatherType with correct day/night status
+				if (current.sunrise && current.sunset) {
+					current.weatherType = this.#convertWeatherType(
+						parsedData.current_weather.weathercode,
+						this.#isDayTime(parsedData.current_weather.time, current.sunrise, current.sunset)
+					);
+				}
+			}
+			if (parsedData.daily.temperature_2m_min?.[0]) {
+				current.minTemperature = parsedData.daily.temperature_2m_min[0];
+			}
+			if (parsedData.daily.temperature_2m_max?.[0]) {
+				current.maxTemperature = parsedData.daily.temperature_2m_max[0];
+			}
+		}
+
+		return current;
 	}
 
 	#generateWeatherObjectsFromForecast (parsedData) {

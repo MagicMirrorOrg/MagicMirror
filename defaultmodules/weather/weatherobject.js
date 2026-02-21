@@ -69,6 +69,10 @@ class WeatherObject {
 	 * @returns {string} "sunset" or "sunrise"
 	 */
 	nextSunAction (date = moment()) {
+		// Return null if sunrise/sunset data is unavailable
+		if (!this.sunrise || !this.sunset) {
+			return null;
+		}
 		return date.isBetween(this.sunrise, this.sunset) ? "sunset" : "sunrise";
 	}
 
@@ -84,6 +88,10 @@ class WeatherObject {
 	 * @returns {boolean} true if it is at dayTime
 	 */
 	isDayTime () {
+		// Default to daytime if sunrise/sunset data unavailable
+		if (!this.sunrise || !this.sunset) {
+			return true;
+		}
 		const now = !this.date ? moment() : this.date;
 		return now.isBetween(this.sunrise, this.sunset, undefined, "[]");
 	}

@@ -25,7 +25,7 @@
       {% if config.showHumidity === "wind" %}
         {{ humidity() }}
       {% endif %}
-      {% if config.showSun %}
+      {% if config.showSun and current.nextSunAction() %}
         <span class="wi dimmed wi-{{ current.nextSunAction() }}"></span>
         <span>
           {% if current.nextSunAction() === "sunset" %}
