@@ -190,7 +190,7 @@ class YrProvider {
 		});
 	}
 
-	#handleResponse (data, fromCache = false) {
+	async #handleResponse (data, fromCache = false) {
 		try {
 			if (!data.properties || !data.properties.timeseries) {
 				throw new Error("Invalid weather data");
@@ -198,7 +198,7 @@ class YrProvider {
 
 			// Refresh stellar data if needed (new day or using cached weather data)
 			if (fromCache) {
-				this.#fetchStellarData();
+				await this.#fetchStellarData();
 			}
 
 			let weatherData;
