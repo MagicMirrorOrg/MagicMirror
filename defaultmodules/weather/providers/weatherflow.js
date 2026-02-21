@@ -119,6 +119,11 @@ class WeatherFlowProvider {
 	 * @returns {object} Current weather object
 	 */
 	generateCurrentWeather (data) {
+		if (!data || !data.current_conditions || !data.forecast || !Array.isArray(data.forecast.daily) || data.forecast.daily.length === 0) {
+			Log.error("[weatherprovider.weatherflow] Invalid current weather data structure");
+			return null;
+		}
+
 		const current = data.current_conditions;
 		const daily = data.forecast.daily[0];
 
@@ -144,6 +149,11 @@ class WeatherFlowProvider {
 	 * @returns {Array} Array of forecast objects
 	 */
 	generateForecast (data) {
+		if (!data || !data.forecast || !Array.isArray(data.forecast.daily) || !Array.isArray(data.forecast.hourly)) {
+			Log.error("[weatherprovider.weatherflow] Invalid forecast data structure");
+			return [];
+		}
+
 		const days = [];
 
 		for (const forecast of data.forecast.daily) {
@@ -185,6 +195,11 @@ class WeatherFlowProvider {
 	 * @returns {Array} Array of hourly forecast objects
 	 */
 	generateHourly (data) {
+		if (!data || !data.forecast || !Array.isArray(data.forecast.hourly)) {
+			Log.error("[weatherprovider.weatherflow] Invalid hourly data structure");
+			return [];
+		}
+
 		const hours = [];
 
 		for (const hour of data.forecast.hourly) {
