@@ -187,6 +187,9 @@ Module.register("weather", {
 			case "hourly":
 				this.weatherHourlyArray = data.map((d) => this.createWeatherObject(d));
 				break;
+			default:
+				Log.warn(`Unknown weather data type: ${type}`);
+				break;
 		}
 
 		this.updateAvailable();

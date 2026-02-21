@@ -81,21 +81,21 @@ class YrProvider {
 		const url = this.#getSunriseUrl();
 
 		try {
+			const controller = new AbortController();
+			const timeoutId = setTimeout(() => controller.abort(), 10000);
+
 			const response = await fetch(url, {
 				headers: {
 					"User-Agent": "MagicMirror",
 					Accept: "application/json"
-				}
+				},
+				signal: controller.signal
 			});
+
+			clearTimeout(timeoutId);
 
 			if (!response.ok) {
 				Log.warn(`[weatherprovider.yr] Could not fetch stellar data: HTTP ${response.status}`);
-				return;
-			}
-
-			const data = await response.json();
-			if (data && data.location && data.location.time) {
-				this.stellarData = data.location.time;
 				this.stellarDataDate = today;
 			}
 		} catch (error) {

@@ -308,9 +308,18 @@ class SMHIProvider {
 
 	#resolveCoordinates (data) {
 		// SMHI returns coordinates in [lon, lat] format
+		// Fall back to config if response structure is unexpected
+		if (data?.geometry?.coordinates?.[0] && Array.isArray(data.geometry.coordinates[0]) && data.geometry.coordinates[0].length >= 2) {
+			return {
+				lat: data.geometry.coordinates[0][1],
+				lon: data.geometry.coordinates[0][0]
+			};
+		}
+
+		Log.warn("[weatherprovider.smhi] Invalid coordinate structure in response, using config values");
 		return {
-			lat: data.geometry.coordinates[0][1],
-			lon: data.geometry.coordinates[0][0]
+			lat: this.config.lat,
+			lon: this.config.lon
 		};
 	}
 
