@@ -160,7 +160,7 @@ class OpenMeteoProvider {
 				this.locationName = `${data.city}, ${data.principalSubdivisionCode}`;
 			}
 		} catch (error) {
-			Log.error("Could not load location data:", error);
+			Log.error("[openmeteo] Could not load location data:", error);
 		}
 	}
 
@@ -178,7 +178,7 @@ class OpenMeteoProvider {
 				const data = await response.json();
 				this.#handleResponse(data);
 			} catch (error) {
-				Log.error("Failed to parse JSON:", error);
+				Log.error("[openmeteo] Failed to parse JSON:", error);
 				if (this.onErrorCallback) {
 					this.onErrorCallback({
 						message: "Failed to parse API response",
@@ -222,7 +222,7 @@ class OpenMeteoProvider {
 					weatherData = this.#generateWeatherObjectsFromHourly(parsedData);
 					break;
 				default:
-					Log.error(`Unknown type: ${this.config.type}`);
+					Log.error(`[openmeteo] Unknown type: ${this.config.type}`);
 					throw new Error(`Unknown weather type: ${this.config.type}`);
 			}
 
@@ -230,7 +230,7 @@ class OpenMeteoProvider {
 				this.onDataCallback(weatherData);
 			}
 		} catch (error) {
-			Log.error("Error processing weather data:", error);
+			Log.error("[openmeteo] Error processing weather data:", error);
 			if (this.onErrorCallback) {
 				this.onErrorCallback({
 					message: error.message,
@@ -439,7 +439,7 @@ class OpenMeteoProvider {
 				h = hourlyIndex !== -1 ? hourlyIndex : 0;
 
 				if (hourlyIndex === -1) {
-					Log.warn("[weatherprovider.openmeteo] Could not find current time in hourly data, using index 0");
+					Log.debug("[openmeteo] Could not find current time in hourly data, using index 0");
 				}
 
 				const hourData = parsedData.hourly[h];
@@ -458,7 +458,7 @@ class OpenMeteoProvider {
 				h = hourlyIndex !== -1 ? hourlyIndex : 0;
 
 				if (hourlyIndex === -1) {
-					Log.warn("[weatherprovider.openmeteo] Could not find current time in hourly data, using index 0");
+					Log.debug("[openmeteo] Could not find current time in hourly data, using index 0");
 				}
 
 				current.humidity = parsedData.hourly.relativehumidity_2m?.[h];
