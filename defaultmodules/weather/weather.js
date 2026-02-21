@@ -112,6 +112,15 @@ Module.register("weather", {
 		this.addFilters();
 	},
 
+	// Cleanup on module hide/suspend
+	stop () {
+		if (this.instanceId) {
+			this.sendSocketNotification("STOP_WEATHER", {
+				instanceId: this.instanceId
+			});
+		}
+	},
+
 	// Override notification handler.
 	notificationReceived (notification, payload, sender) {
 		if (notification === "CALENDAR_EVENTS") {

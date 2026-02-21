@@ -13,6 +13,9 @@ module.exports = NodeHelper.create({
 		if (notification === "INIT_WEATHER") {
 			Log.log(`Received INIT_WEATHER for instance ${payload.instanceId}`);
 			this.initWeatherProvider(payload);
+		} else if (notification === "STOP_WEATHER") {
+			Log.log(`Received STOP_WEATHER for instance ${payload.instanceId}`);
+			this.stopWeatherProvider(payload.instanceId);
 		}
 		// FETCH_WEATHER is no longer needed - HTTPFetcher handles periodic fetching
 	},
@@ -79,6 +82,22 @@ module.exports = NodeHelper.create({
 				instanceId,
 				error: error.message
 			});
+		}
+	},
+
+	/**
+	 * Stop and cleanup a weather provider
+	 * @param {string} instanceId The instance identifier
+	 */
+	stopWeatherProvider (instanceId) {
+		const provider = this.providers[instanceId];
+
+		if (provider) {
+			Log.log(`Stopping weather provider for instance ${instanceId}`);
+			provider.stop();
+			delete this.providers[instanceId];
+		} else {
+			Log.warn(`No provider found for instance ${instanceId}`);
 		}
 	}
 });
