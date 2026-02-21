@@ -2,7 +2,6 @@
  * Shared utility functions for weather providers
  */
 
-const Log = require("logger");
 const SunCalc = require("suncalc");
 
 /**

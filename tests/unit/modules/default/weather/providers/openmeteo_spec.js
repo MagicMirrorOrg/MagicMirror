@@ -6,7 +6,7 @@
  */
 import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
-import { describe, it, expect, vi, beforeAll, afterAll, afterEach, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeAll, afterAll, afterEach } from "vitest";
 
 import openMeteoData from "../../../../../mocks/weather_openmeteo_current.json" with { type: "json" };
 import openMeteoCurrentWeatherData from "../../../../../mocks/weather_openmeteo_current_weather.json" with { type: "json" };
@@ -14,7 +14,6 @@ import openMeteoCurrentWeatherData from "../../../../../mocks/weather_openmeteo_
 const currentData = openMeteoCurrentWeatherData;
 const forecastData = openMeteoData;
 
-const OPEN_METEO_URL = "https://api.open-meteo.com/v1/forecast*";
 const GEOCODE_URL = "https://api.bigdatacloud.net/data/reverse-geocode-client*";
 
 let server;
