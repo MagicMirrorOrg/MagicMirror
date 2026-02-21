@@ -188,7 +188,10 @@ class WeatherFlowProvider {
 				const hourDate = new Date(hour.time * 1000);
 				const forecastDate = new Date(forecast.day_start_local * 1000);
 
-				if (hourDate.getDate() === forecastDate.getDate()) {
+				// Compare year, month, and day to ensure correct matching across month boundaries
+				if (hourDate.getFullYear() === forecastDate.getFullYear()
+					&& hourDate.getMonth() === forecastDate.getMonth()
+					&& hourDate.getDate() === forecastDate.getDate()) {
 					weather.uvIndex = Math.max(weather.uvIndex, hour.uv || 0);
 					weather.precipitationAmount += hour.precip || 0;
 				} else if (hourDate > forecastDate) {
