@@ -14,6 +14,29 @@ const UKMETOFFICE_HOURLY_URL = "https://data.hub.api.metoffice.gov.uk/sitespecif
 const UKMETOFFICE_THREE_HOURLY_URL = "https://data.hub.api.metoffice.gov.uk/sitespecific/v0/point/three-hourly*";
 const UKMETOFFICE_DAILY_URL = "https://data.hub.api.metoffice.gov.uk/sitespecific/v0/point/daily*";
 
+/**
+ * Returns a copy of the daily mock response with dates shifted to today and future days.
+ * @param {object} source Source UK Met Office daily mock payload.
+ * @returns {object} Cloned payload with deterministic future dates in `timeSeries`.
+ */
+function withFutureDailyTimes (source) {
+	const clone = JSON.parse(JSON.stringify(source));
+	const today = new Date();
+	today.setUTCHours(0, 0, 0, 0);
+
+	clone.features[0].properties.timeSeries = clone.features[0].properties.timeSeries.map((day, index) => {
+		const shiftedDate = new Date(today);
+		shiftedDate.setUTCDate(today.getUTCDate() + index);
+
+		return {
+			...day,
+			time: `${shiftedDate.toISOString().split("T")[0]}T00:00Z`
+		};
+	});
+
+	return clone;
+}
+
 let server;
 
 beforeAll(() => {
@@ -241,7 +264,7 @@ describe("UKMetOfficeDataHubProvider", () => {
 
 			server.use(
 				http.get(UKMETOFFICE_DAILY_URL, () => {
-					return HttpResponse.json(dailyData);
+					return HttpResponse.json(withFutureDailyTimes(dailyData));
 				})
 			);
 
