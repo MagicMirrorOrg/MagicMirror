@@ -239,7 +239,7 @@ class OpenMeteoProvider {
 		let maxEntries = this.config.maxEntries;
 		let maxNumberOfDays = this.config.maxNumberOfDays;
 
-		if (this.config.hasOwnProperty("maxNumberOfDays") && !isNaN(parseFloat(this.config.maxNumberOfDays))) {
+		if (this.config.maxNumberOfDays !== undefined && !isNaN(parseFloat(this.config.maxNumberOfDays))) {
 			const daysFactor = ["daily", "forecast"].includes(this.config.type) ? 1 : this.config.type === "hourly" ? 24 : 0;
 			maxEntries = Math.max(1, Math.min(Math.round(parseFloat(this.config.maxNumberOfDays)) * daysFactor, maxEntriesLimit));
 			maxNumberOfDays = Math.ceil(maxEntries / Math.max(1, daysFactor));
@@ -370,7 +370,7 @@ class OpenMeteoProvider {
 			99: "thunderstorm-heavy-hail"
 		};
 
-		if (!Object.keys(weatherConditions).includes(`${weathercode}`)) return null;
+		if (!(weathercode in weatherConditions)) return null;
 
 		const mappings = {
 			clear: isDayTime ? "day-sunny" : "night-clear",
