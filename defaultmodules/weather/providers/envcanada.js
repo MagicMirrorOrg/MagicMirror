@@ -27,6 +27,7 @@ class EnvCanadaProvider {
 		this.onErrorCallback = null;
 		this.lastCityPageURL = null;
 		this.cacheCurrentTemp = 999;
+		this.currentHour = null; // Track current hour for URL updates
 	}
 
 	async initialize () {
@@ -58,6 +59,7 @@ class EnvCanadaProvider {
 	}
 
 	#initializeFetcher () {
+		this.currentHour = new Date().toISOString().substring(11, 13);
 		const indexURL = this.#getIndexUrl();
 
 		this.fetcher = new HTTPFetcher(indexURL, {
@@ -67,6 +69,16 @@ class EnvCanadaProvider {
 
 		this.fetcher.on("response", async (response) => {
 			try {
+				// Check if hour changed - restart fetcher with new URL
+				const newHour = new Date().toISOString().substring(11, 13);
+				if (newHour !== this.currentHour) {
+					Log.info("[weatherprovider.envcanada] Hour changed, reinitializing fetcher");
+					this.stop();
+					this.#initializeFetcher();
+					this.start();
+					return;
+				}
+
 				const html = await response.text();
 				const cityPageURL = this.#extractCityPageURL(html);
 
@@ -314,8 +326,9 @@ class EnvCanadaProvider {
 	}
 
 	#extractCityPageURL (html) {
-		const fileSuffix = `_MSC_CitypageWeather_${this.config.siteCode}_en.xml`;
-		const match = html.match(new RegExp(`href="([^"]*${fileSuffix})"`));
+		// New format: {timestamp}_MSC_CitypageWeather_{siteCode}_en.xml
+		const pattern = `[^"]*_MSC_CitypageWeather_${this.config.siteCode}_en\\.xml`;
+		const match = html.match(new RegExp(`href="(${pattern})"`));
 
 		if (match && match[1]) {
 			return this.#getIndexUrl() + match[1];
