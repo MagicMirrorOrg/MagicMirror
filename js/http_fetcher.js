@@ -270,8 +270,13 @@ class HTTPFetcher extends EventEmitter {
 			const message = isTimeout ? `Request timeout after ${this.timeout}ms` : `Network error: ${error.message}`;
 
 			// Truncate URL for cleaner logs
-			const urlObj = new URL(this.url);
-			const shortUrl = `${urlObj.origin}${urlObj.pathname}${urlObj.search.length > 50 ? "?..." : urlObj.search}`;
+			let shortUrl = this.url;
+			try {
+				const urlObj = new URL(this.url);
+				shortUrl = `${urlObj.origin}${urlObj.pathname}${urlObj.search.length > 50 ? "?..." : urlObj.search}`;
+			} catch (urlError) {
+				// If URL parsing fails, use original URL
+			}
 			Log.error(`${this.logContext}${shortUrl} - ${message}`);
 
 			const errorInfo = this.#createErrorInfo(
