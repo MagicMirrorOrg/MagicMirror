@@ -155,7 +155,39 @@ class EnvCanadaProvider {
 	#generateCurrentWeather (xml) {
 		const current = { date: new Date() };
 
-		// Since <currentConditions/> is often empty, extract from first forecast period
+		// Try to get temperature from currentConditions first
+		const currentTempStr = this.#extract(xml, /<currentConditions>.*?<temperature[^>]*>(.*?)<\/temperature>/s);
+
+		if (currentTempStr && currentTempStr !== "") {
+			current.temperature = parseFloat(currentTempStr);
+			this.cacheCurrentTemp = current.temperature;
+		} else {
+			// Fallback: extract from first forecast period if currentConditions is empty
+			const firstForecast = xml.match(/<forecast>(.*?)<\/forecast>/s);
+			if (firstForecast) {
+				const forecastXml = firstForecast[1];
+				const temp = this.#extract(forecastXml, /<temperature[^>]*>(.*?)<\/temperature>/);
+				if (temp && temp !== "") {
+					current.temperature = parseFloat(temp);
+					this.cacheCurrentTemp = current.temperature;
+				} else if (this.cacheCurrentTemp !== null) {
+					current.temperature = this.cacheCurrentTemp;
+				} else {
+					current.temperature = null;
+				}
+			}
+		}
+
+		// Wind chill / humidex for feels like temperature
+		const windChill = this.#extract(xml, /<windChill[^>]*>(.*?)<\/windChill>/);
+		const humidex = this.#extract(xml, /<humidex[^>]*>(.*?)<\/humidex>/);
+		if (windChill) {
+			current.feelsLikeTemp = parseFloat(windChill);
+		} else if (humidex) {
+			current.feelsLikeTemp = parseFloat(humidex);
+		}
+
+		// Get wind and icon from currentConditions or first forecast
 		const firstForecast = xml.match(/<forecast>(.*?)<\/forecast>/s);
 		if (!firstForecast) {
 			Log.warn("[envcanada] No forecast data available");
@@ -164,31 +196,34 @@ class EnvCanadaProvider {
 
 		const forecastXml = firstForecast[1];
 
-		// Temperature from first forecast (class can be "high" or "low" depending on time of day)
-		const temp = this.#extract(forecastXml, /<temperature[^>]*>(.*?)<\/temperature>/);
-		if (temp && temp !== "") {
-			current.temperature = parseFloat(temp);
-			this.cacheCurrentTemp = current.temperature;
-		} else if (this.cacheCurrentTemp !== null) {
-			current.temperature = this.cacheCurrentTemp;
-		} else {
-			current.temperature = null;
+		// Wind speed - try currentConditions first, fallback to forecast
+		let windSpeed = this.#extract(xml, /<currentConditions>.*?<wind>.*?<speed[^>]*>(.*?)<\/speed>/s);
+		if (!windSpeed) {
+			windSpeed = this.#extract(forecastXml, /<speed[^>]*>(.*?)<\/speed>/);
 		}
-
-		// Wind speed
-		const windSpeed = this.#extract(forecastXml, /<speed[^>]*>(.*?)<\/speed>/);
 		if (windSpeed) {
 			current.windSpeed = (windSpeed === "calm") ? 0 : convertKmhToMs(parseFloat(windSpeed));
 		}
 
-		const windBearing = this.#extract(forecastXml, /<bearing[^>]*>(.*?)<\/bearing>/);
+		// Wind bearing - try currentConditions first, fallback to forecast
+		let windBearing = this.#extract(xml, /<currentConditions>.*?<wind>.*?<bearing[^>]*>(.*?)<\/bearing>/s);
+		if (!windBearing) {
+			windBearing = this.#extract(forecastXml, /<bearing[^>]*>(.*?)<\/bearing>/);
+		}
 		if (windBearing) current.windFromDirection = parseFloat(windBearing);
 
-		// Weather type from icon code
-		const iconCode = this.#extract(forecastXml, /<iconCode[^>]*>(.*?)<\/iconCode>/);
+		// Try icon from currentConditions first, fallback to forecast
+		let iconCode = this.#extract(xml, /<currentConditions>.*?<iconCode[^>]*>(.*?)<\/iconCode>/s);
+		if (!iconCode) {
+			iconCode = this.#extract(forecastXml, /<iconCode[^>]*>(.*?)<\/iconCode>/);
+		}
 		if (iconCode) current.weatherType = this.#convertWeatherType(iconCode);
 
-		// Precipitation probability
+		// Humidity from currentConditions
+		const humidity = this.#extract(xml, /<currentConditions>.*?<relativeHumidity[^>]*>(.*?)<\/relativeHumidity>/s);
+		if (humidity) current.humidity = parseFloat(humidity);
+
+		// Precipitation probability from forecast
 		const pop = this.#extract(forecastXml, /<pop[^>]*>(.*?)<\/pop>/);
 		if (pop && pop !== "") {
 			current.precipitationProbability = parseFloat(pop);
