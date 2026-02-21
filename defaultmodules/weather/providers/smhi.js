@@ -102,6 +102,9 @@ class SMHIProvider {
 				case "hourly":
 					weatherData = this.#generateHourly(data.timeSeries, coordinates);
 					break;
+				default:
+					Log.error(`[weatherprovider.smhi] Unknown weather type: ${this.config.type}`);
+					break;
 			}
 
 			if (this.onDataCallback) {

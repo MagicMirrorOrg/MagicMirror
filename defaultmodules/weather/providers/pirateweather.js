@@ -88,6 +88,10 @@ class PirateweatherProvider {
 			case "hourly":
 				weatherData = this.generateHourly(data);
 				break;
+			default:
+				Log.error(`[weatherprovider.pirateweather] Unknown weather type: ${this.config.type}`);
+				break;
+
 		}
 
 		if (weatherData && this.onDataCallback) {

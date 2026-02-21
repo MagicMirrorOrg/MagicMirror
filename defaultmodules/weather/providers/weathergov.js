@@ -193,6 +193,8 @@ class WeatherGovProvider {
 					}
 					weatherData = this.#generateWeatherObjectsFromHourly(data.properties.periods);
 					break;
+				default:
+					throw new Error(`Unknown weather type: ${this.config.type}`);
 			}
 
 			if (this.onDataCallback) {

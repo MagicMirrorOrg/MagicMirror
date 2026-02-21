@@ -146,6 +146,7 @@ class EnvCanadaProvider {
 			case "hourly":
 				return this.#generateHourly(xml);
 			default:
+				Log.error(`[weatherprovider.envcanada] Unknown weather type: ${this.config.type}`);
 				return null;
 		}
 	}

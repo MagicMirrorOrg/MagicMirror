@@ -129,6 +129,9 @@ class UkMetOfficeDataHubProvider {
 			case "hourly":
 				weatherData = this.#generateHourly(data);
 				break;
+			default:
+				Log.error(`[weatherprovider.ukmetofficedatahub] Unknown weather type: ${this.config.type}`);
+				break;
 		}
 
 		if (weatherData && this.onDataCallback) {
