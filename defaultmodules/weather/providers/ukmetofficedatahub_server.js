@@ -59,7 +59,8 @@ class UkMetOfficeDataHubProvider {
 			headers: {
 				Accept: "application/json",
 				apikey: this.config.apiKey
-			}
+			},
+			logContext: "weatherprovider.ukmetofficedatahub"
 		});
 
 		this.fetcher.on("response", async (response) => {

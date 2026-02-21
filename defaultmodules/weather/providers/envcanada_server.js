@@ -61,7 +61,8 @@ class EnvCanadaProvider {
 		const indexURL = this.#getIndexUrl();
 
 		this.fetcher = new HTTPFetcher(indexURL, {
-			reloadInterval: this.config.updateInterval
+			reloadInterval: this.config.updateInterval,
+			logContext: "weatherprovider.envcanada"
 		});
 
 		this.fetcher.on("response", async (response) => {

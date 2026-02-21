@@ -64,7 +64,8 @@ class OpenWeatherMapProvider {
 
 		this.fetcher = new HTTPFetcher(url, {
 			reloadInterval: this.config.updateInterval,
-			headers: { "Cache-Control": "no-cache" }
+			headers: { "Cache-Control": "no-cache" },
+			logContext: "weatherprovider.openweathermap"
 		});
 
 		this.fetcher.on("response", async (response) => {

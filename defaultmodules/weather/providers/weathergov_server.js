@@ -143,7 +143,8 @@ class WeatherGovProvider {
 				"User-Agent": "MagicMirror",
 				Accept: "application/geo+json",
 				"Cache-Control": "no-cache"
-			}
+			},
+			logContext: "weatherprovider.weathergov"
 		});
 
 		this.fetcher.on("response", async (response) => {

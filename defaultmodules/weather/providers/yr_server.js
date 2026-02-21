@@ -137,7 +137,8 @@ class YrProvider {
 
 		this.fetcher = new HTTPFetcher(url, {
 			reloadInterval: this.config.updateInterval,
-			headers
+			headers,
+			logContext: "weatherprovider.yr"
 		});
 
 		this.fetcher.on("response", async (response) => {

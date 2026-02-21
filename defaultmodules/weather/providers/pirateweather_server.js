@@ -37,7 +37,8 @@ class PirateweatherProvider {
 			headers: {
 				"Cache-Control": "no-cache",
 				Accept: "application/json"
-			}
+			},
+			logContext: "weatherprovider.pirateweather"
 		});
 
 		this.fetcher.on("response", async (response) => {

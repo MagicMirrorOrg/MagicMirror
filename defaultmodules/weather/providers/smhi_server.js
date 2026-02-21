@@ -73,7 +73,8 @@ class SMHIProvider {
 		const url = this.#getURL();
 
 		this.fetcher = new HTTPFetcher(url, {
-			reloadInterval: this.config.updateInterval
+			reloadInterval: this.config.updateInterval,
+			logContext: "weatherprovider.smhi"
 		});
 
 		this.fetcher.on("response", async (response) => {

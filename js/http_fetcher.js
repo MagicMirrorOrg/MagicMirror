@@ -55,6 +55,7 @@ class HTTPFetcher extends EventEmitter {
 	 * @param {object} [options.headers] - Additional headers to send
 	 * @param {number} [options.maxRetries] - Max retries for 5xx errors (default: 3)
 	 * @param {number} [options.timeout] - Request timeout in ms (default: 30000)
+	 * @param {string} [options.logContext] - Optional context for log messages (e.g., provider name)
 	 */
 	constructor (url, options = {}) {
 		super();
@@ -66,6 +67,7 @@ class HTTPFetcher extends EventEmitter {
 		this.customHeaders = options.headers || {};
 		this.maxRetries = options.maxRetries || MAX_SERVER_BACKOFF;
 		this.timeout = options.timeout || DEFAULT_TIMEOUT;
+		this.logContext = options.logContext ? `[${options.logContext}] ` : "";
 
 		this.reloadTimer = null;
 		this.serverErrorCount = 0;
@@ -178,28 +180,28 @@ class HTTPFetcher extends EventEmitter {
 			errorType = "AUTH_FAILURE";
 			delay = Math.max(this.reloadInterval * 5, THIRTY_MINUTES);
 			message = `Authentication failed (${status}). Check your API key. Waiting ${Math.round(delay / 60000)} minutes before retry.`;
-			Log.error(`${this.url} - ${message}`);
+			Log.error(`${this.logContext}${this.url} - ${message}`);
 		} else if (status === 429) {
 			errorType = "RATE_LIMITED";
 			const retryAfter = response.headers.get("retry-after");
 			const parsed = retryAfter ? this.#parseRetryAfter(retryAfter) : null;
 			delay = parsed !== null ? Math.max(parsed, this.reloadInterval) : Math.max(this.reloadInterval * 2, FIFTEEN_MINUTES);
 			message = `Rate limited (429). Retrying in ${Math.round(delay / 60000)} minutes.`;
-			Log.warn(`${this.url} - ${message}`);
+			Log.warn(`${this.logContext}${this.url} - ${message}`);
 		} else if (status >= 500) {
 			errorType = "SERVER_ERROR";
 			this.serverErrorCount = Math.min(this.serverErrorCount + 1, this.maxRetries);
 			delay = this.reloadInterval * Math.pow(2, this.serverErrorCount);
 			message = `Server error (${status}). Retry #${this.serverErrorCount} in ${Math.round(delay / 60000)} minutes.`;
-			Log.error(`${this.url} - ${message}`);
+			Log.error(`${this.logContext}${this.url} - ${message}`);
 		} else if (status >= 400) {
 			errorType = "CLIENT_ERROR";
 			delay = Math.max(this.reloadInterval * 2, FIFTEEN_MINUTES);
 			message = `Client error (${status}). Retrying in ${Math.round(delay / 60000)} minutes.`;
-			Log.error(`${this.url} - ${message}`);
+			Log.error(`${this.logContext}${this.url} - ${message}`);
 		} else {
 			message = `Unexpected HTTP status ${status}.`;
-			Log.error(`${this.url} - ${message}`);
+			Log.error(`${this.logContext}${this.url} - ${message}`);
 		}
 
 		return {
@@ -267,7 +269,7 @@ class HTTPFetcher extends EventEmitter {
 			const isTimeout = error.name === "AbortError";
 			const message = isTimeout ? `Request timeout after ${this.timeout}ms` : `Network error: ${error.message}`;
 
-			Log.error(`${this.url} - ${message}`);
+			Log.error(`${this.logContext}${this.url} - ${message}`);
 
 			const errorInfo = this.#createErrorInfo(
 				message,
