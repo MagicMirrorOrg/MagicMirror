@@ -1,115 +1,243 @@
-/* global WeatherProvider, WeatherObject */
+const Log = require("logger");
+const HTTPFetcher = require("#http_fetcher");
 
-/*
- * This class is a provider for Pirate Weather, it is a replacement for Dark Sky (same api),
- * see http://pirateweather.net/en/latest/
- */
-WeatherProvider.register("pirateweather", {
+class PirateweatherProvider {
+	constructor (config) {
+		this.config = {
+			apiBase: "https://api.pirateweather.net",
+			weatherEndpoint: "/forecast",
+			apiKey: "",
+			lat: 0,
+			lon: 0,
+			type: "current",
+			updateInterval: 10 * 60 * 1000,
+			lang: "en",
+			...config
+		};
+		this.fetcher = null;
+		this.onDataCallback = null;
+		this.onErrorCallback = null;
+	}
 
-	/*
-	 * Set the name of the provider.
-	 * Not strictly required, but helps for debugging.
-	 */
-	providerName: "pirateweather",
+	setCallbacks (onDataCallback, onErrorCallback) {
+		this.onDataCallback = onDataCallback;
+		this.onErrorCallback = onErrorCallback;
+	}
 
-	// Set the default config properties that is specific to this provider
-	defaults: {
-		useCorsProxy: true,
-		apiBase: "https://api.pirateweather.net",
-		weatherEndpoint: "/forecast",
-		apiKey: "",
-		lat: 0,
-		lon: 0
-	},
-
-	async fetchCurrentWeather () {
-		try {
-			const data = await this.fetchData(this.getUrl());
-			if (!data || !data.currently || typeof data.currently.temperature === "undefined") {
-				throw new Error("No usable data received from Pirate Weather API.");
+	async initialize () {
+		if (!this.config.apiKey) {
+			Log.error("[pirateweather] No API key configured");
+			if (this.onErrorCallback) {
+				this.onErrorCallback({
+					message: "API key required",
+					translationKey: "MODULE_ERROR_UNSPECIFIED"
+				});
 			}
-
-			const currentWeather = this.generateWeatherDayFromCurrentWeather(data);
-			this.setCurrentWeather(currentWeather);
-		} catch (error) {
-			Log.error("Could not load data ... ", error);
-		} finally {
-			this.updateAvailable();
+			return;
 		}
-	},
 
-	async fetchWeatherForecast () {
-		try {
-			const data = await this.fetchData(this.getUrl());
-			if (!data || !data.daily || !data.daily.data.length) {
-				throw new Error("No usable data received from Pirate Weather API.");
+		this.#initializeFetcher();
+	}
+
+	#initializeFetcher () {
+		const url = this.#getUrl();
+
+		this.fetcher = new HTTPFetcher(url, {
+			reloadInterval: this.config.updateInterval,
+			headers: {
+				"Cache-Control": "no-cache",
+				Accept: "application/json"
+			},
+			logContext: "weatherprovider.pirateweather"
+		});
+
+		this.fetcher.on("response", async (response) => {
+			try {
+				const data = await response.json();
+				this.#handleResponse(data);
+			} catch (error) {
+				Log.error("[pirateweather] Parse error:", error);
+				if (this.onErrorCallback) {
+					this.onErrorCallback({
+						message: "Failed to parse API response",
+						translationKey: "MODULE_ERROR_UNSPECIFIED"
+					});
+				}
 			}
+		});
 
-			const forecast = this.generateWeatherObjectsFromForecast(data.daily.data);
-			this.setWeatherForecast(forecast);
-		} catch (error) {
-			Log.error("Could not load data ... ", error);
-		} finally {
-			this.updateAvailable();
+		this.fetcher.on("error", (errorInfo) => {
+			if (this.onErrorCallback) {
+				this.onErrorCallback(errorInfo);
+			}
+		});
+	}
+
+	#handleResponse (data) {
+		if (!data || (!data.currently && !data.daily && !data.hourly)) {
+			Log.error("[pirateweather] No usable data received");
+			if (this.onErrorCallback) {
+				this.onErrorCallback({
+					message: "No usable data in API response",
+					translationKey: "MODULE_ERROR_UNSPECIFIED"
+				});
+			}
+			return;
 		}
-	},
 
-	// Create a URL from the config and base URL.
-	getUrl () {
-		return `${this.config.apiBase}${this.config.weatherEndpoint}/${this.config.apiKey}/${this.config.lat},${this.config.lon}?units=si&lang=${this.config.lang}`;
-	},
+		let weatherData = null;
 
-	// Implement WeatherDay generator.
-	generateWeatherDayFromCurrentWeather (currentWeatherData) {
-		const currentWeather = new WeatherObject();
+		switch (this.config.type) {
+			case "current":
+				weatherData = this.#generateCurrent(data);
+				break;
+			case "forecast":
+			case "daily":
+				weatherData = this.#generateDaily(data);
+				break;
+			case "hourly":
+				weatherData = this.#generateHourly(data);
+				break;
+			default:
+				Log.error(`[pirateweather] Unknown weather type: ${this.config.type}`);
+				if (this.onErrorCallback) {
+					this.onErrorCallback({
+						message: `Unknown weather type: ${this.config.type}`,
+						translationKey: "MODULE_ERROR_UNSPECIFIED"
+					});
+				}
+				return;
 
-		currentWeather.date = moment();
-		currentWeather.humidity = parseFloat(currentWeatherData.currently.humidity);
-		currentWeather.temperature = parseFloat(currentWeatherData.currently.temperature);
-		currentWeather.windSpeed = parseFloat(currentWeatherData.currently.windSpeed);
-		currentWeather.windFromDirection = currentWeatherData.currently.windBearing;
-		currentWeather.weatherType = this.convertWeatherType(currentWeatherData.currently.icon);
-		currentWeather.sunrise = moment.unix(currentWeatherData.daily.data[0].sunriseTime);
-		currentWeather.sunset = moment.unix(currentWeatherData.daily.data[0].sunsetTime);
+		}
 
-		return currentWeather;
-	},
+		if (weatherData && this.onDataCallback) {
+			this.onDataCallback(weatherData);
+		}
+	}
 
-	generateWeatherObjectsFromForecast (forecasts) {
+	#generateCurrent (data) {
+		if (!data.currently || typeof data.currently.temperature === "undefined") {
+			return null;
+		}
+
+		const current = {
+			date: new Date(),
+			humidity: data.currently.humidity != null ? parseFloat(data.currently.humidity) * 100 : null,
+			temperature: parseFloat(data.currently.temperature),
+			feelsLikeTemp: data.currently.apparentTemperature != null ? parseFloat(data.currently.apparentTemperature) : null,
+			windSpeed: data.currently.windSpeed != null ? parseFloat(data.currently.windSpeed) : null,
+			windFromDirection: data.currently.windBearing || null,
+			weatherType: this.#convertWeatherType(data.currently.icon),
+			sunrise: null,
+			sunset: null
+		};
+
+		// Add sunrise/sunset from daily data if available
+		if (data.daily && data.daily.data && data.daily.data.length > 0) {
+			const today = data.daily.data[0];
+			if (today.sunriseTime) {
+				current.sunrise = new Date(today.sunriseTime * 1000);
+			}
+			if (today.sunsetTime) {
+				current.sunset = new Date(today.sunsetTime * 1000);
+			}
+		}
+
+		return current;
+	}
+
+	#generateDaily (data) {
+		if (!data.daily || !data.daily.data || !data.daily.data.length) {
+			return [];
+		}
+
 		const days = [];
 
-		for (const forecast of forecasts) {
-			const weather = new WeatherObject();
+		for (const forecast of data.daily.data) {
+			const day = {
+				date: new Date(forecast.time * 1000),
+				minTemperature: forecast.temperatureMin != null ? parseFloat(forecast.temperatureMin) : null,
+				maxTemperature: forecast.temperatureMax != null ? parseFloat(forecast.temperatureMax) : null,
+				weatherType: this.#convertWeatherType(forecast.icon),
+				snow: 0,
+				rain: 0,
+				precipitationAmount: 0,
+				precipitationProbability: forecast.precipProbability != null ? parseFloat(forecast.precipProbability) * 100 : null
+			};
 
-			weather.date = moment.unix(forecast.time);
-			weather.minTemperature = forecast.temperatureMin;
-			weather.maxTemperature = forecast.temperatureMax;
-			weather.weatherType = this.convertWeatherType(forecast.icon);
-			weather.snow = 0;
-			weather.rain = 0;
-
+			// Handle precipitation
 			let precip = 0;
 			if (forecast.hasOwnProperty("precipAccumulation")) {
-				precip = forecast.precipAccumulation * 10;
+				precip = forecast.precipAccumulation * 10; // cm to mm
 			}
 
-			weather.precipitationAmount = precip;
-			if (forecast.hasOwnProperty("precipType")) {
+			day.precipitationAmount = precip;
+
+			if (forecast.precipType) {
 				if (forecast.precipType === "snow") {
-					weather.snow = precip;
+					day.snow = precip;
 				} else {
-					weather.rain = precip;
+					day.rain = precip;
 				}
 			}
 
-			days.push(weather);
+			days.push(day);
 		}
 
 		return days;
-	},
+	}
 
-	// Map icons from Pirate Weather to our icons.
-	convertWeatherType (weatherType) {
+	#generateHourly (data) {
+		if (!data.hourly || !data.hourly.data || !data.hourly.data.length) {
+			return [];
+		}
+
+		const hours = [];
+
+		for (const forecast of data.hourly.data) {
+			const hour = {
+				date: new Date(forecast.time * 1000),
+				temperature: forecast.temperature !== undefined ? parseFloat(forecast.temperature) : null,
+				feelsLikeTemp: forecast.apparentTemperature !== undefined ? parseFloat(forecast.apparentTemperature) : null,
+				weatherType: this.#convertWeatherType(forecast.icon),
+				windSpeed: forecast.windSpeed !== undefined ? parseFloat(forecast.windSpeed) : null,
+				windFromDirection: forecast.windBearing || null,
+				precipitationProbability: forecast.precipProbability ? parseFloat(forecast.precipProbability) * 100 : null,
+				snow: 0,
+				rain: 0,
+				precipitationAmount: 0
+			};
+
+			// Handle precipitation
+			let precip = 0;
+			if (forecast.hasOwnProperty("precipAccumulation")) {
+				precip = forecast.precipAccumulation * 10; // cm to mm
+			}
+
+			hour.precipitationAmount = precip;
+
+			if (forecast.precipType) {
+				if (forecast.precipType === "snow") {
+					hour.snow = precip;
+				} else {
+					hour.rain = precip;
+				}
+			}
+
+			hours.push(hour);
+		}
+
+		return hours;
+	}
+
+	#getUrl () {
+		const apiBase = this.config.apiBase || "https://api.pirateweather.net";
+		const weatherEndpoint = this.config.weatherEndpoint || "/forecast";
+		const lang = this.config.lang || "en";
+		return `${apiBase}${weatherEndpoint}/${this.config.apiKey}/${this.config.lat},${this.config.lon}?units=si&lang=${lang}`;
+	}
+
+	#convertWeatherType (weatherType) {
 		const weatherTypes = {
 			"clear-day": "day-sunny",
 			"clear-night": "night-clear",
@@ -123,6 +251,20 @@ WeatherProvider.register("pirateweather", {
 			"partly-cloudy-night": "night-cloudy"
 		};
 
-		return weatherTypes.hasOwnProperty(weatherType) ? weatherTypes[weatherType] : null;
+		return weatherTypes[weatherType] || null;
 	}
-});
+
+	start () {
+		if (this.fetcher) {
+			this.fetcher.startPeriodicFetch();
+		}
+	}
+
+	stop () {
+		if (this.fetcher) {
+			this.fetcher.clearTimer();
+		}
+	}
+}
+
+module.exports = PirateweatherProvider;

@@ -66,9 +66,13 @@ class WeatherObject {
 	 * the date from the weather-forecast.
 	 * @param {Moment} date an optional date where you want to get the next
 	 * action for. Useful only in tests, defaults to the current time.
-	 * @returns {string} "sunset" or "sunrise"
+	 * @returns {string|null} "sunset", "sunrise", or null if sun data unavailable
 	 */
 	nextSunAction (date = moment()) {
+		// Return null if sunrise/sunset data is unavailable
+		if (!this.sunrise || !this.sunset) {
+			return null;
+		}
 		return date.isBetween(this.sunrise, this.sunset) ? "sunset" : "sunrise";
 	}
 
@@ -84,6 +88,10 @@ class WeatherObject {
 	 * @returns {boolean} true if it is at dayTime
 	 */
 	isDayTime () {
+		// Default to daytime if sunrise/sunset data unavailable
+		if (!this.sunrise || !this.sunset) {
+			return true;
+		}
 		const now = !this.date ? moment() : this.date;
 		return now.isBetween(this.sunrise, this.sunset, undefined, "[]");
 	}

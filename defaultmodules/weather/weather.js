@@ -1,4 +1,4 @@
-/* global WeatherProvider, WeatherUtils, formatTime */
+/* global WeatherProvider, WeatherUtils, WeatherObject, formatTime */
 
 Module.register("weather", {
 	// Default module config.
@@ -45,8 +45,12 @@ Module.register("weather", {
 		hourlyForecastIncrements: 1
 	},
 
-	// Module properties.
-	weatherProvider: null,
+	// Module properties (all providers run server-side)
+	instanceId: null,
+	fetchedLocationName: null,
+	currentWeatherObject: null,
+	weatherForecastArray: null,
+	weatherHourlyArray: null,
 
 	// Can be used by the provider to display location of event if nothing else is specified
 	firstEvent: null,
@@ -58,14 +62,18 @@ Module.register("weather", {
 
 	// Return the scripts that are necessary for the weather module.
 	getScripts () {
-		return ["moment.js", "weatherutils.js", "weatherobject.js", this.file("providers/overrideWrapper.js"), "weatherprovider.js", "suncalc.js", this.file(`providers/${this.config.weatherProvider.toLowerCase()}.js`)];
+		// Only load client-side dependencies for rendering
+		// All providers run server-side via node_helper
+		return ["moment.js", "weatherutils.js", "weatherobject.js", "suncalc.js"];
 	},
 
 	// Override getHeader method.
 	getHeader () {
-		if (this.config.appendLocationNameToHeader && this.weatherProvider) {
-			if (this.data.header) return `${this.data.header} ${this.weatherProvider.fetchedLocation()}`;
-			else return this.weatherProvider.fetchedLocation();
+		if (this.config.appendLocationNameToHeader) {
+			const locationName = this.fetchedLocationName || "";
+
+			if (this.data.header && locationName) return `${this.data.header} ${locationName}`;
+			else if (locationName) return locationName;
 		}
 
 		return this.data.header ? this.data.header : "";
@@ -87,17 +95,30 @@ Module.register("weather", {
 			this.config.showHumidity = this.config.showHumidity ? "wind" : "none";
 		}
 
-		// Initialize the weather provider.
-		this.weatherProvider = WeatherProvider.initialize(this.config.weatherProvider, this);
+		// All providers run server-side: generate unique instance ID and initialize via node_helper
+		this.instanceId = `${this.identifier}_${Date.now()}`;
 
-		// Let the weather provider know we are starting.
-		this.weatherProvider.start();
+		Log.log(`[weather] Initializing server-side provider with instance ID: ${this.instanceId}`);
+
+		this.sendSocketNotification("INIT_WEATHER", {
+			instanceId: this.instanceId,
+			weatherProvider: this.config.weatherProvider,
+			...this.config
+		});
+
+		// Server-driven fetching - no client-side scheduling needed
 
 		// Add custom filters
 		this.addFilters();
+	},
 
-		// Schedule the first update.
-		this.scheduleUpdate(this.config.initialLoadDelay);
+	// Cleanup on module hide/suspend
+	stop () {
+		if (this.instanceId) {
+			this.sendSocketNotification("STOP_WEATHER", {
+				instanceId: this.instanceId
+			});
+		}
 	},
 
 	// Override notification handler.
@@ -121,8 +142,69 @@ Module.register("weather", {
 			this.indoorHumidity = this.roundValue(payload);
 			this.updateDom(300);
 		} else if (notification === "CURRENT_WEATHER_OVERRIDE" && this.config.allowOverrideNotification) {
-			this.weatherProvider.notificationReceived(payload);
+			// Override current weather with data from local sensors
+			if (this.currentWeatherObject) {
+				Object.assign(this.currentWeatherObject, payload);
+				this.updateDom(this.config.animationSpeed);
+			}
 		}
+	},
+
+	// Handle socket notifications from node_helper
+	socketNotificationReceived (notification, payload) {
+		if (payload.instanceId !== this.instanceId) {
+			return;
+		}
+
+		if (notification === "WEATHER_INITIALIZED") {
+			Log.log(`[weather] Provider initialized, location: ${payload.locationName}`);
+			this.fetchedLocationName = payload.locationName;
+			this.updateDom();
+			// Server-driven fetching - HTTPFetcher will send WEATHER_DATA automatically
+		} else if (notification === "WEATHER_DATA") {
+			this.handleWeatherData(payload);
+		} else if (notification === "WEATHER_ERROR") {
+			Log.error("[weather] Error from node_helper:", payload.error);
+		}
+	},
+
+	handleWeatherData (payload) {
+		const { type, data } = payload;
+
+		if (!data) {
+			return;
+		}
+
+		// Convert plain objects to WeatherObject instances
+		switch (type) {
+			case "current":
+				this.currentWeatherObject = this.createWeatherObject(data);
+				break;
+			case "forecast":
+			case "daily":
+				this.weatherForecastArray = data.map((d) => this.createWeatherObject(d));
+				break;
+			case "hourly":
+				this.weatherHourlyArray = data.map((d) => this.createWeatherObject(d));
+				break;
+			default:
+				Log.warn(`Unknown weather data type: ${type}`);
+				break;
+		}
+
+		this.updateAvailable();
+	},
+
+	createWeatherObject (data) {
+		const weather = new WeatherObject();
+		Object.assign(weather, {
+			...data,
+			// Convert to moment objects for template compatibility
+			date: data.date ? moment(data.date) : null,
+			sunrise: data.sunrise ? moment(data.sunrise) : null,
+			sunset: data.sunset ? moment(data.sunset) : null
+		});
+		return weather;
 	},
 
 	// Select the template depending on the display type.
@@ -143,16 +225,12 @@ Module.register("weather", {
 
 	// Add all the data to the template.
 	getTemplateData () {
-		const currentData = this.weatherProvider.currentWeather();
-		const forecastData = this.weatherProvider.weatherForecast();
-
-		// Skip some hourly forecast entries if configured
-		const hourlyData = this.weatherProvider.weatherHourly()?.filter((e, i) => (i + 1) % this.config.hourlyForecastIncrements === this.config.hourlyForecastIncrements - 1);
+		const hourlyData = this.weatherHourlyArray?.filter((e, i) => (i + 1) % this.config.hourlyForecastIncrements === this.config.hourlyForecastIncrements - 1);
 
 		return {
 			config: this.config,
-			current: currentData,
-			forecast: forecastData,
+			current: this.currentWeatherObject,
+			forecast: this.weatherForecastArray,
 			hourly: hourlyData,
 			indoor: {
 				humidity: this.indoorHumidity,
@@ -164,58 +242,50 @@ Module.register("weather", {
 	// What to do when the weather provider has new information available?
 	updateAvailable () {
 		Log.log("[weather] New weather information available.");
-		// this value was changed from 0 to 300 to stabilize weather tests:
 		this.updateDom(300);
-		this.scheduleUpdate();
 
-		if (this.weatherProvider.currentWeather()) {
-			this.sendNotification("CURRENTWEATHER_TYPE", { type: this.weatherProvider.currentWeather().weatherType?.replace("-", "_") });
+		const currentWeather = this.currentWeatherObject;
+
+		if (currentWeather) {
+			this.sendNotification("CURRENTWEATHER_TYPE", { type: currentWeather.weatherType?.replace("-", "_") });
 		}
 
 		const notificationPayload = {
 			currentWeather: this.config.units === "imperial"
-				? WeatherUtils.convertWeatherObjectToImperial(this.weatherProvider?.currentWeatherObject?.simpleClone()) ?? null
-				: this.weatherProvider?.currentWeatherObject?.simpleClone() ?? null,
+				? WeatherUtils.convertWeatherObjectToImperial(currentWeather?.simpleClone()) ?? null
+				: currentWeather?.simpleClone() ?? null,
 			forecastArray: this.config.units === "imperial"
-				? this.weatherProvider?.weatherForecastArray?.map((ar) => WeatherUtils.convertWeatherObjectToImperial(ar.simpleClone())) ?? []
-				: this.weatherProvider?.weatherForecastArray?.map((ar) => ar.simpleClone()) ?? [],
+				? this.getForecastArray()?.map((ar) => WeatherUtils.convertWeatherObjectToImperial(ar.simpleClone())) ?? []
+				: this.getForecastArray()?.map((ar) => ar.simpleClone()) ?? [],
 			hourlyArray: this.config.units === "imperial"
-				? this.weatherProvider?.weatherHourlyArray?.map((ar) => WeatherUtils.convertWeatherObjectToImperial(ar.simpleClone())) ?? []
-				: this.weatherProvider?.weatherHourlyArray?.map((ar) => ar.simpleClone()) ?? [],
-			locationName: this.weatherProvider?.fetchedLocationName,
-			providerName: this.weatherProvider.providerName
+				? this.getHourlyArray()?.map((ar) => WeatherUtils.convertWeatherObjectToImperial(ar.simpleClone())) ?? []
+				: this.getHourlyArray()?.map((ar) => ar.simpleClone()) ?? [],
+			locationName: this.fetchedLocationName,
+			providerName: this.config.weatherProvider
 		};
 
 		this.sendNotification("WEATHER_UPDATED", notificationPayload);
 	},
 
-	scheduleUpdate (delay = null) {
-		let nextLoad = this.config.updateInterval;
-		if (delay !== null && delay >= 0) {
-			nextLoad = delay;
-		}
-
-		setTimeout(() => {
-			switch (this.config.type.toLowerCase()) {
-				case "current":
-					this.weatherProvider.fetchCurrentWeather();
-					break;
-				case "hourly":
-					this.weatherProvider.fetchWeatherHourly();
-					break;
-				case "daily":
-				case "forecast":
-					this.weatherProvider.fetchWeatherForecast();
-					break;
-				default:
-					Log.error(`[weather] Invalid type ${this.config.type} configured (must be one of 'current', 'hourly', 'daily' or 'forecast')`);
-			}
-		}, nextLoad);
+	getForecastArray () {
+		return this.weatherForecastArray;
 	},
 
+	getHourlyArray () {
+		return this.weatherHourlyArray;
+	},
+
+	// scheduleUpdate removed - all providers use server-driven fetching via HTTPFetcher
+
 	roundValue (temperature) {
+		if (temperature === null || temperature === undefined) {
+			return "";
+		}
 		const decimals = this.config.roundTemp ? 0 : 1;
 		const roundValue = parseFloat(temperature).toFixed(decimals);
+		if (roundValue === "NaN") {
+			return "";
+		}
 		return roundValue === "-0" ? 0 : roundValue;
 	},
 
@@ -232,14 +302,18 @@ Module.register("weather", {
 			function (value, type, valueUnit) {
 				let formattedValue;
 				if (type === "temperature") {
-					formattedValue = `${this.roundValue(WeatherUtils.convertTemp(value, this.config.tempUnits))}°`;
-					if (this.config.degreeLabel) {
-						if (this.config.tempUnits === "metric") {
-							formattedValue += "C";
-						} else if (this.config.tempUnits === "imperial") {
-							formattedValue += "F";
-						} else {
-							formattedValue += "K";
+					if (value === null || value === undefined) {
+						formattedValue = "";
+					} else {
+						formattedValue = `${this.roundValue(WeatherUtils.convertTemp(value, this.config.tempUnits))}°`;
+						if (this.config.degreeLabel) {
+							if (this.config.tempUnits === "metric") {
+								formattedValue += "C";
+							} else if (this.config.tempUnits === "imperial") {
+								formattedValue += "F";
+							} else {
+								formattedValue += "K";
+							}
 						}
 					}
 				} else if (type === "precip") {

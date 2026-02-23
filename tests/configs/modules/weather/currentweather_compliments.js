@@ -16,10 +16,10 @@ let config = {
 			module: "weather",
 			position: "bottom_bar",
 			config: {
-				location: "Munich",
+				lat: 48.14,
+				lon: 11.58,
 				weatherProvider: "openweathermap",
-				weatherEndpoint: "/weather",
-				mockData: '"#####WEATHERDATA#####"'
+				apiKey: "test-api-key"
 			}
 		}
 	]

@@ -51,7 +51,7 @@ export default defineConfig([
 			"@stylistic/space-before-function-paren": ["error", "always"],
 			"@stylistic/spaced-comment": "off",
 			"dot-notation": "error",
-			eqeqeq: "error",
+			eqeqeq: ["error", "always", { null: "ignore" }],
 			"id-length": "off",
 			"import-x/extensions": "error",
 			"import-x/newline-after-import": "error",
@@ -144,6 +144,15 @@ export default defineConfig([
 			"vitest/max-nested-describe": ["error", { max: 3 }],
 			"vitest/prefer-to-be": "error",
 			"vitest/prefer-to-have-length": "error"
+		}
+	},
+	{
+		files: ["tests/unit/modules/default/weather/providers/*.js"],
+		rules: {
+			"import-x/namespace": "off",
+			"import-x/named": "off",
+			"import-x/default": "off",
+			"import-x/extensions": "off"
 		}
 	},
 	{

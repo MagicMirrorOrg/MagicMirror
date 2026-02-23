@@ -1,231 +1,258 @@
-/* global WeatherProvider, WeatherObject */
-
-/*
- * This class is a provider for Open-Meteo,
- * see https://open-meteo.com/
- */
+const Log = require("logger");
+const { getDateString } = require("../provider-utils");
+const HTTPFetcher = require("#http_fetcher");
 
 // https://www.bigdatacloud.com/docs/api/free-reverse-geocode-to-city-api
 const GEOCODE_BASE = "https://api.bigdatacloud.net/data/reverse-geocode-client";
 const OPEN_METEO_BASE = "https://api.open-meteo.com/v1";
 
-WeatherProvider.register("openmeteo", {
-
-	/*
-	 * Set the name of the provider.
-	 * Not strictly required but helps for debugging.
-	 */
-	providerName: "Open-Meteo",
-
-	// Set the default config properties that is specific to this provider
-	defaults: {
-		apiBase: OPEN_METEO_BASE,
-		lat: 0,
-		lon: 0,
-		pastDays: 0,
-		type: "current"
-	},
-
+/**
+ * Server-side weather provider for Open-Meteo
+ * see https://open-meteo.com/
+ */
+class OpenMeteoProvider {
 	// https://open-meteo.com/en/docs
-	hourlyParams: [
-		// Air temperature at 2 meters above ground
+	hourlyParams = [
 		"temperature_2m",
-		// Relative humidity at 2 meters above ground
 		"relativehumidity_2m",
-		// Dew point temperature at 2 meters above ground
 		"dewpoint_2m",
-		// Apparent temperature is the perceived feels-like temperature combining wind chill factor, relative humidity and solar radiation
 		"apparent_temperature",
-		// Atmospheric air pressure reduced to mean sea level (msl) or pressure at surface. Typically pressure on mean sea level is used in meteorology. Surface pressure gets lower with increasing elevation.
 		"pressure_msl",
 		"surface_pressure",
-		// Total cloud cover as an area fraction
 		"cloudcover",
-		// Low level clouds and fog up to 3 km altitude
 		"cloudcover_low",
-		// Mid level clouds from 3 to 8 km altitude
 		"cloudcover_mid",
-		// High level clouds from 8 km altitude
 		"cloudcover_high",
-		// Wind speed at 10, 80, 120 or 180 meters above ground. Wind speed on 10 meters is the standard level.
 		"windspeed_10m",
 		"windspeed_80m",
 		"windspeed_120m",
 		"windspeed_180m",
-		// Wind direction at 10, 80, 120 or 180 meters above ground
 		"winddirection_10m",
 		"winddirection_80m",
 		"winddirection_120m",
 		"winddirection_180m",
-		// Gusts at 10 meters above ground as a maximum of the preceding hour
 		"windgusts_10m",
-		// Shortwave solar radiation as average of the preceding hour. This is equal to the total global horizontal irradiation
 		"shortwave_radiation",
-		// Direct solar radiation as average of the preceding hour on the horizontal plane and the normal plane (perpendicular to the sun)
 		"direct_radiation",
 		"direct_normal_irradiance",
-		// Diffuse solar radiation as average of the preceding hour
 		"diffuse_radiation",
-		// Vapor Pressure Deificit (VPD) in kilopascal (kPa). For high VPD (>1.6), water transpiration of plants increases. For low VPD (<0.4), transpiration decreases
 		"vapor_pressure_deficit",
-		// Evapotranspration from land surface and plants that weather models assumes for this location. Available soil water is considered. 1 mm evapotranspiration per hour equals 1 liter of water per spare meter.
+		"cape",
 		"evapotranspiration",
-		// ET₀ Reference Evapotranspiration of a well watered grass field. Based on FAO-56 Penman-Monteith equations ET₀ is calculated from temperature, wind speed, humidity and solar radiation. Unlimited soil water is assumed. ET₀ is commonly used to estimate the required irrigation for plants.
 		"et0_fao_evapotranspiration",
-		// Total precipitation (rain, showers, snow) sum of the preceding hour
 		"precipitation",
-		// Precipitation Probability
-		"precipitation_probability",
-		// UV index
-		"uv_index",
-		// Snowfall amount of the preceding hour in centimeters. For the water equivalent in millimeter, divide by 7. E.g. 7 cm snow = 10 mm precipitation water equivalent
 		"snowfall",
-		// Rain from large scale weather systems of the preceding hour in millimeter
+		"precipitation_probability",
 		"rain",
-		// Showers from convective precipitation in millimeters from the preceding hour
 		"showers",
-		// Weather condition as a numeric code. Follow WMO weather interpretation codes.
 		"weathercode",
-		// Snow depth on the ground
 		"snow_depth",
-		// Altitude above sea level of the 0°C level
 		"freezinglevel_height",
-		// Temperature in the soil at 0, 6, 18 and 54 cm depths. 0 cm is the surface temperature on land or water surface temperature on water.
+		"visibility",
 		"soil_temperature_0cm",
 		"soil_temperature_6cm",
 		"soil_temperature_18cm",
 		"soil_temperature_54cm",
-		// Average soil water content as volumetric mixing ratio at 0-1, 1-3, 3-9, 9-27 and 27-81 cm depths.
 		"soil_moisture_0_1cm",
 		"soil_moisture_1_3cm",
 		"soil_moisture_3_9cm",
 		"soil_moisture_9_27cm",
-		"soil_moisture_27_81cm"
-	],
+		"soil_moisture_27_81cm",
+		"uv_index",
+		"uv_index_clear_sky",
+		"is_day",
+		"terrestrial_radiation",
+		"terrestrial_radiation_instant",
+		"shortwave_radiation_instant",
+		"diffuse_radiation_instant",
+		"direct_radiation_instant",
+		"direct_normal_irradiance_instant"
+	];
 
-	dailyParams: [
-		// Maximum and minimum daily air temperature at 2 meters above ground
+	dailyParams = [
 		"temperature_2m_max",
 		"temperature_2m_min",
-		// Maximum and minimum daily apparent temperature
 		"apparent_temperature_min",
 		"apparent_temperature_max",
-		// Sum of daily precipitation (including rain, showers and snowfall)
 		"precipitation_sum",
-		// Sum of daily rain
 		"rain_sum",
-		// Sum of daily showers
 		"showers_sum",
-		// Sum of daily snowfall
 		"snowfall_sum",
-		// The number of hours with rain
 		"precipitation_hours",
-		// The most severe weather condition on a given day
 		"weathercode",
-		// Sun rise and set times
 		"sunrise",
 		"sunset",
-		// Maximum wind speed and gusts on a day
 		"windspeed_10m_max",
 		"windgusts_10m_max",
-		// Dominant wind direction
 		"winddirection_10m_dominant",
-		// The sum of solar radiation on a given day in Megajoules
 		"shortwave_radiation_sum",
-		//UV Index
 		"uv_index_max",
-		// Daily sum of ET₀ Reference Evapotranspiration of a well watered grass field
 		"et0_fao_evapotranspiration"
-	],
+	];
 
-	fetchedLocation () {
-		return this.fetchedLocationName || "";
-	},
-
-	fetchCurrentWeather () {
-		this.fetchData(this.getUrl())
-			.then((data) => this.parseWeatherApiResponse(data))
-			.then((parsedData) => {
-				if (!parsedData) {
-					// No usable data?
-					return;
-				}
-
-				const currentWeather = this.generateWeatherDayFromCurrentWeather(parsedData);
-				this.setCurrentWeather(currentWeather);
-			})
-			.catch(function (request) {
-				Log.error("[weatherprovider.openmeteo] Could not load data ... ", request);
-			})
-			.finally(() => this.updateAvailable());
-	},
-
-	fetchWeatherForecast () {
-		this.fetchData(this.getUrl())
-			.then((data) => this.parseWeatherApiResponse(data))
-			.then((parsedData) => {
-				if (!parsedData) {
-					// No usable data?
-					return;
-				}
-
-				const dailyForecast = this.generateWeatherObjectsFromForecast(parsedData);
-				this.setWeatherForecast(dailyForecast);
-			})
-			.catch(function (request) {
-				Log.error("[weatherprovider.openmeteo] Could not load data ... ", request);
-			})
-			.finally(() => this.updateAvailable());
-	},
-
-	fetchWeatherHourly () {
-		this.fetchData(this.getUrl())
-			.then((data) => this.parseWeatherApiResponse(data))
-			.then((parsedData) => {
-				if (!parsedData) {
-					// No usable data?
-					return;
-				}
-
-				const hourlyForecast = this.generateWeatherObjectsFromHourly(parsedData);
-				this.setWeatherHourly(hourlyForecast);
-			})
-			.catch(function (request) {
-				Log.error("[weatherprovider.openmeteo] Could not load data ... ", request);
-			})
-			.finally(() => this.updateAvailable());
-	},
-
-	/**
-	 * Overrides method for setting config to check if endpoint is correct for hourly
-	 * @param {object} config The configuration object
-	 */
-	setConfig (config) {
+	constructor (config) {
 		this.config = {
-			lang: config.lang ?? "en",
-			...this.defaults,
+			apiBase: OPEN_METEO_BASE,
+			lat: 0,
+			lon: 0,
+			pastDays: 0,
+			type: "current",
+			maxNumberOfDays: 5,
+			maxEntries: 5,
+			updateInterval: 10 * 60 * 1000,
 			...config
 		};
 
-		// Set properly maxNumberOfDays and max Entries properties according to config and value ranges allowed in the documentation
+		this.locationName = null;
+		this.fetcher = null;
+		this.onDataCallback = null;
+		this.onErrorCallback = null;
+	}
+
+	async initialize () {
+		await this.#fetchLocation();
+		this.#initializeFetcher();
+	}
+
+	/**
+	 * Set callbacks for data/error events
+	 * @param {(data: object) => void} onData - Called with weather data
+	 * @param {(error: object) => void} onError - Called with error info
+	 */
+	setCallbacks (onData, onError) {
+		this.onDataCallback = onData;
+		this.onErrorCallback = onError;
+	}
+
+	/**
+	 * Start periodic fetching
+	 */
+	start () {
+		if (this.fetcher) {
+			this.fetcher.startPeriodicFetch();
+		}
+	}
+
+	/**
+	 * Stop periodic fetching
+	 */
+	stop () {
+		if (this.fetcher) {
+			this.fetcher.clearTimer();
+		}
+	}
+
+	async #fetchLocation () {
+		const url = `${GEOCODE_BASE}?latitude=${this.config.lat}&longitude=${this.config.lon}&localityLanguage=${this.config.lang || "en"}`;
+
+		try {
+			const controller = new AbortController();
+			const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+			const response = await fetch(url, { signal: controller.signal });
+			clearTimeout(timeoutId);
+
+			if (!response.ok) {
+				throw new Error(`HTTP ${response.status}`);
+			}
+			const data = await response.json();
+			if (data && data.city) {
+				this.locationName = `${data.city}, ${data.principalSubdivisionCode}`;
+			}
+		} catch (error) {
+			Log.debug("[openmeteo] Could not load location data:", error.message);
+		}
+	}
+
+	#initializeFetcher () {
+		const url = this.#getUrl();
+
+		this.fetcher = new HTTPFetcher(url, {
+			reloadInterval: this.config.updateInterval,
+			headers: { "Cache-Control": "no-cache" },
+			logContext: "weatherprovider.openmeteo"
+		});
+
+		this.fetcher.on("response", async (response) => {
+			try {
+				const data = await response.json();
+				this.#handleResponse(data);
+			} catch (error) {
+				Log.error("[openmeteo] Failed to parse JSON:", error);
+				if (this.onErrorCallback) {
+					this.onErrorCallback({
+						message: "Failed to parse API response",
+						translationKey: "MODULE_ERROR_UNSPECIFIED"
+					});
+				}
+			}
+		});
+
+		this.fetcher.on("error", (errorInfo) => {
+			if (this.onErrorCallback) {
+				this.onErrorCallback(errorInfo);
+			}
+		});
+	}
+
+	#handleResponse (data) {
+		const parsedData = this.#parseWeatherApiResponse(data);
+
+		if (!parsedData) {
+			if (this.onErrorCallback) {
+				this.onErrorCallback({
+					message: "Invalid API response",
+					translationKey: "MODULE_ERROR_UNSPECIFIED"
+				});
+			}
+			return;
+		}
+
+		try {
+			let weatherData;
+			switch (this.config.type) {
+				case "current":
+					weatherData = this.#generateWeatherDayFromCurrentWeather(parsedData);
+					break;
+				case "forecast":
+				case "daily":
+					weatherData = this.#generateWeatherObjectsFromForecast(parsedData);
+					break;
+				case "hourly":
+					weatherData = this.#generateWeatherObjectsFromHourly(parsedData);
+					break;
+				default:
+					Log.error(`[openmeteo] Unknown type: ${this.config.type}`);
+					throw new Error(`Unknown weather type: ${this.config.type}`);
+			}
+
+			if (weatherData && this.onDataCallback) {
+				this.onDataCallback(weatherData);
+			}
+		} catch (error) {
+			Log.error("[openmeteo] Error processing weather data:", error);
+			if (this.onErrorCallback) {
+				this.onErrorCallback({
+					message: error.message,
+					translationKey: "MODULE_ERROR_UNSPECIFIED"
+				});
+			}
+		}
+	}
+
+	#getQueryParameters () {
 		const maxEntriesLimit = ["daily", "forecast"].includes(this.config.type) ? 7 : this.config.type === "hourly" ? 48 : 0;
-		if (this.config.hasOwnProperty("maxNumberOfDays") && !isNaN(parseFloat(this.config.maxNumberOfDays))) {
+		let maxEntries = this.config.maxEntries;
+		let maxNumberOfDays = this.config.maxNumberOfDays;
+
+		if (this.config.maxNumberOfDays !== undefined && !isNaN(parseFloat(this.config.maxNumberOfDays))) {
 			const daysFactor = ["daily", "forecast"].includes(this.config.type) ? 1 : this.config.type === "hourly" ? 24 : 0;
-			this.config.maxEntries = Math.max(1, Math.min(Math.round(parseFloat(this.config.maxNumberOfDays)) * daysFactor, maxEntriesLimit));
-			this.config.maxNumberOfDays = Math.ceil(this.config.maxEntries / Math.max(1, daysFactor));
+			maxEntries = Math.max(1, Math.min(Math.round(parseFloat(this.config.maxNumberOfDays)) * daysFactor, maxEntriesLimit));
+			maxNumberOfDays = Math.ceil(maxEntries / Math.max(1, daysFactor));
 		}
-		this.config.maxEntries = Math.max(1, Math.min(this.config.maxEntries, maxEntriesLimit));
+		maxEntries = Math.max(1, Math.min(maxEntries, maxEntriesLimit));
 
-		if (!this.config.type) {
-			Log.error("[weatherprovider.openmeteo] type not configured and could not resolve it");
-		}
-
-		this.fetchLocation();
-	},
-
-	// Generate valid query params to perform the request
-	getQueryParameters () {
-		let params = {
+		const params = {
 			latitude: this.config.lat,
 			longitude: this.config.lon,
 			timeformat: "unixtime",
@@ -233,36 +260,34 @@ WeatherProvider.register("openmeteo", {
 			past_days: this.config.pastDays ?? 0,
 			daily: this.dailyParams,
 			hourly: this.hourlyParams,
-			// Fixed units as metric
 			temperature_unit: "celsius",
 			windspeed_unit: "ms",
 			precipitation_unit: "mm"
 		};
 
-		const startDate = moment().startOf("day");
-		const endDate = moment(startDate)
-			.add(Math.max(0, Math.min(7, this.config.maxNumberOfDays)), "days")
-			.endOf("day");
+		const now = new Date();
+		const startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+		const endDate = new Date(startDate);
+		endDate.setDate(endDate.getDate() + Math.max(0, Math.min(7, maxNumberOfDays)));
 
-		params.start_date = startDate.format("YYYY-MM-DD");
+		params.start_date = startDate.toISOString().split("T")[0];
 
 		switch (this.config.type) {
 			case "hourly":
 			case "daily":
 			case "forecast":
-				params.end_date = endDate.format("YYYY-MM-DD");
+				params.end_date = endDate.toISOString().split("T")[0];
 				break;
 			case "current":
 				params.current_weather = true;
 				params.end_date = params.start_date;
 				break;
 			default:
-				// Failsafe
 				return "";
 		}
 
 		return Object.keys(params)
-			.filter((key) => (!!params[key]))
+			.filter((key) => params[key] !== undefined && params[key] !== null && params[key] !== "")
 			.map((key) => {
 				switch (key) {
 					case "hourly":
@@ -273,200 +298,53 @@ WeatherProvider.register("openmeteo", {
 				}
 			})
 			.join("&");
-	},
+	}
 
-	// Create a URL from the config and base URL.
-	getUrl () {
-		return `${this.config.apiBase}/forecast?${this.getQueryParameters()}`;
-	},
+	#getUrl () {
+		return `${this.config.apiBase}/forecast?${this.#getQueryParameters()}`;
+	}
 
-	// fix daylight-saving-time differences
-	checkDST (dt) {
-		const uxdt = moment.unix(dt);
-		const nowDST = moment().isDST();
-		if (nowDST === moment(uxdt).isDST()) {
-			return uxdt;
-		} else {
-			return uxdt.add(nowDST ? +1 : -1, "hour");
-		}
-	},
-
-	// Transpose hourly and daily data matrices
-	transposeDataMatrix (data) {
+	#transposeDataMatrix (data) {
 		return data.time.map((_, index) => Object.keys(data).reduce((row, key) => {
+			const value = data[key][index];
 			return {
 				...row,
-				// Parse time values as moment.js instances
-				[key]: ["time", "sunrise", "sunset"].includes(key) ? this.checkDST(data[key][index]) : data[key][index]
+				// Convert Unix timestamps to Date objects
+				// timezone: "auto" returns times already in location timezone
+				[key]: ["time", "sunrise", "sunset"].includes(key) ? new Date(value * 1000) : value
 			};
 		}, {}));
-	},
+	}
 
-	// Sanitize and validate API response
-	parseWeatherApiResponse (data) {
+	#parseWeatherApiResponse (data) {
 		const validByType = {
 			current: data.current_weather && data.current_weather.time,
 			hourly: data.hourly && data.hourly.time && Array.isArray(data.hourly.time) && data.hourly.time.length > 0,
 			daily: data.daily && data.daily.time && Array.isArray(data.daily.time) && data.daily.time.length > 0
 		};
-		// backwards compatibility
+
 		const type = ["daily", "forecast"].includes(this.config.type) ? "daily" : this.config.type;
 
-		if (!validByType[type]) return;
+		if (!validByType[type]) return null;
 
-		switch (type) {
-			case "current":
-				if (!validByType.daily && !validByType.hourly) {
-					return;
-				}
-				break;
-			case "hourly":
-			case "daily":
-				break;
-			default:
-				return;
+		if (type === "current" && !validByType.daily && !validByType.hourly) {
+			return null;
 		}
 
 		for (const key of ["hourly", "daily"]) {
 			if (typeof data[key] === "object") {
-				data[key] = this.transposeDataMatrix(data[key]);
+				data[key] = this.#transposeDataMatrix(data[key]);
 			}
 		}
 
 		if (data.current_weather) {
-			data.current_weather.time = moment.unix(data.current_weather.time);
+			data.current_weather.time = new Date(data.current_weather.time * 1000);
 		}
 
 		return data;
-	},
+	}
 
-	// Reverse geocoding from latitude and longitude provided
-	fetchLocation () {
-		this.fetchData(`${GEOCODE_BASE}?latitude=${this.config.lat}&longitude=${this.config.lon}&localityLanguage=${this.config.lang}`)
-			.then((data) => {
-				if (!data || !data.city) {
-					// No usable data?
-					return;
-				}
-				this.fetchedLocationName = `${data.city}, ${data.principalSubdivisionCode}`;
-			})
-			.catch((request) => {
-				Log.error("[weatherprovider.openmeteo] Could not load data ... ", request);
-			});
-	},
-
-	// Implement WeatherDay generator.
-	generateWeatherDayFromCurrentWeather (weather) {
-
-		/**
-		 * Since some units come from API response "splitted" into daily, hourly and current_weather
-		 * every time you request it, you have to ensure to get the data from the right place every time.
-		 * For the current weather case, the response have the following structure (after transposing):
-		 * ```
-		 * {
-		 *   current_weather: { ...<some current weather here> },
-		 * 	 hourly: [
-		 * 	   0: {...<data for hour zero here> },
-		 * 	   1: {...<data for hour one here> },
-		 *     ...
-		 *   ],
-		 *   daily: [
-		 * 	   {...<summary data for current day here> },
-		 *   ]
-		 * }
-		 * ```
-		 * Some data should be returned from `hourly` array data when the index matches the current hour,
-		 * some data from the first and only one object received in `daily` array and some from the
-		 * `current_weather` object.
-		 */
-		const h = moment().hour();
-		const currentWeather = new WeatherObject();
-
-		currentWeather.date = weather.current_weather.time;
-		currentWeather.windSpeed = weather.current_weather.windspeed;
-		currentWeather.windFromDirection = weather.current_weather.winddirection;
-		currentWeather.sunrise = weather.daily[0].sunrise;
-		currentWeather.sunset = weather.daily[0].sunset;
-		currentWeather.temperature = parseFloat(weather.current_weather.temperature);
-		currentWeather.minTemperature = parseFloat(weather.daily[0].temperature_2m_min);
-		currentWeather.maxTemperature = parseFloat(weather.daily[0].temperature_2m_max);
-		currentWeather.weatherType = this.convertWeatherType(weather.current_weather.weathercode, currentWeather.isDayTime());
-		currentWeather.humidity = parseFloat(weather.hourly[h].relativehumidity_2m);
-		currentWeather.feelsLikeTemp = parseFloat(weather.hourly[h].apparent_temperature);
-		currentWeather.rain = parseFloat(weather.hourly[h].rain);
-		currentWeather.snow = parseFloat(weather.hourly[h].snowfall * 10);
-		currentWeather.precipitationAmount = parseFloat(weather.hourly[h].precipitation);
-		currentWeather.precipitationProbability = parseFloat(weather.hourly[h].precipitation_probability);
-		currentWeather.uv_index = parseFloat(weather.hourly[h].uv_index);
-
-		return currentWeather;
-	},
-
-	// Implement WeatherForecast generator.
-	generateWeatherObjectsFromForecast (weathers) {
-		const days = [];
-
-		weathers.daily.forEach((weather) => {
-			const currentWeather = new WeatherObject();
-
-			currentWeather.date = weather.time;
-			currentWeather.windSpeed = weather.windspeed_10m_max;
-			currentWeather.windFromDirection = weather.winddirection_10m_dominant;
-			currentWeather.sunrise = weather.sunrise;
-			currentWeather.sunset = weather.sunset;
-			currentWeather.temperature = parseFloat((weather.temperature_2m_max + weather.temperature_2m_min) / 2);
-			currentWeather.minTemperature = parseFloat(weather.temperature_2m_min);
-			currentWeather.maxTemperature = parseFloat(weather.temperature_2m_max);
-			currentWeather.weatherType = this.convertWeatherType(weather.weathercode, true);
-			currentWeather.rain = parseFloat(weather.rain_sum);
-			currentWeather.snow = parseFloat(weather.snowfall_sum * 10);
-			currentWeather.precipitationAmount = parseFloat(weather.precipitation_sum);
-			currentWeather.precipitationProbability = parseFloat(weather.precipitation_hours * 100 / 24);
-			currentWeather.uv_index = parseFloat(weather.uv_index_max);
-
-			days.push(currentWeather);
-		});
-
-		return days;
-	},
-
-	// Implement WeatherHourly generator.
-	generateWeatherObjectsFromHourly (weathers) {
-		const hours = [];
-		const now = moment();
-
-		weathers.hourly.forEach((weather, i) => {
-			if ((hours.length === 0 && weather.time <= now) || hours.length >= this.config.maxEntries) {
-				return;
-			}
-
-			const currentWeather = new WeatherObject();
-			const h = Math.ceil((i + 1) / 24) - 1;
-
-			currentWeather.date = weather.time;
-			currentWeather.windSpeed = weather.windspeed_10m;
-			currentWeather.windFromDirection = weather.winddirection_10m;
-			currentWeather.sunrise = weathers.daily[h].sunrise;
-			currentWeather.sunset = weathers.daily[h].sunset;
-			currentWeather.temperature = parseFloat(weather.temperature_2m);
-			currentWeather.minTemperature = parseFloat(weathers.daily[h].temperature_2m_min);
-			currentWeather.maxTemperature = parseFloat(weathers.daily[h].temperature_2m_max);
-			currentWeather.weatherType = this.convertWeatherType(weather.weathercode, currentWeather.isDayTime());
-			currentWeather.humidity = parseFloat(weather.relativehumidity_2m);
-			currentWeather.rain = parseFloat(weather.rain);
-			currentWeather.snow = parseFloat(weather.snowfall * 10);
-			currentWeather.precipitationAmount = parseFloat(weather.precipitation);
-			currentWeather.precipitationProbability = parseFloat(weather.precipitation_probability);
-			currentWeather.uv_index = parseFloat(weather.uv_index);
-
-			hours.push(currentWeather);
-		});
-
-		return hours;
-	},
-
-	// Map icons from Dark Sky to our icons.
-	convertWeatherType (weathercode, isDayTime) {
+	#convertWeatherType (weathercode, isDayTime) {
 		const weatherConditions = {
 			0: "clear",
 			1: "mainly-clear",
@@ -498,60 +376,188 @@ WeatherProvider.register("openmeteo", {
 			99: "thunderstorm-heavy-hail"
 		};
 
-		if (!Object.keys(weatherConditions).includes(`${weathercode}`)) return null;
+		if (!(weathercode in weatherConditions)) return null;
 
-		switch (weatherConditions[`${weathercode}`]) {
-			case "clear":
-				return isDayTime ? "day-sunny" : "night-clear";
-			case "mainly-clear":
-			case "partly-cloudy":
-				return isDayTime ? "day-cloudy" : "night-alt-cloudy";
-			case "overcast":
-				return isDayTime ? "day-sunny-overcast" : "night-alt-partly-cloudy";
-			case "fog":
-			case "depositing-rime-fog":
-				return isDayTime ? "day-fog" : "night-fog";
-			case "drizzle-light-intensity":
-			case "rain-slight-intensity":
-			case "rain-showers-slight":
-				return isDayTime ? "day-sprinkle" : "night-sprinkle";
-			case "drizzle-moderate-intensity":
-			case "rain-moderate-intensity":
-			case "rain-showers-moderate":
-				return isDayTime ? "day-showers" : "night-showers";
-			case "drizzle-dense-intensity":
-			case "rain-heavy-intensity":
-			case "rain-showers-violent":
-				return isDayTime ? "day-thunderstorm" : "night-thunderstorm";
-			case "freezing-rain-light-intensity":
-				return isDayTime ? "day-rain-mix" : "night-rain-mix";
-			case "freezing-drizzle-light-intensity":
-			case "freezing-drizzle-dense-intensity":
-				return "snowflake-cold";
-			case "snow-grains":
-				return isDayTime ? "day-sleet" : "night-sleet";
-			case "snow-fall-slight-intensity":
-			case "snow-fall-moderate-intensity":
-				return isDayTime ? "day-snow-wind" : "night-snow-wind";
-			case "snow-fall-heavy-intensity":
-			case "freezing-rain-heavy-intensity":
-				return isDayTime ? "day-snow-thunderstorm" : "night-snow-thunderstorm";
-			case "snow-showers-slight":
-			case "snow-showers-heavy":
-				return isDayTime ? "day-rain-mix" : "night-rain-mix";
-			case "thunderstorm":
-				return isDayTime ? "day-thunderstorm" : "night-thunderstorm";
-			case "thunderstorm-slight-hail":
-				return isDayTime ? "day-sleet" : "night-sleet";
-			case "thunderstorm-heavy-hail":
-				return isDayTime ? "day-sleet-storm" : "night-sleet-storm";
-			default:
-				return "na";
-		}
-	},
+		const mappings = {
+			clear: isDayTime ? "day-sunny" : "night-clear",
+			"mainly-clear": isDayTime ? "day-cloudy" : "night-alt-cloudy",
+			"partly-cloudy": isDayTime ? "day-cloudy" : "night-alt-cloudy",
+			overcast: isDayTime ? "day-sunny-overcast" : "night-alt-partly-cloudy",
+			fog: isDayTime ? "day-fog" : "night-fog",
+			"depositing-rime-fog": isDayTime ? "day-fog" : "night-fog",
+			"drizzle-light-intensity": isDayTime ? "day-sprinkle" : "night-sprinkle",
+			"rain-slight-intensity": isDayTime ? "day-sprinkle" : "night-sprinkle",
+			"rain-showers-slight": isDayTime ? "day-sprinkle" : "night-sprinkle",
+			"drizzle-moderate-intensity": isDayTime ? "day-showers" : "night-showers",
+			"rain-moderate-intensity": isDayTime ? "day-showers" : "night-showers",
+			"rain-showers-moderate": isDayTime ? "day-showers" : "night-showers",
+			"drizzle-dense-intensity": isDayTime ? "day-thunderstorm" : "night-thunderstorm",
+			"rain-heavy-intensity": isDayTime ? "day-thunderstorm" : "night-thunderstorm",
+			"rain-showers-violent": isDayTime ? "day-thunderstorm" : "night-thunderstorm",
+			"freezing-rain-light-intensity": isDayTime ? "day-rain-mix" : "night-rain-mix",
+			"freezing-drizzle-light-intensity": "snowflake-cold",
+			"freezing-drizzle-dense-intensity": "snowflake-cold",
+			"snow-grains": isDayTime ? "day-sleet" : "night-sleet",
+			"snow-fall-slight-intensity": isDayTime ? "day-snow-wind" : "night-snow-wind",
+			"snow-fall-moderate-intensity": isDayTime ? "day-snow-wind" : "night-snow-wind",
+			"snow-fall-heavy-intensity": isDayTime ? "day-snow-thunderstorm" : "night-snow-thunderstorm",
+			"freezing-rain-heavy-intensity": isDayTime ? "day-snow-thunderstorm" : "night-snow-thunderstorm",
+			"snow-showers-slight": isDayTime ? "day-rain-mix" : "night-rain-mix",
+			"snow-showers-heavy": isDayTime ? "day-rain-mix" : "night-rain-mix",
+			thunderstorm: isDayTime ? "day-thunderstorm" : "night-thunderstorm",
+			"thunderstorm-slight-hail": isDayTime ? "day-sleet" : "night-sleet",
+			"thunderstorm-heavy-hail": isDayTime ? "day-sleet-storm" : "night-sleet-storm"
+		};
 
-	// Define required scripts.
-	getScripts () {
-		return ["moment.js"];
+		return mappings[weatherConditions[`${weathercode}`]] || "na";
 	}
-});
+
+	#isDayTime (date, sunrise, sunset) {
+		const time = date.getTime();
+		return time >= sunrise.getTime() && time < sunset.getTime();
+	}
+
+	#generateWeatherDayFromCurrentWeather (parsedData) {
+		// Basic current weather data
+		const current = {
+			date: parsedData.current_weather.time,
+			windSpeed: parsedData.current_weather.windspeed,
+			windFromDirection: parsedData.current_weather.winddirection,
+			temperature: parsedData.current_weather.temperature,
+			weatherType: this.#convertWeatherType(parsedData.current_weather.weathercode, true)
+		};
+
+		// Add hourly data if available
+		if (parsedData.hourly) {
+			let h = 0;
+			const currentTime = parsedData.current_weather.time;
+
+			// Handle both data shapes: object with arrays or array of objects (after transpose)
+			if (Array.isArray(parsedData.hourly)) {
+				// Array of objects (after transpose)
+				const hourlyIndex = parsedData.hourly.findIndex((hour) => hour.time.getTime() === currentTime.getTime());
+				h = hourlyIndex !== -1 ? hourlyIndex : 0;
+
+				if (hourlyIndex === -1) {
+					Log.debug("[openmeteo] Could not find current time in hourly data, using index 0");
+				}
+
+				const hourData = parsedData.hourly[h];
+				if (hourData) {
+					current.humidity = hourData.relativehumidity_2m;
+					current.feelsLikeTemp = hourData.apparent_temperature;
+					current.rain = hourData.rain;
+					current.snow = hourData.snowfall ? hourData.snowfall * 10 : undefined;
+					current.precipitationAmount = hourData.precipitation;
+					current.precipitationProbability = hourData.precipitation_probability;
+					current.uvIndex = hourData.uv_index;
+				}
+			} else if (parsedData.hourly.time) {
+				// Object with arrays (before transpose - shouldn't happen in normal flow)
+				const hourlyIndex = parsedData.hourly.time.findIndex((time) => time === currentTime);
+				h = hourlyIndex !== -1 ? hourlyIndex : 0;
+
+				if (hourlyIndex === -1) {
+					Log.debug("[openmeteo] Could not find current time in hourly data, using index 0");
+				}
+
+				current.humidity = parsedData.hourly.relativehumidity_2m?.[h];
+				current.feelsLikeTemp = parsedData.hourly.apparent_temperature?.[h];
+				current.rain = parsedData.hourly.rain?.[h];
+				current.snow = parsedData.hourly.snowfall?.[h] ? parsedData.hourly.snowfall[h] * 10 : undefined;
+				current.precipitationAmount = parsedData.hourly.precipitation?.[h];
+				current.precipitationProbability = parsedData.hourly.precipitation_probability?.[h];
+				current.uvIndex = parsedData.hourly.uv_index?.[h];
+			}
+		}
+
+		// Add daily data if available (after transpose, daily is array of objects)
+		if (parsedData.daily && Array.isArray(parsedData.daily) && parsedData.daily[0]) {
+			const today = parsedData.daily[0];
+			if (today.sunrise) {
+				current.sunrise = today.sunrise;
+			}
+			if (today.sunset) {
+				current.sunset = today.sunset;
+				// Update weatherType with correct day/night status
+				if (current.sunrise && current.sunset) {
+					current.weatherType = this.#convertWeatherType(
+						parsedData.current_weather.weathercode,
+						this.#isDayTime(parsedData.current_weather.time, current.sunrise, current.sunset)
+					);
+				}
+			}
+			if (today.temperature_2m_min !== undefined) {
+				current.minTemperature = today.temperature_2m_min;
+			}
+			if (today.temperature_2m_max !== undefined) {
+				current.maxTemperature = today.temperature_2m_max;
+			}
+		}
+
+		return current;
+	}
+
+	#generateWeatherObjectsFromForecast (parsedData) {
+		return parsedData.daily.map((weather) => ({
+			date: weather.time,
+			windSpeed: weather.windspeed_10m_max,
+			windFromDirection: weather.winddirection_10m_dominant,
+			sunrise: weather.sunrise,
+			sunset: weather.sunset,
+			temperature: parseFloat((weather.temperature_2m_max + weather.temperature_2m_min) / 2),
+			minTemperature: parseFloat(weather.temperature_2m_min),
+			maxTemperature: parseFloat(weather.temperature_2m_max),
+			weatherType: this.#convertWeatherType(weather.weathercode, true),
+			rain: weather.rain_sum != null ? parseFloat(weather.rain_sum) : null,
+			snow: weather.snowfall_sum != null ? parseFloat(weather.snowfall_sum * 10) : null,
+			precipitationAmount: weather.precipitation_sum != null ? parseFloat(weather.precipitation_sum) : null,
+			precipitationProbability: weather.precipitation_hours != null ? parseFloat(weather.precipitation_hours * 100 / 24) : null,
+			uvIndex: weather.uv_index_max != null ? parseFloat(weather.uv_index_max) : null
+		}));
+	}
+
+	#generateWeatherObjectsFromHourly (parsedData) {
+		const hours = [];
+		const now = new Date();
+
+		parsedData.hourly.forEach((weather, i) => {
+			// Skip past entries, collect only future hours up to maxEntries
+			if (weather.time <= now || hours.length >= this.config.maxEntries) {
+				return;
+			}
+
+			// Calculate daily index with bounds check
+			const h = Math.ceil((i + 1) / 24) - 1;
+			const safeH = Math.max(0, Math.min(h, parsedData.daily.length - 1));
+			const dailyData = parsedData.daily[safeH];
+
+			const hourlyWeather = {
+				date: weather.time,
+				windSpeed: weather.windspeed_10m,
+				windFromDirection: weather.winddirection_10m,
+				sunrise: dailyData.sunrise,
+				sunset: dailyData.sunset,
+				temperature: parseFloat(weather.temperature_2m),
+				minTemperature: parseFloat(dailyData.temperature_2m_min),
+				maxTemperature: parseFloat(dailyData.temperature_2m_max),
+				weatherType: this.#convertWeatherType(
+					weather.weathercode,
+					this.#isDayTime(weather.time, dailyData.sunrise, dailyData.sunset)
+				),
+				humidity: weather.relativehumidity_2m != null ? parseFloat(weather.relativehumidity_2m) : null,
+				rain: weather.rain != null ? parseFloat(weather.rain) : null,
+				snow: weather.snowfall != null ? parseFloat(weather.snowfall * 10) : null,
+				precipitationAmount: weather.precipitation != null ? parseFloat(weather.precipitation) : null,
+				precipitationProbability: weather.precipitation_probability != null ? parseFloat(weather.precipitation_probability) : null,
+				uvIndex: weather.uv_index != null ? parseFloat(weather.uv_index) : null
+			};
+
+			hours.push(hourlyWeather);
+		});
+
+		return hours;
+	}
+}
+
+module.exports = OpenMeteoProvider;

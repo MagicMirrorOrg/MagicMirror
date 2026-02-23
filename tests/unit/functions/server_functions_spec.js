@@ -164,6 +164,7 @@ describe("server_functions tests", () => {
 		});
 
 		it("Gets User-Agent from configuration", async () => {
+			const previousConfig = global.config;
 			global.config = {};
 			let userAgent;
 
@@ -177,6 +178,8 @@ describe("server_functions tests", () => {
 			global.config.userAgent = () => "Mozilla/5.0 (Bar)";
 			userAgent = getUserAgent();
 			expect(userAgent).toBe("Mozilla/5.0 (Bar)");
+
+			global.config = previousConfig;
 		});
 	});
 });

@@ -1,138 +1,211 @@
-/* global WeatherProvider, WeatherObject */
+const Log = require("logger");
+const HTTPFetcher = require("#http_fetcher");
 
-/*
- * This class is a provider for Weatherbit,
- * see https://www.weatherbit.io/
+/**
+ * Weatherbit weather provider
+ * See: https://www.weatherbit.io/
  */
-WeatherProvider.register("weatherbit", {
+class WeatherbitProvider {
+	constructor (config) {
+		this.config = {
+			apiBase: "https://api.weatherbit.io/v2.0",
+			apiKey: "",
+			lat: 0,
+			lon: 0,
+			type: "current",
+			updateInterval: 10 * 60 * 1000,
+			...config
+		};
 
-	/*
-	 * Set the name of the provider.
-	 * Not strictly required, but helps for debugging.
-	 */
-	providerName: "Weatherbit",
+		this.fetcher = null;
+		this.onDataCallback = null;
+		this.onErrorCallback = null;
+	}
 
-	// Set the default config properties that is specific to this provider
-	defaults: {
-		apiBase: "https://api.weatherbit.io/v2.0",
-		apiKey: "",
-		lat: 0,
-		lon: 0
-	},
+	setCallbacks (onDataCallback, onErrorCallback) {
+		this.onDataCallback = onDataCallback;
+		this.onErrorCallback = onErrorCallback;
+	}
 
-	fetchedLocation () {
-		return this.fetchedLocationName || "";
-	},
-
-	fetchCurrentWeather () {
-		this.fetchData(this.getUrl())
-			.then((data) => {
-				if (!data || !data.data[0] || typeof data.data[0].temp === "undefined") {
-					// No usable data?
-					return;
-				}
-
-				const currentWeather = this.generateWeatherDayFromCurrentWeather(data);
-				this.setCurrentWeather(currentWeather);
-			})
-			.catch(function (request) {
-				Log.error("[weatherprovider.weatherbit] Could not load data ... ", request);
-			})
-			.finally(() => this.updateAvailable());
-	},
-
-	fetchWeatherForecast () {
-		this.fetchData(this.getUrl())
-			.then((data) => {
-				if (!data || !data.data) {
-					// No usable data?
-					return;
-				}
-
-				const forecast = this.generateWeatherObjectsFromForecast(data.data);
-				this.setWeatherForecast(forecast);
-
-				this.fetchedLocationName = `${data.city_name}, ${data.state_code}`;
-			})
-			.catch(function (request) {
-				Log.error("[weatherprovider.weatherbit] Could not load data ... ", request);
-			})
-			.finally(() => this.updateAvailable());
-	},
-
-	/**
-	 * Overrides method for setting config to check if endpoint is correct for hourly
-	 * @param {object} config The configuration object
-	 */
-	setConfig (config) {
-		this.config = config;
-		if (!this.config.weatherEndpoint) {
-			switch (this.config.type) {
-				case "hourly":
-					this.config.weatherEndpoint = "/forecast/hourly";
-					break;
-				case "daily":
-				case "forecast":
-					this.config.weatherEndpoint = "/forecast/daily";
-					break;
-				case "current":
-					this.config.weatherEndpoint = "/current";
-					break;
-				default:
-					Log.error("[weatherprovider.weatherbit] weatherEndpoint not configured and could not resolve it based on type");
+	async initialize () {
+		if (!this.config.apiKey || this.config.apiKey === "YOUR_API_KEY_HERE") {
+			Log.error("[weatherbit] No API key configured");
+			if (this.onErrorCallback) {
+				this.onErrorCallback({
+					message: "Weatherbit API key required. Get one at https://www.weatherbit.io/",
+					translationKey: "MODULE_ERROR_UNSPECIFIED"
+				});
 			}
+			return;
 		}
-	},
 
-	// Create a URL from the config and base URL.
-	getUrl () {
-		return `${this.config.apiBase}${this.config.weatherEndpoint}?lat=${this.config.lat}&lon=${this.config.lon}&units=M&key=${this.config.apiKey}`;
-	},
+		this.#initializeFetcher();
+	}
 
-	// Implement WeatherDay generator.
-	generateWeatherDayFromCurrentWeather (currentWeatherData) {
-		//Calculate TZ Offset and invert to convert Sunrise/Sunset times to Local
-		const d = new Date();
-		let tzOffset = d.getTimezoneOffset();
-		tzOffset = tzOffset * -1;
+	#initializeFetcher () {
+		const url = this.#getUrl();
 
-		const currentWeather = new WeatherObject();
+		this.fetcher = new HTTPFetcher(url, {
+			reloadInterval: this.config.updateInterval,
+			headers: {
+				Accept: "application/json"
+			},
+			logContext: "weatherprovider.weatherbit"
+		});
 
-		currentWeather.date = moment.unix(currentWeatherData.data[0].ts);
-		currentWeather.humidity = parseFloat(currentWeatherData.data[0].rh);
-		currentWeather.temperature = parseFloat(currentWeatherData.data[0].temp);
-		currentWeather.windSpeed = parseFloat(currentWeatherData.data[0].wind_spd);
-		currentWeather.windFromDirection = currentWeatherData.data[0].wind_dir;
-		currentWeather.weatherType = this.convertWeatherType(currentWeatherData.data[0].weather.icon);
-		currentWeather.sunrise = moment(currentWeatherData.data[0].sunrise, "HH:mm").add(tzOffset, "m");
-		currentWeather.sunset = moment(currentWeatherData.data[0].sunset, "HH:mm").add(tzOffset, "m");
+		this.fetcher.on("response", async (response) => {
+			try {
+				const data = await response.json();
+				this.#handleResponse(data);
+			} catch (error) {
+				Log.error("[weatherbit] Parse error:", error);
+				if (this.onErrorCallback) {
+					this.onErrorCallback({
+						message: "Failed to parse API response",
+						translationKey: "MODULE_ERROR_UNSPECIFIED"
+					});
+				}
+			}
+		});
 
-		this.fetchedLocationName = `${currentWeatherData.data[0].city_name}, ${currentWeatherData.data[0].state_code}`;
+		this.fetcher.on("error", (errorInfo) => {
+			if (this.onErrorCallback) {
+				this.onErrorCallback(errorInfo);
+			}
+		});
+	}
 
-		return currentWeather;
-	},
+	#getUrl () {
+		const endpoint = this.#getWeatherEndpoint();
+		return `${this.config.apiBase}${endpoint}?lat=${this.config.lat}&lon=${this.config.lon}&units=M&key=${this.config.apiKey}`;
+	}
 
-	generateWeatherObjectsFromForecast (forecasts) {
+	#getWeatherEndpoint () {
+		switch (this.config.type) {
+			case "hourly":
+				return "/forecast/hourly";
+			case "daily":
+			case "forecast":
+				return "/forecast/daily";
+			case "current":
+			default:
+				return "/current";
+		}
+	}
+
+	#handleResponse (data) {
+		if (!data || !data.data || data.data.length === 0) {
+			Log.error("[weatherbit] No usable data received");
+			if (this.onErrorCallback) {
+				this.onErrorCallback({
+					message: "No usable data in API response",
+					translationKey: "MODULE_ERROR_UNSPECIFIED"
+				});
+			}
+			return;
+		}
+
+		let weatherData = null;
+
+		switch (this.config.type) {
+			case "current":
+				weatherData = this.#generateCurrent(data);
+				break;
+			case "forecast":
+			case "daily":
+				weatherData = this.#generateDaily(data);
+				break;
+			case "hourly":
+				weatherData = this.#generateHourly(data);
+				break;
+			default:
+				Log.error(`[weatherbit] Unknown weather type: ${this.config.type}`);
+				break;
+		}
+
+		if (weatherData && this.onDataCallback) {
+			this.onDataCallback(weatherData);
+		}
+	}
+
+	#generateCurrent (data) {
+		if (!data.data[0] || typeof data.data[0].temp === "undefined") {
+			return null;
+		}
+
+		const current = data.data[0];
+
+		const weather = {
+			date: new Date(current.ts * 1000),
+			temperature: parseFloat(current.temp),
+			humidity: parseFloat(current.rh),
+			windSpeed: parseFloat(current.wind_spd),
+			windFromDirection: current.wind_dir || null,
+			weatherType: this.#convertWeatherType(current.weather.icon),
+			sunrise: null,
+			sunset: null
+		};
+
+		// Parse sunrise/sunset from HH:mm format (already in local time)
+		if (current.sunrise) {
+			const [hours, minutes] = current.sunrise.split(":");
+			const sunrise = new Date(current.ts * 1000);
+			sunrise.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+			weather.sunrise = sunrise;
+		}
+
+		if (current.sunset) {
+			const [hours, minutes] = current.sunset.split(":");
+			const sunset = new Date(current.ts * 1000);
+			sunset.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+			weather.sunset = sunset;
+		}
+
+		return weather;
+	}
+
+	#generateDaily (data) {
 		const days = [];
 
-		for (const forecast of forecasts) {
-			const weather = new WeatherObject();
-
-			weather.date = moment(forecast.datetime, "YYYY-MM-DD");
-			weather.minTemperature = forecast.min_temp;
-			weather.maxTemperature = forecast.max_temp;
-			weather.precipitationAmount = forecast.precip;
-			weather.precipitationProbability = forecast.pop;
-			weather.weatherType = this.convertWeatherType(forecast.weather.icon);
-
-			days.push(weather);
+		for (const forecast of data.data) {
+			days.push({
+				date: new Date(forecast.datetime),
+				minTemperature: forecast.min_temp !== undefined ? parseFloat(forecast.min_temp) : null,
+				maxTemperature: forecast.max_temp !== undefined ? parseFloat(forecast.max_temp) : null,
+				precipitationAmount: forecast.precip !== undefined ? parseFloat(forecast.precip) : 0,
+				precipitationProbability: forecast.pop !== undefined ? parseFloat(forecast.pop) : null,
+				weatherType: this.#convertWeatherType(forecast.weather.icon)
+			});
 		}
 
 		return days;
-	},
+	}
 
-	// Map icons from Dark Sky to our icons.
-	convertWeatherType (weatherType) {
+	#generateHourly (data) {
+		const hours = [];
+
+		for (const forecast of data.data) {
+			hours.push({
+				date: new Date(forecast.timestamp_local),
+				temperature: forecast.temp !== undefined ? parseFloat(forecast.temp) : null,
+				precipitationAmount: forecast.precip !== undefined ? parseFloat(forecast.precip) : 0,
+				precipitationProbability: forecast.pop !== undefined ? parseFloat(forecast.pop) : null,
+				windSpeed: forecast.wind_spd !== undefined ? parseFloat(forecast.wind_spd) : null,
+				windFromDirection: forecast.wind_dir || null,
+				weatherType: this.#convertWeatherType(forecast.weather.icon)
+			});
+		}
+
+		return hours;
+	}
+
+	/**
+	 * Convert Weatherbit icon codes to weathericons.css icons
+	 * See: https://www.weatherbit.io/api/codes
+	 * @param {string} weatherType - Weatherbit icon code
+	 * @returns {string|null} Weathericons.css icon name or null
+	 */
+	#convertWeatherType (weatherType) {
 		const weatherTypes = {
 			t01d: "day-thunderstorm",
 			t01n: "night-alt-thunderstorm",
@@ -148,20 +221,20 @@ WeatherProvider.register("weatherbit", {
 			d01n: "night-alt-sprinkle",
 			d02d: "day-sprinkle",
 			d02n: "night-alt-sprinkle",
-			d03d: "day-shower",
-			d03n: "night-alt-shower",
-			r01d: "day-shower",
-			r01n: "night-alt-shower",
+			d03d: "day-showers",
+			d03n: "night-alt-showers",
+			r01d: "day-showers",
+			r01n: "night-alt-showers",
 			r02d: "day-rain",
 			r02n: "night-alt-rain",
 			r03d: "day-rain",
 			r03n: "night-alt-rain",
 			r04d: "day-sprinkle",
 			r04n: "night-alt-sprinkle",
-			r05d: "day-shower",
-			r05n: "night-alt-shower",
-			r06d: "day-shower",
-			r06n: "night-alt-shower",
+			r05d: "day-showers",
+			r05n: "night-alt-showers",
+			r06d: "day-showers",
+			r06n: "night-alt-showers",
 			f01d: "day-sleet",
 			f01n: "night-alt-sleet",
 			s01d: "day-snow",
@@ -200,6 +273,20 @@ WeatherProvider.register("weatherbit", {
 			u00n: "rain-mix"
 		};
 
-		return weatherTypes.hasOwnProperty(weatherType) ? weatherTypes[weatherType] : null;
+		return weatherTypes[weatherType] || null;
 	}
-});
+
+	start () {
+		if (this.fetcher) {
+			this.fetcher.startPeriodicFetch();
+		}
+	}
+
+	stop () {
+		if (this.fetcher) {
+			this.fetcher.clearTimer();
+		}
+	}
+}
+
+module.exports = WeatherbitProvider;

@@ -1,369 +1,404 @@
-/* global WeatherProvider, WeatherObject, WeatherUtils */
+const Log = require("logger");
+const { getSunTimes, isDayTime, getDateString, convertKmhToMs, cardinalToDegrees } = require("../provider-utils");
+const HTTPFetcher = require("#http_fetcher");
 
-/*
- * Provider: weather.gov
+/**
+ * Server-side weather provider for Weather.gov (US National Weather Service)
+ * Note: Only works for US locations, no API key required
  * https://weather-gov.github.io/api/general-faqs
- *
- * This class is a provider for weather.gov.
- * Note that this is only for US locations (lat and lon) and does not require an API key
- * Since it is free, there are some items missing - like sunrise, sunset
  */
+class WeatherGovProvider {
+	constructor (config) {
+		this.config = {
+			apiBase: "https://api.weather.gov/points/",
+			lat: 0,
+			lon: 0,
+			type: "current",
+			updateInterval: 10 * 60 * 1000,
+			...config
+		};
 
-WeatherProvider.register("weathergov", {
+		this.fetcher = null;
+		this.onDataCallback = null;
+		this.onErrorCallback = null;
+		this.locationName = null;
+		this.initRetryCount = 0;
+		this.initRetryTimer = null;
 
-	/*
-	 * Set the name of the provider.
-	 * This isn't strictly necessary, since it will fallback to the provider identifier
-	 * But for debugging (and future alerts) it would be nice to have the real name.
-	 */
-	providerName: "Weather.gov",
+		// Weather.gov specific URLs (fetched during initialization)
+		this.forecastURL = null;
+		this.forecastHourlyURL = null;
+		this.forecastGridDataURL = null;
+		this.observationStationsURL = null;
+		this.stationObsURL = null;
+	}
 
-	// Set the default config properties that is specific to this provider
-	defaults: {
-		apiBase: "https://api.weather.gov/points/",
-		lat: 0,
-		lon: 0
-	},
+	async initialize () {
+		// Add small random delay to prevent all instances from starting simultaneously
+		// This reduces parallel DNS lookups which can cause EAI_AGAIN errors
+		const staggerDelay = Math.random() * 3000; // 0-3 seconds
+		await new Promise((resolve) => setTimeout(resolve, staggerDelay));
 
-	// Flag all needed URLs availability
-	configURLs: false,
+		try {
+			await this.#fetchWeatherGovURLs();
+			this.#initializeFetcher();
+			this.initRetryCount = 0; // Reset on success
+		} catch (error) {
+			const errorInfo = this.#categorizeError(error);
+			Log.error(`[weathergov] Initialization failed: ${errorInfo.message}`);
 
-	//This API has multiple urls involved
-	forecastURL: "tbd",
-	forecastHourlyURL: "tbd",
-	forecastGridDataURL: "tbd",
-	observationStationsURL: "tbd",
-	stationObsURL: "tbd",
-
-	// Called to set the config, this config is the same as the weather module's config.
-	setConfig (config) {
-		this.config = config;
-		this.fetchWxGovURLs(this.config);
-	},
-
-	// This returns the name of the fetched location or an empty string.
-	fetchedLocation () {
-		return this.fetchedLocationName || "";
-	},
-
-	// Overwrite the fetchCurrentWeather method.
-	fetchCurrentWeather () {
-		if (!this.configURLs) {
-			Log.info("[weatherprovider.weathergov] fetchCurrentWeather: fetch wx waiting on config URLs");
-			return;
+			// Retry on temporary errors (DNS, timeout, network)
+			if (errorInfo.isRetryable && this.initRetryCount < 5) {
+				this.initRetryCount++;
+				const delay = HTTPFetcher.calculateBackoffDelay(this.initRetryCount);
+				Log.info(`[weathergov] Will retry initialization in ${Math.round(delay / 1000)}s (attempt ${this.initRetryCount}/5)`);
+				this.initRetryTimer = setTimeout(() => this.initialize(), delay);
+			} else if (this.onErrorCallback) {
+				this.onErrorCallback({
+					message: errorInfo.message,
+					translationKey: "MODULE_ERROR_UNSPECIFIED"
+				});
+			}
 		}
-		this.fetchData(this.stationObsURL)
-			.then((data) => {
-				if (!data || !data.properties) {
-					// Did not receive usable new data.
-					return;
-				}
-				const currentWeather = this.generateWeatherObjectFromCurrentWeather(data.properties);
-				this.setCurrentWeather(currentWeather);
-			})
-			.catch(function (request) {
-				Log.error("[weatherprovider.weathergov] Could not load station obs data ... ", request);
-			})
-			.finally(() => this.updateAvailable());
-	},
+	}
 
-	// Overwrite the fetchWeatherForecast method.
-	fetchWeatherForecast () {
-		if (!this.configURLs) {
-			Log.info("[weatherprovider.weathergov] fetchWeatherForecast: fetch wx waiting on config URLs");
-			return;
+	#categorizeError (error) {
+		const cause = error.cause || error;
+		const code = cause.code || "";
+
+		if (code === "EAI_AGAIN" || code === "ENOTFOUND") {
+			return {
+				message: "DNS lookup failed for api.weather.gov - check your internet connection",
+				isRetryable: true
+			};
 		}
-		this.fetchData(this.forecastURL)
-			.then((data) => {
-				if (!data || !data.properties || !data.properties.periods || !data.properties.periods.length) {
-					// Did not receive usable new data.
-					return;
-				}
-				const forecast = this.generateWeatherObjectsFromForecast(data.properties.periods);
-				this.setWeatherForecast(forecast);
-			})
-			.catch(function (request) {
-				Log.error("[weatherprovider.weathergov] Could not load forecast hourly data ... ", request);
-			})
-			.finally(() => this.updateAvailable());
-	},
-
-	// Overwrite the fetchWeatherHourly method.
-	fetchWeatherHourly () {
-		if (!this.configURLs) {
-			Log.info("[weatherprovider.weathergov] fetchWeatherHourly: fetch wx waiting on config URLs");
-			return;
+		if (code === "ETIMEDOUT" || code === "ECONNREFUSED" || code === "ECONNRESET") {
+			return {
+				message: `Network error: ${code} - api.weather.gov may be temporarily unavailable`,
+				isRetryable: true
+			};
 		}
-		this.fetchData(this.forecastHourlyURL)
-			.then((data) => {
-				if (!data) {
+		if (error.name === "AbortError") {
+			return {
+				message: "Request timeout - api.weather.gov is responding slowly",
+				isRetryable: true
+			};
+		}
 
-					/*
-					 * Did not receive usable new data.
-					 * Maybe this needs a better check?
-					 */
-					return;
-				}
-				const hourly = this.generateWeatherObjectsFromHourly(data.properties.periods);
-				this.setWeatherHourly(hourly);
-			})
-			.catch(function (request) {
-				Log.error("[weatherprovider.weathergov] Could not load data ... ", request);
-			})
-			.finally(() => this.updateAvailable());
-	},
+		return {
+			message: error.message || "Unknown error",
+			isRetryable: false
+		};
+	}
 
-	/** Weather.gov Specific Methods - These are not part of the default provider methods */
+	setCallbacks (onData, onError) {
+		this.onDataCallback = onData;
+		this.onErrorCallback = onError;
+	}
 
-	/*
-	 * Get specific URLs
-	 */
-	fetchWxGovURLs (config) {
-		this.fetchData(`${config.apiBase}/${config.lat},${config.lon}`)
-			.then((data) => {
-				if (!data || !data.properties) {
-					// points URL did not respond with usable data.
-					return;
-				}
-				this.fetchedLocationName = `${data.properties.relativeLocation.properties.city}, ${data.properties.relativeLocation.properties.state}`;
-				Log.log(`[weatherprovider.weathergov] Forecast location is ${this.fetchedLocationName}`);
-				this.forecastURL = `${data.properties.forecast}?units=si`;
-				this.forecastHourlyURL = `${data.properties.forecastHourly}?units=si`;
-				this.forecastGridDataURL = data.properties.forecastGridData;
-				this.observationStationsURL = data.properties.observationStations;
-				// with this URL, we chain another promise for the station obs URL
-				return this.fetchData(data.properties.observationStations);
-			})
-			.then((obsData) => {
-				if (!obsData || !obsData.features) {
-					// obs station URL did not respond with usable data.
-					return;
-				}
-				this.stationObsURL = `${obsData.features[0].id}/observations/latest`;
-			})
-			.catch((err) => {
-				Log.error("[weatherprovider.weathergov] fetchWxGovURLs error: ", err);
-			})
-			.finally(() => {
-				// excellent, let's fetch some actual wx data
-				this.configURLs = true;
+	start () {
+		if (this.fetcher) {
+			this.fetcher.startPeriodicFetch();
+		}
+	}
 
-				// handle 'forecast' config, fall back to 'current'
-				if (config.type === "forecast") {
-					this.fetchWeatherForecast();
-				} else if (config.type === "hourly") {
-					this.fetchWeatherHourly();
-				} else {
-					this.fetchCurrentWeather();
+	stop () {
+		if (this.fetcher) {
+			this.fetcher.clearTimer();
+		}
+		if (this.initRetryTimer) {
+			clearTimeout(this.initRetryTimer);
+			this.initRetryTimer = null;
+		}
+	}
+
+	async #fetchWeatherGovURLs () {
+		// Step 1: Get grid point data
+		const pointsUrl = `${this.config.apiBase}${this.config.lat},${this.config.lon}`;
+
+		const controller = new AbortController();
+		const timeoutId = setTimeout(() => controller.abort(), 120000); // 120 second timeout - DNS can be slow
+
+		try {
+			const pointsResponse = await fetch(pointsUrl, {
+				signal: controller.signal,
+				headers: {
+					"User-Agent": "MagicMirror",
+					Accept: "application/geo+json"
 				}
 			});
-	},
 
-	/*
-	 * Generate a WeatherObject based on hourlyWeatherInformation
-	 * Weather.gov API uses specific units; API does not include choice of units
-	 * ... object needs data in units based on config!
-	 */
-	generateWeatherObjectsFromHourly (forecasts) {
-		const days = [];
-
-		// variable for date
-		let weather = new WeatherObject();
-		for (const forecast of forecasts) {
-			weather.date = moment(forecast.startTime.slice(0, 19));
-			if (forecast.windSpeed.search(" ") < 0) {
-				weather.windSpeed = forecast.windSpeed;
-			} else {
-				weather.windSpeed = forecast.windSpeed.slice(0, forecast.windSpeed.search(" "));
+			if (!pointsResponse.ok) {
+				throw new Error(`Failed to fetch grid point: HTTP ${pointsResponse.status}`);
 			}
-			weather.windSpeed = WeatherUtils.convertWindToMs(weather.windSpeed);
-			weather.windFromDirection = forecast.windDirection;
-			weather.temperature = forecast.temperature;
-			//assign probability of precipitation
-			if (forecast.probabilityOfPrecipitation.value === null) {
-				weather.precipitationProbability = 0;
-			} else {
-				weather.precipitationProbability = forecast.probabilityOfPrecipitation.value;
+
+			const pointsData = await pointsResponse.json();
+
+			if (!pointsData || !pointsData.properties) {
+				throw new Error("Invalid grid point data");
 			}
-			// use the forecast isDayTime attribute to help build the weatherType label
-			weather.weatherType = this.convertWeatherType(forecast.shortForecast, forecast.isDaytime);
 
-			days.push(weather);
+			// Extract location name
+			const relLoc = pointsData.properties.relativeLocation?.properties;
+			if (relLoc) {
+				this.locationName = `${relLoc.city}, ${relLoc.state}`;
+			}
 
-			weather = new WeatherObject();
+			// Store forecast URLs
+			this.forecastURL = `${pointsData.properties.forecast}?units=si`;
+			this.forecastHourlyURL = `${pointsData.properties.forecastHourly}?units=si`;
+			this.forecastGridDataURL = pointsData.properties.forecastGridData;
+			this.observationStationsURL = pointsData.properties.observationStations;
+
+			// Step 2: Get observation station URL
+			const stationsResponse = await fetch(this.observationStationsURL, {
+				signal: controller.signal,
+				headers: {
+					"User-Agent": "MagicMirror",
+					Accept: "application/geo+json"
+				}
+			});
+
+			if (!stationsResponse.ok) {
+				throw new Error(`Failed to fetch observation stations: HTTP ${stationsResponse.status}`);
+			}
+
+			const stationsData = await stationsResponse.json();
+
+			if (!stationsData || !stationsData.features || stationsData.features.length === 0) {
+				throw new Error("No observation stations found");
+			}
+
+			this.stationObsURL = `${stationsData.features[0].id}/observations/latest`;
+
+			Log.log(`[weathergov] Initialized for ${this.locationName}`);
+		} finally {
+			clearTimeout(timeoutId);
+		}
+	}
+
+	#initializeFetcher () {
+		let url;
+
+		switch (this.config.type) {
+			case "current":
+				url = this.stationObsURL;
+				break;
+			case "forecast":
+			case "daily":
+				url = this.forecastURL;
+				break;
+			case "hourly":
+				url = this.forecastHourlyURL;
+				break;
+			default:
+				url = this.stationObsURL;
 		}
 
-		// push weather information to days array
-		days.push(weather);
-		return days;
-	},
+		this.fetcher = new HTTPFetcher(url, {
+			reloadInterval: this.config.updateInterval,
+			timeout: 60000, // 60 seconds - weather.gov can be slow
+			headers: {
+				"User-Agent": "MagicMirror",
+				Accept: "application/geo+json",
+				"Cache-Control": "no-cache"
+			},
+			logContext: "weatherprovider.weathergov"
+		});
 
-	/*
-	 * Generate a WeatherObject based on currentWeatherInformation
-	 * Weather.gov API uses specific units; API does not include choice of units
-	 * ... object needs data in units based on config!
-	 */
-	generateWeatherObjectFromCurrentWeather (currentWeatherData) {
-		const currentWeather = new WeatherObject();
+		this.fetcher.on("response", async (response) => {
+			try {
+				const data = await response.json();
+				this.#handleResponse(data);
+			} catch (error) {
+				Log.error("[weathergov] Failed to parse JSON:", error);
+				if (this.onErrorCallback) {
+					this.onErrorCallback({
+						message: "Failed to parse API response",
+						translationKey: "MODULE_ERROR_UNSPECIFIED"
+					});
+				}
+			}
+		});
 
-		currentWeather.date = moment(currentWeatherData.timestamp);
-		currentWeather.temperature = currentWeatherData.temperature.value;
-		currentWeather.windSpeed = WeatherUtils.convertWindToMs(currentWeatherData.windSpeed.value);
-		currentWeather.windFromDirection = currentWeatherData.windDirection.value;
-		currentWeather.minTemperature = currentWeatherData.minTemperatureLast24Hours.value;
-		currentWeather.maxTemperature = currentWeatherData.maxTemperatureLast24Hours.value;
-		currentWeather.humidity = Math.round(currentWeatherData.relativeHumidity.value);
-		currentWeather.precipitationAmount = currentWeatherData.precipitationLastHour?.value ?? currentWeatherData.precipitationLast3Hours?.value;
+		this.fetcher.on("error", (errorInfo) => {
+			if (this.onErrorCallback) {
+				this.onErrorCallback(errorInfo);
+			}
+		});
+	}
+
+	#handleResponse (data) {
+		try {
+			let weatherData;
+
+			switch (this.config.type) {
+				case "current":
+					if (!data.properties) {
+						throw new Error("Invalid current weather data");
+					}
+					weatherData = this.#generateWeatherObjectFromCurrentWeather(data.properties);
+					break;
+				case "forecast":
+				case "daily":
+					if (!data.properties || !data.properties.periods) {
+						throw new Error("Invalid forecast data");
+					}
+					weatherData = this.#generateWeatherObjectsFromForecast(data.properties.periods);
+					break;
+				case "hourly":
+					if (!data.properties || !data.properties.periods) {
+						throw new Error("Invalid hourly data");
+					}
+					weatherData = this.#generateWeatherObjectsFromHourly(data.properties.periods);
+					break;
+				default:
+					throw new Error(`Unknown weather type: ${this.config.type}`);
+			}
+
+			if (this.onDataCallback) {
+				this.onDataCallback(weatherData);
+			}
+		} catch (error) {
+			Log.error("[weathergov] Error processing weather data:", error);
+			if (this.onErrorCallback) {
+				this.onErrorCallback({
+					message: error.message,
+					translationKey: "MODULE_ERROR_UNSPECIFIED"
+				});
+			}
+		}
+	}
+
+	#generateWeatherObjectFromCurrentWeather (currentWeatherData) {
+		const current = {};
+
+		current.date = new Date(currentWeatherData.timestamp);
+		current.temperature = currentWeatherData.temperature.value;
+		current.windSpeed = currentWeatherData.windSpeed.value; // Observations are already in m/s
+		current.windFromDirection = currentWeatherData.windDirection.value;
+		current.minTemperature = currentWeatherData.minTemperatureLast24Hours?.value;
+		current.maxTemperature = currentWeatherData.maxTemperatureLast24Hours?.value;
+		current.humidity = Math.round(currentWeatherData.relativeHumidity.value);
+		current.precipitationAmount = currentWeatherData.precipitationLastHour?.value ?? currentWeatherData.precipitationLast3Hours?.value;
+
+		// Feels like temperature
 		if (currentWeatherData.heatIndex.value !== null) {
-			currentWeather.feelsLikeTemp = currentWeatherData.heatIndex.value;
+			current.feelsLikeTemp = currentWeatherData.heatIndex.value;
 		} else if (currentWeatherData.windChill.value !== null) {
-			currentWeather.feelsLikeTemp = currentWeatherData.windChill.value;
+			current.feelsLikeTemp = currentWeatherData.windChill.value;
 		} else {
-			currentWeather.feelsLikeTemp = currentWeatherData.temperature.value;
+			current.feelsLikeTemp = currentWeatherData.temperature.value;
 		}
-		// determine the sunrise/sunset times - not supplied in weather.gov data
-		currentWeather.updateSunTime(this.config.lat, this.config.lon);
 
-		// update weatherType
-		currentWeather.weatherType = this.convertWeatherType(currentWeatherData.textDescription, currentWeather.isDayTime());
+		// Calculate sunrise/sunset (not provided by weather.gov)
+		const { sunrise, sunset } = getSunTimes(current.date, this.config.lat, this.config.lon);
+		current.sunrise = sunrise;
+		current.sunset = sunset;
 
-		return currentWeather;
-	},
+		// Determine if daytime
+		const isDay = isDayTime(current.date, current.sunrise, current.sunset);
+		current.weatherType = this.#convertWeatherType(currentWeatherData.textDescription, isDay);
 
-	/*
-	 * Generate WeatherObjects based on forecast information
-	 */
-	generateWeatherObjectsFromForecast (forecasts) {
-		return this.fetchForecastDaily(forecasts);
-	},
+		return current;
+	}
 
-	/*
-	 * fetch forecast information for daily forecast.
-	 */
-	fetchForecastDaily (forecasts) {
-		// initial variable declaration
+	#generateWeatherObjectsFromForecast (forecasts) {
 		const days = [];
-		// variables for temperature range and rain
 		let minTemp = [];
 		let maxTemp = [];
-		// variable for date
 		let date = "";
-		let weather = new WeatherObject();
+		let weather = {};
 
 		for (const forecast of forecasts) {
-			if (date !== moment(forecast.startTime).format("YYYY-MM-DD")) {
-				// calculate minimum/maximum temperature, specify rain amount
-				weather.minTemperature = Math.min.apply(null, minTemp);
-				weather.maxTemperature = Math.max.apply(null, maxTemp);
+			const forecastDate = new Date(forecast.startTime);
+			const dateStr = getDateString(forecastDate);
 
-				// push weather information to days array
-				days.push(weather);
-				// create new weather-object
-				weather = new WeatherObject();
-
-				minTemp = [];
-				maxTemp = [];
-				//assign probability of precipitation
-				if (forecast.probabilityOfPrecipitation.value === null) {
-					weather.precipitationProbability = 0;
-				} else {
-					weather.precipitationProbability = forecast.probabilityOfPrecipitation.value;
+			if (date !== dateStr) {
+				// New day
+				if (date !== "") {
+					weather.minTemperature = Math.min(...minTemp);
+					weather.maxTemperature = Math.max(...maxTemp);
+					days.push(weather);
 				}
 
-				// set new date
-				date = moment(forecast.startTime).format("YYYY-MM-DD");
+				weather = {};
+				minTemp = [];
+				maxTemp = [];
+				date = dateStr;
 
-				// specify date
-				weather.date = moment(forecast.startTime);
-
-				// use the forecast isDayTime attribute to help build the weatherType label
-				weather.weatherType = this.convertWeatherType(forecast.shortForecast, forecast.isDaytime);
+				weather.date = forecastDate;
+				weather.precipitationProbability = forecast.probabilityOfPrecipitation?.value ?? 0;
+				weather.weatherType = this.#convertWeatherType(forecast.shortForecast, forecast.isDaytime);
 			}
 
-			if (moment(forecast.startTime).format("H") >= 8 && moment(forecast.startTime).format("H") <= 17) {
-				weather.weatherType = this.convertWeatherType(forecast.shortForecast, forecast.isDaytime);
+			// Update weather type for daytime hours (8am-5pm)
+			const hour = forecastDate.getHours();
+			if (hour >= 8 && hour <= 17) {
+				weather.weatherType = this.#convertWeatherType(forecast.shortForecast, forecast.isDaytime);
 			}
 
-			/*
-			 * the same day as before
-			 * add values from forecast to corresponding variables
-			 */
 			minTemp.push(forecast.temperature);
 			maxTemp.push(forecast.temperature);
 		}
 
-		/*
-		 * last day
-		 * calculate minimum/maximum temperature
-		 */
-		weather.minTemperature = Math.min.apply(null, minTemp);
-		weather.maxTemperature = Math.max.apply(null, maxTemp);
+		// Last day
+		if (date !== "") {
+			weather.minTemperature = Math.min(...minTemp);
+			weather.maxTemperature = Math.max(...maxTemp);
+			days.push(weather);
+		}
 
-		// push weather information to days array
-		days.push(weather);
-		return days.slice(1);
-	},
+		return days.slice(1); // Skip first incomplete day
+	}
 
-	/*
-	 * Convert the icons to a more usable name.
-	 */
-	convertWeatherType (weatherType, isDaytime) {
+	#generateWeatherObjectsFromHourly (forecasts) {
+		const hours = [];
 
-		/*
-		 * https://w1.weather.gov/xml/current_obs/weather.php
-		 *  There are way too many types to create, so lets just look for certain strings
-		 */
+		for (const forecast of forecasts) {
+			const weather = {};
+
+			weather.date = new Date(forecast.startTime);
+
+			// Parse wind speed
+			const windSpeedStr = forecast.windSpeed;
+			let windSpeed = windSpeedStr;
+			if (windSpeedStr.includes(" ")) {
+				windSpeed = windSpeedStr.split(" ")[0];
+			}
+			weather.windSpeed = convertKmhToMs(parseFloat(windSpeed));
+			weather.windFromDirection = cardinalToDegrees(forecast.windDirection);
+			weather.temperature = forecast.temperature;
+			weather.precipitationProbability = forecast.probabilityOfPrecipitation?.value ?? 0;
+			weather.weatherType = this.#convertWeatherType(forecast.shortForecast, forecast.isDaytime);
+
+			hours.push(weather);
+		}
+
+		return hours;
+	}
+
+	#convertWeatherType (weatherType, isDaytime) {
+		// https://w1.weather.gov/xml/current_obs/weather.php
 
 		if (weatherType.includes("Cloudy") || weatherType.includes("Partly")) {
-			if (isDaytime) {
-				return "day-cloudy";
-			}
-
-			return "night-cloudy";
+			return isDaytime ? "day-cloudy" : "night-cloudy";
 		} else if (weatherType.includes("Overcast")) {
-			if (isDaytime) {
-				return "cloudy";
-			}
-
-			return "night-cloudy";
+			return isDaytime ? "cloudy" : "night-cloudy";
 		} else if (weatherType.includes("Freezing") || weatherType.includes("Ice")) {
 			return "rain-mix";
 		} else if (weatherType.includes("Snow")) {
-			if (isDaytime) {
-				return "snow";
-			}
-
-			return "night-snow";
+			return isDaytime ? "snow" : "night-snow";
 		} else if (weatherType.includes("Thunderstorm")) {
-			if (isDaytime) {
-				return "thunderstorm";
-			}
-
-			return "night-thunderstorm";
+			return isDaytime ? "thunderstorm" : "night-thunderstorm";
 		} else if (weatherType.includes("Showers")) {
-			if (isDaytime) {
-				return "showers";
-			}
-
-			return "night-showers";
+			return isDaytime ? "showers" : "night-showers";
 		} else if (weatherType.includes("Rain") || weatherType.includes("Drizzle")) {
-			if (isDaytime) {
-				return "rain";
-			}
-
-			return "night-rain";
+			return isDaytime ? "rain" : "night-rain";
 		} else if (weatherType.includes("Breezy") || weatherType.includes("Windy")) {
-			if (isDaytime) {
-				return "cloudy-windy";
-			}
-
-			return "night-alt-cloudy-windy";
+			return isDaytime ? "cloudy-windy" : "night-alt-cloudy-windy";
 		} else if (weatherType.includes("Fair") || weatherType.includes("Clear") || weatherType.includes("Few") || weatherType.includes("Sunny")) {
-			if (isDaytime) {
-				return "day-sunny";
-			}
-
-			return "night-clear";
+			return isDaytime ? "day-sunny" : "night-clear";
 		} else if (weatherType.includes("Dust") || weatherType.includes("Sand")) {
 			return "dust";
 		} else if (weatherType.includes("Fog")) {
@@ -376,4 +411,6 @@ WeatherProvider.register("weathergov", {
 
 		return null;
 	}
-});
+}
+
+module.exports = WeatherGovProvider;

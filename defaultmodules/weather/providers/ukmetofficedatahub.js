@@ -1,243 +1,282 @@
-/* global WeatherProvider, WeatherObject */
+const Log = require("logger");
+const { getSunTimes } = require("../provider-utils");
+const HTTPFetcher = require("#http_fetcher");
 
-/*
- * This class is a provider for UK Met Office Data Hub (the replacement for their Data Point services).
- * For more information on Data Hub, see https://www.metoffice.gov.uk/services/data/datapoint/notifications/weather-datahub
+/**
+ * UK Met Office Data Hub provider
+ * For more information: https://www.metoffice.gov.uk/services/data/datapoint/notifications/weather-datahub
+ *
  * Data available:
- * 		Hourly data for next 2 days ("hourly") - https://www.metoffice.gov.uk/binaries/content/assets/metofficegovuk/pdf/data/global-spot-data-hourly.pdf
- * 		3-hourly data for the next 7 days ("3hourly") - https://www.metoffice.gov.uk/binaries/content/assets/metofficegovuk/pdf/data/global-spot-data-3-hourly.pdf
- * 		Daily data for the next 7 days ("daily") - https://www.metoffice.gov.uk/binaries/content/assets/metofficegovuk/pdf/data/global-spot-data-daily.pdf
+ * - Hourly data for next 2 days (for current weather)
+ * - 3-hourly data for next 7 days (for hourly forecasts)
+ * - Daily data for next 7 days (for daily forecasts)
  *
- * NOTES
- * This provider requires longitude/latitude coordinates, rather than a location ID (as with the previous Met Office provider)
- * Provide the following in your config.js file:
- * 		weatherProvider: "ukmetofficedatahub",
- * 		apiBase: "https://data.hub.api.metoffice.gov.uk/sitespecific/v0/point/",
- * 		apiKey: "[YOUR API KEY]",
- * 		lat: [LATITUDE (DECIMAL)],
- * 		lon: [LONGITUDE (DECIMAL)]
- *
- * At time of writing, free accounts are limited to 360 requests a day per service (hourly, 3hourly, daily); take this in mind when
- * setting your update intervals. For reference, 360 requests per day is once every 4 minutes.
- *
- * Pay attention to the units of the supplied data from the Met Office - it is given in SI/metric units where applicable:
- * 	- Temperatures are in degrees Celsius (°C)
- * 	- Wind speeds are in metres per second (m/s)
- * 	- Wind direction given in degrees (°)
- * 	- Pressures are in Pascals (Pa)
- * 	- Distances are in metres (m)
- * 	- Probabilities and humidity are given as percentages (%)
- * 	- Precipitation is measured in millimeters (mm) with rates per hour (mm/h)
- *
- * See the PDFs linked above for more information on the data their corresponding units.
+ * Free accounts limited to 360 requests/day per service (once every 4 minutes)
  */
-
-WeatherProvider.register("ukmetofficedatahub", {
-	// Set the name of the provider.
-	providerName: "UK Met Office (DataHub)",
-
-	// Set the default config properties that is specific to this provider
-	defaults: {
-		apiBase: "https://data.hub.api.metoffice.gov.uk/sitespecific/v0/point/",
-		apiKey: "",
-		lat: 0,
-		lon: 0
-	},
-
-	// Build URL with query strings according to DataHub API (https://datahub.metoffice.gov.uk/docs/f/category/site-specific/type/site-specific/api-documentation#get-/point/hourly)
-	getUrl (forecastType) {
-		let queryStrings = "?";
-		queryStrings += `latitude=${this.config.lat}`;
-		queryStrings += `&longitude=${this.config.lon}`;
-		queryStrings += `&includeLocationName=${true}`;
-
-		// Return URL, making sure there is a trailing "/" in the base URL.
-		return this.config.apiBase + (this.config.apiBase.endsWith("/") ? "" : "/") + forecastType + queryStrings;
-	},
-
-	/*
-	 * Build the list of headers for the request
-	 * For DataHub requests, the API key/secret are sent in the headers rather than as query strings.
-	 * Headers defined according to Data Hub API (https://datahub.metoffice.gov.uk/docs/f/category/site-specific/type/site-specific/api-documentation#get-/point/hourly)
-	 */
-	getHeaders () {
-		return {
-			accept: "application/json",
-			apikey: this.config.apiKey
+class UkMetOfficeDataHubProvider {
+	constructor (config) {
+		this.config = {
+			apiBase: "https://data.hub.api.metoffice.gov.uk/sitespecific/v0/point/",
+			apiKey: "",
+			lat: 0,
+			lon: 0,
+			type: "current",
+			updateInterval: 10 * 60 * 1000,
+			...config
 		};
-	},
 
-	// Fetch data using supplied URL and request headers
-	async fetchWeather (url, headers) {
-		const response = await fetch(url, { headers: headers });
+		this.fetcher = null;
+		this.onDataCallback = null;
+		this.onErrorCallback = null;
+	}
 
-		// Return JSON data
-		return response.json();
-	},
+	setCallbacks (onDataCallback, onErrorCallback) {
+		this.onDataCallback = onDataCallback;
+		this.onErrorCallback = onErrorCallback;
+	}
 
-	// Fetch hourly forecast data (to use for current weather)
-	fetchCurrentWeather () {
-		this.fetchWeather(this.getUrl("hourly"), this.getHeaders())
-			.then((data) => {
-				// Check data is usable
-				if (!data || !data.features || !data.features[0].properties || !data.features[0].properties.timeSeries || data.features[0].properties.timeSeries.length === 0) {
+	async initialize () {
+		if (!this.config.apiKey || this.config.apiKey === "YOUR_API_KEY_HERE") {
+			Log.error("[ukmetofficedatahub] No API key configured");
+			if (this.onErrorCallback) {
+				this.onErrorCallback({
+					message: "UK Met Office DataHub API key required. Get one at https://datahub.metoffice.gov.uk/",
+					translationKey: "MODULE_ERROR_UNSPECIFIED"
+				});
+			}
+			return;
+		}
 
-					/*
-					 * Did not receive usable new data.
-					 * Maybe this needs a better check?
-					 */
-					Log.error("[weatherprovider.ukmetofficedatahub] Possibly bad current/hourly data?", data);
-					return;
+		this.#initializeFetcher();
+	}
+
+	#initializeFetcher () {
+		const forecastType = this.#getForecastType();
+		const url = this.#getUrl(forecastType);
+
+		this.fetcher = new HTTPFetcher(url, {
+			reloadInterval: this.config.updateInterval,
+			headers: {
+				Accept: "application/json",
+				apikey: this.config.apiKey
+			},
+			logContext: "weatherprovider.ukmetofficedatahub"
+		});
+
+		this.fetcher.on("response", async (response) => {
+			try {
+				const data = await response.json();
+				this.#handleResponse(data);
+			} catch (error) {
+				Log.error("[ukmetofficedatahub] Parse error:", error);
+				if (this.onErrorCallback) {
+					this.onErrorCallback({
+						message: "Failed to parse API response",
+						translationKey: "MODULE_ERROR_UNSPECIFIED"
+					});
 				}
+			}
+		});
 
-				// Set location name
-				this.setFetchedLocation(`${data.features[0].properties.location.name}`);
+		this.fetcher.on("error", (errorInfo) => {
+			if (this.onErrorCallback) {
+				this.onErrorCallback(errorInfo);
+			}
+		});
+	}
 
-				// Generate current weather data
-				const currentWeather = this.generateWeatherObjectFromCurrentWeather(data);
-				this.setCurrentWeather(currentWeather);
-			})
+	#getForecastType () {
+		switch (this.config.type) {
+			case "hourly":
+				return "three-hourly";
+			case "forecast":
+			case "daily":
+				return "daily";
+			case "current":
+			default:
+				return "hourly";
+		}
+	}
 
-			// Catch any error(s)
-			.catch((error) => Log.error(`[weatherprovider.ukmetofficedatahub] Could not load data: ${error.message}`))
+	#getUrl (forecastType) {
+		const base = this.config.apiBase.endsWith("/") ? this.config.apiBase : `${this.config.apiBase}/`;
+		const queryStrings = `?latitude=${this.config.lat}&longitude=${this.config.lon}&includeLocationName=true`;
+		return `${base}${forecastType}${queryStrings}`;
+	}
 
-			// Let the module know there is data available
-			.finally(() => this.updateAvailable());
-	},
+	#handleResponse (data) {
+		if (!data || !data.features || !data.features[0] || !data.features[0].properties || !data.features[0].properties.timeSeries || data.features[0].properties.timeSeries.length === 0) {
+			Log.error("[ukmetofficedatahub] No usable data received");
+			if (this.onErrorCallback) {
+				this.onErrorCallback({
+					message: "No usable data in API response",
+					translationKey: "MODULE_ERROR_UNSPECIFIED"
+				});
+			}
+			return;
+		}
 
-	// Create a WeatherObject using current weather data (data for the current hour)
-	generateWeatherObjectFromCurrentWeather (currentWeatherData) {
-		const currentWeather = new WeatherObject();
+		let weatherData = null;
 
-		// Extract the actual forecasts
-		let forecastDataHours = currentWeatherData.features[0].properties.timeSeries;
+		switch (this.config.type) {
+			case "current":
+				weatherData = this.#generateCurrent(data);
+				break;
+			case "forecast":
+			case "daily":
+				weatherData = this.#generateDaily(data);
+				break;
+			case "hourly":
+				weatherData = this.#generateHourly(data);
+				break;
+			default:
+				Log.error(`[ukmetofficedatahub] Unknown weather type: ${this.config.type}`);
+				if (this.onErrorCallback) {
+					this.onErrorCallback({
+						message: `Unknown weather type: ${this.config.type}`,
+						translationKey: "MODULE_ERROR_UNSPECIFIED"
+					});
+				}
+				return;
+		}
 
-		// Define now
-		let nowUtc = moment.utc();
+		if (weatherData && this.onDataCallback) {
+			this.onDataCallback(weatherData);
+		}
+	}
 
-		// Find hour that contains the current time
-		for (let hour in forecastDataHours) {
-			let forecastTime = moment.utc(forecastDataHours[hour].time);
-			if (nowUtc.isSameOrAfter(forecastTime) && nowUtc.isBefore(moment(forecastTime.add(1, "h")))) {
-				currentWeather.date = forecastTime;
-				currentWeather.windSpeed = forecastDataHours[hour].windSpeed10m;
-				currentWeather.windFromDirection = forecastDataHours[hour].windDirectionFrom10m;
-				currentWeather.temperature = forecastDataHours[hour].screenTemperature;
-				currentWeather.minTemperature = forecastDataHours[hour].minScreenAirTemp;
-				currentWeather.maxTemperature = forecastDataHours[hour].maxScreenAirTemp;
-				currentWeather.weatherType = this.convertWeatherType(forecastDataHours[hour].significantWeatherCode);
-				currentWeather.humidity = forecastDataHours[hour].screenRelativeHumidity;
-				currentWeather.rain = forecastDataHours[hour].totalPrecipAmount;
-				currentWeather.snow = forecastDataHours[hour].totalSnowAmount;
-				currentWeather.precipitationProbability = forecastDataHours[hour].probOfPrecipitation;
-				currentWeather.feelsLikeTemp = forecastDataHours[hour].feelsLikeTemperature;
+	#generateCurrent (data) {
+		const timeSeries = data.features[0].properties.timeSeries;
+		const now = new Date();
 
-				/*
-				 * Pass on full details, so they can be used in custom templates
-				 * Note the units of the supplied data when using this (see top of file)
-				 */
-				currentWeather.rawData = forecastDataHours[hour];
+		// Find the hour that contains current time
+		for (const hour of timeSeries) {
+			const forecastTime = new Date(hour.time);
+			const oneHourLater = new Date(forecastTime.getTime() + 60 * 60 * 1000);
+
+			if (now >= forecastTime && now < oneHourLater) {
+				const current = {
+					date: forecastTime,
+					temperature: hour.screenTemperature || null,
+					minTemperature: hour.minScreenAirTemp || null,
+					maxTemperature: hour.maxScreenAirTemp || null,
+					windSpeed: hour.windSpeed10m || null,
+					windFromDirection: hour.windDirectionFrom10m || null,
+					weatherType: this.#convertWeatherType(hour.significantWeatherCode),
+					humidity: hour.screenRelativeHumidity || null,
+					rain: hour.totalPrecipAmount || 0,
+					snow: hour.totalSnowAmount || 0,
+					precipitationAmount: (hour.totalPrecipAmount || 0) + (hour.totalSnowAmount || 0),
+					precipitationProbability: hour.probOfPrecipitation || null,
+					feelsLikeTemp: hour.feelsLikeTemperature || null,
+					sunrise: null,
+					sunset: null
+				};
+
+				// Calculate sunrise/sunset using SunCalc
+				const { sunrise, sunset } = getSunTimes(now, this.config.lat, this.config.lon);
+				current.sunrise = sunrise;
+				current.sunset = sunset;
+
+				return current;
 			}
 		}
 
-		/*
-		 * Determine the sunrise/sunset times - (still) not supplied in UK Met Office data
-		 * Passes {longitude, latitude} to SunCalc, could pass height to, but
-		 * SunCalc.getTimes doesn't take that into account
-		 */
-		currentWeather.updateSunTime(this.config.lat, this.config.lon);
+		// Fallback to first hour if no match found
+		const firstHour = timeSeries[0];
+		const current = {
+			date: new Date(firstHour.time),
+			temperature: firstHour.screenTemperature || null,
+			windSpeed: firstHour.windSpeed10m || null,
+			windFromDirection: firstHour.windDirectionFrom10m || null,
+			weatherType: this.#convertWeatherType(firstHour.significantWeatherCode),
+			humidity: firstHour.screenRelativeHumidity || null,
+			rain: firstHour.totalPrecipAmount || 0,
+			snow: firstHour.totalSnowAmount || 0,
+			precipitationAmount: (firstHour.totalPrecipAmount || 0) + (firstHour.totalSnowAmount || 0),
+			precipitationProbability: firstHour.probOfPrecipitation || null,
+			feelsLikeTemp: firstHour.feelsLikeTemperature || null,
+			sunrise: null,
+			sunset: null
+		};
 
-		return currentWeather;
-	},
+		const { sunrise, sunset } = getSunTimes(now, this.config.lat, this.config.lon);
+		current.sunrise = sunrise;
+		current.sunset = sunset;
 
-	// Fetch daily forecast data
-	fetchWeatherForecast () {
-		this.fetchWeather(this.getUrl("daily"), this.getHeaders())
-			.then((data) => {
-				// Check data is usable
-				if (!data || !data.features || !data.features[0].properties || !data.features[0].properties.timeSeries || data.features[0].properties.timeSeries.length === 0) {
+		return current;
+	}
 
-					/*
-					 * Did not receive usable new data.
-					 * Maybe this needs a better check?
-					 */
-					Log.error("[weatherprovider.ukmetofficedatahub] Possibly bad forecast data?", data);
-					return;
-				}
+	#generateDaily (data) {
+		const timeSeries = data.features[0].properties.timeSeries;
+		const days = [];
+		const today = new Date();
+		today.setHours(0, 0, 0, 0);
 
-				// Set location name
-				this.setFetchedLocation(`${data.features[0].properties.location.name}`);
+		for (const day of timeSeries) {
+			const forecastDate = new Date(day.time);
+			forecastDate.setHours(0, 0, 0, 0);
 
-				// Generate the forecast data
-				const forecast = this.generateWeatherObjectsFromForecast(data);
-				this.setWeatherForecast(forecast);
-			})
-
-			// Catch any error(s)
-			.catch((error) => Log.error(`[weatherprovider.ukmetofficedatahub] Could not load data: ${error.message}`))
-
-			// Let the module know there is new data available
-			.finally(() => this.updateAvailable());
-	},
-
-	// Create a WeatherObject for each day using daily forecast data
-	generateWeatherObjectsFromForecast (forecasts) {
-		const dailyForecasts = [];
-
-		// Extract the actual forecasts
-		let forecastDataDays = forecasts.features[0].properties.timeSeries;
-
-		// Define today
-		let today = moment.utc().startOf("date");
-
-		// Go through each day in the forecasts
-		for (let day in forecastDataDays) {
-			const forecastWeather = new WeatherObject();
-
-			// Get date of forecast
-			let forecastDate = moment.utc(forecastDataDays[day].time);
-
-			// Check if forecast is for today or in the future (i.e., ignore yesterday's forecast)
-			if (forecastDate.isSameOrAfter(today)) {
-				forecastWeather.date = forecastDate;
-				forecastWeather.minTemperature = forecastDataDays[day].nightMinScreenTemperature;
-				forecastWeather.maxTemperature = forecastDataDays[day].dayMaxScreenTemperature;
-
-				// Using daytime forecast values
-				forecastWeather.windSpeed = forecastDataDays[day].midday10MWindSpeed;
-				forecastWeather.windFromDirection = forecastDataDays[day].midday10MWindDirection;
-				forecastWeather.weatherType = this.convertWeatherType(forecastDataDays[day].daySignificantWeatherCode);
-				forecastWeather.precipitationProbability = forecastDataDays[day].dayProbabilityOfPrecipitation;
-				forecastWeather.temperature = forecastDataDays[day].dayMaxScreenTemperature;
-				forecastWeather.humidity = forecastDataDays[day].middayRelativeHumidity;
-				forecastWeather.rain = forecastDataDays[day].dayProbabilityOfRain;
-				forecastWeather.snow = forecastDataDays[day].dayProbabilityOfSnow;
-				forecastWeather.feelsLikeTemp = forecastDataDays[day].dayMaxFeelsLikeTemp;
-
-				/*
-				 * Pass on full details, so they can be used in custom templates
-				 * Note the units of the supplied data when using this (see top of file)
-				 */
-				forecastWeather.rawData = forecastDataDays[day];
-
-				dailyForecasts.push(forecastWeather);
+			// Only include today and future days
+			if (forecastDate >= today) {
+				days.push({
+					date: new Date(day.time),
+					minTemperature: day.nightMinScreenTemperature || null,
+					maxTemperature: day.dayMaxScreenTemperature || null,
+					temperature: day.dayMaxScreenTemperature || null,
+					windSpeed: day.midday10MWindSpeed || null,
+					windFromDirection: day.midday10MWindDirection || null,
+					weatherType: this.#convertWeatherType(day.daySignificantWeatherCode),
+					humidity: day.middayRelativeHumidity || null,
+					rain: day.dayProbabilityOfRain || 0,
+					snow: day.dayProbabilityOfSnow || 0,
+					precipitationAmount: 0,
+					precipitationProbability: day.dayProbabilityOfPrecipitation || null,
+					feelsLikeTemp: day.dayMaxFeelsLikeTemp || null
+				});
 			}
 		}
 
-		return dailyForecasts;
-	},
+		return days;
+	}
 
-	// Set the fetched location name.
-	setFetchedLocation (name) {
-		this.fetchedLocationName = name;
-	},
+	#generateHourly (data) {
+		const timeSeries = data.features[0].properties.timeSeries;
+		const hours = [];
 
-	/*
-	 * Match the Met Office "significant weather code" to a weathericons.css icon
-	 * Use: https://metoffice.apiconnect.ibmcloud.com/metoffice/production/node/264
-	 * and: https://erikflowers.github.io/weather-icons/
+		for (const hour of timeSeries) {
+			// 3-hourly data uses maxScreenAirTemp/minScreenAirTemp, not screenTemperature
+			const temp = hour.screenTemperature !== undefined
+				? hour.screenTemperature
+				: (hour.maxScreenAirTemp !== undefined && hour.minScreenAirTemp !== undefined)
+					? (hour.maxScreenAirTemp + hour.minScreenAirTemp) / 2
+					: null;
+
+			hours.push({
+				date: new Date(hour.time),
+				temperature: temp,
+				windSpeed: hour.windSpeed10m || null,
+				windFromDirection: hour.windDirectionFrom10m || null,
+				weatherType: this.#convertWeatherType(hour.significantWeatherCode),
+				humidity: hour.screenRelativeHumidity || null,
+				rain: hour.totalPrecipAmount || 0,
+				snow: hour.totalSnowAmount || 0,
+				precipitationAmount: (hour.totalPrecipAmount || 0) + (hour.totalSnowAmount || 0),
+				precipitationProbability: hour.probOfPrecipitation || null,
+				feelsLikeTemp: hour.feelsLikeTemp || null
+			});
+		}
+
+		return hours;
+	}
+
+	/**
+	 * Convert Met Office significant weather code to weathericons.css icon
+	 * See: https://metoffice.apiconnect.ibmcloud.com/metoffice/production/node/264
+	 * @param {number} weatherType - Met Office weather code
+	 * @returns {string|null} Weathericons.css icon name or null
 	 */
-	convertWeatherType (weatherType) {
+	#convertWeatherType (weatherType) {
 		const weatherTypes = {
 			0: "night-clear",
 			1: "day-sunny",
@@ -271,6 +310,20 @@ WeatherProvider.register("ukmetofficedatahub", {
 			30: "thunderstorm"
 		};
 
-		return weatherTypes.hasOwnProperty(weatherType) ? weatherTypes[weatherType] : null;
+		return weatherTypes[weatherType] || null;
 	}
-});
+
+	start () {
+		if (this.fetcher) {
+			this.fetcher.startPeriodicFetch();
+		}
+	}
+
+	stop () {
+		if (this.fetcher) {
+			this.fetcher.clearTimer();
+		}
+	}
+}
+
+module.exports = UkMetOfficeDataHubProvider;

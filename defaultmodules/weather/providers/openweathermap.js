@@ -1,290 +1,157 @@
-/* global WeatherProvider, WeatherObject */
+const Log = require("logger");
+const weatherUtils = require("../provider-utils");
+const HTTPFetcher = require("#http_fetcher");
 
-/*
- * This class is a provider for Openweathermap,
+/**
+ * Server-side weather provider for OpenWeatherMap
  * see https://openweathermap.org/
  */
-WeatherProvider.register("openweathermap", {
+class OpenWeatherMapProvider {
+	constructor (config) {
+		this.config = {
+			apiVersion: "3.0",
+			apiBase: "https://api.openweathermap.org/data/",
+			weatherEndpoint: "/onecall",
+			locationID: false,
+			location: false,
+			lat: 0,
+			lon: 0,
+			apiKey: "",
+			type: "current",
+			updateInterval: 10 * 60 * 1000,
+			...config
+		};
 
-	/*
-	 * Set the name of the provider.
-	 * This isn't strictly necessary, since it will fallback to the provider identifier
-	 * But for debugging (and future alerts) it would be nice to have the real name.
-	 */
-	providerName: "OpenWeatherMap",
+		this.fetcher = null;
+		this.onDataCallback = null;
+		this.onErrorCallback = null;
+		this.locationName = null;
+	}
 
-	// Set the default config properties that is specific to this provider
-	defaults: {
-		apiVersion: "3.0",
-		apiBase: "https://api.openweathermap.org/data/",
-		// weatherEndpoint is "/onecall" since API 3.0
-		// "/onecall", "/forecast" or "/weather" only for pro customers
-		weatherEndpoint: "/onecall",
-		locationID: false,
-		location: false,
-		// the /onecall endpoint needs lat / lon values, it doesn't support the locationId
-		lat: 0,
-		lon: 0,
-		apiKey: ""
-	},
+	async initialize () {
+		// Validate callbacks exist
+		if (typeof this.onErrorCallback !== "function") {
+			throw new Error("setCallbacks() must be called before initialize()");
+		}
 
-	// Overwrite the fetchCurrentWeather method.
-	fetchCurrentWeather () {
-		this.fetchData(this.getUrl())
-			.then((data) => {
-				let currentWeather;
-				if (this.config.weatherEndpoint === "/onecall") {
-					currentWeather = this.generateWeatherObjectsFromOnecall(data).current;
-					this.setFetchedLocation(`${data.timezone}`);
-				} else {
-					currentWeather = this.generateWeatherObjectFromCurrentWeather(data);
+		if (!this.config.apiKey) {
+			Log.error("[openweathermap] API key is required");
+			this.onErrorCallback({
+				message: "API key is required",
+				translationKey: "MODULE_ERROR_UNSPECIFIED"
+			});
+			return;
+		}
+
+		this.#initializeFetcher();
+	}
+
+	setCallbacks (onData, onError) {
+		this.onDataCallback = onData;
+		this.onErrorCallback = onError;
+	}
+
+	start () {
+		if (this.fetcher) {
+			this.fetcher.startPeriodicFetch();
+		}
+	}
+
+	stop () {
+		if (this.fetcher) {
+			this.fetcher.clearTimer();
+		}
+	}
+
+	#initializeFetcher () {
+		const url = this.#getUrl();
+
+		this.fetcher = new HTTPFetcher(url, {
+			reloadInterval: this.config.updateInterval,
+			headers: { "Cache-Control": "no-cache" },
+			logContext: "weatherprovider.openweathermap"
+		});
+
+		this.fetcher.on("response", async (response) => {
+			try {
+				const data = await response.json();
+				this.#handleResponse(data);
+			} catch (error) {
+				Log.error("[openweathermap] Failed to parse JSON:", error);
+				if (this.onErrorCallback) {
+					this.onErrorCallback({
+						message: "Failed to parse API response",
+						translationKey: "MODULE_ERROR_UNSPECIFIED"
+					});
 				}
-				this.setCurrentWeather(currentWeather);
-			})
-			.catch(function (request) {
-				Log.error("[weatherprovider.openweathermap] Could not load data ... ", request);
-			})
-			.finally(() => this.updateAvailable());
-	},
+			}
+		});
 
-	// Overwrite the fetchWeatherForecast method.
-	fetchWeatherForecast () {
-		this.fetchData(this.getUrl())
-			.then((data) => {
-				let forecast;
-				let location;
-				if (this.config.weatherEndpoint === "/onecall") {
-					forecast = this.generateWeatherObjectsFromOnecall(data).days;
-					location = `${data.timezone}`;
-				} else {
-					forecast = this.generateWeatherObjectsFromForecast(data.list);
-					location = `${data.city.name}, ${data.city.country}`;
-				}
-				this.setWeatherForecast(forecast);
-				this.setFetchedLocation(location);
-			})
-			.catch(function (request) {
-				Log.error("[weatherprovider.openweathermap] Could not load data ... ", request);
-			})
-			.finally(() => this.updateAvailable());
-	},
+		this.fetcher.on("error", (errorInfo) => {
+			if (this.onErrorCallback) {
+				this.onErrorCallback(errorInfo);
+			}
+		});
+	}
 
-	// Overwrite the fetchWeatherHourly method.
-	fetchWeatherHourly () {
-		this.fetchData(this.getUrl())
-			.then((data) => {
-				if (!data) {
-
-					/*
-					 * Did not receive usable new data.
-					 * Maybe this needs a better check?
-					 */
-					return;
-				}
-
-				this.setFetchedLocation(`(${data.lat},${data.lon})`);
-
-				const weatherData = this.generateWeatherObjectsFromOnecall(data);
-				this.setWeatherHourly(weatherData.hours);
-			})
-			.catch(function (request) {
-				Log.error("[weatherprovider.openweathermap] Could not load data ... ", request);
-			})
-			.finally(() => this.updateAvailable());
-	},
-
-	/** OpenWeatherMap Specific Methods - These are not part of the default provider methods */
-	/*
-	 * Gets the complete url for the request
-	 */
-	getUrl () {
-		return this.config.apiBase + this.config.apiVersion + this.config.weatherEndpoint + this.getParams();
-	},
-
-	/*
-	 * Generate a WeatherObject based on currentWeatherInformation
-	 */
-	generateWeatherObjectFromCurrentWeather (currentWeatherData) {
-		const currentWeather = new WeatherObject();
-
-		currentWeather.date = moment.unix(currentWeatherData.dt);
-		currentWeather.humidity = currentWeatherData.main.humidity;
-		currentWeather.temperature = currentWeatherData.main.temp;
-		currentWeather.feelsLikeTemp = currentWeatherData.main.feels_like;
-		currentWeather.windSpeed = currentWeatherData.wind.speed;
-		currentWeather.windFromDirection = currentWeatherData.wind.deg;
-		currentWeather.weatherType = this.convertWeatherType(currentWeatherData.weather[0].icon);
-		currentWeather.sunrise = moment.unix(currentWeatherData.sys.sunrise);
-		currentWeather.sunset = moment.unix(currentWeatherData.sys.sunset);
-
-		return currentWeather;
-	},
-
-	/*
-	 * Generate WeatherObjects based on forecast information
-	 */
-	generateWeatherObjectsFromForecast (forecasts) {
-		if (this.config.weatherEndpoint === "/forecast") {
-			return this.generateForecastHourly(forecasts);
-		} else if (this.config.weatherEndpoint === "/forecast/daily") {
-			return this.generateForecastDaily(forecasts);
-		}
-		// if weatherEndpoint does not match forecast or forecast/daily, what should be returned?
-		return [new WeatherObject()];
-	},
-
-	/*
-	 * Generate WeatherObjects based on One Call forecast information
-	 */
-	generateWeatherObjectsFromOnecall (data) {
-		if (this.config.weatherEndpoint === "/onecall") {
-			return this.fetchOnecall(data);
-		}
-		// if weatherEndpoint does not match onecall, what should be returned?
-		return { current: new WeatherObject(), hours: [], days: [] };
-	},
-
-	/*
-	 * Generate forecast information for 3-hourly forecast (available for free
-	 * subscription).
-	 */
-	generateForecastHourly (forecasts) {
-		// initial variable declaration
-		const days = [];
-		// variables for temperature range and rain
-		let minTemp = [];
-		let maxTemp = [];
-		let rain = 0;
-		let snow = 0;
-		// variable for date
-		let date = "";
-		let weather = new WeatherObject();
-
-		for (const forecast of forecasts) {
-			if (date !== moment.unix(forecast.dt).format("YYYY-MM-DD")) {
-				// calculate minimum/maximum temperature, specify rain amount
-				weather.minTemperature = Math.min.apply(null, minTemp);
-				weather.maxTemperature = Math.max.apply(null, maxTemp);
-				weather.rain = rain;
-				weather.snow = snow;
-				weather.precipitationAmount = (weather.rain ?? 0) + (weather.snow ?? 0);
-				// push weather information to days array
-				days.push(weather);
-				// create new weather-object
-				weather = new WeatherObject();
-
-				minTemp = [];
-				maxTemp = [];
-				rain = 0;
-				snow = 0;
-
-				// set new date
-				date = moment.unix(forecast.dt).format("YYYY-MM-DD");
-
-				// specify date
-				weather.date = moment.unix(forecast.dt);
-
-				// If the first value of today is later than 17:00, we have an icon at least!
-				weather.weatherType = this.convertWeatherType(forecast.weather[0].icon);
+	#handleResponse (data) {
+		try {
+			// Set location name from timezone
+			if (data.timezone) {
+				this.locationName = data.timezone;
 			}
 
-			if (moment.unix(forecast.dt).format("H") >= 8 && moment.unix(forecast.dt).format("H") <= 17) {
-				weather.weatherType = this.convertWeatherType(forecast.weather[0].icon);
+			let weatherData;
+			const onecallData = this.#generateWeatherObjectsFromOnecall(data);
+
+			switch (this.config.type) {
+				case "current":
+					weatherData = onecallData.current;
+					break;
+				case "forecast":
+				case "daily":
+					weatherData = onecallData.days;
+					break;
+				case "hourly":
+					weatherData = onecallData.hours;
+					break;
+				default:
+					Log.error(`[openweathermap] Unknown type: ${this.config.type}`);
+					throw new Error(`Unknown weather type: ${this.config.type}`);
 			}
 
-			/*
-			 * the same day as before
-			 * add values from forecast to corresponding variables
-			 */
-			minTemp.push(forecast.main.temp_min);
-			maxTemp.push(forecast.main.temp_max);
-
-			if (forecast.hasOwnProperty("rain") && !isNaN(forecast.rain["3h"])) {
-				rain += forecast.rain["3h"];
+			if (weatherData && this.onDataCallback) {
+				this.onDataCallback(weatherData);
 			}
-
-			if (forecast.hasOwnProperty("snow") && !isNaN(forecast.snow["3h"])) {
-				snow += forecast.snow["3h"];
+		} catch (error) {
+			Log.error("[openweathermap] Error processing weather data:", error);
+			if (this.onErrorCallback) {
+				this.onErrorCallback({
+					message: error.message,
+					translationKey: "MODULE_ERROR_UNSPECIFIED"
+				});
 			}
 		}
+	}
 
-		/*
-		 * last day
-		 * calculate minimum/maximum temperature, specify rain amount
-		 */
-		weather.minTemperature = Math.min.apply(null, minTemp);
-		weather.maxTemperature = Math.max.apply(null, maxTemp);
-		weather.rain = rain;
-		weather.snow = snow;
-		weather.precipitationAmount = (weather.rain ?? 0) + (weather.snow ?? 0);
-		// push weather information to days array
-		days.push(weather);
-		return days.slice(1);
-	},
-
-	/*
-	 * Generate forecast information for daily forecast (available for paid
-	 * subscription or old apiKey).
-	 */
-	generateForecastDaily (forecasts) {
-		// initial variable declaration
-		const days = [];
-
-		for (const forecast of forecasts) {
-			const weather = new WeatherObject();
-
-			weather.date = moment.unix(forecast.dt);
-			weather.minTemperature = forecast.temp.min;
-			weather.maxTemperature = forecast.temp.max;
-			weather.weatherType = this.convertWeatherType(forecast.weather[0].icon);
-			weather.rain = 0;
-			weather.snow = 0;
-
-			/*
-			 * forecast.rain not available if amount is zero
-			 * The API always returns in millimeters
-			 */
-			if (forecast.hasOwnProperty("rain") && !isNaN(forecast.rain)) {
-				weather.rain = forecast.rain;
-			}
-
-			/*
-			 * forecast.snow not available if amount is zero
-			 * The API always returns in millimeters
-			 */
-			if (forecast.hasOwnProperty("snow") && !isNaN(forecast.snow)) {
-				weather.snow = forecast.snow;
-			}
-
-			weather.precipitationAmount = weather.rain + weather.snow;
-			weather.precipitationProbability = forecast.pop ? forecast.pop * 100 : undefined;
-
-			days.push(weather);
-		}
-
-		return days;
-	},
-
-	/*
-	 * Fetch One Call forecast information (available for free subscription).
-	 * Factors in timezone offsets.
-	 * Minutely forecasts are excluded for the moment, see getParams().
-	 */
-	fetchOnecall (data) {
+	#generateWeatherObjectsFromOnecall (data) {
 		let precip = false;
 
-		// get current weather, if requested
-		const current = new WeatherObject();
+		// Get current weather
+		const current = {};
 		if (data.hasOwnProperty("current")) {
-			current.date = moment.unix(data.current.dt).utcOffset(data.timezone_offset / 60);
+			const timezoneOffset = data.timezone_offset / 60;
+			current.date = weatherUtils.applyTimezoneOffset(new Date(data.current.dt * 1000), timezoneOffset);
 			current.windSpeed = data.current.wind_speed;
 			current.windFromDirection = data.current.wind_deg;
-			current.sunrise = moment.unix(data.current.sunrise).utcOffset(data.timezone_offset / 60);
-			current.sunset = moment.unix(data.current.sunset).utcOffset(data.timezone_offset / 60);
+			current.sunrise = weatherUtils.applyTimezoneOffset(new Date(data.current.sunrise * 1000), timezoneOffset);
+			current.sunset = weatherUtils.applyTimezoneOffset(new Date(data.current.sunset * 1000), timezoneOffset);
 			current.temperature = data.current.temp;
-			current.weatherType = this.convertWeatherType(data.current.weather[0].icon);
+			current.weatherType = weatherUtils.convertWeatherType(data.current.weather[0].icon);
 			current.humidity = data.current.humidity;
-			current.uv_index = data.current.uvi;
+			current.uvIndex = data.current.uvi;
+
+			precip = false;
 			if (data.current.hasOwnProperty("rain") && !isNaN(data.current.rain["1h"])) {
 				current.rain = data.current.rain["1h"];
 				precip = true;
@@ -299,21 +166,22 @@ WeatherProvider.register("openweathermap", {
 			current.feelsLikeTemp = data.current.feels_like;
 		}
 
-		let weather = new WeatherObject();
-
-		// get hourly weather, if requested
+		// Get hourly weather
 		const hours = [];
 		if (data.hasOwnProperty("hourly")) {
+			const timezoneOffset = data.timezone_offset / 60;
 			for (const hour of data.hourly) {
-				weather.date = moment.unix(hour.dt).utcOffset(data.timezone_offset / 60);
+				const weather = {};
+				weather.date = weatherUtils.applyTimezoneOffset(new Date(hour.dt * 1000), timezoneOffset);
 				weather.temperature = hour.temp;
 				weather.feelsLikeTemp = hour.feels_like;
 				weather.humidity = hour.humidity;
 				weather.windSpeed = hour.wind_speed;
 				weather.windFromDirection = hour.wind_deg;
-				weather.weatherType = this.convertWeatherType(hour.weather[0].icon);
-				weather.precipitationProbability = hour.pop ? hour.pop * 100 : undefined;
-				weather.uv_index = hour.uvi;
+				weather.weatherType = weatherUtils.convertWeatherType(hour.weather[0].icon);
+				weather.precipitationProbability = hour.pop !== undefined ? hour.pop * 100 : undefined;
+				weather.uvIndex = hour.uvi;
+
 				precip = false;
 				if (hour.hasOwnProperty("rain") && !isNaN(hour.rain["1h"])) {
 					weather.rain = hour.rain["1h"];
@@ -328,25 +196,27 @@ WeatherProvider.register("openweathermap", {
 				}
 
 				hours.push(weather);
-				weather = new WeatherObject();
 			}
 		}
 
-		// get daily weather, if requested
+		// Get daily weather
 		const days = [];
 		if (data.hasOwnProperty("daily")) {
+			const timezoneOffset = data.timezone_offset / 60;
 			for (const day of data.daily) {
-				weather.date = moment.unix(day.dt).utcOffset(data.timezone_offset / 60);
-				weather.sunrise = moment.unix(day.sunrise).utcOffset(data.timezone_offset / 60);
-				weather.sunset = moment.unix(day.sunset).utcOffset(data.timezone_offset / 60);
+				const weather = {};
+				weather.date = weatherUtils.applyTimezoneOffset(new Date(day.dt * 1000), timezoneOffset);
+				weather.sunrise = weatherUtils.applyTimezoneOffset(new Date(day.sunrise * 1000), timezoneOffset);
+				weather.sunset = weatherUtils.applyTimezoneOffset(new Date(day.sunset * 1000), timezoneOffset);
 				weather.minTemperature = day.temp.min;
 				weather.maxTemperature = day.temp.max;
 				weather.humidity = day.humidity;
 				weather.windSpeed = day.wind_speed;
 				weather.windFromDirection = day.wind_deg;
-				weather.weatherType = this.convertWeatherType(day.weather[0].icon);
-				weather.precipitationProbability = day.pop ? day.pop * 100 : undefined;
-				weather.uv_index = day.uvi;
+				weather.weatherType = weatherUtils.convertWeatherType(day.weather[0].icon);
+				weather.precipitationProbability = day.pop !== undefined ? day.pop * 100 : undefined;
+				weather.uvIndex = day.uvi;
+
 				precip = false;
 				if (!isNaN(day.rain)) {
 					weather.rain = day.rain;
@@ -361,52 +231,23 @@ WeatherProvider.register("openweathermap", {
 				}
 
 				days.push(weather);
-				weather = new WeatherObject();
 			}
 		}
 
-		return { current: current, hours: hours, days: days };
-	},
+		return { current, hours, days };
+	}
 
-	/*
-	 * Convert the OpenWeatherMap icons to a more usable name.
-	 */
-	convertWeatherType (weatherType) {
-		const weatherTypes = {
-			"01d": "day-sunny",
-			"02d": "day-cloudy",
-			"03d": "cloudy",
-			"04d": "cloudy-windy",
-			"09d": "showers",
-			"10d": "rain",
-			"11d": "thunderstorm",
-			"13d": "snow",
-			"50d": "fog",
-			"01n": "night-clear",
-			"02n": "night-cloudy",
-			"03n": "night-cloudy",
-			"04n": "night-cloudy",
-			"09n": "night-showers",
-			"10n": "night-rain",
-			"11n": "night-thunderstorm",
-			"13n": "night-snow",
-			"50n": "night-alt-cloudy-windy"
-		};
+	#getUrl () {
+		return this.config.apiBase + this.config.apiVersion + this.config.weatherEndpoint + this.#getParams();
+	}
 
-		return weatherTypes.hasOwnProperty(weatherType) ? weatherTypes[weatherType] : null;
-	},
-
-	/*
-	 * getParams(compliments)
-	 * Generates an url with api parameters based on the config.
-	 *
-	 * return String - URL params.
-	 */
-	getParams () {
+	#getParams () {
 		let params = "?";
+
 		if (this.config.weatherEndpoint === "/onecall") {
 			params += `lat=${this.config.lat}`;
 			params += `&lon=${this.config.lon}`;
+
 			if (this.config.type === "current") {
 				params += "&exclude=minutely,hourly,daily";
 			} else if (this.config.type === "hourly") {
@@ -422,20 +263,14 @@ WeatherProvider.register("openweathermap", {
 			params += `id=${this.config.locationID}`;
 		} else if (this.config.location) {
 			params += `q=${this.config.location}`;
-		} else if (this.firstEvent && this.firstEvent.geo) {
-			params += `lat=${this.firstEvent.geo.lat}&lon=${this.firstEvent.geo.lon}`;
-		} else if (this.firstEvent && this.firstEvent.location) {
-			params += `q=${this.firstEvent.location}`;
-		} else {
-			// TODO hide doesn't exist!
-			this.hide(this.config.animationSpeed, { lockString: this.identifier });
-			return;
 		}
 
-		params += "&units=metric"; // WeatherProviders should use metric internally and use the units only for when displaying data
-		params += `&lang=${this.config.lang}`;
+		params += "&units=metric";
+		params += `&lang=${this.config.lang || "en"}`;
 		params += `&APPID=${this.config.apiKey}`;
 
 		return params;
 	}
-});
+}
+
+module.exports = OpenWeatherMapProvider;

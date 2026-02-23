@@ -1,213 +1,267 @@
-/* global WeatherProvider, WeatherObject */
+const Log = require("logger");
+const { getSunTimes, isDayTime, validateCoordinates } = require("../provider-utils");
+const HTTPFetcher = require("#http_fetcher");
 
-/*
- * This class is a provider for SMHI (Sweden only).
- * Metric system is the only supported unit,
- * see https://www.smhi.se/
+/**
+ * Server-side weather provider for SMHI (Swedish Meteorological and Hydrological Institute)
+ * Sweden only, metric system
+ * API: https://opendata.smhi.se/apidocs/metfcst/
  */
-WeatherProvider.register("smhi", {
-	providerName: "SMHI",
+class SMHIProvider {
+	constructor (config) {
+		this.config = {
+			lat: 0,
+			lon: 0,
+			precipitationValue: "pmedian", // pmin, pmean, pmedian, pmax
+			type: "current",
+			updateInterval: 5 * 60 * 1000,
+			...config
+		};
 
-	// Set the default config properties that is specific to this provider
-	defaults: {
-		lat: 0, // Cant have more than 6 digits
-		lon: 0, // Cant have more than 6 digits
-		precipitationValue: "pmedian",
-		location: false
-	},
-
-	/**
-	 * Implements method in interface for fetching current weather.
-	 */
-	fetchCurrentWeather () {
-		this.fetchData(this.getURL())
-			.then((data) => {
-				const closest = this.getClosestToCurrentTime(data.timeSeries);
-				const coordinates = this.resolveCoordinates(data);
-				const weatherObject = this.convertWeatherDataToObject(closest, coordinates);
-				this.setFetchedLocation(this.config.location || `(${coordinates.lat},${coordinates.lon})`);
-				this.setCurrentWeather(weatherObject);
-			})
-			.catch((error) => Log.error(`[weatherprovider.smhi] Could not load data: ${error.message}`))
-			.finally(() => this.updateAvailable());
-	},
-
-	/**
-	 * Implements method in interface for fetching a multi-day forecast.
-	 */
-	fetchWeatherForecast () {
-		this.fetchData(this.getURL())
-			.then((data) => {
-				const coordinates = this.resolveCoordinates(data);
-				const weatherObjects = this.convertWeatherDataGroupedBy(data.timeSeries, coordinates);
-				this.setFetchedLocation(this.config.location || `(${coordinates.lat},${coordinates.lon})`);
-				this.setWeatherForecast(weatherObjects);
-			})
-			.catch((error) => Log.error(`[weatherprovider.smhi] Could not load data: ${error.message}`))
-			.finally(() => this.updateAvailable());
-	},
-
-	/**
-	 * Implements method in interface for fetching hourly forecasts.
-	 */
-	fetchWeatherHourly () {
-		this.fetchData(this.getURL())
-			.then((data) => {
-				const coordinates = this.resolveCoordinates(data);
-				const weatherObjects = this.convertWeatherDataGroupedBy(data.timeSeries, coordinates, "hour");
-				this.setFetchedLocation(this.config.location || `(${coordinates.lat},${coordinates.lon})`);
-				this.setWeatherHourly(weatherObjects);
-			})
-			.catch((error) => Log.error(`[weatherprovider.smhi] Could not load data: ${error.message}`))
-			.finally(() => this.updateAvailable());
-	},
-
-	/**
-	 * Overrides method for setting config with checks for the precipitationValue being unset or invalid
-	 * @param {object} config The configuration object
-	 */
-	setConfig (config) {
-		this.config = config;
-		if (!config.precipitationValue || ["pmin", "pmean", "pmedian", "pmax"].indexOf(config.precipitationValue) === -1) {
-			Log.log(`[weatherprovider.smhi] invalid or not set: ${config.precipitationValue}`);
-			config.precipitationValue = this.defaults.precipitationValue;
+		// Validate precipitationValue
+		if (!["pmin", "pmean", "pmedian", "pmax"].includes(this.config.precipitationValue)) {
+			Log.warn(`[smhi] Invalid precipitationValue: ${this.config.precipitationValue}, using pmedian`);
+			this.config.precipitationValue = "pmedian";
 		}
-	},
 
-	/**
-	 * Of all the times returned find out which one is closest to the current time, should be the first if the data isn't old.
-	 * @param {object[]} times Array of time objects
-	 * @returns {object} The weatherdata closest to the current time
-	 */
-	getClosestToCurrentTime (times) {
-		let now = moment();
-		let minDiff = undefined;
-		for (const time of times) {
-			let diff = Math.abs(moment(time.validTime).diff(now));
-			if (!minDiff || diff < Math.abs(moment(minDiff.validTime).diff(now))) {
-				minDiff = time;
+		this.fetcher = null;
+		this.onDataCallback = null;
+		this.onErrorCallback = null;
+	}
+
+	async initialize () {
+		try {
+			// SMHI requires max 6 decimal places
+			validateCoordinates(this.config, 6);
+			this.#initializeFetcher();
+		} catch (error) {
+			Log.error("[smhi] Initialization failed:", error);
+			if (this.onErrorCallback) {
+				this.onErrorCallback({
+					message: error.message,
+					translationKey: "MODULE_ERROR_UNSPECIFIED"
+				});
 			}
 		}
-		return minDiff;
-	},
+	}
 
-	/**
-	 * Get the forecast url for the configured coordinates
-	 * @returns {string} the url for the specified coordinates
-	 */
-	getURL () {
-		const formatter = new Intl.NumberFormat("en-US", {
-			minimumFractionDigits: 6,
-			maximumFractionDigits: 6
+	setCallbacks (onData, onError) {
+		this.onDataCallback = onData;
+		this.onErrorCallback = onError;
+	}
+
+	start () {
+		if (this.fetcher) {
+			this.fetcher.startPeriodicFetch();
+		}
+	}
+
+	stop () {
+		if (this.fetcher) {
+			this.fetcher.clearTimer();
+		}
+	}
+
+	#initializeFetcher () {
+		const url = this.#getUrl();
+
+		this.fetcher = new HTTPFetcher(url, {
+			reloadInterval: this.config.updateInterval,
+			logContext: "weatherprovider.smhi"
 		});
-		const lon = formatter.format(this.config.lon);
-		const lat = formatter.format(this.config.lat);
-		return `https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/${lon}/lat/${lat}/data.json`;
-	},
 
-	/**
-	 * Calculates the apparent temperature based on known atmospheric data.
-	 * @param {object} weatherData Weatherdata to use for the calculation
-	 * @returns {number} The apparent temperature
-	 */
-	calculateApparentTemperature (weatherData) {
-		const Ta = this.paramValue(weatherData, "t");
-		const rh = this.paramValue(weatherData, "r");
-		const ws = this.paramValue(weatherData, "ws");
-		const p = (rh / 100) * 6.105 * Math.E * ((17.27 * Ta) / (237.7 + Ta));
+		this.fetcher.on("response", async (response) => {
+			try {
+				const data = await response.json();
+				this.#handleResponse(data);
+			} catch (error) {
+				Log.error("[smhi] Failed to parse JSON:", error);
+				if (this.onErrorCallback) {
+					this.onErrorCallback({
+						message: "Failed to parse API response",
+						translationKey: "MODULE_ERROR_UNSPECIFIED"
+					});
+				}
+			}
+		});
 
-		return Ta + 0.33 * p - 0.7 * ws - 4;
-	},
+		this.fetcher.on("error", (errorInfo) => {
+			if (this.onErrorCallback) {
+				this.onErrorCallback(errorInfo);
+			}
+		});
+	}
 
-	/**
-	 * Converts the returned data into a WeatherObject with required properties set for both current weather and forecast.
-	 * The returned units is always in metric system.
-	 * Requires coordinates to determine if its daytime or nighttime to know which icon to use and also to set sunrise and sunset.
-	 * @param {object} weatherData Weatherdata to convert
-	 * @param {object} coordinates Coordinates of the locations of the weather
-	 * @returns {WeatherObject} The converted weatherdata at the specified location
-	 */
-	convertWeatherDataToObject (weatherData, coordinates) {
-		let currentWeather = new WeatherObject();
+	#handleResponse (data) {
+		try {
+			if (!data.timeSeries || !Array.isArray(data.timeSeries)) {
+				throw new Error("Invalid weather data");
+			}
 
-		currentWeather.date = moment(weatherData.validTime);
-		currentWeather.updateSunTime(coordinates.lat, coordinates.lon);
-		currentWeather.humidity = this.paramValue(weatherData, "r");
-		currentWeather.temperature = this.paramValue(weatherData, "t");
-		currentWeather.windSpeed = this.paramValue(weatherData, "ws");
-		currentWeather.windFromDirection = this.paramValue(weatherData, "wd");
-		currentWeather.weatherType = this.convertWeatherType(this.paramValue(weatherData, "Wsymb2"), currentWeather.isDayTime());
-		currentWeather.feelsLikeTemp = this.calculateApparentTemperature(weatherData);
+			const coordinates = this.#resolveCoordinates(data);
+			let weatherData;
 
-		/*
-		 * Determine the precipitation amount and category and update the
-		 * weatherObject with it, the value type to use can be configured or uses
-		 * median as default.
-		 */
-		let precipitationValue = this.paramValue(weatherData, this.config.precipitationValue);
-		switch (this.paramValue(weatherData, "pcat")) {
-			// 0 = No precipitation
+			switch (this.config.type) {
+				case "current":
+					weatherData = this.#generateCurrentWeather(data.timeSeries, coordinates);
+					break;
+				case "forecast":
+				case "daily":
+					weatherData = this.#generateForecast(data.timeSeries, coordinates);
+					break;
+				case "hourly":
+					weatherData = this.#generateHourly(data.timeSeries, coordinates);
+					break;
+				default:
+					Log.error(`[smhi] Unknown weather type: ${this.config.type}`);
+					if (this.onErrorCallback) {
+						this.onErrorCallback({
+							message: `Unknown weather type: ${this.config.type}`,
+							translationKey: "MODULE_ERROR_UNSPECIFIED"
+						});
+					}
+					return;
+			}
+
+			if (this.onDataCallback) {
+				this.onDataCallback(weatherData);
+			}
+		} catch (error) {
+			Log.error("[smhi] Error processing weather data:", error);
+			if (this.onErrorCallback) {
+				this.onErrorCallback({
+					message: error.message,
+					translationKey: "MODULE_ERROR_UNSPECIFIED"
+				});
+			}
+		}
+	}
+
+	#generateCurrentWeather (timeSeries, coordinates) {
+		const closest = this.#getClosestToCurrentTime(timeSeries);
+		return this.#convertWeatherDataToObject(closest, coordinates);
+	}
+
+	#generateForecast (timeSeries, coordinates) {
+		const filled = this.#fillInGaps(timeSeries);
+		return this.#convertWeatherDataGroupedBy(filled, coordinates, "day");
+	}
+
+	#generateHourly (timeSeries, coordinates) {
+		const filled = this.#fillInGaps(timeSeries);
+		return this.#convertWeatherDataGroupedBy(filled, coordinates, "hour");
+	}
+
+	#getClosestToCurrentTime (times) {
+		const now = new Date();
+		let minDiff = null;
+		let closest = times[0];
+
+		for (const time of times) {
+			const validTime = new Date(time.validTime);
+			const diff = Math.abs(validTime - now);
+
+			if (minDiff === null || diff < minDiff) {
+				minDiff = diff;
+				closest = time;
+			}
+		}
+
+		return closest;
+	}
+
+	#convertWeatherDataToObject (weatherData, coordinates) {
+		const date = new Date(weatherData.validTime);
+		const { sunrise, sunset } = getSunTimes(date, coordinates.lat, coordinates.lon);
+		const isDay = isDayTime(date, sunrise, sunset);
+
+		const current = {
+			date: date,
+			humidity: this.#paramValue(weatherData, "r"),
+			temperature: this.#paramValue(weatherData, "t"),
+			windSpeed: this.#paramValue(weatherData, "ws"),
+			windFromDirection: this.#paramValue(weatherData, "wd"),
+			weatherType: this.#convertWeatherType(this.#paramValue(weatherData, "Wsymb2"), isDay),
+			feelsLikeTemp: this.#calculateApparentTemperature(weatherData),
+			sunrise: sunrise,
+			sunset: sunset,
+			snow: 0,
+			rain: 0,
+			precipitationAmount: 0
+		};
+
+		// Determine precipitation amount and category
+		const precipitationValue = this.#paramValue(weatherData, this.config.precipitationValue);
+		const pcat = this.#paramValue(weatherData, "pcat");
+
+		switch (pcat) {
 			case 1: // Snow
-				currentWeather.snow += precipitationValue;
-				currentWeather.precipitationAmount += precipitationValue;
+				current.snow = precipitationValue;
+				current.precipitationAmount = precipitationValue;
 				break;
-			case 2: // Snow and rain, treat it as 50/50 snow and rain
-				currentWeather.snow += precipitationValue / 2;
-				currentWeather.rain += precipitationValue / 2;
-				currentWeather.precipitationAmount += precipitationValue;
+			case 2: // Snow and rain (50/50 split)
+				current.snow = precipitationValue / 2;
+				current.rain = precipitationValue / 2;
+				current.precipitationAmount = precipitationValue;
 				break;
 			case 3: // Rain
 			case 4: // Drizzle
 			case 5: // Freezing rain
 			case 6: // Freezing drizzle
-				currentWeather.rain += precipitationValue;
-				currentWeather.precipitationAmount += precipitationValue;
+				current.rain = precipitationValue;
+				current.precipitationAmount = precipitationValue;
 				break;
+			// case 0: No precipitation - defaults already set to 0
 		}
 
-		return currentWeather;
-	},
+		return current;
+	}
 
-	/**
-	 * Takes all the data points and converts it to one WeatherObject per day.
-	 * @param {object[]} allWeatherData Array of weatherdata
-	 * @param {object} coordinates Coordinates of the locations of the weather
-	 * @param {string} groupBy The interval to use for grouping the data (day, hour)
-	 * @returns {WeatherObject[]} Array of weather objects
-	 */
-	convertWeatherDataGroupedBy (allWeatherData, coordinates, groupBy = "day") {
-		let currentWeather;
-		let result = [];
-
-		let allWeatherObjects = this.fillInGaps(allWeatherData).map((weatherData) => this.convertWeatherDataToObject(weatherData, coordinates));
+	#convertWeatherDataGroupedBy (allWeatherData, coordinates, groupBy = "day") {
+		const result = [];
+		let currentWeather = null;
 		let dayWeatherTypes = [];
 
+		const allWeatherObjects = allWeatherData.map((data) => this.#convertWeatherDataToObject(data, coordinates));
+
 		for (const weatherObject of allWeatherObjects) {
-			//If its the first object or if a day/hour change we need to reset the summary object
-			if (!currentWeather || !currentWeather.date.isSame(weatherObject.date, groupBy)) {
-				currentWeather = new WeatherObject();
+			const objDate = new Date(weatherObject.date);
+
+			// Check if we need a new group (day or hour change)
+			const needNewGroup = !currentWeather || !this.#isSamePeriod(currentWeather.date, objDate, groupBy);
+
+			if (needNewGroup) {
+				currentWeather = {
+					date: objDate,
+					temperature: weatherObject.temperature,
+					minTemperature: Infinity,
+					maxTemperature: -Infinity,
+					snow: 0,
+					rain: 0,
+					precipitationAmount: 0,
+					sunrise: weatherObject.sunrise,
+					sunset: weatherObject.sunset
+				};
 				dayWeatherTypes = [];
-				currentWeather.temperature = weatherObject.temperature;
-				currentWeather.date = weatherObject.date;
-				currentWeather.minTemperature = Infinity;
-				currentWeather.maxTemperature = -Infinity;
-				currentWeather.snow = 0;
-				currentWeather.rain = 0;
-				currentWeather.precipitationAmount = 0;
 				result.push(currentWeather);
 			}
 
-			//Keep track of what icons have been used for each hour of daytime and use the middle one for the forecast
-			if (weatherObject.isDayTime()) {
+			// Track weather types during daytime
+			const { sunrise: daySunrise, sunset: daySunset } = getSunTimes(objDate, coordinates.lat, coordinates.lon);
+			const isDay = isDayTime(objDate, daySunrise, daySunset);
+
+			if (isDay) {
 				dayWeatherTypes.push(weatherObject.weatherType);
 			}
+
+			// Use median weather type from daytime hours
 			if (dayWeatherTypes.length > 0) {
 				currentWeather.weatherType = dayWeatherTypes[Math.floor(dayWeatherTypes.length / 2)];
 			} else {
 				currentWeather.weatherType = weatherObject.weatherType;
 			}
 
-			//All other properties is either a sum, min or max of each hour
+			// Aggregate min/max and precipitation
 			currentWeather.minTemperature = Math.min(currentWeather.minTemperature, weatherObject.temperature);
 			currentWeather.maxTemperature = Math.max(currentWeather.maxTemperature, weatherObject.temperature);
 			currentWeather.snow += weatherObject.snow;
@@ -216,116 +270,128 @@ WeatherProvider.register("smhi", {
 		}
 
 		return result;
-	},
+	}
 
-	/**
-	 * Resolve coordinates from the response data (probably preferably to use
-	 * this if it's not matching the config values exactly)
-	 * @param {object} data Response data from the weather service
-	 * @returns {{lon, lat}} the lat/long coordinates of the data
-	 */
-	resolveCoordinates (data) {
-		return { lat: data.geometry.coordinates[0][1], lon: data.geometry.coordinates[0][0] };
-	},
+	#isSamePeriod (date1, date2, groupBy) {
+		if (groupBy === "hour") {
+			return date1.getFullYear() === date2.getFullYear()
+				&& date1.getMonth() === date2.getMonth()
+				&& date1.getDate() === date2.getDate()
+				&& date1.getHours() === date2.getHours();
+		} else { // day
+			return date1.getFullYear() === date2.getFullYear()
+				&& date1.getMonth() === date2.getMonth()
+				&& date1.getDate() === date2.getDate();
+		}
+	}
 
-	/**
-	 * The distance between the data points is increasing in the data the more distant the prediction is.
-	 * Find these gaps and fill them with the previous hours data to make the data returned a complete set.
-	 * @param {object[]} data Response data from the weather service
-	 * @returns {object[]} Given data with filled gaps
-	 */
-	fillInGaps (data) {
-		let result = [];
+	#fillInGaps (data) {
+		if (data.length === 0) return [];
+
+		const result = [];
+		result.push(data[0]); // Keep first data point
+
 		for (let i = 1; i < data.length; i++) {
-			let to = moment(data[i].validTime);
-			let from = moment(data[i - 1].validTime);
-			let hours = moment.duration(to.diff(from)).asHours();
-			// For each hour add a datapoint but change the validTime
-			for (let j = 0; j < hours; j++) {
-				let current = Object.assign({}, data[i]);
-				current.validTime = from.clone().add(j, "hours").toISOString();
+			const from = new Date(data[i - 1].validTime);
+			const to = new Date(data[i].validTime);
+			const hours = Math.floor((to - from) / (1000 * 60 * 60));
+
+			// Fill gaps with previous data point (start at j=1 since j=0 is already pushed)
+			for (let j = 1; j < hours; j++) {
+				const current = { ...data[i - 1] };
+				const newTime = new Date(from);
+				newTime.setHours(from.getHours() + j);
+				current.validTime = newTime.toISOString();
 				result.push(current);
 			}
+
+			// Push original data point
+			result.push(data[i]);
 		}
+
 		return result;
-	},
+	}
 
-	/**
-	 * Helper method to get a property from the returned data set.
-	 * @param {object} currentWeatherData Weatherdata to get from
-	 * @param {string} name The name of the property
-	 * @returns {string} The value of the property in the weatherdata
-	 */
-	paramValue (currentWeatherData, name) {
-		return currentWeatherData.parameters.filter((p) => p.name === name).flatMap((p) => p.values)[0];
-	},
+	#resolveCoordinates (data) {
+		// SMHI returns coordinates in [lon, lat] format
+		// Fall back to config if response structure is unexpected
+		if (data?.geometry?.coordinates?.[0] && Array.isArray(data.geometry.coordinates[0]) && data.geometry.coordinates[0].length >= 2) {
+			return {
+				lat: data.geometry.coordinates[0][1],
+				lon: data.geometry.coordinates[0][0]
+			};
+		}
 
-	/**
-	 * Map the icon value from SMHI to an icon that MagicMirror² understands.
-	 * Uses different icons depending on if its daytime or nighttime.
-	 * SMHI's description of what the numeric value means is the comment after the case.
-	 * @param {number} input The SMHI icon value
-	 * @param {boolean} isDayTime True if the icon should be for daytime, false for nighttime
-	 * @returns {string} The icon name for the MagicMirror
-	 */
-	convertWeatherType (input, isDayTime) {
+		Log.warn("[smhi] Invalid coordinate structure in response, using config values");
+		return {
+			lat: this.config.lat,
+			lon: this.config.lon
+		};
+	}
+
+	#calculateApparentTemperature (weatherData) {
+		const Ta = this.#paramValue(weatherData, "t");
+		const rh = this.#paramValue(weatherData, "r");
+		const ws = this.#paramValue(weatherData, "ws");
+		const p = (rh / 100) * 6.105 * Math.exp((17.27 * Ta) / (237.7 + Ta));
+
+		return Ta + 0.33 * p - 0.7 * ws - 4;
+	}
+
+	#paramValue (weatherData, name) {
+		const param = weatherData.parameters.find((p) => p.name === name);
+		return param ? param.values[0] : null;
+	}
+
+	#convertWeatherType (input, isDayTime) {
 		switch (input) {
 			case 1:
 				return isDayTime ? "day-sunny" : "night-clear"; // Clear sky
 			case 2:
 				return isDayTime ? "day-sunny-overcast" : "night-partly-cloudy"; // Nearly clear sky
 			case 3:
-				return isDayTime ? "day-cloudy" : "night-cloudy"; // Variable cloudiness
 			case 4:
-				return isDayTime ? "day-cloudy" : "night-cloudy"; // Halfclear sky
+				return isDayTime ? "day-cloudy" : "night-cloudy"; // Variable/halfclear cloudiness
 			case 5:
-				return "cloudy"; // Cloudy sky
 			case 6:
-				return "cloudy"; // Overcast
+				return "cloudy"; // Cloudy/overcast
 			case 7:
-				return "fog"; // Fog
+				return "fog";
 			case 8:
-				return "showers"; // Light rain showers
 			case 9:
-				return "showers"; // Moderate rain showers
 			case 10:
-				return "showers"; // Heavy rain showers
+				return "showers"; // Light/moderate/heavy rain showers
 			case 11:
-				return "thunderstorm"; // Thunderstorm
-			case 12:
-				return "sleet"; // Light sleet showers
-			case 13:
-				return "sleet"; // Moderate sleet showers
-			case 14:
-				return "sleet"; // Heavy sleet showers
-			case 15:
-				return "snow"; // Light snow showers
-			case 16:
-				return "snow"; // Moderate snow showers
-			case 17:
-				return "snow"; // Heavy snow showers
-			case 18:
-				return "rain"; // Light rain
-			case 19:
-				return "rain"; // Moderate rain
-			case 20:
-				return "rain"; // Heavy rain
 			case 21:
-				return "thunderstorm"; // Thunder
+				return "thunderstorm";
+			case 12:
+			case 13:
+			case 14:
 			case 22:
-				return "sleet"; // Light sleet
 			case 23:
-				return "sleet"; // Moderate sleet
 			case 24:
-				return "sleet"; // Heavy sleet
+				return "sleet"; // Light/moderate/heavy sleet (showers)
+			case 15:
+			case 16:
+			case 17:
 			case 25:
-				return "snow"; // Light snowfall
 			case 26:
-				return "snow"; // Moderate snowfall
 			case 27:
-				return "snow"; // Heavy snowfall
+				return "snow"; // Light/moderate/heavy snow (showers/fall)
+			case 18:
+			case 19:
+			case 20:
+				return "rain"; // Light/moderate/heavy rain
 			default:
-				return "";
+				return null;
 		}
 	}
-});
+
+	#getUrl () {
+		const lon = this.config.lon.toFixed(6);
+		const lat = this.config.lat.toFixed(6);
+		return `https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/${lon}/lat/${lat}/data.json`;
+	}
+}
+
+module.exports = SMHIProvider;
