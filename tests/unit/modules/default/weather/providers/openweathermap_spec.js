@@ -70,9 +70,9 @@ describe("OpenWeatherMapProvider", () => {
 			expect(provider.fetcher).toBeNull();
 		});
 
-		it("should throw if setCallbacks not called before initialize", async () => {
+		it("should throw if setCallbacks not called before initialize", () => {
 			const provider = new OpenWeatherMapProvider({ apiKey: "test" });
-			await expect(provider.initialize()).rejects.toThrow("setCallbacks");
+			expect(() => provider.initialize()).toThrow("setCallbacks");
 		});
 	});
 

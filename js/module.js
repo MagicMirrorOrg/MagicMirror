@@ -43,7 +43,7 @@ const Module = Class.extend({
 	/**
 	 * Called when the module is started.
 	 */
-	async start () {
+	start () {
 		Log.info(`Starting module: ${this.name}`);
 	},
 

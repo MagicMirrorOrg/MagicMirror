@@ -25,7 +25,7 @@ class WeatherAPIProvider {
 		this.onErrorCallback = null;
 	}
 
-	async initialize () {
+	initialize () {
 		this.#validateConfig();
 		this.#initializeFetcher();
 	}

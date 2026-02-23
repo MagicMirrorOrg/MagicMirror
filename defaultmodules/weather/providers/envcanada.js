@@ -31,7 +31,7 @@ class EnvCanadaProvider {
 		this.currentHour = null; // Track current hour for URL updates
 	}
 
-	async initialize () {
+	initialize () {
 		this.#validateConfig();
 		this.#initializeFetcher();
 	}

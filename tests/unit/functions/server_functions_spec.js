@@ -163,7 +163,7 @@ describe("server_functions tests", () => {
 			expect(corsResponse.set.mock.calls[2][1]).toBe("value2");
 		});
 
-		it("Gets User-Agent from configuration", async () => {
+		it("Gets User-Agent from configuration", () => {
 			const previousConfig = global.config;
 			global.config = {};
 			let userAgent;

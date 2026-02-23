@@ -67,10 +67,10 @@ describe("EnvCanadaProvider", () => {
 			expect(provider.config.type).toBe("current");
 		});
 
-		it("should throw error if siteCode or provCode missing", async () => {
+		it("should throw error if siteCode or provCode missing", () => {
 			const provider = new EnvCanadaProvider({ siteCode: "", provCode: "" });
 			provider.setCallbacks(vi.fn(), vi.fn());
-			await expect(provider.initialize()).rejects.toThrow("siteCode and provCode are required");
+			expect(() => provider.initialize()).toThrow("siteCode and provCode are required");
 		});
 	});
 

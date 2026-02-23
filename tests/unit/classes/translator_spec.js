@@ -93,7 +93,7 @@ describe("Translator", () => {
 			Translator.coreTranslationsFallback = coreTranslationsFallback;
 		};
 
-		it("should return custom module translation", async () => {
+		it("should return custom module translation", () => {
 			const { Translator } = createTranslationTestEnvironment();
 			setTranslations(Translator);
 
@@ -104,7 +104,7 @@ describe("Translator", () => {
 			expect(translation).toBe("Hallo fewieden");
 		});
 
-		it("should return core translation", async () => {
+		it("should return core translation", () => {
 			const { Translator } = createTranslationTestEnvironment();
 			setTranslations(Translator);
 			let translation = Translator.translate({ name: "MMM-Module" }, "FOO");
@@ -113,28 +113,28 @@ describe("Translator", () => {
 			expect(translation).toBe("Bar Lorem Ipsum");
 		});
 
-		it("should return custom module translation fallback", async () => {
+		it("should return custom module translation fallback", () => {
 			const { Translator } = createTranslationTestEnvironment();
 			setTranslations(Translator);
 			const translation = Translator.translate({ name: "MMM-Module" }, "A key");
 			expect(translation).toBe("A translation");
 		});
 
-		it("should return core translation fallback", async () => {
+		it("should return core translation fallback", () => {
 			const { Translator } = createTranslationTestEnvironment();
 			setTranslations(Translator);
 			const translation = Translator.translate({ name: "MMM-Module" }, "Fallback");
 			expect(translation).toBe("core fallback");
 		});
 
-		it("should return translation with placeholder for missing variables", async () => {
+		it("should return translation with placeholder for missing variables", () => {
 			const { Translator } = createTranslationTestEnvironment();
 			setTranslations(Translator);
 			const translation = Translator.translate({ name: "MMM-Module" }, "Hello {username}");
 			expect(translation).toBe("Hallo {username}");
 		});
 
-		it("should return key if no translation was found", async () => {
+		it("should return key if no translation was found", () => {
 			const { Translator } = createTranslationTestEnvironment();
 			setTranslations(Translator);
 			const translation = Translator.translate({ name: "MMM-Module" }, "MISSING");

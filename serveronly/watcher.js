@@ -145,10 +145,10 @@ function notifyClientsToReload () {
  * Restart the server process
  * @param {string} reason The reason for the restart
  */
-async function restartServer (reason) {
+function restartServer (reason) {
 	if (restartTimer) clearTimeout(restartTimer);
 
-	restartTimer = setTimeout(async () => {
+	restartTimer = setTimeout(() => {
 		Log.info(reason);
 
 		if (child) {

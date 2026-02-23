@@ -2,7 +2,7 @@ const fs = require("node:fs");
 const { expect } = require("playwright/test");
 const helpers = require("../helpers/global-setup");
 
-const runTests = async () => {
+const runTests = () => {
 	let page;
 
 	describe("Default configuration", () => {

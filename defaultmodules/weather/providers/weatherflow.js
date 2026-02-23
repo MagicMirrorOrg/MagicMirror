@@ -31,7 +31,7 @@ class WeatherFlowProvider {
 	/**
 	 * Initialize the provider
 	 */
-	async initialize () {
+	initialize () {
 		if (!this.config.token || this.config.token === "YOUR_API_TOKEN_HERE") {
 			Log.error("[weatherflow] No API token configured. Get one at https://tempestwx.com/");
 			if (this.onErrorCallback) {

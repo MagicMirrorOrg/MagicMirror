@@ -133,7 +133,7 @@ describe("Clientonly parameter handling", () => {
 	});
 
 	describe("Display environment check", () => {
-		it("should fail without DISPLAY or WAYLAND_DISPLAY when connecting to valid server", async () => {
+		it("should fail without DISPLAY or WAYLAND_DISPLAY when connecting to valid server", () => {
 			// This test needs a running server to get past the connection phase
 			// Without DISPLAY, it should fail with display error
 			// For now, we just verify it fails (connection error comes first without server)
@@ -159,7 +159,7 @@ describe("Clientonly with running server", () => {
 		await delay(2000);
 	});
 
-	afterAll(async () => {
+	afterAll(() => {
 		if (serverProcess && serverProcess.pid) {
 			try {
 				process.kill(-serverProcess.pid);

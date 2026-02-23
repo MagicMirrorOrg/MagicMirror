@@ -75,6 +75,7 @@ export default defineConfig([
 			"object-shorthand": ["error", "methods"],
 			"one-var": "off",
 			"prefer-template": "error",
+			"require-await": "error",
 			"sort-keys": "off"
 		}
 	},
