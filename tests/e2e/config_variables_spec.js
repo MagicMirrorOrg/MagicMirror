@@ -9,19 +9,19 @@ describe("config with variables and secrets", () => {
 		await helpers.stopApplication();
 	});
 
-	it("config.language should be \"de\"", async () => {
+	it("config.language should be \"de\"", () => {
 		expect(config.language).toBe("de");
 	});
 
-	it("config.loglevel should be [\"ERROR\", \"LOG\", \"WARN\", \"INFO\"]", async () => {
+	it("config.loglevel should be [\"ERROR\", \"LOG\", \"WARN\", \"INFO\"]", () => {
 		expect(config.logLevel).toStrictEqual(["ERROR", "LOG", "WARN", "INFO"]);
 	});
 
-	it("config.ipWhitelist should be [\"::ffff:127.0.0.1\", \"::1\", \"127.0.0.1\"]", async () => {
+	it("config.ipWhitelist should be [\"::ffff:127.0.0.1\", \"::1\", \"127.0.0.1\"]", () => {
 		expect(config.ipWhitelist).toStrictEqual(["::ffff:127.0.0.1", "::1", "127.0.0.1"]);
 	});
 
-	it("config.timeFormat should be 12", async () => {
+	it("config.timeFormat should be 12", () => {
 		expect(config.timeFormat).toBe(12); // default is 24
 	});
 

@@ -24,7 +24,7 @@ class PirateweatherProvider {
 		this.onErrorCallback = onErrorCallback;
 	}
 
-	async initialize () {
+	initialize () {
 		if (!this.config.apiKey) {
 			Log.error("[pirateweather] No API key configured");
 			if (this.onErrorCallback) {

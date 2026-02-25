@@ -29,7 +29,7 @@ class SMHIProvider {
 		this.onErrorCallback = null;
 	}
 
-	async initialize () {
+	initialize () {
 		try {
 			// SMHI requires max 6 decimal places
 			validateCoordinates(this.config, 6);

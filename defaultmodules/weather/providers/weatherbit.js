@@ -27,7 +27,7 @@ class WeatherbitProvider {
 		this.onErrorCallback = onErrorCallback;
 	}
 
-	async initialize () {
+	initialize () {
 		if (!this.config.apiKey || this.config.apiKey === "YOUR_API_KEY_HERE") {
 			Log.error("[weatherbit] No API key configured");
 			if (this.onErrorCallback) {

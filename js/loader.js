@@ -193,7 +193,7 @@ const Loader = (function () {
 	 * @param {string} fileName Path of the file we want to load.
 	 * @returns {Promise} resolved when the file is loaded
 	 */
-	const loadFile = async function (fileName) {
+	const loadFile = function (fileName) {
 		const extension = fileName.slice((Math.max(0, fileName.lastIndexOf(".")) || Infinity) + 1);
 		let script, stylesheet;
 
@@ -267,10 +267,10 @@ const Loader = (function () {
 		 * @param {Module} module The module that calls the loadFile function.
 		 * @returns {Promise} resolved when the file is loaded
 		 */
-		async loadFileForModule (fileName, module) {
+		loadFileForModule (fileName, module) {
 			if (loadedFiles.indexOf(fileName.toLowerCase()) !== -1) {
 				Log.log(`File already loaded: ${fileName}`);
-				return;
+				return Promise.resolve();
 			}
 
 			if (fileName.indexOf("http://") === 0 || fileName.indexOf("https://") === 0 || fileName.indexOf("/") !== -1) {

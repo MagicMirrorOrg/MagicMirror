@@ -7,7 +7,7 @@ describe("Default modules utils tests", () => {
 	describe("formatTime", () => {
 		const time = new Date();
 
-		beforeEach(async () => {
+		beforeEach(() => {
 			time.setHours(13, 13);
 		});
 

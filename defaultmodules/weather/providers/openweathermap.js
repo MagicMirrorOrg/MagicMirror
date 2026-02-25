@@ -28,7 +28,7 @@ class OpenWeatherMapProvider {
 		this.locationName = null;
 	}
 
-	async initialize () {
+	initialize () {
 		// Validate callbacks exist
 		if (typeof this.onErrorCallback !== "function") {
 			throw new Error("setCallbacks() must be called before initialize()");
