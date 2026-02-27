@@ -42,6 +42,7 @@
 	"MODULE_ERROR_UNSPECIFIED": "查看日誌以了解詳情。",
 
 	"NEWSFEED_NO_ITEMS": "目前沒有新聞。",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "文章無法在此處顯示。",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² 有可用更新。",
 	"UPDATE_NOTIFICATION_MODULE": "{MODULE_NAME} 模組有可用更新。",

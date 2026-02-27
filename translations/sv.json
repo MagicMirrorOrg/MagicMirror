@@ -42,6 +42,7 @@
 	"MODULE_ERROR_UNSPECIFIED": "Vänligen kontrollera loggarna för mer information.",
 
 	"NEWSFEED_NO_ITEMS": "Inga nyheter för tillfället.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Artikeln kan inte visas här.",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² uppdatering finns tillgänglig.",
 	"UPDATE_NOTIFICATION_MODULE": "Uppdatering finns tillgänglig av {MODULE_NAME} modulen.",

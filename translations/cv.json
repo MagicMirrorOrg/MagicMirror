@@ -41,6 +41,7 @@
 	"MODULE_ERROR_UNSPECIFIED": "Тӗп лог ҫӗнтерӗ.",
 
 	"NEWSFEED_NO_ITEMS": "Пулас ҫӗнтер ҫук.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Article cannot be displayed here.",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² валли ҫӗнетӳ пур.",
 	"UPDATE_NOTIFICATION_MODULE": "{MODULE_NAME} модуль валли ҫӗнетӳ пур.",

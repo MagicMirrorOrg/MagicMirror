@@ -42,6 +42,7 @@
 	"MODULE_ERROR_UNSPECIFIED": "Ελέγξτε τα αρχεία καταγραφής για περισσότερες λεπτομέρειες.",
 
 	"NEWSFEED_NO_ITEMS": "Δεν υπάρχουν ειδήσεις αυτή τη στιγμή.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Το άρθρο δεν μπορεί να εμφανιστεί εδώ.",
 
 	"UPDATE_NOTIFICATION": "Διατίθεται ενημέρωση MagicMirror².",
 	"UPDATE_NOTIFICATION_MODULE": "Διατίθεται ενημέρωση για το module {MODULE_NAME}.",

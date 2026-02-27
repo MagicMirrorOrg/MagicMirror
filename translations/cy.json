@@ -41,6 +41,7 @@
 	"MODULE_ERROR_UNSPECIFIED": "Gwiriwch y logiau am ragor o fanylion.",
 
 	"NEWSFEED_NO_ITEMS": "Dim newyddion ar hyn o bryd.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Ni ellir dangos yr erthygl yma.",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² mwy diweddar yn barod.",
 	"UPDATE_NOTIFICATION_MODULE": "Mae diweddaraiad ar gyfer y modiwl {MODULE_NAME}.",

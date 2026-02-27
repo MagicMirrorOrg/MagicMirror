@@ -42,6 +42,7 @@
 	"MODULE_ERROR_UNSPECIFIED": "Lisateabe saamiseks kontrollige logifaile.",
 
 	"NEWSFEED_NO_ITEMS": "Hetkel ei ole uudiseid.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Artiklit ei saa siin kuvada.",
 
 	"UPDATE_NOTIFICATION": "MagicMirror²'le on uuendus saadaval.",
 	"UPDATE_NOTIFICATION_MODULE": "Uuendus saadaval {MODULE_NAME} moodulile.",

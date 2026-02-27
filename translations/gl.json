@@ -42,6 +42,7 @@
 	"MODULE_ERROR_UNSPECIFIED": "Verifique os rexistros para obter máis información.",
 
 	"NEWSFEED_NO_ITEMS": "Non hai novas no momento.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "O artigo non se pode mostrar aquí.",
 
 	"UPDATE_NOTIFICATION": "Actualización dispoñible para MagicMirror².",
 	"UPDATE_NOTIFICATION_MODULE": "Actualización dispoñible para o módulo {MODULE_NAME}.",

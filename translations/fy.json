@@ -41,6 +41,7 @@
 	"MODULE_ERROR_UNSPECIFIED": "Sjoch de logs foar mear ynformaasje.",
 
 	"NEWSFEED_NO_ITEMS": "Op it stuit gjin nijsberjochten.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Artikel kin hjir net werjûn wurde.",
 
 	"UPDATE_NOTIFICATION": "Der is in update beskikber foar MagicMirror².",
 	"UPDATE_NOTIFICATION_MODULE": "Der is in update beskikber foar it {MODULE_NAME} module.",

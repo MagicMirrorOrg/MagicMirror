@@ -42,6 +42,7 @@
 	"MODULE_ERROR_UNSPECIFIED": "Tjek logfiler for flere detaljer.",
 
 	"NEWSFEED_NO_ITEMS": "Ingen nyheder i øjeblikket.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Artiklen kan ikke vises her.",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² opdatering tilgængelig.",
 	"UPDATE_NOTIFICATION_MODULE": "Opdatering tilgængelig for {MODULE_NAME} modulet.",

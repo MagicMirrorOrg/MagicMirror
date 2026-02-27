@@ -42,6 +42,7 @@
 	"MODULE_ERROR_UNSPECIFIED": "ตรวจสอบบันทึกสำหรับรายละเอียดเพิ่มเติม",
 
 	"NEWSFEED_NO_ITEMS": "ไม่มีข่าวในขณะนี้",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "ไม่สามารถแสดงบทความที่นี่ได้",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² มีการอัปเดต",
 	"UPDATE_NOTIFICATION_MODULE": "มีการอัปเดตสำหรับโมดูล {MODULE_NAME}",

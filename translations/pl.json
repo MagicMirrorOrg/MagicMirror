@@ -42,6 +42,7 @@
 	"MODULE_ERROR_UNSPECIFIED": "Sprawdź logi, aby uzyskać więcej informacji.",
 
 	"NEWSFEED_NO_ITEMS": "Brak wiadomości w tej chwili.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Artykuł nie może być wyświetlony tutaj.",
 
 	"UPDATE_NOTIFICATION": "Dostępna jest aktualizacja MagicMirror².",
 	"UPDATE_NOTIFICATION_MODULE": "Dostępna jest aktualizacja modułu {MODULE_NAME}.",

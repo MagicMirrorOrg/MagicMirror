@@ -42,6 +42,7 @@
 	"MODULE_ERROR_UNSPECIFIED": "Skontrolujte protokoly pre viac informácií.",
 
 	"NEWSFEED_NO_ITEMS": "Momentálne žiadne správy.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Článok sa tu nedá zobraziť.",
 
 	"UPDATE_NOTIFICATION": "Dostupná aktualizácia pre MagicMirror².",
 	"UPDATE_NOTIFICATION_MODULE": "Dostupná aktualizácia pre modul {MODULE_NAME}.",

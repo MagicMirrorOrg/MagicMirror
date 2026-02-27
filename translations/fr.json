@@ -43,6 +43,7 @@
 	"MODULE_ERROR_UNSPECIFIED": "Consultez les journaux pour plus de détails.",
 
 	"NEWSFEED_NO_ITEMS": "Aucune nouvelle pour le moment.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "L'article ne peut pas être affiché ici.",
 
 	"UPDATE_NOTIFICATION": "Une mise à jour de MagicMirror² est disponible",
 	"UPDATE_NOTIFICATION_MODULE": "Une mise à jour est disponible pour le module {MODULE_NAME}.",

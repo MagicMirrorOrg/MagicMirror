@@ -42,6 +42,7 @@
 	"MODULE_ERROR_UNSPECIFIED": "Tarkista lokitiedostot saadaksesi lisätietoja.",
 
 	"NEWSFEED_NO_ITEMS": "Ei uutisia tällä hetkellä.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Artikkelia ei voi näyttää täällä.",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² päivitys saatavilla.",
 	"UPDATE_NOTIFICATION_MODULE": "Päivitys saatavilla moduulille {MODULE_NAME}.",

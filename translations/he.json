@@ -42,6 +42,7 @@
 	"MODULE_ERROR_UNSPECIFIED": "בדוק את היומנים לפרטים נוספים.",
 
 	"NEWSFEED_NO_ITEMS": "אין חדשות כרגע.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "לא ניתן להציג את המאמר כאן.",
 
 	"UPDATE_NOTIFICATION": "עדכון זמין ל-MagicMirror²",
 	"UPDATE_NOTIFICATION_MODULE": "עדכון זמין ב-{MODULE_NAME} מודול",

@@ -42,6 +42,7 @@
 	"MODULE_ERROR_UNSPECIFIED": "Vennligst sjekk loggfilene for meir informasjon.",
 
 	"NEWSFEED_NO_ITEMS": "Ingen nyhende tilgjengeleg no.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Artikkelen kan ikkje visast her.",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² oppdatering er tilgjengeleg.",
 	"UPDATE_NOTIFICATION_MODULE": "Oppdatering tilgjengeleg for modulen {MODULE_NAME}.",
