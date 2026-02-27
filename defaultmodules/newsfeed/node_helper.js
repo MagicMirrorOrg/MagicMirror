@@ -13,6 +13,28 @@ module.exports = NodeHelper.create({
 	socketNotificationReceived (notification, payload) {
 		if (notification === "ADD_FEED") {
 			this.createFetcher(payload.feed, payload.config);
+		} else if (notification === "CHECK_ARTICLE_URL") {
+			this.checkArticleUrl(payload.url);
+		}
+	},
+
+	/**
+	 * Checks whether a URL can be displayed in an iframe by inspecting
+	 * X-Frame-Options and Content-Security-Policy headers server-side.
+	 * @param {string} url The article URL to check.
+	 */
+	async checkArticleUrl (url) {
+		try {
+			const response = await fetch(url, { method: "HEAD" });
+			const xfo = response.headers.get("x-frame-options");
+			const csp = response.headers.get("content-security-policy");
+			// sameorigin also blocks since the article is on a different origin than MM
+			const blockedByXFO = xfo && ["deny", "sameorigin"].includes(xfo.toLowerCase().trim());
+			const blockedByCSP = csp && (/frame-ancestors\s+['"]?none['"]?/).test(csp);
+			this.sendSocketNotification("ARTICLE_URL_STATUS", { url, canFrame: !blockedByXFO && !blockedByCSP });
+		} catch {
+			// Network error or HEAD not supported — let the browser try the iframe anyway
+			this.sendSocketNotification("ARTICLE_URL_STATUS", { url, canFrame: true });
 		}
 	},
 
