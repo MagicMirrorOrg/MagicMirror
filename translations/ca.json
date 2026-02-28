@@ -41,6 +41,7 @@
 	"MODULE_ERROR_UNSPECIFIED": "Consulta els registres per a més detalls.",
 
 	"NEWSFEED_NO_ITEMS": "No hi ha notícies disponibles en aquest moment.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "L'article no es pot mostrar aquí.",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² actualizació disponible.",
 	"UPDATE_NOTIFICATION_MODULE": "Disponible una actualizació per al mòdul {MODULE_NAME}.",

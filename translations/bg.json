@@ -42,6 +42,7 @@
 	"MODULE_ERROR_UNSPECIFIED": "Проверете логовете за повече подробности.",
 
 	"NEWSFEED_NO_ITEMS": "Няма новини в момента.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Статията не може да бъде показана тук.",
 
 	"UPDATE_NOTIFICATION": "Налична е актуализация за MagicMirror².",
 	"UPDATE_NOTIFICATION_MODULE": "Налична е актуализация за модула „{MODULE_NAME}“.",

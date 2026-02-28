@@ -42,6 +42,7 @@
 	"MODULE_ERROR_UNSPECIFIED": "詳細はログを確認してください。",
 
 	"NEWSFEED_NO_ITEMS": "現在ニュースはありません。",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "この記事はここでは表示できません。",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² のアップデートが利用可能です。",
 	"UPDATE_NOTIFICATION_MODULE": "モジュール {MODULE_NAME} のアップデートが利用可能です。",

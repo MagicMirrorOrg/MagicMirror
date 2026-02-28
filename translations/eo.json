@@ -43,6 +43,7 @@
 	"MODULE_ERROR_UNSPECIFIED": "Kontrolu la protokolajn dosierojn por pli da detaloj.",
 
 	"NEWSFEED_NO_ITEMS": "Momente neniu novaĵoj.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Artikolo ne estas montrebla ĉi tie.",
 
 	"UPDATE_NOTIFICATION": "Ĝisdatigo por MagicMirror² disponebla.",
 	"UPDATE_NOTIFICATION_MODULE": "Ĝisdatigo por la modulo „{MODULE_NAME}“ disponebla.",

@@ -42,6 +42,7 @@
 	"MODULE_ERROR_UNSPECIFIED": "Verificați jurnalele pentru mai multe detalii.",
 
 	"NEWSFEED_NO_ITEMS": "Nu există știri în acest moment.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Articolul nu poate fi afișat aici.",
 
 	"UPDATE_NOTIFICATION": "Un update este disponibil pentru MagicMirror².",
 	"UPDATE_NOTIFICATION_MODULE": "Un update este disponibil pentru modulul {MODULE_NAME}.",

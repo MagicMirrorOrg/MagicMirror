@@ -42,6 +42,7 @@
 	"MODULE_ERROR_UNSPECIFIED": "Patikrinkite žurnalus, kad gautumėte daugiau informacijos.",
 
 	"NEWSFEED_NO_ITEMS": "Šiuo metu naujienų nėra.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Straipsnis čia negali būti rodomas.",
 
 	"UPDATE_NOTIFICATION": "Galimas MagicMirror² naujinimas.",
 	"UPDATE_NOTIFICATION_MODULE": "Galimas {MODULE_NAME} naujinimas.",

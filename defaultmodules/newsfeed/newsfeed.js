@@ -74,6 +74,10 @@ Module.register("newsfeed", {
 		this.error = null;
 		this.activeItem = 0;
 		this.scrollPosition = 0;
+		this.articleIframe = null;
+		this.articleContainer = null;
+		this.articleFrameCheckPending = false;
+		this.articleUnavailable = false;
 
 		this.registerFeeds();
 
@@ -97,15 +101,60 @@ Module.register("newsfeed", {
 		} else if (notification === "NEWSFEED_ERROR") {
 			this.error = this.translate(payload.error_type);
 			this.scheduleUpdateInterval();
+		} else if (notification === "ARTICLE_URL_STATUS") {
+			if (this.config.showFullArticle) {
+				this.articleFrameCheckPending = false;
+				this.articleUnavailable = !payload.canFrame;
+				if (!this.articleUnavailable) {
+					// Article can be framed — now shift the bottom bar to allow scrolling
+					document.getElementsByClassName("region bottom bar")[0].classList.add("newsfeed-fullarticle");
+				}
+				this.updateDom(100);
+				if (this.articleUnavailable) {
+					// Briefly show the unavailable message, then return to normal newsfeed view
+					setTimeout(() => {
+						this.resetDescrOrFullArticleAndTimer();
+						this.updateDom(500);
+					}, 3000);
+				}
+			}
 		}
+	},
+
+	//Override getDom to handle the full article case with error handling
+	getDom () {
+		if (this.config.showFullArticle) {
+			this.activeItemHash = this.newsItems[this.activeItem]?.hash;
+			const wrapper = document.createElement("div");
+			if (this.articleFrameCheckPending) {
+				// Still waiting for the server-side framing check
+				wrapper.innerHTML = `<div class="small dimmed">${this.translate("LOADING")}</div>`;
+			} else if (this.articleUnavailable) {
+				wrapper.innerHTML = `<div class="small dimmed">${this.translate("NEWSFEED_ARTICLE_UNAVAILABLE")}</div>`;
+			} else {
+				const container = document.createElement("div");
+				container.className = "newsfeed-fullarticle-container";
+				container.scrollTop = this.scrollPosition;
+				const iframe = document.createElement("iframe");
+				iframe.className = "newsfeed-fullarticle";
+				// Always use the direct article URL — the CORS proxy is for server-side
+				// RSS feed fetching, not for browser iframes.
+				const item = this.newsItems[this.activeItem];
+				iframe.src = item ? (typeof item.url === "string" ? item.url : item.url.href) : "";
+				this.articleIframe = iframe;
+				this.articleContainer = container;
+				container.appendChild(iframe);
+				wrapper.appendChild(container);
+			}
+			return Promise.resolve(wrapper);
+		}
+		return this._super();
 	},
 
 	//Override fetching of template name
 	getTemplate () {
 		if (this.config.feedUrl) {
 			return "oldconfig.njk";
-		} else if (this.config.showFullArticle) {
-			return "fullarticle.njk";
 		}
 		return "newsfeed.njk";
 	},
@@ -116,13 +165,6 @@ Module.register("newsfeed", {
 			this.activeItem = 0;
 		}
 		this.activeItemCount = this.newsItems.length;
-		// this.config.showFullArticle is a run-time configuration, triggered by optional notifications
-		if (this.config.showFullArticle) {
-			this.activeItemHash = this.newsItems[this.activeItem]?.hash;
-			return {
-				url: this.getActiveItemURL()
-			};
-		}
 		if (this.error) {
 			this.activeItemHash = undefined;
 			return {
@@ -358,6 +400,10 @@ Module.register("newsfeed", {
 		this.isShowingDescription = this.config.showDescription;
 		this.config.showFullArticle = false;
 		this.scrollPosition = 0;
+		this.articleIframe = null;
+		this.articleContainer = null;
+		this.articleFrameCheckPending = false;
+		this.articleUnavailable = false;
 		// reset bottom bar alignment
 		document.getElementsByClassName("region bottom bar")[0].classList.remove("newsfeed-fullarticle");
 		if (!this.timer) {
@@ -386,23 +432,26 @@ Module.register("newsfeed", {
 			Log.debug(`[newsfeed] going from article #${before} to #${this.activeItem} (of ${this.newsItems.length})`);
 			this.updateDom(100);
 		}
-		// if "more details" is received the first time: show article summary, on second time show full article
 		else if (notification === "ARTICLE_MORE_DETAILS") {
-			// full article is already showing, so scrolling down
 			if (this.config.showFullArticle === true) {
+				// iframe already showing — scroll down
 				this.scrollPosition += this.config.scrollLength;
-				window.scrollTo(0, this.scrollPosition);
-				Log.debug("[newsfeed] scrolling down");
-				Log.debug(`[newsfeed] ARTICLE_MORE_DETAILS, scroll position: ${this.config.scrollLength}`);
-			} else {
+				if (this.articleContainer) this.articleContainer.scrollTop = this.scrollPosition;
+				Log.debug(`[newsfeed] scrolling down, offset: ${this.scrollPosition}`);
+			} else if (this.isShowingDescription) {
+				// description visible — step up to full article
 				this.showFullArticle();
+			} else {
+				// only title visible — show description first
+				this.isShowingDescription = true;
+				Log.debug("[newsfeed] showing article description");
+				this.updateDom(100);
 			}
 		} else if (notification === "ARTICLE_SCROLL_UP") {
 			if (this.config.showFullArticle === true) {
-				this.scrollPosition -= this.config.scrollLength;
-				window.scrollTo(0, this.scrollPosition);
-				Log.debug("[newsfeed] scrolling up");
-				Log.debug(`[newsfeed] ARTICLE_SCROLL_UP, scroll position: ${this.config.scrollLength}`);
+				this.scrollPosition = Math.max(0, this.scrollPosition - this.config.scrollLength);
+				if (this.articleContainer) this.articleContainer.scrollTop = this.scrollPosition;
+				Log.debug(`[newsfeed] scrolling up, offset: ${this.scrollPosition}`);
 			}
 		} else if (notification === "ARTICLE_LESS_DETAILS") {
 			this.resetDescrOrFullArticleAndTimer();
@@ -416,26 +465,37 @@ Module.register("newsfeed", {
 				this.showFullArticle();
 			}
 		} else if (notification === "ARTICLE_INFO_REQUEST") {
-			this.sendNotification("ARTICLE_INFO_RESPONSE", {
-				title: this.newsItems[this.activeItem].title,
-				source: this.newsItems[this.activeItem].sourceTitle,
-				date: this.newsItems[this.activeItem].pubdate,
-				desc: this.newsItems[this.activeItem].description,
-				url: this.getActiveItemURL()
-			});
+			const infoItem = this.newsItems[this.activeItem];
+			if (infoItem) {
+				this.sendNotification("ARTICLE_INFO_RESPONSE", {
+					title: infoItem.title,
+					source: infoItem.sourceTitle,
+					date: infoItem.pubdate,
+					desc: infoItem.description,
+					url: typeof infoItem.url === "string" ? infoItem.url : infoItem.url.href
+				});
+			}
 		}
 	},
 
 	showFullArticle () {
-		this.isShowingDescription = !this.isShowingDescription;
-		this.config.showFullArticle = !this.isShowingDescription;
-		// make bottom bar align to top to allow scrolling
-		if (this.config.showFullArticle === true) {
-			document.getElementsByClassName("region bottom bar")[0].classList.add("newsfeed-fullarticle");
+		const item = this.newsItems[this.activeItem];
+		const hasUrl = item && item.url && (typeof item.url === "string" ? item.url : item.url.href);
+		if (!hasUrl) {
+			Log.debug("[newsfeed] no article URL available, skipping full article view");
+			return;
 		}
+		this.isShowingDescription = false;
+		this.config.showFullArticle = true;
+		// Check server-side whether the article URL allows framing.
+		// The bottom bar CSS class is only added once we know the iframe will be shown.
+		this.articleFrameCheckPending = true;
+		this.articleUnavailable = false;
+		const rawUrl = typeof item.url === "string" ? item.url : item.url.href;
+		this.sendSocketNotification("CHECK_ARTICLE_URL", { url: rawUrl });
 		clearInterval(this.timer);
 		this.timer = null;
-		Log.debug(`[newsfeed] showing ${this.isShowingDescription ? "article description" : "full article"}`);
+		Log.debug("[newsfeed] showing full article");
 		this.updateDom(100);
 	}
 });

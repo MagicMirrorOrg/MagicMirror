@@ -42,6 +42,7 @@
 	"MODULE_ERROR_UNSPECIFIED": "Vinsamlegast athugaðu skráningu fyrir frekari upplýsingar.",
 
 	"NEWSFEED_NO_ITEMS": "Engar fréttir í boði núna.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Grein er ekki hægt að sýna hér.",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² uppfærsla í boði.",
 	"UPDATE_NOTIFICATION_MODULE": "Uppfærsla í boði fyrir {MODULE_NAME} module.",

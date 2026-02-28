@@ -42,6 +42,7 @@
 	"MODULE_ERROR_UNSPECIFIED": "Bekijk de logs voor meer informatie.",
 
 	"NEWSFEED_NO_ITEMS": "Geen nieuws op dit moment.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Artikel kan hier niet worden weergegeven.",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² update beschikbaar.",
 	"UPDATE_NOTIFICATION_MODULE": "Update beschikbaar voor {MODULE_NAME} module.",

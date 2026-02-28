@@ -42,6 +42,7 @@
 	"MODULE_ERROR_UNSPECIFIED": "logmeyDaq yImev.",
 
 	"NEWSFEED_NO_ITEMS": "DaHghachmey ghobe' yImev.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "QIngheb cha' tu'be'lu'.",
 
 	"UPDATE_NOTIFICATION": " De'chu' MagicMirror² lI'laH.",
 	"UPDATE_NOTIFICATION_MODULE": "bobcho' {MODULE_NAME} lI'laH De'chu.",

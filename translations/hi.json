@@ -42,6 +42,7 @@
 	"MODULE_ERROR_UNSPECIFIED": "अधिक जानकारी के लिए लॉग जांचें।",
 
 	"NEWSFEED_NO_ITEMS": "इस समय कोई समाचार नहीं।",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "लेख यहाँ प्रदर्शित नहीं किया जा सकता।",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² अपडेट उपलब्ध।",
 	"UPDATE_NOTIFICATION_MODULE": "{MODULE_NAME} मॉड्यूल के लिए उपलब्ध अद्यतन।",

@@ -41,6 +41,7 @@
 	"MODULE_ERROR_UNSPECIFIED": "Silakan periksa log untuk informasi lebih lanjut.",
 
 	"NEWSFEED_NO_ITEMS": "Saat ini tidak ada berita.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Artikel tidak dapat ditampilkan di sini.",
 
 	"UPDATE_NOTIFICATION": "Memperbarui MagicMirror² tersedia.",
 	"UPDATE_NOTIFICATION_MODULE": "Memperbarui tersedia untuk modul {MODULE_NAME}.",

@@ -42,6 +42,7 @@
 	"MODULE_ERROR_UNSPECIFIED": "Provjerite dnevnike za više informacija.",
 
 	"NEWSFEED_NO_ITEMS": "Trenutno nema vijesti.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Članak se ne može prikazati ovdje.",
 
 	"UPDATE_NOTIFICATION": "Dostupna je aktualizacija MagicMirror².",
 	"UPDATE_NOTIFICATION_MODULE": "Dostupna je aktualizacija modula {MODULE_NAME}.",
