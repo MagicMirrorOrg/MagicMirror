@@ -63,8 +63,6 @@ const CalendarFetcherUtils = {
 				.subtract(1, "seconds");
 
 		Object.entries(data).forEach(([key, event]) => {
-			Log.debug("Processing entry...");
-
 			if (event.type !== "VEVENT") {
 				return;
 			}
@@ -78,7 +76,7 @@ const CalendarFetcherUtils = {
 				return;
 			}
 
-			Log.debug(`Event:\n${JSON.stringify(event, null, 2)}`);
+			Log.debug(`Event: ${title} | start: ${event.start} | end: ${event.end} | recurring: ${!!event.rrule}`);
 
 			const location = CalendarFetcherUtils.unwrapParameterValue(event.location) || false;
 			const geo = event.geo || false;
@@ -222,6 +220,8 @@ const CalendarFetcherUtils = {
 					startMoment = moment(inst.start).tz(localTimezone);
 					endMoment = moment(inst.end).tz(localTimezone);
 				}
+				// Events without DTEND (e.g. reminders) get start === end from node-ical;
+				// extend to end-of-day so they remain visible on the calendar.
 				if (startMoment.valueOf() === endMoment.valueOf()) endMoment = endMoment.endOf("day");
 				return { event: inst.event, startMoment, endMoment, isRecurring: inst.isRecurring, isFullDay: inst.isFullDay };
 			});
