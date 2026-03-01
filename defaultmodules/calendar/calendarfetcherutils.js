@@ -79,15 +79,6 @@ const CalendarFetcherUtils = {
 				return;
 			}
 
-			// FIXME: Ugly fix to solve the facebook birthday issue.
-			// Otherwise, the recurring events only show the birthday for next year.
-			let isFacebookBirthday = false;
-			if (typeof event.uid !== "undefined") {
-				if (event.uid.indexOf("@facebook.com") !== -1) {
-					isFacebookBirthday = true;
-				}
-			}
-
 			if (event.type === "VEVENT") {
 				Log.debug(`Event:\n${JSON.stringify(event, null, 2)}`);
 				let eventStartMoment = eventDate(event, "start");
@@ -98,12 +89,8 @@ const CalendarFetcherUtils = {
 				} else if (typeof event.duration !== "undefined") {
 					eventEndMoment = eventStartMoment.clone().add(moment.duration(event.duration));
 				} else {
-					if (!isFacebookBirthday) {
-						// make copy of start date, separate storage area
-						eventEndMoment = eventStartMoment.clone();
-					} else {
-						eventEndMoment = eventStartMoment.clone().add(1, "days");
-					}
+					// make copy of start date, separate storage area
+					eventEndMoment = eventStartMoment.clone();
 				}
 
 				Log.debug(`start: ${eventStartMoment.toDate()}`);
@@ -114,10 +101,10 @@ const CalendarFetcherUtils = {
 				const description = event.description || false;
 
 				let instances = [];
-				if (event.rrule && typeof event.rrule !== "undefined" && !isFacebookBirthday) {
+				if (event.rrule !== undefined) {
 					instances = CalendarFetcherUtils.expandRecurringEvent(event, pastLocalMoment, futureLocalMoment);
 				} else {
-					const fullDayEvent = isFacebookBirthday ? true : CalendarFetcherUtils.isFullDayEvent(event);
+					const fullDayEvent = CalendarFetcherUtils.isFullDayEvent(event);
 					let end = eventEndMoment;
 					if (fullDayEvent && eventStartMoment.valueOf() === end.valueOf()) {
 						end = end.endOf("day");
@@ -144,7 +131,7 @@ const CalendarFetcherUtils = {
 					}
 
 					const title = CalendarFetcherUtils.getTitleFromEvent(instanceEvent);
-					const fullDay = isFacebookBirthday ? true : CalendarFetcherUtils.isFullDayEvent(event);
+					const fullDay = CalendarFetcherUtils.isFullDayEvent(event);
 
 					Log.debug(`saving event: ${title}`);
 					newEvents.push({

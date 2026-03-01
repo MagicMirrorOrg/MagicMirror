@@ -198,5 +198,36 @@ END:VCALENDAR`);
 			expect(startMoments[2].format("YYYY-MM-DD")).toBe("2025-11-10");
 			expect(startMoments[2].hour()).toBe(0); // Midnight
 		});
+
+		it("should show Facebook birthday events in the current year, not in the birth year", () => {
+			// Facebook birthday calendars use DTSTART with the actual birth year (e.g. 1990),
+			// which previously caused rrule.js to return the wrong year occurrence.
+			// With rrule-temporal this works correctly without any special-casing.
+			const data = ical.parseICS(`BEGIN:VCALENDAR
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:19900215
+RRULE:FREQ=YEARLY
+DTSTAMP:20260101T000000Z
+UID:birthday_123456789@facebook.com
+SUMMARY:Jane Doe's Birthday
+END:VEVENT
+END:VCALENDAR`);
+
+			const thisYear = moment().year();
+
+			const filteredEvents = CalendarFetcherUtils.filterEvents(data, {
+				...defaultConfig,
+				maximumNumberOfDays: 366
+			});
+
+			const birthdayEvents = filteredEvents.filter((e) => e.title === "Jane Doe's Birthday");
+			expect(birthdayEvents.length).toBeGreaterThanOrEqual(1);
+
+			// The event must expand to a recent year — NOT to the birth year 1990.
+			// It should be the current or next year depending on whether Feb 15 has already passed.
+			const startYear = moment(birthdayEvents[0].startDate, "x").year();
+			expect(startYear).toBeGreaterThanOrEqual(thisYear);
+			expect(startYear).toBeLessThanOrEqual(thisYear + 1);
+		});
 	});
 });
