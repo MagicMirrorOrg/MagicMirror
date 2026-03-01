@@ -289,6 +289,95 @@ END:VCALENDAR`);
 			expect(instances).toHaveLength(1);
 			expect(instances[0].endMoment.format("HH:mm:ss")).toBe("23:59:59");
 		});
+
+		it("should apply RECURRENCE-ID overrides (moved single occurrence)", () => {
+			// A weekly event on Mondays at 10:00, but the second occurrence is moved to Tuesday 14:00
+			const data = ical.parseICS(`BEGIN:VCALENDAR
+BEGIN:VEVENT
+DTSTART;TZID=Europe/Berlin:20260302T100000
+DTEND;TZID=Europe/Berlin:20260302T110000
+RRULE:FREQ=WEEKLY;COUNT=3
+UID:recurrence-override@test
+SUMMARY:Weekly Standup
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=Europe/Berlin:20260310T140000
+DTEND;TZID=Europe/Berlin:20260310T150000
+RECURRENCE-ID;TZID=Europe/Berlin:20260309T100000
+UID:recurrence-override@test
+SUMMARY:Moved Standup
+END:VEVENT
+END:VCALENDAR`);
+
+			const instances = CalendarFetcherUtils.expandRecurringEvent(
+				data["recurrence-override@test"],
+				moment("2026-03-01"),
+				moment("2026-03-31")
+			);
+
+			expect(instances).toHaveLength(3);
+
+			// First occurrence: Monday March 2, 10:00 (unchanged)
+			expect(instances[0].startMoment.clone().tz("Europe/Berlin").format("YYYY-MM-DD HH:mm")).toBe("2026-03-02 10:00");
+			expect(CalendarFetcherUtils.getTitleFromEvent(instances[0].event)).toBe("Weekly Standup");
+
+			// Second occurrence: moved to Tuesday March 10, 14:00
+			expect(instances[1].startMoment.clone().tz("Europe/Berlin").format("YYYY-MM-DD HH:mm")).toBe("2026-03-10 14:00");
+			expect(CalendarFetcherUtils.getTitleFromEvent(instances[1].event)).toBe("Moved Standup");
+
+			// Third occurrence: Monday March 16, 10:00 (unchanged)
+			expect(instances[2].startMoment.clone().tz("Europe/Berlin").format("YYYY-MM-DD HH:mm")).toBe("2026-03-16 10:00");
+		});
+
+		it("should handle events with DURATION instead of DTEND", () => {
+			// RFC 5545 allows DURATION as alternative to DTEND
+			const data = ical.parseICS(`BEGIN:VCALENDAR
+BEGIN:VEVENT
+DTSTART:20260315T090000Z
+DURATION:PT1H30M
+UID:duration-test@test
+SUMMARY:Duration Event
+END:VEVENT
+END:VCALENDAR`);
+
+			const instances = CalendarFetcherUtils.expandRecurringEvent(
+				data["duration-test@test"],
+				moment("2026-03-14"),
+				moment("2026-03-16")
+			);
+
+			expect(instances).toHaveLength(1);
+			// End should be 90 minutes after start
+			const durationMinutes = instances[0].endMoment.diff(instances[0].startMoment, "minutes");
+			expect(durationMinutes).toBe(90);
+		});
+
+		it("should handle recurring events with DURATION instead of DTEND", () => {
+			const data = ical.parseICS(`BEGIN:VCALENDAR
+BEGIN:VEVENT
+DTSTART;TZID=Europe/Berlin:20260301T080000
+DURATION:PT45M
+RRULE:FREQ=DAILY;COUNT=3
+UID:recurring-duration@test
+SUMMARY:Daily Scrum
+END:VEVENT
+END:VCALENDAR`);
+
+			const instances = CalendarFetcherUtils.expandRecurringEvent(
+				data["recurring-duration@test"],
+				moment("2026-02-28"),
+				moment("2026-03-05")
+			);
+
+			expect(instances).toHaveLength(3);
+			for (const inst of instances) {
+				const durationMinutes = inst.endMoment.diff(inst.startMoment, "minutes");
+				expect(durationMinutes).toBe(45);
+			}
+			expect(instances[0].startMoment.clone().tz("Europe/Berlin").format("YYYY-MM-DD")).toBe("2026-03-01");
+			expect(instances[1].startMoment.clone().tz("Europe/Berlin").format("YYYY-MM-DD")).toBe("2026-03-02");
+			expect(instances[2].startMoment.clone().tz("Europe/Berlin").format("YYYY-MM-DD")).toBe("2026-03-03");
+		});
 	});
 
 	describe("filterEvents error handling", () => {
