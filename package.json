@@ -35,6 +35,18 @@
 		}
 	},
 	"main": "js/electron.js",
+	"exports": "./js/electron.js",
+	"files": [
+		"clientonly",
+		"css",
+		"defaultmodules",
+		"js",
+		"serveronly",
+		"translations",
+		"favicon.svg",
+		"index.html"
+	],
+	"sideEffects": true,
 	"scripts": {
 		"config:check": "node js/check_config.js",
 		"postinstall": "git clean -df fonts vendor modules/default",
