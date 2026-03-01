@@ -94,24 +94,18 @@ DTSTART;TZID=Europe/Amsterdam:20250311T090000
 DTEND;TZID=Europe/Amsterdam:20250311T091500
 RRULE:FREQ=WEEKLY;BYDAY=FR,MO,TH,TU,WE,SA,SU
 DTSTAMP:20250531T091103Z
-ORGANIZER;CN=test:mailto:test@test.com
 UID:67e65a1d-b889-4451-8cab-5518cecb9c66
-CREATED:20230111T114612Z
-DESCRIPTION:Test
-LAST-MODIFIED:20250528T071312Z
-SEQUENCE:1
-STATUS:CONFIRMED
 SUMMARY:Test
-TRANSP:OPAQUE
 END:VEVENT`);
 
-			const moments = CalendarFetcherUtils.getMomentsFromRecurringEvent(data["67e65a1d-b889-4451-8cab-5518cecb9c66"], moment(), moment().add(365, "days"));
+			const instances = CalendarFetcherUtils.expandRecurringEvent(data["67e65a1d-b889-4451-8cab-5518cecb9c66"], moment(), moment().add(365, "days"));
 
-			const januaryFirst = moments.filter((m) => m.format("MM-DD") === "01-01");
-			const julyFirst = moments.filter((m) => m.format("MM-DD") === "07-01");
+			const januaryFirst = instances.filter((i) => i.startMoment.format("MM-DD") === "01-01");
+			const julyFirst = instances.filter((i) => i.startMoment.format("MM-DD") === "07-01");
 
-			expect(januaryFirst[0].toISOString(true)).toContain("09:00:00.000+01:00");
-			expect(julyFirst[0].toISOString(true)).toContain("09:00:00.000+02:00");
+			// The underlying timestamps must represent 09:00 Amsterdam time, regardless of local timezone
+			expect(januaryFirst[0].startMoment.clone().tz("Europe/Amsterdam").toISOString(true)).toContain("09:00:00.000+01:00");
+			expect(julyFirst[0].startMoment.clone().tz("Europe/Amsterdam").toISOString(true)).toContain("09:00:00.000+02:00");
 		});
 
 		it("should return correct day-of-week for full-day recurring events across DST transitions", () => {
@@ -128,32 +122,29 @@ SUMMARY:Weekly Monday Event
 END:VEVENT
 END:VCALENDAR`);
 
-			const event = data["dst-test@google.com"];
-
 			// Simulate calendar with timezone (e.g., from X-WR-TIMEZONE or user config)
 			// This is how MagicMirror handles full-day events from calendars with timezones
-			event.start.tz = "America/Chicago";
+			data["dst-test@google.com"].start.tz = "America/Chicago";
 
 			const pastMoment = moment("2025-10-01");
 			const futureMoment = moment("2025-11-30");
-
-			// Get moments for the recurring event
-			const moments = CalendarFetcherUtils.getMomentsFromRecurringEvent(event, pastMoment, futureMoment, 0);
+			const instances = CalendarFetcherUtils.expandRecurringEvent(data["dst-test@google.com"], pastMoment, futureMoment);
+			const startMoments = instances.map((i) => i.startMoment);
 
 			// All occurrences should be on Monday (day() === 1) at midnight
 			// Oct 27, 2025 - Before DST ends
 			// Nov 3, 2025 - After DST ends (this was showing as Sunday before the fix)
 			// Nov 10, 2025 - After DST ends
-			expect(moments).toHaveLength(3);
-			expect(moments[0].day()).toBe(1); // Monday
-			expect(moments[0].format("YYYY-MM-DD")).toBe("2025-10-27");
-			expect(moments[0].hour()).toBe(0); // Midnight
-			expect(moments[1].day()).toBe(1); // Monday (not Sunday!)
-			expect(moments[1].format("YYYY-MM-DD")).toBe("2025-11-03");
-			expect(moments[1].hour()).toBe(0); // Midnight
-			expect(moments[2].day()).toBe(1); // Monday
-			expect(moments[2].format("YYYY-MM-DD")).toBe("2025-11-10");
-			expect(moments[2].hour()).toBe(0); // Midnight
+			expect(startMoments).toHaveLength(3);
+			expect(startMoments[0].day()).toBe(1); // Monday
+			expect(startMoments[0].format("YYYY-MM-DD")).toBe("2025-10-27");
+			expect(startMoments[0].hour()).toBe(0); // Midnight
+			expect(startMoments[1].day()).toBe(1); // Monday (not Sunday!)
+			expect(startMoments[1].format("YYYY-MM-DD")).toBe("2025-11-03");
+			expect(startMoments[1].hour()).toBe(0); // Midnight
+			expect(startMoments[2].day()).toBe(1); // Monday
+			expect(startMoments[2].format("YYYY-MM-DD")).toBe("2025-11-10");
+			expect(startMoments[2].hour()).toBe(0); // Midnight
 		});
 	});
 });
