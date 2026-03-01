@@ -39,12 +39,19 @@ describe("Calendar fetcher utils test", () => {
 			const yesterday = moment().subtract(1, "days").startOf("day").toDate();
 			const today = moment().startOf("day").toDate();
 			const tomorrow = moment().add(1, "days").startOf("day").toDate();
+			const dayAfterTomorrow = moment().add(2, "days").startOf("day").toDate();
+			// Mark as DATE-only (full-day) events per ICS convention
+			yesterday.dateOnly = true;
+			today.dateOnly = true;
+			tomorrow.dateOnly = true;
+			dayAfterTomorrow.dateOnly = true;
 
+			// ICS convention: DTEND for a full-day event is the exclusive next day
 			const filteredEvents = CalendarFetcherUtils.filterEvents(
 				{
-					pastEvent: { type: "VEVENT", start: yesterday, end: yesterday, summary: "pastEvent" },
-					ongoingEvent: { type: "VEVENT", start: today, end: today, summary: "ongoingEvent" },
-					upcomingEvent: { type: "VEVENT", start: tomorrow, end: tomorrow, summary: "upcomingEvent" }
+					pastEvent: { type: "VEVENT", start: yesterday, end: today, summary: "pastEvent" },
+					ongoingEvent: { type: "VEVENT", start: today, end: tomorrow, summary: "ongoingEvent" },
+					upcomingEvent: { type: "VEVENT", start: tomorrow, end: dayAfterTomorrow, summary: "upcomingEvent" }
 				},
 				defaultConfig
 			);

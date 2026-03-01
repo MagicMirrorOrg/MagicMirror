@@ -50,11 +50,6 @@ const CalendarFetcherUtils = {
 	filterEvents (data, config) {
 		const newEvents = [];
 
-		const eventDate = function (event, time) {
-			const startMoment = event[time].tz ? moment.tz(event[time], event[time].tz) : moment.tz(event[time], CalendarFetcherUtils.getLocalTimezone());
-			return CalendarFetcherUtils.isFullDayEvent(event) ? startMoment.startOf("day") : startMoment;
-		};
-
 		Log.debug(`There are ${Object.entries(data).length} calendar entries.`);
 
 		const now = moment();
@@ -81,42 +76,12 @@ const CalendarFetcherUtils = {
 
 			if (event.type === "VEVENT") {
 				Log.debug(`Event:\n${JSON.stringify(event, null, 2)}`);
-				let eventStartMoment = eventDate(event, "start");
-				let eventEndMoment;
-
-				if (typeof event.end !== "undefined") {
-					eventEndMoment = eventDate(event, "end");
-				} else if (typeof event.duration !== "undefined") {
-					eventEndMoment = eventStartMoment.clone().add(moment.duration(event.duration));
-				} else {
-					// make copy of start date, separate storage area
-					eventEndMoment = eventStartMoment.clone();
-				}
-
-				Log.debug(`start: ${eventStartMoment.toDate()}`);
-				Log.debug(`end:   ${eventEndMoment.toDate()}`);
 
 				const location = event.location || false;
 				const geo = event.geo || false;
 				const description = event.description || false;
 
-				let instances = [];
-				if (event.rrule !== undefined) {
-					instances = CalendarFetcherUtils.expandRecurringEvent(event, pastLocalMoment, futureLocalMoment);
-				} else {
-					const fullDayEvent = CalendarFetcherUtils.isFullDayEvent(event);
-					let end = eventEndMoment;
-					if (fullDayEvent && eventStartMoment.valueOf() === end.valueOf()) {
-						end = end.endOf("day");
-					}
-
-					instances.push({
-						event: event,
-						startMoment: eventStartMoment,
-						endMoment: end,
-						isRecurring: false
-					});
-				}
+				const instances = CalendarFetcherUtils.expandRecurringEvent(event, pastLocalMoment, futureLocalMoment);
 
 				for (const instance of instances) {
 					const { event: instanceEvent, startMoment, endMoment, isRecurring } = instance;
@@ -133,7 +98,7 @@ const CalendarFetcherUtils = {
 					const title = CalendarFetcherUtils.getTitleFromEvent(instanceEvent);
 					const fullDay = CalendarFetcherUtils.isFullDayEvent(event);
 
-					Log.debug(`saving event: ${title}`);
+					Log.debug(`saving event: ${title}, start: ${startMoment.toDate()}, end: ${endMoment.toDate()}`);
 					newEvents.push({
 						title: title,
 						startDate: startMoment.format("x"),
