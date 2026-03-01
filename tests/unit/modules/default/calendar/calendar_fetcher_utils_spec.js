@@ -54,6 +54,58 @@ describe("Calendar fetcher utils test", () => {
 			expect(filteredEvents[1].title).toBe("upcomingEvent");
 		});
 
+		it("should hide excluded event with 'until' when far away and show it when close", () => {
+			// An event ending in 10 days with until='3 days' should be hidden now
+			const farStart = moment().add(9, "days").toDate();
+			const farEnd = moment().add(10, "days").toDate();
+			// An event ending in 1 day with until='3 days' should be shown (within 3 days of end)
+			const closeStart = moment().add(1, "hours").toDate();
+			const closeEnd = moment().add(1, "days").toDate();
+
+			const config = {
+				...defaultConfig,
+				excludedEvents: [{ filterBy: "Payment", until: "3 days" }]
+			};
+
+			const filteredEvents = CalendarFetcherUtils.filterEvents(
+				{
+					farPayment: { type: "VEVENT", start: farStart, end: farEnd, summary: "Payment due" },
+					closePayment: { type: "VEVENT", start: closeStart, end: closeEnd, summary: "Payment reminder" },
+					normalEvent: { type: "VEVENT", start: closeStart, end: closeEnd, summary: "Normal event" }
+				},
+				config
+			);
+
+			// farPayment should be hidden (now < endDate - 3 days)
+			// closePayment should show (now >= endDate - 3 days)
+			// normalEvent should show (not matched by filter)
+			const titles = filteredEvents.map((e) => e.title);
+			expect(titles).not.toContain("Payment due");
+			expect(titles).toContain("Payment reminder");
+			expect(titles).toContain("Normal event");
+		});
+
+		it("should fully exclude event when excludedEvents has no 'until'", () => {
+			const start = moment().add(1, "hours").toDate();
+			const end = moment().add(2, "hours").toDate();
+
+			const config = {
+				...defaultConfig,
+				excludedEvents: ["Hidden"]
+			};
+
+			const filteredEvents = CalendarFetcherUtils.filterEvents(
+				{
+					hidden: { type: "VEVENT", start, end, summary: "Hidden event" },
+					visible: { type: "VEVENT", start, end, summary: "Visible event" }
+				},
+				config
+			);
+
+			expect(filteredEvents).toHaveLength(1);
+			expect(filteredEvents[0].title).toBe("Visible event");
+		});
+
 		it("should return the correct times when recurring events pass through daylight saving time", () => {
 			const data = ical.parseICS(`BEGIN:VEVENT
 DTSTART;TZID=Europe/Amsterdam:20250311T090000
