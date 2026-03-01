@@ -271,6 +271,30 @@ END:VCALENDAR`);
 			expect(ev.geo).toEqual({ lat: 52.52, lon: 13.4 });
 			expect(ev.description).toBe("Agenda TBD");
 		});
+
+		it("should return correct firstYear for a full-day event on January 1st", () => {
+			// node-ical creates DATE-only events with the local Date constructor: new Date(year, month, day).
+			// getFullYear() on a locally-constructed date always returns the correct calendar year
+			// regardless of the server's UTC offset — guard against regressions that switch to getUTCFullYear().
+			const data = ical.parseICS(`BEGIN:VCALENDAR
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:19900101
+DTEND;VALUE=DATE:19900102
+RRULE:FREQ=YEARLY
+UID:newyear-birthday@test
+SUMMARY:New Year Baby
+END:VEVENT
+END:VCALENDAR`);
+
+			const filteredEvents = CalendarFetcherUtils.filterEvents(data, {
+				...defaultConfig,
+				maximumNumberOfDays: 366
+			});
+
+			const birthday = filteredEvents.find((e) => e.title === "New Year Baby");
+			expect(birthday).toBeDefined();
+			expect(birthday.firstYear).toBe(1990);
+		});
 	});
 
 	describe("expandRecurringEvent", () => {
