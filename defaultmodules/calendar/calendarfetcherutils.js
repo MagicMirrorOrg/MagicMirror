@@ -74,7 +74,7 @@ const CalendarFetcherUtils = {
 			Log.debug(`title: ${title}`);
 
 			// Return quickly if event should be excluded.
-			let { excluded, eventFilterUntil } = this.shouldEventBeExcluded(config, title);
+			let { excluded, until: eventFilterUntil } = this.shouldEventBeExcluded(config, title);
 			if (excluded) {
 				return;
 			}
