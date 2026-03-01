@@ -158,7 +158,7 @@ const CalendarFetcherUtils = {
 				increment = until[1].slice(-1) === "s" ? until[1] : `${until[1]}s`, // Massage the data for moment js
 				filterUntil = moment(endDate.format()).subtract(value, increment);
 
-			return now < filterUntil;
+			return now.isBefore(filterUntil);
 		}
 
 		return false;
@@ -178,7 +178,7 @@ const CalendarFetcherUtils = {
 			// Assume if leading slash, there is also trailing slash
 			if (filter[0] === "/") {
 				// Strip leading and trailing slashes
-				regexFilter = filter.substr(1).slice(0, -1);
+				regexFilter = filter.slice(1, -1);
 			}
 			return new RegExp(regexFilter, regexFlags).test(title);
 		} else {
