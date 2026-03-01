@@ -65,52 +65,54 @@ const CalendarFetcherUtils = {
 		Object.entries(data).forEach(([key, event]) => {
 			Log.debug("Processing entry...");
 
+			if (event.type !== "VEVENT") {
+				return;
+			}
+
 			const title = CalendarFetcherUtils.getTitleFromEvent(event);
 			Log.debug(`title: ${title}`);
 
 			// Return quickly if event should be excluded.
-			let { excluded, until: eventFilterUntil } = CalendarFetcherUtils.shouldEventBeExcluded(config, title);
+			const { excluded, until: eventFilterUntil } = CalendarFetcherUtils.shouldEventBeExcluded(config, title);
 			if (excluded) {
 				return;
 			}
 
-			if (event.type === "VEVENT") {
-				Log.debug(`Event:\n${JSON.stringify(event, null, 2)}`);
+			Log.debug(`Event:\n${JSON.stringify(event, null, 2)}`);
 
-				const location = CalendarFetcherUtils.unwrapParameterValue(event.location) || false;
-				const geo = event.geo || false;
-				const description = CalendarFetcherUtils.unwrapParameterValue(event.description) || false;
+			const location = CalendarFetcherUtils.unwrapParameterValue(event.location) || false;
+			const geo = event.geo || false;
+			const description = CalendarFetcherUtils.unwrapParameterValue(event.description) || false;
 
-				const instances = CalendarFetcherUtils.expandRecurringEvent(event, pastLocalMoment, futureLocalMoment);
+			const instances = CalendarFetcherUtils.expandRecurringEvent(event, pastLocalMoment, futureLocalMoment);
 
-				for (const instance of instances) {
-					const { event: instanceEvent, startMoment, endMoment, isRecurring, isFullDay } = instance;
+			for (const instance of instances) {
+				const { event: instanceEvent, startMoment, endMoment, isRecurring, isFullDay } = instance;
 
-					// Filter logic
-					if (endMoment.isBefore(pastLocalMoment) || startMoment.isAfter(futureLocalMoment)) {
-						continue;
-					}
-
-					if (CalendarFetcherUtils.timeFilterApplies(now, endMoment, eventFilterUntil)) {
-						continue;
-					}
-
-					const title = CalendarFetcherUtils.getTitleFromEvent(instanceEvent);
-
-					Log.debug(`saving event: ${title}, start: ${startMoment.toDate()}, end: ${endMoment.toDate()}`);
-					newEvents.push({
-						title: title,
-						startDate: startMoment.format("x"),
-						endDate: endMoment.format("x"),
-						fullDayEvent: isFullDay,
-						recurringEvent: isRecurring,
-						class: event.class,
-						firstYear: event.start.getFullYear(),
-						location: CalendarFetcherUtils.unwrapParameterValue(instanceEvent.location) || location,
-						geo: instanceEvent.geo || geo,
-						description: CalendarFetcherUtils.unwrapParameterValue(instanceEvent.description) || description
-					});
+				// Filter logic
+				if (endMoment.isBefore(pastLocalMoment) || startMoment.isAfter(futureLocalMoment)) {
+					continue;
 				}
+
+				if (CalendarFetcherUtils.timeFilterApplies(now, endMoment, eventFilterUntil)) {
+					continue;
+				}
+
+				const instanceTitle = CalendarFetcherUtils.getTitleFromEvent(instanceEvent);
+
+				Log.debug(`saving event: ${instanceTitle}, start: ${startMoment.toDate()}, end: ${endMoment.toDate()}`);
+				newEvents.push({
+					title: instanceTitle,
+					startDate: startMoment.format("x"),
+					endDate: endMoment.format("x"),
+					fullDayEvent: isFullDay,
+					recurringEvent: isRecurring,
+					class: event.class,
+					firstYear: event.start.getFullYear(),
+					location: CalendarFetcherUtils.unwrapParameterValue(instanceEvent.location) || location,
+					geo: instanceEvent.geo || geo,
+					description: CalendarFetcherUtils.unwrapParameterValue(instanceEvent.description) || description
+				});
 			}
 		});
 
