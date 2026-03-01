@@ -236,6 +236,59 @@ END:VCALENDAR`);
 			expect(startYear).toBeGreaterThanOrEqual(thisYear);
 			expect(startYear).toBeLessThanOrEqual(thisYear + 1);
 		});
+
+		it("should produce a correctly shaped event object with all required fields", () => {
+			const start = moment("2026-03-10T14:00:00").toDate();
+			const end = moment("2026-03-10T15:00:00").toDate();
+
+			const filteredEvents = CalendarFetcherUtils.filterEvents(
+				{
+					event1: {
+						type: "VEVENT",
+						start,
+						end,
+						summary: "Team Meeting",
+						description: "Agenda TBD",
+						location: "Room 42",
+						geo: { lat: 52.52, lon: 13.4 },
+						class: "PUBLIC",
+						uid: "shaped-event@test"
+					}
+				},
+				defaultConfig
+			);
+
+			expect(filteredEvents).toHaveLength(1);
+			const ev = filteredEvents[0];
+			expect(ev.title).toBe("Team Meeting");
+			expect(ev.startDate).toBe(moment(start).format("x"));
+			expect(ev.endDate).toBe(moment(end).format("x"));
+			expect(ev.fullDayEvent).toBe(false);
+			expect(ev.recurringEvent).toBe(false);
+			expect(ev.class).toBe("PUBLIC");
+			expect(ev.firstYear).toBe(2026);
+			expect(ev.location).toBe("Room 42");
+			expect(ev.geo).toEqual({ lat: 52.52, lon: 13.4 });
+			expect(ev.description).toBe("Agenda TBD");
+		});
+	});
+
+	describe("expandRecurringEvent", () => {
+		it("should extend end to end-of-day when event has no DTEND", () => {
+			// node-ical sets end === start when DTEND is absent; our code extends to endOf("day")
+			const data = ical.parseICS(`BEGIN:VCALENDAR
+BEGIN:VEVENT
+DTSTART:20260222T100000Z
+UID:no-end-test@test
+SUMMARY:No End Event
+END:VEVENT
+END:VCALENDAR`);
+
+			const instances = CalendarFetcherUtils.expandRecurringEvent(data["no-end-test@test"], moment("2026-02-20"), moment("2026-02-24"));
+
+			expect(instances).toHaveLength(1);
+			expect(instances[0].endMoment.format("HH:mm:ss")).toBe("23:59:59");
+		});
 	});
 
 	describe("filterEvents error handling", () => {
