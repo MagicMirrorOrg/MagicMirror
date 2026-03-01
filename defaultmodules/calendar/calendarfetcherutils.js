@@ -45,7 +45,7 @@ const CalendarFetcherUtils = {
 	 * Filter the events from ical according to the given config
 	 * @param {object} data the calendar data from ical
 	 * @param {object} config The configuration object
-	 * @returns {string[]} the filtered events
+	 * @returns {object[]} the filtered events
 	 */
 	filterEvents (data, config) {
 		const newEvents = [];
