@@ -79,6 +79,34 @@ describe("OpenMeteoProvider", () => {
 			await provider.initialize();
 			expect(provider.locationName).toBe("Munich, BY");
 		});
+
+		it("should build query dates from local date, not ISO UTC conversion", async () => {
+			const toISOStringSpy = vi.spyOn(Date.prototype, "toISOString").mockReturnValue("2000-01-01T00:00:00.000Z");
+			try {
+				const provider = new OpenMeteoProvider({
+					lat: 48.14,
+					lon: 11.58,
+					type: "current"
+				});
+
+				await provider.initialize();
+
+				const url = new URL(provider.fetcher.url);
+				const params = url.searchParams;
+				const now = new Date();
+				const expectedToday = [
+					now.getFullYear(),
+					String(now.getMonth() + 1).padStart(2, "0"),
+					String(now.getDate()).padStart(2, "0")
+				].join("-");
+
+				expect(params.get("start_date")).toBe(expectedToday);
+				expect(params.get("end_date")).toBe(expectedToday);
+				expect(params.get("start_date")).not.toBe("2000-01-01");
+			} finally {
+				toISOStringSpy.mockRestore();
+			}
+		});
 	});
 
 	describe("Current Weather Parsing", () => {

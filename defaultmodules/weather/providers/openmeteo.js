@@ -270,13 +270,13 @@ class OpenMeteoProvider {
 		const endDate = new Date(startDate);
 		endDate.setDate(endDate.getDate() + Math.max(0, Math.min(7, maxNumberOfDays)));
 
-		params.start_date = startDate.toISOString().split("T")[0];
+		params.start_date = getDateString(startDate);
 
 		switch (this.config.type) {
 			case "hourly":
 			case "daily":
 			case "forecast":
-				params.end_date = endDate.toISOString().split("T")[0];
+				params.end_date = getDateString(endDate);
 				break;
 			case "current":
 				params.current_weather = true;
