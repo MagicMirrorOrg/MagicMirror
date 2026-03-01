@@ -84,7 +84,13 @@ const CalendarFetcherUtils = {
 			const geo = event.geo || false;
 			const description = CalendarFetcherUtils.unwrapParameterValue(event.description) || false;
 
-			const instances = CalendarFetcherUtils.expandRecurringEvent(event, pastLocalMoment, futureLocalMoment);
+			let instances;
+			try {
+				instances = CalendarFetcherUtils.expandRecurringEvent(event, pastLocalMoment, futureLocalMoment);
+			} catch (error) {
+				Log.error(`Could not expand event "${title}": ${error.message}`);
+				return;
+			}
 
 			for (const instance of instances) {
 				const { event: instanceEvent, startMoment, endMoment, isRecurring, isFullDay } = instance;

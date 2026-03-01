@@ -238,6 +238,39 @@ END:VCALENDAR`);
 		});
 	});
 
+	describe("filterEvents error handling", () => {
+		it("should skip a broken event but still return other valid events", () => {
+			const start = moment().add(1, "hours").toDate();
+			const end = moment().add(2, "hours").toDate();
+
+			const icalSpy = vi.spyOn(ical, "expandRecurringEvent").mockImplementationOnce(() => {
+				throw new TypeError("invalid rrule");
+			});
+
+			const result = CalendarFetcherUtils.filterEvents(
+				{
+					brokenEvent: { type: "VEVENT", start, end, summary: "Broken" },
+					goodEvent: { type: "VEVENT", start, end, summary: "Good" }
+				},
+				defaultConfig
+			);
+
+			expect(result).toHaveLength(1);
+			expect(result[0].title).toBe("Good");
+			icalSpy.mockRestore();
+		});
+
+		it("should let expandRecurringEvent throw through directly", () => {
+			const icalSpy = vi.spyOn(ical, "expandRecurringEvent").mockImplementationOnce(() => {
+				throw new TypeError("invalid rrule");
+			});
+
+			const event = { type: "VEVENT", start: new Date(), end: new Date(), summary: "Broken Event" };
+			expect(() => CalendarFetcherUtils.expandRecurringEvent(event, moment(), moment().add(1, "days"))).toThrow("invalid rrule");
+			icalSpy.mockRestore();
+		});
+	});
+
 	describe("unwrapParameterValue", () => {
 		it("should return the val of a ParameterValue object", () => {
 			expect(CalendarFetcherUtils.unwrapParameterValue({ val: "Text", params: { LANGUAGE: "de" } })).toBe("Text");
