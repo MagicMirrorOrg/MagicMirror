@@ -77,9 +77,9 @@ const CalendarFetcherUtils = {
 			if (event.type === "VEVENT") {
 				Log.debug(`Event:\n${JSON.stringify(event, null, 2)}`);
 
-				const location = event.location || false;
+				const location = CalendarFetcherUtils.unwrapParameterValue(event.location) || false;
 				const geo = event.geo || false;
-				const description = event.description || false;
+				const description = CalendarFetcherUtils.unwrapParameterValue(event.description) || false;
 
 				const instances = CalendarFetcherUtils.expandRecurringEvent(event, pastLocalMoment, futureLocalMoment);
 
@@ -106,9 +106,9 @@ const CalendarFetcherUtils = {
 						recurringEvent: isRecurring,
 						class: event.class,
 						firstYear: event.start.getFullYear(),
-						location: instanceEvent.location || location,
+						location: CalendarFetcherUtils.unwrapParameterValue(instanceEvent.location) || location,
 						geo: instanceEvent.geo || geo,
-						description: instanceEvent.description || description
+						description: CalendarFetcherUtils.unwrapParameterValue(instanceEvent.description) || description
 					});
 				}
 			}
@@ -127,14 +127,21 @@ const CalendarFetcherUtils = {
 	 * @returns {string} The title of the event, or "Event" if no title is found.
 	 */
 	getTitleFromEvent (event) {
-		let title = "Event";
-		if (event.summary) {
-			title = typeof event.summary.val !== "undefined" ? event.summary.val : event.summary;
-		} else if (event.description) {
-			title = event.description;
-		}
+		return CalendarFetcherUtils.unwrapParameterValue(event.summary || event.description) || "Event";
+	},
 
-		return title;
+	/**
+	 * Extracts the string value from a node-ical ParameterValue object ({val, params})
+	 * or returns the value as-is if it is already a plain string.
+	 * This handles ICS properties with parameters, e.g. DESCRIPTION;LANGUAGE=de:Text.
+	 * @param {string|object} value The raw value from node-ical
+	 * @returns {string|object} The unwrapped string value, or the original value if not a ParameterValue
+	 */
+	unwrapParameterValue (value) {
+		if (value && typeof value === "object" && typeof value.val !== "undefined") {
+			return value.val;
+		}
+		return value;
 	},
 
 	/**

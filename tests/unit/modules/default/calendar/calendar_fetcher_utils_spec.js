@@ -237,4 +237,66 @@ END:VCALENDAR`);
 			expect(startYear).toBeLessThanOrEqual(thisYear + 1);
 		});
 	});
+
+	describe("unwrapParameterValue", () => {
+		it("should return the val of a ParameterValue object", () => {
+			expect(CalendarFetcherUtils.unwrapParameterValue({ val: "Text", params: { LANGUAGE: "de" } })).toBe("Text");
+		});
+
+		it("should return a plain string unchanged", () => {
+			expect(CalendarFetcherUtils.unwrapParameterValue("plain")).toBe("plain");
+		});
+
+		it("should return falsy values unchanged", () => {
+			expect(CalendarFetcherUtils.unwrapParameterValue(undefined)).toBeUndefined();
+			expect(CalendarFetcherUtils.unwrapParameterValue(false)).toBe(false);
+		});
+	});
+
+	describe("getTitleFromEvent", () => {
+		it("should return summary string directly", () => {
+			expect(CalendarFetcherUtils.getTitleFromEvent({ summary: "My Event" })).toBe("My Event");
+		});
+
+		it("should unwrap ParameterValue summary", () => {
+			expect(CalendarFetcherUtils.getTitleFromEvent({ summary: { val: "My Event", params: {} } })).toBe("My Event");
+		});
+
+		it("should fall back to description string", () => {
+			expect(CalendarFetcherUtils.getTitleFromEvent({ description: "Desc" })).toBe("Desc");
+		});
+
+		it("should unwrap ParameterValue description as fallback title", () => {
+			expect(CalendarFetcherUtils.getTitleFromEvent({ description: { val: "Desc", params: { LANGUAGE: "de" } } })).toBe("Desc");
+		});
+
+		it("should return 'Event' when neither summary nor description is present", () => {
+			expect(CalendarFetcherUtils.getTitleFromEvent({})).toBe("Event");
+		});
+	});
+
+	describe("filterEvents with ParameterValue properties", () => {
+		it("should handle DESCRIPTION;LANGUAGE=de and LOCATION;LANGUAGE=de without [object Object]", () => {
+			const start = moment().add(1, "hours").toDate();
+			const end = moment().add(2, "hours").toDate();
+
+			const filteredEvents = CalendarFetcherUtils.filterEvents(
+				{
+					event1: {
+						type: "VEVENT",
+						start,
+						end,
+						summary: "Test",
+						description: { val: "Beschreibung", params: { LANGUAGE: "de" } },
+						location: { val: "Berlin", params: { LANGUAGE: "de" } }
+					}
+				},
+				defaultConfig
+			);
+
+			expect(filteredEvents).toHaveLength(1);
+			expect(filteredEvents[0].description).toBe("Beschreibung");
+			expect(filteredEvents[0].location).toBe("Berlin");
+		});
+	});
 });
