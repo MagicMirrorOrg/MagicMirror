@@ -84,7 +84,7 @@ const CalendarFetcherUtils = {
 				const instances = CalendarFetcherUtils.expandRecurringEvent(event, pastLocalMoment, futureLocalMoment);
 
 				for (const instance of instances) {
-					const { event: instanceEvent, startMoment, endMoment, isRecurring } = instance;
+					const { event: instanceEvent, startMoment, endMoment, isRecurring, isFullDay } = instance;
 
 					// Filter logic
 					if (endMoment.isBefore(pastLocalMoment) || startMoment.isAfter(futureLocalMoment)) {
@@ -96,14 +96,13 @@ const CalendarFetcherUtils = {
 					}
 
 					const title = CalendarFetcherUtils.getTitleFromEvent(instanceEvent);
-					const fullDay = CalendarFetcherUtils.isFullDayEvent(event);
 
 					Log.debug(`saving event: ${title}, start: ${startMoment.toDate()}, end: ${endMoment.toDate()}`);
 					newEvents.push({
 						title: title,
 						startDate: startMoment.format("x"),
 						endDate: endMoment.format("x"),
-						fullDayEvent: fullDay,
+						fullDayEvent: isFullDay,
 						recurringEvent: isRecurring,
 						class: event.class,
 						firstYear: event.start.getFullYear(),
@@ -136,27 +135,6 @@ const CalendarFetcherUtils = {
 		}
 
 		return title;
-	},
-
-	/**
-	 * Checks if an event is a fullday event.
-	 * @param {object} event The event object to check.
-	 * @returns {boolean} True if the event is a fullday event, false otherwise
-	 */
-	isFullDayEvent (event) {
-		if (event.start.dateOnly || event.datetype === "date") {
-			return true;
-		}
-
-		const start = event.start || 0;
-		const startDate = new Date(start);
-		const end = event.end || 0;
-		if ((end - start) % (24 * 60 * 60 * 1000) === 0 && startDate.getHours() === 0 && startDate.getMinutes() === 0) {
-			// Is 24 hours, and starts on the middle of the night.
-			return true;
-		}
-
-		return false;
 	},
 
 	/**
@@ -230,7 +208,7 @@ const CalendarFetcherUtils = {
 					endMoment = moment(inst.end).tz(localTimezone);
 				}
 				if (startMoment.valueOf() === endMoment.valueOf()) endMoment = endMoment.endOf("day");
-				return { event: inst.event, startMoment, endMoment, isRecurring: inst.isRecurring };
+				return { event: inst.event, startMoment, endMoment, isRecurring: inst.isRecurring, isFullDay: inst.isFullDay };
 			});
 	},
 
