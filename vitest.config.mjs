@@ -21,6 +21,8 @@ export default defineConfig({
 		setupFiles: ["./tests/utils/vitest-setup.js"],
 		// Stop test execution on first failure
 		bail: 3,
+		// Automatically restore all mocks after each test to prevent leaks
+		restoreAllMocks: true,
 
 		// Shared exclude patterns
 		exclude: [

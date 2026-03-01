@@ -409,7 +409,7 @@ END:VCALENDAR`);
 			const start = moment().add(1, "hours").toDate();
 			const end = moment().add(2, "hours").toDate();
 
-			const icalSpy = vi.spyOn(ical, "expandRecurringEvent").mockImplementationOnce(() => {
+			vi.spyOn(ical, "expandRecurringEvent").mockImplementationOnce(() => {
 				throw new TypeError("invalid rrule");
 			});
 
@@ -423,17 +423,15 @@ END:VCALENDAR`);
 
 			expect(result).toHaveLength(1);
 			expect(result[0].title).toBe("Good");
-			icalSpy.mockRestore();
 		});
 
 		it("should let expandRecurringEvent throw through directly", () => {
-			const icalSpy = vi.spyOn(ical, "expandRecurringEvent").mockImplementationOnce(() => {
+			vi.spyOn(ical, "expandRecurringEvent").mockImplementationOnce(() => {
 				throw new TypeError("invalid rrule");
 			});
 
 			const event = { type: "VEVENT", start: new Date(), end: new Date(), summary: "Broken Event" };
 			expect(() => CalendarFetcherUtils.expandRecurringEvent(event, moment(), moment().add(1, "days"))).toThrow("invalid rrule");
-			icalSpy.mockRestore();
 		});
 	});
 
