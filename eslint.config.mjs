@@ -144,7 +144,8 @@ export default defineConfig([
 			],
 			"vitest/max-nested-describe": ["error", { max: 3 }],
 			"vitest/prefer-to-be": "error",
-			"vitest/prefer-to-have-length": "error"
+			"vitest/prefer-to-have-length": "error",
+			"max-lines-per-function": "off"
 		}
 	},
 	{

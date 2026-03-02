@@ -39,12 +39,19 @@ describe("Calendar fetcher utils test", () => {
 			const yesterday = moment().subtract(1, "days").startOf("day").toDate();
 			const today = moment().startOf("day").toDate();
 			const tomorrow = moment().add(1, "days").startOf("day").toDate();
+			const dayAfterTomorrow = moment().add(2, "days").startOf("day").toDate();
+			// Mark as DATE-only (full-day) events per ICS convention
+			yesterday.dateOnly = true;
+			today.dateOnly = true;
+			tomorrow.dateOnly = true;
+			dayAfterTomorrow.dateOnly = true;
 
+			// ICS convention: DTEND for a full-day event is the exclusive next day
 			const filteredEvents = CalendarFetcherUtils.filterEvents(
 				{
-					pastEvent: { type: "VEVENT", start: yesterday, end: yesterday, summary: "pastEvent" },
-					ongoingEvent: { type: "VEVENT", start: today, end: today, summary: "ongoingEvent" },
-					upcomingEvent: { type: "VEVENT", start: tomorrow, end: tomorrow, summary: "upcomingEvent" }
+					pastEvent: { type: "VEVENT", start: yesterday, end: today, summary: "pastEvent" },
+					ongoingEvent: { type: "VEVENT", start: today, end: tomorrow, summary: "ongoingEvent" },
+					upcomingEvent: { type: "VEVENT", start: tomorrow, end: dayAfterTomorrow, summary: "upcomingEvent" }
 				},
 				defaultConfig
 			);
@@ -52,6 +59,58 @@ describe("Calendar fetcher utils test", () => {
 			expect(filteredEvents).toHaveLength(2);
 			expect(filteredEvents[0].title).toBe("ongoingEvent");
 			expect(filteredEvents[1].title).toBe("upcomingEvent");
+		});
+
+		it("should hide excluded event with 'until' when far away and show it when close", () => {
+			// An event ending in 10 days with until='3 days' should be hidden now
+			const farStart = moment().add(9, "days").toDate();
+			const farEnd = moment().add(10, "days").toDate();
+			// An event ending in 1 day with until='3 days' should be shown (within 3 days of end)
+			const closeStart = moment().add(1, "hours").toDate();
+			const closeEnd = moment().add(1, "days").toDate();
+
+			const config = {
+				...defaultConfig,
+				excludedEvents: [{ filterBy: "Payment", until: "3 days" }]
+			};
+
+			const filteredEvents = CalendarFetcherUtils.filterEvents(
+				{
+					farPayment: { type: "VEVENT", start: farStart, end: farEnd, summary: "Payment due" },
+					closePayment: { type: "VEVENT", start: closeStart, end: closeEnd, summary: "Payment reminder" },
+					normalEvent: { type: "VEVENT", start: closeStart, end: closeEnd, summary: "Normal event" }
+				},
+				config
+			);
+
+			// farPayment should be hidden (now < endDate - 3 days)
+			// closePayment should show (now >= endDate - 3 days)
+			// normalEvent should show (not matched by filter)
+			const titles = filteredEvents.map((e) => e.title);
+			expect(titles).not.toContain("Payment due");
+			expect(titles).toContain("Payment reminder");
+			expect(titles).toContain("Normal event");
+		});
+
+		it("should fully exclude event when excludedEvents has no 'until'", () => {
+			const start = moment().add(1, "hours").toDate();
+			const end = moment().add(2, "hours").toDate();
+
+			const config = {
+				...defaultConfig,
+				excludedEvents: ["Hidden"]
+			};
+
+			const filteredEvents = CalendarFetcherUtils.filterEvents(
+				{
+					hidden: { type: "VEVENT", start, end, summary: "Hidden event" },
+					visible: { type: "VEVENT", start, end, summary: "Visible event" }
+				},
+				config
+			);
+
+			expect(filteredEvents).toHaveLength(1);
+			expect(filteredEvents[0].title).toBe("Visible event");
 		});
 
 		it("should return the correct times when recurring events pass through daylight saving time", () => {
@@ -94,24 +153,18 @@ DTSTART;TZID=Europe/Amsterdam:20250311T090000
 DTEND;TZID=Europe/Amsterdam:20250311T091500
 RRULE:FREQ=WEEKLY;BYDAY=FR,MO,TH,TU,WE,SA,SU
 DTSTAMP:20250531T091103Z
-ORGANIZER;CN=test:mailto:test@test.com
 UID:67e65a1d-b889-4451-8cab-5518cecb9c66
-CREATED:20230111T114612Z
-DESCRIPTION:Test
-LAST-MODIFIED:20250528T071312Z
-SEQUENCE:1
-STATUS:CONFIRMED
 SUMMARY:Test
-TRANSP:OPAQUE
 END:VEVENT`);
 
-			const moments = CalendarFetcherUtils.getMomentsFromRecurringEvent(data["67e65a1d-b889-4451-8cab-5518cecb9c66"], moment(), moment().add(365, "days"));
+			const instances = CalendarFetcherUtils.expandRecurringEvent(data["67e65a1d-b889-4451-8cab-5518cecb9c66"], moment(), moment().add(365, "days"));
 
-			const januaryFirst = moments.filter((m) => m.format("MM-DD") === "01-01");
-			const julyFirst = moments.filter((m) => m.format("MM-DD") === "07-01");
+			const januaryFirst = instances.filter((i) => i.startMoment.format("MM-DD") === "01-01");
+			const julyFirst = instances.filter((i) => i.startMoment.format("MM-DD") === "07-01");
 
-			expect(januaryFirst[0].toISOString(true)).toContain("09:00:00.000+01:00");
-			expect(julyFirst[0].toISOString(true)).toContain("09:00:00.000+02:00");
+			// The underlying timestamps must represent 09:00 Amsterdam time, regardless of local timezone
+			expect(januaryFirst[0].startMoment.clone().tz("Europe/Amsterdam").toISOString(true)).toContain("09:00:00.000+01:00");
+			expect(julyFirst[0].startMoment.clone().tz("Europe/Amsterdam").toISOString(true)).toContain("09:00:00.000+02:00");
 		});
 
 		it("should return correct day-of-week for full-day recurring events across DST transitions", () => {
@@ -128,32 +181,319 @@ SUMMARY:Weekly Monday Event
 END:VEVENT
 END:VCALENDAR`);
 
-			const event = data["dst-test@google.com"];
-
 			// Simulate calendar with timezone (e.g., from X-WR-TIMEZONE or user config)
 			// This is how MagicMirror handles full-day events from calendars with timezones
-			event.start.tz = "America/Chicago";
+			data["dst-test@google.com"].start.tz = "America/Chicago";
 
 			const pastMoment = moment("2025-10-01");
 			const futureMoment = moment("2025-11-30");
-
-			// Get moments for the recurring event
-			const moments = CalendarFetcherUtils.getMomentsFromRecurringEvent(event, pastMoment, futureMoment, 0);
+			const instances = CalendarFetcherUtils.expandRecurringEvent(data["dst-test@google.com"], pastMoment, futureMoment);
+			const startMoments = instances.map((i) => i.startMoment);
 
 			// All occurrences should be on Monday (day() === 1) at midnight
 			// Oct 27, 2025 - Before DST ends
 			// Nov 3, 2025 - After DST ends (this was showing as Sunday before the fix)
 			// Nov 10, 2025 - After DST ends
-			expect(moments).toHaveLength(3);
-			expect(moments[0].day()).toBe(1); // Monday
-			expect(moments[0].format("YYYY-MM-DD")).toBe("2025-10-27");
-			expect(moments[0].hour()).toBe(0); // Midnight
-			expect(moments[1].day()).toBe(1); // Monday (not Sunday!)
-			expect(moments[1].format("YYYY-MM-DD")).toBe("2025-11-03");
-			expect(moments[1].hour()).toBe(0); // Midnight
-			expect(moments[2].day()).toBe(1); // Monday
-			expect(moments[2].format("YYYY-MM-DD")).toBe("2025-11-10");
-			expect(moments[2].hour()).toBe(0); // Midnight
+			expect(startMoments).toHaveLength(3);
+			expect(startMoments[0].day()).toBe(1); // Monday
+			expect(startMoments[0].format("YYYY-MM-DD")).toBe("2025-10-27");
+			expect(startMoments[0].hour()).toBe(0); // Midnight
+			expect(startMoments[1].day()).toBe(1); // Monday (not Sunday!)
+			expect(startMoments[1].format("YYYY-MM-DD")).toBe("2025-11-03");
+			expect(startMoments[1].hour()).toBe(0); // Midnight
+			expect(startMoments[2].day()).toBe(1); // Monday
+			expect(startMoments[2].format("YYYY-MM-DD")).toBe("2025-11-10");
+			expect(startMoments[2].hour()).toBe(0); // Midnight
+		});
+
+		it("should show Facebook birthday events in the current year, not in the birth year", () => {
+			// Facebook birthday calendars use DTSTART with the actual birth year (e.g. 1990),
+			// which previously caused rrule.js to return the wrong year occurrence.
+			// With rrule-temporal this works correctly without any special-casing.
+			const data = ical.parseICS(`BEGIN:VCALENDAR
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:19900215
+RRULE:FREQ=YEARLY
+DTSTAMP:20260101T000000Z
+UID:birthday_123456789@facebook.com
+SUMMARY:Jane Doe's Birthday
+END:VEVENT
+END:VCALENDAR`);
+
+			const thisYear = moment().year();
+
+			const filteredEvents = CalendarFetcherUtils.filterEvents(data, {
+				...defaultConfig,
+				maximumNumberOfDays: 366
+			});
+
+			const birthdayEvents = filteredEvents.filter((e) => e.title === "Jane Doe's Birthday");
+			expect(birthdayEvents.length).toBeGreaterThanOrEqual(1);
+
+			// The event must expand to a recent year — NOT to the birth year 1990.
+			// It should be the current or next year depending on whether Feb 15 has already passed.
+			const startYear = moment(birthdayEvents[0].startDate, "x").year();
+			expect(startYear).toBeGreaterThanOrEqual(thisYear);
+			expect(startYear).toBeLessThanOrEqual(thisYear + 1);
+		});
+
+		it("should produce a correctly shaped event object with all required fields", () => {
+			const start = moment("2026-03-10T14:00:00").toDate();
+			const end = moment("2026-03-10T15:00:00").toDate();
+
+			const filteredEvents = CalendarFetcherUtils.filterEvents(
+				{
+					event1: {
+						type: "VEVENT",
+						start,
+						end,
+						summary: "Team Meeting",
+						description: "Agenda TBD",
+						location: "Room 42",
+						geo: { lat: 52.52, lon: 13.4 },
+						class: "PUBLIC",
+						uid: "shaped-event@test"
+					}
+				},
+				defaultConfig
+			);
+
+			expect(filteredEvents).toHaveLength(1);
+			const ev = filteredEvents[0];
+			expect(ev.title).toBe("Team Meeting");
+			expect(ev.startDate).toBe(moment(start).format("x"));
+			expect(ev.endDate).toBe(moment(end).format("x"));
+			expect(ev.fullDayEvent).toBe(false);
+			expect(ev.recurringEvent).toBe(false);
+			expect(ev.class).toBe("PUBLIC");
+			expect(ev.firstYear).toBe(2026);
+			expect(ev.location).toBe("Room 42");
+			expect(ev.geo).toEqual({ lat: 52.52, lon: 13.4 });
+			expect(ev.description).toBe("Agenda TBD");
+		});
+
+		it("should return correct firstYear for a full-day event on January 1st", () => {
+			// node-ical creates DATE-only events with the local Date constructor: new Date(year, month, day).
+			// getFullYear() on a locally-constructed date always returns the correct calendar year
+			// regardless of the server's UTC offset — guard against regressions that switch to getUTCFullYear().
+			const data = ical.parseICS(`BEGIN:VCALENDAR
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:19900101
+DTEND;VALUE=DATE:19900102
+RRULE:FREQ=YEARLY
+UID:newyear-birthday@test
+SUMMARY:New Year Baby
+END:VEVENT
+END:VCALENDAR`);
+
+			const filteredEvents = CalendarFetcherUtils.filterEvents(data, {
+				...defaultConfig,
+				maximumNumberOfDays: 366
+			});
+
+			const birthday = filteredEvents.find((e) => e.title === "New Year Baby");
+			expect(birthday).toBeDefined();
+			expect(birthday.firstYear).toBe(1990);
+		});
+	});
+
+	describe("expandRecurringEvent", () => {
+		it("should extend end to end-of-day when event has no DTEND", () => {
+			// node-ical sets end === start when DTEND is absent; our code extends to endOf("day")
+			const data = ical.parseICS(`BEGIN:VCALENDAR
+BEGIN:VEVENT
+DTSTART:20260222T100000Z
+UID:no-end-test@test
+SUMMARY:No End Event
+END:VEVENT
+END:VCALENDAR`);
+
+			const instances = CalendarFetcherUtils.expandRecurringEvent(data["no-end-test@test"], moment("2026-02-20"), moment("2026-02-24"));
+
+			expect(instances).toHaveLength(1);
+			expect(instances[0].endMoment.format("HH:mm:ss")).toBe("23:59:59");
+		});
+
+		it("should apply RECURRENCE-ID overrides (moved single occurrence)", () => {
+			// A weekly event on Mondays at 10:00, but the second occurrence is moved to Tuesday 14:00
+			const data = ical.parseICS(`BEGIN:VCALENDAR
+BEGIN:VEVENT
+DTSTART;TZID=Europe/Berlin:20260302T100000
+DTEND;TZID=Europe/Berlin:20260302T110000
+RRULE:FREQ=WEEKLY;COUNT=3
+UID:recurrence-override@test
+SUMMARY:Weekly Standup
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=Europe/Berlin:20260310T140000
+DTEND;TZID=Europe/Berlin:20260310T150000
+RECURRENCE-ID;TZID=Europe/Berlin:20260309T100000
+UID:recurrence-override@test
+SUMMARY:Moved Standup
+END:VEVENT
+END:VCALENDAR`);
+
+			const instances = CalendarFetcherUtils.expandRecurringEvent(
+				data["recurrence-override@test"],
+				moment("2026-03-01"),
+				moment("2026-03-31")
+			);
+
+			expect(instances).toHaveLength(3);
+
+			// First occurrence: Monday March 2, 10:00 (unchanged)
+			expect(instances[0].startMoment.clone().tz("Europe/Berlin").format("YYYY-MM-DD HH:mm")).toBe("2026-03-02 10:00");
+			expect(CalendarFetcherUtils.getTitleFromEvent(instances[0].event)).toBe("Weekly Standup");
+
+			// Second occurrence: moved to Tuesday March 10, 14:00
+			expect(instances[1].startMoment.clone().tz("Europe/Berlin").format("YYYY-MM-DD HH:mm")).toBe("2026-03-10 14:00");
+			expect(CalendarFetcherUtils.getTitleFromEvent(instances[1].event)).toBe("Moved Standup");
+
+			// Third occurrence: Monday March 16, 10:00 (unchanged)
+			expect(instances[2].startMoment.clone().tz("Europe/Berlin").format("YYYY-MM-DD HH:mm")).toBe("2026-03-16 10:00");
+		});
+
+		it("should handle events with DURATION instead of DTEND", () => {
+			// RFC 5545 allows DURATION as alternative to DTEND
+			const data = ical.parseICS(`BEGIN:VCALENDAR
+BEGIN:VEVENT
+DTSTART:20260315T090000Z
+DURATION:PT1H30M
+UID:duration-test@test
+SUMMARY:Duration Event
+END:VEVENT
+END:VCALENDAR`);
+
+			const instances = CalendarFetcherUtils.expandRecurringEvent(
+				data["duration-test@test"],
+				moment("2026-03-14"),
+				moment("2026-03-16")
+			);
+
+			expect(instances).toHaveLength(1);
+			// End should be 90 minutes after start
+			const durationMinutes = instances[0].endMoment.diff(instances[0].startMoment, "minutes");
+			expect(durationMinutes).toBe(90);
+		});
+
+		it("should handle recurring events with DURATION instead of DTEND", () => {
+			const data = ical.parseICS(`BEGIN:VCALENDAR
+BEGIN:VEVENT
+DTSTART;TZID=Europe/Berlin:20260301T080000
+DURATION:PT45M
+RRULE:FREQ=DAILY;COUNT=3
+UID:recurring-duration@test
+SUMMARY:Daily Scrum
+END:VEVENT
+END:VCALENDAR`);
+
+			const instances = CalendarFetcherUtils.expandRecurringEvent(
+				data["recurring-duration@test"],
+				moment("2026-02-28"),
+				moment("2026-03-05")
+			);
+
+			expect(instances).toHaveLength(3);
+			for (const inst of instances) {
+				const durationMinutes = inst.endMoment.diff(inst.startMoment, "minutes");
+				expect(durationMinutes).toBe(45);
+			}
+			expect(instances[0].startMoment.clone().tz("Europe/Berlin").format("YYYY-MM-DD")).toBe("2026-03-01");
+			expect(instances[1].startMoment.clone().tz("Europe/Berlin").format("YYYY-MM-DD")).toBe("2026-03-02");
+			expect(instances[2].startMoment.clone().tz("Europe/Berlin").format("YYYY-MM-DD")).toBe("2026-03-03");
+		});
+	});
+
+	describe("filterEvents error handling", () => {
+		it("should skip a broken event but still return other valid events", () => {
+			const start = moment().add(1, "hours").toDate();
+			const end = moment().add(2, "hours").toDate();
+
+			vi.spyOn(ical, "expandRecurringEvent").mockImplementationOnce(() => {
+				throw new TypeError("invalid rrule");
+			});
+
+			const result = CalendarFetcherUtils.filterEvents(
+				{
+					brokenEvent: { type: "VEVENT", start, end, summary: "Broken" },
+					goodEvent: { type: "VEVENT", start, end, summary: "Good" }
+				},
+				defaultConfig
+			);
+
+			expect(result).toHaveLength(1);
+			expect(result[0].title).toBe("Good");
+		});
+
+		it("should let expandRecurringEvent throw through directly", () => {
+			vi.spyOn(ical, "expandRecurringEvent").mockImplementationOnce(() => {
+				throw new TypeError("invalid rrule");
+			});
+
+			const event = { type: "VEVENT", start: new Date(), end: new Date(), summary: "Broken Event" };
+			expect(() => CalendarFetcherUtils.expandRecurringEvent(event, moment(), moment().add(1, "days"))).toThrow("invalid rrule");
+		});
+	});
+
+	describe("unwrapParameterValue", () => {
+		it("should return the val of a ParameterValue object", () => {
+			expect(CalendarFetcherUtils.unwrapParameterValue({ val: "Text", params: { LANGUAGE: "de" } })).toBe("Text");
+		});
+
+		it("should return a plain string unchanged", () => {
+			expect(CalendarFetcherUtils.unwrapParameterValue("plain")).toBe("plain");
+		});
+
+		it("should return falsy values unchanged", () => {
+			expect(CalendarFetcherUtils.unwrapParameterValue(undefined)).toBeUndefined();
+			expect(CalendarFetcherUtils.unwrapParameterValue(false)).toBe(false);
+		});
+	});
+
+	describe("getTitleFromEvent", () => {
+		it("should return summary string directly", () => {
+			expect(CalendarFetcherUtils.getTitleFromEvent({ summary: "My Event" })).toBe("My Event");
+		});
+
+		it("should unwrap ParameterValue summary", () => {
+			expect(CalendarFetcherUtils.getTitleFromEvent({ summary: { val: "My Event", params: {} } })).toBe("My Event");
+		});
+
+		it("should fall back to description string", () => {
+			expect(CalendarFetcherUtils.getTitleFromEvent({ description: "Desc" })).toBe("Desc");
+		});
+
+		it("should unwrap ParameterValue description as fallback title", () => {
+			expect(CalendarFetcherUtils.getTitleFromEvent({ description: { val: "Desc", params: { LANGUAGE: "de" } } })).toBe("Desc");
+		});
+
+		it("should return 'Event' when neither summary nor description is present", () => {
+			expect(CalendarFetcherUtils.getTitleFromEvent({})).toBe("Event");
+		});
+	});
+
+	describe("filterEvents with ParameterValue properties", () => {
+		it("should handle DESCRIPTION;LANGUAGE=de and LOCATION;LANGUAGE=de without [object Object]", () => {
+			const start = moment().add(1, "hours").toDate();
+			const end = moment().add(2, "hours").toDate();
+
+			const filteredEvents = CalendarFetcherUtils.filterEvents(
+				{
+					event1: {
+						type: "VEVENT",
+						start,
+						end,
+						summary: "Test",
+						description: { val: "Beschreibung", params: { LANGUAGE: "de" } },
+						location: { val: "Berlin", params: { LANGUAGE: "de" } }
+					}
+				},
+				defaultConfig
+			);
+
+			expect(filteredEvents).toHaveLength(1);
+			expect(filteredEvents[0].description).toBe("Beschreibung");
+			expect(filteredEvents[0].location).toBe("Berlin");
 		});
 	});
 });

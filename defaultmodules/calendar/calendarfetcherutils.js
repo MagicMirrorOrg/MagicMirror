@@ -2,6 +2,7 @@
  * @external Moment
  */
 const moment = require("moment-timezone");
+const ical = require("node-ical");
 
 const Log = require("logger");
 
@@ -41,56 +42,13 @@ const CalendarFetcherUtils = {
 	},
 
 	/**
-	 * This function returns a list of moments for a recurring event.
-	 * @param {object} event the current event which is a recurring event
-	 * @param {moment.Moment} pastLocalMoment The past date to search for recurring events
-	 * @param {moment.Moment} futureLocalMoment The future date to search for recurring events
-	 * @param {number} durationInMs the duration of the event, this is used to take into account currently running events
-	 * @returns {moment.Moment[]} All moments for the recurring event
-	 */
-	getMomentsFromRecurringEvent (event, pastLocalMoment, futureLocalMoment, durationInMs) {
-		const rule = event.rrule;
-		const isFullDayEvent = CalendarFetcherUtils.isFullDayEvent(event);
-		const eventTimezone = event.start.tz || CalendarFetcherUtils.getLocalTimezone();
-
-		// rrule.js interprets years < 1900 as offsets from 1900, causing issues with some birthday calendars
-		if (rule.origOptions?.dtstart?.getFullYear() < 1900) {
-			rule.origOptions.dtstart.setFullYear(1900);
-		}
-		if (rule.options?.dtstart?.getFullYear() < 1900) {
-			rule.options.dtstart.setFullYear(1900);
-		}
-
-		// Expand search window to include ongoing events
-		const oneDayInMs = 24 * 60 * 60 * 1000;
-		const searchFromDate = pastLocalMoment.clone().subtract(Math.max(durationInMs, oneDayInMs), "milliseconds").toDate();
-		const searchToDate = futureLocalMoment.clone().add(1, "days").toDate();
-
-		const dates = rule.between(searchFromDate, searchToDate, true) || [];
-
-		// Convert dates to moments in the event's timezone.
-		// Full-day events need UTC component extraction to avoid date shifts across timezone boundaries.
-		return dates.map((date) => {
-			if (isFullDayEvent) {
-				return moment.tz([date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()], eventTimezone);
-			}
-			return moment.tz(date, eventTimezone);
-		});
-	},
-
-	/**
 	 * Filter the events from ical according to the given config
 	 * @param {object} data the calendar data from ical
 	 * @param {object} config The configuration object
-	 * @returns {string[]} the filtered events
+	 * @returns {object[]} the filtered events
 	 */
 	filterEvents (data, config) {
 		const newEvents = [];
-
-		const eventDate = function (event, time) {
-			const startMoment = event[time].tz ? moment.tz(event[time], event[time].tz) : moment.tz(event[time], CalendarFetcherUtils.getLocalTimezone());
-			return CalendarFetcherUtils.isFullDayEvent(event) ? startMoment.startOf("day") : startMoment;
-		};
 
 		Log.debug(`There are ${Object.entries(data).length} calendar entries.`);
 
@@ -105,102 +63,60 @@ const CalendarFetcherUtils = {
 				.subtract(1, "seconds");
 
 		Object.entries(data).forEach(([key, event]) => {
-			Log.debug("Processing entry...");
+			if (event.type !== "VEVENT") {
+				return;
+			}
 
 			const title = CalendarFetcherUtils.getTitleFromEvent(event);
 			Log.debug(`title: ${title}`);
 
 			// Return quickly if event should be excluded.
-			let { excluded, eventFilterUntil } = this.shouldEventBeExcluded(config, title);
+			const { excluded, until: eventFilterUntil } = CalendarFetcherUtils.shouldEventBeExcluded(config, title);
 			if (excluded) {
 				return;
 			}
 
-			// FIXME: Ugly fix to solve the facebook birthday issue.
-			// Otherwise, the recurring events only show the birthday for next year.
-			let isFacebookBirthday = false;
-			if (typeof event.uid !== "undefined") {
-				if (event.uid.indexOf("@facebook.com") !== -1) {
-					isFacebookBirthday = true;
-				}
+			Log.debug(`Event: ${title} | start: ${event.start} | end: ${event.end} | recurring: ${!!event.rrule}`);
+
+			const location = CalendarFetcherUtils.unwrapParameterValue(event.location) || false;
+			const geo = event.geo || false;
+			const description = CalendarFetcherUtils.unwrapParameterValue(event.description) || false;
+
+			let instances;
+			try {
+				instances = CalendarFetcherUtils.expandRecurringEvent(event, pastLocalMoment, futureLocalMoment);
+			} catch (error) {
+				Log.error(`Could not expand event "${title}": ${error.message}`);
+				return;
 			}
 
-			if (event.type === "VEVENT") {
-				Log.debug(`Event:\n${JSON.stringify(event, null, 2)}`);
-				let eventStartMoment = eventDate(event, "start");
-				let eventEndMoment;
+			for (const instance of instances) {
+				const { event: instanceEvent, startMoment, endMoment, isRecurring, isFullDay } = instance;
 
-				if (typeof event.end !== "undefined") {
-					eventEndMoment = eventDate(event, "end");
-				} else if (typeof event.duration !== "undefined") {
-					eventEndMoment = eventStartMoment.clone().add(moment.duration(event.duration));
-				} else {
-					if (!isFacebookBirthday) {
-						// make copy of start date, separate storage area
-						eventEndMoment = eventStartMoment.clone();
-					} else {
-						eventEndMoment = eventStartMoment.clone().add(1, "days");
-					}
+				// Filter logic
+				if (endMoment.isBefore(pastLocalMoment) || startMoment.isAfter(futureLocalMoment)) {
+					continue;
 				}
 
-				Log.debug(`start: ${eventStartMoment.toDate()}`);
-				Log.debug(`end:   ${eventEndMoment.toDate()}`);
-
-				// Calculate the duration of the event for use with recurring events.
-				const durationMs = eventEndMoment.valueOf() - eventStartMoment.valueOf();
-				Log.debug(`duration: ${durationMs}`);
-
-				const location = event.location || false;
-				const geo = event.geo || false;
-				const description = event.description || false;
-
-				let instances = [];
-				if (event.rrule && typeof event.rrule !== "undefined" && !isFacebookBirthday) {
-					instances = CalendarFetcherUtils.expandRecurringEvent(event, pastLocalMoment, futureLocalMoment, durationMs);
-				} else {
-					const fullDayEvent = isFacebookBirthday ? true : CalendarFetcherUtils.isFullDayEvent(event);
-					let end = eventEndMoment;
-					if (fullDayEvent && eventStartMoment.valueOf() === end.valueOf()) {
-						end = end.endOf("day");
-					}
-
-					instances.push({
-						event: event,
-						startMoment: eventStartMoment,
-						endMoment: end,
-						isRecurring: false
-					});
+				if (CalendarFetcherUtils.timeFilterApplies(now, endMoment, eventFilterUntil)) {
+					continue;
 				}
 
-				for (const instance of instances) {
-					const { event: instanceEvent, startMoment, endMoment, isRecurring } = instance;
+				const instanceTitle = CalendarFetcherUtils.getTitleFromEvent(instanceEvent);
 
-					// Filter logic
-					if (endMoment.isBefore(pastLocalMoment) || startMoment.isAfter(futureLocalMoment)) {
-						continue;
-					}
-
-					if (CalendarFetcherUtils.timeFilterApplies(now, endMoment, eventFilterUntil)) {
-						continue;
-					}
-
-					const title = CalendarFetcherUtils.getTitleFromEvent(instanceEvent);
-					const fullDay = isFacebookBirthday ? true : CalendarFetcherUtils.isFullDayEvent(event);
-
-					Log.debug(`saving event: ${title}`);
-					newEvents.push({
-						title: title,
-						startDate: startMoment.format("x"),
-						endDate: endMoment.format("x"),
-						fullDayEvent: fullDay,
-						recurringEvent: isRecurring,
-						class: event.class,
-						firstYear: event.start.getFullYear(),
-						location: instanceEvent.location || location,
-						geo: instanceEvent.geo || geo,
-						description: instanceEvent.description || description
-					});
-				}
+				Log.debug(`saving event: ${instanceTitle}, start: ${startMoment.toDate()}, end: ${endMoment.toDate()}`);
+				newEvents.push({
+					title: instanceTitle,
+					startDate: startMoment.format("x"),
+					endDate: endMoment.format("x"),
+					fullDayEvent: isFullDay,
+					recurringEvent: isRecurring,
+					class: event.class,
+					firstYear: event.start.getFullYear(),
+					location: CalendarFetcherUtils.unwrapParameterValue(instanceEvent.location) || location,
+					geo: instanceEvent.geo || geo,
+					description: CalendarFetcherUtils.unwrapParameterValue(instanceEvent.description) || description
+				});
 			}
 		});
 
@@ -217,35 +133,21 @@ const CalendarFetcherUtils = {
 	 * @returns {string} The title of the event, or "Event" if no title is found.
 	 */
 	getTitleFromEvent (event) {
-		let title = "Event";
-		if (event.summary) {
-			title = typeof event.summary.val !== "undefined" ? event.summary.val : event.summary;
-		} else if (event.description) {
-			title = event.description;
-		}
-
-		return title;
+		return CalendarFetcherUtils.unwrapParameterValue(event.summary || event.description) || "Event";
 	},
 
 	/**
-	 * Checks if an event is a fullday event.
-	 * @param {object} event The event object to check.
-	 * @returns {boolean} True if the event is a fullday event, false otherwise
+	 * Extracts the string value from a node-ical ParameterValue object ({val, params})
+	 * or returns the value as-is if it is already a plain string.
+	 * This handles ICS properties with parameters, e.g. DESCRIPTION;LANGUAGE=de:Text.
+	 * @param {string|object} value The raw value from node-ical
+	 * @returns {string|object} The unwrapped string value, or the original value if not a ParameterValue
 	 */
-	isFullDayEvent (event) {
-		if (event.start.length === 8 || event.start.dateOnly || event.datetype === "date") {
-			return true;
+	unwrapParameterValue (value) {
+		if (value && typeof value === "object" && typeof value.val !== "undefined") {
+			return value.val;
 		}
-
-		const start = event.start || 0;
-		const startDate = new Date(start);
-		const end = event.end || 0;
-		if ((end - start) % (24 * 60 * 60 * 1000) === 0 && startDate.getHours() === 0 && startDate.getMinutes() === 0) {
-			// Is 24 hours, and starts on the middle of the night.
-			return true;
-		}
-
-		return false;
+		return value;
 	},
 
 	/**
@@ -262,7 +164,7 @@ const CalendarFetcherUtils = {
 				increment = until[1].slice(-1) === "s" ? until[1] : `${until[1]}s`, // Massage the data for moment js
 				filterUntil = moment(endDate.format()).subtract(value, increment);
 
-			return now < filterUntil;
+			return now.isBefore(filterUntil);
 		}
 
 		return false;
@@ -282,7 +184,7 @@ const CalendarFetcherUtils = {
 			// Assume if leading slash, there is also trailing slash
 			if (filter[0] === "/") {
 				// Strip leading and trailing slashes
-				regexFilter = filter.substr(1).slice(0, -1);
+				regexFilter = filter.slice(1, -1);
 			}
 			return new RegExp(regexFilter, regexFlags).test(title);
 		} else {
@@ -291,65 +193,38 @@ const CalendarFetcherUtils = {
 	},
 
 	/**
-	 * Expands a recurring event into individual event instances.
+	 * Expands a recurring event into individual event instances using node-ical.
+	 * Handles RRULE expansion, EXDATE filtering, RECURRENCE-ID overrides, and ongoing events.
 	 * @param {object} event The recurring event object
 	 * @param {moment.Moment} pastLocalMoment The past date limit
 	 * @param {moment.Moment} futureLocalMoment The future date limit
-	 * @param {number} durationMs The duration of the event in milliseconds
-	 * @returns {object[]} Array of event instances
+	 * @returns {object[]} Array of event instances with startMoment/endMoment in the local timezone
 	 */
-	expandRecurringEvent (event, pastLocalMoment, futureLocalMoment, durationMs) {
-		const moments = CalendarFetcherUtils.getMomentsFromRecurringEvent(event, pastLocalMoment, futureLocalMoment, durationMs);
-		const instances = [];
+	expandRecurringEvent (event, pastLocalMoment, futureLocalMoment) {
+		const localTimezone = CalendarFetcherUtils.getLocalTimezone();
 
-		for (const startMoment of moments) {
-			let curEvent = event;
-			let showRecurrence = true;
-			let recurringEventStartMoment = startMoment.clone().tz(CalendarFetcherUtils.getLocalTimezone());
-			let recurringEventEndMoment = recurringEventStartMoment.clone().add(durationMs, "ms");
-
-			// For full-day events, use local date components to match node-ical's getDateKey behavior
-			// For timed events, use UTC to match ISO string slice
-			const isFullDay = CalendarFetcherUtils.isFullDayEvent(event);
-			const dateKey = isFullDay
-				? recurringEventStartMoment.format("YYYY-MM-DD")
-				: recurringEventStartMoment.tz("UTC").format("YYYY-MM-DD");
-
-			// Check for overrides
-			if (curEvent.recurrences !== undefined) {
-				if (curEvent.recurrences[dateKey] !== undefined) {
-					curEvent = curEvent.recurrences[dateKey];
-					// Re-calculate start/end based on override
-					const start = curEvent.start;
-					const end = curEvent.end;
-					const localTimezone = CalendarFetcherUtils.getLocalTimezone();
-
-					recurringEventStartMoment = (start.tz ? moment(start).tz(start.tz) : moment(start)).tz(localTimezone);
-					recurringEventEndMoment = (end.tz ? moment(end).tz(end.tz) : moment(end)).tz(localTimezone);
+		return ical
+			.expandRecurringEvent(event, {
+				from: pastLocalMoment.toDate(),
+				to: futureLocalMoment.toDate(),
+				includeOverrides: true,
+				excludeExdates: true,
+				expandOngoing: true
+			})
+			.map((inst) => {
+				let startMoment, endMoment;
+				if (inst.isFullDay) {
+					startMoment = moment.tz([inst.start.getFullYear(), inst.start.getMonth(), inst.start.getDate()], localTimezone);
+					endMoment = moment.tz([inst.end.getFullYear(), inst.end.getMonth(), inst.end.getDate()], localTimezone);
+				} else {
+					startMoment = moment(inst.start).tz(localTimezone);
+					endMoment = moment(inst.end).tz(localTimezone);
 				}
-			}
-
-			// Check for exceptions
-			if (curEvent.exdate !== undefined) {
-				if (curEvent.exdate[dateKey] !== undefined) {
-					showRecurrence = false;
-				}
-			}
-
-			if (recurringEventStartMoment.valueOf() === recurringEventEndMoment.valueOf()) {
-				recurringEventEndMoment = recurringEventEndMoment.endOf("day");
-			}
-
-			if (showRecurrence) {
-				instances.push({
-					event: curEvent,
-					startMoment: recurringEventStartMoment,
-					endMoment: recurringEventEndMoment,
-					isRecurring: true
-				});
-			}
-		}
-		return instances;
+				// Events without DTEND (e.g. reminders) get start === end from node-ical;
+				// extend to end-of-day so they remain visible on the calendar.
+				if (startMoment.valueOf() === endMoment.valueOf()) endMoment = endMoment.endOf("day");
+				return { event: inst.event, startMoment, endMoment, isRecurring: inst.isRecurring, isFullDay: inst.isFullDay };
+			});
 	},
 
 	/**
