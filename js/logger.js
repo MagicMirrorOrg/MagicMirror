@@ -19,14 +19,14 @@
 									const filename = file.replace(/.*\/(.*).js/, "$1");
 									const filepath = file.replace(/.*\/(.*)\/.*.js/, "$1");
 									if (filepath === "js") {
-										return styleText("grey", `[${filename}]`);
+										return styleText("gray", `[${filename}]`);
 									} else {
-										return styleText("grey", `[${filepath}]`);
+										return styleText("gray", `[${filepath}]`);
 									}
 								}
 							}
 						} catch (err) {
-							return styleText("grey", "[unknown]");
+							return styleText("gray", "[unknown]");
 						}
 					},
 					label: (arg) => {
