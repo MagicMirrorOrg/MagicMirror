@@ -9,14 +9,13 @@
 				format: ":date(yyyy-mm-dd HH:MM:ss.l) :label(7) :pre() :msg",
 				tokens: {
 					pre: () => {
-						const err = new Error();
-						Error.prepareStackTrace = (_, stack) => stack;
-						const stack = err.stack;
-						Error.prepareStackTrace = undefined;
 						try {
-							for (const line of stack) {
-								const file = line.getFileName();
-								if (file && !file.includes("node:") && !file.includes("js/logger.js") && !file.includes("node_modules")) {
+							const lines = new Error().stack.split("\n");
+							for (const line of lines) {
+								if (line.includes("node:") || line.includes("js/logger.js") || line.includes("node_modules")) continue;
+								const match = line.match(/\((.+?\.js):\d+:\d+\)/) || line.match(/at\s+(.+?\.js):\d+:\d+/);
+								if (match) {
+									const file = match[1];
 									const filename = file.replace(/.*\/(.*).js/, "$1");
 									const filepath = file.replace(/.*\/(.*)\/.*.js/, "$1");
 									if (filepath === "js") {
