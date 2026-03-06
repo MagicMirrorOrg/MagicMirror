@@ -42,7 +42,9 @@ Module.register("weather", {
 		colored: false,
 		absoluteDates: false,
 		forecastDateFormat: "ddd", // format for forecast date display, e.g., "ddd" = Mon, "dddd" = Monday, "D MMM" = 18 Oct
-		hourlyForecastIncrements: 1
+		hourlyForecastIncrements: 1,
+		themeDir: "./",
+		themeCustomScripts: []
 	},
 
 	// Module properties (all providers run server-side)
@@ -57,14 +59,18 @@ Module.register("weather", {
 
 	// Define required scripts.
 	getStyles () {
-		return ["font-awesome.css", "weather-icons.css", "weather.css"];
+		return ["font-awesome.css", "weather-icons.css", `${this.config.themeDir}weather.css`];
 	},
 
 	// Return the scripts that are necessary for the weather module.
 	getScripts () {
 		// Only load client-side dependencies for rendering
 		// All providers run server-side via node_helper
-		return ["moment.js", "weatherutils.js", "weatherobject.js", "suncalc.js"];
+		const resArr = ["moment.js", "weatherutils.js", "weatherobject.js", "suncalc.js"];
+		this.config.themeCustomScripts.forEach((element) => {
+			resArr.push(`${this.config.themeDir}${element}`);
+		});
+		return resArr;
 	},
 
 	// Override getHeader method.
@@ -97,6 +103,8 @@ Module.register("weather", {
 
 		// All providers run server-side: generate unique instance ID and initialize via node_helper
 		this.instanceId = `${this.identifier}_${Date.now()}`;
+
+		if (window.initWeatherTheme) window.initWeatherTheme();
 
 		Log.log(`[weather] Initializing server-side provider with instance ID: ${this.instanceId}`);
 
@@ -211,15 +219,15 @@ Module.register("weather", {
 	getTemplate () {
 		switch (this.config.type.toLowerCase()) {
 			case "current":
-				return "current.njk";
+				return `${this.config.themeDir}current.njk`;
 			case "hourly":
-				return "hourly.njk";
+				return `${this.config.themeDir}hourly.njk`;
 			case "daily":
 			case "forecast":
-				return "forecast.njk";
+				return `${this.config.themeDir}forecast.njk`;
 			//Make the invalid values use the "Loading..." from forecast
 			default:
-				return "forecast.njk";
+				return `${this.config.themeDir}forecast.njk`;
 		}
 	},
 
@@ -242,7 +250,11 @@ Module.register("weather", {
 	// What to do when the weather provider has new information available?
 	updateAvailable () {
 		Log.log("[weather] New weather information available.");
-		this.updateDom(300);
+		if (window.updateWeatherTheme) {
+			window.updateWeatherTheme(this);
+		} else {
+			this.updateDom(300);
+		};
 
 		const currentWeather = this.currentWeatherObject;
 
