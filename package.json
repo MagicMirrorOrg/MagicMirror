@@ -92,7 +92,6 @@
 		"@fortawesome/fontawesome-free": "^7.2.0",
 		"ajv": "^8.18.0",
 		"animate.css": "^4.1.1",
-		"console-stamp": "^3.1.2",
 		"croner": "^10.0.1",
 		"eslint": "^9.39.3",
 		"express": "^5.2.1",
