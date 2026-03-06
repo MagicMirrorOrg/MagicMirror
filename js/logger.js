@@ -70,26 +70,25 @@
 
 		if (enableLog) {
 			logLevel = {
-				debug: Function.prototype.bind.call(console.debug, console),
-				log: Function.prototype.bind.call(console.log, console),
-				info: Function.prototype.bind.call(console.info, console),
-				warn: Function.prototype.bind.call(console.warn, console),
-				error: Function.prototype.bind.call(console.error, console),
-				group: Function.prototype.bind.call(console.group, console),
-				groupCollapsed: Function.prototype.bind.call(console.groupCollapsed, console),
-				groupEnd: Function.prototype.bind.call(console.groupEnd, console),
-				time: Function.prototype.bind.call(console.time, console),
-				timeEnd: Function.prototype.bind.call(console.timeEnd, console),
-				timeStamp: console.timeStamp ? Function.prototype.bind.call(console.timeStamp, console) : function () {}
+				debug: console.debug.bind(console),
+				log: console.log.bind(console),
+				info: console.info.bind(console),
+				warn: console.warn.bind(console),
+				error: console.error.bind(console),
+				group: console.group.bind(console),
+				groupCollapsed: console.groupCollapsed.bind(console),
+				groupEnd: console.groupEnd.bind(console),
+				time: console.time.bind(console),
+				timeEnd: console.timeEnd.bind(console),
+				timeStamp: console.timeStamp.bind(console)
 			};
 
+			// Only these methods are affected by setLogLevel.
+			// Utility methods (group, time, etc.) are always active.
 			logLevel.setLogLevel = function (newLevel) {
-				if (newLevel) {
-					Object.keys(logLevel).forEach(function (key) {
-						if (!newLevel.includes(key.toLocaleUpperCase())) {
-							logLevel[key] = function () {};
-						}
-					});
+				for (const key of ["debug", "log", "info", "warn", "error"]) {
+					const disabled = newLevel && !newLevel.includes(key.toUpperCase());
+					logLevel[key] = disabled ? function () {} : console[key].bind(console);
 				}
 			};
 		} else {
