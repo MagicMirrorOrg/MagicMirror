@@ -83,13 +83,12 @@
 				timeStamp: console.timeStamp.bind(console)
 			};
 
+			// Only these methods are affected by setLogLevel.
+			// Utility methods (group, time, etc.) are always active.
 			logLevel.setLogLevel = function (newLevel) {
-				if (newLevel) {
-					Object.keys(logLevel).forEach(function (key) {
-						if (!newLevel.includes(key.toLocaleUpperCase())) {
-							logLevel[key] = function () {};
-						}
-					});
+				for (const key of ["debug", "log", "info", "warn", "error"]) {
+					const disabled = newLevel && !newLevel.includes(key.toUpperCase());
+					logLevel[key] = disabled ? function () {} : console[key].bind(console);
 				}
 			};
 		} else {
