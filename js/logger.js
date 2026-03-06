@@ -1,71 +1,53 @@
-// This logger is very simple, but needs to be extended.
+// Logger for MagicMirror² — works both in Node.js (CommonJS) and the browser (global).
 (function () {
 	if (typeof module !== "undefined") {
 		if (process.env.mmTestMode !== "true") {
 			const { styleText } = require("node:util");
 
-			// add timestamps in front of log messages
-			require("console-stamp")(console, {
-				format: ":date(yyyy-mm-dd HH:MM:ss.l) :label(7) :pre() :msg",
-				tokens: {
-					pre: () => {
-						try {
-							const lines = new Error().stack.split("\n");
-							for (const line of lines) {
-								if (line.includes("node:") || line.includes("js/logger.js") || line.includes("node_modules")) continue;
-								const match = line.match(/\((.+?\.js):\d+:\d+\)/) || line.match(/at\s+(.+?\.js):\d+:\d+/);
-								if (match) {
-									const file = match[1];
-									const filename = file.replace(/.*\/(.*).js/, "$1");
-									const filepath = file.replace(/.*\/(.*)\/.*.js/, "$1");
-									if (filepath === "js") {
-										return styleText("gray", `[${filename}]`);
-									} else {
-										return styleText("gray", `[${filepath}]`);
-									}
-								}
-							}
-						} catch (err) {
-							return styleText("gray", "[unknown]");
+			const LABEL_COLORS = { error: "red", warn: "yellow", debug: "bgBlue", info: "blue" };
+			const MSG_COLORS = { error: "red", warn: "yellow", info: "blue" };
+
+			const formatTimestamp = () => {
+				const d = new Date();
+				const pad2 = (n) => String(n).padStart(2, "0");
+				const pad3 = (n) => String(n).padStart(3, "0");
+				const date = `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+				const time = `${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}.${pad3(d.getMilliseconds())}`;
+				return `[${date} ${time}]`;
+			};
+
+			const getCallerPrefix = () => {
+				try {
+					const lines = new Error().stack.split("\n");
+					for (const line of lines) {
+						if (line.includes("node:") || line.includes("js/logger.js") || line.includes("node_modules")) continue;
+						const match = line.match(/\((.+?\.js):\d+:\d+\)/) || line.match(/at\s+(.+?\.js):\d+:\d+/);
+						if (match) {
+							const file = match[1];
+							const baseName = file.replace(/.*\/(.*)\.js/, "$1");
+							const parentDir = file.replace(/.*\/(.*)\/.*\.js/, "$1");
+							return styleText("gray", parentDir === "js" ? `[${baseName}]` : `[${parentDir}]`);
 						}
-					},
-					label: (arg) => {
-						const { method, defaultTokens } = arg;
-						let label = defaultTokens.label(arg);
-						switch (method) {
-							case "error":
-								label = styleText("red", label);
-								break;
-							case "warn":
-								label = styleText("yellow", label);
-								break;
-							case "debug":
-								label = styleText("bgBlue", label);
-								break;
-							case "info":
-								label = styleText("blue", label);
-								break;
-						}
-						return label;
-					},
-					msg: (arg) => {
-						const { method, defaultTokens } = arg;
-						let msg = defaultTokens.msg(arg);
-						switch (method) {
-							case "error":
-								msg = styleText("red", msg);
-								break;
-							case "warn":
-								msg = styleText("yellow", msg);
-								break;
-							case "info":
-								msg = styleText("blue", msg);
-								break;
-						}
-						return msg;
 					}
-				}
-			});
+				} catch (err) { /* ignore */ }
+				return styleText("gray", "[unknown]");
+			};
+
+			// Patch console methods to prepend timestamp, level label, and caller prefix.
+			for (const method of ["debug", "log", "info", "warn", "error"]) {
+				const original = console[method].bind(console);
+				const labelRaw = `[${method.toUpperCase()}]`.padEnd(7);
+				const label = LABEL_COLORS[method] ? styleText(LABEL_COLORS[method], labelRaw) : labelRaw;
+				console[method] = (...args) => {
+					const prefix = `${formatTimestamp()} ${label} ${getCallerPrefix()}`;
+					const msgColor = MSG_COLORS[method];
+					if (msgColor && args.length > 0 && typeof args[0] === "string") {
+						original(prefix, styleText(msgColor, args[0]), ...args.slice(1));
+					} else {
+						original(prefix, ...args);
+					}
+				};
+			}
 		}
 		// Node, CommonJS
 		module.exports = makeLogger();
