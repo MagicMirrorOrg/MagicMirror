@@ -104,7 +104,7 @@ Module.register("weather", {
 		// All providers run server-side: generate unique instance ID and initialize via node_helper
 		this.instanceId = `${this.identifier}_${Date.now()}`;
 
-		if (window.initWeatherTheme) window.initWeatherTheme();
+		if (window.initWeatherTheme) window.initWeatherTheme(this);
 
 		Log.log(`[weather] Initializing server-side provider with instance ID: ${this.instanceId}`);
 
@@ -254,7 +254,7 @@ Module.register("weather", {
 			window.updateWeatherTheme(this);
 		} else {
 			this.updateDom(300);
-		};
+		}
 
 		const currentWeather = this.currentWeatherObject;
 
