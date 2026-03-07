@@ -102,11 +102,13 @@ class YrProvider {
 				const data = await response.json();
 				// Transform single-day response into array format expected by #getStellarInfoForDate
 				if (data && data.properties) {
-					this.stellarData = [{
-						date: data.when.interval[0], // ISO date string
-						sunrise: data.properties.sunrise,
-						sunset: data.properties.sunset
-					}];
+					this.stellarData = [
+						{
+							date: data.when.interval[0], // ISO date string
+							sunrise: data.properties.sunrise,
+							sunset: data.properties.sunset
+						}
+					];
 				}
 				this.stellarDataDate = today;
 			}

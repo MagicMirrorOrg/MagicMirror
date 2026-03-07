@@ -159,7 +159,7 @@ function cardinalToDegrees (direction) {
  */
 function validateCoordinates (config, maxDecimals = 4) {
 	if (config.lat == null || config.lon == null
-		|| !Number.isFinite(config.lat) || !Number.isFinite(config.lon)) {
+	  || !Number.isFinite(config.lat) || !Number.isFinite(config.lon)) {
 		throw new Error("Latitude and longitude are required");
 	}
 
