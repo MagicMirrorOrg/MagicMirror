@@ -1,9 +1,9 @@
-import { defineConfig, globalIgnores } from "eslint/config";
+import {defineConfig, globalIgnores} from "eslint/config";
 import globals from "globals";
-import { flatConfigs as importX } from "eslint-plugin-import-x";
+import {flatConfigs as importX} from "eslint-plugin-import-x";
 import js from "@eslint/js";
 import jsdocPlugin from "eslint-plugin-jsdoc";
-import packageJson from "eslint-plugin-package-json";
+import {configs as packageJsonConfigs} from "eslint-plugin-package-json";
 import playwright from "eslint-plugin-playwright";
 import stylistic from "@stylistic/eslint-plugin";
 import vitest from "@vitest/eslint-plugin";
@@ -24,8 +24,7 @@ export default defineConfig([
 				moment: "readonly"
 			}
 		},
-		plugins: { js, stylistic },
-		extends: [importX.recommended, "js/recommended", jsdocPlugin.configs["flat/recommended"], stylistic.configs.customize({ indent: "tab", quotes: "double", semi: true, commaDangle: "never" })],
+		extends: [importX.recommended, js.configs.recommended, jsdocPlugin.configs["flat/recommended"], stylistic.configs.all],
 		rules: {
 			"@stylistic/array-element-newline": ["error", "consistent"],
 			"@stylistic/arrow-parens": ["error", "always"],
@@ -35,14 +34,14 @@ export default defineConfig([
 			"@stylistic/function-paren-newline": ["error", "consistent"],
 			"@stylistic/implicit-arrow-linebreak": ["error", "beside"],
 			"@stylistic/indent": ["error", "tab"],
-			"@stylistic/max-statements-per-line": ["error", { max: 2 }],
+			"@stylistic/max-statements-per-line": ["error", {max: 2}],
 			"@stylistic/multiline-comment-style": "off",
 			"@stylistic/multiline-ternary": ["error", "always-multiline"],
-			"@stylistic/newline-per-chained-call": ["error", { ignoreChainWithDepth: 4 }],
+			"@stylistic/newline-per-chained-call": ["error", {ignoreChainWithDepth: 4}],
 			"@stylistic/no-extra-parens": "off",
 			"@stylistic/no-tabs": "off",
 			"@stylistic/object-curly-spacing": ["error", "always"],
-			"@stylistic/object-property-newline": ["error", { allowAllPropertiesOnSameLine: true }],
+			"@stylistic/object-property-newline": ["error", {allowAllPropertiesOnSameLine: true}],
 			"@stylistic/operator-linebreak": ["error", "before"],
 			"@stylistic/padded-blocks": "off",
 			"@stylistic/quote-props": ["error", "as-needed"],
@@ -51,7 +50,7 @@ export default defineConfig([
 			"@stylistic/space-before-function-paren": ["error", "always"],
 			"@stylistic/spaced-comment": "off",
 			"dot-notation": "error",
-			eqeqeq: ["error", "always", { null: "ignore" }],
+			eqeqeq: ["error", "always", {null: "ignore"}],
 			"id-length": "off",
 			"import-x/extensions": "error",
 			"import-x/newline-after-import": "error",
@@ -86,12 +85,11 @@ export default defineConfig([
 			"js/logger.js",
 			"tests/**/*.js"
 		],
-		rules: { "no-console": "error" }
+		rules: {"no-console": "error"}
 	},
 	{
 		files: ["**/package.json"],
-		plugins: { packageJson },
-		extends: ["packageJson/recommended"]
+		extends: [packageJsonConfigs.recommended]
 	},
 	{
 		files: ["**/*.mjs"],
@@ -102,15 +100,14 @@ export default defineConfig([
 			},
 			sourceType: "module"
 		},
-		plugins: { js, stylistic },
-		extends: [importX.recommended, "js/all", stylistic.configs.customize({ indent: "tab", quotes: "double", semi: true, commaDangle: "never" })],
+		extends: [importX.recommended, js.configs.all, stylistic.configs.all],
 		rules: {
 			"@stylistic/array-element-newline": "off",
 			"@stylistic/indent": ["error", "tab"],
-			"@stylistic/object-property-newline": ["error", { allowAllPropertiesOnSameLine: true }],
+			"@stylistic/object-property-newline": ["error", {allowAllPropertiesOnSameLine: true}],
 			"@stylistic/padded-blocks": ["error", "never"],
 			"@stylistic/quote-props": ["error", "as-needed"],
-			"import-x/no-unresolved": ["error", { ignore: ["eslint/config"] }],
+			"import-x/no-unresolved": ["error", {ignore: ["eslint/config"]}],
 			"max-lines-per-function": ["error", 100],
 			"no-magic-numbers": "off",
 			"one-var": ["error", "never"],
@@ -124,7 +121,6 @@ export default defineConfig([
 				...vitest.environments.env.globals
 			}
 		},
-		plugins: { vitest },
 		extends: [vitest.configs.recommended],
 		rules: {
 			"vitest/consistent-test-it": "error",
@@ -142,7 +138,7 @@ export default defineConfig([
 					]
 				}
 			],
-			"vitest/max-nested-describe": ["error", { max: 3 }],
+			"vitest/max-nested-describe": ["error", {max: 3}],
 			"vitest/prefer-to-be": "error",
 			"vitest/prefer-to-have-length": "error",
 			"max-lines-per-function": "off"
@@ -167,6 +163,13 @@ export default defineConfig([
 		files: ["tests/e2e/**/*.js"],
 		extends: [playwright.configs["flat/recommended"]],
 		rules: {
+
+			/*
+			 * Tests use Vitest-style plain beforeAll()/afterAll() calls, not Playwright's
+			 * test.beforeAll() style. The rule incorrectly treats all plain hook calls
+			 * as the same unnamed type, flagging the second hook as a duplicate.
+			 */
+			"playwright/no-duplicate-hooks": "off",
 			"playwright/no-standalone-expect": "off"
 		}
 	}

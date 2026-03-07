@@ -221,7 +221,7 @@ class WeatherAPIProvider {
 			return null;
 		}
 
-		const match = /^\s*(\d{1,2}):(\d{2})\s*(AM|PM)\s*$/i.exec(timeValue);
+		const match = (/^\s*(\d{1,2}):(\d{2})\s*(AM|PM)\s*$/i).exec(timeValue);
 		if (!match) {
 			return null;
 		}

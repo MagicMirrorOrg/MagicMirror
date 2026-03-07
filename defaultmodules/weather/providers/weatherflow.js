@@ -8,6 +8,7 @@ const HTTPFetcher = require("#http_fetcher");
  * Note that the WeatherFlow API does not provide snowfall.
  */
 class WeatherFlowProvider {
+
 	/**
 	 * @param {object} config - Provider configuration
 	 */
@@ -190,8 +191,8 @@ class WeatherFlowProvider {
 
 				// Compare year, month, and day to ensure correct matching across month boundaries
 				if (hourDate.getFullYear() === forecastDate.getFullYear()
-					&& hourDate.getMonth() === forecastDate.getMonth()
-					&& hourDate.getDate() === forecastDate.getDate()) {
+				  && hourDate.getMonth() === forecastDate.getMonth()
+				  && hourDate.getDate() === forecastDate.getDate()) {
 					weather.uvIndex = Math.max(weather.uvIndex, hour.uv || 0);
 					weather.precipitationAmount += hour.precip || 0;
 				} else if (hourDate > forecastDate) {
