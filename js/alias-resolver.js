@@ -3,7 +3,7 @@
 // For a future ESM migration, replace this with a public export/import surface.
 
 const path = require("node:path");
-const Module = require("module");
+const Module = require("node:module");
 
 const root = path.join(__dirname, "..");
 
