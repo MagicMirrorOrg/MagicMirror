@@ -43,7 +43,7 @@ Module.register("weather", {
 		absoluteDates: false,
 		forecastDateFormat: "ddd", // format for forecast date display, e.g., "ddd" = Mon, "dddd" = Monday, "D MMM" = 18 Oct
 		hourlyForecastIncrements: 1,
-		themeDir: "./",
+		themeDir: "",
 		themeCustomScripts: []
 	},
 
@@ -57,9 +57,18 @@ Module.register("weather", {
 	// Can be used by the provider to display location of event if nothing else is specified
 	firstEvent: null,
 
+	getThemeDir () {
+		const td = this.config.themeDir.replace(/\/+$/, "");
+		if (td.length > 0) {
+			return `${td}/`;
+		} else {
+			return "";
+		}
+	},
+
 	// Define required scripts.
 	getStyles () {
-		return ["font-awesome.css", "weather-icons.css", `${this.config.themeDir}weather.css`];
+		return ["font-awesome.css", "weather-icons.css", `${this.getThemeDir()}weather.css`];
 	},
 
 	// Return the scripts that are necessary for the weather module.
@@ -68,7 +77,7 @@ Module.register("weather", {
 		// All providers run server-side via node_helper
 		const resArr = ["moment.js", "weatherutils.js", "weatherobject.js", "suncalc.js"];
 		this.config.themeCustomScripts.forEach((element) => {
-			resArr.push(`${this.config.themeDir}${element}`);
+			resArr.push(`${this.getThemeDir()}${element}`);
 		});
 		return resArr;
 	},
@@ -219,15 +228,15 @@ Module.register("weather", {
 	getTemplate () {
 		switch (this.config.type.toLowerCase()) {
 			case "current":
-				return `${this.config.themeDir}current.njk`;
+				return `${this.getThemeDir()}current.njk`;
 			case "hourly":
-				return `${this.config.themeDir}hourly.njk`;
+				return `${this.getThemeDir()}hourly.njk`;
 			case "daily":
 			case "forecast":
-				return `${this.config.themeDir}forecast.njk`;
+				return `${this.getThemeDir()}forecast.njk`;
 			//Make the invalid values use the "Loading..." from forecast
 			default:
-				return `${this.config.themeDir}forecast.njk`;
+				return `${this.getThemeDir()}forecast.njk`;
 		}
 	},
 
