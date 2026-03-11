@@ -238,8 +238,9 @@ END:VCALENDAR`);
 		});
 
 		it("should produce a correctly shaped event object with all required fields", () => {
-			const start = moment("2026-03-10T14:00:00").toDate();
-			const end = moment("2026-03-10T15:00:00").toDate();
+			const start = moment().add(1, "day").startOf("hour").toDate();
+			const end = moment().add(1, "day").startOf("hour").add(1, "hour")
+				.toDate();
 
 			const filteredEvents = CalendarFetcherUtils.filterEvents(
 				{
@@ -266,7 +267,7 @@ END:VCALENDAR`);
 			expect(ev.fullDayEvent).toBe(false);
 			expect(ev.recurringEvent).toBe(false);
 			expect(ev.class).toBe("PUBLIC");
-			expect(ev.firstYear).toBe(2026);
+			expect(ev.firstYear).toBe(moment(start).year());
 			expect(ev.location).toBe("Room 42");
 			expect(ev.geo).toEqual({ lat: 52.52, lon: 13.4 });
 			expect(ev.description).toBe("Agenda TBD");
