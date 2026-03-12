@@ -6,11 +6,12 @@ const express = require("express");
 const helmet = require("helmet");
 const socketio = require("socket.io");
 const Log = require("logger");
+
+const { ipAccessControl } = require("./ip_access_control");
+
+const vendor = require("./vendor");
+
 const { getHtml, getVersion, getEnvVars, cors } = require("#server_functions");
-
-const { ipAccessControl } = require(`${__dirname}/ip_access_control`);
-
-const vendor = require(`${__dirname}/vendor`);
 
 /**
  * Server
