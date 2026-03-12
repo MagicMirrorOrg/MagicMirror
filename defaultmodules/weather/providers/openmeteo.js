@@ -98,7 +98,6 @@ class OpenMeteoProvider {
 			pastDays: 0,
 			type: "current",
 			maxNumberOfDays: 5,
-			maxEntries: 5,
 			updateInterval: 10 * 60 * 1000,
 			...config
 		};
@@ -520,8 +519,8 @@ class OpenMeteoProvider {
 		const now = new Date();
 
 		parsedData.hourly.forEach((weather, i) => {
-			// Skip past entries, collect only future hours up to maxEntries
-			if (weather.time <= now || hours.length >= this.config.maxEntries) {
+			// Skip past entries
+			if (weather.time <= now) {
 				return;
 			}
 
