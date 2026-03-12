@@ -85,7 +85,7 @@ class PirateweatherProvider {
 			return;
 		}
 
-		let weatherData = null;
+		let weatherData;
 
 		switch (this.config.type) {
 			case "current":

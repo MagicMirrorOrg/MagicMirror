@@ -135,7 +135,7 @@ class OpenWeatherMapProvider {
 	}
 
 	#generateWeatherObjectsFromOnecall (data) {
-		let precip = false;
+		let precip;
 
 		// Get current weather
 		const current = {};
