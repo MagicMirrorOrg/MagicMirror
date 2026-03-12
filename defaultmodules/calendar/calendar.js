@@ -387,8 +387,24 @@ Module.register("calendar", {
 				if (this.config.flipDateHeaderTitle) eventWrapper.appendChild(titleWrapper);
 
 				if (event.fullDayEvent) {
-					titleWrapper.colSpan = "2";
-					titleWrapper.classList.add("align-left");
+					if (this.config.showEnd && !this.config.showEndsOnlyWithDuration) {
+						const endMomentAdjusted = eventEndDateMoment.clone().subtract(1, "second");
+						if (!eventStartDateMoment.isSame(endMomentAdjusted, "d")) {
+							const timeWrapper = document.createElement("td");
+							timeWrapper.className = `time light ${this.config.flipDateHeaderTitle ? "align-right " : "align-left "}${this.timeClassForUrl(event.url)}`;
+							timeWrapper.style.paddingLeft = "2px";
+							timeWrapper.style.textAlign = this.config.flipDateHeaderTitle ? "right" : "left";
+							timeWrapper.innerHTML = `-${CalendarUtils.capFirst(endMomentAdjusted.format(this.config.fullDayEventDateFormat))}`;
+							eventWrapper.appendChild(timeWrapper);
+							if (!this.config.flipDateHeaderTitle) titleWrapper.classList.add("align-right");
+						} else {
+							titleWrapper.colSpan = "2";
+							titleWrapper.classList.add("align-left");
+						}
+					} else {
+						titleWrapper.colSpan = "2";
+						titleWrapper.classList.add("align-left");
+					}
 				} else {
 					const timeWrapper = document.createElement("td");
 					timeWrapper.className = `time light ${this.config.flipDateHeaderTitle ? "align-right " : "align-left "}${this.timeClassForUrl(event.url)}`;
@@ -454,16 +470,25 @@ Module.register("calendar", {
 					}
 					if (event.fullDayEvent && this.config.nextDaysRelative) {
 						// Full days events within the next two days
+						let relativeLabel = false;
 						if (event.today) {
 							timeWrapper.innerHTML = CalendarUtils.capFirst(this.translate("TODAY"));
+							relativeLabel = true;
 						} else if (event.yesterday) {
 							timeWrapper.innerHTML = CalendarUtils.capFirst(this.translate("YESTERDAY"));
+							relativeLabel = true;
 						} else if (event.tomorrow) {
 							timeWrapper.innerHTML = CalendarUtils.capFirst(this.translate("TOMORROW"));
+							relativeLabel = true;
 						} else if (event.dayAfterTomorrow) {
 							if (this.translate("DAYAFTERTOMORROW") !== "DAYAFTERTOMORROW") {
 								timeWrapper.innerHTML = CalendarUtils.capFirst(this.translate("DAYAFTERTOMORROW"));
+								relativeLabel = true;
 							}
+						}
+						// Append end date only if a relative label replaced the start date
+						if (relativeLabel && this.config.showEnd && !this.config.showEndsOnlyWithDuration && !eventStartDateMoment.isSame(eventEndDateMoment, "d")) {
+							timeWrapper.innerHTML += `-${CalendarUtils.capFirst(eventEndDateMoment.format(this.config.fullDayEventDateFormat))}`;
 						}
 					}
 				} else {
@@ -499,6 +524,13 @@ Module.register("calendar", {
 							} else if (event.dayAfterTomorrow) {
 								if (this.translate("DAYAFTERTOMORROW") !== "DAYAFTERTOMORROW") {
 									timeWrapper.innerHTML = CalendarUtils.capFirst(this.translate("DAYAFTERTOMORROW"));
+								}
+							}
+							// Show end date for multi-day full-day events if showEnd is configured
+							if (this.config.showEnd && !this.config.showEndsOnlyWithDuration) {
+								const endMomentAdjusted = eventEndDateMoment.clone().subtract(1, "second");
+								if (!eventStartDateMoment.isSame(endMomentAdjusted, "d")) {
+									timeWrapper.innerHTML += `-${CalendarUtils.capFirst(endMomentAdjusted.format(this.config.fullDayEventDateFormat))}`;
 								}
 							}
 							Log.info("[calendar] event fullday");

@@ -314,4 +314,21 @@ describe("Calendar module", () => {
 			await expect(doTestTableContent(".testNotification", ".elementCount", "12", first)).resolves.toBe(true);
 		});
 	});
+
+	describe("showEnd for multi-day full-day events", () => {
+		it("relative timeFormat shows start and end date", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/fullday_multiday_showend_relative.js", "08 Oct 2024 12:30:00 GMT-07:00", [], "America/Chicago");
+			await expect(doTestTableContent(".calendar .event", ".time", "25th.Oct-30th.Oct", first)).resolves.toBe(true);
+		});
+
+		it("dateheaders timeFormat shows end date in time cell", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/fullday_multiday_showend_dateheaders.js", "08 Oct 2024 12:30:00 GMT-07:00", [], "America/Chicago");
+			await expect(doTestTableContent(".calendar .event", ".time", "-30th.Oct", first)).resolves.toBe(true);
+		});
+
+		it("absolute timeFormat with nextDaysRelative shows relative label and end date", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/fullday_multiday_showend_nextdaysrelative.js", "24 Oct 2024 12:30:00 GMT-07:00", [], "America/Chicago");
+			await expect(doTestTableContent(".calendar .event", ".time", "Tomorrow-30th.Oct", first)).resolves.toBe(true);
+		});
+	});
 });
