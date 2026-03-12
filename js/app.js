@@ -9,11 +9,12 @@ const Log = require("logger");
 // global absolute root path
 global.root_path = path.resolve(`${__dirname}/../`);
 
-const Server = require(`${__dirname}/server`);
-const Utils = require(`${__dirname}/utils`);
-
 // used to control fetch timeout for node_helpers
 const { setGlobalDispatcher, Agent } = require("undici");
+
+const Server = require("./server");
+const Utils = require("./utils");
+
 const { getEnvVarsAsObj } = require("#server_functions");
 // common timeout value, provide environment override in case
 const fetch_timeout = process.env.mmFetchTimeout !== undefined ? process.env.mmFetchTimeout : 30000;

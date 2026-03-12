@@ -96,7 +96,7 @@ const checkDeprecatedOptions = (userConfig) => {
  */
 const loadConfig = () => {
 	Log.log("Loading config ...");
-	const defaults = require(`${__dirname}/defaults`);
+	const defaults = require("./defaults");
 	if (global.mmTestMode) {
 		// if we are running in test mode
 		defaults.address = "0.0.0.0";
