@@ -191,7 +191,7 @@ class HTTPFetcher extends EventEmitter {
 	#getDelayForResponse (response) {
 		const { status } = response;
 		let delay = this.reloadInterval;
-		let message = "";
+		let message;
 		let errorType = "UNKNOWN_ERROR";
 
 		if (status === 401 || status === 403) {

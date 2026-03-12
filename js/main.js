@@ -1,4 +1,4 @@
-/* global Loader, defaults, Translator, addAnimateCSS, removeAnimateCSS, AnimateCSSIn, AnimateCSSOut, modulePositions, io */
+/* global Loader, defaults, addAnimateCSS, removeAnimateCSS, AnimateCSSIn, AnimateCSSOut, modulePositions, io */
 
 const MM = (function () {
 	let modules = [];

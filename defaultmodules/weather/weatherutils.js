@@ -31,7 +31,7 @@ const WeatherUtils = {
 		if (valueUnit === "%") return `${value.toFixed(0)} ${valueUnit}`;
 
 		let convertedValue = value;
-		let conversionUnit = valueUnit;
+		let conversionUnit;
 		if (outputUnit === "imperial") {
 			convertedValue = this.convertPrecipitationToInch(value, valueUnit);
 			conversionUnit = "in";

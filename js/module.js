@@ -1,4 +1,4 @@
-/* global Class, cloneObject, Loader, MMSocket, nunjucks, Translator */
+/* global Class, cloneObject, Loader, MMSocket, nunjucks */
 
 /*
  * Module Blueprint.

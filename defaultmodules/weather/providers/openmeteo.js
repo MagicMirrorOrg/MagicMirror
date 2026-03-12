@@ -241,16 +241,14 @@ class OpenMeteoProvider {
 	}
 
 	#getQueryParameters () {
-		const maxEntriesLimit = ["daily", "forecast"].includes(this.config.type) ? 7 : this.config.type === "hourly" ? 48 : 0;
-		let maxEntries = this.config.maxEntries;
 		let maxNumberOfDays = this.config.maxNumberOfDays;
 
 		if (this.config.maxNumberOfDays !== undefined && !isNaN(parseFloat(this.config.maxNumberOfDays))) {
+			const maxEntriesLimit = ["daily", "forecast"].includes(this.config.type) ? 7 : this.config.type === "hourly" ? 48 : 0;
 			const daysFactor = ["daily", "forecast"].includes(this.config.type) ? 1 : this.config.type === "hourly" ? 24 : 0;
-			maxEntries = Math.max(1, Math.min(Math.round(parseFloat(this.config.maxNumberOfDays)) * daysFactor, maxEntriesLimit));
+			const maxEntries = Math.max(1, Math.min(Math.round(parseFloat(this.config.maxNumberOfDays)) * daysFactor, maxEntriesLimit));
 			maxNumberOfDays = Math.ceil(maxEntries / Math.max(1, daysFactor));
 		}
-		maxEntries = Math.max(1, Math.min(maxEntries, maxEntriesLimit));
 
 		const params = {
 			latitude: this.config.lat,
@@ -429,7 +427,7 @@ class OpenMeteoProvider {
 
 		// Add hourly data if available
 		if (parsedData.hourly) {
-			let h = 0;
+			let h;
 			const currentTime = parsedData.current_weather.time;
 
 			// Handle both data shapes: object with arrays or array of objects (after transpose)
