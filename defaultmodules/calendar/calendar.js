@@ -853,7 +853,13 @@ Module.register("calendar", {
 	 */
 	dateFormatIncludesTime () {
 		const dateFormatWithoutLiterals = this.config.dateFormat.replace(/\[[^\]]*\]/g, "");
-		return (/(LTS|LT|H{1,2}|h{1,2}|k{1,2}|m{1,2}|s{1,2}|a|A)/).test(dateFormatWithoutLiterals);
+		const localeDateFormat = moment.localeData();
+		const expandedDateFormat = dateFormatWithoutLiterals.replace(
+			/LTS|LT|LLLL|LLL|LL|L|llll|lll|ll|l/g,
+			(token) => localeDateFormat.longDateFormat(token) || token
+		);
+		const expandedDateFormatWithoutLiterals = expandedDateFormat.replace(/\[[^\]]*\]/g, "");
+		return (/(H{1,2}|h{1,2}|k{1,2}|m{1,2}|s{1,2}|a|A)/).test(expandedDateFormatWithoutLiterals);
 	},
 
 	/**

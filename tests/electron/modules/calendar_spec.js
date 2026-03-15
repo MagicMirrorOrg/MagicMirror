@@ -320,6 +320,13 @@ describe("Calendar module", () => {
 			await expect(doTestTableContent(".calendar .event", ".time", "25th.Oct, 20:00-22:00", first)).resolves.toBe(true);
 		});
 
+		it("absolute timeFormat with dateFormat LLL does not duplicate start time", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/event_with_time_same_day_yearly_display_end_absolute_dateformat_lll.js", "08 Oct 2024 12:30:00 GMT-07:00", [], "America/Chicago");
+			const timeText = (await global.page.locator(".calendar .event .time").locator(`nth=${first}`).textContent()) || "";
+			expect((timeText.match(/20:00/g) || [])).toHaveLength(1);
+			await expect(doTestTableContent(".calendar .event", ".time", "-22:00", first)).resolves.toBe(true);
+		});
+
 		it("relative timeFormat shows start and end time without repeating date", async () => {
 			await helpers.startApplication("tests/configs/modules/calendar/event_with_time_same_day_yearly_display_end_relative.js", "08 Oct 2024 12:30:00 GMT-07:00", [], "America/Chicago");
 			await expect(doTestTableContent(".calendar .event", ".time", "25th.Oct, 20:00-22:00", first)).resolves.toBe(true);
