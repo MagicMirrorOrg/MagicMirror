@@ -417,8 +417,8 @@ Module.register("calendar", {
 						if (this.config.showEndsOnlyWithDuration && event.startDate === event.endDate) {
 							// no duration here, don't display end
 						} else {
-							const endFormat = eventStartDateMoment.isSame(eventEndDateMoment, "d") ? "LT" : this.config.dateEndFormat;
-							timeWrapper.innerHTML += `-${CalendarUtils.capFirst(eventEndDateMoment.format(endFormat))}`;
+							// In dateheaders mode, keep the end as time-only to avoid redundant date info under a date header.
+							timeWrapper.innerHTML += `-${CalendarUtils.capFirst(eventEndDateMoment.format("LT"))}`;
 						}
 					}
 
@@ -436,14 +436,14 @@ Module.register("calendar", {
 				if (this.config.timeFormat === "absolute") {
 					// Use dateFormat
 					timeWrapper.innerHTML = CalendarUtils.capFirst(eventStartDateMoment.format(this.config.dateFormat));
-					// Add end time if showEnd
-					if (this.config.showEnd) {
-						// and has a duration
-						if (event.startDate !== event.endDate) {
-							const endFormat = eventStartDateMoment.isSame(eventEndDateMoment, "d") ? "LT" : this.config.dateEndFormat;
-							timeWrapper.innerHTML += "-";
-							timeWrapper.innerHTML += CalendarUtils.capFirst(eventEndDateMoment.format(endFormat));
+					// Add end time if showEnd and event has duration
+					if (this.config.showEnd && event.startDate !== event.endDate) {
+						const sameDay = this.isSameDay(eventStartDateMoment, eventEndDateMoment);
+						if (sameDay && !this.dateFormatIncludesTime()) {
+							// Include start time so result is e.g. "Mar 25th, 10:00-11:00" instead of "Mar 25th-11:00"
+							timeWrapper.innerHTML += `, ${eventStartDateMoment.format("LT")}`;
 						}
+						timeWrapper.innerHTML += `-${this.formatTimedEventEnd(eventStartDateMoment, eventEndDateMoment)}`;
 					}
 
 					// For full day events we use the fullDayEventDateFormat
@@ -542,8 +542,14 @@ Module.register("calendar", {
 							timeWrapper.innerHTML = `${CalendarUtils.capFirst(eventStartDateMoment.fromNow())}`;
 						} else if (this.config.showEnd && (!this.config.showEndsOnlyWithDuration || event.startDate !== event.endDate)) {
 							// Show end time for timed events
-							const endFormat = eventStartDateMoment.isSame(eventEndDateMoment, "d") ? "LT" : this.config.dateEndFormat;
-							timeWrapper.innerHTML += `-${CalendarUtils.capFirst(eventEndDateMoment.format(endFormat))}`;
+							if (this.isSameDay(eventStartDateMoment, eventEndDateMoment)) {
+								// Re-format start to include time (sameElse may not have included it)
+								const sameElseFormat = this.dateFormatIncludesTime() ? this.config.dateFormat : `${this.config.dateFormat}, LT`;
+								timeWrapper.innerHTML = CalendarUtils.capFirst(
+									eventStartDateMoment.calendar(null, { sameElse: sameElseFormat })
+								);
+							}
+							timeWrapper.innerHTML += `-${this.formatTimedEventEnd(eventStartDateMoment, eventEndDateMoment)}`;
 						}
 					} else {
 						// Ongoing event
@@ -829,6 +835,37 @@ Module.register("calendar", {
 				return arr1.indexOf(item) === -1;
 			})
 		);
+	},
+
+	/**
+	 * Determines whether two moments are on the same day.
+	 * @param {moment.Moment} startMoment The start moment.
+	 * @param {moment.Moment} endMoment The end moment.
+	 * @returns {boolean} True when both moments share the same calendar day.
+	 */
+	isSameDay (startMoment, endMoment) {
+		return startMoment.isSame(endMoment, "d");
+	},
+
+	/**
+	 * Checks whether the configured dateFormat already contains time components.
+	 * @returns {boolean} True when dateFormat includes time tokens.
+	 */
+	dateFormatIncludesTime () {
+		const dateFormatWithoutLiterals = this.config.dateFormat.replace(/\[[^\]]*\]/g, "");
+		return (/(LTS|LT|H{1,2}|h{1,2}|k{1,2}|m{1,2}|s{1,2}|a|A)/).test(dateFormatWithoutLiterals);
+	},
+
+	/**
+	 * Formats a timed event end value.
+	 * Uses time-only for same-day events and dateEndFormat for multi-day events.
+	 * @param {moment.Moment} startMoment The event start moment.
+	 * @param {moment.Moment} endMoment The event end moment.
+	 * @returns {string} The formatted end value.
+	 */
+	formatTimedEventEnd (startMoment, endMoment) {
+		const endFormat = this.isSameDay(startMoment, endMoment) ? "LT" : this.config.dateEndFormat;
+		return CalendarUtils.capFirst(endMoment.format(endFormat));
 	},
 
 	/**
