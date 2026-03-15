@@ -412,12 +412,12 @@ Module.register("calendar", {
 					timeWrapper.style.textAlign = this.config.flipDateHeaderTitle ? "right" : "left";
 					timeWrapper.innerHTML = eventStartDateMoment.format("LT");
 
-					// Add endDate to dataheaders if showEnd is enabled
+					// Add endDate to dateheaders if showEnd is enabled
 					if (this.config.showEnd) {
 						if (this.config.showEndsOnlyWithDuration && event.startDate === event.endDate) {
 							// no duration here, don't display end
 						} else {
-							timeWrapper.innerHTML += ` - ${CalendarUtils.capFirst(eventEndDateMoment.format("LT"))}`;
+							timeWrapper.innerHTML += `-${CalendarUtils.capFirst(eventEndDateMoment.format(this.config.dateEndFormat))}`;
 						}
 					}
 
@@ -538,6 +538,9 @@ Module.register("calendar", {
 							Log.info("[calendar] not full day but within getRelative size");
 							// If event is within getRelative hours, display 'in xxx' time format or moment.fromNow()
 							timeWrapper.innerHTML = `${CalendarUtils.capFirst(eventStartDateMoment.fromNow())}`;
+						} else if (this.config.showEnd && (!this.config.showEndsOnlyWithDuration || event.startDate !== event.endDate)) {
+							// Show end time for timed events
+							timeWrapper.innerHTML += `-${CalendarUtils.capFirst(eventEndDateMoment.format(this.config.dateEndFormat))}`;
 						}
 					} else {
 						// Ongoing event
