@@ -417,7 +417,8 @@ Module.register("calendar", {
 						if (this.config.showEndsOnlyWithDuration && event.startDate === event.endDate) {
 							// no duration here, don't display end
 						} else {
-							timeWrapper.innerHTML += `-${CalendarUtils.capFirst(eventEndDateMoment.format(this.config.dateEndFormat))}`;
+							const endFormat = eventStartDateMoment.isSame(eventEndDateMoment, "d") ? "LT" : this.config.dateEndFormat;
+							timeWrapper.innerHTML += `-${CalendarUtils.capFirst(eventEndDateMoment.format(endFormat))}`;
 						}
 					}
 
@@ -439,8 +440,9 @@ Module.register("calendar", {
 					if (this.config.showEnd) {
 						// and has a duration
 						if (event.startDate !== event.endDate) {
+							const endFormat = eventStartDateMoment.isSame(eventEndDateMoment, "d") ? "LT" : this.config.dateEndFormat;
 							timeWrapper.innerHTML += "-";
-							timeWrapper.innerHTML += CalendarUtils.capFirst(eventEndDateMoment.format(this.config.dateEndFormat));
+							timeWrapper.innerHTML += CalendarUtils.capFirst(eventEndDateMoment.format(endFormat));
 						}
 					}
 
@@ -540,7 +542,8 @@ Module.register("calendar", {
 							timeWrapper.innerHTML = `${CalendarUtils.capFirst(eventStartDateMoment.fromNow())}`;
 						} else if (this.config.showEnd && (!this.config.showEndsOnlyWithDuration || event.startDate !== event.endDate)) {
 							// Show end time for timed events
-							timeWrapper.innerHTML += `-${CalendarUtils.capFirst(eventEndDateMoment.format(this.config.dateEndFormat))}`;
+							const endFormat = eventStartDateMoment.isSame(eventEndDateMoment, "d") ? "LT" : this.config.dateEndFormat;
+							timeWrapper.innerHTML += `-${CalendarUtils.capFirst(eventEndDateMoment.format(endFormat))}`;
 						}
 					} else {
 						// Ongoing event
