@@ -305,7 +305,29 @@ describe("Calendar module", () => {
 
 		it("dateheaders timeFormat shows end for timed multi-day events", async () => {
 			await helpers.startApplication("tests/configs/modules/calendar/event_with_time_over_multiple_days_non_repeating_display_end_dateheaders.js", "08 Oct 2024 12:30:00 GMT-07:00", [], "America/Chicago");
-			await expect(doTestTableContent(".calendar .event", ".time", "-26th.Oct, 06:00", first)).resolves.toBe(true);
+			await expect(doTestTableContent(".calendar .event", ".time", "20:00-06:00", first)).resolves.toBe(true);
+		});
+	});
+
+	describe("showEnd for timed same-day events", () => {
+		it("absolute timeFormat shows start and end time without repeating date", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/event_with_time_same_day_yearly_display_end_absolute.js", "08 Oct 2024 12:30:00 GMT-07:00", [], "America/Chicago");
+			await expect(doTestTableContent(".calendar .event", ".time", "25th.Oct, 20:00-22:00", first)).resolves.toBe(true);
+		});
+
+		it("absolute timeFormat with time in dateFormat does not duplicate start time", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/event_with_time_same_day_yearly_display_end_absolute_dateformat_with_time.js", "08 Oct 2024 12:30:00 GMT-07:00", [], "America/Chicago");
+			await expect(doTestTableContent(".calendar .event", ".time", "25th.Oct, 20:00-22:00", first)).resolves.toBe(true);
+		});
+
+		it("relative timeFormat shows start and end time without repeating date", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/event_with_time_same_day_yearly_display_end_relative.js", "08 Oct 2024 12:30:00 GMT-07:00", [], "America/Chicago");
+			await expect(doTestTableContent(".calendar .event", ".time", "25th.Oct, 20:00-22:00", first)).resolves.toBe(true);
+		});
+
+		it("dateheaders timeFormat shows start and end time only", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/event_with_time_same_day_yearly_display_end_dateheaders.js", "08 Oct 2024 12:30:00 GMT-07:00", [], "America/Chicago");
+			await expect(doTestTableContent(".calendar .event", ".time", "20:00-22:00", first)).resolves.toBe(true);
 		});
 	});
 
