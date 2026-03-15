@@ -297,6 +297,18 @@ describe("Calendar module", () => {
 		});
 	});
 
+	describe("showEnd for timed multi-day events", () => {
+		it("relative timeFormat shows start and end for timed multi-day events", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/event_with_time_over_multiple_days_non_repeating_display_end_relative.js", "08 Oct 2024 12:30:00 GMT-07:00", [], "America/Chicago");
+			await expect(doTestTableContent(".calendar .event", ".time", "25th.Oct, 20:00-26th.Oct, 06:00", first)).resolves.toBe(true);
+		});
+
+		it("dateheaders timeFormat shows end for timed multi-day events", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/event_with_time_over_multiple_days_non_repeating_display_end_dateheaders.js", "08 Oct 2024 12:30:00 GMT-07:00", [], "America/Chicago");
+			await expect(doTestTableContent(".calendar .event", ".time", "-26th.Oct, 06:00", first)).resolves.toBe(true);
+		});
+	});
+
 	describe("count and check symbols", () => {
 		it("in array", async () => {
 			await helpers.startApplication("tests/configs/modules/calendar/symboltest.js", "08 Oct 2024 12:30:00 GMT-07:00", [], "America/Chicago");
