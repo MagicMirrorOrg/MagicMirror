@@ -50,6 +50,18 @@ describe("Calendar module", () => {
 		return true;
 	};
 
+	const defaultCalendarNow = "08 Oct 2024 12:30:00 GMT-07:00";
+	const defaultCalendarTimeZone = "America/Chicago";
+
+	const expectFirstEventTimeCell = async ({ configPath, expectedTime, now = defaultCalendarNow, timeZone = defaultCalendarTimeZone }) => {
+		await helpers.startApplication(configPath, now, [], timeZone);
+		await expect(doTestTableContent(".calendar .event", ".time", expectedTime, first)).resolves.toBe(true);
+	};
+
+	const getFirstEventTimeText = async () => {
+		return (await global.page.locator(".calendar .event .time").locator(`nth=${first}`).textContent()) || "";
+	};
+
 	afterEach(async () => {
 		await helpers.stopApplication();
 	});
@@ -298,51 +310,67 @@ describe("Calendar module", () => {
 	});
 
 	describe("showEnd for timed multi-day events", () => {
-		it("relative timeFormat shows start and end for timed multi-day events", async () => {
-			await helpers.startApplication("tests/configs/modules/calendar/event_with_time_over_multiple_days_non_repeating_display_end_relative.js", "08 Oct 2024 12:30:00 GMT-07:00", [], "America/Chicago");
-			await expect(doTestTableContent(".calendar .event", ".time", "25th.Oct, 20:00-26th.Oct, 06:00", first)).resolves.toBe(true);
-		});
+		const timedMultiDayCases = [
+			{
+				name: "relative timeFormat shows start and end for timed multi-day events",
+				configPath: "tests/configs/modules/calendar/event_with_time_over_multiple_days_non_repeating_display_end_relative.js",
+				expectedTime: "25th.Oct, 20:00-26th.Oct, 06:00"
+			},
+			{
+				name: "dateheaders timeFormat shows end for timed multi-day events",
+				configPath: "tests/configs/modules/calendar/event_with_time_over_multiple_days_non_repeating_display_end_dateheaders.js",
+				expectedTime: "20:00-06:00"
+			}
+		];
 
-		it("dateheaders timeFormat shows end for timed multi-day events", async () => {
-			await helpers.startApplication("tests/configs/modules/calendar/event_with_time_over_multiple_days_non_repeating_display_end_dateheaders.js", "08 Oct 2024 12:30:00 GMT-07:00", [], "America/Chicago");
-			await expect(doTestTableContent(".calendar .event", ".time", "20:00-06:00", first)).resolves.toBe(true);
+		it.each(timedMultiDayCases)("$name", async (testCase) => {
+			expect.hasAssertions();
+			await expectFirstEventTimeCell(testCase);
 		});
 	});
 
 	describe("showEnd for timed same-day events", () => {
-		it("absolute timeFormat shows start and end time without repeating date", async () => {
-			await helpers.startApplication("tests/configs/modules/calendar/event_with_time_same_day_yearly_display_end_absolute.js", "08 Oct 2024 12:30:00 GMT-07:00", [], "America/Chicago");
-			await expect(doTestTableContent(".calendar .event", ".time", "25th.Oct, 20:00-22:00", first)).resolves.toBe(true);
-		});
+		const timedSameDaySimpleCases = [
+			{
+				name: "absolute timeFormat shows start and end time without repeating date",
+				configPath: "tests/configs/modules/calendar/event_with_time_same_day_yearly_display_end_absolute.js",
+				expectedTime: "25th.Oct, 20:00-22:00"
+			},
+			{
+				name: "absolute timeFormat with time in dateFormat does not duplicate start time",
+				configPath: "tests/configs/modules/calendar/event_with_time_same_day_yearly_display_end_absolute_dateformat_with_time.js",
+				expectedTime: "25th.Oct, 20:00-22:00"
+			},
+			{
+				name: "relative timeFormat shows start and end time without repeating date",
+				configPath: "tests/configs/modules/calendar/event_with_time_same_day_yearly_display_end_relative.js",
+				expectedTime: "25th.Oct, 20:00-22:00"
+			},
+			{
+				name: "dateheaders timeFormat shows start and end time only",
+				configPath: "tests/configs/modules/calendar/event_with_time_same_day_yearly_display_end_dateheaders.js",
+				expectedTime: "20:00-22:00"
+			}
+		];
 
-		it("absolute timeFormat with time in dateFormat does not duplicate start time", async () => {
-			await helpers.startApplication("tests/configs/modules/calendar/event_with_time_same_day_yearly_display_end_absolute_dateformat_with_time.js", "08 Oct 2024 12:30:00 GMT-07:00", [], "America/Chicago");
-			await expect(doTestTableContent(".calendar .event", ".time", "25th.Oct, 20:00-22:00", first)).resolves.toBe(true);
+		it.each(timedSameDaySimpleCases)("$name", async (testCase) => {
+			expect.hasAssertions();
+			await expectFirstEventTimeCell(testCase);
 		});
 
 		it("absolute timeFormat with dateFormat LLL does not duplicate start time", async () => {
-			await helpers.startApplication("tests/configs/modules/calendar/event_with_time_same_day_yearly_display_end_absolute_dateformat_lll.js", "08 Oct 2024 12:30:00 GMT-07:00", [], "America/Chicago");
-			const timeText = (await global.page.locator(".calendar .event .time").locator(`nth=${first}`).textContent()) || "";
+			await helpers.startApplication("tests/configs/modules/calendar/event_with_time_same_day_yearly_display_end_absolute_dateformat_lll.js", defaultCalendarNow, [], defaultCalendarTimeZone);
+			const timeText = await getFirstEventTimeText();
 			const timeTokens = timeText.match(/\d{1,2}:\d{2}(?:\s?[AP]M)?/gi) || [];
 			expect(timeTokens).toHaveLength(2);
 			expect(timeText).toContain("-");
 		});
 
-		it("relative timeFormat shows start and end time without repeating date", async () => {
-			await helpers.startApplication("tests/configs/modules/calendar/event_with_time_same_day_yearly_display_end_relative.js", "08 Oct 2024 12:30:00 GMT-07:00", [], "America/Chicago");
-			await expect(doTestTableContent(".calendar .event", ".time", "25th.Oct, 20:00-22:00", first)).resolves.toBe(true);
-		});
-
 		it("relative timeFormat with hideTime does not show start or end times", async () => {
-			await helpers.startApplication("tests/configs/modules/calendar/event_with_time_same_day_yearly_display_end_relative_hide_time.js", "08 Oct 2024 12:30:00 GMT-07:00", [], "America/Chicago");
-			const timeText = (await global.page.locator(".calendar .event .time").locator(`nth=${first}`).textContent()) || "";
+			await helpers.startApplication("tests/configs/modules/calendar/event_with_time_same_day_yearly_display_end_relative_hide_time.js", defaultCalendarNow, [], defaultCalendarTimeZone);
+			const timeText = await getFirstEventTimeText();
 			expect(timeText).toContain("25th.Oct");
 			expect(timeText.match(/\d{1,2}:\d{2}(?:\s?[AP]M)?/gi) || []).toHaveLength(0);
-		});
-
-		it("dateheaders timeFormat shows start and end time only", async () => {
-			await helpers.startApplication("tests/configs/modules/calendar/event_with_time_same_day_yearly_display_end_dateheaders.js", "08 Oct 2024 12:30:00 GMT-07:00", [], "America/Chicago");
-			await expect(doTestTableContent(".calendar .event", ".time", "20:00-22:00", first)).resolves.toBe(true);
 		});
 	});
 
@@ -365,19 +393,28 @@ describe("Calendar module", () => {
 	});
 
 	describe("showEnd for multi-day full-day events", () => {
-		it("relative timeFormat shows start and end date", async () => {
-			await helpers.startApplication("tests/configs/modules/calendar/fullday_multiday_showend_relative.js", "08 Oct 2024 12:30:00 GMT-07:00", [], "America/Chicago");
-			await expect(doTestTableContent(".calendar .event", ".time", "25th.Oct-30th.Oct", first)).resolves.toBe(true);
-		});
+		const fullDayShowEndCases = [
+			{
+				name: "relative timeFormat shows start and end date",
+				configPath: "tests/configs/modules/calendar/fullday_multiday_showend_relative.js",
+				expectedTime: "25th.Oct-30th.Oct"
+			},
+			{
+				name: "dateheaders timeFormat shows end date in time cell",
+				configPath: "tests/configs/modules/calendar/fullday_multiday_showend_dateheaders.js",
+				expectedTime: "-30th.Oct"
+			},
+			{
+				name: "absolute timeFormat with nextDaysRelative shows relative label and end date",
+				configPath: "tests/configs/modules/calendar/fullday_multiday_showend_nextdaysrelative.js",
+				expectedTime: "Tomorrow-30th.Oct",
+				now: "24 Oct 2024 12:30:00 GMT-07:00"
+			}
+		];
 
-		it("dateheaders timeFormat shows end date in time cell", async () => {
-			await helpers.startApplication("tests/configs/modules/calendar/fullday_multiday_showend_dateheaders.js", "08 Oct 2024 12:30:00 GMT-07:00", [], "America/Chicago");
-			await expect(doTestTableContent(".calendar .event", ".time", "-30th.Oct", first)).resolves.toBe(true);
-		});
-
-		it("absolute timeFormat with nextDaysRelative shows relative label and end date", async () => {
-			await helpers.startApplication("tests/configs/modules/calendar/fullday_multiday_showend_nextdaysrelative.js", "24 Oct 2024 12:30:00 GMT-07:00", [], "America/Chicago");
-			await expect(doTestTableContent(".calendar .event", ".time", "Tomorrow-30th.Oct", first)).resolves.toBe(true);
+		it.each(fullDayShowEndCases)("$name", async (testCase) => {
+			expect.hasAssertions();
+			await expectFirstEventTimeCell(testCase);
 		});
 	});
 });
