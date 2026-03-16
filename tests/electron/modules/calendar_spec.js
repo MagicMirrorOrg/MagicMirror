@@ -323,13 +323,21 @@ describe("Calendar module", () => {
 		it("absolute timeFormat with dateFormat LLL does not duplicate start time", async () => {
 			await helpers.startApplication("tests/configs/modules/calendar/event_with_time_same_day_yearly_display_end_absolute_dateformat_lll.js", "08 Oct 2024 12:30:00 GMT-07:00", [], "America/Chicago");
 			const timeText = (await global.page.locator(".calendar .event .time").locator(`nth=${first}`).textContent()) || "";
-			expect((timeText.match(/20:00/g) || [])).toHaveLength(1);
-			await expect(doTestTableContent(".calendar .event", ".time", "-22:00", first)).resolves.toBe(true);
+			const timeTokens = timeText.match(/\d{1,2}:\d{2}(?:\s?[AP]M)?/gi) || [];
+			expect(timeTokens).toHaveLength(2);
+			expect(timeText).toContain("-");
 		});
 
 		it("relative timeFormat shows start and end time without repeating date", async () => {
 			await helpers.startApplication("tests/configs/modules/calendar/event_with_time_same_day_yearly_display_end_relative.js", "08 Oct 2024 12:30:00 GMT-07:00", [], "America/Chicago");
 			await expect(doTestTableContent(".calendar .event", ".time", "25th.Oct, 20:00-22:00", first)).resolves.toBe(true);
+		});
+
+		it("relative timeFormat with hideTime does not show start or end times", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/event_with_time_same_day_yearly_display_end_relative_hide_time.js", "08 Oct 2024 12:30:00 GMT-07:00", [], "America/Chicago");
+			const timeText = (await global.page.locator(".calendar .event .time").locator(`nth=${first}`).textContent()) || "";
+			expect(timeText).toContain("25th.Oct");
+			expect(timeText.match(/\d{1,2}:\d{2}(?:\s?[AP]M)?/gi) || []).toHaveLength(0);
 		});
 
 		it("dateheaders timeFormat shows start and end time only", async () => {

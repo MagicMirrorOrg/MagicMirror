@@ -540,7 +540,7 @@ Module.register("calendar", {
 							Log.info("[calendar] not full day but within getRelative size");
 							// If event is within getRelative hours, display 'in xxx' time format or moment.fromNow()
 							timeWrapper.innerHTML = `${CalendarUtils.capFirst(eventStartDateMoment.fromNow())}`;
-						} else if (this.config.showEnd && (!this.config.showEndsOnlyWithDuration || event.startDate !== event.endDate)) {
+						} else if (!this.config.hideTime && this.config.showEnd && (!this.config.showEndsOnlyWithDuration || event.startDate !== event.endDate)) {
 							// Show end time for timed events
 							if (this.isSameDay(eventStartDateMoment, eventEndDateMoment)) {
 								// Re-format start to include time (sameElse may not have included it)
