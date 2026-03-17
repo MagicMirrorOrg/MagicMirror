@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  magicmirror:
+    build: .
+    container_name: magicmirror
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./config:/opt/magic_mirror/config
+      - ./modules:/opt/magic_mirror/modules
+      - ./css:/opt/magic_mirror/css
+    environment:
+      - TZ=Europe/Berlin
