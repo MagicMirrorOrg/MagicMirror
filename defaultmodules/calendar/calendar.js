@@ -730,7 +730,7 @@ Module.register("calendar", {
 	buildAbsoluteTimeText (event, eventStartDateMoment, eventEndDateMoment, now) {
 		let timeText = CalendarUtils.capFirst(eventStartDateMoment.format(this.config.dateFormat));
 
-		if (this.config.showEnd && this.hasEventDuration(event)) {
+		if (this.config.showEnd && (!this.config.showEndsOnlyWithDuration || this.hasEventDuration(event))) {
 			const sameDay = this.isSameDay(eventStartDateMoment, eventEndDateMoment);
 			if (sameDay && !this.dateFormatIncludesTime()) {
 				timeText += `, ${eventStartDateMoment.format("LT")}`;
