@@ -65,7 +65,9 @@ describe("Calendar module", () => {
 	};
 
 	const getFirstEventTimeText = async () => {
-		return (await global.page.locator(".calendar .event .time").locator(`nth=${first}`).textContent()) || "";
+		const timeCell = global.page.locator(".calendar .event .time").locator(`nth=${first}`);
+		await timeCell.waitFor({ state: "visible" });
+		return (await timeCell.textContent()) || "";
 	};
 
 	afterEach(async () => {
