@@ -349,7 +349,7 @@ class WeatherGovProvider {
 			days.push(weather);
 		}
 
-		return days.slice(1); // Skip first incomplete day
+		return days;
 	}
 
 	#generateWeatherObjectsFromHourly (forecasts) {
