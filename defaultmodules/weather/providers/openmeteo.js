@@ -1,5 +1,4 @@
 const Log = require("logger");
-const { getDateString } = require("../provider-utils");
 const HTTPFetcher = require("#http_fetcher");
 
 // https://www.bigdatacloud.com/docs/api/free-reverse-geocode-to-city-api
@@ -262,22 +261,15 @@ class OpenMeteoProvider {
 			precipitation_unit: "mm"
 		};
 
-		const now = new Date();
-		const startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-		const endDate = new Date(startDate);
-		endDate.setDate(endDate.getDate() + Math.max(0, Math.min(7, maxNumberOfDays)));
-
-		params.start_date = getDateString(startDate);
-
 		switch (this.config.type) {
 			case "hourly":
 			case "daily":
 			case "forecast":
-				params.end_date = getDateString(endDate);
+				params.forecast_days = maxNumberOfDays + 1; // Open-Meteo counts today as day 1, so maxNumberOfDays=5 needs forecast_days=6
 				break;
 			case "current":
 				params.current_weather = true;
-				params.end_date = params.start_date;
+				params.forecast_days = 1;
 				break;
 			default:
 				return "";
