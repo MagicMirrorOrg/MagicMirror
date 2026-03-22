@@ -241,6 +241,36 @@ describe("WeatherGovProvider", () => {
 			expect(day).toHaveProperty("weatherType");
 			expect(day).toHaveProperty("precipitationProbability");
 		});
+
+		it("should not skip the first day of forecast data", async () => {
+			const provider = new WeatherGovProvider({
+				lat: 40.71,
+				lon: -74.0,
+				type: "forecast"
+			});
+
+			const dataPromise = new Promise((resolve) => {
+				provider.setCallbacks(resolve, vi.fn());
+			});
+
+			server.use(
+				http.get(WEATHERGOV_FORECAST_URL, () => {
+					return HttpResponse.json(forecastData);
+				})
+			);
+
+			await provider.initialize();
+			provider.start();
+
+			const result = await dataPromise;
+
+			// Mock data starts on 2026-02-06 ("This Afternoon").
+			// Before the fix, slice(1) dropped today, so result[0] would have been 2026-02-07.
+			const firstDate = result[0].date;
+			expect(firstDate.getFullYear()).toBe(2026);
+			expect(firstDate.getMonth()).toBe(1); // February (0-indexed)
+			expect(firstDate.getDate()).toBe(6);
+		});
 	});
 
 	describe("Hourly Parsing", () => {
