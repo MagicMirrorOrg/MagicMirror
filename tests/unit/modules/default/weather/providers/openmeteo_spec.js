@@ -80,32 +80,39 @@ describe("OpenMeteoProvider", () => {
 			expect(provider.locationName).toBe("Munich, BY");
 		});
 
-		it("should build query dates from local date, not ISO UTC conversion", async () => {
-			const toISOStringSpy = vi.spyOn(Date.prototype, "toISOString").mockReturnValue("2000-01-01T00:00:00.000Z");
-			try {
-				const provider = new OpenMeteoProvider({
-					lat: 48.14,
-					lon: 11.58,
-					type: "current"
-				});
+		it("should use forecast_days instead of static start_date/end_date", async () => {
+			const provider = new OpenMeteoProvider({
+				lat: 48.14,
+				lon: 11.58,
+				type: "current"
+			});
 
-				await provider.initialize();
+			await provider.initialize();
 
-				const url = new URL(provider.fetcher.url);
-				const params = url.searchParams;
-				const now = new Date();
-				const expectedToday = [
-					now.getFullYear(),
-					String(now.getMonth() + 1).padStart(2, "0"),
-					String(now.getDate()).padStart(2, "0")
-				].join("-");
+			const url = new URL(provider.fetcher.url);
+			const params = url.searchParams;
 
-				expect(params.get("start_date")).toBe(expectedToday);
-				expect(params.get("end_date")).toBe(expectedToday);
-				expect(params.get("start_date")).not.toBe("2000-01-01");
-			} finally {
-				toISOStringSpy.mockRestore();
-			}
+			expect(params.get("forecast_days")).toBe("1");
+			expect(params.has("start_date")).toBe(false);
+			expect(params.has("end_date")).toBe(false);
+		});
+
+		it("should set forecast_days based on maxNumberOfDays for forecast type", async () => {
+			const provider = new OpenMeteoProvider({
+				lat: 48.14,
+				lon: 11.58,
+				type: "forecast",
+				maxNumberOfDays: 5
+			});
+
+			await provider.initialize();
+
+			const url = new URL(provider.fetcher.url);
+			const params = url.searchParams;
+
+			expect(params.get("forecast_days")).toBe("6"); // 5 days + 1
+			expect(params.has("start_date")).toBe(false);
+			expect(params.has("end_date")).toBe(false);
 		});
 	});
 
