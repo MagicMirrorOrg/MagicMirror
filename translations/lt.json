@@ -36,9 +36,13 @@
 	"MODULE_ERROR_MALFORMED_URL": "Netinkama URL nuoroda.",
 	"MODULE_ERROR_NO_CONNECTION": "Nėra interneto ryšio.",
 	"MODULE_ERROR_UNAUTHORIZED": "Autorizacija nepavyko.",
+	"MODULE_ERROR_RATE_LIMITED": "Per daug užklausų. Bandoma vėl vėliau.",
+	"MODULE_ERROR_SERVER_ERROR": "Serverio klaida. Bandoma vėl vėliau.",
+	"MODULE_ERROR_CLIENT_ERROR": "Užklausa nepavyko.",
 	"MODULE_ERROR_UNSPECIFIED": "Patikrinkite žurnalus, kad gautumėte daugiau informacijos.",
 
 	"NEWSFEED_NO_ITEMS": "Šiuo metu naujienų nėra.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Straipsnis čia negali būti rodomas.",
 
 	"UPDATE_NOTIFICATION": "Galimas MagicMirror² naujinimas.",
 	"UPDATE_NOTIFICATION_MODULE": "Galimas {MODULE_NAME} naujinimas.",

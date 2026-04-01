@@ -35,9 +35,13 @@
 	"MODULE_ERROR_MALFORMED_URL": "Ҫӗҫ ҫӗнӗ URL хата.",
 	"MODULE_ERROR_NO_CONNECTION": "Интернет-пулла хӗҫҫӗн.",
 	"MODULE_ERROR_UNAUTHORIZED": "Авторизация хата.",
+	"MODULE_ERROR_RATE_LIMITED": "Нумай ыйту. Хыҫра тепӗр хут.",
+	"MODULE_ERROR_SERVER_ERROR": "Сервер хатӗ. Хыҫра тепӗр хут.",
+	"MODULE_ERROR_CLIENT_ERROR": "Ыйту хатӗ.",
 	"MODULE_ERROR_UNSPECIFIED": "Тӗп лог ҫӗнтерӗ.",
 
 	"NEWSFEED_NO_ITEMS": "Пулас ҫӗнтер ҫук.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Article cannot be displayed here.",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² валли ҫӗнетӳ пур.",
 	"UPDATE_NOTIFICATION_MODULE": "{MODULE_NAME} модуль валли ҫӗнетӳ пур.",

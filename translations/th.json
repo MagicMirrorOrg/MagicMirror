@@ -36,9 +36,13 @@
 	"MODULE_ERROR_MALFORMED_URL": "URL ผิดรูปแบบ",
 	"MODULE_ERROR_NO_CONNECTION": "ไม่มีการเชื่อมต่ออินเทอร์เน็ต.",
 	"MODULE_ERROR_UNAUTHORIZED": "การอนุญาตล้มเหลว",
+	"MODULE_ERROR_RATE_LIMITED": "คำขอมากเกินไป กำลังลองใหม่ในภายหลัง",
+	"MODULE_ERROR_SERVER_ERROR": "ข้อผิดพลาดเซิร์ฟเวอร์ กำลังลองใหม่ในภายหลัง",
+	"MODULE_ERROR_CLIENT_ERROR": "คำขอล้มเหลว",
 	"MODULE_ERROR_UNSPECIFIED": "ตรวจสอบบันทึกสำหรับรายละเอียดเพิ่มเติม",
 
 	"NEWSFEED_NO_ITEMS": "ไม่มีข่าวในขณะนี้",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "ไม่สามารถแสดงบทความที่นี่ได้",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² มีการอัปเดต",
 	"UPDATE_NOTIFICATION_MODULE": "มีการอัปเดตสำหรับโมดูล {MODULE_NAME}",

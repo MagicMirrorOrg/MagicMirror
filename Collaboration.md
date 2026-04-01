@@ -46,6 +46,7 @@ Are done by
   - [ ] add label `mastermerge`
   - [ ] title of the PR is `Release 2.xx.0`
   - [ ] description of the PR is the body of the draft release with name `v2.xx.0`
+- [ ] check if new PR has merge conflicts, if so, merge `master` into the new PR and solve the conflicts
 - [ ] after PR tests run without issues, merge PR
 - [ ] edit draft release with name `v2.xx.0`
   - [ ] set corresponding version tag `v2.xx.0` (with `Select tag` and then `Create new tag`)
@@ -61,11 +62,24 @@ Are done by
 
 ### After release
 
-- [ ] publish release notes with link to github release on forum in new locked topic
+- [ ] publish release notes with link to github release on forum in new locked topic (use edit release on github to copy the content with markdown syntax)
 - [ ] close all issues with label `ready (coming with next release)`
 - [ ] release new documentation by merging `develop` on `master` in documentation repository
 - [ ] publish new version on [npm](https://www.npmjs.com/package/magicmirror)
   - [ ] use a clean environment (e.g. container)
   - [ ] clone this repository with the new `master` branch and `cd` into the local repository directory
-  - [ ] log in to npm with `npm login --auth-type legacy` which will ask for username and password and one-time-password which is sent via mail
-  - [ ] execute `npm publish`
+  - [ ] **Method 1 (recommended): With browser and 2FA**
+    - [ ] execute `npm login` which will open a browser window
+    - [ ] log in with your npm credentials and enter your 2FA code
+    - [ ] execute `npm publish`
+  - [ ] **Method 2 (fallback for headless environments): With token (bypasses 2FA)**
+    - [ ] ⚠️ Note: This method bypasses 2FA and should only be used when a browser is not available
+    - [ ] goto `https://www.npmjs.com/settings/<username>/tokens/` and click `generate new token`
+    - [ ] enable `Bypass two-factor authentication (2FA)` and under `Packages and scopes` give `Read and write` permission to the `magicmirror` package, press `Generate token`
+    - [ ] execute:
+
+      ```bash
+      NPM_TOKEN="npm_xxxxxx"
+      npm set "//registry.npmjs.org/:_authToken=$NPM_TOKEN"
+      npm publish
+      ```

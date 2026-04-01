@@ -19,7 +19,8 @@ async function createGitHelper (fsStatSyncMockRef, loggerMockRef, execShellSpyRe
 
 	vi.doMock("logger", () => loggerMockRef.current);
 
-	const gitHelperModule = await import("../../../modules/default/updatenotification/git_helper");
+	const defaults = await import("../../../js/defaults");
+	const gitHelperModule = await import(`../../../${defaults.defaultModulesDir}/updatenotification/git_helper`);
 	const GitHelper = gitHelperModule.default || gitHelperModule;
 	const instance = new GitHelper();
 	execShellSpyRef.current = vi.spyOn(instance, "execShell");
@@ -319,7 +320,7 @@ describe("Updatenotification", () => {
 	describe("custom module", () => {
 		const moduleName = "MMM-Fuel";
 
-		beforeEach(async () => {
+		beforeEach(() => {
 			gitRemoteOut = `origin\thttps://github.com/fewieden/${moduleName}.git (fetch)\norigin\thttps://github.com/fewieden/${moduleName}.git (push)\n`;
 			gitRevParseOut = "9d8310163da94441073a93cead711ba43e8888d0";
 			gitStatusOut = "## master...origin/master";

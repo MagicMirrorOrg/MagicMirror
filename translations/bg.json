@@ -36,9 +36,13 @@
 	"MODULE_ERROR_MALFORMED_URL": "Неправилен URL адрес.",
 	"MODULE_ERROR_NO_CONNECTION": "Няма интернет връзка.",
 	"MODULE_ERROR_UNAUTHORIZED": "Неуспешна авторизация.",
+	"MODULE_ERROR_RATE_LIMITED": "Твърде много заявки. Повторен опит по-късно.",
+	"MODULE_ERROR_SERVER_ERROR": "Грешка в сървъра. Повторен опит по-късно.",
+	"MODULE_ERROR_CLIENT_ERROR": "Заявката неуспешна.",
 	"MODULE_ERROR_UNSPECIFIED": "Проверете логовете за повече подробности.",
 
 	"NEWSFEED_NO_ITEMS": "Няма новини в момента.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Статията не може да бъде показана тук.",
 
 	"UPDATE_NOTIFICATION": "Налична е актуализация за MagicMirror².",
 	"UPDATE_NOTIFICATION_MODULE": "Налична е актуализация за модула „{MODULE_NAME}“.",

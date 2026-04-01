@@ -36,9 +36,13 @@
 	"MODULE_ERROR_MALFORMED_URL": "Ebakorrektne url.",
 	"MODULE_ERROR_NO_CONNECTION": "Interneti ühendus puudub.",
 	"MODULE_ERROR_UNAUTHORIZED": "Autoriseerimine ebaõnnestus.",
+	"MODULE_ERROR_RATE_LIMITED": "Liiga palju päringuid. Proovin hiljem uuesti.",
+	"MODULE_ERROR_SERVER_ERROR": "Serveri viga. Proovin hiljem uuesti.",
+	"MODULE_ERROR_CLIENT_ERROR": "Päring ebaõnnestus.",
 	"MODULE_ERROR_UNSPECIFIED": "Lisateabe saamiseks kontrollige logifaile.",
 
 	"NEWSFEED_NO_ITEMS": "Hetkel ei ole uudiseid.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Artiklit ei saa siin kuvada.",
 
 	"UPDATE_NOTIFICATION": "MagicMirror²'le on uuendus saadaval.",
 	"UPDATE_NOTIFICATION_MODULE": "Uuendus saadaval {MODULE_NAME} moodulile.",

@@ -1,0 +1,36 @@
+.newsfeed-fullarticle-container {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+  z-index: 1000;
+  background: black;
+}
+
+.newsfeed-fullarticle-container::-webkit-scrollbar {
+  display: none;
+}
+
+iframe.newsfeed-fullarticle {
+  display: block;
+  width: 100%;
+  height: 5000px;
+  border: none;
+}
+
+.region.bottom.bar.newsfeed-fullarticle {
+  bottom: inherit;
+  top: -90px;
+}
+
+.newsfeed-list {
+  list-style: none;
+}
+
+.newsfeed-list li {
+  text-align: justify;
+  margin-bottom: 0.5em;
+}

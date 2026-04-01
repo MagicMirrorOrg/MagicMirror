@@ -1,4 +1,4 @@
 module.exports = {
-	configs: ["kioskmode"],
+	configs: [],
 	clock: ["secondsColor"]
 };

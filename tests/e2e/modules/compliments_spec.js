@@ -104,6 +104,7 @@ describe("Compliments module", () => {
 				await helpers.getDocument();
 				page = helpers.getPage();
 			});
+
 			it("shows 'Remote compliment file works!' as only anytime list set", async () => {
 				//await helpers.startApplication("tests/configs/modules/compliments/compliments_file.js", "01 Jan 2022 10:00:00 GMT");
 				await doTest(["Remote compliment file works!"]);
@@ -119,6 +120,7 @@ describe("Compliments module", () => {
 				await helpers.getDocument();
 				page = helpers.getPage();
 			});
+
 			it("shows 'test in morning' as test time set to 10am", async () => {
 				//await helpers.startApplication("tests/configs/modules/compliments/compliments_file_change.js", "01 Jan 2022 10:00:00 GMT");
 				await doTest(["Remote compliment file works!"]);

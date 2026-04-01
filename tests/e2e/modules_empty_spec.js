@@ -9,6 +9,7 @@ describe("Check configuration without modules", () => {
 		await helpers.getDocument();
 		page = helpers.getPage();
 	});
+
 	afterAll(async () => {
 		await helpers.stopApplication();
 	});

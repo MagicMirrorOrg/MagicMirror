@@ -36,9 +36,13 @@
 	"MODULE_ERROR_MALFORMED_URL": "Virheellinen url.",
 	"MODULE_ERROR_NO_CONNECTION": "Ei internet-yhteyttä.",
 	"MODULE_ERROR_UNAUTHORIZED": "Valtuutus epäonnistui.",
+	"MODULE_ERROR_RATE_LIMITED": "Liikaa pyyntöjä. Yritetään myöhemmin uudelleen.",
+	"MODULE_ERROR_SERVER_ERROR": "Palvelinvirhe. Yritetään myöhemmin uudelleen.",
+	"MODULE_ERROR_CLIENT_ERROR": "Pyyntö epäonnistui.",
 	"MODULE_ERROR_UNSPECIFIED": "Tarkista lokitiedostot saadaksesi lisätietoja.",
 
 	"NEWSFEED_NO_ITEMS": "Ei uutisia tällä hetkellä.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Artikkelia ei voi näyttää täällä.",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² päivitys saatavilla.",
 	"UPDATE_NOTIFICATION_MODULE": "Päivitys saatavilla moduulille {MODULE_NAME}.",

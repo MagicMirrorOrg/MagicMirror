@@ -1,11 +1,11 @@
 // Load lightweight internal alias resolver to enable require("logger")
 require("../js/alias-resolver");
 
-const { spawn } = require("child_process");
-const fs = require("fs");
-const path = require("path");
-const net = require("net");
-const http = require("http");
+const { spawn } = require("node:child_process");
+const fs = require("node:fs");
+const path = require("node:path");
+const net = require("node:net");
+const http = require("node:http");
 const Log = require("logger");
 const { getConfigFilePath } = require("#server_functions");
 
@@ -145,10 +145,10 @@ function notifyClientsToReload () {
  * Restart the server process
  * @param {string} reason The reason for the restart
  */
-async function restartServer (reason) {
+function restartServer (reason) {
 	if (restartTimer) clearTimeout(restartTimer);
 
-	restartTimer = setTimeout(async () => {
+	restartTimer = setTimeout(() => {
 		Log.info(reason);
 
 		if (child) {

@@ -36,9 +36,13 @@
 	"MODULE_ERROR_MALFORMED_URL": "Villa í slóð.",
 	"MODULE_ERROR_NO_CONNECTION": "Engin nettenging.",
 	"MODULE_ERROR_UNAUTHORIZED": "Auðkenning mistókst.",
+	"MODULE_ERROR_RATE_LIMITED": "Of margar beiðnir. Reyni aftur síðar.",
+	"MODULE_ERROR_SERVER_ERROR": "Villa í þjóni. Reyni aftur síðar.",
+	"MODULE_ERROR_CLIENT_ERROR": "Beiðni mistókst.",
 	"MODULE_ERROR_UNSPECIFIED": "Vinsamlegast athugaðu skráningu fyrir frekari upplýsingar.",
 
 	"NEWSFEED_NO_ITEMS": "Engar fréttir í boði núna.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Grein er ekki hægt að sýna hér.",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² uppfærsla í boði.",
 	"UPDATE_NOTIFICATION_MODULE": "Uppfærsla í boði fyrir {MODULE_NAME} module.",

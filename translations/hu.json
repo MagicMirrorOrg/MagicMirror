@@ -35,9 +35,13 @@
 	"MODULE_ERROR_MALFORMED_URL": "Hibás URL.",
 	"MODULE_ERROR_NO_CONNECTION": "Nincs internetkapcsolat.",
 	"MODULE_ERROR_UNAUTHORIZED": "Azonosítás sikertelen.",
+	"MODULE_ERROR_RATE_LIMITED": "Túl sok kérés. Újrapróbálkozás később.",
+	"MODULE_ERROR_SERVER_ERROR": "Szerverhiba. Újrapróbálkozás később.",
+	"MODULE_ERROR_CLIENT_ERROR": "A kérés meghiúsult.",
 	"MODULE_ERROR_UNSPECIFIED": "Ellenőrizze a naplókat további részletekért.",
 
 	"NEWSFEED_NO_ITEMS": "Jelenleg nincsenek hírek.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "A cikk itt nem jeleníthető meg.",
 
 	"UPDATE_NOTIFICATION": "MagicMirror²-hoz frissítés érhető el.",
 	"UPDATE_NOTIFICATION_MODULE": "A {MODULE_NAME} modulhoz frissítés érhető el.",

@@ -36,9 +36,13 @@
 	"MODULE_ERROR_MALFORMED_URL": "不正なURLです。",
 	"MODULE_ERROR_NO_CONNECTION": "インターネット接続がありません。",
 	"MODULE_ERROR_UNAUTHORIZED": "認証に失敗しました。",
+	"MODULE_ERROR_RATE_LIMITED": "リクエストが多すぎます。後で再試行します。",
+	"MODULE_ERROR_SERVER_ERROR": "サーバーエラー。後で再試行します。",
+	"MODULE_ERROR_CLIENT_ERROR": "リクエストが失敗しました。",
 	"MODULE_ERROR_UNSPECIFIED": "詳細はログを確認してください。",
 
 	"NEWSFEED_NO_ITEMS": "現在ニュースはありません。",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "この記事はここでは表示できません。",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² のアップデートが利用可能です。",
 	"UPDATE_NOTIFICATION_MODULE": "モジュール {MODULE_NAME} のアップデートが利用可能です。",

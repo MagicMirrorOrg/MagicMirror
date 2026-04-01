@@ -8,11 +8,11 @@ let config = {
 			module: "weather",
 			position: "bottom_bar",
 			config: {
+				lat: 48.14,
+				lon: 11.58,
 				type: "hourly",
-				location: "Berlin",
 				weatherProvider: "openweathermap",
-				weatherEndpoint: "/onecall",
-				mockData: '"#####WEATHERDATA#####"',
+				apiKey: "test-api-key",
 				hourlyForecastIncrements: 2
 			}
 		}

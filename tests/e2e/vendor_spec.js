@@ -4,6 +4,7 @@ describe("Vendors", () => {
 	beforeAll(async () => {
 		await helpers.startApplication("tests/configs/default.js");
 	});
+
 	afterAll(async () => {
 		await helpers.stopApplication();
 	});

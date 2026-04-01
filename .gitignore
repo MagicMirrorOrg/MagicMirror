@@ -54,20 +54,13 @@ Temporary Items
 .directory
 .Trash-*
 
-# Ignore all modules except the default modules.
+# Ignore all modules
 /modules/*
-!/modules/default
 
-# Ignore changes to the custom css files but keep the sample and main.
-/css/*
-!/css/custom.css.sample
-!/css/font-awesome.css
-!/css/main.css
-!/css/roboto.css
-
-# Ignore users config file but keep the sample.
+# Ignore users config file but keep the samples.
 config
 !config/config.js.sample
+!config/custom.css.sample
 
 # Vim
 ## swap

@@ -36,9 +36,13 @@
 	"MODULE_ERROR_MALFORMED_URL": "URL incorect.",
 	"MODULE_ERROR_NO_CONNECTION": "Fără conexiune la internet.",
 	"MODULE_ERROR_UNAUTHORIZED": "Autorizarea a eșuat.",
+	"MODULE_ERROR_RATE_LIMITED": "Prea multe cereri. Se reîncearcă mai târziu.",
+	"MODULE_ERROR_SERVER_ERROR": "Eroare de server. Se reîncearcă mai târziu.",
+	"MODULE_ERROR_CLIENT_ERROR": "Cererea a eșuat.",
 	"MODULE_ERROR_UNSPECIFIED": "Verificați jurnalele pentru mai multe detalii.",
 
 	"NEWSFEED_NO_ITEMS": "Nu există știri în acest moment.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Articolul nu poate fi afișat aici.",
 
 	"UPDATE_NOTIFICATION": "Un update este disponibil pentru MagicMirror².",
 	"UPDATE_NOTIFICATION_MODULE": "Un update este disponibil pentru modulul {MODULE_NAME}.",

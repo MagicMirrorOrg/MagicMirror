@@ -7,7 +7,7 @@ const { chromium } = require("playwright");
 global.root_path = path.resolve(`${__dirname}/../../../`);
 
 const indexFile = `${global.root_path}/index.html`;
-const cssFile = `${global.root_path}/css/custom.css`;
+const cssFile = `${global.root_path}/config/custom.css`;
 const sampleCss = [
 	".region.row3 {",
 	" top: 0;",
@@ -87,7 +87,6 @@ exports.getPage = () => {
 	}
 	return page;
 };
-
 
 exports.startApplication = async (configFilename, exec) => {
 	vi.resetModules();

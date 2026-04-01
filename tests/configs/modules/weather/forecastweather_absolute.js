@@ -9,10 +9,10 @@ let config = {
 			position: "bottom_bar",
 			config: {
 				type: "forecast",
-				location: "Munich",
+				lat: 48.14,
+				lon: 11.58,
 				weatherProvider: "openweathermap",
-				weatherEndpoint: "/forecast/daily",
-				mockData: '"#####WEATHERDATA#####"',
+				apiKey: "test-api-key",
 				absoluteDates: true
 			}
 		}

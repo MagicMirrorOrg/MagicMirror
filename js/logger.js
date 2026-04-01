@@ -1,131 +1,114 @@
-// This logger is very simple, but needs to be extended.
-(function (root, factory) {
-	if (typeof exports === "object") {
+// Logger for MagicMirror² — works both in Node.js (CommonJS) and the browser (global).
+(function () {
+	if (typeof module !== "undefined") {
 		if (process.env.mmTestMode !== "true") {
 			const { styleText } = require("node:util");
 
-			// add timestamps in front of log messages
-			require("console-stamp")(console, {
-				format: ":date(yyyy-mm-dd HH:MM:ss.l) :label(7) :pre() :msg",
-				tokens: {
-					pre: () => {
-						const err = new Error();
-						Error.prepareStackTrace = (_, stack) => stack;
-						const stack = err.stack;
-						Error.prepareStackTrace = undefined;
-						try {
-							for (const line of stack) {
-								const file = line.getFileName();
-								if (file && !file.includes("node:") && !file.includes("js/logger.js") && !file.includes("node_modules")) {
-									const filename = file.replace(/.*\/(.*).js/, "$1");
-									const filepath = file.replace(/.*\/(.*)\/.*.js/, "$1");
-									if (filepath === "js") {
-										return styleText("grey", `[${filename}]`);
-									} else {
-										return styleText("grey", `[${filepath}]`);
-									}
-								}
-							}
-						} catch (err) {
-							return styleText("grey", "[unknown]");
-						}
-					},
-					label: (arg) => {
-						const { method, defaultTokens } = arg;
-						let label = defaultTokens.label(arg);
-						switch (method) {
-							case "error":
-								label = styleText("red", label);
-								break;
-							case "warn":
-								label = styleText("yellow", label);
-								break;
-							case "debug":
-								label = styleText("bgBlue", label);
-								break;
-							case "info":
-								label = styleText("blue", label);
-								break;
-						}
-						return label;
-					},
-					msg: (arg) => {
-						const { method, defaultTokens } = arg;
-						let msg = defaultTokens.msg(arg);
-						switch (method) {
-							case "error":
-								msg = styleText("red", msg);
-								break;
-							case "warn":
-								msg = styleText("yellow", msg);
-								break;
-							case "info":
-								msg = styleText("blue", msg);
-								break;
-						}
-						return msg;
-					}
-				}
-			});
-		}
-		// Node, CommonJS-like
-		module.exports = factory(root.config);
-	} else {
-		// Browser globals (root is window)
-		root.Log = factory(root.config);
-	}
-}(this, function (config) {
-	let logLevel;
-	let enableLog;
-	if (typeof exports === "object") {
-		// in nodejs and not running in test mode
-		enableLog = process.env.mmTestMode !== "true";
-	} else {
-		// in browser and not running with jsdom
-		enableLog = typeof window === "object" && window.name !== "jsdom";
-	}
+			const LABEL_COLORS = { error: "red", warn: "yellow", debug: "bgBlue", info: "blue" };
+			const MSG_COLORS = { error: "red", warn: "yellow", info: "blue" };
 
-	if (enableLog) {
-		logLevel = {
-			debug: Function.prototype.bind.call(console.debug, console),
-			log: Function.prototype.bind.call(console.log, console),
-			info: Function.prototype.bind.call(console.info, console),
-			warn: Function.prototype.bind.call(console.warn, console),
-			error: Function.prototype.bind.call(console.error, console),
-			group: Function.prototype.bind.call(console.group, console),
-			groupCollapsed: Function.prototype.bind.call(console.groupCollapsed, console),
-			groupEnd: Function.prototype.bind.call(console.groupEnd, console),
-			time: Function.prototype.bind.call(console.time, console),
-			timeEnd: Function.prototype.bind.call(console.timeEnd, console),
-			timeStamp: console.timeStamp ? Function.prototype.bind.call(console.timeStamp, console) : function () {}
-		};
+			const formatTimestamp = () => {
+				const d = new Date();
+				const pad2 = (n) => String(n).padStart(2, "0");
+				const pad3 = (n) => String(n).padStart(3, "0");
+				const date = `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+				const time = `${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}.${pad3(d.getMilliseconds())}`;
+				return `[${date} ${time}]`;
+			};
 
-		logLevel.setLogLevel = function (newLevel) {
-			if (newLevel) {
-				Object.keys(logLevel).forEach(function (key) {
-					if (!newLevel.includes(key.toLocaleUpperCase())) {
-						logLevel[key] = function () {};
+			const getCallerPrefix = () => {
+				try {
+					const lines = new Error().stack.split("\n");
+					for (const line of lines) {
+						if (line.includes("node:") || line.includes("js/logger.js") || line.includes("node_modules")) continue;
+						const match = line.match(/\((.+?\.js):\d+:\d+\)/) || line.match(/at\s+(.+?\.js):\d+:\d+/);
+						if (match) {
+							const file = match[1];
+							const baseName = file.replace(/.*\/(.*)\.js/, "$1");
+							const parentDir = file.replace(/.*\/(.*)\/.*\.js/, "$1");
+							return styleText("gray", parentDir === "js" ? `[${baseName}]` : `[${parentDir}]`);
+						}
 					}
-				});
+				} catch (err) { /* ignore */ }
+				return styleText("gray", "[unknown]");
+			};
+
+			// Patch console methods to prepend timestamp, level label, and caller prefix.
+			for (const method of ["debug", "log", "info", "warn", "error"]) {
+				const original = console[method].bind(console);
+				const labelRaw = `[${method.toUpperCase()}]`.padEnd(7);
+				const label = LABEL_COLORS[method] ? styleText(LABEL_COLORS[method], labelRaw) : labelRaw;
+				console[method] = (...args) => {
+					const prefix = `${formatTimestamp()} ${label} ${getCallerPrefix()}`;
+					const msgColor = MSG_COLORS[method];
+					if (msgColor && args.length > 0 && typeof args[0] === "string") {
+						original(prefix, styleText(msgColor, args[0]), ...args.slice(1));
+					} else {
+						original(prefix, ...args);
+					}
+				};
 			}
-		};
+		}
+		// Node, CommonJS
+		module.exports = makeLogger();
 	} else {
-		logLevel = {
-			debug () {},
-			log () {},
-			info () {},
-			warn () {},
-			error () {},
-			group () {},
-			groupCollapsed () {},
-			groupEnd () {},
-			time () {},
-			timeEnd () {},
-			timeStamp () {}
-		};
-
-		logLevel.setLogLevel = function () {};
+		// Browser globals
+		window.Log = makeLogger();
 	}
 
-	return logLevel;
-}));
+	/**
+	 * Creates the logger object. Logging is disabled when running in test mode
+	 * (Node.js) or inside jsdom (browser).
+	 * @returns {object} The logger object with log level methods.
+	 */
+	function makeLogger () {
+		const enableLog = typeof module !== "undefined"
+			? process.env.mmTestMode !== "true"
+			: typeof window === "object" && window.name !== "jsdom";
+
+		let logLevel;
+
+		if (enableLog) {
+			logLevel = {
+				debug: console.debug.bind(console),
+				log: console.log.bind(console),
+				info: console.info.bind(console),
+				warn: console.warn.bind(console),
+				error: console.error.bind(console),
+				group: console.group.bind(console),
+				groupCollapsed: console.groupCollapsed.bind(console),
+				groupEnd: console.groupEnd.bind(console),
+				time: console.time.bind(console),
+				timeEnd: console.timeEnd.bind(console),
+				timeStamp: console.timeStamp.bind(console)
+			};
+
+			// Only these methods are affected by setLogLevel.
+			// Utility methods (group, time, etc.) are always active.
+			logLevel.setLogLevel = function (newLevel) {
+				for (const key of ["debug", "log", "info", "warn", "error"]) {
+					const disabled = newLevel && !newLevel.includes(key.toUpperCase());
+					logLevel[key] = disabled ? function () {} : console[key].bind(console);
+				}
+			};
+		} else {
+			logLevel = {
+				debug () {},
+				log () {},
+				info () {},
+				warn () {},
+				error () {},
+				group () {},
+				groupCollapsed () {},
+				groupEnd () {},
+				time () {},
+				timeEnd () {},
+				timeStamp () {}
+			};
+
+			logLevel.setLogLevel = function () {};
+		}
+
+		return logLevel;
+	}
+}());

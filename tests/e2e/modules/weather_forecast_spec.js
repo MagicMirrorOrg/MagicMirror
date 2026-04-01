@@ -11,7 +11,7 @@ describe("Weather module: Weather Forecast", () => {
 
 	describe("Default configuration", () => {
 		beforeAll(async () => {
-			await weatherFunc.startApplication("tests/configs/modules/weather/forecastweather_default.js", {});
+			await weatherFunc.startApplication("tests/configs/modules/weather/forecastweather_default.js", "weather_onecall_forecast.json");
 			page = helpers.getPage();
 		});
 
@@ -58,7 +58,7 @@ describe("Weather module: Weather Forecast", () => {
 
 	describe("Absolute configuration", () => {
 		beforeAll(async () => {
-			await weatherFunc.startApplication("tests/configs/modules/weather/forecastweather_absolute.js", {});
+			await weatherFunc.startApplication("tests/configs/modules/weather/forecastweather_absolute.js", "weather_onecall_forecast.json");
 			page = helpers.getPage();
 		});
 
@@ -73,7 +73,7 @@ describe("Weather module: Weather Forecast", () => {
 
 	describe("Configuration Options", () => {
 		beforeAll(async () => {
-			await weatherFunc.startApplication("tests/configs/modules/weather/forecastweather_options.js", {});
+			await weatherFunc.startApplication("tests/configs/modules/weather/forecastweather_options.js", "weather_onecall_forecast.json");
 			page = helpers.getPage();
 		});
 
@@ -99,7 +99,7 @@ describe("Weather module: Weather Forecast", () => {
 
 	describe("Forecast weather with imperial units", () => {
 		beforeAll(async () => {
-			await weatherFunc.startApplication("tests/configs/modules/weather/forecastweather_units.js", {});
+			await weatherFunc.startApplication("tests/configs/modules/weather/forecastweather_units.js", "weather_onecall_forecast.json");
 			page = helpers.getPage();
 		});
 

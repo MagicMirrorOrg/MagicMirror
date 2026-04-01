@@ -35,9 +35,13 @@
 	"MODULE_ERROR_MALFORMED_URL": "URL tidak valid.",
 	"MODULE_ERROR_NO_CONNECTION": "Tidak ada koneksi internet.",
 	"MODULE_ERROR_UNAUTHORIZED": "Gagal otentikasi.",
+	"MODULE_ERROR_RATE_LIMITED": "Terlalu banyak permintaan. Mencoba lagi nanti.",
+	"MODULE_ERROR_SERVER_ERROR": "Kesalahan server. Mencoba lagi nanti.",
+	"MODULE_ERROR_CLIENT_ERROR": "Permintaan gagal.",
 	"MODULE_ERROR_UNSPECIFIED": "Silakan periksa log untuk informasi lebih lanjut.",
 
 	"NEWSFEED_NO_ITEMS": "Saat ini tidak ada berita.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Artikel tidak dapat ditampilkan di sini.",
 
 	"UPDATE_NOTIFICATION": "Memperbarui MagicMirror² tersedia.",
 	"UPDATE_NOTIFICATION_MODULE": "Memperbarui tersedia untuk modul {MODULE_NAME}.",

@@ -35,9 +35,13 @@
 	"MODULE_ERROR_MALFORMED_URL": "De URL is net jildich.",
 	"MODULE_ERROR_NO_CONNECTION": "Gjin ynternetferbining.",
 	"MODULE_ERROR_UNAUTHORIZED": "Autorisearje mislearre.",
+	"MODULE_ERROR_RATE_LIMITED": "Te folle fersiken. Letter opnij besykje.",
+	"MODULE_ERROR_SERVER_ERROR": "Tsjinnerfout. Letter opnij besykje.",
+	"MODULE_ERROR_CLIENT_ERROR": "Fersyk mislearre.",
 	"MODULE_ERROR_UNSPECIFIED": "Sjoch de logs foar mear ynformaasje.",
 
 	"NEWSFEED_NO_ITEMS": "Op it stuit gjin nijsberjochten.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Artikel kin hjir net werjûn wurde.",
 
 	"UPDATE_NOTIFICATION": "Der is in update beskikber foar MagicMirror².",
 	"UPDATE_NOTIFICATION_MODULE": "Der is in update beskikber foar it {MODULE_NAME} module.",

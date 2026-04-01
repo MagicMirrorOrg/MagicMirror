@@ -17,7 +17,8 @@ const Loader = (function () {
 	const getEnvVarsFromConfig = function () {
 		return {
 			modulesDir: config.foreignModulesDir || "modules",
-			customCss: config.customCss || "css/custom.css"
+			defaultModulesDir: config.defaultModulesDir || "defaultmodules",
+			customCss: config.customCss || "config/custom.css"
 		};
 	};
 
@@ -103,7 +104,7 @@ const Loader = (function () {
 			let moduleFolder = `${envVars.modulesDir}/${module}`;
 
 			if (defaultModules.indexOf(moduleName) !== -1) {
-				const defaultModuleFolder = `modules/default/${module}`;
+				const defaultModuleFolder = `${envVars.defaultModulesDir}/${module}`;
 				if (window.name !== "jsdom") {
 					moduleFolder = defaultModuleFolder;
 				} else {
@@ -192,7 +193,7 @@ const Loader = (function () {
 	 * @param {string} fileName Path of the file we want to load.
 	 * @returns {Promise} resolved when the file is loaded
 	 */
-	const loadFile = async function (fileName) {
+	const loadFile = function (fileName) {
 		const extension = fileName.slice((Math.max(0, fileName.lastIndexOf(".")) || Infinity) + 1);
 		let script, stylesheet;
 
@@ -261,15 +262,15 @@ const Loader = (function () {
 
 		/**
 		 * Load a file (script or stylesheet).
-		 * Prevent double loading and search for files in the vendor folder.
+		 * Prevent double loading and search for files defined in js/vendor.js.
 		 * @param {string} fileName Path of the file we want to load.
 		 * @param {Module} module The module that calls the loadFile function.
 		 * @returns {Promise} resolved when the file is loaded
 		 */
-		async loadFileForModule (fileName, module) {
+		loadFileForModule (fileName, module) {
 			if (loadedFiles.indexOf(fileName.toLowerCase()) !== -1) {
 				Log.log(`File already loaded: ${fileName}`);
-				return;
+				return Promise.resolve();
 			}
 
 			if (fileName.indexOf("http://") === 0 || fileName.indexOf("https://") === 0 || fileName.indexOf("/") !== -1) {
@@ -280,8 +281,8 @@ const Loader = (function () {
 			}
 
 			if (vendor[fileName] !== undefined) {
-				// This file is available in the vendor folder.
-				// Load it from this vendor folder.
+				// This file is defined in js/vendor.js.
+				// Load it from its location.
 				loadedFiles.push(fileName.toLowerCase());
 				return loadFile(`${vendor[fileName]}`);
 			}

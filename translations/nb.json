@@ -36,9 +36,13 @@
 	"MODULE_ERROR_MALFORMED_URL": "Ugyldig URL.",
 	"MODULE_ERROR_NO_CONNECTION": "Ingen internettforbindelse.",
 	"MODULE_ERROR_UNAUTHORIZED": "Autentisering mislyktes.",
+	"MODULE_ERROR_RATE_LIMITED": "For mange forespørsler. Prøver igjen senere.",
+	"MODULE_ERROR_SERVER_ERROR": "Serverfeil. Prøver igjen senere.",
+	"MODULE_ERROR_CLIENT_ERROR": "Forespørselen mislyktes.",
 	"MODULE_ERROR_UNSPECIFIED": "Vennligst sjekk loggene for mer informasjon.",
 
 	"NEWSFEED_NO_ITEMS": "Ingen nyheter tilgjengelig for øyeblikket.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Artikkelen kan ikke vises her.",
 
 	"UPDATE_NOTIFICATION": "MagicMirror²-oppdatering er tilgjengelig.",
 	"UPDATE_NOTIFICATION_MODULE": "Oppdatering tilgjengelig for modulen {MODULE_NAME}.",

@@ -21,6 +21,8 @@ export default defineConfig({
 		setupFiles: ["./tests/utils/vitest-setup.js"],
 		// Stop test execution on first failure
 		bail: 3,
+		// Automatically restore all mocks after each test to prevent leaks
+		restoreAllMocks: true,
 
 		// Shared exclude patterns
 		exclude: [
@@ -45,7 +47,7 @@ export default defineConfig({
 					setupFiles: ["./tests/utils/vitest-setup.js"],
 					include: [
 						"tests/unit/**/*_spec.js",
-						"tests/unit/modules/default/calendar/calendar_fetcher_utils_bad_rrule.js"
+						"tests/unit/defaultmodules/calendar/calendar_fetcher_utils_bad_rrule.js"
 					],
 					testTimeout: 20000,
 					hookTimeout: 10000
@@ -82,7 +84,7 @@ export default defineConfig({
 			include: [
 				"clientonly/**/*.js",
 				"js/**/*.js",
-				"modules/default/**/*.js",
+				"defaultmodules/**/*.js",
 				"serveronly/**/*.js"
 			],
 			exclude: [

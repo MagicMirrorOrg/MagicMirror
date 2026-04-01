@@ -35,9 +35,13 @@
 	"MODULE_ERROR_MALFORMED_URL": "URL inválido.",
 	"MODULE_ERROR_NO_CONNECTION": "Sem conexão com a Internet.",
 	"MODULE_ERROR_UNAUTHORIZED": "Falha na autenticação.",
+	"MODULE_ERROR_RATE_LIMITED": "Muitas requisições. Tentando novamente mais tarde.",
+	"MODULE_ERROR_SERVER_ERROR": "Erro do servidor. Tentando novamente mais tarde.",
+	"MODULE_ERROR_CLIENT_ERROR": "Requisição falhou.",
 	"MODULE_ERROR_UNSPECIFIED": "Verifique os logs para mais detalhes.",
 
 	"NEWSFEED_NO_ITEMS": "Atualmente não há notícias.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "O artigo não pode ser exibido aqui.",
 
 	"UPDATE_NOTIFICATION": "Nova atualização para MagicMirror² disponível.",
 	"UPDATE_NOTIFICATION_MODULE": "Atualização para o módulo {MODULE_NAME} disponível.",

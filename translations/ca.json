@@ -35,9 +35,13 @@
 	"MODULE_ERROR_MALFORMED_URL": "L'URL és mal format.",
 	"MODULE_ERROR_NO_CONNECTION": "No hi ha connexió a Internet.",
 	"MODULE_ERROR_UNAUTHORIZED": "L'autorització ha fallat.",
+	"MODULE_ERROR_RATE_LIMITED": "Masses sol·licituds. Reintentant més tard.",
+	"MODULE_ERROR_SERVER_ERROR": "Error del servidor. Reintentant més tard.",
+	"MODULE_ERROR_CLIENT_ERROR": "La sol·licitud ha fallat.",
 	"MODULE_ERROR_UNSPECIFIED": "Consulta els registres per a més detalls.",
 
 	"NEWSFEED_NO_ITEMS": "No hi ha notícies disponibles en aquest moment.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "L'article no es pot mostrar aquí.",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² actualizació disponible.",
 	"UPDATE_NOTIFICATION_MODULE": "Disponible una actualizació per al mòdul {MODULE_NAME}.",

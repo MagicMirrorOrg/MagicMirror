@@ -5,6 +5,7 @@ describe("port directive configuration", () => {
 		beforeAll(async () => {
 			await helpers.startApplication("tests/configs/port_8090.js");
 		});
+
 		afterAll(async () => {
 			await helpers.stopApplication();
 		});
@@ -20,6 +21,7 @@ describe("port directive configuration", () => {
 		beforeAll(async () => {
 			await helpers.startApplication("tests/configs/port_8090.js", (process.env.MM_PORT = 8100));
 		});
+
 		afterAll(async () => {
 			await helpers.stopApplication();
 		});

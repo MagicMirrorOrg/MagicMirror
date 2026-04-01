@@ -5,21 +5,23 @@ const Log = require("logger");
 const startUp = new Date();
 
 /**
- * Gets the config.
- * @param {Request} req - the request
- * @param {Response} res - the result
- */
-function getConfig (req, res) {
-	res.send(config);
-}
-
-/**
  * Gets the startup time.
  * @param {Request} req - the request
  * @param {Response} res - the result
  */
 function getStartup (req, res) {
 	res.send(startUp);
+}
+
+/**
+ * A method that replaces the secret placeholders `**SECRET_ABC**` with the environment variable SECRET_ABC
+ * @param {string} input - the input string
+ * @returns {string} the input with real variable content
+ */
+function replaceSecretPlaceholder (input) {
+	return input.replaceAll(/\*\*(SECRET_[^*]+)\*\*/g, (match, group) => {
+		return process.env[group];
+	});
 }
 
 /**
@@ -44,6 +46,11 @@ async function cors (req, res) {
 			return res.status(400).send(url);
 		} else {
 			url = match[1];
+			if (typeof config !== "undefined") {
+				if (config.hideConfigSecrets) {
+					url = replaceSecretPlaceholder(url);
+				}
+			}
 
 			const headersToSend = getHeadersToSend(req.url);
 			const expectedReceivedHeaders = geExpectedReceivedHeaders(req.url);
@@ -55,8 +62,8 @@ async function cors (req, res) {
 					const headerValue = response.headers.get(header);
 					if (header) res.set(header, headerValue);
 				}
-				const data = await response.text();
-				res.send(data);
+				const arrayBuffer = await response.arrayBuffer();
+				res.send(Buffer.from(arrayBuffer));
 			} else {
 				throw new Error(`Response status: ${response.status}`);
 			}
@@ -118,12 +125,6 @@ function getHtml (req, res) {
 	html = html.replace("#VERSION#", global.version);
 	html = html.replace("#TESTMODE#", global.mmTestMode);
 
-	let configFile = "config/config.js";
-	if (typeof global.configuration_file !== "undefined") {
-		configFile = global.configuration_file;
-	}
-	html = html.replace("#CONFIG_FILE#", configFile);
-
 	res.send(html);
 }
 
@@ -162,7 +163,7 @@ function getUserAgent () {
  * @returns {object} environment variables key: values
  */
 function getEnvVarsAsObj () {
-	const obj = { modulesDir: `${config.foreignModulesDir}`, customCss: `${config.customCss}` };
+	const obj = { modulesDir: `${config.foreignModulesDir}`, defaultModulesDir: `${config.defaultModulesDir}`, customCss: `${config.customCss}` };
 	if (process.env.MM_MODULES_DIR) {
 		obj.modulesDir = process.env.MM_MODULES_DIR.replace(`${global.root_path}/`, "");
 	}
@@ -201,4 +202,4 @@ function getConfigFilePath () {
 	return path.resolve(global.configuration_file || `${global.root_path}/config/config.js`);
 }
 
-module.exports = { cors, getConfig, getHtml, getVersion, getStartup, getEnvVars, getEnvVarsAsObj, getUserAgent, getConfigFilePath };
+module.exports = { cors, getHtml, getVersion, getStartup, getEnvVars, getEnvVarsAsObj, getUserAgent, getConfigFilePath, replaceSecretPlaceholder };
