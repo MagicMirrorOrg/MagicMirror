@@ -84,7 +84,7 @@ function App () {
 
 		try {
 			fs.accessSync(moduleFile, fs.constants.R_OK);
-		} catch (e) {
+		} catch {
 			Log.warn(`No ${moduleFile} found for module: ${moduleName}.`);
 		}
 
@@ -93,7 +93,7 @@ function App () {
 		let loadHelper = true;
 		try {
 			fs.accessSync(helperPath, fs.constants.R_OK);
-		} catch (e) {
+		} catch {
 			loadHelper = false;
 			Log.log(`No helper found for module: ${moduleName}.`);
 		}
@@ -188,7 +188,7 @@ function App () {
 			try {
 				fs.renameSync(`${global.root_path}/css/custom.css`, `${global.root_path}/${env.customCss}`);
 				Log.warn(`WARNING! Your custom css file was moved from ${global.root_path}/css/custom.css to ${global.root_path}/${env.customCss}`);
-			} catch (err) {
+			} catch {
 				Log.warn("WARNING! Your custom css file is currently located in the css folder. Please move it to the config folder!");
 			}
 		}

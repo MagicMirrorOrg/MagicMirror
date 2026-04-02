@@ -15,7 +15,6 @@ import { describe, it, expect, vi, beforeAll, beforeEach, afterAll, afterEach } 
 import yrData from "../../../../../mocks/weather_yr.json" with { type: "json" };
 
 const YR_FORECAST_URL = "https://api.met.no/weatherapi/locationforecast/**";
-const YR_SUNRISE_URL = "https://api.met.no/weatherapi/sunrise/**";
 
 // Fixed time: 30 minutes after the first timeseries entry (2026-02-06T21:00:00Z)
 // This ensures timeseries[0] is always chosen as the closest past entry.

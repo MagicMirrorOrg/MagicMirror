@@ -51,7 +51,7 @@ class GitHelper {
 				// Folder has .git and has at least one git remote, watch this folder
 				this.gitRepos.push({ module: moduleName, folder: moduleFolder });
 			}
-		} catch (err) {
+		} catch {
 			// Error when directory .git doesn't exist or doesn't have any remotes
 			// This module is not managed with git, skip
 		}

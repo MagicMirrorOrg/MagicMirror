@@ -68,7 +68,6 @@ export default defineConfig([
 			"no-throw-literal": "error",
 			"no-undefined": "off",
 			"no-unneeded-ternary": "error",
-			"no-unused-vars": "off",
 			"no-useless-return": "error",
 			"no-warning-comments": "off",
 			"object-shorthand": ["error", "methods"],

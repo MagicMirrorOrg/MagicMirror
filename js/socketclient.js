@@ -1,5 +1,6 @@
 /* global io */
 
+// eslint-disable-next-line no-unused-vars
 const MMSocket = function (moduleName) {
 	if (typeof moduleName !== "string") {
 		throw new Error("Please set the module name for the MMSocket.");

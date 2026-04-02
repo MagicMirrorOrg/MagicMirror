@@ -1,4 +1,4 @@
-/* global WeatherProvider, WeatherUtils, WeatherObject, formatTime */
+/* global WeatherUtils, WeatherObject, formatTime */
 
 Module.register("weather", {
 	// Default module config.

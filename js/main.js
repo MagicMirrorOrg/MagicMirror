@@ -1,4 +1,4 @@
-/* global Loader, defaults, addAnimateCSS, removeAnimateCSS, AnimateCSSIn, AnimateCSSOut, modulePositions, io */
+/* global Loader, addAnimateCSS, removeAnimateCSS, AnimateCSSIn, AnimateCSSOut, modulePositions, io */
 
 const MM = (function () {
 	let modules = [];
@@ -408,7 +408,7 @@ const MM = (function () {
 			updateWrapperStates();
 
 			// Waiting for DOM-changes done in updateWrapperStates before we can start the animation.
-			const dummy = moduleWrapper.parentElement.parentElement.offsetHeight;
+			void moduleWrapper.parentElement.parentElement.offsetHeight;
 			moduleWrapper.style.opacity = 1;
 
 			if (haveAnimateName) {

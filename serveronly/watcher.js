@@ -35,7 +35,7 @@ function getServerConfig () {
 			port: global.mmPort || config.port || 8080,
 			address: config.address || "localhost"
 		};
-	} catch (err) {
+	} catch {
 		serverConfig = { port: 8080, address: "localhost" };
 	}
 
@@ -248,7 +248,7 @@ try {
 			Log.warn(`Watch target is not a file (directories not supported): ${targetPath}`);
 		}
 	}
-} catch (err) {
+} catch {
 	// Config file might not exist or be invalid, use fallback targets
 	Log.warn("Could not load watchTargets from config.");
 }
