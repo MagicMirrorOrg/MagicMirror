@@ -17,7 +17,7 @@ const Translator = (function () {
 				throw new Error(`Unexpected response status: ${response.status}`);
 			}
 			return await response.json();
-		} catch (exception) {
+		} catch {
 			Log.error(`Loading json file =${file} failed`);
 			return null;
 		}

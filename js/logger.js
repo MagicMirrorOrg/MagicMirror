@@ -29,7 +29,7 @@
 							return styleText("gray", parentDir === "js" ? `[${baseName}]` : `[${parentDir}]`);
 						}
 					}
-				} catch (err) { /* ignore */ }
+				} catch { /* ignore */ }
 				return styleText("gray", "[unknown]");
 			};
 

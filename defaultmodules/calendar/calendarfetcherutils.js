@@ -62,7 +62,7 @@ const CalendarFetcherUtils = {
 				// Subtract 1 second so that events that start on the middle of the night will not repeat.
 				.subtract(1, "seconds");
 
-		Object.entries(data).forEach(([key, event]) => {
+		Object.values(data).forEach((event) => {
 			if (event.type !== "VEVENT") {
 				return;
 			}

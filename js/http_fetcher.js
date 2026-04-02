@@ -300,7 +300,7 @@ class HTTPFetcher extends EventEmitter {
 			try {
 				const urlObj = new URL(this.url);
 				shortUrl = `${urlObj.origin}${urlObj.pathname}${urlObj.search.length > 50 ? "?..." : urlObj.search}`;
-			} catch (urlError) {
+			} catch {
 				// If URL parsing fails, use original URL
 			}
 

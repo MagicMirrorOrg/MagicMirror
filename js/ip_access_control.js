@@ -22,12 +22,12 @@ function isAllowed (clientIp, whitelist) {
 				// Single IP address - let ipaddr.process normalize both
 				const allowedAddr = ipaddr.process(entry);
 				return addr.toString() === allowedAddr.toString();
-			} catch (err) {
+			} catch {
 				Log.warn(`Invalid whitelist entry: ${entry}`);
 				return false;
 			}
 		});
-	} catch (err) {
+	} catch {
 		Log.warn(`Failed to parse client IP: ${clientIp}`);
 		return false;
 	}

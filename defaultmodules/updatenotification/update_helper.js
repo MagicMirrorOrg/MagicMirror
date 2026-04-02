@@ -113,7 +113,7 @@ class Updater {
 		Log.info(`Updating ${module.name}...`);
 
 		return new Promise((resolve) => {
-			Exec(Command, { cwd: modulePath, timeout: this.timeout }, (error, stdout, stderr) => {
+			Exec(Command, { cwd: modulePath, timeout: this.timeout }, (error, stdout) => {
 				if (error) {
 					Log.error(`exec error: ${error}`);
 					Result.error = true;
@@ -143,7 +143,7 @@ class Updater {
 	pm2Restart () {
 		Log.info("[PM2] restarting MagicMirror...");
 		const pm2 = require("pm2");
-		pm2.restart(this.PM2Id, (err, proc) => {
+		pm2.restart(this.PM2Id, (err) => {
 			if (err) {
 				Log.error("[PM2] restart Error", err);
 			}

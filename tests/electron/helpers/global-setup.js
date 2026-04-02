@@ -70,7 +70,7 @@ exports.stopApplication = async (timeout = 10000) => {
 			if (electronProcess && !electronProcess.killed) {
 				electronProcess.kill("SIGKILL");
 			}
-		} catch (error) {
+		} catch {
 			// Ignore errors caused by Playwright already tearing down the connection
 		}
 	};
@@ -80,7 +80,7 @@ exports.stopApplication = async (timeout = 10000) => {
 			app.close(),
 			new Promise((_, reject) => setTimeout(() => reject(new Error("Electron close timeout")), timeout))
 		]);
-	} catch (error) {
+	} catch {
 		killElectron();
 	}
 };

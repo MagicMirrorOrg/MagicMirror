@@ -308,7 +308,7 @@ Module.register("compliments", {
 	},
 
 	// Override notification handler.
-	notificationReceived (notification, payload, sender) {
+	notificationReceived (notification, payload) {
 		if (notification === "CURRENTWEATHER_TYPE") {
 			this.currentWeatherType = payload.type;
 		}

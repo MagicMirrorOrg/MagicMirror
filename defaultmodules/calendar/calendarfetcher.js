@@ -1,6 +1,5 @@
 const ical = require("node-ical");
 const Log = require("logger");
-const { Agent } = require("undici");
 const CalendarFetcherUtils = require("./calendarfetcherutils");
 const HTTPFetcher = require("#http_fetcher");
 

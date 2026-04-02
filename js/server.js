@@ -98,7 +98,7 @@ function Server (configObj) {
 			}
 
 			let directories = ["/config", "/css", "/favicon.svg", "/defaultmodules", "/modules", "/node_modules/animate.css", "/node_modules/@fontsource", "/node_modules/@fortawesome", "/translations", "/tests/configs", "/tests/mocks"];
-			for (const [key, value] of Object.entries(vendor)) {
+			for (const value of Object.values(vendor)) {
 				const dirArr = value.split("/");
 				if (dirArr[0] === "node_modules") directories.push(`/${dirArr[0]}/${dirArr[1]}`);
 			}

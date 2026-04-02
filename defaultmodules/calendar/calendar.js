@@ -167,7 +167,7 @@ Module.register("calendar", {
 		this.selfUpdate();
 	},
 
-	notificationReceived (notification, payload, sender) {
+	notificationReceived (notification, payload) {
 		if (notification === "FETCH_CALENDAR") {
 			this.sendSocketNotification(notification, { url: payload.url, id: this.identifier });
 		}
