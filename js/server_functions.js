@@ -46,7 +46,7 @@ async function cors (req, res) {
 			return res.status(400).send(url);
 		} else {
 			url = match[1];
-			if (typeof config !== "undefined") {
+			if (typeof global.config !== "undefined") {
 				if (config.hideConfigSecrets) {
 					url = replaceSecretPlaceholder(url);
 				}
@@ -144,15 +144,15 @@ function getVersion (req, res) {
 function getUserAgent () {
 	const defaultUserAgent = `Mozilla/5.0 (Node.js ${Number(process.version.match(/^v(\d+\.\d+)/)[1])}) MagicMirror/${global.version}`;
 
-	if (typeof config === "undefined") {
+	if (typeof global.config === "undefined") {
 		return defaultUserAgent;
 	}
 
-	switch (typeof config.userAgent) {
+	switch (typeof global.config.userAgent) {
 		case "function":
-			return config.userAgent();
+			return global.config.userAgent();
 		case "string":
-			return config.userAgent;
+			return global.config.userAgent;
 		default:
 			return defaultUserAgent;
 	}
@@ -163,7 +163,7 @@ function getUserAgent () {
  * @returns {object} environment variables key: values
  */
 function getEnvVarsAsObj () {
-	const obj = { modulesDir: `${config.foreignModulesDir}`, defaultModulesDir: `${config.defaultModulesDir}`, customCss: `${config.customCss}` };
+	const obj = { modulesDir: `${global.config.foreignModulesDir}`, defaultModulesDir: `${global.config.defaultModulesDir}`, customCss: `${global.config.customCss}` };
 	if (process.env.MM_MODULES_DIR) {
 		obj.modulesDir = process.env.MM_MODULES_DIR.replace(`${global.root_path}/`, "");
 	}
