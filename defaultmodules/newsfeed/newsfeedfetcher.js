@@ -40,7 +40,7 @@ class NewsfeedFetcher {
 		});
 
 		// Wire up HTTPFetcher events
-		this.httpFetcher.on("response", (response) => this.#handleResponse(response));
+		this.httpFetcher.on("response", (response) => void this.#handleResponse(response));
 		this.httpFetcher.on("error", (errorInfo) => this.fetchFailedCallback(this, errorInfo));
 	}
 
@@ -67,7 +67,7 @@ class NewsfeedFetcher {
 	 * Handles successful HTTP response
 	 * @param {Response} response - The fetch Response object
 	 */
-	#handleResponse (response) {
+	async #handleResponse (response) {
 		this.items = [];
 		const parser = new FeedMe();
 
@@ -106,11 +106,6 @@ class NewsfeedFetcher {
 
 		parser.on("end", () => this.broadcastItems());
 
-		parser.on("error", (error) => {
-			Log.error(`${this.url} - Feed parsing failed: ${error.message}`);
-			this.fetchFailedCallback(this, this.#createParseError(`Feed parsing failed: ${error.message}`, error));
-		});
-
 		parser.on("ttl", (minutes) => {
 			const ttlms = Math.min(minutes * 60 * 1000, 86400000);
 			if (ttlms > this.httpFetcher.reloadInterval) {
@@ -123,7 +118,7 @@ class NewsfeedFetcher {
 			const nodeStream = response.body instanceof stream.Readable
 				? response.body
 				: stream.Readable.fromWeb(response.body);
-			nodeStream.pipe(iconv.decodeStream(this.encoding)).pipe(parser);
+			await stream.promises.pipeline(nodeStream, iconv.decodeStream(this.encoding), parser);
 		} catch (error) {
 			Log.error(`${this.url} - Stream processing failed: ${error.message}`);
 			this.fetchFailedCallback(this, this.#createParseError(`Stream processing failed: ${error.message}`, error));
