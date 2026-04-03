@@ -1,8 +1,41 @@
+const dns = require("node:dns").promises;
 const fs = require("node:fs");
 const path = require("node:path");
+const ipaddr = require("ipaddr.js");
 const Log = require("logger");
 
 const startUp = new Date();
+
+/**
+ * Checks whether a URL targets a private, reserved, or otherwise non-globally-routable address.
+ * Used to prevent SSRF (Server-Side Request Forgery) via the /cors proxy endpoint.
+ * @param {string} url - The URL to check.
+ * @returns {Promise<boolean>} true if the target is private/reserved and should be blocked.
+ */
+async function isPrivateTarget (url) {
+	let parsed;
+	try {
+		parsed = new URL(url);
+	} catch {
+		return true;
+	}
+
+	if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return true;
+
+	const hostname = parsed.hostname.replace(/^\[|\]$/g, "");
+
+	if (hostname.toLowerCase() === "localhost") return true;
+
+	try {
+		const results = await dns.lookup(hostname, { all: true });
+		for (const { address } of results) {
+			if (ipaddr.process(address).range() !== "unicast") return true;
+		}
+	} catch {
+		return true;
+	}
+	return false;
+}
 
 /**
  * Gets the startup time.
@@ -50,6 +83,11 @@ async function cors (req, res) {
 				if (config.hideConfigSecrets) {
 					url = replaceSecretPlaceholder(url);
 				}
+			}
+
+			if (await isPrivateTarget(url)) {
+				Log.warn(`SSRF blocked: ${url}`);
+				return res.status(403).json({ error: "Forbidden: private or reserved addresses are not allowed" });
 			}
 
 			const headersToSend = getHeadersToSend(req.url);
@@ -202,4 +240,4 @@ function getConfigFilePath () {
 	return path.resolve(global.configuration_file || `${global.root_path}/config/config.js`);
 }
 
-module.exports = { cors, getHtml, getVersion, getStartup, getEnvVars, getEnvVarsAsObj, getUserAgent, getConfigFilePath, replaceSecretPlaceholder };
+module.exports = { cors, getHtml, getVersion, getStartup, getEnvVars, getEnvVarsAsObj, getUserAgent, getConfigFilePath, replaceSecretPlaceholder, isPrivateTarget };
