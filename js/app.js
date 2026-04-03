@@ -174,7 +174,8 @@ function App () {
 	 */
 	this.start = async function () {
 		const configObj = Utils.loadConfig();
-		config = configObj.fullConf;
+		global.config = configObj.fullConf;
+		const config = global.config;
 		Utils.checkConfigFile(configObj);
 
 		global.defaultModulesDir = config.defaultModulesDir;
@@ -245,7 +246,7 @@ function App () {
 
 		Log.log("Sockets connected & modules started ...");
 
-		return config;
+		return global.config;
 	};
 
 	/**
