@@ -1,4 +1,12 @@
-const { cors, getUserAgent, replaceSecretPlaceholder } = require("#server_functions");
+const { cors, getUserAgent, replaceSecretPlaceholder, isPrivateTarget } = require("#server_functions");
+
+const mockLookup = vi.fn(() => Promise.resolve([{ address: "93.184.216.34", family: 4 }]));
+
+vi.mock("node:dns", () => ({
+	promises: {
+		lookup: mockLookup
+	}
+}));
 
 describe("server_functions tests", () => {
 	describe("The replaceSecretPlaceholder method", () => {
@@ -53,7 +61,7 @@ describe("server_functions tests", () => {
 			};
 
 			request = {
-				url: "/cors?url=www.test.com"
+				url: "/cors?url=http://www.test.com"
 			};
 		});
 
@@ -180,6 +188,79 @@ describe("server_functions tests", () => {
 			expect(userAgent).toBe("Mozilla/5.0 (Bar)");
 
 			global.config = previousConfig;
+		});
+	});
+
+	describe("The isPrivateTarget method", () => {
+		beforeEach(() => {
+			mockLookup.mockReset();
+		});
+
+		it("Blocks unparseable URLs", async () => {
+			expect(await isPrivateTarget("not a url")).toBe(true);
+		});
+
+		it("Blocks non-http protocols", async () => {
+			expect(await isPrivateTarget("file:///etc/passwd")).toBe(true);
+			expect(await isPrivateTarget("ftp://internal/file")).toBe(true);
+		});
+
+		it("Blocks localhost", async () => {
+			expect(await isPrivateTarget("http://localhost/path")).toBe(true);
+			expect(await isPrivateTarget("http://LOCALHOST:8080/")).toBe(true);
+		});
+
+		it("Blocks private IPs (loopback)", async () => {
+			mockLookup.mockResolvedValue([{ address: "127.0.0.1", family: 4 }]);
+			expect(await isPrivateTarget("http://loopback.example.com/")).toBe(true);
+		});
+
+		it("Blocks private IPs (RFC 1918)", async () => {
+			mockLookup.mockResolvedValue([{ address: "192.168.1.1", family: 4 }]);
+			expect(await isPrivateTarget("http://internal.example.com/")).toBe(true);
+		});
+
+		it("Blocks link-local addresses", async () => {
+			mockLookup.mockResolvedValue([{ address: "169.254.169.254", family: 4 }]);
+			expect(await isPrivateTarget("http://metadata.example.com/")).toBe(true);
+		});
+
+		it("Blocks when DNS lookup fails", async () => {
+			mockLookup.mockRejectedValue(new Error("ENOTFOUND"));
+			expect(await isPrivateTarget("http://nonexistent.invalid/")).toBe(true);
+		});
+
+		it("Allows public unicast IPs", async () => {
+			mockLookup.mockResolvedValue([{ address: "93.184.216.34", family: 4 }]);
+			expect(await isPrivateTarget("http://example.com/api")).toBe(false);
+		});
+
+		it("Blocks if any resolved address is private", async () => {
+			mockLookup.mockResolvedValue([
+				{ address: "93.184.216.34", family: 4 },
+				{ address: "127.0.0.1", family: 4 }
+			]);
+			expect(await isPrivateTarget("http://dual.example.com/")).toBe(true);
+		});
+	});
+
+	describe("The cors method blocks SSRF", () => {
+		it("Returns 403 for private target URLs", async () => {
+			mockLookup.mockReset();
+			mockLookup.mockResolvedValue([{ address: "127.0.0.1", family: 4 }]);
+
+			const request = { url: "/cors?url=http://127.0.0.1:8080/config" };
+			const response = {
+				set: vi.fn(),
+				send: vi.fn(),
+				status: vi.fn(function () { return this; }),
+				json: vi.fn()
+			};
+
+			await cors(request, response);
+
+			expect(response.status).toHaveBeenCalledWith(403);
+			expect(response.json).toHaveBeenCalledWith({ error: "Forbidden: private or reserved addresses are not allowed" });
 		});
 	});
 });
