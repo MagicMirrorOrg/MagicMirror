@@ -3,6 +3,8 @@
  *
  * Tests data parsing for current, forecast, and hourly weather types.
  * SMHI provides data only for Sweden, uses metric system.
+ *
+ * Fixture: weather_smhi.json uses SNOW1gv1 format (replaced PMP3gv2 2026-03-31)
  */
 import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
@@ -123,11 +125,10 @@ describe("SMHIProvider", () => {
 				provider.setCallbacks(resolve, vi.fn());
 			});
 
-			// Use data with rain (pcat=3 at index 2)
+			// Use entry at index 2 which has ptype=5 (snow) but pmedian=0.0
 			const rainData = JSON.parse(JSON.stringify(smhiData));
-			// Make the rain entry the closest to "now"
 			rainData.timeSeries = [rainData.timeSeries[2]];
-			rainData.timeSeries[0].validTime = new Date().toISOString();
+			rainData.timeSeries[0].time = new Date().toISOString();
 
 			server.use(
 				http.get("https://opendata-download-metfcst.smhi.se/*", () => {
@@ -140,7 +141,8 @@ describe("SMHIProvider", () => {
 
 			const result = await dataPromise;
 
-			expect(result.rain).toBe(0.0); // pmedian value with pcat=3 (rain)
+			// pmedian is 0.0 at this entry, so all precipitation amounts are 0
+			expect(result.rain).toBe(0);
 			expect(result.precipitationAmount).toBe(0.0);
 			expect(result.snow).toBe(0);
 		});
