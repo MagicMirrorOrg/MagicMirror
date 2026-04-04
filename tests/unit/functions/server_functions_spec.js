@@ -1,12 +1,10 @@
-const { cors, getUserAgent, replaceSecretPlaceholder, isPrivateTarget } = require("#server_functions");
-
-const mockLookup = vi.fn(() => Promise.resolve([{ address: "93.184.216.34", family: 4 }]));
-
-vi.mock("node:dns", () => ({
-	promises: {
-		lookup: mockLookup
-	}
-}));
+// Tests use vi.spyOn on shared module objects (dns, global.fetch).
+// vi.spyOn modifies the object property directly on the cached module instance, so it
+// is intercepted by server_functions.js regardless of the Module.prototype.require override
+// in vitest-setup.js.  restoreAllMocks:true auto-restores spies, but may reuse the same
+// spy instance — mockClear() is called explicitly in beforeEach to reset call history.
+const dns = require("node:dns");
+const { cors, getUserAgent, replaceSecretPlaceholder } = require("#server_functions");
 
 describe("server_functions tests", () => {
 	describe("The replaceSecretPlaceholder method", () => {
@@ -27,29 +25,29 @@ describe("server_functions tests", () => {
 	});
 
 	describe("The cors method", () => {
-		let fetchResponse;
+		let fetchSpy;
 		let fetchResponseHeadersGet;
 		let fetchResponseArrayBuffer;
 		let corsResponse;
 		let request;
-		let fetchMock;
 
 		beforeEach(() => {
 			global.config = { cors: "allowAll" };
 			fetchResponseHeadersGet = vi.fn(() => {});
 			fetchResponseArrayBuffer = vi.fn(() => {});
-			fetchResponse = {
-				headers: {
-					get: fetchResponseHeadersGet
-				},
+
+			// Mock DNS to return a public IP (SSRF check must pass for these tests)
+			vi.spyOn(dns.promises, "lookup").mockResolvedValue({ address: "93.184.216.34", family: 4 });
+
+			// vi.spyOn may return the same spy instance across tests when restoreAllMocks
+			// restores-but-reuses; mockClear() explicitly resets call history each time.
+			fetchSpy = vi.spyOn(global, "fetch");
+			fetchSpy.mockClear();
+			fetchSpy.mockImplementation(() => Promise.resolve({
+				headers: { get: fetchResponseHeadersGet },
 				arrayBuffer: fetchResponseArrayBuffer,
 				ok: true
-			};
-
-			fetch = vi.fn();
-			fetch.mockImplementation(() => fetchResponse);
-
-			fetchMock = fetch;
+			}));
 
 			corsResponse = {
 				set: vi.fn(() => {}),
@@ -72,8 +70,8 @@ describe("server_functions tests", () => {
 
 			await cors(request, corsResponse);
 
-			expect(fetchMock.mock.calls).toHaveLength(1);
-			expect(fetchMock.mock.calls[0][0]).toBe(urlToCall);
+			expect(fetchSpy.mock.calls).toHaveLength(1);
+			expect(fetchSpy.mock.calls[0][0]).toBe(urlToCall);
 		});
 
 		it("Forwards Content-Type if json", async () => {
@@ -135,9 +133,9 @@ describe("server_functions tests", () => {
 		it("Fetches with user agent by default", async () => {
 			await cors(request, corsResponse);
 
-			expect(fetchMock.mock.calls).toHaveLength(1);
-			expect(fetchMock.mock.calls[0][1]).toHaveProperty("headers");
-			expect(fetchMock.mock.calls[0][1].headers).toHaveProperty("User-Agent");
+			expect(fetchSpy.mock.calls).toHaveLength(1);
+			expect(fetchSpy.mock.calls[0][1]).toHaveProperty("headers");
+			expect(fetchSpy.mock.calls[0][1].headers).toHaveProperty("User-Agent");
 		});
 
 		it("Fetches with specified headers", async () => {
@@ -147,10 +145,10 @@ describe("server_functions tests", () => {
 
 			await cors(request, corsResponse);
 
-			expect(fetchMock.mock.calls).toHaveLength(1);
-			expect(fetchMock.mock.calls[0][1]).toHaveProperty("headers");
-			expect(fetchMock.mock.calls[0][1].headers).toHaveProperty("header1", "value1");
-			expect(fetchMock.mock.calls[0][1].headers).toHaveProperty("header2", "value2");
+			expect(fetchSpy.mock.calls).toHaveLength(1);
+			expect(fetchSpy.mock.calls[0][1]).toHaveProperty("headers");
+			expect(fetchSpy.mock.calls[0][1].headers).toHaveProperty("header1", "value1");
+			expect(fetchSpy.mock.calls[0][1].headers).toHaveProperty("header2", "value2");
 		});
 
 		it("Sends specified headers", async () => {
@@ -162,8 +160,8 @@ describe("server_functions tests", () => {
 
 			await cors(request, corsResponse);
 
-			expect(fetchMock.mock.calls).toHaveLength(1);
-			expect(fetchMock.mock.calls[0][1]).toHaveProperty("headers");
+			expect(fetchSpy.mock.calls).toHaveLength(1);
+			expect(fetchSpy.mock.calls[0][1]).toHaveProperty("headers");
 			expect(corsResponse.set.mock.calls).toHaveLength(3);
 			expect(corsResponse.set.mock.calls[0][0]).toBe("Content-Type");
 			expect(corsResponse.set.mock.calls[1][0]).toBe("header1");
@@ -192,94 +190,92 @@ describe("server_functions tests", () => {
 		});
 	});
 
-	describe("The isPrivateTarget method", () => {
+	describe("The cors method blocks SSRF (DNS rebinding safe)", () => {
+		let response;
+
 		beforeEach(() => {
-			mockLookup.mockReset();
-		});
-
-		it("Blocks unparseable URLs", async () => {
-			expect(await isPrivateTarget("not a url")).toBe(true);
-		});
-
-		it("Blocks non-http protocols", async () => {
-			expect(await isPrivateTarget("file:///etc/passwd")).toBe(true);
-			expect(await isPrivateTarget("ftp://internal/file")).toBe(true);
-		});
-
-		it("Blocks localhost", async () => {
-			expect(await isPrivateTarget("http://localhost/path")).toBe(true);
-			expect(await isPrivateTarget("http://LOCALHOST:8080/")).toBe(true);
-		});
-
-		it("Blocks private IPs (loopback)", async () => {
-			mockLookup.mockResolvedValue([{ address: "127.0.0.1", family: 4 }]);
-			expect(await isPrivateTarget("http://loopback.example.com/")).toBe(true);
-		});
-
-		it("Blocks private IPs (RFC 1918)", async () => {
-			mockLookup.mockResolvedValue([{ address: "192.168.1.1", family: 4 }]);
-			expect(await isPrivateTarget("http://internal.example.com/")).toBe(true);
-		});
-
-		it("Blocks link-local addresses", async () => {
-			mockLookup.mockResolvedValue([{ address: "169.254.169.254", family: 4 }]);
-			expect(await isPrivateTarget("http://metadata.example.com/")).toBe(true);
-		});
-
-		it("Blocks when DNS lookup fails", async () => {
-			mockLookup.mockRejectedValue(new Error("ENOTFOUND"));
-			expect(await isPrivateTarget("http://nonexistent.invalid/")).toBe(true);
-		});
-
-		it("Allows public unicast IPs", async () => {
-			mockLookup.mockResolvedValue([{ address: "93.184.216.34", family: 4 }]);
-			expect(await isPrivateTarget("http://example.com/api")).toBe(false);
-		});
-
-		it("Blocks if any resolved address is private", async () => {
-			mockLookup.mockResolvedValue([
-				{ address: "93.184.216.34", family: 4 },
-				{ address: "127.0.0.1", family: 4 }
-			]);
-			expect(await isPrivateTarget("http://dual.example.com/")).toBe(true);
-		});
-	});
-
-	describe("The cors method blocks SSRF", () => {
-		it("Returns 403 for private target URLs", async () => {
-			mockLookup.mockReset();
-			mockLookup.mockResolvedValue([{ address: "127.0.0.1", family: 4 }]);
-
-			const request = { url: "/cors?url=http://127.0.0.1:8080/config" };
-			const response = {
+			response = {
 				set: vi.fn(),
 				send: vi.fn(),
 				status: vi.fn(function () { return this; }),
 				json: vi.fn()
 			};
+		});
 
-			await cors(request, response);
-
+		it("Blocks localhost hostname without DNS", async () => {
+			await cors({ url: "/cors?url=http://localhost/path" }, response);
 			expect(response.status).toHaveBeenCalledWith(403);
 			expect(response.json).toHaveBeenCalledWith({ error: "Forbidden: private or reserved addresses are not allowed" });
 		});
+
+		it("Blocks non-http protocols", async () => {
+			await cors({ url: "/cors?url=ftp://example.com/file" }, response);
+			expect(response.status).toHaveBeenCalledWith(403);
+		});
+
+		it("Blocks invalid URLs", async () => {
+			await cors({ url: "/cors?url=not_a_valid_url" }, response);
+			expect(response.status).toHaveBeenCalledWith(403);
+		});
+
+		it("Blocks loopback addresses (127.0.0.1)", async () => {
+			vi.spyOn(dns.promises, "lookup").mockResolvedValue({ address: "127.0.0.1", family: 4 });
+			await cors({ url: "/cors?url=http://example.com/" }, response);
+			expect(response.status).toHaveBeenCalledWith(403);
+		});
+
+		it("Blocks RFC 1918 private addresses (192.168.x.x)", async () => {
+			vi.spyOn(dns.promises, "lookup").mockResolvedValue({ address: "192.168.1.1", family: 4 });
+			await cors({ url: "/cors?url=http://example.com/" }, response);
+			expect(response.status).toHaveBeenCalledWith(403);
+		});
+
+		it("Blocks link-local / cloud metadata addresses (169.254.169.254)", async () => {
+			vi.spyOn(dns.promises, "lookup").mockResolvedValue({ address: "169.254.169.254", family: 4 });
+			await cors({ url: "/cors?url=http://example.com/" }, response);
+			expect(response.status).toHaveBeenCalledWith(403);
+		});
+
+		it("Allows public unicast addresses", async () => {
+			vi.spyOn(dns.promises, "lookup").mockResolvedValue({ address: "93.184.216.34", family: 4 });
+			vi.spyOn(global, "fetch").mockResolvedValue({
+				ok: true,
+				headers: { get: vi.fn() },
+				arrayBuffer: vi.fn(() => new ArrayBuffer(0))
+			});
+			await cors({ url: "/cors?url=http://example.com/" }, response);
+			expect(response.status).not.toHaveBeenCalledWith(403);
+		});
 	});
 
-	describe("The isPrivateTarget method with allowWhitelist", () => {
+	describe("cors method with allowWhitelist", () => {
+		let response;
+
 		beforeEach(() => {
-			mockLookup.mockReset();
+			response = {
+				set: vi.fn(),
+				send: vi.fn(),
+				status: vi.fn(function () { return this; }),
+				json: vi.fn()
+			};
+			vi.spyOn(dns.promises, "lookup").mockResolvedValue({ address: "93.184.216.34", family: 4 });
+			vi.spyOn(global, "fetch").mockResolvedValue({
+				ok: true,
+				headers: { get: vi.fn() },
+				arrayBuffer: vi.fn(() => new ArrayBuffer(0))
+			});
 		});
 
-		it("Block public unicast IPs if not whitelistet", async () => {
+		it("Blocks domains not in whitelist", async () => {
 			global.config = { cors: "allowWhitelist", corsDomainWhitelist: [] };
-			mockLookup.mockResolvedValue([{ address: "93.184.216.34", family: 4 }]);
-			expect(await isPrivateTarget("http://example.com/api")).toBe(true);
+			await cors({ url: "/cors?url=http://example.com/api" }, response);
+			expect(response.status).toHaveBeenCalledWith(403);
 		});
 
-		it("Allow public unicast IPs if whitelistet", async () => {
+		it("Allows domains in whitelist", async () => {
 			global.config = { cors: "allowWhitelist", corsDomainWhitelist: ["example.com"] };
-			mockLookup.mockResolvedValue([{ address: "93.184.216.34", family: 4 }]);
-			expect(await isPrivateTarget("http://example.com/api")).toBe(false);
+			await cors({ url: "/cors?url=http://example.com/api" }, response);
+			expect(response.status).not.toHaveBeenCalledWith(403);
 		});
 	});
 });

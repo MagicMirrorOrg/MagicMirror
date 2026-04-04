@@ -1,42 +1,11 @@
-const dns = require("node:dns").promises;
+const dns = require("node:dns");
 const fs = require("node:fs");
 const path = require("node:path");
 const ipaddr = require("ipaddr.js");
+const { Agent } = require("undici");
 const Log = require("logger");
 
 const startUp = new Date();
-
-/**
- * Checks whether a URL targets a private, reserved, or otherwise non-globally-routable address.
- * Used to prevent SSRF (Server-Side Request Forgery) via the /cors proxy endpoint.
- * @param {string} url - The URL to check.
- * @returns {Promise<boolean>} true if the target is private/reserved and should be blocked.
- */
-async function isPrivateTarget (url) {
-	let parsed;
-	try {
-		parsed = new URL(url);
-	} catch {
-		return true;
-	}
-
-	if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return true;
-
-	const hostname = parsed.hostname.replace(/^\[|\]$/g, "");
-
-	if (hostname.toLowerCase() === "localhost") return true;
-	if (global.config.cors === "allowWhitelist" && !global.config.corsDomainWhitelist.includes(hostname.toLowerCase())) return true;
-
-	try {
-		const results = await dns.lookup(hostname, { all: true });
-		for (const { address } of results) {
-			if (ipaddr.process(address).range() !== "unicast") return true;
-		}
-	} catch {
-		return true;
-	}
-	return false;
-}
 
 /**
  * Gets the startup time.
@@ -73,9 +42,9 @@ async function cors (req, res) {
 		Log.error("CORS is disabled, you need to enable it in `config.js` by setting `cors` to `allowAll` or `allowWhitelist`");
 		return res.status(403).json({ error: "CORS proxy is disabled" });
 	}
+	let url;
 	try {
 		const urlRegEx = "url=(.+?)$";
-		let url;
 
 		const match = new RegExp(urlRegEx, "g").exec(req.url);
 		if (!match) {
@@ -90,16 +59,48 @@ async function cors (req, res) {
 				}
 			}
 
-			if (await isPrivateTarget(url)) {
-				Log.warn(`SSRF blocked: ${url}`);
+			// Validate protocol before attempting connection (non-http/https are never allowed)
+			let parsed;
+			try {
+				parsed = new URL(url);
+			} catch {
+				Log.warn(`SSRF blocked (invalid URL): ${url}`);
 				return res.status(403).json({ error: "Forbidden: private or reserved addresses are not allowed" });
+			}
+			if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+				Log.warn(`SSRF blocked (protocol): ${url}`);
+				return res.status(403).json({ error: "Forbidden: private or reserved addresses are not allowed" });
+			}
+
+			// Block localhost by hostname before even creating the dispatcher (no DNS needed).
+			if (parsed.hostname.toLowerCase() === "localhost") {
+				Log.warn(`SSRF blocked (localhost): ${url}`);
+				return res.status(403).json({ error: "Forbidden: private or reserved addresses are not allowed" });
+			}
+
+			// Whitelist check: if enabled, only allow explicitly listed domains
+			if (global.config.cors === "allowWhitelist" && !global.config.corsDomainWhitelist.includes(parsed.hostname.toLowerCase())) {
+				Log.warn(`CORS blocked (not in whitelist): ${url}`);
+				return res.status(403).json({ error: "Forbidden: domain not in corsDomainWhitelist" });
 			}
 
 			const headersToSend = getHeadersToSend(req.url);
 			const expectedReceivedHeaders = geExpectedReceivedHeaders(req.url);
 			Log.log(`cors url: ${url}`);
 
-			const response = await fetch(url, { headers: headersToSend });
+			// Resolve DNS once and validate the IP. The validated IP is then pinned
+			// for the actual connection so fetch() cannot re-resolve to a different
+			// address. This prevents DNS rebinding / TOCTOU attacks (GHSA-xhvw-r95j-xm4v).
+			const { address, family } = await dns.promises.lookup(parsed.hostname);
+			if (ipaddr.process(address).range() !== "unicast") {
+				Log.warn(`SSRF blocked: ${url}`);
+				return res.status(403).json({ error: "Forbidden: private or reserved addresses are not allowed" });
+			}
+
+			// Pin the validated IP — fetch() reuses it instead of doing its own DNS lookup
+			const dispatcher = new Agent({ connect: { lookup: (_h, _o, cb) => cb(null, address, family) } });
+
+			const response = await fetch(url, { dispatcher, headers: headersToSend });
 			if (response.ok) {
 				for (const header of expectedReceivedHeaders) {
 					const headerValue = response.headers.get(header);
@@ -112,7 +113,6 @@ async function cors (req, res) {
 			}
 		}
 	} catch (error) {
-		// Only log errors in non-test environments to keep test output clean
 		if (process.env.mmTestMode !== "true") {
 			Log.error(`Error in CORS request: ${error}`);
 		}
@@ -245,4 +245,4 @@ function getConfigFilePath () {
 	return path.resolve(global.configuration_file || `${global.root_path}/config/config.js`);
 }
 
-module.exports = { cors, getHtml, getVersion, getStartup, getEnvVars, getEnvVarsAsObj, getUserAgent, getConfigFilePath, replaceSecretPlaceholder, isPrivateTarget };
+module.exports = { cors, getHtml, getVersion, getStartup, getEnvVars, getEnvVarsAsObj, getUserAgent, getConfigFilePath, replaceSecretPlaceholder };
