@@ -25,7 +25,7 @@ async function isPrivateTarget (url) {
 	const hostname = parsed.hostname.replace(/^\[|\]$/g, "");
 
 	if (hostname.toLowerCase() === "localhost") return true;
-	if (config.cors === "allowWhitelist" && !config.corsDomainWhitelist.includes(hostname.toLowerCase())) return true;
+	if (global.config.cors === "allowWhitelist" && !global.config.corsDomainWhitelist.includes(hostname.toLowerCase())) return true;
 
 	try {
 		const results = await dns.lookup(hostname, { all: true });
@@ -69,9 +69,9 @@ function replaceSecretPlaceholder (input) {
  * @returns {Promise<void>} A promise that resolves when the response is sent
  */
 async function cors (req, res) {
-	if (config.cors === "disabled") {
+	if (global.config.cors === "disabled") {
 		Log.error("CORS is disabled, you need to enable it in `config.js` by setting `cors` to `allowAll` or `allowWhitelist`");
-		return false;
+		return res.status(403).json({ error: "CORS proxy is disabled" });
 	}
 	try {
 		const urlRegEx = "url=(.+?)$";
