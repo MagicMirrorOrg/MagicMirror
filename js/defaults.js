@@ -11,6 +11,8 @@ const defaults = {
 	basePath: "/",
 	electronOptions: {},
 	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1"],
+	cors: "disabled", // or "allowAll" or "allowWhitelist"
+	corsDomainWhitelist: [], // example: ["api.mapbox.com"]
 
 	language: "en",
 	logLevel: ["INFO", "LOG", "WARN", "ERROR"],

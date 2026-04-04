@@ -35,6 +35,7 @@ describe("server_functions tests", () => {
 		let fetchMock;
 
 		beforeEach(() => {
+			global.config = { cors: "allowAll" };
 			fetchResponseHeadersGet = vi.fn(() => {});
 			fetchResponseArrayBuffer = vi.fn(() => {});
 			fetchResponse = {
@@ -261,6 +262,24 @@ describe("server_functions tests", () => {
 
 			expect(response.status).toHaveBeenCalledWith(403);
 			expect(response.json).toHaveBeenCalledWith({ error: "Forbidden: private or reserved addresses are not allowed" });
+		});
+	});
+
+	describe("The isPrivateTarget method with allowWhitelist", () => {
+		beforeEach(() => {
+			mockLookup.mockReset();
+		});
+
+		it("Block public unicast IPs if not whitelistet", async () => {
+			global.config = { cors: "allowWhitelist", corsDomainWhitelist: [] };
+			mockLookup.mockResolvedValue([{ address: "93.184.216.34", family: 4 }]);
+			expect(await isPrivateTarget("http://example.com/api")).toBe(true);
+		});
+
+		it("Allow public unicast IPs if whitelistet", async () => {
+			global.config = { cors: "allowWhitelist", corsDomainWhitelist: ["example.com"] };
+			mockLookup.mockResolvedValue([{ address: "93.184.216.34", family: 4 }]);
+			expect(await isPrivateTarget("http://example.com/api")).toBe(false);
 		});
 	});
 });
