@@ -2,7 +2,7 @@ const dns = require("node:dns");
 const fs = require("node:fs");
 const path = require("node:path");
 const ipaddr = require("ipaddr.js");
-const { Agent } = require("undici");
+const undici = require("undici");
 const Log = require("logger");
 
 const startUp = new Date();
@@ -98,9 +98,16 @@ async function cors (req, res) {
 			}
 
 			// Pin the validated IP — fetch() reuses it instead of doing its own DNS lookup
-			const dispatcher = new Agent({ connect: { lookup: (_h, _o, cb) => cb(null, address, family) } });
+			const dispatcher = new undici.Agent({
+				connect: {
+					lookup: (_h, _o, cb) => {
+						const addresses = [{ address: address, family: family }];
+						process.nextTick(() => cb(null, addresses));
+					}
+				}
+			});
 
-			const response = await fetch(url, { dispatcher, headers: headersToSend });
+			const response = await undici.fetch(url, { dispatcher, headers: headersToSend });
 			if (response.ok) {
 				for (const header of expectedReceivedHeaders) {
 					const headerValue = response.headers.get(header);
