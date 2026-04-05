@@ -31,7 +31,12 @@ module.exports = NodeHelper.create({
 		Log.log(`Attempting to initialize provider ${identifier} for instance ${instanceId}`);
 
 		if (this.providers[instanceId]) {
-			Log.log(`Weather provider ${identifier} already initialized for instance ${instanceId}`);
+			Log.log(`Weather provider ${identifier} already initialized for instance ${instanceId}, re-sending WEATHER_INITIALIZED`);
+			// Client may have restarted (e.g. page reload) - re-send so it recovers location name
+			this.sendSocketNotification("WEATHER_INITIALIZED", {
+				instanceId,
+				locationName: this.providers[instanceId].locationName
+			});
 			return;
 		}
 
