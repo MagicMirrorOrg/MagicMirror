@@ -110,8 +110,8 @@ Module.register("weather", {
 			this.config.showHumidity = this.config.showHumidity ? "wind" : "none";
 		}
 
-		// All providers run server-side: generate unique instance ID and initialize via node_helper
-		this.instanceId = `${this.identifier}_${Date.now()}`;
+		// All providers run server-side: use stable identifier so reconnects don't spawn duplicate HTTPFetchers
+		this.instanceId = this.identifier;
 
 		if (window.initWeatherTheme) window.initWeatherTheme(this);
 
