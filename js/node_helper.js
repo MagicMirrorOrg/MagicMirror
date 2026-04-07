@@ -89,7 +89,7 @@ const NodeHelper = Class.extend({
 		io.of(this.name).on("connection", (socket) => {
 			// register catch all.
 			socket.onAny((notification, payload) => {
-				if (config.hideConfigSecrets && payload && typeof payload === "object") {
+				if (config?.hideConfigSecrets && payload && typeof payload === "object") {
 					try {
 						const payloadStr = replaceSecretPlaceholder(JSON.stringify(payload));
 						this.socketNotificationReceived(notification, JSON.parse(payloadStr));
