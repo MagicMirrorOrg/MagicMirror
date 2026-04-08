@@ -440,3 +440,32 @@ describe("fetch() method", () => {
 		expect(errorInfo.errorType).toBe("NETWORK_ERROR");
 	});
 });
+
+describe("selfSignedCert dispatcher", () => {
+	const { Agent } = require("undici");
+
+	it("should set rejectUnauthorized=false when selfSignedCert is true", () => {
+		fetcher = new HTTPFetcher(TEST_URL, {
+			reloadInterval: 60000,
+			selfSignedCert: true
+		});
+
+		const options = fetcher.getRequestOptions();
+
+		expect(options.dispatcher).toBeInstanceOf(Agent);
+		const agentOptionsSymbol = Object.getOwnPropertySymbols(options.dispatcher).find((s) => s.description === "options");
+		const dispatcherOptions = options.dispatcher[agentOptionsSymbol];
+		expect(dispatcherOptions.connect.rejectUnauthorized).toBe(false);
+	});
+
+	it("should not set a dispatcher when selfSignedCert is false", () => {
+		fetcher = new HTTPFetcher(TEST_URL, {
+			reloadInterval: 60000,
+			selfSignedCert: false
+		});
+
+		const options = fetcher.getRequestOptions();
+
+		expect(options.dispatcher).toBeUndefined();
+	});
+});

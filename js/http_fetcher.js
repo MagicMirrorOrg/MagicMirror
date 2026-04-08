@@ -1,5 +1,5 @@
 const { EventEmitter } = require("node:events");
-const { Agent } = require("undici");
+const { fetch: undiciFetch, Agent } = require("undici");
 const Log = require("logger");
 const { getUserAgent } = require("#server_functions");
 
@@ -263,8 +263,13 @@ class HTTPFetcher extends EventEmitter {
 		const timeoutId = setTimeout(() => controller.abort(), this.timeout);
 
 		try {
-			const response = await fetch(this.url, {
-				...this.getRequestOptions(),
+			const requestOptions = this.getRequestOptions();
+			// Use undici.fetch when a custom dispatcher is present (e.g. selfSignedCert),
+			// because Node's global fetch and npm undici@8 Agents are incompatible.
+			// For regular requests, use globalThis.fetch so MSW and other interceptors work.
+			const fetchFn = requestOptions.dispatcher ? undiciFetch : globalThis.fetch;
+			const response = await fetchFn(this.url, {
+				...requestOptions,
 				signal: controller.signal
 			});
 
