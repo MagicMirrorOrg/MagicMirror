@@ -22,9 +22,14 @@ function getStartup (req, res) {
  * @returns {string} the input with real variable content
  */
 function replaceSecretPlaceholder (input) {
-	return input.replaceAll(/\*\*(SECRET_[^*]+)\*\*/g, (match, group) => {
-		return process.env[group];
-	});
+	if (config?.cors === "allowWhitelist") {
+		return input.replaceAll(/\*\*(SECRET_[^*]+)\*\*/g, (match, group) => {
+			return process.env[group];
+		});
+	} else {
+		Log.error("Replacing secrets works only with CORS and `allowWhitelist`, you need to set this in `config.js`, set `cors: allowWhitelist`");
+		return input;
+	}
 }
 
 /**
