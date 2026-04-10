@@ -5,7 +5,7 @@ Module.register("weather", {
 	defaults: {
 		weatherProvider: "openweathermap",
 		roundTemp: false,
-		type: "current", // current, forecast, daily (equivalent to forecast), hourly (only with OpenWeatherMap /onecall endpoint)
+		type: "current", // current, forecast, daily (equivalent to forecast), hourly
 		lang: config.language,
 		units: config.units,
 		tempUnits: config.units,
@@ -242,7 +242,23 @@ Module.register("weather", {
 
 	// Add all the data to the template.
 	getTemplateData () {
-		const hourlyData = this.weatherHourlyArray?.filter((e, i) => (i + 1) % this.config.hourlyForecastIncrements === this.config.hourlyForecastIncrements - 1);
+		const now = new Date();
+		// Filter out past entries, but keep the current hour (e.g. show 0:00 at 0:10).
+		// This ensures consistent behavior across all providers, regardless of whether
+		// a provider filters past entries itself.
+		const startOfHour = new Date(now);
+		startOfHour.setMinutes(0, 0, 0);
+		const upcomingHourlyData = this.weatherHourlyArray
+			?.filter((entry) => entry.date?.valueOf() >= startOfHour.getTime());
+		const hourlySourceData = upcomingHourlyData?.length ? upcomingHourlyData : this.weatherHourlyArray;
+
+		const increment = this.config.hourlyForecastIncrements;
+		const keepByConfiguredIncrement = (_entry, index) => {
+			// Keep the existing offset behavior of hourlyForecastIncrements.
+			return (index + 1) % increment === increment - 1;
+		};
+
+		const hourlyData = hourlySourceData?.filter(keepByConfiguredIncrement);
 
 		return {
 			config: this.config,

@@ -96,28 +96,41 @@ class OpenWeatherMapProvider {
 
 	#handleResponse (data) {
 		try {
-			// Set location name from timezone
-			if (data.timezone) {
-				this.locationName = data.timezone;
-			}
-
 			let weatherData;
-			const onecallData = this.#generateWeatherObjectsFromOnecall(data);
 
-			switch (this.config.type) {
-				case "current":
-					weatherData = onecallData.current;
-					break;
-				case "forecast":
-				case "daily":
-					weatherData = onecallData.days;
-					break;
-				case "hourly":
-					weatherData = onecallData.hours;
-					break;
-				default:
-					Log.error(`[openweathermap] Unknown type: ${this.config.type}`);
-					throw new Error(`Unknown weather type: ${this.config.type}`);
+			if (this.config.weatherEndpoint === "/onecall") {
+				// One Call API (v3.0)
+				if (data.timezone) {
+					this.locationName = data.timezone;
+				}
+
+				const onecallData = this.#generateWeatherObjectsFromOnecall(data);
+
+				switch (this.config.type) {
+					case "current":
+						weatherData = onecallData.current;
+						break;
+					case "forecast":
+					case "daily":
+						weatherData = onecallData.days;
+						break;
+					case "hourly":
+						weatherData = onecallData.hours;
+						break;
+					default:
+						Log.error(`[openweathermap] Unknown type: ${this.config.type}`);
+						throw new Error(`Unknown weather type: ${this.config.type}`);
+				}
+			} else if (this.config.weatherEndpoint === "/weather") {
+				// Current weather endpoint (API v2.5)
+				weatherData = this.#generateWeatherObjectFromCurrentWeather(data);
+			} else if (this.config.weatherEndpoint === "/forecast") {
+				// 3-hourly forecast endpoint (API v2.5)
+				weatherData = this.config.type === "hourly"
+					? this.#generateHourlyWeatherObjectsFromForecast(data)
+					: this.#generateDailyWeatherObjectsFromForecast(data);
+			} else {
+				throw new Error(`Unknown weather endpoint: ${this.config.weatherEndpoint}`);
 			}
 
 			if (weatherData && this.onDataCallback) {
@@ -132,6 +145,123 @@ class OpenWeatherMapProvider {
 				});
 			}
 		}
+	}
+
+	#generateWeatherObjectFromCurrentWeather (data) {
+		const timezoneOffsetMinutes = (data.timezone ?? 0) / 60;
+
+		if (data.name && data.sys?.country) {
+			this.locationName = `${data.name}, ${data.sys.country}`;
+		} else if (data.name) {
+			this.locationName = data.name;
+		}
+
+		const weather = {};
+		weather.date = weatherUtils.applyTimezoneOffset(new Date(data.dt * 1000), timezoneOffsetMinutes);
+		weather.temperature = data.main.temp;
+		weather.feelsLikeTemp = data.main.feels_like;
+		weather.humidity = data.main.humidity;
+		weather.windSpeed = data.wind.speed;
+		weather.windFromDirection = data.wind.deg;
+		weather.weatherType = weatherUtils.convertWeatherType(data.weather[0].icon);
+		weather.sunrise = weatherUtils.applyTimezoneOffset(new Date(data.sys.sunrise * 1000), timezoneOffsetMinutes);
+		weather.sunset = weatherUtils.applyTimezoneOffset(new Date(data.sys.sunset * 1000), timezoneOffsetMinutes);
+
+		return weather;
+	}
+
+	#extractThreeHourPrecipitation (forecast) {
+		const rain = Number.parseFloat(forecast.rain?.["3h"] ?? "") || 0;
+		const snow = Number.parseFloat(forecast.snow?.["3h"] ?? "") || 0;
+		const precipitationAmount = rain + snow;
+
+		return {
+			rain,
+			snow,
+			precipitationAmount,
+			hasPrecipitation: precipitationAmount > 0
+		};
+	}
+
+	#generateHourlyWeatherObjectsFromForecast (data) {
+		const timezoneOffsetSeconds = data.city?.timezone ?? 0;
+		const timezoneOffsetMinutes = timezoneOffsetSeconds / 60;
+
+		if (data.city?.name && data.city?.country) {
+			this.locationName = `${data.city.name}, ${data.city.country}`;
+		}
+
+		return data.list.map((forecast) => {
+			const weather = {};
+			weather.date = weatherUtils.applyTimezoneOffset(new Date(forecast.dt * 1000), timezoneOffsetMinutes);
+			weather.temperature = forecast.main.temp;
+			weather.feelsLikeTemp = forecast.main.feels_like;
+			weather.humidity = forecast.main.humidity;
+			weather.windSpeed = forecast.wind.speed;
+			weather.windFromDirection = forecast.wind.deg;
+			weather.weatherType = weatherUtils.convertWeatherType(forecast.weather[0].icon);
+			weather.precipitationProbability = forecast.pop !== undefined ? forecast.pop * 100 : undefined;
+
+			const precipitation = this.#extractThreeHourPrecipitation(forecast);
+			if (precipitation.hasPrecipitation) {
+				weather.rain = precipitation.rain;
+				weather.snow = precipitation.snow;
+				weather.precipitationAmount = precipitation.precipitationAmount;
+			}
+
+			return weather;
+		});
+	}
+
+	#generateDailyWeatherObjectsFromForecast (data) {
+		const timezoneOffsetSeconds = data.city?.timezone ?? 0;
+		const timezoneOffsetMinutes = timezoneOffsetSeconds / 60;
+
+		if (data.city?.name && data.city?.country) {
+			this.locationName = `${data.city.name}, ${data.city.country}`;
+		}
+
+		const dayMap = new Map();
+
+		for (const forecast of data.list) {
+			// Shift dt by timezone offset so UTC fields represent local time
+			const localDate = new Date((forecast.dt + timezoneOffsetSeconds) * 1000);
+			const dateKey = `${localDate.getUTCFullYear()}-${String(localDate.getUTCMonth() + 1).padStart(2, "0")}-${String(localDate.getUTCDate()).padStart(2, "0")}`;
+
+			if (!dayMap.has(dateKey)) {
+				dayMap.set(dateKey, {
+					date: weatherUtils.applyTimezoneOffset(new Date(forecast.dt * 1000), timezoneOffsetMinutes),
+					minTemps: [],
+					maxTemps: [],
+					rain: 0,
+					snow: 0,
+					weatherType: weatherUtils.convertWeatherType(forecast.weather[0].icon)
+				});
+			}
+
+			const day = dayMap.get(dateKey);
+			day.minTemps.push(forecast.main.temp_min);
+			day.maxTemps.push(forecast.main.temp_max);
+
+			const hour = localDate.getUTCHours();
+			if (hour >= 8 && hour <= 17) {
+				day.weatherType = weatherUtils.convertWeatherType(forecast.weather[0].icon);
+			}
+
+			const precipitation = this.#extractThreeHourPrecipitation(forecast);
+			day.rain += precipitation.rain;
+			day.snow += precipitation.snow;
+		}
+
+		return Array.from(dayMap.values()).map((day) => ({
+			date: day.date,
+			minTemperature: Math.min(...day.minTemps),
+			maxTemperature: Math.max(...day.maxTemps),
+			weatherType: day.weatherType,
+			rain: day.rain,
+			snow: day.snow,
+			precipitationAmount: day.rain + day.snow
+		}));
 	}
 
 	#generateWeatherObjectsFromOnecall (data) {
