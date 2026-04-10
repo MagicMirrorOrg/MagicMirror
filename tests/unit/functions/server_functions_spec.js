@@ -8,7 +8,11 @@ const undici = require("undici");
 const { cors, getUserAgent, replaceSecretPlaceholder } = require("#server_functions");
 
 describe("server_functions tests", () => {
-	describe("The replaceSecretPlaceholder method", () => {
+	describe("The replaceSecretPlaceholder method with cors=allowWhitelist", () => {
+		beforeEach(() => {
+			global.config = { cors: "allowWhitelist" };
+		});
+
 		it("Calls string without secret placeholder", () => {
 			const teststring = "test string without secret placeholder";
 			const result = replaceSecretPlaceholder(teststring);
@@ -22,6 +26,24 @@ describe("server_functions tests", () => {
 			const resultstring = `test string with secret1=${process.env.SECRET_ONE} and secret2=${process.env.SECRET_TWO}`;
 			const result = replaceSecretPlaceholder(teststring);
 			expect(result).toBe(resultstring);
+		});
+	});
+
+	describe("The replaceSecretPlaceholder method with cors=allowAll", () => {
+		beforeEach(() => {
+			global.config = { cors: "allowAll" };
+		});
+
+		it("Calls string without secret placeholder", () => {
+			const teststring = "test string without secret placeholder";
+			const result = replaceSecretPlaceholder(teststring);
+			expect(result).toBe(teststring);
+		});
+
+		it("Calls string with 2 secret placeholders", () => {
+			const teststring = "test string with secret1=**SECRET_ONE** and secret2=**SECRET_TWO**";
+			const result = replaceSecretPlaceholder(teststring);
+			expect(result).toBe(teststring);
 		});
 	});
 
