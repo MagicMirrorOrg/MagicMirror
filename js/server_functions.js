@@ -22,7 +22,7 @@ function getStartup (req, res) {
  * @returns {string} the input with real variable content
  */
 function replaceSecretPlaceholder (input) {
-	if (config?.cors === "allowWhitelist") {
+	if (global.config.cors === "allowWhitelist") {
 		return input.replaceAll(/\*\*(SECRET_[^*]+)\*\*/g, (match, group) => {
 			return process.env[group];
 		});
