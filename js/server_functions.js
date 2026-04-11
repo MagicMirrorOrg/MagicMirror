@@ -27,7 +27,9 @@ function replaceSecretPlaceholder (input) {
 			return process.env[group];
 		});
 	} else {
-		Log.error("Replacing secrets doesn't work with CORS `allowAll`, you need to set `cors` to `disabled` or `allowWhitelist` in `config.js`");
+		if (input.includes("**SECRET_")) {
+			Log.error("Replacing secrets doesn't work with CORS `allowAll`, you need to set `cors` to `disabled` or `allowWhitelist` in `config.js`");
+		}
 		return input;
 	}
 }
