@@ -475,7 +475,19 @@ const MM = (function () {
 	const loadConfig = async function () {
 		try {
 			const res = await fetch(new URL("config/", `${location.origin}${config.basePath}`));
-			config = JSON.parse(await res.text());
+
+			config = JSON.parse(await res.text(), (key, value) => {
+				if (typeof value === "string") {
+					// checks for classic function OR arrow function
+					const isFunction = value.includes("function") || value.includes("=>");
+
+					if (isFunction) {
+					// eval() often needs brackets around
+						return eval(`(${value})`);
+					}
+				}
+				return value;
+			});
 		} catch (error) {
 			Log.error("Unable to retrieve config", error);
 		}

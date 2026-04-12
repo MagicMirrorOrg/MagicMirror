@@ -111,12 +111,22 @@ function Server (configObj) {
 			const getStartup = (req, res) => res.send(startUp);
 
 			const getConfig = (req, res) => {
+				let obj;
 				if (config.hideConfigSecrets) {
-					res.send(configObj.redactedConf);
+					obj = configObj.redactedConf;
 				} else {
-					res.send(configObj.fullConf);
+					obj = configObj.fullConf;
 				}
+				const jsonString = JSON.stringify(obj, (key, value) => {
+					if (typeof value === "function") {
+						return value.toString();
+					}
+					return value;
+				});
+				res.set("Content-Type", "application/json");
+				res.send(jsonString);
 			};
+
 			app.get("/config", (req, res) => getConfig(req, res));
 
 			app.get("/cors", async (req, res) => await cors(req, res));
