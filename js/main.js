@@ -475,7 +475,20 @@ const MM = (function () {
 	const loadConfig = async function () {
 		try {
 			const res = await fetch(new URL("config/", `${location.origin}${config.basePath}`));
-			config = JSON.parse(await res.text());
+
+			// The server tags functions as { __mmFunction: "<source>" } because
+			// JSON.stringify can't serialise live functions. This reviver turns
+			// those tagged objects back into callable functions.
+			config = JSON.parse(await res.text(), (key, value) => {
+				if (value && typeof value === "object" && typeof value.__mmFunction === "string") {
+					try {
+						return new Function(`return (${value.__mmFunction})`)();
+					} catch {
+						Log.warn(`Failed to revive function for config key "${key}".`);
+					}
+				}
+				return value;
+			});
 		} catch (error) {
 			Log.error("Unable to retrieve config", error);
 		}
