@@ -21,7 +21,9 @@ let config = require(`${process.cwd()}/tests/configs/default.js`).configFactory(
 							return value;
 						}
 					}
-				}
+				},
+				stringWithArrow: "a => b is not a function",
+				stringWithFunction: "this function keyword is just text"
 			}
 		}
 	]

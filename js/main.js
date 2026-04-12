@@ -476,14 +476,15 @@ const MM = (function () {
 		try {
 			const res = await fetch(new URL("config/", `${location.origin}${config.basePath}`));
 
+			// The server tags functions as { __mmFunction: "<source>" } because
+			// JSON.stringify can't serialise live functions. This reviver turns
+			// those tagged objects back into callable functions.
 			config = JSON.parse(await res.text(), (key, value) => {
-				if (typeof value === "string") {
-					// checks for classic function OR arrow function
-					const isFunction = value.includes("function") || value.includes("=>");
-
-					if (isFunction) {
-					// eval() often needs brackets around
-						return eval(`(${value})`);
+				if (value && typeof value === "object" && typeof value.__mmFunction === "string") {
+					try {
+						return new Function(`return (${value.__mmFunction})`)();
+					} catch {
+						Log.warn(`Failed to revive function for config key "${key}".`);
 					}
 				}
 				return value;

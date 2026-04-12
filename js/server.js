@@ -111,15 +111,14 @@ function Server (configObj) {
 			const getStartup = (req, res) => res.send(startUp);
 
 			const getConfig = (req, res) => {
-				let obj;
-				if (config.hideConfigSecrets) {
-					obj = configObj.redactedConf;
-				} else {
-					obj = configObj.fullConf;
-				}
+				const obj = config.hideConfigSecrets ? configObj.redactedConf : configObj.fullConf;
+				// Functions can't survive JSON.stringify, so we wrap them in a
+				// tagged object { __mmFunction: "<source>" }. The client-side
+				// JSON reviver in main.js recognises this tag and reconstructs
+				// the live function from the source string.
 				const jsonString = JSON.stringify(obj, (key, value) => {
 					if (typeof value === "function") {
-						return value.toString();
+						return { __mmFunction: value.toString() };
 					}
 					return value;
 				});
