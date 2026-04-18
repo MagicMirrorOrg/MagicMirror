@@ -151,6 +151,9 @@ class WeatherFlowProvider {
 			windSpeed: current.wind_avg != null ? convertKmhToMs(current.wind_avg) : null,
 			windFromDirection: current.wind_direction ?? null,
 			weatherType: this.#convertWeatherType(current.icon),
+			precipitationAmount: current.precip_accum_local_day ?? null,
+			precipitationUnits: "mm",
+			precipitationProbability: current.precip_probability ?? null,
 			uvIndex: current.uv || null,
 			sunrise: daily.sunrise ? new Date(daily.sunrise * 1000) : null,
 			sunset: daily.sunset ? new Date(daily.sunset * 1000) : null

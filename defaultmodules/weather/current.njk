@@ -78,11 +78,11 @@
         </span>
         <br />
       {% endif %}
-      {% if config.showPrecipitationAmount and current.precipitationAmount %}
+      {% if config.showPrecipitationAmount and current.precipitationAmount is defined and current.precipitationAmount is not none %}
         <span class="dimmed"> <span class="precipitationLeadText">{{ "PRECIP_AMOUNT" | translate }}</span> {{ current.precipitationAmount | unit("precip", current.precipitationUnits) }} </span>
         <br />
       {% endif %}
-      {% if config.showPrecipitationProbability and current.precipitationProbability %}
+      {% if config.showPrecipitationProbability and current.precipitationProbability is defined and current.precipitationProbability is not none %}
         <span class="dimmed"> <span class="precipitationLeadText">{{ "PRECIP_POP" | translate }}</span> {{ current.precipitationProbability }}% </span>
       {% endif %}
     </div>

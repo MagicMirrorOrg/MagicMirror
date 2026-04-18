@@ -85,6 +85,9 @@ describe("WeatherFlowProvider", () => {
 			expect(result).toBeDefined();
 			expect(result.temperature).toBe(16);
 			expect(result.humidity).toBe(28);
+			expect(result.precipitationAmount).toBe(0);
+			expect(result.precipitationUnits).toBe("mm");
+			expect(result.precipitationProbability).toBe(0);
 			expect(result.weatherType).not.toBeNull();
 		});
 
