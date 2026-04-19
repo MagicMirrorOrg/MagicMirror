@@ -209,8 +209,15 @@ class HTTPFetcher extends EventEmitter {
 		} else if (status >= 500) {
 			errorType = "SERVER_ERROR";
 			this.serverErrorCount = Math.min(this.serverErrorCount + 1, this.maxRetries);
-			delay = this.reloadInterval * Math.pow(2, this.serverErrorCount);
-			message = `Server error (${status}). Retry #${this.serverErrorCount} in ${Math.round(delay / 60000)} minutes.`;
+			if (this.serverErrorCount >= this.maxRetries) {
+				delay = this.reloadInterval;
+				message = `Server error (${status}). Max retries reached, retrying at configured interval (${Math.round(delay / 1000)}s).`;
+			} else {
+				delay = HTTPFetcher.calculateBackoffDelay(this.serverErrorCount, {
+					maxDelay: this.reloadInterval
+				});
+				message = `Server error (${status}). Retry #${this.serverErrorCount} in ${Math.round(delay / 1000)}s.`;
+			}
 			Log.error(`${this.logContext}${this.url} - ${message}`);
 		} else if (status >= 400) {
 			errorType = "CLIENT_ERROR";
@@ -295,10 +302,15 @@ class HTTPFetcher extends EventEmitter {
 
 			// Apply exponential backoff for network errors
 			this.networkErrorCount = Math.min(this.networkErrorCount + 1, this.maxRetries);
-			const backoffDelay = HTTPFetcher.calculateBackoffDelay(this.networkErrorCount, {
-				maxDelay: this.reloadInterval
-			});
-			nextDelay = backoffDelay;
+
+			if (this.networkErrorCount >= this.maxRetries) {
+				// After exhausting retries, fall back to reloadInterval to avoid tight retry loops
+				nextDelay = this.reloadInterval;
+			} else {
+				nextDelay = HTTPFetcher.calculateBackoffDelay(this.networkErrorCount, {
+					maxDelay: this.reloadInterval
+				});
+			}
 
 			// Truncate URL for cleaner logs
 			let shortUrl = this.url;
@@ -310,11 +322,12 @@ class HTTPFetcher extends EventEmitter {
 			}
 
 			// Gradual log-level escalation: WARN for first 2 attempts, ERROR after
-			const retryMessage = `Retry #${this.networkErrorCount} in ${Math.round(nextDelay / 1000)}s.`;
-			if (this.networkErrorCount <= 2) {
-				Log.warn(`${this.logContext}${shortUrl} - ${message} ${retryMessage}`);
+			if (this.networkErrorCount >= this.maxRetries) {
+				Log.error(`${this.logContext}${shortUrl} - ${message} Max retries reached, retrying at configured interval (${Math.round(nextDelay / 1000)}s).`);
+			} else if (this.networkErrorCount <= 2) {
+				Log.warn(`${this.logContext}${shortUrl} - ${message} Retry #${this.networkErrorCount} in ${Math.round(nextDelay / 1000)}s.`);
 			} else {
-				Log.error(`${this.logContext}${shortUrl} - ${message} ${retryMessage}`);
+				Log.error(`${this.logContext}${shortUrl} - ${message} Retry #${this.networkErrorCount} in ${Math.round(nextDelay / 1000)}s.`);
 			}
 
 			const errorInfo = this.#createErrorInfo(
