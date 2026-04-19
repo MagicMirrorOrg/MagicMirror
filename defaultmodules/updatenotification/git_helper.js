@@ -193,19 +193,15 @@ class GitHelper {
 		return this.gitResultList;
 	}
 
-	async checkUpdates () {
-		var updates = [];
+	checkUpdates () {
+		const updates = [];
 
-		const allRepos = await this.gitResultList.map((module) => {
-			return new Promise((resolve) => {
-				if (module.behind > 0 && module.module !== "MagicMirror") {
-					Log.info(`Update found for module: ${module.module}`);
-					updates.push(module);
-				}
-				resolve(module);
-			});
-		});
-		await Promise.all(allRepos);
+		for (const moduleInfo of this.gitResultList) {
+			if (moduleInfo.behind > 0 && moduleInfo.module !== "MagicMirror") {
+				Log.info(`Update found for module: ${moduleInfo.module}`);
+				updates.push(moduleInfo);
+			}
+		}
 
 		return updates;
 	}
