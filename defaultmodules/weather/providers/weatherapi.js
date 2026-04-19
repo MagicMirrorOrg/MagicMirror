@@ -351,7 +351,7 @@ class WeatherAPIProvider {
 				weather.precipitationProbability = precipitationProbability;
 			}
 
-			weather.uv_index = this.#toNumber(forecastDay.day?.uv);
+			weather.uvIndex = this.#toNumber(forecastDay.day?.uv);
 
 			days.push(weather);
 
@@ -410,7 +410,7 @@ class WeatherAPIProvider {
 				const willSnow = this.#toNumber(hourData.will_it_snow) ?? 0;
 				weather.precipitationProbability = (willRain + willSnow) * 50;
 
-				weather.uv_index = this.#toNumber(hourData.uv);
+				weather.uvIndex = this.#toNumber(hourData.uv);
 
 				hours.push(weather);
 

@@ -240,6 +240,7 @@ describe("WeatherAPIProvider", () => {
 			expect(result[0].minTemperature).toBe(-8);
 			expect(result[0].maxTemperature).toBe(-1);
 			expect(result[0].weatherType).toBe("day-sprinkle");
+			expect(result[0].uvIndex).toBe(1);
 			expect(result[0].sunrise).toBeInstanceOf(Date);
 			expect(result[0].sunset).toBeInstanceOf(Date);
 		});
@@ -275,6 +276,7 @@ describe("WeatherAPIProvider", () => {
 			expect(result[0].humidity).toBe(85);
 			expect(result[0].windFromDirection).toBe(210);
 			expect(result[0].weatherType).toBe("night-sprinkle");
+			expect(result[0].uvIndex).toBe(0);
 			expect(result[0].precipitationProbability).toBe(50);
 		});
 	});
