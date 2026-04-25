@@ -4,6 +4,7 @@ const Log = require("logger");
 
 module.exports = NodeHelper.create({
 	providers: {},
+	lastData: {},
 
 	start () {
 		Log.log(`Starting node helper for: ${this.name}`);
@@ -37,6 +38,10 @@ module.exports = NodeHelper.create({
 				instanceId,
 				locationName: this.providers[instanceId].locationName
 			});
+			// Push cached data immediately so reconnecting clients don't wait for next scheduled fetch
+			if (this.lastData[instanceId]) {
+				this.sendSocketNotification("WEATHER_DATA", this.lastData[instanceId]);
+			}
 			return;
 		}
 
@@ -53,11 +58,9 @@ module.exports = NodeHelper.create({
 			provider.setCallbacks(
 				(data) => {
 					// On data received
-					this.sendSocketNotification("WEATHER_DATA", {
-						instanceId,
-						type: config.type,
-						data
-					});
+					const payload = { instanceId, type: config.type, data };
+					this.lastData[instanceId] = payload;
+					this.sendSocketNotification("WEATHER_DATA", payload);
 				},
 				(errorInfo) => {
 					// On error
@@ -101,6 +104,7 @@ module.exports = NodeHelper.create({
 			Log.log(`Stopping weather provider for instance ${instanceId}`);
 			provider.stop();
 			delete this.providers[instanceId];
+			delete this.lastData[instanceId];
 		} else {
 			Log.warn(`No provider found for instance ${instanceId}`);
 		}
