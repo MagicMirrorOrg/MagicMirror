@@ -273,7 +273,9 @@ class HTTPFetcher extends EventEmitter {
 				signal: controller.signal
 			});
 
-			if (!response.ok) {
+			const isSuccessfulResponse = response.ok || response.status === 304;
+
+			if (!isSuccessfulResponse) {
 				const { delay, errorInfo } = this.#getDelayForResponse(response);
 				nextDelay = delay;
 				this.emit("error", errorInfo);
