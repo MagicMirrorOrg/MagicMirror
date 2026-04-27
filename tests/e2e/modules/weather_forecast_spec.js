@@ -34,7 +34,7 @@ describe("Weather module: Weather Forecast", () => {
 		const maxTemps = ["24.4°", "21.0°", "22.9°", "23.4°", "20.6°"];
 		for (const [index, temp] of maxTemps.entries()) {
 			it(`should render max temperature ${temp}`, async () => {
-				const maxTempCell = page.locator(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(3)`);
+				const maxTempCell = page.locator(`.weather table.small tr:nth-child(${index + 1}) td.max-temp`);
 				await expect(maxTempCell).toHaveText(temp);
 			});
 		}
@@ -42,7 +42,7 @@ describe("Weather module: Weather Forecast", () => {
 		const minTemps = ["15.3°", "13.6°", "13.8°", "13.9°", "10.9°"];
 		for (const [index, temp] of minTemps.entries()) {
 			it(`should render min temperature ${temp}`, async () => {
-				const minTempCell = page.locator(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(4)`);
+				const minTempCell = page.locator(`.weather table.small tr:nth-child(${index + 1}) td.min-temp`);
 				await expect(minTempCell).toHaveText(temp);
 			});
 		}
@@ -107,7 +107,7 @@ describe("Weather module: Weather Forecast", () => {
 			const temperatures = ["75_9°", "69_8°", "73_2°", "74_1°", "69_1°"];
 			for (const [index, temp] of temperatures.entries()) {
 				it(`should render custom decimalSymbol = '_' for temp ${temp}`, async () => {
-					const tempCell = page.locator(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(3)`);
+					const tempCell = page.locator(`.weather table.small tr:nth-child(${index + 1}) td.max-temp`);
 					await expect(tempCell).toHaveText(temp);
 				});
 			}
