@@ -51,6 +51,31 @@ describe("HTTPFetcher", () => {
 			expect(text).toBe(responseData);
 		});
 
+		it("should treat 304 responses as successful and reset error counters", async () => {
+			server.use(
+				http.get(TEST_URL, () => {
+					return new HttpResponse(null, { status: 304 });
+				})
+			);
+
+			fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000 });
+			fetcher.serverErrorCount = 2;
+			fetcher.networkErrorCount = 3;
+
+			const responsePromise = new Promise((resolve) => {
+				fetcher.on("response", (response) => {
+					resolve(response);
+				});
+			});
+
+			fetcher.startPeriodicFetch();
+			const response = await responsePromise;
+
+			expect(response.status).toBe(304);
+			expect(fetcher.serverErrorCount).toBe(0);
+			expect(fetcher.networkErrorCount).toBe(0);
+		});
+
 		it("should emit error event on network failure", async () => {
 			server.use(
 				http.get(TEST_URL, () => {
