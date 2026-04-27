@@ -1,5 +1,5 @@
 const util = require("node:util");
-const exec = util.promisify(require("node:child_process").exec);
+const execFile = util.promisify(require("node:child_process").execFile);
 const fs = require("node:fs");
 const path = require("node:path");
 const Log = require("logger");
@@ -14,14 +14,14 @@ class GitHelper {
 		return new RegExp(`s*([a-z,0-9]+[.][.][a-z,0-9]+)  ${branch}`, "g");
 	}
 
-	async execShell (command) {
-		const { stdout = "", stderr = "" } = await exec(command);
+	async execGit (moduleFolder, ...args) {
+		const { stdout = "", stderr = "" } = await execFile("git", args, { cwd: moduleFolder });
 
 		return { stdout, stderr };
 	}
 
 	async isGitRepo (moduleFolder) {
-		const { stderr } = await this.execShell(`cd ${moduleFolder} && git remote -v`);
+		const { stderr } = await this.execGit(moduleFolder, "remote", "-v");
 
 		if (stderr) {
 			Log.error(`Failed to fetch git data for ${moduleFolder}: ${stderr}`);
@@ -69,7 +69,7 @@ class GitHelper {
 
 		if (repo.module === "MagicMirror") {
 			// the hash is only needed for the mm repo
-			const { stderr, stdout } = await this.execShell(`cd ${repo.folder} && git rev-parse HEAD`);
+			const { stderr, stdout } = await this.execGit(repo.folder, "rev-parse", "HEAD");
 
 			if (stderr) {
 				Log.error(`Failed to get current commit hash for ${repo.module}: ${stderr}`);
@@ -78,7 +78,7 @@ class GitHelper {
 			gitInfo.hash = stdout;
 		}
 
-		const { stderr, stdout } = await this.execShell(`cd ${repo.folder} && git status -sb`);
+		const { stderr, stdout } = await this.execGit(repo.folder, "status", "-sb");
 
 		if (stderr) {
 			Log.error(`Failed to get git status for ${repo.module}: ${stderr}`);
@@ -123,7 +123,7 @@ class GitHelper {
 			return gitInfo;
 		}
 
-		const { stderr } = await this.execShell(`cd ${repo.folder} && git fetch -n --dry-run`);
+		const { stderr } = await this.execGit(repo.folder, "fetch", "-n", "--dry-run");
 
 		// example output:
 		// From https://github.com/MagicMirrorOrg/MagicMirror
@@ -140,7 +140,7 @@ class GitHelper {
 
 		// get behind with refs
 		try {
-			const { stdout } = await this.execShell(`cd ${repo.folder} && git rev-list --ancestry-path --count ${refDiff}`);
+			const { stdout } = await this.execGit(repo.folder, "rev-list", "--ancestry-path", "--count", refDiff);
 			gitInfo.behind = parseInt(stdout);
 
 			// for MagicMirror-Repo and "master" branch avoid getting notified when no tag is in refDiff
@@ -148,14 +148,14 @@ class GitHelper {
 			if (gitInfo.behind > 0 && gitInfo.module === "MagicMirror" && gitInfo.current === "master") {
 				let tagList = "";
 				try {
-					const { stdout } = await this.execShell(`cd ${repo.folder} && git ls-remote -q --tags --refs`);
+					const { stdout } = await this.execGit(repo.folder, "ls-remote", "-q", "--tags", "--refs");
 					tagList = stdout.trim();
 				} catch (err) {
 					Log.error(`Failed to get tag list for ${repo.module}: ${err}`);
 				}
 				// check if tag is between commits and only report behind > 0 if so
 				try {
-					const { stdout } = await this.execShell(`cd ${repo.folder} && git rev-list --ancestry-path ${refDiff}`);
+					const { stdout } = await this.execGit(repo.folder, "rev-list", "--ancestry-path", refDiff);
 					let cnt = 0;
 					for (const ref of stdout.trim().split("\n")) {
 						if (tagList.includes(ref)) cnt++; // tag found
@@ -193,19 +193,15 @@ class GitHelper {
 		return this.gitResultList;
 	}
 
-	async checkUpdates () {
-		var updates = [];
+	checkUpdates () {
+		const updates = [];
 
-		const allRepos = await this.gitResultList.map((module) => {
-			return new Promise((resolve) => {
-				if (module.behind > 0 && module.module !== "MagicMirror") {
-					Log.info(`Update found for module: ${module.module}`);
-					updates.push(module);
-				}
-				resolve(module);
-			});
-		});
-		await Promise.all(allRepos);
+		for (const moduleInfo of this.gitResultList) {
+			if (moduleInfo.behind > 0 && moduleInfo.module !== "MagicMirror") {
+				Log.info(`Update found for module: ${moduleInfo.module}`);
+				updates.push(moduleInfo);
+			}
+		}
 
 		return updates;
 	}
