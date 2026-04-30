@@ -295,11 +295,7 @@ class HTTPFetcher extends EventEmitter {
 
 			const isSuccessfulResponse = response.ok || response.status === 304;
 
-			if (!isSuccessfulResponse) {
-				const { delay, errorInfo } = this.#getDelayForResponse(response);
-				nextDelay = delay;
-				this.emit("error", errorInfo);
-			} else {
+			if (isSuccessfulResponse) {
 				// Reset error counts on success
 				this.serverErrorCount = 0;
 				this.networkErrorCount = 0;
@@ -310,6 +306,10 @@ class HTTPFetcher extends EventEmitter {
 				 * @type {Response}
 				 */
 				this.emit("response", response);
+			} else {
+				const { delay, errorInfo } = this.#getDelayForResponse(response);
+				nextDelay = delay;
+				this.emit("error", errorInfo);
 			}
 		} catch (error) {
 			const isTimeout = error.name === "AbortError";
