@@ -144,12 +144,15 @@ describe("OpenMeteoProvider", () => {
 			provider.start();
 
 			const result = await dataPromise;
+			const currentHourUnix = Math.floor(currentData.current_weather.time / 3600) * 3600;
+			const currentHourIndex = currentData.hourly.time.findIndex((time) => time === currentHourUnix);
 
 			expect(result).toBeDefined();
 			expect(result.temperature).toBe(8.5);
 			expect(result.windSpeed).toBeCloseTo(4.7, 1);
 			expect(result.windFromDirection).toBe(9);
-			expect(result.humidity).toBe(83);
+			expect(result.humidity).toBe(currentData.hourly.relativehumidity_2m[currentHourIndex]);
+			expect(result.humidity).not.toBe(currentData.hourly.relativehumidity_2m[0]);
 		});
 
 		it("should include sunrise and sunset from daily data", async () => {

@@ -5,8 +5,32 @@ const HTTPFetcher = require("#http_fetcher");
 /**
  * Server-side weather provider for SMHI (Swedish Meteorological and Hydrological Institute)
  * Sweden only, metric system
- * API: https://opendata.smhi.se/apidocs/metfcst/
+ *
+ * API: SNOW1gv1 — https://opendata.smhi.se/metfcst/snow1gv1
+ * Migrated from PMP3gv2 (deprecated 2026-03-31, returns HTTP 404)
+ *
+ * Version: 2.0.1 (2026-04-02)
+ *
+ * Key differences from PMP3gv2:
+ * - URL: snow1g/version/1 (was pmp3g/version/2)
+ * - Time key: "time" (was "validTime")
+ * - Data structure: flat object entry.data.X (was parameters[].find().values[0])
+ * - Parameter names: human-readable (air_temperature, wind_speed, etc.)
+ * - Coordinates: flat [lon, lat] (was nested [[lon, lat]])
+ * - Precipitation types: different value mapping (1=rain, not snow)
  */
+
+/**
+ * Maps user-facing config precipitationValue to SNOW1gv1 parameter names.
+ * Maintains backward compatibility with existing MagicMirror configs.
+ */
+const PRECIP_VALUE_MAP = {
+	pmin: "precipitation_amount_min",
+	pmean: "precipitation_amount_mean",
+	pmedian: "precipitation_amount_median",
+	pmax: "precipitation_amount_max"
+};
+
 class SMHIProvider {
 	constructor (config) {
 		this.config = {
@@ -19,7 +43,7 @@ class SMHIProvider {
 		};
 
 		// Validate precipitationValue
-		if (!["pmin", "pmean", "pmedian", "pmax"].includes(this.config.precipitationValue)) {
+		if (!Object.keys(PRECIP_VALUE_MAP).includes(this.config.precipitationValue)) {
 			Log.warn(`[smhi] Invalid precipitationValue: ${this.config.precipitationValue}, using pmedian`);
 			this.config.precipitationValue = "pmedian";
 		}
@@ -152,14 +176,20 @@ class SMHIProvider {
 		return this.#convertWeatherDataGroupedBy(filled, coordinates, "hour");
 	}
 
+	/**
+	 * Find the time series entry closest to the current time.
+	 * SNOW1gv1 uses "time" instead of PMP3gv2's "validTime".
+	 * @param {Array<object>} times - Array of SNOW1gv1 time series entries.
+	 * @returns {object} The time series entry closest to the current time.
+	 */
 	#getClosestToCurrentTime (times) {
 		const now = new Date();
 		let minDiff = null;
 		let closest = times[0];
 
 		for (const time of times) {
-			const validTime = new Date(time.validTime);
-			const diff = Math.abs(validTime - now);
+			const entryTime = new Date(time.time);
+			const diff = Math.abs(entryTime - now);
 
 			if (minDiff === null || diff < minDiff) {
 				minDiff = diff;
@@ -170,18 +200,27 @@ class SMHIProvider {
 		return closest;
 	}
 
+	/**
+	 * Convert a single SNOW1gv1 time series entry to MagicMirror weather object.
+	 *
+	 * SNOW1gv1 data structure: entry.data.parameter_name (flat object)
+	 * PMP3gv2 used: entry.parameters[{name, values}] (array of objects)
+	 * @param {object} weatherData - A single SNOW1gv1 time series entry.
+	 * @param {object} coordinates - Object with lat and lon properties.
+	 * @returns {object} MagicMirror-formatted weather data object.
+	 */
 	#convertWeatherDataToObject (weatherData, coordinates) {
-		const date = new Date(weatherData.validTime);
+		const date = new Date(weatherData.time);
 		const { sunrise, sunset } = getSunTimes(date, coordinates.lat, coordinates.lon);
 		const isDay = isDayTime(date, sunrise, sunset);
 
 		const current = {
 			date: date,
-			humidity: this.#paramValue(weatherData, "r"),
-			temperature: this.#paramValue(weatherData, "t"),
-			windSpeed: this.#paramValue(weatherData, "ws"),
-			windFromDirection: this.#paramValue(weatherData, "wd"),
-			weatherType: this.#convertWeatherType(this.#paramValue(weatherData, "Wsymb2"), isDay),
+			humidity: this.#paramValue(weatherData, "relative_humidity"),
+			temperature: this.#paramValue(weatherData, "air_temperature"),
+			windSpeed: this.#paramValue(weatherData, "wind_speed"),
+			windFromDirection: this.#paramValue(weatherData, "wind_from_direction"),
+			weatherType: this.#convertWeatherType(this.#paramValue(weatherData, "symbol_code"), isDay),
 			feelsLikeTemp: this.#calculateApparentTemperature(weatherData),
 			sunrise: sunrise,
 			sunset: sunset,
@@ -190,28 +229,37 @@ class SMHIProvider {
 			precipitationAmount: 0
 		};
 
-		// Determine precipitation amount and category
-		const precipitationValue = this.#paramValue(weatherData, this.config.precipitationValue);
-		const pcat = this.#paramValue(weatherData, "pcat");
+		// Map user config (pmedian/pmean/pmin/pmax) to SNOW1gv1 parameter name
+		const precipParamName = PRECIP_VALUE_MAP[this.config.precipitationValue];
+		const precipitationValue = this.#paramValue(weatherData, precipParamName);
+		const pcat = this.#paramValue(weatherData, "predominant_precipitation_type_at_surface");
 
+		// SNOW1gv1 precipitation type mapping (differs from PMP3gv2!):
+		//   0  = no precipitation
+		//   1  = rain
+		//   2  = sleet (snow + rain mix)
+		//   5  = snow / freezing rain
+		//   6  = freezing mixed precipitation
+		//   11 = drizzle / light rain
 		switch (pcat) {
-			case 1: // Snow
-				current.snow = precipitationValue;
+			case 1: // Rain
+			case 11: // Drizzle / light rain
+				current.rain = precipitationValue;
 				current.precipitationAmount = precipitationValue;
 				break;
-			case 2: // Snow and rain (50/50 split)
+			case 2: // Sleet / mixed rain and snow
 				current.snow = precipitationValue / 2;
 				current.rain = precipitationValue / 2;
 				current.precipitationAmount = precipitationValue;
 				break;
-			case 3: // Rain
-			case 4: // Drizzle
-			case 5: // Freezing rain
-			case 6: // Freezing drizzle
-				current.rain = precipitationValue;
+			case 5: // Snow / freezing rain
+			case 6: // Freezing mixed precipitation
+				current.snow = precipitationValue;
 				current.precipitationAmount = precipitationValue;
 				break;
-			// case 0: No precipitation - defaults already set to 0
+			case 0:
+			default:
+				break;
 		}
 
 		return current;
@@ -285,15 +333,22 @@ class SMHIProvider {
 		}
 	}
 
+	/**
+	 * Fill gaps in time series data for forecast/hourly grouping.
+	 * SNOW1gv1 has variable time steps: 1h (0-48h), 2h (49-72h), 6h (73-132h), 12h (133h+).
+	 * Uses "time" key instead of PMP3gv2's "validTime".
+	 * @param {Array<object>} data - Array of SNOW1gv1 time series entries.
+	 * @returns {Array<object>} Time series with hourly gaps filled using previous entry data.
+	 */
 	#fillInGaps (data) {
 		if (data.length === 0) return [];
 
 		const result = [];
-		result.push(data[0]); // Keep first data point
+		result.push(data[0]);
 
 		for (let i = 1; i < data.length; i++) {
-			const from = new Date(data[i - 1].validTime);
-			const to = new Date(data[i].validTime);
+			const from = new Date(data[i - 1].time);
+			const to = new Date(data[i].time);
 			const hours = Math.floor((to - from) / (1000 * 60 * 60));
 
 			// Fill gaps with previous data point (start at j=1 since j=0 is already pushed)
@@ -301,7 +356,7 @@ class SMHIProvider {
 				const current = { ...data[i - 1] };
 				const newTime = new Date(from);
 				newTime.setHours(from.getHours() + j);
-				current.validTime = newTime.toISOString();
+				current.time = newTime.toISOString();
 				result.push(current);
 			}
 
@@ -312,13 +367,21 @@ class SMHIProvider {
 		return result;
 	}
 
+	/**
+	 * Extract coordinates from SNOW1gv1 response.
+	 * SNOW1gv1 returns flat GeoJSON Point: { coordinates: [lon, lat] }
+	 * PMP3gv2 returned nested: { coordinates: [[lon, lat]] }
+	 * @param {object} data - The full SNOW1gv1 API response object.
+	 * @returns {object} Object with lat and lon properties.
+	 */
 	#resolveCoordinates (data) {
-		// SMHI returns coordinates in [lon, lat] format
-		// Fall back to config if response structure is unexpected
-		if (data?.geometry?.coordinates?.[0] && Array.isArray(data.geometry.coordinates[0]) && data.geometry.coordinates[0].length >= 2) {
+		const coords = data?.geometry?.coordinates;
+
+		if (Array.isArray(coords) && coords.length >= 2 && typeof coords[0] === "number") {
+			// SNOW1gv1 flat format: [lon, lat]
 			return {
-				lat: data.geometry.coordinates[0][1],
-				lon: data.geometry.coordinates[0][0]
+				lat: coords[1],
+				lon: coords[0]
 			};
 		}
 
@@ -329,20 +392,57 @@ class SMHIProvider {
 		};
 	}
 
+	/**
+	 * Calculate apparent (feels-like) temperature using humidity and wind.
+	 * Uses SNOW1gv1 parameter names.
+	 * @param {object} weatherData - A single SNOW1gv1 time series entry.
+	 * @returns {number|null} Apparent temperature in °C, or raw temperature if data is missing.
+	 */
 	#calculateApparentTemperature (weatherData) {
-		const Ta = this.#paramValue(weatherData, "t");
-		const rh = this.#paramValue(weatherData, "r");
-		const ws = this.#paramValue(weatherData, "ws");
-		const p = (rh / 100) * 6.105 * Math.exp((17.27 * Ta) / (237.7 + Ta));
+		const Ta = this.#paramValue(weatherData, "air_temperature");
+		const rh = this.#paramValue(weatherData, "relative_humidity");
+		const ws = this.#paramValue(weatherData, "wind_speed");
 
+		if (Ta === null || rh === null || ws === null) {
+			return Ta; // Fallback to raw temperature if data missing
+		}
+
+		const p = (rh / 100) * 6.105 * Math.exp((17.27 * Ta) / (237.7 + Ta));
 		return Ta + 0.33 * p - 0.7 * ws - 4;
 	}
 
+	/**
+	 * Get parameter value from SNOW1gv1 flat data structure.
+	 * SNOW1gv1: weatherData.data.parameter_name (direct property access)
+	 * PMP3gv2 used: weatherData.parameters.find(p => p.name === name).values[0]
+	 *
+	 * Returns null if parameter missing or equals SMHI missing value (9999).
+	 * @param {object} weatherData - A single SNOW1gv1 time series entry.
+	 * @param {string} name - The SNOW1gv1 parameter name to look up.
+	 * @returns {number|null} The parameter value, or null if missing.
+	 */
 	#paramValue (weatherData, name) {
-		const param = weatherData.parameters.find((p) => p.name === name);
-		return param ? param.values[0] : null;
+		const value = weatherData.data?.[name];
+
+		if (value === undefined || value === null) {
+			return null;
+		}
+
+		// SMHI uses 9999 as missing value sentinel for all parameters
+		if (value === 9999) {
+			return null;
+		}
+
+		return value;
 	}
 
+	/**
+	 * Convert SMHI symbol_code (1-27) to MagicMirror weather icon names.
+	 * Symbol codes are identical between PMP3gv2 and SNOW1gv1.
+	 * @param {number} input - SMHI symbol_code value (1-27).
+	 * @param {boolean} isDayTime - Whether the current time is during daytime.
+	 * @returns {string|null} MagicMirror weather icon name, or null if unknown.
+	 */
 	#convertWeatherType (input, isDayTime) {
 		switch (input) {
 			case 1:
@@ -387,10 +487,16 @@ class SMHIProvider {
 		}
 	}
 
+	/**
+	 * Build SNOW1gv1 forecast URL.
+	 * Changed from: pmp3g/version/2
+	 * Changed to:   snow1g/version/1
+	 * @returns {string} The full SNOW1gv1 API URL for the configured coordinates.
+	 */
 	#getUrl () {
 		const lon = this.config.lon.toFixed(6);
 		const lat = this.config.lat.toFixed(6);
-		return `https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/${lon}/lat/${lat}/data.json`;
+		return `https://opendata-download-metfcst.smhi.se/api/category/snow1g/version/1/geotype/point/lon/${lon}/lat/${lat}/data.json`;
 	}
 }
 

@@ -145,12 +145,15 @@ class WeatherFlowProvider {
 
 		const weather = {
 			date: new Date(),
-			humidity: current.relative_humidity || null,
-			temperature: current.air_temperature || null,
-			feelsLikeTemp: current.feels_like || null,
+			humidity: current.relative_humidity ?? null,
+			temperature: current.air_temperature ?? null,
+			feelsLikeTemp: current.feels_like ?? null,
 			windSpeed: current.wind_avg != null ? convertKmhToMs(current.wind_avg) : null,
-			windFromDirection: current.wind_direction || null,
+			windFromDirection: current.wind_direction ?? null,
 			weatherType: this.#convertWeatherType(current.icon),
+			precipitationAmount: current.precip_accum_local_day ?? null,
+			precipitationUnits: "mm",
+			precipitationProbability: current.precip_probability ?? null,
 			uvIndex: current.uv || null,
 			sunrise: daily.sunrise ? new Date(daily.sunrise * 1000) : null,
 			sunset: daily.sunset ? new Date(daily.sunset * 1000) : null
@@ -175,9 +178,9 @@ class WeatherFlowProvider {
 		for (const forecast of data.forecast.daily) {
 			const weather = {
 				date: new Date(forecast.day_start_local * 1000),
-				minTemperature: forecast.air_temp_low || null,
-				maxTemperature: forecast.air_temp_high || null,
-				precipitationProbability: forecast.precip_probability || null,
+				minTemperature: forecast.air_temp_low ?? null,
+				maxTemperature: forecast.air_temp_high ?? null,
+				precipitationProbability: forecast.precip_probability ?? null,
 				weatherType: this.#convertWeatherType(forecast.icon),
 				precipitationAmount: 0.0,
 				precipitationUnits: "mm",
@@ -193,8 +196,8 @@ class WeatherFlowProvider {
 				if (hourDate.getFullYear() === forecastDate.getFullYear()
 				  && hourDate.getMonth() === forecastDate.getMonth()
 				  && hourDate.getDate() === forecastDate.getDate()) {
-					weather.uvIndex = Math.max(weather.uvIndex, hour.uv || 0);
-					weather.precipitationAmount += hour.precip || 0;
+					weather.uvIndex = Math.max(weather.uvIndex, hour.uv ?? 0);
+					weather.precipitationAmount += hour.precip ?? 0;
 				} else if (hourDate > forecastDate) {
 					// Check if we've moved to the next day
 					const diffMs = hourDate - forecastDate;
@@ -224,14 +227,14 @@ class WeatherFlowProvider {
 		for (const hour of data.forecast.hourly) {
 			const weather = {
 				date: new Date(hour.time * 1000),
-				temperature: hour.air_temperature || null,
-				feelsLikeTemp: hour.feels_like || null,
-				humidity: hour.relative_humidity || null,
+				temperature: hour.air_temperature ?? null,
+				feelsLikeTemp: hour.feels_like ?? null,
+				humidity: hour.relative_humidity ?? null,
 				windSpeed: hour.wind_avg != null ? convertKmhToMs(hour.wind_avg) : null,
-				windFromDirection: hour.wind_direction || null,
+				windFromDirection: hour.wind_direction ?? null,
 				weatherType: this.#convertWeatherType(hour.icon),
-				precipitationProbability: hour.precip_probability || null,
-				precipitationAmount: hour.precip || 0,
+				precipitationProbability: hour.precip_probability ?? null,
+				precipitationAmount: hour.precip ?? 0,
 				precipitationUnits: "mm",
 				uvIndex: hour.uv || null
 			};

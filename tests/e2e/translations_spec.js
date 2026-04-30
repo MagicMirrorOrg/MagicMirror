@@ -76,7 +76,7 @@ describe("translations", () => {
 		it("should load translation file", async () => {
 			const { Translator, Module, config } = dom.window;
 			config.language = "en";
-			Translator.load = vi.fn().mockImplementation((_m, _f, _fb) => null);
+			Translator.load = vi.fn().mockImplementation(() => null);
 
 			Module.register("name", { getTranslations: () => translations });
 			const MMM = Module.create("name");
@@ -89,7 +89,7 @@ describe("translations", () => {
 
 		it("should load translation + fallback file", async () => {
 			const { Translator, Module } = dom.window;
-			Translator.load = vi.fn().mockImplementation((_m, _f, _fb) => null);
+			Translator.load = vi.fn().mockImplementation(() => null);
 
 			Module.register("name", { getTranslations: () => translations });
 			const MMM = Module.create("name");
@@ -104,7 +104,7 @@ describe("translations", () => {
 		it("should load translation fallback file", async () => {
 			const { Translator, Module, config } = dom.window;
 			config.language = "--";
-			Translator.load = vi.fn().mockImplementation((_m, _f, _fb) => null);
+			Translator.load = vi.fn().mockImplementation(() => null);
 
 			Module.register("name", { getTranslations: () => translations });
 			const MMM = Module.create("name");

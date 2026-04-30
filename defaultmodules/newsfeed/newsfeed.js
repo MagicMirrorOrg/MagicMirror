@@ -411,7 +411,7 @@ Module.register("newsfeed", {
 		}
 	},
 
-	notificationReceived (notification, payload, sender) {
+	notificationReceived (notification) {
 		const before = this.activeItem;
 		if (notification === "MODULE_DOM_CREATED" && this.config.hideLoading) {
 			this.hide();

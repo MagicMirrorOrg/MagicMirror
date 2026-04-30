@@ -4,10 +4,10 @@ import { vi, describe, beforeEach, afterEach, it, expect } from "vitest";
  * Creates a fresh GitHelper instance with isolated mocks for each test run.
  * @param {{ current: import("vitest").Mock | null }} fsStatSyncMockRef reference to the mocked fs.statSync.
  * @param {{ current: { error: import("vitest").Mock; info: import("vitest").Mock } | null }} loggerMockRef reference to logger stubs.
- * @param {{ current: import("vitest").MockInstance | null }} execShellSpyRef reference to the execShell spy.
+ * @param {{ current: import("vitest").MockInstance | null }} execGitSpyRef reference to the execGit spy.
  * @returns {Promise<unknown>} resolved GitHelper instance.
  */
-async function createGitHelper (fsStatSyncMockRef, loggerMockRef, execShellSpyRef) {
+async function createGitHelper (fsStatSyncMockRef, loggerMockRef, execGitSpyRef) {
 	vi.resetModules();
 
 	fsStatSyncMockRef.current = vi.fn();
@@ -20,10 +20,10 @@ async function createGitHelper (fsStatSyncMockRef, loggerMockRef, execShellSpyRe
 	vi.doMock("logger", () => loggerMockRef.current);
 
 	const defaults = await import("../../../js/defaults");
-	const gitHelperModule = await import(`../../../${defaults.defaultModulesDir}/updatenotification/git_helper`);
+	const gitHelperModule = await import(`../../../${defaults.defaultModulesDir}/updatenotification/git_helper.js`);
 	const GitHelper = gitHelperModule.default || gitHelperModule;
 	const instance = new GitHelper();
-	execShellSpyRef.current = vi.spyOn(instance, "execShell");
+	execGitSpyRef.current = vi.spyOn(instance, "execGit");
 	instance.__loggerMock = loggerMockRef.current;
 	return instance;
 }
@@ -31,7 +31,7 @@ async function createGitHelper (fsStatSyncMockRef, loggerMockRef, execShellSpyRe
 describe("Updatenotification", () => {
 	const fsStatSyncMockRef = { current: null };
 	const loggerMockRef = { current: null };
-	const execShellSpyRef = { current: null };
+	const execGitSpyRef = { current: null };
 	let gitHelper;
 
 	let gitRemoteOut;
@@ -43,10 +43,10 @@ describe("Updatenotification", () => {
 	let gitFetchErr;
 	let gitTagListOut;
 
-	const getExecutedCommands = () => execShellSpyRef.current.mock.calls.map(([command]) => command);
+	const getExecutedCommands = () => execGitSpyRef.current.mock.calls.map((call) => call.slice(1).join(" "));
 
 	beforeEach(async () => {
-		gitHelper = await createGitHelper(fsStatSyncMockRef, loggerMockRef, execShellSpyRef);
+		gitHelper = await createGitHelper(fsStatSyncMockRef, loggerMockRef, execGitSpyRef);
 
 		fsStatSyncMockRef.current.mockReturnValue({ isDirectory: () => true });
 
@@ -59,40 +59,42 @@ describe("Updatenotification", () => {
 		gitFetchErr = "";
 		gitTagListOut = "";
 
-		execShellSpyRef.current.mockImplementation((command) => {
-			if (command.includes("git remote -v")) {
+		execGitSpyRef.current.mockImplementation((_folder, ...args) => {
+			const command = args.join(" ");
+
+			if (command === "remote -v") {
 				return Promise.resolve({ stdout: gitRemoteOut, stderr: "" });
 			}
 
-			if (command.includes("git rev-parse HEAD")) {
+			if (command === "rev-parse HEAD") {
 				return Promise.resolve({ stdout: gitRevParseOut, stderr: "" });
 			}
 
-			if (command.includes("git status -sb")) {
+			if (command === "status -sb") {
 				return Promise.resolve({ stdout: gitStatusOut, stderr: "" });
 			}
 
-			if (command.includes("git fetch -n --dry-run")) {
+			if (command === "fetch -n --dry-run") {
 				return Promise.resolve({ stdout: gitFetchOut, stderr: gitFetchErr });
 			}
 
-			if (command.includes("git rev-list --ancestry-path --count")) {
+			if (command.startsWith("rev-list --ancestry-path --count ")) {
 				return Promise.resolve({ stdout: gitRevListCountOut, stderr: "" });
 			}
 
-			if (command.includes("git rev-list --ancestry-path")) {
+			if (command.startsWith("rev-list --ancestry-path ")) {
 				return Promise.resolve({ stdout: gitRevListOut, stderr: "" });
 			}
 
-			if (command.includes("git ls-remote -q --tags --refs")) {
+			if (command === "ls-remote -q --tags --refs") {
 				return Promise.resolve({ stdout: gitTagListOut, stderr: "" });
 			}
 
 			return Promise.resolve({ stdout: "", stderr: "" });
 		});
 
-		if (gitHelper.execShell !== execShellSpyRef.current) {
-			throw new Error("execShell spy not applied");
+		if (gitHelper.execGit !== execGitSpyRef.current) {
+			throw new Error("execGit spy not applied");
 		}
 	});
 
@@ -119,10 +121,10 @@ describe("Updatenotification", () => {
 			expect(repos[0]).toMatchSnapshot();
 			expect(getExecutedCommands()).toMatchInlineSnapshot(`
 				[
-				  "cd mock-path && git rev-parse HEAD",
-				  "cd mock-path && git status -sb",
-				  "cd mock-path && git fetch -n --dry-run",
-				  "cd mock-path && git rev-list --ancestry-path --count 60e0377..332e429  develop",
+				  "rev-parse HEAD",
+				  "status -sb",
+				  "fetch -n --dry-run",
+				  "rev-list --ancestry-path --count 60e0377..332e429  develop",
 				]
 			`);
 		});
@@ -134,20 +136,20 @@ describe("Updatenotification", () => {
 			expect(repos[0]).toMatchSnapshot();
 			expect(getExecutedCommands()).toMatchInlineSnapshot(`
 				[
-				  "cd mock-path && git rev-parse HEAD",
-				  "cd mock-path && git status -sb",
+				  "rev-parse HEAD",
+				  "status -sb",
 				]
 			`);
 		});
 
 		it("excludes repo if status can't be retrieved", async () => {
 			const errorMessage = "Failed to retrieve status";
-			execShellSpyRef.current.mockImplementationOnce(() => Promise.reject(new Error(errorMessage)));
+			execGitSpyRef.current.mockImplementationOnce(() => Promise.reject(new Error(errorMessage)));
 
 			expect(gitHelper.gitRepos).toHaveLength(1);
 			const repos = await gitHelper.getRepos();
 			expect(repos).toHaveLength(0);
-			expect(execShellSpyRef.current.mock.calls.length).toBeGreaterThan(0);
+			expect(execGitSpyRef.current.mock.calls.length).toBeGreaterThan(0);
 		});
 	});
 
@@ -169,12 +171,12 @@ describe("Updatenotification", () => {
 			expect(repos[0]).toMatchSnapshot();
 			expect(getExecutedCommands()).toMatchInlineSnapshot(`
 				[
-				  "cd mock-path && git rev-parse HEAD",
-				  "cd mock-path && git status -sb",
-				  "cd mock-path && git fetch -n --dry-run",
-				  "cd mock-path && git rev-list --ancestry-path --count 60e0377..332e429  master",
-				  "cd mock-path && git ls-remote -q --tags --refs",
-				  "cd mock-path && git rev-list --ancestry-path 60e0377..332e429  master",
+				  "rev-parse HEAD",
+				  "status -sb",
+				  "fetch -n --dry-run",
+				  "rev-list --ancestry-path --count 60e0377..332e429  master",
+				  "ls-remote -q --tags --refs",
+				  "rev-list --ancestry-path 60e0377..332e429  master",
 				]
 			`);
 		});
@@ -185,20 +187,20 @@ describe("Updatenotification", () => {
 			const repos = await gitHelper.getRepos();
 			expect(repos[0]).toMatchSnapshot();
 			expect(getExecutedCommands()).toMatchInlineSnapshot(`
-			[
-			  "cd mock-path && git rev-parse HEAD",
-			  "cd mock-path && git status -sb",
-			  "cd mock-path && git fetch -n --dry-run",
-			  "cd mock-path && git rev-list --ancestry-path --count 60e0377..332e429  master",
-			  "cd mock-path && git ls-remote -q --tags --refs",
-			  "cd mock-path && git rev-list --ancestry-path 60e0377..332e429  master",
-			]
-		`);
+				[
+				  "rev-parse HEAD",
+				  "status -sb",
+				  "fetch -n --dry-run",
+				  "rev-list --ancestry-path --count 60e0377..332e429  master",
+				  "ls-remote -q --tags --refs",
+				  "rev-list --ancestry-path 60e0377..332e429  master",
+				]
+			`);
 		});
 
 		it("excludes repo if status can't be retrieved", async () => {
 			const errorMessage = "Failed to retrieve status";
-			execShellSpyRef.current.mockImplementationOnce(() => Promise.reject(new Error(errorMessage)));
+			execGitSpyRef.current.mockImplementationOnce(() => Promise.reject(new Error(errorMessage)));
 
 			const repos = await gitHelper.getRepos();
 			expect(repos).toHaveLength(0);
@@ -224,15 +226,15 @@ describe("Updatenotification", () => {
 			const repos = await gitHelper.getRepos();
 			expect(repos[0]).toMatchSnapshot();
 			expect(getExecutedCommands()).toMatchInlineSnapshot(`
-			[
-			  "cd mock-path && git rev-parse HEAD",
-			  "cd mock-path && git status -sb",
-			  "cd mock-path && git fetch -n --dry-run",
-			  "cd mock-path && git rev-list --ancestry-path --count 60e0377..332e429  master",
-			  "cd mock-path && git ls-remote -q --tags --refs",
-			  "cd mock-path && git rev-list --ancestry-path 60e0377..332e429  master",
-			]
-		`);
+				[
+				  "rev-parse HEAD",
+				  "status -sb",
+				  "fetch -n --dry-run",
+				  "rev-list --ancestry-path --count 60e0377..332e429  master",
+				  "ls-remote -q --tags --refs",
+				  "rev-list --ancestry-path 60e0377..332e429  master",
+				]
+			`);
 		});
 
 		it("returns status information early if isBehindInStatus", async () => {
@@ -241,20 +243,20 @@ describe("Updatenotification", () => {
 			const repos = await gitHelper.getRepos();
 			expect(repos[0]).toMatchSnapshot();
 			expect(getExecutedCommands()).toMatchInlineSnapshot(`
-			[
-			  "cd mock-path && git rev-parse HEAD",
-			  "cd mock-path && git status -sb",
-			  "cd mock-path && git fetch -n --dry-run",
-			  "cd mock-path && git rev-list --ancestry-path --count 60e0377..332e429  master",
-			  "cd mock-path && git ls-remote -q --tags --refs",
-			  "cd mock-path && git rev-list --ancestry-path 60e0377..332e429  master",
-			]
-		`);
+				[
+				  "rev-parse HEAD",
+				  "status -sb",
+				  "fetch -n --dry-run",
+				  "rev-list --ancestry-path --count 60e0377..332e429  master",
+				  "ls-remote -q --tags --refs",
+				  "rev-list --ancestry-path 60e0377..332e429  master",
+				]
+			`);
 		});
 
 		it("excludes repo if status can't be retrieved", async () => {
 			const errorMessage = "Failed to retrieve status";
-			execShellSpyRef.current.mockImplementationOnce(() => Promise.reject(new Error(errorMessage)));
+			execGitSpyRef.current.mockImplementationOnce(() => Promise.reject(new Error(errorMessage)));
 
 			const repos = await gitHelper.getRepos();
 			expect(repos).toHaveLength(0);
@@ -280,15 +282,15 @@ describe("Updatenotification", () => {
 			const repos = await gitHelper.getRepos();
 			expect(repos[0]).toMatchSnapshot();
 			expect(getExecutedCommands()).toMatchInlineSnapshot(`
-			[
-			  "cd mock-path && git rev-parse HEAD",
-			  "cd mock-path && git status -sb",
-			  "cd mock-path && git fetch -n --dry-run",
-			  "cd mock-path && git rev-list --ancestry-path --count 60e0377..332e429  master",
-			  "cd mock-path && git ls-remote -q --tags --refs",
-			  "cd mock-path && git rev-list --ancestry-path 60e0377..332e429  master",
-			]
-		`);
+				[
+				  "rev-parse HEAD",
+				  "status -sb",
+				  "fetch -n --dry-run",
+				  "rev-list --ancestry-path --count 60e0377..332e429  master",
+				  "ls-remote -q --tags --refs",
+				  "rev-list --ancestry-path 60e0377..332e429  master",
+				]
+			`);
 		});
 
 		it("returns status information early if isBehindInStatus", async () => {
@@ -297,20 +299,20 @@ describe("Updatenotification", () => {
 			const repos = await gitHelper.getRepos();
 			expect(repos[0]).toMatchSnapshot();
 			expect(getExecutedCommands()).toMatchInlineSnapshot(`
-			[
-			  "cd mock-path && git rev-parse HEAD",
-			  "cd mock-path && git status -sb",
-			  "cd mock-path && git fetch -n --dry-run",
-			  "cd mock-path && git rev-list --ancestry-path --count 60e0377..332e429  master",
-			  "cd mock-path && git ls-remote -q --tags --refs",
-			  "cd mock-path && git rev-list --ancestry-path 60e0377..332e429  master",
-			]
-		`);
+				[
+				  "rev-parse HEAD",
+				  "status -sb",
+				  "fetch -n --dry-run",
+				  "rev-list --ancestry-path --count 60e0377..332e429  master",
+				  "ls-remote -q --tags --refs",
+				  "rev-list --ancestry-path 60e0377..332e429  master",
+				]
+			`);
 		});
 
 		it("excludes repo if status can't be retrieved", async () => {
 			const errorMessage = "Failed to retrieve status";
-			execShellSpyRef.current.mockImplementationOnce(() => Promise.reject(new Error(errorMessage)));
+			execGitSpyRef.current.mockImplementationOnce(() => Promise.reject(new Error(errorMessage)));
 
 			const repos = await gitHelper.getRepos();
 			expect(repos).toHaveLength(0);
@@ -334,12 +336,12 @@ describe("Updatenotification", () => {
 			const repos = await gitHelper.getRepos();
 			expect(repos[0]).toMatchSnapshot();
 			expect(getExecutedCommands()).toMatchInlineSnapshot(`
-			[
-			  "cd mock-path && git status -sb",
-			  "cd mock-path && git fetch -n --dry-run",
-			  "cd mock-path && git rev-list --ancestry-path --count 19f7faf..9d83101  master",
-			]
-		`);
+				[
+				  "status -sb",
+				  "fetch -n --dry-run",
+				  "rev-list --ancestry-path --count 19f7faf..9d83101  master",
+				]
+			`);
 		});
 	});
 });

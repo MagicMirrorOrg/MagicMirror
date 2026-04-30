@@ -55,7 +55,7 @@ const getModulePositions = () => {
 		try {
 			fs.writeFileSync(discoveredPositionsJSFilename, `const modulePositions=${JSON.stringify(modulePositions)}`);
 		}
-		catch (error) {
+		catch {
 			Log.error("unable to write js/positions.js with the discovered module positions\nmake the MagicMirror/js folder writeable by the user starting MagicMirror");
 		}
 	}
@@ -111,7 +111,7 @@ const loadConfig = () => {
 	try {
 		fs.accessSync(templateFile, fs.constants.F_OK);
 		Log.warn("config.js.template files are deprecated and not used anymore. You can use variables inside config.js so copy the template file content into config.js if needed.");
-	} catch (error) {
+	} catch {
 		// no action
 	}
 

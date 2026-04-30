@@ -314,7 +314,7 @@ class YrProvider {
 
 		// Convert collected data to forecast objects
 		const days = [];
-		for (const [dateStr, data] of dailyData) {
+		for (const data of dailyData.values()) {
 			const stellarInfo = this.#getStellarInfoForDate(data.date);
 
 			const dayData = {

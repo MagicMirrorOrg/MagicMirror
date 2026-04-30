@@ -42,9 +42,9 @@ Module.register("testNotification", {
 		let tableRow = document.createElement("tr");
 		table.appendChild(tableRow);
 
-		let tablecol1 = this.maketd(tableRow, col1);
-		let tablecol2 = this.maketd(tableRow, col2);
-		let tablecol3 = this.maketd(tableRow, col3);
+		this.maketd(tableRow, col1);
+		this.maketd(tableRow, col2);
+		this.maketd(tableRow, col3);
 
 		return tableRow;
 	},

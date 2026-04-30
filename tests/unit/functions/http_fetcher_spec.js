@@ -51,6 +51,31 @@ describe("HTTPFetcher", () => {
 			expect(text).toBe(responseData);
 		});
 
+		it("should treat 304 responses as successful and reset error counters", async () => {
+			server.use(
+				http.get(TEST_URL, () => {
+					return new HttpResponse(null, { status: 304 });
+				})
+			);
+
+			fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000 });
+			fetcher.serverErrorCount = 2;
+			fetcher.networkErrorCount = 3;
+
+			const responsePromise = new Promise((resolve) => {
+				fetcher.on("response", (response) => {
+					resolve(response);
+				});
+			});
+
+			fetcher.startPeriodicFetch();
+			const response = await responsePromise;
+
+			expect(response.status).toBe(304);
+			expect(fetcher.serverErrorCount).toBe(0);
+			expect(fetcher.networkErrorCount).toBe(0);
+		});
+
 		it("should emit error event on network failure", async () => {
 			server.use(
 				http.get(TEST_URL, () => {
@@ -438,5 +463,114 @@ describe("fetch() method", () => {
 		const errorInfo = await errorPromise;
 
 		expect(errorInfo.errorType).toBe("NETWORK_ERROR");
+	});
+});
+
+describe("selfSignedCert dispatcher", () => {
+	const { Agent } = require("undici");
+
+	it("should set rejectUnauthorized=false when selfSignedCert is true", () => {
+		fetcher = new HTTPFetcher(TEST_URL, {
+			reloadInterval: 60000,
+			selfSignedCert: true
+		});
+
+		const options = fetcher.getRequestOptions();
+
+		expect(options.dispatcher).toBeInstanceOf(Agent);
+		const agentOptionsSymbol = Object.getOwnPropertySymbols(options.dispatcher).find((s) => s.description === "options");
+		const dispatcherOptions = options.dispatcher[agentOptionsSymbol];
+		expect(dispatcherOptions.connect.rejectUnauthorized).toBe(false);
+	});
+
+	it("should not set a dispatcher when selfSignedCert is false", () => {
+		fetcher = new HTTPFetcher(TEST_URL, {
+			reloadInterval: 60000,
+			selfSignedCert: false
+		});
+
+		const options = fetcher.getRequestOptions();
+
+		expect(options.dispatcher).toBeUndefined();
+	});
+});
+
+describe("Retry exhaustion fallback", () => {
+	it("should fall back to reloadInterval after network retries exhausted", async () => {
+		server.use(
+			http.get(TEST_URL, () => {
+				return HttpResponse.error();
+			})
+		);
+
+		fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 300000, maxRetries: 3 });
+
+		const errors = [];
+		fetcher.on("error", (errorInfo) => errors.push(errorInfo));
+
+		// Trigger maxRetries + 1 fetches to reach exhaustion
+		for (let i = 0; i < 4; i++) {
+			await fetcher.fetch();
+		}
+
+		// First retries should use backoff (< reloadInterval)
+		expect(errors[0].retryAfter).toBe(15000);
+		expect(errors[1].retryAfter).toBe(30000);
+		// Third retry hits maxRetries, should fall back to reloadInterval
+		expect(errors[2].retryAfter).toBe(300000);
+		// Subsequent errors stay at reloadInterval
+		expect(errors[3].retryAfter).toBe(300000);
+	});
+
+	it("should fall back to reloadInterval after server error retries exhausted", async () => {
+		server.use(
+			http.get(TEST_URL, () => {
+				return new HttpResponse(null, { status: 503 });
+			})
+		);
+
+		fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 300000, maxRetries: 3 });
+
+		const errors = [];
+		fetcher.on("error", (errorInfo) => errors.push(errorInfo));
+
+		for (let i = 0; i < 4; i++) {
+			await fetcher.fetch();
+		}
+
+		// First retries should use backoff (< reloadInterval)
+		expect(errors[0].retryAfter).toBe(15000);
+		expect(errors[1].retryAfter).toBe(30000);
+		// Third retry hits maxRetries, should fall back to reloadInterval
+		expect(errors[2].retryAfter).toBe(300000);
+		// Subsequent errors stay at reloadInterval
+		expect(errors[3].retryAfter).toBe(300000);
+	});
+
+	it("should reset network error count on success", async () => {
+		let requestCount = 0;
+		server.use(
+			http.get(TEST_URL, () => {
+				requestCount++;
+				if (requestCount <= 2) return HttpResponse.error();
+				return HttpResponse.text("ok");
+			})
+		);
+
+		fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 300000, maxRetries: 3 });
+
+		const errors = [];
+		fetcher.on("error", (errorInfo) => errors.push(errorInfo));
+
+		// Two failures with backoff
+		await fetcher.fetch();
+		await fetcher.fetch();
+		expect(errors).toHaveLength(2);
+		expect(errors[0].retryAfter).toBe(15000);
+		expect(errors[1].retryAfter).toBe(30000);
+
+		// Success resets counter
+		await fetcher.fetch();
+		expect(fetcher.networkErrorCount).toBe(0);
 	});
 });
