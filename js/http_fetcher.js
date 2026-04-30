@@ -32,7 +32,7 @@ const ERROR_TYPE_TO_TRANSLATION = {
  * - Authentication support (Basic, Bearer)
  * - Self-signed certificate support
  * @augments EventEmitter
- * @fires HTTPFetcher#response - When fetch succeeds with ok response
+ * @fires HTTPFetcher#response - When fetch succeeds (including 304 Not Modified)
  * @fires HTTPFetcher#error - When fetch fails or returns non-ok response
  * @example
  * const fetcher = new HTTPFetcher(url, { reloadInterval: 60000 });
@@ -295,21 +295,21 @@ class HTTPFetcher extends EventEmitter {
 
 			const isSuccessfulResponse = response.ok || response.status === 304;
 
-			if (!isSuccessfulResponse) {
-				const { delay, errorInfo } = this.#getDelayForResponse(response);
-				nextDelay = delay;
-				this.emit("error", errorInfo);
-			} else {
+			if (isSuccessfulResponse) {
 				// Reset error counts on success
 				this.serverErrorCount = 0;
 				this.networkErrorCount = 0;
 
 				/**
-				 * Response event - fired when fetch succeeds
+				 * Response event - fired when fetch succeeds (including 304)
 				 * @event HTTPFetcher#response
 				 * @type {Response}
 				 */
 				this.emit("response", response);
+			} else {
+				const { delay, errorInfo } = this.#getDelayForResponse(response);
+				nextDelay = delay;
+				this.emit("error", errorInfo);
 			}
 		} catch (error) {
 			const isTimeout = error.name === "AbortError";

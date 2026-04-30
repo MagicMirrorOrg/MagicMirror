@@ -51,31 +51,6 @@ describe("HTTPFetcher", () => {
 			expect(text).toBe(responseData);
 		});
 
-		it("should treat 304 responses as successful and reset error counters", async () => {
-			server.use(
-				http.get(TEST_URL, () => {
-					return new HttpResponse(null, { status: 304 });
-				})
-			);
-
-			fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000 });
-			fetcher.serverErrorCount = 2;
-			fetcher.networkErrorCount = 3;
-
-			const responsePromise = new Promise((resolve) => {
-				fetcher.on("response", (response) => {
-					resolve(response);
-				});
-			});
-
-			fetcher.startPeriodicFetch();
-			const response = await responsePromise;
-
-			expect(response.status).toBe(304);
-			expect(fetcher.serverErrorCount).toBe(0);
-			expect(fetcher.networkErrorCount).toBe(0);
-		});
-
 		it("should emit error event on network failure", async () => {
 			server.use(
 				http.get(TEST_URL, () => {
@@ -126,6 +101,34 @@ describe("HTTPFetcher", () => {
 	});
 
 	describe("HTTPFetcher - HTTP status code handling", () => {
+		describe("304 Not Modified", () => {
+			it("should emit response event for 304 and not emit error", async () => {
+				server.use(
+					http.get(TEST_URL, () => {
+						return new HttpResponse(null, { status: 304 });
+					})
+				);
+
+				fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000 });
+				fetcher.serverErrorCount = 2;
+				fetcher.networkErrorCount = 3;
+
+				const responsePromise = new Promise((resolve) => {
+					fetcher.on("response", resolve);
+				});
+				const errorSpy = vi.fn();
+				fetcher.on("error", errorSpy);
+
+				fetcher.startPeriodicFetch();
+				const response = await responsePromise;
+
+				expect(response.status).toBe(304);
+				expect(errorSpy).not.toHaveBeenCalled();
+				expect(fetcher.serverErrorCount).toBe(0);
+				expect(fetcher.networkErrorCount).toBe(0);
+			});
+		});
+
 		describe("401/403 errors (Auth failures)", () => {
 			it("should emit error with AUTH_FAILURE for 401", async () => {
 				server.use(
