@@ -49,7 +49,6 @@ module.exports = NodeHelper.create({
 			case "CONFIG":
 				this.config = payload;
 				this.updateHelper = new UpdateHelper(this.config);
-				await this.updateHelper.check_PM2_Process();
 				break;
 			case "MODULES":
 				// if this is the 1st time thru the update check process
