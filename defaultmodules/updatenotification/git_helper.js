@@ -10,8 +10,26 @@ class GitHelper {
 		this.gitResultList = [];
 	}
 
-	getRefRegex (branch) {
-		return new RegExp(`s*([a-z,0-9]+[.][.][a-z,0-9]+)  ${branch}`, "g");
+	/**
+	 * Extract commit range (<from>..<to>) for the current branch from `git fetch -n --dry-run` output.
+	 * Falls back to `<branch>..origin/<branch>` when no matching update line is found.
+	 * @param {string} fetchOutput fetch dry-run stderr output
+	 * @param {string} currentBranch currently checked local branch
+	 * @returns {string} commit range for rev-list
+	 */
+	getRefDiffFromFetchDryRun (fetchOutput, currentBranch) {
+		const fallbackRefDiff = `${currentBranch}..origin/${currentBranch}`;
+
+		for (const line of fetchOutput.split("\n")) {
+			const columns = line.trim().split(/\s+/);
+			const [refDiff, branchName] = columns;
+
+			if (branchName === currentBranch && refDiff?.includes("..")) {
+				return refDiff;
+			}
+		}
+
+		return fallbackRefDiff;
 	}
 
 	async execGit (moduleFolder, ...args) {
@@ -123,20 +141,10 @@ class GitHelper {
 			return gitInfo;
 		}
 
+		// Git writes fetch dry-run updates to stderr.
 		const { stderr } = await this.execGit(repo.folder, "fetch", "-n", "--dry-run");
 
-		// example output:
-		// From https://github.com/MagicMirrorOrg/MagicMirror
-		//    e40ddd4..06389e3  develop    -> origin/develop
-		// here the result is in stderr (this is a git default, don't ask why ...)
-		const matches = stderr.match(this.getRefRegex(gitInfo.current));
-
-		// this is the default if there was no match from "git fetch -n --dry-run".
-		// Its a fallback because if there was a real "git fetch", the above "git fetch -n --dry-run" would deliver nothing.
-		let refDiff = `${gitInfo.current}..origin/${gitInfo.current}`;
-		if (matches && matches[0]) {
-			refDiff = matches[0];
-		}
+		const refDiff = this.getRefDiffFromFetchDryRun(stderr, gitInfo.current);
 
 		// get behind with refs
 		try {
