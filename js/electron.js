@@ -36,15 +36,17 @@ function createWindow () {
 	 * see https://www.electronjs.org/docs/latest/api/screen
 	 * Create a window that fills the screen's available work area.
 	 */
-	let electronSize = (800, 600);
+	let electronSize = { width: 800, height: 600 };
 	try {
 		electronSize = electron.screen.getPrimaryDisplay().workAreaSize;
 	} catch {
 		Log.warn("Could not get display size, using defaults ...");
 	}
 
-	let electronSwitchesDefaults = ["autoplay-policy", "no-user-gesture-required"];
-	app.commandLine.appendSwitch(...new Set(electronSwitchesDefaults, config.electronSwitches));
+	app.commandLine.appendSwitch("autoplay-policy", "no-user-gesture-required");
+	for (const electronSwitch of (config.electronSwitches || [])) {
+		app.commandLine.appendSwitch(electronSwitch);
+	}
 	let electronOptionsDefaults = {
 		width: electronSize.width,
 		height: electronSize.height,
