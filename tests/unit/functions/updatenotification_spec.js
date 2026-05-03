@@ -103,6 +103,26 @@ describe("Updatenotification", () => {
 		vi.resetAllMocks();
 	});
 
+	describe("getRefDiffFromFetchDryRun", () => {
+		it("extracts only commit range from matching fetch line", () => {
+			const fetchOutput = "From github.com:MagicMirrorOrg/MagicMirror\n60e0377..332e429  develop          -> origin/develop\n";
+
+			expect(gitHelper.getRefDiffFromFetchDryRun(fetchOutput, "develop")).toBe("60e0377..332e429");
+		});
+
+		it("matches branch name exactly", () => {
+			const fetchOutput = "From github.com:MagicMirrorOrg/MagicMirror\n1111111..2222222  main-feature     -> origin/main-feature\n3333333..4444444  main             -> origin/main\n";
+
+			expect(gitHelper.getRefDiffFromFetchDryRun(fetchOutput, "main")).toBe("3333333..4444444");
+		});
+
+		it("returns fallback range when matching line is missing", () => {
+			const fetchOutput = "From github.com:MagicMirrorOrg/MagicMirror\n";
+
+			expect(gitHelper.getRefDiffFromFetchDryRun(fetchOutput, "develop")).toBe("develop..origin/develop");
+		});
+	});
+
 	describe("MagicMirror on develop", () => {
 		const moduleName = "MagicMirror";
 
@@ -124,7 +144,7 @@ describe("Updatenotification", () => {
 				  "rev-parse HEAD",
 				  "status -sb",
 				  "fetch -n --dry-run",
-				  "rev-list --ancestry-path --count 60e0377..332e429  develop",
+				  "rev-list --ancestry-path --count 60e0377..332e429",
 				]
 			`);
 		});
@@ -174,9 +194,9 @@ describe("Updatenotification", () => {
 				  "rev-parse HEAD",
 				  "status -sb",
 				  "fetch -n --dry-run",
-				  "rev-list --ancestry-path --count 60e0377..332e429  master",
+				  "rev-list --ancestry-path --count 60e0377..332e429",
 				  "ls-remote -q --tags --refs",
-				  "rev-list --ancestry-path 60e0377..332e429  master",
+				  "rev-list --ancestry-path 60e0377..332e429",
 				]
 			`);
 		});
@@ -191,9 +211,9 @@ describe("Updatenotification", () => {
 				  "rev-parse HEAD",
 				  "status -sb",
 				  "fetch -n --dry-run",
-				  "rev-list --ancestry-path --count 60e0377..332e429  master",
+				  "rev-list --ancestry-path --count 60e0377..332e429",
 				  "ls-remote -q --tags --refs",
-				  "rev-list --ancestry-path 60e0377..332e429  master",
+				  "rev-list --ancestry-path 60e0377..332e429",
 				]
 			`);
 		});
@@ -230,9 +250,9 @@ describe("Updatenotification", () => {
 				  "rev-parse HEAD",
 				  "status -sb",
 				  "fetch -n --dry-run",
-				  "rev-list --ancestry-path --count 60e0377..332e429  master",
+				  "rev-list --ancestry-path --count 60e0377..332e429",
 				  "ls-remote -q --tags --refs",
-				  "rev-list --ancestry-path 60e0377..332e429  master",
+				  "rev-list --ancestry-path 60e0377..332e429",
 				]
 			`);
 		});
@@ -247,9 +267,9 @@ describe("Updatenotification", () => {
 				  "rev-parse HEAD",
 				  "status -sb",
 				  "fetch -n --dry-run",
-				  "rev-list --ancestry-path --count 60e0377..332e429  master",
+				  "rev-list --ancestry-path --count 60e0377..332e429",
 				  "ls-remote -q --tags --refs",
-				  "rev-list --ancestry-path 60e0377..332e429  master",
+				  "rev-list --ancestry-path 60e0377..332e429",
 				]
 			`);
 		});
@@ -286,9 +306,9 @@ describe("Updatenotification", () => {
 				  "rev-parse HEAD",
 				  "status -sb",
 				  "fetch -n --dry-run",
-				  "rev-list --ancestry-path --count 60e0377..332e429  master",
+				  "rev-list --ancestry-path --count 60e0377..332e429",
 				  "ls-remote -q --tags --refs",
-				  "rev-list --ancestry-path 60e0377..332e429  master",
+				  "rev-list --ancestry-path 60e0377..332e429",
 				]
 			`);
 		});
@@ -303,9 +323,9 @@ describe("Updatenotification", () => {
 				  "rev-parse HEAD",
 				  "status -sb",
 				  "fetch -n --dry-run",
-				  "rev-list --ancestry-path --count 60e0377..332e429  master",
+				  "rev-list --ancestry-path --count 60e0377..332e429",
 				  "ls-remote -q --tags --refs",
-				  "rev-list --ancestry-path 60e0377..332e429  master",
+				  "rev-list --ancestry-path 60e0377..332e429",
 				]
 			`);
 		});
@@ -339,7 +359,7 @@ describe("Updatenotification", () => {
 				[
 				  "status -sb",
 				  "fetch -n --dry-run",
-				  "rev-list --ancestry-path --count 19f7faf..9d83101  master",
+				  "rev-list --ancestry-path --count 19f7faf..9d83101",
 				]
 			`);
 		});
