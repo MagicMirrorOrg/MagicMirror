@@ -147,7 +147,7 @@ Module.register("compliments", {
 			timeOfDay = "evening";
 		}
 
-		if (timeOfDay && this.config.compliments.hasOwnProperty(timeOfDay)) {
+		if (this.config.compliments.hasOwnProperty(timeOfDay)) {
 			compliments = [...this.config.compliments[timeOfDay]];
 		}
 

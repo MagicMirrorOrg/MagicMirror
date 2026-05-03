@@ -113,4 +113,51 @@ describe("Weather utils tests", () => {
 			}
 		});
 	});
+
+	describe("convertWeatherObjectToImperial", () => {
+		it("should return null for null or empty input", () => {
+			expect(WeatherUtils.convertWeatherObjectToImperial(null)).toBeNull();
+			expect(WeatherUtils.convertWeatherObjectToImperial({})).toBeNull();
+		});
+
+		it("should convert 0°C correctly to 32°F", () => {
+			const result = WeatherUtils.convertWeatherObjectToImperial({ temperature: 0 });
+			expect(result.temperature).toBe(32);
+		});
+
+		it("should convert all temperature fields", () => {
+			const result = WeatherUtils.convertWeatherObjectToImperial({
+				temperature: 0,
+				feelsLikeTemp: 0,
+				minTemperature: -10,
+				maxTemperature: 10
+			});
+			expect(result.temperature).toBe(32);
+			expect(result.feelsLikeTemp).toBe(32);
+			expect(result.minTemperature).toBe(14);
+			expect(result.maxTemperature).toBe(50);
+		});
+
+		it("should convert windSpeed correctly", () => {
+			const result = WeatherUtils.convertWeatherObjectToImperial({ windSpeed: 10 });
+			expect(result.windSpeed).toBeCloseTo(22.369, 2);
+		});
+
+		it("should convert precipitationAmount correctly", () => {
+			const result = WeatherUtils.convertWeatherObjectToImperial({ precipitationAmount: 25.4, precipitationUnits: "mm" });
+			expect(result.precipitationAmount).toBeCloseTo(1, 5);
+		});
+
+		it("should not modify properties that are not present", () => {
+			const result = WeatherUtils.convertWeatherObjectToImperial({ temperature: 20 });
+			expect("windSpeed" in result).toBe(false);
+			expect("feelsLikeTemp" in result).toBe(false);
+		});
+
+		it("should not mutate the original object", () => {
+			const input = { temperature: 20 };
+			WeatherUtils.convertWeatherObjectToImperial(input);
+			expect(input.temperature).toBe(20);
+		});
+	});
 });
