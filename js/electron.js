@@ -43,8 +43,10 @@ function createWindow () {
 		Log.warn("Could not get display size, using defaults ...");
 	}
 
-	let electronSwitchesDefaults = ["autoplay-policy", "no-user-gesture-required"];
-	app.commandLine.appendSwitch(...new Set(electronSwitchesDefaults, config.electronSwitches));
+	app.commandLine.appendSwitch("autoplay-policy", "no-user-gesture-required");
+	for (const electronSwitch of (config.electronSwitches || [])) {
+		app.commandLine.appendSwitch(electronSwitch);
+	}
 	let electronOptionsDefaults = {
 		width: electronSize.width,
 		height: electronSize.height,
