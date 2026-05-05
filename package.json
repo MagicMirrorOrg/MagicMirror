@@ -49,7 +49,6 @@
 	"sideEffects": true,
 	"scripts": {
 		"config:check": "node js/check_config.js",
-		"postinstall": "git clean -df fonts vendor modules/default",
 		"install-mm": "npm install --no-audit --no-fund --no-update-notifier --only=prod --omit=dev",
 		"install-mm:dev": "npm install --no-audit --no-fund --no-update-notifier && npx playwright install chromium",
 		"lint:css": "stylelint 'css/**/*.css' 'defaultmodules/**/*.css' --fix",
