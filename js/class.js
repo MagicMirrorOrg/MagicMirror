@@ -11,7 +11,7 @@
 (function () {
 	let initializing = false;
 	const fnTest = (/xyz/).test(function () {
-		xyz;
+		return xyz;
 	})
 		? /\b_super\b/
 		: /.*/;
