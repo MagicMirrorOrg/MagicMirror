@@ -8,13 +8,11 @@ const discoveredPositionsJSFilename = "js/positions.js";
 
 const { styleText } = require("node:util");
 const Log = require("logger");
-const Ajv = require("ajv");
 const globals = require("globals");
 const { Linter } = require("eslint");
 const { getConfigFilePath } = require("#server_functions");
 
 const linter = new Linter({ configType: "flat" });
-const ajv = new Ajv();
 
 const requireFromString = (src) => {
 	const m = new module.constructor();
@@ -227,67 +225,54 @@ const checkConfigFile = (configObject) => {
 };
 
 /**
+ * Validates the modules array in the config object.
+ * Checks that:
+ *  - `modules` is an array
+ *  - every entry has a `module` property of type string
+ *  - every entry's `position` (if set) is a known region from index.html
  *
- * @param {string} data - The content of the configuration file to validate.
+ * Unknown positions produce a warning; structural errors are fatal.
+ * @param {object} data - The full config object to validate.
  */
 const validateModulePositions = (data) => {
 	Log.info("Checking modules structure configuration ...");
 
 	const positionList = getModulePositions();
 
-	// Make Ajv schema configuration of modules config
-	// Only scan "module" and "position"
-	const schema = {
-		type: "object",
-		properties: {
-			modules: {
-				type: "array",
-				items: {
-					type: "object",
-					properties: {
-						module: {
-							type: "string"
-						},
-						position: {
-							type: "string"
-						}
-					},
-					required: ["module"]
-				}
-			}
-		}
-	};
-
-	// Scan all modules
-	const validate = ajv.compile(schema);
-
-	const valid = validate(data);
-	if (valid) {
-		Log.info(styleText("green", "Your modules structure configuration doesn't contain errors :)"));
-
-		// Check for unknown positions (warning only, not an error)
-		if (data.modules) {
-			for (const [index, module] of data.modules.entries()) {
-				if (module.position && !positionList.includes(module.position)) {
-					Log.warn(`Module ${index} ("${module.module}") uses unknown position: "${module.position}"`);
-					Log.warn(`Known positions are: ${positionList.join(", ")}`);
-				}
-			}
-		}
-	} else {
-		const module = validate.errors[0].instancePath.split("/")[2];
-		const position = validate.errors[0].instancePath.split("/")[3];
-		let errorMessage = "This module configuration contains errors:";
-		errorMessage += `\n${JSON.stringify(data.modules[module], null, 2)}`;
-		if (position) {
-			errorMessage += `\n${position}: ${validate.errors[0].message}`;
-			errorMessage += `\n${JSON.stringify(validate.errors[0].params.allowedValues, null, 2).slice(1, -1)}`;
-		} else {
-			errorMessage += validate.errors[0].message;
-		}
-		Log.error(errorMessage);
+	// `modules` always exists (defaults.js provides a default array), but guard against it being overridden with a non-array value
+	if (data.modules !== undefined && !Array.isArray(data.modules)) {
+		Log.error("This module configuration contains errors:\nmodules must be an array");
 		process.exit(1);
 	}
+
+	// Validate each module entry
+	for (const [index, mod] of (data.modules ?? []).entries()) {
+		// Each module entry must be an object so we can safely inspect its fields
+		if (mod === null || typeof mod !== "object" || Array.isArray(mod)) {
+			Log.error(`This module configuration contains errors:\n${JSON.stringify(mod, null, 2)}\nmodule entry must be an object`);
+			process.exit(1);
+		}
+
+		// `module` (the module name) is required and must be a string
+		if (typeof mod.module !== "string") {
+			Log.error(`This module configuration contains errors:\n${JSON.stringify(mod, null, 2)}\nmodule: must be a string`);
+			process.exit(1);
+		}
+
+		// `position` is optional, but must be a string when provided
+		if (mod.position !== undefined && typeof mod.position !== "string") {
+			Log.error(`This module configuration contains errors:\n${JSON.stringify(mod, null, 2)}\nposition: must be a string`);
+			process.exit(1);
+		}
+
+		// `position` is optional, but when set it must match a known region
+		if (mod.position && !positionList.includes(mod.position)) {
+			Log.warn(`Module ${index} ("${mod.module}") uses unknown position: "${mod.position}"`);
+			Log.warn(`Known positions are: ${positionList.join(", ")}`);
+		}
+	}
+
+	Log.info(styleText("green", "Your modules structure configuration doesn't contain errors :)"));
 };
 
 module.exports = { loadConfig, getModulePositions, moduleHasValidPosition, getAvailableModulePositions, checkConfigFile };

@@ -89,7 +89,6 @@
 		"@fontsource/roboto": "^5.2.10",
 		"@fontsource/roboto-condensed": "^5.2.8",
 		"@fortawesome/fontawesome-free": "^7.2.0",
-		"ajv": "^8.20.0",
 		"animate.css": "^4.1.1",
 		"croner": "^10.0.1",
 		"eslint": "^10.3.0",
