@@ -24,8 +24,18 @@ global.version = require(`${global.root_path}/package.json`).version;
 global.mmTestMode = process.env.mmTestMode === "true";
 Log.log(`Starting MagicMirror: v${global.version}`);
 
-// Log system information.
-Spawn("node ./js/systeminformation.js", { env: { ...process.env, ELECTRON_VERSION: `${process.versions.electron}` }, cwd: this.root_path, shell: true, detached: true, stdio: "inherit" });
+// Log system information in a subprocess so it is shown even on early startup failures.
+Spawn("node ./js/systeminformation.js", {
+	env: {
+		...process.env,
+		ELECTRON_VERSION: `${process.versions.electron}`,
+		USED_NODE_VERSION: `${process.versions.node}`
+	},
+	cwd: this.root_path,
+	shell: true,
+	detached: true,
+	stdio: "inherit"
+});
 
 if (process.env.MM_CONFIG_FILE) {
 	global.configuration_file = process.env.MM_CONFIG_FILE.replace(`${global.root_path}/`, "");
