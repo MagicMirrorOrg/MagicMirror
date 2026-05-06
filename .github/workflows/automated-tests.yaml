@@ -64,9 +64,8 @@ jobs:
           npx playwright install --with-deps chromium
       - name: "Prepare environment for tests"
         run: |
-          # Fix chrome-sandbox permissions:
-          sudo chown root:root ./node_modules/electron/dist/chrome-sandbox
-          sudo chmod 4755 ./node_modules/electron/dist/chrome-sandbox
+          # Download electron binary
+          npx install-electron
           # Start labwc
           WLR_BACKENDS=headless WLR_LIBINPUT_NO_DEVICES=1 WLR_RENDERER=pixman labwc &
           touch config/custom.css
