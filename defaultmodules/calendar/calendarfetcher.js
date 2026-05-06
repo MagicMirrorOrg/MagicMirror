@@ -52,7 +52,7 @@ class CalendarFetcher {
 	async #handleResponse (response) {
 		try {
 			const responseData = await response.text();
-			const parsed = ical.parseICS(responseData);
+			const parsed = await ical.async.parseICS(responseData);
 
 			Log.debug(`Parsed iCal data from ${this.url} with ${Object.keys(parsed).length} entries.`);
 
