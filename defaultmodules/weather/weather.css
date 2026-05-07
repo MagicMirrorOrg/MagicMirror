@@ -22,8 +22,12 @@
 }
 
 .weather .min-temp {
-  padding-left: 20px;
+  padding-left: 0;
   padding-right: 0;
+}
+
+.weather .max-temp {
+  padding-left: 20px;
 }
 
 .weather .precipitation-amount,
