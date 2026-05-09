@@ -34,8 +34,7 @@ jobs:
       - name: "Run linter tests"
         run: |
           node --run test:prettier
-          node --run test:js
-          node --run test:css
+          node --run test:lint
           node --run test:markdown
   test:
     runs-on: ubuntu-24.04

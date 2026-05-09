@@ -1,4 +1,5 @@
 import {defineConfig, globalIgnores} from "eslint/config";
+import css from "@eslint/css";
 import globals from "globals";
 import {flatConfigs as importX} from "eslint-plugin-import-x";
 import js from "@eslint/js";
@@ -10,6 +11,16 @@ import vitest from "@vitest/eslint-plugin";
 
 export default defineConfig([
 	globalIgnores(["config/**", "modules/**/*", "js/positions.js", "tests/configs/config_variables.js"]),
+	{
+		files: ["**/*.css"],
+		language: "css/css",
+		plugins: {css},
+		extends: ["css/recommended"],
+		rules: {
+			"css/no-invalid-properties": ["error", {allowUnknownVariables: true}],
+			"css/use-baseline": "off"
+		}
+	},
 	{
 		files: ["**/*.js"],
 		languageOptions: {
