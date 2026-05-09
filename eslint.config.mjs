@@ -4,6 +4,7 @@ import globals from "globals";
 import {flatConfigs as importX} from "eslint-plugin-import-x";
 import js from "@eslint/js";
 import jsdocPlugin from "eslint-plugin-jsdoc";
+import markdown from "@eslint/markdown";
 import {configs as packageJsonConfigs} from "eslint-plugin-package-json";
 import playwright from "eslint-plugin-playwright";
 import stylistic from "@stylistic/eslint-plugin";
@@ -19,6 +20,15 @@ export default defineConfig([
 		rules: {
 			"css/no-invalid-properties": ["error", {allowUnknownVariables: true}],
 			"css/use-baseline": "off"
+		}
+	},
+	{
+		files: ["**/*.md"],
+		plugins: {markdown},
+		language: "markdown/gfm",
+		extends: ["markdown/recommended"],
+		rules: {
+			"markdown/no-missing-label-refs": "off"
 		}
 	},
 	{
