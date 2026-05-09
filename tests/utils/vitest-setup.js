@@ -9,6 +9,10 @@ const path = require("node:path");
 // Set test mode flag for application code to detect test environment
 process.env.mmTestMode = "true";
 
+// overrides native implementation (Nodejs >= v25) to avoid warnings in tests
+// "ExperimentalWarning: localStorage is not available because --localstorage-file was not provided."
+Object.defineProperty(globalThis, "localStorage", { value: undefined, writable: true });
+
 // Store the original require
 const originalRequire = Module.prototype.require;
 
