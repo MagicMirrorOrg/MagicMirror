@@ -33,7 +33,6 @@ jobs:
           node --run install-mm:dev
       - name: "Run linter tests"
         run: |
-          node --run test:prettier
           node --run test:lint
   test:
     runs-on: ubuntu-24.04

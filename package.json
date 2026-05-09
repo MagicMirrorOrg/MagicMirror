@@ -51,8 +51,7 @@
 		"config:check": "node js/check_config.js",
 		"install-mm": "npm install --no-audit --no-fund --no-update-notifier --only=prod --omit=dev",
 		"install-mm:dev": "npm install --no-audit --no-fund --no-update-notifier && npx playwright install chromium",
-		"lint:fix": "eslint --fix",
-		"lint:prettier": "prettier . --write",
+		"lint:fix": "eslint --fix && prettier . --write",
 		"prepare": "[ -f node_modules/.bin/husky ] && husky || echo no husky installed.",
 		"server": "node ./serveronly",
 		"server:watch": "node ./serveronly/watcher.js",
@@ -69,17 +68,17 @@
 		"test:coverage": "vitest run --coverage",
 		"test:e2e": "vitest run tests/e2e",
 		"test:electron": "vitest run tests/electron",
-		"test:lint": "eslint",
-		"test:prettier": "prettier . --check",
+		"test:lint": "eslint && prettier . --check",
 		"test:spelling": "cspell . --gitignore",
 		"test:ui": "vitest --ui",
 		"test:unit": "vitest run tests/unit",
 		"test:watch": "vitest"
 	},
 	"lint-staged": {
-		"*": "prettier --ignore-unknown --write",
-		"*.js": "eslint --fix",
-		"*.css": "eslint --fix"
+		"*": [
+			"eslint --fix",
+			"prettier --write --ignore-unknown"
+		]
 	},
 	"dependencies": {
 		"@fontsource/roboto": "^5.2.10",
