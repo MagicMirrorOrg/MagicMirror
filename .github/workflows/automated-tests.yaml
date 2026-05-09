@@ -33,10 +33,7 @@ jobs:
           node --run install-mm:dev
       - name: "Run linter tests"
         run: |
-          node --run test:prettier
-          node --run test:js
-          node --run test:css
-          node --run test:markdown
+          node --run test:lint
   test:
     runs-on: ubuntu-24.04
     timeout-minutes: 30

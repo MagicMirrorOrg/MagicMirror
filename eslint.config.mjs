@@ -1,8 +1,10 @@
 import {defineConfig, globalIgnores} from "eslint/config";
+import css from "@eslint/css";
 import globals from "globals";
 import {flatConfigs as importX} from "eslint-plugin-import-x";
 import js from "@eslint/js";
 import jsdocPlugin from "eslint-plugin-jsdoc";
+import markdown from "@eslint/markdown";
 import {configs as packageJsonConfigs} from "eslint-plugin-package-json";
 import playwright from "eslint-plugin-playwright";
 import stylistic from "@stylistic/eslint-plugin";
@@ -10,6 +12,25 @@ import vitest from "@vitest/eslint-plugin";
 
 export default defineConfig([
 	globalIgnores(["config/**", "modules/**/*", "js/positions.js", "tests/configs/config_variables.js"]),
+	{
+		files: ["**/*.css"],
+		language: "css/css",
+		plugins: {css},
+		extends: ["css/recommended"],
+		rules: {
+			"css/no-invalid-properties": ["error", {allowUnknownVariables: true}],
+			"css/use-baseline": "off"
+		}
+	},
+	{
+		files: ["**/*.md"],
+		plugins: {markdown},
+		language: "markdown/gfm",
+		extends: ["markdown/recommended"],
+		rules: {
+			"markdown/no-missing-label-refs": "off"
+		}
+	},
 	{
 		files: ["**/*.js"],
 		languageOptions: {

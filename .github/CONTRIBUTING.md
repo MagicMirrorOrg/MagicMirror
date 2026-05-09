@@ -8,25 +8,10 @@ We hold our code to standard, and these standards are documented below.
 
 We use [prettier](https://prettier.io/) for automatic formatting a lot all our files. The configuration is in our `prettier.config.mjs` file.
 
-To run prettier, use `node --run lint:prettier`.
+And we use [ESLint](https://eslint.org) to lint our JavaScript, Markdown, and CSS files. The configuration is in our `eslint.config.mjs` file.
 
-### JavaScript: Run ESLint
-
-We use [ESLint](https://eslint.org) to lint our JavaScript files. The configuration is in our `eslint.config.mjs` file.
-
-To run ESLint, use `node --run lint:js`.
-
-### CSS: Run StyleLint
-
-We use [StyleLint](https://stylelint.io) to lint our CSS. The configuration is in our `stylelint.config.mjs` file.
-
-To run StyleLint, use `node --run lint:css`.
-
-### Markdown: Run markdownlint
-
-We use [markdownlint-cli2](https://github.com/DavidAnson/markdownlint-cli2) to lint our markdown files. The configuration is in our `.markdownlint.json` file.
-
-To run markdownlint, use `node --run lint:markdown`.
+To check for formatting and linting errors, use `node --run test:lint`
+To fix formatting and linting errors, use `node --run lint:fix`.
 
 ## Testing
 
@@ -43,6 +28,7 @@ The `package.json` scripts expose finer-grained test commands:
 - `test:watch` – keep Vitest in watch mode for fast local feedback
 - `test:ui` – open the Vitest UI dashboard (needs OS file-watch support enabled)
 - `test:calendar` – run the legacy calendar debug helper
-- `test:css`, `test:markdown`, `test:prettier`, `test:spelling`, `test:js` – lint-only scripts that enforce formatting, spelling, markdown style, and ESLint.
+- `test:lint` – run linter and formatter checks
+- `test:spelling` – run the spell checker
 
 You can invoke any script with `node --run <script>` (or `npm run <script>`). Individual files can still be targeted directly, e.g. `npx vitest run tests/e2e/env_spec.js`.

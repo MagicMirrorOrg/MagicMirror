@@ -51,10 +51,7 @@
 		"config:check": "node js/check_config.js",
 		"install-mm": "npm install --no-audit --no-fund --no-update-notifier --only=prod --omit=dev",
 		"install-mm:dev": "npm install --no-audit --no-fund --no-update-notifier && npx playwright install chromium",
-		"lint:css": "stylelint 'css/**/*.css' 'defaultmodules/**/*.css' --fix",
-		"lint:js": "eslint --fix",
-		"lint:markdown": "markdownlint-cli2 . --fix",
-		"lint:prettier": "prettier . --write",
+		"lint:fix": "eslint --fix && prettier . --write",
 		"prepare": "[ -f node_modules/.bin/husky ] && husky || echo no husky installed.",
 		"server": "node ./serveronly",
 		"server:watch": "node ./serveronly/watcher.js",
@@ -69,21 +66,19 @@
 		"test": "vitest run",
 		"test:calendar": "node ./defaultmodules/calendar/debug.js",
 		"test:coverage": "vitest run --coverage",
-		"test:css": "stylelint 'css/**/*.css' 'defaultmodules/**/*.css'",
 		"test:e2e": "vitest run tests/e2e",
 		"test:electron": "vitest run tests/electron",
-		"test:js": "eslint",
-		"test:markdown": "markdownlint-cli2 .",
-		"test:prettier": "prettier . --check",
+		"test:lint": "eslint && prettier . --check",
 		"test:spelling": "cspell . --gitignore",
 		"test:ui": "vitest --ui",
 		"test:unit": "vitest run tests/unit",
 		"test:watch": "vitest"
 	},
 	"lint-staged": {
-		"*": "prettier --ignore-unknown --write",
-		"*.js": "eslint --fix",
-		"*.css": "stylelint --fix"
+		"*": [
+			"eslint --fix",
+			"prettier --write --ignore-unknown"
+		]
 	},
 	"dependencies": {
 		"@fontsource/roboto": "^5.2.10",
@@ -110,7 +105,9 @@
 		"weathericons": "^2.1.0"
 	},
 	"devDependencies": {
+		"@eslint/css": "^1.2.0",
 		"@eslint/js": "^10.0.1",
+		"@eslint/markdown": "^8.0.1",
 		"@stylistic/eslint-plugin": "^5.10.0",
 		"@vitest/coverage-v8": "^4.1.5",
 		"@vitest/eslint-plugin": "^1.6.16",
@@ -124,14 +121,10 @@
 		"husky": "^9.1.7",
 		"jsdom": "^29.1.1",
 		"lint-staged": "^17.0.2",
-		"markdownlint-cli2": "^0.22.1",
 		"msw": "^2.14.3",
 		"playwright": "^1.59.1",
 		"prettier": "^3.8.3",
 		"prettier-plugin-jinja-template": "^2.2.0",
-		"stylelint": "^17.11.0",
-		"stylelint-config-standard": "^40.0.0",
-		"stylelint-prettier": "^5.0.3",
 		"vitest": "^4.1.5"
 	},
 	"optionalDependencies": {
