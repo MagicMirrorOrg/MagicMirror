@@ -59,12 +59,10 @@ describe("translations", () => {
 			const env = createTranslationTestEnvironment();
 			const window = env.window;
 
-			// Load class.js and module.js content directly for loadTranslations tests
-			const classJs = fs.readFileSync(path.join(__dirname, "..", "..", "js", "class.js"), "utf-8");
+			// Load module.js content directly for loadTranslations tests
 			const moduleJs = fs.readFileSync(path.join(__dirname, "..", "..", "js", "module.js"), "utf-8");
 
-			// Execute the scripts in the JSDOM context
-			window.eval(classJs);
+			// Execute the script in the JSDOM context
 			window.eval(moduleJs);
 
 			// Additional setup for loadTranslations tests

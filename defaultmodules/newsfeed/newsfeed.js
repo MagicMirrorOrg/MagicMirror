@@ -148,7 +148,7 @@ Module.register("newsfeed", {
 			}
 			return Promise.resolve(wrapper);
 		}
-		return this._super();
+		return Module.prototype.getDom.call(this);
 	},
 
 	//Override fetching of template name
