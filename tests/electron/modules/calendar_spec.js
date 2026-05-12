@@ -22,20 +22,6 @@ describe("Calendar module", () => {
 		return await loc.count();
 	};
 
-	/**
-	 * Use this for debugging broken tests, it will console log the text of the calendar module
-	 * @returns {Promise<void>}
-	 */
-	// eslint-disable-next-line no-unused-vars
-	const logAllText = async () => {
-		expect(global.page).not.toBeNull();
-		const loc = await global.page.locator(".calendar .event");
-		const elem = loc.first();
-		await elem.waitFor();
-		expect(elem).not.toBeNull();
-		console.log(await loc.allInnerTexts());
-	};
-
 	const first = 0;
 	const second = 1;
 	const third = 2;
