@@ -1,10 +1,31 @@
-/* global Class, cloneObject, Loader, MMSocket, nunjucks */
+/* global Loader, MMSocket, nunjucks */
 
 /*
  * Module Blueprint.
  * @typedef {Object} Module
  */
-const Module = Class.extend({
+class Module {
+
+	/**
+	 * Initializes per-instance mutable state.
+	 */
+	constructor () {
+		// Timer reference used for showHide animation callbacks.
+		this.showHideTimer = null;
+
+		/*
+		 * Array to store lockStrings. These strings are used to lock
+		 * visibility when hiding and showing module.
+		 */
+		this.lockStrings = [];
+
+		/*
+		 * Storage of the nunjucks Environment.
+		 * This should not be referenced directly.
+		 * Use the nunjucksEnvironment() method to get it.
+		 */
+		this._nunjucksEnvironment = null;
+	}
 
 	/**
 	 *********************************************************
@@ -12,40 +33,18 @@ const Module = Class.extend({
 	 *********************************************************
 	 */
 
-	// Set the minimum MagicMirror² module version for this module.
-	requiresVersion: "2.0.0",
-
-	// Module config defaults.
-	defaults: {},
-
-	// Timer reference used for showHide animation callbacks.
-	showHideTimer: null,
-
-	/*
-	 * Array to store lockStrings. These strings are used to lock
-	 * visibility when hiding and showing module.
-	 */
-	lockStrings: [],
-
-	/*
-	 * Storage of the nunjucks Environment,
-	 * This should not be referenced directly.
-	 * Use the nunjucksEnvironment() to get it.
-	 */
-	_nunjucksEnvironment: null,
-
 	/**
 	 * Called when the module is instantiated.
 	 */
 	init () {
-	},
+	}
 
 	/**
 	 * Called when the module is started.
 	 */
 	start () {
 		Log.info(`Starting module: ${this.name}`);
-	},
+	}
 
 	/**
 	 * Returns a list of scripts the module requires to be loaded.
@@ -53,7 +52,7 @@ const Module = Class.extend({
 	 */
 	getScripts () {
 		return [];
-	},
+	}
 
 	/**
 	 * Returns a list of stylesheets the module requires to be loaded.
@@ -61,7 +60,7 @@ const Module = Class.extend({
 	 */
 	getStyles () {
 		return [];
-	},
+	}
 
 	/**
 	 * Returns a map of translation files the module requires to be loaded.
@@ -71,7 +70,7 @@ const Module = Class.extend({
 	 */
 	getTranslations () {
 		return false;
-	},
+	}
 
 	/**
 	 * Generates the dom which needs to be displayed. This method is called by the MagicMirror² core.
@@ -104,7 +103,7 @@ const Module = Class.extend({
 				resolve(div);
 			}
 		});
-	},
+	}
 
 	/**
 	 * Generates the header string which needs to be displayed if a user has a header configured for this module.
@@ -114,7 +113,7 @@ const Module = Class.extend({
 	 */
 	getHeader () {
 		return this.data.header;
-	},
+	}
 
 	/**
 	 * Returns the template for the module which is used by the default getDom implementation.
@@ -125,7 +124,7 @@ const Module = Class.extend({
 	 */
 	getTemplate () {
 		return `<div class="normal">${this.name}</div><div class="small dimmed">${this.identifier}</div>`;
-	},
+	}
 
 	/**
 	 * Returns the data to be used in the template.
@@ -134,7 +133,7 @@ const Module = Class.extend({
 	 */
 	getTemplateData () {
 		return {};
-	},
+	}
 
 	/**
 	 * Called by the MagicMirror² core when a notification arrives.
@@ -148,7 +147,7 @@ const Module = Class.extend({
 		} else {
 			Log.debug(`${this.name} received a system notification: ${notification}`);
 		}
-	},
+	}
 
 	/**
 	 * Returns the nunjucks environment for the current module.
@@ -170,7 +169,7 @@ const Module = Class.extend({
 		});
 
 		return this._nunjucksEnvironment;
-	},
+	}
 
 	/**
 	 * Called when a socket notification arrives.
@@ -179,21 +178,21 @@ const Module = Class.extend({
 	 */
 	socketNotificationReceived (notification, payload) {
 		Log.log(`${this.name} received a socket notification: ${notification} - Payload: ${payload}`);
-	},
+	}
 
 	/**
 	 * Called when the module is hidden.
 	 */
 	suspend () {
 		Log.log(`${this.name} is suspended.`);
-	},
+	}
 
 	/**
 	 * Called when the module is shown.
 	 */
 	resume () {
 		Log.log(`${this.name} is resumed.`);
-	},
+	}
 
 	/**
 	 ***********************************************
@@ -214,7 +213,7 @@ const Module = Class.extend({
 		this.hasAnimateOut = false;
 
 		this.setConfig(data.config, data.configDeepMerge);
-	},
+	}
 
 	/**
 	 * Set the module config and combine it with the module defaults.
@@ -223,7 +222,7 @@ const Module = Class.extend({
 	 */
 	setConfig (config, deep) {
 		this.config = deep ? configMerge({}, this.defaults, config) : Object.assign({}, this.defaults, config);
-	},
+	}
 
 	/**
 	 * Returns a socket object. If it doesn't exist, it's created.
@@ -240,7 +239,7 @@ const Module = Class.extend({
 		});
 
 		return this._socket;
-	},
+	}
 
 	/**
 	 * Retrieve the path to a module file.
@@ -249,7 +248,7 @@ const Module = Class.extend({
 	 */
 	file (file) {
 		return `${this.data.path}/${file}`.replace("//", "/");
-	},
+	}
 
 	/**
 	 * Load all required stylesheets by requesting the MM object to load the files.
@@ -257,7 +256,7 @@ const Module = Class.extend({
 	 */
 	loadStyles () {
 		return this.loadDependencies("getStyles");
-	},
+	}
 
 	/**
 	 * Load all required scripts by requesting the MM object to load the files.
@@ -265,7 +264,7 @@ const Module = Class.extend({
 	 */
 	loadScripts () {
 		return this.loadDependencies("getScripts");
-	},
+	}
 
 	/**
 	 * Helper method to load all dependencies.
@@ -287,7 +286,7 @@ const Module = Class.extend({
 		};
 
 		await loadNextDependency();
-	},
+	}
 
 	/**
 	 * Load all translations.
@@ -316,7 +315,7 @@ const Module = Class.extend({
 		if (translationFile !== translationsFallbackFile) {
 			return Translator.load(this, translationsFallbackFile, true);
 		}
-	},
+	}
 
 	/**
 	 * Request the translation for a given key with optional variables and default value.
@@ -330,7 +329,7 @@ const Module = Class.extend({
 			return Translator.translate(this, key, defaultValueOrVariables) || defaultValue || "";
 		}
 		return Translator.translate(this, key) || defaultValueOrVariables || "";
-	},
+	}
 
 	/**
 	 * Request an (animated) update of the module.
@@ -338,7 +337,7 @@ const Module = Class.extend({
 	 */
 	updateDom (updateOptions) {
 		MM.updateDom(this, updateOptions);
-	},
+	}
 
 	/**
 	 * Send a notification to all modules.
@@ -347,7 +346,7 @@ const Module = Class.extend({
 	 */
 	sendNotification (notification, payload) {
 		MM.sendNotification(notification, payload, this);
-	},
+	}
 
 	/**
 	 * Send a socket notification to the node helper.
@@ -356,7 +355,7 @@ const Module = Class.extend({
 	 */
 	sendSocketNotification (notification, payload) {
 		this.socket().sendNotification(notification, payload);
-	},
+	}
 
 	/**
 	 * Hide this module.
@@ -383,7 +382,7 @@ const Module = Class.extend({
 			},
 			usedOptions
 		);
-	},
+	}
 
 	/**
 	 * Show this module.
@@ -411,7 +410,7 @@ const Module = Class.extend({
 			usedOptions
 		);
 	}
-});
+}
 
 /**
  * Merging MagicMirror² (or other) default/config script by `@bugsounet`
@@ -468,11 +467,22 @@ Module.create = function (name) {
 
 	const moduleDefinition = Module.definitions[name];
 	const clonedDefinition = cloneObject(moduleDefinition);
+	const className = typeof name === "string" && name.trim() ? name : "AnonymousModule";
 
 	// Note that we clone the definition. Otherwise the objects are shared, which gives problems.
-	const ModuleClass = Module.extend(clonedDefinition);
+	const SubClass = {
+		[className]: class extends Module {
+			constructor () {
+				super();
+				Object.assign(this, clonedDefinition);
+				if (typeof this.init === "function") {
+					this.init();
+				}
+			}
+		}
+	}[className];
 
-	return new ModuleClass();
+	return new SubClass();
 };
 
 Module.register = function (name, moduleDefinition) {
@@ -511,4 +521,44 @@ function cmpVersions (a, b) {
 		}
 	}
 	return segmentsA.length - segmentsB.length;
+}
+
+/**
+ * Define the clone method for later use. Helper Method.
+ * @param {object} obj Object to be cloned
+ * @returns {object} the cloned object
+ */
+function cloneObject (obj) {
+	if (obj === null || typeof obj !== "object") {
+		return obj;
+	}
+
+	if (Array.isArray(obj)) {
+		return obj.map((item) => cloneObject(item));
+	}
+
+	const tag = Object.prototype.toString.call(obj);
+
+	if (tag === "[object RegExp]") {
+		return new RegExp(obj);
+	}
+
+	if (tag === "[object Date]") {
+		return new Date(obj.getTime());
+	}
+
+	const proto = Object.getPrototypeOf(obj);
+	const isPlainObject = proto === null || Object.getPrototypeOf(proto) === null;
+
+	// Avoid calling class constructors without "new". Preserve unknown objects by reference.
+	if (!isPlainObject) {
+		return obj;
+	}
+
+	const temp = {};
+	for (const key of Object.keys(obj)) {
+		temp[key] = cloneObject(obj[key]);
+	}
+
+	return temp;
 }
