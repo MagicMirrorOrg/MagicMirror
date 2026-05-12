@@ -24,6 +24,7 @@ describe("port directive configuration", () => {
 
 		afterAll(async () => {
 			await helpers.stopApplication();
+			delete process.env.MM_PORT;
 		});
 
 		it("should return 200", async () => {
