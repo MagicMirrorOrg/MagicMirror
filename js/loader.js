@@ -1,6 +1,5 @@
 /* global defaultModules, vendor */
 
-// eslint-disable-next-line no-unused-vars
 const Loader = (function () {
 
 	/* Create helper variables */
@@ -295,3 +294,5 @@ const Loader = (function () {
 		}
 	};
 }());
+
+globalThis.Loader = Loader;
