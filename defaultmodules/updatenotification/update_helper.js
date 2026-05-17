@@ -130,12 +130,15 @@ class Updater {
 		});
 	}
 
-	// restart MagicMirror with "node --run start"
+	// restart MagicMirror with the same start command as the current process
 	nodeRestart () {
 		Log.info("Restarting MagicMirror...");
 		const out = process.stdout;
 		const err = process.stderr;
-		const subprocess = Spawn("node --run start", { cwd: this.root_path, shell: true, detached: true, stdio: ["ignore", out, err] });
+
+		// Get the current process command line
+		const currentCommand = process.argv.slice(1).join(" ");
+		const subprocess = Spawn(`node ${currentCommand}`, { cwd: this.root_path, shell: true, detached: true, stdio: ["ignore", out, err] });
 		subprocess.unref(); // detach the newly launched process from the master process
 		process.exit();
 	}
