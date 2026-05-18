@@ -328,6 +328,20 @@ function App () {
 		await this.stop();
 		process.exit(0);
 	});
+
+	/**
+	 *
+	 * @param {number} ms milliseconds to wait
+	 */
+	function blockingSleep (ms) {
+		const int32 = new Int32Array(new SharedArrayBuffer(4));
+		Atomics.wait(int32, 0, 0, ms);
+	}
+
+	process.on("exit", () => {
+		// wait before exiting so that child processes (e.g. systeminformation) have some additional time
+		blockingSleep(1000);
+	});
 }
 
 module.exports = new App();
