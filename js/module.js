@@ -1,10 +1,15 @@
-/* global Loader, MMSocket, nunjucks */
+/* global nunjucks */
+
+// eslint-disable-next-line import-x/extensions
+import { Loader } from "./loader.js";
+// eslint-disable-next-line import-x/extensions
+import { MMSocket } from "./socketclient.js";
 
 /*
  * Module Blueprint.
  * @typedef {Object} Module
  */
-class Module {
+export class Module {
 
 	/**
 	 * Initializes per-instance mutable state.
@@ -412,6 +417,8 @@ class Module {
 	}
 }
 
+globalThis.Module = Module;
+
 /**
  * Merging MagicMirror² (or other) default/config script by `@bugsounet`
  * Merge 2 objects or/with array
@@ -499,8 +506,6 @@ Module.register = function (name, moduleDefinition) {
 	Module.definitions[name] = moduleDefinition;
 };
 
-window.Module = Module;
-
 /**
  * Compare two semantic version numbers and return the difference.
  * @param {string} a Version number a.
@@ -508,7 +513,7 @@ window.Module = Module;
  * @returns {number} A positive number if a is larger than b, a negative
  * number if a is smaller and 0 if they are the same
  */
-function cmpVersions (a, b) {
+export function cmpVersions (a, b) {
 	const regExStrip0 = /(\.0+)+$/;
 	const segmentsA = a.replace(regExStrip0, "").split(".");
 	const segmentsB = b.replace(regExStrip0, "").split(".");
@@ -528,7 +533,7 @@ function cmpVersions (a, b) {
  * @param {object} obj Object to be cloned
  * @returns {object} the cloned object
  */
-function cloneObject (obj) {
+export function cloneObject (obj) {
 	if (obj === null || typeof obj !== "object") {
 		return obj;
 	}

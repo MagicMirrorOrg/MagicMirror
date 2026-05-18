@@ -1,26 +1,64 @@
 const path = require("node:path");
-const { JSDOM } = require("jsdom");
+const { pathToFileURL } = require("node:url");
 
 describe("File js/module (cloneObject)", () => {
 	describe("Test function cloneObject", () => {
 		let clone;
 		let Module;
-		let dom;
+		let originalWindow;
+		let originalLog;
+		let originalConfig;
+		let originalMM;
+		let originalTranslator;
+		let originalNunjucks;
 
-		beforeAll(() => {
-			return new Promise((done) => {
-				dom = new JSDOM(
-					`<script>var Log = {log: () => {}, info: () => {}, warn: () => {}, error: () => {}, debug: () => {}};</script>\
-					<script src="file://${path.join(__dirname, "..", "..", "..", "js", "module.js")}">`,
-					{ runScripts: "dangerously", resources: "usable" }
-				);
-				dom.window.onload = () => {
-					const { cloneObject, Module: LoadedModule } = dom.window;
-					clone = cloneObject;
-					Module = LoadedModule;
-					done();
-				};
-			});
+		beforeAll(async () => {
+			originalWindow = global.window;
+			originalLog = global.Log;
+			originalConfig = global.config;
+			originalMM = global.MM;
+			originalTranslator = global.Translator;
+			originalNunjucks = global.nunjucks;
+
+			global.window = { mmVersion: "2.0.0" };
+			global.Log = { log: () => {}, info: () => {}, warn: () => {}, error: () => {}, debug: () => {} };
+			global.config = { language: "en" };
+			global.MM = {
+				hideModule: () => {},
+				showModule: () => {},
+				sendNotification: () => {},
+				updateDom: () => {}
+			};
+			global.Translator = {
+				load: () => Promise.resolve(),
+				translate: () => ""
+			};
+			global.nunjucks = {
+				Environment () {
+					this.addFilter = () => {};
+					this.renderString = () => "";
+					this.render = (_template, _data, callback) => callback(null, "");
+				},
+				WebLoader () {},
+				runtime: {
+					markSafe: (str) => str
+				}
+			};
+
+			const modulePath = pathToFileURL(path.join(__dirname, "..", "..", "..", "js", "module.js")).href;
+			const loaded = await import(`${modulePath}?test=${Date.now()}`);
+
+			clone = loaded.cloneObject;
+			Module = loaded.Module;
+		});
+
+		afterAll(() => {
+			global.window = originalWindow;
+			global.Log = originalLog;
+			global.config = originalConfig;
+			global.MM = originalMM;
+			global.Translator = originalTranslator;
+			global.nunjucks = originalNunjucks;
 		});
 
 		it("should clone object", () => {
@@ -137,11 +175,11 @@ describe("File js/module (cloneObject)", () => {
 			let info;
 
 			beforeEach(() => {
-				info = dom.window.Log.info;
+				info = global.Log.info;
 			});
 
 			afterEach(() => {
-				dom.window.Log.info = info;
+				global.Log.info = info;
 				Module.definitions = {};
 			});
 
@@ -181,7 +219,7 @@ describe("File js/module (cloneObject)", () => {
 				const moduleName = "MMM-TestSuperCall";
 				let loggedMessage;
 
-				dom.window.Log.info = (message) => {
+				global.Log.info = (message) => {
 					loggedMessage = message;
 				};
 
