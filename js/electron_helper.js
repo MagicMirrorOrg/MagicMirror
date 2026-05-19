@@ -1,14 +1,11 @@
 const Log = require("./logger");
 
 /**
- * Applies Electron command-line switches (defaults + from config).
+ * Applies Electron command-line switches from config.
  * @param {object} commandLine Electron commandLine API
  * @param {Array<string|object>} [electronSwitches] User-configured switches
  */
 function applyElectronSwitches (commandLine, electronSwitches) {
-	commandLine.appendSwitch("autoplay-policy", "no-user-gesture-required");
-	Log.debug("Activated default switch: autoplay-policy=no-user-gesture-required");
-
 	if (electronSwitches === undefined) return;
 	if (!Array.isArray(electronSwitches)) {
 		Log.error(`electronSwitches must be an array of strings or objects, got: ${JSON.stringify(electronSwitches)}`);
