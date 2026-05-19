@@ -14,6 +14,7 @@ const { setGlobalDispatcher, Agent } = require("undici");
 
 const Server = require("./server");
 const Utils = require("./utils");
+const { ConfigError } = require("./utils");
 
 const { getEnvVarsAsObj } = require("#server_functions");
 // common timeout value, provide environment override in case
@@ -183,80 +184,92 @@ function App () {
 	 * @returns {Promise<object>} the config used
 	 */
 	this.start = async function () {
-		const configObj = Utils.loadConfig();
-		global.config = configObj.fullConf;
-		const config = global.config;
-		Utils.checkConfigFile(configObj);
+		try {
+			const configObj = Utils.loadConfig();
+			global.config = configObj.fullConf;
+			const config = global.config;
+			Utils.checkConfigFile(configObj);
 
-		global.defaultModulesDir = config.defaultModulesDir;
-		defaultModules = require(`${global.root_path}/${global.defaultModulesDir}/defaultmodules`);
+			global.defaultModulesDir = config.defaultModulesDir;
+			defaultModules = require(`${global.root_path}/${global.defaultModulesDir}/defaultmodules`);
 
-		Log.setLogLevel(config.logLevel);
+			Log.setLogLevel(config.logLevel);
 
-		env = getEnvVarsAsObj();
-		// check for deprecated css/custom.css and move it to new location
-		if ((!fs.existsSync(`${global.root_path}/${env.customCss}`)) && (fs.existsSync(`${global.root_path}/css/custom.css`))) {
-			try {
-				fs.renameSync(`${global.root_path}/css/custom.css`, `${global.root_path}/${env.customCss}`);
-				Log.warn(`WARNING! Your custom css file was moved from ${global.root_path}/css/custom.css to ${global.root_path}/${env.customCss}`);
-			} catch {
-				Log.warn("WARNING! Your custom css file is currently located in the css folder. Please move it to the config folder!");
+			env = getEnvVarsAsObj();
+			// check for deprecated css/custom.css and move it to new location
+			if ((!fs.existsSync(`${global.root_path}/${env.customCss}`)) && (fs.existsSync(`${global.root_path}/css/custom.css`))) {
+				try {
+					fs.renameSync(`${global.root_path}/css/custom.css`, `${global.root_path}/${env.customCss}`);
+					Log.warn(`WARNING! Your custom css file was moved from ${global.root_path}/css/custom.css to ${global.root_path}/${env.customCss}`);
+				} catch {
+					Log.warn("WARNING! Your custom css file is currently located in the css folder. Please move it to the config folder!");
+				}
 			}
-		}
 
-		// get the used module positions
-		Utils.getModulePositions();
+			// get the used module positions
+			Utils.getModulePositions();
 
-		let modules = [];
-		for (const module of config.modules) {
-			if (module.disabled) continue;
-			if (module.module) {
-				if (Utils.moduleHasValidPosition(module.position) || typeof (module.position) === "undefined") {
-					// Only add this module to be loaded if it is not a duplicate (repeated instance of the same module)
-					if (!modules.includes(module.module)) {
-						modules.push(module.module);
+			let modules = [];
+			for (const module of config.modules) {
+				if (module.disabled) continue;
+				if (module.module) {
+					if (Utils.moduleHasValidPosition(module.position) || typeof (module.position) === "undefined") {
+						// Only add this module to be loaded if it is not a duplicate (repeated instance of the same module)
+						if (!modules.includes(module.module)) {
+							modules.push(module.module);
+						}
+					} else {
+						Log.warn("Invalid module position found for this configuration:" + `\n${JSON.stringify(module, null, 2)}`);
 					}
 				} else {
-					Log.warn("Invalid module position found for this configuration:" + `\n${JSON.stringify(module, null, 2)}`);
+					Log.warn("No module name found for this configuration:" + `\n${JSON.stringify(module, null, 2)}`);
 				}
-			} else {
-				Log.warn("No module name found for this configuration:" + `\n${JSON.stringify(module, null, 2)}`);
 			}
+
+			setGlobalDispatcher(new Agent({ connect: { timeout: fetch_timeout } }));
+
+			await loadModules(modules);
+
+			httpServer = new Server(configObj);
+			const { app, io } = await httpServer.open();
+			Log.log("Server started ...");
+
+			const nodePromises = [];
+			for (let nodeHelper of nodeHelpers) {
+				nodeHelper.setExpressApp(app);
+				nodeHelper.setSocketIO(io);
+
+				try {
+					nodePromises.push(nodeHelper.start());
+				} catch (error) {
+					Log.error(`Error when starting node_helper for module ${nodeHelper.name}:`);
+					Log.error(error);
+				}
+			}
+
+			const results = await Promise.allSettled(nodePromises);
+
+			// Log errors that happened during async node_helper startup
+			results.forEach((result) => {
+				if (result.status === "rejected") {
+					Log.error(result.reason);
+				}
+			});
+
+			Log.log("Sockets connected & modules started ...");
+
+			return global.config;
+		} catch (err) {
+			// planned ConfigErrors already logged their message before throwing
+			if (!(err instanceof ConfigError)) {
+				Log.error("Unexpected error during startup:", err);
+			}
+
+			const int32 = new Int32Array(new SharedArrayBuffer(4));
+			// wait 1000ms before exiting so that child processes (e.g. systeminformation) have some additional time
+			Atomics.wait(int32, 0, 0, 1000);
+			process.exit(1);
 		}
-
-		setGlobalDispatcher(new Agent({ connect: { timeout: fetch_timeout } }));
-
-		await loadModules(modules);
-
-		httpServer = new Server(configObj);
-		const { app, io } = await httpServer.open();
-		Log.log("Server started ...");
-
-		const nodePromises = [];
-		for (let nodeHelper of nodeHelpers) {
-			nodeHelper.setExpressApp(app);
-			nodeHelper.setSocketIO(io);
-
-			try {
-				nodePromises.push(nodeHelper.start());
-			} catch (error) {
-				Log.error(`Error when starting node_helper for module ${nodeHelper.name}:`);
-				Log.error(error);
-			}
-		}
-
-		const results = await Promise.allSettled(nodePromises);
-
-		// Log errors that happened during async node_helper startup
-		results.forEach((result) => {
-			if (result.status === "rejected") {
-				Log.error(result.reason);
-			}
-		});
-
-		Log.log("Sockets connected & modules started ...");
-
-		return global.config;
 	};
 
 	/**
@@ -327,20 +340,6 @@ function App () {
 		}, 3000); // Force quit after 3 seconds
 		await this.stop();
 		process.exit(0);
-	});
-
-	/**
-	 *
-	 * @param {number} ms milliseconds to wait
-	 */
-	function blockingSleep (ms) {
-		const int32 = new Int32Array(new SharedArrayBuffer(4));
-		Atomics.wait(int32, 0, 0, ms);
-	}
-
-	process.on("exit", () => {
-		// wait before exiting so that child processes (e.g. systeminformation) have some additional time
-		blockingSleep(1000);
 	});
 }
 

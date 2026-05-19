@@ -1,7 +1,7 @@
 const fs = require("node:fs");
 
 const Log = require("../../../js/logger");
-const { checkConfigFile } = require("../../../js/utils");
+const { checkConfigFile, ConfigError } = require("../../../js/utils");
 
 const createConfigObject = (modules) => ({
 	configFilename: "config.js",
@@ -14,13 +14,13 @@ const runCheck = (modules) => {
 };
 
 const expectExitForModules = (modules) => {
-	vi.spyOn(process, "exit").mockImplementation((code) => {
-		throw new Error(`process.exit:${code}`);
+	vi.spyOn(process, "exit").mockImplementation(() => {
+		throw new ConfigError("");
 	});
 
 	expect(() => {
 		runCheck(modules);
-	}).toThrow("process.exit:1");
+	}).toThrow(ConfigError);
 };
 
 describe("utils", () => {
@@ -69,8 +69,8 @@ describe("utils", () => {
 	});
 
 	it("warns for unknown positions without exiting", () => {
-		const exitSpy = vi.spyOn(process, "exit").mockImplementation((code) => {
-			throw new Error(`process.exit:${code}`);
+		const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {
+			throw new ConfigError("");
 		});
 
 		expect(() => {

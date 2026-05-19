@@ -14,6 +14,13 @@ const { getConfigFilePath } = require("#server_functions");
 
 const linter = new Linter({ configType: "flat" });
 
+class ConfigError extends Error {
+	constructor (message) {
+		super(message);
+		this.name = "ConfigError";
+	}
+}
+
 const requireFromString = (src) => {
 	const m = new module.constructor();
 	m._compile(src, "");
@@ -172,9 +179,8 @@ const loadConfig = () => {
 		} else {
 			Log.error(`Cannot access config file: ${configFilename}\n${error.message}`);
 		}
-		process.exit(1);
+		throw new ConfigError("");
 	}
-	return {};
 };
 
 /**
@@ -220,7 +226,7 @@ const checkConfigFile = (configObject) => {
 			errorMessage += `\nLine ${error.line} column ${error.column}: ${error.message}`;
 		}
 		Log.error(errorMessage);
-		process.exit(1);
+		throw new ConfigError("");
 	}
 };
 
@@ -242,7 +248,7 @@ const validateModulePositions = (data) => {
 	// `modules` always exists (defaults.js provides a default array), but guard against it being overridden with a non-array value
 	if (data.modules !== undefined && !Array.isArray(data.modules)) {
 		Log.error("This module configuration contains errors:\nmodules must be an array");
-		process.exit(1);
+		throw new ConfigError("");
 	}
 
 	// Validate each module entry
@@ -250,19 +256,19 @@ const validateModulePositions = (data) => {
 		// Each module entry must be an object so we can safely inspect its fields
 		if (mod === null || typeof mod !== "object" || Array.isArray(mod)) {
 			Log.error(`This module configuration contains errors:\n${JSON.stringify(mod, null, 2)}\nmodule entry must be an object`);
-			process.exit(1);
+			throw new ConfigError("");
 		}
 
 		// `module` (the module name) is required and must be a string
 		if (typeof mod.module !== "string") {
 			Log.error(`This module configuration contains errors:\n${JSON.stringify(mod, null, 2)}\nmodule: must be a string`);
-			process.exit(1);
+			throw new ConfigError("");
 		}
 
 		// `position` is optional, but must be a string when provided
 		if (mod.position !== undefined && typeof mod.position !== "string") {
 			Log.error(`This module configuration contains errors:\n${JSON.stringify(mod, null, 2)}\nposition: must be a string`);
-			process.exit(1);
+			throw new ConfigError("");
 		}
 
 		// `position` is optional, but when set it must match a known region
@@ -275,4 +281,4 @@ const validateModulePositions = (data) => {
 	Log.info(styleText("green", "Your modules structure configuration doesn't contain errors :)"));
 };
 
-module.exports = { loadConfig, getModulePositions, moduleHasValidPosition, getAvailableModulePositions, checkConfigFile };
+module.exports = { loadConfig, getModulePositions, moduleHasValidPosition, getAvailableModulePositions, checkConfigFile, ConfigError };
