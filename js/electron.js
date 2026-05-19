@@ -3,6 +3,7 @@
 const electron = require("electron");
 const core = require("./app");
 const Log = require("./logger");
+const { applyElectronSwitches } = require("./electron_helper");
 
 // Config
 let config = process.env.config ? JSON.parse(process.env.config) : {};
@@ -43,10 +44,7 @@ function createWindow () {
 		Log.warn("Could not get display size, using defaults ...");
 	}
 
-	app.commandLine.appendSwitch("autoplay-policy", "no-user-gesture-required");
-	for (const electronSwitch of (config.electronSwitches || [])) {
-		app.commandLine.appendSwitch(electronSwitch);
-	}
+	applyElectronSwitches(app.commandLine, config.electronSwitches);
 	let electronOptionsDefaults = {
 		width: electronSize.width,
 		height: electronSize.height,
