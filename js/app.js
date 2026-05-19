@@ -14,6 +14,7 @@ const { setGlobalDispatcher, Agent } = require("undici");
 
 const Server = require("./server");
 const Utils = require("./utils");
+const { ConfigError } = require("./utils");
 
 const { getEnvVarsAsObj } = require("#server_functions");
 // common timeout value, provide environment override in case
@@ -258,7 +259,12 @@ function App () {
 			Log.log("Sockets connected & modules started ...");
 
 			return global.config;
-		} catch {
+		} catch (err) {
+			// planned ConfigErrors already logged their message before throwing
+			if (!(err instanceof ConfigError)) {
+				Log.error("Unexpected error during startup:", err);
+			}
+
 			const int32 = new Int32Array(new SharedArrayBuffer(4));
 			// wait 1000ms before exiting so that child processes (e.g. systeminformation) have some additional time
 			Atomics.wait(int32, 0, 0, 1000);
