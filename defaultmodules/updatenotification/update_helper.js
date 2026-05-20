@@ -136,10 +136,12 @@ class Updater {
 		const out = process.stdout;
 		const err = process.stderr;
 
-		// Get the current process command line
-		const currentCommand = process.argv.slice(1).join(" ");
-		const subprocess = Spawn(`node ${currentCommand}`, { cwd: this.root_path, shell: true, detached: true, stdio: ["ignore", out, err] });
-		subprocess.unref(); // detach the newly launched process from the master process
+		// Restart with the same binary and arguments as the current process
+		const binary = process.argv[0];
+		const args = process.argv.slice(1);
+		const options = { cwd: this.root_path, detached: true, stdio: ["ignore", out, err] };
+		const subprocess = Spawn(binary, args, options);
+		subprocess.unref(); // allow the current process to exit without waiting for the subprocess
 		process.exit();
 	}
 
