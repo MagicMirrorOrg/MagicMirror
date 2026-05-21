@@ -87,4 +87,33 @@ describe("UpdateHelper", () => {
 		vi.advanceTimersByTime(3000);
 		expect(nodeRestartSpy).toHaveBeenCalledTimes(1);
 	});
+
+	describe("nodeRestart", () => {
+		it("exits without spawning when running under PM2", async () => {
+			process.env.pm_id = "0";
+
+			const updater = await createUpdater();
+			const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
+			const spawnSpy = vi.spyOn(updater, "_spawnDetachedSelf").mockImplementation(() => {});
+
+			updater.nodeRestart();
+
+			expect(exitSpy).toHaveBeenCalledWith(0);
+			expect(spawnSpy).not.toHaveBeenCalled();
+		});
+
+		it("spawns a detached child process when not running under PM2", async () => {
+			delete process.env.pm_id;
+
+			const updater = await createUpdater();
+			const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
+			const spawnSpy = vi.spyOn(updater, "_spawnDetachedSelf").mockImplementation(() => {});
+
+			updater.nodeRestart();
+
+			expect(spawnSpy).toHaveBeenCalledOnce();
+			expect(exitSpy).toHaveBeenCalledOnce();
+			expect(exitSpy).not.toHaveBeenCalledWith(0);
+		});
+	});
 });
