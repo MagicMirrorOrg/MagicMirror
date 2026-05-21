@@ -130,19 +130,41 @@ class Updater {
 		});
 	}
 
-	// restart MagicMirror with the same start command as the current process
+	/**
+	 * Restart the current MagicMirror process after a successful auto-update.
+	 * Under PM2 just exit and let PM2 respawn — spawning a child here would
+	 * race against PM2 and cause an EADDRINUSE conflict (see issue #4165).
+	 * Standalone: spawn a detached clone of the current process, then exit.
+	 */
 	nodeRestart () {
 		Log.info("Restarting MagicMirror...");
-		const out = process.stdout;
-		const err = process.stderr;
 
-		// Restart with the same binary and arguments as the current process
-		const binary = process.argv[0];
-		const args = process.argv.slice(1);
-		const options = { cwd: this.root_path, detached: true, stdio: ["ignore", out, err] };
-		const subprocess = Spawn(binary, args, options);
-		subprocess.unref(); // allow the current process to exit without waiting for the subprocess
+		const isManagedByPm2 = process.env.pm_id !== undefined;
+		if (isManagedByPm2) {
+			Log.info("Running under PM2 — exiting for PM2 to respawn.");
+			process.exit(0);
+			return;
+		}
+
+		this._spawnDetachedSelf();
 		process.exit();
+	}
+
+	/**
+	 * Spawn a detached clone of the current Node process (same binary + argv),
+	 * wired to the parent's stdout/stderr.
+	 */
+	_spawnDetachedSelf () {
+		const nodeBinary = process.argv[0];
+		const nodeArgs = process.argv.slice(1);
+		const spawnOptions = {
+			cwd: this.root_path,
+			detached: true,
+			stdio: ["ignore", process.stdout, process.stderr]
+		};
+
+		const child = Spawn(nodeBinary, nodeArgs, spawnOptions);
+		child.unref();
 	}
 
 	// check if module is MagicMirror
