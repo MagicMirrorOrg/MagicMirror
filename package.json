@@ -114,7 +114,7 @@
 		"@vitest/ui": "^4.1.6",
 		"cspell": "^10.0.0",
 		"eslint-plugin-import-x": "^4.16.2",
-		"eslint-plugin-jsdoc": "^62.9.0",
+		"eslint-plugin-jsdoc": "^63.0.1",
 		"eslint-plugin-package-json": "^0.91.2",
 		"eslint-plugin-playwright": "^2.10.2",
 		"express-basic-auth": "^1.2.1",
