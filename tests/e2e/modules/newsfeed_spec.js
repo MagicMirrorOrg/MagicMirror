@@ -45,6 +45,32 @@ const runTests = () => {
 		});
 	});
 
+	describe("Basic HTML tags", () => {
+		beforeAll(async () => {
+			await helpers.startApplication("tests/configs/modules/newsfeed/basic_html.js");
+			await helpers.getDocument();
+			page = helpers.getPage();
+		});
+
+		it("should render allowlisted formatting tags in title and description", async () => {
+			await expect(page.locator(".newsfeed .newsfeed-desc")).toBeVisible();
+			const descHtml = await page.locator(".newsfeed .newsfeed-desc").innerHTML();
+			expect(descHtml).toContain("<em>");
+			expect(descHtml).toContain("<strong>");
+			expect(descHtml).toContain("<u>");
+			const titleHtml = await page.locator(".newsfeed .newsfeed-title").innerHTML();
+			expect(titleHtml).toContain("<em>");
+		});
+
+		it("should strip disallowed HTML and not execute injected scripts", async () => {
+			const descHtml = await page.locator(".newsfeed .newsfeed-desc").innerHTML();
+			expect(descHtml).not.toContain("<script");
+			expect(descHtml).not.toContain("onerror");
+			const xss = await page.evaluate(() => window.__newsfeedXss);
+			expect(xss).toBeUndefined();
+		});
+	});
+
 	describe("Invalid configuration", () => {
 		beforeAll(async () => {
 			await helpers.startApplication("tests/configs/modules/newsfeed/incorrect_url.js");

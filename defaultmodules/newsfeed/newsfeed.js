@@ -33,7 +33,8 @@ Module.register("newsfeed", {
 		prohibitedWords: [],
 		scrollLength: 500,
 		logFeedWarnings: false,
-		dangerouslyDisableAutoEscaping: false
+		dangerouslyDisableAutoEscaping: false,
+		allowBasicHtmlTags: false
 	},
 
 	getUrlPrefix (item) {

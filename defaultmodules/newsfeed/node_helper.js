@@ -61,7 +61,7 @@ module.exports = NodeHelper.create({
 		let fetcher;
 		if (typeof this.fetchers[url] === "undefined") {
 			Log.log(`Create new newsfetcher for url: ${url} - Interval: ${reloadInterval}`);
-			fetcher = new NewsfeedFetcher(url, reloadInterval, encoding, config.logFeedWarnings, useCorsProxy);
+			fetcher = new NewsfeedFetcher(url, reloadInterval, encoding, config.logFeedWarnings, useCorsProxy, config.allowBasicHtmlTags);
 
 			fetcher.onReceive(() => {
 				this.broadcastFeeds();
