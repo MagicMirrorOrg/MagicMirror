@@ -47,8 +47,8 @@ const CalendarFetcherUtils = {
 	 * @param {object} config The configuration object
 	 * @returns {object[]} the filtered events
 	 */
-	filterEvents (data: any, config: any): any[] {
-		const newEvents: any[] = [];
+	filterEvents (data: any, config: CalendarConfig): CalendarEvent[] {
+		const newEvents: CalendarEvent[] = [];
 
 		Log.debug(`There are ${Object.entries(data).length} calendar entries.`);
 

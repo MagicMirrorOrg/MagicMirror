@@ -15,6 +15,7 @@
 		"types/browser-shims.d.ts",
 		"types/config.d.ts",
 		"types/weather.d.ts",
+		"types/calendar.d.ts",
 		"js/class.ts",
 		"js/module.ts",
 		"js/loader.ts",

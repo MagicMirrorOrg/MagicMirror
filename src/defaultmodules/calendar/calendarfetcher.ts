@@ -20,7 +20,7 @@ class CalendarFetcher {
 
 	includePastEvents: boolean;
 
-	events: any[];
+	events: CalendarEvent[];
 
 	lastFetch: number | null;
 
@@ -28,7 +28,7 @@ class CalendarFetcher {
 
 	eventsReceivedCallback: (...args: any[]) => void;
 
-	httpFetcher: any;
+	httpFetcher: HTTPFetcher;
 
 	/**
 	 * Creates a new CalendarFetcher instance

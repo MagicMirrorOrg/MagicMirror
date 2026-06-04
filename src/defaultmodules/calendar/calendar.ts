@@ -187,7 +187,7 @@ Module.register("calendar", {
 				this.calendarData[payload.url] = { events: null, checksum: null };
 			}
 			// save the event list
-			this.calendarData[payload.url].events = payload.events;
+			this.calendarData[payload.url].events = payload.events as CalendarEvent[];
 
 			this.error = null;
 			this.loaded = true;
@@ -225,7 +225,7 @@ Module.register("calendar", {
 
 	// Override dom generator.
 	getDom (): HTMLElement {
-		const events = this.createEventList(true);
+		const events: CalendarEvent[] = this.createEventList(true);
 		const wrapper = document.createElement("table");
 		wrapper.className = this.config.tableClass;
 
@@ -255,7 +255,7 @@ Module.register("calendar", {
 
 		let lastSeenDate = "";
 
-		events.forEach((event: any, index: number) => {
+		events.forEach((event: CalendarEvent, index: number) => {
 			const eventStartDateMoment = this.timestampToMoment(event.startDate);
 			const eventEndDateMoment = this.timestampToMoment(event.endDate);
 			const dateAsString = eventStartDateMoment.format(this.config.dateFormat);
@@ -346,13 +346,13 @@ Module.register("calendar", {
 				}
 			}
 
-			let transformedTitle = event.title;
+			let transformedTitle: any = event.title;
 
 			// Color events if custom color or eventClass are specified, transform title if required
 			if (this.config.customEvents.length > 0) {
 				for (const ev in this.config.customEvents) {
 					const needle = new RegExp(this.config.customEvents[ev].keyword, "gi");
-					if (needle.test(event.title)) {
+					if (needle.test(event.title as string)) {
 						if (typeof this.config.customEvents[ev].transform === "object") {
 							transformedTitle = CalendarUtils.titleTransform(transformedTitle, [this.config.customEvents[ev].transform]);
 						}
@@ -470,19 +470,19 @@ Module.register("calendar", {
 	 * @param {boolean} limitNumberOfEntries Whether to filter returned events for display.
 	 * @returns {object[]} Array with events.
 	 */
-	createEventList (limitNumberOfEntries: boolean): any[] {
+	createEventList (limitNumberOfEntries: boolean): CalendarEvent[] {
 		const now = moment();
 		const future = now.clone().startOf("day").add(this.config.maximumNumberOfDays, "days");
 
-		let events: any[] = [];
+		let events: CalendarEvent[] = [];
 
 		for (const calendarUrl in this.calendarData) {
 			const calendar = this.calendarData[calendarUrl].events;
 			const remainingEntries = this.maximumEntriesForUrl(calendarUrl);
 			const maxPastDaysCompare = now.clone().subtract(this.maximumPastDaysForUrl(calendarUrl), "days");
-			const by_url_calevents: any[] = [];
+			const by_url_calevents: CalendarEvent[] = [];
 			for (const e in calendar) {
-				const event = JSON.parse(JSON.stringify(calendar[e])); // clone object
+				const event: CalendarEvent = JSON.parse(JSON.stringify(calendar[e])); // clone object
 				const eventStartDateMoment = this.timestampToMoment(event.startDate);
 				const eventEndDateMoment = this.timestampToMoment(event.endDate);
 
@@ -515,7 +515,7 @@ Module.register("calendar", {
 				 */
 				const maxCount = eventEndDateMoment.diff(eventStartDateMoment, "days");
 				if (this.config.sliceMultiDayEvents && maxCount > 1) {
-					const splitEvents = [];
+					const splitEvents: CalendarEvent[] = [];
 					let midnight
 						= eventStartDateMoment
 							.clone()
@@ -524,7 +524,7 @@ Module.register("calendar", {
 							.endOf("day");
 					let count = 1;
 					while (eventEndDateMoment.isAfter(midnight)) {
-						const thisEvent = JSON.parse(JSON.stringify(event)); // clone object
+						const thisEvent: CalendarEvent = JSON.parse(JSON.stringify(event)); // clone object
 						thisEvent.today = this.timestampToMoment(thisEvent.startDate).isSame(now, "d");
 						thisEvent.tomorrow = this.timestampToMoment(thisEvent.startDate).isSame(now.clone().add(1, "days"), "d");
 						thisEvent.endDate = midnight.clone().subtract(1, "day").format("x");
@@ -552,7 +552,7 @@ Module.register("calendar", {
 			}
 			if (limitNumberOfEntries) {
 				// sort entries before clipping
-				by_url_calevents.sort(function (a: any, b: any) {
+				by_url_calevents.sort(function (a: CalendarEvent, b: CalendarEvent) {
 					return a.startDate - b.startDate;
 				});
 				Log.debug(`[calendar] pushing ${by_url_calevents.length} events to total with room for ${remainingEntries}`);
@@ -563,7 +563,7 @@ Module.register("calendar", {
 			}
 		}
 		Log.info(`[calendar] sorting events count=${events.length}`);
-		events.sort(function (a: any, b: any) {
+		events.sort(function (a: CalendarEvent, b: CalendarEvent) {
 			return a.startDate - b.startDate;
 		});
 
@@ -577,8 +577,8 @@ Module.register("calendar", {
 		 */
 		if (this.config.limitDays > 0 && events.length > 0) { // watch out for initial display before events arrive from helper
 			// Group all events by date, events on the same date will be in a list with the key being the date.
-			const eventsByDate = (Object as any).groupBy(events, (ev: any) => this.timestampToMoment(ev.startDate).format("YYYY-MM-DD"));
-			const newEvents: any[] = [];
+			const eventsByDate = (Object as any).groupBy(events, (ev: CalendarEvent) => this.timestampToMoment(ev.startDate).format("YYYY-MM-DD"));
+			const newEvents: CalendarEvent[] = [];
 			const currentDate = moment();
 			let daysCollected = 0;
 
@@ -587,7 +587,7 @@ Module.register("calendar", {
 				// Check if there are events on the currentDate
 				if (eventsByDate[dateStr] && eventsByDate[dateStr].length > 0) {
 					// If there are any events today then get all those events and select the currently active events and the events that are starting later in the day.
-					newEvents.push(...eventsByDate[dateStr].filter((ev: any) => this.timestampToMoment(ev.endDate).isAfter(moment())));
+					newEvents.push(...eventsByDate[dateStr].filter((ev: CalendarEvent) => this.timestampToMoment(ev.endDate).isAfter(moment())));
 					// Since we found a day with events, increase the daysCollected by 1
 					daysCollected++;
 				}
@@ -600,7 +600,7 @@ Module.register("calendar", {
 		return events.slice(0, this.config.maximumEntries);
 	},
 
-	listContainsEvent (eventList: any[], event: any): boolean {
+	listContainsEvent (eventList: CalendarEvent[], event: CalendarEvent): boolean {
 		for (const evt of eventList) {
 			if (evt.title === event.title && parseInt(evt.startDate) === parseInt(event.startDate) && parseInt(evt.endDate) === parseInt(event.endDate)) {
 				return true;
@@ -638,7 +638,7 @@ Module.register("calendar", {
 	 * @param {object} event Event to look for.
 	 * @returns {string[]} The symbols
 	 */
-	symbolsForEvent (event: any): string[] {
+	symbolsForEvent (event: CalendarEvent): string[] {
 		let symbols = this.getCalendarPropertyAsArray(event.url, "symbol", this.config.defaultSymbol);
 
 		if (event.recurringEvent === true && this.hasCalendarProperty(event.url, "recurringSymbol")) {
@@ -653,7 +653,7 @@ Module.register("calendar", {
 		for (const ev of this.config.customEvents) {
 			if (typeof ev.symbol !== "undefined" && ev.symbol !== "") {
 				const needle = new RegExp(ev.keyword, "gi");
-				if (needle.test(event.title)) {
+				if (needle.test(event.title as string)) {
 					// Get the default prefix for this class name and add to the custom symbol provided
 					const className = this.getCalendarProperty(event.url, "symbolClassName", this.config.defaultSymbolClassName);
 					symbols[0] = className + ev.symbol;
@@ -681,15 +681,15 @@ Module.register("calendar", {
 		return timeWrapper;
 	},
 
-	hasEventDuration (event: any): boolean {
+	hasEventDuration (event: CalendarEvent): boolean {
 		return event.startDate !== event.endDate;
 	},
 
-	shouldShowDateHeadersTimedEnd (event: any): boolean {
+	shouldShowDateHeadersTimedEnd (event: CalendarEvent): boolean {
 		return this.config.showEnd && (!this.config.showEndsOnlyWithDuration || this.hasEventDuration(event));
 	},
 
-	shouldShowRelativeTimedEnd (event: any): boolean {
+	shouldShowRelativeTimedEnd (event: CalendarEvent): boolean {
 		return !this.config.hideTime && this.config.showEnd && (!this.config.showEndsOnlyWithDuration || this.hasEventDuration(event));
 	},
 
@@ -697,7 +697,7 @@ Module.register("calendar", {
 		return endMoment.clone().subtract(1, "second");
 	},
 
-	renderDateHeadersEventTime (eventWrapper: any, titleWrapper: any, event: any, eventStartDateMoment: any, eventEndDateMoment: any): void {
+	renderDateHeadersEventTime (eventWrapper: any, titleWrapper: any, event: CalendarEvent, eventStartDateMoment: any, eventEndDateMoment: any): void {
 		if (this.config.flipDateHeaderTitle) eventWrapper.appendChild(titleWrapper);
 
 		if (event.fullDayEvent) {
@@ -727,7 +727,7 @@ Module.register("calendar", {
 		if (!this.config.flipDateHeaderTitle) eventWrapper.appendChild(titleWrapper);
 	},
 
-	buildAbsoluteTimeText (event: any, eventStartDateMoment: any, eventEndDateMoment: any, now: any): string {
+	buildAbsoluteTimeText (event: CalendarEvent, eventStartDateMoment: any, eventEndDateMoment: any, now: any): string {
 		let timeText = CalendarUtils.capFirst(eventStartDateMoment.format(this.config.dateFormat));
 
 		if (this.config.showEnd && (!this.config.showEndsOnlyWithDuration || this.hasEventDuration(event))) {
@@ -788,7 +788,7 @@ Module.register("calendar", {
 		return timeText;
 	},
 
-	buildRelativeTimeText (event: any, eventStartDateMoment: any, eventEndDateMoment: any, now: any): string {
+	buildRelativeTimeText (event: CalendarEvent, eventStartDateMoment: any, eventEndDateMoment: any, now: any): string {
 		if (eventStartDateMoment.isSameOrAfter(now) || (event.fullDayEvent && eventEndDateMoment.diff(now, "days") === 0)) {
 			let timeText;
 
@@ -1007,7 +1007,7 @@ Module.register("calendar", {
 	 * The all events available in one array, sorted on startDate.
 	 */
 	broadcastEvents (): void {
-		const eventList = this.createEventList(false);
+		const eventList: CalendarEvent[] = this.createEventList(false);
 		for (const event of eventList) {
 			event.symbol = this.symbolsForEvent(event);
 			event.calendarName = this.calendarNameForUrl(event.url);
