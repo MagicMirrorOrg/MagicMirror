@@ -6,6 +6,7 @@ import path from "node:path";
 import Log from "logger";
 
 const rootPath = path.resolve(`${__dirname}/../`);
+// eslint-disable-next-line @typescript-eslint/no-require-imports -- dynamic runtime path
 const Utils = require(`${rootPath}/js/utils.js`);
 
 try {

@@ -2,7 +2,9 @@ import os from "node:os";
 import si from "systeminformation";
 
 // needed with relative path because logSystemInformation is called in an own process in app.js:
+// eslint-disable-next-line @typescript-eslint/no-require-imports -- package.json outside tsconfig rootDir; resolved at runtime
 const mmVersion = require("../package").version;
+// eslint-disable-next-line @typescript-eslint/no-require-imports -- dual-world browser script; no static TS export
 const Log = require("./logger");
 
 const logSystemInformation = async (): Promise<string | undefined> => {

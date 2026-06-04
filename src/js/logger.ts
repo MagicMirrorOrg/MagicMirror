@@ -2,6 +2,7 @@
 (function () {
 	if (typeof module !== "undefined") {
 		if (process.env.mmTestMode !== "true") {
+			// eslint-disable-next-line @typescript-eslint/no-require-imports -- loaded only in the Node branch of this dual-world browser script
 			const { styleText } = require("node:util");
 
 			const LABEL_COLORS: Record<string, string> = { error: "red", warn: "yellow", debug: "bgBlue", info: "blue" };
@@ -88,7 +89,7 @@
 			logLevel.setLogLevel = function (newLevel: string[]) {
 				for (const key of ["debug", "log", "info", "warn", "error"]) {
 					const disabled = newLevel && !newLevel.includes(key.toUpperCase());
-					logLevel[key] = disabled ? function () {} : (console as any)[key].bind(console);
+					logLevel[key] = disabled ? function () { /* no-op */ } : (console as any)[key].bind(console);
 				}
 			};
 		} else {
@@ -106,7 +107,7 @@
 				timeStamp () {}
 			};
 
-			logLevel.setLogLevel = function () {};
+			logLevel.setLogLevel = function () { /* no-op */ };
 		}
 
 		return logLevel;

@@ -1,5 +1,5 @@
 import zlib from "node:zlib";
-import NodeHelper = require("node_helper");
+import NodeHelper from "node_helper";
 
 import Log from "logger";
 import CalendarFetcher from "./calendarfetcher";

@@ -1,11 +1,12 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import NodeHelper = require("node_helper");
+import NodeHelper from "node_helper";
 
 import GitHelper from "./git_helper";
 import UpdateHelper from "./update_helper";
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports -- dynamic runtime path
 const defaultModules = require(`${global.root_path}/${global.defaultModulesDir}/defaultmodules`);
 
 const ONE_MINUTE = 60 * 1000;

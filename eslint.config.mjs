@@ -152,12 +152,14 @@ export default defineConfig([
 			"require-await": "error",
 
 			/*
-			 * TypeScript relaxations during migration. The compiler enforces the
-			 * hard guarantees; these keep the existing CommonJS/global patterns lintable.
+			 * No-require-imports is enforced; the few remaining require() calls (dynamic
+			 * runtime paths, dual-world browser scripts, lazy/optional deps) carry a
+			 * justified inline eslint-disable. Empty methods/arrow-functions are allowed
+			 * (no-op override points / default callbacks). no-explicit-any stays off: the
+			 * codebase types dynamic external boundaries (config, API payloads, DOM) as any.
 			 */
 			"@typescript-eslint/no-explicit-any": "off",
-			"@typescript-eslint/no-require-imports": "off",
-			"@typescript-eslint/no-empty-function": "off",
+			"@typescript-eslint/no-empty-function": ["error", {allow: ["methods", "arrowFunctions"]}],
 			"@typescript-eslint/no-unused-vars": ["error", {argsIgnorePattern: "^_", varsIgnorePattern: "^_"}]
 		}
 	},

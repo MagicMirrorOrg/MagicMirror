@@ -118,7 +118,9 @@ async function startClient (config: any, prefix: string): Promise<void> {
 		env.config = JSON.stringify(configReturn);
 
 		// Spawn electron application
+		// eslint-disable-next-line @typescript-eslint/no-require-imports -- lazy/optional runtime require
 		const electron = require("electron");
+		// eslint-disable-next-line @typescript-eslint/no-require-imports -- lazy/optional runtime require
 		const child = require("node:child_process").spawn(electron, elecParams, options);
 
 		// Pipe all child process output to current stdout

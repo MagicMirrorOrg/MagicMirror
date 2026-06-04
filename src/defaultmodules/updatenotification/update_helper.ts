@@ -159,6 +159,7 @@ class Updater {
 	// restart MagicMirror with "pm2": use PM2Id for restart it
 	pm2Restart (): void {
 		Log.info("[PM2] restarting MagicMirror...");
+		// eslint-disable-next-line @typescript-eslint/no-require-imports -- lazy/optional runtime require
 		const pm2 = require("pm2");
 		pm2.restart(this.PM2Id, (err: any) => {
 			if (err) {
@@ -195,6 +196,7 @@ class Updater {
 
 			Log.debug(`[PM2] Search for pm2 id: ${process.env.pm_id} -- name: ${process.env.name} -- unique_id: ${process.env.unique_id}`);
 
+			// eslint-disable-next-line @typescript-eslint/no-require-imports -- lazy/optional runtime require
 			const pm2 = require("pm2");
 			pm2.connect((err: any) => {
 				if (err) {

@@ -1,5 +1,5 @@
 import path from "node:path";
-import NodeHelper = require("node_helper");
+import NodeHelper from "node_helper";
 
 import Log from "logger";
 
@@ -50,6 +50,7 @@ export = NodeHelper.create({
 			// Dynamically load the provider module
 			const providerPath = path.join(__dirname, "providers", `${identifier}.js`);
 			Log.log(`Loading provider from: ${providerPath}`);
+			// eslint-disable-next-line @typescript-eslint/no-require-imports -- dynamic runtime path
 			const ProviderClass = require(providerPath);
 
 			// Create provider instance

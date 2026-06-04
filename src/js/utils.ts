@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import { loadEnvFile } from "node:process";
 import { styleText } from "node:util";
-import Log = require("logger");
+import Log from "logger";
 
 import Ajv from "ajv";
 import { Linter } from "eslint";
@@ -71,6 +71,7 @@ const getModulePositions = (): string[] => {
  * @param {object} userConfig The user config
  */
 const checkDeprecatedOptions = (userConfig: any): void => {
+	// eslint-disable-next-line @typescript-eslint/no-require-imports -- dynamic runtime path
 	const deprecated = require(`${global.root_path}/js/deprecated`);
 
 	// check for deprecated core options
@@ -98,6 +99,7 @@ const checkDeprecatedOptions = (userConfig: any): void => {
  */
 const loadConfig = (): any => {
 	Log.log("Loading config ...");
+	// eslint-disable-next-line @typescript-eslint/no-require-imports -- dual-world browser script; no static TS export
 	const defaults = require("./defaults");
 	if (global.mmTestMode) {
 		// if we are running in test mode

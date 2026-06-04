@@ -18,6 +18,7 @@ global.root_path = path.resolve(`${__dirname}/../`);
 const fetch_timeout = process.env.mmFetchTimeout !== undefined ? process.env.mmFetchTimeout : 30000;
 
 // Get version number.
+// eslint-disable-next-line @typescript-eslint/no-require-imports -- dynamic runtime path
 global.version = require(`${global.root_path}/package.json`).version;
 global.mmTestMode = process.env.mmTestMode === "true";
 Log.log(`Starting MagicMirror: v${global.version}`);
@@ -100,6 +101,7 @@ function App (this: any) {
 		if (loadHelper) {
 			let Module;
 			try {
+				// eslint-disable-next-line @typescript-eslint/no-require-imports -- dynamic runtime path
 				Module = require(helperPath);
 			} catch (e) {
 				Log.error(`Error when loading ${moduleName}:`, (e as Error).message);
@@ -177,6 +179,7 @@ function App (this: any) {
 		Utils.checkConfigFile(configObj);
 
 		global.defaultModulesDir = config.defaultModulesDir;
+		// eslint-disable-next-line @typescript-eslint/no-require-imports -- dynamic runtime path
 		defaultModules = require(`${global.root_path}/${global.defaultModulesDir}/defaultmodules`);
 
 		Log.setLogLevel(config.logLevel);

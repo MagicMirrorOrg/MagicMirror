@@ -3,6 +3,7 @@
 import electron from "electron";
 import core from "./app";
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports -- dual-world browser script; no static TS export
 const Log = require("./logger");
 
 // Config

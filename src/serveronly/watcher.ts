@@ -32,6 +32,7 @@ function getServerConfig (): { port: number; address: string } {
 	try {
 		const configPath = getConfigFilePath();
 		delete require.cache[require.resolve(configPath)];
+		// eslint-disable-next-line @typescript-eslint/no-require-imports -- dynamic runtime path
 		const config = require(configPath);
 		serverConfig = {
 			port: (global as any).mmPort || config.port || 8080,
@@ -217,6 +218,7 @@ startServer();
 try {
 	const configPath = getConfigFilePath();
 	delete require.cache[require.resolve(configPath)];
+	// eslint-disable-next-line @typescript-eslint/no-require-imports -- dynamic runtime path
 	const config = require(configPath);
 
 	let watchTargets: string[] = [];

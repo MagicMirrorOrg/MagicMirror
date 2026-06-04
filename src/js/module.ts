@@ -375,13 +375,13 @@ class Module {
 	 * @param {object} [options] Optional settings for the hide method.
 	 */
 	hide (speed: number, callback: any, options: any = {}): void {
-		let usedCallback = callback || function () {};
+		let usedCallback = callback || function () { /* no-op */ };
 		let usedOptions = options;
 
 		if (typeof callback === "object") {
 			Log.error("Parameter mismatch in module.hide: callback is not an optional parameter!");
 			usedOptions = callback;
-			usedCallback = function () {};
+			usedCallback = function () { /* no-op */ };
 		}
 
 		MM.hideModule(
@@ -402,13 +402,13 @@ class Module {
 	 * @param {object} [options] Optional settings for the show method.
 	 */
 	show (speed: number, callback: any, options?: any): void {
-		let usedCallback = callback || function () {};
+		let usedCallback = callback || function () { /* no-op */ };
 		let usedOptions = options;
 
 		if (typeof callback === "object") {
 			Log.error("Parameter mismatch in module.show: callback is not an optional parameter!");
 			usedOptions = callback;
-			usedCallback = function () {};
+			usedCallback = function () { /* no-op */ };
 		}
 
 		MM.showModule(

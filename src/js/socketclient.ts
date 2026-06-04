@@ -19,7 +19,7 @@ const MMSocket = function (this: any, moduleName: string) {
 		pingTimeout: 120000 // wait up to 2 mins for a pong
 	});
 
-	let notificationCallback: (notification: string, payload: any) => void = function () {};
+	let notificationCallback: (notification: string, payload: any) => void = function () { /* no-op */ };
 
 	const onevent = this.socket.onevent;
 	this.socket.onevent = (packet: any) => {
