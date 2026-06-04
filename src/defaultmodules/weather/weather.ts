@@ -44,7 +44,7 @@ Module.register("weather", {
 		forecastDateFormat: "ddd", // format for forecast date display, e.g., "ddd" = Mon, "dddd" = Monday, "D MMM" = 18 Oct
 		hourlyForecastIncrements: 1,
 		themeDir: "",
-		themeCustomScripts: []
+		themeCustomScripts: [] as string[]
 	},
 
 	// Module properties (all providers run server-side)
@@ -57,7 +57,7 @@ Module.register("weather", {
 	// Can be used by the provider to display location of event if nothing else is specified
 	firstEvent: null,
 
-	getThemeDir () {
+	getThemeDir (): string {
 		const td = this.config.themeDir.replace(/\/+$/, "");
 		if (td.length > 0) {
 			return `${td}/`;
@@ -67,23 +67,23 @@ Module.register("weather", {
 	},
 
 	// Define required scripts.
-	getStyles () {
+	getStyles (): string[] {
 		return ["font-awesome.css", "weather-icons.css", `${this.getThemeDir()}weather.css`];
 	},
 
 	// Return the scripts that are necessary for the weather module.
-	getScripts () {
+	getScripts (): string[] {
 		// Only load client-side dependencies for rendering
 		// All providers run server-side via node_helper
-		const resArr = ["moment.js", "weatherutils.js", "weatherobject.js", "suncalc.js"];
-		this.config.themeCustomScripts.forEach((element) => {
+		const resArr: string[] = ["moment.js", "weatherutils.js", "weatherobject.js", "suncalc.js"];
+		this.config.themeCustomScripts.forEach((element: string) => {
 			resArr.push(`${this.getThemeDir()}${element}`);
 		});
 		return resArr;
 	},
 
 	// Override getHeader method.
-	getHeader () {
+	getHeader (): string {
 		if (this.config.appendLocationNameToHeader) {
 			const locationName = this.fetchedLocationName || "";
 
@@ -95,7 +95,7 @@ Module.register("weather", {
 	},
 
 	// Start the weather module.
-	start () {
+	start (): void {
 		moment.locale(this.config.lang);
 
 		if (this.config.useKmh) {
@@ -113,7 +113,7 @@ Module.register("weather", {
 		// All providers run server-side: use stable identifier so reconnects don't spawn duplicate HTTPFetchers
 		this.instanceId = this.identifier;
 
-		if (window.initWeatherTheme) window.initWeatherTheme(this);
+		if ((window as any).initWeatherTheme) (window as any).initWeatherTheme(this);
 
 		Log.log(`[weather] Initializing server-side provider with instance ID: ${this.instanceId}`);
 
@@ -130,7 +130,7 @@ Module.register("weather", {
 	},
 
 	// Cleanup on module hide/suspend
-	stop () {
+	stop (): void {
 		if (this.instanceId) {
 			this.sendSocketNotification("STOP_WEATHER", {
 				instanceId: this.instanceId
@@ -139,12 +139,12 @@ Module.register("weather", {
 	},
 
 	// Override notification handler.
-	notificationReceived (notification, payload, sender) {
+	notificationReceived (notification: string, payload: any, sender: any): void {
 		if (notification === "CALENDAR_EVENTS") {
 			const senderClasses = sender.data.classes.toLowerCase().split(" ");
 			if (senderClasses.indexOf(this.config.calendarClass.toLowerCase()) !== -1) {
 				this.firstEvent = null;
-				for (let event of payload) {
+				for (const event of payload) {
 					if (event.location || event.geo) {
 						this.firstEvent = event;
 						Log.debug("[weather] First upcoming event with location: ", event);
@@ -168,7 +168,7 @@ Module.register("weather", {
 	},
 
 	// Handle socket notifications from node_helper
-	socketNotificationReceived (notification, payload) {
+	socketNotificationReceived (notification: string, payload: any): void {
 		if (payload.instanceId !== this.instanceId) {
 			return;
 		}
@@ -185,7 +185,7 @@ Module.register("weather", {
 		}
 	},
 
-	handleWeatherData (payload) {
+	handleWeatherData (payload: any): void {
 		const { type, data } = payload;
 
 		if (!data) {
@@ -199,10 +199,10 @@ Module.register("weather", {
 				break;
 			case "forecast":
 			case "daily":
-				this.weatherForecastArray = data.map((d) => this.createWeatherObject(d));
+				this.weatherForecastArray = data.map((d: any) => this.createWeatherObject(d));
 				break;
 			case "hourly":
-				this.weatherHourlyArray = data.map((d) => this.createWeatherObject(d));
+				this.weatherHourlyArray = data.map((d: any) => this.createWeatherObject(d));
 				break;
 			default:
 				Log.warn(`Unknown weather data type: ${type}`);
@@ -212,7 +212,7 @@ Module.register("weather", {
 		this.updateAvailable();
 	},
 
-	createWeatherObject (data) {
+	createWeatherObject (data: any): any {
 		const weather = new WeatherObject();
 		Object.assign(weather, {
 			...data,
@@ -225,7 +225,7 @@ Module.register("weather", {
 	},
 
 	// Select the template depending on the display type.
-	getTemplate () {
+	getTemplate (): string {
 		switch (this.config.type.toLowerCase()) {
 			case "current":
 				return `${this.getThemeDir()}current.njk`;
@@ -241,7 +241,7 @@ Module.register("weather", {
 	},
 
 	// Add all the data to the template.
-	getTemplateData () {
+	getTemplateData (): any {
 		const now = new Date();
 		// Filter out past entries, but keep the current hour (e.g. show 0:00 at 0:10).
 		// This ensures consistent behavior across all providers, regardless of whether
@@ -249,11 +249,11 @@ Module.register("weather", {
 		const startOfHour = new Date(now);
 		startOfHour.setMinutes(0, 0, 0);
 		const upcomingHourlyData = this.weatherHourlyArray
-			?.filter((entry) => entry.date?.valueOf() >= startOfHour.getTime());
+			?.filter((entry: any) => entry.date?.valueOf() >= startOfHour.getTime());
 		const hourlySourceData = upcomingHourlyData?.length ? upcomingHourlyData : this.weatherHourlyArray;
 
 		const increment = this.config.hourlyForecastIncrements;
-		const keepByConfiguredIncrement = (_entry, index) => {
+		const keepByConfiguredIncrement = (_entry: any, index: number) => {
 			// Keep the existing offset behavior of hourlyForecastIncrements.
 			return (index + 1) % increment === increment - 1;
 		};
@@ -273,10 +273,10 @@ Module.register("weather", {
 	},
 
 	// What to do when the weather provider has new information available?
-	updateAvailable () {
+	updateAvailable (): void {
 		Log.log("[weather] New weather information available.");
-		if (window.updateWeatherTheme) {
-			window.updateWeatherTheme(this);
+		if ((window as any).updateWeatherTheme) {
+			(window as any).updateWeatherTheme(this);
 		} else {
 			this.updateDom(300);
 		}
@@ -292,11 +292,11 @@ Module.register("weather", {
 				? WeatherUtils.convertWeatherObjectToImperial(currentWeather?.simpleClone()) ?? null
 				: currentWeather?.simpleClone() ?? null,
 			forecastArray: this.config.units === "imperial"
-				? this.getForecastArray()?.map((ar) => WeatherUtils.convertWeatherObjectToImperial(ar.simpleClone())) ?? []
-				: this.getForecastArray()?.map((ar) => ar.simpleClone()) ?? [],
+				? this.getForecastArray()?.map((ar: any) => WeatherUtils.convertWeatherObjectToImperial(ar.simpleClone())) ?? []
+				: this.getForecastArray()?.map((ar: any) => ar.simpleClone()) ?? [],
 			hourlyArray: this.config.units === "imperial"
-				? this.getHourlyArray()?.map((ar) => WeatherUtils.convertWeatherObjectToImperial(ar.simpleClone())) ?? []
-				: this.getHourlyArray()?.map((ar) => ar.simpleClone()) ?? [],
+				? this.getHourlyArray()?.map((ar: any) => WeatherUtils.convertWeatherObjectToImperial(ar.simpleClone())) ?? []
+				: this.getHourlyArray()?.map((ar: any) => ar.simpleClone()) ?? [],
 			locationName: this.fetchedLocationName,
 			providerName: this.config.weatherProvider
 		};
@@ -304,17 +304,17 @@ Module.register("weather", {
 		this.sendNotification("WEATHER_UPDATED", notificationPayload);
 	},
 
-	getForecastArray () {
+	getForecastArray (): any {
 		return this.weatherForecastArray;
 	},
 
-	getHourlyArray () {
+	getHourlyArray (): any {
 		return this.weatherHourlyArray;
 	},
 
 	// scheduleUpdate removed - all providers use server-driven fetching via HTTPFetcher
 
-	roundValue (temperature) {
+	roundValue (temperature: any): string | number {
 		if (temperature === null || temperature === undefined) {
 			return "";
 		}
@@ -326,17 +326,17 @@ Module.register("weather", {
 		return roundValue === "-0" ? 0 : roundValue;
 	},
 
-	addFilters () {
+	addFilters (): void {
 		this.nunjucksEnvironment().addFilter(
 			"formatTime",
-			function (date) {
+			function (this: any, date: any) {
 				return formatTime(this.config, date);
 			}.bind(this)
 		);
 
 		this.nunjucksEnvironment().addFilter(
 			"unit",
-			function (value, type, valueUnit) {
+			function (this: any, value: any, type: string, valueUnit: any) {
 				let formattedValue;
 				if (type === "temperature") {
 					if (value === null || value === undefined) {
@@ -370,35 +370,35 @@ Module.register("weather", {
 
 		this.nunjucksEnvironment().addFilter(
 			"roundValue",
-			function (value) {
+			function (this: any, value: any) {
 				return this.roundValue(value);
 			}.bind(this)
 		);
 
 		this.nunjucksEnvironment().addFilter(
 			"decimalSymbol",
-			function (value) {
+			function (this: any, value: any) {
 				return value.toString().replace(/\./g, this.config.decimalSymbol);
 			}.bind(this)
 		);
 
 		this.nunjucksEnvironment().addFilter(
 			"calcNumSteps",
-			function (forecast) {
+			function (this: any, forecast: any) {
 				return Math.min(forecast.length, this.config.maxNumberOfDays);
 			}.bind(this)
 		);
 
 		this.nunjucksEnvironment().addFilter(
 			"calcNumEntries",
-			function (dataArray) {
+			function (this: any, dataArray: any) {
 				return Math.min(dataArray.length, this.config.maxEntries);
 			}.bind(this)
 		);
 
 		this.nunjucksEnvironment().addFilter(
 			"opacity",
-			function (currentStep, numSteps) {
+			function (this: any, currentStep: number, numSteps: number) {
 				if (this.config.fade && this.config.fadePoint < 1) {
 					if (this.config.fadePoint < 0) {
 						this.config.fadePoint = 0;

@@ -31,15 +31,15 @@ Module.register("clock", {
 		lon: -122.344147
 	},
 	// Define required scripts.
-	getScripts () {
+	getScripts (): string[] {
 		return ["moment.js", "moment-timezone.js", "suncalc.js"];
 	},
 	// Define styles.
-	getStyles () {
+	getStyles (): string[] {
 		return ["clock_styles.css", "font-awesome.css"];
 	},
 	// Define start sequence.
-	start () {
+	start (): void {
 		Log.info(`Starting module: ${this.name}`);
 
 		// Schedule update interval.
@@ -47,7 +47,7 @@ Module.register("clock", {
 		this.minute = moment().minute();
 
 		// Calculate how many ms should pass until next update depending on if seconds is displayed or not
-		const delayCalculator = (reducedSeconds) => {
+		const delayCalculator = (reducedSeconds: number): number => {
 			const EXTRA_DELAY = 50; // Deliberate imperceptible delay to prevent off-by-one timekeeping errors
 
 			if (this.config.displaySeconds) {
@@ -58,7 +58,7 @@ Module.register("clock", {
 		};
 
 		// A recursive timeout function instead of interval to avoid drifting
-		const notificationTimer = () => {
+		const notificationTimer = (): void => {
 			this.updateDom();
 
 			if (this.config.sendNotifications) {
@@ -88,7 +88,7 @@ Module.register("clock", {
 		moment.locale(config.language);
 	},
 	// Override dom generator.
-	getDom () {
+	getDom (): HTMLElement {
 		const wrapper = document.createElement("div");
 		wrapper.classList.add("clock-grid");
 
@@ -174,7 +174,7 @@ Module.register("clock", {
 			let sunWrapperInnerHTML = "";
 
 			if (this.config.showSunTimes !== "disableNextEvent") {
-				let nextEvent;
+				let nextEvent: Date;
 				if (now.isBefore(sunTimes.sunrise)) {
 					nextEvent = sunTimes.sunrise;
 				} else if (now.isBefore(sunTimes.sunset)) {
@@ -203,7 +203,7 @@ Module.register("clock", {
 			const moonIllumination = SunCalc.getMoonIllumination(now.toDate());
 			const moonTimes = SunCalc.getMoonTimes(now, this.config.lat, this.config.lon);
 			const moonRise = moonTimes.rise;
-			let moonSet;
+			let moonSet: Date;
 			if (moment(moonTimes.set).isAfter(moonTimes.rise)) {
 				moonSet = moonTimes.set;
 			} else {

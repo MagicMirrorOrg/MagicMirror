@@ -1,7 +1,7 @@
 /* global NotificationFx */
 
 Module.register("alert", {
-	alerts: {},
+	alerts: {} as { [key: string]: any },
 
 	defaults: {
 		effect: "slide", // scale|slide|genie|jelly|flip|bouncyflip|exploader
@@ -11,15 +11,15 @@ Module.register("alert", {
 		welcome_message: false // shown at startup
 	},
 
-	getScripts () {
+	getScripts (): string[] {
 		return ["notificationFx.js"];
 	},
 
-	getStyles () {
+	getStyles (): string[] {
 		return ["font-awesome.css", this.file("./styles/notificationFx.css"), this.file(`./styles/${this.config.position}.css`)];
 	},
 
-	getTranslations () {
+	getTranslations (): { [key: string]: string } {
 		return {
 			bg: "translations/bg.json",
 			da: "translations/da.json",
@@ -37,11 +37,11 @@ Module.register("alert", {
 		};
 	},
 
-	getTemplate (type) {
+	getTemplate (type: string): string {
 		return `templates/${type}.njk`;
 	},
 
-	async start () {
+	async start (): Promise<void> {
 		Log.info(`Starting module: ${this.name}`);
 
 		if (this.config.effect === "slide") {
@@ -54,7 +54,7 @@ Module.register("alert", {
 		}
 	},
 
-	notificationReceived (notification, payload, sender) {
+	notificationReceived (notification: string, payload: any, sender: any): void {
 		if (notification === "SHOW_ALERT") {
 			if (payload.type === "notification") {
 				this.showNotification(payload);
@@ -66,10 +66,10 @@ Module.register("alert", {
 		}
 	},
 
-	async showNotification (notification) {
+	async showNotification (notification: any): Promise<void> {
 		const message = await this.renderMessage(notification.templateName || "notification", notification);
 
-		new NotificationFx({
+		new (NotificationFx as any)({
 			message,
 			layout: "growl",
 			effect: this.config.effect,
@@ -77,7 +77,7 @@ Module.register("alert", {
 		}).show();
 	},
 
-	async showAlert (alert, sender) {
+	async showAlert (alert: any, sender: any): Promise<void> {
 		// If module already has an open alert close it
 		if (this.alerts[sender.name]) {
 			this.hideAlert(sender, false);
@@ -91,7 +91,7 @@ Module.register("alert", {
 		const message = await this.renderMessage(alert.templateName || "alert", alert);
 
 		// Store alert in this.alerts
-		this.alerts[sender.name] = new NotificationFx({
+		this.alerts[sender.name] = new (NotificationFx as any)({
 			message,
 			effect: this.config.alert_effect,
 			ttl: alert.timer,
@@ -110,7 +110,7 @@ Module.register("alert", {
 		}
 	},
 
-	hideAlert (sender, close = true) {
+	hideAlert (sender: any, close: boolean = true): void {
 		// Dismiss alert and remove from this.alerts
 		if (this.alerts[sender.name]) {
 			this.alerts[sender.name].dismiss(close);
@@ -122,9 +122,9 @@ Module.register("alert", {
 		}
 	},
 
-	renderMessage (type, data) {
+	renderMessage (type: string, data: any): Promise<any> {
 		return new Promise((resolve) => {
-			this.nunjucksEnvironment().render(this.getTemplate(type), data, function (err, res) {
+			this.nunjucksEnvironment().render(this.getTemplate(type), data, function (err: Error | null, res: any) {
 				if (err) {
 					Log.error("[alert] Failed to render alert", err);
 				}
@@ -134,7 +134,7 @@ Module.register("alert", {
 		});
 	},
 
-	toggleBlur (add = false) {
+	toggleBlur (add: boolean = false): void {
 		const method = add ? "add" : "remove";
 		const modules = document.querySelectorAll(".module");
 		for (const module of modules) {

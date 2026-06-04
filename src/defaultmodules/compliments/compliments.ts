@@ -30,12 +30,12 @@ Module.register("compliments", {
 	date_regex: "[1-9.][0-9.][0-9.]{2}-([0][1-9]|[1][0-2])-([1-2][0-9]|[0][1-9]|[3][0-1])",
 	pre_defined_types: ["anytime", "morning", "afternoon", "evening"],
 	// Define required scripts.
-	getScripts () {
+	getScripts (): string[] {
 		return ["croner.js", "moment.js"];
 	},
 
 	// Define start sequence.
-	async start () {
+	async start (): Promise<void> {
 		Log.info(`Starting module: ${this.name}`);
 
 		this.lastComplimentIndex = -1;
@@ -63,7 +63,7 @@ Module.register("compliments", {
 		}
 		let minute_sync_delay = 1;
 		// loop thru all the configured when events
-		for (let m of Object.keys(this.config.compliments)) {
+		for (const m of Object.keys(this.config.compliments)) {
 			// if it is a cron entry
 			if (this.isCronEntry(m)) {
 				// we need to synch our interval cycle to the minute
@@ -81,7 +81,7 @@ Module.register("compliments", {
 	},
 
 	// check to see if this entry could be a cron entry which contains spaces
-	isCronEntry (entry) {
+	isCronEntry (entry: string): boolean {
 		return entry.includes(" ");
 	},
 
@@ -90,7 +90,7 @@ Module.register("compliments", {
 	 * @param {Date} [timestamp] The timestamp to check. Defaults to the current time.
 	 * @returns {number} The number of seconds until the next cron run.
 	 */
-	getSecondsUntilNextCronRun (cronExpression, timestamp = new Date()) {
+	getSecondsUntilNextCronRun (cronExpression: string, timestamp: any = new Date()): number {
 		// Required for seconds precision
 		const adjustedTimestamp = new Date(timestamp.getTime() - 1000);
 
@@ -98,7 +98,7 @@ Module.register("compliments", {
 		const cronJob = new Cron(cronExpression);
 		const nextRunTime = cronJob.nextRun(adjustedTimestamp);
 
-		const secondsDelta = (nextRunTime - adjustedTimestamp) / 1000;
+		const secondsDelta = (nextRunTime - adjustedTimestamp.getTime()) / 1000;
 		return secondsDelta;
 	},
 
@@ -107,12 +107,12 @@ Module.register("compliments", {
 	 * @param {string[]} compliments Array with compliments.
 	 * @returns {number} a random index of given array
 	 */
-	randomIndex (compliments) {
+	randomIndex (compliments: string[]): number {
 		if (compliments.length <= 1) {
 			return 0;
 		}
 
-		const generate = function () {
+		const generate = function (): number {
 			return Math.floor(Math.random() * compliments.length);
 		};
 
@@ -131,11 +131,11 @@ Module.register("compliments", {
 	 * Retrieve an array of compliments for the time of the day.
 	 * @returns {string[]} array with compliments for the time of the day.
 	 */
-	complimentArray () {
+	complimentArray (): string[] {
 		const now = moment();
 		const hour = now.hour();
 		const date = now.format("YYYY-MM-DD");
-		let compliments = [];
+		let compliments: string[] = [];
 
 		// Add time of day compliments
 		let timeOfDay;
@@ -165,14 +165,14 @@ Module.register("compliments", {
 		Array.prototype.push.apply(compliments, this.config.compliments.anytime);
 
 		// get the list of just date entry keys
-		let temp_list = Object.keys(this.config.compliments).filter((k) => {
+		const temp_list = Object.keys(this.config.compliments).filter((k: string) => {
 			if (this.pre_defined_types.includes(k)) return false;
 			else return true;
 		});
 
-		let date_compliments = [];
+		const date_compliments: string[] = [];
 		// Add compliments for special day/times
-		for (let entry of temp_list) {
+		for (const entry of temp_list) {
 			// check if this could be a cron type entry
 			if (this.isCronEntry(entry)) {
 				// make sure the regex is valid
@@ -206,7 +206,7 @@ Module.register("compliments", {
 	 * Retrieve a file from the local filesystem
 	 * @returns {Promise<string|null>} Resolved with file content or null on error
 	 */
-	async loadComplimentFile () {
+	async loadComplimentFile (): Promise<string | null> {
 		const { remoteFile, remoteFileRefreshInterval } = this.config;
 		const isRemote = remoteFile.startsWith("http://") || remoteFile.startsWith("https://");
 		let url = isRemote ? remoteFile : this.file(remoteFile);
@@ -216,7 +216,7 @@ Module.register("compliments", {
 			const urlObj = new URL(url);
 			// Add cache-busting parameter to remote URLs to prevent cached responses
 			if (isRemote && remoteFileRefreshInterval !== 0) {
-				urlObj.searchParams.set("dummy", Date.now());
+				urlObj.searchParams.set("dummy", String(Date.now()));
 			}
 			url = urlObj.toString();
 		} catch {
@@ -231,7 +231,7 @@ Module.register("compliments", {
 			}
 			return await response.text();
 		} catch (error) {
-			Log.info("[compliments] fetch failed:", error.message);
+			Log.info("[compliments] fetch failed:", (error as Error).message);
 			return null;
 		}
 	},
@@ -240,7 +240,7 @@ Module.register("compliments", {
 	 * Retrieve a random compliment.
 	 * @returns {string} a compliment
 	 */
-	getRandomCompliment () {
+	getRandomCompliment (): string {
 		// get the current time of day compliments list
 		const compliments = this.complimentArray();
 		// variable for index to next message to display
@@ -259,7 +259,7 @@ Module.register("compliments", {
 	},
 
 	// Override dom generator.
-	getDom () {
+	getDom (): HTMLElement {
 		const wrapper = document.createElement("div");
 		wrapper.className = this.config.classes ? this.config.classes : "thin xlarge bright pre-line";
 		// get the compliment text
@@ -280,7 +280,7 @@ Module.register("compliments", {
 		// only add compliment to wrapper if there is actual text in there
 		if (compliment.children.length > 0) {
 			// remove the last break
-			compliment.lastElementChild.remove();
+			compliment.lastElementChild!.remove();
 			wrapper.appendChild(compliment);
 		}
 		// if a new set of compliments was loaded from the refresh task
@@ -308,7 +308,7 @@ Module.register("compliments", {
 	},
 
 	// Override notification handler.
-	notificationReceived (notification, payload) {
+	notificationReceived (notification: string, payload: any): void {
 		if (notification === "CURRENTWEATHER_TYPE") {
 			this.currentWeatherType = payload.type;
 		}

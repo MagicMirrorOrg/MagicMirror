@@ -93,7 +93,7 @@ const CalendarUtils = {
 	 *                    yearmatchgroup: {number,optional} match group for year element
 	 * @returns {string} The transformed title.
 	 */
-	titleTransform (title: string, titleReplace: Record<string, { search?: string; replace?: string; yearmatchgroup?: number }>): string {
+	titleTransform (title: string, titleReplace: any): string {
 		let transformedTitle = title;
 		for (const tr in titleReplace) {
 			const transform = titleReplace[tr];

@@ -26,6 +26,15 @@
 		"defaultmodules/utils.ts",
 		"defaultmodules/weather/weatherutils.ts",
 		"defaultmodules/weather/weatherobject.ts",
-		"defaultmodules/calendar/calendarutils.ts"
+		"defaultmodules/calendar/calendarutils.ts",
+		"defaultmodules/alert/notificationFx.ts",
+		"defaultmodules/alert/alert.ts",
+		"defaultmodules/calendar/calendar.ts",
+		"defaultmodules/clock/clock.ts",
+		"defaultmodules/compliments/compliments.ts",
+		"defaultmodules/helloworld/helloworld.ts",
+		"defaultmodules/newsfeed/newsfeed.ts",
+		"defaultmodules/updatenotification/updatenotification.ts",
+		"defaultmodules/weather/weather.ts"
 	]
 }

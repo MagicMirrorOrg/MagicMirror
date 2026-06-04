@@ -4,11 +4,11 @@ Module.register("helloworld", {
 		text: "Hello World!"
 	},
 
-	getTemplate () {
+	getTemplate (): string {
 		return "helloworld.njk";
 	},
 
-	getTemplateData () {
+	getTemplateData (): any {
 		return this.config;
 	}
 });

@@ -79,7 +79,16 @@ export default defineConfig([
 		"translations/translations.js",
 		"defaultmodules/defaultmodules.js",
 		"js/module.js",
-		"js/loader.js"
+		"js/loader.js",
+		"defaultmodules/alert/alert.js",
+		"defaultmodules/alert/notificationFx.js",
+		"defaultmodules/calendar/calendar.js",
+		"defaultmodules/clock/clock.js",
+		"defaultmodules/compliments/compliments.js",
+		"defaultmodules/helloworld/helloworld.js",
+		"defaultmodules/newsfeed/newsfeed.js",
+		"defaultmodules/updatenotification/updatenotification.js",
+		"defaultmodules/weather/weather.js"
 	]),
 	{
 		files: ["**/*.js"],

@@ -14,22 +14,12 @@
  * been migrated yet; tighten them as each browser file moves to TypeScript.
  */
 
+// A module definition object passed to Module.register(). Kept permissive: a module
+// may override any subset of the base methods with varying signatures, so the methods
+// resolve via the index signature rather than fixed shapes.
 type ModuleProperties = {
 	defaults?: object;
 	[key: string]: any;
-	start?(): void;
-	getScripts?(): string[];
-	getStyles?(): string[];
-	getTranslations?(): object;
-	getDom?(): HTMLElement;
-	getHeader?(): string;
-	getTemplate?(): string;
-	getTemplateData?(): object;
-	notificationReceived?(notification: string, payload: any, sender: object): void;
-	nunjucksEnvironment?(): void;
-	socketNotificationReceived?(notification: string, payload: any): void;
-	suspend?(): void;
-	resume?(): void;
 };
 
 interface ModuleConstructor {
@@ -76,6 +66,8 @@ declare const SunCalc: any;
 declare const Class: { extend (def: Record<string, any> & ThisType<any>): any; [key: string]: any };
 declare const io: any;
 declare const mmPort: any;
+declare const Cron: any;
+declare const NotificationFx: any;
 
 interface Window {
 	Module: ModuleConstructor;

@@ -1,3 +1,5 @@
+/* global Module, Log, config, moment, document, location, setTimeout, setInterval, clearInterval */
+
 Module.register("newsfeed", {
 	// Default module config.
 	defaults: {
@@ -36,7 +38,7 @@ Module.register("newsfeed", {
 		dangerouslyDisableAutoEscaping: false
 	},
 
-	getUrlPrefix (item) {
+	getUrlPrefix (item: any): string {
 		if (item.useCorsProxy) {
 			return `${location.protocol}//${location.host}${config.basePath}cors?url=`;
 		} else {
@@ -45,17 +47,17 @@ Module.register("newsfeed", {
 	},
 
 	// Define required scripts.
-	getScripts () {
+	getScripts (): string[] {
 		return ["moment.js"];
 	},
 
 	//Define required styles.
-	getStyles () {
+	getStyles (): string[] {
 		return ["newsfeed.css"];
 	},
 
 	// Define required translations.
-	getTranslations () {
+	getTranslations (): boolean {
 		// The translations for the default modules are defined in the core translation files.
 		// Therefore we can just return false. Otherwise we should have returned a dictionary.
 		// If you're trying to build your own module including translations, check out the documentation.
@@ -63,7 +65,7 @@ Module.register("newsfeed", {
 	},
 
 	// Define start sequence.
-	start () {
+	start (): void {
 		Log.info(`Starting module: ${this.name}`);
 
 		// Set locale.
@@ -85,7 +87,7 @@ Module.register("newsfeed", {
 	},
 
 	// Override socket notification handler.
-	socketNotificationReceived (notification, payload) {
+	socketNotificationReceived (notification: string, payload: any): void {
 		if (notification === "NEWS_ITEMS") {
 			this.generateFeed(payload);
 
@@ -122,7 +124,7 @@ Module.register("newsfeed", {
 	},
 
 	//Override getDom to handle the full article case with error handling
-	getDom () {
+	getDom (): any {
 		if (this.config.showFullArticle) {
 			this.activeItemHash = this.newsItems[this.activeItem]?.hash;
 			const wrapper = document.createElement("div");
@@ -152,7 +154,7 @@ Module.register("newsfeed", {
 	},
 
 	//Override fetching of template name
-	getTemplate () {
+	getTemplate (): string {
 		if (this.config.feedUrl) {
 			return "oldconfig.njk";
 		}
@@ -160,7 +162,7 @@ Module.register("newsfeed", {
 	},
 
 	//Override template data and return whats used for the current template
-	getTemplateData () {
+	getTemplateData (): any {
 		if (this.activeItem >= this.newsItems.length) {
 			this.activeItem = 0;
 		}
@@ -181,7 +183,7 @@ Module.register("newsfeed", {
 		const item = this.newsItems[this.activeItem];
 		this.activeItemHash = item.hash;
 
-		const items = this.newsItems.map(function (item) {
+		const items = this.newsItems.map(function (item: any) {
 			item.publishDate = moment(new Date(item.pubdate)).fromNow();
 			return item;
 		});
@@ -198,7 +200,7 @@ Module.register("newsfeed", {
 		};
 	},
 
-	getActiveItemURL () {
+	getActiveItemURL (): string {
 		const item = this.newsItems[this.activeItem];
 		if (item) {
 			return typeof item.url === "string" ? this.getUrlPrefix(item) + item.url : this.getUrlPrefix(item) + item.url.href;
@@ -210,8 +212,8 @@ Module.register("newsfeed", {
 	/**
 	 * Registers the feeds to be used by the backend.
 	 */
-	registerFeeds () {
-		for (let feed of this.config.feeds) {
+	registerFeeds (): void {
+		for (const feed of this.config.feeds) {
 			this.sendSocketNotification("ADD_FEED", {
 				feed: feed,
 				config: this.config
@@ -225,9 +227,9 @@ Module.register("newsfeed", {
 	 * @param {string} property The name of the property.
 	 * @returns {string} The value of the specified property for the feed.
 	 */
-	getFeedProperty (feed, property) {
+	getFeedProperty (feed: any, property: string): string {
 		let res = this.config[property];
-		const f = this.config.feeds.find((feedItem) => feedItem.url === feed);
+		const f = this.config.feeds.find((feedItem: any) => feedItem.url === feed);
 		if (f && f[property]) res = f[property];
 		return res;
 	},
@@ -236,23 +238,23 @@ Module.register("newsfeed", {
 	 * Generate an ordered list of items for this configured module.
 	 * @param {object} feeds An object with feeds returned by the node helper.
 	 */
-	generateFeed (feeds) {
-		let newsItems = [];
-		for (let feed in feeds) {
+	generateFeed (feeds: any): void {
+		let newsItems: any[] = [];
+		for (const feed in feeds) {
 			const feedItems = feeds[feed];
 			if (this.subscribedToFeed(feed)) {
-				for (let item of feedItems) {
+				for (const item of feedItems) {
 					item.sourceTitle = this.titleForFeed(feed);
-					if (!(this.getFeedProperty(feed, "ignoreOldItems") && Date.now() - new Date(item.pubdate) > this.getFeedProperty(feed, "ignoreOlderThan"))) {
+					if (!(this.getFeedProperty(feed, "ignoreOldItems") && Date.now() - new Date(item.pubdate).getTime() > this.getFeedProperty(feed, "ignoreOlderThan"))) {
 						newsItems.push(item);
 					}
 				}
 			}
 		}
-		newsItems.sort(function (a, b) {
+		newsItems.sort(function (a: any, b: any) {
 			const dateA = new Date(a.pubdate);
 			const dateB = new Date(b.pubdate);
-			return dateB - dateA;
+			return dateB.getTime() - dateA.getTime();
 		});
 
 		if (this.config.maxNewsItems > 0) {
@@ -260,8 +262,8 @@ Module.register("newsfeed", {
 		}
 
 		if (this.config.prohibitedWords.length > 0) {
-			newsItems = newsItems.filter(function (item) {
-				for (let word of this.config.prohibitedWords) {
+			newsItems = newsItems.filter(function (this: any, item: any) {
+				for (const word of this.config.prohibitedWords) {
 					if (item.title.toLowerCase().indexOf(word.toLowerCase()) > -1) {
 						return false;
 					}
@@ -269,10 +271,10 @@ Module.register("newsfeed", {
 				return true;
 			}, this);
 		}
-		newsItems.forEach((item) => {
+		newsItems.forEach((item: any) => {
 			//Remove selected tags from the beginning of rss feed items (title or description)
 			if (this.config.removeStartTags === "title" || this.config.removeStartTags === "both") {
-				for (let startTag of this.config.startTags) {
+				for (const startTag of this.config.startTags) {
 					if (item.title.slice(0, startTag.length) === startTag) {
 						item.title = item.title.slice(startTag.length, item.title.length);
 					}
@@ -281,7 +283,7 @@ Module.register("newsfeed", {
 
 			if (this.config.removeStartTags === "description" || this.config.removeStartTags === "both") {
 				if (this.isShowingDescription) {
-					for (let startTag of this.config.startTags) {
+					for (const startTag of this.config.startTags) {
 						if (item.description.slice(0, startTag.length) === startTag) {
 							item.description = item.description.slice(startTag.length, item.description.length);
 						}
@@ -291,14 +293,14 @@ Module.register("newsfeed", {
 
 			//Remove selected tags from the end of rss feed items (title or description)
 			if (this.config.removeEndTags) {
-				for (let endTag of this.config.endTags) {
+				for (const endTag of this.config.endTags) {
 					if (item.title.slice(-endTag.length) === endTag) {
 						item.title = item.title.slice(0, -endTag.length);
 					}
 				}
 
 				if (this.isShowingDescription) {
-					for (let endTag of this.config.endTags) {
+					for (const endTag of this.config.endTags) {
 						if (item.description.slice(-endTag.length) === endTag) {
 							item.description = item.description.slice(0, -endTag.length);
 						}
@@ -308,9 +310,9 @@ Module.register("newsfeed", {
 		});
 
 		// get updated news items and broadcast them
-		const updatedItems = [];
-		newsItems.forEach((value) => {
-			if (this.newsItems.findIndex((value1) => value1 === value) === -1) {
+		const updatedItems: any[] = [];
+		newsItems.forEach((value: any) => {
+			if (this.newsItems.findIndex((value1: any) => value1 === value) === -1) {
 				// Add item to updated items list
 				updatedItems.push(value);
 			}
@@ -329,8 +331,8 @@ Module.register("newsfeed", {
 	 * @param {string} feedUrl Url of the feed to check.
 	 * @returns {boolean} True if it is subscribed, false otherwise
 	 */
-	subscribedToFeed (feedUrl) {
-		for (let feed of this.config.feeds) {
+	subscribedToFeed (feedUrl: string): boolean {
+		for (const feed of this.config.feeds) {
 			if (feed.url === feedUrl) {
 				return true;
 			}
@@ -343,8 +345,8 @@ Module.register("newsfeed", {
 	 * @param {string} feedUrl Url of the feed
 	 * @returns {string} The title of the feed
 	 */
-	titleForFeed (feedUrl) {
-		for (let feed of this.config.feeds) {
+	titleForFeed (feedUrl: string): string {
+		for (const feed of this.config.feeds) {
 			if (feed.url === feedUrl) {
 				return feed.title || "";
 			}
@@ -355,7 +357,7 @@ Module.register("newsfeed", {
 	/**
 	 * Schedule visual update.
 	 */
-	scheduleUpdateInterval () {
+	scheduleUpdateInterval (): void {
 		this.updateDom(this.config.animationSpeed);
 
 		// Broadcast NewsFeed if needed
@@ -396,7 +398,7 @@ Module.register("newsfeed", {
 		}, this.config.updateInterval);
 	},
 
-	resetDescrOrFullArticleAndTimer () {
+	resetDescrOrFullArticleAndTimer (): void {
 		this.isShowingDescription = this.config.showDescription;
 		this.config.showFullArticle = false;
 		this.scrollPosition = 0;
@@ -411,7 +413,7 @@ Module.register("newsfeed", {
 		}
 	},
 
-	notificationReceived (notification) {
+	notificationReceived (notification: string): void {
 		const before = this.activeItem;
 		if (notification === "MODULE_DOM_CREATED" && this.config.hideLoading) {
 			this.hide();
@@ -478,7 +480,7 @@ Module.register("newsfeed", {
 		}
 	},
 
-	showFullArticle () {
+	showFullArticle (): void {
 		const item = this.newsItems[this.activeItem];
 		const hasUrl = item && item.url && (typeof item.url === "string" ? item.url : item.url.href);
 		if (!hasUrl) {

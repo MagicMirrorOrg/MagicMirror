@@ -11,7 +11,7 @@
  * https://tympanus.net/codrops/
  * @param {object} window The window object
  */
-(function (window) {
+(function (window: any) {
 
 	/**
 	 * Extend one object with another one
@@ -19,8 +19,8 @@
 	 * @param {object} b The object which extends the other, overwrites existing keys
 	 * @returns {object} The merged object
 	 */
-	function extend (a, b) {
-		for (let key in b) {
+	function extend (a: any, b: any): any {
+		for (const key in b) {
 			if (b.hasOwnProperty(key)) {
 				a[key] = b[key];
 			}
@@ -33,7 +33,7 @@
 	 * @param {object} options The configuration options
 	 * @class
 	 */
-	function NotificationFx (options) {
+	function NotificationFx (this: any, options: any) {
 		this.options = extend({}, this.options);
 		extend(this.options, options);
 		this._init();
@@ -75,7 +75,7 @@
 	/**
 	 * Initialize and cache some vars
 	 */
-	NotificationFx.prototype._init = function () {
+	NotificationFx.prototype._init = function (this: any) {
 		// create HTML structure
 		this.ntf = document.createElement("div");
 		this.ntf.className = `${this.options.al_no} ns-${this.options.layout} ns-effect-${this.options.effect} ns-type-${this.options.type}`;
@@ -103,7 +103,7 @@
 	/**
 	 * Init events
 	 */
-	NotificationFx.prototype._initEvents = function () {
+	NotificationFx.prototype._initEvents = function (this: any) {
 		// dismiss notification by tapping on it if someone has a touchscreen
 		this.ntf.querySelector(".ns-box-inner").addEventListener("click", () => {
 			this.dismiss();
@@ -113,7 +113,7 @@
 	/**
 	 * Show the notification
 	 */
-	NotificationFx.prototype.show = function () {
+	NotificationFx.prototype.show = function (this: any) {
 		this.active = true;
 		this.ntf.classList.remove("ns-hide");
 		this.ntf.classList.add("ns-show");
@@ -124,7 +124,7 @@
 	 * Dismiss the notification
 	 * @param {boolean} [close] call the onClose callback at the end
 	 */
-	NotificationFx.prototype.dismiss = function (close = true) {
+	NotificationFx.prototype.dismiss = function (this: any, close = true) {
 		this.active = false;
 		clearTimeout(this.dismissttl);
 		this.ntf.classList.remove("ns-show");
@@ -136,13 +136,13 @@
 		}, 25);
 
 		// after animation ends remove ntf from the DOM
-		const onEndAnimationFn = (ev) => {
+		const onEndAnimationFn = (ev: AnimationEvent) => {
 			if (ev.target !== this.ntf) {
-				return false;
+				return;
 			}
 			this.ntf.removeEventListener("animationend", onEndAnimationFn);
 
-			if (ev.target.parentNode === this.options.wrapper) {
+			if ((ev.target as Node).parentNode === this.options.wrapper) {
 				this.options.wrapper.removeChild(this.ntf);
 			}
 		};
