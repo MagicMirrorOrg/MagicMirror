@@ -29,7 +29,7 @@ fetcher.onReceive(function (fetcher: any) {
 	process.exit(0);
 });
 
-fetcher.onError(function (fetcher: any, error: any) {
+fetcher.onError(function (_fetcher: any, error: any) {
 	Log.log("Fetcher error:", error);
 	process.exit(1);
 });

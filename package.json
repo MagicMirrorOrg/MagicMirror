@@ -128,6 +128,7 @@
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",
 		"@stylistic/eslint-plugin": "^5.10.0",
+		"@types/node": "latest",
 		"@vitest/coverage-v8": "^4.1.5",
 		"@vitest/eslint-plugin": "^1.6.16",
 		"@vitest/ui": "^4.1.5",
@@ -151,8 +152,7 @@
 		"stylelint-prettier": "^5.0.3",
 		"typescript": "^6.0.3",
 		"typescript-eslint": "^8.60.1",
-		"vitest": "^4.1.5",
-		"@types/node": "latest"
+		"vitest": "^4.1.5"
 	},
 	"optionalDependencies": {
 		"electron": "^41.3.0"

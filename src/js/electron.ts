@@ -187,7 +187,7 @@ app.on("before-quit", async (event: any) => {
 /**
  * Handle errors from self-signed certificates
  */
-app.on("certificate-error", (event: any, webContents: any, url: any, error: any, certificate: any, callback: any) => {
+app.on("certificate-error", (event: any, _webContents: any, _url: any, _error: any, _certificate: any, callback: any) => {
 	event.preventDefault();
 	callback(true);
 });

@@ -25,7 +25,7 @@ declare function require (id: string): any;
 // Merge in the require.cache / require.resolve members so that when this shim is the
 // effective `require` type (browser project, and the combined editor view that also
 // loads @types/node), Node's require.cache[require.resolve(...)] usage type-checks.
-// eslint-disable-next-line @typescript-eslint/no-namespace
+
 declare namespace require {
 	const cache: Record<string, any>;
 	function resolve (id: string): string;

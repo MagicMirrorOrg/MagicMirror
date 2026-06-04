@@ -12,7 +12,7 @@ const startUp = new Date();
  * @param {Request} req - the request
  * @param {Response} res - the result
  */
-export function getStartup (req: any, res: any): void {
+export function getStartup (_req: any, res: any): void {
 	res.send(startUp);
 }
 
@@ -23,7 +23,7 @@ export function getStartup (req: any, res: any): void {
  */
 export function replaceSecretPlaceholder (input: string): string {
 	if (global.config.cors !== "allowAll") {
-		return input.replaceAll(/\*\*(SECRET_[^*]+)\*\*/g, (match, group) => {
+		return input.replaceAll(/\*\*(SECRET_[^*]+)\*\*/g, (_match, group) => {
 			return process.env[group] as string;
 		});
 	} else {
@@ -177,7 +177,7 @@ function geExpectedReceivedHeaders (url: string): string[] {
  * @param {Request} req - the request
  * @param {Response} res - the result
  */
-export function getHtml (req: any, res: any): void {
+export function getHtml (_req: any, res: any): void {
 	let html = fs.readFileSync(path.resolve(`${global.root_path}/index.html`), { encoding: "utf8" });
 	html = html.replace("#VERSION#", global.version);
 	html = html.replace("#TESTMODE#", String(global.mmTestMode));
@@ -190,7 +190,7 @@ export function getHtml (req: any, res: any): void {
  * @param {Request} req - the request
  * @param {Response} res - the result
  */
-export function getVersion (req: any, res: any): void {
+export function getVersion (_req: any, res: any): void {
 	res.send(global.version);
 }
 
@@ -236,7 +236,7 @@ export function getEnvVarsAsObj (): Record<string, string> {
  * @param {Request} req - the request
  * @param {Response} res - the result
  */
-export function getEnvVars (req: any, res: any): void {
+export function getEnvVars (_req: any, res: any): void {
 	const obj = getEnvVarsAsObj();
 	res.send(obj);
 }

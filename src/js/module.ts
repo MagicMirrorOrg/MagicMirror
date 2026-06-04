@@ -152,7 +152,7 @@ class Module {
 	 * @param {object} payload The payload of the notification.
 	 * @param {Module} sender The module that sent the notification.
 	 */
-	notificationReceived (notification: string, payload: any, sender: any): void {
+	notificationReceived (notification: string, _payload: any, sender: any): void {
 		if (sender) {
 			Log.debug(`${this.name} received a module notification: ${notification} from sender: ${sender.name}`);
 		} else {

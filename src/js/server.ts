@@ -91,7 +91,7 @@ function Server (this: any, configObj: any) {
 			app.use("/js", express.static(__dirname));
 
 			if (config.hideConfigSecrets) {
-				app.get("/config/config.env", (req: any, res: any) => {
+				app.get("/config/config.env", (_req: any, res: any) => {
 					res.status(404).send("<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /config/config.env</pre>\n</body>\n</html>");
 				});
 			}
@@ -107,15 +107,15 @@ function Server (this: any, configObj: any) {
 			}
 
 			const startUp = new Date();
-			const getStartup = (req: any, res: any) => res.send(startUp);
+			const getStartup = (_req: any, res: any) => res.send(startUp);
 
-			const getConfig = (req: any, res: any) => {
+			const getConfig = (_req: any, res: any) => {
 				const obj = config.hideConfigSecrets ? configObj.redactedConf : configObj.fullConf;
 				// Functions can't survive JSON.stringify, so we wrap them in a
 				// tagged object { __mmFunction: "<source>" }. The client-side
 				// JSON reviver in main.js recognises this tag and reconstructs
 				// the live function from the source string.
-				const jsonString = JSON.stringify(obj, (key, value) => {
+				const jsonString = JSON.stringify(obj, (_key, value) => {
 					if (typeof value === "function") {
 						return { __mmFunction: value.toString() };
 					}
@@ -138,7 +138,7 @@ function Server (this: any, configObj: any) {
 			app.get("/", (req: any, res: any) => getHtml(req, res));
 
 			// Reload endpoint for watch mode - triggers browser reload
-			app.get("/reload", (req: any, res: any) => {
+			app.get("/reload", (_req: any, res: any) => {
 				Log.info("Reload request received, notifying all clients");
 				io.emit("RELOAD");
 				res.status(200).send("OK");

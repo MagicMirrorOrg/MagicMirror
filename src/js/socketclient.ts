@@ -10,7 +10,7 @@ const MMSocket = function (this: any, moduleName: string) {
 
 	// Private Methods
 	let base = "/";
-	if (typeof config !== "undefined" && typeof config.basePath !== "undefined") {
+	if (typeof config !== "undefined" && config.basePath !== undefined) {
 		base = config.basePath;
 	}
 	this.socket = io(`/${this.moduleName}`, {

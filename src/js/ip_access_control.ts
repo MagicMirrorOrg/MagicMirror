@@ -41,7 +41,7 @@ function isAllowed (clientIp: string, whitelist: string[]): boolean {
 export function ipAccessControl (whitelist: string[]) {
 	// Empty whitelist means allow all
 	if (!Array.isArray(whitelist) || whitelist.length === 0) {
-		return function (req: any, res: any, next: any) {
+		return function (_req: any, res: any, next: any) {
 			res.header("Access-Control-Allow-Origin", "*");
 			next();
 		};
