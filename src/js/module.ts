@@ -2,7 +2,41 @@
  * Module Blueprint.
  * @typedef {Object} Module
  */
-const Module: ModuleConstructor = Class.extend({
+class Module {
+
+	/*
+	 * `defaults` and `requiresVersion` live on the prototype (assigned after the class
+	 * body) rather than as instance fields, so a module definition can shadow them via
+	 * Module.extend. Declared here for typing only.
+	 */
+	declare defaults: any;
+
+	declare requiresVersion: string;
+
+	// Per-instance state.
+	showHideTimer: any = null;
+
+	lockStrings: string[] = [];
+
+	_nunjucksEnvironment: any = null;
+
+	data: any = null;
+
+	name = "";
+
+	identifier = "";
+
+	hidden = false;
+
+	hasAnimateIn = false;
+
+	hasAnimateOut = false;
+
+	config: any;
+
+	_socket: any;
+
+	_super: any;
 
 	/**
 	 *********************************************************
@@ -10,56 +44,34 @@ const Module: ModuleConstructor = Class.extend({
 	 *********************************************************
 	 */
 
-	// Set the minimum MagicMirror² module version for this module.
-	requiresVersion: "2.0.0",
-
-	// Module config defaults.
-	defaults: {},
-
-	// Timer reference used for showHide animation callbacks.
-	showHideTimer: null,
-
-	/*
-	 * Array to store lockStrings. These strings are used to lock
-	 * visibility when hiding and showing module.
-	 */
-	lockStrings: [],
-
-	/*
-	 * Storage of the nunjucks Environment,
-	 * This should not be referenced directly.
-	 * Use the nunjucksEnvironment() to get it.
-	 */
-	_nunjucksEnvironment: null,
-
 	/**
 	 * Called when the module is instantiated.
 	 */
-	init () {
-	},
+	init (): void {
+	}
 
 	/**
 	 * Called when the module is started.
 	 */
-	start () {
+	start (): void {
 		Log.info(`Starting module: ${this.name}`);
-	},
+	}
 
 	/**
 	 * Returns a list of scripts the module requires to be loaded.
 	 * @returns {string[]} An array with filenames.
 	 */
-	getScripts () {
+	getScripts (): string[] {
 		return [];
-	},
+	}
 
 	/**
 	 * Returns a list of stylesheets the module requires to be loaded.
 	 * @returns {string[]} An array with filenames.
 	 */
-	getStyles () {
+	getStyles (): string[] {
 		return [];
-	},
+	}
 
 	/**
 	 * Returns a map of translation files the module requires to be loaded.
@@ -67,9 +79,9 @@ const Module: ModuleConstructor = Class.extend({
 	 * return Map<String, String> -
 	 * @returns {Map} A map with langKeys and filenames.
 	 */
-	getTranslations () {
+	getTranslations (): any {
 		return false;
-	},
+	}
 
 	/**
 	 * Generates the dom which needs to be displayed. This method is called by the MagicMirror² core.
@@ -77,7 +89,7 @@ const Module: ModuleConstructor = Class.extend({
 	 * Alternatively, the getTemplate method could be overridden.
 	 * @returns {HTMLElement|Promise} The dom or a promise with the dom to display.
 	 */
-	getDom () {
+	getDom (): any {
 		return new Promise((resolve) => {
 			const div = document.createElement("div");
 			const template = this.getTemplate();
@@ -102,7 +114,7 @@ const Module: ModuleConstructor = Class.extend({
 				resolve(div);
 			}
 		});
-	},
+	}
 
 	/**
 	 * Generates the header string which needs to be displayed if a user has a header configured for this module.
@@ -110,9 +122,9 @@ const Module: ModuleConstructor = Class.extend({
 	 * This method needs to be overridden if the module wants to display modified headers on the mirror.
 	 * @returns {string} The header to display above the header.
 	 */
-	getHeader () {
+	getHeader (): string {
 		return this.data.header;
-	},
+	}
 
 	/**
 	 * Returns the template for the module which is used by the default getDom implementation.
@@ -121,18 +133,18 @@ const Module: ModuleConstructor = Class.extend({
 	 * If the string ends with '.html' it's considered a file from within the module's folder.
 	 * @returns {string} The template string of filename.
 	 */
-	getTemplate () {
+	getTemplate (): string {
 		return `<div class="normal">${this.name}</div><div class="small dimmed">${this.identifier}</div>`;
-	},
+	}
 
 	/**
 	 * Returns the data to be used in the template.
 	 * This method needs to be overridden if the module wants to use a custom data.
 	 * @returns {object} The data for the template
 	 */
-	getTemplateData () {
+	getTemplateData (): object {
 		return {};
-	},
+	}
 
 	/**
 	 * Called by the MagicMirror² core when a notification arrives.
@@ -140,20 +152,20 @@ const Module: ModuleConstructor = Class.extend({
 	 * @param {object} payload The payload of the notification.
 	 * @param {Module} sender The module that sent the notification.
 	 */
-	notificationReceived (notification: string, payload: any, sender: any) {
+	notificationReceived (notification: string, payload: any, sender: any): void {
 		if (sender) {
 			Log.debug(`${this.name} received a module notification: ${notification} from sender: ${sender.name}`);
 		} else {
 			Log.debug(`${this.name} received a system notification: ${notification}`);
 		}
-	},
+	}
 
 	/**
 	 * Returns the nunjucks environment for the current module.
 	 * The environment is checked in the _nunjucksEnvironment instance variable.
 	 * @returns {object} The Nunjucks Environment
 	 */
-	nunjucksEnvironment () {
+	nunjucksEnvironment (): any {
 		if (this._nunjucksEnvironment !== null) {
 			return this._nunjucksEnvironment;
 		}
@@ -168,30 +180,30 @@ const Module: ModuleConstructor = Class.extend({
 		});
 
 		return this._nunjucksEnvironment;
-	},
+	}
 
 	/**
 	 * Called when a socket notification arrives.
 	 * @param {string} notification The identifier of the notification.
 	 * @param {object} payload The payload of the notification.
 	 */
-	socketNotificationReceived (notification: string, payload: any) {
+	socketNotificationReceived (notification: string, payload: any): void {
 		Log.log(`${this.name} received a socket notification: ${notification} - Payload: ${payload}`);
-	},
+	}
 
 	/**
 	 * Called when the module is hidden.
 	 */
-	suspend () {
+	suspend (): void {
 		Log.log(`${this.name} is suspended.`);
-	},
+	}
 
 	/**
 	 * Called when the module is shown.
 	 */
-	resume () {
+	resume (): void {
 		Log.log(`${this.name} is resumed.`);
-	},
+	}
 
 	/**
 	 ***********************************************
@@ -203,7 +215,7 @@ const Module: ModuleConstructor = Class.extend({
 	 * Set the module data.
 	 * @param {object} data The module data
 	 */
-	setData (data: any) {
+	setData (data: any): void {
 		this.data = data;
 		this.name = data.name;
 		this.identifier = data.identifier;
@@ -212,23 +224,23 @@ const Module: ModuleConstructor = Class.extend({
 		this.hasAnimateOut = false;
 
 		this.setConfig(data.config, data.configDeepMerge);
-	},
+	}
 
 	/**
 	 * Set the module config and combine it with the module defaults.
 	 * @param {object} config The combined module config.
 	 * @param {boolean} deep Merge module config in deep.
 	 */
-	setConfig (config: any, deep: boolean) {
+	setConfig (config: any, deep: boolean): void {
 		this.config = deep ? configMerge({}, this.defaults, config) : Object.assign({}, this.defaults, config);
-	},
+	}
 
 	/**
 	 * Returns a socket object. If it doesn't exist, it's created.
 	 * It also registers the notification callback.
 	 * @returns {MMSocket} a socket object
 	 */
-	socket () {
+	socket (): any {
 		if (typeof this._socket === "undefined") {
 			this._socket = new (MMSocket as any)(this.name);
 		}
@@ -238,40 +250,40 @@ const Module: ModuleConstructor = Class.extend({
 		});
 
 		return this._socket;
-	},
+	}
 
 	/**
 	 * Retrieve the path to a module file.
 	 * @param {string} file Filename
 	 * @returns {string} the file path
 	 */
-	file (file: string) {
+	file (file: string): string {
 		return `${this.data.path}/${file}`.replace("//", "/");
-	},
+	}
 
 	/**
 	 * Load all required stylesheets by requesting the MM object to load the files.
 	 * @returns {Promise<void>}
 	 */
-	loadStyles () {
+	loadStyles (): Promise<void> {
 		return this.loadDependencies("getStyles");
-	},
+	}
 
 	/**
 	 * Load all required scripts by requesting the MM object to load the files.
 	 * @returns {Promise<void>}
 	 */
-	loadScripts () {
+	loadScripts (): Promise<void> {
 		return this.loadDependencies("getScripts");
-	},
+	}
 
 	/**
 	 * Helper method to load all dependencies.
 	 * @param {string} funcName Function name to call to get scripts or styles.
 	 * @returns {Promise<void>}
 	 */
-	async loadDependencies (funcName: string) {
-		let dependencies = this[funcName]();
+	async loadDependencies (funcName: string): Promise<void> {
+		let dependencies = (this as any)[funcName]();
 
 		const loadNextDependency = async () => {
 			if (dependencies.length > 0) {
@@ -285,25 +297,25 @@ const Module: ModuleConstructor = Class.extend({
 		};
 
 		await loadNextDependency();
-	},
+	}
 
 	/**
 	 * Load all translations.
 	 * @returns {Promise<void>}
 	 */
-	async loadTranslations () {
+	async loadTranslations (): Promise<any> {
 		const translations = this.getTranslations() || {};
 		const language = config.language.toLowerCase();
 
 		const languages = Object.keys(translations);
-		const fallbackLanguage = languages[0];
 
 		if (languages.length === 0) {
 			return;
 		}
 
+		const fallbackLanguage = languages[0]!;
 		const translationFile = translations[language];
-		const translationsFallbackFile = translations[fallbackLanguage!];
+		const translationsFallbackFile = translations[fallbackLanguage];
 
 		if (!translationFile) {
 			return Translator.load(this, translationsFallbackFile, true);
@@ -314,7 +326,7 @@ const Module: ModuleConstructor = Class.extend({
 		if (translationFile !== translationsFallbackFile) {
 			return Translator.load(this, translationsFallbackFile, true);
 		}
-	},
+	}
 
 	/**
 	 * Request the translation for a given key with optional variables and default value.
@@ -323,38 +335,38 @@ const Module: ModuleConstructor = Class.extend({
 	 * @param {string} [defaultValue] The default value with variables.
 	 * @returns {string} the translated key
 	 */
-	translate (key: string, defaultValueOrVariables?: any, defaultValue?: string) {
+	translate (key: string, defaultValueOrVariables?: any, defaultValue?: string): string {
 		if (typeof defaultValueOrVariables === "object") {
 			return Translator.translate(this, key, defaultValueOrVariables) || defaultValue || "";
 		}
 		return Translator.translate(this, key) || defaultValueOrVariables || "";
-	},
+	}
 
 	/**
 	 * Request an (animated) update of the module.
 	 * @param {number|object} [updateOptions] The speed of the animation or object with for updateOptions (speed/animates)
 	 */
-	updateDom (updateOptions?: any) {
+	updateDom (updateOptions?: any): void {
 		MM.updateDom(this, updateOptions);
-	},
+	}
 
 	/**
 	 * Send a notification to all modules.
 	 * @param {string} notification The identifier of the notification.
 	 * @param {object} payload The payload of the notification.
 	 */
-	sendNotification (notification: string, payload: any) {
+	sendNotification (notification: string, payload: any): void {
 		MM.sendNotification(notification, payload, this);
-	},
+	}
 
 	/**
 	 * Send a socket notification to the node helper.
 	 * @param {string} notification The identifier of the notification.
 	 * @param {object} payload The payload of the notification.
 	 */
-	sendSocketNotification (notification: string, payload: any) {
+	sendSocketNotification (notification: string, payload: any): void {
 		this.socket().sendNotification(notification, payload);
-	},
+	}
 
 	/**
 	 * Hide this module.
@@ -362,7 +374,7 @@ const Module: ModuleConstructor = Class.extend({
 	 * @param {Promise} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the hide method.
 	 */
-	hide (speed: number, callback: any, options: any = {}) {
+	hide (speed: number, callback: any, options: any = {}): void {
 		let usedCallback = callback || function () {};
 		let usedOptions = options;
 
@@ -381,7 +393,7 @@ const Module: ModuleConstructor = Class.extend({
 			},
 			usedOptions
 		);
-	},
+	}
 
 	/**
 	 * Show this module.
@@ -389,7 +401,7 @@ const Module: ModuleConstructor = Class.extend({
 	 * @param {Promise} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the show method.
 	 */
-	show (speed: number, callback: any, options?: any) {
+	show (speed: number, callback: any, options?: any): void {
 		let usedCallback = callback || function () {};
 		let usedOptions = options;
 
@@ -409,7 +421,101 @@ const Module: ModuleConstructor = Class.extend({
 			usedOptions
 		);
 	}
-});
+
+	/*
+	 * Registered module definitions, keyed by module name.
+	 */
+	static definitions: Record<string, any> = {};
+
+	/**
+	 * Build a Module subclass from a (cloned) definition object, applying its
+	 * properties/methods over the base. A method that references `this._super` is
+	 * wrapped so `_super()` calls the overridden base method — the same contract the
+	 * previous Class.extend (John Resig) inheritance provided.
+	 * @param {object} definition The module definition object.
+	 * @returns {typeof Module} A Module subclass.
+	 */
+	static extend (definition: any): typeof Module {
+		// Modules extend the Module base exactly one level deep.
+		class Subclass extends Module {}
+		const prototype: any = Subclass.prototype;
+		const parentPrototype: any = Module.prototype;
+
+		for (const name in definition) {
+			const value = definition[name];
+			if (typeof value === "function" && typeof parentPrototype[name] === "function" && (/\b_super\b/).test(Function.prototype.toString.call(value))) {
+				prototype[name] = (function (methodName, fn) {
+					return function (this: any, ...args: any[]) {
+						const tmp = this._super;
+
+						// Temporarily expose the overridden base method as this._super().
+						this._super = parentPrototype[methodName];
+						const ret = fn.apply(this, args);
+						this._super = tmp;
+
+						return ret;
+					};
+				}(name, value));
+			} else {
+				prototype[name] = value;
+			}
+		}
+
+		return Subclass;
+	}
+
+	/**
+	 * Instantiate a registered module by name.
+	 * @param {string} name The module name.
+	 * @returns {Module | undefined} A new module instance, or undefined if unknown.
+	 */
+	static create (name: string): Module | undefined {
+		// Make sure module definition is available.
+		if (!Module.definitions[name]) {
+			return undefined;
+		}
+
+		const moduleDefinition = Module.definitions[name];
+		const clonedDefinition = cloneObject(moduleDefinition);
+
+		// Note that we clone the definition. Otherwise the objects are shared, which gives problems.
+		const ModuleClass = Module.extend(clonedDefinition);
+
+		return new ModuleClass();
+	}
+
+	/**
+	 * Register a module definition under the given name.
+	 * @param {string} name The module name.
+	 * @param {object} moduleDefinition The module definition object.
+	 */
+	static register (name: string, moduleDefinition: ModuleProperties & ThisType<any>): void {
+		if (moduleDefinition.requiresVersion) {
+			Log.log(`Check MagicMirror² version for module '${name}' - Minimum version:  ${moduleDefinition.requiresVersion} - Current version: ${window.mmVersion}`);
+			if (cmpVersions(window.mmVersion, moduleDefinition.requiresVersion) >= 0) {
+				Log.log("Version is ok!");
+			} else {
+				Log.warn(`Version is incorrect. Skip module: '${name}'`);
+				return;
+			}
+		}
+		Log.log(`Module registered: ${name}`);
+		Module.definitions[name] = moduleDefinition;
+	}
+
+	/**
+	 * Instantiate the module — runs the (overridable) init method.
+	 */
+	constructor () {
+		if (this.init) {
+			this.init();
+		}
+	}
+}
+
+// Prototype-level defaults so a module definition can override them via Module.extend.
+Module.prototype.requiresVersion = "2.0.0";
+Module.prototype.defaults = {};
 
 /**
  * Merging MagicMirror² (or other) default/config script by `@bugsounet`
@@ -433,7 +539,6 @@ const Module: ModuleConstructor = Class.extend({
  * @param {object} result the initial object
  * @returns {object} the merged config
  */
-
 function configMerge (result: any, ..._sources: any[]): any {
 	// eslint-disable-next-line prefer-rest-params -- variadic merge reads `arguments`; the rest param exists only so call sites type-check.
 	const stack = Array.prototype.slice.call(arguments, 1);
@@ -457,37 +562,6 @@ function configMerge (result: any, ..._sources: any[]): any {
 	}
 	return result;
 }
-
-Module.definitions = {};
-
-Module.create = function (name: string) {
-	// Make sure module definition is available.
-	if (!Module.definitions[name]) {
-		return;
-	}
-
-	const moduleDefinition = Module.definitions[name];
-	const clonedDefinition = cloneObject(moduleDefinition);
-
-	// Note that we clone the definition. Otherwise the objects are shared, which gives problems.
-	const ModuleClass = Module.extend(clonedDefinition);
-
-	return new ModuleClass();
-};
-
-Module.register = function (name: string, moduleDefinition: any) {
-	if (moduleDefinition.requiresVersion) {
-		Log.log(`Check MagicMirror² version for module '${name}' - Minimum version:  ${moduleDefinition.requiresVersion} - Current version: ${window.mmVersion}`);
-		if (cmpVersions(window.mmVersion, moduleDefinition.requiresVersion) >= 0) {
-			Log.log("Version is ok!");
-		} else {
-			Log.warn(`Version is incorrect. Skip module: '${name}'`);
-			return;
-		}
-	}
-	Log.log(`Module registered: ${name}`);
-	Module.definitions[name] = moduleDefinition;
-};
 
 window.Module = Module;
 
