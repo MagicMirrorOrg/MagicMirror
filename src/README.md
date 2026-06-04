@@ -55,9 +55,10 @@ Third-party community modules under `modules/` stay plain JS forever; the
 - Browser script files must **never** gain a top-level `import`/`export` (it would turn
   them into modules and break global `<script>` loading). eslint + the JSDOM specs guard this.
 - Keep dual-world files' `if (typeof module !== "undefined") module.exports = X` guard.
-- Cross-module values reached through `require()` are typed `any` during this migration;
-  `strict` is on and enforces all in-file types. Further tightening
-  (`noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`) is intentionally deferred.
+- Cross-module values reached through `require()` are typed `any`; `strict`,
+  `noUncheckedIndexedAccess`, and `exactOptionalPropertyTypes` are all enabled and
+  enforce in-file types. Indexed/match access that's logically guaranteed present uses
+  a non-null assertion (`!`) rather than a runtime guard.
 
 ## Upstream merges
 
