@@ -5,17 +5,17 @@ import HTTPFetcher from "#http_fetcher";
 const WEATHER_API_BASE = "https://api.weatherapi.com/v1";
 
 class WeatherAPIProvider {
-	config: any;
+	config: WeatherConfig;
 
 	locationName: string | null;
 
-	fetcher: any;
+	fetcher: HTTPFetcher | null;
 
-	onDataCallback: ((data: any) => void) | null;
+	onDataCallback: WeatherDataCallback | null;
 
-	onErrorCallback: ((errorInfo: any) => void) | null;
+	onErrorCallback: WeatherErrorCallback | null;
 
-	constructor (config: any) {
+	constructor (config: WeatherConfig) {
 		this.config = {
 			apiBase: WEATHER_API_BASE,
 			lat: 0,
@@ -40,7 +40,7 @@ class WeatherAPIProvider {
 		this.#initializeFetcher();
 	}
 
-	setCallbacks (onData: (data: any) => void, onError: (errorInfo: any) => void): void {
+	setCallbacks (onData: WeatherDataCallback, onError: WeatherErrorCallback): void {
 		this.onDataCallback = onData;
 		this.onErrorCallback = onError;
 	}
@@ -125,7 +125,7 @@ class WeatherAPIProvider {
 		}
 
 		try {
-			let weatherData;
+			let weatherData: any;
 
 			switch (this.config.type) {
 				case "current":
@@ -253,7 +253,7 @@ class WeatherAPIProvider {
 		return Number.isFinite(number) ? number : null;
 	}
 
-	#generateCurrent (data: any): any {
+	#generateCurrent (data: any): WeatherDataPoint {
 		const weather = data.forecast.forecastday[0] ?? {};
 		const current = data.current ?? {};
 		const currentWeather: any = {
@@ -303,7 +303,7 @@ class WeatherAPIProvider {
 		return currentWeather;
 	}
 
-	#generateDaily (data: any): any {
+	#generateDaily (data: any): WeatherDataPoint[] {
 		const days = [];
 		const forecastDays = data.forecast.forecastday ?? [];
 
@@ -373,7 +373,7 @@ class WeatherAPIProvider {
 		return days;
 	}
 
-	#generateHourly (data: any): any {
+	#generateHourly (data: any): WeatherDataPoint[] {
 		const hours = [];
 		const nowStart = new Date();
 		nowStart.setMinutes(0, 0, 0);

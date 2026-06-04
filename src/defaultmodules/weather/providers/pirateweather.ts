@@ -2,13 +2,13 @@ import Log from "logger";
 import HTTPFetcher from "#http_fetcher";
 
 class PirateweatherProvider {
-	config: any;
+	config: WeatherConfig;
 
-	fetcher: any;
+	fetcher: HTTPFetcher | null;
 
-	onDataCallback: ((data: any) => void) | null;
+	onDataCallback: WeatherDataCallback | null;
 
-	onErrorCallback: ((error: any) => void) | null;
+	onErrorCallback: WeatherErrorCallback | null;
 
 	constructor (config: any) {
 		this.config = {
@@ -27,7 +27,7 @@ class PirateweatherProvider {
 		this.onErrorCallback = null;
 	}
 
-	setCallbacks (onDataCallback: (data: any) => void, onErrorCallback: (error: any) => void): void {
+	setCallbacks (onDataCallback: WeatherDataCallback, onErrorCallback: WeatherErrorCallback): void {
 		this.onDataCallback = onDataCallback;
 		this.onErrorCallback = onErrorCallback;
 	}
@@ -93,7 +93,7 @@ class PirateweatherProvider {
 			return;
 		}
 
-		let weatherData;
+		let weatherData: any;
 
 		switch (this.config.type) {
 			case "current":
@@ -123,7 +123,7 @@ class PirateweatherProvider {
 		}
 	}
 
-	#generateCurrent (data: any): any {
+	#generateCurrent (data: any): WeatherDataPoint | null {
 		if (!data.currently || typeof data.currently.temperature === "undefined") {
 			return null;
 		}
@@ -154,7 +154,7 @@ class PirateweatherProvider {
 		return current;
 	}
 
-	#generateDaily (data: any): any {
+	#generateDaily (data: any): WeatherDataPoint[] {
 		if (!data.daily || !data.daily.data || !data.daily.data.length) {
 			return [];
 		}
@@ -195,7 +195,7 @@ class PirateweatherProvider {
 		return days;
 	}
 
-	#generateHourly (data: any): any {
+	#generateHourly (data: any): WeatherDataPoint[] {
 		if (!data.hourly || !data.hourly.data || !data.hourly.data.length) {
 			return [];
 		}

@@ -9,18 +9,18 @@ import HTTPFetcher from "#http_fetcher";
  */
 class WeatherFlowProvider {
 
-	config: any;
+	config: WeatherConfig;
 
-	fetcher: any;
+	fetcher: HTTPFetcher | null;
 
-	onDataCallback: ((data: any) => void) | null;
+	onDataCallback: WeatherDataCallback | null;
 
-	onErrorCallback: ((error: any) => void) | null;
+	onErrorCallback: WeatherErrorCallback | null;
 
 	/**
 	 * @param {object} config - Provider configuration
 	 */
-	constructor (config: any) {
+	constructor (config: WeatherConfig) {
 		this.config = config;
 		this.fetcher = null;
 		this.onDataCallback = null;
@@ -32,7 +32,7 @@ class WeatherFlowProvider {
 	 * @param {(data: object) => void} onDataCallback - Called when new data is available
 	 * @param {(error: object) => void} onErrorCallback - Called when an error occurs
 	 */
-	setCallbacks (onDataCallback: (data: any) => void, onErrorCallback: (error: any) => void): void {
+	setCallbacks (onDataCallback: WeatherDataCallback, onErrorCallback: WeatherErrorCallback): void {
 		this.onDataCallback = onDataCallback;
 		this.onErrorCallback = onErrorCallback;
 	}
@@ -142,7 +142,7 @@ class WeatherFlowProvider {
 	 * @param {object} data - API response data
 	 * @returns {object} Current weather object
 	 */
-	#generateCurrent (data: any): any {
+	#generateCurrent (data: any): WeatherDataPoint | null {
 		if (!data || !data.current_conditions || !data.forecast || !Array.isArray(data.forecast.daily) || data.forecast.daily.length === 0) {
 			Log.error("[weatherflow] Invalid current weather data structure");
 			return null;
@@ -175,7 +175,7 @@ class WeatherFlowProvider {
 	 * @param {object} data - API response data
 	 * @returns {Array} Array of forecast objects
 	 */
-	#generateDaily (data: any): any {
+	#generateDaily (data: any): WeatherDataPoint[] {
 		if (!data || !data.forecast || !Array.isArray(data.forecast.daily) || !Array.isArray(data.forecast.hourly)) {
 			Log.error("[weatherflow] Invalid forecast data structure");
 			return [];
@@ -224,7 +224,7 @@ class WeatherFlowProvider {
 	 * @param {object} data - API response data
 	 * @returns {Array} Array of hourly forecast objects
 	 */
-	#generateHourly (data: any): any {
+	#generateHourly (data: any): WeatherDataPoint[] {
 		if (!data || !data.forecast || !Array.isArray(data.forecast.hourly)) {
 			Log.error("[weatherflow] Invalid hourly data structure");
 			return [];

@@ -14,6 +14,7 @@
 		"types/globals.d.ts",
 		"types/browser-shims.d.ts",
 		"types/config.d.ts",
+		"types/weather.d.ts",
 		"js/class.ts",
 		"js/module.ts",
 		"js/loader.ts",

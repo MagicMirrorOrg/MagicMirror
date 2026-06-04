@@ -16,11 +16,11 @@ import HTTPFetcher from "#http_fetcher";
 class UkMetOfficeDataHubProvider {
 	config: any;
 
-	fetcher: any;
+	fetcher: HTTPFetcher | null;
 
-	onDataCallback: any;
+	onDataCallback: WeatherDataCallback | null;
 
-	onErrorCallback: any;
+	onErrorCallback: WeatherErrorCallback | null;
 
 	constructor (config: any) {
 		this.config = {
@@ -38,7 +38,7 @@ class UkMetOfficeDataHubProvider {
 		this.onErrorCallback = null;
 	}
 
-	setCallbacks (onDataCallback: any, onErrorCallback: any): void {
+	setCallbacks (onDataCallback: WeatherDataCallback, onErrorCallback: WeatherErrorCallback): void {
 		this.onDataCallback = onDataCallback;
 		this.onErrorCallback = onErrorCallback;
 	}
@@ -124,7 +124,7 @@ class UkMetOfficeDataHubProvider {
 			return;
 		}
 
-		let weatherData;
+		let weatherData: any;
 
 		switch (this.config.type) {
 			case "current":
@@ -153,7 +153,7 @@ class UkMetOfficeDataHubProvider {
 		}
 	}
 
-	#generateCurrent (data: any): any {
+	#generateCurrent (data: any): WeatherDataPoint {
 		const timeSeries = data.features[0].properties.timeSeries;
 		const now = new Date();
 
@@ -215,7 +215,7 @@ class UkMetOfficeDataHubProvider {
 		return current;
 	}
 
-	#generateDaily (data: any): any {
+	#generateDaily (data: any): WeatherDataPoint[] {
 		const timeSeries = data.features[0].properties.timeSeries;
 		const days = [];
 		const today = new Date();
@@ -248,7 +248,7 @@ class UkMetOfficeDataHubProvider {
 		return days;
 	}
 
-	#generateHourly (data: any): any {
+	#generateHourly (data: any): WeatherDataPoint[] {
 		const timeSeries = data.features[0].properties.timeSeries;
 		const hours = [];
 

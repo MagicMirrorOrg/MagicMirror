@@ -9,13 +9,13 @@ import HTTPFetcher from "#http_fetcher";
  * Note: Minimum update interval is 10 minutes (600000 ms) per API terms
  */
 class YrProvider {
-	config: any;
+	config: WeatherConfig;
 
-	fetcher: any;
+	fetcher: HTTPFetcher | null;
 
-	onDataCallback: any;
+	onDataCallback: WeatherDataCallback | null;
 
-	onErrorCallback: any;
+	onErrorCallback: WeatherErrorCallback | null;
 
 	locationName: any;
 
@@ -25,7 +25,7 @@ class YrProvider {
 
 	weatherCache: { data: any; lastModified: any; expires: any };
 
-	constructor (config: any) {
+	constructor (config: WeatherConfig) {
 		this.config = {
 			apiBase: "https://api.met.no/weatherapi",
 			forecastApiVersion: "2.0",
@@ -40,7 +40,7 @@ class YrProvider {
 		};
 
 		// Enforce 10 minute minimum per API terms
-		if (this.config.updateInterval < 600000) {
+		if ((this.config.updateInterval as number) < 600000) {
 			Log.warn("[yr] Minimum update interval is 10 minutes (600000 ms). Adjusting configuration.");
 			this.config.updateInterval = 600000;
 		}
@@ -64,12 +64,12 @@ class YrProvider {
 
 	async initialize (): Promise<void> {
 		// Yr.no requires max 4 decimal places
-		validateCoordinates(this.config, 4);
+		validateCoordinates(this.config as { lat: number; lon: number }, 4);
 		await this.#fetchStellarData();
 		this.#initializeFetcher();
 	}
 
-	setCallbacks (onData: any, onError: any): void {
+	setCallbacks (onData: WeatherDataCallback, onError: WeatherErrorCallback): void {
 		this.onDataCallback = onData;
 		this.onErrorCallback = onError;
 	}
@@ -212,7 +212,7 @@ class YrProvider {
 				await this.#fetchStellarData();
 			}
 
-			let weatherData;
+			let weatherData: any;
 
 			switch (this.config.type) {
 				case "current":
@@ -243,7 +243,7 @@ class YrProvider {
 		}
 	}
 
-	#generateCurrentWeather (data: any): any {
+	#generateCurrentWeather (data: any): WeatherDataPoint {
 		const now = new Date();
 		const timeseries = data.properties.timeseries;
 
@@ -287,7 +287,7 @@ class YrProvider {
 		return current;
 	}
 
-	#generateForecast (data: any): any {
+	#generateForecast (data: any): WeatherDataPoint[] {
 		const timeseries = data.properties.timeseries;
 		const dailyData = new Map();
 
@@ -354,7 +354,7 @@ class YrProvider {
 		return days.sort((a, b) => (a.date as any) - (b.date as any));
 	}
 
-	#generateHourly (data: any): any {
+	#generateHourly (data: any): WeatherDataPoint[] {
 		const hours = [];
 		const timeseries = data.properties.timeseries;
 

@@ -7,13 +7,13 @@ import HTTPFetcher from "#http_fetcher";
  * see https://openweathermap.org/
  */
 class OpenWeatherMapProvider {
-	config: any;
+	config: WeatherConfig;
 
-	fetcher: any;
+	fetcher: HTTPFetcher | null;
 
-	onDataCallback: any;
+	onDataCallback: WeatherDataCallback | null;
 
-	onErrorCallback: any;
+	onErrorCallback: WeatherErrorCallback | null;
 
 	locationName: string | null;
 
@@ -56,7 +56,7 @@ class OpenWeatherMapProvider {
 		this.#initializeFetcher();
 	}
 
-	setCallbacks (onData: any, onError: any): void {
+	setCallbacks (onData: WeatherDataCallback, onError: WeatherErrorCallback): void {
 		this.onDataCallback = onData;
 		this.onErrorCallback = onError;
 	}
@@ -157,7 +157,7 @@ class OpenWeatherMapProvider {
 		}
 	}
 
-	#generateWeatherObjectFromCurrentWeather (data: any): any {
+	#generateWeatherObjectFromCurrentWeather (data: any): WeatherDataPoint {
 		const timezoneOffsetMinutes = (data.timezone ?? 0) / 60;
 
 		if (data.name && data.sys?.country) {
@@ -193,7 +193,7 @@ class OpenWeatherMapProvider {
 		};
 	}
 
-	#generateHourlyWeatherObjectsFromForecast (data: any): any {
+	#generateHourlyWeatherObjectsFromForecast (data: any): WeatherDataPoint[] {
 		const timezoneOffsetSeconds = data.city?.timezone ?? 0;
 		const timezoneOffsetMinutes = timezoneOffsetSeconds / 60;
 
@@ -223,7 +223,7 @@ class OpenWeatherMapProvider {
 		});
 	}
 
-	#generateDailyWeatherObjectsFromForecast (data: any): any {
+	#generateDailyWeatherObjectsFromForecast (data: any): WeatherDataPoint[] {
 		const timezoneOffsetSeconds = data.city?.timezone ?? 0;
 		const timezoneOffsetMinutes = timezoneOffsetSeconds / 60;
 

@@ -199,10 +199,10 @@ Module.register("weather", {
 				break;
 			case "forecast":
 			case "daily":
-				this.weatherForecastArray = data.map((d: any) => this.createWeatherObject(d));
+				this.weatherForecastArray = (data as WeatherDataPoint[]).map((d: WeatherDataPoint) => this.createWeatherObject(d));
 				break;
 			case "hourly":
-				this.weatherHourlyArray = data.map((d: any) => this.createWeatherObject(d));
+				this.weatherHourlyArray = (data as WeatherDataPoint[]).map((d: WeatherDataPoint) => this.createWeatherObject(d));
 				break;
 			default:
 				Log.warn(`Unknown weather data type: ${type}`);
@@ -212,7 +212,7 @@ Module.register("weather", {
 		this.updateAvailable();
 	},
 
-	createWeatherObject (data: any): any {
+	createWeatherObject (data: WeatherDataPoint): any {
 		const weather = new WeatherObject();
 		Object.assign(weather, {
 			...data,

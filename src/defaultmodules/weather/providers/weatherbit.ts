@@ -6,15 +6,15 @@ import HTTPFetcher from "#http_fetcher";
  * See: https://www.weatherbit.io/
  */
 class WeatherbitProvider {
-	config: any;
+	config: WeatherConfig;
 
-	fetcher: any;
+	fetcher: HTTPFetcher | null;
 
-	onDataCallback: ((data: any) => void) | null;
+	onDataCallback: WeatherDataCallback | null;
 
-	onErrorCallback: ((error: any) => void) | null;
+	onErrorCallback: WeatherErrorCallback | null;
 
-	constructor (config: any) {
+	constructor (config: WeatherConfig) {
 		this.config = {
 			apiBase: "https://api.weatherbit.io/v2.0",
 			apiKey: "",
@@ -30,7 +30,7 @@ class WeatherbitProvider {
 		this.onErrorCallback = null;
 	}
 
-	setCallbacks (onDataCallback: (data: any) => void, onErrorCallback: (error: any) => void): void {
+	setCallbacks (onDataCallback: WeatherDataCallback, onErrorCallback: WeatherErrorCallback): void {
 		this.onDataCallback = onDataCallback;
 		this.onErrorCallback = onErrorCallback;
 	}
@@ -113,7 +113,7 @@ class WeatherbitProvider {
 			return;
 		}
 
-		let weatherData = null;
+		let weatherData: any = null;
 
 		switch (this.config.type) {
 			case "current":
@@ -136,7 +136,7 @@ class WeatherbitProvider {
 		}
 	}
 
-	#generateCurrent (data: any): any {
+	#generateCurrent (data: any): WeatherDataPoint | null {
 		if (!data.data[0] || typeof data.data[0].temp === "undefined") {
 			return null;
 		}
@@ -172,7 +172,7 @@ class WeatherbitProvider {
 		return weather;
 	}
 
-	#generateDaily (data: any): any {
+	#generateDaily (data: any): WeatherDataPoint[] {
 		const days = [];
 
 		for (const forecast of data.data) {
@@ -189,7 +189,7 @@ class WeatherbitProvider {
 		return days;
 	}
 
-	#generateHourly (data: any): any {
+	#generateHourly (data: any): WeatherDataPoint[] {
 		const hours = [];
 
 		for (const forecast of data.data) {

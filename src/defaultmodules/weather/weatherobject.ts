@@ -104,7 +104,7 @@ class WeatherObject {
 		return date.isBetween(this.sunrise, this.sunset) ? "sunset" : "sunrise";
 	}
 
-	feelsLike (): any {
+	feelsLike (): number {
 		if (this.feelsLikeTemp) {
 			return this.feelsLikeTemp;
 		}

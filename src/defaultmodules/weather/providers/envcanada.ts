@@ -14,13 +14,13 @@ import HTTPFetcher from "#http_fetcher";
  * See https://dd.weather.gc.ca/citypage_weather/docs/site_list_en.csv
  */
 class EnvCanadaProvider {
-	config: any;
+	config: WeatherConfig;
 
-	fetcher: any;
+	fetcher: HTTPFetcher | null;
 
-	onDataCallback: any;
+	onDataCallback: WeatherDataCallback | null;
 
-	onErrorCallback: any;
+	onErrorCallback: WeatherErrorCallback | null;
 
 	lastCityPageURL: string | null;
 
@@ -50,7 +50,7 @@ class EnvCanadaProvider {
 		this.#initializeFetcher();
 	}
 
-	setCallbacks (onData: any, onError: any): void {
+	setCallbacks (onData: WeatherDataCallback, onError: WeatherErrorCallback): void {
 		this.onDataCallback = onData;
 		this.onErrorCallback = onError;
 	}
@@ -166,7 +166,7 @@ class EnvCanadaProvider {
 		}
 	}
 
-	#generateCurrentWeather (xml: string): any {
+	#generateCurrentWeather (xml: string): WeatherDataPoint {
 		const current: any = { date: new Date() };
 
 		// Try to get temperature from currentConditions first
@@ -252,7 +252,7 @@ class EnvCanadaProvider {
 		return current;
 	}
 
-	#generateForecast (xml: string): any[] {
+	#generateForecast (xml: string): WeatherDataPoint[] {
 		const days: any[] = [];
 		const forecasts = xml.match(/<forecast>(.*?)<\/forecast>/gs) || [];
 
@@ -343,7 +343,7 @@ class EnvCanadaProvider {
 		}
 	}
 
-	#generateHourly (xml: string): any[] {
+	#generateHourly (xml: string): WeatherDataPoint[] {
 		const hours: any[] = [];
 		const hourlyMatches = xml.matchAll(/<hourlyForecast[^>]*dateTimeUTC="([^"]*)"[^>]*>(.*?)<\/hourlyForecast>/gs);
 

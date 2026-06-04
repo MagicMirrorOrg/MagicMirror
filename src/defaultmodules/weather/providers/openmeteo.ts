@@ -14,11 +14,11 @@ class OpenMeteoProvider {
 
 	locationName: string | null;
 
-	fetcher: any;
+	fetcher: HTTPFetcher | null;
 
-	onDataCallback: ((data: any) => void) | null;
+	onDataCallback: WeatherDataCallback | null;
 
-	onErrorCallback: ((error: any) => void) | null;
+	onErrorCallback: WeatherErrorCallback | null;
 
 	// https://open-meteo.com/en/docs
 	hourlyParams = [
@@ -127,7 +127,7 @@ class OpenMeteoProvider {
 	 * @param {(data: object) => void} onData - Called with weather data
 	 * @param {(error: object) => void} onError - Called with error info
 	 */
-	setCallbacks (onData: (data: any) => void, onError: (error: any) => void): void {
+	setCallbacks (onData: WeatherDataCallback, onError: WeatherErrorCallback): void {
 		this.onDataCallback = onData;
 		this.onErrorCallback = onError;
 	}
@@ -217,7 +217,7 @@ class OpenMeteoProvider {
 		}
 
 		try {
-			let weatherData;
+			let weatherData: any;
 			switch (this.config.type) {
 				case "current":
 					weatherData = this.#generateWeatherDayFromCurrentWeather(parsedData);
@@ -416,7 +416,7 @@ class OpenMeteoProvider {
 		return time >= sunrise.getTime() && time < sunset.getTime();
 	}
 
-	#generateWeatherDayFromCurrentWeather (parsedData: any): any {
+	#generateWeatherDayFromCurrentWeather (parsedData: any): WeatherDataPoint {
 		// Basic current weather data
 		const current: any = {
 			date: parsedData.current_weather.time,
@@ -469,7 +469,7 @@ class OpenMeteoProvider {
 		return current;
 	}
 
-	#generateWeatherObjectsFromForecast (parsedData: any): any {
+	#generateWeatherObjectsFromForecast (parsedData: any): WeatherDataPoint[] {
 		return parsedData.daily.map((weather: any) => ({
 			date: weather.time,
 			windSpeed: weather.windspeed_10m_max,
@@ -488,7 +488,7 @@ class OpenMeteoProvider {
 		}));
 	}
 
-	#generateWeatherObjectsFromHourly (parsedData: any): any {
+	#generateWeatherObjectsFromHourly (parsedData: any): WeatherDataPoint[] {
 		const hours: any[] = [];
 		const now = new Date();
 

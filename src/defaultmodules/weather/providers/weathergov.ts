@@ -8,13 +8,13 @@ import HTTPFetcher from "#http_fetcher";
  * https://weather-gov.github.io/api/general-faqs
  */
 class WeatherGovProvider {
-	config: any;
+	config: WeatherConfig;
 
-	fetcher: any;
+	fetcher: HTTPFetcher | null;
 
-	onDataCallback: any;
+	onDataCallback: WeatherDataCallback | null;
 
-	onErrorCallback: any;
+	onErrorCallback: WeatherErrorCallback | null;
 
 	locationName: string | null;
 
@@ -32,7 +32,7 @@ class WeatherGovProvider {
 
 	stationObsURL: string | null;
 
-	constructor (config: any) {
+	constructor (config: WeatherConfig) {
 		this.config = {
 			apiBase: "https://api.weather.gov/points/",
 			lat: 0,
@@ -115,7 +115,7 @@ class WeatherGovProvider {
 		};
 	}
 
-	setCallbacks (onData: any, onError: any): void {
+	setCallbacks (onData: WeatherDataCallback, onError: WeatherErrorCallback): void {
 		this.onDataCallback = onData;
 		this.onErrorCallback = onError;
 	}
@@ -254,7 +254,7 @@ class WeatherGovProvider {
 
 	#handleResponse (data: any): void {
 		try {
-			let weatherData;
+			let weatherData: any;
 
 			switch (this.config.type) {
 				case "current":
@@ -294,7 +294,7 @@ class WeatherGovProvider {
 		}
 	}
 
-	#generateWeatherObjectFromCurrentWeather (currentWeatherData: any): any {
+	#generateWeatherObjectFromCurrentWeather (currentWeatherData: any): WeatherDataPoint {
 		const current: any = {};
 
 		current.date = new Date(currentWeatherData.timestamp);
@@ -316,7 +316,7 @@ class WeatherGovProvider {
 		}
 
 		// Calculate sunrise/sunset (not provided by weather.gov)
-		const { sunrise, sunset } = getSunTimes(current.date, this.config.lat, this.config.lon);
+		const { sunrise, sunset } = getSunTimes(current.date, this.config.lat as number, this.config.lon as number);
 		current.sunrise = sunrise;
 		current.sunset = sunset;
 
@@ -327,7 +327,7 @@ class WeatherGovProvider {
 		return current;
 	}
 
-	#generateWeatherObjectsFromForecast (forecasts: any): any {
+	#generateWeatherObjectsFromForecast (forecasts: any): WeatherDataPoint[] {
 		const days = [];
 		let minTemp = [];
 		let maxTemp = [];
@@ -376,7 +376,7 @@ class WeatherGovProvider {
 		return days;
 	}
 
-	#generateWeatherObjectsFromHourly (forecasts: any): any {
+	#generateWeatherObjectsFromHourly (forecasts: any): WeatherDataPoint[] {
 		const hours = [];
 
 		for (const forecast of forecasts) {

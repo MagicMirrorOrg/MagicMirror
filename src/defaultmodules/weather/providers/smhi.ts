@@ -34,11 +34,11 @@ const PRECIP_VALUE_MAP: Record<string, string> = {
 class SMHIProvider {
 	config: any;
 
-	fetcher: any;
+	fetcher: HTTPFetcher | null;
 
-	onDataCallback: any;
+	onDataCallback: WeatherDataCallback | null;
 
-	onErrorCallback: any;
+	onErrorCallback: WeatherErrorCallback | null;
 
 	constructor (config: any) {
 		this.config = {
@@ -77,7 +77,7 @@ class SMHIProvider {
 		}
 	}
 
-	setCallbacks (onData: any, onError: any): void {
+	setCallbacks (onData: WeatherDataCallback, onError: WeatherErrorCallback): void {
 		this.onDataCallback = onData;
 		this.onErrorCallback = onError;
 	}
@@ -131,7 +131,7 @@ class SMHIProvider {
 			}
 
 			const coordinates = this.#resolveCoordinates(data);
-			let weatherData;
+			let weatherData: any;
 
 			switch (this.config.type) {
 				case "current":
@@ -169,17 +169,17 @@ class SMHIProvider {
 		}
 	}
 
-	#generateCurrentWeather (timeSeries: any, coordinates: any): any {
+	#generateCurrentWeather (timeSeries: any, coordinates: any): WeatherDataPoint {
 		const closest = this.#getClosestToCurrentTime(timeSeries);
 		return this.#convertWeatherDataToObject(closest, coordinates);
 	}
 
-	#generateForecast (timeSeries: any, coordinates: any): any {
+	#generateForecast (timeSeries: any, coordinates: any): WeatherDataPoint[] {
 		const filled = this.#fillInGaps(timeSeries);
 		return this.#convertWeatherDataGroupedBy(filled, coordinates, "day");
 	}
 
-	#generateHourly (timeSeries: any, coordinates: any): any {
+	#generateHourly (timeSeries: any, coordinates: any): WeatherDataPoint[] {
 		const filled = this.#fillInGaps(timeSeries);
 		return this.#convertWeatherDataGroupedBy(filled, coordinates, "hour");
 	}
@@ -217,7 +217,7 @@ class SMHIProvider {
 	 * @param {object} coordinates - Object with lat and lon properties.
 	 * @returns {object} MagicMirror-formatted weather data object.
 	 */
-	#convertWeatherDataToObject (weatherData: any, coordinates: any): any {
+	#convertWeatherDataToObject (weatherData: any, coordinates: any): WeatherDataPoint {
 		const date = new Date(weatherData.time);
 		const { sunrise, sunset } = getSunTimes(date, coordinates.lat, coordinates.lon);
 		const isDay = isDayTime(date, sunrise, sunset);
@@ -273,12 +273,12 @@ class SMHIProvider {
 		return current;
 	}
 
-	#convertWeatherDataGroupedBy (allWeatherData: any[], coordinates: any, groupBy: string = "day"): any[] {
+	#convertWeatherDataGroupedBy (allWeatherData: any[], coordinates: any, groupBy: string = "day"): WeatherDataPoint[] {
 		const result: any[] = [];
 		let currentWeather: any = null;
 		let dayWeatherTypes: any[] = [];
 
-		const allWeatherObjects = allWeatherData.map((data) => this.#convertWeatherDataToObject(data, coordinates));
+		const allWeatherObjects: any[] = allWeatherData.map((data) => this.#convertWeatherDataToObject(data, coordinates));
 
 		for (const weatherObject of allWeatherObjects) {
 			const objDate = new Date(weatherObject.date);

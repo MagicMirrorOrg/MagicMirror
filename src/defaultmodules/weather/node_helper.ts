@@ -26,9 +26,9 @@ export = NodeHelper.create({
 	 * Initialize a weather provider
 	 * @param {object} config The configuration object
 	 */
-	async initWeatherProvider (config: any): Promise<void> {
-		const identifier = config.weatherProvider.toLowerCase();
-		const instanceId = config.instanceId;
+	async initWeatherProvider (config: WeatherConfig): Promise<void> {
+		const identifier = config.weatherProvider!.toLowerCase();
+		const instanceId = config.instanceId!;
 
 		Log.log(`Attempting to initialize provider ${identifier} for instance ${instanceId}`);
 
@@ -58,13 +58,13 @@ export = NodeHelper.create({
 
 			// Set up callbacks before initializing
 			provider.setCallbacks(
-				(data: any) => {
+				(data: WeatherDataPoint[]) => {
 					// On data received
 					const payload = { instanceId, type: config.type, data };
 					this.lastData[instanceId] = payload;
 					this.sendSocketNotification("WEATHER_DATA", payload);
 				},
-				(errorInfo: any) => {
+				(errorInfo: WeatherError) => {
 					// On error
 					this.sendSocketNotification("WEATHER_ERROR", {
 						instanceId,
