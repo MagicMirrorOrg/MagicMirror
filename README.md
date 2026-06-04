@@ -21,6 +21,30 @@ MagicMirror² focuses on a modular plugin system and uses [Electron](https://www
 
 For the full documentation including **[installation instructions](https://docs.magicmirror.builders/getting-started/installation.html)**, please visit our dedicated documentation website: [https://docs.magicmirror.builders](https://docs.magicmirror.builders).
 
+## This fork: TypeScript + Yarn
+
+This fork differs from upstream in two ways that matter for development:
+
+- **All source is authored in TypeScript** under [`src/`](src/README.md) and compiled
+  **in place** back into the runtime directories (`js/`, `defaultmodules/`, …); the
+  emitted `.js` is git-ignored. The runtime behaviour is unchanged — see
+  [`src/README.md`](src/README.md) for the layout and build model.
+- **The package manager is [Yarn](https://yarnpkg.com) 4** (pinned via `packageManager`
+  and Corepack), not npm.
+
+Quick start for development:
+
+```sh
+corepack enable            # activate the pinned Yarn
+node --run install-mm:dev  # install deps, Playwright chromium, and build
+node --run test            # build + run the full test suite
+node --run server          # build + start in server-only mode
+```
+
+Any script runs with `yarn <script>` or `node --run <script>`. See
+[`.github/CONTRIBUTING.md`](.github/CONTRIBUTING.md) and [`CLAUDE.md`](CLAUDE.md) for
+more. Production installs use `node --run install-mm`.
+
 ## Links
 
 - Website: [https://magicmirror.builders](https://magicmirror.builders)

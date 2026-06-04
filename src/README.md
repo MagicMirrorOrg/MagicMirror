@@ -33,14 +33,18 @@ and rebuild.
 ## Build
 
 ```sh
-npm run build        # tsc -b over the seven per-concern projects
-npm run build:watch  # incremental watch (all projects in parallel)
-npm run clean:build  # remove build artifacts
+yarn build        # tsc -b over the seven per-concern projects
+yarn build:watch  # incremental watch (all projects in parallel)
+yarn clean:build  # remove build artifacts
 ```
 
-`build` runs automatically before `test*`, `server`, `start*`, `config:check` (via npm
-`pre*` hooks) and before `npm pack` (`prepack`), so the suite and runtime always execute
-fresh output.
+(`node --run build` works too — the scripts are package-manager-agnostic.)
+
+`build` is chained into the front of `test*`, `server`, `start`, `config:check`
+(`node --run build && ...`) so the suite and runtime always execute fresh output. It is
+inlined rather than relying on `pre*` lifecycle hooks because Yarn (and `node --run`) do
+not run npm-style `pre*` scripts. The `prepack` lifecycle event Yarn does honor still
+builds before `yarn pack`.
 
 ## Seven projects, no bundler
 
