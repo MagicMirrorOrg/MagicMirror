@@ -1,0 +1,12 @@
+{
+	"extends": "../tsconfig.base.json",
+	"compilerOptions": {
+		"rootDir": "serveronly",
+		"outDir": "../serveronly",
+		"lib": ["ES2022"],
+		"types": ["node"],
+		"incremental": true,
+		"tsBuildInfoFile": "../node_modules/.cache/tsc/serveronly.tsbuildinfo"
+	},
+	"include": ["serveronly/**/*.ts", "types/node-globals.d.ts", "types/aliases.d.ts", "types/untyped-modules.d.ts", "types/config.d.ts"]
+}

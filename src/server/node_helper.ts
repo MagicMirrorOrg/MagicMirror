@@ -1,6 +1,6 @@
 import express from "express";
 import Log from "logger";
-import { replaceSecretPlaceholder } from "#server_functions";
+import { replaceSecretPlaceholder } from "./server_functions";
 
 class NodeHelper {
 	// All assigned at runtime (via setName/setPath/setExpressApp/setSocketIO); declared

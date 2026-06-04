@@ -1,0 +1,13 @@
+{
+	"extends": "../tsconfig.base.json",
+	"compilerOptions": {
+		"rootDir": "translations",
+		"outDir": "../translations",
+		"lib": ["ES2022", "DOM"],
+		"types": [],
+		"alwaysStrict": false,
+		"incremental": true,
+		"tsBuildInfoFile": "../node_modules/.cache/tsc/translations.tsbuildinfo"
+	},
+	"include": ["translations/**/*.ts", "types/browser-shims.d.ts"]
+}

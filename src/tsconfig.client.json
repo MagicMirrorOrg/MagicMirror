@@ -1,0 +1,14 @@
+{
+	"extends": "../tsconfig.base.json",
+	"compilerOptions": {
+		"rootDir": "client",
+		"outDir": "../js",
+		"lib": ["ES2022", "DOM", "DOM.Iterable"],
+		"types": [],
+		"alwaysStrict": false,
+		"incremental": true,
+		"tsBuildInfoFile": "../node_modules/.cache/tsc/client.tsbuildinfo"
+	},
+	"//": "Browser global-script core -> js/. Script files (no top-level import/export); alwaysStrict:false preserves sloppy-mode loading.",
+	"include": ["client/**/*.ts", "types/globals.d.ts", "types/browser-shims.d.ts", "types/config.d.ts", "types/weather.d.ts", "types/calendar.d.ts", "types/newsfeed.d.ts", "types/client-consumer.d.ts"]
+}

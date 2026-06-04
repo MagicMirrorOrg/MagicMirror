@@ -7,7 +7,7 @@ import Ajv from "ajv";
 import { Linter } from "eslint";
 import globals from "globals";
 
-import { getConfigFilePath } from "#server_functions";
+import { getConfigFilePath } from "./server_functions";
 
 const modulePositions: string[] = []; // will get list from index.html
 const regionRegEx = /"region ([^"]*)/i;

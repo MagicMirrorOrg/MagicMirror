@@ -1,10 +1,11 @@
 {
-	"//": "Editor/LSP convenience config only. The authoritative build runs the two project configs (npm run build): src/tsconfig.browser.json and src/tsconfig.server.json, which enforce the DOM-vs-node lib split. This config combines both libs so editors resolve every src file; lib-mismatch errors are caught by the real build.",
+	"//": "Editor/LSP convenience config only. The authoritative build (npm run build) uses the seven per-concern project configs under src/ (tsc -b), which enforce the DOM-vs-node lib split and the rootDir->output mapping. This config combines all source into one program so editors resolve every src file and cross-concern browser globals (Module, defaultModules, translations) the way the runtime does; lib-mismatch and project-boundary errors are caught by the real build. The consumer-only ambient shims are excluded here because in the combined program their globals are already provided by their defining source files (declaring them again would be a duplicate-identifier error).",
 	"extends": "./tsconfig.base.json",
 	"compilerOptions": {
 		"noEmit": true,
 		"lib": ["ES2022", "DOM", "DOM.Iterable"],
 		"types": ["node"]
 	},
-	"include": ["src/**/*.ts", "src/**/*.d.ts"]
+	"include": ["src/**/*.ts", "src/**/*.d.ts"],
+	"exclude": ["src/types/module-consumer.d.ts", "src/types/client-consumer.d.ts"]
 }

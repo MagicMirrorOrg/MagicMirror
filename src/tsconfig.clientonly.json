@@ -1,0 +1,12 @@
+{
+	"extends": "../tsconfig.base.json",
+	"compilerOptions": {
+		"rootDir": "clientonly",
+		"outDir": "../clientonly",
+		"lib": ["ES2022"],
+		"types": ["node"],
+		"incremental": true,
+		"tsBuildInfoFile": "../node_modules/.cache/tsc/clientonly.tsbuildinfo"
+	},
+	"include": ["clientonly/**/*.ts", "types/node-globals.d.ts", "types/config.d.ts"]
+}

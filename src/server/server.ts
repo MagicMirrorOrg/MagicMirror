@@ -7,7 +7,7 @@ import helmet from "helmet";
 import socketio from "socket.io";
 import Log from "logger";
 import { ipAccessControl } from "./ip_access_control";
-import { getHtml, getVersion, getEnvVars, cors } from "#server_functions";
+import { getHtml, getVersion, getEnvVars, cors } from "./server_functions";
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports -- dual-world browser script; no static TS export
 const vendor = require("./vendor");

@@ -4,7 +4,7 @@
  * of starting the MagicMirror² core. Adjust the values below to your desire.
  */
 // Load internal alias resolver
-import "../../js/alias-resolver";
+import "#alias-resolver";
 import Log from "logger";
 import CalendarFetcher from "./calendarfetcher";
 

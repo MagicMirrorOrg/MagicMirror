@@ -41,3 +41,36 @@ declare module "node_helper" {
 	const NodeHelper: NodeHelperStatic;
 	export = NodeHelper;
 }
+
+/*
+ * package.json "imports" subpaths, resolved at runtime by Node. Typed `any` here
+ * because the producing source lives in a different tsc project (src/server/*), so it
+ * can't be imported across the project boundary without re-emitting it.
+ */
+declare module "#http_fetcher" {
+	// Declared as a class so consumers can use `HTTPFetcher` as both a value
+	// (new HTTPFetcher(...)) and a type (httpFetcher: HTTPFetcher).
+	class HTTPFetcher {
+		constructor (...args: any[]);
+		static [key: string]: any;
+
+		[key: string]: any;
+	}
+	export = HTTPFetcher;
+}
+declare module "#app" {
+	const app: any;
+	export = app;
+}
+declare module "#alias-resolver" {}
+declare module "#server_functions" {
+	export const cors: any;
+	export const getHtml: any;
+	export const getVersion: any;
+	export const getStartup: any;
+	export const getEnvVars: any;
+	export const getEnvVarsAsObj: any;
+	export const getUserAgent: any;
+	export const getConfigFilePath: any;
+	export const replaceSecretPlaceholder: any;
+}

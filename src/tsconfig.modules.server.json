@@ -1,0 +1,43 @@
+{
+	"extends": "../tsconfig.base.json",
+	"compilerOptions": {
+		"rootDir": "modules",
+		"outDir": "../defaultmodules",
+		"lib": ["ES2022"],
+		"types": ["node"],
+		"incremental": true,
+		"tsBuildInfoFile": "../node_modules/.cache/tsc/modules-server.tsbuildinfo"
+	},
+	"//": "Server-side files inside default modules (node_helpers, fetchers, providers) -> defaultmodules/. Listed explicitly because each feature folder also holds browser files (compiled by tsconfig.modules.client.json).",
+	"files": [
+		"types/node-globals.d.ts",
+		"types/aliases.d.ts",
+		"types/untyped-modules.d.ts",
+		"types/config.d.ts",
+		"types/weather.d.ts",
+		"types/calendar.d.ts",
+		"types/newsfeed.d.ts",
+		"modules/calendar/debug.ts",
+		"modules/calendar/calendarfetcherutils.ts",
+		"modules/calendar/calendarfetcher.ts",
+		"modules/calendar/node_helper.ts",
+		"modules/newsfeed/newsfeedfetcher.ts",
+		"modules/newsfeed/node_helper.ts",
+		"modules/weather/node_helper.ts",
+		"modules/weather/provider-utils.ts",
+		"modules/weather/providers/envcanada.ts",
+		"modules/weather/providers/openmeteo.ts",
+		"modules/weather/providers/openweathermap.ts",
+		"modules/weather/providers/pirateweather.ts",
+		"modules/weather/providers/smhi.ts",
+		"modules/weather/providers/ukmetofficedatahub.ts",
+		"modules/weather/providers/weatherapi.ts",
+		"modules/weather/providers/weatherbit.ts",
+		"modules/weather/providers/weatherflow.ts",
+		"modules/weather/providers/weathergov.ts",
+		"modules/weather/providers/yr.ts",
+		"modules/updatenotification/git_helper.ts",
+		"modules/updatenotification/update_helper.ts",
+		"modules/updatenotification/node_helper.ts"
+	]
+}

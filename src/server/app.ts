@@ -8,7 +8,7 @@ import Log from "logger";
 import { setGlobalDispatcher, Agent } from "undici";
 import Server from "./server";
 import Utils from "./utils";
-import { getEnvVarsAsObj } from "#server_functions";
+import { getEnvVarsAsObj } from "./server_functions";
 
 // global absolute root path
 global.root_path = path.resolve(`${__dirname}/../`);

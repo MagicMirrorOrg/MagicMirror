@@ -1,5 +1,5 @@
 // Load lightweight internal alias resolver to enable require("logger")
-import "../js/alias-resolver";
+import "#alias-resolver";
 
 import { spawn } from "node:child_process";
 import fs from "node:fs";

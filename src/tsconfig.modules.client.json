@@ -1,0 +1,36 @@
+{
+	"extends": "../tsconfig.base.json",
+	"compilerOptions": {
+		"rootDir": "modules",
+		"outDir": "../defaultmodules",
+		"lib": ["ES2022", "DOM", "DOM.Iterable"],
+		"types": [],
+		"alwaysStrict": false,
+		"incremental": true,
+		"tsBuildInfoFile": "../node_modules/.cache/tsc/modules-client.tsbuildinfo"
+	},
+	"//": "Browser global-script files inside default modules (Module.register entries, weatherobject/utils) -> defaultmodules/.",
+	"files": [
+		"types/globals.d.ts",
+		"types/browser-shims.d.ts",
+		"types/config.d.ts",
+		"types/weather.d.ts",
+		"types/calendar.d.ts",
+		"types/newsfeed.d.ts",
+		"types/module-consumer.d.ts",
+		"modules/defaultmodules.ts",
+		"modules/utils.ts",
+		"modules/weather/weatherutils.ts",
+		"modules/weather/weatherobject.ts",
+		"modules/weather/weather.ts",
+		"modules/calendar/calendarutils.ts",
+		"modules/calendar/calendar.ts",
+		"modules/alert/notificationFx.ts",
+		"modules/alert/alert.ts",
+		"modules/clock/clock.ts",
+		"modules/compliments/compliments.ts",
+		"modules/helloworld/helloworld.ts",
+		"modules/newsfeed/newsfeed.ts",
+		"modules/updatenotification/updatenotification.ts"
+	]
+}

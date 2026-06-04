@@ -32,6 +32,12 @@
 		},
 		"#http_fetcher": {
 			"default": "./js/http_fetcher.js"
+		},
+		"#app": {
+			"default": "./js/app.js"
+		},
+		"#alias-resolver": {
+			"default": "./js/alias-resolver.js"
 		}
 	},
 	"main": "js/electron.js",
@@ -48,9 +54,9 @@
 	],
 	"sideEffects": true,
 	"scripts": {
-		"build": "tsc -p src/tsconfig.browser.json && tsc -p src/tsconfig.server.json",
-		"build:watch": "tsc -w -p src/tsconfig.browser.json & tsc -w -p src/tsconfig.server.json",
-		"clean:build": "tsc -b --clean src/tsconfig.browser.json src/tsconfig.server.json || rm -rf node_modules/.cache/tsc",
+		"build": "tsc -b src/tsconfig.server.json src/tsconfig.client.json src/tsconfig.modules.server.json src/tsconfig.modules.client.json src/tsconfig.serveronly.json src/tsconfig.clientonly.json src/tsconfig.translations.json",
+		"build:watch": "rm -rf node_modules/.cache/tsc && for p in server client modules.server modules.client serveronly clientonly translations; do tsc -w -p \"src/tsconfig.$p.json\" & done; wait",
+		"clean:build": "rm -rf node_modules/.cache/tsc",
 		"preconfig:check": "node --run build",
 		"config:check": "node js/check_config.js",
 		"postinstall": "git clean -df fonts vendor modules/default",

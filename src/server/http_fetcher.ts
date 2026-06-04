@@ -1,7 +1,7 @@
 import { EventEmitter } from "node:events";
 import { fetch as undiciFetch, Agent } from "undici";
 import Log from "logger";
-import { getUserAgent } from "#server_functions";
+import { getUserAgent } from "./server_functions";
 
 const FIFTEEN_MINUTES = 15 * 60 * 1000;
 const THIRTY_MINUTES = 30 * 60 * 1000;
