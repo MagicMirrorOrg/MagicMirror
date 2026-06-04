@@ -20,12 +20,14 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           check-latest: true
+      - name: Enable Corepack
+        run: corepack enable
       - name: Install MagicMirror
         run: node --run install-mm
       - name: Install @electron/rebuild
-        run: npm install @electron/rebuild
+        run: yarn add @electron/rebuild
       - name: Install test library (serialport) to be rebuilt
-        run: npm install serialport
+        run: yarn add serialport
       - name: Run electron-rebuild
-        run: npx electron-rebuild
+        run: yarn electron-rebuild
         continue-on-error: false

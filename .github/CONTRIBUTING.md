@@ -45,4 +45,6 @@ The `package.json` scripts expose finer-grained test commands:
 - `test:calendar` – run the legacy calendar debug helper
 - `test:css`, `test:markdown`, `test:prettier`, `test:spelling`, `test:js` – lint-only scripts that enforce formatting, spelling, markdown style, and ESLint.
 
-You can invoke any script with `node --run <script>` (or `npm run <script>`). Individual files can still be targeted directly, e.g. `npx vitest run tests/e2e/env_spec.js`.
+You can invoke any script with `node --run <script>` (or `yarn <script>`). Individual files can still be targeted directly, e.g. `yarn vitest run tests/e2e/env_spec.js`.
+
+This project uses [Yarn](https://yarnpkg.com) (pinned via the `packageManager` field and Corepack). Run `corepack enable` once, then `node --run install-mm:dev` to install dependencies.

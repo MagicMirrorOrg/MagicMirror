@@ -23,7 +23,8 @@ jobs:
         with:
           node-version: lts/*
           check-latest: true
-          cache: "npm"
+      - name: Enable Corepack
+        run: corepack enable
       - name: Install dependencies
         run: |
           node --run install-mm:dev

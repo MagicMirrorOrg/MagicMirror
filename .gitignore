@@ -138,9 +138,16 @@ js/positions.js
 /serveronly/watcher.js
 /defaultmodules/calendar/debug.js
 
-# Ignore lock files other than package-lock.json
+# Ignore lock files other than yarn.lock
 pnpm-lock.yaml
-yarn.lock
+package-lock.json
+
+# Yarn (node-modules linker; release/cache not committed, plugins are)
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/sdks
+.pnp.*
 
 # Vitest temporary test files
 tests/**/.tmp/

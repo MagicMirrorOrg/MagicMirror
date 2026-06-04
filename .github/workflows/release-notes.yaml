@@ -26,7 +26,6 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: lts/*
-          cache: "npm"
       - name: "Create Markdown content"
         run: |
           export GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}

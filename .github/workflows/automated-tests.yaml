@@ -27,7 +27,8 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: lts/*
-          cache: "npm"
+      - name: "Enable Corepack"
+        run: corepack enable
       - name: "Install dependencies"
         run: |
           node --run install-mm:dev
@@ -55,13 +56,14 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           check-latest: true
-          cache: "npm"
+      - name: "Enable Corepack"
+        run: corepack enable
       - name: "Install MagicMirror²"
         run: |
           node --run install-mm:dev
       - name: "Install Playwright browsers"
         run: |
-          npx playwright install --with-deps chromium
+          yarn playwright install --with-deps chromium
       - name: "Prepare environment for tests"
         run: |
           # Fix chrome-sandbox permissions:

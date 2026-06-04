@@ -69,9 +69,9 @@ Are done by
   - [ ] use a clean environment (e.g. container)
   - [ ] clone this repository with the new `master` branch and `cd` into the local repository directory
   - [ ] **Method 1 (recommended): With browser and 2FA**
-    - [ ] execute `npm login` which will open a browser window
+    - [ ] execute `yarn npm login` which will open a browser window
     - [ ] log in with your npm credentials and enter your 2FA code
-    - [ ] execute `npm publish`
+    - [ ] execute `yarn npm publish`
   - [ ] **Method 2 (fallback for headless environments): With token (bypasses 2FA)**
     - [ ] ⚠️ Note: This method bypasses 2FA and should only be used when a browser is not available
     - [ ] goto `https://www.npmjs.com/settings/<username>/tokens/` and click `generate new token`
@@ -80,6 +80,5 @@ Are done by
 
       ```bash
       NPM_TOKEN="npm_xxxxxx"
-      npm set "//registry.npmjs.org/:_authToken=$NPM_TOKEN"
-      npm publish
+      YARN_NPM_AUTH_TOKEN="$NPM_TOKEN" yarn npm publish
       ```
