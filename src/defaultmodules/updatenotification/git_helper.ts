@@ -5,22 +5,26 @@ const path = require("node:path");
 const Log = require("logger");
 
 class GitHelper {
+	gitRepos: any[];
+
+	gitResultList: any[];
+
 	constructor () {
 		this.gitRepos = [];
 		this.gitResultList = [];
 	}
 
-	getRefRegex (branch) {
+	getRefRegex (branch: string): RegExp {
 		return new RegExp(`s*([a-z,0-9]+[.][.][a-z,0-9]+)  ${branch}`, "g");
 	}
 
-	async execGit (moduleFolder, ...args) {
+	async execGit (moduleFolder: string, ...args: string[]): Promise<{ stdout: string; stderr: string }> {
 		const { stdout = "", stderr = "" } = await execFile("git", args, { cwd: moduleFolder });
 
 		return { stdout, stderr };
 	}
 
-	async isGitRepo (moduleFolder) {
+	async isGitRepo (moduleFolder: string): Promise<boolean> {
 		const { stderr } = await this.execGit(moduleFolder, "remote", "-v");
 
 		if (stderr) {
@@ -32,8 +36,8 @@ class GitHelper {
 		return true;
 	}
 
-	async add (moduleName) {
-		let moduleFolder = `${global.root_path}`;
+	async add (moduleName: string): Promise<void> {
+		let moduleFolder = `${(global as any).root_path}`;
 
 		if (moduleName !== "MagicMirror") {
 			moduleFolder = `${moduleFolder}/modules/${moduleName}`;
@@ -57,8 +61,8 @@ class GitHelper {
 		}
 	}
 
-	async getStatusInfo (repo) {
-		let gitInfo = {
+	async getStatusInfo (repo: any): Promise<any> {
+		const gitInfo: any = {
 			module: repo.module,
 			behind: 0, // commits behind
 			current: "", // branch name
@@ -87,7 +91,7 @@ class GitHelper {
 		}
 
 		// only the first line of stdout is evaluated
-		let status = stdout.split("\n")[0];
+		let status: any = stdout.split("\n")[0];
 		// examples for status:
 		// ## develop...origin/develop
 		// ## master...origin/master [behind 8]
@@ -112,7 +116,7 @@ class GitHelper {
 		return gitInfo;
 	}
 
-	async getRepoInfo (repo) {
+	async getRepoInfo (repo: any): Promise<any> {
 		const gitInfo = await this.getStatusInfo(repo);
 
 		if (!gitInfo || !gitInfo.current) {
@@ -172,7 +176,7 @@ class GitHelper {
 		}
 	}
 
-	async getRepos () {
+	async getRepos (): Promise<any[]> {
 		this.gitResultList = [];
 
 		for (const repo of this.gitRepos) {
@@ -193,8 +197,8 @@ class GitHelper {
 		return this.gitResultList;
 	}
 
-	checkUpdates () {
-		const updates = [];
+	checkUpdates (): any[] {
+		const updates: any[] = [];
 
 		for (const moduleInfo of this.gitResultList) {
 			if (moduleInfo.behind > 0 && moduleInfo.module !== "MagicMirror") {
@@ -207,4 +211,4 @@ class GitHelper {
 	}
 }
 
-module.exports = GitHelper;
+export = GitHelper;

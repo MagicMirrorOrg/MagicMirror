@@ -41,7 +41,25 @@ const Log = require("logger");
  */
 
 class Updater {
-	constructor (config) {
+	updates: any;
+
+	timeout: any;
+
+	autoRestart: any;
+
+	moduleList: { [key: string]: any };
+
+	updating: boolean;
+
+	usePM2: boolean;
+
+	PM2Id: any;
+
+	version: any;
+
+	root_path: any;
+
+	constructor (config: any) {
 		this.updates = config.updates;
 		this.timeout = config.updateTimeout;
 		this.autoRestart = config.updateAutorestart;
@@ -49,14 +67,14 @@ class Updater {
 		this.updating = false;
 		this.usePM2 = false; // don't use pm2 by default
 		this.PM2Id = null; // pm2 process number
-		this.version = global.version;
-		this.root_path = global.root_path;
+		this.version = (global as any).version;
+		this.root_path = (global as any).root_path;
 		Log.info("Updater Class Loaded!");
 	}
 
 	// [main command] parse if module update is needed
-	async parse (modules) {
-		var parser = modules.map(async (module) => {
+	async parse (modules: any[]): Promise<any[]> {
+		const parser = modules.map(async (module: any) => {
 			if (this.moduleList[module.module] === undefined) {
 				this.moduleList[module.module] = {};
 				this.moduleList[module.module].name = module.module;
@@ -80,7 +98,7 @@ class Updater {
 		});
 
 		await Promise.all(parser);
-		let updater = Object.values(this.moduleList);
+		const updater = Object.values(this.moduleList);
 		Log.debug("Update Result:", updater);
 		return updater;
 	}
@@ -94,8 +112,8 @@ class Updater {
 	 * 	needRestart: <boolean> // if magicmirror restart required
 	 * };
 	 */
-	updateProcess (module) {
-		let Result = {
+	updateProcess (module: any): any {
+		const Result = {
 			error: false,
 			updated: false,
 			needRestart: false
@@ -113,7 +131,7 @@ class Updater {
 		Log.info(`Updating ${module.name}...`);
 
 		return new Promise((resolve) => {
-			Exec(Command, { cwd: modulePath, timeout: this.timeout }, (error, stdout) => {
+			Exec(Command, { cwd: modulePath, timeout: this.timeout }, (error: any, stdout: any) => {
 				if (error) {
 					Log.error(`exec error: ${error}`);
 					Result.error = true;
@@ -134,16 +152,16 @@ class Updater {
 	}
 
 	// restart rules (pm2 or node --run start)
-	restart () {
+	restart (): void {
 		if (this.usePM2) this.pm2Restart();
 		else this.nodeRestart();
 	}
 
 	// restart MagicMirror with "pm2": use PM2Id for restart it
-	pm2Restart () {
+	pm2Restart (): void {
 		Log.info("[PM2] restarting MagicMirror...");
 		const pm2 = require("pm2");
-		pm2.restart(this.PM2Id, (err) => {
+		pm2.restart(this.PM2Id, (err: any) => {
 			if (err) {
 				Log.error("[PM2] restart Error", err);
 			}
@@ -151,7 +169,7 @@ class Updater {
 	}
 
 	// restart MagicMirror with "node --run start"
-	nodeRestart () {
+	nodeRestart (): void {
 		Log.info("Restarting MagicMirror...");
 		const out = process.stdout;
 		const err = process.stderr;
@@ -161,7 +179,7 @@ class Updater {
 	}
 
 	// Check using pm2
-	check_PM2_Process () {
+	check_PM2_Process (): Promise<boolean> {
 		Log.info("Checking PM2 using...");
 		return new Promise((resolve) => {
 			if (fs.existsSync("/.dockerenv")) {
@@ -179,21 +197,21 @@ class Updater {
 			Log.debug(`[PM2] Search for pm2 id: ${process.env.pm_id} -- name: ${process.env.name} -- unique_id: ${process.env.unique_id}`);
 
 			const pm2 = require("pm2");
-			pm2.connect((err) => {
+			pm2.connect((err: any) => {
 				if (err) {
 					Log.error("[PM2]", err);
 					resolve(false);
 					return;
 				}
-				pm2.list((err, list) => {
+				pm2.list((err: any, list: any[]) => {
 					if (err) {
 						Log.error("[PM2] Can't get process List!");
 						resolve(false);
 						return;
 					}
-					list.forEach((pm) => {
+					list.forEach((pm: any) => {
 						Log.debug(`[PM2] found pm2 process id: ${pm.pm_id} -- name: ${pm.name} -- unique_id: ${pm.pm2_env.unique_id}`);
-						if (pm.pm2_env.status === "online" && process.env.name === pm.name && +process.env.pm_id === +pm.pm_id && process.env.unique_id === pm.pm2_env.unique_id) {
+						if (pm.pm2_env.status === "online" && process.env.name === pm.name && +process.env.pm_id! === +pm.pm_id && process.env.unique_id === pm.pm2_env.unique_id) {
 							this.PM2Id = pm.pm_id;
 							this.usePM2 = true;
 							Log.info(`[PM2] You are using pm2 with id: ${this.PM2Id} (${pm.name})`);
@@ -213,20 +231,20 @@ class Updater {
 	}
 
 	// check if module is MagicMirror
-	isMagicMirror (module) {
+	isMagicMirror (module: any): boolean {
 		if (module === "MagicMirror") return true;
 		return false;
 	}
 
 	// search update module command
-	applyCommand (module) {
+	applyCommand (module: any): any {
 		if (this.isMagicMirror(module.module) || !this.updates.length) return null;
 		let command = null;
-		this.updates.forEach((updater) => {
+		this.updates.forEach((updater: any) => {
 			if (updater[module]) command = updater[module];
 		});
 		return command;
 	}
 }
 
-module.exports = Updater;
+export = Updater;

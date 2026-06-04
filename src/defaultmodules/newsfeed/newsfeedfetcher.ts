@@ -13,6 +13,22 @@ const HTTPFetcher = require("#http_fetcher");
  */
 class NewsfeedFetcher {
 
+	url: string;
+
+	encoding: string;
+
+	logFeedWarnings: boolean;
+
+	useCorsProxy: boolean;
+
+	items: any[];
+
+	fetchFailedCallback: (fetcher: NewsfeedFetcher, errorInfo: any) => void;
+
+	itemsReceivedCallback: (fetcher: NewsfeedFetcher) => void;
+
+	httpFetcher: any;
+
 	/**
 	 * Creates a new NewsfeedFetcher instance
 	 * @param {string} url - The URL of the news feed to fetch
@@ -21,7 +37,7 @@ class NewsfeedFetcher {
 	 * @param {boolean} logFeedWarnings - If true log warnings when there is an error parsing a news article
 	 * @param {boolean} useCorsProxy - If true cors proxy is used for article url's
 	 */
-	constructor (url, reloadInterval, encoding, logFeedWarnings, useCorsProxy) {
+	constructor (url: string, reloadInterval: number, encoding: string, logFeedWarnings: boolean, useCorsProxy: boolean) {
 		this.url = url;
 		this.encoding = encoding;
 		this.logFeedWarnings = logFeedWarnings;
@@ -40,8 +56,8 @@ class NewsfeedFetcher {
 		});
 
 		// Wire up HTTPFetcher events
-		this.httpFetcher.on("response", (response) => void this.#handleResponse(response));
-		this.httpFetcher.on("error", (errorInfo) => this.fetchFailedCallback(this, errorInfo));
+		this.httpFetcher.on("response", (response: any) => void this.#handleResponse(response));
+		this.httpFetcher.on("error", (errorInfo: any) => this.fetchFailedCallback(this, errorInfo));
 	}
 
 	/**
@@ -50,7 +66,7 @@ class NewsfeedFetcher {
 	 * @param {Error} error - Original error
 	 * @returns {object} Error info object
 	 */
-	#createParseError (message, error) {
+	#createParseError (message: string, error: Error): object {
 		return {
 			message,
 			status: null,
@@ -67,11 +83,11 @@ class NewsfeedFetcher {
 	 * Handles successful HTTP response
 	 * @param {Response} response - The fetch Response object
 	 */
-	async #handleResponse (response) {
+	async #handleResponse (response: any): Promise<void> {
 		this.items = [];
 		const parser = new FeedMe();
 
-		parser.on("item", (item) => {
+		parser.on("item", (item: any) => {
 			const title = item.title;
 			let description = item.description || item.summary || item.content || "";
 			const pubdate = item.pubdate || item.published || item.updated || item["dc:date"] || item["a10:updated"];
@@ -106,7 +122,7 @@ class NewsfeedFetcher {
 
 		parser.on("end", () => this.broadcastItems());
 
-		parser.on("ttl", (minutes) => {
+		parser.on("ttl", (minutes: number) => {
 			const ttlms = Math.min(minutes * 60 * 1000, 86400000);
 			if (ttlms > this.httpFetcher.reloadInterval) {
 				this.httpFetcher.reloadInterval = ttlms;
@@ -120,8 +136,8 @@ class NewsfeedFetcher {
 				: stream.Readable.fromWeb(response.body);
 			await stream.promises.pipeline(nodeStream, iconv.decodeStream(this.encoding), parser);
 		} catch (error) {
-			Log.error(`${this.url} - Stream processing failed: ${error.message}`);
-			this.fetchFailedCallback(this, this.#createParseError(`Stream processing failed: ${error.message}`, error));
+			Log.error(`${this.url} - Stream processing failed: ${(error as Error).message}`);
+			this.fetchFailedCallback(this, this.#createParseError(`Stream processing failed: ${(error as Error).message}`, error as Error));
 		}
 	}
 
@@ -129,17 +145,17 @@ class NewsfeedFetcher {
 	 * Update the reload interval, but only if we need to increase the speed.
 	 * @param {number} interval - Interval for the update in milliseconds.
 	 */
-	setReloadInterval (interval) {
+	setReloadInterval (interval: number): void {
 		if (interval > 1000 && interval < this.httpFetcher.reloadInterval) {
 			this.httpFetcher.reloadInterval = interval;
 		}
 	}
 
-	startFetch () {
+	startFetch (): void {
 		this.httpFetcher.startPeriodicFetch();
 	}
 
-	broadcastItems () {
+	broadcastItems (): void {
 		if (this.items.length <= 0) {
 			Log.info("No items to broadcast yet.");
 			return;
@@ -149,14 +165,14 @@ class NewsfeedFetcher {
 	}
 
 	/** @param {function(NewsfeedFetcher): void} callback - Called when items are received */
-	onReceive (callback) {
+	onReceive (callback: (fetcher: NewsfeedFetcher) => void): void {
 		this.itemsReceivedCallback = callback;
 	}
 
 	/** @param {function(NewsfeedFetcher, object): void} callback - Called on fetch error */
-	onError (callback) {
+	onError (callback: (fetcher: NewsfeedFetcher, errorInfo: any) => void): void {
 		this.fetchFailedCallback = callback;
 	}
 }
 
-module.exports = NewsfeedFetcher;
+export = NewsfeedFetcher;

@@ -61,7 +61,15 @@ export default defineConfig([
 		"defaultmodules/weather/weatherobject.js",
 		"defaultmodules/weather/weatherutils.js",
 		"defaultmodules/calendar/calendarfetcherutils.js",
-		"defaultmodules/calendar/calendarutils.js"
+		"defaultmodules/calendar/calendarutils.js",
+		"defaultmodules/calendar/calendarfetcher.js",
+		"defaultmodules/calendar/node_helper.js",
+		"defaultmodules/newsfeed/newsfeedfetcher.js",
+		"defaultmodules/newsfeed/node_helper.js",
+		"defaultmodules/weather/node_helper.js",
+		"defaultmodules/updatenotification/git_helper.js",
+		"defaultmodules/updatenotification/update_helper.js",
+		"defaultmodules/updatenotification/node_helper.js"
 	]),
 	{
 		files: ["**/*.js"],

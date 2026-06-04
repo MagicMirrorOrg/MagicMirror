@@ -1,6 +1,7 @@
+import NodeHelper = require("node_helper");
+
 const fs = require("node:fs");
 const path = require("node:path");
-const NodeHelper = require("node_helper");
 
 const defaultModules = require(`${global.root_path}/${global.defaultModulesDir}/defaultmodules`);
 const GitHelper = require("./git_helper");
@@ -8,31 +9,31 @@ const UpdateHelper = require("./update_helper");
 
 const ONE_MINUTE = 60 * 1000;
 
-module.exports = NodeHelper.create({
-	config: {},
+export = NodeHelper.create({
+	config: {} as any,
 
-	updateTimer: null,
+	updateTimer: null as NodeJS.Timeout | null,
 	updateProcessStarted: false,
 
 	gitHelper: new GitHelper(),
-	updateHelper: null,
+	updateHelper: null as any,
 
-	getModules (modules) {
+	getModules (modules: any): any {
 		if (this.config.useModulesFromConfig) {
 			return modules;
 		} else {
 			// get modules from modules-directory
 			const moduleDir = path.normalize(`${global.root_path}/modules`);
-			const getDirectories = (source) => {
+			const getDirectories = (source: string): string[] => {
 				return fs.readdirSync(source, { withFileTypes: true })
-					.filter((dirent) => dirent.isDirectory() && dirent.name !== "default")
-					.map((dirent) => dirent.name);
+					.filter((dirent: any) => dirent.isDirectory() && dirent.name !== "default")
+					.map((dirent: any) => dirent.name);
 			};
 			return getDirectories(moduleDir);
 		}
 	},
 
-	async configureModules (modules) {
+	async configureModules (modules: any): Promise<void> {
 		for (const moduleName of this.getModules(modules)) {
 			if (!this.ignoreUpdateChecking(moduleName)) {
 				await this.gitHelper.add(moduleName);
@@ -44,7 +45,7 @@ module.exports = NodeHelper.create({
 		}
 	},
 
-	async socketNotificationReceived (notification, payload) {
+	async socketNotificationReceived (notification: string, payload: any): Promise<void> {
 		switch (notification) {
 			case "CONFIG":
 				this.config = payload;
@@ -62,14 +63,14 @@ module.exports = NodeHelper.create({
 			case "SCAN_UPDATES":
 				// 1st time of check allows to force new scan
 				if (this.updateProcessStarted) {
-					clearTimeout(this.updateTimer);
+					clearTimeout(this.updateTimer!);
 					await this.performFetch();
 				}
 				break;
 		}
 	},
 
-	async performFetch () {
+	async performFetch (): Promise<void> {
 		const repos = await this.gitHelper.getRepos();
 
 		for (const repo of repos) {
@@ -94,8 +95,8 @@ module.exports = NodeHelper.create({
 		this.scheduleNextFetch(this.config.updateInterval);
 	},
 
-	scheduleNextFetch (delay) {
-		clearTimeout(this.updateTimer);
+	scheduleNextFetch (delay: number): void {
+		clearTimeout(this.updateTimer!);
 
 		this.updateTimer = setTimeout(
 			() => {
@@ -105,7 +106,7 @@ module.exports = NodeHelper.create({
 		);
 	},
 
-	ignoreUpdateChecking (moduleName) {
+	ignoreUpdateChecking (moduleName: string): boolean {
 		// Should not check for updates for default modules
 		if (defaultModules.includes(moduleName)) {
 			return true;

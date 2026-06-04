@@ -1,9 +1,10 @@
+import NodeHelper = require("node_helper");
+
 const zlib = require("node:zlib");
-const NodeHelper = require("node_helper");
 const Log = require("logger");
 const CalendarFetcher = require("./calendarfetcher");
 
-module.exports = NodeHelper.create({
+export = NodeHelper.create({
 	// Override start method.
 	start () {
 		Log.log(`Starting node helper for: ${this.name}`);
@@ -11,7 +12,7 @@ module.exports = NodeHelper.create({
 	},
 
 	// Override socketNotificationReceived method.
-	socketNotificationReceived (notification, payload) {
+	socketNotificationReceived (notification: string, payload: any): void {
 		if (notification === "ADD_CALENDAR") {
 			this.createFetcher(payload.url, payload.fetchInterval, payload.excludedEvents, payload.maximumEntries, payload.maximumNumberOfDays, payload.auth, payload.broadcastPastEvents, payload.selfSignedCert, payload.id);
 		} else if (notification === "FETCH_CALENDAR") {
@@ -38,7 +39,7 @@ module.exports = NodeHelper.create({
 	 * @param {boolean} selfSignedCert If true, the server certificate is not verified against the list of supplied CAs.
 	 * @param {string} identifier ID of the module
 	 */
-	createFetcher (url, fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, broadcastPastEvents, selfSignedCert, identifier) {
+	createFetcher (url: string, fetchInterval: number, excludedEvents: string[], maximumEntries: number, maximumNumberOfDays: number, auth: any, broadcastPastEvents: boolean, selfSignedCert: boolean, identifier: string): void {
 		try {
 			new URL(url);
 		} catch (error) {
@@ -47,8 +48,8 @@ module.exports = NodeHelper.create({
 			return;
 		}
 
-		let fetcher;
-		let fetchIntervalCorrected;
+		let fetcher: any;
+		let fetchIntervalCorrected: number | undefined;
 		if (typeof this.fetchers[identifier + url] === "undefined") {
 			if (fetchInterval < 60000) {
 				Log.warn(`fetchInterval for url ${url} must be >= 60000`);
@@ -57,11 +58,11 @@ module.exports = NodeHelper.create({
 			Log.log(`Create new calendarfetcher for url: ${url} - Interval: ${fetchIntervalCorrected || fetchInterval}`);
 			fetcher = new CalendarFetcher(url, fetchIntervalCorrected || fetchInterval, excludedEvents, maximumEntries, maximumNumberOfDays, auth, broadcastPastEvents, selfSignedCert);
 
-			fetcher.onReceive((fetcher) => {
+			fetcher.onReceive((fetcher: any) => {
 				this.broadcastEvents(fetcher, identifier);
 			});
 
-			fetcher.onError((fetcher, errorInfo) => {
+			fetcher.onError((fetcher: any, errorInfo: any) => {
 				Log.error("Calendar Error. Could not fetch calendar: ", fetcher.url, errorInfo.message || errorInfo);
 				this.sendSocketNotification("CALENDAR_ERROR", {
 					id: identifier,
@@ -89,7 +90,7 @@ module.exports = NodeHelper.create({
 	 * @param {object} fetcher the fetcher associated with the calendar
 	 * @param {string} identifier the identifier of the calendar
 	 */
-	broadcastEvents (fetcher, identifier) {
+	broadcastEvents (fetcher: any, identifier: string): void {
 		const checksum = zlib.crc32(Buffer.from(JSON.stringify(fetcher.events), "utf8"));
 		this.sendSocketNotification("CALENDAR_EVENTS", {
 			id: identifier,

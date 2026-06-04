@@ -1,16 +1,17 @@
+import NodeHelper = require("node_helper");
+
 const path = require("node:path");
-const NodeHelper = require("node_helper");
 const Log = require("logger");
 
-module.exports = NodeHelper.create({
-	providers: {},
-	lastData: {},
+export = NodeHelper.create({
+	providers: {} as Record<string, any>,
+	lastData: {} as Record<string, any>,
 
-	start () {
+	start (): void {
 		Log.log(`Starting node helper for: ${this.name}`);
 	},
 
-	socketNotificationReceived (notification, payload) {
+	socketNotificationReceived (notification: string, payload: any): void {
 		if (notification === "INIT_WEATHER") {
 			Log.log(`Received INIT_WEATHER for instance ${payload.instanceId}`);
 			this.initWeatherProvider(payload);
@@ -25,7 +26,7 @@ module.exports = NodeHelper.create({
 	 * Initialize a weather provider
 	 * @param {object} config The configuration object
 	 */
-	async initWeatherProvider (config) {
+	async initWeatherProvider (config: any): Promise<void> {
 		const identifier = config.weatherProvider.toLowerCase();
 		const instanceId = config.instanceId;
 
@@ -56,13 +57,13 @@ module.exports = NodeHelper.create({
 
 			// Set up callbacks before initializing
 			provider.setCallbacks(
-				(data) => {
+				(data: any) => {
 					// On data received
 					const payload = { instanceId, type: config.type, data };
 					this.lastData[instanceId] = payload;
 					this.sendSocketNotification("WEATHER_DATA", payload);
 				},
-				(errorInfo) => {
+				(errorInfo: any) => {
 					// On error
 					this.sendSocketNotification("WEATHER_ERROR", {
 						instanceId,
@@ -88,7 +89,7 @@ module.exports = NodeHelper.create({
 			Log.error(`Failed to initialize weather provider ${identifier}:`, error);
 			this.sendSocketNotification("WEATHER_ERROR", {
 				instanceId,
-				error: error.message
+				error: (error as Error).message
 			});
 		}
 	},
@@ -97,7 +98,7 @@ module.exports = NodeHelper.create({
 	 * Stop and cleanup a weather provider
 	 * @param {string} instanceId The instance identifier
 	 */
-	stopWeatherProvider (instanceId) {
+	stopWeatherProvider (instanceId: string): void {
 		const provider = this.providers[instanceId];
 
 		if (provider) {

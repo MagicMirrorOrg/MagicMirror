@@ -1,8 +1,9 @@
-const NodeHelper = require("node_helper");
+import NodeHelper = require("node_helper");
+
 const Log = require("logger");
 const NewsfeedFetcher = require("./newsfeedfetcher");
 
-module.exports = NodeHelper.create({
+export = NodeHelper.create({
 	// Override start method.
 	start () {
 		Log.log(`Starting node helper for: ${this.name}`);
@@ -10,7 +11,7 @@ module.exports = NodeHelper.create({
 	},
 
 	// Override socketNotificationReceived received.
-	socketNotificationReceived (notification, payload) {
+	socketNotificationReceived (notification: string, payload: any) {
 		if (notification === "ADD_FEED") {
 			this.createFetcher(payload.feed, payload.config);
 		} else if (notification === "CHECK_ARTICLE_URL") {
@@ -23,7 +24,7 @@ module.exports = NodeHelper.create({
 	 * X-Frame-Options and Content-Security-Policy headers server-side.
 	 * @param {string} url The article URL to check.
 	 */
-	async checkArticleUrl (url) {
+	async checkArticleUrl (url: string) {
 		try {
 			const response = await fetch(url, { method: "HEAD" });
 			const xfo = response.headers.get("x-frame-options");
@@ -44,7 +45,7 @@ module.exports = NodeHelper.create({
 	 * @param {object} feed The feed object
 	 * @param {object} config The configuration object
 	 */
-	createFetcher (feed, config) {
+	createFetcher (feed: any, config: any) {
 		const url = feed.url || "";
 		const encoding = feed.encoding || "UTF-8";
 		const reloadInterval = feed.reloadInterval || config.reloadInterval || 5 * 60 * 1000;
@@ -58,7 +59,7 @@ module.exports = NodeHelper.create({
 			return;
 		}
 
-		let fetcher;
+		let fetcher: any;
 		if (typeof this.fetchers[url] === "undefined") {
 			Log.log(`Create new newsfetcher for url: ${url} - Interval: ${reloadInterval}`);
 			fetcher = new NewsfeedFetcher(url, reloadInterval, encoding, config.logFeedWarnings, useCorsProxy);
@@ -67,7 +68,7 @@ module.exports = NodeHelper.create({
 				this.broadcastFeeds();
 			});
 
-			fetcher.onError((fetcher, errorInfo) => {
+			fetcher.onError((fetcher: any, errorInfo: any) => {
 				Log.error("Error: Could not fetch newsfeed: ", fetcher.url, errorInfo.message || errorInfo);
 				this.sendSocketNotification("NEWSFEED_ERROR", {
 					error_type: errorInfo.translationKey
@@ -90,7 +91,7 @@ module.exports = NodeHelper.create({
 	 * and broadcasts these using sendSocketNotification.
 	 */
 	broadcastFeeds () {
-		const feeds = {};
+		const feeds: any = {};
 		for (const url in this.fetchers) {
 			feeds[url] = this.fetchers[url].items;
 		}
