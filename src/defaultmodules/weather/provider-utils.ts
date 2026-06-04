@@ -31,7 +31,7 @@ export function convertWeatherType (weatherType: string): string | null {
 		"50n": "night-alt-cloudy-windy"
 	};
 
-	return weatherTypes.hasOwnProperty(weatherType) ? weatherTypes[weatherType] : null;
+	return weatherTypes.hasOwnProperty(weatherType) ? weatherTypes[weatherType]! : null;
 }
 
 /**
@@ -55,8 +55,8 @@ export function limitDecimals (value: number, decimals: number): number {
 	const str = value.toString();
 	if (str.includes(".")) {
 		const parts = str.split(".");
-		if (parts[1].length > decimals) {
-			return parseFloat(`${parts[0]}.${parts[1].substring(0, decimals)}`);
+		if (parts[1]!.length > decimals) {
+			return parseFloat(`${parts[0]}.${parts[1]!.substring(0, decimals)}`);
 		}
 	}
 	return value;

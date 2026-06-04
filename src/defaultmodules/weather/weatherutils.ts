@@ -119,7 +119,7 @@ const WeatherUtils = {
 			NNW: 337
 		};
 
-		return windCardinals.hasOwnProperty(windDirection) ? windCardinals[windDirection] : null;
+		return windCardinals.hasOwnProperty(windDirection) ? windCardinals[windDirection]! : null;
 	},
 
 	convertWindToMetric (mph: number): number {

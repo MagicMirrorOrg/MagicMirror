@@ -24,6 +24,8 @@
 		"noImplicitOverride": true,
 		"noImplicitReturns": true,
 		"noFallthroughCasesInSwitch": true,
+		"noUncheckedIndexedAccess": true,
+		"exactOptionalPropertyTypes": true,
 		"newLine": "lf"
 	}
 }

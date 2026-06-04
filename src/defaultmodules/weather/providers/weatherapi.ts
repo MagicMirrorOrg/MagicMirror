@@ -236,9 +236,9 @@ class WeatherAPIProvider {
 			return null;
 		}
 
-		let hour = parseInt(match[1], 10);
-		const minute = parseInt(match[2], 10);
-		const period = match[3].toUpperCase();
+		let hour = parseInt(match[1]!, 10);
+		const minute = parseInt(match[2]!, 10);
+		const period = match[3]!.toUpperCase();
 
 		if (period === "PM" && hour !== 12) hour += 12;
 		if (period === "AM" && hour === 12) hour = 0;
@@ -493,7 +493,7 @@ class WeatherAPIProvider {
 			return "na";
 		}
 
-		return weatherConditions[weatherCode][isDayTime ? "day" : "night"];
+		return weatherConditions[weatherCode]![isDayTime ? "day" : "night"];
 	}
 }
 

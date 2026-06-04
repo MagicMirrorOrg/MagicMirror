@@ -213,7 +213,7 @@ const Loader = (function () {
 						script.remove();
 						resolve();
 					};
-					document.getElementsByTagName("body")[0].appendChild(script);
+					document.getElementsByTagName("body")[0]!.appendChild(script);
 				});
 			case "css":
 				return new Promise((resolve) => {
@@ -231,7 +231,7 @@ const Loader = (function () {
 						stylesheet.remove();
 						resolve();
 					};
-					document.getElementsByTagName("head")[0].appendChild(stylesheet);
+					document.getElementsByTagName("head")[0]!.appendChild(stylesheet);
 				});
 			default:
 				return undefined;

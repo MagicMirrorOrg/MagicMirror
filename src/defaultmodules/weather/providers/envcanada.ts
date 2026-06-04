@@ -179,7 +179,7 @@ class EnvCanadaProvider {
 			// Fallback: extract from first forecast period if currentConditions is empty
 			const firstForecast = xml.match(/<forecast>(.*?)<\/forecast>/s);
 			if (firstForecast) {
-				const forecastXml = firstForecast[1];
+				const forecastXml = firstForecast[1]!;
 				const temp = this.#extract(forecastXml, /<temperature[^>]*>(.*?)<\/temperature>/);
 				if (temp && temp !== "") {
 					current.temperature = parseFloat(temp);
@@ -208,7 +208,7 @@ class EnvCanadaProvider {
 			return current;
 		}
 
-		const forecastXml = firstForecast[1];
+		const forecastXml = firstForecast[1]!;
 
 		// Wind speed - try currentConditions first, fallback to forecast
 		let windSpeed = this.#extract(xml, /<currentConditions>.*?<wind>.*?<speed[^>]*>(.*?)<\/speed>/s);
@@ -309,7 +309,7 @@ class EnvCanadaProvider {
 		}
 
 		if (forecasts[index + 1]) {
-			const temp = this.#extract(forecasts[index + 1], /<temperature[^>]*>(.*?)<\/temperature>/);
+			const temp = this.#extract(forecasts[index + 1]!, /<temperature[^>]*>(.*?)<\/temperature>/);
 			if (temp) tempTonight = parseFloat(temp);
 		}
 
@@ -334,7 +334,7 @@ class EnvCanadaProvider {
 		}
 
 		if (forecasts[index + 1]) {
-			const pop = this.#extract(forecasts[index + 1], /<pop[^>]*>(.*?)<\/pop>/);
+			const pop = this.#extract(forecasts[index + 1]!, /<pop[^>]*>(.*?)<\/pop>/);
 			if (pop) precips.push(parseFloat(pop));
 		}
 
@@ -350,15 +350,15 @@ class EnvCanadaProvider {
 		for (const [, dateTimeUTC, hourXML] of hourlyMatches) {
 			const weather: any = {};
 
-			weather.date = this.#parseECTime(dateTimeUTC);
+			weather.date = this.#parseECTime(dateTimeUTC!);
 
-			const temp = this.#extract(hourXML, /<temperature[^>]*>(.*?)<\/temperature>/);
+			const temp = this.#extract(hourXML!, /<temperature[^>]*>(.*?)<\/temperature>/);
 			if (temp) weather.temperature = parseFloat(temp);
 
-			const lop = this.#extract(hourXML, /<lop[^>]*>(.*?)<\/lop>/);
+			const lop = this.#extract(hourXML!, /<lop[^>]*>(.*?)<\/lop>/);
 			if (lop) weather.precipitationProbability = parseFloat(lop);
 
-			const icon = this.#extract(hourXML, /<iconCode[^>]*>(.*?)<\/iconCode>/);
+			const icon = this.#extract(hourXML!, /<iconCode[^>]*>(.*?)<\/iconCode>/);
 			if (icon) weather.weatherType = this.#convertWeatherType(icon);
 
 			hours.push(weather);
@@ -370,7 +370,7 @@ class EnvCanadaProvider {
 
 	#extract (text: string, pattern: RegExp): string | null {
 		const match = text.match(pattern);
-		return match ? match[1].trim() : null;
+		return match ? match[1]!.trim() : null;
 	}
 
 	#getIndexUrl (): string {

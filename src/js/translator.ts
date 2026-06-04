@@ -104,7 +104,7 @@ const Translator = (function () {
 		async loadCoreTranslations (this: any, lang: string): Promise<void> {
 			if (lang in translations) {
 				Log.log(`[translator] Loading core translation file: ${translations[lang]}`);
-				this.coreTranslations = await loadJSON(translations[lang]);
+				this.coreTranslations = await loadJSON(translations[lang]!);
 			} else {
 				Log.log("[translator] Configured language not found in core translations.");
 			}
@@ -120,7 +120,7 @@ const Translator = (function () {
 			const first = Object.keys(translations)[0];
 			if (first) {
 				Log.log(`[translator] Loading core translation fallback file: ${translations[first]}`);
-				this.coreTranslationsFallback = await loadJSON(translations[first]);
+				this.coreTranslationsFallback = await loadJSON(translations[first]!);
 			}
 		}
 	};

@@ -50,7 +50,7 @@ const CalendarUtils = {
 			let line = 0;
 
 			for (let i = 0; i < words.length; i++) {
-				const word = words[i];
+				const word = words[i]!;
 				if (currentLine.length + word.length < (typeof maxLength === "number" ? maxLength : 25) - 1) {
 					// max - 1 to account for a space
 					currentLine += `${word} `;
@@ -109,8 +109,8 @@ const CalendarUtils = {
 					let replacement = transform.replace;
 					if (typeof transform.yearmatchgroup !== "undefined" && (transform.yearmatchgroup as unknown) !== "") {
 						const yearmatch = [...title.matchAll(needle)];
-						if (yearmatch[0].length >= transform.yearmatchgroup + 1 && (yearmatch[0][transform.yearmatchgroup] as unknown as number) * 1 >= 1900) {
-							const calcage = new Date().getFullYear() - (yearmatch[0][transform.yearmatchgroup] as unknown as number) * 1;
+						if (yearmatch[0]!.length >= transform.yearmatchgroup + 1 && (yearmatch[0]![transform.yearmatchgroup] as unknown as number) * 1 >= 1900) {
+							const calcage = new Date().getFullYear() - (yearmatch[0]![transform.yearmatchgroup] as unknown as number) * 1;
 							const searchstr = `$${transform.yearmatchgroup}`;
 							replacement = replacement.replace(searchstr, calcage as unknown as string);
 						}

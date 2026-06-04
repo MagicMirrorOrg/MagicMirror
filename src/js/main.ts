@@ -80,7 +80,7 @@ const MM: any = (function () {
 		const classes = position.replace("_", " ");
 		const parentWrapper = document.getElementsByClassName(classes);
 		if (parentWrapper.length > 0) {
-			const wrapper = parentWrapper[0].getElementsByClassName("container");
+			const wrapper = parentWrapper[0]!.getElementsByClassName("container");
 			if (wrapper.length > 0) {
 				return wrapper[0] as HTMLElement;
 			}
@@ -222,12 +222,12 @@ const MM: any = (function () {
 		let headerNeedsUpdate = false;
 
 		if (headerWrapper.length > 0) {
-			headerNeedsUpdate = newHeader !== headerWrapper[0].innerHTML;
+			headerNeedsUpdate = newHeader !== headerWrapper[0]!.innerHTML;
 		}
 
 		const tempContentWrapper = document.createElement("div");
 		tempContentWrapper.appendChild(newContent);
-		const contentNeedsUpdate = tempContentWrapper.innerHTML !== contentWrapper[0].innerHTML;
+		const contentNeedsUpdate = tempContentWrapper.innerHTML !== contentWrapper[0]!.innerHTML;
 
 		return headerNeedsUpdate || contentNeedsUpdate;
 	};
@@ -246,10 +246,10 @@ const MM: any = (function () {
 		const headerWrapper = moduleWrapper.getElementsByClassName("module-header");
 		const contentWrapper = moduleWrapper.getElementsByClassName("module-content");
 
-		contentWrapper[0].innerHTML = "";
-		contentWrapper[0].appendChild(newContent);
+		contentWrapper[0]!.innerHTML = "";
+		contentWrapper[0]!.appendChild(newContent);
 
-		headerWrapper[0].innerHTML = newHeader;
+		headerWrapper[0]!.innerHTML = newHeader;
 		if (headerWrapper.length > 0 && newHeader) {
 			(headerWrapper[0] as HTMLElement).style.display = "block";
 		} else {

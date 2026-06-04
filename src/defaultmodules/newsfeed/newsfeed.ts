@@ -109,7 +109,7 @@ Module.register("newsfeed", {
 				this.articleUnavailable = !payload.canFrame;
 				if (!this.articleUnavailable) {
 					// Article can be framed — now shift the bottom bar to allow scrolling
-					document.getElementsByClassName("region bottom bar")[0].classList.add("newsfeed-fullarticle");
+					document.getElementsByClassName("region bottom bar")[0]!.classList.add("newsfeed-fullarticle");
 				}
 				this.updateDom(100);
 				if (this.articleUnavailable) {
@@ -407,7 +407,7 @@ Module.register("newsfeed", {
 		this.articleFrameCheckPending = false;
 		this.articleUnavailable = false;
 		// reset bottom bar alignment
-		document.getElementsByClassName("region bottom bar")[0].classList.remove("newsfeed-fullarticle");
+		document.getElementsByClassName("region bottom bar")[0]!.classList.remove("newsfeed-fullarticle");
 		if (!this.timer) {
 			this.scheduleUpdateInterval();
 		}

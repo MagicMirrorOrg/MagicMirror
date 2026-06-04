@@ -303,7 +303,7 @@ const Module: ModuleConstructor = Class.extend({
 		}
 
 		const translationFile = translations[language];
-		const translationsFallbackFile = translations[fallbackLanguage];
+		const translationsFallbackFile = translations[fallbackLanguage!];
 
 		if (!translationFile) {
 			return Translator.load(this, translationsFallbackFile, true);
@@ -505,7 +505,7 @@ function cmpVersions (a: string, b: string): number {
 	const l = Math.min(segmentsA.length, segmentsB.length);
 
 	for (let i = 0; i < l; i++) {
-		const diff = parseInt(segmentsA[i], 10) - parseInt(segmentsB[i], 10);
+		const diff = parseInt(segmentsA[i]!, 10) - parseInt(segmentsB[i]!, 10);
 		if (diff) {
 			return diff;
 		}

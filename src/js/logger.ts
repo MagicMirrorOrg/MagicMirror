@@ -23,7 +23,7 @@
 						if (line.includes("node:") || line.includes("js/logger.js") || line.includes("node_modules")) continue;
 						const match = line.match(/\((.+?\.js):\d+:\d+\)/) || line.match(/at\s+(.+?\.js):\d+:\d+/);
 						if (match) {
-							const file = match[1];
+							const file = match[1]!;
 							const baseName = file.replace(/.*\/(.*)\.js/, "$1");
 							const parentDir = file.replace(/.*\/(.*)\/.*\.js/, "$1");
 							return styleText("gray", parentDir === "js" ? `[${baseName}]` : `[${parentDir}]`);

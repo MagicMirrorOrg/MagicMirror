@@ -47,7 +47,7 @@ const getModulePositions = (): string[] => {
 			// if the regex returned something
 			if (results && results.length > 0) {
 				// get the position parts and replace space with underscore
-				const positionName = results[1].replace(" ", "_");
+				const positionName = results[1]!.replace(" ", "_");
 				// add it to the list only if not already present (avoid duplicates)
 				if (!modulePositions.includes(positionName)) {
 					modulePositions.push(positionName);

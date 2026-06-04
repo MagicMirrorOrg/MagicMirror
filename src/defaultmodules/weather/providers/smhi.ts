@@ -239,7 +239,7 @@ class SMHIProvider {
 
 		// Map user config (pmedian/pmean/pmin/pmax) to SNOW1gv1 parameter name
 		const precipParamName = PRECIP_VALUE_MAP[this.config.precipitationValue];
-		const precipitationValue: any = this.#paramValue(weatherData, precipParamName);
+		const precipitationValue: any = this.#paramValue(weatherData, precipParamName!);
 		const pcat = this.#paramValue(weatherData, "predominant_precipitation_type_at_surface");
 
 		// SNOW1gv1 precipitation type mapping (differs from PMP3gv2!):

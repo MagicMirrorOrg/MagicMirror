@@ -64,14 +64,14 @@ export async function cors (req: any, res: any): Promise<any> {
 			url = match[1];
 			if (typeof global.config !== "undefined") {
 				if (config.hideConfigSecrets) {
-					url = replaceSecretPlaceholder(url);
+					url = replaceSecretPlaceholder(url!);
 				}
 			}
 
 			// Validate protocol before attempting connection (non-http/https are never allowed)
 			let parsed;
 			try {
-				parsed = new URL(url);
+				parsed = new URL(url!);
 			} catch {
 				Log.warn(`SSRF blocked (invalid URL): ${url}`);
 				return res.status(403).json({ error: "Forbidden: private or reserved addresses are not allowed" });
@@ -116,7 +116,7 @@ export async function cors (req: any, res: any): Promise<any> {
 				}
 			});
 
-			const response = await undici.fetch(url, { dispatcher, headers: headersToSend });
+			const response = await undici.fetch(url!, { dispatcher, headers: headersToSend });
 			if (response.ok) {
 				for (const header of expectedReceivedHeaders) {
 					const headerValue = response.headers.get(header);
@@ -145,13 +145,13 @@ function getHeadersToSend (url: string): Record<string, string> {
 	const headersToSend: Record<string, string> = { "User-Agent": getUserAgent() };
 	const headersToSendMatch = new RegExp("sendheaders=(.+?)(&|$)", "g").exec(url);
 	if (headersToSendMatch) {
-		const headers = headersToSendMatch[1].split(",");
+		const headers = headersToSendMatch[1]!.split(",");
 		for (const header of headers) {
 			const keyValue = header.split(":");
 			if (keyValue.length !== 2) {
 				throw new Error(`Invalid format for header ${header}`);
 			}
-			headersToSend[keyValue[0]] = decodeURIComponent(keyValue[1]);
+			headersToSend[keyValue[0]!] = decodeURIComponent(keyValue[1]!);
 		}
 	}
 	return headersToSend;
@@ -166,7 +166,7 @@ function geExpectedReceivedHeaders (url: string): string[] {
 	const expectedReceivedHeaders = ["Content-Type"];
 	const expectedReceivedHeadersMatch = new RegExp("expectedheaders=(.+?)(&|$)", "g").exec(url);
 	if (expectedReceivedHeadersMatch) {
-		const headers = expectedReceivedHeadersMatch[1].split(",");
+		const headers = expectedReceivedHeadersMatch[1]!.split(",");
 		for (const header of headers) {
 			expectedReceivedHeaders.push(header);
 		}
