@@ -16,6 +16,7 @@
 		"types/config.d.ts",
 		"types/weather.d.ts",
 		"types/calendar.d.ts",
+		"types/newsfeed.d.ts",
 		"js/deprecated.ts",
 		"js/http_fetcher.ts",
 		"js/server_functions.ts",

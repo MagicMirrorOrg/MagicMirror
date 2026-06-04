@@ -38,7 +38,7 @@ Module.register("newsfeed", {
 		dangerouslyDisableAutoEscaping: false
 	},
 
-	getUrlPrefix (item: any): string {
+	getUrlPrefix (item: NewsItem): string {
 		if (item.useCorsProxy) {
 			return `${location.protocol}//${location.host}${config.basePath}cors?url=`;
 		} else {
@@ -183,7 +183,7 @@ Module.register("newsfeed", {
 		const item = this.newsItems[this.activeItem];
 		this.activeItemHash = item.hash;
 
-		const items = this.newsItems.map(function (item: any) {
+		const items = this.newsItems.map(function (item: NewsItem) {
 			item.publishDate = moment(new Date(item.pubdate)).fromNow();
 			return item;
 		});
@@ -239,9 +239,9 @@ Module.register("newsfeed", {
 	 * @param {object} feeds An object with feeds returned by the node helper.
 	 */
 	generateFeed (feeds: any): void {
-		let newsItems: any[] = [];
+		let newsItems: NewsItem[] = [];
 		for (const feed in feeds) {
-			const feedItems = feeds[feed];
+			const feedItems = feeds[feed] as NewsItem[];
 			if (this.subscribedToFeed(feed)) {
 				for (const item of feedItems) {
 					item.sourceTitle = this.titleForFeed(feed);
@@ -251,7 +251,7 @@ Module.register("newsfeed", {
 				}
 			}
 		}
-		newsItems.sort(function (a: any, b: any) {
+		newsItems.sort(function (a: NewsItem, b: NewsItem) {
 			const dateA = new Date(a.pubdate);
 			const dateB = new Date(b.pubdate);
 			return dateB.getTime() - dateA.getTime();
@@ -262,6 +262,8 @@ Module.register("newsfeed", {
 		}
 
 		if (this.config.prohibitedWords.length > 0) {
+			// NOTE: item kept `any`: filter reads item.title.toLowerCase(), but title is
+			// optional (string | undefined) on NewsItem -> strict "possibly undefined".
 			newsItems = newsItems.filter(function (this: any, item: any) {
 				for (const word of this.config.prohibitedWords) {
 					if (item.title.toLowerCase().indexOf(word.toLowerCase()) > -1) {
@@ -271,6 +273,10 @@ Module.register("newsfeed", {
 				return true;
 			}, this);
 		}
+		// NOTE: item kept `any` here: the tag-stripping logic does string `.slice` on
+		// item.title/description which are optional (string | undefined) on NewsItem,
+		// triggering strict "possibly undefined" errors that can't be resolved without
+		// behavior changes.
 		newsItems.forEach((item: any) => {
 			//Remove selected tags from the beginning of rss feed items (title or description)
 			if (this.config.removeStartTags === "title" || this.config.removeStartTags === "both") {
@@ -310,9 +316,9 @@ Module.register("newsfeed", {
 		});
 
 		// get updated news items and broadcast them
-		const updatedItems: any[] = [];
-		newsItems.forEach((value: any) => {
-			if (this.newsItems.findIndex((value1: any) => value1 === value) === -1) {
+		const updatedItems: NewsItem[] = [];
+		newsItems.forEach((value: NewsItem) => {
+			if (this.newsItems.findIndex((value1: NewsItem) => value1 === value) === -1) {
 				// Add item to updated items list
 				updatedItems.push(value);
 			}

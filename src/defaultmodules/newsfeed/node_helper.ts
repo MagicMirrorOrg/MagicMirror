@@ -45,7 +45,7 @@ export = NodeHelper.create({
 	 * @param {object} feed The feed object
 	 * @param {object} config The configuration object
 	 */
-	createFetcher (feed: any, config: any) {
+	createFetcher (feed: any, config: NewsfeedConfig) {
 		const url = feed.url || "";
 		const encoding = feed.encoding || "UTF-8";
 		const reloadInterval = feed.reloadInterval || config.reloadInterval || 5 * 60 * 1000;
@@ -91,7 +91,7 @@ export = NodeHelper.create({
 	 * and broadcasts these using sendSocketNotification.
 	 */
 	broadcastFeeds () {
-		const feeds: any = {};
+		const feeds: Record<string, NewsItem[]> = {};
 		for (const url in this.fetchers) {
 			feeds[url] = this.fetchers[url].items;
 		}

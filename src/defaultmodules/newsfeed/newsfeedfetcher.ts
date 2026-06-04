@@ -21,13 +21,13 @@ class NewsfeedFetcher {
 
 	useCorsProxy: boolean;
 
-	items: any[];
+	items: NewsItem[];
 
 	fetchFailedCallback: (fetcher: NewsfeedFetcher, errorInfo: any) => void;
 
 	itemsReceivedCallback: (fetcher: NewsfeedFetcher) => void;
 
-	httpFetcher: any;
+	httpFetcher: HTTPFetcher;
 
 	/**
 	 * Creates a new NewsfeedFetcher instance
