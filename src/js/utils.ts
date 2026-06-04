@@ -1,39 +1,41 @@
-const fs = require("node:fs");
-const { loadEnvFile } = require("node:process");
+import fs from "node:fs";
+import { loadEnvFile } from "node:process";
+import { styleText } from "node:util";
+import Log = require("logger");
 
-const modulePositions = []; // will get list from index.html
+import { getConfigFilePath } from "#server_functions";
+
+const Ajv = require("ajv");
+const globals = require("globals");
+const { Linter } = require("eslint");
+
+const modulePositions: string[] = []; // will get list from index.html
 const regionRegEx = /"region ([^"]*)/i;
 const indexFileName = "index.html";
 const discoveredPositionsJSFilename = "js/positions.js";
 
-const { styleText } = require("node:util");
-const Log = require("logger");
-const Ajv = require("ajv");
-const globals = require("globals");
-const { Linter } = require("eslint");
-const { getConfigFilePath } = require("#server_functions");
-
 const linter = new Linter({ configType: "flat" });
 const ajv = new Ajv();
 
-const requireFromString = (src) => {
-	const m = new module.constructor();
+const requireFromString = (src: string): any => {
+	const ModuleCtor = module.constructor as any;
+	const m = new ModuleCtor();
 	m._compile(src, "");
 	return m.exports;
 };
 
 // return all available module positions
-const getAvailableModulePositions = () => {
+const getAvailableModulePositions = (): string[] => {
 	return modulePositions;
 };
 
 // return if position is on modulePositions Array (true/false)
-const moduleHasValidPosition = (position) => {
+const moduleHasValidPosition = (position: string): boolean => {
 	if (getAvailableModulePositions().indexOf(position) === -1) return false;
 	return true;
 };
 
-const getModulePositions = () => {
+const getModulePositions = (): string[] => {
 	// if not already discovered
 	if (modulePositions.length === 0) {
 		// get the lines of the index.html
@@ -68,12 +70,12 @@ const getModulePositions = () => {
  * if it encounters one option from the deprecated.js list
  * @param {object} userConfig The user config
  */
-const checkDeprecatedOptions = (userConfig) => {
+const checkDeprecatedOptions = (userConfig: any): void => {
 	const deprecated = require(`${global.root_path}/js/deprecated`);
 
 	// check for deprecated core options
 	const deprecatedOptions = deprecated.configs;
-	const usedDeprecated = deprecatedOptions.filter((option) => userConfig.hasOwnProperty(option));
+	const usedDeprecated = deprecatedOptions.filter((option: string) => userConfig.hasOwnProperty(option));
 	if (usedDeprecated.length > 0) {
 		Log.warn(`WARNING! Your config is using deprecated option(s): ${usedDeprecated.join(", ")}. Check README and Documentation for more up-to-date ways of getting the same functionality.`);
 	}
@@ -82,7 +84,7 @@ const checkDeprecatedOptions = (userConfig) => {
 	for (const element of userConfig.modules) {
 		if (deprecated[element.module] !== undefined && element.config !== undefined) {
 			const deprecatedModuleOptions = deprecated[element.module];
-			const usedDeprecatedModuleOptions = deprecatedModuleOptions.filter((option) => element.config.hasOwnProperty(option));
+			const usedDeprecatedModuleOptions = deprecatedModuleOptions.filter((option: string) => element.config.hasOwnProperty(option));
 			if (usedDeprecatedModuleOptions.length > 0) {
 				Log.warn(`WARNING! Your config for module ${element.module} is using deprecated option(s): ${usedDeprecatedModuleOptions.join(", ")}. Check README and Documentation for more up-to-date ways of getting the same functionality.`);
 			}
@@ -94,7 +96,7 @@ const checkDeprecatedOptions = (userConfig) => {
  * Loads the config file. Combines it with the defaults and returns the config
  * @returns {object} an object holding full and redacted config
  */
-const loadConfig = () => {
+const loadConfig = (): any => {
 	Log.log("Loading config ...");
 	const defaults = require("./defaults");
 	if (global.mmTestMode) {
@@ -105,7 +107,7 @@ const loadConfig = () => {
 	// For this check proposed to TestSuite
 	// https://forum.magicmirror.builders/topic/1456/test-suite-for-magicmirror/8
 	const configFilename = getConfigFilePath();
-	let templateFile = `${configFilename}.template`;
+	const templateFile = `${configFilename}.template`;
 
 	// check if templateFile exists
 	try {
@@ -123,23 +125,23 @@ const loadConfig = () => {
 			loadEnvFile(configEnvFile);
 		}
 	} catch (error) {
-		Log.log(`${configEnvFile} does not exist. ${error.message}`);
+		Log.log(`${configEnvFile} does not exist. ${(error as Error).message}`);
 	}
 
 	// Load config.js and catch errors if not accessible
 	try {
-		let configContent = fs.readFileSync(configFilename, "utf-8");
+		const configContent = fs.readFileSync(configFilename, "utf-8");
 		const hideConfigSecrets = configContent.match(/^\s*hideConfigSecrets: true.*$/m);
 		let configContentFull = configContent;
 		let configContentRedacted = hideConfigSecrets ? configContent : undefined;
 		Object.keys(process.env).forEach((env) => {
-			configContentFull = configContentFull.replaceAll(`\${${env}}`, process.env[env]);
+			configContentFull = configContentFull.replaceAll(`\${${env}}`, process.env[env] as string);
 			if (hideConfigSecrets) {
 				if (env.startsWith("SECRET_")) {
-					configContentRedacted = configContentRedacted.replaceAll(`"\${${env}}"`, `"**${env}**"`);
-					configContentRedacted = configContentRedacted.replaceAll(`\${${env}}`, `**${env}**`);
+					configContentRedacted = configContentRedacted!.replaceAll(`"\${${env}}"`, `"**${env}**"`);
+					configContentRedacted = configContentRedacted!.replaceAll(`\${${env}}`, `**${env}**`);
 				} else {
-					configContentRedacted = configContentRedacted.replaceAll(`\${${env}}`, process.env[env]);
+					configContentRedacted = configContentRedacted!.replaceAll(`\${${env}}`, process.env[env] as string);
 				}
 			}
 		});
@@ -161,18 +163,19 @@ const loadConfig = () => {
 			const cfg = `let config = { basePath: "${configObj.fullConf.basePath}"};`;
 			fs.writeFileSync(`${global.root_path}/config/basepath.js`, cfg, "utf-8");
 		} catch (error) {
-			Log.error(`Could not write config/basepath.js file: ${error.message}`);
+			Log.error(`Could not write config/basepath.js file: ${(error as Error).message}`);
 		}
 
 		return configObj;
 
 	} catch (error) {
-		if (error.code === "ENOENT") {
+		const err = error as NodeJS.ErrnoException;
+		if (err.code === "ENOENT") {
 			Log.error(`Could not find config file: ${configFilename}`);
-		} else if (error.code === "EACCES") {
+		} else if (err.code === "EACCES") {
 			Log.error(`No permission to read config file: ${configFilename}`);
 		} else {
-			Log.error(`Cannot access config file: ${configFilename}\n${error.message}`);
+			Log.error(`Cannot access config file: ${configFilename}\n${err.message}`);
 		}
 		process.exit(1);
 	}
@@ -183,7 +186,7 @@ const loadConfig = () => {
  * Checks the config file using eslint.
  * @param {object} configObject the configuration object
  */
-const checkConfigFile = (configObject) => {
+const checkConfigFile = (configObject: any): void => {
 	let configObj = configObject;
 	if (!configObj) configObj = loadConfig();
 	const configFileName = configObj.configFilename;
@@ -230,7 +233,7 @@ const checkConfigFile = (configObject) => {
  *
  * @param {string} data - The content of the configuration file to validate.
  */
-const validateModulePositions = (data) => {
+const validateModulePositions = (data: any): void => {
 	Log.info("Checking modules structure configuration ...");
 
 	const positionList = getModulePositions();
@@ -290,4 +293,4 @@ const validateModulePositions = (data) => {
 	}
 };
 
-module.exports = { loadConfig, getModulePositions, moduleHasValidPosition, getAvailableModulePositions, checkConfigFile };
+export = { loadConfig, getModulePositions, moduleHasValidPosition, getAvailableModulePositions, checkConfigFile };

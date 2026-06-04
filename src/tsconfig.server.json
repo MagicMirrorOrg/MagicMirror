@@ -9,5 +9,5 @@
 		"tsBuildInfoFile": "../node_modules/.cache/tsc/server.tsbuildinfo"
 	},
 	"//": "Server/Node CommonJS files. Add each migrated source file explicitly so it is never compiled by both projects (which would double-emit). Browser-only files belong in tsconfig.browser.json.",
-	"files": ["js/deprecated.ts"]
+	"files": ["types/node-globals.d.ts", "types/aliases.d.ts", "js/deprecated.ts", "js/http_fetcher.ts", "js/server_functions.ts", "js/utils.ts"]
 }

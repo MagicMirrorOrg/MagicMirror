@@ -1,9 +1,11 @@
-const dns = require("node:dns");
-const fs = require("node:fs");
-const path = require("node:path");
+import dns from "node:dns";
+import fs from "node:fs";
+import path from "node:path";
+import * as undici from "undici";
+
+import Log = require("logger");
+
 const ipaddr = require("ipaddr.js");
-const undici = require("undici");
-const Log = require("logger");
 
 const startUp = new Date();
 
@@ -12,7 +14,7 @@ const startUp = new Date();
  * @param {Request} req - the request
  * @param {Response} res - the result
  */
-function getStartup (req, res) {
+export function getStartup (req: any, res: any): void {
 	res.send(startUp);
 }
 
@@ -21,10 +23,10 @@ function getStartup (req, res) {
  * @param {string} input - the input string
  * @returns {string} the input with real variable content
  */
-function replaceSecretPlaceholder (input) {
+export function replaceSecretPlaceholder (input: string): string {
 	if (global.config.cors !== "allowAll") {
 		return input.replaceAll(/\*\*(SECRET_[^*]+)\*\*/g, (match, group) => {
-			return process.env[group];
+			return process.env[group] as string;
 		});
 	} else {
 		if (input.includes("**SECRET_")) {
@@ -44,7 +46,7 @@ function replaceSecretPlaceholder (input) {
  * @param {Response} res - the result
  * @returns {Promise<void>} A promise that resolves when the response is sent
  */
-async function cors (req, res) {
+export async function cors (req: any, res: any): Promise<any> {
 	if (global.config.cors === "disabled") {
 		Log.error("CORS is disabled, you need to enable it in `config.js` by setting `cors` to `allowAll` or `allowWhitelist`");
 		return res.status(403).json({ error: "CORS proxy is disabled" });
@@ -107,7 +109,7 @@ async function cors (req, res) {
 			// Pin the validated IP — fetch() reuses it instead of doing its own DNS lookup
 			const dispatcher = new undici.Agent({
 				connect: {
-					lookup: (_h, _o, cb) => {
+					lookup: (_h: any, _o: any, cb: any) => {
 						const addresses = [{ address: address, family: family }];
 						process.nextTick(() => cb(null, addresses));
 					}
@@ -130,7 +132,7 @@ async function cors (req, res) {
 		if (process.env.mmTestMode !== "true") {
 			Log.error(`Error in CORS request: ${error}`);
 		}
-		res.status(500).json({ error: error.message });
+		res.status(500).json({ error: (error as Error).message });
 	}
 }
 
@@ -139,8 +141,8 @@ async function cors (req, res) {
  * @param {string} url - The url containing the headers and values to send.
  * @returns {object} An object specifying name and value of the headers.
  */
-function getHeadersToSend (url) {
-	const headersToSend = { "User-Agent": getUserAgent() };
+function getHeadersToSend (url: string): Record<string, string> {
+	const headersToSend: Record<string, string> = { "User-Agent": getUserAgent() };
 	const headersToSendMatch = new RegExp("sendheaders=(.+?)(&|$)", "g").exec(url);
 	if (headersToSendMatch) {
 		const headers = headersToSendMatch[1].split(",");
@@ -160,7 +162,7 @@ function getHeadersToSend (url) {
  * @param {string} url - The url containing the expected headers from the response.
  * @returns {string[]} headers - The name of the expected headers.
  */
-function geExpectedReceivedHeaders (url) {
+function geExpectedReceivedHeaders (url: string): string[] {
 	const expectedReceivedHeaders = ["Content-Type"];
 	const expectedReceivedHeadersMatch = new RegExp("expectedheaders=(.+?)(&|$)", "g").exec(url);
 	if (expectedReceivedHeadersMatch) {
@@ -177,10 +179,10 @@ function geExpectedReceivedHeaders (url) {
  * @param {Request} req - the request
  * @param {Response} res - the result
  */
-function getHtml (req, res) {
+export function getHtml (req: any, res: any): void {
 	let html = fs.readFileSync(path.resolve(`${global.root_path}/index.html`), { encoding: "utf8" });
 	html = html.replace("#VERSION#", global.version);
-	html = html.replace("#TESTMODE#", global.mmTestMode);
+	html = html.replace("#TESTMODE#", String(global.mmTestMode));
 
 	res.send(html);
 }
@@ -190,7 +192,7 @@ function getHtml (req, res) {
  * @param {Request} req - the request
  * @param {Response} res - the result
  */
-function getVersion (req, res) {
+export function getVersion (req: any, res: any): void {
 	res.send(global.version);
 }
 
@@ -198,8 +200,8 @@ function getVersion (req, res) {
  * Gets the preferred `User-Agent`
  * @returns {string} `User-Agent` to be used
  */
-function getUserAgent () {
-	const defaultUserAgent = `Mozilla/5.0 (Node.js ${Number(process.version.match(/^v(\d+\.\d+)/)[1])}) MagicMirror/${global.version}`;
+export function getUserAgent (): string {
+	const defaultUserAgent = `Mozilla/5.0 (Node.js ${Number(process.version.match(/^v(\d+\.\d+)/)![1])}) MagicMirror/${global.version}`;
 
 	if (typeof global.config === "undefined") {
 		return defaultUserAgent;
@@ -219,8 +221,8 @@ function getUserAgent () {
  * Gets environment variables needed in the browser.
  * @returns {object} environment variables key: values
  */
-function getEnvVarsAsObj () {
-	const obj = { modulesDir: `${global.config.foreignModulesDir}`, defaultModulesDir: `${global.config.defaultModulesDir}`, customCss: `${global.config.customCss}` };
+export function getEnvVarsAsObj (): Record<string, string> {
+	const obj: Record<string, string> = { modulesDir: `${global.config.foreignModulesDir}`, defaultModulesDir: `${global.config.defaultModulesDir}`, customCss: `${global.config.customCss}` };
 	if (process.env.MM_MODULES_DIR) {
 		obj.modulesDir = process.env.MM_MODULES_DIR.replace(`${global.root_path}/`, "");
 	}
@@ -236,7 +238,7 @@ function getEnvVarsAsObj () {
  * @param {Request} req - the request
  * @param {Response} res - the result
  */
-function getEnvVars (req, res) {
+export function getEnvVars (req: any, res: any): void {
 	const obj = getEnvVarsAsObj();
 	res.send(obj);
 }
@@ -245,7 +247,7 @@ function getEnvVars (req, res) {
  * Get the config file path from environment or default location
  * @returns {string} The absolute config file path
  */
-function getConfigFilePath () {
+export function getConfigFilePath (): string {
 	// Ensure root_path is set (for standalone contexts like watcher)
 	if (!global.root_path) {
 		global.root_path = path.resolve(`${__dirname}/../`);
@@ -258,5 +260,3 @@ function getConfigFilePath () {
 
 	return path.resolve(global.configuration_file || `${global.root_path}/config/config.js`);
 }
-
-module.exports = { cors, getHtml, getVersion, getStartup, getEnvVars, getEnvVarsAsObj, getUserAgent, getConfigFilePath, replaceSecretPlaceholder };

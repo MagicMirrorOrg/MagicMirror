@@ -4,7 +4,7 @@
  * @param {object} time time to format
  * @returns {string} The formatted time string
  */
-const formatTime = (config, time) => {
+const formatTime = (config: any, time: any): string => {
 	let date = moment(time);
 
 	if (config.timezone) {

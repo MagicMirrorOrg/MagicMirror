@@ -1,7 +1,7 @@
-const { EventEmitter } = require("node:events");
-const { fetch: undiciFetch, Agent } = require("undici");
-const Log = require("logger");
-const { getUserAgent } = require("#server_functions");
+import { EventEmitter } from "node:events";
+import { fetch as undiciFetch, Agent } from "undici";
+import Log = require("logger");
+import { getUserAgent } from "#server_functions";
 
 const FIFTEEN_MINUTES = 15 * 60 * 1000;
 const THIRTY_MINUTES = 30 * 60 * 1000;
@@ -13,13 +13,29 @@ const DEFAULT_TIMEOUT = 30000; // 30 seconds
  * This allows HTTPFetcher to provide ready-to-use translation keys,
  * eliminating the need to call NodeHelper.checkFetchError().
  */
-const ERROR_TYPE_TO_TRANSLATION = {
+const ERROR_TYPE_TO_TRANSLATION: Record<string, string> = {
 	AUTH_FAILURE: "MODULE_ERROR_UNAUTHORIZED",
 	RATE_LIMITED: "MODULE_ERROR_RATE_LIMITED",
 	SERVER_ERROR: "MODULE_ERROR_SERVER_ERROR",
 	CLIENT_ERROR: "MODULE_ERROR_CLIENT_ERROR",
 	NETWORK_ERROR: "MODULE_ERROR_NO_CONNECTION",
 	UNKNOWN_ERROR: "MODULE_ERROR_UNSPECIFIED"
+};
+
+type RequestOptions = {
+	headers: Record<string, string>;
+	dispatcher?: Agent;
+};
+
+type ErrorInfo = {
+	message: string;
+	status: number | null;
+	errorType: string;
+	translationKey: string;
+	retryAfter: number;
+	retryCount: number;
+	url: string;
+	originalError: Error | null;
 };
 
 /**
@@ -41,6 +57,27 @@ const ERROR_TYPE_TO_TRANSLATION = {
  * fetcher.startPeriodicFetch();
  */
 class HTTPFetcher extends EventEmitter {
+	url: string;
+
+	reloadInterval: number;
+
+	auth: any;
+
+	selfSignedCert: boolean;
+
+	customHeaders: Record<string, string>;
+
+	maxRetries: number;
+
+	timeout: number;
+
+	logContext: string;
+
+	reloadTimer: ReturnType<typeof setTimeout> | null;
+
+	serverErrorCount: number;
+
+	networkErrorCount: number;
 
 	/**
 	 * Calculates exponential backoff delay for retries
@@ -55,7 +92,7 @@ class HTTPFetcher extends EventEmitter {
 	 * HTTPFetcher.calculateBackoffDelay(3) // 60000 (60s)
 	 * HTTPFetcher.calculateBackoffDelay(6) // 300000 (5min, capped)
 	 */
-	static calculateBackoffDelay (attempt, { baseDelay = 15000, maxDelay = 300000 } = {}) {
+	static calculateBackoffDelay (attempt: number, { baseDelay = 15000, maxDelay = 300000 }: { baseDelay?: number; maxDelay?: number } = {}): number {
 		return Math.min(baseDelay * Math.pow(2, attempt - 1), maxDelay);
 	}
 
@@ -74,7 +111,7 @@ class HTTPFetcher extends EventEmitter {
 	 * @param {number} [options.timeout] - Request timeout in ms (default: 30000)
 	 * @param {string} [options.logContext] - Optional context for log messages (e.g., provider name)
 	 */
-	constructor (url, options = {}) {
+	constructor (url: string, options: any = {}) {
 		super();
 
 		this.url = url;
@@ -94,7 +131,7 @@ class HTTPFetcher extends EventEmitter {
 	/**
 	 * Clears any pending reload timer
 	 */
-	clearTimer () {
+	clearTimer (): void {
 		if (this.reloadTimer) {
 			clearTimeout(this.reloadTimer);
 			this.reloadTimer = null;
@@ -108,7 +145,7 @@ class HTTPFetcher extends EventEmitter {
 	 * to prevent hammering servers.
 	 * @param {number} [delay] - Delay in milliseconds
 	 */
-	scheduleNextFetch (delay) {
+	scheduleNextFetch (delay?: number): void {
 		let nextDelay = delay ?? this.reloadInterval;
 
 		// Only clamp if delay is unreasonably short (< 1 second)
@@ -128,7 +165,7 @@ class HTTPFetcher extends EventEmitter {
 	/**
 	 * Starts periodic fetching
 	 */
-	startPeriodicFetch () {
+	startPeriodicFetch (): void {
 		this.fetch();
 	}
 
@@ -136,12 +173,12 @@ class HTTPFetcher extends EventEmitter {
 	 * Builds the options object for fetch
 	 * @returns {object} Options object containing headers (and dispatcher if needed)
 	 */
-	getRequestOptions () {
-		const headers = {
+	getRequestOptions (): RequestOptions {
+		const headers: Record<string, string> = {
 			"User-Agent": getUserAgent(),
 			...this.customHeaders
 		};
-		const options = { headers };
+		const options: RequestOptions = { headers };
 
 		if (this.selfSignedCert) {
 			options.dispatcher = new Agent({
@@ -167,7 +204,7 @@ class HTTPFetcher extends EventEmitter {
 	 * @param {string} retryAfter - The Retry-After header value
 	 * @returns {number|null} Milliseconds to wait or null if parsing failed
 	 */
-	#parseRetryAfter (retryAfter) {
+	#parseRetryAfter (retryAfter: string): number | null {
 		// Try parsing as seconds
 		const seconds = Number(retryAfter);
 		if (!Number.isNaN(seconds) && seconds >= 0) {
@@ -187,7 +224,7 @@ class HTTPFetcher extends EventEmitter {
 	 * Returns a shortened version of the URL for log messages.
 	 * @returns {string} Shortened URL
 	 */
-	#shortenUrl () {
+	#shortenUrl (): string {
 		try {
 			const urlObj = new URL(this.url);
 			return `${urlObj.origin}${urlObj.pathname}${urlObj.search.length > 50 ? "?..." : urlObj.search}`;
@@ -201,7 +238,7 @@ class HTTPFetcher extends EventEmitter {
 	 * @param {Response} response - The fetch Response object
 	 * @returns {{delay: number, errorInfo: object}} Computed retry delay and error info
 	 */
-	#getDelayForResponse (response) {
+	#getDelayForResponse (response: any): { delay: number; errorInfo: ErrorInfo } {
 		const { status } = response;
 		let delay = this.reloadInterval;
 		let message;
@@ -257,7 +294,7 @@ class HTTPFetcher extends EventEmitter {
 	 * @param {Error} [originalError] - The original error if any
 	 * @returns {object} Error info object with translationKey for direct use
 	 */
-	#createErrorInfo (message, status, errorType, retryAfter, originalError = null) {
+	#createErrorInfo (message: string, status: number | null, errorType: string, retryAfter: number, originalError: Error | null = null): ErrorInfo {
 		return {
 			message,
 			status,
@@ -275,7 +312,7 @@ class HTTPFetcher extends EventEmitter {
 	 * @fires HTTPFetcher#response
 	 * @fires HTTPFetcher#error
 	 */
-	async fetch () {
+	async fetch (): Promise<void> {
 		this.clearTimer();
 
 		let nextDelay = this.reloadInterval;
@@ -287,7 +324,7 @@ class HTTPFetcher extends EventEmitter {
 			// Use undici.fetch when a custom dispatcher is present (e.g. selfSignedCert),
 			// because Node's global fetch and npm undici@8 Agents are incompatible.
 			// For regular requests, use globalThis.fetch so MSW and other interceptors work.
-			const fetchFn = requestOptions.dispatcher ? undiciFetch : globalThis.fetch;
+			const fetchFn: any = requestOptions.dispatcher ? undiciFetch : globalThis.fetch;
 			const response = await fetchFn(this.url, {
 				...requestOptions,
 				signal: controller.signal
@@ -312,8 +349,9 @@ class HTTPFetcher extends EventEmitter {
 				this.emit("response", response);
 			}
 		} catch (error) {
-			const isTimeout = error.name === "AbortError";
-			const message = isTimeout ? `Request timeout after ${this.timeout}ms` : `Network error: ${error.message}`;
+			const err = error as Error;
+			const isTimeout = err.name === "AbortError";
+			const message = isTimeout ? `Request timeout after ${this.timeout}ms` : `Network error: ${err.message}`;
 
 			this.networkErrorCount = Math.min(this.networkErrorCount + 1, this.maxRetries);
 			const exhausted = this.networkErrorCount >= this.maxRetries;
@@ -338,7 +376,7 @@ class HTTPFetcher extends EventEmitter {
 				null,
 				"NETWORK_ERROR",
 				nextDelay,
-				error
+				err
 			);
 			this.emit("error", errorInfo);
 		} finally {
@@ -349,4 +387,4 @@ class HTTPFetcher extends EventEmitter {
 	}
 }
 
-module.exports = HTTPFetcher;
+export = HTTPFetcher;

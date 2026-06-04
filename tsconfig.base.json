@@ -4,6 +4,11 @@
 		"module": "commonjs",
 		"moduleResolution": "node",
 		"ignoreDeprecations": "6.0",
+		"baseUrl": ".",
+		"paths": {
+			"#server_functions": ["src/js/server_functions"],
+			"#http_fetcher": ["src/js/http_fetcher"]
+		},
 		"target": "ES2022",
 		"esModuleInterop": true,
 		"allowSyntheticDefaultImports": true,
@@ -14,7 +19,7 @@
 		"importHelpers": false,
 		"noEmitHelpers": false,
 		"resolveJsonModule": true,
-		"allowJs": true,
+		"allowJs": false,
 		"checkJs": false,
 		"noImplicitOverride": true,
 		"noImplicitReturns": true,

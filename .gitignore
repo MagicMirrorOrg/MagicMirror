@@ -85,6 +85,10 @@ js/positions.js
 /translations/**/*.js.map
 # Compiled outputs, listed per migrated file as each source moves to src/:
 /js/deprecated.js
+/js/http_fetcher.js
+/js/server_functions.js
+/js/utils.js
+/defaultmodules/utils.js
 
 # Ignore lock files other than package-lock.json
 pnpm-lock.yaml

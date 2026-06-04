@@ -51,7 +51,11 @@ export default defineConfig([
 		 * Compiled TypeScript output (generated from src/*.ts; never linted as source).
 		 * Listed per migrated file as each source moves to src/:
 		 */
-		"js/deprecated.js"
+		"js/deprecated.js",
+		"js/http_fetcher.js",
+		"js/server_functions.js",
+		"js/utils.js",
+		"defaultmodules/utils.js"
 	]),
 	{
 		files: ["**/*.js"],
@@ -149,6 +153,15 @@ export default defineConfig([
 			"@typescript-eslint/no-require-imports": "off",
 			"@typescript-eslint/no-empty-function": "off",
 			"@typescript-eslint/no-unused-vars": ["error", {argsIgnorePattern: "^_", varsIgnorePattern: "^_"}]
+		}
+	},
+	{
+		// Ambient declaration files: `declare var` is the correct idiom for writable
+		// global augmentation, and `any` is expected while modules are still untyped.
+		files: ["src/**/*.d.ts"],
+		rules: {
+			"no-var": "off",
+			"@typescript-eslint/no-explicit-any": "off"
 		}
 	},
 	{
