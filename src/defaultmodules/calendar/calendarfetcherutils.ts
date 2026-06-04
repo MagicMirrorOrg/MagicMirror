@@ -1,10 +1,10 @@
 /**
  * @external Moment
  */
-const moment = require("moment-timezone");
-const ical = require("node-ical");
+import moment from "moment-timezone";
+import ical from "node-ical";
 
-const Log = require("logger");
+import Log from "logger";
 
 const CalendarFetcherUtils = {
 
@@ -161,7 +161,7 @@ const CalendarFetcherUtils = {
 		if (filter) {
 			const until = filter.split(" "),
 				value = parseInt(until[0]!),
-				increment = until[1]!.slice(-1) === "s" ? until[1] : `${until[1]}s`, // Massage the data for moment js
+				increment = (until[1]!.slice(-1) === "s" ? until[1] : `${until[1]}s`) as moment.unitOfTime.DurationConstructor, // Massage the data for moment js
 				filterUntil = moment(endDate.format()).subtract(value, increment);
 
 			return now.isBefore(filterUntil);

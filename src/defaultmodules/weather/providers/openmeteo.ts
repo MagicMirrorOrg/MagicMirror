@@ -1,5 +1,5 @@
-const Log = require("logger");
-const HTTPFetcher = require("#http_fetcher");
+import Log from "logger";
+import HTTPFetcher from "#http_fetcher";
 
 // https://www.bigdatacloud.com/docs/api/free-reverse-geocode-to-city-api
 const GEOCODE_BASE = "https://api.bigdatacloud.net/data/reverse-geocode-client";

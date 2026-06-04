@@ -1,7 +1,7 @@
-const ical = require("node-ical");
-const Log = require("logger");
-const CalendarFetcherUtils = require("./calendarfetcherutils");
-const HTTPFetcher = require("#http_fetcher");
+import ical from "node-ical";
+import Log from "logger";
+import CalendarFetcherUtils from "./calendarfetcherutils";
+import HTTPFetcher from "#http_fetcher";
 
 /**
  * CalendarFetcher - Fetches and parses iCal calendar data

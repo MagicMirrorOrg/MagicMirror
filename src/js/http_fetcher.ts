@@ -1,6 +1,6 @@
 import { EventEmitter } from "node:events";
 import { fetch as undiciFetch, Agent } from "undici";
-import Log = require("logger");
+import Log from "logger";
 import { getUserAgent } from "#server_functions";
 
 const FIFTEEN_MINUTES = 15 * 60 * 1000;

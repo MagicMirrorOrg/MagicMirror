@@ -1,17 +1,15 @@
-const fs = require("node:fs");
-const http = require("node:http");
-const https = require("node:https");
-const path = require("node:path");
-const express = require("express");
-const helmet = require("helmet");
-const socketio = require("socket.io");
-const Log = require("logger");
-
-const { ipAccessControl } = require("./ip_access_control");
+import fs from "node:fs";
+import http from "node:http";
+import https from "node:https";
+import path from "node:path";
+import express from "express";
+import helmet from "helmet";
+import socketio from "socket.io";
+import Log from "logger";
+import { ipAccessControl } from "./ip_access_control";
+import { getHtml, getVersion, getEnvVars, cors } from "#server_functions";
 
 const vendor = require("./vendor");
-
-const { getHtml, getVersion, getEnvVars, cors } = require("#server_functions");
 
 /**
  * Server
@@ -36,11 +34,11 @@ function Server (this: any, configObj: any) {
 					key: fs.readFileSync(config.httpsPrivateKey),
 					cert: fs.readFileSync(config.httpsCertificate)
 				};
-				server = https.Server(options, app);
+				server = (https.Server as any)(options, app);
 			} else {
-				server = http.Server(app);
+				server = (http.Server as any)(app);
 			}
-			const io = socketio(server, {
+			const io = (socketio as any)(server, {
 				cors: {
 					origin: /.*$/,
 					credentials: true

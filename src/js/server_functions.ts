@@ -2,10 +2,8 @@ import dns from "node:dns";
 import fs from "node:fs";
 import path from "node:path";
 import * as undici from "undici";
-
-import Log = require("logger");
-
-const ipaddr = require("ipaddr.js");
+import Log from "logger";
+import ipaddr from "ipaddr.js";
 
 const startUp = new Date();
 

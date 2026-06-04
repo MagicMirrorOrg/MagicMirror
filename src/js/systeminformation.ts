@@ -1,5 +1,6 @@
-const os = require("node:os");
-const si = require("systeminformation");
+import os from "node:os";
+import si from "systeminformation";
+
 // needed with relative path because logSystemInformation is called in an own process in app.js:
 const mmVersion = require("../package").version;
 const Log = require("./logger");

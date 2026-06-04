@@ -2,7 +2,7 @@
  * Shared utility functions for weather providers
  */
 
-const SunCalc = require("suncalc");
+import SunCalc from "suncalc";
 
 /**
  * Convert OpenWeatherMap icon codes to internal weather types

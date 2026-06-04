@@ -1,11 +1,12 @@
+import fs from "node:fs";
+import path from "node:path";
+
 import NodeHelper = require("node_helper");
 
-const fs = require("node:fs");
-const path = require("node:path");
+import GitHelper from "./git_helper";
+import UpdateHelper from "./update_helper";
 
 const defaultModules = require(`${global.root_path}/${global.defaultModulesDir}/defaultmodules`);
-const GitHelper = require("./git_helper");
-const UpdateHelper = require("./update_helper");
 
 const ONE_MINUTE = 60 * 1000;
 

@@ -1,7 +1,9 @@
 /* eslint no-console: "off" */
-const util = require("node:util");
-const exec = util.promisify(require("node:child_process").exec);
-const fs = require("node:fs");
+import { exec as childExec } from "node:child_process";
+import fs from "node:fs";
+import util from "node:util";
+
+const exec = util.promisify(childExec);
 
 const createReleaseNotes = async () => {
 	let repoName = "MagicMirrorOrg/MagicMirror";
@@ -49,7 +51,7 @@ const createReleaseNotes = async () => {
 	const commits = gitOut.toString().split("\n");
 
 	// Get Node engine version from package.json
-	const nodeVersion = JSON.parse(fs.readFileSync("package.json")).engines.node;
+	const nodeVersion = JSON.parse(fs.readFileSync("package.json", "utf-8")).engines.node;
 
 	// Search strings
 	const labelArr = ["alert", "calendar", "clock", "compliments", "helloworld", "newsfeed", "updatenotification", "weather", "envcanada", "openmeteo", "openweathermap", "smhi", "ukmetoffice", "yr", "eslint", "bump", "dependencies", "deps", "logg", "translation", "test", "ci"];

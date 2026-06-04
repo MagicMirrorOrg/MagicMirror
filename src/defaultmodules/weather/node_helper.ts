@@ -1,7 +1,7 @@
+import path from "node:path";
 import NodeHelper = require("node_helper");
 
-const path = require("node:path");
-const Log = require("logger");
+import Log from "logger";
 
 export = NodeHelper.create({
 	providers: {} as Record<string, any>,

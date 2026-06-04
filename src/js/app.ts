@@ -1,21 +1,19 @@
 // Load lightweight internal alias resolver
-require("./alias-resolver");
+import "./alias-resolver";
 
-const fs = require("node:fs");
-const path = require("node:path");
-const Spawn = require("node:child_process").spawn;
-const Log = require("logger");
+import fs from "node:fs";
+import path from "node:path";
+import { spawn as Spawn } from "node:child_process";
+import Log from "logger";
+import { setGlobalDispatcher, Agent } from "undici";
+import Server from "./server";
+import Utils from "./utils";
+import { getEnvVarsAsObj } from "#server_functions";
 
 // global absolute root path
 global.root_path = path.resolve(`${__dirname}/../`);
 
 // used to control fetch timeout for node_helpers
-const { setGlobalDispatcher, Agent } = require("undici");
-
-const Server = require("./server");
-const Utils = require("./utils");
-
-const { getEnvVarsAsObj } = require("#server_functions");
 // common timeout value, provide environment override in case
 const fetch_timeout = process.env.mmFetchTimeout !== undefined ? process.env.mmFetchTimeout : 30000;
 
@@ -214,11 +212,11 @@ function App (this: any) {
 			}
 		}
 
-		setGlobalDispatcher(new Agent({ connect: { timeout: fetch_timeout } }));
+		setGlobalDispatcher(new Agent({ connect: { timeout: Number(fetch_timeout) } }));
 
 		await loadModules(modules);
 
-		httpServer = new Server(configObj);
+		httpServer = new (Server as any)(configObj);
 		const { app, io } = await httpServer.open();
 		Log.log("Server started ...");
 

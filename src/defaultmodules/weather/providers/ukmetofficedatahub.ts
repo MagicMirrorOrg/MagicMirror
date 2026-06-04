@@ -1,6 +1,6 @@
-const Log = require("logger");
-const { getSunTimes } = require("../provider-utils");
-const HTTPFetcher = require("#http_fetcher");
+import Log from "logger";
+import { getSunTimes } from "../provider-utils";
+import HTTPFetcher from "#http_fetcher";
 
 /**
  * UK Met Office Data Hub provider

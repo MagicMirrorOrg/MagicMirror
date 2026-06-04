@@ -1,7 +1,8 @@
 "use strict";
 
-const electron = require("electron");
-const core = require("./app");
+import electron from "electron";
+import core from "./app";
+
 const Log = require("./logger");
 
 // Config
@@ -45,7 +46,7 @@ function createWindow (): void {
 	}
 
 	const electronSwitchesDefaults = ["autoplay-policy", "no-user-gesture-required"];
-	app.commandLine.appendSwitch(...new (Set as any)(electronSwitchesDefaults, config.electronSwitches));
+	(app.commandLine.appendSwitch as any)(...new (Set as any)(electronSwitchesDefaults, config.electronSwitches));
 	const electronOptionsDefaults: any = {
 		width: electronSize.width,
 		height: electronSize.height,

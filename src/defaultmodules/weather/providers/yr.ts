@@ -1,6 +1,6 @@
-const Log = require("logger");
-const { formatTimezoneOffset, getDateString, validateCoordinates } = require("../provider-utils");
-const HTTPFetcher = require("#http_fetcher");
+import Log from "logger";
+import { formatTimezoneOffset, getDateString, validateCoordinates } from "../provider-utils";
+import HTTPFetcher from "#http_fetcher";
 
 /**
  * Server-side weather provider for Yr.no (Norwegian Meteorological Institute)

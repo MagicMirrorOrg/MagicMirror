@@ -3,11 +3,11 @@ import { loadEnvFile } from "node:process";
 import { styleText } from "node:util";
 import Log = require("logger");
 
-import { getConfigFilePath } from "#server_functions";
+import Ajv from "ajv";
+import { Linter } from "eslint";
+import globals from "globals";
 
-const Ajv = require("ajv");
-const globals = require("globals");
-const { Linter } = require("eslint");
+import { getConfigFilePath } from "#server_functions";
 
 const modulePositions: string[] = []; // will get list from index.html
 const regionRegEx = /"region ([^"]*)/i;
@@ -265,12 +265,13 @@ const validateModulePositions = (data: any): void => {
 	const validate = ajv.compile(schema);
 
 	const valid = validate(data);
+	const configData = data as any;
 	if (valid) {
 		Log.info(styleText("green", "Your modules structure configuration doesn't contain errors :)"));
 
 		// Check for unknown positions (warning only, not an error)
-		if (data.modules) {
-			for (const [index, module] of data.modules.entries()) {
+		if (configData.modules) {
+			for (const [index, module] of configData.modules.entries()) {
 				if (module.position && !positionList.includes(module.position)) {
 					Log.warn(`Module ${index} ("${module.module}") uses unknown position: "${module.position}"`);
 					Log.warn(`Known positions are: ${positionList.join(", ")}`);
@@ -278,15 +279,16 @@ const validateModulePositions = (data: any): void => {
 			}
 		}
 	} else {
-		const module = validate.errors[0].instancePath.split("/")[2];
-		const position = validate.errors[0].instancePath.split("/")[3];
+		const validationErrors = validate.errors as any[];
+		const module = validationErrors[0].instancePath.split("/")[2];
+		const position = validationErrors[0].instancePath.split("/")[3];
 		let errorMessage = "This module configuration contains errors:";
-		errorMessage += `\n${JSON.stringify(data.modules[module], null, 2)}`;
+		errorMessage += `\n${JSON.stringify(configData.modules[module], null, 2)}`;
 		if (position) {
-			errorMessage += `\n${position}: ${validate.errors[0].message}`;
-			errorMessage += `\n${JSON.stringify(validate.errors[0].params.allowedValues, null, 2).slice(1, -1)}`;
+			errorMessage += `\n${position}: ${validationErrors[0].message}`;
+			errorMessage += `\n${JSON.stringify(validationErrors[0].params.allowedValues, null, 2).slice(1, -1)}`;
 		} else {
-			errorMessage += validate.errors[0].message;
+			errorMessage += validationErrors[0].message;
 		}
 		Log.error(errorMessage);
 		process.exit(1);

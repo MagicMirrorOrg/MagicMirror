@@ -1,8 +1,8 @@
+import zlib from "node:zlib";
 import NodeHelper = require("node_helper");
 
-const zlib = require("node:zlib");
-const Log = require("logger");
-const CalendarFetcher = require("./calendarfetcher");
+import Log from "logger";
+import CalendarFetcher from "./calendarfetcher";
 
 export = NodeHelper.create({
 	// Override start method.

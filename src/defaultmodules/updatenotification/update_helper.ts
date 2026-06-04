@@ -1,8 +1,7 @@
-const Exec = require("node:child_process").exec;
-const Spawn = require("node:child_process").spawn;
-const fs = require("node:fs");
+import { exec as Exec, spawn as Spawn } from "node:child_process";
+import fs from "node:fs";
 
-const Log = require("logger");
+import Log from "logger";
 
 /*
  * class Updater

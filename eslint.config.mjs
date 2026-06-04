@@ -135,6 +135,12 @@ export default defineConfig([
 			eqeqeq: ["error", "always", {null: "ignore"}],
 			"id-length": "off",
 			"import-x/extensions": "off",
+
+			/*
+			 * "logger"/"node_helper" are internal require aliases resolved at runtime by
+			 * js/alias-resolver.js (typed via src/types/aliases.d.ts); no file path resolves.
+			 */
+			"import-x/no-unresolved": ["error", {ignore: ["^logger$", "^node_helper$"]}],
 			"import-x/newline-after-import": "error",
 			"import-x/order": "error",
 			"no-param-reassign": "error",

@@ -12,6 +12,7 @@
 	"files": [
 		"types/node-globals.d.ts",
 		"types/aliases.d.ts",
+		"types/untyped-modules.d.ts",
 		"js/deprecated.ts",
 		"js/http_fetcher.ts",
 		"js/server_functions.ts",

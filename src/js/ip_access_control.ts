@@ -1,5 +1,5 @@
-const ipaddr = require("ipaddr.js");
-const Log = require("logger");
+import ipaddr from "ipaddr.js";
+import Log from "logger";
 
 /**
  * Checks if a client IP matches any entry in the whitelist
@@ -38,7 +38,7 @@ function isAllowed (clientIp: string, whitelist: string[]): boolean {
  * @param {string[]} whitelist - Array of allowed IP addresses or CIDR ranges
  * @returns {import("express").RequestHandler} Express middleware function
  */
-function ipAccessControl (whitelist: string[]) {
+export function ipAccessControl (whitelist: string[]) {
 	// Empty whitelist means allow all
 	if (!Array.isArray(whitelist) || whitelist.length === 0) {
 		return function (req: any, res: any, next: any) {
@@ -59,5 +59,3 @@ function ipAccessControl (whitelist: string[]) {
 		}
 	};
 }
-
-export = { ipAccessControl };

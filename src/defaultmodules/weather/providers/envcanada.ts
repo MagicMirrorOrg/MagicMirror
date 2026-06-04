@@ -1,6 +1,6 @@
-const Log = require("logger");
-const { convertKmhToMs } = require("../provider-utils");
-const HTTPFetcher = require("#http_fetcher");
+import Log from "logger";
+import { convertKmhToMs } from "../provider-utils";
+import HTTPFetcher from "#http_fetcher";
 
 /**
  * Server-side weather provider for Environment Canada MSC Datamart

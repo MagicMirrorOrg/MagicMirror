@@ -1,5 +1,5 @@
-const Log = require("logger");
-const HTTPFetcher = require("#http_fetcher");
+import Log from "logger";
+import HTTPFetcher from "#http_fetcher";
 
 /**
  * Weatherbit weather provider

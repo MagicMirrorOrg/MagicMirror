@@ -1,8 +1,11 @@
-const util = require("node:util");
-const execFile = util.promisify(require("node:child_process").execFile);
-const fs = require("node:fs");
-const path = require("node:path");
-const Log = require("logger");
+import { execFile as childExecFile } from "node:child_process";
+import fs from "node:fs";
+import path from "node:path";
+import util from "node:util";
+
+import Log from "logger";
+
+const execFile = util.promisify(childExecFile);
 
 class GitHelper {
 	gitRepos: any[];

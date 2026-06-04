@@ -1,4 +1,5 @@
-const app = require("../js/app");
+import app from "../js/app";
+
 const Log = require("../js/logger");
 
 app.start().then((config: any) => {

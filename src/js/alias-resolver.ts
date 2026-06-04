@@ -2,8 +2,11 @@
 // Provides short require identifiers: "logger" and "node_helper".
 // For a future ESM migration, replace this with a public export/import surface.
 
-const path = require("node:path");
-const Module = require("node:module");
+import path from "node:path";
+import NodeModule from "node:module";
+
+// Node's module internals (_resolveFilename / _mmAliasPatched) are private/untyped.
+const Module = NodeModule as any;
 
 const root = path.join(__dirname, "..");
 

@@ -1,7 +1,7 @@
 import NodeHelper = require("node_helper");
 
-const Log = require("logger");
-const NewsfeedFetcher = require("./newsfeedfetcher");
+import Log from "logger";
+import NewsfeedFetcher from "./newsfeedfetcher";
 
 export = NodeHelper.create({
 	// Override start method.

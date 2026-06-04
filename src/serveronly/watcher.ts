@@ -1,13 +1,15 @@
 // Load lightweight internal alias resolver to enable require("logger")
-require("../js/alias-resolver");
+import "../js/alias-resolver";
 
-const { spawn } = require("node:child_process");
-const fs = require("node:fs");
-const path = require("node:path");
-const net = require("node:net");
-const http = require("node:http");
-const Log = require("logger");
-const { getConfigFilePath } = require("#server_functions");
+import { spawn } from "node:child_process";
+import fs from "node:fs";
+import http from "node:http";
+import net from "node:net";
+import path from "node:path";
+
+import Log from "logger";
+
+import { getConfigFilePath } from "#server_functions";
 
 const RESTART_DELAY_MS = 500;
 const PORT_CHECK_MAX_ATTEMPTS = 20;
@@ -186,7 +188,7 @@ function watchFile (file: string): void {
 		const fileName = path.basename(file);
 		const dirName = path.dirname(file);
 
-		const watcher = fs.watch(dirName, (_eventType: string, changedFile: string) => {
+		const watcher = fs.watch(dirName, (_eventType: string, changedFile: string | null) => {
 			// Only trigger for the specific file we're interested in
 			if (changedFile !== fileName) return;
 

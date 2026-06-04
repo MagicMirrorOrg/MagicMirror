@@ -1,6 +1,6 @@
-const Log = require("logger");
-const weatherUtils = require("../provider-utils");
-const HTTPFetcher = require("#http_fetcher");
+import Log from "logger";
+import * as weatherUtils from "../provider-utils";
+import HTTPFetcher from "#http_fetcher";
 
 /**
  * Server-side weather provider for OpenWeatherMap

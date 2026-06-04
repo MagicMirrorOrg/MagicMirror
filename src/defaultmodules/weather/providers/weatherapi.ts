@@ -1,6 +1,6 @@
-const Log = require("logger");
-const { convertKmhToMs, cardinalToDegrees } = require("../provider-utils");
-const HTTPFetcher = require("#http_fetcher");
+import Log from "logger";
+import { convertKmhToMs, cardinalToDegrees } from "../provider-utils";
+import HTTPFetcher from "#http_fetcher";
 
 const WEATHER_API_BASE = "https://api.weatherapi.com/v1";
 

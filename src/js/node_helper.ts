@@ -1,6 +1,6 @@
-const express = require("express");
-const Log = require("logger");
-const { replaceSecretPlaceholder } = require("#server_functions");
+import express from "express";
+import Log from "logger";
+import { replaceSecretPlaceholder } from "#server_functions";
 
 class NodeHelper {
 	// All assigned at runtime (via setName/setPath/setExpressApp/setSocketIO); declared

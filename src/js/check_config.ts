@@ -1,8 +1,9 @@
 // Ensure internal require aliases (e.g., "logger") resolve when this file is run as a standalone script
-require("./alias-resolver");
+import "./alias-resolver";
 
-const path = require("node:path");
-const Log = require("logger");
+import path from "node:path";
+
+import Log from "logger";
 
 const rootPath = path.resolve(`${__dirname}/../`);
 const Utils = require(`${rootPath}/js/utils.js`);

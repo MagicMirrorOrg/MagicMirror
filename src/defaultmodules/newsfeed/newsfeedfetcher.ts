@@ -1,10 +1,10 @@
-const crypto = require("node:crypto");
-const stream = require("node:stream");
-const FeedMe = require("feedme");
-const iconv = require("iconv-lite");
-const { htmlToText } = require("html-to-text");
-const Log = require("logger");
-const HTTPFetcher = require("#http_fetcher");
+import crypto from "node:crypto";
+import stream from "node:stream";
+import FeedMe from "feedme";
+import iconv from "iconv-lite";
+import { htmlToText } from "html-to-text";
+import Log from "logger";
+import HTTPFetcher from "#http_fetcher";
 
 /**
  * NewsfeedFetcher - Fetches and parses RSS/Atom feed data

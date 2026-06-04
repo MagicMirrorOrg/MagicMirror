@@ -1,7 +1,7 @@
 "use strict";
 
-const http = require("node:http");
-const https = require("node:https");
+import http from "node:http";
+import https from "node:https";
 
 /**
  * Get command line parameters

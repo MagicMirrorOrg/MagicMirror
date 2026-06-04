@@ -1,6 +1,6 @@
-const Log = require("logger");
-const { getSunTimes, isDayTime, getDateString, convertKmhToMs, cardinalToDegrees } = require("../provider-utils");
-const HTTPFetcher = require("#http_fetcher");
+import Log from "logger";
+import { getSunTimes, isDayTime, getDateString, convertKmhToMs, cardinalToDegrees } from "../provider-utils";
+import HTTPFetcher from "#http_fetcher";
 
 /**
  * Server-side weather provider for Weather.gov (US National Weather Service)
@@ -219,7 +219,7 @@ class WeatherGovProvider {
 				url = this.stationObsURL;
 		}
 
-		this.fetcher = new HTTPFetcher(url, {
+		this.fetcher = new HTTPFetcher(url!, {
 			reloadInterval: this.config.updateInterval,
 			timeout: 60000, // 60 seconds - weather.gov can be slow
 			headers: {
