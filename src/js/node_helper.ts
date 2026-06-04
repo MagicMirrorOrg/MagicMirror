@@ -1,54 +1,65 @@
 const express = require("express");
 const Log = require("logger");
-const Class = require("./class");
 const { replaceSecretPlaceholder } = require("#server_functions");
 
-const NodeHelper = Class.extend({
-	init (this: any) {
+class NodeHelper {
+	// All assigned at runtime (via setName/setPath/setExpressApp/setSocketIO); declared
+	// for typing only so they are not emitted as instance fields.
+	declare name: string;
+
+	declare path: string;
+
+	declare expressApp: any;
+
+	declare io: any;
+
+	declare _super: any;
+
+	init (): void {
 		Log.log("Initializing new module helper ...");
-	},
+	}
 
-	loaded (this: any) {
+	loaded (): void {
 		Log.log(`Module helper loaded: ${this.name}`);
-	},
+	}
 
-	start (this: any) {
+	start (): void {
 		Log.log(`Starting module helper: ${this.name}`);
-	},
+	}
 
 	/**
 	 * Called when the MagicMirror² server receives a `SIGINT`
 	 * Close any open connections, stop any sub-processes and
 	 * gracefully exit the module.
 	 */
-	stop (this: any) {
+	stop (): void {
 		Log.log(`Stopping module helper: ${this.name}`);
-	},
+	}
 
 	/**
 	 * This method is called when a socket notification arrives.
 	 * @param {string} notification The identifier of the notification.
 	 * @param {object} payload The payload of the notification.
 	 */
-	socketNotificationReceived (this: any, notification: string, payload: any) {
+	socketNotificationReceived (notification: string, payload: any): void {
 		Log.log(`${this.name} received a socket notification: ${notification} - Payload: ${payload}`);
-	},
+	}
 
 	/**
 	 * Set the module name.
 	 * @param {string} name Module name.
 	 */
-	setName (this: any, name: string) {
+	setName (name: string): void {
 		this.name = name;
-	},
+	}
 
 	/**
 	 * Set the module path.
 	 * @param {string} path Module path.
 	 */
-	setPath (this: any, path: string) {
+	setPath (path: string): void {
 		this.path = path;
-	},
+	}
 
 	/*
 	 * sendSocketNotification(notification, payload)
@@ -57,9 +68,9 @@ const NodeHelper = Class.extend({
 	 * argument notification string - The identifier of the notification.
 	 * argument payload mixed - The payload of the notification.
 	 */
-	sendSocketNotification (this: any, notification: string, payload: any) {
+	sendSocketNotification (notification: string, payload: any): void {
 		this.io.of(this.name).emit(notification, payload);
-	},
+	}
 
 	/*
 	 * setExpressApp(app)
@@ -68,11 +79,11 @@ const NodeHelper = Class.extend({
 	 *
 	 * argument app Express app - The Express app object.
 	 */
-	setExpressApp (this: any, app: any) {
+	setExpressApp (app: any): void {
 		this.expressApp = app;
 
 		app.use(`/${this.name}`, express.static(`${this.path}/public`));
-	},
+	}
 
 	/*
 	 * setSocketIO(io)
@@ -81,7 +92,7 @@ const NodeHelper = Class.extend({
 	 *
 	 * argument io Socket.io - The Socket io object.
 	 */
-	setSocketIO (this: any, io: any) {
+	setSocketIO (io: any): void {
 		this.io = io;
 
 		Log.log(`Connecting socket for: ${this.name}`);
@@ -103,38 +114,90 @@ const NodeHelper = Class.extend({
 			});
 		});
 	}
-});
 
-NodeHelper.checkFetchStatus = function (response: any) {
-	// response.status >= 200 && response.status < 300
-	if (response.ok) {
-		return response;
-	} else {
-		throw Error(response.statusText);
-	}
-};
-
-/**
- * Look at the specified error and return an appropriate error type, that
- * can be translated to a detailed error message
- * @param {Error} error the error from fetching something
- * @returns {string} the string of the detailed error message in the translations
- */
-NodeHelper.checkFetchError = function (error: any) {
-	let error_type = "MODULE_ERROR_UNSPECIFIED";
-	if (error.code === "EAI_AGAIN") {
-		error_type = "MODULE_ERROR_NO_CONNECTION";
-	} else {
-		const message = typeof error.message === "string" ? error.message.toLowerCase() : "";
-		if (message.includes("unauthorized") || message.includes("http 401") || message.includes("http 403")) {
-			error_type = "MODULE_ERROR_UNAUTHORIZED";
+	static checkFetchStatus (response: any): any {
+		// response.status >= 200 && response.status < 300
+		if (response.ok) {
+			return response;
+		} else {
+			throw Error(response.statusText);
 		}
 	}
-	return error_type;
-};
 
-NodeHelper.create = function (moduleDefinition: any) {
-	return NodeHelper.extend(moduleDefinition);
-};
+	/**
+	 * Look at the specified error and return an appropriate error type, that
+	 * can be translated to a detailed error message
+	 * @param {Error} error the error from fetching something
+	 * @returns {string} the string of the detailed error message in the translations
+	 */
+	static checkFetchError (error: any): string {
+		let error_type = "MODULE_ERROR_UNSPECIFIED";
+		if (error.code === "EAI_AGAIN") {
+			error_type = "MODULE_ERROR_NO_CONNECTION";
+		} else {
+			const message = typeof error.message === "string" ? error.message.toLowerCase() : "";
+			if (message.includes("unauthorized") || message.includes("http 401") || message.includes("http 403")) {
+				error_type = "MODULE_ERROR_UNAUTHORIZED";
+			}
+		}
+		return error_type;
+	}
+
+	/**
+	 * Build a NodeHelper subclass from a module's definition object, applying its
+	 * members over the base. A method that references `this._super` is wrapped so
+	 * `_super()` calls the overridden base method — the same contract the previous
+	 * Class.extend (John Resig) inheritance provided.
+	 * @param {object} definition The node helper definition object.
+	 * @returns {typeof NodeHelper} A NodeHelper subclass.
+	 */
+	static extend (definition: any): typeof NodeHelper {
+		// Module node helpers extend the NodeHelper base exactly one level deep.
+		class Subclass extends NodeHelper {}
+		const prototype: any = Subclass.prototype;
+		const parentPrototype: any = NodeHelper.prototype;
+
+		for (const name in definition) {
+			const value = definition[name];
+			if (typeof value === "function" && typeof parentPrototype[name] === "function" && (/\b_super\b/).test(Function.prototype.toString.call(value))) {
+				prototype[name] = (function (methodName, fn) {
+					return function (this: any, ...args: any[]) {
+						const tmp = this._super;
+
+						// Temporarily expose the overridden base method as this._super().
+						this._super = parentPrototype[methodName];
+						const ret = fn.apply(this, args);
+						this._super = tmp;
+
+						return ret;
+					};
+				}(name, value));
+			} else {
+				prototype[name] = value;
+			}
+		}
+
+		return Subclass;
+	}
+
+	/**
+	 * Create a node helper class from a module definition. Returns the constructor;
+	 * the caller (js/app.js) instantiates it with `new`.
+	 * @param {object} moduleDefinition The node helper definition object.
+	 * @returns {typeof NodeHelper} A NodeHelper subclass.
+	 */
+	static create (moduleDefinition: any): typeof NodeHelper {
+		return NodeHelper.extend(moduleDefinition);
+	}
+
+	/**
+	 * Instantiate the node helper — runs the (overridable) init method.
+	 */
+	constructor () {
+		if (this.init) {
+			this.init();
+		}
+	}
+}
 
 export = NodeHelper;
