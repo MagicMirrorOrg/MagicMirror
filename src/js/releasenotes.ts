@@ -10,7 +10,7 @@ const createReleaseNotes = async () => {
 	}
 	const baseUrl = `https://api.github.com/repos/${repoName}`;
 
-	const getOptions = (type) => {
+	const getOptions = (type: string): any => {
 		if (process.env.GITHUB_TOKEN) {
 			return { method: `${type}`, headers: { Authorization: `Bearer ${process.env.GITHUB_TOKEN}` } };
 		} else {
@@ -18,15 +18,15 @@ const createReleaseNotes = async () => {
 		}
 	};
 
-	const execShell = async (command) => {
+	const execShell = async (command: string): Promise<any> => {
 		const { stdout = "", stderr = "" } = await exec(command);
 		if (stderr) console.error(`Error in execShell executing command ${command}: ${stderr}`);
 		return stdout;
 	};
 
 	// Check Draft Release
-	const draftReleases = [];
-	const jsonReleases = await fetch(`${baseUrl}/releases`, getOptions("GET")).then((res) => res.json());
+	const draftReleases: any[] = [];
+	const jsonReleases: any = await fetch(`${baseUrl}/releases`, getOptions("GET")).then((res) => res.json());
 	for (const rel of jsonReleases) {
 		if (rel.draft && rel.tag_name === "" && rel.published_at === null && rel.name === "unreleased") draftReleases.push(rel);
 	}
@@ -55,8 +55,8 @@ const createReleaseNotes = async () => {
 	const labelArr = ["alert", "calendar", "clock", "compliments", "helloworld", "newsfeed", "updatenotification", "weather", "envcanada", "openmeteo", "openweathermap", "smhi", "ukmetoffice", "yr", "eslint", "bump", "dependencies", "deps", "logg", "translation", "test", "ci"];
 
 	// Map search strings to categories
-	const getFirstLabel = (text) => {
-		let res;
+	const getFirstLabel = (text: string): string => {
+		let res: string | undefined;
 		labelArr.every((item) => {
 			const labelIncl = text.includes(item);
 			if (labelIncl) {
@@ -116,9 +116,9 @@ const createReleaseNotes = async () => {
 		return res;
 	};
 
-	const grouped = {};
-	const contrib = [];
-	const sha = [];
+	const grouped: any = {};
+	const contrib: string[] = [];
+	const sha: string[] = [];
 
 	// Loop through each Commit
 	for (const item of commits) {
@@ -142,7 +142,7 @@ const createReleaseNotes = async () => {
 	}
 
 	// function to remove duplicates
-	const sortedArr = (arr) => {
+	const sortedArr = (arr: string[]): string[] => {
 		return arr.filter((item,
 			index) => (arr.indexOf(item) === index && item !== "@dependabot[bot]")).sort(function (a, b) {
 			return a.toLowerCase().localeCompare(b.toLowerCase());
@@ -151,7 +151,7 @@ const createReleaseNotes = async () => {
 
 	// Get Contributors logins
 	for (const ref of sha) {
-		const jsonRes = await fetch(`${baseUrl}/commits/${ref}`, getOptions("GET")).then((res) => res.json());
+		const jsonRes: any = await fetch(`${baseUrl}/commits/${ref}`, getOptions("GET")).then((res) => res.json());
 
 		if (jsonRes && jsonRes.author && jsonRes.author.login) contrib.push(`@${jsonRes.author.login}`);
 	}
@@ -166,7 +166,7 @@ const createReleaseNotes = async () => {
 
 	const sorted = Object.keys(grouped)
 		.sort() // Sort the keys alphabetically
-		.reduce((obj, key) => {
+		.reduce((obj: any, key) => {
 			obj[key] = grouped[key]; // Rebuild the object with sorted keys
 			return obj;
 		}, {});
@@ -190,9 +190,11 @@ const createReleaseNotes = async () => {
 		relContent.body = JSON.stringify(
 			{ tag_name: "", name: "unreleased", body: `${markdown}`, draft: true }
 		);
-		const createRelease = await fetch(`${baseUrl}/releases`, relContent).then((res) => res.json());
+		const createRelease: any = await fetch(`${baseUrl}/releases`, relContent).then((res) => res.json());
 		console.info(`New release created with id ${createRelease.id}, GitHub-Url: ${createRelease.html_url}`);
 	}
 };
 
 createReleaseNotes();
+
+export {};

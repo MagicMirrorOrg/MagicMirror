@@ -48,47 +48,14 @@ export default defineConfig([
 		"tests/configs/config_variables.js",
 
 		/*
-		 * Compiled TypeScript output (generated from src/*.ts; never linted as source).
-		 * Listed per migrated file as each source moves to src/:
+		 * Compiled TypeScript output: every .js under these dirs is generated from
+		 * src/*.ts (all sources now live in src/); never lint build artifacts as source.
 		 */
-		"js/deprecated.js",
-		"js/http_fetcher.js",
-		"js/server_functions.js",
-		"js/utils.js",
-		"defaultmodules/utils.js",
-		"defaultmodules/weather/provider-utils.js",
-		"defaultmodules/weather/providers/*.js",
-		"defaultmodules/weather/weatherobject.js",
-		"defaultmodules/weather/weatherutils.js",
-		"defaultmodules/calendar/calendarfetcherutils.js",
-		"defaultmodules/calendar/calendarutils.js",
-		"defaultmodules/calendar/calendarfetcher.js",
-		"defaultmodules/calendar/node_helper.js",
-		"defaultmodules/newsfeed/newsfeedfetcher.js",
-		"defaultmodules/newsfeed/node_helper.js",
-		"defaultmodules/weather/node_helper.js",
-		"defaultmodules/updatenotification/git_helper.js",
-		"defaultmodules/updatenotification/update_helper.js",
-		"defaultmodules/updatenotification/node_helper.js",
-		"js/class.js",
-		"js/logger.js",
-		"js/defaults.js",
-		"js/animateCSS.js",
-		"js/socketclient.js",
-		"js/translator.js",
+		"js/**/*.js",
+		"clientonly/**/*.js",
+		"serveronly/**/*.js",
 		"translations/translations.js",
-		"defaultmodules/defaultmodules.js",
-		"js/module.js",
-		"js/loader.js",
-		"defaultmodules/alert/alert.js",
-		"defaultmodules/alert/notificationFx.js",
-		"defaultmodules/calendar/calendar.js",
-		"defaultmodules/clock/clock.js",
-		"defaultmodules/compliments/compliments.js",
-		"defaultmodules/helloworld/helloworld.js",
-		"defaultmodules/newsfeed/newsfeed.js",
-		"defaultmodules/updatenotification/updatenotification.js",
-		"defaultmodules/weather/weather.js"
+		"defaultmodules/**/*.js"
 	]),
 	{
 		files: ["**/*.js"],

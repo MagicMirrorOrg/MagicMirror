@@ -13,18 +13,18 @@ const RESTART_DELAY_MS = 500;
 const PORT_CHECK_MAX_ATTEMPTS = 20;
 const PORT_CHECK_INTERVAL_MS = 500;
 
-let child = null;
-let restartTimer = null;
+let child: any = null;
+let restartTimer: any = null;
 let isShuttingDown = false;
 let isRestarting = false;
-let serverConfig = null;
+let serverConfig: { port: number; address: string } | null = null;
 const rootDir = path.join(__dirname, "..");
 
 /**
  * Get the server configuration (port and address)
  * @returns {{port: number, address: string}} The server config
  */
-function getServerConfig () {
+function getServerConfig (): { port: number; address: string } {
 	if (serverConfig) return serverConfig;
 
 	try {
@@ -32,7 +32,7 @@ function getServerConfig () {
 		delete require.cache[require.resolve(configPath)];
 		const config = require(configPath);
 		serverConfig = {
-			port: global.mmPort || config.port || 8080,
+			port: (global as any).mmPort || config.port || 8080,
 			address: config.address || "localhost"
 		};
 	} catch {
@@ -47,7 +47,7 @@ function getServerConfig () {
  * @param {number} port The port to check
  * @returns {Promise<boolean>} True if port is available
  */
-function isPortAvailable (port) {
+function isPortAvailable (port: number): Promise<boolean> {
 	return new Promise((resolve) => {
 		const server = net.createServer();
 
@@ -72,7 +72,7 @@ function isPortAvailable (port) {
  * @param {number} maxAttempts Maximum number of attempts
  * @returns {Promise<void>}
  */
-async function waitForPort (port, maxAttempts = PORT_CHECK_MAX_ATTEMPTS) {
+async function waitForPort (port: number, maxAttempts: number = PORT_CHECK_MAX_ATTEMPTS): Promise<void> {
 	for (let i = 0; i < maxAttempts; i++) {
 		if (await isPortAvailable(port)) {
 			Log.info(`Port ${port} is now available`);
@@ -86,19 +86,19 @@ async function waitForPort (port, maxAttempts = PORT_CHECK_MAX_ATTEMPTS) {
 /**
  * Start the server process
  */
-function startServer () {
+function startServer (): void {
 	// Start node directly instead of via npm to avoid process tree issues
 	child = spawn("node", ["./serveronly"], {
 		stdio: "inherit",
 		cwd: path.join(__dirname, "..")
 	});
 
-	child.on("error", (error) => {
+	child.on("error", (error: Error) => {
 		Log.error("Failed to start server process:", error.message);
 		child = null;
 	});
 
-	child.on("exit", (code, signal) => {
+	child.on("exit", (code: number | null, signal: string | null) => {
 		child = null;
 
 		if (isShuttingDown) {
@@ -118,7 +118,7 @@ function startServer () {
 /**
  * Send reload notification to all connected clients
  */
-function notifyClientsToReload () {
+function notifyClientsToReload (): void {
 	const { port, address } = getServerConfig();
 	const options = {
 		hostname: address,
@@ -127,13 +127,13 @@ function notifyClientsToReload () {
 		method: "GET"
 	};
 
-	const req = http.request(options, (res) => {
+	const req = http.request(options, (res: any) => {
 		if (res.statusCode === 200) {
 			Log.info("Reload notification sent to clients");
 		}
 	});
 
-	req.on("error", (err) => {
+	req.on("error", (err: Error) => {
 		// Server might not be running yet, ignore
 		Log.debug(`Could not send reload notification: ${err.message}`);
 	});
@@ -145,7 +145,7 @@ function notifyClientsToReload () {
  * Restart the server process
  * @param {string} reason The reason for the restart
  */
-function restartServer (reason) {
+function restartServer (reason: string): void {
 	if (restartTimer) clearTimeout(restartTimer);
 
 	restartTimer = setTimeout(() => {
@@ -181,12 +181,12 @@ function restartServer (reason) {
  * Watches the parent directory to handle editors that use atomic writes
  * @param {string} file The file path to watch
  */
-function watchFile (file) {
+function watchFile (file: string): void {
 	try {
 		const fileName = path.basename(file);
 		const dirName = path.dirname(file);
 
-		const watcher = fs.watch(dirName, (_eventType, changedFile) => {
+		const watcher = fs.watch(dirName, (_eventType: string, changedFile: string) => {
 			// Only trigger for the specific file we're interested in
 			if (changedFile !== fileName) return;
 
@@ -199,13 +199,13 @@ function watchFile (file) {
 			}, RESTART_DELAY_MS);
 		});
 
-		watcher.on("error", (error) => {
+		watcher.on("error", (error: Error) => {
 			Log.error(`Watcher error for ${file}:`, error.message);
 		});
 
 		Log.log(`Watching file: ${file}`);
 	} catch (error) {
-		Log.error(`Failed to watch file ${file}:`, error.message);
+		Log.error(`Failed to watch file ${file}:`, (error as Error).message);
 	}
 }
 
@@ -217,9 +217,9 @@ try {
 	delete require.cache[require.resolve(configPath)];
 	const config = require(configPath);
 
-	let watchTargets = [];
+	let watchTargets: string[] = [];
 	if (Array.isArray(config.watchTargets) && config.watchTargets.length > 0) {
-		watchTargets = config.watchTargets.filter((target) => typeof target === "string" && target.trim() !== "");
+		watchTargets = config.watchTargets.filter((target: any) => typeof target === "string" && target.trim() !== "");
 	}
 
 	if (watchTargets.length === 0) {
@@ -259,3 +259,5 @@ process.on("SIGINT", () => {
 	if (child) child.kill("SIGTERM");
 	process.exit(0);
 });
+
+export {};

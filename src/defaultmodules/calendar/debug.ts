@@ -25,12 +25,12 @@ Log.log("Create fetcher ...");
 
 const fetcher = new CalendarFetcher(url, fetchInterval, [], maximumEntries, maximumNumberOfDays, auth);
 
-fetcher.onReceive(function (fetcher) {
+fetcher.onReceive(function (fetcher: any) {
 	Log.log(fetcher.events);
 	process.exit(0);
 });
 
-fetcher.onError(function (fetcher, error) {
+fetcher.onError(function (fetcher: any, error: any) {
 	Log.log("Fetcher error:", error);
 	process.exit(1);
 });
@@ -38,3 +38,5 @@ fetcher.onError(function (fetcher, error) {
 fetcher.startFetch();
 
 Log.log("Create fetcher done! ");
+
+export {};

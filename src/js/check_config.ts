@@ -10,7 +10,10 @@ const Utils = require(`${rootPath}/js/utils.js`);
 try {
 	Utils.checkConfigFile();
 } catch (error) {
-	const message = error && error.message ? error.message : error;
+	const err = error as any;
+	const message = err && err.message ? err.message : err;
 	Log.error(`Unexpected error: ${message}`);
 	process.exit(1);
 }
+
+export {};

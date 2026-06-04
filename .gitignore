@@ -122,6 +122,21 @@ js/positions.js
 /defaultmodules/newsfeed/newsfeed.js
 /defaultmodules/updatenotification/updatenotification.js
 /defaultmodules/weather/weather.js
+/js/main.js
+/js/vendor.js
+/js/app.js
+/js/server.js
+/js/electron.js
+/js/node_helper.js
+/js/releasenotes.js
+/js/ip_access_control.js
+/js/check_config.js
+/js/systeminformation.js
+/js/alias-resolver.js
+/clientonly/index.js
+/serveronly/index.js
+/serveronly/watcher.js
+/defaultmodules/calendar/debug.js
 
 # Ignore lock files other than package-lock.json
 pnpm-lock.yaml

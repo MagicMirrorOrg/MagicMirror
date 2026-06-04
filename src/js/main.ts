@@ -1,26 +1,26 @@
 /* global Loader, addAnimateCSS, removeAnimateCSS, AnimateCSSIn, AnimateCSSOut, modulePositions, io */
 
-const MM = (function () {
-	let modules = [];
+const MM: any = (function () {
+	let modules: any[] = [];
 
 	/* Private Methods */
 
 	/**
 	 * Create dom objects for all modules that are configured for a specific position.
 	 */
-	const createDomObjects = function () {
-		const domCreationPromises = [];
+	const createDomObjects = function (): void {
+		const domCreationPromises: Promise<any>[] = [];
 
-		modules.forEach(function (module) {
+		modules.forEach(function (module: any) {
 			if (typeof module.data.position !== "string") {
 				return;
 			}
 
-			let haveAnimateIn = null;
+			let haveAnimateIn: any = null;
 			// check if have valid animateIn in module definition (module.data.animateIn)
 			if (module.data.animateIn && AnimateCSSIn.indexOf(module.data.animateIn) !== -1) haveAnimateIn = module.data.animateIn;
 
-			const wrapper = selectWrapper(module.data.position);
+			const wrapper: any = selectWrapper(module.data.position);
 
 			const dom = document.createElement("div");
 			dom.id = module.identifier;
@@ -32,7 +32,7 @@ const MM = (function () {
 
 			dom.style.order = (typeof module.data.order === "number" && Number.isInteger(module.data.order)) ? module.data.order : 0;
 
-			dom.opacity = 0;
+			(dom as any).opacity = 0;
 			wrapper.appendChild(dom);
 
 			const moduleHeader = document.createElement("header");
@@ -52,7 +52,7 @@ const MM = (function () {
 
 			// create the domCreationPromise with AnimateCSS (with animateIn of module definition)
 			// or just display it
-			var domCreationPromise;
+			let domCreationPromise: Promise<any>;
 			if (haveAnimateIn) domCreationPromise = updateDom(module, { options: { speed: 1000, animate: { in: haveAnimateIn } } }, true);
 			else domCreationPromise = updateDom(module, 0);
 
@@ -76,13 +76,13 @@ const MM = (function () {
 	 * @param {string} position The name of the position.
 	 * @returns {HTMLElement | void} the wrapper element
 	 */
-	const selectWrapper = function (position) {
+	const selectWrapper = function (position: string): HTMLElement | void {
 		const classes = position.replace("_", " ");
 		const parentWrapper = document.getElementsByClassName(classes);
 		if (parentWrapper.length > 0) {
 			const wrapper = parentWrapper[0].getElementsByClassName("container");
 			if (wrapper.length > 0) {
-				return wrapper[0];
+				return wrapper[0] as HTMLElement;
 			}
 		}
 	};
@@ -94,7 +94,7 @@ const MM = (function () {
 	 * @param {Module} sender The module that sent the notification.
 	 * @param {Module} [sendTo] The (optional) module to send the notification to.
 	 */
-	const sendNotification = function (notification, payload, sender, sendTo) {
+	const sendNotification = function (notification: string, payload?: any, sender?: any, sendTo?: any): void {
 		for (const m in modules) {
 			const module = modules[m];
 			if (module !== sender && (!sendTo || module === sendTo)) {
@@ -110,11 +110,11 @@ const MM = (function () {
 	 * @param {boolean} [createAnimatedDom] for displaying only animateIn (used on first start of MagicMirror)
 	 * @returns {Promise} Resolved when the dom is fully updated.
 	 */
-	const updateDom = function (module, updateOptions, createAnimatedDom = false) {
+	const updateDom = function (module: any, updateOptions?: any, createAnimatedDom: boolean = false): Promise<any> {
 		return new Promise(function (resolve) {
-			let speed = updateOptions;
-			let animateOut = null;
-			let animateIn = null;
+			let speed: any = updateOptions;
+			let animateOut: any = null;
+			let animateIn: any = null;
 			if (typeof updateOptions === "object") {
 				if (typeof updateOptions.options === "object" && updateOptions.options.speed !== undefined) {
 					speed = updateOptions.options.speed;
@@ -139,7 +139,7 @@ const MM = (function () {
 			}
 
 			newContentPromise
-				.then(function (newContent) {
+				.then(function (newContent: any) {
 					const updatePromise = updateDomWithContent(module, speed, newHeader, newContent, animateOut, animateIn, createAnimatedDom);
 
 					updatePromise.then(resolve).catch(Log.error);
@@ -159,8 +159,8 @@ const MM = (function () {
 	 * @param {boolean} [createAnimatedDom] for displaying only animateIn (used on first start)
 	 * @returns {Promise} Resolved when the module dom has been updated.
 	 */
-	const updateDomWithContent = function (module, speed, newHeader, newContent, animateOut, animateIn, createAnimatedDom = false) {
-		return new Promise(function (resolve) {
+	const updateDomWithContent = function (module: any, speed: any, newHeader: string, newContent: any, animateOut?: any, animateIn?: any, createAnimatedDom: boolean = false): Promise<any> {
+		return new Promise<void>(function (resolve) {
 			if (module.hidden || !speed) {
 				updateModuleContent(module, newHeader, newContent);
 				resolve();
@@ -210,7 +210,7 @@ const MM = (function () {
 	 * @param {HTMLElement} newContent The new content that is generated.
 	 * @returns {boolean} True if the module need an update, false otherwise
 	 */
-	const moduleNeedsUpdate = function (module, newHeader, newContent) {
+	const moduleNeedsUpdate = function (module: any, newHeader: string, newContent: any): boolean {
 		const moduleWrapper = document.getElementById(module.identifier);
 		if (moduleWrapper === null) {
 			return false;
@@ -220,7 +220,6 @@ const MM = (function () {
 		const headerWrapper = moduleWrapper.getElementsByClassName("module-header");
 
 		let headerNeedsUpdate = false;
-		let contentNeedsUpdate;
 
 		if (headerWrapper.length > 0) {
 			headerNeedsUpdate = newHeader !== headerWrapper[0].innerHTML;
@@ -228,7 +227,7 @@ const MM = (function () {
 
 		const tempContentWrapper = document.createElement("div");
 		tempContentWrapper.appendChild(newContent);
-		contentNeedsUpdate = tempContentWrapper.innerHTML !== contentWrapper[0].innerHTML;
+		const contentNeedsUpdate = tempContentWrapper.innerHTML !== contentWrapper[0].innerHTML;
 
 		return headerNeedsUpdate || contentNeedsUpdate;
 	};
@@ -239,7 +238,7 @@ const MM = (function () {
 	 * @param {string} newHeader The new header that is generated.
 	 * @param {HTMLElement} newContent The new content that is generated.
 	 */
-	const updateModuleContent = function (module, newHeader, newContent) {
+	const updateModuleContent = function (module: any, newHeader: string, newContent: any): void {
 		const moduleWrapper = document.getElementById(module.identifier);
 		if (moduleWrapper === null) {
 			return;
@@ -252,9 +251,9 @@ const MM = (function () {
 
 		headerWrapper[0].innerHTML = newHeader;
 		if (headerWrapper.length > 0 && newHeader) {
-			headerWrapper[0].style.display = "block";
+			(headerWrapper[0] as HTMLElement).style.display = "block";
 		} else {
-			headerWrapper[0].style.display = "none";
+			(headerWrapper[0] as HTMLElement).style.display = "none";
 		}
 	};
 
@@ -265,7 +264,7 @@ const MM = (function () {
 	 * @param {Promise} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the hide method.
 	 */
-	const hideModule = function (module, speed, callback, options = {}) {
+	const hideModule = function (module: any, speed: number, callback: any, options: any = {}): void {
 		// set lockString if set in options.
 		if (options.lockString) {
 			if (module.lockStrings.indexOf(options.lockString) === -1) {
@@ -290,7 +289,7 @@ const MM = (function () {
 			// haveAnimateName for verify if we are using AnimateCSS library
 			// we check AnimateCSSOut Array for validate it
 			// and finally return the animate name or `null` (for default MM² animation)
-			let haveAnimateName = null;
+			let haveAnimateName: any = null;
 			// check if have valid animateOut in module definition (module.data.animateOut)
 			if (module.data.animateOut && AnimateCSSOut.indexOf(module.data.animateOut) !== -1) haveAnimateName = module.data.animateOut;
 			// can't be override with options.animate
@@ -305,7 +304,7 @@ const MM = (function () {
 					removeAnimateCSS(module.identifier, haveAnimateName);
 					Log.debug(`${module.identifier} Remove animateOut: ${module.hasAnimateOut}`);
 					// AnimateCSS is now done
-					moduleWrapper.style.opacity = 0;
+					moduleWrapper.style.opacity = "0";
 					moduleWrapper.classList.add("hidden");
 					moduleWrapper.style.position = "fixed";
 					module.hasAnimateOut = false;
@@ -318,7 +317,7 @@ const MM = (function () {
 			} else {
 				// default MM² Animate
 				moduleWrapper.style.transition = `opacity ${speed / 1000}s`;
-				moduleWrapper.style.opacity = 0;
+				moduleWrapper.style.opacity = "0";
 				moduleWrapper.classList.add("hidden");
 				module.showHideTimer = setTimeout(function () {
 					// To not take up any space, we just make the position absolute.
@@ -349,7 +348,7 @@ const MM = (function () {
 	 * @param {Promise} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the show method.
 	 */
-	const showModule = function (module, speed, callback, options = {}) {
+	const showModule = function (module: any, speed: number, callback: any, options: any = {}): void {
 		// remove lockString if set in options.
 		if (options.lockString) {
 			const index = module.lockStrings.indexOf(options.lockString);
@@ -394,7 +393,7 @@ const MM = (function () {
 			// haveAnimateName for verify if we are using AnimateCSS library
 			// we check AnimateCSSIn Array for validate it
 			// and finally return the animate name or `null` (for default MM² animation)
-			let haveAnimateName = null;
+			let haveAnimateName: any = null;
 			// check if have valid animateOut in module definition (module.data.animateIn)
 			if (module.data.animateIn && AnimateCSSIn.indexOf(module.data.animateIn) !== -1) haveAnimateName = module.data.animateIn;
 			// can't be override with options.animate
@@ -408,8 +407,8 @@ const MM = (function () {
 			updateWrapperStates();
 
 			// Waiting for DOM-changes done in updateWrapperStates before we can start the animation.
-			void moduleWrapper.parentElement.parentElement.offsetHeight;
-			moduleWrapper.style.opacity = 1;
+			void (moduleWrapper.parentElement as HTMLElement).parentElement!.offsetHeight;
+			moduleWrapper.style.opacity = "1";
 
 			if (haveAnimateName) {
 				// with AnimateCSS
@@ -452,13 +451,13 @@ const MM = (function () {
 	 * update notification is not visible.
 	 */
 
-	const updateWrapperStates = function () {
-		modulePositions.forEach(function (position) {
-			const wrapper = selectWrapper(position);
+	const updateWrapperStates = function (): void {
+		modulePositions.forEach(function (position: string) {
+			const wrapper: any = selectWrapper(position);
 			const moduleWrappers = wrapper.getElementsByClassName("module");
 
 			let showWrapper = false;
-			Array.prototype.forEach.call(moduleWrappers, function (moduleWrapper) {
+			Array.prototype.forEach.call(moduleWrappers, function (moduleWrapper: any) {
 				if (moduleWrapper.style.position === "" || moduleWrapper.style.position === "static") {
 					showWrapper = true;
 				}
@@ -472,14 +471,14 @@ const MM = (function () {
 	/**
 	 * Loads the core config from the server (already combined with the system defaults).
 	 */
-	const loadConfig = async function () {
+	const loadConfig = async function (): Promise<void> {
 		try {
 			const res = await fetch(new URL("config/", `${location.origin}${config.basePath}`));
 
 			// The server tags functions as { __mmFunction: "<source>" } because
 			// JSON.stringify can't serialise live functions. This reviver turns
 			// those tagged objects back into callable functions.
-			config = JSON.parse(await res.text(), (key, value) => {
+			config = JSON.parse(await res.text(), (key: string, value: any) => {
 				if (value && typeof value === "object" && typeof value.__mmFunction === "string") {
 					try {
 						return new Function(`return (${value.__mmFunction})`)();
@@ -498,14 +497,14 @@ const MM = (function () {
 	 * Adds special selectors on a collection of modules.
 	 * @param {Module[]} modules Array of modules.
 	 */
-	const setSelectionMethodsForModules = function (modules) {
+	const setSelectionMethodsForModules = function (modules: any): void {
 
 		/**
 		 * Filter modules with the specified classes.
 		 * @param {string|string[]} className one or multiple classnames (array or space divided).
 		 * @returns {Module[]} Filtered collection of modules.
 		 */
-		const withClass = function (className) {
+		const withClass = function (className: string | string[]): any[] {
 			return modulesByClass(className, true);
 		};
 
@@ -514,7 +513,7 @@ const MM = (function () {
 		 * @param {string|string[]} className one or multiple classnames (array or space divided).
 		 * @returns {Module[]} Filtered collection of modules.
 		 */
-		const exceptWithClass = function (className) {
+		const exceptWithClass = function (className: string | string[]): any[] {
 			return modulesByClass(className, false);
 		};
 
@@ -524,13 +523,13 @@ const MM = (function () {
 		 * @param {boolean} include if the filter should include or exclude the modules with the specific classes.
 		 * @returns {Module[]} Filtered collection of modules.
 		 */
-		const modulesByClass = function (className, include) {
-			let searchClasses = className;
+		const modulesByClass = function (className: string | string[], include: boolean): any[] {
+			let searchClasses: any = className;
 			if (typeof className === "string") {
 				searchClasses = className.split(" ");
 			}
 
-			const newModules = modules.filter(function (module) {
+			const newModules = modules.filter(function (module: any) {
 				const classes = module.data.classes.toLowerCase().split(" ");
 
 				for (const searchClass of searchClasses) {
@@ -551,8 +550,8 @@ const MM = (function () {
 		 * @param {object} module The module instance to remove from the collection.
 		 * @returns {Module[]} Filtered collection of modules.
 		 */
-		const exceptModule = function (module) {
-			const newModules = modules.filter(function (mod) {
+		const exceptModule = function (module: any): any[] {
+			const newModules = modules.filter(function (mod: any) {
 				return mod.identifier !== module.identifier;
 			});
 
@@ -564,8 +563,8 @@ const MM = (function () {
 		 * Walks thru a collection of modules and executes the callback with the module as an argument.
 		 * @param {module} callback The function to execute with the module as an argument.
 		 */
-		const enumerate = function (callback) {
-			modules.map(function (module) {
+		const enumerate = function (callback: any): void {
+			modules.map(function (module: any) {
 				callback(module);
 			});
 		};
@@ -605,11 +604,11 @@ const MM = (function () {
 		 * Gets called when all modules are started.
 		 * @param {Module[]} moduleObjects All module instances.
 		 */
-		modulesStarted (moduleObjects) {
+		modulesStarted (moduleObjects: any[]) {
 			modules = [];
 			let startUp = "";
 
-			moduleObjects.forEach((module) => modules.push(module));
+			moduleObjects.forEach((module: any) => modules.push(module));
 
 			Log.info("All modules started!");
 			sendNotification("ALL_MODULES_STARTED");
@@ -624,7 +623,7 @@ const MM = (function () {
 
 				socket.on("RELOAD", () => {
 					Log.warn("Reload notification received from server");
-					window.location.reload(true);
+					(window.location as any).reload(true);
 				});
 			}
 
@@ -638,7 +637,7 @@ const MM = (function () {
 						if (startUp === "") startUp = curr;
 						if (startUp !== curr) {
 							startUp = "";
-							window.location.reload(true);
+							(window.location as any).reload(true);
 							Log.warn("Refreshing Website because server was restarted");
 						}
 					} catch (err) {
@@ -654,7 +653,7 @@ const MM = (function () {
 		 * @param {object} payload The payload of the notification.
 		 * @param {Module} sender The module that sent the notification.
 		 */
-		sendNotification (notification, payload, sender) {
+		sendNotification (notification: string, payload: any, sender: any) {
 			if (arguments.length < 3) {
 				Log.error("sendNotification: Missing arguments.");
 				return;
@@ -665,7 +664,7 @@ const MM = (function () {
 				return;
 			}
 
-			if (!(sender instanceof Module)) {
+			if (!(sender instanceof (Module as any))) {
 				Log.error("sendNotification: Sender should be a module.");
 				return;
 			}
@@ -679,8 +678,8 @@ const MM = (function () {
 		 * @param {Module} module The module that needs an update.
 		 * @param {object|number} [updateOptions] The (optional) number of microseconds for the animation or object with updateOptions (speed/animates)
 		 */
-		updateDom (module, updateOptions) {
-			if (!(module instanceof Module)) {
+		updateDom (module: any, updateOptions?: any) {
+			if (!(module instanceof (Module as any))) {
 				Log.error("updateDom: Sender should be a module.");
 				return;
 			}
@@ -713,7 +712,7 @@ const MM = (function () {
 		 * @param {Promise} callback Called when the animation is done.
 		 * @param {object} [options] Optional settings for the hide method.
 		 */
-		hideModule (module, speed, callback, options) {
+		hideModule (module: any, speed: number, callback: any, options?: any) {
 			module.hidden = true;
 			hideModule(module, speed, callback, options);
 		},
@@ -725,7 +724,7 @@ const MM = (function () {
 		 * @param {Promise} callback Called when the animation is done.
 		 * @param {object} [options] Optional settings for the show method.
 		 */
-		showModule (module, speed, callback, options) {
+		showModule (module: any, speed: number, callback: any, options?: any) {
 			// do not change module.hidden yet, only if we really show it later
 			showModule(module, speed, callback, options);
 		},
@@ -738,7 +737,8 @@ const MM = (function () {
 // Add polyfill for Object.assign.
 if (typeof Object.assign !== "function") {
 	(function () {
-		Object.assign = function (target) {
+		/* eslint-disable prefer-rest-params -- Object.assign polyfill reads variadic `arguments` by design. */
+		Object.assign = function (target: any) {
 			"use strict";
 			if (target === undefined || target === null) {
 				throw new TypeError("Cannot convert undefined or null to object");

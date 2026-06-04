@@ -4,7 +4,7 @@ const si = require("systeminformation");
 const mmVersion = require("../package").version;
 const Log = require("./logger");
 
-const logSystemInformation = async () => {
+const logSystemInformation = async (): Promise<string | undefined> => {
 	try {
 		const system = await si.system();
 		const osInfo = await si.osInfo();
@@ -16,7 +16,7 @@ const logSystemInformation = async () => {
 		const freeRam = (os.freemem() / 1024 / 1024).toFixed(2);
 		const usedRam = ((os.totalmem() - os.freemem()) / 1024 / 1024).toFixed(2);
 
-		let systemDataString = [
+		const systemDataString = [
 			"\n####  System Information  ####",
 			`- SYSTEM:   manufacturer: ${system.manufacturer}; model: ${system.model}; virtual: ${system.virtual}; MM: v${mmVersion}`,
 			`- OS:       platform: ${osInfo.platform}; distro: ${osInfo.distro}; release: ${osInfo.release}; arch: ${osInfo.arch}; kernel: ${versions.kernel}`,
@@ -32,8 +32,10 @@ const logSystemInformation = async () => {
 		return systemDataString;
 	} catch (error) {
 		Log.error(error);
+		return undefined;
 	}
 };
 
-module.exports = logSystemInformation;
 logSystemInformation();
+
+export = logSystemInformation;

@@ -16,6 +16,8 @@
 		"js/class.ts",
 		"js/module.ts",
 		"js/loader.ts",
+		"js/main.ts",
+		"js/vendor.ts",
 		"js/logger.ts",
 		"js/defaults.ts",
 		"js/animateCSS.ts",

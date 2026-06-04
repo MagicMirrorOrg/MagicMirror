@@ -25,7 +25,7 @@ global.mmTestMode = process.env.mmTestMode === "true";
 Log.log(`Starting MagicMirror: v${global.version}`);
 
 // Log system information.
-Spawn("node ./js/systeminformation.js", { env: { ...process.env, ELECTRON_VERSION: `${process.versions.electron}` }, cwd: this.root_path, shell: true, detached: true, stdio: "inherit" });
+Spawn("node ./js/systeminformation.js", { env: { ...process.env, ELECTRON_VERSION: `${process.versions.electron}` }, cwd: (this as any).root_path, shell: true, detached: true, stdio: "inherit" });
 
 if (process.env.MM_CONFIG_FILE) {
 	global.configuration_file = process.env.MM_CONFIG_FILE.replace(`${global.root_path}/`, "");
@@ -34,14 +34,14 @@ if (process.env.MM_CONFIG_FILE) {
 // FIXME: Hotfix Pull Request
 // https://github.com/MagicMirrorOrg/MagicMirror/pull/673
 if (process.env.MM_PORT) {
-	global.mmPort = process.env.MM_PORT;
+	(global as any).mmPort = process.env.MM_PORT;
 }
 
 // The next part is here to prevent a major exception when there
 // is no internet connection. This could probable be solved better.
-process.on("uncaughtException", function (err) {
+process.on("uncaughtException", function (err: Error) {
 	// ignore strange exceptions under aarch64 coming from systeminformation:
-	if (!err.stack.includes("node_modules/systeminformation")) {
+	if (!err.stack!.includes("node_modules/systeminformation")) {
 		Log.error("Whoops! There was an uncaught exception...");
 		Log.error(err);
 		Log.error("MagicMirror² will not quit, but it might be a good idea to check why this happened. Maybe no internet connection?");
@@ -53,17 +53,17 @@ process.on("uncaughtException", function (err) {
  * The core app.
  * @class
  */
-function App () {
-	let nodeHelpers = [];
-	let httpServer;
-	let defaultModules;
-	let env;
+function App (this: any) {
+	const nodeHelpers: any[] = [];
+	let httpServer: any;
+	let defaultModules: any;
+	let env: any;
 
 	/**
 	 * Loads a specific module.
 	 * @param {string} module The name of the module (including subpath).
 	 */
-	function loadModule (module) {
+	function loadModule (module: string) {
 		const elements = module.split("/");
 		const moduleName = elements[elements.length - 1];
 		let moduleFolder = path.resolve(`${global.root_path}/${env.modulesDir}`, module);
@@ -104,10 +104,10 @@ function App () {
 			try {
 				Module = require(helperPath);
 			} catch (e) {
-				Log.error(`Error when loading ${moduleName}:`, e.message);
+				Log.error(`Error when loading ${moduleName}:`, (e as Error).message);
 				return;
 			}
-			let m = new Module();
+			const m = new Module();
 
 			if (m.requiresVersion) {
 				Log.log(`Check MagicMirror² version for node helper '${moduleName}' - Minimum version: ${m.requiresVersion} - Current version: ${global.version}`);
@@ -132,10 +132,10 @@ function App () {
 	 * @param {Module[]} modules All modules to be loaded
 	 * @returns {Promise} A promise that is resolved when all modules been loaded
 	 */
-	async function loadModules (modules) {
+	async function loadModules (modules: string[]) {
 		Log.log("Loading module helpers ...");
 
-		for (let module of modules) {
+		for (const module of modules) {
 			await loadModule(module);
 		}
 
@@ -149,7 +149,7 @@ function App () {
 	 * @returns {number} A positive number if a is larger than b, a negative
 	 * number if a is smaller and 0 if they are the same
 	 */
-	function cmpVersions (a, b) {
+	function cmpVersions (a: string, b: string): number {
 		let i, diff;
 		const regExStrip0 = /(\.0+)+$/;
 		const segmentsA = a.replace(regExStrip0, "").split(".");
@@ -197,7 +197,7 @@ function App () {
 		// get the used module positions
 		Utils.getModulePositions();
 
-		let modules = [];
+		const modules: string[] = [];
 		for (const module of config.modules) {
 			if (module.disabled) continue;
 			if (module.module) {
@@ -223,7 +223,7 @@ function App () {
 		Log.log("Server started ...");
 
 		const nodePromises = [];
-		for (let nodeHelper of nodeHelpers) {
+		for (const nodeHelper of nodeHelpers) {
 			nodeHelper.setExpressApp(app);
 			nodeHelper.setSocketIO(io);
 
@@ -259,7 +259,7 @@ function App () {
 	 */
 	this.stop = async function () {
 		const nodePromises = [];
-		for (let nodeHelper of nodeHelpers) {
+		for (const nodeHelper of nodeHelpers) {
 			try {
 				if (typeof nodeHelper.stop === "function") {
 					nodePromises.push(nodeHelper.stop());
@@ -320,4 +320,4 @@ function App () {
 	});
 }
 
-module.exports = new App();
+export = new (App as any)();

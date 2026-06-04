@@ -8,20 +8,20 @@ const Module = require("node:module");
 const root = path.join(__dirname, "..");
 
 // Keep this list minimal; do not add new aliases without architectural review.
-const ALIASES = {
+const ALIASES: Record<string, string> = {
 	logger: "js/logger.js",
 	node_helper: "js/node_helper.js"
 };
 
 // Resolve to absolute paths now.
-const resolved = Object.fromEntries(
+const resolved: Record<string, string> = Object.fromEntries(
 	Object.entries(ALIASES).map(([k, rel]) => [k, path.join(root, rel)])
 );
 
 // Prevent multiple patching if this file is required more than once.
 if (!Module._mmAliasPatched) {
 	const origResolveFilename = Module._resolveFilename;
-	Module._resolveFilename = function (request, parent, isMain, options) {
+	Module._resolveFilename = function (request: string, parent: any, isMain: boolean, options: any) {
 		if (Object.prototype.hasOwnProperty.call(resolved, request)) {
 			return resolved[request];
 		}
@@ -29,3 +29,5 @@ if (!Module._mmAliasPatched) {
 	};
 	Module._mmAliasPatched = true; // non-enumerable marker would be overkill here
 }
+
+export {};

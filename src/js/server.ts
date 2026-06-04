@@ -18,18 +18,18 @@ const { getHtml, getVersion, getEnvVars, cors } = require("#server_functions");
  * @param {object} configObj The MM config full and redacted
  * @class
  */
-function Server (configObj) {
+function Server (this: any, configObj: any) {
 	const config = configObj.fullConf;
 	const app = express();
 	const port = process.env.MM_PORT || config.port;
-	const serverSockets = new Set();
-	let server = null;
+	const serverSockets = new Set<any>();
+	let server: any = null;
 
 	/**
 	 * Opens the server for incoming connections
 	 * @returns {Promise} A promise that is resolved when the server listens to connections
 	 */
-	this.open = function () {
+	this.open = function (): Promise<any> {
 		return new Promise((resolve) => {
 			if (config.useHttps) {
 				const options = {
@@ -50,7 +50,7 @@ function Server (configObj) {
 				pingTimeout: 120000 // wait up to 2 mins for client pong
 			});
 
-			server.on("connection", (socket) => {
+			server.on("connection", (socket: any) => {
 				serverSockets.add(socket);
 				socket.on("close", () => {
 					serverSockets.delete(socket);
@@ -60,7 +60,7 @@ function Server (configObj) {
 			Log.log(`Starting server on port ${port} ... `);
 
 			// Add explicit error handling BEFORE calling listen so we can give user-friendly feedback
-			server.once("error", (err) => {
+			server.once("error", (err: any) => {
 				if (err && err.code === "EADDRINUSE") {
 					const bindAddr = config.address || "localhost";
 					const portInUseMessage = [
@@ -92,13 +92,13 @@ function Server (configObj) {
 			app.use("/js", express.static(__dirname));
 
 			if (config.hideConfigSecrets) {
-				app.get("/config/config.env", (req, res) => {
+				app.get("/config/config.env", (req: any, res: any) => {
 					res.status(404).send("<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /config/config.env</pre>\n</body>\n</html>");
 				});
 			}
 
-			let directories = ["/config", "/css", "/favicon.svg", "/defaultmodules", "/modules", "/node_modules/animate.css", "/node_modules/@fontsource", "/node_modules/@fortawesome", "/translations", "/tests/configs", "/tests/mocks"];
-			for (const value of Object.values(vendor)) {
+			const directories: string[] = ["/config", "/css", "/favicon.svg", "/defaultmodules", "/modules", "/node_modules/animate.css", "/node_modules/@fontsource", "/node_modules/@fortawesome", "/translations", "/tests/configs", "/tests/mocks"];
+			for (const value of Object.values(vendor) as string[]) {
 				const dirArr = value.split("/");
 				if (dirArr[0] === "node_modules") directories.push(`/${dirArr[0]}/${dirArr[1]}`);
 			}
@@ -108,9 +108,9 @@ function Server (configObj) {
 			}
 
 			const startUp = new Date();
-			const getStartup = (req, res) => res.send(startUp);
+			const getStartup = (req: any, res: any) => res.send(startUp);
 
-			const getConfig = (req, res) => {
+			const getConfig = (req: any, res: any) => {
 				const obj = config.hideConfigSecrets ? configObj.redactedConf : configObj.fullConf;
 				// Functions can't survive JSON.stringify, so we wrap them in a
 				// tagged object { __mmFunction: "<source>" }. The client-side
@@ -126,20 +126,20 @@ function Server (configObj) {
 				res.send(jsonString);
 			};
 
-			app.get("/config", (req, res) => getConfig(req, res));
+			app.get("/config", (req: any, res: any) => getConfig(req, res));
 
-			app.get("/cors", async (req, res) => await cors(req, res));
+			app.get("/cors", async (req: any, res: any) => await cors(req, res));
 
-			app.get("/version", (req, res) => getVersion(req, res));
+			app.get("/version", (req: any, res: any) => getVersion(req, res));
 
-			app.get("/startup", (req, res) => getStartup(req, res));
+			app.get("/startup", (req: any, res: any) => getStartup(req, res));
 
-			app.get("/env", (req, res) => getEnvVars(req, res));
+			app.get("/env", (req: any, res: any) => getEnvVars(req, res));
 
-			app.get("/", (req, res) => getHtml(req, res));
+			app.get("/", (req: any, res: any) => getHtml(req, res));
 
 			// Reload endpoint for watch mode - triggers browser reload
-			app.get("/reload", (req, res) => {
+			app.get("/reload", (req: any, res: any) => {
 				Log.info("Reload request received, notifying all clients");
 				io.emit("RELOAD");
 				res.status(200).send("OK");
@@ -158,7 +158,7 @@ function Server (configObj) {
 	 * Closes the server and destroys all lingering connections to it.
 	 * @returns {Promise} A promise that resolves when server has successfully shut down
 	 */
-	this.close = function () {
+	this.close = function (): Promise<any> {
 		return new Promise((resolve) => {
 			for (const socket of serverSockets.values()) {
 				socket.destroy();
@@ -168,4 +168,4 @@ function Server (configObj) {
 	};
 }
 
-module.exports = Server;
+export = Server;

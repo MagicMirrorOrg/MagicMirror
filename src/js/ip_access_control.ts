@@ -7,11 +7,11 @@ const Log = require("logger");
  * @param {string[]} whitelist - Array of IP addresses or CIDR ranges
  * @returns {boolean} True if IP is allowed
  */
-function isAllowed (clientIp, whitelist) {
+function isAllowed (clientIp: string, whitelist: string[]): boolean {
 	try {
 		const addr = ipaddr.process(clientIp);
 
-		return whitelist.some((entry) => {
+		return whitelist.some((entry: string) => {
 			try {
 				// CIDR notation
 				if (entry.includes("/")) {
@@ -38,16 +38,16 @@ function isAllowed (clientIp, whitelist) {
  * @param {string[]} whitelist - Array of allowed IP addresses or CIDR ranges
  * @returns {import("express").RequestHandler} Express middleware function
  */
-function ipAccessControl (whitelist) {
+function ipAccessControl (whitelist: string[]) {
 	// Empty whitelist means allow all
 	if (!Array.isArray(whitelist) || whitelist.length === 0) {
-		return function (req, res, next) {
+		return function (req: any, res: any, next: any) {
 			res.header("Access-Control-Allow-Origin", "*");
 			next();
 		};
 	}
 
-	return function (req, res, next) {
+	return function (req: any, res: any, next: any) {
 		const clientIp = req.ip || req.socket.remoteAddress;
 
 		if (isAllowed(clientIp, whitelist)) {
@@ -60,4 +60,4 @@ function ipAccessControl (whitelist) {
 	};
 }
 
-module.exports = { ipAccessControl };
+export = { ipAccessControl };

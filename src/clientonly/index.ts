@@ -12,7 +12,7 @@ const https = require("node:https");
  * @param {string} defaultValue value if no key is given at the command line
  * @returns {string} the value of the parameter
  */
-function getCommandLineParameter (key, defaultValue = undefined) {
+function getCommandLineParameter (key: string, defaultValue: string | undefined = undefined): string | undefined {
 	const index = process.argv.indexOf(`--${key}`);
 	const value = index > -1 ? process.argv[index + 1] : undefined;
 	return value !== undefined ? String(value) : defaultValue;
@@ -22,8 +22,8 @@ function getCommandLineParameter (key, defaultValue = undefined) {
  * Helper function to get server address/hostname from either the commandline or env
  * @returns {object} config object containing address, port, and tls properties
  */
-function getServerParameters () {
-	const config = {};
+function getServerParameters (): any {
+	const config: any = {};
 
 	// Prefer command line arguments over environment variables
 	config.address = getCommandLineParameter("address", process.env.ADDRESS);
@@ -41,16 +41,16 @@ function getServerParameters () {
  * @param {string} url location where the server is running.
  * @returns {Promise} the config
  */
-function getServerConfig (url) {
+function getServerConfig (url: string): Promise<any> {
 	// Return new pending promise
 	return new Promise((resolve, reject) => {
 		// Select http or https module, depending on requested url
 		const lib = url.startsWith("https") ? https : http;
-		const request = lib.get(url, (response) => {
+		const request = lib.get(url, (response: any) => {
 			let configData = "";
 
 			// Gather incoming data
-			response.on("data", function (chunk) {
+			response.on("data", function (chunk: any) {
 				configData += chunk;
 			});
 			// Resolve promise at the end of the HTTP/HTTPS stream
@@ -58,12 +58,12 @@ function getServerConfig (url) {
 				try {
 					resolve(JSON.parse(configData));
 				} catch (parseError) {
-					reject(new Error(`Failed to parse server response as JSON: ${parseError.message}`));
+					reject(new Error(`Failed to parse server response as JSON: ${(parseError as Error).message}`));
 				}
 			});
 		});
 
-		request.on("error", function (error) {
+		request.on("error", function (error: any) {
 			reject(new Error(`Unable to read config from server (${url}) (${error.message})`));
 		});
 	});
@@ -74,7 +74,7 @@ function getServerConfig (url) {
  * @param {string} message error message to print
  * @param {number} code error code for the exit call
  */
-function fail (message, code = 1) {
+function fail (message?: string, code: number = 1): void {
 	if (message !== undefined && typeof message === "string") {
 		console.error(message);
 	} else {
@@ -89,7 +89,7 @@ function fail (message, code = 1) {
  * @param {string} prefix http or https prefix
  * @async
  */
-async function startClient (config, prefix) {
+async function startClient (config: any, prefix: string): Promise<void> {
 	try {
 		const serverUrl = `${prefix}${config.address}:${config.port}/config/`;
 		console.log(`Client: Connecting to server at ${serverUrl}`);
@@ -97,7 +97,7 @@ async function startClient (config, prefix) {
 		console.log("Client: Successfully retrieved config from server");
 
 		// check environment for DISPLAY or WAYLAND_DISPLAY
-		const elecParams = ["js/electron.js"];
+		const elecParams: string[] = ["js/electron.js"];
 		if (process.env.WAYLAND_DISPLAY) {
 			console.log(`Client: Using WAYLAND_DISPLAY=${process.env.WAYLAND_DISPLAY}`);
 			elecParams.push("--enable-features=UseOzonePlatform");
@@ -109,7 +109,7 @@ async function startClient (config, prefix) {
 		}
 
 		// Pass along the server config via an environment variable
-		const env = { ...process.env };
+		const env: any = { ...process.env };
 		env.clientonly = true;
 		const options = { env: env };
 		configReturn.address = config.address;
@@ -122,20 +122,20 @@ async function startClient (config, prefix) {
 		const child = require("node:child_process").spawn(electron, elecParams, options);
 
 		// Pipe all child process output to current stdout
-		child.stdout.on("data", function (buf) {
+		child.stdout.on("data", function (buf: any) {
 			process.stdout.write(`Client: ${buf}`);
 		});
 
 		// Pipe all child process errors to current stderr
-		child.stderr.on("data", function (buf) {
+		child.stderr.on("data", function (buf: any) {
 			process.stderr.write(`Client: ${buf}`);
 		});
 
-		child.on("error", function (err) {
+		child.on("error", function (err: any) {
 			process.stderr.write(`Client: ${err}`);
 		});
 
-		child.on("close", (code) => {
+		child.on("close", (code: number) => {
 			if (code !== 0) {
 				fail(`There is something wrong. The clientonly process exited with code ${code}.`);
 			}
@@ -165,3 +165,5 @@ if (
 } else {
 	fail();
 }
+
+export {};

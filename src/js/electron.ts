@@ -25,27 +25,28 @@ const BrowserWindow = electron.BrowserWindow;
  * Keep a global reference of the window object, if you don't, the window will
  * be closed automatically when the JavaScript object is garbage collected.
  */
-let mainWindow;
+let mainWindow: any;
 
 /**
  *
  */
-function createWindow () {
+function createWindow (): void {
 
 	/*
 	 * see https://www.electronjs.org/docs/latest/api/screen
 	 * Create a window that fills the screen's available work area.
 	 */
-	let electronSize = (800, 600);
+	// @ts-expect-error preserve original comma-operator expression
+	let electronSize: any = (800, 600);
 	try {
 		electronSize = electron.screen.getPrimaryDisplay().workAreaSize;
 	} catch {
 		Log.warn("Could not get display size, using defaults ...");
 	}
 
-	let electronSwitchesDefaults = ["autoplay-policy", "no-user-gesture-required"];
-	app.commandLine.appendSwitch(...new Set(electronSwitchesDefaults, config.electronSwitches));
-	let electronOptionsDefaults = {
+	const electronSwitchesDefaults = ["autoplay-policy", "no-user-gesture-required"];
+	app.commandLine.appendSwitch(...new (Set as any)(electronSwitchesDefaults, config.electronSwitches));
+	const electronOptionsDefaults: any = {
 		width: electronSize.width,
 		height: electronSize.height,
 		icon: "favicon.svg",
@@ -72,14 +73,14 @@ function createWindow () {
 		// if we are running tests and we want to mock the current date
 		const fakeNow = new Date(process.env.MOCK_DATE).valueOf();
 		Date = class extends Date {
-			constructor (...args) {
+			constructor (...args: any[]) {
 				if (args.length === 0) {
 					super(fakeNow);
 				} else {
-					super(...args);
+					super(...(args as []));
 				}
 			}
-		};
+		} as DateConstructor;
 		const __DateNowOffset = fakeNow - Date.now();
 		const __DateNow = Date.now;
 		Date.now = () => __DateNow() + __DateNowOffset;
@@ -100,7 +101,7 @@ function createWindow () {
 		prefix = "http://";
 	}
 
-	let address = (config.address === void 0) | (config.address === "") | (config.address === "0.0.0.0") ? (config.address = "localhost") : config.address;
+	const address = ((config.address === void 0) as any) | ((config.address === "") as any) | ((config.address === "0.0.0.0") as any) ? (config.address = "localhost") : config.address;
 	const port = process.env.MM_PORT || config.port;
 	mainWindow.loadURL(`${prefix}${address}:${port}`);
 
@@ -125,7 +126,7 @@ function createWindow () {
 	});
 
 	//remove response headers that prevent sites of being embedded into iframes if configured
-	mainWindow.webContents.session.webRequest.onHeadersReceived((details, callback) => {
+	mainWindow.webContents.session.webRequest.onHeadersReceived((details: any, callback: any) => {
 		let curHeaders = details.responseHeaders;
 		if (config.ignoreXOriginHeader || false) {
 			curHeaders = Object.fromEntries(Object.entries(curHeaders).filter((header) => !(/x-frame-options/i).test(header[0])));
@@ -171,7 +172,7 @@ app.on("activate", function () {
  * Note: this is only used if running Electron. Otherwise
  * core.stop() is called by process.on("SIGINT"... in `app.js`
  */
-app.on("before-quit", async (event) => {
+app.on("before-quit", async (event: any) => {
 	Log.log("Shutting down server...");
 	event.preventDefault();
 	setTimeout(() => {
@@ -184,7 +185,7 @@ app.on("before-quit", async (event) => {
 /**
  * Handle errors from self-signed certificates
  */
-app.on("certificate-error", (event, webContents, url, error, certificate, callback) => {
+app.on("certificate-error", (event: any, webContents: any, url: any, error: any, certificate: any, callback: any) => {
 	event.preventDefault();
 	callback(true);
 });
@@ -201,7 +202,7 @@ if (process.env.clientonly) {
  * This starts all node helpers and starts the webserver.
  */
 if (["localhost", "127.0.0.1", "::1", "::ffff:127.0.0.1", undefined].includes(config.address)) {
-	core.start().then((c) => {
+	core.start().then((c: any) => {
 		config = c;
 		app.whenReady().then(() => {
 			Log.log("Launching application.");
@@ -209,3 +210,5 @@ if (["localhost", "127.0.0.1", "::1", "::ffff:127.0.0.1", undefined].includes(co
 		});
 	});
 }
+
+export {};

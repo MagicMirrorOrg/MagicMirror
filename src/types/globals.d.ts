@@ -44,6 +44,7 @@ interface LogType {
 	time(timerName?: string): void;
 	timeEnd(timerName?: string): void;
 	timeStamp(timerName?: string): void;
+	setLogLevel(newLevel?: string[]): void;
 }
 
 /*
@@ -54,11 +55,11 @@ interface LogType {
  * CalendarUtils/formatTime. Declaring them here too would be a duplicate-identifier error.
  */
 declare const Log: LogType;
-declare const MM: any;
-declare const config: any;
+declare var config: any;
 declare const moment: any;
 declare const nunjucks: any;
-declare const vendor: Record<string, string>;
+// modulePositions is emitted at runtime into js/positions.js by js/utils.js.
+declare const modulePositions: string[];
 // Globals with no migrated declaring source (vendor scripts, config-injected, base class).
 declare const SunCalc: any;
 // Class.extend builds the Module base via the John Resig pattern. ThisType<any> lets

@@ -1,4 +1,4 @@
-const vendor = {
+const vendor: Record<string, string> = {
 	"moment.js": "node_modules/moment/min/moment-with-locales.js",
 	"moment-timezone.js": "node_modules/moment-timezone/builds/moment-timezone-with-data.js",
 	"weather-icons.css": "node_modules/weathericons/css/weather-icons.css",
