@@ -77,7 +77,9 @@ export default defineConfig([
 		"js/socketclient.js",
 		"js/translator.js",
 		"translations/translations.js",
-		"defaultmodules/defaultmodules.js"
+		"defaultmodules/defaultmodules.js",
+		"js/module.js",
+		"js/loader.js"
 	]),
 	{
 		files: ["**/*.js"],

@@ -14,6 +14,8 @@
 		"types/globals.d.ts",
 		"types/browser-shims.d.ts",
 		"js/class.ts",
+		"js/module.ts",
+		"js/loader.ts",
 		"js/logger.ts",
 		"js/defaults.ts",
 		"js/animateCSS.ts",

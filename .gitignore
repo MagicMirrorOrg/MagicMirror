@@ -111,6 +111,8 @@ js/positions.js
 /js/translator.js
 /translations/translations.js
 /defaultmodules/defaultmodules.js
+/js/module.js
+/js/loader.js
 
 # Ignore lock files other than package-lock.json
 pnpm-lock.yaml

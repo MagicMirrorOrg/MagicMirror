@@ -33,13 +33,17 @@ type ModuleProperties = {
 };
 
 interface ModuleConstructor {
-	register(moduleName: string, moduleProperties: ModuleProperties): void;
+	// ThisType<any> binds `this` inside a module definition object to `any`, so the
+	// methods that default modules pass (getDom, notificationReceived, ...) can freely
+	// use this.config / this.translate() / this.data / this.sendNotification etc.
+	register(moduleName: string, moduleProperties: ModuleProperties & ThisType<any>): void;
 	definitions: Record<string, ModuleProperties>;
 	create(name: string): any;
 	[key: string]: any;
 }
 
 interface LogType {
+	debug(message?: any, ...optionalParams: any[]): void;
 	info(message?: any, ...optionalParams: any[]): void;
 	log(message?: any, ...optionalParams: any[]): void;
 	error(message?: any, ...optionalParams: any[]): void;
@@ -59,17 +63,17 @@ interface LogType {
  * (animateCSS.ts), defaultModules (defaultmodules.ts), WeatherObject/WeatherUtils/
  * CalendarUtils/formatTime. Declaring them here too would be a duplicate-identifier error.
  */
-declare const Module: ModuleConstructor;
 declare const Log: LogType;
 declare const MM: any;
 declare const config: any;
-declare const Loader: any;
 declare const moment: any;
 declare const nunjucks: any;
 declare const vendor: Record<string, string>;
 // Globals with no migrated declaring source (vendor scripts, config-injected, base class).
 declare const SunCalc: any;
-declare const Class: any;
+// Class.extend builds the Module base via the John Resig pattern. ThisType<any> lets
+// the definition object's methods use `this.*` freely (module.ts is built this way).
+declare const Class: { extend (def: Record<string, any> & ThisType<any>): any; [key: string]: any };
 declare const io: any;
 declare const mmPort: any;
 

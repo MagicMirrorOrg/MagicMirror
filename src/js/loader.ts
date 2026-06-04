@@ -1,13 +1,13 @@
 /* global defaultModules, vendor */
 
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- Loader is a runtime global consumed by js/main.js and other browser scripts.
 const Loader = (function () {
 
 	/* Create helper variables */
 
-	const loadedModuleFiles = [];
-	const loadedFiles = [];
-	const moduleObjects = [];
+	const loadedModuleFiles: any[] = [];
+	const loadedFiles: any[] = [];
+	const moduleObjects: any[] = [];
 
 	/* Private Methods */
 
@@ -15,7 +15,7 @@ const Loader = (function () {
 	 * Get environment variables from config.
 	 * @returns {object} Env vars with modulesDir and customCss paths from config.
 	 */
-	const getEnvVarsFromConfig = function () {
+	const getEnvVarsFromConfig = function (): any {
 		return {
 			modulesDir: config.foreignModulesDir || "modules",
 			defaultModulesDir: config.defaultModulesDir || "defaultmodules",
@@ -27,7 +27,7 @@ const Loader = (function () {
 	 * Retrieve object of env variables.
 	 * @returns {object} with key: values as assembled in js/server_functions.js
 	 */
-	const getEnvVars = async function () {
+	const getEnvVars = async function (): Promise<any> {
 		// In test mode, skip server fetch and use config values directly
 		if (typeof process !== "undefined" && process.env && process.env.mmTestMode === "true") {
 			return getEnvVarsFromConfig();
@@ -47,8 +47,8 @@ const Loader = (function () {
 	/**
 	 * Loops through all modules and requests start for every module.
 	 */
-	const startModules = async function () {
-		const modulePromises = [];
+	const startModules = async function (): Promise<void> {
+		const modulePromises: any[] = [];
 		for (const module of moduleObjects) {
 			try {
 				modulePromises.push(module.start());
@@ -83,8 +83,8 @@ const Loader = (function () {
 	 * Retrieve list of all modules.
 	 * @returns {object[]} module data as configured in config
 	 */
-	const getAllModules = function () {
-		const AllModules = config.modules.filter((module) => (module.module !== undefined) && (MM.getAvailableModulePositions.indexOf(module.position) > -1 || typeof (module.position) === "undefined"));
+	const getAllModules = function (): any[] {
+		const AllModules = config.modules.filter((module: any) => (module.module !== undefined) && (MM.getAvailableModulePositions.indexOf(module.position) > -1 || typeof (module.position) === "undefined"));
 		return AllModules;
 	};
 
@@ -92,12 +92,12 @@ const Loader = (function () {
 	 * Generate array with module information including module paths.
 	 * @returns {object[]} Module information.
 	 */
-	const getModuleData = async function () {
+	const getModuleData = async function (): Promise<any[]> {
 		const modules = getAllModules();
-		const moduleFiles = [];
+		const moduleFiles: any[] = [];
 		const envVars = await getEnvVars();
 
-		modules.forEach(function (moduleData, index) {
+		modules.forEach(function (moduleData: any, index: number) {
 			const module = moduleData.module;
 
 			const elements = module.split("/");
@@ -146,13 +146,13 @@ const Loader = (function () {
 	 * @param {object} module Information about the module we want to load.
 	 * @returns {Promise<void>} resolved when module is loaded
 	 */
-	const loadModule = async function (module) {
+	const loadModule = async function (module: any): Promise<void> {
 		const url = module.path + module.file;
 
 		/**
 		 * @returns {Promise<void>}
 		 */
-		const afterLoad = async function () {
+		const afterLoad = async function (): Promise<void> {
 			const moduleObject = Module.create(module.name);
 			if (moduleObject) {
 				await bootstrapModule(module, moduleObject);
@@ -173,7 +173,7 @@ const Loader = (function () {
 	 * @param {object} module Information about the module we want to load.
 	 * @param {Module} mObj Modules instance.
 	 */
-	const bootstrapModule = async function (module, mObj) {
+	const bootstrapModule = async function (module: any, mObj: any): Promise<void> {
 		Log.info(`Bootstrapping module: ${module.name}`);
 		mObj.setData(module);
 
@@ -194,9 +194,9 @@ const Loader = (function () {
 	 * @param {string} fileName Path of the file we want to load.
 	 * @returns {Promise} resolved when the file is loaded
 	 */
-	const loadFile = function (fileName) {
+	const loadFile = function (fileName: string): Promise<void> | undefined {
 		const extension = fileName.slice((Math.max(0, fileName.lastIndexOf(".")) || Infinity) + 1);
-		let script, stylesheet;
+		let script: HTMLScriptElement, stylesheet: HTMLLinkElement;
 
 		switch (extension.toLowerCase()) {
 			case "js":
@@ -233,6 +233,8 @@ const Loader = (function () {
 					};
 					document.getElementsByTagName("head")[0].appendChild(stylesheet);
 				});
+			default:
+				return undefined;
 		}
 	};
 
@@ -242,7 +244,7 @@ const Loader = (function () {
 		/**
 		 * Load all modules as defined in the config.
 		 */
-		async loadModules () {
+		async loadModules (): Promise<void> {
 			const moduleData = await getModuleData();
 			const envVars = await getEnvVars();
 			const customCss = envVars.customCss;
@@ -268,7 +270,7 @@ const Loader = (function () {
 		 * @param {Module} module The module that calls the loadFile function.
 		 * @returns {Promise} resolved when the file is loaded
 		 */
-		loadFileForModule (fileName, module) {
+		loadFileForModule (fileName: string, module: any): Promise<void> | undefined {
 			if (loadedFiles.indexOf(fileName.toLowerCase()) !== -1) {
 				Log.log(`File already loaded: ${fileName}`);
 				return Promise.resolve();

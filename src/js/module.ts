@@ -1,10 +1,8 @@
-/* global Class, cloneObject, Loader, MMSocket, nunjucks */
-
 /*
  * Module Blueprint.
  * @typedef {Object} Module
  */
-const Module = Class.extend({
+const Module: ModuleConstructor = Class.extend({
 
 	/**
 	 *********************************************************
@@ -88,7 +86,7 @@ const Module = Class.extend({
 			// Check to see if we need to render a template string or a file.
 			if ((/^.*((\.html)|(\.njk))$/).test(template)) {
 				// the template is a filename
-				this.nunjucksEnvironment().render(template, templateData, function (err, res) {
+				this.nunjucksEnvironment().render(template, templateData, function (err: any, res: any) {
 					if (err) {
 						Log.error(err);
 					}
@@ -142,7 +140,7 @@ const Module = Class.extend({
 	 * @param {object} payload The payload of the notification.
 	 * @param {Module} sender The module that sent the notification.
 	 */
-	notificationReceived (notification, payload, sender) {
+	notificationReceived (notification: string, payload: any, sender: any) {
 		if (sender) {
 			Log.debug(`${this.name} received a module notification: ${notification} from sender: ${sender.name}`);
 		} else {
@@ -165,7 +163,7 @@ const Module = Class.extend({
 			lstripBlocks: true
 		});
 
-		this._nunjucksEnvironment.addFilter("translate", (str, variables) => {
+		this._nunjucksEnvironment.addFilter("translate", (str: string, variables: any) => {
 			return nunjucks.runtime.markSafe(this.translate(str, variables));
 		});
 
@@ -177,7 +175,7 @@ const Module = Class.extend({
 	 * @param {string} notification The identifier of the notification.
 	 * @param {object} payload The payload of the notification.
 	 */
-	socketNotificationReceived (notification, payload) {
+	socketNotificationReceived (notification: string, payload: any) {
 		Log.log(`${this.name} received a socket notification: ${notification} - Payload: ${payload}`);
 	},
 
@@ -205,7 +203,7 @@ const Module = Class.extend({
 	 * Set the module data.
 	 * @param {object} data The module data
 	 */
-	setData (data) {
+	setData (data: any) {
 		this.data = data;
 		this.name = data.name;
 		this.identifier = data.identifier;
@@ -221,7 +219,7 @@ const Module = Class.extend({
 	 * @param {object} config The combined module config.
 	 * @param {boolean} deep Merge module config in deep.
 	 */
-	setConfig (config, deep) {
+	setConfig (config: any, deep: boolean) {
 		this.config = deep ? configMerge({}, this.defaults, config) : Object.assign({}, this.defaults, config);
 	},
 
@@ -232,10 +230,10 @@ const Module = Class.extend({
 	 */
 	socket () {
 		if (typeof this._socket === "undefined") {
-			this._socket = new MMSocket(this.name);
+			this._socket = new (MMSocket as any)(this.name);
 		}
 
-		this._socket.setNotificationCallback((notification, payload) => {
+		this._socket.setNotificationCallback((notification: string, payload: any) => {
 			this.socketNotificationReceived(notification, payload);
 		});
 
@@ -247,7 +245,7 @@ const Module = Class.extend({
 	 * @param {string} file Filename
 	 * @returns {string} the file path
 	 */
-	file (file) {
+	file (file: string) {
 		return `${this.data.path}/${file}`.replace("//", "/");
 	},
 
@@ -272,7 +270,7 @@ const Module = Class.extend({
 	 * @param {string} funcName Function name to call to get scripts or styles.
 	 * @returns {Promise<void>}
 	 */
-	async loadDependencies (funcName) {
+	async loadDependencies (funcName: string) {
 		let dependencies = this[funcName]();
 
 		const loadNextDependency = async () => {
@@ -325,7 +323,7 @@ const Module = Class.extend({
 	 * @param {string} [defaultValue] The default value with variables.
 	 * @returns {string} the translated key
 	 */
-	translate (key, defaultValueOrVariables, defaultValue) {
+	translate (key: string, defaultValueOrVariables?: any, defaultValue?: string) {
 		if (typeof defaultValueOrVariables === "object") {
 			return Translator.translate(this, key, defaultValueOrVariables) || defaultValue || "";
 		}
@@ -336,7 +334,7 @@ const Module = Class.extend({
 	 * Request an (animated) update of the module.
 	 * @param {number|object} [updateOptions] The speed of the animation or object with for updateOptions (speed/animates)
 	 */
-	updateDom (updateOptions) {
+	updateDom (updateOptions?: any) {
 		MM.updateDom(this, updateOptions);
 	},
 
@@ -345,7 +343,7 @@ const Module = Class.extend({
 	 * @param {string} notification The identifier of the notification.
 	 * @param {object} payload The payload of the notification.
 	 */
-	sendNotification (notification, payload) {
+	sendNotification (notification: string, payload: any) {
 		MM.sendNotification(notification, payload, this);
 	},
 
@@ -354,7 +352,7 @@ const Module = Class.extend({
 	 * @param {string} notification The identifier of the notification.
 	 * @param {object} payload The payload of the notification.
 	 */
-	sendSocketNotification (notification, payload) {
+	sendSocketNotification (notification: string, payload: any) {
 		this.socket().sendNotification(notification, payload);
 	},
 
@@ -364,7 +362,7 @@ const Module = Class.extend({
 	 * @param {Promise} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the hide method.
 	 */
-	hide (speed, callback, options = {}) {
+	hide (speed: number, callback: any, options: any = {}) {
 		let usedCallback = callback || function () {};
 		let usedOptions = options;
 
@@ -391,7 +389,7 @@ const Module = Class.extend({
 	 * @param {Promise} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the show method.
 	 */
-	show (speed, callback, options) {
+	show (speed: number, callback: any, options?: any) {
 		let usedCallback = callback || function () {};
 		let usedOptions = options;
 
@@ -435,7 +433,9 @@ const Module = Class.extend({
  * @param {object} result the initial object
  * @returns {object} the merged config
  */
-function configMerge (result) {
+
+function configMerge (result: any, ..._sources: any[]): any {
+	// eslint-disable-next-line prefer-rest-params -- variadic merge reads `arguments`; the rest param exists only so call sites type-check.
 	const stack = Array.prototype.slice.call(arguments, 1);
 	let item, key;
 
@@ -460,7 +460,7 @@ function configMerge (result) {
 
 Module.definitions = {};
 
-Module.create = function (name) {
+Module.create = function (name: string) {
 	// Make sure module definition is available.
 	if (!Module.definitions[name]) {
 		return;
@@ -475,7 +475,7 @@ Module.create = function (name) {
 	return new ModuleClass();
 };
 
-Module.register = function (name, moduleDefinition) {
+Module.register = function (name: string, moduleDefinition: any) {
 	if (moduleDefinition.requiresVersion) {
 		Log.log(`Check MagicMirror² version for module '${name}' - Minimum version:  ${moduleDefinition.requiresVersion} - Current version: ${window.mmVersion}`);
 		if (cmpVersions(window.mmVersion, moduleDefinition.requiresVersion) >= 0) {
@@ -498,14 +498,14 @@ window.Module = Module;
  * @returns {number} A positive number if a is larger than b, a negative
  * number if a is smaller and 0 if they are the same
  */
-function cmpVersions (a, b) {
+function cmpVersions (a: string, b: string): number {
 	const regExStrip0 = /(\.0+)+$/;
 	const segmentsA = a.replace(regExStrip0, "").split(".");
 	const segmentsB = b.replace(regExStrip0, "").split(".");
 	const l = Math.min(segmentsA.length, segmentsB.length);
 
 	for (let i = 0; i < l; i++) {
-		let diff = parseInt(segmentsA[i], 10) - parseInt(segmentsB[i], 10);
+		const diff = parseInt(segmentsA[i], 10) - parseInt(segmentsB[i], 10);
 		if (diff) {
 			return diff;
 		}
