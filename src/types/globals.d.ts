@@ -49,10 +49,11 @@ interface LogType {
 
 /*
  * Globals NOT declared here are provided as top-level declarations by their own
- * migrated browser script file (cross-file global scope), e.g. cloneObject + Class
- * (class.ts), Translator (translator.ts), MMSocket (socketclient.ts), AnimateCSSIn/Out
- * (animateCSS.ts), defaultModules (defaultmodules.ts), WeatherObject/WeatherUtils/
- * CalendarUtils/formatTime. Declaring them here too would be a duplicate-identifier error.
+ * migrated browser script file (cross-file global scope), e.g. cloneObject (class.ts),
+ * Module (module.ts), Translator (translator.ts), MMSocket (socketclient.ts),
+ * AnimateCSSIn/Out (animateCSS.ts), defaultModules (defaultmodules.ts),
+ * WeatherObject/WeatherUtils/CalendarUtils/formatTime. Declaring them here too would
+ * be a duplicate-identifier error.
  */
 declare const Log: LogType;
 declare var config: any;
@@ -60,11 +61,8 @@ declare const moment: any;
 declare const nunjucks: any;
 // modulePositions is emitted at runtime into js/positions.js by js/utils.js.
 declare const modulePositions: string[];
-// Globals with no migrated declaring source (vendor scripts, config-injected, base class).
+// Globals with no migrated declaring source (vendor scripts, config-injected).
 declare const SunCalc: any;
-// Class.extend builds the Module base via the John Resig pattern. ThisType<any> lets
-// the definition object's methods use `this.*` freely (module.ts is built this way).
-declare const Class: { extend (def: Record<string, any> & ThisType<any>): any; [key: string]: any };
 declare const io: any;
 declare const mmPort: any;
 declare const Cron: any;

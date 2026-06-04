@@ -39,8 +39,9 @@ Compilation is split into two `tsc` projects because the runtime is dual:
 - **`tsconfig.browser.json`** (`lib: DOM`) — files loaded as classic `<script>`s. They are
   TypeScript _script_ files: **no top-level `import`/`export`**, so `tsc` emits plain
   global-defining JS 1:1 (no bundler, no module wrapper). Shared globals are typed
-  as ambient declarations in `src/types/globals.d.ts`. `alwaysStrict: false` here so no `"use strict"`
-  is injected — `js/class.ts` relies on sloppy-mode (`this === window`, `arguments.callee`).
+  as ambient declarations in `src/types/globals.d.ts`. `alwaysStrict: false` here so no
+  `"use strict"` is injected — browser scripts historically loaded in sloppy mode, kept
+  off to preserve exact runtime semantics.
 - **`tsconfig.server.json`** (`lib: node`) — Node CommonJS files. They keep `require()` /
   `export =` and resolve the internal `require` aliases (`logger`, `node_helper`) and the
   `#server_functions` / `#http_fetcher` subpath imports via `src/types/aliases.d.ts` +
