@@ -151,7 +151,8 @@
 		"stylelint-prettier": "^5.0.3",
 		"typescript": "^6.0.3",
 		"typescript-eslint": "^8.60.1",
-		"vitest": "^4.1.5"
+		"vitest": "^4.1.5",
+		"@types/node": "latest"
 	},
 	"optionalDependencies": {
 		"electron": "^41.3.0"
