@@ -7,7 +7,7 @@
  * Included by the server tsconfig only.
  */
 
-declare var config: any;
+declare var config: MMConfig;
 declare var root_path: string;
 declare var version: string;
 declare var mmTestMode: boolean | string;

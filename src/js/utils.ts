@@ -30,8 +30,8 @@ const getAvailableModulePositions = (): string[] => {
 };
 
 // return if position is on modulePositions Array (true/false)
-const moduleHasValidPosition = (position: string): boolean => {
-	if (getAvailableModulePositions().indexOf(position) === -1) return false;
+const moduleHasValidPosition = (position: string | undefined): boolean => {
+	if (getAvailableModulePositions().indexOf(position as string) === -1) return false;
 	return true;
 };
 

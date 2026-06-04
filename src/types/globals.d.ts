@@ -56,7 +56,7 @@ interface LogType {
  * be a duplicate-identifier error.
  */
 declare const Log: LogType;
-declare var config: any;
+declare var config: MMConfig;
 declare const moment: any;
 declare const nunjucks: any;
 // modulePositions is emitted at runtime into js/positions.js by js/utils.js.
@@ -72,7 +72,7 @@ interface Window {
 	Module: ModuleConstructor;
 	Log: LogType;
 	MM: any;
-	config: any;
+	config: MMConfig;
 	Translator: any;
 	Loader: any;
 	cloneObject: (obj: any) => any;
