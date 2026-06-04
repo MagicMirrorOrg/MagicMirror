@@ -66,7 +66,26 @@ declare const SunCalc: any;
 declare const io: any;
 declare const mmPort: any;
 declare const Cron: any;
-declare const NotificationFx: any;
+
+// Notification-effects helper (defaultmodules/alert/notificationFx.js), used by the alert module.
+interface NotificationFxOptions {
+	wrapper?: HTMLElement;
+	message?: string;
+	layout?: string;
+	effect?: string;
+	type?: string;
+	ttl?: number;
+	al_no?: string;
+	onClose?: () => void;
+	onOpen?: () => void;
+	[key: string]: any;
+}
+interface NotificationFxInstance {
+	show (): void;
+	dismiss (close?: boolean): void;
+	[key: string]: any;
+}
+declare const NotificationFx: new (options?: NotificationFxOptions) => NotificationFxInstance;
 
 interface Window {
 	Module: ModuleConstructor;

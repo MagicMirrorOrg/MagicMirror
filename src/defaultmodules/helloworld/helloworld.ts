@@ -8,7 +8,7 @@ Module.register("helloworld", {
 		return "helloworld.njk";
 	},
 
-	getTemplateData (): any {
+	getTemplateData (): object {
 		return this.config;
 	}
 });

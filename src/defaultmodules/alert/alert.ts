@@ -1,7 +1,7 @@
 /* global NotificationFx */
 
 Module.register("alert", {
-	alerts: {} as { [key: string]: any },
+	alerts: {} as { [key: string]: NotificationFxInstance },
 
 	defaults: {
 		effect: "slide", // scale|slide|genie|jelly|flip|bouncyflip|exploader
@@ -69,7 +69,7 @@ Module.register("alert", {
 	async showNotification (notification: any): Promise<void> {
 		const message = await this.renderMessage(notification.templateName || "notification", notification);
 
-		new (NotificationFx as any)({
+		new NotificationFx({
 			message,
 			layout: "growl",
 			effect: this.config.effect,
@@ -91,7 +91,7 @@ Module.register("alert", {
 		const message = await this.renderMessage(alert.templateName || "alert", alert);
 
 		// Store alert in this.alerts
-		this.alerts[sender.name] = new (NotificationFx as any)({
+		this.alerts[sender.name] = new NotificationFx({
 			message,
 			effect: this.config.alert_effect,
 			ttl: alert.timer,

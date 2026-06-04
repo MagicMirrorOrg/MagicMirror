@@ -33,7 +33,7 @@
 	 * @param {object} options The configuration options
 	 * @class
 	 */
-	function NotificationFx (this: any, options: any) {
+	function NotificationFx (this: any, options: NotificationFxOptions) {
 		this.options = extend({}, this.options);
 		extend(this.options, options);
 		this._init();
