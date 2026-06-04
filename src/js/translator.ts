@@ -7,7 +7,7 @@ const Translator = (function () {
 	 * @param {string} file Path of the file we want to load.
 	 * @returns {Promise<object>} the translations in the specified file
 	 */
-	async function loadJSON (file) {
+	async function loadJSON (file: string): Promise<any> {
 		const baseHref = document.baseURI;
 		const url = new URL(file, baseHref);
 
@@ -24,10 +24,10 @@ const Translator = (function () {
 	}
 
 	return {
-		coreTranslations: {},
-		coreTranslationsFallback: {},
-		translations: {},
-		translationsFallback: {},
+		coreTranslations: {} as Record<string, any>,
+		coreTranslationsFallback: {} as Record<string, any>,
+		translations: {} as Record<string, any>,
+		translationsFallback: {} as Record<string, any>,
 
 		/**
 		 * Load a translation for a given key for a given module.
@@ -36,7 +36,7 @@ const Translator = (function () {
 		 * @param {object} variables The variables to use within the translation template (optional)
 		 * @returns {string} the translated key
 		 */
-		translate (module, key, variables = {}) {
+		translate (this: any, module: any, key: string, variables: any = {}): string {
 
 			/**
 			 * Combines template and variables like:
@@ -47,7 +47,7 @@ const Translator = (function () {
 			 * @param {object} variables Variables for the placeholder
 			 * @returns {string} the template filled with the variables
 			 */
-			function createStringFromTemplate (template, variables) {
+			function createStringFromTemplate (template: any, variables: any): any {
 				if (Object.prototype.toString.call(template) !== "[object String]") {
 					return template;
 				}
@@ -55,7 +55,7 @@ const Translator = (function () {
 				if (variables.fallback && !template.match(new RegExp("{.+}"))) {
 					templateToUse = variables.fallback;
 				}
-				return templateToUse.replace(new RegExp("{([^}]+)}", "g"), function (_unused, varName) {
+				return templateToUse.replace(new RegExp("{([^}]+)}", "g"), function (_unused: string, varName: string): string {
 					return varName in variables ? variables[varName] : `{${varName}}`;
 				});
 			}
@@ -85,7 +85,7 @@ const Translator = (function () {
 		 * @param {string} file Path of the file we want to load.
 		 * @param {boolean} isFallback Flag to indicate fallback translations.
 		 */
-		async load (module, file, isFallback) {
+		async load (this: any, module: any, file: string, isFallback: boolean): Promise<void> {
 			Log.log(`[translator] ${module.name} - Load translation${isFallback ? " fallback" : ""}: ${file}`);
 
 			if (this.translationsFallback[module.name]) {
@@ -101,7 +101,7 @@ const Translator = (function () {
 		 * Load the core translations.
 		 * @param {string} lang The language identifier of the core language.
 		 */
-		async loadCoreTranslations (lang) {
+		async loadCoreTranslations (this: any, lang: string): Promise<void> {
 			if (lang in translations) {
 				Log.log(`[translator] Loading core translation file: ${translations[lang]}`);
 				this.coreTranslations = await loadJSON(translations[lang]);
@@ -116,8 +116,8 @@ const Translator = (function () {
 		 * Load the core translations' fallback.
 		 * The first language defined in translations.js will be used.
 		 */
-		async loadCoreTranslationsFallback () {
-			let first = Object.keys(translations)[0];
+		async loadCoreTranslationsFallback (this: any): Promise<void> {
+			const first = Object.keys(translations)[0];
 			if (first) {
 				Log.log(`[translator] Loading core translation fallback file: ${translations[first]}`);
 				this.coreTranslationsFallback = await loadJSON(translations[first]);

@@ -52,22 +52,26 @@ interface LogType {
 	timeStamp(timerName?: string): void;
 }
 
+/*
+ * Globals NOT declared here are provided as top-level declarations by their own
+ * migrated browser script file (cross-file global scope), e.g. cloneObject + Class
+ * (class.ts), Translator (translator.ts), MMSocket (socketclient.ts), AnimateCSSIn/Out
+ * (animateCSS.ts), defaultModules (defaultmodules.ts), WeatherObject/WeatherUtils/
+ * CalendarUtils/formatTime. Declaring them here too would be a duplicate-identifier error.
+ */
 declare const Module: ModuleConstructor;
 declare const Log: LogType;
 declare const MM: any;
 declare const config: any;
-declare const Translator: any;
 declare const Loader: any;
-declare const cloneObject: (obj: any) => any;
 declare const moment: any;
 declare const nunjucks: any;
-declare const defaultModules: string[];
 declare const vendor: Record<string, string>;
-declare const MMSocket: any;
-declare const AnimateCSSIn: string[];
-declare const AnimateCSSOut: string[];
-// Vendor globals loaded via <script>/getScripts (no migrated source declares them).
+// Globals with no migrated declaring source (vendor scripts, config-injected, base class).
 declare const SunCalc: any;
+declare const Class: any;
+declare const io: any;
+declare const mmPort: any;
 
 interface Window {
 	Module: ModuleConstructor;

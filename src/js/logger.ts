@@ -4,13 +4,13 @@
 		if (process.env.mmTestMode !== "true") {
 			const { styleText } = require("node:util");
 
-			const LABEL_COLORS = { error: "red", warn: "yellow", debug: "bgBlue", info: "blue" };
-			const MSG_COLORS = { error: "red", warn: "yellow", info: "blue" };
+			const LABEL_COLORS: Record<string, string> = { error: "red", warn: "yellow", debug: "bgBlue", info: "blue" };
+			const MSG_COLORS: Record<string, string> = { error: "red", warn: "yellow", info: "blue" };
 
 			const formatTimestamp = () => {
 				const d = new Date();
-				const pad2 = (n) => String(n).padStart(2, "0");
-				const pad3 = (n) => String(n).padStart(3, "0");
+				const pad2 = (n: number) => String(n).padStart(2, "0");
+				const pad3 = (n: number) => String(n).padStart(3, "0");
 				const date = `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
 				const time = `${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}.${pad3(d.getMilliseconds())}`;
 				return `[${date} ${time}]`;
@@ -18,7 +18,7 @@
 
 			const getCallerPrefix = () => {
 				try {
-					const lines = new Error().stack.split("\n");
+					const lines = new Error().stack!.split("\n");
 					for (const line of lines) {
 						if (line.includes("node:") || line.includes("js/logger.js") || line.includes("node_modules")) continue;
 						const match = line.match(/\((.+?\.js):\d+:\d+\)/) || line.match(/at\s+(.+?\.js):\d+:\d+/);
@@ -35,10 +35,10 @@
 
 			// Patch console methods to prepend timestamp, level label, and caller prefix.
 			for (const method of ["debug", "log", "info", "warn", "error"]) {
-				const original = console[method].bind(console);
+				const original = (console as any)[method].bind(console);
 				const labelRaw = `[${method.toUpperCase()}]`.padEnd(7);
 				const label = LABEL_COLORS[method] ? styleText(LABEL_COLORS[method], labelRaw) : labelRaw;
-				console[method] = (...args) => {
+				(console as any)[method] = (...args: any[]) => {
 					const prefix = `${formatTimestamp()} ${label} ${getCallerPrefix()}`;
 					const msgColor = MSG_COLORS[method];
 					if (msgColor && args.length > 0 && typeof args[0] === "string") {
@@ -61,12 +61,12 @@
 	 * (Node.js) or inside jsdom (browser).
 	 * @returns {object} The logger object with log level methods.
 	 */
-	function makeLogger () {
+	function makeLogger (): any {
 		const enableLog = typeof module !== "undefined"
 			? process.env.mmTestMode !== "true"
 			: typeof window === "object" && window.name !== "jsdom";
 
-		let logLevel;
+		let logLevel: any;
 
 		if (enableLog) {
 			logLevel = {
@@ -85,10 +85,10 @@
 
 			// Only these methods are affected by setLogLevel.
 			// Utility methods (group, time, etc.) are always active.
-			logLevel.setLogLevel = function (newLevel) {
+			logLevel.setLogLevel = function (newLevel: string[]) {
 				for (const key of ["debug", "log", "info", "warn", "error"]) {
 					const disabled = newLevel && !newLevel.includes(key.toUpperCase());
-					logLevel[key] = disabled ? function () {} : console[key].bind(console);
+					logLevel[key] = disabled ? function () {} : (console as any)[key].bind(console);
 				}
 			};
 		} else {

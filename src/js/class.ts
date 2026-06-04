@@ -1,4 +1,5 @@
-/* global Class, xyz */
+/* global Class */
+/* eslint-disable @typescript-eslint/no-unused-expressions, prefer-rest-params, prefer-spread -- John Resig's inheritance pattern intentionally uses arguments/.apply() and the `xyz` function-decompilation probe; rewriting them would change behavior. */
 
 /*
  * Simple JavaScript Inheritance
@@ -8,11 +9,17 @@
  *
  * MIT Licensed.
  */
-(function () {
+
+// `xyz` is never executed; it only exists so the function below decompiles to a
+// source string containing "xyz", which the regex test uses to detect whether the
+// engine preserves function source (see fnTest).
+declare const xyz: any;
+
+(function (this: any) {
 	let initializing = false;
 	const fnTest = (/xyz/).test(function () {
 		xyz;
-	})
+	} as any)
 		? /\b_super\b/
 		: /.*/;
 
@@ -20,8 +27,8 @@
 	this.Class = function () {};
 
 	// Create a new Class that inherits from this class
-	Class.extend = function (prop) {
-		let _super = this.prototype;
+	Class.extend = function (this: any, prop: any) {
+		const _super = this.prototype;
 
 		/*
 		 * Instantiate a base class (but only create the instance,
@@ -42,7 +49,7 @@
 			prototype[name]
 				= typeof prop[name] === "function" && typeof _super[name] === "function" && fnTest.test(prop[name])
 					? (function (name, fn) {
-						return function () {
+						return function (this: any) {
 							const tmp = this._super;
 
 							/*
@@ -67,7 +74,7 @@
 		/**
 		 * The dummy class constructor
 		 */
-		function Class () {
+		function Class (this: any) {
 			// All construction is actually done in the init method
 			if (!initializing && this.init) {
 				this.init.apply(this, arguments);
@@ -81,7 +88,7 @@
 		Class.prototype.constructor = Class;
 
 		// And make this class extendable
-		Class.extend = arguments.callee;
+		(Class as any).extend = arguments.callee;
 
 		return Class;
 	};
@@ -92,7 +99,7 @@
  * @param {object} obj Object to be cloned
  * @returns {object} the cloned object
  */
-function cloneObject (obj) {
+function cloneObject (obj: any): any {
 	if (obj === null || typeof obj !== "object") {
 		return obj;
 	}

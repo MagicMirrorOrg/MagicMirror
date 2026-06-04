@@ -1,6 +1,6 @@
 /* enumeration of animations in Array **/
 
-const AnimateCSSIn = [
+const AnimateCSSIn: string[] = [
 	// Attention seekers
 	"bounce",
 	"flash",
@@ -68,7 +68,7 @@ const AnimateCSSIn = [
 	"slideInUp"
 ];
 
-const AnimateCSSOut = [
+const AnimateCSSOut: string[] = [
 	// Back exits
 	"backOutDown",
 	"backOutLeft",
@@ -128,7 +128,7 @@ const AnimateCSSOut = [
  * @param {string} [animation] animation name.
  * @param {number} [animationTime] animation duration.
  */
-function addAnimateCSS (element, animation, animationTime) {
+function addAnimateCSS (element: string, animation: string, animationTime: number): void {
 	const animationName = `animate__${animation}`;
 	const node = document.getElementById(element);
 	if (!node) {
@@ -145,7 +145,7 @@ function addAnimateCSS (element, animation, animationTime) {
  * @param {string} [element] div element to animate.
  * @param {string} [animation] animation name.
  */
-function removeAnimateCSS (element, animation) {
+function removeAnimateCSS (element: string, animation: string): void {
 	const animationName = `animate__${animation}`;
 	const node = document.getElementById(element);
 	if (!node) {

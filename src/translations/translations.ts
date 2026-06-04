@@ -1,4 +1,4 @@
-let translations = {
+const translations: Record<string, string> = {
 	en: "translations/en.json", // English
 	af: "translations/af.json", // Afrikaans
 	bg: "translations/bg.json", // Bulgarian

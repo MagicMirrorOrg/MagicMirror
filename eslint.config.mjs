@@ -69,7 +69,15 @@ export default defineConfig([
 		"defaultmodules/weather/node_helper.js",
 		"defaultmodules/updatenotification/git_helper.js",
 		"defaultmodules/updatenotification/update_helper.js",
-		"defaultmodules/updatenotification/node_helper.js"
+		"defaultmodules/updatenotification/node_helper.js",
+		"js/class.js",
+		"js/logger.js",
+		"js/defaults.js",
+		"js/animateCSS.js",
+		"js/socketclient.js",
+		"js/translator.js",
+		"translations/translations.js",
+		"defaultmodules/defaultmodules.js"
 	]),
 	{
 		files: ["**/*.js"],

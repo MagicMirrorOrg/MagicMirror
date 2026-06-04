@@ -1,7 +1,7 @@
 /* global io */
 
-// eslint-disable-next-line no-unused-vars
-const MMSocket = function (moduleName) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- MMSocket is a runtime global consumed by other browser scripts.
+const MMSocket = function (this: any, moduleName: string) {
 	if (typeof moduleName !== "string") {
 		throw new Error("Please set the module name for the MMSocket.");
 	}
@@ -19,10 +19,10 @@ const MMSocket = function (moduleName) {
 		pingTimeout: 120000 // wait up to 2 mins for a pong
 	});
 
-	let notificationCallback = function () {};
+	let notificationCallback: (notification: string, payload: any) => void = function () {};
 
 	const onevent = this.socket.onevent;
-	this.socket.onevent = (packet) => {
+	this.socket.onevent = (packet: any) => {
 		const args = packet.data || [];
 		onevent.call(this.socket, packet); // original call
 		packet.data = ["*"].concat(args);
@@ -30,18 +30,18 @@ const MMSocket = function (moduleName) {
 	};
 
 	// register catch all.
-	this.socket.on("*", (notification, payload) => {
+	this.socket.on("*", (notification: string, payload: any) => {
 		if (notification !== "*") {
 			notificationCallback(notification, payload);
 		}
 	});
 
 	// Public Methods
-	this.setNotificationCallback = (callback) => {
+	this.setNotificationCallback = (callback: (notification: string, payload: any) => void) => {
 		notificationCallback = callback;
 	};
 
-	this.sendNotification = (notification, payload = {}) => {
+	this.sendNotification = (notification: string, payload: any = {}) => {
 		this.socket.emit(notification, payload);
 	};
 };

@@ -12,4 +12,13 @@
  * pulling in the full Node types. NOT included by the server project.
  */
 
-declare const module: { exports: any } | undefined;
+declare const module: { exports: any };
+
+/*
+ * js/logger.js and js/defaults.js are dual-world: loaded as browser <script>s but
+ * also require()-d in Node. They reference Node globals behind `typeof module`
+ * guards. Declare them loosely so the browser project (which excludes @types/node)
+ * still type-checks; the real Node types apply in the server project.
+ */
+declare const process: any;
+declare function require (id: string): any;
