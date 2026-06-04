@@ -1,7 +1,7 @@
 /* global Loader, addAnimateCSS, removeAnimateCSS, AnimateCSSIn, AnimateCSSOut, modulePositions, io */
 
 const MM: any = (function () {
-	let modules: any[] = [];
+	let modules: Module[] = [];
 
 	/* Private Methods */
 
@@ -11,7 +11,7 @@ const MM: any = (function () {
 	const createDomObjects = function (): void {
 		const domCreationPromises: Promise<any>[] = [];
 
-		modules.forEach(function (module: any) {
+		modules.forEach(function (module: Module) {
 			if (typeof module.data.position !== "string") {
 				return;
 			}
@@ -94,10 +94,10 @@ const MM: any = (function () {
 	 * @param {Module} sender The module that sent the notification.
 	 * @param {Module} [sendTo] The (optional) module to send the notification to.
 	 */
-	const sendNotification = function (notification: string, payload?: any, sender?: any, sendTo?: any): void {
+	const sendNotification = function (notification: string, payload?: any, sender?: Module | null, sendTo?: Module | null): void {
 		for (const m in modules) {
 			const module = modules[m];
-			if (module !== sender && (!sendTo || module === sendTo)) {
+			if (module && module !== sender && (!sendTo || module === sendTo)) {
 				module.notificationReceived(notification, payload, sender);
 			}
 		}
@@ -110,7 +110,7 @@ const MM: any = (function () {
 	 * @param {boolean} [createAnimatedDom] for displaying only animateIn (used on first start of MagicMirror)
 	 * @returns {Promise} Resolved when the dom is fully updated.
 	 */
-	const updateDom = function (module: any, updateOptions?: any, createAnimatedDom: boolean = false): Promise<any> {
+	const updateDom = function (module: Module, updateOptions?: any, createAnimatedDom: boolean = false): Promise<any> {
 		return new Promise(function (resolve) {
 			let speed: any = updateOptions;
 			let animateOut: any = null;
@@ -159,7 +159,7 @@ const MM: any = (function () {
 	 * @param {boolean} [createAnimatedDom] for displaying only animateIn (used on first start)
 	 * @returns {Promise} Resolved when the module dom has been updated.
 	 */
-	const updateDomWithContent = function (module: any, speed: any, newHeader: string, newContent: any, animateOut?: any, animateIn?: any, createAnimatedDom: boolean = false): Promise<any> {
+	const updateDomWithContent = function (module: Module, speed: any, newHeader: string, newContent: any, animateOut?: any, animateIn?: any, createAnimatedDom: boolean = false): Promise<any> {
 		return new Promise<void>(function (resolve) {
 			if (module.hidden || !speed) {
 				updateModuleContent(module, newHeader, newContent);
@@ -210,7 +210,7 @@ const MM: any = (function () {
 	 * @param {HTMLElement} newContent The new content that is generated.
 	 * @returns {boolean} True if the module need an update, false otherwise
 	 */
-	const moduleNeedsUpdate = function (module: any, newHeader: string, newContent: any): boolean {
+	const moduleNeedsUpdate = function (module: Module, newHeader: string, newContent: any): boolean {
 		const moduleWrapper = document.getElementById(module.identifier);
 		if (moduleWrapper === null) {
 			return false;
@@ -238,7 +238,7 @@ const MM: any = (function () {
 	 * @param {string} newHeader The new header that is generated.
 	 * @param {HTMLElement} newContent The new content that is generated.
 	 */
-	const updateModuleContent = function (module: any, newHeader: string, newContent: any): void {
+	const updateModuleContent = function (module: Module, newHeader: string, newContent: any): void {
 		const moduleWrapper = document.getElementById(module.identifier);
 		if (moduleWrapper === null) {
 			return;
@@ -264,7 +264,7 @@ const MM: any = (function () {
 	 * @param {Promise} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the hide method.
 	 */
-	const hideModule = function (module: any, speed: number, callback: any, options: any = {}): void {
+	const hideModule = function (module: Module, speed: number, callback: any, options: any = {}): void {
 		// set lockString if set in options.
 		if (options.lockString) {
 			if (module.lockStrings.indexOf(options.lockString) === -1) {
@@ -348,7 +348,7 @@ const MM: any = (function () {
 	 * @param {Promise} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the show method.
 	 */
-	const showModule = function (module: any, speed: number, callback: any, options: any = {}): void {
+	const showModule = function (module: Module, speed: number, callback: any, options: any = {}): void {
 		// remove lockString if set in options.
 		if (options.lockString) {
 			const index = module.lockStrings.indexOf(options.lockString);
@@ -604,11 +604,11 @@ const MM: any = (function () {
 		 * Gets called when all modules are started.
 		 * @param {Module[]} moduleObjects All module instances.
 		 */
-		modulesStarted (moduleObjects: any[]) {
+		modulesStarted (moduleObjects: Module[]) {
 			modules = [];
 			let startUp = "";
 
-			moduleObjects.forEach((module: any) => modules.push(module));
+			moduleObjects.forEach((module: Module) => modules.push(module));
 
 			Log.info("All modules started!");
 			sendNotification("ALL_MODULES_STARTED");
@@ -653,7 +653,7 @@ const MM: any = (function () {
 		 * @param {object} payload The payload of the notification.
 		 * @param {Module} sender The module that sent the notification.
 		 */
-		sendNotification (notification: string, payload: any, sender: any) {
+		sendNotification (notification: string, payload: any, sender: Module) {
 			if (arguments.length < 3) {
 				Log.error("sendNotification: Missing arguments.");
 				return;
@@ -678,7 +678,7 @@ const MM: any = (function () {
 		 * @param {Module} module The module that needs an update.
 		 * @param {object|number} [updateOptions] The (optional) number of microseconds for the animation or object with updateOptions (speed/animates)
 		 */
-		updateDom (module: any, updateOptions?: any) {
+		updateDom (module: Module, updateOptions?: any) {
 			if (!(module instanceof (Module as any))) {
 				Log.error("updateDom: Sender should be a module.");
 				return;
@@ -712,7 +712,7 @@ const MM: any = (function () {
 		 * @param {Promise} callback Called when the animation is done.
 		 * @param {object} [options] Optional settings for the hide method.
 		 */
-		hideModule (module: any, speed: number, callback: any, options?: any) {
+		hideModule (module: Module, speed: number, callback: any, options?: any) {
 			module.hidden = true;
 			hideModule(module, speed, callback, options);
 		},
@@ -724,7 +724,7 @@ const MM: any = (function () {
 		 * @param {Promise} callback Called when the animation is done.
 		 * @param {object} [options] Optional settings for the show method.
 		 */
-		showModule (module: any, speed: number, callback: any, options?: any) {
+		showModule (module: Module, speed: number, callback: any, options?: any) {
 			// do not change module.hidden yet, only if we really show it later
 			showModule(module, speed, callback, options);
 		},

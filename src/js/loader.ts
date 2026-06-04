@@ -7,7 +7,7 @@ const Loader = (function () {
 
 	const loadedModuleFiles: any[] = [];
 	const loadedFiles: any[] = [];
-	const moduleObjects: any[] = [];
+	const moduleObjects: Module[] = [];
 
 	/* Private Methods */
 
@@ -74,7 +74,7 @@ const Loader = (function () {
 		for (const thisModule of moduleObjects) {
 			if (thisModule.data.hiddenOnStartup) {
 				Log.info(`Initially hiding ${thisModule.name}`);
-				thisModule.hide();
+				(thisModule as any).hide();
 			}
 		}
 	};
@@ -153,7 +153,7 @@ const Loader = (function () {
 		 * @returns {Promise<void>}
 		 */
 		const afterLoad = async function (): Promise<void> {
-			const moduleObject = Module.create(module.name);
+			const moduleObject: Module | undefined = Module.create(module.name);
 			if (moduleObject) {
 				await bootstrapModule(module, moduleObject);
 			}
@@ -173,7 +173,7 @@ const Loader = (function () {
 	 * @param {object} module Information about the module we want to load.
 	 * @param {Module} mObj Modules instance.
 	 */
-	const bootstrapModule = async function (module: any, mObj: any): Promise<void> {
+	const bootstrapModule = async function (module: any, mObj: Module): Promise<void> {
 		Log.info(`Bootstrapping module: ${module.name}`);
 		mObj.setData(module);
 

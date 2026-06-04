@@ -28,9 +28,9 @@ class Module {
 
 	hidden = false;
 
-	hasAnimateIn = false;
+	hasAnimateIn: string | false = false;
 
-	hasAnimateOut = false;
+	hasAnimateOut: string | false = false;
 
 	config: any;
 
