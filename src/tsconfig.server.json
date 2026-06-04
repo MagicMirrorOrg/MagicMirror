@@ -1,0 +1,13 @@
+{
+	"extends": "../tsconfig.base.json",
+	"compilerOptions": {
+		"rootDir": ".",
+		"outDir": "..",
+		"lib": ["ES2022"],
+		"types": ["node"],
+		"incremental": true,
+		"tsBuildInfoFile": "../node_modules/.cache/tsc/server.tsbuildinfo"
+	},
+	"//": "Server/Node CommonJS files. Add each migrated source file explicitly so it is never compiled by both projects (which would double-emit). Browser-only files belong in tsconfig.browser.json.",
+	"files": ["js/deprecated.ts"]
+}

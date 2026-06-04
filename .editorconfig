@@ -10,6 +10,6 @@ insert_final_newline = true
 max_line_length = 250
 trim_trailing_whitespace = true
 
-[*.{js,json}]
+[*.{js,ts,json}]
 indent_size = 4
 indent_style = tab

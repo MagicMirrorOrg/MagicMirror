@@ -1,0 +1,10 @@
+{
+	"//": "Editor/LSP convenience config only. The authoritative build runs the two project configs (npm run build): src/tsconfig.browser.json and src/tsconfig.server.json, which enforce the DOM-vs-node lib split. This config combines both libs so editors resolve every src file; lib-mismatch errors are caught by the real build.",
+	"extends": "./tsconfig.base.json",
+	"compilerOptions": {
+		"noEmit": true,
+		"lib": ["ES2022", "DOM", "DOM.Iterable"],
+		"types": ["node"]
+	},
+	"include": ["src/**/*.ts", "src/**/*.d.ts"]
+}

@@ -1,0 +1,13 @@
+{
+	"extends": "../tsconfig.base.json",
+	"compilerOptions": {
+		"rootDir": ".",
+		"outDir": "..",
+		"lib": ["ES2022", "DOM", "DOM.Iterable"],
+		"types": [],
+		"incremental": true,
+		"tsBuildInfoFile": "../node_modules/.cache/tsc/browser.tsbuildinfo"
+	},
+	"//": "Browser files loaded via <script> tags. These must stay TS *script* files (NO top-level import/export) so tsc emits plain global-defining JS. Shared globals are typed in types/globals.d.ts. Add each migrated browser source file explicitly.",
+	"files": ["types/globals.d.ts", "types/browser-shims.d.ts"]
+}

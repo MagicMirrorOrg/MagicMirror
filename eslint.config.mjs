@@ -6,10 +6,53 @@ import jsdocPlugin from "eslint-plugin-jsdoc";
 import {configs as packageJsonConfigs} from "eslint-plugin-package-json";
 import playwright from "eslint-plugin-playwright";
 import stylistic from "@stylistic/eslint-plugin";
+import tseslint from "typescript-eslint";
 import vitest from "@vitest/eslint-plugin";
 
+/*
+ * Shared @stylistic overrides applied to both the JavaScript block and the
+ * TypeScript source block so TS matches the existing JS code style (tabs, double
+ * quotes, semicolons, ...). Keep in sync between the two blocks.
+ */
+const stylisticOverrides = {
+	"@stylistic/array-element-newline": ["error", "consistent"],
+	"@stylistic/arrow-parens": ["error", "always"],
+	"@stylistic/brace-style": "off",
+	"@stylistic/dot-location": ["error", "property"],
+	"@stylistic/function-call-argument-newline": ["error", "consistent"],
+	"@stylistic/function-paren-newline": ["error", "consistent"],
+	"@stylistic/implicit-arrow-linebreak": ["error", "beside"],
+	"@stylistic/indent": ["error", "tab"],
+	"@stylistic/max-statements-per-line": ["error", {max: 2}],
+	"@stylistic/multiline-comment-style": "off",
+	"@stylistic/multiline-ternary": ["error", "always-multiline"],
+	"@stylistic/newline-per-chained-call": ["error", {ignoreChainWithDepth: 4}],
+	"@stylistic/no-extra-parens": "off",
+	"@stylistic/no-tabs": "off",
+	"@stylistic/object-curly-spacing": ["error", "always"],
+	"@stylistic/object-property-newline": ["error", {allowAllPropertiesOnSameLine: true}],
+	"@stylistic/operator-linebreak": ["error", "before"],
+	"@stylistic/padded-blocks": "off",
+	"@stylistic/quote-props": ["error", "as-needed"],
+	"@stylistic/quotes": ["error", "double"],
+	"@stylistic/semi": ["error", "always"],
+	"@stylistic/space-before-function-paren": ["error", "always"],
+	"@stylistic/spaced-comment": "off"
+};
+
 export default defineConfig([
-	globalIgnores(["config/**", "modules/**/*", "js/positions.js", "tests/configs/config_variables.js"]),
+	globalIgnores([
+		"config/**",
+		"modules/**/*",
+		"js/positions.js",
+		"tests/configs/config_variables.js",
+
+		/*
+		 * Compiled TypeScript output (generated from src/*.ts; never linted as source).
+		 * Listed per migrated file as each source moves to src/:
+		 */
+		"js/deprecated.js"
+	]),
 	{
 		files: ["**/*.js"],
 		languageOptions: {
@@ -26,29 +69,7 @@ export default defineConfig([
 		},
 		extends: [importX.recommended, js.configs.recommended, jsdocPlugin.configs["flat/recommended"], stylistic.configs.all],
 		rules: {
-			"@stylistic/array-element-newline": ["error", "consistent"],
-			"@stylistic/arrow-parens": ["error", "always"],
-			"@stylistic/brace-style": "off",
-			"@stylistic/dot-location": ["error", "property"],
-			"@stylistic/function-call-argument-newline": ["error", "consistent"],
-			"@stylistic/function-paren-newline": ["error", "consistent"],
-			"@stylistic/implicit-arrow-linebreak": ["error", "beside"],
-			"@stylistic/indent": ["error", "tab"],
-			"@stylistic/max-statements-per-line": ["error", {max: 2}],
-			"@stylistic/multiline-comment-style": "off",
-			"@stylistic/multiline-ternary": ["error", "always-multiline"],
-			"@stylistic/newline-per-chained-call": ["error", {ignoreChainWithDepth: 4}],
-			"@stylistic/no-extra-parens": "off",
-			"@stylistic/no-tabs": "off",
-			"@stylistic/object-curly-spacing": ["error", "always"],
-			"@stylistic/object-property-newline": ["error", {allowAllPropertiesOnSameLine: true}],
-			"@stylistic/operator-linebreak": ["error", "before"],
-			"@stylistic/padded-blocks": "off",
-			"@stylistic/quote-props": ["error", "as-needed"],
-			"@stylistic/quotes": ["error", "double"],
-			"@stylistic/semi": ["error", "always"],
-			"@stylistic/space-before-function-paren": ["error", "always"],
-			"@stylistic/spaced-comment": "off",
+			...stylisticOverrides,
 			"dot-notation": "error",
 			eqeqeq: ["error", "always", {null: "ignore"}],
 			"id-length": "off",
@@ -85,6 +106,50 @@ export default defineConfig([
 			"tests/**/*.js"
 		],
 		rules: {"no-console": "error"}
+	},
+	{
+		files: ["src/**/*.ts"],
+		languageOptions: {
+			parser: tseslint.parser,
+			ecmaVersion: "latest",
+			sourceType: "module",
+			globals: {
+				...globals.browser,
+				...globals.node
+			}
+		},
+		extends: [importX.recommended, ...tseslint.configs.recommended, stylistic.configs.all],
+		settings: {
+			"import-x/resolver": {
+				typescript: true,
+				node: true
+			}
+		},
+		rules: {
+			...stylisticOverrides,
+			"dot-notation": "error",
+			eqeqeq: ["error", "always", {null: "ignore"}],
+			"id-length": "off",
+			"import-x/extensions": "off",
+			"import-x/newline-after-import": "error",
+			"import-x/order": "error",
+			"no-param-reassign": "error",
+			"no-throw-literal": "error",
+			"no-unneeded-ternary": "error",
+			"no-useless-return": "error",
+			"object-shorthand": ["error", "methods"],
+			"prefer-template": "error",
+			"require-await": "error",
+
+			/*
+			 * TypeScript relaxations during migration. The compiler enforces the
+			 * hard guarantees; these keep the existing CommonJS/global patterns lintable.
+			 */
+			"@typescript-eslint/no-explicit-any": "off",
+			"@typescript-eslint/no-require-imports": "off",
+			"@typescript-eslint/no-empty-function": "off",
+			"@typescript-eslint/no-unused-vars": ["error", {argsIgnorePattern: "^_", varsIgnorePattern: "^_"}]
+		}
 	},
 	{
 		files: ["**/package.json"],

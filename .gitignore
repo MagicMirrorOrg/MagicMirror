@@ -75,6 +75,17 @@ config
 # Ignore positions file (#3518)
 js/positions.js
 
+# TypeScript build output (compiled from src/*.ts by `npm run build`).
+# Source of truth lives in src/; never edit or commit these compiled artifacts.
+*.tsbuildinfo
+/js/**/*.js.map
+/defaultmodules/**/*.js.map
+/serveronly/**/*.js.map
+/clientonly/**/*.js.map
+/translations/**/*.js.map
+# Compiled outputs, listed per migrated file as each source moves to src/:
+/js/deprecated.js
+
 # Ignore lock files other than package-lock.json
 pnpm-lock.yaml
 yarn.lock

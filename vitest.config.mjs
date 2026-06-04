@@ -14,6 +14,14 @@ import {defineConfig} from "vitest/config";
  */
 
 export default defineConfig({
+
+	/*
+	 * Esbuild transforms any .ts the suite imports directly. Most specs import the
+	 * compiled js/ output, but keep the transform target aligned with the tsc build.
+	 */
+	esbuild: {
+		target: "es2022"
+	},
 	test: {
 		// Shared settings for all test types
 		globals: true,

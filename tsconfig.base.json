@@ -1,0 +1,24 @@
+{
+	"compilerOptions": {
+		"strict": true,
+		"module": "commonjs",
+		"moduleResolution": "node",
+		"ignoreDeprecations": "6.0",
+		"target": "ES2022",
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"forceConsistentCasingInFileNames": true,
+		"skipLibCheck": true,
+		"sourceMap": true,
+		"declaration": false,
+		"importHelpers": false,
+		"noEmitHelpers": false,
+		"resolveJsonModule": true,
+		"allowJs": true,
+		"checkJs": false,
+		"noImplicitOverride": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"newLine": "lf"
+	}
+}

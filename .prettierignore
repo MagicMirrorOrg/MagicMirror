@@ -1,7 +1,9 @@
 *.js
 *.mjs
+*.ts
 .husky/pre-commit
 .prettierignore
+.claude
 /config
 /coverage
 package-lock.json
