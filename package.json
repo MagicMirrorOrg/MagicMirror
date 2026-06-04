@@ -60,6 +60,7 @@
 		"lint:js": "eslint --fix",
 		"lint:markdown": "markdownlint-cli2 . --fix",
 		"lint:prettier": "prettier . --write",
+		"prepack": "node --run build",
 		"prepare": "[ -f node_modules/.bin/husky ] && husky || echo no husky installed.",
 		"preserver": "node --run build",
 		"server": "node ./serveronly",
