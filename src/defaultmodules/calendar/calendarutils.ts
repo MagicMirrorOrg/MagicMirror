@@ -5,7 +5,7 @@ const CalendarUtils = {
 	 * @param {string} string The string to capitalize
 	 * @returns {string} The capitalized string
 	 */
-	capFirst (string) {
+	capFirst (string: string): string {
 		return string.charAt(0).toUpperCase() + string.slice(1);
 	},
 
@@ -16,7 +16,7 @@ const CalendarUtils = {
 	 * @param {number} timeFormat Specifies either 12 or 24-hour time format
 	 * @returns {moment.LocaleSpecification} formatted time
 	 */
-	getLocaleSpecification (timeFormat) {
+	getLocaleSpecification (timeFormat: number): any {
 		switch (timeFormat) {
 			case 12: {
 				return { longDateFormat: { LT: "h:mm A" } };
@@ -38,7 +38,7 @@ const CalendarUtils = {
 	 * @param {number} maxTitleLines The max number of vertical lines before cutting event title
 	 * @returns {string} The shortened string
 	 */
-	shorten (string, maxLength, wrapEvents, maxTitleLines) {
+	shorten (string: string, maxLength: number, wrapEvents: boolean, maxTitleLines: number): string {
 		if (typeof string !== "string") {
 			return "";
 		}
@@ -93,13 +93,13 @@ const CalendarUtils = {
 	 *                    yearmatchgroup: {number,optional} match group for year element
 	 * @returns {string} The transformed title.
 	 */
-	titleTransform (title, titleReplace) {
+	titleTransform (title: string, titleReplace: Record<string, { search?: string; replace?: string; yearmatchgroup?: number }>): string {
 		let transformedTitle = title;
-		for (let tr in titleReplace) {
-			let transform = titleReplace[tr];
+		for (const tr in titleReplace) {
+			const transform = titleReplace[tr];
 			if (typeof transform === "object") {
 				if (typeof transform.search !== "undefined" && transform.search !== "" && typeof transform.replace !== "undefined") {
-					let regParts = transform.search.match(/^\/(.+)\/([gim]*)$/);
+					const regParts = transform.search.match(/^\/(.+)\/([gim]*)$/);
 					let needle = new RegExp(transform.search, "g");
 					if (regParts) {
 						// the parsed pattern is a regexp with flags.
@@ -107,12 +107,12 @@ const CalendarUtils = {
 					}
 
 					let replacement = transform.replace;
-					if (typeof transform.yearmatchgroup !== "undefined" && transform.yearmatchgroup !== "") {
+					if (typeof transform.yearmatchgroup !== "undefined" && (transform.yearmatchgroup as unknown) !== "") {
 						const yearmatch = [...title.matchAll(needle)];
-						if (yearmatch[0].length >= transform.yearmatchgroup + 1 && yearmatch[0][transform.yearmatchgroup] * 1 >= 1900) {
-							let calcage = new Date().getFullYear() - yearmatch[0][transform.yearmatchgroup] * 1;
-							let searchstr = `$${transform.yearmatchgroup}`;
-							replacement = replacement.replace(searchstr, calcage);
+						if (yearmatch[0].length >= transform.yearmatchgroup + 1 && (yearmatch[0][transform.yearmatchgroup] as unknown as number) * 1 >= 1900) {
+							const calcage = new Date().getFullYear() - (yearmatch[0][transform.yearmatchgroup] as unknown as number) * 1;
+							const searchstr = `$${transform.yearmatchgroup}`;
+							replacement = replacement.replace(searchstr, calcage as unknown as string);
 						}
 					}
 					transformedTitle = transformedTitle.replace(needle, replacement);

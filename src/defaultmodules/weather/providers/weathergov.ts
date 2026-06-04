@@ -8,7 +8,31 @@ const HTTPFetcher = require("#http_fetcher");
  * https://weather-gov.github.io/api/general-faqs
  */
 class WeatherGovProvider {
-	constructor (config) {
+	config: any;
+
+	fetcher: any;
+
+	onDataCallback: any;
+
+	onErrorCallback: any;
+
+	locationName: string | null;
+
+	initRetryCount: number;
+
+	initRetryTimer: NodeJS.Timeout | null;
+
+	forecastURL: string | null;
+
+	forecastHourlyURL: string | null;
+
+	forecastGridDataURL: any;
+
+	observationStationsURL: any;
+
+	stationObsURL: string | null;
+
+	constructor (config: any) {
 		this.config = {
 			apiBase: "https://api.weather.gov/points/",
 			lat: 0,
@@ -33,7 +57,7 @@ class WeatherGovProvider {
 		this.stationObsURL = null;
 	}
 
-	async initialize () {
+	async initialize (): Promise<void> {
 		// Add small random delay to prevent all instances from starting simultaneously
 		// This reduces parallel DNS lookups which can cause EAI_AGAIN errors
 		const staggerDelay = Math.random() * 3000; // 0-3 seconds
@@ -62,7 +86,7 @@ class WeatherGovProvider {
 		}
 	}
 
-	#categorizeError (error) {
+	#categorizeError (error: any): { message: string; isRetryable: boolean } {
 		const cause = error.cause || error;
 		const code = cause.code || "";
 
@@ -91,18 +115,18 @@ class WeatherGovProvider {
 		};
 	}
 
-	setCallbacks (onData, onError) {
+	setCallbacks (onData: any, onError: any): void {
 		this.onDataCallback = onData;
 		this.onErrorCallback = onError;
 	}
 
-	start () {
+	start (): void {
 		if (this.fetcher) {
 			this.fetcher.startPeriodicFetch();
 		}
 	}
 
-	stop () {
+	stop (): void {
 		if (this.fetcher) {
 			this.fetcher.clearTimer();
 		}
@@ -112,7 +136,7 @@ class WeatherGovProvider {
 		}
 	}
 
-	async #fetchWeatherGovURLs () {
+	async #fetchWeatherGovURLs (): Promise<void> {
 		// Step 1: Get grid point data
 		const pointsUrl = `${this.config.apiBase}${this.config.lat},${this.config.lon}`;
 
@@ -132,7 +156,7 @@ class WeatherGovProvider {
 				throw new Error(`Failed to fetch grid point: HTTP ${pointsResponse.status}`);
 			}
 
-			const pointsData = await pointsResponse.json();
+			const pointsData: any = await pointsResponse.json();
 
 			if (!pointsData || !pointsData.properties) {
 				throw new Error("Invalid grid point data");
@@ -163,7 +187,7 @@ class WeatherGovProvider {
 				throw new Error(`Failed to fetch observation stations: HTTP ${stationsResponse.status}`);
 			}
 
-			const stationsData = await stationsResponse.json();
+			const stationsData: any = await stationsResponse.json();
 
 			if (!stationsData || !stationsData.features || stationsData.features.length === 0) {
 				throw new Error("No observation stations found");
@@ -177,7 +201,7 @@ class WeatherGovProvider {
 		}
 	}
 
-	#initializeFetcher () {
+	#initializeFetcher (): void {
 		let url;
 
 		switch (this.config.type) {
@@ -206,7 +230,7 @@ class WeatherGovProvider {
 			logContext: "weatherprovider.weathergov"
 		});
 
-		this.fetcher.on("response", async (response) => {
+		this.fetcher.on("response", async (response: any) => {
 			try {
 				const data = await response.json();
 				this.#handleResponse(data);
@@ -221,14 +245,14 @@ class WeatherGovProvider {
 			}
 		});
 
-		this.fetcher.on("error", (errorInfo) => {
+		this.fetcher.on("error", (errorInfo: any) => {
 			if (this.onErrorCallback) {
 				this.onErrorCallback(errorInfo);
 			}
 		});
 	}
 
-	#handleResponse (data) {
+	#handleResponse (data: any): void {
 		try {
 			let weatherData;
 
@@ -263,15 +287,15 @@ class WeatherGovProvider {
 			Log.error("[weathergov] Error processing weather data:", error);
 			if (this.onErrorCallback) {
 				this.onErrorCallback({
-					message: error.message,
+					message: (error as Error).message,
 					translationKey: "MODULE_ERROR_UNSPECIFIED"
 				});
 			}
 		}
 	}
 
-	#generateWeatherObjectFromCurrentWeather (currentWeatherData) {
-		const current = {};
+	#generateWeatherObjectFromCurrentWeather (currentWeatherData: any): any {
+		const current: any = {};
 
 		current.date = new Date(currentWeatherData.timestamp);
 		current.temperature = currentWeatherData.temperature.value;
@@ -303,12 +327,12 @@ class WeatherGovProvider {
 		return current;
 	}
 
-	#generateWeatherObjectsFromForecast (forecasts) {
+	#generateWeatherObjectsFromForecast (forecasts: any): any {
 		const days = [];
 		let minTemp = [];
 		let maxTemp = [];
 		let date = "";
-		let weather = {};
+		let weather: any = {};
 
 		for (const forecast of forecasts) {
 			const forecastDate = new Date(forecast.startTime);
@@ -352,11 +376,11 @@ class WeatherGovProvider {
 		return days;
 	}
 
-	#generateWeatherObjectsFromHourly (forecasts) {
+	#generateWeatherObjectsFromHourly (forecasts: any): any {
 		const hours = [];
 
 		for (const forecast of forecasts) {
-			const weather = {};
+			const weather: any = {};
 
 			weather.date = new Date(forecast.startTime);
 
@@ -378,7 +402,7 @@ class WeatherGovProvider {
 		return hours;
 	}
 
-	#convertWeatherType (weatherType, isDaytime) {
+	#convertWeatherType (weatherType: string, isDaytime: boolean): string | null {
 		// https://w1.weather.gov/xml/current_obs/weather.php
 
 		if (weatherType.includes("Cloudy") || weatherType.includes("Partly")) {
@@ -413,4 +437,4 @@ class WeatherGovProvider {
 	}
 }
 
-module.exports = WeatherGovProvider;
+export = WeatherGovProvider;

@@ -5,7 +5,7 @@ const WeatherUtils = {
 	 * @param {number} speedInMS the windspeed you want to convert
 	 * @returns {number} the speed in beaufort
 	 */
-	beaufortWindSpeed (speedInMS) {
+	beaufortWindSpeed (speedInMS: number): number {
 		const windInKmh = this.convertWind(speedInMS, "kmh");
 		const speeds = [1, 5, 11, 19, 28, 38, 49, 61, 74, 88, 102, 117, 1000];
 		for (const [index, speed] of speeds.entries()) {
@@ -24,7 +24,7 @@ const WeatherUtils = {
 	 * @param {string} outputUnit - The unit system (imperial/metric) the return value should have.
 	 * @returns {string} - A string with tha value and a unit postfix.
 	 */
-	convertPrecipitationUnit (value, valueUnit, outputUnit) {
+	convertPrecipitationUnit (value: number, valueUnit: string, outputUnit: string): string {
 		if (value === null || value === undefined || isNaN(value)) {
 			return "";
 		}
@@ -48,7 +48,7 @@ const WeatherUtils = {
 	 * @param {string} valueUnit can be 'mm' or 'cm'
 	 * @returns {number} the converted precipitation value
 	 */
-	convertPrecipitationToInch (value, valueUnit) {
+	convertPrecipitationToInch (value: number, valueUnit: string): number {
 		if (valueUnit && valueUnit.toLowerCase() === "cm") return value * 0.3937007874;
 		else return value * 0.03937007874;
 	},
@@ -60,7 +60,7 @@ const WeatherUtils = {
 	 * @param {string} unit can be 'imperial' or 'metric'
 	 * @returns {number} the converted temperature
 	 */
-	convertTemp (tempInC, unit) {
+	convertTemp (tempInC: number, unit: string): number {
 		return unit === "imperial" ? tempInC * 1.8 + 32 : tempInC;
 	},
 
@@ -69,7 +69,7 @@ const WeatherUtils = {
 	 * @param {number} tempInF the temperature in Fahrenheit you want to convert
 	 * @returns {number} the converted temperature
 	 */
-	convertTempToMetric (tempInF) {
+	convertTempToMetric (tempInF: number): number {
 		return ((tempInF - 32) * 5) / 9;
 	},
 
@@ -80,7 +80,7 @@ const WeatherUtils = {
 	 * or 'metric' (mps)
 	 * @returns {number} the converted windspeed
 	 */
-	convertWind (windInMS, unit) {
+	convertWind (windInMS: number, unit: string): number {
 		switch (unit) {
 			case "beaufort":
 				return this.beaufortWindSpeed(windInMS);
@@ -99,8 +99,8 @@ const WeatherUtils = {
 	/*
 	 * Convert the wind direction cardinal to value
 	 */
-	convertWindDirection (windDirection) {
-		const windCardinals = {
+	convertWindDirection (windDirection: string): number | null {
+		const windCardinals: { [key: string]: number } = {
 			N: 0,
 			NNE: 22,
 			NE: 45,
@@ -122,11 +122,11 @@ const WeatherUtils = {
 		return windCardinals.hasOwnProperty(windDirection) ? windCardinals[windDirection] : null;
 	},
 
-	convertWindToMetric (mph) {
+	convertWindToMetric (mph: number): number {
 		return mph / 2.2369362920544;
 	},
 
-	convertWindToMs (kmh) {
+	convertWindToMs (kmh: number): number {
 		return kmh * 0.27777777777778;
 	},
 
@@ -137,7 +137,7 @@ const WeatherUtils = {
 	 * @param {number} humidity relative humidity in percent
 	 * @returns {number} the feels like temperature in degrees Celsius
 	 */
-	calculateFeelsLike (temperature, windSpeed, humidity) {
+	calculateFeelsLike (temperature: number, windSpeed: number, humidity: number): number {
 		const windInMph = this.convertWind(windSpeed, "imperial");
 		const tempInF = this.convertTemp(temperature, "imperial");
 
@@ -174,7 +174,7 @@ const WeatherUtils = {
 		else if (tempInF >= 50 && tempInF < 70) { FL = ((70 - tempInF) / 20) * WC + ((tempInF - 50) / 20) * HI; }
 		else if (tempInF >= 70) { FL = HI; }
 
-		return this.convertTempToMetric(FL);
+		return this.convertTempToMetric(FL!);
 	},
 
 	/**
@@ -182,10 +182,10 @@ const WeatherUtils = {
 	 * @param {object} weatherObject the weather object
 	 * @returns {object} the weather object with converted values to imperial
 	 */
-	convertWeatherObjectToImperial (weatherObject) {
+	convertWeatherObjectToImperial (weatherObject: any): any {
 		if (!weatherObject || Object.keys(weatherObject).length === 0) return null;
 
-		let imperialWeatherObject = { ...weatherObject };
+		const imperialWeatherObject: any = { ...weatherObject };
 
 		if (imperialWeatherObject) {
 			if (imperialWeatherObject.feelsLikeTemp) imperialWeatherObject.feelsLikeTemp = this.convertTemp(imperialWeatherObject.feelsLikeTemp, "imperial");

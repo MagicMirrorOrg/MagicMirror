@@ -6,7 +6,15 @@ const HTTPFetcher = require("#http_fetcher");
  * See: https://www.weatherbit.io/
  */
 class WeatherbitProvider {
-	constructor (config) {
+	config: any;
+
+	fetcher: any;
+
+	onDataCallback: ((data: any) => void) | null;
+
+	onErrorCallback: ((error: any) => void) | null;
+
+	constructor (config: any) {
 		this.config = {
 			apiBase: "https://api.weatherbit.io/v2.0",
 			apiKey: "",
@@ -22,12 +30,12 @@ class WeatherbitProvider {
 		this.onErrorCallback = null;
 	}
 
-	setCallbacks (onDataCallback, onErrorCallback) {
+	setCallbacks (onDataCallback: (data: any) => void, onErrorCallback: (error: any) => void): void {
 		this.onDataCallback = onDataCallback;
 		this.onErrorCallback = onErrorCallback;
 	}
 
-	initialize () {
+	initialize (): void {
 		if (!this.config.apiKey || this.config.apiKey === "YOUR_API_KEY_HERE") {
 			Log.error("[weatherbit] No API key configured");
 			if (this.onErrorCallback) {
@@ -42,7 +50,7 @@ class WeatherbitProvider {
 		this.#initializeFetcher();
 	}
 
-	#initializeFetcher () {
+	#initializeFetcher (): void {
 		const url = this.#getUrl();
 
 		this.fetcher = new HTTPFetcher(url, {
@@ -53,7 +61,7 @@ class WeatherbitProvider {
 			logContext: "weatherprovider.weatherbit"
 		});
 
-		this.fetcher.on("response", async (response) => {
+		this.fetcher.on("response", async (response: any) => {
 			try {
 				const data = await response.json();
 				this.#handleResponse(data);
@@ -68,19 +76,19 @@ class WeatherbitProvider {
 			}
 		});
 
-		this.fetcher.on("error", (errorInfo) => {
+		this.fetcher.on("error", (errorInfo: any) => {
 			if (this.onErrorCallback) {
 				this.onErrorCallback(errorInfo);
 			}
 		});
 	}
 
-	#getUrl () {
+	#getUrl (): string {
 		const endpoint = this.#getWeatherEndpoint();
 		return `${this.config.apiBase}${endpoint}?lat=${this.config.lat}&lon=${this.config.lon}&units=M&key=${this.config.apiKey}`;
 	}
 
-	#getWeatherEndpoint () {
+	#getWeatherEndpoint (): string {
 		switch (this.config.type) {
 			case "hourly":
 				return "/forecast/hourly";
@@ -93,7 +101,7 @@ class WeatherbitProvider {
 		}
 	}
 
-	#handleResponse (data) {
+	#handleResponse (data: any): void {
 		if (!data || !data.data || data.data.length === 0) {
 			Log.error("[weatherbit] No usable data received");
 			if (this.onErrorCallback) {
@@ -128,14 +136,14 @@ class WeatherbitProvider {
 		}
 	}
 
-	#generateCurrent (data) {
+	#generateCurrent (data: any): any {
 		if (!data.data[0] || typeof data.data[0].temp === "undefined") {
 			return null;
 		}
 
 		const current = data.data[0];
 
-		const weather = {
+		const weather: any = {
 			date: new Date(current.ts * 1000),
 			temperature: parseFloat(current.temp),
 			humidity: parseFloat(current.rh),
@@ -164,7 +172,7 @@ class WeatherbitProvider {
 		return weather;
 	}
 
-	#generateDaily (data) {
+	#generateDaily (data: any): any {
 		const days = [];
 
 		for (const forecast of data.data) {
@@ -181,7 +189,7 @@ class WeatherbitProvider {
 		return days;
 	}
 
-	#generateHourly (data) {
+	#generateHourly (data: any): any {
 		const hours = [];
 
 		for (const forecast of data.data) {
@@ -205,8 +213,8 @@ class WeatherbitProvider {
 	 * @param {string} weatherType - Weatherbit icon code
 	 * @returns {string|null} Weathericons.css icon name or null
 	 */
-	#convertWeatherType (weatherType) {
-		const weatherTypes = {
+	#convertWeatherType (weatherType: string): string | null {
+		const weatherTypes: { [key: string]: string } = {
 			t01d: "day-thunderstorm",
 			t01n: "night-alt-thunderstorm",
 			t02d: "day-thunderstorm",
@@ -276,17 +284,17 @@ class WeatherbitProvider {
 		return weatherTypes[weatherType] || null;
 	}
 
-	start () {
+	start (): void {
 		if (this.fetcher) {
 			this.fetcher.startPeriodicFetch();
 		}
 	}
 
-	stop () {
+	stop (): void {
 		if (this.fetcher) {
 			this.fetcher.clearTimer();
 		}
 	}
 }
 
-module.exports = WeatherbitProvider;
+export = WeatherbitProvider;

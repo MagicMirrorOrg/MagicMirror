@@ -66,6 +66,8 @@ declare const vendor: Record<string, string>;
 declare const MMSocket: any;
 declare const AnimateCSSIn: string[];
 declare const AnimateCSSOut: string[];
+// Vendor globals loaded via <script>/getScripts (no migrated source declares them).
+declare const SunCalc: any;
 
 interface Window {
 	Module: ModuleConstructor;

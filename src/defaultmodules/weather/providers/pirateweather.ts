@@ -2,7 +2,15 @@ const Log = require("logger");
 const HTTPFetcher = require("#http_fetcher");
 
 class PirateweatherProvider {
-	constructor (config) {
+	config: any;
+
+	fetcher: any;
+
+	onDataCallback: ((data: any) => void) | null;
+
+	onErrorCallback: ((error: any) => void) | null;
+
+	constructor (config: any) {
 		this.config = {
 			apiBase: "https://api.pirateweather.net",
 			weatherEndpoint: "/forecast",
@@ -19,12 +27,12 @@ class PirateweatherProvider {
 		this.onErrorCallback = null;
 	}
 
-	setCallbacks (onDataCallback, onErrorCallback) {
+	setCallbacks (onDataCallback: (data: any) => void, onErrorCallback: (error: any) => void): void {
 		this.onDataCallback = onDataCallback;
 		this.onErrorCallback = onErrorCallback;
 	}
 
-	initialize () {
+	initialize (): void {
 		if (!this.config.apiKey) {
 			Log.error("[pirateweather] No API key configured");
 			if (this.onErrorCallback) {
@@ -39,7 +47,7 @@ class PirateweatherProvider {
 		this.#initializeFetcher();
 	}
 
-	#initializeFetcher () {
+	#initializeFetcher (): void {
 		const url = this.#getUrl();
 
 		this.fetcher = new HTTPFetcher(url, {
@@ -51,7 +59,7 @@ class PirateweatherProvider {
 			logContext: "weatherprovider.pirateweather"
 		});
 
-		this.fetcher.on("response", async (response) => {
+		this.fetcher.on("response", async (response: any) => {
 			try {
 				const data = await response.json();
 				this.#handleResponse(data);
@@ -66,14 +74,14 @@ class PirateweatherProvider {
 			}
 		});
 
-		this.fetcher.on("error", (errorInfo) => {
+		this.fetcher.on("error", (errorInfo: any) => {
 			if (this.onErrorCallback) {
 				this.onErrorCallback(errorInfo);
 			}
 		});
 	}
 
-	#handleResponse (data) {
+	#handleResponse (data: any): void {
 		if (!data || (!data.currently && !data.daily && !data.hourly)) {
 			Log.error("[pirateweather] No usable data received");
 			if (this.onErrorCallback) {
@@ -115,12 +123,12 @@ class PirateweatherProvider {
 		}
 	}
 
-	#generateCurrent (data) {
+	#generateCurrent (data: any): any {
 		if (!data.currently || typeof data.currently.temperature === "undefined") {
 			return null;
 		}
 
-		const current = {
+		const current: any = {
 			date: new Date(),
 			humidity: data.currently.humidity != null ? parseFloat(data.currently.humidity) * 100 : null,
 			temperature: parseFloat(data.currently.temperature),
@@ -146,7 +154,7 @@ class PirateweatherProvider {
 		return current;
 	}
 
-	#generateDaily (data) {
+	#generateDaily (data: any): any {
 		if (!data.daily || !data.daily.data || !data.daily.data.length) {
 			return [];
 		}
@@ -154,7 +162,7 @@ class PirateweatherProvider {
 		const days = [];
 
 		for (const forecast of data.daily.data) {
-			const day = {
+			const day: any = {
 				date: new Date(forecast.time * 1000),
 				minTemperature: forecast.temperatureMin != null ? parseFloat(forecast.temperatureMin) : null,
 				maxTemperature: forecast.temperatureMax != null ? parseFloat(forecast.temperatureMax) : null,
@@ -187,7 +195,7 @@ class PirateweatherProvider {
 		return days;
 	}
 
-	#generateHourly (data) {
+	#generateHourly (data: any): any {
 		if (!data.hourly || !data.hourly.data || !data.hourly.data.length) {
 			return [];
 		}
@@ -195,7 +203,7 @@ class PirateweatherProvider {
 		const hours = [];
 
 		for (const forecast of data.hourly.data) {
-			const hour = {
+			const hour: any = {
 				date: new Date(forecast.time * 1000),
 				temperature: forecast.temperature !== undefined ? parseFloat(forecast.temperature) : null,
 				feelsLikeTemp: forecast.apparentTemperature !== undefined ? parseFloat(forecast.apparentTemperature) : null,
@@ -230,15 +238,15 @@ class PirateweatherProvider {
 		return hours;
 	}
 
-	#getUrl () {
+	#getUrl (): string {
 		const apiBase = this.config.apiBase || "https://api.pirateweather.net";
 		const weatherEndpoint = this.config.weatherEndpoint || "/forecast";
 		const lang = this.config.lang || "en";
 		return `${apiBase}${weatherEndpoint}/${this.config.apiKey}/${this.config.lat},${this.config.lon}?units=si&lang=${lang}`;
 	}
 
-	#convertWeatherType (weatherType) {
-		const weatherTypes = {
+	#convertWeatherType (weatherType: string): string | null {
+		const weatherTypes: { [key: string]: string } = {
 			"clear-day": "day-sunny",
 			"clear-night": "night-clear",
 			rain: "rain",
@@ -254,17 +262,17 @@ class PirateweatherProvider {
 		return weatherTypes[weatherType] || null;
 	}
 
-	start () {
+	start (): void {
 		if (this.fetcher) {
 			this.fetcher.startPeriodicFetch();
 		}
 	}
 
-	stop () {
+	stop (): void {
 		if (this.fetcher) {
 			this.fetcher.clearTimer();
 		}
 	}
 }
 
-module.exports = PirateweatherProvider;
+export = PirateweatherProvider;

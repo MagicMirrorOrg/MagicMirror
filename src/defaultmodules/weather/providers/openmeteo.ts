@@ -10,6 +10,16 @@ const OPEN_METEO_BASE = "https://api.open-meteo.com/v1";
  * see https://open-meteo.com/
  */
 class OpenMeteoProvider {
+	config: any;
+
+	locationName: string | null;
+
+	fetcher: any;
+
+	onDataCallback: ((data: any) => void) | null;
+
+	onErrorCallback: ((error: any) => void) | null;
+
 	// https://open-meteo.com/en/docs
 	hourlyParams = [
 		"temperature_2m",
@@ -89,7 +99,7 @@ class OpenMeteoProvider {
 		"et0_fao_evapotranspiration"
 	];
 
-	constructor (config) {
+	constructor (config: any) {
 		this.config = {
 			apiBase: OPEN_METEO_BASE,
 			lat: 0,
@@ -107,7 +117,7 @@ class OpenMeteoProvider {
 		this.onErrorCallback = null;
 	}
 
-	async initialize () {
+	async initialize (): Promise<void> {
 		await this.#fetchLocation();
 		this.#initializeFetcher();
 	}
@@ -117,7 +127,7 @@ class OpenMeteoProvider {
 	 * @param {(data: object) => void} onData - Called with weather data
 	 * @param {(error: object) => void} onError - Called with error info
 	 */
-	setCallbacks (onData, onError) {
+	setCallbacks (onData: (data: any) => void, onError: (error: any) => void): void {
 		this.onDataCallback = onData;
 		this.onErrorCallback = onError;
 	}
@@ -125,7 +135,7 @@ class OpenMeteoProvider {
 	/**
 	 * Start periodic fetching
 	 */
-	start () {
+	start (): void {
 		if (this.fetcher) {
 			this.fetcher.startPeriodicFetch();
 		}
@@ -134,13 +144,13 @@ class OpenMeteoProvider {
 	/**
 	 * Stop periodic fetching
 	 */
-	stop () {
+	stop (): void {
 		if (this.fetcher) {
 			this.fetcher.clearTimer();
 		}
 	}
 
-	async #fetchLocation () {
+	async #fetchLocation (): Promise<void> {
 		const url = `${GEOCODE_BASE}?latitude=${this.config.lat}&longitude=${this.config.lon}&localityLanguage=${this.config.lang || "en"}`;
 
 		try {
@@ -153,16 +163,16 @@ class OpenMeteoProvider {
 			if (!response.ok) {
 				throw new Error(`HTTP ${response.status}`);
 			}
-			const data = await response.json();
+			const data: any = await response.json();
 			if (data && data.city) {
 				this.locationName = `${data.city}, ${data.principalSubdivisionCode}`;
 			}
 		} catch (error) {
-			Log.debug("[openmeteo] Could not load location data:", error.message);
+			Log.debug("[openmeteo] Could not load location data:", (error as Error).message);
 		}
 	}
 
-	#initializeFetcher () {
+	#initializeFetcher (): void {
 		const url = this.#getUrl();
 
 		this.fetcher = new HTTPFetcher(url, {
@@ -171,7 +181,7 @@ class OpenMeteoProvider {
 			logContext: "weatherprovider.openmeteo"
 		});
 
-		this.fetcher.on("response", async (response) => {
+		this.fetcher.on("response", async (response: any) => {
 			try {
 				const data = await response.json();
 				this.#handleResponse(data);
@@ -186,14 +196,14 @@ class OpenMeteoProvider {
 			}
 		});
 
-		this.fetcher.on("error", (errorInfo) => {
+		this.fetcher.on("error", (errorInfo: any) => {
 			if (this.onErrorCallback) {
 				this.onErrorCallback(errorInfo);
 			}
 		});
 	}
 
-	#handleResponse (data) {
+	#handleResponse (data: any): void {
 		const parsedData = this.#parseWeatherApiResponse(data);
 
 		if (!parsedData) {
@@ -231,14 +241,14 @@ class OpenMeteoProvider {
 			Log.error("[openmeteo] Error processing weather data:", error);
 			if (this.onErrorCallback) {
 				this.onErrorCallback({
-					message: error.message,
+					message: (error as Error).message,
 					translationKey: "MODULE_ERROR_UNSPECIFIED"
 				});
 			}
 		}
 	}
 
-	#getQueryParameters () {
+	#getQueryParameters (): string {
 		let maxNumberOfDays = this.config.maxNumberOfDays;
 
 		if (this.config.maxNumberOfDays !== undefined && !isNaN(parseFloat(this.config.maxNumberOfDays))) {
@@ -248,7 +258,7 @@ class OpenMeteoProvider {
 			maxNumberOfDays = Math.ceil(maxEntries / Math.max(1, daysFactor));
 		}
 
-		const params = {
+		const params: any = {
 			latitude: this.config.lat,
 			longitude: this.config.lon,
 			timeformat: "unixtime",
@@ -289,12 +299,12 @@ class OpenMeteoProvider {
 			.join("&");
 	}
 
-	#getUrl () {
+	#getUrl (): string {
 		return `${this.config.apiBase}/forecast?${this.#getQueryParameters()}`;
 	}
 
-	#transposeDataMatrix (data) {
-		return data.time.map((_, index) => Object.keys(data).reduce((row, key) => {
+	#transposeDataMatrix (data: any): any {
+		return data.time.map((_: any, index: number) => Object.keys(data).reduce((row, key) => {
 			const value = data[key][index];
 			return {
 				...row,
@@ -305,8 +315,8 @@ class OpenMeteoProvider {
 		}, {}));
 	}
 
-	#parseWeatherApiResponse (data) {
-		const validByType = {
+	#parseWeatherApiResponse (data: any): any {
+		const validByType: any = {
 			current: data.current_weather && data.current_weather.time,
 			hourly: data.hourly && data.hourly.time && Array.isArray(data.hourly.time) && data.hourly.time.length > 0,
 			daily: data.daily && data.daily.time && Array.isArray(data.daily.time) && data.daily.time.length > 0
@@ -333,8 +343,8 @@ class OpenMeteoProvider {
 		return data;
 	}
 
-	#convertWeatherType (weathercode, isDayTime) {
-		const weatherConditions = {
+	#convertWeatherType (weathercode: any, isDayTime: boolean): string | null {
+		const weatherConditions: any = {
 			0: "clear",
 			1: "mainly-clear",
 			2: "partly-cloudy",
@@ -367,7 +377,7 @@ class OpenMeteoProvider {
 
 		if (!(weathercode in weatherConditions)) return null;
 
-		const mappings = {
+		const mappings: any = {
 			clear: isDayTime ? "day-sunny" : "night-clear",
 			"mainly-clear": isDayTime ? "day-cloudy" : "night-alt-cloudy",
 			"partly-cloudy": isDayTime ? "day-cloudy" : "night-alt-cloudy",
@@ -401,14 +411,14 @@ class OpenMeteoProvider {
 		return mappings[weatherConditions[`${weathercode}`]] || "na";
 	}
 
-	#isDayTime (date, sunrise, sunset) {
+	#isDayTime (date: Date, sunrise: Date, sunset: Date): boolean {
 		const time = date.getTime();
 		return time >= sunrise.getTime() && time < sunset.getTime();
 	}
 
-	#generateWeatherDayFromCurrentWeather (parsedData) {
+	#generateWeatherDayFromCurrentWeather (parsedData: any): any {
 		// Basic current weather data
-		const current = {
+		const current: any = {
 			date: parsedData.current_weather.time,
 			windSpeed: parsedData.current_weather.windspeed,
 			windFromDirection: parsedData.current_weather.winddirection,
@@ -421,7 +431,7 @@ class OpenMeteoProvider {
 			// Open-Meteo updates current_weather every 15 min, but hourly entries only
 			// exist at full hours — find the last entry at or before the current time.
 			const currentMs = parsedData.current_weather.time.getTime();
-			const hourlyIndex = parsedData.hourly.findLastIndex((hour) => hour.time.getTime() <= currentMs);
+			const hourlyIndex = parsedData.hourly.findLastIndex((hour: any) => hour.time.getTime() <= currentMs);
 			const hourData = parsedData.hourly[Math.max(0, hourlyIndex)];
 			current.humidity = hourData.relativehumidity_2m;
 			current.feelsLikeTemp = hourData.apparent_temperature;
@@ -459,30 +469,30 @@ class OpenMeteoProvider {
 		return current;
 	}
 
-	#generateWeatherObjectsFromForecast (parsedData) {
-		return parsedData.daily.map((weather) => ({
+	#generateWeatherObjectsFromForecast (parsedData: any): any {
+		return parsedData.daily.map((weather: any) => ({
 			date: weather.time,
 			windSpeed: weather.windspeed_10m_max,
 			windFromDirection: weather.winddirection_10m_dominant,
 			sunrise: weather.sunrise,
 			sunset: weather.sunset,
-			temperature: parseFloat((weather.temperature_2m_max + weather.temperature_2m_min) / 2),
+			temperature: parseFloat(((weather.temperature_2m_max + weather.temperature_2m_min) / 2) as any),
 			minTemperature: parseFloat(weather.temperature_2m_min),
 			maxTemperature: parseFloat(weather.temperature_2m_max),
 			weatherType: this.#convertWeatherType(weather.weathercode, true),
 			rain: weather.rain_sum != null ? parseFloat(weather.rain_sum) : null,
-			snow: weather.snowfall_sum != null ? parseFloat(weather.snowfall_sum * 10) : null,
+			snow: weather.snowfall_sum != null ? parseFloat((weather.snowfall_sum * 10) as any) : null,
 			precipitationAmount: weather.precipitation_sum != null ? parseFloat(weather.precipitation_sum) : null,
-			precipitationProbability: weather.precipitation_hours != null ? parseFloat(weather.precipitation_hours * 100 / 24) : null,
+			precipitationProbability: weather.precipitation_hours != null ? parseFloat((weather.precipitation_hours * 100 / 24) as any) : null,
 			uvIndex: weather.uv_index_max != null ? parseFloat(weather.uv_index_max) : null
 		}));
 	}
 
-	#generateWeatherObjectsFromHourly (parsedData) {
-		const hours = [];
+	#generateWeatherObjectsFromHourly (parsedData: any): any {
+		const hours: any[] = [];
 		const now = new Date();
 
-		parsedData.hourly.forEach((weather, i) => {
+		parsedData.hourly.forEach((weather: any, i: number) => {
 			// Skip past entries
 			if (weather.time <= now) {
 				return;
@@ -508,7 +518,7 @@ class OpenMeteoProvider {
 				),
 				humidity: weather.relativehumidity_2m != null ? parseFloat(weather.relativehumidity_2m) : null,
 				rain: weather.rain != null ? parseFloat(weather.rain) : null,
-				snow: weather.snowfall != null ? parseFloat(weather.snowfall * 10) : null,
+				snow: weather.snowfall != null ? parseFloat((weather.snowfall * 10) as any) : null,
 				precipitationAmount: weather.precipitation != null ? parseFloat(weather.precipitation) : null,
 				precipitationProbability: weather.precipitation_probability != null ? parseFloat(weather.precipitation_probability) : null,
 				uvIndex: weather.uv_index != null ? parseFloat(weather.uv_index) : null
@@ -521,4 +531,4 @@ class OpenMeteoProvider {
 	}
 }
 
-module.exports = OpenMeteoProvider;
+export = OpenMeteoProvider;

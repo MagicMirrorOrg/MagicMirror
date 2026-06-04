@@ -9,10 +9,18 @@ const HTTPFetcher = require("#http_fetcher");
  */
 class WeatherFlowProvider {
 
+	config: any;
+
+	fetcher: any;
+
+	onDataCallback: ((data: any) => void) | null;
+
+	onErrorCallback: ((error: any) => void) | null;
+
 	/**
 	 * @param {object} config - Provider configuration
 	 */
-	constructor (config) {
+	constructor (config: any) {
 		this.config = config;
 		this.fetcher = null;
 		this.onDataCallback = null;
@@ -24,7 +32,7 @@ class WeatherFlowProvider {
 	 * @param {(data: object) => void} onDataCallback - Called when new data is available
 	 * @param {(error: object) => void} onErrorCallback - Called when an error occurs
 	 */
-	setCallbacks (onDataCallback, onErrorCallback) {
+	setCallbacks (onDataCallback: (data: any) => void, onErrorCallback: (error: any) => void): void {
 		this.onDataCallback = onDataCallback;
 		this.onErrorCallback = onErrorCallback;
 	}
@@ -32,7 +40,7 @@ class WeatherFlowProvider {
 	/**
 	 * Initialize the provider
 	 */
-	initialize () {
+	initialize (): void {
 		if (!this.config.token || this.config.token === "YOUR_API_TOKEN_HERE") {
 			Log.error("[weatherflow] No API token configured. Get one at https://tempestwx.com/");
 			if (this.onErrorCallback) {
@@ -61,7 +69,7 @@ class WeatherFlowProvider {
 	/**
 	 * Initialize the HTTP fetcher
 	 */
-	#initializeFetcher () {
+	#initializeFetcher (): void {
 		const url = this.#getUrl();
 
 		this.fetcher = new HTTPFetcher(url, {
@@ -73,17 +81,17 @@ class WeatherFlowProvider {
 			logContext: "weatherprovider.weatherflow"
 		});
 
-		this.fetcher.on("response", async (response) => {
+		this.fetcher.on("response", async (response: any) => {
 			try {
 				const data = await response.json();
 				const processed = this.#processData(data);
-				this.onDataCallback(processed);
+				this.onDataCallback!(processed);
 			} catch (error) {
 				Log.error("[weatherflow] Failed to parse JSON:", error);
 			}
 		});
 
-		this.fetcher.on("error", (errorInfo) => {
+		this.fetcher.on("error", (errorInfo: any) => {
 			// HTTPFetcher already logged the error with logContext
 			if (this.onErrorCallback) {
 				this.onErrorCallback(errorInfo);
@@ -95,7 +103,7 @@ class WeatherFlowProvider {
 	 * Generate the URL for API requests
 	 * @returns {string} The API URL
 	 */
-	#getUrl () {
+	#getUrl (): string {
 		const base = this.config.apiBase || "https://swd.weatherflow.com/swd/rest/";
 		return `${base}better_forecast?station_id=${this.config.stationid}&units_temp=c&units_wind=kph&units_pressure=mb&units_precip=mm&units_distance=km&token=${this.config.token}`;
 	}
@@ -105,7 +113,7 @@ class WeatherFlowProvider {
 	 * @param {object} data - Raw API response
 	 * @returns {object} Processed weather data
 	 */
-	#processData (data) {
+	#processData (data: any): any {
 		try {
 			let weatherData;
 			if (this.config.type === "current") {
@@ -134,7 +142,7 @@ class WeatherFlowProvider {
 	 * @param {object} data - API response data
 	 * @returns {object} Current weather object
 	 */
-	#generateCurrent (data) {
+	#generateCurrent (data: any): any {
 		if (!data || !data.current_conditions || !data.forecast || !Array.isArray(data.forecast.daily) || data.forecast.daily.length === 0) {
 			Log.error("[weatherflow] Invalid current weather data structure");
 			return null;
@@ -167,7 +175,7 @@ class WeatherFlowProvider {
 	 * @param {object} data - API response data
 	 * @returns {Array} Array of forecast objects
 	 */
-	#generateDaily (data) {
+	#generateDaily (data: any): any {
 		if (!data || !data.forecast || !Array.isArray(data.forecast.daily) || !Array.isArray(data.forecast.hourly)) {
 			Log.error("[weatherflow] Invalid forecast data structure");
 			return [];
@@ -200,7 +208,7 @@ class WeatherFlowProvider {
 					weather.precipitationAmount += hour.precip ?? 0;
 				} else if (hourDate > forecastDate) {
 					// Check if we've moved to the next day
-					const diffMs = hourDate - forecastDate;
+					const diffMs = hourDate.getTime() - forecastDate.getTime();
 					if (diffMs >= 86400000) break; // 24 hours in ms
 				}
 			}
@@ -216,7 +224,7 @@ class WeatherFlowProvider {
 	 * @param {object} data - API response data
 	 * @returns {Array} Array of hourly forecast objects
 	 */
-	#generateHourly (data) {
+	#generateHourly (data: any): any {
 		if (!data || !data.forecast || !Array.isArray(data.forecast.hourly)) {
 			Log.error("[weatherflow] Invalid hourly data structure");
 			return [];
@@ -253,8 +261,8 @@ class WeatherFlowProvider {
 	 * @param {string} weatherType - WeatherFlow icon code
 	 * @returns {string} Weather icon CSS class
 	 */
-	#convertWeatherType (weatherType) {
-		const weatherTypes = {
+	#convertWeatherType (weatherType: string): string | null {
+		const weatherTypes: { [key: string]: string } = {
 			"clear-day": "day-sunny",
 			"clear-night": "night-clear",
 			cloudy: "cloudy",
@@ -282,7 +290,7 @@ class WeatherFlowProvider {
 	/**
 	 * Start fetching data
 	 */
-	start () {
+	start (): void {
 		if (this.fetcher) {
 			this.fetcher.startPeriodicFetch();
 		}
@@ -291,11 +299,11 @@ class WeatherFlowProvider {
 	/**
 	 * Stop fetching data
 	 */
-	stop () {
+	stop (): void {
 		if (this.fetcher) {
 			this.fetcher.clearTimer();
 		}
 	}
 }
 
-module.exports = WeatherFlowProvider;
+export = WeatherFlowProvider;

@@ -9,8 +9,8 @@ const SunCalc = require("suncalc");
  * @param {string} weatherType - OpenWeatherMap icon code (e.g., "01d", "02n")
  * @returns {string|null} Internal weather type
  */
-function convertWeatherType (weatherType) {
-	const weatherTypes = {
+export function convertWeatherType (weatherType: string): string | null {
+	const weatherTypes: Record<string, string> = {
 		"01d": "day-sunny",
 		"02d": "day-cloudy",
 		"03d": "cloudy",
@@ -40,7 +40,7 @@ function convertWeatherType (weatherType) {
  * @param {number} offsetMinutes - Timezone offset in minutes
  * @returns {Date} Date with applied offset
  */
-function applyTimezoneOffset (date, offsetMinutes) {
+export function applyTimezoneOffset (date: Date, offsetMinutes: number): Date {
 	const utcTime = date.getTime() + (date.getTimezoneOffset() * 60000);
 	return new Date(utcTime + (offsetMinutes * 60000));
 }
@@ -51,7 +51,7 @@ function applyTimezoneOffset (date, offsetMinutes) {
  * @param {number} decimals - Maximum number of decimal places
  * @returns {number} Value with limited decimal places
  */
-function limitDecimals (value, decimals) {
+export function limitDecimals (value: number, decimals: number): number {
 	const str = value.toString();
 	if (str.includes(".")) {
 		const parts = str.split(".");
@@ -69,7 +69,7 @@ function limitDecimals (value, decimals) {
  * @param {number} lon - Longitude
  * @returns {object} Object with sunrise and sunset Date objects
  */
-function getSunTimes (date, lat, lon) {
+export function getSunTimes (date: Date, lat: number, lon: number): { sunrise: Date; sunset: Date } {
 	const sunTimes = SunCalc.getTimes(date, lat, lon);
 	return {
 		sunrise: sunTimes.sunrise,
@@ -84,7 +84,7 @@ function getSunTimes (date, lat, lon) {
  * @param {Date} sunset - Sunset time
  * @returns {boolean} True if during daylight hours
  */
-function isDayTime (date, sunrise, sunset) {
+export function isDayTime (date: Date, sunrise: Date, sunset: Date): boolean {
 	if (!sunrise || !sunset) {
 		return true; // Default to day if times unavailable
 	}
@@ -96,7 +96,7 @@ function isDayTime (date, sunrise, sunset) {
  * @param {number} offsetMinutes - Timezone offset in minutes (use -new Date().getTimezoneOffset() for local)
  * @returns {string} Formatted offset string
  */
-function formatTimezoneOffset (offsetMinutes) {
+export function formatTimezoneOffset (offsetMinutes: number): string {
 	const hours = Math.floor(Math.abs(offsetMinutes) / 60);
 	const minutes = Math.abs(offsetMinutes) % 60;
 	const sign = offsetMinutes >= 0 ? "+" : "-";
@@ -108,7 +108,7 @@ function formatTimezoneOffset (offsetMinutes) {
  * @param {Date} date - The date to format
  * @returns {string} Date string in YYYY-MM-DD format
  */
-function getDateString (date) {
+export function getDateString (date: Date): string {
 	const year = date.getFullYear();
 	const month = String(date.getMonth() + 1).padStart(2, "0");
 	const day = String(date.getDate()).padStart(2, "0");
@@ -120,7 +120,7 @@ function getDateString (date) {
  * @param {number} kmh - Wind speed in km/h
  * @returns {number} Wind speed in m/s
  */
-function convertKmhToMs (kmh) {
+export function convertKmhToMs (kmh: number): number {
 	return kmh / 3.6;
 }
 
@@ -129,8 +129,8 @@ function convertKmhToMs (kmh) {
  * @param {string} direction - Cardinal direction (e.g., "N", "NNE", "SW")
  * @returns {number|null} Direction in degrees (0-360) or null if unknown
  */
-function cardinalToDegrees (direction) {
-	const directions = {
+export function cardinalToDegrees (direction: string): number | null {
+	const directions: Record<string, number> = {
 		N: 0,
 		NNE: 22.5,
 		NE: 45,
@@ -157,7 +157,7 @@ function cardinalToDegrees (direction) {
  * @param {number} maxDecimals - Maximum decimal places to preserve
  * @throws {Error} If coordinates are missing or invalid
  */
-function validateCoordinates (config, maxDecimals = 4) {
+export function validateCoordinates (config: { lat: number; lon: number }, maxDecimals: number = 4): void {
 	if (config.lat == null || config.lon == null
 	  || !Number.isFinite(config.lat) || !Number.isFinite(config.lon)) {
 		throw new Error("Latitude and longitude are required");
@@ -166,16 +166,3 @@ function validateCoordinates (config, maxDecimals = 4) {
 	config.lat = limitDecimals(config.lat, maxDecimals);
 	config.lon = limitDecimals(config.lon, maxDecimals);
 }
-
-module.exports = {
-	convertWeatherType,
-	applyTimezoneOffset,
-	limitDecimals,
-	getSunTimes,
-	isDayTime,
-	formatTimezoneOffset,
-	getDateString,
-	convertKmhToMs,
-	cardinalToDegrees,
-	validateCoordinates
-};

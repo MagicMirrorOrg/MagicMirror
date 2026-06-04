@@ -14,7 +14,21 @@ const HTTPFetcher = require("#http_fetcher");
  * See https://dd.weather.gc.ca/citypage_weather/docs/site_list_en.csv
  */
 class EnvCanadaProvider {
-	constructor (config) {
+	config: any;
+
+	fetcher: any;
+
+	onDataCallback: any;
+
+	onErrorCallback: any;
+
+	lastCityPageURL: string | null;
+
+	cacheCurrentTemp: number | null;
+
+	currentHour: string | null;
+
+	constructor (config: any) {
 		this.config = {
 			siteCode: "s0000000",
 			provCode: "ON",
@@ -31,35 +45,35 @@ class EnvCanadaProvider {
 		this.currentHour = null; // Track current hour for URL updates
 	}
 
-	initialize () {
+	initialize (): void {
 		this.#validateConfig();
 		this.#initializeFetcher();
 	}
 
-	setCallbacks (onData, onError) {
+	setCallbacks (onData: any, onError: any): void {
 		this.onDataCallback = onData;
 		this.onErrorCallback = onError;
 	}
 
-	start () {
+	start (): void {
 		if (this.fetcher) {
 			this.fetcher.startPeriodicFetch();
 		}
 	}
 
-	stop () {
+	stop (): void {
 		if (this.fetcher) {
 			this.fetcher.clearTimer();
 		}
 	}
 
-	#validateConfig () {
+	#validateConfig (): void {
 		if (!this.config.siteCode || !this.config.provCode) {
 			throw new Error("siteCode and provCode are required");
 		}
 	}
 
-	#initializeFetcher () {
+	#initializeFetcher (): void {
 		this.currentHour = new Date().toISOString().substring(11, 13);
 		const indexURL = this.#getIndexUrl();
 
@@ -68,7 +82,7 @@ class EnvCanadaProvider {
 			logContext: "weatherprovider.envcanada"
 		});
 
-		this.fetcher.on("response", async (response) => {
+		this.fetcher.on("response", async (response: any) => {
 			try {
 				// Check if hour changed - restart fetcher with new URL
 				const newHour = new Date().toISOString().substring(11, 13);
@@ -101,21 +115,21 @@ class EnvCanadaProvider {
 				Log.error("[envcanada] Error:", error);
 				if (this.onErrorCallback) {
 					this.onErrorCallback({
-						message: error.message,
+						message: (error as Error).message,
 						translationKey: "MODULE_ERROR_UNSPECIFIED"
 					});
 				}
 			}
 		});
 
-		this.fetcher.on("error", (errorInfo) => {
+		this.fetcher.on("error", (errorInfo: any) => {
 			if (this.onErrorCallback) {
 				this.onErrorCallback(errorInfo);
 			}
 		});
 	}
 
-	async #fetchCityPage (url) {
+	async #fetchCityPage (url: string): Promise<void> {
 		try {
 			const response = await fetch(url);
 			if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -137,7 +151,7 @@ class EnvCanadaProvider {
 		}
 	}
 
-	#parseWeatherData (xml) {
+	#parseWeatherData (xml: string): any {
 		switch (this.config.type) {
 			case "current":
 				return this.#generateCurrentWeather(xml);
@@ -152,8 +166,8 @@ class EnvCanadaProvider {
 		}
 	}
 
-	#generateCurrentWeather (xml) {
-		const current = { date: new Date() };
+	#generateCurrentWeather (xml: string): any {
+		const current: any = { date: new Date() };
 
 		// Try to get temperature from currentConditions first
 		const currentTempStr = this.#extract(xml, /<currentConditions>.*?<temperature[^>]*>(.*?)<\/temperature>/s);
@@ -238,8 +252,8 @@ class EnvCanadaProvider {
 		return current;
 	}
 
-	#generateForecast (xml) {
-		const days = [];
+	#generateForecast (xml: string): any[] {
+		const days: any[] = [];
 		const forecasts = xml.match(/<forecast>(.*?)<\/forecast>/gs) || [];
 
 		if (forecasts.length === 0) return days;
@@ -249,19 +263,19 @@ class EnvCanadaProvider {
 		const currentTemp = currentTempStr ? parseFloat(currentTempStr) : null;
 
 		// Check if first forecast is Today or Tonight
-		const isToday = forecasts[0].includes("textForecastName=\"Today\"");
+		const isToday = forecasts[0]!.includes("textForecastName=\"Today\"");
 
-		let nextDay = isToday ? 2 : 1;
+		const nextDay = isToday ? 2 : 1;
 		const lastDay = isToday ? 12 : 11;
 
 		// Process first day
-		const firstDay = {
+		const firstDay: any = {
 			date: new Date(),
 			precipitationProbability: null
 		};
 		this.#extractForecastTemps(firstDay, forecasts, 0, isToday, currentTemp);
 		this.#extractForecastPrecip(firstDay, forecasts, 0);
-		const firstIcon = this.#extract(forecasts[0], /<iconCode[^>]*>(.*?)<\/iconCode>/);
+		const firstIcon = this.#extract(forecasts[0]!, /<iconCode[^>]*>(.*?)<\/iconCode>/);
 		if (firstIcon) firstDay.weatherType = this.#convertWeatherType(firstIcon);
 		days.push(firstDay);
 
@@ -271,13 +285,13 @@ class EnvCanadaProvider {
 			date = new Date(date);
 			date.setDate(date.getDate() + 1);
 
-			const day = {
+			const day: any = {
 				date: new Date(date),
 				precipitationProbability: null
 			};
 			this.#extractForecastTemps(day, forecasts, i, true, currentTemp);
 			this.#extractForecastPrecip(day, forecasts, i);
-			const icon = this.#extract(forecasts[i], /<iconCode[^>]*>(.*?)<\/iconCode>/);
+			const icon = this.#extract(forecasts[i]!, /<iconCode[^>]*>(.*?)<\/iconCode>/);
 			if (icon) day.weatherType = this.#convertWeatherType(icon);
 			days.push(day);
 		}
@@ -285,9 +299,9 @@ class EnvCanadaProvider {
 		return days;
 	}
 
-	#extractForecastTemps (weather, forecasts, index, hasToday, currentTemp) {
-		let tempToday = null;
-		let tempTonight = null;
+	#extractForecastTemps (weather: any, forecasts: string[], index: number, hasToday: boolean, currentTemp: number | null): void {
+		let tempToday: number | null = null;
+		let tempTonight: number | null = null;
 
 		if (hasToday && forecasts[index]) {
 			const temp = this.#extract(forecasts[index], /<temperature[^>]*>(.*?)<\/temperature>/);
@@ -311,8 +325,8 @@ class EnvCanadaProvider {
 		}
 	}
 
-	#extractForecastPrecip (weather, forecasts, index) {
-		const precips = [];
+	#extractForecastPrecip (weather: any, forecasts: string[], index: number): void {
+		const precips: number[] = [];
 
 		if (forecasts[index]) {
 			const pop = this.#extract(forecasts[index], /<pop[^>]*>(.*?)<\/pop>/);
@@ -329,12 +343,12 @@ class EnvCanadaProvider {
 		}
 	}
 
-	#generateHourly (xml) {
-		const hours = [];
+	#generateHourly (xml: string): any[] {
+		const hours: any[] = [];
 		const hourlyMatches = xml.matchAll(/<hourlyForecast[^>]*dateTimeUTC="([^"]*)"[^>]*>(.*?)<\/hourlyForecast>/gs);
 
 		for (const [, dateTimeUTC, hourXML] of hourlyMatches) {
-			const weather = {};
+			const weather: any = {};
 
 			weather.date = this.#parseECTime(dateTimeUTC);
 
@@ -354,17 +368,17 @@ class EnvCanadaProvider {
 		return hours;
 	}
 
-	#extract (text, pattern) {
+	#extract (text: string, pattern: RegExp): string | null {
 		const match = text.match(pattern);
 		return match ? match[1].trim() : null;
 	}
 
-	#getIndexUrl () {
+	#getIndexUrl (): string {
 		const hour = new Date().toISOString().substring(11, 13);
 		return `https://dd.weather.gc.ca/today/citypage_weather/${this.config.provCode}/${hour}/`;
 	}
 
-	#extractCityPageURL (html) {
+	#extractCityPageURL (html: string): string | null {
 		// New format: {timestamp}_MSC_CitypageWeather_{siteCode}_en.xml
 		const pattern = `[^"]*_MSC_CitypageWeather_${this.config.siteCode}_en\\.xml`;
 		const match = html.match(new RegExp(`href="(${pattern})"`));
@@ -376,7 +390,7 @@ class EnvCanadaProvider {
 		return null;
 	}
 
-	#parseECTime (timeStr) {
+	#parseECTime (timeStr: string): Date {
 		if (!timeStr || timeStr.length < 12) return new Date();
 
 		const y = parseInt(timeStr.substring(0, 4), 10);
@@ -390,9 +404,9 @@ class EnvCanadaProvider {
 		return new Date(Date.UTC(y, m, d, h, min, s));
 	}
 
-	#convertWeatherType (iconCode) {
+	#convertWeatherType (iconCode: string): string | null {
 		const code = parseInt(iconCode, 10);
-		const map = {
+		const map: Record<number, string> = {
 			0: "day-sunny",
 			1: "day-sunny",
 			2: "day-sunny-overcast",
@@ -447,4 +461,4 @@ class EnvCanadaProvider {
 	}
 }
 
-module.exports = EnvCanadaProvider;
+export = EnvCanadaProvider;

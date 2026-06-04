@@ -7,7 +7,17 @@ const HTTPFetcher = require("#http_fetcher");
  * see https://openweathermap.org/
  */
 class OpenWeatherMapProvider {
-	constructor (config) {
+	config: any;
+
+	fetcher: any;
+
+	onDataCallback: any;
+
+	onErrorCallback: any;
+
+	locationName: string | null;
+
+	constructor (config: any) {
 		this.config = {
 			apiVersion: "3.0",
 			apiBase: "https://api.openweathermap.org/data/",
@@ -28,7 +38,7 @@ class OpenWeatherMapProvider {
 		this.locationName = null;
 	}
 
-	initialize () {
+	initialize (): void {
 		// Validate callbacks exist
 		if (typeof this.onErrorCallback !== "function") {
 			throw new Error("setCallbacks() must be called before initialize()");
@@ -46,24 +56,24 @@ class OpenWeatherMapProvider {
 		this.#initializeFetcher();
 	}
 
-	setCallbacks (onData, onError) {
+	setCallbacks (onData: any, onError: any): void {
 		this.onDataCallback = onData;
 		this.onErrorCallback = onError;
 	}
 
-	start () {
+	start (): void {
 		if (this.fetcher) {
 			this.fetcher.startPeriodicFetch();
 		}
 	}
 
-	stop () {
+	stop (): void {
 		if (this.fetcher) {
 			this.fetcher.clearTimer();
 		}
 	}
 
-	#initializeFetcher () {
+	#initializeFetcher (): void {
 		const url = this.#getUrl();
 
 		this.fetcher = new HTTPFetcher(url, {
@@ -72,7 +82,7 @@ class OpenWeatherMapProvider {
 			logContext: "weatherprovider.openweathermap"
 		});
 
-		this.fetcher.on("response", async (response) => {
+		this.fetcher.on("response", async (response: any) => {
 			try {
 				const data = await response.json();
 				this.#handleResponse(data);
@@ -87,14 +97,14 @@ class OpenWeatherMapProvider {
 			}
 		});
 
-		this.fetcher.on("error", (errorInfo) => {
+		this.fetcher.on("error", (errorInfo: any) => {
 			if (this.onErrorCallback) {
 				this.onErrorCallback(errorInfo);
 			}
 		});
 	}
 
-	#handleResponse (data) {
+	#handleResponse (data: any): void {
 		try {
 			let weatherData;
 
@@ -140,14 +150,14 @@ class OpenWeatherMapProvider {
 			Log.error("[openweathermap] Error processing weather data:", error);
 			if (this.onErrorCallback) {
 				this.onErrorCallback({
-					message: error.message,
+					message: (error as Error).message,
 					translationKey: "MODULE_ERROR_UNSPECIFIED"
 				});
 			}
 		}
 	}
 
-	#generateWeatherObjectFromCurrentWeather (data) {
+	#generateWeatherObjectFromCurrentWeather (data: any): any {
 		const timezoneOffsetMinutes = (data.timezone ?? 0) / 60;
 
 		if (data.name && data.sys?.country) {
@@ -156,7 +166,7 @@ class OpenWeatherMapProvider {
 			this.locationName = data.name;
 		}
 
-		const weather = {};
+		const weather: any = {};
 		weather.date = weatherUtils.applyTimezoneOffset(new Date(data.dt * 1000), timezoneOffsetMinutes);
 		weather.temperature = data.main.temp;
 		weather.feelsLikeTemp = data.main.feels_like;
@@ -170,7 +180,7 @@ class OpenWeatherMapProvider {
 		return weather;
 	}
 
-	#extractThreeHourPrecipitation (forecast) {
+	#extractThreeHourPrecipitation (forecast: any): any {
 		const rain = Number.parseFloat(forecast.rain?.["3h"] ?? "") || 0;
 		const snow = Number.parseFloat(forecast.snow?.["3h"] ?? "") || 0;
 		const precipitationAmount = rain + snow;
@@ -183,7 +193,7 @@ class OpenWeatherMapProvider {
 		};
 	}
 
-	#generateHourlyWeatherObjectsFromForecast (data) {
+	#generateHourlyWeatherObjectsFromForecast (data: any): any {
 		const timezoneOffsetSeconds = data.city?.timezone ?? 0;
 		const timezoneOffsetMinutes = timezoneOffsetSeconds / 60;
 
@@ -191,8 +201,8 @@ class OpenWeatherMapProvider {
 			this.locationName = `${data.city.name}, ${data.city.country}`;
 		}
 
-		return data.list.map((forecast) => {
-			const weather = {};
+		return data.list.map((forecast: any) => {
+			const weather: any = {};
 			weather.date = weatherUtils.applyTimezoneOffset(new Date(forecast.dt * 1000), timezoneOffsetMinutes);
 			weather.temperature = forecast.main.temp;
 			weather.feelsLikeTemp = forecast.main.feels_like;
@@ -213,7 +223,7 @@ class OpenWeatherMapProvider {
 		});
 	}
 
-	#generateDailyWeatherObjectsFromForecast (data) {
+	#generateDailyWeatherObjectsFromForecast (data: any): any {
 		const timezoneOffsetSeconds = data.city?.timezone ?? 0;
 		const timezoneOffsetMinutes = timezoneOffsetSeconds / 60;
 
@@ -264,11 +274,11 @@ class OpenWeatherMapProvider {
 		}));
 	}
 
-	#generateWeatherObjectsFromOnecall (data) {
+	#generateWeatherObjectsFromOnecall (data: any): any {
 		let precip;
 
 		// Get current weather
-		const current = {};
+		const current: any = {};
 		if (data.hasOwnProperty("current")) {
 			const timezoneOffset = data.timezone_offset / 60;
 			current.date = weatherUtils.applyTimezoneOffset(new Date(data.current.dt * 1000), timezoneOffset);
@@ -297,11 +307,11 @@ class OpenWeatherMapProvider {
 		}
 
 		// Get hourly weather
-		const hours = [];
+		const hours: any[] = [];
 		if (data.hasOwnProperty("hourly")) {
 			const timezoneOffset = data.timezone_offset / 60;
 			for (const hour of data.hourly) {
-				const weather = {};
+				const weather: any = {};
 				weather.date = weatherUtils.applyTimezoneOffset(new Date(hour.dt * 1000), timezoneOffset);
 				weather.temperature = hour.temp;
 				weather.feelsLikeTemp = hour.feels_like;
@@ -330,11 +340,11 @@ class OpenWeatherMapProvider {
 		}
 
 		// Get daily weather
-		const days = [];
+		const days: any[] = [];
 		if (data.hasOwnProperty("daily")) {
 			const timezoneOffset = data.timezone_offset / 60;
 			for (const day of data.daily) {
-				const weather = {};
+				const weather: any = {};
 				weather.date = weatherUtils.applyTimezoneOffset(new Date(day.dt * 1000), timezoneOffset);
 				weather.sunrise = weatherUtils.applyTimezoneOffset(new Date(day.sunrise * 1000), timezoneOffset);
 				weather.sunset = weatherUtils.applyTimezoneOffset(new Date(day.sunset * 1000), timezoneOffset);
@@ -367,11 +377,11 @@ class OpenWeatherMapProvider {
 		return { current, hours, days };
 	}
 
-	#getUrl () {
+	#getUrl (): string {
 		return this.config.apiBase + this.config.apiVersion + this.config.weatherEndpoint + this.#getParams();
 	}
 
-	#getParams () {
+	#getParams (): string {
 		let params = "?";
 
 		if (this.config.weatherEndpoint === "/onecall") {
@@ -403,4 +413,4 @@ class OpenWeatherMapProvider {
 	}
 }
 
-module.exports = OpenWeatherMapProvider;
+export = OpenWeatherMapProvider;

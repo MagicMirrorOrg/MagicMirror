@@ -5,6 +5,34 @@
  */
 class WeatherObject {
 
+	date: any;
+
+	windSpeed: number | null;
+
+	windFromDirection: number | null;
+
+	sunrise: any;
+
+	sunset: any;
+
+	temperature: number | null;
+
+	minTemperature: number | null;
+
+	maxTemperature: number | null;
+
+	weatherType: string | null;
+
+	humidity: number | null;
+
+	precipitationAmount: number | null;
+
+	precipitationUnits: string | null;
+
+	precipitationProbability: number | null;
+
+	feelsLikeTemp: number | null;
+
 	/**
 	 * Constructor for a WeatherObject
 	 */
@@ -25,36 +53,36 @@ class WeatherObject {
 		this.feelsLikeTemp = null;
 	}
 
-	cardinalWindDirection () {
-		if (this.windFromDirection > 11.25 && this.windFromDirection <= 33.75) {
+	cardinalWindDirection (): string {
+		if (this.windFromDirection! > 11.25 && this.windFromDirection! <= 33.75) {
 			return "NNE";
-		} else if (this.windFromDirection > 33.75 && this.windFromDirection <= 56.25) {
+		} else if (this.windFromDirection! > 33.75 && this.windFromDirection! <= 56.25) {
 			return "NE";
-		} else if (this.windFromDirection > 56.25 && this.windFromDirection <= 78.75) {
+		} else if (this.windFromDirection! > 56.25 && this.windFromDirection! <= 78.75) {
 			return "ENE";
-		} else if (this.windFromDirection > 78.75 && this.windFromDirection <= 101.25) {
+		} else if (this.windFromDirection! > 78.75 && this.windFromDirection! <= 101.25) {
 			return "E";
-		} else if (this.windFromDirection > 101.25 && this.windFromDirection <= 123.75) {
+		} else if (this.windFromDirection! > 101.25 && this.windFromDirection! <= 123.75) {
 			return "ESE";
-		} else if (this.windFromDirection > 123.75 && this.windFromDirection <= 146.25) {
+		} else if (this.windFromDirection! > 123.75 && this.windFromDirection! <= 146.25) {
 			return "SE";
-		} else if (this.windFromDirection > 146.25 && this.windFromDirection <= 168.75) {
+		} else if (this.windFromDirection! > 146.25 && this.windFromDirection! <= 168.75) {
 			return "SSE";
-		} else if (this.windFromDirection > 168.75 && this.windFromDirection <= 191.25) {
+		} else if (this.windFromDirection! > 168.75 && this.windFromDirection! <= 191.25) {
 			return "S";
-		} else if (this.windFromDirection > 191.25 && this.windFromDirection <= 213.75) {
+		} else if (this.windFromDirection! > 191.25 && this.windFromDirection! <= 213.75) {
 			return "SSW";
-		} else if (this.windFromDirection > 213.75 && this.windFromDirection <= 236.25) {
+		} else if (this.windFromDirection! > 213.75 && this.windFromDirection! <= 236.25) {
 			return "SW";
-		} else if (this.windFromDirection > 236.25 && this.windFromDirection <= 258.75) {
+		} else if (this.windFromDirection! > 236.25 && this.windFromDirection! <= 258.75) {
 			return "WSW";
-		} else if (this.windFromDirection > 258.75 && this.windFromDirection <= 281.25) {
+		} else if (this.windFromDirection! > 258.75 && this.windFromDirection! <= 281.25) {
 			return "W";
-		} else if (this.windFromDirection > 281.25 && this.windFromDirection <= 303.75) {
+		} else if (this.windFromDirection! > 281.25 && this.windFromDirection! <= 303.75) {
 			return "WNW";
-		} else if (this.windFromDirection > 303.75 && this.windFromDirection <= 326.25) {
+		} else if (this.windFromDirection! > 303.75 && this.windFromDirection! <= 326.25) {
 			return "NW";
-		} else if (this.windFromDirection > 326.25 && this.windFromDirection <= 348.75) {
+		} else if (this.windFromDirection! > 326.25 && this.windFromDirection! <= 348.75) {
 			return "NNW";
 		} else {
 			return "N";
@@ -68,7 +96,7 @@ class WeatherObject {
 	 * action for. Useful only in tests, defaults to the current time.
 	 * @returns {string|null} "sunset", "sunrise", or null if sun data unavailable
 	 */
-	nextSunAction (date = moment()) {
+	nextSunAction (date: any = moment()): string | null {
 		// Return null if sunrise/sunset data is unavailable
 		if (!this.sunrise || !this.sunset) {
 			return null;
@@ -76,18 +104,18 @@ class WeatherObject {
 		return date.isBetween(this.sunrise, this.sunset) ? "sunset" : "sunrise";
 	}
 
-	feelsLike () {
+	feelsLike (): any {
 		if (this.feelsLikeTemp) {
 			return this.feelsLikeTemp;
 		}
-		return WeatherUtils.calculateFeelsLike(this.temperature, this.windSpeed, this.humidity);
+		return WeatherUtils.calculateFeelsLike(this.temperature!, this.windSpeed!, this.humidity!);
 	}
 
 	/**
 	 * Checks if the weatherObject is at dayTime.
 	 * @returns {boolean} true if it is at dayTime
 	 */
-	isDayTime () {
+	isDayTime (): boolean {
 		// Default to daytime if sunrise/sunset data unavailable
 		if (!this.sunrise || !this.sunset) {
 			return true;
@@ -103,7 +131,7 @@ class WeatherObject {
 	 * @param {number} lat latitude
 	 * @param {number} lon longitude
 	 */
-	updateSunTime (lat, lon) {
+	updateSunTime (lat: number, lon: number): void {
 		const now = !this.date ? new Date() : this.date.toDate();
 		const times = SunCalc.getTimes(now, lat, lon);
 		this.sunrise = moment(times.sunrise);
@@ -117,9 +145,9 @@ class WeatherObject {
 	 * Especially 'moment' object is not immutable, so original 'date', 'sunrise', 'sunset' could be corrupted or changed by other modules.
 	 * @returns {object} plained object clone of original weatherObject
 	 */
-	simpleClone () {
+	simpleClone (): any {
 		const toFlat = ["date", "sunrise", "sunset"];
-		let clone = { ...this };
+		const clone: any = { ...this };
 		for (const prop of toFlat) {
 			clone[prop] = clone?.[prop]?.valueOf() ?? clone?.[prop];
 		}

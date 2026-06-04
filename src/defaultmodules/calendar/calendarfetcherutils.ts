@@ -15,7 +15,7 @@ const CalendarFetcherUtils = {
 	 * @returns {object} excluded: true if the event should be excluded, false otherwise
 	 * until: the date until the event should be excluded.
 	 */
-	shouldEventBeExcluded (config, title) {
+	shouldEventBeExcluded (config: any, title: string): any {
 		for (const filterConfig of config.excludedEvents) {
 			const match = CalendarFetcherUtils.checkEventAgainstFilter(title, filterConfig);
 			if (match) {
@@ -37,7 +37,7 @@ const CalendarFetcherUtils = {
 	 * This method makes it easier to test if different timezones cause problems by changing this implementation.
 	 * @returns {string} timezone
 	 */
-	getLocalTimezone () {
+	getLocalTimezone (): string {
 		return moment.tz.guess();
 	},
 
@@ -47,8 +47,8 @@ const CalendarFetcherUtils = {
 	 * @param {object} config The configuration object
 	 * @returns {object[]} the filtered events
 	 */
-	filterEvents (data, config) {
-		const newEvents = [];
+	filterEvents (data: any, config: any): any[] {
+		const newEvents: any[] = [];
 
 		Log.debug(`There are ${Object.entries(data).length} calendar entries.`);
 
@@ -62,7 +62,7 @@ const CalendarFetcherUtils = {
 				// Subtract 1 second so that events that start on the middle of the night will not repeat.
 				.subtract(1, "seconds");
 
-		Object.values(data).forEach((event) => {
+		Object.values(data).forEach((event: any) => {
 			if (event.type !== "VEVENT") {
 				return;
 			}
@@ -86,7 +86,7 @@ const CalendarFetcherUtils = {
 			try {
 				instances = CalendarFetcherUtils.expandRecurringEvent(event, pastLocalMoment, futureLocalMoment);
 			} catch (error) {
-				Log.error(`Could not expand event "${title}": ${error.message}`);
+				Log.error(`Could not expand event "${title}": ${(error as Error).message}`);
 				return;
 			}
 
@@ -132,7 +132,7 @@ const CalendarFetcherUtils = {
 	 * @param {object} event The event object to check.
 	 * @returns {string} The title of the event, or "Event" if no title is found.
 	 */
-	getTitleFromEvent (event) {
+	getTitleFromEvent (event: any): string {
 		return CalendarFetcherUtils.unwrapParameterValue(event.summary || event.description) || "Event";
 	},
 
@@ -143,7 +143,7 @@ const CalendarFetcherUtils = {
 	 * @param {string|object} value The raw value from node-ical
 	 * @returns {string|object} The unwrapped string value, or the original value if not a ParameterValue
 	 */
-	unwrapParameterValue (value) {
+	unwrapParameterValue (value: string | any): string | any {
 		if (value && typeof value === "object" && typeof value.val !== "undefined") {
 			return value.val;
 		}
@@ -157,7 +157,7 @@ const CalendarFetcherUtils = {
 	 * @param {string} filter The time to subtract from the end date to determine if an event should be shown
 	 * @returns {boolean} True if the event should be filtered out, false otherwise
 	 */
-	timeFilterApplies (now, endDate, filter) {
+	timeFilterApplies (now: any, endDate: any, filter: string): boolean {
 		if (filter) {
 			const until = filter.split(" "),
 				value = parseInt(until[0]),
@@ -178,7 +178,7 @@ const CalendarFetcherUtils = {
 	 * @param {string} regexFlags flags that should be applied to the regex
 	 * @returns {boolean} True if the title should be filtered out, false otherwise
 	 */
-	titleFilterApplies (title, filter, useRegex, regexFlags) {
+	titleFilterApplies (title: string, filter: string, useRegex: boolean, regexFlags: string): boolean {
 		if (useRegex) {
 			let regexFilter = filter;
 			// Assume if leading slash, there is also trailing slash
@@ -200,7 +200,7 @@ const CalendarFetcherUtils = {
 	 * @param {moment.Moment} futureLocalMoment The future date limit
 	 * @returns {object[]} Array of event instances with startMoment/endMoment in the local timezone
 	 */
-	expandRecurringEvent (event, pastLocalMoment, futureLocalMoment) {
+	expandRecurringEvent (event: any, pastLocalMoment: any, futureLocalMoment: any): any[] {
 		const localTimezone = CalendarFetcherUtils.getLocalTimezone();
 
 		return ical
@@ -211,7 +211,7 @@ const CalendarFetcherUtils = {
 				excludeExdates: true,
 				expandOngoing: true
 			})
-			.map((inst) => {
+			.map((inst: any) => {
 				let startMoment, endMoment;
 				if (inst.isFullDay) {
 					startMoment = moment.tz([inst.start.getFullYear(), inst.start.getMonth(), inst.start.getDate()], localTimezone);
@@ -233,7 +233,7 @@ const CalendarFetcherUtils = {
 	 * @param {string|object} filterConfig The filter configuration (string or object)
 	 * @returns {object|null} Object with {until: string|null} if matched, null otherwise
 	 */
-	checkEventAgainstFilter (title, filterConfig) {
+	checkEventAgainstFilter (title: string, filterConfig: string | any): any | null {
 		let filter = filterConfig;
 		let testTitle = title.toLowerCase();
 		let until = null;
@@ -271,6 +271,4 @@ const CalendarFetcherUtils = {
 	}
 };
 
-if (typeof module !== "undefined") {
-	module.exports = CalendarFetcherUtils;
-}
+export = CalendarFetcherUtils;

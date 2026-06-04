@@ -14,7 +14,15 @@ const HTTPFetcher = require("#http_fetcher");
  * Free accounts limited to 360 requests/day per service (once every 4 minutes)
  */
 class UkMetOfficeDataHubProvider {
-	constructor (config) {
+	config: any;
+
+	fetcher: any;
+
+	onDataCallback: any;
+
+	onErrorCallback: any;
+
+	constructor (config: any) {
 		this.config = {
 			apiBase: "https://data.hub.api.metoffice.gov.uk/sitespecific/v0/point/",
 			apiKey: "",
@@ -30,12 +38,12 @@ class UkMetOfficeDataHubProvider {
 		this.onErrorCallback = null;
 	}
 
-	setCallbacks (onDataCallback, onErrorCallback) {
+	setCallbacks (onDataCallback: any, onErrorCallback: any): void {
 		this.onDataCallback = onDataCallback;
 		this.onErrorCallback = onErrorCallback;
 	}
 
-	initialize () {
+	initialize (): void {
 		if (!this.config.apiKey || this.config.apiKey === "YOUR_API_KEY_HERE") {
 			Log.error("[ukmetofficedatahub] No API key configured");
 			if (this.onErrorCallback) {
@@ -50,7 +58,7 @@ class UkMetOfficeDataHubProvider {
 		this.#initializeFetcher();
 	}
 
-	#initializeFetcher () {
+	#initializeFetcher (): void {
 		const forecastType = this.#getForecastType();
 		const url = this.#getUrl(forecastType);
 
@@ -63,7 +71,7 @@ class UkMetOfficeDataHubProvider {
 			logContext: "weatherprovider.ukmetofficedatahub"
 		});
 
-		this.fetcher.on("response", async (response) => {
+		this.fetcher.on("response", async (response: any) => {
 			try {
 				const data = await response.json();
 				this.#handleResponse(data);
@@ -78,14 +86,14 @@ class UkMetOfficeDataHubProvider {
 			}
 		});
 
-		this.fetcher.on("error", (errorInfo) => {
+		this.fetcher.on("error", (errorInfo: any) => {
 			if (this.onErrorCallback) {
 				this.onErrorCallback(errorInfo);
 			}
 		});
 	}
 
-	#getForecastType () {
+	#getForecastType (): string {
 		switch (this.config.type) {
 			case "hourly":
 				return "three-hourly";
@@ -98,13 +106,13 @@ class UkMetOfficeDataHubProvider {
 		}
 	}
 
-	#getUrl (forecastType) {
+	#getUrl (forecastType: string): string {
 		const base = this.config.apiBase.endsWith("/") ? this.config.apiBase : `${this.config.apiBase}/`;
 		const queryStrings = `?latitude=${this.config.lat}&longitude=${this.config.lon}&includeLocationName=true`;
 		return `${base}${forecastType}${queryStrings}`;
 	}
 
-	#handleResponse (data) {
+	#handleResponse (data: any): void {
 		if (!data || !data.features || !data.features[0] || !data.features[0].properties || !data.features[0].properties.timeSeries || data.features[0].properties.timeSeries.length === 0) {
 			Log.error("[ukmetofficedatahub] No usable data received");
 			if (this.onErrorCallback) {
@@ -145,7 +153,7 @@ class UkMetOfficeDataHubProvider {
 		}
 	}
 
-	#generateCurrent (data) {
+	#generateCurrent (data: any): any {
 		const timeSeries = data.features[0].properties.timeSeries;
 		const now = new Date();
 
@@ -155,7 +163,7 @@ class UkMetOfficeDataHubProvider {
 			const oneHourLater = new Date(forecastTime.getTime() + 60 * 60 * 1000);
 
 			if (now >= forecastTime && now < oneHourLater) {
-				const current = {
+				const current: any = {
 					date: forecastTime,
 					temperature: hour.screenTemperature || null,
 					minTemperature: hour.minScreenAirTemp || null,
@@ -184,7 +192,7 @@ class UkMetOfficeDataHubProvider {
 
 		// Fallback to first hour if no match found
 		const firstHour = timeSeries[0];
-		const current = {
+		const current: any = {
 			date: new Date(firstHour.time),
 			temperature: firstHour.screenTemperature || null,
 			windSpeed: firstHour.windSpeed10m || null,
@@ -207,7 +215,7 @@ class UkMetOfficeDataHubProvider {
 		return current;
 	}
 
-	#generateDaily (data) {
+	#generateDaily (data: any): any {
 		const timeSeries = data.features[0].properties.timeSeries;
 		const days = [];
 		const today = new Date();
@@ -240,7 +248,7 @@ class UkMetOfficeDataHubProvider {
 		return days;
 	}
 
-	#generateHourly (data) {
+	#generateHourly (data: any): any {
 		const timeSeries = data.features[0].properties.timeSeries;
 		const hours = [];
 
@@ -276,8 +284,8 @@ class UkMetOfficeDataHubProvider {
 	 * @param {number} weatherType - Met Office weather code
 	 * @returns {string|null} Weathericons.css icon name or null
 	 */
-	#convertWeatherType (weatherType) {
-		const weatherTypes = {
+	#convertWeatherType (weatherType: number): string | null {
+		const weatherTypes: { [key: number]: string } = {
 			0: "night-clear",
 			1: "day-sunny",
 			2: "night-alt-cloudy",
@@ -313,17 +321,17 @@ class UkMetOfficeDataHubProvider {
 		return weatherTypes[weatherType] || null;
 	}
 
-	start () {
+	start (): void {
 		if (this.fetcher) {
 			this.fetcher.startPeriodicFetch();
 		}
 	}
 
-	stop () {
+	stop (): void {
 		if (this.fetcher) {
 			this.fetcher.clearTimer();
 		}
 	}
 }
 
-module.exports = UkMetOfficeDataHubProvider;
+export = UkMetOfficeDataHubProvider;

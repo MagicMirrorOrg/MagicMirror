@@ -55,7 +55,13 @@ export default defineConfig([
 		"js/http_fetcher.js",
 		"js/server_functions.js",
 		"js/utils.js",
-		"defaultmodules/utils.js"
+		"defaultmodules/utils.js",
+		"defaultmodules/weather/provider-utils.js",
+		"defaultmodules/weather/providers/*.js",
+		"defaultmodules/weather/weatherobject.js",
+		"defaultmodules/weather/weatherutils.js",
+		"defaultmodules/calendar/calendarfetcherutils.js",
+		"defaultmodules/calendar/calendarutils.js"
 	]),
 	{
 		files: ["**/*.js"],

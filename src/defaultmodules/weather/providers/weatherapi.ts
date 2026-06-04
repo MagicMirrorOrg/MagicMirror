@@ -5,7 +5,17 @@ const HTTPFetcher = require("#http_fetcher");
 const WEATHER_API_BASE = "https://api.weatherapi.com/v1";
 
 class WeatherAPIProvider {
-	constructor (config) {
+	config: any;
+
+	locationName: string | null;
+
+	fetcher: any;
+
+	onDataCallback: ((data: any) => void) | null;
+
+	onErrorCallback: ((errorInfo: any) => void) | null;
+
+	constructor (config: any) {
 		this.config = {
 			apiBase: WEATHER_API_BASE,
 			lat: 0,
@@ -25,29 +35,29 @@ class WeatherAPIProvider {
 		this.onErrorCallback = null;
 	}
 
-	initialize () {
+	initialize (): void {
 		this.#validateConfig();
 		this.#initializeFetcher();
 	}
 
-	setCallbacks (onData, onError) {
+	setCallbacks (onData: (data: any) => void, onError: (errorInfo: any) => void): void {
 		this.onDataCallback = onData;
 		this.onErrorCallback = onError;
 	}
 
-	start () {
+	start (): void {
 		if (this.fetcher) {
 			this.fetcher.startPeriodicFetch();
 		}
 	}
 
-	stop () {
+	stop (): void {
 		if (this.fetcher) {
 			this.fetcher.clearTimer();
 		}
 	}
 
-	#validateConfig () {
+	#validateConfig (): void {
 		this.config.type = `${this.config.type ?? ""}`.trim().toLowerCase();
 
 		if (this.config.type === "forecast") {
@@ -67,7 +77,7 @@ class WeatherAPIProvider {
 		}
 	}
 
-	#initializeFetcher () {
+	#initializeFetcher (): void {
 		const url = this.#getUrl();
 
 		this.fetcher = new HTTPFetcher(url, {
@@ -76,7 +86,7 @@ class WeatherAPIProvider {
 			logContext: "weatherprovider.weatherapi"
 		});
 
-		this.fetcher.on("response", async (response) => {
+		this.fetcher.on("response", async (response: any) => {
 			try {
 				const data = await response.json();
 				this.#handleResponse(data);
@@ -91,14 +101,14 @@ class WeatherAPIProvider {
 			}
 		});
 
-		this.fetcher.on("error", (errorInfo) => {
+		this.fetcher.on("error", (errorInfo: any) => {
 			if (this.onErrorCallback) {
 				this.onErrorCallback(errorInfo);
 			}
 		});
 	}
 
-	#handleResponse (data) {
+	#handleResponse (data: any): void {
 		let parsedData;
 
 		try {
@@ -138,14 +148,14 @@ class WeatherAPIProvider {
 			Log.error("[weatherapi] Error processing weather data:", error);
 			if (this.onErrorCallback) {
 				this.onErrorCallback({
-					message: error.message,
+					message: (error as Error).message,
 					translationKey: "MODULE_ERROR_UNSPECIFIED"
 				});
 			}
 		}
 	}
 
-	#getQueryParameters () {
+	#getQueryParameters (): string {
 		const maxEntries = Number.isFinite(this.config.maxEntries)
 			? Math.max(1, this.config.maxEntries)
 			: 5;
@@ -161,7 +171,7 @@ class WeatherAPIProvider {
 				? Math.min(14, requestedDays)
 				: 1;
 
-		const params = {
+		const params: any = {
 			q: `${this.config.lat},${this.config.lon}`,
 			days,
 			lang: this.config.lang,
@@ -174,17 +184,17 @@ class WeatherAPIProvider {
 			.join("&");
 	}
 
-	#getUrl () {
+	#getUrl (): string {
 		return `${this.config.apiBase}/forecast.json?${this.#getQueryParameters()}`;
 	}
 
-	#parseResponse (responseData) {
+	#parseResponse (responseData: any): any {
 		responseData.location ??= {};
 		responseData.current ??= {};
 		responseData.current.condition ??= {};
 		responseData.forecast ??= {};
 		responseData.forecast.forecastday ??= [];
-		responseData.forecast.forecastday = responseData.forecast.forecastday.map((forecastDay) => ({
+		responseData.forecast.forecastday = responseData.forecast.forecastday.map((forecastDay: any) => ({
 			...forecastDay,
 			astro: forecastDay.astro ?? {},
 			day: forecastDay.day ?? {},
@@ -215,7 +225,7 @@ class WeatherAPIProvider {
 		return responseData;
 	}
 
-	#parseSunDatetime (forecastDay, key) {
+	#parseSunDatetime (forecastDay: any, key: string): Date | null {
 		const timeValue = forecastDay?.astro?.[key];
 		if (!timeValue || !forecastDay?.date) {
 			return null;
@@ -238,15 +248,15 @@ class WeatherAPIProvider {
 		return date;
 	}
 
-	#toNumber (value) {
+	#toNumber (value: any): number | null {
 		const number = parseFloat(value);
 		return Number.isFinite(number) ? number : null;
 	}
 
-	#generateCurrent (data) {
+	#generateCurrent (data: any): any {
 		const weather = data.forecast.forecastday[0] ?? {};
 		const current = data.current ?? {};
-		const currentWeather = {
+		const currentWeather: any = {
 			date: current.last_updated_epoch ? new Date(current.last_updated_epoch * 1000) : new Date()
 		};
 
@@ -293,18 +303,18 @@ class WeatherAPIProvider {
 		return currentWeather;
 	}
 
-	#generateDaily (data) {
+	#generateDaily (data: any): any {
 		const days = [];
 		const forecastDays = data.forecast.forecastday ?? [];
 
 		for (const forecastDay of forecastDays) {
-			const weather = {};
+			const weather: any = {};
 			const dayDate = forecastDay.date_epoch
 				? new Date(forecastDay.date_epoch * 1000)
 				: new Date(`${forecastDay.date}T00:00:00`);
 
 			const precipitationProbability = forecastDay.hour?.length > 0
-				? (forecastDay.hour.reduce((sum, hourData) => {
+				? (forecastDay.hour.reduce((sum: number, hourData: any) => {
 					const rain = this.#toNumber(hourData.will_it_rain) ?? 0;
 					const snow = this.#toNumber(hourData.will_it_snow) ?? 0;
 					return sum + ((rain + snow) / 2);
@@ -312,7 +322,7 @@ class WeatherAPIProvider {
 				: null;
 
 			const avgWindDegree = forecastDay.hour?.length > 0
-				? forecastDay.hour.reduce((sum, hourData) => {
+				? forecastDay.hour.reduce((sum: number, hourData: any) => {
 					return sum + (this.#toNumber(hourData.wind_degree) ?? 0);
 				}, 0) / forecastDay.hour.length
 				: null;
@@ -363,7 +373,7 @@ class WeatherAPIProvider {
 		return days;
 	}
 
-	#generateHourly (data) {
+	#generateHourly (data: any): any {
 		const hours = [];
 		const nowStart = new Date();
 		nowStart.setMinutes(0, 0, 0);
@@ -379,7 +389,7 @@ class WeatherAPIProvider {
 					continue;
 				}
 
-				const weather = { date };
+				const weather: any = { date };
 
 				const sunrise = this.#parseSunDatetime(forecastDay, "sunrise");
 				const sunset = this.#parseSunDatetime(forecastDay, "sunset");
@@ -427,8 +437,8 @@ class WeatherAPIProvider {
 		return hours;
 	}
 
-	#convertWeatherType (weatherCode, isDayTime) {
-		const weatherConditions = {
+	#convertWeatherType (weatherCode: any, isDayTime: boolean): string {
+		const weatherConditions: Record<number, { day: string; night: string }> = {
 			1000: { day: "day-sunny", night: "night-clear" },
 			1003: { day: "day-cloudy", night: "night-alt-cloudy" },
 			1006: { day: "day-cloudy", night: "night-alt-cloudy" },
@@ -487,4 +497,4 @@ class WeatherAPIProvider {
 	}
 }
 
-module.exports = WeatherAPIProvider;
+export = WeatherAPIProvider;
