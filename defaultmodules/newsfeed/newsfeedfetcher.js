@@ -68,6 +68,12 @@ class NewsfeedFetcher {
 	 * @param {Response} response - The fetch Response object
 	 */
 	async #handleResponse (response) {
+		// 304 Not Modified has no body: keep previously fetched items and re-broadcast them.
+		if (response.status === 304) {
+			this.broadcastItems();
+			return;
+		}
+
 		this.items = [];
 		const parser = new FeedMe();
 
