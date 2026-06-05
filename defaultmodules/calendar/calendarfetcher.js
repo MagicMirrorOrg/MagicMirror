@@ -51,6 +51,13 @@ class CalendarFetcher {
 	 */
 	async #handleResponse (response) {
 		try {
+			// 304 Not Modified has no body: keep previously fetched events and just re-broadcast them.
+			if (response.status === 304) {
+				this.lastFetch = Date.now();
+				this.broadcastEvents();
+				return;
+			}
+
 			const responseData = await response.text();
 			const parsed = await ical.async.parseICS(responseData);
 
