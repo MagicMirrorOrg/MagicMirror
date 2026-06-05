@@ -69,6 +69,7 @@ class EnvCanadaProvider {
 		});
 
 		this.fetcher.on("response", async (response) => {
+			if (response.status === 304) return;
 			try {
 				// Check if hour changed - restart fetcher with new URL
 				const newHour = new Date().toISOString().substring(11, 13);

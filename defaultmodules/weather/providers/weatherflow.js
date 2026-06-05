@@ -74,6 +74,7 @@ class WeatherFlowProvider {
 		});
 
 		this.fetcher.on("response", async (response) => {
+			if (response.status === 304) return;
 			try {
 				const data = await response.json();
 				const processed = this.#processData(data);
