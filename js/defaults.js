@@ -9,10 +9,18 @@ const defaults = {
 	address: address,
 	port: port,
 	basePath: "/",
+	useHttps: false, // Support HTTPS or not, default "false" will use HTTP
+	httpsPrivateKey: "", // HTTPS private key path, only required when useHttps is true
+	httpsCertificate: "", // HTTPS Certificate path, only required when useHttps is true
+	tls: null, // Legacy compatibility option for Electron URL selection (prefer useHttps)
 	electronOptions: {},
+	electronSwitches: [],
+	ignoreXOriginHeader: false, // Remove X-Frame-Options response header in Electron
+	ignoreContentSecurityPolicy: false, // Remove Content-Security-Policy response header in Electron
 	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1"],
 	cors: "disabled", // or "allowAll" or "allowWhitelist"
 	corsDomainWhitelist: [], // example: ["api.mapbox.com"]
+	watchTargets: [],
 
 	language: "en",
 	logLevel: ["INFO", "LOG", "WARN", "ERROR"],
