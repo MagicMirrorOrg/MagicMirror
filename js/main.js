@@ -151,43 +151,34 @@ function _updateDom (module, updateOptions, createAnimatedDom = false) {
 /**
  * Update the dom with the specified content
  * @param {Module} module The module that needs an update.
- * @param {number} [speed] The (optional) number of microseconds for the animation.
+ * @param {number} [speed] The (optional) number of milliseconds for the animation.
  * @param {string} newHeader The new header that is generated.
  * @param {HTMLElement} newContent The new content that is generated.
  * @param {string} [animateOut] AnimateCss animation name before hidden
  * @param {string} [animateIn] AnimateCss animation name on show
- * @param {boolean} [createAnimatedDom] for displaying only animateIn (used on first start)
- * @returns {Promise} Resolved when the module dom has been updated.
+ * @param {boolean} [createAnimatedDom] If true, apply content and trigger only animateIn (used on first start).
+ * @returns {Promise<void>} Resolved after the module DOM update is applied or hide/show transition is scheduled.
  */
-function updateDomWithContent (module, speed, newHeader, newContent, animateOut, animateIn, createAnimatedDom = false) {
-	return new Promise(function (resolve) {
-		if (module.hidden || !speed) {
-			updateModuleContent(module, newHeader, newContent);
-			resolve();
-			return;
-		}
+async function updateDomWithContent (module, speed, newHeader, newContent, animateOut, animateIn, createAnimatedDom = false) {
+	if (module.hidden || !speed) {
+		updateModuleContent(module, newHeader, newContent);
+		return;
+	}
 
-		if (!moduleNeedsUpdate(module, newHeader, newContent)) {
-			resolve();
-			return;
-		}
+	if (!moduleNeedsUpdate(module, newHeader, newContent)) {
+		return;
+	}
 
-		if (!speed) {
-			updateModuleContent(module, newHeader, newContent);
-			resolve();
-			return;
+	if (createAnimatedDom && animateIn !== null) {
+		Log.debug(`${module.identifier} createAnimatedDom (${animateIn})`);
+		updateModuleContent(module, newHeader, newContent);
+		if (!module.hidden) {
+			_showModule(module, speed, null, { animate: animateIn });
 		}
+		return;
+	}
 
-		if (createAnimatedDom && animateIn !== null) {
-			Log.debug(`${module.identifier} createAnimatedDom (${animateIn})`);
-			updateModuleContent(module, newHeader, newContent);
-			if (!module.hidden) {
-				_showModule(module, speed, null, { animate: animateIn });
-			}
-			resolve();
-			return;
-		}
-
+	await new Promise((resolve) => {
 		_hideModule(
 			module,
 			speed / 2,
