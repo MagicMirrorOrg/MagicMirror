@@ -6,22 +6,25 @@ const { htmlToText } = require("html-to-text");
 const Log = require("logger");
 const HTTPFetcher = require("#http_fetcher");
 
-// Inline formatting tags that are safe to render: bold, italic and underline.
-// These never carry attributes once sanitized, so they cannot be used for injection.
-const ALLOWED_TAGS = ["b", "strong", "i", "em", "u"];
+// The complete set of basic formatting tags users are allowed to opt into via the
+// `allowedBasicHtmlTags` config option. These are inline emphasis / line-break tags that
+// never carry attributes once sanitized, so they cannot be used for injection. Anything
+// requested outside this list is ignored (see the constructor).
+const SAFE_HTML_TAGS = ["b", "strong", "i", "em", "u", "br", "code", "s", "sub", "sup"];
 
 // html-to-text formatter that re-emits an allowed inline tag around its content,
-// so feeds that send real <em>/<strong> elements keep their emphasis.
+// so feeds that send real <em>/<strong> elements keep their emphasis. `br` is a void
+// element, so it is emitted as a single self-contained tag with no children/closing tag.
 const keepTagFormatter = (elem, walk, builder, formatOptions) => {
-	builder.addLiteral(`<${formatOptions.tagName}>`);
+	const { tagName } = formatOptions;
+	if (tagName === "br") {
+		builder.addLiteral("<br>");
+		return;
+	}
+	builder.addLiteral(`<${tagName}>`);
 	walk(elem.children, builder);
-	builder.addLiteral(`</${formatOptions.tagName}>`);
+	builder.addLiteral(`</${tagName}>`);
 };
-
-const allowedTagSelectors = ALLOWED_TAGS.map((tagName) => ({ selector: tagName, format: "keepTag", options: { tagName } }));
-
-// Matches only the exact, attribute-free opening/closing allowlisted tags after escaping.
-const restoreAllowedTags = new RegExp(`&lt;(/?(?:${ALLOWED_TAGS.join("|")}))&gt;`, "g");
 
 /**
  * NewsfeedFetcher - Fetches and parses RSS/Atom feed data
@@ -37,14 +40,22 @@ class NewsfeedFetcher {
 	 * @param {string} encoding - Encoding of the feed (e.g., 'UTF-8')
 	 * @param {boolean} logFeedWarnings - If true log warnings when there is an error parsing a news article
 	 * @param {boolean} useCorsProxy - If true cors proxy is used for article url's
-	 * @param {boolean} allowBasicHtmlTags - If true keep basic formatting tags (bold/italic/underline) in title and description
+	 * @param {string[]} allowedBasicHtmlTags - Basic formatting tags to keep in title and description. Only tags from the safe list are honored; anything else is ignored.
 	 */
-	constructor (url, reloadInterval, encoding, logFeedWarnings, useCorsProxy, allowBasicHtmlTags = false) {
+	constructor (url, reloadInterval, encoding, logFeedWarnings, useCorsProxy, allowedBasicHtmlTags = []) {
 		this.url = url;
 		this.encoding = encoding;
 		this.logFeedWarnings = logFeedWarnings;
 		this.useCorsProxy = useCorsProxy;
-		this.allowBasicHtmlTags = allowBasicHtmlTags;
+
+		// Keep only tags from the hardcoded safe list; warn about (and ignore) anything else.
+		const requestedTags = (Array.isArray(allowedBasicHtmlTags) ? allowedBasicHtmlTags : []).map((tag) => String(tag).trim().toLowerCase());
+		this.allowedBasicHtmlTags = requestedTags.filter((tag) => SAFE_HTML_TAGS.includes(tag));
+		const ignoredTags = requestedTags.filter((tag) => !SAFE_HTML_TAGS.includes(tag));
+		if (ignoredTags.length > 0) {
+			Log.warn(`Ignoring unsupported allowedBasicHtmlTags [${ignoredTags.join(", ")}] for url ${url}. Allowed tags are: ${SAFE_HTML_TAGS.join(", ")}`);
+		}
+
 		this.items = [];
 		this.fetchFailedCallback = () => {};
 		this.itemsReceivedCallback = () => {};
@@ -64,8 +75,8 @@ class NewsfeedFetcher {
 	}
 
 	/**
-	 * Sanitizes a feed string, keeping only a strict allowlist of basic
-	 * formatting tags (bold, italic, underline) and neutralizing everything else.
+	 * Sanitizes a feed string, keeping only the given allowlist of basic
+	 * formatting tags and neutralizing everything else.
 	 *
 	 * The approach is allowlist-only and therefore safe to render unescaped:
 	 * html-to-text first strips all real markup (scripts, links, images, …) and
@@ -73,9 +84,13 @@ class NewsfeedFetcher {
 	 * attribute-free allowlisted tags are restored. No attributes, event handlers,
 	 * or other tags can survive, so arbitrary HTML/script injection is impossible.
 	 * @param {string} html - The raw title or description from the feed.
-	 * @returns {string} Safe HTML containing at most the allowlisted formatting tags.
+	 * @param {string[]} [allowedTags] - Tags to keep. Callers pass an already-validated subset of SAFE_HTML_TAGS.
+	 * @returns {string} Safe HTML containing at most the allowed formatting tags.
 	 */
-	static sanitizeBasicHtml (html) {
+	static sanitizeBasicHtml (html, allowedTags = []) {
+		// `br` keeps its default "collapse to a space" behavior unless explicitly allowed.
+		const keepTagSelectors = allowedTags.map((tagName) => ({ selector: tagName, format: "keepTag", options: { tagName } }));
+
 		const text = htmlToText(html, {
 			wordwrap: false,
 			formatters: { keepTag: keepTagFormatter },
@@ -83,15 +98,22 @@ class NewsfeedFetcher {
 				{ selector: "a", options: { ignoreHref: true, noAnchorUrl: true } },
 				{ selector: "br", format: "inlineSurround", options: { prefix: " " } },
 				{ selector: "img", format: "skip" },
-				...allowedTagSelectors
+				...keepTagSelectors
 			]
 		});
 
-		return text
+		const escaped = text
 			.replaceAll("&", "&amp;")
 			.replaceAll("<", "&lt;")
-			.replaceAll(">", "&gt;")
-			.replace(restoreAllowedTags, "<$1>");
+			.replaceAll(">", "&gt;");
+
+		if (allowedTags.length === 0) {
+			return escaped;
+		}
+
+		// Restore only the exact, attribute-free allowed opening/closing tags after escaping.
+		const restoreAllowedTags = new RegExp(`&lt;(/?(?:${allowedTags.join("|")}))&gt;`, "g");
+		return escaped.replace(restoreAllowedTags, "<$1>");
 	}
 
 	/**
@@ -129,10 +151,10 @@ class NewsfeedFetcher {
 
 			if (title && pubdate) {
 				let displayTitle = title;
-				if (this.allowBasicHtmlTags) {
-					// Keep basic formatting (bold/italic/underline) in both fields, strip everything else
-					description = NewsfeedFetcher.sanitizeBasicHtml(description);
-					displayTitle = NewsfeedFetcher.sanitizeBasicHtml(title);
+				if (this.allowedBasicHtmlTags.length > 0) {
+					// Keep the configured basic formatting tags in both fields, strip everything else
+					description = NewsfeedFetcher.sanitizeBasicHtml(description, this.allowedBasicHtmlTags);
+					displayTitle = NewsfeedFetcher.sanitizeBasicHtml(title, this.allowedBasicHtmlTags);
 				} else {
 					// Convert HTML entities, codes and tag
 					description = htmlToText(description, {
@@ -151,7 +173,7 @@ class NewsfeedFetcher {
 					pubdate,
 					url,
 					useCorsProxy: this.useCorsProxy,
-					// Hash on the original title so the dedup identity is stable regardless of allowBasicHtmlTags
+					// Hash on the original title so the dedup identity is stable regardless of allowedBasicHtmlTags
 					hash: crypto.createHash("sha256").update(`${pubdate} :: ${title} :: ${url}`).digest("hex")
 				});
 			} else if (this.logFeedWarnings) {

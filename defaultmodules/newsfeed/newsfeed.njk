@@ -45,13 +45,13 @@
               {% if config.showPublishDate %}{{ item.publishDate }}:{% endif %}
             </div>
           {% endif %}
-          <div class="newsfeed-title bright medium light{{ ' no-wrap' if not config.wrapTitle }}">{{ escapeTitle(item.title, item.url, config.dangerouslyDisableAutoEscaping or config.allowBasicHtmlTags, config.showTitleAsUrl) }}</div>
+          <div class="newsfeed-title bright medium light{{ ' no-wrap' if not config.wrapTitle }}">{{ escapeTitle(item.title, item.url, config.dangerouslyDisableAutoEscaping or (config.allowedBasicHtmlTags | length), config.showTitleAsUrl) }}</div>
           {% if config.showDescription %}
             <div class="newsfeed-desc small light{{ ' no-wrap' if not config.wrapDescription }}">
               {% if config.truncDescription %}
-                {{ escapeText(item.description | truncate(config.lengthDescription) , config.dangerouslyDisableAutoEscaping or config.allowBasicHtmlTags) }}
+                {{ escapeText(item.description | truncate(config.lengthDescription) , config.dangerouslyDisableAutoEscaping or (config.allowedBasicHtmlTags | length)) }}
               {% else %}
-                {{ escapeText(item.description, config.dangerouslyDisableAutoEscaping or config.allowBasicHtmlTags) }}
+                {{ escapeText(item.description, config.dangerouslyDisableAutoEscaping or (config.allowedBasicHtmlTags | length)) }}
               {% endif %}
             </div>
           {% endif %}
@@ -68,13 +68,13 @@
           {% if config.showPublishDate %}{{ publishDate }}:{% endif %}
         </div>
       {% endif %}
-      <div class="newsfeed-title bright medium light{{ ' no-wrap' if not config.wrapTitle }}">{{ escapeTitle(title, url, config.dangerouslyDisableAutoEscaping or config.allowBasicHtmlTags, config.showTitleAsUrl) }}</div>
+      <div class="newsfeed-title bright medium light{{ ' no-wrap' if not config.wrapTitle }}">{{ escapeTitle(title, url, config.dangerouslyDisableAutoEscaping or (config.allowedBasicHtmlTags | length), config.showTitleAsUrl) }}</div>
       {% if config.showDescription %}
         <div class="newsfeed-desc small light{{ ' no-wrap' if not config.wrapDescription }}">
           {% if config.truncDescription %}
-            {{ escapeText(description | truncate(config.lengthDescription) , config.dangerouslyDisableAutoEscaping or config.allowBasicHtmlTags) }}
+            {{ escapeText(description | truncate(config.lengthDescription) , config.dangerouslyDisableAutoEscaping or (config.allowedBasicHtmlTags | length)) }}
           {% else %}
-            {{ escapeText(description, config.dangerouslyDisableAutoEscaping or config.allowBasicHtmlTags) }}
+            {{ escapeText(description, config.dangerouslyDisableAutoEscaping or (config.allowedBasicHtmlTags | length)) }}
           {% endif %}
         </div>
       {% endif %}

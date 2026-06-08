@@ -16,7 +16,7 @@ let config = {
 				],
 				showDescription: true,
 				truncDescription: false,
-				allowBasicHtmlTags: true
+				allowedBasicHtmlTags: ["b", "strong", "i", "em", "u", "br", "code", "s", "sub", "sup"]
 			}
 		}
 	]
