@@ -187,6 +187,8 @@ function App () {
 		try {
 			const configObj = Utils.loadConfig();
 			global.config = configObj.fullConf;
+			// Keep a copy of the redacted config to later verify module secret permissions
+			global.configRedacted = configObj.redactedConf;
 			const config = global.config;
 			Utils.checkConfigFile(configObj);
 

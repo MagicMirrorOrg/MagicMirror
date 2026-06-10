@@ -17,21 +17,31 @@ function getStartup (req, res) {
 }
 
 /**
- * A method that replaces the secret placeholders `**SECRET_ABC**` with the environment variable SECRET_ABC
- * @param {string} input - the input string
- * @returns {string} the input with real variable content
+ * Replace `**SECRET_ABC**` placeholders with the value of `process.env.SECRET_ABC`.
+ *
+ * If `allowedSecrets` is given, only those secret names are restored and every
+ * other placeholder is left untouched. Without it, all secrets are restored
+ * (used by the CORS proxy, which only runs on the trusted server side).
+ * @param {string} input - String that may contain `**SECRET_***` placeholders.
+ * @param {Set<string>} [allowedSecrets] - Secret names that may be restored.
+ * @returns {string} The input with the allowed placeholders replaced.
  */
-function replaceSecretPlaceholder (input) {
-	if (global.config.cors !== "allowAll") {
-		return input.replaceAll(/\*\*(SECRET_[^*]+)\*\*/g, (match, group) => {
-			return process.env[group];
-		});
-	} else {
+function replaceSecretPlaceholder (input, allowedSecrets) {
+	if (global.config.cors === "allowAll") {
 		if (input.includes("**SECRET_")) {
 			Log.error("Replacing secrets doesn't work with CORS `allowAll`, you need to set `cors` to `disabled` or `allowWhitelist` in `config.js`");
 		}
 		return input;
 	}
+	return input.replaceAll(/\*\*(SECRET_[^*]+)\*\*/g, (placeholder, secretName) => {
+		// Block replacing secrets that are not explicitly allowed.
+		if (allowedSecrets && !allowedSecrets.has(secretName)) {
+			return placeholder;
+		}
+
+		// Load the real value from the environment. Fallback to placeholder if missing.
+		return process.env[secretName] || placeholder;
+	});
 }
 
 /**

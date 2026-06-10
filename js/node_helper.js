@@ -2,6 +2,26 @@ const express = require("express");
 const Log = require("logger");
 const { replaceSecretPlaceholder } = require("#server_functions");
 
+/**
+ * Determine which secrets a module is allowed to restore. A module may only
+ * restore the `**SECRET_***` placeholders that appear in its own config — the
+ * exact inverse of how the config is redacted before it is sent to the browser.
+ * @param {string} moduleName - Name of the module.
+ * @returns {Set<string>} The secret names the module may restore.
+ */
+function getAllowedSecrets (moduleName) {
+	const modules = global.configRedacted?.modules || [];
+	const moduleConfig = modules.find((m) => m.module === moduleName);
+	const allowed = new Set();
+	if (moduleConfig) {
+		// Stringify the config to easily find all expected **SECRET_*** placeholders
+		for (const [, secretName] of JSON.stringify(moduleConfig).matchAll(/\*\*(SECRET_[^*]+)\*\*/g)) {
+			allowed.add(secretName);
+		}
+	}
+	return allowed;
+}
+
 class NodeHelper {
 	init () {
 		Log.log("Initializing new module helper ...");
@@ -90,7 +110,10 @@ class NodeHelper {
 			socket.onAny((notification, payload) => {
 				if (config?.hideConfigSecrets && payload && typeof payload === "object") {
 					try {
-						const payloadStr = replaceSecretPlaceholder(JSON.stringify(payload));
+						// Calculate exactly which secrets this module is allowed to receive
+						const allowedSecrets = getAllowedSecrets(this.name);
+						// Expand only these safe, module-specific secrets in the payload
+						const payloadStr = replaceSecretPlaceholder(JSON.stringify(payload), allowedSecrets);
 						this.socketNotificationReceived(notification, JSON.parse(payloadStr));
 					} catch (e) {
 						Log.error("Error substituting variables in payload: ", e);

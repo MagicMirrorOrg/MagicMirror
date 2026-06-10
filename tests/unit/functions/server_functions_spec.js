@@ -47,6 +47,33 @@ describe("server_functions tests", () => {
 		});
 	});
 
+	describe("The replaceSecretPlaceholder method with an allowedSecrets set", () => {
+		beforeEach(() => {
+			global.config = { cors: "allowWhitelist" };
+			process.env.SECRET_ALLOWED = "allowed-value";
+			process.env.SECRET_DENIED = "denied-value";
+		});
+
+		it("Restores only allowed secrets and keeps denied placeholders untouched", () => {
+			const teststring = "allowed=**SECRET_ALLOWED** denied=**SECRET_DENIED**";
+			const result = replaceSecretPlaceholder(teststring, new Set(["SECRET_ALLOWED"]));
+			expect(result).toBe("allowed=allowed-value denied=**SECRET_DENIED**");
+			expect(result).not.toContain("denied-value");
+		});
+
+		it("Does not restore any placeholder when the set is empty", () => {
+			const teststring = "value=**SECRET_ALLOWED**";
+			const result = replaceSecretPlaceholder(teststring, new Set());
+			expect(result).toBe(teststring);
+		});
+
+		it("Falls back to the placeholder if the allowed secret doesn't exist in environment", () => {
+			const teststring = "value=**SECRET_MISSING**";
+			const result = replaceSecretPlaceholder(teststring, new Set(["SECRET_MISSING"]));
+			expect(result).toBe(teststring);
+		});
+	});
+
 	describe("The cors method", () => {
 		let fetchSpy;
 		let fetchResponseHeadersGet;
