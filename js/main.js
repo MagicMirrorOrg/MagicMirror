@@ -66,9 +66,11 @@ function createDomObjects () {
 
 	updateWrapperStates();
 
-	Promise.all(domCreationPromises).then(function () {
-		_sendNotification("DOM_OBJECTS_CREATED");
-	});
+	Promise.all(domCreationPromises)
+		.then(function () {
+			_sendNotification("DOM_OBJECTS_CREATED");
+		})
+		.catch(Log.error);
 }
 
 /**
@@ -108,44 +110,30 @@ function _sendNotification (notification, payload, sender, sendTo) {
  * @param {Module} module The module that needs an update.
  * @param {object|number} [updateOptions] The (optional) number of microseconds for the animation or object with updateOptions (speed/animates)
  * @param {boolean} [createAnimatedDom] for displaying only animateIn (used on first start of MagicMirror)
- * @returns {Promise} Resolved when the dom is fully updated.
+ * @returns {Promise<void>} Resolved when the dom is fully updated.
  */
-function _updateDom (module, updateOptions, createAnimatedDom = false) {
-	return new Promise(function (resolve) {
-		let speed = updateOptions;
-		let animateOut = null;
-		let animateIn = null;
-		if (typeof updateOptions === "object") {
-			if (typeof updateOptions.options === "object" && updateOptions.options.speed !== undefined) {
-				speed = updateOptions.options.speed;
-				Log.debug(`updateDom: ${module.identifier} Has speed in object: ${speed}`);
-				if (typeof updateOptions.options.animate === "object") {
-					animateOut = updateOptions.options.animate.out;
-					animateIn = updateOptions.options.animate.in;
-					Log.debug(`updateDom: ${module.identifier} Has animate in object: out->${animateOut}, in->${animateIn}`);
-				}
-			} else {
-				Log.debug(`updateDom: ${module.identifier} Has no speed in object`);
-				speed = 0;
+async function _updateDom (module, updateOptions, createAnimatedDom = false) {
+	let speed = updateOptions;
+	let animateOut = null;
+	let animateIn = null;
+	if (typeof updateOptions === "object") {
+		if (typeof updateOptions.options === "object" && updateOptions.options.speed !== undefined) {
+			speed = updateOptions.options.speed;
+			Log.debug(`updateDom: ${module.identifier} Has speed in object: ${speed}`);
+			if (typeof updateOptions.options.animate === "object") {
+				animateOut = updateOptions.options.animate.out;
+				animateIn = updateOptions.options.animate.in;
+				Log.debug(`updateDom: ${module.identifier} Has animate in object: out->${animateOut}, in->${animateIn}`);
 			}
+		} else {
+			Log.debug(`updateDom: ${module.identifier} Has no speed in object`);
+			speed = 0;
 		}
+	}
 
-		const newHeader = module.getHeader();
-		let newContentPromise = module.getDom();
-
-		if (!(newContentPromise instanceof Promise)) {
-			// convert to a promise if not already one to avoid if/else's everywhere
-			newContentPromise = Promise.resolve(newContentPromise);
-		}
-
-		newContentPromise
-			.then(function (newContent) {
-				const updatePromise = updateDomWithContent(module, speed, newHeader, newContent, animateOut, animateIn, createAnimatedDom);
-
-				updatePromise.then(resolve).catch(Log.error);
-			})
-			.catch(Log.error);
-	});
+	const newHeader = module.getHeader();
+	const newContent = await module.getDom();
+	await updateDomWithContent(module, speed, newHeader, newContent, animateOut, animateIn, createAnimatedDom);
 }
 
 /**
@@ -681,10 +669,12 @@ export const MM = {
 		}
 
 		// Further implementation is done in the private method.
-		_updateDom(module, updateOptions).then(function () {
-			// Once the update is complete and rendered, send a notification to the module that the DOM has been updated
-			_sendNotification("MODULE_DOM_UPDATED", null, null, module);
-		});
+		_updateDom(module, updateOptions)
+			.then(function () {
+				// Once the update is complete and rendered, send a notification to the module that the DOM has been updated
+				_sendNotification("MODULE_DOM_UPDATED", null, null, module);
+			})
+			.catch(Log.error);
 	},
 
 	/**
