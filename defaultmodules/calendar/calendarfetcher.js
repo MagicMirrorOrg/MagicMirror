@@ -59,7 +59,13 @@ class CalendarFetcher {
 			}
 
 			const responseData = await response.text();
-			const parsed = await ical.async.parseICS(responseData);
+
+			const filteredData = await CalendarFetcherUtils.preFilterICS(responseData, {
+				includePastEvents: this.includePastEvents,
+				maximumNumberOfDays: this.maximumNumberOfDays
+			});
+
+			const parsed = await ical.async.parseICS(filteredData);
 
 			Log.debug(`Parsed iCal data from ${this.url} with ${Object.keys(parsed).length} entries.`);
 

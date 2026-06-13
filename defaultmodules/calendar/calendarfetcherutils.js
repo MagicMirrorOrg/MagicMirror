@@ -42,6 +42,36 @@ const CalendarFetcherUtils = {
 	},
 
 	/**
+	 * Calculate the time window of events to keep, as [start, end].
+	 * Without includePastEvents the window starts now; otherwise it also
+	 * reaches maximumNumberOfDays into the past.
+	 * @param {object} config Needs includePastEvents (boolean) and maximumNumberOfDays (number).
+	 * @returns {[Date, Date]} The start and end of the window.
+	 */
+	calculateFilterWindow (config) {
+		const today = moment().startOf("day");
+		const start = config.includePastEvents
+			? today.clone().subtract(config.maximumNumberOfDays, "days").toDate()
+			: new Date();
+		const end = today.clone().add(config.maximumNumberOfDays, "days").toDate();
+		return [start, end];
+	},
+
+	/**
+	 * Drop ICS data outside the configured time window before it is parsed,
+	 * so that node-ical only has to process events we might actually show.
+	 * @param {string} rawICS The raw ICS text.
+	 * @param {object} config Needs includePastEvents (boolean) and maximumNumberOfDays (number).
+	 * @returns {Promise<string>} The filtered ICS text.
+	 */
+	async preFilterICS (rawICS, config) {
+		// ics-filter is ESM-only, so we import it dynamically from this CommonJS file.
+		const { icsFilter } = await import("ics-filter");
+		const [start, end] = CalendarFetcherUtils.calculateFilterWindow(config);
+		return icsFilter(rawICS, start, end);
+	},
+
+	/**
 	 * Filter the events from ical according to the given config
 	 * @param {object} data the calendar data from ical
 	 * @param {object} config The configuration object

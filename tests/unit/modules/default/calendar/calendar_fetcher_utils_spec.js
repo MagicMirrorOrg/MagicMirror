@@ -298,6 +298,29 @@ END:VCALENDAR`);
 		});
 	});
 
+	describe("calculateFilterWindow", () => {
+		it("ends maximumNumberOfDays after today's midnight", () => {
+			const [, end] = CalendarFetcherUtils.calculateFilterWindow({ includePastEvents: false, maximumNumberOfDays: 30 });
+
+			expect(end).toEqual(moment().startOf("day").add(30, "days").toDate());
+		});
+
+		it("starts now when includePastEvents is false", () => {
+			const before = Date.now();
+			const [start] = CalendarFetcherUtils.calculateFilterWindow({ includePastEvents: false, maximumNumberOfDays: 30 });
+			const after = Date.now();
+
+			expect(start.getTime()).toBeGreaterThanOrEqual(before);
+			expect(start.getTime()).toBeLessThanOrEqual(after);
+		});
+
+		it("starts maximumNumberOfDays before today's midnight when includePastEvents is true", () => {
+			const [start] = CalendarFetcherUtils.calculateFilterWindow({ includePastEvents: true, maximumNumberOfDays: 30 });
+
+			expect(start).toEqual(moment().startOf("day").subtract(30, "days").toDate());
+		});
+	});
+
 	describe("expandRecurringEvent", () => {
 		it("should extend end to end-of-day when event has no DTEND", () => {
 			// node-ical sets end === start when DTEND is absent; our code extends to endOf("day")

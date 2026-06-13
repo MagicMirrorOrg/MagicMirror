@@ -93,6 +93,7 @@
 		"helmet": "^8.2.0",
 		"html-to-text": "^10.0.0",
 		"iconv-lite": "^0.7.2",
+		"ics-filter": "^1.0.2",
 		"ipaddr.js": "^2.4.0",
 		"moment": "^2.30.1",
 		"moment-timezone": "^0.6.2",
