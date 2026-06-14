@@ -78,12 +78,20 @@ describe("Weather module: Weather Forecast", () => {
 		});
 
 		it("should render custom table class", async () => {
-			await expect(page.locator(".weather table.myTableClass")).toBeVisible();
+			await expect(page.locator(".weather table.myTableClass.weather-forecast")).toBeVisible();
 		});
 
 		it("should render colored rows", async () => {
 			const rows = page.locator(".weather table.myTableClass tr");
 			await expect(rows).toHaveCount(5);
+		});
+
+		it("should expose forecast column order through CSS", async () => {
+			const minTempCell = page.locator(".weather table.myTableClass tr:first-child td.min-temp");
+			const maxTempCell = page.locator(".weather table.myTableClass tr:first-child td.max-temp");
+
+			await expect(minTempCell).toHaveCSS("order", "3");
+			await expect(maxTempCell).toHaveCSS("order", "4");
 		});
 
 		const precipitations = [undefined, "2.51 mm"];

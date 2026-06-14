@@ -1,7 +1,7 @@
 {% if forecast %}
   {% set numSteps = forecast | calcNumSteps %}
   {% set currentStep = 0 %}
-  <table class="{{ config.tableClass }}">
+  <table class="{{ config.tableClass }} weather-forecast">
     {% if config.ignoreToday %}
       {% set forecast = forecast.splice(1) %}
     {% endif %}
