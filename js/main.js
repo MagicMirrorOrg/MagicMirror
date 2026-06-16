@@ -8,7 +8,7 @@ let modules = [];
 /**
  * Create dom objects for all modules that are configured for a specific position.
  */
-function createDomObjects () {
+async function createDomObjects () {
 	const domCreationPromises = [];
 
 	modules.forEach(function (module) {
@@ -50,27 +50,33 @@ function createDomObjects () {
 		moduleContent.className = "module-content";
 		dom.appendChild(moduleContent);
 
-		// create the domCreationPromise with AnimateCSS (with animateIn of module definition)
-		// or just display it
-		var domCreationPromise;
-		if (haveAnimateIn) domCreationPromise = _updateDom(module, { options: { speed: 1000, animate: { in: haveAnimateIn } } }, true);
-		else domCreationPromise = _updateDom(module, 0);
-
-		domCreationPromises.push(domCreationPromise);
-		domCreationPromise
-			.then(function () {
-				_sendNotification("MODULE_DOM_CREATED", null, null, module);
-			})
-			.catch(Log.error);
+		domCreationPromises.push(createModuleDom(module, haveAnimateIn));
 	});
 
 	updateWrapperStates();
 
-	Promise.all(domCreationPromises)
-		.then(function () {
-			_sendNotification("DOM_OBJECTS_CREATED");
-		})
-		.catch(Log.error);
+	try {
+		await Promise.all(domCreationPromises);
+		_sendNotification("DOM_OBJECTS_CREATED");
+	} catch (error) {
+		Log.error(error);
+	}
+}
+
+/**
+ * Create and render a module DOM, then notify the module.
+ * @param {Module} module The module to render.
+ * @param {string|null} haveAnimateIn Optional animateIn animation name.
+ * @returns {Promise<void>} Resolved when module DOM is created.
+ */
+async function createModuleDom (module, haveAnimateIn) {
+	if (haveAnimateIn) {
+		await _updateDom(module, { options: { speed: 1000, animate: { in: haveAnimateIn } } }, true);
+	} else {
+		await _updateDom(module, 0);
+	}
+
+	_sendNotification("MODULE_DOM_CREATED", null, null, module);
 }
 
 /**
@@ -166,20 +172,11 @@ async function updateDomWithContent (module, speed, newHeader, newContent, anima
 		return;
 	}
 
-	await new Promise((resolve) => {
-		_hideModule(
-			module,
-			speed / 2,
-			function () {
-				updateModuleContent(module, newHeader, newContent);
-				if (!module.hidden) {
-					_showModule(module, speed / 2, null, { animate: animateIn });
-				}
-				resolve();
-			},
-			{ animate: animateOut }
-		);
-	});
+	await new Promise((resolve) => _hideModule(module, speed / 2, resolve, { animate: animateOut }));
+	updateModuleContent(module, newHeader, newContent);
+	if (!module.hidden) {
+		await new Promise((resolve) => _showModule(module, speed / 2, resolve, { animate: animateIn }));
+	}
 }
 
 /**
@@ -241,7 +238,7 @@ function updateModuleContent (module, newHeader, newContent) {
  * Hide the module.
  * @param {Module} module The module to hide.
  * @param {number} speed The speed of the hide animation.
- * @param {Promise} callback Called when the animation is done.
+ * @param {() => void} callback Called when the animation is done.
  * @param {object} [options] Optional settings for the hide method.
  */
 function _hideModule (module, speed, callback, options = {}) {
@@ -325,7 +322,7 @@ function _hideModule (module, speed, callback, options = {}) {
  * Show the module.
  * @param {Module} module The module to show.
  * @param {number} speed The speed of the show animation.
- * @param {Promise} callback Called when the animation is done.
+ * @param {() => void} callback Called when the animation is done.
  * @param {object} [options] Optional settings for the show method.
  */
 function _showModule (module, speed, callback, options = {}) {
@@ -657,7 +654,7 @@ export const MM = {
 	 * @param {Module} module The module that needs an update.
 	 * @param {object|number} [updateOptions] The (optional) number of microseconds for the animation or object with updateOptions (speed/animates)
 	 */
-	updateDom (module, updateOptions) {
+	async updateDom (module, updateOptions) {
 		if (!(module instanceof Module)) {
 			Log.error("updateDom: Sender should be a module.");
 			return;
@@ -669,12 +666,9 @@ export const MM = {
 		}
 
 		// Further implementation is done in the private method.
-		_updateDom(module, updateOptions)
-			.then(function () {
-				// Once the update is complete and rendered, send a notification to the module that the DOM has been updated
-				_sendNotification("MODULE_DOM_UPDATED", null, null, module);
-			})
-			.catch(Log.error);
+		await _updateDom(module, updateOptions);
+		// Once the update is complete and rendered, send a notification to the module that the DOM has been updated
+		_sendNotification("MODULE_DOM_UPDATED", null, null, module);
 	},
 
 	/**
@@ -690,7 +684,7 @@ export const MM = {
 	 * Hide the module.
 	 * @param {Module} module The module to hide.
 	 * @param {number} speed The speed of the hide animation.
-	 * @param {Promise} callback Called when the animation is done.
+	 * @param {() => void} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the hide method.
 	 */
 	hideModule (module, speed, callback, options) {
@@ -702,7 +696,7 @@ export const MM = {
 	 * Show the module.
 	 * @param {Module} module The module to show.
 	 * @param {number} speed The speed of the show animation.
-	 * @param {Promise} callback Called when the animation is done.
+	 * @param {() => void} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the show method.
 	 */
 	showModule (module, speed, callback, options) {

@@ -365,7 +365,7 @@ export class Module {
 	/**
 	 * Hide this module.
 	 * @param {number} speed The speed of the hide animation.
-	 * @param {Promise} callback Called when the animation is done.
+	 * @param {() => void} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the hide method.
 	 */
 	hide (speed, callback, options = {}) {
@@ -392,7 +392,7 @@ export class Module {
 	/**
 	 * Show this module.
 	 * @param {number} speed The speed of the show animation.
-	 * @param {Promise} callback Called when the animation is done.
+	 * @param {() => void} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the show method.
 	 */
 	show (speed, callback, options) {
