@@ -100,7 +100,7 @@
 		"node-ical": "^0.26.1",
 		"nunjucks": "^3.2.4",
 		"socket.io": "^4.8.3",
-		"suncalc": "^1.9.0",
+		"suncalc": "^2.0.0",
 		"systeminformation": "^5.31.7",
 		"undici": "^8.4.1",
 		"weathericons": "^2.1.0"

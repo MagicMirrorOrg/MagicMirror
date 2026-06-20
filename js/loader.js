@@ -195,6 +195,7 @@ function loadFile (fileName) {
 
 	switch (extension.toLowerCase()) {
 		case "js":
+		case "cjs":
 			return new Promise((resolve) => {
 				Log.log(`Load script: ${fileName}`);
 				script = document.createElement("script");
