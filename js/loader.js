@@ -195,7 +195,6 @@ function loadFile (fileName) {
 
 	switch (extension.toLowerCase()) {
 		case "js":
-		case "cjs":
 			return new Promise((resolve) => {
 				Log.log(`Load script: ${fileName}`);
 				script = document.createElement("script");
@@ -206,6 +205,22 @@ function loadFile (fileName) {
 				};
 				script.onerror = function () {
 					Log.error("Error on loading script:", fileName);
+					script.remove();
+					resolve();
+				};
+				document.getElementsByTagName("body")[0].appendChild(script);
+			});
+		case "mjs":
+			return new Promise((resolve) => {
+				Log.log(`Load module script: ${fileName}`);
+				script = document.createElement("script");
+				script.type = "module";
+				script.src = fileName;
+				script.onload = function () {
+					resolve();
+				};
+				script.onerror = function () {
+					Log.error("Error on loading module script:", fileName);
 					script.remove();
 					resolve();
 				};

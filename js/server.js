@@ -98,18 +98,12 @@ function Server (configObj) {
 				});
 			}
 
-			let directories = ["/config", "/css", "/favicon.svg", "/defaultmodules", "/modules", "/node_modules/animate.css", "/node_modules/@fontsource", "/node_modules/@fortawesome", "/translations", "/tests/configs", "/tests/mocks"];
+			let directories = ["/config", "/css", "/favicon.svg", "/defaultmodules", "/modules", "/node_modules/animate.css", "/node_modules/@fontsource", "/node_modules/@fortawesome", "/node_modules/suncalc", "/translations", "/tests/configs", "/tests/mocks"];
 			for (const value of Object.values(vendor)) {
 				const dirArr = value.split("/");
 				if (dirArr[0] === "node_modules") directories.push(`/${dirArr[0]}/${dirArr[1]}`);
 			}
 			const uniqDirs = [...new Set(directories)];
-
-			// suncalc v2 ships suncalc.cjs (UMD); serve it explicitly as JavaScript
-			// because express.static maps .cjs to application/node which browsers reject.
-			app.get("/node_modules/suncalc/suncalc.cjs", (req, res) => {
-				res.type("text/javascript").sendFile(path.resolve(global.root_path, "node_modules/suncalc/suncalc.cjs"));
-			});
 
 			for (const directory of uniqDirs) {
 				app.use(directory, express.static(path.resolve(global.root_path + directory)));
