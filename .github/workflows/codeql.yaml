@@ -23,7 +23,7 @@ jobs:
         language: [actions, javascript-typescript]
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: github/codeql-action/init@v4
         with:
