@@ -83,13 +83,13 @@
 	"dependencies": {
 		"@fontsource/roboto": "^5.2.10",
 		"@fontsource/roboto-condensed": "^5.2.8",
-		"@fortawesome/fontawesome-free": "^7.2.0",
+		"@fortawesome/fontawesome-free": "^7.3.0",
 		"animate.css": "^4.1.1",
 		"croner": "^10.0.1",
-		"eslint": "^10.5.0",
+		"eslint": "^10.6.0",
 		"express": "^5.2.1",
 		"feedme": "^2.0.2",
-		"globals": "^17.6.0",
+		"globals": "^17.7.0",
 		"helmet": "^8.2.0",
 		"html-to-text": "^10.0.0",
 		"iconv-lite": "^0.7.2",
@@ -101,7 +101,7 @@
 		"nunjucks": "^3.2.4",
 		"socket.io": "^4.8.3",
 		"suncalc": "^2.0.0",
-		"systeminformation": "^5.31.7",
+		"systeminformation": "^5.31.11",
 		"undici": "^8.5.0",
 		"weathericons": "^2.1.0"
 	},
@@ -114,22 +114,22 @@
 		"@vitest/eslint-plugin": "^1.6.20",
 		"@vitest/ui": "^4.1.9",
 		"cspell": "^10.0.1",
-		"eslint-plugin-import-x": "^4.16.2",
-		"eslint-plugin-jsdoc": "^63.0.6",
-		"eslint-plugin-package-json": "^1.4.0",
+		"eslint-plugin-import-x": "^4.17.1",
+		"eslint-plugin-jsdoc": "^63.0.10",
+		"eslint-plugin-package-json": "^1.5.0",
 		"eslint-plugin-playwright": "^2.10.4",
 		"express-basic-auth": "^1.2.1",
 		"husky": "^9.1.7",
 		"jsdom": "^29.1.1",
 		"lint-staged": "^17.0.8",
 		"msw": "^2.14.6",
-		"playwright": "^1.61.0",
-		"prettier": "^3.8.4",
+		"playwright": "^1.61.1",
+		"prettier": "^3.9.4",
 		"prettier-plugin-jinja-template": "^2.2.0",
 		"vitest": "^4.1.9"
 	},
 	"optionalDependencies": {
-		"electron": "^42.4.1"
+		"electron": "^42.5.2"
 	},
 	"engines": {
 		"node": ">=22.21.1 <23 || >=24"
