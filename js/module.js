@@ -1,7 +1,7 @@
 /* global nunjucks */
 
 // eslint-disable-next-line import-x/extensions
-import { Loader } from "./loader.js";
+import { loadFileForModule } from "./loader.js";
 // eslint-disable-next-line import-x/extensions
 import { MMSocket } from "./socketclient.js";
 
@@ -282,7 +282,7 @@ export class Module {
 		const loadNextDependency = async () => {
 			if (dependencies.length > 0) {
 				const nextDependency = dependencies[0];
-				await Loader.loadFileForModule(nextDependency, this);
+				await loadFileForModule(nextDependency, this);
 				dependencies = dependencies.slice(1);
 				await loadNextDependency();
 			} else {
