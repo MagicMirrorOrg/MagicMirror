@@ -129,7 +129,7 @@
 		"vitest": "^4.1.9"
 	},
 	"optionalDependencies": {
-		"electron": "^42.5.2"
+		"electron": "^43.0.0"
 	},
 	"engines": {
 		"node": ">=22.21.1 <23 || >=24"
