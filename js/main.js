@@ -1,7 +1,7 @@
 /* global addAnimateCSS, removeAnimateCSS, AnimateCSSIn, AnimateCSSOut, modulePositions, io */
 
 // eslint-disable-next-line import-x/extensions
-import { Loader } from "./loader.js";
+import { loadModules } from "./loader.js";
 
 let modules = [];
 
@@ -573,7 +573,7 @@ export const MM = {
 		Log.setLogLevel(config.logLevel);
 
 		await globalThis.Translator.loadCoreTranslations(config.language);
-		await Loader.loadModules();
+		await loadModules();
 	},
 
 	/**

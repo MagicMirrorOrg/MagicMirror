@@ -249,60 +249,57 @@ function loadFile (fileName) {
 
 /* Public Methods */
 
-export const Loader = {
+/**
+ * Load all modules as defined in the config.
+ */
+export async function loadModules () {
+	const moduleData = await getModuleData();
+	const envVars = await getEnvVars();
+	const customCss = envVars.customCss;
 
-	/**
-	 * Load all modules as defined in the config.
-	 */
-	async loadModules () {
-		const moduleData = await getModuleData();
-		const envVars = await getEnvVars();
-		const customCss = envVars.customCss;
-
-		// Load all modules
-		for (const module of moduleData) {
-			await loadModule(module);
-		}
-
-		// Load custom.css
-		// Since this happens after loading the modules,
-		// it overwrites the default styles.
-		await loadFile(customCss);
-
-		// Start all modules.
-		await startModules();
-	},
-
-	/**
-	 * Load a file (script or stylesheet).
-	 * Prevent double loading and search for files defined in js/vendor.js.
-	 * @param {string} fileName Path of the file we want to load.
-	 * @param {Module} module The module that calls the loadFile function.
-	 * @returns {Promise} resolved when the file is loaded
-	 */
-	loadFileForModule (fileName, module) {
-		if (loadedFiles.indexOf(fileName.toLowerCase()) !== -1) {
-			Log.log(`File already loaded: ${fileName}`);
-			return Promise.resolve();
-		}
-
-		if (fileName.indexOf("http://") === 0 || fileName.indexOf("https://") === 0 || fileName.indexOf("/") !== -1) {
-			// This is an absolute or relative path.
-			// Load it and then return.
-			loadedFiles.push(fileName.toLowerCase());
-			return loadFile(fileName);
-		}
-
-		if (vendor[fileName] !== undefined) {
-			// This file is defined in js/vendor.js.
-			// Load it from its location.
-			loadedFiles.push(fileName.toLowerCase());
-			return loadFile(`${vendor[fileName]}`);
-		}
-
-		// File not loaded yet.
-		// Load it based on the module path.
-		loadedFiles.push(fileName.toLowerCase());
-		return loadFile(module.file(fileName));
+	// Load all modules
+	for (const module of moduleData) {
+		await loadModule(module);
 	}
-};
+
+	// Load custom.css
+	// Since this happens after loading the modules,
+	// it overwrites the default styles.
+	await loadFile(customCss);
+
+	// Start all modules.
+	await startModules();
+}
+
+/**
+ * Load a file (script or stylesheet).
+ * Prevent double loading and search for files defined in js/vendor.js.
+ * @param {string} fileName Path of the file we want to load.
+ * @param {Module} module The module that calls the loadFile function.
+ * @returns {Promise} resolved when the file is loaded
+ */
+export function loadFileForModule (fileName, module) {
+	if (loadedFiles.indexOf(fileName.toLowerCase()) !== -1) {
+		Log.log(`File already loaded: ${fileName}`);
+		return Promise.resolve();
+	}
+
+	if (fileName.indexOf("http://") === 0 || fileName.indexOf("https://") === 0 || fileName.indexOf("/") !== -1) {
+		// This is an absolute or relative path.
+		// Load it and then return.
+		loadedFiles.push(fileName.toLowerCase());
+		return loadFile(fileName);
+	}
+
+	if (vendor[fileName] !== undefined) {
+		// This file is defined in js/vendor.js.
+		// Load it from its location.
+		loadedFiles.push(fileName.toLowerCase());
+		return loadFile(`${vendor[fileName]}`);
+	}
+
+	// File not loaded yet.
+	// Load it based on the module path.
+	loadedFiles.push(fileName.toLowerCase());
+	return loadFile(module.file(fileName));
+}
