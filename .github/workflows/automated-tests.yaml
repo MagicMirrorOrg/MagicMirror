@@ -47,7 +47,7 @@ jobs:
           echo "Minimal node version is $NODE_VERSION"
           echo "version=$NODE_VERSION" >> $GITHUB_OUTPUT
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ steps.get-version.outputs.version }}
       - name: "Install dependencies"
