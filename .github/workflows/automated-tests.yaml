@@ -34,6 +34,25 @@ jobs:
       - name: "Run linter tests"
         run: |
           node --run test:lint
+  min-node-version-install:
+    runs-on: ubuntu-slim
+    timeout-minutes: 15
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v7
+      - name: "Get minimum node version"
+        id: get-version
+        run: |
+          NODE_VERSION="$(cat package.json | sed -rn 's|.*"node": ">=([0-9]+\.[0-9]+\.[0-9]+).*|\1|p')"
+          echo "Minimal node version is $NODE_VERSION"
+          echo "version=$NODE_VERSION" >> $GITHUB_OUTPUT
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ steps.get-version.outputs.version }}
+      - name: "Install dependencies"
+        run: |
+          node --run install-mm:dev
   test:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
