@@ -11,7 +11,7 @@ const { ipAccessControl, socketIpAccessControl } = require("./ip_access_control"
 
 const vendor = require("./vendor");
 
-const { getHtml, getVersion, getEnvVars, cors } = require("#server_functions");
+const { getHtml, getVersion, getEnvVars, getServerPort, cors } = require("#server_functions");
 
 /**
  * Server
@@ -21,7 +21,7 @@ const { getHtml, getVersion, getEnvVars, cors } = require("#server_functions");
 function Server (configObj) {
 	const config = configObj.fullConf;
 	const app = express();
-	const port = process.env.MM_PORT || config.port;
+	const port = getServerPort(config);
 	const serverSockets = new Set();
 	let server = null;
 

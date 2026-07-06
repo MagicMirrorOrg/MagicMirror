@@ -7,7 +7,7 @@ const path = require("node:path");
 const net = require("node:net");
 const http = require("node:http");
 const Log = require("logger");
-const { getConfigFilePath } = require("#server_functions");
+const { getConfigFilePath, getServerPort } = require("#server_functions");
 
 const RESTART_DELAY_MS = 500;
 const PORT_CHECK_MAX_ATTEMPTS = 20;
@@ -32,7 +32,7 @@ function getServerConfig () {
 		delete require.cache[require.resolve(configPath)];
 		const config = require(configPath);
 		serverConfig = {
-			port: global.mmPort || config.port || 8080,
+			port: getServerPort(config),
 			address: config.address || "localhost"
 		};
 	} catch {

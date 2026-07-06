@@ -1,13 +1,6 @@
-/* global mmPort */
-
-const address = "localhost";
-let port = 8080;
-if (typeof mmPort !== "undefined") {
-	port = mmPort;
-}
 const defaults = {
-	address: address,
-	port: port,
+	address: "localhost",
+	port: 8080,
 	basePath: "/",
 	useHttps: false, // Support HTTPS or not, default "false" will use HTTP
 	httpsPrivateKey: "", // HTTPS private key path, only required when useHttps is true
