@@ -520,7 +520,7 @@ export function cmpVersions (a, b) {
 	const l = Math.min(segmentsA.length, segmentsB.length);
 
 	for (let i = 0; i < l; i++) {
-		let diff = parseInt(segmentsA[i], 10) - parseInt(segmentsB[i], 10);
+		const diff = parseInt(segmentsA[i], 10) - parseInt(segmentsB[i], 10);
 		if (diff) {
 			return diff;
 		}

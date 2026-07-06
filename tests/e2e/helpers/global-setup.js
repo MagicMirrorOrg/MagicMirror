@@ -162,7 +162,7 @@ exports.fixupIndex = async () => {
 	// make lines of the content
 	const workIndexLines = indexData.split(os.EOL);
 	// loop thru the lines to find place to insert new region
-	for (let l in workIndexLines) {
+	for (const l in workIndexLines) {
 		if (workIndexLines[l].includes("region top right")) {
 			// insert a new line with new region definition
 			workIndexLines.splice(l, 0, "      <div class=\"region row3 left\"><div class=\"container\"></div></div>");

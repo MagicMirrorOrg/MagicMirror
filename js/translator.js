@@ -117,7 +117,7 @@ const Translator = (function () {
 		 * The first language defined in translations.js will be used.
 		 */
 		async loadCoreTranslationsFallback () {
-			let first = Object.keys(translations)[0];
+			const first = Object.keys(translations)[0];
 			if (first) {
 				Log.log(`[translator] Loading core translation fallback file: ${translations[first]}`);
 				this.coreTranslationsFallback = await loadJSON(translations[first]);

@@ -29,17 +29,17 @@ Module.register("testNotification", {
 		}
 	},
 	maketd (row, info) {
-		let td = document.createElement("td");
+		const td = document.createElement("td");
 		row.appendChild(td);
 		if (info !== null) {
-			let colinfo = info.toString().split(":");
+			const colinfo = info.toString().split(":");
 			if (colinfo.length === 2) td.className = colinfo[1];
 			td.innerText = colinfo[0];
 		}
 		return td;
 	},
 	addTableRow (table, col1 = null, col2 = null, col3 = null) {
-		let tableRow = document.createElement("tr");
+		const tableRow = document.createElement("tr");
 		table.appendChild(tableRow);
 
 		this.maketd(tableRow, col1);
@@ -49,7 +49,7 @@ Module.register("testNotification", {
 		return tableRow;
 	},
 	getDom () {
-		let wrapper = document.createElement("div");
+		const wrapper = document.createElement("div");
 		if (this.table) {
 			wrapper.appendChild(this.table);
 		}

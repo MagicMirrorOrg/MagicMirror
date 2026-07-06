@@ -212,7 +212,7 @@ Module.register("newsfeed", {
 	 * Registers the feeds to be used by the backend.
 	 */
 	registerFeeds () {
-		for (let feed of this.config.feeds) {
+		for (const feed of this.config.feeds) {
 			this.sendSocketNotification("ADD_FEED", {
 				feed: feed,
 				config: this.config
@@ -239,10 +239,10 @@ Module.register("newsfeed", {
 	 */
 	generateFeed (feeds) {
 		let newsItems = [];
-		for (let feed in feeds) {
+		for (const feed in feeds) {
 			const feedItems = feeds[feed];
 			if (this.subscribedToFeed(feed)) {
-				for (let item of feedItems) {
+				for (const item of feedItems) {
 					item.sourceTitle = this.titleForFeed(feed);
 					if (!(this.getFeedProperty(feed, "ignoreOldItems") && Date.now() - new Date(item.pubdate) > this.getFeedProperty(feed, "ignoreOlderThan"))) {
 						newsItems.push(item);
@@ -262,7 +262,7 @@ Module.register("newsfeed", {
 
 		if (this.config.prohibitedWords.length > 0) {
 			newsItems = newsItems.filter(function (item) {
-				for (let word of this.config.prohibitedWords) {
+				for (const word of this.config.prohibitedWords) {
 					if (item.title.toLowerCase().indexOf(word.toLowerCase()) > -1) {
 						return false;
 					}
@@ -273,7 +273,7 @@ Module.register("newsfeed", {
 		newsItems.forEach((item) => {
 			//Remove selected tags from the beginning of rss feed items (title or description)
 			if (this.config.removeStartTags === "title" || this.config.removeStartTags === "both") {
-				for (let startTag of this.config.startTags) {
+				for (const startTag of this.config.startTags) {
 					if (item.title.slice(0, startTag.length) === startTag) {
 						item.title = item.title.slice(startTag.length, item.title.length);
 					}
@@ -282,7 +282,7 @@ Module.register("newsfeed", {
 
 			if (this.config.removeStartTags === "description" || this.config.removeStartTags === "both") {
 				if (this.isShowingDescription) {
-					for (let startTag of this.config.startTags) {
+					for (const startTag of this.config.startTags) {
 						if (item.description.slice(0, startTag.length) === startTag) {
 							item.description = item.description.slice(startTag.length, item.description.length);
 						}
@@ -292,14 +292,14 @@ Module.register("newsfeed", {
 
 			//Remove selected tags from the end of rss feed items (title or description)
 			if (this.config.removeEndTags) {
-				for (let endTag of this.config.endTags) {
+				for (const endTag of this.config.endTags) {
 					if (item.title.slice(-endTag.length) === endTag) {
 						item.title = item.title.slice(0, -endTag.length);
 					}
 				}
 
 				if (this.isShowingDescription) {
-					for (let endTag of this.config.endTags) {
+					for (const endTag of this.config.endTags) {
 						if (item.description.slice(-endTag.length) === endTag) {
 							item.description = item.description.slice(0, -endTag.length);
 						}
@@ -331,7 +331,7 @@ Module.register("newsfeed", {
 	 * @returns {boolean} True if it is subscribed, false otherwise
 	 */
 	subscribedToFeed (feedUrl) {
-		for (let feed of this.config.feeds) {
+		for (const feed of this.config.feeds) {
 			if (feed.url === feedUrl) {
 				return true;
 			}
@@ -345,7 +345,7 @@ Module.register("newsfeed", {
 	 * @returns {string} The title of the feed
 	 */
 	titleForFeed (feedUrl) {
-		for (let feed of this.config.feeds) {
+		for (const feed of this.config.feeds) {
 			if (feed.url === feedUrl) {
 				return feed.title || "";
 			}

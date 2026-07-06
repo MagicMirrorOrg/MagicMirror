@@ -45,7 +45,7 @@ function createWindow () {
 	}
 
 	applyElectronSwitches(app.commandLine, config.electronSwitches);
-	let electronOptionsDefaults = {
+	const electronOptionsDefaults = {
 		width: electronSize.width,
 		height: electronSize.height,
 		icon: "favicon.svg",
@@ -100,7 +100,7 @@ function createWindow () {
 		prefix = "http://";
 	}
 
-	let address = (config.address === void 0) | (config.address === "") | (config.address === "0.0.0.0") | (config.address === "::") ? (config.address = "localhost") : config.address;
+	const address = (config.address === void 0) | (config.address === "") | (config.address === "0.0.0.0") | (config.address === "::") ? (config.address = "localhost") : config.address;
 	const port = process.env.MM_PORT || config.port;
 	mainWindow.loadURL(`${prefix}${address}:${port}`);
 

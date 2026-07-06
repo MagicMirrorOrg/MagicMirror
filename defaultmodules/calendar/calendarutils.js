@@ -95,11 +95,11 @@ const CalendarUtils = {
 	 */
 	titleTransform (title, titleReplace) {
 		let transformedTitle = title;
-		for (let tr in titleReplace) {
-			let transform = titleReplace[tr];
+		for (const tr in titleReplace) {
+			const transform = titleReplace[tr];
 			if (typeof transform === "object") {
 				if (typeof transform.search !== "undefined" && transform.search !== "" && typeof transform.replace !== "undefined") {
-					let regParts = transform.search.match(/^\/(.+)\/([gim]*)$/);
+					const regParts = transform.search.match(/^\/(.+)\/([gim]*)$/);
 					let needle = new RegExp(transform.search, "g");
 					if (regParts) {
 						// the parsed pattern is a regexp with flags.
@@ -110,8 +110,8 @@ const CalendarUtils = {
 					if (typeof transform.yearmatchgroup !== "undefined" && transform.yearmatchgroup !== "") {
 						const yearmatch = [...title.matchAll(needle)];
 						if (yearmatch[0].length >= transform.yearmatchgroup + 1 && yearmatch[0][transform.yearmatchgroup] * 1 >= 1900) {
-							let calcage = new Date().getFullYear() - yearmatch[0][transform.yearmatchgroup] * 1;
-							let searchstr = `$${transform.yearmatchgroup}`;
+							const calcage = new Date().getFullYear() - yearmatch[0][transform.yearmatchgroup] * 1;
+							const searchstr = `$${transform.yearmatchgroup}`;
 							replacement = replacement.replace(searchstr, calcage);
 						}
 					}

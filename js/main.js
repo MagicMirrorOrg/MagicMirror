@@ -196,7 +196,6 @@ function moduleNeedsUpdate (module, newHeader, newContent) {
 	const headerWrapper = moduleWrapper.getElementsByClassName("module-header");
 
 	let headerNeedsUpdate = false;
-	let contentNeedsUpdate;
 
 	if (headerWrapper.length > 0) {
 		headerNeedsUpdate = newHeader !== headerWrapper[0].innerHTML;
@@ -204,7 +203,7 @@ function moduleNeedsUpdate (module, newHeader, newContent) {
 
 	const tempContentWrapper = document.createElement("div");
 	tempContentWrapper.appendChild(newContent);
-	contentNeedsUpdate = tempContentWrapper.innerHTML !== contentWrapper[0].innerHTML;
+	const contentNeedsUpdate = tempContentWrapper.innerHTML !== contentWrapper[0].innerHTML;
 
 	return headerNeedsUpdate || contentNeedsUpdate;
 }

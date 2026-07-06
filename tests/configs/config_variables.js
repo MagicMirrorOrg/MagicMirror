@@ -1,4 +1,4 @@
-let config = require(`${process.cwd()}/tests/configs/default.js`).configFactory({
+const config = require(`${process.cwd()}/tests/configs/default.js`).configFactory({
 	language: "${MM_LANGUAGE}",
 	logLevel: ["${MM_LOG_ERROR}", "LOG", "WARN", "${MM_LOG_INFO}"],
 	timeFormat: ${MM_TIME_FORMAT},

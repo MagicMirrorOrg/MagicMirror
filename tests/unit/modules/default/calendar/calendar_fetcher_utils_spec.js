@@ -135,11 +135,11 @@ END:VEVENT`);
 			const januaryFirst = filteredEvents.filter((event) => moment(event.startDate, "x").format("MM-DD") === "01-01");
 			const julyFirst = filteredEvents.filter((event) => moment(event.startDate, "x").format("MM-DD") === "07-01");
 
-			let januaryMoment = moment(`${moment(januaryFirst[0].startDate, "x").format("YYYY")}-01-01T09:00:00`)
+			const januaryMoment = moment(`${moment(januaryFirst[0].startDate, "x").format("YYYY")}-01-01T09:00:00`)
 				.tz("Europe/Amsterdam", true) // Convert to Europe/Amsterdam timezone (see event ical) but keep 9 o'clock
 				.tz(moment.tz.guess()); // Convert to guessed timezone as that is used in the filterEvents
 
-			let julyMoment = moment(`${moment(julyFirst[0].startDate, "x").format("YYYY")}-07-01T09:00:00`)
+			const julyMoment = moment(`${moment(julyFirst[0].startDate, "x").format("YYYY")}-07-01T09:00:00`)
 				.tz("Europe/Amsterdam", true) // Convert to Europe/Amsterdam timezone (see event ical) but keep 9 o'clock
 				.tz(moment.tz.guess()); // Convert to guessed timezone as that is used in the filterEvents
 
