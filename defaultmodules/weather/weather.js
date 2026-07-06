@@ -144,7 +144,7 @@ Module.register("weather", {
 			const senderClasses = sender.data.classes.toLowerCase().split(" ");
 			if (senderClasses.indexOf(this.config.calendarClass.toLowerCase()) !== -1) {
 				this.firstEvent = null;
-				for (let event of payload) {
+				for (const event of payload) {
 					if (event.location || event.geo) {
 						this.firstEvent = event;
 						Log.debug("[weather] First upcoming event with location: ", event);

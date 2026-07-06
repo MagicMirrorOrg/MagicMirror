@@ -63,7 +63,7 @@ Module.register("compliments", {
 		}
 		let minute_sync_delay = 1;
 		// loop thru all the configured when events
-		for (let m of Object.keys(this.config.compliments)) {
+		for (const m of Object.keys(this.config.compliments)) {
 			// if it is a cron entry
 			if (this.isCronEntry(m)) {
 				// we need to synch our interval cycle to the minute
@@ -165,14 +165,14 @@ Module.register("compliments", {
 		Array.prototype.push.apply(compliments, this.config.compliments.anytime);
 
 		// get the list of just date entry keys
-		let temp_list = Object.keys(this.config.compliments).filter((k) => {
+		const temp_list = Object.keys(this.config.compliments).filter((k) => {
 			if (this.pre_defined_types.includes(k)) return false;
 			else return true;
 		});
 
-		let date_compliments = [];
+		const date_compliments = [];
 		// Add compliments for special day/times
-		for (let entry of temp_list) {
+		for (const entry of temp_list) {
 			// check if this could be a cron type entry
 			if (this.isCronEntry(entry)) {
 				// make sure the regex is valid

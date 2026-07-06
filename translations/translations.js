@@ -1,4 +1,4 @@
-let translations = {
+const translations = {
 	en: "translations/en.json", // English
 	af: "translations/af.json", // Afrikaans
 	bg: "translations/bg.json", // Bulgarian

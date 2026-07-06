@@ -93,6 +93,7 @@ export default defineConfig([
 			"no-warning-comments": "off",
 			"object-shorthand": ["error", "methods"],
 			"one-var": "off",
+			"prefer-const": "error",
 			"prefer-template": "error",
 			"require-await": "error",
 			"sort-keys": "off"

@@ -110,7 +110,7 @@ const loadConfig = () => {
 	// For this check proposed to TestSuite
 	// https://forum.magicmirror.builders/topic/1456/test-suite-for-magicmirror/8
 	const configFilename = getConfigFilePath();
-	let templateFile = `${configFilename}.template`;
+	const templateFile = `${configFilename}.template`;
 
 	// check if templateFile exists
 	try {
@@ -133,7 +133,7 @@ const loadConfig = () => {
 
 	// Load config.js and catch errors if not accessible
 	try {
-		let configContent = fs.readFileSync(configFilename, "utf-8");
+		const configContent = fs.readFileSync(configFilename, "utf-8");
 		const hideConfigSecrets = configContent.match(/^\s*hideConfigSecrets: true.*$/m);
 		let configContentFull = configContent;
 		let configContentRedacted = hideConfigSecrets ? configContent : undefined;

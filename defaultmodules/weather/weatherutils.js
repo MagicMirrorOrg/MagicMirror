@@ -185,7 +185,7 @@ const WeatherUtils = {
 	convertWeatherObjectToImperial (weatherObject) {
 		if (!weatherObject || Object.keys(weatherObject).length === 0) return null;
 
-		let imperialWeatherObject = { ...weatherObject };
+		const imperialWeatherObject = { ...weatherObject };
 
 		if ("feelsLikeTemp" in imperialWeatherObject) imperialWeatherObject.feelsLikeTemp = this.convertTemp(imperialWeatherObject.feelsLikeTemp, "imperial");
 		if ("maxTemperature" in imperialWeatherObject) imperialWeatherObject.maxTemperature = this.convertTemp(imperialWeatherObject.maxTemperature, "imperial");

@@ -77,7 +77,7 @@ class Updater {
 		});
 
 		await Promise.all(parser);
-		let updater = Object.values(this.moduleList);
+		const updater = Object.values(this.moduleList);
 		Log.debug("Update Result:", updater);
 		return updater;
 	}
@@ -92,7 +92,7 @@ class Updater {
 	 * };
 	 */
 	updateProcess (module) {
-		let Result = {
+		const Result = {
 			error: false,
 			updated: false,
 			needRestart: false

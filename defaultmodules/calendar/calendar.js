@@ -215,7 +215,7 @@ Module.register("calendar", {
 				return;
 			}
 		} else if (notification === "CALENDAR_ERROR") {
-			let error_message = this.translate(payload.error_type);
+			const error_message = this.translate(payload.error_type);
 			this.error = this.translate("MODULE_CONFIG_ERROR", { MODULE_NAME: this.name, ERROR: error_message });
 			this.loaded = true;
 		}
@@ -350,8 +350,8 @@ Module.register("calendar", {
 
 			// Color events if custom color or eventClass are specified, transform title if required
 			if (this.config.customEvents.length > 0) {
-				for (let ev in this.config.customEvents) {
-					let needle = new RegExp(this.config.customEvents[ev].keyword, "gi");
+				for (const ev in this.config.customEvents) {
+					const needle = new RegExp(this.config.customEvents[ev].keyword, "gi");
 					if (needle.test(event.title)) {
 						if (typeof this.config.customEvents[ev].transform === "object") {
 							transformedTitle = CalendarUtils.titleTransform(transformedTitle, [this.config.customEvents[ev].transform]);
@@ -471,16 +471,16 @@ Module.register("calendar", {
 	 * @returns {object[]} Array with events.
 	 */
 	createEventList (limitNumberOfEntries) {
-		let now = moment();
-		let future = now.clone().startOf("day").add(this.config.maximumNumberOfDays, "days");
+		const now = moment();
+		const future = now.clone().startOf("day").add(this.config.maximumNumberOfDays, "days");
 
 		let events = [];
 
 		for (const calendarUrl in this.calendarData) {
 			const calendar = this.calendarData[calendarUrl].events;
-			let remainingEntries = this.maximumEntriesForUrl(calendarUrl);
-			let maxPastDaysCompare = now.clone().subtract(this.maximumPastDaysForUrl(calendarUrl), "days");
-			let by_url_calevents = [];
+			const remainingEntries = this.maximumEntriesForUrl(calendarUrl);
+			const maxPastDaysCompare = now.clone().subtract(this.maximumPastDaysForUrl(calendarUrl), "days");
+			const by_url_calevents = [];
 			for (const e in calendar) {
 				const event = JSON.parse(JSON.stringify(calendar[e])); // clone object
 				const eventStartDateMoment = this.timestampToMoment(event.startDate);
@@ -541,7 +541,7 @@ Module.register("calendar", {
 					event.tomorrow = this.timestampToMoment(event.startDate).isSame(now.clone().add(1, "days"), "d");
 					splitEvents.push(event);
 
-					for (let splitEvent of splitEvents) {
+					for (const splitEvent of splitEvents) {
 						if (this.timestampToMoment(splitEvent.endDate).isAfter(now) && this.timestampToMoment(splitEvent.endDate).isSameOrBefore(future)) {
 							by_url_calevents.push(splitEvent);
 						}
@@ -579,7 +579,7 @@ Module.register("calendar", {
 			// Group all events by date, events on the same date will be in a list with the key being the date.
 			const eventsByDate = Object.groupBy(events, (ev) => this.timestampToMoment(ev.startDate).format("YYYY-MM-DD"));
 			const newEvents = [];
-			let currentDate = moment();
+			const currentDate = moment();
 			let daysCollected = 0;
 
 			while (daysCollected < this.config.limitDays) {
@@ -650,9 +650,9 @@ Module.register("calendar", {
 		}
 
 		// If custom symbol is set, replace event symbol
-		for (let ev of this.config.customEvents) {
+		for (const ev of this.config.customEvents) {
 			if (typeof ev.symbol !== "undefined" && ev.symbol !== "") {
-				let needle = new RegExp(ev.keyword, "gi");
+				const needle = new RegExp(ev.keyword, "gi");
 				if (needle.test(event.title)) {
 					// Get the default prefix for this class name and add to the custom symbol provided
 					const className = this.getCalendarProperty(event.url, "symbolClassName", this.config.defaultSymbolClassName);
@@ -988,7 +988,7 @@ Module.register("calendar", {
 		if (property === "symbol" || property === "recurringSymbol" || property === "fullDaySymbol") {
 			const className = this.getCalendarProperty(url, "symbolClassName", this.config.defaultSymbolClassName);
 			if (p instanceof Array) {
-				let t = [];
+				const t = [];
 				p.forEach((n) => { t.push(className + n); });
 				p = t;
 			}

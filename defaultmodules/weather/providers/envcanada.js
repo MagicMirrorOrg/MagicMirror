@@ -252,7 +252,7 @@ class EnvCanadaProvider {
 		// Check if first forecast is Today or Tonight
 		const isToday = forecasts[0].includes("textForecastName=\"Today\"");
 
-		let nextDay = isToday ? 2 : 1;
+		const nextDay = isToday ? 2 : 1;
 		const lastDay = isToday ? 12 : 11;
 
 		// Process first day
