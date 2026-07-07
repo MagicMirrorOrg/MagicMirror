@@ -252,6 +252,16 @@ function getEnvVars (req, res) {
 }
 
 /**
+ * Resolves the HTTP server port. The `MM_PORT` environment variable takes
+ * precedence over the configured port, falling back to 8080.
+ * @param {object} [config] the configuration to read the port from (defaults to global.config)
+ * @returns {number} the port the server should listen on
+ */
+function getServerPort (config = global.config) {
+	return Number(process.env.MM_PORT || config?.port || 8080);
+}
+
+/**
  * Get the config file path from environment or default location
  * @returns {string} The absolute config file path
  */
@@ -269,4 +279,4 @@ function getConfigFilePath () {
 	return path.resolve(global.configuration_file || `${global.root_path}/config/config.js`);
 }
 
-module.exports = { cors, getHtml, getVersion, getStartup, getEnvVars, getEnvVarsAsObj, getUserAgent, getConfigFilePath, replaceSecretPlaceholder };
+module.exports = { cors, getHtml, getVersion, getStartup, getEnvVars, getEnvVarsAsObj, getUserAgent, getServerPort, getConfigFilePath, replaceSecretPlaceholder };
