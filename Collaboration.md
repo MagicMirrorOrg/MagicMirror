@@ -46,7 +46,10 @@ Releases are done by:
   - [ ] add label `mastermerge`
   - [ ] title of the PR is `Release 2.xx.0`
   - [ ] description of the PR is the body of the draft release with name `v2.xx.0`
-- [ ] check if the new PR has merge conflicts, if so, merge `master` into the new PR and solve the conflicts
+- [ ] review all `github-code-quality` / CodeQL review comments in the release PR (these comments are triggered automatically)
+  - [ ] triage findings: if non-critical, continue the release; if critical and unclear, check with other maintainers and postpone the release if needed
+  - [ ] if a finding is a false positive, dismiss it in the CodeQL alert with a short explanation
+- [ ] check if the new PR has merge conflicts; if so, merge `master` into the new PR and solve the conflicts
 - [ ] after PR tests run without issues, merge the PR
 - [ ] edit draft release with name `v2.xx.0`
   - [ ] set corresponding version tag `v2.xx.0` (with `Select tag` and then `Create new tag`)
@@ -62,9 +65,17 @@ Releases are done by:
 
 ### After release
 
-- [ ] publish release notes with a link to the GitHub release on the forum in a new locked topic (use edit release on GitHub to copy the content with Markdown syntax)
-- [ ] close all issues with label `ready (coming with next release)`
-- [ ] release new documentation by merging `develop` into `master` in the documentation repository
+#### Documentation repository
+
+- [ ] create a pull request from `develop` to `master` with title `Release v2.xx.0`
+- [ ] after successful test run via GitHub Actions: merge the pull request to `master`
+- [ ] verify the updated documentation site is live
+- [ ] create/publish a release in the documentation repository for the same version (`v2.xx.0`)
+- [ ] update `package.json` and `package-lock.json` in the `develop` branch to reflect the next version number `2.xx.0-develop`
+- [ ] commit and push `develop` branch
+
+#### npm
+
 - [ ] publish new version on [npm](https://www.npmjs.com/package/magicmirror)
   - [ ] use a clean environment (e.g. container)
   - [ ] clone this repository with the new `master` branch and `cd` into the local repository directory
@@ -83,3 +94,8 @@ Releases are done by:
       npm set "//registry.npmjs.org/:_authToken=$NPM_TOKEN"
       npm publish
       ```
+
+#### Housekeeping
+
+- [ ] publish release notes with a link to the GitHub release on the forum in a new locked topic (use edit release on GitHub to copy the content with Markdown syntax)
+- [ ] close all issues with label `ready (coming with next release)` in both repositories
