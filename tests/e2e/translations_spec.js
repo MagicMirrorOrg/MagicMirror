@@ -2,27 +2,23 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { pathToFileURL } = require("node:url");
 const helmet = require("helmet");
-const { JSDOM } = require("jsdom");
 const express = require("express");
 const translations = require("../../translations/translations");
+const {
+	setupTranslationTestEnvironment,
+	TRANSLATOR_MODULE_URL,
+	resetTranslatorState
+} = require("../utils/translation_test_environment");
 
 /**
- * Helper function to create a fresh Translator instance with DOM environment.
- * @returns {object} Object containing window and Translator
+ * Create a fresh Translator state for each test.
+ * @returns {Promise<object>} Shared Translator singleton with cleared state
  */
-function createTranslationTestEnvironment () {
-	// Setup DOM environment with Translator
-	const translatorJs = fs.readFileSync(path.join(__dirname, "..", "..", "js", "translator.js"), "utf-8");
-	const dom = new JSDOM("", { url: "http://localhost:3000", runScripts: "outside-only" });
-
-	dom.window.Log = { log: vi.fn(), error: vi.fn() };
-	dom.window.translations = translations;
-	dom.window.fetch = fetch;
-	dom.window.eval(translatorJs);
-
-	const window = dom.window;
-
-	return { window, Translator: window.Translator };
+async function getFreshTranslator () {
+	setupTranslationTestEnvironment(3000);
+	const { Translator } = await import(TRANSLATOR_MODULE_URL);
+	resetTranslatorState(Translator);
+	return Translator;
 }
 
 describe("translations", () => {
@@ -40,6 +36,13 @@ describe("translations", () => {
 		server = app.listen(3000);
 	});
 
+	afterEach(() => {
+		vi.restoreAllMocks();
+		delete global.document;
+		delete global.Log;
+		delete global.config;
+	});
+
 	afterAll(async () => {
 		await server.close();
 	});
@@ -53,101 +56,70 @@ describe("translations", () => {
 	});
 
 	describe("loadTranslations", () => {
-		let dom;
+		let Translator;
+		let Module;
+		let config;
 
 		beforeEach(async () => {
-			// Create a new translation test environment for each test
-			const env = createTranslationTestEnvironment();
-			const window = env.window;
+			global.Log = { log: vi.fn(), error: vi.fn(), warn: vi.fn() };
+			config = { language: "de" };
+			global.config = config;
 
-			// Bridge JSDOM globals to Node.js so module.js (ES module) can access them
-			global.Log = window.Log;
-			global.Translator = window.Translator;
-			global.config = { language: "de" };
-			global.window = { name: "", mmVersion: "2.0.0" };
-			global.MM = { hideModule: () => {}, showModule: () => {}, sendNotification: () => {}, updateDom: () => {} };
-			global.nunjucks = {
-				Environment () {
-					this.addFilter = () => {};
-					this.renderString = () => "";
-					this.render = (_t, _d, cb) => cb(null, "");
-				},
-				WebLoader () {},
-				runtime: { markSafe: (str) => str }
-			};
+			// module.js and translator.js are ES modules that read these globals at call time.
+			Translator = await getFreshTranslator();
 
-			// Import Module directly — eval can't handle ES module syntax
 			const modulePath = pathToFileURL(path.join(__dirname, "..", "..", "js", "module.js")).href;
-			const { Module } = await import(`${modulePath}?test=${Date.now()}`);
-			window.Module = Module;
-
-			// Expose config on window so tests can modify dom.window.config
-			window.config = global.config;
-
-			dom = { window };
-		});
-
-		afterEach(() => {
-			delete global.Log;
-			delete global.Translator;
-			delete global.config;
-			delete global.window;
-			delete global.MM;
-			delete global.nunjucks;
+			({ Module } = await import(modulePath));
 		});
 
 		it("should load translation file", async () => {
-			const { Translator, Module, config } = dom.window;
 			config.language = "en";
-			Translator.load = vi.fn().mockImplementation(() => null);
+			const loadSpy = vi.spyOn(Translator, "load").mockResolvedValue(null);
 
 			Module.register("name", { getTranslations: () => translations });
 			const MMM = Module.create("name");
 
 			await MMM.loadTranslations();
 
-			expect(Translator.load.mock.calls).toHaveLength(1);
-			expect(Translator.load).toHaveBeenCalledWith(MMM, "translations/en.json", false);
+			expect(loadSpy.mock.calls).toHaveLength(1);
+			expect(loadSpy).toHaveBeenCalledWith(MMM, "translations/en.json", false);
 		});
 
 		it("should load translation + fallback file", async () => {
-			const { Translator, Module } = dom.window;
-			Translator.load = vi.fn().mockImplementation(() => null);
+			const loadSpy = vi.spyOn(Translator, "load").mockResolvedValue(null);
 
 			Module.register("name", { getTranslations: () => translations });
 			const MMM = Module.create("name");
 
 			await MMM.loadTranslations();
 
-			expect(Translator.load.mock.calls).toHaveLength(2);
-			expect(Translator.load).toHaveBeenCalledWith(MMM, "translations/de.json", false);
-			expect(Translator.load).toHaveBeenCalledWith(MMM, "translations/en.json", true);
+			expect(loadSpy.mock.calls).toHaveLength(2);
+			expect(loadSpy).toHaveBeenCalledWith(MMM, "translations/de.json", false);
+			expect(loadSpy).toHaveBeenCalledWith(MMM, "translations/en.json", true);
 		});
 
 		it("should load translation fallback file", async () => {
-			const { Translator, Module, config } = dom.window;
 			config.language = "--";
-			Translator.load = vi.fn().mockImplementation(() => null);
+			const loadSpy = vi.spyOn(Translator, "load").mockResolvedValue(null);
 
 			Module.register("name", { getTranslations: () => translations });
 			const MMM = Module.create("name");
 
 			await MMM.loadTranslations();
 
-			expect(Translator.load.mock.calls).toHaveLength(1);
-			expect(Translator.load).toHaveBeenCalledWith(MMM, "translations/en.json", true);
+			expect(loadSpy.mock.calls).toHaveLength(1);
+			expect(loadSpy).toHaveBeenCalledWith(MMM, "translations/en.json", true);
 		});
 
 		it("should load no file", async () => {
-			const { Translator, Module } = dom.window;
-			Translator.load = vi.fn();
+			const loadSpy = vi.spyOn(Translator, "load").mockResolvedValue(null);
 
 			Module.register("name", {});
 			const MMM = Module.create("name");
 
 			await MMM.loadTranslations();
 
-			expect(Translator.load.mock.calls).toHaveLength(0);
+			expect(loadSpy.mock.calls).toHaveLength(0);
 		});
 	});
 
@@ -161,7 +133,7 @@ describe("translations", () => {
 	describe("parsing language files through the Translator class", () => {
 		for (const language in translations) {
 			it(`should parse ${language}`, async () => {
-				const { Translator } = createTranslationTestEnvironment();
+				const Translator = await getFreshTranslator();
 				await Translator.load(mmm, translations[language], false);
 
 				expect(typeof Translator.translations[mmm.name]).toBe("object");
@@ -193,7 +165,7 @@ describe("translations", () => {
 
 		// Function to initialize JSDOM and load translations
 		const initializeTranslationDOM = async (language) => {
-			const { Translator } = createTranslationTestEnvironment();
+			const Translator = await getFreshTranslator();
 			await Translator.load(mmm, translations[language], false);
 			return Translator.translations[mmm.name];
 		};

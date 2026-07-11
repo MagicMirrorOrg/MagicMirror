@@ -2,6 +2,8 @@
 
 // eslint-disable-next-line import-x/extensions
 import { loadModules } from "./loader.js";
+// eslint-disable-next-line import-x/extensions
+import { Translator } from "./translator.js";
 
 let modules = [];
 
@@ -571,7 +573,7 @@ export const MM = {
 
 		Log.setLogLevel(config.logLevel);
 
-		await globalThis.Translator.loadCoreTranslations(config.language);
+		await Translator.loadCoreTranslations(config.language);
 		await loadModules();
 	},
 
