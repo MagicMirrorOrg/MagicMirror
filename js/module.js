@@ -422,48 +422,31 @@ export class Module {
 globalThis.Module = Module;
 
 /**
- * Merging MagicMirror² (or other) default/config script by `@bugsounet`
- * Merge 2 objects or/with array
- *
- * Usage:
- * -------
- * this.config = configMerge({}, this.defaults, this.config)
- * -------
- * arg1: initial object
- * arg2: config model
- * arg3: config to merge
- * -------
- * why using it ?
- * Object.assign() function don't to all job
- * it don't merge all thing in deep
- * -> object in object and array is not merging
- * -------
- *
- * Todo: idea of Mich determinate what do you want to merge or not
- * @param {object} result the initial object
- * @returns {object} the merged config
+ * Deep-merge module defaults with the user config.
+ * Used by Module.setConfig when configDeepMerge is enabled.
+ * Nested plain objects are merged recursively.
+ * All other values (strings, numbers, arrays, …) are overwritten.
+ * Sources are applied left to right; later values win.
+ * @param {object} target The object to merge into (mutated and returned).
+ * @param {...object} sources Objects whose properties are merged into target.
+ * @returns {object} The merged target object.
  */
-function configMerge (result) {
-	const stack = Array.prototype.slice.call(arguments, 1);
-	let item, key;
+function configMerge (target, ...sources) {
+	const isPlainObject = (value) => value?.constructor === Object;
 
-	while (stack.length) {
-		item = stack.shift();
-		for (key in item) {
-			if (item.hasOwnProperty(key)) {
-				if (typeof result[key] === "object" && result[key] && Object.prototype.toString.call(result[key]) !== "[object Array]") {
-					if (typeof item[key] === "object" && item[key] !== null) {
-						result[key] = configMerge({}, result[key], item[key]);
-					} else {
-						result[key] = item[key];
-					}
-				} else {
-					result[key] = item[key];
-				}
-			}
+	for (const source of sources) {
+		for (const [key, sourceValue] of Object.entries(source ?? {})) {
+			const targetValue = target[key];
+			const canDeepMerge = isPlainObject(targetValue) && isPlainObject(sourceValue);
+
+			// Recurse into a fresh object so the shared defaults stay untouched; otherwise overwrite.
+			target[key] = canDeepMerge
+				? configMerge({}, targetValue, sourceValue)
+				: sourceValue;
 		}
 	}
-	return result;
+
+	return target;
 }
 
 Module.definitions = {};

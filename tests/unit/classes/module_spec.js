@@ -245,6 +245,20 @@ describe("File js/module (cloneObject)", () => {
 				expect(moduleInstance.config).toEqual({ nested: { value: 1 } });
 			});
 
+			it("should overwrite object defaults with arrays in deep merge mode", () => {
+				const moduleName = "MMM-TestDeepMergeArrayOverwrite";
+				Module.register(moduleName, {
+					defaults: {
+						nested: { keep: true }
+					}
+				});
+
+				const moduleInstance = Module.create(moduleName);
+				moduleInstance.setConfig({ nested: [1, 2] }, true);
+
+				expect(moduleInstance.config).toEqual({ nested: [1, 2] });
+			});
+
 			it("should initialize lifecycle fields in setData", () => {
 				const moduleName = "MMM-TestSetData";
 				Module.register(moduleName, {
