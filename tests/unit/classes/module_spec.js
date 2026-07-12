@@ -9,7 +9,6 @@ describe("File js/module (cloneObject)", () => {
 		let originalLog;
 		let originalConfig;
 		let originalMM;
-		let originalTranslator;
 		let originalNunjucks;
 
 		beforeAll(async () => {
@@ -17,7 +16,6 @@ describe("File js/module (cloneObject)", () => {
 			originalLog = global.Log;
 			originalConfig = global.config;
 			originalMM = global.MM;
-			originalTranslator = global.Translator;
 			originalNunjucks = global.nunjucks;
 
 			global.window = { mmVersion: "2.0.0" };
@@ -28,10 +26,6 @@ describe("File js/module (cloneObject)", () => {
 				showModule: () => {},
 				sendNotification: () => {},
 				updateDom: () => {}
-			};
-			global.Translator = {
-				load: () => Promise.resolve(),
-				translate: () => ""
 			};
 			global.nunjucks = {
 				Environment () {
@@ -57,7 +51,6 @@ describe("File js/module (cloneObject)", () => {
 			global.Log = originalLog;
 			global.config = originalConfig;
 			global.MM = originalMM;
-			global.Translator = originalTranslator;
 			global.nunjucks = originalNunjucks;
 		});
 

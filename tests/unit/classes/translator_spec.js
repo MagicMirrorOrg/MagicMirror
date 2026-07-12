@@ -1,22 +1,22 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const helmet = require("helmet");
-const { JSDOM } = require("jsdom");
 const express = require("express");
+const {
+	setupTranslationTestEnvironment,
+	TRANSLATOR_MODULE_URL,
+	resetTranslatorState
+} = require("../../utils/translation_test_environment");
 
 /**
- * Helper function to create a fresh Translator instance with DOM environment.
- * @returns {object} Object containing window and Translator
+ * Create a fresh Translator state for each test.
+ * @returns {Promise<object>} Shared Translator singleton with cleared state
  */
-function createTranslationTestEnvironment () {
-	const translatorJs = fs.readFileSync(path.join(__dirname, "..", "..", "..", "js", "translator.js"), "utf-8");
-	const dom = new JSDOM("", { url: "http://localhost:3001", runScripts: "outside-only" });
-
-	dom.window.Log = { log: vi.fn(), error: vi.fn() };
-	dom.window.fetch = fetch;
-	dom.window.eval(translatorJs);
-
-	return { window: dom.window, Translator: dom.window.Translator };
+async function getFreshTranslator () {
+	setupTranslationTestEnvironment(3001);
+	const { Translator } = await import(TRANSLATOR_MODULE_URL);
+	resetTranslatorState(Translator);
+	return Translator;
 }
 
 describe("Translator", () => {
@@ -47,6 +47,13 @@ describe("Translator", () => {
 		}
 
 		await server.close();
+	});
+
+	afterEach(() => {
+		vi.restoreAllMocks();
+		delete global.document;
+		delete global.Log;
+		delete global.translations;
 	});
 
 	describe("translate", () => {
@@ -93,8 +100,8 @@ describe("Translator", () => {
 			Translator.coreTranslationsFallback = coreTranslationsFallback;
 		};
 
-		it("should return custom module translation", () => {
-			const { Translator } = createTranslationTestEnvironment();
+		it("should return custom module translation", async () => {
+			const Translator = await getFreshTranslator();
 			setTranslations(Translator);
 
 			let translation = Translator.translate({ name: "MMM-Module" }, "Hello");
@@ -104,8 +111,8 @@ describe("Translator", () => {
 			expect(translation).toBe("Hallo fewieden");
 		});
 
-		it("should return core translation", () => {
-			const { Translator } = createTranslationTestEnvironment();
+		it("should return core translation", async () => {
+			const Translator = await getFreshTranslator();
 			setTranslations(Translator);
 			let translation = Translator.translate({ name: "MMM-Module" }, "FOO");
 			expect(translation).toBe("Foo");
@@ -113,29 +120,29 @@ describe("Translator", () => {
 			expect(translation).toBe("Bar Lorem Ipsum");
 		});
 
-		it("should return custom module translation fallback", () => {
-			const { Translator } = createTranslationTestEnvironment();
+		it("should return custom module translation fallback", async () => {
+			const Translator = await getFreshTranslator();
 			setTranslations(Translator);
 			const translation = Translator.translate({ name: "MMM-Module" }, "A key");
 			expect(translation).toBe("A translation");
 		});
 
-		it("should return core translation fallback", () => {
-			const { Translator } = createTranslationTestEnvironment();
+		it("should return core translation fallback", async () => {
+			const Translator = await getFreshTranslator();
 			setTranslations(Translator);
 			const translation = Translator.translate({ name: "MMM-Module" }, "Fallback");
 			expect(translation).toBe("core fallback");
 		});
 
-		it("should return translation with placeholder for missing variables", () => {
-			const { Translator } = createTranslationTestEnvironment();
+		it("should return translation with placeholder for missing variables", async () => {
+			const Translator = await getFreshTranslator();
 			setTranslations(Translator);
 			const translation = Translator.translate({ name: "MMM-Module" }, "Hello {username}");
 			expect(translation).toBe("Hallo {username}");
 		});
 
-		it("should return key if no translation was found", () => {
-			const { Translator } = createTranslationTestEnvironment();
+		it("should return key if no translation was found", async () => {
+			const Translator = await getFreshTranslator();
 			setTranslations(Translator);
 			const translation = Translator.translate({ name: "MMM-Module" }, "MISSING");
 			expect(translation).toBe("MISSING");
@@ -151,7 +158,7 @@ describe("Translator", () => {
 		};
 
 		it("should load translations", async () => {
-			const { Translator } = createTranslationTestEnvironment();
+			const Translator = await getFreshTranslator();
 			const file = "translation_test.json";
 
 			await Translator.load(mmm, file, false);
@@ -160,7 +167,7 @@ describe("Translator", () => {
 		});
 
 		it("should load translation fallbacks", async () => {
-			const { Translator } = createTranslationTestEnvironment();
+			const Translator = await getFreshTranslator();
 			const file = "translation_test.json";
 
 			await Translator.load(mmm, file, true);
@@ -169,7 +176,7 @@ describe("Translator", () => {
 		});
 
 		it("should not load translations, if module fallback exists", async () => {
-			const { Translator } = createTranslationTestEnvironment();
+			const Translator = await getFreshTranslator();
 			const file = "translation_test.json";
 
 			Translator.translationsFallback[mmm.name] = {
@@ -186,8 +193,8 @@ describe("Translator", () => {
 
 	describe("loadCoreTranslations", () => {
 		it("should load core translations and fallback", async () => {
-			const { window, Translator } = createTranslationTestEnvironment();
-			window.translations = { en: "http://localhost:3001/translations/translation_test.json" };
+			const Translator = await getFreshTranslator();
+			global.translations = { en: "http://localhost:3001/translations/translation_test.json" };
 			await Translator.loadCoreTranslations("en");
 
 			const en = translationTestData;
@@ -197,8 +204,8 @@ describe("Translator", () => {
 		});
 
 		it("should load core fallback if language cannot be found", async () => {
-			const { window, Translator } = createTranslationTestEnvironment();
-			window.translations = { en: "http://localhost:3001/translations/translation_test.json" };
+			const Translator = await getFreshTranslator();
+			global.translations = { en: "http://localhost:3001/translations/translation_test.json" };
 			await Translator.loadCoreTranslations("MISSINGLANG");
 
 			const en = translationTestData;
@@ -210,8 +217,8 @@ describe("Translator", () => {
 
 	describe("loadCoreTranslationsFallback", () => {
 		it("should load core translations fallback", async () => {
-			const { window, Translator } = createTranslationTestEnvironment();
-			window.translations = { en: "http://localhost:3001/translations/translation_test.json" };
+			const Translator = await getFreshTranslator();
+			global.translations = { en: "http://localhost:3001/translations/translation_test.json" };
 			await Translator.loadCoreTranslationsFallback();
 
 			const en = translationTestData;
@@ -220,8 +227,8 @@ describe("Translator", () => {
 		});
 
 		it("should load core fallback if language cannot be found", async () => {
-			const { window, Translator } = createTranslationTestEnvironment();
-			window.translations = {};
+			const Translator = await getFreshTranslator();
+			global.translations = {};
 			await Translator.loadCoreTranslations();
 
 			expect(Translator.coreTranslationsFallback).toEqual({});

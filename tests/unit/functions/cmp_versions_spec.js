@@ -7,7 +7,6 @@ describe("Test function cmpVersions in js/module.js", () => {
 	let originalLog;
 	let originalConfig;
 	let originalMM;
-	let originalTranslator;
 	let originalNunjucks;
 
 	beforeAll(async () => {
@@ -15,7 +14,6 @@ describe("Test function cmpVersions in js/module.js", () => {
 		originalLog = global.Log;
 		originalConfig = global.config;
 		originalMM = global.MM;
-		originalTranslator = global.Translator;
 		originalNunjucks = global.nunjucks;
 
 		global.window = { mmVersion: "2.0.0" };
@@ -26,10 +24,6 @@ describe("Test function cmpVersions in js/module.js", () => {
 			showModule: () => {},
 			sendNotification: () => {},
 			updateDom: () => {}
-		};
-		global.Translator = {
-			load: () => Promise.resolve(),
-			translate: () => ""
 		};
 		global.nunjucks = {
 			Environment () {
@@ -53,7 +47,6 @@ describe("Test function cmpVersions in js/module.js", () => {
 		global.Log = originalLog;
 		global.config = originalConfig;
 		global.MM = originalMM;
-		global.Translator = originalTranslator;
 		global.nunjucks = originalNunjucks;
 	});
 

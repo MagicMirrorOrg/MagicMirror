@@ -4,6 +4,8 @@
 import { loadFileForModule } from "./loader.js";
 // eslint-disable-next-line import-x/extensions
 import { MMSocket } from "./socketclient.js";
+// eslint-disable-next-line import-x/extensions
+import { Translator } from "./translator.js";
 
 /*
  * Module Blueprint.
