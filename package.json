@@ -90,6 +90,7 @@
 		"express": "^5.2.1",
 		"feedme": "^2.0.2",
 		"globals": "^17.7.0",
+		"gtfs-realtime-bindings": "^2.1.0",
 		"helmet": "^8.2.0",
 		"html-to-text": "^10.0.0",
 		"iconv-lite": "^0.7.2",

@@ -1,0 +1,20 @@
+{% if arrivals === null %}
+  <div class="small dimmed">Loading…</div>
+{% elif arrivals | length === 0 %}
+  <div class="small dimmed">No buses scheduled</div>
+{% else %}
+  <table class="transit-table">
+    {% for bus in arrivals %}
+      <tr>
+        <td class="transit-route bright medium"><span class="transit-bus-label dimmed">Bus </span>{{ bus.route }}</td>
+        <td class="transit-sep dimmed">·</td>
+        {% if bus.minutesAway === 0 %}
+          <td class="transit-minutes bright medium" colspan="2">Now</td>
+        {% else %}
+          <td class="transit-minutes bright medium">{{ bus.minutesAway }}</td>
+          <td class="transit-suffix small dimmed">min</td>
+        {% endif %}
+      </tr>
+    {% endfor %}
+  </table>
+{% endif %}
