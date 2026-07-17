@@ -181,6 +181,17 @@ describe("Calendar module", () => {
 		});
 	});
 
+	describe("sliceMultiDayEvents sub-event start time", () => {
+		it("Issue #4206 sliced sub-events start at 00:00, not 23:59", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/sliceMultiDayEventsStart.js", "01 Sept 2024 10:38:00 GMT+02:00", [], "Europe/Berlin");
+			const times = await global.page.locator(".calendar .event .time").allTextContents();
+			expect(times.length).toBeGreaterThan(0);
+			for (const timeText of times) {
+				expect(timeText).not.toContain("23:59");
+			}
+		});
+	});
+
 	describe("germany timezone", () => {
 		it("Issue #unknown fullday timezone East of UTC edge", async () => {
 			await helpers.startApplication("tests/configs/modules/calendar/germany_at_end_of_day_repeating.js", "01 Oct 2024 10:38:00 GMT+02:00", [], "Europe/Berlin");

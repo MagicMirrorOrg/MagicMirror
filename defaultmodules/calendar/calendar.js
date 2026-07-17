@@ -531,7 +531,7 @@ Module.register("calendar", {
 						thisEvent.title += ` (${count}/${maxCount})`;
 						splitEvents.push(thisEvent);
 
-						event.startDate = midnight.format("x");
+						event.startDate = midnight.clone().startOf("day").format("x");
 						count += 1;
 						midnight = midnight.clone().add(1, "day").endOf("day"); // next day
 					}
