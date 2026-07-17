@@ -1,0 +1,35 @@
+.transit-table {
+  border-collapse: collapse;
+}
+
+.transit-table td {
+  padding: 4px 10px;
+  vertical-align: baseline;
+}
+
+.transit-route {
+  text-align: right;
+  min-width: 2.5em;
+  font-size: 1.2em;
+  letter-spacing: 0.02em;
+}
+
+.transit-minutes {
+  text-align: right;
+  min-width: 2em;
+}
+
+.transit-sep {
+  padding: 4px 12px;
+  text-align: center;
+}
+
+.transit-bus-label {
+  font-size: 0.75em;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.transit-suffix {
+  padding-left: 3px;
+}
