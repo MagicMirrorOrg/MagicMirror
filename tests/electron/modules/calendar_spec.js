@@ -181,6 +181,20 @@ describe("Calendar module", () => {
 		});
 	});
 
+	describe("sliceMultiDayEvents slice start time", () => {
+		it("sliced sub-events start at 00:00, not 23:59", async () => {
+			// Timed event Fri 25 Oct 12:00 -> Mon 28 Oct 08:00 (UTC) is sliced across
+			// several midnights. Every slice after the first must start at 00:00 of its
+			// day. Regression for the bug where they started at 23:59 instead.
+			await startCalendarShowEndScenario("slice_multiday_timed_start_midnight", "25 Oct 2024 06:00:00 GMT", "GMT");
+			const firstTimeCell = global.page.locator(".calendar .event .time").locator(`nth=${first}`);
+			await firstTimeCell.waitFor({ state: "visible" });
+			const times = await global.page.locator(".calendar .event .time").allTextContents();
+			expect(times.some((time) => time.includes("00:00"))).toBe(true);
+			expect(times.every((time) => !time.includes("23:59"))).toBe(true);
+		});
+	});
+
 	describe("germany timezone", () => {
 		it("Issue #unknown fullday timezone East of UTC edge", async () => {
 			await helpers.startApplication("tests/configs/modules/calendar/germany_at_end_of_day_repeating.js", "01 Oct 2024 10:38:00 GMT+02:00", [], "Europe/Berlin");
