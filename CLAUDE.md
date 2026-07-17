@@ -2,6 +2,17 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Development workflow
+
+For any non-trivial change or new feature:
+1. **Enter plan mode** — explore the codebase, propose an approach, get approval before writing code
+2. **Create a feature branch** — `git checkout -b feature/<name>` off master
+3. **Implement** on the branch
+4. **Commit and push** the branch, open a PR to master via `gh pr create`
+5. **Merge** when approved — master should always be deployable to the Pi
+
+Never commit directly to master for new features.
+
 ## Project intent
 
 This is a personal fork of MagicMirror² for custom improvements and new features. Deployment target is a **Raspberry Pi connected to a monitor**. Keep Pi constraints in mind: ARM architecture, limited RAM, and Raspberry Pi OS (Wayland by default on modern versions, X11 on older).
