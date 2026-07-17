@@ -5,6 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Development workflow
 
 For any non-trivial change or new feature:
+
 1. **Enter plan mode** — explore the codebase, propose an approach, get approval before writing code
 2. **Create a feature branch** — `git checkout -b feature/<name>` off master
 3. **Implement** on the branch
@@ -82,15 +83,16 @@ MagicMirror² is a modular smart mirror platform built on **Electron** (optional
 
 Each module lives in `defaultmodules/<name>/` (built-ins) or `modules/<name>/` (third-party):
 
-| File | Side | Purpose |
-|------|------|---------|
-| `<name>.js` | Browser | Module class — extends `Module`, implements `getDom()` etc. |
-| `node_helper.js` | Server | Extends `NodeHelper`; does I/O, external requests, heavy computation. |
-| `<name>.css` | Browser | Module styles. |
-| `templates/*.njk` | Browser | Nunjucks templates (optional). |
-| `translations/*.json` | Both | i18n strings. |
+| File                  | Side    | Purpose                                                               |
+| --------------------- | ------- | --------------------------------------------------------------------- |
+| `<name>.js`           | Browser | Module class — extends `Module`, implements `getDom()` etc.           |
+| `node_helper.js`      | Server  | Extends `NodeHelper`; does I/O, external requests, heavy computation. |
+| `<name>.css`          | Browser | Module styles.                                                        |
+| `templates/*.njk`     | Browser | Nunjucks templates (optional).                                        |
+| `translations/*.json` | Both    | i18n strings.                                                         |
 
 Communication between the two halves uses **Socket.io notifications**:
+
 - Browser → Server: `this.sendSocketNotification(notification, payload)`
 - Server → Browser: `this.sendSocketNotification(notification, payload)` (from NodeHelper)
 
@@ -108,3 +110,15 @@ Tests use **Vitest** with three named projects — `unit`, `e2e`, and `electron`
 ### Linting
 
 ESLint (config: `eslint.config.mjs`) covers JS, CSS, and Markdown. Prettier (config: `prettier.config.mjs`) handles formatting. The pre-commit hook (Husky + lint-staged) runs both on staged files automatically.
+
+## Devlog
+
+- `DEVLOG.md` records decisions and rationale only — not a changelog. Git owns
+  "what changed"; the devlog owns "why."
+- Do NOT write entries for routine edits. Only architectural choices, dependency
+  changes, accepted tradeoffs, or non-obvious gotchas.
+- When such a decision is made, propose an entry using the schema in
+  `.claude/skills/devlog/SKILL.md` and ask before appending — don't write silently.
+- Commit the entry alongside the code change it describes.
+- Do NOT read the full DEVLOG.md unless asked; it can grow long. Read only recent
+  entries if you need prior context.
