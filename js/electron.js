@@ -30,7 +30,7 @@ const BrowserWindow = electron.BrowserWindow;
 let mainWindow;
 
 /**
- *
+ * Create and show the main browser window.
  */
 function createWindow () {
 
@@ -58,14 +58,13 @@ function createWindow () {
 			nodeIntegration: false,
 			zoomFactor: config.zoom
 		},
-		backgroundColor: "#000000"
+		backgroundColor: "#000000",
+		show: false,
+		frame: false,
+		transparent: true,
+		hasShadow: false,
+		fullscreen: true
 	};
-
-	electronOptionsDefaults.show = false;
-	electronOptionsDefaults.frame = false;
-	electronOptionsDefaults.transparent = true;
-	electronOptionsDefaults.hasShadow = false;
-	electronOptionsDefaults.fullscreen = true;
 
 	const electronOptions = Object.assign({}, electronOptionsDefaults, config.electronOptions);
 
@@ -166,8 +165,10 @@ app.on("activate", function () {
 });
 
 /*
- * This method will be called when SIGINT is received and will call
- * each node_helper's stop function if it exists. Added to fix #1056
+ * Electron routes SIGINT (and other quit signals) to the app's quit sequence,
+ * which triggers this "before-quit" event. This handler calls each
+ * node_helper's stop function if it exists.
+ * Added to fix #1056 (no method to gracefully shut down modules on exit).
  *
  * Note: this is only used if running Electron. Otherwise
  * core.stop() is called by process.on("SIGINT"... in `app.js`
@@ -190,23 +191,26 @@ app.on("certificate-error", (event, webContents, url, error, certificate, callba
 	callback(true);
 });
 
-if (process.env.clientonly) {
-	app.whenReady().then(() => {
+/**
+ * Bootstrap Electron: launch the client-only viewer and/or the full core application.
+ */
+async function bootstrapElectron () {
+	if (process.env.clientonly) {
+		await app.whenReady();
 		Log.log("Launching client viewer application.");
 		createWindow();
-	});
+	}
+
+	/*
+	 * Start the core application if server is run on localhost
+	 * This starts all node helpers and starts the webserver.
+	 */
+	if (["localhost", "127.0.0.1", "::1", "::ffff:127.0.0.1", undefined].includes(config.address)) {
+		config = await core.start();
+		await app.whenReady();
+		Log.log("Launching application.");
+		createWindow();
+	}
 }
 
-/*
- * Start the core application if server is run on localhost
- * This starts all node helpers and starts the webserver.
- */
-if (["localhost", "127.0.0.1", "::1", "::ffff:127.0.0.1", undefined].includes(config.address)) {
-	core.start().then((c) => {
-		config = c;
-		app.whenReady().then(() => {
-			Log.log("Launching application.");
-			createWindow();
-		});
-	});
-}
+bootstrapElectron();
