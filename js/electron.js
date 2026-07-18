@@ -58,14 +58,13 @@ function createWindow () {
 			nodeIntegration: false,
 			zoomFactor: config.zoom
 		},
-		backgroundColor: "#000000"
+		backgroundColor: "#000000",
+		show: false,
+		frame: false,
+		transparent: true,
+		hasShadow: false,
+		fullscreen: true
 	};
-
-	electronOptionsDefaults.show = false;
-	electronOptionsDefaults.frame = false;
-	electronOptionsDefaults.transparent = true;
-	electronOptionsDefaults.hasShadow = false;
-	electronOptionsDefaults.fullscreen = true;
 
 	const electronOptions = Object.assign({}, electronOptionsDefaults, config.electronOptions);
 
