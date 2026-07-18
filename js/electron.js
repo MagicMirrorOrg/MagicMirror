@@ -30,7 +30,7 @@ const BrowserWindow = electron.BrowserWindow;
 let mainWindow;
 
 /**
- *
+ * Create and show the main browser window.
  */
 function createWindow () {
 
