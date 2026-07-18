@@ -1,0 +1,100 @@
+<div class="wind-panel">
+  {# ── Condition face ──────────────────────────────────────────────── #}
+  {% if condition %}
+    {% if condition === "great" %}
+      <pre class="wind-face wind-face-great">
+  \(^‿^)/
+   |   |
+   d   b</pre>
+    {% elif condition === "ok" %}
+      <pre class="wind-face wind-face-ok">
+   (•_•)
+    | |
+    | |</pre>
+    {% else %}
+      <pre class="wind-face wind-face-bad">
+  ε(╥_╥)з
+    | |
+    / \</pre>
+    {% endif %}
+  {% endif %}
+
+  {# ── Warning banner ──────────────────────────────────────────────── #}
+  {% if forecast and forecast.warnings and forecast.warnings | length > 0 %}
+    {% set topWarning = forecast.warnings[0] %}
+    {% if "HURRICANE" in topWarning %}
+      {% set warningClass = "wind-warning-hurricane" %}
+    {% elif "STORM" in topWarning %}
+      {% set warningClass = "wind-warning-storm" %}
+    {% elif "GALE" in topWarning %}
+      {% set warningClass = "wind-warning-gale" %}
+    {% else %}
+      {% set warningClass = "" %}
+    {% endif %}
+    <div class="wind-warning-banner {{ warningClass }} bright medium">⚠ {{ topWarning }}</div>
+  {% endif %}
+
+  {# ── Model + Buoy side-by-side ───────────────────────────────────── #}
+  <table class="wind-sources-table">
+    <tr>
+      <td class="wind-col wind-col-model">
+        <div class="wind-source-label xsmall dimmed">GEM Model</div>
+        {% if model === null %}
+          <div class="small dimmed">Loading…</div>
+        {% elif model.error %}
+          <div class="small dimmed">Unavailable</div>
+        {% else %}
+          <div class="wind-speed bright large">{{ model.speed }} <span class="wind-unit medium">kn</span> {{ model.directionLabel }}</div>
+          <div class="wind-gust small dimmed">gust {{ model.gust }} kn</div>
+        {% endif %}
+      </td>
+      <td class="wind-col wind-col-buoy">
+        {% if buoy === null %}
+          <div class="wind-source-label xsmall dimmed">Buoy</div>
+          <div class="small dimmed">Loading…</div>
+        {% elif buoy.error %}
+          <div class="wind-source-label xsmall dimmed">Buoy</div>
+          <div class="small dimmed">Unavailable</div>
+        {% elif buoy.stale %}
+          <div class="wind-source-label xsmall dimmed">
+            Buoy ·
+            {% if buoy.minutesAgo >= 1440 %}
+              {{ (buoy.minutesAgo / 1440) | round }}d
+            {% elif buoy.minutesAgo >= 60 %}
+              {{ (buoy.minutesAgo / 60) | round }}h
+            {% else %}
+              {{ buoy.minutesAgo }}m
+            {% endif %}
+            ago ⚠
+          </div>
+          <div class="wind-speed dimmed medium">— kn —</div>
+          <div class="wind-gust xsmall dimmed">gust — kn</div>
+        {% else %}
+          <div class="wind-source-label xsmall dimmed">
+            Buoy ·
+            {% if buoy.minutesAgo >= 60 %}
+              {{ (buoy.minutesAgo / 60) | round }}h
+            {% else %}
+              {{ buoy.minutesAgo }}m
+            {% endif %}
+            ago
+          </div>
+          <div class="wind-speed bright large">{{ buoy.speed }} <span class="wind-unit medium">kn</span> {{ buoy.directionLabel }}</div>
+          <div class="wind-gust small dimmed">gust {{ buoy.gust }} kn</div>
+        {% endif %}
+      </td>
+    </tr>
+  </table>
+
+  {# ── EC Forecast ─────────────────────────────────────────────────── #}
+  <div class="wind-forecast">
+    {% if forecast === null %}
+      <div class="xsmall dimmed">Loading forecast…</div>
+    {% elif forecast.error %}
+      <div class="xsmall dimmed">Forecast unavailable</div>
+    {% elif forecast.text %}
+      <div class="wind-forecast-label xsmall dimmed">{{ forecast.title }}</div>
+      <div class="wind-forecast-text xsmall">{{ forecast.text }}</div>
+    {% endif %}
+  </div>
+</div>

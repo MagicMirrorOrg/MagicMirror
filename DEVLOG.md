@@ -8,6 +8,20 @@ This file records **decisions and rationale** — the _why_ behind non-trivial c
 
 ---
 
+## 2026-07-17 — wind module: three independent sources for Halifax Harbour wind
+
+**Context:** As a boater, wind conditions in Halifax Harbour need to be immediately legible from the mirror — speed, gusts, direction, and active warnings. No single source is reliable alone: real-time buoys drop out for days, model data has no observation lag but isn't measured, and EC marine forecasts are prose issued 4×/day. Hiding a dropped-out source behind stale data is actively dangerous.
+
+**Decision:** Three sources fetched and rendered independently, each failing on its own without blanking the panel. Open-Meteo GEM (modelled, always populated, knots returned directly) provides a live baseline. The SmartAtlantic Herring Cove ERDDAP buoy provides a real measurement, explicitly labelled with its observation age and greyed out past a configurable stale threshold — turning buoy dropouts into an obvious "don't trust this" signal rather than a silent failure. The Environment Canada marine RSS Atom feed (weather.gc.ca/rss/marine/06000_e.xml) provides the human-readable forecast and warning banner; parsed with regex on the server side.
+
+**Alternatives rejected:** EC Datamart XML (`dd.weather.gc.ca/marine_weather/xml/06000_e.xml`) — confirmed 404, does not exist for this site. Single-source approach — rejected because each source answers a different question (current model / lagged measurement / issued forecast) and has distinct failure modes. Adding an XML parser dependency — rejected; the Atom feed is simple enough for regex extraction with no new deps.
+
+**Consequences:** Buoy staleness is a first-class display concern, not an implementation detail — the stale threshold is user-configurable. Warning banner is only shown when EC issues one; the absence of a banner is meaningful. Module degrades gracefully: any source can be unavailable without affecting the others.
+
+**Refs:** `defaultmodules/wind/`, `defaultmodules/defaultmodules.js`, `config/config.js`
+
+---
+
 ## 2026-07-16 — transit module: Halifax Transit real-time arrivals via GTFS-RT
 
 **Context:** Checking bus arrivals for routes 54/55/56/62 near Crichton Ave, Dartmouth NS required manually consulting Halifax Transit's schedule or app. Adding a mirror module to show upcoming arrivals at a specific stop eliminates that friction.

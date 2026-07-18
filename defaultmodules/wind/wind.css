@@ -1,0 +1,91 @@
+.wind-panel {
+  max-width: 50vw;
+}
+
+.wind-face {
+  font-family: monospace;
+  font-size: 1.2em;
+  line-height: 1.4;
+  margin: 0 0 12px 0;
+  letter-spacing: 0.05em;
+}
+
+.wind-face-great {
+  color: #7ecf7e;
+}
+
+.wind-face-ok {
+  color: #f0c040;
+}
+
+.wind-face-bad {
+  color: #e06060;
+}
+
+.wind-warning-banner {
+  background: rgba(200, 80, 0, 0.25);
+  border: 1px solid rgba(200, 80, 0, 0.6);
+  border-radius: 3px;
+  padding: 4px 10px;
+  margin-bottom: 10px;
+  text-align: center;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.wind-warning-banner.wind-warning-gale,
+.wind-warning-banner.wind-warning-storm,
+.wind-warning-banner.wind-warning-hurricane {
+  background: rgba(180, 0, 0, 0.3);
+  border-color: rgba(220, 50, 50, 0.7);
+}
+
+.wind-sources-table {
+  border-collapse: collapse;
+  margin-bottom: 10px;
+}
+
+.wind-col {
+  vertical-align: top;
+  padding-right: 28px;
+}
+
+.wind-col:last-child {
+  padding-right: 0;
+}
+
+.wind-source-label {
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.wind-speed {
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.wind-unit {
+  opacity: 0.7;
+}
+
+.wind-gust {
+  margin-top: 2px;
+  white-space: nowrap;
+}
+
+.wind-forecast {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: 7px;
+}
+
+.wind-forecast-label {
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.wind-forecast-text {
+  line-height: 1.45;
+  opacity: 0.85;
+}
