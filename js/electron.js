@@ -166,8 +166,10 @@ app.on("activate", function () {
 });
 
 /*
- * This method will be called when SIGINT is received and will call
- * each node_helper's stop function if it exists. Added to fix #1056
+ * Electron routes SIGINT (and other quit signals) to the app's quit sequence,
+ * which triggers this "before-quit" event. This handler calls each
+ * node_helper's stop function if it exists.
+ * Added to fix #1056 (no method to gracefully shut down modules on exit).
  *
  * Note: this is only used if running Electron. Otherwise
  * core.stop() is called by process.on("SIGINT"... in `app.js`
