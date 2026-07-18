@@ -190,23 +190,26 @@ app.on("certificate-error", (event, webContents, url, error, certificate, callba
 	callback(true);
 });
 
-if (process.env.clientonly) {
-	app.whenReady().then(() => {
+/**
+ * Bootstrap Electron: launch the client-only viewer and/or the full core application.
+ */
+async function bootstrapElectron () {
+	if (process.env.clientonly) {
+		await app.whenReady();
 		Log.log("Launching client viewer application.");
 		createWindow();
-	});
+	}
+
+	/*
+	 * Start the core application if server is run on localhost
+	 * This starts all node helpers and starts the webserver.
+	 */
+	if (["localhost", "127.0.0.1", "::1", "::ffff:127.0.0.1", undefined].includes(config.address)) {
+		config = await core.start();
+		await app.whenReady();
+		Log.log("Launching application.");
+		createWindow();
+	}
 }
 
-/*
- * Start the core application if server is run on localhost
- * This starts all node helpers and starts the webserver.
- */
-if (["localhost", "127.0.0.1", "::1", "::ffff:127.0.0.1", undefined].includes(config.address)) {
-	core.start().then((c) => {
-		config = c;
-		app.whenReady().then(() => {
-			Log.log("Launching application.");
-			createWindow();
-		});
-	});
-}
+bootstrapElectron();
