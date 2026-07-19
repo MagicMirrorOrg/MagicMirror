@@ -433,13 +433,12 @@ END:VCALENDAR`);
 			const start = moment().add(1, "hours").toDate();
 			const end = moment().add(2, "hours").toDate();
 
-			vi.spyOn(ical, "expandRecurringEvent").mockImplementationOnce(() => {
-				throw new TypeError("invalid rrule");
-			});
-
+			// A malformed rrule (missing .between) makes real node-ical throw inside
+			// expandRecurringEvent; filterEvents should catch it, skip that event, and
+			// still return the unaffected one. No mocking needed.
 			const result = CalendarFetcherUtils.filterEvents(
 				{
-					brokenEvent: { type: "VEVENT", start, end, summary: "Broken" },
+					brokenEvent: { type: "VEVENT", start, end, summary: "Broken", rrule: {} },
 					goodEvent: { type: "VEVENT", start, end, summary: "Good" }
 				},
 				defaultConfig
@@ -450,12 +449,10 @@ END:VCALENDAR`);
 		});
 
 		it("should let expandRecurringEvent throw through directly", () => {
-			vi.spyOn(ical, "expandRecurringEvent").mockImplementationOnce(() => {
-				throw new TypeError("invalid rrule");
-			});
-
-			const event = { type: "VEVENT", start: new Date(), end: new Date(), summary: "Broken Event" };
-			expect(() => CalendarFetcherUtils.expandRecurringEvent(event, moment(), moment().add(1, "days"))).toThrow("invalid rrule");
+			// A malformed rrule (missing .between) makes real node-ical throw, proving
+			// expandRecurringEvent propagates errors instead of swallowing them.
+			const event = { type: "VEVENT", start: new Date(), end: new Date(), summary: "Broken Event", rrule: {} };
+			expect(() => CalendarFetcherUtils.expandRecurringEvent(event, moment(), moment().add(1, "days"))).toThrow(TypeError);
 		});
 	});
 
