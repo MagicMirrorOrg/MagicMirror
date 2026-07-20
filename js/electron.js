@@ -94,7 +94,7 @@ function createWindow () {
 	 */
 
 	let prefix;
-	if ((config.tls !== null && config.tls) || config.useHttps) {
+	if (config.tls || config.useHttps) {
 		prefix = "https://";
 	} else {
 		prefix = "http://";
