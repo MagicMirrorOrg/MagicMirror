@@ -127,11 +127,11 @@ function createWindow () {
 	//remove response headers that prevent sites of being embedded into iframes if configured
 	mainWindow.webContents.session.webRequest.onHeadersReceived((details, callback) => {
 		let curHeaders = details.responseHeaders;
-		if (config.ignoreXOriginHeader || false) {
+		if (config.ignoreXOriginHeader) {
 			curHeaders = Object.fromEntries(Object.entries(curHeaders).filter((header) => !(/x-frame-options/i).test(header[0])));
 		}
 
-		if (config.ignoreContentSecurityPolicy || false) {
+		if (config.ignoreContentSecurityPolicy) {
 			curHeaders = Object.fromEntries(Object.entries(curHeaders).filter((header) => !(/content-security-policy/i).test(header[0])));
 		}
 
