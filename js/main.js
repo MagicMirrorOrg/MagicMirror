@@ -1,5 +1,8 @@
 /* global addAnimateCSS, removeAnimateCSS, AnimateCSSIn, AnimateCSSOut, modulePositions, io */
 
+// Ensure Module global bridge is initialized before main bootstrap logic runs.
+// eslint-disable-next-line import-x/extensions
+import "./module.js";
 // eslint-disable-next-line import-x/extensions
 import { loadModules } from "./loader.js";
 // eslint-disable-next-line import-x/extensions
