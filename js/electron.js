@@ -94,15 +94,17 @@ function createWindow () {
 	 */
 
 	let prefix;
-	if ((config.tls !== null && config.tls) || config.useHttps) {
+	if (config.tls || config.useHttps) {
 		prefix = "https://";
 	} else {
 		prefix = "http://";
 	}
 
-	const address = (config.address === void 0) | (config.address === "") | (config.address === "0.0.0.0") | (config.address === "::") ? (config.address = "localhost") : config.address;
+	if (config.address === undefined || config.address === "" || config.address === "0.0.0.0" || config.address === "::") {
+		config.address = "localhost";
+	}
 	const port = getServerPort(config);
-	mainWindow.loadURL(`${prefix}${address}:${port}`);
+	mainWindow.loadURL(`${prefix}${config.address}:${port}`);
 
 	// Open the DevTools if run with "node --run start:dev"
 	if (process.argv.includes("dev")) {
@@ -127,11 +129,11 @@ function createWindow () {
 	//remove response headers that prevent sites of being embedded into iframes if configured
 	mainWindow.webContents.session.webRequest.onHeadersReceived((details, callback) => {
 		let curHeaders = details.responseHeaders;
-		if (config.ignoreXOriginHeader || false) {
+		if (config.ignoreXOriginHeader) {
 			curHeaders = Object.fromEntries(Object.entries(curHeaders).filter((header) => !(/x-frame-options/i).test(header[0])));
 		}
 
-		if (config.ignoreContentSecurityPolicy || false) {
+		if (config.ignoreContentSecurityPolicy) {
 			curHeaders = Object.fromEntries(Object.entries(curHeaders).filter((header) => !(/content-security-policy/i).test(header[0])));
 		}
 
