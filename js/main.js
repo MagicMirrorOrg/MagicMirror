@@ -1,4 +1,4 @@
-/* global addAnimateCSS, removeAnimateCSS, AnimateCSSIn, AnimateCSSOut, modulePositions, io */
+/* global addAnimateCSS, removeAnimateCSS, AnimateCSSIn, AnimateCSSOut, modulePositions */
 
 // Ensure Module global bridge is initialized before main bootstrap logic runs.
 // eslint-disable-next-line import-x/extensions
@@ -596,8 +596,9 @@ export const MM = {
 		createDomObjects();
 
 		// Setup global socket listener for RELOAD event (watch mode)
-		if (typeof io !== "undefined") {
-			const socket = io("/", {
+		const ioClient = globalThis.io;
+		if (typeof ioClient !== "undefined") {
+			const socket = ioClient("/", {
 				path: `${config.basePath || "/"}socket.io`
 			});
 
