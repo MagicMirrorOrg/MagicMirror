@@ -100,6 +100,19 @@ export default defineConfig([
 		}
 	},
 	{
+		files: [
+			"js/main.js",
+			"js/module.js",
+			"js/loader.js",
+			"js/socketclient.js",
+			"js/translator.js"
+		],
+		rules: {
+			// Browser ESM entry files must always include the file extension in relative imports.
+			"import-x/extensions": ["error", "always"]
+		}
+	},
+	{
 		files: ["**/*.js"],
 		ignores: [
 			"clientonly/index.js",
