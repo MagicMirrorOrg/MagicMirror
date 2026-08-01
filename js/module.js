@@ -1,10 +1,5 @@
-/* global nunjucks */
-
-// eslint-disable-next-line import-x/extensions
 import { loadFileForModule } from "./loader.js";
-// eslint-disable-next-line import-x/extensions
 import { MMSocket } from "./socketclient.js";
-// eslint-disable-next-line import-x/extensions
 import { Translator } from "./translator.js";
 
 /*
@@ -166,13 +161,15 @@ export class Module {
 			return this._nunjucksEnvironment;
 		}
 
-		this._nunjucksEnvironment = new nunjucks.Environment(new nunjucks.WebLoader(this.file(""), { async: true }), {
+		const nunjucksEngine = globalThis.nunjucks;
+
+		this._nunjucksEnvironment = new nunjucksEngine.Environment(new nunjucksEngine.WebLoader(this.file(""), { async: true }), {
 			trimBlocks: true,
 			lstripBlocks: true
 		});
 
 		this._nunjucksEnvironment.addFilter("translate", (str, variables) => {
-			return nunjucks.runtime.markSafe(this.translate(str, variables));
+			return nunjucksEngine.runtime.markSafe(this.translate(str, variables));
 		});
 
 		return this._nunjucksEnvironment;

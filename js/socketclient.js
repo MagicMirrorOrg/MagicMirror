@@ -1,18 +1,18 @@
-/* global io */
-
 export const MMSocket = function (moduleName) {
 	if (typeof moduleName !== "string") {
 		throw new Error("Please set the module name for the MMSocket.");
 	}
 
+	const ioClient = globalThis.io;
+	if (typeof ioClient !== "function") {
+		throw new Error("socket.io client is not available.");
+	}
+
 	this.moduleName = moduleName;
 
 	// Private Methods
-	let base = "/";
-	if (typeof config !== "undefined" && typeof config.basePath !== "undefined") {
-		base = config.basePath;
-	}
-	this.socket = io(`/${this.moduleName}`, {
+	const base = globalThis.config?.basePath ?? "/";
+	this.socket = ioClient(`/${this.moduleName}`, {
 		path: `${base}socket.io`,
 		pingInterval: 120000, // send pings every 2 mins
 		pingTimeout: 120000 // wait up to 2 mins for a pong
