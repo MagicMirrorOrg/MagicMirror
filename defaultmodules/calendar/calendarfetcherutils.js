@@ -223,6 +223,56 @@ const CalendarFetcherUtils = {
 	},
 
 	/**
+	 * Detects yearly rules that restate DTSTART's day-of-month in BYMONTHDAY but omit BYMONTH,
+	 * as exported by several calendar clients (typically for birthdays), e.g.
+	 *
+	 *   DTSTART;VALUE=DATE:20231002
+	 *   RRULE:FREQ=YEARLY;WKST=MO;INTERVAL=1;BYMONTHDAY=2
+	 *
+	 * RFC 5545 makes BYMONTHDAY an *expanding* rule part for FREQ=YEARLY, so a conforming
+	 * expander returns the 2nd of every month - the event shows up twelve times a year
+	 * instead of once. The clients that emit this, and the web UIs that render it, all show
+	 * it once a year on DTSTART's date, so we follow the author's evident intent.
+	 *
+	 * The test is deliberately narrow, so rules that genuinely expand are left alone:
+	 * BYMONTHDAY must carry exactly one value, that value must equal DTSTART's day-of-month
+	 * (i.e. it merely restates DTSTART), and no other BYxxx part may shape the recurrence.
+	 * @param {object} event The recurring event object
+	 * @returns {boolean} True if the rule should be confined to DTSTART's month
+	 */
+	isYearlyRuleMissingByMonth (event) {
+		const rule = event.rrule;
+		if (!rule) {
+			return false;
+		}
+
+		const options = typeof rule.options === "function" ? rule.options() : rule.options;
+		// node-ical >= 0.26 reports freq as a string, earlier versions used rrule.js' numeric RRule.YEARLY.
+		if (!options || (options.freq !== "YEARLY" && options.freq !== 0)) {
+			return false;
+		}
+
+		const byMonthDay = options.byMonthDay ?? options.bymonthday;
+		if (!Array.isArray(byMonthDay) || byMonthDay.length !== 1) {
+			return false;
+		}
+
+		// Any further BYxxx part means the rule shapes the recurrence on purpose.
+		const shapingParts = [
+			options.byMonth ?? options.bymonth,
+			options.byDay ?? options.byweekday,
+			options.byYearDay ?? options.byyearday,
+			options.byWeekNo ?? options.byweekno,
+			options.bySetPos ?? options.bysetpos
+		];
+		if (shapingParts.some((part) => (Array.isArray(part) ? part.length > 0 : part !== undefined && part !== null))) {
+			return false;
+		}
+
+		return byMonthDay[0] === event.start.getDate();
+	},
+
+	/**
 	 * Expands a recurring event into individual event instances using node-ical.
 	 * Handles RRULE expansion, EXDATE filtering, RECURRENCE-ID overrides, and ongoing events.
 	 * @param {object} event The recurring event object
@@ -232,6 +282,9 @@ const CalendarFetcherUtils = {
 	 */
 	expandRecurringEvent (event, pastLocalMoment, futureLocalMoment) {
 		const localTimezone = CalendarFetcherUtils.getLocalTimezone();
+		// Drop the eleven spurious months produced by a yearly rule that is missing BYMONTH.
+		const confineToStartMonth = CalendarFetcherUtils.isYearlyRuleMissingByMonth(event);
+		const startMonth = event.start.getMonth();
 
 		return ical
 			.expandRecurringEvent(event, {
@@ -241,6 +294,7 @@ const CalendarFetcherUtils = {
 				excludeExdates: true,
 				expandOngoing: true
 			})
+			.filter((inst) => !confineToStartMonth || inst.start.getMonth() === startMonth)
 			.map((inst) => {
 				let startMoment, endMoment;
 				if (inst.isFullDay) {
