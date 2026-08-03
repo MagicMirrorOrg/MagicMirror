@@ -6,6 +6,10 @@
 const Module = require("node:module");
 const path = require("node:path");
 
+vi.doMock(path.resolve(__dirname, "../..", "js", "socketclient.js"), () => ({
+	MMSocket () {}
+}));
+
 // Set test mode flag for application code to detect test environment
 process.env.mmTestMode = "true";
 
