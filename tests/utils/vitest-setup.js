@@ -7,6 +7,7 @@ const Module = require("node:module");
 const path = require("node:path");
 
 vi.doMock(path.resolve(__dirname, "../..", "js", "socketclient.js"), () => ({
+	io () {},
 	MMSocket () {}
 }));
 

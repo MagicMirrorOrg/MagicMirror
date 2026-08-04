@@ -1,5 +1,12 @@
 // eslint-disable-next-line import-x/no-unresolved -- Socket.IO serves this module at runtime.
-const { io } = await import(/* @vite-ignore */ "/socket.io/socket.io.esm.min.js");
+const socketIo = await import(/* @vite-ignore */ "/socket.io/socket.io.esm.min.js");
+const { io } = socketIo;
+
+if (typeof io !== "function") {
+	throw new Error("Socket.IO client did not provide a callable io export.");
+}
+
+export { io };
 
 export const MMSocket = function (moduleName) {
 	if (typeof moduleName !== "string") {

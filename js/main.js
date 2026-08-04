@@ -3,6 +3,7 @@
 // Ensure Module global bridge is initialized before main bootstrap logic runs.
 import "./module.js";
 import { loadModules } from "./loader.js";
+import { io } from "./socketclient.js";
 import { Translator } from "./translator.js";
 
 let modules = [];
@@ -593,17 +594,14 @@ export const MM = {
 		createDomObjects();
 
 		// Setup global socket listener for RELOAD event (watch mode)
-		const ioClient = globalThis.io;
-		if (typeof ioClient !== "undefined") {
-			const socket = ioClient("/", {
-				path: `${config.basePath || "/"}socket.io`
-			});
+		const socket = io("/", {
+			path: `${config.basePath || "/"}socket.io`
+		});
 
-			socket.on("RELOAD", () => {
-				Log.warn("Reload notification received from server");
-				window.location.reload(true);
-			});
-		}
+		socket.on("RELOAD", () => {
+			Log.warn("Reload notification received from server");
+			window.location.reload(true);
+		});
 
 		if (config.reloadAfterServerRestart) {
 			setInterval(async () => {
