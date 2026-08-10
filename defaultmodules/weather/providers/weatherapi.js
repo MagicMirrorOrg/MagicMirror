@@ -1,11 +1,12 @@
 const Log = require("logger");
 const { convertKmhToMs, cardinalToDegrees } = require("../provider-utils");
-const HTTPFetcher = require("#http_fetcher");
+const WeatherProvider = require("../weatherprovider");
 
 const WEATHER_API_BASE = "https://api.weatherapi.com/v1";
 
-class WeatherAPIProvider {
+class WeatherAPIProvider extends WeatherProvider {
 	constructor (config) {
+		super();
 		this.config = {
 			apiBase: WEATHER_API_BASE,
 			lat: 0,
@@ -18,11 +19,6 @@ class WeatherAPIProvider {
 			updateInterval: 10 * 60 * 1000,
 			...config
 		};
-
-		this.locationName = null;
-		this.fetcher = null;
-		this.onDataCallback = null;
-		this.onErrorCallback = null;
 	}
 
 	initialize () {
@@ -30,22 +26,6 @@ class WeatherAPIProvider {
 		this.#initializeFetcher();
 	}
 
-	setCallbacks (onData, onError) {
-		this.onDataCallback = onData;
-		this.onErrorCallback = onError;
-	}
-
-	start () {
-		if (this.fetcher) {
-			this.fetcher.startPeriodicFetch();
-		}
-	}
-
-	stop () {
-		if (this.fetcher) {
-			this.fetcher.clearTimer();
-		}
-	}
 
 	#validateConfig () {
 		this.config.type = `${this.config.type ?? ""}`.trim().toLowerCase();
@@ -70,32 +50,11 @@ class WeatherAPIProvider {
 	#initializeFetcher () {
 		const url = this.#getUrl();
 
-		this.fetcher = new HTTPFetcher(url, {
+		this._createJSONFetcher(url, {
 			reloadInterval: this.config.updateInterval,
 			headers: { "Cache-Control": "no-cache" },
 			logContext: "weatherprovider.weatherapi"
-		});
-
-		this.fetcher.on("response", async (response) => {
-			try {
-				const data = await response.json();
-				this.#handleResponse(data);
-			} catch (error) {
-				Log.error("[weatherapi] Failed to parse JSON:", error);
-				if (this.onErrorCallback) {
-					this.onErrorCallback({
-						message: "Failed to parse API response",
-						translationKey: "MODULE_ERROR_UNSPECIFIED"
-					});
-				}
-			}
-		});
-
-		this.fetcher.on("error", (errorInfo) => {
-			if (this.onErrorCallback) {
-				this.onErrorCallback(errorInfo);
-			}
-		});
+		}, (data) => this.#handleResponse(data));
 	}
 
 	#handleResponse (data) {

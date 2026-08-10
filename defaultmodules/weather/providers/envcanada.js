@@ -1,5 +1,6 @@
 const Log = require("logger");
 const { convertKmhToMs } = require("../provider-utils");
+const WeatherProvider = require("../weatherprovider");
 const HTTPFetcher = require("#http_fetcher");
 
 /**
@@ -13,8 +14,9 @@ const HTTPFetcher = require("#http_fetcher");
  * Requires siteCode and provCode config parameters
  * See https://dd.weather.gc.ca/citypage_weather/docs/site_list_en.csv
  */
-class EnvCanadaProvider {
+class EnvCanadaProvider extends WeatherProvider {
 	constructor (config) {
+		super();
 		this.config = {
 			siteCode: "s0000000",
 			provCode: "ON",
@@ -23,9 +25,6 @@ class EnvCanadaProvider {
 			...config
 		};
 
-		this.fetcher = null;
-		this.onDataCallback = null;
-		this.onErrorCallback = null;
 		this.lastCityPageURL = null;
 		this.cacheCurrentTemp = null;
 		this.currentHour = null; // Track current hour for URL updates
@@ -34,23 +33,6 @@ class EnvCanadaProvider {
 	initialize () {
 		this.#validateConfig();
 		this.#initializeFetcher();
-	}
-
-	setCallbacks (onData, onError) {
-		this.onDataCallback = onData;
-		this.onErrorCallback = onError;
-	}
-
-	start () {
-		if (this.fetcher) {
-			this.fetcher.startPeriodicFetch();
-		}
-	}
-
-	stop () {
-		if (this.fetcher) {
-			this.fetcher.clearTimer();
-		}
 	}
 
 	#validateConfig () {

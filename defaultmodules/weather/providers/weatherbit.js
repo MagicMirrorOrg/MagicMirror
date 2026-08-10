@@ -1,12 +1,13 @@
 const Log = require("logger");
-const HTTPFetcher = require("#http_fetcher");
+const WeatherProvider = require("../weatherprovider");
 
 /**
  * Weatherbit weather provider
  * See: https://www.weatherbit.io/
  */
-class WeatherbitProvider {
+class WeatherbitProvider extends WeatherProvider {
 	constructor (config) {
+		super();
 		this.config = {
 			apiBase: "https://api.weatherbit.io/v2.0",
 			apiKey: "",
@@ -16,15 +17,6 @@ class WeatherbitProvider {
 			updateInterval: 10 * 60 * 1000,
 			...config
 		};
-
-		this.fetcher = null;
-		this.onDataCallback = null;
-		this.onErrorCallback = null;
-	}
-
-	setCallbacks (onDataCallback, onErrorCallback) {
-		this.onDataCallback = onDataCallback;
-		this.onErrorCallback = onErrorCallback;
 	}
 
 	initialize () {
@@ -45,34 +37,13 @@ class WeatherbitProvider {
 	#initializeFetcher () {
 		const url = this.#getUrl();
 
-		this.fetcher = new HTTPFetcher(url, {
+		this._createJSONFetcher(url, {
 			reloadInterval: this.config.updateInterval,
 			headers: {
 				Accept: "application/json"
 			},
 			logContext: "weatherprovider.weatherbit"
-		});
-
-		this.fetcher.on("response", async (response) => {
-			try {
-				const data = await response.json();
-				this.#handleResponse(data);
-			} catch (error) {
-				Log.error("[weatherbit] Parse error:", error);
-				if (this.onErrorCallback) {
-					this.onErrorCallback({
-						message: "Failed to parse API response",
-						translationKey: "MODULE_ERROR_UNSPECIFIED"
-					});
-				}
-			}
-		});
-
-		this.fetcher.on("error", (errorInfo) => {
-			if (this.onErrorCallback) {
-				this.onErrorCallback(errorInfo);
-			}
-		});
+		}, (data) => this.#handleResponse(data));
 	}
 
 	#getUrl () {
@@ -276,17 +247,6 @@ class WeatherbitProvider {
 		return weatherTypes[weatherType] || null;
 	}
 
-	start () {
-		if (this.fetcher) {
-			this.fetcher.startPeriodicFetch();
-		}
-	}
-
-	stop () {
-		if (this.fetcher) {
-			this.fetcher.clearTimer();
-		}
-	}
 }
 
 module.exports = WeatherbitProvider;

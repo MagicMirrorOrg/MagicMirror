@@ -179,7 +179,7 @@ export default defineConfig([
 		}
 	},
 	{
-		files: ["tests/unit/modules/default/weather/providers/*.js"],
+		files: ["tests/unit/modules/default/weather/**/*.js"],
 		rules: {
 			"import-x/namespace": "off",
 			"import-x/named": "off",

@@ -1,5 +1,5 @@
 const Log = require("logger");
-const HTTPFetcher = require("#http_fetcher");
+const WeatherProvider = require("../weatherprovider");
 
 // https://www.bigdatacloud.com/docs/api/free-reverse-geocode-to-city-api
 const GEOCODE_BASE = "https://api.bigdatacloud.net/data/reverse-geocode-client";
@@ -9,7 +9,7 @@ const OPEN_METEO_BASE = "https://api.open-meteo.com/v1";
  * Server-side weather provider for Open-Meteo
  * see https://open-meteo.com/
  */
-class OpenMeteoProvider {
+class OpenMeteoProvider extends WeatherProvider {
 	// https://open-meteo.com/en/docs
 	hourlyParams = [
 		"temperature_2m",
@@ -90,6 +90,7 @@ class OpenMeteoProvider {
 	];
 
 	constructor (config) {
+		super();
 		this.config = {
 			apiBase: OPEN_METEO_BASE,
 			lat: 0,
@@ -100,44 +101,11 @@ class OpenMeteoProvider {
 			updateInterval: 10 * 60 * 1000,
 			...config
 		};
-
-		this.locationName = null;
-		this.fetcher = null;
-		this.onDataCallback = null;
-		this.onErrorCallback = null;
 	}
 
 	async initialize () {
 		await this.#fetchLocation();
 		this.#initializeFetcher();
-	}
-
-	/**
-	 * Set callbacks for data/error events
-	 * @param {(data: object) => void} onData - Called with weather data
-	 * @param {(error: object) => void} onError - Called with error info
-	 */
-	setCallbacks (onData, onError) {
-		this.onDataCallback = onData;
-		this.onErrorCallback = onError;
-	}
-
-	/**
-	 * Start periodic fetching
-	 */
-	start () {
-		if (this.fetcher) {
-			this.fetcher.startPeriodicFetch();
-		}
-	}
-
-	/**
-	 * Stop periodic fetching
-	 */
-	stop () {
-		if (this.fetcher) {
-			this.fetcher.clearTimer();
-		}
 	}
 
 	async #fetchLocation () {
@@ -165,33 +133,11 @@ class OpenMeteoProvider {
 	#initializeFetcher () {
 		const url = this.#getUrl();
 
-		this.fetcher = new HTTPFetcher(url, {
+		this._createJSONFetcher(url, {
 			reloadInterval: this.config.updateInterval,
 			headers: { "Cache-Control": "no-cache" },
 			logContext: "weatherprovider.openmeteo"
-		});
-
-		this.fetcher.on("response", async (response) => {
-			if (response.status === 304) return;
-			try {
-				const data = await response.json();
-				this.#handleResponse(data);
-			} catch (error) {
-				Log.error("[openmeteo] Failed to parse JSON:", error);
-				if (this.onErrorCallback) {
-					this.onErrorCallback({
-						message: "Failed to parse API response",
-						translationKey: "MODULE_ERROR_UNSPECIFIED"
-					});
-				}
-			}
-		});
-
-		this.fetcher.on("error", (errorInfo) => {
-			if (this.onErrorCallback) {
-				this.onErrorCallback(errorInfo);
-			}
-		});
+		}, (data) => this.#handleResponse(data));
 	}
 
 	#handleResponse (data) {

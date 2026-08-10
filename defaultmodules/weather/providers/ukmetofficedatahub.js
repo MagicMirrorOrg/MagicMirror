@@ -1,6 +1,6 @@
 const Log = require("logger");
 const { getSunTimes } = require("../provider-utils");
-const HTTPFetcher = require("#http_fetcher");
+const WeatherProvider = require("../weatherprovider");
 
 /**
  * UK Met Office Data Hub provider
@@ -13,8 +13,9 @@ const HTTPFetcher = require("#http_fetcher");
  *
  * Free accounts limited to 360 requests/day per service (once every 4 minutes)
  */
-class UkMetOfficeDataHubProvider {
+class UkMetOfficeDataHubProvider extends WeatherProvider {
 	constructor (config) {
+		super();
 		this.config = {
 			apiBase: "https://data.hub.api.metoffice.gov.uk/sitespecific/v0/point/",
 			apiKey: "",
@@ -24,15 +25,6 @@ class UkMetOfficeDataHubProvider {
 			updateInterval: 10 * 60 * 1000,
 			...config
 		};
-
-		this.fetcher = null;
-		this.onDataCallback = null;
-		this.onErrorCallback = null;
-	}
-
-	setCallbacks (onDataCallback, onErrorCallback) {
-		this.onDataCallback = onDataCallback;
-		this.onErrorCallback = onErrorCallback;
 	}
 
 	initialize () {
@@ -54,36 +46,14 @@ class UkMetOfficeDataHubProvider {
 		const forecastType = this.#getForecastType();
 		const url = this.#getUrl(forecastType);
 
-		this.fetcher = new HTTPFetcher(url, {
+		this._createJSONFetcher(url, {
 			reloadInterval: this.config.updateInterval,
 			headers: {
 				Accept: "application/json",
 				apikey: this.config.apiKey
 			},
 			logContext: "weatherprovider.ukmetofficedatahub"
-		});
-
-		this.fetcher.on("response", async (response) => {
-			if (response.status === 304) return;
-			try {
-				const data = await response.json();
-				this.#handleResponse(data);
-			} catch (error) {
-				Log.error("[ukmetofficedatahub] Parse error:", error);
-				if (this.onErrorCallback) {
-					this.onErrorCallback({
-						message: "Failed to parse API response",
-						translationKey: "MODULE_ERROR_UNSPECIFIED"
-					});
-				}
-			}
-		});
-
-		this.fetcher.on("error", (errorInfo) => {
-			if (this.onErrorCallback) {
-				this.onErrorCallback(errorInfo);
-			}
-		});
+		}, (data) => this.#handleResponse(data));
 	}
 
 	#getForecastType () {
@@ -314,17 +284,6 @@ class UkMetOfficeDataHubProvider {
 		return weatherTypes[weatherType] || null;
 	}
 
-	start () {
-		if (this.fetcher) {
-			this.fetcher.startPeriodicFetch();
-		}
-	}
-
-	stop () {
-		if (this.fetcher) {
-			this.fetcher.clearTimer();
-		}
-	}
 }
 
 module.exports = UkMetOfficeDataHubProvider;

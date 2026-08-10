@@ -1,5 +1,6 @@
 const Log = require("logger");
 const { formatTimezoneOffset, getDateString, validateCoordinates } = require("../provider-utils");
+const WeatherProvider = require("../weatherprovider");
 const HTTPFetcher = require("#http_fetcher");
 
 /**
@@ -8,8 +9,9 @@ const HTTPFetcher = require("#http_fetcher");
  *
  * Note: Minimum update interval is 10 minutes (600000 ms) per API terms
  */
-class YrProvider {
+class YrProvider extends WeatherProvider {
 	constructor (config) {
+		super();
 		this.config = {
 			apiBase: "https://api.met.no/weatherapi",
 			forecastApiVersion: "2.0",
@@ -29,11 +31,7 @@ class YrProvider {
 			this.config.updateInterval = 600000;
 		}
 
-		this.fetcher = null;
-		this.onDataCallback = null;
-		this.onErrorCallback = null;
-		this.locationName = null;
-
+		this.fetcher = null; // yr manages its own fetcher with If-Modified-Since caching
 		// Cache for sunrise/sunset data
 		this.stellarData = null;
 		this.stellarDataDate = null;
@@ -51,23 +49,6 @@ class YrProvider {
 		validateCoordinates(this.config, 4);
 		await this.#fetchStellarData();
 		this.#initializeFetcher();
-	}
-
-	setCallbacks (onData, onError) {
-		this.onDataCallback = onData;
-		this.onErrorCallback = onError;
-	}
-
-	start () {
-		if (this.fetcher) {
-			this.fetcher.startPeriodicFetch();
-		}
-	}
-
-	stop () {
-		if (this.fetcher) {
-			this.fetcher.clearTimer();
-		}
 	}
 
 	async #fetchStellarData () {
