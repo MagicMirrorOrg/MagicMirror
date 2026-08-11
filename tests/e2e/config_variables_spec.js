@@ -31,4 +31,19 @@ describe("config with variables and secrets", () => {
 		const cfg = await res.json();
 		expect(cfg.ipWhitelist).toStrictEqual(["**SECRET_IP2**", "::**SECRET_IP3**", "**SECRET_IP1**"]);
 	});
+
+	it("/config/config.env should deliver 404", async () => {
+		const res = await fetch(`http://localhost:${config.port}/config/config.env`);
+		expect(res.status).toBe(404);
+	});
+
+	it("/config/config.js should deliver 404", async () => {
+		const res = await fetch(`http://localhost:${config.port}/config/config.js`);
+		expect(res.status).toBe(404);
+	});
+
+	it("/config/basepath.js should deliver 200", async () => {
+		const res = await fetch(`http://localhost:${config.port}/config/basepath.js`);
+		expect(res.status).toBe(200);
+	});
 });
