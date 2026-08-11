@@ -1,5 +1,5 @@
 const Log = require("logger");
-const HTTPFetcher = require("#http_fetcher");
+const WeatherProvider = require("../weatherprovider");
 
 const BUIENRADAR_API_BASE = "https://forecast.buienradar.nl/2.0/forecast";
 const ERROR_TRANSLATION_KEY = "MODULE_ERROR_UNSPECIFIED";
@@ -59,8 +59,9 @@ const WEATHER_ICON_MAP = {
  * Netherlands/Belgium only, metric system, no API key required
  * see https://buienradar.nl
  */
-class BuienradarProvider {
+class BuienradarProvider extends WeatherProvider {
 	constructor (config) {
+		super();
 		this.config = {
 			apiBase: BUIENRADAR_API_BASE,
 			locationId: null,
@@ -69,11 +70,6 @@ class BuienradarProvider {
 			updateInterval: 10 * 60 * 1000,
 			...config
 		};
-
-		this.locationName = null;
-		this.fetcher = null;
-		this.onDataCallback = null;
-		this.onErrorCallback = null;
 	}
 
 	initialize () {
@@ -86,46 +82,13 @@ class BuienradarProvider {
 		this.#initializeFetcher();
 	}
 
-	setCallbacks (onData, onError) {
-		this.onDataCallback = onData;
-		this.onErrorCallback = onError;
-	}
-
-	start () {
-		if (this.fetcher) {
-			this.fetcher.startPeriodicFetch();
-		}
-	}
-
-	stop () {
-		if (this.fetcher) {
-			this.fetcher.clearTimer();
-		}
-	}
 
 	#initializeFetcher () {
-		this.fetcher = new HTTPFetcher(this.#getUrl(), {
+		this._createJSONFetcher(this.#getUrl(), {
 			reloadInterval: this.config.updateInterval,
 			headers: { "Cache-Control": "no-cache" },
 			logContext: "weatherprovider.buienradar"
-		});
-
-		this.fetcher.on("response", async (response) => {
-			if (response.status === 304) return;
-			try {
-				const data = await response.json();
-				this.#handleResponse(data);
-			} catch (error) {
-				Log.error("[buienradar] Failed to parse JSON:", error);
-				this.#sendErrorCallback("Failed to parse API response");
-			}
-		});
-
-		this.fetcher.on("error", (errorInfo) => {
-			if (this.onErrorCallback) {
-				this.onErrorCallback(errorInfo);
-			}
-		});
+		}, (data) => this.#handleResponse(data));
 	}
 
 	#handleResponse (data) {

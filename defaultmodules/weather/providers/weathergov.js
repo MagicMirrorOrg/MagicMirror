@@ -1,5 +1,6 @@
 const Log = require("logger");
 const { getSunTimes, isDayTime, getDateString, convertKmhToMs, cardinalToDegrees } = require("../provider-utils");
+const WeatherProvider = require("../weatherprovider");
 const HTTPFetcher = require("#http_fetcher");
 
 /**
@@ -7,8 +8,9 @@ const HTTPFetcher = require("#http_fetcher");
  * Note: Only works for US locations, no API key required
  * https://weather-gov.github.io/api/general-faqs
  */
-class WeatherGovProvider {
+class WeatherGovProvider extends WeatherProvider {
 	constructor (config) {
+		super();
 		this.config = {
 			apiBase: "https://api.weather.gov/points/",
 			lat: 0,
@@ -18,10 +20,6 @@ class WeatherGovProvider {
 			...config
 		};
 
-		this.fetcher = null;
-		this.onDataCallback = null;
-		this.onErrorCallback = null;
-		this.locationName = null;
 		this.initRetryCount = 0;
 		this.initRetryTimer = null;
 
@@ -91,25 +89,10 @@ class WeatherGovProvider {
 		};
 	}
 
-	setCallbacks (onData, onError) {
-		this.onDataCallback = onData;
-		this.onErrorCallback = onError;
-	}
-
-	start () {
-		if (this.fetcher) {
-			this.fetcher.startPeriodicFetch();
-		}
-	}
-
 	stop () {
-		if (this.fetcher) {
-			this.fetcher.clearTimer();
-		}
-		if (this.initRetryTimer) {
-			clearTimeout(this.initRetryTimer);
-			this.initRetryTimer = null;
-		}
+		super.stop();
+		clearTimeout(this.initRetryTimer);
+		this.initRetryTimer = null;
 	}
 
 	async #fetchWeatherGovURLs () {
@@ -195,7 +178,7 @@ class WeatherGovProvider {
 				url = this.stationObsURL;
 		}
 
-		this.fetcher = new HTTPFetcher(url, {
+		this._createJSONFetcher(url, {
 			reloadInterval: this.config.updateInterval,
 			timeout: 60000, // 60 seconds - weather.gov can be slow
 			headers: {
@@ -204,29 +187,7 @@ class WeatherGovProvider {
 				"Cache-Control": "no-cache"
 			},
 			logContext: "weatherprovider.weathergov"
-		});
-
-		this.fetcher.on("response", async (response) => {
-			if (response.status === 304) return;
-			try {
-				const data = await response.json();
-				this.#handleResponse(data);
-			} catch (error) {
-				Log.error("[weathergov] Failed to parse JSON:", error);
-				if (this.onErrorCallback) {
-					this.onErrorCallback({
-						message: "Failed to parse API response",
-						translationKey: "MODULE_ERROR_UNSPECIFIED"
-					});
-				}
-			}
-		});
-
-		this.fetcher.on("error", (errorInfo) => {
-			if (this.onErrorCallback) {
-				this.onErrorCallback(errorInfo);
-			}
-		});
+		}, (data) => this.#handleResponse(data));
 	}
 
 	#handleResponse (data) {

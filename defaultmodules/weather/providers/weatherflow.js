@@ -1,37 +1,22 @@
 const Log = require("logger");
 const { convertKmhToMs } = require("../provider-utils");
-const HTTPFetcher = require("#http_fetcher");
+const WeatherProvider = require("../weatherprovider");
 
 /**
  * WeatherFlow weather provider
  * This class is a provider for WeatherFlow personal weather stations.
  * Note that the WeatherFlow API does not provide snowfall.
  */
-class WeatherFlowProvider {
+class WeatherFlowProvider extends WeatherProvider {
 
 	/**
 	 * @param {object} config - Provider configuration
 	 */
 	constructor (config) {
+		super();
 		this.config = config;
-		this.fetcher = null;
-		this.onDataCallback = null;
-		this.onErrorCallback = null;
 	}
 
-	/**
-	 * Set the callbacks for data and errors
-	 * @param {(data: object) => void} onDataCallback - Called when new data is available
-	 * @param {(error: object) => void} onErrorCallback - Called when an error occurs
-	 */
-	setCallbacks (onDataCallback, onErrorCallback) {
-		this.onDataCallback = onDataCallback;
-		this.onErrorCallback = onErrorCallback;
-	}
-
-	/**
-	 * Initialize the provider
-	 */
 	initialize () {
 		if (!this.config.token || this.config.token === "YOUR_API_TOKEN_HERE") {
 			Log.error("[weatherflow] No API token configured. Get one at https://tempestwx.com/");
@@ -64,31 +49,16 @@ class WeatherFlowProvider {
 	#initializeFetcher () {
 		const url = this.#getUrl();
 
-		this.fetcher = new HTTPFetcher(url, {
+		this._createJSONFetcher(url, {
 			reloadInterval: this.config.updateInterval,
 			headers: {
 				"Cache-Control": "no-cache",
 				Accept: "application/json"
 			},
 			logContext: "weatherprovider.weatherflow"
-		});
-
-		this.fetcher.on("response", async (response) => {
-			if (response.status === 304) return;
-			try {
-				const data = await response.json();
-				const processed = this.#processData(data);
-				this.onDataCallback(processed);
-			} catch (error) {
-				Log.error("[weatherflow] Failed to parse JSON:", error);
-			}
-		});
-
-		this.fetcher.on("error", (errorInfo) => {
-			// HTTPFetcher already logged the error with logContext
-			if (this.onErrorCallback) {
-				this.onErrorCallback(errorInfo);
-			}
+		}, (data) => {
+			const processed = this.#processData(data);
+			this.onDataCallback(processed);
 		});
 	}
 
@@ -280,23 +250,6 @@ class WeatherFlowProvider {
 		return weatherTypes[weatherType] || null;
 	}
 
-	/**
-	 * Start fetching data
-	 */
-	start () {
-		if (this.fetcher) {
-			this.fetcher.startPeriodicFetch();
-		}
-	}
-
-	/**
-	 * Stop fetching data
-	 */
-	stop () {
-		if (this.fetcher) {
-			this.fetcher.clearTimer();
-		}
-	}
 }
 
 module.exports = WeatherFlowProvider;

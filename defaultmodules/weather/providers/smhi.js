@@ -1,6 +1,6 @@
 const Log = require("logger");
 const { getSunTimes, isDayTime, validateCoordinates } = require("../provider-utils");
-const HTTPFetcher = require("#http_fetcher");
+const WeatherProvider = require("../weatherprovider");
 
 /**
  * Server-side weather provider for SMHI (Swedish Meteorological and Hydrological Institute)
@@ -31,8 +31,9 @@ const PRECIP_VALUE_MAP = {
 	pmax: "precipitation_amount_max"
 };
 
-class SMHIProvider {
+class SMHIProvider extends WeatherProvider {
 	constructor (config) {
+		super();
 		this.config = {
 			lat: 0,
 			lon: 0,
@@ -47,10 +48,6 @@ class SMHIProvider {
 			Log.warn(`[smhi] Invalid precipitationValue: ${this.config.precipitationValue}, using pmedian`);
 			this.config.precipitationValue = "pmedian";
 		}
-
-		this.fetcher = null;
-		this.onDataCallback = null;
-		this.onErrorCallback = null;
 	}
 
 	initialize () {
@@ -69,52 +66,14 @@ class SMHIProvider {
 		}
 	}
 
-	setCallbacks (onData, onError) {
-		this.onDataCallback = onData;
-		this.onErrorCallback = onError;
-	}
-
-	start () {
-		if (this.fetcher) {
-			this.fetcher.startPeriodicFetch();
-		}
-	}
-
-	stop () {
-		if (this.fetcher) {
-			this.fetcher.clearTimer();
-		}
-	}
 
 	#initializeFetcher () {
 		const url = this.#getUrl();
 
-		this.fetcher = new HTTPFetcher(url, {
+		this._createJSONFetcher(url, {
 			reloadInterval: this.config.updateInterval,
 			logContext: "weatherprovider.smhi"
-		});
-
-		this.fetcher.on("response", async (response) => {
-			if (response.status === 304) return;
-			try {
-				const data = await response.json();
-				this.#handleResponse(data);
-			} catch (error) {
-				Log.error("[smhi] Failed to parse JSON:", error);
-				if (this.onErrorCallback) {
-					this.onErrorCallback({
-						message: "Failed to parse API response",
-						translationKey: "MODULE_ERROR_UNSPECIFIED"
-					});
-				}
-			}
-		});
-
-		this.fetcher.on("error", (errorInfo) => {
-			if (this.onErrorCallback) {
-				this.onErrorCallback(errorInfo);
-			}
-		});
+		}, (data) => this.#handleResponse(data));
 	}
 
 	#handleResponse (data) {
