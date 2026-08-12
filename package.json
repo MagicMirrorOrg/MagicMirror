@@ -68,7 +68,7 @@
 		"test:coverage": "vitest run --coverage",
 		"test:e2e": "vitest run tests/e2e",
 		"test:electron": "vitest run tests/electron",
-		"test:lint": "eslint && prettier . --check",
+		"test:lint": "eslint --max-warnings=0 && prettier . --check",
 		"test:spelling": "cspell . --gitignore",
 		"test:ui": "vitest --ui",
 		"test:unit": "vitest run tests/unit",
