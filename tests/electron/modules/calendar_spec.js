@@ -179,6 +179,20 @@ describe("Calendar module", () => {
 			await helpers.startApplication("tests/configs/modules/calendar/sliceMultiDayEvents.js", "01 Sept 2024 10:38:00 GMT+02:00", [], "Europe/Berlin");
 			await expect(doTestCount()).resolves.toBe(6);
 		});
+
+		it("counts all touched dates across DST, not just elapsed 24h blocks", async () => {
+			// Event runs from 2024-10-25 to 2024-10-28 in Europe/Berlin, crossing the DST change.
+			// It touches 4 calendar dates: Fri, Sat, Sun, Mon.
+			await startCalendarShowEndScenario("slice_multiday_timed_start_midnight", "25 Oct 2024 06:00:00 GMT", "Europe/Berlin");
+			await expect(doTestCount()).resolves.toBe(4);
+		});
+
+		it("does not create an extra slice when an event ends exactly at 00:00", async () => {
+			// Event runs Fri 12:00 -> Mon 00:00. It should cover Fri, Sat, Sun only; Monday is not touched.
+			await helpers.startApplication("tests/configs/modules/calendar/sliceMultiDayEventsEndsMidnight.js", "25 Oct 2024 06:00:00 GMT", [], "GMT");
+			await expect(doTestCount()).resolves.toBe(3);
+			await expect(doTestTableContent(".calendar .event", ".title", "(3/3)", last)).resolves.toBe(true);
+		});
 	});
 
 	describe("sliceMultiDayEvents slice start time", () => {

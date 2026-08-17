@@ -466,6 +466,20 @@ Module.register("calendar", {
 	},
 
 	/**
+	 * Sets the relative day flags (today, yesterday, ...) on an event based on its day.
+	 * @param {object} event The event to flag.
+	 * @param {moment.Moment} dayMoment The day the event belongs to.
+	 * @param {moment.Moment} now The current moment.
+	 */
+	setRelativeDayFlags (event, dayMoment, now) {
+		event.today = dayMoment.isSame(now, "d");
+		event.dayBeforeYesterday = dayMoment.isSame(now.clone().subtract(2, "days"), "d");
+		event.yesterday = dayMoment.isSame(now.clone().subtract(1, "days"), "d");
+		event.tomorrow = dayMoment.isSame(now.clone().add(1, "days"), "d");
+		event.dayAfterTomorrow = dayMoment.isSame(now.clone().add(2, "days"), "d");
+	},
+
+	/**
 	 * Creates the sorted list of all events.
 	 * @param {boolean} limitNumberOfEntries Whether to filter returned events for display.
 	 * @returns {object[]} Array with events.
@@ -503,43 +517,36 @@ Module.register("calendar", {
 				}
 
 				event.url = calendarUrl;
-				event.today = eventStartDateMoment.isSame(now, "d");
-				event.dayBeforeYesterday = eventStartDateMoment.isSame(now.clone().subtract(2, "days"), "d");
-				event.yesterday = eventStartDateMoment.isSame(now.clone().subtract(1, "days"), "d");
-				event.tomorrow = eventStartDateMoment.isSame(now.clone().add(1, "days"), "d");
-				event.dayAfterTomorrow = eventStartDateMoment.isSame(now.clone().add(2, "days"), "d");
+				this.setRelativeDayFlags(event, eventStartDateMoment, now);
 
 				/*
-				 * if sliceMultiDayEvents is set to true, multiday events (events exceeding at least one midnight) are sliced into days,
-				 * otherwise, esp. in dateheaders mode it is not clear how long these events are.
+				 * If sliceMultiDayEvents is enabled, an event spanning several calendar days is split into one entry per day.
+				 * Otherwise, esp. in dateheaders mode, it is not clear how long these events are.
+				 * dayCount is the number of calendar days the event touches (an end exactly at midnight does not add a day).
 				 */
-				const maxCount = eventEndDateMoment.diff(eventStartDateMoment, "days");
-				if (this.config.sliceMultiDayEvents && maxCount > 1) {
+				const eventStartDay = eventStartDateMoment.clone().startOf("day");
+				const eventEndDay = eventEndDateMoment.clone().startOf("day");
+				const endsAtMidnight = !eventEndDateMoment.isAfter(eventEndDay);
+				const dayCount = eventEndDay.diff(eventStartDay, "days") + (endsAtMidnight ? 0 : 1);
+				if (this.config.sliceMultiDayEvents && dayCount > 1) {
 					const splitEvents = [];
-					let midnight
-						= eventStartDateMoment
-							.clone()
-							.startOf("day")
-							.add(1, "day")
-							.endOf("day");
-					let count = 1;
-					while (eventEndDateMoment.isAfter(midnight)) {
-						const thisEvent = JSON.parse(JSON.stringify(event)); // clone object
-						thisEvent.today = this.timestampToMoment(thisEvent.startDate).isSame(now, "d");
-						thisEvent.tomorrow = this.timestampToMoment(thisEvent.startDate).isSame(now.clone().add(1, "days"), "d");
-						thisEvent.endDate = midnight.clone().subtract(1, "day").format("x");
-						thisEvent.title += ` (${count}/${maxCount})`;
-						splitEvents.push(thisEvent);
+					// Each slice covers one day: it starts at the event start (first slice) or midnight,
+					// and ends at the event end (last slice) or one millisecond before the next midnight.
+					let sliceStart = eventStartDateMoment.clone();
 
-						event.startDate = midnight.clone().startOf("day").format("x"); // start next slice at 00:00, not 23:59
-						count += 1;
-						midnight = midnight.clone().add(1, "day").endOf("day"); // next day
+					for (let dayNumber = 1; dayNumber <= dayCount; dayNumber++) {
+						const isLastSlice = dayNumber === dayCount;
+						const nextMidnight = sliceStart.clone().startOf("day").add(1, "day");
+
+						const slice = JSON.parse(JSON.stringify(event)); // clone object
+						slice.startDate = sliceStart.format("x");
+						slice.endDate = isLastSlice ? event.endDate : nextMidnight.clone().subtract(1, "millisecond").format("x");
+						slice.title = `${event.title} (${dayNumber}/${dayCount})`;
+						this.setRelativeDayFlags(slice, sliceStart, now);
+						splitEvents.push(slice);
+
+						sliceStart = nextMidnight;
 					}
-					// Last day
-					event.title += ` (${count}/${maxCount})`;
-					event.today += this.timestampToMoment(event.startDate).isSame(now, "d");
-					event.tomorrow = this.timestampToMoment(event.startDate).isSame(now.clone().add(1, "days"), "d");
-					splitEvents.push(event);
 
 					for (const splitEvent of splitEvents) {
 						if (this.timestampToMoment(splitEvent.endDate).isAfter(now) && this.timestampToMoment(splitEvent.endDate).isSameOrBefore(future)) {
