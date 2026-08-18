@@ -234,42 +234,28 @@ const CalendarFetcherUtils = {
 	 * instead of once. The clients that emit this, and the web UIs that render it, all show
 	 * it once a year on DTSTART's date, so we follow the author's evident intent.
 	 *
-	 * The test is deliberately narrow, so rules that genuinely expand are left alone:
-	 * BYMONTHDAY must carry exactly one value, that value must equal DTSTART's day-of-month
-	 * (i.e. it merely restates DTSTART), and no other BYxxx part may shape the recurrence.
+	 * Detection reads rrule.origOptions, which carries only the parts the author actually
+	 * wrote (not the defaults node-ical fills in), so a missing BYMONTH is unambiguous. It
+	 * stays deliberately narrow, leaving rules that genuinely expand alone: BYMONTHDAY must
+	 * hold exactly one value equal to DTSTART's day-of-month (merely restating DTSTART), and
+	 * no other BYxxx part may shape the recurrence.
 	 * @param {object} event The recurring event object
 	 * @returns {boolean} True if the rule should be confined to DTSTART's month
 	 */
 	isYearlyRuleMissingByMonth (event) {
-		const rule = event.rrule;
-		if (!rule) {
+		const options = event.rrule?.origOptions;
+		if (!options || options.freq !== "YEARLY") {
 			return false;
 		}
 
-		const options = typeof rule.options === "function" ? rule.options() : rule.options;
-		// node-ical >= 0.26 reports freq as a string, earlier versions used rrule.js' numeric RRule.YEARLY.
-		if (!options || (options.freq !== "YEARLY" && options.freq !== 0)) {
+		const isSingleMonthDay = Array.isArray(options.byMonthDay) && options.byMonthDay.length === 1;
+		// Any other BYxxx part means the rule shapes the recurrence on purpose.
+		const hasShapingPart = Boolean(options.byMonth || options.byDay || options.byYearDay || options.byWeekNo || options.bySetPos);
+		if (!isSingleMonthDay || hasShapingPart) {
 			return false;
 		}
 
-		const byMonthDay = options.byMonthDay ?? options.bymonthday;
-		if (!Array.isArray(byMonthDay) || byMonthDay.length !== 1) {
-			return false;
-		}
-
-		// Any further BYxxx part means the rule shapes the recurrence on purpose.
-		const shapingParts = [
-			options.byMonth ?? options.bymonth,
-			options.byDay ?? options.byweekday,
-			options.byYearDay ?? options.byyearday,
-			options.byWeekNo ?? options.byweekno,
-			options.bySetPos ?? options.bysetpos
-		];
-		if (shapingParts.some((part) => (Array.isArray(part) ? part.length > 0 : part !== undefined && part !== null))) {
-			return false;
-		}
-
-		return byMonthDay[0] === event.start.getDate();
+		return options.byMonthDay[0] === event.start.getDate();
 	},
 
 	/**
