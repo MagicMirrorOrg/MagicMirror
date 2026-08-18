@@ -517,4 +517,83 @@ END:VCALENDAR`);
 			expect(filteredEvents[0].location).toBe("Berlin");
 		});
 	});
+
+	describe("yearly events that restate DTSTART's day in BYMONTHDAY but omit BYMONTH", () => {
+		// See GitHub issues #2547 and #3047: several calendar clients export a yearly
+		// event (typically a birthday) as FREQ=YEARLY;BYMONTHDAY=<day of DTSTART> without
+		// a BYMONTH part. RFC 5545 makes BYMONTHDAY an *expanding* rule part for YEARLY,
+		// so a conforming expander returns that day in every month - the event then shows
+		// up twelve times a year instead of once.
+
+		const yearConfig = { ...defaultConfig, maximumNumberOfDays: 365 };
+
+		const buildEvent = function (rrule, dtstart = "20231002", dtend = "20231003") {
+			return ical.parseICS(`BEGIN:VCALENDAR
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:${dtstart}
+DTEND;VALUE=DATE:${dtend}
+RRULE:${rrule}
+DTSTAMP:20230425T111027Z
+UID:yearly-bymonthday@example.com
+SUMMARY:Ted Birthday
+END:VEVENT
+END:VCALENDAR`);
+		};
+
+		const monthDaysOf = (events) => events.map((event) => moment(event.startDate, "x").format("MM-DD"));
+
+		it("should occur only in DTSTART's month when BYMONTH is missing", () => {
+			const data = buildEvent("FREQ=YEARLY;WKST=MO;INTERVAL=1;BYMONTHDAY=2");
+
+			const monthDays = monthDaysOf(CalendarFetcherUtils.filterEvents(data, yearConfig));
+
+			expect(monthDays.length).toBeGreaterThan(0);
+			expect(monthDays).toEqual(monthDays.map(() => "10-02"));
+		});
+
+		it("should still expand a rule that lists several days of the month", () => {
+			// FREQ=YEARLY;BYMONTHDAY=1,3 legitimately expands across the whole year.
+			const data = buildEvent("FREQ=YEARLY;BYMONTHDAY=1,3");
+
+			const months = new Set(monthDaysOf(CalendarFetcherUtils.filterEvents(data, yearConfig)).map((md) => md.slice(0, 2)));
+
+			expect(months.size).toBe(12);
+		});
+
+		it("should still expand a rule that also constrains the weekday", () => {
+			// "Every Friday the 13th" - BYDAY shapes the recurrence, so it must expand.
+			const data = buildEvent("FREQ=YEARLY;BYMONTHDAY=13;BYDAY=FR");
+
+			const monthDays = monthDaysOf(CalendarFetcherUtils.filterEvents(data, yearConfig));
+
+			expect(monthDays.length).toBeGreaterThan(0);
+			expect(monthDays.every((md) => md.endsWith("-13"))).toBe(true);
+			expect(monthDays.some((md) => !md.startsWith("10"))).toBe(true);
+		});
+
+		it("should still expand when BYMONTHDAY does not match DTSTART's day", () => {
+			// The day was not simply restated from DTSTART, so the rule means something else.
+			const data = buildEvent("FREQ=YEARLY;WKST=MO;INTERVAL=1;BYMONTHDAY=7");
+
+			const months = new Set(monthDaysOf(CalendarFetcherUtils.filterEvents(data, yearConfig)).map((md) => md.slice(0, 2)));
+
+			expect(months.size).toBe(12);
+		});
+
+		it("should keep a well-formed yearly rule with BYMONTH on its single date", () => {
+			const data = buildEvent("FREQ=YEARLY;WKST=MO;INTERVAL=1;BYMONTHDAY=2;BYMONTH=10");
+
+			const monthDays = monthDaysOf(CalendarFetcherUtils.filterEvents(data, yearConfig));
+
+			expect(monthDays).toEqual(["10-02"]);
+		});
+
+		it("should keep a plain yearly rule on its single date", () => {
+			const data = buildEvent("FREQ=YEARLY");
+
+			const monthDays = monthDaysOf(CalendarFetcherUtils.filterEvents(data, yearConfig));
+
+			expect(monthDays).toEqual(["10-02"]);
+		});
+	});
 });
