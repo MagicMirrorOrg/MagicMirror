@@ -39,7 +39,7 @@ Module.register("newsfeed", {
 
 	getUrlPrefix (item) {
 		if (item.useCorsProxy) {
-			return `${location.protocol}//${location.host}${config.basePath}cors?url=`;
+			return `${location.protocol}//${location.host}${globalThis.config.basePath}cors?url=`;
 		} else {
 			return "";
 		}
@@ -68,7 +68,7 @@ Module.register("newsfeed", {
 		Log.info(`Starting module: ${this.name}`);
 
 		// Set locale.
-		moment.locale(config.language);
+		moment.locale(globalThis.config.language);
 
 		this.newsItems = [];
 		this.loaded = false;

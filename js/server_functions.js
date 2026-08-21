@@ -71,7 +71,7 @@ async function cors (req, res) {
 		} else {
 			url = match[1];
 			if (typeof global.config !== "undefined") {
-				if (config.hideConfigSecrets) {
+				if (global.config.hideConfigSecrets) {
 					url = replaceSecretPlaceholder(url);
 				}
 			}

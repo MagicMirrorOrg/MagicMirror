@@ -5,7 +5,7 @@ Module.register("clock", {
 	defaults: {
 		displayType: "digital", // options: digital, analog, both
 
-		timeFormat: config.timeFormat,
+		timeFormat: globalThis.config.timeFormat,
 		timezone: null,
 
 		displaySeconds: true,
@@ -85,7 +85,7 @@ Module.register("clock", {
 		setTimeout(notificationTimer, delayCalculator(this.second));
 
 		// Set locale.
-		moment.locale(config.language);
+		moment.locale(globalThis.config.language);
 	},
 	// Override dom generator.
 	getDom () {

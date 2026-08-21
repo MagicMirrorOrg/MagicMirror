@@ -298,7 +298,7 @@ export class Module {
 	 */
 	async loadTranslations () {
 		const translations = this.getTranslations() || {};
-		const language = config.language.toLowerCase();
+		const language = globalThis.config.language.toLowerCase();
 
 		const languages = Object.keys(translations);
 		const fallbackLanguage = languages[0];

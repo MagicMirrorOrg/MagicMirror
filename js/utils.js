@@ -163,7 +163,7 @@ const loadConfig = () => {
 		checkDeprecatedOptions(configObj.fullConf);
 
 		try {
-			const cfg = `let config = { basePath: "${configObj.fullConf.basePath}"};`;
+			const cfg = `globalThis.config = { basePath: "${configObj.fullConf.basePath}"};`;
 			fs.writeFileSync(`${global.root_path}/config/basepath.js`, cfg, "utf-8");
 		} catch (error) {
 			Log.error(`Could not write config/basepath.js file: ${error.message}`);
