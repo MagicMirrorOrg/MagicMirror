@@ -55,54 +55,71 @@ function resolveClientIp (req) {
 }
 
 /**
- * Creates an Express middleware for IP whitelisting
+ * Checks whether a browser Origin matches the host serving the mirror.
+ * Non-browser clients (Electron clientonly, curl, node_helpers) send no Origin and are allowed.
+ * @param {object} req - Incoming request object
+ * @returns {boolean} True if the origin is same-host or absent
+ */
+function isSameOrigin (req) {
+	const origin = req.headers?.origin;
+	if (!origin) return true;
+
+	const host = req.headers?.host;
+	if (!host) return false;
+
+	try {
+		return new URL(origin).host === new URL(`http://${host}`).host;
+	} catch {
+		return false;
+	}
+}
+
+/**
+ * Determines why a request is denied, or null if it is allowed.
+ * Enforces same-origin first (CSRF protection), then the optional IP whitelist.
+ * @param {object} req - Incoming Express or Socket.IO request
+ * @param {string[]} whitelist - Array of allowed IP addresses or CIDR ranges (empty = any IP)
+ * @returns {string|null} A human-readable denial reason, or null when allowed
+ */
+function accessDenialReason (req, whitelist) {
+	// Strip control characters from the attacker-controlled Origin header before logging it
+	if (!isSameOrigin(req)) return `Origin ${String(req.headers?.origin).replace(/[\r\n]/g, "")} is not allowed`;
+
+	if (Array.isArray(whitelist) && whitelist.length > 0) {
+		const clientIp = resolveClientIp(req);
+		if (!isAllowed(clientIp, whitelist)) return `IP ${clientIp} is not allowed`;
+	}
+
+	return null;
+}
+
+/**
+ * Creates an Express middleware enforcing same-origin and the IP whitelist.
  * @param {string[]} whitelist - Array of allowed IP addresses or CIDR ranges
  * @returns {import("express").RequestHandler} Express middleware function
  */
 function ipAccessControl (whitelist) {
-	// Empty whitelist means allow all
-	if (!Array.isArray(whitelist) || whitelist.length === 0) {
-		return function (req, res, next) {
-			res.header("Access-Control-Allow-Origin", "*");
-			next();
-		};
-	}
-
 	return function (req, res, next) {
-		const clientIp = resolveClientIp(req);
+		const reason = accessDenialReason(req, whitelist);
+		if (!reason) return next();
 
-		if (isAllowed(clientIp, whitelist)) {
-			res.header("Access-Control-Allow-Origin", "*");
-			next();
-		} else {
-			Log.warn(`IP ${clientIp} is not allowed to access the mirror`);
-			res.status(403).send("This device is not allowed to access your mirror. <br> Please check your config.js or config.js.sample to change this.");
-		}
+		Log.warn(`${reason} to access the mirror`);
+		res.status(403).send("This device is not allowed to access your mirror. <br> Please check your config.js or config.js.sample to change this.");
 	};
 }
 
 /**
- * Creates a Socket.IO `allowRequest` handler that enforces the same IP whitelist as the HTTP middleware.
- * This closes the gap where Socket.IO handshakes bypassed the Express-only `ipAccessControl` middleware.
+ * Creates a Socket.IO `allowRequest` handler enforcing the same rules as the HTTP middleware.
  * @param {string[]} whitelist - Array of allowed IP addresses or CIDR ranges
  * @returns {(req: object, callback: (err: string | null, success: boolean) => void) => void} Socket.IO allowRequest handler
  */
 function socketIpAccessControl (whitelist) {
-	// Empty whitelist means allow all
-	if (!Array.isArray(whitelist) || whitelist.length === 0) {
-		return function (req, callback) {
-			callback(null, true); // allow the connection
-		};
-	}
-
 	return function (req, callback) {
-		const clientIp = resolveClientIp(req);
-		if (isAllowed(clientIp, whitelist)) {
-			callback(null, true); // allow the connection
-		} else {
-			Log.warn(`IP ${clientIp} is not allowed to connect to the mirror socket`);
-			callback("This device is not allowed to access your mirror.", false);
-		}
+		const reason = accessDenialReason(req, whitelist);
+		if (!reason) return callback(null, true);
+
+		Log.warn(`${reason} to connect to the mirror socket`);
+		callback("This device is not allowed to access your mirror.", false);
 	};
 }
 

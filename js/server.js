@@ -42,10 +42,6 @@ function Server (configObj) {
 			}
 			const io = socketio(server, {
 				allowRequest: socketIpAccessControl(config.ipWhitelist),
-				cors: {
-					origin: /.*$/,
-					credentials: true
-				},
 				allowEIO3: true,
 				pingInterval: 120000, // server → client ping every 2 mins
 				pingTimeout: 120000 // wait up to 2 mins for client pong
