@@ -3,7 +3,7 @@ import css from "@eslint/css";
 import globals from "globals";
 import {flatConfigs as importX} from "eslint-plugin-import-x";
 import js from "@eslint/js";
-import jsdocPlugin from "eslint-plugin-jsdoc";
+import {configs as jsdocConfigs} from "eslint-plugin-jsdoc";
 import markdown from "@eslint/markdown";
 import {configs as packageJsonConfigs} from "eslint-plugin-package-json";
 import playwright from "eslint-plugin-playwright";
@@ -44,7 +44,7 @@ export default defineConfig([
 				moment: "readonly"
 			}
 		},
-		extends: [importX.recommended, js.configs.recommended, jsdocPlugin.configs["flat/recommended"], stylistic.configs.all],
+		extends: [importX.recommended, js.configs.recommended, jsdocConfigs["flat/recommended"], stylistic.configs.all],
 		rules: {
 			"@stylistic/array-element-newline": ["error", "consistent"],
 			"@stylistic/arrow-parens": ["error", "always"],
