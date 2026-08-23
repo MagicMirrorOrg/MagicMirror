@@ -41,7 +41,6 @@ export default defineConfig([
 				Log: "readonly",
 				MM: "readonly",
 				Module: "readonly",
-				config: "readonly",
 				moment: "readonly"
 			}
 		},

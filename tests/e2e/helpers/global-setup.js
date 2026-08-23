@@ -149,8 +149,8 @@ exports.stopApplication = async (waitTime = 100) => {
 };
 
 exports.getDocument = async () => {
-	const port = global.testPort || config.port || 8080;
-	const address = config.address === "0.0.0.0" ? "localhost" : config.address || "localhost";
+	const port = global.testPort || global.config.port || 8080;
+	const address = global.config.address === "0.0.0.0" ? "localhost" : global.config.address || "localhost";
 	const url = `http://${address}:${port}`;
 
 	await openPage(url);

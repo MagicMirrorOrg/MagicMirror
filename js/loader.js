@@ -12,9 +12,9 @@ const moduleObjects = [];
  */
 function getEnvVarsFromConfig () {
 	return {
-		modulesDir: config.foreignModulesDir || "modules",
-		defaultModulesDir: config.defaultModulesDir || "defaultmodules",
-		customCss: config.customCss || "config/custom.css"
+		modulesDir: globalThis.config.foreignModulesDir || "modules",
+		defaultModulesDir: globalThis.config.defaultModulesDir || "defaultmodules",
+		customCss: globalThis.config.customCss || "config/custom.css"
 	};
 }
 
@@ -30,7 +30,7 @@ async function getEnvVars () {
 
 	// In production, fetch env vars from server
 	try {
-		const res = await fetch(new URL("env", `${location.origin}${config.basePath}`));
+		const res = await fetch(new URL("env", `${location.origin}${globalThis.config.basePath}`));
 		return JSON.parse(await res.text());
 	} catch (error) {
 		// Fallback to config values if server fetch fails
@@ -79,7 +79,7 @@ async function startModules () {
  * @returns {object[]} module data as configured in config
  */
 function getAllModules () {
-	const AllModules = config.modules.filter((module) => (module.module !== undefined) && (MM.getAvailableModulePositions.indexOf(module.position) > -1 || typeof (module.position) === "undefined"));
+	const AllModules = globalThis.config.modules.filter((module) => (module.module !== undefined) && (MM.getAvailableModulePositions.indexOf(module.position) > -1 || typeof (module.position) === "undefined"));
 	return AllModules;
 }
 

@@ -448,27 +448,30 @@ function updateWrapperStates () {
 
 /**
  * Loads the core config from the server (already combined with the system defaults).
+ * @returns {Promise<object>} The loaded config.
  */
 async function loadConfig () {
-	try {
-		const res = await fetch(new URL("config/", `${location.origin}${config.basePath}`));
-
-		// The server tags functions as { __mmFunction: "<source>" } because
-		// JSON.stringify can't serialise live functions. This reviver turns
-		// those tagged objects back into callable functions.
-		config = JSON.parse(await res.text(), (key, value) => {
-			if (value && typeof value === "object" && typeof value.__mmFunction === "string") {
-				try {
-					return new Function(`return (${value.__mmFunction})`)();
-				} catch {
-					Log.warn(`Failed to revive function for config key "${key}".`);
-				}
-			}
-			return value;
-		});
-	} catch (error) {
-		Log.error("Unable to retrieve config", error);
+	const basePath = globalThis.config?.basePath ?? "/";
+	const res = await fetch(new URL("config/", `${location.origin}${basePath}`));
+	if (!res.ok) {
+		throw new Error(`Unable to retrieve config: server responded with HTTP ${res.status} ${res.statusText}.`);
 	}
+
+	// The server tags functions as { __mmFunction: "<source>" } because
+	// JSON.stringify can't serialise live functions. This reviver turns
+	// those tagged objects back into callable functions.
+	const config = JSON.parse(await res.text(), (key, value) => {
+		if (value && typeof value === "object" && typeof value.__mmFunction === "string") {
+			try {
+				return new Function(`return (${value.__mmFunction})`)();
+			} catch {
+				Log.warn(`Failed to revive function for config key "${key}".`);
+			}
+		}
+		return value;
+	});
+	globalThis.config = config;
+	return config;
 }
 
 /**
@@ -570,10 +573,8 @@ export const MM = {
 	 */
 	async init () {
 		Log.info("Initializing MagicMirror².");
-		await loadConfig();
-
+		const config = await loadConfig();
 		Log.setLogLevel(config.logLevel);
-
 		await Translator.loadCoreTranslations(config.language);
 		await loadModules();
 	},
@@ -595,7 +596,7 @@ export const MM = {
 
 		// Setup global socket listener for RELOAD event (watch mode)
 		const socket = io("/", {
-			path: `${config.basePath || "/"}socket.io`
+			path: `${globalThis.config.basePath || "/"}socket.io`
 		});
 
 		socket.on("RELOAD", () => {
@@ -603,12 +604,12 @@ export const MM = {
 			window.location.reload(true);
 		});
 
-		if (config.reloadAfterServerRestart) {
+		if (globalThis.config.reloadAfterServerRestart) {
 			setInterval(async () => {
 				// if server startup time has changed (which means server was restarted)
 				// the client reloads the mm page
 				try {
-					const res = await fetch(`${location.protocol}//${location.host}${config.basePath}startup`);
+					const res = await fetch(`${location.protocol}//${location.host}${globalThis.config.basePath}startup`);
 					const curr = await res.text();
 					if (startUp === "") startUp = curr;
 					if (startUp !== curr) {
@@ -619,7 +620,7 @@ export const MM = {
 				} catch (err) {
 					Log.error(`MagicMirror not reachable: ${err}`);
 				}
-			}, config.checkServerInterval);
+			}, globalThis.config.checkServerInterval);
 		}
 	},
 
@@ -711,4 +712,8 @@ export const MM = {
 // Legacy global bridge for third-party modules that reference window.MM directly.
 if (!globalThis.MM) globalThis.MM = MM;
 
-MM.init();
+try {
+	await MM.init();
+} catch (error) {
+	Log.error(error);
+}

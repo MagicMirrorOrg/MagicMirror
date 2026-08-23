@@ -6,11 +6,11 @@ Module.register("weather", {
 		weatherProvider: "openweathermap",
 		roundTemp: false,
 		type: "current", // current, forecast, daily (equivalent to forecast), hourly
-		lang: config.language,
-		units: config.units,
-		tempUnits: config.units,
-		windUnits: config.units,
-		timeFormat: config.timeFormat,
+		lang: globalThis.config.language,
+		units: globalThis.config.units,
+		tempUnits: globalThis.config.units,
+		windUnits: globalThis.config.units,
+		timeFormat: globalThis.config.timeFormat,
 		updateInterval: 10 * 60 * 1000, // every 10 minutes
 		animationSpeed: 1000,
 		showFeelsLike: true,
