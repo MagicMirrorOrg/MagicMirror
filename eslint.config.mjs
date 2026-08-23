@@ -71,31 +71,20 @@ export default defineConfig([
 			"@stylistic/spaced-comment": "off",
 			"dot-notation": "error",
 			eqeqeq: ["error", "always", {null: "ignore"}],
-			"id-length": "off",
 			"import-x/extensions": "error",
 			"import-x/newline-after-import": "error",
 			"import-x/order": "error",
-			"init-declarations": "off",
 			"max-lines-per-function": ["warn", 400],
-			"max-statements": "off",
 			"no-global-assign": "off",
-			"no-inline-comments": "off",
-			"no-magic-numbers": "off",
 			"no-param-reassign": "error",
-			"no-plusplus": "off",
 			"no-prototype-builtins": "off",
-			"no-ternary": "off",
 			"no-throw-literal": "error",
-			"no-undefined": "off",
 			"no-unneeded-ternary": "error",
 			"no-useless-return": "error",
-			"no-warning-comments": "off",
 			"object-shorthand": ["error", "methods"],
-			"one-var": "off",
 			"prefer-const": "error",
 			"prefer-template": "error",
-			"require-await": "error",
-			"sort-keys": "off"
+			"require-await": "error"
 		}
 	},
 	{
@@ -137,13 +126,8 @@ export default defineConfig([
 		rules: {
 			"@stylistic/array-element-newline": "off",
 			"@stylistic/indent": ["error", "tab"],
-			"@stylistic/object-property-newline": ["error", {allowAllPropertiesOnSameLine: true}],
-			"@stylistic/padded-blocks": ["error", "never"],
 			"@stylistic/quote-props": ["error", "as-needed"],
-			"import-x/no-unresolved": ["error", {ignore: ["eslint/config"]}],
-			"max-lines-per-function": ["error", 100],
 			"no-magic-numbers": "off",
-			"one-var": ["error", "never"],
 			"sort-keys": "off"
 		}
 	},
@@ -182,14 +166,7 @@ export default defineConfig([
 		rules: {
 			"import-x/namespace": "off",
 			"import-x/named": "off",
-			"import-x/default": "off",
 			"import-x/extensions": "off"
-		}
-	},
-	{
-		files: ["tests/configs/modules/weather/*.js"],
-		rules: {
-			"@stylistic/quotes": "off"
 		}
 	},
 	{
