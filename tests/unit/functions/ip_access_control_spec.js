@@ -4,11 +4,10 @@ import { ipAccessControl, socketIpAccessControl } from "../../../js/ip_access_co
 
 /**
  * Creates a minimal Express-like response mock used by the middleware tests.
- * @returns {{ header: ReturnType<typeof vi.fn>, status: ReturnType<typeof vi.fn>, send: ReturnType<typeof vi.fn> }} Mock response object.
+ * @returns {{ status: ReturnType<typeof vi.fn>, send: ReturnType<typeof vi.fn> }} Mock response object.
  */
 function createResponseMock () {
 	return {
-		header: vi.fn(),
 		status: vi.fn(function () {
 			return this;
 		}),
@@ -47,6 +46,36 @@ describe("ip_access_control", () => {
 			expect(next).not.toHaveBeenCalled();
 			expect(res.status).toHaveBeenCalledWith(403);
 		});
+
+		it("rejects cross-origin HTTP requests even when the IP matches", () => {
+			const middleware = ipAccessControl(["203.0.113.10"]);
+			const req = {
+				socket: { remoteAddress: "203.0.113.10" },
+				headers: { host: "localhost:8080", origin: "https://evil.example" }
+			};
+			const res = createResponseMock();
+			const next = vi.fn();
+
+			middleware(req, res, next);
+
+			expect(next).not.toHaveBeenCalled();
+			expect(res.status).toHaveBeenCalledWith(403);
+		});
+
+		it("rejects cross-origin HTTP requests even with an empty whitelist", () => {
+			const middleware = ipAccessControl([]);
+			const req = {
+				socket: { remoteAddress: "198.51.100.7" },
+				headers: { host: "localhost:8080", origin: "https://evil.example" }
+			};
+			const res = createResponseMock();
+			const next = vi.fn();
+
+			middleware(req, res, next);
+
+			expect(next).not.toHaveBeenCalled();
+			expect(res.status).toHaveBeenCalledWith(403);
+		});
 	});
 
 	describe("socketIpAccessControl", () => {
@@ -54,7 +83,7 @@ describe("ip_access_control", () => {
 			const allowRequest = socketIpAccessControl(["203.0.113.10"]);
 			const req = {
 				socket: { remoteAddress: "::1" },
-				headers: { "x-forwarded-for": "203.0.113.10, 10.0.0.2" }
+				headers: { host: "localhost:8080", "x-forwarded-for": "203.0.113.10, 10.0.0.2", origin: "http://localhost:8080" }
 			};
 			const callback = vi.fn();
 
@@ -67,7 +96,20 @@ describe("ip_access_control", () => {
 			const allowRequest = socketIpAccessControl(["203.0.113.10"]);
 			const req = {
 				socket: { remoteAddress: "198.51.100.7" },
-				headers: { "x-forwarded-for": "203.0.113.10" }
+				headers: { host: "localhost:8080", "x-forwarded-for": "203.0.113.10", origin: "http://localhost:8080" }
+			};
+			const callback = vi.fn();
+
+			allowRequest(req, callback);
+
+			expect(callback).toHaveBeenCalledWith("This device is not allowed to access your mirror.", false);
+		});
+
+		it("rejects cross-origin socket handshakes even when the IP matches", () => {
+			const allowRequest = socketIpAccessControl(["203.0.113.10"]);
+			const req = {
+				socket: { remoteAddress: "203.0.113.10" },
+				headers: { host: "localhost:8080", origin: "https://evil.example" }
 			};
 			const callback = vi.fn();
 
