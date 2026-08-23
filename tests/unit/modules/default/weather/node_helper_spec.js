@@ -95,6 +95,21 @@ describe("weather node_helper reconnect handling", () => {
 		expect(helper.sendSocketNotification).toHaveBeenCalledTimes(1);
 	});
 
+	it("rejects unsupported weather providers before loading a module", async () => {
+		const helper = await loadWeatherNodeHelper();
+
+		await helper.initWeatherProvider({
+			weatherProvider: "../../calendar/node_helper",
+			instanceId: "weather-current",
+			type: "current"
+		});
+
+		expect(helper.sendSocketNotification).toHaveBeenCalledWith("WEATHER_ERROR", {
+			instanceId: "weather-current",
+			error: "Unsupported weather provider: ../../calendar/node_helper"
+		});
+	});
+
 	it("cleans up provider and cached data when stopping an instance", async () => {
 		const helper = await loadWeatherNodeHelper();
 		const instanceId = "weather-current";
