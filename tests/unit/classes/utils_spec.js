@@ -13,14 +13,11 @@ const runCheck = (modules) => {
 	checkConfigFile(createConfigObject(modules));
 };
 
-const expectExitForModules = (modules) => {
-	vi.spyOn(process, "exit").mockImplementation(() => {
-		throw new ConfigError("");
-	});
-
+const expectConfigErrorForModules = (modules) => {
 	expect(() => {
 		runCheck(modules);
 	}).toThrow(ConfigError);
+	expect(process.exit).not.toHaveBeenCalled();
 };
 
 describe("utils", () => {
@@ -41,6 +38,7 @@ describe("utils", () => {
 		vi.spyOn(Log, "info").mockImplementation(() => {});
 		vi.spyOn(Log, "warn").mockImplementation(() => {});
 		vi.spyOn(Log, "error").mockImplementation(() => {});
+		vi.spyOn(process, "exit").mockImplementation(() => {});
 	});
 
 	afterEach(() => {
@@ -57,13 +55,13 @@ describe("utils", () => {
 		expect(Log.error).not.toHaveBeenCalled();
 	});
 
-	it("exits when modules is not an array", () => {
-		expectExitForModules("not-an-array");
+	it("throws when modules is not an array", () => {
+		expectConfigErrorForModules("not-an-array");
 		expect(Log.error).toHaveBeenCalledWith("This module configuration contains errors:\nmodules must be an array");
 	});
 
-	it("exits when module field is missing or not a string", () => {
-		expectExitForModules([{ module: 123, position: "top_bar" }]);
+	it("throws when module field is missing or not a string", () => {
+		expectConfigErrorForModules([{ module: 123, position: "top_bar" }]);
 		expect(Log.error).toHaveBeenCalled();
 		expect(Log.error.mock.calls[0][0]).toContain("module: must be a string");
 	});
