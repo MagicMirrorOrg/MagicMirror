@@ -151,5 +151,10 @@ describe("Calendar utils tests", () => {
 			const expectedResult = `Luciella (${new Date().getFullYear() - 2000}.)`;
 			expect(transformedTitle).toBe(expectedResult);
 		});
+
+		it("should not fail when the yearmatchgroup regex does not match", () => {
+			const transformedTitle = CalendarUtils.titleTransform("Test Birthday", [{ search: "^(.+) \\((\\d{4})\\)$", replace: "$1 ($2)", yearmatchgroup: 2 }]);
+			expect(transformedTitle).toBe("Test Birthday");
+		});
 	});
 });
