@@ -1,0 +1,89 @@
+{
+	"@context": [
+		"https://geojson.org/geojson-ld/geojson-context.jsonld",
+		{
+			"@version": "1.1",
+			"wx": "https://api.weather.gov/ontology#",
+			"s": "https://schema.org/",
+			"geo": "http://www.opengis.net/ont/geosparql#",
+			"unit": "http://codes.wmo.int/common/unit/",
+			"@vocab": "https://api.weather.gov/ontology#",
+			"geometry": {
+				"@id": "s:GeoCoordinates",
+				"@type": "geo:wktLiteral"
+			},
+			"city": "s:addressLocality",
+			"state": "s:addressRegion",
+			"distance": {
+				"@id": "s:Distance",
+				"@type": "s:QuantitativeValue"
+			},
+			"bearing": {
+				"@type": "s:QuantitativeValue"
+			},
+			"value": {
+				"@id": "s:value"
+			},
+			"unitCode": {
+				"@id": "s:unitCode",
+				"@type": "@id"
+			},
+			"forecastOffice": {
+				"@type": "@id"
+			},
+			"forecastGridData": {
+				"@type": "@id"
+			},
+			"publicZone": {
+				"@type": "@id"
+			},
+			"county": {
+				"@type": "@id"
+			}
+		}
+	],
+	"id": "https://api.weather.gov/points/38.8894,-77.0352",
+	"type": "Feature",
+	"geometry": {
+		"type": "Point",
+		"coordinates": [-77.0352, 38.8894]
+	},
+	"properties": {
+		"@id": "https://api.weather.gov/points/38.8894,-77.0352",
+		"@type": "wx:Point",
+		"cwa": "LWX",
+		"type": "land",
+		"forecastOffice": "https://api.weather.gov/offices/LWX",
+		"gridId": "LWX",
+		"gridX": 97,
+		"gridY": 71,
+		"forecast": "https://api.weather.gov/gridpoints/LWX/97,71/forecast",
+		"forecastHourly": "https://api.weather.gov/gridpoints/LWX/97,71/forecast/hourly",
+		"forecastGridData": "https://api.weather.gov/gridpoints/LWX/97,71",
+		"observationStations": "https://api.weather.gov/gridpoints/LWX/97,71/stations",
+		"relativeLocation": {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [-77.017229, 38.904103]
+			},
+			"properties": {
+				"city": "Washington",
+				"state": "DC",
+				"distance": {
+					"unitCode": "wmoUnit:m",
+					"value": 2256.4628420106
+				},
+				"bearing": {
+					"unitCode": "wmoUnit:degree_(angle)",
+					"value": 223
+				}
+			}
+		},
+		"forecastZone": "https://api.weather.gov/zones/forecast/DCZ001",
+		"county": "https://api.weather.gov/zones/county/DCC001",
+		"fireWeatherZone": "https://api.weather.gov/zones/fire/DCZ001",
+		"timeZone": "America/New_York",
+		"radarStation": "KLWX"
+	}
+}

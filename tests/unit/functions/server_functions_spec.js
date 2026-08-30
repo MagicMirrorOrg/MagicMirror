@@ -1,38 +1,116 @@
-const { expect } = require("playwright/test");
-const { cors, getUserAgent } = require("#server_functions");
+// Tests use vi.spyOn on shared module objects (dns, undici).
+// vi.spyOn modifies the object property directly on the cached module instance, so it
+// is intercepted by server_functions.js regardless of the Module.prototype.require override
+// in vitest-setup.js.  restoreAllMocks:true auto-restores spies, but may reuse the same
+// spy instance — mockClear() is called explicitly in beforeEach to reset call history.
+const dns = require("node:dns");
+const undici = require("undici");
+const { cors, getUserAgent, replaceSecretPlaceholder } = require("#server_functions");
 
 describe("server_functions tests", () => {
+	describe("The replaceSecretPlaceholder method with cors=allowWhitelist", () => {
+		beforeEach(() => {
+			global.config = { cors: "allowWhitelist" };
+		});
+
+		it("Calls string without secret placeholder", () => {
+			const teststring = "test string without secret placeholder";
+			const result = replaceSecretPlaceholder(teststring);
+			expect(result).toBe(teststring);
+		});
+
+		it("Calls string with 2 secret placeholders", () => {
+			const teststring = "test string with secret1=**SECRET_ONE** and secret2=**SECRET_TWO**";
+			process.env.SECRET_ONE = "secret1";
+			process.env.SECRET_TWO = "secret2";
+			const resultstring = `test string with secret1=${process.env.SECRET_ONE} and secret2=${process.env.SECRET_TWO}`;
+			const result = replaceSecretPlaceholder(teststring);
+			expect(result).toBe(resultstring);
+		});
+	});
+
+	describe("The replaceSecretPlaceholder method with cors=allowAll", () => {
+		beforeEach(() => {
+			global.config = { cors: "allowAll" };
+		});
+
+		it("Calls string without secret placeholder", () => {
+			const teststring = "test string without secret placeholder";
+			const result = replaceSecretPlaceholder(teststring);
+			expect(result).toBe(teststring);
+		});
+
+		it("Calls string with 2 secret placeholders", () => {
+			const teststring = "test string with secret1=**SECRET_ONE** and secret2=**SECRET_TWO**";
+			const result = replaceSecretPlaceholder(teststring);
+			expect(result).toBe(teststring);
+		});
+	});
+
+	describe("The replaceSecretPlaceholder method with an allowedSecrets set", () => {
+		beforeEach(() => {
+			global.config = { cors: "allowWhitelist" };
+			process.env.SECRET_ALLOWED = "allowed-value";
+			process.env.SECRET_DENIED = "denied-value";
+		});
+
+		it("Restores only allowed secrets and keeps denied placeholders untouched", () => {
+			const teststring = "allowed=**SECRET_ALLOWED** denied=**SECRET_DENIED**";
+			const result = replaceSecretPlaceholder(teststring, new Set(["SECRET_ALLOWED"]));
+			expect(result).toBe("allowed=allowed-value denied=**SECRET_DENIED**");
+			expect(result).not.toContain("denied-value");
+		});
+
+		it("Does not restore any placeholder when the set is empty", () => {
+			const teststring = "value=**SECRET_ALLOWED**";
+			const result = replaceSecretPlaceholder(teststring, new Set());
+			expect(result).toBe(teststring);
+		});
+
+		it("Falls back to the placeholder if the allowed secret doesn't exist in environment", () => {
+			const teststring = "value=**SECRET_MISSING**";
+			const result = replaceSecretPlaceholder(teststring, new Set(["SECRET_MISSING"]));
+			expect(result).toBe(teststring);
+		});
+	});
+
 	describe("The cors method", () => {
-		let fetchResponse;
+		let fetchSpy;
 		let fetchResponseHeadersGet;
-		let fetchResponseHeadersText;
+		let fetchResponseArrayBuffer;
 		let corsResponse;
 		let request;
 
-		let fetchMock;
-
 		beforeEach(() => {
-			fetchResponseHeadersGet = jest.fn(() => {});
-			fetchResponseHeadersText = jest.fn(() => {});
-			fetchResponse = {
-				headers: {
-					get: fetchResponseHeadersGet
-				},
-				text: fetchResponseHeadersText
-			};
+			global.config = { cors: "allowAll" };
+			fetchResponseHeadersGet = vi.fn(() => {});
+			fetchResponseArrayBuffer = vi.fn(() => {});
 
-			fetch = jest.fn();
-			fetch.mockImplementation(() => fetchResponse);
+			// Mock DNS to return a public IP (SSRF check must pass for these tests)
+			vi.spyOn(dns.promises, "lookup").mockResolvedValue({ address: "93.184.216.34", family: 4 });
 
-			fetchMock = fetch;
+			// vi.spyOn may return the same spy instance across tests when restoreAllMocks
+			// restores-but-reuses; mockClear() explicitly resets call history each time.
+			fetchSpy = vi.spyOn(undici, "fetch");
+			fetchSpy.mockClear();
+			fetchSpy.mockImplementation(() => Promise.resolve({
+				headers: { get: fetchResponseHeadersGet },
+				arrayBuffer: fetchResponseArrayBuffer,
+				ok: true
+			}));
 
 			corsResponse = {
-				set: jest.fn(() => {}),
-				send: jest.fn(() => {})
+				set: vi.fn(() => {}),
+				send: vi.fn(() => {}),
+				status: vi.fn(function (code) {
+					this.statusCode = code;
+					return this;
+				}),
+				json: vi.fn(() => {})
 			};
 
 			request = {
-				url: "/cors?url=www.test.com"
+				url: "/cors?url=http://www.test.com"
 			};
 		});
 
@@ -42,8 +120,8 @@ describe("server_functions tests", () => {
 
 			await cors(request, corsResponse);
 
-			expect(fetchMock.mock.calls).toHaveLength(1);
-			expect(fetchMock.mock.calls[0][0]).toBe(urlToCall);
+			expect(fetchSpy.mock.calls).toHaveLength(1);
+			expect(fetchSpy.mock.calls[0][0]).toBe(urlToCall);
 		});
 
 		it("Forwards Content-Type if json", async () => {
@@ -74,42 +152,40 @@ describe("server_functions tests", () => {
 
 		it("Sends correct data from response", async () => {
 			const responseData = "some data";
-			fetchResponseHeadersText.mockImplementation(() => responseData);
+			const encoder = new TextEncoder();
+			const arrayBuffer = encoder.encode(responseData).buffer;
+			fetchResponseArrayBuffer.mockImplementation(() => arrayBuffer);
 
 			let sentData;
-			corsResponse.send = jest.fn((input) => {
+			corsResponse.send = vi.fn((input) => {
 				sentData = input;
 			});
 
 			await cors(request, corsResponse);
 
-			expect(fetchResponseHeadersText.mock.calls).toHaveLength(1);
-			expect(sentData).toBe(responseData);
+			expect(fetchResponseArrayBuffer.mock.calls).toHaveLength(1);
+			expect(sentData).toEqual(Buffer.from(arrayBuffer));
 		});
 
 		it("Sends error data from response", async () => {
 			const error = new Error("error data");
-			fetchResponseHeadersText.mockImplementation(() => {
+			fetchResponseArrayBuffer.mockImplementation(() => {
 				throw error;
-			});
-
-			let sentData;
-			corsResponse.send = jest.fn((input) => {
-				sentData = input;
 			});
 
 			await cors(request, corsResponse);
 
-			expect(fetchResponseHeadersText.mock.calls).toHaveLength(1);
-			expect(sentData).toBe(error);
+			expect(fetchResponseArrayBuffer.mock.calls).toHaveLength(1);
+			expect(corsResponse.status).toHaveBeenCalledWith(500);
+			expect(corsResponse.json).toHaveBeenCalledWith({ error: error.message });
 		});
 
 		it("Fetches with user agent by default", async () => {
 			await cors(request, corsResponse);
 
-			expect(fetchMock.mock.calls).toHaveLength(1);
-			expect(fetchMock.mock.calls[0][1]).toHaveProperty("headers");
-			expect(fetchMock.mock.calls[0][1].headers).toHaveProperty("User-Agent");
+			expect(fetchSpy.mock.calls).toHaveLength(1);
+			expect(fetchSpy.mock.calls[0][1]).toHaveProperty("headers");
+			expect(fetchSpy.mock.calls[0][1].headers).toHaveProperty("User-Agent");
 		});
 
 		it("Fetches with specified headers", async () => {
@@ -119,10 +195,10 @@ describe("server_functions tests", () => {
 
 			await cors(request, corsResponse);
 
-			expect(fetchMock.mock.calls).toHaveLength(1);
-			expect(fetchMock.mock.calls[0][1]).toHaveProperty("headers");
-			expect(fetchMock.mock.calls[0][1].headers).toHaveProperty("header1", "value1");
-			expect(fetchMock.mock.calls[0][1].headers).toHaveProperty("header2", "value2");
+			expect(fetchSpy.mock.calls).toHaveLength(1);
+			expect(fetchSpy.mock.calls[0][1]).toHaveProperty("headers");
+			expect(fetchSpy.mock.calls[0][1].headers).toHaveProperty("header1", "value1");
+			expect(fetchSpy.mock.calls[0][1].headers).toHaveProperty("header2", "value2");
 		});
 
 		it("Sends specified headers", async () => {
@@ -134,8 +210,8 @@ describe("server_functions tests", () => {
 
 			await cors(request, corsResponse);
 
-			expect(fetchMock.mock.calls).toHaveLength(1);
-			expect(fetchMock.mock.calls[0][1]).toHaveProperty("headers");
+			expect(fetchSpy.mock.calls).toHaveLength(1);
+			expect(fetchSpy.mock.calls[0][1]).toHaveProperty("headers");
 			expect(corsResponse.set.mock.calls).toHaveLength(3);
 			expect(corsResponse.set.mock.calls[0][0]).toBe("Content-Type");
 			expect(corsResponse.set.mock.calls[1][0]).toBe("header1");
@@ -144,20 +220,112 @@ describe("server_functions tests", () => {
 			expect(corsResponse.set.mock.calls[2][1]).toBe("value2");
 		});
 
-		it("Gets User-Agent from configuration", async () => {
-			config = {};
+		it("Gets User-Agent from configuration", () => {
+			const previousConfig = global.config;
+			global.config = {};
 			let userAgent;
 
 			userAgent = getUserAgent();
 			expect(userAgent).toContain("Mozilla/5.0 (Node.js ");
 
-			config.userAgent = "Mozilla/5.0 (Foo)";
+			global.config.userAgent = "Mozilla/5.0 (Foo)";
 			userAgent = getUserAgent();
 			expect(userAgent).toBe("Mozilla/5.0 (Foo)");
 
-			config.userAgent = () => "Mozilla/5.0 (Bar)";
+			global.config.userAgent = () => "Mozilla/5.0 (Bar)";
 			userAgent = getUserAgent();
 			expect(userAgent).toBe("Mozilla/5.0 (Bar)");
+
+			global.config = previousConfig;
+		});
+	});
+
+	describe("The cors method blocks SSRF (DNS rebinding safe)", () => {
+		let response;
+
+		beforeEach(() => {
+			response = {
+				set: vi.fn(),
+				send: vi.fn(),
+				status: vi.fn(function () { return this; }),
+				json: vi.fn()
+			};
+		});
+
+		it("Blocks localhost hostname without DNS", async () => {
+			await cors({ url: "/cors?url=http://localhost/path" }, response);
+			expect(response.status).toHaveBeenCalledWith(403);
+			expect(response.json).toHaveBeenCalledWith({ error: "Forbidden: private or reserved addresses are not allowed" });
+		});
+
+		it("Blocks non-http protocols", async () => {
+			await cors({ url: "/cors?url=ftp://example.com/file" }, response);
+			expect(response.status).toHaveBeenCalledWith(403);
+		});
+
+		it("Blocks invalid URLs", async () => {
+			await cors({ url: "/cors?url=not_a_valid_url" }, response);
+			expect(response.status).toHaveBeenCalledWith(403);
+		});
+
+		it("Blocks loopback addresses (127.0.0.1)", async () => {
+			vi.spyOn(dns.promises, "lookup").mockResolvedValue({ address: "127.0.0.1", family: 4 });
+			await cors({ url: "/cors?url=http://example.com/" }, response);
+			expect(response.status).toHaveBeenCalledWith(403);
+		});
+
+		it("Blocks RFC 1918 private addresses (192.168.x.x)", async () => {
+			vi.spyOn(dns.promises, "lookup").mockResolvedValue({ address: "192.168.1.1", family: 4 });
+			await cors({ url: "/cors?url=http://example.com/" }, response);
+			expect(response.status).toHaveBeenCalledWith(403);
+		});
+
+		it("Blocks link-local / cloud metadata addresses (169.254.169.254)", async () => {
+			vi.spyOn(dns.promises, "lookup").mockResolvedValue({ address: "169.254.169.254", family: 4 });
+			await cors({ url: "/cors?url=http://example.com/" }, response);
+			expect(response.status).toHaveBeenCalledWith(403);
+		});
+
+		it("Allows public unicast addresses", async () => {
+			vi.spyOn(dns.promises, "lookup").mockResolvedValue({ address: "93.184.216.34", family: 4 });
+			vi.spyOn(global, "fetch").mockResolvedValue({
+				ok: true,
+				headers: { get: vi.fn() },
+				arrayBuffer: vi.fn(() => new ArrayBuffer(0))
+			});
+			await cors({ url: "/cors?url=http://example.com/" }, response);
+			expect(response.status).not.toHaveBeenCalledWith(403);
+		});
+	});
+
+	describe("cors method with allowWhitelist", () => {
+		let response;
+
+		beforeEach(() => {
+			response = {
+				set: vi.fn(),
+				send: vi.fn(),
+				status: vi.fn(function () { return this; }),
+				json: vi.fn()
+			};
+			vi.spyOn(dns.promises, "lookup").mockResolvedValue({ address: "93.184.216.34", family: 4 });
+			vi.spyOn(global, "fetch").mockResolvedValue({
+				ok: true,
+				headers: { get: vi.fn() },
+				arrayBuffer: vi.fn(() => new ArrayBuffer(0))
+			});
+		});
+
+		it("Blocks domains not in whitelist", async () => {
+			global.config = { cors: "allowWhitelist", corsDomainWhitelist: [] };
+			await cors({ url: "/cors?url=http://example.com/api" }, response);
+			expect(response.status).toHaveBeenCalledWith(403);
+		});
+
+		it("Allows domains in whitelist", async () => {
+			global.config = { cors: "allowWhitelist", corsDomainWhitelist: ["example.com"] };
+			await cors({ url: "/cors?url=http://example.com/api" }, response);
+			expect(response.status).not.toHaveBeenCalledWith(403);
 		});
 	});
 });

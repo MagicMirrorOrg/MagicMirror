@@ -36,9 +36,13 @@
 	"MODULE_ERROR_MALFORMED_URL": "Ongeldige URL.",
 	"MODULE_ERROR_NO_CONNECTION": "Geen internetverbinding.",
 	"MODULE_ERROR_UNAUTHORIZED": "Owerheid het misluk.",
+	"MODULE_ERROR_RATE_LIMITED": "Te veel versoeke. Probeer later weer.",
+	"MODULE_ERROR_SERVER_ERROR": "Bediener fout. Probeer later weer.",
+	"MODULE_ERROR_CLIENT_ERROR": "Versoek het misluk.",
 	"MODULE_ERROR_UNSPECIFIED": "Gaan die logs na vir meer besonderhede.",
 
 	"NEWSFEED_NO_ITEMS": "Geen nuus op die oomblik.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Artikel kan nie hier vertoon word nie.",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² update beskikbaar.",
 	"UPDATE_NOTIFICATION_MODULE": "Update beskikbaar vir {MODULE_NAME} module.",

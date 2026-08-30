@@ -6,7 +6,6 @@ updates:
       interval: "weekly"
     target-branch: "develop"
     labels:
-      - "Skip Changelog"
       - "dependencies"
 
   - package-ecosystem: "npm"
@@ -15,6 +14,5 @@ updates:
       interval: "monthly"
     target-branch: "develop"
     labels:
-      - "Skip Changelog"
       - "dependencies"
       - "javascript"

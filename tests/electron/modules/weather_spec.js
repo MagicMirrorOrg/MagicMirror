@@ -1,6 +1,5 @@
 const helpers = require("../helpers/global-setup");
 const weatherHelper = require("../helpers/weather-setup");
-const { cleanupMockData } = require("../../utils/weather_mocker");
 
 const CURRENT_WEATHER_CONFIG = "tests/configs/modules/weather/currentweather_default.js";
 const SUNRISE_DATE = "13 Jan 2019 00:30:00 GMT";
@@ -12,7 +11,6 @@ const EXPECTED_SUNSET_TEXT = "3:45 pm";
 describe("Weather module", () => {
 	afterEach(async () => {
 		await helpers.stopApplication();
-		cleanupMockData();
 	});
 
 	describe("Current weather with sunrise", () => {

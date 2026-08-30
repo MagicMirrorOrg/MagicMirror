@@ -3,30 +3,24 @@
 const Translator = (function () {
 
 	/**
-	 * Load a JSON file via XHR.
+	 * Load a JSON file via fetch.
 	 * @param {string} file Path of the file we want to load.
 	 * @returns {Promise<object>} the translations in the specified file
 	 */
 	async function loadJSON (file) {
-		const xhr = new XMLHttpRequest();
-		return new Promise(function (resolve) {
-			xhr.overrideMimeType("application/json");
-			xhr.open("GET", file, true);
-			xhr.onreadystatechange = function () {
-				if (xhr.readyState === 4 && xhr.status === 200) {
-					// needs error handler try/catch at least
-					let fileInfo = null;
-					try {
-						fileInfo = JSON.parse(xhr.responseText);
-					} catch (exception) {
-						// nothing here, but don't die
-						Log.error(` loading json file =${file} failed`);
-					}
-					resolve(fileInfo);
-				}
-			};
-			xhr.send(null);
-		});
+		const baseHref = document.baseURI;
+		const url = new URL(file, baseHref);
+
+		try {
+			const response = await fetch(url);
+			if (!response.ok) {
+				throw new Error(`Unexpected response status: ${response.status}`);
+			}
+			return await response.json();
+		} catch {
+			Log.error(`Loading json file =${file} failed`);
+			return null;
+		}
 	}
 
 	return {
@@ -67,22 +61,18 @@ const Translator = (function () {
 			}
 
 			if (this.translations[module.name] && key in this.translations[module.name]) {
-				// Log.log("Got translation for " + key + " from module translation: ");
 				return createStringFromTemplate(this.translations[module.name][key], variables);
 			}
 
 			if (key in this.coreTranslations) {
-				// Log.log("Got translation for " + key + " from core translation.");
 				return createStringFromTemplate(this.coreTranslations[key], variables);
 			}
 
 			if (this.translationsFallback[module.name] && key in this.translationsFallback[module.name]) {
-				// Log.log("Got translation for " + key + " from module translation fallback.");
 				return createStringFromTemplate(this.translationsFallback[module.name][key], variables);
 			}
 
 			if (key in this.coreTranslationsFallback) {
-				// Log.log("Got translation for " + key + " from core translation fallback.");
 				return createStringFromTemplate(this.coreTranslationsFallback[key], variables);
 			}
 
@@ -96,7 +86,7 @@ const Translator = (function () {
 		 * @param {boolean} isFallback Flag to indicate fallback translations.
 		 */
 		async load (module, file, isFallback) {
-			Log.log(`${module.name} - Load translation${isFallback ? " fallback" : ""}: ${file}`);
+			Log.log(`[translator] ${module.name} - Load translation${isFallback ? " fallback" : ""}: ${file}`);
 
 			if (this.translationsFallback[module.name]) {
 				return;
@@ -113,10 +103,10 @@ const Translator = (function () {
 		 */
 		async loadCoreTranslations (lang) {
 			if (lang in translations) {
-				Log.log(`Loading core translation file: ${translations[lang]}`);
+				Log.log(`[translator] Loading core translation file: ${translations[lang]}`);
 				this.coreTranslations = await loadJSON(translations[lang]);
 			} else {
-				Log.log("Configured language not found in core translations.");
+				Log.log("[translator] Configured language not found in core translations.");
 			}
 
 			await this.loadCoreTranslationsFallback();
@@ -129,7 +119,7 @@ const Translator = (function () {
 		async loadCoreTranslationsFallback () {
 			let first = Object.keys(translations)[0];
 			if (first) {
-				Log.log(`Loading core translation fallback file: ${translations[first]}`);
+				Log.log(`[translator] Loading core translation fallback file: ${translations[first]}`);
 				this.coreTranslationsFallback = await loadJSON(translations[first]);
 			}
 		}

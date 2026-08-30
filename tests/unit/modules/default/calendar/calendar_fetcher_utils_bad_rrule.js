@@ -1,6 +1,8 @@
 global.moment = require("moment-timezone");
 
-const CalendarFetcherUtils = require("../../../../../modules/default/calendar/calendarfetcherutils");
+const defaults = require("../../../js/defaults");
+
+const CalendarFetcherUtils = require(`../../../../../${defaults.defaultModulesDir}/calendar/calendarfetcherutils`);
 
 describe("Calendar fetcher utils test", () => {
 	const defaultConfig = {
@@ -9,10 +11,11 @@ describe("Calendar fetcher utils test", () => {
 
 	describe("filterEvents", () => {
 		it("no events, not crash", () => {
-			const minusOneHour = moment().subtract(1, "hours").toDate();
-			const minusTwoHours = moment().subtract(2, "hours").toDate();
-			const plusOneHour = moment().add(1, "hours").toDate();
-			const plusTwoHours = moment().add(2, "hours").toDate();
+			const base = moment().startOf("day").add(12, "hours");
+			const minusOneHour = base.clone().subtract(1, "hours").toDate();
+			const minusTwoHours = base.clone().subtract(2, "hours").toDate();
+			const plusOneHour = base.clone().add(1, "hours").toDate();
+			const plusTwoHours = base.clone().add(2, "hours").toDate();
 
 			const filteredEvents = CalendarFetcherUtils.filterEvents(
 				{

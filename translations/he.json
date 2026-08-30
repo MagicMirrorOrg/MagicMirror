@@ -36,9 +36,13 @@
 	"MODULE_ERROR_MALFORMED_URL": "כתובת אתר לא תקינה.",
 	"MODULE_ERROR_NO_CONNECTION": "אין חיבור לאינטרנט.",
 	"MODULE_ERROR_UNAUTHORIZED": "הזדהות נכשלה.",
+	"MODULE_ERROR_RATE_LIMITED": "יותר מדי בקשות. מנסה שוב מאוחר יותר.",
+	"MODULE_ERROR_SERVER_ERROR": "שגיאת שרת. מנסה שוב מאוחר יותר.",
+	"MODULE_ERROR_CLIENT_ERROR": "הבקשה נכשלה.",
 	"MODULE_ERROR_UNSPECIFIED": "בדוק את היומנים לפרטים נוספים.",
 
 	"NEWSFEED_NO_ITEMS": "אין חדשות כרגע.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "לא ניתן להציג את המאמר כאן.",
 
 	"UPDATE_NOTIFICATION": "עדכון זמין ל-MagicMirror²",
 	"UPDATE_NOTIFICATION_MODULE": "עדכון זמין ב-{MODULE_NAME} מודול",

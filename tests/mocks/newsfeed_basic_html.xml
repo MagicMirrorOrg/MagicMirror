@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Formatting Feed</title>
+    <link>http://localhost:8080</link>
+    <description>Feed used to test the allowBasicHtmlTags option.</description>
+    <item>
+      <title>News &lt;em&gt;Flash&lt;/em&gt;</title>
+      <link>http://localhost:8080/article</link>
+      <pubDate>Tue, 20 Sep 2016 11:16:08 +0000</pubDate>
+      <guid isPermaLink="false">http://localhost:8080/?p=1</guid>
+      <description><![CDATA[<p><em>Italic</em> and <strong>Bold</strong> and <u>Underlined</u> text.</p><script>window.__newsfeedXss = true;</script><img src="x" onerror="window.__newsfeedXss = true">]]></description>
+    </item>
+  </channel>
+</rss>

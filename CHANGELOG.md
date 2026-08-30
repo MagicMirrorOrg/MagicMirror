@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/#donate) With your help we can continue to improve the MagicMirror².
 
+## Obsolete
+
+This file is no longer being updated. Release notes are now automatically generated via a GitHub action.
+
 ## [2.33.0] - 2025-10-01
 
 Thanks to: @Crazylegstoo, @dathbe, @m-idler, @plebcity, @khassel, @KristjanESPERANTO, @rejas and @sdetweil!
@@ -335,7 +339,7 @@ For more info, please read the following post: [A New Chapter for MagicMirror: T
 ### Fixed
 
 - [weather] Correct apiBase of weathergov weatherProvider to match documentation (#2926)
-- Worked around several issues in the RRULE library that were causing deleted calender events to still show, some
+- Worked around several issues in the RRULE library that were causing deleted calendar events to still show, some
   initial and recurring events to not show, and some event times to be off an hour. (#3291)
 - Skip changelog requirement when running tests for dependency updates (#3320)
 - Display precipitation probability when it is 0% instead of blank/empty (#3345)

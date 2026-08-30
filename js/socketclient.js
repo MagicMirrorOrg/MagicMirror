@@ -1,6 +1,6 @@
 /* global io */
 
-const MMSocket = function (moduleName) {
+export const MMSocket = function (moduleName) {
 	if (typeof moduleName !== "string") {
 		throw new Error("Please set the module name for the MMSocket.");
 	}
@@ -44,3 +44,6 @@ const MMSocket = function (moduleName) {
 		this.socket.emit(notification, payload);
 	};
 };
+
+// Legacy global bridge for third-party modules that reference MMSocket directly.
+if (!globalThis.MMSocket) globalThis.MMSocket = MMSocket;

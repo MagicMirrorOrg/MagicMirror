@@ -5,11 +5,11 @@ describe("Deprecated", () => {
 		expect(typeof deprecated).toBe("object");
 	});
 
-	it("should contain configs array with deprecated options as strings", () => {
-		expect(Array.isArray(["deprecated.configs"])).toBe(true);
+	it("should contain clock array with deprecated options as strings", () => {
+		expect(Array.isArray(["deprecated.clock"])).toBe(true);
 		for (let option of deprecated.configs) {
 			expect(typeof option).toBe("string");
 		}
-		expect(deprecated.configs).toEqual(expect.arrayContaining(["kioskmode"]));
+		expect(deprecated.clock).toEqual(expect.arrayContaining(["secondsColor"]));
 	});
 });

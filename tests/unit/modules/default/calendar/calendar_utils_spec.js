@@ -1,6 +1,8 @@
 global.moment = require("moment");
 
-const CalendarUtils = require("../../../../../modules/default/calendar/calendarutils");
+const defaults = require("../../../../../js/defaults");
+
+const CalendarUtils = require(`../../../../../${defaults.defaultModulesDir}/calendar/calendarutils`);
 
 describe("Calendar utils tests", () => {
 	describe("capFirst", () => {

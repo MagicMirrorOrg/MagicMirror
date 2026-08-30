@@ -1,5 +1,6 @@
 const fs = require("node:fs");
 const path = require("node:path");
+const { pathToFileURL } = require("node:url");
 const helmet = require("helmet");
 const { JSDOM } = require("jsdom");
 const express = require("express");
@@ -14,8 +15,9 @@ function createTranslationTestEnvironment () {
 	const translatorJs = fs.readFileSync(path.join(__dirname, "..", "..", "js", "translator.js"), "utf-8");
 	const dom = new JSDOM("", { url: "http://localhost:3000", runScripts: "outside-only" });
 
-	dom.window.Log = { log: jest.fn(), error: jest.fn() };
+	dom.window.Log = { log: vi.fn(), error: vi.fn() };
 	dom.window.translations = translations;
+	dom.window.fetch = fetch;
 	dom.window.eval(translatorJs);
 
 	const window = dom.window;
@@ -53,29 +55,51 @@ describe("translations", () => {
 	describe("loadTranslations", () => {
 		let dom;
 
-		beforeEach(() => {
+		beforeEach(async () => {
 			// Create a new translation test environment for each test
 			const env = createTranslationTestEnvironment();
 			const window = env.window;
 
-			// Load class.js and module.js content directly for loadTranslations tests
-			const classJs = fs.readFileSync(path.join(__dirname, "..", "..", "js", "class.js"), "utf-8");
-			const moduleJs = fs.readFileSync(path.join(__dirname, "..", "..", "js", "module.js"), "utf-8");
+			// Bridge JSDOM globals to Node.js so module.js (ES module) can access them
+			global.Log = window.Log;
+			global.Translator = window.Translator;
+			global.config = { language: "de" };
+			global.window = { name: "", mmVersion: "2.0.0" };
+			global.MM = { hideModule: () => {}, showModule: () => {}, sendNotification: () => {}, updateDom: () => {} };
+			global.nunjucks = {
+				Environment () {
+					this.addFilter = () => {};
+					this.renderString = () => "";
+					this.render = (_t, _d, cb) => cb(null, "");
+				},
+				WebLoader () {},
+				runtime: { markSafe: (str) => str }
+			};
 
-			// Execute the scripts in the JSDOM context
-			window.eval(classJs);
-			window.eval(moduleJs);
+			// Import Module directly — eval can't handle ES module syntax
+			const modulePath = pathToFileURL(path.join(__dirname, "..", "..", "js", "module.js")).href;
+			const { Module } = await import(`${modulePath}?test=${Date.now()}`);
+			window.Module = Module;
 
-			// Additional setup for loadTranslations tests
-			window.config = { language: "de" };
+			// Expose config on window so tests can modify dom.window.config
+			window.config = global.config;
 
 			dom = { window };
+		});
+
+		afterEach(() => {
+			delete global.Log;
+			delete global.Translator;
+			delete global.config;
+			delete global.window;
+			delete global.MM;
+			delete global.nunjucks;
 		});
 
 		it("should load translation file", async () => {
 			const { Translator, Module, config } = dom.window;
 			config.language = "en";
-			Translator.load = jest.fn().mockImplementation((_m, _f, _fb) => null);
+			Translator.load = vi.fn().mockImplementation(() => null);
 
 			Module.register("name", { getTranslations: () => translations });
 			const MMM = Module.create("name");
@@ -88,7 +112,7 @@ describe("translations", () => {
 
 		it("should load translation + fallback file", async () => {
 			const { Translator, Module } = dom.window;
-			Translator.load = jest.fn().mockImplementation((_m, _f, _fb) => null);
+			Translator.load = vi.fn().mockImplementation(() => null);
 
 			Module.register("name", { getTranslations: () => translations });
 			const MMM = Module.create("name");
@@ -103,7 +127,7 @@ describe("translations", () => {
 		it("should load translation fallback file", async () => {
 			const { Translator, Module, config } = dom.window;
 			config.language = "--";
-			Translator.load = jest.fn().mockImplementation((_m, _f, _fb) => null);
+			Translator.load = vi.fn().mockImplementation(() => null);
 
 			Module.register("name", { getTranslations: () => translations });
 			const MMM = Module.create("name");
@@ -116,7 +140,7 @@ describe("translations", () => {
 
 		it("should load no file", async () => {
 			const { Translator, Module } = dom.window;
-			Translator.load = jest.fn();
+			Translator.load = vi.fn();
 
 			Module.register("name", {});
 			const MMM = Module.create("name");

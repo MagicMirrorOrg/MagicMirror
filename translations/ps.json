@@ -34,5 +34,8 @@
 	"UPDATE_NOTIFICATION": "د MagicMirror² نوې نسخه سته ",
 	"UPDATE_NOTIFICATION_MODULE": "د {MODULE_NAME} نوی نسخه سته",
 	"UPDATE_INFO_SINGLE": "اوسنی برخه {COMMIT_COUNT} د {BRANCH_NAME} څخه وروسته پاته ده",
-	"UPDATE_INFO_MULTIPLE": "اوسنی برخه {COMMIT_COUNT} د {BRANCH_NAME} څخه وروسته پاته ده"
+	"UPDATE_INFO_MULTIPLE": "اوسنی برخه {COMMIT_COUNT} د {BRANCH_NAME} څخه وروسته پاته ده",
+
+	"NEWSFEED_NO_ITEMS": "مقاله شتون نلري.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "مقاله دلته نه شي ښودل کیدی."
 }

@@ -12,15 +12,19 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   code-style-check:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     timeout-minutes: 15
     steps:
       - name: "Checkout code"
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
       - name: "Use Node.js"
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: lts/*
           cache: "npm"
@@ -29,25 +33,22 @@ jobs:
           node --run install-mm:dev
       - name: "Run linter tests"
         run: |
-          node --run test:prettier
-          node --run test:js
-          node --run test:css
-          node --run test:markdown
+          node --run test:lint
   test:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     strategy:
       matrix:
-        node-version: [22.18.0, 22.x, 24.x]
+        node-version: [22.x, 24.x, 26.x]
     steps:
       - name: Install electron dependencies and labwc
         run: |
           sudo apt-get update
           sudo apt-get install -y libnss3 libasound2t64 labwc
       - name: "Checkout code"
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
       - name: "Use Node.js ${{ matrix.node-version }}"
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
           check-latest: true
@@ -55,14 +56,16 @@ jobs:
       - name: "Install MagicMirror²"
         run: |
           node --run install-mm:dev
+      - name: "Install Playwright browsers"
+        run: |
+          npx playwright install --with-deps chromium
       - name: "Prepare environment for tests"
         run: |
-          # Fix chrome-sandbox permissions:
-          sudo chown root:root ./node_modules/electron/dist/chrome-sandbox
-          sudo chmod 4755 ./node_modules/electron/dist/chrome-sandbox
+          # Download electron binary
+          npx install-electron
           # Start labwc
           WLR_BACKENDS=headless WLR_LIBINPUT_NO_DEVICES=1 WLR_RENDERER=pixman labwc &
-          touch css/custom.css
+          touch config/custom.css
       - name: "Run tests"
         run: |
           export WAYLAND_DISPLAY=wayland-0

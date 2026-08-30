@@ -34,9 +34,13 @@
 	"MODULE_ERROR_MALFORMED_URL": "رابط غير صحيح.",
 	"MODULE_ERROR_NO_CONNECTION": "لا يوجد اتصال بالإنترنت.",
 	"MODULE_ERROR_UNAUTHORIZED": "فشل التصريح.",
+	"MODULE_ERROR_RATE_LIMITED": "طلبات كثيرة جدا. إعادة المحاولة لاحقا.",
+	"MODULE_ERROR_SERVER_ERROR": "خطأ في الخادم. إعادة المحاولة لاحقا.",
+	"MODULE_ERROR_CLIENT_ERROR": "فشل الطلب.",
 	"MODULE_ERROR_UNSPECIFIED": "تحقق من السجلات لمزيد من التفاصيل.",
 
 	"NEWSFEED_NO_ITEMS": "لا توجد أخبار في الوقت الحالي.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "لا يمكن عرض المقالة هنا.",
 
 	"UPDATE_NOTIFICATION": "تحديث MagicMirror² متاح.",
 	"UPDATE_NOTIFICATION_MODULE": "تحديث متاح لوحدة {MODULE_NAME}.",

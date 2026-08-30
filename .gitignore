@@ -9,8 +9,7 @@ lib-cov
 coverage
 .lock-wscript
 build/Release
-/node_modules/**/*
-!/tests/node_modules/**/*
+node_modules
 jspm_modules
 .npm
 .node_repl_history
@@ -55,22 +54,13 @@ Temporary Items
 .directory
 .Trash-*
 
-# Ignore all modules except the default modules.
-/modules/**
-!/modules/default
-!/modules/default/**
-!/modules/README.md**
+# Ignore all modules
+/modules/*
 
-# Ignore changes to the custom css files but keep the sample and main.
-/css/*
-!/css/custom.css.sample
-!/css/main.css
-!/css/roboto.css
-!/css/font-awesome.css
-
-# Ignore users config file but keep the sample.
-/config/*
-!/config/config.js.sample
+# Ignore users config file but keep the samples.
+config
+!config/config.js.sample
+!config/custom.css.sample
 
 # Vim
 ## swap
@@ -88,3 +78,7 @@ js/positions.js
 # Ignore lock files other than package-lock.json
 pnpm-lock.yaml
 yarn.lock
+
+# Vitest temporary test files
+tests/**/.tmp/
+core

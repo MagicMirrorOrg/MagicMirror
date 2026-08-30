@@ -1,33 +1,41 @@
+const { expect } = require("playwright/test");
+const helpers = require("../helpers/global-setup");
 const weatherFunc = require("../helpers/weather-functions");
 
 describe("Weather module: Weather Hourly Forecast", () => {
+	let page;
+
 	afterAll(async () => {
 		await weatherFunc.stopApplication();
 	});
 
 	describe("Default configuration", () => {
 		beforeAll(async () => {
-			await weatherFunc.startApplication("tests/configs/modules/weather/hourlyweather_default.js", {});
+			await weatherFunc.startApplication("tests/configs/modules/weather/hourlyweather_default.js", "weather_onecall_hourly.json");
+			page = helpers.getPage();
 		});
 
 		const minTemps = ["7:00 pm", "8:00 pm", "9:00 pm", "10:00 pm", "11:00 pm"];
 		for (const [index, hour] of minTemps.entries()) {
 			it(`should render forecast for hour ${hour}`, async () => {
-				await expect(weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td.day`, hour)).resolves.toBe(true);
+				const dayCell = page.locator(`.weather table.small tr:nth-child(${index + 1}) td.day`);
+				await expect(dayCell).toHaveText(hour);
 			});
 		}
 	});
 
 	describe("Hourly weather options", () => {
 		beforeAll(async () => {
-			await weatherFunc.startApplication("tests/configs/modules/weather/hourlyweather_options.js", {});
+			await weatherFunc.startApplication("tests/configs/modules/weather/hourlyweather_options.js", "weather_onecall_hourly.json");
+			page = helpers.getPage();
 		});
 
 		describe("Hourly increments of 2", () => {
 			const minTemps = ["7:00 pm", "9:00 pm", "11:00 pm", "1:00 am", "3:00 am"];
 			for (const [index, hour] of minTemps.entries()) {
 				it(`should render forecast for hour ${hour}`, async () => {
-					await expect(weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td.day`, hour)).resolves.toBe(true);
+					const dayCell = page.locator(`.weather table.small tr:nth-child(${index + 1}) td.day`);
+					await expect(dayCell).toHaveText(hour);
 				});
 			}
 		});
@@ -35,7 +43,8 @@ describe("Weather module: Weather Hourly Forecast", () => {
 
 	describe("Show precipitations", () => {
 		beforeAll(async () => {
-			await weatherFunc.startApplication("tests/configs/modules/weather/hourlyweather_showPrecipitation.js", {});
+			await weatherFunc.startApplication("tests/configs/modules/weather/hourlyweather_showPrecipitation.js", "weather_onecall_hourly.json");
+			page = helpers.getPage();
 		});
 
 		describe("Shows precipitation amount", () => {
@@ -43,7 +52,8 @@ describe("Weather module: Weather Hourly Forecast", () => {
 			for (const [index, amount] of amounts.entries()) {
 				if (amount) {
 					it(`should render precipitation amount ${amount}`, async () => {
-						await expect(weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td.precipitation-amount`, amount)).resolves.toBe(true);
+						const amountCell = page.locator(`.weather table.small tr:nth-child(${index + 1}) td.precipitation-amount`);
+						await expect(amountCell).toHaveText(amount);
 					});
 				}
 			}
@@ -51,10 +61,11 @@ describe("Weather module: Weather Hourly Forecast", () => {
 
 		describe("Shows precipitation probability", () => {
 			const probabilities = [undefined, undefined, "12 %", "36 %", "44 %"];
-			for (const [index, pop] of probabilities.entries()) {
-				if (pop) {
-					it(`should render probability ${pop}`, async () => {
-						await expect(weatherFunc.getText(`.weather table.small tr:nth-child(${index + 1}) td.precipitation-prob`, pop)).resolves.toBe(true);
+			for (const [index, probability] of probabilities.entries()) {
+				if (probability) {
+					it(`should render probability ${probability}`, async () => {
+						const probabilityCell = page.locator(`.weather table.small tr:nth-child(${index + 1}) td.precipitation-prob`);
+						await expect(probabilityCell).toHaveText(probability);
 					});
 				}
 			}

@@ -36,9 +36,13 @@
 	"MODULE_ERROR_MALFORMED_URL": "Неправильний URL.",
 	"MODULE_ERROR_NO_CONNECTION": "Немає підключення до Інтернету.",
 	"MODULE_ERROR_UNAUTHORIZED": "Авторизація не вдалася.",
+	"MODULE_ERROR_RATE_LIMITED": "Забагато запитів. Повторна спроба пізніше.",
+	"MODULE_ERROR_SERVER_ERROR": "Помилка сервера. Повторна спроба пізніше.",
+	"MODULE_ERROR_CLIENT_ERROR": "Запит не вдався.",
 	"MODULE_ERROR_UNSPECIFIED": "Перевірте журнали для отримання додаткової інформації.",
 
 	"NEWSFEED_NO_ITEMS": "Немає новин на даний момент.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Статтю неможливо відобразити тут.",
 
 	"UPDATE_NOTIFICATION": "Є оновлення для MagicMirror².",
 	"UPDATE_NOTIFICATION_MODULE": "Є оновлення для модуля {MODULE_NAME}.",

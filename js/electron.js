@@ -3,6 +3,7 @@
 const electron = require("electron");
 const core = require("./app");
 const Log = require("./logger");
+const { applyElectronSwitches } = require("./electron_helper");
 
 // Config
 let config = process.env.config ? JSON.parse(process.env.config) : {};
@@ -36,19 +37,18 @@ function createWindow () {
 	 * see https://www.electronjs.org/docs/latest/api/screen
 	 * Create a window that fills the screen's available work area.
 	 */
-	let electronSize = (800, 600);
+	let electronSize = { width: 800, height: 600 };
 	try {
 		electronSize = electron.screen.getPrimaryDisplay().workAreaSize;
 	} catch {
 		Log.warn("Could not get display size, using defaults ...");
 	}
 
-	let electronSwitchesDefaults = ["autoplay-policy", "no-user-gesture-required"];
-	app.commandLine.appendSwitch(...new Set(electronSwitchesDefaults, config.electronSwitches));
+	applyElectronSwitches(app.commandLine, config.electronSwitches);
 	let electronOptionsDefaults = {
 		width: electronSize.width,
 		height: electronSize.height,
-		icon: "mm2.png",
+		icon: "favicon.svg",
 		x: 0,
 		y: 0,
 		darkTheme: true,
@@ -60,24 +60,16 @@ function createWindow () {
 		backgroundColor: "#000000"
 	};
 
-	/*
-	 * DEPRECATED: "kioskmode" backwards compatibility, to be removed
-	 * settings these options directly instead provides cleaner interface
-	 */
-	if (config.kioskmode) {
-		electronOptionsDefaults.kiosk = true;
-	} else {
-		electronOptionsDefaults.show = false;
-		electronOptionsDefaults.frame = false;
-		electronOptionsDefaults.transparent = true;
-		electronOptionsDefaults.hasShadow = false;
-		electronOptionsDefaults.fullscreen = true;
-	}
+	electronOptionsDefaults.show = false;
+	electronOptionsDefaults.frame = false;
+	electronOptionsDefaults.transparent = true;
+	electronOptionsDefaults.hasShadow = false;
+	electronOptionsDefaults.fullscreen = true;
 
 	const electronOptions = Object.assign({}, electronOptionsDefaults, config.electronOptions);
 
-	if (process.env.JEST_WORKER_ID !== undefined && process.env.MOCK_DATE !== undefined) {
-		// if we are running with jest and we want to mock the current date
+	if (process.env.MOCK_DATE !== undefined) {
+		// if we are running tests and we want to mock the current date
 		const fakeNow = new Date(process.env.MOCK_DATE).valueOf();
 		Date = class extends Date {
 			constructor (...args) {
@@ -108,14 +100,14 @@ function createWindow () {
 		prefix = "http://";
 	}
 
-	let address = (config.address === void 0) | (config.address === "") | (config.address === "0.0.0.0") ? (config.address = "localhost") : config.address;
+	let address = (config.address === void 0) | (config.address === "") | (config.address === "0.0.0.0") | (config.address === "::") ? (config.address = "localhost") : config.address;
 	const port = process.env.MM_PORT || config.port;
 	mainWindow.loadURL(`${prefix}${address}:${port}`);
 
 	// Open the DevTools if run with "node --run start:dev"
 	if (process.argv.includes("dev")) {
-		if (process.env.JEST_WORKER_ID !== undefined) {
-			// if we are running with jest
+		if (process.env.mmTestMode) {
+			// if we are running tests
 			const devtools = new BrowserWindow(electronOptions);
 			mainWindow.webContents.setDevToolsWebContents(devtools.webContents);
 		}
@@ -123,7 +115,7 @@ function createWindow () {
 	}
 
 	// simulate mouse move to hide black cursor on start
-	mainWindow.webContents.on("dom-ready", (event) => {
+	mainWindow.webContents.on("dom-ready", () => {
 		mainWindow.webContents.sendInputEvent({ type: "mouseMove", x: 0, y: 0 });
 	});
 
@@ -131,22 +123,6 @@ function createWindow () {
 	mainWindow.on("closed", function () {
 		mainWindow = null;
 	});
-
-	if (config.kioskmode) {
-		mainWindow.on("blur", function () {
-			mainWindow.focus();
-		});
-
-		mainWindow.on("leave-full-screen", function () {
-			mainWindow.setFullScreen(true);
-		});
-
-		mainWindow.on("resize", function () {
-			setTimeout(function () {
-				mainWindow.reload();
-			}, 1000);
-		});
-	}
 
 	//remove response headers that prevent sites of being embedded into iframes if configured
 	mainWindow.webContents.session.webRequest.onHeadersReceived((details, callback) => {
@@ -169,8 +145,8 @@ function createWindow () {
 
 // Quit when all windows are closed.
 app.on("window-all-closed", function () {
-	if (process.env.JEST_WORKER_ID !== undefined) {
-		// if we are running with jest
+	if (process.env.mmTestMode) {
+		// if we are running tests
 		app.quit();
 	} else {
 		createWindow();

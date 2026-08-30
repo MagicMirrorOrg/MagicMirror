@@ -36,9 +36,13 @@
 	"MODULE_ERROR_MALFORMED_URL": "Forkert url.",
 	"MODULE_ERROR_NO_CONNECTION": "Ingen internetforbindelse.",
 	"MODULE_ERROR_UNAUTHORIZED": "Godkendelse mislykkedes.",
+	"MODULE_ERROR_RATE_LIMITED": "For mange anmodninger. Prøver igen senere.",
+	"MODULE_ERROR_SERVER_ERROR": "Serverfejl. Prøver igen senere.",
+	"MODULE_ERROR_CLIENT_ERROR": "Anmodning mislykkedes.",
 	"MODULE_ERROR_UNSPECIFIED": "Tjek logfiler for flere detaljer.",
 
 	"NEWSFEED_NO_ITEMS": "Ingen nyheder i øjeblikket.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Artiklen kan ikke vises her.",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² opdatering tilgængelig.",
 	"UPDATE_NOTIFICATION_MODULE": "Opdatering tilgængelig for {MODULE_NAME} modulet.",

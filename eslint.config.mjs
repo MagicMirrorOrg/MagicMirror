@@ -1,14 +1,36 @@
 import {defineConfig, globalIgnores} from "eslint/config";
+import css from "@eslint/css";
 import globals from "globals";
 import {flatConfigs as importX} from "eslint-plugin-import-x";
-import jest from "eslint-plugin-jest";
 import js from "@eslint/js";
 import jsdocPlugin from "eslint-plugin-jsdoc";
-import packageJson from "eslint-plugin-package-json";
+import markdown from "@eslint/markdown";
+import {configs as packageJsonConfigs} from "eslint-plugin-package-json";
+import playwright from "eslint-plugin-playwright";
 import stylistic from "@stylistic/eslint-plugin";
+import vitest from "@vitest/eslint-plugin";
 
 export default defineConfig([
-	globalIgnores(["config/**", "modules/**/*", "!modules/default/**", "js/positions.js"]),
+	globalIgnores(["config/**", "modules/**/*", "js/positions.js", "tests/configs/config_variables.js"]),
+	{
+		files: ["**/*.css"],
+		language: "css/css",
+		plugins: {css},
+		extends: ["css/recommended"],
+		rules: {
+			"css/no-invalid-properties": ["error", {allowUnknownVariables: true}],
+			"css/use-baseline": "off"
+		}
+	},
+	{
+		files: ["**/*.md"],
+		plugins: {markdown},
+		language: "markdown/gfm",
+		extends: ["markdown/recommended"],
+		rules: {
+			"markdown/no-missing-label-refs": "off"
+		}
+	},
 	{
 		files: ["**/*.js"],
 		languageOptions: {
@@ -23,13 +45,11 @@ export default defineConfig([
 				moment: "readonly"
 			}
 		},
-		plugins: {js, stylistic},
-		extends: [importX.recommended, jest.configs["flat/recommended"], "js/recommended", jsdocPlugin.configs["flat/recommended"], "stylistic/all"],
+		extends: [importX.recommended, js.configs.recommended, jsdocPlugin.configs["flat/recommended"], stylistic.configs.all],
 		rules: {
 			"@stylistic/array-element-newline": ["error", "consistent"],
 			"@stylistic/arrow-parens": ["error", "always"],
 			"@stylistic/brace-style": "off",
-			"@stylistic/comma-dangle": ["error", "never"],
 			"@stylistic/dot-location": ["error", "property"],
 			"@stylistic/function-call-argument-newline": ["error", "consistent"],
 			"@stylistic/function-paren-newline": ["error", "consistent"],
@@ -51,18 +71,12 @@ export default defineConfig([
 			"@stylistic/space-before-function-paren": ["error", "always"],
 			"@stylistic/spaced-comment": "off",
 			"dot-notation": "error",
-			eqeqeq: "error",
+			eqeqeq: ["error", "always", {null: "ignore"}],
 			"id-length": "off",
 			"import-x/extensions": "error",
 			"import-x/newline-after-import": "error",
 			"import-x/order": "error",
 			"init-declarations": "off",
-			"jest/consistent-test-it": "warn",
-			"jest/no-done-callback": "warn",
-			"jest/prefer-expect-resolves": "warn",
-			"jest/prefer-mock-promise-shorthand": "warn",
-			"jest/prefer-to-be": "warn",
-			"jest/prefer-to-have-length": "warn",
 			"max-lines-per-function": ["warn", 400],
 			"max-statements": "off",
 			"no-global-assign": "off",
@@ -75,12 +89,12 @@ export default defineConfig([
 			"no-throw-literal": "error",
 			"no-undefined": "off",
 			"no-unneeded-ternary": "error",
-			"no-unused-vars": "off",
 			"no-useless-return": "error",
 			"no-warning-comments": "off",
 			"object-shorthand": ["error", "methods"],
 			"one-var": "off",
 			"prefer-template": "error",
+			"require-await": "error",
 			"sort-keys": "off"
 		}
 	},
@@ -95,8 +109,7 @@ export default defineConfig([
 	},
 	{
 		files: ["**/package.json"],
-		plugins: {packageJson},
-		extends: ["packageJson/recommended"]
+		extends: [packageJsonConfigs.recommended]
 	},
 	{
 		files: ["**/*.mjs"],
@@ -107,8 +120,7 @@ export default defineConfig([
 			},
 			sourceType: "module"
 		},
-		plugins: {js, stylistic},
-		extends: [importX.recommended, "js/all", "stylistic/all"],
+		extends: [importX.recommended, js.configs.all, stylistic.configs.all],
 		rules: {
 			"@stylistic/array-element-newline": "off",
 			"@stylistic/indent": ["error", "tab"],
@@ -123,9 +135,62 @@ export default defineConfig([
 		}
 	},
 	{
+		files: ["tests/**/*.js"],
+		languageOptions: {
+			globals: {
+				...vitest.environments.env.globals
+			}
+		},
+		extends: [vitest.configs.recommended],
+		rules: {
+			"vitest/consistent-test-it": "error",
+			"vitest/expect-expect": [
+				"error",
+				{
+					assertFunctionNames: [
+						"expect",
+						"testElementLength",
+						"testTextContain",
+						"doTest",
+						"runAnimationTest",
+						"waitForAnimationClass",
+						"assertNoAnimationWithin"
+					]
+				}
+			],
+			"vitest/max-nested-describe": ["error", {max: 3}],
+			"vitest/prefer-to-be": "error",
+			"vitest/prefer-to-have-length": "error",
+			"max-lines-per-function": "off"
+		}
+	},
+	{
+		files: ["tests/unit/modules/default/weather/providers/*.js"],
+		rules: {
+			"import-x/namespace": "off",
+			"import-x/named": "off",
+			"import-x/default": "off",
+			"import-x/extensions": "off"
+		}
+	},
+	{
 		files: ["tests/configs/modules/weather/*.js"],
 		rules: {
 			"@stylistic/quotes": "off"
+		}
+	},
+	{
+		files: ["tests/e2e/**/*.js"],
+		extends: [playwright.configs["flat/recommended"]],
+		rules: {
+
+			/*
+			 * Tests use Vitest-style plain beforeAll()/afterAll() calls, not Playwright's
+			 * test.beforeAll() style. The rule incorrectly treats all plain hook calls
+			 * as the same unnamed type, flagging the second hook as a duplicate.
+			 */
+			"playwright/no-duplicate-hooks": "off",
+			"playwright/no-standalone-expect": "off"
 		}
 	}
 ]);

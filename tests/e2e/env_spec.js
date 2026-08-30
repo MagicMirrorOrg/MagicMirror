@@ -1,10 +1,15 @@
+const { expect } = require("playwright/test");
 const helpers = require("./helpers/global-setup");
 
 describe("App environment", () => {
+	let page;
+
 	beforeAll(async () => {
 		await helpers.startApplication("tests/configs/default.js");
 		await helpers.getDocument();
+		page = helpers.getPage();
 	});
+
 	afterAll(async () => {
 		await helpers.stopApplication();
 	});
@@ -20,8 +25,6 @@ describe("App environment", () => {
 	});
 
 	it("should show the title MagicMirror²", async () => {
-		const elem = await helpers.waitForElement("title");
-		expect(elem).not.toBeNull();
-		expect(elem.textContent).toBe("MagicMirror²");
+		await expect(page).toHaveTitle("MagicMirror²");
 	});
 });

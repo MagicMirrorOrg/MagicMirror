@@ -1,7 +1,10 @@
+const { expect } = require("playwright/test");
 const helpers = require("../helpers/global-setup");
 const weatherFunc = require("../helpers/weather-functions");
 
 describe("Weather module", () => {
+	let page;
+
 	afterAll(async () => {
 		await weatherFunc.stopApplication();
 	});
@@ -9,84 +12,87 @@ describe("Weather module", () => {
 	describe("Current weather", () => {
 		describe("Default configuration", () => {
 			beforeAll(async () => {
-				await weatherFunc.startApplication("tests/configs/modules/weather/currentweather_default.js", {});
+				await weatherFunc.startApplication("tests/configs/modules/weather/currentweather_default.js", "weather_onecall_current.json");
+				page = helpers.getPage();
 			});
 
 			it("should render wind speed and wind direction", async () => {
-				await expect(weatherFunc.getText(".weather .normal.medium span:nth-child(2)", "12 WSW")).resolves.toBe(true);
+				await expect(page.locator(".weather .normal.medium span:nth-child(2)")).toHaveText("12 WSW");
 			});
 
 			it("should render temperature with icon", async () => {
-				await expect(weatherFunc.getText(".weather .large span.light.bright", "1.5°")).resolves.toBe(true);
-
-				const elem = await helpers.waitForElement(".weather .large span.weathericon");
-				expect(elem).not.toBeNull();
+				await expect(page.locator(".weather .large span.light.bright")).toHaveText("1.5°");
+				await expect(page.locator(".weather .large span.weathericon")).toBeVisible();
 			});
 
 			it("should render feels like temperature", async () => {
 				// Template contains &nbsp; which renders as \xa0
-				await expect(weatherFunc.getText(".weather .normal.medium.feelslike span.dimmed", "93.7\xa0 Feels like -5.6°")).resolves.toBe(true);
+				await expect(page.locator(".weather .normal.medium.feelslike span.dimmed")).toHaveText("93.7\xa0 Feels like -5.6°");
 			});
 
 			it("should render humidity next to feels-like", async () => {
-				await expect(weatherFunc.getText(".weather .normal.medium.feelslike span.dimmed .humidity", "93.7")).resolves.toBe(true);
+				await expect(page.locator(".weather .normal.medium.feelslike span.dimmed .humidity")).toHaveText("93.7");
 			});
 		});
 	});
 
 	describe("Compliments Integration", () => {
 		beforeAll(async () => {
-			await weatherFunc.startApplication("tests/configs/modules/weather/currentweather_compliments.js", {});
+			await weatherFunc.startApplication("tests/configs/modules/weather/currentweather_compliments.js", "weather_onecall_current.json");
+			page = helpers.getPage();
 		});
 
 		it("should render a compliment based on the current weather", async () => {
-			await expect(weatherFunc.getText(".compliments .module-content span", "snow")).resolves.toBe(true);
+			const compliment = page.locator(".compliments .module-content span");
+			await compliment.waitFor({ state: "visible" });
+			await expect(compliment).toHaveText("snow");
 		});
 	});
 
 	describe("Configuration Options", () => {
 		beforeAll(async () => {
-			await weatherFunc.startApplication("tests/configs/modules/weather/currentweather_options.js", {});
+			await weatherFunc.startApplication("tests/configs/modules/weather/currentweather_options.js", "weather_onecall_current.json");
+			page = helpers.getPage();
 		});
 
 		it("should render windUnits in beaufort", async () => {
-			await expect(weatherFunc.getText(".weather .normal.medium span:nth-child(2)", "6")).resolves.toBe(true);
+			await expect(page.locator(".weather .normal.medium span:nth-child(2)")).toHaveText("6");
 		});
 
 		it("should render windDirection with an arrow", async () => {
-			const elem = await helpers.waitForElement(".weather .normal.medium sup i.fa-long-arrow-alt-down");
-			expect(elem).not.toBeNull();
-			expect(elem.outerHTML).toContain("transform:rotate(250deg)");
+			const arrow = page.locator(".weather .normal.medium sup i.fa-long-arrow-alt-down");
+			await expect(arrow).toHaveAttribute("style", "transform:rotate(250deg)");
 		});
 
 		it("should render humidity next to wind", async () => {
-			await expect(weatherFunc.getText(".weather .normal.medium .humidity", "93.7")).resolves.toBe(true);
+			await expect(page.locator(".weather .normal.medium .humidity")).toHaveText("93.7");
 		});
 
 		it("should render degreeLabel for temp", async () => {
-			await expect(weatherFunc.getText(".weather .large span.bright.light", "1°C")).resolves.toBe(true);
+			await expect(page.locator(".weather .large span.bright.light")).toHaveText("1°C");
 		});
 
 		it("should render degreeLabel for feels like", async () => {
-			await expect(weatherFunc.getText(".weather .normal.medium.feelslike span.dimmed", "Feels like -6°C")).resolves.toBe(true);
+			await expect(page.locator(".weather .normal.medium.feelslike span.dimmed")).toHaveText("Feels like -6°C");
 		});
 	});
 
 	describe("Current weather with imperial units", () => {
 		beforeAll(async () => {
-			await weatherFunc.startApplication("tests/configs/modules/weather/currentweather_units.js", {});
+			await weatherFunc.startApplication("tests/configs/modules/weather/currentweather_units.js", "weather_onecall_current.json");
+			page = helpers.getPage();
 		});
 
 		it("should render wind in imperial units", async () => {
-			await expect(weatherFunc.getText(".weather .normal.medium span:nth-child(2)", "26 WSW")).resolves.toBe(true);
+			await expect(page.locator(".weather .normal.medium span:nth-child(2)")).toHaveText("26 WSW");
 		});
 
 		it("should render temperatures in fahrenheit", async () => {
-			await expect(weatherFunc.getText(".weather .large span.bright.light", "34,7°")).resolves.toBe(true);
+			await expect(page.locator(".weather .large span.bright.light")).toHaveText("34,7°");
 		});
 
 		it("should render 'feels like' in fahrenheit", async () => {
-			await expect(weatherFunc.getText(".weather .normal.medium.feelslike span.dimmed", "Feels like 21,9°")).resolves.toBe(true);
+			await expect(page.locator(".weather .normal.medium.feelslike span.dimmed")).toHaveText("Feels like 21,9°");
 		});
 	});
 });

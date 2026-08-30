@@ -11,8 +11,9 @@ describe("Electron app environment", () => {
 	});
 
 	it("should open browserwindow", async () => {
-		const module = await helpers.getElement("#module_0_helloworld");
-		await expect(module.textContent()).resolves.toContain("Test Display Header");
+		// Wait for module content to be rendered, not just the module wrapper
+		const moduleContent = await helpers.getElement("#module_0_helloworld .module-content");
+		await expect(moduleContent.textContent()).resolves.toContain("Test Display Header");
 		expect(global.electronApp.windows()).toHaveLength(1);
 	});
 });

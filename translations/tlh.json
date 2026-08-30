@@ -36,9 +36,13 @@
 	"MODULE_ERROR_MALFORMED_URL": "URL ghobe' yImev.",
 	"MODULE_ERROR_NO_CONNECTION": "Internet ghobe' yImev.",
 	"MODULE_ERROR_UNAUTHORIZED": "ghobe' yImev.",
+	"MODULE_ERROR_RATE_LIMITED": "tlhoy rurqu' lut. vaj ratlh.",
+	"MODULE_ERROR_SERVER_ERROR": "Qagh server. vaj ratlh.",
+	"MODULE_ERROR_CLIENT_ERROR": "lut Qagh.",
 	"MODULE_ERROR_UNSPECIFIED": "logmeyDaq yImev.",
 
 	"NEWSFEED_NO_ITEMS": "DaHghachmey ghobe' yImev.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "QIngheb cha' tu'be'lu'.",
 
 	"UPDATE_NOTIFICATION": " De'chu' MagicMirror² lI'laH.",
 	"UPDATE_NOTIFICATION_MODULE": "bobcho' {MODULE_NAME} lI'laH De'chu.",

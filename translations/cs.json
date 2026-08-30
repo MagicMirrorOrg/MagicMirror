@@ -36,9 +36,13 @@
 	"MODULE_ERROR_MALFORMED_URL": "Nesprávná URL adresa.",
 	"MODULE_ERROR_NO_CONNECTION": "Není připojení k internetu.",
 	"MODULE_ERROR_UNAUTHORIZED": "Autorizace selhala.",
+	"MODULE_ERROR_RATE_LIMITED": "Příliš mnoho požadavků. Zkouším znovu později.",
+	"MODULE_ERROR_SERVER_ERROR": "Chyba serveru. Zkouším znovu později.",
+	"MODULE_ERROR_CLIENT_ERROR": "Požadavek selhal.",
 	"MODULE_ERROR_UNSPECIFIED": "Zkontrolujte protokoly pro více informací.",
 
 	"NEWSFEED_NO_ITEMS": "Žádné zprávy.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "Článek zde nelze zobrazit.",
 
 	"UPDATE_NOTIFICATION": "Dostupná aktualizace pro MagicMirror².",
 	"UPDATE_NOTIFICATION_MODULE": "Dostupná aktualizace pro modul {MODULE_NAME}.",

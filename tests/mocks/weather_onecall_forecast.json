@@ -1,0 +1,149 @@
+{
+	"lat": 48.14,
+	"lon": 11.58,
+	"timezone": "Europe/Berlin",
+	"timezone_offset": 3600,
+	"daily": [
+		{
+			"dt": 1568372400,
+			"sunrise": 1568350044,
+			"sunset": 1568395948,
+			"temp": {
+				"day": 24.44,
+				"min": 15.35,
+				"max": 24.44,
+				"night": 15.35,
+				"eve": 18,
+				"morn": 23.03
+			},
+			"pressure": 1031,
+			"humidity": 70,
+			"wind_speed": 3.35,
+			"wind_deg": 314,
+			"weather": [
+				{
+					"id": 801,
+					"main": "Clouds",
+					"description": "few clouds",
+					"icon": "02d"
+				}
+			],
+			"clouds": 21,
+			"pop": 0,
+			"uvi": 5
+		},
+		{
+			"dt": 1568458800,
+			"sunrise": 1568436525,
+			"sunset": 1568482223,
+			"temp": {
+				"day": 20.81,
+				"min": 13.56,
+				"max": 21.02,
+				"night": 13.56,
+				"eve": 16.6,
+				"morn": 15.88
+			},
+			"pressure": 1028,
+			"humidity": 72,
+			"wind_speed": 2.78,
+			"wind_deg": 266,
+			"weather": [
+				{
+					"id": 500,
+					"main": "Rain",
+					"description": "light rain",
+					"icon": "10d"
+				}
+			],
+			"clouds": 21,
+			"pop": 0.56,
+			"rain": 2.51,
+			"uvi": 4.5
+		},
+		{
+			"dt": 1568545200,
+			"sunrise": 1568523006,
+			"sunset": 1568568498,
+			"temp": {
+				"day": 22.93,
+				"min": 13.78,
+				"max": 22.93,
+				"night": 13.78,
+				"eve": 17.21,
+				"morn": 14.56
+			},
+			"pressure": 1024,
+			"humidity": 59,
+			"wind_speed": 2.17,
+			"wind_deg": 255,
+			"weather": [
+				{
+					"id": 800,
+					"main": "Clear",
+					"description": "clear sky",
+					"icon": "01d"
+				}
+			],
+			"clouds": 0,
+			"pop": 0,
+			"uvi": 5.2
+		},
+		{
+			"dt": 1568631600,
+			"sunrise": 1568609487,
+			"sunset": 1568654774,
+			"temp": {
+				"day": 23.39,
+				"min": 13.93,
+				"max": 23.39,
+				"night": 13.93,
+				"eve": 17.98,
+				"morn": 15.05
+			},
+			"pressure": 1023,
+			"humidity": 57,
+			"wind_speed": 1.93,
+			"wind_deg": 236,
+			"weather": [
+				{
+					"id": 800,
+					"main": "Clear",
+					"description": "clear sky",
+					"icon": "01d"
+				}
+			],
+			"clouds": 0,
+			"pop": 0,
+			"uvi": 5.1
+		},
+		{
+			"dt": 1568718000,
+			"sunrise": 1568695968,
+			"sunset": 1568741049,
+			"temp": {
+				"day": 20.64,
+				"min": 10.87,
+				"max": 20.64,
+				"night": 10.87,
+				"eve": 15.21,
+				"morn": 13.67
+			},
+			"pressure": 1021,
+			"humidity": 64,
+			"wind_speed": 2.44,
+			"wind_deg": 284,
+			"weather": [
+				{
+					"id": 800,
+					"main": "Clear",
+					"description": "clear sky",
+					"icon": "01d"
+				}
+			],
+			"clouds": 3,
+			"pop": 0,
+			"uvi": 4.9
+		}
+	]
+}

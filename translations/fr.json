@@ -37,9 +37,13 @@
 	"MODULE_ERROR_MALFORMED_URL": "URL mal formée.",
 	"MODULE_ERROR_NO_CONNECTION": "Pas de connexion Internet.",
 	"MODULE_ERROR_UNAUTHORIZED": "L'autorisation à échouée.",
+	"MODULE_ERROR_RATE_LIMITED": "Trop de requêtes. Nouvelle tentative plus tard.",
+	"MODULE_ERROR_SERVER_ERROR": "Erreur du serveur. Nouvelle tentative plus tard.",
+	"MODULE_ERROR_CLIENT_ERROR": "La requête a échoué.",
 	"MODULE_ERROR_UNSPECIFIED": "Consultez les journaux pour plus de détails.",
 
 	"NEWSFEED_NO_ITEMS": "Aucune nouvelle pour le moment.",
+	"NEWSFEED_ARTICLE_UNAVAILABLE": "L'article ne peut pas être affiché ici.",
 
 	"UPDATE_NOTIFICATION": "Une mise à jour de MagicMirror² est disponible",
 	"UPDATE_NOTIFICATION_MODULE": "Une mise à jour est disponible pour le module {MODULE_NAME}.",
