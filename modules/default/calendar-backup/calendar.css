@@ -1,0 +1,55 @@
+.calendar .symbol {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+.calendar .title {
+  padding: 0 10px;
+}
+
+.calendar .time {
+  padding-left: 20px;
+  text-align: right;
+}
+
+/* ==============================
+   MagicMirror Calendar: Two-row layout, full-width title
+   ============================== */
+
+/* Calendar symbol and info wrapper */
+td.symbol {
+  vertical-align: top; /* align with first line */
+  white-space: nowrap; /* keep name/date on one line */
+}
+
+/* Calendar name inline with date/time */
+td.symbol span.calendar-name {
+  display: inline-block; /* inline, so date can sit next to it */
+  font-weight: bold;
+  margin-right: 8px; /* space between name and date/time */
+}
+
+/* Date/Time in the same cell as calendar name */
+td.time.light {
+  display: inline-block; /* sit next to name */
+  font-weight: normal;
+  color: #aaa; /* optional styling */
+}
+
+/* Force the event title on a new line below, full width */
+td.title {
+  display: block; /* starts a new line */
+  margin-left: 0; /* remove any indentation */
+  padding-left: 0; /* remove padding */
+  color: #fff; /* event title color */
+  white-space: normal; /* allow wrapping */
+  width: 100%; /* span full width of row */
+  box-sizing: border-box; /* ensure width includes padding */
+}
+
+/* Optional: spacing between events */
+table.small tr.event-wrapper {
+  padding-bottom: 4px;
+}

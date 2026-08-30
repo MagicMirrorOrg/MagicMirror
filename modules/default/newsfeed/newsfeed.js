@@ -227,6 +227,8 @@ Module.register("newsfeed", {
 				return true;
 			}, this);
 		}
+
+
 		newsItems.forEach((item) => {
 			//Remove selected tags from the beginning of rss feed items (title or description)
 			if (this.config.removeStartTags === "title" || this.config.removeStartTags === "both") {
