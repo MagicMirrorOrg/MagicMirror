@@ -33,20 +33,12 @@ const requireFromString = (src) => {
 };
 
 /**
- * Returns all discovered module positions.
- * @returns {Array<string>} Known module positions.
- */
-const getAvailableModulePositions = () => {
-	return modulePositions;
-};
-
-/**
  * Checks whether the provided module position exists.
  * @param {string} position - Candidate module position.
  * @returns {boolean} True when the position is known.
  */
 const moduleHasValidPosition = (position) => {
-	return getAvailableModulePositions().includes(position);
+	return getModulePositions().includes(position);
 };
 
 /**
