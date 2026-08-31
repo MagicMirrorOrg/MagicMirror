@@ -595,9 +595,9 @@ Module.register("calendar", {
 				if (eventsByDate[dateStr] && eventsByDate[dateStr].length > 0) {
 					// If there are any events today then get all those events and select the currently active events and the events that are starting later in the day.
 					newEvents.push(...eventsByDate[dateStr].filter((ev) => this.timestampToMoment(ev.endDate).isAfter(moment())));
-					// Since we found a day with events, increase the daysCollected by 1
-					daysCollected++;
 				}
+				// Increment the daysCollected by one to ensure the while loop does not get stuck.
+				daysCollected++;
 				// Search for the next day
 				currentDate.add(1, "day");
 			}
