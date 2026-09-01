@@ -29,7 +29,7 @@ function Server (configObj) {
 	 * Opens the server for incoming connections
 	 * @returns {Promise} A promise that is resolved when the server listens to connections
 	 */
-	this.open = function () {
+	this.open = () => {
 		return new Promise((resolve) => {
 			if (config.useHttps) {
 				const options = {
@@ -162,7 +162,7 @@ function Server (configObj) {
 	 * Closes the server and destroys all lingering connections to it.
 	 * @returns {Promise} A promise that resolves when server has successfully shut down
 	 */
-	this.close = function () {
+	this.close = () => {
 		return new Promise((resolve) => {
 			for (const socket of serverSockets.values()) {
 				socket.destroy();

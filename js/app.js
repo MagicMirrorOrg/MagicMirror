@@ -177,7 +177,7 @@ function App () {
 	 * @async
 	 * @returns {Promise<object>} the config used
 	 */
-	this.start = async function () {
+	this.start = async () => {
 		try {
 			const configObj = Utils.loadConfig();
 			global.config = configObj.fullConf;
@@ -277,7 +277,7 @@ function App () {
 	 * @returns {Promise} A promise that is resolved when all node_helpers and
 	 * the http server has been closed
 	 */
-	this.stop = async function () {
+	this.stop = async () => {
 		const nodePromises = [];
 		for (const nodeHelper of nodeHelpers) {
 			try {

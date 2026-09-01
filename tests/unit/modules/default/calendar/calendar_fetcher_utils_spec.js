@@ -527,7 +527,7 @@ END:VCALENDAR`);
 
 		const yearConfig = { ...defaultConfig, maximumNumberOfDays: 365 };
 
-		const buildEvent = function (rrule, dtstart = "20231002", dtend = "20231003") {
+		const buildEvent = (rrule, dtstart = "20231002", dtend = "20231003") => {
 			return ical.parseICS(`BEGIN:VCALENDAR
 BEGIN:VEVENT
 DTSTART;VALUE=DATE:${dtstart}

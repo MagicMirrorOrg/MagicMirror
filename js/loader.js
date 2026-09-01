@@ -200,10 +200,10 @@ function loadFile (fileName) {
 				script = document.createElement("script");
 				script.type = "text/javascript";
 				script.src = fileName;
-				script.onload = function () {
+				script.onload = () => {
 					resolve();
 				};
-				script.onerror = function () {
+				script.onerror = () => {
 					Log.error("Error on loading script:", fileName);
 					script.remove();
 					resolve();
@@ -216,10 +216,10 @@ function loadFile (fileName) {
 				script = document.createElement("script");
 				script.type = "module";
 				script.src = fileName;
-				script.onload = function () {
+				script.onload = () => {
 					resolve();
 				};
-				script.onerror = function () {
+				script.onerror = () => {
 					Log.error("Error on loading module script:", fileName);
 					script.remove();
 					resolve();
@@ -234,10 +234,10 @@ function loadFile (fileName) {
 				stylesheet.rel = "stylesheet";
 				stylesheet.type = "text/css";
 				stylesheet.href = fileName;
-				stylesheet.onload = function () {
+				stylesheet.onload = () => {
 					resolve();
 				};
-				stylesheet.onerror = function () {
+				stylesheet.onerror = () => {
 					Log.error("Error on loading stylesheet:", fileName);
 					stylesheet.remove();
 					resolve();

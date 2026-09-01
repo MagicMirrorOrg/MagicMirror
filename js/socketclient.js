@@ -23,7 +23,7 @@ export const MMSocket = function (moduleName) {
 		pingTimeout: 120000 // wait up to 2 mins for a pong
 	});
 
-	let notificationCallback = function () {};
+	let notificationCallback = () => {};
 
 	const onevent = this.socket.onevent;
 	this.socket.onevent = (packet) => {

@@ -99,7 +99,7 @@ function accessDenialReason (req, whitelist) {
  * @returns {import("express").RequestHandler} Express middleware function
  */
 function ipAccessControl (whitelist) {
-	return function (req, res, next) {
+	return (req, res, next) => {
 		const reason = accessDenialReason(req, whitelist);
 		if (!reason) return next();
 
@@ -114,7 +114,7 @@ function ipAccessControl (whitelist) {
  * @returns {(req: object, callback: (err: string | null, success: boolean) => void) => void} Socket.IO allowRequest handler
  */
 function socketIpAccessControl (whitelist) {
-	return function (req, callback) {
+	return (req, callback) => {
 		const reason = accessDenialReason(req, whitelist);
 		if (!reason) return callback(null, true);
 

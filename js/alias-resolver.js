@@ -21,7 +21,7 @@ const resolved = Object.fromEntries(
 // Prevent multiple patching if this file is required more than once.
 if (!Module._mmAliasPatched) {
 	const origResolveFilename = Module._resolveFilename;
-	Module._resolveFilename = function (request, parent, isMain, options) {
+	Module._resolveFilename = (request, parent, isMain, options) => {
 		if (Object.prototype.hasOwnProperty.call(resolved, request)) {
 			return resolved[request];
 		}

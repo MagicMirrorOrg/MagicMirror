@@ -1,6 +1,6 @@
 /* global translations */
 
-export const Translator = (function () {
+export const Translator = (() => {
 
 	/**
 	 * Load a JSON file via fetch.
@@ -124,4 +124,4 @@ export const Translator = (function () {
 			}
 		}
 	};
-}());
+})();

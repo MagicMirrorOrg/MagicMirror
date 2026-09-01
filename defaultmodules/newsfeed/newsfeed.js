@@ -261,7 +261,7 @@ Module.register("newsfeed", {
 		}
 
 		if (this.config.prohibitedWords.length > 0) {
-			newsItems = newsItems.filter(function (item) {
+			newsItems = newsItems.filter((item) => {
 				for (const word of this.config.prohibitedWords) {
 					if (item.title.toLowerCase().indexOf(word.toLowerCase()) > -1) {
 						return false;

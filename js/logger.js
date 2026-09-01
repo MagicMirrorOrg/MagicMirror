@@ -1,5 +1,5 @@
 // Logger for MagicMirror² — works both in Node.js (CommonJS) and the browser (global).
-(function () {
+(() => {
 	if (typeof module !== "undefined") {
 		if (process.env.mmTestMode !== "true") {
 			const { styleText } = require("node:util");
@@ -85,10 +85,10 @@
 
 			// Only these methods are affected by setLogLevel.
 			// Utility methods (group, time, etc.) are always active.
-			logLevel.setLogLevel = function (newLevel) {
+			logLevel.setLogLevel = (newLevel) => {
 				for (const key of ["debug", "log", "info", "warn", "error"]) {
 					const disabled = newLevel && !newLevel.includes(key.toUpperCase());
-					logLevel[key] = disabled ? function () {} : console[key].bind(console);
+					logLevel[key] = disabled ? () => {} : console[key].bind(console);
 				}
 			};
 		} else {
@@ -106,9 +106,9 @@
 				timeStamp () {}
 			};
 
-			logLevel.setLogLevel = function () {};
+			logLevel.setLogLevel = () => {};
 		}
 
 		return logLevel;
 	}
-}());
+})();
