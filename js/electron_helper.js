@@ -25,6 +25,6 @@ const applyElectronSwitches = (commandLine, electronSwitches) => {
 			Log.error(`Invalid electronSwitches entry: ${JSON.stringify(sw)}`);
 		}
 	}
-}
+};
 
 module.exports = { applyElectronSwitches };

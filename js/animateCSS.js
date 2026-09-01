@@ -138,7 +138,7 @@ const addAnimateCSS = (element, animation, animationTime) => {
 	}
 	node.style.setProperty("--animate-duration", `${animationTime}s`);
 	node.classList.add("animate__animated", animationName);
-}
+};
 
 /**
  * Remove an animation with Animate CSS
@@ -155,5 +155,5 @@ const removeAnimateCSS = (element, animation) => {
 	}
 	node.classList.remove("animate__animated", animationName);
 	node.style.removeProperty("--animate-duration");
-}
+};
 if (typeof window === "undefined") module.exports = { AnimateCSSIn, AnimateCSSOut, addAnimateCSS, removeAnimateCSS };

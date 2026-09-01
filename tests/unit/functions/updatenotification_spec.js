@@ -26,7 +26,7 @@ const createGitHelper = async (fsStatSyncMockRef, loggerMockRef, execGitSpyRef) 
 	execGitSpyRef.current = vi.spyOn(instance, "execGit");
 	instance.__loggerMock = loggerMockRef.current;
 	return instance;
-}
+};
 
 describe("Updatenotification", () => {
 	const fsStatSyncMockRef = { current: null };

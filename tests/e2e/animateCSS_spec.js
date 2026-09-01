@@ -20,7 +20,7 @@ describe("AnimateCSS integration Test", () => {
 		await helpers.getDocument();
 		page = helpers.getPage();
 		await expect(page.locator(".compliments")).toBeVisible();
-	}
+	};
 
 	/**
 	 * Wait for an Animate.css class to appear and persist briefly.
@@ -34,7 +34,7 @@ describe("AnimateCSS integration Test", () => {
 		// small stability wait
 		await new Promise((r) => setTimeout(r, 50));
 		await expect(locator).toBeAttached();
-	}
+	};
 
 	/**
 	 * Assert that no Animate.css animation class is applied within a time window.
@@ -51,7 +51,7 @@ describe("AnimateCSS integration Test", () => {
 			}
 			await new Promise((r) => setTimeout(r, 100));
 		}
-	}
+	};
 
 	/**
 	 * Run one animation test scenario.
@@ -71,7 +71,7 @@ describe("AnimateCSS integration Test", () => {
 			await new Promise((r) => setTimeout(r, 2100));
 			await waitForAnimationClass(`animate__${animationOut}`);
 		}
-	}
+	};
 
 	afterEach(async () => {
 		await helpers.stopApplication();

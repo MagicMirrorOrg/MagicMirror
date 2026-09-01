@@ -16,7 +16,7 @@ const getEnvVarsFromConfig = () => {
 		defaultModulesDir: globalThis.config.defaultModulesDir || "defaultmodules",
 		customCss: globalThis.config.customCss || "config/custom.css"
 	};
-}
+};
 
 /**
  * Retrieve object of env variables.
@@ -37,7 +37,7 @@ const getEnvVars = async () => {
 		Log.error("Unable to retrieve env configuration", error);
 		return getEnvVarsFromConfig();
 	}
-}
+};
 
 /**
  * Loops through all modules and requests start for every module.
@@ -72,7 +72,7 @@ const startModules = async () => {
 			thisModule.hide();
 		}
 	}
-}
+};
 
 /**
  * Retrieve list of all modules.
@@ -81,7 +81,7 @@ const startModules = async () => {
 const getAllModules = () => {
 	const AllModules = globalThis.config.modules.filter((module) => (module.module !== undefined) && (MM.getAvailableModulePositions.indexOf(module.position) > -1 || typeof (module.position) === "undefined"));
 	return AllModules;
-}
+};
 
 /**
  * Generate array with module information including module paths.
@@ -134,7 +134,7 @@ const getModuleData = async () => {
 	});
 
 	return moduleFiles;
-}
+};
 
 /**
  * Load modules via ajax request and create module objects.
@@ -152,7 +152,7 @@ const loadModule = async (module) => {
 		if (moduleObject) {
 			await bootstrapModule(module, moduleObject);
 		}
-	}
+	};
 
 	if (loadedModuleFiles.indexOf(url) !== -1) {
 		await afterLoad();
@@ -161,7 +161,7 @@ const loadModule = async (module) => {
 		loadedModuleFiles.push(url);
 		await afterLoad();
 	}
-}
+};
 
 /**
  * Bootstrap modules by setting the module data and loading the scripts & styles.
@@ -182,7 +182,7 @@ const bootstrapModule = async (module, mObj) => {
 	Log.log(`Translations loaded for: ${module.name}`);
 
 	moduleObjects.push(mObj);
-}
+};
 
 /**
  * Load a script or stylesheet by adding it to the dom.
@@ -245,7 +245,7 @@ const loadFile = (fileName) => {
 				document.getElementsByTagName("head")[0].appendChild(stylesheet);
 			});
 	}
-}
+};
 
 /* Public Methods */
 
@@ -269,7 +269,7 @@ export const loadModules = async () => {
 
 	// Start all modules.
 	await startModules();
-}
+};
 
 /**
  * Load a file (script or stylesheet).
@@ -302,4 +302,4 @@ export const loadFileForModule = (fileName, module) => {
 	// Load it based on the module path.
 	loadedFiles.push(fileName.toLowerCase());
 	return loadFile(module.file(fileName));
-}
+};

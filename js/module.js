@@ -444,7 +444,7 @@ const configMerge = (target, ...sources) => {
 	}
 
 	return target;
-}
+};
 
 Module.definitions = {};
 
@@ -508,7 +508,7 @@ export const cmpVersions = (a, b) => {
 		}
 	}
 	return segmentsA.length - segmentsB.length;
-}
+};
 
 /**
  * Define the clone method for later use. Helper Method.
@@ -548,4 +548,4 @@ export const cloneObject = (obj) => {
 	}
 
 	return temp;
-}
+};

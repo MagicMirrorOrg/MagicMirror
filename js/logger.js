@@ -1,5 +1,6 @@
 // Logger for MagicMirror² — works both in Node.js (CommonJS) and the browser (global).
 (() => {
+
 	/**
 	 * Creates the logger object. Logging is disabled when running in test mode
 	 * (Node.js) or inside jsdom (browser).
@@ -54,7 +55,7 @@
 		}
 
 		return logLevel;
-	}
+	};
 
 	if (typeof module !== "undefined") {
 		if (process.env.mmTestMode !== "true") {

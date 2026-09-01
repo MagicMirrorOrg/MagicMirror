@@ -20,7 +20,7 @@ const getAllowedSecrets = (moduleName) => {
 		}
 	}
 	return allowed;
-}
+};
 
 class NodeHelper {
 	init () {

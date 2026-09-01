@@ -45,7 +45,7 @@ const ensureContext = async () => {
 	if (!context) {
 		context = await browser.newContext();
 	}
-}
+};
 
 /**
  * Open a fresh page pointing to the provided url.
@@ -60,7 +60,7 @@ const openPage = async (url) => {
 	page = await context.newPage();
 	await page.goto(url, { waitUntil: "load" });
 	return page;
-}
+};
 
 /**
  * Close page, context and browser if they exist.
@@ -79,7 +79,7 @@ const closeBrowser = async () => {
 		await browser.close();
 		browser = null;
 	}
-}
+};
 
 exports.getPage = () => {
 	if (!page) {

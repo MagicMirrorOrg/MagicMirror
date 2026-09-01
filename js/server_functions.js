@@ -14,7 +14,7 @@ const startUp = new Date();
  */
 const getStartup = (req, res) => {
 	res.send(startUp);
-}
+};
 
 /**
  * Replace `**SECRET_ABC**` placeholders with the value of `process.env.SECRET_ABC`.
@@ -42,7 +42,7 @@ const replaceSecretPlaceholder = (input, allowedSecrets) => {
 		// Load the real value from the environment. Fallback to placeholder if missing.
 		return process.env[secretName] || placeholder;
 	});
-}
+};
 
 /**
  * A method that forwards HTTP Get-methods to the internet to avoid CORS-errors.
@@ -142,7 +142,7 @@ const cors = async (req, res) => {
 		}
 		res.status(500).json({ error: error.message });
 	}
-}
+};
 
 /**
  * Gets headers and values to attach to the web request.
@@ -163,7 +163,7 @@ const getHeadersToSend = (url) => {
 		}
 	}
 	return headersToSend;
-}
+};
 
 /**
  * Gets the headers expected from the response.
@@ -180,7 +180,7 @@ const geExpectedReceivedHeaders = (url) => {
 		}
 	}
 	return expectedReceivedHeaders;
-}
+};
 
 /**
  * Gets the HTML to display the magic mirror.
@@ -193,7 +193,7 @@ const getHtml = (req, res) => {
 	html = html.replace("#TESTMODE#", global.mmTestMode);
 
 	res.send(html);
-}
+};
 
 /**
  * Gets the MagicMirror version.
@@ -202,7 +202,7 @@ const getHtml = (req, res) => {
  */
 const getVersion = (req, res) => {
 	res.send(global.version);
-}
+};
 
 /**
  * Gets the preferred `User-Agent`
@@ -223,7 +223,7 @@ const getUserAgent = () => {
 		default:
 			return defaultUserAgent;
 	}
-}
+};
 
 /**
  * Gets environment variables needed in the browser.
@@ -239,7 +239,7 @@ const getEnvVarsAsObj = () => {
 	}
 
 	return obj;
-}
+};
 
 /**
  * Gets environment variables needed in the browser.
@@ -249,7 +249,7 @@ const getEnvVarsAsObj = () => {
 const getEnvVars = (req, res) => {
 	const obj = getEnvVarsAsObj();
 	res.send(obj);
-}
+};
 
 /**
  * Resolves the HTTP server port. The `MM_PORT` environment variable takes
@@ -259,7 +259,7 @@ const getEnvVars = (req, res) => {
  */
 const getServerPort = (config = global.config) => {
 	return Number(process.env.MM_PORT || config?.port || 8080);
-}
+};
 
 /**
  * Get the config file path from environment or default location
@@ -277,6 +277,6 @@ const getConfigFilePath = () => {
 	}
 
 	return path.resolve(global.configuration_file || `${global.root_path}/config/config.js`);
-}
+};
 
 module.exports = { cors, getHtml, getVersion, getStartup, getEnvVars, getEnvVarsAsObj, getUserAgent, getServerPort, getConfigFilePath, replaceSecretPlaceholder };

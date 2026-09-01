@@ -16,7 +16,7 @@ const getCommandLineParameter = (key, defaultValue = undefined) => {
 	const index = process.argv.indexOf(`--${key}`);
 	const value = index > -1 ? process.argv[index + 1] : undefined;
 	return value !== undefined ? String(value) : defaultValue;
-}
+};
 
 /**
  * Helper function to get server address/hostname from either the commandline or env
@@ -34,7 +34,7 @@ const getServerParameters = () => {
 	config.tls = process.argv.includes("--use-tls");
 
 	return config;
-}
+};
 
 /**
  * Gets the config from the specified server url
@@ -67,7 +67,7 @@ const getServerConfig = (url) => {
 			reject(new Error(`Unable to read config from server (${url}) (${error.message})`));
 		});
 	});
-}
+};
 
 /**
  * Print a message to the console in case of errors
@@ -81,7 +81,7 @@ const fail = (message, code = 1) => {
 		console.error("Usage: 'node clientonly --address 192.168.1.10 --port 8080 [--use-tls]'");
 	}
 	process.exit(code);
-}
+};
 
 /**
  * Starts the client by connecting to the server and launching the Electron application
@@ -143,7 +143,7 @@ const startClient = async (config, prefix) => {
 	} catch (reason) {
 		fail(`Unable to connect to server: (${reason})`);
 	}
-}
+};
 
 // Main execution
 const config = getServerParameters();

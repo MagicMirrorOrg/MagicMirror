@@ -130,7 +130,7 @@ function App () {
 
 			m.loaded();
 		}
-	}
+	};
 
 	/**
 	 * Loads all modules.
@@ -145,7 +145,7 @@ function App () {
 		}
 
 		Log.log("All module helpers loaded.");
-	}
+	};
 
 	/**
 	 * Compare two semantic version numbers and return the difference.
@@ -168,7 +168,7 @@ function App () {
 			}
 		}
 		return segmentsA.length - segmentsB.length;
-	}
+	};
 
 	/**
 	 * Start the core app.

@@ -35,7 +35,7 @@ const withFutureDailyTimes = (source) => {
 	});
 
 	return clone;
-}
+};
 
 let server;
 

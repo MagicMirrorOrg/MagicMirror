@@ -21,7 +21,7 @@ export const Translator = (() => {
 			Log.error(`Loading json file =${file} failed`);
 			return null;
 		}
-	}
+	};
 
 	return {
 		coreTranslations: {},
@@ -58,7 +58,7 @@ export const Translator = (() => {
 				return templateToUse.replace(new RegExp("{([^}]+)}", "g"), (_unused, varName) => {
 					return varName in variables ? variables[varName] : `{${varName}}`;
 				});
-			}
+			};
 
 			if (this.translations[module.name] && key in this.translations[module.name]) {
 				return createStringFromTemplate(this.translations[module.name][key], variables);

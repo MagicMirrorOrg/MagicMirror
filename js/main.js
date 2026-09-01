@@ -64,7 +64,7 @@ const createDomObjects = async () => {
 	} catch (error) {
 		Log.error(error);
 	}
-}
+};
 
 /**
  * Create and render a module DOM, then notify the module.
@@ -80,7 +80,7 @@ const createModuleDom = async (module, haveAnimateIn) => {
 	}
 
 	_sendNotification("MODULE_DOM_CREATED", null, null, module);
-}
+};
 
 /**
  * Select the wrapper dom object for a specific position.
@@ -96,7 +96,7 @@ const selectWrapper = (position) => {
 			return wrapper[0];
 		}
 	}
-}
+};
 
 /**
  * Send a notification to all modules.
@@ -112,7 +112,7 @@ const _sendNotification = (notification, payload, sender, sendTo) => {
 			module.notificationReceived(notification, payload, sender);
 		}
 	}
-}
+};
 
 /**
  * Update the dom for a specific module.
@@ -143,7 +143,7 @@ const _updateDom = async (module, updateOptions, createAnimatedDom = false) => {
 	const newHeader = module.getHeader();
 	const newContent = await module.getDom();
 	await updateDomWithContent(module, speed, newHeader, newContent, animateOut, animateIn, createAnimatedDom);
-}
+};
 
 /**
  * Update the dom with the specified content
@@ -180,7 +180,7 @@ const updateDomWithContent = async (module, speed, newHeader, newContent, animat
 	if (!module.hidden) {
 		await new Promise((resolve) => _showModule(module, speed / 2, resolve, { animate: animateIn }));
 	}
-}
+};
 
 /**
  * Check if the content has changed.
@@ -209,7 +209,7 @@ const moduleNeedsUpdate = (module, newHeader, newContent) => {
 	const contentNeedsUpdate = tempContentWrapper.innerHTML !== contentWrapper[0].innerHTML;
 
 	return headerNeedsUpdate || contentNeedsUpdate;
-}
+};
 
 /**
  * Update the content of a module on screen.
@@ -234,7 +234,7 @@ const updateModuleContent = (module, newHeader, newContent) => {
 	} else {
 		headerWrapper[0].style.display = "none";
 	}
-}
+};
 
 /**
  * Hide the module.
@@ -318,7 +318,7 @@ const _hideModule = (module, speed, callback, options = {}) => {
 			callback();
 		}
 	}
-}
+};
 
 /**
  * Show the module.
@@ -416,7 +416,7 @@ const _showModule = (module, speed, callback, options = {}) => {
 			callback();
 		}
 	}
-}
+};
 
 /**
  * Checks for all positions if it has visible content.
@@ -444,7 +444,7 @@ const updateWrapperStates = () => {
 		// move container definitions to main CSS
 		wrapper.className = showWrapper ? "container" : "container hidden";
 	});
-}
+};
 
 /**
  * Loads the core config from the server (already combined with the system defaults).
@@ -472,7 +472,7 @@ const loadConfig = async () => {
 	});
 	globalThis.config = config;
 	return config;
-}
+};
 
 /**
  * Adds special selectors on a collection of modules.
@@ -487,7 +487,7 @@ const setSelectionMethodsForModules = (modules) => {
 	 */
 	const withClass = (className) => {
 		return modulesByClass(className, true);
-	}
+	};
 
 	/**
 	 * Filter modules without the specified classes.
@@ -496,7 +496,7 @@ const setSelectionMethodsForModules = (modules) => {
 	 */
 	const exceptWithClass = (className) => {
 		return modulesByClass(className, false);
-	}
+	};
 
 	/**
 	 * Filters a collection of modules based on classname(s).
@@ -524,7 +524,7 @@ const setSelectionMethodsForModules = (modules) => {
 
 		setSelectionMethodsForModules(newModules);
 		return newModules;
-	}
+	};
 
 	/**
 	 * Removes a module instance from the collection.
@@ -538,7 +538,7 @@ const setSelectionMethodsForModules = (modules) => {
 
 		setSelectionMethodsForModules(newModules);
 		return newModules;
-	}
+	};
 
 	/**
 	 * Walks thru a collection of modules and executes the callback with the module as an argument.
@@ -548,7 +548,7 @@ const setSelectionMethodsForModules = (modules) => {
 		modules.map((module) => {
 			callback(module);
 		});
-	}
+	};
 
 	if (typeof modules.withClass === "undefined") {
 		Object.defineProperty(modules, "withClass", { value: withClass, enumerable: false });
@@ -562,7 +562,7 @@ const setSelectionMethodsForModules = (modules) => {
 	if (typeof modules.enumerate === "undefined") {
 		Object.defineProperty(modules, "enumerate", { value: enumerate, enumerable: false });
 	}
-}
+};
 
 export const MM = {
 

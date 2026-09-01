@@ -143,7 +143,7 @@ const createWindow = () => {
 	mainWindow.once("ready-to-show", () => {
 		mainWindow.show();
 	});
-}
+};
 
 // Quit when all windows are closed.
 app.on("window-all-closed", () => {
@@ -213,6 +213,6 @@ const bootstrapElectron = async () => {
 		Log.log("Launching application.");
 		createWindow();
 	}
-}
+};
 
 bootstrapElectron();

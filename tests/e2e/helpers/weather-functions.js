@@ -84,7 +84,7 @@ const injectMockWeatherData = async (page, mockDataFile) => {
 			});
 		}
 	}, { type, data });
-}
+};
 
 exports.startApplication = async (configFileName, mockDataFile) => {
 	await helpers.startApplication(configFileName);

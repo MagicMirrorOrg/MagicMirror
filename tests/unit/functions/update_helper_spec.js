@@ -35,7 +35,7 @@ describe("UpdateHelper", () => {
 		mkdirSync(modulePath, { recursive: true });
 		tempRoots.push(root);
 		return { root, modulePath };
-	}
+	};
 
 	/**
 	 * Creates a fresh UpdateHelper instance for testing.
@@ -46,7 +46,7 @@ describe("UpdateHelper", () => {
 		const updateHelperModule = await import("../../../defaultmodules/updatenotification/update_helper");
 		const UpdateHelper = updateHelperModule.default || updateHelperModule;
 		return new UpdateHelper({ updates: [], updateTimeout: 1000, updateAutorestart: false, ...config });
-	}
+	};
 
 	it("marks update as requiring manual restart when autoRestart is disabled", async () => {
 		const moduleName = "MMM-Test";

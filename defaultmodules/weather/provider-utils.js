@@ -32,7 +32,7 @@ const convertWeatherType = (weatherType) => {
 	};
 
 	return weatherTypes.hasOwnProperty(weatherType) ? weatherTypes[weatherType] : null;
-}
+};
 
 /**
  * Apply timezone offset to a date
@@ -43,7 +43,7 @@ const convertWeatherType = (weatherType) => {
 const applyTimezoneOffset = (date, offsetMinutes) => {
 	const utcTime = date.getTime() + (date.getTimezoneOffset() * 60000);
 	return new Date(utcTime + (offsetMinutes * 60000));
-}
+};
 
 /**
  * Limit decimal places for coordinates (truncate, not round)
@@ -60,7 +60,7 @@ const limitDecimals = (value, decimals) => {
 		}
 	}
 	return value;
-}
+};
 
 /**
  * Get sunrise and sunset times for a given date and location
@@ -75,7 +75,7 @@ const getSunTimes = (date, lat, lon) => {
 		sunrise: sunTimes.sunrise,
 		sunset: sunTimes.sunset
 	};
-}
+};
 
 /**
  * Check if a given time is during daylight hours
@@ -89,7 +89,7 @@ const isDayTime = (date, sunrise, sunset) => {
 		return true; // Default to day if times unavailable
 	}
 	return date >= sunrise && date < sunset;
-}
+};
 
 /**
  * Format timezone offset as string (e.g., "+01:00", "-05:30")
@@ -101,7 +101,7 @@ const formatTimezoneOffset = (offsetMinutes) => {
 	const minutes = Math.abs(offsetMinutes) % 60;
 	const sign = offsetMinutes >= 0 ? "+" : "-";
 	return `${sign}${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
-}
+};
 
 /**
  * Get date string in YYYY-MM-DD format (local time)
@@ -113,7 +113,7 @@ const getDateString = (date) => {
 	const month = String(date.getMonth() + 1).padStart(2, "0");
 	const day = String(date.getDate()).padStart(2, "0");
 	return `${year}-${month}-${day}`;
-}
+};
 
 /**
  * Convert wind speed from km/h to m/s
@@ -122,7 +122,7 @@ const getDateString = (date) => {
  */
 const convertKmhToMs = (kmh) => {
 	return kmh / 3.6;
-}
+};
 
 /**
  * Convert cardinal wind direction string to degrees
@@ -149,7 +149,7 @@ const cardinalToDegrees = (direction) => {
 		NNW: 337.5
 	};
 	return directions[direction] ?? null;
-}
+};
 
 /**
  * Validate and limit coordinate precision
@@ -165,7 +165,7 @@ const validateCoordinates = (config, maxDecimals = 4) => {
 
 	config.lat = limitDecimals(config.lat, maxDecimals);
 	config.lon = limitDecimals(config.lon, maxDecimals);
-}
+};
 
 module.exports = {
 	convertWeatherType,

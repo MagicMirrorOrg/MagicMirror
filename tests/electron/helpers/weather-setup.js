@@ -70,7 +70,7 @@ const injectMockWeatherData = async (mockDataFile) => {
 			});
 		}
 	}, { type, data });
-}
+};
 
 exports.getText = async (element, result) => {
 	const elem = await helpers.getElement(element);

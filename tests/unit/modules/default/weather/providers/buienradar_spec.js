@@ -71,7 +71,7 @@ const buildBuienradarResponse = () => {
 			}
 		]
 	};
-}
+};
 
 let server;
 

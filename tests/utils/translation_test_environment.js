@@ -20,7 +20,7 @@ const resetTranslatorState = (Translator) => {
 			Translator[key] = {};
 		}
 	}
-}
+};
 
 /**
  * Set up DOM globals used by translation tests.
@@ -34,7 +34,7 @@ const setupTranslationTestEnvironment = (port = 3000) => {
 	if (!global.Log) {
 		global.Log = { log: vi.fn(), error: vi.fn() };
 	}
-}
+};
 
 module.exports = {
 	setupTranslationTestEnvironment,

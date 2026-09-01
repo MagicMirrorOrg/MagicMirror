@@ -11,7 +11,7 @@ const createResponseMock = () => {
 	res.status = vi.fn().mockReturnValue(res);
 	res.send = vi.fn().mockReturnValue(res);
 	return res;
-}
+};
 
 describe("ip_access_control", () => {
 	describe("ipAccessControl", () => {

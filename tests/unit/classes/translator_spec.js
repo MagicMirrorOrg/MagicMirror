@@ -17,7 +17,7 @@ const getFreshTranslator = async () => {
 	const { Translator } = await import(TRANSLATOR_MODULE_URL);
 	resetTranslatorState(Translator);
 	return Translator;
-}
+};
 
 describe("Translator", () => {
 	let server;

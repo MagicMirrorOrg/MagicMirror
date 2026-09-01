@@ -42,7 +42,7 @@ const loadWeatherNodeHelper = async () => {
 	helper.sendSocketNotification = vi.fn();
 
 	return helper;
-}
+};
 
 afterEach(() => {
 	vi.resetAllMocks();

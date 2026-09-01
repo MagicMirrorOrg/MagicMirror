@@ -127,7 +127,7 @@ const buildWeatherApiResponse = () => {
 			]
 		}
 	};
-}
+};
 
 let server;
 

@@ -31,7 +31,7 @@ const isAllowed = (clientIp, whitelist) => {
 		Log.warn(`Failed to parse client IP: ${clientIp}`);
 		return false;
 	}
-}
+};
 
 /**
  * Resolves a client IP for both Express and Socket.IO requests.
@@ -52,7 +52,7 @@ const resolveClientIp = (req) => {
 	}
 
 	return directIp;
-}
+};
 
 /**
  * Checks whether a browser Origin matches the host serving the mirror.
@@ -72,7 +72,7 @@ const isSameOrigin = (req) => {
 	} catch {
 		return false;
 	}
-}
+};
 
 /**
  * Determines why a request is denied, or null if it is allowed.
@@ -91,7 +91,7 @@ const accessDenialReason = (req, whitelist) => {
 	}
 
 	return null;
-}
+};
 
 /**
  * Creates an Express middleware enforcing same-origin and the IP whitelist.
@@ -106,7 +106,7 @@ const ipAccessControl = (whitelist) => {
 		Log.warn(`${reason} to access the mirror`);
 		res.status(403).send("This device is not allowed to access your mirror. <br> Please check your config.js or config.js.sample to change this.");
 	};
-}
+};
 
 /**
  * Creates a Socket.IO `allowRequest` handler enforcing the same rules as the HTTP middleware.
@@ -121,6 +121,6 @@ const socketIpAccessControl = (whitelist) => {
 		Log.warn(`${reason} to connect to the mirror socket`);
 		callback("This device is not allowed to access your mirror.", false);
 	};
-}
+};
 
 module.exports = { ipAccessControl, socketIpAccessControl };

@@ -40,7 +40,7 @@ const getServerConfig = () => {
 	}
 
 	return serverConfig;
-}
+};
 
 /**
  * Check if a port is available on the configured address
@@ -64,7 +64,7 @@ const isPortAvailable = (port) => {
 		const { address } = getServerConfig();
 		server.listen(port, address);
 	});
-}
+};
 
 /**
  * Wait until port is available
@@ -81,7 +81,7 @@ const waitForPort = async (port, maxAttempts = PORT_CHECK_MAX_ATTEMPTS) => {
 		await new Promise((resolve) => setTimeout(resolve, PORT_CHECK_INTERVAL_MS));
 	}
 	Log.warn(`Port ${port} still not available after ${maxAttempts} attempts`);
-}
+};
 
 /**
  * Start the server process
@@ -113,7 +113,7 @@ const startServer = () => {
 			Log.error(`Server exited unexpectedly with code ${code} and signal ${signal}`);
 		}
 	});
-}
+};
 
 /**
  * Send reload notification to all connected clients
@@ -139,7 +139,7 @@ const notifyClientsToReload = () => {
 	});
 
 	req.end();
-}
+};
 
 /**
  * Restart the server process
@@ -174,7 +174,7 @@ const restartServer = (reason) => {
 			startServer();
 		}
 	}, RESTART_DELAY_MS);
-}
+};
 
 /**
  * Watch a specific file for changes and restart the server on change
@@ -207,7 +207,7 @@ const watchFile = (file) => {
 	} catch (error) {
 		Log.error(`Failed to watch file ${file}:`, error.message);
 	}
-}
+};
 
 startServer();
 
