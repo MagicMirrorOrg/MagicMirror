@@ -255,10 +255,11 @@ function App () {
 			Log.log("Sockets connected & modules started ...");
 
 			return global.config;
-		} catch (err) {
-			// planned ConfigErrors already logged their message before throwing
-			if (!(err instanceof ConfigError)) {
-				Log.error("Unexpected error during startup:", err);
+		} catch (error) {
+			if (error instanceof ConfigError) {
+				Log.error(error.message);
+			} else {
+				Log.error("Unexpected error during startup:", error);
 			}
 
 			const int32 = new Int32Array(new SharedArrayBuffer(4));

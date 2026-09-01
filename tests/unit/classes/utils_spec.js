@@ -3,24 +3,21 @@ const fs = require("node:fs");
 const Log = require("../../../js/logger");
 const { checkConfigFile, ConfigError } = require("../../../js/utils");
 
-const createConfigObject = (modules) => ({
+const createConfigObject = (modules, configContentFull = "module.exports = { modules: [] };") => ({
 	configFilename: "config.js",
-	configContentFull: "module.exports = { modules: [] };",
+	configContentFull,
 	fullConf: { modules }
 });
 
-const runCheck = (modules) => {
-	checkConfigFile(createConfigObject(modules));
+const runCheck = (modules, configContentFull) => {
+	checkConfigFile(createConfigObject(modules, configContentFull));
 };
 
-const expectExitForModules = (modules) => {
-	vi.spyOn(process, "exit").mockImplementation(() => {
-		throw new ConfigError("");
-	});
-
+const expectConfigErrorForModules = (modules) => {
 	expect(() => {
 		runCheck(modules);
 	}).toThrow(ConfigError);
+	expect(process.exit).not.toHaveBeenCalled();
 };
 
 describe("utils", () => {
@@ -41,6 +38,7 @@ describe("utils", () => {
 		vi.spyOn(Log, "info").mockImplementation(() => {});
 		vi.spyOn(Log, "warn").mockImplementation(() => {});
 		vi.spyOn(Log, "error").mockImplementation(() => {});
+		vi.spyOn(process, "exit").mockImplementation(() => {});
 	});
 
 	afterEach(() => {
@@ -57,27 +55,29 @@ describe("utils", () => {
 		expect(Log.error).not.toHaveBeenCalled();
 	});
 
-	it("exits when modules is not an array", () => {
-		expectExitForModules("not-an-array");
-		expect(Log.error).toHaveBeenCalledWith("This module configuration contains errors:\nmodules must be an array");
+	it("throws when modules is not an array", () => {
+		expectConfigErrorForModules("not-an-array");
+		expect(Log.error).not.toHaveBeenCalled();
 	});
 
-	it("exits when module field is missing or not a string", () => {
-		expectExitForModules([{ module: 123, position: "top_bar" }]);
-		expect(Log.error).toHaveBeenCalled();
-		expect(Log.error.mock.calls[0][0]).toContain("module: must be a string");
+	it("throws when module field is missing or not a string", () => {
+		expectConfigErrorForModules([{ module: 123, position: "top_bar" }]);
+		expect(Log.error).not.toHaveBeenCalled();
 	});
 
 	it("warns for unknown positions without exiting", () => {
-		const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {
-			throw new ConfigError("");
-		});
-
 		expect(() => {
 			runCheck([{ module: "clock", position: "made_up_region" }]);
 		}).not.toThrow();
-		expect(exitSpy).not.toHaveBeenCalled();
+		expect(process.exit).not.toHaveBeenCalled();
 		expect(Log.warn).toHaveBeenCalled();
 		expect(Log.warn.mock.calls[0][0]).toContain("uses unknown position");
+	});
+
+	it("throws syntax errors with their lint details", () => {
+		expect(() => {
+			runCheck([], "module.exports = { modules: [ };");
+		}).toThrow(/Your configuration file contains syntax errors/);
+		expect(process.exit).not.toHaveBeenCalled();
 	});
 });
