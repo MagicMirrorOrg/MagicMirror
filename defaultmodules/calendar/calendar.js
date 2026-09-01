@@ -559,7 +559,7 @@ Module.register("calendar", {
 			}
 			if (limitNumberOfEntries) {
 				// sort entries before clipping
-				by_url_calevents.sort(function (a, b) {
+				by_url_calevents.sort((a, b) => {
 					return a.startDate - b.startDate;
 				});
 				Log.debug(`[calendar] pushing ${by_url_calevents.length} events to total with room for ${remainingEntries}`);
@@ -570,7 +570,7 @@ Module.register("calendar", {
 			}
 		}
 		Log.info(`[calendar] sorting events count=${events.length}`);
-		events.sort(function (a, b) {
+		events.sort((a, b) => {
 			return a.startDate - b.startDate;
 		});
 
@@ -674,7 +674,7 @@ Module.register("calendar", {
 
 	mergeUnique (arr1, arr2) {
 		return arr1.concat(
-			arr2.filter(function (item) {
+			arr2.filter((item) => {
 				return arr1.indexOf(item) === -1;
 			})
 		);

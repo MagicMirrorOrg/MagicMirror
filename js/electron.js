@@ -122,7 +122,7 @@ function createWindow () {
 	});
 
 	// Set responders for window events.
-	mainWindow.on("closed", function () {
+	mainWindow.on("closed", () => {
 		mainWindow = null;
 	});
 
@@ -146,7 +146,7 @@ function createWindow () {
 }
 
 // Quit when all windows are closed.
-app.on("window-all-closed", function () {
+app.on("window-all-closed", () => {
 	if (process.env.mmTestMode) {
 		// if we are running tests
 		app.quit();
@@ -155,7 +155,7 @@ app.on("window-all-closed", function () {
 	}
 });
 
-app.on("activate", function () {
+app.on("activate", () => {
 
 	/*
 	 * On OS X it's common to re-create a window in the app when the

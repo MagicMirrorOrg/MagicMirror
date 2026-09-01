@@ -50,11 +50,11 @@ function getServerConfig (url) {
 			let configData = "";
 
 			// Gather incoming data
-			response.on("data", function (chunk) {
+			response.on("data", (chunk) => {
 				configData += chunk;
 			});
 			// Resolve promise at the end of the HTTP/HTTPS stream
-			response.on("end", function () {
+			response.on("end", () => {
 				try {
 					resolve(JSON.parse(configData));
 				} catch (parseError) {
@@ -63,7 +63,7 @@ function getServerConfig (url) {
 			});
 		});
 
-		request.on("error", function (error) {
+		request.on("error", (error) => {
 			reject(new Error(`Unable to read config from server (${url}) (${error.message})`));
 		});
 	});
@@ -122,16 +122,16 @@ async function startClient (config, prefix) {
 		const child = require("node:child_process").spawn(electron, elecParams, options);
 
 		// Pipe all child process output to current stdout
-		child.stdout.on("data", function (buf) {
+		child.stdout.on("data", (buf) => {
 			process.stdout.write(`Client: ${buf}`);
 		});
 
 		// Pipe all child process errors to current stderr
-		child.stderr.on("data", function (buf) {
+		child.stderr.on("data", (buf) => {
 			process.stderr.write(`Client: ${buf}`);
 		});
 
-		child.on("error", function (err) {
+		child.on("error", (err) => {
 			process.stderr.write(`Client: ${err}`);
 		});
 

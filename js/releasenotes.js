@@ -144,7 +144,7 @@ const createReleaseNotes = async () => {
 	// function to remove duplicates
 	const sortedArr = (arr) => {
 		return arr.filter((item,
-			index) => (arr.indexOf(item) === index && item !== "@dependabot[bot]")).sort(function (a, b) {
+			index) => (arr.indexOf(item) === index && item !== "@dependabot[bot]")).sort((a, b) => {
 			return a.toLowerCase().localeCompare(b.toLowerCase());
 		});
 	};
