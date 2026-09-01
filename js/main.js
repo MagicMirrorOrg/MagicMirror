@@ -11,7 +11,7 @@ let modules = [];
 /**
  * Create dom objects for all modules that are configured for a specific position.
  */
-async function createDomObjects () {
+const createDomObjects = async () => {
 	const domCreationPromises = [];
 
 	modules.forEach((module) => {
@@ -72,7 +72,7 @@ async function createDomObjects () {
  * @param {string|null} haveAnimateIn Optional animateIn animation name.
  * @returns {Promise<void>} Resolved when module DOM is created.
  */
-async function createModuleDom (module, haveAnimateIn) {
+const createModuleDom = async (module, haveAnimateIn) => {
 	if (haveAnimateIn) {
 		await _updateDom(module, { options: { speed: 1000, animate: { in: haveAnimateIn } } }, true);
 	} else {
@@ -87,7 +87,7 @@ async function createModuleDom (module, haveAnimateIn) {
  * @param {string} position The name of the position.
  * @returns {HTMLElement | void} the wrapper element
  */
-function selectWrapper (position) {
+const selectWrapper = (position) => {
 	const classes = position.replace("_", " ");
 	const parentWrapper = document.getElementsByClassName(classes);
 	if (parentWrapper.length > 0) {
@@ -105,7 +105,7 @@ function selectWrapper (position) {
  * @param {Module} sender The module that sent the notification.
  * @param {Module} [sendTo] The (optional) module to send the notification to.
  */
-function _sendNotification (notification, payload, sender, sendTo) {
+const _sendNotification = (notification, payload, sender, sendTo) => {
 	for (const m in modules) {
 		const module = modules[m];
 		if (module !== sender && (!sendTo || module === sendTo)) {
@@ -121,7 +121,7 @@ function _sendNotification (notification, payload, sender, sendTo) {
  * @param {boolean} [createAnimatedDom] for displaying only animateIn (used on first start of MagicMirror)
  * @returns {Promise<void>} Resolved when the dom is fully updated.
  */
-async function _updateDom (module, updateOptions, createAnimatedDom = false) {
+const _updateDom = async (module, updateOptions, createAnimatedDom = false) => {
 	let speed = updateOptions;
 	let animateOut = null;
 	let animateIn = null;
@@ -156,7 +156,7 @@ async function _updateDom (module, updateOptions, createAnimatedDom = false) {
  * @param {boolean} [createAnimatedDom] If true, apply content and trigger only animateIn (used on first start).
  * @returns {Promise<void>} Resolved after the module DOM update is applied or hide/show transition is scheduled.
  */
-async function updateDomWithContent (module, speed, newHeader, newContent, animateOut, animateIn, createAnimatedDom = false) {
+const updateDomWithContent = async (module, speed, newHeader, newContent, animateOut, animateIn, createAnimatedDom = false) => {
 	if (module.hidden || !speed) {
 		updateModuleContent(module, newHeader, newContent);
 		return;
@@ -189,7 +189,7 @@ async function updateDomWithContent (module, speed, newHeader, newContent, anima
  * @param {HTMLElement} newContent The new content that is generated.
  * @returns {boolean} True if the module need an update, false otherwise
  */
-function moduleNeedsUpdate (module, newHeader, newContent) {
+const moduleNeedsUpdate = (module, newHeader, newContent) => {
 	const moduleWrapper = document.getElementById(module.identifier);
 	if (moduleWrapper === null) {
 		return false;
@@ -217,7 +217,7 @@ function moduleNeedsUpdate (module, newHeader, newContent) {
  * @param {string} newHeader The new header that is generated.
  * @param {HTMLElement} newContent The new content that is generated.
  */
-function updateModuleContent (module, newHeader, newContent) {
+const updateModuleContent = (module, newHeader, newContent) => {
 	const moduleWrapper = document.getElementById(module.identifier);
 	if (moduleWrapper === null) {
 		return;
@@ -243,7 +243,7 @@ function updateModuleContent (module, newHeader, newContent) {
  * @param {() => void} callback Called when the animation is done.
  * @param {object} [options] Optional settings for the hide method.
  */
-function _hideModule (module, speed, callback, options = {}) {
+const _hideModule = (module, speed, callback, options = {}) => {
 	// set lockString if set in options.
 	if (options.lockString) {
 		if (module.lockStrings.indexOf(options.lockString) === -1) {
@@ -327,7 +327,7 @@ function _hideModule (module, speed, callback, options = {}) {
  * @param {() => void} callback Called when the animation is done.
  * @param {object} [options] Optional settings for the show method.
  */
-function _showModule (module, speed, callback, options = {}) {
+const _showModule = (module, speed, callback, options = {}) => {
 	// remove lockString if set in options.
 	if (options.lockString) {
 		const index = module.lockStrings.indexOf(options.lockString);
@@ -429,7 +429,7 @@ function _showModule (module, speed, callback, options = {}) {
  * an ugly top margin. By using this function, the top bar will be hidden if the
  * update notification is not visible.
  */
-function updateWrapperStates () {
+const updateWrapperStates = () => {
 	modulePositions.forEach((position) => {
 		const wrapper = selectWrapper(position);
 		const moduleWrappers = wrapper.getElementsByClassName("module");
@@ -450,7 +450,7 @@ function updateWrapperStates () {
  * Loads the core config from the server (already combined with the system defaults).
  * @returns {Promise<object>} The loaded config.
  */
-async function loadConfig () {
+const loadConfig = async () => {
 	const basePath = globalThis.config?.basePath ?? "/";
 	const res = await fetch(new URL("config/", `${location.origin}${basePath}`));
 	if (!res.ok) {
@@ -478,14 +478,14 @@ async function loadConfig () {
  * Adds special selectors on a collection of modules.
  * @param {Module[]} modules Array of modules.
  */
-function setSelectionMethodsForModules (modules) {
+const setSelectionMethodsForModules = (modules) => {
 
 	/**
 	 * Filter modules with the specified classes.
 	 * @param {string|string[]} className one or multiple classnames (array or space divided).
 	 * @returns {Module[]} Filtered collection of modules.
 	 */
-	function withClass (className) {
+	const withClass = (className) => {
 		return modulesByClass(className, true);
 	}
 
@@ -494,7 +494,7 @@ function setSelectionMethodsForModules (modules) {
 	 * @param {string|string[]} className one or multiple classnames (array or space divided).
 	 * @returns {Module[]} Filtered collection of modules.
 	 */
-	function exceptWithClass (className) {
+	const exceptWithClass = (className) => {
 		return modulesByClass(className, false);
 	}
 
@@ -504,7 +504,7 @@ function setSelectionMethodsForModules (modules) {
 	 * @param {boolean} include if the filter should include or exclude the modules with the specific classes.
 	 * @returns {Module[]} Filtered collection of modules.
 	 */
-	function modulesByClass (className, include) {
+	const modulesByClass = (className, include) => {
 		let searchClasses = className;
 		if (typeof className === "string") {
 			searchClasses = className.split(" ");
@@ -531,7 +531,7 @@ function setSelectionMethodsForModules (modules) {
 	 * @param {object} module The module instance to remove from the collection.
 	 * @returns {Module[]} Filtered collection of modules.
 	 */
-	function exceptModule (module) {
+	const exceptModule = (module) => {
 		const newModules = modules.filter((mod) => {
 			return mod.identifier !== module.identifier;
 		});
@@ -544,7 +544,7 @@ function setSelectionMethodsForModules (modules) {
 	 * Walks thru a collection of modules and executes the callback with the module as an argument.
 	 * @param {module} callback The function to execute with the module as an argument.
 	 */
-	function enumerate (callback) {
+	const enumerate = (callback) => {
 		modules.map((module) => {
 			callback(module);
 		});

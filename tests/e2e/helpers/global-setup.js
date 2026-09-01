@@ -27,7 +27,7 @@ let page;
  * Ensure Playwright browser and context are available.
  * @returns {Promise<void>}
  */
-async function ensureContext () {
+const ensureContext = async () => {
 	if (!browser) {
 		// Additional args for CI stability to prevent crashes
 		const launchOptions = {
@@ -52,7 +52,7 @@ async function ensureContext () {
  * @param {string} url target url
  * @returns {Promise<import('playwright').Page>} initialized page instance
  */
-async function openPage (url) {
+const openPage = async (url) => {
 	await ensureContext();
 	if (page) {
 		await page.close();
@@ -66,7 +66,7 @@ async function openPage (url) {
  * Close page, context and browser if they exist.
  * @returns {Promise<void>}
  */
-async function closeBrowser () {
+const closeBrowser = async () => {
 	if (page) {
 		await page.close();
 		page = null;

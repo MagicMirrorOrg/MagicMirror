@@ -7,7 +7,7 @@ export const Translator = (() => {
 	 * @param {string} file Path of the file we want to load.
 	 * @returns {Promise<object>} the translations in the specified file
 	 */
-	async function loadJSON (file) {
+	const loadJSON = async (file) => {
 		const baseHref = document.baseURI;
 		const url = new URL(file, baseHref);
 
@@ -47,7 +47,7 @@ export const Translator = (() => {
 			 * @param {object} variables Variables for the placeholder
 			 * @returns {string} the template filled with the variables
 			 */
-			function createStringFromTemplate (template, variables) {
+			const createStringFromTemplate = (template, variables) => {
 				if (Object.prototype.toString.call(template) !== "[object String]") {
 					return template;
 				}

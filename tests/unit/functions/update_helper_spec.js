@@ -29,7 +29,7 @@ describe("UpdateHelper", () => {
 	 * @param {string} moduleName - Name of the module directory to create.
 	 * @returns {{ root: string, modulePath: string }} Created paths.
 	 */
-	function createTempModuleRoot (moduleName) {
+	const createTempModuleRoot = (moduleName) => {
 		const root = mkdtempSync(join(tmpdir(), "mm-updater-"));
 		const modulePath = join(root, "modules", moduleName);
 		mkdirSync(modulePath, { recursive: true });
@@ -42,7 +42,7 @@ describe("UpdateHelper", () => {
 	 * @param {object} config - Optional config overrides.
 	 * @returns {Promise<object>} Resolved UpdateHelper instance.
 	 */
-	async function createUpdater (config = {}) {
+	const createUpdater = async (config = {}) => {
 		const updateHelperModule = await import("../../../defaultmodules/updatenotification/update_helper");
 		const UpdateHelper = updateHelperModule.default || updateHelperModule;
 		return new UpdateHelper({ updates: [], updateTimeout: 1000, updateAutorestart: false, ...config });

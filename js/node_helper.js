@@ -9,7 +9,7 @@ const { replaceSecretPlaceholder } = require("#server_functions");
  * @param {string} moduleName - Name of the module.
  * @returns {Set<string>} The secret names the module may restore.
  */
-function getAllowedSecrets (moduleName) {
+const getAllowedSecrets = (moduleName) => {
 	const modules = global.configRedacted?.modules || [];
 	const moduleConfig = modules.find((m) => m.module === moduleName);
 	const allowed = new Set();

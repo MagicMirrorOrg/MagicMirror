@@ -428,7 +428,7 @@ globalThis.Module = Module;
  * @param {...object} sources Objects whose properties are merged into target.
  * @returns {object} The merged target object.
  */
-function configMerge (target, ...sources) {
+const configMerge = (target, ...sources) => {
 	const isPlainObject = (value) => value?.constructor === Object;
 
 	for (const source of sources) {
@@ -495,7 +495,7 @@ Module.register = function (name, moduleDefinition) {
  * @returns {number} A positive number if a is larger than b, a negative
  * number if a is smaller and 0 if they are the same
  */
-export function cmpVersions (a, b) {
+export const cmpVersions = (a, b) => {
 	const regExStrip0 = /(\.0+)+$/;
 	const segmentsA = a.replace(regExStrip0, "").split(".");
 	const segmentsB = b.replace(regExStrip0, "").split(".");
@@ -515,7 +515,7 @@ export function cmpVersions (a, b) {
  * @param {object} obj Object to be cloned
  * @returns {object} the cloned object
  */
-export function cloneObject (obj) {
+export const cloneObject = (obj) => {
 	if (obj === null || typeof obj !== "object") {
 		return obj;
 	}

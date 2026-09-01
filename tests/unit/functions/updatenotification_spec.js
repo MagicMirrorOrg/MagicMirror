@@ -7,7 +7,7 @@ import { vi, describe, beforeEach, afterEach, it, expect } from "vitest";
  * @param {{ current: import("vitest").MockInstance | null }} execGitSpyRef reference to the execGit spy.
  * @returns {Promise<unknown>} resolved GitHelper instance.
  */
-async function createGitHelper (fsStatSyncMockRef, loggerMockRef, execGitSpyRef) {
+const createGitHelper = async (fsStatSyncMockRef, loggerMockRef, execGitSpyRef) => {
 	vi.resetModules();
 
 	fsStatSyncMockRef.current = vi.fn();

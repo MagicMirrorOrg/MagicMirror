@@ -16,7 +16,7 @@ describe("AnimateCSS integration Test", () => {
 	 * Get the compliments container element (waits until available).
 	 * @returns {Promise<void>}
 	 */
-	async function getComplimentsElement () {
+	const getComplimentsElement = async () => {
 		await helpers.getDocument();
 		page = helpers.getPage();
 		await expect(page.locator(".compliments")).toBeVisible();
@@ -28,7 +28,7 @@ describe("AnimateCSS integration Test", () => {
 	 * @param {{timeout?: number}} [options] Poll timeout in ms (default 6000)
 	 * @returns {Promise<void>}
 	 */
-	async function waitForAnimationClass (cls, { timeout = 6000 } = {}) {
+	const waitForAnimationClass = async (cls, { timeout = 6000 } = {}) => {
 		const locator = page.locator(`.compliments.animate__animated.${cls}`);
 		await locator.waitFor({ state: "attached", timeout });
 		// small stability wait
@@ -41,7 +41,7 @@ describe("AnimateCSS integration Test", () => {
 	 * @param {number} [ms] Observation period in ms (default 2000)
 	 * @returns {Promise<void>}
 	 */
-	async function assertNoAnimationWithin (ms = 2000) {
+	const assertNoAnimationWithin = async (ms = 2000) => {
 		const start = Date.now();
 		const locator = page.locator(".compliments.animate__animated");
 		while (Date.now() - start < ms) {
@@ -59,7 +59,7 @@ describe("AnimateCSS integration Test", () => {
 	 * @param {string} [animationOut] Expected animate-out name
 	 * @returns {Promise<void>} Throws on assertion failure
 	 */
-	async function runAnimationTest (animationIn, animationOut) {
+	const runAnimationTest = async (animationIn, animationOut) => {
 		await getComplimentsElement();
 		if (!animationIn && !animationOut) {
 			await assertNoAnimationWithin(2000);

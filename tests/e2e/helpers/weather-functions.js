@@ -9,7 +9,7 @@ const helpers = require("./global-setup");
  * @param {object} page - Playwright page
  * @param {string} mockDataFile - Filename of mock data
  */
-async function injectMockWeatherData (page, mockDataFile) {
+const injectMockWeatherData = async (page, mockDataFile) => {
 	const rawData = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../mocks", mockDataFile)).toString());
 
 	// Validate that the fixture has at least one expected weather data type

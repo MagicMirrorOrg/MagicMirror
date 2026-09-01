@@ -10,7 +10,7 @@ const moduleObjects = [];
  * Get environment variables from config.
  * @returns {object} Env vars with modulesDir and customCss paths from config.
  */
-function getEnvVarsFromConfig () {
+const getEnvVarsFromConfig = () => {
 	return {
 		modulesDir: globalThis.config.foreignModulesDir || "modules",
 		defaultModulesDir: globalThis.config.defaultModulesDir || "defaultmodules",
@@ -22,7 +22,7 @@ function getEnvVarsFromConfig () {
  * Retrieve object of env variables.
  * @returns {object} with key: values as assembled in js/server_functions.js
  */
-async function getEnvVars () {
+const getEnvVars = async () => {
 	// In test mode, skip server fetch and use config values directly
 	if (typeof process !== "undefined" && process.env && process.env.mmTestMode === "true") {
 		return getEnvVarsFromConfig();
@@ -42,7 +42,7 @@ async function getEnvVars () {
 /**
  * Loops through all modules and requests start for every module.
  */
-async function startModules () {
+const startModules = async () => {
 	const modulePromises = [];
 	for (const module of moduleObjects) {
 		try {
@@ -78,7 +78,7 @@ async function startModules () {
  * Retrieve list of all modules.
  * @returns {object[]} module data as configured in config
  */
-function getAllModules () {
+const getAllModules = () => {
 	const AllModules = globalThis.config.modules.filter((module) => (module.module !== undefined) && (MM.getAvailableModulePositions.indexOf(module.position) > -1 || typeof (module.position) === "undefined"));
 	return AllModules;
 }
@@ -87,7 +87,7 @@ function getAllModules () {
  * Generate array with module information including module paths.
  * @returns {object[]} Module information.
  */
-async function getModuleData () {
+const getModuleData = async () => {
 	const modules = getAllModules();
 	const moduleFiles = [];
 	const envVars = await getEnvVars();
@@ -141,13 +141,13 @@ async function getModuleData () {
  * @param {object} module Information about the module we want to load.
  * @returns {Promise<void>} resolved when module is loaded
  */
-async function loadModule (module) {
+const loadModule = async (module) => {
 	const url = module.path + module.file;
 
 	/**
 	 * @returns {Promise<void>}
 	 */
-	async function afterLoad () {
+	const afterLoad = async () => {
 		const moduleObject = Module.create(module.name);
 		if (moduleObject) {
 			await bootstrapModule(module, moduleObject);
@@ -168,7 +168,7 @@ async function loadModule (module) {
  * @param {object} module Information about the module we want to load.
  * @param {Module} mObj Modules instance.
  */
-async function bootstrapModule (module, mObj) {
+const bootstrapModule = async (module, mObj) => {
 	Log.info(`Bootstrapping module: ${module.name}`);
 	mObj.setData(module);
 
@@ -189,7 +189,7 @@ async function bootstrapModule (module, mObj) {
  * @param {string} fileName Path of the file we want to load.
  * @returns {Promise} resolved when the file is loaded
  */
-function loadFile (fileName) {
+const loadFile = (fileName) => {
 	const extension = fileName.slice((Math.max(0, fileName.lastIndexOf(".")) || Infinity) + 1);
 	let script, stylesheet;
 
@@ -252,7 +252,7 @@ function loadFile (fileName) {
 /**
  * Load all modules as defined in the config.
  */
-export async function loadModules () {
+export const loadModules = async () => {
 	const moduleData = await getModuleData();
 	const envVars = await getEnvVars();
 	const customCss = envVars.customCss;
@@ -278,7 +278,7 @@ export async function loadModules () {
  * @param {Module} module The module that calls the loadFile function.
  * @returns {Promise} resolved when the file is loaded
  */
-export function loadFileForModule (fileName, module) {
+export const loadFileForModule = (fileName, module) => {
 	if (loadedFiles.indexOf(fileName.toLowerCase()) !== -1) {
 		Log.log(`File already loaded: ${fileName}`);
 		return Promise.resolve();

@@ -12,7 +12,7 @@ const {
  * Create a fresh Translator state for each test.
  * @returns {Promise<object>} Shared Translator singleton with cleared state
  */
-async function getFreshTranslator () {
+const getFreshTranslator = async () => {
 	setupTranslationTestEnvironment(3001);
 	const { Translator } = await import(TRANSLATOR_MODULE_URL);
 	resetTranslatorState(Translator);

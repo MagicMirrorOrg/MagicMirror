@@ -6,7 +6,7 @@ import { ipAccessControl, socketIpAccessControl } from "../../../js/ip_access_co
  * Creates a minimal Express-like response mock used by the middleware tests.
  * @returns {{ status: ReturnType<typeof vi.fn>, send: ReturnType<typeof vi.fn> }} Mock response object.
  */
-function createResponseMock() {
+const createResponseMock = () => {
 	const res = {};
 	res.status = vi.fn().mockReturnValue(res);
 	res.send = vi.fn().mockReturnValue(res);

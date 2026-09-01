@@ -12,7 +12,7 @@ const startUp = new Date();
  * @param {Request} req - the request
  * @param {Response} res - the result
  */
-function getStartup (req, res) {
+const getStartup = (req, res) => {
 	res.send(startUp);
 }
 
@@ -26,7 +26,7 @@ function getStartup (req, res) {
  * @param {Set<string>} [allowedSecrets] - Secret names that may be restored.
  * @returns {string} The input with the allowed placeholders replaced.
  */
-function replaceSecretPlaceholder (input, allowedSecrets) {
+const replaceSecretPlaceholder = (input, allowedSecrets) => {
 	if (global.config.cors === "allowAll") {
 		if (input.includes("**SECRET_")) {
 			Log.error("Replacing secrets doesn't work with CORS `allowAll`, you need to set `cors` to `disabled` or `allowWhitelist` in `config.js`");
@@ -54,7 +54,7 @@ function replaceSecretPlaceholder (input, allowedSecrets) {
  * @param {Response} res - the result
  * @returns {Promise<void>} A promise that resolves when the response is sent
  */
-async function cors (req, res) {
+const cors = async (req, res) => {
 	if (global.config.cors === "disabled") {
 		Log.error("CORS is disabled, you need to enable it in `config.js` by setting `cors` to `allowAll` or `allowWhitelist`");
 		return res.status(403).json({ error: "CORS proxy is disabled" });
@@ -149,7 +149,7 @@ async function cors (req, res) {
  * @param {string} url - The url containing the headers and values to send.
  * @returns {object} An object specifying name and value of the headers.
  */
-function getHeadersToSend (url) {
+const getHeadersToSend = (url) => {
 	const headersToSend = { "User-Agent": getUserAgent() };
 	const headersToSendMatch = new RegExp("sendheaders=(.+?)(&|$)", "g").exec(url);
 	if (headersToSendMatch) {
@@ -170,7 +170,7 @@ function getHeadersToSend (url) {
  * @param {string} url - The url containing the expected headers from the response.
  * @returns {string[]} headers - The name of the expected headers.
  */
-function geExpectedReceivedHeaders (url) {
+const geExpectedReceivedHeaders = (url) => {
 	const expectedReceivedHeaders = ["Content-Type"];
 	const expectedReceivedHeadersMatch = new RegExp("expectedheaders=(.+?)(&|$)", "g").exec(url);
 	if (expectedReceivedHeadersMatch) {
@@ -187,7 +187,7 @@ function geExpectedReceivedHeaders (url) {
  * @param {Request} req - the request
  * @param {Response} res - the result
  */
-function getHtml (req, res) {
+const getHtml = (req, res) => {
 	let html = fs.readFileSync(path.resolve(`${global.root_path}/index.html`), { encoding: "utf8" });
 	html = html.replace("#VERSION#", global.version);
 	html = html.replace("#TESTMODE#", global.mmTestMode);
@@ -200,7 +200,7 @@ function getHtml (req, res) {
  * @param {Request} req - the request
  * @param {Response} res - the result
  */
-function getVersion (req, res) {
+const getVersion = (req, res) => {
 	res.send(global.version);
 }
 
@@ -208,7 +208,7 @@ function getVersion (req, res) {
  * Gets the preferred `User-Agent`
  * @returns {string} `User-Agent` to be used
  */
-function getUserAgent () {
+const getUserAgent = () => {
 	const defaultUserAgent = `Mozilla/5.0 (Node.js ${Number(process.version.match(/^v(\d+\.\d+)/)[1])}) MagicMirror/${global.version}`;
 
 	if (typeof global.config === "undefined") {
@@ -229,7 +229,7 @@ function getUserAgent () {
  * Gets environment variables needed in the browser.
  * @returns {object} environment variables key: values
  */
-function getEnvVarsAsObj () {
+const getEnvVarsAsObj = () => {
 	const obj = { modulesDir: `${global.config.foreignModulesDir}`, defaultModulesDir: `${global.config.defaultModulesDir}`, customCss: `${global.config.customCss}` };
 	if (process.env.MM_MODULES_DIR) {
 		obj.modulesDir = process.env.MM_MODULES_DIR.replace(`${global.root_path}/`, "");
@@ -246,7 +246,7 @@ function getEnvVarsAsObj () {
  * @param {Request} req - the request
  * @param {Response} res - the result
  */
-function getEnvVars (req, res) {
+const getEnvVars = (req, res) => {
 	const obj = getEnvVarsAsObj();
 	res.send(obj);
 }
@@ -257,7 +257,7 @@ function getEnvVars (req, res) {
  * @param {object} [config] the configuration to read the port from (defaults to global.config)
  * @returns {number} the port the server should listen on
  */
-function getServerPort (config = global.config) {
+const getServerPort = (config = global.config) => {
 	return Number(process.env.MM_PORT || config?.port || 8080);
 }
 
@@ -265,7 +265,7 @@ function getServerPort (config = global.config) {
  * Get the config file path from environment or default location
  * @returns {string} The absolute config file path
  */
-function getConfigFilePath () {
+const getConfigFilePath = () => {
 	// Ensure root_path is set (for standalone contexts like watcher)
 	if (!global.root_path) {
 		global.root_path = path.resolve(`${__dirname}/../`);

@@ -13,7 +13,7 @@ const WEATHER_API_URL = "https://api.weatherapi.com/v1/forecast.json*";
  * Builds a stable WeatherAPI mock payload for current, daily, and hourly parsing tests.
  * @returns {object} WeatherAPI forecast response fixture.
  */
-function buildWeatherApiResponse () {
+const buildWeatherApiResponse = () => {
 	return {
 		location: {
 			name: "Toronto",

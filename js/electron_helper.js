@@ -5,7 +5,7 @@ const Log = require("./logger");
  * @param {object} commandLine Electron commandLine API
  * @param {Array<string|object>} [electronSwitches] User-configured switches
  */
-function applyElectronSwitches (commandLine, electronSwitches) {
+const applyElectronSwitches = (commandLine, electronSwitches) => {
 	if (electronSwitches === undefined) return;
 	if (!Array.isArray(electronSwitches)) {
 		Log.error(`electronSwitches must be an array of strings or objects, got: ${JSON.stringify(electronSwitches)}`);

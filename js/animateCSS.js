@@ -128,7 +128,7 @@ const AnimateCSSOut = [
  * @param {string} [animation] animation name.
  * @param {number} [animationTime] animation duration.
  */
-function addAnimateCSS (element, animation, animationTime) {
+const addAnimateCSS = (element, animation, animationTime) => {
 	const animationName = `animate__${animation}`;
 	const node = document.getElementById(element);
 	if (!node) {
@@ -145,7 +145,7 @@ function addAnimateCSS (element, animation, animationTime) {
  * @param {string} [element] div element to animate.
  * @param {string} [animation] animation name.
  */
-function removeAnimateCSS (element, animation) {
+const removeAnimateCSS = (element, animation) => {
 	const animationName = `animate__${animation}`;
 	const node = document.getElementById(element);
 	if (!node) {

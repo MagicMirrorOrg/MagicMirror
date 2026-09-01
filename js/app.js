@@ -68,7 +68,7 @@ function App () {
 	 * Loads a specific module.
 	 * @param {string} module The name of the module (including subpath).
 	 */
-	function loadModule (module) {
+	const loadModule = (module) => {
 		const elements = module.split("/");
 		const moduleName = elements[elements.length - 1];
 		let moduleFolder = path.resolve(`${global.root_path}/${env.modulesDir}`, module);
@@ -137,7 +137,7 @@ function App () {
 	 * @param {Module[]} modules All modules to be loaded
 	 * @returns {Promise} A promise that is resolved when all modules been loaded
 	 */
-	async function loadModules (modules) {
+	const loadModules = async (modules) => {
 		Log.log("Loading module helpers ...");
 
 		for (const module of modules) {
@@ -154,7 +154,7 @@ function App () {
 	 * @returns {number} A positive number if a is larger than b, a negative
 	 * number if a is smaller and 0 if they are the same
 	 */
-	function cmpVersions (a, b) {
+	const cmpVersions = (a, b) => {
 		let i, diff;
 		const regExStrip0 = /(\.0+)+$/;
 		const segmentsA = a.replace(regExStrip0, "").split(".");
