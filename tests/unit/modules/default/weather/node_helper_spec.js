@@ -5,7 +5,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
  * Creates a fresh weather node helper instance with isolated mocks.
  * @returns {Promise<object>} The mocked weather node helper.
  */
-async function loadWeatherNodeHelper () {
+const loadWeatherNodeHelper = async () => {
 	vi.resetModules();
 
 	const loggerMock = {
@@ -42,7 +42,7 @@ async function loadWeatherNodeHelper () {
 	helper.sendSocketNotification = vi.fn();
 
 	return helper;
-}
+};
 
 afterEach(() => {
 	vi.resetAllMocks();

@@ -1,5 +1,62 @@
 // Logger for MagicMirror² — works both in Node.js (CommonJS) and the browser (global).
-(function () {
+(() => {
+
+	/**
+	 * Creates the logger object. Logging is disabled when running in test mode
+	 * (Node.js) or inside jsdom (browser).
+	 * @returns {object} The logger object with log level methods.
+	 */
+	const makeLogger = () => {
+		const enableLog = typeof module !== "undefined"
+			? process.env.mmTestMode !== "true"
+			: typeof window === "object" && window.name !== "jsdom";
+
+		let logLevel;
+
+		if (enableLog) {
+			logLevel = {
+				debug: console.debug.bind(console),
+				log: console.log.bind(console),
+				info: console.info.bind(console),
+				warn: console.warn.bind(console),
+				error: console.error.bind(console),
+				group: console.group.bind(console),
+				groupCollapsed: console.groupCollapsed.bind(console),
+				groupEnd: console.groupEnd.bind(console),
+				time: console.time.bind(console),
+				timeEnd: console.timeEnd.bind(console),
+				timeStamp: console.timeStamp.bind(console)
+			};
+
+			// Only these methods are affected by setLogLevel.
+			// Utility methods (group, time, etc.) are always active.
+			logLevel.setLogLevel = (newLevel) => {
+				for (const key of ["debug", "log", "info", "warn", "error"]) {
+					const disabled = newLevel && !newLevel.includes(key.toUpperCase());
+					logLevel[key] = disabled ? () => {} : console[key].bind(console);
+				}
+			};
+		} else {
+			logLevel = {
+				debug () {},
+				log () {},
+				info () {},
+				warn () {},
+				error () {},
+				group () {},
+				groupCollapsed () {},
+				groupEnd () {},
+				time () {},
+				timeEnd () {},
+				timeStamp () {}
+			};
+
+			logLevel.setLogLevel = () => {};
+		}
+
+		return logLevel;
+	};
+
 	if (typeof module !== "undefined") {
 		if (process.env.mmTestMode !== "true") {
 			const { styleText } = require("node:util");
@@ -55,60 +112,4 @@
 		// Browser globals
 		window.Log = makeLogger();
 	}
-
-	/**
-	 * Creates the logger object. Logging is disabled when running in test mode
-	 * (Node.js) or inside jsdom (browser).
-	 * @returns {object} The logger object with log level methods.
-	 */
-	function makeLogger () {
-		const enableLog = typeof module !== "undefined"
-			? process.env.mmTestMode !== "true"
-			: typeof window === "object" && window.name !== "jsdom";
-
-		let logLevel;
-
-		if (enableLog) {
-			logLevel = {
-				debug: console.debug.bind(console),
-				log: console.log.bind(console),
-				info: console.info.bind(console),
-				warn: console.warn.bind(console),
-				error: console.error.bind(console),
-				group: console.group.bind(console),
-				groupCollapsed: console.groupCollapsed.bind(console),
-				groupEnd: console.groupEnd.bind(console),
-				time: console.time.bind(console),
-				timeEnd: console.timeEnd.bind(console),
-				timeStamp: console.timeStamp.bind(console)
-			};
-
-			// Only these methods are affected by setLogLevel.
-			// Utility methods (group, time, etc.) are always active.
-			logLevel.setLogLevel = function (newLevel) {
-				for (const key of ["debug", "log", "info", "warn", "error"]) {
-					const disabled = newLevel && !newLevel.includes(key.toUpperCase());
-					logLevel[key] = disabled ? function () {} : console[key].bind(console);
-				}
-			};
-		} else {
-			logLevel = {
-				debug () {},
-				log () {},
-				info () {},
-				warn () {},
-				error () {},
-				group () {},
-				groupCollapsed () {},
-				groupEnd () {},
-				time () {},
-				timeEnd () {},
-				timeStamp () {}
-			};
-
-			logLevel.setLogLevel = function () {};
-		}
-
-		return logLevel;
-	}
-}());
+})();

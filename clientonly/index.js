@@ -12,17 +12,17 @@ const https = require("node:https");
  * @param {string} defaultValue value if no key is given at the command line
  * @returns {string} the value of the parameter
  */
-function getCommandLineParameter (key, defaultValue = undefined) {
+const getCommandLineParameter = (key, defaultValue = undefined) => {
 	const index = process.argv.indexOf(`--${key}`);
 	const value = index > -1 ? process.argv[index + 1] : undefined;
 	return value !== undefined ? String(value) : defaultValue;
-}
+};
 
 /**
  * Helper function to get server address/hostname from either the commandline or env
  * @returns {object} config object containing address, port, and tls properties
  */
-function getServerParameters () {
+const getServerParameters = () => {
 	const config = {};
 
 	// Prefer command line arguments over environment variables
@@ -34,14 +34,14 @@ function getServerParameters () {
 	config.tls = process.argv.includes("--use-tls");
 
 	return config;
-}
+};
 
 /**
  * Gets the config from the specified server url
  * @param {string} url location where the server is running.
  * @returns {Promise} the config
  */
-function getServerConfig (url) {
+const getServerConfig = (url) => {
 	// Return new pending promise
 	return new Promise((resolve, reject) => {
 		// Select http or https module, depending on requested url
@@ -67,21 +67,21 @@ function getServerConfig (url) {
 			reject(new Error(`Unable to read config from server (${url}) (${error.message})`));
 		});
 	});
-}
+};
 
 /**
  * Print a message to the console in case of errors
  * @param {string} message error message to print
  * @param {number} code error code for the exit call
  */
-function fail (message, code = 1) {
+const fail = (message, code = 1) => {
 	if (message !== undefined && typeof message === "string") {
 		console.error(message);
 	} else {
 		console.error("Usage: 'node clientonly --address 192.168.1.10 --port 8080 [--use-tls]'");
 	}
 	process.exit(code);
-}
+};
 
 /**
  * Starts the client by connecting to the server and launching the Electron application
@@ -89,7 +89,7 @@ function fail (message, code = 1) {
  * @param {string} prefix http or https prefix
  * @async
  */
-async function startClient (config, prefix) {
+const startClient = async (config, prefix) => {
 	try {
 		const serverUrl = `${prefix}${config.address}:${config.port}/config/`;
 		console.log(`Client: Connecting to server at ${serverUrl}`);
@@ -143,7 +143,7 @@ async function startClient (config, prefix) {
 	} catch (reason) {
 		fail(`Unable to connect to server: (${reason})`);
 	}
-}
+};
 
 // Main execution
 const config = getServerParameters();

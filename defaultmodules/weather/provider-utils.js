@@ -9,7 +9,7 @@ const SunCalc = require("suncalc");
  * @param {string} weatherType - OpenWeatherMap icon code (e.g., "01d", "02n")
  * @returns {string|null} Internal weather type
  */
-function convertWeatherType (weatherType) {
+const convertWeatherType = (weatherType) => {
 	const weatherTypes = {
 		"01d": "day-sunny",
 		"02d": "day-cloudy",
@@ -32,7 +32,7 @@ function convertWeatherType (weatherType) {
 	};
 
 	return weatherTypes.hasOwnProperty(weatherType) ? weatherTypes[weatherType] : null;
-}
+};
 
 /**
  * Apply timezone offset to a date
@@ -40,10 +40,10 @@ function convertWeatherType (weatherType) {
  * @param {number} offsetMinutes - Timezone offset in minutes
  * @returns {Date} Date with applied offset
  */
-function applyTimezoneOffset (date, offsetMinutes) {
+const applyTimezoneOffset = (date, offsetMinutes) => {
 	const utcTime = date.getTime() + (date.getTimezoneOffset() * 60000);
 	return new Date(utcTime + (offsetMinutes * 60000));
-}
+};
 
 /**
  * Limit decimal places for coordinates (truncate, not round)
@@ -51,7 +51,7 @@ function applyTimezoneOffset (date, offsetMinutes) {
  * @param {number} decimals - Maximum number of decimal places
  * @returns {number} Value with limited decimal places
  */
-function limitDecimals (value, decimals) {
+const limitDecimals = (value, decimals) => {
 	const str = value.toString();
 	if (str.includes(".")) {
 		const parts = str.split(".");
@@ -60,7 +60,7 @@ function limitDecimals (value, decimals) {
 		}
 	}
 	return value;
-}
+};
 
 /**
  * Get sunrise and sunset times for a given date and location
@@ -69,13 +69,13 @@ function limitDecimals (value, decimals) {
  * @param {number} lon - Longitude
  * @returns {object} Object with sunrise and sunset Date objects
  */
-function getSunTimes (date, lat, lon) {
+const getSunTimes = (date, lat, lon) => {
 	const sunTimes = SunCalc.getTimes(date, lat, lon);
 	return {
 		sunrise: sunTimes.sunrise,
 		sunset: sunTimes.sunset
 	};
-}
+};
 
 /**
  * Check if a given time is during daylight hours
@@ -84,52 +84,52 @@ function getSunTimes (date, lat, lon) {
  * @param {Date} sunset - Sunset time
  * @returns {boolean} True if during daylight hours
  */
-function isDayTime (date, sunrise, sunset) {
+const isDayTime = (date, sunrise, sunset) => {
 	if (!sunrise || !sunset) {
 		return true; // Default to day if times unavailable
 	}
 	return date >= sunrise && date < sunset;
-}
+};
 
 /**
  * Format timezone offset as string (e.g., "+01:00", "-05:30")
  * @param {number} offsetMinutes - Timezone offset in minutes (use -new Date().getTimezoneOffset() for local)
  * @returns {string} Formatted offset string
  */
-function formatTimezoneOffset (offsetMinutes) {
+const formatTimezoneOffset = (offsetMinutes) => {
 	const hours = Math.floor(Math.abs(offsetMinutes) / 60);
 	const minutes = Math.abs(offsetMinutes) % 60;
 	const sign = offsetMinutes >= 0 ? "+" : "-";
 	return `${sign}${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
-}
+};
 
 /**
  * Get date string in YYYY-MM-DD format (local time)
  * @param {Date} date - The date to format
  * @returns {string} Date string in YYYY-MM-DD format
  */
-function getDateString (date) {
+const getDateString = (date) => {
 	const year = date.getFullYear();
 	const month = String(date.getMonth() + 1).padStart(2, "0");
 	const day = String(date.getDate()).padStart(2, "0");
 	return `${year}-${month}-${day}`;
-}
+};
 
 /**
  * Convert wind speed from km/h to m/s
  * @param {number} kmh - Wind speed in km/h
  * @returns {number} Wind speed in m/s
  */
-function convertKmhToMs (kmh) {
+const convertKmhToMs = (kmh) => {
 	return kmh / 3.6;
-}
+};
 
 /**
  * Convert cardinal wind direction string to degrees
  * @param {string} direction - Cardinal direction (e.g., "N", "NNE", "SW")
  * @returns {number|null} Direction in degrees (0-360) or null if unknown
  */
-function cardinalToDegrees (direction) {
+const cardinalToDegrees = (direction) => {
 	const directions = {
 		N: 0,
 		NNE: 22.5,
@@ -149,7 +149,7 @@ function cardinalToDegrees (direction) {
 		NNW: 337.5
 	};
 	return directions[direction] ?? null;
-}
+};
 
 /**
  * Validate and limit coordinate precision
@@ -157,7 +157,7 @@ function cardinalToDegrees (direction) {
  * @param {number} maxDecimals - Maximum decimal places to preserve
  * @throws {Error} If coordinates are missing or invalid
  */
-function validateCoordinates (config, maxDecimals = 4) {
+const validateCoordinates = (config, maxDecimals = 4) => {
 	if (config.lat == null || config.lon == null
 	  || !Number.isFinite(config.lat) || !Number.isFinite(config.lon)) {
 		throw new Error("Latitude and longitude are required");
@@ -165,7 +165,7 @@ function validateCoordinates (config, maxDecimals = 4) {
 
 	config.lat = limitDecimals(config.lat, maxDecimals);
 	config.lon = limitDecimals(config.lon, maxDecimals);
-}
+};
 
 module.exports = {
 	convertWeatherType,

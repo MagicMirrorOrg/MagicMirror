@@ -8,7 +8,7 @@ const helpers = require("./global-setup");
  * This bypasses the weather provider and tests only client-side rendering
  * @param {string} mockDataFile - Filename of mock data in tests/mocks
  */
-async function injectMockWeatherData (mockDataFile) {
+const injectMockWeatherData = async (mockDataFile) => {
 	const rawData = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../mocks", mockDataFile)).toString());
 
 	const timezoneOffset = rawData.timezone_offset ? rawData.timezone_offset / 60 : 0;
@@ -70,7 +70,7 @@ async function injectMockWeatherData (mockDataFile) {
 			});
 		}
 	}, { type, data });
-}
+};
 
 exports.getText = async (element, result) => {
 	const elem = await helpers.getElement(element);

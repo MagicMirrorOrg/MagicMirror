@@ -10,7 +10,7 @@ const TRANSLATOR_MODULE_URL = pathToFileURL(path.join(__dirname, "..", "..", "js
  * when additional translation stores are introduced.
  * @param {object} Translator The shared Translator module instance.
  */
-function resetTranslatorState (Translator) {
+const resetTranslatorState = (Translator) => {
 	for (const [key, value] of Object.entries(Translator)) {
 		if (typeof value === "function") {
 			continue;
@@ -20,21 +20,21 @@ function resetTranslatorState (Translator) {
 			Translator[key] = {};
 		}
 	}
-}
+};
 
 /**
  * Set up DOM globals used by translation tests.
  * @param {number} [port] Base URI port used to resolve relative translation paths.
  * @returns {void}
  */
-function setupTranslationTestEnvironment (port = 3000) {
+const setupTranslationTestEnvironment = (port = 3000) => {
 	const dom = new JSDOM("", { url: `http://localhost:${port}` });
 
 	global.document = dom.window.document;
 	if (!global.Log) {
 		global.Log = { log: vi.fn(), error: vi.fn() };
 	}
-}
+};
 
 module.exports = {
 	setupTranslationTestEnvironment,

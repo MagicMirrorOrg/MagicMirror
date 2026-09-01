@@ -193,7 +193,7 @@ describe("Newsfeed module > Notifications", () => {
 		const info = await page.evaluate(() => new Promise((resolve, reject) => {
 			const timer = setTimeout(() => reject(new Error("ARTICLE_INFO_RESPONSE timeout")), 3000);
 			const origSend = MM.sendNotification.bind(MM);
-			MM.sendNotification = function (n, p, s) {
+			MM.sendNotification = (n, p, s) => {
 				if (n === "ARTICLE_INFO_RESPONSE") {
 					clearTimeout(timer);
 					MM.sendNotification = origSend;

@@ -368,13 +368,13 @@ export class Module {
 	 * @param {object} [options] Optional settings for the hide method.
 	 */
 	hide (speed, callback, options = {}) {
-		let usedCallback = callback || function () {};
+		let usedCallback = callback || (() => {});
 		let usedOptions = options;
 
 		if (typeof callback === "object") {
 			Log.error("Parameter mismatch in module.hide: callback is not an optional parameter!");
 			usedOptions = callback;
-			usedCallback = function () {};
+			usedCallback = () => {};
 		}
 
 		MM.hideModule(
@@ -395,13 +395,13 @@ export class Module {
 	 * @param {object} [options] Optional settings for the show method.
 	 */
 	show (speed, callback, options) {
-		let usedCallback = callback || function () {};
+		let usedCallback = callback || (() => {});
 		let usedOptions = options;
 
 		if (typeof callback === "object") {
 			Log.error("Parameter mismatch in module.show: callback is not an optional parameter!");
 			usedOptions = callback;
-			usedCallback = function () {};
+			usedCallback = () => {};
 		}
 
 		MM.showModule(
@@ -428,7 +428,7 @@ globalThis.Module = Module;
  * @param {...object} sources Objects whose properties are merged into target.
  * @returns {object} The merged target object.
  */
-function configMerge (target, ...sources) {
+const configMerge = (target, ...sources) => {
 	const isPlainObject = (value) => value?.constructor === Object;
 
 	for (const source of sources) {
@@ -444,7 +444,7 @@ function configMerge (target, ...sources) {
 	}
 
 	return target;
-}
+};
 
 Module.definitions = {};
 
@@ -495,7 +495,7 @@ Module.register = function (name, moduleDefinition) {
  * @returns {number} A positive number if a is larger than b, a negative
  * number if a is smaller and 0 if they are the same
  */
-export function cmpVersions (a, b) {
+export const cmpVersions = (a, b) => {
 	const regExStrip0 = /(\.0+)+$/;
 	const segmentsA = a.replace(regExStrip0, "").split(".");
 	const segmentsB = b.replace(regExStrip0, "").split(".");
@@ -508,14 +508,14 @@ export function cmpVersions (a, b) {
 		}
 	}
 	return segmentsA.length - segmentsB.length;
-}
+};
 
 /**
  * Define the clone method for later use. Helper Method.
  * @param {object} obj Object to be cloned
  * @returns {object} the cloned object
  */
-export function cloneObject (obj) {
+export const cloneObject = (obj) => {
 	if (obj === null || typeof obj !== "object") {
 		return obj;
 	}
@@ -548,4 +548,4 @@ export function cloneObject (obj) {
 	}
 
 	return temp;
-}
+};

@@ -10,19 +10,19 @@ const moduleObjects = [];
  * Get environment variables from config.
  * @returns {object} Env vars with modulesDir and customCss paths from config.
  */
-function getEnvVarsFromConfig () {
+const getEnvVarsFromConfig = () => {
 	return {
 		modulesDir: globalThis.config.foreignModulesDir || "modules",
 		defaultModulesDir: globalThis.config.defaultModulesDir || "defaultmodules",
 		customCss: globalThis.config.customCss || "config/custom.css"
 	};
-}
+};
 
 /**
  * Retrieve object of env variables.
  * @returns {object} with key: values as assembled in js/server_functions.js
  */
-async function getEnvVars () {
+const getEnvVars = async () => {
 	// In test mode, skip server fetch and use config values directly
 	if (typeof process !== "undefined" && process.env && process.env.mmTestMode === "true") {
 		return getEnvVarsFromConfig();
@@ -37,12 +37,12 @@ async function getEnvVars () {
 		Log.error("Unable to retrieve env configuration", error);
 		return getEnvVarsFromConfig();
 	}
-}
+};
 
 /**
  * Loops through all modules and requests start for every module.
  */
-async function startModules () {
+const startModules = async () => {
 	const modulePromises = [];
 	for (const module of moduleObjects) {
 		try {
@@ -72,22 +72,22 @@ async function startModules () {
 			thisModule.hide();
 		}
 	}
-}
+};
 
 /**
  * Retrieve list of all modules.
  * @returns {object[]} module data as configured in config
  */
-function getAllModules () {
+const getAllModules = () => {
 	const AllModules = globalThis.config.modules.filter((module) => (module.module !== undefined) && (MM.getAvailableModulePositions.indexOf(module.position) > -1 || typeof (module.position) === "undefined"));
 	return AllModules;
-}
+};
 
 /**
  * Generate array with module information including module paths.
  * @returns {object[]} Module information.
  */
-async function getModuleData () {
+const getModuleData = async () => {
 	const modules = getAllModules();
 	const moduleFiles = [];
 	const envVars = await getEnvVars();
@@ -134,25 +134,25 @@ async function getModuleData () {
 	});
 
 	return moduleFiles;
-}
+};
 
 /**
  * Load modules via ajax request and create module objects.
  * @param {object} module Information about the module we want to load.
  * @returns {Promise<void>} resolved when module is loaded
  */
-async function loadModule (module) {
+const loadModule = async (module) => {
 	const url = module.path + module.file;
 
 	/**
 	 * @returns {Promise<void>}
 	 */
-	async function afterLoad () {
+	const afterLoad = async () => {
 		const moduleObject = Module.create(module.name);
 		if (moduleObject) {
 			await bootstrapModule(module, moduleObject);
 		}
-	}
+	};
 
 	if (loadedModuleFiles.indexOf(url) !== -1) {
 		await afterLoad();
@@ -161,14 +161,14 @@ async function loadModule (module) {
 		loadedModuleFiles.push(url);
 		await afterLoad();
 	}
-}
+};
 
 /**
  * Bootstrap modules by setting the module data and loading the scripts & styles.
  * @param {object} module Information about the module we want to load.
  * @param {Module} mObj Modules instance.
  */
-async function bootstrapModule (module, mObj) {
+const bootstrapModule = async (module, mObj) => {
 	Log.info(`Bootstrapping module: ${module.name}`);
 	mObj.setData(module);
 
@@ -182,14 +182,14 @@ async function bootstrapModule (module, mObj) {
 	Log.log(`Translations loaded for: ${module.name}`);
 
 	moduleObjects.push(mObj);
-}
+};
 
 /**
  * Load a script or stylesheet by adding it to the dom.
  * @param {string} fileName Path of the file we want to load.
  * @returns {Promise} resolved when the file is loaded
  */
-function loadFile (fileName) {
+const loadFile = (fileName) => {
 	const extension = fileName.slice((Math.max(0, fileName.lastIndexOf(".")) || Infinity) + 1);
 	let script, stylesheet;
 
@@ -200,10 +200,10 @@ function loadFile (fileName) {
 				script = document.createElement("script");
 				script.type = "text/javascript";
 				script.src = fileName;
-				script.onload = function () {
+				script.onload = () => {
 					resolve();
 				};
-				script.onerror = function () {
+				script.onerror = () => {
 					Log.error("Error on loading script:", fileName);
 					script.remove();
 					resolve();
@@ -216,10 +216,10 @@ function loadFile (fileName) {
 				script = document.createElement("script");
 				script.type = "module";
 				script.src = fileName;
-				script.onload = function () {
+				script.onload = () => {
 					resolve();
 				};
-				script.onerror = function () {
+				script.onerror = () => {
 					Log.error("Error on loading module script:", fileName);
 					script.remove();
 					resolve();
@@ -234,10 +234,10 @@ function loadFile (fileName) {
 				stylesheet.rel = "stylesheet";
 				stylesheet.type = "text/css";
 				stylesheet.href = fileName;
-				stylesheet.onload = function () {
+				stylesheet.onload = () => {
 					resolve();
 				};
-				stylesheet.onerror = function () {
+				stylesheet.onerror = () => {
 					Log.error("Error on loading stylesheet:", fileName);
 					stylesheet.remove();
 					resolve();
@@ -245,14 +245,14 @@ function loadFile (fileName) {
 				document.getElementsByTagName("head")[0].appendChild(stylesheet);
 			});
 	}
-}
+};
 
 /* Public Methods */
 
 /**
  * Load all modules as defined in the config.
  */
-export async function loadModules () {
+export const loadModules = async () => {
 	const moduleData = await getModuleData();
 	const envVars = await getEnvVars();
 	const customCss = envVars.customCss;
@@ -269,7 +269,7 @@ export async function loadModules () {
 
 	// Start all modules.
 	await startModules();
-}
+};
 
 /**
  * Load a file (script or stylesheet).
@@ -278,7 +278,7 @@ export async function loadModules () {
  * @param {Module} module The module that calls the loadFile function.
  * @returns {Promise} resolved when the file is loaded
  */
-export function loadFileForModule (fileName, module) {
+export const loadFileForModule = (fileName, module) => {
 	if (loadedFiles.indexOf(fileName.toLowerCase()) !== -1) {
 		Log.log(`File already loaded: ${fileName}`);
 		return Promise.resolve();
@@ -302,4 +302,4 @@ export function loadFileForModule (fileName, module) {
 	// Load it based on the module path.
 	loadedFiles.push(fileName.toLowerCase());
 	return loadFile(module.file(fileName));
-}
+};

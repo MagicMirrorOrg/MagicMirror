@@ -19,7 +19,7 @@ const UKMETOFFICE_DAILY_URL = "https://data.hub.api.metoffice.gov.uk/sitespecifi
  * @param {object} source Source UK Met Office daily mock payload.
  * @returns {object} Cloned payload with deterministic future dates in `timeSeries`.
  */
-function withFutureDailyTimes (source) {
+const withFutureDailyTimes = (source) => {
 	const clone = JSON.parse(JSON.stringify(source));
 	const today = new Date();
 	today.setUTCHours(0, 0, 0, 0);
@@ -35,7 +35,7 @@ function withFutureDailyTimes (source) {
 	});
 
 	return clone;
-}
+};
 
 let server;
 

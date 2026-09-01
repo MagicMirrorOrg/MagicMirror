@@ -32,7 +32,7 @@ let mainWindow;
 /**
  * Create and show the main browser window.
  */
-function createWindow () {
+const createWindow = () => {
 
 	/*
 	 * see https://www.electronjs.org/docs/latest/api/screen
@@ -143,7 +143,7 @@ function createWindow () {
 	mainWindow.once("ready-to-show", () => {
 		mainWindow.show();
 	});
-}
+};
 
 // Quit when all windows are closed.
 app.on("window-all-closed", () => {
@@ -196,7 +196,7 @@ app.on("certificate-error", (event, webContents, url, error, certificate, callba
 /**
  * Bootstrap Electron: launch the client-only viewer and/or the full core application.
  */
-async function bootstrapElectron () {
+const bootstrapElectron = async () => {
 	if (process.env.clientonly) {
 		await app.whenReady();
 		Log.log("Launching client viewer application.");
@@ -213,6 +213,6 @@ async function bootstrapElectron () {
 		Log.log("Launching application.");
 		createWindow();
 	}
-}
+};
 
 bootstrapElectron();

@@ -24,7 +24,7 @@ const rootDir = path.join(__dirname, "..");
  * Get the server configuration (port and address)
  * @returns {{port: number, address: string}} The server config
  */
-function getServerConfig () {
+const getServerConfig = () => {
 	if (serverConfig) return serverConfig;
 
 	try {
@@ -40,14 +40,14 @@ function getServerConfig () {
 	}
 
 	return serverConfig;
-}
+};
 
 /**
  * Check if a port is available on the configured address
  * @param {number} port The port to check
  * @returns {Promise<boolean>} True if port is available
  */
-function isPortAvailable (port) {
+const isPortAvailable = (port) => {
 	return new Promise((resolve) => {
 		const server = net.createServer();
 
@@ -64,7 +64,7 @@ function isPortAvailable (port) {
 		const { address } = getServerConfig();
 		server.listen(port, address);
 	});
-}
+};
 
 /**
  * Wait until port is available
@@ -72,7 +72,7 @@ function isPortAvailable (port) {
  * @param {number} maxAttempts Maximum number of attempts
  * @returns {Promise<void>}
  */
-async function waitForPort (port, maxAttempts = PORT_CHECK_MAX_ATTEMPTS) {
+const waitForPort = async (port, maxAttempts = PORT_CHECK_MAX_ATTEMPTS) => {
 	for (let i = 0; i < maxAttempts; i++) {
 		if (await isPortAvailable(port)) {
 			Log.info(`Port ${port} is now available`);
@@ -81,12 +81,12 @@ async function waitForPort (port, maxAttempts = PORT_CHECK_MAX_ATTEMPTS) {
 		await new Promise((resolve) => setTimeout(resolve, PORT_CHECK_INTERVAL_MS));
 	}
 	Log.warn(`Port ${port} still not available after ${maxAttempts} attempts`);
-}
+};
 
 /**
  * Start the server process
  */
-function startServer () {
+const startServer = () => {
 	// Start node directly instead of via npm to avoid process tree issues
 	child = spawn("node", ["./serveronly"], {
 		stdio: "inherit",
@@ -113,12 +113,12 @@ function startServer () {
 			Log.error(`Server exited unexpectedly with code ${code} and signal ${signal}`);
 		}
 	});
-}
+};
 
 /**
  * Send reload notification to all connected clients
  */
-function notifyClientsToReload () {
+const notifyClientsToReload = () => {
 	const { port, address } = getServerConfig();
 	const options = {
 		hostname: address,
@@ -139,13 +139,13 @@ function notifyClientsToReload () {
 	});
 
 	req.end();
-}
+};
 
 /**
  * Restart the server process
  * @param {string} reason The reason for the restart
  */
-function restartServer (reason) {
+const restartServer = (reason) => {
 	if (restartTimer) clearTimeout(restartTimer);
 
 	restartTimer = setTimeout(() => {
@@ -174,14 +174,14 @@ function restartServer (reason) {
 			startServer();
 		}
 	}, RESTART_DELAY_MS);
-}
+};
 
 /**
  * Watch a specific file for changes and restart the server on change
  * Watches the parent directory to handle editors that use atomic writes
  * @param {string} file The file path to watch
  */
-function watchFile (file) {
+const watchFile = (file) => {
 	try {
 		const fileName = path.basename(file);
 		const dirName = path.dirname(file);
@@ -207,7 +207,7 @@ function watchFile (file) {
 	} catch (error) {
 		Log.error(`Failed to watch file ${file}:`, error.message);
 	}
-}
+};
 
 startServer();
 

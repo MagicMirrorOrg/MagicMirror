@@ -112,7 +112,7 @@ Module.register("compliments", {
 			return 0;
 		}
 
-		const generate = function () {
+		const generate = () => {
 			return Math.floor(Math.random() * compliments.length);
 		};
 

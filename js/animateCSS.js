@@ -128,7 +128,7 @@ const AnimateCSSOut = [
  * @param {string} [animation] animation name.
  * @param {number} [animationTime] animation duration.
  */
-function addAnimateCSS (element, animation, animationTime) {
+const addAnimateCSS = (element, animation, animationTime) => {
 	const animationName = `animate__${animation}`;
 	const node = document.getElementById(element);
 	if (!node) {
@@ -138,14 +138,14 @@ function addAnimateCSS (element, animation, animationTime) {
 	}
 	node.style.setProperty("--animate-duration", `${animationTime}s`);
 	node.classList.add("animate__animated", animationName);
-}
+};
 
 /**
  * Remove an animation with Animate CSS
  * @param {string} [element] div element to animate.
  * @param {string} [animation] animation name.
  */
-function removeAnimateCSS (element, animation) {
+const removeAnimateCSS = (element, animation) => {
 	const animationName = `animate__${animation}`;
 	const node = document.getElementById(element);
 	if (!node) {
@@ -155,5 +155,5 @@ function removeAnimateCSS (element, animation) {
 	}
 	node.classList.remove("animate__animated", animationName);
 	node.style.removeProperty("--animate-duration");
-}
+};
 if (typeof window === "undefined") module.exports = { AnimateCSSIn, AnimateCSSOut, addAnimateCSS, removeAnimateCSS };

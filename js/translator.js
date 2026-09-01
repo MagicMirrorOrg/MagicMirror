@@ -1,13 +1,13 @@
 /* global translations */
 
-export const Translator = (function () {
+export const Translator = (() => {
 
 	/**
 	 * Load a JSON file via fetch.
 	 * @param {string} file Path of the file we want to load.
 	 * @returns {Promise<object>} the translations in the specified file
 	 */
-	async function loadJSON (file) {
+	const loadJSON = async (file) => {
 		const baseHref = document.baseURI;
 		const url = new URL(file, baseHref);
 
@@ -21,7 +21,7 @@ export const Translator = (function () {
 			Log.error(`Loading json file =${file} failed`);
 			return null;
 		}
-	}
+	};
 
 	return {
 		coreTranslations: {},
@@ -47,7 +47,7 @@ export const Translator = (function () {
 			 * @param {object} variables Variables for the placeholder
 			 * @returns {string} the template filled with the variables
 			 */
-			function createStringFromTemplate (template, variables) {
+			const createStringFromTemplate = (template, variables) => {
 				if (Object.prototype.toString.call(template) !== "[object String]") {
 					return template;
 				}
@@ -58,7 +58,7 @@ export const Translator = (function () {
 				return templateToUse.replace(new RegExp("{([^}]+)}", "g"), (_unused, varName) => {
 					return varName in variables ? variables[varName] : `{${varName}}`;
 				});
-			}
+			};
 
 			if (this.translations[module.name] && key in this.translations[module.name]) {
 				return createStringFromTemplate(this.translations[module.name][key], variables);
@@ -124,4 +124,4 @@ export const Translator = (function () {
 			}
 		}
 	};
-}());
+})();

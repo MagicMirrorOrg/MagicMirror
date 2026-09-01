@@ -14,7 +14,7 @@ const config = require(`${process.cwd()}/tests/configs/default.js`).configFactor
 							return value;
 						}
 					},
-					roundToInt2: function (value) {
+					roundToInt2: (value) => {
 						try {
 							return Math.round(parseFloat(value));
 						} catch {
