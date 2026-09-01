@@ -82,6 +82,7 @@ export default defineConfig([
 			"no-unneeded-ternary": "error",
 			"no-useless-return": "error",
 			"object-shorthand": ["error", "methods"],
+			"prefer-arrow-callback": "error",
 			"prefer-const": "error",
 			"prefer-template": "error",
 			"require-await": "error"

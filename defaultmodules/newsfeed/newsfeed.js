@@ -182,7 +182,7 @@ Module.register("newsfeed", {
 		const item = this.newsItems[this.activeItem];
 		this.activeItemHash = item.hash;
 
-		const items = this.newsItems.map(function (item) {
+		const items = this.newsItems.map((item) => {
 			item.publishDate = moment(new Date(item.pubdate)).fromNow();
 			return item;
 		});
@@ -250,7 +250,7 @@ Module.register("newsfeed", {
 				}
 			}
 		}
-		newsItems.sort(function (a, b) {
+		newsItems.sort((a, b) => {
 			const dateA = new Date(a.pubdate);
 			const dateB = new Date(b.pubdate);
 			return dateB - dateA;

@@ -92,7 +92,7 @@ async function getModuleData () {
 	const moduleFiles = [];
 	const envVars = await getEnvVars();
 
-	modules.forEach(function (moduleData, index) {
+	modules.forEach((moduleData, index) => {
 		const module = moduleData.module;
 
 		const elements = module.split("/");

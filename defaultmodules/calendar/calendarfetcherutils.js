@@ -150,7 +150,7 @@ const CalendarFetcherUtils = {
 			}
 		});
 
-		newEvents.sort(function (a, b) {
+		newEvents.sort((a, b) => {
 			return a.startDate - b.startDate;
 		});
 

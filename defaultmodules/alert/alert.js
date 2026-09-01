@@ -124,7 +124,7 @@ Module.register("alert", {
 
 	renderMessage (type, data) {
 		return new Promise((resolve) => {
-			this.nunjucksEnvironment().render(this.getTemplate(type), data, function (err, res) {
+			this.nunjucksEnvironment().render(this.getTemplate(type), data, (err, res) => {
 				if (err) {
 					Log.error("[alert] Failed to render alert", err);
 				}

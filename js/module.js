@@ -89,7 +89,7 @@ export class Module {
 			// Check to see if we need to render a template string or a file.
 			if ((/^.*((\.html)|(\.njk))$/).test(template)) {
 				// the template is a filename
-				this.nunjucksEnvironment().render(template, templateData, function (err, res) {
+				this.nunjucksEnvironment().render(template, templateData, (err, res) => {
 					if (err) {
 						Log.error(err);
 					}

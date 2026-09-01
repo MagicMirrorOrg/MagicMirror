@@ -55,7 +55,7 @@ export const Translator = (function () {
 				if (variables.fallback && !template.match(new RegExp("{.+}"))) {
 					templateToUse = variables.fallback;
 				}
-				return templateToUse.replace(new RegExp("{([^}]+)}", "g"), function (_unused, varName) {
+				return templateToUse.replace(new RegExp("{([^}]+)}", "g"), (_unused, varName) => {
 					return varName in variables ? variables[varName] : `{${varName}}`;
 				});
 			}

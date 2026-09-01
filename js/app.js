@@ -44,7 +44,7 @@ if (process.env.MM_CONFIG_FILE) {
 
 // The next part is here to prevent a major exception when there
 // is no internet connection. This could probable be solved better.
-process.on("uncaughtException", function (err) {
+process.on("uncaughtException", (err) => {
 	// ignore strange exceptions under aarch64 coming from systeminformation:
 	if (!err.stack.includes("node_modules/systeminformation")) {
 		Log.error("Whoops! There was an uncaught exception...");

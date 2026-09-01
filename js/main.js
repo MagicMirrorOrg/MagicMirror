@@ -14,7 +14,7 @@ let modules = [];
 async function createDomObjects () {
 	const domCreationPromises = [];
 
-	modules.forEach(function (module) {
+	modules.forEach((module) => {
 		if (typeof module.data.position !== "string") {
 			return;
 		}
@@ -279,7 +279,7 @@ function _hideModule (module, speed, callback, options = {}) {
 			Log.debug(`${module.identifier} Has animateOut: ${haveAnimateName}`);
 			module.hasAnimateOut = haveAnimateName;
 			addAnimateCSS(module.identifier, haveAnimateName, speed / 1000);
-			module.showHideTimer = setTimeout(function () {
+			module.showHideTimer = setTimeout(() => {
 				removeAnimateCSS(module.identifier, haveAnimateName);
 				Log.debug(`${module.identifier} Remove animateOut: ${module.hasAnimateOut}`);
 				// AnimateCSS is now done
@@ -298,7 +298,7 @@ function _hideModule (module, speed, callback, options = {}) {
 			moduleWrapper.style.transition = `opacity ${speed / 1000}s`;
 			moduleWrapper.style.opacity = 0;
 			moduleWrapper.classList.add("hidden");
-			module.showHideTimer = setTimeout(function () {
+			module.showHideTimer = setTimeout(() => {
 				// To not take up any space, we just make the position absolute.
 				// since it's fade out anyway, we can see it lay above or
 				// below other modules. This works way better than adjusting
@@ -394,7 +394,7 @@ function _showModule (module, speed, callback, options = {}) {
 			Log.debug(`${module.identifier} Has animateIn: ${haveAnimateName}`);
 			module.hasAnimateIn = haveAnimateName;
 			addAnimateCSS(module.identifier, haveAnimateName, speed / 1000);
-			module.showHideTimer = setTimeout(function () {
+			module.showHideTimer = setTimeout(() => {
 				removeAnimateCSS(module.identifier, haveAnimateName);
 				Log.debug(`${module.identifier} Remove animateIn: ${haveAnimateName}`);
 				module.hasAnimateIn = false;
@@ -404,7 +404,7 @@ function _showModule (module, speed, callback, options = {}) {
 			}, speed);
 		} else {
 			// default MM² Animate
-			module.showHideTimer = setTimeout(function () {
+			module.showHideTimer = setTimeout(() => {
 				if (typeof callback === "function") {
 					callback();
 				}
@@ -430,12 +430,12 @@ function _showModule (module, speed, callback, options = {}) {
  * update notification is not visible.
  */
 function updateWrapperStates () {
-	modulePositions.forEach(function (position) {
+	modulePositions.forEach((position) => {
 		const wrapper = selectWrapper(position);
 		const moduleWrappers = wrapper.getElementsByClassName("module");
 
 		let showWrapper = false;
-		Array.prototype.forEach.call(moduleWrappers, function (moduleWrapper) {
+		Array.prototype.forEach.call(moduleWrappers, (moduleWrapper) => {
 			if (moduleWrapper.style.position === "" || moduleWrapper.style.position === "static") {
 				showWrapper = true;
 			}
@@ -510,7 +510,7 @@ function setSelectionMethodsForModules (modules) {
 			searchClasses = className.split(" ");
 		}
 
-		const newModules = modules.filter(function (module) {
+		const newModules = modules.filter((module) => {
 			const classes = module.data.classes.toLowerCase().split(" ");
 
 			for (const searchClass of searchClasses) {
@@ -532,7 +532,7 @@ function setSelectionMethodsForModules (modules) {
 	 * @returns {Module[]} Filtered collection of modules.
 	 */
 	function exceptModule (module) {
-		const newModules = modules.filter(function (mod) {
+		const newModules = modules.filter((mod) => {
 			return mod.identifier !== module.identifier;
 		});
 
@@ -545,7 +545,7 @@ function setSelectionMethodsForModules (modules) {
 	 * @param {module} callback The function to execute with the module as an argument.
 	 */
 	function enumerate (callback) {
-		modules.map(function (module) {
+		modules.map((module) => {
 			callback(module);
 		});
 	}
