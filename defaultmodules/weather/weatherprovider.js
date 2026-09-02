@@ -28,9 +28,12 @@ class WeatherProvider {
 		this.onErrorCallback = onError;
 	}
 
-	/** Start periodic fetching. */
-	start () {
-		this.fetcher?.startPeriodicFetch();
+	/**
+	 * Start periodic fetching.
+	 * @param {number} [initialDelay] - Delay before the first fetch in ms
+	 */
+	start (initialDelay = 0) {
+		this.fetcher?.startPeriodicFetch(initialDelay);
 	}
 
 	/** Stop periodic fetching. */
