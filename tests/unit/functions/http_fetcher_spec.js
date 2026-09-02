@@ -51,6 +51,25 @@ describe("HTTPFetcher", () => {
 			expect(text).toBe(responseData);
 		});
 
+		it("should delay the first fetch when an initial delay is configured", async () => {
+			vi.useFakeTimers();
+			const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
+				new Response("test data")
+			);
+			fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000 });
+
+			fetcher.startPeriodicFetch(15000);
+
+			expect(fetchSpy).not.toHaveBeenCalled();
+			await vi.advanceTimersByTimeAsync(14999);
+			expect(fetchSpy).not.toHaveBeenCalled();
+			await vi.advanceTimersByTimeAsync(1);
+			expect(fetchSpy).toHaveBeenCalledTimes(1);
+
+			fetchSpy.mockRestore();
+			vi.useRealTimers();
+		});
+
 		it("should emit error event on network failure", async () => {
 			server.use(
 				http.get(TEST_URL, () => {

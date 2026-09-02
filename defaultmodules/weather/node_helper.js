@@ -88,7 +88,7 @@ module.exports = NodeHelper.create({
 			});
 
 			// Start periodic fetching
-			provider.start();
+			provider.start(config.initialLoadDelay);
 
 			Log.log(`Weather provider ${identifier} initialized for instance ${instanceId}`);
 		} catch (error) {

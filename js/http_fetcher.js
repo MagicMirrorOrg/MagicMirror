@@ -127,9 +127,16 @@ class HTTPFetcher extends EventEmitter {
 
 	/**
 	 * Starts periodic fetching
+	 * @param {number} [initialDelay] - Delay before the first fetch in ms
 	 */
-	startPeriodicFetch () {
-		this.fetch();
+	startPeriodicFetch (initialDelay = 0) {
+		this.clearTimer();
+
+		if (initialDelay > 0) {
+			this.reloadTimer = setTimeout(() => this.fetch(), initialDelay);
+		} else {
+			this.fetch();
+		}
 	}
 
 	/**
