@@ -25,6 +25,7 @@ module.exports = NodeHelper.create({
 	 * Checks whether a URL can be displayed in an iframe by inspecting
 	 * X-Frame-Options and Content-Security-Policy headers server-side.
 	 * @param {string} url The article URL to check.
+	 * @returns {null} sendSocketNotification
 	 */
 	async checkArticleUrl (url) {
 		try {
@@ -33,24 +34,24 @@ module.exports = NodeHelper.create({
 			try {
 				parsed = new URL(url);
 			} catch {
-				this.sendSocketNotification("ARTICLE_URL_STATUS", { url, canFrame: false });
+				return this.sendSocketNotification("ARTICLE_URL_STATUS", { url, canFrame: false });
 			}
 
 			// 2. Protocol validation
 			if (!["http:", "https:"].includes(parsed.protocol)) {
-				this.sendSocketNotification("ARTICLE_URL_STATUS", { url, canFrame: false });
+				return this.sendSocketNotification("ARTICLE_URL_STATUS", { url, canFrame: false });
 			}
 
 			// 3. Block localhost hostname
 			if (parsed.hostname.toLowerCase() === "localhost") {
-				this.sendSocketNotification("ARTICLE_URL_STATUS", { url, canFrame: false });
+				return this.sendSocketNotification("ARTICLE_URL_STATUS", { url, canFrame: false });
 			}
 
 			// 4. DNS lookup + IP range validation
 			const { address, family } = await dns.promises.lookup(parsed.hostname);
 			if (ipaddr.process(address).range() !== "unicast") {
 				Log.warn(`SSRF blocked in checkArticleUrl: ${url}`);
-				this.sendSocketNotification("ARTICLE_URL_STATUS", { url, canFrame: false });
+				return this.sendSocketNotification("ARTICLE_URL_STATUS", { url, canFrame: false });
 			}
 
 			// 5. Pin IP to prevent DNS rebinding
