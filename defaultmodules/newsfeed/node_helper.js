@@ -1,3 +1,6 @@
+const dns = require("node:dns");
+const ipaddr = require("ipaddr.js");
+const undici = require("undici");
 const NodeHelper = require("node_helper");
 const Log = require("logger");
 const NewsfeedFetcher = require("./newsfeedfetcher");
@@ -25,15 +28,49 @@ module.exports = NodeHelper.create({
 	 */
 	async checkArticleUrl (url) {
 		try {
-			const response = await fetch(url, { method: "HEAD" });
+			// 1. Parse URL
+			let parsed;
+			try {
+				parsed = new URL(url);
+			} catch {
+				this.sendSocketNotification("ARTICLE_URL_STATUS", { url, canFrame: false });
+			}
+
+			// 2. Protocol validation
+			if (!["http:", "https:"].includes(parsed.protocol)) {
+				this.sendSocketNotification("ARTICLE_URL_STATUS", { url, canFrame: false });
+			}
+
+			// 3. Block localhost hostname
+			if (parsed.hostname.toLowerCase() === "localhost") {
+				this.sendSocketNotification("ARTICLE_URL_STATUS", { url, canFrame: false });
+			}
+
+			// 4. DNS lookup + IP range validation
+			const { address, family } = await dns.promises.lookup(parsed.hostname);
+			if (ipaddr.process(address).range() !== "unicast") {
+				Log.warn(`SSRF blocked in checkArticleUrl: ${url}`);
+				this.sendSocketNotification("ARTICLE_URL_STATUS", { url, canFrame: false });
+			}
+
+			// 5. Pin IP to prevent DNS rebinding
+			const dispatcher = new undici.Agent({
+				connect: {
+					lookup: (_h, _o, cb) => {
+						process.nextTick(() => cb(null, [{ address, family }]));
+					}
+				}
+			});
+
+			// 6. Make request with pinned IP
+			const response = await undici.fetch(url, { dispatcher, method: "HEAD" });
 			const xfo = response.headers.get("x-frame-options");
 			const csp = response.headers.get("content-security-policy");
-			// sameorigin also blocks since the article is on a different origin than MM
 			const blockedByXFO = xfo && ["deny", "sameorigin"].includes(xfo.toLowerCase().trim());
 			const blockedByCSP = csp && (/frame-ancestors\s+['"]?none['"]?/).test(csp);
+
 			this.sendSocketNotification("ARTICLE_URL_STATUS", { url, canFrame: !blockedByXFO && !blockedByCSP });
 		} catch {
-			// Network error or HEAD not supported — let the browser try the iframe anyway
 			this.sendSocketNotification("ARTICLE_URL_STATUS", { url, canFrame: true });
 		}
 	},
