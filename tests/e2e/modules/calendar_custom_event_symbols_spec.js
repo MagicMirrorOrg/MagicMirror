@@ -10,7 +10,12 @@ describe("Calendar custom event symbols", () => {
 		page = helpers.getPage();
 	});
 
-	it("should show a custom event symbol with a custom symbol class", async () => {
-		await expect(page.locator(".calendar .event .fa-tesla")).toHaveCount(1);
+	it("should apply a custom symbol class only to matching events", async () => {
+		const teslaEvent = page.locator(".calendar .event", { hasText: "TestEventBrandsTeslaIcon" });
+		const diceEvent = page.locator(".calendar .event", { hasText: "TestEventCustomEventIcon" });
+
+		await expect(teslaEvent.locator(".fa-tesla")).toHaveCount(1);
+		await expect(diceEvent.locator(".fa-dice")).toHaveCount(1);
+		await expect(diceEvent.locator(".fab")).toHaveCount(0);
 	});
 });
