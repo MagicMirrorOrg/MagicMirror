@@ -156,22 +156,8 @@ class NewsfeedFetcher {
 			const url = item.url || item.link || "";
 
 			if (title && pubdate) {
-				let displayTitle = title;
-				if (this.allowedBasicHtmlTags.length > 0) {
-					// Keep the configured basic formatting tags in both fields, strip everything else
-					description = NewsfeedFetcher.sanitizeBasicHtml(description, this.allowedBasicHtmlTags);
-					displayTitle = NewsfeedFetcher.sanitizeBasicHtml(title, this.allowedBasicHtmlTags);
-				} else {
-					// Convert HTML entities, codes and tag
-					description = htmlToText(description, {
-						wordwrap: false,
-						selectors: [
-							{ selector: "a", options: { ignoreHref: true, noAnchorUrl: true } },
-							{ selector: "br", format: "inlineSurround", options: { prefix: " " } },
-							{ selector: "img", format: "skip" }
-						]
-					});
-				}
+				description = NewsfeedFetcher.sanitizeBasicHtml(description, this.allowedBasicHtmlTags);
+				const displayTitle = NewsfeedFetcher.sanitizeBasicHtml(title, this.allowedBasicHtmlTags);
 
 				this.items.push({
 					title: displayTitle,

@@ -71,6 +71,48 @@ const runTests = () => {
 		});
 	});
 
+	describe("Check leaking HTML tags allowedBasicHtmlTags = []", () => {
+		beforeAll(async () => {
+			await helpers.startApplication("tests/configs/modules/newsfeed/leak_html1.js");
+			await helpers.getDocument();
+			page = helpers.getPage();
+		});
+
+		it("should strip disallowed HTML and not execute injected scripts", async () => {
+			const titleHtml = await page.locator(".newsfeed .newsfeed-title").innerHTML();
+			expect(titleHtml).toContain("Breaking news");
+			expect(titleHtml).not.toContain("fetch");
+		});
+	});
+
+	describe("Check leaking HTML tags allowedBasicHtmlTags = [\"p\"]", () => {
+		beforeAll(async () => {
+			await helpers.startApplication("tests/configs/modules/newsfeed/leak_html2.js");
+			await helpers.getDocument();
+			page = helpers.getPage();
+		});
+
+		it("should strip disallowed HTML and not execute injected scripts", async () => {
+			const titleHtml = await page.locator(".newsfeed .newsfeed-title").innerHTML();
+			expect(titleHtml).toContain("Breaking news");
+			expect(titleHtml).not.toContain("fetch");
+		});
+	});
+
+	describe("Check leaking HTML tags allowedBasicHtmlTags = \"b\"", () => {
+		beforeAll(async () => {
+			await helpers.startApplication("tests/configs/modules/newsfeed/leak_html3.js");
+			await helpers.getDocument();
+			page = helpers.getPage();
+		});
+
+		it("should strip disallowed HTML and not execute injected scripts", async () => {
+			const titleHtml = await page.locator(".newsfeed .newsfeed-title").innerHTML();
+			expect(titleHtml).toContain("Breaking news");
+			expect(titleHtml).not.toContain("fetch");
+		});
+	});
+
 	describe("Invalid configuration", () => {
 		beforeAll(async () => {
 			await helpers.startApplication("tests/configs/modules/newsfeed/incorrect_url.js");
