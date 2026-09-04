@@ -661,8 +661,8 @@ Module.register("calendar", {
 			if (typeof ev.symbol !== "undefined" && ev.symbol !== "") {
 				const needle = new RegExp(ev.keyword, "gi");
 				if (needle.test(event.title)) {
-					// Get the default prefix for this class name and add to the custom symbol provided
-					const className = this.getCalendarProperty(event.url, "symbolClassName", this.config.defaultSymbolClassName);
+					// Get the class name from the custom event or fall back to the calendar configuration
+					const className = ev.symbolClassName || this.getCalendarProperty(event.url, "symbolClassName", this.config.defaultSymbolClassName);
 					symbols[0] = className + ev.symbol;
 					break;
 				}
