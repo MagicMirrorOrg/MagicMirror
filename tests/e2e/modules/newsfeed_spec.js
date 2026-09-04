@@ -83,6 +83,13 @@ const runTests = () => {
 			expect(titleHtml).toContain("Breaking news");
 			expect(titleHtml).not.toContain("fetch");
 		});
+
+		it("should render feed entities as plain text with an empty allowlist", async () => {
+			const description = page.locator(".newsfeed .newsfeed-desc");
+			const descriptionHtml = await description.innerHTML();
+			expect(descriptionHtml).toContain("A &amp; B");
+			expect(await description.textContent()).toContain("A & B");
+		});
 	});
 
 	describe("Check leaking HTML tags allowedBasicHtmlTags = [\"p\"]", () => {

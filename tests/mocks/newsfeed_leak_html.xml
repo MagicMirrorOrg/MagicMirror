@@ -9,7 +9,7 @@
       <link>http://localhost:8080/article</link>
       <pubDate>Tue, 20 Sep 2016 11:16:08 +0000</pubDate>
       <guid isPermaLink="false">http://localhost:8080/?p=1</guid>
-      <description><![CDATA[<p><em>Italic</em> and <strong>Bold</strong> and <u>Underlined</u> text.</p><script>window.__newsfeedXss = true;</script><img src="x" onerror="window.__newsfeedXss = true">]]></description>
+      <description><![CDATA[<p><em>Italic</em> and <strong>Bold</strong> and <u>Underlined</u> text.</p>A &amp; B<script>window.__newsfeedXss = true;</script><img src="x" onerror="window.__newsfeedXss = true">]]></description>
     </item>
   </channel>
 </rss>
