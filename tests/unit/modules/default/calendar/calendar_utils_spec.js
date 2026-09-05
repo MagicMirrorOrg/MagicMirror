@@ -82,6 +82,10 @@ describe("Calendar utils tests", () => {
 	});
 
 	describe("shorten", () => {
+		it("should escape HTML", () => {
+			expect(CalendarUtils.shorten("<img src=x onerror=alert(1)>", 100, false, 3)).toBe("&lt;img src=x onerror=alert(1)&gt;");
+		});
+
 		it("should not shorten if short enough", () => {
 			expect(CalendarUtils.shorten("Event 1", 10, false, 1)).toBe("Event 1");
 		});

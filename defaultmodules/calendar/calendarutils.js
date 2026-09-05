@@ -43,6 +43,14 @@ const CalendarUtils = {
 			return "";
 		}
 
+		// Order matters: "&" must be escaped first, otherwise the entities added below would be escaped again.
+		const escapeHtml = (value) => value
+			.replaceAll("&", "&amp;")
+			.replaceAll("<", "&lt;")
+			.replaceAll(">", "&gt;")
+			.replaceAll("\"", "&quot;")
+			.replaceAll("'", "&#39;");
+
 		if (wrapEvents === true) {
 			const words = string.split(" ");
 			let temp = "";
@@ -64,20 +72,20 @@ const CalendarUtils = {
 					}
 
 					if (currentLine.length > 0) {
-						temp += `${currentLine}<br>${word} `;
+						temp += `${escapeHtml(currentLine)}<br>${escapeHtml(word)} `;
 					} else {
-						temp += `${word}<br>`;
+						temp += `${escapeHtml(word)}<br>`;
 					}
 					currentLine = "";
 				}
 			}
 
-			return (temp + currentLine).trim();
+			return (temp + escapeHtml(currentLine)).trim();
 		} else {
 			if (maxLength && typeof maxLength === "number" && string.length > maxLength) {
-				return `${string.trim().slice(0, maxLength)}…`;
+				return `${escapeHtml(string.trim().slice(0, maxLength))}…`;
 			} else {
-				return string.trim();
+				return escapeHtml(string.trim());
 			}
 		}
 	},
