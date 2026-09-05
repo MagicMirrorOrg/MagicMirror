@@ -46,10 +46,17 @@ module.exports = NodeHelper.create({
 
 	async socketNotificationReceived (notification, payload) {
 		switch (notification) {
-			case "CONFIG":
-				this.config = payload;
+			case "CONFIG": {
+				const serverConfig = this.getServerModuleConfig();
+				this.config = {
+					...payload, // Client config including defaults
+					...serverConfig, // Server config overrides client values
+					// Never accept update commands from the client.
+					updates: serverConfig.updates ?? []
+				};
 				this.updateHelper = new UpdateHelper(this.config);
 				break;
+			}
 			case "MODULES":
 				// if this is the 1st time thru the update check process
 				if (!this.updateProcessStarted) {

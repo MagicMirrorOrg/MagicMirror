@@ -69,6 +69,18 @@ class NodeHelper {
 		this.path = path;
 	}
 
+	/**
+	 * Return this module's configuration from the server-side config.
+	 * @returns {object} The server module config, or an empty object.
+	 */
+	getServerModuleConfig () {
+		const configuredModules = global.config?.modules ?? [];
+		const currentModule = configuredModules.find((configuredModule) => configuredModule.module === this.name);
+		const serverModuleConfig = currentModule?.config ?? {};
+
+		return serverModuleConfig;
+	}
+
 	/*
 	 * sendSocketNotification(notification, payload)
 	 * Send a socket notification to the node helper.
