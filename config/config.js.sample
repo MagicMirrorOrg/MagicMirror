@@ -22,6 +22,8 @@ const config = {
 									// ["127.0.0.1", "::ffff:127.0.0.1", "::1", "::ffff:192.168.1.5"],
 									// or IPv4 range of 192.168.3.0 --> 192.168.3.15 use CIDR format :
 									// ["127.0.0.1", "::ffff:127.0.0.1", "::1", "::ffff:192.168.3.0/28"],
+	trustedProxies: [],	// Reverse proxy address(es) allowed to provide client IPs via X-Forwarded-For.
+											// Leave empty (default) if MagicMirror is not behind a reverse proxy.
 
 	useHttps: false,			// Support HTTPS or not, default "false" will use HTTP
 	httpsPrivateKey: "",	// HTTPS private key path, only require when useHttps is true

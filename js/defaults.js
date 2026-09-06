@@ -11,6 +11,7 @@ const defaults = {
 	ignoreXOriginHeader: false, // Remove X-Frame-Options response header in Electron
 	ignoreContentSecurityPolicy: false, // Remove Content-Security-Policy response header in Electron
 	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1"],
+	trustedProxies: [],	// Only needed behind a reverse proxy.
 	cors: "disabled", // or "allowAll" or "allowWhitelist"
 	corsDomainWhitelist: [], // example: ["api.mapbox.com"]
 	watchTargets: [],

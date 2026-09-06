@@ -41,7 +41,7 @@ function Server (configObj) {
 				server = http.Server(app);
 			}
 			const io = socketio(server, {
-				allowRequest: socketIpAccessControl(config.ipWhitelist),
+				allowRequest: socketIpAccessControl(config.ipWhitelist, config.trustedProxies),
 				allowEIO3: true,
 				pingInterval: 120000, // server → client ping every 2 mins
 				pingTimeout: 120000 // wait up to 2 mins for client pong
@@ -84,7 +84,7 @@ function Server (configObj) {
 				Log.warn("You're using a full whitelist configuration to allow for all IPs");
 			}
 
-			app.use(ipAccessControl(config.ipWhitelist));
+			app.use(ipAccessControl(config.ipWhitelist, config.trustedProxies));
 			app.use(helmet(config.httpHeaders));
 			app.use("/js", express.static(__dirname));
 
