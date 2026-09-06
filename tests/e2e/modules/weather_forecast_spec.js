@@ -34,7 +34,7 @@ describe("Weather module: Weather Forecast", () => {
 		const maxTemps = ["24.4°", "21.0°", "22.9°", "23.4°", "20.6°"];
 		for (const [index, temp] of maxTemps.entries()) {
 			it(`should render max temperature ${temp}`, async () => {
-				const maxTempCell = page.locator(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(3)`);
+				const maxTempCell = page.locator(`.weather table.small tr:nth-child(${index + 1}) td.max-temp`);
 				await expect(maxTempCell).toHaveText(temp);
 			});
 		}
@@ -42,7 +42,7 @@ describe("Weather module: Weather Forecast", () => {
 		const minTemps = ["15.3°", "13.6°", "13.8°", "13.9°", "10.9°"];
 		for (const [index, temp] of minTemps.entries()) {
 			it(`should render min temperature ${temp}`, async () => {
-				const minTempCell = page.locator(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(4)`);
+				const minTempCell = page.locator(`.weather table.small tr:nth-child(${index + 1}) td.min-temp`);
 				await expect(minTempCell).toHaveText(temp);
 			});
 		}
@@ -78,12 +78,20 @@ describe("Weather module: Weather Forecast", () => {
 		});
 
 		it("should render custom table class", async () => {
-			await expect(page.locator(".weather table.myTableClass")).toBeVisible();
+			await expect(page.locator(".weather table.myTableClass.weather-forecast")).toBeVisible();
 		});
 
 		it("should render colored rows", async () => {
 			const rows = page.locator(".weather table.myTableClass tr");
 			await expect(rows).toHaveCount(5);
+		});
+
+		it("should expose forecast column order through CSS", async () => {
+			const minTempCell = page.locator(".weather table.myTableClass tr:first-child td.min-temp");
+			const maxTempCell = page.locator(".weather table.myTableClass tr:first-child td.max-temp");
+
+			await expect(minTempCell).toHaveCSS("order", "3");
+			await expect(maxTempCell).toHaveCSS("order", "4");
 		});
 
 		const precipitations = [undefined, "2.51 mm"];
@@ -107,7 +115,7 @@ describe("Weather module: Weather Forecast", () => {
 			const temperatures = ["75_9°", "69_8°", "73_2°", "74_1°", "69_1°"];
 			for (const [index, temp] of temperatures.entries()) {
 				it(`should render custom decimalSymbol = '_' for temp ${temp}`, async () => {
-					const tempCell = page.locator(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(3)`);
+					const tempCell = page.locator(`.weather table.small tr:nth-child(${index + 1}) td.max-temp`);
 					await expect(tempCell).toHaveText(temp);
 				});
 			}

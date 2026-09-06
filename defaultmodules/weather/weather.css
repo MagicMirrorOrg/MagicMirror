@@ -11,6 +11,11 @@
   padding-bottom: 6px;
 }
 
+.weather .weather-forecast tr {
+  display: flex;
+  align-items: baseline;
+}
+
 .weather .day {
   padding-left: 0;
   padding-right: 25px;
@@ -22,8 +27,12 @@
 }
 
 .weather .min-temp {
-  padding-left: 20px;
+  padding-left: 0;
   padding-right: 0;
+}
+
+.weather .max-temp {
+  padding-left: 20px;
 }
 
 .weather .precipitation-amount,
@@ -32,6 +41,34 @@
 .weather .uv-index {
   padding-left: 20px;
   padding-right: 0;
+}
+
+.weather .weather-forecast .day {
+  order: var(--weather-forecast-day-order, 1);
+}
+
+.weather .weather-forecast .weather-icon {
+  order: var(--weather-forecast-icon-order, 2);
+}
+
+.weather .weather-forecast .min-temp {
+  order: var(--weather-forecast-min-temp-order, 3);
+}
+
+.weather .weather-forecast .max-temp {
+  order: var(--weather-forecast-max-temp-order, 4);
+}
+
+.weather .weather-forecast .uv-index {
+  order: var(--weather-forecast-uv-index-order, 5);
+}
+
+.weather .weather-forecast .precipitation-amount {
+  order: var(--weather-forecast-precipitation-amount-order, 6);
+}
+
+.weather .weather-forecast .precipitation-prob {
+  order: var(--weather-forecast-precipitation-prob-order, 7);
 }
 
 .weather tr.colored .min-temp {
