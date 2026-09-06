@@ -71,6 +71,7 @@ export default defineConfig([
 			"@stylistic/spaced-comment": "off",
 			"dot-notation": "error",
 			eqeqeq: ["error", "always", {null: "ignore"}],
+			"func-style": ["error", "expression"],
 			"import-x/extensions": "error",
 			"import-x/newline-after-import": "error",
 			"import-x/order": "error",
