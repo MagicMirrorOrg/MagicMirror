@@ -15,39 +15,59 @@ const { getHtml, getVersion, getEnvVars, getServerPort, cors } = require("#serve
 
 /**
  * Server
- * @param {object} configObj The MM config full and redacted
- * @class
  */
-function Server (configObj) {
-	const config = configObj.fullConf;
-	const app = express();
-	const port = getServerPort(config);
-	const serverSockets = new Set();
-	let server = null;
+class Server {
+	#configObj;
+
+	#config;
+
+	#app;
+
+	#port;
+
+	#serverSockets = new Set();
+
+	#server = null;
+
+	/**
+	 * @param {object} configObj The MM config full and redacted
+	 */
+	constructor (configObj) {
+		this.#configObj = configObj;
+		this.#config = configObj.fullConf;
+		this.#app = express();
+		this.#port = getServerPort(this.#config);
+	}
 
 	/**
 	 * Opens the server for incoming connections
 	 * @returns {Promise} A promise that is resolved when the server listens to connections
 	 */
-	this.open = () => {
+	open () {
+		const config = this.#config;
+		const app = this.#app;
+		const port = this.#port;
+		const configObj = this.#configObj;
+		const serverSockets = this.#serverSockets;
+
 		return new Promise((resolve) => {
 			if (config.useHttps) {
 				const options = {
 					key: fs.readFileSync(config.httpsPrivateKey),
 					cert: fs.readFileSync(config.httpsCertificate)
 				};
-				server = https.Server(options, app);
+				this.#server = https.Server(options, app);
 			} else {
-				server = http.Server(app);
+				this.#server = http.Server(app);
 			}
-			const io = socketio(server, {
+			const io = socketio(this.#server, {
 				allowRequest: socketIpAccessControl(config.ipWhitelist, config.trustedProxies),
 				allowEIO3: true,
 				pingInterval: 120000, // server → client ping every 2 mins
 				pingTimeout: 120000 // wait up to 2 mins for client pong
 			});
 
-			server.on("connection", (socket) => {
+			this.#server.on("connection", (socket) => {
 				serverSockets.add(socket);
 				socket.on("close", () => {
 					serverSockets.delete(socket);
@@ -57,7 +77,7 @@ function Server (configObj) {
 			Log.log(`Starting server on port ${port} ... `);
 
 			// Add explicit error handling BEFORE calling listen so we can give user-friendly feedback
-			server.once("error", (err) => {
+			this.#server.once("error", (err) => {
 				if (err && err.code === "EADDRINUSE") {
 					const bindAddr = config.address || "localhost";
 					const portInUseMessage = [
@@ -78,7 +98,7 @@ function Server (configObj) {
 				Log.error("Failed to start server:", err);
 			});
 
-			server.listen(port, config.address || "localhost");
+			this.#server.listen(port, config.address || "localhost");
 
 			if (config.ipWhitelist instanceof Array && config.ipWhitelist.length === 0) {
 				Log.warn("You're using a full whitelist configuration to allow for all IPs");
@@ -149,27 +169,27 @@ function Server (configObj) {
 				res.status(200).send("OK");
 			});
 
-			server.on("listening", () => {
+			this.#server.on("listening", () => {
 				resolve({
 					app,
 					io
 				});
 			});
 		});
-	};
+	}
 
 	/**
 	 * Closes the server and destroys all lingering connections to it.
 	 * @returns {Promise} A promise that resolves when server has successfully shut down
 	 */
-	this.close = () => {
+	close () {
 		return new Promise((resolve) => {
-			for (const socket of serverSockets.values()) {
+			for (const socket of this.#serverSockets.values()) {
 				socket.destroy();
 			}
-			server.close(resolve);
+			this.#server.close(resolve);
 		});
-	};
+	}
 }
 
 module.exports = Server;
