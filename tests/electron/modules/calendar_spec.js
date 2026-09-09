@@ -96,6 +96,14 @@ describe("Calendar module", () => {
 		});
 	});
 
+	describe("Empty calendar days", () => {
+		it("shows events scheduled after an empty calendar day (issue #4243)", async () => {
+			// event is on day 3 of the limitDays:3 window, days 1-2 are intentionally empty
+			await helpers.startApplication("tests/configs/modules/calendar/empty-day.js", "01 Jan 2030 12:30:00 GMT");
+			await expect(doTestCount()).resolves.toBe(1);
+		});
+	});
+
 	/*
 	 * RRULE TESTS:
 	 * Add any tests that check rrule functionality here.
