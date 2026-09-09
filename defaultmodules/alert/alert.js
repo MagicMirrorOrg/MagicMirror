@@ -12,7 +12,7 @@ Module.register("alert", {
 	},
 
 	getScripts () {
-		return ["notificationFx.js"];
+		return ["notificationFx.mjs"];
 	},
 
 	getStyles () {
@@ -96,7 +96,7 @@ Module.register("alert", {
 			effect: this.config.alert_effect,
 			ttl: alert.timer,
 			onClose: () => this.hideAlert(sender),
-			al_no: "ns-alert"
+			boxClassName: "ns-alert"
 		});
 
 		// Show alert

@@ -120,6 +120,7 @@ export default defineConfig([
 		languageOptions: {
 			ecmaVersion: "latest",
 			globals: {
+				...globals.browser,
 				...globals.node
 			},
 			sourceType: "module"
@@ -127,8 +128,12 @@ export default defineConfig([
 		extends: [importX.recommended, js.configs.all, stylistic.configs.all],
 		rules: {
 			"@stylistic/array-element-newline": "off",
+			"@stylistic/function-call-argument-newline": ["error", "consistent"],
+			"@stylistic/function-paren-newline": ["error", "consistent"],
 			"@stylistic/indent": ["error", "tab"],
+			"@stylistic/padded-blocks": "off",
 			"@stylistic/quote-props": ["error", "as-needed"],
+			"capitalized-comments": "off",
 			"no-magic-numbers": "off",
 			"sort-keys": "off"
 		}
