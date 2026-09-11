@@ -11,7 +11,7 @@ const { replaceSecretPlaceholder } = require("#server_functions");
  */
 const getAllowedSecrets = (moduleName) => {
 	const modules = global.configRedacted?.modules || [];
-	const moduleConfig = modules.find((m) => m.module === moduleName);
+	const moduleConfig = modules.filter((m) => m.module === moduleName);
 	const allowed = new Set();
 	if (moduleConfig) {
 		// Stringify the config to easily find all expected **SECRET_*** placeholders
