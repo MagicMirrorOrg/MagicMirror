@@ -11,13 +11,11 @@ const { replaceSecretPlaceholder } = require("#server_functions");
  */
 const getAllowedSecrets = (moduleName) => {
 	const modules = global.configRedacted?.modules || [];
-	const moduleConfig = modules.filter((m) => m.module === moduleName);
+	const moduleConfigs = modules.filter((m) => m.module === moduleName);
 	const allowed = new Set();
-	if (moduleConfig) {
-		// Stringify the config to easily find all expected **SECRET_*** placeholders
-		for (const [, secretName] of JSON.stringify(moduleConfig).matchAll(/\*\*(SECRET_[^*]+)\*\*/g)) {
-			allowed.add(secretName);
-		}
+	// Stringify the config to easily find all expected **SECRET_*** placeholders
+	for (const [, secretName] of JSON.stringify(moduleConfigs).matchAll(/\*\*(SECRET_[^*]+)\*\*/g)) {
+		allowed.add(secretName);
 	}
 	return allowed;
 };
