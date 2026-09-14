@@ -1,7 +1,8 @@
-/* global addAnimateCSS, removeAnimateCSS, AnimateCSSIn, AnimateCSSOut, modulePositions */
+/* global modulePositions */
 
 // Ensure Module global bridge is initialized before main bootstrap logic runs.
 import "./module.js";
+import { AnimateCSSIn, AnimateCSSOut, addAnimateCSS, removeAnimateCSS } from "./animateCSS.js";
 import { loadModules } from "./loader.js";
 import { io } from "./socketclient.js";
 import { Translator } from "./translator.js";
