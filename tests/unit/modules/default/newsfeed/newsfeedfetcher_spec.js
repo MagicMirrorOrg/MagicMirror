@@ -6,6 +6,27 @@ const NewsfeedFetcher = require(`../../../../../${defaults.defaultModulesDir}/ne
 const ALL_TAGS = ["b", "strong", "i", "em", "u", "br", "code", "s", "sub", "sup"];
 const sanitize = (html, allowedTags = ALL_TAGS) => NewsfeedFetcher.sanitizeBasicHtml(html, allowedTags);
 
+describe("NewsfeedFetcher feed parsing", () => {
+	it("keeps processing when an Atom summary is parsed as an object", async () => {
+		const fetcher = new NewsfeedFetcher("https://example.com/feed.xml", 60000, "utf-8", false, false);
+		const feed = `
+			<feed xmlns="http://www.w3.org/2005/Atom">
+				<entry>
+					<title>Broken summary</title>
+					<summary type="text"></summary>
+					<updated>2026-09-14T12:00:00Z</updated>
+				</entry>
+			</feed>`;
+		const itemsReceived = new Promise((resolve) => fetcher.onReceive(resolve));
+		fetcher.httpFetcher.emit("response", new Response(feed, { status: 200 }));
+		const result = await itemsReceived;
+
+		expect(result).toBe(fetcher);
+		expect(fetcher.items).toHaveLength(1);
+		expect(fetcher.items[0].description).toBe("");
+	});
+});
+
 describe("NewsfeedFetcher.sanitizeBasicHtml", () => {
 	it("keeps real basic formatting tags", () => {
 		expect(sanitize("<b>a</b> <strong>b</strong> <i>c</i> <em>d</em> <u>e</u>"))

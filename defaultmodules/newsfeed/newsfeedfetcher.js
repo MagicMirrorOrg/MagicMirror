@@ -152,6 +152,10 @@ class NewsfeedFetcher {
 		parser.on("item", (item) => {
 			const title = item.title;
 			let description = item.description || item.summary || item.content || "";
+			if (typeof description !== "string") {
+				Log.warn(`Unexpected non-string description for ${this.url}:`, description);
+				description = "";
+			}
 			const pubdate = item.pubdate || item.published || item.updated || item["dc:date"] || item["a10:updated"];
 			const url = item.url || item.link || "";
 
