@@ -25,6 +25,25 @@ describe("NewsfeedFetcher feed parsing", () => {
 		expect(fetcher.items).toHaveLength(1);
 		expect(fetcher.items[0].description).toBe("");
 	});
+
+	it("strips HTML tags from descriptions", async () => {
+		const fetcher = new NewsfeedFetcher("https://example.com/feed.xml", 60000, "utf-8", false, false);
+		const feed = `
+			<rss version="2.0">
+				<channel>
+					<item>
+						<title>Headline</title>
+						<description><![CDATA[<p>Article <strong>text</strong></p>]]></description>
+						<pubDate>Mon, 14 Sep 2026 12:00:00 GMT</pubDate>
+					</item>
+				</channel>
+			</rss>`;
+		const itemsReceived = new Promise((resolve) => fetcher.onReceive(resolve));
+		fetcher.httpFetcher.emit("response", new Response(feed, { status: 200 }));
+		await itemsReceived;
+
+		expect(fetcher.items[0].description).toBe("Article text");
+	});
 });
 
 describe("NewsfeedFetcher.sanitizeBasicHtml", () => {
