@@ -88,7 +88,7 @@
 		"croner": "^10.0.1",
 		"eslint": "^10.9.1",
 		"express": "^5.2.1",
-		"feedme": "^2.0.2",
+		"feedparser": "^2.6.0",
 		"globals": "^17.12.0",
 		"helmet": "^8.3.0",
 		"html-to-text": "^10.0.1",

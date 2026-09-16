@@ -1,6 +1,6 @@
 const crypto = require("node:crypto");
 const stream = require("node:stream");
-const FeedMe = require("feedme");
+const FeedParser = require("feedparser");
 const iconv = require("iconv-lite");
 const { htmlToText } = require("html-to-text");
 const Log = require("logger");
@@ -147,13 +147,16 @@ class NewsfeedFetcher {
 		}
 
 		this.items = [];
-		const parser = new FeedMe();
+		const parser = new FeedParser();
 
-		parser.on("item", (item) => {
-			const title = item.title;
-			let description = item.description || item.summary || item.content || "";
-			const pubdate = item.pubdate || item.published || item.updated || item["dc:date"] || item["a10:updated"];
-			const url = item.url || item.link || "";
+		parser.on("data", (item) => {
+			// feedparser strips HTML from item.title; recover the raw title so inline
+			// formatting tags (e.g. <em>) in titles survive sanitizeBasicHtml below.
+			const title = (item["rss:title"] && item["rss:title"]["#"]) || (item["atom:title"] && item["atom:title"]["#"]) || item.title;
+			let description = item.description || item.summary || "";
+			const pubdateValue = item.pubdate || item.date;
+			const pubdate = pubdateValue instanceof Date ? pubdateValue.toISOString() : pubdateValue;
+			const url = item.link || item.guid || "";
 
 			if (title && pubdate) {
 				let displayTitle;
@@ -192,13 +195,15 @@ class NewsfeedFetcher {
 			}
 		});
 
-		parser.on("end", () => this.broadcastItems());
-
-		parser.on("ttl", (minutes) => {
-			const ttlms = Math.min(minutes * 60 * 1000, 86400000);
-			if (ttlms > this.httpFetcher.reloadInterval) {
-				this.httpFetcher.reloadInterval = ttlms;
-				Log.info(`reloadInterval set to ttl=${ttlms} for url ${this.url}`);
+		parser.on("meta", () => {
+			const ttlNode = parser.meta["rss:ttl"];
+			const minutes = ttlNode && parseInt(ttlNode["#"], 10);
+			if (minutes) {
+				const ttlms = Math.min(minutes * 60 * 1000, 86400000);
+				if (ttlms > this.httpFetcher.reloadInterval) {
+					this.httpFetcher.reloadInterval = ttlms;
+					Log.info(`reloadInterval set to ttl=${ttlms} for url ${this.url}`);
+				}
 			}
 		});
 
@@ -207,6 +212,7 @@ class NewsfeedFetcher {
 				? response.body
 				: stream.Readable.fromWeb(response.body);
 			await stream.promises.pipeline(nodeStream, iconv.decodeStream(this.encoding), parser);
+			this.broadcastItems();
 		} catch (error) {
 			Log.error(`${this.url} - Stream processing failed: ${error.message}`);
 			this.fetchFailedCallback(this, this.#createParseError(`Stream processing failed: ${error.message}`, error));
