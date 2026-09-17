@@ -38,6 +38,22 @@ describe("NewsfeedFetcher", () => {
 		expect(items[0].description).not.toContain("<p>");
 	});
 
+	it("defaults to an empty description when an Atom entry has no summary content", async () => {
+		const fetcher = new NewsfeedFetcher("http://test.example/feed", 60000, "UTF-8", false, false);
+		const feed = `
+			<feed xmlns="http://www.w3.org/2005/Atom">
+				<entry>
+					<title>No summary</title>
+					<summary type="text"></summary>
+					<updated>2026-09-14T12:00:00Z</updated>
+				</entry>
+			</feed>`;
+		const items = await feedResponse(fetcher, feed);
+
+		expect(items).toHaveLength(1);
+		expect(items[0].description).toBe("");
+	});
+
 	it("generates a stable SHA-256 hash for each item", async () => {
 		const fetcher = new NewsfeedFetcher("http://test.example/feed", 60000, "UTF-8", false, false);
 		const items = await feedResponse(fetcher);
