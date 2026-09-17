@@ -1,10 +1,8 @@
-const crypto = require("node:crypto");
 const stream = require("node:stream");
 const FeedParser = require("feedparser");
 const iconv = require("iconv-lite");
-const { htmlToText } = require("html-to-text");
 const Log = require("logger");
-const { sanitizeBasicHtml } = require("./feeditem");
+const { normalizeFeedItem } = require("./feeditem");
 const HTTPFetcher = require("#http_fetcher");
 
 // The complete set of basic formatting tags users are allowed to opt into via the
@@ -95,48 +93,13 @@ class NewsfeedFetcher {
 		const parser = new FeedParser();
 
 		parser.on("data", (item) => {
-			// feedparser strips HTML from item.title; recover the raw title so inline
-			// formatting tags (e.g. <em>) in titles survive sanitizeBasicHtml below.
-			const title = (item["rss:title"] && item["rss:title"]["#"]) || (item["atom:title"] && item["atom:title"]["#"]) || item.title;
-			let description = item.description || item.summary || "";
-			const pubdateValue = item.pubdate || item.date;
-			const pubdate = pubdateValue instanceof Date ? pubdateValue.toISOString() : pubdateValue;
-			const url = item.link || item.guid || "";
-
-			if (title && pubdate) {
-				let displayTitle;
-				if (this.allowedBasicHtmlTags.length > 0) {
-					// Keep the configured basic formatting tags in both fields, strip everything else
-					description = sanitizeBasicHtml(description, this.allowedBasicHtmlTags);
-					displayTitle = sanitizeBasicHtml(title, this.allowedBasicHtmlTags);
-				} else {
-					// Let the template escape plain text exactly once.
-					const textOptions = {
-						wordwrap: false,
-						selectors: [
-							{ selector: "a", options: { ignoreHref: true, noAnchorUrl: true } },
-							{ selector: "br", format: "inlineSurround", options: { prefix: " " } },
-							{ selector: "img", format: "skip" }
-						]
-					};
-					description = htmlToText(description, textOptions);
-					displayTitle = htmlToText(title, textOptions);
-				}
-
-				this.items.push({
-					title: displayTitle,
-					description,
-					pubdate,
-					url,
-					useCorsProxy: this.useCorsProxy,
-					// Hash on the original title so the dedup identity is stable regardless of allowedBasicHtmlTags
-					hash: crypto.createHash("sha256").update(`${pubdate} :: ${title} :: ${url}`).digest("hex")
-				});
-			} else if (this.logFeedWarnings) {
-				Log.warn("Can't parse feed item:", item);
-				Log.warn(`Title: ${title}`);
-				Log.warn(`Description: ${description}`);
-				Log.warn(`Pubdate: ${pubdate}`);
+			const normalizedItem = normalizeFeedItem(item, {
+				allowedBasicHtmlTags: this.allowedBasicHtmlTags,
+				useCorsProxy: this.useCorsProxy,
+				logFeedWarnings: this.logFeedWarnings
+			});
+			if (normalizedItem) {
+				this.items.push(normalizedItem);
 			}
 		});
 
