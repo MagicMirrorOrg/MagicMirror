@@ -1,4 +1,4 @@
-/* global translations */
+import "../translations/translations.js";
 
 export const Translator = (() => {
 
@@ -102,9 +102,9 @@ export const Translator = (() => {
 		 * @param {string} lang The language identifier of the core language.
 		 */
 		async loadCoreTranslations (lang) {
-			if (lang in translations) {
-				Log.log(`[translator] Loading core translation file: ${translations[lang]}`);
-				this.coreTranslations = await loadJSON(translations[lang]);
+			if (lang in globalThis.translations) {
+				Log.log(`[translator] Loading core translation file: ${globalThis.translations[lang]}`);
+				this.coreTranslations = await loadJSON(globalThis.translations[lang]);
 			} else {
 				Log.log("[translator] Configured language not found in core translations.");
 			}
@@ -117,10 +117,10 @@ export const Translator = (() => {
 		 * The first language defined in translations.js will be used.
 		 */
 		async loadCoreTranslationsFallback () {
-			const first = Object.keys(translations)[0];
+			const first = Object.keys(globalThis.translations)[0];
 			if (first) {
-				Log.log(`[translator] Loading core translation fallback file: ${translations[first]}`);
-				this.coreTranslationsFallback = await loadJSON(translations[first]);
+				Log.log(`[translator] Loading core translation fallback file: ${globalThis.translations[first]}`);
+				this.coreTranslationsFallback = await loadJSON(globalThis.translations[first]);
 			}
 		}
 	};

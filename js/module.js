@@ -1,3 +1,4 @@
+import "../node_modules/nunjucks/browser/nunjucks.min.js";
 import { loadFileForModule } from "./loader.js";
 import { MMSocket } from "./socketclient.js";
 import { Translator } from "./translator.js";

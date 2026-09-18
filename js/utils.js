@@ -65,7 +65,7 @@ const getModulePositions = () => {
 			}
 		});
 		try {
-			fs.writeFileSync(discoveredPositionsJSFilename, `const modulePositions=${JSON.stringify(modulePositions)}`);
+			fs.writeFileSync(discoveredPositionsJSFilename, `const modulePositions=${JSON.stringify(modulePositions)};\nglobalThis.modulePositions = modulePositions;`);
 		}
 		catch {
 			Log.error("unable to write js/positions.js with the discovered module positions\nmake the MagicMirror/js folder writeable by the user starting MagicMirror");

@@ -1,4 +1,5 @@
-/* global defaultModules, vendor */
+import "../defaultmodules/defaultmodules.js";
+import "./vendor.js";
 
 /* Module state */
 
@@ -99,7 +100,7 @@ const getModuleData = async () => {
 		const moduleName = elements[elements.length - 1];
 		let moduleFolder = `${envVars.modulesDir}/${module}`;
 
-		if (defaultModules.indexOf(moduleName) !== -1) {
+		if (globalThis.defaultModules.indexOf(moduleName) !== -1) {
 			const defaultModuleFolder = `${envVars.defaultModulesDir}/${module}`;
 			if (window.name !== "jsdom") {
 				moduleFolder = defaultModuleFolder;
@@ -291,11 +292,11 @@ export const loadFileForModule = (fileName, module) => {
 		return loadFile(fileName);
 	}
 
-	if (vendor[fileName] !== undefined) {
+	if (globalThis.vendor[fileName] !== undefined) {
 		// This file is defined in js/vendor.js.
 		// Load it from its location.
 		loadedFiles.push(fileName.toLowerCase());
-		return loadFile(`${vendor[fileName]}`);
+		return loadFile(`${globalThis.vendor[fileName]}`);
 	}
 
 	// File not loaded yet.
