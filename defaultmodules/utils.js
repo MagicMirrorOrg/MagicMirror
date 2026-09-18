@@ -26,6 +26,8 @@ const formatTime = (config, time) => {
 	return date.format("HH:mm");
 };
 
+globalThis.formatTime = formatTime;
+
 if (typeof module !== "undefined") module.exports = {
 	formatTime
 };

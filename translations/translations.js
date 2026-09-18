@@ -46,6 +46,8 @@ const translations = {
 	"zh-tw": "translations/zh-tw.json" // Traditional Chinese
 };
 
+globalThis.translations = translations;
+
 if (typeof module !== "undefined") {
 	module.exports = translations;
 }

@@ -1,7 +1,9 @@
-/* global modulePositions */
-
 // Ensure Module global bridge is initialized before main bootstrap logic runs.
 import "./module.js";
+// Ensure formatTime is available as a global bridge before default modules (e.g. clock, weather) load.
+import "../defaultmodules/utils.js";
+// positions.js is generated at server startup and provides globalThis.modulePositions.
+import "./positions.js";
 import { AnimateCSSIn, AnimateCSSOut, addAnimateCSS, removeAnimateCSS } from "./animateCSS.js";
 import { loadModules } from "./loader.js";
 import { io } from "./socketclient.js";
@@ -431,7 +433,7 @@ const _showModule = (module, speed, callback, options = {}) => {
  * update notification is not visible.
  */
 const updateWrapperStates = () => {
-	modulePositions.forEach((position) => {
+	globalThis.modulePositions.forEach((position) => {
 		const wrapper = selectWrapper(position);
 		const moduleWrappers = wrapper.getElementsByClassName("module");
 
@@ -707,7 +709,7 @@ export const MM = {
 	},
 
 	// Return all available module positions.
-	getAvailableModulePositions: modulePositions
+	getAvailableModulePositions: globalThis.modulePositions
 };
 
 // Legacy global bridge for third-party modules that reference window.MM directly.

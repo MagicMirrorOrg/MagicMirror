@@ -99,7 +99,9 @@ export default defineConfig([
 		],
 		rules: {
 			// Browser ESM entry files must always include the file extension in relative imports.
-			"import-x/extensions": ["error", "always"]
+			"import-x/extensions": ["error", "always"],
+			// These files are generated at server startup and don't exist in a fresh checkout.
+			"import-x/no-unresolved": ["error", {ignore: ["^\\./positions\\.js$", "^\\.\\./config/basepath\\.js$"]}]
 		}
 	},
 	{

@@ -1,3 +1,7 @@
+import "./logger.js";
+// basepath.js is generated from the active config before the browser is served.
+import "../config/basepath.js";
+
 // eslint-disable-next-line import-x/no-unresolved -- Socket.IO serves this module at runtime.
 const socketIo = await import(/* @vite-ignore */ "/socket.io/socket.io.esm.min.js");
 const { io } = socketIo;
