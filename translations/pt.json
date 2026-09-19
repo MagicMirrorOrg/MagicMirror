@@ -7,7 +7,7 @@
 	"TOMORROW": "Amanhã",
 	"DAYAFTERTOMORROW": "Depois de amanhã",
 	"RUNNING": "Termina em",
-	"EMPTY": "Sem eventos programados.",
+	"EMPTY": "Sem eventos agendados.",
 	"WEEK": "Semana {weekNumber}",
 	"WEEK_SHORT": "S{weekNumber}",
 
@@ -39,8 +39,8 @@
 	"MODULE_ERROR_UNAUTHORIZED": "Falha na autorização.",
 	"MODULE_ERROR_RATE_LIMITED": "Demasiados pedidos. A tentar novamente mais tarde.",
 	"MODULE_ERROR_SERVER_ERROR": "Erro do servidor. A tentar novamente mais tarde.",
-	"MODULE_ERROR_CLIENT_ERROR": "Pedido falhou.",
-	"MODULE_ERROR_UNSPECIFIED": "Consulta os registos para mais detalhes.",
+	"MODULE_ERROR_CLIENT_ERROR": "O pedido falhou.",
+	"MODULE_ERROR_UNSPECIFIED": "Consulta os registos para obter mais detalhes.",
 
 	"NEWSFEED_NO_ITEMS": "Sem notícias de momento.",
 	"NEWSFEED_ARTICLE_UNAVAILABLE": "O artigo não pode ser apresentado aqui.",
@@ -49,7 +49,7 @@
 	"UPDATE_NOTIFICATION_MODULE": "Atualização disponível para o módulo {MODULE_NAME}.",
 	"UPDATE_INFO_SINGLE": "A instalação atual está {COMMIT_COUNT} commit atrás na ramificação {BRANCH_NAME}.",
 	"UPDATE_INFO_MULTIPLE": "A instalação atual está {COMMIT_COUNT} commits atrás na ramificação {BRANCH_NAME}.",
-	"UPDATE_NOTIFICATION_DONE": "Atualização concluída do módulo {MODULE_NAME}.",
+	"UPDATE_NOTIFICATION_DONE": "Atualização do módulo {MODULE_NAME} concluída.",
 	"UPDATE_NOTIFICATION_ERROR": "Erro na atualização do módulo {MODULE_NAME}.",
 	"UPDATE_NOTIFICATION_NEED-RESTART": "É necessário reiniciar o MagicMirror."
 }
