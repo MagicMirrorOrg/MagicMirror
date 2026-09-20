@@ -2,7 +2,6 @@ const config = require(`${process.cwd()}/tests/configs/default.js`).configFactor
 	language: "${MM_LANGUAGE}",
 	logLevel: ["${MM_LOG_ERROR}", "LOG", "WARN", "${MM_LOG_INFO}"],
 	timeFormat: ${MM_TIME_FORMAT},
-	hideConfigSecrets: true,
 	ipWhitelist: ["${SECRET_IP2}", "::${SECRET_IP3}", "${SECRET_IP1}", "192.168.0.0/16", "172.16.0.0/12"],
 	address: "0.0.0.0",
 
