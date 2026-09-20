@@ -118,7 +118,7 @@ class NodeHelper {
 		io.of(this.name).on("connection", (socket) => {
 			// register catch all.
 			socket.onAny((notification, payload) => {
-				if (global.config?.hideConfigSecrets && payload && typeof payload === "object") {
+				if (payload && typeof payload === "object") {
 					try {
 						// Calculate exactly which secrets this module is allowed to receive
 						const allowedSecrets = getAllowedSecrets(this.name);

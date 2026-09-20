@@ -70,11 +70,7 @@ const cors = async (req, res) => {
 			return res.status(400).send(url);
 		} else {
 			url = match[1];
-			if (typeof global.config !== "undefined") {
-				if (global.config.hideConfigSecrets) {
-					url = replaceSecretPlaceholder(url);
-				}
-			}
+			if (typeof global.config !== "undefined") url = replaceSecretPlaceholder(url);
 
 			// Validate protocol before attempting connection (non-http/https are never allowed)
 			let parsed;

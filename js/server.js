@@ -108,17 +108,12 @@ class Server {
 			app.use(helmet(config.httpHeaders));
 			app.use("/js", express.static(__dirname));
 
-			if (config.hideConfigSecrets) {
-				const getErrorText = (filename) => {
-					return `<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /config/${filename}</pre>\n</body>\n</html>`;
-				};
-				app.get("/config/config.env", (req, res) => {
-					res.status(404).send(getErrorText("config.env"));
-				});
-				app.get("/config/config.js", (req, res) => {
-					res.status(404).send(getErrorText("config.js"));
-				});
-			}
+			const getConfigFileError = (filename) => (req, res) => {
+				const errorText = `<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /config/${filename}</pre>\n</body>\n</html>`;
+				res.status(404).send(errorText);
+			};
+			app.get("/config/config.env", getConfigFileError("config.env"));
+			app.get("/config/config.js", getConfigFileError("config.js"));
 
 			const directories = ["/config", "/css", "/favicon.svg", "/defaultmodules", "/modules", "/node_modules/animate.css", "/node_modules/@fontsource", "/node_modules/@fortawesome", "/node_modules/suncalc", "/translations", "/tests/configs", "/tests/mocks"];
 			for (const value of Object.values(vendor)) {
@@ -135,7 +130,7 @@ class Server {
 			const getStartup = (req, res) => res.send(startUp);
 
 			const getConfig = (req, res) => {
-				const obj = config.hideConfigSecrets ? configObj.redactedConf : configObj.fullConf;
+				const obj = configObj.redactedConf;
 				// Functions can't survive JSON.stringify, so we wrap them in a
 				// tagged object { __mmFunction: "<source>" }. The client-side
 				// JSON reviver in main.js recognises this tag and reconstructs
