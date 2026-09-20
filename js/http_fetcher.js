@@ -61,7 +61,7 @@ class HTTPFetcher extends EventEmitter {
 
 	/**
 	 * Creates a new HTTPFetcher instance
-	 * @param {string} url - The URL to fetch
+	 * @param {string|(() => string)} url - The URL to fetch, or a function that returns the URL
 	 * @param {object} options - Configuration options
 	 * @param {number} [options.reloadInterval] - Time in ms between fetches (default: 5 min)
 	 * @param {object} [options.auth] - Authentication options
@@ -191,6 +191,15 @@ class HTTPFetcher extends EventEmitter {
 	}
 
 	/**
+	 * Resolves the URL for the current request.
+	 * Supports both static URL strings and functions that generate a URL dynamically.
+	 * @returns {string} URL to use for the request.
+	 */
+	#getUrl () {
+		return typeof this.url === "function" ? this.url() : this.url;
+	}
+
+	/**
 	 * Returns a shortened version of the URL for log messages.
 	 * @returns {string} Shortened URL
 	 */
@@ -295,7 +304,9 @@ class HTTPFetcher extends EventEmitter {
 			// because Node's global fetch and npm undici@8 Agents are incompatible.
 			// For regular requests, use globalThis.fetch so MSW and other interceptors work.
 			const fetchFn = requestOptions.dispatcher ? undiciFetch : globalThis.fetch;
-			const response = await fetchFn(this.url, {
+			const url = this.#getUrl();
+
+			const response = await fetchFn(url, {
 				...requestOptions,
 				signal: controller.signal
 			});
