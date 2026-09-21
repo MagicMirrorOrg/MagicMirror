@@ -37,14 +37,6 @@ Module.register("newsfeed", {
 		allowedBasicHtmlTags: []
 	},
 
-	getUrlPrefix (item) {
-		if (item.useCorsProxy) {
-			return `${location.protocol}//${location.host}${globalThis.config.basePath}cors?url=`;
-		} else {
-			return "";
-		}
-	},
-
 	// Define required scripts.
 	getScripts () {
 		return ["moment.js"];
@@ -202,7 +194,7 @@ Module.register("newsfeed", {
 	getActiveItemURL () {
 		const item = this.newsItems[this.activeItem];
 		if (item) {
-			return typeof item.url === "string" ? this.getUrlPrefix(item) + item.url : this.getUrlPrefix(item) + item.url.href;
+			return typeof item.url === "string" ? item.url : item.url.href;
 		} else {
 			return "";
 		}
