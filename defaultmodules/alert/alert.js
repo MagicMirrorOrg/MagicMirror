@@ -33,7 +33,8 @@ Module.register("alert", {
 			pt: "translations/pt.json",
 			"pt-br": "translations/pt-br.json",
 			ru: "translations/ru.json",
-			th: "translations/th.json"
+			th: "translations/th.json",
+			tr: "translations/tr.json"
 		};
 	},
 

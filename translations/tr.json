@@ -1,13 +1,15 @@
 {
 	"LOADING": "Yükleniyor …",
 
+	"DAYBEFOREYESTERDAY": "Evvelsi gün",
 	"YESTERDAY": "Dün",
 	"TODAY": "Bugün",
 	"TOMORROW": "Yarın",
-	"DAYAFTERTOMORROW": "İki gün içinde",
-	"RUNNING": "Biten",
-	"EMPTY": "Yakında etkinlik yok.",
-	"WEEK": "Hafta {weekNumber}",
+	"DAYAFTERTOMORROW": "Öbür gün",
+	"RUNNING": "Bitmesine",
+	"EMPTY": "Yaklaşan etkinlik yok.",
+	"WEEK": "{weekNumber}. hafta",
+	"WEEK_SHORT": "H{weekNumber}",
 
 	"N": "K",
 	"NNE": "KKD",
@@ -26,28 +28,28 @@
 	"NW": "KB",
 	"NNW": "KKB",
 
-	"FEELS": "Hissedilen {DEGREE}",
-	"PRECIP_POP": "Yağış",
+	"FEELS": "Hissedilen: {DEGREE}",
+	"PRECIP_POP": "Yağış olasılığı",
 	"PRECIP_AMOUNT": "Yağış miktarı",
 
-	"MODULE_CONFIG_CHANGED": "{MODULE_NAME} modülü için yapılandırma seçenekleri değiştirildi.\nLütfen belgeleri kontrol edin.",
-	"MODULE_CONFIG_ERROR": "{MODULE_NAME} modülünde hata. {ERROR}",
-	"MODULE_ERROR_MALFORMED_URL": "Hatalı URL.",
+	"MODULE_CONFIG_CHANGED": "{MODULE_NAME} modülünün yapılandırma seçenekleri değişti.\nLütfen belgeleri kontrol edin.",
+	"MODULE_CONFIG_ERROR": "{MODULE_NAME} modülünde hata: {ERROR}",
+	"MODULE_ERROR_MALFORMED_URL": "URL hatalı biçimlendirilmiş.",
 	"MODULE_ERROR_NO_CONNECTION": "İnternet bağlantısı yok.",
-	"MODULE_ERROR_UNAUTHORIZED": "Yetkilendirme başarısız.",
-	"MODULE_ERROR_RATE_LIMITED": "Çok fazla istek. Daha sonra yeniden deneniyor.",
-	"MODULE_ERROR_SERVER_ERROR": "Sunucu hatası. Daha sonra yeniden deneniyor.",
+	"MODULE_ERROR_UNAUTHORIZED": "Yetkilendirme başarısız oldu.",
+	"MODULE_ERROR_RATE_LIMITED": "Çok fazla istek gönderildi. Daha sonra yeniden denenecek.",
+	"MODULE_ERROR_SERVER_ERROR": "Sunucu hatası. Daha sonra yeniden denenecek.",
 	"MODULE_ERROR_CLIENT_ERROR": "İstek başarısız oldu.",
-	"MODULE_ERROR_UNSPECIFIED": "Daha fazla ayrıntı için günlükleri kontrol edin.",
+	"MODULE_ERROR_UNSPECIFIED": "Ayrıntılı bilgi için günlükleri kontrol edin.",
 
 	"NEWSFEED_NO_ITEMS": "Şu anda haber yok.",
 	"NEWSFEED_ARTICLE_UNAVAILABLE": "Makale burada görüntülenemiyor.",
 
 	"UPDATE_NOTIFICATION": "MagicMirror² güncellemesi mevcut.",
-	"UPDATE_NOTIFICATION_MODULE": "{MODULE_NAME} modulü için güncelleme mevcut.",
-	"UPDATE_INFO_SINGLE": "Sahip olduğunuz kurulum {BRANCH_NAME} branchinden {COMMIT_COUNT} commit geridedir.",
-	"UPDATE_INFO_MULTIPLE": "Sahip olduğunuz kurulum {BRANCH_NAME} branchinden {COMMIT_COUNT} commit geridedir.",
-	"UPDATE_NOTIFICATION_DONE": "Güncelleme tamamlandı.",
-	"UPDATE_NOTIFICATION_ERROR": "Güncelleme sırasında hata oluştu.",
-	"UPDATE_NOTIFICATION_NEED-RESTART": "MagicMirror'ün yeniden başlatılması gerekiyor."
+	"UPDATE_NOTIFICATION_MODULE": "{MODULE_NAME} modülü için güncelleme mevcut.",
+	"UPDATE_INFO_SINGLE": "Kurulumunuz, {BRANCH_NAME} dalının {COMMIT_COUNT} commit gerisinde.",
+	"UPDATE_INFO_MULTIPLE": "Kurulumunuz, {BRANCH_NAME} dalının {COMMIT_COUNT} commit gerisinde.",
+	"UPDATE_NOTIFICATION_DONE": "{MODULE_NAME} modülünün güncellemesi tamamlandı.",
+	"UPDATE_NOTIFICATION_ERROR": "{MODULE_NAME} modülü güncellenirken hata oluştu.",
+	"UPDATE_NOTIFICATION_NEED-RESTART": "MagicMirror²'nin yeniden başlatılması gerekiyor."
 }
