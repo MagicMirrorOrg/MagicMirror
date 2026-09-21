@@ -1,4 +1,23 @@
-import { describe, it, expect, vi, beforeAll } from "vitest";
+import { http, HttpResponse } from "msw";
+import { setupServer } from "msw/node";
+import { describe, it, expect, vi, beforeAll, afterAll, afterEach } from "vitest";
+
+const FMI_WFS_PATTERN = "https://opendata.fmi.fi/wfs";
+
+let server;
+
+beforeAll(() => {
+	server = setupServer();
+	server.listen({ onUnhandledRequest: "bypass" });
+});
+
+afterAll(() => {
+	server.close();
+});
+
+afterEach(() => {
+	server.resetHandlers();
+});
 
 describe("FMIProvider", () => {
 	let FMIProvider;
@@ -23,11 +42,11 @@ describe("FMIProvider", () => {
 
 		it("should allow overriding default config values", () => {
 			const provider = new FMIProvider({
-				type: "forecast",
+				type: "hourly",
 				updateInterval: 15 * 60 * 1000
 			});
 
-			expect(provider.config.type).toBe("forecast");
+			expect(provider.config.type).toBe("hourly");
 			expect(provider.config.updateInterval).toBe(15 * 60 * 1000);
 		});
 	});
@@ -390,6 +409,385 @@ describe("FMIProvider", () => {
 			expect(result.pressure).toBe(1013.2);
 			expect(result.precipitationAmount).toBe(0.2);
 			expect(provider.locationName).toBe("Helsinki Kaisaniemi");
+		});
+	});
+	describe("Forecast Parsing", () => {
+		it("should combine FMI HARMONIE parameter time series by forecast time", () => {
+			const provider = new FMIProvider({
+				lat: 60.1699,
+				lon: 24.9384
+			});
+
+			const xml = `
+			<wfs:FeatureCollection
+				xmlns:wfs="http://www.opengis.net/wfs/2.0"
+				xmlns:gml="http://www.opengis.net/gml/3.2"
+				xmlns:om="http://www.opengis.net/om/2.0"
+				xmlns:omso="http://inspire.ec.europa.eu/schemas/omso/3.0"
+				xmlns:wml2="http://www.opengis.net/waterml/2.0"
+				xmlns:xlink="http://www.w3.org/1999/xlink">
+
+				<wfs:member>
+					<omso:PointTimeSeriesObservation>
+						<om:observedProperty
+							xlink:href="https://opendata.fmi.fi/meta?observableProperty=forecast&amp;param=Temperature&amp;language=eng"/>
+						<om:result>
+							<wml2:MeasurementTimeseries>
+								<wml2:point>
+									<wml2:MeasurementTVP>
+										<wml2:time>2026-09-20T09:00:00Z</wml2:time>
+										<wml2:value>15.1</wml2:value>
+									</wml2:MeasurementTVP>
+								</wml2:point>
+								<wml2:point>
+									<wml2:MeasurementTVP>
+										<wml2:time>2026-09-20T10:00:00Z</wml2:time>
+										<wml2:value>15.5</wml2:value>
+									</wml2:MeasurementTVP>
+								</wml2:point>
+							</wml2:MeasurementTimeseries>
+						</om:result>
+					</omso:PointTimeSeriesObservation>
+				</wfs:member>
+
+				<wfs:member>
+					<omso:PointTimeSeriesObservation>
+						<om:observedProperty
+							xlink:href="https://opendata.fmi.fi/meta?observableProperty=forecast&amp;param=Humidity&amp;language=eng"/>
+						<om:result>
+							<wml2:MeasurementTimeseries>
+								<wml2:point>
+									<wml2:MeasurementTVP>
+										<wml2:time>2026-09-20T09:00:00Z</wml2:time>
+										<wml2:value>72</wml2:value>
+									</wml2:MeasurementTVP>
+								</wml2:point>
+								<wml2:point>
+									<wml2:MeasurementTVP>
+										<wml2:time>2026-09-20T10:00:00Z</wml2:time>
+										<wml2:value>68</wml2:value>
+									</wml2:MeasurementTVP>
+								</wml2:point>
+							</wml2:MeasurementTimeseries>
+						</om:result>
+					</omso:PointTimeSeriesObservation>
+				</wfs:member>
+			</wfs:FeatureCollection>
+		`;
+
+			const forecasts = provider.parseForecastXml(xml);
+
+			expect(forecasts).toEqual([
+				{
+					time: "2026-09-20T09:00:00Z",
+					Temperature: 15.1,
+					Humidity: 72
+				},
+				{
+					time: "2026-09-20T10:00:00Z",
+					Temperature: 15.5,
+					Humidity: 68
+				}
+			]);
+		});
+	});
+	describe("Hourly Forecast Generation", () => {
+		it("should convert parsed FMI forecasts to MagicMirror hourly weather data", () => {
+			const provider = new FMIProvider({
+				lat: 60.1699,
+				lon: 24.9384
+			});
+
+			const forecasts = [
+				{
+					time: "2026-09-20T09:00:00Z",
+					Temperature: 15.1,
+					Humidity: 72,
+					WindSpeedMS: 3.2,
+					WindDirection: 210,
+					WindGust: 5.1,
+					Pressure: 1013.2,
+					Precipitation1h: 0,
+					WeatherSymbol3: 2
+				}
+			];
+
+			const hourly = provider.generateHourlyForecast(forecasts);
+
+			expect(hourly).toHaveLength(1);
+			expect(hourly[0]).toEqual({
+				date: new Date("2026-09-20T09:00:00Z"),
+				temperature: 15.1,
+				humidity: 72,
+				windSpeed: 3.2,
+				windFromDirection: 210,
+				windGust: 5.1,
+				pressure: 1013.2,
+				precipitationAmount: 0,
+				weatherType: "day-cloudy"
+			});
+		});
+
+		it("should map FMI weather symbols to MagicMirror weather types", () => {
+			const provider = new FMIProvider({
+				lat: 60.1699,
+				lon: 24.9384
+			});
+
+			const symbols = [
+				[1, "day-sunny"],
+				[2, "day-cloudy"],
+				[3, "cloudy"],
+				[22, "showers"],
+				[32, "rain"],
+				[42, "snow"],
+				[52, "snow"],
+				[61, "thunderstorm"],
+				[72, "sleet"],
+				[82, "sleet"],
+				[92, "fog"]
+			];
+
+			for (const [symbol, expectedWeatherType] of symbols) {
+				const hourly = provider.generateHourlyForecast([
+					{
+						time: "2026-09-20T09:00:00Z",
+						Temperature: 15,
+						Humidity: 70,
+						WindSpeedMS: 3,
+						WindDirection: 180,
+						WindGust: 5,
+						Pressure: 1013,
+						Precipitation1h: 0,
+						WeatherSymbol3: symbol
+					}
+				]);
+
+				expect(hourly[0].weatherType).toBe(expectedWeatherType);
+			}
+		});
+
+		it("should leave weather type undefined for an unknown FMI weather symbol", () => {
+			const provider = new FMIProvider({
+				lat: 60.1699,
+				lon: 24.9384
+			});
+
+			const hourly = provider.generateHourlyForecast([
+				{
+					time: "2026-09-20T09:00:00Z",
+					Temperature: 15,
+					Humidity: 70,
+					WindSpeedMS: 3,
+					WindDirection: 180,
+					WindGust: 5,
+					Pressure: 1013,
+					Precipitation1h: 0,
+					WeatherSymbol3: 999
+				}
+			]);
+
+			expect(hourly[0].weatherType).toBeUndefined();
+		});
+	});
+	describe("Forecast Fetching", () => {
+		it("should fetch and process an FMI hourly forecast", async () => {
+			const provider = new FMIProvider({
+				lat: 60.1699,
+				lon: 24.9384,
+				type: "hourly"
+			});
+
+			const xml = `
+			<wfs:FeatureCollection>
+				<wfs:member>
+					<omso:PointTimeSeriesObservation>
+						<om:observedProperty xlink:href="https://opendata.fmi.fi/meta?param=Temperature" />
+						<wml2:MeasurementTimeseries>
+							<wml2:point>
+								<wml2:MeasurementTVP>
+									<wml2:time>2026-09-20T09:00:00Z</wml2:time>
+									<wml2:value>15.1</wml2:value>
+								</wml2:MeasurementTVP>
+							</wml2:point>
+						</wml2:MeasurementTimeseries>
+					</omso:PointTimeSeriesObservation>
+				</wfs:member>
+				<wfs:member>
+					<omso:PointTimeSeriesObservation>
+						<om:observedProperty xlink:href="https://opendata.fmi.fi/meta?param=Humidity" />
+						<wml2:MeasurementTimeseries>
+							<wml2:point>
+								<wml2:MeasurementTVP>
+									<wml2:time>2026-09-20T09:00:00Z</wml2:time>
+									<wml2:value>72</wml2:value>
+								</wml2:MeasurementTVP>
+							</wml2:point>
+						</wml2:MeasurementTimeseries>
+					</omso:PointTimeSeriesObservation>
+				</wfs:member>
+			</wfs:FeatureCollection>
+		`;
+
+			const dataPromise = new Promise((resolve, reject) => {
+				provider.setCallbacks(resolve, reject);
+			});
+
+			server.use(
+				http.get(FMI_WFS_PATTERN, () => new HttpResponse(xml, {
+					headers: { "Content-Type": "application/xml" }
+				}))
+			);
+
+			provider.initialize();
+			provider.start();
+
+			const result = await dataPromise;
+
+			expect(Array.isArray(result)).toBe(true);
+			expect(result).toHaveLength(1);
+			expect(result[0].date).toEqual(new Date("2026-09-20T09:00:00Z"));
+			expect(result[0].temperature).toBe(15.1);
+			expect(result[0].humidity).toBe(72);
+
+			provider.stop();
+		});
+		it("should fetch and process an FMI daily forecast", async () => {
+			const provider = new FMIProvider({
+				lat: 60.1699,
+				lon: 24.9384,
+				type: "forecast"
+			});
+
+			const xml = `
+		<wfs:FeatureCollection>
+			<wfs:member>
+				<omso:PointTimeSeriesObservation>
+					<om:observedProperty xlink:href="https://opendata.fmi.fi/meta?param=Temperature" />
+					<wml2:MeasurementTimeseries>
+						<wml2:point>
+							<wml2:MeasurementTVP>
+								<wml2:time>2026-09-20T04:00:00Z</wml2:time>
+								<wml2:value>8.2</wml2:value>
+							</wml2:MeasurementTVP>
+						</wml2:point>
+						<wml2:point>
+							<wml2:MeasurementTVP>
+								<wml2:time>2026-09-20T09:00:00Z</wml2:time>
+								<wml2:value>15.1</wml2:value>
+							</wml2:MeasurementTVP>
+						</wml2:point>
+					</wml2:MeasurementTimeseries>
+				</omso:PointTimeSeriesObservation>
+			</wfs:member>
+			<wfs:member>
+				<omso:PointTimeSeriesObservation>
+					<om:observedProperty xlink:href="https://opendata.fmi.fi/meta?param=Precipitation1h" />
+					<wml2:MeasurementTimeseries>
+						<wml2:point>
+							<wml2:MeasurementTVP>
+								<wml2:time>2026-09-20T04:00:00Z</wml2:time>
+								<wml2:value>0</wml2:value>
+							</wml2:MeasurementTVP>
+						</wml2:point>
+						<wml2:point>
+							<wml2:MeasurementTVP>
+								<wml2:time>2026-09-20T09:00:00Z</wml2:time>
+								<wml2:value>0.4</wml2:value>
+							</wml2:MeasurementTVP>
+						</wml2:point>
+					</wml2:MeasurementTimeseries>
+				</omso:PointTimeSeriesObservation>
+			</wfs:member>
+			<wfs:member>
+				<omso:PointTimeSeriesObservation>
+					<om:observedProperty xlink:href="https://opendata.fmi.fi/meta?param=WeatherSymbol3" />
+					<wml2:MeasurementTimeseries>
+						<wml2:point>
+							<wml2:MeasurementTVP>
+								<wml2:time>2026-09-20T04:00:00Z</wml2:time>
+								<wml2:value>1</wml2:value>
+							</wml2:MeasurementTVP>
+						</wml2:point>
+						<wml2:point>
+							<wml2:MeasurementTVP>
+								<wml2:time>2026-09-20T09:00:00Z</wml2:time>
+								<wml2:value>2</wml2:value>
+							</wml2:MeasurementTVP>
+						</wml2:point>
+					</wml2:MeasurementTimeseries>
+				</omso:PointTimeSeriesObservation>
+			</wfs:member>
+		</wfs:FeatureCollection>
+	`;
+
+			const dataPromise = new Promise((resolve, reject) => {
+				provider.setCallbacks(resolve, reject);
+			});
+
+			server.use(
+				http.get(FMI_WFS_PATTERN, () => new HttpResponse(xml, {
+					headers: { "Content-Type": "application/xml" }
+				}))
+			);
+
+			provider.initialize();
+			provider.start();
+
+			const result = await dataPromise;
+
+			expect(Array.isArray(result)).toBe(true);
+			expect(result).toHaveLength(1);
+			expect(result[0]).toMatchObject({
+				date: new Date("2026-09-20T04:00:00Z"),
+				minTemperature: 8.2,
+				maxTemperature: 15.1,
+				weatherType: "day-cloudy"
+			});
+			expect(result[0].precipitationAmount).toBeCloseTo(0.4);
+
+			provider.stop();
+		});
+	});
+	describe("Daily Forecast Generation", () => {
+		it("should aggregate FMI forecasts into Finnish local calendar days", () => {
+			const provider = new FMIProvider({
+				lat: 60.1699,
+				lon: 24.9384,
+				type: "forecast"
+			});
+
+			const forecasts = [
+				{
+					time: "2026-09-20T04:00:00Z",
+					Temperature: 8.2,
+					Precipitation1h: 0,
+					WeatherSymbol3: 1
+				},
+				{
+					time: "2026-09-20T09:00:00Z",
+					Temperature: 15.1,
+					Precipitation1h: 0.4,
+					WeatherSymbol3: 2
+				},
+				{
+					time: "2026-09-20T18:00:00Z",
+					Temperature: 10.3,
+					Precipitation1h: 0.2,
+					WeatherSymbol3: 7
+				}
+			];
+
+			const daily = provider.generateDailyForecast(forecasts);
+
+			expect(daily).toHaveLength(1);
+			expect(daily[0]).toMatchObject({
+				date: new Date("2026-09-20T04:00:00Z"),
+				minTemperature: 8.2,
+				maxTemperature: 15.1,
+				weatherType: "day-cloudy"
+			});
+			expect(daily[0].precipitationAmount).toBeCloseTo(0.6);
 		});
 	});
 });

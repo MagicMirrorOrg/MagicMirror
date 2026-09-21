@@ -42,6 +42,8 @@ const HARMONIE_FORECAST_PARAMETERS = [
 
 const EARTH_RADIUS_KM = 6371;
 
+const FMI_TIME_ZONE = "Europe/Helsinki";
+
 /**
  * Convert degrees to radians.
  * @param {number} degrees Angle in degrees.
@@ -70,6 +72,60 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
 	return EARTH_RADIUS_KM * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 };
 
+const WEATHER_SYMBOL_MAP = {
+	1: "day-sunny",
+	2: "day-cloudy",
+	3: "cloudy",
+	21: "showers",
+	22: "showers",
+	23: "showers",
+	31: "rain",
+	32: "rain",
+	33: "rain",
+	41: "snow",
+	42: "snow",
+	43: "snow",
+	51: "snow",
+	52: "snow",
+	53: "snow",
+	61: "thunderstorm",
+	62: "thunderstorm",
+	63: "thunderstorm",
+	64: "thunderstorm",
+	71: "sleet",
+	72: "sleet",
+	73: "sleet",
+	81: "sleet",
+	82: "sleet",
+	83: "sleet",
+	91: "fog",
+	92: "fog"
+};
+
+/**
+ * Return date and hour components for an FMI timestamp in Finnish local time.
+ * @param {string|Date} value Forecast timestamp.
+ * @returns {{dateKey: string, hour: number}} Local date key and hour.
+ */
+const getFinnishLocalTime = (value) => {
+	const date = new Date(value);
+	const parts = new Intl.DateTimeFormat("en-CA", {
+		timeZone: FMI_TIME_ZONE,
+		year: "numeric",
+		month: "2-digit",
+		day: "2-digit",
+		hour: "2-digit",
+		hourCycle: "h23"
+	}).formatToParts(date);
+
+	const getPart = (type) => parts.find((part) => part.type === type)?.value;
+
+	return {
+		dateKey: `${getPart("year")}-${getPart("month")}-${getPart("day")}`,
+		hour: Number(getPart("hour"))
+	};
+};
+
 /**
  * Server-side weather provider for the Finnish Meteorological Institute (FMI).
  * Uses FMI Open Data for weather observations and forecasts.
@@ -93,6 +149,12 @@ class FMIProvider extends WeatherProvider {
 
 			if (this.config.type === "current") {
 				this.#initializeObservationFetcher();
+			} else if (
+				this.config.type === "hourly"
+				|| this.config.type === "forecast"
+				|| this.config.type === "daily"
+			) {
+				this.#initializeForecastFetcher();
 			}
 		} catch (error) {
 			Log.error("[fmi] Initialization failed:", error);
@@ -137,6 +199,47 @@ class FMIProvider extends WeatherProvider {
 				}
 			} catch (error) {
 				Log.error("[fmi] Failed to process observation data:", error);
+
+				if (this.onErrorCallback) {
+					this.onErrorCallback({
+						message: error.message,
+						translationKey: "MODULE_ERROR_UNSPECIFIED"
+					});
+				}
+			}
+		});
+
+		this.fetcher.on("error", (errorInfo) => {
+			if (this.onErrorCallback) {
+				this.onErrorCallback(errorInfo);
+			}
+		});
+	}
+
+	#initializeForecastFetcher () {
+		this.fetcher = new HTTPFetcher(() => this.buildForecastUrl(), {
+			reloadInterval: this.config.updateInterval,
+			logContext: "weatherprovider.fmi"
+		});
+
+		this.fetcher.on("response", async (response) => {
+			if (response.status === 304) {
+				return;
+			}
+
+			try {
+				const xml = await response.text();
+				const forecasts = this.parseForecastXml(xml);
+				const weatherData
+					= this.config.type === "hourly"
+						? this.generateHourlyForecast(forecasts)
+						: this.generateDailyForecast(forecasts);
+
+				if (this.onDataCallback) {
+					this.onDataCallback(weatherData);
+				}
+			} catch (error) {
+				Log.error("[fmi] Failed to process forecast data:", error);
 
 				if (this.onErrorCallback) {
 					this.onErrorCallback({
@@ -255,6 +358,89 @@ class FMIProvider extends WeatherProvider {
 		}
 
 		return observations;
+	}
+
+	parseForecastXml (xml) {
+		const forecastsByTime = new Map();
+		const observationPattern
+			= /<omso:PointTimeSeriesObservation\b[^>]*>(.*?)<\/omso:PointTimeSeriesObservation>/gs;
+
+		for (const match of xml.matchAll(observationPattern)) {
+			const observation = this.#parseForecastObservation(match[1]);
+
+			if (!observation) {
+				continue;
+			}
+
+			for (const measurement of observation.measurements) {
+				if (!forecastsByTime.has(measurement.time)) {
+					forecastsByTime.set(measurement.time, {
+						time: measurement.time
+					});
+				}
+
+				forecastsByTime.get(measurement.time)[observation.parameter] = measurement.value;
+			}
+		}
+
+		return [...forecastsByTime.values()].sort(
+			(a, b) => new Date(a.time).getTime() - new Date(b.time).getTime()
+		);
+	}
+
+	generateHourlyForecast (forecasts) {
+		return forecasts.map((forecast) => ({
+			date: new Date(forecast.time),
+			temperature: forecast.Temperature,
+			humidity: forecast.Humidity,
+			windSpeed: forecast.WindSpeedMS,
+			windFromDirection: forecast.WindDirection,
+			windGust: forecast.WindGust,
+			pressure: forecast.Pressure,
+			precipitationAmount: forecast.Precipitation1h,
+			weatherType: WEATHER_SYMBOL_MAP[forecast.WeatherSymbol3]
+		}));
+	}
+
+	generateDailyForecast (forecasts) {
+		const dayMap = new Map();
+
+		for (const forecast of forecasts) {
+			const { dateKey, hour } = getFinnishLocalTime(forecast.time);
+
+			if (!dayMap.has(dateKey)) {
+				dayMap.set(dateKey, {
+					date: new Date(forecast.time),
+					temperatures: [],
+					precipitationAmount: 0,
+					weatherType: WEATHER_SYMBOL_MAP[forecast.WeatherSymbol3]
+				});
+			}
+
+			const day = dayMap.get(dateKey);
+
+			if (Number.isFinite(forecast.Temperature)) {
+				day.temperatures.push(forecast.Temperature);
+			}
+
+			if (Number.isFinite(forecast.Precipitation1h)) {
+				day.precipitationAmount += forecast.Precipitation1h;
+			}
+
+			if (hour >= 8 && hour <= 17 && Number.isFinite(forecast.WeatherSymbol3)) {
+				day.weatherType = WEATHER_SYMBOL_MAP[forecast.WeatherSymbol3];
+			}
+		}
+
+		return Array.from(dayMap.values())
+			.filter((day) => day.temperatures.length > 0)
+			.map((day) => ({
+				date: day.date,
+				minTemperature: Math.min(...day.temperatures),
+				maxTemperature: Math.max(...day.temperatures),
+				weatherType: day.weatherType,
+				precipitationAmount: day.precipitationAmount
+			}));
 	}
 
 	/**
@@ -399,6 +585,48 @@ class FMIProvider extends WeatherProvider {
 				lat: coordinates[0],
 				lon: coordinates[1]
 			},
+			measurements
+		};
+	}
+
+	/**
+	 * Parse one FMI forecast point time-series observation.
+	 * Forecast data does not contain observation-station metadata.
+	 * @param {string} xml Forecast observation XML.
+	 * @returns {object|null} Parsed forecast observation.
+	 */
+	#parseForecastObservation (xml) {
+		const parameter = this.#extractAttributeQueryParameter(xml, "observedProperty", "param");
+
+		if (!parameter) {
+			return null;
+		}
+
+		const measurements = [];
+		const measurementPattern = /<wml2:MeasurementTVP>(.*?)<\/wml2:MeasurementTVP>/gs;
+
+		for (const match of xml.matchAll(measurementPattern)) {
+			const time = this.#extract(match[1], /<wml2:time>([^<]+)<\/wml2:time>/);
+			const value = this.#extract(match[1], /<wml2:value>([^<]+)<\/wml2:value>/);
+
+			if (!time || value === null) {
+				continue;
+			}
+
+			const numericValue = Number(value);
+
+			if (!Number.isFinite(numericValue)) {
+				continue;
+			}
+
+			measurements.push({
+				time,
+				value: numericValue
+			});
+		}
+
+		return {
+			parameter,
 			measurements
 		};
 	}
