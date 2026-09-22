@@ -52,7 +52,7 @@ const createReleaseNotes = async () => {
 	const nodeVersion = JSON.parse(fs.readFileSync("package.json")).engines.node;
 
 	// Search strings
-	const labelArr = ["alert", "calendar", "clock", "compliments", "helloworld", "newsfeed", "updatenotification", "weather", "envcanada", "openmeteo", "openweathermap", "smhi", "ukmetoffice", "yr", "eslint", "bump", "dependencies", "deps", "logg", "translation", "test", "ci"];
+	const labelArr = ["alert", "calendar", "clock", "compliments", "helloworld", "newsfeed", "updatenotification", "weather", "envcanada", "fmi", "openmeteo", "openweathermap", "smhi", "ukmetoffice", "yr", "eslint", "bump", "dependencies", "deps", "logg", "translation", "test", "ci"];
 
 	// Map search strings to categories
 	const getFirstLabel = (text) => {
@@ -74,6 +74,7 @@ const createReleaseNotes = async () => {
 						res = "dependencies";
 						break;
 					case "envcanada":
+					case "fmi":
 					case "openmeteo":
 					case "openweathermap":
 					case "smhi":

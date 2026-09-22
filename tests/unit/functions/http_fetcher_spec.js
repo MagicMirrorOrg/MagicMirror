@@ -468,6 +468,62 @@ describe("fetch() method", () => {
 		expect(text).toBe(responseData);
 	});
 
+	it("should resolve a dynamic URL for each fetch", async () => {
+		let requestNumber = 0;
+		const requestedUrls = [];
+
+		server.use(
+			http.get("http://localhost/dynamic-1", ({ request }) => {
+				requestedUrls.push(request.url);
+				return HttpResponse.text("first");
+			}),
+			http.get("http://localhost/dynamic-2", ({ request }) => {
+				requestedUrls.push(request.url);
+				return HttpResponse.text("second");
+			})
+		);
+
+		fetcher = new HTTPFetcher(
+			() => {
+				requestNumber += 1;
+				return `http://localhost/dynamic-${requestNumber}`;
+			},
+			{ reloadInterval: 60000 }
+		);
+
+		await fetcher.fetch();
+		await fetcher.fetch();
+
+		expect(requestNumber).toBe(2);
+		expect(requestedUrls).toEqual([
+			"http://localhost/dynamic-1",
+			"http://localhost/dynamic-2"
+		]);
+	});
+
+	it("should include the resolved dynamic URL in error info", async () => {
+		const dynamicUrl = "http://localhost/dynamic-error";
+		const urlProvider = vi.fn(() => dynamicUrl);
+
+		server.use(
+			http.get(dynamicUrl, () => {
+				return new HttpResponse(null, { status: 500 });
+			})
+		);
+
+		fetcher = new HTTPFetcher(urlProvider, { reloadInterval: 60000 });
+
+		const errorPromise = new Promise((resolve) => {
+			fetcher.on("error", resolve);
+		});
+
+		await fetcher.fetch();
+		const errorInfo = await errorPromise;
+
+		expect(urlProvider).toHaveBeenCalledTimes(1);
+		expect(errorInfo.url).toBe(dynamicUrl);
+	});
+
 	it("should emit error event on network error", async () => {
 		server.use(
 			http.get(TEST_URL, () => {
