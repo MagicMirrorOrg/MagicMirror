@@ -111,7 +111,8 @@ class YrProvider extends WeatherProvider {
 			headers["If-Modified-Since"] = this.weatherCache.lastModified;
 		}
 
-		this.fetcher = new HTTPFetcher(url, {
+		this.fetcher = new HTTPFetcher({
+			url,
 			reloadInterval: this.config.updateInterval,
 			headers,
 			logContext: "weatherprovider.yr"

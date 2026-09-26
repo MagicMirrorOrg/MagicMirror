@@ -178,7 +178,8 @@ class WeatherGovProvider extends WeatherProvider {
 				url = this.stationObsURL;
 		}
 
-		this._createJSONFetcher(url, {
+		this._createJSONFetcher({
+			url,
 			reloadInterval: this.config.updateInterval,
 			timeout: 60000, // 60 seconds - weather.gov can be slow
 			headers: {

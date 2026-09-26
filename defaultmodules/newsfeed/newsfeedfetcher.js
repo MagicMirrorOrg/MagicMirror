@@ -46,7 +46,8 @@ class NewsfeedFetcher {
 		this.itemsReceivedCallback = () => {};
 
 		// Use HTTPFetcher for HTTP handling (Composition)
-		this.httpFetcher = new HTTPFetcher(url, {
+		this.httpFetcher = new HTTPFetcher({
+			url,
 			reloadInterval: Math.max(reloadInterval, 1000),
 			headers: {
 				"Cache-Control": "max-age=0, no-cache, no-store, must-revalidate",

@@ -46,7 +46,8 @@ class UkMetOfficeDataHubProvider extends WeatherProvider {
 		const forecastType = this.#getForecastType();
 		const url = this.#getUrl(forecastType);
 
-		this._createJSONFetcher(url, {
+		this._createJSONFetcher({
+			url,
 			reloadInterval: this.config.updateInterval,
 			headers: {
 				Accept: "application/json",

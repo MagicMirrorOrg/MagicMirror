@@ -47,12 +47,13 @@ class WeatherProvider {
 	 * - HTTP 304 Not Modified: skips parsing, keeps existing data on screen
 	 * - JSON parse failures: calls onError without clearing existing data
 	 * - HTTP errors: forwarded directly to onError
-	 * @param {string} url - The URL to fetch
 	 * @param {object} options - Options forwarded to HTTPFetcher
+	 * @param {string} [options.url] - The static URL to fetch
+	 * @param {() => string} [options.urlFactory] - Function that returns the URL for each request
 	 * @param {(data: object) => void} onData - Called with the parsed JSON object on success
 	 */
-	_createJSONFetcher (url, options, onData) {
-		this.fetcher = new HTTPFetcher(url, options);
+	_createJSONFetcher (options, onData) {
+		this.fetcher = new HTTPFetcher(options);
 
 		this.fetcher.on("response", async (response) => {
 			// 304 has no body — skip parsing, keep existing data

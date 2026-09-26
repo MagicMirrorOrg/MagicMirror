@@ -34,7 +34,7 @@ describe("HTTPFetcher", () => {
 				})
 			);
 
-			fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000 });
+			fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 60000 });
 
 			const responsePromise = new Promise((resolve) => {
 				fetcher.on("response", (response) => {
@@ -56,7 +56,7 @@ describe("HTTPFetcher", () => {
 			const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
 				new Response("test data")
 			);
-			fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000 });
+			fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 60000 });
 
 			fetcher.startPeriodicFetch(15000);
 
@@ -77,7 +77,7 @@ describe("HTTPFetcher", () => {
 				})
 			);
 
-			fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000 });
+			fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 60000 });
 
 			const errorPromise = new Promise((resolve) => {
 				fetcher.on("error", (errorInfo) => {
@@ -102,7 +102,7 @@ describe("HTTPFetcher", () => {
 				})
 			);
 
-			fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000, timeout: 100 });
+			fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 60000, timeout: 100 });
 
 			const errorPromise = new Promise((resolve) => {
 				fetcher.on("error", (errorInfo) => {
@@ -128,7 +128,7 @@ describe("HTTPFetcher", () => {
 					})
 				);
 
-				fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000 });
+				fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 60000 });
 				fetcher.serverErrorCount = 2;
 				fetcher.networkErrorCount = 3;
 
@@ -156,7 +156,7 @@ describe("HTTPFetcher", () => {
 					})
 				);
 
-				fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000 });
+				fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 60000 });
 
 				const errorPromise = new Promise((resolve) => {
 					fetcher.on("error", (errorInfo) => {
@@ -183,7 +183,7 @@ describe("HTTPFetcher", () => {
 					})
 				);
 
-				fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000 });
+				fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 60000 });
 
 				const errorPromise = new Promise((resolve) => {
 					fetcher.on("error", (errorInfo) => {
@@ -212,7 +212,7 @@ describe("HTTPFetcher", () => {
 					})
 				);
 
-				fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000 });
+				fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 60000 });
 
 				const errorPromise = new Promise((resolve) => {
 					fetcher.on("error", (errorInfo) => {
@@ -238,7 +238,7 @@ describe("HTTPFetcher", () => {
 					})
 				);
 
-				fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000 });
+				fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 60000 });
 
 				const errorPromise = new Promise((resolve) => {
 					fetcher.on("error", (errorInfo) => {
@@ -262,7 +262,7 @@ describe("HTTPFetcher", () => {
 					})
 				);
 
-				fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000 });
+				fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 60000 });
 
 				const errorPromise = new Promise((resolve) => {
 					fetcher.on("error", (errorInfo) => {
@@ -284,7 +284,7 @@ describe("HTTPFetcher", () => {
 					})
 				);
 
-				fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000 });
+				fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 60000 });
 
 				const errorPromise = new Promise((resolve) => {
 					fetcher.on("error", (errorInfo) => {
@@ -308,7 +308,7 @@ describe("HTTPFetcher", () => {
 					})
 				);
 
-				fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000 });
+				fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 60000 });
 
 				const errorPromise = new Promise((resolve) => {
 					fetcher.on("error", (errorInfo) => {
@@ -337,7 +337,8 @@ describe("HTTPFetcher - Authentication", () => {
 			})
 		);
 
-		fetcher = new HTTPFetcher(TEST_URL, {
+		fetcher = new HTTPFetcher({
+			url: TEST_URL,
 			reloadInterval: 60000,
 			auth: {
 				method: "basic",
@@ -367,7 +368,8 @@ describe("HTTPFetcher - Authentication", () => {
 			})
 		);
 
-		fetcher = new HTTPFetcher(TEST_URL, {
+		fetcher = new HTTPFetcher({
+			url: TEST_URL,
 			reloadInterval: 60000,
 			auth: {
 				method: "bearer",
@@ -397,7 +399,8 @@ describe("Custom headers", () => {
 			})
 		);
 
-		fetcher = new HTTPFetcher(TEST_URL, {
+		fetcher = new HTTPFetcher({
+			url: TEST_URL,
 			reloadInterval: 60000,
 			headers: {
 				"X-Custom-Header": "custom-value",
@@ -425,7 +428,7 @@ describe("Timer management", () => {
 			})
 		);
 
-		fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 100 });
+		fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 100 });
 
 		const responsePromise = new Promise((resolve) => {
 			fetcher.on("response", resolve);
@@ -439,7 +442,7 @@ describe("Timer management", () => {
 	});
 
 	it("should clear timer when clearTimer is called", () => {
-		fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 100 });
+		fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 100 });
 
 		// Manually set a timer to test clearing
 		fetcher.reloadTimer = setTimeout(() => {}, 10000);
@@ -460,7 +463,7 @@ describe("fetch() method", () => {
 			})
 		);
 
-		fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000 });
+		fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 60000 });
 
 		const responsePromise = new Promise((resolve) => {
 			fetcher.on("response", resolve);
@@ -489,13 +492,13 @@ describe("fetch() method", () => {
 			})
 		);
 
-		fetcher = new HTTPFetcher(
-			() => {
+		fetcher = new HTTPFetcher({
+			urlFactory: () => {
 				requestNumber += 1;
 				return `http://localhost/dynamic-${requestNumber}`;
 			},
-			{ reloadInterval: 60000 }
-		);
+			reloadInterval: 60000
+		});
 
 		await fetcher.fetch();
 		await fetcher.fetch();
@@ -507,9 +510,9 @@ describe("fetch() method", () => {
 		]);
 	});
 
-	it("should include the resolved dynamic URL in error info", async () => {
+	it("should report the resolved URL for dynamic URL errors", async () => {
 		const dynamicUrl = "http://localhost/dynamic-error";
-		const urlProvider = vi.fn(() => dynamicUrl);
+		const urlFactory = vi.fn(() => dynamicUrl);
 
 		server.use(
 			http.get(dynamicUrl, () => {
@@ -517,7 +520,10 @@ describe("fetch() method", () => {
 			})
 		);
 
-		fetcher = new HTTPFetcher(urlProvider, { reloadInterval: 60000 });
+		fetcher = new HTTPFetcher({
+			urlFactory,
+			reloadInterval: 60000
+		});
 
 		const errorPromise = new Promise((resolve) => {
 			fetcher.on("error", resolve);
@@ -526,7 +532,7 @@ describe("fetch() method", () => {
 		await fetcher.fetch();
 		const errorInfo = await errorPromise;
 
-		expect(urlProvider).toHaveBeenCalledTimes(1);
+		expect(urlFactory).toHaveBeenCalledTimes(1);
 		expect(errorInfo.url).toBe(dynamicUrl);
 	});
 
@@ -537,7 +543,7 @@ describe("fetch() method", () => {
 			})
 		);
 
-		fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000 });
+		fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 60000 });
 
 		const errorPromise = new Promise((resolve) => {
 			fetcher.on("error", resolve);
@@ -554,7 +560,8 @@ describe("selfSignedCert dispatcher", () => {
 	const { Agent } = require("undici");
 
 	it("should set rejectUnauthorized=false when selfSignedCert is true", () => {
-		fetcher = new HTTPFetcher(TEST_URL, {
+		fetcher = new HTTPFetcher({
+			url: TEST_URL,
 			reloadInterval: 60000,
 			selfSignedCert: true
 		});
@@ -568,7 +575,8 @@ describe("selfSignedCert dispatcher", () => {
 	});
 
 	it("should not set a dispatcher when selfSignedCert is false", () => {
-		fetcher = new HTTPFetcher(TEST_URL, {
+		fetcher = new HTTPFetcher({
+			url: TEST_URL,
 			reloadInterval: 60000,
 			selfSignedCert: false
 		});
@@ -587,7 +595,7 @@ describe("Retry exhaustion fallback", () => {
 			})
 		);
 
-		fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 300000, maxRetries: 3 });
+		fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 300000, maxRetries: 3 });
 
 		const errors = [];
 		fetcher.on("error", (errorInfo) => errors.push(errorInfo));
@@ -613,7 +621,7 @@ describe("Retry exhaustion fallback", () => {
 			})
 		);
 
-		fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 300000, maxRetries: 3 });
+		fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 300000, maxRetries: 3 });
 
 		const errors = [];
 		fetcher.on("error", (errorInfo) => errors.push(errorInfo));
@@ -641,7 +649,7 @@ describe("Retry exhaustion fallback", () => {
 			})
 		);
 
-		fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 300000, maxRetries: 3 });
+		fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 300000, maxRetries: 3 });
 
 		const errors = [];
 		fetcher.on("error", (errorInfo) => errors.push(errorInfo));
