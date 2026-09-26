@@ -15,6 +15,7 @@ const DEFAULT_TIMEOUT = 30000; // 30 seconds
  */
 const ERROR_TYPE_TO_TRANSLATION = {
 	AUTH_FAILURE: "MODULE_ERROR_UNAUTHORIZED",
+	ACCESS_DENIED: "MODULE_ERROR_UNAUTHORIZED",
 	RATE_LIMITED: "MODULE_ERROR_RATE_LIMITED",
 	SERVER_ERROR: "MODULE_ERROR_SERVER_ERROR",
 	CLIENT_ERROR: "MODULE_ERROR_CLIENT_ERROR",
@@ -226,9 +227,20 @@ class HTTPFetcher extends EventEmitter {
 		let errorType = "UNKNOWN_ERROR";
 
 		if (status === 401 || status === 403) {
-			errorType = "AUTH_FAILURE";
 			delay = Math.max(this.reloadInterval * 5, THIRTY_MINUTES);
-			message = `Authentication failed (${status}). Check your API key. Waiting ${Math.round(delay / 60000)} minutes before retry.`;
+
+			if (status === 401) {
+				errorType = "AUTH_FAILURE";
+				message = "Authentication failed (401). Check the resource's authentication requirements.";
+			} else {
+				errorType = "ACCESS_DENIED";
+				const isBrowserChallenge = response.headers.get("cf-mitigated") === "challenge";
+				message = isBrowserChallenge
+					? "Access denied (403). The server requires browser verification that cannot be completed by a server-side request."
+					: "Access denied (403). The server may require authentication or block automated requests.";
+			}
+
+			message += ` Waiting ${Math.round(delay / 60000)} minutes before retry.`;
 			Log.error(`${this.logContext}${this.#shortenUrl(url)} - ${message}`);
 		} else if (status === 429) {
 			errorType = "RATE_LIMITED";
@@ -270,7 +282,7 @@ class HTTPFetcher extends EventEmitter {
 	 * Creates a standardized error info object
 	 * @param {string} message - Error message
 	 * @param {number|null} status - HTTP status code or null for network errors
-	 * @param {string} errorType - Error type: AUTH_FAILURE, RATE_LIMITED, SERVER_ERROR, CLIENT_ERROR, NETWORK_ERROR
+	 * @param {string} errorType - Error type: AUTH_FAILURE, ACCESS_DENIED, RATE_LIMITED, SERVER_ERROR, CLIENT_ERROR, NETWORK_ERROR
 	 * @param {number} retryAfter - Delay until next retry in ms
 	 * @param {Error} [originalError] - The original error if any
 	 * @param {string} [url] - Resolved URL used for the request

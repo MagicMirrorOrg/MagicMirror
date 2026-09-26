@@ -170,12 +170,16 @@ describe("HTTPFetcher", () => {
 				expect(errorInfo.status).toBe(401);
 				expect(errorInfo.errorType).toBe("AUTH_FAILURE");
 				expect(errorInfo.translationKey).toBe("MODULE_ERROR_UNAUTHORIZED");
+				expect(errorInfo.message).toContain("Check the resource's authentication requirements.");
 			});
 
 			it("should emit error with AUTH_FAILURE for 403", async () => {
 				server.use(
 					http.get(TEST_URL, () => {
-						return new HttpResponse(null, { status: 403 });
+						return new HttpResponse(null, {
+							status: 403,
+							headers: { "cf-mitigated": "challenge" }
+						});
 					})
 				);
 
@@ -191,7 +195,9 @@ describe("HTTPFetcher", () => {
 				const errorInfo = await errorPromise;
 
 				expect(errorInfo.status).toBe(403);
-				expect(errorInfo.errorType).toBe("AUTH_FAILURE");
+				expect(errorInfo.errorType).toBe("ACCESS_DENIED");
+				expect(errorInfo.translationKey).toBe("MODULE_ERROR_UNAUTHORIZED");
+				expect(errorInfo.message).toContain("cannot be completed by a server-side request.");
 			});
 		});
 
