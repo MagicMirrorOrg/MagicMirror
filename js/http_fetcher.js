@@ -36,7 +36,7 @@ const ERROR_TYPE_TO_TRANSLATION = {
  * @fires HTTPFetcher#response - When fetch succeeds (including 304 Not Modified)
  * @fires HTTPFetcher#error - When fetch fails or returns non-ok response
  * @example
- * const fetcher = new HTTPFetcher(url, { reloadInterval: 60000 });
+ * const fetcher = new HTTPFetcher({ url, reloadInterval: 60000 });
  * fetcher.on('response', (response) => { ... });
  * fetcher.on('error', (errorInfo) => { ... });
  * fetcher.startPeriodicFetch();
@@ -62,8 +62,9 @@ class HTTPFetcher extends EventEmitter {
 
 	/**
 	 * Creates a new HTTPFetcher instance
-	 * @param {string|(() => string)} url - The URL to fetch, or a function that returns the URL
 	 * @param {object} options - Configuration options
+	 * @param {string} [options.url] - The static URL to fetch
+	 * @param {() => string} [options.urlFactory] - Function that returns the URL for each request
 	 * @param {number} [options.reloadInterval] - Time in ms between fetches (default: 5 min)
 	 * @param {object} [options.auth] - Authentication options
 	 * @param {string} [options.auth.method] - 'basic' or 'bearer'
@@ -75,10 +76,14 @@ class HTTPFetcher extends EventEmitter {
 	 * @param {number} [options.timeout] - Request timeout in ms (default: 30000)
 	 * @param {string} [options.logContext] - Optional context for log messages (e.g., provider name)
 	 */
-	constructor (url, options = {}) {
+	constructor (options = {}) {
 		super();
 
-		this.url = url;
+		this.url = options.url || null;
+		this.urlFactory = options.urlFactory || null;
+		if (!this.url && !this.urlFactory) {
+			throw new Error("Either url or urlFactory must be provided");
+		}
 		this.reloadInterval = options.reloadInterval || 5 * 60 * 1000;
 		this.auth = options.auth || null;
 		this.selfSignedCert = options.selfSignedCert || false;
@@ -193,11 +198,11 @@ class HTTPFetcher extends EventEmitter {
 
 	/**
 	 * Resolves the URL for the current request.
-	 * Supports both static URL strings and functions that generate a URL dynamically.
+	 * Uses urlFactory when configured, otherwise the static URL.
 	 * @returns {string} URL to use for the request.
 	 */
-	#getUrl () {
-		return typeof this.url === "function" ? this.url() : this.url;
+	#resolveUrl () {
+		return this.urlFactory ? this.urlFactory() : this.url;
 	}
 
 	/**
@@ -206,6 +211,8 @@ class HTTPFetcher extends EventEmitter {
 	 * @returns {string} Shortened URL
 	 */
 	#shortenUrl (url) {
+		if (!url) return "(unknown URL)";
+
 		try {
 			const urlObj = new URL(url);
 			return `${urlObj.origin}${urlObj.pathname}${urlObj.search.length > 50 ? "?..." : urlObj.search}`;
@@ -310,9 +317,9 @@ class HTTPFetcher extends EventEmitter {
 		this.clearTimer();
 
 		let nextDelay = this.reloadInterval;
+		let requestUrl = null;
 		const controller = new AbortController();
 		const timeoutId = setTimeout(() => controller.abort(), this.timeout);
-		const url = this.#getUrl();
 
 		try {
 			const requestOptions = this.getRequestOptions();
@@ -320,8 +327,9 @@ class HTTPFetcher extends EventEmitter {
 			// because Node's global fetch and npm undici@8 Agents are incompatible.
 			// For regular requests, use globalThis.fetch so MSW and other interceptors work.
 			const fetchFn = requestOptions.dispatcher ? undiciFetch : globalThis.fetch;
+			requestUrl = this.#resolveUrl();
 
-			const response = await fetchFn(url, {
+			const response = await fetchFn(requestUrl, {
 				...requestOptions,
 				signal: controller.signal
 			});
@@ -337,10 +345,11 @@ class HTTPFetcher extends EventEmitter {
 				 * Response event - fired when fetch succeeds (including 304)
 				 * @event HTTPFetcher#response
 				 * @type {Response}
+				 * @param {string} requestUrl - The URL that was actually requested (resolved from urlFactory/url)
 				 */
-				this.emit("response", response);
+				this.emit("response", response, requestUrl);
 			} else {
-				const { delay, errorInfo } = this.#getDelayForResponse(response, url);
+				const { delay, errorInfo } = this.#getDelayForResponse(response, requestUrl);
 				nextDelay = delay;
 				this.emit("error", errorInfo);
 			}
@@ -353,12 +362,12 @@ class HTTPFetcher extends EventEmitter {
 
 			if (exhausted) {
 				nextDelay = this.reloadInterval;
-				Log.error(`${this.logContext}${this.#shortenUrl(url)} - ${message} Max retries reached, retrying at configured interval (${Math.round(nextDelay / 1000)}s).`);
+				Log.error(`${this.logContext}${this.#shortenUrl(requestUrl)} - ${message} Max retries reached, retrying at configured interval (${Math.round(nextDelay / 1000)}s).`);
 			} else {
 				nextDelay = HTTPFetcher.calculateBackoffDelay(this.networkErrorCount, {
 					maxDelay: this.reloadInterval
 				});
-				const retryMsg = `${this.logContext}${this.#shortenUrl(url)} - ${message} Retry #${this.networkErrorCount} in ${Math.round(nextDelay / 1000)}s.`;
+				const retryMsg = `${this.logContext}${this.#shortenUrl(requestUrl)} - ${message} Retry #${this.networkErrorCount} in ${Math.round(nextDelay / 1000)}s.`;
 				if (this.networkErrorCount <= 2) {
 					Log.warn(retryMsg);
 				} else {
@@ -372,7 +381,7 @@ class HTTPFetcher extends EventEmitter {
 				"NETWORK_ERROR",
 				nextDelay,
 				error,
-				url
+				requestUrl
 			);
 			this.emit("error", errorInfo);
 		} finally {

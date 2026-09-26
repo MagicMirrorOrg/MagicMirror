@@ -27,7 +27,6 @@ class EnvCanadaProvider extends WeatherProvider {
 
 		this.lastCityPageURL = null;
 		this.cacheCurrentTemp = null;
-		this.currentHour = null; // Track current hour for URL updates
 	}
 
 	initialize () {
@@ -42,29 +41,23 @@ class EnvCanadaProvider extends WeatherProvider {
 	}
 
 	#initializeFetcher () {
-		this.currentHour = new Date().toISOString().substring(11, 13);
-		const indexURL = this.#getIndexUrl();
-
-		this.fetcher = new HTTPFetcher(indexURL, {
+		this.fetcher = new HTTPFetcher({
+			urlFactory: () => this.#getIndexUrl(),
 			reloadInterval: this.config.updateInterval,
 			logContext: "weatherprovider.envcanada"
 		});
 
-		this.fetcher.on("response", async (response) => {
+		this.fetcher.on("response", async (response, requestUrl) => {
 			if (response.status === 304) return;
 			try {
-				// Check if hour changed - restart fetcher with new URL
-				const newHour = new Date().toISOString().substring(11, 13);
-				if (newHour !== this.currentHour) {
-					Log.info("[envcanada] Hour changed, reinitializing fetcher");
-					this.stop();
-					this.#initializeFetcher();
-					this.start();
+				// Ignore a response from the previous hourly directory.
+				if (requestUrl !== this.#getIndexUrl()) {
+					Log.debug("[envcanada] Ignoring stale index response");
 					return;
 				}
 
 				const html = await response.text();
-				const cityPageURL = this.#extractCityPageURL(html);
+				const cityPageURL = this.#extractCityPageURL(html, requestUrl);
 
 				if (!cityPageURL) {
 					// This can happen during hour transitions when old responses arrive
@@ -347,13 +340,13 @@ class EnvCanadaProvider extends WeatherProvider {
 		return `https://dd.weather.gc.ca/today/citypage_weather/${this.config.provCode}/${hour}/`;
 	}
 
-	#extractCityPageURL (html) {
+	#extractCityPageURL (html, indexURL) {
 		// New format: {timestamp}_MSC_CitypageWeather_{siteCode}_en.xml
 		const pattern = `[^"]*_MSC_CitypageWeather_${this.config.siteCode}_en\\.xml`;
 		const match = html.match(new RegExp(`href="(${pattern})"`));
 
 		if (match && match[1]) {
-			return this.#getIndexUrl() + match[1];
+			return indexURL + match[1];
 		}
 
 		return null;

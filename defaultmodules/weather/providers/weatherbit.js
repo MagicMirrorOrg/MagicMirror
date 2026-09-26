@@ -37,7 +37,8 @@ class WeatherbitProvider extends WeatherProvider {
 	#initializeFetcher () {
 		const url = this.#getUrl();
 
-		this._createJSONFetcher(url, {
+		this._createJSONFetcher({
+			url,
 			reloadInterval: this.config.updateInterval,
 			headers: {
 				Accept: "application/json"

@@ -84,7 +84,8 @@ class BuienradarProvider extends WeatherProvider {
 
 
 	#initializeFetcher () {
-		this._createJSONFetcher(this.#getUrl(), {
+		this._createJSONFetcher({
+			url: this.#getUrl(),
 			reloadInterval: this.config.updateInterval,
 			headers: { "Cache-Control": "no-cache" },
 			logContext: "weatherprovider.buienradar"

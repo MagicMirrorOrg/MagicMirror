@@ -70,7 +70,8 @@ class SMHIProvider extends WeatherProvider {
 	#initializeFetcher () {
 		const url = this.#getUrl();
 
-		this._createJSONFetcher(url, {
+		this._createJSONFetcher({
+			url,
 			reloadInterval: this.config.updateInterval,
 			logContext: "weatherprovider.smhi"
 		}, (data) => this.#handleResponse(data));

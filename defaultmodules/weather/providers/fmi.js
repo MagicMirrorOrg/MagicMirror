@@ -173,7 +173,8 @@ class FMIProvider extends WeatherProvider {
 			return;
 		}
 
-		this.fetcher = new HTTPFetcher(() => this.buildObservationUrl(), {
+		this.fetcher = new HTTPFetcher({
+			urlFactory: () => this.buildObservationUrl(),
 			reloadInterval: this.config.updateInterval,
 			logContext: "weatherprovider.fmi"
 		});
@@ -217,7 +218,8 @@ class FMIProvider extends WeatherProvider {
 	}
 
 	#initializeForecastFetcher () {
-		this.fetcher = new HTTPFetcher(() => this.buildForecastUrl(), {
+		this.fetcher = new HTTPFetcher({
+			urlFactory: () => this.buildForecastUrl(),
 			reloadInterval: this.config.updateInterval,
 			logContext: "weatherprovider.fmi"
 		});

@@ -16,7 +16,7 @@ class TestProvider {
 	}
 
 	initialize () {
-		this.provider._createJSONFetcher(TEST_URL, { reloadInterval: 60000 }, this.onData);
+		this.provider._createJSONFetcher({ url: TEST_URL, reloadInterval: 60000 }, this.onData);
 	}
 
 	start () {
