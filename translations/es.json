@@ -51,5 +51,8 @@
 	"UPDATE_INFO_MULTIPLE": "Tu actual instalación está {COMMIT_COUNT} commits cambios detrás de la rama {BRANCH_NAME}.",
 	"UPDATE_NOTIFICATION_DONE": "S'ha completat l'actualització del mòdul {MODULE_NAME}.",
 	"UPDATE_NOTIFICATION_ERROR": "S'ha produït un error durant l'actualització del mòdul {MODULE_NAME}.",
-	"UPDATE_NOTIFICATION_NEED-RESTART": "És necessari reiniciar MagicMirror."
+	"UPDATE_NOTIFICATION_NEED-RESTART": "És necessari reiniciar MagicMirror.",
+
+	"ALERT_TITLE": "MagicMirror² Notificaciones",
+	"ALERT_WELCOME": "Bienvenido, ¡se iniciado correctamente!"
 }

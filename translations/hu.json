@@ -49,5 +49,8 @@
 	"UPDATE_INFO_MULTIPLE": "A jelenlegi telepítés óta {COMMIT_COUNT} új commit jelent meg a {BRANCH_NAME} ágon.",
 	"UPDATE_NOTIFICATION_DONE": "A frissítés befejeződött a {MODULE_NAME} modulhoz.",
 	"UPDATE_NOTIFICATION_ERROR": "Hiba történt a frissítés során a {MODULE_NAME} modulhoz.",
-	"UPDATE_NOTIFICATION_NEED-RESTART": "A MagicMirror újraindítása szükséges."
+	"UPDATE_NOTIFICATION_NEED-RESTART": "A MagicMirror újraindítása szükséges.",
+
+	"ALERT_TITLE": "MagicMirror² értesítés",
+	"ALERT_WELCOME": "Üdvözöljük, indulás sikeres!"
 }
