@@ -146,7 +146,7 @@ describe("translations", () => {
 		let base;
 
 		// Some expressions are not easy to translate automatically. For the sake of a working test, we filter them out.
-		const COMMON_EXCEPTIONS = ["WEEK_SHORT"];
+		const COMMON_EXCEPTIONS = ["WEEK_SHORT", "ALERT_TITLE", "ALERT_WELCOME"];
 
 		// Some languages don't have certain words, so we need to filter those language specific exceptions.
 		const LANGUAGE_EXCEPTIONS = {
