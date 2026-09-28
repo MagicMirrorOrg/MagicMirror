@@ -19,26 +19,6 @@ Module.register("alert", {
 		return ["font-awesome.css", this.file("./styles/notificationFx.css"), this.file(`./styles/${this.config.position}.css`)];
 	},
 
-	getTranslations () {
-		return {
-			az: "translations/az.json",
-			bg: "translations/bg.json",
-			da: "translations/da.json",
-			de: "translations/de.json",
-			en: "translations/en.json",
-			eo: "translations/eo.json",
-			es: "translations/es.json",
-			fr: "translations/fr.json",
-			hu: "translations/hu.json",
-			nl: "translations/nl.json",
-			pt: "translations/pt.json",
-			"pt-br": "translations/pt-br.json",
-			ru: "translations/ru.json",
-			th: "translations/th.json",
-			tr: "translations/tr.json"
-		};
-	},
-
 	getTemplate (type) {
 		return `templates/${type}.njk`;
 	},
@@ -51,8 +31,8 @@ Module.register("alert", {
 		}
 
 		if (this.config.welcome_message) {
-			const message = this.config.welcome_message === true ? this.translate("welcome") : this.config.welcome_message;
-			await this.showNotification({ title: this.translate("sysTitle"), message });
+			const message = this.config.welcome_message === true ? this.translate("ALERT_WELCOME") : this.config.welcome_message;
+			await this.showNotification({ title: this.translate("ALERT_TITLE"), message });
 		}
 	},
 

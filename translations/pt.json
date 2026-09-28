@@ -51,5 +51,8 @@
 	"UPDATE_INFO_MULTIPLE": "A instalação atual está {COMMIT_COUNT} commits atrás na ramificação {BRANCH_NAME}.",
 	"UPDATE_NOTIFICATION_DONE": "Atualização do módulo {MODULE_NAME} concluída.",
 	"UPDATE_NOTIFICATION_ERROR": "Erro na atualização do módulo {MODULE_NAME}.",
-	"UPDATE_NOTIFICATION_NEED-RESTART": "É necessário reiniciar o MagicMirror."
+	"UPDATE_NOTIFICATION_NEED-RESTART": "É necessário reiniciar o MagicMirror.",
+
+	"ALERT_TITLE": "Notificação do MagicMirror²",
+	"ALERT_WELCOME": "Bem-vindo! O sistema iniciou com sucesso."
 }

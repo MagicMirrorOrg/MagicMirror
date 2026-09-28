@@ -50,5 +50,8 @@
 	"UPDATE_INFO_MULTIPLE": "Инсталираната версия е с {COMMIT_COUNT} ревизии назад от клона „{BRANCH_NAME}“.",
 	"UPDATE_NOTIFICATION_DONE": "Актуализацията на модула „{MODULE_NAME}“ е завършена.",
 	"UPDATE_NOTIFICATION_ERROR": "Грешка при актуализацията на модула „{MODULE_NAME}“",
-	"UPDATE_NOTIFICATION_NEED-RESTART": "Необходимо е рестартиране на MagicMirror."
+	"UPDATE_NOTIFICATION_NEED-RESTART": "Необходимо е рестартиране на MagicMirror.",
+
+	"ALERT_TITLE": "MagicMirror² нотификация",
+	"ALERT_WELCOME": "Добре дошли, стартирането беше успешно"
 }

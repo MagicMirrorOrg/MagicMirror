@@ -51,5 +51,8 @@
 	"UPDATE_INFO_MULTIPLE": "Kurulumunuz, {BRANCH_NAME} dalının {COMMIT_COUNT} commit gerisinde.",
 	"UPDATE_NOTIFICATION_DONE": "{MODULE_NAME} modülünün güncellemesi tamamlandı.",
 	"UPDATE_NOTIFICATION_ERROR": "{MODULE_NAME} modülü güncellenirken hata oluştu.",
-	"UPDATE_NOTIFICATION_NEED-RESTART": "MagicMirror²'nin yeniden başlatılması gerekiyor."
+	"UPDATE_NOTIFICATION_NEED-RESTART": "MagicMirror²'nin yeniden başlatılması gerekiyor.",
+
+	"ALERT_TITLE": "MagicMirror² Bildirimi",
+	"ALERT_WELCOME": "Hoş geldiniz, sistem başarıyla başlatıldı!"
 }

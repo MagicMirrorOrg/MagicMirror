@@ -50,5 +50,8 @@
 	"UPDATE_INFO_MULTIPLE": "De huidige installatie loopt {COMMIT_COUNT} commits achter op de {BRANCH_NAME} branch.",
 	"UPDATE_NOTIFICATION_DONE": "Update voltooid voor {MODULE_NAME} module.",
 	"UPDATE_NOTIFICATION_ERROR": "Fout tijdens het updaten van {MODULE_NAME} module.",
-	"UPDATE_NOTIFICATION_NEED-RESTART": "MagicMirror moet opnieuw worden opgestart."
+	"UPDATE_NOTIFICATION_NEED-RESTART": "MagicMirror moet opnieuw worden opgestart.",
+
+	"ALERT_TITLE": "MagicMirror² Notificatie",
+	"ALERT_WELCOME": "Welkom, Succesvol gestart!"
 }

@@ -50,5 +50,8 @@
 	"UPDATE_INFO_MULTIPLE": "Η τρέχουσα εγκατάσταση είναι {COMMIT_COUNT} commit πίσω στο branch {BRANCH_NAME}",
 	"UPDATE_NOTIFICATION_DONE": "Η ενημέρωση ολοκληρώθηκε για το module {MODULE_NAME}",
 	"UPDATE_NOTIFICATION_ERROR": "Η ενημέρωση απέτυχε για το module {MODULE_NAME}",
-	"UPDATE_NOTIFICATION_NEED-RESTART": "Απαιτείται επανεκκίνηση του MagicMirror."
+	"UPDATE_NOTIFICATION_NEED-RESTART": "Απαιτείται επανεκκίνηση του MagicMirror.",
+
+	"ALERT_TITLE": "MagicMirror² Ειδοποίηση",
+	"ALERT_WELCOME": "Καλώς ήρθατε, η εκκίνηση ήταν επιτυχής!"
 }

@@ -51,5 +51,8 @@
 	"UPDATE_INFO_MULTIPLE": "Cari quraşdırma {BRANCH_NAME} budağından {COMMIT_COUNT} commit geridədir.",
 	"UPDATE_NOTIFICATION_DONE": "{MODULE_NAME} modulunun yeniləməsi tamamlandı.",
 	"UPDATE_NOTIFICATION_ERROR": "{MODULE_NAME} modulu yenilənərkən xəta baş verdi.",
-	"UPDATE_NOTIFICATION_NEED-RESTART": "MagicMirror yenidən başladılmalıdır."
+	"UPDATE_NOTIFICATION_NEED-RESTART": "MagicMirror yenidən başladılmalıdır.",
+
+	"ALERT_TITLE": "MagicMirror² bildirişi",
+	"ALERT_WELCOME": "Xoş gəlmisiniz, başlatma uğurla tamamlandı!"
 }
