@@ -1,6 +1,7 @@
 const translations = {
 	en: "translations/en.json", // English
 	af: "translations/af.json", // Afrikaans
+	az: "translations/az.json", // Azerbaijani
 	bg: "translations/bg.json", // Bulgarian
 	ca: "translations/ca.json", // Catalan
 	cs: "translations/cs.json", // Czech
