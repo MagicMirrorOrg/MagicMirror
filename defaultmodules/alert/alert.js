@@ -21,6 +21,7 @@ Module.register("alert", {
 
 	getTranslations () {
 		return {
+			az: "translations/az.json",
 			bg: "translations/bg.json",
 			da: "translations/da.json",
 			de: "translations/de.json",
