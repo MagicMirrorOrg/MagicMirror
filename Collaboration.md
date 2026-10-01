@@ -42,6 +42,7 @@ Releases are done by:
   - [ ] check auto-generated minimum Node.js version and adjust it for better readability if necessary
   - [ ] check if all elements are assigned to the correct category
   - [ ] change release name to `v2.xx.0`
+  - [ ] save as draft
 - [ ] after successful test run via GitHub Actions: create pull request from `develop` to `master` branch
   - [ ] add label `mastermerge`
   - [ ] title of the PR is `Release 2.xx.0`
@@ -49,7 +50,9 @@ Releases are done by:
 - [ ] review all `github-code-quality` / CodeQL review comments in the release PR (these comments are triggered automatically)
   - [ ] triage findings: if non-critical, continue the release; if critical and unclear, check with other maintainers and postpone the release if needed
   - [ ] if a finding is a false positive, dismiss it in the CodeQL alert with a short explanation
-- [ ] check if the new PR has merge conflicts; if so, merge `master` into the new PR and solve the conflicts
+- [ ] if the new PR shows merge conflicts:
+  - [ ] check that `git log --first-parent --format=%s -5 upstream/master` shows nothing but `Release …` commits (no hotfixes); otherwise merge `master` normally and resolve the conflicts by hand instead of the next step
+  - [ ] on `develop` run `git fetch upstream && git merge -s ours upstream/master` and push (`upstream` = `MagicMirrorOrg/MagicMirror`)
 - [ ] after PR tests run without issues, merge the PR
 - [ ] edit draft release with name `v2.xx.0`
   - [ ] set corresponding version tag `v2.xx.0` (with `Select tag` and then `Create new tag`)
@@ -67,8 +70,9 @@ Releases are done by:
 
 #### Documentation repository
 
+- [ ] on the `develop` branch, update `package.json` and `package-lock.json` to reflect correct version number `2.xx.0`, commit the changes with message `Prepare Release 2.xx.0` and push the commit
 - [ ] create a pull request from `develop` to `master` with title `Release v2.xx.0`
-- [ ] after successful test run via GitHub Actions: merge the pull request to `master`
+- [ ] after successful test run via GitHub Actions: squash merge the pull request to `master`
 - [ ] verify the updated documentation site is live
 - [ ] create/publish a release in the documentation repository for the same version (`v2.xx.0`)
 - [ ] update `package.json` and `package-lock.json` in the `develop` branch to reflect the next version number `2.xx.0-develop`
