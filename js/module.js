@@ -1,9 +1,7 @@
-/* global nunjucks */
-
-// eslint-disable-next-line import-x/extensions
-import { Loader } from "./loader.js";
-// eslint-disable-next-line import-x/extensions
+import "../node_modules/nunjucks/browser/nunjucks.min.js";
+import { loadFileForModule } from "./loader.js";
 import { MMSocket } from "./socketclient.js";
+import { Translator } from "./translator.js";
 
 /*
  * Module Blueprint.
@@ -92,7 +90,7 @@ export class Module {
 			// Check to see if we need to render a template string or a file.
 			if ((/^.*((\.html)|(\.njk))$/).test(template)) {
 				// the template is a filename
-				this.nunjucksEnvironment().render(template, templateData, function (err, res) {
+				this.nunjucksEnvironment().render(template, templateData, (err, res) => {
 					if (err) {
 						Log.error(err);
 					}
@@ -164,13 +162,15 @@ export class Module {
 			return this._nunjucksEnvironment;
 		}
 
-		this._nunjucksEnvironment = new nunjucks.Environment(new nunjucks.WebLoader(this.file(""), { async: true }), {
+		const nunjucksEngine = globalThis.nunjucks;
+
+		this._nunjucksEnvironment = new nunjucksEngine.Environment(new nunjucksEngine.WebLoader(this.file(""), { async: true }), {
 			trimBlocks: true,
 			lstripBlocks: true
 		});
 
 		this._nunjucksEnvironment.addFilter("translate", (str, variables) => {
-			return nunjucks.runtime.markSafe(this.translate(str, variables));
+			return nunjucksEngine.runtime.markSafe(this.translate(str, variables));
 		});
 
 		return this._nunjucksEnvironment;
@@ -282,7 +282,7 @@ export class Module {
 		const loadNextDependency = async () => {
 			if (dependencies.length > 0) {
 				const nextDependency = dependencies[0];
-				await Loader.loadFileForModule(nextDependency, this);
+				await loadFileForModule(nextDependency, this);
 				dependencies = dependencies.slice(1);
 				await loadNextDependency();
 			} else {
@@ -299,7 +299,7 @@ export class Module {
 	 */
 	async loadTranslations () {
 		const translations = this.getTranslations() || {};
-		const language = config.language.toLowerCase();
+		const language = globalThis.config.language.toLowerCase();
 
 		const languages = Object.keys(translations);
 		const fallbackLanguage = languages[0];
@@ -369,13 +369,13 @@ export class Module {
 	 * @param {object} [options] Optional settings for the hide method.
 	 */
 	hide (speed, callback, options = {}) {
-		let usedCallback = callback || function () {};
+		let usedCallback = callback || (() => {});
 		let usedOptions = options;
 
 		if (typeof callback === "object") {
 			Log.error("Parameter mismatch in module.hide: callback is not an optional parameter!");
 			usedOptions = callback;
-			usedCallback = function () {};
+			usedCallback = () => {};
 		}
 
 		MM.hideModule(
@@ -396,13 +396,13 @@ export class Module {
 	 * @param {object} [options] Optional settings for the show method.
 	 */
 	show (speed, callback, options) {
-		let usedCallback = callback || function () {};
+		let usedCallback = callback || (() => {});
 		let usedOptions = options;
 
 		if (typeof callback === "object") {
 			Log.error("Parameter mismatch in module.show: callback is not an optional parameter!");
 			usedOptions = callback;
-			usedCallback = function () {};
+			usedCallback = () => {};
 		}
 
 		MM.showModule(
@@ -420,49 +420,32 @@ export class Module {
 globalThis.Module = Module;
 
 /**
- * Merging MagicMirror² (or other) default/config script by `@bugsounet`
- * Merge 2 objects or/with array
- *
- * Usage:
- * -------
- * this.config = configMerge({}, this.defaults, this.config)
- * -------
- * arg1: initial object
- * arg2: config model
- * arg3: config to merge
- * -------
- * why using it ?
- * Object.assign() function don't to all job
- * it don't merge all thing in deep
- * -> object in object and array is not merging
- * -------
- *
- * Todo: idea of Mich determinate what do you want to merge or not
- * @param {object} result the initial object
- * @returns {object} the merged config
+ * Deep-merge module defaults with the user config.
+ * Used by Module.setConfig when configDeepMerge is enabled.
+ * Nested plain objects are merged recursively.
+ * All other values (strings, numbers, arrays, …) are overwritten.
+ * Sources are applied left to right; later values win.
+ * @param {object} target The object to merge into (mutated and returned).
+ * @param {...object} sources Objects whose properties are merged into target.
+ * @returns {object} The merged target object.
  */
-function configMerge (result) {
-	const stack = Array.prototype.slice.call(arguments, 1);
-	let item, key;
+const configMerge = (target, ...sources) => {
+	const isPlainObject = (value) => value?.constructor === Object;
 
-	while (stack.length) {
-		item = stack.shift();
-		for (key in item) {
-			if (item.hasOwnProperty(key)) {
-				if (typeof result[key] === "object" && result[key] && Object.prototype.toString.call(result[key]) !== "[object Array]") {
-					if (typeof item[key] === "object" && item[key] !== null) {
-						result[key] = configMerge({}, result[key], item[key]);
-					} else {
-						result[key] = item[key];
-					}
-				} else {
-					result[key] = item[key];
-				}
-			}
+	for (const source of sources) {
+		for (const [key, sourceValue] of Object.entries(source ?? {})) {
+			const targetValue = target[key];
+			const canDeepMerge = isPlainObject(targetValue) && isPlainObject(sourceValue);
+
+			// Recurse into a fresh object so the shared defaults stay untouched; otherwise overwrite.
+			target[key] = canDeepMerge
+				? configMerge({}, targetValue, sourceValue)
+				: sourceValue;
 		}
 	}
-	return result;
-}
+
+	return target;
+};
 
 Module.definitions = {};
 
@@ -513,27 +496,27 @@ Module.register = function (name, moduleDefinition) {
  * @returns {number} A positive number if a is larger than b, a negative
  * number if a is smaller and 0 if they are the same
  */
-export function cmpVersions (a, b) {
+export const cmpVersions = (a, b) => {
 	const regExStrip0 = /(\.0+)+$/;
 	const segmentsA = a.replace(regExStrip0, "").split(".");
 	const segmentsB = b.replace(regExStrip0, "").split(".");
 	const l = Math.min(segmentsA.length, segmentsB.length);
 
 	for (let i = 0; i < l; i++) {
-		let diff = parseInt(segmentsA[i], 10) - parseInt(segmentsB[i], 10);
+		const diff = parseInt(segmentsA[i], 10) - parseInt(segmentsB[i], 10);
 		if (diff) {
 			return diff;
 		}
 	}
 	return segmentsA.length - segmentsB.length;
-}
+};
 
 /**
  * Define the clone method for later use. Helper Method.
  * @param {object} obj Object to be cloned
  * @returns {object} the cloned object
  */
-export function cloneObject (obj) {
+export const cloneObject = (obj) => {
 	if (obj === null || typeof obj !== "object") {
 		return obj;
 	}
@@ -566,4 +549,4 @@ export function cloneObject (obj) {
 	}
 
 	return temp;
-}
+};

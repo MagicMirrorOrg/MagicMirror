@@ -119,7 +119,7 @@ class WeatherObject {
 	 */
 	simpleClone () {
 		const toFlat = ["date", "sunrise", "sunset"];
-		let clone = { ...this };
+		const clone = { ...this };
 		for (const prop of toFlat) {
 			clone[prop] = clone?.[prop]?.valueOf() ?? clone?.[prop];
 		}

@@ -7,7 +7,7 @@ describe("Deprecated", () => {
 
 	it("should contain clock array with deprecated options as strings", () => {
 		expect(Array.isArray(["deprecated.clock"])).toBe(true);
-		for (let option of deprecated.configs) {
+		for (const option of deprecated.configs) {
 			expect(typeof option).toBe("string");
 		}
 		expect(deprecated.clock).toEqual(expect.arrayContaining(["secondsColor"]));

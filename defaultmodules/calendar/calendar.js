@@ -105,7 +105,7 @@ Module.register("calendar", {
 		}
 
 		// Set locale.
-		moment.updateLocale(config.language, CalendarUtils.getLocaleSpecification(config.timeFormat));
+		moment.updateLocale(globalThis.config.language, CalendarUtils.getLocaleSpecification(globalThis.config.timeFormat));
 
 		// clear data holder before start
 		this.calendarData = {};
@@ -215,7 +215,7 @@ Module.register("calendar", {
 				return;
 			}
 		} else if (notification === "CALENDAR_ERROR") {
-			let error_message = this.translate(payload.error_type);
+			const error_message = this.translate(payload.error_type);
 			this.error = this.translate("MODULE_CONFIG_ERROR", { MODULE_NAME: this.name, ERROR: error_message });
 			this.loaded = true;
 		}
@@ -350,8 +350,8 @@ Module.register("calendar", {
 
 			// Color events if custom color or eventClass are specified, transform title if required
 			if (this.config.customEvents.length > 0) {
-				for (let ev in this.config.customEvents) {
-					let needle = new RegExp(this.config.customEvents[ev].keyword, "gi");
+				for (const ev in this.config.customEvents) {
+					const needle = new RegExp(this.config.customEvents[ev].keyword, "gi");
 					if (needle.test(event.title)) {
 						if (typeof this.config.customEvents[ev].transform === "object") {
 							transformedTitle = CalendarUtils.titleTransform(transformedTitle, [this.config.customEvents[ev].transform]);
@@ -466,21 +466,35 @@ Module.register("calendar", {
 	},
 
 	/**
+	 * Sets the relative day flags (today, yesterday, ...) on an event based on its day.
+	 * @param {object} event The event to flag.
+	 * @param {moment.Moment} dayMoment The day the event belongs to.
+	 * @param {moment.Moment} now The current moment.
+	 */
+	setRelativeDayFlags (event, dayMoment, now) {
+		event.today = dayMoment.isSame(now, "d");
+		event.dayBeforeYesterday = dayMoment.isSame(now.clone().subtract(2, "days"), "d");
+		event.yesterday = dayMoment.isSame(now.clone().subtract(1, "days"), "d");
+		event.tomorrow = dayMoment.isSame(now.clone().add(1, "days"), "d");
+		event.dayAfterTomorrow = dayMoment.isSame(now.clone().add(2, "days"), "d");
+	},
+
+	/**
 	 * Creates the sorted list of all events.
 	 * @param {boolean} limitNumberOfEntries Whether to filter returned events for display.
 	 * @returns {object[]} Array with events.
 	 */
 	createEventList (limitNumberOfEntries) {
-		let now = moment();
-		let future = now.clone().startOf("day").add(this.config.maximumNumberOfDays, "days");
+		const now = moment();
+		const future = now.clone().startOf("day").add(this.config.maximumNumberOfDays, "days");
 
 		let events = [];
 
 		for (const calendarUrl in this.calendarData) {
 			const calendar = this.calendarData[calendarUrl].events;
-			let remainingEntries = this.maximumEntriesForUrl(calendarUrl);
-			let maxPastDaysCompare = now.clone().subtract(this.maximumPastDaysForUrl(calendarUrl), "days");
-			let by_url_calevents = [];
+			const remainingEntries = this.maximumEntriesForUrl(calendarUrl);
+			const maxPastDaysCompare = now.clone().subtract(this.maximumPastDaysForUrl(calendarUrl), "days");
+			const by_url_calevents = [];
 			for (const e in calendar) {
 				const event = JSON.parse(JSON.stringify(calendar[e])); // clone object
 				const eventStartDateMoment = this.timestampToMoment(event.startDate);
@@ -503,45 +517,38 @@ Module.register("calendar", {
 				}
 
 				event.url = calendarUrl;
-				event.today = eventStartDateMoment.isSame(now, "d");
-				event.dayBeforeYesterday = eventStartDateMoment.isSame(now.clone().subtract(2, "days"), "d");
-				event.yesterday = eventStartDateMoment.isSame(now.clone().subtract(1, "days"), "d");
-				event.tomorrow = eventStartDateMoment.isSame(now.clone().add(1, "days"), "d");
-				event.dayAfterTomorrow = eventStartDateMoment.isSame(now.clone().add(2, "days"), "d");
+				this.setRelativeDayFlags(event, eventStartDateMoment, now);
 
 				/*
-				 * if sliceMultiDayEvents is set to true, multiday events (events exceeding at least one midnight) are sliced into days,
-				 * otherwise, esp. in dateheaders mode it is not clear how long these events are.
+				 * If sliceMultiDayEvents is enabled, an event spanning several calendar days is split into one entry per day.
+				 * Otherwise, esp. in dateheaders mode, it is not clear how long these events are.
+				 * dayCount is the number of calendar days the event touches (an end exactly at midnight does not add a day).
 				 */
-				const maxCount = eventEndDateMoment.diff(eventStartDateMoment, "days");
-				if (this.config.sliceMultiDayEvents && maxCount > 1) {
+				const eventStartDay = eventStartDateMoment.clone().startOf("day");
+				const eventEndDay = eventEndDateMoment.clone().startOf("day");
+				const endsAtMidnight = !eventEndDateMoment.isAfter(eventEndDay);
+				const dayCount = eventEndDay.diff(eventStartDay, "days") + (endsAtMidnight ? 0 : 1);
+				if (this.config.sliceMultiDayEvents && dayCount > 1) {
 					const splitEvents = [];
-					let midnight
-						= eventStartDateMoment
-							.clone()
-							.startOf("day")
-							.add(1, "day")
-							.endOf("day");
-					let count = 1;
-					while (eventEndDateMoment.isAfter(midnight)) {
-						const thisEvent = JSON.parse(JSON.stringify(event)); // clone object
-						thisEvent.today = this.timestampToMoment(thisEvent.startDate).isSame(now, "d");
-						thisEvent.tomorrow = this.timestampToMoment(thisEvent.startDate).isSame(now.clone().add(1, "days"), "d");
-						thisEvent.endDate = midnight.clone().subtract(1, "day").format("x");
-						thisEvent.title += ` (${count}/${maxCount})`;
-						splitEvents.push(thisEvent);
+					// Each slice covers one day: it starts at the event start (first slice) or midnight,
+					// and ends at the event end (last slice) or one millisecond before the next midnight.
+					let sliceStart = eventStartDateMoment.clone();
 
-						event.startDate = midnight.format("x");
-						count += 1;
-						midnight = midnight.clone().add(1, "day").endOf("day"); // next day
+					for (let dayNumber = 1; dayNumber <= dayCount; dayNumber++) {
+						const isLastSlice = dayNumber === dayCount;
+						const nextMidnight = sliceStart.clone().startOf("day").add(1, "day");
+
+						const slice = JSON.parse(JSON.stringify(event)); // clone object
+						slice.startDate = sliceStart.format("x");
+						slice.endDate = isLastSlice ? event.endDate : nextMidnight.clone().subtract(1, "millisecond").format("x");
+						slice.title = `${event.title} (${dayNumber}/${dayCount})`;
+						this.setRelativeDayFlags(slice, sliceStart, now);
+						splitEvents.push(slice);
+
+						sliceStart = nextMidnight;
 					}
-					// Last day
-					event.title += ` (${count}/${maxCount})`;
-					event.today += this.timestampToMoment(event.startDate).isSame(now, "d");
-					event.tomorrow = this.timestampToMoment(event.startDate).isSame(now.clone().add(1, "days"), "d");
-					splitEvents.push(event);
 
-					for (let splitEvent of splitEvents) {
+					for (const splitEvent of splitEvents) {
 						if (this.timestampToMoment(splitEvent.endDate).isAfter(now) && this.timestampToMoment(splitEvent.endDate).isSameOrBefore(future)) {
 							by_url_calevents.push(splitEvent);
 						}
@@ -552,7 +559,7 @@ Module.register("calendar", {
 			}
 			if (limitNumberOfEntries) {
 				// sort entries before clipping
-				by_url_calevents.sort(function (a, b) {
+				by_url_calevents.sort((a, b) => {
 					return a.startDate - b.startDate;
 				});
 				Log.debug(`[calendar] pushing ${by_url_calevents.length} events to total with room for ${remainingEntries}`);
@@ -563,7 +570,7 @@ Module.register("calendar", {
 			}
 		}
 		Log.info(`[calendar] sorting events count=${events.length}`);
-		events.sort(function (a, b) {
+		events.sort((a, b) => {
 			return a.startDate - b.startDate;
 		});
 
@@ -579,7 +586,7 @@ Module.register("calendar", {
 			// Group all events by date, events on the same date will be in a list with the key being the date.
 			const eventsByDate = Object.groupBy(events, (ev) => this.timestampToMoment(ev.startDate).format("YYYY-MM-DD"));
 			const newEvents = [];
-			let currentDate = moment();
+			const currentDate = moment();
 			let daysCollected = 0;
 
 			while (daysCollected < this.config.limitDays) {
@@ -588,9 +595,9 @@ Module.register("calendar", {
 				if (eventsByDate[dateStr] && eventsByDate[dateStr].length > 0) {
 					// If there are any events today then get all those events and select the currently active events and the events that are starting later in the day.
 					newEvents.push(...eventsByDate[dateStr].filter((ev) => this.timestampToMoment(ev.endDate).isAfter(moment())));
-					// Since we found a day with events, increase the daysCollected by 1
-					daysCollected++;
 				}
+				// Increment the daysCollected by one to ensure the while loop does not get stuck.
+				daysCollected++;
 				// Search for the next day
 				currentDate.add(1, "day");
 			}
@@ -650,12 +657,12 @@ Module.register("calendar", {
 		}
 
 		// If custom symbol is set, replace event symbol
-		for (let ev of this.config.customEvents) {
+		for (const ev of this.config.customEvents) {
 			if (typeof ev.symbol !== "undefined" && ev.symbol !== "") {
-				let needle = new RegExp(ev.keyword, "gi");
+				const needle = new RegExp(ev.keyword, "gi");
 				if (needle.test(event.title)) {
-					// Get the default prefix for this class name and add to the custom symbol provided
-					const className = this.getCalendarProperty(event.url, "symbolClassName", this.config.defaultSymbolClassName);
+					// Get the class name from the custom event or fall back to the calendar configuration
+					const className = ev.symbolClassName || this.getCalendarProperty(event.url, "symbolClassName", this.config.defaultSymbolClassName);
 					symbols[0] = className + ev.symbol;
 					break;
 				}
@@ -667,7 +674,7 @@ Module.register("calendar", {
 
 	mergeUnique (arr1, arr2) {
 		return arr1.concat(
-			arr2.filter(function (item) {
+			arr2.filter((item) => {
 				return arr1.indexOf(item) === -1;
 			})
 		);
@@ -988,7 +995,7 @@ Module.register("calendar", {
 		if (property === "symbol" || property === "recurringSymbol" || property === "fullDaySymbol") {
 			const className = this.getCalendarProperty(url, "symbolClassName", this.config.defaultSymbolClassName);
 			if (p instanceof Array) {
-				let t = [];
+				const t = [];
 				p.forEach((n) => { t.push(className + n); });
 				p = t;
 			}

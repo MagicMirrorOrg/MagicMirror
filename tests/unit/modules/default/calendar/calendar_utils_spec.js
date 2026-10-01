@@ -82,6 +82,10 @@ describe("Calendar utils tests", () => {
 	});
 
 	describe("shorten", () => {
+		it("should escape HTML", () => {
+			expect(CalendarUtils.shorten("<img src=x onerror=alert(1)>", 100, false, 3)).toBe("&lt;img src=x onerror=alert(1)&gt;");
+		});
+
 		it("should not shorten if short enough", () => {
 			expect(CalendarUtils.shorten("Event 1", 10, false, 1)).toBe("Event 1");
 		});
@@ -150,6 +154,11 @@ describe("Calendar utils tests", () => {
 			const transformedTitle = CalendarUtils.titleTransform("Luciella '2000", [{ search: "^([^']*) '(\\d{4})$", replace: "$1 ($2.)", yearmatchgroup: 2 }]);
 			const expectedResult = `Luciella (${new Date().getFullYear() - 2000}.)`;
 			expect(transformedTitle).toBe(expectedResult);
+		});
+
+		it("should not fail when the yearmatchgroup regex does not match", () => {
+			const transformedTitle = CalendarUtils.titleTransform("Test Birthday", [{ search: "^(.+) \\((\\d{4})\\)$", replace: "$1 ($2)", yearmatchgroup: 2 }]);
+			expect(transformedTitle).toBe("Test Birthday");
 		});
 	});
 });

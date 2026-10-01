@@ -51,5 +51,8 @@
 	"UPDATE_INFO_MULTIPLE": "La nuna instalado estas {COMMIT_COUNT} komitoj malantaŭ la {BRANCH_NAME}-branĉo.",
 	"UPDATE_NOTIFICATION_DONE": "Ĝisdatigo por la modulo {MODULE_NAME} finita.",
 	"UPDATE_NOTIFICATION_ERROR": "Eraro dum la ĝisdatigo de la modulo {MODULE_NAME}.",
-	"UPDATE_NOTIFICATION_NEED-RESTART": "MagicMirror devas esti restartigita."
+	"UPDATE_NOTIFICATION_NEED-RESTART": "MagicMirror devas esti restartigita.",
+
+	"ALERT_TITLE": "MagicMirror²-sciigo",
+	"ALERT_WELCOME": "Bonvenon, lanĉo sukcesis!"
 }

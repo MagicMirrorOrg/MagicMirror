@@ -1,17 +1,23 @@
-/* global addAnimateCSS, removeAnimateCSS, AnimateCSSIn, AnimateCSSOut, modulePositions, io */
-
-// eslint-disable-next-line import-x/extensions
-import { Loader } from "./loader.js";
+// Ensure Module global bridge is initialized before main bootstrap logic runs.
+import "./module.js";
+// Ensure formatTime is available as a global bridge before default modules (e.g. clock, weather) load.
+import "../defaultmodules/utils.js";
+// positions.js is generated at server startup and provides globalThis.modulePositions.
+import "./positions.js";
+import { AnimateCSSIn, AnimateCSSOut, addAnimateCSS, removeAnimateCSS } from "./animateCSS.js";
+import { loadModules } from "./loader.js";
+import { io } from "./socketclient.js";
+import { Translator } from "./translator.js";
 
 let modules = [];
 
 /**
  * Create dom objects for all modules that are configured for a specific position.
  */
-async function createDomObjects () {
+const createDomObjects = async () => {
 	const domCreationPromises = [];
 
-	modules.forEach(function (module) {
+	modules.forEach((module) => {
 		if (typeof module.data.position !== "string") {
 			return;
 		}
@@ -61,7 +67,7 @@ async function createDomObjects () {
 	} catch (error) {
 		Log.error(error);
 	}
-}
+};
 
 /**
  * Create and render a module DOM, then notify the module.
@@ -69,7 +75,7 @@ async function createDomObjects () {
  * @param {string|null} haveAnimateIn Optional animateIn animation name.
  * @returns {Promise<void>} Resolved when module DOM is created.
  */
-async function createModuleDom (module, haveAnimateIn) {
+const createModuleDom = async (module, haveAnimateIn) => {
 	if (haveAnimateIn) {
 		await _updateDom(module, { options: { speed: 1000, animate: { in: haveAnimateIn } } }, true);
 	} else {
@@ -77,14 +83,14 @@ async function createModuleDom (module, haveAnimateIn) {
 	}
 
 	_sendNotification("MODULE_DOM_CREATED", null, null, module);
-}
+};
 
 /**
  * Select the wrapper dom object for a specific position.
  * @param {string} position The name of the position.
  * @returns {HTMLElement | void} the wrapper element
  */
-function selectWrapper (position) {
+const selectWrapper = (position) => {
 	const classes = position.replace("_", " ");
 	const parentWrapper = document.getElementsByClassName(classes);
 	if (parentWrapper.length > 0) {
@@ -93,7 +99,7 @@ function selectWrapper (position) {
 			return wrapper[0];
 		}
 	}
-}
+};
 
 /**
  * Send a notification to all modules.
@@ -102,14 +108,14 @@ function selectWrapper (position) {
  * @param {Module} sender The module that sent the notification.
  * @param {Module} [sendTo] The (optional) module to send the notification to.
  */
-function _sendNotification (notification, payload, sender, sendTo) {
+const _sendNotification = (notification, payload, sender, sendTo) => {
 	for (const m in modules) {
 		const module = modules[m];
 		if (module !== sender && (!sendTo || module === sendTo)) {
 			module.notificationReceived(notification, payload, sender);
 		}
 	}
-}
+};
 
 /**
  * Update the dom for a specific module.
@@ -118,7 +124,7 @@ function _sendNotification (notification, payload, sender, sendTo) {
  * @param {boolean} [createAnimatedDom] for displaying only animateIn (used on first start of MagicMirror)
  * @returns {Promise<void>} Resolved when the dom is fully updated.
  */
-async function _updateDom (module, updateOptions, createAnimatedDom = false) {
+const _updateDom = async (module, updateOptions, createAnimatedDom = false) => {
 	let speed = updateOptions;
 	let animateOut = null;
 	let animateIn = null;
@@ -140,7 +146,7 @@ async function _updateDom (module, updateOptions, createAnimatedDom = false) {
 	const newHeader = module.getHeader();
 	const newContent = await module.getDom();
 	await updateDomWithContent(module, speed, newHeader, newContent, animateOut, animateIn, createAnimatedDom);
-}
+};
 
 /**
  * Update the dom with the specified content
@@ -153,7 +159,7 @@ async function _updateDom (module, updateOptions, createAnimatedDom = false) {
  * @param {boolean} [createAnimatedDom] If true, apply content and trigger only animateIn (used on first start).
  * @returns {Promise<void>} Resolved after the module DOM update is applied or hide/show transition is scheduled.
  */
-async function updateDomWithContent (module, speed, newHeader, newContent, animateOut, animateIn, createAnimatedDom = false) {
+const updateDomWithContent = async (module, speed, newHeader, newContent, animateOut, animateIn, createAnimatedDom = false) => {
 	if (module.hidden || !speed) {
 		updateModuleContent(module, newHeader, newContent);
 		return;
@@ -177,7 +183,7 @@ async function updateDomWithContent (module, speed, newHeader, newContent, anima
 	if (!module.hidden) {
 		await new Promise((resolve) => _showModule(module, speed / 2, resolve, { animate: animateIn }));
 	}
-}
+};
 
 /**
  * Check if the content has changed.
@@ -186,7 +192,7 @@ async function updateDomWithContent (module, speed, newHeader, newContent, anima
  * @param {HTMLElement} newContent The new content that is generated.
  * @returns {boolean} True if the module need an update, false otherwise
  */
-function moduleNeedsUpdate (module, newHeader, newContent) {
+const moduleNeedsUpdate = (module, newHeader, newContent) => {
 	const moduleWrapper = document.getElementById(module.identifier);
 	if (moduleWrapper === null) {
 		return false;
@@ -196,7 +202,6 @@ function moduleNeedsUpdate (module, newHeader, newContent) {
 	const headerWrapper = moduleWrapper.getElementsByClassName("module-header");
 
 	let headerNeedsUpdate = false;
-	let contentNeedsUpdate;
 
 	if (headerWrapper.length > 0) {
 		headerNeedsUpdate = newHeader !== headerWrapper[0].innerHTML;
@@ -204,10 +209,10 @@ function moduleNeedsUpdate (module, newHeader, newContent) {
 
 	const tempContentWrapper = document.createElement("div");
 	tempContentWrapper.appendChild(newContent);
-	contentNeedsUpdate = tempContentWrapper.innerHTML !== contentWrapper[0].innerHTML;
+	const contentNeedsUpdate = tempContentWrapper.innerHTML !== contentWrapper[0].innerHTML;
 
 	return headerNeedsUpdate || contentNeedsUpdate;
-}
+};
 
 /**
  * Update the content of a module on screen.
@@ -215,7 +220,7 @@ function moduleNeedsUpdate (module, newHeader, newContent) {
  * @param {string} newHeader The new header that is generated.
  * @param {HTMLElement} newContent The new content that is generated.
  */
-function updateModuleContent (module, newHeader, newContent) {
+const updateModuleContent = (module, newHeader, newContent) => {
 	const moduleWrapper = document.getElementById(module.identifier);
 	if (moduleWrapper === null) {
 		return;
@@ -232,7 +237,7 @@ function updateModuleContent (module, newHeader, newContent) {
 	} else {
 		headerWrapper[0].style.display = "none";
 	}
-}
+};
 
 /**
  * Hide the module.
@@ -241,7 +246,7 @@ function updateModuleContent (module, newHeader, newContent) {
  * @param {() => void} callback Called when the animation is done.
  * @param {object} [options] Optional settings for the hide method.
  */
-function _hideModule (module, speed, callback, options = {}) {
+const _hideModule = (module, speed, callback, options = {}) => {
 	// set lockString if set in options.
 	if (options.lockString) {
 		if (module.lockStrings.indexOf(options.lockString) === -1) {
@@ -277,7 +282,7 @@ function _hideModule (module, speed, callback, options = {}) {
 			Log.debug(`${module.identifier} Has animateOut: ${haveAnimateName}`);
 			module.hasAnimateOut = haveAnimateName;
 			addAnimateCSS(module.identifier, haveAnimateName, speed / 1000);
-			module.showHideTimer = setTimeout(function () {
+			module.showHideTimer = setTimeout(() => {
 				removeAnimateCSS(module.identifier, haveAnimateName);
 				Log.debug(`${module.identifier} Remove animateOut: ${module.hasAnimateOut}`);
 				// AnimateCSS is now done
@@ -296,7 +301,7 @@ function _hideModule (module, speed, callback, options = {}) {
 			moduleWrapper.style.transition = `opacity ${speed / 1000}s`;
 			moduleWrapper.style.opacity = 0;
 			moduleWrapper.classList.add("hidden");
-			module.showHideTimer = setTimeout(function () {
+			module.showHideTimer = setTimeout(() => {
 				// To not take up any space, we just make the position absolute.
 				// since it's fade out anyway, we can see it lay above or
 				// below other modules. This works way better than adjusting
@@ -316,7 +321,7 @@ function _hideModule (module, speed, callback, options = {}) {
 			callback();
 		}
 	}
-}
+};
 
 /**
  * Show the module.
@@ -325,7 +330,7 @@ function _hideModule (module, speed, callback, options = {}) {
  * @param {() => void} callback Called when the animation is done.
  * @param {object} [options] Optional settings for the show method.
  */
-function _showModule (module, speed, callback, options = {}) {
+const _showModule = (module, speed, callback, options = {}) => {
 	// remove lockString if set in options.
 	if (options.lockString) {
 		const index = module.lockStrings.indexOf(options.lockString);
@@ -392,7 +397,7 @@ function _showModule (module, speed, callback, options = {}) {
 			Log.debug(`${module.identifier} Has animateIn: ${haveAnimateName}`);
 			module.hasAnimateIn = haveAnimateName;
 			addAnimateCSS(module.identifier, haveAnimateName, speed / 1000);
-			module.showHideTimer = setTimeout(function () {
+			module.showHideTimer = setTimeout(() => {
 				removeAnimateCSS(module.identifier, haveAnimateName);
 				Log.debug(`${module.identifier} Remove animateIn: ${haveAnimateName}`);
 				module.hasAnimateIn = false;
@@ -402,7 +407,7 @@ function _showModule (module, speed, callback, options = {}) {
 			}, speed);
 		} else {
 			// default MM² Animate
-			module.showHideTimer = setTimeout(function () {
+			module.showHideTimer = setTimeout(() => {
 				if (typeof callback === "function") {
 					callback();
 				}
@@ -414,7 +419,7 @@ function _showModule (module, speed, callback, options = {}) {
 			callback();
 		}
 	}
-}
+};
 
 /**
  * Checks for all positions if it has visible content.
@@ -427,13 +432,13 @@ function _showModule (module, speed, callback, options = {}) {
  * an ugly top margin. By using this function, the top bar will be hidden if the
  * update notification is not visible.
  */
-function updateWrapperStates () {
-	modulePositions.forEach(function (position) {
+const updateWrapperStates = () => {
+	globalThis.modulePositions.forEach((position) => {
 		const wrapper = selectWrapper(position);
 		const moduleWrappers = wrapper.getElementsByClassName("module");
 
 		let showWrapper = false;
-		Array.prototype.forEach.call(moduleWrappers, function (moduleWrapper) {
+		Array.prototype.forEach.call(moduleWrappers, (moduleWrapper) => {
 			if (moduleWrapper.style.position === "" || moduleWrapper.style.position === "static") {
 				showWrapper = true;
 			}
@@ -442,56 +447,59 @@ function updateWrapperStates () {
 		// move container definitions to main CSS
 		wrapper.className = showWrapper ? "container" : "container hidden";
 	});
-}
+};
 
 /**
  * Loads the core config from the server (already combined with the system defaults).
+ * @returns {Promise<object>} The loaded config.
  */
-async function loadConfig () {
-	try {
-		const res = await fetch(new URL("config/", `${location.origin}${config.basePath}`));
-
-		// The server tags functions as { __mmFunction: "<source>" } because
-		// JSON.stringify can't serialise live functions. This reviver turns
-		// those tagged objects back into callable functions.
-		config = JSON.parse(await res.text(), (key, value) => {
-			if (value && typeof value === "object" && typeof value.__mmFunction === "string") {
-				try {
-					return new Function(`return (${value.__mmFunction})`)();
-				} catch {
-					Log.warn(`Failed to revive function for config key "${key}".`);
-				}
-			}
-			return value;
-		});
-	} catch (error) {
-		Log.error("Unable to retrieve config", error);
+const loadConfig = async () => {
+	const basePath = globalThis.config?.basePath ?? "/";
+	const res = await fetch(new URL("config/", `${location.origin}${basePath}`));
+	if (!res.ok) {
+		throw new Error(`Unable to retrieve config: server responded with HTTP ${res.status} ${res.statusText}.`);
 	}
-}
+
+	// The server tags functions as { __mmFunction: "<source>" } because
+	// JSON.stringify can't serialise live functions. This reviver turns
+	// those tagged objects back into callable functions.
+	const config = JSON.parse(await res.text(), (key, value) => {
+		if (value && typeof value === "object" && typeof value.__mmFunction === "string") {
+			try {
+				return new Function(`return (${value.__mmFunction})`)();
+			} catch {
+				Log.warn(`Failed to revive function for config key "${key}".`);
+			}
+		}
+		return value;
+	});
+	globalThis.config = config;
+	return config;
+};
 
 /**
  * Adds special selectors on a collection of modules.
  * @param {Module[]} modules Array of modules.
  */
-function setSelectionMethodsForModules (modules) {
+const setSelectionMethodsForModules = (modules) => {
 
 	/**
 	 * Filter modules with the specified classes.
 	 * @param {string|string[]} className one or multiple classnames (array or space divided).
 	 * @returns {Module[]} Filtered collection of modules.
 	 */
-	function withClass (className) {
+	const withClass = (className) => {
 		return modulesByClass(className, true);
-	}
+	};
 
 	/**
 	 * Filter modules without the specified classes.
 	 * @param {string|string[]} className one or multiple classnames (array or space divided).
 	 * @returns {Module[]} Filtered collection of modules.
 	 */
-	function exceptWithClass (className) {
+	const exceptWithClass = (className) => {
 		return modulesByClass(className, false);
-	}
+	};
 
 	/**
 	 * Filters a collection of modules based on classname(s).
@@ -499,13 +507,13 @@ function setSelectionMethodsForModules (modules) {
 	 * @param {boolean} include if the filter should include or exclude the modules with the specific classes.
 	 * @returns {Module[]} Filtered collection of modules.
 	 */
-	function modulesByClass (className, include) {
+	const modulesByClass = (className, include) => {
 		let searchClasses = className;
 		if (typeof className === "string") {
 			searchClasses = className.split(" ");
 		}
 
-		const newModules = modules.filter(function (module) {
+		const newModules = modules.filter((module) => {
 			const classes = module.data.classes.toLowerCase().split(" ");
 
 			for (const searchClass of searchClasses) {
@@ -519,31 +527,31 @@ function setSelectionMethodsForModules (modules) {
 
 		setSelectionMethodsForModules(newModules);
 		return newModules;
-	}
+	};
 
 	/**
 	 * Removes a module instance from the collection.
 	 * @param {object} module The module instance to remove from the collection.
 	 * @returns {Module[]} Filtered collection of modules.
 	 */
-	function exceptModule (module) {
-		const newModules = modules.filter(function (mod) {
+	const exceptModule = (module) => {
+		const newModules = modules.filter((mod) => {
 			return mod.identifier !== module.identifier;
 		});
 
 		setSelectionMethodsForModules(newModules);
 		return newModules;
-	}
+	};
 
 	/**
 	 * Walks thru a collection of modules and executes the callback with the module as an argument.
 	 * @param {module} callback The function to execute with the module as an argument.
 	 */
-	function enumerate (callback) {
-		modules.map(function (module) {
+	const enumerate = (callback) => {
+		modules.map((module) => {
 			callback(module);
 		});
-	}
+	};
 
 	if (typeof modules.withClass === "undefined") {
 		Object.defineProperty(modules, "withClass", { value: withClass, enumerable: false });
@@ -557,7 +565,7 @@ function setSelectionMethodsForModules (modules) {
 	if (typeof modules.enumerate === "undefined") {
 		Object.defineProperty(modules, "enumerate", { value: enumerate, enumerable: false });
 	}
-}
+};
 
 export const MM = {
 
@@ -568,12 +576,10 @@ export const MM = {
 	 */
 	async init () {
 		Log.info("Initializing MagicMirror².");
-		await loadConfig();
-
+		const config = await loadConfig();
 		Log.setLogLevel(config.logLevel);
-
-		await globalThis.Translator.loadCoreTranslations(config.language);
-		await Loader.loadModules();
+		await Translator.loadCoreTranslations(config.language);
+		await loadModules();
 	},
 
 	/**
@@ -592,23 +598,21 @@ export const MM = {
 		createDomObjects();
 
 		// Setup global socket listener for RELOAD event (watch mode)
-		if (typeof io !== "undefined") {
-			const socket = io("/", {
-				path: `${config.basePath || "/"}socket.io`
-			});
+		const socket = io("/", {
+			path: `${globalThis.config.basePath || "/"}socket.io`
+		});
 
-			socket.on("RELOAD", () => {
-				Log.warn("Reload notification received from server");
-				window.location.reload(true);
-			});
-		}
+		socket.on("RELOAD", () => {
+			Log.warn("Reload notification received from server");
+			window.location.reload(true);
+		});
 
-		if (config.reloadAfterServerRestart) {
+		if (globalThis.config.reloadAfterServerRestart) {
 			setInterval(async () => {
 				// if server startup time has changed (which means server was restarted)
 				// the client reloads the mm page
 				try {
-					const res = await fetch(`${location.protocol}//${location.host}${config.basePath}startup`);
+					const res = await fetch(`${location.protocol}//${location.host}${globalThis.config.basePath}startup`);
 					const curr = await res.text();
 					if (startUp === "") startUp = curr;
 					if (startUp !== curr) {
@@ -619,7 +623,7 @@ export const MM = {
 				} catch (err) {
 					Log.error(`MagicMirror not reachable: ${err}`);
 				}
-			}, config.checkServerInterval);
+			}, globalThis.config.checkServerInterval);
 		}
 	},
 
@@ -705,10 +709,14 @@ export const MM = {
 	},
 
 	// Return all available module positions.
-	getAvailableModulePositions: modulePositions
+	getAvailableModulePositions: globalThis.modulePositions
 };
 
 // Legacy global bridge for third-party modules that reference window.MM directly.
 if (!globalThis.MM) globalThis.MM = MM;
 
-MM.init();
+try {
+	await MM.init();
+} catch (error) {
+	Log.error(error);
+}

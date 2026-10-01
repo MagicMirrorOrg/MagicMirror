@@ -347,6 +347,32 @@ const calendarShowEndConfigs = {
 				}
 			}
 		]
+	},
+	slice_multiday_timed_start_midnight: {
+		address: "0.0.0.0",
+		ipWhitelist: [],
+		timeFormat: 24,
+		modules: [
+			{
+				module: "calendar",
+				position: "bottom_bar",
+				config: {
+					fade: false,
+					urgency: 0,
+					dateFormat: "Do.MMM, HH:mm",
+					fullDayEventDateFormat: "Do.MMM",
+					timeFormat: "absolute",
+					getRelative: 0,
+					sliceMultiDayEvents: true,
+					calendars: [
+						{
+							maximumEntries: 100,
+							url: "http://localhost:8080/tests/mocks/calendar_test_slice_multiday_timed.ics"
+						}
+					]
+				}
+			}
+		]
 	}
 };
 

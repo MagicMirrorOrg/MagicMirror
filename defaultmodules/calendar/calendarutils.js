@@ -43,6 +43,14 @@ const CalendarUtils = {
 			return "";
 		}
 
+		// Order matters: "&" must be escaped first, otherwise the entities added below would be escaped again.
+		const escapeHtml = (value) => value
+			.replaceAll("&", "&amp;")
+			.replaceAll("<", "&lt;")
+			.replaceAll(">", "&gt;")
+			.replaceAll("\"", "&quot;")
+			.replaceAll("'", "&#39;");
+
 		if (wrapEvents === true) {
 			const words = string.split(" ");
 			let temp = "";
@@ -64,20 +72,20 @@ const CalendarUtils = {
 					}
 
 					if (currentLine.length > 0) {
-						temp += `${currentLine}<br>${word} `;
+						temp += `${escapeHtml(currentLine)}<br>${escapeHtml(word)} `;
 					} else {
-						temp += `${word}<br>`;
+						temp += `${escapeHtml(word)}<br>`;
 					}
 					currentLine = "";
 				}
 			}
 
-			return (temp + currentLine).trim();
+			return (temp + escapeHtml(currentLine)).trim();
 		} else {
 			if (maxLength && typeof maxLength === "number" && string.length > maxLength) {
-				return `${string.trim().slice(0, maxLength)}…`;
+				return `${escapeHtml(string.trim().slice(0, maxLength))}…`;
 			} else {
-				return string.trim();
+				return escapeHtml(string.trim());
 			}
 		}
 	},
@@ -95,11 +103,11 @@ const CalendarUtils = {
 	 */
 	titleTransform (title, titleReplace) {
 		let transformedTitle = title;
-		for (let tr in titleReplace) {
-			let transform = titleReplace[tr];
+		for (const tr in titleReplace) {
+			const transform = titleReplace[tr];
 			if (typeof transform === "object") {
 				if (typeof transform.search !== "undefined" && transform.search !== "" && typeof transform.replace !== "undefined") {
-					let regParts = transform.search.match(/^\/(.+)\/([gim]*)$/);
+					const regParts = transform.search.match(/^\/(.+)\/([gim]*)$/);
 					let needle = new RegExp(transform.search, "g");
 					if (regParts) {
 						// the parsed pattern is a regexp with flags.
@@ -109,9 +117,9 @@ const CalendarUtils = {
 					let replacement = transform.replace;
 					if (typeof transform.yearmatchgroup !== "undefined" && transform.yearmatchgroup !== "") {
 						const yearmatch = [...title.matchAll(needle)];
-						if (yearmatch[0].length >= transform.yearmatchgroup + 1 && yearmatch[0][transform.yearmatchgroup] * 1 >= 1900) {
-							let calcage = new Date().getFullYear() - yearmatch[0][transform.yearmatchgroup] * 1;
-							let searchstr = `$${transform.yearmatchgroup}`;
+						if (yearmatch.length > 0 && yearmatch[0].length >= transform.yearmatchgroup + 1 && yearmatch[0][transform.yearmatchgroup] * 1 >= 1900) {
+							const calcage = new Date().getFullYear() - yearmatch[0][transform.yearmatchgroup] * 1;
+							const searchstr = `$${transform.yearmatchgroup}`;
 							replacement = replacement.replace(searchstr, calcage);
 						}
 					}

@@ -12,29 +12,11 @@ Module.register("alert", {
 	},
 
 	getScripts () {
-		return ["notificationFx.js"];
+		return ["notificationFx.mjs"];
 	},
 
 	getStyles () {
 		return ["font-awesome.css", this.file("./styles/notificationFx.css"), this.file(`./styles/${this.config.position}.css`)];
-	},
-
-	getTranslations () {
-		return {
-			bg: "translations/bg.json",
-			da: "translations/da.json",
-			de: "translations/de.json",
-			en: "translations/en.json",
-			eo: "translations/eo.json",
-			es: "translations/es.json",
-			fr: "translations/fr.json",
-			hu: "translations/hu.json",
-			nl: "translations/nl.json",
-			pt: "translations/pt.json",
-			"pt-br": "translations/pt-br.json",
-			ru: "translations/ru.json",
-			th: "translations/th.json"
-		};
 	},
 
 	getTemplate (type) {
@@ -49,8 +31,8 @@ Module.register("alert", {
 		}
 
 		if (this.config.welcome_message) {
-			const message = this.config.welcome_message === true ? this.translate("welcome") : this.config.welcome_message;
-			await this.showNotification({ title: this.translate("sysTitle"), message });
+			const message = this.config.welcome_message === true ? this.translate("ALERT_WELCOME") : this.config.welcome_message;
+			await this.showNotification({ title: this.translate("ALERT_TITLE"), message });
 		}
 	},
 
@@ -96,7 +78,7 @@ Module.register("alert", {
 			effect: this.config.alert_effect,
 			ttl: alert.timer,
 			onClose: () => this.hideAlert(sender),
-			al_no: "ns-alert"
+			boxClassName: "ns-alert"
 		});
 
 		// Show alert
@@ -124,7 +106,7 @@ Module.register("alert", {
 
 	renderMessage (type, data) {
 		return new Promise((resolve) => {
-			this.nunjucksEnvironment().render(this.getTemplate(type), data, function (err, res) {
+			this.nunjucksEnvironment().render(this.getTemplate(type), data, (err, res) => {
 				if (err) {
 					Log.error("[alert] Failed to render alert", err);
 				}

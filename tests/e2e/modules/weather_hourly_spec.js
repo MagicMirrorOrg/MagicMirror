@@ -18,10 +18,18 @@ describe("Weather module: Weather Hourly Forecast", () => {
 		const minTemps = ["7:00 pm", "8:00 pm", "9:00 pm", "10:00 pm", "11:00 pm"];
 		for (const [index, hour] of minTemps.entries()) {
 			it(`should render forecast for hour ${hour}`, async () => {
-				const dayCell = page.locator(`.weather table.small tr:nth-child(${index + 1}) td.day`);
-				await expect(dayCell).toHaveText(hour);
+				const timeCell = page.locator(`.weather .weather-hourly-row:nth-child(${index + 1}) .time`);
+				await expect(timeCell).toHaveText(hour);
 			});
 		}
+
+		it("should align hourly columns across rows", async () => {
+			for (const column of [".time", ".weather-icon", ".temperature"]) {
+				const firstCell = await page.locator(`.weather .weather-hourly-row:nth-child(1) ${column}`).boundingBox();
+				const secondCell = await page.locator(`.weather .weather-hourly-row:nth-child(2) ${column}`).boundingBox();
+				expect(firstCell.x).toBe(secondCell.x);
+			}
+		});
 	});
 
 	describe("Hourly weather options", () => {
@@ -34,8 +42,8 @@ describe("Weather module: Weather Hourly Forecast", () => {
 			const minTemps = ["7:00 pm", "9:00 pm", "11:00 pm", "1:00 am", "3:00 am"];
 			for (const [index, hour] of minTemps.entries()) {
 				it(`should render forecast for hour ${hour}`, async () => {
-					const dayCell = page.locator(`.weather table.small tr:nth-child(${index + 1}) td.day`);
-					await expect(dayCell).toHaveText(hour);
+					const timeCell = page.locator(`.weather .weather-hourly-row:nth-child(${index + 1}) .time`);
+					await expect(timeCell).toHaveText(hour);
 				});
 			}
 		});
@@ -52,7 +60,7 @@ describe("Weather module: Weather Hourly Forecast", () => {
 			for (const [index, amount] of amounts.entries()) {
 				if (amount) {
 					it(`should render precipitation amount ${amount}`, async () => {
-						const amountCell = page.locator(`.weather table.small tr:nth-child(${index + 1}) td.precipitation-amount`);
+						const amountCell = page.locator(`.weather .weather-hourly-row:nth-child(${index + 1}) .precipitation-amount`);
 						await expect(amountCell).toHaveText(amount);
 					});
 				}
@@ -64,10 +72,18 @@ describe("Weather module: Weather Hourly Forecast", () => {
 			for (const [index, probability] of probabilities.entries()) {
 				if (probability) {
 					it(`should render probability ${probability}`, async () => {
-						const probabilityCell = page.locator(`.weather table.small tr:nth-child(${index + 1}) td.precipitation-prob`);
+						const probabilityCell = page.locator(`.weather .weather-hourly-row:nth-child(${index + 1}) .precipitation-prob`);
 						await expect(probabilityCell).toHaveText(probability);
 					});
 				}
+			}
+		});
+
+		it("should align precipitation columns across rows", async () => {
+			for (const column of [".precipitation-amount", ".precipitation-prob"]) {
+				const firstCell = await page.locator(`.weather .weather-hourly-row:nth-child(1) ${column}`).boundingBox();
+				const fourthCell = await page.locator(`.weather .weather-hourly-row:nth-child(4) ${column}`).boundingBox();
+				expect(firstCell.x).toBe(fourthCell.x);
 			}
 		});
 	});

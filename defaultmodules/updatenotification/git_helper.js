@@ -76,7 +76,7 @@ class GitHelper {
 	}
 
 	async getStatusInfo (repo) {
-		let gitInfo = {
+		const gitInfo = {
 			module: repo.module,
 			behind: 0, // commits behind
 			current: "", // branch name

@@ -4,7 +4,7 @@
  * By Paranoid93 https://github.com/Paranoid93/
  * MIT Licensed.
  */
-let config = {
+const config = {
 	address: "0.0.0.0",
 	ipWhitelist: [],
 	timeFormat: 12,

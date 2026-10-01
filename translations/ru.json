@@ -50,5 +50,8 @@
 	"UPDATE_INFO_MULTIPLE": "Данная инсталляция позади {BRANCH_NAME} commits ветки на {COMMIT_COUNT} коммитов.",
 	"UPDATE_NOTIFICATION_DONE": "Обновление модуля {MODULE_NAME} завершено.",
 	"UPDATE_NOTIFICATION_ERROR": "Ошибка обновления модуля {MODULE_NAME}.",
-	"UPDATE_NOTIFICATION_NEED-RESTART": "Требуется перезапуск MagicMirror."
+	"UPDATE_NOTIFICATION_NEED-RESTART": "Требуется перезапуск MagicMirror.",
+
+	"ALERT_TITLE": "MagicMirror² Уведомление",
+	"ALERT_WELCOME": "Добро пожаловать, старт был успешным!"
 }

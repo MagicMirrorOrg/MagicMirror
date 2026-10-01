@@ -2,6 +2,8 @@ const path = require("node:path");
 const NodeHelper = require("node_helper");
 const Log = require("logger");
 
+const providersDir = path.join(__dirname, "providers");
+
 module.exports = NodeHelper.create({
 	providers: {},
 	lastData: {},
@@ -26,7 +28,7 @@ module.exports = NodeHelper.create({
 	 * @param {object} config The configuration object
 	 */
 	async initWeatherProvider (config) {
-		const identifier = config.weatherProvider.toLowerCase();
+		const identifier = typeof config.weatherProvider === "string" ? config.weatherProvider.toLowerCase() : "";
 		const instanceId = config.instanceId;
 
 		Log.log(`Attempting to initialize provider ${identifier} for instance ${instanceId}`);
@@ -46,8 +48,13 @@ module.exports = NodeHelper.create({
 		}
 
 		try {
+			// Reject anything that would resolve outside providersDir (path traversal)
+			const providerPath = path.join(providersDir, `${identifier}.js`);
+			if (path.dirname(providerPath) !== providersDir) {
+				throw new Error(`Unsupported weather provider: ${config.weatherProvider}`);
+			}
+
 			// Dynamically load the provider module
-			const providerPath = path.join(__dirname, "providers", `${identifier}.js`);
 			Log.log(`Loading provider from: ${providerPath}`);
 			const ProviderClass = require(providerPath);
 
@@ -81,7 +88,7 @@ module.exports = NodeHelper.create({
 			});
 
 			// Start periodic fetching
-			provider.start();
+			provider.start(config.initialLoadDelay);
 
 			Log.log(`Weather provider ${identifier} initialized for instance ${instanceId}`);
 		} catch (error) {

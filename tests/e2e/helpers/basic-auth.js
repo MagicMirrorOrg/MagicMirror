@@ -14,7 +14,7 @@ app.use(basicAuth);
 // Set available directories
 const directories = ["/tests/configs", "/tests/mocks"];
 
-for (let directory of directories) {
+for (const directory of directories) {
 	app.use(directory, express.static(path.resolve(`${global.root_path}/${directory}`)));
 }
 

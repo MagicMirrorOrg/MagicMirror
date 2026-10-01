@@ -3,7 +3,7 @@ import css from "@eslint/css";
 import globals from "globals";
 import {flatConfigs as importX} from "eslint-plugin-import-x";
 import js from "@eslint/js";
-import jsdocPlugin from "eslint-plugin-jsdoc";
+import {configs as jsdocConfigs} from "eslint-plugin-jsdoc";
 import markdown from "@eslint/markdown";
 import {configs as packageJsonConfigs} from "eslint-plugin-package-json";
 import playwright from "eslint-plugin-playwright";
@@ -41,11 +41,10 @@ export default defineConfig([
 				Log: "readonly",
 				MM: "readonly",
 				Module: "readonly",
-				config: "readonly",
 				moment: "readonly"
 			}
 		},
-		extends: [importX.recommended, js.configs.recommended, jsdocPlugin.configs["flat/recommended"], stylistic.configs.all],
+		extends: [importX.recommended, js.configs.recommended, jsdocConfigs["flat/recommended"], stylistic.configs.all],
 		rules: {
 			"@stylistic/array-element-newline": ["error", "consistent"],
 			"@stylistic/arrow-parens": ["error", "always"],
@@ -72,30 +71,37 @@ export default defineConfig([
 			"@stylistic/spaced-comment": "off",
 			"dot-notation": "error",
 			eqeqeq: ["error", "always", {null: "ignore"}],
-			"id-length": "off",
+			"func-style": ["error", "expression"],
 			"import-x/extensions": "error",
 			"import-x/newline-after-import": "error",
 			"import-x/order": "error",
-			"init-declarations": "off",
 			"max-lines-per-function": ["warn", 400],
-			"max-statements": "off",
 			"no-global-assign": "off",
-			"no-inline-comments": "off",
-			"no-magic-numbers": "off",
 			"no-param-reassign": "error",
-			"no-plusplus": "off",
 			"no-prototype-builtins": "off",
-			"no-ternary": "off",
 			"no-throw-literal": "error",
-			"no-undefined": "off",
 			"no-unneeded-ternary": "error",
 			"no-useless-return": "error",
-			"no-warning-comments": "off",
 			"object-shorthand": ["error", "methods"],
-			"one-var": "off",
+			"prefer-arrow-callback": "error",
+			"prefer-const": "error",
 			"prefer-template": "error",
-			"require-await": "error",
-			"sort-keys": "off"
+			"require-await": "error"
+		}
+	},
+	{
+		files: [
+			"js/main.js",
+			"js/module.js",
+			"js/loader.js",
+			"js/socketclient.js",
+			"js/translator.js"
+		],
+		rules: {
+			// Browser ESM entry files must always include the file extension in relative imports.
+			"import-x/extensions": ["error", "always"],
+			// These files are generated at server startup and don't exist in a fresh checkout.
+			"import-x/no-unresolved": ["error", {ignore: ["^\\./positions\\.js$", "^\\.\\./config/basepath\\.js$"]}]
 		}
 	},
 	{
@@ -116,6 +122,7 @@ export default defineConfig([
 		languageOptions: {
 			ecmaVersion: "latest",
 			globals: {
+				...globals.browser,
 				...globals.node
 			},
 			sourceType: "module"
@@ -123,14 +130,13 @@ export default defineConfig([
 		extends: [importX.recommended, js.configs.all, stylistic.configs.all],
 		rules: {
 			"@stylistic/array-element-newline": "off",
+			"@stylistic/function-call-argument-newline": ["error", "consistent"],
+			"@stylistic/function-paren-newline": ["error", "consistent"],
 			"@stylistic/indent": ["error", "tab"],
-			"@stylistic/object-property-newline": ["error", {allowAllPropertiesOnSameLine: true}],
-			"@stylistic/padded-blocks": ["error", "never"],
+			"@stylistic/padded-blocks": "off",
 			"@stylistic/quote-props": ["error", "as-needed"],
-			"import-x/no-unresolved": ["error", {ignore: ["eslint/config"]}],
-			"max-lines-per-function": ["error", 100],
+			"capitalized-comments": "off",
 			"no-magic-numbers": "off",
-			"one-var": ["error", "never"],
 			"sort-keys": "off"
 		}
 	},
@@ -165,18 +171,11 @@ export default defineConfig([
 		}
 	},
 	{
-		files: ["tests/unit/modules/default/weather/providers/*.js"],
+		files: ["tests/unit/modules/default/weather/**/*.js"],
 		rules: {
 			"import-x/namespace": "off",
 			"import-x/named": "off",
-			"import-x/default": "off",
 			"import-x/extensions": "off"
-		}
-	},
-	{
-		files: ["tests/configs/modules/weather/*.js"],
-		rules: {
-			"@stylistic/quotes": "off"
 		}
 	},
 	{

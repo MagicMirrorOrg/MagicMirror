@@ -27,7 +27,7 @@ let page;
  * Ensure Playwright browser and context are available.
  * @returns {Promise<void>}
  */
-async function ensureContext () {
+const ensureContext = async () => {
 	if (!browser) {
 		// Additional args for CI stability to prevent crashes
 		const launchOptions = {
@@ -45,14 +45,14 @@ async function ensureContext () {
 	if (!context) {
 		context = await browser.newContext();
 	}
-}
+};
 
 /**
  * Open a fresh page pointing to the provided url.
  * @param {string} url target url
  * @returns {Promise<import('playwright').Page>} initialized page instance
  */
-async function openPage (url) {
+const openPage = async (url) => {
 	await ensureContext();
 	if (page) {
 		await page.close();
@@ -60,13 +60,13 @@ async function openPage (url) {
 	page = await context.newPage();
 	await page.goto(url, { waitUntil: "load" });
 	return page;
-}
+};
 
 /**
  * Close page, context and browser if they exist.
  * @returns {Promise<void>}
  */
-async function closeBrowser () {
+const closeBrowser = async () => {
 	if (page) {
 		await page.close();
 		page = null;
@@ -79,7 +79,7 @@ async function closeBrowser () {
 		await browser.close();
 		browser = null;
 	}
-}
+};
 
 exports.getPage = () => {
 	if (!page) {
@@ -149,8 +149,8 @@ exports.stopApplication = async (waitTime = 100) => {
 };
 
 exports.getDocument = async () => {
-	const port = global.testPort || config.port || 8080;
-	const address = config.address === "0.0.0.0" ? "localhost" : config.address || "localhost";
+	const port = global.testPort || global.config.port || 8080;
+	const address = global.config.address === "0.0.0.0" ? "localhost" : global.config.address || "localhost";
 	const url = `http://${address}:${port}`;
 
 	await openPage(url);
@@ -162,7 +162,7 @@ exports.fixupIndex = async () => {
 	// make lines of the content
 	const workIndexLines = indexData.split(os.EOL);
 	// loop thru the lines to find place to insert new region
-	for (let l in workIndexLines) {
+	for (const l in workIndexLines) {
 		if (workIndexLines[l].includes("region top right")) {
 			// insert a new line with new region definition
 			workIndexLines.splice(l, 0, "      <div class=\"region row3 left\"><div class=\"container\"></div></div>");

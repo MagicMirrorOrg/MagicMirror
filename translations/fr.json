@@ -51,5 +51,8 @@
 	"UPDATE_INFO_MULTIPLE": "L'installation actuelle est {COMMIT_COUNT} commits en retard sur la branche {BRANCH_NAME}.",
 	"UPDATE_NOTIFICATION_DONE": "Mise à jour effectuée pour le module {MODULE_NAME}",
 	"UPDATE_NOTIFICATION_ERROR": "Erreur lors de la mise à jour du module {MODULE_NAME}",
-	"UPDATE_NOTIFICATION_NEED-RESTART": "Le redémarrage de MagicMirror est nécessaire."
+	"UPDATE_NOTIFICATION_NEED-RESTART": "Le redémarrage de MagicMirror est nécessaire.",
+
+	"ALERT_TITLE": "MagicMirror² Notification",
+	"ALERT_WELCOME": "Bienvenue, le démarrage a été un succès!"
 }

@@ -1,13 +1,6 @@
-/* global mmPort */
-
-const address = "localhost";
-let port = 8080;
-if (typeof mmPort !== "undefined") {
-	port = mmPort;
-}
 const defaults = {
-	address: address,
-	port: port,
+	address: "localhost",
+	port: 8080,
 	basePath: "/",
 	useHttps: false, // Support HTTPS or not, default "false" will use HTTP
 	httpsPrivateKey: "", // HTTPS private key path, only required when useHttps is true
@@ -18,6 +11,7 @@ const defaults = {
 	ignoreXOriginHeader: false, // Remove X-Frame-Options response header in Electron
 	ignoreContentSecurityPolicy: false, // Remove Content-Security-Policy response header in Electron
 	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1"],
+	trustedProxies: [],	// Only needed behind a reverse proxy.
 	cors: "disabled", // or "allowAll" or "allowWhitelist"
 	corsDomainWhitelist: [], // example: ["api.mapbox.com"]
 	watchTargets: [],
@@ -30,7 +24,6 @@ const defaults = {
 	customCss: "config/custom.css",
 	foreignModulesDir: "modules",
 	defaultModulesDir: "defaultmodules",
-	hideConfigSecrets: false,
 	// httpHeaders used by helmet, see https://helmetjs.github.io/. You can add other/more object values by overriding this in config.js,
 	// e.g. you need to add `frameguard: false` for embedding MagicMirror in another website, see https://github.com/MagicMirrorOrg/MagicMirror/issues/2847
 	httpHeaders: { contentSecurityPolicy: false, crossOriginOpenerPolicy: false, crossOriginEmbedderPolicy: false, crossOriginResourcePolicy: false, originAgentCluster: false },

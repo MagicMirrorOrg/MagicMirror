@@ -34,7 +34,8 @@ class CalendarFetcher {
 		this.eventsReceivedCallback = () => {};
 
 		// Use HTTPFetcher for HTTP handling (Composition)
-		this.httpFetcher = new HTTPFetcher(url, {
+		this.httpFetcher = new HTTPFetcher({
+			url,
 			reloadInterval,
 			auth,
 			selfSignedCert

@@ -1,4 +1,4 @@
-let config = require(`${process.cwd()}/tests/configs/default.js`).configFactory({
+const config = require(`${process.cwd()}/tests/configs/default.js`).configFactory({
 	port: 8090
 });
 

@@ -50,5 +50,8 @@
 	"UPDATE_INFO_MULTIPLE": "การติดตั้งปัจจุบันคือ {COMMIT_COUNT} เป็นคอมมิทที่อยู่เบื้องหลังในสาขา {BRANCH_NAME}",
 	"UPDATE_NOTIFICATION_DONE": "การอัปเดตเสร็จสิ้นสำหรับโมดูล {MODULE_NAME}",
 	"UPDATE_NOTIFICATION_ERROR": "เกิดข้อผิดพลาดในการอัปเดตโมดูล {MODULE_NAME}",
-	"UPDATE_NOTIFICATION_NEED-RESTART": "ต้องรีสตาร์ท MagicMirror"
+	"UPDATE_NOTIFICATION_NEED-RESTART": "ต้องรีสตาร์ท MagicMirror",
+
+	"ALERT_TITLE": "การแจ้งเตือน MagicMirror²",
+	"ALERT_WELCOME": "ยินดีต้อนรับ การเริ่มต้นสำเร็จแล้ว!"
 }

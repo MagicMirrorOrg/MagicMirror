@@ -29,6 +29,9 @@ jobs:
         with:
           languages: ${{ matrix.language }}
           queries: security-and-quality
+          config: |
+            paths-ignore:
+              - tests/configs/config_variables.js
 
       - uses: github/codeql-action/autobuild@v4
 

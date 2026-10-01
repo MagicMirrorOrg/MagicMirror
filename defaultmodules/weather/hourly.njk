@@ -1,46 +1,47 @@
 {% if hourly %}
   {% set numSteps = hourly | calcNumEntries %}
   {% set currentStep = 0 %}
-  <table class="{{ config.tableClass }}">
+  <div class="{{ config.tableClass }} weather-hourly" role="table">
     {% set hours = hourly.slice(0, numSteps) %}
     {% for hour in hours %}
-      <tr
-        {% if config.colored %}class="colored"{% endif %}
-        {% if config.fade %}style="opacity: {{ currentStep | opacity(numSteps) }};"{% endif %}
-      >
-        <td class="day">{{ hour.date | formatTime }}</td>
-        <td class="bright weather-icon">
+      <div class="weather-hourly-row{% if config.colored %}{{ " colored" }}{% endif %}" role="row" {% if config.fade %}style="opacity: {{ currentStep | opacity(numSteps) }};"{% endif %}>
+        <div class="time" role="cell">{{ hour.date | formatTime }}</div>
+        <div class="bright weather-icon" role="cell">
           <span class="wi weathericon wi-{{ hour.weatherType }}"></span>
-        </td>
-        <td class="align-right bright">{{ hour.temperature | roundValue | unit("temperature") }}</td>
+        </div>
+        <div class="align-right bright temperature" role="cell">{{ hour.temperature | roundValue | unit("temperature") }}</div>
         {% if config.showUVIndex %}
-          <td class="align-right bright uv-index">
+          <div class="align-right bright uv-index" role="cell">
             {% if hour.uvIndex!=0 %}
               {{ hour.uvIndex }}
               <span class="wi weathericon wi-hot"></span>
             {% endif %}
-          </td>
+          </div>
         {% endif %}
         {% if config.showHumidity != "none" %}
-          <td class="align-left bright humidity-hourly">
+          <div class="align-left bright humidity-hourly" role="cell">
             {{ hour.humidity }}
             <span class="wi wi-humidity humidity-icon"></span>
-          </td>
+          </div>
         {% endif %}
         {% if config.showPrecipitationAmount %}
-          {% if (not config.hideZeroes or hour.precipitationAmount>0) %}
-            <td class="align-right bright precipitation-amount">{{ hour.precipitationAmount | unit("precip", hour.precipitationUnits) }}</td>
-          {% endif %}
+          <div class="align-right bright precipitation-amount{% if config.hideZeroes and hour.precipitationAmount <= 0 %}{{ " weather-hidden" }}{% endif %}" role="cell">
+            {% if not config.hideZeroes or hour.precipitationAmount > 0 %}
+              {{ hour.precipitationAmount | unit("precip", hour.precipitationUnits) }}
+            {% endif %}
+          </div>
         {% endif %}
         {% if config.showPrecipitationProbability %}
-          {% if (not config.hideZeroes or hour.precipitationAmount>0) %}
-            <td class="align-right bright precipitation-prob">{{ hour.precipitationProbability | unit('precip', '%') }}</td>
-          {% endif %}
+          <div class="align-right bright precipitation-prob{% if config.hideZeroes and hour.precipitationAmount <= 0 %}{{ " weather-hidden" }}{% endif %}" role="cell">
+            {% if not config.hideZeroes or hour.precipitationAmount > 0 %}
+              {{ hour.precipitationProbability | unit('precip', '%') }}
+            {% endif %}
+          </div>
         {% endif %}
-      </tr>
+      </div>
       {% set currentStep = currentStep + 1 %}
     {% endfor %}
-  </table>
+  </div>
 {% else %}
   <div class="dimmed light small">{{ "LOADING" | translate }}</div>
 {% endif %}

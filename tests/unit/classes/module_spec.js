@@ -9,7 +9,6 @@ describe("File js/module (cloneObject)", () => {
 		let originalLog;
 		let originalConfig;
 		let originalMM;
-		let originalTranslator;
 		let originalNunjucks;
 
 		beforeAll(async () => {
@@ -17,7 +16,6 @@ describe("File js/module (cloneObject)", () => {
 			originalLog = global.Log;
 			originalConfig = global.config;
 			originalMM = global.MM;
-			originalTranslator = global.Translator;
 			originalNunjucks = global.nunjucks;
 
 			global.window = { mmVersion: "2.0.0" };
@@ -28,10 +26,6 @@ describe("File js/module (cloneObject)", () => {
 				showModule: () => {},
 				sendNotification: () => {},
 				updateDom: () => {}
-			};
-			global.Translator = {
-				load: () => Promise.resolve(),
-				translate: () => ""
 			};
 			global.nunjucks = {
 				Environment () {
@@ -57,7 +51,6 @@ describe("File js/module (cloneObject)", () => {
 			global.Log = originalLog;
 			global.config = originalConfig;
 			global.MM = originalMM;
-			global.Translator = originalTranslator;
 			global.nunjucks = originalNunjucks;
 		});
 
@@ -250,6 +243,20 @@ describe("File js/module (cloneObject)", () => {
 
 				moduleInstance.setConfig({ nested: { value: 1 } }, true);
 				expect(moduleInstance.config).toEqual({ nested: { value: 1 } });
+			});
+
+			it("should overwrite object defaults with arrays in deep merge mode", () => {
+				const moduleName = "MMM-TestDeepMergeArrayOverwrite";
+				Module.register(moduleName, {
+					defaults: {
+						nested: { keep: true }
+					}
+				});
+
+				const moduleInstance = Module.create(moduleName);
+				moduleInstance.setConfig({ nested: [1, 2] }, true);
+
+				expect(moduleInstance.config).toEqual({ nested: [1, 2] });
 			});
 
 			it("should initialize lifecycle fields in setData", () => {

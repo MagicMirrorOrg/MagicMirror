@@ -6,11 +6,11 @@ Module.register("weather", {
 		weatherProvider: "openweathermap",
 		roundTemp: false,
 		type: "current", // current, forecast, daily (equivalent to forecast), hourly
-		lang: config.language,
-		units: config.units,
-		tempUnits: config.units,
-		windUnits: config.units,
-		timeFormat: config.timeFormat,
+		lang: globalThis.config.language,
+		units: globalThis.config.units,
+		tempUnits: globalThis.config.units,
+		windUnits: globalThis.config.units,
+		timeFormat: globalThis.config.timeFormat,
 		updateInterval: 10 * 60 * 1000, // every 10 minutes
 		animationSpeed: 1000,
 		showFeelsLike: true,
@@ -144,7 +144,7 @@ Module.register("weather", {
 			const senderClasses = sender.data.classes.toLowerCase().split(" ");
 			if (senderClasses.indexOf(this.config.calendarClass.toLowerCase()) !== -1) {
 				this.firstEvent = null;
-				for (let event of payload) {
+				for (const event of payload) {
 					if (event.location || event.geo) {
 						this.firstEvent = event;
 						Log.debug("[weather] First upcoming event with location: ", event);
@@ -329,14 +329,14 @@ Module.register("weather", {
 	addFilters () {
 		this.nunjucksEnvironment().addFilter(
 			"formatTime",
-			function (date) {
+			(date) => {
 				return formatTime(this.config, date);
-			}.bind(this)
+			}
 		);
 
 		this.nunjucksEnvironment().addFilter(
 			"unit",
-			function (value, type, valueUnit) {
+			(value, type, valueUnit) => {
 				let formattedValue;
 				if (type === "temperature") {
 					if (value === null || value === undefined) {
@@ -365,40 +365,40 @@ Module.register("weather", {
 					formattedValue = WeatherUtils.convertWind(value, this.config.windUnits);
 				}
 				return formattedValue;
-			}.bind(this)
+			}
 		);
 
 		this.nunjucksEnvironment().addFilter(
 			"roundValue",
-			function (value) {
+			(value) => {
 				return this.roundValue(value);
-			}.bind(this)
+			}
 		);
 
 		this.nunjucksEnvironment().addFilter(
 			"decimalSymbol",
-			function (value) {
+			(value) => {
 				return value.toString().replace(/\./g, this.config.decimalSymbol);
-			}.bind(this)
+			}
 		);
 
 		this.nunjucksEnvironment().addFilter(
 			"calcNumSteps",
-			function (forecast) {
+			(forecast) => {
 				return Math.min(forecast.length, this.config.maxNumberOfDays);
-			}.bind(this)
+			}
 		);
 
 		this.nunjucksEnvironment().addFilter(
 			"calcNumEntries",
-			function (dataArray) {
+			(dataArray) => {
 				return Math.min(dataArray.length, this.config.maxEntries);
-			}.bind(this)
+			}
 		);
 
 		this.nunjucksEnvironment().addFilter(
 			"opacity",
-			function (currentStep, numSteps) {
+			(currentStep, numSteps) => {
 				if (this.config.fade && this.config.fadePoint < 1) {
 					if (this.config.fadePoint < 0) {
 						this.config.fadePoint = 0;
@@ -413,7 +413,7 @@ Module.register("weather", {
 				} else {
 					return 1;
 				}
-			}.bind(this)
+			}
 		);
 	}
 });

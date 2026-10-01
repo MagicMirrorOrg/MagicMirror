@@ -5,7 +5,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
  * Creates a fresh weather node helper instance with isolated mocks.
  * @returns {Promise<object>} The mocked weather node helper.
  */
-async function loadWeatherNodeHelper () {
+const loadWeatherNodeHelper = async () => {
 	vi.resetModules();
 
 	const loggerMock = {
@@ -42,7 +42,7 @@ async function loadWeatherNodeHelper () {
 	helper.sendSocketNotification = vi.fn();
 
 	return helper;
-}
+};
 
 afterEach(() => {
 	vi.resetAllMocks();
@@ -93,6 +93,21 @@ describe("weather node_helper reconnect handling", () => {
 			locationName: "Munich, BY"
 		});
 		expect(helper.sendSocketNotification).toHaveBeenCalledTimes(1);
+	});
+
+	it("rejects unsupported weather providers before loading a module", async () => {
+		const helper = await loadWeatherNodeHelper();
+
+		await helper.initWeatherProvider({
+			weatherProvider: "../../calendar/node_helper",
+			instanceId: "weather-current",
+			type: "current"
+		});
+
+		expect(helper.sendSocketNotification).toHaveBeenCalledWith("WEATHER_ERROR", {
+			instanceId: "weather-current",
+			error: "Unsupported weather provider: ../../calendar/node_helper"
+		});
 	});
 
 	it("cleans up provider and cached data when stopping an instance", async () => {

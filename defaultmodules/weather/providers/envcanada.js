@@ -1,5 +1,6 @@
 const Log = require("logger");
 const { convertKmhToMs } = require("../provider-utils");
+const WeatherProvider = require("../weatherprovider");
 const HTTPFetcher = require("#http_fetcher");
 
 /**
@@ -13,8 +14,9 @@ const HTTPFetcher = require("#http_fetcher");
  * Requires siteCode and provCode config parameters
  * See https://dd.weather.gc.ca/citypage_weather/docs/site_list_en.csv
  */
-class EnvCanadaProvider {
+class EnvCanadaProvider extends WeatherProvider {
 	constructor (config) {
+		super();
 		this.config = {
 			siteCode: "s0000000",
 			provCode: "ON",
@@ -23,34 +25,13 @@ class EnvCanadaProvider {
 			...config
 		};
 
-		this.fetcher = null;
-		this.onDataCallback = null;
-		this.onErrorCallback = null;
 		this.lastCityPageURL = null;
 		this.cacheCurrentTemp = null;
-		this.currentHour = null; // Track current hour for URL updates
 	}
 
 	initialize () {
 		this.#validateConfig();
 		this.#initializeFetcher();
-	}
-
-	setCallbacks (onData, onError) {
-		this.onDataCallback = onData;
-		this.onErrorCallback = onError;
-	}
-
-	start () {
-		if (this.fetcher) {
-			this.fetcher.startPeriodicFetch();
-		}
-	}
-
-	stop () {
-		if (this.fetcher) {
-			this.fetcher.clearTimer();
-		}
 	}
 
 	#validateConfig () {
@@ -60,29 +41,23 @@ class EnvCanadaProvider {
 	}
 
 	#initializeFetcher () {
-		this.currentHour = new Date().toISOString().substring(11, 13);
-		const indexURL = this.#getIndexUrl();
-
-		this.fetcher = new HTTPFetcher(indexURL, {
+		this.fetcher = new HTTPFetcher({
+			urlFactory: () => this.#getIndexUrl(),
 			reloadInterval: this.config.updateInterval,
 			logContext: "weatherprovider.envcanada"
 		});
 
-		this.fetcher.on("response", async (response) => {
+		this.fetcher.on("response", async (response, requestUrl) => {
 			if (response.status === 304) return;
 			try {
-				// Check if hour changed - restart fetcher with new URL
-				const newHour = new Date().toISOString().substring(11, 13);
-				if (newHour !== this.currentHour) {
-					Log.info("[envcanada] Hour changed, reinitializing fetcher");
-					this.stop();
-					this.#initializeFetcher();
-					this.start();
+				// Ignore a response from the previous hourly directory.
+				if (requestUrl !== this.#getIndexUrl()) {
+					Log.debug("[envcanada] Ignoring stale index response");
 					return;
 				}
 
 				const html = await response.text();
-				const cityPageURL = this.#extractCityPageURL(html);
+				const cityPageURL = this.#extractCityPageURL(html, requestUrl);
 
 				if (!cityPageURL) {
 					// This can happen during hour transitions when old responses arrive
@@ -252,7 +227,7 @@ class EnvCanadaProvider {
 		// Check if first forecast is Today or Tonight
 		const isToday = forecasts[0].includes("textForecastName=\"Today\"");
 
-		let nextDay = isToday ? 2 : 1;
+		const nextDay = isToday ? 2 : 1;
 		const lastDay = isToday ? 12 : 11;
 
 		// Process first day
@@ -365,13 +340,13 @@ class EnvCanadaProvider {
 		return `https://dd.weather.gc.ca/today/citypage_weather/${this.config.provCode}/${hour}/`;
 	}
 
-	#extractCityPageURL (html) {
+	#extractCityPageURL (html, indexURL) {
 		// New format: {timestamp}_MSC_CitypageWeather_{siteCode}_en.xml
 		const pattern = `[^"]*_MSC_CitypageWeather_${this.config.siteCode}_en\\.xml`;
 		const match = html.match(new RegExp(`href="(${pattern})"`));
 
 		if (match && match[1]) {
-			return this.#getIndexUrl() + match[1];
+			return indexURL + match[1];
 		}
 
 		return null;

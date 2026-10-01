@@ -96,6 +96,14 @@ describe("Calendar module", () => {
 		});
 	});
 
+	describe("Empty calendar days", () => {
+		it("shows events scheduled after an empty calendar day (issue #4243)", async () => {
+			// event is on day 3 of the limitDays:3 window, days 1-2 are intentionally empty
+			await helpers.startApplication("tests/configs/modules/calendar/empty-day.js", "01 Jan 2030 12:30:00 GMT");
+			await expect(doTestCount()).resolves.toBe(1);
+		});
+	});
+
 	/*
 	 * RRULE TESTS:
 	 * Add any tests that check rrule functionality here.
@@ -178,6 +186,34 @@ describe("Calendar module", () => {
 		it("Issue #3452 split multiday in Europe", async () => {
 			await helpers.startApplication("tests/configs/modules/calendar/sliceMultiDayEvents.js", "01 Sept 2024 10:38:00 GMT+02:00", [], "Europe/Berlin");
 			await expect(doTestCount()).resolves.toBe(6);
+		});
+
+		it("counts all touched dates across DST, not just elapsed 24h blocks", async () => {
+			// Event runs from 2024-10-25 to 2024-10-28 in Europe/Berlin, crossing the DST change.
+			// It touches 4 calendar dates: Fri, Sat, Sun, Mon.
+			await startCalendarShowEndScenario("slice_multiday_timed_start_midnight", "25 Oct 2024 06:00:00 GMT", "Europe/Berlin");
+			await expect(doTestCount()).resolves.toBe(4);
+		});
+
+		it("does not create an extra slice when an event ends exactly at 00:00", async () => {
+			// Event runs Fri 12:00 -> Mon 00:00. It should cover Fri, Sat, Sun only; Monday is not touched.
+			await helpers.startApplication("tests/configs/modules/calendar/sliceMultiDayEventsEndsMidnight.js", "25 Oct 2024 06:00:00 GMT", [], "GMT");
+			await expect(doTestCount()).resolves.toBe(3);
+			await expect(doTestTableContent(".calendar .event", ".title", "(3/3)", last)).resolves.toBe(true);
+		});
+	});
+
+	describe("sliceMultiDayEvents slice start time", () => {
+		it("sliced sub-events start at 00:00, not 23:59", async () => {
+			// Timed event Fri 25 Oct 12:00 -> Mon 28 Oct 08:00 (UTC) is sliced across
+			// several midnights. Every slice after the first must start at 00:00 of its
+			// day. Regression for the bug where they started at 23:59 instead.
+			await startCalendarShowEndScenario("slice_multiday_timed_start_midnight", "25 Oct 2024 06:00:00 GMT", "GMT");
+			const firstTimeCell = global.page.locator(".calendar .event .time").locator(`nth=${first}`);
+			await firstTimeCell.waitFor({ state: "visible" });
+			const times = await global.page.locator(".calendar .event .time").allTextContents();
+			expect(times.some((time) => time.includes("00:00"))).toBe(true);
+			expect(times.every((time) => !time.includes("23:59"))).toBe(true);
 		});
 	});
 

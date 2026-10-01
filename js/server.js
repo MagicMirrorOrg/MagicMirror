@@ -11,47 +11,63 @@ const { ipAccessControl, socketIpAccessControl } = require("./ip_access_control"
 
 const vendor = require("./vendor");
 
-const { getHtml, getVersion, getEnvVars, cors } = require("#server_functions");
+const { getHtml, getVersion, getEnvVars, getServerPort, cors } = require("#server_functions");
 
 /**
  * Server
- * @param {object} configObj The MM config full and redacted
- * @class
  */
-function Server (configObj) {
-	const config = configObj.fullConf;
-	const app = express();
-	const port = process.env.MM_PORT || config.port;
-	const serverSockets = new Set();
-	let server = null;
+class Server {
+	#configObj;
+
+	#config;
+
+	#app;
+
+	#port;
+
+	#serverSockets = new Set();
+
+	#server = null;
+
+	/**
+	 * @param {object} configObj The MM config full and redacted
+	 */
+	constructor (configObj) {
+		this.#configObj = configObj;
+		this.#config = configObj.fullConf;
+		this.#app = express();
+		this.#port = getServerPort(this.#config);
+	}
 
 	/**
 	 * Opens the server for incoming connections
 	 * @returns {Promise} A promise that is resolved when the server listens to connections
 	 */
-	this.open = function () {
+	open () {
+		const config = this.#config;
+		const app = this.#app;
+		const port = this.#port;
+		const configObj = this.#configObj;
+		const serverSockets = this.#serverSockets;
+
 		return new Promise((resolve) => {
 			if (config.useHttps) {
 				const options = {
 					key: fs.readFileSync(config.httpsPrivateKey),
 					cert: fs.readFileSync(config.httpsCertificate)
 				};
-				server = https.Server(options, app);
+				this.#server = https.Server(options, app);
 			} else {
-				server = http.Server(app);
+				this.#server = http.Server(app);
 			}
-			const io = socketio(server, {
-				allowRequest: socketIpAccessControl(config.ipWhitelist),
-				cors: {
-					origin: /.*$/,
-					credentials: true
-				},
+			const io = socketio(this.#server, {
+				allowRequest: socketIpAccessControl(config.ipWhitelist, config.trustedProxies),
 				allowEIO3: true,
 				pingInterval: 120000, // server → client ping every 2 mins
 				pingTimeout: 120000 // wait up to 2 mins for client pong
 			});
 
-			server.on("connection", (socket) => {
+			this.#server.on("connection", (socket) => {
 				serverSockets.add(socket);
 				socket.on("close", () => {
 					serverSockets.delete(socket);
@@ -61,7 +77,7 @@ function Server (configObj) {
 			Log.log(`Starting server on port ${port} ... `);
 
 			// Add explicit error handling BEFORE calling listen so we can give user-friendly feedback
-			server.once("error", (err) => {
+			this.#server.once("error", (err) => {
 				if (err && err.code === "EADDRINUSE") {
 					const bindAddr = config.address || "localhost";
 					const portInUseMessage = [
@@ -82,23 +98,24 @@ function Server (configObj) {
 				Log.error("Failed to start server:", err);
 			});
 
-			server.listen(port, config.address || "localhost");
+			this.#server.listen(port, config.address || "localhost");
 
 			if (config.ipWhitelist instanceof Array && config.ipWhitelist.length === 0) {
 				Log.warn("You're using a full whitelist configuration to allow for all IPs");
 			}
 
-			app.use(ipAccessControl(config.ipWhitelist));
+			app.use(ipAccessControl(config.ipWhitelist, config.trustedProxies));
 			app.use(helmet(config.httpHeaders));
 			app.use("/js", express.static(__dirname));
 
-			if (config.hideConfigSecrets) {
-				app.get("/config/config.env", (req, res) => {
-					res.status(404).send("<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /config/config.env</pre>\n</body>\n</html>");
-				});
-			}
+			const getConfigFileError = (filename) => (req, res) => {
+				const errorText = `<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /config/${filename}</pre>\n</body>\n</html>`;
+				res.status(404).send(errorText);
+			};
+			app.get("/config/config.env", getConfigFileError("config.env"));
+			app.get("/config/config.js", getConfigFileError("config.js"));
 
-			let directories = ["/config", "/css", "/favicon.svg", "/defaultmodules", "/modules", "/node_modules/animate.css", "/node_modules/@fontsource", "/node_modules/@fortawesome", "/node_modules/suncalc", "/translations", "/tests/configs", "/tests/mocks"];
+			const directories = ["/config", "/css", "/favicon.svg", "/defaultmodules", "/modules", "/node_modules/animate.css", "/node_modules/@fontsource", "/node_modules/@fortawesome", "/node_modules/suncalc", "/translations", "/tests/configs", "/tests/mocks"];
 			for (const value of Object.values(vendor)) {
 				const dirArr = value.split("/");
 				if (dirArr[0] === "node_modules") directories.push(`/${dirArr[0]}/${dirArr[1]}`);
@@ -113,7 +130,7 @@ function Server (configObj) {
 			const getStartup = (req, res) => res.send(startUp);
 
 			const getConfig = (req, res) => {
-				const obj = config.hideConfigSecrets ? configObj.redactedConf : configObj.fullConf;
+				const obj = configObj.redactedConf;
 				// Functions can't survive JSON.stringify, so we wrap them in a
 				// tagged object { __mmFunction: "<source>" }. The client-side
 				// JSON reviver in main.js recognises this tag and reconstructs
@@ -147,27 +164,27 @@ function Server (configObj) {
 				res.status(200).send("OK");
 			});
 
-			server.on("listening", () => {
+			this.#server.on("listening", () => {
 				resolve({
 					app,
 					io
 				});
 			});
 		});
-	};
+	}
 
 	/**
 	 * Closes the server and destroys all lingering connections to it.
 	 * @returns {Promise} A promise that resolves when server has successfully shut down
 	 */
-	this.close = function () {
+	close () {
 		return new Promise((resolve) => {
-			for (const socket of serverSockets.values()) {
+			for (const socket of this.#serverSockets.values()) {
 				socket.destroy();
 			}
-			server.close(resolve);
+			this.#server.close(resolve);
 		});
-	};
+	}
 }
 
 module.exports = Server;

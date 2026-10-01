@@ -1,13 +1,13 @@
-/* global translations */
+import "../translations/translations.js";
 
-const Translator = (function () {
+export const Translator = (() => {
 
 	/**
 	 * Load a JSON file via fetch.
 	 * @param {string} file Path of the file we want to load.
 	 * @returns {Promise<object>} the translations in the specified file
 	 */
-	async function loadJSON (file) {
+	const loadJSON = async (file) => {
 		const baseHref = document.baseURI;
 		const url = new URL(file, baseHref);
 
@@ -21,7 +21,7 @@ const Translator = (function () {
 			Log.error(`Loading json file =${file} failed`);
 			return null;
 		}
-	}
+	};
 
 	return {
 		coreTranslations: {},
@@ -47,7 +47,7 @@ const Translator = (function () {
 			 * @param {object} variables Variables for the placeholder
 			 * @returns {string} the template filled with the variables
 			 */
-			function createStringFromTemplate (template, variables) {
+			const createStringFromTemplate = (template, variables) => {
 				if (Object.prototype.toString.call(template) !== "[object String]") {
 					return template;
 				}
@@ -55,10 +55,10 @@ const Translator = (function () {
 				if (variables.fallback && !template.match(new RegExp("{.+}"))) {
 					templateToUse = variables.fallback;
 				}
-				return templateToUse.replace(new RegExp("{([^}]+)}", "g"), function (_unused, varName) {
+				return templateToUse.replace(new RegExp("{([^}]+)}", "g"), (_unused, varName) => {
 					return varName in variables ? variables[varName] : `{${varName}}`;
 				});
-			}
+			};
 
 			if (this.translations[module.name] && key in this.translations[module.name]) {
 				return createStringFromTemplate(this.translations[module.name][key], variables);
@@ -102,9 +102,9 @@ const Translator = (function () {
 		 * @param {string} lang The language identifier of the core language.
 		 */
 		async loadCoreTranslations (lang) {
-			if (lang in translations) {
-				Log.log(`[translator] Loading core translation file: ${translations[lang]}`);
-				this.coreTranslations = await loadJSON(translations[lang]);
+			if (lang in globalThis.translations) {
+				Log.log(`[translator] Loading core translation file: ${globalThis.translations[lang]}`);
+				this.coreTranslations = await loadJSON(globalThis.translations[lang]);
 			} else {
 				Log.log("[translator] Configured language not found in core translations.");
 			}
@@ -117,13 +117,11 @@ const Translator = (function () {
 		 * The first language defined in translations.js will be used.
 		 */
 		async loadCoreTranslationsFallback () {
-			let first = Object.keys(translations)[0];
+			const first = Object.keys(globalThis.translations)[0];
 			if (first) {
-				Log.log(`[translator] Loading core translation fallback file: ${translations[first]}`);
-				this.coreTranslationsFallback = await loadJSON(translations[first]);
+				Log.log(`[translator] Loading core translation fallback file: ${globalThis.translations[first]}`);
+				this.coreTranslationsFallback = await loadJSON(globalThis.translations[first]);
 			}
 		}
 	};
-}());
-
-window.Translator = Translator;
+})();

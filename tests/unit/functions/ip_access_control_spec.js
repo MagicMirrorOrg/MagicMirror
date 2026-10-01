@@ -4,21 +4,18 @@ import { ipAccessControl, socketIpAccessControl } from "../../../js/ip_access_co
 
 /**
  * Creates a minimal Express-like response mock used by the middleware tests.
- * @returns {{ header: ReturnType<typeof vi.fn>, status: ReturnType<typeof vi.fn>, send: ReturnType<typeof vi.fn> }} Mock response object.
+ * @returns {{ status: ReturnType<typeof vi.fn>, send: ReturnType<typeof vi.fn> }} Mock response object.
  */
-function createResponseMock () {
-	return {
-		header: vi.fn(),
-		status: vi.fn(function () {
-			return this;
-		}),
-		send: vi.fn()
-	};
-}
+const createResponseMock = () => {
+	const res = {};
+	res.status = vi.fn().mockReturnValue(res);
+	res.send = vi.fn().mockReturnValue(res);
+	return res;
+};
 
 describe("ip_access_control", () => {
 	describe("ipAccessControl", () => {
-		it("trusts first X-Forwarded-For entry when direct peer is loopback", () => {
+		it("ignores X-Forwarded-For by default, even when direct peer is loopback", () => {
 			const middleware = ipAccessControl(["203.0.113.10"]);
 			const req = {
 				socket: { remoteAddress: "127.0.0.1" },
@@ -29,12 +26,58 @@ describe("ip_access_control", () => {
 
 			middleware(req, res, next);
 
+			expect(next).not.toHaveBeenCalled();
+			expect(res.status).toHaveBeenCalledWith(403);
+		});
+
+		it("resolves the real client IP through a configured trusted proxy", () => {
+			const middleware = ipAccessControl(["203.0.113.10"], ["127.0.0.1"]);
+			const req = {
+				socket: { remoteAddress: "127.0.0.1" },
+				headers: { "x-forwarded-for": "203.0.113.10" }
+			};
+			const res = createResponseMock();
+			const next = vi.fn();
+
+			middleware(req, res, next);
+
 			expect(next).toHaveBeenCalledOnce();
 			expect(res.status).not.toHaveBeenCalled();
 		});
 
-		it("ignores X-Forwarded-For when direct peer is not loopback", () => {
-			const middleware = ipAccessControl(["203.0.113.10"]);
+		it("resolves the client IP through multiple trusted proxies", () => {
+			const middleware = ipAccessControl(["203.0.113.10"], ["127.0.0.1", "10.0.0.1"]);
+			const req = {
+				socket: { remoteAddress: "127.0.0.1" },
+				headers: { "x-forwarded-for": "203.0.113.10, 10.0.0.1" }
+			};
+			const res = createResponseMock();
+			const next = vi.fn();
+
+			middleware(req, res, next);
+
+			expect(next).toHaveBeenCalledOnce();
+			expect(res.status).not.toHaveBeenCalled();
+		});
+
+		it("does not let a spoofed leftmost X-Forwarded-For entry pass the whitelist", () => {
+			const middleware = ipAccessControl(["127.0.0.1"], ["127.0.0.1"]);
+			const req = {
+				socket: { remoteAddress: "127.0.0.1" },
+				// The attacker sends a spoofed loopback IP; the trusted proxy appends the real peer it saw.
+				headers: { "x-forwarded-for": "127.0.0.1, 203.0.113.9" }
+			};
+			const res = createResponseMock();
+			const next = vi.fn();
+
+			middleware(req, res, next);
+
+			expect(next).not.toHaveBeenCalled();
+			expect(res.status).toHaveBeenCalledWith(403);
+		});
+
+		it("ignores X-Forwarded-For when direct peer is not a trusted proxy", () => {
+			const middleware = ipAccessControl(["203.0.113.10"], ["127.0.0.1"]);
 			const req = {
 				socket: { remoteAddress: "198.51.100.7" },
 				headers: { "x-forwarded-for": "203.0.113.10" }
@@ -47,14 +90,89 @@ describe("ip_access_control", () => {
 			expect(next).not.toHaveBeenCalled();
 			expect(res.status).toHaveBeenCalledWith(403);
 		});
+
+		it("falls back to the direct peer IP when a trusted proxy sends no X-Forwarded-For", () => {
+			const middleware = ipAccessControl(["127.0.0.1"], ["127.0.0.1"]);
+			const req = {
+				socket: { remoteAddress: "127.0.0.1" },
+				headers: {}
+			};
+			const res = createResponseMock();
+			const next = vi.fn();
+
+			middleware(req, res, next);
+
+			expect(next).toHaveBeenCalledOnce();
+			expect(res.status).not.toHaveBeenCalled();
+		});
+
+		it("rejects a request when a trusted proxy sends an empty X-Forwarded-For header", () => {
+			const middleware = ipAccessControl(["127.0.0.1"], ["127.0.0.1"]);
+			const req = {
+				socket: { remoteAddress: "127.0.0.1" },
+				headers: { "x-forwarded-for": "   " }
+			};
+			const res = createResponseMock();
+			const next = vi.fn();
+
+			middleware(req, res, next);
+
+			expect(next).not.toHaveBeenCalled();
+			expect(res.status).toHaveBeenCalledWith(403);
+		});
+
+		it("rejects a request when the whole X-Forwarded-For chain is trusted proxies", () => {
+			const middleware = ipAccessControl(["127.0.0.1"], ["127.0.0.1", "10.0.0.1"]);
+			const req = {
+				socket: { remoteAddress: "127.0.0.1" },
+				headers: { "x-forwarded-for": "10.0.0.1" }
+			};
+			const res = createResponseMock();
+			const next = vi.fn();
+
+			middleware(req, res, next);
+
+			expect(next).not.toHaveBeenCalled();
+			expect(res.status).toHaveBeenCalledWith(403);
+		});
+
+		it("rejects cross-origin HTTP requests even when the IP matches", () => {
+			const middleware = ipAccessControl(["203.0.113.10"]);
+			const req = {
+				socket: { remoteAddress: "203.0.113.10" },
+				headers: { host: "localhost:8080", origin: "https://evil.example" }
+			};
+			const res = createResponseMock();
+			const next = vi.fn();
+
+			middleware(req, res, next);
+
+			expect(next).not.toHaveBeenCalled();
+			expect(res.status).toHaveBeenCalledWith(403);
+		});
+
+		it("rejects cross-origin HTTP requests even with an empty whitelist", () => {
+			const middleware = ipAccessControl([]);
+			const req = {
+				socket: { remoteAddress: "198.51.100.7" },
+				headers: { host: "localhost:8080", origin: "https://evil.example" }
+			};
+			const res = createResponseMock();
+			const next = vi.fn();
+
+			middleware(req, res, next);
+
+			expect(next).not.toHaveBeenCalled();
+			expect(res.status).toHaveBeenCalledWith(403);
+		});
 	});
 
 	describe("socketIpAccessControl", () => {
-		it("accepts socket handshake using forwarded client IP when direct peer is loopback", () => {
-			const allowRequest = socketIpAccessControl(["203.0.113.10"]);
+		it("accepts socket handshake using the resolved client IP through a configured trusted proxy", () => {
+			const allowRequest = socketIpAccessControl(["203.0.113.10"], ["::1"]);
 			const req = {
 				socket: { remoteAddress: "::1" },
-				headers: { "x-forwarded-for": "203.0.113.10, 10.0.0.2" }
+				headers: { host: "localhost:8080", "x-forwarded-for": "203.0.113.10", origin: "http://localhost:8080" }
 			};
 			const callback = vi.fn();
 
@@ -63,11 +181,37 @@ describe("ip_access_control", () => {
 			expect(callback).toHaveBeenCalledWith(null, true);
 		});
 
-		it("rejects socket handshake when only forwarded IP matches whitelist", () => {
+		it("rejects socket handshake using X-Forwarded-For when no trusted proxy is configured", () => {
 			const allowRequest = socketIpAccessControl(["203.0.113.10"]);
 			const req = {
+				socket: { remoteAddress: "::1" },
+				headers: { host: "localhost:8080", "x-forwarded-for": "203.0.113.10, 10.0.0.2", origin: "http://localhost:8080" }
+			};
+			const callback = vi.fn();
+
+			allowRequest(req, callback);
+
+			expect(callback).toHaveBeenCalledWith("This device is not allowed to access your mirror.", false);
+		});
+
+		it("rejects socket handshake when only forwarded IP matches whitelist", () => {
+			const allowRequest = socketIpAccessControl(["203.0.113.10"], ["127.0.0.1"]);
+			const req = {
 				socket: { remoteAddress: "198.51.100.7" },
-				headers: { "x-forwarded-for": "203.0.113.10" }
+				headers: { host: "localhost:8080", "x-forwarded-for": "203.0.113.10", origin: "http://localhost:8080" }
+			};
+			const callback = vi.fn();
+
+			allowRequest(req, callback);
+
+			expect(callback).toHaveBeenCalledWith("This device is not allowed to access your mirror.", false);
+		});
+
+		it("rejects cross-origin socket handshakes even when the IP matches", () => {
+			const allowRequest = socketIpAccessControl(["203.0.113.10"]);
+			const req = {
+				socket: { remoteAddress: "203.0.113.10" },
+				headers: { host: "localhost:8080", origin: "https://evil.example" }
 			};
 			const callback = vi.fn();
 

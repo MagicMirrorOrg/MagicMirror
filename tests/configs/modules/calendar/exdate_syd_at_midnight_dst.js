@@ -7,7 +7,7 @@
  * See issue #3250
  * See tests/electron/modules/calendar_spec.js
  */
-let config = {
+const config = {
 	address: "0.0.0.0",
 	ipWhitelist: [],
 	timeFormat: 12,

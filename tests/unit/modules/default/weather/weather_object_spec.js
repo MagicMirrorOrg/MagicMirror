@@ -29,13 +29,13 @@ describe("WeatherObject", () => {
 
 	it("should return sunrise as the next sunaction", () => {
 		weatherobject.updateSunTime(-6.774877582342688, 37.63345667023327);
-		let midnight = moment("00:00", "HH:mm");
+		const midnight = moment("00:00", "HH:mm");
 		expect(weatherobject.nextSunAction(midnight)).toBe("sunrise");
 	});
 
 	it("should return sunset as the next sunaction", () => {
 		weatherobject.updateSunTime(-6.774877582342688, 37.63345667023327);
-		let noon = moment(weatherobject.sunrise).hour(14);
+		const noon = moment(weatherobject.sunrise).hour(14);
 		expect(weatherobject.nextSunAction(noon)).toBe("sunset");
 	});
 

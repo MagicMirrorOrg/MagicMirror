@@ -1,6 +1,6 @@
 /*eslint object-shorthand: ["error", "always", { "methodsIgnorePattern": "^roundToInt2$" }]*/
 
-let config = require(`${process.cwd()}/tests/configs/default.js`).configFactory({
+const config = require(`${process.cwd()}/tests/configs/default.js`).configFactory({
 	modules: [
 		{
 			module: "clock",
@@ -14,7 +14,7 @@ let config = require(`${process.cwd()}/tests/configs/default.js`).configFactory(
 							return value;
 						}
 					},
-					roundToInt2: function (value) {
+					roundToInt2: (value) => {
 						try {
 							return Math.round(parseFloat(value));
 						} catch {

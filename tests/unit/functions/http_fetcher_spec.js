@@ -34,7 +34,7 @@ describe("HTTPFetcher", () => {
 				})
 			);
 
-			fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000 });
+			fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 60000 });
 
 			const responsePromise = new Promise((resolve) => {
 				fetcher.on("response", (response) => {
@@ -51,6 +51,25 @@ describe("HTTPFetcher", () => {
 			expect(text).toBe(responseData);
 		});
 
+		it("should delay the first fetch when an initial delay is configured", async () => {
+			vi.useFakeTimers();
+			const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
+				new Response("test data")
+			);
+			fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 60000 });
+
+			fetcher.startPeriodicFetch(15000);
+
+			expect(fetchSpy).not.toHaveBeenCalled();
+			await vi.advanceTimersByTimeAsync(14999);
+			expect(fetchSpy).not.toHaveBeenCalled();
+			await vi.advanceTimersByTimeAsync(1);
+			expect(fetchSpy).toHaveBeenCalledTimes(1);
+
+			fetchSpy.mockRestore();
+			vi.useRealTimers();
+		});
+
 		it("should emit error event on network failure", async () => {
 			server.use(
 				http.get(TEST_URL, () => {
@@ -58,7 +77,7 @@ describe("HTTPFetcher", () => {
 				})
 			);
 
-			fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000 });
+			fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 60000 });
 
 			const errorPromise = new Promise((resolve) => {
 				fetcher.on("error", (errorInfo) => {
@@ -83,7 +102,7 @@ describe("HTTPFetcher", () => {
 				})
 			);
 
-			fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000, timeout: 100 });
+			fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 60000, timeout: 100 });
 
 			const errorPromise = new Promise((resolve) => {
 				fetcher.on("error", (errorInfo) => {
@@ -109,7 +128,7 @@ describe("HTTPFetcher", () => {
 					})
 				);
 
-				fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000 });
+				fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 60000 });
 				fetcher.serverErrorCount = 2;
 				fetcher.networkErrorCount = 3;
 
@@ -137,7 +156,7 @@ describe("HTTPFetcher", () => {
 					})
 				);
 
-				fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000 });
+				fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 60000 });
 
 				const errorPromise = new Promise((resolve) => {
 					fetcher.on("error", (errorInfo) => {
@@ -151,16 +170,20 @@ describe("HTTPFetcher", () => {
 				expect(errorInfo.status).toBe(401);
 				expect(errorInfo.errorType).toBe("AUTH_FAILURE");
 				expect(errorInfo.translationKey).toBe("MODULE_ERROR_UNAUTHORIZED");
+				expect(errorInfo.message).toContain("Check the resource's authentication requirements.");
 			});
 
 			it("should emit error with AUTH_FAILURE for 403", async () => {
 				server.use(
 					http.get(TEST_URL, () => {
-						return new HttpResponse(null, { status: 403 });
+						return new HttpResponse(null, {
+							status: 403,
+							headers: { "cf-mitigated": "challenge" }
+						});
 					})
 				);
 
-				fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000 });
+				fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 60000 });
 
 				const errorPromise = new Promise((resolve) => {
 					fetcher.on("error", (errorInfo) => {
@@ -172,7 +195,9 @@ describe("HTTPFetcher", () => {
 				const errorInfo = await errorPromise;
 
 				expect(errorInfo.status).toBe(403);
-				expect(errorInfo.errorType).toBe("AUTH_FAILURE");
+				expect(errorInfo.errorType).toBe("ACCESS_DENIED");
+				expect(errorInfo.translationKey).toBe("MODULE_ERROR_UNAUTHORIZED");
+				expect(errorInfo.message).toContain("cannot be completed by a server-side request.");
 			});
 		});
 
@@ -187,7 +212,7 @@ describe("HTTPFetcher", () => {
 					})
 				);
 
-				fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000 });
+				fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 60000 });
 
 				const errorPromise = new Promise((resolve) => {
 					fetcher.on("error", (errorInfo) => {
@@ -213,7 +238,7 @@ describe("HTTPFetcher", () => {
 					})
 				);
 
-				fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000 });
+				fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 60000 });
 
 				const errorPromise = new Promise((resolve) => {
 					fetcher.on("error", (errorInfo) => {
@@ -237,7 +262,7 @@ describe("HTTPFetcher", () => {
 					})
 				);
 
-				fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000 });
+				fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 60000 });
 
 				const errorPromise = new Promise((resolve) => {
 					fetcher.on("error", (errorInfo) => {
@@ -259,7 +284,7 @@ describe("HTTPFetcher", () => {
 					})
 				);
 
-				fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000 });
+				fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 60000 });
 
 				const errorPromise = new Promise((resolve) => {
 					fetcher.on("error", (errorInfo) => {
@@ -283,7 +308,7 @@ describe("HTTPFetcher", () => {
 					})
 				);
 
-				fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000 });
+				fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 60000 });
 
 				const errorPromise = new Promise((resolve) => {
 					fetcher.on("error", (errorInfo) => {
@@ -312,7 +337,8 @@ describe("HTTPFetcher - Authentication", () => {
 			})
 		);
 
-		fetcher = new HTTPFetcher(TEST_URL, {
+		fetcher = new HTTPFetcher({
+			url: TEST_URL,
 			reloadInterval: 60000,
 			auth: {
 				method: "basic",
@@ -342,7 +368,8 @@ describe("HTTPFetcher - Authentication", () => {
 			})
 		);
 
-		fetcher = new HTTPFetcher(TEST_URL, {
+		fetcher = new HTTPFetcher({
+			url: TEST_URL,
 			reloadInterval: 60000,
 			auth: {
 				method: "bearer",
@@ -372,7 +399,8 @@ describe("Custom headers", () => {
 			})
 		);
 
-		fetcher = new HTTPFetcher(TEST_URL, {
+		fetcher = new HTTPFetcher({
+			url: TEST_URL,
 			reloadInterval: 60000,
 			headers: {
 				"X-Custom-Header": "custom-value",
@@ -400,7 +428,7 @@ describe("Timer management", () => {
 			})
 		);
 
-		fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 100 });
+		fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 100 });
 
 		const responsePromise = new Promise((resolve) => {
 			fetcher.on("response", resolve);
@@ -414,7 +442,7 @@ describe("Timer management", () => {
 	});
 
 	it("should clear timer when clearTimer is called", () => {
-		fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 100 });
+		fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 100 });
 
 		// Manually set a timer to test clearing
 		fetcher.reloadTimer = setTimeout(() => {}, 10000);
@@ -435,7 +463,7 @@ describe("fetch() method", () => {
 			})
 		);
 
-		fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000 });
+		fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 60000 });
 
 		const responsePromise = new Promise((resolve) => {
 			fetcher.on("response", resolve);
@@ -449,6 +477,65 @@ describe("fetch() method", () => {
 		expect(text).toBe(responseData);
 	});
 
+	it("should resolve a dynamic URL for each fetch", async () => {
+		let requestNumber = 0;
+		const requestedUrls = [];
+
+		server.use(
+			http.get("http://localhost/dynamic-1", ({ request }) => {
+				requestedUrls.push(request.url);
+				return HttpResponse.text("first");
+			}),
+			http.get("http://localhost/dynamic-2", ({ request }) => {
+				requestedUrls.push(request.url);
+				return HttpResponse.text("second");
+			})
+		);
+
+		fetcher = new HTTPFetcher({
+			urlFactory: () => {
+				requestNumber += 1;
+				return `http://localhost/dynamic-${requestNumber}`;
+			},
+			reloadInterval: 60000
+		});
+
+		await fetcher.fetch();
+		await fetcher.fetch();
+
+		expect(requestNumber).toBe(2);
+		expect(requestedUrls).toEqual([
+			"http://localhost/dynamic-1",
+			"http://localhost/dynamic-2"
+		]);
+	});
+
+	it("should report the resolved URL for dynamic URL errors", async () => {
+		const dynamicUrl = "http://localhost/dynamic-error";
+		const urlFactory = vi.fn(() => dynamicUrl);
+
+		server.use(
+			http.get(dynamicUrl, () => {
+				return new HttpResponse(null, { status: 500 });
+			})
+		);
+
+		fetcher = new HTTPFetcher({
+			urlFactory,
+			reloadInterval: 60000
+		});
+
+		const errorPromise = new Promise((resolve) => {
+			fetcher.on("error", resolve);
+		});
+
+		await fetcher.fetch();
+		const errorInfo = await errorPromise;
+
+		expect(urlFactory).toHaveBeenCalledTimes(1);
+		expect(errorInfo.url).toBe(dynamicUrl);
+	});
+
 	it("should emit error event on network error", async () => {
 		server.use(
 			http.get(TEST_URL, () => {
@@ -456,7 +543,7 @@ describe("fetch() method", () => {
 			})
 		);
 
-		fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 60000 });
+		fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 60000 });
 
 		const errorPromise = new Promise((resolve) => {
 			fetcher.on("error", resolve);
@@ -473,7 +560,8 @@ describe("selfSignedCert dispatcher", () => {
 	const { Agent } = require("undici");
 
 	it("should set rejectUnauthorized=false when selfSignedCert is true", () => {
-		fetcher = new HTTPFetcher(TEST_URL, {
+		fetcher = new HTTPFetcher({
+			url: TEST_URL,
 			reloadInterval: 60000,
 			selfSignedCert: true
 		});
@@ -487,7 +575,8 @@ describe("selfSignedCert dispatcher", () => {
 	});
 
 	it("should not set a dispatcher when selfSignedCert is false", () => {
-		fetcher = new HTTPFetcher(TEST_URL, {
+		fetcher = new HTTPFetcher({
+			url: TEST_URL,
 			reloadInterval: 60000,
 			selfSignedCert: false
 		});
@@ -506,7 +595,7 @@ describe("Retry exhaustion fallback", () => {
 			})
 		);
 
-		fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 300000, maxRetries: 3 });
+		fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 300000, maxRetries: 3 });
 
 		const errors = [];
 		fetcher.on("error", (errorInfo) => errors.push(errorInfo));
@@ -532,7 +621,7 @@ describe("Retry exhaustion fallback", () => {
 			})
 		);
 
-		fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 300000, maxRetries: 3 });
+		fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 300000, maxRetries: 3 });
 
 		const errors = [];
 		fetcher.on("error", (errorInfo) => errors.push(errorInfo));
@@ -560,7 +649,7 @@ describe("Retry exhaustion fallback", () => {
 			})
 		);
 
-		fetcher = new HTTPFetcher(TEST_URL, { reloadInterval: 300000, maxRetries: 3 });
+		fetcher = new HTTPFetcher({ url: TEST_URL, reloadInterval: 300000, maxRetries: 3 });
 
 		const errors = [];
 		fetcher.on("error", (errorInfo) => errors.push(errorInfo));

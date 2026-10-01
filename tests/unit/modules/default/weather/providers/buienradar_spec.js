@@ -14,7 +14,7 @@ const BUIENRADAR_URL = "https://forecast.buienradar.nl/2.0/forecast/*";
  * Builds a stable Buienradar mock payload for parsing tests.
  * @returns {object} Buienradar forecast response fixture.
  */
-function buildBuienradarResponse () {
+const buildBuienradarResponse = () => {
 	const today = "2100-01-01";
 	const tomorrow = "2100-01-02";
 
@@ -71,7 +71,7 @@ function buildBuienradarResponse () {
 			}
 		]
 	};
-}
+};
 
 let server;
 

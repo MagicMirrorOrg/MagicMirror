@@ -15,6 +15,7 @@ const DEFAULT_TIMEOUT = 30000; // 30 seconds
  */
 const ERROR_TYPE_TO_TRANSLATION = {
 	AUTH_FAILURE: "MODULE_ERROR_UNAUTHORIZED",
+	ACCESS_DENIED: "MODULE_ERROR_UNAUTHORIZED",
 	RATE_LIMITED: "MODULE_ERROR_RATE_LIMITED",
 	SERVER_ERROR: "MODULE_ERROR_SERVER_ERROR",
 	CLIENT_ERROR: "MODULE_ERROR_CLIENT_ERROR",
@@ -35,7 +36,7 @@ const ERROR_TYPE_TO_TRANSLATION = {
  * @fires HTTPFetcher#response - When fetch succeeds (including 304 Not Modified)
  * @fires HTTPFetcher#error - When fetch fails or returns non-ok response
  * @example
- * const fetcher = new HTTPFetcher(url, { reloadInterval: 60000 });
+ * const fetcher = new HTTPFetcher({ url, reloadInterval: 60000 });
  * fetcher.on('response', (response) => { ... });
  * fetcher.on('error', (errorInfo) => { ... });
  * fetcher.startPeriodicFetch();
@@ -61,8 +62,9 @@ class HTTPFetcher extends EventEmitter {
 
 	/**
 	 * Creates a new HTTPFetcher instance
-	 * @param {string} url - The URL to fetch
 	 * @param {object} options - Configuration options
+	 * @param {string} [options.url] - The static URL to fetch
+	 * @param {() => string} [options.urlFactory] - Function that returns the URL for each request
 	 * @param {number} [options.reloadInterval] - Time in ms between fetches (default: 5 min)
 	 * @param {object} [options.auth] - Authentication options
 	 * @param {string} [options.auth.method] - 'basic' or 'bearer'
@@ -74,10 +76,14 @@ class HTTPFetcher extends EventEmitter {
 	 * @param {number} [options.timeout] - Request timeout in ms (default: 30000)
 	 * @param {string} [options.logContext] - Optional context for log messages (e.g., provider name)
 	 */
-	constructor (url, options = {}) {
+	constructor (options = {}) {
 		super();
 
-		this.url = url;
+		this.url = options.url || null;
+		this.urlFactory = options.urlFactory || null;
+		if (!this.url && !this.urlFactory) {
+			throw new Error("Either url or urlFactory must be provided");
+		}
 		this.reloadInterval = options.reloadInterval || 5 * 60 * 1000;
 		this.auth = options.auth || null;
 		this.selfSignedCert = options.selfSignedCert || false;
@@ -127,9 +133,16 @@ class HTTPFetcher extends EventEmitter {
 
 	/**
 	 * Starts periodic fetching
+	 * @param {number} [initialDelay] - Delay before the first fetch in ms
 	 */
-	startPeriodicFetch () {
-		this.fetch();
+	startPeriodicFetch (initialDelay = 0) {
+		this.clearTimer();
+
+		if (initialDelay > 0) {
+			this.reloadTimer = setTimeout(() => this.fetch(), initialDelay);
+		} else {
+			this.fetch();
+		}
 	}
 
 	/**
@@ -184,41 +197,65 @@ class HTTPFetcher extends EventEmitter {
 	}
 
 	/**
+	 * Resolves the URL for the current request.
+	 * Uses urlFactory when configured, otherwise the static URL.
+	 * @returns {string} URL to use for the request.
+	 */
+	#resolveUrl () {
+		return this.urlFactory ? this.urlFactory() : this.url;
+	}
+
+	/**
 	 * Returns a shortened version of the URL for log messages.
+	 * @param {string} url - Resolved URL used for the request
 	 * @returns {string} Shortened URL
 	 */
-	#shortenUrl () {
+	#shortenUrl (url) {
+		if (!url) return "(unknown URL)";
+
 		try {
-			const urlObj = new URL(this.url);
+			const urlObj = new URL(url);
 			return `${urlObj.origin}${urlObj.pathname}${urlObj.search.length > 50 ? "?..." : urlObj.search}`;
 		} catch {
-			return this.url;
+			return url;
 		}
 	}
 
 	/**
 	 * Determines the retry delay for a non-ok response
 	 * @param {Response} response - The fetch Response object
+	 * @param {string} url - Resolved URL used for the request
 	 * @returns {{delay: number, errorInfo: object}} Computed retry delay and error info
 	 */
-	#getDelayForResponse (response) {
+	#getDelayForResponse (response, url) {
 		const { status } = response;
 		let delay = this.reloadInterval;
 		let message;
 		let errorType = "UNKNOWN_ERROR";
 
 		if (status === 401 || status === 403) {
-			errorType = "AUTH_FAILURE";
 			delay = Math.max(this.reloadInterval * 5, THIRTY_MINUTES);
-			message = `Authentication failed (${status}). Check your API key. Waiting ${Math.round(delay / 60000)} minutes before retry.`;
-			Log.error(`${this.logContext}${this.#shortenUrl()} - ${message}`);
+
+			if (status === 401) {
+				errorType = "AUTH_FAILURE";
+				message = "Authentication failed (401). Check the resource's authentication requirements.";
+			} else {
+				errorType = "ACCESS_DENIED";
+				const isBrowserChallenge = response.headers.get("cf-mitigated") === "challenge";
+				message = isBrowserChallenge
+					? "Access denied (403). The server requires browser verification that cannot be completed by a server-side request."
+					: "Access denied (403). The server may require authentication or block automated requests.";
+			}
+
+			message += ` Waiting ${Math.round(delay / 60000)} minutes before retry.`;
+			Log.error(`${this.logContext}${this.#shortenUrl(url)} - ${message}`);
 		} else if (status === 429) {
 			errorType = "RATE_LIMITED";
 			const retryAfter = response.headers.get("retry-after");
 			const parsed = retryAfter ? this.#parseRetryAfter(retryAfter) : null;
 			delay = parsed !== null ? Math.max(parsed, this.reloadInterval) : Math.max(this.reloadInterval * 2, FIFTEEN_MINUTES);
 			message = `Rate limited (429). Retrying in ${Math.round(delay / 60000)} minutes.`;
-			Log.warn(`${this.logContext}${this.#shortenUrl()} - ${message}`);
+			Log.warn(`${this.logContext}${this.#shortenUrl(url)} - ${message}`);
 		} else if (status >= 500) {
 			errorType = "SERVER_ERROR";
 			this.serverErrorCount = Math.min(this.serverErrorCount + 1, this.maxRetries);
@@ -231,20 +268,20 @@ class HTTPFetcher extends EventEmitter {
 				});
 				message = `Server error (${status}). Retry #${this.serverErrorCount} in ${Math.round(delay / 1000)}s.`;
 			}
-			Log.error(`${this.logContext}${this.#shortenUrl()} - ${message}`);
+			Log.error(`${this.logContext}${this.#shortenUrl(url)} - ${message}`);
 		} else if (status >= 400) {
 			errorType = "CLIENT_ERROR";
 			delay = Math.max(this.reloadInterval * 2, FIFTEEN_MINUTES);
 			message = `Client error (${status}). Retrying in ${Math.round(delay / 60000)} minutes.`;
-			Log.error(`${this.logContext}${this.#shortenUrl()} - ${message}`);
+			Log.error(`${this.logContext}${this.#shortenUrl(url)} - ${message}`);
 		} else {
 			message = `Unexpected HTTP status ${status}.`;
-			Log.error(`${this.logContext}${this.#shortenUrl()} - ${message}`);
+			Log.error(`${this.logContext}${this.#shortenUrl(url)} - ${message}`);
 		}
 
 		return {
 			delay,
-			errorInfo: this.#createErrorInfo(message, status, errorType, delay)
+			errorInfo: this.#createErrorInfo(message, status, errorType, delay, null, url)
 		};
 	}
 
@@ -252,12 +289,13 @@ class HTTPFetcher extends EventEmitter {
 	 * Creates a standardized error info object
 	 * @param {string} message - Error message
 	 * @param {number|null} status - HTTP status code or null for network errors
-	 * @param {string} errorType - Error type: AUTH_FAILURE, RATE_LIMITED, SERVER_ERROR, CLIENT_ERROR, NETWORK_ERROR
+	 * @param {string} errorType - Error type: AUTH_FAILURE, ACCESS_DENIED, RATE_LIMITED, SERVER_ERROR, CLIENT_ERROR, NETWORK_ERROR
 	 * @param {number} retryAfter - Delay until next retry in ms
 	 * @param {Error} [originalError] - The original error if any
+	 * @param {string} [url] - Resolved URL used for the request
 	 * @returns {object} Error info object with translationKey for direct use
 	 */
-	#createErrorInfo (message, status, errorType, retryAfter, originalError = null) {
+	#createErrorInfo (message, status, errorType, retryAfter, originalError = null, url = this.url) {
 		return {
 			message,
 			status,
@@ -265,7 +303,7 @@ class HTTPFetcher extends EventEmitter {
 			translationKey: ERROR_TYPE_TO_TRANSLATION[errorType] || "MODULE_ERROR_UNSPECIFIED",
 			retryAfter,
 			retryCount: errorType === "NETWORK_ERROR" ? this.networkErrorCount : this.serverErrorCount,
-			url: this.url,
+			url,
 			originalError
 		};
 	}
@@ -279,6 +317,7 @@ class HTTPFetcher extends EventEmitter {
 		this.clearTimer();
 
 		let nextDelay = this.reloadInterval;
+		let requestUrl = null;
 		const controller = new AbortController();
 		const timeoutId = setTimeout(() => controller.abort(), this.timeout);
 
@@ -288,7 +327,9 @@ class HTTPFetcher extends EventEmitter {
 			// because Node's global fetch and npm undici@8 Agents are incompatible.
 			// For regular requests, use globalThis.fetch so MSW and other interceptors work.
 			const fetchFn = requestOptions.dispatcher ? undiciFetch : globalThis.fetch;
-			const response = await fetchFn(this.url, {
+			requestUrl = this.#resolveUrl();
+
+			const response = await fetchFn(requestUrl, {
 				...requestOptions,
 				signal: controller.signal
 			});
@@ -304,10 +345,11 @@ class HTTPFetcher extends EventEmitter {
 				 * Response event - fired when fetch succeeds (including 304)
 				 * @event HTTPFetcher#response
 				 * @type {Response}
+				 * @param {string} requestUrl - The URL that was actually requested (resolved from urlFactory/url)
 				 */
-				this.emit("response", response);
+				this.emit("response", response, requestUrl);
 			} else {
-				const { delay, errorInfo } = this.#getDelayForResponse(response);
+				const { delay, errorInfo } = this.#getDelayForResponse(response, requestUrl);
 				nextDelay = delay;
 				this.emit("error", errorInfo);
 			}
@@ -320,12 +362,12 @@ class HTTPFetcher extends EventEmitter {
 
 			if (exhausted) {
 				nextDelay = this.reloadInterval;
-				Log.error(`${this.logContext}${this.#shortenUrl()} - ${message} Max retries reached, retrying at configured interval (${Math.round(nextDelay / 1000)}s).`);
+				Log.error(`${this.logContext}${this.#shortenUrl(requestUrl)} - ${message} Max retries reached, retrying at configured interval (${Math.round(nextDelay / 1000)}s).`);
 			} else {
 				nextDelay = HTTPFetcher.calculateBackoffDelay(this.networkErrorCount, {
 					maxDelay: this.reloadInterval
 				});
-				const retryMsg = `${this.logContext}${this.#shortenUrl()} - ${message} Retry #${this.networkErrorCount} in ${Math.round(nextDelay / 1000)}s.`;
+				const retryMsg = `${this.logContext}${this.#shortenUrl(requestUrl)} - ${message} Retry #${this.networkErrorCount} in ${Math.round(nextDelay / 1000)}s.`;
 				if (this.networkErrorCount <= 2) {
 					Log.warn(retryMsg);
 				} else {
@@ -338,7 +380,8 @@ class HTTPFetcher extends EventEmitter {
 				null,
 				"NETWORK_ERROR",
 				nextDelay,
-				error
+				error,
+				requestUrl
 			);
 			this.emit("error", errorInfo);
 		} finally {

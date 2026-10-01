@@ -4,6 +4,7 @@ const electron = require("electron");
 const core = require("./app");
 const Log = require("./logger");
 const { applyElectronSwitches } = require("./electron_helper");
+const { getServerPort } = require("#server_functions");
 
 // Config
 let config = process.env.config ? JSON.parse(process.env.config) : {};
@@ -29,9 +30,9 @@ const BrowserWindow = electron.BrowserWindow;
 let mainWindow;
 
 /**
- *
+ * Create and show the main browser window.
  */
-function createWindow () {
+const createWindow = () => {
 
 	/*
 	 * see https://www.electronjs.org/docs/latest/api/screen
@@ -45,7 +46,7 @@ function createWindow () {
 	}
 
 	applyElectronSwitches(app.commandLine, config.electronSwitches);
-	let electronOptionsDefaults = {
+	const electronOptionsDefaults = {
 		width: electronSize.width,
 		height: electronSize.height,
 		icon: "favicon.svg",
@@ -57,14 +58,13 @@ function createWindow () {
 			nodeIntegration: false,
 			zoomFactor: config.zoom
 		},
-		backgroundColor: "#000000"
+		backgroundColor: "#000000",
+		show: false,
+		frame: false,
+		transparent: true,
+		hasShadow: false,
+		fullscreen: true
 	};
-
-	electronOptionsDefaults.show = false;
-	electronOptionsDefaults.frame = false;
-	electronOptionsDefaults.transparent = true;
-	electronOptionsDefaults.hasShadow = false;
-	electronOptionsDefaults.fullscreen = true;
 
 	const electronOptions = Object.assign({}, electronOptionsDefaults, config.electronOptions);
 
@@ -94,15 +94,17 @@ function createWindow () {
 	 */
 
 	let prefix;
-	if ((config.tls !== null && config.tls) || config.useHttps) {
+	if (config.tls || config.useHttps) {
 		prefix = "https://";
 	} else {
 		prefix = "http://";
 	}
 
-	let address = (config.address === void 0) | (config.address === "") | (config.address === "0.0.0.0") | (config.address === "::") ? (config.address = "localhost") : config.address;
-	const port = process.env.MM_PORT || config.port;
-	mainWindow.loadURL(`${prefix}${address}:${port}`);
+	if (config.address === undefined || config.address === "" || config.address === "0.0.0.0" || config.address === "::") {
+		config.address = "localhost";
+	}
+	const port = getServerPort(config);
+	mainWindow.loadURL(`${prefix}${config.address}:${port}`);
 
 	// Open the DevTools if run with "node --run start:dev"
 	if (process.argv.includes("dev")) {
@@ -120,18 +122,18 @@ function createWindow () {
 	});
 
 	// Set responders for window events.
-	mainWindow.on("closed", function () {
+	mainWindow.on("closed", () => {
 		mainWindow = null;
 	});
 
 	//remove response headers that prevent sites of being embedded into iframes if configured
 	mainWindow.webContents.session.webRequest.onHeadersReceived((details, callback) => {
 		let curHeaders = details.responseHeaders;
-		if (config.ignoreXOriginHeader || false) {
+		if (config.ignoreXOriginHeader) {
 			curHeaders = Object.fromEntries(Object.entries(curHeaders).filter((header) => !(/x-frame-options/i).test(header[0])));
 		}
 
-		if (config.ignoreContentSecurityPolicy || false) {
+		if (config.ignoreContentSecurityPolicy) {
 			curHeaders = Object.fromEntries(Object.entries(curHeaders).filter((header) => !(/content-security-policy/i).test(header[0])));
 		}
 
@@ -141,10 +143,10 @@ function createWindow () {
 	mainWindow.once("ready-to-show", () => {
 		mainWindow.show();
 	});
-}
+};
 
 // Quit when all windows are closed.
-app.on("window-all-closed", function () {
+app.on("window-all-closed", () => {
 	if (process.env.mmTestMode) {
 		// if we are running tests
 		app.quit();
@@ -153,7 +155,7 @@ app.on("window-all-closed", function () {
 	}
 });
 
-app.on("activate", function () {
+app.on("activate", () => {
 
 	/*
 	 * On OS X it's common to re-create a window in the app when the
@@ -165,8 +167,10 @@ app.on("activate", function () {
 });
 
 /*
- * This method will be called when SIGINT is received and will call
- * each node_helper's stop function if it exists. Added to fix #1056
+ * Electron routes SIGINT (and other quit signals) to the app's quit sequence,
+ * which triggers this "before-quit" event. This handler calls each
+ * node_helper's stop function if it exists.
+ * Added to fix #1056 (no method to gracefully shut down modules on exit).
  *
  * Note: this is only used if running Electron. Otherwise
  * core.stop() is called by process.on("SIGINT"... in `app.js`
@@ -189,23 +193,26 @@ app.on("certificate-error", (event, webContents, url, error, certificate, callba
 	callback(true);
 });
 
-if (process.env.clientonly) {
-	app.whenReady().then(() => {
+/**
+ * Bootstrap Electron: launch the client-only viewer and/or the full core application.
+ */
+const bootstrapElectron = async () => {
+	if (process.env.clientonly) {
+		await app.whenReady();
 		Log.log("Launching client viewer application.");
 		createWindow();
-	});
-}
+	}
 
-/*
- * Start the core application if server is run on localhost
- * This starts all node helpers and starts the webserver.
- */
-if (["localhost", "127.0.0.1", "::1", "::ffff:127.0.0.1", undefined].includes(config.address)) {
-	core.start().then((c) => {
-		config = c;
-		app.whenReady().then(() => {
-			Log.log("Launching application.");
-			createWindow();
-		});
-	});
-}
+	/*
+	 * Start the core application if server is run on localhost
+	 * This starts all node helpers and starts the webserver.
+	 */
+	if (["localhost", "127.0.0.1", "::1", "::ffff:127.0.0.1", undefined].includes(config.address)) {
+		config = await core.start();
+		await app.whenReady();
+		Log.log("Launching application.");
+		createWindow();
+	}
+};
+
+bootstrapElectron();

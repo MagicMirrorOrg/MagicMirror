@@ -9,18 +9,16 @@ const { replaceSecretPlaceholder } = require("#server_functions");
  * @param {string} moduleName - Name of the module.
  * @returns {Set<string>} The secret names the module may restore.
  */
-function getAllowedSecrets (moduleName) {
+const getAllowedSecrets = (moduleName) => {
 	const modules = global.configRedacted?.modules || [];
-	const moduleConfig = modules.find((m) => m.module === moduleName);
+	const moduleConfigs = modules.filter((m) => m.module === moduleName);
 	const allowed = new Set();
-	if (moduleConfig) {
-		// Stringify the config to easily find all expected **SECRET_*** placeholders
-		for (const [, secretName] of JSON.stringify(moduleConfig).matchAll(/\*\*(SECRET_[^*]+)\*\*/g)) {
-			allowed.add(secretName);
-		}
+	// Stringify the config to easily find all expected **SECRET_*** placeholders
+	for (const [, secretName] of JSON.stringify(moduleConfigs).matchAll(/\*\*(SECRET_[^*]+)\*\*/g)) {
+		allowed.add(secretName);
 	}
 	return allowed;
-}
+};
 
 class NodeHelper {
 	init () {
@@ -69,6 +67,18 @@ class NodeHelper {
 		this.path = path;
 	}
 
+	/**
+	 * Return this module's configuration from the server-side config.
+	 * @returns {object} The server module config, or an empty object.
+	 */
+	getServerModuleConfig () {
+		const configuredModules = global.config?.modules ?? [];
+		const currentModule = configuredModules.find((configuredModule) => configuredModule.module === this.name);
+		const serverModuleConfig = currentModule?.config ?? {};
+
+		return serverModuleConfig;
+	}
+
 	/*
 	 * sendSocketNotification(notification, payload)
 	 * Send a socket notification to the node helper.
@@ -108,7 +118,7 @@ class NodeHelper {
 		io.of(this.name).on("connection", (socket) => {
 			// register catch all.
 			socket.onAny((notification, payload) => {
-				if (config?.hideConfigSecrets && payload && typeof payload === "object") {
+				if (payload && typeof payload === "object") {
 					try {
 						// Calculate exactly which secrets this module is allowed to receive
 						const allowedSecrets = getAllowedSecrets(this.name);

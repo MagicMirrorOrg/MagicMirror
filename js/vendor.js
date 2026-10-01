@@ -9,6 +9,8 @@ const vendor = {
 	"croner.js": "node_modules/croner/dist/croner.umd.js"
 };
 
+globalThis.vendor = vendor;
+
 if (typeof module !== "undefined") {
 	module.exports = vendor;
 }

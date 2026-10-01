@@ -50,5 +50,8 @@
 	"UPDATE_INFO_MULTIPLE": "Den nuværende installation er {COMMIT_COUNT} commits bagud på {BRANCH_NAME} branch'en.",
 	"UPDATE_NOTIFICATION_DONE": "Opdatering færdig for {MODULE_NAME} modulet",
 	"UPDATE_NOTIFICATION_ERROR": "Opdateringsfejl for {MODULE_NAME} modulet",
-	"UPDATE_NOTIFICATION_NEED-RESTART": "Genstart af MagicMirror er påkrævet."
+	"UPDATE_NOTIFICATION_NEED-RESTART": "Genstart af MagicMirror er påkrævet.",
+
+	"ALERT_TITLE": "MagicMirror² Notifikation",
+	"ALERT_WELCOME": "Velkommen, modulet er succesfuldt startet!"
 }

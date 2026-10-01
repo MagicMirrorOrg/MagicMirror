@@ -25,7 +25,7 @@ const logSystemInformation = async () => {
 		const freeRam = (os.freemem() / 1024 / 1024).toFixed(2);
 		const usedRam = ((os.totalmem() - os.freemem()) / 1024 / 1024).toFixed(2);
 
-		let systemDataString = [
+		const systemDataString = [
 			"\n####  System Information  ####",
 			`- MM:       version: v${mmVersion}${mmGitHash ? `; git: ${mmGitHash}` : ""}${mmGitBranch ? `; branch: ${mmGitBranch}` : ""}`,
 			`- SYSTEM:   manufacturer: ${system.manufacturer}; model: ${system.model}; virtual: ${system.virtual}`,

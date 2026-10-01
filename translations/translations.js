@@ -1,6 +1,7 @@
-let translations = {
+const translations = {
 	en: "translations/en.json", // English
 	af: "translations/af.json", // Afrikaans
+	az: "translations/az.json", // Azerbaijani
 	bg: "translations/bg.json", // Bulgarian
 	ca: "translations/ca.json", // Catalan
 	cs: "translations/cs.json", // Czech
@@ -45,6 +46,8 @@ let translations = {
 	"zh-cn": "translations/zh-cn.json", // Simplified Chinese
 	"zh-tw": "translations/zh-tw.json" // Traditional Chinese
 };
+
+globalThis.translations = translations;
 
 if (typeof module !== "undefined") {
 	module.exports = translations;
