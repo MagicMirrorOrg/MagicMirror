@@ -62,6 +62,12 @@ describe("Weather module: Weather Forecast", () => {
 				expect(firstCell.x).toBe(secondCell.x);
 			}
 		});
+
+		it("should not reserve space for disabled columns", async () => {
+			const grid = await page.locator(".weather .weather-forecast").boundingBox();
+			const lastCell = await page.locator(".weather .weather-forecast-row:nth-child(1) .max-temp").boundingBox();
+			expect(grid.x + grid.width - (lastCell.x + lastCell.width)).toBeLessThan(1);
+		});
 	});
 
 	describe("Absolute configuration", () => {

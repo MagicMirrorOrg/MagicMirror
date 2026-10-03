@@ -13,9 +13,12 @@
 
 .weather .weather-forecast,
 .weather .weather-hourly {
-  display: grid;
+  display: inline-grid;
+  vertical-align: top;
   width: max-content;
-  grid-template-columns: repeat(7, max-content);
+
+  /* Templates set --weather-columns to the number of enabled columns, so no empty tracks and gaps are reserved */
+  grid-template-columns: repeat(var(--weather-columns, 7), max-content);
 }
 
 .weather .weather-forecast-row,

@@ -1,7 +1,8 @@
 {% if hourly %}
   {% set numSteps = hourly | calcNumEntries %}
   {% set currentStep = 0 %}
-  <div class="{{ config.tableClass }} weather-hourly" role="table">
+  {% set columnCount = 3 + (1 if config.showUVIndex else 0) + (1 if config.showHumidity != "none" else 0) + (1 if config.showPrecipitationAmount else 0) + (1 if config.showPrecipitationProbability else 0) %}
+  <div class="{{ config.tableClass }} weather-hourly" role="table" style="--weather-columns: {{ columnCount }};">
     {% set hours = hourly.slice(0, numSteps) %}
     {% for hour in hours %}
       <div class="weather-hourly-row{% if config.colored %}{{ " colored" }}{% endif %}" role="row" {% if config.fade %}style="opacity: {{ currentStep | opacity(numSteps) }};"{% endif %}>
