@@ -92,7 +92,6 @@ class BrightSkyProvider extends WeatherProvider {
 			return `${this.config.apiBase}/current_weather?${params}`;
 		}
 
-		// "current" also needs the hourly records of today to sum up the sunshine
 		const days = this.config.type === "hourly"
 			? Math.ceil(Math.min(this.config.maxEntries, 48) / 24) + 1
 			: this.config.maxNumberOfDays + 1;
@@ -106,13 +105,13 @@ class BrightSkyProvider extends WeatherProvider {
 		return `${this.config.apiBase}/weather?${params}`;
 	}
 
-	#handleResponse (data) {
+	async #handleResponse (data) {
 		try {
 			let weatherData;
 			switch (this.config.type) {
 				case "current":
 					if (!data?.weather) throw new Error("Invalid API response");
-					weatherData = this.#generateCurrentWeather(data.weather);
+					weatherData = await this.#generateCurrentWeather(data.weather);
 					break;
 				case "forecast":
 				case "daily":
@@ -138,7 +137,7 @@ class BrightSkyProvider extends WeatherProvider {
 		this.onErrorCallback?.({ message, translationKey: ERROR_TRANSLATION_KEY });
 	}
 
-	#generateCurrentWeather (record) {
+	async #generateCurrentWeather (record) {
 		const date = new Date(record.timestamp);
 		const { sunrise, sunset } = getSunTimes(date, this.config.lat, this.config.lon);
 		const precipitation = record.precipitation_60 ?? record.precipitation_10;
@@ -153,8 +152,51 @@ class BrightSkyProvider extends WeatherProvider {
 			windFromDirection: record.wind_direction_60 ?? record.wind_direction_10,
 			weatherType: this.#convertWeatherType(record.icon, isDayTime(date, sunrise, sunset)),
 			precipitationAmount: precipitation,
-			precipitationUnits: precipitation != null ? "mm" : null
+			precipitationUnits: precipitation != null ? "mm" : null,
+			sunshineHours: this.config.showSunshineHours ? await this.#fetchSunshineToday() : null
 		};
+	}
+
+	/**
+	 * Sums up the sunshine of today's records (observations and forecast).
+	 * @returns {Promise<number|null>} Sunshine hours of today, null if unavailable
+	 */
+	async #fetchSunshineToday () {
+		const start = new Date();
+		start.setHours(0, 0, 0, 0);
+		const end = new Date(start);
+		end.setDate(end.getDate() + 1);
+		const params = new URLSearchParams({
+			lat: this.config.lat,
+			lon: this.config.lon,
+			date: start.toISOString(),
+			last_date: end.toISOString()
+		});
+
+		try {
+			const response = await fetch(`${this.config.apiBase}/weather?${params}`, { signal: AbortSignal.timeout(10000) });
+			if (!response.ok) {
+				throw new Error(`HTTP ${response.status}`);
+			}
+			const data = await response.json();
+			const today = getDateString(start);
+			const records = (data?.weather ?? []).filter((record) => this.#dayOf(record) === today);
+			const minutes = this.#sum(records, "sunshine");
+			return minutes === null ? null : minutes / 60;
+		} catch (error) {
+			Log.debug("[brightsky] Could not load sunshine data:", error.message);
+			return null;
+		}
+	}
+
+	/**
+	 * Returns the local calendar day a record belongs to. Records describe the
+	 * previous hour, so a record at 00:00 still belongs to the previous day.
+	 * @param {object} record A Bright Sky weather record
+	 * @returns {string} Date string in YYYY-MM-DD format
+	 */
+	#dayOf (record) {
+		return getDateString(new Date(new Date(record.timestamp).getTime() - 60 * 60 * 1000));
 	}
 
 	#generateHourlyForecast (records) {
@@ -193,8 +235,7 @@ class BrightSkyProvider extends WeatherProvider {
 		const days = new Map();
 
 		for (const record of records) {
-			const intervalStart = new Date(new Date(record.timestamp).getTime() - 60 * 60 * 1000);
-			const key = getDateString(intervalStart);
+			const key = this.#dayOf(record);
 			if (key < today) continue;
 
 			if (!days.has(key)) days.set(key, []);
@@ -216,6 +257,7 @@ class BrightSkyProvider extends WeatherProvider {
 		const { sunrise, sunset } = getSunTimes(new Date(year, month - 1, day, 12), this.config.lat, this.config.lon);
 		const daytimeRecords = records.filter((record) => isDayTime(new Date(record.timestamp), sunrise, sunset));
 		const precipitation = this.#sum(records, "precipitation");
+		const sunshineMinutes = this.#sum(records, "sunshine");
 		const probabilities = records.map((record) => record.precipitation_probability).filter(Number.isFinite);
 		const windSpeeds = records.map((record) => record.wind_speed).filter(Number.isFinite);
 
@@ -230,7 +272,8 @@ class BrightSkyProvider extends WeatherProvider {
 			windSpeed: windSpeeds.length > 0 ? this.#toMs(Math.max(...windSpeeds)) : null,
 			precipitationAmount: precipitation,
 			precipitationUnits: precipitation != null ? "mm" : null,
-			precipitationProbability: probabilities.length > 0 ? Math.max(...probabilities) : null
+			precipitationProbability: probabilities.length > 0 ? Math.max(...probabilities) : null,
+			sunshineHours: sunshineMinutes === null ? null : sunshineMinutes / 60
 		};
 	}
 

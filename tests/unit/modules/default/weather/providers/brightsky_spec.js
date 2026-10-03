@@ -154,6 +154,27 @@ describe("BrightSkyProvider", () => {
 			expect(result.precipitationUnits).toBe("mm");
 			expect(result.sunrise).toBeInstanceOf(Date);
 			expect(["day-rain", "night-alt-rain"]).toContain(result.weatherType);
+			expect(result.sunshineHours).toBeNull();
+		});
+
+		it("should sum up today's sunshine when showSunshineHours is enabled", async () => {
+			vi.useFakeTimers({ toFake: ["Date"] });
+			vi.setSystemTime(new Date(2026, 9, 3, 14));
+			mockApi(
+				{
+					weather: [
+						...buildRecords(new Date(2026, 9, 3, 0), 1, () => ({ sunshine: 60 })),
+						...buildRecords(new Date(2026, 9, 3, 10), 3, () => ({ sunshine: 40 })),
+						...buildRecords(new Date(2026, 9, 4, 0), 1, () => ({ sunshine: 30 }))
+					]
+				},
+				{ weather: { timestamp: toIsoWithOffset(new Date(2026, 9, 3, 14)), temperature: 18, icon: "clear-day" } }
+			);
+
+			const provider = new BrightSkyProvider({ lat: 48.83, lon: 9.07, type: "current", showSunshineHours: true });
+			const result = await fetchOnce(provider);
+
+			expect(result.sunshineHours).toBeCloseTo(2.5, 5);
 		});
 	});
 
@@ -196,6 +217,7 @@ describe("BrightSkyProvider", () => {
 				weather: buildRecords(midnight, 48, (index) => ({
 					temperature: index < 24 ? 10 + index : 30 + index,
 					precipitation: index < 24 ? 0.5 : 0,
+					sunshine: index < 24 ? 0 : 30,
 					icon: index < 24 ? "rain" : "clear-day"
 				}))
 			});
@@ -211,6 +233,8 @@ describe("BrightSkyProvider", () => {
 			expect(result[0].weatherType).toBe("day-rain");
 			expect(result[1].date.getDate()).toBe(4);
 			expect(result[1].weatherType).toBe("day-sunny");
+			expect(result[0].sunshineHours).toBe(0);
+			expect(result[1].sunshineHours).toBe(12);
 		});
 
 		it("should assign the midnight record to the previous day", async () => {
