@@ -32,6 +32,14 @@
         {% if config.showPrecipitationProbability %}
           <div class="align-right bright precipitation-prob" role="cell">{{ f.precipitationProbability | unit('precip', '%') }}</div>
         {% endif %}
+        {% if config.showSunshineHours %}
+          <div class="align-right dimmed sunshine-hours" role="cell">
+            {% if f.sunshineHours is defined and f.sunshineHours is not none %}
+              {{ f.sunshineHours | unit("sunshine") }}
+              <span class="wi dimmed weathericon wi-day-sunny"></span>
+            {% endif %}
+          </div>
+        {% endif %}
       </div>
       {% set currentStep = currentStep + 1 %}
     {% endfor %}

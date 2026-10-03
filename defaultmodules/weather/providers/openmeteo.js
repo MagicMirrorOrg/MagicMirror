@@ -86,7 +86,8 @@ class OpenMeteoProvider extends WeatherProvider {
 		"winddirection_10m_dominant",
 		"shortwave_radiation_sum",
 		"uv_index_max",
-		"et0_fao_evapotranspiration"
+		"et0_fao_evapotranspiration",
+		"sunshine_duration"
 	];
 
 	constructor (config) {
@@ -402,6 +403,9 @@ class OpenMeteoProvider extends WeatherProvider {
 			if (today.temperature_2m_max !== undefined) {
 				current.maxTemperature = today.temperature_2m_max;
 			}
+			if (today.sunshine_duration != null) {
+				current.sunshineHours = today.sunshine_duration / 3600;
+			}
 		}
 
 		return current;
@@ -422,7 +426,8 @@ class OpenMeteoProvider extends WeatherProvider {
 			snow: weather.snowfall_sum != null ? parseFloat(weather.snowfall_sum * 10) : null,
 			precipitationAmount: weather.precipitation_sum != null ? parseFloat(weather.precipitation_sum) : null,
 			precipitationProbability: weather.precipitation_hours != null ? parseFloat(weather.precipitation_hours * 100 / 24) : null,
-			uvIndex: weather.uv_index_max != null ? parseFloat(weather.uv_index_max) : null
+			uvIndex: weather.uv_index_max != null ? parseFloat(weather.uv_index_max) : null,
+			sunshineHours: weather.sunshine_duration != null ? weather.sunshine_duration / 3600 : null
 		}));
 	}
 
