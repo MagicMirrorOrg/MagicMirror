@@ -26,6 +26,7 @@ Module.register("calendar", {
 		urgency: 7,
 		timeFormat: "relative",
 		dateFormat: "MMM Do",
+		dateFormatToday: "",
 		dateEndFormat: "LT",
 		fullDayEventDateFormat: "MMM Do",
 		showEnd: false,
@@ -735,11 +736,12 @@ Module.register("calendar", {
 	},
 
 	buildAbsoluteTimeText (event, eventStartDateMoment, eventEndDateMoment, now) {
-		let timeText = CalendarUtils.capFirst(eventStartDateMoment.format(this.config.dateFormat));
+		const dateFormat = event.today && !event.fullDayEvent && this.config.dateFormatToday ? this.config.dateFormatToday : this.config.dateFormat;
+		let timeText = CalendarUtils.capFirst(eventStartDateMoment.format(dateFormat));
 
 		if (this.config.showEnd && (!this.config.showEndsOnlyWithDuration || this.hasEventDuration(event))) {
 			const sameDay = this.isSameDay(eventStartDateMoment, eventEndDateMoment);
-			if (sameDay && !this.dateFormatIncludesTime()) {
+			if (sameDay && !this.dateFormatIncludesTime(dateFormat)) {
 				timeText += `, ${eventStartDateMoment.format("LT")}`;
 			}
 			timeText += `-${this.formatTimedEventEnd(eventStartDateMoment, eventEndDateMoment)}`;
@@ -874,11 +876,12 @@ Module.register("calendar", {
 	},
 
 	/**
-	 * Checks whether the configured dateFormat already contains time components.
-	 * @returns {boolean} True when dateFormat includes time tokens.
+	 * Checks whether a date format already contains time components.
+	 * @param {string} [dateFormat] The format to check, defaults to the configured dateFormat.
+	 * @returns {boolean} True when the format includes time tokens.
 	 */
-	dateFormatIncludesTime () {
-		const dateFormatWithoutLiterals = this.config.dateFormat.replace(/\[[^\]]*\]/g, "");
+	dateFormatIncludesTime (dateFormat = this.config.dateFormat) {
+		const dateFormatWithoutLiterals = dateFormat.replace(/\[[^\]]*\]/g, "");
 		const localeDateFormat = moment.localeData();
 		const expandedDateFormat = dateFormatWithoutLiterals.replace(
 			/LTS|LT|LLLL|LLL|LL|L|llll|lll|ll|l/g,
