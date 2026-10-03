@@ -1,7 +1,8 @@
 {% if forecast %}
   {% set numSteps = forecast | calcNumSteps %}
   {% set currentStep = 0 %}
-  <div class="{{ config.tableClass }} weather-forecast" role="table">
+  {% set columnCount = 4 + (1 if config.showUVIndex else 0) + (1 if config.showPrecipitationAmount else 0) + (1 if config.showPrecipitationProbability else 0) %}
+  <div class="{{ config.tableClass }} weather-forecast" role="table" style="--weather-columns: {{ columnCount }};">
     {% if config.ignoreToday %}
       {% set forecast = forecast.splice(1) %}
     {% endif %}

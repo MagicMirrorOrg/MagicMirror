@@ -30,6 +30,12 @@ describe("Weather module: Weather Hourly Forecast", () => {
 				expect(firstCell.x).toBe(secondCell.x);
 			}
 		});
+
+		it("should not reserve space for disabled columns", async () => {
+			const grid = await page.locator(".weather .weather-hourly").boundingBox();
+			const lastCell = await page.locator(".weather .weather-hourly-row:nth-child(1) .temperature").boundingBox();
+			expect(grid.x + grid.width - (lastCell.x + lastCell.width)).toBeLessThan(1);
+		});
 	});
 
 	describe("Hourly weather options", () => {
