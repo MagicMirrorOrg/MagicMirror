@@ -252,6 +252,34 @@ describe("OpenMeteoProvider", () => {
 			// precipitation_sum has value 0.0 in mock data
 			expect(result[0].precipitationAmount).toBe(0.0);
 		});
+
+		it("should convert sunshine duration to hours", async () => {
+			const provider = new OpenMeteoProvider({
+				lat: 48.14,
+				lon: 11.58,
+				type: "forecast"
+			});
+
+			const dataPromise = new Promise((resolve) => {
+				provider.setCallbacks(resolve, vi.fn());
+			});
+
+			const sunshineData = structuredClone(forecastData);
+			sunshineData.daily.sunshine_duration = sunshineData.daily.time.map((_, index) => index * 3600);
+			server.use(
+				http.get("https://api.open-meteo.com/v1/forecast*", () => {
+					return HttpResponse.json(sunshineData);
+				})
+			);
+
+			await provider.initialize();
+			provider.start();
+
+			const result = await dataPromise;
+
+			expect(result[0].sunshineHours).toBe(0);
+			expect(result[3].sunshineHours).toBe(3);
+		});
 	});
 
 	describe("Error Handling", () => {

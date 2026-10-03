@@ -35,6 +35,12 @@
           {% endif %}
         </span>
       {% endif %}
+      {% if config.showSunshineHours and current.sunshineHours is defined and current.sunshineHours is not none %}
+        <span class="sunshine-hours">
+          <span class="wi dimmed wi-day-sunny"></span>
+          {{ current.sunshineHours | unit("sunshine") }}
+        </span>
+      {% endif %}
       {% if config.showUVIndex %}
         <div class="align-right bright uv-index">
           <div class="wi dimmed wi-hot"></div>

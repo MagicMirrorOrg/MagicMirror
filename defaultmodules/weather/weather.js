@@ -25,6 +25,7 @@ Module.register("weather", {
 		showPrecipitationProbability: false,
 		showUVIndex: false,
 		showSun: true,
+		showSunshineHours: false,
 		showWindDirection: true,
 		showWindDirectionAsArrow: false,
 		degreeLabel: false,
@@ -361,6 +362,8 @@ Module.register("weather", {
 					}
 				} else if (type === "humidity") {
 					formattedValue = `${value}%`;
+				} else if (type === "sunshine") {
+					formattedValue = value === null || isNaN(value) ? "" : `${Math.round(value)} h`;
 				} else if (type === "wind") {
 					formattedValue = WeatherUtils.convertWind(value, this.config.windUnits);
 				}

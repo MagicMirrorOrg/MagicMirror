@@ -15,7 +15,7 @@
 .weather .weather-hourly {
   display: grid;
   width: max-content;
-  grid-template-columns: repeat(7, max-content);
+  grid-template-columns: repeat(8, max-content);
 }
 
 .weather .weather-forecast-row,
@@ -43,7 +43,8 @@
 .weather .precipitation-amount,
 .weather .precipitation-prob,
 .weather .humidity-hourly,
-.weather .uv-index {
+.weather .uv-index,
+.weather .sunshine-hours {
   padding: 0;
 }
 
@@ -77,6 +78,10 @@
 
 .weather .weather-forecast .precipitation-prob {
   order: var(--weather-forecast-precipitation-prob-order, 7);
+}
+
+.weather .weather-forecast .sunshine-hours {
+  order: var(--weather-forecast-sunshine-hours-order, 8);
 }
 
 .weather .weather-hourly .time {
