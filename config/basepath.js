@@ -1,0 +1,1 @@
+globalThis.config = { basePath: "/"};

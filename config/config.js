@@ -41,70 +41,53 @@ const config = {
 
 	modules: [
 		{
-			module: "alert",
-		},
-		{
-			module: "updatenotification",
-			position: "top_bar"
-		},
-		{
 			module: "clock",
 			position: "top_left"
 		},
 		{
 			module: "calendar",
 			header: "US Holidays",
-			position: "top_left",
+			//position: "top_left",
 			config: {
+				dateFormat: "Do MMMM",
 				calendars: [
 					{
-						fetchInterval: 7 * 24 * 60 * 60 * 1000,
-						symbol: "calendar-check",
-						url: "https://ics.calendarlabs.com/76/mm3137/US_Holidays.ics"
-					}
+							url: 'webcal://p132-caldav.icloud.com/published/2/MTMxODU2NjIyNDEzMTg1NnYsSsr5GwVOUWy8njRdd3YMJeEDIvkeRXiEjLne3lIF',
+							symbol: 'calendar',
+							name: "Luke"
+					},
+					{
+							url: 'webcal://p132-caldav.icloud.com/published/2/MTMxODU2NjIyNDEzMTg1NnYsSsr5GwVOUWy8njRdd3YYHqo-1HZb3GUKvaew2U_MIXM6ju3vYoWTKKrBp-tBqU9EH-NIpAKPgdMWCCw5uJk',
+							symbol: 'calendar',
+							name: "Life"
+					},
+					{
+							url: 'webcal://p155-caldav.icloud.com/published/2/NTUzMTY1MTIyNTUzMTY1Md-4H2bWvona8Y_vC0QHymz6LvEDcIHgH3JGisUGBQev',
+							symbol: 'calendar',
+							name: "Birthdays"
+					},
+					{
+							url: 'webcal://p132-caldav.icloud.com/published/2/MTMxODU2NjIyNDEzMTg1NnYsSsr5GwVOUWy8njRdd3YIRgHTUVXRpTn6VoUZeiS0gossbEpM0vKA2_EtCutghsS7XUxAR77QreUZfrhPTps',
+							symbol: 'calendar',
+							name: "Meals"
+					},
 				]
 			}
 		},
 		{
-			module: "compliments",
-			position: "lower_third"
-		},
-		{
-			module: "weather",
-			position: "top_right",
+			module: "MMM-FamilyAgenda",
+			position: "top_left",
 			config: {
-				weatherProvider: "openmeteo",
-				type: "current",
-				lat: 40.776676,
-				lon: -73.971321
-			}
-		},
-		{
-			module: "weather",
-			position: "top_right",
-			header: "Weather Forecast",
-			config: {
-				weatherProvider: "openmeteo",
-				type: "forecast",
-				lat: 40.776676,
-				lon: -73.971321
-			}
-		},
-		{
-			module: "newsfeed",
-			position: "bottom_bar",
-			config: {
-				feeds: [
-					{
-						title: "New York Times",
-						url: "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml"
-					}
-				],
-				showSourceTitle: true,
-				showPublishDate: true,
-				broadcastNewsFeeds: true,
-				broadcastNewsUpdates: true
-			}
+			maximumEventDays: 14,
+			title: "Agenda",
+			people: {
+			"Birthdays": { emoji: "🎂", color: "#f43f5e" },
+			"Life":   { emoji: "🔴", color: "#3b82f6" },
+			"Luke":   { emoji: "🟣", color: "#3b82f6" },
+			"Meals":   { emoji: "🟢", color: "#3b82f6" },
+			},
+				calendarAliases: { "Alice Sport": "Alice" }
+			},
 		},
 	]
 };

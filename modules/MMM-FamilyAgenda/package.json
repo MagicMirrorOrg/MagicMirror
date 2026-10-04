@@ -1,0 +1,12 @@
+{
+  "name": "mmm-familyagenda",
+  "version": "1.1.0",
+  "description": "MagicMirror² module: compact family agenda on top of the calendar module — events grouped by day with semantic emojis, participant avatars and optional per-event weather.",
+  "main": "MMM-FamilyAgenda.js",
+  "keywords": ["MagicMirror", "MMM-FamilyAgenda", "calendar", "agenda", "family"],
+  "author": "Andreas Göpfert <andi.goepfert@gmx.de> (https://github.com/ago1776)",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "git+https://github.com/ago1776/MMM-FamilyAgenda.git" },
+  "homepage": "https://github.com/ago1776/MMM-FamilyAgenda#readme",
+  "bugs": { "url": "https://github.com/ago1776/MMM-FamilyAgenda/issues" }
+}

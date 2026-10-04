@@ -1,0 +1,72 @@
+.family-agenda { width: 560px; color: #f2f2f2; margin-top: 20px; }
+/* Header als Grid wie die Event-Zeilen: Titel links, "Personen" über den Köpfen,
+   "Wetter" über der (festen) Wetter-Spalte. */
+.family-agenda .fa-head {
+	display: grid;
+	grid-template-columns: 58px 30px minmax(0, 1fr) auto 78px;
+	align-items: baseline;
+	gap: 7px;
+	margin-bottom: 10px;
+	padding: 0 7px 7px 9px;
+	border-bottom: 1px solid rgba(255,255,255,.24);
+	text-transform: uppercase;
+}
+.fa-h-title { grid-column: 1 / 4; font-size: 18px; font-weight: 700; letter-spacing: .08em; color: #f2f2f2; }
+.fa-h-per { text-align: right; color: #9da6ad; font-size: 12px; letter-spacing: .05em; white-space: nowrap; }
+.fa-h-wx { text-align: center; color: #9da6ad; font-size: 12px; letter-spacing: .05em; }
+.fa-day { margin: 0 0 11px; }
+.fa-dayhead {
+	display: flex;
+	align-items: baseline;
+	gap: 10px;
+	margin: 0 0 5px;
+	color: #b7c1c8;
+	text-transform: uppercase;
+}
+.fa-dayhead strong { color: #ffcf45; font-size: 15px; letter-spacing: .04em; }
+.fa-dayhead span { font-size: 13px; font-weight: 600; }
+.fa-event {
+	--calendar-color: #aeb6bf;
+	display: grid;
+	grid-template-columns: 58px 30px minmax(0, 1fr) auto 78px;
+	align-items: center;
+	gap: 7px;
+	min-height: 34px;
+	padding: 4px 7px 4px 9px;
+	margin: 3px 0;
+	border-left: 4px solid var(--calendar-color);
+	background: linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,.025));
+	border-radius: 0 6px 6px 0;
+}
+.fa-event time { color: #cfd6db; font-size: 15px; font-variant-numeric: tabular-nums; }
+.fa-emoji { text-align: center; font-size: 21px; line-height: 1; }
+.fa-title {
+	overflow: hidden;
+	color: #f8f8f8;
+	font-size: 18px;
+	font-weight: 550;
+	line-height: 1.15;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+/* Wetter am Termin-Ort: kleines Icon + Temp, dezent zwischen Titel und Personen */
+.fa-wx { display: inline-flex; align-items: center; justify-content: center; gap: 2px; min-width: 0; }
+.fa-wx svg { display: block; }
+.fa-wx small { font-size: 14px; color: #bcd0e6; font-variant-numeric: tabular-nums; }
+
+/* Keine Kreise mehr — nur die nackten Gesichter, größer & klar erkennbar */
+.fa-owners { display: flex; align-items: center; justify-content: flex-end; gap: 3px; }
+.fa-owner-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 19px;
+	line-height: 1;
+}
+.fa-more, .fa-empty { color: #aeb6bf; font-size: 14px; margin-top: 6px; }
+
+/* Ongoing multi-day events: pinned "running … until <end>" band on top */
+.fa-current { margin: 0 0 13px; }
+.fa-ongoing { background: linear-gradient(90deg, rgba(255,207,69,.15), rgba(255,207,69,.03)); }
+.fa-ongoing .fa-badge { color: #ffcf45; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.fa-until { color: #b7c1c8; font-weight: 500; font-size: .82em; }
